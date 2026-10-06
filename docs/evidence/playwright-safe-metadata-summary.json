@@ -1,0 +1,16 @@
+{
+  "status": "PASSED_CONFIG_DISCOVERY_ONLY",
+  "captureGitInfo": {
+    "commit": true,
+    "diff": false
+  },
+  "browserCasesDiscovered": 24,
+  "gitDiffFields": 0,
+  "browserExecution": "NOT_RUN",
+  "packagerGuardUnchanged": true,
+  "packagerSha256": "eecd9d20ab5b9b384122124c0fe73f83b5d2e94f6772ca4d4a23a70860242669",
+  "configSha256": "e10beab5c8ffc48ef42004b234d1724e7b21330604f8283005ff5c1993b5f9b8",
+  "privateDiscoverySha256": "7b65a625b0d6a2605ed6dbbdb37a7d32617744b1b72c67bdf2a28d56b5d146ac",
+  "scope": "Actual config/discovery and unchanged credential-guard checks; new rendered browser execution NOT_RUN. Original credential-containing browser metadata retained privately, not copied.",
+  "privateProofSha256": "998641ab634da8c2913237b6b8f448d82b9e267cd5a05b3b93d9a5f39a7b677b"
+}

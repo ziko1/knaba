@@ -2,6 +2,7 @@ import {defineConfig} from '@playwright/test';
 import {existsSync} from 'node:fs';
 
 export default defineConfig({
+ captureGitInfo:{commit:true,diff:false},
  testDir:'./tests',testMatch:'browser.spec.ts',fullyParallel:false,workers:1,retries:0,timeout:45_000,
  expect:{timeout:12_000},outputDir:'docs/evidence/browser-artifacts',
  reporter:[['list'],['json',{outputFile:'docs/evidence/browser-result.json'}],['html',{outputFolder:'docs/evidence/browser-report',open:'never'}]],

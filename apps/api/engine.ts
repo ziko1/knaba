@@ -1,3 +1,4 @@
+import {workNotificationRelevant} from '../../packages/domain/work-notifications.ts';
 import {createOperationsDigestCommands} from './operations-digest.ts';
 import {authorizeDigestPolicy,digestScopeAllowed,operationsDigestVisible} from '../../packages/domain/operations-digest.ts';
 import {createClientRedactionCommands} from './client-redaction.ts';
@@ -111,7 +112,8 @@ export class Engine{
  if(['message','message_version','translation','translation_request','delivery','channel_activity','callback'].includes(k)){if(['translation_request','delivery','channel_activity','callback'].includes(k)&&!own)return false;const cid=d.channel_id??d.channelId;if(!cid)return false;try{const channel=await tx.get('channel',cid);const m=channel.data.members?.find((m:Data)=>m.user_id===a.userId&&!m.revoked_at&&!m.left_at&&!m.removed_at&&m.active!==false&&(!m.expires_at||Date.parse(m.expires_at)>Date.now()));return !!m&&await this.visible(tx,a,channel)&&(!d.deleted_at)&&e.createdAt>=(m.history_from??'');}catch{return false;}}
  if(k==='notification'){
   if(!own||notificationDepth>=8)return false;
-  try{if(d.message_id&&!await this.visible(tx,a,await tx.get('message',d.message_id),notificationDepth+1))return false;
+  try{if(d.work_cause&&!await workNotificationRelevant(tx,this,e))return false;
+   if(d.message_id&&!await this.visible(tx,a,await tx.get('message',d.message_id),notificationDepth+1))return false;
    if(d.related_kind&&d.related_id&&!await this.visible(tx,a,await tx.get(d.related_kind,d.related_id),notificationDepth+1))return false;
    return true;
   }catch(error){if(error instanceof DomainError)return false;throw error;}

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "scope": "Classification inventory only, not SQL execution proof. Genuine PostgreSQL cases remain skipped in this socket-restricted local run; current hosted raw results determine actual acceptance. New digest/redaction/geometry/erasure CPU cases use actual bounded image processing, pure domain functions or explicit domain/SQL-boundary doubles. New activity, redaction and digest PostgreSQL files use actual Database/Engine/Worker/API with DATABASE_URL. Each execution class is explicitly reviewed per case.",
-  "generatedAt": "2026-10-06T22:41:07.624344Z",
-  "reportSha256": "443a3ac73c8e805efdab0bbe1e0c81239625b7c306c3fb8ffa5ba66f4b2d37b7",
+  "generatedAt": "2026-10-06T22:57:30.990045Z",
+  "reportSha256": "56734929a254a6fafa6a0155c8db0b679ffb8eea711d3fc00818d0d8f92b3870",
   "totals": {
-    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1279,
-    "REAL_POSTGRES": 193
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1307,
+    "REAL_POSTGRES": 206
   },
   "test_files": [
     {
@@ -86,7 +86,7 @@
     },
     {
       "test_path": "tests/commerce.test.ts",
-      "sha256": "1f222492710b1acb23774330022760b0a4c4b718aa961afdbe8c8984133b7304"
+      "sha256": "8f152108fc690e86bc3cdb5be41176623a492e42dcb3afeebfa499500f8c3702"
     },
     {
       "test_path": "tests/communications.test.ts",
@@ -207,6 +207,14 @@
     {
       "test_path": "tests/whatsapp-router.test.ts",
       "sha256": "a773248c6a8a900866f347a3037e6decf785296d01c288486829a738edf1c244"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "sha256": "fa7a7656e60d1b810914a7a08806d6b448ec307c7496ad903650a9dc3880ec3b"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "sha256": "fb636714d5a24189c5b237e5dd5708ece58af4adf79fe1a61cac1ccdc14aa697"
     },
     {
       "test_path": "tests/worker-retention.test.ts",
@@ -8639,6 +8647,252 @@
     {
       "test_path": "tests/whatsapp-router.test.ts",
       "full_name": "shared canonical work/material/financial/message commands unscanned/foreign upload never creates evidence or reveals an unrelated site",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle SQL transaction rollback preserves atomicity if delivery outbox insertion fails after notification revision/audit",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle a duplicate canonical outbox event after worker restart has one notification and one scheduled delivery",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle chat mention/instruction/foreman reply are actual message.send producers, then source membership revocation cancels all three",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle expired/stolen lease and changed canonical event data fail before any notification/audit/outbox effect",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle fresh inactive revocation after production hides activity and cancels queued delivery",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle fresh role revocation after production hides activity and cancels queued delivery",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle fresh site revocation after production hides activity and cancels queued delivery",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle reassignment committed before producer execution suppresses the old employee and notifies only the fresh canonical assignee",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle revoked service account cannot project an otherwise valid leased event and causes no partial writes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle same-looking foreign company and current client cannot see private employee work activity",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle synthetic recorded-payout source produces only its subject acknowledgment reminder; actual payout.ack cancels it without finance payload copying",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle task submission notifies configured current reviewer, never every reviewer; accepting the task cancels stale cause",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle task.assign automatically creates reasoned own-language WEB activity, delivery outbox and actual audit without copying task text",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) CPU orchestration double binds lease/type/data, stable dedup and explicit audit/outbox; it does not prove SQL",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) REWORK requires actual defect link and rework task, never ordinary task label",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) absence cause binds one canonical incident and stops on submitted explanation",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) absence reminder is suppressed while ON_BREAK",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) absence reminder is suppressed while SERVICE_TASK",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) absence reminder is suppressed while TRAVELLING",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) absence reminder is suppressed while WORKING",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) accepted offer without crew uses the real decision owner and stops once an assignment exists",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) assigned task follows canonical fresh assignees, never payload recipients or a client with injected task rights",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) chat distinguishes explicit mention, important instruction and foreman reply; revoked members receive none",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) created-with-assignees and assigned events share a stable cause dedup identity",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) customer issue follows canonical owner and review cycle",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) foreign source rejects before recipient resolution or any projected content",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) fresh inactive change invalidates a queued assignment cause",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) fresh permission change invalidates a queued assignment cause",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) fresh reassignment change invalidates a queued assignment cause",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) fresh site change invalidates a queued assignment cause",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) fresh version change invalidates a queued assignment cause",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) material_request.approved demands exact source version and appropriate current state",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) payout receipt reminder goes only to its subject and stops after acknowledgment without copying amounts",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) payout.approved demands exact source version and appropriate current state",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) report.approved demands exact source version and appropriate current state",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) schedule derives employee user binding and customer VIEW membership without exposing the commercial order to crew",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) six-language reason labels remain static and contain no source content",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) stale message version cannot create notices; own and service recipients are suppressed",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) submitted task targets only configured current managers with review rights, without guessing a company manager",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) unknown events and corrupt work causes fail closed without creating notices",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/work-notifications.test.ts",
+      "full_name": "work notifications: CPU current-source resolver (no PostgreSQL/provider acceptance) warehouse reservation and shipment follow canonical request references and stop after the cause closes",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },

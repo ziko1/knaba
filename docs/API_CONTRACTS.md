@@ -1,5 +1,7 @@
 # API contracts
 
+Internal work notifications are a closed leased-event projection, not a public mutation API. The worker binds the authoritative company outbox row/type/data/token and derives explicit current source recipients with scoped visibility. It atomically creates minimal six-language reason/source/cause metadata, CREATE revision/audit and WEB delivery outbox, with durable source/cause/recipient deduplication. Reads and delivery require current source version/cause and recipient authority; stale assignments, completed causes and revoked memberships are hidden or cancelled. Approval events bind source versions; accepted-without-crew decisions use the recorded quote approver as responsible owner. WhatsApp remains explicitly configured and policy-gated. Exact new-source hosted acceptance is pending; local1513cases/54files are1307CPU PASS/206realPG SKIP.
+
 Base path: **`/api/v1`** on the same origin as the web application. API version is 1. Source authority is [HTTP controller](../apps/api/http.ts), [executor](../apps/api/engine.ts), [domain schemas](../packages/domain/) and [native integration guide](MOBILE.md). The command inventory below is generated from the current domain registry plus identity commands; authenticated `/commands` and `/openapi.json` expose the actual schemas for the caller's current permissions.
 
 ## Authentication and request semantics

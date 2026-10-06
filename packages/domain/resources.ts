@@ -259,7 +259,8 @@ export const resourcesCommands:CommandRegistry = {
     const r=await scopedRequest(ctx,input.requestId);assert(r.data.state==='SUBMITTED','INVALID_STATE');assert(r.data.employeeId!==ctx.actor.userId,'SELF_APPROVAL_DENIED');
     const approvedBase=input.decision==='APPROVE'?r.data.quantityBase:input.decision==='REJECT'?0:input.approvedBase;
     assert(approvedBase!==undefined&&approvedBase<=r.data.quantityBase,'VALIDATION_ERROR');assert(input.decision!=='PARTIAL'||(approvedBase>0&&approvedBase<r.data.quantityBase&&input.reason),'VALIDATION_ERROR');assert(input.decision!=='REJECT'||input.reason,'VALIDATION_ERROR');
-    return ctx.tx.save(r,{...r.data,approvedBase,state:input.decision==='APPROVE'?'APPROVED':input.decision==='PARTIAL'?'PARTIALLY_APPROVED':'REJECTED',approvalReason:input.reason,approvedBy:ctx.actor.userId,approvedAt:ctx.now},ctx.expectedVersion??r.version);
+    const saved=await ctx.tx.save(r,{...r.data,approvedBase,state:input.decision==='APPROVE'?'APPROVED':input.decision==='PARTIAL'?'PARTIALLY_APPROVED':'REJECTED',approvalReason:input.reason,approvedBy:ctx.actor.userId,approvedAt:ctx.now},ctx.expectedVersion??r.version);
+    await ctx.tx.event('material_request.approved',{requestId:saved.id,siteId:saved.data.siteId,sourceVersion:saved.version});return saved;
   }),
   'request.close':command('inventory.approve',z.object({requestId:id,reason}).strict(),async(ctx,input)=>{
     const r=await scopedRequest(ctx,input.requestId);assert(['RECEIVED','REJECTED'].includes(r.data.state),'INVALID_STATE');return ctx.tx.save(r,{...r.data,state:'CLOSED',closeReason:input.reason},ctx.expectedVersion??r.version);
@@ -348,7 +349,7 @@ Object.assign(resourcesCommands,{
   },true),
   'payout.approve':command('finance.payout.approve',z.object({payoutId:id,reason}).strict(),async(ctx,input)=>{
     const p=await checked(ctx,'payout',input.payoutId);ctx.requireOwn(p.data.employeeId);assert(p.data.state==='DRAFT','INVALID_STATE');assert(p.data.createdBy!==ctx.actor.userId,'SELF_APPROVAL_DENIED');const a=await periodAmounts(ctx,p.data.calculationId);assert(a.calculation.data.state==='ACCOUNTANT_VERIFIED'&&a.calculation.data.officialDocumentCurrent===true,'OFFICIAL_PAYROLL_REQUIRED');assert(p.data.officialPayslipId===a.calculation.data.officialPayslipId,'PAYOUT_SOURCE_CHANGED');assert(p.data.amountCents<=a.uncommittedCents,'PAYOUT_EXCEEDS_BALANCE');
-    return ctx.tx.save(p,{...p.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??p.version);
+    const saved=await ctx.tx.save(p,{...p.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??p.version);await ctx.tx.event('payout.approved',{payoutId:saved.id,employeeId:saved.data.employeeId,sourceVersion:saved.version});return saved;
   },true),
   'payout.record':command('finance.payout',z.object({payoutId:id,transferredAt:timestamp,evidenceReference:z.string().min(3).max(300),bankExecuted:z.boolean().optional()}).strict(),async(ctx,input)=>{
     const p=await checked(ctx,'payout',input.payoutId);ctx.requireOwn(p.data.employeeId);assert(p.data.state==='APPROVED','INVALID_STATE');assert(input.transferredAt<=ctx.now,'FUTURE_TRANSFER');assert(p.data.method!=='BANK'||input.bankExecuted===true,'BANK_EXECUTION_NOT_CONFIRMED');
@@ -421,7 +422,7 @@ Object.assign(resourcesCommands,{
   }),
   'report.approve':command('report.approve',z.object({reportId:id,reason}).strict(),async(ctx,input)=>{
     const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='REVIEWED','INVALID_STATE');assert(r.data.createdBy!==ctx.actor.userId,'SELF_APPROVAL_DENIED');
-    const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(digest(current)===digest(r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');return ctx.tx.save(r,{...r.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??r.version);
+    const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(digest(current)===digest(r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');const saved=await ctx.tx.save(r,{...r.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??r.version);await ctx.tx.event('report.approved',{reportId:saved.id,siteId:saved.data.siteId,sourceVersion:saved.version});return saved;
   },true),
   'report.publish':command('report.publish',z.object({reportId:id}).strict(),async(ctx,input)=>{
     const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='APPROVED','INVALID_STATE');const memberships=await ctx.tx.list('customer_membership');assert(memberships.some(m=>m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(ctx.now))&&m.data.customerId===r.data.customerId&&(!m.data.siteIds.length||m.data.siteIds.includes(r.data.siteId))),'CUSTOMER_ACCESS_REQUIRED');
