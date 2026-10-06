@@ -369,3 +369,17 @@ Object.assign(commerceCommands,{
   const updated=await save(c,e,{...e.data,state:'DRAFT',cycle:e.data.cycle+1,description:i.description,classification:null,qualification:null,linkedTaskId:null,linkedDefectId:null,changeOrderId:null,publicResponse:null,resolvedAt:null,reopenRequests:[...e.data.reopenRequests,{externalKey:i.externalKey,description:i.description,at:c.now,actorId:c.actor.userId}],history:[...e.data.history,{action:'REOPENED',actorId:c.actor.userId,at:c.now,description:i.description,previousCycle:e.data.cycle}],publicHistory:[...e.data.publicHistory,{state:'REOPENED',description:i.description,at:c.now,cycle:e.data.cycle+1}]});return issueResult(c,await openIssue(c,updated));
  }),
 });
+
+// Customer actions retain a separate own-lead permission; assistant tools never
+// grant staff lead.manage to a client or infer customer membership from a phone.
+for (const [ownName,staffName,reference] of [
+ ['lead.own_qualify','lead.qualify','id'],
+ ['lead.own_handoff','lead.handoff','id'],
+ ['site_visit.own_create','site_visit.create','leadId'],
+] as const){
+ const original=commerceCommands[staffName]!;
+ commerceCommands[ownName]={...original,permission:'lead.manage_own',handler:async(c,i)=>{
+  const lead=await c.tx.get('lead',i[reference]);assert(lead.data.ownerUserId===c.actor.userId,'NOT_FOUND_SAFE');
+  return original.handler(c,i);
+ }};
+}

@@ -37,6 +37,21 @@ integration('PostgreSQL command transaction and read authorization',()=>{
  });
  afterAll(async()=>{await db?.close();});
 
+ it('atomic confirmation refuses a changed referenced aggregate without effects',async()=>{
+  const original=(await list('site')).find(s=>s.id===ids.site)!;
+  await db.transaction(company,ids.owner,async tx=>{const site=await tx.get('site',ids.site);await tx.save(site,{...site.data,name:'Changed after preview'});});
+  const idempotency_key=randomUUID();
+  await expect(engine.execute(owner,'task.create',{input:{siteId:ids.site,title:'Stale preview task'},idempotency_key,preconditions:[{kind:'site',id:ids.site,version:original.version}]})).rejects.toMatchObject({code:'VERSION_CONFLICT',details:{reason:'PREVIEW_REFERENCE_CHANGED'}});
+  expect(await list('task')).toEqual([]);expect((await db.query('SELECT command FROM command_receipts WHERE company_id=$1 AND idempotency_key=$2',[company,idempotency_key])).rows).toEqual([]);
+ });
+ it('successful confirmation replay precedes changed reference guards but rejects changed guard identity',async()=>{
+  const input={siteId:ids.site,title:'Confirmed task'},idempotency_key=randomUUID(),preconditions=[{kind:'site',id:ids.site,version:1}];
+  const first=await engine.execute(owner,'task.create',{input,idempotency_key,preconditions});
+  await db.transaction(company,ids.owner,async tx=>{const site=await tx.get('site',ids.site);await tx.save(site,{...site.data,name:'Changed after successful execution'});});
+  expect(await engine.execute(owner,'task.create',{input,idempotency_key,preconditions})).toEqual(first);
+  await expect(engine.execute(owner,'task.create',{input,idempotency_key,preconditions:[{...preconditions[0]!,version:2}]})).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  expect(await list('task')).toHaveLength(1);
+ });
  it('replayed command has one aggregate, receipt and outbox effect',async()=>{
   const key=randomUUID(),input={code:'QA-NEW',name:'New QA site',address:'Berlin'};
   const first=await call(owner,'site.create',input,key),replay=await call(owner,'site.create',input,key);
@@ -187,6 +202,20 @@ describe('Engine runtime policy regressions (in-memory, SQL not covered)',()=>{
   tx.add('site',{active:true,customerId:'customer'},'site-a');tx.add('site',{active:true,customerId:'customer'},'site-b');
   tx.add('customer_membership',{active:true,userId:'client',customerId:'customer',siteIds:['site-a'],permissions:['VIEW','REPORT_ACK']},'membership');
   [employee,client,bot]=await Promise.all(['worker','client','bot'].map(id=>engine.getActor(id,tx.companyId)));
+ });
+ it('internal preview guards fail before handler and prevent replay identity substitution',async()=>{
+  const def={permission:'chat.write',schema:z.object({}).strict(),handler:vi.fn(async()=>({done:true}))};engine.registry={...engine.registry,'qa.guard':def};
+  const idempotency_key=randomUUID(),preconditions=[{kind:'site',id:'site-a',version:1}];
+  expect(await engine.execute(employee,'qa.guard',{idempotency_key,preconditions})).toEqual({done:true});
+  const site=await tx.get('site','site-a');await tx.save(site,{...site.data,name:'Updated'});
+  expect(await engine.execute(employee,'qa.guard',{idempotency_key,preconditions})).toEqual({done:true});expect(def.handler).toHaveBeenCalledTimes(1);
+  await expect(engine.execute(employee,'qa.guard',{idempotency_key:randomUUID(),preconditions})).rejects.toMatchObject({code:'VERSION_CONFLICT',details:{reason:'PREVIEW_REFERENCE_CHANGED'}});
+  await expect(engine.execute(employee,'qa.guard',{idempotency_key,preconditions:[{...preconditions[0]!,version:2}]})).rejects.toMatchObject({code:'VERSION_CONFLICT'});expect(def.handler).toHaveBeenCalledTimes(1);
+ });
+ it('internal guards reject malformed references and resolve only within the current company transaction',async()=>{
+  engine.registry={...engine.registry,'qa.guard':{permission:'chat.write',schema:z.object({}).strict(),handler:vi.fn(async()=>null)}};
+  await expect(engine.execute(employee,'qa.guard',{idempotency_key:randomUUID(),preconditions:[{kind:'site',id:'site-a',version:0}]})).rejects.toMatchObject({code:'VALIDATION_ERROR'});
+  await expect(engine.execute(employee,'qa.guard',{idempotency_key:randomUUID(),preconditions:[{kind:'site',id:'foreign-company-site',version:1}]})).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
  });
  async function delegated(permissions:string[],granteeId='worker',warehouseIds:string[]=[],ttlMs=3_600_000){
   tx.add('user',{active:true,roles:['INTERNAL_BAULEITER'],permissions:['role.manage'],siteIds:['site-b'],warehouseIds:['delegated-warehouse']},'grantor');

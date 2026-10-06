@@ -106,7 +106,7 @@ JS
   if timeout 45 bash infra/restore.sh "$knaba_qa_backup.tampered" --confirm-empty >"$knaba_qa_run/tamper-rejection.log" 2>&1; then
    echo 'FAILED: tampered backup was accepted.' >&2; return 1
   fi
-  if ! rg -q 'BACKUP_AUTHENTICATION_FAILED' "$knaba_qa_run/tamper-rejection.log"; then
+  if ! grep -Fq 'BACKUP_AUTHENTICATION_FAILED' "$knaba_qa_run/tamper-rejection.log"; then
    echo 'FAILED: tampered backup did not fail through the expected authentication guard.' >&2; return 1
   fi
   echo 'PASSED: altered ciphertext rejected before database restore.'

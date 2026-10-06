@@ -40,7 +40,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci --ignore-scripts --strict-ssl=true
-      - run: python3 -m pip install openpyxl==3.1.5
+      - run: python3 -m pip install openpyxl==3.1.5 Pillow==11.3.0
       - run: npm run typecheck
       - run: npm run build
       - name: Validate release scripts
