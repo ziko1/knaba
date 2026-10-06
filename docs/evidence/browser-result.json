@@ -507,7 +507,7 @@
           "column": 1
         },
         {
-          "title": "owner saves an actual digest schedule, previews without business effects and explicitly generates an immutable due digest",
+          "title": "director saves an authorized digest schedule, previews without effects and opens the immutable own digest through history, activity and protected links",
           "ok": true,
           "tags": [],
           "tests": [
@@ -521,7 +521,7 @@
               "status": "skipped"
             }
           ],
-          "id": "fbeac1b2decfba2c3acd-5e7b40e3194991d544a9",
+          "id": "fbeac1b2decfba2c3acd-589263de8678de088c05",
           "file": "browser.spec.ts",
           "line": 1684,
           "column": 1
@@ -543,7 +543,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-d931b6ea485e3ef9b4ee",
           "file": "browser.spec.ts",
-          "line": 1806,
+          "line": 1873,
           "column": 1
         }
       ]
@@ -551,8 +551,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-06T22:11:45.870Z",
-    "duration": 396.769,
+    "startTime": "2026-10-06T22:39:49.812Z",
+    "duration": 463.19899999999996,
     "expected": 0,
     "skipped": 24,
     "unexpected": 0,

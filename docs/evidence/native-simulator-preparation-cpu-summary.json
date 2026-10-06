@@ -1,0 +1,27 @@
+{
+  "kind": "AD_HOC_CPU_AND_STATIC_VALIDATION",
+  "observedAt": "2026-10-06T22:31:54.410220+00:00",
+  "checks": {
+    "syntheticPreparationAndLocalSubprocessCases": {
+      "passed": 18,
+      "failed": 0
+    },
+    "workflowYamlParse": "PASS",
+    "bashBodiesSyntaxChecked": 10,
+    "gitDiffWhitespace": "PASS"
+  },
+  "scope": "New native simulator host preparation helper only; synthetic command runner, except one actual Linux subprocess timeout. Not repository Vitest/XCTest acceptance.",
+  "macOSRuntimeInstall": "NOT_RUN",
+  "actualSimulatorBoot": "NOT_RUN",
+  "actualXCTestExecution": "NOT_RUN",
+  "files": [
+    {
+      "path": "scripts/native-ios-simulator.py",
+      "sha256": "f1332112387d19e7bf6b72f31668636aea645d4b444c2313e0cb919511ffe1e3"
+    },
+    {
+      "path": ".github/workflows/native.yml",
+      "sha256": "e3745f0756e8cc829b7cfee39105ff39c217f21fdfb5a659bfea3929f03b8338"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "status": "CPU_PASSED_REAL_POSTGRES_NOT_RUN",
+  "scope": "Actual socket-restricted local run of the final UI/native-runner/lease-fixture amendment. PostgreSQL cases were skipped and must execute in the exact hosted candidate. Browser discovery is not execution.",
+  "generatedAt": "2026-10-06T22:41:08.337205Z",
+  "sourceBaseRemoteSha": "61a437e878bc72c958a9f3acab2c4016d979d831",
+  "fullUnit": {
+    "success": true,
+    "numTotalTests": 1472,
+    "numPassedTests": 1279,
+    "numFailedTests": 0,
+    "numPendingTests": 193
+  },
+  "executionClasses": {
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1279,
+    "REAL_POSTGRES": 193
+  },
+  "testSourceFiles": 52,
+  "rawLocalReportSha256": "443a3ac73c8e805efdab0bbe1e0c81239625b7c306c3fb8ffa5ba66f4b2d37b7",
+  "classIndexSha256": "6239662536a75cf126c159f0405ee5158e1ce010fb162d8e2e5160173a795a3a",
+  "browserDiscovery": {
+    "total": 24,
+    "actualBackendCases": 23,
+    "explicitTransportFixtureCases": 1,
+    "execution": "NOT_RUN"
+  },
+  "strictTypeScript": "PASSED",
+  "nativeSimulatorPreparationCpuChecks": 18,
+  "nativeSimulatorXCTest": "NOT_RUN",
+  "externalProviders": "NOT_RUN",
+  "physicalNative": "NOT_RUN",
+  "railwayLive": "NOT_READY"
+}

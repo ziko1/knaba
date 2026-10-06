@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "scope": "Classification inventory only, not SQL execution proof. Genuine PostgreSQL cases remain skipped in this socket-restricted local run; current hosted raw results determine actual acceptance. New digest/redaction/geometry/erasure CPU cases use actual bounded image processing, pure domain functions or explicit domain/SQL-boundary doubles. New activity, redaction and digest PostgreSQL files use actual Database/Engine/Worker/API with DATABASE_URL. Each execution class is explicitly reviewed per case.",
-  "generatedAt": "2026-10-06T22:23:42.267354Z",
-  "reportSha256": "a25203266a5f6a3efc01b99977d9375b84ed4d5967e11a1758b50bf450e3159e",
+  "generatedAt": "2026-10-06T22:41:07.624344Z",
+  "reportSha256": "443a3ac73c8e805efdab0bbe1e0c81239625b7c306c3fb8ffa5ba66f4b2d37b7",
   "totals": {
     "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1279,
     "REAL_POSTGRES": 193
@@ -162,7 +162,7 @@
     },
     {
       "test_path": "tests/operations-digest.integration.test.ts",
-      "sha256": "c875959bfa1aba2a49ea2a370865ff9d76302ee1a2874f82318327b43ea89e62"
+      "sha256": "c04ee3136af180efafc2018fbdb78ca39f1cbc6f2c86c1fc21788866dff96585"
     },
     {
       "test_path": "tests/operations-digest.test.ts",

@@ -188,12 +188,21 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
  });
 
  it('expired and replaced real SQL leases cannot generate a digest or persist an idempotent success',async()=>{
+  // Releasing an expired lease consumes a second attempt. The default fixture
+  // deliberately permits only one; this recovery scenario explicitly permits
+  // two without changing any lease, identity or command-effect guards.
+  const retryWorker=new WorkerRunner(db,engine,{...worker.options,maxAttempts:2,now:worker.now});
   const policy=await configure(),job=await digestJob(policy),before=await businessFingerprint();
+  const digestReceipts=async()=>(await db.query("SELECT command,result FROM command_receipts WHERE company_id=$1 AND command='digest.generate'",[company])).rows;
+  expect(job.attempts).toBe(1);
   await db.query("UPDATE outbox SET leased_until=clock_timestamp()-interval '1 second' WHERE company_id=$1 AND id=$2",[company,job.id]);
-  await expect(worker.handle(job)).rejects.toMatchObject({code:'WORKER_LEASE_LOST'});expect(await rows('operations_digest')).toHaveLength(0);
-  const current=(await leaseOutbox(db,100,120000,company)).find(j=>j.id===job.id)!;expect(current.lease_token).not.toBe(job.lease_token);
-  await expect(worker.handle(job)).rejects.toMatchObject({code:'WORKER_LEASE_LOST'});await worker.process(current);
-  expect(await rows('operations_digest')).toHaveLength(1);expect(await businessFingerprint()).toEqual(before);
+  await expect(retryWorker.handle(job)).rejects.toMatchObject({code:'WORKER_LEASE_LOST'});expect(await rows('operations_digest')).toHaveLength(0);expect(await digestReceipts()).toEqual([]);
+  const current=(await leaseOutbox(db,100,120000,company)).find(j=>j.id===job.id)!;expect(current.lease_token).not.toBe(job.lease_token);expect(current.attempts).toBe(2);
+  await expect(retryWorker.handle(job)).rejects.toMatchObject({code:'WORKER_LEASE_LOST'});expect(await rows('notification')).toHaveLength(0);expect(await digestReceipts()).toEqual([]);
+  await retryWorker.process(current);
+  expect((await db.query('SELECT status,last_error,attempts FROM outbox WHERE company_id=$1 AND id=$2',[company,current.id])).rows[0]).toMatchObject({status:'SUCCEEDED',last_error:null,attempts:2});
+  const digests=await rows('operations_digest');expect(digests).toHaveLength(1);expect(await rows('notification')).toHaveLength(1);expect(await digestReceipts()).toMatchObject([{command:'digest.generate',result:{id:digests[0]!.id,kind:'operations_digest'}}]);
+  await expect(retryWorker.handle(job)).rejects.toMatchObject({code:'WORKER_LEASE_LOST'});expect(await rows('operations_digest')).toEqual(digests);expect(await digestReceipts()).toHaveLength(1);expect(await businessFingerprint()).toEqual(before);
  });
 
  it('already generated immutable history becomes private-inaccessible after source rights change, and repeated preview recomputes UNAVAILABLE instead of cached hours',async()=>{

@@ -92,7 +92,7 @@ jobs:
   ios-simulator:
     name: iOS unsigned simulator app and XCTest
     runs-on: macos-15
-    timeout-minutes: 40
+    timeout-minutes: 50
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
     steps:
@@ -120,6 +120,13 @@ jobs:
           echo "$GITHUB_WORKSPACE/.native-tools/xcodegen/.build/release" >> "$GITHUB_PATH"
           .native-tools/xcodegen/.build/release/xcodegen version | tee apps/mobile-ios/build/evidence/xcodegen-version.txt
           plutil -lint apps/mobile-ios/Info.plist apps/mobile-ios/PrivacyInfo.xcprivacy
+      - name: Prepare exact iOS 18.5 runtime and boot a concrete iPhone 16 simulator
+        id: simulator
+        timeout-minutes: 25
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/native-ios-simulator.py --evidence-dir apps/mobile-ios/build/evidence
       - name: Compile unsigned iOS simulator application
         working-directory: apps/mobile-ios
         shell: bash
@@ -132,7 +139,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator18.5 -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16' -derivedDataPath build -resultBundlePath build/NativeTests.xcresult CODE_SIGNING_ALLOWED=NO test | tee build/evidence/ios-tests.log
+          test -n '${{ steps.simulator.outputs.device_udid }}'
+          xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator18.5 -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.device_udid }}' -destination-timeout 120 -derivedDataPath build -resultBundlePath build/NativeTests.xcresult CODE_SIGNING_ALLOWED=NO test | tee build/evidence/ios-tests.log
           xcrun xcresulttool get test-results summary --path build/NativeTests.xcresult > build/evidence/xctest-summary.json
       - name: Archive simulator app and record exact source and artifact hashes
         working-directory: apps/mobile-ios
@@ -152,6 +160,7 @@ jobs:
               'byteSize': artifact.stat().st_size,
               'build': 'iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode',
               'xcodegenSourceSha': '7193eb447a6f60061f069e07bc1efd32d73c0e19',
+              'simulator': json.loads(pathlib.Path('build/evidence/simulator-preparation.json').read_text()),
               'signing': 'CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA',
               'checks': ['xcodebuild simulator build', 'native XCTest geofence/dwell/exception-zone/privacy-lease tests', 'plist validation'],
               'bundleFiles': [{'path': str(p.relative_to(bundle)), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(bundle.rglob('*')) if p.is_file()],
