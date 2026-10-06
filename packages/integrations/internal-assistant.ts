@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 import {z} from 'zod';
 import {assert,DomainError,type Actor,type CommandContext,type CommandRegistry,type Data,type Entity,type Transaction} from '../domain/core.ts';
+import {canonicalReportJson} from '../domain/resources.ts';
 import {internalAssistantKind,internalAssistantProviderContextSchema,internalJson,parseInternalDraftProposal,type InternalAssistantKind,type InternalAssistantProviderContext,type InternalAssistantProviderResult} from './internal-assistant-provider.ts';
 import type {DeepSeekAnswerPolicy,SupportedLanguage} from './deepseek.ts';
 
@@ -22,7 +23,10 @@ export interface InternalAssistantHost<T extends Transaction=Transaction>{
 const permissions:Record<InternalAssistantKind,string>={TASK_BATCH:'task.create',REPORT:'report.create',MATERIAL_REQUEST:'inventory.request'};
 const roles=['OWNER','DIRECTOR','OPERATIONS_MANAGER','INTERNAL_BAULEITER','TEAM_LEADER'];
 const kinds=['COMPANY_GENERAL','COMPANY_ANNOUNCEMENTS','TEAM','SITE_INTERNAL','TASK_THREAD'];
-const digest=(data:unknown)=>createHash('sha256').update(internalJson(data,196608)).digest('hex');
+// JSONB preserves values and array order, but changes object-key order. Validate
+// the same bounded plain JSON before hashing its canonical representation so a
+// persisted unchanged review is stable; semantic edits still invalidate it.
+const digest=(data:unknown)=>{internalJson(data,196608);return createHash('sha256').update(canonicalReportJson(data)).digest('hex');};
 const key=(...values:string[])=>createHash('sha256').update(values.join('\u0000')).digest('hex');
 const clock=(host:InternalAssistantHost<any>)=>(host.now?.()??new Date()).toISOString();
 function internal(actor:Actor,kind:InternalAssistantKind){assert(!actor.roles.some(r=>['CLIENT','CUSTOMER','EXTERNAL_BAULEITER','GUEST'].includes(r))&&actor.roles.some(r=>roles.includes(r))&&actor.permissions.includes('assistant.read')&&actor.permissions.includes('chat.read')&&actor.permissions.includes(permissions[kind]),'ACCESS_DENIED');}

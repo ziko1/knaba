@@ -10,7 +10,7 @@ export interface Transaction {
  save(entity:Entity,data:Data,expectedVersion?:number):Promise<Entity>;
  event(type:string,data:Data):Promise<void>;
 }
-export interface CommandContext { tx:Transaction; actor:Actor; now:string; idempotencyKey:string; expectedVersion?:number; requireSite:(id:string)=>void; requireOwn:(id:string)=>void; }
+export interface CommandContext { tx:Transaction; actor:Actor; now:string; idempotencyKey:string; expectedVersion?:number; authorizeAutomationRule?:(rule:Entity)=>Promise<Actor>; authorizeAutomationRun?:(run:Entity)=>Promise<Actor>; requireSite:(id:string)=>void; requireOwn:(id:string)=>void; }
 export interface CommandDefinition { permission:string; schema:z.ZodTypeAny; highRisk?:boolean; handler:(ctx:CommandContext,input:any)=>Promise<any>; }
 export type CommandRegistry = Record<string,CommandDefinition>;
 export function assert(condition:unknown,code:string,details:Data={}):asserts condition {if(!condition) throw new DomainError(code,details);}

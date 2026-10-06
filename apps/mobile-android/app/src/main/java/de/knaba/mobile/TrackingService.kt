@@ -49,8 +49,11 @@ class TrackingService : Service(), LocationListener {
     }
     override fun onCreate() {
         super.onCreate(); store = SecureStore(this); activeGeneration = store.generation(); locations = getSystemService(LOCATION_SERVICE) as LocationManager
-        if (Build.VERSION.SDK_INT >= 33) registerReceiver(localeReceiver, IntentFilter(NativeLocale.CHANGED), Context.RECEIVER_NOT_EXPORTED)
-        else { @Suppress("DEPRECATION") registerReceiver(localeReceiver, IntentFilter(NativeLocale.CHANGED)) }
+        // The API 26 flags overload works on every supported device. The signature
+        // permission also protects this app-only receiver before API 33 enforces
+        // RECEIVER_NOT_EXPORTED, so another app cannot send a locale notification.
+        registerReceiver(localeReceiver, IntentFilter(NativeLocale.CHANGED),
+            "de.knaba.mobile.permission.INTERNAL_BROADCAST", null, Context.RECEIVER_NOT_EXPORTED)
     }
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -67,7 +70,8 @@ class TrackingService : Service(), LocationListener {
             locations.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000L, 15f, this, Looper.getMainLooper())
             if (locations.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) locations.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 15000L, 15f, this, Looper.getMainLooper())
             main.removeCallbacks(heartbeat); main.post(heartbeat)
-        } catch (error: Exception) { stopTracking("TRACKING_UNAVAILABLE") }
+        } catch (_: SecurityException) { stopTracking("PERMISSION_REVOKED") }
+        catch (error: Exception) { stopTracking("TRACKING_UNAVAILABLE") }
         return START_NOT_STICKY
     }
     private fun notification(): Notification {

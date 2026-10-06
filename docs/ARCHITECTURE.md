@@ -90,3 +90,5 @@ Git tree; Railway is pinned to that exact commit and live verification checks
 the declared runtime SHA/assets. The worker starts only after the private API
 reports the same expected source and readiness. A new hosted CI step builds
 the actual Railway Dockerfile and executes this worker source contract.
+
+Automation authority is shared by Engine private reads, command contexts and leased worker execution. It reloads current users, scoped delegations and rule/run binding in the same company transaction; cached receipts cannot retain revoked owner rights or stale copied private parameters. Worker transport credentials never substitute for human business permissions. Internal assistant fingerprints canonicalize validated JSON objects so PostgreSQL JSONB key order cannot invalidate an unchanged preview, while array order and source mutations remain significant.

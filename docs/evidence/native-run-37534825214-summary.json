@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "scope": "EXACT_HISTORICAL_SOURCE_IOS_SIMULATOR_ONLY",
+  "sourceGitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+  "runId": 37534825214,
+  "jobId": 112512991328,
+  "runURL": "https://github.com/ziko1/knaba/actions/runs/37534825214",
+  "iosJobStatus": "SUCCESS",
+  "overallNativeRun": "FAILED_ANDROID_LINT",
+  "artifactId": 11446272184,
+  "artifactPath": "/workspace/attachments/7356305f-11b9-4a22-9575-3d9abc56a599/knaba-native-37534825214-ios.zip",
+  "outerSHA256": "8ecd2d9ef8de44597b4254ca8ae7bdfbd87f6d912217984c79bd0c8984178e14",
+  "outerByteSize": 5562756,
+  "outerZipCRC": "PASS",
+  "simulatorPayloadSHA256": "e6ef747b9e004c3090416abde39f89f8600f2c22478c232e245a807442cc6c87",
+  "simulatorPayloadByteSize": 5505381,
+  "simulatorPayloadZipCRC": "PASS",
+  "allBundleFilesVerified": 45,
+  "nativeReceiptSHA256": "39485f91eafd33737d37f3c421092e15e29476bd2f9b23adb8c0987f1264a6e8",
+  "xctestSummarySHA256": "f0a8e592fe8067ed1b4c9d525eaf24d81787ba39cc09048f539c4c9aad27ad9f",
+  "testCounts": {
+    "passedTests": 15,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "totalTestCount": 15
+  },
+  "build": "iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode",
+  "signing": "CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA",
+  "sixOSLocalesPresent": [
+    "de",
+    "uk",
+    "ru",
+    "pl",
+    "lt",
+    "en"
+  ],
+  "warningScope": "CLLocationManagerDelegate main-actor conformance warnings in Swift5; Swift6 migration needed before changing language mode; no current compile failure. AppIntents metadata extraction skipped informational warning.",
+  "physicalDeviceVerification": "NOT_RUN",
+  "realGPSAndBatteryAcceptance": "NOT_RUN",
+  "appStoreAndProductionProvisioning": "NOT_RUN"
+}

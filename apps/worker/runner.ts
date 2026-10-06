@@ -1,3 +1,5 @@
+import {automationScheduleDue} from '../../packages/domain/automation-schedule.ts';
+import {authorizeAutomationRun} from '../../packages/domain/automation-authority.ts';
 import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assistant-playground.ts';
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
@@ -41,8 +43,8 @@ export async function finishOutbox(db:SqlRunner,job:OutboxJob,status:'SUCCEEDED'
 }
 export function automationMatches(rule:Data,event:{type:string;data:Data},now:string){return rule.status==='ACTIVE'&&Boolean(rule.approvedBy)&&Date.parse(rule.activeFrom)<=Date.parse(now)&&rule.trigger===event.type&&Object.entries(rule.filters??{}).every(([k,v])=>event.data[k]===v)&&(!(rule.scope?.siteIds?.length)||rule.scope.siteIds.includes(event.data.siteId))&&(!(rule.scope?.customerIds?.length)||rule.scope.customerIds.includes(event.data.customerId));}
 export function berlinParts(date:Date){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date);return Object.fromEntries(parts.map(p=>[p.type,p.value])) as Record<string,string>;}
-/** Only the small explicit schedule contract is executable; other cron text remains a typed configuration error. */
-export function scheduleDue(cron:string,now:Date){const p=berlinParts(now);const fields=cron.trim().split(/\s+/);assert(fields.length===5&&fields[2]==='*'&&fields[3]==='*'&&(fields[4]==='*'||/^\d$/.test(fields[4])),'AUTOMATION_SCHEDULE_UNSUPPORTED');assert(/^\d{1,2}$/.test(fields[0]!)&&/^\d{1,2}$/.test(fields[1]!)&&Number(fields[0])<=59&&Number(fields[1])<=23,'AUTOMATION_SCHEDULE_UNSUPPORTED');const weekday=Number(new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Berlin',weekday:'short'}).format(now).replace(/Sun|Mon|Tue|Wed|Thu|Fri|Sat/g,m=>String(['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(m))));return Number(p.hour)===Number(fields[1])&&Number(p.minute)===Number(fields[0])&&(fields[4]==='*'||Number(fields[4])===weekday);}
+/** The same bounded Berlin schedule is validated during configuration and execution. */
+export function scheduleDue(cron:string,now:Date){return automationScheduleDue(cron,now);}
 
 export class WorkerRunner {
   private stopping=false;private running=false;private lastScheduleMinute='';
@@ -226,16 +228,94 @@ export class WorkerRunner {
 
   private async fallback(job:OutboxJob,reason:string){await this.db.transaction(job.company_id,serviceId,async tx=>{const channel=await tx.get('channel',job.data.channelId);if(channel.data.handoff?.state==='HUMAN_ACTIVE')return;if(channel.data.handoff?.state==='AI_ACTIVE')await tx.save(channel,{...channel.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,reason,requested_at:this.now().toISOString()}});const dedup=key('assistant-fallback',job.id);if(!(await tx.list('decision')).some(d=>d.data.dedupeKey===dedup))await tx.add('decision',{status:'OPEN',reason,ownerId:'UNASSIGNED',channelId:channel.id,sources:[job.data.messageId],actions:['APPROVE','RETURN','DELEGATE'],summaryDE:'Die private Kundenanfrage benötigt menschliche Unterstützung. Es wurde keine Zusage gemacht.',dedupeKey:dedup,history:[]});});}
   private async applyRules(job:OutboxJob){if(job.type.startsWith('automation.')||job.type.startsWith('assistant.')||job.type==='translation.requested')return;const now=this.now().toISOString();const rules=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('automation_rule')).filter(r=>automationMatches(r.data,job,now)));for(const rule of rules)await this.command(job,'automation_rule.run',{id:rule.id,event:{id:job.id,type:job.type,data:job.data}},`rule:${rule.id}`);}
-  private async automationAction(job:OutboxJob){const run=await this.entity(job,'automation_run',job.data.runId);if(['COMPLETED','SUCCEEDED','CANCELLED'].includes(run.data.status))return;const rule=await this.entity(job,'automation_rule',run.data.ruleId);assert(rule.data.status==='ACTIVE'&&rule.data.approvedBy&&run.data.ruleVersion===rule.data.ruleVersion,'NEEDS_APPROVAL');const actor=await this.engine.getActor(rule.data.ownerId,job.company_id);const parameters=run.data.parameters;let result:unknown;
-    try{switch(run.data.action){
-      case 'DRAFT_REPORT':{const sites=rule.data.scope.siteIds;assert(sites.length>0,'VALIDATION_ERROR');const orders=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('order')).filter(o=>sites.includes(o.data.siteId)&&(!rule.data.scope.customerIds.length||rule.data.scope.customerIds.includes(o.data.customerId))&&!['CANCELLED','CLOSED'].includes(o.data.status)));const day=parameters.day??this.localDay();const drafts=[];for(const order of orders)drafts.push(await this.command(job,'report.daily_draft',{siteId:order.data.siteId,orderId:order.id,day},`draft:${order.id}`,actor));result=drafts;break;}
-      case 'DRAFT_QUOTE':{const input=parameters.input??parameters;const lead=await this.entity(job,'lead',input.leadId);assert(!rule.data.scope.customerIds.length||rule.data.scope.customerIds.includes(lead.data.customerId),'ACCESS_DENIED');result=await this.command(job,'quote.create',input,'draft-quote',actor);break;}
-      case 'REMIND':{const input={...parameters,scheduled_at:parameters.scheduled_at??this.now().toISOString(),dedup_key:`automation:${run.id}`,max_attempts:Math.min(3,rule.data.maxAttempts)};if(input.related_id&&input.related_kind){const related=await this.entity(job,input.related_kind,input.related_id);const sid=related.data.siteId??related.data.site_id;assert(!rule.data.scope.siteIds.length||rule.data.scope.siteIds.includes(sid),'ACCESS_DENIED');}result=await this.command(job,'notifications.schedule',input,'remind',actor);break;}
-      case 'PROPOSE_CREW':result=await this.command(job,'dispatch.recommend',parameters.input??parameters,'propose-crew',actor);break;
-      case 'DETECT_SHORTAGE':{const data=await this.db.transaction(job.company_id,serviceId,async tx=>{const requests=(await tx.list('material_request')).filter(r=>(!rule.data.scope.siteIds.length||rule.data.scope.siteIds.includes(r.data.siteId))&&r.data.approvedBase>r.data.receivedBase&&['APPROVED','PARTIALLY_APPROVED','PARTIALLY_RESERVED'].includes(r.data.state));return requests.map(r=>({requestId:r.id,siteId:r.data.siteId,materialId:r.data.materialId,unreceivedBase:r.data.approvedBase-r.data.receivedBase}));});result=data;break;}
-      default:throw new DomainError('AUTOMATION_ACTION_UNSUPPORTED');}
-      await this.record(job,'automation_run',run.id,e=>({...e.data,status:'SUCCEEDED',attempts:e.data.attempts+1,result,completedAt:this.now().toISOString()}));
-    }catch(error){await this.record(job,'automation_run',run.id,e=>({...e.data,status:'FAILED',attempts:e.data.attempts+1,error:error instanceof DomainError?error.code:'WORKER_ERROR',completedAt:this.now().toISOString()}));throw error;}}
+  private async automationAction(job:OutboxJob){
+    assert(job.company_id===this.options.companyId&&typeof job.data.runId==='string'&&job.lease_token,'ACCESS_DENIED');
+    const terminal=['COMPLETED','SUCCEEDED','CANCELLED','COOLDOWN_SUPPRESSED'];
+    const host={actorIn:(tx:PgTransaction,id:string)=>this.engine.actorIn(tx,id),scope:(actor:Actor,permission:string)=>this.engine.scope(actor,permission)};
+    const canonical=(value:any):string=>value===null||typeof value!=='object'?JSON.stringify(value):Array.isArray(value)?'['+value.map(canonical).join(',')+']':'{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';
+    const lock=async(tx:PgTransaction)=>{
+      const held=await tx.query("SELECT id,type,data FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token]);
+      assert(held.rows.length===1,'WORKER_LEASE_LOST');assert(held.rows[0].type==='automation.action_requested'&&held.rows[0].data?.runId===job.data.runId,'ACCESS_DENIED');
+    };
+    const fresh=async(tx:PgTransaction,base?:{run:Entity;rule:Entity})=>{
+      await lock(tx);const run=await tx.get('automation_run',job.data.runId),rule=await tx.get('automation_rule',run.data.ruleId);
+      assert(run.companyId===job.company_id&&rule.companyId===job.company_id,'ACCESS_DENIED');
+      if(base)assert(run.version===base.run.version&&rule.version===base.rule.version,'VERSION_CONFLICT');
+      assert(rule.data.status==='ACTIVE'&&rule.data.approvedBy&&Number.isFinite(Date.parse(rule.data.activeFrom))&&Date.parse(rule.data.activeFrom)<=this.now().getTime(),'NEEDS_APPROVAL');
+      const service=await this.engine.actorIn(tx,serviceId),actor=await authorizeAutomationRun(tx,run,host,{initiator:service,initiatorPermission:'automation.execute'});
+      assert(run.data.parameters&&typeof run.data.parameters==='object'&&!Array.isArray(run.data.parameters)&&Buffer.byteLength(JSON.stringify(run.data.parameters),'utf8')<=65536&&canonical(run.data.parameters)===canonical(rule.data.parameters),'ACCESS_DENIED');
+      if(!terminal.includes(run.data.status)){assert(['QUEUED','FAILED'].includes(run.data.status),'INVALID_STATE');assert(Number.isSafeInteger(run.data.attempts)&&run.data.attempts>=0&&Number.isSafeInteger(run.data.maxAttempts)&&run.data.maxAttempts>=1&&run.data.maxAttempts===rule.data.maxAttempts&&run.data.attempts<run.data.maxAttempts,'RETRY_LIMIT_EXHAUSTED');}
+      return {run,rule,actor,parameters:run.data.parameters};
+    };
+    const bound=async(tx:PgTransaction,rule:Entity,entity:Entity)=>{
+      assert(entity.companyId===job.company_id,'ACCESS_DENIED');let siteId=entity.kind==='site'?entity.id:entity.data.siteId??entity.data.site_id??entity.data.snapshot?.siteId;
+      if(!siteId&&(entity.data.taskId??entity.data.task_id))siteId=(await tx.get('task',entity.data.taskId??entity.data.task_id)).data.siteId;
+      let customerId=entity.kind==='customer'?entity.id:entity.data.customerId??entity.data.customer_id;
+      if(siteId){const site=await tx.get('site',siteId);assert(site.companyId===job.company_id,'ACCESS_DENIED');if(customerId)assert(!site.data.customerId||site.data.customerId===customerId,'ACCESS_DENIED');customerId??=site.data.customerId;}
+      assert(!rule.data.scope.siteIds.length||rule.data.scope.siteIds.includes(siteId),'ACCESS_DENIED');assert(!rule.data.scope.customerIds.length||rule.data.scope.customerIds.includes(customerId),'ACCESS_DENIED');
+    };
+    const succeed=async(tx:PgTransaction,base:{run:Entity;rule:Entity},result:unknown)=>{
+      const current=await fresh(tx,base);assert(!terminal.includes(current.run.data.status),'INVALID_STATE');await lock(tx);
+      return tx.save(current.run,{...current.run.data,status:'SUCCEEDED',attempts:current.run.data.attempts+1,result,completedAt:this.now().toISOString()});
+    };
+    let prepared:Awaited<ReturnType<typeof fresh>>|undefined;
+    try{
+      const initial=await this.db.transaction(job.company_id,serviceId,async tx=>{
+        const current=await fresh(tx);prepared=current;if(terminal.includes(current.run.data.status))return {current,terminal:true,targets:[] as Entity[]};
+        const {run,rule,actor,parameters}=current;
+        if(run.data.action==='DETECT_SHORTAGE'){
+          const inventory=this.engine.scope(actor,'inventory.read');assert(inventory.permissions.includes('inventory.read'),'ACCESS_DENIED');const result=[];
+          for(const request of await tx.list('material_request')){
+            if(request.companyId!==job.company_id||!['APPROVED','PARTIALLY_APPROVED','PARTIALLY_RESERVED'].includes(request.data.state)||!(request.data.approvedBase>request.data.receivedBase))continue;
+            if(rule.data.scope.siteIds.length&&!rule.data.scope.siteIds.includes(request.data.siteId))continue;
+            if(!inventory.permissions.includes('scope.company')&&!inventory.siteIds.includes(request.data.siteId))continue;
+            if(!await this.engine.visible(tx,actor,request))continue;
+            const site=await tx.get('site',request.data.siteId);if(rule.data.scope.customerIds.length&&!rule.data.scope.customerIds.includes(site.data.customerId))continue;
+            await bound(tx,rule,request);assert(Number.isSafeInteger(request.data.approvedBase)&&Number.isSafeInteger(request.data.receivedBase)&&request.data.receivedBase>=0&&typeof request.data.materialId==='string','INVALID_STATE');
+            result.push({requestId:request.id,siteId:request.data.siteId,materialId:request.data.materialId,unreceivedBase:request.data.approvedBase-request.data.receivedBase});assert(result.length<=2500,'INVALID_STATE',{reason:'AUTOMATION_RESULT_TOO_LARGE'});
+          }
+          await succeed(tx,current,result);return {current,terminal:true,targets:[] as Entity[]};
+        }
+        const targets:Entity[]=[];
+        if(run.data.action==='DRAFT_REPORT'){
+          assert(rule.data.scope.siteIds.length>0,'VALIDATION_ERROR');
+          for(const order of await tx.list('order'))if(order.companyId===job.company_id&&rule.data.scope.siteIds.includes(order.data.siteId)&&(!rule.data.scope.customerIds.length||rule.data.scope.customerIds.includes(order.data.customerId))&&!['CANCELLED','CLOSED'].includes(order.data.status)){await bound(tx,rule,order);targets.push(order);assert(targets.length<=100,'INVALID_STATE',{reason:'AUTOMATION_RESULT_TOO_LARGE'});}
+        }else if(run.data.action==='DRAFT_QUOTE'){
+          const input=parameters.input??parameters,lead=await tx.get('lead',input.leadId);await bound(tx,rule,lead);if(input.customerId)assert(input.customerId===lead.data.customerId,'ACCESS_DENIED');targets.push(lead);
+        }else if(run.data.action==='PROPOSE_CREW'){
+          const input=parameters.input??parameters,order=await tx.get('order',input.orderId);await bound(tx,rule,order);targets.push(order);
+        }else if(run.data.action==='REMIND'){
+          assert(!!parameters.related_id===!!parameters.related_kind,'VALIDATION_ERROR');
+          if(parameters.related_id){const related=await tx.get(parameters.related_kind,parameters.related_id);await bound(tx,rule,related);assert(await this.engine.visible(tx,actor,related),'ACCESS_DENIED');targets.push(related);}
+          if(parameters.message_id){const message=await tx.get('message',parameters.message_id),channel=await tx.get('channel',message.data.channel_id);await bound(tx,rule,channel);assert(await this.engine.visible(tx,actor,message),'ACCESS_DENIED');targets.push(message,channel);}
+          const recipient=await tx.get('user',parameters.recipient_id);assert(recipient.companyId===job.company_id&&recipient.data.active===true,'ACCESS_DENIED');
+          if(rule.data.scope.siteIds.length&&!parameters.message_id)assert((recipient.data.siteIds??[]).some((id:string)=>rule.data.scope.siteIds.includes(id)),'ACCESS_DENIED');targets.push(recipient);
+        }else throw new DomainError('AUTOMATION_ACTION_UNSUPPORTED');
+        await fresh(tx,current);await lock(tx);return {current,terminal:false,targets};
+      },10000);
+      if(initial.terminal)return;
+      const {current,targets}=initial,{run,rule,actor,parameters}=current;
+      const command=(name:string,input:Data,suffix:string)=>this.engine.execute(actor,name,{input,idempotency_key:key('worker',job.id,suffix),preconditions:[{kind:'automation_run',id:run.id,version:run.version},{kind:'automation_rule',id:rule.id,version:rule.version},...(name==='report.daily_draft'?targets.filter(e=>e.kind==='order'&&e.id===input.orderId):targets).map(e=>({kind:e.kind,id:e.id,version:e.version}))],worker_lease:{id:job.id,token:job.lease_token!}});
+      let result:unknown;
+      switch(run.data.action){
+        case 'DRAFT_REPORT':{const drafts=[];for(const order of targets)drafts.push(await command('report.daily_draft',{siteId:order.data.siteId,orderId:order.id,day:parameters.day??this.localDay()},`draft:${order.id}`));result=drafts;break;}
+        case 'DRAFT_QUOTE':result=await command('quote.create',parameters.input??parameters,'draft-quote');break;
+        case 'REMIND':result=await command('notifications.schedule',{...parameters,scheduled_at:parameters.scheduled_at??this.now().toISOString(),dedup_key:`automation:${run.id}`,max_attempts:Math.min(3,rule.data.maxAttempts)},'remind');break;
+        case 'PROPOSE_CREW':result=await command('dispatch.recommend',parameters.input??parameters,'propose-crew');break;
+        default:throw new DomainError('AUTOMATION_ACTION_UNSUPPORTED');
+      }
+      await this.db.transaction(job.company_id,actor.userId,tx=>succeed(tx,current,result),10000);
+    }catch(error){
+      if(!(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST'))try{await this.db.transaction(job.company_id,serviceId,async tx=>{
+        await lock(tx);const service=await this.engine.actorIn(tx,serviceId),scope=this.engine.scope(service,'automation.execute');assert(scope.permissions.includes('automation.execute'),'ACCESS_DENIED');
+        const run=await tx.get('automation_run',job.data.runId);if(terminal.includes(run.data.status))return;
+        assert(run.companyId===job.company_id&&(scope.permissions.includes('scope.company')||(run.data.scope?.siteIds?.length&&run.data.scope?.customerIds?.length&&run.data.scope.siteIds.every((id:string)=>scope.siteIds.includes(id))&&run.data.scope.customerIds.every((id:string)=>scope.customerIds.includes(id)))),'ACCESS_DENIED');
+        if(prepared)assert(run.version===prepared.run.version,'VERSION_CONFLICT');assert(Number.isSafeInteger(run.data.attempts)&&run.data.attempts>=0,'INVALID_STATE');
+        const {result:discarded,...data}=run.data;await lock(tx);await tx.save(run,{...data,status:'FAILED',attempts:data.attempts+1,error:error instanceof DomainError?error.code:'WORKER_ERROR',completedAt:this.now().toISOString()});
+      },10000);}catch{/* Lease/transport loss cannot authorize even a failure metadata write. */}
+      throw error;
+    }
+  }
   private async calendar(job:OutboxJob){const actor=await this.engine.getActor(job.data.ownerId,job.company_id);return this.command(job,'task_template.generate_due',{templateId:job.data.templateId,templateVersion:job.data.templateVersion},'generate-due',actor);}
   private localDay(){const p=berlinParts(this.now());return `${p.year}-${p.month}-${p.day}`;}
   async scheduled(){const now=this.now(),p=berlinParts(now),minute=`${this.localDay()}:${p.hour}:${p.minute}`;if(minute===this.lastScheduleMinute)return;await this.db.transaction(this.options.companyId,serviceId,async tx=>{const day=this.localDay();if(Number(p.hour)>=18){for(const order of await tx.list('order'))if(order.data.siteId&&order.data.customerId&&!['CANCELLED','CLOSED'].includes(order.data.status)){const id=key('daily-report',tx.companyId,order.id,day);await tx.query(`INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'report.daily_requested',$3) ON CONFLICT(id) DO NOTHING`,[id,tx.companyId,JSON.stringify({siteId:order.data.siteId,orderId:order.id,day})]);}}

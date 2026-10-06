@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <permission android:name="de.knaba.mobile.permission.INTERNAL_BROADCAST" android:protectionLevel="signature" />
+  <uses-permission android:name="de.knaba.mobile.permission.INTERNAL_BROADCAST" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

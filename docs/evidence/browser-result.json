@@ -403,7 +403,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-31fd8517fa4d7fb46d82",
           "file": "browser.spec.ts",
-          "line": 1021,
+          "line": 1033,
           "column": 1
         },
         {
@@ -423,7 +423,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-0802512cf6abf40b01ef",
           "file": "browser.spec.ts",
-          "line": 1087,
+          "line": 1099,
           "column": 1
         },
         {
@@ -443,7 +443,47 @@
           ],
           "id": "fbeac1b2decfba2c3acd-f49668844bd3fff94222",
           "file": "browser.spec.ts",
-          "line": 1137,
+          "line": 1149,
+          "column": 1
+        },
+        {
+          "title": "an actual own-message internal draft request stays pending or provider-disabled without a draft confirmation or business changes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ab44ce3b5ed488e380f4",
+          "file": "browser.spec.ts",
+          "line": 1254,
+          "column": 1
+        },
+        {
+          "title": "administration authors, previews and explicitly activates a persisted automation rule without executing it; employees cannot manage rules",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-bba16ec743efcd38130e",
+          "file": "browser.spec.ts",
+          "line": 1404,
           "column": 1
         }
       ]
@@ -451,10 +491,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-06T21:11:08.284Z",
-    "duration": 404.14199999999994,
+    "startTime": "2026-10-06T21:59:16.133Z",
+    "duration": 373.22400000000005,
     "expected": 0,
-    "skipped": 19,
+    "skipped": 21,
     "unexpected": 0,
     "flaky": 0
   }
