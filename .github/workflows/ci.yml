@@ -2,6 +2,9 @@ name: KNABA DE release verification
 on: [push, pull_request]
 permissions:
   contents: read
+concurrency:
+  group: knaba-verification-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: ubuntu-24.04
@@ -20,14 +23,15 @@ jobs:
     env:
       APP_MODE: TEST
       COMPANY_ID: knaba-demo
-      GIT_SHA: ${{ github.sha }}
-      EXPECTED_GIT_SHA: ${{ github.sha }}
+      GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      EXPECTED_GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       KNABA_QA_ADMIN_URL: postgresql://knaba_test:synthetic-ci-only@127.0.0.1:5432/postgres
       KNABA_PG_TRANSPORT: container
-      KNABA_PG_CONTAINER: ${{ job.services.postgres.id }}
       PLAYWRIGHT_CHROMIUM_EXECUTABLE: ''
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 24.19.0
@@ -45,6 +49,8 @@ jobs:
           for script in scripts/*.mjs; do node --check "$script"; done
       - run: npx playwright install --with-deps chromium
       - name: Real isolated SQL browser restore and worker restart acceptance
+        env:
+          KNABA_PG_CONTAINER: ${{ job.services.postgres.id }}
         run: bash scripts/live-isolated-check.sh
       - uses: actions/upload-artifact@v4
         if: always()
