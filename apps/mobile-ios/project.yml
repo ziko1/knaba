@@ -17,6 +17,8 @@ targets:
     platform: iOS
     sources:
       - path: Sources
+      - path: Resources
+        buildPhase: resources
       - path: PrivacyInfo.xcprivacy
     settings:
       base:

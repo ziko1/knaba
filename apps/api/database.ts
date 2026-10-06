@@ -20,7 +20,7 @@ export class Database{
  pool:Pool;
  constructor(url=process.env.DATABASE_URL){if(!url)throw new Error('MISSING_DATABASE_URL');this.pool=new Pool({connectionString:url,max:10,connectionTimeoutMillis:10000,idleTimeoutMillis:30000});this.pool.on('error',()=>process.stderr.write('database connection failure\n'));}
  async query(sql:string,params:unknown[]=[]){return this.pool.query(sql,params);}
- async transaction<T>(companyId:string,actorId:string,fn:(tx:PgTransaction)=>Promise<T>,timeoutMs?:number):Promise<T>{
+ async transaction<T>(companyId:string,actorId:string,fn:(tx:PgTransaction)=>Promise<T>,timeoutMs?:number,readOnly=false):Promise<T>{
   if(timeoutMs!==undefined&&(!Number.isInteger(timeoutMs)||timeoutMs<1000||timeoutMs>60000))throw new DomainError('VALIDATION_ERROR');
   const deadline=timeoutMs===undefined?undefined:Date.now()+timeoutMs;
   for(let attempt=0;attempt<3;attempt++){
@@ -32,7 +32,7 @@ export class Database{
     if(deadline!==undefined){const remaining=deadline-Date.now();if(remaining<=0)throw new DomainError('TRANSACTION_TIMEOUT');await c.query("SELECT set_config('statement_timeout',$1,false),set_config('lock_timeout',$1,false)",[String(remaining)+'ms']);}
     await c.query('SELECT pg_advisory_lock(hashtext($1))',[companyId]);sessionLocked=true;
     if(deadline!==undefined&&Date.now()>=deadline)throw new DomainError('TRANSACTION_TIMEOUT');
-    await c.query('BEGIN ISOLATION LEVEL SERIALIZABLE');
+    await c.query(readOnly?'BEGIN ISOLATION LEVEL SERIALIZABLE READ ONLY':'BEGIN ISOLATION LEVEL SERIALIZABLE');
     if(deadline!==undefined){const remaining=deadline-Date.now();if(remaining<=0)throw new DomainError('TRANSACTION_TIMEOUT');await c.query("SELECT set_config('statement_timeout',$1,true),set_config('lock_timeout',$1,true)",[String(remaining)+'ms']);}
     await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',[companyId]);
     await c.query('SELECT pg_advisory_unlock(hashtext($1))',[companyId]);sessionLocked=false;

@@ -4,6 +4,10 @@ import CoreLocation
 enum NativeError: Error, LocalizedError {
     case failure(String)
     var errorDescription: String? { if case .failure(let code) = self { return code }; return "NATIVE_ERROR" }
+    var requiresPrivacyStop: Bool {
+        if case .failure(let code) = self { return ["ACCESS_REVOKED", "INVALID_OR_FOREIGN_SESSION", "DEVICE_NOT_ENROLLED", "SESSION_EXPIRED"].contains(code) }
+        return true
+    }
 }
 enum JSONValue: Codable, Sendable {
     case string(String), number(Double), bool(Bool), object([String: JSONValue]), array([JSONValue]), null
@@ -37,11 +41,17 @@ struct Geofence: Codable, Sendable {
 struct TrackingSession: Codable, Sendable {
     let deviceId: String, employeeId: String, apiVersion: Int, expiresAt: String, mode: TrackingMode
     let shiftId: String?, tripId: String?, siteId: String?, policyVersionId: String?, reason: String?, siteGeofence: Geofence?
+    var shiftSummary: NativeShiftSummary? = nil
+    var ownShiftSummary: NativeShiftSummary? {
+        guard let summary = shiftSummary, summary.shiftId == shiftId,
+              siteId == nil || summary.siteId == siteId else { return nil }
+        return summary
+    }
     var valid: Bool { guard let end = Clock.parse(expiresAt) else { return false }; return end > Date() && end <= Date().addingTimeInterval(16 * 3600 + 60) }
     var permitsLocation: Bool { valid && (mode == .sitePresence || mode == .businessTravel) && shiftId != nil && policyVersionId != nil }
 }
 struct Enrollment: Codable, Sendable { let deviceId: String, employeeId: String, deviceToken: String }
-struct Credentials: Sendable { let origin: URL, deviceId: String, employeeId: String, deviceToken: String }
+struct Credentials: Sendable { let origin: URL, deviceId: String, employeeId: String, deviceToken: String; let authorizationEpoch: Int }
 struct QueueItem: Codable, Identifiable, Sendable {
     let id: String, kind: String, command: String, createdAt: String
     var input: [String: JSONValue]

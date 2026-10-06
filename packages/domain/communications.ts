@@ -54,6 +54,27 @@ async function accessibleChannels(ctx:CommandContext) {
   for(const channel of await ctx.tx.list('channel'))try{await assertChannelAccess(ctx,channel);channels.push(channel);}catch(error){if(!(error instanceof DomainError)||!['ACCESS_DENIED','NOT_FOUND_SAFE'].includes(error.code))throw error;}
   return channels;
 }
+function pendingPrivateHandoff(channel:Entity) {
+  return channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&channel.data.handoff?.state==='HANDOFF_PENDING'&&channel.data.handoff.owner_id===null;
+}
+function autoResumedOperatorClaim(m:Data,userId:string,now:string) {
+  const revoked=Date.parse(m.revoked_at),joined=Date.parse(m.joined_at);
+  return m.user_id===userId&&m.source==='OPERATOR_CLAIM'&&m.claim_owner_id===userId&&m.revocation_reason==='AI_RESUMED'&&Number.isFinite(revoked)&&Number.isFinite(joined)&&revoked>=joined&&revoked<=Date.parse(now)&&m.active!==false&&!m.revokedAt&&!m.left_at&&!m.leftAt&&!m.removed_at&&!m.removedAt&&!m.expires_at&&!m.expiresAt;
+}
+function mayCreateFreshOperatorClaim(channel:Entity,userId:string,now:string) {
+  return (channel.data.members??[]).filter((m:Data)=>m.user_id===userId).every((m:Data)=>autoResumedOperatorClaim(m,userId,now));
+}
+async function operatorAuthority(ctx:CommandContext) {
+  assert(!external(ctx)&&isManager(ctx.actor)&&ctx.actor.permissions.includes('chat.manage')&&ctx.actor.permissions.includes('chat.read'),'ACCESS_DENIED');
+  const user=await ctx.tx.get('user',ctx.actor.userId),permissions=userPermissions(user),roles=user.data.roles??[];
+  assert(user.companyId===ctx.actor.companyId&&user.data.active===true&&isManager({...ctx.actor,roles})&&!roles.some((r:string)=>['CUSTOMER','CLIENT','EXTERNAL_BAULEITER','GUEST'].includes(r))&&permissions.includes('chat.manage')&&permissions.includes('chat.read'),'ACCESS_DENIED');
+  return user;
+}
+async function operatorChannelScope(ctx:CommandContext,channel:Entity,user:Entity) {
+  assert(channel.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');
+  const siteId=await channelSite(ctx,channel);
+  if(siteId){ctx.requireSite(siteId);assert(userPermissions(user).includes('scope.company')||(user.data.siteIds??[]).includes(siteId),'ACCESS_DENIED');}
+}
 async function assertAttachment(ctx:CommandContext,channel:Entity,media:Entity) {
   assert(media.companyId===ctx.actor.companyId&&media.data.visibility!=='CONFIDENTIAL'&&!media.data.employeeId&&!media.data.employee_id,'ACCESS_DENIED');
   assert(['RECEIVED','APPROVED_FOR_CLIENT'].includes(media.data.state),'INVALID_STATE');
@@ -110,16 +131,46 @@ export const communicationsCommands:CommandRegistry={
     await ctx.tx.event('channel.membership_changed',{channel_id:channel.id,user_id:input.user_id,action:input.action}); return saved;
   }},
   'channel.list':{permission:'chat.read',schema:z.object({}).strict(),handler:async ctx=>accessibleChannels(ctx)},
+  'handoff.inbox':{permission:'chat.manage',schema:z.object({}).strict(),handler:async ctx=>{
+    const operator=await operatorAuthority(ctx),items:Data[]=[];
+    for(const channel of await ctx.tx.list('channel')){
+      if(!pendingPrivateHandoff(channel)||channel.companyId!==ctx.actor.companyId)continue;
+      // Only our own automatic AI-return removal permits a later fresh claim.
+      // An explicit removal or expired grant remains authoritative.
+      if(!member(channel,ctx.actor.userId,ctx.now)&&!mayCreateFreshOperatorClaim(channel,ctx.actor.userId,ctx.now))continue;
+      try{await operatorChannelScope(ctx,channel,operator);}catch(error){if(error instanceof DomainError&&['ACCESS_DENIED','NOT_FOUND_SAFE'].includes(error.code))continue;throw error;}
+      const requested=channel.data.handoff.requested_at;
+      items.push({channel_id:channel.id,version:channel.version,requested_at:typeof requested==='string'&&Number.isFinite(Date.parse(requested))?requested:channel.updatedAt,state:'HANDOFF_PENDING'});
+    }
+    items.sort((a,b)=>a.requested_at.localeCompare(b.requested_at)||a.channel_id.localeCompare(b.channel_id));
+    return {items:items.slice(0,100)};
+  }},
   'handoff.take':{permission:'chat.manage',schema:z.object({channel_id:id}).strict(),handler:async(ctx,input)=>{
-    const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);assert(isManager(ctx.actor),'ACCESS_DENIED');
+    const channel=await ctx.tx.get('channel',input.channel_id);assert(channel.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');assert(!external(ctx)&&isManager(ctx.actor),'ACCESS_DENIED');
+    const existing=member(channel,ctx.actor.userId,ctx.now);let members=channel.data.members;
+    if(existing)await assertChannelAccess(ctx,channel);
+    else {
+      const operator=await operatorAuthority(ctx);await operatorChannelScope(ctx,channel,operator);
+      assert(ctx.expectedVersion!==undefined&&ctx.expectedVersion===channel.version,'VERSION_CONFLICT',{reason:'CURRENT_HANDOFF_PREVIEW_REQUIRED'});
+      assert(channel.data.handoff?.state!=='HUMAN_ACTIVE'||channel.data.handoff.owner_id===ctx.actor.userId,'CONVERSATION_OWNED');
+      assert(pendingPrivateHandoff(channel),'INVALID_STATE',{reason:'PENDING_PRIVATE_HANDOFF_REQUIRED'});
+      assert(mayCreateFreshOperatorClaim(channel,ctx.actor.userId,ctx.now),'ACCESS_DENIED',{reason:'PRIOR_OPERATOR_MEMBERSHIP_REMOVAL'});
+      members=[...(channel.data.members??[]),{user_id:ctx.actor.userId,joined_at:ctx.now,history_from:channel.createdAt,external:false,source:'OPERATOR_CLAIM',claim_owner_id:ctx.actor.userId}];
+    }
     assert(channel.data.handoff?.state!=='HUMAN_ACTIVE'||channel.data.handoff.owner_id===ctx.actor.userId,'CONVERSATION_OWNED');
-    if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.data.ownership!=='HUMAN_ACTIVE'||lead.data.humanOwnerId===ctx.actor.userId,'CONVERSATION_OWNED');await ctx.tx.save(lead,{...lead.data,ownership:'HUMAN_ACTIVE',humanOwnerId:ctx.actor.userId});}
-    const saved=await ctx.tx.save(channel,{...channel.data,handoff:{state:'HUMAN_ACTIVE',owner_id:ctx.actor.userId,taken_at:ctx.now}},ctx.expectedVersion);await ctx.tx.event('conversation.human_active',{channel_id:channel.id,owner_id:ctx.actor.userId});return saved;
+    if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');assert(lead.data.ownership!=='HUMAN_ACTIVE'||lead.data.humanOwnerId===ctx.actor.userId,'CONVERSATION_OWNED');await ctx.tx.save(lead,{...lead.data,ownership:'HUMAN_ACTIVE',humanOwnerId:ctx.actor.userId});}
+    const saved=await ctx.tx.save(channel,{...channel.data,members,handoff:{state:'HUMAN_ACTIVE',owner_id:ctx.actor.userId,taken_at:ctx.now}},ctx.expectedVersion);
+    if(!existing)await ctx.tx.event('channel.membership_changed',{channel_id:channel.id,user_id:ctx.actor.userId,action:'ADD',source:'OPERATOR_CLAIM'});
+    await ctx.tx.event('conversation.human_active',{channel_id:channel.id,owner_id:ctx.actor.userId});return saved;
   }},
   'handoff.resume':{permission:'chat.manage',schema:z.object({channel_id:id,reason:z.string().min(1).max(1000)}).strict(),handler:async(ctx,input)=>{
-    const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);assert(isManager(ctx.actor)&&channel.data.handoff?.state==='HUMAN_ACTIVE'&&channel.data.handoff.owner_id===ctx.actor.userId,'ACCESS_DENIED');
-    if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);await ctx.tx.save(lead,{...lead.data,ownership:'AI_ACTIVE',humanOwnerId:null});}
-    const saved=await ctx.tx.save(channel,{...channel.data,handoff:{state:'AI_ACTIVE',owner_id:null,resumed_at:ctx.now,resumed_by:ctx.actor.userId,reason:input.reason}},ctx.expectedVersion);await ctx.tx.event('conversation.ai_resumed',{channel_id:channel.id});return saved;
+    const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);assert(!external(ctx)&&isManager(ctx.actor)&&channel.data.handoff?.state==='HUMAN_ACTIVE'&&channel.data.handoff.owner_id===ctx.actor.userId,'ACCESS_DENIED');
+    if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');assert(lead.data.ownership!=='HUMAN_ACTIVE'||lead.data.humanOwnerId===ctx.actor.userId,'CONVERSATION_OWNED');await ctx.tx.save(lead,{...lead.data,ownership:'AI_ACTIVE',humanOwnerId:null});}
+    const revoked=(channel.data.members??[]).some((m:Data)=>m.user_id===ctx.actor.userId&&m.source==='OPERATOR_CLAIM'&&m.claim_owner_id===ctx.actor.userId&&!m.revoked_at);
+    const members=(channel.data.members??[]).map((m:Data)=>m.user_id===ctx.actor.userId&&m.source==='OPERATOR_CLAIM'&&m.claim_owner_id===ctx.actor.userId&&!m.revoked_at&&!m.revokedAt?{...m,revoked_at:ctx.now,revocation_reason:'AI_RESUMED'}:m);
+    const saved=await ctx.tx.save(channel,{...channel.data,members,handoff:{state:'AI_ACTIVE',owner_id:null,resumed_at:ctx.now,resumed_by:ctx.actor.userId,reason:input.reason}},ctx.expectedVersion);
+    if(revoked){for(const pending of await ctx.tx.list('translation_request'))if(pending.data.user_id===ctx.actor.userId&&pending.data.channel_id===channel.id&&pending.data.status==='PENDING')await ctx.tx.save(pending,{...pending.data,status:'CANCELLED'});await ctx.tx.event('channel.membership_changed',{channel_id:channel.id,user_id:ctx.actor.userId,action:'REVOKE',source:'HANDOFF_RESUMED'});}
+    await ctx.tx.event('conversation.ai_resumed',{channel_id:channel.id});return saved;
   }},
   'channel.mute':{permission:'chat.read',schema:z.object({channel_id:id,muted:z.boolean()}).strict(),handler:async(ctx,input)=>{
     const channel=await ctx.tx.get('channel',input.channel_id); await assertChannelAccess(ctx,channel);const current=await activity(ctx,channel.id);

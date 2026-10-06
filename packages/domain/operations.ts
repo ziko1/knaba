@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import {taskCalendarScheduleSchema,planTaskCalendar,taskOccurrenceKey} from './task-calendar.ts';
+import {createWorkingTimeAdvisoryCommands} from './working-time-advisory.ts';
 import { assert, id, timestamp, transition, type CommandContext, type CommandDefinition, type CommandRegistry, type Data, type Entity } from './core.ts';
 
 const text = z.string().trim().min(1).max(4000);
@@ -244,3 +245,5 @@ operationsCommands['task_template.generate_due']=command('task.create',z.object(
  if(previous)await ctx.tx.save(previous,state);else await ctx.tx.add('task_calendar_cursor',state,cursorId);
  return {createdTaskIds:created.map(t=>t.id),...state};
 });
+
+Object.assign(operationsCommands,createWorkingTimeAdvisoryCommands(effectiveTimesheet));

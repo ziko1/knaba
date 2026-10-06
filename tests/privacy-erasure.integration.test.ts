@@ -101,6 +101,92 @@ postgres('transactional bounded privacy erasure (real PostgreSQL)',()=>{
  it('redacts orphan immutable message history even after the current aggregate disappeared',async()=>{
   await db.query("DELETE FROM aggregates WHERE company_id=$1 AND kind='message' AND id=$2",[company,ids.message]);const p=await preview(),result=await confirm(p);expect(result.sourceDataDeleted).toBe(true);expect(JSON.stringify((await db.query("SELECT data FROM aggregate_revisions WHERE company_id=$1 AND kind='message' AND id=$2",[company,ids.message])).rows)).not.toContain(canary);
  });
+ it('redacts private assistant draft and tool results plus every immutable version through bounded SQL permits',async()=>{
+  const draftCanary='SYNTHETIC_PRIVATE_DRAFT_CONTACT_CANARY',toolCanary='SYNTHETIC_PRIVATE_TOOL_REPORT_SNIPPET_CANARY';
+  await db.transaction(company,'SYNTHETIC_ASSISTANT_QA',async tx=>{
+   const draft=await tx.add('assistant_lead_draft',{ownerUserId:ids.subject,channelId:'synthetic-channel',messageId:ids.message,state:'DRAFT',input:{contact:{name:draftCanary,email:'synthetic@example.invalid'}}},'assistant-draft');
+   const tool=await tx.add('assistant_tool_call',{ownerUserId:ids.subject,channelId:'synthetic-channel',messageId:ids.message,tool:'saveLeadDraft',result:{draftId:draft.id,descriptionDe:toolCanary}},'assistant-call');
+   await tx.save(draft,{...draft.data,input:{contact:{name:`edited ${draftCanary}`}}});await tx.save(tool,{...tool.data,result:{draftId:draft.id,descriptionDe:`edited ${toolCanary}`}});
+  });
+  const identitySql="SELECT kind,id,version,actor_id,created_at FROM aggregate_revisions WHERE company_id=$1 AND kind IN('assistant_lead_draft','assistant_tool_call') AND version<=2 ORDER BY kind,id,version";
+  const originalIdentity=(await db.query(identitySql,[company])).rows;expect(originalIdentity).toHaveLength(4);
+  const p=await preview(),plan=(await db.transaction(company,'QA',tx=>tx.get('privacy_erasure_plan',p.planId))).data.plan;
+  expect(plan.actions.filter((action:Data)=>action.type==='REDACT_REVISION'&&['assistant_lead_draft','assistant_tool_call'].includes(action.kind))).toHaveLength(4);
+  const result=await confirm(p);expect(result.sourceDataDeleted).toBe(true);
+  for(const kind of ['assistant_lead_draft','assistant_tool_call']){
+   const rows=(await db.query('SELECT data FROM aggregates WHERE company_id=$1 AND kind=$2 UNION ALL SELECT data FROM aggregate_revisions WHERE company_id=$1 AND kind=$2',[company,kind])).rows;
+   expect(rows.length).toBeGreaterThan(2);for(const row of rows)expect(row.data).toMatchObject({state:'ERASED',privacyErasureRequestId:ids.request});
+   expect(JSON.stringify(rows)).not.toContain(draftCanary);expect(JSON.stringify(rows)).not.toContain(toolCanary);
+  }
+  expect((await db.query(identitySql,[company])).rows).toEqual(originalIdentity);
+  expect((await db.query('SELECT count(*)::text AS count FROM privacy_revision_permits WHERE company_id=$1',[company])).rows[0].count).toBe('0');
+ });
+ it('preserves confirmed assistant intake and its message when linked lead and order require business retention',async()=>{
+  await db.transaction(company,'SYNTHETIC_ASSISTANT_QA',async tx=>{
+   await tx.add('lead',{ownerUserId:ids.subject,status:'QUALIFIED',contact:{name:'SYNTHETIC_BUSINESS_CONTACT_RETAINED'}},'assistant-business-lead');
+   await tx.add('order',{leadId:'assistant-business-lead',scope:'SYNTHETIC_BUSINESS_SCOPE_RETAINED',status:'ACCEPTED'},'assistant-business-order');
+   await tx.add('assistant_lead_draft',{ownerUserId:ids.subject,channelId:'synthetic-channel',messageId:ids.message,state:'CONFIRMED',leadId:'assistant-business-lead',input:{contact:{name:'SYNTHETIC_CONFIRMED_CONTACT_RETAINED'}}},'assistant-draft');
+   await tx.add('assistant_tool_call',{ownerUserId:ids.subject,channelId:'synthetic-channel',messageId:ids.message,tool:'confirmLead',result:{draftId:'assistant-draft',leadId:'assistant-business-lead'}},'assistant-call');
+  });
+  const retainedKinds=['message','assistant_lead_draft','assistant_tool_call','lead','order'],retainedSql='SELECT kind,id,version,data FROM aggregates WHERE company_id=$1 AND kind=ANY($2::text[]) ORDER BY kind,id';
+  const original=(await db.query(retainedSql,[company,retainedKinds])).rows;
+  const p=await preview();expect(p.retained).toContainEqual(expect.objectContaining({kind:'message',id:ids.message,reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));
+  const plan=(await db.transaction(company,'QA',tx=>tx.get('privacy_erasure_plan',p.planId))).data.plan;
+  for(const row of original)expect(plan.actions.some((action:Data)=>action.kind===row.kind&&action.id===row.id)).toBe(false);
+  const result=await confirm(p);expect(result.liveSourceStatus).toBe('PARTIALLY_PURGED_LIVE_SCOPE');expect(result.requestFulfilled).toBe(false);
+  expect((await db.query(retainedSql,[company,retainedKinds])).rows).toEqual(original);
+  expect(JSON.stringify((await db.query("SELECT data FROM aggregate_revisions WHERE company_id=$1 AND kind='message'",[company])).rows)).toContain(canary);
+ });
+ async function seedInternalAssistant(status='READY'){
+  await db.transaction(company,'SYNTHETIC_INTERNAL_ASSISTANT_QA',async tx=>{
+   let request=await tx.add('internal_assistant_request',{ownerUserId:ids.subject,user_id:ids.subject,channelId:'synthetic-channel',messageId:ids.message,sourceMessageId:ids.message,messageVersion:1,configId:'synthetic-config',configVersion:1,status:'PENDING',contextIds:{siteId:'synthetic-site'},privateInput:'SYNTHETIC_INTERNAL_REQUEST_CANARY'},'internal-request');
+   request=await tx.save(request,{...request.data,status:'RUNNING',startedAt:new Date().toISOString()});
+   if(status!=='RUNNING')await tx.save(request,{...request.data,status,completedAt:new Date().toISOString()});
+   const draft=await tx.add('internal_assistant_draft',{ownerUserId:ids.subject,user_id:ids.subject,channelId:'synthetic-channel',messageId:ids.message,sourceMessageId:ids.message,requestId:request.id,state:'DRAFT',proposal:{description:'SYNTHETIC_INTERNAL_PROPOSAL_CANARY'},preview:{text:'SYNTHETIC_INTERNAL_PREVIEW_CANARY'},canonicalInput:{description:'SYNTHETIC_INTERNAL_CANONICAL_CANARY'}},'internal-draft');
+   await tx.save(draft,{...draft.data,preview:{text:'SYNTHETIC_EDITED_INTERNAL_PREVIEW_CANARY'}});
+   for(const command of ['request','preview'])await tx.query('INSERT INTO command_receipts(company_id,actor_id,idempotency_key,command,input_hash,result) VALUES($1,$2,$3,$4,$5,$6)',[company,ids.subject,`internal-${command}`,`internal_assistant.${command}`,'SYNTHETIC_INTERNAL_HASH',JSON.stringify({requestId:request.id,draftId:draft.id,preview:draft.data.preview})]);
+   for(const type of ['requested','draft_prepared','failed'])await tx.query("INSERT INTO outbox(id,company_id,type,data,status) VALUES($1,$2,$3,$4,'FAILED')",[randomUUID(),company,`internal_assistant.${type}`,JSON.stringify({requestId:request.id,draftId:draft.id,privateCopy:'SYNTHETIC_INTERNAL_OUTBOX_CANARY'})]);
+  });
+ }
+ it('actually redacts terminal unconfirmed internal request/draft histories with bounded SQL permits while preserving foreign copies and revision identity',async()=>{
+  await seedInternalAssistant();const foreign=`privacy-foreign-${randomUUID()}`;
+  await db.transaction(foreign,'SYNTHETIC_FOREIGN_QA',async tx=>{
+   await tx.add('internal_assistant_request',{messageId:ids.message,status:'RUNNING',privateInput:'FOREIGN_INTERNAL_PRIVATE_REMAINS'},'internal-request');await tx.add('internal_assistant_draft',{messageId:ids.message,requestId:'internal-request',state:'CONFIRMED',proposal:{text:'FOREIGN_INTERNAL_PRIVATE_REMAINS'}},'internal-draft');
+  });
+  const identitySql="SELECT kind,id,version,actor_id,created_at FROM aggregate_revisions WHERE company_id=$1 AND kind IN('internal_assistant_request','internal_assistant_draft') AND version<=CASE WHEN kind='internal_assistant_request' THEN 3 ELSE 2 END ORDER BY kind,id,version";
+  const original=(await db.query(identitySql,[company])).rows,foreignSql="SELECT kind,id,version,data FROM aggregates WHERE company_id=$1 ORDER BY kind,id",foreignOriginal=(await db.query(foreignSql,[foreign])).rows;expect(original).toHaveLength(5);
+  const p=await preview(),plan=(await db.transaction(company,'QA',tx=>tx.get('privacy_erasure_plan',p.planId))).data.plan;
+  expect(plan.actions.filter((a:Data)=>a.type==='REDACT_REVISION'&&a.kind?.startsWith('internal_assistant_'))).toHaveLength(5);
+  expect((await confirm(p)).sourceDataDeleted).toBe(true);
+  const rows=(await db.query("SELECT kind,data FROM aggregates WHERE company_id=$1 AND kind IN('internal_assistant_request','internal_assistant_draft') UNION ALL SELECT kind,data FROM aggregate_revisions WHERE company_id=$1 AND kind IN('internal_assistant_request','internal_assistant_draft')",[company])).rows;
+  expect(rows).toHaveLength(9);for(const row of rows)expect(row.data).toEqual({channelId:'synthetic-channel',messageId:ids.message,privacyErasedAt:plan.createdAt,privacyErasureRequestId:ids.request,state:'ERASED',status:'CANCELLED'});
+  expect(JSON.stringify(rows)).not.toContain('CANARY');expect((await db.query(identitySql,[company])).rows).toEqual(original);expect((await db.query(foreignSql,[foreign])).rows).toEqual(foreignOriginal);
+  const receipts=(await db.query("SELECT result FROM command_receipts WHERE company_id=$1 AND command IN('internal_assistant.request','internal_assistant.preview')",[company])).rows;expect(receipts).toHaveLength(2);for(const row of receipts)expect(row.result).toMatchObject({status:'SOURCE_ERASED',replayDenied:true});
+  const jobs=(await db.query("SELECT data,status FROM outbox WHERE company_id=$1 AND type IN('internal_assistant.requested','internal_assistant.draft_prepared','internal_assistant.failed')",[company])).rows;expect(jobs).toHaveLength(3);for(const row of jobs)expect(row).toMatchObject({status:'CANCELLED',data:{status:'SOURCE_ERASED'}});
+  expect((await db.query('SELECT count(*)::text AS count FROM privacy_revision_permits WHERE company_id=$1',[company])).rows[0].count).toBe('0');
+ });
+ it('holds actual current RUNNING internal provider sources despite cancelled jobs, then permits a fresh plan after terminal quiescence without historical RUNNING retention',async()=>{
+  await seedInternalAssistant('RUNNING');await db.query("UPDATE outbox SET status='CANCELLED' WHERE company_id=$1 AND type LIKE 'internal_assistant.%'",[company]);
+  const p=await preview();for(const id of [ids.message,ids.raw,ids.translation,'internal-request','internal-draft'])expect(p.retained).toContainEqual(expect.objectContaining({id,reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));
+  expect(await confirm(p)).toMatchObject({sourceDataDeleted:false,liveSourceStatus:'AWAITING_QUIESCENCE'});expect((await db.transaction(company,'QA',tx=>tx.get('message',ids.message))).data.text).toBe(canary);
+  await db.transaction(company,'SYNTHETIC_PROVIDER_RETURN',async tx=>{const request=await tx.get('internal_assistant_request','internal-request');await tx.save(request,{...request.data,status:'FAILED',completedAt:new Date().toISOString(),error:'SYNTHETIC_PROVIDER_FAILURE'});});
+  const fresh=await preview();expect(fresh.retained.some((r:Data)=>r.reason==='IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE')).toBe(false);expect((await confirm(fresh)).sourceDataDeleted).toBe(true);
+  expect(JSON.stringify((await db.query("SELECT data FROM aggregate_revisions WHERE company_id=$1 AND kind IN('internal_assistant_request','internal_assistant_draft')",[company])).rows)).not.toContain('CANARY');
+ });
+ it.each(['task_batch','report','material_request'])('preserves confirmed internal %s intent, source history, actual business records, command receipts and confirmation event',async kind=>{
+  await seedInternalAssistant();const businessId='confirmed-business-result';
+  await db.transaction(company,'SYNTHETIC_BUSINESS_CONFIRMATION',async tx=>{
+   await tx.add(kind,{siteId:'synthetic-site',state:'DRAFT',description:'SYNTHETIC_BUSINESS_RECORD_REMAINS'},businessId);
+   const draft=await tx.get('internal_assistant_draft','internal-draft'),request=await tx.get('internal_assistant_request','internal-request');
+   await tx.save(draft,{...draft.data,state:'CONFIRMED',confirmedAt:new Date().toISOString(),result:{command:`${kind}.create`,entityIds:[businessId],result:[{id:businessId,kind}]}});await tx.save(request,{...request.data,status:'CONFIRMED',confirmedAt:new Date().toISOString()});
+   await tx.query('INSERT INTO command_receipts(company_id,actor_id,idempotency_key,command,input_hash,result) VALUES($1,$2,$3,$4,$5,$6)',[company,ids.subject,'internal-confirm','internal_assistant.confirm','BUSINESS_HASH',JSON.stringify({draftId:draft.id,requestId:request.id,entityIds:[businessId],sideEffectsExecuted:true})]);
+   await tx.query("INSERT INTO outbox(id,company_id,type,data,status) VALUES($1,$2,'internal_assistant.confirmed',$3,'PENDING')",[randomUUID(),company,JSON.stringify({requestId:request.id,draftId:draft.id,command:`${kind}.create`,entityIds:[businessId]})]);
+  });
+  const retainedKinds=['message','message_version','translation','conversation_input','internal_assistant_request','internal_assistant_draft',kind],sql='SELECT kind,id,version,data FROM aggregates WHERE company_id=$1 AND kind=ANY($2::text[]) ORDER BY kind,id',revisionSql='SELECT kind,id,version,data,actor_id,created_at FROM aggregate_revisions WHERE company_id=$1 AND kind=ANY($2::text[]) ORDER BY kind,id,version';
+  const original=(await db.query(sql,[company,retainedKinds])).rows,originalHistory=(await db.query(revisionSql,[company,retainedKinds])).rows,receiptSql="SELECT command,input_hash,result FROM command_receipts WHERE company_id=$1 AND command='internal_assistant.confirm'",eventSql="SELECT type,data,status FROM outbox WHERE company_id=$1 AND type='internal_assistant.confirmed'",receipt=(await db.query(receiptSql,[company])).rows,event=(await db.query(eventSql,[company])).rows;
+  const p=await preview();expect(p.retained).toContainEqual(expect.objectContaining({id:ids.message,reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));expect(p.retained).toContainEqual(expect.objectContaining({id:ids.raw,reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));expect(await confirm(p)).toMatchObject({liveSourceStatus:'PARTIALLY_PURGED_LIVE_SCOPE',requestFulfilled:false});
+  expect((await db.query(sql,[company,retainedKinds])).rows).toEqual(original);expect((await db.query(revisionSql,[company,retainedKinds])).rows).toEqual(originalHistory);expect((await db.query(receiptSql,[company])).rows).toEqual(receipt);expect((await db.query(eventSql,[company])).rows).toEqual(event);
+ });
  it('retains report-linked photographs and their immutable revisions and bytes, allowing only eligible chat purge',async()=>{
   await add('report_version',{immutable:true,publishedAt:new Date().toISOString(),snapshot:{photos:[{mediaId:ids.media,blobKey:blob}]}});const p=await preview();expect(p.retained.some((r:Data)=>r.id===ids.media)).toBe(true);const result=await confirm(p);expect(result.liveSourceStatus).toBe('PARTIALLY_PURGED_LIVE_SCOPE');expect((await storage.get(company,blob)).sha256).toBe(sha);expect((await db.transaction(company,'QA',tx=>tx.get('media_asset',ids.media))).data.caption).toBe(canary);
  });

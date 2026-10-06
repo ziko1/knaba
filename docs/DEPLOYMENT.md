@@ -2,6 +2,10 @@
 
 This repository and all resources are separate from AVENQO. The runnable local default is **DEMO**, company **knaba-demo**, using synthetic records only. Production seeding is forbidden. Every image requires a real 40-character Git SHA identifying its tested source.
 
+Current acceptance: historical source `3c85adc228ddd5c6078e7bbc05e4d5570625c978` passed 802 tests (94 genuine PostgreSQL) and both native debug/simulator jobs; its application workflow FAILED with browser 11/14. Subsequent source is **FINAL_CI_PENDING**. Last full offline run 1013 PASS/139 genuine PG SKIP of 1152 does not cover later critical ACL/SSE/revocation changes. Twenty browser scenarios (19 actual backend/UI plus one explicit mocked AI-draft transport fixture), new native builds and actual Railway container-build CI are prepared but not executed at the new source. See [verification ledger](TEST_EVIDENCE.md) and [handover](HANDOVER.md).
+
+Allocated `https://api-staging-a476.up.railway.app` is **NOT_READY**. The first API build FAILED/PostgreSQL CRASHED; concrete corrections require provider dashboard 2FA, and no corrected deployment success or actual runtime SHA is observed. Existing synthetic staging authorization persists; the provider's verification requirement must not be bypassed.
+
 ## Runtime contracts
 
 | Setting | Consumer and purpose |
@@ -69,7 +73,15 @@ The authoritative permission record is `infra/DEPLOYMENT_AUTHORIZATION.json`. Cu
 
 Before publishing, record the exact commit, successful test evidence, database backup/restore evidence, target project, environment and current provider billing controls. Build from that commit, set matching `GIT_SHA`, migrate and synthetic-seed staging before routing public traffic, then check web/login, authorised commands, role isolation, persisted data and worker behaviour through the actual HTTPS URL. Store the real URL and runtime `/version` result in release evidence; do not substitute a planned domain.
 
-The image supports an optional BuildKit `proxy_ca` PEM secret for corporate TLS trust. Supply it only through BuildKit secret mounting; certificate verification stays enabled and the PEM is not copied into the image. No token belongs in image build arguments, logs or Git.
+The original `infra/Dockerfile` supports an optional BuildKit `proxy_ca` PEM secret for corporate TLS trust. Supply it only through BuildKit secret mounting; certificate verification stays enabled and the PEM is not copied into the image. No token belongs in image build arguments, logs or Git.
+
+Railway Metal uses `infra/Dockerfile.railway`. It differs only in the dependency-install block: standard `npm ci --ignore-scripts --strict-ssl=true`, without the optional secret mount. The original Dockerfile remains the local/corporate BuildKit path. Actual API deployment `4356abfe-7c57-4a4b-aad5-9fa5a73bae5e` failed at 2026-10-06T20:55:15Z because Metal rejected `--mount=type=secret` at line6. The variant has passed the static comparison/strict-TLS contract check; a successful Railway image build from it is **NOT_RUN**.
+
+Fresh hosted CI now has an actual `docker build --file infra/Dockerfile.railway --build-arg GIT_SHA=<tested-sha>` step, runs the resulting image's worker release verifier, and records image ID plus `railway-container-release.json`. This step remains **NOT_RUN** until its actual receipts exist. A Git checkout records observed dirty state; a Gitless pinned Docker context records `source_provenance:PINNED_CONTAINER_CONTEXT`, the explicit 40-character SHA and `source_dirty:null`. Unknown dirty state must never be claimed clean. The CI image contract alone does not prove that Railway built or started the image.
+
+Railway shared variables require explicit service reference variables, such as `KNABA_STAGING_STOP_EPOCH=${{shared.KNABA_STAGING_STOP_EPOCH}}`; defining a project shared variable alone does not inject it. PostgreSQL deployment `f7192f59-eec3-41ef-9acf-b8ab9652b874` crashed at 20:55:35Z without application logs. Read-back showed the cutoff absent from rendered service variables; its startup guard exits78 in that case. API rendered variables also lacked the shared application configuration. See [Railway variable documentation](https://docs.railway.com/variables#use-a-shared-variable) and [actual staging continuation](RAILWAY_STAGING.md).
+
+The first user-confirmed staging patch was applied before deployment creation at 20:55:09Z. A subsequent attempt to apply the cutoff-reference correction returned the provider's two-factor requirement: API/MCP tokens cannot complete it, so the reviewed pending changes must be applied through Railway dashboard. The provider did not apply the correction; after the final tested source/Dockerfile/start/shared-reference batch is ready, one dashboard 2FA application is needed. Preserve the existing absolute cutoff 2026-10-07T20:11:52Z, resource ceilings and synthetic-only scope; do not extend the test window or infer live readiness from accepted configuration.
 
 ## Budget and billing boundary
 
@@ -86,6 +98,8 @@ Real WhatsApp delivery additionally requires verified Cloud API capability/versi
 For an application rollback, retain the database, restore the previous tested immutable image SHA, keep compatible environment/contracts and rerun readiness/role checks. Migration rollback and database restoration require the repository's dedicated backup/restore procedure and evidence; do not reset or drop the live database to obtain a green deployment.
 
 ## Verification status of this document
+
+New Android source has six languages/91 keys and 36 host Java plus16 geofence checks passed; its new APK has not compiled. New iOS source has six languages/89 keys and 14 authored XCTest, not executed. Historical 3c85 native debug/simulator artifacts remain separate from company signing/physical acceptance.
 
 File/syntax/configuration checks can validate these contracts independently. A complete Docker build, container bootstrap, actual worker heartbeat, staging URLs, provider billing controls and production/physical checks require their own recorded execution evidence. This document does not mark those actions completed merely because their commands exist.
 

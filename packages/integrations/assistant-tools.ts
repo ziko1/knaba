@@ -6,7 +6,7 @@ import { assert, DomainError, type Actor, type CommandContext, type CommandRegis
 const id=z.string().trim().min(1).max(100);
 const text=z.string().trim().min(1).max(1000);
 const count=z.number().int().min(1).max(1_000_000_000);
-const language=z.enum(['DE','UK','PL','LT','EN']);
+const language=z.enum(['DE','UK','RU','PL','LT','EN']);
 const ids=z.array(id).min(1).max(20).refine(v=>new Set(v).size===v.length);
 const contact=z.object({name:text,email:z.string().email().max(200).optional(),phone:z.string().min(5).max(40).optional()}).strict().refine(v=>!!(v.email||v.phone));
 const facts=z.object({customerType:z.enum(['B2B','B2C','B2G']).optional(),propertyType:text.optional(),condition:text.optional(),address:text.optional(),area:text.optional(),quantityMilli:count.optional(),desiredPeriod:text.optional(),recurring:z.boolean().optional(),access:text.optional(),restrictions:text.optional(),locations:z.array(text).max(10).optional(),photoIds:z.array(id).max(10).optional()}).strict();

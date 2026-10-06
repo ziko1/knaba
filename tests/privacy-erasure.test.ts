@@ -183,3 +183,67 @@ describe('private assistant cached results and confirmed business intake',()=>{
  it('follows historical explicit AI provenance after current source metadata changed and protects published business links',()=>{const s=fixture();s.aggregates.push(entity('message','ai-reply',{source:'HUMAN',author_id:'service',text:'PRIVATE_AI_RESPONSE_CANARY'},NOW));s.revisions.push({companyId:'company',kind:'message',id:'ai-reply',version:1,createdAt:NOW,data:{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_AI_RESPONSE_CANARY'}});const p=build(s);expect(p.actions.some(a=>a.id==='ai-reply')).toBe(true);const t=structuredClone(s);t.aggregates.reverse();t.revisions.reverse();expect(build(t).planHash).toBe(p.planHash);s.aggregates.push(entity('report_version','published',{immutable:true,snapshot:{sourceMessageId:'ai-reply',descriptionDe:'BUSINESS_PROOF'}}));expect(()=>build(s)).toThrow('NEEDS_APPROVAL');});
  it('holds original source while a linked AI reply is being sent and rejects a newly created private AI reply during verification',()=>{const s=fixture();s.aggregates.push(entity('message','ai-reply',{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_AI_RESPONSE_CANARY'},NOW));const p=build(s),after=apply(p,s);after.aggregates.push(entity('message','new-ai-reply',{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_NEW_AI_CANARY'},NOW));expect(verifyPrivacyErasure(p,after,blobChecks(p)).sourceDataDeleted).toBe(false);s.outbox.push({companyId:'company',id:'ai-delivery',type:'delivery.requested',status:'RUNNING',data:{message_id:'ai-reply'}});const held=build(s);expect(held.retained).toContainEqual(expect.objectContaining({id:'message',reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));expect(held.actions.some(a=>a.id==='ai-reply'||a.id==='message')).toBe(false);});
 });
+
+describe('internal assistant private drafts, provider quiescence and confirmed business evidence',()=>{
+ function internalFixture(){
+  const s=fixture();
+  const request=entity('internal_assistant_request','internal-request',{ownerUserId:'subject',user_id:'subject',channelId:'channel',messageId:'message',sourceMessageId:'message',messageVersion:2,configId:'config',configVersion:3,status:'READY',startedAt:OLD,completedAt:OLD,privateInput:'INTERNAL_REQUEST_CANARY'});
+  const draft=entity('internal_assistant_draft','internal-draft',{ownerUserId:'subject',channelId:'channel',messageId:'message',sourceMessageId:'message',requestId:request.id,state:'DRAFT',proposal:{title:'INTERNAL_PROPOSAL_CANARY'},preview:{description:'INTERNAL_PREVIEW_CANARY'},canonicalInput:{notes:'INTERNAL_CANONICAL_CANARY'}});
+  s.aggregates.push(request,draft);s.revisions.push(...[request,draft].flatMap(r=>[1,2].map(version=>({companyId:r.companyId,kind:r.kind,id:r.id,version,createdAt:r.createdAt,data:{...structuredClone(r.data),history:'INTERNAL_HISTORY_CANARY',...(r.kind==='internal_assistant_request'&&version===1?{status:'RUNNING'}:{})}}))));
+  s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'internal-request-receipt',command:'internal_assistant.request',result:{id:request.id,data:request.data}},{companyId:'company',actorId:'subject',idempotencyKey:'internal-preview-receipt',command:'internal_assistant.preview',result:{draftId:draft.id,preview:draft.data.preview}});
+  s.outbox.push(...['requested','draft_prepared','failed'].map(type=>({companyId:'company',id:`internal-${type}`,type:`internal_assistant.${type}`,status:'FAILED',data:{requestId:request.id,draftId:draft.id,privateCopy:'INTERNAL_OUTBOX_CANARY'}})));
+  return s;
+ }
+ it('redacts unconfirmed current/history/preview/failed job copies with the exact bounded replacement',()=>{
+  const s=internalFixture(),p=build(s);
+  for(const kind of ['internal_assistant_request','internal_assistant_draft']){
+   expect(p.actions.filter(a=>a.kind===kind&&a.type==='REDACT_AGGREGATE')).toHaveLength(1);
+   expect(p.actions.filter(a=>a.kind===kind&&a.type==='REDACT_REVISION')).toHaveLength(2);
+   const data=p.actions.find(a=>a.kind===kind&&a.type==='REDACT_AGGREGATE')!.replacement!;
+   expect(data).toEqual({channelId:'channel',messageId:'message',privacyErasedAt:NOW,privacyErasureRequestId:'request',state:'ERASED',status:'CANCELLED'});
+  }
+  for(const id of ['internal-request-receipt','internal-preview-receipt'])expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_RECEIPT',id}));
+  for(const id of ['internal-requested','internal-draft_prepared','internal-failed'])expect(p.actions).toContainEqual(expect.objectContaining({type:'CANCEL_OUTBOX',id}));
+  expect(JSON.stringify(p)).not.toContain('CANARY');expect(verifyPrivacyErasure(p,apply(p,s),blobChecks(p)).sourceDataDeleted).toBe(true);
+ });
+ it.each(['FAILED','CANCELLED'])('holds the complete source/copy/cache component while current request is RUNNING despite %s outbox',status=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status='RUNNING';for(const o of s.outbox) o.status=status;
+  const p=build(s);for(const id of ['message','copy','input','translation','internal-request','internal-draft']){
+   expect(p.retained).toContainEqual(expect.objectContaining({id,reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));expect(p.actions.some(a=>a.id===id)).toBe(false);
+  }
+ });
+ it.each(['READY','NEEDS_CLARIFICATION','FAILED'])('allows actual terminal %s state after historical RUNNING without permanent retention',status=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status=status;
+  expect(build(s).actions).toContainEqual(expect.objectContaining({kind:'internal_assistant_request',type:'REDACT_AGGREGATE'}));
+ });
+ it('does not treat a nonterminal reset after provider start as proof of quiescence',()=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status='PENDING';expect(build(s).retained).toContainEqual(expect.objectContaining({id:'message',reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));
+ });
+ it('invalidates a preview on current provider start and detects new unredacted internal cache at verification',()=>{
+  const s=internalFixture(),p=build(s);s.aggregates.find(r=>r.id==='internal-request')!.data.status='RUNNING';expect(()=>revalidatePrivacyErasurePlan(p,s,authority,p.planHash)).toThrow('VERSION_CONFLICT');
+  const original=internalFixture(),plan=build(original),after=apply(plan,original);after.aggregates.push(entity('internal_assistant_draft','late-private-cache',{messageId:'message',requestId:'internal-request',state:'DRAFT',proposal:{description:'LATE_PRIVATE_CANARY'}}));expect(verifyPrivacyErasure(plan,after,blobChecks(plan)).sourceDataDeleted).toBe(false);
+ });
+ it.each(['CURRENT','HISTORY'])('retains %s confirmed internal business intent and its entire source component without requiring a still-present result entity',where=>{
+  const s=internalFixture(),draft=where==='CURRENT'?s.aggregates.find(r=>r.id==='internal-draft')!:s.revisions.find(r=>r.id==='internal-draft')!;
+  draft.data.state='CONFIRMED';draft.data.result={command:'task.batch_create',entityIds:['business-task-batch']};
+  s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'internal-confirm-receipt',command:'internal_assistant.confirm',result:{draftId:'internal-draft',requestId:'internal-request',entityIds:['business-task-batch'],sideEffectsExecuted:true}});
+  s.outbox.push({companyId:'company',id:'internal-confirmed',type:'internal_assistant.confirmed',status:'PENDING',data:{draftId:'internal-draft',requestId:'internal-request',command:'task.batch_create',entityIds:['business-task-batch']}});
+  const p=build(s);for(const id of ['message','copy','input','translation','internal-request','internal-draft','internal-confirm-receipt','internal-confirmed'])expect(p.actions.some(a=>a.id===id)).toBe(false);
+  expect(p.retained).toContainEqual(expect.objectContaining({id:'message',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));expect(p.retained).toContainEqual(expect.objectContaining({id:'input',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));
+ });
+ it('retains confirmed request state defensively even if its confirmed draft is unavailable',()=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status='CONFIRMED';expect(build(s).actions.some(a=>['message','internal-request','internal-draft'].includes(a.id))).toBe(false);
+ });
+ it.each(['task_batch','material_request'])('protects only actually source-linked %s records without making them erasable',kind=>{
+  const s=internalFixture();s.aggregates.push(entity(kind,'unlinked-business',{notes:'BUSINESS_MUST_SURVIVE'}));expect(build(s).actions.some(a=>a.id==='message')).toBe(true);
+  s.aggregates.push(entity(kind,'linked-business',{sourceMessageId:'message',notes:'LINKED_BUSINESS_MUST_SURVIVE'}));const p=build(s);expect(p.retained).toContainEqual(expect.objectContaining({id:'message',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));expect(p.actions.some(a=>a.kind===kind)).toBe(false);
+ });
+ it('requires business review for a confirm receipt whose draft lacks confirmed business protection',()=>{
+  const s=internalFixture();s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'business-confirm',command:'internal_assistant.confirm',result:{draftId:'internal-draft',sideEffectsExecuted:true}});expect(()=>build(s)).toThrow('NEEDS_APPROVAL');
+ });
+ it('never lets foreign confirmed state or processor state affect this company and never redacts foreign copies',()=>{
+  const s=internalFixture();s.aggregates.push(entity('internal_assistant_draft','foreign-internal',{messageId:'message',requestId:'internal-request',state:'CONFIRMED'},OLD,'foreign-company'),entity('internal_assistant_request','foreign-running',{messageId:'message',status:'RUNNING'},OLD,'foreign-company'));
+  s.receipts.push({companyId:'foreign-company',actorId:'subject',idempotencyKey:'foreign-internal',command:'internal_assistant.preview',result:{draftId:'internal-draft'}});s.outbox.push({companyId:'foreign-company',id:'foreign-job',type:'internal_assistant.requested',status:'RUNNING',data:{requestId:'internal-request'}});
+  const p=build(s);expect(p.actions.some(a=>a.id==='message')).toBe(true);expect(p.actions.every(a=>a.companyId==='company')).toBe(true);expect(p.actions.some(a=>a.id.startsWith('foreign-'))).toBe(false);
+ });
+});

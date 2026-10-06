@@ -358,3 +358,46 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 
 ### GPS sample acknowledgement and retention
 `trip.sample` returns `{eventId,sampleId,accepted:true,expiresAt}` for new samples and identical idempotency receipts. It never returns coordinates in a command receipt. A new key after expiry cannot recreate a sample. Raw points are available only through scoped fresh reads before exact expiry; history requires every route site, explicit location.history.read and the recorded policy access roles.
+
+## Current internal draft and read-only contracts
+
+`assistant.playground` and `assistant.usage` execute in actual PostgreSQL
+`SERIALIZABLE READ ONLY` transactions. They re-read current authority and create
+no command receipt, audit, outbox event or business row. The playground is an
+explicit deterministic `SIMULATED` policy/closed-tool exercise; it does not
+invoke a model or establish model quality. Budgets use integer EUR cents,
+company-wide Berlin calendar-day ceilings and separate CUSTOMER_ASSISTANT,
+INTERNAL_DRAFT and TRANSLATION categories. Unknown provider outcomes retain
+reserved costs; configured token-rate estimates are not provider invoices.
+
+`internal_assistant.request` accepts an existing own HUMAN original in an
+allowed internal channel, exact message/config versions, a kind TASK_BATCH,
+REPORT or MATERIAL_REQUEST, explicitly selected site IDs and scoped context
+IDs. It persists a private request and a leased outbox event. The worker
+revalidates current actor/source/context/config/transfer approval and lease
+before provider I/O and before private draft persistence. A missing provider
+returns FAILED/PROVIDER_DISABLED with no business creation. Unknown I/O keeps
+RUNNING/UNKNOWN and its reservation; retries do not issue another model call.
+
+`internal_assistant.preview {draftId}` returns the current private authorized
+preview, exact draftVersion/previewHash, full selected task paths and typed
+clarifications. `internal_assistant.confirm {draftId,expectedVersion,
+previewHash,confirmed:true}` revalidates all authority and references, then
+invokes only canonical task.bulk.commit, report.create or request.create in
+the same transaction. Reports/material requests remain DRAFT. Confirmation
+does not publish, order from a supplier, pay anyone or activate GPS.
+
+`GET /mobile/session` revalidates the current bearer-bound device and actor
+inside its company transaction. Its optional own `shiftSummary` has shiftId,
+siteId, optional siteCode/siteName, state, activity, startedAt, asOf,
+activityStartedAt and nonnegative integer siteSeconds/travelSeconds/
+breakSeconds/pendingSeconds/serviceSeconds/waitingSeconds. These are recorded
+chronological categories, not payroll entitlement. It may return this summary
+with mode OFF and GPS_LEGAL_GATE_CLOSED. The summary never grants location
+permission or includes a peer, route coordinate, wage or private-break place.
+
+The browser safe-action queue is tab-memory only, max20 entries/4h, cleared on
+logout/account change/reload. Only ID/boolean operational actions enter it;
+original idempotency keys and expected versions survive manual retries.
+Authorization and entity versions are refreshed before retry. No automatic
+background POST or persisted personal/GPS/finance payload is supported.

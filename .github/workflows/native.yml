@@ -44,6 +44,11 @@ jobs:
         run: |
           set -euo pipefail
           bash apps/mobile-android/scripts/test-vectors.sh | tee apps/mobile-android/build/evidence/native-vectors.log
+      - name: Six-language resources and native clock/auth-generation vectors
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash apps/mobile-android/scripts/test-localization.sh | tee apps/mobile-android/build/evidence/native-localization-vectors.log
       - name: Compile APK and run Android lint
         working-directory: apps/mobile-android
         shell: bash

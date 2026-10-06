@@ -16,7 +16,7 @@ import java.time.Instant
 
 /** AES-GCM ciphertext only; key never leaves Android Keystore. No backup/cleartext fallback. */
 class SecureStore(context: Context) {
-    companion object { private val storageLock = Any() }
+    companion object { private val storageLock = Any(); private val authGeneration = GenerationFence() }
     private val file = AtomicFile(File(context.filesDir, "knaba-secure-v1.bin"))
     private val keyAlias = "de.knaba.mobile.storage.v1"
     private fun key(): SecretKey {
@@ -45,6 +45,11 @@ class SecureStore(context: Context) {
         val output = file.startWrite()
         try { output.write(bytes); file.finishWrite(output) } catch (error: Exception) { file.failWrite(output); throw error }
     }
+    fun generation(): Long = synchronized(storageLock) { authGeneration.capture() }
+    fun requireGeneration(expected: Long) = synchronized(storageLock) { authGeneration.requireCurrent(expected) }
+    fun rotateGeneration() = synchronized(storageLock) { authGeneration.invalidate() }
+    fun withGeneration(expected: Long, action: () -> Unit) = synchronized(storageLock) { authGeneration.run(expected) { action() } }
+    fun updateForGeneration(expected: Long, transform: (JSONObject) -> Unit) = withGeneration(expected) { update(transform) }
     fun enqueue(command: String, input: JSONObject, kind: String = "EVENT") = synchronized(storageLock) {
         update { state ->
             val queue = state.optJSONArray("queue") ?: JSONArray()
@@ -86,5 +91,5 @@ class SecureStore(context: Context) {
         }
         state.put("queue", remaining)
     } }
-    fun clear() = synchronized(storageLock) { file.delete(); val vault = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }; vault.deleteEntry(keyAlias) }
+    fun clear() = synchronized(storageLock) { authGeneration.invalidate(); file.delete(); val vault = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }; vault.deleteEntry(keyAlias) }
 }

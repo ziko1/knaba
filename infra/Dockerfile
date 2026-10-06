@@ -14,7 +14,7 @@ COPY infra ./infra
 COPY scripts ./scripts
 COPY tests ./tests
 ARG GIT_SHA
-ENV GIT_SHA=$GIT_SHA
+ENV GIT_SHA=$GIT_SHA KNABA_BUILD_CONTEXT=PINNED_SOURCE
 RUN node -e "if(!/^[a-f0-9]{40}$/.test(process.env.GIT_SHA||'')||/^0{40}$/.test(process.env.GIT_SHA))throw new Error('EXACT_RELEASE_SHA_REQUIRED')" && npm run build
 
 FROM node:24.19.0-bookworm-slim AS runtime

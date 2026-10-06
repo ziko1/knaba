@@ -62,3 +62,31 @@ Encrypted backup/restore tooling exists, including isolated destination guards a
 Known limits: coarse company locking and unmeasured production capacity; restricted scheduler syntax; no accepted structured E-Rechnung/accountant/bank/supplier integration; unverified native builds/physical conditions and live providers. S3, XLSX and PDF scanner code exists, but the real S3/scanner endpoint acceptance remains NOT_RUN. Environment socket restrictions and Railway account capacity currently block final runtime/public acceptance. These remain in [the roadmap](../MASTER_ROADMAP.md), not hidden in deployment flags.
 
 GPS retention uses a separate deletable PostgreSQL table, rather than placing raw coordinates in immutable business revisions. The worker performs bounded company-scoped cleanup; exact read expiry closes immediately even before cleanup. Restore applies the current schema, fails closed for legacy raw copies and drains eligible expired points before reporting usable success. Company-specific legal policy and real SQL/physical acceptance remain separate prerequisites.
+
+## Current bounded companion workflows
+
+A private internal-assistant request is distinct from a business task/report/
+material request. Provider output remains an owner-scoped preview until an
+explicit human confirmation invokes the existing canonical handlers. Its
+source, current context, legal transfer policy, lease and category budget are
+server authorities. Uncertain provider requests remain in flight for privacy
+and budget purposes; outbox failure alone is not evidence of quiescence.
+
+Operator discovery exposes pending opaque channel IDs/versions before claim;
+only an atomic current-authority/version claim adds the operator's bounded
+channel membership. Resume removes that claim membership. Read-only assistant
+usage/playground use database READ ONLY, independently of the UI controls.
+
+The route map consumes only scoped server projections and draws separate
+measured segments with gaps/expiry. It has no external tiles or browser GPS.
+Working-time advisories preserve intervals and pay, state uncertainty and
+require company legal review. Native six-language shift cards consume the
+self-only server summary independently of tracking permission.
+
+A Docker build context intentionally excludes .git. Its release receipt states
+source_dirty:null and source_provenance:PINNED_CONTAINER_CONTEXT, rather than
+claiming an observed clean worktree. GitHub builds separately attest the clean
+Git tree; Railway is pinned to that exact commit and live verification checks
+the declared runtime SHA/assets. The worker starts only after the private API
+reports the same expected source and readiness. A new hosted CI step builds
+the actual Railway Dockerfile and executes this worker source contract.

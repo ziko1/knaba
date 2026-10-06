@@ -13,7 +13,7 @@ class MemoryTx implements Transaction {
 const employee:Actor={userId:'employee',companyId:'company',roles:['EMPLOYEE'],permissions:['chat.read','chat.write','translation.use'],siteIds:['site'],customerIds:[],warehouseIds:[]};
 const manager={...employee,userId:'owner',roles:['OWNER'],permissions:[...employee.permissions,'scope.company','media.read']};const service={...employee,userId:'worker',roles:['SERVICE_ACCOUNT']};
 function context(tx:MemoryTx,actor=employee):CommandContext {return {tx,actor,now:tx.now,idempotencyKey:'test-command-key',requireSite:id=>{if(!actor.permissions.includes('scope.company')&&!actor.siteIds.includes(id))throw new DomainError('ACCESS_DENIED');},requireOwn:id=>{if(actor.userId!==id)throw new DomainError('ACCESS_DENIED');}};}
-async function run(tx:MemoryTx,name:string,input:Data,actor=employee){const command=communicationsCommands[name]!;const before=structuredClone(tx.rows),events=structuredClone(tx.events);try{return await command.handler(context(tx,actor),command.schema.parse(input));}catch(error){tx.rows=before;tx.events=events;throw error;}}
+async function run(tx:MemoryTx,name:string,input:Data,actor=employee,expectedVersion?:number){const command=communicationsCommands[name]!;const before=structuredClone(tx.rows),events=structuredClone(tx.events);try{return await command.handler({...context(tx,actor),expectedVersion},command.schema.parse(input));}catch(error){tx.rows=before;tx.events=events;throw error;}}
 async function setup(){const tx=new MemoryTx();await tx.add('user',{roles:['OWNER'],active:true,permissions:manager.permissions},'owner');await tx.add('user',{roles:['EMPLOYEE'],active:true,siteIds:['site']},'employee');await tx.add('user',{roles:['CLIENT'],active:true},'client');await tx.add('user',{roles:['EMPLOYEE'],active:true,siteIds:['site']},'other');await tx.add('site',{customerId:'customer'},'site');await tx.add('site',{customerId:'other-customer'},'other-site');await tx.add('customer_membership',{userId:'client',customerId:'customer',active:true,permissions:['VIEW'],siteIds:['site']},'client-view');const channel=await run(tx,'channel.create',{type:'SITE_INTERNAL',name:'Site internal',member_ids:['employee','other'],site_id:'site'},manager);const message=await run(tx,'message.send',{channel_id:channel.id,text:'Nicht 24 Stück auf Etage 2 verwenden.',language:'DE',important:true});return {tx,channel,message};}
 const client:Actor={...employee,userId:'client',roles:['CLIENT'],siteIds:[],customerIds:['customer']};
 async function setupClient(){const {tx}=await setup();const channel=await run(tx,'channel.create',{type:'SITE_CLIENT',name:'Client site',site_id:'site',customer_id:'customer',member_ids:['client'],external_member_ids:['client']},manager);const message=await run(tx,'message.send',{channel_id:channel.id,text:'Freigegebene Objektmeldung',language:'DE',important:true},manager);return {tx,channel,message,membership:await tx.get('customer_membership','client-view')};}
@@ -70,4 +70,167 @@ describe('durable conversation invariants',()=>{
  it('human ownership suppresses AI until an explicit authorized return',async()=>{const {tx,channel}=await setup();await run(tx,'handoff.take',{channel_id:channel.id},manager);await tx.save(await tx.get('channel',channel.id),{...(await tx.get('channel',channel.id)).data,members:[...channel.data.members,{user_id:'worker',history_from:tx.now}]});await expect(run(tx,'message.send',{channel_id:channel.id,text:'AI response',language:'DE',source:'AI'},service)).rejects.toMatchObject({code:'AI_SUPPRESSED'});await run(tx,'handoff.resume',{channel_id:channel.id,reason:'Authorized return'},manager);expect((await run(tx,'message.send',{channel_id:channel.id,text:'AI response',language:'DE',source:'AI'},service)).data.source).toBe('AI');});
  it('notification retry limit is three and resolution cancels remaining reminders',async()=>{const {tx}=await setup();await tx.add('location_incident',{status:'OPEN'},'incident');const notification=await run(tx,'notifications.schedule',{recipient_id:'employee',event:'ABSENCE',category:'WORK',scheduled_at:tx.now,dedup_key:'absence-1',related_kind:'location_incident',related_id:'incident',max_attempts:3},manager);for(let count=0;count<3;count++){await run(tx,'notifications.prepare',{notification_id:notification.id},service);const result=await run(tx,'notifications.complete',{notification_id:notification.id,succeeded:false,error:'PROVIDER_DISABLED'},service);tx.now=result.data.scheduled_at;}expect((await tx.get('notification',notification.id)).data).toMatchObject({status:'FAILED',attempts:3});const n=await run(tx,'notifications.schedule',{recipient_id:'employee',event:'ABSENCE',category:'WORK',scheduled_at:tx.now,dedup_key:'absence-2',related_kind:'location_incident',related_id:'incident'},manager);await tx.save(await tx.get('location_incident','incident'),{status:'RESOLVED'});expect(await run(tx,'notifications.prepare',{notification_id:n.id},service)).toEqual({status:'CANCELLED'});});
  it('quiet hours defer notifications without consuming an attempt',async()=>{const {tx}=await setup();tx.now='2026-10-06T21:00:00.000Z';const n=await run(tx,'notifications.schedule',{recipient_id:'employee',event:'REMINDER',category:'WORK',scheduled_at:tx.now,dedup_key:'quiet-1'},manager);expect(await run(tx,'notifications.prepare',{notification_id:n.id},service)).toMatchObject({status:'RETRY_SCHEDULED',reason:'QUIET_HOURS'});expect((await tx.get('notification',n.id)).data.attempts).toBe(0);});
+});
+
+describe('private operator handoff claims (CPU domain fixture; SQL races not covered)',()=>{
+ const operator:Actor={userId:'operator',companyId:'company',roles:['DIRECTOR'],permissions:['chat.manage','chat.read','chat.write','translation.use'],siteIds:['site'],customerIds:[],warehouseIds:[]};
+ const second:Actor={...operator,userId:'second',roles:['OPERATIONS_MANAGER']};
+ const guest:Actor={...employee,userId:'guest',roles:['GUEST'],siteIds:[]};
+ async function privateSetup(){
+  const tx=new MemoryTx();tx.now='2026-10-06T09:00:00.000Z';
+  for(const actor of [operator,second,guest])await tx.add('user',{roles:actor.roles,active:true,permissions:[],siteIds:actor.siteIds},actor.userId);
+  const channel=await tx.add('channel',{type:'PRIVATE_CUSTOMER_ASSISTANT',name:'private-contact@example.test',created_by:'guest',members:[{user_id:'guest',external:true,joined_at:tx.now,history_from:tx.now}],handoff:{state:'HANDOFF_PENDING',owner_id:null,requested_at:tx.now}},'pending');
+  const original=await run(tx,'message.send',{channel_id:channel.id,text:'Private original before an operator joins.',language:'DE'},guest);
+  tx.now='2026-10-06T10:00:00.000Z';return {tx,channel:await tx.get('channel',channel.id),original};
+ }
+ async function claim(tx:MemoryTx,channel:Entity,actor=operator){return run(tx,'handoff.take',{channel_id:channel.id},actor,channel.version);}
+ it('exposes only a bounded pending reference before an explicit claim, then grants the complete single conversation',async()=>{
+  const {tx,channel,original}=await privateSetup();
+  await expect(run(tx,'message.read',{channel_id:channel.id},operator)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await run(tx,'channel.list',{},operator)).toEqual([]);
+  const inbox=await run(tx,'handoff.inbox',{},operator);
+  expect(inbox).toEqual({items:[{channel_id:channel.id,version:channel.version,requested_at:'2026-10-06T09:00:00.000Z',state:'HANDOFF_PENDING'}]});
+  expect(JSON.stringify(inbox)).not.toMatch(/private-contact|Private original|guest/);
+  const saved=await claim(tx,channel);
+  expect(saved.data.handoff).toMatchObject({state:'HUMAN_ACTIVE',owner_id:operator.userId});
+  expect(saved.data.members.find((m:Data)=>m.user_id===operator.userId)).toMatchObject({source:'OPERATOR_CLAIM',claim_owner_id:operator.userId,joined_at:tx.now,history_from:channel.createdAt,external:false});
+  expect((await run(tx,'message.read',{channel_id:channel.id},operator)).map((m:Entity)=>m.id)).toEqual([original.id]);
+  const unrelated=await tx.add('channel',{...channel.data,name:'Another private customer'},'unrelated');
+  await expect(run(tx,'message.read',{channel_id:unrelated.id},operator)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect((await run(tx,'channel.list',{},operator)).map((c:Entity)=>c.id)).toEqual([channel.id]);
+ });
+ it.each([
+  ['AI-owned',{handoff:{state:'AI_ACTIVE',owner_id:null}}],
+  ['already human-owned',{handoff:{state:'HUMAN_ACTIVE',owner_id:'second'}}],
+  ['pending with another owner',{handoff:{state:'HANDOFF_PENDING',owner_id:'second'}}],
+  ['missing owner field',{handoff:{state:'HANDOFF_PENDING'}}],
+  ['ordinary direct',{type:'DIRECT'}],['internal site',{type:'SITE_INTERNAL'}],['client site',{type:'SITE_CLIENT'}],
+ ] as [string,Data][])('does not discover or claim %s by guessing its channel ID',async(_name,patch)=>{
+  const {tx,channel}=await privateSetup(),changed=await tx.save(channel,{...channel.data,...patch});
+  expect(await run(tx,'handoff.inbox',{},operator)).toEqual({items:[]});
+  await expect(claim(tx,changed)).rejects.toMatchObject({code:patch.handoff?.state==='HUMAN_ACTIVE'?'CONVERSATION_OWNED':'INVALID_STATE'});
+  expect((await tx.get('channel',channel.id)).data.members).toEqual(channel.data.members);
+ });
+ it('requires the displayed current version and creates no membership or lead effect after a stale preview',async()=>{
+  const {tx,channel}=await privateSetup();const lead=await tx.add('lead',{ownership:'HANDOFF_PENDING'},'lead');
+  const linked=await tx.save(channel,{...channel.data,lead_id:lead.id});
+  await expect(run(tx,'handoff.take',{channel_id:linked.id},operator)).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  await expect(claim(tx,channel)).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  expect((await tx.get('lead',lead.id)).data.ownership).toBe('HANDOFF_PENDING');
+  expect((await tx.get('channel',linked.id)).data.members).toEqual(channel.data.members);
+  expect(tx.events.filter(e=>e.type==='conversation.human_active')).toEqual([]);
+ });
+ it('a second operator cannot take the first winner or obtain its history from the same preview',async()=>{
+  const {tx,channel}=await privateSetup();await claim(tx,channel);
+  await expect(claim(tx,channel,second)).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  await expect(run(tx,'message.read',{channel_id:channel.id},second)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect((await tx.get('channel',channel.id)).data.members.filter((m:Data)=>m.source==='OPERATOR_CLAIM')).toHaveLength(1);
+  expect(tx.events.filter(e=>e.type==='conversation.human_active')).toHaveLength(1);
+ });
+ it.each([
+  ['disabled',{active:false}],['lost manager role',{roles:['EMPLOYEE']}],
+  ['mixed external role',{roles:['DIRECTOR','CLIENT']}],
+  ['lost chat rights',{roles:['OWNER'],permissions:[]}],
+ ] as [string,Data][])('rechecks the authoritative user after %s despite the cached actor',async(_name,patch)=>{
+  const {tx,channel}=await privateSetup(),user=await tx.get('user',operator.userId);await tx.save(user,{...user.data,...patch});
+  await expect(run(tx,'handoff.inbox',{},operator)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await expect(claim(tx,channel)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect((await tx.get('channel',channel.id)).data.members).toEqual(channel.data.members);
+ });
+ it.each([
+  ['no chat.read',{permissions:['chat.manage']}],['no chat.manage',{permissions:['chat.read']}],
+  ['nonmanager',{roles:['EMPLOYEE']}],['external mixed manager',{roles:['DIRECTOR','CLIENT']}],
+ ] as [string,Partial<Actor>][])('does not let an actor with %s inspect or join private inbox sessions',async(_name,patch)=>{
+  const {tx,channel}=await privateSetup(),actor={...operator,...patch};
+  await expect(run(tx,'handoff.inbox',{},actor)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await expect(claim(tx,channel,actor)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+ });
+ it('filters unauthorized sites and refuses scope removed from the current user',async()=>{
+  const {tx,channel}=await privateSetup(),scoped=await tx.save(channel,{...channel.data,site_id:'site'});
+  expect((await run(tx,'handoff.inbox',{},operator)).items).toHaveLength(1);
+  const user=await tx.get('user',operator.userId);await tx.save(user,{...user.data,siteIds:[]});
+  expect(await run(tx,'handoff.inbox',{},operator)).toEqual({items:[]});
+  await expect(claim(tx,scoped)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  const foreignSite=await tx.save(scoped,{...scoped.data,site_id:'other-site'});
+  await expect(claim(tx,foreignSite)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+ });
+ it('a foreign-company channel is neither an inbox item nor claimable',async()=>{
+  const {tx,channel}=await privateSetup();tx.rows.set(`channel:${channel.id}`,{...channel,companyId:'foreign-company'});
+  expect(await run(tx,'handoff.inbox',{},operator)).toEqual({items:[]});
+  await expect(claim(tx,channel)).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+ });
+ it.each([{revoked_at:'2026-10-06T09:30:00Z'},{removed_at:'2026-10-06T09:30:00Z'},{left_at:'2026-10-06T09:30:00Z'},{active:false},{expires_at:'2026-10-06T10:00:00.000Z'},{expires_at:'invalid'}])('does not restore a previously removed operator membership: %j',async patch=>{
+  const {tx,channel}=await privateSetup();const changed=await tx.save(channel,{...channel.data,members:[...channel.data.members,{user_id:operator.userId,source:'OPERATOR_CLAIM',claim_owner_id:operator.userId,history_from:channel.createdAt,...patch}]});
+  expect(await run(tx,'handoff.inbox',{},operator)).toEqual({items:[]});
+  await expect(claim(tx,changed)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect((await tx.get('channel',channel.id)).data.members).toEqual(changed.data.members);
+ });
+ it('bounds minimal pending metadata at100 and orders the oldest pending references first',async()=>{
+  const {tx,channel}=await privateSetup();for(let n=0;n<105;n++)await tx.add('channel',{...channel.data,name:`Secret${n}`,handoff:{...channel.data.handoff,requested_at:new Date(Date.parse(channel.createdAt)+n*1000).toISOString()}},`pending-${n.toString().padStart(3,'0')}`);
+  const inbox=await run(tx,'handoff.inbox',{},operator);expect(inbox.items).toHaveLength(100);
+  expect(inbox.items.every((item:Data)=>Object.keys(item).sort().join(',')==='channel_id,requested_at,state,version')).toBe(true);
+  expect(inbox.items.at(-1).requested_at).toBe('2026-10-06T09:01:38.000Z');
+  expect(JSON.stringify(inbox)).not.toContain('Secret');
+ });
+ it('claims channel and lead ownership together without replacing another human owner',async()=>{
+  const {tx,channel}=await privateSetup();const lead=await tx.add('lead',{ownership:'HUMAN_ACTIVE',humanOwnerId:second.userId},'lead'),linked=await tx.save(channel,{...channel.data,lead_id:lead.id});
+  await expect(claim(tx,linked)).rejects.toMatchObject({code:'CONVERSATION_OWNED'});
+  expect((await tx.get('channel',channel.id)).data.members).toEqual(channel.data.members);
+  const pending=await tx.save(await tx.get('lead',lead.id),{ownership:'HANDOFF_PENDING',humanOwnerId:null});await claim(tx,linked);
+  expect((await tx.get('lead',pending.id)).data).toMatchObject({ownership:'HUMAN_ACTIVE',humanOwnerId:operator.userId});
+ });
+ it('refuses a foreign-company linked lead before creating claim membership',async()=>{
+  const {tx,channel}=await privateSetup(),lead=await tx.add('lead',{ownership:'HANDOFF_PENDING'},'foreign-lead');tx.rows.set(`lead:${lead.id}`,{...lead,companyId:'foreign-company'});
+  const linked=await tx.save(channel,{...channel.data,lead_id:lead.id});await expect(claim(tx,linked)).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+  expect((await tx.get('channel',channel.id)).data.members).toEqual(channel.data.members);
+ });
+ it('explicit AI return removes only the claim-owned access and cancels its pending translation',async()=>{
+  const {tx,channel,original}=await privateSetup(),claimed=await claim(tx,channel);
+  const translation=await run(tx,'translation.request',{message_id:original.id,target_language:'UK'},operator);
+  await run(tx,'handoff.resume',{channel_id:channel.id,reason:'Customer agreed to return to AI.'},operator,claimed.version);
+  const resumed=await tx.get('channel',channel.id);
+  expect(resumed.data.handoff.state).toBe('AI_ACTIVE');
+  expect(resumed.data.members.find((m:Data)=>m.user_id==='guest')).toEqual(channel.data.members[0]);
+  expect(resumed.data.members.find((m:Data)=>m.user_id===operator.userId)).toMatchObject({revoked_at:tx.now,revocation_reason:'AI_RESUMED'});
+  expect((await tx.get('translation_request',translation.request_id)).data.status).toBe('CANCELLED');
+  await expect(run(tx,'message.read',{channel_id:channel.id},operator)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await expect(run(tx,'message.send',{channel_id:channel.id,text:'Unclaimed residual reply',language:'DE'},operator)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect((await run(tx,'message.read',{channel_id:channel.id},guest)).map((m:Entity)=>m.id)).toEqual([original.id]);
+ });
+ it('does not revoke a separately authorized persistent manager membership on AI return',async()=>{
+  const {tx,channel}=await privateSetup(),claimed=await claim(tx,channel),persistent={user_id:operator.userId,history_from:channel.createdAt,joined_at:tx.now,source:'MANUAL_INVITATION',external:false};
+  await tx.save(claimed,{...claimed.data,members:[...claimed.data.members,persistent]});
+  await run(tx,'handoff.resume',{channel_id:channel.id,reason:'Explicit return with retained separately granted rights'},operator);
+  expect((await tx.get('channel',channel.id)).data.members.find((m:Data)=>m.source==='MANUAL_INVITATION')).toEqual(persistent);
+  expect(await run(tx,'message.read',{channel_id:channel.id},operator)).toHaveLength(1);
+ });
+ it('another operator cannot resume the claimed conversation; a fresh customer handoff permits the same operator to claim again',async()=>{
+  const {tx,channel}=await privateSetup();await claim(tx,channel);
+  await expect(run(tx,'handoff.resume',{channel_id:channel.id,reason:'Not my session'},second)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await run(tx,'handoff.resume',{channel_id:channel.id,reason:'Authorized return'},operator);
+  const resumed=await tx.get('channel',channel.id),requested=await tx.save(resumed,{...resumed.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,requested_at:tx.now}});
+  expect((await run(tx,'handoff.inbox',{},operator)).items).toEqual([{channel_id:channel.id,version:requested.version,requested_at:tx.now,state:'HANDOFF_PENDING'}]);
+  await expect(claim(tx,channel)).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  const previous=resumed.data.members.find((m:Data)=>m.user_id===operator.userId),reclaimed=await claim(tx,requested);
+  expect(reclaimed.data.handoff.owner_id).toBe(operator.userId);
+  expect(reclaimed.data.members.filter((m:Data)=>m.user_id===operator.userId)).toHaveLength(2);
+  expect(reclaimed.data.members.filter((m:Data)=>m.user_id===operator.userId)[0]).toEqual(previous);
+  expect(reclaimed.data.members.at(-1)).toMatchObject({history_from:channel.createdAt,source:'OPERATOR_CLAIM',claim_owner_id:operator.userId});
+  expect((await run(tx,'handoff.inbox',{},second)).items).toEqual([]);
+ });
+ it.each([
+  {source:'MANUAL_INVITATION'},{claim_owner_id:'another-operator'},{revocation_reason:'ADMIN_REVOKED'},
+  {active:false},{left_at:'2026-10-06T10:00:00.000Z'},{removed_at:'2026-10-06T10:00:00.000Z'},
+  {expires_at:'2026-10-06T10:00:00.000Z'},{revokedAt:'2026-10-06T10:00:00.000Z'},
+  {revoked_at:'invalid'},{joined_at:'invalid'},
+ ])('an AI-return-looking record with additional authoritative removal is never restored: %j',async patch=>{
+  const {tx,channel}=await privateSetup();await claim(tx,channel);await run(tx,'handoff.resume',{channel_id:channel.id,reason:'Explicit AI return'},operator);
+  const resumed=await tx.get('channel',channel.id),changed=await tx.save(resumed,{...resumed.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,requested_at:tx.now},members:resumed.data.members.map((m:Data)=>m.user_id===operator.userId?{...m,...patch}:m)});
+  expect(await run(tx,'handoff.inbox',{},operator)).toEqual({items:[]});await expect(claim(tx,changed)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+ });
+ it('one automatic return cannot override a separate earlier admin revocation record',async()=>{
+  const {tx,channel}=await privateSetup();await claim(tx,channel);await run(tx,'handoff.resume',{channel_id:channel.id,reason:'Explicit AI return'},operator);
+  const resumed=await tx.get('channel',channel.id),changed=await tx.save(resumed,{...resumed.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,requested_at:tx.now},members:[...resumed.data.members,{user_id:operator.userId,source:'MANUAL_INVITATION',revoked_at:tx.now,history_from:channel.createdAt}]});
+  expect(await run(tx,'handoff.inbox',{},operator)).toEqual({items:[]});await expect(claim(tx,changed)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+ });
 });

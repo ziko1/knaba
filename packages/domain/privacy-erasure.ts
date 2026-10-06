@@ -36,12 +36,13 @@ const cat=(value:string)=>value==='MESSAGES'?'CHAT':value;
 const routerKinds=new Set(['whatsapp_router_session','whatsapp_router_action','whatsapp_router_response']);
 const subject=(e:Entity)=>e.kind==='message'?(e.data.author_id??e.data.authorId):e.kind==='conversation_input'||routerKinds.has(e.kind)?e.data.user_id:e.data.uploadedBy;
 const sourceKinds=new Set(['message','media_asset','media_upload','conversation_input',...routerKinds]);
-const derivedKinds=new Set(['message_version','message_copy_preview','translation','translation_request','delivery','callback','channel_activity','search_index','knowledge_index','conversation_input','notification','assistant_lead_draft','assistant_tool_call',...routerKinds]);
+const derivedKinds=new Set(['message_version','message_copy_preview','translation','translation_request','delivery','callback','channel_activity','search_index','knowledge_index','conversation_input','notification','assistant_lead_draft','assistant_tool_call','internal_assistant_request','internal_assistant_draft',...routerKinds]);
 const processorKinds=new Set(['ai_usage']);
-const protectedKinds=new Set(['report','report_version','report_artifact','official_payslip','payroll_calculation','payout','payout_receipt','task','task_review','worklog','defect','issue','quote','order','lead','decision','customer_acknowledgment','privacy_export','legal_approval']);
+const protectedKinds=new Set(['report','report_version','report_artifact','official_payslip','payroll_calculation','payout','payout_receipt','task','task_batch','material_request','task_review','worklog','defect','issue','quote','order','lead','decision','customer_acknowledgment','privacy_export','legal_approval']);
 const referenceKeys=new Set(['id','messageId','message_id','sourceMessageId','source_message_id','messageIds','sourceMessageIds','sources','copied_from','mediaId','media_id','mediaIds','photoIds','attachment_ids','uploadId','blobKey','clientBlobKey','key','translationId','translation_id','requestId','request_id','deliveryId','delivery_id','input_id','session_id','response_id','router_response_id','router_action_id','claimed_input_id','text_choices','event_id','eventId','provider_event_id','draftId','draft_id','leadId','lead_id']);
-const erasableReceipt=(command:string)=>/^(message|translation|callback|delivery|media|assistant|channel\.messages|public\.chat|whatsapp)\./.test(command);
-const erasableOutbox=(type:string)=>/^(message|translation|delivery|notification|assistant|whatsapp|conversation|media)\./.test(type);
+// Confirmation receipts/events are canonical business evidence, never private draft caches.
+const erasableReceipt=(command:string)=>/^(message|translation|callback|delivery|media|assistant|channel\.messages|public\.chat|whatsapp)\./.test(command)||/^internal_assistant\.(request|preview)$/.test(command);
+const erasableOutbox=(type:string)=>/^(message|translation|delivery|notification|assistant|whatsapp|conversation|media)\./.test(type)||/^internal_assistant\.(requested|draft_prepared|failed)$/.test(type);
 function references(value:unknown,ids:Set<string>):boolean {
  if(!value||typeof value!=='object')return false;
  if(Array.isArray(value))return value.some(v=>typeof v==='object'&&references(v,ids));
@@ -68,6 +69,13 @@ function inFlightChains(s:ErasureSnapshot,candidates:Entity[]):{held:Set<string>
  const held=new Set<string>(),jobs=new Map<string,Set<string>>();
  for(const outbox of s.outbox.filter(o=>o.companyId===s.companyId)){const ids=linked(outbox.data);jobs.set(outbox.id,ids);if(outbox.status==='RUNNING')for(const id of ids)held.add(find(id));}
  for(const row of nodes)if(row.kind==='delivery'&&row.data.status==='SENDING'||row.kind==='translation'&&['RUNNING','SENDING','PROCESSING','IN_FLIGHT'].includes(row.data.status)||row.kind==='whatsapp_router_response'&&row.data.status==='SENDING'||row.kind==='whatsapp_router_action'&&row.data.status==='CLAIMED')held.add(find(identity(row)));
+ // A terminal outbox lease does not prove that a provider call has returned.
+ // Current terminal request state is authoritative; historical RUNNING alone
+ // must not retain a completed request forever. A nonterminal reset is unsafe.
+ for(const row of nodes.filter(r=>r.kind==='internal_assistant_request')){
+  const current=row.data.status,started=current==='RUNNING'||(history.get(identity(row))??[]).some(d=>d.status==='RUNNING');
+  if(started&&!['READY','NEEDS_CLARIFICATION','FAILED','CONFIRMED'].includes(current))held.add(find(identity(row)));
+ }
  for(const usage of ownRows(s).filter(r=>r.kind==='ai_usage'&&r.data.status==='RUNNING'))for(const id of new Set([...linked(usage.data),...(jobs.get(usage.data.event_id)??[])]))held.add(find(id));
  return {held:new Set(nodes.filter(r=>held.has(find(identity(r)))).map(identity)),component:new Map(nodes.map(row=>[identity(row),find(identity(row))]))};
 }
@@ -122,6 +130,14 @@ function build(s:ErasureSnapshot,a:ErasureAuthority,createdAt:string):PrivacyEra
  // drafts remain erasable copies. A lead/order itself is never blindly redacted.
  const businessLeadIds=new Set(protectors.filter(p=>p.kind==='lead').map(p=>p.id));
  for(const cache of [...rows,...s.revisions.filter(r=>r.companyId===s.companyId)])if(cache.kind==='assistant_lead_draft'&&cache.data.state==='CONFIRMED'&&typeof cache.data.leadId==='string'&&businessLeadIds.has(cache.data.leadId))protectors.push({...cache,data:{...cache.data,id:cache.id}});
+ // A user-confirmed internal draft records business intent even when the
+ // resulting task/report/material request has moved or is not in this snapshot.
+ const confirmedInternal=[...rows,...s.revisions.filter(r=>r.companyId===s.companyId)].filter(r=>r.kind==='internal_assistant_draft'&&r.data.state==='CONFIRMED'||r.kind==='internal_assistant_request'&&r.data.status==='CONFIRMED').map(r=>({...r,data:{...r.data,id:r.id}}));
+ protectors.push(...confirmedInternal);
+ const businessComponents=new Set<string>();
+ for(const row of candidates)if(confirmedInternal.some(p=>references(p.data,new Set([row.id,...blobReferences(row)])))){
+  const component=flights.component.get(`${row.kind}:${row.id}`);if(component)businessComponents.add(component);
+ }
  const retain=(row:Entity,category:ErasureCategory,reason:RetainedErasureRecord['reason'])=>retained.push({kind:row.kind,id:row.id,category,reason});
  for(const row of candidates.filter(e=>sourceKinds.has(e.kind)&&subject(e)===authority.subjectUserId&&!e.data.privacyErasedAt)){
   const category:ErasureCategory=['message','conversation_input'].includes(row.kind)||routerKinds.has(row.kind)?'CHAT':'MEDIA';if(!authority.categories.includes(category))continue;
@@ -131,6 +147,7 @@ function build(s:ErasureSnapshot,a:ErasureAuthority,createdAt:string):PrivacyEra
   if(!Number.isFinite(date)){retain(row,category,'INVALID_RETENTION_DATE');continue;}
   if(date>created-policy.days*DAY){retain(row,category,'NOT_EXPIRED');continue;}
   if(flights.held.has(`${row.kind}:${row.id}`)){retain(row,category,'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE');blockedComponents.set(flights.component.get(`${row.kind}:${row.id}`)!,category);continue;}
+  if(businessComponents.has(flights.component.get(`${row.kind}:${row.id}`)??'')){retain(row,category,'BUSINESS_RECORD_LINK_REQUIRES_REVIEW');continue;}
   const ids=new Set([row.id,...blobReferences(row)]);
   if(protectors.some(p=>references(p.data,ids))){retain(row,category,'BUSINESS_RECORD_LINK_REQUIRES_REVIEW');continue;}
   selected.set(`${row.kind}:${row.id}`,{row,category});

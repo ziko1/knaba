@@ -1,7 +1,10 @@
+import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assistant-playground.ts';
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
 import {assistantToolCatalog,dispatchAssistantTools} from '../../packages/integrations/assistant-tools.ts';
 import {assistantToolHost} from '../api/assistant-runtime.ts';
+import {internalAssistantHost} from '../api/internal-assistant.ts';
+import {prepareInternalAssistant,revalidateInternalAssistant,persistInternalAssistantDraft,failInternalAssistant,markInternalAssistantUnknown} from '../../packages/integrations/internal-assistant.ts';
 import {createPrivateBlobStore} from '../../packages/storage/index.ts';
 import {preparePrivateMedia,ingestPrivateMedia} from '../../packages/storage/media-ingest.ts';
 import {processPrivacyBlobDeletion} from '../api/privacy-erasure.ts';
@@ -67,20 +70,68 @@ export class WorkerRunner {
     case 'delivery.requested':return this.delivery(job);
     case 'notification.scheduled':return this.notification(job);
     case 'assistant.answer_requested':return this.answer(job);
+    case 'internal_assistant.requested':return this.internalDraft(job);
     case 'automation.action_requested':return this.automationAction(job);
     case 'task.calendar_requested':return this.calendar(job);
     case 'report.daily_requested':return this.command(job,'report.daily_draft',{siteId:job.data.siteId,orderId:job.data.orderId,day:job.data.day});
     default:return;
   }}
   private async currentlyReadable(tx:PgTransaction,userId:string,message:Entity){try{const actor=await this.engine.actorIn(tx,userId);return actor.permissions.includes('chat.read')&&await this.engine.visible(tx,actor,message);}catch{return false;}}
+  private async internalDraft(job:OutboxJob){
+    assert(['DEMO','TEST','PRODUCTION'].includes(this.options.appMode),'MISSING_CONFIGURATION');
+    const host=internalAssistantHost(this.db,this.engine,this.options.appMode as 'DEMO'|'TEST'|'PRODUCTION',this.now,async tx=>{
+      assert(tx.query,'MISSING_CONFIGURATION');
+      const lease=await tx.query("SELECT id FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token??null]);assert(lease.rows.length===1,'WORKER_LEASE_LOST');
+    });
+    let providerStarted=false,providerReturned=false,budgetReserved=false,usage:{input_tokens:number;output_tokens:number;cost_cents:number}|undefined;
+    try{
+      const prepared=await prepareInternalAssistant(job.company_id,job.data.requestId,host);if(prepared.done)return;
+      if(!this.options.ai||prepared.config.data.provider!=='DEEPSEEK'){await failInternalAssistant(job.company_id,job.data.requestId,'PROVIDER_DISABLED',host);return;}
+      const budget=await this.reserveBudget(job,prepared.config,prepared.providerInput.text,'INTERNAL_DRAFT');budgetReserved=true;
+      await revalidateInternalAssistant(job.company_id,job.data.requestId,prepared.contextHash,host);
+      await this.activeJob(job);providerStarted=true;
+      const result=await this.options.ai.proposeInternalDraft({...prepared.providerInput,budgetRemainingCents:budget});providerReturned=true;usage=result.usage;
+      await persistInternalAssistantDraft(job.company_id,job.data.requestId,prepared.contextHash,result,host);
+      await this.settleBudget(job,usage?.cost_cents,usage);
+    }catch(error){
+      const reason=error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE';
+      if(providerStarted&&!providerReturned){
+        if(reason!=='WORKER_LEASE_LOST')await markInternalAssistantUnknown(job.company_id,job.data.requestId,reason,host);
+      }else if(reason!=='WORKER_LEASE_LOST'){
+        await failInternalAssistant(job.company_id,job.data.requestId,reason,host);
+      }
+      if(providerReturned)await this.settleBudget(job,usage?.cost_cents,usage);
+      else if(!providerStarted&&budgetReserved)await this.settleBudget(job,0,{input_tokens:0,output_tokens:0},'CANCELLED');
+      // A leased retry sees RUNNING and must never repeat an uncertain provider request.
+      throw error;
+    }
+  }
   private async translation(job:OutboxJob){const t=await this.entity(job,'translation',job.data.translation_id);if(t.data.status!=='PENDING')return;const allowed=await this.db.transaction(job.company_id,serviceId,async tx=>{const message=await tx.get('message',t.data.message_id);if(message.data.message_version!==t.data.message_version||message.data.deleted_at)return false;for(const request of await tx.list('translation_request'))if(request.data.translation_id===t.id&&request.data.status!=='CANCELLED'&&await this.currentlyReadable(tx,request.data.user_id,message))return true;return false;});if(!allowed){await this.record(job,'translation',t.id,e=>({...e.data,status:'CANCELLED',error:'ACCESS_REVOKED',completed_at:this.now().toISOString()}));return;}
     const config=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('assistant_config')).find(c=>c.data.status==='ACTIVE'&&c.data.provider==='DEEPSEEK'));
     if(!this.options.ai||!config)return this.command(job,'translation.result',{translation_id:t.id,status:'FAILED',provider:t.data.provider,model:t.data.model,error:'PROVIDER_DISABLED'});
-    try{const budget=await this.reserveBudget(job,config,t.data.source_text);await this.activeJob(job);const result=await this.options.ai.translate({text:t.data.source_text,sourceLanguage:t.data.source_language,targetLanguage:t.data.target_language,glossary:t.data.glossary,canonicalFacts:t.data.canonical_facts,synthetic:['DEMO','TEST'].includes(this.options.appMode)&&config.data.testOnly===true,budgetRemainingCents:budget});await this.activeJob(job);await this.command(job,'translation.result',{translation_id:t.id,status:'SUCCEEDED',text:result.text,provider:result.provider,model:result.model,usage:result.usage});await this.settleBudget(job,result.usage?.cost_cents);}
+    try{const budget=await this.reserveBudget(job,config,t.data.source_text);await this.activeJob(job);const result=await this.options.ai.translate({text:t.data.source_text,sourceLanguage:t.data.source_language,targetLanguage:t.data.target_language,glossary:t.data.glossary,canonicalFacts:t.data.canonical_facts,synthetic:['DEMO','TEST'].includes(this.options.appMode)&&config.data.testOnly===true,budgetRemainingCents:budget});await this.activeJob(job);await this.command(job,'translation.result',{translation_id:t.id,status:'SUCCEEDED',text:result.text,provider:result.provider,model:result.model,usage:result.usage});await this.settleBudget(job,result.usage?.cost_cents,result.usage);}
     catch(error){return this.command(job,'translation.result',{translation_id:t.id,status:'FAILED',provider:t.data.provider,model:t.data.model,error:error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE'});}}
   private async translationReady(job:OutboxJob){await this.db.transaction(job.company_id,serviceId,async tx=>{const translation=await tx.get('translation',job.data.translation_id),request=await tx.get('translation_request',job.data.request_id),message=await tx.get('message',job.data.message_id);if(request.data.status==='CANCELLED')return;if(translation.data.status!=='SUCCEEDED'||message.data.message_version!==translation.data.message_version||!await this.currentlyReadable(tx,job.data.recipient_id,message)){await tx.save(request,{...request.data,status:'CANCELLED'});return;}const id=key('translated-copy',job.id);if((await tx.list('notification')).some(n=>n.id===id))return;await tx.add('notification',{recipient_id:job.data.recipient_id,event:'TRANSLATION_READY',category:'CHAT',channel:'WEB',status:'SUCCEEDED',translation_id:translation.id,message_id:message.id,message_version:translation.data.message_version,machine_translation:true,language:translation.data.target_language,attempts:1,max_attempts:1},id);});}
-  private async reserveBudget(job:OutboxJob,config:Entity,text:string){return this.db.transaction(job.company_id,serviceId,async tx=>{const current=await tx.get('assistant_config',config.id);assert(current.data.status==='ACTIVE'&&current.version===config.version,'VERSION_CONFLICT');const synthetic=['DEMO','TEST'].includes(this.options.appMode)&&current.data.testOnly===true;if(!synthetic){assert(current.data.transferApprovalId,'NEEDS_APPROVAL');const approval=await tx.get('legal_approval',current.data.transferApprovalId);assert(approval.data.status==='APPROVED'&&approval.data.subject==='AI_TRANSFER'&&approval.data.active!==false&&(!approval.data.expiresAt||Date.parse(approval.data.expiresAt)>this.now().getTime()),'NEEDS_APPROVAL');}const usage=await tx.list('ai_usage');const duplicate=usage.find(u=>u.data.event_id===job.id);assert(!duplicate,'PROVIDER_OUTCOME_UNKNOWN');const spent=usage.filter(u=>u.data.config_id===config.id).reduce((n,u)=>n+u.data.reserved_cents,0);const remaining=current.data.budgetCents-spent;const reserve=this.options.ai!.maximumCostCents('x'.repeat(180000))*2;assert(remaining>=reserve&&reserve>0,'AI_BUDGET_EXHAUSTED');await tx.add('ai_usage',{config_id:config.id,config_version:config.version,event_id:job.id,reserved_cents:reserve,status:'RUNNING',started_at:this.now().toISOString()});return reserve;});}
-  private async settleBudget(job:OutboxJob,actual?:number){await this.db.transaction(job.company_id,serviceId,async tx=>{const usage=(await tx.list('ai_usage')).find(u=>u.data.event_id===job.id);if(usage)await tx.save(usage,{...usage.data,status:'SUCCEEDED',actual_cents:actual??null,reserved_cents:actual??usage.data.reserved_cents,completed_at:this.now().toISOString()});});}
+  private async reserveBudget(job:OutboxJob,config:Entity,_text:string,category:AiCategory=job.type==='translation.requested'?'TRANSLATION':'CUSTOMER_ASSISTANT'){
+    return this.db.transaction(job.company_id,serviceId,async tx=>{
+      const current=await tx.get('assistant_config',config.id);assert(current.data.status==='ACTIVE'&&current.version===config.version,'VERSION_CONFLICT');
+      const synthetic=['DEMO','TEST'].includes(this.options.appMode)&&current.data.testOnly===true;
+      if(!synthetic){assert(current.data.transferApprovalId,'NEEDS_APPROVAL');const approval=await tx.get('legal_approval',current.data.transferApprovalId);assert(approval.data.status==='APPROVED'&&approval.data.subject==='AI_TRANSFER'&&approval.data.active!==false&&(!approval.data.expiresAt||Date.parse(approval.data.expiresAt)>this.now().getTime()),'NEEDS_APPROVAL');}
+      const usage=await tx.list('ai_usage');assert(!usage.some(u=>u.data.event_id===job.id),'PROVIDER_OUTCOME_UNKNOWN');
+      const headroom=aiBudgetHeadroom(current,usage,category,this.now().toISOString()),reserve=this.options.ai!.maximumCostCents('x'.repeat(180000))*2;
+      assert(headroom.remainingCents>=reserve&&reserve>0,'AI_BUDGET_EXHAUSTED',{category});
+      await tx.add('ai_usage',{config_id:config.id,config_version:config.version,event_id:job.id,category,currency:'EUR',initial_reserved_cents:reserve,reserved_cents:reserve,status:'RUNNING',cost_basis:'CONFIGURED_RATE_ESTIMATE',started_at:this.now().toISOString()});
+      return reserve;
+    });
+  }
+  private async settleBudget(job:OutboxJob,actual?:number,tokens?:{input_tokens?:number;output_tokens?:number},status:'SUCCEEDED'|'CANCELLED'='SUCCEEDED'){
+    if(actual!==undefined)assert(Number.isSafeInteger(actual)&&actual>=0,'VALIDATION_ERROR');
+    for(const amount of [tokens?.input_tokens,tokens?.output_tokens])if(amount!==undefined)assert(Number.isSafeInteger(amount)&&amount>=0,'VALIDATION_ERROR');
+    await this.db.transaction(job.company_id,serviceId,async tx=>{
+      const usage=(await tx.list('ai_usage')).find(u=>u.data.event_id===job.id);
+      if(usage)await tx.save(usage,{...usage.data,status,actual_cents:actual??null,reserved_cents:actual??usage.data.reserved_cents,input_tokens:tokens?.input_tokens??null,output_tokens:tokens?.output_tokens??null,cost_basis:'CONFIGURED_RATE_ESTIMATE',provider_reported_cost_available:false,...status==='CANCELLED'?{provider_invoked:false}:{},completed_at:this.now().toISOString()});
+    });
+  }
   private async messageCreated(job:OutboxJob){const message=await this.entity(job,'message',job.data.message_id);if(message.data.deleted_at||message.data.message_version!==job.data.version)return;const channel=await this.entity(job,'channel',message.data.channel_id);for(const member of channel.data.members??[]){if(member.revoked_at||member.user_id===message.data.author_id||member.user_id===serviceId)continue;const recipient=await this.db.transaction(job.company_id,serviceId,async tx=>{if(!await this.currentlyReadable(tx,member.user_id,message))return;const actor=await this.engine.actorIn(tx,member.user_id);const preferences=(await tx.list('translation_preference')).filter(p=>p.data.user_id===member.user_id);const preference=preferences.find(p=>p.data.channel_id===channel.id)??preferences.find(p=>!p.data.channel_id);const settings=(await tx.list('notification_setting')).find(p=>p.data.user_id===member.user_id);return {actor,preference,settings};});if(!recipient)continue;
     await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WEB'},`web:${member.user_id}`);
     if(recipient.settings?.data.whatsapp_consent===true&&!recipient.settings?.data.opted_out)await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WHATSAPP'},`wa:${member.user_id}`);
@@ -142,23 +193,23 @@ export class WorkerRunner {
  const approvedPriceBooks=(await tx.list('price_book')).filter(b=>b.data.status==='ACTIVE'&&b.data.approvedBy&&Date.parse(b.data.validFrom)<=this.now().getTime()&&(!b.data.validUntil||Date.parse(b.data.validUntil)>this.now().getTime())).map(b=>({id:b.id,version:b.version,serviceIds:(b.data.rules??[]).filter((r:Data)=>config.data.allowedServiceIds.includes(r.serviceId)).map((r:Data)=>r.serviceId)})).filter(b=>b.serviceIds.length).slice(0,10);
  return {config,channel,message,sources:[...sources,...services].slice(0,20),conversationHistory:conversationHistory.slice(-8),approvedPriceBooks};});if(!snapshot)return;
     if(!this.options.ai||snapshot.config.data.provider!=='DEEPSEEK'){await this.fallback(job,'PROVIDER_DISABLED');return;}
-    let knownCost:number|undefined;let outcomeKnown=false;
+    let knownCost:number|undefined;let knownTokens:{input_tokens?:number;output_tokens?:number}|undefined;let outcomeKnown=false;
     try{
       const catalog=assistantToolCatalog(snapshot.config.data.tools).map(t=>({name:t.name,parameters:zodToJsonSchema(t.schema,{target:'jsonSchema7',$refStrategy:'none'})}));
       const policy={model:snapshot.config.data.model,timeoutMs:snapshot.config.data.timeoutMs,tone:snapshot.config.data.tone,addressMode:snapshot.config.data.addressForm,humanHours:snapshot.config.data.humanHours};
       const budget=await this.reserveBudget(job,snapshot.config,snapshot.message.data.text+JSON.stringify(snapshot.sources)+JSON.stringify(catalog));
       const input={text:snapshot.message.data.text,language:job.data.language as SupportedLanguage,sources:snapshot.sources,ownership:'AI_ACTIVE' as const,synthetic:['DEMO','TEST'].includes(this.options.appMode)&&snapshot.config.data.testOnly===true,budgetRemainingCents:budget,maxReplyChars:snapshot.config.data.maxResponseLength,policy,conversationHistory:snapshot.conversationHistory,approvedPriceBooks:snapshot.approvedPriceBooks};
-      await this.activeJob(job);let response=await this.options.ai.answer({...input,toolCatalog:catalog});knownCost=response.usage?.cost_cents;outcomeKnown=true;
-      if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');await this.settleBudget(job,knownCost);return;}
+      await this.activeJob(job);let response=await this.options.ai.answer({...input,toolCatalog:catalog});knownCost=response.usage?.cost_cents;knownTokens=response.usage;outcomeKnown=true;
+      if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');await this.settleBudget(job,knownCost,knownTokens);return;}
       const customerTexts:string[]=[];
       if(response.tool_calls.length){
         await this.activeJob(job);const tools=await dispatchAssistantTools({companyId:job.company_id,actorId:job.data.actorId,configId:snapshot.config.id,configVersion:snapshot.config.data.configVersion,channelId:snapshot.channel.id,channelVersion:snapshot.channel.version,messageId:snapshot.message.id,messageVersion:snapshot.message.data.message_version,sourceChannel:job.data.sourceChannel??'WHATSAPP'},response.tool_calls,assistantToolHost(this.db,this.engine,this.now,async tx=>{assert(tx.query,'MISSING_CONFIGURATION');const lease=await tx.query("SELECT id FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token??null]);assert(lease.rows.length===1,'WORKER_LEASE_LOST');}));
-        if(tools.stoppedForHandoff){await this.settleBudget(job,knownCost);return;}
+        if(tools.stoppedForHandoff){await this.settleBudget(job,knownCost,knownTokens);return;}
         for(const r of tools.results)if(r.name==='calculateEstimate'&&typeof r.result.customerText==='string')customerTexts.push(r.result.customerText);
         await this.activeJob(job);outcomeKnown=false;
         response=await this.options.ai.answer({...input,budgetRemainingCents:Math.max(0,budget-(knownCost??0)),toolCatalog:[],previousToolResults:tools.results.map(r=>r.name==='calculateEstimate'?{...r,result:{status:r.result.status,source:r.result.source,teamConfirmed:false,scheduleConfirmed:false,priceRenderedSeparatelyByServer:true}}:r)});
-        knownCost=knownCost===undefined||response.usage?.cost_cents===undefined?undefined:knownCost+response.usage.cost_cents;outcomeKnown=true;
-        if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');await this.settleBudget(job,knownCost);return;}
+        knownCost=knownCost===undefined||response.usage?.cost_cents===undefined?undefined:knownCost+response.usage.cost_cents;knownTokens={input_tokens:knownTokens?.input_tokens===undefined||response.usage?.input_tokens===undefined?undefined:knownTokens.input_tokens+response.usage.input_tokens,output_tokens:knownTokens?.output_tokens===undefined||response.usage?.output_tokens===undefined?undefined:knownTokens.output_tokens+response.usage.output_tokens};outcomeKnown=true;
+        if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');await this.settleBudget(job,knownCost,knownTokens);return;}
       }
       await this.activeJob(job);
       const references=await this.db.transaction(job.company_id,serviceId,async tx=>{
@@ -170,8 +221,8 @@ export class WorkerRunner {
       });
       const text=[`KI-Assistent · ${response.answer}`,...customerTexts].join('\n\n');assert(text.length<=12000,'ASSISTANT_TOOL_RESULT_LIMIT');
       await this.engine.execute(await this.actor(job.company_id),'message.send',{input:{channel_id:snapshot.channel.id,text,language:job.data.language,source:'AI',reply_to_id:snapshot.message.id},idempotency_key:key('worker',job.id,'ai-answer'),preconditions:references,worker_lease:{id:job.id,token:job.lease_token!}});
-      await this.settleBudget(job,knownCost);
-    }catch(error){if(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST'){if(outcomeKnown)await this.settleBudget(job,knownCost);throw error;}await this.fallback(job,error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE');if(outcomeKnown)await this.settleBudget(job,knownCost);}}
+      await this.settleBudget(job,knownCost,knownTokens);
+    }catch(error){if(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST'){if(outcomeKnown)await this.settleBudget(job,knownCost,knownTokens);throw error;}await this.fallback(job,error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE');if(outcomeKnown)await this.settleBudget(job,knownCost,knownTokens);}}
 
   private async fallback(job:OutboxJob,reason:string){await this.db.transaction(job.company_id,serviceId,async tx=>{const channel=await tx.get('channel',job.data.channelId);if(channel.data.handoff?.state==='HUMAN_ACTIVE')return;if(channel.data.handoff?.state==='AI_ACTIVE')await tx.save(channel,{...channel.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,reason,requested_at:this.now().toISOString()}});const dedup=key('assistant-fallback',job.id);if(!(await tx.list('decision')).some(d=>d.data.dedupeKey===dedup))await tx.add('decision',{status:'OPEN',reason,ownerId:'UNASSIGNED',channelId:channel.id,sources:[job.data.messageId],actions:['APPROVE','RETURN','DELEGATE'],summaryDE:'Die private Kundenanfrage benötigt menschliche Unterstützung. Es wurde keine Zusage gemacht.',dedupeKey:dedup,history:[]});});}
   private async applyRules(job:OutboxJob){if(job.type.startsWith('automation.')||job.type.startsWith('assistant.')||job.type==='translation.requested')return;const now=this.now().toISOString();const rules=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('automation_rule')).filter(r=>automationMatches(r.data,job,now)));for(const rule of rules)await this.command(job,'automation_rule.run',{id:rule.id,event:{id:job.id,type:job.type,data:job.data}},`rule:${rule.id}`);}
