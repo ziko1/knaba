@@ -19,11 +19,31 @@ test.afterEach(async({page},testInfo)=>{const failures=runtimeFailures.get(page)
 function assertDocument(response:Response|null,target:string){expect(response,`Document navigation ${target} must return a response.`).not.toBeNull();if(!response)throw Error(`Missing document response: ${target}`);expect(response.ok()||response.status()===304,`Document navigation ${target} returned HTTP ${response.status()}.`).toBe(true);if(response.status()!==304)expect(response.headers()['content-type'],`Document navigation ${target} must serve the application HTML.`).toContain('text/html');}
 async function openPage(page:Page,target:string){assertDocument(await page.goto(target),target);}
 async function reloadPage(page:Page){assertDocument(await page.reload(),page.url());}
-async function demo(page:Page,role:string){const response=await page.request.post('/api/v1/auth/demo',{data:{role},timeout:10_000});expect(response.ok(),await response.text()).toBe(true);const body=await response.json();await openPage(page,'/console');await expect(page.locator('.sidebar')).toBeVisible();return body;}
+async function demo(page:Page,role:string){
+ let response=await page.request.post('/api/v1/auth/demo',{data:{role},timeout:10_000});
+ // The isolated suite deliberately signs in as many roles from one host. Honour
+ // the real server's one-minute demo throttle rather than weakening it or
+ // spoofing an IP. Only one bounded retry is allowed, and recorded in evidence.
+ if(response.status()===429){
+  const limited=await response.json();expect(limited.code).toBe('RATE_LIMITED');
+  const retryAfter=limited.details?.retryAfterSeconds;
+  expect(Number.isInteger(retryAfter)&&retryAfter>0&&retryAfter<=60,'A throttled demo login must provide a bounded retry interval.').toBe(true);
+  const waitMs=retryAfter*1000+500;
+  test.info().setTimeout(test.info().timeout+waitMs+10_000);
+  test.info().annotations.push({type:'auth-rate-limit',description:`Honoured server demo-login cooldown: ${retryAfter}s before one retry (${role}).`});
+  await new Promise(resolve=>setTimeout(resolve,waitMs));
+  response=await page.request.post('/api/v1/auth/demo',{data:{role},timeout:10_000});
+ }
+ expect(response.ok(),await response.text()).toBe(true);const body=await response.json();await openPage(page,'/console');await expect(page.locator('.sidebar')).toBeVisible();return body;
+}
 async function command(request:APIRequestContext,name:string,input:unknown,expected_version?:number){const me=await request.get('/api/v1/me');expect(me.ok()).toBe(true);const session=await me.json();const r=await request.post(`/api/v1/commands/${name}`,{headers:{'X-CSRF-Token':session.csrfToken},data:{input,expected_version,idempotency_key:randomUUID()}});expect(r.ok(),`${name}: ${await r.text()}`).toBe(true);return r.json();}
 async function navigate(page:Page,name:string){const toggle=page.locator('.topbar .mobile-only');if(await toggle.isVisible())await toggle.click();await page.locator('.sidebar nav').getByRole('button',{name,exact:true}).click();await expect(page.locator('.page-heading h1')).toHaveText(name);}
 async function saveForm(page:Page){const dialog=page.getByRole('dialog');await dialog.getByRole('button',{name:'Review change',exact:true}).click();await dialog.getByRole('button',{name:'Confirm & execute',exact:true}).click();await expect(dialog.locator('.success-state')).toBeVisible();await dialog.getByRole('button',{name:'Completed',exact:true}).click();}
-async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1)).toBe(true);}
+async function noOverflow(page:Page){
+ const dimensions=await page.evaluate(()=>({width:window.innerWidth,scrollWidth:document.documentElement.scrollWidth,offenders:Array.from(document.querySelectorAll('body *')).flatMap(element=>{const r=element.getBoundingClientRect(),style=getComputedStyle(element);return style.display!=='none'&&style.visibility!=='hidden'&&r.width>0&&r.right>window.innerWidth+1?[{tag:element.tagName,className:element.getAttribute('class'),right:Math.round(r.right),width:Math.round(r.width)}]:[]}).slice(0,30)}));
+ if(dimensions.scrollWidth>dimensions.width+1)await test.info().attach('document-overflow',{body:JSON.stringify(dimensions,null,2),contentType:'application/json'});
+ expect(dimensions.scrollWidth,JSON.stringify(dimensions)).toBeLessThanOrEqual(dimensions.width+1);
+}
 
 test('public entry supports all six languages at 360 px without document overflow',async({page})=>{
  await page.setViewportSize({width:360,height:800});await openPage(page,'/');
@@ -43,13 +63,13 @@ test('real credentials authenticate and logout revokes the cookie session',async
 });
 test('manual shift start, private break, resume and end persist after page reload',async({page})=>{
  await demo(page,'EMPLOYEE');const current=(await (await page.request.get('/api/v1/entities/shift')).json()).items.find((s:any)=>s.data.state==='ACTIVE');if(current)await command(page.request,'shift.end',{shiftId:current.id,description:'Synthetic QA cleanup'});
- await reloadPage(page);await page.locator('.shift-actions').getByRole('button',{name:'Start shift',exact:true}).click();const dialog=page.getByRole('dialog');await dialog.locator('#field-siteId').selectOption('site-a');await saveForm(page);await expect(page.locator('.shift-actions').getByRole('button',{name:'End shift',exact:true})).toBeVisible();
+ await reloadPage(page);await page.locator('.shift-actions').getByRole('button',{name:'Start shift',exact:true}).click();const dialog=page.getByRole('dialog');await dialog.getByRole('combobox',{name:/^Site/}).selectOption('site-a');await saveForm(page);await expect(page.locator('.shift-actions').getByRole('button',{name:'End shift',exact:true})).toBeVisible();
  await page.locator('.shift-actions').getByRole('button',{name:'Break',exact:true}).click();await saveForm(page);await expect(page.locator('.shift-actions').getByRole('button',{name:'Resume work',exact:true})).toBeVisible();
  await page.locator('.shift-actions').getByRole('button',{name:'Resume work',exact:true}).click();await saveForm(page);await page.locator('.shift-actions').getByRole('button',{name:'End shift',exact:true}).click();await saveForm(page);await reloadPage(page);await expect(page.locator('.shift-actions').getByRole('button',{name:'Start shift',exact:true})).toBeVisible();
  const shifts=(await (await page.request.get('/api/v1/entities/shift')).json()).items;const latest=shifts.at(-1);expect(latest.data.state).toBe('ENDED');expect(latest.data.summary.breakSeconds).toBeGreaterThanOrEqual(0);
 });
 test('task form creates a persisted task and mobile modal fits 360 px',async({page})=>{
- await demo(page,'DIRECTOR');await page.setViewportSize({width:360,height:800});await navigate(page,'Tasks');await page.locator('.heading-actions').getByRole('button',{name:'Create new',exact:true}).click();const dialog=page.getByRole('dialog');const title=`QA browser task ${randomUUID()}`;await dialog.locator('#field-siteId').selectOption('site-a');await dialog.locator('#field-title').fill(title);await noOverflow(page);await page.screenshot({path:'docs/evidence/task-form-360.png',fullPage:true});await saveForm(page);await reloadPage(page);await navigate(page,'Tasks');await page.locator('#global-search').fill(title);await expect(page.getByRole('button',{name:title,exact:false})).toBeVisible();
+ await demo(page,'DIRECTOR');await page.setViewportSize({width:360,height:800});await navigate(page,'Tasks');await page.locator('.heading-actions').getByRole('button',{name:'Create new',exact:true}).click();const dialog=page.getByRole('dialog');const title=`QA browser task ${randomUUID()}`;await dialog.getByRole('combobox',{name:/^Site/}).selectOption('site-a');await dialog.locator('#field-title').fill(title);await noOverflow(page);await page.screenshot({path:'docs/evidence/task-form-360.png',fullPage:true});await saveForm(page);await reloadPage(page);await navigate(page,'Tasks');await page.locator('#global-search').fill(title);await expect(page.locator('.record-link').filter({hasText:title})).toBeVisible();
 });
 test('team chat sends original text and reads the persisted message after reload',async({page})=>{
  await demo(page,'EMPLOYEE');await navigate(page,'Team communication');await page.locator('.channel-list').getByRole('button',{name:/KNB-014/}).click();const text=`QA original EN ${randomUUID()}`;await page.getByRole('textbox',{name:'Message',exact:true}).fill(text);await page.getByRole('button',{name:'Send',exact:true}).click();await expect(page.locator('.message-bubble').filter({hasText:text})).toBeVisible();await reloadPage(page);await navigate(page,'Team communication');await page.locator('.channel-list').getByRole('button',{name:/KNB-014/}).click();await expect(page.locator('.message-bubble').filter({hasText:text})).toBeVisible();await page.screenshot({path:'docs/evidence/team-chat-desktop.png',fullPage:true});
@@ -62,6 +82,39 @@ test('public contact and guest chat persist privately with honest manual fallbac
  await openPage(page,'/');await page.getByRole('button',{name:/New customer/}).click();const form=page.getByRole('dialog');const suffix=randomUUID();await form.getByLabel(/Your name/).fill(`QA guest ${suffix}`);await form.getByLabel(/Email/).fill(`qa-${suffix}@example.invalid`);await form.getByLabel(/How can we help/).fill('Synthetic QA request only');await form.getByRole('checkbox').check();await form.getByRole('button',{name:'Send',exact:true}).click();await expect(form.locator('.success-state')).toBeVisible();await form.getByRole('button',{name:'Completed',exact:true}).click();await page.getByRole('button',{name:'Start webchat',exact:true}).click();const text=`QA private guest ${randomUUID()}`;await page.getByRole('dialog').getByLabel('Message',{exact:true}).fill(text);
  const response=page.waitForResponse(r=>r.url().endsWith('/api/v1/public/chat')&&r.request().method()==='POST');await page.getByRole('dialog').getByRole('button',{name:'Send',exact:true}).click();const body=await (await response).json();expect(['MANUAL_FALLBACK','HANDOFF_PENDING']).toContain(body.status);await expect(page.locator('.public-chat-message').filter({hasText:text})).toBeVisible();
  const other=await browser.newContext({baseURL:process.env.E2E_BASE_URL??'http://127.0.0.1:3000'});try{const denied=await other.request.get(`/api/v1/public/chat/${body.channelId}/messages`);expect([401,404]).toContain(denied.status());expect(await denied.text()).not.toContain(text);}finally{await other.close();}
+});
+test('transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation',async({page},testInfo)=>{
+ // Guest creation and history authentication use the real isolated backend.
+ // Only the AI proposal/history decoration and confirmation response are mocked;
+ // this proves browser gating, not provider or backend draft authorization.
+ testInfo.annotations.push({type:'transport-fixture',description:'AI draft and confirmation response mocked; real guest bootstrap/history authentication.'});
+ await page.clock.install();
+ const draftId=`qa-ui-draft-${randomUUID()}`;
+ let draft={id:draftId,version:3,state:'DRAFT',previewHash:'a'.repeat(64),preview:{territory:'Berlin',contact:{name:'Synthetic draft guest',email:'ui-draft@example.invalid'},serviceIds:['synthetic-service'],language:'EN',facts:{description:'Synthetic UI review fixture',quantityMilli:100000}}};
+ let confirmed=false,historyReads=0,expectedGuestCsrf:string|undefined;
+ const confirmations:{url:string;method:string;body:unknown;csrfMatches:boolean}[]=[];
+ await page.route('**/api/v1/public/chat/*/messages',async route=>{
+  const actual=await route.fetch();expect(actual.ok(),'History must authenticate through the actual guest cookie.').toBe(true);
+  const body=await actual.json();historyReads++;
+  await route.fulfill({response:actual,json:{...body,pendingDrafts:confirmed?[]:[draft]}});
+ });
+ await page.route('**/api/v1/public/chat/*/drafts/*/confirm',async route=>{
+  const req=route.request();confirmations.push({url:req.url(),method:req.method(),body:req.postDataJSON(),csrfMatches:typeof expectedGuestCsrf==='string'&&req.headers()['x-csrf-token']===expectedGuestCsrf});confirmed=true;
+  await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'CONFIRMED',leadId:'synthetic-ui-fixture-lead'})});
+ });
+ await openPage(page,'/');await page.getByRole('button',{name:'Start webchat',exact:true}).click();
+ const dialog=page.getByRole('dialog');await dialog.getByLabel('Message',{exact:true}).fill('Synthetic UI draft test; no real AI provider.');
+ const sent=page.waitForResponse(r=>r.url().endsWith('/api/v1/public/chat')&&r.request().method()==='POST');
+ await dialog.getByRole('button',{name:'Send',exact:true}).click();const response=await sent;expect(response.ok(),await response.text()).toBe(true);const guest=await response.json();expect(guest.csrfToken).toEqual(expect.any(String));expectedGuestCsrf=guest.csrfToken;
+ const card=dialog.locator('.public-lead-draft');await expect(card).toBeVisible();expect(historyReads).toBeGreaterThan(0);expect(confirmations).toEqual([]);await expect(card.getByRole('button',{name:'Confirm enquiry',exact:true})).toHaveCount(0);
+ await card.getByRole('button',{name:'Review enquiry',exact:true}).click();await expect(card.locator('.public-draft-summary').first()).toContainText('Berlin');await expect(card).toContainText('Synthetic draft guest');await expect(card.getByRole('button',{name:'Confirm enquiry',exact:true})).toBeVisible();expect(confirmations).toEqual([]);
+ draft={...draft,version:4,previewHash:'b'.repeat(64),preview:{...draft.preview,territory:'Potsdam'}};
+ await page.clock.fastForward(10_001);
+ await expect(card.getByRole('button',{name:'Confirm enquiry',exact:true})).toHaveCount(0);await expect(card.getByRole('button',{name:'Review enquiry',exact:true})).toBeVisible();expect(confirmations).toEqual([]);
+ await card.getByRole('button',{name:'Review enquiry',exact:true}).click();await expect(card.locator('.public-draft-summary').first()).toContainText('Potsdam');expect(confirmations).toEqual([]);
+ await card.getByRole('button',{name:'Confirm enquiry',exact:true}).click();await expect(dialog.locator('.public-draft-confirmed')).toBeVisible();await expect(card).toHaveCount(0);
+ expect(confirmations).toHaveLength(1);const confirmation=confirmations[0]!;expect({url:confirmation.url,method:confirmation.method,body:confirmation.body}).toEqual({url:new URL(`/api/v1/public/chat/${guest.channelId}/drafts/${draftId}/confirm`,page.url()).href,method:'POST',body:{expectedVersion:4,previewHash:'b'.repeat(64)}});expect(confirmation.csrfMatches,'Confirmation must carry the current guest CSRF proof.').toBe(true);
+ await testInfo.attach('mocked-draft-gating-scope',{body:JSON.stringify({transportFixture:true,historyReads,confirmationCount:confirmations.length,confirmedVersion:4,realProvider:'NOT_RUN',backendDraftConfirmation:'MOCKED_NOT_VERIFIED'},null,2),contentType:'application/json'});
 });
 test('mutations reject missing CSRF and CLIENT cannot read internal chat or payroll',async({page})=>{
  await demo(page,'CLIENT');const denied=await page.request.post('/api/v1/commands/report.ack',{data:{input:{},idempotency_key:randomUUID()}});expect(denied.status()).toBe(403);const payroll=await page.request.get('/api/v1/entities/payroll_calculation');expect((await payroll.json()).items).toEqual([]);const channels=await (await page.request.get('/api/v1/entities/channel')).json();expect(channels.items.some((c:any)=>c.data.type==='SITE_INTERNAL')).toBe(false);

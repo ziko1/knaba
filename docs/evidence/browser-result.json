@@ -83,7 +83,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-6fdd6ad7bee08563b57e",
           "file": "browser.spec.ts",
-          "line": 77,
+          "line": 153,
           "column": 1
         },
         {
@@ -103,7 +103,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-cabeb2c455296833c193",
           "file": "browser.spec.ts",
-          "line": 96,
+          "line": 172,
           "column": 1
         },
         {
@@ -123,7 +123,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-1242e48ef2bbbd2f0630",
           "file": "browser.spec.ts",
-          "line": 130,
+          "line": 206,
           "column": 1
         },
         {
@@ -143,7 +143,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-af8372084e702c5542a7",
           "file": "browser.spec.ts",
-          "line": 150,
+          "line": 226,
           "column": 1
         },
         {
@@ -163,7 +163,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-79592b60db7df0459967",
           "file": "browser.spec.ts",
-          "line": 200,
+          "line": 278,
           "column": 1
         },
         {
@@ -183,7 +183,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-4a18b7024ed941f7ace7",
           "file": "browser.spec.ts",
-          "line": 231,
+          "line": 310,
           "column": 1
         },
         {
@@ -203,7 +203,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-36d1d3b4e0750166063b",
           "file": "browser.spec.ts",
-          "line": 261,
+          "line": 343,
           "column": 1
         },
         {
@@ -223,7 +223,27 @@
           ],
           "id": "fbeac1b2decfba2c3acd-551818851032eb02a9c3",
           "file": "browser.spec.ts",
-          "line": 301,
+          "line": 394,
+          "column": 1
+        },
+        {
+          "title": "transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-81c57007835016f1d6cf",
+          "file": "browser.spec.ts",
+          "line": 447,
           "column": 1
         },
         {
@@ -243,7 +263,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-227f9cc66cb5c599ce20",
           "file": "browser.spec.ts",
-          "line": 354,
+          "line": 602,
           "column": 1
         },
         {
@@ -263,7 +283,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-ed5a7e7c9709f2e89a54",
           "file": "browser.spec.ts",
-          "line": 370,
+          "line": 618,
           "column": 1
         },
         {
@@ -283,7 +303,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-d8b71e866fffaf569357",
           "file": "browser.spec.ts",
-          "line": 401,
+          "line": 649,
           "column": 1
         },
         {
@@ -303,7 +323,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-33477a266e2647a2842f",
           "file": "browser.spec.ts",
-          "line": 422,
+          "line": 670,
           "column": 1
         },
         {
@@ -323,7 +343,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-b6dee6b4ed9ea728f9d1",
           "file": "browser.spec.ts",
-          "line": 458,
+          "line": 706,
           "column": 1
         }
       ]
@@ -331,10 +351,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-06T18:29:03.335Z",
-    "duration": 246.82799999999997,
+    "startTime": "2026-10-06T20:34:20.781Z",
+    "duration": 258.692,
     "expected": 0,
-    "skipped": 13,
+    "skipped": 14,
     "unexpected": 0,
     "flaky": 0
   }

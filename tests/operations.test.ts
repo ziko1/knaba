@@ -1,6 +1,8 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, afterEach, vi } from 'vitest';
 import { effectiveTimesheet, operationsCommands } from '../packages/domain/operations.ts';
 import { Actor, CommandContext, Data, DomainError, Entity, Transaction, ownScope, siteScope } from '../packages/domain/core.ts';
+import { Engine } from '../apps/api/engine.ts';
+import { type Database, type PgTransaction } from '../apps/api/database.ts';
 
 class OperationsTransaction implements Transaction {
   rows = new Map<string, Entity>(); events: { type: string; data: Data }[] = []; sequence = 0;
@@ -55,4 +57,118 @@ describe('GPS conservative classification, event-time privacy and explicit trips
   it('late/reordered events do not rewrite history and missing GPS means unknown without pause', async () => { const tx = await setup(); const g = await gpsSetup(tx); await presence(tx, g, '2026-10-05T09:00:00Z', 20, 3); await presence(tx, g, '2026-10-05T09:02:00Z', 20, 4); const late = await presence(tx, g, '2026-10-05T08:50:00Z', 400, 2); expect(late.data.late).toBe(true); const unknown = await run(tx, 'presence.ingest', { eventId: 'unknown-event', deviceId: g.device.id, shiftId: g.s.id, siteId: 'A', sequenceNumber: 5, observedAt: '2026-10-05T09:03:00Z', source: 'NATIVE_GEOFENCE', trackerState: 'PERMISSION_DENIED', policyVersionId: g.policy.id }, worker, '2026-10-05T09:03:00Z'); expect(unknown.presence.data.state).toBe('UNKNOWN'); expect((await tx.get('shift', g.s.id)).data.activity).toBe('WORKING'); });
   it('ENTER restores only matching geopause; manual lunch remains manual and rejects late private events', async () => { const tx = await setup(); const g = await gpsSetup(tx); await presence(tx, g, '2026-10-05T09:00:00Z', 400, 1); await presence(tx, g, '2026-10-05T09:02:00Z', 400, 2); await presence(tx, g, '2026-10-05T09:10:00Z', 20, 3); await presence(tx, g, '2026-10-05T09:12:00Z', 20, 4); expect((await tx.get('shift', g.s.id)).data.activity).toBe('WORKING'); await run(tx, 'shift.activity', { shiftId: g.s.id, activity: 'ON_BREAK', occurredAt: '2026-10-05T09:15:00Z' }); await expect(presence(tx, g, '2026-10-05T09:20:00Z', 20, 5)).rejects.toMatchObject({ code: 'ACCESS_DENIED' }); expect((await tx.get('shift', g.s.id)).data.activity).toBe('ON_BREAK'); });
   it('permitted late travel sample survives END; private stop and post-END points are rejected by event time', async () => { const tx = await setup(); const g = await gpsSetup(tx); const trip = await run(tx, 'trip.start', { shiftId: g.s.id, destination: { kind: 'SITE', id: 'B' }, purpose: 'Synthetic legal travel', occurredAt: '2026-10-05T10:00:00Z' }); await run(tx, 'trip.stop', { tripId: trip.id, kind: 'PRIVATE_BREAK', reason: 'Synthetic lunch', occurredAt: '2026-10-05T10:10:00Z' }); await run(tx, 'trip.resume', { tripId: trip.id, occurredAt: '2026-10-05T10:20:00Z' }); await run(tx, 'trip.arrive', { tripId: trip.id, occurredAt: '2026-10-05T10:30:00Z', startWork: true }); await run(tx, 'shift.end', { shiftId: g.s.id, occurredAt: '2026-10-05T11:00:00Z' }); const base = { deviceId: g.device.id, shiftId: g.s.id, tripId: trip.id, latitude: 52.52, longitude: 13.4, accuracyM: 5, policyVersionId: g.policy.id }; await expect(run(tx, 'trip.sample', { ...base, eventId: 'private', sequenceNumber: 2, observedAt: '2026-10-05T10:15:00Z' })).rejects.toMatchObject({ code: 'ACCESS_DENIED' }); await expect(run(tx, 'trip.sample', { ...base, eventId: 'after-end', sequenceNumber: 3, observedAt: '2026-10-05T11:01:00Z' })).rejects.toMatchObject({ code: 'ACCESS_DENIED' }); const sample = await run(tx, 'trip.sample', { ...base, eventId: 'lawful-late', sequenceNumber: 1, observedAt: '2026-10-05T10:05:00Z' }); expect(sample).toEqual({eventId:'lawful-late',sampleId:'lawful-late',accepted:true,expiresAt:'2026-10-12T10:05:00.000Z'});expect((await tx.get('location_sample',sample.sampleId)).data.mode).toBe('BUSINESS_TRAVEL'); expect(await tx.list('location_sample')).toHaveLength(1); expect((await tx.get('trip', trip.id)).data.distanceMeters).toBeNull(); });
+});
+
+
+// Executes actual Engine/operations handlers. This fixture models atomic rollback;
+// it deliberately does not claim PostgreSQL SQL, locking or worker-provider verification.
+class CalendarAtomicDatabase extends OperationsTransaction {
+  companyId = 'company'; actorId = 'owner';
+  receipts = new Map<string, Data>(); audits: Data[] = [];
+  failOccurrence = 0; private occurrenceAttempts = 0;
+  async add<T extends Data = Data>(kind: string, data: T, id?: string): Promise<Entity<T>> {
+    if (kind === 'task_occurrence' && this.failOccurrence && ++this.occurrenceAttempts === this.failOccurrence) throw new Error('Synthetic occurrence storage failure');
+    return super.add(kind, data, id);
+  }
+  async query(sql: string, params: any[] = []) {
+    const receiptKey = `${params[1]}:${params[2]}`;
+    if (sql.startsWith('SELECT command,input_hash')) return { rows: this.receipts.has(receiptKey) ? [this.receipts.get(receiptKey)!] : [] };
+    if (sql.startsWith('INSERT INTO command_receipts')) { this.receipts.set(receiptKey, { command: params[3], input_hash: params[4], result: JSON.parse(params[5]), authorization_hash: params[6], created_at: new Date() }); return { rows: [] }; }
+    if (sql.startsWith('INSERT INTO audit_log')) { this.audits.push({ actor: params[1], action: params[2] }); return { rows: [] }; }
+    throw new Error(`Unexpected calendar fixture query: ${sql}`);
+  }
+  async transaction<T>(companyId: string, actorId: string, fn: (tx: PgTransaction) => Promise<T>): Promise<T> {
+    if (companyId !== this.companyId) throw new DomainError('NOT_FOUND_SAFE');
+    this.actorId = actorId;
+    const snapshot = structuredClone({ rows: this.rows, events: this.events, sequence: this.sequence, receipts: this.receipts, audits: this.audits });
+    try { return await fn(this as unknown as PgTransaction); }
+    catch (error) { this.rows = snapshot.rows; this.events = snapshot.events; this.sequence = snapshot.sequence; this.receipts = snapshot.receipts; this.audits = snapshot.audits; throw error; }
+  }
+}
+afterEach(() => vi.useRealTimers());
+async function scheduledFixture(patch: Data = {}) {
+  vi.useFakeTimers(); vi.setSystemTime(new Date('2026-10-01T05:00:00.000Z'));
+  const initial = await setup(), tx = new CalendarAtomicDatabase(); tx.rows = initial.rows; tx.sequence = initial.sequence;
+  const engine = new Engine(tx as unknown as Database, 'TEST'), actor = await engine.getActor('owner', tx.companyId);
+  let key = 0;
+  const command = (name: string, input: Data, who = actor, extra: { idempotency_key?: string; expected_version?: number } = {}) => engine.execute(who, name, { input, idempotency_key: `calendar-engine-${++key}`, ...extra });
+  const template = await command('task_template.create', { name: 'Calendar template', task: { siteId: 'A', title: 'Original recurring task', unit: 'M2', plannedQuantityMilli: 1000 }, recurrence: 'DAILY', schedule: { startsOn: '2026-10-01', localTime: '08:00', catchupLimit: 2 }, scheduledAssigneeIds: ['worker'], ...patch });
+  vi.setSystemTime(new Date('2026-10-05T08:00:00.000Z'));
+  const generate = (extra: { idempotency_key?: string; expected_version?: number } = {}, who = actor, templateVersion = template.version) => command('task_template.generate_due', { templateId: template.id, templateVersion }, who, extra);
+  return { tx, engine, actor, template, command, generate };
+}
+
+describe('actual Engine scheduled task-template batch regressions', () => {
+  it('T-TASK-07 catchup commits capped calendar tasks and cursor together; exact command replay and fresh ticks cannot duplicate', async () => {
+    const s = await scheduledFixture(), first = await s.generate({ idempotency_key: 'calendar-first-tick' });
+    expect(first).toMatchObject({ cursor: '2026-10-02', hasMore: true }); expect(first.createdTaskIds).toHaveLength(2);
+    expect(await s.generate({ idempotency_key: 'calendar-first-tick' })).toEqual(first);
+    expect(await s.tx.list('task')).toHaveLength(2); expect(await s.tx.list('task_calendar_cursor')).toHaveLength(1);
+    const second = await s.generate(), third = await s.generate(), settled = await s.generate();
+    expect(second).toMatchObject({ cursor: '2026-10-04', hasMore: true }); expect(third).toMatchObject({ cursor: '2026-10-05', hasMore: false }); expect(settled.createdTaskIds).toEqual([]);
+    const occurrences = await s.tx.list('task_occurrence'); expect(occurrences.map(o => o.data.scheduledPeriod)).toEqual(['2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05']); expect(new Set(occurrences.map(o => o.data.occurrenceKey)).size).toBe(5);
+    expect((await s.tx.list('task')).every(t => t.data.state === 'ASSIGNED' && t.data.assigneeIds[0] === 'worker' && t.data.dueAt.endsWith('T06:00:00.000Z'))).toBe(true);
+    expect((await s.tx.list('task_calendar_cursor'))[0]!.data.cursor).toBe('2026-10-05');
+  });
+  it('a failed second occurrence rolls back the whole real handler batch, cursor, task events and receipt before safe retry', async () => {
+    const s = await scheduledFixture(), rowsBefore = structuredClone(s.tx.rows), eventsBefore = structuredClone(s.tx.events), receiptsBefore = structuredClone(s.tx.receipts);
+    s.tx.failOccurrence = 2;
+    await expect(s.generate({ idempotency_key: 'calendar-atomic-failure' })).rejects.toThrow('Synthetic occurrence storage failure');
+    expect(s.tx.rows).toEqual(rowsBefore); expect(s.tx.events).toEqual(eventsBefore); expect(s.tx.receipts).toEqual(receiptsBefore); expect(await s.tx.list('task_calendar_cursor')).toEqual([]);
+    s.tx.failOccurrence = 0;
+    const retried = await s.generate({ idempotency_key: 'calendar-atomic-failure' }); expect(retried.createdTaskIds).toHaveLength(2); expect(await s.tx.list('task_occurrence')).toHaveLength(2); expect((await s.tx.list('task_calendar_cursor'))[0]!.data.cursor).toBe('2026-10-02');
+  });
+  it('template edits preserve accepted historical task and occurrence snapshots while new due tasks use the current revision', async () => {
+    const s = await scheduledFixture(), first = await s.generate(), taskId = first.createdTaskIds[0], workerActor = await s.engine.getActor('worker', s.tx.companyId);
+    await s.command('task.start', { taskId }, workerActor); await s.command('task.worklog', { taskId, quantityMilli: 1000, description: 'Actual synthetic calendar work' }, workerActor); await s.command('task.submit', { taskId }, workerActor); await s.command('task.review', { taskId, decision: 'ACCEPT' });
+    const historicalTask = await s.tx.get('task', taskId), historicalOccurrence = (await s.tx.list('task_occurrence')).find(o => o.data.taskId === taskId)!;
+    const updated = await s.command('task_template.update', { templateId: s.template.id, task: { siteId: 'A', title: 'Changed future template', unit: 'M2', plannedQuantityMilli: 2000 } });
+    const fresh = await s.generate({}, s.actor, updated.version); expect(fresh.createdTaskIds).toHaveLength(2);
+    expect(await s.tx.get('task', taskId)).toEqual(historicalTask); expect(await s.tx.get('task_occurrence', historicalOccurrence.id)).toEqual(historicalOccurrence);
+    expect((await s.tx.get('task', fresh.createdTaskIds[0])).data).toMatchObject({ title: 'Changed future template', plannedQuantityMilli: 2000 });
+    const newOccurrence = (await s.tx.list('task_occurrence')).find(o => o.data.taskId === fresh.createdTaskIds[0])!; expect(newOccurrence.data.templateRevision).toBe(2); expect(newOccurrence.data.templateSnapshot.task.title).toBe('Changed future template'); expect(historicalOccurrence.data.templateSnapshot.task.title).toBe('Original recurring task');
+  });
+  it('schedule edits use a new revision cursor and activation boundary instead of replaying or skipping past periods', async () => {
+    const s = await scheduledFixture(); await s.generate(); const originalCursor = (await s.tx.list('task_calendar_cursor'))[0]!;
+    const updated = await s.command('task_template.update', { templateId: s.template.id, recurrence: 'MONTHLY', schedule: { startsOn: '2026-10-31', localTime: '08:00', monthlyDay: 31 } });
+    expect((await s.generate({}, s.actor, updated.version)).createdTaskIds).toEqual([]);
+    vi.setSystemTime(new Date('2026-11-30T08:00:00.000Z'));
+    const fresh = await s.generate({}, s.actor, updated.version); expect(fresh.createdTaskIds).toHaveLength(2);
+    expect((await s.tx.list('task_occurrence')).map(o => o.data.scheduledPeriod)).toEqual(['2026-10-01', '2026-10-02', '2026-10-31', '2026-11-30']);
+    expect(await s.tx.get('task_calendar_cursor', originalCursor.id)).toEqual(originalCursor); expect(await s.tx.list('task_calendar_cursor')).toHaveLength(2);
+  });
+  it('saving active:true on an already active template preserves missed periods rather than inventing a new activation', async () => {
+    const s = await scheduledFixture(); await s.generate();
+    await s.tx.add('user', { active: true, roles: ['OWNER'], siteIds: [] }, 'calendar-editor'); const editor = await s.engine.getActor('calendar-editor', s.tx.companyId);
+    const updated = await s.command('task_template.update', { templateId: s.template.id, name: 'Renamed active template', active: true }, editor);
+    expect(updated.data.activatedAt).toBe(s.template.data.activatedAt); expect(updated.data.scheduleOwnerId).toBe(s.template.data.scheduleOwnerId);
+    const next = await s.generate({}, s.actor, updated.version); expect(next.createdTaskIds).toHaveLength(2);
+    expect((await s.tx.list('task_occurrence')).map(o => o.data.scheduledPeriod)).toEqual(['2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04']);
+  });
+  it('manual, inactive and missing-schedule configurations create no task or invented activation', async () => {
+    const s = await scheduledFixture({ recurrence: 'MANUAL' }); expect((await s.generate()).createdTaskIds).toEqual([]);
+    const noSchedule = await s.command('task_template.create', { name: 'Missing configuration', task: { siteId: 'A', title: 'No invented schedule' }, recurrence: 'DAILY' });
+    const blocked = await s.command('task_template.generate_due', { templateId: noSchedule.id, templateVersion: noSchedule.version }); expect(blocked).toMatchObject({ createdTaskIds: [], blockedReason: 'MISSING_SCHEDULE_OR_ACTIVATION' }); expect(noSchedule.data.activatedAt).toBeUndefined();
+    const inactive = await s.command('task_template.update', { templateId: s.template.id, active: false }); expect((await s.generate({}, s.actor, inactive.version)).createdTaskIds).toEqual([]); expect(await s.tx.list('task')).toEqual([]);
+  });
+  it('stale input/envelope template versions and a different authorized owner fail before any task or cursor', async () => {
+    const s = await scheduledFixture(); await s.command('task_template.update', { templateId: s.template.id, name: 'New version' });
+    await expect(s.generate()).rejects.toMatchObject({ code: 'VERSION_CONFLICT' });
+    const current = await s.tx.get('task_template', s.template.id); await expect(s.generate({ expected_version: s.template.version }, s.actor, current.version)).rejects.toMatchObject({ code: 'VERSION_CONFLICT' });
+    await s.tx.add('user', { active: true, roles: ['OWNER'], siteIds: [] }, 'other-calendar-owner'); const other = await s.engine.getActor('other-calendar-owner', s.tx.companyId);
+    await expect(s.generate({}, other, current.version)).rejects.toMatchObject({ code: 'ACCESS_DENIED' }); expect(await s.tx.list('task')).toEqual([]); expect(await s.tx.list('task_calendar_cursor')).toEqual([]);
+  });
+  it('fresh creator/assignee revocation and lost site assignment cannot reuse an old valid scheduling actor', async () => {
+    const s = await scheduledFixture(); await s.tx.save(await s.tx.get('user', 'worker'), { active: false, roles: ['EMPLOYEE'], siteIds: ['A'] });
+    await expect(s.generate()).rejects.toMatchObject({ code: 'ACCESS_DENIED' }); expect(await s.tx.list('task')).toEqual([]); expect(await s.tx.list('task_calendar_cursor')).toEqual([]);
+    await s.tx.save(await s.tx.get('user', 'worker'), { active: true, roles: ['EMPLOYEE'], siteIds: ['B'] }); await expect(s.generate()).rejects.toMatchObject({ code: 'ACCESS_DENIED' });
+    await s.tx.save(await s.tx.get('user', 'owner'), { active: false, roles: ['OWNER'], siteIds: [] }); await expect(s.generate()).rejects.toMatchObject({ code: 'ACCESS_DENIED' }); expect(await s.tx.list('task_occurrence')).toEqual([]);
+  });
+  it('legacy occurrence key serialization is deduplicated by exact structured template/date/location without rewriting the task', async () => {
+    const s = await scheduledFixture(), first = await s.generate(), occurrence = (await s.tx.list('task_occurrence'))[0]!, task = await s.tx.get('task', occurrence.data.taskId);
+    await s.tx.save(occurrence, { ...occurrence.data, occurrenceKey: `${s.template.id}:${occurrence.data.scheduledPeriod}:-` });
+    const template = await s.tx.get('task_template', s.template.id); await s.tx.save(template, { ...template.data, revision: template.data.revision + 1 }); const current = await s.tx.get('task_template', template.id);
+    const restart = await s.generate({}, s.actor, current.version); expect(restart.createdTaskIds).toHaveLength(2); expect(await s.tx.get('task', task.id)).toEqual(task);
+    expect((await s.tx.list('task_occurrence')).filter(o => o.data.scheduledPeriod === occurrence.data.scheduledPeriod)).toHaveLength(1); expect(first.createdTaskIds).toContain(task.id);
+  });
 });

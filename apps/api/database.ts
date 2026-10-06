@@ -20,7 +20,30 @@ export class Database{
  pool:Pool;
  constructor(url=process.env.DATABASE_URL){if(!url)throw new Error('MISSING_DATABASE_URL');this.pool=new Pool({connectionString:url,max:10,connectionTimeoutMillis:10000,idleTimeoutMillis:30000});this.pool.on('error',()=>process.stderr.write('database connection failure\n'));}
  async query(sql:string,params:unknown[]=[]){return this.pool.query(sql,params);}
- async transaction<T>(companyId:string,actorId:string,fn:(tx:PgTransaction)=>Promise<T>):Promise<T>{for(let attempt=0;attempt<3;attempt++){const c=await this.pool.connect();try{await c.query('BEGIN ISOLATION LEVEL SERIALIZABLE');await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',[companyId]);const result=await fn(new PgTransaction(c,companyId,actorId));await c.query('COMMIT');return result;}catch(e:any){await c.query('ROLLBACK');if((e.code==='40001'||e.code==='40P01')&&attempt<2)continue;throw e;}finally{c.release();}}throw new Error('TRANSACTION_RETRIES_EXHAUSTED');}
+ async transaction<T>(companyId:string,actorId:string,fn:(tx:PgTransaction)=>Promise<T>,timeoutMs?:number):Promise<T>{
+  if(timeoutMs!==undefined&&(!Number.isInteger(timeoutMs)||timeoutMs<1000||timeoutMs>60000))throw new DomainError('VALIDATION_ERROR');
+  const deadline=timeoutMs===undefined?undefined:Date.now()+timeoutMs;
+  for(let attempt=0;attempt<3;attempt++){
+   if(deadline!==undefined&&Date.now()>=deadline)throw new DomainError('TRANSACTION_TIMEOUT');
+   const c=await this.pool.connect();let sessionLocked=false;let destroy=false;
+   try{
+    // Acquire the company lock before creating a SERIALIZABLE snapshot. A transaction
+    // that waited must observe holds/permission changes committed while it waited.
+    if(deadline!==undefined){const remaining=deadline-Date.now();if(remaining<=0)throw new DomainError('TRANSACTION_TIMEOUT');await c.query("SELECT set_config('statement_timeout',$1,false),set_config('lock_timeout',$1,false)",[String(remaining)+'ms']);}
+    await c.query('SELECT pg_advisory_lock(hashtext($1))',[companyId]);sessionLocked=true;
+    if(deadline!==undefined&&Date.now()>=deadline)throw new DomainError('TRANSACTION_TIMEOUT');
+    await c.query('BEGIN ISOLATION LEVEL SERIALIZABLE');
+    if(deadline!==undefined){const remaining=deadline-Date.now();if(remaining<=0)throw new DomainError('TRANSACTION_TIMEOUT');await c.query("SELECT set_config('statement_timeout',$1,true),set_config('lock_timeout',$1,true)",[String(remaining)+'ms']);}
+    await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',[companyId]);
+    await c.query('SELECT pg_advisory_unlock(hashtext($1))',[companyId]);sessionLocked=false;
+    const result=await fn(new PgTransaction(c,companyId,actorId));
+    if(deadline!==undefined&&Date.now()>=deadline)throw new DomainError('TRANSACTION_TIMEOUT');
+    await c.query('COMMIT');return result;
+   }catch(e:any){try{await c.query('ROLLBACK');}catch{destroy=true;}if((e.code==='40001'||e.code==='40P01')&&attempt<2)continue;throw e;
+   }finally{try{if(sessionLocked)await c.query('SELECT pg_advisory_unlock(hashtext($1))',[companyId]);await c.query("RESET statement_timeout");await c.query("RESET lock_timeout");}catch{destroy=true;}c.release(destroy);}
+  }
+  throw new Error('TRANSACTION_RETRIES_EXHAUSTED');
+ }
  async migrate(sql?:string){const source=sql??(globalThis as any).__KNABA_MIGRATION__??await readFile(migrationPath,'utf8');const c=await this.pool.connect();try{await c.query('BEGIN');await c.query('SELECT pg_advisory_xact_lock(710324003)');await c.query(source);await assertGpsStorageSafe(c);await c.query('COMMIT');}catch(e){await c.query('ROLLBACK');throw e;}finally{c.release();}}
  async close(){await this.pool.end();}
 }

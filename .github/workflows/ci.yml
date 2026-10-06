@@ -43,6 +43,24 @@ jobs:
       - run: python3 -m pip install openpyxl==3.1.5 Pillow==11.3.0
       - run: npm run typecheck
       - run: npm run build
+      - name: Attest exact built application artifacts
+        run: |
+          node --input-type=module <<'JS'
+          import {readFile,readdir,writeFile} from 'node:fs/promises';
+          import {createHash} from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          const release=JSON.parse(await readFile('dist/release.json','utf8'));
+          const actual=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          if(release.code_sha!==actual||actual!==process.env.EXPECTED_GIT_SHA||release.source_dirty)throw Error('EXACT_CLEAN_ARTIFACT_SOURCE_REQUIRED');
+          const files=[];
+          async function scan(path){for(const entry of await readdir(path,{withFileTypes:true})){const file=path+'/'+entry.name;if(entry.isDirectory())await scan(file);else{const bytes=await readFile(file);files.push({path:file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}}}
+          await scan('dist');
+          for(const path of ['package.json','package-lock.json']){const bytes=await readFile(path);files.push({path,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}
+          files.sort((a,b)=>a.path.localeCompare(b.path));
+          const tree=execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim();
+          await writeFile('docs/evidence/built-artifacts.json',JSON.stringify({status:'PASSED',code_sha:actual,source_tree:tree,node:process.version,files,scope:'Actual built API, worker, web and pinned installation manifests; production dependencies must be installed with npm ci before standalone execution.'},null,2)+'\n');
+          console.log('Exact clean source and actual built artifact checksums attested:',actual,files.length);
+          JS
       - name: Validate release scripts
         run: |
           bash -n infra/backup.sh infra/restore.sh infra/doctor.sh infra/verify.sh scripts/bootstrap-local.sh
@@ -55,9 +73,11 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: knaba-evidence-${{ github.sha }}
+          name: knaba-evidence-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             docs/evidence/
-            dist/release.json
+            dist/
+            package.json
+            package-lock.json
             /tmp/knaba-de-test-artifacts/
           retention-days: 7

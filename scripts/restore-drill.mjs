@@ -16,6 +16,13 @@ try {
     let ready=false;for(let attempt=0;attempt<40;attempt++){const probe=new Client({connectionString:restoredUrl,connectionTimeoutMillis:500});try{await probe.connect();ready=true;break;}catch{await new Promise(resolve=>setTimeout(resolve,500));}finally{await probe.end().catch(()=>{});}}if(!ready)throw new Error('DRILL_DATABASE_STARTUP_FAILED');
     drillEnvironment={...process.env,RESTORE_DATABASE_URL:restoredUrl,RESTORE_PRIVATE_STORAGE_DIR:filesDirectory,KNABA_PG_TRANSPORT:'container',KNABA_PG_CONTAINER:containerName};
   }
-  await execute('bash',['infra/restore.sh',backup,'--confirm-empty'],drillEnvironment);console.log('PASSED: full encrypted restore drill on an isolated empty database with exact counts, media references and file checksums.');
+  // Explicitly synthetic drills may omit the independent current ledger only
+  // when restore-db verifies a loopback target and no privacy history exists.
+  // Production drills inherit the operator's independent current-ledger inputs.
+  if(process.env.RESTORE_SYNTHETIC_ISOLATED==='true')drillEnvironment.APP_MODE='TEST';
+  await execute('bash',['infra/restore.sh',backup,'--confirm-empty'],drillEnvironment);
+  const proof=new Client({connectionString:restoredUrl,connectionTimeoutMillis:10000});
+  try{await proof.connect();const permit=(await proof.query('SELECT count(*)::text AS count FROM public.privacy_revision_permits')).rows[0]?.count;if(permit!=='0')throw new Error('DRILL_TRANSIENT_PRIVACY_PERMITS_NOT_EMPTY');for(const table of ['privacy_erasure_manifests','privacy_blob_deletions'])await proof.query(`SELECT count(*)::text AS count FROM public.${quotedIdentifier(table)}`);}finally{await proof.end().catch(()=>{});}
+  console.log('PASSED: full encrypted restore drill on an isolated empty database with exact counts, media references, file checksums and durable privacy ledgers; no external deletion jobs dispatched.');
 } catch(error){console.error(`FAILED: ${/^[A-Z0-9_]+$/.test(error.message)?error.message:'RESTORE_DRILL_FAILED'}`);process.exitCode=1;}
 finally {if(databaseCreated&&admin)await admin.query(`DROP DATABASE ${quotedIdentifier(databaseName)} WITH (FORCE)`).catch(()=>{console.error('FAILED: isolated drill database cleanup requires inspection.');process.exitCode=1;});await admin?.end().catch(()=>{});if(containerCreated)await execute('docker',['rm','--force',containerName],process.env,true).catch(()=>{console.error('FAILED: isolated drill container cleanup requires inspection.');process.exitCode=1;});await rm(filesDirectory,{recursive:true,force:true});}

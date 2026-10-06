@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-06T20:32:57Z",
+  "repository": "https://github.com/ziko1/knaba",
+  "runId": 37525960411,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/37525960411",
+  "jobId": 112482908062,
+  "sourceGitSha": "942b3b2fc575b34b565fff2f4a1cd4d417d5e06b",
+  "githubEventMergeSha": "a097dd2a90e23db66ea9aaa97e33cd700c11e3d3",
+  "scope": "Historical execution of the exact 942b3b2 source. Subsequent source changes are not covered.",
+  "status": "FAILED",
+  "unitAndPostgres": {
+    "status": "PASSED",
+    "total": 439,
+    "passed": 439,
+    "failed": 0,
+    "skipped": 0,
+    "cpuInMemoryAndDocumentCases": 400,
+    "realPostgresCases": 39,
+    "postgresGroups": [
+      {
+        "name": "PostgreSQL command transaction and read authorization",
+        "passed": 27
+      },
+      {
+        "name": "PostgreSQL GPS retention and immutable-history boundary",
+        "passed": 10
+      },
+      {
+        "name": "PostgreSQL worker leasing, recovery and disabled integrations",
+        "passed": 2
+      }
+    ],
+    "evidenceFile": "docs/evidence/release-live-unit.json",
+    "historicalFileNotUsed": "docs/evidence/unit-integration.json records an older /workspace 157/158 run and is not this execution."
+  },
+  "browser": {
+    "status": "FAILED",
+    "total": 13,
+    "passed": 6,
+    "failed": 7,
+    "skipped": 0,
+    "durationMs": 30216.401,
+    "evidenceFile": "docs/evidence/browser-result.json",
+    "passedScenarios": [
+      "Public six languages at 360 px",
+      "Rendered demo role landings",
+      "Credentials login and logout session revocation",
+      "Persisted team chat after reload",
+      "Private photo upload and retrieval",
+      "Missing-CSRF rejection and client internal-chat/payroll isolation"
+    ],
+    "failedScenarios": [
+      {
+        "scenario": "Manual shift lifecycle",
+        "cause": "Test selected transient text INPUT #field-siteId before reference choices rendered; actual Site combobox is present in final DOM.",
+        "fixStatus": "SOURCE_FIXED_NOT_RERUN",
+        "fix": "Wait for accessible Site combobox."
+      },
+      {
+        "scenario": "Task create form at 360 px",
+        "cause": "Actual document horizontal overflow; scrollWidth exceeded viewport width+1.",
+        "fixStatus": "APP_FIX_IN_PROGRESS_NOT_RERUN"
+      },
+      {
+        "scenario": "Private guest chat manual fallback",
+        "cause": "POST accepted with MANUAL_FALLBACK/HANDOFF_PENDING but persisted first message absent from rendered history.",
+        "fixStatus": "BACKEND_FIX_IN_PROGRESS_NOT_RERUN"
+      },
+      {
+        "scenario": "Published report downloads",
+        "cause": "Demo authentication returned 429 RATE_LIMITED before scenario execution.",
+        "fixStatus": "SOURCE_FIXED_NOT_RERUN"
+      },
+      {
+        "scenario": "Manual inventory SKU lookup",
+        "cause": "Demo authentication returned 429 RATE_LIMITED before scenario execution.",
+        "fixStatus": "SOURCE_FIXED_NOT_RERUN"
+      },
+      {
+        "scenario": "Client issue form",
+        "cause": "Demo authentication returned 429 RATE_LIMITED before scenario execution.",
+        "fixStatus": "SOURCE_FIXED_NOT_RERUN"
+      },
+      {
+        "scenario": "Location CSV/XLSX hierarchy import",
+        "cause": "Demo authentication returned 429 RATE_LIMITED before scenario execution.",
+        "fixStatus": "SOURCE_FIXED_NOT_RERUN"
+      }
+    ],
+    "loginThrottleFix": "Test honours server retryAfterSeconds <=60 with one bounded retry and evidence annotation. Production limiter is unchanged.",
+    "sourceOnlyVerification": {
+      "status": "PASSED",
+      "check": "Playwright --list",
+      "discovered": 13,
+      "limit": "Test discovery is not browser execution."
+    }
+  },
+  "liveStages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "PASSED"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "FAILED"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED"
+    }
+  ],
+  "deploymentScope": "Isolated synthetic PostgreSQL and localhost API on hosted CI; this is not public staging acceptance.",
+  "artifact": {
+    "id": 11442417508,
+    "name": "knaba-evidence-a097dd2a90e23db66ea9aaa97e33cd700c11e3d3",
+    "url": "https://github.com/ziko1/knaba/actions/runs/37525960411/artifacts/11442417508",
+    "bytes": 5905633,
+    "sha256": "25be6a391e80d99fd3dc2d2e5129282de4e800876afa5efb77a3684415bb6b55",
+    "independentDownloadSha256": "PASSED",
+    "note": "Artifact name uses PR merge SHA. Actual checkout/runtime/stage source SHA is sourceGitSha above."
+  }
+}

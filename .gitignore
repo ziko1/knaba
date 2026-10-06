@@ -11,3 +11,6 @@ artifacts/
 
 docs/evidence/browser-artifacts/
 docs/evidence/browser-report/
+
+__pycache__/
+*.py[cod]

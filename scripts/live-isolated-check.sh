@@ -112,7 +112,7 @@ JS
   echo 'PASSED: altered ciphertext rejected before database restore.'
  }
  knaba_qa_stage backup-tamper-rejection knaba_qa_tamper_check
- knaba_qa_stage empty-database-private-blob-restore timeout 180 bash infra/restore.sh "$knaba_qa_backup" --confirm-empty
+ knaba_qa_stage empty-database-private-blob-restore timeout 180 env RESTORE_SYNTHETIC_ISOLATED=true bash infra/restore.sh "$knaba_qa_backup" --confirm-empty
  knaba_qa_worker_check(){
   timeout 100 node --input-type=module <<'JS'
 import {spawn} from 'node:child_process';
@@ -154,8 +154,18 @@ try{
 }finally{if(active)await stop(active).catch(()=>{});await db.end().catch(()=>{});}
 JS
  }
- if [[ $(tail -n 1 "$knaba_qa_evidence/live-stages.jsonl") == *'"status":"PASSED"'* ]]; then
+ if node --input-type=module <<'JS'
+import {readFileSync} from 'node:fs';
+const last=JSON.parse(readFileSync('docs/evidence/live-stages.jsonl','utf8').trim().split('\n').at(-1));
+process.exit(last.stage==='empty-database-private-blob-restore'&&last.status==='PASSED'?0:1);
+JS
+ then
   knaba_qa_stage bundled-worker-heartbeat-and-restart knaba_qa_worker_check
+ else
+  node --input-type=module <<'JS'
+import {appendFileSync} from 'node:fs';
+appendFileSync('docs/evidence/live-stages.jsonl',JSON.stringify({stage:'bundled-worker-heartbeat-and-restart',status:'NOT_RUN',restoredTargetStatus:'QUARANTINED',reason:'RESTORE_DID_NOT_PASS_SAFETY_GATES',gitSha:process.env.EXPECTED_GIT_SHA,completedAt:new Date().toISOString()})+'\n');
+JS
  fi
 fi
 

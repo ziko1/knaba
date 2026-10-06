@@ -1,13 +1,13 @@
 import { randomBytes, createHash, createHmac, scrypt as nodeScrypt, timingSafeEqual, createCipheriv, createDecipheriv } from 'node:crypto';
 import * as OTPAuth from 'otpauth';
 import { z } from 'zod';
-import { assert, DomainError, type Actor,type Entity, type Data, type Transaction } from '../../packages/domain/core.js';
+import { assert, DomainError, type Actor,type Entity, type Data, type Transaction,type CommandContext } from '../../packages/domain/core.js';
 import type { Request, Response } from 'express';
 
 export interface QueryResult {rows:any[]}
 export interface SqlTransaction extends Transaction {query?:(sql:string,params?:any[])=>Promise<QueryResult>}
-export interface DatabaseLike {query:(sql:string,params?:any[])=>Promise<QueryResult>;transaction:<T>(companyId:string,actorId:string,fn:(tx:SqlTransaction)=>Promise<T>)=>Promise<T>;close?:()=>Promise<void>}
-export interface EngineLike {authorizeEntity?:(tx:any,userId:string,kind:string,id:string)=>Promise<{actor:Actor;entity:Entity}>;execute:(actor:Actor,name:string,envelope:{input:unknown;expected_version?:number;idempotency_key:string})=>Promise<any>;readEntities:(actor:Actor,kind:string)=>Promise<any[]>;getActor:(userId:string,companyId:string)=>Promise<Actor>;registry:Record<string,any>}
+export interface DatabaseLike {query:(sql:string,params?:any[])=>Promise<QueryResult>;transaction:<T>(companyId:string,actorId:string,fn:(tx:SqlTransaction)=>Promise<T>,timeoutMs?:number)=>Promise<T>;close?:()=>Promise<void>}
+export interface EngineLike {actorIn?:(tx:any,userId:string)=>Promise<Actor>;visible?:(tx:any,actor:Actor,entity:Entity)=>Promise<boolean>;scope?:(actor:Actor,permission:string)=>Actor;context?:(tx:any,actor:Actor,key:string,version:number|undefined,now:string,scopedUserIds:string[],permission:string)=>CommandContext;authorizeEntity?:(tx:any,userId:string,kind:string,id:string)=>Promise<{actor:Actor;entity:Entity}>;execute:(actor:Actor,name:string,envelope:{input:unknown;expected_version?:number;idempotency_key:string})=>Promise<any>;readEntities:(actor:Actor,kind:string)=>Promise<any[]>;getActor:(userId:string,companyId:string)=>Promise<Actor>;registry:Record<string,any>}
 export interface AuthOptions {companyId:string;appMode:string;publicOrigin?:string;cookieSecure?:boolean;encryptionKey?:string}
 export const SESSION_COOKIE='knaba_session';
 export const GUEST_COOKIE='knaba_guest';
