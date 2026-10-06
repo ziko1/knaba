@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-10-06T18:13:13.704Z",
+  "dataMode": "SYNTHETIC_TEST_ONLY",
+  "sourceSha256": "a8ad6565172a7c35fd18dc43d63a5cfa61f3b9a3e0b581fdb75267f9c1f6014c",
+  "checks": [
+    {
+      "command": "npx vitest run tests/resources.test.ts",
+      "status": "PASSED",
+      "tests": 56,
+      "passed": 56,
+      "failed": 0,
+      "independentReader": "Python openpyxl 3.1.5 + zipfile CRC and XML relationships; load/save/load images"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "status": "PASSED"
+    }
+  ],
+  "artifacts": [
+    {
+      "format": "pdf",
+      "path": "artifacts/verified-report-v1.pdf",
+      "bytes": 14512,
+      "sha256": "33dc70c5194891f3d9c478dd67e912e63621911e062d79ffc70097c1229bac53"
+    },
+    {
+      "format": "xlsx",
+      "path": "artifacts/verified-report-v1.xlsx",
+      "bytes": 4650,
+      "sha256": "08a7afe6bcfba363614796f4220a4840dbba1982b4ad53020ff48f10e8132ba5"
+    },
+    {
+      "format": "csv",
+      "path": "artifacts/verified-report-v1.csv",
+      "bytes": 1498,
+      "sha256": "ff7479fef022f913bc3c513df969d98703e6ad6228b39ecd72c1ce9bf20f4c0f"
+    }
+  ],
+  "externalChecks": [
+    {
+      "check": "Real S3 credentials/private bucket/IAM/KMS/remote restore",
+      "status": "NOT_RUN",
+      "reason": "No real provider credentials; S3 contract fixtures only"
+    },
+    {
+      "check": "Physical barcode/QR camera and device behavior",
+      "status": "NOT_RUN",
+      "reason": "No physical device evidence"
+    },
+    {
+      "check": "Official real German payslip/accountant approval/payment",
+      "status": "NOT_RUN",
+      "reason": "Synthetic domain fixtures are not external financial execution"
+    },
+    {
+      "check": "Live deployed report URL/download",
+      "status": "NOT_RUN_BY_RESOURCES_AGENT",
+      "reason": "Root verifies runtime deployment and HTTP routes"
+    }
+  ]
+}

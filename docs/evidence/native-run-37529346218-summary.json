@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-06T20:58:37Z",
+  "repository": "https://github.com/ziko1/knaba",
+  "runId": 37529346218,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/37529346218",
+  "sourceGitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+  "status": "PASSED",
+  "scope": "Native compilation and synthetic classifier execution of exact 3c85adc source; production signing and physical GPS acceptance are separate.",
+  "android": {
+    "jobId": 112494414863,
+    "status": "PASSED",
+    "toolchain": {
+      "gradle": "8.13",
+      "androidGradlePlugin": "8.13.0",
+      "kotlin": "2.2.20",
+      "java": "17.0.16",
+      "compileSdk": 36,
+      "buildTools": "35.0.0"
+    },
+    "checks": {
+      "assembleDebug": "PASSED",
+      "lintDebug": {
+        "status": "PASSED",
+        "errors": 0,
+        "warnings": 12,
+        "warningIds": [
+          "OldTargetApi",
+          "AndroidGradlePluginVersion",
+          "DataExtractionRules",
+          "UnusedResources",
+          "MissingApplicationIcon",
+          "SetTextI18n"
+        ],
+        "releaseLimit": "Device-transfer/backup behavior, final app icon and native localization need release/device acceptance; compile success does not establish those checks."
+      },
+      "apksignerVerify": "PASSED",
+      "syntheticJvmVectors": {
+        "passed": 16,
+        "failed": 0,
+        "limit": "Host JVM geometry vectors; not Android device/GPS acceptance."
+      }
+    },
+    "artifact": {
+      "id": 11444125616,
+      "name": "knaba-android-debug-3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "url": "https://github.com/ziko1/knaba/actions/runs/37529346218/artifacts/11444125616",
+      "zipBytes": 903296,
+      "zipSha256": "5ef249468929479daa1c3ab69a12fd4b6e8a918842f9e5dbb4a3adbc4471a870",
+      "independentZipDownloadSha256": "PASSED",
+      "zipCrc": "PASSED",
+      "payload": {
+        "file": "app-debug.apk",
+        "localFile": "artifacts/KNABA-DE-Android-debug-3c85adc.apk",
+        "bytes": 881684,
+        "sha256": "c741191c1ffd2d7da66a7cc6c1188961fa5ed145671e602eba7079c3802f1712",
+        "independentPayloadSha256": "PASSED",
+        "deliveredArtifactByteEquality": "PASSED"
+      },
+      "expiresAt": "2026-10-20T20:51:30Z"
+    },
+    "signing": {
+      "type": "Ephemeral Android debug certificate",
+      "certificateSha256": "e42394fa7e5aa2fe887a5c0bb754603ee68d36ea01a469b08ca9b271ac3ef541",
+      "verifiedScheme": "v2",
+      "productionSigning": "NOT_RUN"
+    },
+    "physicalDeviceVerification": "NOT_RUN",
+    "realGpsAndBatteryAcceptance": "NOT_RUN"
+  },
+  "ios": {
+    "jobId": 112494415396,
+    "status": "PASSED",
+    "toolchain": {
+      "xcode": "16.4",
+      "sdk": "18.5",
+      "xcodegen": "2.43.0",
+      "xcodegenSourceSha": "7193eb447a6f60061f069e07bc1efd32d73c0e19",
+      "swiftLanguageMode": "5.0"
+    },
+    "checks": {
+      "simulatorCompilation": "PASSED",
+      "plistValidation": "PASSED",
+      "xctest": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "device": "iPhone 16",
+        "os": "18.5",
+        "architecture": "arm64",
+        "platform": "iOS Simulator",
+        "evidenceFile": "evidence/xctest-summary.json",
+        "cases": [
+          "testApprovedExceptionCirclesUseActualDistancesAndConservativeExitMargin",
+          "testLeaseRejectsExpiryAndNeverStartsGPSFromOFF",
+          "testOneJumpDoesNotConfirmExitAndDwellIsRequired",
+          "testSharedConservativeVectors"
+        ]
+      }
+    },
+    "artifact": {
+      "id": 11443743295,
+      "name": "knaba-ios-simulator-3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "url": "https://github.com/ziko1/knaba/actions/runs/37529346218/artifacts/11443743295",
+      "zipBytes": 5374410,
+      "zipSha256": "6d93bd68cb2e27eb889e4194ddab73398ab8193b9eb1fe11439d128c5a18aa54",
+      "independentZipDownloadSha256": "PASSED",
+      "zipCrc": "PASSED",
+      "outerEntryCount": 58,
+      "expiresAt": "2026-10-20T20:57:20Z",
+      "payload": {
+        "file": "KNABADE-simulator.app.zip",
+        "localFile": "artifacts/KNABA-DE-iOS-simulator-3c85adc.zip",
+        "bytes": 5340734,
+        "sha256": "fddf79e7583af6914e423d654deff875961fce92defea036188c434a5e98589d",
+        "independentPayloadSha256": "PASSED",
+        "deliveredArtifactSha256": "PASSED",
+        "independentBundleFileHashes": {
+          "checked": 39,
+          "mismatched": 0,
+          "unexpectedFiles": 0
+        },
+        "bundleZipCrc": "PASSED",
+        "bundleIdentifier": "de.knaba.mobile",
+        "supportedPlatforms": [
+          "iPhoneSimulator"
+        ],
+        "minimumOs": "16.0",
+        "architecture": "arm64",
+        "sdk": "iphonesimulator18.5",
+        "nativeVectorsSha256": "f21c86667c26ca917606c5fd23252069a9b81bd05d2bd86dd8f63b546a0981c5",
+        "fileHashes": [
+          {
+            "path": "Frameworks/Testing.framework/Info.plist",
+            "sha256": "fe56a285d0b766db5784e59a68ea56abee37b6333b05fc293a5bd76551e6fe16"
+          },
+          {
+            "path": "Frameworks/Testing.framework/Testing",
+            "sha256": "1492539b22c8ee34734b1e57ec2e6154554599acf900a31d6a4aadc132d320e9"
+          },
+          {
+            "path": "Frameworks/Testing.framework/_CodeSignature/CodeResources",
+            "sha256": "7f2c07e9dec885551f7d90b18f2e9d1a3de2a9f2934c7c2b97d5990efeb12d77"
+          },
+          {
+            "path": "Frameworks/Testing.framework/version.plist",
+            "sha256": "497fc68ae83e3a39766fac8fbcf73e73e642b219d2d435eb34c893d615634cd5"
+          },
+          {
+            "path": "Frameworks/XCTAutomationSupport.framework/Info.plist",
+            "sha256": "eefcf002ed8b1c3bc47195c571d3481c35f39653c42c6643f4569653f82d1289"
+          },
+          {
+            "path": "Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport",
+            "sha256": "6591101a88b44b12cb5f61da2de7ae4e8f3da423c002592f41fec74435cc2af6"
+          },
+          {
+            "path": "Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources",
+            "sha256": "90006e5fb06780d93666f2438f0c12bbfe048db4860dfd78c59d25fa0905ee84"
+          },
+          {
+            "path": "Frameworks/XCTAutomationSupport.framework/version.plist",
+            "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+          },
+          {
+            "path": "Frameworks/XCTest.framework/Info.plist",
+            "sha256": "f386ad36a966050d51aba286db6f6d2984dc0261962a06fa88c21d8431d7da03"
+          },
+          {
+            "path": "Frameworks/XCTest.framework/XCTest",
+            "sha256": "7f03a94d51aa621f0049f0fcd219383ba89d58deb7efaed026115e7c5f546385"
+          },
+          {
+            "path": "Frameworks/XCTest.framework/_CodeSignature/CodeResources",
+            "sha256": "91a33feffef50b7d9e428f9fb39e8a1304bff07bccf4a3e958bd60a7a9a5fa8e"
+          },
+          {
+            "path": "Frameworks/XCTest.framework/version.plist",
+            "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+          },
+          {
+            "path": "Frameworks/XCTestCore.framework/Info.plist",
+            "sha256": "84ddee364b69922e9f5efd9c27650dea79097b02922373659ca2b4936138d377"
+          },
+          {
+            "path": "Frameworks/XCTestCore.framework/XCTestCore",
+            "sha256": "9fc777a3d19ce0e5752049ca674200bba3f8e0054cb8344a6a72dee01e2df668"
+          },
+          {
+            "path": "Frameworks/XCTestCore.framework/_CodeSignature/CodeResources",
+            "sha256": "490683c12a6cb280bdc04da720d530238badab220b8556900d74b54a3942bf88"
+          },
+          {
+            "path": "Frameworks/XCTestCore.framework/version.plist",
+            "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+          },
+          {
+            "path": "Frameworks/XCTestSupport.framework/Info.plist",
+            "sha256": "1ac7f8138c96fc6549ab1b4713149784591c6b920ba19794a2980aa7f368663a"
+          },
+          {
+            "path": "Frameworks/XCTestSupport.framework/XCTestSupport",
+            "sha256": "410ee3aa0370b8c4b237ee8dc210e510fda8face2afd10023bd0dbe3ccd2420d"
+          },
+          {
+            "path": "Frameworks/XCTestSupport.framework/_CodeSignature/CodeResources",
+            "sha256": "756355f56397692a19265a35912a2858cfa0cfb7e0e0c8d48cdf9e172d588492"
+          },
+          {
+            "path": "Frameworks/XCTestSupport.framework/version.plist",
+            "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+          },
+          {
+            "path": "Frameworks/XCUIAutomation.framework/Info.plist",
+            "sha256": "89edc8963730092b0b1d55a2b1abfbefdc76f25f1a9742b6429e2f265c21ba0b"
+          },
+          {
+            "path": "Frameworks/XCUIAutomation.framework/XCUIAutomation",
+            "sha256": "4a156ad223abcd1b84a1ceffa518c1d489906ded511a95b538c920884dbc5c93"
+          },
+          {
+            "path": "Frameworks/XCUIAutomation.framework/_CodeSignature/CodeResources",
+            "sha256": "5c7165a68a0abcd101107ca9f337950b88f4bdb0641ddcb396fc8a1b1365ba9a"
+          },
+          {
+            "path": "Frameworks/XCUIAutomation.framework/version.plist",
+            "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+          },
+          {
+            "path": "Frameworks/XCUnit.framework/Info.plist",
+            "sha256": "e23c54c19c7513247721d01f5ee3512895acef132a2d63059b614491f9ef4882"
+          },
+          {
+            "path": "Frameworks/XCUnit.framework/XCUnit",
+            "sha256": "9c2c58a4cd354afff9424b0c26338a2b9b710b319915ed15bf3ab083c06996cb"
+          },
+          {
+            "path": "Frameworks/XCUnit.framework/_CodeSignature/CodeResources",
+            "sha256": "9a63f88def87fb748a3768cb19571260a8a206b47c2417ee01df9de7fd350b06"
+          },
+          {
+            "path": "Frameworks/XCUnit.framework/version.plist",
+            "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+          },
+          {
+            "path": "Frameworks/libXCTestBundleInject.dylib",
+            "sha256": "5df3d135d234765ef935c63097e7ceb1a40d1272811613db9bbd6d392d48aac1"
+          },
+          {
+            "path": "Frameworks/libXCTestSwiftSupport.dylib",
+            "sha256": "5bb8ef8eb07d16fc703e2e71a206292cb3acb6d860be688a374287b166b2e88f"
+          },
+          {
+            "path": "Info.plist",
+            "sha256": "c78428f35d443416651a688d318c1593545ccf195f59c1a6db7207815ddfceec"
+          },
+          {
+            "path": "KNABADE",
+            "sha256": "30f175d1891df39baa997ac2df7d196a6a3e4bcd660666396af892457e59ad78"
+          },
+          {
+            "path": "KNABADE.debug.dylib",
+            "sha256": "8fb2c86e3b9c36948eea77d7912b2902d1930209552e3a4bedfb74960403df47"
+          },
+          {
+            "path": "PkgInfo",
+            "sha256": "82502191c9484b04d685374f9879a0066069c49b8acae7a04b01d38d07e8eca0"
+          },
+          {
+            "path": "PlugIns/KNABADETests.xctest/Info.plist",
+            "sha256": "82f775d1d04e989167bc46e47316ee84ee2a8f4bdfe0135e5d38b70e960b7908"
+          },
+          {
+            "path": "PlugIns/KNABADETests.xctest/KNABADETests",
+            "sha256": "10533b78326c7cef235242fab45b834acb4e1b43adccb4d9ac67e07814c9eefc"
+          },
+          {
+            "path": "PlugIns/KNABADETests.xctest/native-vectors.json",
+            "sha256": "f21c86667c26ca917606c5fd23252069a9b81bd05d2bd86dd8f63b546a0981c5"
+          },
+          {
+            "path": "PrivacyInfo.xcprivacy",
+            "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104"
+          },
+          {
+            "path": "__preview.dylib",
+            "sha256": "443935c6a74e96fa9fdd87759946926b5baf05c041482cd687d7d9a7089459de"
+          }
+        ],
+        "note": "Debug simulator test host includes XCTest frameworks. This is not a signed installable IPA."
+      }
+    },
+    "signing": "CODE_SIGNING_ALLOWED=NO; simulator app only; embedded Apple XCTest frameworks retain their own signatures",
+    "physicalDeviceVerification": "NOT_RUN",
+    "realGpsAndBatteryAcceptance": "NOT_RUN",
+    "appStoreAndProductionProvisioning": "NOT_RUN"
+  },
+  "verificationMethod": "Connector completed job logs and artifact metadata, authorized artifact downloads, independent SHA256/ZIP CRC, all39 iOS bundle-file hashes, binary Info.plist/Mach-O platform inspection, exact4 XCTest methods and result-summary validation. Exact remote source agrees across checkout logs, workflow artifact metadata and native receipt. No shell networking, source publication or physical-device tests."
+}

@@ -1,0 +1,81 @@
+name: KNABA DE live synthetic staging acceptance
+on:
+  push:
+    branches: [knaba-staging]
+    paths: [docs/evidence/staging-target.json]
+permissions:
+  contents: read
+concurrency:
+  group: knaba-synthetic-staging-acceptance
+  cancel-in-progress: false
+jobs:
+  live-staging:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PLAYWRIGHT_CHROMIUM_EXECUTABLE: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: npm
+      - name: Validate reviewed isolated DEMO target marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import {appendFileSync} from 'node:fs';
+          import {loadStagingTarget} from './scripts/verify-staging.mjs';
+          const target=await loadStagingTarget();
+          appendFileSync(process.env.GITHUB_ENV,'E2E_BASE_URL='+target.origin+'\nSTAGING_EXPECTED_SHA='+target.expectedSha+'\n');
+          console.log('Reviewed HTTPS synthetic target and expected runtime SHA validated.');
+          JS
+      - run: npm ci --ignore-scripts --strict-ssl=true
+      - run: npx playwright install --with-deps chromium
+      - name: Verify exact live runtime assets and actual worker delivery
+        run: node scripts/verify-staging.mjs docs/evidence/staging-target.json
+      - name: Execute actual rendered staging scenarios and isolated draft fixture
+        id: browser
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: docs/evidence/staging-${{ github.run_id }}-browser.json
+        run: npx playwright test --trace off --reporter=list,json --output=docs/evidence/staging-browser-artifacts/${{ github.run_id }}
+      - name: Record bounded acceptance summary
+        if: always()
+        shell: bash
+        run: |
+          node --input-type=module <<'JS'
+          import {existsSync,mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+          const read=path=>{try{return JSON.parse(readFileSync(path,'utf8'));}catch{return null;}};
+          const recorded=read('docs/evidence/staging-live-receipt.json');
+          const live=recorded?.workflowRunId===process.env.GITHUB_RUN_ID?recorded:null;
+          const browser=read('docs/evidence/staging-'+process.env.GITHUB_RUN_ID+'-browser.json');
+          const stats=browser?.stats;
+          const browserResult=stats?{status:stats.unexpected===0&&stats.skipped===0&&stats.expected===24?'PASSED':'FAILED',total:stats.expected+stats.unexpected+stats.skipped,passed:stats.expected,failed:stats.unexpected,skipped:stats.skipped,durationMs:stats.duration,scope:'23 actual browser/backend cases plus1 explicitly mocked AI draft transport case. Provider and backend draft confirmation are not proved by that fixture. The actual playground checks SIMULATED/no-provider behavior; the internal draft checks actual PENDING or PROVIDER_DISABLED without business changes.'}:{status:'NOT_RUN'};
+          const status=live?.status==='PASSED'&&browserResult.status==='PASSED'?'PASSED':'FAILED';
+          const summary={schemaVersion:1,status,workflowRunId:process.env.GITHUB_RUN_ID,workflowSourceGitSha:process.env.GITHUB_SHA,expectedRuntimeGitSha:process.env.STAGING_EXPECTED_SHA||null,liveReceipt:'staging-live-receipt.json',liveStatus:live?.status||'NOT_RUN',browser:browserResult,secretsRetained:false,physicalGPS:'NOT_RUN',realAIAndWhatsAppProviders:'NOT_RUN',completedAt:new Date().toISOString()};
+          mkdirSync('docs/evidence',{recursive:true});
+          writeFileSync('docs/evidence/staging-acceptance-summary.json',JSON.stringify(summary,null,2)+'\n');
+          console.log(JSON.stringify({status,liveStatus:summary.liveStatus,browser:browserResult}));
+          if(status!=='PASSED')process.exitCode=1;
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-staging-acceptance-${{ github.run_id }}
+          path: |
+            docs/evidence/staging-live-receipt.json
+            docs/evidence/staging-acceptance-summary.json
+            docs/evidence/staging-${{ github.run_id }}-browser.json
+            docs/evidence/staging-browser-artifacts/${{ github.run_id }}/
+            docs/evidence/public-360.png
+            docs/evidence/task-form-360.png
+            docs/evidence/team-chat-desktop.png
+            docs/evidence/client-reports-desktop.png
+            docs/evidence/location-import-360.png
+            docs/evidence/route-map-360.png
+            docs/evidence/working-time-advisory.png
+            docs/evidence/ai-governance.png
+            docs/evidence/internal-assistant-disabled.png
+          if-no-files-found: warn
+          retention-days: 7

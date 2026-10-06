@@ -1,0 +1,182 @@
+name: KNABA DE native compile verification
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: knaba-native-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  NATIVE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+jobs:
+  android-debug:
+    name: Android debug APK and conservative vectors
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.NATIVE_SOURCE_SHA }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17.0.16'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Verify source and SDK 36 toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$NATIVE_SOURCE_SHA"
+          mkdir -p apps/mobile-android/build/evidence
+          test -n "${ANDROID_HOME:-}"
+          KNABA_SDK_MANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$KNABA_SDK_MANAGER"
+          "$KNABA_SDK_MANAGER" --sdk_root="$ANDROID_HOME" 'platforms;android-36' 'build-tools;35.0.0'
+          java -version 2>&1 | tee apps/mobile-android/build/evidence/java-version.txt
+          gradle --version | tee apps/mobile-android/build/evidence/gradle-version.txt
+          grep -q '^Gradle 8\.13$' apps/mobile-android/build/evidence/gradle-version.txt
+          test -f "$ANDROID_HOME/platforms/android-36/android.jar"
+          cat "$ANDROID_HOME/platforms/android-36/source.properties" > apps/mobile-android/build/evidence/sdk-platform.txt
+          cat "$ANDROID_HOME/build-tools/35.0.0/source.properties" > apps/mobile-android/build/evidence/sdk-build-tools.txt
+      - name: Native Java geofence and exception-zone vectors
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash apps/mobile-android/scripts/test-vectors.sh | tee apps/mobile-android/build/evidence/native-vectors.log
+      - name: Six-language resources and native clock/auth-generation vectors
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash apps/mobile-android/scripts/test-localization.sh | tee apps/mobile-android/build/evidence/native-localization-vectors.log
+      - name: Compile APK and run Android lint
+        working-directory: apps/mobile-android
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --stacktrace :app:assembleDebug :app:lintDebug | tee build/evidence/android-build.log
+      - name: Verify APK and record exact source and artifact hashes
+        working-directory: apps/mobile-android
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs app/build/outputs/apk/debug/app-debug.apk > build/evidence/apk-verification.txt
+          sha256sum app/build/outputs/apk/debug/app-debug.apk > build/evidence/SHA256SUMS
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib
+          apk = pathlib.Path('app/build/outputs/apk/debug/app-debug.apk')
+          receipt = {
+              'sourceGitSha': os.environ['NATIVE_SOURCE_SHA'],
+              'artifact': apk.name,
+              'sha256': hashlib.sha256(apk.read_bytes()).hexdigest(),
+              'byteSize': apk.stat().st_size,
+              'build': 'Android debug APK; Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, Java 17.0.16, SDK 36',
+              'signing': 'Ephemeral Android debug key only; production signing NOT_RUN',
+              'checks': ['assembleDebug', 'lintDebug', 'apksigner verify', 'synthetic native geometry vectors'],
+              'physicalDeviceVerification': 'NOT_RUN',
+              'realGPSAndBatteryAcceptance': 'NOT_RUN'
+          }
+          pathlib.Path('build/evidence/native-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-android-debug-${{ env.NATIVE_SOURCE_SHA }}
+          path: |
+            apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
+            apps/mobile-android/app/build/reports/lint-results-debug.*
+            apps/mobile-android/build/evidence/
+          if-no-files-found: warn
+          retention-days: 14
+  ios-simulator:
+    name: iOS unsigned simulator app and XCTest
+    runs-on: macos-15
+    timeout-minutes: 50
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.NATIVE_SOURCE_SHA }}
+      - name: Check out exact XcodeGen 2.43.0 source
+        uses: actions/checkout@v4
+        with:
+          repository: yonaskolb/XcodeGen
+          ref: 7193eb447a6f60061f069e07bc1efd32d73c0e19
+          path: .native-tools/xcodegen
+      - name: Verify host and build pinned project generator
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$NATIVE_SOURCE_SHA"
+          test "$(git -C .native-tools/xcodegen rev-parse HEAD)" = '7193eb447a6f60061f069e07bc1efd32d73c0e19'
+          mkdir -p apps/mobile-ios/build/evidence
+          xcodebuild -version | tee apps/mobile-ios/build/evidence/xcode-version.txt
+          grep -q '^Xcode 16\.4$' apps/mobile-ios/build/evidence/xcode-version.txt
+          swift --version | tee apps/mobile-ios/build/evidence/swift-version.txt
+          xcodebuild -showsdks > apps/mobile-ios/build/evidence/available-sdks.txt
+          swift build --package-path .native-tools/xcodegen --configuration release --disable-automatic-resolution --product xcodegen
+          echo "$GITHUB_WORKSPACE/.native-tools/xcodegen/.build/release" >> "$GITHUB_PATH"
+          .native-tools/xcodegen/.build/release/xcodegen version | tee apps/mobile-ios/build/evidence/xcodegen-version.txt
+          plutil -lint apps/mobile-ios/Info.plist apps/mobile-ios/PrivacyInfo.xcprivacy
+      - name: Prepare exact iOS 18.5 runtime and boot a concrete iPhone 16 simulator
+        id: simulator
+        timeout-minutes: 25
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/native-ios-simulator.py --evidence-dir apps/mobile-ios/build/evidence
+      - name: Compile unsigned iOS simulator application
+        working-directory: apps/mobile-ios
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/build.sh | tee build/evidence/ios-build.log
+          test -x build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE
+      - name: Execute native XCTest vectors on pinned iOS 18.5 simulator
+        working-directory: apps/mobile-ios
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n '${{ steps.simulator.outputs.device_udid }}'
+          xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator18.5 -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.device_udid }}' -destination-timeout 120 -derivedDataPath build -resultBundlePath build/NativeTests.xcresult CODE_SIGNING_ALLOWED=NO test | tee build/evidence/ios-tests.log
+          xcrun xcresulttool get test-results summary --path build/NativeTests.xcresult > build/evidence/xctest-summary.json
+      - name: Archive simulator app and record exact source and artifact hashes
+        working-directory: apps/mobile-ios
+        shell: bash
+        run: |
+          set -euo pipefail
+          ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Debug-iphonesimulator/KNABADE.app build/KNABADE-simulator.app.zip
+          shasum -a 256 build/KNABADE-simulator.app.zip > build/evidence/SHA256SUMS
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib
+          artifact = pathlib.Path('build/KNABADE-simulator.app.zip')
+          bundle = pathlib.Path('build/Build/Products/Debug-iphonesimulator/KNABADE.app')
+          receipt = {
+              'sourceGitSha': os.environ['NATIVE_SOURCE_SHA'],
+              'artifact': artifact.name,
+              'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest(),
+              'byteSize': artifact.stat().st_size,
+              'build': 'iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode',
+              'xcodegenSourceSha': '7193eb447a6f60061f069e07bc1efd32d73c0e19',
+              'simulator': json.loads(pathlib.Path('build/evidence/simulator-preparation.json').read_text()),
+              'signing': 'CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA',
+              'checks': ['xcodebuild simulator build', 'native XCTest geofence/dwell/exception-zone/privacy-lease tests', 'plist validation'],
+              'bundleFiles': [{'path': str(p.relative_to(bundle)), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(bundle.rglob('*')) if p.is_file()],
+              'physicalDeviceVerification': 'NOT_RUN',
+              'realGPSAndBatteryAcceptance': 'NOT_RUN',
+              'appStoreAndProductionProvisioning': 'NOT_RUN'
+          }
+          pathlib.Path('build/evidence/native-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-ios-simulator-${{ env.NATIVE_SOURCE_SHA }}
+          path: |
+            apps/mobile-ios/build/KNABADE-simulator.app.zip
+            apps/mobile-ios/build/NativeTests.xcresult/
+            apps/mobile-ios/build/evidence/
+          if-no-files-found: warn
+          retention-days: 14

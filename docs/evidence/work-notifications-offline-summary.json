@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "status": "CPU_PASSED_REAL_POSTGRES_NOT_RUN",
+  "scope": "Actual socket-restricted full local run of automatic work notifications/current-cause worker integration and commercial responsible-owner correction. All PostgreSQL cases were skipped. Exact next-source hosted acceptance remains mandatory.",
+  "generatedAt": "2026-10-06T22:59:55.219222Z",
+  "sourceBaseRemoteSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+  "fullUnit": {
+    "success": true,
+    "numTotalTests": 1513,
+    "numPassedTests": 1307,
+    "numFailedTests": 0,
+    "numPendingTests": 206
+  },
+  "executionClasses": {
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1307,
+    "REAL_POSTGRES": 206
+  },
+  "testSourceFiles": 54,
+  "newWorkNotifications": {
+    "cpuPassed": 28,
+    "postgresAuthoredNotRun": 13,
+    "localizedReasonTypes": 19
+  },
+  "rawLocalReportSha256": "56734929a254a6fafa6a0155c8db0b679ffb8eea711d3fc00818d0d8f92b3870",
+  "classIndexSha256": "a0360ccc2f946231917ab4f3364571bd417461ca0746a4f66b600bccd0d2b497",
+  "browserDiscovery": {
+    "total": 24,
+    "actualBackendCases": 23,
+    "explicitTransportFixtureCases": 1,
+    "execution": "NOT_RUN_FOR_NEW_SOURCE"
+  },
+  "strictTypeScript": "PASSED",
+  "externalProviders": "NOT_RUN",
+  "physicalNative": "NOT_RUN",
+  "railwayLive": "NOT_READY"
+}

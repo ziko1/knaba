@@ -1,0 +1,83 @@
+{
+  "status": "PASSED_INDEPENDENT_NATIVE_ARTIFACT_VERIFICATION",
+  "verifiedAt": "2026-10-06T22:09:27.058013+00:00",
+  "runId": 37537880382,
+  "sourceGitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+  "sourceBinding": "EXACT_HOSTED_NATIVE_RECEIPTS_AND_COORDINATOR_SUPPLIED_SUCCESSFUL_RUN_SOURCE;NOT_EMBEDDED_COMMIT_SIGNATURE",
+  "scope": "Historical 9d94 source only; actual downloaded outer/inner bytes, CRC, file hashes, local APKv2 cryptographic signature/content verification, iOS unsigned simulator binary/plists and actual hosted test/build/lint receipts. No native runtime or physical GPS test locally repeated.",
+  "android": {
+    "artifactId": 11447096350,
+    "outerPath": "/workspace/attachments/21e76c2f-cb79-4b51-8659-c34cc49190a2/knaba-native-37537880382-android.zip",
+    "outerBytes": 935814,
+    "outerSha256": "d08a7137b33e37f40230480b72e4e74a715e1da560c93c205a038aee0d13376f",
+    "outerEntriesCRCChecked": 14,
+    "apkBytes": 940080,
+    "apkSha256": "2a4ad659e7159a27d4faaebc6b5acc71f504291903862789fa9c141ab2c4711c",
+    "apkEntriesCRCChecked": 14,
+    "signature": {
+      "status": "PASSED_LOCAL_CRYPTOGRAPHIC_VERIFICATION",
+      "scheme": "APK_V2_RSA_PKCS1_SHA256",
+      "contentDigest": "673654061635f42c472aa3c6ef507e6031a95365058a480e19ba446e05c2dd63",
+      "certificateSha256": "40f6a3009e079dabce78f54364d819cb100cf8d21b440918a68558f7c11b2fdb",
+      "keyBits": 2048,
+      "signingScope": "EPHEMERAL_ANDROID_DEBUG_KEY"
+    },
+    "build": "ACTUAL_HOSTED_DEBUG_ASSEMBLE_PASSED",
+    "lint": {
+      "status": "PASSED_WITH_WARNINGS",
+      "errors": 0,
+      "warnings": 8,
+      "warningIds": [
+        "AndroidGradlePluginVersion",
+        "AppBundleLocaleChanges",
+        "DataExtractionRules",
+        "InlinedApi",
+        "MissingApplicationIcon",
+        "OldTargetApi",
+        "PluralsCandidate"
+      ]
+    },
+    "javaVectors": {
+      "geometry": 16,
+      "languageAndDisplayClock": 36,
+      "totalPassed": 52,
+      "scope": "HOSTED_SYNTHETIC_JAVA_CALCULATION_VECTORS"
+    },
+    "localization": "SIX_LOCALES_91_STRINGS_ACTUAL_XML_RECEIPT_CHECKED",
+    "releaseSigning": "NOT_RUN",
+    "physicalDeviceGPSBattery": "NOT_RUN"
+  },
+  "ios": {
+    "artifactId": 11447771132,
+    "outerPath": "/workspace/attachments/2ac95239-12e4-408e-b4e9-68fb38f4ead3/knaba-native-37537880382-ios.zip",
+    "outerBytes": 5561769,
+    "outerSha256": "2d40aeb334a0badc231f4e7d0215239bbb3bba286801a883d9a0a9bbffbf5788",
+    "outerEntriesCRCChecked": 80,
+    "simulatorAppArchiveBytes": 5505381,
+    "simulatorAppArchiveSha256": "79bf37114af23550b4abacb8d800ffd862a4d88e6fb1af955bb3e94ca0000b98",
+    "appEntriesCRCChecked": 69,
+    "appRegularFilesHashesChecked": 45,
+    "build": "ACTUAL_HOSTED_UNSIGNED_SIMULATOR_BUILD_PASSED",
+    "executable": {
+      "architecture": "arm64",
+      "buildPlatform": "IOSSIMULATOR",
+      "appMachOCodeSignature": "ADHOC_LINKER_ONLY_NO_CMS_CERTIFICATE_OR_TEAM",
+      "localExecutableSHA256PagesChecked": 10,
+      "provisionedDeveloperSigning": "ABSENT"
+    },
+    "xctest": {
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "rawUniquePassedCases": 15,
+      "actualXCResultBundle": "PRESENT_CRC_CHECKED",
+      "device": "iPhone16_IOS18_5_SIMULATOR",
+      "scope": "HOSTED_XCTEST_SIMULATOR"
+    },
+    "localization": "SIX_BUNDLED_LOCALES_PRESENT_AND_HASH_CHECKED",
+    "signedIPAAppStoreProvisioning": "NOT_RUN",
+    "physicalDeviceGPSBattery": "NOT_RUN"
+  },
+  "finalLaterSourceAcceptance": "NOT_INFERRED",
+  "physicalDevicesProductionSigningRealGPSBattery": "NOT_RUN"
+}

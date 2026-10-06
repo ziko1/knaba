@@ -1,0 +1,133 @@
+name: KNABA DE release verification
+on: [push, pull_request]
+permissions:
+  contents: read
+concurrency:
+  group: knaba-verification-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17.6-bookworm
+        env:
+          POSTGRES_DB: knaba_qa
+          POSTGRES_USER: knaba_test
+          POSTGRES_PASSWORD: synthetic-ci-only
+        ports: ['127.0.0.1:5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U knaba_test -d knaba_qa"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      APP_MODE: TEST
+      COMPANY_ID: knaba-demo
+      GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      EXPECTED_GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      KNABA_QA_ADMIN_URL: postgresql://knaba_test:synthetic-ci-only@127.0.0.1:5432/postgres
+      KNABA_PG_TRANSPORT: container
+      PLAYWRIGHT_CHROMIUM_EXECUTABLE: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --ignore-scripts --strict-ssl=true
+      - run: python3 -m pip install openpyxl==3.1.5 Pillow==11.3.0
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Attest exact built application artifacts
+        run: |
+          node --input-type=module <<'JS'
+          import {readFile,readdir,writeFile} from 'node:fs/promises';
+          import {createHash} from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          const release=JSON.parse(await readFile('dist/release.json','utf8'));
+          const actual=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          if(release.code_sha!==actual||actual!==process.env.EXPECTED_GIT_SHA||release.source_dirty)throw Error('EXACT_CLEAN_ARTIFACT_SOURCE_REQUIRED');
+          const files=[];
+          async function scan(path){for(const entry of await readdir(path,{withFileTypes:true})){const file=path+'/'+entry.name;if(entry.isDirectory())await scan(file);else{const bytes=await readFile(file);files.push({path:file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}}}
+          await scan('dist');
+          for(const path of ['package.json','package-lock.json']){const bytes=await readFile(path);files.push({path,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}
+          files.sort((a,b)=>a.path.localeCompare(b.path));
+          const tree=execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim();
+          await writeFile('docs/evidence/built-artifacts.json',JSON.stringify({status:'PASSED',code_sha:actual,source_tree:tree,node:process.version,files,scope:'Actual built API, worker, web and pinned installation manifests; production dependencies must be installed with npm ci before standalone execution.'},null,2)+'\n');
+          console.log('Exact clean source and actual built artifact checksums attested:',actual,files.length);
+          JS
+      - name: Validate release scripts
+        run: |
+          bash -n infra/backup.sh infra/restore.sh infra/doctor.sh infra/verify.sh scripts/bootstrap-local.sh
+          for script in scripts/*.mjs; do node --check "$script"; done
+      - name: Build the actual Railway container and verify worker source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker build --file infra/Dockerfile.railway --build-arg GIT_SHA="$EXPECTED_GIT_SHA" --tag "knaba-source:$EXPECTED_GIT_SHA" .
+          docker run --rm --entrypoint node "knaba-source:$EXPECTED_GIT_SHA" --input-type=module -e 'import {readFile} from "node:fs/promises";import {verifyWorkerRelease} from "./scripts/railway-worker-start.mjs";const release=JSON.parse(await readFile("dist/release.json","utf8"));verifyWorkerRelease(release,process.env.GIT_SHA);if(release.source_dirty!==null||release.source_provenance!=="PINNED_CONTAINER_CONTEXT")throw Error("DOCKER_CONTEXT_PROVENANCE_REQUIRED");console.log(JSON.stringify(release));' > docs/evidence/railway-container-release.json
+          docker image inspect --format '{{.Id}}' "knaba-source:$EXPECTED_GIT_SHA" > docs/evidence/railway-container-image-id.txt
+          node --input-type=module -e 'import {readFile} from "node:fs/promises";const value=JSON.parse(await readFile("docs/evidence/railway-container-release.json","utf8"));if(value.code_sha!==process.env.EXPECTED_GIT_SHA)throw Error("CONTAINER_SOURCE_MISMATCH");console.log("Actual Railway Docker image source and worker gate verified",value.code_sha);'
+      - run: npx playwright install --with-deps chromium
+      - name: Real isolated SQL browser restore and worker restart acceptance
+        env:
+          KNABA_PG_CONTAINER: ${{ job.services.postgres.id }}
+        run: bash scripts/live-isolated-check.sh
+      - name: Package exact hosted source runtime and documentation
+        run: python3 scripts/package-hosted-release.py
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: knaba-source-delivery-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            artifacts/hosted-release/KNABA_DE_SOURCE_*.zip
+            artifacts/hosted-release/KNABA_DE_GIT_*.bundle
+            artifacts/hosted-release/HOSTED_RELEASE_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: knaba-documentation-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            artifacts/hosted-release/KNABA_DE_DELIVERY_DOCS_*.zip
+            artifacts/hosted-release/HOSTED_RELEASE_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: knaba-runtime-part1-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/hosted-release/*.zip.part001
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: knaba-runtime-part2-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/hosted-release/*.zip.part002
+          if-no-files-found: ignore
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: knaba-runtime-part3-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/hosted-release/*.zip.part003
+          if-no-files-found: ignore
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-evidence-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            docs/evidence/
+            dist/
+            package.json
+            package-lock.json
+            /tmp/knaba-de-test-artifacts/
+          retention-days: 7

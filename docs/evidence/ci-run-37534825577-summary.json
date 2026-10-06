@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "status": "FAILED",
+  "sourceGitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+  "sourceTree": "e1fa5ed7ee7ec076f197ca1341c4a1281b079d88",
+  "matchingLocalSourceGitSha": "dd67043d7f3c5a0107f3eabe6275ad2dd60d4abf",
+  "workflowRunId": 37534825577,
+  "jobId": 112512993282,
+  "url": "https://github.com/ziko1/knaba/actions/runs/37534825577",
+  "tests": {
+    "total": 1225,
+    "passed": 1221,
+    "failed": 4,
+    "skipped": 0,
+    "cpuOrExplicitTransportFixture": {
+      "total": 1068,
+      "passed": 1068,
+      "failed": 0
+    },
+    "genuinePostgreSQL": {
+      "total": 157,
+      "passed": 153,
+      "failed": 4,
+      "skipped": 0
+    },
+    "failures": [
+      {
+        "file": "tests/internal-assistant-visibility.integration.test.ts",
+        "name": "PostgreSQL current internal-cache source authorization through authenticated entity reads returns the current owner source-bound cache through a real session without writes, receipts or provider calls",
+        "executionClass": "REAL_POSTGRES",
+        "status": "FAILED",
+        "codes": []
+      },
+      {
+        "file": "tests/internal-assistant.integration.test.ts",
+        "name": "internal draft PostgreSQL/Engine atomic workflows with synthetic provider exact parallel receipt replay creates one atomic three-task batch and one confirmation outbox/audit event",
+        "executionClass": "REAL_POSTGRES",
+        "status": "FAILED",
+        "codes": [
+          "VERSION_CONFLICT"
+        ]
+      },
+      {
+        "file": "tests/internal-assistant.integration.test.ts",
+        "name": "internal draft PostgreSQL/Engine atomic workflows with synthetic provider canonical handler failure rolls back tasks, batch, draft confirmation, receipts, audit and outbox together",
+        "executionClass": "REAL_POSTGRES",
+        "status": "FAILED",
+        "codes": [
+          "VERSION_CONFLICT"
+        ]
+      },
+      {
+        "file": "tests/internal-assistant.integration.test.ts",
+        "name": "internal draft PostgreSQL/Engine atomic workflows with synthetic provider actual WorkerRunner leases, reserves INTERNAL_DRAFT, invokes configured adapter once, prepares private preview and settles measured usage",
+        "executionClass": "REAL_POSTGRES",
+        "status": "FAILED",
+        "codes": [
+          "VERSION_CONFLICT"
+        ]
+      }
+    ],
+    "classification": "Exact artifact offline-execution-scope.json matched every actual assertion by test path/full name/duplicate occurrence; not the subsequently changed working-tree inventory."
+  },
+  "browser": {
+    "total": 20,
+    "passed": 19,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 0,
+    "startTime": "2026-10-06T21:47:01.573Z",
+    "durationMs": 91895.14,
+    "cases": [
+      {
+        "title": "public entry supports all six languages at 360 px without document overflow",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "rendered demo login and canonical role landings are usable",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "real credentials authenticate and logout revokes the cookie session",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "manual shift start, private break, resume and end persist after page reload",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "task form creates a persisted task and mobile modal fits 360 px",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "team chat sends original text and reads the persisted message after reload",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "private photo upload validates bytes, registers site context and permits file retrieval",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "public contact and guest chat persist privately with honest manual fallback",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation",
+        "status": "PASSED",
+        "scope": "EXPLICIT_AI_TRANSPORT_FIXTURE"
+      },
+      {
+        "title": "mutations reject missing CSRF and CLIENT cannot read internal chat or payroll",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "published report PDF CSV XLSX match immutable snapshot and client access",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "manual inventory SKU lookup works without camera and shows approved unit conversion",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "client issue form references approved photo, persists original text and opens a review",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "structure import rejects malformed files, previews CSV and XLSX without writes, and commits reviewed hierarchy",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "a private guest handoff needs an explicit current operator claim before the original and reply are visible",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "an owned assigned task stays UNSYNCED offline and changes only after an explicit original-key retry acknowledgement",
+        "status": "FAILED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI",
+        "failureCode": "AMBIGUOUS_STATUS_LOCATOR",
+        "locator": "getByRole('dialog').getByRole('status')",
+        "matchedElements": 2,
+        "limit": "Failure stopped this case before its later online/manual-retry acknowledgement assertions; no functional UI assertion was diagnosed as failed by this trace."
+      },
+      {
+        "title": "the scoped empty route sketch fits360px and uses no external maps or browser GPS, including client deep-link denial",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "an owned shift has an actual read-only working-time advisory with explicit policy and insufficient-history coverage",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "authorized AI usage and explicit SIMULATED playground leave actual business records unchanged without provider execution",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      },
+      {
+        "title": "an actual own-message internal draft request stays pending or provider-disabled without a draft confirmation or business changes",
+        "status": "PASSED",
+        "scope": "ACTUAL_BACKEND_AND_RENDERED_UI"
+      }
+    ],
+    "scope": "Historical20 cases:19 actual backend/UI plus1 explicitly mocked customer AI draft transport fixture.18 actual cases and that1 fixture passed; offline retry case failed at ambiguous status locator. No real AI/provider or physical acceptance."
+  },
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:46:26Z",
+      "completedAt": "2026-10-06T21:46:26.771Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "FAILED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:46:26Z",
+      "completedAt": "2026-10-06T21:47:00.095Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "FAILED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:47:00Z",
+      "completedAt": "2026-10-06T21:48:33.619Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:48:33Z",
+      "completedAt": "2026-10-06T21:48:34.586Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:48:34Z",
+      "completedAt": "2026-10-06T21:48:34.794Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:48:34Z",
+      "completedAt": "2026-10-06T21:48:35.651Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "startedAt": "2026-10-06T21:48:35Z",
+      "completedAt": "2026-10-06T21:48:36.620Z"
+    }
+  ],
+  "container": {
+    "status": "PASSED",
+    "imageId": "sha256:60d62334b1d115abca43f0cfee25cd585767752ae8f1ae282f4f39304ccb8cc5",
+    "release": {
+      "code_sha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "source_dirty": null,
+      "source_provenance": "PINNED_CONTAINER_CONTEXT",
+      "version": "0.1.0",
+      "builtAt": "2026-10-06T21:42:56.868Z"
+    },
+    "scope": "Actual GitHub-hosted Docker build and image worker/source release gate. This does not imply a successful Railway build/deployment."
+  },
+  "artifact": {
+    "id": 11446158611,
+    "bytes": 8418475,
+    "outerSha256": "d5f2c34aa56422e179ec7b90e601291af5a2b4bd65bcfa9ee6533b32eefb8081",
+    "zipCrcVerified": true,
+    "url": "https://github.com/ziko1/knaba/actions/runs/37534825577/artifacts/11446158611",
+    "allBuiltFilesIndependentlyHashed": true,
+    "builtFiles": [
+      {
+        "path": "dist/release.json",
+        "bytes": 187,
+        "sha256": "2905d9f01affe5dd5cd451c278f77a964b8fdc6930e2852495620319caccee55"
+      },
+      {
+        "path": "dist/server.mjs",
+        "bytes": 2623306,
+        "sha256": "6ecd26589b1ea082eace81ff348a5b5bb85f0e624046cbdf052f9154d9df995c"
+      },
+      {
+        "path": "dist/server.mjs.map",
+        "bytes": 2297939,
+        "sha256": "4691431c9279d4d55a12db7804c8eb9ddc723c4516fa96318d0bcc855d37efe3"
+      },
+      {
+        "path": "dist/web/assets/index-BowZoysV.css",
+        "bytes": 75152,
+        "sha256": "e242fbead8f1dd571c2239c13432b82e983d6ab350215b21aa83a4acd53a77c1"
+      },
+      {
+        "path": "dist/web/assets/index-ePnOWeis.js",
+        "bytes": 567232,
+        "sha256": "829235c6309f4b98d332915d480c5b729d30a16bd23da045cf7b17aab46c48d9"
+      },
+      {
+        "path": "dist/web/icon.svg",
+        "bytes": 252,
+        "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b"
+      },
+      {
+        "path": "dist/web/index.html",
+        "bytes": 623,
+        "sha256": "8edf53377ae2c5f10f8de7d03c353bcb9921739d6e1b2f3737ed725836f3f218"
+      },
+      {
+        "path": "dist/web/manifest.webmanifest",
+        "bytes": 274,
+        "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9"
+      },
+      {
+        "path": "dist/web/sw.js",
+        "bytes": 953,
+        "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f"
+      },
+      {
+        "path": "dist/web/widget.js",
+        "bytes": 1670,
+        "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+      },
+      {
+        "path": "dist/worker.mjs",
+        "bytes": 815224,
+        "sha256": "132a95a861ae29611023859a30690109fa2578ba15c7fb6161cb06d9d4827ce8"
+      },
+      {
+        "path": "dist/worker.mjs.map",
+        "bytes": 1341591,
+        "sha256": "6a89a4579593320c8fc5d6b7fd11f0ef2a50c4e7581fc5b4721a5cb19453632f"
+      },
+      {
+        "path": "package-lock.json",
+        "bytes": 222312,
+        "sha256": "19bf39c58be142445b13795f84242c7ae238a7fa2893d592d52c6e5b42b39fd5"
+      },
+      {
+        "path": "package.json",
+        "bytes": 1139,
+        "sha256": "624325c9d41f2df25aa74b2a0ad84000cbdf81ea17d8d44094c539ae3c43f61f"
+      }
+    ],
+    "proofFiles": [
+      {
+        "path": "docs/evidence/built-artifacts.json",
+        "bytes": 2524,
+        "sha256": "993e666009b2a655f1521b59bc1c66e184bfc57202926a79b7a94d89921bf53b"
+      },
+      {
+        "path": "docs/evidence/railway-container-release.json",
+        "bytes": 178,
+        "sha256": "14b9553d1b6d5f3758e85660387cf848ed67965dbe31faa6fe06f1ebf694e7f6"
+      },
+      {
+        "path": "docs/evidence/railway-container-image-id.txt",
+        "bytes": 72,
+        "sha256": "bf683e7d199d17b3629bee88eec01a34d9fdf1b67b323011c52d9ae33776b561"
+      },
+      {
+        "path": "docs/evidence/live-isolated-verification.json",
+        "bytes": 3118,
+        "sha256": "6dd7002221cf8895a7b703a137afb9ecb10ca8c1f47c383691f029513602ed1b"
+      },
+      {
+        "path": "docs/evidence/release-live-unit.json",
+        "bytes": 513287,
+        "sha256": "cad290971845cf6ce11708b786617038e7abc1a58e454a7df2bf76974375acc6"
+      },
+      {
+        "path": "docs/evidence/browser-result.json",
+        "bytes": 342563,
+        "sha256": "12a69ef124590fe778acd1c235909f0eea804648bc607494c58bc6d46a3bb39e"
+      },
+      {
+        "path": "docs/evidence/bundled-worker-restart.json",
+        "bytes": 1042,
+        "sha256": "4ecf67ea1ce5098f9364bea5f87d222003efd88e12c437f60b7999ee4af94eb0"
+      },
+      {
+        "path": "docs/evidence/live-stages.jsonl",
+        "bytes": 1298,
+        "sha256": "fe350d2de4a94c4368ee47b3f2cd89ab7e25f0b56701a5e19de6b019b7b67e29"
+      },
+      {
+        "path": "docs/evidence/offline-execution-scope.json",
+        "bytes": 417877,
+        "sha256": "cc9c17f4ebd71d7c00e23513cff31a65c41523996bbf562d0a1d29be71ce09c2"
+      }
+    ]
+  },
+  "runtime": {
+    "scope": "LOCAL_VERIFICATION_ONLY in GitHub isolated runner, not public Railway",
+    "version": {
+      "version": "0.1.0",
+      "sha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "gitSha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "apiVersion": 1,
+      "mode": "DEMO"
+    },
+    "manifest": {
+      "code_sha": "fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1",
+      "source_dirty": false,
+      "source_provenance": "GIT_WORKTREE",
+      "version": "0.1.0",
+      "builtAt": "2026-10-06T21:38:54.547Z"
+    }
+  },
+  "backup": {
+    "sha256": "60726bbc27778564fcc6e3370468839c93a82b5266baf90a9f27571202a80cfa",
+    "authenticatedSidecarSha256": "96d43f91eff0780ed3d2f7e3857c00506d085779b96f7f9aa3b8ebe452ca555a",
+    "storage": "PRIVATE_LOCAL_RUN_DIRECTORY"
+  },
+  "restore": {
+    "status": "PASSED",
+    "scope": "Actual distinct empty synthetic PostgreSQL/private-blob restoration stage; no real company offsite/disaster recovery or later-erasure reconciliation claim."
+  },
+  "workerRestart": {
+    "status": "PASSED",
+    "temporaryWorkersStopped": true,
+    "scope": "Two actual bundled worker processes with graceful exits, fresh successful heartbeats and durable synthetic no-op probes on the restored synthetic copy."
+  },
+  "relatedNativeReceipt": "native-run-37534825214-summary.json",
+  "supersededWorkingTree": "Current source includes new domain/cron/authority/JSONB/Android fixes and21 authored browser scenarios; final build/PG/browser/native acceptance is CI_PENDING. No current full-suite count or final PASS is inferred.",
+  "historicalFilesInArtifact": [
+    "docs/evidence/release-summary.json"
+  ],
+  "authorityNote": "Use exact built-artifacts, container-release and live-isolated-verification receipts; earlier historical ledgers embedded in this ZIP retain their own earlier SHAs.",
+  "secretsRetained": false,
+  "scope": "Exact historical fc6 candidate. Genuine PostgreSQL execution occurred; AI/S3/provider transports explicitly mocked where identified. Application workflow failed4 PostgreSQL and1 browser case. No public Railway/provider/physical/legal acceptance.",
+  "nativeAndroid": {
+    "scope": "Exact historical fc6 native artifact, not a currently fixed source or company release",
+    "status": "FAILED_ANDROID_LINT",
+    "hostChecks": {
+      "localizationProjectionAndGenerationJava": 36,
+      "geofenceJava": 16,
+      "total": 52,
+      "status": "PASSED"
+    },
+    "lint": {
+      "status": "FAILED",
+      "errors": 3,
+      "warnings": 7,
+      "errorIds": [
+        "MissingPermission",
+        "UnspecifiedRegisterReceiverFlag"
+      ],
+      "limit": "Source fixes require new hosted execution; an existing APK does not satisfy failed lint."
+    },
+    "archive": {
+      "bytes": 935593,
+      "sha256": "a30e9c3111442c1fb1fa86780341d6c42a9d575a2595e270f0533bfbfc422c75",
+      "zipCrcVerified": true,
+      "proofFiles": [
+        {
+          "path": "app/build/reports/lint-results-debug.xml",
+          "bytes": 15785,
+          "sha256": "e785750655b9746edb7fd750a58c1fff17c19d61fe6eaf778be438d272b85843"
+        },
+        {
+          "path": "build/evidence/native-localization-vectors.log",
+          "bytes": 285,
+          "sha256": "ab7e9e64b75152e06dbf7b854163dc169552076c80e66c755e11b0ff9bc7a90a"
+        },
+        {
+          "path": "build/evidence/native-vectors.log",
+          "bytes": 109,
+          "sha256": "ce75290759bfd988192ba5a83ef4569b47cdaea38ff7d142b47653058f03ccc6"
+        }
+      ]
+    },
+    "debugApk": {
+      "bytes": 939944,
+      "sha256": "7d04d1ae24c82b6d71368487030580371d9a5d86b112b56744fdbf5d61cd91e6",
+      "artifactProduced": true,
+      "signingVerification": "NOT_VERIFIED_IN_THIS_RUN",
+      "productionSigning": "NOT_RUN"
+    },
+    "physicalGPSAndBattery": "NOT_RUN"
+  }
+}

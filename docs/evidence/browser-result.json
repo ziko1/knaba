@@ -1,0 +1,561 @@
+{
+  "config": {
+    "configFile": "/workspace/knaba-de/playwright.config.ts",
+    "rootDir": "/workspace/knaba-de/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/evidence/browser-result.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "docs/evidence/browser-report",
+          "open": "never"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/knaba-de/docs/evidence/browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/knaba-de/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "browser.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "browser.spec.ts",
+      "file": "browser.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "public entry supports all six languages at 360 px without document overflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-6fdd6ad7bee08563b57e",
+          "file": "browser.spec.ts",
+          "line": 154,
+          "column": 1
+        },
+        {
+          "title": "rendered demo login and canonical role landings are usable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-cabeb2c455296833c193",
+          "file": "browser.spec.ts",
+          "line": 173,
+          "column": 1
+        },
+        {
+          "title": "real credentials authenticate and logout revokes the cookie session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-1242e48ef2bbbd2f0630",
+          "file": "browser.spec.ts",
+          "line": 207,
+          "column": 1
+        },
+        {
+          "title": "manual shift start, private break, resume and end persist after page reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-af8372084e702c5542a7",
+          "file": "browser.spec.ts",
+          "line": 227,
+          "column": 1
+        },
+        {
+          "title": "task form creates a persisted task and mobile modal fits 360 px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-79592b60db7df0459967",
+          "file": "browser.spec.ts",
+          "line": 279,
+          "column": 1
+        },
+        {
+          "title": "team chat sends original text and reads the persisted message after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-4a18b7024ed941f7ace7",
+          "file": "browser.spec.ts",
+          "line": 311,
+          "column": 1
+        },
+        {
+          "title": "private photo upload validates bytes, registers site context and permits file retrieval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-36d1d3b4e0750166063b",
+          "file": "browser.spec.ts",
+          "line": 344,
+          "column": 1
+        },
+        {
+          "title": "public contact and guest chat persist privately with honest manual fallback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-551818851032eb02a9c3",
+          "file": "browser.spec.ts",
+          "line": 395,
+          "column": 1
+        },
+        {
+          "title": "transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-81c57007835016f1d6cf",
+          "file": "browser.spec.ts",
+          "line": 448,
+          "column": 1
+        },
+        {
+          "title": "mutations reject missing CSRF and CLIENT cannot read internal chat or payroll",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-227f9cc66cb5c599ce20",
+          "file": "browser.spec.ts",
+          "line": 616,
+          "column": 1
+        },
+        {
+          "title": "published report PDF CSV XLSX match immutable snapshot and client access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ed5a7e7c9709f2e89a54",
+          "file": "browser.spec.ts",
+          "line": 632,
+          "column": 1
+        },
+        {
+          "title": "manual inventory SKU lookup works without camera and shows approved unit conversion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d8b71e866fffaf569357",
+          "file": "browser.spec.ts",
+          "line": 663,
+          "column": 1
+        },
+        {
+          "title": "client issue form references approved photo, persists original text and opens a review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-33477a266e2647a2842f",
+          "file": "browser.spec.ts",
+          "line": 684,
+          "column": 1
+        },
+        {
+          "title": "structure import rejects malformed files, previews CSV and XLSX without writes, and commits reviewed hierarchy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-b6dee6b4ed9ea728f9d1",
+          "file": "browser.spec.ts",
+          "line": 720,
+          "column": 1
+        },
+        {
+          "title": "a private guest handoff needs an explicit current operator claim before the original and reply are visible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ec1cafe4ca7ab85fb580",
+          "file": "browser.spec.ts",
+          "line": 816,
+          "column": 1
+        },
+        {
+          "title": "an owned assigned task stays UNSYNCED offline and changes only after an explicit original-key retry acknowledgement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-75da2cf422efa7ba23db",
+          "file": "browser.spec.ts",
+          "line": 917,
+          "column": 1
+        },
+        {
+          "title": "the scoped empty route sketch fits360px and uses no external maps or browser GPS, including client deep-link denial",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-31fd8517fa4d7fb46d82",
+          "file": "browser.spec.ts",
+          "line": 1039,
+          "column": 1
+        },
+        {
+          "title": "an owned shift has an actual read-only working-time advisory with explicit policy and insufficient-history coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-0802512cf6abf40b01ef",
+          "file": "browser.spec.ts",
+          "line": 1105,
+          "column": 1
+        },
+        {
+          "title": "authorized AI usage and explicit SIMULATED playground leave actual business records unchanged without provider execution",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-f49668844bd3fff94222",
+          "file": "browser.spec.ts",
+          "line": 1155,
+          "column": 1
+        },
+        {
+          "title": "an actual own-message internal draft request stays pending or provider-disabled without a draft confirmation or business changes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ab44ce3b5ed488e380f4",
+          "file": "browser.spec.ts",
+          "line": 1260,
+          "column": 1
+        },
+        {
+          "title": "administration authors, previews and explicitly activates a persisted automation rule without executing it; employees cannot manage rules",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-bba16ec743efcd38130e",
+          "file": "browser.spec.ts",
+          "line": 1410,
+          "column": 1
+        },
+        {
+          "title": "activity bell shows only own notices, acknowledges the exact version and opens a genuinely unread authorized chat",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d45cf38f1b7f19c1d3e4",
+          "file": "browser.spec.ts",
+          "line": 1571,
+          "column": 1
+        },
+        {
+          "title": "director saves an authorized digest schedule, previews without effects and opens the immutable own digest through history, activity and protected links",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-589263de8678de088c05",
+          "file": "browser.spec.ts",
+          "line": 1684,
+          "column": 1
+        },
+        {
+          "title": "manual opaque masks edit only a separate client photo copy and require a fresh explicit publication approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d931b6ea485e3ef9b4ee",
+          "file": "browser.spec.ts",
+          "line": 1873,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-06T22:39:49.812Z",
+    "duration": 463.19899999999996,
+    "expected": 0,
+    "skipped": 24,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

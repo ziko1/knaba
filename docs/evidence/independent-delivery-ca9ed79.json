@@ -1,0 +1,110 @@
+{
+  "status": "PASSED_INDEPENDENT_ARTIFACT_VERIFICATION",
+  "verifiedAt": "2026-10-06T23:18:13.291177+00:00",
+  "codeSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "sourceTree": "8144d5bc90fcefe9bcdb26255d55287e96f2a170",
+  "manifestSha256": "44dad61107177471bae9157a4afc28abccb5ed1dc371e82274d7cd7d7b189b5d",
+  "sourceArchiveSha256": "9fc663cb44bd75f2379f7895e90615aa8b677653cc613527fa367870bb4891ca",
+  "documentationArchiveSha256": "cc248e3f32d3669f4e486ce241d254e9d06470031d2a783d8f7dfb810d222f8d",
+  "runtimeArchiveSha256": "00cfa4e5ccab60f073ae6e2b91837460e1ee67710362a344468980e72242b7be",
+  "runtimeBytes": 44611431,
+  "runtimeParts": 2,
+  "completeSourceTreeBytes": "PASSED",
+  "comparedRuntimeCommittedFiles": 93,
+  "testSourceFiles": 54,
+  "unit": {
+    "status": "PASSED",
+    "total": 1513,
+    "passed": 1513,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0,
+    "classification": {
+      "status": "EXACT_INDEX_VALIDATED",
+      "indexIsExecutionProof": false,
+      "realPostgres": {
+        "total": 206,
+        "passed": 206,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "cpuDocumentOrTransportDouble": {
+        "total": 1307,
+        "passed": 1307,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  },
+  "browser": {
+    "status": "PASSED",
+    "passed": 24,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "total": 24
+  },
+  "browserScope": {
+    "actualBackendScenarios": 23,
+    "explicitTransportFixtures": 1
+  },
+  "hostedIsolatedStages": [
+    "backup-tamper-rejection",
+    "bundled-worker-heartbeat-and-restart",
+    "empty-database-private-blob-restore",
+    "encrypted-delivery-backup",
+    "exact-live-runtime",
+    "full-unit-and-postgres",
+    "rendered-browser-scenarios"
+  ],
+  "dockerImageId": "sha256:3f855e841a28edb536df6e5d7286f0ca82a7857003b892502bd1747cc3c59bb7",
+  "workerRestart": "TWO_ACTUAL_PROCESS_PHASES_RECEIPT_CHECKED",
+  "encryptedBackup": "HOSTED_DIGEST_AND_TAMPER_RESTORE_STAGE_RECEIPTS_CHECKED",
+  "restore": {
+    "status": "HOSTED_LOG_RECEIPT_CHECKED",
+    "originalTables": 17,
+    "privateBlobs": 10,
+    "rawLogSha256": "b33e3279ba94b94a32753d1ed8b7a6bef1571eb9525a3e2081dd511da76afc84",
+    "localRestoreReplay": "NOT_RUN"
+  },
+  "runtimeExtractionAndCPUProbes": {
+    "status": "PASSED",
+    "checkedRequiredDependencyClosure": 253,
+    "relativeBinLinks": {
+      "tsx": "node_modules/tsx/dist/cli.mjs",
+      "esbuild": "node_modules/esbuild/bin/esbuild"
+    },
+    "localCPUProbes": [
+      "NODE24_LINUX_X64",
+      "SERVER_WORKER_SYNTAX",
+      "TSX_CLI_SYNTAX_BINLINK_AND_LOADER_TRANSPILE",
+      "ESBUILD_EXECUTABLE_VERSION",
+      "SHARP_SYNTHETIC_PNG_ROUNDTRIP"
+    ],
+    "tsxPackageVersion": "4.20.5",
+    "tsxLoader": {
+      "status": "PASSED",
+      "entry": "NODE_IMPORT_TSX",
+      "actualTypedModuleLoaded": true,
+      "cliVersionListener": "NOT_INVOKED",
+      "applicationImports": "NONE"
+    },
+    "node": {
+      "version": "v24.19.0",
+      "platform": "linux",
+      "arch": "x64"
+    }
+  },
+  "gitBundle": "NOT_CREATED",
+  "independentProviderReceipt": {
+    "status": "PASSED",
+    "runId": 37544413379,
+    "headSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+    "conclusion": "success"
+  },
+  "publicDeployment": "NOT_VERIFIED_BY_THIS_CHECK",
+  "externalProvidersAndPhysicalDevices": "NOT_VERIFIED_BY_THIS_CHECK",
+  "scope": "Downloaded exact-source artifacts, embedded actual synthetic CI receipts and local dependency/syntax/native-library CPU probes; no local PostgreSQL/browser/restore execution or public deployment."
+}

@@ -1,0 +1,1 @@
+{"extends":"../../tsconfig.json","include":["src/**/*.ts","src/**/*.tsx","vite.config.ts","vitest.config.ts","../../packages/ui/**/*.tsx","../../packages/i18n/**/*.ts"],"exclude":["../../node_modules","../../dist"]}
