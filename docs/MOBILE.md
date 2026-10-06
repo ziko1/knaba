@@ -2,14 +2,16 @@
 
 The repository contains a Kotlin Android app in `apps/mobile-android` and a SwiftUI/Core Location iOS app in `apps/mobile-ios`, package/bundle `de.knaba.mobile`. They are separate from AVENQO and share the same freshly authorized device bearer API. Android uses a visible foreground service and Android Keystore AES-GCM storage. iOS uses explicit visible Core Location activation, Keychain tokens and CryptoKit AES-GCM storage. Both stop location locally before private break and END requests.
 
+Current tested source is `ca9ed79ff4c0429223eb60754289ee1132088361`. Actual hosted [native run37544413386](https://github.com/ziko1/knaba/actions/runs/37544413386) succeeded; the [independent native receipt](evidence/native-run-37544413386-summary.json) records exact artifact bytes, hashes and verification scope.
+
 | Component | Actual readiness |
 | --- | --- |
-| Android source, API/manual actions, encrypted queue, visible native tracking | IMPLEMENTED_SOURCE; Android compile/runtime NOT_RUN |
-| iOS source, SwiftUI/manual actions, Keychain/CryptoKit queue, Core Location | IMPLEMENTED_SOURCE; Xcode compile/simulator/runtime NOT_RUN |
-| Native conservative geofence math | PASSED: actual Android Java classifier compiled on host JVM; 16 synthetic vectors |
-| iOS property lists, shared JSON and executable scripts | PASSED: syntax/static validation |
-| Android APK / production signed bundle | BLOCKED_EXTERNAL: no cached Android SDK/Gradle; signing identity unavailable |
-| iOS .app / signed IPA | BLOCKED_EXTERNAL: macOS/Xcode/XcodeGen/Apple team unavailable |
+| Android source, API/manual actions, encrypted queue, visible native tracking | Compile/debug assembly PASS; lint zero errors/eight warnings; physical Android runtime NOT_RUN |
+| iOS source, SwiftUI/manual actions, Keychain/CryptoKit queue, Core Location | Unsigned simulator compile PASS; 15 actual XCTest PASS, zero fail/skip, on exact Booted iOS18.5/iPhone16 simulator |
+| Native conservative vectors and guards | 52 actual host Java checks PASS; JVM checks remain separate from physical Android execution |
+| Android debug APK | Delivered 940080 bytes, SHA256 `ec4bacb9990e13e3897c8b2f5631740c0167a24eb5b3740f759bf6cb9fb59036`; APKv2 signature/full content and actual modified-byte rejection independently PASS |
+| iOS simulator .app ZIP | Delivered 5505381 bytes, SHA256 `d4ca3a35384d56402a22755aa98987660ec14d31945289cbc00fc2900c3e96ee`; 45 bundle files/CRC/Mach-O page hashes independently PASS |
+| Company-signed Android release / installable signed IPA | BLOCKED_EXTERNAL: company signing identities, provisioning and distribution acceptance missing |
 | Physical phones, background battery/permission/force-stop behavior | NOT_RUN / BLOCKED_EXTERNAL; no reliability claim |
 
 ## Enrollment and command contract
@@ -36,9 +38,9 @@ Android pins Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, SDK 36 and Java 17 bytecode
 
 On macOS with Xcode and XcodeGen 2.43.0, run `bash apps/mobile-ios/scripts/build.sh`. Versioned `project.yml` generates `KNABADE.xcodeproj` and an unsigned simulator app. Optional `KNABA_IOS_TEST_DESTINATION` runs XCTest and preserves `.xcresult`. iOS target is 16.0+, Swift language mode 5.9. Sources include SwiftUI forms/navigation, manual time/trip actions, HTTPS enrollment, Keychain/CryptoKit queue, exact receipts and leased Core Location. Production requires the KNABA Apple team, provisioning profiles, signing and review of Info.plist/privacy declarations. Simulator builds do not establish signed-phone usability.
 
-## Actual checks in this environment
+## Historical local checks before hosted acceptance
 
-On 2026-10-06 the following results were observed:
+On 2026-10-06 the following local results were observed before the hosted native runs. These original failures remain historical; they do not describe the later successful hosted compile/artifact/XCTest readiness above.
 
 | Command/check | Exit | Actual evidence and limit |
 | --- | --- | --- |
@@ -48,7 +50,7 @@ On 2026-10-06 the following results were observed:
 | Python plistlib parsing on Info.plist/PrivacyInfo.xcprivacy and shared JSON checks | 0 | Apple property lists parse; synthetic provenance/five-minute lease fixture validates. Syntax verification only. |
 | bash/sh syntax checks on build/vector scripts and Android launcher | 0 | Executable scripts parse. |
 
-An initial javac-binary invocation failed; the available jdk.compiler module was then discovered and used successfully. Native SDK network provisioning stalled and was stopped. No build artifact is claimed from that attempt. Shared iOS XCTest source covers the same vectors, dwell and lease/privacy guards, but XCTest cannot run without Xcode.
+An initial javac-binary invocation failed; the available jdk.compiler module was then discovered and used successfully. Native SDK network provisioning stalled and was stopped. No build artifact is claimed from that local attempt. Later hosted macOS acceptance provided Xcode and executed the 15 XCTest cases recorded above.
 
 ## Required physical acceptance evidence
 
