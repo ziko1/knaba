@@ -290,6 +290,13 @@ export const communicationsCommands:CommandRegistry={
   'delivery.reply_context':{permission:'chat.read',schema:z.object({provider_message_id:z.string().min(1).max(200)}).strict(),handler:async(ctx,input)=>{
     const copies=(await ctx.tx.list('delivery')).filter(d=>d.data.provider_message_id===input.provider_message_id&&d.data.recipient_id===ctx.actor.userId);assert(copies.length===1,'AMBIGUOUS_RECIPIENT');const {message}=await visibleMessage(ctx,copies[0].data.message_id);return {message_id:message.id,channel_id:message.data.channel_id};
   }},
+  'notification.read':{permission:'chat.read',schema:z.object({notification_id:id}).strict(),handler:async(ctx,input)=>{
+    const item=await ctx.tx.get('notification',input.notification_id);assert(item.data.recipient_id===ctx.actor.userId,'NOT_FOUND_SAFE');
+    if(ctx.expectedVersion!==undefined)assert(item.version===ctx.expectedVersion,'VERSION_CONFLICT');
+    if(item.data.read_at)return {notification_id:item.id,read_at:item.data.read_at,version:item.version};
+    const saved=await ctx.tx.save(item,{...item.data,read_at:ctx.now},ctx.expectedVersion??item.version);
+    return {notification_id:saved.id,read_at:saved.data.read_at,version:saved.version};
+  }},
   'notifications.configure':{permission:'chat.read',schema:z.object({language,whatsapp_consent:z.boolean(),opted_out:z.boolean().default(false),quiet_start:z.number().int().min(0).max(23).default(22),quiet_end:z.number().int().min(0).max(23).default(7),allowed_fallback:z.enum(['WEB','NONE']).default('WEB')}).strict(),handler:async(ctx,input)=>{
     const current=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);const data={...current?.data,...input,user_id:ctx.actor.userId,timezone:'Europe/Berlin',consent_recorded_at:ctx.now};return current?ctx.tx.save(current,data):ctx.tx.add('notification_setting',data);
   }},
@@ -299,7 +306,7 @@ export const communicationsCommands:CommandRegistry={
     const data={...current?.data,user_id:input.user_id,last_inbound_at:input.received_at};return current?ctx.tx.save(current,data):ctx.tx.add('notification_setting',data);
   }},
   'notifications.schedule':{permission:'notifications.manage',schema:z.object({recipient_id:id,event:z.string().min(1).max(100),category:z.enum(['WORK','CHAT','PAYMENT','CUSTOMER','TECHNICAL']),scheduled_at:timestamp,dedup_key:z.string().min(1).max(200),channel:z.enum(['WEB','WHATSAPP']).default('WEB'),related_kind:z.string().max(100).optional(),related_id:id.optional(),message_id:id.optional(),template:z.string().max(100).optional(),template_status:z.enum(['APPROVED','PENDING','REJECTED']).optional(),max_attempts:z.number().int().min(1).max(3).default(3)}).strict(),handler:async(ctx,input)=>{
-    assert(isManager(ctx.actor)||ctx.actor.roles.some(r=>['FOREMAN','SERVICE_ACCOUNT'].includes(r)),'ACCESS_DENIED');
+    assert(isManager(ctx.actor)||ctx.actor.roles.some(r=>['FOREMAN','SERVICE_ACCOUNT'].includes(r))||ctx.actor.permissions.includes('notifications.manage')&&ctx.actor.roles.some(r=>['INTERNAL_BAULEITER','TEAM_LEADER'].includes(r)),'ACCESS_DENIED');
     if(input.message_id){const message=await ctx.tx.get('message',input.message_id),channel=await ctx.tx.get('channel',message.data.channel_id);if(!ctx.actor.roles.includes('SERVICE_ACCOUNT'))await assertChannelAccess(ctx,channel);assert(await recipientCanRead(ctx,channel,input.recipient_id,message),'ACCESS_DENIED');}
     const existing=(await ctx.tx.list('notification')).find(n=>n.data.dedup_key===input.dedup_key&&n.data.recipient_id===input.recipient_id);if(existing)return existing;
     const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===input.recipient_id);

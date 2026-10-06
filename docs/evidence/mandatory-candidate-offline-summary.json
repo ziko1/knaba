@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "status": "CPU_PASSED_REAL_POSTGRES_NOT_RUN",
+  "scope": "Socket-restricted local execution. Explicit per-case execution class and test-source hashes; skipped PostgreSQL is not SQL acceptance. New exact-source hosted build/native/SQL/24-browser/Docker/restore/worker/delivery verification pending.",
+  "generatedAt": "2026-10-06T22:23:42.537765Z",
+  "sourceBaseRemoteSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+  "fullUnit": {
+    "success": true,
+    "numTotalTests": 1472,
+    "numPassedTests": 1279,
+    "numFailedTests": 0,
+    "numPendingTests": 193
+  },
+  "executionClasses": {
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1279,
+    "REAL_POSTGRES": 193
+  },
+  "testSourceFiles": 52,
+  "rawLocalReportSha256": "a25203266a5f6a3efc01b99977d9375b84ed4d5967e11a1758b50bf450e3159e",
+  "classIndexSha256": "37485b9f8a9a70af30b5383ecadd55cc8ca7606ee68d8a09dfa65289cda57aad",
+  "browserDiscovery": {
+    "total": 24,
+    "actualBackendCases": 23,
+    "explicitTransportFixtureCases": 1,
+    "execution": "NOT_RUN"
+  },
+  "strictTypeScript": "PASSED",
+  "externalProviders": "NOT_RUN",
+  "physicalNative": "NOT_RUN",
+  "railwayLive": "NOT_READY"
+}

@@ -120,7 +120,7 @@ CREATE OR REPLACE FUNCTION knaba_validate_privacy_revision(
 DECLARE approved_plan jsonb;request_data jsonb;executor_id text;
 BEGIN
  IF p_company IS NULL OR p_request IS NULL OR p_plan IS NULL OR p_old IS NULL OR p_new IS NULL
- OR p_kind NOT IN('message','media_asset','media_upload','message_version','message_copy_preview','translation','translation_request','delivery','callback','channel_activity','search_index','knowledge_index','conversation_input','notification','whatsapp_router_session','whatsapp_router_action','whatsapp_router_response','assistant_lead_draft','assistant_tool_call','internal_assistant_request','internal_assistant_draft')
+ OR p_kind NOT IN('message','media_asset','media_upload','media_client_edit','message_version','message_copy_preview','translation','translation_request','delivery','callback','channel_activity','search_index','knowledge_index','conversation_input','notification','whatsapp_router_session','whatsapp_router_action','whatsapp_router_response','assistant_lead_draft','assistant_tool_call','internal_assistant_request','internal_assistant_draft')
  OR jsonb_typeof(p_new)<>'object' OR p_new->>'privacyErasureRequestId' IS DISTINCT FROM p_request
  OR p_new->>'state' IS DISTINCT FROM 'ERASED' OR p_new ?| ARRAY['source_text','translated_text','body','caption','blobKey','clientBlobKey','snapshot','input','payload']
  OR (p_new ? 'text' AND p_new->>'text' IS DISTINCT FROM '')

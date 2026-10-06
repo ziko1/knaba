@@ -1,3 +1,4 @@
+import {authorizeDigestPolicy,digestScopeAllowed,policyDue} from '../../packages/domain/operations-digest.ts';
 import {automationScheduleDue} from '../../packages/domain/automation-schedule.ts';
 import {authorizeAutomationRun} from '../../packages/domain/automation-authority.ts';
 import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assistant-playground.ts';
@@ -74,6 +75,7 @@ export class WorkerRunner {
     case 'assistant.answer_requested':return this.answer(job);
     case 'internal_assistant.requested':return this.internalDraft(job);
     case 'automation.action_requested':return this.automationAction(job);
+    case 'digest.requested':return this.operationsDigest(job);
     case 'task.calendar_requested':return this.calendar(job);
     case 'report.daily_requested':return this.command(job,'report.daily_draft',{siteId:job.data.siteId,orderId:job.data.orderId,day:job.data.day});
     default:return;
@@ -316,10 +318,27 @@ export class WorkerRunner {
       throw error;
     }
   }
+  private async operationsDigest(job:OutboxJob){
+    assert(job.company_id===this.options.companyId&&job.lease_token,'ACCESS_DENIED');
+    const prepared=await this.db.transaction(job.company_id,serviceId,async tx=>{
+      const held=await tx.query("SELECT id,type,data FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token]);
+      assert(held.rows.length===1,'WORKER_LEASE_LOST');const data=held.rows[0].data;
+      assert(held.rows[0].type==='digest.requested'&&data?.policyId===job.data.policyId&&data?.policyVersion===job.data.policyVersion&&data?.ownerId===job.data.ownerId&&data?.slotAt===job.data.slotAt,'ACCESS_DENIED');
+      const policy=await tx.get('digest_policy',data.policyId);assert(policy.version===data.policyVersion&&policy.data.ownerId===data.ownerId,'VERSION_CONFLICT');
+      const service=await this.engine.actorIn(tx,serviceId);assert(service.roles.includes('SERVICE_ACCOUNT')&&await digestScopeAllowed(tx,service,policy.data.scope,'automation.execute',this.engine),'ACCESS_DENIED');
+      const owner=await this.engine.actorIn(tx,data.ownerId);await authorizeDigestPolicy(tx,owner,policy,this.engine);return {owner,policy};
+    },10000);
+    return this.engine.execute(prepared.owner,'digest.generate',{input:{policyId:prepared.policy.id,policyVersion:prepared.policy.version,slotAt:job.data.slotAt},expected_version:prepared.policy.version,idempotency_key:key('worker',job.id,'operations-digest'),worker_lease:{id:job.id,token:job.lease_token!}});
+  }
   private async calendar(job:OutboxJob){const actor=await this.engine.getActor(job.data.ownerId,job.company_id);return this.command(job,'task_template.generate_due',{templateId:job.data.templateId,templateVersion:job.data.templateVersion},'generate-due',actor);}
   private localDay(){const p=berlinParts(this.now());return `${p.year}-${p.month}-${p.day}`;}
   async scheduled(){const now=this.now(),p=berlinParts(now),minute=`${this.localDay()}:${p.hour}:${p.minute}`;if(minute===this.lastScheduleMinute)return;await this.db.transaction(this.options.companyId,serviceId,async tx=>{const day=this.localDay();if(Number(p.hour)>=18){for(const order of await tx.list('order'))if(order.data.siteId&&order.data.customerId&&!['CANCELLED','CLOSED'].includes(order.data.status)){const id=key('daily-report',tx.companyId,order.id,day);await tx.query(`INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'report.daily_requested',$3) ON CONFLICT(id) DO NOTHING`,[id,tx.companyId,JSON.stringify({siteId:order.data.siteId,orderId:order.id,day})]);}}
     const calendarCursors=await tx.list('task_calendar_cursor');for(const template of await tx.list('task_template')){if(template.data.active!==true||template.data.recurrence==='MANUAL'||!template.data.schedule||!template.data.activatedAt||!template.data.scheduleOwnerId)continue;const cursor=calendarCursors.find(c=>c.data.templateId===template.id&&c.data.scheduleRevision===template.data.revision);if(cursor?.data.nextDueAt&&!cursor.data.hasMore&&Date.parse(cursor.data.nextDueAt)>now.getTime())continue;const id=key('task-calendar',template.id,String(template.data.revision),minute);await tx.query("INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'task.calendar_requested',$3) ON CONFLICT(id) DO NOTHING",[id,tx.companyId,JSON.stringify({templateId:template.id,templateVersion:template.version,ownerId:template.data.scheduleOwnerId})]);}
+    for(const policy of await tx.list('digest_policy')){
+      let slot;try{slot=policyDue(policy,now);}catch{continue;}if(!slot)continue;
+      const id=key('operations-digest',policy.id,String(policy.version),slot.slotKey);
+      await tx.query("INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'digest.requested',$3) ON CONFLICT(id) DO NOTHING",[id,tx.companyId,JSON.stringify({policyId:policy.id,policyVersion:policy.version,ownerId:policy.data.ownerId,slotAt:slot.slotAt})]);
+    }
     for(const rule of await tx.list('automation_rule')){if(rule.data.status!=='ACTIVE'||!rule.data.approvedBy||Date.parse(rule.data.activeFrom)>now.getTime()||!rule.data.schedule?.cron)continue;try{if(!scheduleDue(rule.data.schedule.cron,now))continue;}catch{continue;}const id=key('scheduled-rule',rule.id,String(rule.data.ruleVersion),minute);await tx.query('INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,$3,$4) ON CONFLICT(id) DO NOTHING',[id,tx.companyId,rule.data.trigger,JSON.stringify({...rule.data.parameters?.eventData,scheduledRuleId:rule.id,siteId:rule.data.scope.siteIds.length===1?rule.data.scope.siteIds[0]:undefined,customerId:rule.data.scope.customerIds.length===1?rule.data.scope.customerIds[0]:undefined})]);}
   });this.lastScheduleMinute=minute;}
 }

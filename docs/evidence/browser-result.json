@@ -263,7 +263,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-227f9cc66cb5c599ce20",
           "file": "browser.spec.ts",
-          "line": 610,
+          "line": 616,
           "column": 1
         },
         {
@@ -283,7 +283,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-ed5a7e7c9709f2e89a54",
           "file": "browser.spec.ts",
-          "line": 626,
+          "line": 632,
           "column": 1
         },
         {
@@ -303,7 +303,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-d8b71e866fffaf569357",
           "file": "browser.spec.ts",
-          "line": 657,
+          "line": 663,
           "column": 1
         },
         {
@@ -323,7 +323,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-33477a266e2647a2842f",
           "file": "browser.spec.ts",
-          "line": 678,
+          "line": 684,
           "column": 1
         },
         {
@@ -343,7 +343,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-b6dee6b4ed9ea728f9d1",
           "file": "browser.spec.ts",
-          "line": 714,
+          "line": 720,
           "column": 1
         },
         {
@@ -363,7 +363,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-ec1cafe4ca7ab85fb580",
           "file": "browser.spec.ts",
-          "line": 810,
+          "line": 816,
           "column": 1
         },
         {
@@ -383,7 +383,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-75da2cf422efa7ba23db",
           "file": "browser.spec.ts",
-          "line": 911,
+          "line": 917,
           "column": 1
         },
         {
@@ -403,7 +403,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-31fd8517fa4d7fb46d82",
           "file": "browser.spec.ts",
-          "line": 1033,
+          "line": 1039,
           "column": 1
         },
         {
@@ -423,7 +423,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-0802512cf6abf40b01ef",
           "file": "browser.spec.ts",
-          "line": 1099,
+          "line": 1105,
           "column": 1
         },
         {
@@ -443,7 +443,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-f49668844bd3fff94222",
           "file": "browser.spec.ts",
-          "line": 1149,
+          "line": 1155,
           "column": 1
         },
         {
@@ -463,7 +463,7 @@
           ],
           "id": "fbeac1b2decfba2c3acd-ab44ce3b5ed488e380f4",
           "file": "browser.spec.ts",
-          "line": 1254,
+          "line": 1260,
           "column": 1
         },
         {
@@ -483,7 +483,67 @@
           ],
           "id": "fbeac1b2decfba2c3acd-bba16ec743efcd38130e",
           "file": "browser.spec.ts",
-          "line": 1404,
+          "line": 1410,
+          "column": 1
+        },
+        {
+          "title": "activity bell shows only own notices, acknowledges the exact version and opens a genuinely unread authorized chat",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d45cf38f1b7f19c1d3e4",
+          "file": "browser.spec.ts",
+          "line": 1571,
+          "column": 1
+        },
+        {
+          "title": "owner saves an actual digest schedule, previews without business effects and explicitly generates an immutable due digest",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-5e7b40e3194991d544a9",
+          "file": "browser.spec.ts",
+          "line": 1684,
+          "column": 1
+        },
+        {
+          "title": "manual opaque masks edit only a separate client photo copy and require a fresh explicit publication approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d931b6ea485e3ef9b4ee",
+          "file": "browser.spec.ts",
+          "line": 1806,
           "column": 1
         }
       ]
@@ -491,10 +551,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-06T21:59:16.133Z",
-    "duration": 373.22400000000005,
+    "startTime": "2026-10-06T22:11:45.870Z",
+    "duration": 396.769,
     "expected": 0,
-    "skipped": 21,
+    "skipped": 24,
     "unexpected": 0,
     "flaky": 0
   }

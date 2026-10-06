@@ -1,0 +1,87 @@
+{
+  "sourceGitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+  "sourceTree": "29abe07885dcd54479a102ac795b3e615e2bcb63",
+  "workflowRunId": 37537880427,
+  "jobId": 112523382809,
+  "status": "FAILED_BROWSER_TRANSPORT_TEARDOWN",
+  "artifactId": 11447019537,
+  "outerSha256": "05bd9aef842280ee93a449e6e8eca696eb4782fdefbb1228cccd5c5e6192de40",
+  "outerBytes": 5126378,
+  "builtFilesIndependentlyVerified": 14,
+  "unit": {
+    "success": true,
+    "numTotalTests": 1367,
+    "numPassedTests": 1367,
+    "numFailedTests": 0,
+    "numPendingTests": 0
+  },
+  "executionClasses": {
+    "REAL_POSTGRES": {
+      "passed": 162
+    },
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+      "passed": 1205
+    }
+  },
+  "browser": {
+    "startTime": "2026-10-06T22:07:35.498Z",
+    "duration": 127595.67700000001,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:07:09Z",
+      "completedAt": "2026-10-06T22:07:10.046Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "PASSED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:07:10Z",
+      "completedAt": "2026-10-06T22:07:34.561Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "FAILED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:07:34Z",
+      "completedAt": "2026-10-06T22:09:43.207Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:09:43Z",
+      "completedAt": "2026-10-06T22:09:43.873Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:09:43Z",
+      "completedAt": "2026-10-06T22:09:44.022Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:09:44Z",
+      "completedAt": "2026-10-06T22:09:44.607Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "9d94babd2fde620c018b81ca6d83d8e77a9b0c3e",
+      "startedAt": "2026-10-06T22:09:44Z",
+      "completedAt": "2026-10-06T22:09:45.536Z"
+    }
+  ],
+  "rawEvidenceDirectory": "/tmp/knaba-ci-9d94/home/runner/work/knaba/knaba/docs/evidence",
+  "scope": "Actual9d94 hosted execution; new digest/activity/client-mask source supersedes it and still needs acceptance. Runtime/source/docs packaging skipped after browser teardown failure."
+}

@@ -92,3 +92,21 @@ reports the same expected source and readiness. A new hosted CI step builds
 the actual Railway Dockerfile and executes this worker source contract.
 
 Automation authority is shared by Engine private reads, command contexts and leased worker execution. It reloads current users, scoped delegations and rule/run binding in the same company transaction; cached receipts cannot retain revoked owner rights or stale copied private parameters. Worker transport credentials never substitute for human business permissions. Internal assistant fingerprints canonicalize validated JSON objects so PostgreSQL JSONB key order cannot invalidate an unchanged preview, while array order and source mutations remain significant.
+
+Personal activity acknowledgment uses the existing command transaction and
+fresh source ACL; unread counts do not expose another recipient. Browser panels
+use bounded polling, abort pending reads and clear private data on authority
+loss/logout. There is no extra SSE or persisted private browser cache.
+
+Operations digests are deterministic scoped summaries, separate from payroll
+and AI. A readonly preview and explicit immutable generation share the same
+Berlin period contract. Scheduler jobs bind policy version/owner/slot to a live
+lease; service transport rights never replace current human business rights.
+Private history rechecks policy, coverage and every stored source version.
+Director material reads retain normal site/warehouse constraints.
+
+Manual client-photo redaction decodes bounded image bytes and applies opaque
+pixel masks to a new client copy. Original and edit lineage are immutable;
+publication requires a new separate approval. PostgreSQL blob/edit/entity/
+receipt changes commit together. Retention follows shared copies and report or
+legal holds rather than deleting an edited asset indiscriminately.

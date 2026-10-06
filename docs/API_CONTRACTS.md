@@ -113,12 +113,14 @@ An authenticated subject creates an ACCESS or ERASURE `privacy.request`. A disti
 
 ## Current command inventory
 
-Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 commands**, **46 high-risk definitions**. Schemas remain available from the authenticated runtime catalogue. Exact permission, current scope, legal/expiry and business-state checks apply; high-risk definitions require recent MFA in PRODUCTION. The [role matrix](ROLE_MATRIX.md) lists defaults.
+Generated from the composed Engine registry at 2026-10-06T22:16:30.441Z; **257 commands**, **49 high-risk definitions**. Schemas remain available from the authenticated runtime catalogue. Exact permission, current scope, legal/expiry and business-state checks apply; high-risk definitions require recent MFA in PRODUCTION. The [role matrix](ROLE_MATRIX.md) lists defaults.
 
 | Command | Required permission | High risk |
 | --- | --- | --- |
 | `absence.explain` | `shift.manage` | no |
 | `absence.review` | `timesheet.approve` | no |
+| `assistant.playground` | `assistant.manage` | no |
+| `assistant.usage` | `assistant.manage` | no |
 | `assistant_config.activate` | `assistant.approve` | yes |
 | `assistant_config.approve` | `assistant.approve` | yes |
 | `assistant_config.create` | `assistant.manage` | no |
@@ -161,6 +163,9 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `device.bind` | `device.self` | no |
 | `device.enroll` | `device.manage` | no |
 | `device.revoke` | `device.manage` | no |
+| `digest.configure` | `notifications.manage` | yes |
+| `digest.generate` | `notifications.manage` | no |
+| `digest.preview` | `notifications.manage` | no |
 | `dispatch.assign` | `dispatch.manage` | yes |
 | `dispatch.materials.confirm` | `dispatch.manage` | no |
 | `dispatch.readiness` | `dispatch.manage` | no |
@@ -171,8 +176,12 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `estimate.calculate` | `commerce.read` | no |
 | `geofence.configure` | `location.policy.manage` | yes |
 | `glossary.configure` | `bot.manage` | no |
+| `handoff.inbox` | `chat.manage` | no |
 | `handoff.resume` | `chat.manage` | no |
 | `handoff.take` | `chat.manage` | no |
+| `internal_assistant.confirm` | `assistant.read` | no |
+| `internal_assistant.preview` | `assistant.read` | no |
+| `internal_assistant.request` | `assistant.read` | no |
 | `issue.context` | `issue.read` | no |
 | `issue.create` | `issue.create` | no |
 | `issue.draft` | `issue.create` | no |
@@ -191,6 +200,8 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `lead.create` | `lead.create` | no |
 | `lead.decline_upsell` | `lead.manage` | no |
 | `lead.handoff` | `lead.manage` | no |
+| `lead.own_handoff` | `lead.manage_own` | no |
+| `lead.own_qualify` | `lead.manage_own` | no |
 | `lead.qualify` | `lead.manage` | no |
 | `lead.resume_ai` | `lead.handoff` | no |
 | `legal_approval.record` | `legal.manage` | yes |
@@ -208,6 +219,7 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `material.price` | `procurement.approve` | no |
 | `material.update` | `inventory.manage` | no |
 | `media.approve` | `report.approve` | no |
+| `media.redact` | `report.approve` | no |
 | `media.register` | `media.upload` | no |
 | `message.ack` | `chat.read` | no |
 | `message.copy_confirm` | `chat.write` | no |
@@ -216,6 +228,7 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `message.pin` | `chat.write` | no |
 | `message.read` | `chat.read` | no |
 | `message.send` | `chat.write` | no |
+| `notification.read` | `chat.read` | no |
 | `notifications.cancel` | `notifications.manage` | no |
 | `notifications.complete` | `integration.process` | no |
 | `notifications.configure` | `chat.read` | no |
@@ -240,6 +253,8 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `price_book.activate` | `commerce.approve` | yes |
 | `price_book.approve` | `commerce.approve` | yes |
 | `price_book.create` | `commerce.manage` | no |
+| `privacy.erasure.confirm` | `privacy.review` | yes |
+| `privacy.erasure.preview` | `privacy.review` | yes |
 | `privacy.erasure_evidence` | `privacy.review` | yes |
 | `privacy.export` | `identity.self` | no |
 | `privacy.request` | `identity.self` | no |
@@ -289,10 +304,11 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `shift.end` | `shift.manage` | no |
 | `shift.start` | `shift.manage` | no |
 | `shift.summary` | `shift.read` | no |
-| `site_visit.create` | `lead.manage` | no |
+| `shift.working_time_advisory` | `shift.read` | no |
 | `site.create` | `site.create` | no |
 | `site.update` | `site.structure.edit` | no |
-| `stock_location.create` | `inventory.manage` | no |
+| `site_visit.create` | `lead.manage` | no |
+| `site_visit.own_create` | `lead.manage_own` | no |
 | `stock.accept` | `inventory.receive` | no |
 | `stock.balance` | `inventory.read` | no |
 | `stock.count.apply` | `inventory.count.approve` | yes |
@@ -306,10 +322,8 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `stock.writeoff` | `inventory.writeoff` | yes |
 | `stock.writeoff_approve` | `inventory.writeoff.approve` | yes |
 | `stock.writeoff_request` | `inventory.writeoff` | no |
+| `stock_location.create` | `inventory.manage` | no |
 | `supplier.create` | `inventory.manage` | no |
-| `task_template.create` | `task.create` | no |
-| `task_template.occurrence` | `task.create` | no |
-| `task_template.update` | `task.create` | no |
 | `task.assign` | `task.assign` | no |
 | `task.block` | `task.work` | no |
 | `task.bulk.commit` | `task.create` | no |
@@ -325,6 +339,10 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `task.submit` | `task.work` | no |
 | `task.summary` | `task.read` | no |
 | `task.worklog` | `task.work` | no |
+| `task_template.create` | `task.create` | no |
+| `task_template.generate_due` | `task.create` | no |
+| `task_template.occurrence` | `task.create` | no |
+| `task_template.update` | `task.create` | no |
 | `time.allocate` | `task.work` | no |
 | `timesheet.correction` | `timesheet.submit` | no |
 | `timesheet.correction.bulk` | `timesheet.submit` | no |
@@ -333,6 +351,7 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `timesheet.review` | `timesheet.approve` | no |
 | `timesheet.submit` | `timesheet.submit` | no |
 | `timesheet.summary` | `timesheet.read` | no |
+| `timesheet.working_time_advisory` | `timesheet.read` | no |
 | `tracking_policy.approve` | `location.policy.manage` | yes |
 | `tracking_policy.create` | `location.policy.manage` | no |
 | `tracking_policy.disable` | `location.policy.manage` | no |
@@ -355,9 +374,6 @@ Generated from `apps/api/registry.ts` at 2026-10-06T18:25:50.784Z; **238 command
 | `user.password.rotate` | `identity.self` | no |
 | `user.roles` | `identity.manage` | yes |
 | `work_package.create` | `task.create` | no |
-
-### GPS sample acknowledgement and retention
-`trip.sample` returns `{eventId,sampleId,accepted:true,expiresAt}` for new samples and identical idempotency receipts. It never returns coordinates in a command receipt. A new key after expiry cannot recreate a sample. Raw points are available only through scoped fresh reads before exact expiry; history requires every route site, explicit location.history.read and the recorded policy access roles.
 
 ## Current internal draft and read-only contracts
 
@@ -405,3 +421,41 @@ background POST or persisted personal/GPS/finance payload is supported.
 Automation authoring uses `automation_rule.create`, `.preview`, `.activate` and `.run`; preview executes no effects and activation remains an explicit approval. Optional schedules accept only a bounded minute/hour/weekday cron grammar in Europe/Berlin; invalid saved schedules fail closed. The server revalidates the fresh human owner and action-specific permissions against every declared site/customer before authoring, private entity reads, receipt replay or effects. Empty scope dimensions are unbounded and require company authority. Stored run ruleVersion, owner, action, declared scope and canonical JSON parameters must equal the current rule. A worker's automation.execute permission authorizes transport only; canonical business commands still run as the current authorized human owner and require a matching live outbox lease plus run/rule/target version preconditions.
 
 `task.progress` supports site, location and work-package containers using bounded cycle-safe descendants and unique atomic tasks; quantities remain separated by unit. `operations.statistics` reports current backlog separately from period-clipped recorded work and immutable accepted-minus-reopened quantity deltas. Approved trips use the immutable segment snapshot; unprovable legacy boundary-crossing pay/intervals are unresolved rather than prorated. These statistics do not alter payroll or legal entitlements.
+
+## Personal activity, operations digests and private photo edits
+
+`notification.read {notification_id}` requires the current own recipient and
+current visibility of its related source/message. Supply `expected_version`
+and a stable logical idempotency key. Stale new submissions fail even after the
+notification was already read; exact retries return the minimal acknowledgment
+only. Delivery state and the separate persisted `read_at` are distinct.
+`channel.unread {}` supplies scoped unread chat counts. Revoked source access
+hides its notification and blocks cached acknowledgments.
+
+`digest.configure` records an own human policy, bounded Europe/Berlin daily or
+weekly schedule, explicit site/customer scope, delivery channel and activation
+time. `digest.preview {policyId,at?}` runs in a database READ ONLY transaction;
+it has no audit, receipt, snapshot, notification or business writes. An omitted
+time selects the latest eligible scheduled slot. `digest.generate
+{policyId,policyVersion,slotAt?}` requires the reviewed policy version and emits
+one immutable owner-private snapshot and notification per civil schedule slot.
+The worker requires its current real SQL lease, service transport authority and
+fresh human policy/section permissions. Berlin DST periods are explicit.
+Coverage marks unavailable sections; units, period facts and current backlog
+remain distinguishable. Payroll, raw GPS and automatic decisions are excluded.
+Current permission/source/policy revision changes hide old private snapshots.
+WHATSAPP delivery requires its own protected DIRECT channel, consent and current
+window/template policy and sends a protected link; provider-disabled is not a
+successful provider delivery.
+
+`media.redact {mediaId,clientCopyVersion,rectangles,reason}` requires current
+`report.approve` and scoped `media.read`, current asset `expected_version` and
+client-copy version. One to thirty integral opaque rectangles use natural
+image pixels. Actual bounded Sharp processing writes a new metadata-stripped
+PNG, immutable edit lineage and receipt atomically in the private PostgreSQL
+store. The private original and earlier edits remain byte-identical. The
+client publication approval is cleared; separate `media.approve` is required.
+`GET /media/:id/file?copy=client` reads the current authorized private copy with
+no-store caching. S3 editing fails closed until atomic edit lifecycle support
+is configured. Erasure retention considers originals, prior copies and edits,
+including current report/legal holds.

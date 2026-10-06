@@ -23,7 +23,7 @@ export function publicEntity(e:Entity):Entity{const data={...e.data};for(const k
 // Command permissions are canonical; roles receive no implicit wildcard or finance/GPS bypass.
 const add=(role:string,rights:string[])=>ROLE_PERMISSIONS[role]=[...new Set([...(ROLE_PERMISSIONS[role]??[]),...rights])];
 add('OWNER',['scope.company']);
-add('DIRECTOR',['commerce.manage','commerce.read','commerce.approve','lead.create','lead.manage','lead.handoff','quote.create','quote.approve','quote.send','quote.manage','dispatch.manage','dispatch.read','customer.read','assistant.manage','assistant.approve','automation.manage','automation.approve','report.approve','report.deliver','trip.approve','media.read','media.upload','inventory.approve']);
+add('DIRECTOR',['commerce.manage','commerce.read','commerce.approve','lead.create','lead.manage','lead.handoff','quote.create','quote.approve','quote.send','quote.manage','dispatch.manage','dispatch.read','customer.read','assistant.manage','assistant.approve','automation.manage','automation.approve','report.approve','report.deliver','trip.approve','media.read','media.upload','inventory.approve','inventory.read']);
 add('OPERATIONS_MANAGER',['commerce.manage','commerce.read','lead.manage','lead.handoff','quote.create','dispatch.manage','dispatch.read','customer.read','report.approve','report.deliver','trip.approve','media.read','media.upload']);
 add('DISPATCHER',['dispatch.read','dispatch.acknowledge']);
 add('INTERNAL_BAULEITER',['report.approve','trip.approve','media.read','media.upload']);

@@ -1,6 +1,6 @@
 # Railway synthetic staging — actual state
 
-Last observed Railway readback: **2026-10-06T21:34UTC**; documentation/source checkpoint **2026-10-06**. User-confirmed `accept_deploy` returned **SUCCESS**, committed the reviewed staged changes and created PostgreSQL/API deployments at 20:55:09Z. The API deployment is **FAILED** and PostgreSQL is **CRASHED**; **the application is not live**. Worker remains OFFLINE without source. The prior20:52Z Cancelled acceptance applied nothing. The successful acceptance occurred before deployment creation; the earlier20:57Z estimate was incorrect.
+Checkpoint **2026-10-06**: correction patch has **28 staged non-destructive changes, unapplied** behind provider Dashboard MFA/2FA. No corrected deployment or ready runtime is observed. User-confirmed `accept_deploy` previously committed the initial changes and created PostgreSQL/API deployments at 20:55:09Z; API **FAILED**, PostgreSQL **CRASHED**, worker remained OFFLINE. **The application is not live.** The earlier cancelled acceptance applied nothing; the20:57Z time estimate was incorrect. The21:34UTC readback remains historical, not a new live check.
 
 | Resource | Actual identifier / state |
 | --- | --- |
@@ -13,7 +13,7 @@ Last observed Railway readback: **2026-10-06T21:34UTC**; documentation/source ch
 | Allocated address | [https://api-staging-a476.up.railway.app](https://api-staging-a476.up.railway.app); **NOT_READY / not verified live** |
 | Dashboard | [Isolated Railway staging](https://railway.com/project/5701136e-0b7c-48e8-a0c6-5c5a01c4330b?environmentId=8ce0753b-b0b6-45f4-b655-6a9f9299ced2) |
 | Accepted deployment patch | Identifier begins `24e7a116`; 13 compacted staged changes committed before 20:55:09Z through `workflowcommitChanges/env/24e7a116` |
-| Pending correction | Patch `6aa92092-b449-4e17-8161-b0b4bc8c47eb` had 26 non-destructive staged changes at 21:34UTC: Dockerfile paths, worker gate,11 explicit variables per API/worker and PG cutoff. NOT_APPLIED; final tested source/GIT_SHA and cutoff-bounded predeploy must join the batch before provider dashboard 2FA |
+| Pending correction | Patch `6aa92092-b449-4e17-8161-b0b4bc8c47eb`:28 staged non-destructive corrections, NOT_APPLIED. Dockerfile/start gates, explicit service references, cutoff-bounded predeploy and exact source/GIT_SHA must be reviewed against the next tested source before Dashboard 2FA application |
 
 The [initial platform snapshot](evidence/railway-staging-preparation.json) records project creation and prepared configuration at19:49Z. The successful acceptance before 20:55:09Z supersedes its unapplied/source-transfer status. Accepted configuration and triggered deployment do not establish running database, application, persistent-volume recovery or live readiness.
 
@@ -31,16 +31,18 @@ The user supplied the dedicated public repository [ziko1/knaba](https://github.c
 
 | Identity / check | Observed state |
 | --- | --- |
-| Latest executed remote candidate (historical) | `fc6c30fc9ff1f6c6c946fe93dd274e0806e3e7d1`; later source changes are FINAL_CI_PENDING |
-| Historical matching local SHA/tree | `dd67043d7f3c5a0107f3eabe6275ad2dd60d4abf`, tree `e1fa5ed7ee7ec076f197ca1341c4a1281b079d88` |
-| [Application CI 37534825577](https://github.com/ziko1/knaba/actions/runs/37534825577) | FAILED: 1221/1225 PASS, 4 genuine PG failures, 0 skipped; browser 19/20 PASS, 1 ambiguous offline-status locator failure |
-| Actual hosted Railway-compatible image | PASSED build/source-worker gate at fc6; `PINNED_CONTAINER_CONTEXT`, `source_dirty:null`. No Railway terminalSUCCESS implied |
-| [Native CI 37534825214](https://github.com/ziko1/knaba/actions/runs/37534825214) | Overall FAILED_ANDROID_LINT; iOS simulator / 15 XCTest PASS/45 hashes verified. Android 52 JVM checks PASS but lint 3 errors/7 warnings; fixes need new CI |
+| Latest executed remote source | `9d94babd2fde620c018b81ca6d83d8e77a9b0c3e`; current uncommitted source supersedes it |
+| Exact executed tree | `29abe07885dcd54479a102ac795b3e615e2bcb63` |
+| [Application CI 37537880427](https://github.com/ziko1/knaba/actions/runs/37537880427) |1367/1367 PASS (1205 CPU/162 genuine PG), all 20 actual backend/UI browsers PASS; one mocked route-teardownFAIL, overall workflowFAILED 20/21 browser |
+| Actual hosted Railway-compatible image | PASSED build/source-worker gate at 9d94; `PINNED_CONTAINER_CONTEXT`, `source_dirty:null`; no Railway terminalSUCCESS implied |
+| [Native CI37537880382](https://github.com/ziko1/knaba/actions/runs/37537880382) |Both jobs PASS:Android 52 host checks/lint0 errors / 8 warnings/debugAPK crypto verified; iOS15 XCTest/45 bundle hashes/simulator pages checked. No company signing/physical acceptance |
 | Actual Railway runtime SHA | NOT_VERIFIED; no running application deployment |
 
-[Application receipt](evidence/ci-run-37534825577-summary.json) records actual Docker image ID/source-worker gate, encrypted backup/tamper rejection, empty synthetic PostgreSQL/private-blob restore and bundled worker restart PASS. Outer artifact SHA/CRC and all 14 built hashes were independently verified. [Native receipt](evidence/native-run-37534825214-summary.json) covers exact fc6 iOS bytes only. These are hosted synthetic tests, not live Railway, real provider or physical acceptance.
+[Application receipt](evidence/ci-run-37537880427-summary.json) preserves exact 9d94 runtime/build, encrypted backup/tamper, restored copy of 17 tables with 7 blob checks and worker restartPASS; outer artifact SHA/CRC and all 14 built hashes were independently verified. The hosted image ID is `sha256:5e587fdd5482d2d5853e0c207342d789be2844460f132ca149cf3a023233f4d7`. [Native receipt](evidence/native-run-37537880382-summary.json) preserves exact downloaded APK/simulator bytes and cryptographic/debug-only limits. These are hosted synthetic tests, not live Railway/provider/physical acceptance.
 
-Current source remains in progress / **FINAL_CI_PENDING** after fc6: canonical JSONB/cache fixes, additional operations policy checks, bounded validated daily/weekly Europe/Berlin cron/access and Android lint corrections. **21 browser scenarios are authored (20 actual backend/UI plus one existing explicit customer AI-draft transport fixture)**; current full SQL/browser/native acceptance is pending. Arbitrary cron and server polygons are optional; multiple agreed circle sections implement the stated geofence alternative.
+Current **uncommitted** source implements mandatory operational digests, own activity/unread status and real client-photo masks/redaction, plus the mocked transport teardown correction. **24 browser scenarios are authored (23 actual backend/UI plus one explicit customer-draft fixture)**. Full current SQL/rendered/exact build acceptance is **FINAL_CI_PENDING / NOT_RUN** at the next SHA; local CPU checks do not establish SQL PASS. Arbitrary cron/polygons are optional; bounded validated daily/weekly Berlin schedules and multiple agreed circles are implemented.
+
+Historical [fc6 application](evidence/ci-run-37534825577-summary.json)/[native](evidence/native-run-37534825214-summary.json) retain four PG / one browser failure and Android lint failure; their corrected 9d94 execution above does not erase those receipts.
 
 Earlier 3c85 [application](evidence/ci-run-37529346179-summary.json)/[native](evidence/native-run-37529346218-summary.json) receipts retain802 tests PASS/94 genuine PG/browser11 of 14 overallFAIL and both native jobs PASS; earlier 942b receipts remain historical. No old source/build receipt proves current corrected code.
 
@@ -56,11 +58,11 @@ The failed API deployment used `infra/Dockerfile`; the pending correction must s
 
 ## Exact continuation
 
-1. Complete current security tests, freeze/publish one new exact source, then execute fresh full hosted application/container/native CI. Inspect SQL, all 21 browser results, restore and worker receipts; fix confirmed failures and repeat at a new SHA. Historical fc6 completion/failures do not prove later corrected-source acceptance.
+1. Freeze/publish the current three-module source and transport teardown correction, then execute exact hosted application/container/full SQL/native-as-changed and all 24 browser cases. Preserve the 9d94 workflow failure and prior histories; later source acceptance must use its own SHA.
 2. Finish the concrete correction batch: Railway Dockerfile/source pin and explicit required service references. Existing user confirmation persists within the exact synthetic staging/budget scope, but the provider's 2FA requirement needs dashboard application. After that application, read back only this project/environment's accepted configuration, source pin and rendered cutoff presence. Preserve existing projects and the original cutoff.
 3. Verify private PostgreSQL provisioning and key custody, then the replacement API deployment's terminal SUCCESS and actual `/api/v1/ready`, `/api/v1/version` and public DEMO configuration. Record the actual deployed SHA. Attach the worker to that same tested SHA; it currently has no source. Wait for its terminal deployment result and real consumption evidence.
 4. Only after API and worker deployment SUCCESS, create `docs/evidence/staging-target.json` with exactly `origin`, `expectedSha`, `companyId: "knaba-demo"` and `mode: "DEMO"`. `expectedSha` is the actual deployed 40-character SHA, not the later marker commit. The marker is **not created yet**.
-5. A marker push on `knaba-staging` triggers [.github/workflows/staging.yml](../.github/workflows/staging.yml). [verify-staging.mjs](../scripts/verify-staging.mjs) bounds HTTPS checks, verifies exact runtime SHA/closed provider gates/synthetic company, and observes a real worker-created `DELIVERED` WEB row through the recipient's own session. It never fabricates delivery status. Then execute 21 browser cases: 20 actual backend/UI scenarios and one explicitly mocked customer AI draft transport case. The actual playground asserts pure SIMULATED/no-provider behavior; the internal request persists PENDING or PROVIDER_DISABLED without business changes. Traces are disabled; private cookies/tokens are excluded; run-specific receipts retain 7 days.
+5. A marker push on `knaba-staging` triggers [.github/workflows/staging.yml](../.github/workflows/staging.yml). [verify-staging.mjs](../scripts/verify-staging.mjs) verifies bounded HTTPS/exact SHA/closed providers/synthetic company and real worker-created `DELIVERED` WEB status through the recipient's own session. Then execute24 browser cases:23 actual backend/UI and one explicit customer-draft transport fixture. Playground remains SIMULATED and keyless internal requests have no inferred provider/business effects. Traces/private cookies/tokens are excluded; receipts retain 7 days.
 6. Read the resulting actual HTTPS/browser/worker receipts and resource metrics. Until that workflow executes successfully, **Railway live acceptance remains NOT_RUN**. Company production, real WhatsApp/AI, signing and physical GPS/battery/legal acceptance remain separate entries in the [external prerequisites](EXTERNAL_PREREQUISITES.md).
 
 No marker, deployment, source mutation or approval was performed by this documentation update.

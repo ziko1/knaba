@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "scope": "Classification inventory only, not SQL execution proof. Genuine PostgreSQL cases remain skipped in this socket-restricted local run; current hosted raw results determine actual acceptance. New period/progress/cron/authority/worker/internal-draft CPU cases use explicit domain or SQL-boundary doubles; the new five automation authority PostgreSQL cases use actual Database/Engine/Worker/API with DATABASE_URL. Each execution class is explicitly reviewed per case.",
-  "generatedAt": "2026-10-06T22:00:22.956491Z",
-  "reportSha256": "95419d56cb8c37cc69e8b8e5c699b42b56219c027389830790c1d179524cd03f",
+  "scope": "Classification inventory only, not SQL execution proof. Genuine PostgreSQL cases remain skipped in this socket-restricted local run; current hosted raw results determine actual acceptance. New digest/redaction/geometry/erasure CPU cases use actual bounded image processing, pure domain functions or explicit domain/SQL-boundary doubles. New activity, redaction and digest PostgreSQL files use actual Database/Engine/Worker/API with DATABASE_URL. Each execution class is explicitly reviewed per case.",
+  "generatedAt": "2026-10-06T22:23:42.267354Z",
+  "reportSha256": "a25203266a5f6a3efc01b99977d9375b84ed4d5967e11a1758b50bf450e3159e",
   "totals": {
-    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1205,
-    "REAL_POSTGRES": 162
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1279,
+    "REAL_POSTGRES": 193
   },
   "test_files": [
     {
@@ -23,6 +23,14 @@
     {
       "test_path": "apps/web/src/privateReadGeneration.test.ts",
       "sha256": "617a038910fcdfa7840dc9170601e7dba1cdca87a4f165d6b5b9fdbc03c3730e"
+    },
+    {
+      "test_path": "apps/web/src/redactionGeometry.test.ts",
+      "sha256": "ff8b375b87bd6d76aef709a38264c3e3fabe2de2a9890cae3d467608bed15b92"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "sha256": "c8218930b1bfa97f313d3b158532331120850187513abd2b28a5f9ffca129a3a"
     },
     {
       "test_path": "tests/assistant-governance.integration.test.ts",
@@ -67,6 +75,14 @@
     {
       "test_path": "tests/backup-target.test.ts",
       "sha256": "2ed28c88dc0898b5be9432f21ba45f06909fd9636c606c6e3c1e2913982a6517"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "sha256": "b59e3b6d3ec89d48435f044300d9c4a7dd81e05674084c42ab82985d644cec18"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "sha256": "65e1b97766063765feca2f88c461cc1ec66ccdda2331b6f87708f734219b2f07"
     },
     {
       "test_path": "tests/commerce.test.ts",
@@ -145,6 +161,14 @@
       "sha256": "3c971139bdfbcdc1b07d61a6477231d8f085094684e854f22e96f1969ff2fb54"
     },
     {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "sha256": "c875959bfa1aba2a49ea2a370865ff9d76302ee1a2874f82318327b43ea89e62"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "sha256": "6b710496a1407a15d33ec01704a0bcf9606e89aa57da566d266362b1fdc323d0"
+    },
+    {
       "test_path": "tests/operations-period-progress.test.ts",
       "sha256": "f0298b81fa4980e51633543c74896bb3dcbb84afa32c18337b14dcd260bc215c"
     },
@@ -162,7 +186,7 @@
     },
     {
       "test_path": "tests/privacy-erasure.test.ts",
-      "sha256": "e92c22ff3340d3ab3ce8b09f0ba63d314bb1fc9b03da4a7d926ae91fe6b3beea"
+      "sha256": "17584b1ae7c722d3f9a25579a9f3c8b3a0d7b74b6ca452a69fec3735ba989254"
     },
     {
       "test_path": "tests/railway-worker-gate.test.ts",
@@ -409,6 +433,66 @@
       "full_name": "private reads across the adopted session boundary (controlled transport) supports StrictMode effect replay while never reviving a revoked adopted session",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/redactionGeometry.test.ts",
+      "full_name": "manual client-copy pixel coverage accepts integral edge masks and rejects out-of-bounds or transparent-size masks",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/redactionGeometry.test.ts",
+      "full_name": "manual client-copy pixel coverage covers every dragged subpixel after responsive scaling",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/redactionGeometry.test.ts",
+      "full_name": "manual client-copy pixel coverage rejects a click, invalid dimensions and nonfinite pointers",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/redactionGeometry.test.ts",
+      "full_name": "manual client-copy pixel coverage supports reverse drag and clips to image boundaries",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "full_name": "activity center: real PostgreSQL Engine/API own read acknowledgment and fresh source authority a corrupt cyclic chain of own linked notifications stays hidden and cannot produce an acknowledgment or stack overflow",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "full_name": "activity center: real PostgreSQL Engine/API own read acknowledgment and fresh source authority fresh site revocation hides related and message-source metadata even for a previously resolved actor and blocks receipt replay without writes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "full_name": "activity center: real PostgreSQL Engine/API own read acknowledgment and fresh source authority own API activity changes unread to a persisted read timestamp and returns only the minimal acknowledgment",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "full_name": "activity center: real PostgreSQL Engine/API own read acknowledgment and fresh source authority peer, customer and same-looking foreign-company sessions cannot read or acknowledge another recipient activity and create no effects",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "full_name": "activity center: real PostgreSQL Engine/API own read acknowledgment and fresh source authority source channel membership revocation hides its notification metadata and blocks fresh acknowledgment and the old cached receipt",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/activity-center.integration.test.ts",
+      "full_name": "activity center: real PostgreSQL Engine/API own read acknowledgment and fresh source authority stale versions fail before unread or already-read effects, while exact receipt replay never duplicates a revision, audit or receipt",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
     },
     {
       "test_path": "tests/assistant-governance.integration.test.ts",
@@ -2495,6 +2579,270 @@
     {
       "test_path": "tests/backup-target.test.ts",
       "full_name": "backup/restore container transport binds the actual database endpoint wildcard/undeclared bindings cannot verify a selected loopback host: localhost",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay a current specific legal hold prevents the employee original, sanitized and both masked copies and edit revisions from being erased",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay a post-write handler failure rolls back the real PostgreSQL blob, edit, asset revision, audit, outbox and command receipt atomically",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay a second actual pixel edit retains prior private bytes and its original-uploader-linked edit lineage",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay actual PNG original and previous sanitized blob stay unchanged while exact opaque pixels, hash, edit and private approval state commit together",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay canonical employee upload, two foreman edits and independent MFA erasure delete all four eligible private blobs and immutable edit revisions using actual SQL permits",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay current client VIEW reads disappear after redaction and return only after separate explicit media approval",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay exact parallel command replay produces one immutable masked blob/edit/event and stale new submissions produce no effects",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay immutable edit history visibility follows fresh source scope, not cached editor ownership",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.integration.test.ts",
+      "full_name": "PostgreSQL private manual client-image redaction and canonical replay revoked current site, foreign site and injected external approval permissions cannot read or edit private source bytes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) a later edit retains the first masked copy and requires a separate explicit media approval",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) accepts overlapping and exact-edge rectangles with fully opaque black coverage",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) an authorized editor retains the original employee data subject as every copy blob owner for privacy deletion",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) bounds concurrent decoder work instead of allocating thirty image-sized overlays per request",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) creates a private immutable edit and minimal acknowledgment, preserves original/prior copies, and invalidates publication",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) denies BOT_ADMIN despite injected read/approval rights before any private storage read",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) denies CLIENT despite injected read/approval rights before any private storage read",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) denies CUSTOMER despite injected read/approval rights before any private storage read",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) denies EXTERNAL_BAULEITER despite injected read/approval rights before any private storage read",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) denies SERVICE_ACCOUNT despite injected read/approval rights before any private storage read",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) edit history loses visibility after current site/role/source removal without any storage read",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) failed metadata commit rolls back the CPU storage transaction and preserves every earlier copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) masks exact opaque pixels in jpeg without changing other pixels or original bytes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) masks exact opaque pixels in png without changing other pixels or original bytes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) masks exact opaque pixels in webp without changing other pixels or original bytes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rechecks revoked source authority after storage read before any blob/edit write",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects a changed client checksum and blocks S3 instead of leaving an unjournaled orphan",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh ACTIVE source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh CONFIDENTIAL source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh NOT_SANITIZED source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh ORIGINAL_POINTER source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh PERMISSION source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh SITE source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh STALE_COPY source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh STALE_ENTITY source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects fresh STATE source/authority before writing",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":-1,\"y\":0,\"width\":1,\"height\":1} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":0,\"y\":0,\"width\":0,\"height\":1} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":0,\"y\":0,\"width\":1,\"height\":0} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":0,\"y\":0,\"width\":1,\"height\":1,\"opacity\":0.5} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":0,\"y\":11,\"width\":1,\"height\":2} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":0.5,\"y\":0,\"width\":1,\"height\":1} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":15,\"y\":0,\"width\":2,\"height\":1} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects invalid or out-of-image rectangle {\"x\":9007199254740991,\"y\":0,\"width\":1,\"height\":1} before producing a copy",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/client-redaction.test.ts",
+      "full_name": "manual CLIENT-copy redaction (actual Sharp, CPU storage double, no provider/SQL claim) rejects unsupported/fake MIME, malformed image, empty/oversized mask sets and extra command fields",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
@@ -5805,6 +6153,294 @@
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
     {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy a transport service without a real digest lease cannot mint a snapshot or a receipt, and bad CSRF cannot use the private preview",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy actual worker schedules/leases/generates one immutable owner-private digest with no business changes or provider I/O",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy already generated immutable history becomes private-inaccessible after source rights change, and repeated preview recomputes UNAVAILABLE instead of cached hours",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy canonical generation failure rolls digest/notification/revisions/receipt/audit/outbox effects back in one PostgreSQL transaction",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy cookie/CSRF API configure persists one private policy and preview performs no aggregate/audit/receipt/outbox writes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy expired and replaced real SQL leases cannot generate a digest or persist an idempotent success",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy forged employee configuration/site escalation and another authorized operator private preview are denied with every effect rolled back",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy fresh owner inactive revocation fences a previously leased digest and hides private policy/history from authenticated stale sessions",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy fresh owner role revocation fences a previously leased digest and hides private policy/history from authenticated stale sessions",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy fresh owner site revocation fences a previously leased digest and hides private policy/history from authenticated stale sessions",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy preview uses explicit Berlin MORNING/day-cutoff/previous-complete-week periods and only approved clipped seconds",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy the canonical statistics source clips the 23-hour Berlin day and 167-hour week in SQL READ ONLY without leaking unrelated finance/site facts",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy two real worker instances across the repeated Berlin autumn 02:30 slot schedule only one job and readonly preview exposes the correct 25-hour plan day",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy two worker instances schedule the same Berlin slot once and a fresh genuinely leased retry cannot duplicate the snapshot or owner notification",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition WHATSAPP requires private DIRECT ownership/current consent/approved window or template and a real configured HTTPS origin",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition WhatsApp refuses another human, external member or revoked owner membership without creating private copied messages",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition a canonical notification failure rolls back the new immutable digest in the explicit CPU transaction fixture",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition applies actual approved closed-period corrections in canonical sequence and invalidates old snapshots when new adjustments appear",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition bounded daily/weekly kinds reject unsupported cron before writes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition cannot assign another human recipient or accept external/service owners despite manually retained rights",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition capability loss blocks reading/replaying an immutable captured digest while exposing only unavailable sections in a fresh preview",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition clips approved recorded UTC intervals through the23-hour Berlin day without deducting break/pending or using payable totals",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition closed site/current-customer scopes reject outside configuration and global empty scope requires explicit company authority",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition combines authorized current crews/tasks/materials/shortages/leads/owned decisions with explicit integer unit totals",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition configured WhatsApp creates a canonical private link message and notification, never copying digest amounts or business text",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition each captured source has passed actual Engine visibility and projection under its section capability",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition generation calls canonical notification scheduling in the same transaction and exact local slot deduplicates retries",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition marks invalid approved intervals unknown with known subtotal instead of fabricating a zero total",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition missing capabilities are explicitly unavailable without invented zero totals",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition never presents stale original hours when an approved adjustment falls outside current source authority",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition never projects private prose/contact/payroll/GPS or sums finance decisions even when owner explicitly has finance authority",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition other recipients, disabled owner, or forged snapshot checksum cannot read a generated digest",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition policy edits and captured source revisions prevent stale copies from becoming readable or replayed",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition preview runs with writes forbidden and never invokes LLM/network/notification or changes business data",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition preview/generation obey bounded dates, activation, exact schedule and current policy version",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition reports canonical submitted backlog separately from half-open period worklog and net accept/reopen event quantities",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition scope-bound approved intervals are counted once when identical approved snapshots are duplicated",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition selects the current latest approved trip snapshot once and suppresses superseded approval after a dispute",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition site scopes never include unbound rows or rows at other sites, even for an owner with company scope",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition uses canonical director inventory.read only within assigned current sites and hides old snapshots after capability or customer binding changes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "actual scoped deterministic operational digest composition uses previous complete Berlin calendar week and real167-hour DST boundaries",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "pure Berlin digest schedule/period boundaries DAY afternoon uses currentlocalday→scheduledcutoff while weekly delivery onWednesday still covers previouscomplete calendarweek",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "pure Berlin digest schedule/period boundaries DST overlap has one local slot and missing spring scheduledhour is skipped by latestdue resolver",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "pure Berlin digest schedule/period boundaries does not reconstruct a pre-activation occurrence or infer tracking authorization from a schedule",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "pure Berlin digest schedule/period boundaries matches current daily/weekly Berlin minutes with ordinary persisted metadata",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/operations-digest.test.ts",
+      "full_name": "pure Berlin digest schedule/period boundaries midnight day summary means previous complete day and fall day has25actual hours",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
       "test_path": "tests/operations-period-progress.test.ts",
       "full_name": "descendant atomic progress and period-bound operations statistics (CPU, no PostgreSQL) June accepted work is absent from October outcomes but honestly remains in the separately labeled current backlog",
       "duplicate_name_occurrence": 0,
@@ -6815,6 +7451,24 @@
     {
       "test_path": "tests/privacy-erasure.test.ts",
       "full_name": "internal assistant private drafts, provider quiescence and confirmed business evidence retains confirmed request state defensively even if its confirmed draft is unavailable",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/privacy-erasure.test.ts",
+      "full_name": "manual client-mask edit retention and physical-copy closure a currently published report reference or legal hold protects all client-mask copies rather than rewriting historical evidence",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/privacy-erasure.test.ts",
+      "full_name": "manual client-mask edit retention and physical-copy closure a recent edit keeps shared original and earlier client bytes until the retained edit policy permits deletion",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/privacy-erasure.test.ts",
+      "full_name": "manual client-mask edit retention and physical-copy closure an approved expired MEDIA plan includes original, prior client and masked client exactly once plus immutable edit history",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },

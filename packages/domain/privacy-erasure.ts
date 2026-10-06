@@ -35,11 +35,11 @@ export const erasureHash=(v:unknown)=>createHash('sha256').update(canonical(v)).
 const cat=(value:string)=>value==='MESSAGES'?'CHAT':value;
 const routerKinds=new Set(['whatsapp_router_session','whatsapp_router_action','whatsapp_router_response']);
 const subject=(e:Entity)=>e.kind==='message'?(e.data.author_id??e.data.authorId):e.kind==='conversation_input'||routerKinds.has(e.kind)?e.data.user_id:e.data.uploadedBy;
-const sourceKinds=new Set(['message','media_asset','media_upload','conversation_input',...routerKinds]);
+const sourceKinds=new Set(['message','media_asset','media_upload','media_client_edit','conversation_input',...routerKinds]);
 const derivedKinds=new Set(['message_version','message_copy_preview','translation','translation_request','delivery','callback','channel_activity','search_index','knowledge_index','conversation_input','notification','assistant_lead_draft','assistant_tool_call','internal_assistant_request','internal_assistant_draft',...routerKinds]);
 const processorKinds=new Set(['ai_usage']);
 const protectedKinds=new Set(['report','report_version','report_artifact','official_payslip','payroll_calculation','payout','payout_receipt','task','task_batch','material_request','task_review','worklog','defect','issue','quote','order','lead','decision','customer_acknowledgment','privacy_export','legal_approval']);
-const referenceKeys=new Set(['id','messageId','message_id','sourceMessageId','source_message_id','messageIds','sourceMessageIds','sources','copied_from','mediaId','media_id','mediaIds','photoIds','attachment_ids','uploadId','blobKey','clientBlobKey','key','translationId','translation_id','requestId','request_id','deliveryId','delivery_id','input_id','session_id','response_id','router_response_id','router_action_id','claimed_input_id','text_choices','event_id','eventId','provider_event_id','draftId','draft_id','leadId','lead_id']);
+const referenceKeys=new Set(['id','messageId','message_id','sourceMessageId','source_message_id','messageIds','sourceMessageIds','sources','copied_from','mediaId','media_id','mediaIds','photoIds','attachment_ids','uploadId','blobKey','clientBlobKey','sourceClientBlobKey','clientEditId','key','translationId','translation_id','requestId','request_id','deliveryId','delivery_id','input_id','session_id','response_id','router_response_id','router_action_id','claimed_input_id','text_choices','event_id','eventId','provider_event_id','draftId','draft_id','leadId','lead_id']);
 // Confirmation receipts/events are canonical business evidence, never private draft caches.
 const erasableReceipt=(command:string)=>/^(message|translation|callback|delivery|media|assistant|channel\.messages|public\.chat|whatsapp)\./.test(command)||/^internal_assistant\.(request|preview)$/.test(command);
 const erasableOutbox=(type:string)=>/^(message|translation|delivery|notification|assistant|whatsapp|conversation|media)\./.test(type)||/^internal_assistant\.(requested|draft_prepared|failed)$/.test(type);
@@ -62,7 +62,7 @@ function inFlightChains(s:ErasureSnapshot,candidates:Entity[]):{held:Set<string>
  const find=(key:string):string=>{let root=key;while(parents.get(root)!==root)root=parents.get(root)!;while(key!==root){const next=parents.get(key)!;parents.set(key,root);key=next;}return root;};
  const union=(a:string,b:string)=>{const left=find(a),right=find(b);if(left!==right)parents.set(right,left);};
  const history=new Map<string,Data[]>();for(const revision of s.revisions.filter(r=>r.companyId===s.companyId)){const id=identity(revision);history.set(id,[...(history.get(id)??[]),revision.data]);}
- for(const row of nodes){const id=identity(row),data=[row.data,...(history.get(id)??[])];for(const alias of new Set([row.id,...data.flatMap(d=>[d.blobKey,d.clientBlobKey,d.provider_event_id,d.input?.id]).filter((v):v is string=>typeof v==='string')]))aliases.set(alias,[...(aliases.get(alias)??[]),id]);}
+ for(const row of nodes){const id=identity(row),data=[row.data,...(history.get(id)??[])];for(const alias of new Set([row.id,...data.flatMap(d=>[d.blobKey,d.clientBlobKey,d.sourceClientBlobKey,d.provider_event_id,d.input?.id]).filter((v):v is string=>typeof v==='string')]))aliases.set(alias,[...(aliases.get(alias)??[]),id]);}
  for(const identities of aliases.values())for(const id of identities.slice(1))union(identities[0]!,id);
  const linked=(data:unknown)=>new Set([...referenceTokens(data)].flatMap(token=>aliases.get(token)??[]));
  for(const row of nodes)for(const data of [row.data,...(history.get(identity(row))??[])])for(const other of linked(data))union(identity(row),other);
@@ -79,7 +79,7 @@ function inFlightChains(s:ErasureSnapshot,candidates:Entity[]):{held:Set<string>
  for(const usage of ownRows(s).filter(r=>r.kind==='ai_usage'&&r.data.status==='RUNNING'))for(const id of new Set([...linked(usage.data),...(jobs.get(usage.data.event_id)??[])]))held.add(find(id));
  return {held:new Set(nodes.filter(r=>held.has(find(identity(r)))).map(identity)),component:new Map(nodes.map(row=>[identity(row),find(identity(row))]))};
 }
-function blobReferences(e:{data:Data}){return [e.data.blobKey,e.data.clientBlobKey].filter((v):v is string=>typeof v==='string'&&v.length>0);}
+function blobReferences(e:{data:Data}){return [e.data.blobKey,e.data.clientBlobKey,e.data.sourceClientBlobKey].filter((v):v is string=>typeof v==='string'&&v.length>0);}
 function ownRows(s:ErasureSnapshot){return s.aggregates.filter(e=>e.companyId===s.companyId);}
 function key(e:{kind?:string;id:string;version?:number;actorId?:string;provider?:string}){return [e.kind??'',e.id,e.version??'',e.actorId??'',e.provider??''].join('\u0000');}
 function authorize(s:ErasureSnapshot,a:ErasureAuthority){
@@ -155,7 +155,7 @@ function build(s:ErasureSnapshot,a:ErasureAuthority,createdAt:string):PrivacyEra
  for(const row of candidates){const category=blockedComponents.get(flights.component.get(`${row.kind}:${row.id}`)??'');if(category&&!retained.some(r=>r.kind===row.kind&&r.id===row.id)){retain(row,category,'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE');selected.delete(`${row.kind}:${row.id}`);}}
  // A retained/current asset sharing an upload/blob makes that blob ineligible, including revisions.
  for(let changed=true;changed;){changed=false;for(const [identity,{row,category}] of selected){if(category!=='MEDIA')continue;const ids=new Set(blobReferences(row));if(row.kind==='media_upload')ids.add(row.id);
-  const shared=candidates.some(other=>['media_asset','media_upload'].includes(other.kind)&&other.id!==row.id&&!selected.has(`${other.kind}:${other.id}`)&&(blobReferences(other).some(b=>ids.has(b))||typeof other.data.uploadId==='string'&&ids.has(other.data.uploadId)));
+  const shared=candidates.some(other=>['media_asset','media_upload','media_client_edit'].includes(other.kind)&&other.id!==row.id&&!selected.has(`${other.kind}:${other.id}`)&&(blobReferences(other).some(b=>ids.has(b))||typeof other.data.uploadId==='string'&&ids.has(other.data.uploadId)));
   if(shared){selected.delete(identity);retain(row,category,'SHARED_BLOB_REQUIRES_REVIEW');changed=true;}
  }}
  const selectedMessages=new Set([...selected.values()].filter(v=>v.category==='CHAT').map(v=>v.row.id));
@@ -180,8 +180,8 @@ function build(s:ErasureSnapshot,a:ErasureAuthority,createdAt:string):PrivacyEra
  for(const o of s.outbox.filter(o=>o.companyId===s.companyId))if(erasableOutbox(o.type)&&references(o.data,allIds))actions.push({type:'CANCEL_OUTBOX',companyId:s.companyId,id:o.id,expectedDataHash:erasureHash({data:o.data,status:o.status}),replacement:{privacyErasureRequestId:s.request.id,status:'SOURCE_ERASED'},category:o.type.startsWith('media.')?'MEDIA':'CHAT',reason:'DERIVED'});
  for(const w of s.webhookInbox.filter(w=>w.companyId===s.companyId))if(eventIds.has(w.eventId))actions.push({type:'REDACT_WEBHOOK',companyId:s.companyId,id:w.eventId,provider:w.provider,expectedDataHash:erasureHash(w.payload),replacement:{privacyErasureRequestId:s.request.id,event_id:w.eventId,status:'SOURCE_ERASED'},category:'CHAT',reason:'DERIVED'});
  const blobActions=new Map<string,ErasureAction>();
- for(const {row,category} of selected.values())if(category==='MEDIA')for(const version of [row,...s.revisions.filter(r=>r.companyId===s.companyId&&r.kind===row.kind&&r.id===row.id)])for(const name of ['blobKey','clientBlobKey']){
-  const blobId=version.data[name];if(typeof blobId!=='string'||!blobId)continue;const hash=version.data[name==='blobKey'?'sha256':'clientSha256'];
+ for(const {row,category} of selected.values())if(category==='MEDIA')for(const version of [row,...s.revisions.filter(r=>r.companyId===s.companyId&&r.kind===row.kind&&r.id===row.id)])for(const name of ['blobKey','clientBlobKey','sourceClientBlobKey']){
+  const blobId=version.data[name];if(typeof blobId!=='string'||!blobId)continue;const hash=version.data[name==='blobKey'?'sha256':name==='clientBlobKey'?'clientSha256':'sourceClientSha256'];
   assert(typeof hash==='string'&&/^[a-f0-9]{64}$/.test(hash),'NEEDS_APPROVAL',{reason:'UNVERIFIED_BLOB_REFERENCE',id:row.id});
   const unselected=[...rows,...s.revisions.filter(r=>r.companyId===s.companyId)].some(other=>!other.kind.startsWith('privacy_')&&!rowActions.has(`${other.kind}:${other.id}`)&&references(other.data,new Set([blobId])));
   assert(!unselected&&!protectors.some(p=>references(p.data,new Set([blobId]))),'NEEDS_APPROVAL',{reason:'SHARED_BLOB_REQUIRES_REVIEW'});
