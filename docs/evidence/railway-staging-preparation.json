@@ -1,0 +1,228 @@
+{
+  "status": "INFRASTRUCTURE_PREPARED_APPLICATION_NOT_DEPLOYED",
+  "observed_at": "2026-10-06T19:49:00Z",
+  "provider": "Railway",
+  "project_created": true,
+  "project": {
+    "id": "5701136e-0b7c-48e8-a0c6-5c5a01c4330b",
+    "name": "knaba-de-staging"
+  },
+  "environment": {
+    "id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+    "name": "staging"
+  },
+  "workspace_id": "85e4b27a-40ed-4495-984f-af342ce8e24f",
+  "plan_activation_user_confirmed": true,
+  "capacity_verified_by_project_creation": true,
+  "approved_budget_eur_per_month": 10,
+  "allocated_application_url": "https://api-staging-a476.up.railway.app",
+  "verified_application_url": null,
+  "application_deployments": 0,
+  "persistent_volumes": 0,
+  "services": [
+    {
+      "service": {
+        "id": "9157c2ec-e786-4afc-a5f5-792d8dd84571",
+        "name": "Postgres",
+        "state": "live"
+      },
+      "environment": {
+        "id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+        "name": "staging"
+      },
+      "staged": null,
+      "config": {
+        "networking": {
+          "privateNetworkEndpoint": "postgres"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "limitOverride": {
+            "containers": {
+              "cpu": 0.25,
+              "memoryBytes": 250000000
+            }
+          },
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "europe-west4": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "stagedChanges": [],
+      "variableNames": [],
+      "volumes": [],
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "tcpProxies": [],
+      "latestDeployment": null,
+      "tracing": {
+        "tracingEnabled": false,
+        "autoInstrumentationEnabled": false,
+        "autoInstrumentationActive": false
+      },
+      "runtimeState": "offline"
+    },
+    {
+      "service": {
+        "id": "003f1015-f5f6-43ca-b7e1-db72c6bafb7e",
+        "name": "API",
+        "state": "live"
+      },
+      "environment": {
+        "id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+        "name": "staging"
+      },
+      "staged": null,
+      "config": {
+        "networking": {
+          "serviceDomains": {
+            "api-staging-a476.up.railway.app": {
+              "port": 3000
+            }
+          },
+          "privateNetworkEndpoint": "api"
+        },
+        "build": {
+          "builder": "DOCKERFILE",
+          "buildEnvironment": "V3",
+          "dockerfilePath": "infra/Dockerfile"
+        },
+        "deploy": {
+          "startCommand": "node dist/server.mjs",
+          "preDeployCommand": [
+            "node scripts/environment-check.mjs && npm run migrate && npm run seed"
+          ],
+          "preDeployTimeoutSeconds": 300,
+          "healthcheckPath": "/api/v1/ready",
+          "limitOverride": {
+            "containers": {
+              "cpu": 0.5,
+              "memoryBytes": 375000000
+            }
+          },
+          "healthcheckTimeout": 300,
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "europe-west4": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "stagedChanges": [],
+      "variableNames": [
+        "PORT"
+      ],
+      "volumes": [],
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "1aa3012c-e175-4833-9fc3-b3db83320321",
+            "domain": "api-staging-a476.up.railway.app",
+            "targetPort": 3000
+          }
+        ],
+        "customDomains": []
+      },
+      "tcpProxies": [],
+      "latestDeployment": null,
+      "tracing": {
+        "tracingEnabled": false,
+        "autoInstrumentationEnabled": false,
+        "autoInstrumentationActive": false
+      },
+      "runtimeState": "offline"
+    },
+    {
+      "service": {
+        "id": "5c3c6e92-eefe-49f1-a81b-733c66f526cd",
+        "name": "Worker",
+        "state": "live"
+      },
+      "environment": {
+        "id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+        "name": "staging"
+      },
+      "staged": null,
+      "config": {
+        "networking": {
+          "privateNetworkEndpoint": "worker"
+        },
+        "build": {
+          "builder": "DOCKERFILE",
+          "buildEnvironment": "V3",
+          "dockerfilePath": "infra/Dockerfile"
+        },
+        "deploy": {
+          "startCommand": "node dist/worker.mjs",
+          "limitOverride": {
+            "containers": {
+              "cpu": 0.25,
+              "memoryBytes": 250000000
+            }
+          },
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "europe-west4": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "stagedChanges": [],
+      "variableNames": [],
+      "volumes": [],
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "tcpProxies": [],
+      "latestDeployment": null,
+      "tracing": {
+        "tracingEnabled": false,
+        "autoInstrumentationEnabled": false,
+        "autoInstrumentationActive": false
+      },
+      "runtimeState": "offline"
+    }
+  ],
+  "existing_projects_modified": false,
+  "blocking_inputs": [
+    {
+      "id": "SOURCE_TRANSFER",
+      "status": "BLOCKED_ENVIRONMENT",
+      "reason": "No Git remote or connected KNABA DE repository. Callable GitHub connector has no repository-create operation; actual gh api POST /user/repos fails proxyconnect/socket operation not permitted. CLI railway absent; no image published."
+    },
+    {
+      "id": "BILLING_CONTROL",
+      "status": "NOT_VERIFIED",
+      "reason": "Current workspace usage/hard limit is not exposed by connector. Minimum compute hard limit is USD10 and affects all workspace workloads. Do not alter shared limits under isolated-project authorization."
+    },
+    {
+      "id": "RUNTIME",
+      "status": "NOT_RUN",
+      "reason": "No code/image deployment, private database, migration, ready response or browser scenario has run in this new project."
+    }
+  ],
+  "historical_capacity_error_evidence": "docs/evidence/railway-final-attempt.json",
+  "final_runtime_status_observed_at": "2026-10-06T19:51:34.713696+00:00",
+  "runtime_state": "ALL_THREE_SERVICES_OFFLINE",
+  "pending_work": []
+}

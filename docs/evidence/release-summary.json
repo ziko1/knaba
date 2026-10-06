@@ -1,0 +1,106 @@
+{
+  "generatedAt": "2026-10-06T18:38:57.197595+00:00",
+  "codeGitSha": "4f8cfbb6151a35c3592007c2136a38638039a708",
+  "repository": "/workspace/knaba-de",
+  "build": {
+    "code_sha": "4f8cfbb6151a35c3592007c2136a38638039a708",
+    "source_dirty": false,
+    "version": "0.1.0",
+    "builtAt": "2026-10-06T18:34:57.845Z"
+  },
+  "status": "BUILT_AND_CPU_VERIFIED_LIVE_ACCEPTANCE_PENDING",
+  "publicUrl": null,
+  "productionUrl": null,
+  "localVerifiedUrl": null,
+  "railway": "BLOCKED_EXTERNAL_FREE_RESOURCE_LIMIT",
+  "localLiveVerification": "SYSTEM_PERMISSION_PENDING_NOT_EXECUTED",
+  "unitTests": {
+    "numPassedTests": 310,
+    "numFailedTests": 0,
+    "numPendingTests": 27,
+    "numTotalTests": 337
+  },
+  "webApiTests": {
+    "numPassedTests": 2,
+    "numFailedTests": 0,
+    "numTotalTests": 2
+  },
+  "nativeJavaVectors": {
+    "passed": 16,
+    "androidRuntime": false,
+    "physicalGps": false
+  },
+  "nativeArtifacts": {
+    "apk": null,
+    "ipa": null
+  },
+  "containerImageDigest": null,
+  "specSha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+  "runtimeFiles": [
+    {
+      "path": "dist/server.mjs",
+      "bytes": 2176346,
+      "sha256": "02047a5fa15e2b37833d5b9980b9a836f5c922d92863e1fd6b6fd8e38bf716f9"
+    },
+    {
+      "path": "dist/worker.mjs",
+      "bytes": 480961,
+      "sha256": "8bd7a37ae3b3e5c1caf33da5208fabc4f88c67377c5dcc8c5494f0e5d3e8e50a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/KNABA_DE_DELIVERY_DOCS_4f8cfbb.zip",
+      "bytes": 520611,
+      "sha256": "d25e6df11adf682ab2c18d666e4d1e0d15d881144b3036edd1caeb10e99e849f",
+      "integrity": "ZIP_CRC_PASSED"
+    },
+    {
+      "path": "artifacts/KNABA_DE_GIT_4f8cfbb.bundle",
+      "bytes": 1428831,
+      "sha256": "2ef8f72a9537687a546e6defd61f643040a22fb31d065e829d09d9ca0db06b96",
+      "integrity": "HASHED"
+    },
+    {
+      "path": "artifacts/KNABA_DE_RUNTIME_LINUX_X64_4f8cfbb.zip",
+      "bytes": 43742866,
+      "sha256": "9cbec81d936ea5dc4e0e425bffed0331895c4209d58042857bcf2f1b0c2f9adc",
+      "integrity": "ZIP_CRC_PASSED"
+    },
+    {
+      "path": "artifacts/KNABA_DE_SOURCE_4f8cfbb.zip",
+      "bytes": 1443180,
+      "sha256": "5989cb6494a65341325d1aecad605b536c39a2268f0820c490e095678a3c4f52",
+      "integrity": "ZIP_CRC_PASSED"
+    },
+    {
+      "path": "artifacts/verified-report-v1.csv",
+      "bytes": 1498,
+      "sha256": "ff7479fef022f913bc3c513df969d98703e6ad6228b39ecd72c1ce9bf20f4c0f",
+      "integrity": "HASHED"
+    },
+    {
+      "path": "artifacts/verified-report-v1.pdf",
+      "bytes": 14512,
+      "sha256": "33dc70c5194891f3d9c478dd67e912e63621911e062d79ffc70097c1229bac53",
+      "integrity": "HASHED"
+    },
+    {
+      "path": "artifacts/verified-report-v1.xlsx",
+      "bytes": 4650,
+      "sha256": "08a7afe6bcfba363614796f4220a4840dbba1982b4ad53020ff48f10e8132ba5",
+      "integrity": "ZIP_CRC_PASSED"
+    }
+  ],
+  "runtimeArchiveCpuEvidence": "docs/evidence/runtime-archive-cpu.json",
+  "unresolvedInputs": "docs/EXTERNAL_PREREQUISITES.md",
+  "unimplementedOrPendingAcceptance": "MASTER_ROADMAP.md",
+  "scopeNotes": [
+    "All fixtures and verified report examples are synthetic.",
+    "Code/artifact integrity does not assert a public deployment, PostgreSQL/browser/restore pass, company acceptance, native build or real provider effect.",
+    "The Linux x64 Node24 runtime archive contains production dependencies; Node24 and separately configured PostgreSQL17 are required."
+  ],
+  "verificationMethod": "Source bundle git bundle verify; archive CRC+critical byte equality; separate extracted production modules/native JPEG; full source typecheck/build; domain/policy/export/ingestion CPU tests. Live checks pending system permission.",
+  "historical_candidate": true,
+  "superseded_reason": "Later GPS retention and SQL bounds/hold race fixes. Current candidate identity comes from artifacts/RELEASE_MANIFEST.json."
+}

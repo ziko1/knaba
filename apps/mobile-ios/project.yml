@@ -1,0 +1,53 @@
+name: KNABADE
+options:
+  bundleIdPrefix: de.knaba
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+targets:
+  KNABADE:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: PrivacyInfo.xcprivacy
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.knaba.mobile
+        INFOPLIST_FILE: Info.plist
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies:
+      - sdk: CoreLocation.framework
+      - sdk: Security.framework
+      - sdk: CryptoKit.framework
+  KNABADETests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+      - path: ../../tests/native-vectors.json
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.knaba.mobile.tests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: KNABADE
+schemes:
+  KNABADE:
+    build:
+      targets:
+        KNABADE: all
+    test:
+      targets:
+        - KNABADETests
+      gatherCoverageData: true
+    archive:
+      config: Release

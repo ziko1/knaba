@@ -1,0 +1,12 @@
+export interface Entity {id:string;kind:string;version:number;createdAt:string;updatedAt:string;data:Record<string,any>}
+export interface Actor {userId:string;companyId:string;roles:string[];permissions:string[];siteIds:string[];customerIds:string[];warehouseIds:string[]}
+export interface Session {actor:Actor;user:Record<string,any>;mode:string;csrfToken?:string}
+export interface Schema {type?:string;properties?:Record<string,Schema>;required?:string[];enum?:any[];items?:Schema;anyOf?:Schema[];oneOf?:Schema[];default?:any;description?:string;format?:string;minimum?:number;maximum?:number;minLength?:number;maxLength?:number;minItems?:number;maxItems?:number;nullable?:boolean}
+export interface Command {name:string;permission:string;highRisk?:boolean;schema:Schema}
+export class ApiError extends Error {constructor(public code:string,public status:number,public details:Record<string,any>={}){super(code)}}
+let csrfToken:string|undefined,guestCsrfToken:string|undefined;
+export function clearSession(){csrfToken=undefined;guestCsrfToken=undefined;}
+export async function api<T=any>(path:string,options:RequestInit={}):Promise<T>{const guest=path.startsWith('/api/v1/public/'),proof=guest?guestCsrfToken:csrfToken;const response=await fetch(path,{credentials:'same-origin',...options,headers:{'Content-Type':'application/json',...(proof?{'X-CSRF-Token':proof}:{}),...options.headers}});const body=await response.json().catch(()=>({}));if(!response.ok)throw new ApiError(body.code||body.error?.code||body.message||'REQUEST_FAILED',response.status,body.details||body.error?.details||{});if(body.csrfToken){if(guest)guestCsrfToken=body.csrfToken;else csrfToken=body.csrfToken;}return body as T}
+export const entities=async(kind:string)=>(await api<{items:Entity[]}>(`/api/v1/entities/${encodeURIComponent(kind)}`)).items;
+export async function command(name:string,input:any,expectedVersion?:number,idempotencyKey=crypto.randomUUID()){return api(`/api/v1/commands/${encodeURIComponent(name)}`,{method:'POST',body:JSON.stringify({input,expected_version:expectedVersion,idempotency_key:idempotencyKey})})}
+export async function catalog():Promise<Command[]>{const result:any=await api('/api/v1/commands');const rows=Array.isArray(result)?result:result.items||result.commands||[];return Array.isArray(rows)?rows:Object.entries(rows).map(([name,data]:any)=>({name,...data}));}

@@ -1,0 +1,31 @@
+# Actual verification ledger
+
+Railway continuation: successful isolated project/service/config/domain creation supersedes only the historical capacity rejection. Source transfer and billing verification still block activation. Authorized GitHub creation through gh failed before network contact with socket EPERM; GitHub MCP lacks repository creation. No application/SQL/browser/backup result changed. Apps/packages/migration/tests remain byte-identical to the367-pass candidate; the new clean delivery commit is separately bundled and recorded in the manifest.
+
+Current release identity is recorded in `dist/release.json` and `artifacts/RELEASE_MANIFEST.json`. The prior full build at `4f8cfbb6151a35c3592007c2136a38638039a708` passed on 2026-10-06 (94 web modules, JavaScript395.67kB before gzip), and was superseded by the GPS storage/retention and cross-module fixes; the final committed-source build is recorded separately in the manifest. Source, artifact and runtime checks remain separate. The complete475-case source acceptance baseline is in `requirements/requirements.json`;12 named source tests now have executed invariant evidence, without treating CPU checks as full business/legal/physical acceptance.
+
+| Check | Observed result | Evidence / limit |
+| --- | --- | --- |
+| Aggregate strict TypeScript | PASSED | Full build typecheck and final source-freeze check |
+| Final CPU/domain/policy/parser/export suite |367 PASSED,0 FAILED,37 real-PG SKIPPED of404 | `evidence/final-offline-result.json`; synthetic in-memory cases, actual document bytes and independent openpyxl reader |
+| Web API isolation tests |2 PASSED,0 FAILED | `evidence/web-offline-result.json`; separate staff/guest CSRF and session behavior |
+| Commerce |49 PASSED | Quote/portal/Nachtrag scopes, exact money, lifecycle and13 Issue/context invariants within aggregate suite |
+| Communications |34 PASSED | Current channel/customer membership, exact TTL, confidential attachment isolation and queued recipient revocation |
+| Governance |58 PASSED | Permission-specific delegation, independent approvals, minimized own JSON export, legal holds and evidence-only erasure status |
+| Resources/storage/documents |56 PASSED | `evidence/resources-result.json`; actual PDF/CSV/XLSX, independent Python openpyxl3.1.5+ZIP/XML relationships+load/save/load images |
+| Location file ingestion |20 PASSED | Real bounded CSV/XLSX ZIP/XML parser and normalized source-row preservation |
+| Malware scanner contract |6 PASSED | `evidence/media-scanner-offline.json`; transport fixtures. Actual configured ClamAV endpoint remains NOT_RUN |
+| Android host classifier |16 PASSED | Actual Java classifier compiled by JDK module; no Android OS/device/GPS claim |
+| Packaged runtime extraction |PASSED | `evidence/runtime-archive-cpu.json`; API/worker syntax, production module resolution and actual native sharp JPEG roundtrip from separately extracted dependencies |
+| Source/runtime ZIP and Git bundle |PASSED integrity | ZIP CRC and critical byte equality; `git bundle verify` confirms complete history. Checksums in `artifacts/RELEASE_MANIFEST.json` |
+| Final real PostgreSQL/browser/restore/worker runtime |CANCELLED / NOT_RUN — no execution detected | Reviewed `scripts/live-isolated-check.sh` creates only fresh synthetic databases/API3100, real browser, HMAC-tamper rejection, clean actual-blob restore and actual worker restart. The tool returned aborted by user after575.2s, no command output/session; no live process or evidence files were detected |
+| Browser scenarios |13 authored/discovered; no final executed pass yet | `evidence/browser-discovery.json` records13 discovered/skipped cases; `evidence/browser-historical-environment.json` retains the historical launch EPERM before application scenarios |
+| Railway infrastructure |PARTIALLY_READY / application NOT_RUN | Plan activation, new project and empty services/config/domain verified; `evidence/railway-staging-preparation.json`. Code transfer and billing controls unresolved; no application deployment or ready response |
+| AndroidAPK/AAB and iOSIPA |NOT_BUILT / BLOCKED_EXTERNAL | SDK/Gradle/macOS/Xcode/signing/physical acceptance unresolved |
+| Real WhatsApp/AI/S3/maps/bank/suppliers/legal |NOT_RUN / BLOCKED_EXTERNAL | Single `EXTERNAL_PREREQUISITES.md`; no real customer messages/payments/GPS generated |
+
+Historical evidence is retained: the earlier real PostgreSQL run had157 passes and1 failed timestamp lease-fencing case; source now uses a random lease token plus expiry, but final SQL rerun has not yet superseded that outcome. Earlier restoration failed fake fixture media references; the current runner uses a separate clean seeded delivery database and actual media/artifact bytes. Default socket/Chromium EPERM and two aborted additional-permission calls are not successful checks.
+
+The reviewed local verification request was cancelled before execution. A fresh local capability probe at 18:50:54UTC still failed EPERM. No external sending/provider credentials are configured in that synthetic runner. If it executes, its actual stage/result files will supersede only the corresponding pending rows. CI source alone is not evidence of an executed workflow.
+
+GPS5 CPU checks, operations28, worker/restore-orchestration15, verified-container-target30 and commerce49 checks are included in the367 total. GPS10 genuine SQL cases remain skipped. Restore orchestration executes the actual script with explicitly mocked PG transport; it does not establish a real restoration. Legacy immutable coordinate copies block migration/startup/restore until a separately approved controlled migration; no immutable business history was rewritten.
