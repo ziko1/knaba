@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "status": "REFERENCE_ONLY_AUTHORITY_RECONCILIATION_PENDING",
+  "observed_main_git_sha": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+  "observed_main_tree": "1d708588f17f390c5e55460841af633d607d9e42",
+  "parent": "dcd76c1fedf211dd240c79195101ce05feffb002",
+  "observed_main_commit_scope": "Independent V4 specification/document package only; no application source; not merged with knaba-staging.",
+  "product_branch": "knaba-staging",
+  "tested_product_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "prior_product_documentation_git_sha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
+  "original_v3_master_preserved": true,
+  "original_v3_master_sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+  "v4_sections": 24,
+  "v4_criteria": 72,
+  "v4_application_acceptance": "NOT_RUN",
+  "reference_files": [
+    {
+      "remote_path": "KNABA_DE_MASTER_SPEC.md",
+      "local_reference_path": "docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md",
+      "bytes": 115264,
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "git_blob_sha1": "7ab3b044ac02b4a9f76d37c23dda6df0a0cd8979",
+      "verification": "FETCHED_TEXT_BYTES_MATCH_GIT_BLOB_AND_REPORTED_CHECKSUM"
+    },
+    {
+      "remote_path": "docs/specification/KNABA_DE_Acceptance_V4.csv",
+      "local_reference_path": "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv",
+      "bytes": 19451,
+      "sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+      "git_blob_sha1": "93960f12e4ef26025cf6867a387a43a47e11f316",
+      "verification": "FETCHED_TEXT_BYTES_MATCH_GIT_BLOB_AND_REPORTED_CHECKSUM"
+    },
+    {
+      "remote_path": "docs/specification/DOCUMENT_VALIDATION.json",
+      "local_reference_path": "docs/specification-v4-reference/DOCUMENT_VALIDATION.json",
+      "bytes": 502,
+      "sha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+      "git_blob_sha1": "02536b9ad1e7bb023c0da968408d64b5f179bb07",
+      "verification": "FETCHED_TEXT_BYTES_MATCH_GIT_BLOB_AND_REPORTED_CHECKSUM"
+    },
+    {
+      "remote_path": "docs/specification/SHA256SUMS.txt",
+      "local_reference_path": "docs/specification-v4-reference/SHA256SUMS.txt",
+      "bytes": 554,
+      "sha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952",
+      "git_blob_sha1": "01503ff399b179eb1cfd28c04da8ea251a33dcc1",
+      "verification": "FETCHED_TEXT_BYTES_MATCH_GIT_BLOB;MANIFEST_IS_INPUT_NOT_SELF_ATTESTATION"
+    }
+  ],
+  "reported_binary_artifacts": [
+    {
+      "remote_path": "docs/specification/KNABA_DE_Developer_Brief_V4_UK.pdf",
+      "reported_sha256": "832809377478973df831a0d92c28e683bdefc3df1b2d3f33e4013200597f1f16",
+      "verification": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "remote_path": "docs/specification/KNABA_DE_Developer_Package_V4_UK.zip",
+      "reported_sha256": "22dce2e1e72f14a0cb7834c73c9b2f00f77136049c9378d09d55df65f701649b",
+      "verification": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED"
+    }
+  ],
+  "next": "PLAN-28 reconciles every V4 criterion with preserved V3 and current source before adopting changes; no master replacement or main merge is inferred."
+}
