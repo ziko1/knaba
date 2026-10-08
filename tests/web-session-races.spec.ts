@@ -45,6 +45,9 @@ test('transport fixture: an A send response arriving after switching to B preser
  const a=await command(page.request,'channel.create',{type:'DIRECT',name:aName,member_ids:[session.actor.userId,'demo-employee']}),b=await command(page.request,'channel.create',{type:'DIRECT',name:bName,member_ids:[session.actor.userId,'demo-employee']});
  const aHistory=`A history ${suffix}`,bHistory=`B history ${suffix}`,aText=`A send ${suffix}`,bDraft=`B new draft ${suffix}`;
  await command(page.request,'message.send',{channel_id:a.id,text:aHistory,language:'EN'});await command(page.request,'message.send',{channel_id:b.id,text:bHistory,language:'EN'});
+ // Preparing memberships changes the SSE authority snapshot. Adopt the final
+ // setup before exercising the independent delayed-response race.
+ const prepared=await page.reload();expect(prepared?.ok()).toBe(true);await expect(page.locator('.sidebar')).toBeVisible();
  await navigate(page,'Team communication');await expect(page.locator('.channel-list').getByRole('button').filter({hasText:aName})).toBeVisible();await page.locator('.channel-list').getByRole('button').filter({hasText:aName}).click();await expect(page.locator('.message-bubble').filter({hasText:aHistory})).toBeVisible();
  let release!:()=>void,committed!:()=>void;const released=new Promise<void>(resolve=>{release=resolve}),realCommit=new Promise<void>(resolve=>{committed=resolve});
  try{

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "sourceGitSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+  "workflow": {
+    "id": 37831061903,
+    "name": "KNABA DE native compile verification",
+    "url": "https://github.com/ziko1/knaba/actions/runs/37831061903",
+    "status": "completed",
+    "currentAttempt": 2,
+    "currentConclusion": "success"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "conclusion": "failure",
+      "android": {
+        "jobId": 113496215724,
+        "status": "success",
+        "executedHostJavaVectors": 52,
+        "geometryVectors": 16,
+        "localizationClockAndAuthenticationVectors": 36,
+        "actualXmlChecks": {
+          "locales": 6,
+          "completeStringsPerLocale": 91,
+          "status": "PASSED"
+        },
+        "debugApkBuild": "PASSED",
+        "lintDebug": "PASSED",
+        "lintErrorAndWarningCounts": "NOT_REPORTED_IN_JOB_LOG",
+        "apksignerWorkflowVerification": "PASSED",
+        "artifact": {
+          "id": 11573566759,
+          "name": "knaba-android-debug-3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "providerSizeBytes": 935814,
+          "providerDigest": "sha256:e7395a81c4e734b7543df9c192533533e3e0fae778ed7cb1f5f586bad4f0cda5",
+          "url": "https://github.com/ziko1/knaba/actions/runs/37831061903/artifacts/11573566759",
+          "providerCreatedAt": "2026-10-08T19:21:46Z",
+          "sourceGitSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "localDownload": "NOT_RUN",
+          "independentByteVerification": "NOT_RUN"
+        },
+        "summary": "52 host Java vectors and actual six-language XML checks passed; Gradle assembleDebug/lintDebug BUILD SUCCESSFUL; verification/upload steps succeeded."
+      },
+      "ios": {
+        "jobId": 113496215426,
+        "status": "failure",
+        "failedStage": "Prepare exact iOS 18.5 runtime and boot a concrete iPhone 16 simulator",
+        "error": "Simulator preparation failed: Command exceeded 60s; see simulator-runtimes-before.json",
+        "failedCommand": [
+          "xcrun",
+          "simctl",
+          "list",
+          "runtimes",
+          "--json"
+        ],
+        "unsignedSimulatorBuild": "SKIPPED_NOT_RUN",
+        "xctest": {
+          "executed": 0,
+          "status": "SKIPPED_NOT_RUN"
+        },
+        "simulatorAppArchive": "SKIPPED_NOT_RUN",
+        "artifactKind": "DIAGNOSTICS_ONLY_NOT_APPLICATION",
+        "artifact": {
+          "id": 11573671704,
+          "name": "knaba-ios-simulator-3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "providerSizeBytes": 1891,
+          "providerDigest": "sha256:e5e01a2dad888b8faa917ec1c34567e0f1e676eb2e97c13908a3e20ac97b04fc",
+          "url": "https://github.com/ziko1/knaba/actions/runs/37831061903/artifacts/11573671704",
+          "providerCreatedAt": "2026-10-08T19:22:36Z",
+          "sourceGitSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "localDownload": "NOT_RUN",
+          "independentByteVerification": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "attempt": 2,
+      "conclusion": "success",
+      "requestedRerun": "ONE_FAILED_IOS_JOB_ONLY_BY_ROOT",
+      "android": {
+        "status": "success",
+        "execution": "CARRIED_FROM_ATTEMPT_1_NOT_REEXECUTED",
+        "latestJobsViewJobId": 113499381467,
+        "startedAt": "2026-10-08T19:19:24Z",
+        "completedAt": "2026-10-08T19:21:49Z"
+      },
+      "ios": {
+        "jobId": 113499378061,
+        "status": "success",
+        "simulatorPreparation": {
+          "sourceGitSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "requestedOS": "18.5",
+          "requestedDevice": "iPhone 16",
+          "hostArchitecture": "arm64",
+          "runtimeDownload": "NOT_NEEDED",
+          "status": "SIMULATOR_READY_XCTEST_NOT_RUN",
+          "xctestExecution": "NOT_RUN",
+          "physicalDeviceVerification": "NOT_RUN",
+          "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+          "runtimeBuildVersion": "22F77",
+          "deviceUdid": "75883D54-2CA7-4134-BFF9-28BAEAE36B1F",
+          "deviceState": "Booted"
+        },
+        "unsignedSimulatorBuild": "PASSED_BUILD_SUCCEEDED",
+        "xctest": {
+          "executed": 15,
+          "passed": 15,
+          "failed": 0,
+          "localizationAndSummary": 11,
+          "nativeGeometryAndLease": 4,
+          "testCaseNames": [
+            "KNABADETests.LocalizationAndSummaryTests testAuthenticatedSummaryCannotBeUsedForDifferentShiftOrSiteOrToAuthorizeGPS",
+            "KNABADETests.LocalizationAndSummaryTests testAuthorizationEpochFailureStopsOldLeaseWhileNetworkFailureKeepsOnlyExistingExpiry",
+            "KNABADETests.LocalizationAndSummaryTests testDisplayAddsOnlyBoundedKnownCurrentActivityAndNeverDuplicatesCounters",
+            "KNABADETests.LocalizationAndSummaryTests testErrorsPrivacyStatesAndFormattedCountersChangeLanguageWithoutChangingCanonicalState",
+            "KNABADETests.LocalizationAndSummaryTests testEverySupportedLanguageCoversAllUIPrivacyStatusAndErrorKeys",
+            "KNABADETests.LocalizationAndSummaryTests testExplicitLanguageAndDeviceFallbackUseFullLocaleTagWithoutInventingUnsupportedLanguage",
+            "KNABADETests.LocalizationAndSummaryTests testInvalidFutureNegativeAndImpossibleCountersNeverRenderAsAuthoritativeTime",
+            "KNABADETests.LocalizationAndSummaryTests testLateEnrollmentAndReceiptCannotWriteAfterAuthorizationEpochIsRevoked",
+            "KNABADETests.LocalizationAndSummaryTests testOlderServerSessionWithoutSummaryRemainsCompatibleAndDoesNotInventZeroTime",
+            "KNABADETests.LocalizationAndSummaryTests testPendingLocalActionStaleSnapshotAndReviewFreezeAtRecordedServerCounters",
+            "KNABADETests.LocalizationAndSummaryTests testServiceAndWaitingStayDistinctAndDurationNeverWrapsAtTwentyFourHours",
+            "KNABADETests.NativeTests testApprovedExceptionCirclesUseActualDistancesAndConservativeExitMargin",
+            "KNABADETests.NativeTests testLeaseRejectsExpiryAndNeverStartsGPSFromOFF",
+            "KNABADETests.NativeTests testOneJumpDoesNotConfirmExitAndDwellIsRequired",
+            "KNABADETests.NativeTests testSharedConservativeVectors"
+          ],
+          "summary": "Executed 15 tests, with 0 failures (0 unexpected); TEST SUCCEEDED"
+        },
+        "simulatorAppArchive": "PASSED_WORKFLOW_ARCHIVE_AND_UPLOAD",
+        "artifact": {
+          "id": 11574064031,
+          "name": "knaba-ios-simulator-3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "providerSizeBytes": 5584516,
+          "providerDigest": "sha256:b8b358585842f0787233b91ea2d848f72bd9019c08f26944e8c0349250debeda",
+          "url": "https://github.com/ziko1/knaba/actions/runs/37831061903/artifacts/11574064031",
+          "providerCreatedAt": "2026-10-08T19:35:46Z",
+          "sourceGitSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+          "localDownload": "NOT_RUN",
+          "independentByteVerification": "NOT_RUN"
+        }
+      }
+    }
+  ],
+  "investigation": {
+    "codeChanges": "NONE",
+    "assessment": "The unchanged exact-runtime script passed on the single bounded retry; the first attempt failed before runtime selection during hosted simctl inventory startup. Preserve that failed attempt as infrastructure evidence."
+  },
+  "limitations": {
+    "independentArtifactDownloadAndByteVerification": "NOT_RUN",
+    "androidProductionSigning": "NOT_RUN_EPHEMERAL_DEBUG_KEY_ONLY",
+    "iosInstallableSignedIpa": "NOT_RUN_UNSIGNED_SIMULATOR_APP_ONLY",
+    "appStoreOrPlayStoreAcceptance": "NOT_RUN",
+    "physicalDeviceGpsBackgroundBatteryPrivacyAcceptance": "NOT_RUN"
+  }
+}
