@@ -35,7 +35,12 @@ async function demo(page:Page,role:string){
   await new Promise(resolve=>setTimeout(resolve,waitMs));
   response=await page.request.post('/api/v1/auth/demo',{data:{role},timeout:10_000});
  }
- expect(response.ok(),await response.text()).toBe(true);const body=await response.json();await openPage(page,'/console');await expect(page.locator('.sidebar')).toBeVisible();return body;
+ expect(response.ok(),await response.text()).toBe(true);const body=await response.json();await openPage(page,'/console');await expect(page.locator('.page-heading h1')).toBeVisible();
+ // Compact navigation is intentionally closed and inert after a new session.
+ // Assert the rendered control rather than requiring a desktop sidebar on phones.
+ if((page.viewportSize()?.width??1280)<=1024){await expect(page.locator('.topbar .mobile-only')).toBeVisible();await expect(page.locator('.sidebar')).toHaveAttribute('inert','');}
+ else await expect(page.locator('.sidebar')).toBeVisible();
+ return body;
 }
 async function command(request:APIRequestContext,name:string,input:unknown,expected_version?:number){const me=await request.get('/api/v1/me');expect(me.ok()).toBe(true);const session=await me.json();const r=await request.post(`/api/v1/commands/${name}`,{headers:{'X-CSRF-Token':session.csrfToken},data:{input,expected_version,idempotency_key:randomUUID()}});expect(r.ok(),`${name}: ${await r.text()}`).toBe(true);return r.json();}
 async function navigate(page:Page,name:string){const toggle=page.locator('.topbar .mobile-only');if(await toggle.isVisible())await toggle.click();await page.locator('.sidebar nav').getByRole('button',{name,exact:true}).click();await expect(page.locator('.page-heading h1')).toHaveText(name);}

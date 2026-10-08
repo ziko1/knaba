@@ -46,7 +46,7 @@ jobs:
           let report;
           try {report=JSON.parse(readFileSync('.local/responsive/result.json','utf8'));} catch {}
           const stats=report?.stats;
-          const status=stats && stats.expected>0 && stats.unexpected===0 && stats.skipped===0 && stats.flaky===0?'PASSED':'NOT_READY';
+          const status=stats && stats.expected===54 && stats.unexpected===0 && stats.skipped===0 && stats.flaky===0?'PASSED':'NOT_READY';
           const summary={status,testedGitSha:process.env.RESPONSIVE_SOURCE_SHA,runId:process.env.GITHUB_RUN_ID,utc:new Date().toISOString(),stats:stats||null,
             scope:'Actual built React web UI, Chromium and WebKit, explicit in-memory HTTP fixtures using real domain command schemas.',
             viewportWidths:[320,360,390,430,600,667,768,844,1024,1280,1440,1920,2560],

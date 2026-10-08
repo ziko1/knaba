@@ -21,7 +21,7 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
 .button { max-width: 100%; font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
 .icon-button, .topbar-actions .icon-button, .view-switch button { width: 44px; min-width: 44px; height: 44px; }
 .button svg, .text-link svg, .notice > svg { flex-shrink: 0; }
-.text-link { max-width: 100%; line-height: 1.5; overflow-wrap: anywhere; }
+.text-link { max-width: 100%; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
 .checkbox-field { min-height: 44px; line-height: 1.6; overflow-wrap: anywhere; }
 .checkbox-field input { flex: 0 0 20px; width: 20px; height: 20px; min-height: 20px; }
 
@@ -91,10 +91,12 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
 .tree-node b { font-size: 13px; }
 
 .modal-backdrop {
+  top: var(--modal-viewport-top, 0px); bottom: auto;
+  height: 100vh; height: var(--modal-viewport-height, 100dvh);
   padding: max(1rem, var(--safe-top)) max(1rem, var(--safe-right)) max(1rem, var(--safe-bottom)) max(1rem, var(--safe-left));
   overflow-y: auto; overscroll-behavior: contain;
 }
-.modal { max-height: calc(100vh - 2rem); max-height: calc(100dvh - max(2rem, var(--safe-top) + var(--safe-bottom))); overscroll-behavior: contain; scroll-padding-block: 5rem 1rem; }
+.modal { max-height: calc(100vh - 2rem); max-height: calc(var(--modal-viewport-height, 100dvh) - max(2rem, var(--safe-top) + var(--safe-bottom))); overscroll-behavior: contain; scroll-padding-block: 5rem 1rem; }
 .modal > header { position: sticky; top: 0; z-index: 3; flex-shrink: 0; gap: 1rem; background: #fff; }
 .modal > header h2 { min-width: 0; overflow-wrap: anywhere; line-height: 1.5; }
 .modal > header .icon-button { flex-shrink: 0; }
@@ -128,7 +130,7 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
 .message-bubble { font-size: 14px; overflow-wrap: anywhere; }
 .message-composer { min-width: 0; }
 .message-composer textarea { min-width: 0; min-height: 44px; font-size: 16px; }
-.message-composer .button { min-width: 44px; min-height: 44px; }
+.message-composer .button { min-width: 44px; min-height: 44px; flex-shrink: 0; white-space: nowrap; }
 .shift-actions { flex-wrap: wrap; }
 .shift-actions .button { min-height: 44px; font-size: 14px; }
 .route-map button, .route-map-tools button { min-width: 44px; min-height: 44px; }
@@ -205,7 +207,7 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
   .form-grid, .detail-grid { grid-template-columns: minmax(0, 1fr); }
   .field.full, .nested-fields, .array-fields { grid-column: 1 / -1; }
   .modal-backdrop { padding: max(.5rem, var(--safe-top)) max(.5rem, var(--safe-right)) max(.5rem, var(--safe-bottom)) max(.5rem, var(--safe-left)); }
-  .modal { max-height: calc(100vh - 1rem); max-height: calc(100dvh - max(1rem, var(--safe-top) + var(--safe-bottom))); }
+  .modal { max-height: calc(100vh - 1rem); max-height: calc(var(--modal-viewport-height, 100dvh) - max(1rem, var(--safe-top) + var(--safe-bottom))); }
   .modal > header { padding: .75rem 1rem; }
   .command-form, .public-form, .record-detail, .privacy-request-form, .issue-composer, .location-import { padding: 1rem; }
   .form-footer .button { flex: 1 1 9rem; }

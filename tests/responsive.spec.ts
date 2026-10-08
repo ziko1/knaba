@@ -1,12 +1,20 @@
 import {test, expect, type Page, type TestInfo} from '@playwright/test';
 import {zodToJsonSchema} from 'zod-to-json-schema';
-import {registry} from '../apps/api/registry.ts';
+import {Engine} from '../apps/api/engine.ts';
+import type {Database} from '../apps/api/database.ts';
 import {translator, type Language} from '../packages/i18n/index.ts';
 
 // UI-only acceptance: these tests render the actual built React application
 // against explicit in-memory HTTP fixtures. They do not claim PostgreSQL,
 // authentication, provider delivery, native devices or production acceptance.
 // The command catalogue uses the actual domain schemas, not parallel UI forms.
+// Include the commands attached by the real engine (digest, internal drafts,
+// media redaction), while rejecting any attempt to invoke database behavior.
+const fixtureDatabase = {
+  query() {throw new Error('Responsive UI fixture attempted SQL');},
+  transaction() {throw new Error('Responsive UI fixture attempted a transaction');},
+} as unknown as Database;
+const registry = new Engine(fixtureDatabase, 'TEST').registry;
 const catalog = Object.entries(registry).map(([name, def]) => ({
   name, permission: def.permission, highRisk: !!def.highRisk,
   schema: zodToJsonSchema(def.schema, {$refStrategy: 'none'}),
@@ -43,6 +51,7 @@ async function fixture(page: Page, role: string | null = 'DIRECTOR') {
     purchase_requisition: [entity('purchase_requisition', 'purchase-a')],
     payout: [entity('payout', 'payout-a', {amountCents: 123456789})],
     report: [entity('report', 'report-a')],
+    notification: [entity('notification', 'notification-a', {title: longName, text: longName, category: 'WORK', status: 'SUCCEEDED'})],
     decision: [entity('decision', 'decision-a', {status: 'OPEN', reason: longName, amountCents: 123456789})],
     shift: [entity('shift', 'shift-a', {employeeId: 'fixture-user', state: 'ENDED', summary: {breakSeconds: 0}})],
     channel: [entity('channel', 'channel-a', {type: 'SITE_INTERNAL', member_ids: ['fixture-user'], site_id: 'site-a'})],
@@ -79,7 +88,7 @@ async function fixture(page: Page, role: string | null = 'DIRECTOR') {
       requests.push({name, input});
       if (name === 'message.read') return ok({items: messages});
       if (name === 'message.send') {messages.push(entity('message', 'sent-fixture', {...input, sender_id: 'fixture-user'})); return ok(messages.at(-1));}
-      if (name === 'channel.unread') return ok([]);
+      if (name === 'channel.unread') return ok([{channel_id: 'channel-a', unread: 1}]);
       if (name === 'channel.mark_read') return ok({});
       if (name === 'translation.request') return ok({text: 'Synthetic translated message'});
       if (name === 'handoff.inbox') return ok({items: []});
@@ -87,7 +96,6 @@ async function fixture(page: Page, role: string | null = 'DIRECTOR') {
       if (name === 'assistant.usage') return ok({currency: 'EUR', from: stamp, to: stamp, asOf: stamp,
         categories: [], budgets: [], totals: {records: 0, reservedCents: 0, settledCents: 0, retainedReservationCents: 0, inputTokens: 0, outputTokens: 0, unknownCostRecords: 0, unknownTokenRecords: 0},
         keyStatus: {configured: false, validation: 'NOT_RUN'}, supplierStatus: 'DISABLED'});
-      if (name === 'internal_assistant.list') return ok({requests: [], drafts: []});
       if (name === 'task.create') {
         const parsed = registry[name].schema.parse(input);
         const created = entity('task', 'created-fixture', parsed);
@@ -114,15 +122,21 @@ async function noOverflow(page: Page, context: string) {
     }).slice(0, 20),
   }));
   expect(layout.scrollWidth, `${context}: ${JSON.stringify(layout)}`).toBeLessThanOrEqual(layout.width + 1);
+  for (const dialog of await page.locator('.modal').all()) {
+    const size = await dialog.evaluate(element => ({width: element.clientWidth, content: element.scrollWidth}));
+    expect(size.content, `${context}: dialog content must not scroll sideways`).toBeLessThanOrEqual(size.width + 1);
+  }
 }
 async function screenshot(page: Page, info: TestInfo, name: string) {
-  await info.attach(name, {body: await page.screenshot({fullPage: true}), contentType: 'image/png'});
+  await info.attach(name, {body: await page.screenshot({fullPage: true, animations: 'disabled'}), contentType: 'image/png'});
 }
 async function navigate(page: Page, key: string, language: Language = 'EN') {
+  await expect(page.locator('.page-heading h1')).toBeVisible();
   const toggle = page.locator('.topbar .mobile-only');
   if (await toggle.isVisible()) await toggle.click();
   const name = translator(language)(key);
-  await page.locator('.sidebar nav').getByRole('button', {name, exact: true}).click();
+  // The decision navigation label includes its visible open-item count.
+  await page.locator('.sidebar nav').getByRole('button', {name}).click();
   await expect(page.locator('.page-heading h1')).toHaveText(name);
   await expect(page.locator('.heading-actions .refresh .rotating')).toHaveCount(0);
 }
@@ -155,7 +169,7 @@ for (const width of [320, 768, 1440, 2560]) {
   test(`all console modules reflow at ${width}px`, async ({page}, info) => {
     const state = await fixture(page);
     await page.setViewportSize({width, height: width < 500 ? 740 : 1000}); await page.goto('/console');
-    for (const key of ['overview','decisions','sites','leads','orders','tasks','time','travel','inventory','procurement','payroll','reports','chat','inbox','assistant','admin','audit','privacy']) {
+    for (const key of ['overview','decisions','sites','leads','orders','tasks','time','travel','inventory','procurement','payroll','reports','chat','inbox','assistant','admin','audit','privacy','activity']) {
       await navigate(page, key);
       await noOverflow(page, key);
       if (['overview','tasks','chat','assistant'].includes(key)) await screenshot(page, info, `${key}-${width}`);
@@ -171,6 +185,8 @@ test('compact navigation traps focus, closes with Escape and recovers after rota
   const state = await fixture(page); await page.setViewportSize({width: 320, height: 568}); await page.goto('/console');
   const toggle = page.locator('.topbar .mobile-only'), sidebar = page.locator('.sidebar');
   await expect(sidebar).toHaveAttribute('inert', '');
+  const targets = await page.locator('.topbar button').evaluateAll(buttons => buttons.map(button => button.getBoundingClientRect()).filter(box => box.width > 0).map(box => ({width: box.width, height: box.height})));
+  expect(targets.every(box => box.width >= 44 && box.height >= 44)).toBe(true);
   await toggle.focus(); await toggle.click();
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
   await expect(sidebar).toHaveAttribute('aria-modal', 'true');
@@ -181,6 +197,10 @@ test('compact navigation traps focus, closes with Escape and recovers after rota
   await screenshot(page, info, 'navigation-phone');
   await page.keyboard.press('Escape'); await expect(toggle).toBeFocused();
   await expect(sidebar).toHaveAttribute('inert', '');
+  await toggle.click(); await page.keyboard.press('Control+k');
+  await expect(page.locator('.modal .global-search-panel input')).toBeFocused();
+  await expect(sidebar).toHaveAttribute('inert', '');
+  await page.keyboard.press('Escape');
   await toggle.click(); await page.setViewportSize({width: 844, height: 390});
   await sidebar.locator('.profile').scrollIntoViewIfNeeded(); await expect(sidebar.locator('.profile')).toBeInViewport();
   await noOverflow(page, 'landscape-menu');
@@ -230,6 +250,11 @@ test('employee chat sends long text and shift form remains reachable with a shor
   await expect(page.locator('.shift-card')).toBeVisible(); await noOverflow(page, 'employee-shift');
   await page.locator('.shift-actions').getByRole('button', {name: 'Start shift', exact: true}).click();
   await expect(page.getByRole('dialog')).toBeVisible(); await noOverflow(page, 'employee-shift-form');
+  await page.setViewportSize({width:844,height:390});
+  await expect.poll(async () => {const box = await page.getByRole('dialog').boundingBox(); return box ? box.y + box.height : Infinity;}).toBeLessThanOrEqual(391);
+  await noOverflow(page, 'open-shift-form-after-rotation');
+  await page.setViewportSize({width:390,height:340});
+  await expect.poll(async () => {const box = await page.getByRole('dialog').boundingBox(); return box ? box.y + box.height : Infinity;}).toBeLessThanOrEqual(341);
   await page.getByRole('dialog').locator('header button').click(); await navigate(page, 'chat');
   await page.locator('.channel-list > button').first().click();
   await page.getByRole('textbox', {name: 'Message', exact: true}).fill(longName);
@@ -264,4 +289,36 @@ test('login, activation, text enlargement and reduced motion remain usable', asy
   await page.addStyleTag({content:'html {font-size: 200%}'});
   await noOverflow(page, '200-percent-text');
   await screenshot(page, info, 'public-enlarged-text'); expect(state.errors).toEqual([]);
+});
+
+test('the actual website contact widget fits a phone and landscape viewport', async ({page}, info) => {
+  const state = await fixture(page, null);
+  await page.route('**/__responsive_widget', route => route.fulfill({
+    contentType: 'text/html',
+    body: '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Synthetic widget host</title></head><body><h1>Website contact test</h1><script src="/widget.js" data-language="EN"></script></body></html>',
+  }));
+  for (const viewport of [{width:320,height:568},{width:844,height:390}]) {
+    await page.setViewportSize(viewport); await page.goto('/__responsive_widget');
+    const toggle = page.getByRole('button', {name:'KNABA DE · Contact', exact:true});
+    await toggle.click();
+    const frame = page.locator('iframe'); await expect(frame).toBeVisible();
+    const bounds = await frame.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.y).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height);
+    const chat = page.frameLocator('iframe').getByRole('dialog'); await expect(chat).toBeVisible();
+    const inside = await chat.evaluate(element => ({
+      width: innerWidth, content: document.documentElement.scrollWidth,
+      dialogWidth: element.clientWidth, dialogContent: element.scrollWidth,
+      height: innerHeight, bottom: element.getBoundingClientRect().bottom,
+    }));
+    expect(inside.content).toBeLessThanOrEqual(inside.width + 1);
+    expect(inside.dialogContent).toBeLessThanOrEqual(inside.dialogWidth + 1);
+    expect(inside.bottom).toBeLessThanOrEqual(inside.height + 1);
+    await screenshot(page, info, `embedded-contact-${viewport.width}`);
+    await page.getByRole('button', {name:'Close contact', exact:true}).click();
+    await expect(frame).toHaveCount(0);
+  }
+  expect(state.errors).toEqual([]);
 });

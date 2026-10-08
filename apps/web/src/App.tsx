@@ -87,7 +87,7 @@ function Console({session,t,language,setLanguage,logout,online}:{session:Session
  useEffect(()=>{readGeneration.mount();return()=>readGeneration.unmount()},[readGeneration]);
  const revokeAccess=useCallback(()=>{
   readGeneration.invalidate();eventStream.current?.close();eventStream.current=null;offlineQueue.clear();
-  setAccessBlocked(true);setRecords({});setCommands([]);setSelected(null);setAction(null);setDashboard(undefined);setRouteReceivedAt(undefined);setLoading(false);setToast('');setClaimedChannelId('');setSelectedDigestId('');setGlobalQuery('');setAdvanced(false);setGlobalOpen(false);setScannerOpen(false);setImportOpen(false);setPrivateEpoch(epoch=>epoch+1);setError(new ApiError('NEEDS_REAUTH',401));
+  setAccessBlocked(true);setMobile(false);setRecords({});setCommands([]);setSelected(null);setAction(null);setDashboard(undefined);setRouteReceivedAt(undefined);setLoading(false);setToast('');setClaimedChannelId('');setSelectedDigestId('');setGlobalQuery('');setAdvanced(false);setGlobalOpen(false);setScannerOpen(false);setImportOpen(false);setPrivateEpoch(epoch=>epoch+1);setError(new ApiError('NEEDS_REAUTH',401));
  },[readGeneration,offlineQueue]);
  useEffect(()=>subscribeAuthenticationFailure(revokeAccess),[revokeAccess]);
  const handleLogout=()=>{revokeAccess();logout()};

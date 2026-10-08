@@ -32,7 +32,11 @@ export function useResponsiveNavigation(open: boolean, onClose: () => void) {
       'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]',
     )).filter(element => element.getClientRects().length > 0);
     document.body.style.overflow = 'hidden';
-    navigation.querySelector<HTMLElement>('.sidebar-brand button')?.focus();
+    // Opening also removes inert and starts the CSS visibility transition.
+    // Wait for that rendered frame so the close control can accept focus.
+    const focusFrame = requestAnimationFrame(() => {
+      navigation.querySelector<HTMLElement>('.sidebar-brand button')?.focus({preventScroll: true});
+    });
     const keydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -49,12 +53,16 @@ export function useResponsiveNavigation(open: boolean, onClose: () => void) {
     };
     document.addEventListener('keydown', keydown);
     return () => {
+      cancelAnimationFrame(focusFrame);
       document.removeEventListener('keydown', keydown);
       document.body.style.overflow = previousOverflow;
       // Wait for React to remove inert from the main area before restoring focus.
       requestAnimationFrame(() => {
-        const target = before?.isConnected ? before : toggleRef.current;
-        if (target?.getClientRects().length && !target.closest('[inert]')) target.focus();
+        // Ctrl+K may replace the drawer with a search dialog in the same commit.
+        if (document.querySelector('.modal[aria-modal="true"]')) return;
+        const target = [before, toggleRef.current, navigation.querySelector<HTMLElement>('.nav-item.selected')]
+          .find(element => element?.isConnected && element.getClientRects().length && !element.closest('[inert]'));
+        target?.focus({preventScroll: true});
       });
     };
   }, [compact, open]);
