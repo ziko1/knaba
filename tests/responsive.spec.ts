@@ -172,6 +172,15 @@ for (const width of [320, 768, 1440, 2560]) {
     for (const key of ['overview','decisions','sites','leads','orders','tasks','time','travel','inventory','procurement','payroll','reports','chat','inbox','assistant','admin','audit','privacy','activity']) {
       await navigate(page, key);
       await noOverflow(page, key);
+      if (key === 'chat') {
+        const items = await page.locator('.channel-list > button').evaluateAll(buttons => buttons.map(button => {
+          const icon = button.querySelector('.channel-icon')!.getBoundingClientRect();
+          const label = button.querySelector('span:nth-child(2)')!.getBoundingClientRect();
+          return {iconWidth: icon.width, gap: label.left - icon.right};
+        }));
+        expect(items.length).toBeGreaterThan(0);
+        expect(items.every(item => item.iconWidth >= 16 && item.gap >= 0)).toBe(true);
+      }
       if (['overview','tasks','chat','assistant'].includes(key)) await screenshot(page, info, `${key}-${width}`);
     }
     const toggle = page.locator('.topbar .mobile-only'); if (await toggle.isVisible()) await toggle.click();
@@ -239,6 +248,13 @@ for (const viewport of [{width:320,height:568},{width:390,height:340},{width:768
     expect(state.requests.some(request => request.name === 'task.create' && request.input.title === 'Synthetic responsive task')).toBe(true);
     await dialog.getByRole('button', {name: 'Completed', exact: true}).click();
     const table = page.locator('.table-scroll');
+    const statusLines = await table.locator('.badge').evaluateAll(badges => badges.flatMap(badge =>
+      Array.from(badge.childNodes).filter(node => node.nodeType === Node.TEXT_NODE && node.textContent?.trim()).map(node => {
+        const range = document.createRange(); range.selectNodeContents(node); return range.getClientRects().length;
+      }),
+    ));
+    expect(statusLines.length).toBeGreaterThan(0);
+    expect(statusLines.every(lines => lines === 1), 'Short status labels must remain readable on one line').toBe(true);
     if (viewport.width < 600) {
       await table.focus(); await page.keyboard.press('ArrowRight');
       await expect.poll(() => table.evaluate(element => element.scrollLeft)).toBeGreaterThan(0);
