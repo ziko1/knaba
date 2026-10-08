@@ -3,14 +3,16 @@ import { createHash } from 'node:crypto';
 import PDFDocument from 'pdfkit';
 import { assert, Data, Entity, type Transaction } from '../../packages/domain/core.ts';
 import type { BlobReceipt, BlobSql, PrivateBlobStore } from '../../packages/storage/index.ts';
-import { reportSnapshotHash, formatReportHours } from '../../packages/domain/resources.ts';
+import { formatReportHours } from '../../packages/domain/resources.ts';
+import { reportExportSnapshot } from '../../packages/domain/report-export.ts';
+export { reportExportSnapshot } from '../../packages/domain/report-export.ts';
 import { reportFont } from '../../packages/storage/fonts/dejavu.ts';
 
 export interface ReportMedia {id:string;bytes:Buffer;mimeType:'image/jpeg'|'image/png'|'image/webp';}
 export interface ExportOptions {media?:ReportMedia[];}
 export type ReportArtifactFormat='PDF'|'XLSX'|'CSV';
 export interface ArchivedReportArtifact {artifact:Entity;bytes:Buffer;createdBlob?:BlobReceipt;}
-export function reportExportSnapshot(version:Entity):Data {const d=version.data,s=d.snapshot;assert(version.kind==='report_version'&&d.immutable===true&&d.publishedAt&&s&&s.language==='de','INVALID_STATE',{reason:'PUBLISHED_REPORT_REQUIRED'});assert(d.sha256===reportSnapshotHash(s),'INVALID_STATE',{reason:'REPORT_CHECKSUM_MISMATCH'});for(const key of ['baseNetCents','approvedChangesNetCents','totalNetCents','totalTaxCents','totalGrossCents','totalSeconds'])assert(Number.isSafeInteger(s[key]),'INVALID_STATE',{reason:'REPORT_EXACT_NUMBERS_REQUIRED'});assert(s.totalNetCents+s.totalTaxCents===s.totalGrossCents&&s.baseNetCents+s.approvedChangesNetCents===s.totalNetCents,'INVALID_STATE',{reason:'REPORT_TOTAL_MISMATCH'});assert((s.hoursRows||[]).reduce((n:number,row:Data)=>n+row.seconds,0)===s.totalSeconds,'INVALID_STATE',{reason:'REPORT_HOURS_MISMATCH'});return s;}
+
 function exactDecimal(value:number,denominator:number,digits:number){assert(Number.isSafeInteger(value)&&Number.isSafeInteger(denominator)&&denominator>0,'INVALID_STATE');const n=BigInt(value),absolute=n<0n?-n:n;return `${n<0n?'-':''}${absolute/BigInt(denominator)}${digits?'.'+String(absolute%BigInt(denominator)).padStart(digits,'0'):''}`;}
 export const reportMoney=(value:number)=>`${exactDecimal(value,100,2).replace('.',',')} EUR`;
 const text=(value:any)=>typeof value==='string'?value:JSON.stringify(value??'');

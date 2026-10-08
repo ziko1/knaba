@@ -461,3 +461,8 @@ client publication approval is cleared; separate `media.approve` is required.
 no-store caching. S3 editing fails closed until atomic edit lifecycle support
 is configured. Erasure retention considers originals, prior copies and edits,
 including current report/legal holds.
+
+
+## Accountant review export
+
+`GET /api/v1/reports/:id/accounting-json` resolves an immutable published report-version ID, or a report ID to its current version. Fresh internal `report.export` and report visibility are checked in one transaction; CLIENT/CUSTOMER/EXTERNAL_BAULEITER/GUEST and mixed external roles are denied. Canonical JSON carries exact EUR cents, minimized performance facts, source SHA256 and distinct content ETag; private no-store delivery has no database or financial effects. [Full format and readiness boundary](ACCOUNTING_EXPORT.md).

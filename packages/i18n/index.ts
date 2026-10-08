@@ -346,6 +346,7 @@ redactionCheck:['Ich habe Gesichter, private Bereiche und personenbezogene Angab
 openFile:['Datei öffnen','Відкрити файл','Открыть файл','Otwórz plik','Atverti failą','Open file'],
 downloadPdf:['PDF herunterladen','Завантажити PDF','Скачать PDF','Pobierz PDF','Atsisiųsti PDF','Download PDF'],
 downloadCsv:['CSV herunterladen','Завантажити CSV','Скачать CSV','Pobierz CSV','Atsisiųsti CSV','Download CSV'],
+downloadAccountingJson:['Buchhaltungsdaten herunterladen','Завантажити дані для бухгалтера','Скачать данные для бухгалтера','Pobierz dane dla księgowości','Atsisiųsti apskaitos duomenis','Download accounting data'],
 add:['Zeile hinzufügen','Додати рядок','Добавить строку','Dodaj wiersz','Pridėti eilutę','Add row'],
 include:['Diesen Abschnitt verwenden','Використати цей розділ','Использовать этот раздел','Użyj tej sekcji','Naudoti šį skyrių','Include this section'],
 siteTime:['Arbeitszeit am Objekt','Робочий час на об’єкті','Рабочее время на объекте','Czas pracy na obiekcie','Darbo laikas objekte','Work time at site'],
