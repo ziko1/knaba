@@ -4,9 +4,9 @@
   "snapshot_date": "2026-10-08",
   "language": "uk",
   "status": "PLANNED_REMAINING_PRODUCT_WORK;PUBLIC_NOT_READY",
-  "meaning": "Текст задач є планом, а не доказом виконання. Лише PLAN-01 завершений у вузькій межі перевіреної технічної бази ca9. Застосовні вимоги V3 не можна мовчки вилучити.",
+  "meaning": "Текст задач є планом, а не доказом виконання. Користувач обрав V4 цільовою та погодив збереження працюючого стеку через ADR. Лише PLAN-01 завершений у вузькій межі технічної бази ca9; 72 цільові критерії V4 не виконані. Повна V3 матриця та її функціональні регресії збережені.",
   "canonical_scope": {
-    "specification_path": "KNABA_DE_MASTER_SPEC.md",
+    "specification_path": "KNABA_DE_TARGET_SPEC.md",
     "full_plan_path": "FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md",
     "requirements_matrix_path": "docs/requirements/requirements.json",
     "module_readiness_path": "docs/requirements/MODULE_READINESS.json",
@@ -20,16 +20,26 @@
       "NOT_RUN": 465
     },
     "whole_criteria_current_status": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
-    "external_runner_status": "EXT-22_RESOLVED_ACTUAL_CA9_HOSTED_ACCEPTANCE;NO_NEW_RUNNER_PERMISSION_MISSING"
+    "external_runner_status": "EXT-22_RESOLVED_ACTUAL_CA9_HOSTED_ACCEPTANCE;NO_NEW_RUNNER_PERMISSION_MISSING",
+    "target_specification_path": "KNABA_DE_TARGET_SPEC.md",
+    "target_specification_version": 4,
+    "target_scope_authority": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+    "scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+    "preserved_runtime_adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+    "target_acceptance_criteria_count": 72,
+    "target_acceptance_csv_path": "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv",
+    "historical_regression_specification_path": "KNABA_DE_MASTER_SPEC.md",
+    "counts_scope": "PRESERVED_V3_CANONICAL_REGRESSION_MATRIX;NOT_V4_ACCEPTANCE_TOTAL",
+    "scope_interpretation_uk": "V4 є цільовою специфікацією. Повні 432 вимоги, 475 критеріїв і 34 модулі V3 лишаються історичною базою та обсягом функціональних регресій. 72 критерії V4 мають окремі IDs і поточне приймання; історія V3 не переписується."
   },
   "baseline": {
     "tested_code_remote_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
     "tested_code_local_git_sha": "4132dbf04b37cc64c3388c3891edce8f44bdf73e",
     "tested_git_tree": "8144d5bc90fcefe9bcdb26255d55287e96f2a170",
     "source_files": 339,
-    "prior_documentation_remote_git_sha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
-    "prior_documentation_local_git_sha": "5747670b4046bbcb365c3e3ab4644b163f07ca42",
-    "documentation_and_runtime_identity_rule": "Цей план і backlog є пізнішою зміною лише документації. Вони не створюють нового приймання коду й не ретегують runtime/native artifacts ca9.",
+    "prior_documentation_remote_git_sha": "d7877fc270a2aedca28d36de871eac34df120520",
+    "prior_documentation_local_git_sha": "303d2e8b855bb2c47045b1e81b0bd1aace47d670",
+    "documentation_and_runtime_identity_rule": "Це нова зміна лише документації після snapshot d7877. Рішення про цільову V4 і ADR не створюють нового приймання коду й не ретегують runtime/native artifacts ca9. Попередні документаційні snapshot та їхні перевірки залишаються історичними.",
     "actual_scoped_acceptance": {
       "application_run": 37544413379,
       "application_url": "https://github.com/ziko1/knaba/actions/runs/37544413379",
@@ -49,7 +59,27 @@
       "actual_worker_phases": 2,
       "built_file_hashes": 14,
       "status": "ACTUAL_ACCEPTED_EXACT_SOURCE_SCOPED_GATES;NOT_WHOLE_PRODUCT_OR_PUBLIC_ACCEPTANCE"
-    }
+    },
+    "documentation_history": [
+      {
+        "remote_git_sha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
+        "local_git_sha": "5747670b4046bbcb365c3e3ab4644b163f07ca42",
+        "git_tree": "51aa98dbb291be16f9e863102795f2a8670779c2",
+        "scope": "Документація попередньої передачі перевіреної бази ca9; окрема від code SHA."
+      },
+      {
+        "remote_git_sha": "d7877fc270a2aedca28d36de871eac34df120520",
+        "local_git_sha": "303d2e8b855bb2c47045b1e81b0bd1aace47d670",
+        "git_tree": "8dc10b773dd331782201d1903c237814596bfd99",
+        "scope": "Опублікований попередній план і V3/V4 reconciliation до рішення користувача про V4. Лише документація; не нове приймання коду.",
+        "historical_document_validation": {
+          "path": "docs/evidence/development-plan-validation-2026-10-08.json",
+          "independent_checks": 29,
+          "scope": "Історична перевірка попереднього документаційного snapshot; не підтвердження нових правок або application acceptance."
+        }
+      }
+    ],
+    "prior_documentation_git_tree": "8dc10b773dd331782201d1903c237814596bfd99"
   },
   "public_deployment": {
     "status": "NOT_READY",
@@ -96,7 +126,8 @@
     "conditional_decision_policy": "Для кожного умовного пункту записати погоджене рішення відповідального щодо застосовності: пов’язані requirement/criterion IDs, scope, version, reason і source. Застосовна вимога лишається відкритою до реалізації та повного фактичного приймання.",
     "regression_policy": "Виконувати meaningful tests для зміненого джерела, потім потрібні застосовні hosted/release/native gates. Зберігати оригінальні невдачі та точну ідентичність джерела. Не додавати тести, що лише повторюють низькоризикове редагування документації.",
     "production_merge_realdata_policy": "Дозвіл staging не є дозволом merge, production чи роботи з реальними персональними даними. До відповідного рішення компанії підготувати конкретний release/rollback package.",
-    "parallel_draft_assessment_rule": "Поки PLAN-28 очікує рішення щодо редакції та ADR, незалежні чернеткові оцінки незаперечених критеріїв V3, відтворення дефектів, підготовка regression cases і staging patch можуть тривати. Залежність PLAN-02 від PLAN-28 стосується остаточного приймання погодженого обсягу; неоднозначні зміни контрактів потребують рішення перед застосуванням."
+    "parallel_draft_assessment_rule": "Редакція V4 та збереження працюючого стеку вже затверджені користувачем у ADR-0002. PLAN-28 очікує завершення звірки конкретних контрактів і параметрів реалізації. Незалежні оцінки незаперечених критеріїв V3, відтворення дефектів, підготовка регресій і staging patch можуть тривати паралельно. Залежність PLAN-02 від PLAN-28 стосується остаточного приймання повного цільового обсягу; повторне погодження редакції чи ORM/черги не потрібне.",
+    "target_scope_policy": "V4 є затвердженою цільовою специфікацією через явне рішення користувача. Працюючий стек зберігається за ADR-0002; решта конкретних розбіжностей реалізації й критеріїв не вважається автоматично погодженою чи виконаною. Повна V3 база та регресії збережені."
   },
   "tasks": [
     {
@@ -180,7 +211,7 @@
     },
     {
       "id": "PLAN-02",
-      "title_uk": "Поточна індивідуальна оцінка всіх 475 критеріїв",
+      "title_uk": "Оцінити 72 цільові критерії V4 та повні регресії V3",
       "status": "PENDING",
       "priority": "P0",
       "owner": {
@@ -239,13 +270,14 @@
         "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
       },
       "actions_uk": [
-        "Для кожного з 475 критеріїв створити поточну оцінку всіх його складених частин: ролі, дані, кроки, середовище та очікувані наслідки.",
-        "Пов’язати лише фактичні наявні докази. Розділити прогалину коду, невиконане приймання, зовнішній вхід і погоджене рішення про застосовність.",
-        "Зберегти історичні 10 PASSED / 465 NOT_RUN. Поточну оцінку додати окремим шаром."
+        "Для кожного з 72 цільових критеріїв V4 створити поточне виконання всіх складених частин: ролі, дані, кроки, середовище, source SHA та очікувані наслідки.",
+        "Зіставити цільове приймання з усіма 432 вимогами, 475 критеріями й 34 модулями V3. Для кожного V3 критерію зберегти поточну оцінку функціональної регресії та пов’язані target IDs; нічого мовчки не вилучати.",
+        "Пов’язати лише фактичні наявні докази. Розділити прогалину коду, невиконане приймання та зовнішній вхід. Погоджену альтернативу стеку застосувати через ADR-0002.",
+        "Зберегти історичні 10 PASSED / 465 NOT_RUN у V3. Поточну V4 оцінку додати окремо; прийняття target не приймає всі application criteria."
       ],
       "exit_criteria_uk": [
-        "Усі 475 унікальних criterion IDs і 432 requirement IDs охоплені поточною оцінкою. Жоден критерій не прийнятий лише за сумарною кількістю тестів.",
-        "Кожен відкритий критерій має конкретну прогалину або залежність, відповідального та потрібний клас доказу."
+        "Усі 72 target AC IDs і повні 475 V3 criterion IDs / 432 requirement IDs охоплені поточними зв’язками та оцінкою. Жоден критерій не прийнятий лише за сумарною кількістю тестів.",
+        "Кожен відкритий цільовий критерій або застосовна V3 регресія має конкретну прогалину чи залежність, відповідального та потрібний клас доказу."
       ],
       "exit_evidence_paths": [
         "docs/evidence/planning/current-criterion-assessment.json",
@@ -318,7 +350,8 @@
       "actions_uk": [
         "Відтворити конкретний дефект або обов’язкову прогалину реалізації з requirement/criterion ID. Спершу виправляти доступ, цілісність, гроші, час, приватність і відновлення; далі бізнес-процеси та UI.",
         "Змінювати лише потрібні файли й контракти. Зберігати аудит, бізнес-історію та атомарні інваріанти PostgreSQL.",
-        "Зміна збережених у Git файлів коду, конфігурації, контракту, тесту, toolchain чи native створює нову candidate SHA та потребує відповідних перевірок. Зовнішні змінні Railway мають окремий config digest і readback; вони самі не змінюють code SHA. Документаційний SHA не ретегує runtime."
+        "Зміна збережених у Git файлів коду, конфігурації, контракту, тесту, toolchain чи native створює нову candidate SHA та потребує відповідних перевірок. Зовнішні змінні Railway мають окремий config digest і readback; вони самі не змінюють code SHA. Документаційний SHA не ретегує runtime.",
+        "Виконувати підтверджені цільові прогалини V4 зі збереженням повних V3 регресій і погодженого ADR-0002. Сам факт вибору target не змінює код і не закриває розбіжності контрактів."
       ],
       "exit_criteria_uk": [
         "Усі підтверджені обов’язкові внутрішні прогалини коду закриті. Якщо така прогалина лишилася відкритою, пакет не позначається завершеним.",
@@ -885,7 +918,7 @@
         "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
       },
       "actions_uk": [
-        "Налаштувати погоджені independent destination, region, key custody, retention, RPO/RTO, private bucket і scanner operator.",
+        "Налаштувати independent destination, region, key custody, retention, private bucket і scanner operator для V4 KNB-23: DB/metadata RPO ≤15 хвилин, media RPO ≤24 години та RTO ≤4 години. Конкретні доступи й оператори залишаються зовнішніми передумовами.",
         "Виконати справжні encrypted copy та restore до іншої порожньої DB з media, checksums, tamper rejection, current trusted ledger і worker restart.",
         "Виміряти recovery time та свіжість даних, перевірити відмови erasure/hold reconciliation. Не очищати робочу DB."
       ],
@@ -899,7 +932,15 @@
       ],
       "exit_evidence_state": "NOT_CREATED_NOT_RUN",
       "actual_result": null,
-      "completed_at": null
+      "completed_at": null,
+      "v4_recovery_targets": {
+        "source": "KNABA_DE_TARGET_SPEC.md KNB-23",
+        "status": "TARGET_DEFINED_EXECUTION_NOT_RUN",
+        "db_metadata_rpo_minutes_max": 15,
+        "media_rpo_hours_max": 24,
+        "rto_hours_max": 4,
+        "actual_results": null
+      }
     },
     {
       "id": "PLAN-15",
@@ -1428,10 +1469,11 @@
         "Виконати lead/handoff/quote/acceptance/dispatch, site import/task/team/time/review/rework та client Issue/photo/report/publication/ACK процеси.",
         "Виконати approved time/correction/rate/accountant/payout record/partial dispute та material request/reserve/issue/use/return/receipt/reconciliation процеси.",
         "Звірити period statistics, digests, notification causes і source versions; перевірити відмови доступу, replay, revocation, rollback та outage. Кожну складену частину критерію оцінити окремо.",
-        "Фізичну якість робіт, повноваження представника, legal Abnahme та реальні фінансові дії приймають відповідальні справжні ролі. Не імітувати їх synthetic approvals."
+        "Фізичну якість робіт, повноваження представника, legal Abnahme та реальні фінансові дії приймають відповідальні справжні ролі. Не імітувати їх synthetic approvals.",
+        "Company UAT прив’язати до всіх 72 цільових критеріїв V4 та повних застосовних V3 функціональних регресій. ADR-0002 визначає погоджену альтернативу стеку, а не виконання бізнес-сценаріїв."
       ],
       "exit_criteria_uk": [
-        "Усі застосовні складені критерії мають повні поточні докази й приймання. Відкритий обов’язковий критерій залишає цей пакет незавершеним; для умовних критеріїв потрібне погоджене рішення про застосовність.",
+        "Усі 72 цільові критерії V4 та обов’язкові застосовні V3 регресії мають повні поточні докази й приймання. Відкритий обов’язковий критерій лишає пакет незавершеним.",
         "Ролі компанії прийняли фактичні business semantics, privacy, disclosure, time, money, quality та contractual ACK. 1513 тестів не є повним company UAT."
       ],
       "exit_evidence_paths": [
@@ -1536,7 +1578,8 @@
       "actions_uk": [
         "Зафіксувати final candidate SHA, config, toolchain і native. Повторити відповідні meaningful hosted PG/browser/TypeScript/build/container/restore/worker/packaging/native gates на цьому джерелі.",
         "Підготувати reviewable release, migration, rollback та manifest із source/build/runtime/doc SHA й сумісними backup/schema boundaries. Secret guard не послаблювати.",
-        "Окремо визначити фактичну production/merge/real data authorization. Не переносити staging authorization автоматично."
+        "Окремо визначити фактичну production/merge/real data authorization. Не переносити staging authorization автоматично.",
+        "Фінальні gates оцінити за цільовою V4, V4_SCOPE_DECISION та ADR-0002, з повними застосовними V3 feature regressions. Рішення користувача про target не є дозволом merge/production, реалізацією чи тестовим PASS."
       ],
       "exit_criteria_uk": [
         "Live, UAT, застосовні provider/legal/device/DR, SLO, budget та operating owner gates прийняті. Final exact source, артефакти й тести узгоджені.",
@@ -1669,7 +1712,7 @@
       },
       "actions_uk": [
         "Передати справжні працюючі URLs, version, code/doc/runtime SHA, tree/image/file hashes та перевірені source/runtime і підписані компанією native artifacts.",
-        "Оновити готовність 34 модулів, поточні результати 475 критеріїв, матрицю, memory, roadmap, test ledger і user/admin/API/DevOps/recovery guides за фактичним final state.",
+        "Оновити готовність 34 модулів, поточні результати 72 цільових V4 критеріїв, повні V3 regression links/assessments, memory, roadmap, test ledger і user/admin/API/DevOps/recovery guides за фактичним final state.",
         "Передати доступи через secret manager, активи компанії та записати справжнє handover decision. Не приховувати відкритий обов’язковий модуль без готовності."
       ],
       "exit_criteria_uk": [
@@ -1722,14 +1765,15 @@
         "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
       },
       "actions_uk": [
-        "За V3 §30.9 наперед зафіксувати погоджений або явно synthetic load profile: data, concurrency, duration і resources. Погодити SLO перед оцінкою; не заявляти тисячі users без тесту.",
+        "Підготувати відтворюваний synthetic profile для затвердженого V4 KNB-23: 100 працівників, 20 активних об’єктів, 100 одночасних сесій, 10 команд/с протягом 15 хвилин і 100 000 TimeSegments. Наперед записати ресурси, seed, commands і measurement interval; V3 §30.9 зберігається як додаткова регресія.",
         "Виміряти фактичні API latency p50/p95/p99 для описаного профілю, queue backlog/oldest age, duplicate/error rates, report duration та chat reconnect.",
+        "Порівняти вимірювання з V4 KNB-23: core API p95 ≤1 с / p99 ≤3 с, 0 втрачених підтверджених команд і <1% 5xx; durable webhook p95 ≤2 с; enqueue→provider request p95 ≤5 с; PDF ≤60 с для 50 задач / 20 оптимізованих фото за 3 паралельних jobs. Synthetic transport doubles не доводять реальні provider latency.",
         "Для physical geolocation latency та battery використати справжні device evidence PLAN-22. Згенерований маршрут не є фізичним доказом.",
         "Перевірити справжні дозволені monitor, alert, incident, restart і rollback drill. Зберегти raw-safe metrics, settings, scenario, code, environment та results."
       ],
       "exit_criteria_uk": [
         "Результати відтворювані за точними SHA, environment, profile, resources, measurement interval, data і commands; є числові метрики. Налаштовані healthchecks не є PASSED.",
-        "SLO спершу визначено й погоджено, потім фактичний результат порівняно з threshold. NOT_RUN і FAILED збережені чесно.",
+        "Цільові пороги V4 KNB-23 вже визначені. Відтворюваний фактичний результат порівняно з ними; додаткові V3 метрики отримують записаний threshold і measurement class до виконання. NOT_RUN і FAILED збережені чесно.",
         "Physical geo/battery та permitted alert/operator proof мають окремі справжні класи доказів. Неперевірені твердження про місткість не публікуються."
       ],
       "exit_evidence_paths": [
@@ -1752,8 +1796,8 @@
       ],
       "metric_contract": {
         "status": "NOT_RUN",
-        "profile_status": "NOT_DEFINED_OR_APPROVED",
-        "slo_status": "NOT_DEFINED_OR_APPROVED",
+        "profile_status": "V4_BASELINE_DEFINED_EXECUTION_PROFILE_NOT_PREPARED",
+        "slo_status": "V4_KNB23_TARGET_DEFINED_MEASUREMENT_NOT_RUN",
         "invented_concurrency_or_slo": false,
         "metrics": [
           {
@@ -1810,7 +1854,31 @@
             "threshold": null,
             "actual": null
           }
-        ]
+        ],
+        "v4_target_baseline": {
+          "source": "KNABA_DE_TARGET_SPEC.md KNB-23",
+          "status": "TARGET_DEFINED_EXECUTION_NOT_RUN",
+          "employees": 100,
+          "active_sites": 20,
+          "concurrent_sessions": 100,
+          "commands_per_second": 10,
+          "duration_seconds": 900,
+          "time_segments": 100000,
+          "core_api_p95_ms_max": 1000,
+          "core_api_p99_ms_max": 3000,
+          "lost_acknowledged_commands_max": 0,
+          "http_5xx_rate_max_exclusive": 0.01,
+          "durable_webhook_p95_ms_max": 2000,
+          "enqueue_to_provider_request_p95_ms_max": 5000,
+          "pdf_duration_seconds_max": 60,
+          "pdf_tasks": 50,
+          "pdf_optimized_photos": 20,
+          "parallel_pdf_jobs": 3,
+          "db_metadata_rpo_minutes_max": 15,
+          "media_rpo_hours_max": 24,
+          "rto_hours_max": 4,
+          "actual_results": null
+        }
       },
       "evidence_prerequisites": [
         {
@@ -1825,7 +1893,7 @@
     },
     {
       "id": "PLAN-28",
-      "title_uk": "Звірити специфікацію V4 з реалізованою V3 та погодити розбіжності",
+      "title_uk": "Завершити узгодження цільової V4 з реалізацією та регресіями V3",
       "status": "PENDING",
       "priority": "P0",
       "owner": {
@@ -1877,38 +1945,52 @@
         "infra/deployment",
         "handover"
       ],
-      "coverage_reference": "Усі V3 requirement/criterion IDs залишаються в module_coverage. Додаткові AC-01..AC-72 є окремим V4 reference scope; вони не переписують і не збільшують автоматично канонічну матрицю V3.",
+      "coverage_reference": "Повні V3 requirement/criterion IDs збережені в module_coverage як історична й функціональна регресійна база. AC-01..AC-72 є окремими цільовими критеріями V4; рішення користувача не виконує ці сценарії й не переписує V3 історію.",
       "applicability": {
-        "type": "REQUIRED_RECONCILIATION",
-        "status": "REFERENCE_AUTHORITY_DECISION_PENDING",
-        "decision_required": true,
-        "scope_rule": "Спершу повністю звірити V4, оригінальну V3 та фактичний код. Погодити кожну зміну обсягу, ADR чи параметра з конкретними IDs; не замінювати master або працюючу архітектуру лише через новий документ у main."
+        "type": "REQUIRED_TARGET_RECONCILIATION",
+        "status": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+        "decision_required": false,
+        "scope_rule": "Користувач обрав V4 цільовою та збереження працюючого стеку через ADR-0002. Це рішення вже отримане; повторне погодження авторитетності не потрібне. Решту обов’язкових розбіжностей і регресій треба завершити та довести окремо."
       },
       "actions_uk": [
-        "Зафіксувати незалежний doc-only commit main ff748a2e5731e973883344ed28f3e82cf8a3bc06 та перевірені текстові V4 references. У ньому немає коду застосунку; draft PR продукту не merged.",
-        "Прочитати всі V4 розділи й 72 критерії та звірити кожен із збереженою V3, фактичними файлами реалізації, поточними ADR і справжніми доказами ca9. Відокремити підтверджене повторення, зміну параметра, прогалину приймання та розбіжність обсягу.",
-        "Окремо розглянути Prisma й Redis/BullMQ проти прийнятих SQL/PostgreSQL outbox рішень. NestJS уже присутній; новий документ не є підставою переписати працююче без погодженого архітектурного рішення.",
-        "Для parameter/API/media/load/DR відмінностей визначити конкретні вимоги, ризик, потрібне ADR або виконання. Змінювати runtime code лише за фактично підтвердженою застосовною прогалиною; отримати відповідний новий source SHA та докази.",
-        "Зберегти V3 432 requirements / 475 criteria й їхню історію. V4 application acceptance 72 NOT_RUN залишити окремою оцінкою до погодженого рішення щодо авторитетності та повного фактичного виконання."
+        "Зберегти явне рішення користувача про V4 у V4_SCOPE_DECISION.json, а її точні байти — у KNABA_DE_TARGET_SPEC.md. Оригінальний V3 master і його матрицю зберегти без перезапису.",
+        "Застосовувати ADR-0002: лишити працюючі NestJS, PostgreSQL через pg і транзакційний inbox/outbox; не переходити автоматично на Prisma або Redis/BullMQ. Погодження ADR не є новим application PASS.",
+        "За вже прочитаними 72 цільовими критеріями завершити зв’язки з current source, повним обсягом V3 та справжніми доказами ca9. Розділити підтверджене повторення, параметр, прогалину приймання й обов’язкову прогалину коду.",
+        "Решту відмінностей точності й округлення, API, media, load та DR узгодити на рівні конкретних контрактів і IDs. Змінювати runtime code лише за фактичною застосовною прогалиною; потім отримати новий exact source SHA та потрібні докази.",
+        "Зберегти всі 34 модулі, 432 вимоги та 475 критеріїв V3 як історичну й функціональну регресійну базу. Усі 72 цільові application criteria V4 залишаються NOT_RUN до фактичного повного виконання."
       ],
       "exit_criteria_uk": [
-        "Усі 72 унікальні AC IDs мають read/reconciliation record із V3/current source references, розбіжністю або підтвердженим збігом та потрібними рішеннями й доказами.",
-        "Погоджено авторитетність V4 і кожну реальну зміну обсягу або ADR. Невирішене обов’язкове протиріччя залишає reconciliation відкритим.",
-        "Оригінальний V3 master і канонічна матриця не переписані; doc consistency checks та remote main commit не названі application acceptance."
+        "Рішення користувача про цільову V4 та збереження стеку записано. Цей підетап RESOLVED і не потребує повторного запиту.",
+        "Усі 72 AC IDs мають source review/reconciliation із повним V3 scope, current source, точними відмінностями та конкретними подальшими контрактними рішеннями або доказами. Невирішена обов’язкова розбіжність лишає PLAN-28 PENDING.",
+        "Решта обов’язкових розбіжностей узгоджена; їхній потрібний implementation/acceptance work прив’язаний до пакетів. V3 master та історія збережені; рішення про target або ADR не назване виконанням application сценаріїв."
       ],
       "exit_evidence_paths": [
         "docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
+        "KNABA_DE_TARGET_SPEC.md",
+        "docs/planning/V4_SCOPE_DECISION.json",
+        "docs/adr/0002-v4-target-and-preserved-runtime.md",
         "docs/planning/V3_V4_RECONCILIATION.json",
-        "docs/evidence/planning/v3-v4-approved-scope-architecture-decisions.json"
+        "docs/evidence/planning/v3-v4-remaining-contract-decisions.json"
       ],
-      "exit_evidence_state": "EXISTING_REFERENCE_INPUT;RECONCILIATION_AND_APPROVAL_NOT_ACCEPTED",
+      "exit_evidence_state": "USER_TARGET_AND_STACK_DECISION_RESOLVED;REMAINING_CONTRACT_RECONCILIATION_NOT_COMPLETED",
       "exit_evidence_path_states": {
         "docs/specification-v4-reference/REFERENCE_PROVENANCE.json": "EXISTING_REFERENCE_ONLY",
-        "docs/planning/V3_V4_RECONCILIATION.json": "CANDIDATE_RECONCILIATION_NOT_APPROVED",
-        "docs/evidence/planning/v3-v4-approved-scope-architecture-decisions.json": "NOT_CREATED_NOT_RUN"
+        "KNABA_DE_TARGET_SPEC.md": "APPROVED_TARGET_DOCUMENT;NOT_APPLICATION_EVIDENCE",
+        "docs/planning/V4_SCOPE_DECISION.json": "RESOLVED_EXPLICIT_USER_SCOPE_DECISION;NOT_APPLICATION_EVIDENCE",
+        "docs/adr/0002-v4-target-and-preserved-runtime.md": "APPROVED_STACK_ALTERNATIVE;NOT_APPLICATION_EXECUTION",
+        "docs/planning/V3_V4_RECONCILIATION.json": "REMAINING_DELTAS_PENDING",
+        "docs/evidence/planning/v3-v4-remaining-contract-decisions.json": "NOT_CREATED_NOT_RUN"
       },
       "actual_result": null,
-      "completed_at": null
+      "completed_at": null,
+      "target_decision_subgate": {
+        "status": "RESOLVED_USER_DECISION",
+        "authority": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+        "scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+        "adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+        "application_acceptance": "NOT_RUN"
+      },
+      "remaining_exit_status": "REMAINING_CONTRACT_DELTA_REVIEW_AND_WORK_BINDING_PENDING;TARGET_AND_STACK_DECISION_RESOLVED"
     }
   ],
   "module_coverage": [
@@ -3886,7 +3968,7 @@
     "v4_reference_provenance": {
       "path": "docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
       "state": "EXISTING_REFERENCE_ONLY",
-      "sha256": "d0165e1dc6b2bc2e901a09dae902d835559f8f2e1d47f10fe2788453b3739b94",
+      "sha256": "6024d505db08784532306a2896265605045cdad2da7744de7249f91ec8bdb184",
       "scope": "V4 document/reference bytes only; application acceptance NOT_RUN."
     },
     "v4_reference_master": {
@@ -3910,13 +3992,13 @@
     "v4_draft_reconciliation": {
       "path": "docs/planning/V3_V4_RECONCILIATION.json",
       "state": "EXISTING_REFERENCE_ONLY",
-      "sha256": "07a7dce37a8f63956db783e706c74611619c1904d05d08e6035e1ffcd52c199c",
+      "sha256": "db6bf906565b23e025e7e4144821ae4ae8eac4df055b86dd9a7da9b5d147f13a",
       "scope": "Document/source observation only; new application acceptance NOT_RUN."
     },
     "v4_draft_reconciliation_guide": {
       "path": "docs/planning/V3_V4_RECONCILIATION_UK.md",
       "state": "EXISTING_REFERENCE_ONLY",
-      "sha256": "033f971983e3dc7829dcfe2e335387041d9a90d7b9ef99ea54b23389e0511b35",
+      "sha256": "66ca166e26260fc03f91243fd4025d413cab5091f436bcfa25013f9d54ba842f",
       "scope": "Document/source observation only; new application acceptance NOT_RUN."
     },
     "v4_binary_read_boundary": {
@@ -3924,6 +4006,24 @@
       "state": "EXISTING_REFERENCE_ONLY",
       "sha256": "fe6fc01ec240dac77cc1f29346095901f4094efd8bf768119af53cf69b7b2396",
       "scope": "Document/source observation only; new application acceptance NOT_RUN."
+    },
+    "approved_v4_scope": {
+      "path": "docs/planning/V4_SCOPE_DECISION.json",
+      "state": "EXISTING_APPROVED_DECISION_OR_REFERENCE",
+      "sha256": "ec7bd8e0d3bb6eedd49ccf6450c28253aab24330900dd63f706aca906f51b5de",
+      "scope": "User-approved target/runtime architecture only; application acceptance NOT_RUN."
+    },
+    "approved_v4_runtime_adr": {
+      "path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+      "state": "EXISTING_APPROVED_DECISION_OR_REFERENCE",
+      "sha256": "faa26c8142c87ed7297e2cad5124469411888f15f42860d52f3240265ebce4d7",
+      "scope": "User-approved target/runtime architecture only; application acceptance NOT_RUN."
+    },
+    "approved_v4_target_reference": {
+      "path": "KNABA_DE_TARGET_SPEC.md",
+      "state": "EXISTING_APPROVED_DECISION_OR_REFERENCE",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "scope": "User-approved target/runtime architecture only; application acceptance NOT_RUN."
     }
   },
   "verified_delivered_artifact_references": [
@@ -4025,16 +4125,25 @@
         "PLAN-15",
         "PLAN-16"
       ],
-      "conditional_task_policy": "Кожен застосовний пакет реалізовано й прийнято або є явне погоджене рішення щодо конкретних вимог. Мовчазне вилучення не допускається."
+      "conditional_task_policy": "Кожен застосовний пакет реалізовано й прийнято або є явне погоджене рішення щодо конкретних вимог. Мовчазне вилучення не допускається.",
+      "target_specification_path": "KNABA_DE_TARGET_SPEC.md",
+      "target_criteria_count": 72,
+      "target_decision_status": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+      "target_application_acceptance": "NOT_RUN",
+      "preserved_v3_regression_counts": {
+        "modules": 34,
+        "requirements": 432,
+        "criteria": 475
+      }
     }
   ],
   "recommended_parallelism": [
-    "PLAN-28 звіряє нові V4 references перед повною поточною оцінкою PLAN-02/03. Вони виконуються незалежно від підготовки Railway window/MFA у PLAN-04/05.",
+    "PLAN-28 застосовує вже затверджені цільову V4 і ADR-0002 та завершує решту зіставлення контрактів перед PLAN-02/03. Повторне погодження target не потрібне. Ця робота незалежна від Railway window/MFA у PLAN-04/05.",
     "Дані компанії PLAN-09, provider contracts, signing inputs і рішення щодо умовної застосовності можна готувати, поки розгортання очікує зовнішнього кроку.",
     "Після PLAN-06 відразу виконати PLAN-07/08: живі докази й вартість. Інтеграції, правила, DR та фізичні перевірки рухаються за своїми фактичними входами.",
     "Вимірювання deployed load PLAN-27 починається після PLAN-06. Фізичні geo/battery потребують доказів PLAN-22, а завершення operator alerts — PLAN-25."
   ],
-  "definition_of_done": "Кожен застосовний складений критерій V3 має повні поточні докази. Обов’язкові внутрішні прогалини закриті; є справжній live runtime, прийняті необхідні provider/company/legal/device/DR/cost/SLO та підписані компанією установлювані мобільні клієнти. Контроль експлуатаційних активів і передача прийняті компанією. 1513 тестів, виділені URL, queued tools, mocks, simulators і заплановані paths самі не доводять ці ворота.",
+  "definition_of_done": "Усі 72 цільові складені критерії V4 та обов’язкові застосовні функціональні регресії повної V3 бази мають фактичні поточні докази. Цільова V4 і збереження працюючого стеку погоджені через ADR-0002; це не application PASS. Обов’язкові внутрішні прогалини закриті; є справжній live runtime, прийняті необхідні provider/company/legal/device/DR/cost/SLO та підписані компанією установлювані мобільні клієнти. Контроль активів і передача прийняті компанією. 1513 тестів, allocated URLs, queued tools, mocks, simulators і planned paths самі не доводять ці ворота.",
   "coverage_validation": {
     "unique_module_count": 34,
     "unique_requirement_ids": 432,
@@ -4055,16 +4164,18 @@
     "task_count": 28,
     "v4_reference_criteria_separate_count": 72,
     "v4_reference_all_not_run": true,
-    "hard_conditional_evidence_dependency_graph_acyclic": true
+    "hard_conditional_evidence_dependency_graph_acyclic": true,
+    "target_authority_approved": true,
+    "v4_target_criteria_count": 72
   },
   "v4_reference_supplement": {
-    "status": "REFERENCE_RECONCILIATION_PENDING",
+    "status": "APPROVED_TARGET_V4;CONTRACT_RECONCILIATION_AND_APPLICATION_ACCEPTANCE_PENDING",
     "source_main_git_sha": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
     "source_main_git_tree": "1d708588f17f390c5e55460841af633d607d9e42",
     "source_parent_git_sha": "dcd76c1fedf211dd240c79195101ce05feffb002",
     "source_scope": "Незалежний пакет документації V4 у main, без коду застосунку; не merge продуктового knaba-staging.",
     "product_pr_state": "DRAFT_OPEN_UNMERGED",
-    "authority_status": "PENDING_EXPLICIT_RECONCILIATION_DECISION;ORIGINAL_V3_MASTER_PRESERVED",
+    "authority_status": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
     "source_main_url": "https://github.com/ziko1/knaba/tree/ff748a2e5731e973883344ed28f3e82cf8a3bc06",
     "reference_provenance_path": "docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
     "reference_specification_path": "docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md",
@@ -4072,7 +4183,7 @@
     "reference_document_validation_path": "docs/specification-v4-reference/DOCUMENT_VALIDATION.json",
     "reconciliation_path": "docs/planning/V3_V4_RECONCILIATION.json",
     "reconciliation_guide_path": "docs/planning/V3_V4_RECONCILIATION_UK.md",
-    "reconciliation_status": "PENDING_APPROVAL_AND_IMPLEMENTATION_AS_APPLICABLE",
+    "reconciliation_status": "TARGET_AND_STACK_DECISION_RESOLVED;REMAINING_CONTRACT_DELTAS_AND_IMPLEMENTATION_PENDING",
     "work_package_id": "PLAN-28",
     "reference_sections_count": 24,
     "reference_requirement_groups_count": 24,
@@ -4157,9 +4268,27 @@
     "reference_application_proof_fields": "EMPTY;DOCUMENT_CONSISTENCY_ONLY",
     "canonical_v3_requirements_count": 432,
     "canonical_v3_criteria_count": 475,
-    "counts_policy": "Не складати 475 і 72 як прийнятий обсяг. V3 лишається канонічною; V4 має окремі reference/reconciliation IDs, статуси та рішення щодо застосовності.",
+    "counts_policy": "72 критерії V4 є цільовим прийманням. 432 вимоги й 475 критеріїв V3 збережені як повна історична та функціональна регресійна база; їхню історію не перезаписувати й не складати 475 та 72 в нібито прийнятий обсяг.",
     "reported_pdf_zip_status": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED",
     "binary_claim_rule": "Текстові reference bytes перевірені; reported PDF/ZIP hashes не видаються незалежно перевіреними deliverables.",
-    "current_draft_review_state": "DRAFT_SOURCE_REVIEW_EXISTS;AUTHORITY_DECISION_AND_APPLICATION_ACCEPTANCE_PENDING"
+    "current_draft_review_state": "ALL_72_SOURCE_REVIEWS_EXIST;TARGET_AND_STACK_AUTHORITY_APPROVED;APPLICATION_EXECUTION_NOT_RUN",
+    "role": "APPROVED_TARGET_SPECIFICATION",
+    "target_specification_path": "KNABA_DE_TARGET_SPEC.md",
+    "scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+    "preserved_runtime_adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+    "target_specification_sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+    "target_application_acceptance_status_counts": {
+      "NOT_RUN": 72
+    },
+    "target_decision_subgate": {
+      "status": "RESOLVED_USER_DECISION",
+      "decision_source": "EXPLICIT_USER_REPLY",
+      "decision_quote": "V4 — цільова; зберегти працюючий стек через погоджені ADR (рекомендовано)",
+      "decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+      "adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+      "accepted_scope": "V4 є цільовою; працюючі NestJS, PostgreSQL/pg і транзакційний inbox/outbox зберігаються через погоджений ADR замість автоматичного переходу на Prisma та Redis/BullMQ.",
+      "implementation_acceptance": "NOT_GRANTED_BY_SCOPE_DECISION",
+      "remaining_deltas": "Решта розбіжностей параметрів, API, media, load і DR потребують окремого зіставлення, точкової реалізації де потрібно та фактичних доказів."
+    }
   }
 }

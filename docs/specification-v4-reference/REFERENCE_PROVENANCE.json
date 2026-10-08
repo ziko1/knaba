@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "REFERENCE_ONLY_AUTHORITY_RECONCILIATION_PENDING",
+  "status": "REFERENCE_BYTES_VERIFIED_TARGET_V4_APPROVED",
   "observed_main_git_sha": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
   "observed_main_tree": "1d708588f17f390c5e55460841af633d607d9e42",
   "parent": "dcd76c1fedf211dd240c79195101ce05feffb002",
@@ -59,5 +59,7 @@
       "verification": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED"
     }
   ],
-  "next": "PLAN-28 reconciles every V4 criterion with preserved V3 and current source before adopting changes; no master replacement or main merge is inferred."
+  "next": "Implement selected V4 contracts with preserved runtime ADR0002; independently execute all72targetcriteria; originalV3/rootmaster retained and no main merge inferred.",
+  "target_scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+  "target_specification_path": "KNABA_DE_TARGET_SPEC.md"
 }

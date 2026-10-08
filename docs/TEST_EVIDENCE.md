@@ -1,5 +1,11 @@
 # Actual verification ledger
 
+## Approved V4 target plan verification — 2026-10-08
+
+The user's explicit decision makes [V4 the target](../KNABA_DE_TARGET_SPEC.md), with the existing NestJS/PostgreSQL SQL/outbox runtime accepted through [ADR-0002](adr/0002-v4-target-and-preserved-runtime.md). The independent [target-plan receipt](evidence/v4-target-plan-validation-2026-10-08.json) records **25/25 document/source-preservation checks PASSED, 0 issues** and 23 frozen input hashes: all 28 task dependencies, 34 V3 modules / 432 requirements / 475 preserved regression criteria, 72 exact V4 criterion texts, 334 prior assertion references, 16 evidence catalogs, selected KNB-23 load/recovery thresholds and 132 local Markdown links. These are scoped documentation checks; all 72 V4 whole application scenarios remain NOT_RUN. The original V3 bytes, ca9 executable and historical test identities are unchanged.
+
+The separately published [local continuation receipt](evidence/continuation-20261008/verification.json), remote commit `d673aa1a74df2efd99f5a0efab01c9d51240bd4a`, was preserved byte-for-byte (Git blob `a6ef11cd4bc93712781ef33937298d5b4a2cb3bf`), including its reported 1307 local passes / 206 PostgreSQL skips and limits. No new application/build/native suite or Railway mutation was executed by this documentation amendment. Original cutoff remains EXPIRED_NOT_EXTENDED; public deployment remains NOT_READY. The earlier 29-check receipt below retains its original pre-decision snapshot.
+
 ## Documentation planning verification — 2026-10-08
 
 Full-product plan/backlog preserve accepted ca9 source and actual historical application/native/artifact proof. No application/build/native suite rerun for this documentation change. New [Railway read-only snapshot](evidence/railway-resume-2026-10-08.json) establishes API and Worker OFFLINE, PostgreSQL CRASHED with 0 running replicas, 37 changes STAGED/unapplied and expired cutoff; no public PASS. Current 475-whole-criterion assessment is planned separately from 1513 technical cases. [Plan validation](evidence/development-plan-validation-2026-10-08.json) verifies documents/links/coverage/dependencies/source preservation, not provider/device/company acceptance.

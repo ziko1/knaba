@@ -1,5 +1,7 @@
 # Delivery roadmap
 
+**V4 target approved 08.10.2026:** [target specification](KNABA_DE_TARGET_SPEC.md) and [ADR-0002](docs/adr/0002-v4-target-and-preserved-runtime.md) preserve the working NestJS/PostgreSQL SQL/outbox stack. All 72 V4 application criteria remain NOT_RUN; non-conflicting V3 functionality/history is retained. Public Railway is still NOT_READY.
+
 Current plan, verified **2026-10-08**: [full development-to-product plan in Ukrainian](FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md) and [28-package dependency backlog](docs/planning/DEVELOPMENT_BACKLOG.json). [MASTER_ROADMAP.md](MASTER_ROADMAP.md) records implemented workstreams; [PROJECT_MEMORY.md](PROJECT_MEMORY.md), the [432-requirement / 475-criterion matrix](docs/requirements/requirements.json) and [test ledger](docs/TEST_EVIDENCE.md) retain exact source/evidence history.
 
 - [x] Separate repository and complete master specification

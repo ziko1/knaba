@@ -77,7 +77,7 @@
     "reused_evidence_not_retagged": true
   },
   "reconciliation_rules": [
-    "V4 є окремою довідковою версією, доки root не зафіксує рішення щодо специфікації та контрактів. Ця звірка не замінює первинний V3 master.",
+    "V4 затверджена користувачем як цільова специфікація; ADR-0002 зберігає працюючі NestJS/PostgreSQL SQL/outbox. Оригінальний V3 master лишається byte-for-byte, разом із несуперечливими функціями та регресійною історією. Ця звірка не є виконанням приймальних сценаріїв.",
     "Не reset/overwrite main користувача, не force-push жодну історію і не припускати дозволу на merge продукту.",
     "Зберегти історичні статуси 432 вимог / 475 критеріїв V3 та вузькі докази технічних перевірок ca9 без змін.",
     "Попередні assertion IDs і execution classes є лише навігацією до часткових доказів. Повні складені сценарії V4 потрібно виконати до статусу PASSED.",
@@ -456,12 +456,12 @@
       "evidence_paths": [
         "docs/adr/0001-architecture.md:2"
       ],
-      "next_action_uk": "Погодити версійований ADR; зберегти перевірені транзакції. Нові адаптери потрібні лише за конкретною вимогою або результатом вимірювання.",
+      "next_action_uk": "Дотриматися затвердженого ADR-0002: зберегти NestJS/PostgreSQL SQL/outbox; перевірити функціональні, concurrency, recovery і measured-load вимоги V4 без автоматичної міграції Prisma/Redis.",
       "suggested_work_packages": [
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "APPROVED_STACK_PRESERVATION_VIA_ADR0002",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -479,7 +479,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -497,7 +497,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -515,7 +515,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -533,7 +533,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -551,7 +551,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -569,7 +569,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -587,7 +587,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -605,7 +605,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -623,7 +623,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -641,7 +641,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -659,7 +659,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -677,7 +677,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -695,7 +695,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -713,7 +713,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -731,7 +731,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -749,7 +749,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -767,7 +767,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -785,7 +785,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -803,7 +803,7 @@
         "PLAN-28",
         "PLAN-27"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -821,7 +821,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -829,17 +829,17 @@
       "id": "V4-D22",
       "title_uk": "Дві історії специфікації і продукту",
       "v4_refs": "KNB-24",
-      "current_implementation_uk": "main з V4 — document-only commit від початкового README; product knaba-staging містить ca9 і docs e18f.",
-      "proposed_v4_contract_uk": "V4 називає себе новим master, але користувач раніше вимагав зберегти повний оригінал V3.",
+      "current_implementation_uk": "main містить окремий V4 document-only commit, а продукт knaba-staging зберігає перевірений код ca9 та його докази. Оригінальний V3 master збережений; історії не об’єднані.",
+      "proposed_v4_contract_uk": "Користувач затвердив V4 як цільову специфікацію; KNABA_DE_TARGET_SPEC.md містить її точні байти, ADR-0002 зберігає працюючий стек.",
       "evidence_paths": [
         "KNABA_DE_MASTER_SPEC.md:1"
       ],
-      "next_action_uk": "Зберегти V3 master byte-for-byte, V4 як окрему версійну довідку, додати crosswalk; не reset/merge main і не переносити результати тестів.",
+      "next_action_uk": "Виконати 72 цільові критерії V4 та застосовні несуперечливі регресії V3 з бази 475 критеріїв. Зберегти V3 master, crosswalk і точні SHA доказів; не reset/merge main і не переносити результати старих тестів на нові сценарії.",
       "suggested_work_packages": [
         "PLAN-28",
         "PLAN-01"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     }
@@ -853,7 +853,7 @@
       "whole_v4_acceptance_status": "NOT_RUN",
       "new_execution_performed": false,
       "implementation_assessment": "PRIOR_TECHNICAL_PROOF_ONLY",
-      "remaining_acceptance_or_change": "Повторити запуск чистого тестового середовища й production bootstrap без синтетичних користувачів. Зафіксувати рішення щодо ORM та черги і перевірити незалежність від AVENQO.",
+      "remaining_acceptance_or_change": "Повторити запуск чистого тестового середовища й production bootstrap без синтетичних користувачів. Застосувати прийнятий ADR-0002 щодо SQL/outbox, перевірити його функціональні гарантії та незалежність від AVENQO.",
       "related_v3_modules": [
         "architecture",
         "delivery/autonomy",
@@ -8693,12 +8693,12 @@
       "evidence_paths": [
         "docs/adr/0001-architecture.md:2"
       ],
-      "next_action_uk": "Погодити версійований ADR; зберегти перевірені транзакції. Нові адаптери потрібні лише за конкретною вимогою або результатом вимірювання.",
+      "next_action_uk": "Дотриматися затвердженого ADR-0002: зберегти NestJS/PostgreSQL SQL/outbox; перевірити функціональні, concurrency, recovery і measured-load вимоги V4 без автоматичної міграції Prisma/Redis.",
       "suggested_work_packages": [
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "APPROVED_STACK_PRESERVATION_VIA_ADR0002",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8716,7 +8716,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8734,7 +8734,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8752,7 +8752,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8770,7 +8770,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8788,7 +8788,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8806,7 +8806,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8824,7 +8824,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8842,7 +8842,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8860,7 +8860,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8878,7 +8878,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8896,7 +8896,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8914,7 +8914,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8932,7 +8932,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8950,7 +8950,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8968,7 +8968,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -8986,7 +8986,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -9004,7 +9004,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -9022,7 +9022,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -9040,7 +9040,7 @@
         "PLAN-28",
         "PLAN-27"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -9058,7 +9058,7 @@
         "PLAN-28",
         "PLAN-03"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     },
@@ -9066,17 +9066,17 @@
       "id": "V4-D22",
       "title_uk": "Дві історії специфікації і продукту",
       "v4_refs": "KNB-24",
-      "current_implementation_uk": "main з V4 — document-only commit від початкового README; product knaba-staging містить ca9 і docs e18f.",
-      "proposed_v4_contract_uk": "V4 називає себе новим master, але користувач раніше вимагав зберегти повний оригінал V3.",
+      "current_implementation_uk": "main містить окремий V4 document-only commit, а продукт knaba-staging зберігає перевірений код ca9 та його докази. Оригінальний V3 master збережений; історії не об’єднані.",
+      "proposed_v4_contract_uk": "Користувач затвердив V4 як цільову специфікацію; KNABA_DE_TARGET_SPEC.md містить її точні байти, ADR-0002 зберігає працюючий стек.",
       "evidence_paths": [
         "KNABA_DE_MASTER_SPEC.md:1"
       ],
-      "next_action_uk": "Зберегти V3 master byte-for-byte, V4 як окрему версійну довідку, додати crosswalk; не reset/merge main і не переносити результати тестів.",
+      "next_action_uk": "Виконати 72 цільові критерії V4 та застосовні несуперечливі регресії V3 з бази 475 критеріїв. Зберегти V3 master, crosswalk і точні SHA доказів; не reset/merge main і не переносити результати старих тестів на нові сценарії.",
       "suggested_work_packages": [
         "PLAN-28",
         "PLAN-01"
       ],
-      "decision_status": "PROPOSED_NOT_APPLIED",
+      "decision_status": "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING",
       "execution_status": "NOT_RUN",
       "scope": "Зіставлення вихідного коду і специфікації; це не новий результат приймання сценарію."
     }
@@ -9097,5 +9097,13 @@
       "Original byte-preserved V3 SHA unchanged"
     ],
     "application_execution": "NOT_RUN"
+  },
+  "target_scope_decision": {
+    "status": "APPROVED_TARGET_V4_PRESERVE_WORKING_STACK",
+    "path": "docs/planning/V4_SCOPE_DECISION.json",
+    "target_specification": "KNABA_DE_TARGET_SPEC.md",
+    "architecture_adr": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+    "application_acceptance": "NOT_RUN",
+    "source_change_applied": false
   }
 }
