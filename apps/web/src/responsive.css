@@ -82,6 +82,7 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
 .table-scroll:focus-visible, .task-board:focus-visible { outline-offset: -3px; }
 .table-scroll > table { min-width: 38rem; }
 .table-scroll th, .table-scroll td { font-size: 13px; }
+.table-scroll .badge { white-space: nowrap; }
 .record-link { min-height: 44px; max-width: 28rem; }
 .record-link b { font-size: 13px; white-space: normal; overflow-wrap: anywhere; }
 .record-link small { font-size: 11px; }
@@ -124,6 +125,8 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
 .chat-layout { grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr); min-height: 0; }
 .channel-list { min-width: 0; }
 .channel-list > button, .channel-list > button > span { min-width: 0; }
+.channel-icon { flex: 0 0 1.25rem; }
+.channel-list > button > span:nth-child(2) { flex: 1; }
 .channel-list b, .chat-pane h2 { overflow-wrap: anywhere; }
 .chat-pane > header { flex-wrap: wrap; gap: .75rem; }
 .chat-pane > header > div { min-width: 0; flex: 1 1 12rem; }
