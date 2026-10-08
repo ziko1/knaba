@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "status": "FAILED_TYPECHECK",
+  "codeSha": "9ad7fdcb9e66b10afd9a9ba62b28292fc216352f",
+  "sourceTree": "2b61690ff447c050d730df5b85bd3d667d14a23d",
+  "workflowRunId": 37823795195,
+  "jobId": 113471272529,
+  "url": "https://github.com/ziko1/knaba/actions/runs/37823795195",
+  "observed": {
+    "dependencyInstallation": "PASSED",
+    "typecheck": "FAILED",
+    "build": "SKIPPED",
+    "postgresAndUnit": "NOT_RUN",
+    "renderedBrowser": "NOT_RUN",
+    "recoveryAndWorker": "NOT_RUN",
+    "releasePackaging": "NOT_RUN"
+  },
+  "diagnostic": {
+    "file": "apps/web/src/chatRequestGeneration.test.ts",
+    "line": 20,
+    "code": "TS2345",
+    "reason": "The queued translation fixture inferred {a:string} instead of Record<string,string>, rejecting the empty post-switch state."
+  },
+  "correction": "Explicit Record<string,string> generic; the stale-response rejection assertion is unchanged. A new exact-source run is required.",
+  "scope": "Actual historical hosted step result for the named source only; no current-source or production acceptance inferred."
+}

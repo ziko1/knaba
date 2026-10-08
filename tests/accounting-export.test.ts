@@ -93,6 +93,26 @@ describe('accountant published-report handoff', () => {
     expect(report).toEqual(original);
   });
 
+  it('preserves an approved scope reduction as signed cents while keeping the agreed final totals nonnegative', () => {
+    const report = amend(publishedReport(), snapshot => {
+      snapshot.baseNetCents = 12_000;
+      snapshot.approvedChangesNetCents = -345;
+      snapshot.totalNetCents = 11_655;
+      snapshot.totalTaxCents = 2214; // Explicit synthetic test amount, not an inferred tax profile.
+      snapshot.totalGrossCents = 13_869;
+    });
+    const original = structuredClone(report);
+    const result = JSON.parse(renderAccountingExport(report).bytes.toString('utf8'));
+    expect(result.amounts).toMatchObject({
+      initialAgreedNetCents: 12_000, approvedChangesNetCents: -345,
+      reportedNetCents: 11_655, reportedTaxCents: 2214, reportedGrossCents: 13_869,
+      reportPriceStatus: 'FINAL',
+    });
+    expect(result.performance.acceptedTasks[0].quantityMilli).toBe(12_500);
+    expect(result.readiness.structuredInvoice).toBe('NOT_READY');
+    expect(report).toEqual(original);
+  });
+
   it('checks integrity of the complete source even when the changed field would not be disclosed', () => {
     const report = publishedReport();
     report.data.snapshot.mediaRows[0].clientBlobKey = 'changed-private-key';
@@ -180,6 +200,7 @@ describe('accountant published-report handoff', () => {
     ['foreign currency', (snapshot: any) => { snapshot.currency = 'USD'; }],
     ['negative tax', (snapshot: any) => { snapshot.totalTaxCents = -1; snapshot.totalGrossCents = snapshot.totalNetCents - 1; }],
     ['unsafe money', (snapshot: any) => { snapshot.baseNetCents = Number.MAX_SAFE_INTEGER + 1; }],
+    ['unsafe negative scope reduction', (snapshot: any) => { snapshot.approvedChangesNetCents = Number.MIN_SAFE_INTEGER - 1; }],
     ['fractional task quantity', (snapshot: any) => { snapshot.taskRows[0].quantityMilli = 1.5; }],
     ['fractional hours hidden by an integer sum', (snapshot: any) => { snapshot.hoursRows = [{ seconds: 0.5 }, { seconds: 0.5 }]; snapshot.totalSeconds = 1; }],
     ['negative material quantity', (snapshot: any) => { snapshot.materialRows[0].quantityBase = -1; }],

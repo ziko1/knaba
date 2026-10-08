@@ -79,12 +79,21 @@ postgres('accountant handoff: real PostgreSQL published report, current authorit
   const foreignOptions={...options,companyId:foreignCompany};foreignApi=new ApiController({db,engine,...foreignOptions,buildSha:'0'.repeat(40)});
   foreignSession=await new AuthService(db,engine,foreignOptions).createSession('accountant');
  });
- afterEach(()=>{vi.restoreAllMocks();});
+ afterEach(()=>{vi.useRealTimers();vi.restoreAllMocks();});
  afterAll(async()=>{await db?.close();});
  async function publish(reportId:string){
   await execute(reviewer,'report.review',{reportId,decision:'PASS',reason:'Separate synthetic accountant handoff source review'});
   await execute(reviewer,'report.approve',{reportId,reason:'Separate synthetic unchanged-source approval'});
   return execute(author,'report.publish',{reportId});
+ }
+ async function scopedReadDelegation(){
+  await update('user','accountant',{siteIds:['other-site']});
+  await update('user','author',{permissions:['role.manage']});
+  await db.transaction(company,'SYNTHETIC_ACCOUNTING_DELEGATION_REVIEWER',tx=>tx.add('user',{name:'Independent synthetic delegation reviewer',roles:['OWNER'],active:true,siteIds:[],synthetic:true},'delegation-reviewer'));
+  const grantor=await engine.getActor('author',company),approver=await engine.getActor('delegation-reviewer',company);approver.mfaVerified=true;
+  const grant=await execute(grantor,'delegation.create',{granteeId:'accountant',permissions:['report.read'],siteIds:['site'],expiresAt:new Date(Date.now()+3600000).toISOString(),reason:'Synthetic read-only access to another accounting site'});
+  const approved=await execute(approver,'delegation.approve',{delegationId:grant.id,confirmedHash:grant.data.previewHash,reason:'Independent synthetic scoped read review'});
+  return {grant:approved,grantor};
  }
  async function download(id=version.id,using=session,controller=api){const transport=response();await controller.reportAccountingJson(request(using),transport.res,id);return {...transport,bytes:transport.read()};}
  async function fingerprint(){
@@ -132,6 +141,51 @@ postgres('accountant handoff: real PostgreSQL published report, current authorit
    expect((await engine.readEntities(fresh,'report_version')).map(row=>row.id)).toContain(version.id);
    const before=await fingerprint();for(const id of [version.id,report.id]){
     const denied=response();await expect(api.reportAccountingJson(request(using),denied.res,id)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(denied.sent).not.toHaveBeenCalled();
+   }
+   expect(await fingerprint()).toEqual(before);
+  }
+ });
+
+ it('a valid governed report.read delegation makes site A readable without expanding the base accounting export scope on site B',async()=>{
+  const delegated=await scopedReadDelegation();expect(delegated.grant.data.permissions).toEqual(['report.read']);
+  await update('user','author',{siteIds:['site','other-site']});await update('user','reviewer',{siteIds:['site','other-site']});
+  await update('customer_membership','membership-CLIENT',{siteIds:['site','other-site']});
+  await db.transaction(company,'SYNTHETIC_SECOND_ACCOUNTING_CONTRACT',async tx=>{const order=await tx.get('order','order');await tx.add('order',{...order.data,siteId:'other-site'},'other-order');});
+  const secondReport=await execute(author,'report.create',{siteId:'other-site',customerId:'customer',orderId:'other-order',periodStart:start,periodEnd:end,documentType:'Leistungsnachweis',descriptionDe:'Synthetischer Leistungsnachweis für die zweite freigegebene Buchhaltungsbaustelle.'});
+  const secondVersion=await publish(secondReport.id),fresh=await engine.getActor('accountant',company);
+  expect(engine.scope(fresh,'report.read').siteIds.sort()).toEqual(['other-site','site']);expect(engine.scope(fresh,'report.export').siteIds).toEqual(['other-site']);
+  expect((await engine.readEntities(fresh,'report_version')).map(row=>row.id).sort()).toEqual([version.id,secondVersion.id].sort());
+  const before=await fingerprint();for(const id of [version.id,report.id]){
+   const denied=response();await expect(api.reportAccountingJson(request(session),denied.res,id)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(denied.sent).not.toHaveBeenCalled();expect(denied.headers).toEqual({});
+  }
+  for(const id of [secondVersion.id,secondReport.id])expect(JSON.parse((await download(id)).bytes.toString())).toMatchObject({source:{reportVersionId:secondVersion.id},site:{id:'other-site'}});
+  expect(await fingerprint()).toEqual(before);expect((await get('user','accountant')).data.siteIds).toEqual(['other-site']);
+ });
+
+ it.each(['REVOKED','EXPIRED'] as const)('a valid read delegation %s after genuine authentication removes its site from the accounting serving transaction',async state=>{
+  const {grant,grantor}=await scopedReadDelegation(),authenticate=AuthService.prototype.authenticate;let changed=false;
+  vi.spyOn(AuthService.prototype,'authenticate').mockImplementation(async function(this:AuthService,req:Request,guest?:boolean){
+   const auth=await authenticate.call(this,req,guest);
+   if(!changed){changed=true;expect((await engine.readEntities(auth.actor,'report_version')).map(row=>row.id)).toContain(version.id);
+    if(state==='REVOKED')await execute(grantor,'delegation.revoke',{delegationId:grant.id,reason:'Synthetic in-flight read delegation revocation'});
+    else{vi.useFakeTimers({toFake:['Date']});vi.setSystemTime(Date.now()+3600001);}
+   }
+   return auth;
+  });
+  const denied=response();await expect(api.reportAccountingJson(request(session),denied.res,version.id)).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+  expect(changed).toBe(true);expect(denied.sent).not.toHaveBeenCalled();expect(denied.headers).toEqual({});
+  const fresh=await engine.getActor('accountant',company);expect(engine.scope(fresh,'report.read').siteIds).toEqual(['other-site']);expect(engine.scope(fresh,'report.export').siteIds).toEqual(['other-site']);
+  expect(await get('report_version',version.id)).toEqual(version);expect((await db.transaction(company,'SYNTHETIC_ACCOUNTING_DELEGATION_ARTIFACT_ASSERT',tx=>tx.list('report_artifact')))).toEqual([]);
+ });
+
+ it('a service account remains excluded even with explicit report export/site authority and a mixed accountant role',async()=>{
+  await db.transaction(company,'SYNTHETIC_ACCOUNTING_SERVICE_ACCOUNT',tx=>tx.add('user',{name:'Synthetic service transport',roles:['SERVICE_ACCOUNT'],permissions:['report.read','report.export'],siteIds:['site'],active:true,synthetic:true},'accounting-service'));
+  const options={companyId:company,appMode:'TEST',publicOrigin:ORIGIN},using=await new AuthService(db,engine,options).createSession('accounting-service');
+  for(const roles of [['SERVICE_ACCOUNT'],['ACCOUNTANT','SERVICE_ACCOUNT']]){
+   await update('user','accounting-service',{roles});const fresh=await engine.getActor('accounting-service',company);
+   expect(fresh.permissions).toContain('report.export');expect((await engine.readEntities(fresh,'report_version')).map(row=>row.id)).toContain(version.id);
+   const before=await fingerprint();for(const id of [version.id,report.id]){
+    const denied=response();await expect(api.reportAccountingJson(request(using),denied.res,id)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(denied.sent).not.toHaveBeenCalled();expect(denied.headers).toEqual({});
    }
    expect(await fingerprint()).toEqual(before);
   }

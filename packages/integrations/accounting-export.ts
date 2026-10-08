@@ -9,6 +9,7 @@ export const ACCOUNTING_EXPORT_MIME_TYPE = 'application/json; charset=utf-8' as 
 const MAX_ROWS = 10_000;
 const identifier = z.string().min(1).max(100);
 const exactInteger = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER);
+const signedExactInteger = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const nonblank = z.string().min(1).max(10_000).refine(value => value.trim().length > 0);
 const optionalText = z.string().max(10_000).optional();
 const instant = z.string().datetime({ offset: true });
@@ -41,7 +42,7 @@ const snapshotSchema = z.object({
   descriptionDe: nonblank,
   currency: z.literal('EUR'),
   baseNetCents: exactInteger,
-  approvedChangesNetCents: exactInteger,
+  approvedChangesNetCents: signedExactInteger,
   totalNetCents: exactInteger,
   totalTaxCents: exactInteger,
   totalGrossCents: exactInteger,

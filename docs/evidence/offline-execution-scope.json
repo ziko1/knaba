@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "scope": "Authored STATIC_DEFINITION_INVENTORY only, not execution evidence. Current affected definitions were collected with Node 24 TypeScript stripping and a VM that records describe/it/it.each titles while never executing test bodies, hooks, application imports or providers. Prior unrelated case definitions and execution classifications are preserved. Totals count authored cases; CPU, PostgreSQL and rendered acceptance for the changed source remain NOT_RUN until actual observed execution. The hosted packaging guard must validate the exact observed case set and final source bytes.",
-  "generatedAt": "2026-10-08T18:19:52.672Z",
+  "generatedAt": "2026-10-08T18:25:43.253Z",
   "totals": {
-    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1339,
-    "REAL_POSTGRES": 219
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1341,
+    "REAL_POSTGRES": 223
   },
   "test_files": [
     {
@@ -13,7 +13,7 @@
     },
     {
       "test_path": "apps/web/src/chatRequestGeneration.test.ts",
-      "sha256": "edb7ef33ff950887b2e004f60600894ca54df6f68e9f6e6259f0b396c2d3c3fd"
+      "sha256": "d08d36f75d9856deb335b49581cbf22322116973fa6b89758005af37f73e263e"
     },
     {
       "test_path": "apps/web/src/internalAssistantModel.test.ts",
@@ -33,11 +33,11 @@
     },
     {
       "test_path": "tests/accounting-export.integration.test.ts",
-      "sha256": "f8b765170f79c23de04fbc680824f111ef48e7b1d803401c40ef62f3b4c84d36"
+      "sha256": "fdc862d9124ca48375234f340bb341b59d8c0de2a57052d202033d72f8e9bb26"
     },
     {
       "test_path": "tests/accounting-export.test.ts",
-      "sha256": "59d36577a477f6ce9329d9dd6d99d3f78171c0a802454613008cdbba62195eae"
+      "sha256": "c0b68b5ca9ea26c40a4711d00c5d955e97370bdc41f661051828bb02b4300d06"
     },
     {
       "test_path": "tests/activity-center.integration.test.ts",
@@ -593,6 +593,30 @@
     },
     {
       "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a service account remains excluded even with explicit report export/site authority and a mixed accountant role",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a valid governed report.read delegation makes site A readable without expanding the base accounting export scope on site B",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a valid read delegation EXPIRED after genuine authentication removes its site from the accounting serving transaction",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a valid read delegation REVOKED after genuine authentication removes its site from the accounting serving transaction",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
       "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source an exact old version stays byte-pinned after real revision and republication, while report-ID resolves the new source",
       "duplicate_name_occurrence": 0,
       "execution_class": "REAL_POSTGRES"
@@ -642,6 +666,12 @@
     {
       "test_path": "tests/accounting-export.test.ts",
       "full_name": "accountant published-report handoff preserves agreed fixed-price cents and performance facts without treating work/materials as extra charges",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff preserves an approved scope reduction as signed cents while keeping the agreed final totals nonnegative",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
@@ -732,6 +762,12 @@
     {
       "test_path": "tests/accounting-export.test.ts",
       "full_name": "accountant published-report handoff rejects unsafe money without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects unsafe negative scope reduction without including source field values in error details",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
@@ -9596,7 +9632,16 @@
       "apps/web/src/chatRequestGeneration.test.ts",
       "tests/accounting-export.test.ts",
       "tests/accounting-export.integration.test.ts"
-    ]
+    ],
+    "latestRefresh": {
+      "kind": "STATIC_DEFINITION_INVENTORY",
+      "executionEvidence": false,
+      "refreshedTestPaths": [
+        "tests/accounting-export.test.ts",
+        "tests/accounting-export.integration.test.ts"
+      ],
+      "reason": "Authored valid delegated read-purpose scope, revoked/expired read authorization, service-account exclusion and signed approved contract reductions; no test bodies or hooks executed."
+    }
   },
   "historicalReference": {
     "generatedAt": "2026-10-06T22:57:30.990045Z",

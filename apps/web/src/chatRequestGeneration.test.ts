@@ -16,7 +16,7 @@ describe('conversation request boundaries (controlled HTTP transport)',()=>{
  });
  it('drops an already parsed A read updater and an A translation after selecting B',()=>{
   const gate=new ChatRequestGeneration();gate.selectChannel('channel-a');const read=gate.begin('channel-a','messages')!,translation=gate.begin('channel-a','translation:message-a')!;
-  const queuedMessages=gate.update(read,()=>['private A history']),queuedTranslation=gate.update(translation,()=>({a:'translation from A'}));
+  const queuedMessages=gate.update(read,()=>['private A history']),queuedTranslation=gate.update<Record<string,string>>(translation,()=>({a:'translation from A'}));
   gate.selectChannel('channel-b');expect(queuedMessages(['B history'])).toEqual(['B history']);expect(queuedTranslation({})).toEqual({});
  });
  it('keeps send completion independent from newer reads in the same conversation',()=>{
