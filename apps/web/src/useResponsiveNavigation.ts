@@ -32,8 +32,8 @@ export function useResponsiveNavigation(open: boolean, onClose: () => void) {
       'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]',
     )).filter(element => element.getClientRects().length > 0);
     document.body.style.overflow = 'hidden';
-    // Opening also removes inert and starts the CSS visibility transition.
-    // Wait for that rendered frame so the close control can accept focus.
+    // Opening also removes inert. Visibility switches immediately; only the
+    // transform animates. Focus after the rendered frame can accept input.
     const focusFrame = requestAnimationFrame(() => {
       navigation.querySelector<HTMLElement>('.sidebar-brand button')?.focus({preventScroll: true});
     });

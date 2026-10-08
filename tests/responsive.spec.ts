@@ -218,7 +218,17 @@ for (const viewport of [{width:320,height:568},{width:390,height:340},{width:768
     const state = await fixture(page); await page.setViewportSize(viewport); await page.goto('/console'); await navigate(page, 'tasks');
     await page.locator('.heading-actions').getByRole('button', {name: 'Create new', exact: true}).click();
     const dialog = page.getByRole('dialog');
-    await dialog.locator('#field-siteId').selectOption('site-a');
+    const siteSelect = dialog.locator('#field-siteId');
+    if (viewport.width === 390) {
+      // Layout containment must preserve the full native option and keyboard
+      // selection, including its empty state, on the short phone form.
+      await expect(siteSelect.locator('option[value="site-a"]')).toContainText(longName);
+      await siteSelect.focus(); await siteSelect.press('End'); await siteSelect.press('Enter');
+      await expect(siteSelect).toHaveValue('site-a'); await expect(siteSelect).toBeFocused();
+      await siteSelect.press('Home'); await siteSelect.press('Enter');
+      await expect(siteSelect).toHaveValue(''); await expect(siteSelect).toBeFocused();
+    }
+    await siteSelect.selectOption('site-a');
     await dialog.locator('#field-title').fill('Synthetic responsive task');
     await noOverflow(page, 'task-edit');
     await dialog.getByRole('button', {name: 'Review change', exact: true}).click();
@@ -294,8 +304,8 @@ test('login, activation, text enlargement and reduced motion remain usable', asy
 test('the actual website contact widget fits a phone and landscape viewport', async ({page}, info) => {
   const state = await fixture(page, null);
   await page.route('**/__responsive_widget', route => route.fulfill({
-    contentType: 'text/html',
-    body: '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Synthetic widget host</title></head><body><h1>Website contact test</h1><script src="/widget.js" data-language="EN"></script></body></html>',
+    contentType: 'text/html; charset=utf-8',
+    body: '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Synthetic widget host</title></head><body><h1>Website contact test</h1><script src="/widget.js" data-language="EN"></script></body></html>',
   }));
   for (const viewport of [{width:320,height:568},{width:844,height:390}]) {
     await page.setViewportSize(viewport); await page.goto('/__responsive_widget');

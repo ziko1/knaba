@@ -13,6 +13,10 @@ html { -webkit-text-size-adjust: 100%; scroll-padding-block: 1rem; }
 body, #root { min-width: 0; }
 img, video, canvas { max-width: 100%; }
 input, select, textarea, fieldset { min-width: 0; max-width: 100%; }
+/* Native WebKit option labels otherwise contribute their intrinsic width to
+ * ancestor scroll areas even when the select itself fits. Keep native controls
+ * and their full option labels while containing that internal layout. */
+select { contain: layout; }
 fieldset { margin-inline: 0; }
 legend { max-width: 100%; overflow-wrap: anywhere; }
 button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
@@ -167,7 +171,7 @@ button, a, input, select, textarea, summary { scroll-margin-block: 1rem; }
 }
 
 @media (max-width: 1024px) {
-  .sidebar { width: min(20rem, calc(100vw - 3rem)); height: 100vh; height: 100dvh; max-width: 100%; transform: translateX(-100%); visibility: hidden; transition: transform .2s, visibility .2s; padding-inline: max(1rem, var(--safe-left)) 1rem; }
+  .sidebar { width: min(20rem, calc(100vw - 3rem)); height: 100vh; height: 100dvh; max-width: 100%; transform: translateX(-100%); visibility: hidden; transition: transform .2s; padding-inline: max(1rem, var(--safe-left)) 1rem; }
   .sidebar.open { transform: translateX(0); visibility: visible; }
   .sidebar-brand { justify-content: space-between; }
   .main-area { width: 100%; margin-left: 0; }
