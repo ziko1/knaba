@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "sourceGitSha": "2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+  "sourceGitTree": "c7e77a9f9cad9aaa2fc8fecc386a0833ad0db824",
+  "workflow": {
+    "id": 37833484009,
+    "name": "KNABA DE native compile verification",
+    "url": "https://github.com/ziko1/knaba/actions/runs/37833484009",
+    "status": "completed",
+    "currentAttempt": 1,
+    "currentConclusion": "failure"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "conclusion": "failure",
+      "android": {
+        "jobId": 113504525411,
+        "status": "success",
+        "executedHostJavaVectors": 52,
+        "geometryVectors": 16,
+        "localizationClockAndAuthenticationVectors": 36,
+        "actualXmlChecks": {
+          "locales": 6,
+          "completeStringsPerLocale": 91,
+          "status": "PASSED"
+        },
+        "debugApkBuild": "PASSED",
+        "lintDebug": "PASSED",
+        "lintErrorAndWarningCounts": "NOT_REPORTED_IN_JOB_LOG",
+        "apksignerWorkflowVerification": "PASSED",
+        "artifact": {
+          "id": 11574776023,
+          "name": "knaba-android-debug-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+          "providerSizeBytes": 935816,
+          "providerDigest": "sha256:65b70109af4cbe0e6efdde29e27be4400d320a235b328b7a6f7f678ccf3a1999",
+          "url": "https://github.com/ziko1/knaba/actions/runs/37833484009/artifacts/11574776023",
+          "sourceGitSha": "2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+          "localDownload": "NOT_RUN",
+          "independentByteVerification": "NOT_RUN"
+        },
+        "safeLogSummaries": [
+          "2026-10-08T19:39:07.6030249Z PASSED native Java geofence vectors=16; synthetic calculation only, no Android runtime or physical GPS claim",
+          "2026-10-08T19:39:07.7355602Z PASSED actual Android XML: six locales, 91 complete strings each, format parity, privacy/action/notification translations and resource references; no Android runtime claim",
+          "2026-10-08T19:39:08.3780051Z PASSED native language and display-clock Java vectors=36; no Android runtime, payroll or GPS authorization claim",
+          "2026-10-08T19:40:55.4088363Z BUILD SUCCESSFUL in 1m 46s"
+        ]
+      },
+      "ios": {
+        "jobId": 113504525676,
+        "status": "failure",
+        "failedStage": "Prepare exact iOS 18.5 runtime and boot a concrete iPhone 16 simulator",
+        "error": "Simulator preparation failed: Command exceeded 60s; see simulator-devices-ready.json",
+        "failedCommand": [
+          "xcrun",
+          "simctl",
+          "list",
+          "devices",
+          "--json"
+        ],
+        "failedPhase": "FINAL_READ_ONLY_DEVICE_INVENTORY_AFTER_BOOTSTATUS",
+        "exactDeviceReadback": "NOT_RUN_FAILED_INVENTORY",
+        "unsignedSimulatorBuild": "SKIPPED_NOT_RUN",
+        "xctest": {
+          "executed": 0,
+          "status": "SKIPPED_NOT_RUN"
+        },
+        "simulatorAppArchive": "SKIPPED_NOT_RUN",
+        "artifactKind": "DIAGNOSTICS_ONLY_NOT_APPLICATION",
+        "artifact": {
+          "id": 11574403360,
+          "name": "knaba-ios-simulator-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+          "providerSizeBytes": 15772,
+          "providerDigest": "sha256:b12fa764bccb45781a5e983342012a89df0f4621ff1b0fe088dfa769f0bcb7e7",
+          "url": "https://github.com/ziko1/knaba/actions/runs/37833484009/artifacts/11574403360",
+          "sourceGitSha": "2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+          "localDownload": "NOT_RUN",
+          "independentByteVerification": "NOT_RUN"
+        }
+      }
+    }
+  ],
+  "investigation": {
+    "codeChanges": "NONE",
+    "reruns": "NONE",
+    "recommendation": "Consider one bounded retry only for typed timeouts from read-only simctl inventories, retaining separate first-failure/second-attempt logs and every exact runtime, UUID and Booted readback gate. Root decision pending."
+  },
+  "historicalNativeProof": {
+    "sourceGitSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+    "runId": 37831061903,
+    "attempt": 2,
+    "status": "HISTORICAL_ONLY_NOT_CURRENT_SOURCE"
+  },
+  "limitations": {
+    "independentArtifactDownloadAndByteVerification": "NOT_RUN",
+    "androidProductionSigning": "NOT_RUN_EPHEMERAL_DEBUG_KEY_ONLY",
+    "iosInstallableSignedIpa": "NOT_RUN",
+    "appStoreOrPlayStoreAcceptance": "NOT_RUN",
+    "physicalDeviceGpsBackgroundBatteryPrivacyAcceptance": "NOT_RUN"
+  }
+}

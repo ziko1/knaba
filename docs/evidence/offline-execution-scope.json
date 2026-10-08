@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "scope": "Authored STATIC_DEFINITION_INVENTORY only, not execution evidence. Current affected definitions were collected with Node 24 TypeScript stripping and a VM that records describe/it/it.each titles while never executing test bodies, hooks, application imports or providers. Prior unrelated case definitions and execution classifications are preserved. Totals count authored cases; CPU, PostgreSQL and rendered acceptance for the changed source remain NOT_RUN until actual observed execution. The hosted packaging guard must validate the exact observed case set and final source bytes.",
-  "generatedAt": "2026-10-08T18:25:43.253Z",
+  "generatedAt": "2026-10-08T19:53:06.758Z",
   "totals": {
-    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1341,
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1350,
     "REAL_POSTGRES": 223
   },
   "test_files": [
@@ -170,6 +170,10 @@
     {
       "test_path": "tests/mobile-shift-summary.test.ts",
       "sha256": "3c971139bdfbcdc1b07d61a6477231d8f085094684e854f22e96f1969ff2fb54"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "sha256": "c1882fc3ce0fb8cd8d166a608b20da46622208aab3387683e4f47258bd11cf91"
     },
     {
       "test_path": "tests/operations-digest.integration.test.ts",
@@ -6478,6 +6482,60 @@
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
     {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures does not retry a non-timeout inventory command failure",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures does not retry invalid inventory JSON",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures fails without XCTest after two inventory timeouts",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures never retries a timed-out mutating command",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures recovers final inventory without replaying download, create or boot commands",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures rejects a device that is not Booted after the final inventory retry",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures rejects the wrong UUID or runtime after the final inventory retry",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures retains a real command deadline log and raises a typed timeout",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures retries one timed-out initial inventory and retains both attempted logs",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
       "test_path": "tests/operations-digest.integration.test.ts",
       "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy a transport service without a real digest lease cannot mint a snapshot or a receipt, and bad CSRF cannot use the private preview",
       "duplicate_name_occurrence": 0,
@@ -9631,17 +9689,38 @@
       "apps/web/src/api.test.ts",
       "apps/web/src/chatRequestGeneration.test.ts",
       "tests/accounting-export.test.ts",
-      "tests/accounting-export.integration.test.ts"
+      "tests/accounting-export.integration.test.ts",
+      "tests/native-ios-simulator.test.ts"
     ],
     "latestRefresh": {
       "kind": "STATIC_DEFINITION_INVENTORY",
       "executionEvidence": false,
       "refreshedTestPaths": [
-        "tests/accounting-export.test.ts",
-        "tests/accounting-export.integration.test.ts"
+        "tests/native-ios-simulator.test.ts"
       ],
-      "reason": "Authored valid delegated read-purpose scope, revoked/expired read authorization, service-account exclusion and signed approved contract reductions; no test bodies or hooks executed."
-    }
+      "reason": "Nine authored Vitest wrappers for bounded typed-timeout simulator inventory CPU command-transport fixtures; no test bodies, hooks or subprocesses executed by the static collector. These are not XCTest cases.",
+      "companionFixtureSourceHashes": [
+        {
+          "path": "tests/native_ios_simulator_test.py",
+          "sha256": "969f4ddeb3f95689c92ca814312eeeeffe2c31947860171d352ae1838665ce2b"
+        },
+        {
+          "path": "scripts/native-ios-simulator.py",
+          "sha256": "4b980ddeadb321c8ff2b8bc817d0b0774a534e8b88ecd123288cf4156225260f"
+        }
+      ]
+    },
+    "priorStaticRefreshes": [
+      {
+        "kind": "STATIC_DEFINITION_INVENTORY",
+        "executionEvidence": false,
+        "refreshedTestPaths": [
+          "tests/accounting-export.test.ts",
+          "tests/accounting-export.integration.test.ts"
+        ],
+        "reason": "Authored valid delegated read-purpose scope, revoked/expired read authorization, service-account exclusion and signed approved contract reductions; no test bodies or hooks executed."
+      }
+    ]
   },
   "historicalReference": {
     "generatedAt": "2026-10-06T22:57:30.990045Z",
