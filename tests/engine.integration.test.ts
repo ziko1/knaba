@@ -187,7 +187,17 @@ class PolicyFixture {
  async list(kind:string){return [...this.rows.values()].filter(e=>e.kind===kind).map(e=>structuredClone(e));}
  async save(e:Entity,data:Data){const n={...e,data:structuredClone(data),version:e.version+1};this.rows.set(`${e.kind}:${e.id}`,n);return n;}
  async event(){}
- async query(sql:string,params:any[]=[]){if(sql.startsWith('SELECT command,input_hash'))return {rows:this.receipts.has(params[2])?[this.receipts.get(params[2])]:[]};if(sql.startsWith('INSERT INTO command_receipts')){this.receipts.set(params[2],{command:params[3],input_hash:params[4],result:JSON.parse(params[5]),authorization_hash:params[6],created_at:new Date()});return {rows:[]};}if(sql.startsWith('INSERT INTO audit_log')||sql.startsWith('INSERT INTO auth_credentials'))return {rows:[]};if(sql.startsWith('INSERT INTO media_blobs')){if(this.blobs.has(params[0]))return {rows:[]};this.blobs.set(params[0],{company_id:params[1],owner_id:params[2],bytes:params[3],mime_type:params[4],sha256:params[5]});return {rows:[{id:params[0]}]};}if(sql.startsWith('SELECT company_id,owner_id,bytes'))return {rows:this.blobs.has(params[0])?[this.blobs.get(params[0])]:[]};throw new Error(`Unexpected offline query: ${sql}`);}
+ async query(sql:string,params:any[]=[]){
+  if(sql.startsWith('SELECT company_id,kind,id,version,data,created_at,updated_at FROM aggregates')){
+   // Explicit message-page SQL transport fixture. These cases still do not execute PostgreSQL.
+   const [companyId,channelId,historyFrom,after,afterId,query,limit]=params;
+   if(!sql.includes("kind='message'")||!sql.includes('LIMIT $7')||!Number.isInteger(limit)||limit<1||limit>100)throw new Error('INVALID_MESSAGE_PAGE_FIXTURE_CONTRACT');
+   const compare=(a:Entity,b:Entity)=>a.createdAt<b.createdAt?-1:a.createdAt>b.createdAt?1:Buffer.compare(Buffer.from(a.id,'utf8'),Buffer.from(b.id,'utf8'));
+   const records=[...this.rows.values()].filter(row=>row.companyId===companyId&&row.kind==='message'&&row.data.channel_id===channelId&&!row.data.deleted_at&&row.createdAt>=historyFrom&&(!after||row.createdAt>after||afterId!==null&&row.createdAt===after&&Buffer.compare(Buffer.from(row.id,'utf8'),Buffer.from(afterId,'utf8'))>0)&&(!query||row.data.text.toLocaleLowerCase().includes(query.toLocaleLowerCase()))).sort(compare);
+   const selected=afterId!==null?records.slice(0,limit):records.slice(-limit).reverse();
+   return {rows:selected.map(row=>({company_id:row.companyId,kind:row.kind,id:row.id,version:row.version,data:structuredClone(row.data),created_at:new Date(row.createdAt),updated_at:new Date(row.updatedAt)}))};
+  }
+  if(sql.startsWith('SELECT command,input_hash'))return {rows:this.receipts.has(params[2])?[this.receipts.get(params[2])]:[]};if(sql.startsWith('INSERT INTO command_receipts')){this.receipts.set(params[2],{command:params[3],input_hash:params[4],result:JSON.parse(params[5]),authorization_hash:params[6],created_at:new Date()});return {rows:[]};}if(sql.startsWith('INSERT INTO audit_log')||sql.startsWith('INSERT INTO auth_credentials'))return {rows:[]};if(sql.startsWith('INSERT INTO media_blobs')){if(this.blobs.has(params[0]))return {rows:[]};this.blobs.set(params[0],{company_id:params[1],owner_id:params[2],bytes:params[3],mime_type:params[4],sha256:params[5]});return {rows:[{id:params[0]}]};}if(sql.startsWith('SELECT company_id,owner_id,bytes'))return {rows:this.blobs.has(params[0])?[this.blobs.get(params[0])]:[]};throw new Error(`Unexpected offline query: ${sql}`);}
  async transaction<T>(_company:string,actor:string,fn:(tx:PgTransaction)=>Promise<T>){this.actorId=actor;return fn(this as unknown as PgTransaction);}
 }
 describe('Engine runtime policy regressions (in-memory, SQL not covered)',()=>{

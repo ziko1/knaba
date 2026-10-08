@@ -16,7 +16,7 @@ import java.time.Instant
 
 /** AES-GCM ciphertext only; key never leaves Android Keystore. No backup/cleartext fallback. */
 class SecureStore(context: Context) {
-    companion object { private val storageLock = Any(); private val authGeneration = GenerationFence() }
+    companion object { private val storageLock = Any(); private val authGeneration = GenerationFence(); val bootSessionId: String = java.util.UUID.randomUUID().toString() }
     private val file = AtomicFile(File(context.filesDir, "knaba-secure-v1.bin"))
     private val keyAlias = "de.knaba.mobile.storage.v1"
     private fun key(): SecretKey {
@@ -84,12 +84,24 @@ class SecureStore(context: Context) {
         state.put("reconciliation", bounded).put("lastRejectedEvent", code)
     } }
     fun expireLocationEvents() = synchronized(storageLock) { update { state ->
-        val queue = state.optJSONArray("queue") ?: JSONArray(); val remaining = JSONArray(); val cutoff = Instant.now().minusSeconds(86400)
+        val queue = state.optJSONArray("queue") ?: JSONArray(); val remaining = JSONArray()
+        val reconciliation = state.optJSONArray("reconciliation") ?: JSONArray(); val now = System.currentTimeMillis()
         for (i in 0 until queue.length()) { val item = queue.getJSONObject(i)
-            if (item.getString("kind") != "EVENT" || !Instant.parse(item.getJSONObject("input").getString("observedAt")).isBefore(cutoff)) remaining.put(item)
-            else state.put("lastRejectedEvent", "LOCAL_RETENTION_EXPIRED")
+            if (item.getString("kind") != "EVENT") { remaining.put(item); continue }
+            val observedAt = item.getJSONObject("input").optString("observedAt")
+            val observedMillis = runCatching { Instant.parse(observedAt).toEpochMilli() }.getOrNull()
+            val input = item.getJSONObject("input")
+            val missingAuthority = input.optString("trackingSessionId").isEmpty() || runCatching { java.util.UUID.fromString(input.optString("bootSessionId")) }.isFailure || !input.has("monotonicElapsedMs") || input.optLong("monotonicElapsedMs", -1) < 0 || item.optString("command") == "presence.ingest" && input.optString("geofenceVersionId").isEmpty()
+            if (!missingAuthority && observedMillis != null && !NativeTrackingPolicy.gpsExpired(now, observedMillis)) remaining.put(item)
+            else {
+                val code = if (missingAuthority) "LEGACY_EVENT_LEASE_REVIEW_REQUIRED" else if (observedMillis == null || observedMillis > now) "INVALID_EVENT_TIME" else "LOCAL_RETENTION_EXPIRED"
+                reconciliation.put(JSONObject().put("id", item.getString("id")).put("command", item.getString("command"))
+                    .put("code", code).put("observedAt", observedAt).put("receivedAt", Instant.ofEpochMilli(now).toString()))
+                state.put("lastRejectedEvent", code)
+            }
         }
-        state.put("queue", remaining)
+        val bounded = JSONArray(); for (i in maxOf(0, reconciliation.length() - 200) until reconciliation.length()) bounded.put(reconciliation.getJSONObject(i))
+        state.put("queue", remaining).put("reconciliation", bounded)
     } }
     fun clear() = synchronized(storageLock) { authGeneration.invalidate(); file.delete(); val vault = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }; vault.deleteEntry(keyAlias) }
 }

@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS schema_migrations (version text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS aggregates (company_id text NOT NULL, kind text NOT NULL, id text NOT NULL, version integer NOT NULL DEFAULT 1 CHECK(version>0), data jsonb NOT NULL CHECK(jsonb_typeof(data)='object'), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(company_id,kind,id));
 CREATE INDEX IF NOT EXISTS aggregates_company_kind ON aggregates(company_id,kind);
+CREATE INDEX IF NOT EXISTS aggregates_v4_cursor ON aggregates(company_id,kind,(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),id COLLATE "C");
+CREATE INDEX IF NOT EXISTS aggregates_v4_message_cursor ON aggregates(company_id,kind,(data->>'channel_id'),(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),id COLLATE "C") WHERE kind='message';
 CREATE INDEX IF NOT EXISTS aggregates_scope ON aggregates(company_id,(data->>'siteId'));
 CREATE INDEX IF NOT EXISTS aggregates_user_scope ON aggregates(company_id,(data->>'employeeId'));
 CREATE TABLE IF NOT EXISTS aggregate_revisions (company_id text NOT NULL, kind text NOT NULL, id text NOT NULL, version integer NOT NULL, data jsonb NOT NULL, actor_id text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(company_id,kind,id,version));
@@ -198,3 +200,37 @@ CREATE CONSTRAINT TRIGGER privacy_permit_consumed AFTER INSERT ON privacy_revisi
 DROP TRIGGER IF EXISTS revisions_immutable ON aggregate_revisions;
 CREATE TRIGGER revisions_immutable BEFORE UPDATE OR DELETE ON aggregate_revisions FOR EACH ROW EXECUTE FUNCTION knaba_privacy_revision_guard();
 INSERT INTO schema_migrations(version) VALUES ('003_bounded_privacy_erasure') ON CONFLICT DO NOTHING;
+
+-- V4 append-only business facts; amendments use new linked aggregates.
+CREATE OR REPLACE FUNCTION knaba_guard_v4_business_fact() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF OLD.kind IN ('rate_history','payout_receipt','payout_reconciliation','payout_reversal','payout_allocation','official_payslip','payroll_calculation_revision','payroll_approval','payroll_lock','quote_acceptance','measurement_verification','integration_decision','order_review','order_transition','manual_device_event','device_event_review')
+ OR (OLD.kind='task' AND OLD.data->>'state'='ACCEPTED') THEN
+  RAISE EXCEPTION 'KNABA_IMMUTABLE_BUSINESS_FACT';
+ END IF;
+ IF TG_OP='DELETE' THEN RETURN OLD; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS knaba_v4_business_fact_immutable ON aggregates;
+CREATE TRIGGER knaba_v4_business_fact_immutable BEFORE UPDATE OR DELETE ON aggregates FOR EACH ROW EXECUTE FUNCTION knaba_guard_v4_business_fact();
+CREATE UNIQUE INDEX IF NOT EXISTS quote_acceptance_v4_once ON aggregates(company_id,(data->>'quoteId'),(data->>'quoteVersion')) WHERE kind='quote_acceptance' AND data->>'quoteId' IS NOT NULL AND data->>'quoteVersion' IS NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS dispatch_acceptance_v4_once ON aggregates(company_id,(data->>'acceptanceId')) WHERE kind='dispatch_request' AND data->>'acceptanceId' IS NOT NULL;
+
+-- Recover a known legacy lifecycle only from its own persisted revision.
+DO $$
+DECLARE item record; former text; recovered jsonb;
+BEGIN
+ IF NOT EXISTS(SELECT 1 FROM schema_migrations WHERE version='002_v4_contracts') THEN
+  FOR item IN SELECT * FROM aggregates WHERE kind='lead' AND data->>'status' IN ('HUMAN_REVIEW_REQUIRED','SITE_VISIT_REQUIRED') FOR UPDATE LOOP
+   SELECT data->>'status' INTO former FROM aggregate_revisions WHERE company_id=item.company_id AND kind='lead' AND id=item.id AND data->>'status' IN ('NEW','QUALIFYING','QUALIFIED','QUOTING','LOST','WON','CONVERTED','DECLINED') ORDER BY version DESC LIMIT 1;
+   recovered=item.data || jsonb_build_object('review_state',item.data->>'status','legacyLifecycleStatus',item.data->>'status','lifecycleReconciliationRequired',former IS NULL);
+   IF former IS NOT NULL THEN recovered=recovered || jsonb_build_object('status',former); END IF;
+   UPDATE aggregates SET data=recovered,version=item.version+1,updated_at=now() WHERE company_id=item.company_id AND kind='lead' AND id=item.id;
+   INSERT INTO aggregate_revisions(company_id,kind,id,version,data,actor_id) VALUES(item.company_id,'lead',item.id,item.version+1,recovered,'V4_CONTRACT_MIGRATION');
+   INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail) VALUES(item.company_id,'V4_CONTRACT_MIGRATION','LEAD_REVIEW_LIFECYCLE_MIGRATED','lead',item.id,jsonb_build_object('originalStatus',item.data->>'status','recoveredFromOwnRevision',former IS NOT NULL,'lifecycleReconciliationRequired',former IS NULL));
+  END LOOP;
+  INSERT INTO schema_migrations(version) VALUES ('002_v4_contracts');
+ END IF;
+END $$;
+
+CREATE INDEX IF NOT EXISTS audit_v4_cursor ON audit_log(company_id,(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),(id::text) COLLATE "C");

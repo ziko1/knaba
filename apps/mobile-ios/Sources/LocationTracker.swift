@@ -19,7 +19,9 @@ import Combine
     @Published private(set) var presence: Presence = .unknown
     private let manager = CLLocationManager(), store: SecureStore, api: NativeAPI
     private var session: TrackingSession?, classifier = GeofenceClassifier(), wantsTracking = false
-    private var timer: Timer?, lastObserved: Date = .distantPast, lastRenewal: Date = .distantPast
+    private var timer: Timer?, lastObserved: Date = .distantPast
+    private var leaseExpiration: Timer?, leaseDeadlineUptime: TimeInterval = 0, lastRenewalUptime: TimeInterval = 0
+    private var lastUsableLocationAt: Date?
     private var renewing = false, privacyGeneration = 0
     private var privacyStoppedAt = Date.distantPast
     init(store: SecureStore, api: NativeAPI) { self.store = store; self.api = api; super.init(); manager.delegate = self; manager.pausesLocationUpdatesAutomatically = true; manager.showsBackgroundLocationIndicator = true; updatePermission() }
@@ -49,35 +51,49 @@ import Combine
         guard lease.valid else { stop("SESSION_EXPIRED"); return }
         accessRevoked = false
         if let previous = session, previous.shiftId != lease.shiftId || previous.deviceId != lease.deviceId { stop("SESSION_CHANGED"); return }
+        if session?.geofenceVersionId != lease.geofenceVersionId || session?.siteGeofence != lease.siteGeofence { classifier = GeofenceClassifier(); presence = .unknown }
         session = lease
         if !lease.permitsLocation { stop(lease.mode == .privateBreak ? "PRIVATE_BREAK" : lease.reason ?? "SERVER_OFF"); return }
         // Receiving a new server lease does not activate previously stopped tracking.
-        if wantsTracking { manager.desiredAccuracy = lease.mode == .businessTravel ? kCLLocationAccuracyNearestTenMeters : kCLLocationAccuracyHundredMeters }
+        if wantsTracking { scheduleLeaseExpiry(lease); manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters; manager.distanceFilter = lease.mode == .businessTravel ? 15 : kCLDistanceFilterNone }
     }
     private func begin(_ lease: TrackingSession) {
         guard wantsTracking, lease.permitsLocation else { stop("SESSION_EXPIRED"); return }
-        manager.desiredAccuracy = lease.mode == .businessTravel ? kCLLocationAccuracyNearestTenMeters : kCLLocationAccuracyHundredMeters
-        manager.distanceFilter = lease.mode == .businessTravel ? 15 : 25
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.distanceFilter = lease.mode == .businessTravel ? 15 : kCLDistanceFilterNone
         manager.activityType = lease.mode == .businessTravel ? .automotiveNavigation : .other
         // Always is requested separately by a user action; the app never promises background delivery for When-In-Use.
         manager.allowsBackgroundLocationUpdates = manager.authorizationStatus == .authorizedAlways
         manager.startUpdatingLocation(); active = true
+        scheduleLeaseExpiry(lease); lastRenewalUptime = ProcessInfo.processInfo.systemUptime
         statusKey = .activeUntil
         timer?.invalidate(); timer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in Task { @MainActor in await self?.heartbeat() } }
+    }
+    private func scheduleLeaseExpiry(_ lease: TrackingSession) {
+        guard let end = Clock.parse(lease.expiresAt), NativeTrackingPolicy.validLease(expiresAt: end, now: Date()) else { stop("SESSION_EXPIRED"); return }
+        let remaining = end.timeIntervalSinceNow, generation = privacyGeneration
+        leaseDeadlineUptime = ProcessInfo.processInfo.systemUptime + remaining
+        leaseExpiration?.invalidate()
+        leaseExpiration = Timer.scheduledTimer(withTimeInterval: remaining, repeats: false) { [weak self] _ in
+            Task { @MainActor in guard let self, self.privacyGeneration == generation, self.active else { return }; self.stop("SESSION_EXPIRED") }
+        }
     }
     func stop(_ reason: String = "USER_STOPPED") {
         if reason == "ACCESS_REVOKED" || reason == "SIGNED_OUT" { accessRevoked = true }
         privacyGeneration += 1; privacyStoppedAt = Date(); wantsTracking = false; active = false; session = nil; timer?.invalidate(); timer = nil
         manager.stopUpdatingLocation(); manager.allowsBackgroundLocationUpdates = false
-        statusKey = .stopped; statusReason = reason; lastLocationAt = nil; classifier = GeofenceClassifier(); presence = .unknown
+        leaseExpiration?.invalidate(); leaseExpiration = nil
+        statusKey = .stopped; statusReason = reason; lastLocationAt = nil; lastUsableLocationAt = nil; classifier = GeofenceClassifier(); presence = .unknown
     }
     private func heartbeat() async {
-        guard active, wantsTracking, let lease = session, lease.valid else { if active { stop("SESSION_EXPIRED") }; return }
-        guard !renewing, Date().timeIntervalSince(lastRenewal) >= 30 else { return }
+        guard active, wantsTracking, let lease = session, lease.valid, ProcessInfo.processInfo.systemUptime < leaseDeadlineUptime else { if active { stop("SESSION_EXPIRED") }; return }
+        if let lastUsableLocationAt, Date().timeIntervalSince(lastUsableLocationAt) >= 300 { presence = .unknown; classifier = GeofenceClassifier(); statusKey = .locationUnknown }
+        guard !renewing, ProcessInfo.processInfo.systemUptime - lastRenewalUptime >= NativeTrackingPolicy.renewalSeconds else { return }
+        lastRenewalUptime = ProcessInfo.processInfo.systemUptime
         renewing = true; defer { renewing = false }; let generation = privacyGeneration
         do {
             _ = try await api.sync(); let fresh = try await api.session()
-            guard generation == privacyGeneration, wantsTracking else { return }; lastRenewal = Date(); accept(fresh)
+            guard generation == privacyGeneration, wantsTracking else { return }; accept(fresh)
         } catch let failure as APIFailure {
             if [401, 403].contains(failure.status) { stop("ACCESS_REVOKED") } else { statusKey = .leaseOnly }
         } catch let failure as NativeError {
@@ -92,20 +108,23 @@ import Combine
         else if manager.authorizationStatus != .notDetermined { stop("PERMISSION_DENIED") }
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard active, wantsTracking, let lease = session, lease.permitsLocation else { if active { stop("SESSION_EXPIRED") }; return }
+        guard active, wantsTracking, let lease = session, lease.permitsLocation, ProcessInfo.processInfo.systemUptime < leaseDeadlineUptime else { if active { stop("SESSION_EXPIRED") }; return }
         let generation = privacyGeneration
         for location in locations {
-            guard location.timestamp > lastObserved, location.horizontalAccuracy > 0, CLLocationCoordinate2DIsValid(location.coordinate), !(location.coordinate.latitude == 0 && location.coordinate.longitude == 0), Date().timeIntervalSince(location.timestamp) >= 0, Date().timeIntervalSince(location.timestamp) <= (lease.siteGeofence?.maxAgeSeconds ?? 120) else { continue }
+            guard location.timestamp > lastObserved else { continue }
+            guard location.horizontalAccuracy > 0, CLLocationCoordinate2DIsValid(location.coordinate), !(location.coordinate.latitude == 0 && location.coordinate.longitude == 0), Date().timeIntervalSince(location.timestamp) >= 0, Date().timeIntervalSince(location.timestamp) <= min(lease.siteGeofence?.maxAgeSeconds ?? 120, 120) else { classifier = GeofenceClassifier(); presence = .unknown; continue }
             if #available(iOS 15.0, *), location.sourceInformation?.isSimulatedBySoftware == true { statusKey = .simulatedLocation; continue }
-            guard let shiftId = lease.shiftId, let policyId = lease.policyVersionId else { stop("INCOMPLETE_SESSION"); return }
-            var payload: [String: JSONValue] = ["deviceId": .string(lease.deviceId), "shiftId": .string(shiftId), "policyVersionId": .string(policyId), "observedAt": .string(Clock.iso(location.timestamp)), "accuracyM": .number(location.horizontalAccuracy)]
+            guard let shiftId = lease.shiftId, let policyId = lease.policyVersionId, let trackingSessionId = lease.trackingSessionId else { stop("INCOMPLETE_SESSION"); return }
+            let monotonicElapsedMs = max(0, floor((ProcessInfo.processInfo.systemUptime - Date().timeIntervalSince(location.timestamp)) * 1000))
+            var payload: [String: JSONValue] = ["deviceId": .string(lease.deviceId), "shiftId": .string(shiftId), "policyVersionId": .string(policyId), "trackingSessionId": .string(trackingSessionId), "bootSessionId": .string(NativeTrackingPolicy.bootSessionId), "monotonicElapsedMs": .number(monotonicElapsedMs), "observedAt": .string(Clock.iso(location.timestamp)), "accuracyM": .number(location.horizontalAccuracy)]
             let command: String
             if lease.mode == .sitePresence {
-                guard let fence = lease.siteGeofence, let siteId = lease.siteId, location.horizontalAccuracy <= fence.maxAccuracyM else { presence = .unknown; continue }
+                guard let fence = lease.siteGeofence, let siteId = lease.siteId, let geofenceVersionId = lease.geofenceVersionId else { presence = .unknown; classifier = GeofenceClassifier(); continue }
                 let distance = GeofenceClassifier.distance(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, centerLatitude: fence.latitude, centerLongitude: fence.longitude)
                 let zoneDistances = (fence.exceptionZones ?? []).map { GeofenceClassifier.distance(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, centerLatitude: $0.latitude, centerLongitude: $0.longitude) }
                 presence = classifier.observe(distance: distance, accuracy: location.horizontalAccuracy, fence: fence, at: location.timestamp, exceptionDistances: zoneDistances)
-                payload["siteId"] = .string(siteId); payload["distanceM"] = .number(distance); payload["source"] = .string("NATIVE_LOCATION"); payload["trackerState"] = .string("ONLINE")
+                if location.horizontalAccuracy <= min(fence.maxAccuracyM, 75) { lastUsableLocationAt = location.timestamp }
+                payload["siteId"] = .string(siteId); payload["geofenceVersionId"] = .string(geofenceVersionId); payload["distanceM"] = .number(distance); payload["source"] = .string("NATIVE_LOCATION"); payload["trackerState"] = .string("ONLINE")
                 payload["zoneDistances"] = .array(zoneDistances.enumerated().map { .object(["zoneIndex": .number(Double($0.offset)), "distanceM": .number($0.element), "accuracyM": .number(location.horizontalAccuracy)]) })
                 command = "presence.ingest" // Coordinates never enter SITE_PRESENCE persistence or network.
             } else if lease.mode == .businessTravel, let tripId = lease.tripId {

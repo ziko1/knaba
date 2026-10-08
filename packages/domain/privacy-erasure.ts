@@ -34,11 +34,14 @@ const canonical=(v:any):string=>v===null||typeof v!=='object'?JSON.stringify(v):
 export const erasureHash=(v:unknown)=>createHash('sha256').update(canonical(v)).digest('hex');
 const cat=(value:string)=>value==='MESSAGES'?'CHAT':value;
 const routerKinds=new Set(['whatsapp_router_session','whatsapp_router_action','whatsapp_router_response']);
+/** Lease/sequence/review facts have no approved metadata-erasure class yet. */
+export const GPS_DEVICE_METADATA_KINDS=Object.freeze(['device_event_review','device_event_cursor','device_boot_cursor','tracking_session'] as const);
+const gpsDeviceMetadataKinds=new Set<string>(GPS_DEVICE_METADATA_KINDS);
 const subject=(e:Entity)=>e.kind==='message'?(e.data.author_id??e.data.authorId):e.kind==='conversation_input'||routerKinds.has(e.kind)?e.data.user_id:e.data.uploadedBy;
 const sourceKinds=new Set(['message','media_asset','media_upload','media_client_edit','conversation_input',...routerKinds]);
 const derivedKinds=new Set(['message_version','message_copy_preview','translation','translation_request','delivery','callback','channel_activity','search_index','knowledge_index','conversation_input','notification','assistant_lead_draft','assistant_tool_call','internal_assistant_request','internal_assistant_draft',...routerKinds]);
 const processorKinds=new Set(['ai_usage']);
-const protectedKinds=new Set(['report','report_version','report_artifact','official_payslip','payroll_calculation','payout','payout_receipt','task','task_batch','material_request','task_review','worklog','defect','issue','quote','order','lead','decision','customer_acknowledgment','privacy_export','legal_approval']);
+const protectedKinds=new Set(['report','report_version','report_artifact','official_payslip','payroll_calculation','payout','payout_receipt','payout_reconciliation','payroll_approval','payroll_lock','task','task_batch','material_request','material_request_batch','task_review','worklog','defect','issue','quote','order','lead','decision','customer_acknowledgment','privacy_export','legal_approval','manual_device_event',...GPS_DEVICE_METADATA_KINDS]);
 const referenceKeys=new Set(['id','messageId','message_id','sourceMessageId','source_message_id','messageIds','sourceMessageIds','sources','copied_from','mediaId','media_id','mediaIds','photoIds','attachment_ids','uploadId','blobKey','clientBlobKey','sourceClientBlobKey','clientEditId','key','translationId','translation_id','requestId','request_id','deliveryId','delivery_id','input_id','session_id','response_id','router_response_id','router_action_id','claimed_input_id','text_choices','event_id','eventId','provider_event_id','draftId','draft_id','leadId','lead_id']);
 // Confirmation receipts/events are canonical business evidence, never private draft caches.
 const erasableReceipt=(command:string)=>/^(message|translation|callback|delivery|media|assistant|channel\.messages|public\.chat|whatsapp)\./.test(command)||/^internal_assistant\.(request|preview)$/.test(command);
@@ -81,6 +84,44 @@ function inFlightChains(s:ErasureSnapshot,candidates:Entity[]):{held:Set<string>
 }
 function blobReferences(e:{data:Data}){return [e.data.blobKey,e.data.clientBlobKey,e.data.sourceClientBlobKey].filter((v):v is string=>typeof v==='string'&&v.length>0);}
 function ownRows(s:ErasureSnapshot){return s.aggregates.filter(e=>e.companyId===s.companyId);}
+export interface GpsMetadataRetentionRecord {
+ kind:typeof GPS_DEVICE_METADATA_KINDS[number];id:string;version:number;storage:'CURRENT'|'REVISION';
+ lineage:'SAME_SUBJECT_SERVER_LEASE'|'UNVERIFIED_LEASE';trackingSessionId?:string;
+ coordinateStorageStatus:'COORDINATE_FREE'|'UNSAFE_COORDINATE_COPY_REQUIRES_REVIEW';
+}
+const coordinateKeys=new Set(['latitude','longitude','accuracyM','lat','lng','lon','coordinates']);
+function containsCoordinateCopy(value:unknown):boolean {
+ if(!value||typeof value!=='object')return false;
+ if(Array.isArray(value))return value.some(containsCoordinateCopy);
+ return Object.entries(value).some(([name,item])=>coordinateKeys.has(name)||containsCoordinateCopy(item));
+}
+/**
+ * Internal planning inventory, not a subject-access authorization or deletion plan.
+ * The caller must load an authorized company snapshot. Emit only explicit own-subject
+ * identities; a matching linked lease never imports another employee's rows or data.
+ * Raw point expiry is separately enforced by knaba_purge_gps. The target provides no
+ * approved TTL for lease/sequence/review evidence, so these records stay preserved.
+ */
+export function buildGpsMetadataRetentionInventory(s:Pick<ErasureSnapshot,'companyId'|'aggregates'|'revisions'>,subjectUserId:string){
+ assert(typeof s.companyId==='string'&&s.companyId.length>0&&typeof subjectUserId==='string'&&subjectUserId.length>0,'VALIDATION_ERROR');
+ assert(s.aggregates.length+s.revisions.length<=MAX_RECORDS,'VALIDATION_ERROR',{reason:'ERASURE_SNAPSHOT_LIMIT'});
+ const own=[...s.aggregates.map(row=>({row,storage:'CURRENT' as const})),...s.revisions.map(row=>({row,storage:'REVISION' as const}))].filter(({row})=>row.companyId===s.companyId&&gpsDeviceMetadataKinds.has(row.kind)&&row.data.employeeId===subjectUserId);
+ const currentLeases=new Map(s.aggregates.filter(r=>r.companyId===s.companyId&&r.kind==='tracking_session').map(r=>[r.id,r]));
+ const historyLeases=new Map<string,RevisionRecord[]>();
+ for(const row of s.revisions)if(row.companyId===s.companyId&&row.kind==='tracking_session')historyLeases.set(row.id,[...(historyLeases.get(row.id)??[]),row]);
+ const records:GpsMetadataRetentionRecord[]=own.map(({row,storage})=>{
+  const leaseId=row.kind==='tracking_session'?row.id:row.data.trackingSessionId;
+  // Prefer current authority; historical source ownership must agree too. A
+  // missing/reassigned lease is unverified and cannot broaden the inventory.
+  const current=currentLeases.get(leaseId),history=historyLeases.get(leaseId)??[];
+  const candidates=current?[current]:history;
+  const matching=candidates.length>0&&candidates.every(lease=>lease.data.source==='SERVER'&&lease.data.employeeId===subjectUserId&&typeof lease.data.deviceId==='string'&&lease.data.deviceId.length>0&&lease.data.deviceId===row.data.deviceId&&['shiftId','policyVersionId'].every(name=>row.data[name]===undefined||row.data[name]===lease.data[name]));
+  const lineage=matching&&history.every(lease=>lease.data.source==='SERVER'&&lease.data.employeeId===subjectUserId)?'SAME_SUBJECT_SERVER_LEASE':'UNVERIFIED_LEASE';
+  return {kind:row.kind as GpsMetadataRetentionRecord['kind'],id:row.id,version:row.version,storage,lineage,...(lineage==='SAME_SUBJECT_SERVER_LEASE'?{trackingSessionId:leaseId}:{}),coordinateStorageStatus:containsCoordinateCopy(row.data)?'UNSAFE_COORDINATE_COPY_REQUIRES_REVIEW':'COORDINATE_FREE'};
+ });
+ records.sort((a,b)=>(a.kind+'\0'+a.id+'\0'+a.storage).localeCompare(b.kind+'\0'+b.id+'\0'+b.storage)||a.version-b.version);
+ return {companyId:s.companyId,subjectUserId,retentionDecision:'PRESERVE_PENDING_APPROVED_METADATA_CLASS' as const,rawCoordinateDeletion:'SEPARATE_DEDICATED_GPS_PURGE' as const,records,sourceDataDeleted:false as const,requestFulfilled:false as const,fullLegalDsarFulfillment:false as const};
+}
 function key(e:{kind?:string;id:string;version?:number;actorId?:string;provider?:string}){return [e.kind??'',e.id,e.version??'',e.actorId??'',e.provider??''].join('\u0000');}
 function authorize(s:ErasureSnapshot,a:ErasureAuthority){
  const now=Date.parse(a.now);assert(Number.isFinite(now),'VALIDATION_ERROR');
@@ -234,4 +275,5 @@ export const PRIVACY_ERASURE_EXECUTION_CONCERNS=[
  'Redact current aggregates and every historical revision, mapped command receipt result, queued outbox payload and mapped webhook raw payload; cancel queued/running deliveries before any resumed worker can resend erased content.',
  'Stage external S3 blob deletion through an idempotent deletion journal; metadata tombstones deny access immediately. Revalidate holds/shared report/blob references before deletion and verify storage NOT_FOUND after completion. Unknown provider outcome is pending, not success.',
  'Keep a restore-time erasure manifest/tombstone replay gate for backups; source purge does not claim backup, provider or already-delivered device deletion. Never report full DSAR fulfillment from this bounded CHAT/MEDIA plan.',
+ 'Preserve device event review/sequence cursors and server tracking-lease current/history facts until a separately approved metadata retention class is provided. They are not CHAT/MEDIA sources; raw GPS expiry must not delete lease-audit or payroll evidence.',
 ] as const;

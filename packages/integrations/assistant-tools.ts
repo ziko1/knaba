@@ -1,3 +1,4 @@
+import {queueHandoffSla} from '../domain/handoff-calendar.ts';
 import { createHash } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { z } from 'zod';
@@ -90,6 +91,7 @@ async function handoff<T extends Transaction>(s:Session<T>,reason:string,callId:
  if(lead)await invoke(s,s.actor.permissions.includes('lead.manage_own')?'lead.own_handoff':'lead.handoff',{id:lead.id,reason,summaryDE:'Der Kunde benötigt menschliche Unterstützung. Originalnachricht und ungeklärte Angaben bleiben im privaten Dialog.',unresolved:[],documentIds:[]},callId,lead.version);
  s.check();const channel=await s.tx.get('channel',s.channel.id);assert(channel.version===s.channel.version&&channel.data.handoff?.state==='AI_ACTIVE','AI_SUPPRESSED');
  s.channel=await s.tx.save(channel,{...channel.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,reason,requested_at:s.now,source_message_id:s.message.id}},channel.version);
+ s.channel=await queueHandoffSla(s.tx,s.channel,s.now);
  const dedupe=key('assistant-handoff',s.channel.id,s.message.id,callId);
  if(!lead&&!(await s.tx.list('decision')).some(d=>d.data.dedupeKey===dedupe))await s.tx.add('decision',{status:'OPEN',ownerId:'UNASSIGNED',channelId:s.channel.id,sources:[s.message.id],reason,summaryDE:'Die private Kundenanfrage benötigt menschliche Unterstützung. Team und Termin sind nicht bestätigt.',actions:['APPROVE','RETURN','DELEGATE'],history:[],dedupeKey:dedupe});
  await s.tx.event('assistant.handoff_requested',{channelId:s.channel.id,actorId:s.actor.userId,messageId:s.message.id});s.check();

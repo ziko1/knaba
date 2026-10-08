@@ -88,9 +88,16 @@ actor SecureStore {
         var state = try read(); state.queue.removeAll { item in item.kind == "EVENT" && (Clock.parse(item.input["observedAt"]?.string ?? "") ?? .distantFuture) >= at }; try write(state)
     }
     func expireLocationEvents() throws {
-        var state = try read(); let cutoff = Date().addingTimeInterval(-86400)
-        let expired = state.queue.filter { $0.kind == "EVENT" && (Clock.parse($0.input["observedAt"]?.string ?? "") ?? .distantPast) < cutoff }
-        for item in expired { state.reconciliation.append(Reconciliation(id: item.id, command: item.command, code: "LOCAL_RETENTION_EXPIRED", observedAt: item.input["observedAt"]?.string, receivedAt: Clock.iso())) }
+        var state = try read(); let now = Date()
+        func missingAuthority(_ item: QueueItem) -> Bool {
+            item.input["trackingSessionId"]?.string?.isEmpty != false || UUID(uuidString: item.input["bootSessionId"]?.string ?? "") == nil || (item.input["monotonicElapsedMs"]?.number ?? -1) < 0 || item.command == "presence.ingest" && item.input["geofenceVersionId"]?.string?.isEmpty != false
+        }
+        let expired = state.queue.filter { $0.kind == "EVENT" && (missingAuthority($0) || NativeTrackingPolicy.gpsExpired(observedAt: Clock.parse($0.input["observedAt"]?.string ?? ""), now: now)) }
+        for item in expired {
+            let at = Clock.parse(item.input["observedAt"]?.string ?? "")
+            let code = missingAuthority(item) ? "LEGACY_EVENT_LEASE_REVIEW_REQUIRED" : at == nil || at! > now ? "INVALID_EVENT_TIME" : "LOCAL_RETENTION_EXPIRED"
+            state.reconciliation.append(Reconciliation(id: item.id, command: item.command, code: code, observedAt: item.input["observedAt"]?.string, receivedAt: Clock.iso(now)))
+        }
         let ids = Set(expired.map(\.id)); state.queue.removeAll { ids.contains($0.id) }; state.reconciliation = Array(state.reconciliation.suffix(200)); try write(state)
     }
     func clear() throws { epoch += 1; if FileManager.default.fileExists(atPath: file.path) { try FileManager.default.removeItem(at: file) }; Keychain.remove("device-token"); Keychain.remove("queue-key") }

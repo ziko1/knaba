@@ -71,9 +71,9 @@ describe('safe tab-memory offline actions',()=>{
  });
  it('default browser transport refreshes CSRF and sends only the original contract fields',async()=>{
   const calls:Array<{path:string;options:RequestInit}>=[];
-  vi.stubGlobal('fetch',async(path:string,options:RequestInit)=>{calls.push({path,options});const body=path==='/api/v1/me'?{...session(),csrfToken:'SYNTHETIC_FRESH_PROOF'}:path==='/api/v1/commands'?{items:[definition]}:path==='/api/v1/entities/task'?{items:[resource()]}:resource({version:4});return {ok:true,status:200,json:async()=>body}});
+  vi.stubGlobal('fetch',async(path:string,options:RequestInit)=>{calls.push({path,options});const body=path==='/api/v1/me'?{...session(),csrfToken:'SYNTHETIC_FRESH_PROOF'}:path==='/api/v1/commands'?{items:[definition]}:path==='/api/v1/entities/task?limit=100'?{items:[resource()],has_more:false,next_cursor:null}:resource({version:4});return {ok:true,status:200,json:async()=>body}});
   const queue=new SafeOfflineQueue(identity);queue.enqueue(action());expect(calls).toHaveLength(0);expect(await queue.retry('synthetic-original-key')).toBe(true);
-  expect(calls.map(call=>call.path)).toEqual(['/api/v1/me','/api/v1/commands','/api/v1/entities/task','/api/v1/commands/task.checklist']);
+  expect(calls.map(call=>call.path)).toEqual(['/api/v1/me','/api/v1/commands','/api/v1/entities/task?limit=100','/api/v1/commands/task.checklist']);
   expect(JSON.parse(String(calls[3].options.body))).toEqual({input:action().input,expected_version:3,idempotency_key:'synthetic-original-key'});
   expect((calls[3].options.headers as Record<string,string>)['X-CSRF-Token']).toBe('SYNTHETIC_FRESH_PROOF');expect(calls.every(call=>call.options.signal instanceof AbortSignal)).toBe(true);
   expect(new SafeOfflineQueue(identity).getSnapshot()).toEqual([]);

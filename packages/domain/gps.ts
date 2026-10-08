@@ -2,11 +2,12 @@ import {assert, type Actor, type Data, type Entity} from './core.ts';
 
 /** Permanent event metadata deliberately cannot contain coordinates, even nested ones. */
 export function gpsMetadata(data:Data):Data {
- const keys=['eventId','deviceId','shiftId','tripId','sequenceNumber','observedAt','policyVersionId','employeeId','siteIds','receivedAt','mode','expiresAt','quality','source','isEvidenceOfPerson'];
+ const keys=['eventId','deviceId','shiftId','tripId','sequenceNumber','trackingSessionId','bootSessionId','monotonicElapsedMs','observedAt','policyVersionId','employeeId','siteIds','receivedAt','mode','expiresAt','quality','source','isEvidenceOfPerson'];
  return Object.fromEntries(keys.filter(k=>data[k]!==undefined).map(k=>[k,data[k]]));
 }
 export function gpsAcknowledgement(value:Entity|Data):Data {
  const data=value.data??value;
+ if(data.status==='REVIEW')return {eventId:data.eventId,accepted:false,status:'REVIEW',reason:data.reason,reviewId:data.reviewId};
  return {eventId:data.eventId,sampleId:value.data?value.id:(value as Data).sampleId,accepted:true,expiresAt:data.expiresAt};
 }
 export function gpsCoordinates(data:Data) {

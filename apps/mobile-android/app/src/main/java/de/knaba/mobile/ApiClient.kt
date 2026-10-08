@@ -62,8 +62,11 @@ class ApiClient(private val store: SecureStore, private val generation: Long = s
         val session = call("/api/v1/mobile/session")
         require(session.getString("deviceId") == store.read().getString("deviceId")) { "FOREIGN_DEVICE_SESSION" }
         val expiry = Instant.parse(session.getString("expiresAt"))
-        require(expiry.isAfter(Instant.now()) && expiry.isBefore(Instant.now().plusSeconds(16 * 3600 + 60))) { "INVALID_SESSION_LEASE" }
+        require(NativeTrackingPolicy.validLease(System.currentTimeMillis(), expiry.toEpochMilli())) { "INVALID_SESSION_LEASE" }
         require(session.getString("mode") in setOf("OFF", "PRIVATE_BREAK", "SITE_PRESENCE", "BUSINESS_TRAVEL")) { "INVALID_TRACKING_MODE" }
+        if (session.getString("mode") in setOf("SITE_PRESENCE", "BUSINESS_TRAVEL")) require(session.optString("trackingSessionId").isNotEmpty()) { "TRACKING_LEASE_REQUIRED" }
+        if (session.getString("mode") == "SITE_PRESENCE") require(session.optString("geofenceVersionId").isNotEmpty() && session.optJSONObject("siteGeofence")?.optString("algorithmVersion") == "GEOFENCE_V1") { "GEOFENCE_VERSION_REQUIRED" }
+        if (session.getString("mode") == "BUSINESS_TRAVEL") require(session.optString("tripId").isNotEmpty()) { "TRIP_LEASE_REQUIRED" }
         store.requireGeneration(generation)
         return session
     }
@@ -84,8 +87,8 @@ class ApiClient(private val store: SecureStore, private val generation: Long = s
                     val results = response.optJSONArray("results") ?: error("EVENT_ACK_MISSING")
                     require(results.length() == 1 && response.optInt("apiVersion") == 1) { "EVENT_ACK_INVALID" }
                     val receipt = results.getJSONObject(0)
-                    require(receipt.optString("eventId") == item.getJSONObject("input").getString("eventId") && receipt.optString("status") in setOf("ACCEPTED", "REJECTED")) { "EVENT_ACK_MISMATCH" }
-                    if (receipt.getString("status") == "REJECTED") store.withGeneration(generation) { store.reject(item, receipt.optString("code", "EVENT_REJECTED")) }
+                    require(receipt.optString("eventId") == item.getJSONObject("input").getString("eventId") && receipt.optString("status") in setOf("ACCEPTED", "REJECTED", "REVIEW")) { "EVENT_ACK_MISMATCH" }
+                    if (receipt.getString("status") != "ACCEPTED") store.withGeneration(generation) { store.reject(item, receipt.optString("code", if (receipt.getString("status") == "REVIEW") "EVENT_REVIEW_REQUIRED" else "EVENT_REJECTED")) }
                 }
                 store.withGeneration(generation) { store.remove(setOf(item.getString("id"))) }; completed++
             } catch (error: ApiFailure) {

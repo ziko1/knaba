@@ -2,23 +2,207 @@
   "schemaVersion": 1,
   "provenance": "SYNTHETIC_TEST_ONLY; no device measurements or production legal approval",
   "classifier": [
-    {"name":"inside with margin","distanceM":100,"accuracyM":10,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"INSIDE"},
-    {"name":"outside with margin","distanceM":250,"accuracyM":10,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"OUTSIDE"},
-    {"name":"uncertain exit border","distanceM":205,"accuracyM":10,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"exact exit equality conservative","distanceM":210,"accuracyM":10,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"exact entry equality conservative","distanceM":140,"accuracyM":10,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"missing accuracy","distanceM":500,"accuracyM":null,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"zero accuracy invalid","distanceM":100,"accuracyM":0,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"poor quality cannot exit","distanceM":400,"accuracyM":100,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"negative distance invalid","distanceM":-1,"accuracyM":10,"enterM":150,"exitM":200,"maxAccuracyM":50,"expected":"UNKNOWN"},
-    {"name":"invalid hysteresis","distanceM":250,"accuracyM":10,"enterM":200,"exitM":150,"maxAccuracyM":50,"expected":"UNKNOWN"}
+    {
+      "name": "inside with margin",
+      "distanceM": 100,
+      "accuracyM": 10,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "INSIDE"
+    },
+    {
+      "name": "outside with margin",
+      "distanceM": 250,
+      "accuracyM": 10,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "OUTSIDE"
+    },
+    {
+      "name": "uncertain exit border",
+      "distanceM": 205,
+      "accuracyM": 10,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "exact exit equality conservative",
+      "distanceM": 210,
+      "accuracyM": 10,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "exact entry equality conservative",
+      "distanceM": 140,
+      "accuracyM": 10,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "missing accuracy",
+      "distanceM": 500,
+      "accuracyM": null,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "zero accuracy invalid",
+      "distanceM": 100,
+      "accuracyM": 0,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "poor quality cannot exit",
+      "distanceM": 400,
+      "accuracyM": 100,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "negative distance invalid",
+      "distanceM": -1,
+      "accuracyM": 10,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "invalid hysteresis",
+      "distanceM": 250,
+      "accuracyM": 10,
+      "enterM": 200,
+      "exitM": 150,
+      "maxAccuracyM": 50,
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "V4 exact75m accuracy permitted with conservative outside margin",
+      "distanceM": 300,
+      "accuracyM": 75,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 75,
+      "expected": "OUTSIDE"
+    },
+    {
+      "name": "V4 accuracyabove75 cannotexit",
+      "distanceM": 300,
+      "accuracyM": 75.001,
+      "enterM": 150,
+      "exitM": 200,
+      "maxAccuracyM": 75,
+      "expected": "UNKNOWN"
+    }
   ],
   "exceptionZones": [
-    {"name":"approved outside service yard counts inside","distanceM":400,"accuracyM":5,"radiiM":[100],"distancesM":[30],"expected":"INSIDE"},
-    {"name":"outside all approved circles after margin","distanceM":400,"accuracyM":5,"radiiM":[100],"distancesM":[200],"expected":"OUTSIDE"},
-    {"name":"uncertain exception circle retains unknown","distanceM":400,"accuracyM":5,"radiiM":[100],"distancesM":[130],"expected":"UNKNOWN"},
-    {"name":"missing exception measurement cannot prove exit","distanceM":400,"accuracyM":5,"radiiM":[100],"distancesM":[],"expected":"UNKNOWN"}
+    {
+      "name": "approved outside service yard counts inside",
+      "distanceM": 400,
+      "accuracyM": 5,
+      "radiiM": [
+        100
+      ],
+      "distancesM": [
+        30
+      ],
+      "expected": "INSIDE"
+    },
+    {
+      "name": "outside all approved circles after margin",
+      "distanceM": 400,
+      "accuracyM": 5,
+      "radiiM": [
+        100
+      ],
+      "distancesM": [
+        200
+      ],
+      "expected": "OUTSIDE"
+    },
+    {
+      "name": "uncertain exception circle retains unknown",
+      "distanceM": 400,
+      "accuracyM": 5,
+      "radiiM": [
+        100
+      ],
+      "distancesM": [
+        130
+      ],
+      "expected": "UNKNOWN"
+    },
+    {
+      "name": "missing exception measurement cannot prove exit",
+      "distanceM": 400,
+      "accuracyM": 5,
+      "radiiM": [
+        100
+      ],
+      "distancesM": [],
+      "expected": "UNKNOWN"
+    }
   ],
-  "dwell": {"seconds":120,"observations":[{"offsetSeconds":0,"distanceM":300,"accuracyM":5,"expected":"UNKNOWN"},{"offsetSeconds":119,"distanceM":300,"accuracyM":5,"expected":"UNKNOWN"},{"offsetSeconds":120,"distanceM":300,"accuracyM":5,"expected":"OUTSIDE"}]},
-  "privacy": {"modesCollectingCoordinates":["BUSINESS_TRAVEL"],"modesWithoutLocationSubscriptions":["OFF","PRIVATE_BREAK"],"manualBreakStopsBeforeNetwork":true,"receiptMustMatchEventId":true,"serverLeaseSeconds":300,"hardShiftLeaseHoursMaximum":16}
+  "dwell": {
+    "seconds": 120,
+    "observations": [
+      {
+        "offsetSeconds": 0,
+        "distanceM": 300,
+        "accuracyM": 5,
+        "expected": "UNKNOWN"
+      },
+      {
+        "offsetSeconds": 60,
+        "distanceM": 300,
+        "accuracyM": 5,
+        "expected": "UNKNOWN"
+      },
+      {
+        "offsetSeconds": 120,
+        "distanceM": 300,
+        "accuracyM": 5,
+        "expected": "OUTSIDE"
+      }
+    ],
+    "minimumSamples": 3,
+    "maxSampleGapSeconds": 90
+  },
+  "privacy": {
+    "modesCollectingCoordinates": [
+      "BUSINESS_TRAVEL"
+    ],
+    "modesWithoutLocationSubscriptions": [
+      "OFF",
+      "PRIVATE_BREAK"
+    ],
+    "manualBreakStopsBeforeNetwork": true,
+    "receiptMustMatchEventId": true,
+    "serverLeaseSeconds": 900,
+    "hardShiftLeaseHoursMaximum": 16,
+    "renewalSeconds": 300,
+    "gpsQueueRetentionHours": 72
+  },
+  "supportedOS": {
+    "androidMinimumApi": 31,
+    "androidMinimumVersion": "12",
+    "iosMinimumVersion": "17.0",
+    "releaseDeviceMatrix": "MINIMUM_AND_CURRENT_STABLE_REQUIRED_NOT_RUN"
+  }
 }

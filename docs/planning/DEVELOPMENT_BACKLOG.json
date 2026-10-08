@@ -363,7 +363,8 @@
       ],
       "exit_evidence_state": "NOT_CREATED_NOT_RUN",
       "actual_result": null,
-      "completed_at": null
+      "completed_at": null,
+      "execution_status": "IN_PROGRESS"
     },
     {
       "id": "PLAN-04",
@@ -1990,7 +1991,8 @@
         "adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
         "application_acceptance": "NOT_RUN"
       },
-      "remaining_exit_status": "REMAINING_CONTRACT_DELTA_REVIEW_AND_WORK_BINDING_PENDING;TARGET_AND_STACK_DECISION_RESOLVED"
+      "remaining_exit_status": "REMAINING_CONTRACT_DELTA_REVIEW_AND_WORK_BINDING_PENDING;TARGET_AND_STACK_DECISION_RESOLVED",
+      "execution_status": "IN_PROGRESS"
     }
   ],
   "module_coverage": [
@@ -4290,5 +4292,13 @@
       "implementation_acceptance": "NOT_GRANTED_BY_SCOPE_DECISION",
       "remaining_deltas": "Решта розбіжностей параметрів, API, media, load і DR потребують окремого зіставлення, точкової реалізації де потрібно та фактичних доказів."
     }
+  },
+  "active_v4_implementation": {
+    "status": "SOURCE_FROZEN_LOCAL_CPU_PASSED_HOSTED_PENDING",
+    "record": "docs/planning/V4_IMPLEMENTATION_STATUS.json",
+    "candidate_sha": null,
+    "full_acceptance": "NOT_RUN",
+    "local_evidence": "docs/evidence/v4-source-freeze-local-summary.json",
+    "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9"
   }
 }

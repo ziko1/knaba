@@ -10,9 +10,22 @@ describe('private reads across the adopted session boundary (controlled transpor
   // response whose parsing/state dispatch arrives after the SSE revocation.
   const fetch=vi.fn(()=>response.promise);vi.stubGlobal('fetch',fetch);
   const pending=entities('location_sample',{signal:ticket.signal}).then(rows=>{records=gate.update<Entity[]>(ticket,()=>rows)(records)});
-  expect(fetch.mock.calls[0]).toMatchObject(['/api/v1/entities/location_sample',{signal:ticket.signal}]);
+  expect(fetch.mock.calls[0]).toMatchObject(['/api/v1/entities/location_sample?limit=100',{signal:ticket.signal}]);
   gate.invalidate();records=[];response.resolve({ok:true,json:async()=>({items:[{id:'synthetic-test-point',kind:'location_sample',version:1,createdAt:'2026-10-06T10:00:00Z',updatedAt:'2026-10-06T10:00:00Z',data:{latitude:1,longitude:2}}]})});await pending;
   expect(ticket.signal.aborted).toBe(true);expect(records).toEqual([]);expect(gate.begin('entities')).toBeUndefined();
+ });
+ it('loads all pages through the actual entities transport without truncating the authorized collection (mock HTTP)',async()=>{
+  const gate=new PrivateReadGeneration(),ticket=gate.begin('entities')!,pageOne:Entity[]=Array.from({length:100},(_,i)=>({id:`synthetic-point-${i}`,kind:'location_sample',version:1,createdAt:'2026-10-06T10:00:00Z',updatedAt:'2026-10-06T10:00:00Z',data:{latitude:1,longitude:2}})),last={...pageOne[0],id:'synthetic-point-100'};
+  const fetch=vi.fn(async(path:string)=>({ok:true,json:async()=>path.endsWith('&cursor=synthetic%2Fpage%2B2')?{items:[last],has_more:false,next_cursor:null}:{items:pageOne,has_more:true,next_cursor:'synthetic/page+2'}}));vi.stubGlobal('fetch',fetch);
+  const rows=await entities('location_sample',{signal:ticket.signal});expect(rows).toHaveLength(101);expect(rows[100]).toEqual(last);expect(gate.accepts(ticket)).toBe(true);
+  expect(fetch.mock.calls).toMatchObject([['/api/v1/entities/location_sample?limit=100',{signal:ticket.signal}],['/api/v1/entities/location_sample?limit=100&cursor=synthetic%2Fpage%2B2',{signal:ticket.signal}]]);
+ });
+ it('discards every page after access_revoked while a later page is in flight (mock HTTP)',async()=>{
+  const gate=new PrivateReadGeneration(),ticket=gate.begin('entities')!,response=deferred<{ok:boolean;json:()=>Promise<{items:Entity[];has_more:boolean;next_cursor:null}>}>(),point:Entity={id:'synthetic-private-point',kind:'location_sample',version:1,createdAt:'2026-10-06T10:00:00Z',updatedAt:'2026-10-06T10:00:00Z',data:{latitude:1,longitude:2}};let records:Entity[]=[];
+  const fetch=vi.fn(async(path:string)=>path.includes('&cursor=')?response.promise:{ok:true,json:async()=>({items:[point],has_more:true,next_cursor:'synthetic-next'})});vi.stubGlobal('fetch',fetch);
+  const pending=entities('location_sample',{signal:ticket.signal}).then(rows=>{records=gate.update<Entity[]>(ticket,()=>rows)(records)});await vi.waitFor(()=>expect(fetch).toHaveBeenCalledTimes(2));
+  gate.invalidate();records=[];response.resolve({ok:true,json:async()=>({items:[{...point,id:'synthetic-late-point'}],has_more:false,next_cursor:null})});await pending;
+  expect(ticket.signal.aborted).toBe(true);expect(records).toEqual([]);expect(gate.accepts(ticket)).toBe(false);expect(gate.begin('reconnect')).toBeUndefined();
  });
  it('rechecks an already-enqueued updater when React later applies it',()=>{
   const gate=new PrivateReadGeneration(),ticket=gate.begin('entities')!;

@@ -1,7 +1,11 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import { Actor, assert, CommandContext, CommandRegistry, Data, DomainError, Entity, id, isManager, timestamp } from './core.ts';
+import {readChannelMessages} from './message-pagination.ts';
 import { ROLE_PERMISSIONS } from './permissions.ts';
+import {workNoticeLabel} from './work-notifications.ts';
+import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,quietHour,nextQuietWindowEnd,safeRetryDelayMs,activeOperationalNotice,deliveryDecision,projectDeliveryNotifications} from './notification-policy.ts';
+import {businessCalendarSchema,calendarDefinition,calendarConfigurationAuthority,requireCalendarManager,queueHandoffSla,cancelHandoffSla,canonicalHandoffState,queuedHandoff,handoffGeneration,handoffQueueNotice} from './handoff-calendar.ts';
 
 export const language = z.enum(['DE','UK','RU','PL','LT','EN']);
 const channelType = z.enum(['COMPANY_GENERAL','COMPANY_ANNOUNCEMENTS','TEAM','SITE_INTERNAL','TASK_THREAD','DIRECT','SITE_CLIENT','PRIVATE_CUSTOMER_ASSISTANT']);
@@ -55,7 +59,7 @@ async function accessibleChannels(ctx:CommandContext) {
   return channels;
 }
 function pendingPrivateHandoff(channel:Entity) {
-  return channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&channel.data.handoff?.state==='HANDOFF_PENDING'&&channel.data.handoff.owner_id===null;
+  return queuedHandoff(channel);
 }
 function autoResumedOperatorClaim(m:Data,userId:string,now:string) {
   const revoked=Date.parse(m.revoked_at),joined=Date.parse(m.joined_at);
@@ -96,10 +100,7 @@ export function whatsAppPolicy(input:{now:string;last_inbound_at?:string;consent
   if(input.approved_template&&input.template_status==='APPROVED') return {allowed:true,channel:'WHATSAPP',kind:'TEMPLATE',template:input.approved_template};
   return {allowed:false,channel:'WHATSAPP',reason:'WHATSAPP_WINDOW_CLOSED'};
 }
-export function isQuietHour(now:string,start:number,end:number,timezone='Europe/Berlin') {
-  const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:timezone,hour:'2-digit',hourCycle:'h23'}).format(new Date(now)));
-  return start===end ? false : start<end ? hour>=start&&hour<end : hour>=start||hour<end;
-}
+export const isQuietHour=quietHour;
 
 export const communicationsCommands:CommandRegistry={
   'channel.create':{permission:'chat.write',schema:z.object({type:channelType,name:z.string().min(1).max(150),member_ids:z.array(id).min(1).max(500),external_member_ids:z.array(id).default([]),site_id:id.optional(),task_id:id.optional(),customer_id:id.optional(),lead_id:id.optional()}).strict(),handler:async(ctx,input)=>{
@@ -140,7 +141,8 @@ export const communicationsCommands:CommandRegistry={
       if(!member(channel,ctx.actor.userId,ctx.now)&&!mayCreateFreshOperatorClaim(channel,ctx.actor.userId,ctx.now))continue;
       try{await operatorChannelScope(ctx,channel,operator);}catch(error){if(error instanceof DomainError&&['ACCESS_DENIED','NOT_FOUND_SAFE'].includes(error.code))continue;throw error;}
       const requested=channel.data.handoff.requested_at;
-      items.push({channel_id:channel.id,version:channel.version,requested_at:typeof requested==='string'&&Number.isFinite(Date.parse(requested))?requested:channel.updatedAt,state:'HANDOFF_PENDING'});
+      const sla=channel.data.handoff.sla;
+      items.push({channel_id:channel.id,version:channel.version,requested_at:typeof requested==='string'&&Number.isFinite(Date.parse(requested))?requested:channel.updatedAt,state:channel.data.handoff.state,...channel.data.handoff.canonical_state?{canonical_state:'HUMAN_QUEUED'}:{},...sla?.status==='CALCULATED'?{response_due_at:sla.responseDueAt,manager_reminder_at:sla.managerReminderAt,calendar_id:sla.calendar_id,calendar_version:sla.calendar_version,customer_promise:false}:{}});
     }
     items.sort((a,b)=>a.requested_at.localeCompare(b.requested_at)||a.channel_id.localeCompare(b.channel_id));
     return {items:items.slice(0,100)};
@@ -159,18 +161,43 @@ export const communicationsCommands:CommandRegistry={
     }
     assert(channel.data.handoff?.state!=='HUMAN_ACTIVE'||channel.data.handoff.owner_id===ctx.actor.userId,'CONVERSATION_OWNED');
     if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');assert(lead.data.ownership!=='HUMAN_ACTIVE'||lead.data.humanOwnerId===ctx.actor.userId,'CONVERSATION_OWNED');await ctx.tx.save(lead,{...lead.data,ownership:'HUMAN_ACTIVE',humanOwnerId:ctx.actor.userId});}
-    const saved=await ctx.tx.save(channel,{...channel.data,members,handoff:{state:'HUMAN_ACTIVE',owner_id:ctx.actor.userId,taken_at:ctx.now}},ctx.expectedVersion);
+    const saved=await ctx.tx.save(channel,{...channel.data,members,handoff:{...channel.data.handoff,state:'HUMAN_ACTIVE',canonical_state:'HUMAN_ACTIVE',owner_id:ctx.actor.userId,taken_at:ctx.now,...channel.data.handoff?.sla?{sla:{...channel.data.handoff.sla,reminder_state:'CANCELLED',cancelled_at:ctx.now,cancellation_reason:'HUMAN_CLAIMED'}}:{}}},ctx.expectedVersion);
+    const result=saved.data.handoff.sla?await cancelHandoffSla(ctx.tx,saved,ctx.now,'HUMAN_CLAIMED'):saved;
     if(!existing)await ctx.tx.event('channel.membership_changed',{channel_id:channel.id,user_id:ctx.actor.userId,action:'ADD',source:'OPERATOR_CLAIM'});
-    await ctx.tx.event('conversation.human_active',{channel_id:channel.id,owner_id:ctx.actor.userId});return saved;
+    await ctx.tx.event('conversation.human_active',{channel_id:channel.id,owner_id:ctx.actor.userId});return result;
   }},
   'handoff.resume':{permission:'chat.manage',schema:z.object({channel_id:id,reason:z.string().min(1).max(1000)}).strict(),handler:async(ctx,input)=>{
-    const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);assert(!external(ctx)&&isManager(ctx.actor)&&channel.data.handoff?.state==='HUMAN_ACTIVE'&&channel.data.handoff.owner_id===ctx.actor.userId,'ACCESS_DENIED');
+    const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);assert(!external(ctx)&&isManager(ctx.actor)&&['HUMAN_ACTIVE','RESOLVED'].includes(channel.data.handoff?.state)&&channel.data.handoff.owner_id===ctx.actor.userId,'ACCESS_DENIED');
     if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');assert(lead.data.ownership!=='HUMAN_ACTIVE'||lead.data.humanOwnerId===ctx.actor.userId,'CONVERSATION_OWNED');await ctx.tx.save(lead,{...lead.data,ownership:'AI_ACTIVE',humanOwnerId:null});}
     const revoked=(channel.data.members??[]).some((m:Data)=>m.user_id===ctx.actor.userId&&m.source==='OPERATOR_CLAIM'&&m.claim_owner_id===ctx.actor.userId&&!m.revoked_at);
     const members=(channel.data.members??[]).map((m:Data)=>m.user_id===ctx.actor.userId&&m.source==='OPERATOR_CLAIM'&&m.claim_owner_id===ctx.actor.userId&&!m.revoked_at&&!m.revokedAt?{...m,revoked_at:ctx.now,revocation_reason:'AI_RESUMED'}:m);
-    const saved=await ctx.tx.save(channel,{...channel.data,members,handoff:{state:'AI_ACTIVE',owner_id:null,resumed_at:ctx.now,resumed_by:ctx.actor.userId,reason:input.reason}},ctx.expectedVersion);
+    const saved=await ctx.tx.save(channel,{...channel.data,members,handoff:{...channel.data.handoff,state:'AI_ACTIVE',canonical_state:'AI_ACTIVE',owner_id:null,resumed_at:ctx.now,resumed_by:ctx.actor.userId,reason:input.reason}},ctx.expectedVersion);
+    const result=saved.data.handoff.sla?await cancelHandoffSla(ctx.tx,saved,ctx.now,'AI_RESUMED'):saved;
     if(revoked){for(const pending of await ctx.tx.list('translation_request'))if(pending.data.user_id===ctx.actor.userId&&pending.data.channel_id===channel.id&&pending.data.status==='PENDING')await ctx.tx.save(pending,{...pending.data,status:'CANCELLED'});await ctx.tx.event('channel.membership_changed',{channel_id:channel.id,user_id:ctx.actor.userId,action:'REVOKE',source:'HANDOFF_RESUMED'});}
-    await ctx.tx.event('conversation.ai_resumed',{channel_id:channel.id});return saved;
+    await ctx.tx.event('conversation.ai_resumed',{channel_id:channel.id});return result;
+  }},
+  'handoff.resolve':{permission:'chat.manage',schema:z.object({channel_id:id,reason:z.string().min(1).max(1000)}).strict(),handler:async(ctx,input)=>{
+    const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);await operatorAuthority(ctx);assert(channel.data.handoff?.state==='HUMAN_ACTIVE'&&channel.data.handoff.owner_id===ctx.actor.userId,'ACCESS_DENIED');assert(ctx.expectedVersion!==undefined&&ctx.expectedVersion===channel.version,'VERSION_CONFLICT');
+    const saved=await ctx.tx.save(channel,{...channel.data,handoff:{...channel.data.handoff,state:'RESOLVED',canonical_state:'RESOLVED',resolved_at:ctx.now,resolved_by:ctx.actor.userId,resolution_reason:input.reason}},ctx.expectedVersion);const result=await cancelHandoffSla(ctx.tx,saved,ctx.now,'RESOLVED');await ctx.tx.event('conversation.resolved',{channel_id:channel.id,owner_id:ctx.actor.userId});return result;
+  }},
+  'handoff.calendar.create':{permission:'chat.manage',highRisk:true,schema:businessCalendarSchema,handler:async(ctx,input)=>{
+    await calendarConfigurationAuthority(ctx,input.siteIds);await requireCalendarManager(ctx,input);return ctx.tx.add('business_calendar',{...input,status:'DRAFT',active:false,createdBy:ctx.actor.userId,createdAt:ctx.now});
+  }},
+  'handoff.calendar.approve':{permission:'chat.manage',highRisk:true,schema:z.object({calendar_id:id}).strict(),handler:async(ctx,input)=>{
+    const calendar=await ctx.tx.get('business_calendar',input.calendar_id),definition=calendarDefinition(calendar);await calendarConfigurationAuthority(ctx,definition.siteIds);await requireCalendarManager(ctx,definition);assert(calendar.companyId===ctx.actor.companyId&&calendar.data.status==='DRAFT'&&calendar.data.createdBy!==ctx.actor.userId,'ACCESS_DENIED');assert(ctx.expectedVersion!==undefined&&ctx.expectedVersion===calendar.version,'VERSION_CONFLICT');
+    for(const current of await ctx.tx.list('business_calendar'))if(current.id!==calendar.id&&current.data.status==='APPROVED'&&current.data.active===true&&JSON.stringify([...(current.data.siteIds??[])].sort())===JSON.stringify([...definition.siteIds].sort()))await ctx.tx.save(current,{...current.data,status:'RETIRED',active:false,retiredAt:ctx.now,retiredBy:ctx.actor.userId});
+    const saved=await ctx.tx.save(calendar,{...calendar.data,status:'APPROVED',active:true,approvedBy:ctx.actor.userId,approvedAt:ctx.now},ctx.expectedVersion);await ctx.tx.event('handoff.calendar_approved',{calendarId:saved.id,calendarVersion:saved.version});return saved;
+  }},
+  'handoff.calendar.retire':{permission:'chat.manage',highRisk:true,schema:z.object({calendar_id:id,reason:z.string().min(1).max(1000)}).strict(),handler:async(ctx,input)=>{
+    const calendar=await ctx.tx.get('business_calendar',input.calendar_id);await calendarConfigurationAuthority(ctx,calendarDefinition(calendar).siteIds);assert(ctx.expectedVersion!==undefined&&ctx.expectedVersion===calendar.version,'VERSION_CONFLICT');assert(calendar.data.status==='APPROVED','INVALID_STATE');return ctx.tx.save(calendar,{...calendar.data,status:'RETIRED',active:false,retiredBy:ctx.actor.userId,retiredAt:ctx.now,reason:input.reason},ctx.expectedVersion);
+  }},
+  'handoff.calendar.bind':{permission:'chat.manage',highRisk:true,schema:z.object({channel_id:id,calendar_id:id}).strict(),handler:async(ctx,input)=>{
+    const channel=await ctx.tx.get('channel',input.channel_id),calendar=await ctx.tx.get('business_calendar',input.calendar_id),definition=calendarDefinition(calendar);await calendarConfigurationAuthority(ctx,definition.siteIds);const operator=await operatorAuthority(ctx);await operatorChannelScope(ctx,channel,operator);assert(channel.companyId===ctx.actor.companyId&&channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&calendar.companyId===ctx.actor.companyId&&calendar.data.status==='APPROVED'&&calendar.data.active===true&&(!definition.siteIds.length||definition.siteIds.includes(await channelSite(ctx,channel)??'')),'ACCESS_DENIED');assert(member(channel,ctx.actor.userId,ctx.now)||pendingPrivateHandoff(channel)&&mayCreateFreshOperatorClaim(channel,ctx.actor.userId,ctx.now),'ACCESS_DENIED');assert(ctx.expectedVersion!==undefined&&ctx.expectedVersion===channel.version,'VERSION_CONFLICT');
+    const cancelled=await cancelHandoffSla(ctx.tx,channel,ctx.now,'CALENDAR_REBOUND');const saved=await ctx.tx.save(cancelled,{...cancelled.data,business_calendar_id:calendar.id,handoff:{...cancelled.data.handoff,...cancelled.data.handoff?.sla?{sla:undefined}:{}}},cancelled.version);return queueHandoffSla(ctx.tx,saved,ctx.now);
+  }},
+  'handoff.queue_notice':{permission:'integration.process',schema:z.object({channel_id:id}).strict(),handler:async(ctx,input)=>{
+    assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const channel=await ctx.tx.get('channel',input.channel_id);assert(channel.companyId===ctx.actor.companyId&&queuedHandoff(channel),'AI_SUPPRESSED');const generation=handoffGeneration(channel),existing=(await ctx.tx.list('message')).find(message=>message.data.channel_id===channel.id&&message.data.handoff_queue_generation===generation);if(existing)return existing;
+    const original=channel.data.handoff.source_message_id?(await ctx.tx.get('message',channel.data.handoff.source_message_id)):undefined;assert(!original||original.data.channel_id===channel.id,'ACCESS_DENIED');const selected=language.safeParse(original?.data.language??'DE'),lang=selected.success?selected.data:'DE',text=handoffQueueNotice(lang);const message=await ctx.tx.add('message',{channel_id:channel.id,text,language:lang,author_id:ctx.actor.userId,source:'SYSTEM',message_version:1,revisions:[{version:1,text,language:lang,edited_at:ctx.now,editor_id:ctx.actor.userId}],pinned:false,acknowledgements:[],visibility:'EXTERNAL',handoff_queue_generation:generation,customer_promise:false});return message;
   }},
   'channel.mute':{permission:'chat.read',schema:z.object({channel_id:id,muted:z.boolean()}).strict(),handler:async(ctx,input)=>{
     const channel=await ctx.tx.get('channel',input.channel_id); await assertChannelAccess(ctx,channel);const current=await activity(ctx,channel.id);
@@ -189,7 +216,7 @@ export const communicationsCommands:CommandRegistry={
     const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);
     if(channel.data.type==='COMPANY_ANNOUNCEMENTS') assert(isManager(ctx.actor),'ACCESS_DENIED');
     if(!external(ctx)&&input.source==='HUMAN'&&externalTypes.has(channel.data.type)&&channel.data.handoff?.state==='HUMAN_ACTIVE')assert(channel.data.handoff.owner_id===ctx.actor.userId,'CONVERSATION_OWNED');
-    if(input.source==='AI') {assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');assert(channel.data.handoff?.state!=='HUMAN_ACTIVE','AI_SUPPRESSED');if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.data.ownership==='AI_ACTIVE','AI_SUPPRESSED');}}
+    if(input.source==='AI') {assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');assert(canonicalHandoffState(channel.data.handoff?.state)==='AI_ACTIVE','AI_SUPPRESSED');if(channel.data.lead_id){const lead=await ctx.tx.get('lead',channel.data.lead_id);assert(lead.data.ownership==='AI_ACTIVE','AI_SUPPRESSED');}}
     if(input.reply_to_id) {const {message}=await visibleMessage(ctx,input.reply_to_id);assert(message.data.channel_id===channel.id,'ACCESS_DENIED');}
     assert(input.mention_ids.every((u:string)=>!!member(channel,u,ctx.now)),'ACCESS_DENIED');
     for(const mediaId of input.attachment_ids)await assertAttachment(ctx,channel,await ctx.tx.get('media_asset',mediaId));
@@ -197,9 +224,9 @@ export const communicationsCommands:CommandRegistry={
     const message=await ctx.tx.add('message',{...input,author_id:ctx.actor.userId,message_version:1,revisions:[{version:1,text:input.text,language:input.language,edited_at:ctx.now,editor_id:ctx.actor.userId}],pinned:false,acknowledgements:[],visibility:externalTypes.has(channel.data.type)?'EXTERNAL':'INTERNAL'});
     await ctx.tx.event('message.created',{message_id:message.id,channel_id:channel.id,version:1});return message;
   }},
-  'message.read':{permission:'chat.read',schema:z.object({channel_id:id,query:z.string().max(300).optional(),limit:z.number().int().min(1).max(200).default(50),after:timestamp.optional()}).strict(),handler:async(ctx,input)=>{
+  'message.read':{permission:'chat.read',schema:z.object({channel_id:id,query:z.string().max(300).optional(),limit:z.number().int().min(1).max(100).default(50),after:timestamp.optional(),after_id:id.optional()}).strict().refine(input=>input.after_id===undefined||input.after!==undefined,{message:'after_id requires after',path:['after_id']}),handler:async(ctx,input)=>{
     const channel=await ctx.tx.get('channel',input.channel_id);await assertChannelAccess(ctx,channel);
-    return (await ctx.tx.list('message')).filter(m=>m.data.channel_id===channel.id&&!m.data.deleted_at&&m.createdAt>=member(channel,ctx.actor.userId,ctx.now)!.history_from&&(!input.after||m.createdAt>input.after)&&(!input.query||m.data.text.toLocaleLowerCase().includes(input.query.toLocaleLowerCase()))).sort((a,b)=>a.createdAt.localeCompare(b.createdAt)).slice(-input.limit);
+    return readChannelMessages(ctx,input,member(channel,ctx.actor.userId,ctx.now)!.history_from);
   }},
   'message.edit':{permission:'chat.write',schema:z.object({message_id:id,text:z.string().min(1).max(12000)}).strict(),handler:async(ctx,input)=>{
     const {message}=await visibleMessage(ctx,input.message_id);assert(message.data.author_id===ctx.actor.userId,'ACCESS_DENIED');
@@ -280,12 +307,32 @@ export const communicationsCommands:CommandRegistry={
     const policy:DeliveryPolicy=input.channel==='WEB'?{allowed:true,channel:'WEB'}:whatsAppPolicy({now:ctx.now,last_inbound_at:settings?.data.last_inbound_at,consent:settings?.data.whatsapp_consent===true,opted_out:settings?.data.opted_out,approved_template:input.approved_template,template_status:input.template_status});
     if(!policy.allowed)return policy;
     const existing=(await ctx.tx.list('delivery')).find(d=>d.data.message_id===message.id&&d.data.message_version===message.data.message_version&&d.data.recipient_id===input.recipient_id&&d.data.channel===input.channel);
-    if(existing)return existing;const delivery=await ctx.tx.add('delivery',{...input,message_version:message.data.message_version,channel_id:channel.id,policy,status:'PENDING',attempts:0});await ctx.tx.event('delivery.requested',{delivery_id:delivery.id});return delivery;
+    if(existing)return existing;const siteId=await channelSite(ctx,channel);const delivery=await ctx.tx.add('delivery',{...input,...siteId?{siteId}:{},message_version:message.data.message_version,channel_id:channel.id,policy,status:'PENDING',attempts:0,max_attempts:4});await ctx.tx.event('delivery.requested',{delivery_id:delivery.id});return delivery;
   }},
-  'delivery.status':{permission:'integration.process',schema:z.object({delivery_id:id,status:z.enum(['API_ACCEPTED','SENT','DELIVERED','READ','FAILED']),provider_message_id:z.string().max(200).optional(),error:z.string().max(100).optional()}).strict(),handler:async(ctx,input)=>{
+  'delivery.status':{permission:'integration.process',schema:z.object({delivery_id:id,status:z.enum(['API_ACCEPTED','SENT','DELIVERED','READ','FAILED','UNKNOWN']),provider_message_id:z.string().min(1).max(200).optional(),error:z.string().max(100).optional(),failure_class:z.enum(['CONFIRMED_TRANSIENT','DEFINITIVE','UNKNOWN']).optional()}).strict(),handler:async(ctx,input)=>{
     assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const delivery=await ctx.tx.get('delivery',input.delivery_id);
-    const order=['PENDING','API_ACCEPTED','SENT','DELIVERED','READ'];if(input.status!=='FAILED'&&order.indexOf(input.status)<order.indexOf(delivery.data.status))return delivery;
-    return ctx.tx.save(delivery,{...delivery.data,...input,provider_status_at:ctx.now});
+    assert(!input.failure_class||['FAILED','UNKNOWN'].includes(input.status),'VALIDATION_ERROR');
+    if(input.status==='API_ACCEPTED'||delivery.data.channel==='WHATSAPP'&&['SENT','DELIVERED','READ'].includes(input.status))assert(input.provider_message_id||delivery.data.provider_message_id,'INVALID_STATE',{reason:'PROVIDER_RECEIPT_REQUIRED'});
+    if(delivery.data.provider_message_id&&input.provider_message_id)assert(delivery.data.provider_message_id===input.provider_message_id,'VERSION_CONFLICT');
+    const order=['PENDING','API_ACCEPTED','SENT','DELIVERED','READ'];
+    if(input.status==='UNKNOWN'&&order.indexOf(delivery.data.status)>=1)return delivery;
+    if(input.status==='FAILED'&&['DELIVERED','READ'].includes(delivery.data.status))return delivery;
+    if(!['FAILED','UNKNOWN'].includes(input.status)&&order.indexOf(input.status)<order.indexOf(delivery.data.status))return delivery;
+    if(input.status==='UNKNOWN'||input.failure_class==='UNKNOWN'){
+      const saved=await ctx.tx.save(delivery,{...delivery.data,...input,status:'UNKNOWN',failure_class:'UNKNOWN',provider_status_at:ctx.now});
+      await deliveryDecision(ctx.tx,{deliveryId:delivery.id,reason:'NOTIFICATION_OUTCOME_UNKNOWN',siteId:delivery.data.siteId},ctx.now);await projectDeliveryNotifications(ctx.tx,saved,ctx.now);return saved;
+    }
+    if(input.status==='FAILED'&&input.failure_class==='CONFIRMED_TRANSIENT'){
+      const attempts=delivery.data.attempts??0;assert(Number.isSafeInteger(attempts)&&attempts>=1,'INVALID_STATE');
+      const exhausted=attempts>=Math.min(4,delivery.data.max_attempts??4),scheduled_at=exhausted?delivery.data.scheduled_at:new Date(Date.parse(ctx.now)+safeRetryDelayMs(attempts)).toISOString();
+      const saved=await ctx.tx.save(delivery,{...delivery.data,...input,status:exhausted?'DEAD_LETTER':'RETRY_SCHEDULED',scheduled_at,provider_status_at:ctx.now});
+      if(!exhausted)await ctx.tx.event('delivery.requested',{delivery_id:delivery.id,not_before:scheduled_at});
+      else await deliveryDecision(ctx.tx,{deliveryId:delivery.id,reason:'NOTIFICATION_DELIVERY_EXHAUSTED',siteId:delivery.data.siteId},ctx.now);
+      await projectDeliveryNotifications(ctx.tx,saved,ctx.now);return saved;
+    }
+    const saved=await ctx.tx.save(delivery,{...delivery.data,...input,provider_status_at:ctx.now,...input.status==='API_ACCEPTED'?{provider_state:'ACCEPTED_BY_PROVIDER'}:{}});
+    await projectDeliveryNotifications(ctx.tx,saved,ctx.now);
+    return saved;
   }},
   'delivery.reply_context':{permission:'chat.read',schema:z.object({provider_message_id:z.string().min(1).max(200)}).strict(),handler:async(ctx,input)=>{
     const copies=(await ctx.tx.list('delivery')).filter(d=>d.data.provider_message_id===input.provider_message_id&&d.data.recipient_id===ctx.actor.userId);assert(copies.length===1,'AMBIGUOUS_RECIPIENT');const {message}=await visibleMessage(ctx,copies[0].data.message_id);return {message_id:message.id,channel_id:message.data.channel_id};
@@ -297,7 +344,7 @@ export const communicationsCommands:CommandRegistry={
     const saved=await ctx.tx.save(item,{...item.data,read_at:ctx.now},ctx.expectedVersion??item.version);
     return {notification_id:saved.id,read_at:saved.data.read_at,version:saved.version};
   }},
-  'notifications.configure':{permission:'chat.read',schema:z.object({language,whatsapp_consent:z.boolean(),opted_out:z.boolean().default(false),quiet_start:z.number().int().min(0).max(23).default(22),quiet_end:z.number().int().min(0).max(23).default(7),allowed_fallback:z.enum(['WEB','NONE']).default('WEB')}).strict(),handler:async(ctx,input)=>{
+  'notifications.configure':{permission:'chat.read',schema:z.object({language,whatsapp_consent:z.boolean(),opted_out:z.boolean().default(false),quiet_start:z.number().int().min(0).max(23).default(DEFAULT_QUIET_START),quiet_end:z.number().int().min(0).max(23).default(7),allowed_fallback:z.enum(['WEB','NONE']).default('WEB')}).strict(),handler:async(ctx,input)=>{
     const current=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);const data={...current?.data,...input,user_id:ctx.actor.userId,timezone:'Europe/Berlin',consent_recorded_at:ctx.now};return current?ctx.tx.save(current,data):ctx.tx.add('notification_setting',data);
   }},
   'notifications.inbound':{permission:'integration.process',schema:z.object({user_id:id,received_at:timestamp}).strict(),handler:async(ctx,input)=>{
@@ -305,7 +352,7 @@ export const communicationsCommands:CommandRegistry={
     const last=current?.data.last_inbound_at;if(last&&last>input.received_at)return current;
     const data={...current?.data,user_id:input.user_id,last_inbound_at:input.received_at};return current?ctx.tx.save(current,data):ctx.tx.add('notification_setting',data);
   }},
-  'notifications.schedule':{permission:'notifications.manage',schema:z.object({recipient_id:id,event:z.string().min(1).max(100),category:z.enum(['WORK','CHAT','PAYMENT','CUSTOMER','TECHNICAL']),scheduled_at:timestamp,dedup_key:z.string().min(1).max(200),channel:z.enum(['WEB','WHATSAPP']).default('WEB'),related_kind:z.string().max(100).optional(),related_id:id.optional(),message_id:id.optional(),template:z.string().max(100).optional(),template_status:z.enum(['APPROVED','PENDING','REJECTED']).optional(),max_attempts:z.number().int().min(1).max(3).default(3)}).strict(),handler:async(ctx,input)=>{
+  'notifications.schedule':{permission:'notifications.manage',schema:z.object({recipient_id:id,event:z.string().min(1).max(100),category:z.enum(['WORK','CHAT','PAYMENT','CUSTOMER','TECHNICAL']),scheduled_at:timestamp,dedup_key:z.string().min(1).max(200),channel:z.enum(['WEB','WHATSAPP']).default('WEB'),related_kind:z.string().max(100).optional(),related_id:id.optional(),message_id:id.optional(),template:z.string().max(100).optional(),template_status:z.enum(['APPROVED','PENDING','REJECTED']).optional(),max_attempts:z.number().int().min(1).max(4).default(4)}).strict(),handler:async(ctx,input)=>{
     assert(isManager(ctx.actor)||ctx.actor.roles.some(r=>['FOREMAN','SERVICE_ACCOUNT'].includes(r))||ctx.actor.permissions.includes('notifications.manage')&&ctx.actor.roles.some(r=>['INTERNAL_BAULEITER','TEAM_LEADER'].includes(r)),'ACCESS_DENIED');
     if(input.message_id){const message=await ctx.tx.get('message',input.message_id),channel=await ctx.tx.get('channel',message.data.channel_id);if(!ctx.actor.roles.includes('SERVICE_ACCOUNT'))await assertChannelAccess(ctx,channel);assert(await recipientCanRead(ctx,channel,input.recipient_id,message),'ACCESS_DENIED');}
     const existing=(await ctx.tx.list('notification')).find(n=>n.data.dedup_key===input.dedup_key&&n.data.recipient_id===input.recipient_id);if(existing)return existing;
@@ -317,16 +364,36 @@ export const communicationsCommands:CommandRegistry={
     if(!item.data.work_cause&&item.data.related_kind&&item.data.related_id){const related=await ctx.tx.get(item.data.related_kind,item.data.related_id);if(['RESOLVED','CLOSED','COMPLETED','ACCEPTED','CANCELLED','CONFIRMED','ACKNOWLEDGED'].includes(related.data.state??related.data.status)||related.data.explanation||related.data.explanation_id){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'RESOLVED'});return {status:'CANCELLED'};}}
     if(item.data.message_id){const message=await ctx.tx.get('message',item.data.message_id),channel=await ctx.tx.get('channel',message.data.channel_id);if(message.data.deleted_at||!await recipientCanRead(ctx,channel,item.data.recipient_id,message)){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'ACCESS_REVOKED'});return {status:'CANCELLED'};}}
     const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===item.data.recipient_id);
+    const currentLanguage=settings?.data.language??'DE',currentTitle=item.data.work_cause?workNoticeLabel(item.data.event,currentLanguage):item.data.title;
     if(settings?.data.opted_out){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'OPTED_OUT'});return {status:'CANCELLED'};}
-    if(isQuietHour(ctx.now,settings?.data.quiet_start??22,settings?.data.quiet_end??7)){const next=new Date(Date.parse(ctx.now)+3600000).toISOString();await ctx.tx.save(item,{...item.data,status:'RETRY_SCHEDULED',scheduled_at:next});await ctx.tx.event('notification.scheduled',{notification_id:item.id,not_before:next});return {status:'RETRY_SCHEDULED',reason:'QUIET_HOURS'};}
+    if(!activeOperationalNotice(item.data)&&isQuietHour(ctx.now,settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END)){const next=nextQuietWindowEnd(ctx.now,settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END);await ctx.tx.save(item,{...item.data,status:'RETRY_SCHEDULED',scheduled_at:next});await ctx.tx.event('notification.scheduled',{notification_id:item.id,not_before:next});return {status:'RETRY_SCHEDULED',reason:'QUIET_HOURS'};}
     const policy:DeliveryPolicy=item.data.channel==='WHATSAPP'?whatsAppPolicy({now:ctx.now,last_inbound_at:settings?.data.last_inbound_at,consent:settings?.data.whatsapp_consent===true,opted_out:settings?.data.opted_out,approved_template:item.data.template,template_status:item.data.template_status}):{allowed:true,channel:'WEB'};
-    if(!policy.allowed){if(settings?.data.allowed_fallback==='WEB'){return ctx.tx.save(item,{...item.data,status:'RUNNING',channel:'WEB',reason:'WHATSAPP_POLICY_FALLBACK',language:settings?.data.language??'DE'});}await ctx.tx.save(item,{...item.data,status:'FAILED',reason:policy.reason});return policy;}
-    return ctx.tx.save(item,{...item.data,status:'RUNNING',language:settings?.data.language??'DE',policy});
+    if(!policy.allowed){if(settings?.data.allowed_fallback==='WEB'){return ctx.tx.save(item,{...item.data,status:'RUNNING',channel:'WEB',reason:'WHATSAPP_POLICY_FALLBACK',language:currentLanguage,...currentTitle?{title:currentTitle}:{}});}await ctx.tx.save(item,{...item.data,status:'FAILED',reason:policy.reason});return policy;}
+    return ctx.tx.save(item,{...item.data,status:'RUNNING',language:currentLanguage,...currentTitle?{title:currentTitle}:{},policy});
   }},
-  'notifications.complete':{permission:'integration.process',schema:z.object({notification_id:id,succeeded:z.boolean(),error:z.string().max(100).optional()}).strict(),handler:async(ctx,input)=>{
+  'notifications.invalidate':{permission:'integration.process',schema:z.object({notification_id:id,reason:z.enum(['ACCESS_REVOKED','RESOLVED'])}).strict(),handler:async(ctx,input)=>{
+    assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const item=await ctx.tx.get('notification',input.notification_id);
+    if(['SUCCEEDED','FAILED','DEAD_LETTER','UNKNOWN','CANCELLED'].includes(item.data.status))return item;
+    return ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:input.reason,cancelled_at:ctx.now});
+  }},
+  'notifications.delivery_link':{permission:'integration.process',schema:z.object({notification_id:id,delivery_id:id}).strict(),handler:async(ctx,input)=>{
+    assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const item=await ctx.tx.get('notification',input.notification_id),delivery=await ctx.tx.get('delivery',input.delivery_id);
+    assert(item.data.status==='RUNNING'&&item.data.channel==='WHATSAPP'&&delivery.data.channel==='WHATSAPP'&&item.data.recipient_id===delivery.data.recipient_id&&item.data.message_id===delivery.data.message_id,'ACCESS_DENIED');
+    const saved=await ctx.tx.save(item,{...item.data,delivery_id:delivery.id,status:'AWAITING_DELIVERY'});
+    const max_attempts=Math.min(4,item.data.max_attempts??4,delivery.data.max_attempts??4),exhausted=delivery.data.status==='RETRY_SCHEDULED'&&(delivery.data.attempts??0)>=max_attempts;
+    const bounded=await ctx.tx.save(delivery,{...delivery.data,max_attempts,...exhausted?{status:'DEAD_LETTER'}:{}});
+    if(exhausted)await deliveryDecision(ctx.tx,{deliveryId:delivery.id,reason:'NOTIFICATION_DELIVERY_EXHAUSTED',siteId:delivery.data.siteId},ctx.now);
+    await projectDeliveryNotifications(ctx.tx,bounded,ctx.now);return ctx.tx.get('notification',saved.id);
+  }},
+  'notifications.complete':{permission:'integration.process',schema:z.object({notification_id:id,succeeded:z.boolean(),error:z.string().max(100).optional(),failure_class:z.enum(['CONFIRMED_TRANSIENT','DEFINITIVE','UNKNOWN']).default('DEFINITIVE'),delivery_id:id.optional()}).strict(),handler:async(ctx,input)=>{
     assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const item=await ctx.tx.get('notification',input.notification_id);assert(item.data.status==='RUNNING','INVALID_STATE');const attempts=item.data.attempts+1;
-    const status=input.succeeded?'SUCCEEDED':attempts>=item.data.max_attempts?'FAILED':'RETRY_SCHEDULED';const scheduled_at=new Date(Date.parse(ctx.now)+60000*2**attempts).toISOString();
-    const saved=await ctx.tx.save(item,{...item.data,status,attempts,error:input.error,scheduled_at});if(status==='RETRY_SCHEDULED')await ctx.tx.event('notification.scheduled',{notification_id:item.id,not_before:scheduled_at});return saved;
+    const maxAttempts=Math.min(4,item.data.max_attempts??4),transient=!input.succeeded&&input.failure_class==='CONFIRMED_TRANSIENT';
+    const status=input.succeeded?'SUCCEEDED':input.failure_class==='UNKNOWN'?'UNKNOWN':transient&&attempts<maxAttempts?'RETRY_SCHEDULED':transient?'DEAD_LETTER':'FAILED';
+    const scheduled_at=status==='RETRY_SCHEDULED'?new Date(Date.parse(ctx.now)+safeRetryDelayMs(attempts)).toISOString():item.data.scheduled_at;
+    const saved=await ctx.tx.save(item,{...item.data,status,attempts,error:input.error,failure_class:input.succeeded?null:input.failure_class,...input.delivery_id?{delivery_id:input.delivery_id}:{},scheduled_at});
+    if(status==='RETRY_SCHEDULED')await ctx.tx.event('notification.scheduled',{notification_id:item.id,not_before:scheduled_at});
+    if(['DEAD_LETTER','UNKNOWN'].includes(status))await deliveryDecision(ctx.tx,{notificationId:item.id,reason:status==='UNKNOWN'?'NOTIFICATION_OUTCOME_UNKNOWN':'NOTIFICATION_DELIVERY_EXHAUSTED',siteId:item.data.siteId},ctx.now);
+    return saved;
   }},
   'notifications.cancel':{permission:'notifications.manage',schema:z.object({notification_id:id}).strict(),handler:async(ctx,input)=>{
     const item=await ctx.tx.get('notification',input.notification_id);assert(item.data.recipient_id===ctx.actor.userId||isManager(ctx.actor),'ACCESS_DENIED');return ctx.tx.save(item,{...item.data,status:'CANCELLED'});

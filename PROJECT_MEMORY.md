@@ -1,4 +1,13 @@
 # KNABA DE project memory
+## V4 frozen executable checkpoint — 2026-10-08T22:00:44.622285+00:00
+
+Actual final local2177 assertions:1821CPU/document/explicit-double PASS,0FAIL,356genuinePG SKIP/NOT_RUN across87files; typecheck exit0. Exactclassifier/sourcehashb5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9,4 reviewedretirements,no sourcechangedafterreport. See docs/evidence/v4-source-freeze-local-summary.json/current34module overlay. Currentcode needs cleancommit build and new hostedSQL/browser/restore/worker/native/load/independentartifacts. All72wholeV4 NOT_RUN; D07offer/remainder/unboundsite/latecallbackcontracts explicitpending. Railway read-only still API/WorkerOFFLINE/PGCRASHED, old37patchunapplied, originalcutoffexpirednotextended. No live/main/billing mutation. Historical ca9 receipts preserved separately.
+
+
+## Active V4 implementation — 2026-10-08
+
+The approved V4 plan is published as remote2fb35/tree701c6183; local01511. Current intentional uncommitted application/API/domain/SQL/native/UI/tests supersede that documentation-only tree and still need exact-source hosted acceptance. See [current implementation](docs/planning/V4_IMPLEMENTATION_STATUS_UK.md). Actual intermediate local run1943=1648CPU/doc/double PASS,0FAIL,295realPG SKIP/NOT_RUN; concurrent work continued, not frozen-source acceptance. All72 V4 whole criteria remain NOT_RUN. Last accepted executableca9 is historical proof only; Railway NOT_READY, expired cutoff not extended, no provider MFA bypass or live/billing/main/merge mutation. Full plan, all34modules/432requirements/475criteria and original byte-exact V3 remain preserved.
+
 
 **Independent local verification 08.10.2026:** baseline `e18f293ac1527fff0910a86cd3049bef8bd4a03f` passed TypeScript, build and 1307 local tests; 206 PostgreSQL cases were skipped. The subsequent `d7877fc270a2aedca28d36de871eac34df120520` change is documentation-only, and its full development plan/V3–V4 reconciliation is preserved. These local results do not replace historical hosted SQL/browser evidence, accept V4/475 whole criteria, or authorize extending the expired staging cutoff. Receipt: [local continuation verification](docs/evidence/continuation-20261008/verification.json).
 

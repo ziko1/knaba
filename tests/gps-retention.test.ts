@@ -55,7 +55,8 @@ postgres('PostgreSQL GPS retention and immutable-history boundary',()=>{
    await tx.add('user',{active:true,roles:['BOT_ADMIN'],siteIds:[ids.siteA,ids.siteB]},ids.bot);
    await tx.add('device',{active:true,employeeId:ids.worker,platform:'ANDROID',synthetic:true},ids.device);
    // Explicit synthetic TEST fixture, not an activation or external approval.
-   await tx.add('tracking_policy',{state:'APPROVED',enabled:true,synthetic:true,testOnly:true,revision:1,approvedAt:new Date(now-7_200_000).toISOString(),expiresAt:new Date(now+172_800_000).toISOString(),retentionDays:1,maxSessionHours:12,allowPresence:true,allowBusinessRoute:true,allowMinimalReturn:false,accessRoles:['INTERNAL_BAULEITER'],legalApprovalReference:'SYNTHETIC_TEST_ONLY'},ids.policy);
+   await tx.add('tracking_policy',{state:'APPROVED',enabled:true,synthetic:true,testOnly:true,revision:1,approvedAt:new Date(now-7_200_000).toISOString(),expiresAt:new Date(now+172_800_000).toISOString(),retentionDays:1,maxSessionHours:12,allowPresence:true,allowBusinessRoute:true,allowMinimalReturn:false,accessRoles:['INTERNAL_BAULEITER'],legalApprovalReference:'gps-legal',necessityApprovalReference:'gps-necessity',worksCouncilReference:'gps-council',employeeNoticeReference:'gps-notice'},ids.policy);
+   for(const [id,subject]of [['gps-legal','GPS_LEGAL_PROCESS'],['gps-necessity','GPS_NECESSITY'],['gps-council','GPS_WORKS_COUNCIL'],['gps-notice','GPS_EMPLOYEE_NOTICE']])await tx.add('legal_approval',{subject,status:'APPROVED',active:true,testOnly:true,expiresAt:new Date(now+172_800_000).toISOString()},id);
   });
   [worker,manager,bot]=await Promise.all([ids.worker,ids.manager,ids.bot].map(id=>engine.getActor(id,company)));
  });
@@ -64,7 +65,8 @@ postgres('PostgreSQL GPS retention and immutable-history boundary',()=>{
   const now=Date.now();
   const shift=await call(worker,'shift.start',{siteId:ids.siteA,deviceId:ids.device,occurredAt:new Date(now-3_600_000).toISOString()});
   const trip=await call(worker,'trip.start',{shiftId:shift.id,destination:{kind:'SITE',id:ids.siteB},purpose:'Synthetic GPS retention QA',occurredAt:new Date(now-1_800_000).toISOString()});
-  const input={eventId:randomUUID(),deviceId:ids.device,shiftId:shift.id,tripId:trip.id,sequenceNumber:1,observedAt:new Date(now-900_000).toISOString(),latitude,longitude,accuracyM:7.125,policyVersionId:ids.policy};
+  const trackingSessionId=randomUUID();await add('tracking_session',{employeeId:ids.worker,deviceId:ids.device,shiftId:shift.id,tripId:trip.id,policyVersionId:ids.policy,source:'SERVER',mode:'BUSINESS_TRAVEL',active:true,issuedAt:new Date(now-900_001).toISOString(),expiresAt:new Date(now-1).toISOString()},trackingSessionId);
+  const input={eventId:randomUUID(),deviceId:ids.device,shiftId:shift.id,tripId:trip.id,sequenceNumber:1,trackingSessionId,bootSessionId:randomUUID(),monotonicElapsedMs:900000,observedAt:new Date(now-900_000).toISOString(),latitude,longitude,accuracyM:7.125,policyVersionId:ids.policy};
   const key=randomUUID(),ack=await call(worker,'trip.sample',input,key);
   return {shift,trip,input,key,ack};
  }

@@ -1,3 +1,5 @@
+import {IntegrationWebhookAdapter} from '../../packages/integrations/outbound-webhook.ts';
+import {parseIntegrationCredentials} from '../../packages/integrations/generic-events.ts';
 import { writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { Database } from '../api/database.ts';
@@ -7,9 +9,12 @@ import { WorkerRunner, type WorkerOptions } from './runner.ts';
 
 export function workerOptions(env:NodeJS.ProcessEnv=process.env):WorkerOptions {
   const companyId=env.COMPANY_ID??'knaba-demo';const appMode=env.APP_MODE??'DEMO';
-  const options:WorkerOptions={companyId,appMode,publicOrigin:env.PUBLIC_ORIGIN,batchSize:5,leaseMs:120000,maxAttempts:5,testRecipients:(env.WHATSAPP_TEST_RECIPIENTS??'').split(',').map(s=>s.replace(/[^\d]/g,'')).filter(Boolean)};
+  const options:WorkerOptions={companyId,appMode,publicOrigin:env.PUBLIC_ORIGIN,batchSize:5,leaseMs:120000,maxAttempts:4,testRecipients:(env.WHATSAPP_TEST_RECIPIENTS??'').split(',').map(s=>s.replace(/[^\d]/g,'')).filter(Boolean)};
   if(env.DEEPSEEK_API_KEY&&env.DEEPSEEK_BASE_URL&&env.DEEPSEEK_REGION)options.ai=new DeepSeekAdapter({baseUrl:env.DEEPSEEK_BASE_URL,apiKey:env.DEEPSEEK_API_KEY,model:env.DEEPSEEK_MODEL??'deepseek-chat',timeoutMs:15000,privacyApprovalId:env.AI_TRANSFER_APPROVAL_ID,region:env.DEEPSEEK_REGION,inputPricePerMillionCents:Number(env.AI_INPUT_PRICE_PER_MILLION_CENTS??100),outputPricePerMillionCents:Number(env.AI_OUTPUT_PRICE_PER_MILLION_CENTS??200),maxOutputTokens:2000,syntheticOnly:env.AI_SYNTHETIC_ONLY==='true'});
   if(env.LIVE_SEND_ALLOWED==='true'&&env.WHATSAPP_ACCESS_TOKEN&&env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_API_VERSION&&env.WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED==='true'){options.whatsappCapabilities={accountVerified:true,buttons:env.WHATSAPP_BUTTONS_VERIFIED==='true',lists:env.WHATSAPP_LISTS_VERIFIED==='true'};options.whatsapp=new WhatsAppCloudAdapter({accessToken:env.WHATSAPP_ACCESS_TOKEN,phoneNumberId:env.WHATSAPP_PHONE_NUMBER_ID,apiVersion:env.WHATSAPP_API_VERSION,accountCapabilitiesVerified:true});}
+  // Inbound credentials alone never activate outbound delivery.
+  const credentials=parseIntegrationCredentials(env.INTEGRATION_CREDENTIALS_JSON);
+  if(env.LIVE_INTEGRATION_SEND_ALLOWED==='true'&&credentials.length)options.integrationWebhook=new IntegrationWebhookAdapter(credentials,{liveSendAllowed:true});
   return options;
 }
 export async function startWorker(database?:Database,engine?:Engine,options=workerOptions()) {

@@ -1,4 +1,10 @@
-# Current verified module readiness
+# Current V4 module assessment
+
+All 34 modules have a separate current target-layer row in [MODULE_READINESS.json](MODULE_READINESS.json). Current V4 source is implemented with explicit boundaries and needs frozen exact-source hosted acceptance; whole modules and all 72 V4 compound criteria are not certified. The [implementation register](../planning/V4_IMPLEMENTATION_STATUS_UK.md) tracks active source and remaining contracts. Original cutoff expired; a reviewed current patch, renewed bounded window and Dashboard MFA are required before live staging.
+
+The following ca9 table and receipts are preserved **historical accepted baseline**, not evidence for changed V4 source.
+
+# Historical ca9 verified module readiness
 
 Exact remote `ca9ed79ff4c0429223eb60754289ee1132088361`, local equivalent `4132dbf04b37cc64c3388c3891edce8f44bdf73e`, tree `8144d5bc90fcefe9bcdb26255d55287e96f2a170`;339 source files.
 

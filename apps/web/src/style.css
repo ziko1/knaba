@@ -68,3 +68,7 @@
 .operator-claim{padding:23px;overflow-wrap:anywhere;font-size:13px}
 .operator-claim>code{display:block;margin:20px 0}
 @media(max-width:760px){.operator-pending li{flex-direction:column;align-items:flex-start}.chat-pane>header .button{font-size:10px;padding:8px}.operator-boundary{padding:17px}}
+
+/* V4 touch targets apply at every supported viewport. */
+.button,.icon-button,.language-select select{min-height:44px}.icon-button,.topbar-actions .icon-button{width:44px;height:44px;min-width:44px}.topbar .language-select select{min-height:44px}.array-entry-heading>.button{min-height:44px}
+button,select,[role=tab]{min-height:44px}button{min-width:44px}.field>input[type=checkbox]{width:20px;height:20px}.field:has(>input[type=checkbox]){min-height:44px;align-items:center}

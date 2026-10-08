@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-08T22:00:44.622285+00:00",
+  "status": "LOCAL_CPU_PASSED_GENUINE_SQL_HOSTED_ACCEPTANCE_PENDING",
+  "source_binding": {
+    "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9",
+    "source_manifest_scope": "Executable files listed in offline-execution-scope.json; docs/evidence excluded from circular source hashing.",
+    "source_changed_after_report": [],
+    "candidate_commit_sha": null
+  },
+  "actual_local_report": {
+    "path_ignored": ".local/v4-final-offline-tests.json",
+    "sha256": "d5bd63ce0937eae9ea856bc03b3b8b8d7b0c540dd107866089e0381f3a74dbfe",
+    "bytes": 933554,
+    "test_files": 87,
+    "total": 2177,
+    "passed_cpu_document_explicit_double": 1821,
+    "failed": 0,
+    "genuine_postgresql_not_run": 356
+  },
+  "execution_index": {
+    "path": "docs/evidence/offline-execution-scope.json",
+    "sha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
+    "bytes": 819715,
+    "status": "EXACT_INDEX_VALIDATED",
+    "retirements_with_explicit_replacement": 4
+  },
+  "typecheck": "PASSED_EXIT_0",
+  "browser": {
+    "authored_discovered": 27,
+    "actual_backend_ui_cases": 26,
+    "explicit_transport_fixture": 1,
+    "execution": "NOT_RUN_ON_CURRENT_SOURCE"
+  },
+  "build": "PENDING_CLEAN_COMMIT_BUILD",
+  "native": "CURRENT_EXACT_SOURCE_HOSTED_NOT_RUN",
+  "core_load": "HARNESSED_AND_SEPARATE_CI_AUTHORED_NOT_RUN",
+  "whole_v4_criteria": {
+    "total": 72,
+    "NOT_RUN": 72
+  },
+  "live_origin": "https://api-staging-a476.up.railway.app",
+  "live_status": "NOT_READY",
+  "approval_boundaries": [
+    "Original staging cutoff expired and not extended.",
+    "Exact reviewed current source/patch + renewed bounded window + provider Dashboard MFA required.",
+    "Existing isolated staging authorization and EUR10/month limit retained."
+  ],
+  "historical_ca9_acceptance_preserved": true
+}

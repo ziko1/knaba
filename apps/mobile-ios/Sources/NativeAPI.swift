@@ -51,8 +51,8 @@ actor NativeAPI {
             if item.kind == "EVENT" {
                 let data = try await send("/api/v1/mobile/events", body: .object(["events": .array([.object(["command": .string(item.command), "input": .object(item.input)])])]))
                 let receipts = try JSONDecoder().decode(EventReceipts.self, from: data)
-                guard receipts.apiVersion == 1, let ack = receipts.results.first(where: { $0.eventId == item.id }), ["ACCEPTED", "REJECTED"].contains(ack.status) else { throw NativeError.failure("EVENT_ACK_MISMATCH") }
-                try await store.acknowledge(item, rejection: ack.status == "REJECTED" ? ack.code ?? "EVENT_REJECTED" : nil, expectedEpoch: epoch)
+                guard receipts.apiVersion == 1, let ack = receipts.results.first(where: { $0.eventId == item.id }), ["ACCEPTED", "REJECTED", "REVIEW"].contains(ack.status) else { throw NativeError.failure("EVENT_ACK_MISMATCH") }
+                try await store.acknowledge(item, rejection: ack.status != "ACCEPTED" ? ack.code ?? (ack.status == "REVIEW" ? "EVENT_REVIEW_REQUIRED" : "EVENT_REJECTED") : nil, expectedEpoch: epoch)
             } else {
                 do { let data = try await send("/api/v1/commands", body: .object(["command": .string(item.command), "input": .object(item.input), "idempotency_key": .string(item.id)])); try await store.acknowledge(item, result: JSONDecoder().decode(JSONValue.self, from: data), expectedEpoch: epoch) }
                 catch let error as APIFailure {

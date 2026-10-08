@@ -1,3 +1,4 @@
+import {assertMediaSize} from './media-limits.ts';
 import {createHash} from 'node:crypto';
 import sharp from 'sharp';
 import {assert,DomainError,type Actor,type Transaction} from '../domain/core.ts';
@@ -8,7 +9,7 @@ import type {PrivateBlobStore,BlobSql} from './index.ts';
 export interface PrivateMediaInput {bytes:Buffer;mimeType:string;fileName:string;sourceId:string;expectedSha256?:string;redactionConfirmed?:boolean;}
 const hash=(bytes:Buffer)=>createHash('sha256').update(bytes).digest('hex');
 export async function preparePrivateMedia(input:PrivateMediaInput){
- assert(input.bytes.length>0&&input.bytes.length<=25*1024*1024,'MEDIA_TOO_LARGE');
+ assertMediaSize(input.bytes.length,input.mimeType);
  assert(['image/jpeg','image/png','image/webp','application/pdf'].includes(input.mimeType),'VALIDATION_ERROR',{reason:'UNSUPPORTED_MEDIA'});
  assert(input.fileName.length>0&&input.fileName.length<=200&&input.sourceId.length>0&&input.sourceId.length<=250,'VALIDATION_ERROR');
  const sha256=hash(input.bytes);

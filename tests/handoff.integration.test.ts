@@ -78,7 +78,7 @@ postgres('PostgreSQL private customer operator handoff and authenticated guest c
   expect(f.channel.data.members.map((m:Data)=>m.user_id)).toEqual([f.guest.actorId]);
   expect(await engine.readEntities(operator,'channel')).toEqual([]);
   await expect(command(operatorSession,'message.read',{channel_id:f.channel.id})).rejects.toMatchObject({code:'ACCESS_DENIED'});
-  const inbox=await command(operatorSession,'handoff.inbox');expect(inbox.items).toEqual([{channel_id:f.channel.id,version:f.channel.version,requested_at:f.channel.data.handoff.requested_at,state:'HANDOFF_PENDING'}]);
+  const inbox=await command(operatorSession,'handoff.inbox');expect(inbox.items).toEqual([{channel_id:f.channel.id,version:f.channel.version,requested_at:f.channel.data.handoff.requested_at,state:'HANDOFF_PENDING',canonical_state:'HUMAN_QUEUED'}]);
   expect(JSON.stringify(inbox)).not.toContain('Synthetic private original');expect(JSON.stringify(inbox)).not.toContain(f.guest.actorId);
   const claimed=await command(operatorSession,'handoff.take',{channel_id:f.channel.id},inbox.items[0].version);
   expect(claimed.data.handoff).toMatchObject({state:'HUMAN_ACTIVE',owner_id:operator.userId});

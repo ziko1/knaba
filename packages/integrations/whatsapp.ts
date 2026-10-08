@@ -44,14 +44,23 @@ export function renderWhatsAppMessage(to:string,message:WhatsAppOutput):Record<s
 export class WhatsAppCloudAdapter {
   private origin='https://graph.facebook.com';
   constructor(private config:{accessToken:string;phoneNumberId:string;apiVersion:string;accountCapabilitiesVerified:boolean;timeoutMs?:number},private request:typeof fetch=fetch){assert(/^v\d+\.\d+$/.test(config.apiVersion)&&/^\d+$/.test(config.phoneNumberId)&&config.accessToken.length>0,'MISSING_CONFIGURATION');}
+  get phoneNumberId(){return this.config.phoneNumberId;}
   async send(to:string,message:WhatsAppOutput,policy:{kind:'TEXT'|'TEMPLATE';template?:string}) {
     assert(this.config.accountCapabilitiesVerified,'NEEDS_APPROVAL');
     assert(policy.kind==='TEXT'||message.kind==='TEMPLATE'&&message.name===policy.template,'WHATSAPP_WINDOW_CLOSED');
-    try {const response=await this.request(`${this.origin}/${this.config.apiVersion}/${this.config.phoneNumberId}/messages`,{method:'POST',headers:{Authorization:`Bearer ${this.config.accessToken}`,'Content-Type':'application/json'},body:JSON.stringify(renderWhatsAppMessage(to,message)),signal:AbortSignal.timeout(this.config.timeoutMs??15000)});
-      if(!response.ok)throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'META',status:response.status,retryable:response.status===429||response.status>=500});
-      const data=z.object({messages:z.array(z.object({id:z.string().min(1)})).min(1)}).parse(await response.json());return {provider_message_id:data.messages[0]!.id,status:'API_ACCEPTED' as const};
-    }catch(error){if(error instanceof DomainError)throw error;throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'META'});}
+    const body=JSON.stringify(renderWhatsAppMessage(to,message));
+    try {const response=await this.request(`${this.origin}/${this.config.apiVersion}/${this.config.phoneNumberId}/messages`,{method:'POST',headers:{Authorization:`Bearer ${this.config.accessToken}`,'Content-Type':'application/json'},body,signal:AbortSignal.timeout(this.config.timeoutMs??15000)});
+      const data=await response.json();
+      if(!response.ok){
+        // A timeout, proxy page or malformed error does not establish that Meta rejected the send.
+        const rejection=z.object({error:z.object({code:z.number().int(),message:z.string().min(1),is_transient:z.boolean().optional()})}).safeParse(data);
+        const confirmed=rejection.success&&!('messages' in data),transient=confirmed&&(rejection.data.error.is_transient??(response.status===429||response.status>=500));
+        throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'META',status:response.status,retryable:transient,failure_class:confirmed?(transient?'CONFIRMED_TRANSIENT':'DEFINITIVE'):'UNKNOWN',...rejection.success?{provider_error_code:rejection.data.error.code}:{}});
+      }
+      const accepted=z.object({messages:z.array(z.object({id:z.string().min(1)})).min(1)}).parse(data);return {provider_message_id:accepted.messages[0]!.id,status:'API_ACCEPTED' as const};
+    }catch(error){if(error instanceof DomainError)throw error;throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'META',retryable:false,failure_class:'UNKNOWN'});}
   }
+
   async media(mediaId:string,maxBytes=20*1024*1024) {
     assert(this.config.accountCapabilitiesVerified&&/^[A-Za-z0-9_-]{1,200}$/.test(mediaId),'NEEDS_APPROVAL');
     const metadataResponse=await this.request(`${this.origin}/${this.config.apiVersion}/${mediaId}`,{headers:{Authorization:`Bearer ${this.config.accessToken}`},signal:AbortSignal.timeout(15000)});assert(metadataResponse.ok,'PROVIDER_UNAVAILABLE');

@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-08T22:00:44.622285+00:00",
+  "status": "SOURCE_FROZEN_LOCAL_CPU_PASSED_PENDING_EXACT_COMMIT_HOSTED_ACCEPTANCE",
+  "target": "V4",
+  "architecture_adr": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+  "accepted_plan_remote_sha": "2fb35d4219d637b1e1c8742459c8f352b31b469d",
+  "last_accepted_executable_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "candidate_sha": null,
+  "source_binding": "EXECUTABLE_SOURCE_MANIFEST_BOUND_PENDING_GIT_COMMIT",
+  "deltas": [
+    {
+      "id": "V4-D01",
+      "title_uk": "Вибір SQL і черги",
+      "scope": "KNB-02",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D02",
+      "title_uk": "Точність ставок і кількостей",
+      "scope": "KNB-02/08/16/17",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D03",
+      "title_uk": "Термін свіжої MFA",
+      "scope": "KNB-03/04",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D04",
+      "title_uk": "Незалежний стан review для Lead",
+      "scope": "KNB-06",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D05",
+      "title_uk": "Календар передачі оператору",
+      "scope": "KNB-06",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D06",
+      "title_uk": "Надсилання кошторису",
+      "scope": "KNB-08",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D07",
+      "title_uk": "Життєвий цикл замовлення",
+      "scope": "KNB-10",
+      "implementation_status": "SOURCE_IMPLEMENTED_WITH_REMAINING_CONTRACT_GAPS_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN",
+      "remaining_source_gaps": [
+        "Explicit per-person PROPOSED/DECLINED/EXPIRED offer records and dedicated UI remain pending.",
+        "Partial submission stores remainingTaskIds internally; a dedicated published-report remaining-scope field remains pending.",
+        "State-preserving late material-readiness callbacks for already IN_PROGRESS orders need explicit contract review."
+      ]
+    },
+    {
+      "id": "V4-D08",
+      "title_uk": "Історія прийнятого завдання",
+      "scope": "KNB-11",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D09",
+      "title_uk": "Три GPS-точки і максимальний проміжок",
+      "scope": "KNB-14",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D10",
+      "title_uk": "Lease та офлайн-координати",
+      "scope": "KNB-14",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D11",
+      "title_uk": "Матриця підтримки native",
+      "scope": "KNB-14",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D12",
+      "title_uk": "Розподіл часу за зміною ставки",
+      "scope": "KNB-16",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D13",
+      "title_uk": "Звірка виплати і нова заява одержувача",
+      "scope": "KNB-16",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D14",
+      "title_uk": "Матеріальна заявка з кількома рядками",
+      "scope": "KNB-17",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D15",
+      "title_uk": "Ліміти вкладень",
+      "scope": "KNB-18",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D16",
+      "title_uk": "Час сповіщень і geo reminders",
+      "scope": "KNB-19",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D17",
+      "title_uk": "Універсальний зовнішній webhook",
+      "scope": "KNB-21/22",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D18",
+      "title_uk": "REST, HTTP-помилки і пагінація",
+      "scope": "KNB-22",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D19",
+      "title_uk": "Доступність інтерфейсу",
+      "scope": "KNB-21",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D20",
+      "title_uk": "Навантаження і RPO/RTO",
+      "scope": "KNB-23",
+      "implementation_status": "CORE_LOAD_HARNESS_AND_ISOLATED_CI_IMPLEMENTED_MEASUREMENTS_NOT_RUN",
+      "whole_criterion_status": "NOT_RUN",
+      "remaining_measurements": [
+        "Actual100session/20site/100000TimeSegment/900s core timings and acknowledged-loss proof",
+        "Webhook/provider-lag/3parallelPDF workload",
+        "Offsite RPO/RTO with current independent deletion ledger",
+        "Physical native/GPS/battery and recurring EUR10 cost"
+      ]
+    },
+    {
+      "id": "V4-D21",
+      "title_uk": "Retention і startup gates",
+      "scope": "KNB-23",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    },
+    {
+      "id": "V4-D22",
+      "title_uk": "Дві історії специфікації і продукту",
+      "scope": "KNB-24",
+      "implementation_status": "SOURCE_IMPLEMENTED_PENDING_EXACT_SHA_ACCEPTANCE",
+      "whole_criterion_status": "NOT_RUN"
+    }
+  ],
+  "intermediate_local_run": {
+    "passed": 1648,
+    "failed": 0,
+    "genuine_postgres_not_run": 295,
+    "total": 1943,
+    "raw_report_local_ignored": ".local/v4-integrated-offline-tests-2.json",
+    "raw_sha256": "cc06fc5756ab243ad9ac387584d1e94725e3c8d9e93c0f247d1d08a6ce99f325",
+    "scope": "Actual intermediate CPU/document/transport-double assertions; PostgreSQL skipped. Concurrent source work continued; this is not frozen-source hosted acceptance."
+  },
+  "limitations": [
+    "Railway original cutoff expired; current live URL NOT_READY; provider Dashboard MFA still required. No live mutation in this continuation.",
+    "All 72 compound V4 acceptance criteria remain NOT_RUN; no status inferred from global test counts.",
+    "Actual PostgreSQL/browser/restore/Worker/native acceptance must rerun on next exact committed source.",
+    "Company signing/physicalGPS/legal/provider/UAT/load/offsiteDR/cost gates remain in canonical EXTERNAL_PREREQUISITES.md.",
+    "Named idempotent media/uploads requires atomic private PostgreSQL storage; S3 publication is conditional pending journal protocol.",
+    "Warehouse-only procurement PDF automatic registration needs explicit permitted warehouse context; no fabricated employee/site."
+  ],
+  "live_readonly_receipt": "docs/evidence/railway-v4-readonly-2026-10-08.json",
+  "implemented_adapters": [
+    "Server device batch independent manual/GPS per-item outcomes and coordinate-free conflict review",
+    "Business calendar/operator SLA exact-leased Worker reminder/fallback",
+    "Independent material batch parent/line fulfillment/provenance/close guards",
+    "Current canonical crew employee scope/read/projection/UI identifiers; current-source authorization before cached command receipts",
+    "Minimal WEB cancellation/reassignment notices from exact current persisted causes",
+    "Production startup current seven-category approved retention guard",
+    "Separate exact-source ephemeral PostgreSQL/HTTP900s core load workflow"
+  ],
+  "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9",
+  "final_local_run": {
+    "path_ignored": ".local/v4-final-offline-tests.json",
+    "sha256": "d5bd63ce0937eae9ea856bc03b3b8b8d7b0c540dd107866089e0381f3a74dbfe",
+    "bytes": 933554,
+    "test_files": 87,
+    "total": 2177,
+    "passed_cpu_document_explicit_double": 1821,
+    "failed": 0,
+    "genuine_postgresql_not_run": 356
+  },
+  "typecheck": "PASSED",
+  "execution_index": {
+    "path": "docs/evidence/offline-execution-scope.json",
+    "sha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
+    "bytes": 819715,
+    "status": "EXACT_INDEX_VALIDATED",
+    "retirements_with_explicit_replacement": 4
+  },
+  "remaining_source_contracts": [
+    "D07 explicit per-person DECLINED/EXPIRED offer state/UI",
+    "D07 dedicated partial scope in published report",
+    "Legitimate current site-linking flow for scoped unbound orders",
+    "State-preserving late material-readiness callbacks for IN_PROGRESS"
+  ]
+}
