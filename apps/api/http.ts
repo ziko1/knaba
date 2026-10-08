@@ -14,6 +14,7 @@ import {privacyExportBytes} from '../../packages/domain/governance.ts';
 import {scanPdf} from '../../packages/integrations/media-scanner.ts';
 import {createPrivateBlobStore,type PrivateBlobStore,type BlobReceipt,type BlobSql} from '../../packages/storage/index.ts';
 import {archiveReportArtifact,type ReportArtifactFormat} from './exporters.ts';
+import {renderAccountingExport} from '../../packages/integrations/accounting-export.ts';
 import { assert,DomainError,isManager,type Actor,type Data,type Entity } from '../../packages/domain/core.js';
 import { activateInvitation,permits } from '../../packages/domain/identity.js';
 import { AuthService,RateLimiter,hashToken,opaqueToken,sameOrigin,type DatabaseLike,type EngineLike,type AuthOptions } from './auth.js';
@@ -171,6 +172,19 @@ export class ApiController {
  @Get('reports/:id/pdf')reportPdf(@Req()req:Request,@Res()res:Response,@Param('id')id:string){return this.reportFile(req,res,id,'PDF');}
  @Get('reports/:id/csv')reportCsv(@Req()req:Request,@Res()res:Response,@Param('id')id:string){return this.reportFile(req,res,id,'CSV');}
  @Get('reports/:id/xlsx')reportXlsx(@Req()req:Request,@Res()res:Response,@Param('id')id:string){return this.reportFile(req,res,id,'XLSX');}
+ @Get('reports/:id/accounting-json')async reportAccountingJson(@Req()req:Request,@Res()res:Response,@Param('id')id:string){
+  const {actor}=await this.actor(req);assert(this.runtime.engine.authorizeEntity&&this.runtime.engine.scope,'MISSING_CONFIGURATION');
+  const result=await this.runtime.db.transaction(actor.companyId,actor.userId,async tx=>{
+   let authorized:{actor:Actor;entity:Entity};
+   try{authorized=await this.runtime.engine.authorizeEntity!(tx,actor.userId,'report_version',id);}
+   catch(error){if(!(error instanceof DomainError)||error.code!=='NOT_FOUND_SAFE')throw error;const report=await this.runtime.engine.authorizeEntity!(tx,actor.userId,'report',id);assert(report.entity.data.currentVersionId,'NOT_FOUND_SAFE');authorized=await this.runtime.engine.authorizeEntity!(tx,actor.userId,'report_version',report.entity.data.currentVersionId);}
+   assert(!authorized.actor.roles.some(role=>['CLIENT','CUSTOMER','EXTERNAL_BAULEITER','GUEST','SERVICE_ACCOUNT'].includes(role)),'ACCESS_DENIED');
+   const exportActor=this.runtime.engine.scope!(authorized.actor,'report.export');
+   assert(permits(exportActor.permissions,'report.export')&&(exportActor.permissions.includes('scope.company')||exportActor.siteIds.includes(authorized.entity.data.siteId)),'ACCESS_DENIED');
+   return renderAccountingExport(authorized.entity);
+  });
+  res.set({'Content-Type':result.mimeType,'Content-Disposition':`attachment; filename="KNABA-DE-accounting-${result.reportVersionId.replace(/[^A-Za-z0-9_-]/g,'')}.json"`,'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"sandbox; default-src 'none'",'ETag':`"${result.sha256}"`,'X-KNABA-Source-SHA256':result.sourceSha256});res.send(result.bytes);
+ }
 
 }
 @Module({controllers:[ApiController]})

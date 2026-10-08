@@ -97,6 +97,27 @@ describe('payroll and actual payout evidence',()=>{
 
 async function reportFixture(){const f=await payrollFixture();const r=await run(f.ctx,'report.create',{siteId:'site',customerId:'customer',orderId:'order',periodStart:'2026-10-01T00:00:00.000Z',periodEnd:'2026-10-06T00:00:00.000Z',documentType:'Leistungsnachweis',taskIds:['task'],timesheetIds:['timesheet'],descriptionDe:'Die Bodenreinigung wurde abgeschlossen.'});await run(context(f.tx,manager),'report.review',{reportId:r.id,decision:'PASS',reason:'Gepruefte Leistungen'});await run(context(f.tx,manager),'report.approve',{reportId:r.id,reason:'Freigabe fuer Kunden'});const version=await run(context(f.tx,manager),'report.publish',{reportId:r.id});return {...f,report:r,version};}
 describe('immutable customer reports and media',()=>{
+ it('published closed legacy time/material reports keep source money provisional and preserve earlier versions',async()=>{
+  const f=await reportFixture(),original=structuredClone(f.version),order=await f.tx.get('order','order');
+  expect(original.data.snapshot.priceStatus).toBe('FINAL');
+  const legacy=await f.tx.save(order,{...order.data,pricingModel:'TIME_MATERIAL'});
+  const report=await run(f.ctx,'report.create',f.report.data.inputSnapshot);
+  await run(context(f.tx,manager),'report.review',{reportId:report.id,decision:'PASS',reason:'Synthetic performance facts reviewed; no price settlement'});
+  await run(context(f.tx,manager),'report.approve',{reportId:report.id,reason:'Synthetic report approved with explicitly provisional amount'});
+  const version=await run(context(f.tx,manager),'report.publish',{reportId:report.id});
+  expect(version.data.snapshot).toMatchObject({order:{pricingModel:'TIME_MATERIAL'},priceStatus:'PROVISIONAL',baseNetCents:120000,approvedChangesNetCents:0,totalNetCents:120000,totalTaxCents:22800,totalGrossCents:142800,totalSeconds:7200});
+  expect(version.data.sha256).toBe(reportSnapshotHash(version.data.snapshot));
+  expect(await f.tx.get('report_version',original.id)).toEqual(original);
+  expect((await f.tx.get('order','order')).data).toEqual(legacy.data);
+ });
+ it('open fixed and unknown legacy orders keep report prices provisional',async()=>{
+  const f=await fixture();
+  for(const [pricingModel,status] of [['FIXED','CLIENT_REVIEW'],['LEGACY_UNREVIEWED','CLOSED']]){
+   const order=await f.tx.get('order','order');await f.tx.save(order,{...order.data,pricingModel,status});
+   const report=await run(f.ctx,'report.create',{siteId:'site',customerId:'customer',orderId:'order',periodStart:'2026-10-01T00:00:00.000Z',periodEnd:'2026-10-06T00:00:00.000Z',documentType:'Leistungsnachweis',taskIds:['task'],descriptionDe:'Synthetische bestätigte Leistung mit vorläufigem Preis.'});
+   expect(report.data.draftSnapshot).toMatchObject({priceStatus:'PROVISIONAL',totalNetCents:120000,totalTaxCents:22800,totalGrossCents:142800});
+  }
+ });
  it('T-REPORT-01 snapshot derives confirmed work/hours and fixed contractual price without payroll or GPS',async()=>{const f=await reportFixture();expect(f.version.data.snapshot).toMatchObject({language:'de',totalSeconds:7200,totalNetCents:120000,totalTaxCents:22800,totalGrossCents:142800,contractIncludedMaterials:true});expect(f.version.data.snapshot.hoursRows[0].workerCode).toBe('KNB-E-001');const content=JSON.stringify(f.version.data.snapshot);expect(content).not.toMatch(/payroll|payableCents|rateCents|GPS|bankAccount|internalCost/);expect(f.version.data.sha256).toHaveLength(64);});
  it('T-REPORT-02 correction creates a new issued version and preserves old checksum and amount',async()=>{const f=await reportFixture(),original=structuredClone(f.version);await run(f.ctx,'report.revise',{reportId:f.report.id,reason:'German description corrected',descriptionDe:'Bodenreinigung und dokumentierte Kontrolle abgeschlossen.'});await run(context(f.tx,manager),'report.review',{reportId:f.report.id,decision:'PASS',reason:'Corrected content checked'});await run(context(f.tx,manager),'report.approve',{reportId:f.report.id,reason:'Corrected version approved'});const next=await run(context(f.tx,manager),'report.publish',{reportId:f.report.id});expect(next.data.version).toBe(2);expect(next.data.previousVersionId).toBe(original.id);expect(next.data.sha256).not.toBe(original.data.sha256);expect(await f.tx.get('report_version',original.id)).toEqual(original);});
  it('T-REPORT-03 delivery, document receipt, hour confirmation and work acceptance are separate',async()=>{const f=await reportFixture();await run(f.ctx,'report.delivered',{reportVersionId:f.version.id,channel:'PORTAL',providerReference:'delivery-1'});expect(await f.tx.list('customer_acknowledgment')).toHaveLength(0);await run(context(f.tx,customer),'report.ack',{reportVersionId:f.version.id,type:'DOCUMENT_RECEIPT',decision:'CONFIRMED',statement:'Dokument erhalten'});await run(context(f.tx,customer),'report.ack',{reportVersionId:f.version.id,type:'HOURS_CONFIRMATION',decision:'COMMENT',statement:'Rueckfrage zu zwei Stunden'});await expect(run(context(f.tx,customer),'report.ack',{reportVersionId:f.version.id,type:'WORK_ACCEPTANCE',decision:'CONFIRMED',statement:'Abnahme behauptet'})).rejects.toMatchObject({code:'LEGAL_ACCEPTANCE_DOCUMENT_REQUIRED'});expect(await f.tx.list('customer_acknowledgment')).toHaveLength(2);});

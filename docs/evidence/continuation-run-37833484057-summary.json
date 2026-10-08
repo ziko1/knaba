@@ -1,0 +1,337 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-08 19:52:42 UTC",
+  "codeSha": "2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+  "sourceTree": "c7e77a9f9cad9aaa2fc8fecc386a0833ad0db824",
+  "workflow": {
+    "id": 37833484057,
+    "jobId": 113504525361,
+    "name": "KNABA DE release verification",
+    "event": "push",
+    "branch": "codex/knaba-product-completion",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/ziko1/knaba/actions/runs/37833484057"
+  },
+  "status": "HOSTED_ACCEPTANCE_VERIFIED",
+  "evidenceScope": "GitHub provider run/job metadata and decoded terminal job log; hashes/size below are provider metadata and producer output. Artifact bytes not independently downloaded or verified.",
+  "typecheck": {
+    "status": "PASSED",
+    "source": "completed job step8"
+  },
+  "build": {
+    "status": "PASSED",
+    "source": "completed job step9"
+  },
+  "builtFileAttestation": {
+    "status": "PASSED",
+    "fileCount": 14,
+    "source": "exact clean source and actual built artifact checksums attested log"
+  },
+  "releaseScriptValidation": {
+    "status": "PASSED",
+    "source": "completed job step11"
+  },
+  "railwayContainer": {
+    "status": "PASSED",
+    "imageId": "sha256:8cfe026880e7981c7fba701782c897fda50e60b7f0a28d59a42d6d5139ec4346",
+    "workerSourceContract": "PASSED",
+    "scope": "Actual CI image build and pinned source/worker guard; no Railway public deployment"
+  },
+  "runtimeIdentity": {
+    "status": "PASSED",
+    "mode": "ISOLATED_DEMO",
+    "source": "explicit live bundle verification"
+  },
+  "unitAndPostgres": {
+    "status": "PASSED",
+    "success": true,
+    "total": 1564,
+    "passed": 1564,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0,
+    "failedNames": [],
+    "classification": {
+      "status": "EXACT_SOURCE_INDEX_VALIDATED_BY_SUCCESSFUL_PACKAGING",
+      "cpuDocumentOrTransportDouble": {
+        "total": 1341,
+        "passed": 1341,
+        "failed": 0,
+        "skipped": 0
+      },
+      "realPostgres": {
+        "total": 223,
+        "passed": 223,
+        "failed": 0,
+        "skipped": 0
+      },
+      "basis": "All1564 current source cases passed with zero skip; successful producer packaging validates exact case identities/source hashes against the1341CPU223PG index. Artifact JSON not independently downloaded."
+    },
+    "evidenceReport": "docs/evidence/release-live-unit.json"
+  },
+  "browser": {
+    "status": "PASSED",
+    "passed": 26,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "total": 26,
+    "classification": {
+      "actualBackendUi": {
+        "total": 23,
+        "passed": 23
+      },
+      "explicitTransportFixtures": {
+        "total": 3,
+        "passed": 3
+      }
+    },
+    "newFixtures": {
+      "private401": "PASSED_1.4_SECONDS",
+      "delayedSendAcrossConversationSwitch": "PASSED_2.2_SECONDS"
+    },
+    "evidenceReport": "docs/evidence/browser-result.json"
+  },
+  "recovery": {
+    "encryptedConsistentPostgresBackup": "PASSED",
+    "ciphertextTamperRejection": "PASSED",
+    "isolatedRestore": {
+      "status": "PASSED",
+      "originalTableCount": 17,
+      "privateBlobCount": 10,
+      "originalRowCounts": "EXACT_MATCH_REPORTED_BY_PRODUCER",
+      "durableErasureLedgers": "VERIFIED_EXPLICIT_SYNTHETIC_RESTORE_WITHOUT_PRIVACY_HISTORY",
+      "transientPermits": "EMPTY",
+      "sourceDatabase": "UNCHANGED",
+      "gpsSafety": "VERIFIED",
+      "expiredGpsPointsPurged": 0
+    },
+    "bundledWorker": {
+      "status": "PASSED",
+      "phaseCount": 2,
+      "scope": "Actual bundled heartbeat/durable probe/graceful stop/restart on restored synthetic database; reviewed producer control flow and success log, phase JSON not independently downloaded."
+    }
+  },
+  "packaging": {
+    "status": "HOSTED_ACCEPTANCE_VERIFIED",
+    "sourceTree": "c7e77a9f9cad9aaa2fc8fecc386a0833ad0db824",
+    "runtimeBytes": 44624146,
+    "runtimeParts": 2,
+    "gitBundle": "NOT_CREATED",
+    "manifest": "artifacts/hosted-release/HOSTED_RELEASE_MANIFEST.json",
+    "currentEvidenceSecretGuard": "PASSED_ENFORCED_BY_SUCCESSFUL_PRODUCER",
+    "independentArtifactByteVerification": "NOT_RUN"
+  },
+  "providerArtifacts": [
+    {
+      "id": 11575745871,
+      "name": "knaba-documentation-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+      "sizeBytes": 1381633,
+      "providerDigest": "sha256:f023a3d36e0177c4fcb9b8e1e513e36cac2dbb75744e7b905ba85b01aa5cac8d",
+      "expired": false,
+      "url": "https://github.com/ziko1/knaba/actions/runs/37833484057/artifacts/11575745871",
+      "independentByteVerification": "NOT_RUN"
+    },
+    {
+      "id": 11575486065,
+      "name": "knaba-runtime-part2-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+      "sizeBytes": 17063616,
+      "providerDigest": "sha256:e3bdc23b0e7dfcad1913804daa3d9c79dd606b9b6ca79b49a5276b7bec38eb5f",
+      "expired": false,
+      "url": "https://github.com/ziko1/knaba/actions/runs/37833484057/artifacts/11575486065",
+      "independentByteVerification": "NOT_RUN"
+    },
+    {
+      "id": 11575486053,
+      "name": "knaba-source-delivery-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+      "sizeBytes": 2839339,
+      "providerDigest": "sha256:06c03561d675c601a1221aa69e48f1d3faf18eccc9e955805d1ececea3e8615e",
+      "expired": false,
+      "url": "https://github.com/ziko1/knaba/actions/runs/37833484057/artifacts/11575486053",
+      "independentByteVerification": "NOT_RUN"
+    },
+    {
+      "id": 11574718001,
+      "name": "knaba-evidence-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+      "sizeBytes": 4913438,
+      "providerDigest": "sha256:c6c2c5ceff9a5e03ef4d523fe582e0d58c1523f485f9f3e1ee4f594dccabf5e3",
+      "expired": false,
+      "url": "https://github.com/ziko1/knaba/actions/runs/37833484057/artifacts/11574718001",
+      "independentByteVerification": "NOT_RUN"
+    },
+    {
+      "id": 11574359170,
+      "name": "knaba-runtime-part1-2a33d9a63201be096a8c23fac6c8e43592ed8f1a",
+      "sizeBytes": 24725061,
+      "providerDigest": "sha256:481e0478dcbebef73b7a3fc7650df3f91a88c2f7d071f4be49bdf9aa1054e773",
+      "expired": false,
+      "url": "https://github.com/ziko1/knaba/actions/runs/37833484057/artifacts/11574359170",
+      "independentByteVerification": "NOT_RUN"
+    }
+  ],
+  "steps": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 2,
+      "name": "Initialize containers",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 3,
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 4,
+      "name": "Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 5,
+      "name": "Run actions/setup-python@v5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 6,
+      "name": "Run npm ci --ignore-scripts --strict-ssl=true",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 7,
+      "name": "Run python3 -m pip install openpyxl==3.1.5 Pillow==11.3.0",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 8,
+      "name": "Run npm run typecheck",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 9,
+      "name": "Run npm run build",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 10,
+      "name": "Attest exact built application artifacts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 11,
+      "name": "Validate release scripts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 12,
+      "name": "Build the actual Railway container and verify worker source contract",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 13,
+      "name": "Run npx playwright install --with-deps chromium",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 14,
+      "name": "Real isolated SQL browser restore and worker restart acceptance",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 15,
+      "name": "Package exact hosted source runtime and documentation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 16,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 17,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 18,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 19,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 20,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 21,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 39,
+      "name": "Post Run actions/setup-python@v5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 40,
+      "name": "Post Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 41,
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 42,
+      "name": "Stop containers",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 43,
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "limits": [
+    "Native2a run failed separately during a finalsimctl read timeout; this receipt proves only application release2a.",
+    "Later source changes require their own full exact-source acceptance.",
+    "Public Railway deployment/live acceptance NOT_RUN.",
+    "Company/provider/legal/physical acceptance is not established."
+  ]
+}

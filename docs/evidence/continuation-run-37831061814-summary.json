@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-08T19:35:00Z",
+  "codeSha": "3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+  "sourceTree": "89d38d5ff3565d93357b4876a0f8032de6ad552b",
+  "workflow": {
+    "id": 37831061814,
+    "jobId": 113496215589,
+    "name": "KNABA DE release verification",
+    "event": "push",
+    "branch": "codex/knaba-product-completion",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/ziko1/knaba/actions/runs/37831061814"
+  },
+  "evidenceScope": "GitHub provider run/job metadata and decoded terminal job log; no artifact bytes independently downloaded or verified.",
+  "status": "FAILED_BROWSER_ACCEPTANCE",
+  "typecheck": {
+    "status": "PASSED",
+    "source": "completed job step8"
+  },
+  "build": {
+    "status": "PASSED",
+    "source": "completed job step9"
+  },
+  "builtFileAttestation": {
+    "status": "PASSED",
+    "fileCount": 14,
+    "source": "Exact clean source and actual built artifact checksums attested job log"
+  },
+  "releaseScriptValidation": {
+    "status": "PASSED",
+    "source": "completed job step11"
+  },
+  "railwayContainer": {
+    "status": "PASSED",
+    "imageId": "sha256:2c823969e59fe00559a232c4881523f887c139a0056061777242e5ab7d4a0ac2",
+    "workerSourceContract": "PASSED",
+    "source": "completed job step12 and explicit actual image source gate log"
+  },
+  "runtimeIdentity": {
+    "status": "PASSED",
+    "mode": "ISOLATED_DEMO",
+    "source": "explicit live bundle verified exact requested SHA"
+  },
+  "unitAndPostgres": {
+    "execution": "REPORT_CREATED",
+    "status": "UNKNOWN_FROM_JOB_LOG",
+    "actualTotals": null,
+    "reason": "Vitest JSON reporter writes release-live-unit.json without actual counts or outcome in log; phase wrapper continues after failure. Raw artifact report is required to certify quantitative acceptance.",
+    "authoredExactSourceInventory": {
+      "total": 1564,
+      "cpuDocumentOrTransportDouble": 1341,
+      "realPostgres": 223,
+      "status": "AUTHORED_NOT_EXECUTION_COUNTS"
+    },
+    "evidenceReport": "docs/evidence/release-live-unit.json"
+  },
+  "browser": {
+    "status": "FAILED",
+    "total": 26,
+    "passed": 25,
+    "failed": 1,
+    "skipped": 0,
+    "classification": {
+      "actualBackendUi": {
+        "passed": 23,
+        "failed": 0
+      },
+      "explicitTransportFixtures": {
+        "passed": 2,
+        "failed": 1
+      }
+    },
+    "failure": {
+      "test": "transport fixture: an A send response arriving after switching to B preserves B history and its new draft",
+      "path": "tests/web-session-races.spec.ts",
+      "line": 133,
+      "error": "locator.click timed out after 45000ms",
+      "locator": ".sidebar nav button with exact accessible name Team communication",
+      "helper": "navigate",
+      "helperLine": 26,
+      "correction": "Reload the real console after all channel/member/message setup. Creating own channel memberships changes the current SSE authority fingerprint; production access_revoked behavior and all delayed-response assertions remain unchanged."
+    },
+    "evidenceReport": "docs/evidence/browser-result.json"
+  },
+  "recovery": {
+    "encryptedConsistentPostgresBackup": "PASSED",
+    "ciphertextTamperRejection": "PASSED",
+    "isolatedRestore": {
+      "status": "PASSED",
+      "originalTableCount": 17,
+      "privateBlobCount": 10,
+      "originalRowCounts": "EXACT_MATCH_REPORTED_BY_PRODUCER",
+      "durableErasureLedgers": "VERIFIED_EXPLICIT_SYNTHETIC_RESTORE_WITHOUT_PRIVACY_HISTORY",
+      "transientPermits": "EMPTY",
+      "sourceDatabase": "UNCHANGED",
+      "gpsSafety": "VERIFIED",
+      "expiredGpsPointsPurged": 0
+    },
+    "bundledWorker": {
+      "status": "PASSED",
+      "phaseCount": 2,
+      "scope": "Actual bundled heartbeat/durable probe/graceful stop/restart on restored synthetic database; phase count follows reviewed producer control flow and success log, raw phase JSON not independently downloaded."
+    }
+  },
+  "packaging": {
+    "status": "NOT_RUN",
+    "reason": "preceding combined acceptance step14 failed",
+    "currentEvidenceSecretGuard": "NOT_RUN",
+    "sourceArchive": "NOT_PRODUCED",
+    "documentationArchive": "NOT_PRODUCED",
+    "runtimeArchive": "NOT_PRODUCED"
+  },
+  "providerArtifacts": [
+    {
+      "id": 11573134266,
+      "name": "knaba-evidence-3c0685ad9da68c83af18d453b9a49aa7c21163d0",
+      "sizeBytes": 6032481,
+      "providerDigest": "sha256:ce83b3175c593237c3b1b666858adb46f11a941f657a1cb6c57bad1e047bb00e",
+      "expired": false,
+      "url": "https://github.com/ziko1/knaba/actions/runs/37831061814/artifacts/11573134266",
+      "independentByteVerification": "NOT_RUN"
+    }
+  ],
+  "failedSteps": [
+    {
+      "number": 14,
+      "name": "Real isolated SQL browser restore and worker restart acceptance",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "limits": [
+    "Native proof is monitored separately and must retain its own exact-source run.",
+    "Public Railway deployment/live acceptance NOT_RUN.",
+    "Company/provider/legal/physical acceptance is not established."
+  ]
+}

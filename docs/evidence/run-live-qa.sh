@@ -36,7 +36,22 @@ console.log(`Live bundle verified: ${sha}`);
 JS
 
 if [[ "$knaba_qa_phase" == all || "$knaba_qa_phase" == unit ]]; then
- npx --no-install vitest run --no-file-parallelism --reporter=json --outputFile=docs/evidence/release-live-unit.json
+ rm -f -- docs/evidence/release-live-unit.json
+ knaba_unit_exit=0
+ npx --no-install vitest run --no-file-parallelism --reporter=json --outputFile=docs/evidence/release-live-unit.json || knaba_unit_exit=$?
+ # Print bounded counts and authored failing names only. Raw assertion values,
+ # environment variables and database connection strings stay out of logs.
+ knaba_summary_exit=0
+ node --input-type=module <<'JS' || knaba_summary_exit=$?
+import {readFileSync} from 'node:fs';
+const report=JSON.parse(readFileSync('docs/evidence/release-live-unit.json','utf8'));
+const counts={total:report.numTotalTests,passed:report.numPassedTests,failed:report.numFailedTests,skipped:report.numPendingTests,todo:report.numTodoTests};
+if(!Object.values(counts).every(value=>Number.isSafeInteger(value)&&value>=0))throw Error('Invalid unit result counts.');
+const failedNames=(report.testResults??[]).flatMap(file=>(file.assertionResults??[]).filter(test=>test.status==='failed').map(test=>String(test.fullName).slice(0,500))).slice(0,20);
+console.log('Actual isolated unit/PostgreSQL result:',JSON.stringify({success:report.success,...counts,failedNames}));
+JS
+ if [[ "$knaba_unit_exit" != 0 ]]; then exit "$knaba_unit_exit"; fi
+ if [[ "$knaba_summary_exit" != 0 ]]; then exit "$knaba_summary_exit"; fi
 fi
 if [[ "$knaba_qa_phase" == all || "$knaba_qa_phase" == browser ]]; then
  npx --no-install playwright test

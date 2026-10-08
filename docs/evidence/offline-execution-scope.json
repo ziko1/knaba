@@ -1,16 +1,19 @@
 {
   "schemaVersion": 1,
-  "scope": "Classification inventory only, not SQL execution proof. Genuine PostgreSQL cases remain skipped in this socket-restricted local run; current hosted raw results determine actual acceptance. New digest/redaction/geometry/erasure CPU cases use actual bounded image processing, pure domain functions or explicit domain/SQL-boundary doubles. New activity, redaction and digest PostgreSQL files use actual Database/Engine/Worker/API with DATABASE_URL. Each execution class is explicitly reviewed per case.",
-  "generatedAt": "2026-10-06T22:57:30.990045Z",
-  "reportSha256": "56734929a254a6fafa6a0155c8db0b679ffb8eea711d3fc00818d0d8f92b3870",
+  "scope": "Authored STATIC_DEFINITION_INVENTORY only, not execution evidence. Current affected definitions were collected with Node 24 TypeScript stripping and a VM that records describe/it/it.each titles while never executing test bodies, hooks, application imports or providers. Prior unrelated case definitions and execution classifications are preserved. Totals count authored cases; CPU, PostgreSQL and rendered acceptance for the changed source remain NOT_RUN until actual observed execution. The hosted packaging guard must validate the exact observed case set and final source bytes.",
+  "generatedAt": "2026-10-08T20:31:19.999Z",
   "totals": {
-    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1307,
-    "REAL_POSTGRES": 206
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1356,
+    "REAL_POSTGRES": 224
   },
   "test_files": [
     {
       "test_path": "apps/web/src/api.test.ts",
-      "sha256": "c45c5afd879710a09130023cda1899bba7650fcdbaafab329f53b487ba67816e"
+      "sha256": "d0ee98cb9fd98208043a5049a0c650b4a196e814210e3eb3f1e1fecf41111f49"
+    },
+    {
+      "test_path": "apps/web/src/chatRequestGeneration.test.ts",
+      "sha256": "d08d36f75d9856deb335b49581cbf22322116973fa6b89758005af37f73e263e"
     },
     {
       "test_path": "apps/web/src/internalAssistantModel.test.ts",
@@ -27,6 +30,14 @@
     {
       "test_path": "apps/web/src/redactionGeometry.test.ts",
       "sha256": "ff8b375b87bd6d76aef709a38264c3e3fabe2de2a9890cae3d467608bed15b92"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "sha256": "211bae2af4c0fae9e30c864c2b5bc2ff94dc49353ac55f8bb0647c14e0fb5f6b"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "sha256": "fa64c55379ca0fe53a1faf4ddf019236baae8c1446ba0aa4f341868dc9cb767d"
     },
     {
       "test_path": "tests/activity-center.integration.test.ts",
@@ -86,7 +97,7 @@
     },
     {
       "test_path": "tests/commerce.test.ts",
-      "sha256": "8f152108fc690e86bc3cdb5be41176623a492e42dcb3afeebfa499500f8c3702"
+      "sha256": "7ece94758e52262e08ac167b90c158cd1370d07e82983c65a26ffbe7136981ec"
     },
     {
       "test_path": "tests/communications.test.ts",
@@ -161,6 +172,10 @@
       "sha256": "3c971139bdfbcdc1b07d61a6477231d8f085094684e854f22e96f1969ff2fb54"
     },
     {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "sha256": "c1882fc3ce0fb8cd8d166a608b20da46622208aab3387683e4f47258bd11cf91"
+    },
+    {
       "test_path": "tests/operations-digest.integration.test.ts",
       "sha256": "c04ee3136af180efafc2018fbdb78ca39f1cbc6f2c86c1fc21788866dff96585"
     },
@@ -194,7 +209,7 @@
     },
     {
       "test_path": "tests/resources.test.ts",
-      "sha256": "85e604cdb5c259cbdbfaf275e7215a09c27abf39f7257170fa5628bb0f4a1bd2"
+      "sha256": "a69e341088b97497ebd9b03fd69110d578e5ce0657732396350028980b308702"
     },
     {
       "test_path": "tests/route-map-model.test.ts",
@@ -228,13 +243,67 @@
   "cases": [
     {
       "test_path": "apps/web/src/api.test.ts",
+      "full_name": "does not let an old private 401 revoke a successful new login or replace its proof",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/api.test.ts",
       "full_name": "keeps guest CSRF responses from replacing the authenticated staff proof",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
     {
       "test_path": "apps/web/src/api.test.ts",
+      "full_name": "keeps scoped denials, bad credentials and guest failures outside the private session boundary",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/api.test.ts",
+      "full_name": "notifies current private authentication failures once and preserves their typed error",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/api.test.ts",
+      "full_name": "preserves an authorized session when a business command needs approval despite HTTP 401",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/api.test.ts",
+      "full_name": "rejects an old successful proof update after a new login and ignores old logout-generation failures",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/api.test.ts",
       "full_name": "surfaces typed failed commands without returning a successful result",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/chatRequestGeneration.test.ts",
+      "full_name": "conversation request boundaries (controlled HTTP transport) does not revive revoked authority when a queued channel selection or StrictMode replay occurs",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/chatRequestGeneration.test.ts",
+      "full_name": "conversation request boundaries (controlled HTTP transport) drops an already parsed A read updater and an A translation after selecting B",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/chatRequestGeneration.test.ts",
+      "full_name": "conversation request boundaries (controlled HTTP transport) keeps B messages and its new draft when an A send finishes after switching channels",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "apps/web/src/chatRequestGeneration.test.ts",
+      "full_name": "conversation request boundaries (controlled HTTP transport) keeps send completion independent from newer reads in the same conversation",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
@@ -463,6 +532,276 @@
     {
       "test_path": "apps/web/src/redactionGeometry.test.ts",
       "full_name": "manual client-copy pixel coverage supports reverse drag and clips to image boundaries",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a CLIENT role is excluded even with explicit export authority, customer access and a mixed accountant role",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a CUSTOMER role is excluded even with explicit export authority, customer access and a mixed accountant role",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a EXTERNAL_BAULEITER role is excluded even with explicit export authority, customer access and a mixed accountant role",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a GUEST role is excluded even with explicit export authority, customer access and a mixed accountant role",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a checksum-valid source with nested private extras exports only allowed review data and a safe attachment filename",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a corrupt stored snapshot checksum and an unpublished version both refuse export without writes",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a genuine disabled revocation committed after authentication closes the serving transaction before bytes or headers",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a genuine mixed-role revocation committed after authentication closes the serving transaction before bytes or headers",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a genuine permission revocation committed after authentication closes the serving transaction before bytes or headers",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a genuine site revocation committed after authentication closes the serving transaction before bytes or headers",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a service account remains excluded even with explicit report export/site authority and a mixed accountant role",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a valid governed report.read delegation makes site A readable without expanding the base accounting export scope on site B",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a valid read delegation EXPIRED after genuine authentication removes its site from the accounting serving transaction",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source a valid read delegation REVOKED after genuine authentication removes its site from the accounting serving transaction",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source an exact old version stays byte-pinned after real revision and republication, while report-ID resolves the new source",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source an immutable variable-price legacy FINAL source retains its hash and exact reported cents while accounting agreement stays unset and provisional",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source authenticated report-ID and version-ID downloads return canonical exact review data and content/source hashes without database effects",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.integration.test.ts",
+      "full_name": "accountant handoff: real PostgreSQL published report, current authority and immutable source report.read alone cannot export, and a same-looking foreign-company session reveals no source or creates effects",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff checks integrity of the complete source even when the changed field would not be disclosed",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff does not invent a report number when absent in an older immutable snapshot",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff does not serialize arbitrary address objects and reports absent text explicitly",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff excludes injected private fields throughout nested records and aggregates hours without worker identities",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff keeps a legacy final variable-price report provisional for accounting without rewriting its immutable source",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff keeps provisional amounts visibly provisional and cannot turn a final report into a validated invoice",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff preserves agreed fixed-price cents and performance facts without treating work/materials as extra charges",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff preserves an approved scope reduction as signed cents while keeping the agreed final totals nonnegative",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff preserves exact cents at the safe-integer boundary without decimal formatting or tax inference",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff preserves exact provisional variable-price amounts and discloses the missing final review",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects a draft entity or unpublished/mutable source even if it has matching report amounts",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects a mismatched document version envelope around an otherwise valid hashed snapshot",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects a mismatched site envelope around an otherwise valid hashed snapshot",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects a mismatched template envelope around an otherwise valid hashed snapshot",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects a zero or reversed performance period",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects duplicated accepted tasks instead of exporting ambiguous repeated work",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects foreign currency without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects fractional hours hidden by an integer sum without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects fractional task quantity without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects inconsistent cents and hours rather than correcting the published financial source",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects negative material quantity without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects negative tax without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects unaccepted task without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects unsafe money without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff rejects unsafe negative scope reduction without including source field values in error details",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff returns field-only diagnostics for invalid private-looking source values",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/accounting-export.test.ts",
+      "full_name": "accountant published-report handoff returns identical bytes across source key order and distinguishes download hash from full source hash",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
@@ -3109,6 +3448,18 @@
     {
       "test_path": "tests/commerce.test.ts",
       "full_name": "dispatch, privacy and versioned policy automation previews have no effects and event rerun produces one decision",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/commerce.test.ts",
+      "full_name": "dispatch, privacy and versioned policy fixed portal agreements remain exact while unknown legacy price modes are labeled estimates",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/commerce.test.ts",
+      "full_name": "dispatch, privacy and versioned policy operational closure of time/material work keeps quoted cents provisional in portal and report",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
@@ -6161,6 +6512,60 @@
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     },
     {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures does not retry a non-timeout inventory command failure",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures does not retry invalid inventory JSON",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures fails without XCTest after two inventory timeouts",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures never retries a timed-out mutating command",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures recovers final inventory without replaying download, create or boot commands",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures rejects a device that is not Booted after the final inventory retry",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures rejects the wrong UUID or runtime after the final inventory retry",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures retains a real command deadline log and raises a typed timeout",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/native-ios-simulator.test.ts",
+      "full_name": "iOS simulator preparation CPU command-transport fixtures retries one timed-out initial inventory and retains both attempted logs",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
       "test_path": "tests/operations-digest.integration.test.ts",
       "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy a transport service without a real digest lease cannot mint a snapshot or a receipt, and bad CSRF cannot use the private preview",
       "duplicate_name_occurrence": 0,
@@ -7842,6 +8247,18 @@
     },
     {
       "test_path": "tests/resources.test.ts",
+      "full_name": "immutable customer reports and media open fixed and unknown legacy orders keep report prices provisional",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/resources.test.ts",
+      "full_name": "immutable customer reports and media published closed legacy time/material reports keep source money provisional and preserve earlier versions",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
+    },
+    {
+      "test_path": "tests/resources.test.ts",
       "full_name": "immutable customer reports and media rejects unverified browser media and approves only a separate sanitized client copy",
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
@@ -9304,5 +9721,70 @@
       "duplicate_name_occurrence": 0,
       "execution_class": "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE"
     }
-  ]
+  ],
+  "generation": {
+    "kind": "STATIC_DEFINITION_INVENTORY",
+    "executionEvidence": false,
+    "currentSourceExecutionStatus": "NOT_RUN",
+    "method": "Node 24 module.stripTypeScriptTypes and VM definition-only describe/it.each collection; %s titles expanded with node:util.format; test bodies and hooks are never executed.",
+    "refreshedTestPaths": [
+      "apps/web/src/api.test.ts",
+      "apps/web/src/chatRequestGeneration.test.ts",
+      "tests/accounting-export.test.ts",
+      "tests/accounting-export.integration.test.ts",
+      "tests/native-ios-simulator.test.ts",
+      "tests/commerce.test.ts",
+      "tests/resources.test.ts"
+    ],
+    "latestRefresh": {
+      "kind": "STATIC_DEFINITION_INVENTORY",
+      "executionEvidence": false,
+      "refreshedTestPaths": [
+        "tests/accounting-export.test.ts",
+        "tests/accounting-export.integration.test.ts",
+        "tests/commerce.test.ts",
+        "tests/resources.test.ts"
+      ],
+      "reason": "Seven authored monetary-labeling regression definitions (+6 CPU and +1 real PostgreSQL): variable-price source cents/status/hash remain immutable while agreement stays unset and accounting readiness remains provisional. No test bodies, hooks, application imports, providers or subprocesses executed by the static collector."
+    },
+    "priorStaticRefreshes": [
+      {
+        "kind": "STATIC_DEFINITION_INVENTORY",
+        "executionEvidence": false,
+        "refreshedTestPaths": [
+          "tests/accounting-export.test.ts",
+          "tests/accounting-export.integration.test.ts"
+        ],
+        "reason": "Authored valid delegated read-purpose scope, revoked/expired read authorization, service-account exclusion and signed approved contract reductions; no test bodies or hooks executed."
+      },
+      {
+        "kind": "STATIC_DEFINITION_INVENTORY",
+        "executionEvidence": false,
+        "refreshedTestPaths": [
+          "tests/native-ios-simulator.test.ts"
+        ],
+        "reason": "Nine authored Vitest wrappers for bounded typed-timeout simulator inventory CPU command-transport fixtures; no test bodies, hooks or subprocesses executed by the static collector. These are not XCTest cases.",
+        "companionFixtureSourceHashes": [
+          {
+            "path": "tests/native_ios_simulator_test.py",
+            "sha256": "969f4ddeb3f95689c92ca814312eeeeffe2c31947860171d352ae1838665ce2b"
+          },
+          {
+            "path": "scripts/native-ios-simulator.py",
+            "sha256": "4b980ddeadb321c8ff2b8bc817d0b0774a534e8b88ecd123288cf4156225260f"
+          }
+        ]
+      }
+    ]
+  },
+  "historicalReference": {
+    "generatedAt": "2026-10-06T22:57:30.990045Z",
+    "reportSha256": "56734929a254a6fafa6a0155c8db0b679ffb8eea711d3fc00818d0d8f92b3870",
+    "totals": {
+      "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1307,
+      "REAL_POSTGRES": 206
+    },
+    "scope": "Classification inventory only, not SQL execution proof. Genuine PostgreSQL cases remain skipped in this socket-restricted local run; current hosted raw results determine actual acceptance. New digest/redaction/geometry/erasure CPU cases use actual bounded image processing, pure domain functions or explicit domain/SQL-boundary doubles. New activity, redaction and digest PostgreSQL files use actual Database/Engine/Worker/API with DATABASE_URL. Each execution class is explicitly reviewed per case.",
+    "description": "Prior local report metadata retained only as historical context; it does not describe execution of the current authored static inventory."
+  }
 }
