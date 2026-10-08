@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-10-08",
+  "source_sha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
+  "spec_v4_source_sha": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+  "spec_v4_sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+  "acceptance_csv_sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+  "criteria": 72,
+  "criteria_status": "NOT_RUN",
+  "local": {
+    "typecheck": "PASS",
+    "test_passed": 1307,
+    "test_skipped": 206,
+    "test_failed": 0,
+    "build": "PASS"
+  },
+  "limits": [
+    "V3 source checks do not certify V4 whole criteria",
+    "PostgreSQL/browser/live/device/provider tests NOT RUN in this session",
+    "Railway MFA gate and original cutoff remain unchanged"
+  ],
+  "documentation_base_sha": "d7877fc270a2aedca28d36de871eac34df120520",
+  "authoritative_continuation_plan": "FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md",
+  "v4_reference": "docs/specification-v4-reference/REFERENCE_PROVENANCE.json"
+}
