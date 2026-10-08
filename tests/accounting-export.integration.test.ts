@@ -115,6 +115,20 @@ postgres('accountant handoff: real PostgreSQL published report, current authorit
   expect(await fingerprint()).toEqual(before);
  });
 
+ it('an immutable variable-price legacy FINAL source retains its hash and exact reported cents while accounting agreement stays unset and provisional',async()=>{
+  // Persist an explicit legacy source that predates the corrected variable-price
+  // report labeling. Export must preserve this published source, not rewrite it.
+  const legacy=structuredClone(version.data);legacy.snapshot.order.pricingModel='TIME_MATERIAL';legacy.snapshot.priceStatus='FINAL';
+  legacy.sha256=reportSnapshotHash(legacy.snapshot);
+  const stored=await db.transaction(company,'SYNTHETIC_LEGACY_VARIABLE_ACCOUNTING_FIXTURE',tx=>tx.add('report_version',legacy,'legacy-variable-accounting-final'));
+  const before=await fingerprint(),result=await download(stored.id),payload=JSON.parse(result.bytes.toString('utf8'));
+  expect(payload.order.pricingModel).toBe('TIME_MATERIAL');expect(payload.source.sourceSha256).toBe(stored.data.sha256);expect(result.headers['X-KNABA-Source-SHA256']).toBe(stored.data.sha256);
+  expect(payload.amounts).toEqual({currency:'EUR',unit:'EUR_CENT',initialQuotedNetCents:12000,initialAgreedNetCents:null,approvedChangesNetCents:345,reportedNetCents:12345,reportedTaxCents:2346,reportedGrossCents:14691,reportPriceStatus:'FINAL',accountingPriceStatus:'PROVISIONAL',sourceTaxPresentation:'NET'});
+  expect(payload.readiness.findings).toContainEqual({code:'VARIABLE_PRICE_FINAL_REVIEW_REQUIRED',prerequisiteId:'EXT-13'});
+  expect(payload.legalInvoiceIssued).toBe(false);expect(payload.readiness.structuredInvoice).toBe('NOT_READY');
+  expect(await get('report_version',stored.id)).toEqual(stored);expect(await fingerprint()).toEqual(before);
+ });
+
  it('an exact old version stays byte-pinned after real revision and republication, while report-ID resolves the new source',async()=>{
   const original=await download();await execute(author,'report.revise',{reportId:report.id,descriptionDe:'Synthetisch korrigierter Leistungsnachweis zur Buchhalterprüfung.',reason:'Synthetic documented correction'});
   const second=await publish(report.id),old=await download(version.id),current=await download(report.id);

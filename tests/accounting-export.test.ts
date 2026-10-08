@@ -65,10 +65,10 @@ describe('accountant published-report handoff', () => {
     });
     const result = accountingExportSnapshot(report);
     expect(result.amounts).toEqual({
-      currency: 'EUR', unit: 'EUR_CENT', initialAgreedNetCents: 120_000,
+      currency: 'EUR', unit: 'EUR_CENT', initialQuotedNetCents: 120_000, initialAgreedNetCents: 120_000,
       approvedChangesNetCents: 12_000, reportedNetCents: 132_000,
       reportedTaxCents: 25_080, reportedGrossCents: 157_080,
-      reportPriceStatus: 'FINAL', sourceTaxPresentation: 'NET',
+      reportPriceStatus: 'FINAL', accountingPriceStatus: 'FINAL', sourceTaxPresentation: 'NET',
     });
     expect(result.performance.totalSeconds).toBe(3720);
     expect(result.performance.acceptedTasks[0].quantityMilli).toBe(12_500);
@@ -77,6 +77,36 @@ describe('accountant published-report handoff', () => {
     expect(result.readiness).toMatchObject({ structuredInvoice: 'NOT_READY', profileValidation: 'NOT_RUN', accountantAcceptance: 'NOT_RECORDED_BY_THIS_EXPORT' });
     expect(JSON.stringify(result)).not.toContain('rateBps');
     expect(JSON.stringify(result)).not.toContain('invoiceNumber');
+  });
+
+  it('keeps a legacy final variable-price report provisional for accounting without rewriting its immutable source', () => {
+    const report = amend(publishedReport(), snapshot => { snapshot.order.pricingModel = 'TIME_MATERIAL'; });
+    const original = structuredClone(report);
+    const rendered = renderAccountingExport(report);
+    const result = JSON.parse(rendered.bytes.toString('utf8'));
+    expect(result.amounts).toMatchObject({
+      initialQuotedNetCents: 120_000, initialAgreedNetCents: null,
+      approvedChangesNetCents: 12_000, reportedNetCents: 132_000,
+      reportedTaxCents: 25_080, reportedGrossCents: 157_080,
+      reportPriceStatus: 'FINAL', accountingPriceStatus: 'PROVISIONAL',
+    });
+    expect(result.readiness.findings).toContainEqual({ code: 'VARIABLE_PRICE_FINAL_REVIEW_REQUIRED', prerequisiteId: 'EXT-13' });
+    expect(result.readiness.findings).toContainEqual({ code: 'REPORT_PRICE_IS_PROVISIONAL', prerequisiteId: 'EXT-13' });
+    expect(rendered.sourceSha256).toBe(original.data.sha256);
+    expect(report).toEqual(original);
+  });
+
+  it('preserves exact provisional variable-price amounts and discloses the missing final review', () => {
+    const report = amend(publishedReport(), snapshot => {
+      snapshot.order.pricingModel = 'TIME_MATERIAL';
+      snapshot.priceStatus = 'PROVISIONAL';
+    });
+    const result = accountingExportSnapshot(report);
+    expect(result.amounts).toMatchObject({ initialQuotedNetCents: 120_000, initialAgreedNetCents: null,
+      reportedNetCents: 132_000, reportedTaxCents: 25_080, reportedGrossCents: 157_080,
+      reportPriceStatus: 'PROVISIONAL', accountingPriceStatus: 'PROVISIONAL' });
+    expect(result.readiness.findings.filter(finding => finding.code === 'VARIABLE_PRICE_FINAL_REVIEW_REQUIRED')).toHaveLength(1);
+    expect(result.readiness.structuredInvoice).toBe('NOT_READY');
   });
 
   it('returns identical bytes across source key order and distinguishes download hash from full source hash', () => {

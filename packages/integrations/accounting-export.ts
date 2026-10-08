@@ -119,7 +119,10 @@ export function accountingExportSnapshot(version: Entity) {
     { code: 'ACCOUNTANT_ACCEPTANCE_NOT_RECORDED_BY_THIS_EXPORT', prerequisiteId: 'EXT-19' },
     { code: 'TAX_PROFILE_NOT_EXPORTED_OR_INFERRED', prerequisiteId: 'EXT-13' },
   ];
-  if (snapshot.priceStatus === 'PROVISIONAL') findings.push({ code: 'REPORT_PRICE_IS_PROVISIONAL', prerequisiteId: 'EXT-13' });
+  const fixedPrice = snapshot.order.pricingModel === 'FIXED';
+  const accountingPriceStatus = fixedPrice ? snapshot.priceStatus : 'PROVISIONAL';
+  if (accountingPriceStatus === 'PROVISIONAL') findings.push({ code: 'REPORT_PRICE_IS_PROVISIONAL', prerequisiteId: 'EXT-13' });
+  if (!fixedPrice) findings.push({ code: 'VARIABLE_PRICE_FINAL_REVIEW_REQUIRED', prerequisiteId: 'EXT-13' });
   for (const [field, value] of [['company.addressText', companyAddress], ['customer.addressText', customerAddress], ['site.addressText', siteAddress]] as const) {
     if (value === null) findings.push({ code: 'ADDRESS_TEXT_UNAVAILABLE', prerequisiteId: 'EXT-01', field });
   }
@@ -159,12 +162,14 @@ export function accountingExportSnapshot(version: Entity) {
     amounts: {
       currency: snapshot.currency,
       unit: 'EUR_CENT' as const,
-      initialAgreedNetCents: snapshot.baseNetCents,
+      initialQuotedNetCents: snapshot.baseNetCents,
+      initialAgreedNetCents: fixedPrice ? snapshot.baseNetCents : null,
       approvedChangesNetCents: snapshot.approvedChangesNetCents,
       reportedNetCents: snapshot.totalNetCents,
       reportedTaxCents: snapshot.totalTaxCents,
       reportedGrossCents: snapshot.totalGrossCents,
       reportPriceStatus: snapshot.priceStatus,
+      accountingPriceStatus,
       sourceTaxPresentation: snapshot.taxPresentation || null,
     },
     readiness: {

@@ -6,6 +6,8 @@
 
 The handoff explicitly says `documentType: ACCOUNTANT_REVIEW_DATA`, `legalInvoiceIssued: false`, `structuredInvoiceValidated: false` and `structuredInvoice: NOT_READY`. Report numbers stay report numbers. The adapter does not allocate invoice numbers, price performance rows, infer tax rates from totals, update invoiced/paid balances, execute payments or validate XRechnung/ZUGFeRD. Materials and quantities remain performance facts; their presence creates no additional charge. A provisional report amount is retained with an explicit finding.
 
+`initialQuotedNetCents` preserves the source base amount; `initialAgreedNetCents` is populated only for FIXED pricing. `reportPriceStatus` preserves the original immutable report value. `accountingPriceStatus` remains PROVISIONAL for TIME_MATERIAL, including legacy reports labeled FINAL, with `VARIABLE_PRICE_FINAL_REVIEW_REQUIRED` and `REPORT_PRICE_IS_PROVISIONAL` findings. Operational closure and ordinary report review do not establish a variable-price settlement. Exact reported net/tax/gross cents and the original source hash remain unchanged. No authoritative variable-price settlement model is currently implemented; contractual rules and final-price evidence remain EXT-13/18 inputs.
+
 ## Authorization and HTTP integration
 
 The adapter is pure and has no authority context. Its caller must require a current internal identity with `report.export`, reject any CLIENT/CUSTOMER/EXTERNAL_BAULEITER/GUEST/SERVICE_ACCOUNT role, and freshly authorize the requested `report_version` in the same company transaction. A report ID may resolve to its current published version only after authorizing both objects. Existing report-read access alone is insufficient because customers may read their published reports.
