@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "status": "OBSERVED_NOT_READY",
+  "observedAt": "2026-10-08 19:32:01 UTC",
+  "scope": "Read-only Railway resume. No deployment/configuration mutation or new application test.",
+  "projectId": "5701136e-0b7c-48e8-a0c6-5c5a01c4330b",
+  "environment": {
+    "id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+    "name": "staging"
+  },
+  "services": [
+    {
+      "serviceId": "003f1015-f5f6-43ca-b7e1-db72c6bafb7e",
+      "name": "API",
+      "state": "offline",
+      "activeDeployments": [],
+      "replicaStatus": null
+    },
+    {
+      "serviceId": "9157c2ec-e786-4afc-a5f5-792d8dd84571",
+      "name": "Postgres",
+      "state": "crashed",
+      "activeDeployments": [
+        {
+          "id": "f7192f59-eec3-41ef-9acf-b8ab9652b874",
+          "status": "CRASHED",
+          "createdAt": "2026-10-06T20:55:09.078Z",
+          "statusUpdatedAt": "2026-10-06T20:55:35.341Z"
+        }
+      ],
+      "replicaStatus": {
+        "running": 0,
+        "crashed": 1,
+        "total": 1
+      }
+    },
+    {
+      "serviceId": "5c3c6e92-eefe-49f1-a81b-733c66f526cd",
+      "name": "Worker",
+      "state": "offline",
+      "activeDeployments": [],
+      "replicaStatus": null
+    }
+  ],
+  "pendingWork": [
+    {
+      "id": "patch:6aa92092-b449-4e17-8161-b0b4bc8c47eb",
+      "status": "staged",
+      "kind": "EnvironmentPatch",
+      "startedAt": "2026-10-06T20:57:30.916Z"
+    }
+  ],
+  "sourceGitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "stagedPatchId": "6aa92092-b449-4e17-8161-b0b4bc8c47eb",
+  "stagedChangeCount": 37,
+  "stagedApplied": false,
+  "providerBoundary": "Previously observed TWO_FACTOR requires Dashboard application; no new apply attempted.",
+  "originalCutoff": "2026-10-07T20:11:52Z",
+  "cutoffState": "EXPIRED_NOT_EXTENDED",
+  "deploymentAuthorization": "Existing isolated synthetic staging authorization within EUR10/month persists; renewal of the expired bounded window is not inferred.",
+  "publicOrigin": "https://api-staging-a476.up.railway.app",
+  "publicAcceptance": "NOT_RUN",
+  "publicReadiness": "NOT_READY",
+  "next": "Prepare an explicitly authorized new bounded window, review actual updated patch and apply through Dashboard MFA; verify live before claiming readiness."
+}

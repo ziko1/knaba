@@ -1,0 +1,4294 @@
+{
+  "schema_version": 1,
+  "document_type": "DOCUMENTATION_ONLY_DEVELOPMENT_AND_ACCEPTANCE_BACKLOG",
+  "snapshot_date": "2026-10-08",
+  "language": "uk",
+  "status": "PLANNED_REMAINING_PRODUCT_WORK;PUBLIC_NOT_READY",
+  "meaning": "Текст задач є планом, а не доказом виконання. Користувач обрав V4 цільовою та погодив збереження працюючого стеку через ADR. Лише PLAN-01 завершений у вузькій межі технічної бази ca9; 72 цільові критерії V4 не виконані. Повна V3 матриця та її функціональні регресії збережені.",
+  "canonical_scope": {
+    "specification_path": "KNABA_DE_TARGET_SPEC.md",
+    "full_plan_path": "FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md",
+    "requirements_matrix_path": "docs/requirements/requirements.json",
+    "module_readiness_path": "docs/requirements/MODULE_READINESS.json",
+    "execution_index_path": "docs/requirements/EXECUTION_INDEX_CA9ED79FF4C0.json",
+    "external_prerequisites_path": "docs/EXTERNAL_PREREQUISITES.md",
+    "requirements_count": 432,
+    "criteria_count": 475,
+    "modules_count": 34,
+    "historical_criterion_status_counts": {
+      "PASSED": 10,
+      "NOT_RUN": 465
+    },
+    "whole_criteria_current_status": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+    "external_runner_status": "EXT-22_RESOLVED_ACTUAL_CA9_HOSTED_ACCEPTANCE;NO_NEW_RUNNER_PERMISSION_MISSING",
+    "target_specification_path": "KNABA_DE_TARGET_SPEC.md",
+    "target_specification_version": 4,
+    "target_scope_authority": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+    "scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+    "preserved_runtime_adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+    "target_acceptance_criteria_count": 72,
+    "target_acceptance_csv_path": "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv",
+    "historical_regression_specification_path": "KNABA_DE_MASTER_SPEC.md",
+    "counts_scope": "PRESERVED_V3_CANONICAL_REGRESSION_MATRIX;NOT_V4_ACCEPTANCE_TOTAL",
+    "scope_interpretation_uk": "V4 є цільовою специфікацією. Повні 432 вимоги, 475 критеріїв і 34 модулі V3 лишаються історичною базою та обсягом функціональних регресій. 72 критерії V4 мають окремі IDs і поточне приймання; історія V3 не переписується."
+  },
+  "baseline": {
+    "tested_code_remote_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+    "tested_code_local_git_sha": "4132dbf04b37cc64c3388c3891edce8f44bdf73e",
+    "tested_git_tree": "8144d5bc90fcefe9bcdb26255d55287e96f2a170",
+    "source_files": 339,
+    "prior_documentation_remote_git_sha": "d7877fc270a2aedca28d36de871eac34df120520",
+    "prior_documentation_local_git_sha": "303d2e8b855bb2c47045b1e81b0bd1aace47d670",
+    "documentation_and_runtime_identity_rule": "Це нова зміна лише документації після snapshot d7877. Рішення про цільову V4 і ADR не створюють нового приймання коду й не ретегують runtime/native artifacts ca9. Попередні документаційні snapshot та їхні перевірки залишаються історичними.",
+    "actual_scoped_acceptance": {
+      "application_run": 37544413379,
+      "application_url": "https://github.com/ziko1/knaba/actions/runs/37544413379",
+      "native_run": 37544413386,
+      "native_url": "https://github.com/ziko1/knaba/actions/runs/37544413386",
+      "tests": 1513,
+      "cpu_document_explicit_doubles": 1307,
+      "real_postgres": 206,
+      "failed": 0,
+      "skipped": 0,
+      "browser_actual_backend_ui": 23,
+      "browser_explicit_http_fixture": 1,
+      "android_java": 52,
+      "ios_actual_xctest_simulator": 15,
+      "restore_tables": 17,
+      "restore_private_blobs": 10,
+      "actual_worker_phases": 2,
+      "built_file_hashes": 14,
+      "status": "ACTUAL_ACCEPTED_EXACT_SOURCE_SCOPED_GATES;NOT_WHOLE_PRODUCT_OR_PUBLIC_ACCEPTANCE"
+    },
+    "documentation_history": [
+      {
+        "remote_git_sha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
+        "local_git_sha": "5747670b4046bbcb365c3e3ab4644b163f07ca42",
+        "git_tree": "51aa98dbb291be16f9e863102795f2a8670779c2",
+        "scope": "Документація попередньої передачі перевіреної бази ca9; окрема від code SHA."
+      },
+      {
+        "remote_git_sha": "d7877fc270a2aedca28d36de871eac34df120520",
+        "local_git_sha": "303d2e8b855bb2c47045b1e81b0bd1aace47d670",
+        "git_tree": "8dc10b773dd331782201d1903c237814596bfd99",
+        "scope": "Опублікований попередній план і V3/V4 reconciliation до рішення користувача про V4. Лише документація; не нове приймання коду.",
+        "historical_document_validation": {
+          "path": "docs/evidence/development-plan-validation-2026-10-08.json",
+          "independent_checks": 29,
+          "scope": "Історична перевірка попереднього документаційного snapshot; не підтвердження нових правок або application acceptance."
+        }
+      }
+    ],
+    "prior_documentation_git_tree": "8dc10b773dd331782201d1903c237814596bfd99"
+  },
+  "public_deployment": {
+    "status": "NOT_READY",
+    "live_acceptance": "NOT_RUN",
+    "allocated_origin": "https://api-staging-a476.up.railway.app",
+    "allocated_origin_is_verified_working_url": false,
+    "project_id": "5701136e-0b7c-48e8-a0c6-5c5a01c4330b",
+    "environment_id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+    "last_recorded_service_states": {
+      "api": "OFFLINE",
+      "worker": "OFFLINE",
+      "postgresql": "CRASHED"
+    },
+    "historical_reviewed_patch_changes": 37,
+    "patch_state": "STAGED_NOT_APPLIED",
+    "new_patch_count": "READ_ACTUAL_AFTER_WINDOW_CORRECTION;DO_NOT_ASSUME_37",
+    "provider_blocker": "Railway вимагає Dashboard 2FA. API/MCP token не може його виконати; обхід заборонений.",
+    "original_absolute_cutoff": "2026-10-07T20:11:52Z",
+    "original_window_status": "EXPIRED",
+    "cutoff_extended": false,
+    "authorized_budget_eur_per_month": 10,
+    "sustained_cost_verified": false,
+    "authorization_rule": "Чинна авторизація окремого synthetic staging зберігається. Нові конкретні строк і правила витрат є окремою умовою. Не просити повторний дозвіл на саме завдання, не продовжувати cutoff мовчки та не змінювати інші проєкти чи спільні billing rules."
+  },
+  "execution_rules": {
+    "read_first": [
+      "AGENTS.md",
+      "PROJECT_MEMORY.md",
+      "docs/TEST_EVIDENCE.md"
+    ],
+    "criterion_statuses": [
+      "PASSED",
+      "FAILED",
+      "NOT_RUN",
+      "BLOCKED_EXTERNAL"
+    ],
+    "task_statuses": [
+      "COMPLETED_SCOPED",
+      "PENDING",
+      "BLOCKED_EXTERNAL",
+      "CONDITIONAL_NOT_STARTED"
+    ],
+    "future_evidence_policy": "Exit evidence paths незавершених задач є запланованими виходами NOT_CREATED/NOT_RUN. Їхня згадка не доводить виконання.",
+    "conditional_decision_policy": "Для кожного умовного пункту записати погоджене рішення відповідального щодо застосовності: пов’язані requirement/criterion IDs, scope, version, reason і source. Застосовна вимога лишається відкритою до реалізації та повного фактичного приймання.",
+    "regression_policy": "Виконувати meaningful tests для зміненого джерела, потім потрібні застосовні hosted/release/native gates. Зберігати оригінальні невдачі та точну ідентичність джерела. Не додавати тести, що лише повторюють низькоризикове редагування документації.",
+    "production_merge_realdata_policy": "Дозвіл staging не є дозволом merge, production чи роботи з реальними персональними даними. До відповідного рішення компанії підготувати конкретний release/rollback package.",
+    "parallel_draft_assessment_rule": "Редакція V4 та збереження працюючого стеку вже затверджені користувачем у ADR-0002. PLAN-28 очікує завершення звірки конкретних контрактів і параметрів реалізації. Незалежні оцінки незаперечених критеріїв V3, відтворення дефектів, підготовка регресій і staging patch можуть тривати паралельно. Залежність PLAN-02 від PLAN-28 стосується остаточного приймання повного цільового обсягу; повторне погодження редакції чи ORM/черги не потрібне.",
+    "target_scope_policy": "V4 є затвердженою цільовою специфікацією через явне рішення користувача. Працюючий стек зберігається за ADR-0002; решта конкретних розбіжностей реалізації й критеріїв не вважається автоматично погодженою чи виконаною. Повна V3 база та регресії збережені."
+  },
+  "tasks": [
+    {
+      "id": "PLAN-01",
+      "title_uk": "Зберегти перевірений код, документацію та передані артефакти",
+      "status": "COMPLETED_SCOPED",
+      "priority": "P0",
+      "owner": {
+        "lead": "Development/QA lead",
+        "support": [
+          "DevOps"
+        ]
+      },
+      "dependencies": [],
+      "external_prerequisite_refs": [],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Зберегти код і дерево ca9 окремо від документаційного e18f. Не переписувати працюючі контракти, вихідний код, історію чи артефакти.",
+        "Використовувати справжні application/native receipts ca9 та незалежно перевірені архіви коду, runtime і мобільних клієнтів лише в межах тверджень, які вони доводять."
+      ],
+      "exit_criteria_uk": [
+        "Точний код і дерево ca9, 1513/1513 тестів, 24/24 браузерні сценарії, 52 Java-перевірки, 15 XCTest та байти артефактів підтверджені на зафіксованому джерелі.",
+        "Завершена лише перевірена технічна база. Публічне середовище, приймання компанією, реальні провайдери, фізичні пристрої та всі 475 складених критеріїв не оголошені прийнятими."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/ci-run-37544413379-summary.json",
+        "docs/evidence/native-run-37544413386-summary.json",
+        "docs/evidence/independent-delivery-ca9ed79.json"
+      ],
+      "exit_evidence_state": "EXISTING_SCOPED_BASELINE",
+      "actual_result": {
+        "status": "ACCEPTED_EXACT_SOURCE_SCOPED_GATES_AND_INDEPENDENT_DELIVERY",
+        "source_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+        "application_run_id": 37544413379,
+        "native_run_id": 37544413386,
+        "scope_limit": "Справжні hosted source/build/database/browser/recovery/worker та native debug/simulator докази. Вони не підтверджують live Railway чи приймання всього продукту."
+      },
+      "completed_at": "2026-10-06T23:18:13.291177+00:00"
+    },
+    {
+      "id": "PLAN-02",
+      "title_uk": "Оцінити 72 цільові критерії V4 та повні регресії V3",
+      "status": "PENDING",
+      "priority": "P0",
+      "owner": {
+        "lead": "QA lead",
+        "support": [
+          "Architect",
+          "Domain developers"
+        ]
+      },
+      "dependencies": [
+        "PLAN-01",
+        "PLAN-28"
+      ],
+      "external_prerequisite_refs": [],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Для кожного з 72 цільових критеріїв V4 створити поточне виконання всіх складених частин: ролі, дані, кроки, середовище, source SHA та очікувані наслідки.",
+        "Зіставити цільове приймання з усіма 432 вимогами, 475 критеріями й 34 модулями V3. Для кожного V3 критерію зберегти поточну оцінку функціональної регресії та пов’язані target IDs; нічого мовчки не вилучати.",
+        "Пов’язати лише фактичні наявні докази. Розділити прогалину коду, невиконане приймання та зовнішній вхід. Погоджену альтернативу стеку застосувати через ADR-0002.",
+        "Зберегти історичні 10 PASSED / 465 NOT_RUN у V3. Поточну V4 оцінку додати окремо; прийняття target не приймає всі application criteria."
+      ],
+      "exit_criteria_uk": [
+        "Усі 72 target AC IDs і повні 475 V3 criterion IDs / 432 requirement IDs охоплені поточними зв’язками та оцінкою. Жоден критерій не прийнятий лише за сумарною кількістю тестів.",
+        "Кожен відкритий цільовий критерій або застосовна V3 регресія має конкретну прогалину чи залежність, відповідального та потрібний клас доказу."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/current-criterion-assessment.json",
+        "docs/evidence/planning/criterion-execution-catalog.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-03",
+      "title_uk": "Точкові виправлення підтверджених прогалин і дефектів",
+      "status": "PENDING",
+      "priority": "P0",
+      "owner": {
+        "lead": "Development lead",
+        "support": [
+          "Architect",
+          "QA",
+          "Domain developers"
+        ]
+      },
+      "dependencies": [
+        "PLAN-02"
+      ],
+      "external_prerequisite_refs": [],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Відтворити конкретний дефект або обов’язкову прогалину реалізації з requirement/criterion ID. Спершу виправляти доступ, цілісність, гроші, час, приватність і відновлення; далі бізнес-процеси та UI.",
+        "Змінювати лише потрібні файли й контракти. Зберігати аудит, бізнес-історію та атомарні інваріанти PostgreSQL.",
+        "Зміна збережених у Git файлів коду, конфігурації, контракту, тесту, toolchain чи native створює нову candidate SHA та потребує відповідних перевірок. Зовнішні змінні Railway мають окремий config digest і readback; вони самі не змінюють code SHA. Документаційний SHA не ретегує runtime.",
+        "Виконувати підтверджені цільові прогалини V4 зі збереженням повних V3 регресій і погодженого ADR-0002. Сам факт вибору target не змінює код і не закриває розбіжності контрактів."
+      ],
+      "exit_criteria_uk": [
+        "Усі підтверджені обов’язкові внутрішні прогалини коду закриті. Якщо така прогалина лишилася відкритою, пакет не позначається завершеним.",
+        "Для кожного виправлення є відтворення, diff, точний source SHA та перевірки відмови, повтору, конкуренції й rollback, де застосовно."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/confirmed-gap-register.json",
+        "docs/evidence/planning/targeted-fix-evidence.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-04",
+      "title_uk": "Погодити нове обмежене staging-вікно та контроль бюджету",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P0",
+      "owner": {
+        "lead": "Railway account owner",
+        "support": [
+          "DevOps",
+          "KNABA technical owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-01"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03"
+      ],
+      "module_refs": [
+        "delivery/autonomy",
+        "infra/deployment",
+        "delivery/product"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Зберегти факт минулого cutoff 2026-10-07T20:11:52Z. Не скидати й не продовжувати його мовчки.",
+        "Врахувати вже надану авторизацію окремого staging до €10/місяць. Зафіксувати конкретне нове дозволене вікно та правила витрат і зупинки; повторний дозвіл на сам проєкт не просити.",
+        "Підготувати лише відповідну зміну cutoff/config в ізольованому проєкті KNABA. Не змінювати інші проєкти чи спільні правила billing."
+      ],
+      "exit_criteria_uk": [
+        "Є зафіксовані новий строк, правила зупинки, відповідальний і бюджет. Попереднє вікно не видається чинним.",
+        "Підготовлена конфігурація доступна для перевірки та не запускає платні ресурси поза чинним погодженим обсягом."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/staging-window-authorization.json",
+        "docs/evidence/planning/current-staged-config-review.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "blocker": "EXPIRED_ABSOLUTE_WINDOW;NEW_CONCRETE_WINDOW_NOT_RECORDED"
+    },
+    {
+      "id": "PLAN-05",
+      "title_uk": "Застосувати актуальні зміни через MFA у Railway Dashboard",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P0",
+      "owner": {
+        "lead": "Railway account owner",
+        "support": [
+          "DevOps"
+        ]
+      },
+      "dependencies": [
+        "PLAN-04"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03"
+      ],
+      "module_refs": [
+        "infra/deployment",
+        "delivery/autonomy"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Перечитати весь актуальний patch: source pins, shared GIT_SHA, Dockerfile, references, private DB, resource caps, start і predeploy. Фактичну кількість змін прочитати; після нового cutoff не припускати, що їх залишиться 37.",
+        "Власник облікового запису застосовує конкретний patch через Dashboard 2FA. Не виконувати обхід через API/MCP token.",
+        "Зберегти readback застосованої конфігурації без секретів."
+      ],
+      "exit_criteria_uk": [
+        "Провайдер підтверджує фактичне застосування. Статуси staged або queued не видаються успішним розгортанням.",
+        "Readback конфігурації, джерела й вікна відповідає перевіреному patch. Жоден сторонній ресурс не змінено."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/railway-patch-application.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "blocker": "PROVIDER_DASHBOARD_TWO_FACTOR_NOT_AVAILABLE_TO_API_MCP"
+    },
+    {
+      "id": "PLAN-06",
+      "title_uk": "Отримати працюючі API, PostgreSQL і Worker",
+      "status": "PENDING",
+      "priority": "P0",
+      "owner": {
+        "lead": "DevOps lead",
+        "support": [
+          "Development lead",
+          "QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-05"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03"
+      ],
+      "module_refs": [
+        "infra/deployment",
+        "architecture",
+        "identity/rbac",
+        "security/resilience",
+        "delivery/product"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Перевірити terminal SUCCESS та репліки окремих PostgreSQL, API і Worker; фактичні build/predeploy/runtime logs та lifecycle міграцій і джерела.",
+        "Точково виправити лише відтворену помилку. Якщо змінено збережені файли джерела, отримати нову candidate SHA й відповідні нові докази.",
+        "Перевірити справжні HTTPS, readiness, assets, DEMO, company knaba-demo, exact /version SHA та private Worker/API bootstrap."
+      ],
+      "exit_criteria_uk": [
+        "Реальні API, PostgreSQL і Worker працюють на поточному перевіреному джерелі. Health не підтверджується лише наявністю ENV.",
+        "Фактичні runtime SHA, origin, terminal states, конфігурація й вікно записані. Виділена адреса не підміняє працюючу URL."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/deployed-runtime-readiness.json",
+        "docs/evidence/planning/deployed-source-config-binding.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-07",
+      "title_uk": "Живі HTTPS, доставка окремим Worker та 24 браузерні сценарії",
+      "status": "PENDING",
+      "priority": "P0",
+      "owner": {
+        "lead": "QA lead",
+        "support": [
+          "DevOps",
+          "Web developer"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03"
+      ],
+      "module_refs": [
+        "web/pwa/widget/native",
+        "identity/rbac",
+        "notifications/automations",
+        "channels/conversation-router",
+        "tasks/quality/rework",
+        "reporting/documents",
+        "bot-admin",
+        "acceptance/quality",
+        "infra/deployment"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Лише після фактичної готовності створити staging-target marker і запустити verify-staging.mjs на exact runtime SHA.",
+        "Owner створює унікальну приватну подію; окремий Employee бачить реальну WEB delivery від окремого Worker. Перевірити CSRF, ACL, revocation, logout, retry і restart.",
+        "Повторити 24 браузерні сценарії проти HTTPS, зберігши розділення 23 actual backend/UI і 1 explicit HTTP fixture."
+      ],
+      "exit_criteria_uk": [
+        "Отримано докази публічних HTTPS, version, assets і приватного Worker із часом та потрібним SHA.",
+        "Усі потрібні сценарії успіху, відмови й UI мають фактичні receipts. Fixture не названий живим тестом зовнішнього провайдера."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/live-https-worker-verification.json",
+        "docs/evidence/planning/deployed-browser-summary.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-08",
+      "title_uk": "Виміряти вартість і підтвердити розмір ресурсів у бюджеті",
+      "status": "PENDING",
+      "priority": "P0",
+      "owner": {
+        "lead": "DevOps lead",
+        "support": [
+          "KNABA technical owner",
+          "Railway account owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03",
+        "EXT-20"
+      ],
+      "module_refs": [
+        "infra/deployment",
+        "security/resilience",
+        "delivery/product",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Зібрати фактичні CPU, memory, storage, network і cost метрики за зафіксований інтервал та режим використання. Врахувати тариф, included credits і валютну основу оцінки.",
+        "Розрахувати місячний прогноз за спостереженнями й обмеженнями; зіставити його з €10/місяць. Ліміти ресурсів самі не доводять ціну.",
+        "Якщо прогноз перевищує бюджет, перевірити менший sizing або зафіксувати конкретне рішення. Не продовжувати ресурси мовчки."
+      ],
+      "exit_criteria_uk": [
+        "Доказ бюджету й sizing містить фактичний інтервал, виміряне використання, billing basis, прогноз, обмеження та відповідального за зупинку й alert.",
+        "Постійна експлуатація не оголошена бюджетною без вимірювань і погоджених правил витрат."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/measured-hosting-budget.json",
+        "docs/evidence/planning/approved-sizing-stop-policy.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-09",
+      "title_uk": "Затвердити дані компанії, повноваження й реальні правила",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P0",
+      "owner": {
+        "lead": "Authorized KNABA owner",
+        "support": [
+          "Director",
+          "Accountant",
+          "Legal/privacy reviewer",
+          "Operations manager"
+        ]
+      },
+      "dependencies": [
+        "PLAN-01"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-01",
+        "EXT-02",
+        "EXT-13",
+        "EXT-14",
+        "EXT-15",
+        "EXT-17",
+        "EXT-18",
+        "EXT-20"
+      ],
+      "module_refs": [
+        "identity/rbac",
+        "legal/policies",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "timekeeping",
+        "inventory/procurement",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "approvals/automations"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Отримати затверджені факти компанії, юридичні дані, owner/recovery/MFA, ролі, делегування й представників клієнтів.",
+        "Налаштувати реальні rates, tax, discount mandates, crews, skills, availability, sites, material units, suppliers та pay/travel/time/accountant/report/Abnahme rules.",
+        "Для кожного правила зберегти відповідального, version, scope, effective/expiry і джерело погодження. Synthetic facts не видавати даними production."
+      ],
+      "exit_criteria_uk": [
+        "Профіль має фактичні погоджені входи та перевірені формат, обсяг і версії. Юридичну й комерційну точність підтвердили відповідальні ролі компанії.",
+        "Owner, recovery, роль, відкликання доступу й повноваження представника клієнта не виведені автоматично з DEMO чи доступу до Git."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/approved-company-profile.json",
+        "docs/evidence/planning/company-policy-authority-tests.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-10",
+      "title_uk": "Прийняти офіційний WhatsApp на дозволених тестових номерах",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company Meta administrator",
+        "support": [
+          "Integration developer",
+          "QA",
+          "Permitted recipient owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-04",
+        "EXT-05"
+      ],
+      "module_refs": [
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "leads/handoff",
+        "notifications/automations"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Підключити фактичні WABA, phone, app, API version, approved templates, account capabilities та credentials із secret manager.",
+        "Надсилати лише конкретно дозволені тести на allowed recipients з підтвердженими opt-in, window і дозволом власника номера.",
+        "Зберегти реальні результати signed inbound, webhook, window, template, media, delivery, read, callback, retry і handoff без секретів."
+      ],
+      "exit_criteria_uk": [
+        "Справжні provider receipts підтверджують роботу та callback correlation. Fixture не замінює доказ конкретного WABA account.",
+        "Немає несанкціонованого надсилання клієнтам чи працівникам або активації поза дозволеним обсягом."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/whatsapp-account-acceptance.json",
+        "docs/evidence/planning/whatsapp-authorized-live-scenarios.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-11",
+      "title_uk": "Реальні AI, переклад і чернетки з оцінкою приватності та якості",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company privacy/AI owner",
+        "support": [
+          "Integration developer",
+          "QA",
+          "Language reviewers"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-06"
+      ],
+      "module_refs": [
+        "assistant-config/knowledge",
+        "messaging/translation",
+        "leads/handoff",
+        "privacy/ai",
+        "legal/policies",
+        "bot-admin"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Отримати погоджені host, model, key, region, DPA, subprocessors, transfers, retention, training rules, rates, budget і evaluation data.",
+        "Виконати оцінку шести мов та adversarial scenarios зі справжнім провайдером: scoped retrieval, translation, private customer/internal drafts і людське підтвердження.",
+        "Перевірити timeout, unknown outcome, budget, зміну джерела, revocation та operator fallback. AI не отримує повноважень над грошима, payroll чи GPS."
+      ],
+      "exit_criteria_uk": [
+        "Відповідальні ролі прийняли фактичні якість моделі, провайдера, приватність і бюджет. SIMULATED playground має окрему межу доказу.",
+        "Minimization, current authority, source version, explicit confirmation і fallback працюють зі справжньою погодженою моделлю."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/ai-provider-privacy-approval.json",
+        "docs/evidence/planning/ai-six-language-quality-results.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-12",
+      "title_uk": "Зовнішні карти, навігація й ETA, якщо потрібні",
+      "status": "CONDITIONAL_NOT_STARTED",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company maps/privacy owner",
+        "support": [
+          "Integration developer",
+          "Physical QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-07"
+      ],
+      "module_refs": [
+        "geolocation/geofences/travel/native",
+        "sites/site-locations",
+        "privacy/ai",
+        "web/pwa/widget/native"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "CONDITIONAL",
+        "status": "DECISION_REQUIRED",
+        "decision_required": true,
+        "trigger": "Компанія обирає потрібні зовнішні карти, navigation або ETA поза реалізованим scoped SVG.",
+        "decision_evidence_path": "docs/evidence/planning/conditional-scope-decisions.json",
+        "decision_evidence_status": "NOT_CREATED",
+        "scope_rule": "Застосовність визначає записане погоджене рішення щодо конкретних requirement/criterion IDs. Не можна мовчки виключити вимогу V3 або закрити пакет лише відсутністю ключа чи провайдера. Якщо вимога застосовна, реалізація та повні фактичні докази обов’язкові."
+      },
+      "actions_uk": [
+        "Визначити, чи потрібні external tiles, navigation або ETA для конкретних критеріїв V3. Зберегти вже реалізований scoped SVG.",
+        "Якщо обрано провайдера, налаштувати погоджені key, region, attribution, quota, cache, transfer і spending та перевірити фізичний маршрут."
+      ],
+      "exit_criteria_uk": [
+        "Застосовність погоджена щодо конкретних IDs. Якщо функція потрібна, провайдер, польовий маршрут, приватність і quota прийняті за фактичними доказами.",
+        "Відсутність external key не маскує невиконаний обов’язковий критерій маршруту."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/maps-scope-decision.json",
+        "docs/evidence/planning/maps-provider-field-acceptance.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-13",
+      "title_uk": "Атомарне редагування клієнтського фото на S3, якщо обрано",
+      "status": "CONDITIONAL_NOT_STARTED",
+      "priority": "P1",
+      "owner": {
+        "lead": "Media/storage developer",
+        "support": [
+          "Privacy developer",
+          "DevOps",
+          "QA",
+          "Company infrastructure owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-02",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-08"
+      ],
+      "module_refs": [
+        "media",
+        "privacy/ai",
+        "security/resilience",
+        "reporting/documents"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "CONDITIONAL",
+        "status": "DECISION_REQUIRED",
+        "decision_required": true,
+        "trigger": "Компанія обирає S3 саме для редагування клієнтських фото. Поточне атомарне редагування на PostgreSQL уже має технічні докази.",
+        "decision_evidence_path": "docs/evidence/planning/conditional-scope-decisions.json",
+        "decision_evidence_status": "NOT_CREATED",
+        "scope_rule": "Застосовність визначає записане погоджене рішення щодо конкретних requirement/criterion IDs. Не можна мовчки виключити вимогу V3 або закрити пакет лише відсутністю ключа чи провайдера. Якщо вимога застосовна, реалізація та повні фактичні докази обов’язкові."
+      },
+      "actions_uk": [
+        "Зафіксувати обране production storage та застосовність для редагування клієнтських фото. Зберегти працююче redaction на PostgreSQL.",
+        "Лише якщо потрібне редагування на S3, реалізувати namespace/version-fenced blob та edit journal lifecycle з atomic publication, rollback, retry, quiescence, erasure і restore.",
+        "Перевірити фактичні private bucket ACL, ClamAV clean/infected files, source ownership, незмінність оригіналу й попередніх копій, reapproval та fail-closed errors."
+      ],
+      "exit_criteria_uk": [
+        "Обране сховище має повністю перевірений edit/erasure/restore lifecycle. Непідтримуване редагування S3 не активоване.",
+        "Погоджене рішення не використовувати S3 не вилучає обов’язкове редагування фото, яке вже працює на PostgreSQL."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/media-storage-scope-decision.json",
+        "docs/evidence/planning/s3-edit-lifecycle-acceptance.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-14",
+      "title_uk": "Незалежна резервна копія, контроль ключів і відновлення",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company infrastructure owner",
+        "support": [
+          "DevOps",
+          "Privacy owner",
+          "QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-08"
+      ],
+      "module_refs": [
+        "security/resilience",
+        "privacy/ai",
+        "media",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Налаштувати independent destination, region, key custody, retention, private bucket і scanner operator для V4 KNB-23: DB/metadata RPO ≤15 хвилин, media RPO ≤24 години та RTO ≤4 години. Конкретні доступи й оператори залишаються зовнішніми передумовами.",
+        "Виконати справжні encrypted copy та restore до іншої порожньої DB з media, checksums, tamper rejection, current trusted ledger і worker restart.",
+        "Виміряти recovery time та свіжість даних, перевірити відмови erasure/hold reconciliation. Не очищати робочу DB."
+      ],
+      "exit_criteria_uk": [
+        "Фактичне offsite restore на обраному провайдері відповідає погодженим RPO/RTO та контролю ключів компанією, без відновлення пізніше видалених даних.",
+        "Hosted proof 17 tables / 10 blobs лишається технічною базою й не замінює production offsite recovery."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/offsite-backup-key-custody.json",
+        "docs/evidence/planning/selected-provider-restore-drill.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "v4_recovery_targets": {
+        "source": "KNABA_DE_TARGET_SPEC.md KNB-23",
+        "status": "TARGET_DEFINED_EXECUTION_NOT_RUN",
+        "db_metadata_rpo_minutes_max": 15,
+        "media_rpo_hours_max": 24,
+        "rto_hours_max": 4,
+        "actual_results": null
+      }
+    },
+    {
+      "id": "PLAN-15",
+      "title_uk": "Структуровані рахунки XRechnung/ZUGFeRD, якщо застосовно",
+      "status": "CONDITIONAL_NOT_STARTED",
+      "priority": "P1",
+      "owner": {
+        "lead": "Accounting integration developer",
+        "support": [
+          "Accountant",
+          "Tax adviser",
+          "QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-02",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-19"
+      ],
+      "module_refs": [
+        "reporting/documents",
+        "pricing/quotations",
+        "legal/policies",
+        "domain/contracts"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "CONDITIONAL",
+        "status": "DECISION_REQUIRED",
+        "decision_required": true,
+        "trigger": "Погоджений structured invoice/accounting profile застосовний за вимогами компанії й податкового reviewer. Адаптер наразі не реалізований.",
+        "decision_evidence_path": "docs/evidence/planning/conditional-scope-decisions.json",
+        "decision_evidence_status": "NOT_CREATED",
+        "scope_rule": "Застосовність визначає записане погоджене рішення щодо конкретних requirement/criterion IDs. Не можна мовчки виключити вимогу V3 або закрити пакет лише відсутністю ключа чи провайдера. Якщо вимога застосовна, реалізація та повні фактичні докази обов’язкові."
+      },
+      "actions_uk": [
+        "Отримати застосовні profile/version, current validator та погоджені accountant samples для конкретних критеріїв рахунків.",
+        "Якщо потрібно, реалізувати structured export із незмінними approved snapshot, version, number і tax та показом validator errors.",
+        "Перевірити schema/profile, roundtrip, negative cases і фактичне accountant acceptance. PDF, CSV чи XLSX не є сертифікацією structured invoice."
+      ],
+      "exit_criteria_uk": [
+        "Рішення щодо профілю погоджене. Застосовний adapter проходить поточний погоджений validator і приймання бухгалтером на точному джерелі.",
+        "Умовне рішення не вилучає мовчки обов’язкову поведінку рахунків чи accounting у V3."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/structured-invoice-profile-decision.json",
+        "docs/evidence/planning/structured-invoice-validator-results.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-16",
+      "title_uk": "Погоджені адаптери бухгалтерії, банку й постачальників",
+      "status": "CONDITIONAL_NOT_STARTED",
+      "priority": "P1",
+      "owner": {
+        "lead": "Finance/procurement integration developer",
+        "support": [
+          "Accountant",
+          "Director",
+          "Procurement",
+          "QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-02",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-15",
+        "EXT-16",
+        "EXT-17"
+      ],
+      "module_refs": [
+        "payroll/payouts",
+        "inventory/procurement",
+        "reporting/documents",
+        "domain/contracts",
+        "security/resilience"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "CONDITIONAL",
+        "status": "DECISION_REQUIRED",
+        "decision_required": true,
+        "trigger": "Компанія надає погоджений контракт бухгалтера, банку або постачальника та визначає adapter/execution scope для застосовних критеріїв.",
+        "decision_evidence_path": "docs/evidence/planning/conditional-scope-decisions.json",
+        "decision_evidence_status": "NOT_CREATED",
+        "scope_rule": "Застосовність визначає записане погоджене рішення щодо конкретних requirement/criterion IDs. Не можна мовчки виключити вимогу V3 або закрити пакет лише відсутністю ключа чи провайдера. Якщо вимога застосовна, реалізація та повні фактичні докази обов’язкові."
+      },
+      "actions_uk": [
+        "Отримати реальні формати, провайдерів, повноваження та limits. Обрати import/export або execution scope для конкретних критеріїв.",
+        "Реалізувати лише погоджені adapters з idempotency, unknown outcome, reconciliation, partial results, reversal та audit controls.",
+        "Реальні bank transfer або order можливі лише за окремою конкретно дозволеною дією. Synthetic statement чи ledger не видається платежем."
+      ],
+      "exit_criteria_uk": [
+        "Кожен обраний adapter має точний контракт, regression на відповідному джерелі й дозволені реальні integration proofs.",
+        "Наявний запис виплати чи supplier ledger не оголошений виконаним банківським переказом або замовленням."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/finance-supplier-contract-decisions.json",
+        "docs/evidence/planning/finance-supplier-reconciliation-results.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-17",
+      "title_uk": "Погодити одержувачів, 19 причин повідомлень і timed REMIND",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Operations manager / Director",
+        "support": [
+          "Notification developer",
+          "QA",
+          "Company support owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06",
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-14",
+        "EXT-20"
+      ],
+      "module_refs": [
+        "notifications/automations",
+        "approvals/automations",
+        "bot-admin",
+        "tasks/quality/rework",
+        "reporting/statistics",
+        "dispatch/scheduling"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Затвердити реальних відповідальних одержувачів, source, role, timeout, escalation, quiet mode і rate policies. Не вигадувати резервного одержувача для всієї компанії.",
+        "На погодженому профілі пройти потрібні 19 cause families та timed REMIND/digest Berlin DST із current cause/version/ACL, read vs delivery, lease, retry, dedup і revocation.",
+        "Показати прогалину конфігурації NO_CURRENT_RECIPIENT. Реальні надсилання WhatsApp виконувати лише через allowed recipients PLAN-10."
+      ],
+      "exit_criteria_uk": [
+        "Погоджені реальні policy, role, source version і recipient bindings; докази повних причинних процесів пов’язані з критеріями.",
+        "13 SQL cases bridge та 19 labels не оголошують 19 прийнятих бізнес-процесів компанії. Людське читання відрізняється від доставки."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/notification-recipient-reminder-policies.json",
+        "docs/evidence/planning/work-causes-timed-notification-results.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "conditional_dependencies": [
+        {
+          "task_id": "PLAN-10",
+          "when": "Обрана реальна доставка повідомлень WhatsApp.",
+          "decision_required": true
+        }
+      ]
+    },
+    {
+      "id": "PLAN-18",
+      "title_uk": "Законна конфігурація GPS та чотири незалежні погодження",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Employer/privacy/legal owner",
+        "support": [
+          "Betriebsrat where applicable",
+          "Company technical owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-09"
+      ],
+      "module_refs": [
+        "legal/policies",
+        "privacy/ai",
+        "geolocation/geofences/travel/native",
+        "timekeeping"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Погодити purpose, necessity, legal basis, alternatives, notice, access, retention, appeal, DPIA та застосовність works council.",
+        "Зберегти чотири справжні scoped approvals, effective/expiry і version; перевірити event time, revoke та privacy gates.",
+        "Не активувати реальне tracking на підставі synthetic approval або самого дозволу пристрою."
+      ],
+      "exit_criteria_uk": [
+        "Обов’язкові реальні юридичні погодження чинні, technical gates повторно перевірені. Юридичну достатність прийняв відповідальний reviewer.",
+        "Відсутнє, прострочене або відкликане погодження закриває real tracking без обходу."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/gps-scoped-legal-approvals.json",
+        "docs/evidence/planning/gps-current-policy-gate-results.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-19",
+      "title_uk": "Повне виконання privacy/DSAR через провайдерів, копії й пристрої",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company privacy owner",
+        "support": [
+          "Privacy developer",
+          "DevOps",
+          "Device owners",
+          "Provider administrators"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06",
+        "PLAN-09",
+        "PLAN-14",
+        "PLAN-18",
+        "PLAN-22"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-06",
+        "EXT-08",
+        "EXT-09",
+        "EXT-10"
+      ],
+      "module_refs": [
+        "privacy/ai",
+        "media",
+        "security/resilience",
+        "geolocation/geofences/travel/native",
+        "messaging/translation",
+        "legal/policies"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Перевірити фактичні DSAR, CHAT/MEDIA/raw GPS scope, current authority, holds, quiescence та owner lineage в active DB.",
+        "Отримати справжні processor, offsite та enrolled device fulfillment receipts і reconciliation з незалежним актуальним erasure ledger.",
+        "Перевірити late callbacks під час обробки, retries і restore після пізнішого erasure. Збереження або зняття legal hold не видавати завершеним без доказів."
+      ],
+      "exit_criteria_uk": [
+        "Виконання в active DB, backups, providers і devices має фактичні owner/time/scope/results. Application unit tests не підтверджують зовнішнє видалення.",
+        "Після erasure чи revocation немає відновлення видалених даних або витоку. Невирішені legal hold, processor і device кроки залишаються явними."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/full-privacy-fulfillment.json",
+        "docs/evidence/planning/erasure-ledger-device-provider-reconciliation.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "conditional_dependencies": [
+        {
+          "task_id": "PLAN-11",
+          "when": "Використовується AI processor.",
+          "decision_required": true
+        },
+        {
+          "task_id": "PLAN-13",
+          "when": "Обране редагування на S3.",
+          "decision_required": true
+        }
+      ]
+    },
+    {
+      "id": "PLAN-20",
+      "title_uk": "Підписання й поширення Android від імені компанії",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company Android signing owner",
+        "support": [
+          "Android developer",
+          "QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-11"
+      ],
+      "module_refs": [
+        "geolocation/geofences/travel/native",
+        "web/pwa/widget/native",
+        "security/resilience",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Отримати стабільні company keystore/certificate, правила контролю секретів та погодження version/distribution.",
+        "Зібрати release APK/AAB на exact candidate SHA; перевірити signature, hash, stable upgrade identity та дозволені install/upgrade.",
+        "Зберегти debug proof 52 Java/lint як технічну базу. Ephemeral debug key не є ключем company release.",
+        "Розглянути 8 наявних lint warnings, включно з OldTargetApi, щодо погоджених OS/SDK і каналу поширення. Warning сам по собі не оголошувати новим блокером без визначеної вимоги."
+      ],
+      "exit_criteria_uk": [
+        "Підписаний компанією установлюваний release artifact має точні source/certificate/hash, upgrade proof і контроль signing keys.",
+        "Поширення артефакту належить компанії. Фізичну поведінку приймає PLAN-22."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/android-company-signing-delivery.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-21",
+      "title_uk": "Підписання й поширення iOS від імені компанії",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Company Apple team owner",
+        "support": [
+          "iOS developer",
+          "QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-09"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-12"
+      ],
+      "module_refs": [
+        "geolocation/geofences/travel/native",
+        "web/pwa/widget/native",
+        "security/resilience",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Отримати Apple Developer team, provisioning, entitlements, approved distribution та контроль ключів.",
+        "Зібрати й експортувати справжній установлюваний signed IPA/TestFlight на exact source; перевірити hash, certificate, provisioning, install та upgrade.",
+        "Зберегти 15 справжніх simulator XCTest і 45 bundle hashes як технічну базу. Simulator app не є signed device IPA."
+      ],
+      "exit_criteria_uk": [
+        "Фактичні установлювані delivery, provisioning, entitlements, source hashes і підпис компанії перевірені.",
+        "Фізичні permissions, background, GPS і battery не позначені PASSED за симулятором."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/ios-company-signing-delivery.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-22",
+      "title_uk": "Фізичні Android/iPhone перевірки GPS, фону, офлайн і батареї",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Physical QA/device owners",
+        "support": [
+          "Android/iOS developers",
+          "Privacy owner",
+          "Operations manager"
+        ]
+      },
+      "dependencies": [
+        "PLAN-07",
+        "PLAN-18",
+        "PLAN-20",
+        "PLAN-21"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-10",
+        "EXT-09",
+        "EXT-11",
+        "EXT-12"
+      ],
+      "module_refs": [
+        "geolocation/geofences/travel/native",
+        "web/pwa/widget/native",
+        "timekeeping",
+        "privacy/ai",
+        "acceptance/quality"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "На дозволених справжніх пристроях із чинними GPS approvals виконати foreground, locked screen, background, force-stop, reboot, denied/revoked permission, offline, reconnect та duplicates.",
+        "Зафіксувати encrypted queue, privacy stop, logout, cache, geofence/travel timing, timezone, event authority, TTL, шість мов і accessibility.",
+        "Виміряти фізичні geolocation latency, battery та OS limitations. Не обіцяти delivery після force-stop всупереч обмеженням ОС."
+      ],
+      "exit_criteria_uk": [
+        "Існують фактичні device/OS/app source/time/route/steps/expected/actual/result receipts для обов’язкових сценаріїв.",
+        "Компанія прийняла фізичні обмеження; немає непояснених прогалин приватності, даних чи часу. Debug/simulator не замінюють фізичні перевірки."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/physical-device-acceptance.json",
+        "docs/evidence/planning/physical-geolocation-battery-metrics.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-23",
+      "title_uk": "Приймання компанією наскрізних бізнес-процесів",
+      "status": "PENDING",
+      "priority": "P1",
+      "owner": {
+        "lead": "KNABA business acceptance owner",
+        "support": [
+          "QA lead",
+          "Director",
+          "Foreman",
+          "Employee",
+          "Customer representative",
+          "Accountant",
+          "Storekeeper"
+        ]
+      },
+      "dependencies": [
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-09",
+        "PLAN-10",
+        "PLAN-11",
+        "PLAN-14",
+        "PLAN-17",
+        "PLAN-18",
+        "PLAN-19",
+        "PLAN-22"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-01",
+        "EXT-02",
+        "EXT-13",
+        "EXT-14",
+        "EXT-15",
+        "EXT-16",
+        "EXT-17",
+        "EXT-18"
+      ],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Виконати lead/handoff/quote/acceptance/dispatch, site import/task/team/time/review/rework та client Issue/photo/report/publication/ACK процеси.",
+        "Виконати approved time/correction/rate/accountant/payout record/partial dispute та material request/reserve/issue/use/return/receipt/reconciliation процеси.",
+        "Звірити period statistics, digests, notification causes і source versions; перевірити відмови доступу, replay, revocation, rollback та outage. Кожну складену частину критерію оцінити окремо.",
+        "Фізичну якість робіт, повноваження представника, legal Abnahme та реальні фінансові дії приймають відповідальні справжні ролі. Не імітувати їх synthetic approvals.",
+        "Company UAT прив’язати до всіх 72 цільових критеріїв V4 та повних застосовних V3 функціональних регресій. ADR-0002 визначає погоджену альтернативу стеку, а не виконання бізнес-сценаріїв."
+      ],
+      "exit_criteria_uk": [
+        "Усі 72 цільові критерії V4 та обов’язкові застосовні V3 регресії мають повні поточні докази й приймання. Відкритий обов’язковий критерій лишає пакет незавершеним.",
+        "Ролі компанії прийняли фактичні business semantics, privacy, disclosure, time, money, quality та contractual ACK. 1513 тестів не є повним company UAT."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/company-uat-results.json",
+        "docs/evidence/planning/current-whole-criterion-results.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "conditional_dependencies": [
+        {
+          "task_id": "PLAN-12",
+          "when": "Обрані зовнішні карти.",
+          "decision_required": true
+        },
+        {
+          "task_id": "PLAN-13",
+          "when": "Обране редагування на S3.",
+          "decision_required": true
+        },
+        {
+          "task_id": "PLAN-15",
+          "when": "Структуровані рахунки застосовні.",
+          "decision_required": true
+        },
+        {
+          "task_id": "PLAN-16",
+          "when": "Погоджений адаптер фінансів або постачальника застосовний.",
+          "decision_required": true
+        }
+      ]
+    },
+    {
+      "id": "PLAN-24",
+      "title_uk": "Точний production release та пакет змін і rollback для перевірки",
+      "status": "PENDING",
+      "priority": "P1",
+      "owner": {
+        "lead": "Release/DevOps lead",
+        "support": [
+          "QA lead",
+          "Company production decision owner",
+          "Architect"
+        ]
+      },
+      "dependencies": [
+        "PLAN-23",
+        "PLAN-08",
+        "PLAN-27",
+        "PLAN-25",
+        "PLAN-28"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03",
+        "EXT-08",
+        "EXT-20",
+        "EXT-21"
+      ],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Зафіксувати final candidate SHA, config, toolchain і native. Повторити відповідні meaningful hosted PG/browser/TypeScript/build/container/restore/worker/packaging/native gates на цьому джерелі.",
+        "Підготувати reviewable release, migration, rollback та manifest із source/build/runtime/doc SHA й сумісними backup/schema boundaries. Secret guard не послаблювати.",
+        "Окремо визначити фактичну production/merge/real data authorization. Не переносити staging authorization автоматично.",
+        "Фінальні gates оцінити за цільовою V4, V4_SCOPE_DECISION та ADR-0002, з повними застосовними V3 feature regressions. Рішення користувача про target не є дозволом merge/production, реалізацією чи тестовим PASS."
+      ],
+      "exit_criteria_uk": [
+        "Live, UAT, застосовні provider/legal/device/DR, SLO, budget та operating owner gates прийняті. Final exact source, артефакти й тести узгоджені.",
+        "Рішення компанії про production записано; actual deploy/rollback boundary перевірено без руйнування business history."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/final-exact-source-release-gates.json",
+        "docs/evidence/planning/production-change-rollback-approval.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-25",
+      "title_uk": "Контроль активів компанією та відповідальні за експлуатацію",
+      "status": "BLOCKED_EXTERNAL",
+      "priority": "P1",
+      "owner": {
+        "lead": "Authorized KNABA asset/operations owner",
+        "support": [
+          "DevOps",
+          "Contracted developer",
+          "Privacy/legal owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-09",
+        "PLAN-08",
+        "PLAN-14"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-20",
+        "EXT-21"
+      ],
+      "module_refs": [
+        "handover",
+        "security/resilience",
+        "infra/deployment",
+        "identity/rbac",
+        "legal/policies",
+        "delivery/documentation"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Зафіксувати контроль repo, domain, WABA, hosting, data, signing і keys; company admin/recovery, support/incident contacts, SLA, RPO/RTO та budget policy.",
+        "Перевірити справжні company access, export, license review, recovery і developer revoke policy без публікації секретів.",
+        "Погодження ownership підтверджує відповідальний власник. Розробник не самостійно підтверджує приймання компанією."
+      ],
+      "exit_criteria_uk": [
+        "Підтверджено операторів компанії, активи, ключі, документацію, відновлення та incident/support scope; записані фактичні access/export/revoke checks.",
+        "Ownership підготовлене до production release. Остаточне приймання переданого продукту залишається в PLAN-26."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/company-asset-operating-custody.json",
+        "docs/evidence/planning/support-incident-access-revoke-drill.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-26",
+      "title_uk": "Фінальна передача продукту з фактичними URL, SHA та артефактами",
+      "status": "PENDING",
+      "priority": "P1",
+      "owner": {
+        "lead": "Delivery lead",
+        "support": [
+          "KNABA acceptance owner",
+          "QA",
+          "DevOps"
+        ]
+      },
+      "dependencies": [
+        "PLAN-24",
+        "PLAN-25"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-21"
+      ],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Передати справжні працюючі URLs, version, code/doc/runtime SHA, tree/image/file hashes та перевірені source/runtime і підписані компанією native artifacts.",
+        "Оновити готовність 34 модулів, поточні результати 72 цільових V4 критеріїв, повні V3 regression links/assessments, memory, roadmap, test ledger і user/admin/API/DevOps/recovery guides за фактичним final state.",
+        "Передати доступи через secret manager, активи компанії та записати справжнє handover decision. Не приховувати відкритий обов’язковий модуль без готовності."
+      ],
+      "exit_criteria_uk": [
+        "Приймання технічного release, всього застосовного обсягу й передачі активів компанії записано; всі твердження доставки мають фактичні докази.",
+        "Готовність кожного модуля, відомі обмеження, вартість, restore та SLO читач може перевірити за точними identities."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/final-delivery-manifest.json",
+        "docs/evidence/planning/company-handover-acceptance.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null
+    },
+    {
+      "id": "PLAN-27",
+      "title_uk": "Вимірювання навантаження, SLO та перевірка моніторингу",
+      "status": "PENDING",
+      "priority": "P1",
+      "owner": {
+        "lead": "Performance/DevOps QA lead",
+        "support": [
+          "Company technical/support owner",
+          "Web/worker developer",
+          "Physical QA"
+        ]
+      },
+      "dependencies": [
+        "PLAN-06"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-03",
+        "EXT-10",
+        "EXT-20"
+      ],
+      "module_refs": [
+        "acceptance/quality",
+        "security/resilience",
+        "infra/deployment",
+        "channels/conversation-router",
+        "reporting/documents",
+        "notifications/automations",
+        "geolocation/geofences/travel/native"
+      ],
+      "coverage_reference": "Посилання module_refs розгортаються через module_coverage до requirement_ids і criterion_ids. Це навігація обсягу; один пакет сам не доводить всі критерії пов’язаного модуля.",
+      "applicability": {
+        "type": "REQUIRED",
+        "status": "APPLICABLE",
+        "decision_required": false,
+        "scope_rule": "Пакет не закриває критерій без повного фактичного доказу. Його модулі визначають обсяг робіт, а не автоматичне приймання всіх вимог."
+      },
+      "actions_uk": [
+        "Підготувати відтворюваний synthetic profile для затвердженого V4 KNB-23: 100 працівників, 20 активних об’єктів, 100 одночасних сесій, 10 команд/с протягом 15 хвилин і 100 000 TimeSegments. Наперед записати ресурси, seed, commands і measurement interval; V3 §30.9 зберігається як додаткова регресія.",
+        "Виміряти фактичні API latency p50/p95/p99 для описаного профілю, queue backlog/oldest age, duplicate/error rates, report duration та chat reconnect.",
+        "Порівняти вимірювання з V4 KNB-23: core API p95 ≤1 с / p99 ≤3 с, 0 втрачених підтверджених команд і <1% 5xx; durable webhook p95 ≤2 с; enqueue→provider request p95 ≤5 с; PDF ≤60 с для 50 задач / 20 оптимізованих фото за 3 паралельних jobs. Synthetic transport doubles не доводять реальні provider latency.",
+        "Для physical geolocation latency та battery використати справжні device evidence PLAN-22. Згенерований маршрут не є фізичним доказом.",
+        "Перевірити справжні дозволені monitor, alert, incident, restart і rollback drill. Зберегти raw-safe metrics, settings, scenario, code, environment та results."
+      ],
+      "exit_criteria_uk": [
+        "Результати відтворювані за точними SHA, environment, profile, resources, measurement interval, data і commands; є числові метрики. Налаштовані healthchecks не є PASSED.",
+        "Цільові пороги V4 KNB-23 вже визначені. Відтворюваний фактичний результат порівняно з ними; додаткові V3 метрики отримують записаний threshold і measurement class до виконання. NOT_RUN і FAILED збережені чесно.",
+        "Physical geo/battery та permitted alert/operator proof мають окремі справжні класи доказів. Неперевірені твердження про місткість не публікуються."
+      ],
+      "exit_evidence_paths": [
+        "docs/evidence/planning/load-profile-and-slo-decision.json",
+        "docs/evidence/planning/measured-load-observability-results.json",
+        "docs/evidence/planning/actual-alert-rollback-drill.json"
+      ],
+      "exit_evidence_state": "NOT_CREATED_NOT_RUN",
+      "actual_result": null,
+      "completed_at": null,
+      "directly_related_requirement_ids": [
+        "KNABA-R-30-020",
+        "KNABA-R-30-021",
+        "KNABA-R-30-022"
+      ],
+      "directly_related_criterion_ids": [
+        "T-REQ-30-020",
+        "T-REQ-30-021",
+        "T-REQ-30-022"
+      ],
+      "metric_contract": {
+        "status": "NOT_RUN",
+        "profile_status": "V4_BASELINE_DEFINED_EXECUTION_PROFILE_NOT_PREPARED",
+        "slo_status": "V4_KNB23_TARGET_DEFINED_MEASUREMENT_NOT_RUN",
+        "invented_concurrency_or_slo": false,
+        "metrics": [
+          {
+            "name": "api_latency_ms_p50_p95_p99",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "queue_backlog_count",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "oldest_queue_age_seconds",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "duplicate_rate",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "error_rate",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "report_duration_ms",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "chat_reconnect_ms",
+            "class": "REAL_DEPLOYED_LOAD",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "geolocation_event_latency_ms",
+            "class": "PHYSICAL_DEVICE",
+            "threshold": null,
+            "actual": null
+          },
+          {
+            "name": "battery_use_per_documented_interval",
+            "class": "PHYSICAL_DEVICE",
+            "threshold": null,
+            "actual": null
+          }
+        ],
+        "v4_target_baseline": {
+          "source": "KNABA_DE_TARGET_SPEC.md KNB-23",
+          "status": "TARGET_DEFINED_EXECUTION_NOT_RUN",
+          "employees": 100,
+          "active_sites": 20,
+          "concurrent_sessions": 100,
+          "commands_per_second": 10,
+          "duration_seconds": 900,
+          "time_segments": 100000,
+          "core_api_p95_ms_max": 1000,
+          "core_api_p99_ms_max": 3000,
+          "lost_acknowledged_commands_max": 0,
+          "http_5xx_rate_max_exclusive": 0.01,
+          "durable_webhook_p95_ms_max": 2000,
+          "enqueue_to_provider_request_p95_ms_max": 5000,
+          "pdf_duration_seconds_max": 60,
+          "pdf_tasks": 50,
+          "pdf_optimized_photos": 20,
+          "parallel_pdf_jobs": 3,
+          "db_metadata_rpo_minutes_max": 15,
+          "media_rpo_hours_max": 24,
+          "rto_hours_max": 4,
+          "actual_results": null
+        }
+      },
+      "evidence_prerequisites": [
+        {
+          "task_id": "PLAN-22",
+          "scope": "Фактичні фізичні geolocation, battery та device behavior."
+        },
+        {
+          "task_id": "PLAN-25",
+          "scope": "Визначені operating contacts, дозволені alerts і support policy."
+        }
+      ]
+    },
+    {
+      "id": "PLAN-28",
+      "title_uk": "Завершити узгодження цільової V4 з реалізацією та регресіями V3",
+      "status": "PENDING",
+      "priority": "P0",
+      "owner": {
+        "lead": "Development/architecture lead",
+        "support": [
+          "QA lead",
+          "Authorized KNABA scope owner"
+        ]
+      },
+      "dependencies": [
+        "PLAN-01"
+      ],
+      "external_prerequisite_refs": [
+        "EXT-21"
+      ],
+      "module_refs": [
+        "delivery/specification",
+        "delivery/product",
+        "delivery/autonomy",
+        "approvals/automations",
+        "architecture",
+        "identity/rbac",
+        "channels/conversation-router",
+        "integrations/whatsapp",
+        "messaging/translation",
+        "assistant-config/knowledge",
+        "leads/handoff",
+        "pricing/quotations",
+        "dispatch/scheduling",
+        "client-portal",
+        "sites/site-locations",
+        "tasks/quality/rework",
+        "timekeeping",
+        "geolocation/geofences/travel/native",
+        "reporting/statistics",
+        "inventory/procurement",
+        "notifications/automations",
+        "media",
+        "payroll/payouts",
+        "reporting/documents",
+        "bot-admin",
+        "web/pwa/widget/native",
+        "privacy/ai",
+        "legal/policies",
+        "security/resilience",
+        "domain/contracts",
+        "acceptance/quality",
+        "delivery/documentation",
+        "infra/deployment",
+        "handover"
+      ],
+      "coverage_reference": "Повні V3 requirement/criterion IDs збережені в module_coverage як історична й функціональна регресійна база. AC-01..AC-72 є окремими цільовими критеріями V4; рішення користувача не виконує ці сценарії й не переписує V3 історію.",
+      "applicability": {
+        "type": "REQUIRED_TARGET_RECONCILIATION",
+        "status": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+        "decision_required": false,
+        "scope_rule": "Користувач обрав V4 цільовою та збереження працюючого стеку через ADR-0002. Це рішення вже отримане; повторне погодження авторитетності не потрібне. Решту обов’язкових розбіжностей і регресій треба завершити та довести окремо."
+      },
+      "actions_uk": [
+        "Зберегти явне рішення користувача про V4 у V4_SCOPE_DECISION.json, а її точні байти — у KNABA_DE_TARGET_SPEC.md. Оригінальний V3 master і його матрицю зберегти без перезапису.",
+        "Застосовувати ADR-0002: лишити працюючі NestJS, PostgreSQL через pg і транзакційний inbox/outbox; не переходити автоматично на Prisma або Redis/BullMQ. Погодження ADR не є новим application PASS.",
+        "За вже прочитаними 72 цільовими критеріями завершити зв’язки з current source, повним обсягом V3 та справжніми доказами ca9. Розділити підтверджене повторення, параметр, прогалину приймання й обов’язкову прогалину коду.",
+        "Решту відмінностей точності й округлення, API, media, load та DR узгодити на рівні конкретних контрактів і IDs. Змінювати runtime code лише за фактичною застосовною прогалиною; потім отримати новий exact source SHA та потрібні докази.",
+        "Зберегти всі 34 модулі, 432 вимоги та 475 критеріїв V3 як історичну й функціональну регресійну базу. Усі 72 цільові application criteria V4 залишаються NOT_RUN до фактичного повного виконання."
+      ],
+      "exit_criteria_uk": [
+        "Рішення користувача про цільову V4 та збереження стеку записано. Цей підетап RESOLVED і не потребує повторного запиту.",
+        "Усі 72 AC IDs мають source review/reconciliation із повним V3 scope, current source, точними відмінностями та конкретними подальшими контрактними рішеннями або доказами. Невирішена обов’язкова розбіжність лишає PLAN-28 PENDING.",
+        "Решта обов’язкових розбіжностей узгоджена; їхній потрібний implementation/acceptance work прив’язаний до пакетів. V3 master та історія збережені; рішення про target або ADR не назване виконанням application сценаріїв."
+      ],
+      "exit_evidence_paths": [
+        "docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
+        "KNABA_DE_TARGET_SPEC.md",
+        "docs/planning/V4_SCOPE_DECISION.json",
+        "docs/adr/0002-v4-target-and-preserved-runtime.md",
+        "docs/planning/V3_V4_RECONCILIATION.json",
+        "docs/evidence/planning/v3-v4-remaining-contract-decisions.json"
+      ],
+      "exit_evidence_state": "USER_TARGET_AND_STACK_DECISION_RESOLVED;REMAINING_CONTRACT_RECONCILIATION_NOT_COMPLETED",
+      "exit_evidence_path_states": {
+        "docs/specification-v4-reference/REFERENCE_PROVENANCE.json": "EXISTING_REFERENCE_ONLY",
+        "KNABA_DE_TARGET_SPEC.md": "APPROVED_TARGET_DOCUMENT;NOT_APPLICATION_EVIDENCE",
+        "docs/planning/V4_SCOPE_DECISION.json": "RESOLVED_EXPLICIT_USER_SCOPE_DECISION;NOT_APPLICATION_EVIDENCE",
+        "docs/adr/0002-v4-target-and-preserved-runtime.md": "APPROVED_STACK_ALTERNATIVE;NOT_APPLICATION_EXECUTION",
+        "docs/planning/V3_V4_RECONCILIATION.json": "REMAINING_DELTAS_PENDING",
+        "docs/evidence/planning/v3-v4-remaining-contract-decisions.json": "NOT_CREATED_NOT_RUN"
+      },
+      "actual_result": null,
+      "completed_at": null,
+      "target_decision_subgate": {
+        "status": "RESOLVED_USER_DECISION",
+        "authority": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+        "scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+        "adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+        "application_acceptance": "NOT_RUN"
+      },
+      "remaining_exit_status": "REMAINING_CONTRACT_DELTA_REVIEW_AND_WORK_BINDING_PENDING;TARGET_AND_STACK_DECISION_RESOLVED"
+    }
+  ],
+  "module_coverage": [
+    {
+      "module": "delivery/specification",
+      "requirement_ids": [
+        "KNABA-R-00-001",
+        "KNABA-R-00-002",
+        "KNABA-R-00-003",
+        "KNABA-R-00-004"
+      ],
+      "criterion_ids": [
+        "T-REQ-00-001",
+        "T-REQ-00-002",
+        "T-REQ-00-003",
+        "T-REQ-00-004"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Повний V3 збережено без зміни байтів; вимоги й критерії мають детерміновану матрицю.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 4
+        },
+        "criteria": {
+          "NOT_RUN": 4
+        }
+      }
+    },
+    {
+      "module": "delivery/product",
+      "requirement_ids": [
+        "KNABA-R-01-001",
+        "KNABA-R-01-002",
+        "KNABA-R-01-003",
+        "KNABA-R-01-004",
+        "KNABA-R-01-005",
+        "KNABA-R-01-006",
+        "KNABA-R-01-007"
+      ],
+      "criterion_ids": [
+        "T-REQ-01-001",
+        "T-REQ-01-002",
+        "T-REQ-01-003",
+        "T-REQ-01-004",
+        "T-REQ-01-005",
+        "T-REQ-01-006",
+        "T-REQ-01-007"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-04",
+        "PLAN-06",
+        "PLAN-08",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Окремий продукт KNABA DE зі збереженими даними компанії, commerce, operations, chat, privacy, web і native; підключені digests, масковані клієнтські копії, own activity та персональні повідомлення про робочі події.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 7
+        },
+        "criteria": {
+          "NOT_RUN": 7
+        }
+      }
+    },
+    {
+      "module": "delivery/autonomy",
+      "requirement_ids": [
+        "KNABA-R-02-001",
+        "KNABA-R-02-002",
+        "KNABA-R-02-003",
+        "KNABA-R-02-004",
+        "KNABA-R-02-005",
+        "KNABA-R-02-006",
+        "KNABA-R-02-007",
+        "KNABA-R-02-008",
+        "KNABA-R-02-009"
+      ],
+      "criterion_ids": [
+        "T-REQ-02-001",
+        "T-REQ-02-002",
+        "T-REQ-02-003",
+        "T-REQ-02-004",
+        "T-REQ-02-005",
+        "T-REQ-02-006",
+        "T-REQ-02-007",
+        "T-REQ-02-008",
+        "T-REQ-02-009"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-04",
+        "PLAN-05",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Закріплені власники напрямів, roadmap, memory, журнали source/artifact evidence та межі авторизації.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 9
+        },
+        "criteria": {
+          "NOT_RUN": 9
+        }
+      }
+    },
+    {
+      "module": "approvals/automations",
+      "requirement_ids": [
+        "KNABA-R-03-001",
+        "KNABA-R-03-002",
+        "KNABA-R-03-003",
+        "KNABA-R-03-004",
+        "KNABA-R-03-005",
+        "KNABA-R-03-006"
+      ],
+      "criterion_ids": [
+        "T-REQ-03-001",
+        "T-REQ-03-002",
+        "T-REQ-03-003",
+        "T-REQ-03-004",
+        "T-REQ-03-005",
+        "T-REQ-03-006"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-17",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Версійовані MORNING/DAY/WEEK digests, Europe/Berlin і DST; доступні за поточними правами секції, фактичні періоди виробітку й погоджені коригування; незмінні snapshots та ідемпотентне WEB scheduling.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 6
+        },
+        "criteria": {
+          "NOT_RUN": 6
+        }
+      }
+    },
+    {
+      "module": "architecture",
+      "requirement_ids": [
+        "KNABA-R-04-001",
+        "KNABA-R-04-002",
+        "KNABA-R-04-003",
+        "KNABA-R-04-004",
+        "KNABA-R-04-005",
+        "KNABA-R-04-006",
+        "KNABA-R-04-007",
+        "KNABA-R-04-008"
+      ],
+      "criterion_ids": [
+        "T-REQ-04-001",
+        "T-REQ-04-002",
+        "T-REQ-04-003",
+        "T-REQ-04-004",
+        "T-REQ-04-005",
+        "T-REQ-04-006",
+        "T-REQ-04-007",
+        "T-REQ-04-008"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-06",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Модульний monolith із strict TypeScript; PostgreSQL locks, receipts, inbox/outbox, окремий Worker та версійовані native contracts.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 8
+        },
+        "criteria": {
+          "NOT_RUN": 8
+        }
+      }
+    },
+    {
+      "module": "identity/rbac",
+      "requirement_ids": [
+        "KNABA-R-05-001",
+        "KNABA-R-05-002",
+        "KNABA-R-05-003",
+        "KNABA-R-05-004",
+        "KNABA-R-05-005",
+        "KNABA-R-05-006",
+        "KNABA-R-05-007",
+        "KNABA-R-05-008",
+        "KNABA-R-05-009",
+        "KNABA-R-05-010",
+        "KNABA-R-05-011",
+        "KNABA-R-05-012",
+        "KNABA-R-05-013",
+        "KNABA-R-05-014",
+        "KNABA-R-05-015",
+        "KNABA-R-05-016",
+        "KNABA-R-05-017",
+        "KNABA-R-05-018",
+        "KNABA-R-05-019",
+        "KNABA-R-05-020",
+        "KNABA-R-05-021"
+      ],
+      "criterion_ids": [
+        "T-REQ-05-001",
+        "T-REQ-05-002",
+        "T-REQ-05-003",
+        "T-REQ-05-004",
+        "T-REQ-05-005",
+        "T-REQ-05-006",
+        "T-REQ-05-007",
+        "T-REQ-05-008",
+        "T-REQ-05-009",
+        "T-REQ-05-010",
+        "T-REQ-05-011",
+        "T-REQ-05-012",
+        "T-REQ-05-013",
+        "T-REQ-05-014",
+        "T-REQ-05-015",
+        "T-REQ-05-016",
+        "T-REQ-05-017",
+        "T-REQ-05-018",
+        "T-REQ-05-019",
+        "T-REQ-05-020",
+        "T-REQ-05-021"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-06",
+        "PLAN-07",
+        "PLAN-09",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Scrypt, hashed sessions, CSRF/origin, TOTP, invitations, поточні role/site/customer/delegation scopes та негайне відкликання доступу.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 21
+        },
+        "criteria": {
+          "NOT_RUN": 21
+        }
+      }
+    },
+    {
+      "module": "channels/conversation-router",
+      "requirement_ids": [
+        "KNABA-R-06-001",
+        "KNABA-R-06-002",
+        "KNABA-R-06-003",
+        "KNABA-R-06-004",
+        "KNABA-R-06-005",
+        "KNABA-R-06-006",
+        "KNABA-R-06-007",
+        "KNABA-R-06-008",
+        "KNABA-R-06-009",
+        "KNABA-R-06-010",
+        "KNABA-R-06-011"
+      ],
+      "criterion_ids": [
+        "T-REQ-06-001",
+        "T-REQ-06-002",
+        "T-REQ-06-003",
+        "T-REQ-06-004",
+        "T-REQ-06-005",
+        "T-REQ-06-006",
+        "T-REQ-06-007",
+        "T-REQ-06-008",
+        "T-REQ-06-009",
+        "T-REQ-06-010",
+        "T-REQ-06-011"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-10",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Збережені спільні канали й ідентичність джерела; обмежені staff/customer wizards WhatsApp викликають канонічні Engine commands.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 11
+        },
+        "criteria": {
+          "NOT_RUN": 11
+        }
+      }
+    },
+    {
+      "module": "integrations/whatsapp",
+      "requirement_ids": [
+        "KNABA-R-07-001",
+        "KNABA-R-07-002",
+        "KNABA-R-07-003",
+        "KNABA-R-07-004",
+        "KNABA-R-07-005",
+        "KNABA-R-07-006",
+        "KNABA-R-07-007",
+        "KNABA-R-07-008",
+        "KNABA-R-07-009"
+      ],
+      "criterion_ids": [
+        "T-REQ-07-001",
+        "T-REQ-07-002",
+        "T-REQ-07-003",
+        "T-REQ-07-004",
+        "T-REQ-07-005",
+        "T-REQ-07-006",
+        "T-REQ-07-007",
+        "T-REQ-07-008",
+        "T-REQ-07-009"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-10",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Офіційний raw HMAC/inbound adapter, явна API version, обмежені buttons/lists, delivery/callback/reply context та allowed-recipient gates.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 9
+        },
+        "criteria": {
+          "NOT_RUN": 9
+        }
+      }
+    },
+    {
+      "module": "messaging/translation",
+      "requirement_ids": [
+        "KNABA-R-08-001",
+        "KNABA-R-08-002",
+        "KNABA-R-08-003",
+        "KNABA-R-08-004",
+        "KNABA-R-08-005",
+        "KNABA-R-08-006",
+        "KNABA-R-08-007",
+        "KNABA-R-08-008",
+        "KNABA-R-08-009",
+        "KNABA-R-08-010",
+        "KNABA-R-08-011",
+        "KNABA-R-08-012",
+        "KNABA-R-08-013",
+        "KNABA-R-08-014",
+        "KNABA-R-08-015",
+        "KNABA-R-08-016",
+        "KNABA-R-08-017"
+      ],
+      "criterion_ids": [
+        "T-REQ-08-001",
+        "T-REQ-08-002",
+        "T-REQ-08-003",
+        "T-REQ-08-004",
+        "T-REQ-08-005",
+        "T-REQ-08-006",
+        "T-REQ-08-007",
+        "T-REQ-08-008",
+        "T-REQ-08-009",
+        "T-REQ-08-010",
+        "T-REQ-08-011",
+        "T-REQ-08-012",
+        "T-REQ-08-013",
+        "T-REQ-08-014",
+        "T-REQ-08-015",
+        "T-REQ-08-016",
+        "T-REQ-08-017"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-10",
+        "PLAN-11",
+        "PLAN-19",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Membership history ACL, оригінал, версія, копія й reply context; переклад прив’язаний до glossary/model, з обмеженими retry та handoff suppression.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 17
+        },
+        "criteria": {
+          "NOT_RUN": 17
+        }
+      }
+    },
+    {
+      "module": "assistant-config/knowledge",
+      "requirement_ids": [
+        "KNABA-R-09-001",
+        "KNABA-R-09-002",
+        "KNABA-R-09-003",
+        "KNABA-R-09-004",
+        "KNABA-R-09-005",
+        "KNABA-R-09-006",
+        "KNABA-R-09-007",
+        "KNABA-R-09-008",
+        "KNABA-R-09-009",
+        "KNABA-R-09-010",
+        "KNABA-R-09-011"
+      ],
+      "criterion_ids": [
+        "T-REQ-09-001",
+        "T-REQ-09-002",
+        "T-REQ-09-003",
+        "T-REQ-09-004",
+        "T-REQ-09-005",
+        "T-REQ-09-006",
+        "T-REQ-09-007",
+        "T-REQ-09-008",
+        "T-REQ-09-009",
+        "T-REQ-09-010",
+        "T-REQ-09-011"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-11",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Config preview/regression/approval/activation/rollback, окремі catalog і PriceBook, ACL retrieval, allowlisted tools, category budgets і usage provenance. Внутрішні чернетки приватні, прив’язані до версії та явно підтверджуються.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 11
+        },
+        "criteria": {
+          "NOT_RUN": 11
+        }
+      }
+    },
+    {
+      "module": "leads/handoff",
+      "requirement_ids": [
+        "KNABA-R-10-001",
+        "KNABA-R-10-002",
+        "KNABA-R-10-003",
+        "KNABA-R-10-004",
+        "KNABA-R-10-005",
+        "KNABA-R-10-006",
+        "KNABA-R-10-007",
+        "KNABA-R-10-008",
+        "KNABA-R-10-009",
+        "KNABA-R-10-010"
+      ],
+      "criterion_ids": [
+        "T-REQ-10-001",
+        "T-REQ-10-002",
+        "T-REQ-10-003",
+        "T-REQ-10-004",
+        "T-REQ-10-005",
+        "T-REQ-10-006",
+        "T-REQ-10-007",
+        "T-REQ-10-008",
+        "T-REQ-10-009",
+        "T-REQ-10-010"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-10",
+        "PLAN-11",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Приватні оригінали й чернетки widget lead, confirmation, fallback до людини без ключа, pending inbox, атомарні versioned claim/reclaim, source history, private reply та revocation.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 10
+        },
+        "criteria": {
+          "NOT_RUN": 10
+        }
+      }
+    },
+    {
+      "module": "pricing/quotations",
+      "requirement_ids": [
+        "KNABA-R-11-001",
+        "KNABA-R-11-002",
+        "KNABA-R-11-003",
+        "KNABA-R-11-004",
+        "KNABA-R-11-005",
+        "KNABA-R-11-006",
+        "KNABA-R-11-007",
+        "KNABA-R-11-008",
+        "KNABA-R-11-009",
+        "KNABA-R-11-010"
+      ],
+      "criterion_ids": [
+        "T-REQ-11-001",
+        "T-REQ-11-002",
+        "T-REQ-11-003",
+        "T-REQ-11-004",
+        "T-REQ-11-005",
+        "T-REQ-11-006",
+        "T-REQ-11-007",
+        "T-REQ-11-008",
+        "T-REQ-11-009",
+        "T-REQ-11-010"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-15",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Точні цілі money/units, snapshots ставок, податку й пропозиції з чинними версіями, guided/delegated limits, незмінне приймання та погоджені зміни.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 9,
+          "PASSED": 1
+        },
+        "criteria": {
+          "NOT_RUN": 9,
+          "PASSED": 1
+        }
+      }
+    },
+    {
+      "module": "dispatch/scheduling",
+      "requirement_ids": [
+        "KNABA-R-12-001",
+        "KNABA-R-12-002",
+        "KNABA-R-12-003",
+        "KNABA-R-12-004",
+        "KNABA-R-12-005",
+        "KNABA-R-12-006",
+        "KNABA-R-12-007",
+        "KNABA-R-12-008"
+      ],
+      "criterion_ids": [
+        "T-REQ-12-001",
+        "T-REQ-12-002",
+        "T-REQ-12-003",
+        "T-REQ-12-004",
+        "T-REQ-12-005",
+        "T-REQ-12-006",
+        "T-REQ-12-007",
+        "T-REQ-12-008"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-17",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Поточні skills/calendar/conflict/capacity recommendations, резерви з TTL, crew assignment/ACK та перевірка матеріалів перед обіцянкою клієнту.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 8
+        },
+        "criteria": {
+          "NOT_RUN": 8
+        }
+      }
+    },
+    {
+      "module": "client-portal",
+      "requirement_ids": [
+        "KNABA-R-13-001",
+        "KNABA-R-13-002",
+        "KNABA-R-13-003",
+        "KNABA-R-13-004",
+        "KNABA-R-13-005",
+        "KNABA-R-13-006",
+        "KNABA-R-13-007",
+        "KNABA-R-13-008"
+      ],
+      "criterion_ids": [
+        "T-REQ-13-001",
+        "T-REQ-13-002",
+        "T-REQ-13-003",
+        "T-REQ-13-004",
+        "T-REQ-13-005",
+        "T-REQ-13-006",
+        "T-REQ-13-007",
+        "T-REQ-13-008"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Поточні перевірені customer capabilities, обмежені опубліковані проєкції, quote/change acceptance, окремі receipt/hours/work acknowledgments та Issues.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 8
+        },
+        "criteria": {
+          "NOT_RUN": 8
+        }
+      }
+    },
+    {
+      "module": "sites/site-locations",
+      "requirement_ids": [
+        "KNABA-R-14-001",
+        "KNABA-R-14-002",
+        "KNABA-R-14-003",
+        "KNABA-R-14-004",
+        "KNABA-R-14-005",
+        "KNABA-R-14-006",
+        "KNABA-R-14-007",
+        "KNABA-R-14-008"
+      ],
+      "criterion_ids": [
+        "T-REQ-14-001",
+        "T-REQ-14-002",
+        "T-REQ-14-003",
+        "T-REQ-14-004",
+        "T-REQ-14-005",
+        "T-REQ-14-006",
+        "T-REQ-14-007",
+        "T-REQ-14-008"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-12",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Версійоване ациклічне дерево місць із floor labels та історією; реальні обмежені CSV/XLSX parse і hash-bound atomic import.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 8
+        },
+        "criteria": {
+          "NOT_RUN": 8
+        }
+      }
+    },
+    {
+      "module": "tasks/quality/rework",
+      "requirement_ids": [
+        "KNABA-R-15-001",
+        "KNABA-R-15-002",
+        "KNABA-R-15-003",
+        "KNABA-R-15-004",
+        "KNABA-R-15-005",
+        "KNABA-R-15-006",
+        "KNABA-R-15-007",
+        "KNABA-R-15-008",
+        "KNABA-R-15-009",
+        "KNABA-R-15-010",
+        "KNABA-R-15-011",
+        "KNABA-R-15-012",
+        "KNABA-R-15-013",
+        "KNABA-R-15-014",
+        "KNABA-R-15-015",
+        "KNABA-R-15-016",
+        "KNABA-R-15-017"
+      ],
+      "criterion_ids": [
+        "T-REQ-15-001",
+        "T-REQ-15-002",
+        "T-REQ-15-003",
+        "T-REQ-15-004",
+        "T-REQ-15-005",
+        "T-REQ-15-006",
+        "T-REQ-15-007",
+        "T-REQ-15-008",
+        "T-REQ-15-009",
+        "T-REQ-15-010",
+        "T-REQ-15-011",
+        "T-REQ-15-012",
+        "T-REQ-15-013",
+        "T-REQ-15-014",
+        "T-REQ-15-015",
+        "T-REQ-15-016",
+        "T-REQ-15-017"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-17",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Призначення, командні результати, checklists і photo gates; review/acceptance/reopen, пов’язані deduplicated defects/rework, accepted progress нащадків і catch-up повторюваних шаблонів.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 17
+        },
+        "criteria": {
+          "NOT_RUN": 17
+        }
+      }
+    },
+    {
+      "module": "timekeeping",
+      "requirement_ids": [
+        "KNABA-R-16-001",
+        "KNABA-R-16-002",
+        "KNABA-R-16-003",
+        "KNABA-R-16-004",
+        "KNABA-R-16-005",
+        "KNABA-R-16-006",
+        "KNABA-R-16-007"
+      ],
+      "criterion_ids": [
+        "T-REQ-16-001",
+        "T-REQ-16-002",
+        "T-REQ-16-003",
+        "T-REQ-16-004",
+        "T-REQ-16-005",
+        "T-REQ-16-006",
+        "T-REQ-16-007"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-18",
+        "PLAN-22",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Безперервна half-open UTC activity, приватні breaks/service/wait/travel, allocation, незмінні timesheet review/lock/corrections та effective adjustments. Working-time advisory лишається порадою.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 7
+        },
+        "criteria": {
+          "NOT_RUN": 7
+        }
+      }
+    },
+    {
+      "module": "geolocation/geofences/travel/native",
+      "requirement_ids": [
+        "KNABA-R-17-001",
+        "KNABA-R-17-002",
+        "KNABA-R-17-003",
+        "KNABA-R-17-004",
+        "KNABA-R-17-005",
+        "KNABA-R-17-006",
+        "KNABA-R-17-007",
+        "KNABA-R-17-008",
+        "KNABA-R-17-009",
+        "KNABA-R-17-010",
+        "KNABA-R-17-011",
+        "KNABA-R-17-012",
+        "KNABA-R-17-013",
+        "KNABA-R-17-014",
+        "KNABA-R-17-015",
+        "KNABA-R-17-016",
+        "KNABA-R-17-017",
+        "KNABA-R-17-018",
+        "KNABA-R-17-019",
+        "KNABA-R-17-020",
+        "KNABA-R-17-021",
+        "KNABA-R-17-022",
+        "KNABA-R-17-023",
+        "KNABA-R-17-024",
+        "KNABA-R-17-025",
+        "KNABA-R-17-026",
+        "KNABA-R-17-027",
+        "KNABA-R-17-028",
+        "KNABA-R-17-029",
+        "KNABA-R-17-030",
+        "KNABA-R-17-031",
+        "KNABA-R-17-032",
+        "KNABA-R-17-033",
+        "KNABA-R-17-034",
+        "KNABA-R-17-035",
+        "KNABA-R-17-036",
+        "KNABA-R-17-037",
+        "KNABA-R-17-038",
+        "KNABA-R-17-039",
+        "KNABA-R-17-040",
+        "KNABA-R-17-041",
+        "KNABA-R-17-042",
+        "KNABA-R-17-043",
+        "KNABA-R-17-044"
+      ],
+      "criterion_ids": [
+        "T-REQ-17-001",
+        "T-REQ-17-002",
+        "T-REQ-17-003",
+        "T-REQ-17-004",
+        "T-REQ-17-005",
+        "T-REQ-17-006",
+        "T-REQ-17-007",
+        "T-REQ-17-008",
+        "T-REQ-17-009",
+        "T-REQ-17-010",
+        "T-REQ-17-011",
+        "T-REQ-17-012",
+        "T-REQ-17-013",
+        "T-REQ-17-014",
+        "T-REQ-17-015",
+        "T-REQ-17-016",
+        "T-REQ-17-017",
+        "T-REQ-17-018",
+        "T-REQ-17-019",
+        "T-REQ-17-020",
+        "T-REQ-17-021",
+        "T-REQ-17-022",
+        "T-REQ-17-023",
+        "T-REQ-17-024",
+        "T-REQ-17-025",
+        "T-REQ-17-026",
+        "T-REQ-17-027",
+        "T-REQ-17-028",
+        "T-REQ-17-029",
+        "T-REQ-17-030",
+        "T-REQ-17-031",
+        "T-REQ-17-032",
+        "T-REQ-17-033",
+        "T-REQ-17-034",
+        "T-REQ-17-035",
+        "T-REQ-17-036",
+        "T-REQ-17-037",
+        "T-REQ-17-038",
+        "T-REQ-17-039",
+        "T-REQ-17-040",
+        "T-REQ-17-041",
+        "T-REQ-17-042",
+        "T-REQ-17-043",
+        "T-REQ-17-044"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-12",
+        "PLAN-18",
+        "PLAN-19",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-22",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Чотири legal gates, event-time authorization, один прив’язаний tracker, conservative circles, presence без координат, trip point TTL/purge/restore guard, own shift card native шістьма мовами та авторизований локальний SVG route.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 44
+        },
+        "criteria": {
+          "NOT_RUN": 44
+        }
+      }
+    },
+    {
+      "module": "reporting/statistics",
+      "requirement_ids": [
+        "KNABA-R-18-001",
+        "KNABA-R-18-002",
+        "KNABA-R-18-003",
+        "KNABA-R-18-004",
+        "KNABA-R-18-005",
+        "KNABA-R-18-006",
+        "KNABA-R-18-007",
+        "KNABA-R-18-008",
+        "KNABA-R-18-009",
+        "KNABA-R-18-010"
+      ],
+      "criterion_ids": [
+        "T-REQ-18-001",
+        "T-REQ-18-002",
+        "T-REQ-18-003",
+        "T-REQ-18-004",
+        "T-REQ-18-005",
+        "T-REQ-18-006",
+        "T-REQ-18-007",
+        "T-REQ-18-008",
+        "T-REQ-18-009",
+        "T-REQ-18-010"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-17",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Детермінований progress за одиницями й нащадками, незмінні періодні worklog/review deltas, snapshots погоджених trips у межах періоду та вихідні hours/materials.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 10
+        },
+        "criteria": {
+          "NOT_RUN": 10
+        }
+      }
+    },
+    {
+      "module": "inventory/procurement",
+      "requirement_ids": [
+        "KNABA-R-19-001",
+        "KNABA-R-19-002",
+        "KNABA-R-19-003",
+        "KNABA-R-19-004",
+        "KNABA-R-19-005",
+        "KNABA-R-19-006",
+        "KNABA-R-19-007",
+        "KNABA-R-19-008",
+        "KNABA-R-19-009",
+        "KNABA-R-19-010",
+        "KNABA-R-19-011",
+        "KNABA-R-19-012",
+        "KNABA-R-19-013",
+        "KNABA-R-19-014",
+        "KNABA-R-19-015",
+        "KNABA-R-19-016",
+        "KNABA-R-19-017",
+        "KNABA-R-19-018",
+        "KNABA-R-19-019",
+        "KNABA-R-19-020",
+        "KNABA-R-19-021",
+        "KNABA-R-19-022",
+        "KNABA-R-19-023",
+        "KNABA-R-19-024",
+        "KNABA-R-19-025",
+        "KNABA-R-19-026",
+        "KNABA-R-19-027",
+        "KNABA-R-19-028",
+        "KNABA-R-19-029",
+        "KNABA-R-19-030"
+      ],
+      "criterion_ids": [
+        "T-REQ-19-001",
+        "T-REQ-19-002",
+        "T-REQ-19-003",
+        "T-REQ-19-004",
+        "T-REQ-19-005",
+        "T-REQ-19-006",
+        "T-REQ-19-007",
+        "T-REQ-19-008",
+        "T-REQ-19-009",
+        "T-REQ-19-010",
+        "T-REQ-19-011",
+        "T-REQ-19-012",
+        "T-REQ-19-013",
+        "T-REQ-19-014",
+        "T-REQ-19-015",
+        "T-REQ-19-016",
+        "T-REQ-19-017",
+        "T-REQ-19-018",
+        "T-REQ-19-019",
+        "T-REQ-19-020",
+        "T-REQ-19-021",
+        "T-REQ-19-022",
+        "T-REQ-19-023",
+        "T-REQ-19-024",
+        "T-REQ-19-025",
+        "T-REQ-19-026",
+        "T-REQ-19-027",
+        "T-REQ-19-028",
+        "T-REQ-19-029",
+        "T-REQ-19-030"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-16",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Точні units/batches/reservations, physical/transit/custody ledger, requests/approval, shortage formula та purchase/partial receipt/reconciliation/cost snapshots.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 30
+        },
+        "criteria": {
+          "NOT_RUN": 30
+        }
+      }
+    },
+    {
+      "module": "notifications/automations",
+      "requirement_ids": [
+        "KNABA-R-20-001",
+        "KNABA-R-20-002",
+        "KNABA-R-20-003",
+        "KNABA-R-20-004",
+        "KNABA-R-20-005",
+        "KNABA-R-20-006",
+        "KNABA-R-20-007",
+        "KNABA-R-20-008",
+        "KNABA-R-20-009",
+        "KNABA-R-20-010"
+      ],
+      "criterion_ids": [
+        "T-REQ-20-001",
+        "T-REQ-20-002",
+        "T-REQ-20-003",
+        "T-REQ-20-004",
+        "T-REQ-20-005",
+        "T-REQ-20-006",
+        "T-REQ-20-007",
+        "T-REQ-20-008",
+        "T-REQ-20-009",
+        "T-REQ-20-010"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-10",
+        "PLAN-17",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Збережені own unread/activity та канонічний WEB bridge з 19 причинами шістьма мовами; current recipient/source/cause/type/data/lease authority, durable dedup/audit/outbox та окремі read/delivery.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 10
+        },
+        "criteria": {
+          "NOT_RUN": 10
+        }
+      }
+    },
+    {
+      "module": "media",
+      "requirement_ids": [
+        "KNABA-R-21-001",
+        "KNABA-R-21-002",
+        "KNABA-R-21-003",
+        "KNABA-R-21-004",
+        "KNABA-R-21-005",
+        "KNABA-R-21-006",
+        "KNABA-R-21-007"
+      ],
+      "criterion_ids": [
+        "T-REQ-21-001",
+        "T-REQ-21-002",
+        "T-REQ-21-003",
+        "T-REQ-21-004",
+        "T-REQ-21-005",
+        "T-REQ-21-006",
+        "T-REQ-21-007"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-13",
+        "PLAN-14",
+        "PLAN-19",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Приватні original/prior bytes і нова клієнтська копія з lossless opaque rectangle mask; незмінні edit/version/hash, current role/site/source checks, fresh receipt guard і повторне погодження публікації після повернення до RECEIVED.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 7
+        },
+        "criteria": {
+          "NOT_RUN": 7
+        }
+      }
+    },
+    {
+      "module": "payroll/payouts",
+      "requirement_ids": [
+        "KNABA-R-22-001",
+        "KNABA-R-22-002",
+        "KNABA-R-22-003",
+        "KNABA-R-22-004",
+        "KNABA-R-22-005",
+        "KNABA-R-22-006",
+        "KNABA-R-22-007",
+        "KNABA-R-22-008"
+      ],
+      "criterion_ids": [
+        "T-REQ-22-001",
+        "T-REQ-22-002",
+        "T-REQ-22-003",
+        "T-REQ-22-004",
+        "T-REQ-22-005",
+        "T-REQ-22-006",
+        "T-REQ-22-007",
+        "T-REQ-22-008"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-16",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Історія rates, попередній розрахунок за approved seconds, accountant official payslip import; окремі approval/recorded transfer/full-partial-dispute acknowledgment працівника та corrections.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 8
+        },
+        "criteria": {
+          "NOT_RUN": 8
+        }
+      }
+    },
+    {
+      "module": "reporting/documents",
+      "requirement_ids": [
+        "KNABA-R-23-001",
+        "KNABA-R-23-002",
+        "KNABA-R-23-003",
+        "KNABA-R-23-004",
+        "KNABA-R-23-005",
+        "KNABA-R-23-006",
+        "KNABA-R-23-007",
+        "KNABA-R-23-008",
+        "KNABA-R-23-009",
+        "KNABA-R-23-010",
+        "KNABA-R-23-011",
+        "KNABA-R-23-012"
+      ],
+      "criterion_ids": [
+        "T-REQ-23-001",
+        "T-REQ-23-002",
+        "T-REQ-23-003",
+        "T-REQ-23-004",
+        "T-REQ-23-005",
+        "T-REQ-23-006",
+        "T-REQ-23-007",
+        "T-REQ-23-008",
+        "T-REQ-23-009",
+        "T-REQ-23-010",
+        "T-REQ-23-011",
+        "T-REQ-23-012"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-09",
+        "PLAN-13",
+        "PLAN-15",
+        "PLAN-16",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Окремі document types, погоджені незмінні німецькі version/number, дозволені hours/material/photo snapshots, архівні PDF/CSV/XLSX та явне acknowledgment.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 12
+        },
+        "criteria": {
+          "NOT_RUN": 12
+        }
+      }
+    },
+    {
+      "module": "bot-admin",
+      "requirement_ids": [
+        "KNABA-R-24-001",
+        "KNABA-R-24-002",
+        "KNABA-R-24-003",
+        "KNABA-R-24-004",
+        "KNABA-R-24-005",
+        "KNABA-R-24-006",
+        "KNABA-R-24-007",
+        "KNABA-R-24-008",
+        "KNABA-R-24-009",
+        "KNABA-R-24-010",
+        "KNABA-R-24-011",
+        "KNABA-R-24-012",
+        "KNABA-R-24-013",
+        "KNABA-R-24-014",
+        "KNABA-R-24-015",
+        "KNABA-R-24-016",
+        "KNABA-R-24-017",
+        "KNABA-R-24-018",
+        "KNABA-R-24-019",
+        "KNABA-R-24-020",
+        "KNABA-R-24-021",
+        "KNABA-R-24-022",
+        "KNABA-R-24-023",
+        "KNABA-R-24-024"
+      ],
+      "criterion_ids": [
+        "T-REQ-24-001",
+        "T-REQ-24-002",
+        "T-REQ-24-003",
+        "T-REQ-24-004",
+        "T-REQ-24-005",
+        "T-REQ-24-006",
+        "T-REQ-24-007",
+        "T-REQ-24-008",
+        "T-REQ-24-009",
+        "T-REQ-24-010",
+        "T-REQ-24-011",
+        "T-REQ-24-012",
+        "T-REQ-24-013",
+        "T-REQ-24-014",
+        "T-REQ-24-015",
+        "T-REQ-24-016",
+        "T-REQ-24-017",
+        "T-REQ-24-018",
+        "T-REQ-24-019",
+        "T-REQ-24-020",
+        "T-REQ-24-021",
+        "T-REQ-24-022",
+        "T-REQ-24-023",
+        "T-REQ-24-024"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-09",
+        "PLAN-11",
+        "PLAN-17",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Канонічні command schemas за правами й станом, config/policy lifecycle, delegation/audit, masked server secrets та безпечний перехід до secure web зі збереженням контексту.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 24
+        },
+        "criteria": {
+          "NOT_RUN": 24
+        }
+      }
+    },
+    {
+      "module": "web/pwa/widget/native",
+      "requirement_ids": [
+        "KNABA-R-25-001",
+        "KNABA-R-25-002",
+        "KNABA-R-25-003",
+        "KNABA-R-25-004",
+        "KNABA-R-25-005",
+        "KNABA-R-25-006",
+        "KNABA-R-25-007",
+        "KNABA-R-25-008"
+      ],
+      "criterion_ids": [
+        "T-REQ-25-001",
+        "T-REQ-25-002",
+        "T-REQ-25-003",
+        "T-REQ-25-004",
+        "T-REQ-25-005",
+        "T-REQ-25-006",
+        "T-REQ-25-007",
+        "T-REQ-25-008"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-12",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-22",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Адаптивна консоль шістьма мовами, контрольовані forms/search/keyboard/cancel states, widget/inbox/map/advisory/playground та queue ручних повторів без чутливих даних у пам’яті вкладки.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 8
+        },
+        "criteria": {
+          "NOT_RUN": 8
+        }
+      }
+    },
+    {
+      "module": "privacy/ai",
+      "requirement_ids": [
+        "KNABA-R-26-001",
+        "KNABA-R-26-002",
+        "KNABA-R-26-003",
+        "KNABA-R-26-004",
+        "KNABA-R-26-005",
+        "KNABA-R-26-006",
+        "KNABA-R-26-007"
+      ],
+      "criterion_ids": [
+        "T-REQ-26-001",
+        "T-REQ-26-002",
+        "T-REQ-26-003",
+        "T-REQ-26-004",
+        "T-REQ-26-005",
+        "T-REQ-26-006",
+        "T-REQ-26-007"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-11",
+        "PLAN-12",
+        "PLAN-13",
+        "PLAN-14",
+        "PLAN-18",
+        "PLAN-19",
+        "PLAN-22",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Мінімізовані погоджені provider inputs і fresh source/context/lease; детерміновані CHAT/MEDIA erasure preview/approval/execution з вузькими revision permits, derivatives та in-flight retention/re-preview.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 7
+        },
+        "criteria": {
+          "NOT_RUN": 7
+        }
+      }
+    },
+    {
+      "module": "legal/policies",
+      "requirement_ids": [
+        "KNABA-R-27-001",
+        "KNABA-R-27-002",
+        "KNABA-R-27-003",
+        "KNABA-R-27-004",
+        "KNABA-R-27-005",
+        "KNABA-R-27-006",
+        "KNABA-R-27-007",
+        "KNABA-R-27-008",
+        "KNABA-R-27-009",
+        "KNABA-R-27-010",
+        "KNABA-R-27-011",
+        "KNABA-R-27-012",
+        "KNABA-R-27-013"
+      ],
+      "criterion_ids": [
+        "T-REQ-27-001",
+        "T-REQ-27-002",
+        "T-REQ-27-003",
+        "T-REQ-27-004",
+        "T-REQ-27-005",
+        "T-REQ-27-006",
+        "T-REQ-27-007",
+        "T-REQ-27-008",
+        "T-REQ-27-009",
+        "T-REQ-27-010",
+        "T-REQ-27-011",
+        "T-REQ-27-012",
+        "T-REQ-27-013"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-11",
+        "PLAN-15",
+        "PLAN-18",
+        "PLAN-19",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Поточні незалежні legal approval gates з effective/expiry/scope, документовані джерела та явні попередження про непогоджені defaults.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 13
+        },
+        "criteria": {
+          "NOT_RUN": 13
+        }
+      }
+    },
+    {
+      "module": "security/resilience",
+      "requirement_ids": [
+        "KNABA-R-28-001",
+        "KNABA-R-28-002",
+        "KNABA-R-28-003",
+        "KNABA-R-28-004",
+        "KNABA-R-28-005",
+        "KNABA-R-28-006",
+        "KNABA-R-28-007",
+        "KNABA-R-28-008",
+        "KNABA-R-28-009",
+        "KNABA-R-28-010",
+        "KNABA-R-28-011"
+      ],
+      "criterion_ids": [
+        "T-REQ-28-001",
+        "T-REQ-28-002",
+        "T-REQ-28-003",
+        "T-REQ-28-004",
+        "T-REQ-28-005",
+        "T-REQ-28-006",
+        "T-REQ-28-007",
+        "T-REQ-28-008",
+        "T-REQ-28-009",
+        "T-REQ-28-010",
+        "T-REQ-28-011"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-06",
+        "PLAN-08",
+        "PLAN-13",
+        "PLAN-14",
+        "PLAN-16",
+        "PLAN-19",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Boundary schemas, default deny, company locks, fresh read/effect authority, CSRF/origin/rate/upload bounds, private storage, незмінний audit та захищені encrypted restore/attestation.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 11
+        },
+        "criteria": {
+          "NOT_RUN": 11
+        }
+      }
+    },
+    {
+      "module": "domain/contracts",
+      "requirement_ids": [
+        "KNABA-R-29-001",
+        "KNABA-R-29-002",
+        "KNABA-R-29-003",
+        "KNABA-R-29-004",
+        "KNABA-R-29-005",
+        "KNABA-R-29-006",
+        "KNABA-R-29-007",
+        "KNABA-R-29-008",
+        "KNABA-R-29-009",
+        "KNABA-R-29-010",
+        "KNABA-R-29-011",
+        "KNABA-R-29-012",
+        "KNABA-R-29-013",
+        "KNABA-R-29-014",
+        "KNABA-R-29-015",
+        "KNABA-R-29-016",
+        "KNABA-R-29-017"
+      ],
+      "criterion_ids": [
+        "T-REQ-29-001",
+        "T-REQ-29-002",
+        "T-REQ-29-003",
+        "T-REQ-29-004",
+        "T-REQ-29-005",
+        "T-REQ-29-006",
+        "T-REQ-29-007",
+        "T-REQ-29-008",
+        "T-REQ-29-009",
+        "T-REQ-29-010",
+        "T-REQ-29-011",
+        "T-REQ-29-012",
+        "T-REQ-29-013",
+        "T-REQ-29-014",
+        "T-REQ-29-015",
+        "T-REQ-29-016",
+        "T-REQ-29-017"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-15",
+        "PLAN-16",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Канонічні company-owned schemas/states/errors, fresh version/effect guards і durable idempotency спільні для UI, chat і native.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 17
+        },
+        "criteria": {
+          "NOT_RUN": 17
+        }
+      }
+    },
+    {
+      "module": "acceptance/quality",
+      "requirement_ids": [
+        "KNABA-R-30-001",
+        "KNABA-R-30-002",
+        "KNABA-R-30-003",
+        "KNABA-R-30-004",
+        "KNABA-R-30-005",
+        "KNABA-R-30-006",
+        "KNABA-R-30-007",
+        "KNABA-R-30-008",
+        "KNABA-R-30-009",
+        "KNABA-R-30-010",
+        "KNABA-R-30-011",
+        "KNABA-R-30-012",
+        "KNABA-R-30-013",
+        "KNABA-R-30-014",
+        "KNABA-R-30-015",
+        "KNABA-R-30-016",
+        "KNABA-R-30-017",
+        "KNABA-R-30-018",
+        "KNABA-R-30-019",
+        "KNABA-R-30-020",
+        "KNABA-R-30-021",
+        "KNABA-R-30-022"
+      ],
+      "criterion_ids": [
+        "T-REQ-30-001",
+        "T-REQ-30-002",
+        "T-REQ-30-003",
+        "T-REQ-30-004",
+        "T-REQ-30-005",
+        "T-REQ-30-006",
+        "T-REQ-30-007",
+        "T-REQ-30-008",
+        "T-REQ-30-009",
+        "T-REQ-30-010",
+        "T-REQ-30-011",
+        "T-REQ-30-012",
+        "T-REQ-30-013",
+        "T-REQ-30-014",
+        "T-REQ-30-015",
+        "T-REQ-30-016",
+        "T-REQ-30-017",
+        "T-REQ-30-018",
+        "T-REQ-30-019",
+        "T-ENTRY-01",
+        "T-ENTRY-02",
+        "T-ENTRY-03",
+        "T-ENTRY-04",
+        "T-ENTRY-05",
+        "T-ENTRY-06",
+        "T-ENTRY-07",
+        "T-CHAT-01",
+        "T-CHAT-02",
+        "T-CHAT-03",
+        "T-CHAT-04",
+        "T-CHAT-05",
+        "T-CHAT-06",
+        "T-CHAT-07",
+        "T-CHAT-08",
+        "T-CHAT-09",
+        "T-CHAT-10",
+        "T-SALES-01",
+        "T-SALES-02",
+        "T-SALES-03",
+        "T-SALES-04",
+        "T-SALES-05",
+        "T-DISPATCH-01",
+        "T-DISPATCH-02",
+        "T-DISPATCH-03",
+        "T-DISPATCH-04",
+        "T-TASK-01",
+        "T-TASK-02",
+        "T-TASK-03",
+        "T-TASK-04",
+        "T-TASK-05",
+        "T-TASK-06",
+        "T-TASK-07",
+        "T-TASK-08",
+        "T-REPORT-01",
+        "T-REPORT-02",
+        "T-REPORT-03",
+        "T-ADMIN-01",
+        "T-ADMIN-02",
+        "T-OPS-01",
+        "T-OPS-02",
+        "T-OPS-03",
+        "T-OPS-04",
+        "T-REQ-30-020",
+        "T-REQ-30-021",
+        "T-REQ-30-022"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-07",
+        "PLAN-22",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Унікальний case inventory з явними CPU/real PostgreSQL класами, 24 виконані браузерні cases з відокремленим fixture, native CI та збережені невдачі на їхніх точних історичних джерелах.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 19,
+          "PASSED": 3
+        },
+        "criteria": {
+          "NOT_RUN": 56,
+          "PASSED": 9
+        }
+      }
+    },
+    {
+      "module": "delivery/documentation",
+      "requirement_ids": [
+        "KNABA-R-31-001",
+        "KNABA-R-31-002",
+        "KNABA-R-31-003",
+        "KNABA-R-31-004",
+        "KNABA-R-31-005",
+        "KNABA-R-31-006",
+        "KNABA-R-31-007",
+        "KNABA-R-31-008",
+        "KNABA-R-31-009",
+        "KNABA-R-31-010",
+        "KNABA-R-31-011"
+      ],
+      "criterion_ids": [
+        "T-REQ-31-001",
+        "T-REQ-31-002",
+        "T-REQ-31-003",
+        "T-REQ-31-004",
+        "T-REQ-31-005",
+        "T-REQ-31-006",
+        "T-REQ-31-007",
+        "T-REQ-31-008",
+        "T-REQ-31-009",
+        "T-REQ-31-010",
+        "T-REQ-31-011"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Канонічні specification, ADR/contracts/guides для ролей, даних, legal/privacy, deployment/recovery; roadmap, memory та execution receipts.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 11
+        },
+        "criteria": {
+          "NOT_RUN": 11
+        }
+      }
+    },
+    {
+      "module": "infra/deployment",
+      "requirement_ids": [
+        "KNABA-R-32-001",
+        "KNABA-R-32-002",
+        "KNABA-R-32-003",
+        "KNABA-R-32-004",
+        "KNABA-R-32-005",
+        "KNABA-R-32-006",
+        "KNABA-R-32-007",
+        "KNABA-R-32-008",
+        "KNABA-R-32-009",
+        "KNABA-R-32-010",
+        "KNABA-R-32-011",
+        "KNABA-R-32-012",
+        "KNABA-R-32-013",
+        "KNABA-R-32-014",
+        "KNABA-R-32-015",
+        "KNABA-R-32-016",
+        "KNABA-R-32-017",
+        "KNABA-R-32-018"
+      ],
+      "criterion_ids": [
+        "T-REQ-32-001",
+        "T-REQ-32-002",
+        "T-REQ-32-003",
+        "T-REQ-32-004",
+        "T-REQ-32-005",
+        "T-REQ-32-006",
+        "T-REQ-32-007",
+        "T-REQ-32-008",
+        "T-REQ-32-009",
+        "T-REQ-32-010",
+        "T-REQ-32-011",
+        "T-REQ-32-012",
+        "T-REQ-32-013",
+        "T-REQ-32-014",
+        "T-REQ-32-015",
+        "T-REQ-32-016",
+        "T-REQ-32-017",
+        "T-REQ-32-018"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-04",
+        "PLAN-05",
+        "PLAN-06",
+        "PLAN-07",
+        "PLAN-08",
+        "PLAN-14",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-27",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Відтворювані source build/CI, захищені bootstrap/migration/doctor/smoke, pinned container/Worker, encrypted backup/restore та підготовлена перевірка ізольованого Railway через HTTPS.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 18
+        },
+        "criteria": {
+          "NOT_RUN": 18
+        }
+      }
+    },
+    {
+      "module": "handover",
+      "requirement_ids": [
+        "KNABA-R-33-001",
+        "KNABA-R-33-002",
+        "KNABA-R-33-003",
+        "KNABA-R-33-004",
+        "KNABA-R-33-005",
+        "KNABA-R-33-006",
+        "KNABA-R-33-007",
+        "KNABA-R-33-008",
+        "KNABA-R-33-009"
+      ],
+      "criterion_ids": [
+        "T-REQ-33-001",
+        "T-REQ-33-002",
+        "T-REQ-33-003",
+        "T-REQ-33-004",
+        "T-REQ-33-005",
+        "T-REQ-33-006",
+        "T-REQ-33-007",
+        "T-REQ-33-008",
+        "T-REQ-33-009"
+      ],
+      "work_package_ids": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-08",
+        "PLAN-14",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-28"
+      ],
+      "existing_implemented_scope": "Repository/history/guides/recovery та перелік зовнішніх передумов і передачі контролю компанії.",
+      "current_whole_criterion_acceptance": "NOT_REASSESSED_FROM_GLOBAL_OR_MODULE_TEST_TOTALS",
+      "canonical_primary_group_source": "Основні групи модулів: docs/requirements/MODULE_READINESS.json. Усі IDs звірені з docs/requirements/requirements.json.",
+      "historical_status_counts": {
+        "requirements": {
+          "NOT_RUN": 9
+        },
+        "criteria": {
+          "NOT_RUN": 9
+        }
+      }
+    }
+  ],
+  "existing_evidence_catalog": {
+    "ca9_application": {
+      "path": "docs/evidence/ci-run-37544413379-summary.json",
+      "state": "EXISTING",
+      "sha256": "3a3014443d27fa4d49da42f3fc2ae5e5db9b12e31c03d64703cc49a531279f24"
+    },
+    "ca9_native": {
+      "path": "docs/evidence/native-run-37544413386-summary.json",
+      "state": "EXISTING",
+      "sha256": "b002abb0fc9dfcfe7a3da8bdc5330b1f6e9e4d289a3a08cc735bbed2d5f1bfe4"
+    },
+    "ca9_independent_delivery": {
+      "path": "docs/evidence/independent-delivery-ca9ed79.json",
+      "state": "EXISTING",
+      "sha256": "3ddf8fb1db85734f5e2a0576d16bf4b941dd6fcbf08c7f3435c1e1c8bc8d513c"
+    },
+    "ca9_execution_index": {
+      "path": "docs/requirements/EXECUTION_INDEX_CA9ED79FF4C0.json",
+      "state": "EXISTING",
+      "sha256": "dcc8ead850f0999712cc803f13fc99365c6acd3919e7d4c27b647bc1fba13e71"
+    },
+    "historical_37_staged_patch": {
+      "path": "docs/evidence/railway-final-staged-ca9ed79.json",
+      "state": "EXISTING",
+      "sha256": "6bc27d4798bbae336106fc6bd582fa4abff148e0b4324c854f4732100e0fa753"
+    },
+    "railway_resume_2026_10_08": {
+      "path": "docs/evidence/railway-resume-2026-10-08.json",
+      "state": "EXISTING",
+      "sha256": "45225b88113eee3cf80aa73611ef2d17b1c475e9812c61b7a1a390ece781551e"
+    },
+    "v4_reference_provenance": {
+      "path": "docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "6024d505db08784532306a2896265605045cdad2da7744de7249f91ec8bdb184",
+      "scope": "V4 document/reference bytes only; application acceptance NOT_RUN."
+    },
+    "v4_reference_master": {
+      "path": "docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "scope": "V4 document/reference bytes only; application acceptance NOT_RUN."
+    },
+    "v4_reference_acceptance_csv": {
+      "path": "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+      "scope": "V4 document/reference bytes only; application acceptance NOT_RUN."
+    },
+    "v4_document_validation": {
+      "path": "docs/specification-v4-reference/DOCUMENT_VALIDATION.json",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+      "scope": "V4 document/reference bytes only; application acceptance NOT_RUN."
+    },
+    "v4_draft_reconciliation": {
+      "path": "docs/planning/V3_V4_RECONCILIATION.json",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "db6bf906565b23e025e7e4144821ae4ae8eac4df055b86dd9a7da9b5d147f13a",
+      "scope": "Document/source observation only; new application acceptance NOT_RUN."
+    },
+    "v4_draft_reconciliation_guide": {
+      "path": "docs/planning/V3_V4_RECONCILIATION_UK.md",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "66ca166e26260fc03f91243fd4025d413cab5091f436bcfa25013f9d54ba842f",
+      "scope": "Document/source observation only; new application acceptance NOT_RUN."
+    },
+    "v4_binary_read_boundary": {
+      "path": "docs/evidence/v4-document-binary-read-2026-10-08.json",
+      "state": "EXISTING_REFERENCE_ONLY",
+      "sha256": "fe6fc01ec240dac77cc1f29346095901f4094efd8bf768119af53cf69b7b2396",
+      "scope": "Document/source observation only; new application acceptance NOT_RUN."
+    },
+    "approved_v4_scope": {
+      "path": "docs/planning/V4_SCOPE_DECISION.json",
+      "state": "EXISTING_APPROVED_DECISION_OR_REFERENCE",
+      "sha256": "ec7bd8e0d3bb6eedd49ccf6450c28253aab24330900dd63f706aca906f51b5de",
+      "scope": "User-approved target/runtime architecture only; application acceptance NOT_RUN."
+    },
+    "approved_v4_runtime_adr": {
+      "path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+      "state": "EXISTING_APPROVED_DECISION_OR_REFERENCE",
+      "sha256": "faa26c8142c87ed7297e2cad5124469411888f15f42860d52f3240265ebce4d7",
+      "scope": "User-approved target/runtime architecture only; application acceptance NOT_RUN."
+    },
+    "approved_v4_target_reference": {
+      "path": "KNABA_DE_TARGET_SPEC.md",
+      "state": "EXISTING_APPROVED_DECISION_OR_REFERENCE",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "scope": "User-approved target/runtime architecture only; application acceptance NOT_RUN."
+    }
+  },
+  "verified_delivered_artifact_references": [
+    {
+      "local_path": "/workspace/knaba-delivery-ca9ed79/KNABA_DE_SOURCE_ca9ed79ff4c0429223eb60754289ee1132088361.zip",
+      "bytes": 2725949,
+      "sha256": "9fc663cb44bd75f2379f7895e90615aa8b677653cc613527fa367870bb4891ca",
+      "source_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+      "scope": "EXACT_CA9_HOSTED_DELIVERY",
+      "evidence_ref": "ca9_independent_delivery"
+    },
+    {
+      "local_path": "/workspace/knaba-delivery-ca9ed79/KNABA_DE_RUNTIME_LINUX_X64_ca9ed79ff4c0429223eb60754289ee1132088361.zip",
+      "bytes": 44611431,
+      "sha256": "00cfa4e5ccab60f073ae6e2b91837460e1ee67710362a344468980e72242b7be",
+      "source_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+      "scope": "EXACT_CA9_HOSTED_DELIVERY",
+      "evidence_ref": "ca9_independent_delivery"
+    },
+    {
+      "local_path": "/workspace/knaba-delivery-ca9ed79/KNABA_DE_DELIVERY_DOCS_ca9ed79ff4c0429223eb60754289ee1132088361.zip",
+      "bytes": 1252927,
+      "sha256": "cc248e3f32d3669f4e486ce241d254e9d06470031d2a783d8f7dfb810d222f8d",
+      "source_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+      "scope": "EXACT_CA9_HOSTED_DELIVERY",
+      "evidence_ref": "ca9_independent_delivery"
+    },
+    {
+      "local_path": "/workspace/knaba-delivery-ca9ed79/KNABA_DE_HANDOVER_DOCS_e18f293ac1527fff0910a86cd3049bef8bd4a03f.zip",
+      "bytes": 1367192,
+      "sha256": "052603fca5b67c424532ab1e434f2307d0e2f91664ec3ec25c95a1fbd09a0593",
+      "source_git_sha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
+      "scope": "DOCUMENTATION_ONLY",
+      "evidence_ref": null
+    },
+    {
+      "local_path": "/workspace/knaba-delivery-ca9ed79/native/KNABA_DE_ANDROID_DEBUG_ca9ed79ff4c0429223eb60754289ee1132088361.apk",
+      "bytes": 940080,
+      "sha256": "ec4bacb9990e13e3897c8b2f5631740c0167a24eb5b3740f759bf6cb9fb59036",
+      "source_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+      "scope": "ANDROID_DEBUG_NOT_COMPANY_RELEASE",
+      "evidence_ref": "ca9_native"
+    },
+    {
+      "local_path": "/workspace/knaba-delivery-ca9ed79/native/KNABA_DE_IOS_SIMULATOR_ca9ed79ff4c0429223eb60754289ee1132088361.app.zip",
+      "bytes": 5505381,
+      "sha256": "d4ca3a35384d56402a22755aa98987660ec14d31945289cbc00fc2900c3e96ee",
+      "source_git_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+      "scope": "IOS_SIMULATOR_NOT_SIGNED_DEVICE_IPA",
+      "evidence_ref": "ca9_native"
+    }
+  ],
+  "readiness_gates": [
+    {
+      "id": "SOURCE_BASELINE",
+      "status": "PASSED_SCOPED_CA9",
+      "tasks": [
+        "PLAN-01"
+      ],
+      "limit": "Не підтверджує всі складені критерії, public runtime, company/provider/legal/physical acceptance."
+    },
+    {
+      "id": "WORKING_PUBLIC_DEMO",
+      "status": "NOT_RUN",
+      "tasks": [
+        "PLAN-04",
+        "PLAN-05",
+        "PLAN-06",
+        "PLAN-07",
+        "PLAN-08"
+      ]
+    },
+    {
+      "id": "FULL_APPLICABLE_COMPANY_PRODUCT",
+      "status": "NOT_ACCEPTED",
+      "tasks": [
+        "PLAN-28",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-09",
+        "PLAN-10",
+        "PLAN-11",
+        "PLAN-14",
+        "PLAN-17",
+        "PLAN-18",
+        "PLAN-19",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-22",
+        "PLAN-23",
+        "PLAN-24",
+        "PLAN-25",
+        "PLAN-26",
+        "PLAN-27"
+      ],
+      "conditional_tasks": [
+        "PLAN-12",
+        "PLAN-13",
+        "PLAN-15",
+        "PLAN-16"
+      ],
+      "conditional_task_policy": "Кожен застосовний пакет реалізовано й прийнято або є явне погоджене рішення щодо конкретних вимог. Мовчазне вилучення не допускається.",
+      "target_specification_path": "KNABA_DE_TARGET_SPEC.md",
+      "target_criteria_count": 72,
+      "target_decision_status": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+      "target_application_acceptance": "NOT_RUN",
+      "preserved_v3_regression_counts": {
+        "modules": 34,
+        "requirements": 432,
+        "criteria": 475
+      }
+    }
+  ],
+  "recommended_parallelism": [
+    "PLAN-28 застосовує вже затверджені цільову V4 і ADR-0002 та завершує решту зіставлення контрактів перед PLAN-02/03. Повторне погодження target не потрібне. Ця робота незалежна від Railway window/MFA у PLAN-04/05.",
+    "Дані компанії PLAN-09, provider contracts, signing inputs і рішення щодо умовної застосовності можна готувати, поки розгортання очікує зовнішнього кроку.",
+    "Після PLAN-06 відразу виконати PLAN-07/08: живі докази й вартість. Інтеграції, правила, DR та фізичні перевірки рухаються за своїми фактичними входами.",
+    "Вимірювання deployed load PLAN-27 починається після PLAN-06. Фізичні geo/battery потребують доказів PLAN-22, а завершення operator alerts — PLAN-25."
+  ],
+  "definition_of_done": "Усі 72 цільові складені критерії V4 та обов’язкові застосовні функціональні регресії повної V3 бази мають фактичні поточні докази. Цільова V4 і збереження працюючого стеку погоджені через ADR-0002; це не application PASS. Обов’язкові внутрішні прогалини закриті; є справжній live runtime, прийняті необхідні provider/company/legal/device/DR/cost/SLO та підписані компанією установлювані мобільні клієнти. Контроль активів і передача прийняті компанією. 1513 тестів, allocated URLs, queued tools, mocks, simulators і planned paths самі не доводять ці ворота.",
+  "coverage_validation": {
+    "unique_module_count": 34,
+    "unique_requirement_ids": 432,
+    "unique_criterion_ids": 475,
+    "canonical_requirement_partition_equal": true,
+    "canonical_criterion_partition_equal": true,
+    "all_task_module_refs_exist": true,
+    "all_tasks_reference_modules": true,
+    "all_modules_have_tasks": true,
+    "hard_dependency_graph_acyclic": true,
+    "historical_criterion_counts_preserved": true,
+    "task_status_counts": {
+      "COMPLETED_SCOPED": 1,
+      "PENDING": 10,
+      "BLOCKED_EXTERNAL": 13,
+      "CONDITIONAL_NOT_STARTED": 4
+    },
+    "task_count": 28,
+    "v4_reference_criteria_separate_count": 72,
+    "v4_reference_all_not_run": true,
+    "hard_conditional_evidence_dependency_graph_acyclic": true,
+    "target_authority_approved": true,
+    "v4_target_criteria_count": 72
+  },
+  "v4_reference_supplement": {
+    "status": "APPROVED_TARGET_V4;CONTRACT_RECONCILIATION_AND_APPLICATION_ACCEPTANCE_PENDING",
+    "source_main_git_sha": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+    "source_main_git_tree": "1d708588f17f390c5e55460841af633d607d9e42",
+    "source_parent_git_sha": "dcd76c1fedf211dd240c79195101ce05feffb002",
+    "source_scope": "Незалежний пакет документації V4 у main, без коду застосунку; не merge продуктового knaba-staging.",
+    "product_pr_state": "DRAFT_OPEN_UNMERGED",
+    "authority_status": "APPROVED_TARGET_V4_PRESERVE_STACK_VIA_ADR",
+    "source_main_url": "https://github.com/ziko1/knaba/tree/ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+    "reference_provenance_path": "docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
+    "reference_specification_path": "docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md",
+    "reference_acceptance_csv_path": "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv",
+    "reference_document_validation_path": "docs/specification-v4-reference/DOCUMENT_VALIDATION.json",
+    "reconciliation_path": "docs/planning/V3_V4_RECONCILIATION.json",
+    "reconciliation_guide_path": "docs/planning/V3_V4_RECONCILIATION_UK.md",
+    "reconciliation_status": "TARGET_AND_STACK_DECISION_RESOLVED;REMAINING_CONTRACT_DELTAS_AND_IMPLEMENTATION_PENDING",
+    "work_package_id": "PLAN-28",
+    "reference_sections_count": 24,
+    "reference_requirement_groups_count": 24,
+    "reference_criteria_count": 72,
+    "reference_criterion_ids": [
+      "AC-01",
+      "AC-02",
+      "AC-03",
+      "AC-04",
+      "AC-05",
+      "AC-06",
+      "AC-07",
+      "AC-08",
+      "AC-09",
+      "AC-10",
+      "AC-11",
+      "AC-12",
+      "AC-13",
+      "AC-14",
+      "AC-15",
+      "AC-16",
+      "AC-17",
+      "AC-18",
+      "AC-19",
+      "AC-20",
+      "AC-21",
+      "AC-22",
+      "AC-23",
+      "AC-24",
+      "AC-25",
+      "AC-26",
+      "AC-27",
+      "AC-28",
+      "AC-29",
+      "AC-30",
+      "AC-31",
+      "AC-32",
+      "AC-33",
+      "AC-34",
+      "AC-35",
+      "AC-36",
+      "AC-37",
+      "AC-38",
+      "AC-39",
+      "AC-40",
+      "AC-41",
+      "AC-42",
+      "AC-43",
+      "AC-44",
+      "AC-45",
+      "AC-46",
+      "AC-47",
+      "AC-48",
+      "AC-49",
+      "AC-50",
+      "AC-51",
+      "AC-52",
+      "AC-53",
+      "AC-54",
+      "AC-55",
+      "AC-56",
+      "AC-57",
+      "AC-58",
+      "AC-59",
+      "AC-60",
+      "AC-61",
+      "AC-62",
+      "AC-63",
+      "AC-64",
+      "AC-65",
+      "AC-66",
+      "AC-67",
+      "AC-68",
+      "AC-69",
+      "AC-70",
+      "AC-71",
+      "AC-72"
+    ],
+    "reference_application_acceptance_status_counts": {
+      "NOT_RUN": 72
+    },
+    "reference_application_proof_fields": "EMPTY;DOCUMENT_CONSISTENCY_ONLY",
+    "canonical_v3_requirements_count": 432,
+    "canonical_v3_criteria_count": 475,
+    "counts_policy": "72 критерії V4 є цільовим прийманням. 432 вимоги й 475 критеріїв V3 збережені як повна історична та функціональна регресійна база; їхню історію не перезаписувати й не складати 475 та 72 в нібито прийнятий обсяг.",
+    "reported_pdf_zip_status": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED",
+    "binary_claim_rule": "Текстові reference bytes перевірені; reported PDF/ZIP hashes не видаються незалежно перевіреними deliverables.",
+    "current_draft_review_state": "ALL_72_SOURCE_REVIEWS_EXIST;TARGET_AND_STACK_AUTHORITY_APPROVED;APPLICATION_EXECUTION_NOT_RUN",
+    "role": "APPROVED_TARGET_SPECIFICATION",
+    "target_specification_path": "KNABA_DE_TARGET_SPEC.md",
+    "scope_decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+    "preserved_runtime_adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+    "target_specification_sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+    "target_application_acceptance_status_counts": {
+      "NOT_RUN": 72
+    },
+    "target_decision_subgate": {
+      "status": "RESOLVED_USER_DECISION",
+      "decision_source": "EXPLICIT_USER_REPLY",
+      "decision_quote": "V4 — цільова; зберегти працюючий стек через погоджені ADR (рекомендовано)",
+      "decision_path": "docs/planning/V4_SCOPE_DECISION.json",
+      "adr_path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+      "accepted_scope": "V4 є цільовою; працюючі NestJS, PostgreSQL/pg і транзакційний inbox/outbox зберігаються через погоджений ADR замість автоматичного переходу на Prisma та Redis/BullMQ.",
+      "implementation_acceptance": "NOT_GRANTED_BY_SCOPE_DECISION",
+      "remaining_deltas": "Решта розбіжностей параметрів, API, media, load і DR потребують окремого зіставлення, точкової реалізації де потрібно та фактичних доказів."
+    }
+  }
+}

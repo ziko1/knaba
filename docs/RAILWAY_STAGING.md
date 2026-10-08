@@ -1,5 +1,13 @@
 # Railway synthetic staging — actual state
 
+## Current read-only continuation — 2026-10-08
+
+[Actual provider snapshot](evidence/railway-resume-2026-10-08.json), 19:32:01UTC: **API OFFLINE, Worker OFFLINE, PostgreSQL CRASHED with 0 running replicas; patch6aa92092 remains 37 changes STAGED/unapplied.** No configuration or billing mutation. The original cutoff **2026-10-07T20:11:52Z is EXPIRED_NOT_EXTENDED**. Applying historical 37 changes alone encounters the expired process guard; it is no longer a valid launch action.
+
+Follow [PLAN-04–08](../FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md): concrete authorized renewed bounded window within unchanged EUR10/month scope; reviewed updated patch/source pins/references/cost guards; account-owner Dashboard MFA application. Existing project deployment authorization persists. API/MCP cannot perform the provider's required two-factor verification; alternate-tool bypass is prohibited. Never silently extend cutoff or infer permanent affordability from caps. Read back the actual updated patch count; historical 37 does not promise a new count. Observe all terminal SUCCESS/readiness/exact SHA before live marker/browser/worker verification.
+
+The 06.10 checkpoint below is preserved historical preparation/evidence. Its “apply37” instructions applied within the original window; current continuation takes precedence.
+
 Checkpoint **2026-10-06**: **exact ca9 source/build/SQL/browser/native and independent artifact delivery PASSED; the application is not live.** Final correction patch has **37 non-destructive staged changes, reviewed but unapplied**, awaiting provider Dashboard MFA/2FA. API/worker sources and shared GIT_SHA are pinned to `ca9ed79ff4c0429223eb60754289ee1132088361`. One concrete application request is pending. Initial deployments at 20:55:09Z failed API/crashed PG; worker remained OFFLINE. No corrected terminal SUCCESS, actual ready URL or public runtime SHA is observed. [Exact redacted37-change review](evidence/railway-final-staged-ca9ed79.json) records source pins,resource limits,budget/cutoff and unapplied status.
 
 | Resource | Actual identifier / state |
@@ -56,7 +64,7 @@ Exact invoice usage, taxes/currency and permanent cost acceptance remain unverif
 
 The failed API deployment used `infra/Dockerfile`; the pending correction must select `infra/Dockerfile.railway` for API and worker. Lifecycle commands must keep the cutoff on every startup/pre-deploy command. The reviewed predeploy configuration rejects missing/expired cutoff and limits environment-check→migrate→synthetic-seed to min(300 seconds, remaining cutoff time), retaining preDeployTimeoutSeconds300; stage it as configuration in the same final tested-source batch. API performs the reviewed environment check, non-destructive migrations and explicit synthetic seed before readiness; worker uses the same tested source SHA and starts only after API/database readiness. Read back accepted configuration and rendered variable names rather than copying obsolete commands or assuming shared-variable inheritance. Keep private database URLs and encryption keys in platform secret storage.
 
-## Exact continuation
+## Historical exact continuation — original bounded window
 
 1. Apply the concrete 37-change reviewed patch through the isolated staging Dashboard MFA/2FA. API/worker/shared GIT_SHA are already pinned to tested ca9; existing user scope persists but provider verification must be completed. No token bypass is authorized.
 2. Read back applied configuration/source pins/cutoff and private provisioning within this project/environment. Preserve all other projects and absolute cutoff; configuration acceptance alone is not runtime readiness.

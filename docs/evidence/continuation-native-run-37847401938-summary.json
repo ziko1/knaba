@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "repository": "ziko1/knaba",
+  "sourceGitSha": "5979376b302c4a86d54eaa256eb68dc0af727e8a",
+  "sourceTreeSha": "e24bc5c613aef559a978c868f5f58064b969d7c4",
+  "observedAt": "2026-10-08 21:40:09 UTC",
+  "evidenceScope": "Actual GitHub provider job metadata and decoded safe log summaries; artifact ZIP bytes not downloaded.",
+  "workflow": {
+    "name": "KNABA DE native compile verification",
+    "runId": 37847401938,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/ziko1/knaba/actions/runs/37847401938"
+  },
+  "jobs": [
+    {
+      "jobId": 113551594984,
+      "name": "Android debug APK and conservative vectors",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Verify source and SDK 36 toolchain",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Native Java geofence and exception-zone vectors",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Six-language resources and native clock/auth-generation vectors",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Compile APK and run Android lint",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify APK and record exact source and artifact hashes",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "jobId": 113551595252,
+      "name": "iOS unsigned simulator app and XCTest",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Prepare exact iOS 18.5 runtime and boot a concrete iPhone 16 simulator",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Compile unsigned iOS simulator application",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute native XCTest vectors on pinned iOS 18.5 simulator",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Archive simulator app and record exact source and artifact hashes",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "android": {
+    "jobId": 113551594984,
+    "geometryVectorsPassed": 16,
+    "languageClockAuthGenerationVectorsPassed": 36,
+    "totalHostJavaVectorsPassed": 52,
+    "localesVerified": 6,
+    "stringsPerLocaleVerified": 91,
+    "assembleDebug": "PASSED",
+    "lintDebug": "PASSED",
+    "debugApkVerification": "PASSED",
+    "safeLogEvidence": [
+      "2026-10-08T21:32:05.5154888Z PASSED native Java geofence vectors=16; synthetic calculation only, no Android runtime or physical GPS claim",
+      "2026-10-08T21:32:05.5642626Z PASSED actual Android XML: six locales, 91 complete strings each, format parity, privacy/action/notification translations and resource references; no Android runtime claim",
+      "2026-10-08T21:32:06.2084898Z PASSED native language and display-clock Java vectors=36; no Android runtime, payroll or GPS authorization claim",
+      "2026-10-08T21:33:34.5167035Z BUILD SUCCESSFUL in 1m 27s"
+    ],
+    "androidRuntimeOrPhysicalGpsAcceptance": "NOT_RUN"
+  },
+  "ios": {
+    "jobId": 113551595252,
+    "unsignedSimulatorBuild": "PASSED",
+    "xctest": {
+      "status": "PASSED",
+      "tests": 15,
+      "failures": 0,
+      "suites": [
+        {
+          "name": "LocalizationAndSummaryTests",
+          "tests": 11,
+          "failures": 0
+        },
+        {
+          "name": "NativeTests",
+          "tests": 4,
+          "failures": 0
+        }
+      ],
+      "safeLogEvidence": [
+        "2026-10-08T21:37:15.4053010Z ** BUILD SUCCEEDED **",
+        "2026-10-08T21:38:05.3938970Z \t Executed 11 tests, with 0 failures (0 unexpected) in 0.087 (0.131) seconds",
+        "2026-10-08T21:38:05.5238970Z \t Executed 4 tests, with 0 failures (0 unexpected) in 0.011 (0.038) seconds",
+        "2026-10-08T21:38:05.5444380Z \t Executed 15 tests, with 0 failures (0 unexpected) in 0.098 (0.170) seconds",
+        "2026-10-08T21:38:05.5691800Z \t Executed 15 tests, with 0 failures (0 unexpected) in 0.098 (0.174) seconds",
+        "2026-10-08T21:38:06.0340960Z ** TEST SUCCEEDED **"
+      ]
+    },
+    "simulatorPreparation": {
+      "sourceGitSha": "5979376b302c4a86d54eaa256eb68dc0af727e8a",
+      "requestedOS": "18.5",
+      "requestedDevice": "iPhone 16",
+      "hostArchitecture": "arm64",
+      "runtimeDownload": "NOT_NEEDED",
+      "status": "SIMULATOR_READY_XCTEST_NOT_RUN",
+      "xctestExecution": "NOT_RUN",
+      "physicalDeviceVerification": "NOT_RUN",
+      "inventoryAttempts": [
+        {
+          "kind": "runtimes",
+          "canonicalLog": "simulator-runtimes-before.json",
+          "attempt": 1,
+          "log": "simulator-runtimes-before.attempt-1.json",
+          "timeoutSeconds": 60,
+          "outcome": "SUCCEEDED"
+        },
+        {
+          "kind": "devices",
+          "canonicalLog": "simulator-devices-before.json",
+          "attempt": 1,
+          "log": "simulator-devices-before.attempt-1.json",
+          "timeoutSeconds": 60,
+          "outcome": "SUCCEEDED"
+        },
+        {
+          "kind": "devicetypes",
+          "canonicalLog": "simulator-device-types.json",
+          "attempt": 1,
+          "log": "simulator-device-types.attempt-1.json",
+          "timeoutSeconds": 60,
+          "outcome": "SUCCEEDED"
+        },
+        {
+          "kind": "devices",
+          "canonicalLog": "simulator-devices-ready.json",
+          "attempt": 1,
+          "log": "simulator-devices-ready.attempt-1.json",
+          "timeoutSeconds": 60,
+          "outcome": "SUCCEEDED"
+        }
+      ],
+      "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+      "runtimeBuildVersion": "22F77",
+      "deviceUdid": "91AFC128-61AE-40FD-8EA5-F3F1F77BEB9A",
+      "deviceState": "Booted"
+    },
+    "readOnlyInventoryRetry": "NOT_EXERCISED_ALL_FOUR_READS_SUCCEEDED_ON_FIRST_ATTEMPT",
+    "preparationReceiptOrigin": "JSON emitted by actual simulator-preparation script to provider stdout, before XCTest; its xctestExecution NOT_RUN is preparation-phase state only.",
+    "simulatorArchiveAndUpload": "PASSED",
+    "installableSignedIpa": "NOT_RUN"
+  },
+  "providerArtifacts": [
+    {
+      "id": 11580696321,
+      "name": "knaba-ios-simulator-5979376b302c4a86d54eaa256eb68dc0af727e8a",
+      "outerZipByteSize": 5602964,
+      "providerReportedOuterZipDigest": "sha256:41318aef73dc76727777b37ed93cdc0a240fdb6b7b593fa20a791f132db23003",
+      "expired": false,
+      "createdAt": "2026-10-08T21:38:15Z",
+      "updatedAt": "2026-10-08T21:38:15Z",
+      "sourceGitSha": "5979376b302c4a86d54eaa256eb68dc0af727e8a"
+    },
+    {
+      "id": 11579604291,
+      "name": "knaba-android-debug-5979376b302c4a86d54eaa256eb68dc0af727e8a",
+      "outerZipByteSize": 935814,
+      "providerReportedOuterZipDigest": "sha256:3224e2e3c7c560c01e0414cb49219d81a7b9360e86e26ac8898d80e2984385d3",
+      "expired": false,
+      "createdAt": "2026-10-08T21:33:36Z",
+      "updatedAt": "2026-10-08T21:33:36Z",
+      "sourceGitSha": "5979376b302c4a86d54eaa256eb68dc0af727e8a"
+    }
+  ],
+  "limitations": {
+    "localArtifactDownload": "NOT_RUN",
+    "independentArtifactByteAndHashVerification": "NOT_RUN",
+    "physicalDeviceVerification": "NOT_RUN",
+    "realGpsAndBatteryAcceptance": "NOT_RUN",
+    "productionSigningAndAppStoreProvisioning": "NOT_RUN",
+    "companyOrProviderProductionAcceptance": "NOT_RUN"
+  },
+  "separateHistoricalSources": [
+    {
+      "sourceGitSha": "05bbdf2e9873cfdf3d0b3a1081d8711f5dde78c5",
+      "pushRunId": 37835477895,
+      "pushConclusion": "FAILURE",
+      "pushIosTests": 0,
+      "prRunId": 37838644283,
+      "prConclusion": "SUCCESS",
+      "prIosTests": 15,
+      "note": "Each distinct earlier run is retained in its own safe receipt; neither is retagged with this changed source."
+    }
+  ]
+}
