@@ -1,0 +1,248 @@
+{
+  "recordedAt": "2026-10-08T23:43:18.578609+00:00",
+  "lines": [
+    {
+      "line": "product-completion",
+      "pullRequest": "https://github.com/ziko1/knaba/pull/3",
+      "baseSha": "83d0d18e2310d2e7b1642cd38d1af992cc086484",
+      "baseTree": "e88078e33dbb3796465b3cf1601e1e2b09c1ebff",
+      "testedSourceSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+      "testedSourceTree": "b7506a6d62508067fc0c48a6aee564be1b7300c2",
+      "changedFiles": [
+        ".github/workflows/responsive.yml",
+        "apps/web/index.html",
+        "apps/web/src/App.tsx",
+        "apps/web/src/ClientRedactionPanel.tsx",
+        "apps/web/src/main.tsx",
+        "apps/web/src/responsive.css",
+        "apps/web/src/useResponsiveNavigation.ts",
+        "packages/ui/index.tsx",
+        "playwright.responsive.config.ts",
+        "tests/browser.spec.ts",
+        "tests/responsive.spec.ts"
+      ],
+      "businessApiWorkerDomainInfraPackageChanges": [],
+      "codeFiles": [
+        {
+          "path": ".github/workflows/responsive.yml",
+          "gitBlob": "65e5bceaab0ac36f951f78d54760cf55071c0e90",
+          "sha256": "b7254e2a8bc58b0d964c1ba8eda719cce076c1b7202eb5392f058f7d062ed72e"
+        },
+        {
+          "path": "apps/web/index.html",
+          "gitBlob": "b99c2b4f1d86e2946eb36dba8b546ea6a49322b8",
+          "sha256": "7e4a11324f79821b7a20a2f03bbb5e8dfa8b5ce841ca483103275077e75d3d97"
+        },
+        {
+          "path": "apps/web/src/App.tsx",
+          "gitBlob": "900f3a5012e4ebe03676bf7eb9a9f8baaf8d69a3",
+          "sha256": "a36e442cda41841ac8d3aae8e272b010921c4d23006e5d3a391ad79a945469df"
+        },
+        {
+          "path": "apps/web/src/ClientRedactionPanel.tsx",
+          "gitBlob": "5a31fa21c6f2c8ad8c8e815fa97d4d4ce384d402",
+          "sha256": "c890d60894fd44007d3dc7af094bfeacad980f8f1d027456fc54ba5071d21be1"
+        },
+        {
+          "path": "apps/web/src/main.tsx",
+          "gitBlob": "cdad7191d6ed613ad0cee49c5ef72c3037889007",
+          "sha256": "60c61ebbdb0c0ea9e00b31c21a0fb0764a083bb604d5d27ae5b51350894212c4"
+        },
+        {
+          "path": "apps/web/src/responsive.css",
+          "gitBlob": "eb3591acf3498e5a535c57f415dd0763947305ca",
+          "sha256": "cc0e1c7d7a5d94b22fe91bc0c3571aa0ee067b42a79119e3574b46875721749c"
+        },
+        {
+          "path": "apps/web/src/useResponsiveNavigation.ts",
+          "gitBlob": "e49c7ead1dc399f0a5d2eca515257ad24c91a8f1",
+          "sha256": "5533ea7a84b6316718a5b8331d44b912b05c48c33d839a4b08f487dacbc3851e"
+        },
+        {
+          "path": "packages/ui/index.tsx",
+          "gitBlob": "84f89883c4d38e4d06e534b3d48650787dd0f7bd",
+          "sha256": "ecde1c96814a070b75a6333dbee3fe7d3dd2ff000d23ba1bf37b8d58de387743"
+        },
+        {
+          "path": "playwright.responsive.config.ts",
+          "gitBlob": "9832b509d38f832a20ef07f80c7f798b4f17b2c9",
+          "sha256": "1b863edfc45558ce32d089d7dc6d4837b710a5c403cbb00130e5739c69984ce3"
+        },
+        {
+          "path": "tests/browser.spec.ts",
+          "gitBlob": "ae0448f194ee9c3307b70ddfd2bf108cc5316dcc",
+          "sha256": "228e801644752304ce9fb2652ea5589a99186d4affba8a9ddee6fe1c958e6b47"
+        },
+        {
+          "path": "tests/responsive.spec.ts",
+          "gitBlob": "293f0f131084548ff5019b342cdc3bdb5db8445f",
+          "sha256": "372c9cf87997e9db9caa7573bd4b3537fb4eccf146c74a544659fe6decd87abe"
+        }
+      ]
+    },
+    {
+      "line": "v4-staging",
+      "pullRequest": "https://github.com/ziko1/knaba/pull/4",
+      "baseSha": "366c30b137951749bac7ec22ad35278300f93a4a",
+      "baseTree": "495e1c30f835022383d7dd5882369fdb70ec67ec",
+      "testedSourceSha": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+      "testedSourceTree": "2be9c257c7eadb410a10d1d770a6d364ea1acca2",
+      "changedFiles": [
+        ".github/workflows/responsive.yml",
+        "apps/web/index.html",
+        "apps/web/src/App.tsx",
+        "apps/web/src/ClientRedactionPanel.tsx",
+        "apps/web/src/main.tsx",
+        "apps/web/src/responsive.css",
+        "apps/web/src/useResponsiveNavigation.ts",
+        "packages/ui/index.tsx",
+        "playwright.responsive.config.ts",
+        "tests/browser.spec.ts",
+        "tests/responsive.spec.ts"
+      ],
+      "businessApiWorkerDomainInfraPackageChanges": [],
+      "codeFiles": [
+        {
+          "path": ".github/workflows/responsive.yml",
+          "gitBlob": "65e5bceaab0ac36f951f78d54760cf55071c0e90",
+          "sha256": "b7254e2a8bc58b0d964c1ba8eda719cce076c1b7202eb5392f058f7d062ed72e"
+        },
+        {
+          "path": "apps/web/index.html",
+          "gitBlob": "b99c2b4f1d86e2946eb36dba8b546ea6a49322b8",
+          "sha256": "7e4a11324f79821b7a20a2f03bbb5e8dfa8b5ce841ca483103275077e75d3d97"
+        },
+        {
+          "path": "apps/web/src/App.tsx",
+          "gitBlob": "5d64531fd00a56cdbb8c0ec0b0977a079fd1dce7",
+          "sha256": "b140c3e954bf7b1d14b9597c86654f639f931a86c83f4cf08b88f7658ff7baf4"
+        },
+        {
+          "path": "apps/web/src/ClientRedactionPanel.tsx",
+          "gitBlob": "5a31fa21c6f2c8ad8c8e815fa97d4d4ce384d402",
+          "sha256": "c890d60894fd44007d3dc7af094bfeacad980f8f1d027456fc54ba5071d21be1"
+        },
+        {
+          "path": "apps/web/src/main.tsx",
+          "gitBlob": "cdad7191d6ed613ad0cee49c5ef72c3037889007",
+          "sha256": "60c61ebbdb0c0ea9e00b31c21a0fb0764a083bb604d5d27ae5b51350894212c4"
+        },
+        {
+          "path": "apps/web/src/responsive.css",
+          "gitBlob": "eb3591acf3498e5a535c57f415dd0763947305ca",
+          "sha256": "cc0e1c7d7a5d94b22fe91bc0c3571aa0ee067b42a79119e3574b46875721749c"
+        },
+        {
+          "path": "apps/web/src/useResponsiveNavigation.ts",
+          "gitBlob": "e49c7ead1dc399f0a5d2eca515257ad24c91a8f1",
+          "sha256": "5533ea7a84b6316718a5b8331d44b912b05c48c33d839a4b08f487dacbc3851e"
+        },
+        {
+          "path": "packages/ui/index.tsx",
+          "gitBlob": "84f89883c4d38e4d06e534b3d48650787dd0f7bd",
+          "sha256": "ecde1c96814a070b75a6333dbee3fe7d3dd2ff000d23ba1bf37b8d58de387743"
+        },
+        {
+          "path": "playwright.responsive.config.ts",
+          "gitBlob": "9832b509d38f832a20ef07f80c7f798b4f17b2c9",
+          "sha256": "1b863edfc45558ce32d089d7dc6d4837b710a5c403cbb00130e5739c69984ce3"
+        },
+        {
+          "path": "tests/browser.spec.ts",
+          "gitBlob": "f8b3bc60e04ee2a9e8f2aa1e61678b3f77f304bd",
+          "sha256": "f8cd6de18dcb619aa2b6f93fff80637fbf9a8b147100275c95598633577bae27"
+        },
+        {
+          "path": "tests/responsive.spec.ts",
+          "gitBlob": "293f0f131084548ff5019b342cdc3bdb5db8445f",
+          "sha256": "372c9cf87997e9db9caa7573bd4b3537fb4eccf146c74a544659fe6decd87abe"
+        }
+      ]
+    }
+  ],
+  "sharedResponsiveFiles": [
+    {
+      "path": ".github/workflows/responsive.yml",
+      "identicalAcrossLines": true,
+      "sha256": "b7254e2a8bc58b0d964c1ba8eda719cce076c1b7202eb5392f058f7d062ed72e"
+    },
+    {
+      "path": "apps/web/index.html",
+      "identicalAcrossLines": true,
+      "sha256": "7e4a11324f79821b7a20a2f03bbb5e8dfa8b5ce841ca483103275077e75d3d97"
+    },
+    {
+      "path": "apps/web/src/ClientRedactionPanel.tsx",
+      "identicalAcrossLines": true,
+      "sha256": "c890d60894fd44007d3dc7af094bfeacad980f8f1d027456fc54ba5071d21be1"
+    },
+    {
+      "path": "apps/web/src/main.tsx",
+      "identicalAcrossLines": true,
+      "sha256": "60c61ebbdb0c0ea9e00b31c21a0fb0764a083bb604d5d27ae5b51350894212c4"
+    },
+    {
+      "path": "apps/web/src/responsive.css",
+      "identicalAcrossLines": true,
+      "sha256": "cc0e1c7d7a5d94b22fe91bc0c3571aa0ee067b42a79119e3574b46875721749c"
+    },
+    {
+      "path": "apps/web/src/useResponsiveNavigation.ts",
+      "identicalAcrossLines": true,
+      "sha256": "5533ea7a84b6316718a5b8331d44b912b05c48c33d839a4b08f487dacbc3851e"
+    },
+    {
+      "path": "packages/ui/index.tsx",
+      "identicalAcrossLines": true,
+      "sha256": "ecde1c96814a070b75a6333dbee3fe7d3dd2ff000d23ba1bf37b8d58de387743"
+    },
+    {
+      "path": "playwright.responsive.config.ts",
+      "identicalAcrossLines": true,
+      "sha256": "1b863edfc45558ce32d089d7dc6d4837b710a5c403cbb00130e5739c69984ce3"
+    },
+    {
+      "path": "tests/responsive.spec.ts",
+      "identicalAcrossLines": true,
+      "sha256": "372c9cf87997e9db9caa7573bd4b3537fb4eccf146c74a544659fe6decd87abe"
+    }
+  ],
+  "nonMutatingMergeComparison": {
+    "method": "git merge-tree --write-tree --name-only; no branch/index/worktree merge applied",
+    "productBase": "83d0d18e2310d2e7b1642cd38d1af992cc086484",
+    "productResponsiveSource": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+    "v4Base": "366c30b137951749bac7ec22ad35278300f93a4a",
+    "beforeConflictFiles": [
+      ".github/workflows/staging.yml",
+      "AGENTS.md",
+      "apps/api/http.ts",
+      "apps/web/src/App.tsx",
+      "apps/web/src/api.ts",
+      "docs/evidence/offline-execution-scope.json",
+      "scripts/verify-staging.mjs",
+      "tests/commerce.test.ts"
+    ],
+    "afterConflictFiles": [
+      ".github/workflows/staging.yml",
+      "AGENTS.md",
+      "apps/api/http.ts",
+      "apps/web/src/App.tsx",
+      "apps/web/src/api.ts",
+      "docs/evidence/offline-execution-scope.json",
+      "scripts/verify-staging.mjs",
+      "tests/commerce.test.ts"
+    ],
+    "newConflictFiles": [],
+    "combinedBusinessRuntime": "NOT_MERGED_NOT_ACCEPTED"
+  },
+  "subsequentV4TestOnlyCandidate": {
+    "sourceSha": "7d8a0e92c083ca22e4f93595bd084031f7272599",
+    "sourceTree": "d841afad8b71546d5fc7589d434b8f3bc056e5a2",
+    "parent": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+    "changedFiles": [
+      "tests/browser.spec.ts"
+    ],
+    "productionApplicationDiff": [],
+    "statusAtProductDocumentationSnapshot": "RUNNING"
+  }
+}

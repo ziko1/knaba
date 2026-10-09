@@ -1,0 +1,67 @@
+name: KNABA responsive browser acceptance
+
+on:
+  push:
+    branches: ['codex/knaba-responsive-*']
+    paths: ['apps/web/**', 'packages/ui/**', 'packages/i18n/**', 'tests/responsive.spec.ts', 'playwright.responsive.config.ts', '.github/workflows/responsive.yml']
+  pull_request:
+    paths: ['apps/web/**', 'packages/ui/**', 'packages/i18n/**', 'tests/responsive.spec.ts', 'playwright.responsive.config.ts', '.github/workflows/responsive.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: knaba-responsive-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  responsive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      RESPONSIVE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RESPONSIVE_SOURCE_SHA }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: npm
+      - run: npm ci --ignore-scripts --strict-ssl=true
+      - name: Check exact source and frontend types
+        run: |
+          test "$(git rev-parse HEAD)" = "$RESPONSIVE_SOURCE_SHA"
+          npx tsc --noEmit --project apps/web/tsconfig.json
+      - name: Build the actual web application
+        run: npx vite build --config apps/web/vite.config.ts
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Render real Chromium and WebKit viewport scenarios
+        run: npx playwright test --config playwright.responsive.config.ts
+      - name: Record source-bound scoped result
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+          let report;
+          try {report=JSON.parse(readFileSync('.local/responsive/result.json','utf8'));} catch {}
+          const stats=report?.stats;
+          const status=stats && stats.expected===54 && stats.unexpected===0 && stats.skipped===0 && stats.flaky===0?'PASSED':'NOT_READY';
+          const summary={status,testedGitSha:process.env.RESPONSIVE_SOURCE_SHA,runId:process.env.GITHUB_RUN_ID,utc:new Date().toISOString(),stats:stats||null,
+            scope:'Actual built React web UI, Chromium and WebKit, explicit in-memory HTTP fixtures using real domain command schemas.',
+            viewportWidths:[320,360,390,430,600,667,768,844,1024,1280,1440,1920,2560],
+            languages:['DE','UK','RU','PL','LT','EN'],
+            backendDatabase:'NOT_RUN',realAuthentication:'NOT_RUN',nativeAndPhysicalDevices:'NOT_RUN',productionDeployment:'NOT_RUN'};
+          mkdirSync('.local/responsive',{recursive:true});
+          writeFileSync('.local/responsive/summary.json',JSON.stringify(summary,null,2)+'\n');
+          console.log(JSON.stringify(summary));
+          if(status!=='PASSED')process.exitCode=1;
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-responsive-${{ env.RESPONSIVE_SOURCE_SHA }}
+          path: .local/responsive/
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
