@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-08T23:59:21.924981+00:00",
+  "scope": "Responsive UI acceptance discovery history; these older results do not accept later commits.",
+  "attempts": [
+    {
+      "sourceSha": "e59dbd39312c0e97652611b422f6934c5ec62f7a",
+      "sourceTree": "9aab2af0fff5e36e948efd0c689008ca9ee58048",
+      "responsive": {
+        "runId": 37854507599,
+        "jobId": 113575339146,
+        "passed": 38,
+        "failed": 14,
+        "skipped": 0,
+        "total": 52,
+        "status": "FAILED"
+      },
+      "application": {
+        "runId": 37854507625,
+        "jobId": 113575336918,
+        "unitPostgres": {
+          "passed": 1580,
+          "failed": 0,
+          "skipped": 0,
+          "classification": {
+            "cpuDocumentOrExplicitDouble": 1356,
+            "genuinePostgres": 224
+          }
+        },
+        "browser": {
+          "passed": 25,
+          "failed": 1,
+          "total": 26,
+          "classification": {
+            "actualBackendUiCases": 23,
+            "explicitTransportFixtures": 3
+          }
+        },
+        "status": "FAILED"
+      },
+      "findings": [
+        "Navigation helper omitted the visible Decision centre count.",
+        "WebKit helper raced initial console mounting before opening navigation.",
+        "Compact drawer initial focus failed.",
+        "Legacy session helper required a visible desktop sidebar at phone width."
+      ],
+      "artifact": {
+        "id": 11584396378,
+        "sha256": "d4cfa634a7a77723be7ebd7576802b3566be7dd1a9e7b0ddf960037149701a37",
+        "bytes": 13461667,
+        "downloadedAndHashVerified": true,
+        "failureTracesAndScreenshotsInspected": true
+      }
+    },
+    {
+      "sourceSha": "223627fc868f91283ce2ee6f5b2697e607bd27e5",
+      "sourceTree": "21c5bf7f2c529811328d971657bdd2af5345af98",
+      "responsive": {
+        "runId": 37856813900,
+        "jobId": 113582860886,
+        "passed": 42,
+        "failed": 6,
+        "notRunAfterFailureCap": 6,
+        "total": 54,
+        "status": "NOT_READY"
+      },
+      "application": {
+        "runId": 37856813848,
+        "jobId": 113582860499,
+        "unitPostgres": {
+          "passed": 1580,
+          "failed": 0,
+          "skipped": 0,
+          "classification": {
+            "cpuDocumentOrExplicitDouble": 1356,
+            "genuinePostgres": 224
+          }
+        },
+        "browser": {
+          "passed": 26,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0,
+          "total": 26,
+          "classification": {
+            "actualBackendUiCases": 23,
+            "explicitTransportFixtures": 3
+          }
+        },
+        "backupTamperRestoreWorker": "PASSED",
+        "restoredTables": 17,
+        "verifiedPrivateBlobs": 10,
+        "status": "SUCCESS"
+      },
+      "findings": [
+        "Drawer close control still failed initial focus while CSS transitioned visibility.",
+        "Actual native WebKit select bounds fit but long option internals widened dialog scroll areas.",
+        "Synthetic widget host lacked UTF-8 charset and exposed a mojibake accessible name.",
+        "Manual tablet screenshot review found a short status badge split across text lines.",
+        "Manual chat screenshot review found a long title squeezed its channel icon."
+      ],
+      "artifact": {
+        "id": 11583889035,
+        "sha256": "24863eab55655f9fe171e5a9d107f773ec26e94bd7830c0ca1c01c55d9554072",
+        "bytes": 17479338,
+        "downloadedAndHashVerified": true,
+        "failureTracesAndScreenshotsInspected": true
+      }
+    },
+    {
+      "sourceSha": "eab5fe52fa52c7054624a5b32de725c10287b24d",
+      "sourceTree": "498abc69579391c23ed701b1c7f490b5afc35620",
+      "responsive": {
+        "runId": 37858228280,
+        "jobId": 113587473059,
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0,
+        "total": 54,
+        "status": "PASSED",
+        "durationMs": 151072.268
+      },
+      "artifact": {
+        "id": 11585321024,
+        "sha256": "14c199dae12583b25024ac6b193b080d3a7b08573f6429ba71737da58d5e344e",
+        "bytes": 16092142,
+        "downloadedAndHashVerified": true,
+        "screenshotsInspected": true
+      },
+      "findings": [
+        "All original viewport, native-select keyboard, drawer focus, rotation and widget checks passed.",
+        "Previously identified tablet badge and long channel icon readability fixes are a later source and require their own acceptance."
+      ]
+    },
+    {
+      "sourceSha": "7e832d18f64478356704d03638a4ac9e82dcae88",
+      "sourceTree": "c5718f134145cab7a7dcc374ff0093887b2d1c8f",
+      "responsive": {
+        "runId": 37858911167,
+        "jobId": 113589694129,
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0,
+        "total": 54,
+        "status": "PASSED",
+        "durationMs": 240267.71
+      },
+      "application": {
+        "runId": 37858911158,
+        "jobId": 113589788054,
+        "status": "SUCCESS",
+        "unitPostgres": {
+          "passed": 1580,
+          "failed": 0,
+          "skipped": 0,
+          "classification": {
+            "cpuDocumentOrExplicitDouble": 1356,
+            "genuinePostgres": 224
+          }
+        },
+        "browser": {
+          "passed": 26,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0,
+          "total": 26,
+          "classification": {
+            "actualBackendUiCases": 23,
+            "explicitTransportFixtures": 3
+          }
+        }
+      },
+      "artifact": {
+        "id": 11584859998,
+        "sha256": "fb80ba634a0143f5bdeada5578540e010c09b78521f28b81bde2dbc7b31f1a61",
+        "bytes": 16099374,
+        "metadataObserved": true,
+        "downloadedAndHashVerified": false
+      },
+      "findings": [
+        "Real status text-line and channel icon spacing checks passed.",
+        "A subsequent shared Modal change addresses the independently observed V4 search opener restoration defect and needs separate source acceptance."
+      ]
+    },
+    {
+      "sourceSha": "1719756393fa18e9d41bd87e399324c7da24fbfa",
+      "sourceTree": "5c1b56f9ac78a86b0ed48a7caef627113d390beb",
+      "responsive": {
+        "runId": 37859854679,
+        "jobId": 113592722895,
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0,
+        "total": 54,
+        "status": "PASSED",
+        "durationMs": 152680.762
+      },
+      "application": {
+        "status": "CANCELLED_SUPERSEDED_SOURCE"
+      },
+      "findings": [
+        "Modal opener capture preserved autofocus and passed the existing responsive matrix. Subsequent photo identity fix requires a new exact-source acceptance."
+      ]
+    }
+  ],
+  "corrections": [
+    "Navigation helpers now wait for actual console headings and operate compact navigation before selecting a route; exact destination heading assertions remain.",
+    "Only drawer transform animates; visibility becomes immediately focusable.",
+    "Native select layout containment preserves full option values and adds real End/Home keyboard acceptance.",
+    "The synthetic widget host explicitly declares UTF-8. Actual widget code is unchanged.",
+    "Table status text and channel icon spacing receive visual-review-driven fixes and rendered text-line/spacing assertions.",
+    "Shared Modal now captures its opener before descendant autofocus during React commit; preserves autofocus and restores only a connected element. Existing V4 German keyboard regression is unchanged.",
+    "Photo masking image remounts on the existing full asset/version/copy identity. The pre-paint reset uses aligned dependencies, preventing an approval refresh or cached image load from leaving a visible photo without its canvas. Existing browser redaction assertion is unchanged."
+  ],
+  "excluded": [
+    "Production deployment",
+    "Physical devices",
+    "Real provider delivery",
+    "Whole V4 or 475-criterion acceptance"
+  ],
+  "noSecretsRetained": true,
+  "v4History": [
+    {
+      "sourceSha": "366c30b137951749bac7ec22ad35278300f93a4a",
+      "sourceTree": "495e1c30f835022383d7dd5882369fdb70ec67ec",
+      "releaseRunId": 37850974547,
+      "releaseJobId": 113563496603,
+      "status": "FAILED",
+      "browser": {
+        "passed": 25,
+        "failed": 2,
+        "total": 27,
+        "classification": {
+          "actualBackendUiCases": 26,
+          "explicitTransportFixtures": 1
+        }
+      },
+      "failures": [
+        "German workspace search opener was inactive after closing its autofocus dialog.",
+        "Manual redaction canvas was not present after selecting the uploaded photo."
+      ],
+      "coreLoad": {
+        "runId": 37850974747,
+        "jobId": 113563497666,
+        "status": "FAILED",
+        "measurement": "NOT_RUN",
+        "observedDatabaseError": "could not determine data type of parameter $4"
+      },
+      "scope": "Exact pre-responsive V4 baseline. Logs read; failures are not assigned to the later UI patch.",
+      "artifact": {
+        "id": 11582986062,
+        "bytes": 10703546,
+        "sha256": "d829cc5e4f2c4d0bc8e8248f8ba75d6c59a2008752cb3965dd9f1dc4455ca121",
+        "downloadedAndHashVerified": true,
+        "failureTracesAndScreenshotsInspected": true
+      },
+      "redactionFinding": {
+        "imageHttpStatus": 200,
+        "imageMimeType": "image/jpeg",
+        "imageBytes": 492,
+        "assetRevisionBeforeApproval": 1,
+        "assetRevisionAfterApproval": 2,
+        "clientCopyVersion": 0,
+        "renderedImageVisible": true,
+        "redactionCanvasSnapshotOccurrences": 0,
+        "browserErrorsObserved": 0,
+        "cause": "Reset effect tracks asset.version but img key/src originally tracked only asset id and clientCopyVersion. Approval refreshed the record while retaining the loaded img, so clearing natural dimensions could remove the canvas without a new load event.",
+        "correction": "Key img by the existing full asset/version/copy identity. Reset dimensions and masks in useLayoutEffect with aligned asset/version/copy/session dependencies, before a fresh cached image load. Existing validation, stale identity guard, cancellation and separate approval flow preserved.",
+        "privacy": "Only safe trace conclusions are retained here; raw fixture record IDs, authentication state and trace payloads are excluded."
+      },
+      "unitPostgres": {
+        "passed": 2138,
+        "failed": 39,
+        "skipped": 0,
+        "total": 2177,
+        "status": "FAILED",
+        "failedInventory": [
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal \u2192 exact server estimate \u2192 private WEB draft, with no lead before explicit authenticated confirmation",
+            "status": "failed",
+            "message": "AssertionError: expected [] to have a length of 1 but got +0"
+          },
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+            "status": "failed",
+            "message": "AssertionError: expected [] to have a length of 1 but got +0"
+          },
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+            "status": "failed",
+            "message": "AssertionError: expected Error: AI_SUPPRESSED { \u2026(2) } to match object { code: 'VERSION_CONFLICT' }"
+          },
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+            "status": "failed",
+            "message": "AssertionError: expected Error: AI_SUPPRESSED { \u2026(2) } to match object { code: 'VERSION_CONFLICT' }"
+          },
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+            "status": "failed",
+            "message": "AssertionError: expected { status: 'RUNNING', \u2026(9) } to match object { Object (status, actual_cents) }"
+          },
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+            "status": "failed",
+            "message": "AssertionError: expected { status: 'RUNNING', \u2026(9) } to match object { Object (status, actual_cents) }"
+          },
+          {
+            "file": "tests/assistant-runtime.integration.test.ts",
+            "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+            "status": "failed",
+            "message": "AssertionError: expected { status: 'RUNNING', \u2026(9) } to match object { Object (status, actual_cents) }"
+          },
+          {
+            "file": "tests/commerce-v4-projection.test.ts",
+            "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4-projection.test.ts",
+            "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4-projection.test.ts",
+            "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4-projection.test.ts",
+            "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/commerce-v4.integration.test.ts",
+            "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/device-gps-privacy-v4.integration.test.ts",
+            "title": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+            "status": "failed",
+            "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+          },
+          {
+            "file": "tests/handoff-calendar.integration.test.ts",
+            "title": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/internal-assistant-visibility.integration.test.ts",
+            "title": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+            "status": "failed",
+            "message": "AssertionError: expected [ { items: [], limit: 50, \u2026(2) }, [] ] to deeply equal [ { items: [] }, [] ]"
+          },
+          {
+            "file": "tests/material-request-batches-v4.integration.test.ts",
+            "title": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+            "status": "failed",
+            "message": "AssertionError: expected Error: VERSION_CONFLICT { \u2026(2) } to match object { code: 'IDEMPOTENCY_CONFLICT' }"
+          },
+          {
+            "file": "tests/media-upload-idempotency.integration.test.ts",
+            "title": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+            "status": "failed",
+            "message": "AssertionError: expected [Function] to throw error including 'Synthetic error after sanitized SQL b\u2026' but got 'Maximum call stack size exceeded'"
+          },
+          {
+            "file": "tests/operations-digest.integration.test.ts",
+            "title": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+            "status": "failed",
+            "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+          },
+          {
+            "file": "tests/operations-digest.integration.test.ts",
+            "title": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+            "status": "failed",
+            "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/order-lifecycle-v4.integration.test.ts",
+            "title": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          },
+          {
+            "file": "tests/v4-core-contracts.integration.test.ts",
+            "title": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+            "status": "failed",
+            "message": "AssertionError: expected Error: VALIDATION_ERROR { \u2026(2) } to match object { code: 'VALIDATION_ERROR', \u2026(1) }"
+          },
+          {
+            "file": "tests/work-notifications.integration.test.ts",
+            "title": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+            "status": "failed",
+            "message": "Error: ACCESS_DENIED"
+          }
+        ],
+        "classification": {
+          "REAL_POSTGRES": {
+            "passed": 317,
+            "failed": 39
+          },
+          "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+            "passed": 1821
+          }
+        }
+      }
+    },
+    {
+      "sourceSha": "b220ec1940b173642568e18e89e1a3fba18f35e3",
+      "sourceTree": "673fb42ec68ea69f9ea95076312bbba24376a6b6",
+      "responsive": {
+        "runId": 37858287229,
+        "jobId": 113587664189,
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0,
+        "total": 54,
+        "status": "PASSED",
+        "durationMs": 244222.323
+      },
+      "artifact": {
+        "id": 11585396282,
+        "sha256": "06ed68729ea51554d873dc9618d513cf5cc5cd08f99c536f55146301f54b5896",
+        "bytes": 16092392,
+        "metadataObserved": true,
+        "downloadedAndHashVerified": false
+      }
+    },
+    {
+      "sourceSha": "7eff9e99f25612597e533e4b2f363d74542f78b2",
+      "sourceTree": "8e1ef18b975c683a0177e6307e2c0ae3c492672e",
+      "responsive": {
+        "runId": 37859859092,
+        "jobId": 113592837571,
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0,
+        "total": 54,
+        "status": "PASSED",
+        "durationMs": 162826.044
+      },
+      "application": {
+        "status": "CANCELLED_SUPERSEDED_SOURCE"
+      },
+      "findings": [
+        "Modal opener capture preserved autofocus and passed the existing responsive matrix. Subsequent photo identity fix requires a new exact-source acceptance."
+      ]
+    },
+    {
+      "sourceSha": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+      "sourceTree": "2be9c257c7eadb410a10d1d770a6d364ea1acca2",
+      "responsive": {
+        "runId": 37860712337,
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "application": {
+        "runId": 37860712379,
+        "passed": 2137,
+        "failed": 40,
+        "skipped": 0,
+        "cpuPassed": 1821,
+        "postgresPassed": 316,
+        "postgresFailed": 40,
+        "sameOriginalFailedIdentities": 39,
+        "additionalFailure": "tests/v4-http-runtime-contracts.integration.test.ts: actual audit SQL keyset parses correctly and maintains company scope over cursor pages; expected one item, observed none. Source unchanged.",
+        "browserPassed": 26,
+        "browserFailed": 1,
+        "photoMasking": "PASSED",
+        "browserFailure": "Second viewport keyboard insertion appended to retained query. Original opener focus passed before this later setup error.",
+        "nextSourceTestOnlyCorrection": "7d8a0e92c083ca22e4f93595bd084031f7272599"
+      },
+      "applicationArtifact": {
+        "id": 11586617201,
+        "sha256": "e1a7b8572acfa628f1a798823fece000b42c23c5f3173135c738997dd640c126",
+        "bytes": 8443998,
+        "downloadedAndHashVerified": true
+      },
+      "native": {
+        "primaryPrRun": 37860712369,
+        "status": "SUCCESS",
+        "hostJavaAssertions": 66,
+        "actualXCTest": 19,
+        "duplicatePushRun": 37860707811,
+        "duplicatePushStatus": "FAILED_SIMULATOR_PREPARATION",
+        "duplicatePushXctestExecuted": 0
+      }
+    }
+  ]
+}

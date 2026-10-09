@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-08T23:57:51.069937+00:00",
+  "scope": "Responsive web implementation and actual supporting acceptance, with explicit backend/native/production boundaries.",
+  "status": "RESPONSIVE_WEB_ACCEPTED",
+  "line": "product",
+  "pullRequest": "https://github.com/ziko1/knaba/pull/3",
+  "testedSourceSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+  "testedSourceTree": "b7506a6d62508067fc0c48a6aee564be1b7300c2",
+  "documentationRevision": "Containing documentation commit; it does not replace the tested source identity.",
+  "responsive": {
+    "status": "PASSED",
+    "runId": 37860709834,
+    "runUrl": "https://github.com/ziko1/knaba/actions/runs/37860709834",
+    "jobId": 113595485107,
+    "scope": "Actual built React web UI, Chromium and WebKit, explicit in-memory HTTP fixtures using real domain command schemas.",
+    "stats": {
+      "startTime": "2026-10-08T23:44:53.425Z",
+      "duration": 234821.754,
+      "expected": 54,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "browserCases": {
+      "chromium": 27,
+      "webkit": 27
+    },
+    "viewportWidths": [
+      320,
+      360,
+      390,
+      430,
+      600,
+      667,
+      768,
+      844,
+      1024,
+      1280,
+      1440,
+      1920,
+      2560
+    ],
+    "publicAndRequestLanguages": [
+      "DE",
+      "UK",
+      "RU",
+      "PL",
+      "LT",
+      "EN"
+    ],
+    "consoleTraversalLanguage": "EN",
+    "consoleTraversalWidths": [
+      320,
+      768,
+      1440,
+      2560
+    ],
+    "shortFormViewport": {
+      "width": 390,
+      "height": 340
+    },
+    "artifact": {
+      "id": 11586571990,
+      "fileName": "github-actions-artifact-11586571990.zip",
+      "sha256": "065c81fdaeac923c2fac03929d92c24c124148600aa3742d8497cbba29563168",
+      "bytes": 16099341,
+      "crcAndPathSafety": "PASSED",
+      "downloadedAndHashVerified": true,
+      "sourceVerified": true
+    },
+    "scenarioInventory": "product-scenarios.json",
+    "artifactScreenshotCount": 64,
+    "selectedVisualReview": "visual-review.json",
+    "selectedScreenshotDirectory": "screenshots/product"
+  },
+  "application": {
+    "runId": 37860709739,
+    "runUrl": "https://github.com/ziko1/knaba/actions/runs/37860709739",
+    "jobId": 113595543135,
+    "artifactId": 11586099089,
+    "sourceSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+    "artifact": {
+      "fileName": "github-actions-artifact-11586099089.zip",
+      "sha256": "abce1c761f3da612a0151d7461db505c2da058344dafcc67f8bbc16419268b45",
+      "bytes": 5067918,
+      "crcAndPathSafety": "PASSED"
+    },
+    "releaseStatus": "PASSED",
+    "stages": [
+      {
+        "stage": "exact-live-runtime",
+        "status": "PASSED"
+      },
+      {
+        "stage": "full-unit-and-postgres",
+        "status": "PASSED"
+      },
+      {
+        "stage": "rendered-browser-scenarios",
+        "status": "PASSED"
+      },
+      {
+        "stage": "encrypted-delivery-backup",
+        "status": "PASSED"
+      },
+      {
+        "stage": "backup-tamper-rejection",
+        "status": "PASSED"
+      },
+      {
+        "stage": "empty-database-private-blob-restore",
+        "status": "PASSED"
+      },
+      {
+        "stage": "bundled-worker-heartbeat-and-restart",
+        "status": "PASSED"
+      }
+    ],
+    "unitPostgres": {
+      "total": 1580,
+      "passed": 1580,
+      "failed": 0,
+      "skipped": 0,
+      "classification": {
+        "REAL_POSTGRES": {
+          "passed": 224
+        },
+        "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+          "passed": 1356
+        }
+      },
+      "failedInventory": []
+    },
+    "browser": {
+      "stats": {
+        "startTime": "2026-10-08T23:50:36.584Z",
+        "duration": 145702.09399999998,
+        "expected": 26,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "classification": {
+        "ACTUAL_BACKEND_UI": 23,
+        "EXPLICIT_HTTP_TRANSPORT_FIXTURE": 3
+      },
+      "scenarios": [
+        {
+          "file": "browser.spec.ts",
+          "title": "public entry supports all six languages at 360 px without document overflow",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 652
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "rendered demo login and canonical role landings are usable",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2614
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "real credentials authenticate and logout revokes the cookie session",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 744
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "manual shift start, private break, resume and end persist after page reload",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 3089
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "task form creates a persisted task and mobile modal fits 360 px",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2498
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "team chat sends original text and reads the persisted message after reload",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2643
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "private photo upload validates bytes, registers site context and permits file retrieval",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1328
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "public contact and guest chat persist privately with honest manual fallback",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1157
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation",
+          "classification": "EXPLICIT_HTTP_TRANSPORT_FIXTURE",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1388
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "mutations reject missing CSRF and CLIENT cannot read internal chat or payroll",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 691
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "published report PDF CSV XLSX match immutable snapshot and client access",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 45714
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "manual inventory SKU lookup works without camera and shows approved unit conversion",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1238
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "client issue form references approved photo, persists original text and opens a review",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1286
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "structure import rejects malformed files, previews CSV and XLSX without writes, and commits reviewed hierarchy",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2052
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "a private guest handoff needs an explicit current operator claim before the original and reply are visible",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 11499
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "an owned assigned task stays UNSYNCED offline and changes only after an explicit original-key retry acknowledgement",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2278
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "the scoped empty route sketch fits360px and uses no external maps or browser GPS, including client deep-link denial",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1391
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "an owned shift has an actual read-only working-time advisory with explicit policy and insufficient-history coverage",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1396
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "authorized AI usage and explicit SIMULATED playground leave actual business records unchanged without provider execution",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1989
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "an actual own-message internal draft request stays pending or provider-disabled without a draft confirmation or business changes",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2458
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "administration authors, previews and explicitly activates a persisted automation rule without executing it; employees cannot manage rules",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 40432
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "activity bell shows only own notices, acknowledges the exact version and opens a genuinely unread authorized chat",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2993
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "director saves an authorized digest schedule, previews without effects and opens the immutable own digest through history, activity and protected links",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 6406
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "manual opaque masks edit only a separate client photo copy and require a fresh explicit publication approval",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2976
+            }
+          ]
+        },
+        {
+          "file": "web-session-races.spec.ts",
+          "title": "transport fixture: a current private 401 removes the open record and permanently clears the console",
+          "classification": "EXPLICIT_HTTP_TRANSPORT_FIXTURE",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 956
+            }
+          ]
+        },
+        {
+          "file": "web-session-races.spec.ts",
+          "title": "transport fixture: an A send response arriving after switching to B preserves B history and its new draft",
+          "classification": "EXPLICIT_HTTP_TRANSPORT_FIXTURE",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1840
+            }
+          ]
+        }
+      ]
+    },
+    "workerStatus": "PASSED",
+    "sensitiveRuntimeStateExcluded": true,
+    "workflowStatus": "SUCCESS",
+    "packaging": {
+      "status": "HOSTED_ACCEPTANCE_VERIFIED",
+      "runtimeParts": 2,
+      "runtimeBytes": 44643822,
+      "independentRuntimeBytesVerification": "NOT_RUN"
+    },
+    "recovery": {
+      "tablesRestored": 17,
+      "privateBlobsVerified": 10,
+      "encryptedBackup": "PASSED",
+      "tamperRejection": "PASSED",
+      "actualWorkerRestart": "PASSED"
+    }
+  },
+  "native": {
+    "sourceSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+    "runId": 37860709829,
+    "runUrl": "https://github.com/ziko1/knaba/actions/runs/37860709829",
+    "status": "SUCCESS",
+    "android": "52 host Java assertions, debug assemble and lint; no physical Android rendering claim.",
+    "ios": "15 actual XCTest on the prepared iOS 18.5 simulator; unsigned simulator build.",
+    "nativeCodeChangedByResponsivePatch": false,
+    "artifactBytesIndependentlyDownloaded": false,
+    "companySigningAndPhysicalDevices": "NOT_RUN",
+    "actualCounts": {
+      "hostJavaAssertions": 52,
+      "actualXCTest": 15,
+      "failed": 0
+    }
+  },
+  "implementation": [
+    "Fluid gutters, zero-safe grids and bounded desktop reading width.",
+    "Compact accessible navigation drawer with inert background, scroll lock, keyboard trap, Escape and rotation cleanup.",
+    "Readable stacked forms and dynamic/VisualViewport-aware scrollable dialogs.",
+    "Keyboard-focusable table/board scroll regions, reduced tree indentation and wrapping long content.",
+    "Stable touch controls, 16px compact input text and preserved normal browser zoom.",
+    "Native select layout containment with real rendered long-label and keyboard-selection checks.",
+    "Shared Modal captures opener before descendant autofocus and restores only a connected opener.",
+    "Photo canvas image lifecycle follows asset/copy revision; pre-paint state reset preserves validation and separate review/approval flow."
+  ],
+  "sourceBinding": "source-binding.json",
+  "discoveryHistory": "history.json",
+  "limits": [
+    "Responsive emulation does not exhaust every possible screen/browser/physical keyboard combination.",
+    "Physical Android/iPhone use, native layout, browser chrome and safe-area hardware are not certified by this matrix.",
+    "Real providers, company UAT, production deployment and all 72 V4 / 475 preserved whole criteria are separate.",
+    "Product-completion and V4 business lines were not merged; each responsive PR is based on its own preserved runtime.",
+    "Runtime archives/native binaries were not independently downloaded for this design change; the responsive and application evidence ZIPs were downloaded and verified."
+  ]
+}
