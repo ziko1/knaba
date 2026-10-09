@@ -1,0 +1,828 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-08T23:57:51.069937+00:00",
+  "scope": "Responsive web implementation and actual supporting acceptance, with explicit backend/native/production boundaries.",
+  "status": "RESPONSIVE_MATRIX_ACCEPTED_RELEASE_NOT_READY",
+  "line": "v4",
+  "pullRequest": "https://github.com/ziko1/knaba/pull/4",
+  "testedSourceSha": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+  "testedSourceTree": "2be9c257c7eadb410a10d1d770a6d364ea1acca2",
+  "documentationRevision": "Containing documentation commit; it does not replace the tested source identity.",
+  "responsive": {
+    "status": "PASSED",
+    "runId": 37860712337,
+    "runUrl": "https://github.com/ziko1/knaba/actions/runs/37860712337",
+    "jobId": 113595493988,
+    "scope": "Actual built React web UI, Chromium and WebKit, explicit in-memory HTTP fixtures using real domain command schemas.",
+    "stats": {
+      "startTime": "2026-10-08T23:45:00.255Z",
+      "duration": 225805.008,
+      "expected": 54,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "browserCases": {
+      "chromium": 27,
+      "webkit": 27
+    },
+    "viewportWidths": [
+      320,
+      360,
+      390,
+      430,
+      600,
+      667,
+      768,
+      844,
+      1024,
+      1280,
+      1440,
+      1920,
+      2560
+    ],
+    "publicAndRequestLanguages": [
+      "DE",
+      "UK",
+      "RU",
+      "PL",
+      "LT",
+      "EN"
+    ],
+    "consoleTraversalLanguage": "EN",
+    "consoleTraversalWidths": [
+      320,
+      768,
+      1440,
+      2560
+    ],
+    "shortFormViewport": {
+      "width": 390,
+      "height": 340
+    },
+    "artifact": {
+      "id": 11586288636,
+      "fileName": "github-actions-artifact-11586288636.zip",
+      "sha256": "b1ddde3e74c340b21dba5298d9d16aaa77dbab5bb24b95a42b2c10eb91b32482",
+      "bytes": 16099404,
+      "crcAndPathSafety": "PASSED",
+      "downloadedAndHashVerified": true,
+      "sourceVerified": true
+    },
+    "scenarioInventory": "v4-scenarios.json",
+    "artifactScreenshotCount": 64,
+    "selectedVisualReview": "visual-review.json",
+    "selectedScreenshotDirectory": "screenshots/v4"
+  },
+  "application": {
+    "runId": 37860712379,
+    "runUrl": "https://github.com/ziko1/knaba/actions/runs/37860712379",
+    "jobId": 113595585453,
+    "artifactId": 11586617201,
+    "sourceSha": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+    "artifact": {
+      "fileName": "github-actions-artifact-11586617201.zip",
+      "sha256": "e1a7b8572acfa628f1a798823fece000b42c23c5f3173135c738997dd640c126",
+      "bytes": 8443998,
+      "crcAndPathSafety": "PASSED"
+    },
+    "releaseStatus": "FAILED",
+    "stages": [
+      {
+        "stage": "exact-live-runtime",
+        "status": "PASSED"
+      },
+      {
+        "stage": "full-unit-and-postgres",
+        "status": "FAILED"
+      },
+      {
+        "stage": "rendered-browser-scenarios",
+        "status": "FAILED"
+      },
+      {
+        "stage": "encrypted-delivery-backup",
+        "status": "PASSED"
+      },
+      {
+        "stage": "backup-tamper-rejection",
+        "status": "PASSED"
+      },
+      {
+        "stage": "empty-database-private-blob-restore",
+        "status": "PASSED"
+      },
+      {
+        "stage": "bundled-worker-heartbeat-and-restart",
+        "status": "PASSED"
+      }
+    ],
+    "unitPostgres": {
+      "total": 2177,
+      "passed": 2137,
+      "failed": 40,
+      "skipped": 0,
+      "classification": {
+        "REAL_POSTGRES": {
+          "passed": 316,
+          "failed": 40
+        },
+        "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+          "passed": 1821
+        }
+      },
+      "failedInventory": [
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal \u2192 exact server estimate \u2192 private WEB draft, with no lead before explicit authenticated confirmation",
+          "status": "failed",
+          "message": "AssertionError: expected [] to have a length of 1 but got +0"
+        },
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+          "status": "failed",
+          "message": "AssertionError: expected [] to have a length of 1 but got +0"
+        },
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+          "status": "failed",
+          "message": "AssertionError: expected Error: AI_SUPPRESSED { \u2026(2) } to match object { code: 'VERSION_CONFLICT' }"
+        },
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+          "status": "failed",
+          "message": "AssertionError: expected Error: AI_SUPPRESSED { \u2026(2) } to match object { code: 'VERSION_CONFLICT' }"
+        },
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+          "status": "failed",
+          "message": "AssertionError: expected { status: 'RUNNING', \u2026(9) } to match object { Object (status, actual_cents) }"
+        },
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+          "status": "failed",
+          "message": "AssertionError: expected { status: 'RUNNING', \u2026(9) } to match object { Object (status, actual_cents) }"
+        },
+        {
+          "file": "tests/assistant-runtime.integration.test.ts",
+          "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+          "status": "failed",
+          "message": "AssertionError: expected { status: 'RUNNING', \u2026(9) } to match object { Object (status, actual_cents) }"
+        },
+        {
+          "file": "tests/commerce-v4-projection.test.ts",
+          "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4-projection.test.ts",
+          "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4-projection.test.ts",
+          "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4-projection.test.ts",
+          "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/commerce-v4.integration.test.ts",
+          "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/device-gps-privacy-v4.integration.test.ts",
+          "title": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+          "status": "failed",
+          "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+        },
+        {
+          "file": "tests/handoff-calendar.integration.test.ts",
+          "title": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/internal-assistant-visibility.integration.test.ts",
+          "title": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+          "status": "failed",
+          "message": "AssertionError: expected [ { items: [], limit: 50, \u2026(2) }, [] ] to deeply equal [ { items: [] }, [] ]"
+        },
+        {
+          "file": "tests/material-request-batches-v4.integration.test.ts",
+          "title": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+          "status": "failed",
+          "message": "AssertionError: expected Error: VERSION_CONFLICT { \u2026(2) } to match object { code: 'IDEMPOTENCY_CONFLICT' }"
+        },
+        {
+          "file": "tests/media-upload-idempotency.integration.test.ts",
+          "title": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+          "status": "failed",
+          "message": "AssertionError: expected [Function] to throw error including 'Synthetic error after sanitized SQL b\u2026' but got 'Maximum call stack size exceeded'"
+        },
+        {
+          "file": "tests/operations-digest.integration.test.ts",
+          "title": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+          "status": "failed",
+          "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+        },
+        {
+          "file": "tests/operations-digest.integration.test.ts",
+          "title": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+          "status": "failed",
+          "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/order-lifecycle-v4.integration.test.ts",
+          "title": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        },
+        {
+          "file": "tests/v4-core-contracts.integration.test.ts",
+          "title": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+          "status": "failed",
+          "message": "AssertionError: expected Error: VALIDATION_ERROR { \u2026(2) } to match object { code: 'VALIDATION_ERROR', \u2026(1) }"
+        },
+        {
+          "file": "tests/v4-http-runtime-contracts.integration.test.ts",
+          "title": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+          "status": "failed",
+          "message": "AssertionError: expected [] to have a length of 1 but got +0"
+        },
+        {
+          "file": "tests/work-notifications.integration.test.ts",
+          "title": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+          "status": "failed",
+          "message": "Error: ACCESS_DENIED"
+        }
+      ]
+    },
+    "browser": {
+      "stats": {
+        "startTime": "2026-10-08T23:49:32.275Z",
+        "duration": 146527.179,
+        "expected": 26,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "classification": {
+        "ACTUAL_BACKEND_UI": 26,
+        "EXPLICIT_HTTP_TRANSPORT_FIXTURE": 1
+      },
+      "scenarios": [
+        {
+          "file": "browser.spec.ts",
+          "title": "public entry supports all six languages at 360 px without document overflow",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 534
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "rendered demo login and canonical role landings are usable",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2255
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "real credentials authenticate and logout revokes the cookie session",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 659
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "manual shift start, private break, resume and end persist after page reload",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 3122
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "task form creates a persisted task and mobile modal fits 360 px",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2319
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "team chat sends original text and reads the persisted message after reload",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2360
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "V4 named message writes are idempotent and private cursor pages retain one snapshot rendered after reload",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 3688
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "V4 named media upload requires a key and concurrent replay preserves one private upload rendered as a registered photo",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1531
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "German workspace controls retain 44 px targets and visible keyboard focus at 360 768 and 1440 px",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "unexpected",
+          "results": [
+            {
+              "status": "failed",
+              "retry": 0,
+              "durationMs": 58936
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "private photo upload validates bytes, registers site context and permits file retrieval",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1308
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "public contact and guest chat persist privately with honest manual fallback",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 938
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation",
+          "classification": "EXPLICIT_HTTP_TRANSPORT_FIXTURE",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1188
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "mutations reject missing CSRF and CLIENT cannot read internal chat or payroll",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 522
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "published report PDF CSV XLSX match immutable snapshot and client access",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 949
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "manual inventory SKU lookup works without camera and shows approved unit conversion",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1193
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "client issue form references approved photo, persists original text and opens a review",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1186
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "structure import rejects malformed files, previews CSV and XLSX without writes, and commits reviewed hierarchy",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2118
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "a private guest handoff needs an explicit current operator claim before the original and reply are visible",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 11245
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "an owned assigned task stays UNSYNCED offline and changes only after an explicit original-key retry acknowledgement",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2254
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "the scoped empty route sketch fits360px and uses no external maps or browser GPS, including client deep-link denial",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1871
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "an owned shift has an actual read-only working-time advisory with explicit policy and insufficient-history coverage",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 22756
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "authorized AI usage and explicit SIMULATED playground leave actual business records unchanged without provider execution",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 1717
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "an actual own-message internal draft request stays pending or provider-disabled without a draft confirmation or business changes",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2232
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "administration authors, previews and explicitly activates a persisted automation rule without executing it; employees cannot manage rules",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 5844
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "activity bell shows only own notices, acknowledges the exact version and opens a genuinely unread authorized chat",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2708
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "director saves an authorized digest schedule, previews without effects and opens the immutable own digest through history, activity and protected links",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 5870
+            }
+          ]
+        },
+        {
+          "file": "browser.spec.ts",
+          "title": "manual opaque masks edit only a separate client photo copy and require a fresh explicit publication approval",
+          "classification": "ACTUAL_BACKEND_UI",
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "retry": 0,
+              "durationMs": 2580
+            }
+          ]
+        }
+      ]
+    },
+    "workerStatus": "PASSED",
+    "sensitiveRuntimeStateExcluded": true,
+    "workflowStatus": "FAILURE",
+    "baselineComparison": {
+      "baseSha": "366c30b137951749bac7ec22ad35278300f93a4a",
+      "baseUnitPassed": 2138,
+      "baseUnitFailed": 39,
+      "sameFailedIdentities": 39,
+      "additionalFailedIdentities": [
+        {
+          "file": "tests/v4-http-runtime-contracts.integration.test.ts",
+          "title": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+          "status": "failed",
+          "message": "AssertionError: expected [] to have a length of 1 but got +0"
+        }
+      ],
+      "previousFailuresNoLongerFailing": [],
+      "apiWorkerDomainInfraAndAffectedTestSourcesUnchanged": true
+    },
+    "browserFinding": {
+      "photoMasking": "PASSED_UNCHANGED_ASSERTION",
+      "originalSearchOpenerFocus": "PASSED_FIRST_VIEWPORT_THEN_LATER_SETUP_FAILED",
+      "remainingFailure": "The second viewport reused the intentionally retained query. keyboard.insertText appended it; expected one copy, observed two.",
+      "correction": "V4-only test setup now asserts empty/retained query and selects all before the same keyboard insertion; all previous value/focus/44px/overflow assertions remain.",
+      "nextHarnessSourceSha": "7d8a0e92c083ca22e4f93595bd084031f7272599",
+      "nextHarnessTree": "d841afad8b71546d5fc7589d434b8f3bc056e5a2",
+      "nextHarnessStatusAtThisSnapshot": "RUNNING",
+      "productionUiDiffFromThisSource": []
+    }
+  },
+  "native": {
+    "sourceSha": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+    "runId": 37860712369,
+    "runUrl": "https://github.com/ziko1/knaba/actions/runs/37860712369",
+    "status": "SUCCESS",
+    "android": "66 host Java assertions, debug assemble and lint; no physical Android rendering claim.",
+    "ios": "19 actual XCTest on the prepared iOS 18.5 simulator; unsigned simulator build.",
+    "nativeCodeChangedByResponsivePatch": false,
+    "artifactBytesIndependentlyDownloaded": false,
+    "companySigningAndPhysicalDevices": "NOT_RUN",
+    "duplicatePushFailure": {
+      "runId": 37860707811,
+      "jobId": 113595478253,
+      "status": "FAILED_SIMULATOR_PREPARATION",
+      "reason": "simulator-devices-ready.json command exceeded 60 seconds",
+      "xctestExecuted": 0,
+      "android": "PASSED",
+      "primaryPrRun": "SUCCESS"
+    },
+    "actualCounts": {
+      "hostJavaAssertions": 66,
+      "actualXCTest": 19,
+      "failed": 0
+    }
+  },
+  "implementation": [
+    "Fluid gutters, zero-safe grids and bounded desktop reading width.",
+    "Compact accessible navigation drawer with inert background, scroll lock, keyboard trap, Escape and rotation cleanup.",
+    "Readable stacked forms and dynamic/VisualViewport-aware scrollable dialogs.",
+    "Keyboard-focusable table/board scroll regions, reduced tree indentation and wrapping long content.",
+    "Stable touch controls, 16px compact input text and preserved normal browser zoom.",
+    "Native select layout containment with real rendered long-label and keyboard-selection checks.",
+    "Shared Modal captures opener before descendant autofocus and restores only a connected opener.",
+    "Photo canvas image lifecycle follows asset/copy revision; pre-paint state reset preserves validation and separate review/approval flow."
+  ],
+  "sourceBinding": "source-binding.json",
+  "discoveryHistory": "history.json",
+  "limits": [
+    "Responsive emulation does not exhaust every possible screen/browser/physical keyboard combination.",
+    "Physical Android/iPhone use, native layout, browser chrome and safe-area hardware are not certified by this matrix.",
+    "Real providers, company UAT, production deployment and all 72 V4 / 475 preserved whole criteria are separate.",
+    "Product-completion and V4 business lines were not merged; each responsive PR is based on its own preserved runtime.",
+    "Runtime archives/native binaries were not independently downloaded for this design change; the responsive and application evidence ZIPs were downloaded and verified."
+  ],
+  "separateCoreLoadBaseline": {
+    "sourceSha": "366c30b137951749bac7ec22ad35278300f93a4a",
+    "runId": 37850974747,
+    "status": "FAILED",
+    "measurement": "NOT_RUN",
+    "error": "could not determine data type of parameter $4",
+    "currentDesignTaskRerun": "NOT_RUN",
+    "sqlChanged": false
+  },
+  "snapshotNote": "This product-side comparison snapshot records V4 3c31e94, then the narrowly corrected 7d8a0e9 browser harness was running. Consult PR #4 for its later exact-source receipt."
+}

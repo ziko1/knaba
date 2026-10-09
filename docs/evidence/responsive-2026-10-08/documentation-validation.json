@@ -1,0 +1,13 @@
+{
+  "status": "PASSED",
+  "recordedAt": "2026-10-08T23:59:59.176923+00:00",
+  "testedCodeSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+  "testedCodeTree": "b7506a6d62508067fc0c48a6aee564be1b7300c2",
+  "changedFilesRestrictedToDocumentation": true,
+  "newLocalMarkdownLinksChecked": 28,
+  "selectedPngHashesChecked": 10,
+  "jsonFilesParsed": 7,
+  "brokenNewLinks": [],
+  "applicationCodeChangesAfterAcceptedSource": [],
+  "laterDocumentationCommitDoesNotRelabelCode": true
+}

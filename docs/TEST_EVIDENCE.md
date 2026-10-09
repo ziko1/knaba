@@ -1,5 +1,21 @@
 # Actual verification ledger
 
+## Responsive web implementation — exact source 4ec7076
+
+The scoped responsive implementation is accepted for product-completion source `4ec7076f967d0dbe9fb5d413709ff493005c207e`, tree `b7506a6d62508067fc0c48a6aee564be1b7300c2`. Documentation is committed afterward and does not replace that tested runtime identity.
+
+| Actual check | Result and evidence |
+| --- | --- |
+| Real responsive Chromium/WebKit | **54/54 PASS**, 0 failed/skipped/flaky; [run 37860709834](https://github.com/ziko1/knaba/actions/runs/37860709834), job 113595485107. Public/request: six languages and 13 viewport sizes, 320–2560px; console modules: EN at four widths; additional short-window, keyboard, table, drawer, form, chat and embedded-widget scenarios. |
+| Direct browser artifact review | ZIP 11586571990 SHA256 `065c81fdaeac923c2fac03929d92c24c124148600aa3742d8497cbba29563168`, 16,099,341 bytes; digest/CRC/path safety verified, 64 PNG attachments, five selected originals retained plus additional widget/wide-screen review. |
+| Actual application verification | [Run 37860709739](https://github.com/ziko1/knaba/actions/runs/37860709739) SUCCESS: **1,580/1,580**, comprising 1,356 CPU/document/explicit doubles and **224 genuine PostgreSQL**; no failures/skips. |
+| Persisted application browser | **26/26 PASS**: 23 actual backend/UI + 3 explicit transport fixtures. The original photo-mask numeric/pointer/save/approval assertion passed unchanged. |
+| Build/recovery/worker/package | Strict TypeScript, Vite/release build, 14 built-file attestations, actual Docker/source-worker guard, encrypted backup, tamper rejection, 17 tables/10 private blobs restored, actual worker heartbeat/restart, sensitive-evidence guard and packaging passed. Packaged runtime 44,643,822 bytes in two parts; runtime parts were not independently downloaded for this design task. |
+| Same-source native | [Run 37860709829](https://github.com/ziko1/knaba/actions/runs/37860709829) SUCCESS: Android 52 host Java assertions/debug assemble/lint and iOS 15 actual XCTest. No native code changes or physical-device UI acceptance. |
+| V4 target line | Separately ported and reviewed in [PR #4](https://github.com/ziko1/knaba/pull/4). Source 3c31e94 passed 54/54 responsive tests and photo masking, but full release was not ready: all original 39 SQL failures repeated, one further unchanged-source audit-keyset case failed, and the German browser loop appended a retained search query. The subsequent **test-only** source 7d8a0e92 asserts retained state and selects all before the unchanged keyboard insertion; its acceptance was running at this snapshot. |
+
+[Product receipt](evidence/responsive-2026-10-08/product-receipt.json), [V4 comparison snapshot](evidence/responsive-2026-10-08/v4-receipt.json), [all actual responsive scenarios](evidence/responsive-2026-10-08/product-scenarios.json), [visual review](evidence/responsive-2026-10-08/visual-review.json), [discovery history](evidence/responsive-2026-10-08/history.json) and [layout contract](RESPONSIVE_DESIGN.md) record sources, limits and reproducible commands. Physical hardware, production, real providers, company UAT and whole V3/V4 criteria remain separate.
+
 ## Approved V4 target plan verification — 2026-10-08
 
 The user's explicit decision makes [V4 the target](../KNABA_DE_TARGET_SPEC.md), with the existing NestJS/PostgreSQL SQL/outbox runtime accepted through [ADR-0002](adr/0002-v4-target-and-preserved-runtime.md). The independent [target-plan receipt](evidence/v4-target-plan-validation-2026-10-08.json) records **25/25 document/source-preservation checks PASSED, 0 issues** and 23 frozen input hashes: all 28 task dependencies, 34 V3 modules / 432 requirements / 475 preserved regression criteria, 72 exact V4 criterion texts, 334 prior assertion references, 16 evidence catalogs, selected KNB-23 load/recovery thresholds and 132 local Markdown links. These are scoped documentation checks; all 72 V4 whole application scenarios remain NOT_RUN. The original V3 bytes, ca9 executable and historical test identities are unchanged.

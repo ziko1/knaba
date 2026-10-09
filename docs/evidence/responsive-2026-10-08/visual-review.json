@@ -1,0 +1,78 @@
+{
+  "recordedAt": "2026-10-08T23:52:05.802391+00:00",
+  "status": "SELECTED_RENDERED_SCREENSHOTS_REVIEWED",
+  "scope": "Direct final-source PNG pixels; no image resizing, recreation or editing. Does not replace actual automated interaction assertions.",
+  "lines": [
+    {
+      "line": "product",
+      "sourceSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+      "artifactId": 11586571990,
+      "reviewedSelectedImages": [
+        {
+          "path": "screenshots/product/webkit-overview-320.png",
+          "sha256": "9595e19a7272be5a33a7da192564f919ff88528244ab37d5d045a4969010c200",
+          "bytes": 609561
+        },
+        {
+          "path": "screenshots/product/webkit-tasks-768.png",
+          "sha256": "68ca59138dc586f272c48563863c196aaf9fc8aa542671b0132b2954ab266d71",
+          "bytes": 200611
+        },
+        {
+          "path": "screenshots/product/chromium-chat-1440.png",
+          "sha256": "bfdf990da8fc10bb6a7d52fad60d7810b651d93d1d7c8533d118dd2777d579f2",
+          "bytes": 155903
+        },
+        {
+          "path": "screenshots/product/webkit-task-review-390-340.png",
+          "sha256": "c7283fb4ca8d0971f587b4c481fe32e383acb0bc5cf085abf0d56a5b43b4d0aa",
+          "bytes": 183784
+        },
+        {
+          "path": "screenshots/product/webkit-navigation-phone.png",
+          "sha256": "1a2a117d0926d9f754c5f1e00f315d1e1d27fde6d96535a920b0a3e82e8589e2",
+          "bytes": 207398
+        }
+      ]
+    },
+    {
+      "line": "v4",
+      "sourceSha": "3c31e94b535d2e698d8107b5a34a1dbfcd77bdfd",
+      "artifactId": 11586288636,
+      "reviewedSelectedImages": [
+        {
+          "path": "screenshots/v4/webkit-overview-320.png",
+          "sha256": "9595e19a7272be5a33a7da192564f919ff88528244ab37d5d045a4969010c200",
+          "bytes": 609561
+        },
+        {
+          "path": "screenshots/v4/webkit-tasks-768.png",
+          "sha256": "68ca59138dc586f272c48563863c196aaf9fc8aa542671b0132b2954ab266d71",
+          "bytes": 200611
+        },
+        {
+          "path": "screenshots/v4/chromium-chat-1440.png",
+          "sha256": "bfdf990da8fc10bb6a7d52fad60d7810b651d93d1d7c8533d118dd2777d579f2",
+          "bytes": 155903
+        },
+        {
+          "path": "screenshots/v4/webkit-task-review-390-340.png",
+          "sha256": "c7283fb4ca8d0971f587b4c481fe32e383acb0bc5cf085abf0d56a5b43b4d0aa",
+          "bytes": 183784
+        },
+        {
+          "path": "screenshots/v4/webkit-navigation-phone.png",
+          "sha256": "1a2a117d0926d9f754c5f1e00f315d1e1d27fde6d96535a920b0a3e82e8589e2",
+          "bytes": 207398
+        }
+      ]
+    }
+  ],
+  "reviewNotes": [
+    "The product owner and independent V4 reviewer inspected the five selected images for their respective source: phone overview, tablet tasks, desktop chat, short task review and phone drawer.",
+    "The product owner additionally viewed the phone contact widget and 2560px overview in the original final product artifact.",
+    "No concrete layout defect found in the selected views.",
+    "Long table data remains in a keyboard-focusable local scroll area.",
+    "Full-page screenshot content below a fixed overlay is outside the actual viewport, not an overlay sizing failure."
+  ]
+}
