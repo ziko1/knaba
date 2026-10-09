@@ -1,4 +1,21 @@
 # Actual verification ledger
+
+## Responsive V4 web acceptance — exact source 7d8a0e92
+
+Tested source `7d8a0e92c083ca22e4f93595bd084031f7272599`, tree `d841afad8b71546d5fc7589d434b8f3bc056e5a2`, completes the responsive implementation and the concrete search-focus/photo-canvas browser fixes. The separate documentation commit does not change these tested inputs.
+
+| Actual check | Final result and boundary |
+| --- | --- |
+| Responsive built React UI | **54/54 PASS**, 27 Chromium + 27 WebKit, zero failed/skipped/flaky; [run 37861973115](https://github.com/ziko1/knaba/actions/runs/37861973115). Thirteen viewport dimensions span 320–2560px; public/request uses six languages, console traversal EN at four widths, plus short forms, navigation, tables, boards, trees, chat and the actual widget. |
+| Persisted application browser | **27/27 PASS**: 26 actual backend/UI + one explicit HTTP fixture; [run 37861973112](https://github.com/ziko1/knaba/actions/runs/37861973112). German keyboard/focus/44px controls pass at 360/768/1440; original numeric/pointer mask and explicit publication approval assertions pass. |
+| Actual unit/PostgreSQL | **2,137/2,177 PASS, 40 FAIL, 0 SKIP**: 1,821 CPU/document/explicit-double passes; 316/356 genuine PostgreSQL passes. All original 39 failed identities repeated and the unchanged-source audit-keyset case added one failure, as already observed at 3c31e94. Full release stays FAILED. |
+| Build/recovery | TypeScript/build, 14 built-file attestations, actual Docker/source-worker guard, encrypted backup/tamper rejection, 17-table/12-private-blob restore and actual worker heartbeat/restart passed. Final source/runtime packaging is not produced after the failed full-unit gate. |
+| Final native run | [37861973147](https://github.com/ziko1/knaba/actions/runs/37861973147): Android 66 host Java/debug/lint PASS; iOS FAILED while preparing the simulator after a 60-second inventory timeout, **0 XCTest executed** at this head. |
+| Prior unchanged native inputs | `3c31e94` [37860712369](https://github.com/ziko1/knaba/actions/runs/37860712369) passed Android 66 host Java and iOS **19 actual XCTest**. Its separate duplicate push preparation failure is preserved. The 3c31e94→7d8a0e92 diff changes only `tests/browser.spec.ts`; no application/native source changes or extra native retries. |
+| Independent evidence bytes/pixels | Responsive ZIP 11585904497: 16,095,519 bytes, SHA256 `3ffbade2001c20a286cd0fd58f87d7596582936166f31395cef085e1e816fcfc`; application ZIP 11586846669: 5,439,701 bytes, SHA256 `0fa6b78b53cde24a1d40a0e7bc1b50e8886b7cd844bbf671c52b6c2bedb57357`. Both source/digest/CRC/path checks passed. Five final PNGs are byte-identical to reviewed originals; final photo editor pixels were directly reviewed. |
+
+[Final V4 receipt](evidence/responsive-2026-10-08/v4-receipt.json), [actual 54-case inventory](evidence/responsive-2026-10-08/v4-scenarios.json), [visual review](evidence/responsive-2026-10-08/visual-review.json), [source preservation](evidence/responsive-2026-10-08/source-binding.json), [failed/superseded history](evidence/responsive-2026-10-08/history.json) and [layout contract](RESPONSIVE_DESIGN.md) preserve exact claims and scope. The original core-load baseline SQL error `could not determine data type of parameter $4` still has no new measured result. Physical-device UI, native production signing, company UAT, providers, deployment and whole V3/V4 criteria are not certified here.
+
 ## V4 frozen executable checkpoint — 2026-10-08T22:00:44.622285+00:00
 
 Actual final local2177 assertions:1821CPU/document/explicit-double PASS,0FAIL,356genuinePG SKIP/NOT_RUN across87files; typecheck exit0. Exactclassifier/sourcehashb5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9,4 reviewedretirements,no sourcechangedafterreport. See docs/evidence/v4-source-freeze-local-summary.json/current34module overlay. Currentcode needs cleancommit build and new hostedSQL/browser/restore/worker/native/load/independentartifacts. All72wholeV4 NOT_RUN; D07offer/remainder/unboundsite/latecallbackcontracts explicitpending. Railway read-only still API/WorkerOFFLINE/PGCRASHED, old37patchunapplied, originalcutoffexpirednotextended. No live/main/billing mutation. Historical ca9 receipts preserved separately.

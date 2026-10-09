@@ -26,7 +26,7 @@ The service worker caches only the public icon and manifest. It does not cache H
 
 UI dictionaries in `packages/i18n` cover DE/UK/RU/PL/LT/EN, role captions, common fields, validation and statuses. Domain contract names and user-supplied text remain original. Unknown administrative contract fields use a readable key rather than inventing a translated business meaning. Money stays integer cents in commands; timestamps are entered/displayed in Europe/Berlin and submitted as UTC ISO timestamps. Invalid DST wall times are rejected by the form.
 
-The design uses white and warm neutral surfaces, forest green actions, visible status text, keyboard focus, accessible form labels, modal focus restoration/trapping and reduced-motion support. Layouts cover 360px phones through desktop; larger controls, search, filters, table/board/location-tree views and mobile navigation share one system. No external fonts or analytics requests are made.
+The design uses white and warm neutral surfaces, forest green actions, visible status text, keyboard focus, accessible form labels, modal focus restoration/trapping and reduced-motion support. The fluid layout supports narrow phones, landscape viewports, tablets and wide displays. At 1024px and below, navigation becomes an inert-aware keyboard-accessible drawer. Forms, chat, card grids and header actions reflow, while wide tables and boards own local scroll regions. Shared dialogs follow the visible browser viewport. See [responsive design and test matrix](../../docs/RESPONSIVE_DESIGN.md) for exact source-bound browser evidence, breakpoints and limits. No external fonts or analytics requests are made.
 
 ## Embedding
 
