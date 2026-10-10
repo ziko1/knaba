@@ -9,7 +9,7 @@ import {performance} from 'node:perf_hooks';
 import {evaluateCoreLoad,loadConfiguration,percentile,summarizeHttp,type HttpSample} from './v4-load-metrics.ts';
 import type {Database} from '../apps/api/database.ts';
 
-// Opt-in measured synthetic traffic; never imported by application startup or CI.
+// Opt-in measured synthetic traffic; importing the batch helper does not run the CLI workload.
 const repoRoot=fileURLToPath(new URL('../',import.meta.url)),git=promisify(execFile),args=process.argv.slice(2),hash=(v:string|Buffer)=>createHash('sha256').update(v).digest('hex');
 const requiredSources=['scripts/v4-load.mts','scripts/v4-load-metrics.ts','apps/api/auth.ts','apps/api/engine.ts','apps/api/database.ts','packages/domain/operations.ts','infra/001_init.sql'];
 const unmeasured={webhook:{status:'NOT_RUN',target:'Durable acknowledgement p95 <=2000ms',reason:'No inbound webhook workload measured by this core runner.'},providerQueue:{status:'NOT_RUN',target:'Enqueue to provider request p95 <=5000ms',reason:'No real or synthetic provider transport invoked; end delivery is a separate observation.'},pdf:{status:'NOT_RUN',target:'50 tasks /20 optimized photos,3 parallel jobs <=60000ms with core API observed',reason:'No such published report fixture or3-job PDF workload executed by this runner.'},nativeTransport:{status:'NOT_RUN',reason:'This harness measures100 real web cookie sessions; physical native/GPS behavior requires its own proof.'}};
@@ -30,7 +30,7 @@ type Configuration=ReturnType<typeof loadConfiguration>;
 type Session={userId:string;taskId:string;siteId:string;token:string;csrfToken:string};
 type Attempt={sequence:number;userId:string;taskId:string;siteId:string;key:string;inputHash:string;input:{taskId:string;quantityMilli:number;description:string;photoIds:string[]};id?:string};
 type FixtureRow={kind:string;id:string;data:Record<string,unknown>};
-async function insertFixtureBatch(db:Database,companyId:string,runId:string,rows:FixtureRow[]) {
+export async function insertFixtureBatch(db:Database,companyId:string,runId:string,rows:FixtureRow[]) {
  check(rows.length>0&&rows.length<=1000&&rows.every(row=>row.data.synthetic===true&&row.data.loadRunId===runId),'INVALID_SYNTHETIC_FIXTURE_BATCH');
  await db.transaction(companyId,'V4_LOAD_FIXTURE',async tx=>{
   const company=await tx.get('company',companyId);check(company.data.synthetic===true&&['TEST','DEMO'].includes(company.data.operatingMode),'SYNTHETIC_TENANT_REQUIRED');
@@ -42,7 +42,7 @@ async function insertFixtureBatch(db:Database,companyId:string,runId:string,rows
    SELECT company_id,kind,id,version,data,$3 FROM inserted RETURNING id
   ), audits AS (
    INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail)
-   SELECT company_id,$3,'SYNTHETIC_LOAD_FIXTURE',kind,id,jsonb_build_object('version',version,'loadRunId',$4) FROM inserted RETURNING id
+   SELECT company_id,$3,'SYNTHETIC_LOAD_FIXTURE',kind,id,jsonb_build_object('version',version,'loadRunId',$4::text) FROM inserted RETURNING id
   ) SELECT (SELECT count(*)::int FROM inserted) AS aggregates,(SELECT count(*)::int FROM revisions) AS revisions,(SELECT count(*)::int FROM audits) AS audits`,[companyId,JSON.stringify(rows),'V4_LOAD_FIXTURE',runId]);
   check(Object.values(result.rows[0]).every(value=>value===rows.length),'FIXTURE_ATOMIC_EFFECT_COUNT_MISMATCH');
  },15000);

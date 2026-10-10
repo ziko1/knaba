@@ -80,7 +80,8 @@ postgres('V4 quote version projection: genuine PostgreSQL published source and c
   company='quote-version-v4-'+randomUUID();engine=new Engine(db,'TEST');
   await db.transaction(company,'SYNTHETIC_PROJECTION_FIXTURE',async tx=>{
    await tx.add('company',{operatingMode:'TEST',synthetic:true},company);await tx.add('customer',{name:'Synthetic customer',active:true},'customer');await tx.add('customer',{name:'Other synthetic customer',active:true},'other-customer');
-   for(const [id,role] of [['owner','OWNER'],['client','CLIENT'],['other-client','CLIENT']])await tx.add('user',{name:'Synthetic '+id,roles:[role],active:true,siteIds:[]},id);
+   // Publication setup needs explicit commercial grants; customer actors keep their existing roles only.
+   for(const [id,role] of [['owner','OWNER'],['client','CLIENT'],['other-client','CLIENT']])await tx.add('user',{name:'Synthetic '+id,roles:[role],permissions:id==='owner'?['commerce.manage','commerce.approve','quote.create','quote.approve','quote.send']:[],active:true,siteIds:[]},id);
    await tx.add('site',{code:'VERSION-A',name:'Permitted synthetic site',customerId:'customer',active:true},'site-a');await tx.add('site',{code:'VERSION-B',name:'Restricted synthetic site',customerId:'customer',active:true},'site-b');
    await tx.add('customer_membership',{userId:'client',customerId:'customer',siteIds:['site-a'],permissions:['VIEW','ACCEPT_QUOTE'],active:true},'membership');await tx.add('customer_membership',{userId:'other-client',customerId:'other-customer',siteIds:[],permissions:['VIEW'],active:true},'other-membership');
   });

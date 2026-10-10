@@ -104,7 +104,8 @@ postgres('automatic work notifications: actual PostgreSQL producer/worker/activi
   const foreign='work-notification-foreign-'+randomUUID();await db.transaction(foreign,'SYNTHETIC_FOREIGN',async tx=>{await tx.add('user',{active:true,roles:['EMPLOYEE'],siteIds:['site']},'employee');});expect(await engine.readEntities(await engine.getActor('employee',foreign),'notification')).toEqual([]);
  });
  it('actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer',async()=>{
-  await change('user','manager',{permissions:['report.publish','dispatch.manage']});manager={...await engine.getActor('manager',company),mfaVerified:true};
+  // This scenario explicitly assigns the scoped operations role required for cancellation.
+  await change('user','manager',{roles:['INTERNAL_BAULEITER','OPERATIONS_MANAGER'],permissions:['report.publish','dispatch.manage']});manager={...await engine.getActor('manager',company),mfaVerified:true};
   const order=await db.transaction(company,'SYNTHETIC_ACCEPTED_ORDER_CANCELLATION_SOURCE',async tx=>{
    await tx.add('customer',{name:'Synthetic customer',active:true},'customer');await tx.add('employee',{userId:'employee',active:true},'crew-employee');await tx.add('employee',{userId:'peer',active:true},'unaffected-employee');
    await tx.add('user',{roles:['CLIENT'],active:true,siteIds:[]},'unaddressed-client');for(const userId of ['client','unaddressed-client'])await tx.add('customer_membership',{customerId:'customer',userId,siteIds:['site'],permissions:['VIEW'],active:true},userId+'-membership');
