@@ -1,0 +1,79 @@
+{
+  "status": "PASSED",
+  "code_sha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+  "source_tree": "9e27be5ae77cbd9ee43782bb5887f3964e827f20",
+  "node": "v24.19.0",
+  "files": [
+    {
+      "path": "dist/release.json",
+      "bytes": 187,
+      "sha256": "a73a543dc25a5a7db0b85dce6a85bba6f73067f5b5a04095d4bc911b20e30ea3"
+    },
+    {
+      "path": "dist/server.mjs",
+      "bytes": 3121632,
+      "sha256": "54e767c8bced776d962616bd87869712b7082838971d3dbdbb2bb6b07d3e41b7"
+    },
+    {
+      "path": "dist/server.mjs.map",
+      "bytes": 2898634,
+      "sha256": "c99f053575654ce092a47738033ae97bb4786cb1a6cf238f6893c9296d4f495a"
+    },
+    {
+      "path": "dist/web/assets/index-8TQBBpxX.css",
+      "bytes": 89812,
+      "sha256": "de1d4c5b3026f5a4e25c6af4eeb99a6834aa3a7dfdcae962251a49d89c0753f0"
+    },
+    {
+      "path": "dist/web/assets/index-DajC8ihT.js",
+      "bytes": 656776,
+      "sha256": "59b33965b6eb6ecc4d9477f17558b7af8cbd11591e9cf64a960a4c1b12ff017b"
+    },
+    {
+      "path": "dist/web/icon.svg",
+      "bytes": 252,
+      "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b"
+    },
+    {
+      "path": "dist/web/index.html",
+      "bytes": 642,
+      "sha256": "7cf561f4aa7546782c5f0f10fbf38c70526d23010151903203da29c7b398d4a8"
+    },
+    {
+      "path": "dist/web/manifest.webmanifest",
+      "bytes": 274,
+      "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9"
+    },
+    {
+      "path": "dist/web/sw.js",
+      "bytes": 953,
+      "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f"
+    },
+    {
+      "path": "dist/web/widget.js",
+      "bytes": 1670,
+      "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+    },
+    {
+      "path": "dist/worker.mjs",
+      "bytes": 1172274,
+      "sha256": "ea25b879a467a5be9d2dbfd3706e45ac9d3dc5771517be5e6b78813d15b92e75"
+    },
+    {
+      "path": "dist/worker.mjs.map",
+      "bytes": 1925024,
+      "sha256": "b0577931acd6d82f4a7ad14674100c56adb8865b4ff0e1db80e4a9edd73c7b86"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 222312,
+      "sha256": "19bf39c58be142445b13795f84242c7ae238a7fa2893d592d52c6e5b42b39fd5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1139,
+      "sha256": "624325c9d41f2df25aa74b2a0ad84000cbdf81ea17d8d44094c539ae3c43f61f"
+    }
+  ],
+  "scope": "Actual built API, worker, web and pinned installation manifests; production dependencies must be installed with npm ci before standalone execution."
+}

@@ -131,7 +131,7 @@ postgres('PostgreSQL current internal-cache source authorization through authent
    await waitForCompanyWaiters(holder,2);
    const tx=new PgTransaction(holder,company,'SYNTHETIC_INTERNAL_CACHE_LOCKED_REVOKE'),user=await tx.get('user','foreman');await tx.save(user,{...user.data,roles:['CLIENT'],permissions:['assistant.read','chat.read','task.create']});
    await holder.query('COMMIT');
-   const before=await fingerprint(),result=await Promise.all(pending);expect(result).toEqual([{items:[]},[]]);expect(await fingerprint()).toEqual(before);
+   const before=await fingerprint(),result=await Promise.all(pending);expect(result).toEqual([{items:[],limit:50,has_more:false,next_cursor:null},[]]);expect(await fingerprint()).toEqual(before);
   }finally{
    await holder.query('ROLLBACK');holder.release();await Promise.allSettled(pending);
   }

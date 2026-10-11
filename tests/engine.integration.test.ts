@@ -49,7 +49,7 @@ integration('PostgreSQL command transaction and read authorization',()=>{
   const first=await engine.execute(owner,'task.create',{input,idempotency_key,preconditions});
   await db.transaction(company,ids.owner,async tx=>{const site=await tx.get('site',ids.site);await tx.save(site,{...site.data,name:'Changed after successful execution'});});
   expect(await engine.execute(owner,'task.create',{input,idempotency_key,preconditions})).toEqual(first);
-  await expect(engine.execute(owner,'task.create',{input,idempotency_key,preconditions:[{...preconditions[0]!,version:2}]})).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  await expect(engine.execute(owner,'task.create',{input,idempotency_key,preconditions:[{...preconditions[0]!,version:2}]})).rejects.toMatchObject({code:'IDEMPOTENCY_CONFLICT',details:{reason:'IDEMPOTENCY_KEY_REUSED'}});
   expect(await list('task')).toHaveLength(1);
  });
  it('replayed command has one aggregate, receipt and outbox effect',async()=>{
@@ -61,7 +61,7 @@ integration('PostgreSQL command transaction and read authorization',()=>{
  });
  it('reusing idempotency key with another input fails without a second effect',async()=>{
   const key=randomUUID();await call(owner,'site.create',{code:'ONE',name:'One',address:'Berlin'},key);
-  await expect(call(owner,'site.create',{code:'TWO',name:'Two',address:'Berlin'},key)).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  await expect(call(owner,'site.create',{code:'TWO',name:'Two',address:'Berlin'},key)).rejects.toMatchObject({code:'IDEMPOTENCY_CONFLICT',details:{reason:'IDEMPOTENCY_KEY_REUSED'}});
   expect((await list('site')).some(e=>e.data.code==='TWO')).toBe(false);
  });
  it('two concurrent identical retries return the same committed result',async()=>{
@@ -161,7 +161,7 @@ integration('PostgreSQL command transaction and read authorization',()=>{
   await db.transaction(company,ids.owner,async tx=>{const current=await tx.get('message',message.id);await tx.save(current,{...current.data,deleted_at:new Date().toISOString()});});expect(await call(worker,'message.read',{channel_id:channel.id},key)).toEqual([]);
  });
  it('read recomputation preserves idempotency key input conflict protection',async()=>{
-  const channel=await call(owner,'channel.create',{type:'SITE_INTERNAL',site_id:ids.site,name:'QA read key',member_ids:[ids.worker]}),key=randomUUID();await call(worker,'message.read',{channel_id:channel.id,query:'one'},key);await expect(call(worker,'message.read',{channel_id:channel.id,query:'two'},key)).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  const channel=await call(owner,'channel.create',{type:'SITE_INTERNAL',site_id:ids.site,name:'QA read key',member_ids:[ids.worker]}),key=randomUUID();await call(worker,'message.read',{channel_id:channel.id,query:'one'},key);await expect(call(worker,'message.read',{channel_id:channel.id,query:'two'},key)).rejects.toMatchObject({code:'IDEMPOTENCY_CONFLICT',details:{reason:'IDEMPOTENCY_KEY_REUSED'}});
  });
  it('cached shift summary cannot replay after site scope revocation',async()=>{
   const shift=await call(worker,'shift.start',{siteId:ids.site});const key=randomUUID();await call(worker,'shift.summary',{shiftId:shift.id},key);
@@ -220,7 +220,7 @@ describe('Engine runtime policy regressions (in-memory, SQL not covered)',()=>{
   const site=await tx.get('site','site-a');await tx.save(site,{...site.data,name:'Updated'});
   expect(await engine.execute(employee,'qa.guard',{idempotency_key,preconditions})).toEqual({done:true});expect(def.handler).toHaveBeenCalledTimes(1);
   await expect(engine.execute(employee,'qa.guard',{idempotency_key:randomUUID(),preconditions})).rejects.toMatchObject({code:'VERSION_CONFLICT',details:{reason:'PREVIEW_REFERENCE_CHANGED'}});
-  await expect(engine.execute(employee,'qa.guard',{idempotency_key,preconditions:[{...preconditions[0]!,version:2}]})).rejects.toMatchObject({code:'VERSION_CONFLICT'});expect(def.handler).toHaveBeenCalledTimes(1);
+  await expect(engine.execute(employee,'qa.guard',{idempotency_key,preconditions:[{...preconditions[0]!,version:2}]})).rejects.toMatchObject({code:'IDEMPOTENCY_CONFLICT',details:{reason:'IDEMPOTENCY_KEY_REUSED'}});expect(def.handler).toHaveBeenCalledTimes(1);
  });
  it('internal guards reject malformed references and resolve only within the current company transaction',async()=>{
   engine.registry={...engine.registry,'qa.guard':{permission:'chat.write',schema:z.object({}).strict(),handler:vi.fn(async()=>null)}};
@@ -263,7 +263,7 @@ describe('Engine runtime policy regressions (in-memory, SQL not covered)',()=>{
   const current=await tx.get('message',message.id);await tx.save(current,{...current.data,deleted_at:new Date().toISOString()});expect(await run('message.read',{channel_id:channel.id},readKey)).toEqual([]);
  });
  it('fresh read replay still rejects one idempotency key reused with different search input',async()=>{
-  tx.add('channel',{type:'SITE_INTERNAL',site_id:'site-a',members:[{user_id:'worker',history_from:'2020-01-01T00:00:00Z'}]},'fresh-read-channel');const key=randomUUID();await engine.execute(employee,'message.read',{input:{channel_id:'fresh-read-channel',query:'one'},idempotency_key:key});await expect(engine.execute(employee,'message.read',{input:{channel_id:'fresh-read-channel',query:'two'},idempotency_key:key})).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  tx.add('channel',{type:'SITE_INTERNAL',site_id:'site-a',members:[{user_id:'worker',history_from:'2020-01-01T00:00:00Z'}]},'fresh-read-channel');const key=randomUUID();await engine.execute(employee,'message.read',{input:{channel_id:'fresh-read-channel',query:'one'},idempotency_key:key});await expect(engine.execute(employee,'message.read',{input:{channel_id:'fresh-read-channel',query:'two'},idempotency_key:key})).rejects.toMatchObject({code:'IDEMPOTENCY_CONFLICT',details:{reason:'IDEMPOTENCY_KEY_REUSED'}});
  });
  it('warehouse and employee custody override an incidental permitted siteId',async()=>{
   tx.add('stock_location',{type:'WAREHOUSE',siteId:'site-a'},'private-warehouse');tx.add('stock_location',{type:'EMPLOYEE',siteId:'site-a',employeeId:'other-worker'},'other-custody');tx.add('stock_location',{type:'SITE',siteId:'site-a'},'site-stock');

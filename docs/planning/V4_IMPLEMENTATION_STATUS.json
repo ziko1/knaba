@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-10-08T22:00:44.622285+00:00",
-  "status": "SOURCE_FROZEN_LOCAL_CPU_PASSED_PENDING_EXACT_COMMIT_HOSTED_ACCEPTANCE",
+  "observed_at": "2026-10-11T00:30:35.777654Z",
+  "status": "EXACT_COMMITTED_SCOPED_SQL_BROWSER_RECOVERY_NATIVE_PASSED_FULL_PRODUCT_NOT_READY",
   "target": "V4",
   "architecture_adr": "docs/adr/0002-v4-target-and-preserved-runtime.md",
   "accepted_plan_remote_sha": "2fb35d4219d637b1e1c8742459c8f352b31b469d",
   "last_accepted_executable_sha": "ca9ed79ff4c0429223eb60754289ee1132088361",
-  "candidate_sha": null,
-  "source_binding": "EXECUTABLE_SOURCE_MANIFEST_BOUND_PENDING_GIT_COMMIT",
+  "candidate_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "source_binding": "EXACT_COMMITTED_CODE_AND_TREE_VERIFIED_BY_HOSTED_EXECUTION_AND_DOWNLOADED_ARTIFACT_BYTES",
   "deltas": [
     {
       "id": "V4-D01",
@@ -158,7 +158,19 @@
         "Webhook/provider-lag/3parallelPDF workload",
         "Offsite RPO/RTO with current independent deletion ledger",
         "Physical native/GPS/battery and recurring EUR10 cost"
-      ]
+      ],
+      "seed_regression_checkpoint": {
+        "status": "PASSED_SIX_REAL_POSTGRES_REGRESSIONS",
+        "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+        "test_file": "tests/v4-load-seed.integration.test.ts",
+        "test_count": 6,
+        "change": "Explicit $4::text in actual seed jsonb_build_object; transaction rollback and synthetic provenance gates verified.",
+        "evidence": "docs/evidence/sql-recovery-2026-10-11/verification.json",
+        "historical_failed_load_run": 37850974747,
+        "historical_failed_load_job": 113563497666,
+        "measurement_status": "NOT_RUN",
+        "scope": "Three-row synthetic seed regression only; no full 900-second workload, 100 sessions, 100000 TimeSegments, latency, RPO/RTO or recurring cost measurement."
+      }
     },
     {
       "id": "V4-D21",
@@ -185,10 +197,12 @@
     "scope": "Actual intermediate CPU/document/transport-double assertions; PostgreSQL skipped. Concurrent source work continued; this is not frozen-source hosted acceptance."
   },
   "limitations": [
-    "Railway original cutoff expired; current live URL NOT_READY; provider Dashboard MFA still required. No live mutation in this continuation.",
-    "All 72 compound V4 acceptance criteria remain NOT_RUN; no status inferred from global test counts.",
-    "Actual PostgreSQL/browser/restore/Worker/native acceptance must rerun on next exact committed source.",
-    "Company signing/physicalGPS/legal/provider/UAT/load/offsiteDR/cost gates remain in canonical EXTERNAL_PREREQUISITES.md.",
+    "All 72 compound V4 acceptance criteria remain NOT_RUN; global test totals do not accept complete criteria or the historical 475 V3 criteria.",
+    "Current scoped actual PostgreSQL/browser/backup/restore/worker/native CI passed at the recorded code SHA; final documentation has a separate commit identity with source-preservation proof.",
+    "D07 remaining_source_contracts and KNB-23 full load, provider/webhook/PDF latency, offsite RPO/RTO and recurring cost remain open.",
+    "Railway original cutoff 2026-10-07T20:11:52Z expired. No new live mutation or production deployment is part of this continuation; provider dashboard MFA remains an external prerequisite.",
+    "Company signing/physical GPS/background/battery/legal/provider/UAT/offsite/cost gates retain the statuses in EXTERNAL_PREREQUISITES.md.",
+    "External AI/provider transports in these regressions are explicit synthetic doubles; Android checks are host Java and debug build, and iOS checks are simulator XCTest.",
     "Named idempotent media/uploads requires atomic private PostgreSQL storage; S3 publication is conditional pending journal protocol.",
     "Warehouse-only procurement PDF automatic registration needs explicit permitted warehouse context; no fabricated employee/site."
   ],
@@ -202,29 +216,222 @@
     "Production startup current seven-category approved retention guard",
     "Separate exact-source ephemeral PostgreSQL/HTTP900s core load workflow"
   ],
-  "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9",
+  "source_manifest_sha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
   "final_local_run": {
-    "path_ignored": ".local/v4-final-offline-tests.json",
-    "sha256": "d5bd63ce0937eae9ea856bc03b3b8b8d7b0c540dd107866089e0381f3a74dbfe",
-    "bytes": 933554,
-    "test_files": 87,
-    "total": 2177,
+    "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "source_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+    "raw_report": "docs/evidence/sql-recovery-2026-10-11/local-unit.json",
+    "raw_sha256": "78db596e0d95842a35d22a757df32ee7f3f9e9e6c4e70b5a92729550043a8bb6",
+    "bytes": 957877,
+    "test_files": 89,
+    "total": 2228,
     "passed_cpu_document_explicit_double": 1821,
     "failed": 0,
-    "genuine_postgresql_not_run": 356
+    "genuine_postgresql_not_run": 407,
+    "typecheck": "PASSED",
+    "execution": {
+      "status": "FAILED_OR_INCOMPLETE",
+      "total": 2228,
+      "passed": 1821,
+      "failed": 0,
+      "skipped": 407,
+      "todo": 0,
+      "classification": {
+        "status": "EXACT_INDEX_VALIDATED",
+        "evidence": {
+          "path": "docs/evidence/offline-execution-scope.json",
+          "bytes": 842289,
+          "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a"
+        },
+        "indexIsExecutionProof": false,
+        "realPostgres": {
+          "total": 407,
+          "passed": 0,
+          "failed": 0,
+          "skipped": 407,
+          "todo": 0
+        },
+        "cpuDocumentOrTransportDouble": {
+          "total": 1821,
+          "passed": 1821,
+          "failed": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    },
+    "source_manifest_sha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
+    "scope": "Actual local CPU/document/transport-double execution. Genuine PostgreSQL cases skipped locally; hosted results are recorded separately."
   },
   "typecheck": "PASSED",
   "execution_index": {
     "path": "docs/evidence/offline-execution-scope.json",
-    "sha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
-    "bytes": 819715,
+    "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a",
+    "bytes": 842289,
     "status": "EXACT_INDEX_VALIDATED",
-    "retirements_with_explicit_replacement": 4
+    "retirements_with_explicit_replacement": 6
   },
   "remaining_source_contracts": [
     "D07 explicit per-person DECLINED/EXPIRED offer state/UI",
     "D07 dedicated partial scope in published report",
     "Legitimate current site-linking flow for scoped unbound orders",
     "State-preserving late material-readiness callbacks for IN_PROGRESS"
-  ]
+  ],
+  "historical_checkpoint": {
+    "observed_at": "2026-10-08T22:00:44.622285+00:00",
+    "status": "SOURCE_FROZEN_LOCAL_CPU_PASSED_PENDING_EXACT_COMMIT_HOSTED_ACCEPTANCE",
+    "candidate_sha": null,
+    "source_binding": "EXECUTABLE_SOURCE_MANIFEST_BOUND_PENDING_GIT_COMMIT",
+    "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9",
+    "final_local_run": {
+      "path_ignored": ".local/v4-final-offline-tests.json",
+      "sha256": "d5bd63ce0937eae9ea856bc03b3b8b8d7b0c540dd107866089e0381f3a74dbfe",
+      "bytes": 933554,
+      "test_files": 87,
+      "total": 2177,
+      "passed_cpu_document_explicit_double": 1821,
+      "failed": 0,
+      "genuine_postgresql_not_run": 356
+    },
+    "execution_index": {
+      "path": "docs/evidence/offline-execution-scope.json",
+      "sha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
+      "bytes": 819715,
+      "status": "EXACT_INDEX_VALIDATED",
+      "retirements_with_explicit_replacement": 4
+    },
+    "limitations": [
+      "Railway original cutoff expired; current live URL NOT_READY; provider Dashboard MFA still required. No live mutation in this continuation.",
+      "All 72 compound V4 acceptance criteria remain NOT_RUN; no status inferred from global test counts.",
+      "Actual PostgreSQL/browser/restore/Worker/native acceptance must rerun on next exact committed source.",
+      "Company signing/physicalGPS/legal/provider/UAT/load/offsiteDR/cost gates remain in canonical EXTERNAL_PREREQUISITES.md.",
+      "Named idempotent media/uploads requires atomic private PostgreSQL storage; S3 publication is conditional pending journal protocol.",
+      "Warehouse-only procurement PDF automatic registration needs explicit permitted warehouse context; no fabricated employee/site."
+    ],
+    "evidence": "docs/evidence/v4-source-freeze-local-summary.json"
+  },
+  "candidate_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+  "candidate_branch": "codex/knaba-v4-sql-recovery-20261011",
+  "hosted_checkpoint": {
+    "status": "PASSED_SCOPED_SQL_BROWSER_RECOVERY_AND_NATIVE",
+    "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "source_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+    "application_run": {
+      "id": 38097796239,
+      "jobId": 114347231650,
+      "url": "https://github.com/ziko1/knaba/actions/runs/38097796239",
+      "liveVerdict": "PASSED",
+      "verifiedAt": "2026-10-11T00:28:53.917Z",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:15Z",
+      "completedObservationAt": "2026-10-11T00:29:15Z",
+      "event": "push"
+    },
+    "unit": {
+      "status": "PASSED",
+      "total": 2228,
+      "passed": 2228,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "classification": {
+        "status": "EXACT_INDEX_VALIDATED",
+        "evidence": {
+          "path": "docs/evidence/offline-execution-scope.json",
+          "bytes": 842289,
+          "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a"
+        },
+        "indexIsExecutionProof": false,
+        "realPostgres": {
+          "total": 407,
+          "passed": 407,
+          "failed": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cpuDocumentOrTransportDouble": {
+          "total": 1821,
+          "passed": 1821,
+          "failed": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    },
+    "new_postgres_cases": {
+      "tests/assistant-answer-authority.integration.test.ts": {
+        "total": 29,
+        "passed": 29,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "tests/assistant-runtime.integration.test.ts": {
+        "total": 16,
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "tests/v4-load-seed.integration.test.ts": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "browser": {
+      "status": "PASSED",
+      "passed": 27,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "total": 27
+    },
+    "native_run": {
+      "id": 38097796144,
+      "url": "https://github.com/ziko1/knaba/actions/runs/38097796144",
+      "event": "push",
+      "branch": "codex/knaba-v4-sql-recovery-20261011",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:15Z",
+      "updatedAt": "2026-10-11T00:23:10Z",
+      "attempt": 1
+    },
+    "evidence": "docs/evidence/sql-recovery-2026-10-11/verification.json",
+    "native_evidence": "docs/evidence/sql-recovery-2026-10-11/native-summary.json",
+    "whole_product_acceptance": "NOT_RUN",
+    "deployment": "NOT_RUN"
+  },
+  "sql_recovery_changes": {
+    "runtime": [
+      "Canonical SQL assistant job and current lease/source/actor checks before cached receipt and provider use",
+      "No automatic restoration of revoked service channel membership",
+      "Known provider outcome settled from recorded usage/configured estimate after source or lease loss; unused pre-provider reservation cancelled; unknown outcome remains reserved; no actual external billing proof",
+      "V4 IDEMPOTENCY_CONFLICT for changed payload under a reused idempotency key"
+    ],
+    "fixtures": [
+      "Explicit synthetic OWNER/operations grants",
+      "Immutable accepted originals and linked REWORK/review facts",
+      "Persisted SQL history timestamps, exact pagination/cursor contract, captured original storage method",
+      "Real leased queued-AI suppression and recipient-based notification comparison"
+    ],
+    "new_real_postgres_cases": 51,
+    "explicit_v4_digest_replacements": 2,
+    "seed_regressions": {
+      "status": "PASSED_SIX_REAL_POSTGRES_REGRESSIONS",
+      "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "test_file": "tests/v4-load-seed.integration.test.ts",
+      "test_count": 6,
+      "change": "Explicit $4::text in actual seed jsonb_build_object; transaction rollback and synthetic provenance gates verified.",
+      "evidence": "docs/evidence/sql-recovery-2026-10-11/verification.json",
+      "historical_failed_load_run": 37850974747,
+      "historical_failed_load_job": 113563497666,
+      "measurement_status": "NOT_RUN",
+      "scope": "Three-row synthetic seed regression only; no full 900-second workload, 100 sessions, 100000 TimeSegments, latency, RPO/RTO or recurring cost measurement."
+    }
+  }
 }

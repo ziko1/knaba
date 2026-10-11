@@ -16,7 +16,8 @@ postgres('V4 commerce: actual PostgreSQL publication, orthogonal review and orig
   company='commerce-v4-'+randomUUID();engine=new Engine(db,'TEST');
   await db.transaction(company,'SYNTHETIC_COMMERCE_FIXTURE',async tx=>{
    await tx.add('company',{name:'Synthetic isolated V4 commerce QA',operatingMode:'TEST',synthetic:true},company);
-   await tx.add('user',{name:'Synthetic owner',roles:['OWNER'],active:true,siteIds:[]},'owner');
+   // OWNER has no implicit commerce grant; this fixture explicitly authorizes its setup/review commands.
+   await tx.add('user',{name:'Synthetic owner',roles:['OWNER'],permissions:['commerce.manage','commerce.approve','quote.create','quote.approve','quote.send','lead.handoff','customer.manage'],active:true,siteIds:[]},'owner');
    await tx.add('user',{name:'Synthetic client',roles:['CLIENT'],active:true,siteIds:[]},'client');
   });
   owner=await engine.getActor('owner',company);client=await engine.getActor('client',company);

@@ -17,6 +17,7 @@ import {createPrivateBlobStore} from '../../packages/storage/index.ts';
 import {preparePrivateMedia,ingestPrivateMedia} from '../../packages/storage/media-ingest.ts';
 import {processPrivacyBlobDeletion} from '../api/privacy-erasure.ts';
 import { createHash } from 'node:crypto';
+import { isDeepStrictEqual } from 'node:util';
 import type { Database, PgTransaction } from '../api/database.ts';
 import type { Engine } from '../api/engine.ts';
 import { assert, DomainError, type Actor, type Data, type Entity } from '../../packages/domain/core.ts';
@@ -124,8 +125,9 @@ export class WorkerRunner {
     try{const budget=await this.reserveBudget(job,config,t.data.source_text);await this.activeJob(job);const result=await this.options.ai.translate({text:t.data.source_text,sourceLanguage:t.data.source_language,targetLanguage:t.data.target_language,glossary:t.data.glossary,canonicalFacts:t.data.canonical_facts,synthetic:['DEMO','TEST'].includes(this.options.appMode)&&config.data.testOnly===true,budgetRemainingCents:budget});await this.activeJob(job);await this.command(job,'translation.result',{translation_id:t.id,status:'SUCCEEDED',text:result.text,provider:result.provider,model:result.model,usage:result.usage});await this.settleBudget(job,result.usage?.cost_cents,result.usage);}
     catch(error){return this.command(job,'translation.result',{translation_id:t.id,status:'FAILED',provider:t.data.provider,model:t.data.model,error:error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE'});}}
   private async translationReady(job:OutboxJob){await this.db.transaction(job.company_id,serviceId,async tx=>{const translation=await tx.get('translation',job.data.translation_id),request=await tx.get('translation_request',job.data.request_id),message=await tx.get('message',job.data.message_id);if(request.data.status==='CANCELLED')return;if(translation.data.status!=='SUCCEEDED'||message.data.message_version!==translation.data.message_version||!await this.currentlyReadable(tx,job.data.recipient_id,message)){await tx.save(request,{...request.data,status:'CANCELLED'});return;}const id=key('translated-copy',job.id);if((await tx.list('notification')).some(n=>n.id===id))return;await tx.add('notification',{recipient_id:job.data.recipient_id,event:'TRANSLATION_READY',category:'CHAT',channel:'WEB',status:'SUCCEEDED',translation_id:translation.id,message_id:message.id,message_version:translation.data.message_version,machine_translation:true,language:translation.data.target_language,attempts:1,max_attempts:1},id);});}
-  private async reserveBudget(job:OutboxJob,config:Entity,_text:string,category:AiCategory=job.type==='translation.requested'?'TRANSLATION':'CUSTOMER_ASSISTANT'){
+  private async reserveBudget(job:OutboxJob,config:Entity,_text:string,category:AiCategory=job.type==='translation.requested'?'TRANSLATION':'CUSTOMER_ASSISTANT',guard?:(tx:PgTransaction)=>Promise<void>){
     return this.db.transaction(job.company_id,serviceId,async tx=>{
+      await guard?.(tx);
       const current=await tx.get('assistant_config',config.id);assert(current.data.status==='ACTIVE'&&current.version===config.version,'VERSION_CONFLICT');
       const synthetic=['DEMO','TEST'].includes(this.options.appMode)&&current.data.testOnly===true;
       if(!synthetic){assert(current.data.transferApprovalId,'NEEDS_APPROVAL');const approval=await tx.get('legal_approval',current.data.transferApprovalId);assert(approval.data.status==='APPROVED'&&approval.data.subject==='AI_TRANSFER'&&approval.data.active!==false&&(!approval.data.expiresAt||Date.parse(approval.data.expiresAt)>this.now().getTime()),'NEEDS_APPROVAL');}
@@ -133,6 +135,7 @@ export class WorkerRunner {
       const headroom=aiBudgetHeadroom(current,usage,category,this.now().toISOString()),reserve=this.options.ai!.maximumCostCents('x'.repeat(180000))*2;
       assert(headroom.remainingCents>=reserve&&reserve>0,'AI_BUDGET_EXHAUSTED',{category});
       await tx.add('ai_usage',{config_id:config.id,config_version:config.version,event_id:job.id,category,currency:'EUR',initial_reserved_cents:reserve,reserved_cents:reserve,status:'RUNNING',cost_basis:'CONFIGURED_RATE_ESTIMATE',started_at:this.now().toISOString()});
+      await guard?.(tx);
       return reserve;
     });
   }
@@ -205,6 +208,33 @@ export class WorkerRunner {
 
   private router(){return new WhatsAppRouter(this.db,this.engine,{mode:this.options.appMode as 'DEMO'|'TEST'|'PRODUCTION',systemActorId:serviceId,publicOrigin:this.options.publicOrigin,testRecipients:this.options.testRecipients,now:this.now,capabilities:this.options.whatsappCapabilities});}
   private async activeJob(job:OutboxJob){const r=await this.db.query("SELECT id FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp()",[job.company_id,job.id,job.lease_token??null]);assert(r.rows.length===1,'WORKER_LEASE_LOST');}
+  private async answerJobGuard(tx:PgTransaction,job:OutboxJob){
+    const held=await tx.query("SELECT type,data FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token??null]);
+    assert(held.rows.length===1,'WORKER_LEASE_LOST');
+    assert(job.type==='assistant.answer_requested'&&held.rows[0].type===job.type&&isDeepStrictEqual(held.rows[0].data,job.data),'ACCESS_DENIED');
+    const service=await this.engine.actorIn(tx,serviceId);
+    assert(service.companyId===job.company_id&&service.roles.includes('SERVICE_ACCOUNT')&&this.engine.scope(service,'integration.process').permissions.includes('integration.process'),'ACCESS_DENIED');
+  }
+  private async answerMembership(tx:PgTransaction,channel:Entity,message:Entity){
+    const memberships=(channel.data.members??[]).filter((member:Data)=>member.user_id===serviceId);
+    // First enrollment is allowed; a historical revocation is never a request
+    // for the worker to grant itself access again.
+    if(memberships.length)assert(memberships.some((member:Data)=>{
+      const expiry=member.expires_at??member.expiresAt;
+      return member.active!==false&&!member.revoked_at&&!member.revokedAt&&!member.left_at&&!member.leftAt&&!member.removed_at&&!member.removedAt&&(!expiry||Date.parse(expiry)>this.now().getTime());
+    })&&await this.currentlyReadable(tx,serviceId,message),'ACCESS_DENIED');
+  }
+  private async answerSource(tx:PgTransaction,job:OutboxJob,expected?:{config:Entity;channel:Entity;message:Entity}){
+    await this.answerJobGuard(tx,job);
+    const config=await tx.get('assistant_config',job.data.configId),channel=await tx.get('channel',job.data.channelId),message=await tx.get('message',job.data.messageId);
+    assert(message.data.channel_id===channel.id&&message.data.author_id===job.data.actorId&&['PRIVATE_CUSTOMER_ASSISTANT','SITE_CLIENT'].includes(channel.data.type),'ACCESS_DENIED');
+    if(config.data.status!=='ACTIVE'||config.data.configVersion!==job.data.configVersion||channel.data.handoff?.state!=='AI_ACTIVE'||message.data.deleted_at||!await this.currentlyReadable(tx,job.data.actorId,message))return;
+    if(channel.data.lead_id&&(await tx.get('lead',channel.data.lead_id)).data.ownership!=='AI_ACTIVE')return;
+    await this.answerMembership(tx,channel,message);
+    if(expected)assert(config.version===expected.config.version&&channel.version===expected.channel.version&&message.version===expected.message.version,'AI_SUPPRESSED');
+    await this.answerJobGuard(tx,job);
+    return {config,channel,message};
+  }
   private async routerResponse(job:OutboxJob){
    const leased=async<T>(operation:(tx:PgTransaction)=>Promise<T>)=>this.db.transaction(job.company_id,serviceId,async tx=>{
     const check=async()=>{const held=await tx.query("SELECT id,type,data FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token??null]);assert(held.rows.length===1,'WORKER_LEASE_LOST');assert(held.rows[0].type==='whatsapp.router_response'&&job.type==='whatsapp.router_response'&&held.rows[0].data.response_id===job.data.response_id,'ACCESS_DENIED');};
@@ -269,51 +299,62 @@ export class WorkerRunner {
     if(input.type==='location'||input.media||!input.text){await this.record(job,'conversation_input',route.id,e=>({...e.data,status:'MANUAL_REVIEW',reason:input.type==='location'?'ONE_TIME_LOCATION_NOT_GPS_TRACKING':'MEDIA_UPLOAD_REQUIRES_QUARANTINE',completed_at:this.now().toISOString()}));return;}
     const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:route.data.language,reply_to_id:route.data.reply_to_id},'inbound-message',actor);await this.record(job,'conversation_input',route.id,async(e,tx)=>{const channel=await tx.get('channel',route.data.channel_id);const config=(await tx.list('assistant_config')).find(c=>c.data.status==='ACTIVE');if(channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&channel.data.handoff?.state==='AI_ACTIVE'&&config?.data.provider==='DEEPSEEK')await tx.event('assistant.answer_requested',{channelId:channel.id,messageId:message.id,actorId:actor.userId,configId:config.id,configVersion:config.data.configVersion,language:route.data.language,sourceChannel:'WHATSAPP'});return {...e.data,status:'PROCESSED',message_id:message.id,router_state:channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'?'NEW_OR_EXISTING_CUSTOMER_MENU':'OPERATOR_INBOX',completed_at:this.now().toISOString()};});
   }
-  private async answer(job:OutboxJob){const snapshot=await this.db.transaction(job.company_id,serviceId,async tx=>{const config=await tx.get('assistant_config',job.data.configId),channel=await tx.get('channel',job.data.channelId),message=await tx.get('message',job.data.messageId);if(config.data.status!=='ACTIVE'||config.data.configVersion!==job.data.configVersion||channel.data.handoff?.state!=='AI_ACTIVE'||!await this.currentlyReadable(tx,job.data.actorId,message))return;assert(['PRIVATE_CUSTOMER_ASSISTANT','SITE_CLIENT'].includes(channel.data.type),'ACCESS_DENIED');if(channel.data.lead_id){const lead=await tx.get('lead',channel.data.lead_id);if(lead.data.ownership!=='AI_ACTIVE')return;}
+  private async answer(job:OutboxJob){const snapshot=await this.db.transaction(job.company_id,serviceId,async tx=>{const source=await this.answerSource(tx,job);if(!source)return;const {config,channel,message}=source;
     const docs=await tx.list('knowledge');const sources=docs.filter(d=>config.data.knowledgeIds.includes(d.id)&&d.data.status==='APPROVED'&&Date.parse(d.data.validFrom??d.data.effective_at)<=this.now().getTime()&&(!d.data.validUntil||Date.parse(d.data.validUntil)>this.now().getTime())&&(d.data.visibility==='PUBLIC'||d.data.visibility==='PERSONAL'&&d.data.subjectUserId===job.data.actorId)).map(d=>({id:d.id,text:d.data.content??d.data.text}));const services=(await tx.list('service')).filter(s=>s.data.active&&s.data.approvedBy&&config.data.allowedServiceIds.includes(s.id)).map(s=>({id:s.id,text:`${s.data.name}: ${s.data.description}. ${s.data.included?.join('; ')??''}`}));const conversationHistory=[];for(const prior of (await tx.list('message')).filter(m=>m.data.channel_id===channel.id&&m.id!==message.id&&!m.data.deleted_at).slice(-20)){
  if(await this.currentlyReadable(tx,job.data.actorId,prior))conversationHistory.push({role:prior.data.source==='AI'?'ASSISTANT' as const:'CUSTOMER' as const,text:String(prior.data.text).slice(0,1500)});}
  const approvedPriceBooks=(await tx.list('price_book')).filter(b=>b.data.status==='ACTIVE'&&b.data.approvedBy&&Date.parse(b.data.validFrom)<=this.now().getTime()&&(!b.data.validUntil||Date.parse(b.data.validUntil)>this.now().getTime())).map(b=>({id:b.id,version:b.version,serviceIds:(b.data.rules??[]).filter((r:Data)=>config.data.allowedServiceIds.includes(r.serviceId)).map((r:Data)=>r.serviceId)})).filter(b=>b.serviceIds.length).slice(0,10);
  return {config,channel,message,sources:[...sources,...services].slice(0,20),conversationHistory:conversationHistory.slice(-8),approvedPriceBooks};});if(!snapshot)return;
     if(!this.options.ai||snapshot.config.data.provider!=='DEEPSEEK'){await this.fallback(job,'PROVIDER_DISABLED');return;}
-    let knownCost:number|undefined;let knownTokens:{input_tokens?:number;output_tokens?:number}|undefined;let outcomeKnown=false;
+    const checkSource=async(tx:PgTransaction)=>{assert(await this.answerSource(tx,job,snapshot),'AI_SUPPRESSED');};
+    const currentSource=()=>this.db.transaction(job.company_id,serviceId,checkSource);
+    let knownCost:number|undefined;let knownTokens:{input_tokens?:number;output_tokens?:number}|undefined;let outcomeKnown=false,budgetReserved=false,providerStarted=false;
     try{
       const catalog=assistantToolCatalog(snapshot.config.data.tools).map(t=>({name:t.name,parameters:zodToJsonSchema(t.schema,{target:'jsonSchema7',$refStrategy:'none'})}));
       const policy={model:snapshot.config.data.model,timeoutMs:snapshot.config.data.timeoutMs,tone:snapshot.config.data.tone,addressMode:snapshot.config.data.addressForm,humanHours:snapshot.config.data.humanHours};
-      const budget=await this.reserveBudget(job,snapshot.config,snapshot.message.data.text+JSON.stringify(snapshot.sources)+JSON.stringify(catalog));
+      const budget=await this.reserveBudget(job,snapshot.config,snapshot.message.data.text+JSON.stringify(snapshot.sources)+JSON.stringify(catalog),'CUSTOMER_ASSISTANT',checkSource);budgetReserved=true;
       const input={text:snapshot.message.data.text,language:job.data.language as SupportedLanguage,sources:snapshot.sources,ownership:'AI_ACTIVE' as const,synthetic:['DEMO','TEST'].includes(this.options.appMode)&&snapshot.config.data.testOnly===true,budgetRemainingCents:budget,maxReplyChars:snapshot.config.data.maxResponseLength,policy,conversationHistory:snapshot.conversationHistory,approvedPriceBooks:snapshot.approvedPriceBooks};
-      await this.activeJob(job);let response=await this.options.ai.answer({...input,toolCatalog:catalog});knownCost=response.usage?.cost_cents;knownTokens=response.usage;outcomeKnown=true;
-      if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');await this.settleBudget(job,knownCost,knownTokens);return;}
+      await currentSource();providerStarted=true;let response=await this.options.ai.answer({...input,toolCatalog:catalog});knownCost=response.usage?.cost_cents;knownTokens=response.usage;outcomeKnown=true;
+      if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');return;}
       const customerTexts:string[]=[];
       if(response.tool_calls.length){
-        await this.activeJob(job);const tools=await dispatchAssistantTools({companyId:job.company_id,actorId:job.data.actorId,configId:snapshot.config.id,configVersion:snapshot.config.data.configVersion,channelId:snapshot.channel.id,channelVersion:snapshot.channel.version,messageId:snapshot.message.id,messageVersion:snapshot.message.data.message_version,sourceChannel:job.data.sourceChannel??'WHATSAPP'},response.tool_calls,assistantToolHost(this.db,this.engine,this.now,async tx=>{assert(tx.query,'MISSING_CONFIGURATION');const lease=await tx.query("SELECT id FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token??null]);assert(lease.rows.length===1,'WORKER_LEASE_LOST');}));
-        if(tools.stoppedForHandoff){await this.settleBudget(job,knownCost,knownTokens);return;}
+        await currentSource();const tools=await dispatchAssistantTools({companyId:job.company_id,actorId:job.data.actorId,configId:snapshot.config.id,configVersion:snapshot.config.data.configVersion,channelId:snapshot.channel.id,channelVersion:snapshot.channel.version,messageId:snapshot.message.id,messageVersion:snapshot.message.data.message_version,sourceChannel:job.data.sourceChannel??'WHATSAPP'},response.tool_calls,assistantToolHost(this.db,this.engine,this.now,async tx=>{await this.answerJobGuard(tx as PgTransaction,job);await this.answerMembership(tx as PgTransaction,await tx.get('channel',job.data.channelId),await tx.get('message',job.data.messageId));}));
+        if(tools.stoppedForHandoff)return;
         for(const r of tools.results)if(r.name==='calculateEstimate'&&typeof r.result.customerText==='string')customerTexts.push(r.result.customerText);
-        await this.activeJob(job);outcomeKnown=false;
+        await currentSource();outcomeKnown=false;
         response=await this.options.ai.answer({...input,budgetRemainingCents:Math.max(0,budget-(knownCost??0)),toolCatalog:[],previousToolResults:tools.results.map(r=>r.name==='calculateEstimate'?{...r,result:{status:r.result.status,source:r.result.source,teamConfirmed:false,scheduleConfirmed:false,priceRenderedSeparatelyByServer:true}}:r)});
         knownCost=knownCost===undefined||response.usage?.cost_cents===undefined?undefined:knownCost+response.usage.cost_cents;knownTokens={input_tokens:knownTokens?.input_tokens===undefined||response.usage?.input_tokens===undefined?undefined:knownTokens.input_tokens+response.usage.input_tokens,output_tokens:knownTokens?.output_tokens===undefined||response.usage?.output_tokens===undefined?undefined:knownTokens.output_tokens+response.usage.output_tokens};outcomeKnown=true;
-        if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');await this.settleBudget(job,knownCost,knownTokens);return;}
+        if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');return;}
       }
-      await this.activeJob(job);
       const references=await this.db.transaction(job.company_id,serviceId,async tx=>{
+        await checkSource(tx);
         let channel=await tx.get('channel',snapshot.channel.id);const config=await tx.get('assistant_config',snapshot.config.id),message=await tx.get('message',snapshot.message.id);
         assert(channel.data.handoff?.state==='AI_ACTIVE'&&config.data.status==='ACTIVE'&&config.version===snapshot.config.version,'AI_SUPPRESSED');
         assert(message.data.message_version===snapshot.message.data.message_version&&!message.data.deleted_at&&await this.currentlyReadable(tx,job.data.actorId,message),'ACCESS_DENIED');
-        if(!channel.data.members?.some((m:Data)=>m.user_id===serviceId&&!m.revoked_at))channel=await tx.save(channel,{...channel.data,members:[...channel.data.members,{user_id:serviceId,joined_at:this.now().toISOString(),history_from:message.createdAt,external:false}]});
+        if(!channel.data.members?.some((m:Data)=>m.user_id===serviceId))channel=await tx.save(channel,{...channel.data,members:[...(channel.data.members??[]),{user_id:serviceId,joined_at:this.now().toISOString(),history_from:message.createdAt,external:false}]});
+        await this.answerJobGuard(tx,job);
         return [channel,config,message].map(e=>({kind:e.kind,id:e.id,version:e.version}));
       });
       const text=[`KI-Assistent · ${response.answer}`,...customerTexts].join('\n\n');assert(text.length<=12000,'ASSISTANT_TOOL_RESULT_LIMIT');
       await this.engine.execute(await this.actor(job.company_id),'message.send',{input:{channel_id:snapshot.channel.id,text,language:job.data.language,source:'AI',reply_to_id:snapshot.message.id},idempotency_key:key('worker',job.id,'ai-answer'),preconditions:references,worker_lease:{id:job.id,token:job.lease_token!}});
-      await this.settleBudget(job,knownCost,knownTokens);
-    }catch(error){if(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST'){if(outcomeKnown)await this.settleBudget(job,knownCost,knownTokens);throw error;}await this.fallback(job,error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE');if(outcomeKnown)await this.settleBudget(job,knownCost,knownTokens);}}
+    }catch(error){
+      if(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST')throw error;
+      await this.fallback(job,error instanceof DomainError?error.code:'PROVIDER_UNAVAILABLE');
+    }finally{
+      // A known provider outcome remains an accounting fact even when current
+      // chat/configuration authority prevents a new reply or handoff effect.
+      if(outcomeKnown)await this.settleBudget(job,knownCost,knownTokens);
+      else if(budgetReserved&&!providerStarted)await this.settleBudget(job,0,{input_tokens:0,output_tokens:0},'CANCELLED');
+    }
+  }
 
   private async fallback(job:OutboxJob,reason:string){
     assert(job.type==='assistant.answer_requested'&&job.lease_token,'WORKER_LEASE_LOST');
-    const canonical=(value:any):string=>value===null||typeof value!=='object'?JSON.stringify(value):Array.isArray(value)?'['+value.map(canonical).join(',')+']':'{'+Object.keys(value).sort().filter(field=>value[field]!==undefined).map(field=>JSON.stringify(field)+':'+canonical(value[field])).join(',')+'}';
     await this.db.transaction(job.company_id,serviceId,async tx=>{
-      const lock=async()=>{const result=await tx.query("SELECT type,data FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token]);assert(result.rows.length===1,'WORKER_LEASE_LOST');assert(result.rows[0].type==='assistant.answer_requested'&&canonical(result.rows[0].data)===canonical(job.data),'ACCESS_DENIED');};
-      await lock();const service=await this.engine.actorIn(tx,serviceId);assert(service.companyId===job.company_id&&service.roles.includes('SERVICE_ACCOUNT')&&this.engine.scope(service,'integration.process').permissions.includes('integration.process'),'ACCESS_DENIED');
+      const lock=()=>this.answerJobGuard(tx,job);
+      await lock();
       const channel=await tx.get('channel',job.data.channelId),message=await tx.get('message',job.data.messageId),config=await tx.get('assistant_config',job.data.configId),actor=await this.engine.actorIn(tx,job.data.actorId);
       assert(channel.companyId===job.company_id&&message.companyId===job.company_id&&config.companyId===job.company_id&&message.data.channel_id===channel.id&&message.data.author_id===actor.userId&&!message.data.deleted_at&&config.data.status==='ACTIVE'&&config.data.configVersion===job.data.configVersion&&actor.permissions.includes('chat.read')&&await this.engine.visible(tx,actor,message),'ACCESS_DENIED');
+      await this.answerMembership(tx,channel,message);
       if(channel.data.handoff?.state!=='AI_ACTIVE'){await lock();return;}
       const now=this.now().toISOString(),pending=await tx.save(channel,{...channel.data,handoff:{state:'HANDOFF_PENDING',owner_id:null,reason,requested_at:now,source_message_id:message.id}},channel.version);await queueHandoffSla(tx,pending,now);
       const dedup=key('assistant-fallback',job.id);if(!(await tx.list('decision')).some(d=>d.data.dedupeKey===dedup))await tx.add('decision',{status:'OPEN',reason,ownerId:'UNASSIGNED',channelId:channel.id,sources:[message.id],actions:['APPROVE','RETURN','DELEGATE'],summaryDE:'Die private Kundenanfrage benötigt menschliche Unterstützung. Es wurde keine Zusage gemacht.',dedupeKey:dedup,history:[]});

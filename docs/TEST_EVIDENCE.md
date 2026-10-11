@@ -1,5 +1,26 @@
 # Actual verification ledger
 
+## V4 SQL/runtime recovery — exact source 3f4370c — 2026-10-11
+
+**Scoped application/native CI PASSED** at executable `3f4370c3b3ba66941a42f6840db0f25ae57fca65`, tree `464057c0a7cea50a7a55eb1d5f88fb95f3203225`. [Draft PR #5](https://github.com/ziko1/knaba/pull/5) carries this increment; its following documentation commit preserves the tested executable source.
+
+| Actual check | Result and evidence boundary |
+| --- | --- |
+| Full unit and real PostgreSQL | **2228/2228 PASS, 0 FAIL, 0 SKIP**: 1821 CPU/document/explicit-double and **407 genuine PostgreSQL**. [Application run 38097796239](https://github.com/ziko1/knaba/actions/runs/38097796239) completed SUCCESS. |
+| New / recovered SQL coverage | All **51 new PG cases** pass (29 answer authority,16 runtime,6 seed). All **40 historical failed identities** now pass with two explicit V4 REWORK replacements. Both residual first-candidate fixture failures also pass. |
+| Persisted browser | **27/27 PASS**, 0 failed/skipped/flaky:26 actual backend/UI and one explicit HTTP fixture. The separate historical responsive54 matrix is not relabelled as a new run. |
+| Build / recovery / worker | TypeScript/build,14 actual built-file hashes, Docker/source-worker guard, encrypted backup/tamper rejection, empty DB/private-blob restore and actual worker heartbeat/restart PASS. Hosted source/runtime/docs packaging succeeded; no complete new runtime handover inferred. |
+| Android | **66 host Java PASS**, debug APK and hosted signature verification PASS; lint **0 errors,10 warnings**. |
+| iOS | **19 actual XCTest PASS**,0failed/0skip, iPhone16 / iOS18.5 Simulator; exact prepared device and45 bundle files checked. [Native run38097796144](https://github.com/ziko1/knaba/actions/runs/38097796144) SUCCESS. |
+| Local scope |1821CPU/document/explicit-double PASS;407PGSKIP/NOT_RUN locally,2228cases/89files; TypeScript PASS. Hosted SQL proof is separate. |
+| Independent artifact verification | Application artifact11686537370: 8163623 bytes, SHA256 `076e43dea4943dee0b304cc1854ee04df8289d6de6cb246557ea454d0d4bcacf`, source/tree/CRC/all14 built files match. Native artifact metadata/CRC/payload/source/device bindings independently checked. |
+
+[Complete current evidence](evidence/sql-recovery-2026-10-11/verification.json), [scope and changes](evidence/sql-recovery-2026-10-11/README.md), [native receipt](evidence/sql-recovery-2026-10-11/native-summary.json) and raw reports preserve exact counts and classes. The Engine/Worker fix enforces canonical job/lease/current source authority before AI work/receipt, preserves revoked membership, settles known provider outcomes correctly and uses V4 `IDEMPOTENCY_CONFLICT`. Fixture and seed fixes retain negative/rollback/privacy assertions.
+
+First candidate `1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6` / [run38096631407](https://github.com/ziko1/knaba/actions/runs/38096631407) remains **FAILED:2226/2228 PASS,405/407PG PASS**. All51new cases,27browser,restore/worker passed there; the unleased handoff expectation and random notification-row order were repaired in3f. [Its raw evidence](evidence/sql-recovery-2026-10-11/historical-1cb/verification.json) and earlier40-failure baseline below remain historical.
+
+**Whole product and production remain NOT_READY.** All72compound V4 statuses and475V3 criteria retain separate assessment; D07 source gaps, full KNB-23 workload/SLO/offsiteRPO/RTO/cost and company/provider/legal/UAT/physical/signing/deployment gates remain open. No new real-provider transfer or deployment occurred.
+
 ## Responsive V4 web acceptance — exact source 7d8a0e92
 
 Tested source `7d8a0e92c083ca22e4f93595bd084031f7272599`, tree `d841afad8b71546d5fc7589d434b8f3bc056e5a2`, completes the responsive implementation and the concrete search-focus/photo-canvas browser fixes. The separate documentation commit does not change these tested inputs.
@@ -127,7 +148,8 @@ Historical hosted source **`9d94babd2fde620c018b81ca6d83d8e77a9b0c3e`**, tree `2
 
 | Area | Observed status | Next actual evidence |
 | --- | --- | --- |
-| Published ca9 work-notification/metadata source | IMPLEMENTED / exact hosted PASSED |1513/1513 includes 13 notification real PG; 24/24 rendered/build/container/native/packaging accepted. No all 19-real-business-flow/provider/recipient-policy inference |
+| Current V4 SQL/runtime source3f4370c | SCOPED HOSTED PASS / FULL PRODUCT NOT_READY | 2228unit (407realPG),27browser,build/recovery/worker,66AndroidJava/19iOSXCTest; exact evidence above. D07/fullload/external/production remain separate. |
+| Historical independently delivered ca9 work-notification/metadata source | IMPLEMENTED / exact hosted PASSED |1513/1513 includes 13 notification real PG; 24/24 rendered/build/container/native/packaging accepted. No all 19-real-business-flow/provider/recipient-policy inference |
 | Automation authoring/access | Actual ca9 relevant backend/UI cases PASSED | Actual rule create→readonly preview→explicit privileged activation and employee denials. Bounded daily/weekly Europe/Berlin grammar is implemented; arbitrary cron is optional |
 | Private handoff, map, advisory, AI usage/playground and provider-disabled internal request | Actual ca9 relevant backend/UI cases PASSED | Empty authorized SVG is not physical GPS; advisory is unapproved general guidance; playground is SIMULATED; provider-disabled request does not prove real inference |
 | Offline queue end-to-end | Actual ca9 relevant backend/UI cases PASSED | UNSYNCED→explicit original-key retry→actual server acknowledgment executed at ca9; actual Railway replay remainsNOT_RUN |
@@ -140,7 +162,7 @@ The isolated target remains project `5701136e-0b7c-48e8-a0c6-5c5a01c4330b`, envi
 
 ## Earlier exact-source history
 
-[3c85 application](evidence/ci-run-37529346179-summary.json) executed802/802 tests (708 CPU/fixture, 94 genuine PG), browser 11/14 and overall FAILED; encrypted backup/restore 17 tables / 7 blobs/worker restart passed. [3c85 native](evidence/native-run-37529346218-summary.json) passed Android debug/lint/16 vectors and iOS simulator / 4 XCTest. Its verified Android APK remains [historical 3c85 APK](../artifacts/KNABA-DE-Android-debug-3c85adc.apk), SHA256 `c741191c1ffd2d7da66a7cc6c1188961fa5ed145671e602eba7079c3802f1712`; the older simulator artifact is likewise historical. These results do not certify new source.
+[3c85 application](evidence/ci-run-37529346179-summary.json) executed802/802 tests (708 CPU/fixture, 94 genuine PG), browser 11/14 and overall FAILED; encrypted backup/restore 17 tables / 7 blobs/worker restart passed. [3c85 native](evidence/native-run-37529346218-summary.json) passed Android debug/lint/16 vectors and iOS simulator / 4 XCTest. Its verified historical Android APK is recorded in the [3c85 native receipt](evidence/native-run-37529346218-summary.json), SHA256 `c741191c1ffd2d7da66a7cc6c1188961fa5ed145671e602eba7079c3802f1712`; the older simulator artifact is likewise historical. These results do not certify new source.
 
 [942b application](evidence/ci-run-37525960411-summary.json) executed439/439 including 39 genuine PG, browser 6/13 overall FAILED; [native receipt](evidence/native-run-37525960129-summary.json) records its debug/simulator bytes. Earlier local lease/restore failures, [367-pass offline report](evidence/final-offline-result.json), actual document-reader/ZIP checks and local socket/Chromium EPERM are retained with their own limits. Cancelled requests were CANCELLED/NOT_RUN.
 

@@ -99,6 +99,8 @@ postgres('V4 actual HTTP controller/auth/SQL runtime boundaries',()=>{
   await save('user','worker',{roles:['AUDITOR'],permissions:[]});const current=await api.openapi(request());expect(current.paths['/api/v1/media/uploads']).toBeUndefined();expect(current.paths['/api/v1/commands/shift.end']).toBeUndefined();expect(JSON.stringify(current)).not.toContain(token);
  });
  it('actual audit SQL keyset parses correctly and maintains company scope over cursor pages',async()=>{
+  // Audit timestamps come from PostgreSQL; let this snapshot follow the committed inserts in real time.
+  vi.useRealTimers();
   await start();await save('user','worker',{roles:['AUDITOR'],permissions:[]});
   await db.query("INSERT INTO audit_log(company_id,actor_id,action,detail) VALUES($1,'FOREIGN','PRIVATE_CANARY','{}')",['foreign-'+randomUUID()]);
   const first=await api.audit(request({limit:'1'}));expect(first.items).toHaveLength(1);expect(first.has_more).toBe(true);expect(first.next_cursor).toBeTruthy();

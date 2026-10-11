@@ -1,0 +1,213 @@
+{
+  "sourceGitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+  "artifact": "KNABADE-simulator.app.zip",
+  "sha256": "337e68f1a7ed50a2810fb94839239f27dd3b8591f635d21f031ec9f81fa9320a",
+  "byteSize": 5539478,
+  "build": "iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode",
+  "xcodegenSourceSha": "7193eb447a6f60061f069e07bc1efd32d73c0e19",
+  "simulator": {
+    "sourceGitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "requestedOS": "18.5",
+    "requestedDevice": "iPhone 16",
+    "hostArchitecture": "arm64",
+    "runtimeDownload": "NOT_NEEDED",
+    "status": "SIMULATOR_READY_XCTEST_NOT_RUN",
+    "xctestExecution": "NOT_RUN",
+    "physicalDeviceVerification": "NOT_RUN",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "runtimeBuildVersion": "22F77",
+    "deviceUdid": "D4C6B66E-3F63-43F9-869F-788929748BAD",
+    "deviceState": "Booted"
+  },
+  "signing": "CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA",
+  "checks": [
+    "xcodebuild simulator build",
+    "native XCTest geofence/dwell/exception-zone/privacy-lease tests",
+    "plist validation"
+  ],
+  "bundleFiles": [
+    {
+      "path": "Frameworks/Testing.framework/Info.plist",
+      "sha256": "fe56a285d0b766db5784e59a68ea56abee37b6333b05fc293a5bd76551e6fe16"
+    },
+    {
+      "path": "Frameworks/Testing.framework/Testing",
+      "sha256": "1492539b22c8ee34734b1e57ec2e6154554599acf900a31d6a4aadc132d320e9"
+    },
+    {
+      "path": "Frameworks/Testing.framework/_CodeSignature/CodeResources",
+      "sha256": "7f2c07e9dec885551f7d90b18f2e9d1a3de2a9f2934c7c2b97d5990efeb12d77"
+    },
+    {
+      "path": "Frameworks/Testing.framework/version.plist",
+      "sha256": "497fc68ae83e3a39766fac8fbcf73e73e642b219d2d435eb34c893d615634cd5"
+    },
+    {
+      "path": "Frameworks/XCTAutomationSupport.framework/Info.plist",
+      "sha256": "eefcf002ed8b1c3bc47195c571d3481c35f39653c42c6643f4569653f82d1289"
+    },
+    {
+      "path": "Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport",
+      "sha256": "6591101a88b44b12cb5f61da2de7ae4e8f3da423c002592f41fec74435cc2af6"
+    },
+    {
+      "path": "Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources",
+      "sha256": "90006e5fb06780d93666f2438f0c12bbfe048db4860dfd78c59d25fa0905ee84"
+    },
+    {
+      "path": "Frameworks/XCTAutomationSupport.framework/version.plist",
+      "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+    },
+    {
+      "path": "Frameworks/XCTest.framework/Info.plist",
+      "sha256": "f386ad36a966050d51aba286db6f6d2984dc0261962a06fa88c21d8431d7da03"
+    },
+    {
+      "path": "Frameworks/XCTest.framework/XCTest",
+      "sha256": "7f03a94d51aa621f0049f0fcd219383ba89d58deb7efaed026115e7c5f546385"
+    },
+    {
+      "path": "Frameworks/XCTest.framework/_CodeSignature/CodeResources",
+      "sha256": "91a33feffef50b7d9e428f9fb39e8a1304bff07bccf4a3e958bd60a7a9a5fa8e"
+    },
+    {
+      "path": "Frameworks/XCTest.framework/version.plist",
+      "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+    },
+    {
+      "path": "Frameworks/XCTestCore.framework/Info.plist",
+      "sha256": "84ddee364b69922e9f5efd9c27650dea79097b02922373659ca2b4936138d377"
+    },
+    {
+      "path": "Frameworks/XCTestCore.framework/XCTestCore",
+      "sha256": "9fc777a3d19ce0e5752049ca674200bba3f8e0054cb8344a6a72dee01e2df668"
+    },
+    {
+      "path": "Frameworks/XCTestCore.framework/_CodeSignature/CodeResources",
+      "sha256": "490683c12a6cb280bdc04da720d530238badab220b8556900d74b54a3942bf88"
+    },
+    {
+      "path": "Frameworks/XCTestCore.framework/version.plist",
+      "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+    },
+    {
+      "path": "Frameworks/XCTestSupport.framework/Info.plist",
+      "sha256": "1ac7f8138c96fc6549ab1b4713149784591c6b920ba19794a2980aa7f368663a"
+    },
+    {
+      "path": "Frameworks/XCTestSupport.framework/XCTestSupport",
+      "sha256": "410ee3aa0370b8c4b237ee8dc210e510fda8face2afd10023bd0dbe3ccd2420d"
+    },
+    {
+      "path": "Frameworks/XCTestSupport.framework/_CodeSignature/CodeResources",
+      "sha256": "756355f56397692a19265a35912a2858cfa0cfb7e0e0c8d48cdf9e172d588492"
+    },
+    {
+      "path": "Frameworks/XCTestSupport.framework/version.plist",
+      "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+    },
+    {
+      "path": "Frameworks/XCUIAutomation.framework/Info.plist",
+      "sha256": "89edc8963730092b0b1d55a2b1abfbefdc76f25f1a9742b6429e2f265c21ba0b"
+    },
+    {
+      "path": "Frameworks/XCUIAutomation.framework/XCUIAutomation",
+      "sha256": "4a156ad223abcd1b84a1ceffa518c1d489906ded511a95b538c920884dbc5c93"
+    },
+    {
+      "path": "Frameworks/XCUIAutomation.framework/_CodeSignature/CodeResources",
+      "sha256": "5c7165a68a0abcd101107ca9f337950b88f4bdb0641ddcb396fc8a1b1365ba9a"
+    },
+    {
+      "path": "Frameworks/XCUIAutomation.framework/version.plist",
+      "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+    },
+    {
+      "path": "Frameworks/XCUnit.framework/Info.plist",
+      "sha256": "e23c54c19c7513247721d01f5ee3512895acef132a2d63059b614491f9ef4882"
+    },
+    {
+      "path": "Frameworks/XCUnit.framework/XCUnit",
+      "sha256": "9c2c58a4cd354afff9424b0c26338a2b9b710b319915ed15bf3ab083c06996cb"
+    },
+    {
+      "path": "Frameworks/XCUnit.framework/_CodeSignature/CodeResources",
+      "sha256": "9a63f88def87fb748a3768cb19571260a8a206b47c2417ee01df9de7fd350b06"
+    },
+    {
+      "path": "Frameworks/XCUnit.framework/version.plist",
+      "sha256": "1ec3f2ce46c708a1884fd20b3b9e4de42a85233b1091e36cfdf85865a8a88550"
+    },
+    {
+      "path": "Frameworks/libXCTestBundleInject.dylib",
+      "sha256": "5df3d135d234765ef935c63097e7ceb1a40d1272811613db9bbd6d392d48aac1"
+    },
+    {
+      "path": "Frameworks/libXCTestSwiftSupport.dylib",
+      "sha256": "5bb8ef8eb07d16fc703e2e71a206292cb3acb6d860be688a374287b166b2e88f"
+    },
+    {
+      "path": "Info.plist",
+      "sha256": "a337112f869d36e5bfa604186f9967e09437899cdbe0291e9f1b1ed6f7d9d3f8"
+    },
+    {
+      "path": "KNABADE",
+      "sha256": "8047b48a4faf90ea887aa002157e6377745c79f03e2ee14a66c3cce56c4477f1"
+    },
+    {
+      "path": "KNABADE.debug.dylib",
+      "sha256": "027f74f43861b94fd595df40d582fdc8bb8b5f324fe839b0c923e2e2b4c2150c"
+    },
+    {
+      "path": "PkgInfo",
+      "sha256": "82502191c9484b04d685374f9879a0066069c49b8acae7a04b01d38d07e8eca0"
+    },
+    {
+      "path": "PlugIns/KNABADETests.xctest/Info.plist",
+      "sha256": "363850b7d031e1d1caed8b87c711c7770e240129abcc91d52705e2d6c612efa8"
+    },
+    {
+      "path": "PlugIns/KNABADETests.xctest/KNABADETests",
+      "sha256": "1febf789478a9dc66f427539a25bf9fffc6b89357433516fa123bfc4a88ca597"
+    },
+    {
+      "path": "PlugIns/KNABADETests.xctest/native-vectors.json",
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a"
+    },
+    {
+      "path": "PrivacyInfo.xcprivacy",
+      "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104"
+    },
+    {
+      "path": "__preview.dylib",
+      "sha256": "f5b4c51ec0fb2935ae4c33daa30bcf466238c6ebb922f225cdd10b8ed391852e"
+    },
+    {
+      "path": "de.lproj/InfoPlist.strings",
+      "sha256": "de53838a45eaf30ea6c0e1fe30f6a17b377217015cbe1f164e203615cbbca359"
+    },
+    {
+      "path": "en.lproj/InfoPlist.strings",
+      "sha256": "bfeb430d198d63f49265ccd8d76ddf87e07386216c7564019a613598c41e3184"
+    },
+    {
+      "path": "lt.lproj/InfoPlist.strings",
+      "sha256": "21fe5b73388e5a67e089a619a8f23cb9ed942e31616344dfdb7881a69a5a771c"
+    },
+    {
+      "path": "pl.lproj/InfoPlist.strings",
+      "sha256": "e78ce5c72030db2e59482d8d411bae3a9ea1ab82afb856429c669b2b7ea4fead"
+    },
+    {
+      "path": "ru.lproj/InfoPlist.strings",
+      "sha256": "47462fafe2084eabb03911ece2af698068f2b740b725d07a2ed2c16c5e3b916c"
+    },
+    {
+      "path": "uk.lproj/InfoPlist.strings",
+      "sha256": "f27779018dea2c489bbf967d53ba38df653721493dc1ab302b5ac6c47d09fbef"
+    }
+  ],
+  "physicalDeviceVerification": "NOT_RUN",
+  "realGPSAndBatteryAcceptance": "NOT_RUN",
+  "appStoreAndProductionProvisioning": "NOT_RUN"
+}

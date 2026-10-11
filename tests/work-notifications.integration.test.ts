@@ -104,7 +104,8 @@ postgres('automatic work notifications: actual PostgreSQL producer/worker/activi
   const foreign='work-notification-foreign-'+randomUUID();await db.transaction(foreign,'SYNTHETIC_FOREIGN',async tx=>{await tx.add('user',{active:true,roles:['EMPLOYEE'],siteIds:['site']},'employee');});expect(await engine.readEntities(await engine.getActor('employee',foreign),'notification')).toEqual([]);
  });
  it('actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer',async()=>{
-  await change('user','manager',{permissions:['report.publish','dispatch.manage']});manager={...await engine.getActor('manager',company),mfaVerified:true};
+  // This scenario explicitly assigns the scoped operations role required for cancellation.
+  await change('user','manager',{roles:['INTERNAL_BAULEITER','OPERATIONS_MANAGER'],permissions:['report.publish','dispatch.manage']});manager={...await engine.getActor('manager',company),mfaVerified:true};
   const order=await db.transaction(company,'SYNTHETIC_ACCEPTED_ORDER_CANCELLATION_SOURCE',async tx=>{
    await tx.add('customer',{name:'Synthetic customer',active:true},'customer');await tx.add('employee',{userId:'employee',active:true},'crew-employee');await tx.add('employee',{userId:'peer',active:true},'unaffected-employee');
    await tx.add('user',{roles:['CLIENT'],active:true,siteIds:[]},'unaddressed-client');for(const userId of ['client','unaddressed-client'])await tx.add('customer_membership',{customerId:'customer',userId,siteIds:['site'],permissions:['VIEW'],active:true},userId+'-membership');
@@ -113,8 +114,11 @@ postgres('automatic work notifications: actual PostgreSQL producer/worker/activi
    return tx.add('order',{status:'SCHEDULED',siteId:'site',customerId:'customer',quoteId:'cancel-quote',quoteVersion:3,assignmentId:'cancel-assignment',scheduleVersion:1,baseNetCents:987654,scope:'PRIVATE_COMMERCIAL_ORDER_SCOPE'},'cancel-order');
   });
   await execute(manager,'order.transition',{id:order.id,status:'CANCELLED',reason:'PRIVATE_INTERNAL_CANCELLATION_REASON'},order.version);const job=await take('dispatch.order_cancelled',j=>j.data.orderId===order.id);await worker.process(job);
-  const stored=await notices();expect(stored.map(n=>[n.data.recipient_id,n.data.event,n.data.channel])).toEqual([['employee','dispatch.order_cancelled','WEB'],['client','customer.order_cancelled','WEB']]);expect(JSON.stringify(stored)).not.toContain('PRIVATE_INTERNAL_CANCELLATION_REASON');expect(JSON.stringify(stored)).not.toContain('PRIVATE_COMMERCIAL_ORDER_SCOPE');expect(JSON.stringify(stored)).not.toContain('987654');
-  expect((await engine.readEntities(employee,'notification')).map(n=>n.id)).toEqual([stored[0]!.id]);expect((await engine.readEntities(await engine.getActor('client',company),'notification')).map(n=>n.id)).toEqual([stored[1]!.id]);expect(await engine.readEntities(peer,'notification')).toEqual([]);expect(await engine.readEntities(await engine.getActor('unaddressed-client',company),'notification')).toEqual([]);
+  const stored=await notices();
+  // Both notices share the SQL transaction timestamp; list() breaks that tie by
+  // random UUID, so recipient identity must not depend on insertion order.
+  expect(stored.map(n=>[n.data.recipient_id,n.data.event,n.data.channel]).sort(([a],[b])=>a.localeCompare(b))).toEqual([['client','customer.order_cancelled','WEB'],['employee','dispatch.order_cancelled','WEB']]);expect(JSON.stringify(stored)).not.toContain('PRIVATE_INTERNAL_CANCELLATION_REASON');expect(JSON.stringify(stored)).not.toContain('PRIVATE_COMMERCIAL_ORDER_SCOPE');expect(JSON.stringify(stored)).not.toContain('987654');
+  expect((await engine.readEntities(employee,'notification')).map(n=>n.id)).toEqual([stored.find(n=>n.data.recipient_id==='employee')!.id]);expect((await engine.readEntities(await engine.getActor('client',company),'notification')).map(n=>n.id)).toEqual([stored.find(n=>n.data.recipient_id==='client')!.id]);expect(await engine.readEntities(peer,'notification')).toEqual([]);expect(await engine.readEntities(await engine.getActor('unaddressed-client',company),'notification')).toEqual([]);
   const ownAssignments=await engine.readEntities(employee,'crew_assignment');expect(ownAssignments).toHaveLength(1);expect(ownAssignments[0]!.data.employeeId).toBe('crew-employee');expect(ownAssignments[0]!.data.employeeIds).toBeUndefined();expect(JSON.stringify(ownAssignments)).not.toContain('PRIVATE_COMMERCIAL_ORDER_SCOPE');
   await change('customer_membership','client-membership',{active:false});expect(await engine.readEntities(await engine.getActor('client',company),'notification')).toEqual([]);expect(provider).not.toHaveBeenCalled();
  });

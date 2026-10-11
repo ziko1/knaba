@@ -1,5 +1,28 @@
 # KNABA DE project memory
 
+## Поточний SQL/runtime checkpoint — 2026-10-11
+
+Опублікований executable source: `3f4370c3b3ba66941a42f6840db0f25ae57fca65`, tree `464057c0a7cea50a7a55eb1d5f88fb95f3203225`, branch `codex/knaba-v4-sql-recovery-20261011`, [draft PR #5](https://github.com/ziko1/knaba/pull/5). Документаційний commit має окрему identity й не замінює цей code/runtime SHA.
+
+Engine/Worker перевіряють чинний SQL job/lease, конфігурацію, джерельне повідомлення та повноваження перед відповіддю асистента й поверненням receipt. Worker не відновлює відкликане членство; відомі результати виклику обліковуються як оцінка за налаштованими ставками навіть після втрати lease/повноважень, скасування до виклику звільняє резерв, невідомий provider outcome зберігає його. Це облік оціночного AI бюджету, а не доказ фактичних списань зовнішнього провайдера. `IDEMPOTENCY_CONFLICT` узгоджений із V4. Regression fixtures зберігають явні права, незмінні accepted/review facts, company filters і пагінацію; seed CTE використовує `$4::text`. Додано 51 genuine PostgreSQL case; дві семантичні заміни digest збережені як явні old→new mappings.
+
+| Джерело / перевірка | Фактичний стан |
+| --- | --- |
+| Локально, поточний source | **1 821 CPU/document/explicit-double PASS, 0 FAIL, 407 PostgreSQL SKIP/NOT_RUN**; 2 228 cases / 89 files; TypeScript PASS |
+| Перше actual CI, `1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6`, [38096631407](https://github.com/ziko1/knaba/actions/runs/38096631407) | **FAILED: 2 226/2 228 PASS**, 405/407 PostgreSQL PASS; нові PG cases — 51/51 PASS, 27/27 browser PASS, restore та Worker PASS |
+| Поточне application CI, `3f4370c`, [38097796239](https://github.com/ziko1/knaba/actions/runs/38097796239), job `114347231650` | **SUCCESS**, завершено 2026-10-11 о 00:29:15 UTC: **2 228/2 228 PASS, 0 FAIL, 0 SKIP** у 89 files; 1 821 CPU/document/explicit-double + **407 genuine PostgreSQL PASS** |
+| Browser, поточний `3f4370c` | **27/27 PASS, 0 FAIL/SKIP/flaky**: 26 actual backend/UI + один явний HTTP fixture |
+| TypeScript/build/Docker/backup/restore/Worker, поточний `3f4370c` | **PASS**: encrypted backup/tamper rejection, restore в окрему порожню БД/private blob store, heartbeat/restart двох Worker processes і hosted packaging |
+| Поточне native CI, `3f4370c`, [38097796144](https://github.com/ziko1/knaba/actions/runs/38097796144) | **SUCCESS**: 66 host Java checks і 19 actual XCTest PASS, 0 XCTest FAIL/SKIP; Android debug/lint — 0 errors, 10 warnings; iOS Simulator identity та 45 bundle file hashes перевірені |
+
+Перший actual CI відновив 39 із 40 історично невдалих SQL cases. У `3f4370c` виправлено дві залишкові fixture-причини: припущення про insertion order сповіщень із однаковим SQL timestamp і невідповідність fixture чинному source guard. Поточне actual CI підтвердило **обидва залишкові cases PASS, усі 40/40 історичних mappings PASS**, включно з двома явними V4 REWORK замінами; **51/51 новий PostgreSQL case PASS** (29 authority, 16 assistant runtime, 6 seed). Попередні 40 failures на `7d8a0e92` та невдалий `1cbdbdc` зберігають власні source/run identities. Поточний evidence ledger: [verification](docs/evidence/sql-recovery-2026-10-11/verification.json), [пояснення перевірок](docs/evidence/sql-recovery-2026-10-11/README.md) і [native summary](docs/evidence/sql-recovery-2026-10-11/native-summary.json).
+
+Application artifact `11686537370` незалежно завантажено й перевірено: 8 163 623 bytes, SHA256 `076e43dea4943dee0b304cc1854ee04df8289d6de6cb246557ea454d0d4bcacf`, CRC усіх 113 ZIP entries, усі 14 built files і точні source/tree identities збігаються. Native artifact/payload hashes і simulator identity також перевірені. Повна незалежна передача всіх runtime handover parts лишається окремим gate; hosted packaging PASS не закриває його.
+
+**Цей SQL/runtime increment пройшов зазначені hosted checks; повний продукт і public deployment залишаються NOT_READY.** Наступна робота — конкретні D07 source gaps та окремі acceptance gates. Усі 72 складені V4 критерії й 475 V3 критерії не приймаються за сумарним test count. Full load/SLO/RPO/RTO/cost, реальні providers/company/UAT, фізичні пристрої, production signing і deployment потребують власних доказів. Railway observation 08.10 та cutoff `2026-10-07T20:11:52Z` лишаються історичними; вікно не продовжене, €10/місяць і погоджені межі не змінені.
+
+Датовані записи нижче зберігають попередні source-specific результати; згадки незакоміченого source та 356 PG NOT_RUN стосуються історичного freeze 08.10, а не поточного checkpoint.
+
 ## Responsive web acceptance on the V4 target — 2026-10-09
 
 V4 source `7d8a0e92c083ca22e4f93595bd084031f7272599`, tree `d841afad8b71546d5fc7589d434b8f3bc056e5a2`, passed **54/54 responsive browser scenarios** (27 Chromium + 27 WebKit) and **27/27 application browser scenarios** (26 actual backend/UI + one explicit transport fixture), with zero failures/skips/flakes in those browser suites. Phone/tablet/desktop layout, the full German keyboard/focus sequence and the unchanged photo-mask review/approval scenario passed. The final matrix PNGs and successful 360px masking editor were verified and reviewed.

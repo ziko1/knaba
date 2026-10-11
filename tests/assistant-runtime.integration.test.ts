@@ -2,14 +2,15 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } 
 import { randomUUID } from 'node:crypto';
 import type { Request, Response } from 'express';
 import type { PoolClient } from 'pg';
-import { Database } from '../apps/api/database.ts';
+import { Database, type PgTransaction } from '../apps/api/database.ts';
 import { Engine } from '../apps/api/engine.ts';
 import { ApiController } from '../apps/api/http.ts';
 import { GUEST_COOKIE } from '../apps/api/auth.ts';
-import { WorkerRunner, leaseOutbox } from '../apps/worker/runner.ts';
+import { WorkerRunner, leaseOutbox, serviceId, type OutboxJob } from '../apps/worker/runner.ts';
 import { DeepSeekAdapter } from '../packages/integrations/deepseek.ts';
 import { ASSISTANT_TOOL_NAMES, type AssistantToolCall } from '../packages/integrations/assistant-tools.ts';
-import type { Data, Entity } from '../packages/domain/core.ts';
+import type { AiCategory } from '../packages/integrations/assistant-playground.ts';
+import { DomainError, type Data, type Entity } from '../packages/domain/core.ts';
 
 // Genuine PostgreSQL, Engine, HTTP controller authentication, queue leasing,
 // WorkerRunner and DeepSeekAdapter. Only the external provider request and the
@@ -123,6 +124,24 @@ postgres('assistant runtime: PostgreSQL/Engine/worker/controller with explicitly
   async function noBusinessEffects() {
     for (const kind of ['lead', 'quote', 'order', 'dispatch_request', 'assistant_lead_draft', 'assistant_tool_call']) expect(await rows(kind), kind).toHaveLength(0);
     expect((await rows('message')).filter(message => message.data.source === 'AI')).toHaveLength(0);
+  }
+  async function persistedFingerprint() {
+    const result: Record<string, unknown> = {};
+    for (const table of ['aggregates', 'aggregate_revisions', 'audit_log', 'command_receipts', 'outbox']) {
+      result[table] = (await db.query(`SELECT count(*)::int AS count,md5(coalesce(string_agg(to_jsonb(r)::text,E'\\n' ORDER BY to_jsonb(r)::text),'')) AS hash FROM ${table} r WHERE company_id=$1`, [company])).rows[0];
+    }
+    return result;
+  }
+  function afterActualReservation(worker: WorkerRunner, boundary: () => Promise<void>) {
+    // A controlled scheduling seam after the actual PostgreSQL reservation has
+    // committed. It preserves the real method, database, return value and checks.
+    const budgetHost = worker as unknown as { reserveBudget: (job: OutboxJob, config: Entity, text: string, category?: AiCategory, guard?: (tx: PgTransaction) => Promise<void>) => Promise<number> };
+    const reserve = budgetHost.reserveBudget.bind(worker);
+    return vi.spyOn(budgetHost, 'reserveBudget').mockImplementation(async (...args) => {
+      const budget = await reserve(...args);
+      await boundary();
+      return budget;
+    });
   }
   const confirm = (f: Awaited<ReturnType<typeof fixture>>, draft: Entity, request = transport(f.guest), input = { expectedVersion: draft.version, previewHash: draft.data.previewHash }) => api.confirmChatDraft(request, f.submitted.channelId, draft.id, input);
   async function prepared() { const f = await fixture(); await f.worker.process(f.job); const drafts = await rows('assistant_lead_draft'); expect(drafts).toHaveLength(1); return { ...f, draft: drafts[0]! }; }
@@ -239,6 +258,100 @@ postgres('assistant runtime: PostgreSQL/Engine/worker/controller with explicitly
     }
   );
 
+  it.each(['SUBSTITUTED_SOURCE', 'WRONG_PERSISTED_TYPE'] as const)(
+    'binds the entire assistant job to its genuine SQL lease before provider or any persisted effects: %s', async condition => {
+      const f = await fixture();
+      let supplied: OutboxJob = f.job;
+      if (condition === 'SUBSTITUTED_SOURCE') {
+        const other = await guestChat('192.0.2.11');
+        const original = await row('message', f.submitted.messageId), alternate = await row('message', other.submitted.messageId);
+        expect(alternate.companyId).toBe(original.companyId);
+        expect(alternate.data.author_id).not.toBe(original.data.author_id);
+        expect((await row('channel', other.submitted.channelId)).data.handoff.state).toBe('AI_ACTIVE');
+        supplied = { ...f.job, data: { ...f.job.data, channelId: other.submitted.channelId, messageId: other.submitted.messageId, actorId: other.guest.actorId } };
+      } else {
+        await db.query("UPDATE outbox SET type='translation.requested' WHERE company_id=$1 AND id=$2", [company, f.job.id]);
+      }
+      const before = await persistedFingerprint();
+      await expect(f.worker.handle(supplied)).rejects.toMatchObject({ code: 'ACCESS_DENIED' });
+      expect(f.request).not.toHaveBeenCalled(); expect(f.requests).toHaveLength(0);
+      await noBusinessEffects(); expect(await rows('ai_usage')).toHaveLength(0);
+      expect(await persistedFingerprint()).toEqual(before);
+    }
+  );
+
+  it.each(['DISABLED', 'NON_SERVICE_ROLE'] as const)(
+    'requires current canonical worker authority before spending or publishing: %s', async condition => {
+      const f = await fixture(), service = await row('user', serviceId);
+      await update('user', serviceId, condition === 'DISABLED' ? { active: false } : { roles: [], permissions: service.data.permissions });
+      if (condition === 'NON_SERVICE_ROLE') expect((await row('user', serviceId)).data.permissions).toContain('integration.process');
+      const before = await persistedFingerprint();
+      await expect(f.worker.handle(f.job)).rejects.toMatchObject({ code: 'ACCESS_DENIED' });
+      expect(f.request).not.toHaveBeenCalled(); await noBusinessEffects(); expect(await rows('ai_usage')).toHaveLength(0);
+      expect(await persistedFingerprint()).toEqual(before);
+    }
+  );
+
+  it.each(['REVOKED', 'LEFT', 'REMOVED', 'INACTIVE', 'EXPIRED'] as const)(
+    'never restores historical worker channel access or invokes the provider after %s membership', async condition => {
+      const f = await fixture(), channel = await row('channel', f.submitted.channelId);
+      const past = new Date(Date.now() - 1000).toISOString();
+      const revoked: Data = { user_id: serviceId, joined_at: channel.createdAt, history_from: channel.createdAt, external: false };
+      if (condition === 'REVOKED') revoked.revoked_at = past;
+      if (condition === 'LEFT') revoked.left_at = past;
+      if (condition === 'REMOVED') revoked.removed_at = past;
+      if (condition === 'INACTIVE') revoked.active = false;
+      if (condition === 'EXPIRED') revoked.expires_at = past;
+      await update('channel', channel.id, { members: [...channel.data.members, revoked] });
+      const before = await persistedFingerprint();
+      await expect(f.worker.handle(f.job)).rejects.toMatchObject({ code: 'ACCESS_DENIED' });
+      expect(f.request).not.toHaveBeenCalled(); await noBusinessEffects(); expect(await rows('ai_usage')).toHaveLength(0);
+      expect((await row('channel', channel.id)).data.members.filter((member: Data) => member.user_id === serviceId)).toEqual([revoked]);
+      expect(await persistedFingerprint()).toEqual(before);
+    }
+  );
+
+  it.each(['EXPIRED', 'REPLACED'] as const)(
+    'releases a genuine reservation as zero-cost cancelled when the lease is %s before the first provider invocation', async condition => {
+      const f = await fixture(), channel = await row('channel', f.submitted.channelId);
+      let fencedLease: Data | undefined;
+      const reserve = afterActualReservation(f.worker, async () => {
+        const usage = await rows('ai_usage');
+        expect(usage).toHaveLength(1); expect(usage[0]!.data.status).toBe('RUNNING');
+        expect(usage[0]!.data.initial_reserved_cents).toBeGreaterThan(0);
+        if (condition === 'EXPIRED') await db.query("UPDATE outbox SET leased_until=clock_timestamp()-interval '1 second' WHERE company_id=$1 AND id=$2", [company, f.job.id]);
+        else await db.query('UPDATE outbox SET lease_token=$1 WHERE company_id=$2 AND id=$3', [randomUUID(), company, f.job.id]);
+        fencedLease = (await db.query('SELECT status,lease_token,leased_until,attempts FROM outbox WHERE company_id=$1 AND id=$2', [company, f.job.id])).rows[0];
+      });
+      await expect(f.worker.handle(f.job)).rejects.toMatchObject({ code: 'WORKER_LEASE_LOST' });
+      expect(reserve).toHaveBeenCalledTimes(1); expect(f.request).not.toHaveBeenCalled(); await noBusinessEffects();
+      const usage = await rows('ai_usage'); expect(usage).toHaveLength(1);
+      expect(usage[0]!.data).toMatchObject({ event_id: f.job.id, status: 'CANCELLED', actual_cents: 0, reserved_cents: 0, input_tokens: 0, output_tokens: 0, provider_invoked: false });
+      expect(usage[0]!.data.initial_reserved_cents).toBeGreaterThan(0);
+      expect(await row('channel', channel.id)).toEqual(channel);
+      expect((await db.query('SELECT status,lease_token,leased_until,attempts FROM outbox WHERE company_id=$1 AND id=$2', [company, f.job.id])).rows[0]).toEqual(fencedLease);
+    }
+  );
+
+  it.each(['MESSAGE_EDITED', 'ACTOR_DISABLED', 'CONFIG_RETIRED'] as const)(
+    'rechecks the prepared source after the actual reservation and before transferring its text: %s', async condition => {
+      const f = await fixture();
+      const reserve = afterActualReservation(f.worker, async () => {
+        if (condition === 'MESSAGE_EDITED') {
+          const actor = await engine.getActor(f.guest.actorId, company);
+          await engine.execute(actor, 'message.edit', { input: { message_id: f.submitted.messageId, text: 'Korrigierte private Anfrage vor jedem KI-Aufruf.' }, idempotency_key: randomUUID() });
+        }
+        if (condition === 'ACTOR_DISABLED') await update('user', f.guest.actorId, { active: false });
+        if (condition === 'CONFIG_RETIRED') await update('assistant_config', CONFIG, { status: 'RETIRED' });
+      });
+      await f.worker.process(f.job);
+      expect(reserve).toHaveBeenCalledTimes(1); expect(f.request).not.toHaveBeenCalled(); await noBusinessEffects();
+      const usage = await rows('ai_usage'); expect(usage).toHaveLength(1);
+      expect(usage[0]!.data).toMatchObject({ event_id: f.job.id, status: 'CANCELLED', actual_cents: 0, reserved_cents: 0, provider_invoked: false });
+      expect((await row('channel', f.submitted.channelId)).data.members.some((member: Data) => member.user_id === serviceId)).toBe(false);
+    }
+  );
+
   it.each(['CONFIG_RETIRED', 'CONFIG_VERSION_CHANGED', 'MESSAGE_EDITED', 'HUMAN_HANDOFF', 'ACTOR_DISABLED', 'TOOLS_REVOKED'] as const)(
     'rechecks fresh server state before dispatch after first provider request: %s', async condition => {
       let f!: Awaited<ReturnType<typeof fixture>>;
@@ -333,6 +446,58 @@ postgres('assistant runtime: PostgreSQL/Engine/worker/controller with explicitly
     await f.worker.process(f.job); expect(f.requests).toHaveLength(1); await noBusinessEffects();
     expect((await db.query('SELECT status,lease_token FROM outbox WHERE company_id=$1 AND id=$2', [company, f.job.id])).rows[0]).toMatchObject({ status: 'RUNNING' });
     expect((await db.query('SELECT lease_token FROM outbox WHERE company_id=$1 AND id=$2', [company, f.job.id])).rows[0].lease_token).not.toBe(f.job.lease_token);
+  });
+
+  it('settles one late known provider outcome after real lease reassignment without changing the successor lease or calling the provider again', async () => {
+    let reachedProvider!: () => void, releaseProvider!: () => void;
+    const providerEntered = new Promise<void>(resolve => { reachedProvider = resolve; });
+    const providerMayReturn = new Promise<void>(resolve => { releaseProvider = resolve; });
+    const f = await fixture([async () => { reachedProvider(); await providerMayReturn; return answer(plan); }]);
+    // The external request is paused; both worker attempts, reservation and lease
+    // reassignment continue to use the actual PostgreSQL implementations.
+    const oldResult = f.worker.handle(f.job).then(() => ({ error: undefined as unknown }), error => ({ error }));
+    try {
+      await Promise.race([providerEntered, oldResult.then(() => { throw new Error('Original worker finished before its provider request'); })]);
+      const initialUsage = await rows('ai_usage'); expect(initialUsage).toHaveLength(1);
+      expect(initialUsage[0]!.data.status).toBe('RUNNING');
+      await db.query("UPDATE outbox SET leased_until=clock_timestamp()-interval '1 second' WHERE company_id=$1 AND id=$2", [company, f.job.id]);
+      const reclaimed = await leaseOutbox(db, 1, 120_000, company); expect(reclaimed).toHaveLength(1);
+      const successor = reclaimed[0]!;
+      expect(successor.id).toBe(f.job.id); expect(successor.attempts).toBe(2); expect(successor.lease_token).not.toBe(f.job.lease_token);
+      await f.worker.handle(successor);
+      const beforeLateUsage = await rows('ai_usage'); expect(beforeLateUsage).toEqual(initialUsage);
+      const successorLease = (await db.query('SELECT * FROM outbox WHERE company_id=$1 AND id=$2', [company, successor.id])).rows[0];
+      expect(successorLease).toMatchObject({ status: 'RUNNING', lease_token: successor.lease_token, attempts: 2 });
+      const channelAfterSuccessor = await row('channel', f.submitted.channelId), decisionsAfterSuccessor = await rows('decision');
+      releaseProvider();
+      const result = await oldResult;
+      expect(result.error).toBeInstanceOf(DomainError); expect(result.error).toMatchObject({ code: 'WORKER_LEASE_LOST' });
+      expect(f.requests).toHaveLength(1); await noBusinessEffects();
+      const settled = await rows('ai_usage'); expect(settled).toHaveLength(1);
+      expect(settled[0]!.id).toBe(initialUsage[0]!.id);
+      expect(settled[0]!.data).toMatchObject({ event_id: f.job.id, status: 'SUCCEEDED', actual_cents: 1, reserved_cents: 1, input_tokens: 100, output_tokens: 50 });
+      expect(settled[0]!.version).toBe(initialUsage[0]!.version + 1);
+      expect((await db.query('SELECT * FROM outbox WHERE company_id=$1 AND id=$2', [company, successor.id])).rows[0]).toEqual(successorLease);
+      expect(await row('channel', f.submitted.channelId)).toEqual(channelAfterSuccessor); expect(await rows('decision')).toEqual(decisionsAfterSuccessor);
+    } finally {
+      releaseProvider(); await oldResult;
+    }
+  });
+
+  it('retains the full reservation when the second provider outcome is unknown instead of settling only the first round', async () => {
+    const f = await fixture([() => answer(plan), () => { throw new Error('SYNTHETIC_CONNECTION_LOST_AFTER_SECOND_REQUEST'); }]);
+    await f.worker.process(f.job);
+    expect(f.requests).toHaveLength(2);
+    const usage = await rows('ai_usage'); expect(usage).toHaveLength(1);
+    expect(usage[0]!.version).toBe(1);
+    expect(usage[0]!.data).toMatchObject({ event_id: f.job.id, status: 'RUNNING' });
+    expect(usage[0]!.data.initial_reserved_cents).toBeGreaterThan(1);
+    expect(usage[0]!.data.reserved_cents).toBe(usage[0]!.data.initial_reserved_cents);
+    expect(usage[0]!.data.actual_cents).toBeUndefined(); expect(usage[0]!.data.completed_at).toBeUndefined();
+    expect(await rows('assistant_lead_draft')).toHaveLength(1); expect(await rows('assistant_tool_call')).toHaveLength(2);
+    for (const kind of ['lead', 'quote', 'order', 'dispatch_request']) expect(await rows(kind), kind).toHaveLength(0);
+    expect((await rows('message')).filter(message => message.data.source === 'AI')).toHaveLength(0);
+    expect((await row('channel', f.submitted.channelId)).data.handoff.state).toBe('HANDOFF_PENDING');
   });
 
   it('rechecks the worker lease atomically after waiting for the genuine company lock before tools execute', async () => {

@@ -1,0 +1,87 @@
+{
+  "verifiedAt": "2026-10-11T00:08:04.502Z",
+  "status": "FAILED",
+  "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+  "localUrl": "http://127.0.0.1:3100",
+  "exposure": "LOCAL_VERIFICATION_ONLY",
+  "runtime": {
+    "version": "0.1.0",
+    "sha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "apiVersion": 1,
+    "mode": "DEMO"
+  },
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:03:59Z",
+      "completedAt": "2026-10-11T00:03:59.908Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "FAILED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:03:59Z",
+      "completedAt": "2026-10-11T00:05:27.489Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:05:27Z",
+      "completedAt": "2026-10-11T00:08:01.490Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:01Z",
+      "completedAt": "2026-10-11T00:08:02.439Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:02Z",
+      "completedAt": "2026-10-11T00:08:02.629Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:02Z",
+      "completedAt": "2026-10-11T00:08:03.476Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:03Z",
+      "completedAt": "2026-10-11T00:08:04.435Z"
+    }
+  ],
+  "serverPid": 6795,
+  "bundle": {
+    "serverSha256": "54e767c8bced776d962616bd87869712b7082838971d3dbdbb2bb6b07d3e41b7",
+    "workerSha256": "ea25b879a467a5be9d2dbfd3706e45ac9d3dc5771517be5e6b78813d15b92e75",
+    "manifest": {
+      "code_sha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "source_dirty": false,
+      "source_provenance": "GIT_WORKTREE",
+      "version": "0.1.0",
+      "builtAt": "2026-10-10T23:59:16.916Z"
+    }
+  },
+  "backup": {
+    "sha256": "69430ef5db080d2cfb23b6a463b820db0d6fe8cd64ddbf5d3fa6bdc199713cf2",
+    "authenticatedSidecarSha256": "d1728ba71943d74e5fc838a2538fa700e5d93979043235ca0fec655b8e4d243b",
+    "storage": "PRIVATE_LOCAL_RUN_DIRECTORY"
+  },
+  "notes": [
+    "Synthetic isolated DEMO; no live WhatsApp, AI, GPS, legal approval, native hardware or public cloud deployment implied.",
+    "PostgreSQL worker lease, recovery and reboot scenarios are included in the full integration suite.",
+    "Local API remains running after this verification; private keys and encrypted backup are gitignored."
+  ]
+}

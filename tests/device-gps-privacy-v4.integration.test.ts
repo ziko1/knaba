@@ -63,8 +63,10 @@ postgres('GPS device metadata versus scoped privacy execution (real PostgreSQL)'
  });
  it('fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata',async()=>{
   const p=await call(ownerA,'privacy.erasure.preview',{requestId:ids.request});
-  await db.transaction(company,'SYNTHETIC_GPS_PRIVACY_QA',async tx=>{const review=await tx.get('device_event_review',ids.review);await tx.save(review,{...review.data,reason:'NEW_BUSINESS_REVIEW'});});
+  // Review facts are append-only; a new linked review changes the preview inventory.
+  const original=await db.transaction(company,'SYNTHETIC_GPS_PRIVACY_QA',async tx=>{const review=await tx.get('device_event_review',ids.review);await tx.add('device_event_review',{...review.data,eventId:'followup-reviewed-event',sourceReviewId:review.id,reason:'NEW_BUSINESS_REVIEW'},'followup-review');return review;});
   const before=await metadataRows();await expect(call(ownerB,'privacy.erasure.confirm',{planId:p.planId,confirmedHash:p.planHash})).rejects.toMatchObject({code:'VERSION_CONFLICT',details:{reason:'ERASURE_SOURCE_OR_AUTHORITY_CHANGED'}});
+  expect(await db.transaction(company,'SYNTHETIC_GPS_PRIVACY_QA',tx=>tx.get('device_event_review',ids.review))).toEqual(original);
   expect(await metadataRows()).toEqual(before);expect((await db.query("SELECT data FROM aggregates WHERE company_id=$1 AND kind='message'",[company])).rows[0].data.text).toBe('SYNTHETIC_PRIVATE_SOURCE');expect((await db.query('SELECT 1 FROM privacy_erasure_manifests WHERE company_id=$1',[company])).rows).toEqual([]);
  });
  it('actual company-scoped snapshot excludes another employee and foreign tenant from lineage inventory',async()=>{
