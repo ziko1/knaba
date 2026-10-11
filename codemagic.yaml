@@ -1,0 +1,74 @@
+# Manual fallback for native iOS verification when GitHub runners are unavailable.
+# GitHub remains the normal home of this public repository's CI.
+workflows:
+  ios-simulator-tests:
+    name: KNABA iOS Simulator tests
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    working_directory: .
+    environment:
+      xcode: '16.4'
+    scripts:
+      - name: Verify exact source and pinned XcodeGen toolchain
+        script: |
+          set -euo pipefail
+          export NATIVE_SOURCE_SHA="$(git rev-parse HEAD)"
+          printf 'NATIVE_SOURCE_SHA=%s\n' "$NATIVE_SOURCE_SHA" >> "$CM_ENV"
+          mkdir -p apps/mobile-ios/build/evidence .native-tools/xcodegen
+          printf '%s\n' "$NATIVE_SOURCE_SHA" > apps/mobile-ios/build/evidence/source-sha.txt
+          git -C .native-tools/xcodegen init -q
+          git -C .native-tools/xcodegen remote add origin https://github.com/yonaskolb/XcodeGen.git
+          git -C .native-tools/xcodegen fetch --depth=1 origin 7193eb447a6f60061f069e07bc1efd32d73c0e19
+          git -C .native-tools/xcodegen checkout --detach FETCH_HEAD
+          test "$(git -C .native-tools/xcodegen rev-parse HEAD)" = '7193eb447a6f60061f069e07bc1efd32d73c0e19'
+          xcodebuild -version | tee apps/mobile-ios/build/evidence/xcode-version.txt
+          grep -q '^Xcode 16\.4$' apps/mobile-ios/build/evidence/xcode-version.txt
+          swift --version | tee apps/mobile-ios/build/evidence/swift-version.txt
+          xcodebuild -showsdks > apps/mobile-ios/build/evidence/available-sdks.txt
+          swift build --package-path .native-tools/xcodegen --configuration release --disable-automatic-resolution --product xcodegen
+          printf 'PATH=%s/.native-tools/xcodegen/.build/release:%s\n' "$CM_BUILD_DIR" "$PATH" >> "$CM_ENV"
+          .native-tools/xcodegen/.build/release/xcodegen version | tee apps/mobile-ios/build/evidence/xcodegen-version.txt
+          plutil -lint apps/mobile-ios/Info.plist apps/mobile-ios/PrivacyInfo.xcprivacy
+      - name: Prepare exact iOS 18.5 and iPhone 16 simulator
+        script: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$NATIVE_SOURCE_SHA"
+          python3 scripts/native-ios-simulator.py --evidence-dir apps/mobile-ios/build/evidence
+      - name: Compile simulator application and execute the existing XCTest suite
+        script: |
+          set -euo pipefail
+          knaba_simulator_udid="$(python3 -c 'import json; print(json.load(open("apps/mobile-ios/build/evidence/simulator-preparation.json"))["deviceUdid"])')"
+          test -n "$knaba_simulator_udid"
+          trap 'knaba_test_exit=$?; xcrun simctl shutdown "$knaba_simulator_udid" >/dev/null 2>&1 || true; exit "$knaba_test_exit"' EXIT
+          cd apps/mobile-ios
+          bash scripts/build.sh | tee build/evidence/ios-build.log
+          test -x build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE
+          xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator18.5 -destination "platform=iOS Simulator,id=$knaba_simulator_udid" -destination-timeout 120 -derivedDataPath build -resultBundlePath build/NativeTests.xcresult CODE_SIGNING_ALLOWED=NO test | tee build/evidence/ios-tests.log
+          xcrun xcresulttool get test-results summary --path build/NativeTests.xcresult > build/evidence/xctest-summary.json
+          ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Debug-iphonesimulator/KNABADE.app build/KNABADE-simulator.app.zip
+          shasum -a 256 build/KNABADE-simulator.app.zip > build/evidence/SHA256SUMS
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib
+          artifact = pathlib.Path('build/KNABADE-simulator.app.zip')
+          bundle = pathlib.Path('build/Build/Products/Debug-iphonesimulator/KNABADE.app')
+          receipt = {
+              'sourceGitSha': os.environ['NATIVE_SOURCE_SHA'],
+              'artifact': artifact.name,
+              'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest(),
+              'byteSize': artifact.stat().st_size,
+              'build': 'iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode',
+              'xcodegenSourceSha': '7193eb447a6f60061f069e07bc1efd32d73c0e19',
+              'simulator': json.loads(pathlib.Path('build/evidence/simulator-preparation.json').read_text()),
+              'signing': 'CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA',
+              'checks': ['xcodebuild simulator build', 'native XCTest geofence/dwell/exception-zone/privacy-lease tests', 'plist validation'],
+              'bundleFiles': [{'path': str(p.relative_to(bundle)), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(bundle.rglob('*')) if p.is_file()],
+              'physicalDeviceVerification': 'NOT_RUN',
+              'realGPSAndBatteryAcceptance': 'NOT_RUN',
+              'appStoreAndProductionProvisioning': 'NOT_RUN'
+          }
+          pathlib.Path('build/evidence/native-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PY
+    artifacts:
+      - apps/mobile-ios/build/KNABADE-simulator.app.zip
+      - apps/mobile-ios/build/NativeTests.xcresult
+      - apps/mobile-ios/build/evidence/**
