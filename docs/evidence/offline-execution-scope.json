@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "scope": "Explicit reviewed execution classification. This local report executes CPU/document/transport-double cases; genuine PostgreSQL cases remain skipped NOT_RUN until actual isolated CI execution. Classification and source hashes are not acceptance proof.",
-  "generatedAt": "2026-10-11T00:01:09.472248Z",
-  "reportSha256": "d121fb9a118db7dd791fab8213ced949a8864fca8d096357c433b2e63a5f6085",
-  "priorIndexSha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
-  "classifierSha256": "55b7471081d5075ced2582eb8007c4d2e9b3c35dd4ca71d7105a8ffedf08a229",
+  "generatedAt": "2026-10-11T00:18:51.700064Z",
+  "reportSha256": "708e8124a6ca2179b2da87f93f253b91b3840c49aae12314def8423469e392c4",
+  "priorIndexSha256": "7b74ffd03003e036223493acf150187bcc99fb7a40704322dcb86306904015a6",
+  "classifierSha256": "c4c77589e9ccf51d0f84af8e71d73e4d27929c1c610a013f44b46abc8bebd785",
   "sourceManifestScope": "All Git-tracked and nonignored executable application/domain/infra/scripts/tests/CI/config source plus the live QA runner; documentation and generated evidence excluded to prevent circular hashing.",
-  "sourceManifestSha256": "9f05884191dbda2729a38f8cd8fc12c52a5f9f82eef43e5ccb2e8092e48d45a6",
+  "sourceManifestSha256": "bd8982905e29f5cca11b0b32adb8e5b5f05b1a32bccf75fbdef34dd1c37832f7",
   "source_manifest": [
     {
       "path": ".env.example",
@@ -1255,8 +1255,8 @@
     },
     {
       "path": "tests/handoff-calendar.integration.test.ts",
-      "bytes": 16505,
-      "sha256": "135d86124aad49829d68054a815e02c59579e1aaf14892368566a511d68f39d6"
+      "bytes": 18147,
+      "sha256": "3a891e87e8d319b30fa704198f179dbf8dc0046d539804fd946cdf4aea50564c"
     },
     {
       "path": "tests/handoff-calendar.test.ts",
@@ -1525,8 +1525,8 @@
     },
     {
       "path": "tests/work-notifications.integration.test.ts",
-      "bytes": 20296,
-      "sha256": "fe7856a5a9607f0d7335c282111e55e914e5edd180e2a716fb5a5b48450c4ebd"
+      "bytes": 20568,
+      "sha256": "2f1d8ea10e116af1ad082b0c0164b7bc7e7e48599f9d40764bacdf2e9405119e"
     },
     {
       "path": "tests/work-notifications.test.ts",
@@ -1698,7 +1698,7 @@
     },
     {
       "test_path": "tests/handoff-calendar.integration.test.ts",
-      "sha256": "135d86124aad49829d68054a815e02c59579e1aaf14892368566a511d68f39d6"
+      "sha256": "3a891e87e8d319b30fa704198f179dbf8dc0046d539804fd946cdf4aea50564c"
     },
     {
       "test_path": "tests/handoff-calendar.test.ts",
@@ -1906,7 +1906,7 @@
     },
     {
       "test_path": "tests/work-notifications.integration.test.ts",
-      "sha256": "fe7856a5a9607f0d7335c282111e55e914e5edd180e2a716fb5a5b48450c4ebd"
+      "sha256": "2f1d8ea10e116af1ad082b0c0164b7bc7e7e48599f9d40764bacdf2e9405119e"
     },
     {
       "test_path": "tests/work-notifications.test.ts",
@@ -15473,6 +15473,7 @@
       "status": "RETIRED_WITH_EXPLICIT_V4_REPLACEMENT"
     }
   ],
+  "baselineIndexSha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
   "sourceManifestEncoding": "UTF-8 JSON, sorted object keys, compact separators; entries sorted by path",
   "reviewedChanges": {
     "baseCommit": "826aef9c344b596584552439de32daa8f03e72c3",
@@ -15493,5 +15494,16 @@
         "reason": "Preserves genuine PostgreSQL coverage of nonzero accepted/reopened review counts and net period arithmetic using append-only historical facts against an already nonterminal synthetic source. The current V4 ACCEPTED original and its revisions stay unchanged; the period-end reversal is excluded and reads have zero database effects."
       }
     ]
+  },
+  "followupReview": {
+    "integratedParent": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "actualFailedRun": 38096631407,
+    "changedSourcePaths": [
+      "tests/handoff-calendar.integration.test.ts",
+      "tests/work-notifications.integration.test.ts"
+    ],
+    "caseIdentitiesChanged": false,
+    "executionClassesChanged": false,
+    "method": "Integrate the exact reviewed upstream fixture corrections: distinguish missing lease from genuinely leased queued-AI suppression with unchanged database fingerprints and readable source; compare exact notification recipient tuples and recipient-bound visibility without UUID ordering assumptions. Preserve all 2242 case identities/classes of the replay candidate."
   }
 }
