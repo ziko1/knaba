@@ -431,10 +431,22 @@ postgres('assistant runtime: PostgreSQL/Engine/worker/controller with explicitly
 
   it('deduplicates a repeated leased source event without another provider request, draft, estimate, or AI message', async () => {
     const f = await fixture(); await f.worker.handle(f.job);
-    const before = { drafts: await rows('assistant_lead_draft'), tools: await rows('assistant_tool_call'), messages: await rows('message'), usage: await rows('ai_usage') };
+    const before = { drafts: await rows('assistant_lead_draft'), tools: await rows('assistant_tool_call'), messages: await rows('message'), usage: await rows('ai_usage'), decisions: await rows('decision'), channel: await row('channel', f.submitted.channelId) };
+    expect(before.drafts).toHaveLength(1); expect(before.messages.filter(message => message.data.source === 'AI')).toHaveLength(1);
+    expect(before.decisions).toEqual([]); expect(before.channel.data.handoff.state).toBe('AI_ACTIVE');
+    const fingerprint = async () => {
+      const state: Record<string, unknown> = {};
+      for (const table of ['aggregates', 'aggregate_revisions', 'audit_log', 'command_receipts', 'outbox']) {
+        state[table] = (await db.query(`SELECT count(*)::int AS count,md5(coalesce(string_agg(to_jsonb(r)::text,E'\\n' ORDER BY to_jsonb(r)::text),'')) AS hash FROM ${table} r WHERE company_id=$1`, [company])).rows[0];
+      }
+      return state;
+    };
+    const committed = await fingerprint();
     await f.worker.handle(f.job);
     expect(f.requests).toHaveLength(2); expect(await rows('assistant_lead_draft')).toEqual(before.drafts); expect(await rows('assistant_tool_call')).toEqual(before.tools); expect(await rows('message')).toEqual(before.messages);
-    expect(await rows('ai_usage')).toEqual(before.usage); expect(await rows('lead')).toHaveLength(0); expect(await rows('decision')).toHaveLength(1);
+    expect(await rows('ai_usage')).toEqual(before.usage); expect(await rows('lead')).toHaveLength(0);
+    expect(await rows('decision')).toEqual(before.decisions); expect(await row('channel', f.submitted.channelId)).toEqual(before.channel);
+    expect(await fingerprint()).toEqual(committed);
   });
 
   it('fences expired or reassigned worker leases after the provider returns, before any tool effects', async () => {

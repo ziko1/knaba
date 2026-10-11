@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "scope": "Explicit reviewed execution classification. This local report executes CPU/document/transport-double cases; genuine PostgreSQL cases remain skipped NOT_RUN until actual isolated CI execution. Classification and source hashes are not acceptance proof.",
-  "generatedAt": "2026-10-11T00:18:51.700064Z",
-  "reportSha256": "708e8124a6ca2179b2da87f93f253b91b3840c49aae12314def8423469e392c4",
-  "priorIndexSha256": "7b74ffd03003e036223493acf150187bcc99fb7a40704322dcb86306904015a6",
-  "classifierSha256": "c4c77589e9ccf51d0f84af8e71d73e4d27929c1c610a013f44b46abc8bebd785",
+  "generatedAt": "2026-10-11T00:22:04.765551Z",
+  "reportSha256": "b9a42f4659654617fe72ef3d25b6ee1043399ea7166ca0bfc82a531e91be6595",
+  "priorIndexSha256": "023b2cfa5c8218e4db5210c06891cb2c59cbec301f2d8af8f2c5603b87b228e2",
+  "classifierSha256": "a12813393c1346258a64d17ec7b156198e37ada9b16f243cb2d9cbccdebd52b8",
   "sourceManifestScope": "All Git-tracked and nonignored executable application/domain/infra/scripts/tests/CI/config source plus the live QA runner; documentation and generated evidence excluded to prevent circular hashing.",
-  "sourceManifestSha256": "bd8982905e29f5cca11b0b32adb8e5b5f05b1a32bccf75fbdef34dd1c37832f7",
+  "sourceManifestSha256": "658acbe120b0f9cbf32499a5f08ecac6d82ae0ade0f6baadf7e204af1f52e557",
   "source_manifest": [
     {
       "path": ".env.example",
@@ -1130,8 +1130,8 @@
     },
     {
       "path": "tests/assistant-runtime.integration.test.ts",
-      "bytes": 43746,
-      "sha256": "63f9af4863dc384e719dac946576ec50fe13bc4e7d1b70995639421132b5f034"
+      "bytes": 44707,
+      "sha256": "02fbf2f78ec0a17f4be14aca54ce9045e7fcaf136778a65029bcddaf97f67705"
     },
     {
       "path": "tests/assistant-tools.test.ts",
@@ -1602,7 +1602,7 @@
     },
     {
       "test_path": "tests/assistant-runtime.integration.test.ts",
-      "sha256": "63f9af4863dc384e719dac946576ec50fe13bc4e7d1b70995639421132b5f034"
+      "sha256": "02fbf2f78ec0a17f4be14aca54ce9045e7fcaf136778a65029bcddaf97f67705"
     },
     {
       "test_path": "tests/assistant-tools.test.ts",
@@ -15505,5 +15505,13 @@
     "caseIdentitiesChanged": false,
     "executionClassesChanged": false,
     "method": "Integrate the exact reviewed upstream fixture corrections: distinguish missing lease from genuinely leased queued-AI suppression with unchanged database fingerprints and readable source; compare exact notification recipient tuples and recipient-bound visibility without UUID ordering assumptions. Preserve all 2242 case identities/classes of the replay candidate."
+  },
+  "replayContractAlignment": {
+    "actualFailedSource": "5a9e186699d20de713913884bc4f9ed296914bf1",
+    "actualFailedRun": 38097306657,
+    "testPath": "tests/assistant-runtime.integration.test.ts",
+    "caseIdentityChanged": false,
+    "executionClassChanged": false,
+    "reason": "A successfully committed answer replay must not create a false human-handoff decision. The retained case now proves the initial AI reply/draft and AI_ACTIVE state, then identical messages, tools, usage, decisions, channel and all aggregate/revision/audit/receipt/outbox fingerprints after replay."
   }
 }
