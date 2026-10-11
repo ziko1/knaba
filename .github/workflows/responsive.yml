@@ -2,7 +2,7 @@ name: KNABA responsive browser acceptance
 
 on:
   push:
-    branches: ['codex/knaba-responsive-*']
+    branches: [main]
     paths: ['apps/web/**', 'packages/ui/**', 'packages/i18n/**', 'tests/responsive.spec.ts', 'playwright.responsive.config.ts', '.github/workflows/responsive.yml']
   pull_request:
     paths: ['apps/web/**', 'packages/ui/**', 'packages/i18n/**', 'tests/responsive.spec.ts', 'playwright.responsive.config.ts', '.github/workflows/responsive.yml']
