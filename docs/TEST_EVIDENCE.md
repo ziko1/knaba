@@ -1,5 +1,15 @@
 # Actual verification ledger
 
+## CI balance and manual iOS verification — 2026-10-11
+
+[Draft PR #7](https://github.com/ziko1/knaba/pull/7) is stacked on `codex/knaba-v4-recovery-20261011` at `c931fbe60a50d3a6193480cc9742d99fc6f3b714`. Configuration/tested source is **`013a7851118dd6d8c420dabca5763148993835d1`**, tree `9d2db7ab61f90f5ec2aac50f9fd2a7763e0b08ef`. Application, dependency, native and test source are unchanged. GitHub remains the normal Linux/macOS service; main/tag/PR verification is retained while duplicate feature-push checks are removed. Existing staging/load workflows are unchanged.
+
+Manual Codemagic [run 6acbcebc546ce6236ced9272](https://codemagic.io/app/6acbcd4a20e48927a17e4a6c/build/6acbcebc546ce6236ced9272) finished **PASS in 6m18s: Simulator build and 19/19 XCTest, 0 failures/skips**. Actual arm64 iPhone 16 / iOS 18.5, Xcode 16.4 and exact source/device identity are recorded. Independent verification matched both ZIP CRC/SHA-256, app size/hash and all 45 app bundle hashes. Original preparation receipts retain their earlier XCTest NOT_RUN stage; final raw summary and passed-case logs prove subsequent execution. Signing remains `CODE_SIGNING_ALLOWED=NO`; no physical-device, company signing or App Store acceptance.
+
+New GitHub attempts at `111af6c6700213aa0b317675654ad7ea99784b77` were **BLOCKED_ENVIRONMENT** before any runner/step; the later Codemagic source and evidence commit use `[skip ci]`, which is NOT_RUN, not a new GitHub PASS. The earlier release [run 38099583536](https://github.com/ziko1/knaba/actions/runs/38099583536) at `c931fbe6` failed its real SQL/browser/restore/worker acceptance step and skipped packaging; it remains a separate unresolved result. Historical accepted application/native evidence below retains its original SHA.
+
+Whole V4/V3 product remains **NOT_READY**. No backend/Android/load or deployment acceptance is inferred from this iOS run; existing cutoff, provider MFA and authorization rules remain. Review the stacked PR, use manual iOS only as needed, and verify GitHub gates after provider execution resumes. A subsequent documentation-only SHA does not relabel tested runtime. See [CI guide](CI_BALANCE_UK.md) and [raw evidence](evidence/ci-balance-20261011/verification.json).
+
 ## Customer-assistant recovery — exact source a10e7091
 
 Current source **`a10e70911fb519ec7d8199fa66141cd12b462926`**, Git tree **`c62487ef71a88352df52bf5d396ce2b27f0bbd6c`**, is published in [draft PR #6](https://github.com/ziko1/knaba/pull/6), stacked on [PR #5](https://github.com/ziko1/knaba/pull/5). The reviewed PR5 fixture correction `3f4370c3b3ba66941a42f6840db0f25ae57fca65` is retained as an integrated parent. Its subsequent documentation-only checkpoint `1e7fbc04bc5b75d8044204f94da987d96c3271ee` and all 28 source-specific evidence files are preserved in this documentation integration. The original application/native inputs of `5a9e1866` are unchanged by the three final test corrections; each execution still keeps its own source identity.
