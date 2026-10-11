@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "scope": "Explicit reviewed execution classification. This local report executes CPU/document/transport-double cases; genuine PostgreSQL cases remain skipped NOT_RUN until actual isolated CI execution. Classification and source hashes are not acceptance proof.",
-  "generatedAt": "2026-10-10T23:52:53.388410Z",
-  "reportSha256": "980b4e937f602813c61a2d63275d35989134b5b1cbe76a3d59193a75ded3ac23",
-  "priorIndexSha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
-  "classifierSha256": "0ecffd0e6a83bf9c5af76e963d3b31946d563c4d47856180cfb8b630004338c9",
+  "generatedAt": "2026-10-11T00:14:35.232116Z",
+  "reportSha256": "78db596e0d95842a35d22a757df32ee7f3f9e9e6c4e70b5a92729550043a8bb6",
+  "priorIndexSha256": "d04f551a51904b7f8b1a57a49d14dbf36304438687884f0acdbb21be56f3cbd2",
+  "classifierSha256": "d6abdc5b7cf294c0e52e49e2c92fcab496e385f8de178bb7795cd77ad28573be",
   "sourceManifestScope": "All Git-tracked and nonignored executable application/domain/infra/scripts/tests/CI/config source plus the live QA runner; documentation and generated evidence excluded to prevent circular hashing.",
-  "sourceManifestSha256": "666900598afd9a117d2e9c416b4523a16f334e18e6db4617d0b525ca14bd1de5",
+  "sourceManifestSha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
   "source_manifest": [
     {
       "path": ".env.example",
@@ -1235,8 +1235,8 @@
     },
     {
       "path": "tests/handoff-calendar.integration.test.ts",
-      "bytes": 16505,
-      "sha256": "135d86124aad49829d68054a815e02c59579e1aaf14892368566a511d68f39d6"
+      "bytes": 18147,
+      "sha256": "3a891e87e8d319b30fa704198f179dbf8dc0046d539804fd946cdf4aea50564c"
     },
     {
       "path": "tests/handoff-calendar.test.ts",
@@ -1500,8 +1500,8 @@
     },
     {
       "path": "tests/work-notifications.integration.test.ts",
-      "bytes": 20296,
-      "sha256": "fe7856a5a9607f0d7335c282111e55e914e5edd180e2a716fb5a5b48450c4ebd"
+      "bytes": 20568,
+      "sha256": "2f1d8ea10e116af1ad082b0c0164b7bc7e7e48599f9d40764bacdf2e9405119e"
     },
     {
       "path": "tests/work-notifications.test.ts",
@@ -1669,7 +1669,7 @@
     },
     {
       "test_path": "tests/handoff-calendar.integration.test.ts",
-      "sha256": "135d86124aad49829d68054a815e02c59579e1aaf14892368566a511d68f39d6"
+      "sha256": "3a891e87e8d319b30fa704198f179dbf8dc0046d539804fd946cdf4aea50564c"
     },
     {
       "test_path": "tests/handoff-calendar.test.ts",
@@ -1877,7 +1877,7 @@
     },
     {
       "test_path": "tests/work-notifications.integration.test.ts",
-      "sha256": "fe7856a5a9607f0d7335c282111e55e914e5edd180e2a716fb5a5b48450c4ebd"
+      "sha256": "2f1d8ea10e116af1ad082b0c0164b7bc7e7e48599f9d40764bacdf2e9405119e"
     },
     {
       "test_path": "tests/work-notifications.test.ts",
@@ -15371,5 +15371,16 @@
     ],
     "explicitV4ReplacementCases": 2,
     "method": "Retain exact existing case identities/classes; classify only independently reviewed new PostgreSQL cases; record both semantic V4 replacements explicitly."
+  },
+  "followupReview": {
+    "baseCommit": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "actualFailedRun": 38096631407,
+    "changedSourcePaths": [
+      "tests/handoff-calendar.integration.test.ts",
+      "tests/work-notifications.integration.test.ts"
+    ],
+    "caseIdentitiesChanged": false,
+    "executionClassesChanged": false,
+    "method": "Preserve all 2228 exact case identities and reviewed execution classes. Repair unleased versus genuinely leased queued-AI assertions with no-effect fingerprints; compare cancellation notification tuples and visibility by actual recipient rather than random UUID order."
   }
 }
