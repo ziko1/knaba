@@ -1,5 +1,19 @@
 # Delivery roadmap
 
+## Поточний SQL/runtime checkpoint — 2026-10-11
+
+Executable `3f4370c3b3ba66941a42f6840db0f25ae57fca65`, tree `464057c0a7cea50a7a55eb1d5f88fb95f3203225`, branch `codex/knaba-v4-sql-recovery-20261011`, [draft PR #5](https://github.com/ziko1/knaba/pull/5). [Application CI 38097796239](https://github.com/ziko1/knaba/actions/runs/38097796239) — **SUCCESS: 2 228/2 228 PASS, 0 FAIL, 0 SKIP**, 89 files, включно з **407 genuine PostgreSQL** та 1 821 CPU/document/explicit-double cases. Локальний результат лишається окремим: 1 821 CPU PASS, 0 FAIL, 407 PostgreSQL NOT_RUN; TypeScript PASS.
+
+Поточний exact source також пройшов **27/27 browser cases** (26 actual backend/UI + один HTTP fixture, 0 FAIL/SKIP/flaky), build/TypeScript/Docker, backup/tamper rejection, distinct database/private-blob restore, two-process Worker heartbeat/restart і hosted packaging. [Native CI 38097796144](https://github.com/ziko1/knaba/actions/runs/38097796144) — **SUCCESS: 66 host Java + 19 actual XCTest PASS**, debug/Simulator scope; lint — 0 errors, 10 warnings. Application artifact і всі 14 built files, native payloads, 45 iOS bundle file hashes та simulator identity незалежно перевірені.
+
+Перше actual CI `1cbdbdc` [38096631407](https://github.com/ziko1/knaba/actions/runs/38096631407) завершилося **FAILED: 2 226/2 228 PASS, 405/407 PG PASS**; нові PG cases — 51/51 PASS, browser — 27/27 PASS, restore та Worker — PASS. Тоді відновлено 39/40 історичних SQL failures. У `3f4370c` обидва залишкові fixture cases підтверджено actual PASS, **40/40 історичних mappings PASS** (включно з двома явними V4 REWORK замінами), **51/51 новий PG case PASS**. [Поточний ledger](docs/evidence/sql-recovery-2026-10-11/verification.json), [межі доказів](docs/evidence/sql-recovery-2026-10-11/README.md) та [native summary](docs/evidence/sql-recovery-2026-10-11/native-summary.json) відокремлюють ці джерела.
+
+- [x] SQL/runtime guards, облік оціночного AI бюджету, V4-compatible fixtures і seed CTE опубліковані як окремий code checkpoint
+- [x] Exact-source application і native debug/Simulator CI пройдені; application/native evidence незалежно перевірені
+- [ ] Закрити D07 gaps і прийняти відповідні складені критерії; окремо виконати KNB-23 load/recovery/cost та необхідні provider/company/physical/production gates
+
+**SQL/runtime increment пройшов зазначені перевірки; продукт і public deployment NOT_READY.** 72 V4 / 475 V3 критерії не прийняті сумарними технічними тестами. Облік відомих AI outcomes використовує оцінку за налаштованими ставками й не підтверджує фактичні зовнішні списання. Повна незалежна передача runtime handover лишається окремим gate. Expired staging cutoff і €10/місяць не змінені. Наступні датовані записи та ca9 checkboxes зберігають історичні результати.
+
 ## Responsive web acceptance on the V4 target — 2026-10-09
 
 V4 source `7d8a0e92c083ca22e4f93595bd084031f7272599`, tree `d841afad8b71546d5fc7589d434b8f3bc056e5a2`, passed **54/54 responsive browser scenarios** (27 Chromium + 27 WebKit) and **27/27 application browser scenarios** (26 actual backend/UI + one explicit transport fixture), with zero failures/skips/flakes in those browser suites. Phone/tablet/desktop layout, the full German keyboard/focus sequence and the unchanged photo-mask review/approval scenario passed. The final matrix PNGs and successful 360px masking editor were verified and reviewed.
@@ -26,4 +40,4 @@ Current plan, verified **2026-10-08**: [full development-to-product plan in Ukra
 - [ ] Company-signed native releases and physical Android/iPhone permissions/GPS/background/offline/battery acceptance
 - [ ] Final applicable V3 acceptance, authorized production release and documented ownership/handover
 
-Code proof remains `ca9ed79ff4c0429223eb60754289ee1132088361`; documentation commits do not replace tested code identity. **No working public deployment is claimed.** Read-only Railway status on 08.10: API and Worker OFFLINE, PostgreSQL CRASHED, 37 changes STAGED/unapplied. Original cutoff `2026-10-07T20:11:52Z` has expired and has not been extended. Applying that old patch alone is no longer a valid live-launch procedure. See [actual snapshot](docs/evidence/railway-resume-2026-10-08.json).
+Historical independently delivered code proof remains `ca9ed79ff4c0429223eb60754289ee1132088361`; the current executable checkpoint is `3f4370c3b3ba66941a42f6840db0f25ae57fca65` with the separate CI state above. Documentation commits do not replace tested code identity. **No working public deployment is claimed.** Read-only Railway status on 08.10: API and Worker OFFLINE, PostgreSQL CRASHED, 37 changes STAGED/unapplied. Original cutoff `2026-10-07T20:11:52Z` has expired and has not been extended. Applying that old patch alone is no longer a valid live-launch procedure. See [actual snapshot](docs/evidence/railway-resume-2026-10-08.json).
