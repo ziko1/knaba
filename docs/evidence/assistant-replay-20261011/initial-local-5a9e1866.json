@@ -1,0 +1,65 @@
+{
+  "recordedAt": "2026-10-11T00:09:45.139976+00:00",
+  "repository": "ziko1/knaba",
+  "pr": 6,
+  "runtimeSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+  "tree": "ca7b35a7fc1e899540c84c88d193ca4ab89b9de6",
+  "localEquivalentCommit": "f1a198135ab6fe4356dd31a30f8773279ac55277",
+  "localBuildSource": {
+    "code_sha": "f1a198135ab6fe4356dd31a30f8773279ac55277",
+    "source_dirty": false,
+    "source_provenance": "GIT_WORKTREE",
+    "version": "0.1.0",
+    "builtAt": "2026-10-11T00:05:12.415Z"
+  },
+  "localReportSha256": "d121fb9a118db7dd791fab8213ced949a8864fca8d096357c433b2e63a5f6085",
+  "localExecution": {
+    "total": 2242,
+    "passed": 1821,
+    "failed": 0,
+    "skipped": 421,
+    "cpuDocumentOrExplicitDouble": {
+      "passed": 1821,
+      "failed": 0
+    },
+    "realPostgres": {
+      "passed": 0,
+      "failed": 0,
+      "notRun": 421
+    },
+    "scope": "Frozen working-tree report was sealed as local commit with exactly identical remote tree; skips remain NOT_RUN."
+  },
+  "commands": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "scope": "frozen source matching committed tree"
+    },
+    {
+      "command": "npm test -- --no-file-parallelism --reporter=json --outputFile=<scratch>/local-unit.json",
+      "exitCode": 0,
+      "scope": "1821 real CPU/document/explicit-double cases; 421 genuine-PG cases skipped locally"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "scope": "exact clean local equivalent commit f1a198135ab6fe4356dd31a30f8773279ac55277"
+    }
+  ],
+  "sourceIndex": {
+    "path": "docs/evidence/offline-execution-scope.json",
+    "sha256": "881ad9a2f984e4bf9c563446867fc346681df66cdba0eb98bd76ae589b28d15d",
+    "totals": {
+      "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1821,
+      "REAL_POSTGRES": 421
+    },
+    "validation": "EXACT_INDEX_VALIDATED"
+  },
+  "environmentBlocker": "Only UID/GID0 is mapped, no permitted nonroot identity; native PostgreSQL cannot start. Genuine PostgreSQL17.6 CI pending. No root guard or identity restriction bypass used.",
+  "hosted": {
+    "applicationRunId": 38097306657,
+    "nativeRunId": 38097306663,
+    "status": "PENDING"
+  },
+  "status": "NOT_READY_PENDING_HOSTED_SQL"
+}

@@ -1,0 +1,165 @@
+{
+  "sourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+  "runId": 38098204054,
+  "jobId": 114348501193,
+  "status": "completed",
+  "conclusion": "success",
+  "steps": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 2,
+      "name": "Initialize containers",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 3,
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 4,
+      "name": "Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 5,
+      "name": "Run actions/setup-python@v5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 6,
+      "name": "Run npm ci --ignore-scripts --strict-ssl=true",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 7,
+      "name": "Run python3 -m pip install openpyxl==3.1.5 Pillow==11.3.0",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 8,
+      "name": "Run npm run typecheck",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 9,
+      "name": "Run npm run build",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 10,
+      "name": "Attest exact built application artifacts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 11,
+      "name": "Validate release scripts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 12,
+      "name": "Build the actual Railway container and verify worker source contract",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 13,
+      "name": "Run npx playwright install --with-deps chromium",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 14,
+      "name": "Real isolated SQL browser restore and worker restart acceptance",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 15,
+      "name": "Package exact hosted source runtime and documentation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 16,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 17,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 18,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 19,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 20,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 21,
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 39,
+      "name": "Post Run actions/setup-python@v5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 40,
+      "name": "Post Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 41,
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 42,
+      "name": "Stop containers",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 43,
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

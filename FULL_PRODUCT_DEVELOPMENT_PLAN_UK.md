@@ -1,10 +1,45 @@
 # KNABA DE — план завершення повного продукту
 
+## Поточний перевірений код — 11.10.2026, PR #6
+
+Вихідний код: **`a10e70911fb519ec7d8199fa66141cd12b462926`**, дерево **`c62487ef71a88352df52bf5d396ce2b27f0bbd6c`**. Стан перевірки: **TECHNICAL_SCOPE_VERIFIED_PRODUCT_NOT_READY**. [PR #6](https://github.com/ziko1/knaba/pull/6) продовжує PR #5; його виправлення SQL fixtures збережено. Фактичні результати й історія: [recovery receipt](docs/evidence/assistant-replay-20261011/verification.json).
+
+Реалізовано відновлення вже збереженої AI-відповіді без дубля, повторного виклику провайдера або хибного handoff. Повтор дозволено лише для одного підтвердженого невиконаного запиту з нульовими сумами; історія резерву зберігається. Перед викликом провайдера фіксується консервативний маркер початку, а старий lease не може обнулити резерв нового виконавця. Невідомий результат залишає резерв невирішеним. Додано 13 справжніх PostgreSQL replay-сценаріїв і один сценарій історичних ACCEPT/REOPEN показників без зміни прийнятого оригіналу.
+
+[Application CI 38098204054](https://github.com/ziko1/knaba/actions/runs/38098204054) завершено **SUCCESS**: **2 242/2 242 PASS, 0 FAIL, 0 SKIP**, з них **1 821 CPU/document/explicit-double** і **421 справжній PostgreSQL**. Пройшли всі 40 історичних failure mappings, 65 нових PostgreSQL cases та три залишкові сценарії попередніх кандидатів; це підмножини загальної кількості. Усі **27/27 браузерних сценаріїв** пройшли з першої спроби: 26 actual backend/UI й один явний HTTP fixture. TypeScript/build/Docker та сім acceptance stages — PASS, включно з відновленням 17 таблиць і 12 private blobs та двома незалежними worker процесами. Локальний SQL результат окремо лишається NOT_RUN.
+
+[Native CI 38098204040](https://github.com/ziko1/knaba/actions/runs/38098204040): обидва jobs SUCCESS; **66 host Java** і **19 actual iOS Simulator XCTest PASS**, lint **0 errors / 10 warnings**. Незалежно перевірено native архіви й 45 iOS bundle hashes. Фізичні пристрої та підпис компанії цим не прийняті.
+
+Пакети вихідного коду, документації й обидві runtime частини завантажено та звірено за довжиною, SHA-256 і ZIP CRC. **454 source files**, **113 спільних runtime source files** і **14 build files** збігаються з exact source; runtime відновлено до **45 024 537 bytes** з правильним повним хешем. [Повний індекс доказів](docs/evidence/assistant-replay-20261011/README.md) містить збережений стиснений оригінал звіту про всі 2 242 тести.
+
+Це окремий технічний обсяг. Всі 72 compound V4 критерії та реальні company/provider/physical/load/offsite gates не закриваються сумою тестів. Нижче збережено історичний checkpoint 08.10.2026; його фрази про відсутність candidate SHA та невиконані SQL перевірки стосуються тієї дати. Незавершені D07 контракти й зовнішні передумови залишаються в канонічному реєстрі.
+
+
+Нижче збережено попереднє виконання PR #5 на `3f4370c…`: його 2 228/2 228 та 407 PostgreSQL належать саме тому source. Поточне виконання PR #6 вище має 2 242/2 242 та 421 PostgreSQL. Склад і статуси 28 пакетів повного розвитку не підміняються цими технічними checkpoint.
+
 План вже використовується для реалізації погодженої V4. Фактичні поточні зміни та межі доказів: [V4_IMPLEMENTATION_STATUS_UK.md](docs/planning/V4_IMPLEMENTATION_STATUS_UK.md). Статус «реалізовано у вихідному коді» не означає завершене приймання чи working live URL.
 
-Дата звірки: **08.10.2026 UTC**. Проєкт окремий від AVENQO. Цільові контракти визначає [KNABA_DE_TARGET_SPEC.md (V4)](KNABA_DE_TARGET_SPEC.md) за явним рішенням користувача. [Оригінальна V3](KNABA_DE_MASTER_SPEC.md) і незаперечені реалізовані функції зберігаються; цей план враховує всі вже збережені зміни й продовжує реалізацію, перевірки, розгортання та передачу компанії. Працюючі модулі зберігаємо; виправлення робимо за конкретною невідповідністю вимозі або відтвореним дефектом.
+Дата базової звірки: **08.10.2026 UTC**; поточне оновлення виконання: **11.10.2026 UTC**. Проєкт окремий від AVENQO. Цільові контракти визначає [KNABA_DE_TARGET_SPEC.md (V4)](KNABA_DE_TARGET_SPEC.md) за явним рішенням користувача. [Оригінальна V3](KNABA_DE_MASTER_SPEC.md) і незаперечені реалізовані функції зберігаються; цей план враховує всі вже збережені зміни й продовжує реалізацію, перевірки, розгортання та передачу компанії. Працюючі модулі зберігаємо; виправлення робимо за конкретною невідповідністю вимозі або відтвореним дефектом.
+
+## Збережене виконання PR #5 — 11.10.2026 UTC
+
+Опублікований executable **`3f4370c3b3ba66941a42f6840db0f25ae57fca65`**, tree `464057c0a7cea50a7a55eb1d5f88fb95f3203225`, гілка `codex/knaba-v4-sql-recovery-20261011`, [draft PR #5](https://github.com/ziko1/knaba/pull/5). PLAN-03 виконується: внесено вузькі runtime/SQL виправлення та узгоджено regression fixtures з чинними V4-контрактами. Документаційний commit зберігається окремо від цієї tested code SHA.
+
+| Scope | Фактичний стан |
+| --- | --- |
+| Поточна локальна перевірка | **1 821 CPU/document/explicit-double PASS, 0 FAIL; 407 genuine PostgreSQL SKIP/NOT_RUN**; 2 228 case identities / 89 файлів, TypeScript PASS. |
+| Application CI на `3f4370c` | [38097796239](https://github.com/ziko1/knaba/actions/runs/38097796239), job `114347231650`: **SUCCESS**, завершений стан підтверджено **11.10.2026 00:29:15 UTC**. **2 228/2 228 PASS, 0 FAIL, 0 SKIP**, 89 файлів: **1 821 CPU/document/explicit-double та 407 genuine PostgreSQL PASS**. Усі **51 новий PG case** і **40 зіставлень історичних SQL-помилок**, включно з двома явними V4 REWORK replacements, пройшли. |
+| Browser/build/recovery/Worker/packaging на `3f4370c` | **27/27 browser PASS**, 26 actual backend/UI + одна HTTP-імітація, 0 FAIL/SKIP/FLAKY. TypeScript/build, Docker, encrypted backup/tamper rejection, restore в окрему DB/private blobs, дві справжні Worker-фази та hosted packaging **PASS**. |
+| Native CI на `3f4370c` | [38097796144](https://github.com/ziko1/knaba/actions/runs/38097796144): **SUCCESS**; Android **66 host Java PASS**, debug APK, lint **0 errors / 10 warnings**; iOS **19 actual XCTest PASS**, 0 FAIL/SKIP на iPhone 16 / iOS 18.5 Simulator. Native artifacts/payload hashes, 45 iOS bundle-файлів та actual prepared-device binding незалежно перевірені. |
+| Попередній hosted checkpoint `1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6` | [38096631407](https://github.com/ziko1/knaba/actions/runs/38096631407) **FAILED**: 2 226/2 228 PASS, 2 FAIL, 0 SKIP; **405/407 genuine PostgreSQL PASS**, усі 51 новий PG case PASS; 27/27 browser, restore і справжні Worker-перевірки PASS. Дві невдалі fixtures виправлено у `3f4370c`, обидва кейси фактично пройшли в новому прогоні; історичний FAILED збережений. |
+
+Точний [execution index PR #5](https://github.com/ziko1/knaba/blob/3f4370c3b3ba66941a42f6840db0f25ae57fca65/docs/evidence/offline-execution-scope.json): SHA256 `fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a`, executable source manifest SHA256 `0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4`. [Фактичний підсумок](docs/evidence/sql-recovery-2026-10-11/README.md), [verification receipt](docs/evidence/sql-recovery-2026-10-11/verification.json) і [native receipt](docs/evidence/sql-recovery-2026-10-11/native-summary.json) фіксують exact source, case mappings та перевірені байти. Незалежно завантажений application evidence artifact `11686537370` має **8 163 623 bytes**, SHA256 `076e43dea4943dee0b304cc1854ee04df8289d6de6cb246557ea454d0d4bcacf`; CRC 113 entries, source/tree та всі 14 built-file hashes збігаються. Повна незалежна передача всього runtime залишається окремим кроком.
+
+Поточні зміни та межі доказів деталізовані в [реєстрі реалізації V4](docs/planning/V4_IMPLEMENTATION_STATUS_UK.md) і [журналі перевірок](docs/TEST_EVIDENCE.md). **Усі 72 compound V4 критерії залишаються NOT_RUN; весь продукт і публічний Railway URL — NOT_READY.** Історичні статуси 475 V3 критеріїв збережені. Успішний scoped CI не приймає D07 source gaps, повний load/latency/RPO/RTO/cost scope чи company/provider/physical/deployment gates.
 
 ## Зафіксована вихідна версія
+
+Нижче збережена **історична база звірки 08.10.2026** з повністю перевіреним і переданим executable `ca9ed79ff4c0429223eb60754289ee1132088361`. Її source IDs і результати не перенесені на поточний candidate V4.
 
 | Що | Фактичний стан |
 | --- | --- |
@@ -20,7 +55,7 @@
 | Railway стан на 08.10 | API OFFLINE, Worker OFFLINE, PostgreSQL CRASHED; **37 змін STAGED, не застосовані**. Виділена адреса `https://api-staging-a476.up.railway.app` — NOT_READY |
 | Тестове вікно | Попередній абсолютний cutoff **07.10.2026 20:11:52 UTC уже минув**. Він не продовжений. Саме застосування старого patch не дасть робочого середовища: guard зупинить процеси |
 
-Докази: [application receipt](docs/evidence/ci-run-37544413379-summary.json), [native receipt](docs/evidence/native-run-37544413386-summary.json), [повний журнал](docs/TEST_EVIDENCE.md), [незалежна перевірка доставки](docs/evidence/independent-delivery-ca9ed79.json), [нова read-only звірка Railway](docs/evidence/railway-resume-2026-10-08.json). Жодного нового тестового запуску коду чи успішного публічного deploy цей план не заявляє.
+Історичні докази: [application receipt](docs/evidence/ci-run-37544413379-summary.json), [native receipt](docs/evidence/native-run-37544413386-summary.json), [повний журнал](docs/TEST_EVIDENCE.md), [незалежна перевірка доставки](docs/evidence/independent-delivery-ca9ed79.json), [read-only звірка Railway 08.10](docs/evidence/railway-resume-2026-10-08.json). Нові виконання мають окремі SHA та результати у поточному розділі вище; успішний публічний deploy не заявляється.
 
 ## Уже реалізоване, що зберігаємо
 
@@ -48,6 +83,10 @@
 Підготувати окреме **поточне виконання** для кожного з 72 цільових критеріїв V4 і зіставити 475 критеріїв V3 як regression/history scope: точний текст, середовище, потрібні ролі/дані, кроки, очікуваний результат, вже наявні докази, відсутні частини й залежні EXT-ID. Дані з ca9 можна повторно використати тільки для тих тверджень, які вони реально доводять. Старі статуси та джерела не переписувати; current acceptance додати окремим шаром. Для складеного критерію перелічити й перевірити всі частини.
 
 Відтворити знайдені розриви в повних flow й відкрити конкретні дефекти. Спершу виправляти доступ/витік/цілісність/гроші/час/відновлення, потім блокери бізнес-процесів та UI. Кожне виправлення пов'язати з requirement-ID, відтворенням і regression proof. Не перетворювати вибір зовнішнього сервісу на вигадану архітектурну переробку.
+
+У поточному source виправлено конкретні runtime/SQL дефекти: відповідь асистента перевіряє чинні persisted job/type/data/lease, canonical service account і версії config/channel/message до receipt, provider/tools та фінальної відповіді; відкликане членство не відновлюється. Відомі provider outcomes обліковуються навіть після lease loss, скасування до першого виклику звільняє резерв, невідомий outcome зберігає його. Це **облік за налаштованою оцінкою вартості**, перевірений з явними зовнішніми AI/provider імітаціями; фактичні рахунки провайдера не перевірені. Для зміненого payload з тим самим idempotency key діє V4 `IDEMPOTENCY_CONFLICT`. Fixtures використовують чинні права, canonical IDs, збережені timestamps і незмінні прийняті task/quote facts; handoff окремо доводить відмову без lease та подавлення AI за чинного lease, а перевірка адресатів не залежить від порядку SQL-рядків.
+
+Додано **51 genuine PostgreSQL case**: 29 answer-authority, 16 assistant-runtime, 6 load-seed. Дві семантичні заміни digest на V4 REWORK lifecycle мають точні old→new mappings і причини в [execution index PR #5](https://github.com/ziko1/knaba/blob/3f4370c3b3ba66941a42f6840db0f25ae57fca65/docs/evidence/offline-execution-scope.json); чотири історичні заміни також збережені. На `1cbdbdc` усі 51 новий case та 39 із 40 раніше невдалих SQL-сценаріїв пройшли, але весь workflow завершився FAILED з двома fixture-помилками. У checkpoint PR #5 `3f4370c` **усі 51 новий case, усі 40 historical mappings та обидва залишкові кейси `1cbdbdc` фактично PASS**. [Per-case verification](docs/evidence/sql-recovery-2026-10-11/verification.json) і [історичний FAILED](docs/evidence/sql-recovery-2026-10-11/historical-1cb/verification.json) збережені окремо. Цей scoped execution не є прийманням усіх частин будь-якого compound критерію.
 
 **Вихід:** усі 72 цільові критерії V4 і 475 критеріїв V3 мають коректний version mapping, current assessment та evidence/gap; усі 34 модулі мають пакети робіт. Непройдені критерії лишаються FAILED/NOT_RUN/BLOCKED_EXTERNAL. Цей аудит можна виконувати незалежно від Railway.
 
@@ -109,6 +148,8 @@ Android: company keystore/upgrade identity, release APK/AAB, signature/hash/inst
 
 Виконати load/observability пакет за затвердженим V4 KNB-23: 100 працівників, 20 активних об’єктів, 100 одночасних сесій, 10 команд/с протягом 15 хвилин на 100 000 TimeSegments. Цілі: core API p95 ≤1 с / p99 ≤3 с, 0 втрачених підтверджених команд, <1% 5xx; durable webhook p95 ≤2 с; enqueue→provider request p95 ≤5 с; PDF ≤60 с для 50 задач / 20 оптимізованих фото за 3 паралельних jobs. План відновлення має досягти DB/metadata RPO ≤15 хвилин, media RPO ≤24 години й RTO ≤4 години. Записати ресурси, seed, інтервал та raw-safe результати; усі ці вимірювання зараз NOT_RUN. Додаткові метрики V3 §30.9 — queue backlog/age, duplicate rates, chat reconnect, physical geolocation latency/battery — збережені; фізичні сценарії потребують пристроїв з Етапу 5. Перевірити monitor/alert/incident і rollback drill.
 
+Core load runner та окремий CI job уже є. У [seed CTE](scripts/v4-load.mts) виправлено неоднозначний SQL-параметр через `$4::text`; [шість genuine PostgreSQL regression cases](tests/v4-load-seed.integration.test.ts) мають **6/6 actual PASS на поточному `3f4370c`**, application run 38097796239 **SUCCESS**. Попередні 6/6 PASS на `1cbdbdc` у run 38096631407 збережені як історія. Це перевірки seed і його транзакційних фактів. **Повний 900-секундний профіль / 100 sessions / 100 000 TimeSegments, latency/SLO, RPO/RTO та фактична вартість залишаються NOT_RUN**; ці значення не виводяться із шести малих SQL-тестів або вже пройденого restore.
+
 Production release дозволяється після живого staging, успішного company UAT, всіх застосовних provider/legal/device/DR gates, перевіреного budget/SLO і операційного власника. Окремо визначити production/merge decision — staging дозвіл не є автоматичним дозволом merge чи використання реальних персональних даних. Перед запуском підготувати конкретний reviewable release/change/rollback пакет; зберігати originals/business history й безпечні migration/rollback boundaries.
 
 **Вихід:** справжні робочі URLs і `/version`, точна code/documentation/runtime SHA, підписані mobile distributions, перевірені архіви/manifests, 34-module readiness, current 475-criterion results, user/admin/API/DevOps/recovery docs, доступи в secret manager, named owner/support/incident contacts, actual backup/restore/sizing/cost evidence. Відкрита обов'язкова вимога блокує заяву «повністю готово»; конкретні погоджені обмеження мають свій документований статус.
@@ -121,7 +162,7 @@ Production release дозволяється після живого staging, у�
 | --- | --- | --- | --- |
 | PLAN-01 | Зберегти перевірений код, документацію та передані артефакти | Базові докази PASSED | — |
 | PLAN-02 | Оцінити 72 цільові критерії V4 та повні регресії V3 | NOT_RUN / заплановано | PLAN-01, PLAN-28 |
-| PLAN-03 | Точкові виправлення підтверджених прогалин і дефектів | NOT_RUN / заплановано | PLAN-02 |
+| PLAN-03 | Точкові виправлення підтверджених прогалин і дефектів | Виконання **IN_PROGRESS**; scoped SQL/runtime на `3f4370c` **PASS**, 407/407 PG; повне приймання відкрите | PLAN-02 |
 | PLAN-04 | Погодити нове обмежене staging-вікно та контроль бюджету | Залежить від зовнішнього входу | PLAN-01 |
 | PLAN-05 | Застосувати актуальні зміни через MFA у Railway Dashboard | Залежить від зовнішнього входу | PLAN-04 |
 | PLAN-06 | Отримати працюючі API, PostgreSQL і Worker | NOT_RUN / заплановано | PLAN-05 |
@@ -145,7 +186,7 @@ Production release дозволяється після живого staging, у�
 | PLAN-24 | Точний production release та пакет змін і rollback для перевірки | NOT_RUN / заплановано | PLAN-23, PLAN-08, PLAN-27, PLAN-25, PLAN-28 |
 | PLAN-25 | Контроль активів компанією та відповідальні за експлуатацію | Залежить від зовнішнього входу | PLAN-09, PLAN-08, PLAN-14 |
 | PLAN-26 | Фінальна передача продукту з фактичними URL, SHA та артефактами | NOT_RUN / заплановано | PLAN-24, PLAN-25 |
-| PLAN-27 | Вимірювання навантаження, SLO та перевірка моніторингу | NOT_RUN / заплановано | PLAN-06 |
+| PLAN-27 | Вимірювання навантаження, SLO та перевірка моніторингу | Core runner реалізований; seed **6/6 PG PASS**; повні вимірювання **NOT_RUN** | PLAN-06 |
 | PLAN-28 | Завершити узгодження цільової V4 з реалізацією та регресіями V3 | NOT_RUN / заплановано | PLAN-01 |
 
 | Модуль із канонічної матриці | Вимог / критеріїв | Пакети завершення |
@@ -206,4 +247,4 @@ flowchart LR
 
 Строки зовнішніх погоджень, MFA, ключів і фізичних пристроїв невідомі; календарну дату «готово» не вигадуємо. Для кожного виконання зберігаємо actual environment, code SHA, час, steps/result/raw-safe evidence та related criterion IDs. Після зміни статусу оновлюємо цей backlog, [матрицю](docs/requirements/requirements.json), [module readiness](docs/requirements/MODULE_READINESS.md), [PROJECT_MEMORY.md](PROJECT_MEMORY.md), [roadmap](MASTER_ROADMAP.md) і [TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md), не стираючи історію.
 
-Повна готовність означає прийняті 72 цільові критерії V4 та незаперечений реалізований обсяг V3, робочі живі сценарії, реальні необхідні інтеграції, контроль приватності/доступу/часу/грошей, відновлення й бюджет, встановлювані підписані мобільні клієнти з фізичною перевіркою та передачу підтримуваного продукту KNABA. Наявні 1513 тестів і build — сильна технічна база, але ще не доказ цієї повної готовності.
+Повна готовність означає прийняті 72 цільові критерії V4 та незаперечений реалізований обсяг V3, робочі живі сценарії, реальні необхідні інтеграції, контроль приватності/доступу/часу/грошей, відновлення й бюджет, встановлювані підписані мобільні клієнти з фізичною перевіркою та передачу підтримуваного продукту KNABA. Історичні 1 513 тестів ca9 і поточні scoped regression results є технічними доказами лише свого виконаного обсягу; повна готовність потребує всіх перелічених приймальних результатів.
