@@ -1,0 +1,304 @@
+{
+  "sourceSha": "7d8a0e92c083ca22e4f93595bd084031f7272599",
+  "runId": 37861973112,
+  "jobId": 113599588628,
+  "artifactId": 11586846669,
+  "artifactSha256": "0fa6b78b53cde24a1d40a0e7bc1b50e8886b7cd844bbf671c52b6c2bedb57357",
+  "failedCount": 40,
+  "categories": {
+    "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE": 4,
+    "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION": 3,
+    "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION": 23,
+    "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT": 3,
+    "FIXTURE_HISTORY_TIMESTAMP_VS_SQL_TRANSACTION_CLOCK_SUSPECTED": 1,
+    "FIXTURE_OLD_PAGINATION_ENVELOPE": 1,
+    "RUNTIME_WRONG_IDEMPOTENCY_ERROR": 1,
+    "FIXTURE_SPY_RECURSION": 1,
+    "FIXTURE_OLD_CURSOR_SCOPE_ERROR": 1,
+    "FIXTURE_FROZEN_DATE_VS_SQL_AUDIT_CLOCK": 1,
+    "FIXTURE_ROLE_NOT_INTERNAL_SALES_MANAGER": 1
+  },
+  "failures": [
+    {
+      "identity": 1,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+      "category": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "message": "AssertionError: expected [] to have a length of 1 but got +0"
+    },
+    {
+      "identity": 2,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+      "category": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "message": "AssertionError: expected [] to have a length of 1 but got +0"
+    },
+    {
+      "identity": 3,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+      "category": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "message": "AssertionError: expected Error: AI_SUPPRESSED { …(2) } to match object { code: 'VERSION_CONFLICT' }"
+    },
+    {
+      "identity": 4,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+      "category": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "message": "AssertionError: expected Error: AI_SUPPRESSED { …(2) } to match object { code: 'VERSION_CONFLICT' }"
+    },
+    {
+      "identity": 5,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+      "category": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "message": "AssertionError: expected { status: 'RUNNING', …(9) } to match object { Object (status, actual_cents) }"
+    },
+    {
+      "identity": 6,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+      "category": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "message": "AssertionError: expected { status: 'RUNNING', …(9) } to match object { Object (status, actual_cents) }"
+    },
+    {
+      "identity": 7,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "title": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+      "category": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "message": "AssertionError: expected { status: 'RUNNING', …(9) } to match object { Object (status, actual_cents) }"
+    },
+    {
+      "identity": 8,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 9,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 10,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 11,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "title": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 12,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 13,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 14,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 15,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 16,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 17,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 18,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 19,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 20,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 21,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "title": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 22,
+      "file": "tests/device-gps-privacy-v4.integration.test.ts",
+      "title": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+      "category": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+    },
+    {
+      "identity": 23,
+      "file": "tests/handoff-calendar.integration.test.ts",
+      "title": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+      "category": "FIXTURE_HISTORY_TIMESTAMP_VS_SQL_TRANSACTION_CLOCK_SUSPECTED",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 24,
+      "file": "tests/internal-assistant-visibility.integration.test.ts",
+      "title": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+      "category": "FIXTURE_OLD_PAGINATION_ENVELOPE",
+      "message": "AssertionError: expected [ { items: [], limit: 50, …(2) }, [] ] to deeply equal [ { items: [] }, [] ]"
+    },
+    {
+      "identity": 25,
+      "file": "tests/material-request-batches-v4.integration.test.ts",
+      "title": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+      "category": "RUNTIME_WRONG_IDEMPOTENCY_ERROR",
+      "message": "AssertionError: expected Error: VERSION_CONFLICT { …(2) } to match object { code: 'IDEMPOTENCY_CONFLICT' }"
+    },
+    {
+      "identity": 26,
+      "file": "tests/media-upload-idempotency.integration.test.ts",
+      "title": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+      "category": "FIXTURE_SPY_RECURSION",
+      "message": "AssertionError: expected [Function] to throw error including 'Synthetic error after sanitized SQL b…' but got 'Maximum call stack size exceeded'"
+    },
+    {
+      "identity": 27,
+      "file": "tests/operations-digest.integration.test.ts",
+      "title": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+      "category": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+    },
+    {
+      "identity": 28,
+      "file": "tests/operations-digest.integration.test.ts",
+      "title": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+      "category": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "message": "error: KNABA_IMMUTABLE_BUSINESS_FACT"
+    },
+    {
+      "identity": 29,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 30,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 31,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 32,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 33,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 34,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 35,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 36,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 37,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "title": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+      "category": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "message": "Error: ACCESS_DENIED"
+    },
+    {
+      "identity": 38,
+      "file": "tests/v4-core-contracts.integration.test.ts",
+      "title": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+      "category": "FIXTURE_OLD_CURSOR_SCOPE_ERROR",
+      "message": "AssertionError: expected Error: VALIDATION_ERROR { …(2) } to match object { code: 'VALIDATION_ERROR', …(1) }"
+    },
+    {
+      "identity": 39,
+      "file": "tests/v4-http-runtime-contracts.integration.test.ts",
+      "title": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+      "category": "FIXTURE_FROZEN_DATE_VS_SQL_AUDIT_CLOCK",
+      "message": "AssertionError: expected [] to have a length of 1 but got +0"
+    },
+    {
+      "identity": 40,
+      "file": "tests/work-notifications.integration.test.ts",
+      "title": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+      "category": "FIXTURE_ROLE_NOT_INTERNAL_SALES_MANAGER",
+      "message": "Error: ACCESS_DENIED"
+    }
+  ],
+  "scope": "Historical actual hosted outcomes and static root-cause triage; fixes require fresh exact-source execution."
+}

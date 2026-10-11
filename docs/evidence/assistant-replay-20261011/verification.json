@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T00:42:02.401127+00:00",
+  "repository": "ziko1/knaba",
+  "pr": 6,
+  "runtimeSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+  "tree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+  "integratedRecoveryParent": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "status": "TECHNICAL_SCOPE_VERIFIED_PRODUCT_NOT_READY",
+  "local": {
+    "typecheck": "PASSED",
+    "diffCheck": "PASSED",
+    "reportSha256": "b9a42f4659654617fe72ef3d25b6ee1043399ea7166ca0bfc82a531e91be6595",
+    "total": 2242,
+    "passed": 1821,
+    "failed": 0,
+    "notRunPostgres": 421,
+    "scope": "Actual CPU/document/explicit-double execution; all genuine PostgreSQL cases skipped locally. Frozen source files match the committed exact source manifest.",
+    "classification": {
+      "status": "EXACT_INDEX_VALIDATED",
+      "evidence": {
+        "path": "docs/evidence/offline-execution-scope.json",
+        "bytes": 850321,
+        "sha256": "e8dd445554634042416d926f548ad677f15e82298abaa2b47df7f636e5eff440"
+      },
+      "indexIsExecutionProof": false,
+      "realPostgres": {
+        "total": 421,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 421,
+        "todo": 0
+      },
+      "cpuDocumentOrTransportDouble": {
+        "total": 1821,
+        "passed": 1821,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  },
+  "sourceManifestSha256": "658acbe120b0f9cbf32499a5f08ecac6d82ae0ade0f6baadf7e204af1f52e557",
+  "newRealPostgresCases": {
+    "relativeToPr4": 65,
+    "relativeToPr5": 14,
+    "replay": 13,
+    "historicalLedger": 1
+  },
+  "sourceEquivalenceSince5a9e": {
+    "source": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "tree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+    "priorSource": "5a9e186699d20de713913884bc4f9ed296914bf1",
+    "changes": [
+      "docs/evidence/offline-execution-scope.json",
+      "tests/assistant-runtime.integration.test.ts",
+      "tests/handoff-calendar.integration.test.ts",
+      "tests/work-notifications.integration.test.ts"
+    ],
+    "applicationAndNativeInputsUnchanged": true
+  },
+  "hosted": {
+    "applicationRunId": 38098204054,
+    "applicationJobId": 114348501193,
+    "nativeRunId": 38098204040,
+    "status": "SUCCESS",
+    "nativeStatus": "SUCCESS",
+    "applicationSourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "nativeSourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926"
+  },
+  "priorReceipts": [
+    "historical-failures.json",
+    "prior-pr5-1cbdbd.json",
+    "prior-replay-5a9e1866.json",
+    "native-5a9e1866.json",
+    "initial-local-5a9e1866.json"
+  ],
+  "limitations": [
+    "Full V4/V3 business criteria are not accepted from technical test totals.",
+    "Actual provider transport, supplier invoice reconciliation, physical native behavior and production signing remain separate.",
+    "Six load-seed SQL regressions do not establish full load/latency/RPO/RTO or recurring cost.",
+    "No main/staging merge or Railway deployment/window extension is part of this continuation."
+  ],
+  "nativeReceipt": {
+    "path": "native-verification.json",
+    "bytes": 8363,
+    "sha256": "ed5e8d6f3df20def73c85ab7be617e90f2a4f7de152ab45941af1aa7b910e7de",
+    "sourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "runId": 38098204040
+  },
+  "integratedRecoveryDocumentationParent": "1e7fbc04bc5b75d8044204f94da987d96c3271ee",
+  "application": {
+    "unit": {
+      "total": 2242,
+      "passed": 2242,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "classification": {
+      "REAL_POSTGRES": {
+        "total": 421,
+        "passed": 421,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+        "total": 1821,
+        "passed": 1821,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "browser": {
+      "startTime": "2026-10-11T00:33:20.936Z",
+      "duration": 151606.799,
+      "expected": 27,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "historicalFailureMappingsPassed": 40,
+    "newPostgresCasesPassed": 65,
+    "newCasesRelativeToPr5Passed": 14,
+    "earlierResidualCasesPassed": 3,
+    "acceptanceStagesPassed": 7,
+    "restoredTables": 17,
+    "verifiedPrivateBlobs": 12,
+    "workerPhases": 2,
+    "postgresVersion": "17.6"
+  },
+  "applicationReceipt": {
+    "path": "application-verification.json",
+    "bytes": 86891,
+    "sha256": "57efc7b7f9a49c82e483db7fe4895a1c6667b1d4c73f0f834cb55d08c7037f92"
+  },
+  "packagingReceipt": {
+    "path": "packaging-verification.json",
+    "bytes": 4121,
+    "sha256": "a0bddeceb8a50083661f7a32759a4f7c91e06f3befc62268c6ed182bf4ab2db4"
+  },
+  "originalUnitReport": {
+    "path": "unit-results.json.gz",
+    "bytes": 110299,
+    "sha256": "b595d478b2bf553f793d297d2319248fbe00baca73a7a62e43e726de68a0f5da",
+    "compression": "gzip, deterministic mtime=0",
+    "uncompressedBytes": 976211,
+    "uncompressedSha256": "32d6f57b83ea72fca7eb3553782dd8577b78d683be02ee6f94917459614ed475",
+    "totalCases": 2242,
+    "result": "2242_PASS_0_FAIL_0_SKIP"
+  },
+  "rawEvidence": {
+    "browser-result.json": {
+      "path": "browser-result.json",
+      "bytes": 43096,
+      "sha256": "3a90f5d022ce671c74d18b66ed5ca10213c975e627fb45f2d702f3c7cfba1791"
+    },
+    "live-stages.jsonl": {
+      "path": "live-stages.jsonl",
+      "bytes": 1298,
+      "sha256": "886ed579e4e65cfeba53d98669f911db4ad0cb32dbd0877c546685613bfedff1"
+    },
+    "restore-log-excerpts.json": {
+      "path": "restore-log-excerpts.json",
+      "bytes": 1192,
+      "sha256": "2a6a021de2eca1b42f1b9fa1f57b04fb132e15f06ed378e936e09266313c90cd"
+    },
+    "workflow-job.json": {
+      "path": "workflow-job.json",
+      "bytes": 3869,
+      "sha256": "05cf5e1889d6d50d9be567400d6f78be8c5191119bb75bfcd912552ceed172d8"
+    }
+  },
+  "documentationSummary": {
+    "application": "[Application CI 38098204054](https://github.com/ziko1/knaba/actions/runs/38098204054) completed **SUCCESS** on this exact source: **2,242/2,242 PASS, 0 FAIL, 0 SKIP**, comprising **1,821 CPU/document/explicit-double cases and 421 genuine PostgreSQL cases**. All **40 historical failure mappings**, **65 new PostgreSQL cases** and the **three residual cases** from earlier candidates pass. **27/27 browser scenarios** passed on their first attempt (26 actual backend/UI and one explicit HTTP fixture). TypeScript, build, Docker/source-worker guards and all seven isolated acceptance stages passed, including encrypted backup, tamper rejection, restoration of 17 tables and 12 private blobs, and two distinct worker processes with durable probes. These counts are overlapping subsets, not additive totals. Local verification remains separately recorded as 1,821 PASS and 421 PostgreSQL NOT_RUN.",
+    "native": "[Native CI 38098204040](https://github.com/ziko1/knaba/actions/runs/38098204040) completed **SUCCESS** for both final jobs: **66 Android host Java assertions** and **19 actual iOS Simulator XCTest**, with zero test failures/skips. Android debug build and lint passed with **0 errors and 10 warnings**; all **45 iOS bundle-file hashes**, actual prepared simulator identity, native archive digests and source receipts were independently verified. This is debug/host/simulator evidence; physical-device behavior and company signing remain separate.",
+    "artifacts": "The downloaded source, documentation and both runtime parts passed independent size/SHA-256/ZIP-integrity verification. All **454 committed source files** matched exact Git blobs, all **113 shared runtime source files** and **14 built files** matched their recorded sources, and the reconstructed **45,024,537-byte Linux runtime** matched its complete digest. Relative launcher links and Linux binary permissions were checked. The archive documentation belongs to the tested source; this later report commit preserves that source identity and does not relabel archived runtime bytes. [The durable evidence index](docs/evidence/assistant-replay-20261011/README.md) includes the compressed original 2,242-case report, browser outcomes and verification receipts.",
+    "uk": "[Application CI 38098204054](https://github.com/ziko1/knaba/actions/runs/38098204054) завершено **SUCCESS**: **2 242/2 242 PASS, 0 FAIL, 0 SKIP**, з них **1 821 CPU/document/explicit-double** і **421 справжній PostgreSQL**. Пройшли всі 40 історичних failure mappings, 65 нових PostgreSQL cases та три залишкові сценарії попередніх кандидатів; це підмножини загальної кількості. Усі **27/27 браузерних сценаріїв** пройшли з першої спроби: 26 actual backend/UI й один явний HTTP fixture. TypeScript/build/Docker та сім acceptance stages — PASS, включно з відновленням 17 таблиць і 12 private blobs та двома незалежними worker процесами. Локальний SQL результат окремо лишається NOT_RUN.\n\n[Native CI 38098204040](https://github.com/ziko1/knaba/actions/runs/38098204040): обидва jobs SUCCESS; **66 host Java** і **19 actual iOS Simulator XCTest PASS**, lint **0 errors / 10 warnings**. Незалежно перевірено native архіви й 45 iOS bundle hashes. Фізичні пристрої та підпис компанії цим не прийняті.\n\nПакети вихідного коду, документації й обидві runtime частини завантажено та звірено за довжиною, SHA-256 і ZIP CRC. **454 source files**, **113 спільних runtime source files** і **14 build files** збігаються з exact source; runtime відновлено до **45 024 537 bytes** з правильним повним хешем. [Повний індекс доказів](../evidence/assistant-replay-20261011/README.md) містить збережений стиснений оригінал звіту про всі 2 242 тести."
+  },
+  "sourcePreservationReceipt": "source-preservation.json",
+  "historicalUpstreamReceipt": "../sql-recovery-2026-10-11/verification.json",
+  "archiveScope": "All verified release archives were built at a10e70911fb519ec7d8199fa66141cd12b462926 before this documentation-only integration. Later documentation never substitutes for the tested executable identity."
+}

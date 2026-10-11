@@ -280,4 +280,33 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   const retry=(await leaseOutbox(db,100,120000,company)).find(item=>item.id===duplicateId)!;
   await expect(worker.handle(retry)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(await rows('operations_digest')).toEqual([original]);
  });
+
+ it('retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals',async()=>{
+  const accepted=await row('task','task'),policy=await configure(),initial=await preview(policy,clock.toISOString());
+  const originalRevisions=(await db.query('SELECT version,data FROM aggregate_revisions WHERE company_id=$1 AND kind=$2 AND id=$3 ORDER BY version',[company,'task',accepted.id])).rows;
+  expect(initial.sections.tasks.periodProgress.byUnit).toEqual({});
+  const segment=(await row('timesheet','current-timesheet')).data.segmentSnapshot[0];
+  const at=(minutes:number)=>new Date(Date.parse(segment.startAt)+minutes*60000).toISOString();
+  // Explicit migrated-history fixture: the legacy task is already nonterminal.
+  // Append historical facts only; never UPDATE an ACCEPTED task or disable its SQL guard.
+  const history=await db.transaction(company,'SYNTHETIC_LEGACY_DIGEST_LEDGER',async tx=>{
+   const task=await tx.add('task',{siteId:'site',title:'Synthetic retained legacy review history',state:'REOPENED',unit:'M2',plannedQuantityMilli:100000,reportedQuantityMilli:0,acceptedQuantityMilli:0,assigneeIds:['employee'],completionKind:'ORIGINAL',billingScope:'CONTRACT',reviewCycle:2,checklist:[],dependencyIds:[],requiredPhotoCount:0,synthetic:true,legacyHistoryFixture:true},'legacy-ledger-task');
+   const facts:Entity[]=[];
+   for(const [suffix,quantityMilli,reportMinute,acceptMinute] of [['first',100000,5,10],['second',60000,25,30]] as const){
+    const log=await tx.add('worklog',{taskId:task.id,siteId:'site',unit:'M2',quantityMilli,employeeIds:['employee'],reportedAt:at(reportMinute),description:SECRET},'legacy-worklog-'+suffix);
+    const review=await tx.add('task_review',{taskId:task.id,siteId:'site',decision:'ACCEPT',quantityMilli,reviewedAt:at(acceptMinute),reviewedBy:'viewer',snapshot:{siteId:'site',unit:'M2',assigneeIds:['employee']},worklogIds:[log.id],reason:SECRET},'legacy-accept-'+suffix);
+    facts.push(log,review);
+   }
+   const reopened=await tx.add('task_review',{taskId:task.id,siteId:'site',decision:'REOPEN',reviewedAt:at(20),reviewedBy:'viewer',snapshot:{siteId:'site',unit:'M2',acceptedQuantityMilli:100000,assigneeIds:['employee']},reason:SECRET},'legacy-reopen-in-period');
+   const outside=await tx.add('task_review',{taskId:task.id,siteId:'site',decision:'REOPEN',reviewedAt:initial.periodEnd,reviewedBy:'viewer',snapshot:{siteId:'site',unit:'M2',acceptedQuantityMilli:60000,assigneeIds:['employee']},reason:SECRET},'legacy-reopen-at-period-end');
+   return {task,facts:[...facts,reopened],outside};
+  });
+  const before=await fingerprint(),result=await preview(policy,clock.toISOString());
+  expect(result.sections.tasks).toMatchObject({counts:{accepted:1,submitted:0,incomplete:1},byUnit:{M2:{acceptedQuantityMilli:100000}},periodProgress:{counts:{worklogs:2,acceptedReviews:2,reopenedReviews:1},byUnit:{M2:{reportedQuantityMilli:160000,grossAcceptedQuantityMilli:160000,revokedAcceptedQuantityMilli:100000,acceptedQuantityMilli:60000}}}});
+  for(const fact of history.facts)expect(result.coverage.sourceReferences).toContainEqual({kind:fact.kind,id:fact.id,version:fact.version,permission:'task.read'});
+  expect(result.coverage.sourceReferences.map((reference:Data)=>reference.id)).not.toContain(history.outside.id);
+  expect(await row('task',accepted.id)).toEqual(accepted);expect(await row('task',history.task.id)).toEqual(history.task);
+  expect((await db.query('SELECT version,data FROM aggregate_revisions WHERE company_id=$1 AND kind=$2 AND id=$3 ORDER BY version',[company,'task',accepted.id])).rows).toEqual(originalRevisions);
+  expect(JSON.stringify(result)).not.toContain(SECRET);expect(await fingerprint()).toEqual(before);
+ });
 });

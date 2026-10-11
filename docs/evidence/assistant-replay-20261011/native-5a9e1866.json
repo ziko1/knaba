@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-11T00:23:39.459163+00:00",
+  "repository": "ziko1/knaba",
+  "runId": 38097306663,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/38097306663",
+  "sourceGitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+  "sourceTree": "ca7b35a7fc1e899540c84c88d193ca4ab89b9de6",
+  "status": "NATIVE_ARTIFACTS_VERIFIED_IOS_JOB_CANCELLED",
+  "android": {
+    "jobId": 114345762903,
+    "jobStatus": "SUCCESS",
+    "artifactId": 11686545962,
+    "artifactName": "knaba-android-debug-5a9e186699d20de713913884bc4f9ed296914bf1",
+    "archiveFile": "knaba-android-debug-5a9e1866.zip",
+    "archiveBytes": 879626,
+    "archiveSha256": "276d8175e854871ab34c9e4a5a7c9922420a88d3e2203fb1c9e41972c825f40e",
+    "githubArtifactDigestMatches": true,
+    "archiveChecks": {
+      "crc": "PASSED",
+      "path_safety": "PASSED",
+      "duplicate_paths": 0,
+      "entry_count": 14
+    },
+    "sourceBinding": {
+      "receiptMatches": true,
+      "githubArtifactRunHeadMatches": true,
+      "hostedCheckoutLogMatches": true
+    },
+    "apk": {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 2594536,
+      "sha256": "3a6d961d6665b40a15ac19efafe94967e9f6c291a9835d5ded6c00b793e61219",
+      "receiptAndSha256SumsMatch": true,
+      "archiveChecks": {
+        "crc": "PASSED",
+        "path_safety": "PASSED",
+        "duplicate_paths": 0,
+        "entry_count": 14
+      }
+    },
+    "javaAssertions": {
+      "geofenceAndPrivacy": 30,
+      "languageClockAndGeneration": 36,
+      "total": 66,
+      "failed": 0,
+      "evidence": "Actual hosted Java executable logs; host JVM vectors, not Android device instrumentation"
+    },
+    "localization": {
+      "locales": 6,
+      "completeStringsEach": 91,
+      "resourceValidation": "PASSED"
+    },
+    "build": {
+      "assembleDebug": "PASSED",
+      "lintDebug": "PASSED",
+      "toolchain": "Android debug APK; Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, Java 17.0.16, SDK 36"
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 10,
+      "warningIds": {
+        "InlinedApi": 1,
+        "OldTargetApi": 1,
+        "AppBundleLocaleChanges": 1,
+        "AndroidGradlePluginVersion": 1,
+        "PluralsCandidate": 2,
+        "DataExtractionRules": 2,
+        "ObsoleteSdkInt": 1,
+        "MissingApplicationIcon": 1
+      }
+    },
+    "signature": {
+      "hostedApksigner": "VERIFIED_V2",
+      "certificateSha256": "deccec327017aba7a1d70e451ef5086139e4a16f98ee2c299f1c12b159e6e70e",
+      "signing": "Ephemeral Android Debug certificate",
+      "independentCryptographicReverification": "NOT_RUN; artifact hash and embedded APK CRC independently verified"
+    },
+    "evidenceEntrySha256": {
+      "build/evidence/native-receipt.json": "9f6f3fe4931adcbca386fea33f58a5a493579a47d7a69e65ec770dfb019a10d1",
+      "build/evidence/native-vectors.log": "741bf5a05f56e818bb62170e1707977d0cc873d8fd0a1c4259c4742e02b2e53c",
+      "build/evidence/native-localization-vectors.log": "ab7e9e64b75152e06dbf7b854163dc169552076c80e66c755e11b0ff9bc7a90a",
+      "build/evidence/android-build.log": "0156e5bfe987b58990f8063937db6d5d6ee35b985104c1ca143a45e4c33f1722",
+      "build/evidence/apk-verification.txt": "4000310a17b13543d3893682ae8866898756d1ffd0855a96c301cf4c526f13ed",
+      "app/build/reports/lint-results-debug.xml": "686d245fc39f975e376afda4b29d967f7abcd50747be9f0e23c80e590a0205e0"
+    }
+  },
+  "ios": {
+    "jobId": 114345763081,
+    "jobStatus": "CANCELLED",
+    "listedSteps": {
+      "total": 12,
+      "success": 12,
+      "cancelled": 0,
+      "failed": 0
+    },
+    "ciStatusCaveat": "GitHub API reports the completed iOS job as cancelled although every listed step, including build, XCTest, archive, artifact upload and cleanup, reports success. No cancellation cause was established from the inspected log; do not report this job or entire workflow as success.",
+    "artifactId": 11687042014,
+    "artifactName": "knaba-ios-simulator-5a9e186699d20de713913884bc4f9ed296914bf1",
+    "archiveFile": "knaba-ios-simulator-5a9e1866.zip",
+    "archiveBytes": 5626441,
+    "archiveSha256": "047d4e576731adfdedd3fd26f3dbf3451c8f03443dcdd3c0bc18ecd6e939fe04",
+    "githubArtifactDigestMatches": true,
+    "archiveChecks": {
+      "crc": "PASSED",
+      "path_safety": "PASSED",
+      "duplicate_paths": 0,
+      "symlinks": 0,
+      "entry_count": 98
+    },
+    "sourceBinding": {
+      "receiptMatches": true,
+      "simulatorPreparationMatches": true,
+      "githubArtifactRunHeadMatches": true,
+      "hostedCheckoutLogMatches": true
+    },
+    "simulatorApp": {
+      "path": "KNABADE-simulator.app.zip",
+      "bytes": 5539478,
+      "sha256": "347c56475995b2d4adea3cb6fed5eefc250f09194375ba406aaa02995e84f428",
+      "receiptAndSha256SumsMatch": true,
+      "archiveChecks": {
+        "crc": "PASSED",
+        "path_safety": "PASSED",
+        "duplicate_paths": 0,
+        "symlinks": 0,
+        "entry_count": 69
+      },
+      "bundleManifestFiles": 45,
+      "bundleFilesHashesMatched": 45,
+      "missingOrUnexpectedBundleFiles": 0,
+      "bundleIdentifier": "de.knaba.mobile",
+      "version": "0.1.0 (1)",
+      "platform": "iPhoneSimulator",
+      "sdk": "iphonesimulator18.5",
+      "minimumOSVersion": "17.0"
+    },
+    "build": {
+      "compile": "PASSED",
+      "toolchain": "iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode",
+      "xcodeBuild": "16F6",
+      "xcodegenSourceSha": "7193eb447a6f60061f069e07bc1efd32d73c0e19",
+      "signing": "CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA"
+    },
+    "xctest": {
+      "result": "Passed",
+      "started": 19,
+      "executed": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "expectedFailures": 0,
+      "uniqueLogCasesMatched": 19,
+      "suites": {
+        "LocalizationAndSummaryTests": 11,
+        "NativeTests": 8
+      },
+      "logAndXcresultSummaryMatch": true,
+      "resultBundleIncluded": true,
+      "xcresulttoolIndependentlyRerun": "NOT_RUN; supplied structured summary independently cross-checked with all 19 started/passed cases in the actual test log",
+      "startTimeUTC": "2026-10-11T00:17:25.403000+00:00",
+      "finishTimeUTC": "2026-10-11T00:19:16.070000+00:00"
+    },
+    "simulator": {
+      "model": "iPhone 16",
+      "platform": "iOS Simulator",
+      "architecture": "arm64",
+      "osVersion": "18.5",
+      "osBuild": "22F77",
+      "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+      "deviceUdid": "4912B5AB-4B51-494D-819A-DC65EF5E9993",
+      "matchesPreparedDeviceAndRuntime": true,
+      "preparationReceiptNote": "SIMULATOR_READY_XCTEST_NOT_RUN is the historical pre-test state. Later actual XCTest log and result summary prove 19 executed tests."
+    },
+    "evidenceEntrySha256": {
+      "evidence/native-receipt.json": "bdb41d976cfd3cc809d3365b9c6e3d6e3bc58f263435331d1defd6617cce0e7a",
+      "evidence/xctest-summary.json": "5dd97ea886add1b7fb78990235301cf457a222b36b32b6fd513a43a7a28370fb",
+      "evidence/ios-tests.log": "246a5c97919d0cb18f0aac09c22ff5d53513c545c1e4a6fd1fb50906c4a6d311",
+      "evidence/ios-build.log": "19cb02e6a6c2d30530183fa5c5c8db9ac3abd341b775648e384b1b68e4f2c18a",
+      "evidence/simulator-preparation.json": "7210172a8227a6f5912193bbf48778e26d3d4bacd73447d3afafac9f43d52ab3"
+    }
+  },
+  "limits": [
+    "Native evidence belongs to exact source 5a9e186699d20de713913884bc4f9ed296914bf1; newer test-only or documentation revisions are distinct identities.",
+    "Android host Java vectors and simulator XCTest do not prove physical installation, OS background behavior, GPS or battery acceptance.",
+    "Android production signing, signed iOS IPA/TestFlight/App Store provisioning and physical devices remain NOT_RUN.",
+    "No live service or real provider acceptance is certified by these native artifacts."
+  ]
+}

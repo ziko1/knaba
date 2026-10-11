@@ -131,10 +131,19 @@ export class WorkerRunner {
       const current=await tx.get('assistant_config',config.id);assert(current.data.status==='ACTIVE'&&current.version===config.version,'VERSION_CONFLICT');
       const synthetic=['DEMO','TEST'].includes(this.options.appMode)&&current.data.testOnly===true;
       if(!synthetic){assert(current.data.transferApprovalId,'NEEDS_APPROVAL');const approval=await tx.get('legal_approval',current.data.transferApprovalId);assert(approval.data.status==='APPROVED'&&approval.data.subject==='AI_TRANSFER'&&approval.data.active!==false&&(!approval.data.expiresAt||Date.parse(approval.data.expiresAt)>this.now().getTime()),'NEEDS_APPROVAL');}
-      const usage=await tx.list('ai_usage');assert(!usage.some(u=>u.data.event_id===job.id),'PROVIDER_OUTCOME_UNKNOWN');
+      const usage=await tx.list('ai_usage'),previous=usage.filter(u=>u.data.event_id===job.id);
+      // Only an explicitly never-invoked, zero-cost cancellation can be retried.
+      // An uncertain or completed provider call must keep its original charge.
+      const retryCancelled=job.type==='assistant.answer_requested'&&category==='CUSTOMER_ASSISTANT'&&Boolean(guard)&&previous.length===1&&
+        previous[0]!.data.config_id===config.id&&previous[0]!.data.category===category&&previous[0]!.data.status==='CANCELLED'&&
+        previous[0]!.data.provider_invoked===false&&previous[0]!.data.actual_cents===0&&previous[0]!.data.reserved_cents===0;
+      assert(previous.length===0||retryCancelled,'PROVIDER_OUTCOME_UNKNOWN');
       const headroom=aiBudgetHeadroom(current,usage,category,this.now().toISOString()),reserve=this.options.ai!.maximumCostCents('x'.repeat(180000))*2;
       assert(headroom.remainingCents>=reserve&&reserve>0,'AI_BUDGET_EXHAUSTED',{category});
-      await tx.add('ai_usage',{config_id:config.id,config_version:config.version,event_id:job.id,category,currency:'EUR',initial_reserved_cents:reserve,reserved_cents:reserve,status:'RUNNING',cost_basis:'CONFIGURED_RATE_ESTIMATE',started_at:this.now().toISOString()});
+      const data={config_id:config.id,config_version:config.version,event_id:job.id,category,currency:'EUR',initial_reserved_cents:reserve,reserved_cents:reserve,status:'RUNNING',cost_basis:'CONFIGURED_RATE_ESTIMATE',started_at:this.now().toISOString(),
+        ...(job.type==='assistant.answer_requested'?{reservation_lease_hash:key(job.lease_token??''),provider_invoked:false,actual_cents:null,input_tokens:null,output_tokens:null,completed_at:null,provider_started_at:null}:{}),
+        ...(retryCancelled?{reservation_attempt:(previous[0]!.data.reservation_attempt??1)+1}:{reservation_attempt:1})};
+      if(retryCancelled)await tx.save(previous[0]!,{...previous[0]!.data,...data});else await tx.add('ai_usage',data);
       await guard?.(tx);
       return reserve;
     });
@@ -144,6 +153,8 @@ export class WorkerRunner {
     for(const amount of [tokens?.input_tokens,tokens?.output_tokens])if(amount!==undefined)assert(Number.isSafeInteger(amount)&&amount>=0,'VALIDATION_ERROR');
     await this.db.transaction(job.company_id,serviceId,async tx=>{
       const usage=(await tx.list('ai_usage')).find(u=>u.data.event_id===job.id);
+      if(usage?.data.reservation_lease_hash&&usage.data.reservation_lease_hash!==key(job.lease_token??''))return;
+      if(status==='CANCELLED'&&usage?.data.provider_invoked===true)return;
       if(usage)await tx.save(usage,{...usage.data,status,actual_cents:actual??null,reserved_cents:actual??usage.data.reserved_cents,input_tokens:tokens?.input_tokens??null,output_tokens:tokens?.output_tokens??null,cost_basis:'CONFIGURED_RATE_ESTIMATE',provider_reported_cost_available:false,...status==='CANCELLED'?{provider_invoked:false}:{},completed_at:this.now().toISOString()});
     });
   }
@@ -299,7 +310,19 @@ export class WorkerRunner {
     if(input.type==='location'||input.media||!input.text){await this.record(job,'conversation_input',route.id,e=>({...e.data,status:'MANUAL_REVIEW',reason:input.type==='location'?'ONE_TIME_LOCATION_NOT_GPS_TRACKING':'MEDIA_UPLOAD_REQUIRES_QUARANTINE',completed_at:this.now().toISOString()}));return;}
     const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:route.data.language,reply_to_id:route.data.reply_to_id},'inbound-message',actor);await this.record(job,'conversation_input',route.id,async(e,tx)=>{const channel=await tx.get('channel',route.data.channel_id);const config=(await tx.list('assistant_config')).find(c=>c.data.status==='ACTIVE');if(channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&channel.data.handoff?.state==='AI_ACTIVE'&&config?.data.provider==='DEEPSEEK')await tx.event('assistant.answer_requested',{channelId:channel.id,messageId:message.id,actorId:actor.userId,configId:config.id,configVersion:config.data.configVersion,language:route.data.language,sourceChannel:'WHATSAPP'});return {...e.data,status:'PROCESSED',message_id:message.id,router_state:channel.data.type==='PRIVATE_CUSTOMER_ASSISTANT'?'NEW_OR_EXISTING_CUSTOMER_MENU':'OPERATOR_INBOX',completed_at:this.now().toISOString()};});
   }
-  private async answer(job:OutboxJob){const snapshot=await this.db.transaction(job.company_id,serviceId,async tx=>{const source=await this.answerSource(tx,job);if(!source)return;const {config,channel,message}=source;
+  private async answer(job:OutboxJob){const snapshot=await this.db.transaction(job.company_id,serviceId,async tx=>{
+    await this.answerJobGuard(tx,job);
+    const receipt=await tx.query('SELECT command,result FROM command_receipts WHERE company_id=$1 AND actor_id=$2 AND idempotency_key=$3',[job.company_id,serviceId,key('worker',job.id,'ai-answer')]);
+    if(receipt.rows[0]){
+      const reply=receipt.rows[0].result;
+      assert(receipt.rows[0].command==='message.send'&&reply?.kind==='message'&&reply.companyId===job.company_id&&
+        reply.data?.author_id===serviceId&&reply.data.source==='AI'&&reply.data.channel_id===job.data.channelId&&reply.data.reply_to_id===job.data.messageId,'ACCESS_DENIED');
+      // The reply and receipt committed atomically before a possible worker
+      // crash. Reclaiming the queue item must not resend or request a handoff.
+      // Any unsettled provider charge remains reserved, never guessed as zero.
+      await this.answerJobGuard(tx,job);return;
+    }
+    const source=await this.answerSource(tx,job);if(!source)return;const {config,channel,message}=source;
     const docs=await tx.list('knowledge');const sources=docs.filter(d=>config.data.knowledgeIds.includes(d.id)&&d.data.status==='APPROVED'&&Date.parse(d.data.validFrom??d.data.effective_at)<=this.now().getTime()&&(!d.data.validUntil||Date.parse(d.data.validUntil)>this.now().getTime())&&(d.data.visibility==='PUBLIC'||d.data.visibility==='PERSONAL'&&d.data.subjectUserId===job.data.actorId)).map(d=>({id:d.id,text:d.data.content??d.data.text}));const services=(await tx.list('service')).filter(s=>s.data.active&&s.data.approvedBy&&config.data.allowedServiceIds.includes(s.id)).map(s=>({id:s.id,text:`${s.data.name}: ${s.data.description}. ${s.data.included?.join('; ')??''}`}));const conversationHistory=[];for(const prior of (await tx.list('message')).filter(m=>m.data.channel_id===channel.id&&m.id!==message.id&&!m.data.deleted_at).slice(-20)){
  if(await this.currentlyReadable(tx,job.data.actorId,prior))conversationHistory.push({role:prior.data.source==='AI'?'ASSISTANT' as const:'CUSTOMER' as const,text:String(prior.data.text).slice(0,1500)});}
  const approvedPriceBooks=(await tx.list('price_book')).filter(b=>b.data.status==='ACTIVE'&&b.data.approvedBy&&Date.parse(b.data.validFrom)<=this.now().getTime()&&(!b.data.validUntil||Date.parse(b.data.validUntil)>this.now().getTime())).map(b=>({id:b.id,version:b.version,serviceIds:(b.data.rules??[]).filter((r:Data)=>config.data.allowedServiceIds.includes(r.serviceId)).map((r:Data)=>r.serviceId)})).filter(b=>b.serviceIds.length).slice(0,10);
@@ -313,7 +336,12 @@ export class WorkerRunner {
       const policy={model:snapshot.config.data.model,timeoutMs:snapshot.config.data.timeoutMs,tone:snapshot.config.data.tone,addressMode:snapshot.config.data.addressForm,humanHours:snapshot.config.data.humanHours};
       const budget=await this.reserveBudget(job,snapshot.config,snapshot.message.data.text+JSON.stringify(snapshot.sources)+JSON.stringify(catalog),'CUSTOMER_ASSISTANT',checkSource);budgetReserved=true;
       const input={text:snapshot.message.data.text,language:job.data.language as SupportedLanguage,sources:snapshot.sources,ownership:'AI_ACTIVE' as const,synthetic:['DEMO','TEST'].includes(this.options.appMode)&&snapshot.config.data.testOnly===true,budgetRemainingCents:budget,maxReplyChars:snapshot.config.data.maxResponseLength,policy,conversationHistory:snapshot.conversationHistory,approvedPriceBooks:snapshot.approvedPriceBooks};
-      await currentSource();providerStarted=true;let response=await this.options.ai.answer({...input,toolCatalog:catalog});knownCost=response.usage?.cost_cents;knownTokens=response.usage;outcomeKnown=true;
+      await this.db.transaction(job.company_id,serviceId,async tx=>{
+        await checkSource(tx);const usage=(await tx.list('ai_usage')).find(u=>u.data.event_id===job.id);
+        assert(usage?.data.status==='RUNNING'&&usage.data.reservation_lease_hash===key(job.lease_token??'')&&usage.data.provider_invoked===false,'PROVIDER_OUTCOME_UNKNOWN');
+        await tx.save(usage,{...usage.data,provider_invoked:true,provider_started_at:this.now().toISOString()});await checkSource(tx);
+      });
+      providerStarted=true;let response=await this.options.ai.answer({...input,toolCatalog:catalog});knownCost=response.usage?.cost_cents;knownTokens=response.usage;outcomeKnown=true;
       if(response.handoff_required){await this.fallback(job,response.reason??'AI_HANDOFF_REQUIRED');return;}
       const customerTexts:string[]=[];
       if(response.tool_calls.length){

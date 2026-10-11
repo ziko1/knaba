@@ -367,6 +367,16 @@
       "execution_status": "IN_PROGRESS",
       "current_checkpoint": {
         "status": "SCOPED_CONFIRMED_DEFECTS_VERIFIED",
+        "source_sha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+        "evidence": "docs/evidence/assistant-replay-20261011/verification.json",
+        "new_real_postgres_cases": 65,
+        "all_remaining_internal_gaps_closed": false,
+        "full_acceptance": "NOT_RUN",
+        "source_tree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+        "new_replay_and_ledger_cases_relative_to_pr5": 14
+      },
+      "historical_sql_recovery_checkpoint_20261011": {
+        "status": "SCOPED_CONFIRMED_DEFECTS_VERIFIED",
         "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
         "evidence": "docs/evidence/sql-recovery-2026-10-11/verification.json",
         "new_real_postgres_cases": 51,
@@ -4314,53 +4324,41 @@
     }
   },
   "active_v4_implementation": {
-    "status": "SCOPED_SQL_RUNTIME_RECOVERY_PASSED_FULL_ACCEPTANCE_NOT_RUN",
+    "status": "TECHNICAL_SCOPE_VERIFIED_PRODUCT_NOT_READY",
     "record": "docs/planning/V4_IMPLEMENTATION_STATUS.json",
-    "candidate_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
-    "candidate_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
-    "candidate_branch": "codex/knaba-v4-sql-recovery-20261011",
+    "candidate_sha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "candidate_tree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+    "candidate_branch": "codex/knaba-v4-recovery-20261011",
     "full_acceptance": "NOT_RUN",
-    "local_evidence": "docs/evidence/sql-recovery-2026-10-11/local-summary.json",
-    "source_manifest_sha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
+    "local_evidence": "docs/evidence/assistant-replay-20261011/verification.json",
+    "source_manifest_sha256": "658acbe120b0f9cbf32499a5f08ecac6d82ae0ade0f6baadf7e204af1f52e557",
     "hosted_run": {
-      "status": "PASSED_SCOPED_SQL_BROWSER_RECOVERY_AND_NATIVE",
-      "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
-      "source_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+      "status": "PASSED_SCOPED_SQL_BROWSER_RECOVERY_NATIVE_AND_PACKAGE_INTEGRITY",
+      "source_sha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "source_tree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
       "application_run": {
-        "id": 38097796239,
-        "jobId": 114347231650,
-        "url": "https://github.com/ziko1/knaba/actions/runs/38097796239",
-        "liveVerdict": "PASSED",
-        "verifiedAt": "2026-10-11T00:28:53.917Z",
+        "id": 38098204054,
+        "jobId": 114348501193,
+        "url": "https://github.com/ziko1/knaba/actions/runs/38098204054",
         "status": "completed",
-        "conclusion": "success",
-        "startedAt": "2026-10-11T00:15:15Z",
-        "completedObservationAt": "2026-10-11T00:29:15Z",
-        "event": "push"
+        "conclusion": "success"
       },
       "unit": {
         "status": "PASSED",
-        "total": 2228,
-        "passed": 2228,
+        "total": 2242,
+        "passed": 2242,
         "failed": 0,
         "skipped": 0,
         "todo": 0,
         "classification": {
-          "status": "EXACT_INDEX_VALIDATED",
-          "evidence": {
-            "path": "docs/evidence/offline-execution-scope.json",
-            "bytes": 842289,
-            "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a"
-          },
-          "indexIsExecutionProof": false,
-          "realPostgres": {
-            "total": 407,
-            "passed": 407,
+          "REAL_POSTGRES": {
+            "total": 421,
+            "passed": 421,
             "failed": 0,
             "skipped": 0,
             "todo": 0
           },
-          "cpuDocumentOrTransportDouble": {
+          "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
             "total": 1821,
             "passed": 1821,
             "failed": 0,
@@ -4370,59 +4368,150 @@
         }
       },
       "new_postgres_cases": {
-        "tests/assistant-answer-authority.integration.test.ts": {
-          "total": 29,
-          "passed": 29,
-          "failed": 0,
-          "skipped": 0,
-          "todo": 0
-        },
-        "tests/assistant-runtime.integration.test.ts": {
-          "total": 16,
-          "passed": 16,
-          "failed": 0,
-          "skipped": 0,
-          "todo": 0
-        },
-        "tests/v4-load-seed.integration.test.ts": {
-          "total": 6,
-          "passed": 6,
-          "failed": 0,
-          "skipped": 0,
-          "todo": 0
-        }
+        "relative_to_pr4": 65,
+        "relative_to_pr5": 14,
+        "passed": 65,
+        "replay_passed": 13,
+        "historical_ledger_passed": 1
       },
       "browser": {
         "status": "PASSED",
+        "total": 27,
         "passed": 27,
         "failed": 0,
-        "flaky": 0,
         "skipped": 0,
-        "total": 27
+        "flaky": 0,
+        "retries": 0,
+        "actual_backend_ui": 26,
+        "explicit_http_fixture": 1
       },
       "native_run": {
-        "id": 38097796144,
-        "url": "https://github.com/ziko1/knaba/actions/runs/38097796144",
-        "event": "push",
-        "branch": "codex/knaba-v4-sql-recovery-20261011",
+        "id": 38098204040,
+        "url": "https://github.com/ziko1/knaba/actions/runs/38098204040",
         "status": "completed",
         "conclusion": "success",
-        "startedAt": "2026-10-11T00:15:15Z",
-        "updatedAt": "2026-10-11T00:23:10Z",
-        "attempt": 1
+        "android_host_java_passed": 66,
+        "ios_xctest_passed": 19,
+        "lint_errors": 0,
+        "lint_warnings": 10
       },
-      "evidence": "docs/evidence/sql-recovery-2026-10-11/verification.json",
-      "native_evidence": "docs/evidence/sql-recovery-2026-10-11/native-summary.json",
+      "evidence": "docs/evidence/assistant-replay-20261011/verification.json",
+      "native_evidence": "docs/evidence/assistant-replay-20261011/native-verification.json",
+      "packaging_evidence": "docs/evidence/assistant-replay-20261011/packaging-verification.json",
       "whole_product_acceptance": "NOT_RUN",
       "deployment": "NOT_RUN"
     },
-    "historical_checkpoint": {
-      "status": "SOURCE_FROZEN_LOCAL_CPU_PASSED_HOSTED_PENDING",
+    "historical_sql_recovery_checkpoint_20261011": {
+      "status": "SCOPED_SQL_RUNTIME_RECOVERY_PASSED_FULL_ACCEPTANCE_NOT_RUN",
       "record": "docs/planning/V4_IMPLEMENTATION_STATUS.json",
-      "candidate_sha": null,
+      "candidate_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "candidate_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+      "candidate_branch": "codex/knaba-v4-sql-recovery-20261011",
       "full_acceptance": "NOT_RUN",
-      "local_evidence": "docs/evidence/v4-source-freeze-local-summary.json",
-      "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9"
+      "local_evidence": "docs/evidence/sql-recovery-2026-10-11/local-summary.json",
+      "source_manifest_sha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
+      "hosted_run": {
+        "status": "PASSED_SCOPED_SQL_BROWSER_RECOVERY_AND_NATIVE",
+        "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+        "source_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+        "application_run": {
+          "id": 38097796239,
+          "jobId": 114347231650,
+          "url": "https://github.com/ziko1/knaba/actions/runs/38097796239",
+          "liveVerdict": "PASSED",
+          "verifiedAt": "2026-10-11T00:28:53.917Z",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-11T00:15:15Z",
+          "completedObservationAt": "2026-10-11T00:29:15Z",
+          "event": "push"
+        },
+        "unit": {
+          "status": "PASSED",
+          "total": 2228,
+          "passed": 2228,
+          "failed": 0,
+          "skipped": 0,
+          "todo": 0,
+          "classification": {
+            "status": "EXACT_INDEX_VALIDATED",
+            "evidence": {
+              "path": "docs/evidence/offline-execution-scope.json",
+              "bytes": 842289,
+              "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a"
+            },
+            "indexIsExecutionProof": false,
+            "realPostgres": {
+              "total": 407,
+              "passed": 407,
+              "failed": 0,
+              "skipped": 0,
+              "todo": 0
+            },
+            "cpuDocumentOrTransportDouble": {
+              "total": 1821,
+              "passed": 1821,
+              "failed": 0,
+              "skipped": 0,
+              "todo": 0
+            }
+          }
+        },
+        "new_postgres_cases": {
+          "tests/assistant-answer-authority.integration.test.ts": {
+            "total": 29,
+            "passed": 29,
+            "failed": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "tests/assistant-runtime.integration.test.ts": {
+            "total": 16,
+            "passed": 16,
+            "failed": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "tests/v4-load-seed.integration.test.ts": {
+            "total": 6,
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "browser": {
+          "status": "PASSED",
+          "passed": 27,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0,
+          "total": 27
+        },
+        "native_run": {
+          "id": 38097796144,
+          "url": "https://github.com/ziko1/knaba/actions/runs/38097796144",
+          "event": "push",
+          "branch": "codex/knaba-v4-sql-recovery-20261011",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-11T00:15:15Z",
+          "updatedAt": "2026-10-11T00:23:10Z",
+          "attempt": 1
+        },
+        "evidence": "docs/evidence/sql-recovery-2026-10-11/verification.json",
+        "native_evidence": "docs/evidence/sql-recovery-2026-10-11/native-summary.json",
+        "whole_product_acceptance": "NOT_RUN",
+        "deployment": "NOT_RUN"
+      },
+      "historical_checkpoint": {
+        "status": "SOURCE_FROZEN_LOCAL_CPU_PASSED_HOSTED_PENDING",
+        "record": "docs/planning/V4_IMPLEMENTATION_STATUS.json",
+        "candidate_sha": null,
+        "full_acceptance": "NOT_RUN",
+        "local_evidence": "docs/evidence/v4-source-freeze-local-summary.json",
+        "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9"
+      }
     }
   }
 }

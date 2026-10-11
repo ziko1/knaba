@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "scope": "Explicit reviewed execution classification. This local report executes CPU/document/transport-double cases; genuine PostgreSQL cases remain skipped NOT_RUN until actual isolated CI execution. Classification and source hashes are not acceptance proof.",
-  "generatedAt": "2026-10-11T00:14:35.232116Z",
-  "reportSha256": "78db596e0d95842a35d22a757df32ee7f3f9e9e6c4e70b5a92729550043a8bb6",
-  "priorIndexSha256": "d04f551a51904b7f8b1a57a49d14dbf36304438687884f0acdbb21be56f3cbd2",
-  "classifierSha256": "d6abdc5b7cf294c0e52e49e2c92fcab496e385f8de178bb7795cd77ad28573be",
+  "generatedAt": "2026-10-11T00:22:04.765551Z",
+  "reportSha256": "b9a42f4659654617fe72ef3d25b6ee1043399ea7166ca0bfc82a531e91be6595",
+  "priorIndexSha256": "023b2cfa5c8218e4db5210c06891cb2c59cbec301f2d8af8f2c5603b87b228e2",
+  "classifierSha256": "a12813393c1346258a64d17ec7b156198e37ada9b16f243cb2d9cbccdebd52b8",
   "sourceManifestScope": "All Git-tracked and nonignored executable application/domain/infra/scripts/tests/CI/config source plus the live QA runner; documentation and generated evidence excluded to prevent circular hashing.",
-  "sourceManifestSha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
+  "sourceManifestSha256": "658acbe120b0f9cbf32499a5f08ecac6d82ae0ade0f6baadf7e204af1f52e557",
   "source_manifest": [
     {
       "path": ".env.example",
@@ -22,6 +22,11 @@
       "path": ".github/workflows/native.yml",
       "bytes": 9673,
       "sha256": "e3745f0756e8cc829b7cfee39105ff39c217f21fdfb5a659bfea3929f03b8338"
+    },
+    {
+      "path": ".github/workflows/responsive.yml",
+      "bytes": 3122,
+      "sha256": "b7254e2a8bc58b0d964c1ba8eda719cce076c1b7202eb5392f058f7d062ed72e"
     },
     {
       "path": ".github/workflows/staging.yml",
@@ -589,6 +594,11 @@
       "sha256": "056836cbadff11d9b171655a53bcebab359f704e66c71bf95932dc453192444a"
     },
     {
+      "path": "apps/web/src/responsive.css",
+      "bytes": 16955,
+      "sha256": "cc0e1c7d7a5d94b22fe91bc0c3571aa0ee067b42a79119e3574b46875721749c"
+    },
+    {
       "path": "apps/web/src/routeMapModel.ts",
       "bytes": 13539,
       "sha256": "cb8316dd5c06f4d31167bcf3c63f78d913e041110ae932462f5c8597cf5e84a7"
@@ -597,6 +607,11 @@
       "path": "apps/web/src/style.css",
       "bytes": 59356,
       "sha256": "bf1e254458ef7abc21cda6f73f025f34c25ff40dd99eb468f86561f583378e33"
+    },
+    {
+      "path": "apps/web/src/useResponsiveNavigation.ts",
+      "bytes": 3287,
+      "sha256": "5533ea7a84b6316718a5b8331d44b912b05c48c33d839a4b08f487dacbc3851e"
     },
     {
       "path": "apps/web/tsconfig.json",
@@ -625,8 +640,8 @@
     },
     {
       "path": "apps/worker/runner.ts",
-      "bytes": 73689,
-      "sha256": "e3573b58d95a407cd210bbc0aa041fdbf2e6cfb3572463251906ba237d1e9432"
+      "bytes": 76303,
+      "sha256": "08e54d0be7da2b7ee134527659de7231e7461253664a9aa2763df29ea861951d"
     },
     {
       "path": "docs/evidence/run-live-qa.sh",
@@ -1099,6 +1114,11 @@
       "sha256": "013695ce24773c5dd80b00b75e27191b875bb59054a8d3e3779cd885e8d5c494"
     },
     {
+      "path": "tests/assistant-answer-replay.integration.test.ts",
+      "bytes": 19156,
+      "sha256": "278f1b5cbb703ce15327874821604eebc3958ae06e774333d37e45e5dc4a0d29"
+    },
+    {
       "path": "tests/assistant-governance.integration.test.ts",
       "bytes": 5719,
       "sha256": "631e9054a9b7208afb06c581f454c413f11cc30fb4d5f94a25ba17318b7bff10"
@@ -1110,8 +1130,8 @@
     },
     {
       "path": "tests/assistant-runtime.integration.test.ts",
-      "bytes": 43508,
-      "sha256": "63a752c86cb18471522dd7fe503e98feac42db28c09e5c538ac0b97bc2d629c4"
+      "bytes": 44707,
+      "sha256": "02fbf2f78ec0a17f4be14aca54ce9045e7fcaf136778a65029bcddaf97f67705"
     },
     {
       "path": "tests/assistant-tools.test.ts",
@@ -1365,8 +1385,8 @@
     },
     {
       "path": "tests/operations-digest.integration.test.ts",
-      "bytes": 33359,
-      "sha256": "2422500de97ab9bf50e3965919c3b42b93d9a9d5bdeb3a1e974a04c9013d1a7f"
+      "bytes": 37118,
+      "sha256": "0fefe9ea01fbd65d78d699a03f135466f2eb277ff74d7d9f2f62a9263ced853b"
     },
     {
       "path": "tests/operations-digest.test.ts",
@@ -1437,6 +1457,11 @@
       "path": "tests/resources.test.ts",
       "bytes": 62649,
       "sha256": "8968667501c5f9e6c698fa3f60e18d3b975c8f0594d5211668bece3297347e93"
+    },
+    {
+      "path": "tests/responsive.spec.ts",
+      "bytes": 24572,
+      "sha256": "372c9cf87997e9db9caa7573bd4b3537fb4eccf146c74a544659fe6decd87abe"
     },
     {
       "path": "tests/route-map-model.test.ts",
@@ -1532,7 +1557,7 @@
   "sourceChangedAfterReport": [],
   "totals": {
     "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": 1821,
-    "REAL_POSTGRES": 407
+    "REAL_POSTGRES": 421
   },
   "test_files": [
     {
@@ -1564,6 +1589,10 @@
       "sha256": "013695ce24773c5dd80b00b75e27191b875bb59054a8d3e3779cd885e8d5c494"
     },
     {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "sha256": "278f1b5cbb703ce15327874821604eebc3958ae06e774333d37e45e5dc4a0d29"
+    },
+    {
       "test_path": "tests/assistant-governance.integration.test.ts",
       "sha256": "631e9054a9b7208afb06c581f454c413f11cc30fb4d5f94a25ba17318b7bff10"
     },
@@ -1573,7 +1602,7 @@
     },
     {
       "test_path": "tests/assistant-runtime.integration.test.ts",
-      "sha256": "63a752c86cb18471522dd7fe503e98feac42db28c09e5c538ac0b97bc2d629c4"
+      "sha256": "02fbf2f78ec0a17f4be14aca54ce9045e7fcaf136778a65029bcddaf97f67705"
     },
     {
       "test_path": "tests/assistant-tools.test.ts",
@@ -1769,7 +1798,7 @@
     },
     {
       "test_path": "tests/operations-digest.integration.test.ts",
-      "sha256": "2422500de97ab9bf50e3965919c3b42b93d9a9d5bdeb3a1e974a04c9013d1a7f"
+      "sha256": "0fefe9ea01fbd65d78d699a03f135466f2eb277ff74d7d9f2f62a9263ced853b"
     },
     {
       "test_path": "tests/operations-digest.test.ts",
@@ -2100,6 +2129,84 @@
     {
       "test_path": "tests/assistant-answer-authority.integration.test.ts",
       "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks expired-lease before returning a cached successful AI message receipt",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries reclaims a successfully replied and settled job without another provider call, reply, cost write or false human handoff",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries uses the persisted reply receipt after a settlement crash and retains its unresolved full reservation without resending or handoff",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retries a confirmed never-invoked zero-cost cancellation once under a fresh real lease and preserves one billed outcome",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries ignores a delayed old-lease cancellation after a safe successor has durably marked its own provider request started",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries refuses zero-cost cancellation even from the current lease after its actual provider-start marker commits",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retains the full reservation and requests human review when a genuine first provider request is still unknown during lease recovery",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks SUBSTITUTED_SOURCE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks WRONG_JOB_TYPE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks EXPIRED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks REPLACED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current ACTOR_DISABLED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current CONFIG_RETIRED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current SERVICE_MEMBERSHIP_REVOKED authority is revoked",
       "duplicate_name_occurrence": 0,
       "execution_class": "REAL_POSTGRES"
     },
@@ -10264,6 +10371,12 @@
       "execution_class": "REAL_POSTGRES"
     },
     {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals",
+      "duplicate_name_occurrence": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
       "test_path": "tests/operations-digest.test.ts",
       "full_name": "actual scoped deterministic operational digest composition reports canonical submitted backlog separately from half-open period worklog and net accept/reopen event quantities",
       "duplicate_name_occurrence": 0,
@@ -15332,7 +15445,7 @@
       "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
       "duplicate_name_occurrence": 0,
       "execution_class": "REAL_POSTGRES",
-      "reason": "V4 KNB-11/AC-21 preserves accepted originals and records remediation in a separate REWORK. Genuine PostgreSQL digest source invalidation and in-period facts now use that lifecycle; original/history/privacy/time/trip/deduplication assertions remain explicit.",
+      "reason": "V4 KNB-11/AC-24 preserves accepted originals and records remediation in a separate REWORK. Genuine PostgreSQL digest source invalidation and in-period facts now use that lifecycle; original/history/privacy/time/trip/deduplication assertions remain explicit.",
       "replacement_cases": [
         {
           "test_path": "tests/operations-digest.integration.test.ts",
@@ -15348,7 +15461,7 @@
       "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
       "duplicate_name_occurrence": 0,
       "execution_class": "REAL_POSTGRES",
-      "reason": "V4 KNB-11/AC-21 preserves accepted originals and records remediation in a separate REWORK. Genuine PostgreSQL digest source invalidation and in-period facts now use that lifecycle; original/history/privacy/time/trip/deduplication assertions remain explicit.",
+      "reason": "V4 KNB-11/AC-24 preserves accepted originals and records remediation in a separate REWORK. Genuine PostgreSQL digest source invalidation and in-period facts now use that lifecycle; original/history/privacy/time/trip/deduplication assertions remain explicit.",
       "replacement_cases": [
         {
           "test_path": "tests/operations-digest.integration.test.ts",
@@ -15360,20 +15473,30 @@
       "status": "RETIRED_WITH_EXPLICIT_V4_REPLACEMENT"
     }
   ],
+  "baselineIndexSha256": "50ae2347b03d4d3b3aab6a9d2d4720bba8e810f635e161c574de4b60012c294e",
   "sourceManifestEncoding": "UTF-8 JSON, sorted object keys, compact separators; entries sorted by path",
   "reviewedChanges": {
     "baseCommit": "826aef9c344b596584552439de32daa8f03e72c3",
-    "newRealPostgresCases": 51,
+    "newRealPostgresCases": 65,
     "newRealPostgresFiles": [
       "tests/assistant-answer-authority.integration.test.ts",
+      "tests/assistant-answer-replay.integration.test.ts",
       "tests/assistant-runtime.integration.test.ts",
       "tests/v4-load-seed.integration.test.ts"
     ],
     "explicitV4ReplacementCases": 2,
-    "method": "Retain exact existing case identities/classes; classify only independently reviewed new PostgreSQL cases; record both semantic V4 replacements explicitly."
+    "method": "Retain exact existing case identities/classes; classify only independently reviewed new PostgreSQL cases; record both semantic V4 replacements explicitly.",
+    "specificNewCaseReasons": [
+      {
+        "test_path": "tests/operations-digest.integration.test.ts",
+        "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals",
+        "duplicate_name_occurrence": 0,
+        "reason": "Preserves genuine PostgreSQL coverage of nonzero accepted/reopened review counts and net period arithmetic using append-only historical facts against an already nonterminal synthetic source. The current V4 ACCEPTED original and its revisions stay unchanged; the period-end reversal is excluded and reads have zero database effects."
+      }
+    ]
   },
   "followupReview": {
-    "baseCommit": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "integratedParent": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
     "actualFailedRun": 38096631407,
     "changedSourcePaths": [
       "tests/handoff-calendar.integration.test.ts",
@@ -15381,6 +15504,14 @@
     ],
     "caseIdentitiesChanged": false,
     "executionClassesChanged": false,
-    "method": "Preserve all 2228 exact case identities and reviewed execution classes. Repair unleased versus genuinely leased queued-AI assertions with no-effect fingerprints; compare cancellation notification tuples and visibility by actual recipient rather than random UUID order."
+    "method": "Integrate the exact reviewed upstream fixture corrections: distinguish missing lease from genuinely leased queued-AI suppression with unchanged database fingerprints and readable source; compare exact notification recipient tuples and recipient-bound visibility without UUID ordering assumptions. Preserve all 2242 case identities/classes of the replay candidate."
+  },
+  "replayContractAlignment": {
+    "actualFailedSource": "5a9e186699d20de713913884bc4f9ed296914bf1",
+    "actualFailedRun": 38097306657,
+    "testPath": "tests/assistant-runtime.integration.test.ts",
+    "caseIdentityChanged": false,
+    "executionClassChanged": false,
+    "reason": "A successfully committed answer replay must not create a false human-handoff decision. The retained case now proves the initial AI reply/draft and AI_ACTIVE state, then identical messages, tools, usage, decisions, channel and all aggregate/revision/audit/receipt/outbox fingerprints after replay."
   }
 }

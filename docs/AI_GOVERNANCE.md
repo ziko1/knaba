@@ -54,6 +54,50 @@ The worker calls `aiBudgetHeadroom(configEntity,usageEntities,category,nowISO)` 
 
 Known terminal costs can settle the reservation to `actual_cents`; RUNNING or unknown outcomes retain the conservative reservation. Settlements preserve the initial reservation and record available input/output token counts. Repeated/uncertain events do not become free retries. Currency mismatches, fractional/negative cost and corrupt metrics fail closed. The worker's configured token tariff uses `cost_basis:CONFIGURED_RATE_ESTIMATE`; it is not a provider invoice.
 
+## Customer answer recovery and retry authority
+
+The following behavior is implemented in source commit [`a10e70911fb519ec7d8199fa66141cd12b462926`](https://github.com/ziko1/knaba/commit/a10e70911fb519ec7d8199fa66141cd12b462926), Git tree `c62487ef71a88352df52bf5d396ce2b27f0bbd6c`. The implementation is in [WorkerRunner](../apps/worker/runner.ts) and the [Engine answer authority guard](../apps/api/engine.ts). This source binding describes the contract; it does not certify deployment, real provider operation or supplier billing. Execution results belong to the separate [exact-source recovery receipt](evidence/assistant-replay-20261011/verification.json); source inventory alone is not execution evidence.
+
+### Current job, service and source authority
+
+Every customer-answer attempt first checks its actual company-scoped SQL outbox row: `assistant.answer_requested`, the complete persisted job payload, `RUNNING` status, matching lease token and an unexpired lease. The current canonical `knaba-integration-service` user must be active, retain `SERVICE_ACCOUNT` and have effective `integration.process` permission. A substituted payload, another job type or an expired/replaced lease cannot authorize new work or an answer replay.
+
+Before new provider work, tool effects or a new reply, the worker rechecks the current configuration, original message, requester and channel. The configuration must remain ACTIVE at the requested configuration version; the undeleted original must belong to the exact requester and channel; the requester must still be able to read it. Only `PRIVATE_CUSTOMER_ASSISTANT` and `SITE_CLIENT` channels with `AI_ACTIVE` ownership qualify, and a linked lead must also remain `AI_ACTIVE`. Prepared configuration, channel and message entity versions are checked again at the next protected boundary. Revocation or intervening source changes cannot be overridden by a previously prepared answer or reserved budget.
+
+Existing worker memberships must still be active, current and able to read the original message. Revoked, removed, left, inactive or expired access is not silently replaced by another worker-created membership. First enrollment is available only when the channel has no historical membership entry for that service user. An independently restored effective membership is evaluated through the same current access rules.
+
+For a new `message.send` with `source:AI`, the Engine requires the canonical service, exact leased answer job, matching channel/reply target and exactly the current channel, configuration and original-message preconditions. The configuration is usable only for this bound send; the service does not gain ordinary administrative configuration visibility. Source authorization is rechecked before a cached Engine send receipt can be returned. Provider calls and private customer context remain separate from these server decisions: the model cannot grant permissions, confirm business actions or determine financial amounts.
+
+### Persisted reply receipts
+
+The worker checks for its deterministic `message.send` receipt after validating the genuine job and canonical service authority. The receipt must describe an AI message by that service in the exact company and channel, replying to the job's original message. Because the reply and receipt commit in the same business transaction, a valid receipt establishes that this answer already persisted.
+
+When a queue item is reclaimed after that commit, the answer handler does nothing further: no provider request, new reply, additional receipt, cost rewrite or artificial human handoff. This worker completion path returns no private message content and does not recreate edited or erased content. New source processing and disclosure remain subject to their current access checks; a queue completion marker is not a fresh permission grant.
+
+Reply persistence and cost settlement are separate facts. If the reply committed and the worker then failed before cost settlement, recovery preserves the existing unresolved reservation. It must not infer a zero charge, invent a refund, repeat the provider request or create a handoff merely because the cost record remains `RUNNING`.
+
+### Safe cancellation retry and durable provider marker
+
+A previous reservation permits a fresh attempt only when all of these persisted conditions hold: the exact answer event has **one** usage record; it belongs to the same configuration and `CUSTOMER_ASSISTANT` category; its status is `CANCELLED`; `provider_invoked` is explicitly `false`; and both `actual_cents` and `reserved_cents` are exactly zero. Current job, service, source, transfer authority and all budget limits are checked again. The same usage aggregate is revised, its previous cancellation stays in aggregate history, `reservation_attempt` increases and `reservation_lease_hash` binds the new reservation to the current lease. Multiple or uncertain records do not qualify.
+
+Immediately before the first adapter call, a serialized company transaction rechecks the source and lease, confirms the matching `RUNNING` reservation, and records `provider_invoked:true` with `provider_started_at`. The marker is a conservative dispatch boundary: a crash after it means the provider **may** have been invoked. It is not proof of provider acceptance, delivered output or a real supplier charge. Recovery must retain that uncertainty rather than resetting the marker to obtain a free retry.
+
+The reservation and settlement outcomes are:
+
+| Persisted condition | Recovery behavior | Cost treatment |
+| --- | --- | --- |
+| Valid completed reply receipt | Complete the answer handler without another provider call, reply or handoff | Preserve its settled cost or unresolved reservation |
+| Exactly one matching `CANCELLED` record with explicit no-call and zero amounts | Retry only after fresh authority and budget checks | Reserve anew on the same aggregate; retain cancellation history |
+| Existing `RUNNING` or uncertain provider outcome without a completed reply | No repeat provider call; request human review only while current handoff authority permits it | Retain the conservative reservation |
+| First provider round known, second round uncertain | No partial settlement based only on the first round | Retain the full reservation for the combined unknown outcome |
+| Known provider result followed by lease loss or revoked business authority | Suppress unauthorized reply/tool effects | Settle only known available usage against the reservation still owned by that attempt |
+
+### Settlement ownership and remaining uncertainty
+
+Settlement compares the attempt's lease hash with `reservation_lease_hash`. A late old-attempt settlement cannot overwrite the reservation that a safe successor has acquired. Even the matching current attempt cannot apply a zero-cost `CANCELLED` settlement once `provider_invoked:true` is durable. These checks leave the protected aggregate, revisions and reserved amount unchanged.
+
+A legitimate late provider result may still settle its original reservation after the queue lease has changed, provided that reservation has not been assigned to a new attempt. This accounts for an already incurred outcome without authorizing another message, handoff or business action. If the provider result is unavailable, cost and token fields stay explicitly unresolved and the reservation remains. The worker's amounts continue to be configured-rate estimates with `provider_reported_cost_available:false`; reconciliation to a real model-provider invoice is a separate operation.
+
 ## Director usage view
 
 `assistant.usage` requires `assistant.manage` and a current active internal OWNER, DIRECTOR or OPERATIONS_MANAGER. BOT_ADMIN alone cannot access this director view. The query is bound to the current company. It does not grant broader finance, payroll, GPS or company-scoped permissions.
@@ -69,3 +113,7 @@ The output includes category totals, counts/statuses, original reserved cents, k
 [assistant-governance.test.ts](../tests/assistant-governance.test.ts) exercises actual handlers with mutation-forbidden transactions, network spies, all closed business/private tools, source ACL filtering, prompt injection, six languages, fresh authority, Berlin/DST budget boundaries, legacy costs, exact cents and safe usage projection. Tests are CPU/domain/transport-boundary checks.
 
 [assistant-governance.integration.test.ts](../tests/assistant-governance.integration.test.ts) contains seven genuine PostgreSQL cases: actual Engine read-only mode and zero changed business/history/audit/receipt/outbox/blob rows for both commands; PostgreSQL denial of add/save/event; fresh metrics under a reused read key; revoked-role denial. These tests are skipped without DATABASE_URL. Their presence does not establish a PostgreSQL pass, a provider evaluation or production approval.
+
+At the source commit above, [assistant-answer-replay.integration.test.ts](../tests/assistant-answer-replay.integration.test.ts) contains **13 genuine PostgreSQL recovery cases** covering completed-reply replay, reply-before-settlement failure, explicit no-call cancellation retry, uncertain provider outcomes, forged sources/types/leases, current authority revocation, old-attempt settlement fencing and rejection of cancellation after the provider marker. The cases exercise actual WorkerRunner/Engine transactions, receipts, lease reassignment, usage records and historical revisions. External provider responses and explicit crash/scheduling boundaries are controlled test doubles.
+
+[assistant-runtime.integration.test.ts](../tests/assistant-runtime.integration.test.ts) contains **46 genuine PostgreSQL runtime cases** with actual Engine, controller authentication, queue leasing, WorkerRunner and DeepSeekAdapter execution. External AI requests and Express transport objects are explicit doubles. It covers the customer draft/tool flow, current source and worker authority, membership revocation, reservations cancelled before transfer, late known costs and the full retained reservation after an uncertain second provider round. [assistant-answer-authority.integration.test.ts](../tests/assistant-answer-authority.integration.test.ts) separately checks the exact Engine send authority without granting broad configuration access. Case counts describe the source inventory, not execution results. Without `DATABASE_URL` these SQL cases are NOT_RUN; even an actual PostgreSQL pass does not demonstrate private data transfer to a real model, a real supplier bill, live delivery or production acceptance.

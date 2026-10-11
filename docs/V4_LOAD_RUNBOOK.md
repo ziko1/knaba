@@ -1,5 +1,9 @@
 # V4 isolated load measurement
 
+## SQL fixture recovery — 2026-10-11
+
+Candidate `a10e70911fb519ec7d8199fa66141cd12b462926` includes the explicitly typed `$4::text` audit parameter and an importable `insertFixtureBatch` entry point. Six genuine PostgreSQL seed cases exercise actual batched aggregate/revision/audit writes and rollback; their exact executed result is in [the recovery receipt](evidence/assistant-replay-20261011/verification.json). This narrow regression coverage does not measure the 900-second workload, 100 active sessions, latency, webhook/provider/PDF concurrency, RPO/RTO or cost. Those targets remain NOT_RUN until their separate measurement protocols run. The workflow and thresholds below are unchanged.
+
 The runner exists; no load has been executed merely by adding it. `scripts/v4-load.mts` measures the core HTTP workload. Webhook latency, enqueue-to-provider latency, three PDF jobs and native device transport remain separate `NOT_RUN` results. A successful core run is `PARTIAL_MEASURED_CORE_ONLY`, never a whole AC-67 pass.
 
 Use Node24 and the pinned installation (`npm ci`). Run from an exact committed checkout; `EXPECTED_GIT_SHA` must equal its40-character Git SHA, with no tracked modifications or untracked files. The runner compares `/api/v1/version` before and after measurement and stores SHA256 hashes of its actual source dependencies. Build and attest `dist/release.json` against that same SHA before starting the API. A SHA string alone does not attest an unrelated binary.

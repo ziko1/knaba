@@ -1,5 +1,19 @@
 # Поточна реалізація V4
 
+## Поточний checkpoint — 11.10.2026
+
+Вихідний код: **`a10e70911fb519ec7d8199fa66141cd12b462926`**, дерево **`c62487ef71a88352df52bf5d396ce2b27f0bbd6c`**. Стан перевірки: **TECHNICAL_SCOPE_VERIFIED_PRODUCT_NOT_READY**. [PR #6](https://github.com/ziko1/knaba/pull/6) продовжує PR #5; його виправлення SQL fixtures збережено. Фактичні результати й історія: [recovery receipt](../evidence/assistant-replay-20261011/verification.json).
+
+Реалізовано відновлення вже збереженої AI-відповіді без дубля, повторного виклику провайдера або хибного handoff. Повтор дозволено лише для одного підтвердженого невиконаного запиту з нульовими сумами; історія резерву зберігається. Перед викликом провайдера фіксується консервативний маркер початку, а старий lease не може обнулити резерв нового виконавця. Невідомий результат залишає резерв невирішеним. Додано 13 справжніх PostgreSQL replay-сценаріїв і один сценарій історичних ACCEPT/REOPEN показників без зміни прийнятого оригіналу.
+
+[Application CI 38098204054](https://github.com/ziko1/knaba/actions/runs/38098204054) завершено **SUCCESS**: **2 242/2 242 PASS, 0 FAIL, 0 SKIP**, з них **1 821 CPU/document/explicit-double** і **421 справжній PostgreSQL**. Пройшли всі 40 історичних failure mappings, 65 нових PostgreSQL cases та три залишкові сценарії попередніх кандидатів; це підмножини загальної кількості. Усі **27/27 браузерних сценаріїв** пройшли з першої спроби: 26 actual backend/UI й один явний HTTP fixture. TypeScript/build/Docker та сім acceptance stages — PASS, включно з відновленням 17 таблиць і 12 private blobs та двома незалежними worker процесами. Локальний SQL результат окремо лишається NOT_RUN.
+
+[Native CI 38098204040](https://github.com/ziko1/knaba/actions/runs/38098204040): обидва jobs SUCCESS; **66 host Java** і **19 actual iOS Simulator XCTest PASS**, lint **0 errors / 10 warnings**. Незалежно перевірено native архіви й 45 iOS bundle hashes. Фізичні пристрої та підпис компанії цим не прийняті.
+
+Пакети вихідного коду, документації й обидві runtime частини завантажено та звірено за довжиною, SHA-256 і ZIP CRC. **454 source files**, **113 спільних runtime source files** і **14 build files** збігаються з exact source; runtime відновлено до **45 024 537 bytes** з правильним повним хешем. [Повний індекс доказів](../evidence/assistant-replay-20261011/README.md) містить збережений стиснений оригінал звіту про всі 2 242 тести.
+
+Це окремий технічний обсяг. Всі 72 compound V4 критерії та реальні company/provider/physical/load/offsite gates не закриваються сумою тестів. Нижче збережено історичний checkpoint 08.10.2026; його фрази про відсутність candidate SHA та невиконані SQL перевірки стосуються тієї дати. Незавершені D07 контракти й зовнішні передумови залишаються в канонічному реєстрі.
+
 Стан на **11.10.2026 UTC**: **поточні SQL/runtime виправлення пройшли фактичні hosted-перевірки; повний продукт NOT_READY**. Ціль V4 і збереження NestJS/PostgreSQL SQL/outbox затверджені користувачем через ADR-0002. Оригінальний V3 master та історичні докази збережені.
 
 Опублікований повний план: `2fb35d4219d637b1e1c8742459c8f352b31b469d`. Остання повністю перевірена й передана історична executable-база: `ca9ed79ff4c0429223eb60754289ee1132088361`; її докази не приймають поточні зміни V4.
@@ -17,7 +31,7 @@ Executable SHA **`3f4370c3b3ba66941a42f6840db0f25ae57fca65`**, Git tree `464057c
 | Поточний native CI | [38097796144](https://github.com/ziko1/knaba/actions/runs/38097796144), той самий source: **SUCCESS**. Android **66 host Java PASS**, debug APK, lint **0 errors / 10 warnings**; iOS **19 actual XCTest PASS**, 0 FAIL/SKIP на iPhone 16 / iOS 18.5 Simulator. Завантажені native artifacts, payload hashes, 45 iOS bundle-файлів і відповідність фактичного підготовленого simulator перевірені незалежно. |
 | Попередній hosted checkpoint | `1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6`, [run 38096631407](https://github.com/ziko1/knaba/actions/runs/38096631407): **FAILED**, 2 226/2 228 PASS, 2 FAIL, 0 SKIP; 1 821 CPU PASS та **405/407 genuine PostgreSQL PASS**. Усі **51 новий PG case PASS**, 27/27 browser PASS, restore і справжні Worker-перевірки PASS. Ці результати належать лише цьому checkpoint. |
 
-Поточний [execution index](../evidence/offline-execution-scope.json) має SHA256 `fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a`; executable source manifest SHA256 `0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4`. Він зберігає точні case identities/classes, дві явні семантичні заміни digest і чотири попередні заміни; `sourceChangedAfterReport` порожній. Локальна класифікація не є виконанням PostgreSQL.
+Поточний [execution index PR #5](https://github.com/ziko1/knaba/blob/3f4370c3b3ba66941a42f6840db0f25ae57fca65/docs/evidence/offline-execution-scope.json) має SHA256 `fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a`; executable source manifest SHA256 `0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4`. Він зберігає точні case identities/classes, дві явні семантичні заміни digest і чотири попередні заміни; `sourceChangedAfterReport` порожній. Локальна класифікація не є виконанням PostgreSQL.
 
 Фактичні докази: [підсумок виконання](../evidence/sql-recovery-2026-10-11/README.md), [точна перевірка source/cases/stages](../evidence/sql-recovery-2026-10-11/verification.json), [native receipt](../evidence/sql-recovery-2026-10-11/native-summary.json). Незалежно завантажений application evidence artifact `11686537370`: **8 163 623 bytes**, SHA256 `076e43dea4943dee0b304cc1854ee04df8289d6de6cb246557ea454d0d4bcacf`; CRC усіх 113 ZIP entries, exact source/tree та всі 14 built-file hashes перевірені. Повна незалежна передача всього runtime лишається окремим кроком.
 

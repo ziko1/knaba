@@ -1,0 +1,1935 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-11T00:37:24.466553+00:00",
+  "repository": "ziko1/knaba",
+  "sourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+  "sourceTree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+  "runId": 38098204054,
+  "jobId": 114348501193,
+  "release": {
+    "code_sha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "source_dirty": false,
+    "source_provenance": "GIT_WORKTREE",
+    "version": "0.1.0",
+    "builtAt": "2026-10-11T00:27:20.260Z"
+  },
+  "artifact": {
+    "id": 11686808991,
+    "name": "knaba-evidence-a10e70911fb519ec7d8199fa66141cd12b462926",
+    "bytes": 8169483,
+    "sha256": "ef742d39be3ad16ba69630227662756dea715429a6653773ded58f6786e831f0",
+    "digestMatchesGitHub": true,
+    "zipCrc": "PASSED"
+  },
+  "unit": {
+    "total": 2242,
+    "passed": 2242,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "classification": {
+    "REAL_POSTGRES": {
+      "total": 421,
+      "passed": 421,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+      "total": 1821,
+      "passed": 1821,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "executionIndex": {
+    "status": "EXACT_INDEX_VALIDATED",
+    "exactGitSource": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "testFilesVerified": 90,
+    "sourceManifestFilesVerified": 309,
+    "sourceManifestSha256": "658acbe120b0f9cbf32499a5f08ecac6d82ae0ade0f6baadf7e204af1f52e557",
+    "sha256": "e8dd445554634042416d926f548ad677f15e82298abaa2b47df7f636e5eff440",
+    "classificationIsExecutionProof": false
+  },
+  "failedCases": [],
+  "replayCases": [
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries reclaims a successfully replied and settled job without another provider call, reply, cost write or false human handoff",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 179.843911,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries uses the persisted reply receipt after a settlement crash and retains its unresolved full reservation without resending or handoff",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 123.53326299999992,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retries a confirmed never-invoked zero-cost cancellation once under a fresh real lease and preserves one billed outcome",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 140.59832699999993,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries ignores a delayed old-lease cancellation after a safe successor has durably marked its own provider request started",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 149.31696,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries refuses zero-cost cancellation even from the current lease after its actual provider-start marker commits",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 108.05526299999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retains the full reservation and requests human review when a genuine first provider request is still unknown during lease recovery",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 99.82805299999995,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks SUBSTITUTED_SOURCE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 120.28354999999988,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks WRONG_JOB_TYPE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 121.66381300000012,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks EXPIRED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 107.92496000000006,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks REPLACED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 115.82810000000018,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current ACTOR_DISABLED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 64.3586150000001,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current CONFIG_RETIRED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 65.91122900000005,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current SERVICE_MEMBERSHIP_REVOKED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 65.32660499999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    }
+  ],
+  "historicalLedgerCases": [
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 144.1403949999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    }
+  ],
+  "historical40FailureMapping": [
+    {
+      "priorIdentity": 1,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 2,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 3,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 4,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 5,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+      "priorCategory": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 6,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+      "priorCategory": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 7,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+      "priorCategory": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 8,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 9,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 10,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 11,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 12,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 13,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 14,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 15,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 16,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 17,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 18,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 19,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 20,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 21,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 22,
+      "file": "tests/device-gps-privacy-v4.integration.test.ts",
+      "priorFullName": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+      "priorCategory": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 23,
+      "file": "tests/handoff-calendar.integration.test.ts",
+      "priorFullName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+      "priorCategory": "FIXTURE_HISTORY_TIMESTAMP_VS_SQL_TRANSACTION_CLOCK_SUSPECTED",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 24,
+      "file": "tests/internal-assistant-visibility.integration.test.ts",
+      "priorFullName": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+      "priorCategory": "FIXTURE_OLD_PAGINATION_ENVELOPE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 25,
+      "file": "tests/material-request-batches-v4.integration.test.ts",
+      "priorFullName": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+      "priorCategory": "RUNTIME_WRONG_IDEMPOTENCY_ERROR",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 26,
+      "file": "tests/media-upload-idempotency.integration.test.ts",
+      "priorFullName": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+      "priorCategory": "FIXTURE_SPY_RECURSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 27,
+      "file": "tests/operations-digest.integration.test.ts",
+      "priorFullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+      "priorCategory": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "mapping": "RETIRED_WITH_EXPLICIT_V4_REPLACEMENT",
+      "currentCases": [
+        {
+          "fullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after its linked rework source changes while the accepted original and old snapshot stay intact",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 28,
+      "file": "tests/operations-digest.integration.test.ts",
+      "priorFullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+      "priorCategory": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "mapping": "RETIRED_WITH_EXPLICIT_V4_REPLACEMENT",
+      "currentCases": [
+        {
+          "fullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period rework facts invalidate old history and are recomputed without changing accepted originals",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 29,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 30,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 31,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 32,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 33,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 34,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 35,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 36,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 37,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 38,
+      "file": "tests/v4-core-contracts.integration.test.ts",
+      "priorFullName": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+      "priorCategory": "FIXTURE_OLD_CURSOR_SCOPE_ERROR",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 39,
+      "file": "tests/v4-http-runtime-contracts.integration.test.ts",
+      "priorFullName": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+      "priorCategory": "FIXTURE_FROZEN_DATE_VS_SQL_AUDIT_CLOCK",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 40,
+      "file": "tests/work-notifications.integration.test.ts",
+      "priorFullName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+      "priorCategory": "FIXTURE_ROLE_NOT_INTERNAL_SALES_MANAGER",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "historical40ResolvedCount": 40,
+  "browserStats": {
+    "startTime": "2026-10-11T00:33:20.936Z",
+    "duration": 151606.799,
+    "expected": 27,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserErrors": [],
+  "browserCases": [
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts public entry supports all six languages at 360 px without document overflow",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts rendered demo login and canonical role landings are usable",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts real credentials authenticate and logout revokes the cookie session",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts manual shift start, private break, resume and end persist after page reload",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts task form creates a persisted task and mobile modal fits 360 px",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts team chat sends original text and reads the persisted message after reload",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts V4 named message writes are idempotent and private cursor pages retain one snapshot rendered after reload",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts V4 named media upload requires a key and concurrent replay preserves one private upload rendered as a registered photo",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts German workspace controls retain 44 px targets and visible keyboard focus at 360 768 and 1440 px",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts private photo upload validates bytes, registers site context and permits file retrieval",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts public contact and guest chat persist privately with honest manual fallback",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts transport fixture: guest lead draft requires current review and explicit CSRF-bound confirmation",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts mutations reject missing CSRF and CLIENT cannot read internal chat or payroll",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts published report PDF CSV XLSX match immutable snapshot and client access",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts manual inventory SKU lookup works without camera and shows approved unit conversion",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts client issue form references approved photo, persists original text and opens a review",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts structure import rejects malformed files, previews CSV and XLSX without writes, and commits reviewed hierarchy",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts a private guest handoff needs an explicit current operator claim before the original and reply are visible",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts an owned assigned task stays UNSYNCED offline and changes only after an explicit original-key retry acknowledgement",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts the scoped empty route sketch fits360px and uses no external maps or browser GPS, including client deep-link denial",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts an owned shift has an actual read-only working-time advisory with explicit policy and insufficient-history coverage",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts authorized AI usage and explicit SIMULATED playground leave actual business records unchanged without provider execution",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts an actual own-message internal draft request stays pending or provider-disabled without a draft confirmation or business changes",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts administration authors, previews and explicitly activates a persisted automation rule without executing it; employees cannot manage rules",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts activity bell shows only own notices, acknowledges the exact version and opens a genuinely unread authorized chat",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts director saves an authorized digest schedule, previews without effects and opens the immutable own digest through history, activity and protected links",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    },
+    {
+      "file": "browser.spec.ts",
+      "fullName": "browser.spec.ts manual opaque masks edit only a separate client photo copy and require a fresh explicit publication approval",
+      "projectName": "",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errorCount": 0
+        }
+      ]
+    }
+  ],
+  "browser27IndependentValidation": true,
+  "sevenStagesIndependentValidation": true,
+  "workerRestartIndependentValidation": true,
+  "applicationAcceptanceIndependentValidation": "PASSED",
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:31:50Z",
+      "completedAt": "2026-10-11T00:31:50.503Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:31:50Z",
+      "completedAt": "2026-10-11T00:33:19.477Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:33:19Z",
+      "completedAt": "2026-10-11T00:35:52.752Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:35:52Z",
+      "completedAt": "2026-10-11T00:35:53.695Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:35:53Z",
+      "completedAt": "2026-10-11T00:35:53.892Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:35:53Z",
+      "completedAt": "2026-10-11T00:35:54.741Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+      "startedAt": "2026-10-11T00:35:54Z",
+      "completedAt": "2026-10-11T00:35:55.697Z"
+    }
+  ],
+  "liveStatus": "PASSED",
+  "builtFiles": [
+    {
+      "path": "dist/release.json",
+      "bytes": 187,
+      "sha256": "e80d71ca977b2ba728d02b7dcfcdde4c0217be23330c48a74988ecd3bcac1326",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/server.mjs",
+      "bytes": 3121632,
+      "sha256": "e133374d8baedcb3270c8601bb61c7ebf47392f0c52759f80c868f6183ddddf4",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/server.mjs.map",
+      "bytes": 2898634,
+      "sha256": "c99f053575654ce092a47738033ae97bb4786cb1a6cf238f6893c9296d4f495a",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/assets/index-8TQBBpxX.css",
+      "bytes": 89812,
+      "sha256": "de1d4c5b3026f5a4e25c6af4eeb99a6834aa3a7dfdcae962251a49d89c0753f0",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/assets/index-DajC8ihT.js",
+      "bytes": 656776,
+      "sha256": "59b33965b6eb6ecc4d9477f17558b7af8cbd11591e9cf64a960a4c1b12ff017b",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/icon.svg",
+      "bytes": 252,
+      "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/index.html",
+      "bytes": 642,
+      "sha256": "7cf561f4aa7546782c5f0f10fbf38c70526d23010151903203da29c7b398d4a8",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/manifest.webmanifest",
+      "bytes": 274,
+      "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/sw.js",
+      "bytes": 953,
+      "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/web/widget.js",
+      "bytes": 1670,
+      "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/worker.mjs",
+      "bytes": 1174754,
+      "sha256": "9934bb4fe0dbf70e14ea59fcd24060f3a591597021266c9ea41c7da2a3faeed2",
+      "independentlyVerified": true
+    },
+    {
+      "path": "dist/worker.mjs.map",
+      "bytes": 1929277,
+      "sha256": "c67784e9f30a67963609b820eab5266d8d465505b83f601ccddf6e58d92a66c1",
+      "independentlyVerified": true
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 222312,
+      "sha256": "19bf39c58be142445b13795f84242c7ae238a7fa2893d592d52c6e5b42b39fd5",
+      "independentlyVerified": true
+    },
+    {
+      "path": "package.json",
+      "bytes": 1139,
+      "sha256": "624325c9d41f2df25aa74b2a0ad84000cbdf81ea17d8d44094c539ae3c43f61f",
+      "independentlyVerified": true
+    }
+  ],
+  "bundledWorker": {
+    "status": "PASSED",
+    "gitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "verifiedAt": "2026-10-11T00:35:55.664Z",
+    "workerSha256": "9934bb4fe0dbf70e14ea59fcd24060f3a591597021266c9ea41c7da2a3faeed2",
+    "database": "ISOLATED_RESTORED_SYNTHETIC_COPY",
+    "phases": [
+      {
+        "phase": 1,
+        "pid": 11629,
+        "heartbeatAt": "2026-10-11T00:35:55.160Z",
+        "gracefulExitCode": 0,
+        "probeId": "343d71b5-b6b6-4401-b5c6-e1a144d38541",
+        "status": "SUCCEEDED",
+        "attempts": 1
+      },
+      {
+        "phase": 2,
+        "pid": 11646,
+        "heartbeatAt": "2026-10-11T00:35:55.570Z",
+        "gracefulExitCode": 0,
+        "probeId": "7a4bda4e-2e81-4d0d-bae0-979961aa1815",
+        "status": "SUCCEEDED",
+        "attempts": 1
+      }
+    ],
+    "temporaryWorkersStopped": true,
+    "scope": "Actual bundled processes complete a durable synthetic no-op once, write successful-tick heartbeat, stop gracefully, restart, and leave completed work unreplayed. Real financial side-effect fencing is covered separately by the PostgreSQL suite."
+  },
+  "new65Cases": [
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access sends one valid bound answer with exact current guards and replays one receipt without additional effects",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 84.89193399999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access keeps assistant configurations invisible through ordinary service reads before and after the narrow bound send",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 68.13694399999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects missing lease authority before any message, revision, audit, receipt or event",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 32.48206200000004,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects wrong-job-type lease authority before any message, revision, audit, receipt or event",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 33.30876699999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects expired lease authority before any message, revision, audit, receipt or event",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 33.00428199999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects replaced lease authority before any message, revision, audit, receipt or event",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 30.522373000000016,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access does not let an arbitrary SERVICE_ACCOUNT use the canonical worker lease even with the same declared chat/integration rights",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 33.55431199999998,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects a missing channel guard instead of trusting an otherwise valid lease",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 30.57779000000005,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects a missing assistant_config guard instead of trusting an otherwise valid lease",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 29.603338000000008,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects a missing message guard instead of trusting an otherwise valid lease",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 29.462103999999954,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects substituted channel while every alternative remains a valid same-company record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 32.520292999999924,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects substituted config while every alternative remains a valid same-company record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 32.22408400000006,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects substituted message while every alternative remains a valid same-company record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 30.216256999999928,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects substituted source-actor while every alternative remains a valid same-company record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.66013499999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects a stale channel entity version even when AI mode, source identity and configVersion still match",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.29735000000005,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects a stale config entity version even when AI mode, source identity and configVersion still match",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 38.48679900000002,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rejects a stale message entity version even when AI mode, source identity and configVersion still match",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.76715100000001,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current retired-config authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.426757999999836,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current changed-config-version authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.12859400000002,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current disabled-actor authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 42.443250000000035,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current actor-read-revoked authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 40.90942999999993,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current deleted-message authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.92312900000002,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current queued-channel authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 35.038092000000006,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks current lead-handoff authority after preparation and leaves all business effects unchanged",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 37.24441999999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks retired-config before returning a cached successful AI message receipt",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 53.18520600000011,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks disabled-actor before returning a cached successful AI message receipt",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 52.60738399999991,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks deleted-message before returning a cached successful AI message receipt",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 55.0203939999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks queued-channel before returning a cached successful AI message receipt",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 52.88616900000011,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-authority.integration.test.ts",
+      "full_name": "AI answer exact leased PostgreSQL authority without broad config access rechecks expired-lease before returning a cached successful AI message receipt",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 46.86210200000005,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries reclaims a successfully replied and settled job without another provider call, reply, cost write or false human handoff",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 179.843911,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries uses the persisted reply receipt after a settlement crash and retains its unresolved full reservation without resending or handoff",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 123.53326299999992,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retries a confirmed never-invoked zero-cost cancellation once under a fresh real lease and preserves one billed outcome",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 140.59832699999993,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries ignores a delayed old-lease cancellation after a safe successor has durably marked its own provider request started",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 149.31696,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries refuses zero-cost cancellation even from the current lease after its actual provider-start marker commits",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 108.05526299999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retains the full reservation and requests human review when a genuine first provider request is still unknown during lease recovery",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 99.82805299999995,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks SUBSTITUTED_SOURCE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 120.28354999999988,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks WRONG_JOB_TYPE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 121.66381300000012,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks EXPIRED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 107.92496000000006,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks REPLACED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 115.82810000000018,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current ACTOR_DISABLED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 64.3586150000001,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current CONFIG_RETIRED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 65.91122900000005,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current SERVICE_MEMBERSHIP_REVOKED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 65.32660499999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI binds the entire assistant job to its genuine SQL lease before provider or any persisted effects: SUBSTITUTED_SOURCE",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 76.1372379999998,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI binds the entire assistant job to its genuine SQL lease before provider or any persisted effects: WRONG_PERSISTED_TYPE",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 51.774573000000146,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI requires current canonical worker authority before spending or publishing: DISABLED",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 61.929249000000254,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI requires current canonical worker authority before spending or publishing: NON_SERVICE_ROLE",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 66.9503179999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI never restores historical worker channel access or invokes the provider after REVOKED membership",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 64.38946399999986,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI never restores historical worker channel access or invokes the provider after LEFT membership",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 63.78539300000011,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI never restores historical worker channel access or invokes the provider after REMOVED membership",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 64.32088799999974,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI never restores historical worker channel access or invokes the provider after INACTIVE membership",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 63.58340899999985,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI never restores historical worker channel access or invokes the provider after EXPIRED membership",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 65.13471899999968,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI releases a genuine reservation as zero-cost cancelled when the lease is EXPIRED before the first provider invocation",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 91.94939999999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI releases a genuine reservation as zero-cost cancelled when the lease is REPLACED before the first provider invocation",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 81.71678599999996,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks the prepared source after the actual reservation and before transferring its text: MESSAGE_EDITED",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 100.87126200000012,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks the prepared source after the actual reservation and before transferring its text: ACTOR_DISABLED",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 84.58586200000036,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks the prepared source after the actual reservation and before transferring its text: CONFIG_RETIRED",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 81.98908299999994,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI settles one late known provider outcome after real lease reassignment without changing the successor lease or calling the provider again",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 126.30017899999984,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI retains the full reservation when the second provider outcome is unknown instead of settling only the first round",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 127.41365600000063,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 144.1403949999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/v4-load-seed.integration.test.ts",
+      "full_name": "V4 load fixture batch PostgreSQL regression persists a small real batch with version-one revisions and exact textual run IDs in audit JSON",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 23.960341999999997,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/v4-load-seed.integration.test.ts",
+      "full_name": "V4 load fixture batch PostgreSQL regression rolls back every new aggregate, revision and audit when another row duplicates a committed fixture",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 14.62822200000005,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/v4-load-seed.integration.test.ts",
+      "full_name": "V4 load fixture batch PostgreSQL regression rejects a mixed batch containing 'a non-synthetic row' without effects",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 5.76707399999998,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/v4-load-seed.integration.test.ts",
+      "full_name": "V4 load fixture batch PostgreSQL regression rejects a mixed batch containing 'a row bound to a different load run' without effects",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 5.37124,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/v4-load-seed.integration.test.ts",
+      "full_name": "V4 load fixture batch PostgreSQL regression rejects 'a non-synthetic TEST tenant' without fixture, receipt or outbox effects",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 13.10242199999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/v4-load-seed.integration.test.ts",
+      "full_name": "V4 load fixture batch PostgreSQL regression rejects 'a synthetic PRODUCTION tenant' without fixture, receipt or outbox effects",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 11.719119999999975,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    }
+  ],
+  "new65Counts": {
+    "total": 65,
+    "passed": 65,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "priorRemainingThreeCases": [
+    {
+      "test_path": "tests/handoff-calendar.integration.test.ts",
+      "full_name": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority stores exactly one deterministic queue fact with real service commands and no customer time/crew promise",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 83.21519699999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES",
+      "priorFailedSources": [
+        "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+        "5a9e186699d20de713913884bc4f9ed296914bf1"
+      ]
+    },
+    {
+      "test_path": "tests/work-notifications.integration.test.ts",
+      "full_name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 161.898956,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES",
+      "priorFailedSources": [
+        "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6"
+      ]
+    },
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI deduplicates a repeated leased source event without another provider request, draft, estimate, or AI message",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 177.8914509999995,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES",
+      "priorFailedSources": [
+        "5a9e186699d20de713913884bc4f9ed296914bf1"
+      ]
+    }
+  ],
+  "priorRemainingThreeCounts": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "rawReportSha256": "32d6f57b83ea72fca7eb3553782dd8577b78d683be02ee6f94917459614ed475",
+  "limits": [
+    "Exact source a10e only; later documentation commits do not change the tested application SHA.",
+    "Unit transport/provider doubles remain explicitly classified; real provider/company/physical acceptance is not inferred.",
+    "Per-test source bytes and exact case set were checked against immutable git-show source, never the mutable working tree."
+  ],
+  "workflow": {
+    "status": "completed",
+    "conclusion": "success",
+    "allStepsSuccessfulOrSkipped": true,
+    "evidenceFile": "workflow-job.json",
+    "evidenceSha256": "05cf5e1889d6d50d9be567400d6f78be8c5191119bb75bfcd912552ceed172d8"
+  },
+  "restoreLogVerification": {
+    "postgresVersion": "17.6",
+    "originalTablesRestored": 17,
+    "exactOriginalRowCounts": true,
+    "privateBlobChecksumsAndReferencesVerified": 12,
+    "expiredGpsPointsPurged": 0,
+    "sourceDatabaseUnchanged": true,
+    "transientPermitsEmpty": true,
+    "scope": "Explicit isolated synthetic restore without privacy history",
+    "evidenceFile": "restore-log-excerpts.json",
+    "evidenceSha256": "2a6a021de2eca1b42f1b9fa1f57b04fb132e15f06ed378e936e09266313c90cd"
+  }
+}
