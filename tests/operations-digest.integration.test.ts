@@ -54,7 +54,7 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
    await tx.add('trip',{employeeId:'employee',shiftId:'synthetic-shift',siteId:'site',origin:{kind:'SITE',id:'site'},destination:{kind:'SITE',id:'site'},state:'ARRIVED',approvalState:'APPROVED',paidSeconds:3600,startAt:'2026-03-29T00:30:00.000Z',endAt:'2026-03-29T01:30:00.000Z',purpose:SECRET},'trip');
    await tx.add('trip_approval',{tripId:'trip',employeeId:'employee',siteId:'site',state:'APPROVED',decision:'APPROVE',approvedBy:'viewer',approvedAt:'2026-03-29T12:00:00.000Z',paidSeconds:3600,paidActivities:['TRAVELLING'],segmentSnapshot:[{id:'dst-travel',siteId:'site',activity:'TRAVELLING',startAt:'2026-03-29T00:30:00.000Z',endAt:'2026-03-29T01:30:00.000Z',seconds:3600}]},'trip-approval');
    await tx.add('time_segment',{employeeId:'foreign-employee',siteId:'foreign-site',activity:'WORKING',startAt:DAY.start,endAt:DAY.end,reason:SECRET},'foreign-segment');
-   await tx.add('task',{siteId:'site',title:'Synthetic task',state:'ACCEPTED',unit:'M2',plannedQuantityMilli:100000,reportedQuantityMilli:100000,acceptedQuantityMilli:100000,assigneeIds:['employee'],completionKind:'CONTRACT',dueAt:'2026-03-28T12:00:00.000Z'},'task');
+   await tx.add('task',{siteId:'site',title:'Synthetic task',state:'ACCEPTED',unit:'M2',plannedQuantityMilli:100000,reportedQuantityMilli:100000,acceptedQuantityMilli:100000,assigneeIds:['employee'],completionKind:'ORIGINAL',billingScope:'CONTRACT',reviewCycle:1,checklist:[],dependencyIds:[],requiredPhotoCount:0,submittedBy:'employee',reviewedBy:'viewer',reviewedAt:'2026-03-29T13:00:00.000Z',dueAt:'2026-03-28T12:00:00.000Z'},'task');
    await tx.add('worklog',{taskId:'task',siteId:'site',unit:'M2',quantityMilli:100000,employeeIds:['employee'],reportedAt:'2026-03-29T12:00:00.000Z'},'worklog');
    await tx.add('task_review',{taskId:'task',siteId:'site',decision:'ACCEPT',quantityMilli:100000,reviewedAt:'2026-03-29T13:00:00.000Z',snapshot:{siteId:'site',unit:'M2',assigneeIds:['employee']},worklogIds:['worklog']},'review');
    await tx.add('task',{siteId:'foreign-site',title:SECRET,state:'ACCEPTED',unit:'M2',plannedQuantityMilli:999000,reportedQuantityMilli:999000,acceptedQuantityMilli:999000,assigneeIds:['foreign-employee']},'foreign-task');
@@ -215,10 +215,12 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   expect((await rows('operations_digest'))[0]!.data.snapshot.sections.time.approvedSeconds).toBe(3600);
  });
 
- it('immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot',async()=>{
+ it('immutable digest history is hidden after its linked rework source changes while the accepted original and old snapshot stay intact',async()=>{
+  const accepted=await row('task','task'),rework=await execute(viewer,'task.reopen',{taskId:accepted.id,reason:'Synthetic approved remediation source'});
   const policy=await configure(),job=await digestJob(policy);await worker.process(job);const original=(await rows('operations_digest'))[0]!;
-  await update('task','task',{syntheticCorrectionReference:'changed-current-task-source'});
+  await execute(employee,'task.start',{taskId:rework.id});
   const before=await fingerprint();expect((await api.entities(request(sessions.owner!),'operations_digest')).items).toEqual([]);
+  expect(await row('task',accepted.id)).toEqual(accepted);expect((await row('task',rework.id)).data).toMatchObject({state:'IN_PROGRESS',completionKind:'REWORK',sourceTaskId:accepted.id,billingScope:'INTERNAL'});
   expect(await row('operations_digest',original.id)).toEqual(original);expect(await fingerprint()).toEqual(before);
  });
 
@@ -245,7 +247,7 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   expect(await fingerprint()).toEqual(before);expect(await rows('operations_digest')).toHaveLength(0);
  });
 
- it('current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes',async()=>{
+ it('current trip dispute, approved closed-period adjustment and in-period rework facts invalidate old history and are recomputed without changing accepted originals',async()=>{
   const timesheet=await row('timesheet','current-timesheet'),segment=timesheet.data.segmentSnapshot[0],travelStart=new Date(Date.parse(segment.endAt)+3600000).toISOString(),travelEnd=new Date(Date.parse(travelStart)+1800000).toISOString();
   await db.transaction(company,'SYNTHETIC_CURRENT_APPROVED_TRIP',async tx=>{
    await tx.add('trip',{employeeId:'employee',siteId:'site',shiftId:'current-synthetic-shift',origin:{kind:'SITE',id:'site'},destination:{kind:'SITE',id:'site'},state:'ARRIVED',approvalState:'APPROVED',startAt:travelStart,endAt:travelEnd,paidSeconds:1800},'current-trip');
@@ -254,14 +256,14 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   const policy=await configure(),initial=await preview(policy,clock.toISOString()),job=await digestJob(policy);await worker.process(job);
   expect(initial.sections.time).toMatchObject({approvedSeconds:3600,byActivity:{WORKING:3600}});expect(initial.sections.travel).toMatchObject({approvedRecordedSeconds:1800,tripCount:1});
   expect(initial.sections.tasks.periodProgress.byUnit).toEqual({});
-  const original=(await rows('operations_digest'))[0]!;expect((await api.entities(request(sessions.owner!),'operations_digest')).items).toHaveLength(1);
-  const reportAt=new Date(Date.parse(segment.startAt)+600000).toISOString(),acceptAt=new Date(Date.parse(segment.startAt)+1200000).toISOString(),reopenAt=new Date(Date.parse(segment.startAt)+1800000).toISOString();
+  const original=(await rows('operations_digest'))[0]!,accepted=await row('task','task');expect((await api.entities(request(sessions.owner!),'operations_digest')).items).toHaveLength(1);
+  const rework=await execute(viewer,'task.reopen',{taskId:accepted.id,reason:'Synthetic separate remediation after completed acceptance'});
+  const reportAt=new Date(Date.parse(segment.startAt)+600000).toISOString(),submittedAt=new Date(Date.parse(segment.startAt)+1200000).toISOString();
   await db.transaction(company,'SYNTHETIC_APPROVED_FACT_CHANGES',async tx=>{
    await tx.add('timesheet_adjustment',{timesheetId:timesheet.id,employeeId:'employee',siteId:'site',state:'APPROVED',sequence:1,approvedBy:'viewer',approvedAt:clock.toISOString(),proposedSnapshots:[{...segment,activity:'SERVICE_TASK',siteId:'site',taskId:null,tripId:null}],deltaPayableSeconds:0,reason:SECRET},'approved-time-adjustment');
-   await tx.add('worklog',{taskId:'task',siteId:'site',unit:'M2',quantityMilli:120000,employeeIds:['employee'],reportedAt:reportAt},'current-worklog');
-   await tx.add('task_review',{taskId:'task',siteId:'site',decision:'ACCEPT',quantityMilli:100000,reviewedAt:acceptAt,snapshot:{siteId:'site',unit:'M2',assigneeIds:['employee']},worklogIds:['current-worklog']},'current-acceptance');
-   await tx.add('task_review',{taskId:'task',siteId:'site',decision:'REOPEN',reviewedAt:reopenAt,snapshot:{siteId:'site',unit:'M2',acceptedQuantityMilli:100000,assigneeIds:['employee']}},'current-reopen');
-   const task=await tx.get('task','task');await tx.save(task,{...task.data,state:'SUBMITTED_FOR_REVIEW',reportedQuantityMilli:120000,acceptedQuantityMilli:0});
+   // Historical reporting fixtures belong to the linked REWORK; V4 never rewinds the accepted source.
+   await tx.add('worklog',{taskId:rework.id,siteId:'site',unit:'M2',quantityMilli:120000,employeeIds:['employee'],reportedAt:reportAt},'current-worklog');
+   const currentRework=await tx.get('task',rework.id);await tx.save(currentRework,{...currentRework.data,state:'SUBMITTED_FOR_REVIEW',reportedQuantityMilli:120000,submittedBy:'employee',submittedAt});
    const trip=await tx.get('trip','current-trip');await tx.save(trip,{...trip.data,approvalState:'DISPUTED'});
    await tx.add('trip_approval',{tripId:trip.id,employeeId:'employee',siteId:'site',decision:'DISPUTE',approvedBy:'viewer',approvedAt:new Date(clock.getTime()+1).toISOString(),reason:SECRET},'late-trip-dispute');
   });
@@ -269,12 +271,42 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   const refreshed=await preview(policy,clock.toISOString());
   expect(refreshed.sections.time).toMatchObject({approvedSeconds:3600,byActivity:{SERVICE_TASK:3600}});expect(refreshed.sections.time.byActivity.WORKING).toBeUndefined();expect(refreshed.sections.time.payableSeconds).toBeUndefined();
   expect(refreshed.sections.travel).toMatchObject({approvedRecordedSeconds:0,tripCount:0});
-  expect(refreshed.sections.tasks).toMatchObject({counts:{accepted:0,submitted:1,incomplete:0},periodProgress:{counts:{worklogs:1,acceptedReviews:1,reopenedReviews:1},byUnit:{M2:{reportedQuantityMilli:120000,grossAcceptedQuantityMilli:100000,revokedAcceptedQuantityMilli:100000,acceptedQuantityMilli:0}}}});
+  expect(refreshed.sections.tasks).toMatchObject({counts:{accepted:1,submitted:1,incomplete:0},byUnit:{M2:{acceptedQuantityMilli:100000}},periodProgress:{counts:{worklogs:1,acceptedReviews:0,reopenedReviews:0},byUnit:{M2:{reportedQuantityMilli:120000,grossAcceptedQuantityMilli:0,revokedAcceptedQuantityMilli:0,acceptedQuantityMilli:0}}}});
   expect(refreshed.coverage.timesheetAdjustmentSets.find((set:Data)=>set.timesheetId===timesheet.id).adjustments).toEqual([{id:'approved-time-adjustment',version:1}]);
   expect(JSON.stringify(refreshed)).not.toContain(SECRET);expect(await fingerprint()).toEqual(before);expect(await row('operations_digest',original.id)).toEqual(original);
+  expect(await row('task',accepted.id)).toEqual(accepted);expect((await row('task',rework.id)).data).toMatchObject({state:'SUBMITTED_FOR_REVIEW',completionKind:'REWORK',sourceTaskId:accepted.id,billingScope:'INTERNAL',acceptedQuantityMilli:0});
   expect((await row('timesheet',timesheet.id)).data).toEqual(timesheet.data);
   const duplicateId=randomUUID();await db.transaction(company,'SYNTHETIC_REPLAY_AFTER_DISPUTE',tx=>tx.query("INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'digest.requested',$3)",[duplicateId,company,JSON.stringify(job.data)]));
   const retry=(await leaseOutbox(db,100,120000,company)).find(item=>item.id===duplicateId)!;
   await expect(worker.handle(retry)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(await rows('operations_digest')).toEqual([original]);
+ });
+
+ it('retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals',async()=>{
+  const accepted=await row('task','task'),policy=await configure(),initial=await preview(policy,clock.toISOString());
+  const originalRevisions=(await db.query('SELECT version,data FROM aggregate_revisions WHERE company_id=$1 AND kind=$2 AND id=$3 ORDER BY version',[company,'task',accepted.id])).rows;
+  expect(initial.sections.tasks.periodProgress.byUnit).toEqual({});
+  const segment=(await row('timesheet','current-timesheet')).data.segmentSnapshot[0];
+  const at=(minutes:number)=>new Date(Date.parse(segment.startAt)+minutes*60000).toISOString();
+  // Explicit migrated-history fixture: the legacy task is already nonterminal.
+  // Append historical facts only; never UPDATE an ACCEPTED task or disable its SQL guard.
+  const history=await db.transaction(company,'SYNTHETIC_LEGACY_DIGEST_LEDGER',async tx=>{
+   const task=await tx.add('task',{siteId:'site',title:'Synthetic retained legacy review history',state:'REOPENED',unit:'M2',plannedQuantityMilli:100000,reportedQuantityMilli:0,acceptedQuantityMilli:0,assigneeIds:['employee'],completionKind:'ORIGINAL',billingScope:'CONTRACT',reviewCycle:2,checklist:[],dependencyIds:[],requiredPhotoCount:0,synthetic:true,legacyHistoryFixture:true},'legacy-ledger-task');
+   const facts:Entity[]=[];
+   for(const [suffix,quantityMilli,reportMinute,acceptMinute] of [['first',100000,5,10],['second',60000,25,30]] as const){
+    const log=await tx.add('worklog',{taskId:task.id,siteId:'site',unit:'M2',quantityMilli,employeeIds:['employee'],reportedAt:at(reportMinute),description:SECRET},'legacy-worklog-'+suffix);
+    const review=await tx.add('task_review',{taskId:task.id,siteId:'site',decision:'ACCEPT',quantityMilli,reviewedAt:at(acceptMinute),reviewedBy:'viewer',snapshot:{siteId:'site',unit:'M2',assigneeIds:['employee']},worklogIds:[log.id],reason:SECRET},'legacy-accept-'+suffix);
+    facts.push(log,review);
+   }
+   const reopened=await tx.add('task_review',{taskId:task.id,siteId:'site',decision:'REOPEN',reviewedAt:at(20),reviewedBy:'viewer',snapshot:{siteId:'site',unit:'M2',acceptedQuantityMilli:100000,assigneeIds:['employee']},reason:SECRET},'legacy-reopen-in-period');
+   const outside=await tx.add('task_review',{taskId:task.id,siteId:'site',decision:'REOPEN',reviewedAt:initial.periodEnd,reviewedBy:'viewer',snapshot:{siteId:'site',unit:'M2',acceptedQuantityMilli:60000,assigneeIds:['employee']},reason:SECRET},'legacy-reopen-at-period-end');
+   return {task,facts:[...facts,reopened],outside};
+  });
+  const before=await fingerprint(),result=await preview(policy,clock.toISOString());
+  expect(result.sections.tasks).toMatchObject({counts:{accepted:1,submitted:0,incomplete:1},byUnit:{M2:{acceptedQuantityMilli:100000}},periodProgress:{counts:{worklogs:2,acceptedReviews:2,reopenedReviews:1},byUnit:{M2:{reportedQuantityMilli:160000,grossAcceptedQuantityMilli:160000,revokedAcceptedQuantityMilli:100000,acceptedQuantityMilli:60000}}}});
+  for(const fact of history.facts)expect(result.coverage.sourceReferences).toContainEqual({kind:fact.kind,id:fact.id,version:fact.version,permission:'task.read'});
+  expect(result.coverage.sourceReferences.map((reference:Data)=>reference.id)).not.toContain(history.outside.id);
+  expect(await row('task',accepted.id)).toEqual(accepted);expect(await row('task',history.task.id)).toEqual(history.task);
+  expect((await db.query('SELECT version,data FROM aggregate_revisions WHERE company_id=$1 AND kind=$2 AND id=$3 ORDER BY version',[company,'task',accepted.id])).rows).toEqual(originalRevisions);
+  expect(JSON.stringify(result)).not.toContain(SECRET);expect(await fingerprint()).toEqual(before);
  });
 });

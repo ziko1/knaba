@@ -18,7 +18,8 @@ postgres('V4 D07 PostgreSQL actual order transitions and rollback',()=>{
  beforeEach(async()=>{
   company='order-v4-'+randomUUID();engine=new Engine(db,'TEST');await db.transaction(company,'SYNTHETIC_D07_SETUP',async tx=>{
    await tx.add('company',{name:'Synthetic D07 isolated QA',legalName:'SYNTHETIC QA COMPANY',address:'Synthetic address',operatingMode:'TEST',synthetic:true},company);
-   for(const [id,roles] of [['owner',['OWNER']],['client',['CLIENT']],['worker',['EMPLOYEE']],['foreman',['INTERNAL_BAULEITER']]] as const)await tx.add('user',{active:true,roles,siteIds:id==='foreman'?['site']:[],synthetic:true},id);
+   // OWNER administers the tenant; these workflow commands require their own explicit fixture grants.
+   for(const [id,roles] of [['owner',['OWNER']],['client',['CLIENT']],['worker',['EMPLOYEE']],['foreman',['INTERNAL_BAULEITER']]] as const)await tx.add('user',{active:true,roles,permissions:id==='owner'?['commerce.manage','commerce.approve','quote.create','quote.approve','quote.send','dispatch.manage','report.review','report.approve','report.publish']:[],siteIds:id==='foreman'?['site']:[],synthetic:true},id);
    await tx.add('employee',{active:true,userId:'worker',skills:[],absences:[],synthetic:true},'employee');
   });owner=await engine.getActor('owner',company);client=await engine.getActor('client',company);
   const service=await execute(owner,'service.create',{name:'Synthetic fixed service',description:'Synthetic agreed work',unit:'FIXED',model:'FIXED',active:true});
