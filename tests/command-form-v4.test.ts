@@ -48,6 +48,12 @@ describe('V4 command form request contracts (actual domain schemas; no browser e
   expect(crewAssignmentOwnEmployeeId('dispatch.reserve',assignment)).toBeUndefined();
   expect(crewAssignmentOwnEmployeeId('crew_assignment.start',row('user','user-a',{employeeId:'canonical-employee-a'}))).toBeUndefined();
  });
+ it('new personal decline and expiry forms retain exact schedule revision and canonical employee identity',()=>{
+  const assignment=row('crew_assignment','assignment-a',{employeeId:'canonical-employee-a',scheduleVersion:3});
+  expect(crewAssignmentOwnEmployeeId('crew_assignment.decline',assignment)).toBe('canonical-employee-a');
+  expect(registry['crew_assignment.decline'].schema.parse(commandFormInput({id:assignment.id,employeeId:assignment.data.employeeId,scheduleVersion:3,reason:'Unavailable'},schema('crew_assignment.decline')))).toMatchObject({employeeId:'canonical-employee-a',scheduleVersion:3});
+  expect(()=>registry['crew_assignment.decline'].schema.parse({id:assignment.id,employeeId:'canonical-employee-a',reason:'Unavailable'})).toThrow();
+ });
  it('renders actual crew array and foreman schemas with alias choices instead of user canaries',()=>{
   vi.stubGlobal('navigator',{onLine:true});
   const records={employee:[row('employee','canonical-employee-a',{userId:'user-a',name:'Canonical employee'})],user:[row('user','user-a',{name:'WRONG_USER_REFERENCE_CANARY'})]};

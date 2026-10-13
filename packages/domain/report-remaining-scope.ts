@@ -22,6 +22,7 @@ export function reportRemainingTaskRows(order:Entity,tasks:Entity[]):ReportRemai
   assert(Number.isSafeInteger(planned)&&planned>=0&&Number.isSafeInteger(accepted)&&accepted>=0&&typeof d.unit==='string'&&d.unit.length>0,'INVALID_STATE',{reason:'REPORT_TASK_QUANTITY_REQUIRED'});
   const remaining=Math.max(0,planned-accepted);
   if(d.state==='ACCEPTED'&&remaining===0)continue;
+  assert(d.clientVisible!==false,'NEEDS_APPROVAL',{reason:'REMAINING_SCOPE_VISIBILITY_REVIEW_REQUIRED'});
   rows.push({taskId:task.id,taskVersion:task.version,locationId:d.locationId??null,descriptionDe:d.titleDe??d.title??'',state:d.state,unit:d.unit,plannedQuantityMilli:planned,acceptedQuantityMilli:accepted,remainingQuantityMilli:remaining});
  }
  return rows.sort((a,b)=>a.taskId.localeCompare(b.taskId));

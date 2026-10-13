@@ -35,6 +35,10 @@ describe('V4 own crew visibility and minimal projection (CPU explicit transactio
   expect(rows[0]!.data).toMatchObject({employeeId:'employee-worker',siteId:'site-a',orderId:'order',status,scheduleVersion:3,startAt:NOW});
   expect(rows[0]!.data).not.toHaveProperty('employeeIds');expect(rows[0]!.data).not.toHaveProperty('acknowledgedIds');expect(JSON.stringify(rows)).not.toMatch(/employee-peer|PRIVATE_CREW_COST_CANARY|internalCost|costCents|margin|notesInternal/);
  });
+ it('own personal response excludes peer reasons and derived expiry never writes on read',async()=>{
+  const f=await cpuFixture(),past='2026-01-01T00:00:00.000Z';f.tx.patch('crew_assignment','own-assignment',{status:'ASSIGNED',acknowledgedIds:[],employeeOffers:[{employeeId:'employee-worker',scheduleVersion:3,status:'PROPOSED',expiresAt:past},{employeeId:'employee-peer',scheduleVersion:3,status:'DECLINED',expiresAt:past,reason:'PRIVATE_PEER_DECLINE'}]});const before=JSON.stringify([...f.tx.rows]);
+  const rows=await f.read();expect(rows[0].data.offer).toMatchObject({employeeId:'employee-worker',status:'EXPIRED',scheduleVersion:3});expect(JSON.stringify(rows)).not.toMatch(/employee-peer|PRIVATE_PEER_DECLINE/);expect(JSON.stringify([...f.tx.rows])).toBe(before);
+ });
  it('site and role revocation are refreshed from the current user, even with an old actor object',async()=>{
   const f=await cpuFixture(),stale=await f.engine.getActor('worker',f.tx.companyId);
   f.tx.patch('user','worker',{siteIds:[]});expect(await f.engine.readEntities(stale,'crew_assignment')).toEqual([]);

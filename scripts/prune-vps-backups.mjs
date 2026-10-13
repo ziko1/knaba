@@ -13,6 +13,8 @@ for(const name of await readdir(directory)){
  if(!Number.isFinite(created))continue;
  const archive=await lstat(`${directory}/${name}`),sidecar=await lstat(`${directory}/${name}.hmac`).catch(()=>null);
  if(!archive.isFile()||!sidecar?.isFile())continue;
+ const valid=spawnSync(process.execPath,[fileURLToPath(new URL('./backup-mac.mjs',import.meta.url)),'verify',`${directory}/${name}`],{env:process.env,stdio:'ignore',timeout:60000});
+ if(valid.status!==0)continue; // Only verified pairs count toward the seven retained backups.
  candidates.push({name,created,modified:Math.max(archive.mtimeMs,sidecar.mtimeMs)});
 }
 candidates.sort((a,b)=>b.created-a.created);

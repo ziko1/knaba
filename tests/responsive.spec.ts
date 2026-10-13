@@ -101,6 +101,10 @@ async function fixture(page: Page, role: string | null = 'DIRECTOR') {
         const created = entity('task', 'created-fixture', parsed);
         records.task.push(created); return ok(created);
       }
+      if(name==='crew_assignment.decline'){
+        const parsed=registry[name].schema.parse(input),current=records.crew_assignment.find(row=>row.id===parsed.id)!;
+        (current.data as Record<string,unknown>).offer={...((current.data as any).offer),status:'DECLINED',reason:parsed.reason};return ok(current);
+      }
       if (name === 'shift.start') return ok(entity('shift', 'started-fixture', input));
       if (name === 'issue.create') return ok(entity('issue', 'issue-fixture', input));
       if (name === 'privacy.request') return ok(entity('privacy_request', 'privacy-fixture', input));
@@ -160,6 +164,17 @@ for(const width of [360,1440]){
    await noOverflow(page,`D07 remainder ${width} ${language}`);
   }
   await screenshot(page,info,`D07-remainder-${width}`);expect(state.errors).toEqual([]);
+ });
+}
+
+for(const width of [360,1440]){
+ test(`D07 personal offers show six languages and send own decline at ${width}px`,async({page},info)=>{
+  const state=await fixture(page,'EMPLOYEE');state.records.crew_assignment=[entity('crew_assignment','own-offer',{name:'Synthetic own offer',employeeId:'canonical-employee',scheduleVersion:4,status:'ASSIGNED',offer:{employeeId:'canonical-employee',scheduleVersion:4,status:'PROPOSED',expiresAt:'2027-01-01T08:00:00.000Z'}})];
+  await page.setViewportSize({width,height:800});await page.goto('/console');await navigate(page,'orders');await page.locator('.entity-tabs').getByRole('button',{name:/Assign/}).click();await page.locator('.record-link').filter({hasText:'Synthetic own offer'}).click();
+  const panel=page.locator('.crew-offers-panel');
+  for(const language of ['DE','UK','RU','PL','LT','EN'] as Language[]){await page.getByRole('dialog').locator('header').getByRole('button').click();await page.locator('.language-select select').selectOption(language);await page.locator('.record-link').filter({hasText:'Synthetic own offer'}).click();await expect(panel).toContainText(translator(language)('proposed'));await expect(panel).toContainText('Europe/Berlin');await noOverflow(page,`D07 own offer ${width} ${language}`);}
+  await page.getByRole('dialog').getByRole('button',{name:/Decline offer/}).click();await expect(page.locator('#field-employeeId')).toHaveValue('canonical-employee');await expect(page.locator('#field-scheduleVersion')).toHaveValue('4');await page.locator('#field-reason').fill('Synthetic unavailability');await page.getByRole('button',{name:translator('EN')('preview'),exact:true}).click();await page.getByRole('button',{name:translator('EN')('confirm'),exact:true}).click();await expect(page.locator('.success-state')).toBeVisible();
+  expect(state.requests.find(r=>r.name==='crew_assignment.decline')?.input).toEqual({id:'own-offer',employeeId:'canonical-employee',scheduleVersion:4,reason:'Synthetic unavailability'});await screenshot(page,info,`D07-offer-${width}`);expect(state.errors).toEqual([]);
  });
 }
 

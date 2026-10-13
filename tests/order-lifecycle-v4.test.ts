@@ -1,3 +1,4 @@
+import {crewOffers,newCrewOffers} from '../packages/domain/crew-offers.ts';
 import {describe,it,expect} from 'vitest';
 import {commerceCommands,authorizeCommerceEmployeeCommand} from '../packages/domain/commerce.ts';
 import {startOrderFromWorkSegment} from '../packages/domain/order-lifecycle.ts';
@@ -131,4 +132,63 @@ describe('Critical dispatch current employee/user/site scopes: CPU double',()=>{
  it('a site-scoped dispatcher cannot edit foreign-site availability or reserve its canonical employee',async()=>{const f=await fixture('CONFIRMED');await patch(f,'user','worker',{siteIds:['foreign-site']});await patch(f,'employee','employee',{siteIds:['site']});const scoped=context(f.tx,actor()),before=fingerprint(f.tx);await expect(run(scoped,'employee.availability',availability)).rejects.toMatchObject({code:'ACCESS_DENIED'});await expect(run(scoped,'dispatch.reserve',slot)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(fingerprint(f.tx)).toBe(before);});
  it('recommendation omits foreign-site and inactive people from both available and excluded outputs',async()=>{const f=await fixture('CONFIRMED');await f.tx.add('user',{active:true,roles:['EMPLOYEE'],siteIds:['foreign-site']},'foreign-user');await f.tx.add('employee',{active:true,userId:'foreign-user',businessCode:'PRIVATE_FOREIGN_PERSON',skills:[{id:'PRIVATE_FOREIGN_SKILL',verified:true}]},'foreign-employee');await f.tx.add('user',{active:false,roles:['EMPLOYEE'],siteIds:['site']},'inactive-user');await f.tx.add('employee',{active:true,userId:'inactive-user'},'inactive-employee');const result=await run(context(f.tx,actor()),'dispatch.recommend',{orderId:'order',startAt:slot.startAt,endAt:slot.endAt});expect(result.available.map((e:Data)=>e.employeeId)).toEqual(['employee']);expect(JSON.stringify(result)).not.toContain('PRIVATE_FOREIGN');expect(result.excluded.map((e:Data)=>e.employeeId)).not.toContain('foreign-employee');expect(result.excluded.map((e:Data)=>e.employeeId)).not.toContain('inactive-employee');});
  it('fresh actor site revocation denies availability and reserve, while explicit company scope can manage unassigned people',async()=>{const f=await fixture('CONFIRMED'),revoked=context(f.tx,actor('dispatcher',[])),before=fingerprint(f.tx);await expect(run(revoked,'employee.availability',availability)).rejects.toMatchObject({code:'ACCESS_DENIED'});await expect(run(revoked,'dispatch.reserve',slot)).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(fingerprint(f.tx)).toBe(before);await patch(f,'user','worker',{siteIds:[]});await expect(run(f.c,'employee.availability',availability)).resolves.toMatchObject({data:{availabilityReviewedBy:'owner'}});await expect(run(f.c,'dispatch.reserve',slot)).resolves.toMatchObject({data:{status:'ACTIVE'}});});
+});
+
+
+describe('D07 personal offer state and safe initial site binding',()=>{
+ const offerInput={id:'assignment',employeeId:'employee',scheduleVersion:1,reason:'Cannot attend the proposed time'};
+ async function proposed(){const f=await fixture('CONFIRMED');await patch(f,'crew_assignment','assignment',{status:'ASSIGNED',acknowledgedIds:[],employeeOffers:newCrewOffers(['employee'],1,'2026-10-08T11:00:00.000Z')});return f;}
+ const fingerprint=(f:Awaited<ReturnType<typeof fixture>>)=>JSON.stringify({rows:[...f.tx.rows],events:f.tx.events});
+ it('only the employee can decline their own current offer without changing work facts or starting the order',async()=>{
+  const f=await proposed(),order=await f.tx.get('order','order'),segment=await f.tx.get('time_segment','segment');
+  await expect(run(f.c,'crew_assignment.decline',offerInput)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  const result=await run(f.wc,'crew_assignment.decline',offerInput);expect(result.data.employeeOffers[0]).toMatchObject({status:'DECLINED',respondedBy:'worker',reason:offerInput.reason});expect(result.data.acknowledgedIds).toEqual([]);
+  expect(await f.tx.get('order','order')).toEqual(order);expect(await f.tx.get('time_segment','segment')).toEqual(segment);expect(f.tx.events.some(e=>e.type==='dispatch.schedule_confirmed')).toBe(false);
+  const after=fingerprint(f);await expect(run(f.wc,'crew_assignment.acknowledge',{id:'assignment',employeeId:'employee'})).rejects.toMatchObject({code:'INVALID_STATE',details:{status:'DECLINED'}});expect(fingerprint(f)).toBe(after);
+ });
+ it('personal command receipts disclose only the responder, never peer reasons or legacy private costs',async()=>{
+  const f=await proposed();await patch(f,'crew_assignment','assignment',{employeeIds:['employee','private-peer'],employeeOffers:[...newCrewOffers(['employee'],1,'2026-10-08T11:00:00.000Z'),{employeeId:'private-peer',scheduleVersion:1,status:'DECLINED',expiresAt:'2026-10-08T11:00:00.000Z',reason:'PRIVATE_PEER_REASON'}],internalCost:9999,notesInternal:'PRIVATE_CREW_NOTE'});
+  const result=await run(f.wc,'crew_assignment.decline',offerInput);expect(result.data.employeeIds).toEqual(['employee']);expect(result.data.employeeOffers).toHaveLength(1);expect(JSON.stringify(result)).not.toMatch(/private-peer|PRIVATE_|internalCost/);expect((await f.tx.get('crew_assignment','assignment')).data.employeeOffers).toHaveLength(2);
+ });
+ it('an expired offer cannot be accepted before the explicit expiry command persists it',async()=>{
+  const f=await proposed(),late={...f.wc,now:'2026-10-08T11:00:00.000Z'},before=fingerprint(f);
+  expect(crewOffers(await f.tx.get('crew_assignment','assignment'),late.now)[0].status).toBe('EXPIRED');await expect(run(late,'crew_assignment.acknowledge',{id:'assignment',employeeId:'employee'})).rejects.toMatchObject({code:'INVALID_STATE',details:{status:'EXPIRED'}});expect(fingerprint(f)).toBe(before);
+  const expired=await run({...f.c,now:late.now},'crew_assignment.expire',{id:'assignment',scheduleVersion:1});expect(expired.data.employeeOffers[0].status).toBe('EXPIRED');expect((await f.tx.get('order','order')).data.status).toBe('CONFIRMED');
+  const first=fingerprint(f);await run({...f.c,now:late.now},'crew_assignment.expire',{id:'assignment',scheduleVersion:1});expect(fingerprint(f)).toBe(first);
+ });
+ it('acceptance records personal agreement while preserving accepted legacy assignments past their offer deadline',async()=>{
+  const f=await proposed(),accepted=await run(f.wc,'crew_assignment.acknowledge',{id:'assignment',employeeId:'employee',scheduleVersion:1});expect(accepted.data.employeeOffers[0]).toMatchObject({status:'ACCEPTED',respondedBy:'worker'});expect((await f.tx.get('order','order')).data.status).toBe('SCHEDULED');
+  expect(crewOffers(accepted,'2026-10-09T12:00:00.000Z')[0].status).toBe('ACCEPTED');const legacy=await fixture();expect(crewOffers(await legacy.tx.get('crew_assignment','assignment'),'2026-10-09T12:00:00.000Z')[0].status).toBe('ACCEPTED');
+ });
+ it('the existing accepted demo/legacy crew without a recorded deadline stays readable without inventing one',async()=>{
+  const f=await fixture(),e=await patch(f,'crew_assignment','assignment',{startAt:undefined,endAt:undefined});expect(crewOffers(e,NOW)).toEqual([{employeeId:'employee',scheduleVersion:1,status:'ACCEPTED',expiresAt:null}]);
+ });
+ it('a rejected person is released from future capacity; a proposed person still conflicts',async()=>{
+  const f=await proposed();await f.tx.add('order',{...f.order.data,assignmentId:undefined,status:'CONFIRMED'},'other-order');const input={orderId:'other-order',employeeIds:['employee'],startAt:'2026-10-09T08:00:00.000Z',endAt:'2026-10-09T10:00:00.000Z'};
+  await expect(run(f.c,'dispatch.reserve',input)).rejects.toMatchObject({code:'VERSION_CONFLICT'});await run(f.wc,'crew_assignment.decline',offerInput);expect((await run(f.c,'dispatch.reserve',input)).data.status).toBe('ACTIVE');
+ });
+ it('rescheduling creates new proposed responses and rejects a response for the old revision',async()=>{
+  const f=await proposed();await run(f.wc,'crew_assignment.decline',offerInput);const revised=await run(f.c,'dispatch.reschedule',{id:'assignment',startAt:'2026-10-10T08:00:00.000Z',endAt:'2026-10-10T10:00:00.000Z',reason:'New schedule for renewed personal response'});expect(revised.data.employeeOffers).toEqual(newCrewOffers(['employee'],2,'2026-10-10T08:00:00.000Z'));
+  const before=fingerprint(f);await expect(run(f.wc,'crew_assignment.decline',offerInput)).rejects.toMatchObject({code:'VERSION_CONFLICT'});expect(fingerprint(f)).toBe(before);
+ });
+ it('a malformed offer roster cannot substitute for all personal acceptances',async()=>{
+  const f=await proposed();await patch(f,'crew_assignment','assignment',{employeeOffers:[]});const before=fingerprint(f);await expect(run(f.wc,'crew_assignment.acknowledge',{id:'assignment',employeeId:'employee'})).rejects.toMatchObject({code:'INVALID_STATE',details:{reason:'CREW_OFFERS_INVALID'}});expect(fingerprint(f)).toBe(before);
+ });
+ async function unbound(){const f=await fixture('PENDING_OPERATIONS');for(const kind of ['task','crew_assignment','shift','time_segment'])for(const e of await f.tx.list(kind))f.tx.rows.delete(kind+':'+e.id);await patch(f,'order','order',{siteId:undefined,assignmentId:undefined});return f;}
+ const scoped:Actor={...owner,userId:'operations',roles:['OPERATIONS_MANAGER'],permissions:['dispatch.manage'],siteIds:['site']};
+ it('a company operator explicitly links accepted unbound work before the site dispatcher can reserve',async()=>{
+  const f=await unbound(),input={id:'order',siteId:'site',reason:'Verified customer and physical site'};await expect(run(context(f.tx,scoped),'order.link_site',input)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  const linked=await run(f.c,'order.link_site',input);expect(linked.data).toMatchObject({siteId:'site',status:'PENDING_OPERATIONS',siteLinkedBy:'owner'});expect((await f.tx.get('dispatch_request','dispatch')).data.siteId).toBe('site');
+  const reservation=await run(context(f.tx,{...scoped,roles:['DISPATCHER']}),'dispatch.reserve',{orderId:'order',employeeIds:['employee'],startAt:'2026-10-09T08:00:00.000Z',endAt:'2026-10-09T10:00:00.000Z'});expect(reservation.data.status).toBe('ACTIVE');
+ });
+ it('scoped operations may bind only the already authoritative lead site',async()=>{
+  const f=await unbound();await patch(f,'lead','lead',{siteId:'site',customerId:'customer'});expect((await run(context(f.tx,scoped),'order.link_site',{id:'order',siteId:'site',reason:'Bind authoritative lead site'})).data.siteId).toBe('site');
+  const before=fingerprint(f);await expect(authorizeCommerceEmployeeCommand(context(f.tx,{...scoped,siteIds:[]}),'order.link_site',{id:'order',siteId:'site'})).rejects.toMatchObject({code:'ACCESS_DENIED'});expect(fingerprint(f)).toBe(before);
+ });
+ it.each([{active:false},{customerId:'another-customer'}])('initial site binding rejects invalid target %j without effects',async change=>{
+  const f=await unbound();await patch(f,'site','site',change);const before=fingerprint(f);await expect(run(f.c,'order.link_site',{id:'order',siteId:'site',reason:'Must reject invalid site'})).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});expect(fingerprint(f)).toBe(before);
+ });
+ it('a linked order cannot be silently moved to another same-customer site',async()=>{
+  const f=await unbound();await run(f.c,'order.link_site',{id:'order',siteId:'site',reason:'Initial binding'});await f.tx.add('site',{active:true,customerId:'customer'},'other-site');const before=fingerprint(f);await expect(run(f.c,'order.link_site',{id:'order',siteId:'other-site',reason:'Attempt to change site'})).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'ORDER_SITE_ALREADY_BOUND'}});expect(fingerprint(f)).toBe(before);
+ });
 });

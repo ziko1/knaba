@@ -1,3 +1,4 @@
+import {operationsCommands} from '../packages/domain/operations.ts';
 import { describe, expect, it } from 'vitest';
 import { resourcesCommands, exactBaseQuantity, stockBalance, reportSnapshotHash } from '../packages/domain/resources';
 import { execFileSync } from 'node:child_process';
@@ -126,6 +127,28 @@ describe('D07 immutable published remaining work',()=>{
  it('legacy immutable reports without the new field still export with their original hash',async()=>{
   const f=await reportFixture(),version=structuredClone(f.version);delete version.data.snapshot.remainingTaskRows;version.data.sha256=reportSnapshotHash(version.data.snapshot);const before=structuredClone(version);
   expect(renderReportCsv(version)).not.toContain('Restumfang');await exportReportXlsx(version);await renderReportPdf(version);expect(version).toEqual(before);
+ });
+ it.each(['DRAFT','REVIEWED','APPROVED'])('unchanged legacy %s draft with no remainder can complete without altering approved source fields',async state=>{
+  const f=await fixture(),draft=await run(f.ctx,'report.create',input),legacy=structuredClone(draft.data.draftSnapshot);delete legacy.remainingTaskRows;
+  await f.tx.save(draft,{...draft.data,draftSnapshot:legacy});
+  if(state!=='DRAFT')await run(context(f.tx,manager),'report.review',{reportId:draft.id,decision:'PASS',reason:'Legacy independent review'});
+  if(state==='APPROVED')await run(context(f.tx,manager),'report.approve',{reportId:draft.id,reason:'Legacy approved source'});
+  if(state==='DRAFT')await run(context(f.tx,manager),'report.review',{reportId:draft.id,decision:'PASS',reason:'Independent review'});
+  if(state!=='APPROVED')await run(context(f.tx,manager),'report.approve',{reportId:draft.id,reason:'Unchanged legacy source'});
+  const version=await run(context(f.tx,manager),'report.publish',{reportId:draft.id});expect(version.data.snapshot).not.toHaveProperty('remainingTaskRows');expect((await f.tx.get('report',draft.id)).data.draftSnapshot).toEqual(legacy);
+ });
+ it('legacy approved partial scope requires explicit refresh and new independent approval',async()=>{
+  const f=await partial(),draft=await run(f.ctx,'report.create',input);await approve(f,draft.id);const approved=await f.tx.get('report',draft.id),legacy=structuredClone(approved.data.draftSnapshot);delete legacy.remainingTaskRows;await f.tx.save(approved,{...approved.data,draftSnapshot:legacy});
+  await expect(run(context(f.tx,manager),'report.publish',{reportId:draft.id})).rejects.toMatchObject({code:'REPORT_SOURCE_CHANGED'});
+  const refreshed=await run(f.ctx,'report.refresh',{reportId:draft.id,reason:'Explicit re-draft with complete remaining scope'});expect(refreshed.data).toMatchObject({state:'DRAFT',approvedBy:null,approvedAt:null,reviewedBy:null,reviewedAt:null});expect(refreshed.data.draftSnapshot.remainingTaskRows).toHaveLength(1);
+  await expect(run(context(f.tx,manager),'report.publish',{reportId:draft.id})).rejects.toMatchObject({code:'INVALID_STATE'});await approve(f,draft.id);expect((await run(context(f.tx,manager),'report.publish',{reportId:draft.id})).data.snapshot.remainingTaskRows).toHaveLength(1);
+ });
+ it.each(['CONTRACT','CHANGE_ORDER'])('explicitly private %s remainder blocks publication until customer visibility is reviewed',async billingScope=>{
+  const f=await partial();await f.tx.save(await f.tx.get('task',f.pending.id),{...f.pending.data,billingScope,clientVisible:false,titleDe:'PRIVATE_CONTRACT_TITLE',locationId:'PRIVATE_LOCATION'});
+  await expect(run(f.ctx,'report.create',input)).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'REMAINING_SCOPE_VISIBILITY_REVIEW_REQUIRED'}});expect(await f.tx.list('report')).toHaveLength(0);
+  if(billingScope==='CHANGE_ORDER'){const task=await f.tx.get('task',f.pending.id);await f.tx.add('change_order',{status:'ACCEPTED',orderId:'order'},'accepted-change');await f.tx.save(task,{...task.data,changeOrderId:'accepted-change'});}
+  const def=operationsCommands['task.client_visibility']!;await def.handler(context(f.tx,manager),def.schema.parse({taskId:f.pending.id,clientVisible:true,reason:'Explicit customer title and location release'}));
+  const draft=await run(f.ctx,'report.create',input);expect(draft.data.draftSnapshot.remainingTaskRows[0]).toMatchObject({descriptionDe:'PRIVATE_CONTRACT_TITLE',remainingQuantityMilli:2500});
  });
  it('a remaining task cannot use a different site under the same order',async()=>{
   const f=await partial();await f.tx.save(f.pending,{...f.pending.data,siteId:'foreign-site'},f.pending.version);

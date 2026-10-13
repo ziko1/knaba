@@ -1,3 +1,4 @@
+import {crewOffers} from './crew-offers.ts';
 import {assert,type CommandContext,type Entity} from './core.js';
 
 /** Called only after the authoritative active shift points at the actual new
@@ -15,7 +16,7 @@ export async function startOrderFromWorkSegment(ctx:CommandContext,segment:Entit
  assert(['SCHEDULED','IN_PROGRESS'].includes(order.data.status),'INVALID_STATE',{reason:'ORDER_NOT_PERMITTED_TO_START',status:order.data.status});
  const assignment=await ctx.tx.get('crew_assignment',order.data.assignmentId);assert(assignment.data.orderId===order.id&&assignment.data.siteId===order.data.siteId&&assignment.data.scheduleVersion===order.data.scheduleVersion&&['ACKNOWLEDGED','STARTED'].includes(assignment.data.status),'INVALID_STATE',{reason:'CURRENT_ACCEPTED_CREW_REQUIRED'});
  const userIds:string[]=[];for(const employeeId of assignment.data.employeeIds){const employee=await ctx.tx.get('employee',employeeId);assert(employee.data.active!==false,'INVALID_STATE',{reason:'CREW_MEMBER_INACTIVE'});userIds.push(employee.data.userId??employee.data.user_id??employee.id);}
- assert(userIds.includes(shift.data.employeeId)&&assignment.data.employeeIds.every((id:string)=>assignment.data.acknowledgedIds.includes(id)),'NEEDS_APPROVAL',{reason:'ALL_REQUIRED_CREW_ACKNOWLEDGMENTS_REQUIRED'});
+ assert(userIds.includes(shift.data.employeeId)&&assignment.data.employeeIds.every((id:string)=>assignment.data.acknowledgedIds.includes(id))&&crewOffers(assignment,ctx.now).every(o=>o.status==='ACCEPTED'),'NEEDS_APPROVAL',{reason:'ALL_REQUIRED_CREW_ACKNOWLEDGMENTS_REQUIRED'});
  assert(Number.isFinite(Date.parse(current.data.startAt))&&Date.parse(current.data.startAt)<=Date.parse(ctx.now)&&(!order.data.confirmedAt||Date.parse(current.data.startAt)>=Date.parse(order.data.confirmedAt)),'INVALID_STATE',{reason:'ORDER_WORK_SEGMENT_TIME_INVALID'});
  if(order.data.status==='IN_PROGRESS')return order;
  await ctx.tx.save(assignment,{...assignment.data,status:'STARTED',startedAt:current.data.startAt,startedBy:shift.data.employeeId,firstWorkSegmentId:current.id},assignment.version);

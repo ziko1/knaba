@@ -19,6 +19,12 @@ export function canonicalReportJson(value:any):string {if(value===null||typeof v
 export function formatReportHours(seconds:number):string {assert(Number.isSafeInteger(seconds)&&seconds>=0,'INVALID_TIMESHEET');const hundredths=(BigInt(seconds)*100n+1800n)/3600n;return `${hundredths/100n}.${String(hundredths%100n).padStart(2,'0')}`;}
 export const reportSnapshotHash=(data:unknown)=>createHash('sha256').update(canonicalReportJson(data)).digest('hex');
 const digest=reportSnapshotHash;
+function reportSourceMatches(current:Data,draft:Data){
+ // Only a genuinely empty remainder is backward-compatible with an in-flight
+ // legacy draft. Never add fields to the already approved snapshot bytes.
+ if(!Object.hasOwn(draft,'remainingTaskRows')&&Array.isArray(current.remainingTaskRows)&&current.remainingTaskRows.length===0){const compatible={...current};delete compatible.remainingTaskRows;return digest(compatible)===digest(draft);}
+ return digest(current)===digest(draft);
+}
 const asInt = (n: bigint): number => { assert(n >= 0n && n <= BigInt(Number.MAX_SAFE_INTEGER),'VALIDATION_ERROR'); return Number(n); };
 const ownOnly = (ctx:CommandContext,employeeId:string) => assert(ctx.actor.userId === employeeId,'ACCESS_DENIED');
 const checked = async (ctx:CommandContext,kind:string,entityId:string) => {
@@ -516,16 +522,22 @@ Object.assign(resourcesCommands,{
   'report.create':command('report.create',reportInput,async(ctx,input)=>{
     const snapshot=await reportSnapshot(ctx,input);const r=await ctx.tx.add('report',{siteId:input.siteId,customerId:input.customerId,orderId:input.orderId,inputSnapshot:input,draftSnapshot:snapshot,state:'DRAFT',createdBy:ctx.actor.userId,createdAt:ctx.now,nextVersion:1});await ctx.tx.event('report.draft_created',{reportId:r.id,siteId:input.siteId});return r;
   }),
+  'report.refresh':command('report.create',z.object({reportId:id,reason}).strict(),async(ctx,input)=>{
+    const r=await scopedReport(ctx,input.reportId);assert(['DRAFT','REVIEWED','APPROVED'].includes(r.data.state),'INVALID_STATE');
+    const snapshot=await reportSnapshot(ctx,r.data.inputSnapshot);
+    const saved=await ctx.tx.save(r,{...r.data,draftSnapshot:snapshot,state:'DRAFT',createdBy:ctx.actor.userId,refreshReason:input.reason,refreshedAt:ctx.now,reviewedBy:null,reviewedAt:null,reviewReason:null,approvedBy:null,approvedAt:null,approvalReason:null},ctx.expectedVersion??r.version);
+    await ctx.tx.event('report.draft_refreshed',{reportId:r.id,siteId:r.data.siteId});return saved;
+  }),
   'report.review':command('report.review',z.object({reportId:id,decision:z.enum(['PASS','RETURN']),reason}).strict(),async(ctx,input)=>{
     const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='DRAFT','INVALID_STATE');assert(r.data.createdBy!==ctx.actor.userId,'SELF_APPROVAL_DENIED');return ctx.tx.save(r,{...r.data,state:input.decision==='PASS'?'REVIEWED':'DRAFT',reviewedBy:ctx.actor.userId,reviewedAt:ctx.now,reviewReason:input.reason},ctx.expectedVersion??r.version);
   }),
   'report.approve':command('report.approve',z.object({reportId:id,reason}).strict(),async(ctx,input)=>{
     const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='REVIEWED','INVALID_STATE');assert(r.data.createdBy!==ctx.actor.userId,'SELF_APPROVAL_DENIED');
-    const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(digest(current)===digest(r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');const saved=await ctx.tx.save(r,{...r.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??r.version);await ctx.tx.event('report.approved',{reportId:saved.id,siteId:saved.data.siteId,sourceVersion:saved.version});return saved;
+    const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(reportSourceMatches(current,r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');const saved=await ctx.tx.save(r,{...r.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??r.version);await ctx.tx.event('report.approved',{reportId:saved.id,siteId:saved.data.siteId,sourceVersion:saved.version});return saved;
   },true),
   'report.publish':command('report.publish',z.object({reportId:id}).strict(),async(ctx,input)=>{
     const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='APPROVED','INVALID_STATE');const memberships=await ctx.tx.list('customer_membership');assert(memberships.some(m=>m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(ctx.now))&&m.data.customerId===r.data.customerId&&(!m.data.siteIds.length||m.data.siteIds.includes(r.data.siteId))),'CUSTOMER_ACCESS_REQUIRED');
-    const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(digest(current)===digest(r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');
+    const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(reportSourceMatches(current,r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');
     const existing=(await ctx.tx.list('report_version')).filter(v=>v.data.reportId===r.id);assert(!existing.some(v=>v.data.version===r.data.nextVersion),'DUPLICATE_EFFECT');
     const author=await checked(ctx,'user',r.data.createdBy);const snapshot={...r.data.draftSnapshot,number:`KNB-${r.id}-${String(r.data.nextVersion).padStart(2,'0')}`,version:r.data.nextVersion,issuedAt:ctx.now,authorCode:author.data.businessCode||author.data.employeeCode||`A-${digest(r.data.createdBy).slice(0,8)}`,approval:{approvedAt:r.data.approvedAt}};
     const version=await ctx.tx.add('report_version',{reportId:r.id,siteId:r.data.siteId,customerId:r.data.customerId,version:r.data.nextVersion,previousVersionId:r.data.currentVersionId||null,snapshot,sha256:digest(snapshot),templateVersion:snapshot.templateVersion,publishedAt:ctx.now,immutable:true});
