@@ -171,6 +171,13 @@ describe('D07 personal offer state and safe initial site binding',()=>{
   const f=await proposed();await run(f.wc,'crew_assignment.decline',offerInput);const revised=await run(f.c,'dispatch.reschedule',{id:'assignment',startAt:'2026-10-10T08:00:00.000Z',endAt:'2026-10-10T10:00:00.000Z',reason:'New schedule for renewed personal response'});expect(revised.data.employeeOffers).toEqual(newCrewOffers(['employee'],2,'2026-10-10T08:00:00.000Z'));
   const before=fingerprint(f);await expect(run(f.wc,'crew_assignment.decline',offerInput)).rejects.toMatchObject({code:'VERSION_CONFLICT'});expect(fingerprint(f)).toBe(before);
  });
+ it('missing or stale ACK consent after reschedule cannot accept the replacement; exact current envelope can',async()=>{
+  const f=await proposed(),original=await f.tx.get('crew_assignment','assignment');await run(f.c,'dispatch.reschedule',{id:'assignment',startAt:'2026-10-10T08:00:00.000Z',endAt:'2026-10-10T10:00:00.000Z',reason:'New slot requires new consent'});const before=fingerprint(f),input={id:'assignment',employeeId:'employee'};
+  await expect(run(f.wc,'crew_assignment.acknowledge',input)).rejects.toMatchObject({code:'VERSION_CONFLICT',details:{reason:'CREW_OFFER_REVISION_REQUIRED'}});
+  await expect(run(f.wc,'crew_assignment.acknowledge',{...input,scheduleVersion:1})).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  await expect(run({...f.wc,expectedVersion:original.version},'crew_assignment.acknowledge',input)).rejects.toMatchObject({code:'VERSION_CONFLICT'});expect(fingerprint(f)).toBe(before);
+  const current=await f.tx.get('crew_assignment','assignment');await run({...f.wc,expectedVersion:current.version},'crew_assignment.acknowledge',input);expect((await f.tx.get('order','order')).data.status).toBe('SCHEDULED');
+ });
  it('a malformed offer roster cannot substitute for all personal acceptances',async()=>{
   const f=await proposed();await patch(f,'crew_assignment','assignment',{employeeOffers:[]});const before=fingerprint(f);await expect(run(f.wc,'crew_assignment.acknowledge',{id:'assignment',employeeId:'employee'})).rejects.toMatchObject({code:'INVALID_STATE',details:{reason:'CREW_OFFERS_INVALID'}});expect(fingerprint(f)).toBe(before);
  });
@@ -191,4 +198,9 @@ describe('D07 personal offer state and safe initial site binding',()=>{
  it('a linked order cannot be silently moved to another same-customer site',async()=>{
   const f=await unbound();await run(f.c,'order.link_site',{id:'order',siteId:'site',reason:'Initial binding'});await f.tx.add('site',{active:true,customerId:'customer'},'other-site');const before=fingerprint(f);await expect(run(f.c,'order.link_site',{id:'order',siteId:'other-site',reason:'Attempt to change site'})).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'ORDER_SITE_ALREADY_BOUND'}});expect(fingerprint(f)).toBe(before);
  });
+ it('assign and its replay authorizer cannot bypass an explicit order site binding',async()=>{
+  const f=await unbound();await run(f.c,'order.link_site',{id:'order',siteId:'site',reason:'Verified explicit binding'});await f.tx.add('site',{active:true,customerId:'customer'},'other-site');const held=await run(f.c,'dispatch.reserve',{orderId:'order',employeeIds:['employee'],startAt:'2026-10-09T08:00:00.000Z',endAt:'2026-10-09T10:00:00.000Z'}),input={orderId:'order',reservationId:held.id,siteId:'other-site'},before=fingerprint(f);
+  await expect(authorizeCommerceEmployeeCommand(f.c,'dispatch.assign',input)).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'ORDER_SITE_ALREADY_BOUND'}});await expect(run(f.c,'dispatch.assign',input)).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'ORDER_SITE_ALREADY_BOUND'}});expect(fingerprint(f)).toBe(before);
+ });
+
 });
