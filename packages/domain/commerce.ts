@@ -1,3 +1,4 @@
+import {reportRemainingTaskRows} from './report-remaining-scope.ts';
 import { z } from 'zod';
 import { assert, cents, DomainError, id, isManager, timestamp, type Actor, type CommandContext, type CommandRegistry, type Data, type Entity } from './core.js';
 import { operationsCommands } from './operations.js';
@@ -161,6 +162,11 @@ async function crewResponseScope(c:CommandContext,employee:Entity,assignment:Ent
  * It deliberately has no workflow-state gates: a successful exact replay may
  * follow the original business transition, but may not outlive subject access. */
 export async function authorizeCommerceEmployeeCommand(c:CommandContext,name:string,input:Data):Promise<void> {
+ if(name==='dispatch.materials.confirm'){
+  const requirement=await c.tx.get('material_requirement',input.requirementId),order=await c.tx.get('order',requirement.data.orderId),request=await c.tx.get('material_request',input.requestId);
+  const siteId=await dispatchOrderSite(c,order);
+  assert(requirement.data.siteId===siteId&&request.data.siteId===siteId&&request.data.materialId===requirement.data.materialId,'NOT_FOUND_SAFE');return;
+ }
  if(['crew_assignment.acknowledge','crew_assignment.start'].includes(name)){await crewResponseScope(c,await c.tx.get('employee',input.employeeId),await c.tx.get('crew_assignment',input.id));return;}
  if(name==='employee.availability'){await dispatchEmployee(c,await c.tx.get('employee',input.employeeId));return;}
  if(['dispatch.reserve','dispatch.recommend'].includes(name)){const order=await c.tx.get('order',input.orderId),siteId=await dispatchOrderSite(c,order);for(const employeeId of input.employeeIds??[])await dispatchEmployee(c,await c.tx.get('employee',employeeId),siteId);return;}
@@ -197,7 +203,16 @@ async function materialsReady(c:CommandContext,orderId:string) {
 async function issueSchedule(c:CommandContext,order:Entity,assignment:Entity) {
   const currentAssignment=await c.tx.get('crew_assignment',assignment.id);assert(currentAssignment.version===assignment.version,'VERSION_CONFLICT');assignment=currentAssignment;
   const fresh=await c.tx.get('order',order.id);
-  assert(['CONFIRMED','SCHEDULED'].includes(fresh.data.status)&&fresh.data.assignmentId===assignment.id&&fresh.data.scheduleVersion===assignment.data.scheduleVersion&&assignment.data.orderId===fresh.id&&assignment.data.siteId===fresh.data.siteId,'INVALID_STATE',{reason:'CURRENT_SCHEDULABLE_ASSIGNMENT_REQUIRED'});
+  assert(['CONFIRMED','SCHEDULED','IN_PROGRESS'].includes(fresh.data.status)&&fresh.data.assignmentId===assignment.id&&fresh.data.scheduleVersion===assignment.data.scheduleVersion&&assignment.data.orderId===fresh.id&&assignment.data.siteId===fresh.data.siteId,'INVALID_STATE',{reason:'CURRENT_SCHEDULABLE_ASSIGNMENT_REQUIRED'});
+  // Delayed material callbacks can update readiness after real work has begun.
+  // They must neither replay the schedule notification nor rewind the order.
+  // Require the actual start receipt, not merely an IN_PROGRESS label.
+  if(fresh.data.status==='IN_PROGRESS'){
+   assert(assignment.data.status==='STARTED'&&fresh.data.firstWorkSegmentId&&assignment.data.firstWorkSegmentId===fresh.data.firstWorkSegmentId,'INVALID_STATE',{reason:'ACTUAL_ORDER_WORK_SEGMENT_REQUIRED'});
+   const segment=await c.tx.get('time_segment',fresh.data.firstWorkSegmentId),task=await c.tx.get('task',segment.data.taskId);
+   assert(segment.data.siteId===fresh.data.siteId&&task.data.siteId===fresh.data.siteId&&task.data.orderId===fresh.id&&['WORKING','SERVICE_TASK'].includes(segment.data.activity)&&segment.data.startAt===fresh.data.startedAt,'INVALID_STATE',{reason:'ACTUAL_ORDER_WORK_SEGMENT_REQUIRED'});
+   return;
+  }
   assert(assignment.data.employeeIds.length,'INVALID_STATE');if(!assignment.data.employeeIds.every((employeeId:string)=>assignment.data.acknowledgedIds.includes(employeeId)))return;
   assert(['ACKNOWLEDGED','STARTED'].includes(assignment.data.status),'INVALID_STATE',{reason:'ACTUAL_ACCEPTED_CREW_ASSIGNMENT_REQUIRED'});
   await acceptedOrderScope(c,fresh);await orderResponsible(c,fresh.data.responsibleUserId);
@@ -247,10 +262,12 @@ async function reviewedOrderScope(c:CommandContext,order:Entity,reviewId?:string
 async function guardClientReview(c:CommandContext,order:Entity,i:Data) {
  const {review,tasks}=await reviewedOrderScope(c,order,i.reviewId??order.data.internalReviewId),report=await currentPublishedOrderReport(c,order,i.reportVersionId??order.data.clientReportVersionId);
  const rows=report.data.snapshot.taskRows??[],accepted=tasks.filter(t=>t.data.state==='ACCEPTED');
- const reviews=await c.tx.list('task_review');assert(accepted.every(t=>rows.some((r:Data)=>r.taskId===t.id&&r.state==='ACCEPTED'&&r.quantityMilli===t.data.acceptedQuantityMilli&&r.unit===t.data.unit&&reviews.some(actual=>actual.id===r.reviewId&&actual.data.taskId===t.id&&actual.data.decision==='ACCEPT'&&actual.data.reviewedBy===t.data.reviewedBy&&actual.data.reviewedAt===t.data.reviewedAt)))&&rows.every((r:Data)=>accepted.some(t=>t.id===r.taskId)),'NEEDS_APPROVAL',{reason:'REPORT_MUST_MATCH_CURRENT_REVIEWED_SCOPE'});return {review,tasks,report};
+ const reviews=await c.tx.list('task_review');assert(accepted.every(t=>rows.some((r:Data)=>r.taskId===t.id&&r.state==='ACCEPTED'&&r.quantityMilli===t.data.acceptedQuantityMilli&&r.unit===t.data.unit&&reviews.some(actual=>actual.id===r.reviewId&&actual.data.taskId===t.id&&actual.data.decision==='ACCEPT'&&actual.data.reviewedBy===t.data.reviewedBy&&actual.data.reviewedAt===t.data.reviewedAt)))&&rows.every((r:Data)=>accepted.some(t=>t.id===r.taskId)),'NEEDS_APPROVAL',{reason:'REPORT_MUST_MATCH_CURRENT_REVIEWED_SCOPE'});
+ const remaining=reportRemainingTaskRows(order,tasks);
+ assert(canonical(report.data.snapshot.remainingTaskRows??[])===canonical(remaining),'NEEDS_APPROVAL',{reason:'REPORT_MUST_MATCH_CURRENT_REMAINING_SCOPE'});return {review,tasks,report};
 }
 async function guardOrderClosed(c:CommandContext,order:Entity,i:Data) {
- const result=await guardClientReview(c,order,i);assert(result.tasks.every(t=>t.data.state==='ACCEPTED')&&!result.review.data.remainingTaskIds.length,'NEEDS_APPROVAL',{reason:'UNFINISHED_ORDER_SCOPE'});
+ const result=await guardClientReview(c,order,i);assert(result.tasks.every(t=>t.data.state==='ACCEPTED')&&!result.review.data.remainingTaskIds.length&&!reportRemainingTaskRows(order,result.tasks).length,'NEEDS_APPROVAL',{reason:'UNFINISHED_ORDER_SCOPE'});
  const taskIds=new Set((await c.tx.list('task')).filter(t=>t.data.orderId===order.id).map(t=>t.id)),defects=(await c.tx.list('defect')).filter(d=>taskIds.has(d.data.taskId)&&d.data.state!=='CLOSED'&&(d.data.blocking!==false||['HIGH','CRITICAL'].includes(d.data.severity)));
  assert(!defects.length,'NEEDS_APPROVAL',{reason:'OPEN_BLOCKING_DEFECTS',defectIds:defects.map(d=>d.id)});
  assert(i.closureBasis,'NEEDS_APPROVAL',{reason:'EXPLICIT_CLOSURE_BASIS_REQUIRED'});
@@ -478,7 +495,7 @@ Object.assign(commerceCommands,{
  'service.approve':command('commerce.approve',ref,async(c,i)=>{const service=await c.tx.get('service',i.id);const result=await save(c,service,{...service.data,approvedBy:c.actor.userId,approvedAt:c.now});await c.tx.event('service.approved',{serviceId:service.id});return result;},true),
 });
 Object.assign(commerceCommands,{
- 'dispatch.materials.confirm':command('dispatch.manage',z.object({requirementId:id,requestId:id}).strict(),async(c,i)=>{const requirement=await c.tx.get('material_requirement',i.requirementId);c.requireSite(requirement.data.siteId);const request=await c.tx.get('material_request',i.requestId);assert(request.data.siteId===requirement.data.siteId&&request.data.materialId===requirement.data.materialId&&request.data.approvedBase>=requirement.data.quantityBase,'NEEDS_APPROVAL');const result=await save(c,requirement,{...requirement.data,requestId:request.id,status:'LINKED_APPROVED_REQUEST'});const order=await c.tx.get('order',requirement.data.orderId);if(order.data.assignmentId)await issueSchedule(c,order,await c.tx.get('crew_assignment',order.data.assignmentId));return result;}),
+ 'dispatch.materials.confirm':command('dispatch.manage',z.object({requirementId:id,requestId:id}).strict(),async(c,i)=>{await authorizeCommerceEmployeeCommand(c,'dispatch.materials.confirm',i);const requirement=await c.tx.get('material_requirement',i.requirementId);c.requireSite(requirement.data.siteId);const request=await c.tx.get('material_request',i.requestId);assert(request.data.siteId===requirement.data.siteId&&request.data.materialId===requirement.data.materialId&&request.data.approvedBase>=requirement.data.quantityBase,'NEEDS_APPROVAL');const result=await save(c,requirement,{...requirement.data,requestId:request.id,status:'LINKED_APPROVED_REQUEST'});const order=await c.tx.get('order',requirement.data.orderId);if(order.data.assignmentId)await issueSchedule(c,order,await c.tx.get('crew_assignment',order.data.assignmentId));return result;}),
  'dispatch.readiness':command('dispatch.manage',z.object({orderId:id}).strict(),async(c,i)=>{const order=await c.tx.get('order',i.orderId);c.requireSite(order.data.siteId);assert(order.data.assignmentId,'INVALID_STATE');const assignment=await c.tx.get('crew_assignment',order.data.assignmentId);await issueSchedule(c,order,assignment);return {order:await c.tx.get('order',order.id),materialsReady:await materialsReady(c,order.id),employeeAcknowledgmentsReady:assignment.data.employeeIds.every((employeeId:string)=>assignment.data.acknowledgedIds.includes(employeeId))};}),
 });
 

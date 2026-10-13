@@ -96,6 +96,42 @@ describe('payroll and actual payout evidence',()=>{
 });
 
 async function reportFixture(){const f=await payrollFixture();const r=await run(f.ctx,'report.create',{siteId:'site',customerId:'customer',orderId:'order',periodStart:'2026-10-01T00:00:00.000Z',periodEnd:'2026-10-06T00:00:00.000Z',documentType:'Leistungsnachweis',taskIds:['task'],timesheetIds:['timesheet'],descriptionDe:'Die Bodenreinigung wurde abgeschlossen.'});await run(context(f.tx,manager),'report.review',{reportId:r.id,decision:'PASS',reason:'Gepruefte Leistungen'});await run(context(f.tx,manager),'report.approve',{reportId:r.id,reason:'Freigabe fuer Kunden'});const version=await run(context(f.tx,manager),'report.publish',{reportId:r.id});return {...f,report:r,version};}
+
+describe('D07 immutable published remaining work',()=>{
+ const input={siteId:'site',customerId:'customer',orderId:'order',periodStart:'2026-10-01T00:00:00.000Z',periodEnd:'2026-10-06T00:00:00.000Z',documentType:'Leistungsnachweis',taskIds:['task'],descriptionDe:'Abgenommener Umfang und offener Rest.'};
+ async function partial(){const f=await fixture();const pending=await f.tx.add('task',{orderId:'order',siteId:'site',titleDe:'Offene Fensterreinigung',description:'PRIVATE_WORKLOG_EXPLANATION',state:'IN_PROGRESS',plannedQuantityMilli:2500,reportedQuantityMilli:1000,acceptedQuantityMilli:0,unit:'M2',assigneeIds:['PRIVATE_WORKER'],internalCostCents:999},'remaining');return {...f,pending};}
+ async function approve(f:Awaited<ReturnType<typeof partial>>,id:string){await run(context(f.tx,manager),'report.review',{reportId:id,decision:'PASS',reason:'Restumfang unabhängig geprüft'});await run(context(f.tx,manager),'report.approve',{reportId:id,reason:'Veröffentlichung des Restumfangs geprüft'});}
+ it('derives the entire scoped remainder without leaking worklog/person/cost fields and keeps the published snapshot immutable',async()=>{
+  const f=await partial();await f.tx.add('task',{...f.pending.data,orderId:'other-order',titleDe:'FOREIGN_ORDER'},'foreign');await f.tx.add('task',{...f.pending.data,state:'CANCELLED',titleDe:'CANCELLED_TASK'},'cancelled');await f.tx.add('task',{...f.pending.data,billingScope:'INTERNAL',clientVisible:false,titleDe:'PRIVATE_INTERNAL_TASK'},'private-internal');await f.tx.add('task',{...f.pending.data,billingScope:'PENDING_APPROVAL',titleDe:'PRIVATE_UNAPPROVED_TASK'},'private-pending');
+  const draft=await run(f.ctx,'report.create',input);expect(draft.data.draftSnapshot.remainingTaskRows).toEqual([{taskId:'remaining',taskVersion:1,locationId:null,descriptionDe:'Offene Fensterreinigung',state:'IN_PROGRESS',unit:'M2',plannedQuantityMilli:2500,acceptedQuantityMilli:0,remainingQuantityMilli:2500}]);
+  expect(JSON.stringify(draft.data.draftSnapshot)).not.toMatch(/PRIVATE_|FOREIGN_ORDER|CANCELLED_TASK|internalCostCents/);
+  await approve(f,draft.id);const version=await run(context(f.tx,manager),'report.publish',{reportId:draft.id}),before=structuredClone(version);
+  await f.tx.save(f.pending,{...f.pending.data,state:'ACCEPTED',acceptedQuantityMilli:2500},f.pending.version);
+  expect(await f.tx.get('report_version',version.id)).toEqual(before);expect(reportExportSnapshot(version).remainingTaskRows[0].remainingQuantityMilli).toBe(2500);
+ });
+ it.each(['APPROVE','PUBLISH'])('source changes cannot pass the %s gate unnoticed',async gate=>{
+  const f=await partial(),draft=await run(f.ctx,'report.create',input);
+  if(gate==='PUBLISH')await approve(f,draft.id);else await run(context(f.tx,manager),'report.review',{reportId:draft.id,decision:'PASS',reason:'Rest geprüft'});
+  await f.tx.save(f.pending,{...f.pending.data,plannedQuantityMilli:3000},f.pending.version);
+  await expect(run(context(f.tx,manager),gate==='APPROVE'?'report.approve':'report.publish',{reportId:draft.id,...(gate==='APPROVE'?{reason:'Must reject changed rest'}:{})})).rejects.toMatchObject({code:'REPORT_SOURCE_CHANGED'});
+  expect(await f.tx.list('report_version')).toHaveLength(0);
+ });
+ it('preserves exact remaining quantities in real CSV, XLSX and readable PDF without extra charges',async()=>{
+  const f=await partial(),draft=await run(f.ctx,'report.create',input);await approve(f,draft.id);const version=await run(context(f.tx,manager),'report.publish',{reportId:draft.id});
+  expect(renderReportCsv(version)).toContain('"Restumfang";"Noch nicht abgenommen (exakt)";"2500";"M2 / 1000"');
+  const workbook=readWorkbook(await exportReportXlsx(version));expect(workbook.sheets.Bericht.rows.some((row:any[])=>row[0].value==='Restumfang'&&row[1].value==='Noch nicht abgenommen (exakt)'&&row[2].value===2500)).toBe(true);
+  const folder=mkdtempSync(join(tmpdir(),'knaba-remainder-')),file=join(folder,'report.pdf');try{writeFileSync(file,await renderReportPdf(version));const text=execFileSync('pdftotext',[file,'-'],{encoding:'utf8'});expect(text).toContain('Restumfang');expect(text).toContain('Offene Fensterreinigung');expect(text).toContain('2.500 M2');}finally{rmSync(folder,{recursive:true,force:true});}
+  expect(version.data.snapshot.totalNetCents).toBe(120000);
+ });
+ it('legacy immutable reports without the new field still export with their original hash',async()=>{
+  const f=await reportFixture(),version=structuredClone(f.version);delete version.data.snapshot.remainingTaskRows;version.data.sha256=reportSnapshotHash(version.data.snapshot);const before=structuredClone(version);
+  expect(renderReportCsv(version)).not.toContain('Restumfang');await exportReportXlsx(version);await renderReportPdf(version);expect(version).toEqual(before);
+ });
+ it('a remaining task cannot use a different site under the same order',async()=>{
+  const f=await partial();await f.tx.save(f.pending,{...f.pending.data,siteId:'foreign-site'},f.pending.version);
+  await expect(run(f.ctx,'report.create',input)).rejects.toMatchObject({code:'INVALID_REFERENCE'});expect(await f.tx.list('report')).toHaveLength(0);
+ });
+});
 describe('immutable customer reports and media',()=>{
  it('T-REPORT-01 snapshot derives confirmed work/hours and fixed contractual price without payroll or GPS',async()=>{const f=await reportFixture();expect(f.version.data.snapshot).toMatchObject({language:'de',totalSeconds:7200,totalNetCents:120000,totalTaxCents:22800,totalGrossCents:142800,contractIncludedMaterials:true});expect(f.version.data.snapshot.hoursRows[0].workerCode).toBe('KNB-E-001');const content=JSON.stringify(f.version.data.snapshot);expect(content).not.toMatch(/payroll|payableCents|rateCents|GPS|bankAccount|internalCost/);expect(f.version.data.sha256).toHaveLength(64);});
  it('T-REPORT-02 correction creates a new issued version and preserves old checksum and amount',async()=>{const f=await reportFixture(),original=structuredClone(f.version);await run(f.ctx,'report.revise',{reportId:f.report.id,reason:'German description corrected',descriptionDe:'Bodenreinigung und dokumentierte Kontrolle abgeschlossen.'});await run(context(f.tx,manager),'report.review',{reportId:f.report.id,decision:'PASS',reason:'Corrected content checked'});await run(context(f.tx,manager),'report.approve',{reportId:f.report.id,reason:'Corrected version approved'});const next=await run(context(f.tx,manager),'report.publish',{reportId:f.report.id});expect(next.data.version).toBe(2);expect(next.data.previousVersionId).toBe(original.id);expect(next.data.sha256).not.toBe(original.data.sha256);expect(await f.tx.get('report_version',original.id)).toEqual(original);});

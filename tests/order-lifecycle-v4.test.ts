@@ -3,6 +3,7 @@ import {commerceCommands,authorizeCommerceEmployeeCommand} from '../packages/dom
 import {startOrderFromWorkSegment} from '../packages/domain/order-lifecycle.ts';
 import {registry} from '../apps/api/registry.ts';
 import {reportSnapshotHash} from '../packages/domain/resources.ts';
+import {reportRemainingTaskRows} from '../packages/domain/report-remaining-scope.ts';
 import {DomainError,type Actor,type CommandContext,type Data,type Entity,type Transaction} from '../packages/domain/core.ts';
 
 // Explicit CPU transaction double. PostgreSQL atomic rollback is tested separately;
@@ -37,6 +38,51 @@ async function internallyReviewed(){
  const snapshot={documentType:'Abnahmeprotokoll',order:{id:'order',quoteId:'quote',quoteVersion:1},totalNetCents:10000,taskRows:[{taskId:'task',state:'ACCEPTED',reviewId:'task-review',quantityMilli:1000,unit:'UNIT'}]};await f.tx.add('report',{state:'PUBLISHED',currentVersionId:'report-version',orderId:'order'},'report');await f.tx.add('report_version',{reportId:'report',customerId:'customer',siteId:'site',immutable:true,publishedAt:NOW,sha256:reportSnapshotHash(snapshot),snapshot},'report-version');
  return {...f,review};
 }
+
+describe('D07 delayed material readiness and explicit report remainder',()=>{
+ it('a delayed readiness callback preserves the real started order and emits no second schedule',async()=>{
+  const f=await fixture();await startOrderFromWorkSegment(f.wc,f.segment);
+  const order=await f.tx.get('order','order'),assignment=await f.tx.get('crew_assignment','assignment'),events=structuredClone(f.tx.events);
+  // A finished first segment is still the immutable start fact; it need not be active.
+  await patch(f,'time_segment','segment',{endAt:NOW});
+  const result=await run(f.c,'dispatch.readiness',{orderId:'order'});
+  expect(result).toMatchObject({materialsReady:true,employeeAcknowledgmentsReady:true,order});
+  expect(await f.tx.get('crew_assignment','assignment')).toEqual(assignment);expect(f.tx.events).toEqual(events);
+ });
+ it('linking a late approved material request does not rewind work or announce another schedule',async()=>{
+  const f=await fixture();await startOrderFromWorkSegment(f.wc,f.segment);
+  await f.tx.add('material_requirement',{orderId:'order',siteId:'site',materialId:'paint',quantityBase:5},'requirement');
+  await f.tx.add('material_request',{siteId:'site',materialId:'paint',approvedBase:5,receivedBase:5},'request');
+  const order=await f.tx.get('order','order'),events=structuredClone(f.tx.events);
+  await run(f.c,'dispatch.materials.confirm',{requirementId:'requirement',requestId:'request'});
+  expect((await f.tx.get('material_requirement','requirement')).data.requestId).toBe('request');
+  expect(await f.tx.get('order','order')).toEqual(order);expect(f.tx.events).toEqual(events);
+ });
+ it.each([{kind:'crew_assignment',id:'assignment',data:{scheduleVersion:2}},{kind:'crew_assignment',id:'assignment',data:{status:'ACKNOWLEDGED'}},{kind:'time_segment',id:'segment',data:{activity:'ON_BREAK'}},{kind:'task',id:'task',data:{orderId:'other-order'}}])('late readiness rejects a fabricated or stale start: $kind $data',async change=>{
+  const f=await fixture();await startOrderFromWorkSegment(f.wc,f.segment);await patch(f,change.kind,change.id,change.data);
+  const before=JSON.stringify([...f.tx.rows]);await expect(run(f.c,'dispatch.readiness',{orderId:'order'})).rejects.toMatchObject({code:'INVALID_STATE'});expect(JSON.stringify([...f.tx.rows])).toBe(before);
+ });
+ it.each(['PAUSED','DISPUTED','WORK_SUBMITTED','CLIENT_REVIEW','CLOSED','CANCELLED'])('a readiness callback cannot change the %s stage',async status=>{
+  const f=await fixture(status),before=JSON.stringify([...f.tx.rows]);await expect(run(f.c,'dispatch.readiness',{orderId:'order'})).rejects.toMatchObject({code:'INVALID_STATE'});expect(JSON.stringify([...f.tx.rows])).toBe(before);
+ });
+ it('material callback authorization checks current order/request site before cached replay or mutation',async()=>{
+  const f=await fixture();await f.tx.add('material_requirement',{orderId:'order',siteId:'site',materialId:'paint',quantityBase:5},'requirement');await f.tx.add('material_request',{siteId:'foreign-site',materialId:'paint',approvedBase:5},'request');
+  const input={requirementId:'requirement',requestId:'request'},before=JSON.stringify([...f.tx.rows]);
+  await expect(authorizeCommerceEmployeeCommand(f.c,'dispatch.materials.confirm',input)).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+  await expect(run(f.c,'dispatch.materials.confirm',input)).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});expect(JSON.stringify([...f.tx.rows])).toBe(before);
+ });
+ it('client review rejects a hash-valid report that omits remaining work, then accepts the exact reviewed remainder',async()=>{
+  const f=await internallyReviewed();const pending=await f.tx.add('task',{...f.task.data,title:'Offene Reinigung',plannedQuantityMilli:500,orderId:'order',siteId:'site',state:'ASSIGNED'},'remaining');
+  const tasks=(await f.tx.list('task')).map(t=>({id:t.id,version:t.version,state:t.data.state})).sort((a,b)=>a.id.localeCompare(b.id));
+  await patch(f,'order_review',f.review.id,{tasks,remainingTaskIds:[pending.id]});
+  const input={id:'order',status:'CLIENT_REVIEW',reason:'Partial work reviewed',reportVersionId:'report-version'};
+  await expect(run(f.c,'order.transition',input)).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'REPORT_MUST_MATCH_CURRENT_REMAINING_SCOPE'}});
+  const version=await f.tx.get('report_version','report-version'),snapshot={...version.data.snapshot,remainingTaskRows:reportRemainingTaskRows(await f.tx.get('order','order'),await f.tx.list('task'))};
+  await patch(f,'report_version',version.id,{snapshot,sha256:reportSnapshotHash(snapshot)});
+  expect((await run(f.c,'order.transition',input)).data.status).toBe('CLIENT_REVIEW');
+  await expect(run(f.c,'order.transition',{id:'order',status:'CLOSED',reason:'Cannot hide unfinished scope',closureBasis:'DOCUMENTED_REASON',closureEvidence:'SYNTHETIC_REFERENCE'})).rejects.toMatchObject({code:'NEEDS_APPROVAL',details:{reason:'UNFINISHED_ORDER_SCOPE'}});
+ });
+});
 
 describe('V4 D07 actual order lifecycle: CPU transaction double',()=>{
  it('only internal operations may confirm an accepted current scope with an active responsible person',async()=>{const f=await fixture('PENDING_OPERATIONS');const dispatcher=context(f.tx,{...owner,userId:'dispatcher',roles:['DISPATCHER'],siteIds:['site']});await expect(run(dispatcher,'order.confirm',{id:'order',responsibleUserId:'owner',reason:'Dispatcher attempts confirmation'})).rejects.toMatchObject({code:'ACCESS_DENIED'});await patch(f,'user','owner',{active:false});await expect(run(f.c,'order.confirm',{id:'order',responsibleUserId:'owner',reason:'Inactive responsible'})).rejects.toMatchObject({code:'NEEDS_APPROVAL'});await patch(f,'user','owner',{active:true});const confirmed=await run(f.c,'order.confirm',{id:'order',responsibleUserId:'owner',reason:'Synthetic responsible confirmed scope'});expect(confirmed.data).toMatchObject({status:'CONFIRMED',responsibleUserId:'owner',confirmedBy:'owner'});});

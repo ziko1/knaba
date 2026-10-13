@@ -141,6 +141,28 @@ async function navigate(page: Page, key: string, language: Language = 'EN') {
   await expect(page.locator('.heading-actions .refresh .rotating')).toHaveCount(0);
 }
 
+for(const width of [360,1440]){
+ test(`D07 published remainder is readable at ${width}px in six languages`,async({page},info)=>{
+  const state=await fixture(page);
+  state.records.report=[entity('report','report-remainder',{name:'Synthetic partial report',draftSnapshot:{remainingTaskRows:[{taskId:'unfinished',taskVersion:1,locationId:null,descriptionDe:'Offene Fensterreinigung',state:'IN_PROGRESS',unit:'M2',plannedQuantityMilli:2500,acceptedQuantityMilli:0,remainingQuantityMilli:2500}]}})];
+  await page.setViewportSize({width,height:800});await page.goto('/console');await navigate(page,'reports');
+  await page.locator('.record-link').filter({hasText:'Synthetic partial report'}).click();
+  const panel=page.locator('.report-remaining-scope');
+  await expect(panel).toBeVisible();await expect(panel).toContainText('Offene Fensterreinigung');
+  for(const language of ['DE','UK','RU','PL','LT','EN'] as Language[]){
+   // The normal language control is outside this modal, so close and reopen
+   // through the actual report list after each language change.
+   await page.getByRole('dialog').locator('header').getByRole('button').click();
+   await page.locator('.language-select select').selectOption(language);
+   await page.locator('.record-link').filter({hasText:'Synthetic partial report'}).click();
+   await expect(panel.locator('li')).toHaveCount(1);await expect(panel.locator('dd')).toHaveCount(3);
+   await expect(panel.locator('dd').last()).toContainText(language==='EN'?'2.5':'2,5');
+   await noOverflow(page,`D07 remainder ${width} ${language}`);
+  }
+  await screenshot(page,info,`D07-remainder-${width}`);expect(state.errors).toEqual([]);
+ });
+}
+
 for (const viewport of viewports) {
   test(`public entry and request form: ${viewport.width} × ${viewport.height}, six languages`, async ({page}, info) => {
     const state = await fixture(page, null);
