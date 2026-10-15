@@ -6,7 +6,7 @@
 - **Repository:** `ziko1/knaba`; **observed source maturity:** `SPEC_ONLY`.
 - **Спостережене:** README.md і KNABA_DE_MASTER_SPEC.md описують ТЗ та acceptance; виробничу реалізацію UI в основній гілці не підтверджено.
 - **Read first:** KNABA_DE_MASTER_SPEC.md, docs/specification/KNABA_DE_Acceptance_V4.csv.
-- **Project-specific PVUX profile:** [knaba-de.md](https://github.com/ziko1/ai-team-orchestrator/blob/72e0285809609e2aa557f836f011a452b6e01854/standards/pvux/v1.0/projects/knaba-de.md) (приватне джерело; доступ потрібен).
+- **Project-specific PVUX profile:** [knaba-de.md](https://github.com/ziko1/ai-team-orchestrator/blob/0fc236c5810f6c82ce2ccba0755c6f7158a7eb4c/standards/pvux/v1.0/projects/knaba-de.md) (приватне джерело; доступ потрібен).
 
 ## Першочергові сценарії
 
