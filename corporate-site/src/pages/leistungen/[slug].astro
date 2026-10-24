@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { serviceArtwork } from "../../data/service-artwork";
 import Icon from "../../components/Icon.astro";
 import { services, type Service } from "../../data/company";
 import { serviceContent, guides } from "../../data/seo-content";
@@ -66,7 +67,7 @@ const schema = {
         {content.sections.map((section) => <section><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>)}
       </div>
     </div><aside class="aside-card">
-      <Icon name={service.icon} size={36} /><h2>
+      <img class="detail-service-art" src={serviceArtwork[service.slug].src} alt={serviceArtwork[service.slug].alt.de} width="720" height="500" loading="lazy" decoding="async" /><Icon name={service.icon} size={36} /><h2>
         Damit wir gut planen können.
       </h2><p>{service.questions}</p><p>
         Die Fläche oder der Termin steht noch nicht fest? Sprechen Sie uns

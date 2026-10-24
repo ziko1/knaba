@@ -57,3 +57,11 @@
 - Real **local** Wrangler Worker using synthetic D1 and artificial owner identity: guest POST 201, owner inbox GET 200, owner reply POST 201, guest message GET 200, mismatched owner 403. No real Sites Auth, real D1 production, real WhatsApp/email or user acceptance.
 - Release safety gate remains intentionally blocked (exit 1; 25 required conditions) and the PR is Draft/unmerged. Source-linked local checkpoint: `docs/evidence/knaba-unified/assistant-chat-local-20261024.json`.
 - Security blocker: verify that production Sites trusted identity headers are injected/sanitized and cannot be supplied by arbitrary browsers/direct-origin requests before any provider deployment. Also approve GDPR message retention, erasure, vendor AVV and operator access policy. No production changes or paid activation performed.
+
+
+## 2026-10-24 — KNABA public site QA candidate (f9cb4f8da0bda3efe14dc8c578b109ee8b1bd221)
+- Офіційний замовник https://knaba.de підтверджений користувачем; головні реквізити вже були правильні, Bauhelfer додано в PR #20, після справжнього failing regression виправлено подвоєний RU префікс.
+- Гілка `codex/knaba-release-site-candidate-20261024` агрегує 2D з PR17, мобільний dropdown PR15, наявний owner thread/portal PR12 та lazy floating info/chat Assistant; не переписує ERP tree або DB.
+- Node24: 88/88 Vitest + 8/8 Node, Astro/Vue/Svelte checks, build 51 pages, static links/SEO, npm production audit 0 reported; 16/16 ізольованих Chromium ширин/мов PASS. Exact tested source `f9cb4f8da0bda3efe14dc8c578b109ee8b1bd221`, site tree `ab61fb45b8ce3b5e2ea87def8ae568d07cf2cb81`, локальний build digest `1fb4dd3cb1b1e809b114a5a01cb6780f6fb3aa0cc51196c92d34f44061549281`.
+- Live `kneba.vsp.rest` як і раніше old version, немає підключеного Sites publish/backup/rollback. PR19 notification recovery, реальні зовнішні провайдери та повний ERP UAT не прийнято. Status SITE_CANDIDATE_LOCAL_PASS / RELEASE_NOT_DEPLOYED.
+- Документ по цьому checkout: `docs/unified/KNABA_SITE_RELEASE_CANDIDATE_2026-10-24.md`. Історичні source receipts залишаються незмінними.

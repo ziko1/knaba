@@ -1,0 +1,63 @@
+/* Progressive, screen-edge KnaBa assistant. No fixed overlay until explicitly expanded. */
+.knaba-floating-assistant {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 85;
+  max-width: calc(100vw - 24px);
+}
+.knaba-floating-assistant > summary {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 44px;
+  padding: .65rem 1rem;
+  list-style: none;
+  cursor: pointer;
+  border-radius: 999px;
+  border: 1px solid #294f49;
+  background: #12383d;
+  color: #fff;
+  box-shadow: 0 12px 30px #0b282b44;
+  font-size: .83rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.knaba-floating-assistant > summary::-webkit-details-marker { display: none; }
+.knaba-floating-assistant > summary::marker { content: ""; }
+.knaba-floating-assistant > summary:focus-visible { outline: 3px solid #adfa97; outline-offset: 3px; }
+.knaba-floating-assistant[open] > summary { background: #285c51; }
+.knaba-floating-mark { color: #d8f779; font-size: 1.2rem; line-height: 1; }
+.knaba-floating-assistant:not([open]) > .knaba-floating-panel { display: none; }
+.knaba-floating-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  width: min(430px, calc(100vw - 24px));
+  max-height: min(76dvh, 650px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid #c6d8cb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 22px 60px #09252750;
+}
+.knaba-floating-panel .knaba-assistant {
+  margin: 0;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.knaba-floating-panel .assistant-body { padding: 1rem; }
+.knaba-floating-panel .assistant-body h2 { font-size: 1.3rem; }
+.knaba-floating-panel .assistant-header { padding: .75rem 1rem; }
+.knaba-floating-panel .assistant-history { max-height: 26dvh; }
+@media (max-width: 420px) {
+  .knaba-floating-assistant > summary { padding: .55rem .8rem; }
+  .knaba-floating-panel { max-height: 70dvh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .knaba-floating-panel { scroll-behavior: auto; }
+}
