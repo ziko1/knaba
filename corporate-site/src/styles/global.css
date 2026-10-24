@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "../";
 @theme {
   --color-knaba-ink: #102f38;
   --color-knaba-lime: #d8f779;
@@ -2103,8 +2104,8 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   .desktop-nav { gap: 12px; margin-right: 0; }
   .nav-cta { padding-inline: 14px; }
 }
-@media (max-width: 480px) {
-  /* Account link moves into mobile navigation; floating Assistant stays accessible. */
+@media (max-width: 700px) {
+  /* Keep the account link in mobile navigation, including at enlarged text sizes. */
   .nav-wrap > .account-link { display: none; }
   .site-language-switcher { margin-left: auto; }
 }
