@@ -1,0 +1,46 @@
+{
+  "source_sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "source_tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+  "raw_report": "docs/evidence/sql-recovery-2026-10-11/local-unit.json",
+  "raw_sha256": "78db596e0d95842a35d22a757df32ee7f3f9e9e6c4e70b5a92729550043a8bb6",
+  "bytes": 957877,
+  "test_files": 89,
+  "total": 2228,
+  "passed_cpu_document_explicit_double": 1821,
+  "failed": 0,
+  "genuine_postgresql_not_run": 407,
+  "typecheck": "PASSED",
+  "execution": {
+    "status": "FAILED_OR_INCOMPLETE",
+    "total": 2228,
+    "passed": 1821,
+    "failed": 0,
+    "skipped": 407,
+    "todo": 0,
+    "classification": {
+      "status": "EXACT_INDEX_VALIDATED",
+      "evidence": {
+        "path": "docs/evidence/offline-execution-scope.json",
+        "bytes": 842289,
+        "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a"
+      },
+      "indexIsExecutionProof": false,
+      "realPostgres": {
+        "total": 407,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 407,
+        "todo": 0
+      },
+      "cpuDocumentOrTransportDouble": {
+        "total": 1821,
+        "passed": 1821,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  },
+  "source_manifest_sha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
+  "scope": "Actual local CPU/document/transport-double execution. Genuine PostgreSQL cases skipped locally; hosted results are recorded separately."
+}

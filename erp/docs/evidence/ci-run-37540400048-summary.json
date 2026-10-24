@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "status": "FAILED_SQL_AND_BROWSER",
+  "verifiedAt": "2026-10-06T22:41:06.719219+00:00",
+  "sourceGitSha": "61a437e878bc72c958a9f3acab2c4016d979d831",
+  "localEquivalentGitSha": "901fce78c1c29ba68325da3afc6ad52a4da9d8f5",
+  "sourceTree": "97f0b929b930d0431cd17c00bbbabf85ae0f90a2",
+  "workflowRunId": 37540400048,
+  "jobId": 112531727859,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/37540400048",
+  "artifactId": 11448696470,
+  "outerSha256": "0208b739a8983af3a5637365ea81b9bb611d301ae044729184579bbdc8a4db5d",
+  "outerBytes": 14706455,
+  "zipEntriesCRCVerified": 95,
+  "sourceEvidence": "Frozen local-equivalent901f Git blobs; exact archived classification bytes and52 committed test-source SHA256s independently verified. Later App/DigestPanel/browser edits excluded.",
+  "builtFilesIndependentlyVerified": 14,
+  "builtFiles": [
+    {
+      "path": "dist/release.json",
+      "bytes": 187,
+      "sha256": "1f6735605ae8dcac67f6196f068ca6f257635f87f4233448e7be0c5feccb35f1"
+    },
+    {
+      "path": "dist/server.mjs",
+      "bytes": 2777419,
+      "sha256": "78506d9814cef76416267842a80a070eb4019851a7e261d56f2de3457865717b"
+    },
+    {
+      "path": "dist/server.mjs.map",
+      "bytes": 2437698,
+      "sha256": "f81cae4eaa5d26856d7738bb5157c65f5c541f768660fabedf5f003881670f5f"
+    },
+    {
+      "path": "dist/web/assets/index-BowZoysV.css",
+      "bytes": 75152,
+      "sha256": "e242fbead8f1dd571c2239c13432b82e983d6ab350215b21aa83a4acd53a77c1"
+    },
+    {
+      "path": "dist/web/assets/index-KgBXZIGA.js",
+      "bytes": 621497,
+      "sha256": "b76a13c0c786c4aab30890fa73d3358855d452c722f95a6bb5d62fe074d8499c"
+    },
+    {
+      "path": "dist/web/icon.svg",
+      "bytes": 252,
+      "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b"
+    },
+    {
+      "path": "dist/web/index.html",
+      "bytes": 623,
+      "sha256": "cc4bb751e8dee64f8fe7c54fe38103357f33ab39ead46df31755353920079bd1"
+    },
+    {
+      "path": "dist/web/manifest.webmanifest",
+      "bytes": 274,
+      "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9"
+    },
+    {
+      "path": "dist/web/sw.js",
+      "bytes": 953,
+      "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f"
+    },
+    {
+      "path": "dist/web/widget.js",
+      "bytes": 1670,
+      "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+    },
+    {
+      "path": "dist/worker.mjs",
+      "bytes": 906809,
+      "sha256": "7a99f5e8a9c7aa3e22198943b0ac99440ed8ff1cc2bdf393020a1e8ece4e45e5"
+    },
+    {
+      "path": "dist/worker.mjs.map",
+      "bytes": 1497482,
+      "sha256": "22d95f2c4b07f0e93002b2f8eb0368ef84d8469af2b7bfae40729c86ab49d97b"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 222312,
+      "sha256": "19bf39c58be142445b13795f84242c7ae238a7fa2893d592d52c6e5b42b39fd5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1139,
+      "sha256": "624325c9d41f2df25aa74b2a0ad84000cbdf81ea17d8d44094c539ae3c43f61f"
+    }
+  ],
+  "unit": {
+    "success": false,
+    "numTotalTests": 1472,
+    "numPassedTests": 1471,
+    "numFailedTests": 1,
+    "numPendingTests": 0
+  },
+  "executionClasses": {
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+      "executed": 1279,
+      "passed": 1279,
+      "failed": 0,
+      "skipped": 0
+    },
+    "REAL_POSTGRES": {
+      "executed": 193,
+      "passed": 192,
+      "failed": 1,
+      "skipped": 0
+    }
+  },
+  "newMandatoryModulePostgres": {
+    "tests/activity-center.integration.test.ts": {
+      "executed": 6,
+      "passed": 6,
+      "failed": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    "tests/client-redaction.integration.test.ts": {
+      "executed": 9,
+      "passed": 9,
+      "failed": 0,
+      "execution_class": "REAL_POSTGRES"
+    },
+    "tests/operations-digest.integration.test.ts": {
+      "executed": 16,
+      "passed": 15,
+      "failed": 1,
+      "execution_class": "REAL_POSTGRES"
+    }
+  },
+  "sqlFailures": [
+    {
+      "testPath": "tests/operations-digest.integration.test.ts",
+      "fullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy expired and replaced real SQL leases cannot generate a digest or persist an idempotent success",
+      "result": "FAILED",
+      "assertion": "Expected one generated operations_digest after fresh replacement lease; received zero.",
+      "location": "tests/operations-digest.integration.test.ts:196:43"
+    }
+  ],
+  "browser": {
+    "total": 24,
+    "passed": 23,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 0,
+    "executionClasses": {
+      "ACTUAL_RENDERED_ISOLATED_BROWSER": {
+        "executed": 23,
+        "passed": 22,
+        "failed": 1
+      },
+      "EXPLICIT_HTTP_TRANSPORT_FIXTURE": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0
+      }
+    },
+    "browserFailure": {
+      "title": "owner saves an actual digest schedule, previews without business effects and explicitly generates an immutable due digest",
+      "result": "TIMED_OUT",
+      "timeoutMilliseconds": 45000,
+      "location": "tests/browser.spec.ts:278:108",
+      "selector": "getByTestId('digest-panel').getByLabel('Digest type', {exact:true})",
+      "errorContextPath": "/tmp/knaba-ci-61a/home/runner/work/knaba/knaba/docs/evidence/browser-artifacts/browser-owner-saves-an-act-128c4-tes-an-immutable-due-digest/error-context.md"
+    }
+  },
+  "stages": {
+    "exact-live-runtime": "PASSED",
+    "full-unit-and-postgres": "FAILED",
+    "rendered-browser-scenarios": "FAILED",
+    "encrypted-delivery-backup": "PASSED",
+    "backup-tamper-rejection": "PASSED",
+    "empty-database-private-blob-restore": "PASSED",
+    "bundled-worker-heartbeat-and-restart": "PASSED"
+  },
+  "docker": {
+    "status": "ACTUAL_HOSTED_DOCKER_BUILD_AND_WORKER_SOURCE_GUARD_PASSED",
+    "imageId": "sha256:b570a88d1c0d28e14144d12972247a62027cba77242826a240b6678dd906c653",
+    "releaseCodeSha": "61a437e878bc72c958a9f3acab2c4016d979d831",
+    "productionDeployment": "NOT_INFERRED"
+  },
+  "restore": {
+    "status": "ACTUAL_HOSTED_EMPTY_DATABASE_PRIVATE_BLOB_RESTORE_PASSED",
+    "originalTables": 17,
+    "exactOriginalRowCounts": "VERIFIED_BY_HOSTED_RESTORE",
+    "privateBlobChecksumsAndReferences": 10,
+    "privacyHistory": "ABSENT_IN_THIS_SYNTHETIC_RESTORE",
+    "expiredGpsPointsPurged": 0,
+    "sourceDatabaseUnchanged": true,
+    "jobLogLine": 1020,
+    "scope": "Isolated synthetic database/local private blob restore; no public cloud/offsite or later-erasure reconciliation proof inferred."
+  },
+  "workerRestart": {
+    "status": "ACTUAL_BUNDLED_PROCESSES_PASSED",
+    "phases": 2,
+    "durableNoOpProbeSucceededOnceEach": true,
+    "temporaryWorkersStopped": true,
+    "scope": "Actual bundled processes complete a durable synthetic no-op once, write successful-tick heartbeat, stop gracefully, restart, and leave completed work unreplayed. Real financial side-effect fencing is covered separately by the PostgreSQL suite."
+  },
+  "sourceRuntimeDocumentationPackage": "SKIPPED_AFTER_FAILED_ACCEPTANCE",
+  "rawEvidenceDirectory": "/tmp/knaba-ci-61a/home/runner/work/knaba/knaba/docs/evidence",
+  "rawEvidenceHashes": {
+    "release-live-unit.json": "63fc715fd5dd9f8937e83e29afc8f0a263803c6629b1efc6756b863e15574d0b",
+    "browser-result.json": "fded101e5f37bc34f07ee8537a77767e301d460529ffe61af3a411f48225a096",
+    "live-isolated-verification.json": "d15a26b0d6d35418f9cbc0b32b0e1ad6a8df533902db8ad2ee94831d248c93e5",
+    "built-artifacts.json": "987072678939e702c774a524601c97fce03cfaf816c119fec3ba0b374ef2bf79",
+    "offline-execution-scope.json": "37485b9f8a9a70af30b5383ecadd55cc8ca7606ee68d8a09dfa65289cda57aad",
+    "bundled-worker-restart.json": "1ba537649f26cbd63af944dd7638a4fc3c93b40700ff5908781fed93c2de3997"
+  },
+  "privateVerificationInputHashes": {
+    "decodedHostedJobLogSha256": "582d164e6f2fd674dab20caeb1f9b3e57fba07df36c460351d82119241d6f074",
+    "hostedJobsMetadataSha256": "b434fe4d37fdfe936c5b8a3fc2e740dd6fed3d6437de635c9506a3478363a0d6"
+  },
+  "scope": "Historical exact61a source only. Overall failure includes one genuine PostgreSQL lease regression and one actual rendered-browser digest timeout.1279CPU+192PG passed;193PG executed is not193PG PASS.23 browser PASS includes22 actual backend/UI+1 explicit HTTP transport fixture. Real provider/physical/legal/public Railway/native/signing/company acceptance not implied."
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASSED",
+  "gitSha": "4f8cfbb6151a35c3592007c2136a38638039a708",
+  "checks": [
+    "server syntax",
+    "worker syntax",
+    "production package resolution",
+    "native sharp image roundtrip"
+  ],
+  "nativeImage": {
+    "bytes": 269,
+    "sha256": "13b85d42042ad24b09ed9af4dd92ab24710293d0521ea66078a9c64f09271850"
+  },
+  "limits": [
+    "CPU-only validation from separately extracted packaged dependencies; live database/network/browser remains separately recorded."
+  ],
+  "historical_candidate": true,
+  "current_validation": "artifacts/RUNTIME_VALIDATION.json"
+}

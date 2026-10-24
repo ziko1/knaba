@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-08T20:43:58.554526+00:00",
+  "status": "PASSED_DOCUMENTATION_ONLY",
+  "scope": "Independent local source/document/receipt review only; no new application execution or Railway mutation.",
+  "testedCodeGitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "currentLocalHead": "303d2e8b855bb2c47045b1e81b0bd1aace47d670",
+  "checks": [
+    {
+      "id": "QA01_TARGET_BYTES",
+      "status": "PASSED",
+      "details": {
+        "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+        "bytes": 115264
+      }
+    },
+    {
+      "id": "QA02_ORIGINAL_V3",
+      "status": "PASSED",
+      "details": {
+        "sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683"
+      }
+    },
+    {
+      "id": "QA03_EXECUTABLE_BASELINE_UNCHANGED",
+      "status": "PASSED",
+      "details": {
+        "protectedChangedPaths": [],
+        "comparison": "4132dbf04b37cc64c3388c3891edce8f44bdf73e"
+      }
+    },
+    {
+      "id": "QA04_CANONICAL_HISTORY_UNCHANGED",
+      "status": "PASSED",
+      "details": {
+        "changedPaths": [],
+        "comparison": "303d2e8b855bb2c47045b1e81b0bd1aace47d670"
+      }
+    },
+    {
+      "id": "QA05_EXPLICIT_AUTHORITY",
+      "status": "PASSED",
+      "details": {
+        "acceptedAt": "2026-10-08 20:28:52 UTC",
+        "decisionQuote": "V4 — цільова; зберегти працюючий стек через погоджені ADR (рекомендовано)",
+        "scope": "APPROVED_TARGET_V4_PRESERVE_WORKING_STACK"
+      }
+    },
+    {
+      "id": "QA06_ADR_LIMITS",
+      "status": "PASSED",
+      "details": {
+        "path": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+        "sha256": "faa26c8142c87ed7297e2cad5124469411888f15f42860d52f3240265ebce4d7"
+      }
+    },
+    {
+      "id": "QA07_V3_COUNTS_STATUSES",
+      "status": "PASSED",
+      "details": {
+        "modules": 34,
+        "requirements": 432,
+        "criteria": 475,
+        "historicalStatuses": {
+          "NOT_RUN": 465,
+          "PASSED": 10
+        }
+      }
+    },
+    {
+      "id": "QA08_COVERAGE_PARTITION",
+      "status": "PASSED",
+      "details": {
+        "exact432RequirementPartition": true,
+        "exact475CriterionPartition": true,
+        "bidirectionalModulesAndTasks": true
+      }
+    },
+    {
+      "id": "QA09_TASK_DAG",
+      "status": "PASSED",
+      "details": {
+        "taskCount": 28,
+        "allCombinedEdgesValid": true,
+        "cycles": [],
+        "PLAN02Dependencies": [
+          "PLAN-01",
+          "PLAN-28"
+        ],
+        "PLAN28Dependencies": [
+          "PLAN-01"
+        ]
+      }
+    },
+    {
+      "id": "QA10_TASK_EVIDENCE_DISTINCTIONS",
+      "status": "PASSED",
+      "details": {
+        "statuses": {
+          "COMPLETED_SCOPED": 1,
+          "PENDING": 10,
+          "BLOCKED_EXTERNAL": 13,
+          "CONDITIONAL_NOT_STARTED": 4
+        },
+        "unfinishedTasksWithInventedActualResult": [],
+        "PLAN28": "PENDING; target decision subgate resolved only"
+      }
+    },
+    {
+      "id": "QA11_RAW_72_CRITERIA",
+      "status": "PASSED",
+      "details": {
+        "criterionCount": 72,
+        "statuses": {
+          "NOT_RUN": 72
+        },
+        "applicationProofColumns": "ALL_EMPTY"
+      }
+    },
+    {
+      "id": "QA12_TARGET_CRITERIA_STILL_NOT_RUN",
+      "status": "PASSED",
+      "details": {
+        "criterionCount": 72,
+        "wholeCriteriaStatuses": {
+          "NOT_RUN": 72
+        },
+        "rawCriterionTextAndRefsExact": true
+      }
+    },
+    {
+      "id": "QA13_PRIOR_ASSERTION_IDENTITY",
+      "status": "PASSED",
+      "details": {
+        "selectedReferences": 334,
+        "uniqueReferences": 251,
+        "changedProtectedCriterionFields": [],
+        "invalidReferences": [],
+        "derivedScopeProseOnlyAmended": true
+      }
+    },
+    {
+      "id": "QA14_DELTA_STATUS_LIMITS",
+      "status": "PASSED",
+      "details": {
+        "count": 22,
+        "decisionStatuses": {
+          "APPROVED_STACK_PRESERVATION_VIA_ADR0002": 1,
+          "TARGET_V4_SELECTED_IMPLEMENTATION_PENDING": 21
+        },
+        "executionStatuses": {
+          "NOT_RUN": 22
+        }
+      }
+    },
+    {
+      "id": "QA15_CATALOG_HASHES",
+      "status": "PASSED",
+      "details": {
+        "count": 16,
+        "mismatches": []
+      }
+    },
+    {
+      "id": "QA16_ACTUAL_BASELINE_COUNTS",
+      "status": "PASSED",
+      "details": {
+        "sourceGitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+        "unit": 1513,
+        "realPostgres": 206,
+        "cpuDocumentOrDouble": 1307,
+        "browser": 24,
+        "actualBackendBrowser": 23,
+        "browserFixture": 1,
+        "java": 52,
+        "iOSXCTest": {
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "rawUniquePassedCases": 15,
+          "actualXCResultBundle": "PRESENT_CRC_CHECKED",
+          "device": "iPhone16_IOS18_5_SIMULATOR",
+          "scope": "HOSTED_XCTEST_SIMULATOR"
+        }
+      }
+    },
+    {
+      "id": "QA17_EXPIRED_RAILWAY",
+      "status": "PASSED",
+      "details": {
+        "cutoff": "2026-10-07T20:11:52Z",
+        "cutoffExtended": false,
+        "publicStatus": "NOT_READY",
+        "providerBoundary": "Railway вимагає Dashboard 2FA. API/MCP token не може його виконати; обхід заборонений."
+      }
+    },
+    {
+      "id": "QA18_EXTERNAL_ROWS",
+      "status": "PASSED",
+      "details": {
+        "uniqueExternalRows": 22
+      }
+    },
+    {
+      "id": "QA19_LOCAL_MD_LINKS",
+      "status": "PASSED",
+      "details": {
+        "checkedLinks": 132,
+        "missing": []
+      }
+    },
+    {
+      "id": "QA20_NO_STALE_SCOPE_PERMISSION",
+      "status": "PASSED",
+      "details": {
+        "staleCurrentPhrases": [],
+        "historicalPreDecisionSnapshotsPreserved": true
+      }
+    },
+    {
+      "id": "QA21_V4_BINARY_BOUNDARY",
+      "status": "PASSED",
+      "details": {
+        "status": "BLOCKED_BINARY_TRANSFER_NOT_VERIFIED",
+        "binaryBytesObtained": false,
+        "scope": "PDF/ZIP binary not verified; byte-exact text/CSV remains verified"
+      }
+    },
+    {
+      "id": "QA22_DOC_SNAPSHOT_HISTORY",
+      "status": "PASSED",
+      "details": {
+        "priorDocumentationGitSha": "d7877fc270a2aedca28d36de871eac34df120520",
+        "priorScopedChecks": 29,
+        "note": "Historical pending-authority snapshot is retained; this QA reviews subsequent explicit target decision amendments."
+      }
+    },
+    {
+      "id": "QA23_SELECTED_LOAD_AND_DR_TARGETS",
+      "status": "PASSED",
+      "details": {
+        "PLAN27ExplicitProfile": [
+          "100 працівників",
+          "20 активних",
+          "100 одночасних",
+          "10 команд/с",
+          "15 хвилин",
+          "100 000 TimeSegments"
+        ],
+        "measuredResult": "NOT_RUN",
+        "source": "KNABA_DE_TARGET_SPEC.md KNB-23 lines385–390",
+        "PLAN14RPOAndRTOExplicit": true,
+        "allExactSelectedLimitsPresent": true
+      }
+    },
+    {
+      "id": "QA24_CURRENT_TARGET_PROSE_CLARITY",
+      "status": "PASSED",
+      "details": {
+        "newCheckpointGluedPhrases": [],
+        "originalHistoricalProsePreserved": true,
+        "targetVsRegressionScopeDistinguished": true
+      }
+    },
+    {
+      "id": "QA25_EXTERNAL_CONTINUATION_PRESERVATION",
+      "status": "PASSED",
+      "details": {
+        "path": "docs/evidence/continuation-20261008/verification.json",
+        "gitBlobSha": "a6ef11cd4bc93712781ef33937298d5b4a2cb3bf",
+        "sha256": "365ca69096e8cbf47f1c169c17431939ac2f82343e19471fc15ae4a2b133a5d0",
+        "bytes": 969,
+        "actualScope": "Separate supplied local-only receipt; 1307 passed,206 PostgreSQL skipped; no SQL/browser/live/device/provider execution claimed.",
+        "externalDocumentationHeadObservedByRoot": "d673aa1a74df2efd99f5a0efab01c9d51240bd4a",
+        "remoteAncestryCheckedInThisQA": false
+      }
+    }
+  ],
+  "checkCount": 25,
+  "passedChecks": 25,
+  "issues": [],
+  "fileHashes": {
+    "AGENTS.md": {
+      "bytes": 7413,
+      "sha256": "535d87013409a0b227e510b866297ff639f8dbe83dfbbc2e7608e339651a5367"
+    },
+    "FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md": {
+      "bytes": 40462,
+      "sha256": "d835511e58eee5db6b27c4819a89d45ca224a173e1382b090f03fa30f6feb9c0"
+    },
+    "MASTER_ROADMAP.md": {
+      "bytes": 14319,
+      "sha256": "25a9272350aa9edbe34aad331de39fa1a1632eb07dba9b8e228f2b01943edacf"
+    },
+    "PROJECT_MEMORY.md": {
+      "bytes": 39210,
+      "sha256": "ec6cfa0f4435a4c440e2450ebcefeae7553106f849c3bf3fb2519d06c78076cf"
+    },
+    "README.md": {
+      "bytes": 8239,
+      "sha256": "d2aef4f9125109f8b654c4e28abc78a6f506d008f87af0ba4f9bf5a0405a893a"
+    },
+    "ROADMAP.md": {
+      "bytes": 2796,
+      "sha256": "4818eeaee34b8b2c74bb6121fb9f5e9a3eda3820f9a55ccaaf719cb6aa589ac9"
+    },
+    "docs/EXTERNAL_PREREQUISITES.md": {
+      "bytes": 12630,
+      "sha256": "17f7c42e674e0e85efdc4ec152d90b6be07665904da7e1650ddbd25325cc801e"
+    },
+    "docs/HANDOVER.md": {
+      "bytes": 20973,
+      "sha256": "f33f995756b026a3132cb6d7afd4d84a98c7ea513a6b1b6e2229fbed5ef450e9"
+    },
+    "docs/planning/V3_V4_RECONCILIATION_UK.md": {
+      "bytes": 36617,
+      "sha256": "66ca166e26260fc03f91243fd4025d413cab5091f436bcfa25013f9d54ba842f"
+    },
+    "KNABA_DE_TARGET_SPEC.md": {
+      "bytes": 115264,
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833"
+    },
+    "docs/adr/0002-v4-target-and-preserved-runtime.md": {
+      "bytes": 3905,
+      "sha256": "faa26c8142c87ed7297e2cad5124469411888f15f42860d52f3240265ebce4d7"
+    },
+    "docs/planning/V4_SCOPE_DECISION.json": {
+      "bytes": 1605,
+      "sha256": "ec7bd8e0d3bb6eedd49ccf6450c28253aab24330900dd63f706aca906f51b5de"
+    },
+    "docs/planning/DEVELOPMENT_BACKLOG.json": {
+      "bytes": 185645,
+      "sha256": "ed5f66e4e7f5aeb628c2accc6debd59e4e56a473f17c54195997d9531989bed1"
+    },
+    "docs/planning/V3_V4_RECONCILIATION.json": {
+      "bytes": 434626,
+      "sha256": "db6bf906565b23e025e7e4144821ae4ae8eac4df055b86dd9a7da9b5d147f13a"
+    },
+    "docs/specification-v4-reference/REFERENCE_PROVENANCE.json": {
+      "bytes": 3399,
+      "sha256": "6024d505db08784532306a2896265605045cdad2da7744de7249f91ec8bdb184"
+    },
+    "KNABA_DE_MASTER_SPEC.md": {
+      "bytes": 244546,
+      "sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683"
+    },
+    "docs/requirements/requirements.json": {
+      "bytes": 7488699,
+      "sha256": "fce7eccb47f85dfc0ac1932a19dc5b21b02bd0b6efd594fe89e06891c434a72a"
+    },
+    "docs/requirements/MODULE_READINESS.json": {
+      "bytes": 115919,
+      "sha256": "f874e74b66c440a2e4d97108dfac8284ac23c73a1dd2f30d791d574489e92b16"
+    },
+    "docs/requirements/EXECUTION_INDEX_CA9ED79FF4C0.json": {
+      "bytes": 807971,
+      "sha256": "dcc8ead850f0999712cc803f13fc99365c6acd3919e7d4c27b647bc1fba13e71"
+    },
+    "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv": {
+      "bytes": 19451,
+      "sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d"
+    },
+    "docs/evidence/development-plan-validation-2026-10-08.json": {
+      "bytes": 12196,
+      "sha256": "1743b480497af26bd20aae1e31e9ab81ad74fed1b3e0a8454c4d2234cfb3f0d4"
+    },
+    "docs/evidence/railway-resume-2026-10-08.json": {
+      "bytes": 2237,
+      "sha256": "45225b88113eee3cf80aa73611ef2d17b1c475e9812c61b7a1a390ece781551e"
+    },
+    "docs/evidence/continuation-20261008/verification.json": {
+      "bytes": 969,
+      "sha256": "365ca69096e8cbf47f1c169c17431939ac2f82343e19471fc15ae4a2b133a5d0"
+    }
+  },
+  "identityNote": "V4 target and runtime architecture approval only; original 29-check pre-decision publication is a historical snapshot. Application/native acceptance remains bound to ca9. No tests were newly executed, no source altered and no Railway mutation performed in this QA. The supplied external continuation receipt was preserved byte-for-byte by Git-blob identity; remote commit ancestry itself is not independently queried in this local QA.",
+  "independentReceiptSha256": "e8a43129de2c2631845ec69af4f9367680151e731e5d76d12d9f7c6ec0fef9a3",
+  "documentSnapshotWasWorkingTree": true,
+  "publicationIdentityNote": "The 25 checks verify these exact document bytes before the amendment commit. The executable acceptance remains bound to ca9. The remote parent includes separately published d673 documentation, preserved locally without changing its receipt. This is not a new application run."
+}

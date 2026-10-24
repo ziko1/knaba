@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T00:15:12.666945+00:00",
+  "repository": "ziko1/knaba",
+  "pullRequest": 5,
+  "branch": "codex/knaba-v4-sql-recovery-20261011",
+  "sourceSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+  "runId": 38096631407,
+  "jobId": 114343754486,
+  "conclusion": "FAILURE",
+  "artifact": {
+    "id": 11686625778,
+    "name": "knaba-evidence-1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "bytes": 8164664,
+    "sha256": "5179801cc927d5785bc42f9ae7180a61d41a863db37da576f757bb209c71212c",
+    "digestMatchesGitHub": true
+  },
+  "unit": {
+    "numTotalTests": 2228,
+    "numPassedTests": 2226,
+    "numFailedTests": 2,
+    "numPendingTests": 0,
+    "success": false
+  },
+  "failedCases": [
+    {
+      "file": "tests/handoff-calendar.integration.test.ts",
+      "fullName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority stores exactly one deterministic queue fact with real service commands and no customer time/crew promise",
+      "failureMessages": [
+        "AssertionError: expected Error: WORKER_LEASE_LOST { …(2) } to match object { code: 'AI_SUPPRESSED' }\n(1 matching property omitted from actual)\n    at _Assertion.<anonymous> (file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1155:10)\n    at _Assertion.<anonymous> (file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1029:14)\n    at _Assertion.methodWrapper (file:///home/runner/work/knaba/knaba/node_modules/chai/index.js:1686:25)\n    at file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1639:20\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at /home/runner/work/knaba/knaba/tests/handoff-calendar.integration.test.ts:43:483\n    at file:///home/runner/work/knaba/knaba/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+      ]
+    },
+    {
+      "file": "tests/work-notifications.integration.test.ts",
+      "fullName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+      "failureMessages": [
+        "AssertionError: expected [ [ 'client', …(2) ], …(1) ] to deeply equal [ [ 'employee', …(2) ], …(1) ]\n    at /home/runner/work/knaba/knaba/tests/work-notifications.integration.test.ts:117:105\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///home/runner/work/knaba/knaba/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:03:59Z",
+      "completedAt": "2026-10-11T00:03:59.908Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "FAILED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:03:59Z",
+      "completedAt": "2026-10-11T00:05:27.489Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:05:27Z",
+      "completedAt": "2026-10-11T00:08:01.490Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:01Z",
+      "completedAt": "2026-10-11T00:08:02.439Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:02Z",
+      "completedAt": "2026-10-11T00:08:02.629Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:02Z",
+      "completedAt": "2026-10-11T00:08:03.476Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+      "startedAt": "2026-10-11T00:08:03Z",
+      "completedAt": "2026-10-11T00:08:04.435Z"
+    }
+  ],
+  "release": {
+    "code_sha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "source_dirty": false,
+    "source_provenance": "GIT_WORKTREE",
+    "version": "0.1.0",
+    "builtAt": "2026-10-10T23:59:16.916Z"
+  },
+  "interpretation": [
+    {
+      "file": "tests/handoff-calendar.integration.test.ts",
+      "expectedCode": "AI_SUPPRESSED",
+      "actualCode": "WORKER_LEASE_LOST",
+      "reason": "AI message send has no genuine worker lease; strengthened canonical service boundary rejects it before business handoff-state suppression."
+    },
+    {
+      "file": "tests/work-notifications.integration.test.ts",
+      "expectedFirstRecipient": "employee",
+      "actualFirstRecipient": "client",
+      "reason": "Notification rows are listed by created_at,id. Transaction timestamps tie and random UUIDs determine order. Exact tuples must be compared by recipient, and visibility IDs selected by recipient.",
+      "evidenceLimit": "GitHub JSON reporter abbreviates actual event/channel tuple details; complete tuples are not available in this failure message."
+    }
+  ],
+  "limits": [
+    "Prior PR5 source only; not acceptance evidence for subsequent replay/final fixture sources.",
+    "Artifact is a raw diagnostic ZIP stored in scratch; no private credentials or expiring URLs are included in this summary.",
+    "No changes to PR5, cloud services, runtime or test source were performed by this triage."
+  ]
+}

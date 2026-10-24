@@ -1,3 +1,4 @@
+import { handleAssistantApi } from './assistant-threads';
 import type { ApprovedRole, ChecklistItem, CleaningRequest, PortalDashboard, PortalProfile, PortalRole, PortalSession, RequestStatus } from '../src/lib/portal-contract';
 import { approvedRoles, checklistItems, requestStatuses } from '../src/lib/portal-contract';
 import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
@@ -247,6 +248,7 @@ export async function handleApi(request: Request,env: WorkerEnv): Promise<Respon
       await dbFor(env).prepare('SELECT id FROM profiles LIMIT 1').first();return response({ready:true});
     }
     if(path==='/api/leads'&&request.method==='POST')return await createRequest(request,env,null);
+    if(path.startsWith('/api/assistant/'))return await handleAssistantApi(request,await session(request,env),{db:dbFor(env),readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit),response,fail});
     const s=await session(request,env);
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);
