@@ -1,4 +1,5 @@
 import { For, Show, createSignal, onMount } from "solid-js";
+import { publicText, publicApiError, localizedService, type PublicLocale } from "../lib/public-i18n";
 import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
 import { company, services } from "../data/company";
@@ -13,7 +14,10 @@ import {
 } from "../lib/inquiry";
 import type { InquiryData } from "../lib/inquiry";
 
-export default function Inquiry() {
+export default function Inquiry(props: { locale?: PublicLocale } = {}) {
+  const locale = () => props.locale ?? "de";
+  const t = (text: string) => publicText(text, locale());
+  const path = (value: string) => locale() === "ru" ? `/ru${value}` : value;
   const [step, setStep] = createSignal(0);
   const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
@@ -32,7 +36,7 @@ export default function Inquiry() {
   >(null);
   let heading: HTMLHeadingElement | undefined;
   let summary: HTMLTextAreaElement | undefined;
-  const labels = ["Leistung", "Objekt", "Kontakt"];
+  const labels = [t("Leistung"), t("Objekt"), t("Kontakt")];
   const fieldSteps: Record<keyof InquiryData, number> = {
     service: 0,
     objectType: 1,
@@ -99,26 +103,26 @@ export default function Inquiry() {
         step() === 0
           ? ["service"]
           : ["objectType", "postcode", "area", "frequency"];
-      const issues = validateInquiry(data());
+      const issues = validateInquiry(data(), locale());
       const first = relevant.find((field) => issues[field]);
       if (first) {
         showFieldError(
           first,
-          issues[first] || "Bitte prüfen Sie Ihre Angaben.",
+          issues[first] || t("Bitte prüfen Sie Ihre Angaben."),
         );
         return;
       }
       move(step() + 1);
       return;
     }
-    const issues = validateInquiry(data());
+    const issues = validateInquiry(data(), locale());
     const first = (Object.keys(issues) as (keyof InquiryData)[])[0];
     if (first) {
-      showFieldError(first, issues[first] || "Bitte prüfen Sie Ihre Angaben.");
+      showFieldError(first, issues[first] || t("Bitte prüfen Sie Ihre Angaben."));
       return;
     }
     try {
-      setReview(buildInquiry(data()));
+      setReview(buildInquiry(data(), locale()));
       setError("");
       setInvalidField(null);
       setStatus("");
@@ -128,14 +132,14 @@ export default function Inquiry() {
         "message",
         cause instanceof Error
           ? cause.message
-          : "Bitte prüfen Sie Ihre Angaben.",
+          : t("Bitte prüfen Sie Ihre Angaben."),
       );
     }
   }
 
   async function sendRequest() {
     if (sending() || receipt()) return;
-    if (!privacy()) { setError("Bitte bestätigen Sie, dass Sie die Datenschutzhinweise gelesen haben."); return; }
+    if (!privacy()) { setError(t("Bitte bestätigen Sie, dass Sie die Datenschutzhinweise gelesen haben.")); return; }
     setSending(true); setError(""); setStatus("");
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15000);
@@ -147,13 +151,13 @@ export default function Inquiry() {
         signal:controller.signal,
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error?.message || "Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.");
-      if (!result.received || typeof result.id !== "string") throw new Error("Die Eingangsbestätigung fehlt. Bitte versuchen Sie es erneut.");
+      if (!response.ok) throw new Error(publicApiError(result.error?.code, locale(), result.error?.message || t("Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.")));
+      if (!result.received || typeof result.id !== "string") throw new Error(t("Die Eingangsbestätigung fehlt. Bitte versuchen Sie es erneut."));
       setReceipt(result.id);
-      setStatus("Ihre Anfrage ist bei KnaBa eingegangen. Dies ist noch keine Termin- oder Auftragsbestätigung.");
+      setStatus(t("Ihre Anfrage ist bei KnaBa eingegangen. Dies ist noch keine Termin- oder Auftragsbestätigung."));
       queueMicrotask(() => heading?.focus());
     } catch (cause) {
-      setError(cause instanceof Error && cause.name !== "AbortError" ? cause.message : "Die Verbindung hat zu lange gedauert. Sie können mit derselben Anfrage erneut versuchen oder uns direkt kontaktieren.");
+      setError(cause instanceof Error && cause.name !== "AbortError" ? (locale() === "ru" && (cause instanceof TypeError || cause instanceof SyntaxError) ? t("Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.") : t(cause.message)) : t("Die Verbindung hat zu lange gedauert. Sie können mit derselben Anfrage erneut versuchen oder uns direkt kontaktieren."));
     } finally {clearTimeout(timer);setSending(false);}
   }
 
@@ -164,23 +168,23 @@ export default function Inquiry() {
       if (!navigator.clipboard?.writeText)
         throw new Error("Clipboard unavailable");
       await navigator.clipboard.writeText(
-        `An: ${company.email}\nBetreff: ${current.subject}\n\n${current.body}`,
+        `${t("An")}: ${company.email}\n${t("Betreff")}: ${current.subject}\n\n${current.body}`,
       );
       setStatus(
-        "Anfrage kopiert. Fügen Sie den Text in eine E-Mail an kontakt@knaba.de ein. Noch nicht gesendet.",
+        t("Anfrage kopiert. Fügen Sie den Text in eine E-Mail an kontakt@knaba.de ein. Noch nicht gesendet."),
       );
     } catch {
       summary?.focus();
       summary?.select();
       setStatus(
-        "Automatisches Kopieren ist hier nicht verfügbar. Der Text ist markiert: Bitte kopieren Sie ihn über das Menü Ihres Geräts.",
+        t("Automatisches Kopieren ist hier nicht verfügbar. Der Text ist markiert: Bitte kopieren Sie ihn über das Menü Ihres Geräts."),
       );
     }
   }
 
   return (
-    <section class="wizard" aria-label="Reinigungsanfrage" aria-busy={sending()}>
-      <ol class="wizard-progress" aria-label="Schritte der Anfrage">
+    <section class="wizard" aria-label={t("Reinigungsanfrage")} aria-busy={sending()}>
+      <ol class="wizard-progress" aria-label={t("Schritte der Anfrage")}>
         <For each={labels}>
           {(label, index) => (
             <li
@@ -197,23 +201,23 @@ export default function Inquiry() {
       </ol>
       <h2 ref={heading} tabIndex={-1}>
         {review()
-          ? receipt() ? "Vielen Dank für Ihre Anfrage." : "Ihre Anfrage im Überblick."
+          ? receipt() ? t("Vielen Dank für Ihre Anfrage.") : t("Ihre Anfrage im Überblick.")
           : [
-              "Welche Reinigung benötigen Sie?",
-              "Erzählen Sie uns von Ihrem Objekt.",
-              "Wie können wir Sie erreichen?",
+              t("Welche Reinigung benötigen Sie?"),
+              t("Erzählen Sie uns von Ihrem Objekt."),
+              t("Wie können wir Sie erreichen?"),
             ][step()]}
       </h2>
       <Show
         when={!review()}
         fallback={
           <>
-            <Show when={receipt()} fallback={<p class="form-status">Bitte prüfen Sie Ihre Angaben. Mit „Anfrage senden“ übermitteln Sie diese direkt an KnaBa.</p>}>
-              <div class="receipt-card" role="status"><strong>Anfrage eingegangen</strong><p>Ihre Vorgangsnummer: <code>{receipt()}</code></p><p>Wir prüfen Ihren Bedarf. Ein Termin und ein Auftrag entstehen erst nach persönlicher Vereinbarung.</p><p>Bei Rückfragen erreichen Sie uns unter <a href={company.phoneHref}>{company.phone}</a>.</p></div>
+            <Show when={receipt()} fallback={<p class="form-status">{t("Bitte prüfen Sie Ihre Angaben. Mit „Anfrage senden“ übermitteln Sie diese direkt an KnaBa.")}</p>}>
+              <div class="receipt-card" role="status"><strong>{t("Anfrage eingegangen")}</strong><p>{t("Ihre Vorgangsnummer:")} <code>{receipt()}</code></p><p>{t("Wir prüfen Ihren Bedarf. Ein Termin und ein Auftrag entstehen erst nach persönlicher Vereinbarung.")}</p><p>{t("Bei Rückfragen erreichen Sie uns unter")} <a href={company.phoneHref}>{company.phone}</a>.</p></div>
             </Show>
             <div class="review-summary">
               <label for="inquiry-summary">
-                Ihre Angaben zum Prüfen und Kopieren
+                {t("Ihre Angaben zum Prüfen und Kopieren")}
               </label>
               <textarea
                 id="inquiry-summary"
@@ -224,15 +228,15 @@ export default function Inquiry() {
               />
             </div>
             <p class="field-hint">
-              Empfänger: <a href={`mailto:${company.email}`}>{company.email}</a>
-              . Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.
+              {t("Empfänger:")} <a href={`mailto:${company.email}`}>{company.email}</a>
+              {t(". Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.")}
             </p>
             <Show when={!receipt()}>
-              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzhinweise</a> gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.</span></label>
+              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} target="_blank" rel="noopener">{t("Datenschutzhinweise")}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
             </Show>
             <p class="form-status" role="alert">{error()}</p>
             <div class="wizard-actions">
-              <Show when={!receipt()}><button class="button button-dark" type="button" onClick={sendRequest} disabled={sending() || !privacy()}>{sending() ? "Wird gesendet …" : "Anfrage senden →"}</button>
+              <Show when={!receipt()}><button class="button button-dark" type="button" onClick={sendRequest} disabled={sending() || !privacy()}>{sending() ? t("Wird gesendet …") : t("Anfrage senden →")}</button>
               <button
                 type="button"
                 class="button button-outline"
@@ -242,18 +246,18 @@ export default function Inquiry() {
                   move(2);
                 }}
               >
-                Angaben bearbeiten
+                {t("Angaben bearbeiten")}
               </button></Show>
-              <Show when={receipt()}><a class="button button-dark" href="/konto/">Zum Kundenportal →</a></Show>
+              <Show when={receipt()}><a class="button button-dark" href={path("/konto/")}>{t("Zum Kundenportal →")}</a></Show>
               <a class="button button-dark" href={review()?.href}>
-                Im E-Mail-Programm öffnen ↗
+                {t("Im E-Mail-Programm öffnen ↗")}
               </a>
               <button
                 type="button"
                 class="button button-outline"
                 onClick={copySummary}
               >
-                Anfrage kopieren
+                {t("Anfrage kopieren")}
               </button>
             </div>
             <p class="form-status" role="status" aria-live="polite">
@@ -269,7 +273,7 @@ export default function Inquiry() {
             <Show when={step() === 0}>
               <div class="field field-full">
                 <label for="inquiry-service">
-                  Gewünschte Leistung <span aria-hidden="true">*</span>
+                  {t("Gewünschte Leistung")} <span aria-hidden="true">*</span>
                 </label>
                 <select
                   id="inquiry-service"
@@ -282,16 +286,15 @@ export default function Inquiry() {
                   }
                   required
                 >
-                  <option value="">Bitte auswählen</option>
+                  <option value="">{t("Bitte auswählen")}</option>
                   <For each={services}>
                     {(service) => (
-                      <option value={service.slug}>{service.name}</option>
+                      <option value={service.slug}>{localizedService(service, locale()).name}</option>
                     )}
                   </For>
                 </select>
                 <p class="field-hint">
-                  Wählen Sie die Leistung, die am besten zu Ihrem Bedarf passt.
-                  Weitere Wünsche können Sie im letzten Schritt ergänzen.
+                  {t("Wählen Sie die Leistung, die am besten zu Ihrem Bedarf passt. Weitere Wünsche können Sie im letzten Schritt ergänzen.")}
                 </p>
               </div>
             </Show>
@@ -299,7 +302,7 @@ export default function Inquiry() {
               <div class="form-grid">
                 <div class="field field-full">
                   <label for="inquiry-object">
-                    Objektart <span aria-hidden="true">*</span>
+                    {t("Objektart")} <span aria-hidden="true">*</span>
                   </label>
                   <select
                     id="inquiry-object"
@@ -314,15 +317,15 @@ export default function Inquiry() {
                       update("objectType", event.currentTarget.value)
                     }
                   >
-                    <option value="">Bitte auswählen</option>
+                    <option value="">{t("Bitte auswählen")}</option>
                     <For each={objectTypes}>
-                      {(type) => <option value={type}>{type}</option>}
+                      {(type) => <option value={type}>{t(type)}</option>}
                     </For>
                   </select>
                 </div>
                 <div class="field">
                   <label for="inquiry-postcode">
-                    Postleitzahl des Objekts <span aria-hidden="true">*</span>
+                    {t("Postleitzahl des Objekts")} <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="inquiry-postcode"
@@ -346,12 +349,12 @@ export default function Inquiry() {
                     )}
                   />
                   <span id="postcode-hint" class="field-hint">
-                    Fünf Ziffern, z. B. 10315.
+                    {t("Fünf Ziffern, z. B. 10315.")}
                   </span>
                 </div>
                 <div class="field">
                   <label for="inquiry-area">
-                    Fläche in m² <span>(optional)</span>
+                    {t("Fläche in m²")} <span>{t("(optional)")}</span>
                   </label>
                   <input
                     id="inquiry-area"
@@ -368,12 +371,12 @@ export default function Inquiry() {
                     aria-describedby={descriptionFor("area", "area-hint")}
                   />
                   <span id="area-hint" class="field-hint">
-                    Eine Schätzung genügt.
+                    {t("Eine Schätzung genügt.")}
                   </span>
                 </div>
                 <div class="field field-full">
                   <label for="inquiry-frequency">
-                    Häufigkeit <span aria-hidden="true">*</span>
+                    {t("Häufigkeit")} <span aria-hidden="true">*</span>
                   </label>
                   <select
                     id="inquiry-frequency"
@@ -388,10 +391,10 @@ export default function Inquiry() {
                       update("frequency", event.currentTarget.value)
                     }
                   >
-                    <option value="">Bitte auswählen</option>
+                    <option value="">{t("Bitte auswählen")}</option>
                     <For each={frequencies}>
                       {(frequency) => (
-                        <option value={frequency}>{frequency}</option>
+                        <option value={frequency}>{t(frequency)}</option>
                       )}
                     </For>
                   </select>
@@ -402,7 +405,7 @@ export default function Inquiry() {
               <div class="form-grid">
                 <div class="field field-full">
                   <label for="inquiry-name">
-                    Ihr Name <span aria-hidden="true">*</span>
+                    {t("Ihr Name")} <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="inquiry-name"
@@ -420,7 +423,7 @@ export default function Inquiry() {
                 </div>
                 <div class="field">
                   <label for="inquiry-email">
-                    E-Mail <span aria-hidden="true">*</span>
+                    {t("E-Mail")} <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="inquiry-email"
@@ -439,7 +442,7 @@ export default function Inquiry() {
                 </div>
                 <div class="field">
                   <label for="inquiry-phone">
-                    Telefon <span>(optional)</span>
+                    {t("Telefon")} <span>{t("(optional)")}</span>
                   </label>
                   <input
                     id="inquiry-phone"
@@ -457,7 +460,7 @@ export default function Inquiry() {
                 </div>
                 <div class="field field-full">
                   <label for="inquiry-message">
-                    Ihre Nachricht <span>(optional)</span>
+                    {t("Ihre Nachricht")} <span>{t("(optional)")}</span>
                   </label>
                   <textarea
                     id="inquiry-message"
@@ -472,18 +475,16 @@ export default function Inquiry() {
                     onInput={(event) =>
                       update("message", event.currentTarget.value)
                     }
-                    placeholder="Zum Beispiel Wunschtermin, Zugangszeiten oder besondere Anforderungen."
+                    placeholder={t("Zum Beispiel Wunschtermin, Zugangszeiten oder besondere Anforderungen.")}
                   />
                   <span class="field-hint">
-                    {data().message.length} / {inquiryLimits.message} Zeichen.
-                    Bitte keine sensiblen Daten eintragen.
+                    {data().message.length} / {inquiryLimits.message} {t("Zeichen. Bitte keine sensiblen Daten eintragen.")}
                   </span>
                 </div>
               </div>
               <p class="field-hint">
-                Im nächsten Schritt prüfen Sie Ihre Anfrage und senden sie direkt an KnaBa.
-                Eine Registrierung ist dafür nicht erforderlich. Informationen zur Verarbeitung finden Sie unter{" "}
-                <a href="/datenschutz/">Datenschutz</a>.
+                {t("Im nächsten Schritt prüfen Sie Ihre Anfrage und senden sie direkt an KnaBa. Eine Registrierung ist dafür nicht erforderlich. Informationen zur Verarbeitung finden Sie unter")}{" "}
+                <a href={path("/datenschutz/")}>{t("Datenschutz")}</a>.
               </p>
             </Show>
           </fieldset>
@@ -497,14 +498,14 @@ export default function Inquiry() {
                 class="button button-outline"
                 onClick={() => move(step() - 1)}
               >
-                ← Zurück
+                {t("← Zurück")}
               </button>
             </Show>
             <button class="button button-dark" type="submit" disabled={!ready()}>
-              {step() === 2 ? "Anfrage prüfen →" : "Weiter →"}
+              {step() === 2 ? t("Anfrage prüfen →") : t("Weiter →")}
             </button>
           </div>
-          <p class="field-hint">* Pflichtfelder. Noch keine Beauftragung.</p>
+          <p class="field-hint">{t("* Pflichtfelder. Noch keine Beauftragung.")}</p>
         </form>
       </Show>
     </section>

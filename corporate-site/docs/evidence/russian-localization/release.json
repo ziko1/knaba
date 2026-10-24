@@ -1,0 +1,21 @@
+{
+  "site": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+  "version": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_9436df71de548191899b422d46c68ff9",
+  "versionNumber": 3,
+  "siteSourceSha": "e708755aabd5a3059c3fa05fd14491cc4e972785",
+  "deployment": "appgdep_6adc4b7dcb348191b781e49e49282b8e",
+  "status": "succeeded",
+  "publishedAt": "2026-10-24T06:09:18.974407+00:00",
+  "customDomain": "https://kneba.vsp.rest",
+  "russianHome": "https://kneba.vsp.rest/ru/",
+  "liveHttp": 200,
+  "liveLanguage": "ru",
+  "buildArtifactSha256": "c91131e706d8eb51d1b27c2567fbb6f428584f9e4465bad8f1799adb7fb6c833",
+  "archiveSha256": "sha256:0250255520773adfbe27703627e7237dae20ce257e7cb72ece3ea89d13d14149",
+  "testedLocalGitHubSha": "ea52dd86280c854c42120f331e0fcf8a18dc43ec",
+  "matchingSourceFiles": 85,
+  "authChanges": false,
+  "databaseMigrationChanges": false,
+  "browserLimits": "Further navigation rejected by cloud browser URL policy; no circumventing attempt. Form submission, viewport matrix, authenticated flow NOT_RUN.",
+  "rollback": "Redeploy saved version2; preserve D1 data."
+}

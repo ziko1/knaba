@@ -1,0 +1,31 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import { company } from "../../data/company";
+---
+
+<Layout lang="ru"
+  title="О KnaBa | Клининговая компания из Берлина"
+  description="Познакомьтесь с KnaBa: уборка зданий и индивидуальный подход к объектам в Берлине и Бранденбурге."
+  ><section class="container page-intro">
+    <p class="eyebrow">О KNABA</p><h1>
+      Чистота начинается<br /><span>с доверия.</span>
+    </h1><p>
+      KnaBa — ваш партнёр по уборке зданий в Берлине и Бранденбурге. Уход за помещениями мы сочетаем с понятными личными договорённостями.
+    </p>
+  </section><section class="container section section-tight detail-grid">
+    <div>
+      <h2>Ваше здание заслуживает внимания.</h2><p>
+        От регулярного ухода до окончательной уборки после строительства: работа начинается с понимания объекта. Какие площади используются? Какие материалы нужно учесть? Какой график подходит вашему ритму?
+      </p><p>
+        Вместе мы согласуем подходящий объём. Вы будете знать, какие работы запланированы и к кому обращаться с вопросами.
+      </p><a href="/ru/kontakt/" class="button button-dark"
+        >Давайте познакомимся <Icon /></a>
+    </div><aside class="aside-card">
+      <p class="eyebrow">ПРЯМАЯ СВЯЗЬ</p><h2>KnaBa в Берлине</h2><p>
+        {company.street}<br />{company.city}
+      </p><a href={company.phoneHref}>{company.phone}</a><br /><a
+        href={`mailto:${company.email}`}>{company.email}</a>
+    </aside>
+  </section></Layout
+>

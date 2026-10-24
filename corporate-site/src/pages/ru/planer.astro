@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServiceFinder from '../../components/ServiceFinder.vue';
+import CleaningChecklist from '../../components/CleaningChecklist.svelte';
+import Catalogue from '../../components/Catalogue.tsx';
+---
+<Layout lang="ru" title="Планировщик уборки | KnaBa Берлин" description="Выберите уборку для своего объекта, подготовьте основные сведения и отправьте индивидуальную заявку в KnaBa.">
+  <section class="container section">
+    <p class="eyebrow">ВАШ ОБЪЕКТ. ВАШ ПЛАН.</p>
+    <h1 class="max-w-4xl">Какая уборка<br/><span class="text-teal-700">подойдёт вам?</span></h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed">Выберите объект и подготовьте следующие шаги. Удобное начало разговора с KnaBa — без регистрации.</p>
+    <noscript><p class="notice">Для интерактивного планировщика нужен JavaScript. Все услуги также доступны в <a href="/ru/leistungen/">перечне услуг</a>. Связаться с нами можно через <a href="/ru/kontakt/">контакты</a>.</p></noscript>
+    <div class="mt-10 grid items-start gap-6 lg:grid-cols-2">
+      <ServiceFinder locale="ru" client:load />
+      <CleaningChecklist locale="ru" client:load />
+    </div>
+    <div class="mt-10"><Catalogue locale="ru" client:visible /></div>
+    <p class="mt-8 text-sm text-slate-600">Выбор остаётся только в открытом планировщике. Данные не сохраняются и не отправляются. Обязательный объём работ и цена согласовываются лично.</p>
+  </section>
+</Layout>

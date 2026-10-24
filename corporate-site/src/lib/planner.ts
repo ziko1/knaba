@@ -1,4 +1,5 @@
 import { services } from "../data/company";
+import { localizedService, type PublicLocale } from "./public-i18n";
 
 export type ServiceSlug = (typeof services)[number]["slug"];
 export const defaultService: ServiceSlug = "bueroreinigung";
@@ -30,8 +31,8 @@ export function recommendService(object: ObjectChoice, need: NeedChoice): Servic
   return "bueroreinigung";
 }
 
-export function getService(slug: string) {
-  return services.find((item) => item.slug === slug) ?? services[1];
+export function getService(slug: string, locale: PublicLocale = "de") {
+  return localizedService(services.find((item) => item.slug === slug) ?? services[1], locale);
 }
 
 const preparation: Record<ServiceSlug, readonly string[]> = {
@@ -42,8 +43,16 @@ const preparation: Record<ServiceSlug, readonly string[]> = {
   grundreinigung: ["Verschmutzungen und betroffene Flächen beschreiben", "Boden- und Oberflächenmaterialien nennen", "Ungefähre Fläche notieren", "Besondere Anforderungen und mögliche Zeitfenster nennen"],
   treppenreinigung: ["Aufgänge und Etagen zählen", "Eingangsbereiche und Gemeinschaftsflächen notieren", "Gewünschte Reinigungsintervalle überlegen", "Zugang und Ansprechpartner für das Haus klären"],
 };
-export function getPreparation(slug: string): readonly string[] {
-  return preparation[isServiceSlug(slug) ? slug : defaultService];
+const preparationRu: Record<ServiceSlug, readonly string[]> = {
+  bueroreinigung: ["Укажите приблизительную площадь офиса и его зоны", "Уточните рабочее время и возможное время доступа", "Продумайте желаемую периодичность уборки", "Укажите особые материалы или зоны с ограничениями"],
+  unterhaltsreinigung: ["Перечислите зоны для регулярной уборки", "Опишите использование объекта и поток посетителей", "Продумайте желаемую периодичность уборки", "Уточните доступ, ключи и контактное лицо"],
+  glasreinigung: ["Укажите количество и приблизительные размеры стеклянных поверхностей", "Опишите высоту и доступность поверхностей", "Укажите материалы рам и фасада", "Предложите возможное время для осмотра"],
+  baureinigung: ["Опишите этап строительства и текущее состояние объекта", "Укажите приблизительную площадь и помещения", "Укажите планируемую дату передачи или заселения", "Уточните доступ, наличие воды и электричества на объекте"],
+  grundreinigung: ["Опишите загрязнения и поверхности", "Укажите материалы пола и других поверхностей", "Укажите приблизительную площадь", "Укажите особые требования и возможное время работ"],
+  treppenreinigung: ["Укажите количество подъездов и этажей", "Перечислите входные и общие зоны", "Продумайте желаемую периодичность уборки", "Уточните доступ и контактное лицо по дому"],
+};
+export function getPreparation(slug: string, locale: PublicLocale = "de"): readonly string[] {
+  return (locale === "ru" ? preparationRu : preparation)[isServiceSlug(slug) ? slug : defaultService];
 }
 
 export interface CatalogueItem {

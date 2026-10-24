@@ -1,0 +1,103 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 build
+> astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts
+
+01:06:08 [types] Generated 52ms
+01:06:08 [build] output: "static"
+01:06:08 [build] mode: "static"
+01:06:08 [build] directory: /workspace/sites/knaba-ru-localization/.astro-static/
+01:06:08 [build] Collecting build info...
+01:06:08 [build] ✓ Completed in 133ms.
+01:06:08 [build] Building static entrypoints...
+01:06:09 [vite] ✓ built in 943ms
+01:06:09 [vite] ✓ built in 476ms
+01:06:09 [build] Rearranging server assets...
+
+ generating static routes 
+01:06:10   ├─ /404.html (+11ms) 
+01:06:10   ├─ /api/catalogue.json (+2ms) 
+01:06:10   ├─ /berlin/index.html (+4ms) 
+01:06:10   ├─ /branchen/index.html (+3ms) 
+01:06:10   ├─ /datenschutz/index.html (+3ms) 
+01:06:10   ├─ /en/index.html (+2ms) 
+01:06:10   ├─ /impressum/index.html (+3ms) 
+01:06:10   ├─ /karriere/index.html (+2ms) 
+01:06:10   ├─ /kontakt/index.html (+7ms) 
+01:06:10   ├─ /konto/index.html (+20ms) 
+01:06:10   ├─ /leistungen/unterhaltsreinigung/index.html (+3ms) 
+01:06:10   ├─ /leistungen/bueroreinigung/index.html (+2ms) 
+01:06:10   ├─ /leistungen/glasreinigung/index.html (+1ms) 
+01:06:10   ├─ /leistungen/baureinigung/index.html (+1ms) 
+01:06:10   ├─ /leistungen/grundreinigung/index.html (+1ms) 
+01:06:10   ├─ /leistungen/treppenreinigung/index.html (+2ms) 
+01:06:10   ├─ /leistungen/index.html (+3ms) 
+01:06:10   ├─ /planer/index.html (+34ms) 
+01:06:10   ├─ /ratgeber/bueroreinigung-checkliste/index.html (+3ms) 
+01:06:10   ├─ /ratgeber/bauendreinigung-vorbereiten/index.html (+1ms) 
+01:06:10   ├─ /ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html (+1ms) 
+01:06:10   ├─ /ratgeber/reinigungsleistungen-vergleichen/index.html (+1ms) 
+01:06:10   ├─ /ratgeber/index.html (+2ms) 
+01:06:10   ├─ /robots.txt (+1ms) 
+01:06:10   ├─ /ru/berlin/index.html (+2ms) 
+01:06:10   ├─ /ru/branchen/index.html (+2ms) 
+01:06:10   ├─ /ru/datenschutz/index.html (+3ms) 
+01:06:10   ├─ /ru/impressum/index.html (+2ms) 
+01:06:10   ├─ /ru/karriere/index.html (+1ms) 
+01:06:10   ├─ /ru/kontakt/index.html (+2ms) 
+01:06:10   ├─ /ru/konto/index.html (+3ms) 
+01:06:10   ├─ /ru/leistungen/unterhaltsreinigung/index.html (+2ms) 
+01:06:10   ├─ /ru/leistungen/bueroreinigung/index.html (+1ms) 
+01:06:10   ├─ /ru/leistungen/glasreinigung/index.html (+1ms) 
+01:06:10   ├─ /ru/leistungen/baureinigung/index.html (+1ms) 
+01:06:10   ├─ /ru/leistungen/grundreinigung/index.html (+1ms) 
+01:06:10   ├─ /ru/leistungen/treppenreinigung/index.html (+1ms) 
+01:06:10   ├─ /ru/leistungen/index.html (+2ms) 
+01:06:10   ├─ /ru/planer/index.html (+4ms) 
+01:06:10   ├─ /ru/ratgeber/bueroreinigung-checkliste/index.html (+2ms) 
+01:06:10   ├─ /ru/ratgeber/bauendreinigung-vorbereiten/index.html (+1ms) 
+01:06:10   ├─ /ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html (+2ms) 
+01:06:10   ├─ /ru/ratgeber/reinigungsleistungen-vergleichen/index.html (+1ms) 
+01:06:10   ├─ /ru/ratgeber/index.html (+2ms) 
+01:06:10   ├─ /ru/unternehmen/index.html (+1ms) 
+01:06:10   ├─ /ru/index.html (+3ms) 
+01:06:10   ├─ /sitemap.xml (+1ms) 
+01:06:10   ├─ /uk/index.html (+2ms) 
+01:06:10   ├─ /unternehmen/index.html (+11ms) 
+01:06:10   ├─ /index.html (+3ms) 
+01:06:10 ✓ Completed in 222ms.
+
+01:06:10 [build] ✓ Completed in 1.75s.
+01:06:10 [build] 47 page(s) built in 1.88s
+01:06:10 [build] Complete!
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.5 building server environment for production...
+transforming...
+✓ 10 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/.vite/manifest.json   0.15 kB │ gzip:  0.11 kB
+dist/server/wrangler.json         1.44 kB │ gzip:  0.74 kB
+dist/server/index.js             45.56 kB │ gzip: 14.83 kB
+
+✓ built in 29ms
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/.assetsignore                  0.02 kB
+dist/client/__cloudflare_fallback_entry__  0.00 kB │ gzip: 0.02 kB
+
+✓ built in 20ms

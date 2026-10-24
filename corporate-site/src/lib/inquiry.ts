@@ -1,4 +1,5 @@
 import { company, services } from "../data/company.ts";
+import { publicText, localizedService, type PublicLocale } from "./public-i18n.ts";
 
 export const objectTypes = [
   "Büro / Gewerbe",
@@ -46,6 +47,7 @@ export function isKnownService(value: string): boolean {
 
 export function validateInquiry(
   data: InquiryData,
+  locale: PublicLocale = "de",
 ): Partial<Record<keyof InquiryData, string>> {
   const errors: Partial<Record<keyof InquiryData, string>> = {};
   if (!isKnownService(data.service))
@@ -86,41 +88,43 @@ export function validateInquiry(
     /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(data.message)
   )
     errors.message = "Die Nachricht darf maximal 500 Zeichen enthalten.";
+  if (locale === "ru") for (const field of Object.keys(errors) as (keyof InquiryData)[]) errors[field] = publicText(errors[field]!, locale);
   return errors;
 }
 
-export function buildInquiry(data: InquiryData): {
+export function buildInquiry(data: InquiryData, locale: PublicLocale = "de"): {
   subject: string;
   body: string;
   href: string;
 } {
-  const errors = validateInquiry(data);
+  const errors = validateInquiry(data, locale);
+  const t = (text: string) => publicText(text, locale);
   if (Object.keys(errors).length) throw new Error(Object.values(errors)[0]);
-  const service = services.find((service) => service.slug === data.service)!;
-  const subject = `Reinigungsanfrage: ${service.name}`;
+  const service = localizedService(services.find((service) => service.slug === data.service)!, locale);
+  const subject = `${t("Reinigungsanfrage:")} ${service.name}`;
   const body = [
-    "Guten Tag KnaBa,",
+    t("Guten Tag KnaBa,"),
     "",
-    "ich möchte folgenden Reinigungsbedarf mit Ihnen besprechen:",
+    t("ich möchte folgenden Reinigungsbedarf mit Ihnen besprechen:"),
     "",
-    `Leistung: ${service.name}`,
-    `Objektart: ${data.objectType}`,
-    `Postleitzahl: ${data.postcode.trim()}`,
-    `Ungefähre Fläche: ${data.area.trim() ? `${data.area} m²` : "Noch offen"}`,
-    `Häufigkeit: ${data.frequency}`,
+    `${t("Leistung")}: ${service.name}`,
+    `${t("Objektart")}: ${t(data.objectType)}`,
+    `${t("Postleitzahl")}: ${data.postcode.trim()}`,
+    `${t("Ungefähre Fläche")}: ${data.area.trim() ? `${data.area} ${locale === "ru" ? "м²" : "m²"}` : t("Noch offen")}`,
+    `${t("Häufigkeit")}: ${t(data.frequency)}`,
     "",
-    `Name: ${data.name.trim()}`,
-    `E-Mail: ${data.email.trim()}`,
-    `Telefon: ${data.phone.trim() || "Nicht angegeben"}`,
+    `${t("Name")}: ${data.name.trim()}`,
+    `${t("E-Mail")}: ${data.email.trim()}`,
+    `${t("Telefon")}: ${data.phone.trim() || t("Nicht angegeben")}`,
     "",
-    `Nachricht: ${data.message.trim() || "Weitere Details besprechen wir gern persönlich."}`,
+    `${t("Nachricht")}: ${data.message.trim() || t("Weitere Details besprechen wir gern persönlich.")}`,
     "",
-    "Bitte kontaktieren Sie mich zur Abstimmung. Vielen Dank!",
+    t("Bitte kontaktieren Sie mich zur Abstimmung. Vielen Dank!"),
   ].join("\n");
   const href = `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   if (href.length > inquiryLimits.mailto)
     throw new Error(
-      "Die Anfrage ist für das E-Mail-Programm zu lang. Bitte kürzen Sie die Nachricht oder kontaktieren Sie uns direkt.",
+      t("Die Anfrage ist für das E-Mail-Programm zu lang. Bitte kürzen Sie die Nachricht oder kontaktieren Sie uns direkt."),
     );
   return { subject, body, href };
 }
