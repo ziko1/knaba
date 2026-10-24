@@ -1,5 +1,6 @@
 import type { PortalSession } from '../src/lib/portal-contract';
 import type { D1Database, D1Statement } from './types';
+import { enqueueOwnerNotice, ownerNotificationStatus } from './owner-notifications';
 
 type Body = Record<string,unknown>;
 type ThreadRow = Record<string,unknown>;
@@ -55,6 +56,7 @@ async function openThread(request:Request,d:Dependencies):Promise<Response> {
     d.db.prepare('INSERT INTO assistant_threads (id,capability_hash,opening_hash,opening_key,locale,status,consent_version,created_at,expires_at,last_message_at) VALUES (?,?,?,?,?,\'open\',?,?,?,?) ON CONFLICT(capability_hash) DO NOTHING').bind(threadId,hash,payloadHash,key,locale,PRIVACY_VERSION,now,expires,now),
     d.db.prepare('INSERT INTO assistant_messages (id,thread_id,author,body,idempotency_key,payload_hash,created_at,last_mutation) SELECT ?,id,\'visitor\',?,?,?,?,? FROM assistant_threads WHERE id=? AND capability_hash=? ON CONFLICT(thread_id,author,idempotency_key) DO NOTHING').bind(messageId,msg,key,await sha(msg),now,mutation,threadId,hash),
     audit(d.db,'visitor','assistant.message.visitor',threadId,messageId,mutation,now),
+    enqueueOwnerNotice(d.db,threadId,messageId,mutation,'new_thread',now),
   ]);
   const stored=await d.db.prepare('SELECT id,opening_hash FROM assistant_threads WHERE capability_hash=?').bind(hash).first<ThreadRow>();
   if(!stored)d.fail(503,'unavailable','Bitte versuchen Sie es erneut.');
@@ -97,6 +99,7 @@ async function sendMessage(id:string,request:Request,ownerId:string|null,d:Depen
     d.db.prepare(`INSERT INTO assistant_messages (id,thread_id,author,body,idempotency_key,payload_hash,created_at,last_mutation) SELECT ?,id,?,?,?,?,?,? FROM assistant_threads WHERE ${existsGuard} ON CONFLICT(thread_id,author,idempotency_key) DO NOTHING`).bind(messageId,author,msg,key,payloadHash,now,mutation,...bound),
     d.db.prepare('UPDATE assistant_threads SET last_message_at=? WHERE id=? AND EXISTS (SELECT 1 FROM assistant_messages WHERE id=? AND last_mutation=?)').bind(now,id,messageId,mutation),
     audit(d.db,ownerId||'visitor',`assistant.message.${author}`,id,messageId,mutation,now),
+    ...(!ownerId?[enqueueOwnerNotice(d.db,id,messageId,mutation,'visitor_message',now)]:[]),
   ]);
   const stored=await d.db.prepare('SELECT * FROM assistant_messages WHERE thread_id=? AND author=? AND idempotency_key=?').bind(id,author,key).first<ThreadRow>();
   if(!stored)d.fail(409,'closed','Die Unterhaltung kann derzeit nicht geändert werden.');
@@ -108,6 +111,10 @@ export async function handleAssistantApi(request:Request,session:PortalSession,d
   const path=new URL(request.url).pathname.replace(/\/$/,'');
   if(path===`${SCOPE}threads` && request.method==='POST')return openThread(request,d);
   if(path===`${SCOPE}owner/threads` && request.method==='GET') {requireOwner(session,d);return listOwnerThreads(d);}
+  if(path===`${SCOPE}owner/notifications` && request.method==='GET') {
+    requireOwner(session,d);
+    return d.response(await ownerNotificationStatus(d.db));
+  }
   const ownerPath=path.match(/^\/api\/assistant\/owner\/threads\/([^/]+)(\/messages)?$/);
   if(ownerPath){const actor=requireOwner(session,d);if(ownerPath[2]&&request.method==='POST')return sendMessage(ownerPath[1],request,actor,d);if(!ownerPath[2]&&request.method==='GET')return readThread(ownerPath[1],request,true,d);}
   const visitorPath=path.match(/^\/api\/assistant\/threads\/([^/]+)(\/messages)?$/);
