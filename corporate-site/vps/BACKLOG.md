@@ -7,3 +7,10 @@
 - P1 Activate external AI/email/WhatsApp only after explicit owner consent, verified balance/cost, PII processor approval, budget.
 - P1 Measure real-device Core Web Vitals and p95, database contention, storage utilization, backup/restore including off-VPS copy.
 - P2 Define retention, DSAR/privacy purge and tested rollback schedule; no auto deletion without approval.
+
+## After 2026-10-25 public DNS cutover
+- [ ] P0 Export/reconcile all old hosting D1 leads, profiles, conversations; verify import into VPS without overwriting live data.
+- [ ] P0 Real owner identity enrollment + auth acceptance; bring /readyz to 200 after verified operator approval.
+- [ ] P0 Review and safely reconcile newer assistant recovery/outbox PR #26/#27 against VPS schema, without conflicting migrations.
+- [ ] P0 GDPR retention/erasure/export, DPA and legally approved host disclosures.
+- [ ] P1 Real phone/PC browser UAT, WCAG keyboard/screen-reader, performance and p95 baseline, safe rollback drill.

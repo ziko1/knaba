@@ -45,11 +45,11 @@ services:
       traefik.http.routers.knaba-vps-http.middlewares: "knaba-vps-redirect"
       traefik.http.routers.knaba-vps-http.service: "knaba-vps"
       traefik.http.middlewares.knaba-vps-redirect.redirectscheme.scheme: "https"
-      traefik.http.routers.knaba-vps.rule: "Host(`kneba.vsp.rest`)"
-      traefik.http.routers.knaba-vps.entrypoints: "https"
-      traefik.http.routers.knaba-vps.tls: "true"
-      traefik.http.routers.knaba-vps.tls.certresolver: "letsencrypt"
-      traefik.http.routers.knaba-vps.service: "knaba-vps"
+      traefik.http.routers.knaba-vps-public.rule: "Host(`kneba.vsp.rest`)"
+      traefik.http.routers.knaba-vps-public.entrypoints: "https"
+      traefik.http.routers.knaba-vps-public.tls: "true"
+      traefik.http.routers.knaba-vps-public.tls.certresolver: "letsencrypt"
+      traefik.http.routers.knaba-vps-public.service: "knaba-vps"
       traefik.http.services.knaba-vps.loadbalancer.server.port: "8080"
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get({hostname:'127.0.0.1',port:8080,path:'/healthz',headers:{Host:'kneba.vsp.rest'}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
