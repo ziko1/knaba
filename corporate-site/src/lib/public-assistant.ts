@@ -57,6 +57,28 @@ export const assistantCopy:Record<AssistantLocale,Copy> = {
     descriptions:['Уборка полов, поверхностей, санузлов и общих зон по согласованному графику.','Уборка рабочих мест, переговорных, приёмной, кухни и санузлов. Укажите площадь офиса и удобное время доступа.','Мытьё окон, стекла и фасадов с учётом материала и доступа. Опишите поверхности и возможность добраться до них.','Уборка во время строительства и перед сдачей объекта. Укажите этап работ и дату сдачи.','Интенсивная очистка с учётом материалов и состояния поверхностей. Опишите загрязнения и требования.','Уборка лестниц, площадок, входов, перил и контактных поверхностей. Укажите количество этажей и желаемую периодичность.'],
   },
 };
+
+/** Official knaba.de also mentions Bauhelfer / Bauhilfsarbeiten. This is NOT a new ERP service enum. */
+const constructionHelpCopy: Record<AssistantLocale, {text:string;label:string}> = {
+  de: {
+    text:'KnaBa nennt neben der Baureinigung auch Bauhilfsarbeiten und Baustellenvorbereitung. Welche Aufgaben möglich sind, welchen Umfang sie haben und was sie kosten, klärt das Team direkt mit Ihnen. Der Reinigungsplaner bucht keine Bauhelfer.',
+    label:'Bauhilfe anfragen',
+  },
+  en: {
+    text:'KnaBa also lists construction support and site preparation alongside construction cleaning. Please ask the team directly about the available tasks, scope and price. The cleaning planner does not book construction helpers.',
+    label:'Ask about construction support',
+  },
+  uk: {
+    text:'KnaBa також зазначає допоміжні будівельні роботи та підготовку будмайданчика поряд із прибиранням після будівництва. Конкретні роботи, обсяг і вартість потрібно погодити безпосередньо з командою. Планер прибирання не бронює будівельних помічників.',
+    label:'Запитати про будівельні роботи',
+  },
+  ru: {
+    text:'KnaBa также указывает подсобные строительные работы и подготовку стройплощадки наряду с уборкой после строительства. Конкретные работы, объём и стоимость согласуются напрямую с командой. Планировщик уборки не бронирует строительных помощников.',
+    label:'Уточнить строительные работы',
+  },
+};
+const constructionHelpPattern = /bauhelfer|bauhilf|baustellenvorbereit|construction help|construction support|site preparation|будівельн.{0,12}робот|будмайданчик|будівельн.{0,12}помічник|подсобн.{0,12}работ|подготовк.{0,12}стройплощадк|строительн.{0,12}помощник|помощ.{0,10}стройк/;
+
 export type AssistantAnswer = {text:string; links:{label:string;href:string}[]};
 const servicePatterns = [/unterhalt|regular|регуляр|постійн/,/büro|buro|office|офіс|офис/,/glas|fenster|fassad|window|facade|вік|стекл|фасад|окн/,/baurein|baustell|construction|будів|строитель|ремонт/,/grundrein|sonderrein|deep clean|specialist|генераль|спеціаль|специаль/,/trepp|stair|сход|лестниц/];
 function answerFromKnowledge(raw:string,locale:AssistantLocale,topic?:Topic):AssistantAnswer {
@@ -66,6 +88,10 @@ function answerFromKnowledge(raw:string,locale:AssistantLocale,topic?:Topic):Ass
   const question=raw.trim().normalize('NFKC').toLocaleLowerCase();
   if(!question || raw.length>500) return {text:t.limit,links:[]};
   if(/passwor|парол|customer data|kundendaten|private|приват|личн.{0,8}дан|admin|адмін|админ|ignore|ігнор|игнор/.test(question)) return {text:t.protected,links:contactLinks};
+  if (constructionHelpPattern.test(question)) {
+    const help = constructionHelpCopy[locale];
+    return {text:help.text,links:[{label:help.label,href:'/kontakt/'}]};
+  }
   if(topic==='price'||/preis|kost|price|cost|ц[іе]н|кошту|скільки|сколько|стоим|стоит|€|euro/.test(question))return {text:t.price,links:[inquiry]};
   if(topic==='contact'||/kontakt|contact|телефон|phone|email|e-mail|пошт|почт|контакт|whatsapp|вотсап|ватсап/.test(question))return {text:`${company.name} · ${company.street}, ${company.city}\n${company.phone}\n${company.email}`,links:contactLinks};
   if(topic==='region'||/region|gebiet|where|wo\s|berlin|brandenburg|берл|бранден|регіон|регион|де ви|где вы/.test(question))return {text:t.region,links:[inquiry]};
