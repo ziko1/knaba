@@ -94,3 +94,13 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 - [ ] Deploy to existing ChatGPT Sites appgprj_6adc346d6f8881918b73ac79ebc5d759 only with compatible publish/backup interface, record provider rollback receipt. GitHub push alone does not deploy. Current live /studio/ 404.
 
 Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tree ed091f283b10bda1d1ef2a80a8f14fac13f1a5d7 matches local validated source. Publish/UAT still BLOCKED.
+
+## KN-VPS-CUTOVER, 24.10.2026
+- [x] Єдиний KNABA Site Studio PR22 + CRM (не друга CMS) PR23 + офіційні Bauhelfer і 7 SVG PR21.
+- [x] Source SHA 638db18f04ed55f2a9452dd0a6db45560dc1540a: Node24 101 Vitest+8 Node+1 VPS E2E, typecheck 0 errors/warnings, production-mode 51-page build/static verifier.
+- [x] Встановлено захищений внутрішній контейнер VPS, SQLite WAL/migrations, checksums, резервування/ізольоване відновлення, restart smoke.
+- [ ] Підтвердити доступ і згоду власника one.com DNS, архів поточного офіційного сайту, TLS і поштових DNS.
+- [ ] Отримати ChatGPT Sites D1 export/backup, відновити в stage, узгодити власні приватні записи за row-level/count checks, не видаляти Sites до успішного production cutover.
+- [ ] Підключити справжню owner identity через protected stdin, перевірити реальні ролі, HTTPS trusted Traefik, field Web Vitals, GDPR/security/legal/browser/physical-device UAT.
+- [ ] Публічний apex/www cutover, acceptance та rollback і лише потім окремо перевірене відключення та видалення старого Sites.
+- [ ] Розширений blocks/menu/media builder, server-rendered SEO, provider AI квота і бюджет, CRM-to-ERP bridge.

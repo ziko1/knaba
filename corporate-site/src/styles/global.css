@@ -2120,3 +2120,28 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 .knaba-widget-root [data-knaba-open] span{color:#def59e;font-size:23px}
 .knaba-widget-root [data-knaba-open]:disabled{opacity:.7}
 @media(max-width:480px){.knaba-widget-root{right:10px;bottom:max(10px,env(safe-area-inset-bottom))}}
+
+/* KnaBa vivid 2D cleaning art — static SVG, no runtime JS. */
+.hero-art { background: linear-gradient(135deg,#a7e6ff 0%,#dcffd8 55%,#fff2b0 100%); }
+.hero-art:before { background:#ffdc68; }
+.hero h1 .hero-highlight { background:linear-gradient(transparent 61%,#fff08c 61%,#fff08c 92%,transparent 92%); }
+.office-art { display:block;object-fit:contain;object-position:center; }
+.service-card { box-shadow:0 6px 25px #2049680d; }
+.service-card:nth-child(6n+1) { background:#e8fad6; }
+.service-card:nth-child(6n+2) { background:#dceeff; }
+.service-card:nth-child(6n+3) { background:#d8f7ff; }
+.service-card:nth-child(6n+4) { background:#ffe9d8; }
+.service-card:nth-child(6n+5) { background:#eee4ff; }
+.service-card:nth-child(6n+6) { background:#e0fae7; }
+.service-card-art, .locale-service-art, .detail-service-art {
+  display:block;width:100%;height:auto;aspect-ratio:720/500;object-fit:cover;
+  background:#eff9ff;border-radius:14px;
+}
+.service-card-art { margin:0 0 19px;box-shadow:0 4px 14px #1e5d6610;transition:transform .22s ease; }
+.service-card:hover .service-card-art { transform:translateY(-3px); }
+.detail-service-art { margin:0 0 24px; }
+.locale-service-art { margin:0 0 16px; }
+@media (prefers-reduced-motion:reduce) {
+ .service-card-art { transition:none; }
+ .service-card:hover .service-card-art { transform:none; }
+}

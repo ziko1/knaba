@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-24",
+  "project": "KNABA official-domain VPS internal deployment",
+  "source": {
+    "local_tested_git_sha": "638db18f04ed55f2a9452dd0a6db45560dc1540a",
+    "git_tree_sha": "3f527c0542fc033d5bfcf8227203a76beed6dd1b",
+    "github_code_commit": "a4f59ff3b0ac58568d78916c76d8aa5ff0c04ba3",
+    "official_build_client_sha256": "07b735b5d47d739e8be83193f0ab584242dc246248d5b8334b974558d1345ab9",
+    "server_worker_sha256": "93377d45c100f0d5e5f4eedf55b5968a4150dc356bdfdbfd386a9677e3cf3482",
+    "home_html_sha256": "5085600b6d5e2096bb5771b7bc8f4c53dae496c7ec4e0b7c566487a7d90b5c46"
+  },
+  "tests": {
+    "astro_typecheck": {"files": 102, "errors": 0, "warnings": 0, "hints": 4},
+    "vue_types": "PASS",
+    "svelte_types": "PASS",
+    "vitest": {"passed": 101, "failed": 0, "suites": 12},
+    "node_inquiry": {"passed": 8, "failed": 0},
+    "vps_runtime_e2e": {"passed": 1, "failed": 0, "scope": "synthetic owner authentication, CRM authorization, Studio draft/publish, identity forging denial, persistence and restore"},
+    "official_static_build_pages": 51,
+    "static_build_verifier": "PASS"
+  },
+  "vps": {
+    "release_directory": "/srv/knaba/vps/releases/638db18f04ed55f2a9452dd0a6db45560dc1540a",
+    "container": "knaba-vps-internal",
+    "image": "node:24-bookworm-slim",
+    "bind": "127.0.0.1:19110 only",
+    "user": "1000:1000",
+    "read_only_rootfs": true,
+    "linux_capabilities_dropped": "ALL",
+    "memory_limit_bytes": 536870912,
+    "pids_limit": 96,
+    "migration_count": 5,
+    "database_integrity": "ok",
+    "http_status": {"/healthz": 200, "/readyz": 503, "/": 200, "/studio/": 200, "/crm/": 200, "/konto/": 200, "/postfach/": 200, "/api/studio/published?page=%2F": 200, "/api/portal/session": 200, "/api/crm/contacts": 401},
+    "https_proxy_guard_without_header": 421,
+    "forged_legacy_identity_role": "anonymous",
+    "sqlite_backup_sha256": "d5f4e30851ed8bf0f981d26615910263f786d67095be4b0d387b83f58991ef56",
+    "independent_restore": {"checksum_verified": true, "integrity": "ok", "migrations": 5, "real_users": 0},
+    "container_restart": "PASS: private HTTP homepage, Studio, CRM and API 200"
+  },
+  "external": {
+    "knaba_de_dns": "one.com A 46.30.213.20 - unchanged",
+    "vsp_ip": "51.77.35.6",
+    "one_com_dns_permission": "UNAVAILABLE",
+    "old_chatgpt_sites": "kneba.vsp.rest - unchanged",
+    "old_sites_export_backup_delete": "UNAVAILABLE",
+    "old_customer_records_imported": false,
+    "real_owner_enrolled": false,
+    "https_domain_proxy": "NOT_CONFIGURED",
+    "public_domain_migrated": false,
+    "old_sites_deleted": false,
+    "paid_ai_services_active": false,
+    "independent_security_review": "NOT_RUN",
+    "field_web_vitals": "NOT_RUN",
+    "physical_device_uat": "NOT_RUN"
+  },
+  "release_status": "INTERNAL_ONLY_BLOCKED_EXTERNAL"
+}
