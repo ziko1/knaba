@@ -59,3 +59,16 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 Implemented and unit/build/review verified at `0bcbfc7149d2d6179b925da8d570f7ecbab649f1`. DE/EN/UK/RU, fixed trusted links and localized enquiry handoff, bounded ephemeral local chat, protected portal routes preserved. Browser NOT_RUN (policy block); generative AI NOT_CONFIGURED, no claims of complete AI readiness. Acceptance/evidence: docs/ASSISTANT_CHANGE_UK.md and docs/evidence/public-assistant/.
 
 Live partial acceptance: RU public entry, pricing/service response and inquiry handoff PASS. Selector correction at 0d281284c65aabad579a4aff54ab766b0c3c0a74 rebuilt; final readback pending. Generative AI and physical mobile checks remain open.
+
+
+## Visual art refresh — 24.10.2026 (isolated candidate)
+
+| ID | Acceptance | State |
+|---|---|---|
+| VIS-01 | Six relevant, distinct cleaning scenes + team hero in brand-neutral 2D SVG | IMPLEMENTED_IN_BRANCH; 7/7 syntax/source checks |
+| VIS-02 | Localized alt descriptions and integration on DE/RU details, EN/UK overviews | IMPLEMENTED_IN_BRANCH; 8/8 page source checks |
+| VIS-03 | Zero external images/scripts, light static delivery, reduced-motion | STATIC_SOURCE_CHECKED; full browser/security gate NOT_RUN |
+| VIS-04 | Real Astro type-check, unit suite, build and rendered 320/390/768/desktop visual QA | NOT_RUN |
+| VIS-05 | Owner brand/UAT approval, independent review, production performance and deployment | BLOCKED_REVIEW; no release |
+
+Candidate branch: `codex/knaba-vibrant-cleaning-illustrations-20261024`; original candidate base is untouched. This visual change does not close ERP, notification, legal or customer-handover gates.
