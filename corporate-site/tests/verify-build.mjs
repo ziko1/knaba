@@ -36,6 +36,9 @@ for (const file of pages) {
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
   assert.match(html, /<html lang="(de|en|uk|ru)"/);
   assert.match(html,/class="site-language-switcher"/,`${file}: accessible locale dropdown`);
+  const embeddedAssistantRoute=/(?:\/(?:ru\/)?(?:konto|assistent|portal)\/index\.html)$/.test(file);
+  if(embeddedAssistantRoute) assert.doesNotMatch(html,/class="knaba-floating-assistant"/,`${file}: avoid duplicate assistant inputs`);
+  else assert.match(html,/class="knaba-floating-assistant"/,`${file}: visible assistant launcher exists`);
   assert.doesNotMatch(html,/class="site-language-bar"|class="language-nav"/,`${file}: old duplicate locale bars removed`);
   assert.equal((html.match(/data-language-switch(?=\s|>)/g)||[]).length,4,`${file}: exactly four locale links`);
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
@@ -88,7 +91,8 @@ for (const route of ['konto','assistent','ru/konto','ru/assistent']) {
   assert.match(html,/ohne Anmeldung|без регистрации/);
 }
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
-assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
+assert.match(homepage, /class="knaba-floating-assistant"/, 'Home provides compact assistant launcher');
+assert.match(homepage, /client="visible"/, 'Assistant island hydrates only when visible');
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 assert.equal(russianPages.length, 24, 'Full Russian route tree, assistant aliases and protected portal');
 for (const file of russianPages) {

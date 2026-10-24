@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
+import "../styles/floating-assistant.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import Icon from "../components/Icon.astro";
+import PublicAssistant from "../components/PublicAssistant.tsx";
 import { languageLinks, localeAlternates } from "../lib/site-i18n";
 import { ClientRouter } from "astro:transitions";
 interface Props {
@@ -24,6 +26,8 @@ const translated = {
 }[lang];
 const footerLabels = {de:['Reinigungsplan erstellen','Unsere Leistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Cleaning planner (DE)','Our services (DE)','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa (DE)','Careers (DE)'],uk:['Планер прибирання (DE)','Наші послуги (DE)','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa (DE)','Робота (DE)'],ru:['Составить план уборки','Наши услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
+const showFloatingAssistant = !/^\/(?:ru\/)?(?:assistent|konto|portal)\/$/.test(path);
+const floatingAssistantLabel = {de:'KnaBa Assistent',en:'KnaBa Assistant',uk:'Помічник KnaBa',ru:'Помощник KnaBa'}[lang];
 const localPath = (url: string) => lang === 'ru' ? `/ru${url}` : url;
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
@@ -187,6 +191,15 @@ const structuredData = {
         </div>
       </div>
     </footer>
+    {showFloatingAssistant && <details class="knaba-floating-assistant">
+      <summary aria-label={floatingAssistantLabel} aria-controls="knaba-floating-panel">
+        <span aria-hidden="true" class="knaba-floating-mark">✳</span>
+        <span>{floatingAssistantLabel}</span>
+      </summary>
+      <div class="knaba-floating-panel" id="knaba-floating-panel">
+        <PublicAssistant locale={lang} client:visible />
+      </div>
+    </details>}
     <script>
       import { services } from '../data/company';
       function preserveServiceSelection() {
@@ -203,7 +216,7 @@ const structuredData = {
       preserveServiceSelection();
       document.addEventListener('astro:page-load', preserveServiceSelection);
 
-      const disclosures = ".mobile-nav, .site-language-switcher";
+      const disclosures = ".mobile-nav, .site-language-switcher, .knaba-floating-assistant";
       document.addEventListener("keydown", (event) => {
         if (event.key !== "Escape") return;
         document.querySelectorAll<HTMLDetailsElement>(disclosures).forEach((menu) => {
