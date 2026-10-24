@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
+import "../styles/floating-assistant.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import Icon from "../components/Icon.astro";
+import PublicAssistant from "../components/PublicAssistant.tsx";
 import { languageLinks, localeAlternates } from "../lib/site-i18n";
 import { ClientRouter } from "astro:transitions";
 interface Props {
@@ -24,11 +26,14 @@ const translated = {
 }[lang];
 const footerLabels = {de:['Reinigungsplan erstellen','Unsere Leistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Cleaning planner (DE)','Our services (DE)','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa (DE)','Careers (DE)'],uk:['Планер прибирання (DE)','Наші послуги (DE)','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa (DE)','Робота (DE)'],ru:['Составить план уборки','Наши услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
+const showFloatingAssistant = !/^\/(?:ru\/)?(?:assistent|konto|portal|editor)\/$/.test(path);
+const floatingAssistantLabel = {de:'KnaBa Assistent',en:'KnaBa Assistant',uk:'Помічник KnaBa',ru:'Помощник KnaBa'}[lang];
 const localPath = (url: string) => lang === 'ru' ? `/ru${url}` : url;
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
 const languageLabel = {de:'Sprache',en:'Language',uk:'Мова',ru:'Язык'}[lang];
+const languageNames: Record<string,string> = {de:'Deutsch',en:'English',uk:'Українська',ru:'Русский'};
 const translatedNav = {en:['Services (DE)','Planner (DE)','Sectors (DE)','About (DE)','Guides (DE)'],uk:['Послуги (DE)','Планер (DE)','Галузі (DE)','Про нас (DE)','Поради (DE)'],ru:['Услуги','Планер уборки','Отрасли','О нас','Советы']};
 const nav = [
   ["/leistungen/", "Leistungen"],
@@ -89,7 +94,6 @@ const structuredData = {
   <body>
     <a href="#main" class="skip-link">{translated.skip}</a>
     {siteConfig.temporary && <div class="preview-banner"><div class="container"><span><span class="preview-dot"></span><strong>{translated.preview}</strong><span class="preview-domain"> · kneba.vsp.rest</span></span><a href={siteConfig.officialOrigin}>{translated.official} <span aria-hidden="true">↗</span></a></div></div>}
-    <div class="site-language-bar"><nav class="container" aria-label={languageLabel}>{languages.map(item => <a data-language-switch href={item.url} lang={item.lang} hreflang={item.lang} aria-current={lang===item.lang?'true':undefined}>{item.lang.toUpperCase()}</a>)}</nav></div>
     <div class="topline">
       <div class="container">
         <span
@@ -124,6 +128,21 @@ const structuredData = {
           >{translated.quote} <Icon size={17} /></a
         >
         <a class="account-link" href={`${localPath("/assistent/")}?lang=${lang}`}>{translated.account} ↗</a>
+        <details class="site-language-switcher">
+          <summary aria-label={`${languageLabel}: ${languageNames[lang]}`}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3c2.6 2.7 4.1 5.8 4.1 9S14.6 18.3 12 21M12 3C9.4 5.7 7.9 8.9 7.9 12S9.4 18.3 12 21" />
+            </svg>
+            <span class="language-trigger-code">{lang.toUpperCase()}</span>
+            <span class="language-chevron" aria-hidden="true"></span>
+          </summary>
+          <nav class="site-language-options" aria-label={languageLabel}>
+            {languages.map(item => <a data-language-switch href={item.url} lang={item.lang} hreflang={item.lang} aria-current={lang===item.lang?'page':undefined}>
+              <span>{languageNames[item.lang]}</span><span class="site-language-code" aria-hidden="true">{item.lang.toUpperCase()}</span>
+            </a>)}
+          </nav>
+        </details>
         <details class="mobile-nav">
           <summary aria-label={translated.menu}
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
@@ -166,13 +185,21 @@ const structuredData = {
       </div>
       {siteConfig.temporary && <div class="container preview-footer"><span class="preview-dot"></span><p>{translated.retire} <a href={siteConfig.officialOrigin}>knaba.de ↗</a></p></div>}
       <div class="container footer-bottom">
-        <nav class="language-nav" aria-label={languageLabel}>{languages.map(item => <a data-language-switch href={item.url} lang={item.lang} hreflang={item.lang} aria-current={lang===item.lang?'true':undefined}>{item.lang.toUpperCase()}</a>)}</nav>
         <span>© {new Date().getFullYear()} KnaBa</span><div>
           <a href={localPath("/impressum/")}>{translated.imprint}</a><a href={localPath("/datenschutz/")}
             >{translated.privacy}</a>
         </div>
       </div>
     </footer>
+    {showFloatingAssistant && <details class="knaba-floating-assistant">
+      <summary aria-label={floatingAssistantLabel} aria-controls="knaba-floating-panel">
+        <span aria-hidden="true" class="knaba-floating-mark">✳</span>
+        <span>{floatingAssistantLabel}</span>
+      </summary>
+      <div class="knaba-floating-panel" id="knaba-floating-panel">
+        <PublicAssistant locale={lang} client:visible />
+      </div>
+    </details>}
     <script>
       import { services } from '../data/company';
       function preserveServiceSelection() {
@@ -189,21 +216,21 @@ const structuredData = {
       preserveServiceSelection();
       document.addEventListener('astro:page-load', preserveServiceSelection);
 
+      const disclosures = ".mobile-nav, .site-language-switcher, .knaba-floating-assistant";
       document.addEventListener("keydown", (event) => {
-        const menu = document.querySelector<HTMLDetailsElement>(".mobile-nav");
-        if (event.key === "Escape" && menu?.open) {
+        if (event.key !== "Escape") return;
+        document.querySelectorAll<HTMLDetailsElement>(disclosures).forEach((menu) => {
+          if (!menu.open) return;
           menu.open = false;
           menu.querySelector("summary")?.focus();
-        }
+        });
       });
       document.addEventListener("click", (event) => {
-        const menu = document.querySelector<HTMLDetailsElement>(".mobile-nav");
-        if (
-          menu?.open &&
-          event.target instanceof Node &&
-          !menu.contains(event.target)
-        )
-          menu.open = false;
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        document.querySelectorAll<HTMLDetailsElement>(disclosures).forEach((menu) => {
+          if (menu.open && !menu.contains(target)) menu.open = false;
+        });
       });
     </script>
   </body>
