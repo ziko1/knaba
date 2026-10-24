@@ -103,6 +103,12 @@ for (const file of russianPages) {
     assert.ok(german.includes(`hreflang="ru" href="${origin}${route}"`), `${route}: reciprocal alternate`);
   }
 }
+const studioHtml=await readFile(resolve(root,'editor/index.html'),'utf8');
+assert.match(studioHtml, /<meta name="robots" content="noindex, follow"/);
+assert.match(studioHtml, /KNABA Studio|KnaBa Studio/);
+assert.match(studioHtml, /id="cms-workspace"/);
+assert.match(studioHtml, /id="cms-crm-area"/);
+assert.match(studioHtml, /id="cms-ops-area"/);
 const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'), 'utf8'));
 assert.equal(catalogue.version, 1);
 const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
@@ -118,7 +124,7 @@ if(!official) assert.match(headers,/X-Robots-Tag: noindex, follow/);
 // Cloudflare Assets must forward every dynamic API family to the Worker.
 // Without this rule, a statically valid UI still returns 404 for new chats.
 const workerConfig=JSON.parse(await readFile(resolve('dist/server/wrangler.json'),'utf8'));
-for(const path of ['/api/leads','/api/portal/*','/api/assistant/*'])
+for(const path of ['/api/leads','/api/portal/*','/api/assistant/*','/api/editor/*','/api/crm/*','/editor/*'])
   assert.ok(workerConfig.assets?.run_worker_first?.includes(path),`Worker routing missing: ${path}`);
 const report = {
   scope: "production-build-static-validation",

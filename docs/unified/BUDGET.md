@@ -11,3 +11,12 @@
 | VPS | Вже наявний; нові сервіси не створювати | ~24 GiB free / 88% used 2026-10-24 | Targeted worktree, очищення лише після перевірки власності і rollback |
 
 Перед кожним платним provider call: підтвердити авторизацію, data boundaries, ціну, fresh quota і зарезервувати верхню оцінку в budget ledger; при невідомому списанні звірити usage/billing. Free fallback лише з підтвердженим правом і квотою, без silently enabled services.
+
+
+## KNABA CMS/CRM checkpoint — 2026-10-24
+
+Нові платні сервіси не активовано. Власні витрати VPS та провайдерна квота
+невідомі. Використано вже встановлений Node24, ті самі залежності за
+ідентичним package-lock SHA256, тести на окремому /tmp checkout.
+Актуальніший df -h / на VPS: 197G size, 173G used, 14G available (93%).
+Не виконували платні AI/WhatsApp calls, production D1/Postgres migrations.

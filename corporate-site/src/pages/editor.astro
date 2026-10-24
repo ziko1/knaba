@@ -1,0 +1,280 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CrmConsole from '../components/CrmConsole.tsx';
+import Portal from '../components/Portal.tsx';
+import '../styles/editor.css';
+---
+<Layout noindex={true} title="KNABA Studio | CMS, CRM & Verwaltung" description="Geschützte Website-, Kunden- und Auftragsverwaltung für freigegebene KnaBa Administratoren.">
+  <section class="cms-studio" aria-labelledby="cms-title">
+    <div class="cms-heading container">
+      <div><p class="eyebrow">KNABA STUDIO · ZENTRALE</p><h1 id="cms-title">Die Website und Kunden an einem Ort verwalten.</h1>
+        <p>Inhalte bearbeiten, Kontakte pflegen und bestehende Aufträge verwalten — mit klar getrennten Berechtigungen.</p></div>
+      <a href="/portal/" class="button button-outline" data-astro-reload>← Zum Verwaltungsportal</a>
+    </div>
+    <div id="cms-unauthorized" class="cms-message container" role="status">Administratorzugang wird geprüft …</div>
+    <nav id="knaba-studio-tabs" class="cms-studio-tabs container" aria-label="KNABA Studio Bereiche" hidden>
+      <button id="cms-tab-editor" type="button" aria-pressed="true">✎ Website · CMS</button>
+      <button id="cms-tab-crm" type="button" aria-pressed="false">◎ Kontakte · CRM</button>
+      <button id="cms-tab-operations" type="button" aria-pressed="false">▤ Aufträge & Team</button>
+    </nav>
+    <div id="cms-workspace" class="cms-workspace" hidden>
+      <aside class="cms-panel" aria-label="Editor-Steuerung">
+        <div class="cms-panel-heading"><span class="cms-indicator"></span><strong>Inhalte</strong><span id="cms-version" class="cms-version">Entwurf</span></div>
+        <label for="cms-suggestions">Seite wählen</label>
+        <select id="cms-suggestions">
+          <option value="/">Startseite · DE</option>
+          <option value="/ru/">Startseite · RU</option>
+          <option value="/en/">Homepage · EN</option>
+          <option value="/uk/">Головна · UK</option>
+          <option value="/leistungen/">Leistungen</option>
+          <option value="/unternehmen/">Unternehmen</option>
+          <option value="/berlin/">Berlin</option>
+          <option value="/branchen/">Branchen</option>
+          <option value="/kontakt/">Kontakt</option>
+          <option value="/ru/leistungen/">Услуги · RU</option>
+          <option value="/ru/unternehmen/">О компании · RU</option>
+          <option value="/ru/kontakt/">Контакты · RU</option>
+        </select>
+        <label for="cms-route">Oder URL-Pfad eingeben</label>
+        <div class="cms-route-row"><input id="cms-route" spellcheck="false" value="/" maxlength="128" placeholder="/leistungen/bueroreinigung/" /><button id="cms-open" type="button" class="cms-icon-button" aria-label="Seite öffnen">↗</button></div>
+        <div class="cms-panel-section"><p class="cms-small-heading">Ausgewählter Text</p>
+          <p id="cms-selection-hint" class="cms-hint">Klicken Sie in der Vorschau auf eine bearbeitbare Überschrift oder einen Absatz.</p>
+          <label for="cms-text">Text bearbeiten</label>
+          <textarea id="cms-text" rows="6" maxlength="1400" disabled placeholder="Text auf der Seite auswählen …"></textarea>
+          <small id="cms-text-count">0 / 1400 Zeichen</small>
+        </div>
+        <div class="cms-panel-section cms-actions">
+          <button id="cms-save" type="button" class="button button-dark" disabled>Entwurf speichern</button>
+          <button id="cms-publish" type="button" class="button button-outline" disabled>Veröffentlichen</button>
+          <button id="cms-reset" type="button" class="cms-secondary" disabled>Änderungen verwerfen</button>
+          <p id="cms-state" class="cms-state" role="status" aria-live="polite">Noch nicht geladen.</p>
+        </div>
+        <div class="cms-panel-section">
+          <label for="cms-history">Veröffentlichte Version wiederherstellen</label>
+          <select id="cms-history"><option value="">Version auswählen</option></select>
+          <button id="cms-restore" type="button" class="cms-secondary" disabled>Als Entwurf wiederherstellen</button>
+          <p class="cms-hint">Eine Wiederherstellung ändert die Live-Seite erst nach erneutem Veröffentlichen.</p>
+        </div>
+        <p class="cms-legal-note">Nur Text ohne HTML. Keine Formulare, Login-/Portal-Seiten oder Rechtstexte. Titel, Metadaten und strukturierte SEO-Daten bleiben unverändert und müssen vor dem offiziellen Release separat geprüft werden.</p>
+      </aside>
+      <div class="cms-preview-column">
+        <div class="cms-preview-toolbar">
+          <div><span class="cms-preview-dot"></span><strong>Live-Vorschau</strong><span id="cms-page-label">/</span></div>
+          <div class="cms-view-switch" role="group" aria-label="Vorschaugröße">
+            <button id="cms-desktop" type="button" aria-pressed="true">Desktop</button>
+            <button id="cms-mobile" type="button" aria-pressed="false">Mobil</button>
+          </div>
+        </div>
+        <div id="cms-preview-stage" class="cms-preview-stage">
+          <iframe id="cms-iframe" title="Bearbeitbare Vorschau Ihrer KnaBa-Website" loading="eager" referrerpolicy="same-origin"></iframe>
+        </div>
+        <p class="cms-preview-caption">Die Vorschau ist nur für freigegebene Administratoren sichtbar. Grün umrandete Textstellen können bearbeitet werden.</p>
+      </div>
+    </div>
+    <div id="cms-crm-area" class="container cms-linked-panel" hidden><CrmConsole client:load /></div>
+    <div id="cms-ops-area" class="container cms-linked-panel" hidden><Portal client:load /></div>
+  </section>
+</Layout>
+<script>
+  import { isCmsPage, isCmsBlockKey, CMS_MAX_TEXT, type CmsBlocks } from '../lib/editor-contract';
+
+  interface DocumentState {
+    path:string; version:number; publishedVersion:number; draft:CmsBlocks; published:CmsBlocks;
+    history:Array<{version:number;kind:string;createdAt:string}>;
+  }
+  interface ApiSession { role:string }
+  const byId = <T extends HTMLElement>(id:string) => document.getElementById(id) as T;
+  const workspace=byId<HTMLElement>('cms-workspace');
+  const banner=byId<HTMLElement>('cms-unauthorized');
+  const frame=byId<HTMLIFrameElement>('cms-iframe');
+  const previewStage=byId<HTMLElement>('cms-preview-stage');
+  const route=byId<HTMLInputElement>('cms-route');
+  const suggestions=byId<HTMLSelectElement>('cms-suggestions');
+  const textArea=byId<HTMLTextAreaElement>('cms-text');
+  const history=byId<HTMLSelectElement>('cms-history');
+  const saveBtn=byId<HTMLButtonElement>('cms-save');
+  const publishBtn=byId<HTMLButtonElement>('cms-publish');
+  const resetBtn=byId<HTMLButtonElement>('cms-reset');
+  const restoreBtn=byId<HTMLButtonElement>('cms-restore');
+  let active:DocumentState|null=null;
+  let blocks:CmsBlocks={};
+  let selected:HTMLElement|null=null;
+  let selectedKey='';
+  let dirty=false;
+  let busy=false;
+  let loadSequence=0;
+  const message=(value:string,error=false) => { const el=byId<HTMLElement>('cms-state');el.textContent=value;el.classList.toggle('cms-error',error); };
+  const report=(value:string) => {banner.textContent=value;banner.hidden=false;};
+  function updateButtons() {
+    saveBtn.disabled=busy || !active || !dirty;
+    publishBtn.disabled=busy || !active || dirty || active.version===0 ||
+      JSON.stringify(active.draft)===JSON.stringify(active.published);
+    resetBtn.disabled=busy || !dirty;
+    restoreBtn.disabled=busy || !active || !history.value;
+    textArea.disabled=busy || !selected;
+    byId<HTMLElement>('cms-version').textContent=active?'v'+active.version+' · online v'+active.publishedVersion:'Entwurf';
+  }
+  async function api<T>(path:string, method='GET',body?:unknown):Promise<T> {
+    const ctrl=new AbortController(),timeout=setTimeout(()=>ctrl.abort(),15000);
+    try {
+      const res=await fetch(path,{method,credentials:'same-origin',cache:'no-store',
+        headers:body===undefined?{'Accept':'application/json'}:{'Accept':'application/json','Content-Type':'application/json','X-KnaBa-Request':'portal-v1'},
+        body:body===undefined?undefined:JSON.stringify(body),signal:ctrl.signal});
+      if(!res.ok){
+        const value=await res.json().catch(()=>({})) as {error?:{message?:string}};
+        throw Error(value.error?.message || 'HTTP '+res.status);
+      }
+      return await res.json() as T;
+    } finally {clearTimeout(timeout);}
+  }
+  function applyText(value:string) {
+    if(!selected || !selectedKey)return;
+    if(value.length>CMS_MAX_TEXT || /[<>\u0000-\u001f\u007f]/.test(value)){
+      message('Nur Klartext mit maximal 1400 Zeichen, ohne HTML.',true);return;
+    }
+    selected.textContent=value;
+    blocks[selectedKey]=value;
+    dirty=true;
+    updateButtons();
+  }
+  function choose(el:HTMLElement) {
+    if(selected){selected.removeAttribute('contenteditable');selected.classList.remove('cms-selected');}
+    selected=el;selectedKey=el.dataset.knabaCms || '';
+    el.classList.add('cms-selected');
+    el.setAttribute('contenteditable','plaintext-only');
+    el.focus();
+    textArea.value=el.textContent || '';
+    byId<HTMLElement>('cms-selection-hint').textContent='Block '+selectedKey+' · Text direkt auf der Seite oder im Eingabefeld ändern';
+    byId<HTMLElement>('cms-text-count').textContent=String(textArea.value.length)+' / '+CMS_MAX_TEXT+' Zeichen';
+    updateButtons();
+  }
+  function attachFrame() {
+    let doc:Document;
+    try{doc=frame.contentDocument!;if(!doc?.body)throw Error('frame');}
+    catch{message('Vorschau nicht verfügbar: Sitzung oder Origin prüfen.',true);return;}
+    const style=doc.createElement('style');
+    style.textContent='[data-knaba-cms].cms-editable:hover{outline:2px dashed #3d9c79;outline-offset:3px;cursor:text}[data-knaba-cms].cms-selected{outline:3px solid #178d6f;outline-offset:3px;background:rgba(216,247,121,.18)}';
+    doc.head.appendChild(style);
+    // Preview is for editing copy, never for submitting customer forms or leaving the studio.
+    doc.addEventListener('submit',e=>e.preventDefault(),true);
+    doc.addEventListener('click',e=>{
+      const target=e.target;
+      if(target instanceof Element && target.closest('a,button,input,select,textarea,[role="button"]')){
+        e.preventDefault();e.stopPropagation();
+      }
+    },true);
+    let count=0;
+    doc.querySelectorAll<HTMLElement>('[data-knaba-cms]').forEach(el=>{
+      const key=el.dataset.knabaCms || '';
+      if(!isCmsBlockKey(key) || el.children.length || el.closest('form, noscript, [aria-hidden="true"], [data-cms-locked]'))return;
+      el.classList.add('cms-editable');count++;
+      el.addEventListener('click',(e)=>{e.preventDefault();e.stopPropagation();choose(el);});
+      el.addEventListener('input',()=>{
+        const value=el.textContent || '';
+        textArea.value=value;
+        byId<HTMLElement>('cms-text-count').textContent=value.length+' / '+CMS_MAX_TEXT+' Zeichen';
+        if(value.length<=CMS_MAX_TEXT && !/[<>\u0000-\u001f\u007f]/.test(value)) {blocks[key]=value;dirty=true;updateButtons();}
+        else message('Text ist ungültig: bitte kürzen und HTML entfernen.',true);
+      });
+      el.addEventListener('paste',(e)=>{
+        e.preventDefault();
+        const text=e.clipboardData?.getData('text/plain') || '';
+        const selection=doc.getSelection();
+        if(!selection?.rangeCount) return;
+        const r=selection.getRangeAt(0);
+        r.deleteContents();r.insertNode(doc.createTextNode(text));r.collapse(false);
+        selection.removeAllRanges();selection.addRange(r);
+        el.dispatchEvent(new Event('input',{bubbles:true}));
+      });
+      el.addEventListener('drop',e=>e.preventDefault());
+    });
+    message(count+' Textblöcke gefunden. Wählen Sie einen aus.');
+  }
+  function drawHistory() {
+    history.replaceChildren(new Option('Version auswählen',''));
+    for(const event of active?.history || []) if(event.kind==='publish') {
+      history.add(new Option('v'+event.version+' · '+new Date(event.createdAt).toLocaleString('de-DE'),String(event.version)));
+    }
+  }
+  async function load(path:string,skipConfirm=false) {
+    if(!isCmsPage(path)){message('Diese URL ist gesperrt oder ungültig.',true);return;}
+    if(!skipConfirm && dirty && !confirm('Nicht gespeicherte Änderungen verwerfen?'))return;
+    const seq=++loadSequence;
+    busy=true;updateButtons();message('Seite laden …');
+    try{
+      const state=await api<DocumentState>('/api/editor/page?path='+encodeURIComponent(path));
+      if(seq!==loadSequence)return;
+      active=state;blocks={...state.draft};dirty=false;selected=null;selectedKey='';
+      textArea.value='';byId<HTMLElement>('cms-selection-hint').textContent='Text in der Vorschau anklicken.';
+      route.value=path;byId<HTMLElement>('cms-page-label').textContent=path;
+      drawHistory();
+      frame.src=path+'?cms-preview=1';
+      message('Entwurf geladen. Vorschau wird geöffnet …');
+    }catch(e){message(e instanceof Error?e.message:'Seite kann nicht geladen werden.',true);}
+    finally{busy=false;updateButtons();}
+  }
+  async function submit(kind:'save'|'publish'|'restore') {
+    if(!active||busy)return;
+    if(kind==='publish' && dirty){message('Zuerst Entwurf speichern.',true);return;}
+    if(kind==='save' && Object.values(blocks).some(v=>v.length>CMS_MAX_TEXT || /[<>\u0000-\u001f\u007f]/.test(v))){
+      message('Bitte den Text korrigieren.',true);return;
+    }
+    if(kind==='publish' && !confirm('Veröffentlichung sofort für Websitebesucher sichtbar machen?'))return;
+    if(kind==='restore' && !confirm('Alte Veröffentlichung als neuen Entwurf laden?'))return;
+    busy=true;updateButtons();message('Änderung wird gesichert …');
+    try{
+      const payload=kind==='save'?{path:active.path,version:active.version,blocks}:
+        kind==='publish'?{path:active.path,version:active.version}:
+        {path:active.path,version:active.version,revision:Number(history.value)};
+      const endpoint=kind==='save'?'/api/editor/draft':kind==='publish'?'/api/editor/publish':'/api/editor/restore';
+      const next=await api<DocumentState>(endpoint,kind==='save'?'PUT':'POST',payload);
+      active=next;blocks={...next.draft};dirty=false;selected=null;selectedKey='';
+      drawHistory();frame.src=active.path+'?cms-preview=1';
+      message(kind==='save'?'Entwurf gespeichert.':kind==='publish'?'Veröffentlicht.':'Version als Entwurf wiederhergestellt.');
+    }catch(e){message((e instanceof Error?e.message:'Fehler')+'. Bitte gegebenenfalls neu laden.',true);}
+    finally{busy=false;updateButtons();}
+  }
+  frame.addEventListener('load',attachFrame);
+  textArea.addEventListener('input',()=>{applyText(textArea.value);byId<HTMLElement>('cms-text-count').textContent=textArea.value.length+' / '+CMS_MAX_TEXT+' Zeichen';});
+  suggestions.addEventListener('change',()=>{route.value=suggestions.value;void load(suggestions.value);});
+  byId<HTMLButtonElement>('cms-open').addEventListener('click',()=>void load(route.value.trim()));
+  route.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();void load(route.value.trim());}});
+  saveBtn.addEventListener('click',()=>void submit('save'));
+  publishBtn.addEventListener('click',()=>void submit('publish'));
+  restoreBtn.addEventListener('click',()=>void submit('restore'));
+  history.addEventListener('change',updateButtons);
+  resetBtn.addEventListener('click',()=>{if(active)void load(active.path);});
+  byId<HTMLButtonElement>('cms-desktop').addEventListener('click',()=>{
+    previewStage.classList.remove('cms-mobile');byId<HTMLButtonElement>('cms-desktop').setAttribute('aria-pressed','true');
+    byId<HTMLButtonElement>('cms-mobile').setAttribute('aria-pressed','false');
+  });
+  byId<HTMLButtonElement>('cms-mobile').addEventListener('click',()=>{
+    previewStage.classList.add('cms-mobile');byId<HTMLButtonElement>('cms-mobile').setAttribute('aria-pressed','true');
+    byId<HTMLButtonElement>('cms-desktop').setAttribute('aria-pressed','false');
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&selected){selected.removeAttribute('contenteditable');selected.classList.remove('cms-selected');selected=null;selectedKey='';updateButtons();}});
+  type StudioTab='editor'|'crm'|'operations';
+  function showStudioTab(value:StudioTab) {
+    workspace.hidden=value!=='editor';
+    byId<HTMLElement>('cms-crm-area').hidden=value!=='crm';
+    byId<HTMLElement>('cms-ops-area').hidden=value!=='operations';
+    for(const tab of ['editor','crm','operations'] as StudioTab[]) {
+      byId<HTMLButtonElement>('cms-tab-'+tab).setAttribute('aria-pressed',String(tab===value));
+    }
+  }
+  for(const tab of ['editor','crm','operations'] as StudioTab[]) {
+    byId<HTMLButtonElement>('cms-tab-'+tab).addEventListener('click',()=>{
+      if(tab!=='editor' && dirty && !confirm('Nicht gespeicherte CMS-Änderungen verwerfen?')) return;
+      showStudioTab(tab);
+    });
+  }
+  async function start() {
+    try{
+      const s=await api<ApiSession>('/api/portal/session');
+      if(s.role!=='owner'&&s.role!=='admin'){report('Kein Zugriff. Melden Sie sich mit einem freigegebenen Administrator-Konto im Portal an.');return;}
+      banner.hidden=true;byId<HTMLElement>('knaba-studio-tabs').hidden=false;
+      showStudioTab('editor');await load('/');
+    }catch{report('Authentifizierung derzeit nicht verfügbar. Bitte später erneut versuchen.');}
+  }
+  void start();
+</script>

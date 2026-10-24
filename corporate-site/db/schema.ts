@@ -47,3 +47,44 @@ export const assistantMessages=sqliteTable('assistant_messages',{
   createdAt:text('created_at').notNull(),
   lastMutation:text('last_mutation').notNull(),
 },t=>[uniqueIndex('assistant_message_dedupe').on(t.threadId,t.author,t.idempotencyKey),index('assistant_message_thread').on(t.threadId)]);
+
+/** Text-only marketing copy. ERP data and legal pages are out of scope. */
+export const cmsPages = sqliteTable("cms_pages", {
+  path: text("path").primaryKey(),
+  draftJson: text("draft_json").notNull().default("{}"),
+  publishedJson: text("published_json").notNull().default("{}"),
+  version: integer("version").notNull().default(1),
+  publishedVersion: integer("published_version").notNull().default(0),
+  updatedBy: text("updated_by").notNull(),
+  updatedAt: text("updated_at").notNull(),
+});
+export const cmsHistory = sqliteTable("cms_history", {
+  id: text("id").primaryKey(),
+  path: text("path").notNull().references(() => cmsPages.path),
+  version: integer("version").notNull(),
+  kind: text("kind").notNull(),
+  snapshotJson: text("snapshot_json").notNull(),
+  actorId: text("actor_id").notNull(),
+  createdAt: text("created_at").notNull(),
+}, (t) => [uniqueIndex("cms_history_path_version").on(t.path, t.version), index("cms_history_path").on(t.path)]);
+
+
+/** Operational request state remains in ERP/cleaning_requests; CRM stores only presentation and follow-up. */
+export const crmContactState=sqliteTable('crm_contact_state',{
+  contactKey:text('contact_key').primaryKey(),
+  stage:text('stage').notNull().default('new'),
+  tagsJson:text('tags_json').notNull().default('[]'),
+  version:integer('version').notNull().default(1),
+  updatedBy:text('updated_by').notNull(),
+  updatedAt:text('updated_at').notNull(),
+  lastMutation:text('last_mutation').notNull(),
+});
+export const crmContactNotes=sqliteTable('crm_contact_notes',{
+  id:text('id').primaryKey(),
+  contactKey:text('contact_key').notNull(),
+  body:text('body').notNull(),
+  actorId:text('actor_id').notNull(),
+  idempotencyKey:text('idempotency_key').notNull(),
+  createdAt:text('created_at').notNull(),
+},t=>[uniqueIndex('crm_note_idempotency').on(t.contactKey,t.actorId,t.idempotencyKey),
+      index('crm_note_contact_recent').on(t.contactKey,t.createdAt)]);

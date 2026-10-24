@@ -18,7 +18,7 @@ test('build verifier emits an inspectable artifact without rewriting tracked his
     const path=join(fixture,'dist/evidence/build-verification.json');
     assert.ok(existsSync(path),'a build-specific verification receipt must exist');
     const report=JSON.parse(readFileSync(path,'utf8'));
-    assert.equal(report.pages,51);
+    assert.equal(report.pages,52,'CMS studio adds one protected static route on top of 51 existing pages');
     assert.match(report.artifactSha256,/^[a-f\d]{64}$/);
   }finally{rmSync(fixture,{recursive:true,force:true});}
 });

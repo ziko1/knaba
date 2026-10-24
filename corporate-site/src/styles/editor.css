@@ -1,0 +1,58 @@
+.cms-studio{background:#f3f6f1;min-height:80vh;padding-bottom:56px}
+.cms-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-top:38px;padding-bottom:30px}
+.cms-heading h1{font-size:clamp(2rem,3vw,3.25rem);letter-spacing:-.055em;margin:.45rem 0 1rem}
+.cms-heading p:last-child{margin:0;max-width:700px}
+.cms-heading .button{white-space:nowrap}
+.cms-message{padding:30px;border:1px solid #d6e5dc;border-radius:18px;background:white;margin-bottom:48px}
+.cms-workspace{width:min(1600px,calc(100% - 48px));margin:0 auto;display:grid;grid-template-columns:minmax(270px,344px) minmax(0,1fr);gap:18px;align-items:start}
+.cms-workspace[hidden],.cms-message[hidden]{display:none}
+.cms-panel,.cms-preview-column{background:white;border:1px solid #d8e3dc;box-shadow:0 16px 48px rgba(10,40,35,.05);border-radius:20px;overflow:hidden}
+.cms-panel{padding:24px;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-color:#bdcec7 transparent}
+.cms-panel-heading{display:flex;align-items:center;gap:10px;padding-bottom:26px}
+.cms-indicator,.cms-preview-dot{height:10px;width:10px;background:#59a78d;border-radius:50%;box-shadow:0 0 0 5px #e5f6ec}
+.cms-panel-heading strong{font-size:18px;letter-spacing:-.02em}
+.cms-version{margin-left:auto;color:#62776f;font:500 11px/1.3 ui-monospace,monospace}
+.cms-panel label{display:block;font-weight:700;font-size:12px;margin:0 0 9px;color:#29443e}
+.cms-panel select,.cms-panel input,.cms-panel textarea{display:block;width:100%;border:1px solid #cbd9d2;border-radius:11px;background:#f9fbf8;color:#17382f;padding:12px 13px;min-height:46px;outline-offset:3px;margin-bottom:18px}
+.cms-panel textarea{min-height:138px;line-height:1.55;resize:vertical;white-space:pre-wrap}
+.cms-panel input:focus,.cms-panel textarea:focus,.cms-panel select:focus{border-color:#397c60;outline:2px solid #b0d8c1}
+.cms-route-row{display:flex;gap:8px}
+.cms-route-row input{min-width:0;flex:1}
+.cms-icon-button{align-self:start;border-radius:12px;background:#163e39;color:white;border:0;width:48px;height:46px;font-size:24px;font-weight:700}
+.cms-panel-section{border-top:1px solid #e6eeea;margin-top:10px;padding-top:21px}
+.cms-small-heading{color:#1d4336;font-size:12px;text-transform:uppercase;font-weight:800;letter-spacing:.09em;margin-bottom:9px}
+.cms-hint{color:#617670;font-size:12px;line-height:1.6}
+.cms-panel small{display:block;text-align:right;margin:-8px 0 16px;font-size:11px;color:#627770}
+.cms-panel textarea:disabled{opacity:.7}
+.cms-actions{display:flex;flex-direction:column;gap:9px}
+.cms-actions>.button{display:block;width:100%;min-height:46px;text-align:center}
+.cms-actions .button:disabled,.cms-panel button:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(.15)}
+.cms-secondary{background:transparent;border:1px solid #cbd8d1;padding:9px 12px;border-radius:9px;color:#315b4e;font-weight:650;text-align:center}
+.cms-state{margin:8px 0 0;font-size:12px;color:#276b57;line-height:1.55}
+.cms-state.cms-error{color:#ab3e3a}
+.cms-legal-note{font-size:11px;line-height:1.7;color:#61736a;background:#f6f8f4;border-radius:12px;padding:12px;margin:24px 0 0}
+.cms-preview-column{min-width:0}
+.cms-preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 22px;background:#fefefd;border-bottom:1px solid #e8eeea}
+.cms-preview-toolbar>div:first-child{display:flex;align-items:center;gap:14px;min-width:0}
+.cms-preview-toolbar strong{font-size:13px;white-space:nowrap}
+#cms-page-label{font:12px ui-monospace,monospace;color:#667e73;max-width:290px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cms-view-switch{display:flex;gap:4px;padding:3px;border-radius:11px;background:#edf3ef}
+.cms-view-switch button{font-size:12px;padding:8px 13px;border:0;border-radius:8px;background:transparent;color:#465f53}
+.cms-view-switch [aria-pressed=true]{background:white;color:#1a4034;box-shadow:0 2px 7px rgba(13,64,45,.12)}
+.cms-preview-stage{display:flex;justify-content:center;padding:22px;min-height:620px;background:repeating-linear-gradient(45deg,#f0f3ef,#f0f3ef 13px,#f6f8f6 13px,#f6f8f6 26px)}
+#cms-iframe{width:100%;height:720px;max-width:100%;border:1px solid #c9d6cd;background:white;border-radius:10px;box-shadow:0 14px 36px rgba(22,57,37,.12)}
+.cms-mobile #cms-iframe{width:390px;max-width:100%;border-radius:25px}
+.cms-preview-caption{margin:0;padding:0 22px 18px;color:#657e70;font-size:12px}
+@media(max-width:980px){.cms-workspace{grid-template-columns:1fr}.cms-panel{position:static;max-height:none}.cms-preview-stage{min-height:480px}.cms-heading{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.cms-heading{padding-top:24px}.cms-heading h1{font-size:2rem}.cms-workspace{width:calc(100% - 24px)}.cms-panel{padding:18px}.cms-preview-toolbar{flex-wrap:wrap;padding:13px}.cms-preview-stage{padding:10px}.cms-preview-caption{padding:8px 12px 15px}#cms-iframe{height:640px}}
+@media(prefers-reduced-motion:reduce){.cms-studio *, .cms-studio *::before, .cms-studio *::after{transition:none!important;scroll-behavior:auto!important}}
+
+/* KNABA Studio unified navigation; hidden panels must remain hidden even when CSS layout declares display. */
+.cms-studio-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:1rem auto 1.6rem}
+.cms-studio-tabs[hidden],.cms-linked-panel[hidden],.cms-workspace[hidden]{display:none!important}
+.cms-studio-tabs button{appearance:none;background:#f2f6f1;border:1px solid #c7d9c8;border-radius:13px;
+ padding:12px 18px;font:inherit;font-weight:700;color:#305344;cursor:pointer;transition:background .15s ease}
+.cms-studio-tabs button[aria-pressed="true"]{background:#184c3b;color:#fff;border-color:#184c3b}
+.cms-studio-tabs button:focus-visible{outline:3px solid #8ee4ab;outline-offset:3px}
+.cms-linked-panel{padding-bottom:4rem}
+@media(max-width:600px){.cms-studio-tabs button{flex:1 1 auto;font-size:13px;padding:12px 10px}}

@@ -36,3 +36,13 @@ Root script `npm run audit:release` fails until each mandatory release gate is i
 
 ## Local G3 increment (2026-10-24)
 Source implementation of anonymous owner conversation (KN-U03/KN-U04) is locally testable with additive D1 SQLite schema, UI and owner portal. This is **implementation candidate only**; G3 remains NOT_ACCEPTED until real provider authenticated owner + visitor UAT, privacy/retention, device/UX and independent review. No D1-to-ERP bridge or notification transports. Tracked in `KNABA_ASSISTANT_IMPLEMENTATION_2026-10-24.md`.
+
+
+## KNABA Studio source-only candidate (2026-10-24)
+
+G2/G7 incremental: CMS text-only preview/publish/history + CRM із чинних
+D1 leads та єдиний portal у /editor/. Збережено AI-переписку й ERP source.
+G4 D1->Postgres scoped contract лишається P0. G8 security/provider identity,
+GDPR, DB backup/restore, UI device/performance і незалежний review НЕ
+закриті. G9 owner UAT і G10 production release НЕ виконано.
+Acceptance ledger: corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md.

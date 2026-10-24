@@ -1,4 +1,6 @@
 import { handleAssistantApi } from './assistant-threads';
+import { handleCmsApi } from './editor';
+import { handleCrmApi } from './crm';
 import type { ApprovedRole, ChecklistItem, CleaningRequest, PortalDashboard, PortalProfile, PortalRole, PortalSession, RequestStatus } from '../src/lib/portal-contract';
 import { approvedRoles, checklistItems, requestStatuses } from '../src/lib/portal-contract';
 import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
@@ -40,7 +42,7 @@ function requestView(row: Row,role: PortalRole): CleaningRequest {
   if (role === 'worker') { result.customerFeedback=''; result.adminReply=''; result.clientId=null; }
   return result;
 }
-async function session(request: Request,env: WorkerEnv): Promise<PortalSession> {
+export async function session(request: Request,env: WorkerEnv): Promise<PortalSession> {
   const userId=request.headers.get('oai-authenticated-user-id');
   const email=request.headers.get('oai-authenticated-user-email');
   if (!userId || !email) return {user:null,profile:null,role:'anonymous'};
@@ -250,6 +252,8 @@ export async function handleApi(request: Request,env: WorkerEnv): Promise<Respon
     if(path==='/api/leads'&&request.method==='POST')return await createRequest(request,env,null);
     if(path.startsWith('/api/assistant/'))return await handleAssistantApi(request,await session(request,env),{db:dbFor(env),readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit),response,fail});
     const s=await session(request,env);
+    if(path.startsWith('/api/editor/')) return handleCmsApi(request,env,s);
+    if(path.startsWith('/api/crm/')) return handleCrmApi(request,env,s,{readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit)});
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);
     if(path==='/api/portal/dashboard'&&request.method==='GET')return await dashboard(env,s);
