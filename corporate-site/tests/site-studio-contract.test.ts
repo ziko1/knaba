@@ -12,7 +12,7 @@ describe('KNABA Site Studio input and publication rules', () => {
     expect(normalizeStudioPage('/ru/leistungen/fensterreinigung/')).toBe('/ru/leistungen/fensterreinigung/');
     expect(normalizeStudioPage('/ratgeber/')).toBe('/ratgeber/');
   });
-  it.each(['/api/studio/published','/studio/','/ru/konto/','/postfach/','//evil/','/../','/%2f/','/en?to=1','/signout-with-chatgpt/','https://other.test/'])('rejects a protected/non-static page %s',page=>{
+  it.each(['/api/studio/published','/studio/','/ru/konto/','/postfach/','//evil/','/../','/%2f/','/en?to=1','/logout/','https://other.test/'])('rejects a protected/non-static page %s',page=>{
     expect(()=>normalizeStudioPage(page)).toThrow(StudioInputError);
   });
   it('blocks selectors outside public content, injection and overlong nodes',()=>{

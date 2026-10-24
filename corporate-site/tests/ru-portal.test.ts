@@ -12,7 +12,7 @@ describe('Russian portal locale', () => {
       expect(value.trim(), key).not.toBe('');
       if (key !== 'timezone') expect(value, key).toMatch(/[А-Яа-яЁё]/);
     }
-    expect(portalMessages.ru.signIn).toBe('Войти через ChatGPT');
+    expect(portalMessages.ru.signIn).toBe('Войти в KnaBa');
     expect(portalMessages.ru.in_progress).toBe('В работе');
   });
 

@@ -57,7 +57,7 @@ for (const file of pages) {
   assert.doesNotMatch(html, /<(?:script|img)[^>]+src="https?:/);
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
     const path = url.split("?")[0].split("#")[0];
-    if (["/signin-with-chatgpt", "/signout-with-chatgpt"].includes(path)) continue;
+    if (["/login/", "/logout/"].includes(path)) continue;
     const target = resolve(
       root,
       `.${path.endsWith("/") ? path + "index.html" : path}`,
