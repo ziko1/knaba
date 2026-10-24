@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "scope": "LOCAL_ONLY_NOT_A_RELEASE",
+  "testedCodeSha": "d803f42cc5ac007181d0dc77fb1c9c3fa017d27b",
+  "corporateSiteTreeSha": "24da512923a3ac96558698c1d5903f1a70985f6f",
+  "erpTreeSha": "a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43",
+  "nodeVersion": "v24.21.0",
+  "tests": {
+    "vitest": {
+      "status": "PASS",
+      "passed": 76,
+      "failed": 0
+    },
+    "inquiryNode": {
+      "status": "PASS",
+      "passed": 8,
+      "failed": 0
+    },
+    "astroVueSvelteChecks": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0
+    },
+    "staticPages": {
+      "status": "PASS",
+      "count": 51,
+      "releaseMode": "TEMPORARY_NOINDEX"
+    },
+    "buildReportNonmutation": {
+      "status": "PASS",
+      "cases": 1
+    },
+    "releaseGate": {
+      "status": "BLOCKED",
+      "exitCode": 1,
+      "blockerCount": 25
+    }
+  },
+  "artifact": {
+    "source": "dist/client static emission",
+    "sha256": "7143b6c18874a5d9b957e2d168ab7c0f160c4efd2e462173257882fc89ad3f79",
+    "reproducibleByteForByte": false,
+    "details": "Astro island uid generated values vary per build; hash applies only to the tested build bytes"
+  },
+  "localWrangler": {
+    "status": "PASS_LOCAL_SYNTHETIC_ONLY",
+    "storage": "isolated SQLite/D1",
+    "identity": "synthetic OWNER_EMAIL and identity headers, not provider UAT",
+    "guestCreate": 201,
+    "ownerInbox": 200,
+    "ownerReply": 201,
+    "guestReadsReply": 200,
+    "nonOwnerForbidden": 403
+  },
+  "externals": {
+    "realProviderIdentityAndHeaderSanitization": "NOT_RUN",
+    "realD1Staging": "NOT_RUN",
+    "realOwnerUAT": "NOT_RUN",
+    "physicalDevice": "NOT_RUN",
+    "legalRetentionAndErasure": "BLOCKED_EXTERNAL",
+    "emailWhatsappDelivery": "BLOCKED_EXTERNAL",
+    "erpPostgreSQLBridge": "NOT_IMPLEMENTED"
+  },
+  "productionApproval": false,
+  "merged": false,
+  "deployed": false
+}
