@@ -95,7 +95,7 @@ export function resolvePortalLocale(requested?: string | null, pageLocale?: Port
   return 'de';
 }
 export function portalReturnTo(locale: PortalLocale): string {
-  return locale === 'ru' ? '/ru/konto/' : `/konto/?lang=${locale}`;
+  return locale === 'ru' ? '/ru/portal/' : `/portal/?lang=${locale}`;
 }
 export function portalPublicPath(path: string, locale: PortalLocale): string {
   return locale === 'ru' ? `/ru${path}` : path;

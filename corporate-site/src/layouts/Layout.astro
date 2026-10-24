@@ -17,10 +17,10 @@ interface Props {
 const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs = [], alternates = [] } = Astro.props;
 const isNoindex = siteConfig.temporary || noindex;
 const translated = {
-  de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Ihr Reinigungspartner in Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Gepflegte Räume. Ein gutes Gefühl.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
-  en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Your cleaning partner in Berlin & Brandenburg',quote:'Request cleaning (DE)',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Clean spaces. A better feeling.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
-  uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Ваш партнер із прибирання у Берліні та Бранденбурзі',quote:'Замовити прибирання (DE)',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чисті приміщення. Приємні відчуття.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
-  ru: {skip:'Перейти к содержимому',preview:'Временный сайт',official:'Официальный сайт',region:'Ваш партнёр по уборке в Берлине и Бранденбурге',quote:'Запросить предложение',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистые помещения. Приятные ощущения.',privacy:'Конфиденциальность',imprint:'Юридическая информация',retire:'Временный сайт kneba.vsp.rest. Этот адрес может быть удалён после переноса на официальный сайт.'},
+  de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Ihr Reinigungspartner in Berlin & Brandenburg', quote:'Angebot anfragen', account:'KnaBa Assistent',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Gepflegte Räume. Ein gutes Gefühl.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
+  en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Your cleaning partner in Berlin & Brandenburg',quote:'Request cleaning (DE)',account:'KnaBa Assistant',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Clean spaces. A better feeling.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
+  uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Ваш партнер із прибирання у Берліні та Бранденбурзі',quote:'Замовити прибирання (DE)',account:'Помічник KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чисті приміщення. Приємні відчуття.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
+  ru: {skip:'Перейти к содержимому',preview:'Временный сайт',official:'Официальный сайт',region:'Ваш партнёр по уборке в Берлине и Бранденбурге',quote:'Запросить предложение',account:'Помощник KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистые помещения. Приятные ощущения.',privacy:'Конфиденциальность',imprint:'Юридическая информация',retire:'Временный сайт kneba.vsp.rest. Этот адрес может быть удалён после переноса на официальный сайт.'},
 }[lang];
 const footerLabels = {de:['Reinigungsplan erstellen','Unsere Leistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Cleaning planner (DE)','Our services (DE)','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa (DE)','Careers (DE)'],uk:['Планер прибирання (DE)','Наші послуги (DE)','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa (DE)','Робота (DE)'],ru:['Составить план уборки','Наши услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
@@ -123,13 +123,13 @@ const structuredData = {
         <a class="button button-dark nav-cta" href={localPath("/kontakt/")}
           >{translated.quote} <Icon size={17} /></a
         >
-        <a class="account-link" href={localPath("/konto/")}>{translated.account} ↗</a>
+        <a class="account-link" href={`${localPath("/assistent/")}?lang=${lang}`}>{translated.account} ↗</a>
         <details class="mobile-nav">
           <summary aria-label={translated.menu}
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
           ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
             {nav.map(([href, text]) => <a href={href}>{text}</a>)}<a
-              href={localPath("/kontakt/")}>{translated.quote} →</a><a href={localPath("/konto/")}>{translated.account}</a>
+              href={localPath("/kontakt/")}>{translated.quote} →</a><a href={`${localPath("/assistent/")}?lang=${lang}`}>{translated.account}</a>
           </nav>
         </details>
       </div>
@@ -149,7 +149,7 @@ const structuredData = {
         <div>
           <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
             href={localPath("/branchen/")}>{footerLabels[2]}</a
-          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
+          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={`${localPath("/assistent/")}?lang=${lang}`}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
             >{footerLabels[6]}</a>
         </div>
         <div>

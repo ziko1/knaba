@@ -50,6 +50,12 @@ User request: «добав росийську локализацию» for kneba
 | RU02 | Russian inquiry and planner display, validation, summary; existing API values preserved | Implemented; 5 regression tests + independent review PASS / ru_forms |
 | RU03 | Complete Russian portal dictionary and locale-preserving entry | Implemented; 5 locale tests + independent review PASS / ru_portal |
 | RU04 | DE/EN/UK/RU switch, reciprocal DE/RU metadata, correct sitemap/noindex | Implemented; route tests + static build PASS / root |
-| RU05 | Type/build/tests, browser Russian flow/mobile, independent review and source synchronization | Local checks58/58 PASS; independent review PASS; bounded browser flow observed; further browser actions policy-blocked; version3 published and RU home HTTP200; submission/mobile/authenticated browser checks remain NOT_RUN / root + reviewers |
+| RU05 | Type/build/tests, browser Russian flow/mobile, independent review and source synchronization | Local checks58/58 PASS; independent review PASS; bounded browser flow observed; further browser actions policy-blocked; publication pending / root + reviewers |
 
 No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing official-release/UAT gates stay separate. Rollback: redeploy previous temporary Site version without deleting D1 data. Concurrent uncommitted R4 development remains in its separate checkout.
+
+## KN-ASSIST-01 — public assistant without ChatGPT login
+
+Implemented and unit/build/review verified at `0bcbfc7149d2d6179b925da8d570f7ecbab649f1`. DE/EN/UK/RU, fixed trusted links and localized enquiry handoff, bounded ephemeral local chat, protected portal routes preserved. Browser NOT_RUN (policy block); generative AI NOT_CONFIGURED, no claims of complete AI readiness. Acceptance/evidence: docs/ASSISTANT_CHANGE_UK.md and docs/evidence/public-assistant/.
+
+Live partial acceptance: RU public entry, pricing/service response and inquiry handoff PASS. Selector correction at 0d281284c65aabad579a4aff54ab766b0c3c0a74 rebuilt; final readback pending. Generative AI and physical mobile checks remain open.

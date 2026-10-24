@@ -1,0 +1,16 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 check
+> astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json
+
+01:14:48 [types] Generated 74ms
+01:14:48 [check] Getting diagnostics for Astro files in /workspace/scratch/59a974c23ae7/knaba-current...
+Result (81 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+Loading svelte-check in workspace: /workspace/scratch/59a974c23ae7/knaba-current
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

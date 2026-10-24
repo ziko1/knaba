@@ -38,7 +38,7 @@ for (const file of pages) {
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!official || /konto|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!official || /konto|portal|assistent|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -78,10 +78,16 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
+for (const route of ['konto','assistent','ru/konto','ru/assistent']) {
+  const html=await readFile(resolve(root,route,'index.html'),'utf8');
+  assert.doesNotMatch(html,/ChatGPT|signin-with|Portal\.tsx/,'Public assistant requires no identity provider');
+  assert.match(html,/KnaBa Assistent|Помощник KnaBa/);
+  assert.match(html,/ohne Anmeldung|без регистрации/);
+}
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
-assert.equal(russianPages.length, 22, 'Full Russian public route tree plus portal');
+assert.equal(russianPages.length, 24, 'Full Russian route tree, assistant aliases and protected portal');
 for (const file of russianPages) {
   const html = await readFile(file, 'utf8');
   const route = '/' + relative(root, file).replace(/index\.html$/, '');
@@ -89,8 +95,8 @@ for (const file of russianPages) {
   assert.ok(html.includes(`rel="canonical" href="${origin}${route}"`), `${route}: self canonical`);
   assert.match(html, /property="og:locale" content="ru_RU"/);
   assert.ok(html.includes('href="/ru/kontakt/"'), `${route}: Russian contact navigation`);
-  assert.ok(html.includes('href="/ru/konto/"'), `${route}: Russian portal navigation`);
-  if (route !== '/ru/konto/') {
+  assert.ok(html.includes('href="/ru/assistent/?lang=ru"'), `${route}: Russian assistant navigation`);
+  if (!['/ru/konto/','/ru/portal/','/ru/assistent/'].includes(route)) {
     const germanRoute = route.slice(3);
     assert.ok(html.includes(`hreflang="de" href="${origin}${germanRoute}"`));
     const german = await readFile(resolve(root, `.${germanRoute}index.html`), 'utf8');

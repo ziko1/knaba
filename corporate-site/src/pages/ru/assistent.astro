@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PublicAssistant from '../../components/PublicAssistant.tsx';
+---
+<Layout lang="ru" title="Помощник KnaBa | Вопросы об уборке" description="Помощник KnaBa отвечает на вопросы об услугах уборки, регионе работы и контактах. Без регистрации." noindex={true}>
+  <section class="container assistant-page"><p class="eyebrow">KnaBa. Просто спросите.</p><h1>Всегда на связи<br/>с KnaBa.</h1><PublicAssistant locale="ru" client:load /><noscript><p>Включите JavaScript для помощника. Также можно позвонить <a href="tel:+493067933054">+49 (30) 679 330 54</a> или заполнить <a href="/ru/kontakt/">контактную форму</a>.</p></noscript></section>
+</Layout>
+<style>.assistant-page{padding-top:clamp(2rem,5vw,4rem);padding-bottom:3rem}.assistant-page>h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.1;max-width:52rem;margin:.7rem auto}.assistant-page>.eyebrow{max-width:52rem;margin:auto}</style>

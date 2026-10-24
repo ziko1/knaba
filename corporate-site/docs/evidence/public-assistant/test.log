@@ -1,0 +1,30 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 test
+> vitest run && node --test tests/inquiry.test.mjs
+
+
+ RUN  v5.0.5 /workspace/scratch/59a974c23ae7/knaba-current
+
+
+ Test Files  7 passed (7)
+      Tests  63 passed (63)
+   Start at  01:11:11
+   Duration  519ms (transform 67%, tests 16%, import 14%, worker 3%)
+
+✔ empty inquiry requires service, object, location, frequency and contact identity (1.515365ms)
+✔ valid inquiry allows unknown area and optional phone/message without pricing (0.480234ms)
+✔ invalid service is rejected instead of accepted from an untrusted query (0.395887ms)
+✔ postcode preserves leading zero and rejects incomplete or nonnumeric inputs (0.252601ms)
+✔ area is optional but if provided is a positive bounded integer (0.200292ms)
+✔ message query punctuation cannot inject recipients or additional mailto parameters (0.356838ms)
+✔ email/header-like control characters and oversized fields are rejected (0.250808ms)
+✔ maximum unicode inputs produce a bounded, round-trip-safe mailto (1.282074ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.547931

@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PublicAssistant from '../components/PublicAssistant.tsx';
+---
+<Layout title="KnaBa Assistent | Fragen zur Reinigung" description="Der KnaBa Assistent hilft bei Fragen zu Reinigungsleistungen, Einsatzgebiet und Kontakt. Direkt und ohne Registrierung." noindex={true}>
+  <section class="container assistant-page"><p class="eyebrow">KnaBa. Einfach fragen.</p><h1>Ihr direkter Draht<br/>zu KnaBa.</h1><PublicAssistant client:load /><noscript><p>Bitte aktivieren Sie JavaScript für den Assistenten. Sie erreichen KnaBa auch unter <a href="tel:+493067933054">+49 (30) 679 330 54</a> oder über das <a href="/kontakt/">Kontaktformular</a>.</p></noscript></section>
+</Layout>
+<style>.assistant-page{padding-top:clamp(2rem,5vw,4rem);padding-bottom:3rem}.assistant-page>h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.1;max-width:52rem;margin:.7rem auto}.assistant-page>.eyebrow{max-width:52rem;margin:auto}</style>

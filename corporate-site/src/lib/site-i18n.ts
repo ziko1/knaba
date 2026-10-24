@@ -10,7 +10,7 @@ const germanPaths = [
   ...guides.map(guide => `/ratgeber/${guide.slug}/`),
 ];
 export const russianPublicPaths = germanPaths.map(path => `/ru${path}`);
-const localizedPaths = new Set([...germanPaths, '/konto/']);
+const localizedPaths = new Set([...germanPaths, '/konto/', '/assistent/', '/portal/']);
 
 function equivalentPath(pathname: string): string | undefined {
   const path = pathname.replace(/^\/ru(?=\/)/, '') || '/';
@@ -31,7 +31,7 @@ export function languageLinks(pathname: string): Alternate[] {
 
 export function localeAlternates(pathname: string, existing: Alternate[] = []): Alternate[] {
   const path = equivalentPath(pathname);
-  if (!path || path === '/konto/') return existing;
+  if (!path || ['/konto/','/assistent/','/portal/'].includes(path)) return existing;
   if (path === '/') return [...languageLinks(path), { lang: 'x-default', url: '/' }];
   return [
     { lang: 'de', url: path },
