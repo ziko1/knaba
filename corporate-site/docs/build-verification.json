@@ -5,7 +5,7 @@
   "metadata": "PASS",
   "indexMode": "TEMPORARY_NOINDEX",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 19454,
+  "cssGzip": 19407,
   "allEmittedJsGzip": 138279,
   "assets": [
     {
@@ -49,9 +49,9 @@
       "gzip": 8595
     },
     {
-      "name": "_astro/Layout.CZ3ZgasI.css",
-      "bytes": 54323,
-      "gzip": 12728
+      "name": "_astro/Layout.CIEFaVK-.css",
+      "bytes": 54147,
+      "gzip": 12681
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_0_lang.I_NgTm7l.js",
@@ -154,7 +154,7 @@
       "gzip": 12839
     }
   ],
-  "artifactSha256": "49655ac869a431f4f05c999d07c11e62a24a05e5a1f7c2dfe3d31f83b9a962ad",
+  "artifactSha256": "ca5fa570b4d12d71c673c1fdd7886a384c049e7dd4a1c5b32425e58d509a7903",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }
