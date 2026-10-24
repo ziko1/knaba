@@ -35,6 +35,12 @@ for (const file of pages) {
   const html = await readFile(file, "utf8");
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
   assert.match(html, /<html lang="(de|en|uk|ru)"/);
+  assert.match(html, /class="site-language-switcher"/, `${file}: accessible language menu`);
+  assert.doesNotMatch(html, /class="site-language-bar"|class="language-nav"/, `${file}: duplicate language menus forbidden`);
+  assert.equal((html.match(/data-language-switch(?=\s|>)/g)||[]).length,4,`${file}: four language choices`);
+  const hasProtectedUi=/(?:\/(?:ru\/)?(?:konto|assistent|portal|editor)\/index\.html)$/.test(file);
+  if (hasProtectedUi) assert.doesNotMatch(html,/class="knaba-floating-assistant"/,`${file}: no duplicate assistant in protected page`);
+  else assert.match(html,/class="knaba-floating-assistant"/,`${file}: compact assistant present`);
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
@@ -85,7 +91,8 @@ for (const route of ['konto','assistent','ru/konto','ru/assistent']) {
   assert.match(html,/ohne Anmeldung|без регистрации/);
 }
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
-assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
+assert.match(homepage,/class="knaba-floating-assistant"/,'Home provides compact assistant launcher');
+assert.match(homepage,/client="visible"/,'Assistant hydrates when visible');
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 assert.equal(russianPages.length, 24, 'Full Russian route tree, assistant aliases and protected portal');
 for (const file of russianPages) {
@@ -109,6 +116,7 @@ assert.match(studioHtml, /KNABA Studio|KnaBa Studio/);
 assert.match(studioHtml, /id="cms-workspace"/);
 assert.match(studioHtml, /id="cms-crm-area"/);
 assert.match(studioHtml, /id="cms-ops-area"/);
+assert.doesNotMatch(studioHtml,/class="knaba-floating-assistant"/,'Do not overlay CMS Studio editor');
 const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'), 'utf8'));
 assert.equal(catalogue.version, 1);
 const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
