@@ -15,6 +15,13 @@
       "when": 1792823993596,
       "tag": "0001_lazy_angel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792829308907,
+      "tag": "0002_tense_mother_askani",
+      "breakpoints": true
     }
   ]
 }

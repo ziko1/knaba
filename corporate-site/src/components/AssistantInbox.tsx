@@ -6,6 +6,7 @@ type ThreadItem={id:string;locale:string;status:string;contactName:string;contac
 type Message={id:string;sender:'assistant'|'customer'|'owner';content:string;createdAt:string};
 type Offer={id:string;content:string;state:string;createdAt:string;decidedAt:string|null};
 type Thread={conversation:ThreadItem;messages:Message[];offers:Offer[]};
+type NotificationStatus={enabled:boolean;counts:Record<string,number>};
 async function call<T>(path:string,method='GET',data?:unknown):Promise<T>{
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
   try{
@@ -19,6 +20,7 @@ export default function AssistantInbox(props:{locale?:'de'|'ru'}){
   const [role,setRole]=createSignal('loading'),[list,setList]=createSignal<ThreadItem[]>([]),[active,setActive]=createSignal(''),[thread,setThread]=createSignal<Thread|null>(null);
   const [answer,setAnswer]=createSignal(''),[proposal,setProposal]=createSignal(''),[answerKey,setAnswerKey]=createSignal(''),[offerKey,setOfferKey]=createSignal('');
   const [busy,setBusy]=createSignal(false),[fault,setFault]=createSignal(''),[updated,setUpdated]=createSignal(false);
+  const [notifications,setNotifications]=createSignal<NotificationStatus|null>(null);
   const label={
     title:ru?'Сообщения клиентов':'Kundenanfragen',
     update:ru?'Обновить':'Aktualisieren',need:ru?'Войдите как владелец KnaBa, чтобы видеть сообщения.':'Melden Sie sich als KnaBa-Inhaber an, um die Nachrichten zu sehen.',
@@ -33,13 +35,21 @@ export default function AssistantInbox(props:{locale?:'de'|'ru'}){
     info:ru?'Подтверждение текста не создаёт автоматически договор, заказ или счёт.':'Eine Inhaltsbestätigung erzeugt nicht automatisch Vertrag, Auftrag oder Rechnung.',
     loadError:ru?'Не удалось загрузить данные. Проверьте соединение.':'Laden fehlgeschlagen. Bitte Verbindung prüfen.',
     limit:ru?'Показаны последние 100 диалогов.':'Die neuesten 100 Gespräche werden angezeigt.',
+    notificationOn:ru?'Email-уведомления подключены':'E-Mail-Mitteilungen aktiviert',
+    notificationOff:ru?'Email-уведомления ещё не подключены':'E-Mail-Mitteilungen noch nicht aktiviert',
+    pendingNotice:ru?'В очереди':'In Warteschlange',
+    retry:ru?'Повторить отправку':'Versand erneut versuchen',
   };
   onMount(()=>{
     void (async()=>{
       try{
         const session=await call<PortalSession>('/api/portal/session');
         setRole(session.role);
-        if(session.role==='owner')await refresh();
+        if(session.role==='owner'){
+          await refresh();
+          const deepLink=new URLSearchParams(window.location.search).get('conversation');
+          if(deepLink && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(deepLink))await openConversation(deepLink);
+        }
       }catch{setFault(label.loadError);setRole('error');}
     })();
     const timer=setInterval(()=>{if(role()==='owner'&&!document.hidden)void refresh(true);},10000);
@@ -49,9 +59,18 @@ export default function AssistantInbox(props:{locale?:'de'|'ru'}){
     try{
       const result=await call<{conversations:ThreadItem[];limited:boolean}>('/api/assistant/owner/conversations');
       setList(result.conversations);if(!silent)setUpdated(result.limited);
+      try{setNotifications(await call<NotificationStatus>('/api/assistant/owner/notifications'));}catch{setNotifications(null);}
       if(active())await openConversation(active(),true);
       if(!silent)setFault('');
     }catch{if(!silent)setFault(label.loadError);}
+  }
+  async function retryNotifications(){
+    if(busy()||!notifications()?.enabled)return;
+    setBusy(true);setFault('');
+    try {
+      await call('/api/assistant/owner/notifications/dispatch','POST',{});
+      await refresh(true);
+    }catch{setFault(label.loadError);}finally{setBusy(false);}
   }
   async function openConversation(id:string,silent=false){
     if(!silent){setActive(id);setThread(null);setFault('');setAnswerKey('');setOfferKey('');}
@@ -79,7 +98,7 @@ export default function AssistantInbox(props:{locale?:'de'|'ru'}){
   return <section class="ki-shell">
     <h2>{label.title}</h2>
     <Show when={role()==='owner'} fallback={<div class="ki-empty">{label.need} <a href={ru?'/ru/konto/':'/konto/'}>{label.login} ↗</a></div>}>
-      <div class="ki-toolbar"><button type="button" onClick={()=>void refresh()}>{label.update} ↻</button><Show when={updated()}><span>{label.limit}</span></Show></div>
+      <div class="ki-toolbar"><button type="button" onClick={()=>void refresh()}>{label.update} ↻</button><Show when={notifications()}>{status=><div class="ki-notification-status" aria-live="polite"><span>{status().enabled?label.notificationOn:label.notificationOff} · {label.pendingNotice}: {status().counts.pending??0}</span><Show when={status().enabled && (status().counts.pending??0)>0}><button type="button" disabled={busy()} onClick={()=>void retryNotifications()}>{label.retry}</button></Show></div>}</Show><Show when={updated()}><span>{label.limit}</span></Show></div>
       <div class="ki-grid">
         <aside class="ki-list"><Show when={list().length} fallback={<p>{label.none}</p>}><For each={list()}>{item=><button type="button" classList={{'ki-list-entry':true,'is-selected':active()===item.id}} onClick={()=>void openConversation(item.id)}><strong>{item.contactName||item.contactEmail||'KnaBa Besucher'}</strong><span>{item.preview||item.status}</span><small>{date(item.updatedAt)}</small><em>{item.status==='human'?'●':item.status==='closed'?'○':'✳'}</em></button>}</For></Show></aside>
         <div class="ki-body">

@@ -1,17 +1,18 @@
 import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 import { assistantGreeting, assistantLocale, type AssistantLocale } from '../lib/assistant-knowledge';
+import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../lib/assistant-recovery';
 import '../styles/assistant.css';
 
 type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string};
 type Offer = {id:string;content:string;state:'pending'|'accepted'|'declined'};
 type Thread = {conversation:{id:string;status:'assistant'|'human'|'closed'};messages:Message[];offers:Offer[]};
-type Ticket = {id:string;token:string};
+type Ticket = AssistantTicket;
 const STORAGE='knaba-assistant-ticket-v1';
 const captions = {
-  de: {tag:'Digitale Beratung · Direktkontakt',open:'Chat öffnen',close:'Schließen',welcome:'Hallo! Ich kann Sie zu den KnaBa-Leistungen beraten.',placeholder:'Ihre Frage oder Wünsche …',privacy:'Ich habe die Datenschutzhinweise gelesen und möchte meine Unterhaltung an KnaBa übermitteln.',send:'Senden',human:'Mit dem Inhaber sprechen',name:'Name (optional)',email:'E-Mail (optional)',phone:'Telefon (optional)',request:'An Inhaber weiterleiten',notice:'Automatische Antworten sind unverbindlich. Preise und Termine werden nur persönlich bestätigt.',hold:'Die Nachricht ist im Inhaber-Postfach. Antworten erscheinen hier.',no:'Die Verbindung ist unterbrochen. Bitte erneut versuchen.',agreement:'Angebot zur Abstimmung',pending:'Bitte den Inhalt prüfen. Dies ist noch keine automatische Auftrags- oder Vertragsbestätigung.',accept:'Inhalt bestätigen',decline:'Ablehnen',accepted:'Bestätigt',declined:'Abgelehnt',mic:'Diktieren',speak:'Vorlesen',recording:'Die Spracherkennung kann Daten an den Browserhersteller übertragen. Fortfahren?',unsupported:'Spracherkennung wird in diesem Browser nicht unterstützt.',new:'Neues Gespräch',fresh:'Neues Gespräch beginnen? Auf das bisherige kann danach von diesem Browser aus nicht mehr zugegriffen werden.',privacyLink:'Datenschutz',session:'Der Gesprächszugang gilt nur für diese Browsersitzung. Halten Sie das Fenster offen, wenn Sie auf Antwort warten.',closed:'Dieses Gespräch wurde geschlossen.'},
-  en: {tag:'Digital guidance · Contact owner',open:'Open chat',close:'Close',welcome:'Hello! I can help with KnaBa cleaning services.',placeholder:'Your question or request …',privacy:'I have read the privacy notice and agree to send this conversation to KnaBa.',send:'Send',human:'Speak to the owner',name:'Name (optional)',email:'Email (optional)',phone:'Phone (optional)',request:'Send to owner',notice:'Automatic replies are not binding. Only KnaBa can confirm prices and appointments.',hold:'Your request is in the owner inbox. Replies will appear here.',no:'Connection lost. Please try again.',agreement:'Terms to review',pending:'Review the terms. This is not an automatic contract or order.',accept:'Confirm content',decline:'Decline',accepted:'Confirmed',declined:'Declined',mic:'Dictate',speak:'Read aloud',recording:'Speech recognition may share audio with your browser provider. Continue?',unsupported:'Speech recognition is not supported in this browser.',new:'New conversation',fresh:'Start a new conversation? The old one will no longer be accessible from this browser.',privacyLink:'Privacy',session:'The chat access is available only for this browser session. Keep this tab open while waiting for a response.',closed:'This conversation is closed.'},
-  uk: {tag:'Онлайн-консультація · Зв’язок із власником',open:'Відкрити чат',close:'Закрити',welcome:'Вітаю! Підкажу щодо послуг KnaBa.',placeholder:'Ваше питання чи побажання …',privacy:'Я ознайомився з політикою конфіденційності та хочу надіслати цю розмову KnaBa.',send:'Надіслати',human:'Зв’язатися з власником',name:'Ім’я (необов’язково)',email:'Email (необов’язково)',phone:'Телефон (необов’язково)',request:'Передати власнику',notice:'Автоматичні відповіді не є офертою. Ціни й час підтверджує лише KnaBa.',hold:'Запит у кабінеті власника. Відповідь з’явиться тут.',no:'З’єднання втрачено. Спробуйте ще раз.',agreement:'Умови для погодження',pending:'Перевірте умови. Це не автоматичне укладення договору чи замовлення.',accept:'Підтвердити зміст',decline:'Відхилити',accepted:'Підтверджено',declined:'Відхилено',mic:'Диктувати',speak:'Озвучити',recording:'Розпізнавання голосу може передати аудіо постачальнику браузера. Продовжити?',unsupported:'Ваш браузер не підтримує розпізнавання голосу.',new:'Нова розмова',fresh:'Почати нову розмову? Попередня стане недоступною з цього браузера.',privacyLink:'Конфіденційність',session:'Доступ до чату існує лише в поточній сесії браузера. Не закривайте вкладку, очікуючи відповідь.',closed:'Цю розмову закрито.'},
-  ru: {tag:'Онлайн-консультация · Связь с владельцем',open:'Открыть чат',close:'Закрыть',welcome:'Здравствуйте! Помогу с услугами KnaBa.',placeholder:'Ваш вопрос или пожелание …',privacy:'Я ознакомился с политикой конфиденциальности и хочу отправить эту беседу KnaBa.',send:'Отправить',human:'Связаться с владельцем',name:'Имя (необязательно)',email:'Email (необязательно)',phone:'Телефон (необязательно)',request:'Передать владельцу',notice:'Автоматические ответы не являются офертой. Цены и сроки подтверждает только KnaBa.',hold:'Обращение есть в кабинете владельца. Ответ появится здесь.',no:'Нет соединения. Повторите попытку.',agreement:'Условия для согласования',pending:'Проверьте условия. Это не автоматическое заключение договора или заказа.',accept:'Подтвердить содержание',decline:'Отклонить',accepted:'Подтверждено',declined:'Отклонено',mic:'Диктовать',speak:'Озвучить',recording:'Распознавание речи может передать аудио поставщику браузера. Продолжить?',unsupported:'Ваш браузер не поддерживает распознавание речи.',new:'Новая беседа',fresh:'Начать новую беседу? Предыдущая станет недоступной из этого браузера.',privacyLink:'Конфиденциальность',session:'Доступ к диалогу есть только во время текущей сессии браузера. Не закрывайте вкладку в ожидании ответа.',closed:'Этот разговор закрыт.'}
+  de: {tag:'Digitale Beratung · Direktkontakt',open:'Chat öffnen',close:'Schließen',welcome:'Hallo! Ich kann Sie zu den KnaBa-Leistungen beraten.',placeholder:'Ihre Frage oder Wünsche …',privacy:'Ich habe die Datenschutzhinweise gelesen und möchte meine Unterhaltung an KnaBa übermitteln.',send:'Senden',human:'Mit dem Inhaber sprechen',name:'Name (optional)',email:'E-Mail (optional)',phone:'Telefon (optional)',request:'An Inhaber weiterleiten',notice:'Automatische Antworten sind unverbindlich. Preise und Termine werden nur persönlich bestätigt.',hold:'Die Nachricht ist im Inhaber-Postfach. Antworten erscheinen hier.',no:'Die Verbindung ist unterbrochen. Bitte erneut versuchen.',agreement:'Angebot zur Abstimmung',pending:'Bitte den Inhalt prüfen. Dies ist noch keine automatische Auftrags- oder Vertragsbestätigung.',accept:'Inhalt bestätigen',decline:'Ablehnen',accepted:'Bestätigt',declined:'Abgelehnt',mic:'Diktieren',speak:'Vorlesen',recording:'Die Spracherkennung kann Daten an den Browserhersteller übertragen. Fortfahren?',unsupported:'Spracherkennung wird in diesem Browser nicht unterstützt.',new:'Neues Gespräch',fresh:'Neues Gespräch beginnen? Ohne gesicherten Zugangscode können Sie das bisherige nicht wiederherstellen.',privacyLink:'Datenschutz',session:'Sichern Sie den privaten Zugangscode, um den Chat nach Schließen des Browsers wiederherzustellen.',closed:'Dieses Gespräch wurde geschlossen.',copyCode:'Zugangscode sichern',copied:'Code kopiert',manualCopy:'Zugangscode selbst kopieren',restoreTitle:'Vorheriges Gespräch wiederherstellen',restorePlaceholder:'KNABA-Zugangscode',restoreAction:'Gespräch öffnen',codeWarning:'Wer diesen Zugangscode kennt, kann Ihre Unterhaltung lesen. Bewahren Sie ihn privat auf.',invalidCode:'Ungültiger oder abgelaufener Zugangscode.',},
+  en: {tag:'Digital guidance · Contact owner',open:'Open chat',close:'Close',welcome:'Hello! I can help with KnaBa cleaning services.',placeholder:'Your question or request …',privacy:'I have read the privacy notice and agree to send this conversation to KnaBa.',send:'Send',human:'Speak to the owner',name:'Name (optional)',email:'Email (optional)',phone:'Phone (optional)',request:'Send to owner',notice:'Automatic replies are not binding. Only KnaBa can confirm prices and appointments.',hold:'Your request is in the owner inbox. Replies will appear here.',no:'Connection lost. Please try again.',agreement:'Terms to review',pending:'Review the terms. This is not an automatic contract or order.',accept:'Confirm content',decline:'Decline',accepted:'Confirmed',declined:'Declined',mic:'Dictate',speak:'Read aloud',recording:'Speech recognition may share audio with your browser provider. Continue?',unsupported:'Speech recognition is not supported in this browser.',new:'New conversation',fresh:'Start a new conversation? Without a saved access code, you may lose access to the previous one.',privacyLink:'Privacy',session:'Save your private access code to resume the conversation after closing the browser.',closed:'This conversation is closed.',copyCode:'Save access code',copied:'Code copied',manualCopy:'Copy this access code',restoreTitle:'Resume a previous conversation',restorePlaceholder:'KNABA access code',restoreAction:'Open conversation',codeWarning:'Anyone with this code can read your conversation. Keep it private.',invalidCode:'Invalid or expired access code.',},
+  uk: {tag:'Онлайн-консультація · Зв’язок із власником',open:'Відкрити чат',close:'Закрити',welcome:'Вітаю! Підкажу щодо послуг KnaBa.',placeholder:'Ваше питання чи побажання …',privacy:'Я ознайомився з політикою конфіденційності та хочу надіслати цю розмову KnaBa.',send:'Надіслати',human:'Зв’язатися з власником',name:'Ім’я (необов’язково)',email:'Email (необов’язково)',phone:'Телефон (необов’язково)',request:'Передати власнику',notice:'Автоматичні відповіді не є офертою. Ціни й час підтверджує лише KnaBa.',hold:'Запит у кабінеті власника. Відповідь з’явиться тут.',no:'З’єднання втрачено. Спробуйте ще раз.',agreement:'Умови для погодження',pending:'Перевірте умови. Це не автоматичне укладення договору чи замовлення.',accept:'Підтвердити зміст',decline:'Відхилити',accepted:'Підтверджено',declined:'Відхилено',mic:'Диктувати',speak:'Озвучити',recording:'Розпізнавання голосу може передати аудіо постачальнику браузера. Продовжити?',unsupported:'Ваш браузер не підтримує розпізнавання голосу.',new:'Нова розмова',fresh:'Почати нову розмову? Без збереженого коду ви можете втратити доступ до попередньої.',privacyLink:'Конфіденційність',session:'Збережіть приватний код доступу, щоб відновити розмову після закриття браузера.',closed:'Цю розмову закрито.',copyCode:'Зберегти код доступу',copied:'Код скопійовано',manualCopy:'Скопіюйте цей код доступу',restoreTitle:'Відновити попередню розмову',restorePlaceholder:'Код доступу KNABA',restoreAction:'Відкрити розмову',codeWarning:'Кожен, хто знає цей код, зможе читати розмову. Бережіть його.',invalidCode:'Недійсний або прострочений код доступу.',},
+  ru: {tag:'Онлайн-консультация · Связь с владельцем',open:'Открыть чат',close:'Закрыть',welcome:'Здравствуйте! Помогу с услугами KnaBa.',placeholder:'Ваш вопрос или пожелание …',privacy:'Я ознакомился с политикой конфиденциальности и хочу отправить эту беседу KnaBa.',send:'Отправить',human:'Связаться с владельцем',name:'Имя (необязательно)',email:'Email (необязательно)',phone:'Телефон (необязательно)',request:'Передать владельцу',notice:'Автоматические ответы не являются офертой. Цены и сроки подтверждает только KnaBa.',hold:'Обращение есть в кабинете владельца. Ответ появится здесь.',no:'Нет соединения. Повторите попытку.',agreement:'Условия для согласования',pending:'Проверьте условия. Это не автоматическое заключение договора или заказа.',accept:'Подтвердить содержание',decline:'Отклонить',accepted:'Подтверждено',declined:'Отклонено',mic:'Диктовать',speak:'Озвучить',recording:'Распознавание речи может передать аудио поставщику браузера. Продолжить?',unsupported:'Ваш браузер не поддерживает распознавание речи.',new:'Новая беседа',fresh:'Начать новую беседу? Без сохранённого кода доступ к прежнему разговору может быть утрачен.',privacyLink:'Конфиденциальность',session:'Сохраните личный код доступа, чтобы восстановить переписку после закрытия браузера.',closed:'Этот разговор закрыт.',copyCode:'Сохранить код доступа',copied:'Код скопирован',manualCopy:'Скопируйте код доступа',restoreTitle:'Восстановить прошлый разговор',restorePlaceholder:'Код доступа KNABA',restoreAction:'Открыть разговор',codeWarning:'Любой, у кого есть этот код, сможет прочитать переписку. Храните его в тайне.',invalidCode:'Неверный или устаревший код доступа.',}
 } as const;
 async function http<T>(path:string,method='GET',data?:unknown,token?:string):Promise<T>{
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),12000);
@@ -28,6 +29,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const [draft,setDraft]=createSignal(''),[key,setKey]=createSignal(''),[accepted,setAccepted]=createSignal(false),[busy,setBusy]=createSignal(false),[error,setError]=createSignal('');
   const [human,setHuman]=createSignal(false),[name,setName]=createSignal(''),[email,setEmail]=createSignal(''),[phone,setPhone]=createSignal('');
   const [recording,setRecording]=createSignal(false);
+  const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
   let recognition:Recognition|null=null,log:HTMLDivElement|undefined;
   const privacyPath=locale==='ru'?'/ru/datenschutz/':'/datenschutz/';
   onMount(()=>{
@@ -92,10 +94,33 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     active.onend=()=>setRecording(false);active.onerror=()=>setRecording(false);
     try{active.start();setRecording(true);}catch{setRecording(false);}
   }
+  async function restore(event:Event){
+    event.preventDefault();if(busy())return;
+    const recovered=parseRecoveryCode(recoveryInput());
+    if(!recovered){setError(t.invalidCode);return;}
+    setBusy(true);setError('');
+    try {
+      // Server validates the bearer token before storing or displaying a conversation.
+      const result=await http<Thread>(`/api/assistant/conversations/${recovered.id}`,'GET',undefined,recovered.token);
+      setTicket(recovered);setThread(result);setAccepted(true);setRecoveryInput('');setHuman(false);
+      try{sessionStorage.setItem(STORAGE,JSON.stringify(recovered));}catch{}
+    }catch{setError(t.invalidCode);}finally{setBusy(false);}
+  }
+  async function copyRecovery(){
+    const current=ticket();if(!current)return;
+    const code=formatRecoveryCode(current);
+    setCodeCopied(false);
+    try{
+      await navigator.clipboard.writeText(code);
+      setCodeCopied(true);
+    }catch{
+      window.prompt(t.manualCopy,code);
+    }
+  }
   function reset(){
     if(!window.confirm(t.fresh))return;
     try{sessionStorage.removeItem(STORAGE);}catch{}
-    setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');
+    setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');setRecoveryInput('');setCodeCopied(false);
   }
   return <aside class="ka-wrap" lang={locale}>
     <Show when={open()} fallback={<button type="button" class="ka-launcher" onClick={()=>setOpen(true)} aria-label={t.open}><span aria-hidden="true">✳</span> KNABA Assistant</button>}>
@@ -112,6 +137,12 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
         <div class="ka-bottom">
           <p class="ka-note">{t.notice}</p>
           <Show when={!ticket()}><label class="ka-consent"><input type="checkbox" checked={accepted()} onChange={e=>setAccepted(e.currentTarget.checked)}/><span>{t.privacy} <a href={privacyPath} target="_blank" rel="noopener noreferrer">↗ {t.privacyLink}</a></span></label></Show>
+          <Show when={!ticket()}>
+            <form class="ka-recovery" onSubmit={e=>void restore(e)}>
+              <label for="ka-recovery-code">{t.restoreTitle}</label>
+              <div class="ka-recovery-row"><input id="ka-recovery-code" type="password" autocomplete="off" spellcheck={false} maxLength={140} placeholder={t.restorePlaceholder} value={recoveryInput()} onInput={e=>setRecoveryInput(e.currentTarget.value)}/><button type="submit" disabled={busy()||!recoveryInput().trim()}>{t.restoreAction}</button></div>
+            </form>
+          </Show>
           <Show when={human()}>
             <form class="ka-handoff-form" onSubmit={e=>void handoff(e)}>
               <input aria-label={t.name} placeholder={t.name} maxLength={80} value={name()} onInput={e=>setName(e.currentTarget.value)}/>
@@ -129,7 +160,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
             <button type="button" class="ka-contact-owner" onClick={()=>setHuman(v=>!v)} disabled={busy()}>{t.human} ↗</button>
           </Show>
           <nav aria-label="KnaBa"><a href="tel:+493067933054">☎ +49 (30) 679 330 54</a><a href="mailto:kontakt@knaba.de">✉ kontakt@knaba.de</a></nav>
-          <Show when={ticket()}><button type="button" class="ka-reset" onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
+          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
         </div>
       </section>
     </Show>

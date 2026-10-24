@@ -72,3 +72,7 @@ R3 published successfully: Sites source a91edbcf989fe342cf342fa8741f0eec8a5b5488
 - Assistant public chat -> owner handoff -> owner replies -> customer review of terms. Додано нові схеми без змін чинних таблиць.
 - Acceptance: local tests, Astro/Vue/Svelte/type/build, security review. Live auth/guest device UAT, brand/legal/data-retention decision and official release залишаються NOT_RUN.
 - Detailed contract, risks and rollback: docs/KNABA_ASSISTANT_INTEGRATION_UK.md. Витрати на платні AI API не активовано.
+
+## Assistant notification continuation (2026-10-24)
+
+- Source-pinned follow-up to PR #13 (`5b5f1dca323eca371a7c3f160e1614ac46e7c41b`), isolated Draft; new D1 notification outbox, disabled Resend adapter with daily rate budget, client recovery code and owner inbox delivery status. Details and release gates in `docs/KNABA_ASSISTANT_NOTIFICATIONS_UK.md`. No live migration/deploy, no paid AI or email activation.
