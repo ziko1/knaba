@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "baseSha": "b2c1d8f2926a9ebe4ea443e1865e6b57f093defb",
+  "testedSha": "71df6901b1cd2b7fe6032bdd1ef1e8b986d3cbd9",
+  "scope": "package.json and package-lock.json only",
+  "auditBefore": {
+    "info": 0,
+    "low": 0,
+    "moderate": 21,
+    "high": 6,
+    "critical": 3,
+    "total": 30
+  },
+  "auditAfter": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "auditBeforeExitCode": 1,
+  "auditAfterExitCode": 0,
+  "npmCiExitCode": 0,
+  "npmLsAllExitCode": 0,
+  "testsExitCode": 0,
+  "testStatuses": {
+    "skipped": 421,
+    "passed": 1821
+  },
+  "testFiles": 90,
+  "build": "PASSED",
+  "typecheck": "PASSED (tsc --noEmit stage of npm run build)",
+  "runtimeVersions": {
+    "aom": "3.15.1",
+    "archive": "3.8.9",
+    "cairo": "1.18.6",
+    "cgif": "0.5.4",
+    "exif": "0.6.26",
+    "expat": "2.8.5",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.17",
+    "glib": "2.90.0",
+    "harfbuzz": "14.5.0",
+    "heif": "1.23.5",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.63.2",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.7",
+    "webp": "1.6.0",
+    "xml2": "2.15.4",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.5"
+  },
+  "limits": [
+    "421 real PostgreSQL tests skipped/NOT_RUN",
+    "browser, containers, restore, worker process, native devices and provider acceptance NOT_RUN",
+    "independent review PENDING_ROOT"
+  ],
+  "sources": "README.md",
+  "buildExitCode": 0,
+  "verifiedAtUtc": "2026-10-13T15:49:50.516935+00:00",
+  "release": {
+    "code_sha": "71df6901b1cd2b7fe6032bdd1ef1e8b986d3cbd9",
+    "source_dirty": false,
+    "source_provenance": "GIT_WORKTREE",
+    "version": "0.1.0",
+    "builtAt": "2026-10-13T15:49:24.698Z"
+  },
+  "worktreeClean": true,
+  "buildAssets": [
+    {
+      "path": "dist/release.json",
+      "bytes": 187,
+      "sha256": "f4f4d1e1bada2bc5856e54f75779d1d48cbc2bb4223bf98daaa625bddea42435"
+    },
+    {
+      "path": "dist/server.mjs",
+      "bytes": 3109260,
+      "sha256": "4215a205de9cb180c33ebb4e319a46f98849c5756f17b251d99a4619870e4944"
+    },
+    {
+      "path": "dist/server.mjs.map",
+      "bytes": 2898634,
+      "sha256": "c99f053575654ce092a47738033ae97bb4786cb1a6cf238f6893c9296d4f495a"
+    },
+    {
+      "path": "dist/web/assets/index-Cry_H7OL.js",
+      "bytes": 647536,
+      "sha256": "d98468e7223355331fb98a5d5e846b435b3e949e0799efb3e72f7600ef655504"
+    },
+    {
+      "path": "dist/web/assets/index-DrwpbJmN.css",
+      "bytes": 89773,
+      "sha256": "68dc89d21de71936a687e068eccc91dbfe70771b568538052c71a13714f10259"
+    },
+    {
+      "path": "dist/web/icon.svg",
+      "bytes": 252,
+      "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b"
+    },
+    {
+      "path": "dist/web/index.html",
+      "bytes": 642,
+      "sha256": "9840aff386ff9f77f22a14dc4119dc9e77abecc49e64409e2e7c6b05ebcbcb67"
+    },
+    {
+      "path": "dist/web/manifest.webmanifest",
+      "bytes": 274,
+      "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9"
+    },
+    {
+      "path": "dist/web/sw.js",
+      "bytes": 953,
+      "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f"
+    },
+    {
+      "path": "dist/web/widget.js",
+      "bytes": 1670,
+      "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+    },
+    {
+      "path": "dist/worker.mjs",
+      "bytes": 1174754,
+      "sha256": "31a29a903e35e75987fd900a65f6e02388c6af6bc885d767a9f82b634c548c65"
+    },
+    {
+      "path": "dist/worker.mjs.map",
+      "bytes": 1929277,
+      "sha256": "c67784e9f30a67963609b820eab5266d8d465505b83f601ccddf6e58d92a66c1"
+    }
+  ],
+  "buildWarning": "Single web JS chunk 647.54 kB (205.45 kB gzip), existing >500 kB warning not suppressed."
+}

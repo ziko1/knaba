@@ -1,0 +1,58 @@
+{
+  "observed_at": "2026-10-08 21:49:18 UTC",
+  "operation": "READ_ONLY_NO_MUTATION",
+  "project_id": "5701136e-0b7c-48e8-a0c6-5c5a01c4330b",
+  "environment_id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+  "services": [
+    {
+      "id": "003f1015-f5f6-43ca-b7e1-db72c6bafb7e",
+      "name": "API",
+      "state": "offline",
+      "replicas": null
+    },
+    {
+      "id": "9157c2ec-e786-4afc-a5f5-792d8dd84571",
+      "name": "Postgres",
+      "state": "crashed",
+      "replicas": {
+        "running": 0,
+        "crashed": 1,
+        "total": 1
+      }
+    },
+    {
+      "id": "5c3c6e92-eefe-49f1-a81b-733c66f526cd",
+      "name": "Worker",
+      "state": "offline",
+      "replicas": null
+    }
+  ],
+  "pending_patch": {
+    "patchId": "6aa92092-b449-4e17-8161-b0b4bc8c47eb",
+    "status": "STAGED",
+    "changeCount": 37,
+    "message": null,
+    "createdAt": "2026-10-06T20:57:30.916Z",
+    "updatedAt": "2026-10-06T23:18:28.205Z"
+  },
+  "destructive": false,
+  "source_pins": [
+    {
+      "resource": "API",
+      "live": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "staged": "ca9ed79ff4c0429223eb60754289ee1132088361"
+    },
+    {
+      "resource": "Worker",
+      "live": "",
+      "staged": "ca9ed79ff4c0429223eb60754289ee1132088361"
+    }
+  ],
+  "cutoff_status": "EXPIRED_NOT_EXTENDED",
+  "origin": "https://api-staging-a476.up.railway.app",
+  "live_acceptance": "NOT_READY",
+  "notes": [
+    "environment-status reports27 operation records; get-staged-changes reports37 flattened field changes. Both actual responses agree patch is staged/unapplied.",
+    "Current V4 source is uncommitted and has not been deployed. Provider Dashboard MFA historical blocker persists; no API bypass."
+  ]
+}

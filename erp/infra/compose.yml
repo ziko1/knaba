@@ -1,0 +1,128 @@
+name: knaba-de
+x-runtime: &runtime
+  DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL with the postgres service hostname}
+  APP_MODE: ${APP_MODE:-DEMO}
+  COMPANY_ID: ${COMPANY_ID:-knaba-demo}
+  AUTH_ENCRYPTION_KEY: ${AUTH_ENCRYPTION_KEY:?Set a private random AUTH_ENCRYPTION_KEY of at least 32 characters}
+  GIT_SHA: ${GIT_SHA:?Set the exact tested 40-character Git SHA}
+  PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:3000}
+  PORT: "3000"
+  NODE_ENV: production
+  WIDGET_ALLOWED_ORIGINS: ${WIDGET_ALLOWED_ORIGINS:-}
+  MEDIA_SCANNER_URL: ${MEDIA_SCANNER_URL:-}
+  S3_BUCKET: ${S3_BUCKET:-}
+  S3_ENDPOINT: ${S3_ENDPOINT:-}
+  S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+  S3_KMS_KEY_ID: ${S3_KMS_KEY_ID:-}
+  AWS_REGION: ${AWS_REGION:-eu-central-1}
+  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+  AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+  AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+  WHATSAPP_PHONE_NUMBER_ID: ${WHATSAPP_PHONE_NUMBER_ID:-}
+  WHATSAPP_PUBLIC_NUMBER: ${WHATSAPP_PUBLIC_NUMBER:-}
+  WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN:-}
+  WHATSAPP_VERIFY_TOKEN: ${WHATSAPP_VERIFY_TOKEN:-}
+  WHATSAPP_APP_SECRET: ${WHATSAPP_APP_SECRET:-}
+  WHATSAPP_API_VERSION: ${WHATSAPP_API_VERSION:-}
+  WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED: ${WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED:-false}
+  WHATSAPP_TEST_RECIPIENTS: ${WHATSAPP_TEST_RECIPIENTS:-}
+  LIVE_SEND_ALLOWED: ${LIVE_SEND_ALLOWED:-false}
+  DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+  DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-}
+  DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-chat}
+  DEEPSEEK_REGION: ${DEEPSEEK_REGION:-}
+  AI_TRANSFER_APPROVAL_ID: ${AI_TRANSFER_APPROVAL_ID:-}
+  AI_SYNTHETIC_ONLY: ${AI_SYNTHETIC_ONLY:-true}
+  AI_INPUT_PRICE_PER_MILLION_CENTS: ${AI_INPUT_PRICE_PER_MILLION_CENTS:-100}
+  AI_OUTPUT_PRICE_PER_MILLION_CENTS: ${AI_OUTPUT_PRICE_PER_MILLION_CENTS:-200}
+services:
+  postgres:
+    image: postgres:17.6-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-knaba}
+      POSTGRES_USER: ${POSTGRES_USER:-knaba}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the private environment file}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    mem_limit: 256m
+    cpus: 0.25
+    stop_grace_period: 60s
+  bootstrap:
+    image: knaba-de-api:${GIT_SHA:?Set exact Git SHA}
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+      args:
+        GIT_SHA: ${GIT_SHA:?Set exact Git SHA}
+    restart: "no"
+    healthcheck:
+      disable: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment: *runtime
+    command:
+      - sh
+      - -ec
+      - |
+        node scripts/environment-check.mjs
+        npm run migrate
+        case "$$APP_MODE" in
+          DEMO|TEST) npm run seed ;;
+          PRODUCTION) echo 'NOT_RUN: production synthetic seed is forbidden; provision the verified company/owner through the protected offline bootstrap.' ;;
+          *) exit 1 ;;
+        esac
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    mem_limit: 384m
+    cpus: 0.5
+  api:
+    image: knaba-de-api:${GIT_SHA:?Set exact Git SHA}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      bootstrap:
+        condition: service_completed_successfully
+    environment: *runtime
+    command: ["node", "dist/server.mjs"]
+    ports:
+      - "127.0.0.1:${API_PORT:-3000}:3000"
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    mem_limit: 384m
+    cpus: 0.5
+    stop_grace_period: 30s
+  worker:
+    image: knaba-de-api:${GIT_SHA:?Set exact Git SHA}
+    command: ["node", "dist/worker.mjs"]
+    restart: unless-stopped
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+      api:
+        condition: service_healthy
+    environment:
+      <<: *runtime
+      WORKER_HEARTBEAT_FILE: /tmp/knaba-worker-heartbeat
+    healthcheck:
+      test: ["CMD", "node", "-e", "const fs=require('node:fs');const file=process.env.WORKER_HEARTBEAT_FILE||'/tmp/knaba-worker-heartbeat';try{if(Date.now()-fs.statSync(file).mtimeMs>30000)process.exit(1);}catch{process.exit(1);}"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    mem_limit: 256m
+    cpus: 0.25
+    stop_grace_period: 60s
+volumes:
+  postgres_data:

@@ -1,0 +1,854 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exact-source V4 SQL/runtime recovery; full product, full load, providers, physical devices and production remain separate gates.",
+  "source": {
+    "sha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "tree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+    "baseSha": "826aef9c344b596584552439de32daa8f03e72c3",
+    "branch": "codex/knaba-v4-sql-recovery-20261011",
+    "pullRequest": "https://github.com/ziko1/knaba/pull/5"
+  },
+  "applicationRun": {
+    "id": 38097796239,
+    "jobId": 114347231650,
+    "url": "https://github.com/ziko1/knaba/actions/runs/38097796239",
+    "liveVerdict": "PASSED",
+    "verifiedAt": "2026-10-11T00:28:53.917Z",
+    "status": "completed",
+    "conclusion": "success",
+    "startedAt": "2026-10-11T00:15:15Z",
+    "completedObservationAt": "2026-10-11T00:29:15Z",
+    "event": "push"
+  },
+  "independentArtifact": {
+    "archiveBytes": 8163623,
+    "archiveSha256": "076e43dea4943dee0b304cc1854ee04df8289d6de6cb246557ea454d0d4bcacf",
+    "zipEntries": 113,
+    "crc": "PASSED",
+    "safePaths": "PASSED",
+    "builtFilesVerified": 14,
+    "artifactId": 11686537370,
+    "artifactUrl": "https://github.com/ziko1/knaba/actions/runs/38097796239/artifacts/11686537370",
+    "providerDigest": "sha256:076e43dea4943dee0b304cc1854ee04df8289d6de6cb246557ea454d0d4bcacf",
+    "providerDigestAndSizeMatch": true
+  },
+  "unit": {
+    "status": "PASSED",
+    "total": 2228,
+    "passed": 2228,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0,
+    "classification": {
+      "status": "EXACT_INDEX_VALIDATED",
+      "evidence": {
+        "path": "docs/evidence/offline-execution-scope.json",
+        "bytes": 842289,
+        "sha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a"
+      },
+      "indexIsExecutionProof": false,
+      "realPostgres": {
+        "total": 407,
+        "passed": 407,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "cpuDocumentOrTransportDouble": {
+        "total": 1821,
+        "passed": 1821,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  },
+  "newPostgresCases": {
+    "tests/assistant-answer-authority.integration.test.ts": {
+      "total": 29,
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "tests/assistant-runtime.integration.test.ts": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "tests/v4-load-seed.integration.test.ts": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "browser": {
+    "status": "PASSED",
+    "passed": 27,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "total": 27
+  },
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:24:40Z",
+      "completedAt": "2026-10-11T00:24:40.841Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:24:40Z",
+      "completedAt": "2026-10-11T00:26:14.028Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:26:14Z",
+      "completedAt": "2026-10-11T00:28:50.777Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:28:50Z",
+      "completedAt": "2026-10-11T00:28:51.755Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:28:51Z",
+      "completedAt": "2026-10-11T00:28:51.976Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:28:51Z",
+      "completedAt": "2026-10-11T00:28:52.861Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "startedAt": "2026-10-11T00:28:52Z",
+      "completedAt": "2026-10-11T00:28:53.840Z"
+    }
+  ],
+  "builtFiles": [
+    {
+      "path": "dist/release.json",
+      "bytes": 187,
+      "sha256": "feceea3161a6965de1b46f2a824aef6595b88940864b8f94cc2785f532a56447"
+    },
+    {
+      "path": "dist/server.mjs",
+      "bytes": 3121632,
+      "sha256": "968084a4f1a3a735453aa60c39619dc3697a6a7d7c9a740cffc6f91c327f201c"
+    },
+    {
+      "path": "dist/server.mjs.map",
+      "bytes": 2898634,
+      "sha256": "c99f053575654ce092a47738033ae97bb4786cb1a6cf238f6893c9296d4f495a"
+    },
+    {
+      "path": "dist/web/assets/index-8TQBBpxX.css",
+      "bytes": 89812,
+      "sha256": "de1d4c5b3026f5a4e25c6af4eeb99a6834aa3a7dfdcae962251a49d89c0753f0"
+    },
+    {
+      "path": "dist/web/assets/index-DajC8ihT.js",
+      "bytes": 656776,
+      "sha256": "59b33965b6eb6ecc4d9477f17558b7af8cbd11591e9cf64a960a4c1b12ff017b"
+    },
+    {
+      "path": "dist/web/icon.svg",
+      "bytes": 252,
+      "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b"
+    },
+    {
+      "path": "dist/web/index.html",
+      "bytes": 642,
+      "sha256": "7cf561f4aa7546782c5f0f10fbf38c70526d23010151903203da29c7b398d4a8"
+    },
+    {
+      "path": "dist/web/manifest.webmanifest",
+      "bytes": 274,
+      "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9"
+    },
+    {
+      "path": "dist/web/sw.js",
+      "bytes": 953,
+      "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f"
+    },
+    {
+      "path": "dist/web/widget.js",
+      "bytes": 1670,
+      "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+    },
+    {
+      "path": "dist/worker.mjs",
+      "bytes": 1172274,
+      "sha256": "f4379b4b83636fcea8c5d35db4c7befa9d5d285e313155ee4592fa840c297b64"
+    },
+    {
+      "path": "dist/worker.mjs.map",
+      "bytes": 1925024,
+      "sha256": "b0577931acd6d82f4a7ad14674100c56adb8865b4ff0e1db80e4a9edd73c7b86"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 222312,
+      "sha256": "19bf39c58be142445b13795f84242c7ae238a7fa2893d592d52c6e5b42b39fd5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1139,
+      "sha256": "624325c9d41f2df25aa74b2a0ad84000cbdf81ea17d8d44094c539ae3c43f61f"
+    }
+  ],
+  "worker": {
+    "status": "PASSED",
+    "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "verifiedAt": "2026-10-11T00:28:53.801Z",
+    "workerSha256": "f4379b4b83636fcea8c5d35db4c7befa9d5d285e313155ee4592fa840c297b64",
+    "database": "ISOLATED_RESTORED_SYNTHETIC_COPY",
+    "phases": [
+      {
+        "phase": 1,
+        "pid": 11750,
+        "heartbeatAt": "2026-10-11T00:28:53.315Z",
+        "gracefulExitCode": 0,
+        "probeId": "f7f2fa67-4e8f-40f1-a86e-16827afd7c36",
+        "status": "SUCCEEDED",
+        "attempts": 1
+      },
+      {
+        "phase": 2,
+        "pid": 11767,
+        "heartbeatAt": "2026-10-11T00:28:53.741Z",
+        "gracefulExitCode": 0,
+        "probeId": "c6be27b6-8de1-47d9-b70a-9bd3b8ba973d",
+        "status": "SUCCEEDED",
+        "attempts": 1
+      }
+    ],
+    "temporaryWorkersStopped": true,
+    "scope": "Actual bundled processes complete a durable synthetic no-op once, write successful-tick heartbeat, stop gracefully, restart, and leave completed work unreplayed. Real financial side-effect fencing is covered separately by the PostgreSQL suite."
+  },
+  "baselineRecovery": {
+    "runId": 37861973112,
+    "sourceSha": "7d8a0e92c083ca22e4f93595bd084031f7272599",
+    "historicalFailures": 40,
+    "currentStatuses": {
+      "passed": 40
+    },
+    "explicitV4Replacements": 2,
+    "cases": [
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/assistant-runtime.integration.test.ts",
+        "historicalName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+        "occurrence": 0,
+        "currentName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4-projection.test.ts",
+        "historicalName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+        "occurrence": 0,
+        "currentName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4-projection.test.ts",
+        "historicalName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+        "occurrence": 0,
+        "currentName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4-projection.test.ts",
+        "historicalName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+        "occurrence": 0,
+        "currentName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4-projection.test.ts",
+        "historicalName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+        "occurrence": 0,
+        "currentName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/commerce-v4.integration.test.ts",
+        "historicalName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+        "occurrence": 0,
+        "currentName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/device-gps-privacy-v4.integration.test.ts",
+        "historicalName": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+        "occurrence": 0,
+        "currentName": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/handoff-calendar.integration.test.ts",
+        "historicalName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+        "occurrence": 0,
+        "currentName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/internal-assistant-visibility.integration.test.ts",
+        "historicalName": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+        "occurrence": 0,
+        "currentName": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/material-request-batches-v4.integration.test.ts",
+        "historicalName": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+        "occurrence": 0,
+        "currentName": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/media-upload-idempotency.integration.test.ts",
+        "historicalName": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+        "occurrence": 0,
+        "currentName": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/operations-digest.integration.test.ts",
+        "historicalName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+        "occurrence": 0,
+        "currentName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after its linked rework source changes while the accepted original and old snapshot stay intact",
+        "currentStatus": "passed",
+        "semanticV4Replacement": true
+      },
+      {
+        "testPath": "tests/operations-digest.integration.test.ts",
+        "historicalName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+        "occurrence": 0,
+        "currentName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period rework facts invalidate old history and are recomputed without changing accepted originals",
+        "currentStatus": "passed",
+        "semanticV4Replacement": true
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/order-lifecycle-v4.integration.test.ts",
+        "historicalName": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+        "occurrence": 0,
+        "currentName": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/v4-core-contracts.integration.test.ts",
+        "historicalName": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+        "occurrence": 0,
+        "currentName": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/v4-http-runtime-contracts.integration.test.ts",
+        "historicalName": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+        "occurrence": 0,
+        "currentName": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      },
+      {
+        "testPath": "tests/work-notifications.integration.test.ts",
+        "historicalName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+        "occurrence": 0,
+        "currentName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+        "currentStatus": "passed",
+        "semanticV4Replacement": false
+      }
+    ]
+  },
+  "currentFailures": [],
+  "evidenceHashes": {
+    "browser-result.json": "dcb1ce4a8eb6e1cf0a5b440e4daabef673e853851093e57373fa174978692bad",
+    "built-artifacts.json": "67af8b9009660d648a6fd742b763a4181c0ced26e0e80ea5c89c97ab630db08e",
+    "bundled-worker-restart.json": "b1a5ce69ea1ea54980c0c8a2ba2b948e7067512d33a15b688c4d4b6c172e319f",
+    "historical-1cb/browser-result.json": "920b822da2d1f0165349128ff11a20864c83aeb86b85fc688971529d734aff50",
+    "historical-1cb/built-artifacts.json": "60ca211352cc8660494d34711d2fef2afeabc140c3b5379a264d3873efa5d852",
+    "historical-1cb/bundled-worker-restart.json": "2765435d2b0f5f9738ab9b10aabc55aae769592b413cfc33010eb49946e2558c",
+    "historical-1cb/live-isolated-verification.json": "964241ff0271d5d1c42b9225822dffa3481830824419e2479f76585e55246bdb",
+    "historical-1cb/native/android-lint-results.xml": "686d245fc39f975e376afda4b29d967f7abcd50747be9f0e23c80e590a0205e0",
+    "historical-1cb/native/android-native-receipt.json": "1ffc9a9b7274f439a87da5a1db0c2e9614dd286c55a54276c2af196c6dec3ebe",
+    "historical-1cb/native/ios-native-receipt.json": "16db590c7124b011ff41ac95f659cf0d87e3cea2f9b5f52591192929b858336e",
+    "historical-1cb/native/ios-xctest-summary.json": "49cfa368dfa130ad259bda6b975c1150494bc648927621d769e16ac0d5f1e321",
+    "historical-1cb/native-summary.json": "453b57f22482381676d57a0ac1a094004588f92239128eb4f727f022c718603c",
+    "historical-1cb/release-live-unit.json": "deb822227fa7526d3bf262e837733a85757ff6399a86e4d36b8f673919c222d9",
+    "historical-1cb/verification.json": "950db43aeeb57bf1bd0bcb34e9ca9a2c9c31e566a838c8535e702ec4f8893883",
+    "live-isolated-verification.json": "01e0c608a1a31530d8990b85e57d20af1caddaea9bdc6ac61560f83c6e9b2121",
+    "local-summary.json": "74edac46378a8dbfe3d290c56ba582df673499cb45dd94e539661ea2fdec4686",
+    "local-unit.json": "78db596e0d95842a35d22a757df32ee7f3f9e9e6c4e70b5a92729550043a8bb6",
+    "native/android-lint-results.xml": "686d245fc39f975e376afda4b29d967f7abcd50747be9f0e23c80e590a0205e0",
+    "native/android-native-receipt.json": "e4f01e3927bfe1045fc0f94b455ef1a4a7f965690a1faa5ad38bffa4c6b59287",
+    "native/artifact-proof.json": "99333d8145a45b7a084b9b0a3eccf9c59a2e1fdbba91d3593edc8f2cf79f7535",
+    "native/ios-native-receipt.json": "dd29afe6b98aa2b801c8bc3efe2fff251a663ac9b03d7ec48ecc080ba9a3fb15",
+    "native/ios-xctest-summary.json": "d264d52dfc7a3c101d783df3e7cd75871594e852372396f019d85050e22b7d71",
+    "native-summary.json": "8bee2f20a5b4dc8e41284740390c403868875d9bcbce608c26699aa4c8b9d6c3",
+    "release-live-unit.json": "d40043dfa839ab66272eaa9b3aee56baa0864aacf800e415d0a5dad26f68d1f9"
+  },
+  "limitations": [
+    "All external AI/provider transports in these regressions are explicit synthetic doubles.",
+    "Six small load-seed SQL cases do not measure the full KNB-23 workload, latency, RPO/RTO or cost.",
+    "Whole V4/V3 acceptance, D07 remaining contracts and production deployment are not inferred from test totals.",
+    "Hosted source/runtime/documentation packaging succeeded in the workflow. Independent download verification in this checkpoint covers application evidence/built bytes and native artifacts; no full runtime handover or public deployment is claimed."
+  ],
+  "workflowSteps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:19Z",
+      "completedAt": "2026-10-11T00:15:20Z"
+    },
+    {
+      "name": "Initialize containers",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:20Z",
+      "completedAt": "2026-10-11T00:15:35Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:35Z",
+      "completedAt": "2026-10-11T00:15:36Z"
+    },
+    {
+      "name": "Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:36Z",
+      "completedAt": "2026-10-11T00:15:41Z"
+    },
+    {
+      "name": "Run actions/setup-python@v5",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:41Z",
+      "completedAt": "2026-10-11T00:15:42Z"
+    },
+    {
+      "name": "Run npm ci --ignore-scripts --strict-ssl=true",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:42Z",
+      "completedAt": "2026-10-11T00:15:53Z"
+    },
+    {
+      "name": "Run python3 -m pip install openpyxl==3.1.5 Pillow==11.3.0",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:53Z",
+      "completedAt": "2026-10-11T00:15:57Z"
+    },
+    {
+      "name": "Run npm run typecheck",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:15:57Z",
+      "completedAt": "2026-10-11T00:16:09Z"
+    },
+    {
+      "name": "Run npm run build",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:16:09Z",
+      "completedAt": "2026-10-11T00:20:00Z"
+    },
+    {
+      "name": "Attest exact built application artifacts",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:20:00Z",
+      "completedAt": "2026-10-11T00:20:00Z"
+    },
+    {
+      "name": "Validate release scripts",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:20:00Z",
+      "completedAt": "2026-10-11T00:20:00Z"
+    },
+    {
+      "name": "Build the actual Railway container and verify worker source contract",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:20:00Z",
+      "completedAt": "2026-10-11T00:24:11Z"
+    },
+    {
+      "name": "Run npx playwright install --with-deps chromium",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:24:11Z",
+      "completedAt": "2026-10-11T00:24:37Z"
+    },
+    {
+      "name": "Real isolated SQL browser restore and worker restart acceptance",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:24:37Z",
+      "completedAt": "2026-10-11T00:28:53Z"
+    },
+    {
+      "name": "Package exact hosted source runtime and documentation",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:28:53Z",
+      "completedAt": "2026-10-11T00:29:04Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:04Z",
+      "completedAt": "2026-10-11T00:29:05Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:05Z",
+      "completedAt": "2026-10-11T00:29:06Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:06Z",
+      "completedAt": "2026-10-11T00:29:08Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:08Z",
+      "completedAt": "2026-10-11T00:29:09Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:09Z",
+      "completedAt": "2026-10-11T00:29:09Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:09Z",
+      "completedAt": "2026-10-11T00:29:11Z"
+    },
+    {
+      "name": "Post Run actions/setup-python@v5",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:11Z",
+      "completedAt": "2026-10-11T00:29:11Z"
+    },
+    {
+      "name": "Post Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:11Z",
+      "completedAt": "2026-10-11T00:29:13Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:13Z",
+      "completedAt": "2026-10-11T00:29:13Z"
+    },
+    {
+      "name": "Stop containers",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:13Z",
+      "completedAt": "2026-10-11T00:29:13Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-11T00:29:13Z",
+      "completedAt": "2026-10-11T00:29:13Z"
+    }
+  ],
+  "followupRecovery": {
+    "previousSource": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "previousRun": 38096631407,
+    "cases": [
+      {
+        "testPath": "tests/handoff-calendar.integration.test.ts",
+        "name": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority stores exactly one deterministic queue fact with real service commands and no customer time/crew promise",
+        "previousStatus": "failed",
+        "currentStatus": "passed"
+      },
+      {
+        "testPath": "tests/work-notifications.integration.test.ts",
+        "name": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+        "previousStatus": "failed",
+        "currentStatus": "passed"
+      }
+    ]
+  },
+  "executionSourceManifest": {
+    "path": "docs/evidence/offline-execution-scope.json",
+    "indexSha256": "fd14d358f51cb471fcc1061e51602cb03e74f5755d1b172dffa87049c170003a",
+    "sourceManifestSha256": "0b9e6bdbc6fd82983e1017933e4b8f521f5a97d90b6a0f12c7e8d32c274161d4",
+    "filesIndependentlyChecked": 304,
+    "exactCommittedIndexMatches": true,
+    "allCurrentSourceBytesMatch": true
+  },
+  "native": {
+    "runId": 38097796144,
+    "status": "PASSED_SCOPED_NATIVE_DEBUG_SIMULATOR",
+    "sourceSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "androidHostJavaPass": 66,
+    "androidLint": {
+      "errors": 0,
+      "fatal": 0,
+      "warnings": 10,
+      "issueIds": {
+        "InlinedApi": 1,
+        "OldTargetApi": 1,
+        "AppBundleLocaleChanges": 1,
+        "AndroidGradlePluginVersion": 1,
+        "PluralsCandidate": 2,
+        "DataExtractionRules": 2,
+        "ObsoleteSdkInt": 1,
+        "MissingApplicationIcon": 1
+      }
+    },
+    "iosActualXCTest": {
+      "result": "Passed",
+      "totalTestCount": 19,
+      "passedTests": 19,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "expectedFailures": 0
+    },
+    "evidence": "docs/evidence/sql-recovery-2026-10-11/native-summary.json"
+  },
+  "recordedAtUtc": "2026-10-11T00:30:30.390187Z"
+}

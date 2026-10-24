@@ -1,0 +1,15 @@
+# Change log
+
+## 0.1.0 — implementation candidate, 2026-10-06
+
+Built an isolated KNABA DE repository from the full V3 specification. Added a strict TypeScript modular API/domain, PostgreSQL aggregates with immutable revisions/audit and transactional inbox/outbox/idempotency, a separate durable worker, responsive multilingual web console and customer entry, and native mobile source/contracts.
+
+Implemented identity/session/MFA and role revocation; guided/delegated versioned offers, fixed-price changes and dispatch readiness; site/location/task/quality workflows; exact time/travel/corrections and privacy gates; company chat/translation/delivery; inventory and procurement ledgers; preliminary remuneration, accountant verification and payout acknowledgments; private verified image uploads, immutable customer reports and actual PDF/XLSX/CSV exports; assistant version/knowledge/automation controls. Added customer Issue drafts, submission, classification, canonical defect/rework/continuation links, evidence-based resolution/reopening and safe location/task context. Customer authority is checked from active unexpired memberships. Internal knowledge recognizes canonical staff roles; mixed external roles cannot retrieve it, and PERSONAL knowledge is restricted to its subject. Refined same-company/site/self/customer access, stale callbacks, canonical task assignment, immutable report projection, image handling and worker policy checks through targeted regressions.
+
+Added private PostgreSQL/S3 storage selection with tenant/owner/checksum verification, immutable archived report bytes, a dependency-free real OOXML exporter, bounded CSV/XLSX location import and configured fail-closed ClamAV PDF scanning. Android and iOS sources include enrollment, conservative tracking, encrypted offline queues and local privacy stop; signed installable artifacts and physical acceptance remain outstanding.
+
+Added reproducible build/migration/deployment/backup/restore tooling, requirement traceability, legal review drafts and reviewer/user/admin/handover documentation. Pinned dependencies and kept synthetic records confined to explicit DEMO/TEST.
+
+After user-confirmed Railway plan activation, created and configured a separate synthetic staging project with empty PostgreSQL/API/worker services, EU region, resource ceilings, API pre-deploy/readiness settings and a platform address. No application deployment has run: dedicated source transfer and billing controls remain outstanding. Added Docker context exclusions and corrected the documented authentication-key contract.
+
+This version is an implementation candidate, not an accepted company production release. Live provider/mobile/legal acceptance and remaining implementation gaps are listed in [the roadmap](MASTER_ROADMAP.md) and [external prerequisites](docs/EXTERNAL_PREREQUISITES.md). Executed checks, failures and exact release identity belong to [test evidence](docs/evidence/) and [handover](docs/HANDOVER.md), rather than this change log.

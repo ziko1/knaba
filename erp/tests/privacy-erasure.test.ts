@@ -1,0 +1,257 @@
+import {describe,expect,it} from 'vitest';
+import {type Actor,type Data,type Entity} from '../packages/domain/core.ts';
+import {assertPrivacyErasurePlanHash,buildPrivacyErasurePlan,erasureHash,revalidatePrivacyErasurePlan,verifyPrivacyErasure,type ErasureBlobCheck,type ErasureSnapshot,type PrivacyErasurePlan} from '../packages/domain/privacy-erasure.ts';
+
+const NOW='2026-10-06T10:00:00.000Z',OLD='2026-07-01T10:00:00.000Z',HASH='a'.repeat(64),CLIENT_HASH='b'.repeat(64);
+const actor:Actor={userId:'owner',companyId:'company',roles:['OWNER'],permissions:['privacy.review','scope.company'],siteIds:[],customerIds:[],warehouseIds:[],mfaVerified:true};
+const authority={actor,now:NOW};
+function entity(kind:string,id:string,data:Data,createdAt=OLD,companyId='company',version=1):Entity{return {kind,id,data,createdAt,updatedAt:createdAt,companyId,version};}
+function fixture():ErasureSnapshot{
+ const legalApproval=entity('legal_approval','legal',{subject:'PRIVACY',status:'APPROVED',active:true,evidenceReference:'synthetic-legal-reference',approvedAt:OLD,expiresAt:'2027-01-01T00:00:00.000Z',scope:{erasureCategories:['MESSAGES','MEDIA'],retentionProfiles:{CHAT:{minDays:0,maxDays:365},MEDIA:{minDays:0,maxDays:365}}}});
+ const request=entity('privacy_request','request',{type:'ERASURE',subjectUserId:'subject',categories:['MESSAGES','MEDIA'],state:'AWAITING_ERASURE_EXECUTION',legalApprovalId:legalApproval.id,legalApprovalVersion:1});
+ const message=entity('message','message',{author_id:'subject',channel_id:'channel',text:'PRIVATE_SOURCE_CANARY',message_version:2,revisions:[{text:'PRIVATE_EMBEDDED_REVISION_CANARY'}],attachment_ids:[]});
+ const upload=entity('media_upload','upload',{uploadedBy:'subject',blobKey:'original',sha256:HASH,clientBlobKey:'client',clientSha256:CLIENT_HASH,fileName:'PRIVATE_FILENAME_CANARY',caption:'PRIVATE_CAPTION_CANARY'});
+ const media=entity('media_asset','media',{uploadedBy:'subject',uploadId:'upload',blobKey:'original',sha256:HASH,clientBlobKey:'client',clientSha256:CLIENT_HASH,siteId:'site',caption:'PRIVATE_CAPTION_CANARY'});
+ const translation=entity('translation','translation',{message_id:'message',source_text:'PRIVATE_SOURCE_CANARY',text:'PRIVATE_TRANSLATION_CANARY',target_language:'DE',status:'SUCCEEDED'});
+ const input=entity('conversation_input','input',{user_id:'subject',message_id:'message',provider_event_id:'provider-event',input:{id:'provider-event',text:'PRIVATE_RAW_CANARY'},status:'PROCESSED'});
+ const copy=entity('message','copy',{author_id:'other',channel_id:'other-channel',copied_from:'message',text:'PRIVATE_COPY_CANARY'});
+ const rows=[entity('user','subject',{active:true}),message,upload,media,translation,input,copy,
+  entity('translation_request','translation-request',{translation_id:'translation',text:'PRIVATE_QUEUED_TRANSLATION_CANARY'}),
+  entity('delivery','delivery',{message_id:'copy',rendered:'PRIVATE_DELIVERY_CANARY'}),
+  entity('callback','callback',{message_id:'message',secret:'PRIVATE_CALLBACK_CANARY'}),
+  entity('message_copy_preview','copy-preview',{message_id:'message',text:'PRIVATE_COPY_PREVIEW_CANARY',status:'PENDING'}),
+  entity('search_index','index',{messageId:'message',snippet:'PRIVATE_INDEX_CANARY'}),
+  entity('notification','notification',{message_id:'copy',body:'PRIVATE_NOTIFICATION_CANARY'}),
+  entity('message','ordinary-reply',{author_id:'other',reply_to_id:'message',text:'OTHER_AUTHOR_REPLY_MUST_SURVIVE'}),
+  entity('message','foreign',{author_id:'subject',text:'FOREIGN_CANARY'},OLD,'foreign-company')];
+ return {companyId:'company',request,legalApproval,policies:['CHAT','MEDIA'].map(category=>entity('retention_policy',`policy-${category}`,{category,retentionDays:30,minDays:0,maxDays:365,state:'APPROVED',legalApprovalId:'legal',legalApprovalVersion:1,approvedBy:'legal-reviewer',createdBy:'owner',approvedAt:OLD})),holds:[],aggregates:rows,
+  revisions:rows.filter(r=>['message','media_upload','media_asset','translation','conversation_input'].includes(r.kind)).map(r=>({companyId:r.companyId,kind:r.kind,id:r.id,version:r.version,data:structuredClone(r.data),createdAt:r.createdAt})),
+  receipts:[{companyId:'company',actorId:'subject',idempotencyKey:'message-receipt',command:'message.send',result:{id:'message',data:message.data}},{companyId:'company',actorId:'subject',idempotencyKey:'media-receipt',command:'media.upload',result:{id:'media',data:media.data}},{companyId:'company',actorId:'other',idempotencyKey:'other-receipt',command:'task.start',result:{id:'unrelated-task',data:{note:'BUSINESS_RECEIPT_SURVIVES'}}}],
+  outbox:[{companyId:'company',id:'outbox',type:'message.created',status:'PENDING',data:{message_id:'message',text:'PRIVATE_OUTBOX_CANARY'}},{companyId:'company',id:'raw-outbox',type:'whatsapp.message_received',status:'SUCCEEDED',data:{input:{id:'provider-event',text:'PRIVATE_RAW_CANARY'}}}],
+  webhookInbox:[{companyId:'company',provider:'WHATSAPP',eventId:'provider-event',payload:{text:'PRIVATE_RAW_CANARY'}},{companyId:'foreign-company',provider:'WHATSAPP',eventId:'provider-event',payload:{text:'FOREIGN_RAW_CANARY'}}]};
+}
+function build(s=fixture()){return buildPrivacyErasurePlan(s,authority);}
+// This fixture applies the approved plan to an in-memory snapshot only. It is
+// proof of the domain verifier, never proof of actual SQL/provider deletion.
+function apply(plan:PrivacyErasurePlan,s:ErasureSnapshot){const after=structuredClone(s);for(const a of plan.actions){
+ if(a.type==='REDACT_AGGREGATE'){const row=after.aggregates.find(r=>r.companyId===a.companyId&&r.kind===a.kind&&r.id===a.id);if(row)row.data=structuredClone(a.replacement!);}
+ if(a.type==='REDACT_REVISION'){const row=after.revisions.find(r=>r.companyId===a.companyId&&r.kind===a.kind&&r.id===a.id&&r.version===a.version);if(row)row.data=structuredClone(a.replacement!);}
+ if(a.type==='REDACT_RECEIPT'){const row=after.receipts.find(r=>r.companyId===a.companyId&&r.actorId===a.actorId&&r.idempotencyKey===a.id);if(row)row.result=structuredClone(a.replacement!);}
+ if(a.type==='CANCEL_OUTBOX'){const row=after.outbox.find(r=>r.companyId===a.companyId&&r.id===a.id);if(row){row.data=structuredClone(a.replacement!);row.status='CANCELLED';}}
+ if(a.type==='REDACT_WEBHOOK'){const row=after.webhookInbox.find(r=>r.companyId===a.companyId&&r.provider===a.provider&&r.eventId===a.id);if(row)row.payload=structuredClone(a.replacement!);}
+ }return after;}
+function blobChecks(p:PrivacyErasurePlan):ErasureBlobCheck[]{return p.actions.filter(a=>a.type==='DELETE_BLOB').map(a=>({companyId:a.companyId,id:a.id,result:'NOT_FOUND'}));}
+function hold(subjectUserId='subject',categories=['CHAT','MEDIA']){return entity('legal_hold','hold',{subjectUserId,categories,state:'ACTIVE',expiresAt:'2027-01-01T00:00:00.000Z'});}
+
+describe('bounded CHAT/MEDIA erasure approval and evidence',()=>{
+ it('maps original/embedded/history/translated/copied/index/raw input/receipt/queued content and both physical blob copies',()=>{
+  const s=fixture(),p=build(s),targets=new Set(p.actions.map(a=>`${a.type}:${a.kind??''}:${a.id}`));
+  for(const id of ['message','copy','copy-preview','translation','translation-request','delivery','callback','index','notification','input','upload','media'])expect([...targets].some(k=>k.startsWith('REDACT_AGGREGATE:')&&k.endsWith(`:${id}`))).toBe(true);
+  expect(p.actions.filter(a=>a.type==='REDACT_REVISION').length).toBe(6);
+  expect(p.actions.filter(a=>a.type==='DELETE_BLOB').map(a=>a.id)).toEqual(['client','original']);
+  expect(p.actions.filter(a=>a.type==='REDACT_RECEIPT').map(a=>a.id)).toEqual(['media-receipt','message-receipt']);
+  expect(p.actions.filter(a=>a.type==='CANCEL_OUTBOX').map(a=>a.id)).toEqual(['outbox','raw-outbox']);
+  expect(p.actions.filter(a=>a.type==='REDACT_WEBHOOK').map(a=>a.id)).toEqual(['provider-event']);
+  expect(JSON.stringify(p)).not.toContain('CANARY');expect(p.sourceDataDeleted).toBe(false);expect(p.externalCopiesStatus).toBe('PENDING');
+  expect(s.aggregates.find(r=>r.id==='message')!.data.text).toBe('PRIVATE_SOURCE_CANARY');
+ });
+ it('never includes foreign-company data, another author ordinary reply, or unrelated payroll/business records',()=>{
+  const s=fixture();s.aggregates.push(entity('payroll_calculation','payroll',{employeeId:'subject',bank:'PAYROLL_CANARY'}),entity('shift','shift',{employeeId:'subject',notes:'TIME_CANARY'}));
+  const p=build(s);expect(p.actions.every(a=>a.companyId==='company')).toBe(true);expect(p.actions.some(a=>['foreign','ordinary-reply','payroll','shift','other-receipt'].includes(a.id))).toBe(false);
+  const after=apply(p,s);expect(after.aggregates.find(r=>r.id==='ordinary-reply')!.data.text).toBe('OTHER_AUTHOR_REPLY_MUST_SURVIVE');expect(after.aggregates.find(r=>r.id==='payroll')!.data.bank).toBe('PAYROLL_CANARY');
+ });
+ it.each(['TIME','PAYROLL','PROFILE','AUDIT'])('refuses blind %s deletion regardless of request legal approval',(category)=>{const s=fixture();s.request.data.categories=[category];expect(()=>build(s)).toThrow('NEEDS_APPROVAL');});
+ it.each([
+  ['no MFA',(s:ErasureSnapshot,a:Actor)=>{a.mfaVerified=false;}],
+  ['non owner',(s:ErasureSnapshot,a:Actor)=>{a.roles=['BOT_ADMIN'];}],
+  ['missing company scope',(s:ErasureSnapshot,a:Actor)=>{a.permissions=['privacy.review'];}],
+  ['cross tenant actor',(s:ErasureSnapshot,a:Actor)=>{a.companyId='foreign-company';}],
+  ['self approval',(s:ErasureSnapshot,a:Actor)=>{a.userId='subject';}],
+  ['missing source subject',(s:ErasureSnapshot)=>{s.aggregates=s.aggregates.filter(r=>r.id!=='subject');}],
+  ['unreviewed request',(s:ErasureSnapshot)=>{s.request.data.state='SUBMITTED';}],
+  ['revoked approval',(s:ErasureSnapshot)=>{s.legalApproval.data.active=false;}],
+  ['expired approval',(s:ErasureSnapshot)=>{s.legalApproval.data.expiresAt=NOW;}],
+  ['stale legal version',(s:ErasureSnapshot)=>{s.legalApproval.version=2;}],
+  ['missing explicit erasure scope',(s:ErasureSnapshot)=>{delete s.legalApproval.data.scope.erasureCategories;}],
+  ['wrong legal category scope',(s:ErasureSnapshot)=>{s.legalApproval.data.scope.erasureCategories=['CHAT'];}],
+  ['self approved policy',(s:ErasureSnapshot)=>{s.policies[0]!.data.approvedBy='owner';}],
+  ['stale policy approval',(s:ErasureSnapshot)=>{s.policies[0]!.data.legalApprovalVersion=2;}],
+  ['out of legal retention bounds',(s:ErasureSnapshot)=>{s.policies[0]!.data.retentionDays=366;}],
+  ['duplicate current policy',(s:ErasureSnapshot)=>{s.policies.push(structuredClone(s.policies[0]!));}],
+ ] as const)('fails closed for %s',(_name,mutate)=>{const s=fixture(),a=structuredClone(actor);mutate(s,a);expect(()=>buildPrivacyErasurePlan(s,{actor:a,now:NOW})).toThrow();});
+ it('retains all held source content and performs no redaction or invented physical deletion',()=>{const s=fixture();s.holds=[hold()];const p=build(s);expect(p.actions).toEqual([]);expect(p.retained.every(r=>r.reason==='LEGAL_HOLD')).toBe(true);expect(verifyPrivacyErasure(p,s,[])).toMatchObject({sourceDataDeleted:false,liveSourceStatus:'NO_ELIGIBLE_LIVE_SCOPE',requestFulfilled:false});});
+ it('retains records newer than legal retention cutoff and malformed source dates',()=>{const s=fixture();for(const r of s.aggregates)if(['message','media_asset','media_upload','conversation_input'].includes(r.kind)&&r.companyId==='company')r.createdAt=NOW;s.aggregates.find(r=>r.id==='media')!.createdAt='malformed';const p=build(s);expect(p.actions).toEqual([]);expect(p.retained.some(r=>r.reason==='INVALID_RETENTION_DATE')).toBe(true);expect(p.retained.some(r=>r.reason==='NOT_EXPIRED')).toBe(true);});
+ it('protects published report photos through both current and historical report snapshots',()=>{
+  const s=fixture();s.aggregates.push(entity('report_version','report-version',{snapshot:{mediaRows:[{mediaId:'media',clientBlobKey:'client'}]}}));
+  const p=build(s);expect(p.retained).toEqual(expect.arrayContaining([expect.objectContaining({id:'media',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}),expect.objectContaining({id:'upload',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'})]));expect(p.actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);
+  const t=fixture();t.revisions.push({companyId:'company',kind:'report_version',id:'historical-report',version:1,data:{snapshot:{mediaRows:[{mediaId:'media',clientBlobKey:'client'}]}}});expect(build(t).actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);
+ });
+ it('retains source referenced by protected time/business proof, never rewriting the proof',()=>{const s=fixture();s.aggregates.push(entity('worklog','worklog',{messageId:'message',notes:'BUSINESS_CANARY'}));const p=build(s);expect(p.retained).toContainEqual({kind:'message',id:'message',category:'CHAT',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'});expect(p.actions.some(a=>a.id==='worklog'||a.id==='message'||a.id==='copy')).toBe(false);});
+ it('blocks a copied derivative protected by another subject legal hold or business proof',()=>{
+  const s=fixture();s.holds.push(hold('other',['CHAT']));expect(()=>build(s)).toThrow('NEEDS_APPROVAL');
+  const t=fixture();t.aggregates.push(entity('task','task',{messageId:'copy'}));expect(()=>build(t)).toThrow('NEEDS_APPROVAL');
+ });
+ it('retains uploads shared with a different subject and rejects unverified historical/shared blob deletion',()=>{
+  const s=fixture();s.aggregates.push(entity('media_asset','other-media',{uploadedBy:'other',blobKey:'original',sha256:HASH,uploadId:'upload'}));const p=build(s);expect(p.actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);expect(p.retained.some(r=>r.reason==='SHARED_BLOB_REQUIRES_REVIEW')).toBe(true);
+  const t=fixture();delete t.revisions.find(r=>r.kind==='media_asset')!.data.sha256;expect(()=>build(t)).toThrow('NEEDS_APPROVAL');
+  const u=fixture();u.revisions.push({companyId:'company',kind:'media_asset',id:'historical-other-media',version:1,data:{uploadedBy:'other',blobKey:'original',sha256:HASH},createdAt:OLD});const retained=build(u);expect(retained.actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);expect(retained.retained.some(r=>r.reason==='SHARED_BLOB_REQUIRES_REVIEW')).toBe(true);
+ });
+ it('blocks non-chat receipts/outbox carrying selected source, preserving business legal records',()=>{const s=fixture();s.receipts.push({companyId:'company',actorId:'owner',idempotencyKey:'business',command:'task.review',result:{messageId:'message',proof:'CANARY'}});expect(()=>build(s)).toThrow('NEEDS_APPROVAL');const t=fixture();t.outbox.push({companyId:'company',id:'business',type:'payroll.proof_generated',status:'PENDING',data:{messageId:'message'}});expect(()=>build(t)).toThrow('NEEDS_APPROVAL');});
+ it('maps pending unlinked raw conversation input to provider inbox/outbox by immutable event id',()=>{const s=fixture();const input=s.aggregates.find(r=>r.id==='input')!;delete input.data.message_id;input.data.status='MANUAL_REVIEW';s.revisions.find(r=>r.id==='input')!.data=structuredClone(input.data);const p=build(s);expect(p.actions).toEqual(expect.arrayContaining([expect.objectContaining({type:'REDACT_AGGREGATE',id:'input',reason:'SOURCE'}),expect.objectContaining({type:'REDACT_WEBHOOK',id:'provider-event'}),expect.objectContaining({type:'CANCEL_OUTBOX',id:'raw-outbox'})]));});
+ it('erases orphan source/translation histories without inventing absent live aggregates and retains unknown-age histories',()=>{
+  const s=fixture();s.aggregates=s.aggregates.filter(r=>!['message','translation'].includes(r.id));const p=build(s);expect(p.actions.some(a=>a.type==='REDACT_AGGREGATE'&&a.id==='message')).toBe(false);expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_REVISION',id:'message',reason:'SOURCE'}));expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_REVISION',id:'translation'}));
+  const t=fixture();t.aggregates=t.aggregates.filter(r=>r.id!=='message');delete t.revisions.find(r=>r.id==='message')!.createdAt;expect(build(t).retained).toContainEqual({kind:'message',id:'message',category:'CHAT',reason:'INVALID_RETENTION_DATE'});
+ });
+ it('uses earliest immutable orphan source creation date independent of revision enumeration order',()=>{const s=fixture();s.aggregates=s.aggregates.filter(r=>r.id!=='message');const history=s.revisions.find(r=>r.id==='message')!;s.revisions.push({...structuredClone(history),version:2,createdAt:NOW});const p=build(s),t=structuredClone(s);t.revisions.reverse();expect(build(t).planHash).toBe(p.planHash);expect(p.actions.some(a=>a.type==='REDACT_REVISION'&&a.id==='message')).toBe(true);});
+ it('treats logically deleted messages as source data until text and every stored revision are redacted',()=>{const s=fixture();s.aggregates.find(r=>r.id==='message')!.data.deleted_at=OLD;const p=build(s);expect(p.actions.some(a=>a.type==='REDACT_AGGREGATE'&&a.id==='message')).toBe(true);});
+ it('follows a historical translation source after its current reference changed, redacting all versions',()=>{const s=fixture();s.aggregates.find(r=>r.id==='translation')!.data.message_id='unrelated';const p=build(s);expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_AGGREGATE',id:'translation'}));expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_REVISION',id:'translation'}));});
+ it('protects decision source proof and refuses malformed active legal holds before any erasure',()=>{const s=fixture();s.aggregates.push(entity('decision','decision',{sources:['message'],summaryDE:'BUSINESS_PROOF'}));expect(build(s).actions.some(a=>a.id==='message')).toBe(false);const t=fixture();t.holds.push(hold());t.holds[0]!.data.expiresAt='malformed';expect(()=>build(t)).toThrow('NEEDS_APPROVAL');});
+ it('retains mixed payroll/time/privacy export proof for separate approval instead of leaving an undisclosed source copy',()=>{const s=fixture();s.aggregates.push(entity('privacy_export','export',{immutable:true,snapshot:{messages:[{id:'message',text:'PRIVATE_EXPORTED_CANARY'}],payroll:[{amountCents:123}]} }));const p=build(s);expect(p.retained).toContainEqual({kind:'message',id:'message',category:'CHAT',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'});expect(p.actions.some(a=>a.id==='export'||a.id==='message')).toBe(false);});
+});
+
+describe('deterministic erasure previews and exact live-scope verification',()=>{
+ it('uses stable hashes across independent snapshot order and does not store source payloads in plan',()=>{const s=fixture(),p=build(s),t=structuredClone(s);for(const rows of [t.aggregates,t.revisions,t.policies,t.receipts,t.outbox,t.webhookInbox])rows.reverse();expect(build(t).planHash).toBe(p.planHash);expect(erasureHash({a:1,b:2})).toBe(erasureHash({b:2,a:1}));});
+ it('permits persisted preview metadata and privacy receipts without invalidating its own confirmation',()=>{const s=fixture(),p=build(s);s.aggregates.push(entity('privacy_erasure_plan','plan',{plan:p}));s.revisions.push({companyId:'company',kind:'privacy_erasure_plan',id:'plan',version:1,data:{plan:p}});s.receipts.push({companyId:'company',actorId:'owner',idempotencyKey:'preview',command:'privacy.erasure.preview',result:p});s.outbox.push({companyId:'company',id:'preview-event',type:'privacy.erasure_previewed',status:'PENDING',data:{plan:p}});expect(revalidatePrivacyErasurePlan(p,s,{actor,now:'2026-10-06T10:01:00.000Z'},p.planHash).planHash).toBe(p.planHash);});
+ it.each(['source edit','new derivative','new hold','new report','revoked legal approval','revoked actor rights','policy changed'])('requires fresh authorization and confirmation after %s',(change)=>{
+  const s=fixture(),p=build(s),a=structuredClone(actor);
+  if(change==='source edit')s.aggregates.find(r=>r.id==='message')!.data.text='CHANGED';
+  if(change==='new derivative')s.aggregates.push(entity('translation','new-copy',{message_id:'message',text:'CHANGED'}));
+  if(change==='new hold')s.holds.push(hold());
+  if(change==='new report')s.aggregates.push(entity('report_version','report',{snapshot:{mediaRows:[{mediaId:'media'}]}}));
+  if(change==='revoked legal approval')s.legalApproval.data.active=false;
+  if(change==='revoked actor rights')a.permissions=[];
+  if(change==='policy changed')s.policies[0]!.version++;
+  expect(()=>revalidatePrivacyErasurePlan(p,s,{actor:a,now:'2026-10-06T10:01:00.000Z'},p.planHash)).toThrow();
+ });
+ it('rejects expired, mismatched, tampered and backwards-clock confirmation',()=>{const s=fixture(),p=build(s);expect(()=>revalidatePrivacyErasurePlan(p,s,{actor,now:p.expiresAt},p.planHash)).toThrow('VERSION_CONFLICT');expect(()=>revalidatePrivacyErasurePlan(p,s,authority,'wrong')).toThrow('VERSION_CONFLICT');const tampered=structuredClone(p);tampered.actions[0]!.replacement={text:'INJECTED'};expect(()=>assertPrivacyErasurePlanHash(tampered)).toThrow('VERSION_CONFLICT');expect(()=>revalidatePrivacyErasurePlan(p,s,{actor,now:OLD},p.planHash)).toThrow();});
+ it('verifies exact planned live purge while explicitly leaving external copies and full request fulfillment pending',()=>{const s=fixture(),p=build(s),after=apply(p,s);const evidence=verifyPrivacyErasure(p,after,blobChecks(p));expect(evidence).toMatchObject({sourceDataDeleted:true,liveSourceStatus:'PURGED_PLANNED_LIVE_SCOPE',requestFulfilled:false,fullLegalDsarFulfillment:false});expect(evidence.checks.every(c=>c.verified)).toBe(true);expect(evidence.externalCopies).toEqual(expect.arrayContaining([expect.objectContaining({class:'BACKUPS',status:'PENDING_POLICY_EXPIRY_OR_APPROVED_RESTORE_REDACTION'}),expect.objectContaining({class:'PROCESSOR_COPIES',status:'PENDING_PROVIDER_CONFIRMATION'}),expect.objectContaining({class:'DELIVERED_DEVICE_COPIES',status:'NOT_REMOTELY_ERASABLE'})]));});
+ it('reports partial scope honestly when approved retention keeps a business report media asset',()=>{const s=fixture();s.aggregates.push(entity('report_version','report',{snapshot:{mediaRows:[{mediaId:'media',clientBlobKey:'client'}]}}));const p=build(s);expect(verifyPrivacyErasure(p,apply(p,s),blobChecks(p))).toMatchObject({sourceDataDeleted:true,liveSourceStatus:'PARTIALLY_PURGED_LIVE_SCOPE',requestFulfilled:false});});
+ it.each(['history','embedded revision','translation','receipt','outbox status','raw webhook','present blob','unknown blob','foreign blob check','contradictory blob checks'])('fails verification if %s remains',(copy)=>{
+  const s=fixture(),p=build(s),after=apply(p,s);let checks=blobChecks(p);
+  if(copy==='history')after.revisions.find(r=>r.id==='message')!.data.text='PRIVATE_HISTORY_CANARY';
+  if(copy==='embedded revision')after.aggregates.find(r=>r.id==='message')!.data.revisions=[{text:'PRIVATE_HISTORY_CANARY'}];
+  if(copy==='translation')after.aggregates.find(r=>r.id==='translation')!.data.source_text='PRIVATE_SOURCE_CANARY';
+  if(copy==='receipt')after.receipts.find(r=>r.idempotencyKey==='message-receipt')!.result={id:'message',text:'PRIVATE_SOURCE_CANARY'};
+  if(copy==='outbox status')after.outbox.find(r=>r.id==='outbox')!.status='RUNNING';
+  if(copy==='raw webhook')after.webhookInbox.find(r=>r.companyId==='company')!.payload={text:'PRIVATE_RAW_CANARY'};
+  if(copy==='present blob')checks[0]!.result='PRESENT';
+  if(copy==='unknown blob')checks=[];
+  if(copy==='foreign blob check')checks[0]!.companyId='foreign-company';
+  if(copy==='contradictory blob checks')checks.push({...checks[0]!,result:'PRESENT'});
+  expect(verifyPrivacyErasure(p,after,checks)).toMatchObject({sourceDataDeleted:false,liveSourceStatus:'VERIFICATION_FAILED',requestFulfilled:false});
+ });
+ it.each(['new revision','new copied message','new translation','new receipt','new outbox'])('rediscovers %s created after the planned snapshot instead of accepting enumerated-action-only proof',(copy)=>{
+  const s=fixture(),p=build(s),after=apply(p,s);
+  if(copy==='new revision')after.revisions.push({companyId:'company',kind:'message',id:'message',version:99,data:{author_id:'subject',text:'PRIVATE_NEW_CANARY'}});
+  if(copy==='new copied message')after.aggregates.push(entity('message','new-copy',{author_id:'other',copied_from:'copy',text:'PRIVATE_NEW_CANARY'}));
+  if(copy==='new translation')after.aggregates.push(entity('translation','new-translation',{message_id:'copy',text:'PRIVATE_NEW_CANARY'}));
+  if(copy==='new receipt')after.receipts.push({companyId:'company',actorId:'other',idempotencyKey:'new',command:'message.copy',result:{messageId:'copy',text:'PRIVATE_NEW_CANARY'}});
+  if(copy==='new outbox')after.outbox.push({companyId:'company',id:'new',type:'translation.requested',status:'PENDING',data:{message_id:'copy',text:'PRIVATE_NEW_CANARY'}});
+  expect(verifyPrivacyErasure(p,after,blobChecks(p))).toMatchObject({sourceDataDeleted:false,liveSourceStatus:'VERIFICATION_FAILED'});
+ });
+ it('accepts actual absent records or additional safe tombstone revisions without claiming absence from backups',()=>{const s=fixture(),p=build(s),after=apply(p,s);const original=after.aggregates.find(r=>r.id==='message')!;after.revisions.push({companyId:'company',kind:'message',id:'message',version:99,data:structuredClone(original.data)});after.aggregates=after.aggregates.filter(r=>r.id!=='translation');expect(verifyPrivacyErasure(p,after,blobChecks(p)).sourceDataDeleted).toBe(true);});
+ it('refuses forged plans or verification snapshots belonging to another company',()=>{const s=fixture(),p=build(s),after=apply(p,s);after.companyId='foreign-company';expect(()=>verifyPrivacyErasure(p,after,blobChecks(p))).toThrow('ACCESS_DENIED');const tampered=structuredClone(p);tampered.actions=[];expect(()=>verifyPrivacyErasure(tampered,s,[])).toThrow('VERSION_CONFLICT');});
+ it('bounds work before any mutation when the snapshot exceeds reviewable capacity',()=>{const s=fixture();for(let i=0;i<25_001;i++)s.outbox.push({companyId:'company',id:`bulk-${i}`,type:'unrelated',data:{},status:'PENDING'});expect(()=>build(s)).toThrow('VALIDATION_ERROR');});
+});
+
+describe('processor quiescence before irreversible erasure',()=>{
+ const reason='IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE';
+ function chatOnly(s:ErasureSnapshot){s.request.data.categories=['MESSAGES'];return s;}
+ function expectChatHeld(s:ErasureSnapshot){const p=build(chatOnly(s));expect(p.actions).toEqual([]);for(const id of ['message','copy','translation','delivery','input','copy-preview','index','notification'])expect(p.retained).toContainEqual(expect.objectContaining({id,reason}));expect(p.retained.some(r=>r.id==='ordinary-reply')).toBe(false);expect(verifyPrivacyErasure(p,s,[])).toMatchObject({sourceDataDeleted:false,liveSourceStatus:'NO_ELIGIBLE_LIVE_SCOPE'});expect(JSON.stringify(p)).not.toContain('CANARY');return p;}
+ it('retains sources and their transitive cached copies while any mapped job is RUNNING, regardless of unknown lease outcome',()=>{const s=fixture();s.outbox[0]!.status='RUNNING';expectChatHeld(s);expect(s.aggregates.find(r=>r.id==='message')!.data.text).toBe('PRIVATE_SOURCE_CANARY');expect(s.outbox[0]!.data.text).toBe('PRIVATE_OUTBOX_CANARY');});
+ it.each(['SUCCEEDED','FAILED','CANCELLED'])('requires a new preview after mapped processing reaches terminal %s',(status)=>{const s=fixture();s.outbox[0]!.status='RUNNING';const held=expectChatHeld(s);s.outbox[0]!.status=status;expect(()=>revalidatePrivacyErasurePlan(held,s,authority,held.planHash)).toThrow('VERSION_CONFLICT');const fresh=build(s);expect(fresh.actions).toContainEqual(expect.objectContaining({type:'REDACT_AGGREGATE',id:'message'}));expect(fresh.retained.some(r=>r.reason===reason)).toBe(false);});
+ it('retains original input and derivatives when an inbound raw provider job is still running',()=>{const s=fixture();s.outbox.find(o=>o.id==='raw-outbox')!.status='RUNNING';expectChatHeld(s);});
+ it('retains source while a delivery has already captured its content and entered SENDING',()=>{const s=fixture();s.aggregates.find(r=>r.id==='delivery')!.data.status='SENDING';expectChatHeld(s);});
+ it.each(['RUNNING','PROCESSING','SENDING','IN_FLIGHT'])('retains source while translation reports explicit %s processing',(status)=>{const s=fixture();s.aggregates.find(r=>r.id==='translation')!.data.status=status;expectChatHeld(s);});
+ it('permits cancellable PENDING translations when no source processor is running',()=>{const s=chatOnly(fixture());s.aggregates.find(r=>r.id==='translation')!.data.status='PENDING';const p=build(s);expect(p.actions.some(a=>a.id==='message')).toBe(true);expect(p.retained.some(r=>r.reason===reason)).toBe(false);});
+ it('retains sources for RUNNING AI usage linked through a terminal outbox event, preserving accounting evidence',()=>{const s=fixture();s.outbox[0]!.status='SUCCEEDED';s.aggregates.push(entity('ai_usage','usage',{event_id:'outbox',status:'RUNNING',reserved_cents:37}));expectChatHeld(s);expect(s.aggregates.find(r=>r.id==='usage')!.data.reserved_cents).toBe(37);});
+ it('holds only the referenced media component while unrelated chat remains eligible',()=>{const s=fixture();s.outbox.push({companyId:'company',id:'media-job',type:'media.scan_requested',status:'RUNNING',data:{uploadId:'upload'}});const p=build(s);for(const id of ['upload','media'])expect(p.retained).toContainEqual(expect.objectContaining({id,reason}));expect(p.actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);expect(p.actions.some(a=>a.id==='message')).toBe(true);expect(p.actions.some(a=>a.id==='media-job')).toBe(false);});
+ it('does not block unrelated tasks, other authors, foreign tenants or unmapped provider accounting jobs',()=>{const s=fixture();s.aggregates.push(entity('message','unrelated-message',{author_id:'other',text:'OTHER_SOURCE'}),entity('delivery','unrelated-delivery',{message_id:'unrelated-message',status:'SENDING'}),entity('ai_usage','unrelated-usage',{event_id:'unknown-outbox',status:'RUNNING'}));s.outbox.push({companyId:'foreign-company',id:'foreign-job',type:'message.created',status:'RUNNING',data:{message_id:'message'}},{companyId:'company',id:'unrelated-job',type:'task.review',status:'RUNNING',data:{taskId:'unrelated-task'}});const p=build(s);expect(p.actions.some(a=>a.id==='message')).toBe(true);expect(p.actions.some(a=>a.id==='unrelated-message'||a.id==='unrelated-delivery'||a.id==='unrelated-usage')).toBe(false);expect(p.retained.some(r=>r.reason===reason)).toBe(false);});
+ it('invalidates an otherwise approved deletion when a processor starts after preview',()=>{const s=fixture(),p=build(s);s.aggregates.push(entity('ai_usage','usage',{event_id:'outbox',status:'RUNNING'}));expect(()=>revalidatePrivacyErasurePlan(p,s,authority,p.planHash)).toThrow('VERSION_CONFLICT');expect(build(s).actions.some(a=>a.id==='message')).toBe(false);});
+ function routerFixture(){const s=fixture();s.aggregates.push(entity('whatsapp_router_session','router-session',{user_id:'subject',sender:'491234',flow:{step:'TASK_DESCRIPTION',text:'PRIVATE_ROUTER_FLOW_CANARY'},text_choices:['router-action']}),entity('whatsapp_router_action','router-action',{user_id:'subject',session_id:'router-session',claimed_input_id:'input',status:'PENDING',payload:{plan:{input:{statement:'PRIVATE_ROUTER_ACTION_CANARY'}}}}),entity('whatsapp_router_response','router-response',{user_id:'subject',input_id:'input',session_id:'router-session',status:'PENDING',output:{kind:'TEXT',text:'PRIVATE_ROUTER_RESPONSE_CANARY'}}));s.revisions.push(...s.aggregates.filter(r=>r.kind.startsWith('whatsapp_router_')).map(r=>({companyId:r.companyId,kind:r.kind,id:r.id,version:r.version,createdAt:r.createdAt,data:structuredClone(r.data)})));s.outbox.push({companyId:'company',id:'router-outbox',type:'whatsapp.router_response',status:'PENDING',data:{response_id:'router-response'}});return s;}
+ it('maps current and historical WhatsApp router private flow/action/output copies and queued replies',()=>{const s=routerFixture(),p=build(s);for(const id of ['router-session','router-action','router-response']){expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_AGGREGATE',id,category:'CHAT'}));expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_REVISION',id,category:'CHAT'}));}expect(p.actions).toContainEqual(expect.objectContaining({type:'CANCEL_OUTBOX',id:'router-outbox'}));expect(JSON.stringify(p)).not.toContain('CANARY');expect(verifyPrivacyErasure(p,apply(p,s),blobChecks(p)).sourceDataDeleted).toBe(true);});
+ it.each(['running router outbox','claimed command','sending router response'])('retains original input and entire linked router flow during %s',(state)=>{const s=routerFixture();if(state==='running router outbox')s.outbox.find(o=>o.id==='router-outbox')!.status='RUNNING';if(state==='claimed command')s.aggregates.find(r=>r.id==='router-action')!.data.status='CLAIMED';if(state==='sending router response')s.aggregates.find(r=>r.id==='router-response')!.data.status='SENDING';const p=expectChatHeld(s);for(const id of ['router-session','router-action','router-response'])expect(p.retained).toContainEqual(expect.objectContaining({id,reason}));});
+});
+
+describe('private assistant cached results and confirmed business intake',()=>{
+ function assistantFixture(){const s=fixture();s.aggregates.push(entity('assistant_lead_draft','assistant-draft',{ownerUserId:'subject',channelId:'channel',messageId:'message',state:'DRAFT',input:{contact:{name:'PRIVATE_DRAFT_CONTACT_CANARY',email:'synthetic@example.invalid'},facts:{address:'PRIVATE_DRAFT_ADDRESS_CANARY'}}}),entity('assistant_tool_call','assistant-call',{ownerUserId:'subject',channelId:'channel',messageId:'message',tool:'saveLeadDraft',result:{draftId:'assistant-draft',preview:{contact:{name:'PRIVATE_TOOL_CONTACT_CANARY'}},descriptionDe:'PRIVATE_REPORT_SNIPPET_CANARY'}}));s.revisions.push(...s.aggregates.filter(r=>r.kind.startsWith('assistant_')).map(r=>({companyId:r.companyId,kind:r.kind,id:r.id,version:r.version,createdAt:r.createdAt,data:structuredClone(r.data)})));s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'assistant-receipt',command:'assistant.preview',result:{draftId:'assistant-draft',preview:{name:'PRIVATE_RECEIPT_CANARY'}}});s.outbox.push({companyId:'company',id:'assistant-outbox',type:'assistant.tool_executed',status:'PENDING',data:{messageId:'message',draftId:'assistant-draft'}});return s;}
+ it('redacts current/history/tool result/receipt copies without deleting the authoritative published report',()=>{const s=assistantFixture();s.aggregates.push(entity('report_version','official-report',{immutable:true,snapshot:{descriptionDe:'BUSINESS_REPORT_SURVIVES'}}));const p=build(s);for(const id of ['assistant-draft','assistant-call'])for(const type of ['REDACT_AGGREGATE','REDACT_REVISION'])expect(p.actions).toContainEqual(expect.objectContaining({type,id,category:'CHAT'}));expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_RECEIPT',id:'assistant-receipt'}));expect(p.actions.some(a=>a.id==='official-report')).toBe(false);expect(JSON.stringify(p)).not.toContain('CANARY');const after=apply(p,s);expect(verifyPrivacyErasure(p,after,blobChecks(p)).sourceDataDeleted).toBe(true);expect(after.aggregates.find(r=>r.id==='official-report')!.data.snapshot.descriptionDe).toBe('BUSINESS_REPORT_SURVIVES');});
+ it('retains confirmed lead input and its original message for business review, preserving lead and order',()=>{const s=assistantFixture();const draft=s.aggregates.find(r=>r.id==='assistant-draft')!;draft.data.state='CONFIRMED';draft.data.leadId='business-lead';s.aggregates.push(entity('lead','business-lead',{ownerUserId:'subject',contact:{name:'BUSINESS_CONTACT_SURVIVES'},status:'QUALIFIED'}),entity('order','business-order',{leadId:'business-lead',scope:'BUSINESS_SCOPE_SURVIVES'}));const p=build(s);expect(p.retained).toContainEqual(expect.objectContaining({id:'message',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));for(const id of ['message','assistant-draft','assistant-call','business-lead','business-order'])expect(p.actions.some(a=>a.id===id)).toBe(false);});
+ it('honors historical confirmed-intake linkage even if the current private draft changed its state',()=>{const s=assistantFixture();s.aggregates.push(entity('lead','business-lead',{ownerUserId:'subject',status:'QUALIFIED'}));const history=s.revisions.find(r=>r.id==='assistant-draft')!;history.data.state='CONFIRMED';history.data.leadId='business-lead';const p=build(s);expect(p.actions.some(a=>a.id==='message'||a.id==='assistant-draft'||a.id==='assistant-call')).toBe(false);expect(p.retained).toContainEqual(expect.objectContaining({id:'message',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));});
+ it('retains cached assistant draft/result chains while a provider job is running and invalidates a preview started beforehand',()=>{const s=assistantFixture(),p=build(s);s.outbox.find(o=>o.id==='assistant-outbox')!.status='RUNNING';expect(()=>revalidatePrivacyErasurePlan(p,s,authority,p.planHash)).toThrow('VERSION_CONFLICT');const held=build(s);for(const id of ['message','assistant-draft','assistant-call'])expect(held.retained).toContainEqual(expect.objectContaining({id,reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));expect(held.actions.some(a=>a.id==='message'||a.id==='assistant-draft'||a.id==='assistant-call')).toBe(false);});
+ it('redacts an explicitly linked AI reply and every historical copy while retaining an ordinary human reply',()=>{const s=fixture();const reply=entity('message','ai-reply',{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_AI_RESPONSE_CANARY'},NOW);s.aggregates.push(reply);s.revisions.push({companyId:'company',kind:'message',id:reply.id,version:1,data:structuredClone(reply.data),createdAt:NOW});const p=build(s);expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_AGGREGATE',id:'ai-reply',category:'CHAT',reason:'DERIVED'}));expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_REVISION',id:'ai-reply'}));expect(p.actions.some(a=>a.id==='ordinary-reply')).toBe(false);expect(verifyPrivacyErasure(p,apply(p,s),blobChecks(p)).sourceDataDeleted).toBe(true);});
+ it('follows historical explicit AI provenance after current source metadata changed and protects published business links',()=>{const s=fixture();s.aggregates.push(entity('message','ai-reply',{source:'HUMAN',author_id:'service',text:'PRIVATE_AI_RESPONSE_CANARY'},NOW));s.revisions.push({companyId:'company',kind:'message',id:'ai-reply',version:1,createdAt:NOW,data:{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_AI_RESPONSE_CANARY'}});const p=build(s);expect(p.actions.some(a=>a.id==='ai-reply')).toBe(true);const t=structuredClone(s);t.aggregates.reverse();t.revisions.reverse();expect(build(t).planHash).toBe(p.planHash);s.aggregates.push(entity('report_version','published',{immutable:true,snapshot:{sourceMessageId:'ai-reply',descriptionDe:'BUSINESS_PROOF'}}));expect(()=>build(s)).toThrow('NEEDS_APPROVAL');});
+ it('holds original source while a linked AI reply is being sent and rejects a newly created private AI reply during verification',()=>{const s=fixture();s.aggregates.push(entity('message','ai-reply',{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_AI_RESPONSE_CANARY'},NOW));const p=build(s),after=apply(p,s);after.aggregates.push(entity('message','new-ai-reply',{source:'AI',author_id:'service',reply_to_id:'message',text:'PRIVATE_NEW_AI_CANARY'},NOW));expect(verifyPrivacyErasure(p,after,blobChecks(p)).sourceDataDeleted).toBe(false);s.outbox.push({companyId:'company',id:'ai-delivery',type:'delivery.requested',status:'RUNNING',data:{message_id:'ai-reply'}});const held=build(s);expect(held.retained).toContainEqual(expect.objectContaining({id:'message',reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));expect(held.actions.some(a=>a.id==='ai-reply'||a.id==='message')).toBe(false);});
+});
+
+describe('internal assistant private drafts, provider quiescence and confirmed business evidence',()=>{
+ function internalFixture(){
+  const s=fixture();
+  const request=entity('internal_assistant_request','internal-request',{ownerUserId:'subject',user_id:'subject',channelId:'channel',messageId:'message',sourceMessageId:'message',messageVersion:2,configId:'config',configVersion:3,status:'READY',startedAt:OLD,completedAt:OLD,privateInput:'INTERNAL_REQUEST_CANARY'});
+  const draft=entity('internal_assistant_draft','internal-draft',{ownerUserId:'subject',channelId:'channel',messageId:'message',sourceMessageId:'message',requestId:request.id,state:'DRAFT',proposal:{title:'INTERNAL_PROPOSAL_CANARY'},preview:{description:'INTERNAL_PREVIEW_CANARY'},canonicalInput:{notes:'INTERNAL_CANONICAL_CANARY'}});
+  s.aggregates.push(request,draft);s.revisions.push(...[request,draft].flatMap(r=>[1,2].map(version=>({companyId:r.companyId,kind:r.kind,id:r.id,version,createdAt:r.createdAt,data:{...structuredClone(r.data),history:'INTERNAL_HISTORY_CANARY',...(r.kind==='internal_assistant_request'&&version===1?{status:'RUNNING'}:{})}}))));
+  s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'internal-request-receipt',command:'internal_assistant.request',result:{id:request.id,data:request.data}},{companyId:'company',actorId:'subject',idempotencyKey:'internal-preview-receipt',command:'internal_assistant.preview',result:{draftId:draft.id,preview:draft.data.preview}});
+  s.outbox.push(...['requested','draft_prepared','failed'].map(type=>({companyId:'company',id:`internal-${type}`,type:`internal_assistant.${type}`,status:'FAILED',data:{requestId:request.id,draftId:draft.id,privateCopy:'INTERNAL_OUTBOX_CANARY'}})));
+  return s;
+ }
+ it('redacts unconfirmed current/history/preview/failed job copies with the exact bounded replacement',()=>{
+  const s=internalFixture(),p=build(s);
+  for(const kind of ['internal_assistant_request','internal_assistant_draft']){
+   expect(p.actions.filter(a=>a.kind===kind&&a.type==='REDACT_AGGREGATE')).toHaveLength(1);
+   expect(p.actions.filter(a=>a.kind===kind&&a.type==='REDACT_REVISION')).toHaveLength(2);
+   const data=p.actions.find(a=>a.kind===kind&&a.type==='REDACT_AGGREGATE')!.replacement!;
+   expect(data).toEqual({channelId:'channel',messageId:'message',privacyErasedAt:NOW,privacyErasureRequestId:'request',state:'ERASED',status:'CANCELLED'});
+  }
+  for(const id of ['internal-request-receipt','internal-preview-receipt'])expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_RECEIPT',id}));
+  for(const id of ['internal-requested','internal-draft_prepared','internal-failed'])expect(p.actions).toContainEqual(expect.objectContaining({type:'CANCEL_OUTBOX',id}));
+  expect(JSON.stringify(p)).not.toContain('CANARY');expect(verifyPrivacyErasure(p,apply(p,s),blobChecks(p)).sourceDataDeleted).toBe(true);
+ });
+ it.each(['FAILED','CANCELLED'])('holds the complete source/copy/cache component while current request is RUNNING despite %s outbox',status=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status='RUNNING';for(const o of s.outbox) o.status=status;
+  const p=build(s);for(const id of ['message','copy','input','translation','internal-request','internal-draft']){
+   expect(p.retained).toContainEqual(expect.objectContaining({id,reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));expect(p.actions.some(a=>a.id===id)).toBe(false);
+  }
+ });
+ it.each(['READY','NEEDS_CLARIFICATION','FAILED'])('allows actual terminal %s state after historical RUNNING without permanent retention',status=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status=status;
+  expect(build(s).actions).toContainEqual(expect.objectContaining({kind:'internal_assistant_request',type:'REDACT_AGGREGATE'}));
+ });
+ it('does not treat a nonterminal reset after provider start as proof of quiescence',()=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status='PENDING';expect(build(s).retained).toContainEqual(expect.objectContaining({id:'message',reason:'IN_FLIGHT_PROCESSOR_REQUIRES_QUIESCENCE'}));
+ });
+ it('invalidates a preview on current provider start and detects new unredacted internal cache at verification',()=>{
+  const s=internalFixture(),p=build(s);s.aggregates.find(r=>r.id==='internal-request')!.data.status='RUNNING';expect(()=>revalidatePrivacyErasurePlan(p,s,authority,p.planHash)).toThrow('VERSION_CONFLICT');
+  const original=internalFixture(),plan=build(original),after=apply(plan,original);after.aggregates.push(entity('internal_assistant_draft','late-private-cache',{messageId:'message',requestId:'internal-request',state:'DRAFT',proposal:{description:'LATE_PRIVATE_CANARY'}}));expect(verifyPrivacyErasure(plan,after,blobChecks(plan)).sourceDataDeleted).toBe(false);
+ });
+ it.each(['CURRENT','HISTORY'])('retains %s confirmed internal business intent and its entire source component without requiring a still-present result entity',where=>{
+  const s=internalFixture(),draft=where==='CURRENT'?s.aggregates.find(r=>r.id==='internal-draft')!:s.revisions.find(r=>r.id==='internal-draft')!;
+  draft.data.state='CONFIRMED';draft.data.result={command:'task.batch_create',entityIds:['business-task-batch']};
+  s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'internal-confirm-receipt',command:'internal_assistant.confirm',result:{draftId:'internal-draft',requestId:'internal-request',entityIds:['business-task-batch'],sideEffectsExecuted:true}});
+  s.outbox.push({companyId:'company',id:'internal-confirmed',type:'internal_assistant.confirmed',status:'PENDING',data:{draftId:'internal-draft',requestId:'internal-request',command:'task.batch_create',entityIds:['business-task-batch']}});
+  const p=build(s);for(const id of ['message','copy','input','translation','internal-request','internal-draft','internal-confirm-receipt','internal-confirmed'])expect(p.actions.some(a=>a.id===id)).toBe(false);
+  expect(p.retained).toContainEqual(expect.objectContaining({id:'message',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));expect(p.retained).toContainEqual(expect.objectContaining({id:'input',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));
+ });
+ it('retains confirmed request state defensively even if its confirmed draft is unavailable',()=>{
+  const s=internalFixture();s.aggregates.find(r=>r.id==='internal-request')!.data.status='CONFIRMED';expect(build(s).actions.some(a=>['message','internal-request','internal-draft'].includes(a.id))).toBe(false);
+ });
+ it.each(['task_batch','material_request'])('protects only actually source-linked %s records without making them erasable',kind=>{
+  const s=internalFixture();s.aggregates.push(entity(kind,'unlinked-business',{notes:'BUSINESS_MUST_SURVIVE'}));expect(build(s).actions.some(a=>a.id==='message')).toBe(true);
+  s.aggregates.push(entity(kind,'linked-business',{sourceMessageId:'message',notes:'LINKED_BUSINESS_MUST_SURVIVE'}));const p=build(s);expect(p.retained).toContainEqual(expect.objectContaining({id:'message',reason:'BUSINESS_RECORD_LINK_REQUIRES_REVIEW'}));expect(p.actions.some(a=>a.kind===kind)).toBe(false);
+ });
+ it('requires business review for a confirm receipt whose draft lacks confirmed business protection',()=>{
+  const s=internalFixture();s.receipts.push({companyId:'company',actorId:'subject',idempotencyKey:'business-confirm',command:'internal_assistant.confirm',result:{draftId:'internal-draft',sideEffectsExecuted:true}});expect(()=>build(s)).toThrow('NEEDS_APPROVAL');
+ });
+ it('never lets foreign confirmed state or processor state affect this company and never redacts foreign copies',()=>{
+  const s=internalFixture();s.aggregates.push(entity('internal_assistant_draft','foreign-internal',{messageId:'message',requestId:'internal-request',state:'CONFIRMED'},OLD,'foreign-company'),entity('internal_assistant_request','foreign-running',{messageId:'message',status:'RUNNING'},OLD,'foreign-company'));
+  s.receipts.push({companyId:'foreign-company',actorId:'subject',idempotencyKey:'foreign-internal',command:'internal_assistant.preview',result:{draftId:'internal-draft'}});s.outbox.push({companyId:'foreign-company',id:'foreign-job',type:'internal_assistant.requested',status:'RUNNING',data:{requestId:'internal-request'}});
+  const p=build(s);expect(p.actions.some(a=>a.id==='message')).toBe(true);expect(p.actions.every(a=>a.companyId==='company')).toBe(true);expect(p.actions.some(a=>a.id.startsWith('foreign-'))).toBe(false);
+ });
+});
+
+
+describe('manual client-mask edit retention and physical-copy closure',()=>{
+ function masked(){const s=fixture();s.request.data.categories=['MEDIA'];const media=s.aggregates.find(r=>r.kind==='media_asset')!;media.data.clientBlobKey='masked-client';media.data.clientSha256='c'.repeat(64);media.data.clientEditId='mask-edit';s.aggregates.push(entity('media_client_edit','mask-edit',{uploadedBy:'subject',actorId:'reviewer',mediaId:media.id,siteId:'site',blobKey:'original',sha256:HASH,clientBlobKey:'masked-client',clientSha256:'c'.repeat(64),sourceClientBlobKey:'client',sourceClientSha256:CLIENT_HASH,rectangles:[{x:10,y:10,width:40,height:20}],reason:'PRIVATE_MASK_REASON_CANARY'}));return s;}
+ it('an approved expired MEDIA plan includes original, prior client and masked client exactly once plus immutable edit history',()=>{const s=masked(),edit=s.aggregates.find(r=>r.kind==='media_client_edit')!;s.revisions.push({companyId:'company',kind:edit.kind,id:edit.id,version:1,data:structuredClone(edit.data),createdAt:OLD});const p=build(s);expect(p.actions.filter(a=>a.type==='DELETE_BLOB').map(a=>a.id).sort()).toEqual(['client','masked-client','original']);expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_AGGREGATE',kind:'media_client_edit',id:edit.id,category:'MEDIA'}));expect(p.actions).toContainEqual(expect.objectContaining({type:'REDACT_REVISION',kind:'media_client_edit',id:edit.id,category:'MEDIA'}));expect(JSON.stringify(p)).not.toContain('PRIVATE_MASK_REASON_CANARY');expect(s.aggregates.find(r=>r.kind==='media_upload')!.data.blobKey).toBe('original');});
+ it('a recent edit keeps shared original and earlier client bytes until the retained edit policy permits deletion',()=>{const s=masked();s.aggregates.find(r=>r.kind==='media_client_edit')!.createdAt=NOW;const p=build(s);expect(p.actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);expect(p.retained).toContainEqual(expect.objectContaining({kind:'media_client_edit',reason:'NOT_EXPIRED'}));expect(p.retained.some(r=>r.reason==='SHARED_BLOB_REQUIRES_REVIEW')).toBe(true);});
+ it('a currently published report reference or legal hold protects all client-mask copies rather than rewriting historical evidence',()=>{for(const held of [false,true]){const s=masked();if(held)s.holds=[hold('subject',['MEDIA'])];else s.aggregates.push(entity('report_version','approved-report',{snapshot:{mediaRows:[{mediaId:'media',clientBlobKey:'masked-client'}]}}));const p=build(s);expect(p.actions.some(a=>a.type==='DELETE_BLOB')).toBe(false);expect(p.actions.some(a=>a.kind==='report_version')).toBe(false);expect(p.retained.length).toBeGreaterThan(0);}});
+});

@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "status": "FAILED",
+  "sourceGitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+  "sourceTree": "9dc49a7daf09e1f05805e604d0b1cf168f09e2c4",
+  "workflowRunId": 37529346179,
+  "jobId": 112494414772,
+  "url": "https://github.com/ziko1/knaba/actions/runs/37529346179",
+  "tests": {
+    "total": 802,
+    "passed": 802,
+    "failed": 0,
+    "skipped": 0,
+    "cpuOrExplicitTransportFixture": 708,
+    "genuinePostgreSQL": 94
+  },
+  "browser": {
+    "startTime": "2026-10-06T20:54:23.939Z",
+    "duration": 82315.275,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  },
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:54:01Z",
+      "completedAt": "2026-10-06T20:54:02.111Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "PASSED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:54:02Z",
+      "completedAt": "2026-10-06T20:54:22.508Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "FAILED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:54:22Z",
+      "completedAt": "2026-10-06T20:55:46.381Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:55:46Z",
+      "completedAt": "2026-10-06T20:55:47.339Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:55:47Z",
+      "completedAt": "2026-10-06T20:55:47.547Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:55:47Z",
+      "completedAt": "2026-10-06T20:55:48.389Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+      "startedAt": "2026-10-06T20:55:48Z",
+      "completedAt": "2026-10-06T20:55:49.352Z"
+    }
+  ],
+  "artifact": {
+    "id": 11444470113,
+    "bytes": 9266394,
+    "outerSha256": "d689dac36fb506745f4181bc2bdabc0b87ca07efb60f377bdaf1a6285c62d68b",
+    "zipCrcVerified": true,
+    "url": "https://github.com/ziko1/knaba/actions/runs/37529346179/artifacts/11444470113",
+    "expiresAt": "2026-10-13T20:55:49Z",
+    "allBuiltFilesIndependentlyHashed": true,
+    "builtFiles": [
+      {
+        "path": "dist/release.json",
+        "bytes": 148,
+        "sha256": "e0375078edda4d314da8830ab34fba6fcd7b2e0ba7962aab97912bcfa73cc8e8"
+      },
+      {
+        "path": "dist/server.mjs",
+        "bytes": 2284854,
+        "sha256": "2eb0609967750a499b02a639bcba4d4d151fe5ce9fe2cd327abf74a9a5a63f20"
+      },
+      {
+        "path": "dist/server.mjs.map",
+        "bytes": 2119039,
+        "sha256": "9bf960b001ac53549511290402c6f8a3d1e67c4cb0875835b7224067afd431e7"
+      },
+      {
+        "path": "dist/web/assets/index-CBjhBLpe.js",
+        "bytes": 403274,
+        "sha256": "66908c14420f0eeabe078a6ea161f2c4da0aaccf5f0956774ed15e805a18238f"
+      },
+      {
+        "path": "dist/web/assets/index-CO_uD8do.css",
+        "bytes": 56326,
+        "sha256": "734523058017f95b0f921c3d86fa2e44994a7f92e5ff05bb5cf705db54818724"
+      },
+      {
+        "path": "dist/web/icon.svg",
+        "bytes": 252,
+        "sha256": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b"
+      },
+      {
+        "path": "dist/web/index.html",
+        "bytes": 623,
+        "sha256": "c170455b30cbb4b19e50167f0dfc5a3a8abf078dd2bc09f7d3c722e42e26fbdd"
+      },
+      {
+        "path": "dist/web/manifest.webmanifest",
+        "bytes": 274,
+        "sha256": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9"
+      },
+      {
+        "path": "dist/web/sw.js",
+        "bytes": 953,
+        "sha256": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f"
+      },
+      {
+        "path": "dist/web/widget.js",
+        "bytes": 1670,
+        "sha256": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+      },
+      {
+        "path": "dist/worker.mjs",
+        "bytes": 717185,
+        "sha256": "fcae4270961463924c66936e557c2c23bdc1fd3b64185ac6ec21c0391bbf158c"
+      },
+      {
+        "path": "dist/worker.mjs.map",
+        "bytes": 1173623,
+        "sha256": "83331b9de33a224e9b6e4758ec17457e7f6cdcdb0f56bbcb1e5d06baeabc8507"
+      },
+      {
+        "path": "package-lock.json",
+        "bytes": 222312,
+        "sha256": "19bf39c58be142445b13795f84242c7ae238a7fa2893d592d52c6e5b42b39fd5"
+      },
+      {
+        "path": "package.json",
+        "bytes": 1139,
+        "sha256": "624325c9d41f2df25aa74b2a0ad84000cbdf81ea17d8d44094c539ae3c43f61f"
+      }
+    ]
+  },
+  "restore": {
+    "originalTables": 17,
+    "privateBlobChecksums": 7,
+    "independentCurrentLedger": "Explicit isolated synthetic restore without privacy history; no later-erasure replay claim"
+  },
+  "scope": "Historical exact candidate. All genuine PG runtime tests execute; external AI requests and S3 provider calls in those tests are explicitly mocked. Browser 11/14 passed; overall workflow failed three browser cases. Subsequent handoff/PWA/governance/internal draft/map changes require new execution. No public Railway/native physical/provider acceptance is implied."
+}
