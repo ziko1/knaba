@@ -83,3 +83,14 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 | LANG-N06 | Зовнішній email/WhatsApp/AI, GDPR retention, approval клієнта | DISABLED / BLOCKED_EXTERNAL |
 
 Не зливати у `main`, не направляти DNS на новий хостинг, не активувати платні API й не публікувати без реалізованих релізних воріт.
+
+## KN-STUDIO owner website editor, 24.10.2026
+- [x] Owner role, existing portal+Worker, D1 migrations, manual text/link/local-image/SEO and four-language visual iframe editor, draft/history/restore/manual publishing.
+- [x] Source 777007bcd0c0a20b306a90ada845c1568b3f9d6f isolated local QA 86 Vitest + 8 Node, Astro/Vue/Svelte, build 50 pages, static verifier, local Wrangler HTTP + D1.
+- [ ] Add block/section drag-drop builder, template/theme/menu/media storage/upload and rights, server-rendered indexable SEO and schema. Current SEO is client-side only.
+- [ ] Review PR #17 visuals and PR #20 Bauhelfer facts, brand/legal owner sign-off before merging.
+- [ ] Verify real authenticated Sites trusted identity, backup/restore, UAT across physical devices, a11y, field CWV and independent security QA.
+- [ ] Real provider AI quota/price consent/budget, external AI tests; disabled without proof.
+- [ ] Deploy to existing ChatGPT Sites appgprj_6adc346d6f8881918b73ac79ebc5d759 only with compatible publish/backup interface, record provider rollback receipt. GitHub push alone does not deploy. Current live /studio/ 404.
+
+Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tree ed091f283b10bda1d1ef2a80a8f14fac13f1a5d7 matches local validated source. Publish/UAT still BLOCKED.

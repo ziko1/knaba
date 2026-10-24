@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-24",
+  "project": "KNABA Site Studio",
+  "source_sha": "777007bcd0c0a20b306a90ada845c1568b3f9d6f",
+  "corporate_site_tree": "4d3e05529f468c97a53342539d71cce1dd9959ba",
+  "runtime": "Node v24.19.0",
+  "typecheck": {
+    "astro_files": 91,
+    "astro_errors": 0,
+    "astro_warnings": 0,
+    "vue": "PASS",
+    "svelte": "PASS"
+  },
+  "tests": {
+    "vitest_passed": 86,
+    "vitest_failed": 0,
+    "node_inquiry_passed": 8,
+    "node_inquiry_failed": 0
+  },
+  "build": {
+    "pages": 50,
+    "static_verifier": "PASS",
+    "artifact_sha256": "d67098d369475ae8c322fec0d7c4b7937bdfb01459f500ac445fa3a657609bf2",
+    "studio_html_sha256": "188deb93d3012e36d32eff8a8c6850259c024e9d61ac8f82081e308ba307cdcc"
+  },
+  "local_d1": {
+    "migrations": [
+      "0000 PASS",
+      "0001 PASS",
+      "0002 PASS",
+      "0003 PASS"
+    ],
+    "environment": "local SQLite fixture only"
+  },
+  "local_http": {
+    "/studio/": 200,
+    "/": 200,
+    "/api/studio/published?page=%2F": 200,
+    "/api/studio/page?page=%2F": 401,
+    "/api/portal/session": 200
+  },
+  "live_read_only": {
+    "homepage_http": 200,
+    "studio_http": 404
+  },
+  "release_status": "BLOCKED_NO_CHATGPT_SITES_PUBLISH_API",
+  "real_owner_uat": "NOT_RUN",
+  "real_ai": "DISABLED",
+  "physical_devices": "NOT_RUN",
+  "browser_e2e": "NOT_RUN",
+  "field_web_vitals": "NOT_RUN",
+  "independent_review": "NOT_RUN",
+  "live_d1_mutation": "NOT_PERFORMED",
+  "external_ai_spend_eur": 0,
+  "github_code_commit": "68fed278b3460e554ebb70937002816e4cb6e66c",
+  "verified_git_tree": "ed091f283b10bda1d1ef2a80a8f14fac13f1a5d7"
+}
