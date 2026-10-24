@@ -1,8 +1,9 @@
-import { describe, expect, beforeEach, it } from 'vitest';
+import { describe, expect, beforeEach, it, vi } from 'vitest';
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, readdirSync } from 'node:fs';
 import { handleApi } from '../worker/api';
 import { assistantAnswer } from '../src/lib/assistant-knowledge';
+import * as notificationService from '../worker/notifications';
 import type { D1Database, D1Result, D1Statement, WorkerEnv } from '../worker/types';
 
 class SqliteD1 implements D1Database {
@@ -112,5 +113,105 @@ describe('KNABA Assistant backend',()=>{
     expect(Number(db.sql.prepare('SELECT COUNT(*) AS n FROM cleaning_requests').get()?.n)).toBe(0);
     expect((await call(`/api/assistant/owner/conversations/${c.id}/status`,'POST',{status:'closed'},owner)).status).toBe(200);
     expect((await call(`/api/assistant/conversations/${c.id}/messages`,'POST',{content:'Hi',idempotencyKey:key()},tokenHeader(c))).status).toBe(409);
+  });
+  it('queues one owner notice per handoff, human message and decision without storing customer text',async()=>{
+    const ticket=await start('de');
+    const handoffPath=`/api/assistant/conversations/${ticket.id}/handoff`;
+    const handoffData={name:'Test Visitor',email:'visitor@example.test',phone:'+4930123456'};
+    expect((await call(handoffPath,'POST',handoffData,tokenHeader(ticket))).status).toBe(200);
+    expect((await call(handoffPath,'POST',handoffData,tokenHeader(ticket))).status).toBe(200);
+    const messageKey=key(),msgPath=`/api/assistant/conversations/${ticket.id}/messages`;
+    expect((await call(msgPath,'POST',{content:'Customer personal details should stay private',idempotencyKey:messageKey},tokenHeader(ticket))).status).toBe(200);
+    expect((await call(msgPath,'POST',{content:'Customer personal details should stay private',idempotencyKey:messageKey},tokenHeader(ticket))).status).toBe(200);
+    const offered=await call(`/api/assistant/owner/conversations/${ticket.id}/offers`,'POST',{content:'Proposal from owner',idempotencyKey:key()},owner);
+    expect(offered.status).toBe(200);
+    const offerId=(await offered.json()).offers[0].id;
+    const decisionPath=`/api/assistant/conversations/${ticket.id}/offers/${offerId}/decision`;
+    expect((await call(decisionPath,'POST',{decision:'accepted'},tokenHeader(ticket))).status).toBe(200);
+    expect((await call(decisionPath,'POST',{decision:'accepted'},tokenHeader(ticket))).status).toBe(200);
+    const rows=db.sql.prepare('SELECT event_key,kind,status FROM assistant_notifications WHERE conversation_id=? ORDER BY kind').all(ticket.id) as {event_key:string;kind:string;status:string}[];
+    expect(rows.map(row=>row.kind)).toEqual(['customer_message','offer_decision','owner_handoff']);
+    expect(rows.every(row=>row.status==='pending')).toBe(true);
+    expect(new Set(rows.map(row=>row.event_key)).size).toBe(3);
+    expect(JSON.stringify(rows)).not.toContain('Customer personal details');
+  });
+  it('delivers only metadata through an opt-in limited owner email transport',async()=>{
+    const ticket=await start('uk');
+    expect((await call(`/api/assistant/conversations/${ticket.id}/handoff`,'POST',{name:'Private Name',email:'private@example.test',phone:''},tokenHeader(ticket))).status).toBe(200);
+    Object.assign(env,{
+      ASSISTANT_NOTIFICATIONS_ENABLED:'approved', ASSISTANT_NOTIFY_FROM:'KNABA <updates@example.test>',
+      ASSISTANT_NOTIFY_TO:'owner@example.test', ASSISTANT_PUBLIC_ORIGIN:origin,
+      ASSISTANT_EMAIL_DAILY_LIMIT:'2', RESEND_API_KEY:'fake-unit-test-only',
+    });
+    const outbound:{url:string;headers:Headers;body:string}[]=[];
+    const transport:typeof fetch=async (input,init)=>{
+      outbound.push({url:String(input),headers:new Headers(init?.headers),body:String(init?.body)});
+      return new Response(JSON.stringify({id:'fake-delivery'}),{status:200});
+    };
+    const first=await notificationService.drainOwnerNotifications(env,transport);
+    expect(first).toMatchObject({sent:1,failed:0});
+    expect(outbound).toHaveLength(1);
+    expect(outbound[0].url).toBe('https://api.resend.com/emails');
+    expect(outbound[0].headers.get('Idempotency-Key')).toMatch(/^[0-9a-f-]{36}$/i);
+    expect(outbound[0].headers.get('Authorization')).toBe('Bearer fake-unit-test-only');
+    expect(outbound[0].body).toContain('/postfach/?conversation=');
+    expect(outbound[0].body).not.toContain('private@example.test');
+    expect(outbound[0].body).not.toContain('Private Name');
+    expect((db.sql.prepare('SELECT status FROM assistant_notifications').get() as {status:string}).status).toBe('sent');
+    expect((await notificationService.drainOwnerNotifications(env,transport)).sent).toBe(0);
+    expect(outbound).toHaveLength(1);
+  });
+  it('does not transmit when disabled and applies retry backoff and daily budget',async()=>{
+    const alice=await start('de');
+    await call(`/api/assistant/conversations/${alice.id}/handoff`,'POST',{name:'',email:'',phone:''},tokenHeader(alice));
+    const calls:{count:number}={count:0};
+    const failing:typeof fetch=async()=>{calls.count++;return new Response('throttle',{status:429});};
+    expect((await notificationService.drainOwnerNotifications(env,failing)).sent).toBe(0);
+    expect(calls.count).toBe(0);
+    Object.assign(env,{ASSISTANT_NOTIFICATIONS_ENABLED:'approved',ASSISTANT_NOTIFY_FROM:'updates@example.test',ASSISTANT_NOTIFY_TO:'owner@example.test',ASSISTANT_PUBLIC_ORIGIN:origin,RESEND_API_KEY:'test',ASSISTANT_EMAIL_DAILY_LIMIT:'1'});
+    const failed=await notificationService.drainOwnerNotifications(env,failing);
+    expect(failed).toMatchObject({sent:0,failed:1});
+    expect(calls.count).toBe(1);
+    const state=db.sql.prepare('SELECT attempts,status,next_attempt_at FROM assistant_notifications').get() as {attempts:number;status:string;next_attempt_at:number};
+    expect(state.attempts).toBe(1);
+    expect(state.status).toBe('pending');
+    expect(state.next_attempt_at).toBeGreaterThan(Math.floor(Date.now()/1000));
+    db.sql.prepare('UPDATE assistant_notifications SET next_attempt_at=0').run();
+    const blocked=await notificationService.drainOwnerNotifications(env,failing);
+    expect(blocked).toMatchObject({sent:0,quotaExhausted:true});
+    expect(calls.count).toBe(1);
+  });
+  it('schedules delivery after a committed handoff without blocking the customer response',async()=>{
+    const ticket=await start('en');
+    Object.assign(env,{ASSISTANT_NOTIFICATIONS_ENABLED:'approved',ASSISTANT_NOTIFY_FROM:'updates@example.test',ASSISTANT_NOTIFY_TO:'owner@example.test',ASSISTANT_PUBLIC_ORIGIN:origin,RESEND_API_KEY:'mock-only',ASSISTANT_EMAIL_DAILY_LIMIT:'1'});
+    const requestSpy=vi.spyOn(globalThis,'fetch').mockResolvedValue(new Response('{"id":"mock-delivery"}',{status:200}));
+    try {
+      const scheduled:Promise<unknown>[]=[];
+      const ctx={waitUntil(promise:Promise<unknown>){scheduled.push(promise);}};
+      const response=await handleApi(new Request(origin+`/api/assistant/conversations/${ticket.id}/handoff`,{
+        method:'POST',headers:{...guest,...tokenHeader(ticket)},body:JSON.stringify({name:'Visitor',email:'',phone:''})
+      }),env,ctx);
+      expect(response.status).toBe(200);
+      expect(scheduled).toHaveLength(1);
+      await Promise.all(scheduled);
+      expect(requestSpy).toHaveBeenCalledTimes(1);
+    } finally {requestSpy.mockRestore();}
+  });
+  it('allows the owner but no anonymous visitor to inspect notification delivery status',async()=>{
+    const untrusted=await call('/api/assistant/owner/notifications','GET');
+    expect(untrusted.status).toBe(403);
+    const authorized=await call('/api/assistant/owner/notifications','GET',undefined,owner);
+    expect(authorized.status).toBe(200);
+    expect(await authorized.json()).toMatchObject({enabled:false});
+  });
+  it('requires provider acknowledgement before marking an email notice accepted',async()=>{
+    const ticket=await start('ru');
+    expect((await call(`/api/assistant/conversations/${ticket.id}/handoff`,'POST',{name:'',email:'',phone:''},tokenHeader(ticket))).status).toBe(200);
+    Object.assign(env,{ASSISTANT_NOTIFICATIONS_ENABLED:'approved',ASSISTANT_NOTIFY_FROM:'updates@example.test',ASSISTANT_NOTIFY_TO:'owner@example.test',ASSISTANT_PUBLIC_ORIGIN:origin,RESEND_API_KEY:'test',ASSISTANT_EMAIL_DAILY_LIMIT:'3'});
+    const wrongAck:typeof fetch=async()=>new Response('{}',{status:200});
+    const result=await notificationService.drainOwnerNotifications(env,wrongAck);
+    expect(result).toMatchObject({sent:0,failed:1});
+    const row=db.sql.prepare('SELECT status,last_error FROM assistant_notifications').get() as {status:string;last_error:string};
+    expect(row.status).toBe('pending');
   });
 });

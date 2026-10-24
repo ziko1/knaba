@@ -61,3 +61,12 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 - Assistant public chat -> owner handoff -> owner replies -> customer review of terms. Додано нові схеми без змін чинних таблиць.
 - Acceptance: local tests, Astro/Vue/Svelte/type/build, security review. Live auth/guest device UAT, brand/legal/data-retention decision and official release залишаються NOT_RUN.
 - Detailed contract, risks and rollback: docs/KNABA_ASSISTANT_INTEGRATION_UK.md. Витрати на платні AI API не активовано.
+
+## KNABA Assistant — наступний безпечний пакет
+
+- [x] Події owner handoff / guest reply / customer offer-decision в D1 outbox, idempotency.
+- [x] Вимкнений за замовчуванням Resend adapter, обмеження добових спроб і retry.
+- [x] Код відновлення розмови та owner inbox статус повідомлень.
+- [ ] Реальна авторизація/квота email провайдера, підтвердження власника, GDPR і тестова email доставка.
+- [ ] Незалежний review, live owner/guest/mobile UAT, зняття release-blockers перед production.
+- [ ] Окремо: AI-provider із підтвердженою квотою/PII consent, WhatsApp через офіційний бізнес-акаунт.

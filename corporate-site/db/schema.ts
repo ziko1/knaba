@@ -56,3 +56,18 @@ export const assistantOffers = sqliteTable("assistant_offers", {
   createdAt: text("created_at").notNull(),
   decidedAt: text("decided_at"),
 }, t => [uniqueIndex("assistant_offer_retry").on(t.conversationId,t.requestKey),index("assistant_offers_thread").on(t.conversationId,t.createdAt)]);
+
+/** Minimal event metadata only; never copy message text or contact PII to the outbox. */
+export const assistantNotifications = sqliteTable("assistant_notifications", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
+  eventKey: text("event_key").notNull(),
+  kind: text("kind").notNull(),
+  status: text("status").notNull().default("pending"),
+  attempts: integer("attempts").notNull().default(0),
+  nextAttemptAt: integer("next_attempt_at").notNull().default(0),
+  lastError: text("last_error").notNull().default(""),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+  sentAt: text("sent_at"),
+}, t => [uniqueIndex("assistant_notification_event").on(t.eventKey),index("assistant_notification_due").on(t.status,t.nextAttemptAt)]);

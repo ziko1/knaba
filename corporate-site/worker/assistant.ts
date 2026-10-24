@@ -1,5 +1,6 @@
 import { assistantAnswer, assistantLocale } from '../src/lib/assistant-knowledge';
-import type { WorkerEnv, D1Database } from './types';
+import type { WorkerEnv, D1Database, WorkerContext } from './types';
+import { ownerNotice,drainOwnerNotifications,notificationDeliveryEnabled } from './notifications';
 
 /** Scoped public conversations + owner inbox. Never trust client-provided identity or role. */
 type Row = Record<string, unknown>;
@@ -127,8 +128,13 @@ async function guestMessage(request:Request,env:WorkerEnv,id:string,owner:Owner)
   const count=await db.prepare('SELECT COUNT(*) AS n FROM assistant_messages WHERE conversation_id=?').bind(id).first<Row>();
   if(Number(count?.n)>=MAX_HISTORY-2)fail(429,'limit','Gesprächslimit erreicht. Bitte kontaktieren Sie KnaBa direkt.');
   const time=now();
-  const result=await db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) VALUES (?,?,'customer','text',?,?,?)")
-    .bind(newId(),id,content,requestKey,time).run();
+  const insert=db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) VALUES (?,?,'customer','text',?,?,?)")
+    .bind(newId(),id,content,requestKey,time);
+  // Guest message and owner notification commit together when the human channel is active.
+  const saved=row.status==='human'
+    ?await db.batch([insert,ownerNotice(db,id,`message:${id}:${requestKey}`,'customer_message')])
+    :[await insert.run()];
+  const result=saved[0];
   if(!result.meta?.changes) {
     const replay=await db.prepare('SELECT content FROM assistant_messages WHERE conversation_id=? AND request_key=?').bind(id,requestKey).first<Row>();
     if(replay && replay.content!==content)fail(409,'idempotency_conflict','Diese Anfragekennung gehört zu einer anderen Nachricht.');
@@ -138,7 +144,10 @@ async function guestMessage(request:Request,env:WorkerEnv,id:string,owner:Owner)
       const answer=assistantAnswer(content,assistantLocale(row.locale));
       await db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) VALUES (?,?,'assistant','text',?,?,?)")
         .bind(newId(),id,answer.text,'reply:'+requestKey,now()).run();
-      if(answer.handoff)await db.prepare("UPDATE assistant_conversations SET status='human',updated_at=? WHERE id=? AND status='assistant'").bind(now(),id).run();
+      if(answer.handoff)await db.batch([
+         db.prepare("UPDATE assistant_conversations SET status='human',updated_at=? WHERE id=? AND status='assistant'").bind(now(),id),
+         ownerNotice(db,id,`handoff:${id}`,'owner_handoff'),
+       ]);
     }
     await db.prepare('UPDATE assistant_conversations SET updated_at=? WHERE id=?').bind(now(),id).run();
   }
@@ -153,10 +162,13 @@ async function handoff(request:Request,env:WorkerEnv,id:string,owner:Owner) {
   if(phone && !/^\+?[0-9().\s-]{5,35}$/.test(phone))fail(422,'validation','Ungültige Telefonnummer.');
   await throttle(db,request,'handoff',12,3600);
   const time=now();
-  await db.prepare("UPDATE assistant_conversations SET status='human',contact_name=?,contact_email=?,contact_phone=?,updated_at=? WHERE id=? AND status!='closed'")
-    .bind(name,email.toLowerCase(),phone,time,id).run();
-  await db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) VALUES (?,?,'assistant','text',?,'handoff',?)")
-    .bind(newId(),id,assistantAnswer('human',assistantLocale(row.locale)).text,time).run();
+  await db.batch([
+    db.prepare("UPDATE assistant_conversations SET status='human',contact_name=?,contact_email=?,contact_phone=?,updated_at=? WHERE id=? AND status!='closed'")
+      .bind(name,email.toLowerCase(),phone,time,id),
+    db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) VALUES (?,?,'assistant','text',?,'handoff',?)")
+      .bind(newId(),id,assistantAnswer('human',assistantLocale(row.locale)).text,time),
+    ownerNotice(db,id,`handoff:${id}`,'owner_handoff'),
+  ]);
   return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!);
 }
 async function inbox(env:WorkerEnv,owner:Owner) {
@@ -209,7 +221,10 @@ async function decide(request:Request,env:WorkerEnv,id:string,offerId:string,own
     const existing=await db.prepare('SELECT state FROM assistant_offers WHERE id=? AND conversation_id=?').bind(offerId,id).first<Row>();
     if(existing?.state!==b.decision)fail(409,'conflict','Angebot wurde bereits entschieden.');
   }
-  await db.prepare('UPDATE assistant_conversations SET updated_at=? WHERE id=?').bind(now(),id).run();
+  await db.batch([
+    db.prepare('UPDATE assistant_conversations SET updated_at=? WHERE id=?').bind(now(),id),
+    ownerNotice(db,id,`decision:${offerId}`,'offer_decision'),
+  ]);
   return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!);
 }
 async function ownerStatus(request:Request,env:WorkerEnv,id:string,owner:Owner) {
@@ -219,10 +234,28 @@ async function ownerStatus(request:Request,env:WorkerEnv,id:string,owner:Owner) 
   await db.prepare('UPDATE assistant_conversations SET status=?,updated_at=? WHERE id=?').bind(b.status,now(),id).run();
   return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!);
 }
-export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner):Promise<Response> {
+async function flushAfter(response:Promise<Response>,env:WorkerEnv,ctx?:WorkerContext):Promise<Response> {
+  const result=await response;
+  if(result.ok && ctx && notificationDeliveryEnabled(env)){
+    ctx.waitUntil(drainOwnerNotifications(env).then(()=>undefined).catch(()=>undefined));
+  }
+  return result;
+}
+
+export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,ctx?:WorkerContext):Promise<Response> {
   try {
     const path=new URL(request.url).pathname.replace(/\/$/,'');
     if(path==='/api/assistant/conversations'&&request.method==='POST')return await createConversation(request,env);
+    if(path==='/api/assistant/owner/notifications'&&request.method==='GET'){
+      requireOwner(owner);
+      const rows=(await database(env).prepare('SELECT status,COUNT(*) AS count FROM assistant_notifications GROUP BY status').all<{status:string;count:number}>()).results??[];
+      return reply({enabled:notificationDeliveryEnabled(env),counts:Object.fromEntries(rows.map(r=>[r.status,r.count]))});
+    }
+    if(path==='/api/assistant/owner/notifications/dispatch'&&request.method==='POST'){
+      requireOwner(owner);
+      const b=await bodyOf(request);fields(b,[]);
+      return reply({...await drainOwnerNotifications(env),enabled:notificationDeliveryEnabled(env)});
+    }
     if(path==='/api/assistant/owner/conversations'&&request.method==='GET')return await inbox(env,owner);
     const ownerThread=path.match(/^\/api\/assistant\/owner\/conversations\/([0-9a-f-]{36})$/i);
     if(ownerThread&&request.method==='GET'){
@@ -239,9 +272,9 @@ export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner)
       const db=database(env);return thread(db,await requireConversation(db,threadMatch[1],request,owner));
     }
     const messageMatch=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/(messages|handoff)$/i);
-    if(messageMatch&&request.method==='POST')return messageMatch[2]==='messages'?await guestMessage(request,env,messageMatch[1],owner):await handoff(request,env,messageMatch[1],owner);
+    if(messageMatch&&request.method==='POST')return await flushAfter(messageMatch[2]==='messages'?guestMessage(request,env,messageMatch[1],owner):handoff(request,env,messageMatch[1],owner),env,ctx);
     const decisionMatch=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/offers\/([0-9a-f-]{36})\/decision$/i);
-    if(decisionMatch&&request.method==='POST')return decide(request,env,decisionMatch[1],decisionMatch[2],owner);
+    if(decisionMatch&&request.method==='POST')return await flushAfter(decide(request,env,decisionMatch[1],decisionMatch[2],owner),env,ctx);
     return reply({error:{code:'not_found',message:'Nicht verfügbar.'}},404);
   } catch(error) {
     if(error instanceof Fault)return reply({error:{code:error.code,message:error.message}},error.status);
