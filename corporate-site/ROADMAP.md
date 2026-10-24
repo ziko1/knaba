@@ -61,3 +61,12 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 - Assistant public chat -> owner handoff -> owner replies -> customer review of terms. Додано нові схеми без змін чинних таблиць.
 - Acceptance: local tests, Astro/Vue/Svelte/type/build, security review. Live auth/guest device UAT, brand/legal/data-retention decision and official release залишаються NOT_RUN.
 - Detailed contract, risks and rollback: docs/KNABA_ASSISTANT_INTEGRATION_UK.md. Витрати на платні AI API не активовано.
+
+## LANG-UI-01 — мовний dropdown у KNABA Assistant (24.10.2026)
+
+| ID | Acceptance | Статус |
+|---|---|---|
+| LANG-UI-01 | Замінити верхню смугу DE/EN/UK/RU компактним dropdown; один активний пункт, клавіатура/Escape, click-outside, без overflow 320 px, збережений плаваючий KNABA Assistant | Implemented у Draft candidate на PR #13; перевірено 55 Vitest + 8 Node + 49 HTML + 60 Chromium viewport-сценаріїв; 200% CSS text-scale, локальний Wrangler+D1, відтворення CSS PASS; live/device/owner UAT NOT_RUN |
+| LANG-UI-02 | Review+release на публічний сайт після інтеграції KNABA Assistant, без знищення старих заявок та з планом відкату | BLOCKED_APPROVAL / NOT_RUN |
+
+Поточні докази та SHA: `docs/evidence/LANGUAGE_DROPDOWN_ACCEPTANCE_UK.md`. Не сприймати локальні QA тести як сертифікований live release.

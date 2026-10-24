@@ -72,3 +72,9 @@ R3 published successfully: Sites source a91edbcf989fe342cf342fa8741f0eec8a5b5488
 - Assistant public chat -> owner handoff -> owner replies -> customer review of terms. Додано нові схеми без змін чинних таблиць.
 - Acceptance: local tests, Astro/Vue/Svelte/type/build, security review. Live auth/guest device UAT, brand/legal/data-retention decision and official release залишаються NOT_RUN.
 - Detailed contract, risks and rollback: docs/KNABA_ASSISTANT_INTEGRATION_UK.md. Витрати на платні AI API не активовано.
+
+## LANG-UI-01 — компактне мовне меню, 24.10.2026
+
+- На базі KNABA Assistant PR #13 (`5b5f1dca323eca371a7c3f160e1614ac46e7c41b`) окремий кандидат `codex/knaba-assistant-language-dropdown-20261024`: перенесено UI з PR #14 без заміни чату/owner inbox.
+- Чотири мови у dropdown в header; верхню мовну смугу та дубль футера видалено, локалізацію сторінок і вибір послуг збережено. TDD RED→GREEN, 55 Vitest + 8 Node, 49 HTML, 60 Chromium viewport-випадків PASS; локальні Wrangler + D1 HTTP, інкрементальна SQLite-міграція і відтворювана Tailwind CSS-збірка PASS. Поточний артефакт `ca5fa570b4d12d71c673c1fdd7886a384c049e7dd4a1c5b32425e58d509a7903`; докази/межі в `docs/evidence/LANGUAGE_DROPDOWN_ACCEPTANCE_UK.md`.
+- Платні AI API не запускалися. Публічний домен не змінено; physical Android, screen-reader, native 200% zoom, real-owner UAT, official release залишаються NOT_RUN. Імітація збільшення CSS-тексту до 200% пройшла; до 700 px посилання на кабінет переноситься у мобільне меню.
