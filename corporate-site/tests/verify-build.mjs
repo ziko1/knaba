@@ -35,6 +35,9 @@ for (const file of pages) {
   const html = await readFile(file, "utf8");
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
   assert.match(html, /<html lang="(de|en|uk|ru)"/);
+  assert.match(html,/class="site-language-switcher"/,`${file}: accessible locale dropdown`);
+  assert.doesNotMatch(html,/class="site-language-bar"|class="language-nav"/,`${file}: old duplicate locale bars removed`);
+  assert.equal((html.match(/data-language-switch(?=\s|>)/g)||[]).length,4,`${file}: exactly four locale links`);
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
