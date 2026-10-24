@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteStudio from '../components/SiteStudio.tsx';
+---
+<Layout title="KnaBa Site Studio | Geschützter Editor" description="Geschützter Editor für die KnaBa Website." noindex={true}>
+  <section class="studio-page" aria-label="KnaBa Site Studio">
+    <h1 class="sr-only">KNABA Site Studio</h1>
+    <SiteStudio client:load />
+    <noscript><p class="container">Für den gesicherten Site Studio Editor ist JavaScript erforderlich.</p></noscript>
+  </section>
+</Layout>

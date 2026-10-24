@@ -17,6 +17,13 @@ export interface WorkerEnv {
   ASSISTANT_PUBLIC_ORIGIN?: string;
   ASSISTANT_EMAIL_DAILY_LIMIT?: string;
   RESEND_API_KEY?: string;
+  STUDIO_AI_ENABLED?: string;
+  STUDIO_AI_APPROVED?: string;
+  STUDIO_AI_API_KEY?: string;
+  STUDIO_AI_MODEL?: string;
+  STUDIO_AI_QUOTA_CHECKED_AT?: string;
+  STUDIO_AI_DAILY_BUDGET_CENTS?: string;
+  STUDIO_AI_REQUEST_COST_CAP_CENTS?: string;
 }
 
 

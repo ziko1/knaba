@@ -83,3 +83,11 @@ R3 published successfully: Sites source a91edbcf989fe342cf342fa8741f0eec8a5b5488
 - На source candidate локально: 63 Vitest + 8 Node, 84 Astro files typecheck clean, 49 HTML, 60 Chromium viewport сценаріїв, 3 end-to-end браузер+Wrangler/D1 recovery сценаріїв (320/390/1280), ізольовані міграції 0000→0001→0002 — PASS. Artifact SHA256 `f4347c542314283c88a39fa35c43c85c52186ea250af36f35b13d8f0971bdc33`; цей digest належить локальній збірці й не є deployment receipt.
 - ChatGPT Sites target `appgprj_6adc346d6f8881918b73ac79ebc5d759` не доступний для публікації/backup з наявних конекторів. AppDeploy не містить цього проєкту, Opera connector disconnected. Не виконано merge/deploy/migration remote; live owner/role UAT, privacy approval, physical devices NOT_RUN.
 - Детальна QA/rollback і межі: `docs/evidence/LANGUAGE_NOTIFICATIONS_RELEASE_2026-10-24_UK.md`. Витрати на зовнішні AI/email API: EUR0 активовано, квоти provider UNKNOWN. VPS диск приблизно 93% використано; без видалень.
+
+## 24.10.2026: KN-STUDIO-01, окремий source candidate
+
+Гілка codex/knaba-site-studio-20261024 на PR #19: owner-only редактор /studio/ поверх чинного /konto/, D1 Worker, без другого CMS. Source SHA 777007bcd0c0a20b306a90ada845c1568b3f9d6f. Чотири локалі UI, текст/link/image-path/color/SEO редагування, preview, undo/redo, drafts, history, explicit publication, restore as draft. AI disabled без реальних quota/budget/credentials. Additive D1 migration 0003.
+
+Точний source в локальному Node24: npm check 0 errors/warnings; Vitest 86/86, Node inquiry 8/8, build 50 pages + verify PASS, one artifact SHA256 d67098d369475ae8c322fec0d7c4b7937bdfb01459f500ac445fa3a657609bf2. Local Wrangler HTTP PASS, stage migration PASS. Live /studio/ 404; Sites publish/backup unavailable, owner UAT, physical devices, SSR SEO, real AI NOT_RUN. Code candidate лише, НЕ live release. Не змішувати з PR #20 Bauhelfer/PR #17 artwork. Runbook: docs/SITE_STUDIO_RELEASE_2026-10-24_UK.md.
+
+GitHub-код після authenticated Git tree mirror: commit 68fed278b3460e554ebb70937002816e4cb6e66c; локальний tested code commit 777007bcd0c0a20b306a90ada845c1568b3f9d6f; повне root tree identity ed091f283b10bda1d1ef2a80a8f14fac13f1a5d7. Документація публікується окремим дочірнім комітом; code input не змінено.
