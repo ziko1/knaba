@@ -1,26 +1,44 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/Icon.astro";
-import { services } from "../../data/company";
+import { services, type Service } from "../../data/company";
+import { serviceContent, guides } from "../../data/seo-content";
+import { siteConfig } from "../../data/site";
 export function getStaticPaths() {
   return services.map((service) => ({
     params: { slug: service.slug },
     props: { service },
   }));
 }
+interface Props { service: Service }
 const { service } = Astro.props;
+const content = serviceContent[service.slug];
+const guide = guides.find((item) => item.slug === content.relatedGuide)!;
+const canonical = `${siteConfig.origin}/leistungen/${service.slug}/`;
+const schema = {
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: content.title,
+  description: content.metaDescription,
+  serviceType: service.name,
+  provider: { '@id': `${siteConfig.officialOrigin}/#business` },
+  areaServed: ['Berlin', 'Brandenburg'],
+  url: canonical,
+};
 ---
 
 <Layout
-  title={`${service.name} in Berlin & Brandenburg | KnaBa`}
-  description={service.description}
+  title={`${content.title} | KnaBa`}
+  description={content.metaDescription}
+  schema={schema}
+  breadcrumbs={[{ name: 'Startseite', url: '/' }, { name: 'Leistungen', url: '/leistungen/' }, { name: service.name, url: `/leistungen/${service.slug}/` }]}
 >
   <section class="container page-intro">
     <a href="/leistungen/" class="breadcrumb">← Alle Leistungen</a><p
       class="eyebrow"
     >
       {service.tag}
-    </p><h1>{service.name}</h1><p>{service.description}</p><a
+    </p><h1>{content.title}</h1><p>{content.intro}</p><a
       class="button button-dark"
       href={`/kontakt/?leistung=${service.slug}`}
       >Diese Reinigung anfragen <Icon /></a>
@@ -28,12 +46,12 @@ const { service } = Astro.props;
   <section class="container section section-tight detail-grid">
     <div>
       <h2>{service.short}</h2><p>
-        Für {service.audience.toLowerCase()}. Wir besprechen Ihren Bedarf und
+        Für {service.audience}. Wir besprechen Ihren Bedarf und
         legen gemeinsam fest, welche Arbeiten in welchem Umfang ausgeführt
         werden.
       </p><h3>Das können wir für Sie übernehmen</h3><ul class="check-list">
         {
-          service.details.map((item) => (
+          content.scopeItems.map((item) => (
             <li>
               <Icon name="check" size={20} />
               {item}
@@ -44,16 +62,25 @@ const { service } = Astro.props;
         Der genaue Leistungsumfang und die Verfügbarkeit werden im individuellen
         Angebot vereinbart.
       </p>
+      <div class="service-editorial">
+        {content.sections.map((section) => <section><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>)}
+      </div>
     </div><aside class="aside-card">
       <Icon name={service.icon} size={36} /><h2>
         Damit wir gut planen können.
       </h2><p>{service.questions}</p><p>
         Die Fläche oder der Termin steht noch nicht fest? Sprechen Sie uns
         trotzdem an.
-      </p><a href={`/kontakt/?leistung=${service.slug}`} class="text-link"
+      </p><ul class="preparation-list">{content.preparation.map((item) => <li>{item}</li>)}</ul><a href={`/kontakt/?leistung=${service.slug}`} class="text-link"
         >Anfrage vorbereiten <Icon size={19} /></a>
+      <hr /><p class="eyebrow">PASSENDER RATGEBER</p><a class="guide-link" href={`/ratgeber/${guide.slug}/`}>{guide.title} <span aria-hidden="true">→</span></a>
     </aside>
   </section>
+  <section class="container section faq-section service-faq">
+    <div><p class="eyebrow">GUT VORBEREITET</p><h2>Ihre Fragen.<br />Unsere Antworten.</h2><p>Die konkrete Leistung, Verfügbarkeit und Preise stimmen wir im persönlichen Angebot ab.</p></div>
+    <div class="faq-list">{content.faq.map((item) => <details><summary>{item.question}<span aria-hidden="true">+</span></summary><p>{item.answer}</p></details>)}</div>
+  </section>
+  <section class="container cta-banner"><div><p class="eyebrow">IHR OBJEKT. IHR REINIGUNGSPLAN.</p><h2>Besprechen wir<br />Ihren Bedarf.</h2><p>Berlin und Brandenburg · Persönliche Abstimmung</p></div><a class="button button-dark" href={`/kontakt/?leistung=${service.slug}`}>Angebot anfragen <Icon /></a></section>
   <section class="container section">
     <p class="eyebrow">WEITERE LEISTUNGEN</p><div class="related-links">
       {
@@ -69,3 +96,17 @@ const { service } = Astro.props;
     </div>
   </section>
 </Layout>
+
+<style>
+  .service-editorial { margin-top: 48px; max-width: 740px; }
+  .service-editorial section + section { margin-top: 40px; }
+  .service-editorial h2 { font-size: clamp(26px, 2.4vw, 34px); }
+  .service-editorial p { font-size: 15px; }
+  .aside-card { align-self: start; }
+  .preparation-list { padding-left: 20px; line-height: 1.7; font-size: 14px; color: var(--muted); }
+  .preparation-list li { margin-bottom: 10px; }
+  .aside-card hr { border: 0; border-top: 1px solid #bdb5d3; margin: 28px 0; }
+  .guide-link { display: inline-block; text-decoration: underline; text-underline-offset: 4px; line-height: 1.6; }
+  .service-faq { border-top: 1px solid var(--line); }
+  .cta-banner p:not(.eyebrow) { margin: 18px 0 0; }
+</style>

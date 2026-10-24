@@ -1,0 +1,153 @@
+{
+  "revision": 3,
+  "date": "2026-10-24",
+  "scope": "temporary corporate site with durable portal; not official release certification",
+  "checks": {
+    "types": "PASS: Astro/Vue/Svelte",
+    "tests": {
+      "vitest": 36,
+      "inquiry": 8,
+      "failed": 0
+    },
+    "staticPages": 25,
+    "officialMode": "PASS; public sitemap23 URLs, account excluded; restored temporary mode",
+    "productionDependencyAudit": "0 vulnerabilities"
+  },
+  "browser": {
+    "localPublicLead": {
+      "result": "PASS",
+      "receipt": "4a1dd735-fda5-46ee-bd44-29f84c3074fa",
+      "data": "synthetic; local database only"
+    },
+    "navigation": "ClientRouter home/account/contact and localized portal observed",
+    "responsive": "iframe home390/320 and anonymous portal320 no horizontal overflow; guide768 no overflow",
+    "authenticatedLiveRoles": "NOT_RUN; security and role lifecycle covered by actual SQLite integration tests"
+  },
+  "limitations": [
+    "No email or CRM notifications; check portal manually",
+    "No field Core Web Vitals, real-user conversion or ranking measurements",
+    "Search Console connector returned zero properties",
+    "EN/UK overview and portal translations; detailed content/legal pages remain German",
+    "Legal operator AVV/transfer/retention and human UAT remain pending"
+  ],
+  "build": {
+    "scope": "production-build-static-validation",
+    "pages": 25,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "TEMPORARY_NOINDEX",
+    "externalImageScriptRequests": "NONE_IN_HTML",
+    "cssGzip": 17131,
+    "allEmittedJsGzip": 107136,
+    "assets": [
+      {
+        "name": "_astro/Catalogue.BmUMcpmz.js",
+        "bytes": 3350,
+        "gzip": 1575
+      },
+      {
+        "name": "_astro/CleaningChecklist.DSuH6p8V.js",
+        "bytes": 2586,
+        "gzip": 1345
+      },
+      {
+        "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+        "bytes": 16365,
+        "gzip": 5575
+      },
+      {
+        "name": "_astro/Inquiry.FdKR68Rv.js",
+        "bytes": 16400,
+        "gzip": 5885
+      },
+      {
+        "name": "_astro/Layout.CKnN3N-H.css",
+        "bytes": 51033,
+        "gzip": 12008
+      },
+      {
+        "name": "_astro/Portal.B6M5eyQR.js",
+        "bytes": 67469,
+        "gzip": 20318
+      },
+      {
+        "name": "_astro/ServiceFinder.BtYZ5YKY.js",
+        "bytes": 2711,
+        "gzip": 1365
+      },
+      {
+        "name": "_astro/build.Ba0hOZ_g.js",
+        "bytes": 34400,
+        "gzip": 10243
+      },
+      {
+        "name": "_astro/client.B9GgNGxB.js",
+        "bytes": 1023,
+        "gzip": 619
+      },
+      {
+        "name": "_astro/client.CcExIiMt.js",
+        "bytes": 9166,
+        "gzip": 4100
+      },
+      {
+        "name": "_astro/client.D9okaTkL.js",
+        "bytes": 35391,
+        "gzip": 13793
+      },
+      {
+        "name": "_astro/client.svelte.DZaY2MO2.js",
+        "bytes": 889,
+        "gzip": 497
+      },
+      {
+        "name": "_astro/company.3Xyh26Mc.js",
+        "bytes": 3613,
+        "gzip": 1629
+      },
+      {
+        "name": "_astro/konto.CfxoeYSq.css",
+        "bytes": 15824,
+        "gzip": 3884
+      },
+      {
+        "name": "_astro/planer.CxsTTm4Q.css",
+        "bytes": 4475,
+        "gzip": 1239
+      },
+      {
+        "name": "_astro/planner.DqJbloWd.js",
+        "bytes": 3460,
+        "gzip": 1570
+      },
+      {
+        "name": "_astro/portal-contract.XZmVB1GG.js",
+        "bytes": 762,
+        "gzip": 495
+      },
+      {
+        "name": "_astro/runtime-core.esm-bundler.CGTtZF5w.js",
+        "bytes": 67280,
+        "gzip": 25876
+      },
+      {
+        "name": "_astro/store.bH30HwvI.js",
+        "bytes": 5128,
+        "gzip": 2043
+      },
+      {
+        "name": "_astro/vue-app.DIumppeC.js",
+        "bytes": 6185,
+        "gzip": 2934
+      },
+      {
+        "name": "_astro/web.C_MVvVeU.js",
+        "bytes": 18572,
+        "gzip": 7274
+      }
+    ],
+    "artifactSha256": "b126b5f77f4e247715176b63eb1b85a37b2a655f9485daf78c1371fb4b3000c6",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  }
+}

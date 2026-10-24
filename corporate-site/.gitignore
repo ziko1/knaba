@@ -5,3 +5,9 @@ dist/
 .env
 .env.*
 !.env.example
+
+.astro-static/
+.wrangler/
+
+.dev.vars
+.dev.vars.*

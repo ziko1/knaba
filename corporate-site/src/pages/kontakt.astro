@@ -7,6 +7,7 @@ import { company } from "../data/company";
 
 <Layout
   title="Kontakt & Reinigungsanfrage | KnaBa Berlin"
+  breadcrumbs={[{name:"Startseite",url:"/"},{name:"Kontakt",url:"/kontakt/"}]}
   description="Fragen Sie Ihre Reinigung bei KnaBa an. Beschreiben Sie Ihr Objekt oder kontaktieren Sie uns direkt unter +49 (30) 679 330 54 und kontakt@knaba.de."
 >
   <section class="container page-intro">
@@ -35,8 +36,9 @@ import { company } from "../data/company";
           <small>Adresse</small><p>{company.street}<br />{company.city}</p>
         </div>
       </div><p class="notice">
-        Der Anfrage-Assistent bereitet Ihre E-Mail vor. Sie prüfen und versenden
-        sie anschließend selbst in Ihrem E-Mail-Programm.
+        In drei Schritten zur Anfrage: Leistung auswählen, Objekt beschreiben,
+        Angaben prüfen und direkt senden. Eine Registrierung ist nicht erforderlich.
+        Noch keine Beauftragung oder Terminbestätigung.
       </p>
     </div><div>
       <Inquiry client:load /><noscript

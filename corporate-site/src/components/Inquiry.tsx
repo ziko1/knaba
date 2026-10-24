@@ -1,4 +1,6 @@
 import { For, Show, createSignal, onMount } from "solid-js";
+import { createRequestId } from "../lib/request-id";
+import { portalHeader } from "../lib/portal-contract";
 import { company, services } from "../data/company";
 import {
   buildInquiry,
@@ -13,11 +15,17 @@ import type { InquiryData } from "../lib/inquiry";
 
 export default function Inquiry() {
   const [step, setStep] = createSignal(0);
+  const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
   const [review, setReview] = createSignal<ReturnType<
     typeof buildInquiry
   > | null>(null);
   const [status, setStatus] = createSignal("");
+  const [privacy, setPrivacy] = createSignal(false);
+  const [sending, setSending] = createSignal(false);
+  const [receipt, setReceipt] = createSignal("");
+  const [website, setWebsite] = createSignal("");
+  let idempotencyKey = "";
   const [error, setError] = createSignal("");
   const [invalidField, setInvalidField] = createSignal<
     keyof InquiryData | null
@@ -62,9 +70,11 @@ export default function Inquiry() {
     );
     if (selected && isKnownService(selected))
       setData((previous) => ({ ...previous, service: selected }));
+    setReady(true);
   });
 
   function update(field: keyof InquiryData, value: string) {
+    idempotencyKey = "";
     setData((previous) => ({ ...previous, [field]: value }));
     if (invalidField() === field) {
       setInvalidField(null);
@@ -123,6 +133,30 @@ export default function Inquiry() {
     }
   }
 
+  async function sendRequest() {
+    if (sending() || receipt()) return;
+    if (!privacy()) { setError("Bitte bestätigen Sie, dass Sie die Datenschutzhinweise gelesen haben."); return; }
+    setSending(true); setError(""); setStatus("");
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 15000);
+    try {
+      idempotencyKey ||= createRequestId();
+      const response = await fetch("/api/leads", {
+        method: "POST", headers: {"Content-Type":"application/json", ...portalHeader},
+        body: JSON.stringify({...data(), privacyAccepted:true, website:website(), idempotencyKey}),
+        signal:controller.signal,
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error?.message || "Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.");
+      if (!result.received || typeof result.id !== "string") throw new Error("Die Eingangsbestätigung fehlt. Bitte versuchen Sie es erneut.");
+      setReceipt(result.id);
+      setStatus("Ihre Anfrage ist bei KnaBa eingegangen. Dies ist noch keine Termin- oder Auftragsbestätigung.");
+      queueMicrotask(() => heading?.focus());
+    } catch (cause) {
+      setError(cause instanceof Error && cause.name !== "AbortError" ? cause.message : "Die Verbindung hat zu lange gedauert. Sie können mit derselben Anfrage erneut versuchen oder uns direkt kontaktieren.");
+    } finally {clearTimeout(timer);setSending(false);}
+  }
+
   async function copySummary() {
     const current = review();
     if (!current) return;
@@ -145,7 +179,7 @@ export default function Inquiry() {
   }
 
   return (
-    <section class="wizard" aria-label="Reinigungsanfrage vorbereiten">
+    <section class="wizard" aria-label="Reinigungsanfrage" aria-busy={sending()}>
       <ol class="wizard-progress" aria-label="Schritte der Anfrage">
         <For each={labels}>
           {(label, index) => (
@@ -163,7 +197,7 @@ export default function Inquiry() {
       </ol>
       <h2 ref={heading} tabIndex={-1}>
         {review()
-          ? "Ihre Anfrage im Überblick."
+          ? receipt() ? "Vielen Dank für Ihre Anfrage." : "Ihre Anfrage im Überblick."
           : [
               "Welche Reinigung benötigen Sie?",
               "Erzählen Sie uns von Ihrem Objekt.",
@@ -174,9 +208,9 @@ export default function Inquiry() {
         when={!review()}
         fallback={
           <>
-            <p class="form-status" role="status">
-              Noch nicht gesendet. Bitte im E-Mail-Programm prüfen und absenden.
-            </p>
+            <Show when={receipt()} fallback={<p class="form-status">Bitte prüfen Sie Ihre Angaben. Mit „Anfrage senden“ übermitteln Sie diese direkt an KnaBa.</p>}>
+              <div class="receipt-card" role="status"><strong>Anfrage eingegangen</strong><p>Ihre Vorgangsnummer: <code>{receipt()}</code></p><p>Wir prüfen Ihren Bedarf. Ein Termin und ein Auftrag entstehen erst nach persönlicher Vereinbarung.</p><p>Bei Rückfragen erreichen Sie uns unter <a href={company.phoneHref}>{company.phone}</a>.</p></div>
+            </Show>
             <div class="review-summary">
               <label for="inquiry-summary">
                 Ihre Angaben zum Prüfen und Kopieren
@@ -191,20 +225,26 @@ export default function Inquiry() {
             </div>
             <p class="field-hint">
               Empfänger: <a href={`mailto:${company.email}`}>{company.email}</a>
-              . Wenn sich kein E-Mail-Programm öffnet, kopieren Sie die Anfrage
-              und senden Sie diese über Ihren E-Mail-Anbieter.
+              . Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.
             </p>
+            <Show when={!receipt()}>
+              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzhinweise</a> gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.</span></label>
+            </Show>
+            <p class="form-status" role="alert">{error()}</p>
             <div class="wizard-actions">
+              <Show when={!receipt()}><button class="button button-dark" type="button" onClick={sendRequest} disabled={sending() || !privacy()}>{sending() ? "Wird gesendet …" : "Anfrage senden →"}</button>
               <button
                 type="button"
                 class="button button-outline"
+                disabled={sending()}
                 onClick={() => {
                   setReview(null);
                   move(2);
                 }}
               >
                 Angaben bearbeiten
-              </button>
+              </button></Show>
+              <Show when={receipt()}><a class="button button-dark" href="/konto/">Zum Kundenportal →</a></Show>
               <a class="button button-dark" href={review()?.href}>
                 Im E-Mail-Programm öffnen ↗
               </a>
@@ -223,8 +263,9 @@ export default function Inquiry() {
         }
       >
         <form onSubmit={submit} noValidate>
-          <fieldset>
+          <fieldset disabled={!ready()}>
             <legend class="sr-only">{labels[step()]}</legend>
+            <div class="honey-field" aria-hidden="true"><label for="inquiry-website">Website<input id="inquiry-website" name="website" tabindex="-1" autocomplete="off" value={website()} onInput={event=>setWebsite(event.currentTarget.value)} /></label></div>
             <Show when={step() === 0}>
               <div class="field field-full">
                 <label for="inquiry-service">
@@ -440,10 +481,8 @@ export default function Inquiry() {
                 </div>
               </div>
               <p class="field-hint">
-                Ihre Angaben werden hier nur zu einem E-Mail-Entwurf
-                zusammengestellt. Erst wenn Sie die E-Mail in Ihrem
-                E-Mail-Programm absenden, erreichen sie KnaBa. Hinweise zur
-                Verarbeitung finden Sie unter{" "}
+                Im nächsten Schritt prüfen Sie Ihre Anfrage und senden sie direkt an KnaBa.
+                Eine Registrierung ist dafür nicht erforderlich. Informationen zur Verarbeitung finden Sie unter{" "}
                 <a href="/datenschutz/">Datenschutz</a>.
               </p>
             </Show>
@@ -461,7 +500,7 @@ export default function Inquiry() {
                 ← Zurück
               </button>
             </Show>
-            <button class="button button-dark" type="submit">
+            <button class="button button-dark" type="submit" disabled={!ready()}>
               {step() === 2 ? "Anfrage prüfen →" : "Weiter →"}
             </button>
           </div>

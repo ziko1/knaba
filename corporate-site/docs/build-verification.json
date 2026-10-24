@@ -1,17 +1,17 @@
 {
   "scope": "production-build-static-validation",
-  "pages": 16,
+  "pages": 25,
   "internalLinks": "PASS",
   "metadata": "PASS",
-  "draftNoindex": "PASS",
+  "indexMode": "TEMPORARY_NOINDEX",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 12548,
-  "allEmittedJsGzip": 79525,
+  "cssGzip": 17131,
+  "allEmittedJsGzip": 107136,
   "assets": [
     {
-      "name": "_astro/Catalogue.BdUHuSSb.js",
-      "bytes": 37574,
-      "gzip": 11662
+      "name": "_astro/Catalogue.BmUMcpmz.js",
+      "bytes": 3350,
+      "gzip": 1575
     },
     {
       "name": "_astro/CleaningChecklist.DSuH6p8V.js",
@@ -19,19 +19,34 @@
       "gzip": 1345
     },
     {
-      "name": "_astro/Inquiry.CyEDy1cd.js",
-      "bytes": 13285,
-      "gzip": 4818
+      "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+      "bytes": 16365,
+      "gzip": 5575
     },
     {
-      "name": "_astro/Layout.CdcVcV3Q.css",
-      "bytes": 47893,
-      "gzip": 11309
+      "name": "_astro/Inquiry.FdKR68Rv.js",
+      "bytes": 16400,
+      "gzip": 5885
+    },
+    {
+      "name": "_astro/Layout.CKnN3N-H.css",
+      "bytes": 51033,
+      "gzip": 12008
+    },
+    {
+      "name": "_astro/Portal.B6M5eyQR.js",
+      "bytes": 67469,
+      "gzip": 20318
     },
     {
       "name": "_astro/ServiceFinder.BtYZ5YKY.js",
       "bytes": 2711,
       "gzip": 1365
+    },
+    {
+      "name": "_astro/build.Ba0hOZ_g.js",
+      "bytes": 34400,
+      "gzip": 10243
     },
     {
       "name": "_astro/client.B9GgNGxB.js",
@@ -59,6 +74,11 @@
       "gzip": 1629
     },
     {
+      "name": "_astro/konto.CfxoeYSq.css",
+      "bytes": 15824,
+      "gzip": 3884
+    },
+    {
       "name": "_astro/planer.CxsTTm4Q.css",
       "bytes": 4475,
       "gzip": 1239
@@ -67,6 +87,11 @@
       "name": "_astro/planner.DqJbloWd.js",
       "bytes": 3460,
       "gzip": 1570
+    },
+    {
+      "name": "_astro/portal-contract.XZmVB1GG.js",
+      "bytes": 762,
+      "gzip": 495
     },
     {
       "name": "_astro/runtime-core.esm-bundler.CGTtZF5w.js",
@@ -89,7 +114,7 @@
       "gzip": 7274
     }
   ],
-  "artifactSha256": "55c264c1859eff55d76578afe3173a81a5cf72ab1ca9f42ae350848d1041537e",
+  "artifactSha256": "b126b5f77f4e247715176b63eb1b85a37b2a655f9485daf78c1371fb4b3000c6",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

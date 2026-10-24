@@ -3,24 +3,40 @@ import "../styles/global.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import Icon from "../components/Icon.astro";
+import { ClientRouter } from "astro:transitions";
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  lang?: 'de' | 'en' | 'uk';
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumbs?: {name:string;url:string}[];
+  alternates?: {lang:string;url:string}[];
 }
-const { title, description, noindex = true } = Astro.props;
+const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs = [], alternates = [] } = Astro.props;
+const isNoindex = siteConfig.temporary || noindex;
+const translated = {
+  de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Ihr Reinigungspartner in Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Gepflegte Räume. Ein gutes Gefühl.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
+  en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Your cleaning partner in Berlin & Brandenburg',quote:'Request cleaning (DE)',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Clean spaces. A better feeling.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
+  uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Ваш партнер із прибирання у Берліні та Бранденбурзі',quote:'Замовити прибирання (DE)',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чисті приміщення. Приємні відчуття.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
+}[lang];
+const footerLabels = {de:['Reinigungsplan erstellen','Unsere Leistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Cleaning planner (DE)','Our services (DE)','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa (DE)','Careers (DE)'],uk:['Планер прибирання (DE)','Наші послуги (DE)','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa (DE)','Робота (DE)']}[lang];
 const path = Astro.url.pathname;
+const translatedNav = {en:['Services (DE)','Planner (DE)','Sectors (DE)','About (DE)','Guides (DE)'],uk:['Послуги (DE)','Планер (DE)','Галузі (DE)','Про нас (DE)','Поради (DE)']};
 const nav = [
   ["/leistungen/", "Leistungen"],
   ["/planer/", "Reinigungsplaner"],
   ["/branchen/", "Branchen"],
   ["/unternehmen/", "Über KnaBa"],
-  ["/karriere/", "Karriere"],
-] as const;
+  ["/ratgeber/", "Ratgeber"],
+].map(([url,label],index)=>[url,lang==='de'?label:translatedNav[lang][index]]);
 const canonical = new URL(path, siteConfig.origin);
+const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
+const pageSchemas = Array.isArray(schema) ? schema : [schema];
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": "https://knaba.de/#business",
   name: "KnaBa Gebäudereinigung",
   url: siteConfig.officialOrigin,
   telephone: "+493067933054",
@@ -37,33 +53,39 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="de">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#102d34" />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="robots" content={isNoindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content={{de:"de_DE",en:"en_GB",uk:"uk_UA"}[lang]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/knaba-social.png',siteConfig.origin)} />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="KnaBa Gebäudereinigung · Berlin & Brandenburg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {alternates.map(item => <link rel="alternate" hreflang={item.lang} href={new URL(item.url,siteConfig.origin)} />)}
     <title>{title}</title>
+    <ClientRouter />
     <script
       type="application/ld+json"
-      set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+      set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
     />
   </head>
   <body>
-    <a href="#main" class="skip-link">Zum Inhalt springen</a>
-    {siteConfig.temporary && <div class="preview-banner"><div class="container"><span><span class="preview-dot"></span><strong>Temporäre Vorschau</strong><span class="preview-domain"> · kneba.vsp.rest</span></span><a href={siteConfig.officialOrigin}>Zur offiziellen Website <span aria-hidden="true">↗</span></a></div></div>}
+    <a href="#main" class="skip-link">{translated.skip}</a>
+    {siteConfig.temporary && <div class="preview-banner"><div class="container"><span><span class="preview-dot"></span><strong>{translated.preview}</strong><span class="preview-domain"> · kneba.vsp.rest</span></span><a href={siteConfig.officialOrigin}>{translated.official} <span aria-hidden="true">↗</span></a></div></div>}
     <div class="topline">
       <div class="container">
         <span
-          ><span class="dot"></span> Ihr Reinigungspartner in Berlin & Brandenburg</span
+          ><span class="dot"></span> {translated.region}</span
         ><a href={company.phoneHref}
           ><Icon name="phone" size={14} />{company.phone}</a>
       </div>
@@ -78,7 +100,7 @@ const structuredData = {
             ><span></span><span></span><span></span></span
           ><span class="brand-type">KnaBa<span>GEBÄUDEREINIGUNG</span></span></a
         >
-        <nav class="desktop-nav" aria-label="Hauptnavigation">
+        <nav class="desktop-nav" aria-label={lang === 'de' ? 'Hauptnavigation' : lang === 'uk' ? 'Головна навігація' : 'Main navigation'}>
           {
             nav.map(([href, text]) => (
               <a
@@ -91,19 +113,20 @@ const structuredData = {
           }
         </nav>
         <a class="button button-dark nav-cta" href="/kontakt/"
-          >Angebot anfragen <Icon size={17} /></a
+          >{translated.quote} <Icon size={17} /></a
         >
+        <a class="account-link" href="/konto/">{translated.account} ↗</a>
         <details class="mobile-nav">
-          <summary aria-label="Menü öffnen"
-            ><span>Menü</span><span class="menu-lines">☰</span></summary
-          ><nav aria-label="Mobile Hauptnavigation">
+          <summary aria-label={translated.menu}
+            ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
+          ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : 'Mobile navigation'}>
             {nav.map(([href, text]) => <a href={href}>{text}</a>)}<a
-              href="/kontakt/">Angebot anfragen →</a>
+              href="/kontakt/">{translated.quote} →</a><a href="/konto/">{translated.account}</a>
           </nav>
         </details>
       </div>
     </header>
-    <main id="main"><slot /></main>
+    <main id="main" tabindex="-1">{breadcrumbs.length > 0 && <nav class="container breadcrumbs" aria-label={lang === 'de' ? 'Brotkrümelnavigation' : 'Breadcrumb'}><ol>{breadcrumbs.map((item,index)=><li>{index === breadcrumbs.length-1 ? <span aria-current="page">{item.name}</span> : <a href={item.url}>{item.name}</a>}</li>)}</ol></nav>}<slot /></main>
     <footer class="footer">
       <div class="container footer-grid">
         <div>
@@ -112,44 +135,47 @@ const structuredData = {
               ><span></span><span></span><span></span></span
             ><span class="brand-type">KnaBa<span>GEBÄUDEREINIGUNG</span></span
             ></a
-          ><p>Gepflegte Räume.<br />Ein gutes Gefühl.</p><span
+          ><p>{translated.tagline}</p><span
             class="footer-region">Berlin & Brandenburg</span>
         </div>
         <div>
-          <h2>Entdecken</h2><a href="/planer/">Reinigungsplan erstellen</a><a href="/leistungen/">Unsere Leistungen</a><a
+          <h2>{translated.discover}</h2><a href="/planer/">{footerLabels[0]}</a><a href="/leistungen/">{footerLabels[1]}</a><a
             href="/branchen/">Ihre Branche</a
-          ><a href="/unternehmen/">Über KnaBa</a><a href="/karriere/"
-            >Karriere</a>
+          ><a href="/ratgeber/">{footerLabels[3]}</a><a href="/berlin/">{footerLabels[4]}</a><a href="/konto/">{translated.account}</a><a href="/unternehmen/">{footerLabels[5]}</a><a href="/karriere/"
+            >{footerLabels[6]}</a>
         </div>
         <div>
-          <h2>Kontakt</h2><a href={company.phoneHref}>{company.phone}</a><a
+          <h2>{translated.contact}</h2><a href={company.phoneHref}>{company.phone}</a><a
             href={`mailto:${company.email}`}>{company.email}</a
           ><p>{company.street}<br />{company.city}</p>
         </div>
         <div>
-          <h2>Ihr nächster Schritt</h2><p>
-            Erzählen Sie uns von Ihrem Objekt.<br />Wir besprechen Ihren Bedarf.
+          <h2>{translated.next}</h2><p>
+            {translated.nextText}
           </p><a href="/kontakt/" class="text-link light"
-            >Reinigung anfragen <Icon size={18} /></a>
+            >{translated.quote} <Icon size={18} /></a>
         </div>
       </div>
-      {siteConfig.temporary && <div class="container preview-footer"><span class="preview-dot"></span><p>Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden. <a href={siteConfig.officialOrigin}>knaba.de ↗</a></p></div>}
+      {siteConfig.temporary && <div class="container preview-footer"><span class="preview-dot"></span><p>{translated.retire} <a href={siteConfig.officialOrigin}>knaba.de ↗</a></p></div>}
       <div class="container footer-bottom">
+        <nav class="language-nav" aria-label="Sprache / Language"><a href="/" lang="de" aria-current={lang==='de'?'true':undefined}>DE</a><a href="/en/" lang="en" aria-current={lang==='en'?'true':undefined}>EN</a><a href="/uk/" lang="uk" aria-current={lang==='uk'?'true':undefined}>UK</a></nav>
         <span>© {new Date().getFullYear()} KnaBa</span><div>
-          <a href="/impressum/">Impressum</a><a href="/datenschutz/"
-            >Datenschutz</a>
+          <a href="/impressum/">{translated.imprint}</a><a href="/datenschutz/"
+            >{translated.privacy}</a>
         </div>
       </div>
     </footer>
     <script>
-      const menu = document.querySelector<HTMLDetailsElement>(".mobile-nav");
+
       document.addEventListener("keydown", (event) => {
+        const menu = document.querySelector<HTMLDetailsElement>(".mobile-nav");
         if (event.key === "Escape" && menu?.open) {
           menu.open = false;
           menu.querySelector("summary")?.focus();
         }
       });
       document.addEventListener("click", (event) => {
+        const menu = document.querySelector<HTMLDetailsElement>(".mobile-nav");
         if (
           menu?.open &&
           event.target instanceof Node &&

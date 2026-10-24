@@ -11,7 +11,7 @@ Purpose: public design/functionality preview explicitly requested by the owner, 
 
 ## Temporary behavior
 
-Visible header/footer notice, official-site link, self-canonical on temporary hostname, robots disallow and meta noindex/nofollow. No automatic expiry/deletion job. `_headers` is a requested static-host configuration; verify actual HTTP behavior before claiming it enforced. Noindex is not authentication.
+Visible header/footer notice, official-site link, self-canonical on temporary hostname. R3 permits crawling of public pages with meta noindex,follow; account/API paths are disallowed. No automatic expiry/deletion job. `_headers` is a requested static-host configuration; verify actual HTTP behavior before claiming it enforced. Noindex is not authentication.
 
 ## Retirement, only after a future explicit instruction
 
@@ -23,9 +23,9 @@ Visible header/footer notice, official-site link, self-canonical on temporary ho
 
 ## Future official-domain migration, separate release
 
-Confirm approved legal/operator details and brand content; integrate real Lead delivery if desired; obtain access and explicit authorization for knaba.de. Change site origin and build/site configuration together. Prepare old URL redirects (/ber, /jobs, /galerie), reviewed sitemap/canonical and consent/privacy requirements. Preview and verify exact artifact before DNS cutover; retain old official deployment for rollback. Remove noindex only on the approved official release. Retire kneba.vsp.rest after successful cutover per instructions above, or keep an explicitly approved redirect.
+Confirm approved legal/operator details and brand content; review the implemented D1 Lead endpoint and decide whether email/CRM notifications are needed; obtain access and explicit authorization for knaba.de. Change site origin and build/site configuration together. Prepare old URL redirects (/ber, /jobs, /galerie), reviewed sitemap/canonical and consent/privacy requirements. Preview and verify exact artifact before DNS cutover; retain old official deployment for rollback. Remove noindex only on the approved official release. Retire kneba.vsp.rest after successful cutover per instructions above, or keep an explicitly approved redirect.
 
-## Publication receipts
+## Revision 2 publication receipts (historical)
 
 - Source commit (Sites repository): `35103e5ee177f593951f52b451ad94a59b3efe13`
 - Saved version: `appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_c0751056dc48819183d53eca8719e988` (v1)
@@ -46,6 +46,20 @@ The packaging checkout rebuilt the same41 source/config/test files. Differences 
 
 Provider-origin browser render passed. Executor HTTP requests to that origin returned403; they are not evidence of a website outage because the real browser rendered it. Raw response-header enforcement and byte-for-byte public HTTP comparison remain unverified through that executor.
 
-## Verified domain outcome
+## Revision 2 verified domain outcome (historical)
 
 24.10.2026, about06:44 Europe/Berlin: custom domain, provider and TLS all `active`. Browser opened `https://kneba.vsp.rest/`, rendered the intended final design, meta robots `noindex, nofollow`, canonical `https://kneba.vsp.rest/`, final CSS hash `Layout.CdcVcV3Q.css`. Live Vue selection→Svelte checklist→query-preselected Solid inquiry passed; live TanStack catalogue loaded and Solid selection changed shared state to Glasreinigung. Source/version receipts and screenshot: `docs/evidence/revision2-live.json`, `revision2-live.jpg`. No automatic deletion is scheduled.
+
+## R3 portal migration — 24 October 2026
+
+Same Site and domain. Static hosting is upgraded to a Worker with `DB` (Sites-managed D1), `ASSETS`, and `OWNER_EMAIL` stored as a secret (never in source). The owner email was derived from the verified owner entry in this exact Site's access response, not a first visitor or company mailbox guess. All other role grants require the owner in the application.
+
+The native Sites workflow applies the initial schema migration before Worker upload. A failed release may already have applied schema; inspect migration state before retrying. R3 has no destructive migration. Re-deploying the older R2 static version does **not** delete D1 records. Rollback means loss of portal availability, not removal of data.
+
+Retiring this preview now also requires a deliberate data export/retention/deletion decision for profiles, requests and audit records; domain/DNS removal alone is insufficient. Do not delete D1 without an authorized data disposition. Migration to the official domain must preserve identity mapping or arrange a reviewed account migration; Sites user IDs are scoped to a Site. Preserve this Site identity if keeping accounts.
+
+Temporary SEO now allows crawling of public pages so crawlers can read `noindex, follow`. API/account disallow is defense in depth only. `/sitemap.xml` is intentionally empty in preview; the official build mode generates the23 approved public URLs. No temporary sitemap submitted to Google.
+
+## R3 publication receipt
+
+Saved version2, source a91edbcf989fe342cf342fa8741f0eec8a5b5488, deployment appgdep_6adc415e5c2c8191b4c2f0133d9bef27 succeeded at2026-10-24T05:26:07Z. Same domain and public audience, no DNS changes.64 runtime files matched candidate. See `docs/evidence/revision3-release.json` and `revision3-deployed-build.json`. API health ready:true; real synthetic public lead receipt confirmed in D1. Owner authenticated UAT is pending; no artificial live roles were granted.

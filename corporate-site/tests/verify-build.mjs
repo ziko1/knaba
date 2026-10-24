@@ -4,7 +4,9 @@ import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
-const root = resolve("dist");
+const root = resolve("dist/client");
+const official = process.env.KNABA_RELEASE_MODE === "official";
+const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const lists = await Promise.all(
@@ -32,17 +34,19 @@ for (const file of files) {
 for (const file of pages) {
   const html = await readFile(file, "utf8");
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
-  assert.match(html, /<html lang="de"/);
-  assert.match(html, /Temporäre Vorschau/);
-  assert.match(html, /rel="canonical" href="https:\/\/kneba\.vsp\.rest/);
+  assert.match(html, /<html lang="(de|en|uk)"/);
+  if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт/);
+  assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
+  if (!official || /konto|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
   titles.add(title);
   assert.doesNotMatch(html, /<(?:script|img)[^>]+src="https?:/);
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
-    const path = url.split("?")[0];
+    const path = url.split("?")[0].split("#")[0];
+    if (["/signin-with-chatgpt", "/signout-with-chatgpt"].includes(path)) continue;
     const target = resolve(
       root,
       `.${path.endsWith("/") ? path + "index.html" : path}`,
@@ -53,6 +57,13 @@ for (const file of pages) {
       `${file}: missing ${url}`,
     );
   }
+  const graphs = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+  assert.ok(graphs.length > 0, `${file}: structured data`);
+  const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
+  assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
+  if (file.includes('/leistungen/') && !file.endsWith('/leistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
+  if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Article'));
+  assert.match(html,/name="astro-view-transitions-enabled"/);
   for (const img of html.matchAll(/<img\b[^>]*>/g)) {
     assert.match(img[0], /alt="[^"]+"/);
     assert.match(img[0], /width="\d+"/);
@@ -65,20 +76,28 @@ const cssGzip = assets
 const jsGzip = assets
   .filter((a) => a.name.endsWith(".js"))
   .reduce((n, a) => n + a.gzip, 0);
-assert.ok(cssGzip < 30 * 1024, "CSS budget 30KiB gzip");
-assert.ok(jsGzip < 160 * 1024, "Revision 2 all emitted JS budget 160KiB gzip");
+assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
+assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
 const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'), 'utf8'));
 assert.equal(catalogue.version, 1);
 const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
-assert.match(robots, /Disallow: \//);
+assert.match(robots, /Disallow: \/api\//);
+assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
+const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
+assert.equal((sitemap.match(/<loc>/g)||[]).length,official?23:0);
+if(official) assert.match(robots,/Sitemap: https:\/\/knaba\.de\/sitemap\.xml/);
+else assert.doesNotMatch(robots,/Sitemap:/);
+const headers = await readFile(resolve(root,'_headers'),'utf8');
+assert.match(headers,/X-Content-Type-Options: nosniff/);
+if(!official) assert.match(headers,/X-Robots-Tag: noindex, follow/);
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,
   internalLinks: "PASS",
   metadata: "PASS",
-  draftNoindex: "PASS",
+  indexMode: official ? "OFFICIAL" : "TEMPORARY_NOINDEX",
   externalImageScriptRequests: "NONE_IN_HTML",
   cssGzip,
   allEmittedJsGzip: jsGzip,
@@ -88,7 +107,7 @@ const report = {
   networkTransfer: "NOT_MEASURED",
 };
 await writeFile(
-  "docs/build-verification.json",
+  official ? "docs/evidence/official-build-verification.json" : "docs/build-verification.json",
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(JSON.stringify(report, null, 2));

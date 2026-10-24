@@ -1,10 +1,18 @@
-# KnaBa corporate website — temporary preview
+# KnaBa corporate website and role portal
 
-German corporate cleaning website for KnaBa, Berlin & Brandenburg. Temporary address: `https://kneba.vsp.rest`. Official existing website: `https://knaba.de`. This is an isolated marketing surface in `ziko1/knaba`; the KNABA V4 application is preserved.
+German-first corporate cleaning website for Berlin and Brandenburg, temporarily hosted at https://kneba.vsp.rest/. Official existing business site: https://knaba.de/.
 
-## Run and verify
+## Architecture
 
-Node >=22.23.4 (tested Node24.19.0).
+Astro7 prerenders25 HTML pages with visible SEO content. SolidJS owns the inquiry and role portal; Vue/Pinia, Svelte and Zustand remain isolated in the service planner. TanStack Solid Query manages the portal/catalogue server state. Tailwind4 and TypeScript share a Vite8 pipeline.
+
+A separately built Cloudflare Worker serves `/api/portal/*` and `/api/leads`. D1 stores profiles, requests, rate limits and an audit trail. The native Sites gateway handles ChatGPT sign-in. This application never accepts passwords or claims that client-selected roles are authorized.
+
+Vite8.3.5 replaces the older starter's8.0.13 because current npm advisories reported vulnerabilities. Versions are pinned in package.json and package-lock.json. No SvelteKit/Turbopack or duplicate router is installed.
+
+## Run and check
+
+Node22.23.4+ is required; integration tests use the actual `node:sqlite` engine.
 
 ```sh
 npm ci
@@ -12,37 +20,42 @@ npm run check
 npm test
 npm run build
 npm run verify:build
-npm run preview
+npm run dev
 ```
 
-## Architecture
+`dev` serves the built Worker and static output. It applies pending schema migrations to an ignored **local** database under `.wrangler/state`. Rebuild after source changes. `npm run dev:content` offers Astro content HMR without the backend. Local and hosted D1 are separate. Local preview has no production login identity; authorization integration tests supply explicit synthetic identity fixtures in an in-memory SQLite adapter. There is no production test-account bypass.
 
-| Technology | Actual responsibility |
-|---|---|
-| Astro7 + Vite | Static routing/prerender and one build pipeline |
-| SolidJS | Inquiry wizard and query-backed catalogue |
-| Vue3 + Pinia | Service finder and local object/need filters |
-| Svelte5 | Preparation checklist, progress/reset, inquiry handoff |
-| Zustand vanilla | Shared validated service selection among planner islands |
-| TanStack Solid Query | Local catalogue request, cache, timeout/cancellation/error/retry |
-| Tailwind CSS4 | Tokens, utilities and responsive planner layout |
-| TypeScript | Contracts and Astro/Vue/Svelte checks |
-| Vitest | Planner rules, state isolation, catalogue boundary tests |
+Build sequence: Astro -> `.astro-static`, security headers -> same asset directory, Vite/Cloudflare -> `dist/client` + `dist/server/index.js`. The vendored Sites Vite plugin copies the manifest and Drizzle migrations into `dist/.openai`. The native Sites source helper packages and publishes this exact output.
 
-Svelte was selected from the requested Svelte/SvelteKit alternatives; Vite was selected from Vite/Turbopack. SvelteKit and Turbopack are not installed or claimed integrated. Do not add a second router or unused builder to this Astro project.
+## Owner and role model
 
-16 prerendered HTML pages, six service details, local catalogue JSON and sitemap. Homepage is fully static with no framework islands. Only `/planer/` loads the three interactive frameworks; `/kontakt/` loads the Solid inquiry. No external fonts/images, analytics, localStorage or personal-data persistence. Original SVG illustration is symbolic, not a KnaBa reference project.
+Configure server-only `OWNER_EMAIL` in Sites runtime secrets. It must be the verified Site owner's sign-in email; never use a public frontend variable. A missing owner configuration is a deployment blocker. Hosted authentication supplies trusted identity headers; custom-host traffic must pass through the supported Sites dispatcher. Do not expose the Worker directly with caller-controlled identity headers.
 
-The inquiry **prepares an email draft**; it does not send or create a server Lead. Planner transfers the service via a validated query parameter. Checklist checkmarks intentionally remain on the planner, as explained on screen.
+- Anonymous: public information and a rate-limited cleaning inquiry without sign-in.
+- Registered: profile pending; no business data until approval.
+- Client: own requests, status, cancellation before scheduling, feedback after completion.
+- Worker: assigned jobs, four-item checklist, status progression, internal note.
+- Admin: received requests, scheduling, assignment to approved workers, client replies.
+- Owner: admin capabilities plus role approval/suspension and audit. No first-user privilege escalation.
 
-## Temporary hosting
+API contracts: `src/lib/portal-contract.ts`. Every mutation checks JSON type, bounded payload, matching Origin, custom request header, authorization, allowed fields and record version. Submissions use cryptographically random idempotency keys. Contact inquiries are saved to D1; **no notification email is sent**. The operator must check the portal. Public inquiries are not automatically linked to later profiles.
 
-Every page labels the temporary preview and remains noindex/nofollow; robots disallows crawling. Domain constants live in `src/data/site.ts` and `astro.config.mjs`. `public/_headers` requests noindex and basic headers; live host behavior must be verified separately. DNS and removal/migration instructions are in `docs/TEMPORARY_HOSTING.md` once deployment is verified. No automatic expiry or deletion has been scheduled.
+## Languages and navigation
 
-Final legal/operator review, human UAT, real Lead delivery and field Web Vitals remain future official-release work. Temporary-public access is explicitly authorized by the user on 24 October 2026. No changes to official knaba.de or vsp.rest apex are part of this scope.
+German is the primary site language. `/en/` and `/uk/` are localized overviews; articles/service/legal detail pages remain German. The portal's functional interface supports DE/EN/UK. Only a language preference is saved to localStorage. Personal records remain server-side, transient forms in memory.
 
-- [Audit](docs/SOURCE_AUDIT.md)
-- [Plan and expanded prompt](docs/PLAN_AND_PROMPT_UK.md)
-- [Revision2 acceptance and architecture](docs/REVISION_2_PLAN_UK.md)
-- [Roadmap](ROADMAP.md)
-- [Memory](PROJECT_MEMORY.md)
+Astro ClientRouter changes internal pages in the same window without a document reload; forms use fetch. Normal links remain usable without JavaScript. ChatGPT sign-in/sign-out are intentionally top-level platform navigations. Native browser dialogs/mail/phone/external links are outside client routing.
+
+## Search and release modes
+
+`KNABA_RELEASE_MODE` defaults to temporary. Public pages carry `noindex, follow`, public crawling is allowed, API/account paths disallowed. The sitemap is empty until an explicitly reviewed official release. The temporary warning remains visible.
+
+`KNABA_RELEASE_MODE=official npm run build` prepares canonical `https://knaba.de`, indexable public metadata and23 sitemap URLs. This is a **technical build switch, not authorization to migrate**. Before official publication: review legal/operator data and processor contracts, final copy/assets, old URL redirects, owner workflow, retention, Google property verification and measurement plan. Keep account/API pages noindex.
+
+Useful files: docs/SEO_AUDIT_UK.md (competitors/queries), docs/LEGAL_AUDIT_UK.md, docs/REVISION_3_PLAN_UK.md, docs/TEMPORARY_HOSTING.md and evidence.
+
+## Operational boundaries
+
+The dashboard returns the newest200 requests/profiles and signals truncation; it is not yet a paginated enterprise CRM. It does not issue invoices, payments, automatic customer emails or employee notifications. No analytics/tracking is enabled. Rights/export/correction/deletion requests currently go to the operator's public privacy contact; no automatic record-retention or self-service deletion is configured. Removing the domain does not delete data.
+
+Unit/integration/build checks do not establish field Core Web Vitals, human acceptance, Google index status, legal certification or sales growth. Exact verified release and runtime evidence are recorded separately.
