@@ -35,6 +35,17 @@ for (const file of pages) {
   const html = await readFile(file, "utf8");
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
   assert.match(html, /<html lang="(de|en|uk|ru)"/);
+  // One accessible locale disclosure in the header, not a full-width strip.
+  const locale = html.match(/<html lang="(de|en|uk|ru)"/)?.[1];
+  const languageMenu = html.match(/<details class="site-language-switcher">([\s\S]*?)<\/details>/);
+  assert.ok(languageMenu, `${file}: language dropdown must exist`);
+  assert.match(languageMenu[1], /<summary\b[^>]*aria-label="[^"]+"/);
+  const localeLinks = [...languageMenu[1].matchAll(/<a\b[^>]*data-language-switch[^>]*\slang="(de|en|uk|ru)"[^>]*>/g)];
+  assert.deepEqual(localeLinks.map(link => link[1]), ['de','en','uk','ru'], `${file}: four locale targets`);
+  const currentLinks = localeLinks.filter(link => link[0].includes('aria-current="page"'));
+  assert.equal(currentLinks.length, 1, `${file}: exactly one selected language`);
+  assert.equal(currentLinks[0][1], locale, `${file}: selected language matches document`);
+  assert.doesNotMatch(html, /class="site-language-bar"|class="language-nav"/, `${file}: no duplicate language strip`);
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
