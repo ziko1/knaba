@@ -116,7 +116,7 @@ export async function createKnabaVpsServer({
       const ready=Boolean(ownerEmail&&db.prepare('SELECT id FROM vps_users WHERE email=? AND disabled=0').get(ownerEmail.toLowerCase()));
       return send(res,url.pathname==='/healthz'||ready?200:503,url.pathname==='/healthz'?'healthy':ready?'ready':'owner enrollment required');
     }
-    if(rawHost==='www.knaba.de'){
+    if(rawHost==='www.knaba.de' && publicHost==='knaba.de'){
       if(!['GET','HEAD'].includes(req.method))return send(res,421,'Wrong host');
       return send(res,308,'Canonical origin',{Location:'https://knaba.de'+url.pathname+url.search});
     }

@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import {siteConfig} from "../data/site";
 import { company } from "../data/company";
 const sections = [
   ["verantwortlicher", "Verantwortlicher"],
@@ -18,7 +19,7 @@ const sections = [
     <p class="eyebrow">IHRE DATEN IM BLICK</p>
     <h1>Datenschutzerklärung</h1>
     <p class="legal-intro">Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.</p>
-    <p class="notice">Diese Erklärung betrifft die temporäre Website <strong>kneba.vsp.rest</strong>. Für das bestehende Angebot unter <a href="https://knaba.de/impressum">knaba.de</a> gelten die dort veröffentlichten Informationen. Stand: 24. Oktober 2026.</p>
+    {siteConfig.temporary ? <p class="notice">Diese Erklärung betrifft die temporäre Website <strong>kneba.vsp.rest</strong>. Für das bestehende Angebot unter <a href="https://knaba.de/impressum">knaba.de</a> gelten die dort veröffentlichten Informationen. Stand: 24. Oktober 2026.</p> : <p class="notice">Diese Datenschutzhinweise gelten für das auf <strong>{new URL(siteConfig.origin).hostname}</strong> bereitgestellte Angebot von KnaBa. Für das bestehende Angebot auf knaba.de gelten dessen gesonderte Veröffentlichungen. Stand: 25. Oktober 2026.</p>}
 
     <nav class="privacy-contents" aria-label="Inhalt der Datenschutzerklärung">
       {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
@@ -51,13 +52,13 @@ const sections = [
 
     <section aria-labelledby="assistent">
       <h2 id="assistent">KNABA Assistant und Kundenkommunikation</h2>
-      <p>Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in D1 gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.</p>
-      <p>Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in D1 liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Nur berechtigte Inhaber sehen eingegangene Kundennachrichten. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.</p>
+      <p>Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in einer serverseitigen Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.</p>
+      <p>Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Nur berechtigte Inhaber sehen eingegangene Kundennachrichten. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.</p>
       <p>Die freiwillige Spracheingabe kann Audio an den Anbieter Ihres Browsers übertragen; KnaBa speichert nur gesendeten erkannten Text. Speichern Sie keine Passwörter, Gesundheitsdaten oder Zugangscodes im Chat. Die Löschfrist für Chats wurde noch nicht automatisiert und muss vor dem offiziellen Betrieb festgelegt werden; Auskunft und Löschung können beim oben genannten Verantwortlichen angefragt werden.</p>
     </section>
     <section aria-labelledby="konto">
       <h2 id="konto">4. Anmeldung und Registrierung</h2>
-      <p>Die Anmeldung erfolgt über die von OpenAI Sites bereitgestellte ChatGPT-Anmeldung. Dabei kann eine Weiterleitung zum Anmeldedienst erfolgen. Unsere Website erhält eine für dieses Angebot gültige Benutzerkennung, die E-Mail-Adresse und gegebenenfalls einen Anzeigenamen. Ihr ChatGPT-Passwort wird nicht in der KnaBa-Datenbank gespeichert.</p>
+      {siteConfig.temporary ? <p>Die Anmeldung erfolgt über die von OpenAI Sites bereitgestellte ChatGPT-Anmeldung. Dabei kann eine Weiterleitung zum Anmeldedienst erfolgen. Unsere Website erhält eine für dieses Angebot gültige Benutzerkennung, die E-Mail-Adresse und gegebenenfalls einen Anzeigenamen. Ihr ChatGPT-Passwort wird nicht in der KnaBa-Datenbank gespeichert.</p> : <p>Auf dem VPS erfolgt die Anmeldung des freigegebenen Inhabers über seine E-Mail-Adresse und ein lokal geprüftes Passwort. Der Server speichert nur einen gesalzenen Scrypt-Prüfwert des Passworts und einen SHA-256-Prüfwert des zufälligen Sitzungstokens. Das notwendige Sitzungscookie ist als HttpOnly, Secure und SameSite=Strict konfiguriert und läuft nach spätestens zwölf Stunden ab. Eine allgemeine Selbstregistrierung für Kunden und Mitarbeitende ist in dieser VPS-Version noch nicht freigeschaltet.</p>}
       <p>Für das Portal wird ein Profil mit Name, E-Mail-Adresse, gewünschter Rolle als Kunde oder Mitarbeitende, Freigabestatus und zugewiesener Rolle gespeichert. Hinzu kommen Erstellungs- und Änderungszeitpunkte sowie die Version der zur Kenntnis genommenen Datenschutzhinweise. Die Auswahl einer Rolle bei der Registrierung verleiht noch keine entsprechenden Zugriffsrechte. Der Website-Inhaber prüft und erteilt die Freigabe. Bis dahin können Sie keine fremden Auftragsdaten einsehen.</p>
       <p>Wir verarbeiten die für den gewünschten Kundenbereich erforderlichen Daten zur Bereitstellung des angefragten Dienstes nach Art. 6 Abs. 1 Buchst. b DSGVO. Die Prüfung und Beschränkung von Zugriffsrechten schützt Kunden- und Unternehmensdaten und beruht auf Art. 6 Abs. 1 Buchst. f DSGVO. Pflichtangaben sind für die Zuordnung des Profils erforderlich; ohne diese Angaben kann kein Portalzugang eingerichtet werden. Sie können KnaBa weiterhin telefonisch oder per E-Mail kontaktieren.</p>
     </section>
@@ -76,17 +77,27 @@ const sections = [
 
     <section aria-labelledby="dienstleister">
       <h2 id="dienstleister">6. Hosting, Anmeldung und Empfänger</h2>
+      {siteConfig.temporary ? (
+        <>
       <p>Diese Website wird über OpenAI Sites auf Cloudflare-Infrastruktur ausgeliefert. Die Portal-Daten werden in der angebundenen D1-Datenbank gespeichert. Technische Dienstleister erhalten die Daten, die für Auslieferung, Anmeldung, Speicherung und Betrieb erforderlich sind. Innerhalb von KnaBa erhalten nur für den jeweiligen Vorgang berechtigte Personen Zugriff.</p>
       <p>Für die Nutzung des ChatGPT-Kontos beschreibt OpenAI seine eigene Verarbeitung in der <a href="https://openai.com/de-DE/policies/eu-privacy-policy/">EU-Datenschutzrichtlinie</a>. Dort wird für Personen im Europäischen Wirtschaftsraum und in der Schweiz OpenAI Ireland Limited, Dublin, als Verantwortlicher genannt. Für die zugrunde liegende Infrastruktur erläutert Cloudflare, Inc. seine Verarbeitung in der <a href="https://www.cloudflare.com/de-de/privacypolicy/">Datenschutzrichtlinie von Cloudflare</a>.</p>
       <p>Die genannten Anbieter beschreiben auch Verarbeitung außerhalb des Europäischen Wirtschaftsraums. Eine ausschließliche Speicherung in Deutschland oder der EU wird für diese Vorschau nicht zugesichert. Informationen zu den für dieses Angebot konkret anwendbaren Empfängern und Übermittlungsgarantien können Sie beim oben genannten Verantwortlichen anfordern.</p>
       <p>Die vertragliche Zuordnung der Hosting-Dienstleister, Auftragsverarbeitungsvereinbarungen und Übermittlungsgarantien für den endgültigen Unternehmensbetrieb müssen vor der Umstellung auf die offizielle Domain abschließend dokumentiert werden. Die allgemeinen Anbieterinformationen ersetzen diese Prüfung nicht.</p>
+        </>
+      ) : (
+        <>
+          <p>Die Website wird auf einem selbst verwalteten VPS mit einem Node.js-Webdienst ausgeliefert. Daten aus dem geschützten KnaBa-Portal, der CRM und dem Assistenten werden in einer serverseitigen SQLite-Datenbank gespeichert; eine Anmeldung bei einem externen KI-Anbieter ist dafür nicht erforderlich.</p>
+          <p>Der Anbieter der Serverinfrastruktur und gegebenenfalls der eingesetzte DNS-/TLS-Dienstleister verarbeiten technisch erforderliche Verbindungsdaten. Ein generativer KI-Anbieter und automatisierte WhatsApp- oder E-Mail-Benachrichtigungen sind in der aktuellen VPS-Konfiguration nicht aktiviert.</p>
+          <p>Die konkreten vertraglichen Auftragsverarbeiter, Aufbewahrungsfristen und etwaigen internationalen Datenübermittlungen müssen vor dem öffentlichen Betrieb mit dem Verantwortlichen abschließend geprüft und dokumentiert werden. Diese Information ersetzt keine vertragliche Prüfung.</p>
+        </>
+      )}
     </section>
 
     <section aria-labelledby="speicherung">
       <h2 id="speicherung">7. Speicherdauer und Löschung</h2>
       <p>Die Dauer richtet sich nach dem jeweiligen Zweck: Profildaten werden für den freigegebenen Zugang benötigt; Anfrage- und Auftragsdaten für Bearbeitung, Durchführung und nachvollziehbare Abwicklung. Entfällt der Zweck, sind die betroffenen Daten zu löschen, sofern keine gesetzliche Aufbewahrungspflicht oder erforderliche Aufbewahrung zur Geltendmachung oder Abwehr von Ansprüchen entgegensteht. In einem solchen Fall ist die weitere Nutzung auf diesen Zweck zu beschränken.</p>
-      <p>Eine feste automatische Löschfrist für Profile, Anfragen, Aufträge und das Änderungsprotokoll ist in dieser Vorschau nicht eingerichtet. Für Auskunft, Datenübertragung, Berichtigung und Löschung gibt es derzeit keine Selbstbedienungsfunktion im Portal; diese Anliegen werden über den Datenschutzkontakt bearbeitet. Das Abmelden beendet die Sitzung, löscht aber nicht automatisch Ihr Profil oder Ihre Aufträge. Die Entfernung der temporären Internetadresse allein löscht ebenfalls keine gespeicherten Portal-Daten.</p>
-      <p>Die Aufbewahrung technischer Betriebs- und Anmeldedaten richtet sich zusätzlich nach den tatsächlich eingesetzten Diensten. Ein Umzug oder eine Stilllegung der Vorschau erfordert deshalb auch eine gesonderte Prüfung der gespeicherten Daten.</p>
+      <p>Eine feste automatische Löschfrist für Profile, Anfragen, Aufträge und das Änderungsprotokoll ist für dieses Angebot derzeit nicht eingerichtet. Für Auskunft, Datenübertragung, Berichtigung und Löschung gibt es derzeit keine Selbstbedienungsfunktion im Portal; diese Anliegen werden über den Datenschutzkontakt bearbeitet. Das Abmelden beendet die Sitzung, löscht aber nicht automatisch Ihr Profil oder Ihre Aufträge. Die Änderung einer Internetadresse allein löscht ebenfalls keine gespeicherten Portal-Daten.</p>
+      <p>Die Aufbewahrung technischer Betriebs- und Anmeldedaten richtet sich zusätzlich nach den tatsächlich eingesetzten Diensten. Ein Umzug oder eine Stilllegung dieser Website erfordert deshalb auch eine gesonderte Prüfung der gespeicherten Daten.</p>
     </section>
 
     <section aria-labelledby="rechte">

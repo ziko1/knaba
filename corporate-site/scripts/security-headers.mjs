@@ -1,5 +1,5 @@
 import {writeFile} from 'node:fs/promises';
-const temporary=process.env.KNABA_RELEASE_MODE!=='official';
+const temporary=!['official','vsp'].includes(process.env.KNABA_RELEASE_MODE);
 await writeFile('.astro-static/_headers',`/*
   ${temporary?'X-Robots-Tag: noindex, follow\n  ':''}X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
