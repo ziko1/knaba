@@ -66,7 +66,7 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 
 | ID | Acceptance | Статус |
 |---|---|---|
-| LANG-UI-01 | Замінити верхню смугу DE/EN/UK/RU компактним dropdown; один активний пункт, клавіатура/Escape, click-outside, без overflow 320 px, збережений плаваючий KNABA Assistant | Implemented у Draft candidate на PR #13; перевірено 55 Vitest + 8 Node + 49 static HTML + 20 Chromium viewport-сценаріїв; live/device/UAT NOT_RUN |
+| LANG-UI-01 | Замінити верхню смугу DE/EN/UK/RU компактним dropdown; один активний пункт, клавіатура/Escape, click-outside, без overflow 320 px, збережений плаваючий KNABA Assistant | Implemented у Draft candidate на PR #13; перевірено 55 Vitest + 8 Node + 49 HTML + 60 Chromium viewport-сценаріїв; 200% CSS text-scale, локальний Wrangler+D1, відтворення CSS PASS; live/device/owner UAT NOT_RUN |
 | LANG-UI-02 | Review+release на публічний сайт після інтеграції KNABA Assistant, без знищення старих заявок та з планом відкату | BLOCKED_APPROVAL / NOT_RUN |
 
 Поточні докази та SHA: `docs/evidence/LANGUAGE_DROPDOWN_ACCEPTANCE_UK.md`. Не сприймати локальні QA тести як сертифікований live release.
