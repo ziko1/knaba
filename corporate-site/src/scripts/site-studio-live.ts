@@ -49,11 +49,20 @@ function editable(target:EventTarget|null):HTMLElement|null{
   const main=document.querySelector('#main');
   while(element && main?.contains(element)){
     if(element.matches(ignore) || element.closest(ignore)) return null;
+    const richLink=element instanceof HTMLAnchorElement &&
+      element.children.length>0 && [...element.children].every(child=>child instanceof SVGElement) &&
+      Boolean(element.textContent?.trim());
     if(element instanceof HTMLElement && editableTags.has(element.tagName) &&
-      (element.tagName==='IMG' || (element.children.length===0 && Boolean(element.textContent?.trim())))) {
+      (element.tagName==='IMG' || richLink || (element.children.length===0 && Boolean(element.textContent?.trim())))) {
       const key=selectorFor(element);
       if(key) {
-        try{validateStudioEntries([{selector:key,kind:element.tagName==='IMG'?'src':'text',value:element.tagName==='IMG'?(element as HTMLImageElement).getAttribute('src')||'':element.textContent||''}]);return element;}
+        try{
+          const chosen=element instanceof HTMLImageElement?'src':richLink?'href':'text';
+          const value=element instanceof HTMLImageElement?(element.getAttribute('src')||''):
+            richLink?(element.getAttribute('href')||''):(element.textContent||'');
+          validateStudioEntries([{selector:key,kind:chosen,value}]);
+          return element;
+        }
         catch{return null;}
       }
     }
@@ -65,10 +74,11 @@ function select(element:HTMLElement){
   const selector=selectorFor(element);
   if(!selector) return;
   const isImage=element instanceof HTMLImageElement;
+  const richLink=element instanceof HTMLAnchorElement && element.children.length>0;
   window.parent.postMessage({
     type:'knaba:studio:select',page:location.pathname,selector,
-    kind:isImage?'src':'text' as StudioKind,tag:element.tagName.toLowerCase(),
-    value:isImage?element.getAttribute('src'):element.textContent,
+    kind:isImage?'src':richLink?'href':'text' as StudioKind,tag:element.tagName.toLowerCase(),
+    rich:richLink,value:isImage?element.getAttribute('src'):richLink?(element as HTMLAnchorElement).getAttribute('href'):element.textContent,
     href:element instanceof HTMLAnchorElement?element.getAttribute('href'):undefined,
     alt:isImage?element.alt:undefined
   },location.origin);

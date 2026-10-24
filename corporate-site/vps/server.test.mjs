@@ -82,10 +82,37 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(pub.entries[0].value,'Sauber und sicher');
     assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:bodyHeaders,body:JSON.stringify({page:'/',version:1,confirm:'PUBLISH'})})).status,401);
 
+    // A saved draft must not affect crawlers until an explicit owner publish.
+    const actualParagraph='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
+    const actualLink='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+    const seoDraft={page:'/',version:1,entries:[...data.entries,
+      {selector:'@title',kind:'text',value:'KnaBa · Neuer & sicherer Titel'},
+      {selector:'@description',kind:'text',value:'Offizielle Beratung für Gebäudereinigung & Bauhelfer.'},
+      {selector:actualParagraph,kind:'text',value:'Sauber und sicher für Bauprojekte & Büros'},
+      {selector:actualLink,kind:'href',value:'/leistungen/baureinigung/'}
+    ]};
+    const saveSeo=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(seoDraft)});
+    assert.equal(saveSeo.status,200,await saveSeo.text());
+    const beforeSeo=await (await fetchAt('/')).text();
+    assert.ok(!beforeSeo.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
+    assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:publishHeaders,
+      body:JSON.stringify({page:'/',version:2,confirm:'PUBLISH'})})).status,200);
+    const rendered=await (await fetchAt('/')).text();
+    assert.ok(rendered.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
+    assert.ok(rendered.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
+    assert.ok(rendered.includes('href="/leistungen/baureinigung/"'));
+    assert.ok(rendered.includes('content="Offizielle Beratung für Gebäudereinigung &amp; Bauhelfer."'));
+    assert.ok(rendered.includes('rel="canonical" href="https://knaba.de/"'));
+    const privateSeo=await (await fetchAt('/studio/')).text();
+    assert.ok(!privateSeo.includes('<title>KnaBa · Neuer'));
+
     await backup(app.db,backupPath);
     await app.close();
     app=await make();restarted=true;
-    assert.equal((await (await fetchAt('/api/studio/published?page=%2F')).json()).version,1);
+    assert.equal((await (await fetchAt('/api/studio/published?page=%2F')).json()).version,2);
+    const persistedHtml=await (await fetchAt('/')).text();
+    assert.ok(persistedHtml.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
+    assert.ok(persistedHtml.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
     assert.equal((await (await fetchAt('/api/portal/session',{headers:{Cookie:cookie}})).json()).role,'owner');
 
     const logout=await fetchAt('/logout/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Cookie:cookie},body:new URLSearchParams({return_to:'/'})});
@@ -98,7 +125,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     const {openLocalDatabase}=await import('./database.mjs');
     const recovered=openLocalDatabase(restoredPath);
     const stored=recovered.db.prepare("SELECT published_version FROM studio_pages WHERE page_path='/'").get();
-    assert.equal(stored.published_version,1);
+    assert.equal(stored.published_version,2);
     recovered.db.close();
   } finally{
     await app.close().catch(()=>{});
