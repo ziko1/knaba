@@ -221,6 +221,10 @@ const structuredData = {
       document.addEventListener('astro:page-load',bindLauncher);
     </script>
     <script>
+      import { initializeSiteStudioLive } from "../scripts/site-studio-live";
+      initializeSiteStudioLive();
+    </script>
+    <script>
       import { services } from '../data/company';
       function preserveServiceSelection() {
         const selected = new URLSearchParams(location.search).get('leistung');

@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text, uniqueIndex, index } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text, uniqueIndex, index, primaryKey } from "drizzle-orm/sqlite-core";
 
 export const profiles = sqliteTable("profiles", {
   id: text("id").primaryKey(), name: text("name").notNull(), email: text("email").notNull(),
@@ -71,3 +71,31 @@ export const assistantNotifications = sqliteTable("assistant_notifications", {
   updatedAt: text("updated_at").notNull(),
   sentAt: text("sent_at"),
 }, t => [uniqueIndex("assistant_notification_event").on(t.eventKey),index("assistant_notification_due").on(t.status,t.nextAttemptAt)]);
+
+
+/** Published website copy is separate from CRM/ERP records and never stores credentials. */
+export const studioPages = sqliteTable('studio_pages', {
+  pagePath: text('page_path').primaryKey(),
+  draftJson: text('draft_json').notNull().default('[]'),
+  draftVersion: integer('draft_version').notNull().default(0),
+  publishedJson: text('published_json').notNull().default('[]'),
+  publishedVersion: integer('published_version').notNull().default(0),
+  updatedAt: text('updated_at').notNull(),
+  updatedBy: text('updated_by').notNull(),
+});
+export const studioRevisions = sqliteTable('studio_revisions', {
+  id: text('id').primaryKey(),
+  pagePath: text('page_path').notNull().references(()=>studioPages.pagePath),
+  version: integer('version').notNull(),
+  action: text('action').notNull(),
+  snapshotJson: text('snapshot_json').notNull(),
+  actorId: text('actor_id').notNull(),
+  createdAt: text('created_at').notNull(),
+}, t=>[index('studio_revision_history').on(t.pagePath,t.createdAt)]);
+/** Conservative maximum-cost reservations; never bill without fresh approval and caps. */
+export const studioAiBudget = sqliteTable('studio_ai_budget',{
+  day: text('day').notNull(),
+  scope: text('scope').notNull(),
+  reservedCents: integer('reserved_cents').notNull().default(0),
+  requestCount: integer('request_count').notNull().default(0),
+}, t=>[primaryKey({columns:[t.day,t.scope]})]);
