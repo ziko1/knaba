@@ -1,5 +1,5 @@
 import { createMemo, createSignal, For, onMount, Show, type Accessor } from 'solid-js';
-import { conversationCopy, createCapability, createRequestKey, createVisitorThread, listOwnerThreads, loadOwnerThread, loadVisitorThread, restoreConversation, sendOwnerMessage, sendVisitorMessage, sessionStorageKey, ConversationHttpError, type ConversationDetails, type ConversationIdentity, type ConversationLocale, type ConversationMessage, type ConversationThread } from '../lib/assistant-conversation';
+import { conversationCopy, createCapability, createRequestKey, createVisitorThread, listOwnerThreads, listOwnerNotifications, loadOwnerThread, loadVisitorThread, restoreConversation, sendOwnerMessage, sendVisitorMessage, sessionStorageKey, ConversationHttpError, type ConversationDetails, type ConversationIdentity, type ConversationLocale, type ConversationMessage, type ConversationThread, type OwnerNotificationStatus } from '../lib/assistant-conversation';
 import { formatRecoveryCode, parseRecoveryCode } from '../lib/assistant-recovery';
 import '../styles/owner-conversation.css';
 
@@ -153,6 +153,7 @@ export function VisitorOwnerChat(props:{locale:Accessor<ConversationLocale>}){
 export function OwnerInbox(props:{locale:Accessor<ConversationLocale>}){
   const t=createMemo(()=>conversationCopy[props.locale()]);
   const [threads,setThreads]=createSignal<ConversationThread[]>([]);
+  const [notificationStatus,setNotificationStatus]=createSignal<OwnerNotificationStatus|null>(null);
   const [selected,setSelected]=createSignal<string|null>(null);
   const [conversation,setConversation]=createSignal<ConversationDetails|null>(null);
   const [draft,setDraft]=createSignal('');
@@ -160,7 +161,14 @@ export function OwnerInbox(props:{locale:Accessor<ConversationLocale>}){
   const [error,setError]=createSignal('');
   const [notice,setNotice]=createSignal('');
   let pending:{message:string;idempotencyKey:string}|null=null;
-  async function refreshList(){setBusy(true);setError('');try{const list=await listOwnerThreads();setThreads(list.threads);}catch{setError(t().failure);}finally{setBusy(false);}}
+  async function refreshList(){
+    setBusy(true);setError('');
+    try{
+      const [list,notices]=await Promise.all([listOwnerThreads(),listOwnerNotifications().catch(()=>null)]);
+      setThreads(list.threads);setNotificationStatus(notices);
+    }catch{setError(t().failure);}
+    finally{setBusy(false);}
+  }
   async function selectThread(id:string){setBusy(true);setError('');setSelected(id);try{setConversation(await loadOwnerThread(id));}catch{setConversation(null);setError(t().unavailable);}finally{setBusy(false);}}
   async function refreshThread(){const id=selected();if(id)await selectThread(id);}
   onMount(()=>void refreshList());
@@ -180,6 +188,10 @@ export function OwnerInbox(props:{locale:Accessor<ConversationLocale>}){
   }
   function back(){setSelected(null);setConversation(null);setError('');setNotice('');setDraft('');pending=null;void refreshList();}
   return <section class="knaba-owner-inbox" aria-label={t().inbox}>
+    <Show when={notificationStatus()}>{status=><p role="status" class="knaba-owner-caption">
+      {t().outboxPending}: {status().notifications.filter(event=>event.status==='pending').length}{status().limited?'+':''}.
+      {' '}{status().disabled?t().emailDisabled:''}
+    </p>}</Show>
     <Show when={!selected()}><div class="knaba-owner-actions"><button type="button" onClick={()=>void refreshList()} disabled={busy()}>{t().refresh}</button></div><Show when={threads().length===0}><p>{t().inboxEmpty}</p></Show><div class="knaba-owner-thread-list"><For each={threads()}>{item=><button type="button" onClick={()=>void selectThread(item.id)} disabled={busy()}><strong>{t().subject} #{item.id.slice(0,8)}</strong><span>{item.locale.toUpperCase()} · {item.status}</span><time datetime={item.lastMessageAt}>{new Date(item.lastMessageAt).toLocaleString(props.locale())}</time><span>{t().open} ↗</span></button>}</For></div></Show>
     <Show when={selected()}><div class="knaba-owner-actions"><button type="button" onClick={back} disabled={busy()}>{t().back}</button><button type="button" onClick={()=>void refreshThread()} disabled={busy()}>{t().refresh}</button></div><Show when={conversation()}>{item=><><p class="knaba-owner-caption">#{item().thread.id.slice(0,8)} · {t().status}: {item().thread.status}</p><MessageHistory messages={item().messages} hasMore={item().hasMore} locale={props.locale()}/><form onSubmit={reply} class="knaba-owner-compose"><label for="knaba-owner-reply">{t().reply}</label><textarea id="knaba-owner-reply" rows={3} minLength={2} maxLength={1500} required value={draft()} onInput={e=>setDraft(e.currentTarget.value)} disabled={busy()}/><button type="submit" class="button button-dark" disabled={busy()||draft().trim().length<2}>{t().send}</button></form></>}</Show></Show>
     <Show when={notice()}><p role="status" class="knaba-owner-success">{notice()}</p></Show><Show when={error()}><p role="alert" class="knaba-owner-error">{error()}</p></Show>

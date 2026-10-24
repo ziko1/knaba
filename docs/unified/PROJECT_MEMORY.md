@@ -83,3 +83,10 @@ D1-ERP PostgreSQL bridge НЕ підтверджені. Не merge/production de
 - Окремий branch `codex/knaba-conversation-recovery-20261024` поверх PR #24; exact source `3cd7ba796753dba8d4701925d4c5f70fb82038ba`, site tree `ac344d1e4d322dde2194a9428bd7064386037286`; ERP tree незмінний.
 - Мануальний bearer code `KNABA2` для існуючого D1 guest chat (256-bit base64url), серверна перевірка перед відновленням, лише sessionStorage поточної вкладки; 4 локалізації. **Без** нових міграцій/зовнішніх викликів. Не плутати із несумісним PR19.
 - QA: справжній RED з відсутнім модулем, GREEN 107 Vitest + 8 Node, 52 page build, 98 Astro без помилок, local D1 0000..0002, окремий browser-context recovery + synthetic owner reply PASS; artifact digest `eefc670e9d1346ccbc1bc4b41a05db0cb97da01d75eeeae3d152a15b4ea8dee3`. Статус локальний PASS, Sites preview production не оновлений. Документ `docs/unified/KNABA_GUEST_CHAT_RECOVERY_QA_2026-10-24.md`.
+
+
+## 2026-10-25 — owner notification outbox, disabled-by-default
+- Розроблено новий адитивний `assistant_owner_notifications` D1 0003 поверх PR #26, без зміни існуючої ERP/CRM/CMS схеми. Події створюються в тій самій транзакції, що й visitor messages, owner replies не породжують подій, idempotent retries не дублюють.
+- Source exact `e67061b8a6984282edaaa641eb27b8015f2c1b62`, site tree `3c9c9b5e055b53e816941073de159ca6e6b9a8e9`, ERP tree незмінний. Код `owner-notifications.ts`, owner-only GET endpoint, owner inbox indication DE/EN/UK/RU, зовнішня доставка explicitly disabled.
+- RED 3 tests FAIL до реалізації; після: 110 Vitest+8 Node PASS, Node24/npm11 check/build 52 HTML PASS; schema journal drift check `No schema changes`; Wrangler local 0000..0003 і D1 backup/restore fixture PASS; synthetic browser guest→owner→guest / wrong token rejection / two pending events & disabled status PASS. Artifact `7c67d40ff802fba33ccc5f418273ba13329303c3198e41dd8ef40a9c4cc03789`.
+- Live Sites platform, actual identity, GDPR operator decisions, external Resend/WhatsApp provider budgets, real customer acceptance залишаються NOT_RUN/BLOCKED. Докази: `docs/unified/KNABA_OWNER_NOTIFICATION_OUTBOX_QA_2026-10-25.md`.

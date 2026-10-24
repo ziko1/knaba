@@ -48,6 +48,26 @@ export const assistantMessages=sqliteTable('assistant_messages',{
   lastMutation:text('last_mutation').notNull(),
 },t=>[uniqueIndex('assistant_message_dedupe').on(t.threadId,t.author,t.idempotencyKey),index('assistant_message_thread').on(t.threadId)]);
 
+/** Owner-notification outbox: transactionally linked to saved guest messages.
+ * External mail transport is never enabled by simply creating this table. */
+export const assistantOwnerNotifications = sqliteTable('assistant_owner_notifications', {
+  id: text('id').primaryKey(),
+  threadId: text('thread_id').notNull().references(()=>assistantThreads.id,{onDelete:'cascade'}),
+  messageId: text('message_id').notNull().references(()=>assistantMessages.id,{onDelete:'cascade'}),
+  kind: text('kind').notNull(),
+  status: text('status').notNull().default('pending'),
+  attempts: integer('attempts').notNull().default(0),
+  nextAttemptAt: integer('next_attempt_at').notNull().default(0),
+  lastError: text('last_error').notNull().default(''),
+  providerMessageId: text('provider_message_id'),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+  sentAt: text('sent_at'),
+},t=>[
+  uniqueIndex('assistant_owner_notice_message').on(t.messageId),
+  index('assistant_owner_notice_due').on(t.status,t.nextAttemptAt)
+]);
+
 /** Text-only marketing copy. ERP data and legal pages are out of scope. */
 export const cmsPages = sqliteTable("cms_pages", {
   path: text("path").primaryKey(),

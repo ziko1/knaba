@@ -128,3 +128,51 @@ describe('anonymous KnaBa owner conversation',()=>{
     expect((await start()).status).toBe(503);env.DB=old;
   });
 });
+
+
+describe('local owner-notification outbox, disabled provider',()=>{
+  it('persists exactly one notification for each committed visitor message, never owner replies or retries',async()=>{
+    const token=capability(), opening=key(), message='Bauhilfe und Bauendreinigung';
+    const first=await start(token,opening,message);
+    expect(first.status).toBe(201);
+    const {id}=await first.json() as {id:string};
+    const events=()=>db.sql.prepare('SELECT thread_id,message_id,kind,status,attempts FROM assistant_owner_notifications ORDER BY created_at,id').all() as Array<{thread_id:string;message_id:string;kind:string;status:string;attempts:number}>;
+    expect(events()).toHaveLength(1);
+    expect(events()[0]).toMatchObject({thread_id:id,kind:'new_thread',status:'pending',attempts:0});
+    expect((await start(token,opening,message)).status).toBe(200);
+    expect(events()).toHaveLength(1);
+    const idempotencyKey=key();
+    const path=`/api/assistant/threads/${id}/messages`;
+    expect((await req(path,'POST',{message:'Weitere Details',idempotencyKey},{token})).status).toBe(201);
+    expect((await req(path,'POST',{message:'Weitere Details',idempotencyKey},{token})).status).toBe(200);
+    expect(events()).toHaveLength(2);
+    expect(events()[1]).toMatchObject({thread_id:id,kind:'visitor_message',status:'pending',attempts:0});
+    expect(new Set(events().map(e=>e.message_id)).size).toBe(2);
+    const ownerReply=await req(`/api/assistant/owner/threads/${id}/messages`,'POST',
+      {message:'Wir antworten zeitnah.',idempotencyKey:key()},{identity:ownerHeaders});
+    expect(ownerReply.status).toBe(201);
+    expect(events()).toHaveLength(2);
+    const schema=db.sql.prepare('SELECT name FROM sqlite_master WHERE type=\'table\' AND name=\'assistant_owner_notifications\'').get();
+    expect(schema).toMatchObject({name:'assistant_owner_notifications'});
+  });
+  it('keeps owner notification status access scoped; does not expose PII or secret capabilities',async()=>{
+    const {id}=await (await start()).json() as {id:string};
+    const route='/api/assistant/owner/notifications';
+    expect((await req(route)).status).toBe(403);
+    expect((await req(route,'GET',undefined,{identity:adminHeaders})).status).toBe(403);
+    const response=await req(route,'GET',undefined,{identity:ownerHeaders});
+    expect(response.status).toBe(200);
+    const value=await response.json() as {notifications:Array<{threadId:string;kind:string;status:string}>,disabled:boolean};
+    expect(value.notifications).toHaveLength(1);
+    expect(value.notifications[0]).toMatchObject({threadId:id,kind:'new_thread',status:'pending'});
+    expect(value.disabled).toBe(true);
+    expect(JSON.stringify(value)).not.toMatch(/capability|contact|message|@example|token_hash/);
+  });
+  it('fails closed and rolls back visitor creation when outbox schema has not been migrated',async()=>{
+    db.sql.exec('DROP TABLE assistant_owner_notifications');
+    const response=await start();
+    expect(response.status).toBe(503);
+    expect((db.sql.prepare('SELECT count(*) AS n FROM assistant_threads').get() as {n:number}).n).toBe(0);
+    expect((db.sql.prepare('SELECT count(*) AS n FROM assistant_messages').get() as {n:number}).n).toBe(0);
+  });
+});
