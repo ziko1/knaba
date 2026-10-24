@@ -36,3 +36,20 @@
 - KN-U05/U06: зовнішні email/WhatsApp delivery/receipts `BLOCKED_EXTERNAL`; не вдавати, що власник отримує push (доступна лише ручна перевірка inbox).
 - KN-U07: D1→ERP PostgreSQL міст **НЕ реалізовано**; наступний самостійний P0 з окремими E2E SQL тестами.
 - KN-U18 fail-closed release check обов'язковий незалежно від будь-яких локальних PASS.
+
+
+## KNABA Studio — додаткові acceptance (2026-10-24)
+
+| ID | P | Модуль / потрібний результат | Стан |
+| --- | --- | --- | --- |
+| CMS-01 | P0 | Text editor, draft/publish/preview/history; approved admins | LOCAL_CODE_AND_TESTS |
+| CRM-01 | P0 | Leads→contacts, pipeline/tags/notes, audit/idempotency | LOCAL_CODE_AND_TESTS |
+| STUDIO-01 | P0 | Unified CMS/CRM/current Operations/Assistant nav | LOCAL_BUILD / BROWSER_NOT_RUN |
+| AUTH-01 | P0 | Confirm verified provider identity and header non-spoof | NOT_RUN |
+| ERP-CRM-02 | P0 | Tenant scoped D1→PostgreSQL inbox/outbox bridge | NOT_IMPLEMENTED |
+| PRIVACY-02 | P0 | GDPR deletion/retention/export and DB backups | BLOCKED_EXTERNAL |
+| CMS-02 | P1 | Asset and SEO editing, templates, translations, approvals | NOT_IMPLEMENTED |
+| CRM-02 | P1 | Tasks and timelines, consented notifications, reporting | NOT_IMPLEMENTED |
+| QA-STUDIO | P0 | Edge, actual browser/device, reviewer, rollback and owner signoff | NOT_RUN |
+
+See corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md for exact boundaries.

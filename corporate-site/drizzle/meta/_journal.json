@@ -15,6 +15,13 @@
       "when": 1792827686677,
       "tag": "0001_wet_nick_fury",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792868228694,
+      "tag": "0002_lively_scrambler",
+      "breakpoints": true
     }
   ]
 }

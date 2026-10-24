@@ -63,3 +63,12 @@ R3 published successfully: Sites source a91edbcf989fe342cf342fa8741f0eec8a5b5488
 User correction: «просто ии помошник без chatgpt». Public navigation and old /konto paths now open KnaBa information assistant without sign-in or session/API dependency. Preserved fresh RU localization base e708755aabd5a3059c3fa05fd14491cc4e972785. Protected portal retained /portal/ and /ru/portal/; server authorization unchanged. Runtime SHA 0bcbfc7149d2d6179b925da8d570f7ecbab649f1. 63 Vitest + 8 inquiry PASS, typecheck/build/51-page verifier PASS, independent review by /root/review_assistant PASS. Evidence docs/evidence/public-assistant/. Browser blocked by URL policy; no bypass. Generative AI NOT_CONFIGURED; local website knowledge explicitly labelled. No provider paid calls, schema or data changes. Do not overwrite this correction when integrating pending R4. Publication receipt will be added after native deployment. Next: actual UI/device check and separately authorized/verified model integration.
 
 KN-ASSIST-01 live checkpoint: version4 deployed; direct live RU /konto browser confirmed public replies and localized service handoff without identity. Fixed observed initial language selector mismatch; final runtime SHA 0d281284c65aabad579a4aff54ab766b0c3c0a74; check/build/verifier PASS. No LLM activated. Preserve this correction in later R4 integration.
+
+
+## KNABA Studio CMS + CRM candidate (24.10.2026)
+
+У новій ізольованій гілці збережено працюючий Assistant/portal, перенесено
+вже створений текстовий редактор і додано CRM на основі існуючих D1 leads.
+Нова адитивна Drizzle міграція 0002, не копія застарілої 0001 редактора.
+Всі acceptance і межі у docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md.
+Лише локальне source/runtime тестування; Live owner/provider edge не перевірено.

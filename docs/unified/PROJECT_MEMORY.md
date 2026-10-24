@@ -57,3 +57,15 @@
 - Real **local** Wrangler Worker using synthetic D1 and artificial owner identity: guest POST 201, owner inbox GET 200, owner reply POST 201, guest message GET 200, mismatched owner 403. No real Sites Auth, real D1 production, real WhatsApp/email or user acceptance.
 - Release safety gate remains intentionally blocked (exit 1; 25 required conditions) and the PR is Draft/unmerged. Source-linked local checkpoint: `docs/evidence/knaba-unified/assistant-chat-local-20261024.json`.
 - Security blocker: verify that production Sites trusted identity headers are injected/sanitized and cannot be supplied by arbitrary browsers/direct-origin requests before any provider deployment. Also approve GDPR message retention, erasure, vendor AVV and operator access policy. No production changes or paid activation performed.
+
+
+## 2026-10-24 — KNABA Studio CMS/CRM integration checkpoint
+
+Окрема гілка codex/knaba-unified-cms-crm-20261024 від перевіреного
+2c05dbd1b2d4eccb0330502bad801ea287fbd4be. Перевага reuse-first:
+візуальний text editor із попередньої робочої копії, існуючий portal,
+owner Assistant inbox. Додано CRM lead-contacts зі статусами, тегами,
+аудитованими нотатками, role guards, версіями; єдина сторінка /editor/.
+Деталі в corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md.
+Всі нові результати LOCAL/SYNTHETIC, owner/provider identity UAT та
+D1-ERP PostgreSQL bridge НЕ підтверджені. Не merge/production deploy.

@@ -7,6 +7,10 @@ await writeFile('.astro-static/_headers',`/*
 /konto/*
   X-Robots-Tag: noindex, nofollow
   Cache-Control: private, no-store
+/editor/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: private, no-store
+  Referrer-Policy: same-origin
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 `);

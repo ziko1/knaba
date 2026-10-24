@@ -59,3 +59,17 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 Implemented and unit/build/review verified at `0bcbfc7149d2d6179b925da8d570f7ecbab649f1`. DE/EN/UK/RU, fixed trusted links and localized enquiry handoff, bounded ephemeral local chat, protected portal routes preserved. Browser NOT_RUN (policy block); generative AI NOT_CONFIGURED, no claims of complete AI readiness. Acceptance/evidence: docs/ASSISTANT_CHANGE_UK.md and docs/evidence/public-assistant/.
 
 Live partial acceptance: RU public entry, pricing/service response and inquiry handoff PASS. Selector correction at 0d281284c65aabad579a4aff54ab766b0c3c0a74 rebuilt; final readback pending. Generative AI and physical mobile checks remain open.
+
+
+## KNABA Studio CMS + CRM candidate (2026-10-24)
+
+| ID | Функція | Статус |
+| --- | --- | --- |
+| CMS-01 | Реюз text editor: drafts, preview, publish, restore | LOCAL PASS / UNDEPLOYED |
+| CRM-01 | Leads, pipeline, tags, notes, audit | LOCAL PASS / UNDEPLOYED |
+| STUDIO-01 | CMS + CRM + existing portal in one /editor/ | LOCAL BUILD / BROWSER NOT RUN |
+| CMS-02 | Media, rich blocks, SEO metadata, localization approvals | PENDING |
+| CRM-02 | Tasks, timeline, owner consented communications, ERP bridge | PENDING |
+| AUTH-QA | Provider identity, PII privacy/backup, real browser/UAT | BLOCKED |
+
+Details: docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md.
