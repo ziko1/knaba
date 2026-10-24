@@ -114,7 +114,10 @@
       "gzip": 7283
     }
   ],
-  "artifactSha256": "e0ae64c72062b95f1737ddf4c4102f45dd9d938b18152783422ffb26a1e04960",
+  "artifactSha256": "e3045c1d1f0c78300a3e6e170f461057e6ded0a028f0923539466c315b522ff2",
+  "normalizedArtifactSha256": "7afa070f33eec660aeccd2faec11b5bb175441bd86a79bf74fec61565f40af08",
+  "workerBundleSha256": "0060df14d0ab0656fd88dc917989126120953f522737a4477fbd8d643dd13995",
+  "deploymentArtifactSha256": "6f14f31bcaef7b4706abbddfc8943e9869e359ec53b4d69a41c07f98607ea3be",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

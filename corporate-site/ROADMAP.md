@@ -43,3 +43,7 @@ R3 implementation and local verification complete: R301–R308 implemented in th
 ## Revision 4 — перевірка ізоляції й списки понад 200 (24.10.2026)
 
 Нові R4 зміни у Draft PR #9: мінімізація ID призначеного працівника у клієнтському API; серверна рольова keyset-пагінація (50 записів) для заявок і профілів, UI догрузки без перезавантаження з DE/EN/UK, регресійні тести. Окремий протокол: [R4_RELEASE_CANDIDATE_UK.md](docs/evidence/R4_RELEASE_CANDIDATE_UK.md). Це кандидат **без деплою, merge, official-domain cutover і схеми міграції**. Потрібні незалежний review, owner/worker/client live UAT, privacy/retention рішення та вимірювання.
+
+## R5 — приватні заголовки кабінету / QA reproducibility (24.10.2026)
+
+У Draft PR #9 підготовлено вибіркове Worker-first обслуговування `/konto` для CSP/X-Frame-Options/no-store/noindex; asset-first для маркетингу збережено. Додано тестовану канонічну контрольну суму для Astro volatile UIDs поряд з незміненим raw hash. Локальні API + браузерні перевірки записано в [R5_SECURITY_REPRO_QA_UK.md](docs/evidence/R5_SECURITY_REPRO_QA_UK.md). **Не підтверджено live R5, зовнішній review, реальний auth UAT, GDPR-операторські рішення**; production і knaba.de не чіпати.

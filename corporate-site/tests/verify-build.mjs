@@ -3,6 +3,7 @@ import { resolve, join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import { normalizedArtifactBytes } from '../scripts/stable-artifact.mjs';
 
 const root = resolve("dist/client");
 const official = process.env.KNABA_RELEASE_MODE === "official";
@@ -18,7 +19,15 @@ async function walk(dir) {
 }
 const files = await walk(root);
 const pages = files.filter((f) => f.endsWith(".html"));
+const deploymentRoot = resolve('dist');
+const deploymentHash = createHash('sha256');
+for (const file of await walk(deploymentRoot)) {
+  const name = relative(deploymentRoot,file);
+  deploymentHash.update(name + '\0').update(await readFile(file)).update('\0');
+}
+const workerBundleSha256=createHash('sha256').update(await readFile(resolve('dist/server/index.js'))).digest('hex');
 const hash = createHash("sha256");
+const normalizedHash = createHash('sha256');
 const assets = [];
 const titles = new Set();
 for (const file of files) {
@@ -28,6 +37,7 @@ for (const file of files) {
     .update(name + "\0")
     .update(bytes)
     .update("\0");
+  normalizedHash.update(name + "\0").update(normalizedArtifactBytes(name,bytes)).update("\0");
   if (/\.(css|js|webp)$/.test(file))
     assets.push({ name, bytes: bytes.length, gzip: gzipSync(bytes).length });
 }
@@ -103,6 +113,11 @@ const report = {
   allEmittedJsGzip: jsGzip,
   assets,
   artifactSha256: hash.digest("hex"),
+  // Build equivalence across Astro's random island uid values; NOT a deploy-byte hash.
+  normalizedArtifactSha256: normalizedHash.digest('hex'),
+  workerBundleSha256,
+  // All files under dist/, including Worker, assets, schema, and hosting manifest.
+  deploymentArtifactSha256: deploymentHash.digest('hex'),
   fieldWebVitals: "NOT_RUN",
   networkTransfer: "NOT_MEASURED",
 };
