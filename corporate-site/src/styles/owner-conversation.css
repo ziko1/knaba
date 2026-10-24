@@ -8,3 +8,16 @@
 .knaba-owner-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin:.85rem 0}.knaba-owner-actions button,.knaba-owner-thread-list button{min-height:44px;border:1px solid #a8bcb0;border-radius:.7rem;background:white;color:#23473a;font:inherit;padding:.55rem .85rem;cursor:pointer}.knaba-owner-thread-list{display:grid;gap:.65rem}.knaba-owner-thread-list button{width:100%;text-align:left;display:grid;gap:.25rem}.knaba-owner-thread-list time,.knaba-owner-thread-list span{font-size:.85rem;color:#52675c}
 .knaba-owner-success{color:#165a3f;font-weight:600}.knaba-owner-error{color:#9b2424;font-weight:600}.knaba-owner-chat :focus-visible,.knaba-owner-inbox :focus-visible{outline:3px solid #34745a;outline-offset:3px}.knaba-owner-chat button:disabled,.knaba-owner-inbox button:disabled{opacity:.55;cursor:default}
 @media(max-width:420px){.knaba-owner-compose>.button{width:100%}.knaba-owner-chat,.knaba-owner-inbox{padding:.8rem}.knaba-owner-bubble{max-width:100%}}
+
+/* Sensitive recovery secret appears in markup only after an explicit click. */
+.knaba-owner-recovery-code,.knaba-owner-restore{display:grid;gap:.55rem;min-width:0;margin:.85rem 0;padding:.85rem;background:#eef5ef;border:1px solid #c9dcd1;border-radius:.8rem}
+.knaba-owner-recovery-code label,.knaba-owner-restore label{font-size:.86rem;font-weight:700}
+.knaba-owner-recovery-code input,.knaba-owner-restore input{width:100%;max-width:100%;min-width:0;background:#fff;border:1px solid #96afa0;border-radius:.6rem;padding:.75rem;color:#1b4138;font:inherit;font-size:.9rem}
+.knaba-owner-recovery-code input{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+.knaba-owner-recovery-code button,.knaba-owner-restore button{justify-self:start;min-height:44px;max-width:100%;padding:.65rem .9rem;background:#fff;border:1px solid #a8bcb0;border-radius:.7rem;color:#23473a;font:700 .86rem/1.4 inherit;cursor:pointer}
+.knaba-owner-recovery-code p{font-size:.83rem;line-height:1.5;color:#654c18;margin:.2rem 0}
+.knaba-owner-restore>div{display:flex;gap:.5rem;flex-wrap:wrap;align-items:stretch}
+.knaba-owner-restore>div>input{flex:1 1 13rem}
+.knaba-owner-restore button{flex:0 1 auto}
+.knaba-owner-restore button:disabled,.knaba-owner-recovery-code button:disabled{opacity:.55;cursor:default}
+@media(max-width:420px){.knaba-owner-restore>div>input,.knaba-owner-restore button{flex-basis:100%;width:100%}}
