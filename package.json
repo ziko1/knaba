@@ -11,6 +11,8 @@
     "check:site": "npm --prefix corporate-site run check",
     "test:site": "npm --prefix corporate-site test",
     "check:erp": "npm --prefix erp run typecheck",
-    "test:erp": "npm --prefix erp test"
+    "test:erp": "npm --prefix erp test",
+    "audit:release": "node scripts/verify-release-readiness.mjs",
+    "test:release-policy": "node --test scripts/release-readiness.test.mjs"
   }
 }

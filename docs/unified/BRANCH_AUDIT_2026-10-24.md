@@ -32,3 +32,6 @@
 
 ## Застереження
 `KNABA_DE_TARGET_SPEC.md` і V4 `AGENTS.md` на ERP-гілках є контрактами ERP. `corporate-site/PROJECT_MEMORY.md` і `corporate-site/ROADMAP.md` — чинні локальні документи сайту. Цей аудит не перезаписує їх. Перед інтеграцією перевіряти актуальний diff/HEAD усіх гілок та незакомічену R4 роботу поза GitHub (її фактичний статус зараз UNKNOWN). Не змішувати KnaBa з AVENQO.
+
+## Delta after initial snapshot (same date)
+On 2026-10-24, integration branch `codex/knaba-unified-integration-20261024` was additionally created, increasing the active branches counted from 14 to **15**. Draft PR **#12** https://github.com/ziko1/knaba/pull/12 was opened against `codex/knaba-public-assistant-20261024`; it is NOT merged. PR #11 returned 404 when queried (PR numbering gaps are not proof of a missing branch). Current integration source was source-import `66b07fb46d23c7110473c51fc23ce58d3c40a1b1`; later gate-only commits must be checked by HEAD. Original table deliberately records the source branch state **before** this new work and is not overwritten.

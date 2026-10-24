@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "documentType": "SOURCE_BOUND_PRODUCT_RELEASE_GATES",
+  "sourceSha": null,
+  "artifactSha256": null,
+  "productionApproval": false,
+  "gates": [
+    {
+      "id": "identity-scope",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "owner-chat",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "erp-bridge",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "erp-regression",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "security-gdpr",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "browser-accessibility",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "native-device",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "notification-delivery",
+      "status": "BLOCKED_EXTERNAL",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "backup-rollback",
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "customer-uat",
+      "status": "BLOCKED_EXTERNAL",
+      "evidencePath": null,
+      "evidenceSha256": null
+    },
+    {
+      "id": "legal-approval",
+      "status": "BLOCKED_EXTERNAL",
+      "evidencePath": null,
+      "evidenceSha256": null
+    }
+  ],
+  "note": "This is not a production release receipt. No acceptance proof or approval exists at the new integrated SHA."
+}

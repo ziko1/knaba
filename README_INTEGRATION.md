@@ -35,3 +35,6 @@ Each module's own instructions govern PostgreSQL setup, worker, build, browser a
 5. Official release only after a separate explicit approval, approved credentials/legal docs, rollback and operational monitoring.
 
 No production deployment or GitHub merge is part of this source assembly.
+
+## Release safeguard
+`npm run test:release-policy` exercises the bounded pure-Node policy tests; `npm run audit:release` deliberately exits with status 1 until `docs/unified/RELEASE_READINESS.json` has independently verified proofs for all gates. A syntactically complete receipt is **not** independent verification or a deploy authorization. Never bypass this script to interpret an untested integration branch as customer-ready.

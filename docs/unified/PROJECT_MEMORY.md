@@ -39,3 +39,7 @@
 - Preserved exact `corporate-site/` tree `6ce56eb811af9733ce9b0b08dab3b636dfaf6371`, all original local memory, inherited tests and original ERP `erp/AGENTS.md`.
 - Integration root `AGENTS.md` is a wrapper; ERP original remains authoritative inside `erp/`. New root `package.json` provides intentional per-module scripts with no dependencies; scripts do not certify runtime acceptance.
 - Source assembly verification instructions and boundaries: `docs/unified/SOURCE_IMPORT_2026-10-24.md`. Runtime integration **NOT_RUN / NOT_READY**; no merge, deploy or database changes.
+
+## 2026-10-24 — fail-closed delivery gate
+- Added `scripts/release-readiness.mjs`, CLI and 5 policy tests, and `docs/unified/RELEASE_READINESS.json`. Syntax/structure QA 5/5 PASS on isolated Node18 interpreter (policy is pure JS). Gate intentionally BLOCKED with missing source-specific release evidence, owner approval and handover. This is NOT Node24 ERP/site runtime testing.
+- Opened unmerged Draft PR #12 https://github.com/ziko1/knaba/pull/12 for unified source; new branch count 15 (original inventory of 14 preserved as historical snapshot). No source-modifying CI/production changes.
