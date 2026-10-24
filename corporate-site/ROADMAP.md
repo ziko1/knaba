@@ -70,3 +70,16 @@ No new paid provider or service budget: EUR0. Runtime cost is unknown. Existing 
 - [ ] Реальна авторизація/квота email провайдера, підтвердження власника, GDPR і тестова email доставка.
 - [ ] Незалежний review, live owner/guest/mobile UAT, зняття release-blockers перед production.
 - [ ] Окремо: AI-provider із підтвердженою квотою/PII consent, WhatsApp через офіційний бізнес-акаунт.
+
+## LANG-NOTIFY — компактна мова + owner notifications на одній source-гілці, 24.10.2026
+
+| ID | Критерій | Стан |
+|---|---|---|
+| LANG-N01 | PR #15 dropdown перенесено на PR #18 без зміни D1/Worker логіки | LOCAL_PASS (git patch + type/test/build/static) |
+| LANG-N02 | Клавіатура, 4 мови, 320–1440 px, 200% CSS text scale | LOCAL_PASS (60 Chromium комбінацій) |
+| LANG-N03 | D1 0000→0001→0002, Worker guest auth, recovery browser E2E | LOCAL_PASS (SQLite/Wrangler/3 Chromium scenarios) |
+| LANG-N04 | Зберегти та документувати точний артефакт, rollback і blocker матрицю | DOCUMENTED в `docs/evidence/LANGUAGE_NOTIFICATIONS_RELEASE_2026-10-24_UK.md` |
+| LANG-N05 | Live ChatGPT Sites D1 backup+restore rehearsal, trusted identity / owner UAT, release + rollback | BLOCKED_PROVIDER_ACCESS / NOT_RUN |
+| LANG-N06 | Зовнішній email/WhatsApp/AI, GDPR retention, approval клієнта | DISABLED / BLOCKED_EXTERNAL |
+
+Не зливати у `main`, не направляти DNS на новий хостинг, не активувати платні API й не публікувати без реалізованих релізних воріт.
