@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500"><title>Büroreinigung mit Staubsauger</title><desc>Farbige 2D-Illustration, kein Foto eines Kundenobjekts.</desc><defs><linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c8e7ff"/><stop offset=".58" stop-color="#deebff"/><stop offset="1" stop-color="#ffe8aa"/></linearGradient></defs>
+<rect width="720" height="500" rx="30" fill="url(#sky)"/><circle cx="656" cy="79" r="90" fill="#ffe8aa" opacity=".85"/><circle cx="84" cy="57" r="56" fill="#fff" opacity=".23"/>
+<path d="M0 373q220-42 419 0t301 0v127H0z" fill="#bedcff"/><path d="M0 428h720" stroke="#fff" stroke-opacity=".55" stroke-width="9"/>
+<rect x="76" y="76" width="260" height="263" rx="23" fill="#f6fdff" stroke="#277da9" stroke-width="8"/>
+<rect x="86" y="86" width="240" height="243" rx="14" fill="#b4ebff"/>
+<path d="M86 304l100-101 87 53 98-100 71 149" fill="#65cbb8" opacity=".38"/>
+<path d="M206 84v245M87 208h238" stroke="#277da9" stroke-width="7" fill="none"/>
+<circle cx="285" cy="131" r="27" fill="#ffdf70"/><path d="M101 154l39-38" stroke="#fff" stroke-width="10" stroke-opacity=".72" stroke-linecap="round"/>
+<rect x="69" y="336" width="259" height="16" rx="8" fill="#2f698d"/><path d="M97 352v74M299 352v74" stroke="#2f698d" stroke-width="12"/><rect x="168" y="260" width="118" height="76" rx="8" fill="#338ce0"/><rect x="178" y="270" width="98" height="53" rx="5" fill="#e7faff"/>
+<rect x="104" y="285" width="44" height="49" rx="7" fill="#ffe27c"/><path d="M125 287q-29-34-7-50 20 20 7 50m3 0q24-42 46-16-24 28-46 16" fill="#63c78c"/>
+<g transform="translate(504 93) scale(0.86)">
+<ellipse cy="405" rx="76" ry="11" fill="#267cb8" opacity=".13"/>
+<path d="M-38 214l-15 137q-3 19 20 18l28-110 9 109q23 13 41-2l-10-152z" fill="#19519a"/>
+<path d="M-52 351q-18 14-6 27h44l-20-26M8 355q-2 17 13 23h43q-2-15-28-25" fill="#1c3558"/>
+<rect x="-52" y="86" width="104" height="140" rx="33" fill="#2987d7"/><path d="M-28 89L0 129 25 89M-34 159h70v50h-70z" fill="#0b70bc"/>
+<path d="M-39 102q-39 16-63 82M42 102q39 30 78 21" stroke="#af785b" stroke-width="20" stroke-linecap="round" fill="none"/>
+<ellipse cx="-104" cy="187" rx="17" ry="19" fill="#29bfd3"/><ellipse cx="120" cy="121" rx="19" ry="17" fill="#29bfd3"/>
+<path d="M0 69v30" stroke="#af785b" stroke-width="26"/><circle cy="42" r="44" fill="#af785b"/>
+<path d="M-39 33q-19-58 37-61 50-3 48 59Q19 11 7 0q-18 25-46 33" fill="#2b4058"/>
+<circle cx="-11" cy="45" r="3" fill="#243d55"/><circle cx="19" cy="45" r="3" fill="#243d55"/><path d="M-7 60q13 12 27-1" stroke="#a34e5d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+<path d="M-30 92l30 42 26-42" stroke="#effaff" stroke-width="12" fill="none"/><rect x="-24" y="172" width="48" height="35" rx="8" fill="#0b70bc"/>
+
+</g>
+<path d="M383 317l-44 103" stroke="#3473a7" stroke-width="10"/><rect x="307" y="413" width="102" height="39" rx="14" fill="#ffbe42"/><rect x="319" y="421" width="78" height="23" rx="11" fill="#1c7eb0"/><circle cx="329" cy="449" r="11" fill="#30516b"/><circle cx="393" cy="449" r="11" fill="#30516b"/><path d="M613 100l7 12 12 6-12 7-7 12-7-12-12-7 12-6z" fill="#fff"/></svg>
