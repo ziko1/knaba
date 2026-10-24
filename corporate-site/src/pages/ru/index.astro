@@ -43,6 +43,19 @@ const faqs = [
   </section>
   <div class="trust-band"><div class="container"><span>ЧИСТОТА КАЖДЫЙ ДЕНЬ</span><a href="/ru/branchen/">Офисы и бизнес <span aria-hidden="true">↗</span></a><a href="/ru/branchen/">Управляющие компании <span aria-hidden="true">↗</span></a><a href="/ru/leistungen/baureinigung/">Строительство и недвижимость <span aria-hidden="true">↗</span></a></div></div>
 
+  <section class="section container section-tight" aria-labelledby="bauhilfe-heading">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">ТАКЖЕ НА СТРОЙПЛОЩАДКЕ</p>
+        <h2 id="bauhilfe-heading">Не только уборка.<br />Помощь на стройплощадке.</h2>
+      </div>
+      <div>
+        <p>Помимо уборки после строительства, KnaBa указывает на официальном сайте подсобные строительные работы и подготовку стройплощадки. Возможные задачи, объём и стоимость согласуются лично.</p>
+        <a class="text-link" href="/ru/kontakt/">Уточнить строительные работы <Icon name="diagonal" size={18} /></a>
+      </div>
+    </div>
+  </section>
+
   <section class="section container" id="leistungen">
     <div class="section-heading"><div><p class="eyebrow"><span class="section-dot"></span> ЧЕМ МЫ МОЖЕМ ПОМОЧЬ</p><h2>Для каждого помещения<br />подходящее решение.</h2></div><div><p>От повседневного ухода до окончательной уборки.<br />Выберите то, что подходит вашему объекту.</p><a class="text-link" href="/ru/leistungen/">Все услуги <Icon size={18}/></a></div></div>
     <div class="service-grid">{services.map((s,i)=><a class="service-card" href={`/ru/leistungen/${s.slug}/`}><div class="service-card-top"><span class="service-icon"><Icon name={s.icon} size={28}/></span><span class="service-number">0{i+1}</span></div><span class="eyebrow">{s.tag}</span><h3>{s.name}</h3><p>{s.description}</p><span class="service-card-bottom">Подробнее <span class="card-arrow"><Icon name="diagonal" size={18}/></span></span></a>)}</div>
