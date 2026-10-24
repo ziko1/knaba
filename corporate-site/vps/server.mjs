@@ -124,12 +124,6 @@ export async function createKnabaVpsServer({
     const effectiveOrigin=localTest&&rawHost.startsWith('127.0.0.1')?origin:(base.protocol+'//'+rawHost);
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
-    if(url.pathname.startsWith('/signin-with-chatgpt')){
-      return redirect(res,'/login/?return_to='+encodeURIComponent(returnPath(url.searchParams.get('return_to'))));
-    }
-    if(url.pathname.startsWith('/signout-with-chatgpt')){
-      return redirect(res,'/logout/?return_to='+encodeURIComponent(returnPath(url.searchParams.get('return_to'))));
-    }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
       if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});

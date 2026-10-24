@@ -12,7 +12,7 @@ const MAX_ENTRIES = 80;
 const TAGS = '(?:section|div|article|aside|figure|figcaption|h[1-6]|p|span|a|strong|em|small|li|ul|ol|img|blockquote|b|i|label)';
 const selectorPattern = new RegExp('^#main(?: > ' + TAGS + ':nth-of-type\\((?:[1-9][0-9]?)\\)){1,10}$');
 const pagePattern = /^\/(?:[a-z0-9-]+\/){0,4}$/;
-const restricted = new Set(['api','studio','konto','postfach','portal','admin','signin-with-chatgpt','signout-with-chatgpt','_astro','assets','images']);
+const restricted = new Set(['api','studio','konto','postfach','portal','admin','login','logout','_astro','assets','images']);
 const allowedKinds = new Set<StudioKind>(['text','href','src','alt','color']);
 const reject = (message: string): never => { throw new StudioInputError(message); };
 const isPlain = (value: string) => !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f<>]/.test(value);
