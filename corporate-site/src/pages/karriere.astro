@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { company } from "../data/company";
+---
+
+<Layout
+  title="Karriere & Initiativbewerbung | KnaBa"
+  description="Interesse an der Arbeit in der Gebäudereinigung? Fragen Sie KnaBa nach aktuellen Einsatzmöglichkeiten in Berlin und Brandenburg."
+  ><section class="container page-intro">
+    <p class="eyebrow">ARBEITEN BEI KNABA</p><h1>
+      Gute Arbeit.<br /><span>Ein sauberes Ergebnis.</span>
+    </h1><p>
+      Sie arbeiten sorgfältig, sind zuverlässig und interessieren sich für
+      Gebäudereinigung? Wir freuen uns, von Ihnen zu hören.
+    </p>
+  </section><section class="container section section-tight detail-grid">
+    <div>
+      <h2>Lernen wir uns kennen.</h2><p>
+        Fragen Sie uns nach den aktuellen Einsatzmöglichkeiten für
+        Reinigungspersonal. Arbeitszeit, Einsatzort und Voraussetzungen
+        besprechen wir persönlich.
+      </p><p>
+        Für den ersten Kontakt genügen Ihr Name, eine Rückrufmöglichkeit und
+        eine kurze Nachricht zu Ihrer Erfahrung und Verfügbarkeit. Bitte senden
+        Sie zunächst keine Ausweis- oder Gesundheitsdaten.
+      </p><a
+        href={`mailto:${company.email}?subject=Interesse%20an%20einer%20Mitarbeit`}
+        class="button button-dark">E-Mail schreiben <Icon name="mail" /></a>
+    </div><aside class="aside-card">
+      <h2>Direkt nachfragen</h2><p>
+        Welche Möglichkeiten aktuell offen sind, erfahren Sie bei KnaBa.
+      </p><a href={company.phoneHref} class="text-link"
+        >{company.phone}<Icon name="phone" size={19} /></a>
+    </aside>
+  </section></Layout
+>

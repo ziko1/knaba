@@ -1,0 +1,59 @@
+{
+  "dateUTC": "2026-10-24T04:45:30.101Z",
+  "projectId": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+  "sitesSourceSHA": "35103e5ee177f593951f52b451ad94a59b3efe13",
+  "versionId": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_c0751056dc48819183d53eca8719e988",
+  "deploymentId": "appgdep_6adc36dc9030819184b7d0ea8d2eba22",
+  "providerStatus": "succeeded",
+  "domain": {
+    "id": "appgdom_6adc36f5e01c819198f00c482cf3a16a",
+    "hostname": "kneba.vsp.rest",
+    "status": "active",
+    "sslStatus": "active"
+  },
+  "createdDNSRecords": [
+    {
+      "id": "718b0fe10fe1654872cc795125ba46a7",
+      "name": "kneba.vsp.rest",
+      "type": "CNAME",
+      "content": "custom-domains.chatgpt.site",
+      "ttl": 300,
+      "proxied": false,
+      "comment": "Temporary KnaBa preview. Remove after migration to knaba.de. Created 2026-10-24."
+    },
+    {
+      "id": "287be2f71309f901bbc794dad2712977",
+      "name": "_cf-custom-hostname.kneba.vsp.rest",
+      "type": "TXT",
+      "content": "d3a21bdf-7ad5-4238-acf1-dd12523802e3",
+      "ttl": 300,
+      "proxied": false,
+      "comment": "Temporary KnaBa preview. Remove after migration to knaba.de. Created 2026-10-24."
+    },
+    {
+      "id": "3976b2413261bd3b16e0802ad41b377b",
+      "name": "_openai-site-verification.kneba.vsp.rest",
+      "type": "TXT",
+      "content": "openai-site-verification=R4DruFvJbviKBbJEr9KWxAfMk5iCQVqsjuPxyBNjjtU",
+      "ttl": 300,
+      "proxied": false,
+      "comment": "Temporary KnaBa preview. Remove after migration to knaba.de. Created 2026-10-24."
+    }
+  ],
+  "browser": {
+    "url": "https://kneba.vsp.rest/",
+    "status": "PASS",
+    "noindex": "noindex, nofollow",
+    "canonical": "https://kneba.vsp.rest/",
+    "cssAsset": "/_astro/Layout.CdcVcV3Q.css",
+    "vueSvelteHandoff": "PASS Baureinigung",
+    "solidCatalogueSelection": "PASS Glasreinigung",
+    "inquiryQueryPreselect": "PASS baureinigung and advance to object step",
+    "screenshot": "revision2-live.jpg"
+  },
+  "limits": [
+    "raw HTTP headers not verified; executor origin requests403 while browser succeeds",
+    "no real email send/serverLead",
+    "fieldCWV and humanUAT NOT_RUN"
+  ]
+}

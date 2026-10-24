@@ -1,0 +1,66 @@
+{
+  "project_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+  "sourceCommit": "a91edbcf989fe342cf342fa8741f0eec8a5b5488",
+  "savedVersion": {
+    "id": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_b4fda0cec65881919bf3ab825e5971a8",
+    "project_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+    "version_number": 2,
+    "source": {
+      "commit_sha": "a91edbcf989fe342cf342fa8741f0eec8a5b5488"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_000000004d14820a9370115c15e10dd1",
+      "content_hash": "sha256:b5cc6fb3e9ef238a754a69a2f3b2b0cb533253574b298dca2297c382026b88b6",
+      "size_bytes": 1361920,
+      "file_count": 97
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6adc415e5c2c8191b4c2f0133d9bef27",
+    "project_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+    "title": "KnaBa · Temporäre Vorschau",
+    "version_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_b4fda0cec65881919bf3ab825e5971a8",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6adc346d6f8881918b73ac79ebc5d759",
+    "failure_message": null,
+    "env_set_revision": 1,
+    "updated_at": "2026-10-24T05:26:07.143009+00:00"
+  },
+  "customDomain": "https://kneba.vsp.rest/",
+  "runtimeSourceFilesCompared": 64,
+  "sourceDifferences": [],
+  "live": {
+    "health": {
+      "status": 200,
+      "ready": true
+    },
+    "publicLead": {
+      "receipt": "067c0e50-fc1f-4e68-8c98-80237f9e9093",
+      "status": "new",
+      "confirmedVia": "browser receipt plus native D1 read",
+      "synthetic": true
+    },
+    "anonymousPortal": "PASS",
+    "nativeSignIn": "Redirect to official OpenAI login PASS; authenticated owner session unavailable; full live role UAT NOT_RUN",
+    "homeMetadata": {
+      "canonical": "https://kneba.vsp.rest/",
+      "robots": "noindex, follow"
+    },
+    "httpStaticHeaders": "NOT_VERIFIED: executor Python requests blocked403; browser renders; API health HTTP headers verified"
+  },
+  "independentReview": {
+    "agents": [
+      "/root/hosting_r3",
+      "/root/legal_audit"
+    ],
+    "result": "no unresolved code blocker; legal/operator and live UAT limits remain explicit"
+  },
+  "officialReleaseReady": false
+}

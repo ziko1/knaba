@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { company } from "../data/company";
+---
+
+<Layout
+  title="Über KnaBa | Gebäudereinigung aus Berlin"
+  description="Lernen Sie KnaBa kennen: Ihr Ansprechpartner für Gebäudereinigung und objektbezogene Reinigung in Berlin und Brandenburg."
+  ><section class="container page-intro">
+    <p class="eyebrow">ÜBER KNABA</p><h1>
+      Sauberkeit ist<br /><span>Vertrauenssache.</span>
+    </h1><p>
+      KnaBa ist Ihr Ansprechpartner für Gebäudereinigung in Berlin und
+      Brandenburg. Wir verbinden die Pflege Ihrer Räume mit einer klaren,
+      persönlichen Abstimmung.
+    </p>
+  </section><section class="container section section-tight detail-grid">
+    <div>
+      <h2>Ihr Gebäude verdient Aufmerksamkeit.</h2><p>
+        Von der laufenden Unterhaltsreinigung bis zur Bauendreinigung: Unsere
+        Arbeit beginnt mit dem Verständnis für Ihr Objekt. Welche Flächen werden
+        genutzt? Welche Materialien sind zu beachten? Welcher Rhythmus passt zu
+        Ihrem Alltag?
+      </p><p>
+        Gemeinsam vereinbaren wir einen passenden Leistungsumfang. So wissen
+        Sie, welche Arbeiten geplant sind und wen Sie bei Fragen erreichen.
+      </p><a href="/kontakt/" class="button button-dark"
+        >Lernen wir uns kennen <Icon /></a>
+    </div><aside class="aside-card">
+      <p class="eyebrow">PERSÖNLICH ERREICHBAR</p><h2>KnaBa in Berlin</h2><p>
+        {company.street}<br />{company.city}
+      </p><a href={company.phoneHref}>{company.phone}</a><br /><a
+        href={`mailto:${company.email}`}>{company.email}</a>
+    </aside>
+  </section></Layout
+>

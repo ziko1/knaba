@@ -1,0 +1,123 @@
+{
+  "scope": "production-build-static-validation",
+  "pages": 25,
+  "internalLinks": "PASS",
+  "metadata": "PASS",
+  "indexMode": "TEMPORARY_NOINDEX",
+  "externalImageScriptRequests": "NONE_IN_HTML",
+  "cssGzip": 17137,
+  "allEmittedJsGzip": 107727,
+  "assets": [
+    {
+      "name": "_astro/Catalogue.CMGm_cVd.js",
+      "bytes": 3350,
+      "gzip": 1578
+    },
+    {
+      "name": "_astro/CleaningChecklist.DSuH6p8V.js",
+      "bytes": 2586,
+      "gzip": 1345
+    },
+    {
+      "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+      "bytes": 16365,
+      "gzip": 5575
+    },
+    {
+      "name": "_astro/Inquiry.DSckiMad.js",
+      "bytes": 16400,
+      "gzip": 5872
+    },
+    {
+      "name": "_astro/Layout.a6RILUhq.css",
+      "bytes": 51055,
+      "gzip": 12014
+    },
+    {
+      "name": "_astro/Portal.DoA8kzpc.js",
+      "bytes": 69955,
+      "gzip": 20896
+    },
+    {
+      "name": "_astro/ServiceFinder.BtYZ5YKY.js",
+      "bytes": 2711,
+      "gzip": 1365
+    },
+    {
+      "name": "_astro/build.B6HFby-0.js",
+      "bytes": 34400,
+      "gzip": 10244
+    },
+    {
+      "name": "_astro/client.BgCb-Q02.js",
+      "bytes": 1023,
+      "gzip": 618
+    },
+    {
+      "name": "_astro/client.CcExIiMt.js",
+      "bytes": 9166,
+      "gzip": 4100
+    },
+    {
+      "name": "_astro/client.D9okaTkL.js",
+      "bytes": 35391,
+      "gzip": 13793
+    },
+    {
+      "name": "_astro/client.svelte.DZaY2MO2.js",
+      "bytes": 889,
+      "gzip": 497
+    },
+    {
+      "name": "_astro/company.3Xyh26Mc.js",
+      "bytes": 3613,
+      "gzip": 1629
+    },
+    {
+      "name": "_astro/konto.CfxoeYSq.css",
+      "bytes": 15824,
+      "gzip": 3884
+    },
+    {
+      "name": "_astro/planer.CxsTTm4Q.css",
+      "bytes": 4475,
+      "gzip": 1239
+    },
+    {
+      "name": "_astro/planner.DqJbloWd.js",
+      "bytes": 3460,
+      "gzip": 1570
+    },
+    {
+      "name": "_astro/portal-contract.XZmVB1GG.js",
+      "bytes": 762,
+      "gzip": 495
+    },
+    {
+      "name": "_astro/runtime-core.esm-bundler.CGTtZF5w.js",
+      "bytes": 67280,
+      "gzip": 25876
+    },
+    {
+      "name": "_astro/store.BloL9HvE.js",
+      "bytes": 5128,
+      "gzip": 2057
+    },
+    {
+      "name": "_astro/vue-app.DIumppeC.js",
+      "bytes": 6185,
+      "gzip": 2934
+    },
+    {
+      "name": "_astro/web.BuL_PEM4.js",
+      "bytes": 18582,
+      "gzip": 7283
+    }
+  ],
+  "artifactSha256": "e3045c1d1f0c78300a3e6e170f461057e6ded0a028f0923539466c315b522ff2",
+  "normalizedArtifactSha256": "7afa070f33eec660aeccd2faec11b5bb175441bd86a79bf74fec61565f40af08",
+  "workerBundleSha256": "0060df14d0ab0656fd88dc917989126120953f522737a4477fbd8d643dd13995",
+  "deploymentArtifactSha256": "6f14f31bcaef7b4706abbddfc8943e9869e359ec53b4d69a41c07f98607ea3be",
+  "fieldWebVitals": "NOT_RUN",
+  "networkTransfer": "NOT_MEASURED"
+}

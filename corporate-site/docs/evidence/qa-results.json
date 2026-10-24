@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-24",
+  "scope": "local Chromium dev preview; production build checked separately",
+  "unitTests": {
+    "passed": 8,
+    "failed": 0,
+    "command": "npm test",
+    "exitCode": 0
+  },
+  "typecheck": {
+    "files": 20,
+    "errors": 0,
+    "warnings": 0,
+    "command": "npm run check",
+    "exitCode": 0
+  },
+  "build": {
+    "pages": 15,
+    "sitemap": true,
+    "command": "npm run build && npm run verify:build",
+    "exitCode": 0
+  },
+  "dependencyAudit": {
+    "command": "npm audit --omit=dev --audit-level=high",
+    "vulnerabilities": 0,
+    "exitCode": 0
+  },
+  "browser": {
+    "requiredServiceFocus": "PASS",
+    "shortPostcodeFocus": "PASS",
+    "backRetainsServicePostcodeAreaFrequency": "PASS",
+    "whitespaceNameCustomAriaAndFocus": "PASS",
+    "invalidOptionalPhoneCustomAriaAndFocus": "PASS",
+    "summaryMatchesInput": "PASS",
+    "encodedMailtoRecipientAndBody": "PASS",
+    "copySummaryStatus": "PASS",
+    "mobileMenuEscapeAndFocus": "PASS",
+    "faqExpand": "PASS",
+    "serviceQueryPreselection": "PASS",
+    "responsiveIframeViewports": [
+      {
+        "width": 320,
+        "paths": [
+          "/",
+          "/leistungen/glasreinigung/",
+          "/kontakt/"
+        ],
+        "horizontalOverflow": false
+      },
+      {
+        "width": 390,
+        "paths": [
+          "/",
+          "/kontakt/?leistung=baureinigung"
+        ],
+        "horizontalOverflow": false
+      },
+      {
+        "width": 768,
+        "paths": [
+          "/"
+        ],
+        "horizontalOverflow": false
+      }
+    ],
+    "desktopVisual": "PASS, 1348x928 viewport screenshot",
+    "actualMobileDevice": "NOT_RUN",
+    "zoom200": "NOT_RUN",
+    "screenReader": "NOT_RUN",
+    "mailClientLaunchOrDelivery": "NOT_RUN; no message sent",
+    "fieldWebVitals": "NOT_RUN"
+  },
+  "independentReview": {
+    "agent": "/root/site_audit",
+    "scope": "read-only code/doc/build evidence and desktop screenshot review",
+    "outcome": "no unresolved material findings after corrections",
+    "browserIndependentlyRepeated": false
+  },
+  "notes": [
+    "Responsive iframe tests are real browser CSS layout checks, not physical-device tests.",
+    "Chrome extension metadata errors occurred; no application runtime error observed in checked flows.",
+    "source-sha256.json binds runtime inputs; final commit identity recorded in PR.",
+    "No production release or noindex removal."
+  ]
+}

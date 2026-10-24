@@ -1,0 +1,53 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import { services } from "../../data/company";
+---
+
+<Layout
+  title="Unsere Reinigungsleistungen | KnaBa"
+  description="Entdecken Sie die Reinigungsleistungen von KnaBa: Unterhalts-, Büro-, Glas-, Bau-, Grund- und Treppenhausreinigung in Berlin und Brandenburg."
+>
+  <section class="container page-intro">
+    <p class="eyebrow">LEISTUNGEN</p><h1>
+      Sauberkeit hat<br /><span>viele Facetten.</span>
+    </h1><p>
+      Wir finden gemeinsam die passende Reinigung für Ihr Objekt – regelmäßig,
+      einmalig oder für einen besonderen Anlass.
+    </p>
+  </section>
+  <section class="container section section-tight">
+    <div class="service-grid">
+      {
+        services.map((s, i) => (
+          <a class="service-card" href={`/leistungen/${s.slug}/`}>
+            <>
+              <div class="service-card-top">
+                <>
+                  <span class="service-icon">
+                    <Icon name={s.icon} size={30} />
+                  </span>
+                  <span class="service-number">0{i + 1}</span>
+                </>
+              </div>
+              <span class="eyebrow">{s.tag}</span>
+              <h2>{s.name}</h2>
+              <p>{s.description}</p>
+              <span class="service-card-bottom">
+                Leistung entdecken <Icon name="diagonal" size={18} />
+              </span>
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container cta-banner">
+    <div>
+      <p class="eyebrow">NOCH NICHT SICHER?</p><h2>
+        Wir besprechen<br />Ihren Bedarf.
+      </h2>
+    </div><a class="button button-dark" href="/kontakt/"
+      >Beratung anfragen <Icon /></a>
+  </section>
+</Layout>
