@@ -6,6 +6,12 @@ export type ConversationMessage = {id:string;author:'visitor'|'owner';message:st
 export type ConversationThread = {id:string;locale:ConversationLocale;status:string;createdAt:string;expiresAt:string;lastMessageAt:string};
 export type ConversationDetails = {thread:ConversationThread;messages:ConversationMessage[];hasMore:boolean};
 export type OwnerThreadList = {threads:ConversationThread[];hasMore:boolean};
+export type OwnerNotification = {
+  threadId:string;kind:'new_thread'|'visitor_message';
+  status:'pending'|'sending'|'sent'|'stopped';
+  attempts:number;createdAt:string;sentAt:string|null;
+};
+export type OwnerNotificationStatus = {notifications:OwnerNotification[];limited:boolean;disabled:boolean};
 export const sessionStorageKey='knaba-owner-thread-v1';
 const identifier=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const secret=/^[a-zA-Z0-9_-]{43}$/;
@@ -29,7 +35,7 @@ const pathFor=(id:string,suffix='')=>{
   return `/api/assistant/threads/${id}${suffix}`;
 };
 async function json<T>(path:string,method:'GET'|'POST'='GET',body?:unknown,capability?:string):Promise<T>{
-  if(!/^\/api\/assistant\/(?:owner\/)?threads(?:\/[0-9a-f-]{36}(?:\/messages)?)?$/i.test(path))throw new Error('Invalid API path');
+  if(path!=='/api/assistant/owner/notifications' && !/^\/api\/assistant\/(?:owner\/)?threads(?:\/[0-9a-f-]{36}(?:\/messages)?)?$/i.test(path))throw new Error('Invalid API path');
   if(capability!==undefined&&!secret.test(capability))throw new Error('Invalid private capability');
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),15000);
@@ -43,6 +49,7 @@ export function loadVisitorThread(id:string,capability:string){return json<Conve
 export function createVisitorThread(payload:{capability:string;idempotencyKey:string;locale:ConversationLocale;message:string;consentAccepted:true}){return json<{id:string;received:true}>('/api/assistant/threads','POST',payload);}
 export function sendVisitorMessage(id:string,capability:string,payload:{message:string;idempotencyKey:string}){return json<{message:ConversationMessage}>(pathFor(id,'/messages'),'POST',payload,capability);}
 export function listOwnerThreads(){return json<OwnerThreadList>('/api/assistant/owner/threads');}
+export function listOwnerNotifications(){return json<OwnerNotificationStatus>('/api/assistant/owner/notifications');}
 export function loadOwnerThread(id:string){if(!identifier.test(id))throw new Error('Invalid thread identifier');return json<ConversationDetails>(`/api/assistant/owner/threads/${id}`);}
 export function sendOwnerMessage(id:string,payload:{message:string;idempotencyKey:string}){if(!identifier.test(id))throw new Error('Invalid thread identifier');return json<{message:ConversationMessage}>(`/api/assistant/owner/threads/${id}/messages`,'POST',payload);}
 
