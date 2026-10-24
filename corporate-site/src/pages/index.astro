@@ -42,6 +42,19 @@ const faqs = [
   </section>
   <div class="trust-band"><div class="container"><span>SAUBERKEIT FÜR IHREN ALLTAG</span><a href="/branchen/">Büros & Gewerbe <span aria-hidden="true">↗</span></a><a href="/branchen/">Hausverwaltungen <span aria-hidden="true">↗</span></a><a href="/leistungen/baureinigung/">Bau & Immobilien <span aria-hidden="true">↗</span></a></div></div>
 
+  <section class="section container section-tight" aria-labelledby="bauhilfe-heading">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">AUCH AUF DER BAUSTELLE</p>
+        <h2 id="bauhilfe-heading">Bauhelfer und<br />Bauhilfsleistungen.</h2>
+      </div>
+      <div>
+        <p>Neben der Baureinigung nennt KnaBa in seinem offiziellen Angebot auch Bauhilfsarbeiten und Baustellenvorbereitung. Welche Arbeiten möglich sind, sowie Umfang und Preis klären wir persönlich.</p>
+        <a class="text-link" href="/kontakt/">Bauhilfe anfragen <Icon name="diagonal" size={18} /></a>
+      </div>
+    </div>
+  </section>
+
   <section class="section container" id="leistungen">
     <div class="section-heading"><div><p class="eyebrow"><span class="section-dot"></span> WAS WIR FÜR SIE TUN</p><h2>Für jeden Raum<br />die richtige Lösung.</h2></div><div><p>Von der täglichen Pflege bis zum großen Abschluss.<br />Wählen Sie, was zu Ihrem Objekt passt.</p><a class="text-link" href="/leistungen/">Alle Leistungen <Icon size={18}/></a></div></div>
     <div class="service-grid">{services.map((s,i)=><a class="service-card" href={`/leistungen/${s.slug}/`}><div class="service-card-top"><span class="service-icon"><Icon name={s.icon} size={28}/></span><span class="service-number">0{i+1}</span></div><span class="eyebrow">{s.tag}</span><h3>{s.name}</h3><p>{s.description}</p><span class="service-card-bottom">Mehr erfahren <span class="card-arrow"><Icon name="diagonal" size={18}/></span></span></a>)}</div>
