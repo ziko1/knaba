@@ -2,6 +2,7 @@ import type { ApprovedRole, ChecklistItem, CleaningRequest, PortalDashboard, Por
 import { approvedRoles, checklistItems, requestStatuses } from '../src/lib/portal-contract';
 import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
 import type { D1Database, D1Statement, WorkerEnv } from './types';
+import { handleAssistant } from './assistant';
 
 type Row = Record<string, unknown>;
 const PRIVACY_VERSION = '2026-10-24';
@@ -248,6 +249,7 @@ export async function handleApi(request: Request,env: WorkerEnv): Promise<Respon
     }
     if(path==='/api/leads'&&request.method==='POST')return await createRequest(request,env,null);
     const s=await session(request,env);
+    if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null});
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);
     if(path==='/api/portal/dashboard'&&request.method==='GET')return await dashboard(env,s);

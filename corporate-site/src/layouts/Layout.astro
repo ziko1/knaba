@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import Icon from "../components/Icon.astro";
+
 import { languageLinks, localeAlternates } from "../lib/site-i18n";
 import { ClientRouter } from "astro:transitions";
 interface Props {
@@ -173,6 +174,38 @@ const structuredData = {
         </div>
       </div>
     </footer>
+    <div class="knaba-widget-root" data-knaba-widget data-locale={lang}>
+      <button type="button" data-knaba-open aria-label="KNABA Assistant öffnen"><span aria-hidden="true">✳</span> KNABA Assistant</button>
+    </div>
+    <script>
+      async function mountAssistant(button: HTMLButtonElement) {
+        const root=button.closest<HTMLElement>('[data-knaba-widget]');
+        if(!root || root.dataset.pending==='true')return;
+        root.dataset.pending='true';button.disabled=true;
+        try {
+          const [{render},{default:KnabaAssistant}]=await Promise.all([
+            import('solid-js/web'),
+            import('../components/KnabaAssistant.tsx')
+          ]);
+          const language=root.dataset.locale as 'de'|'en'|'uk'|'ru';
+          root.replaceChildren();
+          const dispose=render(()=>KnabaAssistant({locale:language,initialOpen:true}),root);
+          document.addEventListener('astro:before-swap',()=>dispose(),{once:true});
+        }catch{
+          button.disabled=false;root.dataset.pending='false';
+          window.location.href=document.documentElement.lang==='ru'?'/ru/kontakt/':'/kontakt/';
+        }
+      }
+      function bindLauncher(){
+        document.querySelectorAll<HTMLButtonElement>('[data-knaba-open]').forEach(button=>{
+          if(button.dataset.bound==='true')return;
+          button.dataset.bound='true';
+          button.addEventListener('click',()=>void mountAssistant(button));
+        });
+      }
+      bindLauncher();
+      document.addEventListener('astro:page-load',bindLauncher);
+    </script>
     <script>
       import { services } from '../data/company';
       function preserveServiceSelection() {

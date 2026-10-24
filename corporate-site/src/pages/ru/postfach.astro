@@ -1,0 +1,12 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AssistantInbox from "../../components/AssistantInbox.tsx";
+---
+<Layout lang="ru" title="KNABA Assistant | Сообщения владельцу" description="Закрытый раздел владельца KnaBa для общения с клиентами и согласования условий." noindex={true}>
+  <section class="container" style="padding-top:clamp(2rem,5vw,4rem)">
+    <p class="eyebrow">KNABA ASSISTANT · ВЛАДЕЛЕЦ</p>
+    <h1 style="font-size:clamp(2.25rem,5vw,3.75rem)">Диалоги с клиентами.</h1>
+    <p>Отвечайте посетителям сайта и отправляйте предложения на согласование.</p>
+    <AssistantInbox locale="ru" client:load />
+  </section>
+</Layout>
