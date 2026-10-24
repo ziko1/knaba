@@ -129,6 +129,8 @@ describe('real request persistence, isolation and job workflow',()=>{
     let r=await create();r=await patch(r.id,'admin',{version:r.version,status:'reviewing'});
     expect((await call(`/api/portal/requests/${r.id}`,'admin','PATCH',{version:r.version,status:'scheduled'})).status).toBe(422);
     r=await patch(r.id,'admin',{version:r.version,status:'scheduled',assignedWorkerId:identities.worker[0],scheduledAt:'2026-11-01T08:00:00Z'});
+    const clientView=(await (await call('/api/portal/dashboard','client')).json() as PortalDashboard).requests[0];
+    expect(clientView.assignedWorkerId).toBeNull(); // Never expose an employee's identity-provider subject to customers.
     expect((await (await call('/api/portal/dashboard','worker2')).json()).requests).toEqual([]);
     const w=(await (await call('/api/portal/dashboard','worker')).json()).requests[0];expect(w.id).toBe(r.id);expect(w.email).toBeUndefined();expect(w.phone).toBeUndefined();expect(w.clientId).toBeNull();
     expect((await call(`/api/portal/requests/${r.id}`,'worker2','PATCH',{version:r.version,status:'in_progress'})).status).toBe(404);
@@ -176,6 +178,76 @@ describe('real request persistence, isolation and job workflow',()=>{
     await approve('client','client');await create();const d=await (await call('/api/portal/dashboard','owner')).json() as PortalDashboard;
     expect(d.audit.map(a=>a.action)).toContain('role.approved.client');expect(d.audit.map(a=>a.action)).toContain('request.created');
     expect(JSON.stringify(d.audit)).not.toContain('example.test');expect(JSON.stringify(d.audit)).not.toContain('Bürozeiten');
+  });
+});
+
+
+describe('bounded, role-scoped pagination',()=>{
+  it('returns every older client request without exposing another client or repeating records',async()=>{
+    await approve('client','client');await approve('client2','client');
+    const original=await create('client');
+    const seed=db.sql.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,last_mutation)
+      SELECT ?,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,dedupe_scope,?,payload_hash,privacy_version,created_at,?,?
+      FROM cleaning_requests WHERE id=?`);
+    for(let n=0;n<205;n++)seed.run(`older-request-${n}`,`older-key-${n}`,new Date(Date.now()-60_000-n*1000).toISOString(),crypto.randomUUID(),original.id);
+    const stranger=await create('client2');
+    const dashboard=(await (await call('/api/portal/dashboard','client')).json()) as PortalDashboard & {requestMore:boolean};
+    expect(dashboard.requests).toHaveLength(200);expect(dashboard.requestMore).toBe(true);
+    const found=new Set<string>();let after:string|null=null;let pages=0;
+    for(;pages<10;pages++){
+      const result=await call('/api/portal/requests'+(after?`?after=${encodeURIComponent(after)}`:''),'client');
+      expect(result.status,db.errors.join('\n')).toBe(200);
+      const page=(await result.json()) as {items:{id:string;assignedWorkerId:string|null}[];nextAfter:string|null};
+      expect(page.items.length).toBeLessThanOrEqual(50);
+      for(const item of page.items){expect(found.has(item.id)).toBe(false);found.add(item.id);expect(item.assignedWorkerId).toBeNull();}
+      if(!page.nextAfter)break;
+      after=page.nextAfter;
+    }
+    expect(pages).toBeLessThan(10);expect(found.size).toBe(206);expect(found.has(stranger.id)).toBe(false);
+    expect((await call('/api/portal/requests','client2')).status).toBe(200);
+    expect((await call('/api/portal/requests')).status).toBe(401);
+    expect((await call('/api/portal/requests?after=bad','client')).status).toBe(422);
+    expect((await call('/api/portal/requests?unexpected=1','client')).status).toBe(422);
+  });
+  it('scopes worker pages to approved assignments and revokes access immediately',async()=>{
+    await approve('client','client');const staff=await approve('worker','worker');await approve('worker2','worker');
+    let item=await create();item=await patch(item.id,'owner',{version:item.version,status:'reviewing'});
+    item=await patch(item.id,'owner',{version:item.version,status:'scheduled',assignedWorkerId:staff.id,scheduledAt:'2026-11-01T08:00:00Z'});
+    const own=await call('/api/portal/requests','worker');expect(own.status).toBe(200);
+    const visible=(await own.json()).items as {id:string;clientId:string|null;email?:string;phone?:string}[];
+    expect(visible.map(request=>request.id)).toEqual([item.id]);
+    expect(visible[0].clientId).toBeNull();expect(visible[0].email).toBeUndefined();expect(visible[0].phone).toBeUndefined();
+    const other=await call('/api/portal/requests','worker2');expect((await other.json()).items).toEqual([]);
+    expect((await call('/api/portal/profiles','worker')).status).toBe(403);
+    const revoke=await call('/api/portal/roles','owner','POST',{userId:staff.id,role:'worker',status:'suspended',version:staff.version});
+    expect(revoke.status).toBe(200);
+    expect((await call('/api/portal/requests','worker')).status).toBe(403);
+  });
+
+  it('paginates all owner registrations while an admin sees approved workers only',async()=>{
+    await approve('admin','admin');await approve('worker','worker');const base=await register('client');
+    const seed=db.sql.prepare(`INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation)
+      SELECT ?,?, ?,requested_role,role,status,privacy_version,?,updated_at,version,?
+      FROM profiles WHERE id=?`);
+    for(let n=0;n<205;n++)seed.run(`older-person-${n}`,`Person ${n}`,`person-${n}@example.test`,new Date(Date.now()-60_000-n*1000).toISOString(),crypto.randomUUID(),base.id);
+    const dashboard=(await (await call('/api/portal/dashboard','owner')).json()) as PortalDashboard & {profilesMore:boolean};
+    expect(dashboard.profiles).toHaveLength(200);expect(dashboard.profilesMore).toBe(true);
+    let after:string|null=null;const found=new Set<string>();
+    for(let n=0;n<10;n++){
+      const result=await call('/api/portal/profiles'+(after?`?after=${encodeURIComponent(after)}`:''),'owner');
+      expect(result.status,db.errors.join('\n')).toBe(200);
+      const page=(await result.json()) as {items:{id:string;email:string}[];nextAfter:string|null};
+      expect(page.items.length).toBeLessThanOrEqual(50);
+      for(const item of page.items){expect(found.has(item.id)).toBe(false);found.add(item.id);}
+      if(!page.nextAfter)break;
+      after=page.nextAfter;
+    }
+    expect(found.size).toBe(208);
+    const admins=await call('/api/portal/profiles','admin');expect(admins.status).toBe(200);
+    const visible=(await admins.json()).items as {id:string;email:string}[];
+    expect(visible.map(p=>p.id)).toEqual([identities.worker[0]]);expect(visible[0].email).toBe('');
+    expect((await call('/api/portal/profiles','client')).status).toBe(403);
+    expect((await call('/api/portal/profiles?after=bad','owner')).status).toBe(422);
   });
 });
 

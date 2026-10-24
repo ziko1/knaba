@@ -6,7 +6,7 @@ German-first corporate cleaning website for Berlin and Brandenburg, temporarily 
 
 Astro7 prerenders25 HTML pages with visible SEO content. SolidJS owns the inquiry and role portal; Vue/Pinia, Svelte and Zustand remain isolated in the service planner. TanStack Solid Query manages the portal/catalogue server state. Tailwind4 and TypeScript share a Vite8 pipeline.
 
-A separately built Cloudflare Worker serves `/api/portal/*` and `/api/leads`. D1 stores profiles, requests, rate limits and an audit trail. The native Sites gateway handles ChatGPT sign-in. This application never accepts passwords or claims that client-selected roles are authorized.
+A separately built Cloudflare Worker serves `/api/portal/*` and `/api/leads`. D1 stores profiles, requests, rate limits and an audit trail. The native Sites gateway handles ChatGPT sign-in. This application never accepts passwords or claims that client-selected roles are authorized. Internal identity-provider worker IDs are not returned to client-role request views.
 
 Vite8.3.5 replaces the older starter's8.0.13 because current npm advisories reported vulnerabilities. Versions are pinned in package.json and package-lock.json. No SvelteKit/Turbopack or duplicate router is installed.
 
@@ -56,6 +56,6 @@ Useful files: docs/SEO_AUDIT_UK.md (competitors/queries), docs/LEGAL_AUDIT_UK.md
 
 ## Operational boundaries
 
-The dashboard returns the newest200 requests/profiles and signals truncation; it is not yet a paginated enterprise CRM. It does not issue invoices, payments, automatic customer emails or employee notifications. No analytics/tracking is enabled. Rights/export/correction/deletion requests currently go to the operator's public privacy contact; no automatic record-retention or self-service deletion is configured. Removing the domain does not delete data.
+The dashboard starts with the newest 200 requests/profiles and signals truncation. Role-scoped `GET /api/portal/requests?after=...` and `GET /api/portal/profiles?after=...` load older records in batches of 50 through existing portal buttons without reloading the page. The server repeats every permission check on every page request; cursors convey ordering only, not authority. This is not a searchable enterprise CRM. It does not issue invoices, payments, automatic customer emails or employee notifications. No analytics/tracking is enabled. Rights/export/correction/deletion requests currently go to the operator's public privacy contact; no automatic record-retention or self-service deletion is configured. Removing the domain does not delete data.
 
 Unit/integration/build checks do not establish field Core Web Vitals, human acceptance, Google index status, legal certification or sales growth. Exact verified release and runtime evidence are recorded separately.

@@ -39,3 +39,7 @@ Selected Svelte and Vite from the requested slash alternatives. SvelteKit/Turbop
 R301–R309 implemented and published in the bounded temporary scope; authenticated owner UAT, full content localization and official-release/operator gates remain open. Повний контракт: [REVISION_3_PLAN_UK.md](docs/REVISION_3_PLAN_UK.md). Base a4854e1e4933b26ec9f029237c0dabb07db25e75; окрема candidate гілка, попередні checkout збережені.
 
 R3 implementation and local verification complete: R301–R308 implemented in the stated language/hosting scope; R309 local checks44 tests PASS, independent backend/content review PASS. Publication receipt follows in docs/evidence/revision3-release.json. This does not close the official-release gates: owner legal/operator review, full translations, real-user/field performance and authenticated human UAT. The original Lead/mailto-only backlog is superseded for the corporate site by the actual D1 endpoint; legacy ERP AC-62 remains independent.
+
+## Revision 4 — перевірка ізоляції й списки понад 200 (24.10.2026)
+
+Нові R4 зміни у Draft PR #9: мінімізація ID призначеного працівника у клієнтському API; серверна рольова keyset-пагінація (50 записів) для заявок і профілів, UI догрузки без перезавантаження з DE/EN/UK, регресійні тести. Окремий протокол: [R4_RELEASE_CANDIDATE_UK.md](docs/evidence/R4_RELEASE_CANDIDATE_UK.md). Це кандидат **без деплою, merge, official-domain cutover і схеми міграції**. Потрібні незалежний review, owner/worker/client live UAT, privacy/retention рішення та вимірювання.

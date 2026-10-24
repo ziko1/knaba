@@ -7,6 +7,7 @@ type Row = Record<string, unknown>;
 const PRIVACY_VERSION = '2026-10-24';
 const MAX_BODY = 12_288;
 const MAX_ROWS = 200;
+const PAGE_ROWS = 50;
 class ApiFault extends Error {
   constructor(readonly status: number, readonly code: string, message: string, readonly fields?: Record<string,string>) { super(message); }
 }
@@ -36,6 +37,7 @@ function requestView(row: Row,role: PortalRole): CleaningRequest {
   const result: CleaningRequest = {id:str(row.id),clientId:row.client_id as string|null,service:str(row.service),objectType:str(row.object_type),postcode:str(row.postcode),area:str(row.area),frequency:str(row.frequency),message:str(row.message),contactName:str(row.contact_name),address:str(row.address),status:row.status as RequestStatus,assignedWorkerId:row.assigned_worker_id as string|null,scheduledAt:row.scheduled_at as string|null,checklist:JSON.parse(str(row.checklist)||'[]') as ChecklistItem[],customerFeedback:str(row.customer_feedback),adminReply:str(row.admin_reply),createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
   if (role === 'owner' || role === 'admin' || role === 'client') { result.email=str(row.email); result.phone=str(row.phone); }
   if (role !== 'client') result.workerNote=str(row.worker_note);
+  if (role === 'client') result.assignedWorkerId=null;
   if (role === 'worker') { result.customerFeedback=''; result.adminReply=''; result.clientId=null; }
   return result;
 }
@@ -107,22 +109,50 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
   const p=await db.prepare('SELECT * FROM profiles WHERE id=?').bind(user.id).first<Row>();
   return response({profile:profile(p!)},201);
 }
+function pageCursor(request: Request): {time:string;id:string}|null {
+  const params=new URL(request.url).searchParams;
+  if([...params.keys()].some(key=>key!=='after')||params.getAll('after').length>1)fail(422,'cursor','Die Seitenauswahl ist ungültig.');
+  const value=params.get('after');if(value===null)return null;
+  const separator=value.indexOf('|');
+  if(value.length>850||separator<1||value.indexOf('|',separator+1)!==-1)fail(422,'cursor','Die Seitenauswahl ist ungültig.');
+  const time=value.slice(0,separator);let recordId='';
+  try {recordId=decodeURIComponent(value.slice(separator+1));} catch {fail(422,'cursor','Die Seitenauswahl ist ungültig.');}
+  if(!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(time)||!Number.isFinite(Date.parse(time))||!recordId||recordId.length>200)fail(422,'cursor','Die Seitenauswahl ist ungültig.');
+  return {time,id:recordId};
+}
+async function listPage(request: Request,env: WorkerEnv,s: PortalSession,kind: 'requests'|'profiles') {
+  requireRole(s,kind==='profiles'?['owner','admin']:['client','worker','admin','owner']);
+  const db=dbFor(env),after=pageCursor(request),where:string[]=[],values:unknown[]=[];
+  if(kind==='requests'){
+    if(s.role==='client'){where.push('client_id=?');values.push(s.user!.id);}
+    if(s.role==='worker'){where.push("assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')");values.push(s.user!.id);}
+  }else if(s.role==='admin'){where.push("role='worker' AND status='approved'");}
+  const timestamp=kind==='requests'?'updated_at':'created_at';
+  if(after){where.push('('+timestamp+' < ? OR ('+timestamp+' = ? AND id < ?))');values.push(after.time,after.time,after.id);}
+  const table=kind==='requests'?'cleaning_requests':'profiles';
+  const rows=(await db.prepare('SELECT * FROM '+table+(where.length?' WHERE '+where.join(' AND '):'')+' ORDER BY '+timestamp+' DESC,id DESC LIMIT ?').bind(...values,PAGE_ROWS+1).all<Row>()).results||[];
+  const more=rows.length>PAGE_ROWS,items=rows.slice(0,PAGE_ROWS),last=items.at(-1);
+  return response({items:kind==='requests'?items.map(row=>requestView(row,s.role)):items.map(row=>s.role==='admin'?{...profile(row),email:''}:profile(row)),
+    nextAfter:more&&last?str(last[timestamp])+'|'+encodeURIComponent(str(last.id)):null});
+}
 async function dashboard(env: WorkerEnv,s: PortalSession) {
   signed(s);const db=dbFor(env);
-  const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false};
+  const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false,requestMore:false,profilesMore:false};
   if(['pending','suspended'].includes(s.role)) return response(data);
   requireRole(s,['client','worker','admin','owner']);
   const filters=s.role==='client'?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":'';
   const bind=filters?[s.user!.id]:[];
   const rows=(await db.prepare(`SELECT * FROM cleaning_requests${filters} ORDER BY updated_at DESC,id DESC LIMIT ?`).bind(...bind,MAX_ROWS+1).all<Row>()).results||[];
-  data.limited=rows.length>MAX_ROWS;data.requests=rows.slice(0,MAX_ROWS).map(row=>requestView(row,s.role));
+  data.requestMore=rows.length>MAX_ROWS;data.limited=data.requestMore;data.requests=rows.slice(0,MAX_ROWS).map(row=>requestView(row,s.role));
   if(s.role==='owner') {
     const profiles=(await db.prepare('SELECT * FROM profiles ORDER BY created_at DESC,id LIMIT ?').bind(MAX_ROWS+1).all<Row>()).results||[];
-    data.limited ||= profiles.length>MAX_ROWS;data.profiles=profiles.slice(0,MAX_ROWS).map(profile);
+    data.profilesMore=profiles.length>MAX_ROWS;data.limited ||= data.profilesMore;data.profiles=profiles.slice(0,MAX_ROWS).map(profile);
     data.audit=((await db.prepare('SELECT id,actor_id,action,entity_id,created_at FROM portal_audit ORDER BY created_at DESC,id DESC LIMIT 100').all<Row>()).results||[]).map(r=>({id:str(r.id),actorId:str(r.actor_id),action:str(r.action),entityId:str(r.entity_id),createdAt:str(r.created_at)}));
   } else if(s.role==='admin') {
     // Only the assignment directory is visible to admins, not pending accounts.
-    data.profiles=((await db.prepare("SELECT * FROM profiles WHERE role='worker' AND status='approved' ORDER BY name LIMIT ?").bind(MAX_ROWS).all<Row>()).results||[]).map(r=>({...profile(r),email:''}));
+    const workers=(await db.prepare("SELECT * FROM profiles WHERE role='worker' AND status='approved' ORDER BY created_at DESC,id DESC LIMIT ?").bind(MAX_ROWS+1).all<Row>()).results||[];
+    data.profilesMore=workers.length>MAX_ROWS;data.limited ||= data.profilesMore;
+    data.profiles=workers.slice(0,MAX_ROWS).map(r=>({...profile(r),email:''}));
   }
   return response(data);
 }
@@ -251,6 +281,8 @@ export async function handleApi(request: Request,env: WorkerEnv): Promise<Respon
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);
     if(path==='/api/portal/dashboard'&&request.method==='GET')return await dashboard(env,s);
+    if(path==='/api/portal/requests'&&request.method==='GET')return await listPage(request,env,s,'requests');
+    if(path==='/api/portal/profiles'&&request.method==='GET')return await listPage(request,env,s,'profiles');
     if(path==='/api/portal/requests'&&request.method==='POST')return await createRequest(request,env,s);
     if(path==='/api/portal/roles'&&request.method==='POST')return await setRole(request,env,s);
     const match=path.match(/^\/api\/portal\/requests\/([a-zA-Z0-9_-]{1,100})$/);

@@ -5,13 +5,13 @@
   "metadata": "PASS",
   "indexMode": "TEMPORARY_NOINDEX",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 17131,
-  "allEmittedJsGzip": 107136,
+  "cssGzip": 17137,
+  "allEmittedJsGzip": 107727,
   "assets": [
     {
-      "name": "_astro/Catalogue.BmUMcpmz.js",
+      "name": "_astro/Catalogue.CMGm_cVd.js",
       "bytes": 3350,
-      "gzip": 1575
+      "gzip": 1578
     },
     {
       "name": "_astro/CleaningChecklist.DSuH6p8V.js",
@@ -24,19 +24,19 @@
       "gzip": 5575
     },
     {
-      "name": "_astro/Inquiry.FdKR68Rv.js",
+      "name": "_astro/Inquiry.DSckiMad.js",
       "bytes": 16400,
-      "gzip": 5885
+      "gzip": 5872
     },
     {
-      "name": "_astro/Layout.CKnN3N-H.css",
-      "bytes": 51033,
-      "gzip": 12008
+      "name": "_astro/Layout.a6RILUhq.css",
+      "bytes": 51055,
+      "gzip": 12014
     },
     {
-      "name": "_astro/Portal.B6M5eyQR.js",
-      "bytes": 67469,
-      "gzip": 20318
+      "name": "_astro/Portal.DoA8kzpc.js",
+      "bytes": 69955,
+      "gzip": 20896
     },
     {
       "name": "_astro/ServiceFinder.BtYZ5YKY.js",
@@ -44,14 +44,14 @@
       "gzip": 1365
     },
     {
-      "name": "_astro/build.Ba0hOZ_g.js",
+      "name": "_astro/build.B6HFby-0.js",
       "bytes": 34400,
-      "gzip": 10243
+      "gzip": 10244
     },
     {
-      "name": "_astro/client.B9GgNGxB.js",
+      "name": "_astro/client.BgCb-Q02.js",
       "bytes": 1023,
-      "gzip": 619
+      "gzip": 618
     },
     {
       "name": "_astro/client.CcExIiMt.js",
@@ -99,9 +99,9 @@
       "gzip": 25876
     },
     {
-      "name": "_astro/store.bH30HwvI.js",
+      "name": "_astro/store.BloL9HvE.js",
       "bytes": 5128,
-      "gzip": 2043
+      "gzip": 2057
     },
     {
       "name": "_astro/vue-app.DIumppeC.js",
@@ -109,12 +109,12 @@
       "gzip": 2934
     },
     {
-      "name": "_astro/web.C_MVvVeU.js",
-      "bytes": 18572,
-      "gzip": 7274
+      "name": "_astro/web.BuL_PEM4.js",
+      "bytes": 18582,
+      "gzip": 7283
     }
   ],
-  "artifactSha256": "b126b5f77f4e247715176b63eb1b85a37b2a655f9485daf78c1371fb4b3000c6",
+  "artifactSha256": "e0ae64c72062b95f1737ddf4c4102f45dd9d938b18152783422ffb26a1e04960",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

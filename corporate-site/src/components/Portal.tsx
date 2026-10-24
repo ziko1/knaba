@@ -1,8 +1,8 @@
 import { createRequestId } from "../lib/request-id";
-import { createMemo, createSignal, For, Match, onCleanup, onMount, Show, Switch, type Accessor } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, Match, onCleanup, onMount, Show, Switch, type Accessor } from 'solid-js';
 import { createQuery, QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/solid-query';
-import { approvedRoles, checklistItems, portalHeader, requestStatuses, type ApprovedRole, type CleaningRequest, type CleaningRequestInput, type PortalDashboard, type PortalProfile, type PortalRole, type PortalSession, type RequestPatch, type RequestStatus, type RoleInput } from '../lib/portal-contract';
-import { frequencyOptions, locales, objectOptions, portalMessages, serviceKeys, type PortalLocale, type PortalText } from '../lib/portal-i18n';
+import { approvedRoles, checklistItems, portalHeader, requestStatuses, type ApprovedRole, type CleaningRequest, type CleaningRequestInput, type PortalDashboard, type PortalPage, type PortalProfile, type PortalRole, type PortalSession, type RequestPatch, type RequestStatus, type RoleInput } from '../lib/portal-contract';
+import { frequencyOptions, locales, objectOptions, paginationLabels, portalMessages, serviceKeys, type PortalLocale, type PortalText } from '../lib/portal-i18n';
 import '../styles/portal.css';
 
 type Tab = 'overview' | 'requests' | 'newRequest' | 'people' | 'activity';
@@ -52,6 +52,11 @@ function PortalContent() {
   const [notice, setNotice] = createSignal('');
   const [error, setError] = createSignal('');
   const [filter, setFilter] = createSignal('all');
+  const [olderRequests, setOlderRequests] = createSignal<CleaningRequest[]>([]);
+  const [olderProfiles, setOlderProfiles] = createSignal<PortalProfile[]>([]);
+  const [requestAfter, setRequestAfter] = createSignal<string | null | undefined>(undefined);
+  const [profileAfter, setProfileAfter] = createSignal<string | null | undefined>(undefined);
+  const [paging, setPaging] = createSignal<'requests' | 'profiles' | null>(null);
   const t = createMemo(() => portalMessages[locale()]);
   onMount(() => {
     try { const requested = new URLSearchParams(location.search).get('lang'); const saved = requested ?? localStorage.getItem('knaba-portal-language'); if (locales.includes(saved as PortalLocale)) setLocale(saved as PortalLocale); } catch { /* Language preference is optional. */ }
@@ -59,15 +64,74 @@ function PortalContent() {
   });
   const session = createQuery(() => ({ queryKey: ['knaba-session'], queryFn: ({signal}) => api<PortalSession>('/api/portal/session','GET',undefined,signal), enabled: ready(), retry: false, staleTime: 10_000, refetchOnWindowFocus: true, refetchInterval: 30_000, networkMode:'always' as const }));
   const role = () => session.data?.role ?? 'anonymous';
+  const identityKey = createMemo(() => (session.data?.user?.id ?? 'anonymous') + '|' + role());
+  let pageEpoch = 0;
+  createEffect(() => {
+    // The memo prevents periodic session refetches from discarding loaded pages.
+    void identityKey();
+    pageEpoch++;
+    setOlderRequests([]); setOlderProfiles([]);
+    setRequestAfter(undefined); setProfileAfter(undefined);
+  });
   const authorized = () => ['owner','admin','worker','client'].includes(role());
   const dashboard = createQuery(() => ({ queryKey: ['knaba-dashboard',session.data?.user?.id,role(),session.data?.profile?.version], queryFn: ({signal}) => api<PortalDashboard>('/api/portal/dashboard','GET',undefined,signal), enabled: ready() && authorized(), retry:false, staleTime:10_000, refetchOnWindowFocus:true, networkMode:'always' as const }));
-  const requests = () => dashboard.data?.requests ?? [];
-  const profiles = () => dashboard.data?.profiles ?? [];
+  const requests = createMemo(() => {
+    const latest = dashboard.data?.requests ?? [];
+    const ids = new Set(latest.map(item => item.id));
+    return [...latest, ...olderRequests().filter(item => !ids.has(item.id))];
+  });
+  const profiles = createMemo(() => {
+    const latest = dashboard.data?.profiles ?? [];
+    const ids = new Set(latest.map(item => item.id));
+    return [...latest, ...olderProfiles().filter(item => !ids.has(item.id))];
+  });
+  function cursorFor(kind: 'requests' | 'profiles'): string | null {
+    const explicit = kind === 'requests' ? requestAfter() : profileAfter();
+    if (explicit !== undefined) return explicit;
+    const canLoad = kind === 'requests' ? dashboard.data?.requestMore : dashboard.data?.profilesMore;
+    const items = kind === 'requests' ? dashboard.data?.requests : dashboard.data?.profiles;
+    const last = items?.at(-1);
+    if (!canLoad || !last) return null;
+    const date = kind === 'requests' ? last.updatedAt : last.createdAt;
+    return date + '|' + encodeURIComponent(last.id);
+  }
+  async function loadMore(kind: 'requests' | 'profiles') {
+    if (paging() || busy() || dashboard.isFetching) return;
+    const after = cursorFor(kind);
+    if (!after) return;
+    const originalIdentity = identityKey(), originalEpoch = pageEpoch;
+    setPaging(kind); setError('');
+    try {
+      if (kind === 'requests') {
+        const page = await api<PortalPage<CleaningRequest>>('/api/portal/requests?after=' + encodeURIComponent(after));
+        if (originalIdentity !== identityKey() || originalEpoch !== pageEpoch) return;
+        setOlderRequests(previous => {
+          const existing = new Set(previous.map(item => item.id));
+          return [...previous, ...page.items.filter(item => !existing.has(item.id))];
+        });
+        setRequestAfter(page.nextAfter);
+      } else {
+        const page = await api<PortalPage<PortalProfile>>('/api/portal/profiles?after=' + encodeURIComponent(after));
+        if (originalIdentity !== identityKey() || originalEpoch !== pageEpoch) return;
+        setOlderProfiles(previous => {
+          const existing = new Set(previous.map(item => item.id));
+          return [...previous, ...page.items.filter(item => !existing.has(item.id))];
+        });
+        setProfileAfter(page.nextAfter);
+      }
+    } catch (problem) {
+      setError(errorMessage(problem, t()));
+      if (problem instanceof PortalError && [401, 403, 409].includes(problem.status)) await refresh();
+    } finally { setPaging(null); }
+  }
   const isManager = () => role() === 'owner' || role() === 'admin';
   const filteredRequests = () => requests().filter((item) => filter() === 'all' || item.status === filter());
   const heading = () => role() === 'worker' ? t().assignedJobs : role() === 'client' ? t().yourRequests : t().allRequests;
   const currentTab = () => (tab() === 'people' || tab() === 'activity') && role() !== 'owner' || tab() === 'newRequest' && role() !== 'client' ? 'overview' : tab();
   async function refresh() {
+    pageEpoch++;
+    setOlderRequests([]); setOlderProfiles([]);
+    setRequestAfter(undefined); setProfileAfter(undefined);
     await cache.invalidateQueries({ queryKey:['knaba-session'] });
     await cache.invalidateQueries({ queryKey:['knaba-dashboard'] });
   }
@@ -114,8 +178,13 @@ function PortalContent() {
               <Switch>
                 <Match when={currentTab()==='overview'}><div class="portal-metrics"><div class="portal-metric"><span>{role()==='worker'?t().assignedJobs:t().total}</span><strong>{requests().length}</strong></div><div class="portal-metric portal-metric-lilac"><span>{t().open}</span><strong>{requests().filter(r=>!['completed','cancelled'].includes(r.status)).length}</strong></div><div class="portal-metric portal-metric-coral"><span>{role()==='owner'?t().waiting:t().completedCount}</span><strong>{role()==='owner'?profiles().filter(p=>p.status==='pending').length:requests().filter(r=>r.status==='completed').length}</strong></div></div><div class="portal-next"><span class="portal-kicker">{t().nextStep}</span><h3>{role()==='client'?t().createRequestTitle:heading()}</h3><p>{roleGuide()}</p><button type="button" class="button button-dark" onClick={()=>chooseTab(role()==='client'?'newRequest':role()==='owner'?'people':'requests')}>{role()==='client'?t().newRequest:role()==='owner'?t().people:t().requests} →</button></div><p class="portal-small">{t().notificationNote}</p></Match>
                 <Match when={currentTab()==='newRequest' && role()==='client'}><RequestForm t={t} busy={busy} submit={async body=>{const result=await mutate('/api/portal/requests','POST',body,t().received);if(result)setTab('requests');return result;}} /></Match>
-                <Match when={currentTab()==='requests'}><div class="portal-list-toolbar"><label><span class="sr-only">{t().filterLabel}</span><select value={filter()} onChange={e=>setFilter(e.currentTarget.value)}><option value="all">{t().all}</option><For each={requestStatuses}>{status=><option value={status}>{t()[status]}</option>}</For></select></label><Show when={role()==='client'}><button type="button" class="button button-dark" onClick={()=>chooseTab('newRequest')}>＋ {t().newRequest}</button></Show></div><Show when={filteredRequests().length} fallback={<div class="portal-empty"><span class="portal-round-symbol" aria-hidden="true">▤</span><p>{role()==='worker'?t().emptyJobs:isManager()?t().emptyAdmin:t().emptyRequests}</p></div>}><div class="portal-request-list"><For each={filteredRequests()}>{request=><RequestCard request={request} profiles={profiles()} role={role()} t={t} locale={locale} busy={busy} patch={(body)=>mutate(`/api/portal/requests/${encodeURIComponent(request.id)}`,'PATCH',body,t().requestUpdated)} />}</For></div></Show></Match>
-                <Match when={currentTab()==='people' && role()==='owner'}><p>{t().ownerOnly}</p><Show when={profiles().length} fallback={<div class="portal-empty">{t().noProfiles}</div>}><div class="portal-profile-list"><For each={profiles()}>{profile=><ProfileCard profile={profile} t={t} locale={locale} busy={busy} submit={body=>mutate('/api/portal/roles','POST',body,t().roleChanged)} />}</For></div></Show></Match>
+                <Match when={currentTab()==='requests'}><div class="portal-list-toolbar"><label><span class="sr-only">{t().filterLabel}</span><select value={filter()} onChange={e=>setFilter(e.currentTarget.value)}><option value="all">{t().all}</option><For each={requestStatuses}>{status=><option value={status}>{t()[status]}</option>}</For></select></label><Show when={role()==='client'}><button type="button" class="button button-dark" onClick={()=>chooseTab('newRequest')}>＋ {t().newRequest}</button></Show></div><Show when={filteredRequests().length} fallback={<div class="portal-empty"><span class="portal-round-symbol" aria-hidden="true">▤</span><p>{role()==='worker'?t().emptyJobs:isManager()?t().emptyAdmin:t().emptyRequests}</p></div>}><div class="portal-request-list"><For each={filteredRequests()}>{request=><RequestCard request={request} profiles={profiles()} role={role()} t={t} locale={locale} busy={busy} patch={(body)=>mutate(`/api/portal/requests/${encodeURIComponent(request.id)}`,'PATCH',body,t().requestUpdated)} />}</For></div></Show>
+                  <Show when={cursorFor('requests')}><div class="portal-form-actions"><button type="button" class="button button-outline" disabled={Boolean(paging()) || busy() || dashboard.isFetching} onClick={() => void loadMore('requests')}>{paging()==='requests'?t().loading:paginationLabels[locale()].older}</button></div></Show>
+                  <Show when={isManager() && cursorFor('profiles')}><div class="portal-form-actions"><button type="button" class="button button-outline" disabled={Boolean(paging()) || busy() || dashboard.isFetching} onClick={() => void loadMore('profiles')}>{paging()==='profiles'?t().loading:paginationLabels[locale()].workers}</button></div></Show>
+                </Match>
+                <Match when={currentTab()==='people' && role()==='owner'}><p>{t().ownerOnly}</p><Show when={profiles().length} fallback={<div class="portal-empty">{t().noProfiles}</div>}><div class="portal-profile-list"><For each={profiles()}>{profile=><ProfileCard profile={profile} t={t} locale={locale} busy={busy} submit={body=>mutate('/api/portal/roles','POST',body,t().roleChanged)} />}</For></div></Show>
+                  <Show when={cursorFor('profiles')}><div class="portal-form-actions"><button type="button" class="button button-outline" disabled={Boolean(paging()) || busy() || dashboard.isFetching} onClick={() => void loadMore('profiles')}>{paging()==='profiles'?t().loading:paginationLabels[locale()].older}</button></div></Show>
+                </Match>
                 <Match when={currentTab()==='activity' && role()==='owner'}><Show when={dashboard.data?.audit.length} fallback={<div class="portal-empty">{t().noAudit}</div>}><div class="portal-audit"><For each={dashboard.data?.audit}>{event=><article><span class="portal-audit-dot" aria-hidden="true"/><div><strong>{event.action.startsWith('role.') ? `${t().audit_role_updated}${event.action.startsWith('role.approved.') ? ` · ${t()[event.action.split('.')[2] as ApprovedRole]}` : ` · ${t().suspended}`}` : t()[`audit_${event.action.replace(/\./g,'_')}` as keyof PortalText] ?? t().requestUpdated}</strong><p class="portal-small">{t().auditEntity}: <span class="portal-code">{event.entityId}</span></p><p class="portal-small">{t().auditActor}: {profiles().find(p=>p.id===event.actorId)?.name ?? (event.actorId===session.data?.user?.id ? t().owner : event.actorId)}</p></div><time datetime={event.createdAt}>{dateLabel(event.createdAt,locale())}</time></article>}</For></div></Show></Match>
               </Switch>
             </Show>

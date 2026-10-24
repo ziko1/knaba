@@ -28,7 +28,10 @@ export interface PortalDashboard {
   /** Owner sees all profiles; admin sees only approved workers for assignment. */
   profiles: PortalProfile[]; audit: AuditEvent[];
   limited: boolean;
+  requestMore: boolean; profilesMore: boolean;
 }
+/** An opaque sorting cursor is never an authorization token. */
+export interface PortalPage<T> { items: T[]; nextAfter: string | null }
 export interface RegistrationInput { name: string; requestedRole: "client" | "worker"; privacyAccepted: true }
 export interface CleaningRequestInput {
   service: string; objectType: string; postcode: string; area: string; frequency: string;
@@ -42,8 +45,9 @@ export interface RequestPatch {
 }
 export interface RoleInput { userId: string; role: ApprovedRole | null; status: "approved" | "suspended"; version: number }
 export interface ApiError { error: { code: string; message: string; fields?: Record<string, string> } }
-/** GET session; POST register; GET dashboard; POST requests; PATCH requests/:id;
- * POST roles; POST /api/leads. Successful mutations return {profile}, {request},
+/** GET session/dashboard; POST register/roles/requests; PATCH requests/:id;
+ * GET requests/profiles?after=<opaque-sort-cursor> (50 rows, role scoped);
+ * POST /api/leads. Successful mutations return {profile}, {request},
  * or for public leads {id,received:true}. Replays return the same record.
  * Request mutations require JSON, matching Origin and portalHeader.
  * Errors: 400/422 invalid, 401 login, 403 permission, 404 hidden/not found,
