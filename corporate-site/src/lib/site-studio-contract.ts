@@ -37,7 +37,7 @@ export function validateStudioEntries(input: unknown): StudioEntry[] {
     if((selector==='@title'||selector==='@description') && kind!=='text') return reject('SEO-Felder erlauben nur Text.');
     if(selector==='@title' && (!value.trim() || value.length>100)) return reject('Der Seitentitel muss zwischen 1 und 100 Zeichen enthalten.');
     if(selector==='@description' && value.length>250) return reject('Die Seitenbeschreibung ist zu lang.');
-    if(kind==='src' && (element!=='img' || !/^\/images\/[a-z0-9/_-]+\.(?:svg|png|jpe?g|webp|avif)$/.test(value))) return reject('Nur veröffentlichte Medien derselben Website sind erlaubt.');
+    if(kind==='src' && (element!=='img' || !/^\/(?:images|illustrations)\/[a-z0-9/_-]+\.(?:svg|png|jpe?g|webp|avif)$/.test(value))) return reject('Nur veröffentlichte Medien derselben Website sind erlaubt.');
     if(kind==='alt' && element!=='img') return reject('Alternativtext ist nur für Bilder erlaubt.');
     if(kind==='href' && (element!=='a' || !safeStudioHref(value))) return reject('Dieser Link ist nicht erlaubt.');
     if(kind==='color' && !/^#[0-9a-fA-F]{6}$/.test(value)) return reject('Bitte eine sechsstellige HEX-Farbe eingeben.');

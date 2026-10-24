@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { serviceArtwork } from "../../data/service-artwork";
 import Icon from "../../components/Icon.astro";
 import { services } from "../../data/company";
 ---
@@ -30,6 +31,7 @@ import { services } from "../../data/company";
                   <span class="service-number">0{i + 1}</span>
                 </>
               </div>
+              <img class="service-card-art" src={serviceArtwork[s.slug].src} alt={serviceArtwork[s.slug].alt.de} width="720" height="500" loading="lazy" decoding="async" />
               <span class="eyebrow">{s.tag}</span>
               <h2>{s.name}</h2>
               <p>{s.description}</p>

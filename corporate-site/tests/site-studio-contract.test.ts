@@ -36,6 +36,7 @@ describe('KNABA Site Studio input and publication rules', () => {
       expect(()=>validateStudioEntries([{selector:image,kind:'src',value:src}])).toThrow(StudioInputError);
     }
     expect(validateStudioEntries([{selector:image,kind:'src',value:'/images/cleaner.svg'}])).toHaveLength(1);
+    expect(validateStudioEntries([{selector:image,kind:'src',value:'/illustrations/baureinigung.svg'}])).toHaveLength(1);
     expect(validateStudioEntries([{selector:link,kind:'href',value:'/kontakt/'}])).toHaveLength(1);
   });
   it('enforces kind/tag consistency and safe color values',()=>{

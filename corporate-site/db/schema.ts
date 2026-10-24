@@ -99,3 +99,24 @@ export const studioAiBudget = sqliteTable('studio_ai_budget',{
   reservedCents: integer('reserved_cents').notNull().default(0),
   requestCount: integer('request_count').notNull().default(0),
 }, t=>[primaryKey({columns:[t.day,t.scope]})]);
+
+
+/** Sales pipeline metadata lives in the corporate D1-style store; orders remain in the ERP. */
+export const crmContactState = sqliteTable('crm_contact_state', {
+  contactKey:text('contact_key').primaryKey(),
+  stage:text('stage').notNull().default('new'),
+  tagsJson:text('tags_json').notNull().default('[]'),
+  version:integer('version').notNull().default(1),
+  updatedBy:text('updated_by').notNull(),
+  updatedAt:text('updated_at').notNull(),
+  lastMutation:text('last_mutation').notNull(),
+});
+export const crmContactNotes = sqliteTable('crm_contact_notes',{
+  id:text('id').primaryKey(),
+  contactKey:text('contact_key').notNull(),
+  body:text('body').notNull(),
+  actorId:text('actor_id').notNull(),
+  idempotencyKey:text('idempotency_key').notNull(),
+  createdAt:text('created_at').notNull(),
+},t=>[uniqueIndex('crm_note_idempotency').on(t.contactKey,t.actorId,t.idempotencyKey),
+  index('crm_note_contact_recent').on(t.contactKey,t.createdAt)]);

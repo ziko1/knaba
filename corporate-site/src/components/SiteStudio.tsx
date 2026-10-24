@@ -165,7 +165,7 @@ export default function SiteStudio(){
   return <div class="knaba-studio" lang={language()}>
     <header class="studio-top">
       <div class="studio-brand"><span class="studio-mark" aria-hidden="true">✳</span><div><strong>KNABA</strong><span>{t().studio} · {t().owner}</span></div></div>
-      <div class="studio-top-actions"><label class="studio-small-label" for="studio-language">Language</label><select id="studio-language" value={language()} onChange={event=>setLanguage(event.currentTarget.value as Language)}><option value="de">DE</option><option value="ru">RU</option><option value="en">EN</option><option value="uk">UK</option></select><a href="/konto/">{t().portal} ↗</a></div>
+      <div class="studio-top-actions"><label class="studio-small-label" for="studio-language">Language</label><select id="studio-language" value={language()} onChange={event=>setLanguage(event.currentTarget.value as Language)}><option value="de">DE</option><option value="ru">RU</option><option value="en">EN</option><option value="uk">UK</option></select><a href="/crm/">CRM ↗</a><a href="/postfach/">✉</a><a href="/konto/">{t().portal} ↗</a></div>
     </header>
     <Show when={checking()}><div class="studio-gate" role="status">{t().loading}</div></Show>
     <Show when={!checking()&&!authorized()}><div class="studio-gate" role="alert"><h2>{t().denied}</h2><a class="button button-dark" href="/konto/">{t().portal} ↗</a></div></Show>

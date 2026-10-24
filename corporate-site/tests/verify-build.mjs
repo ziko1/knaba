@@ -49,7 +49,7 @@ for (const file of pages) {
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!official || /konto|postfach|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!official || /konto|postfach|studio|crm|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);

@@ -4,6 +4,7 @@ import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
 import type { D1Database, D1Statement, WorkerEnv, WorkerContext } from './types';
 import { handleAssistant } from './assistant';
 import { handleStudio, StudioFault } from './studio';
+import { handleCrmApi } from './crm';
 
 type Row = Record<string, unknown>;
 const PRIVACY_VERSION = '2026-10-24';
@@ -251,6 +252,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path==='/api/leads'&&request.method==='POST')return await createRequest(request,env,null);
     if(path==='/api/studio/published' && request.method==='GET') return await handleStudio(request,env,{owner:false,id:null},req=>readBody(req,32768));
     const s=await session(request,env);
+    if(path.startsWith('/api/crm/'))return await handleCrmApi(request,env,s,{readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit)});
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
     if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null},ctx);
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
