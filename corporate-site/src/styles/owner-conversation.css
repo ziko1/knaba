@@ -14,7 +14,7 @@
 .knaba-owner-recovery-code label,.knaba-owner-restore label{font-size:.86rem;font-weight:700}
 .knaba-owner-recovery-code input,.knaba-owner-restore input{width:100%;max-width:100%;min-width:0;background:#fff;border:1px solid #96afa0;border-radius:.6rem;padding:.75rem;color:#1b4138;font:inherit;font-size:.9rem}
 .knaba-owner-recovery-code input{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
-.knaba-owner-recovery-code button,.knaba-owner-restore button{justify-self:start;min-height:44px;max-width:100%;padding:.65rem .9rem;background:#fff;border:1px solid #a8bcb0;border-radius:.7rem;color:#23473a;font:700 .86rem/1.4 inherit;cursor:pointer}
+.knaba-owner-recovery-code button,.knaba-owner-restore button{justify-self:start;min-height:44px;max-width:100%;padding:.65rem .9rem;background:#fff;border:1px solid #a8bcb0;border-radius:.7rem;color:#23473a;font-family:inherit;font-size:.86rem;font-weight:700;line-height:1.4;cursor:pointer}
 .knaba-owner-recovery-code p{font-size:.83rem;line-height:1.5;color:#654c18;margin:.2rem 0}
 .knaba-owner-restore>div{display:flex;gap:.5rem;flex-wrap:wrap;align-items:stretch}
 .knaba-owner-restore>div>input{flex:1 1 13rem}
