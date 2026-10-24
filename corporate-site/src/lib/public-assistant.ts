@@ -90,7 +90,7 @@ function answerFromKnowledge(raw:string,locale:AssistantLocale,topic?:Topic):Ass
   if(/passwor|парол|customer data|kundendaten|private|приват|личн.{0,8}дан|admin|адмін|админ|ignore|ігнор|игнор/.test(question)) return {text:t.protected,links:contactLinks};
   if (constructionHelpPattern.test(question)) {
     const help = constructionHelpCopy[locale];
-    return {text:help.text,links:[{label:help.label,href:locale==='ru'?'/ru/kontakt/':'/kontakt/'}]};
+    return {text:help.text,links:[{label:help.label,href:'/kontakt/'}]};
   }
   if(topic==='price'||/preis|kost|price|cost|ц[іе]н|кошту|скільки|сколько|стоим|стоит|€|euro/.test(question))return {text:t.price,links:[inquiry]};
   if(topic==='contact'||/kontakt|contact|телефон|phone|email|e-mail|пошт|почт|контакт|whatsapp|вотсап|ватсап/.test(question))return {text:`${company.name} · ${company.street}, ${company.city}\n${company.phone}\n${company.email}`,links:contactLinks};
