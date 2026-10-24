@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { company } from '../../data/company';
+import { services } from '../../data/ru-content';
+import { siteConfig } from '../../data/site';
+const schema = { '@type': 'WebPage', name: 'Уборка зданий в Берлине и Бранденбурге', url: `${siteConfig.origin}/ru/berlin/`, about: { '@id': `${siteConfig.officialOrigin}/#business` }, inLanguage: 'ru' };
+---
+<Layout lang="ru" title="Уборка в Берлине и Бранденбурге: территория работы | KnaBa" description="KnaBa: уборка зданий, офисов, подъездов и строительных объектов в Берлине и Бранденбурге. Обсудите местоположение, объём и сроки." schema={schema} breadcrumbs={[{ name: 'Главная', url: '/ru/' }, { name: 'Берлин и Бранденбург', url: '/ru/berlin/' }]}>
+  <section class="container page-intro"><p class="eyebrow">МЫ РАБОТАЕМ В БЕРЛИНЕ</p><h1>Чистые помещения.<br /><span>В вашем регионе.</span></h1><p>KnaBa предлагает уборку зданий в Берлине и Бранденбурге. Обращайтесь по вопросам регулярного ухода за офисами и коммерческими помещениями, уборки подъездов, стекла и строительных объектов.</p><a href="/ru/kontakt/" class="button button-dark">Оставить заявку по объекту <Icon /></a></section>
+  <section class="container section section-tight detail-grid"><div><h2>Начинаем с расположения.<br />Потребности определяют план.</h2><p>Для офиса, жилого дома или стройки важны адрес, использование, площадь и нужные работы. Сообщите время доступа и особые условия на месте. Возможность обслуживания конкретного объекта и сроки согласуем лично.</p><p>Наш опубликованный адрес находится в Берлине. Для проектов в Бранденбурге расположение и объём также обсуждаем индивидуально. Без этих сведений нельзя надёжно обещать выезд или немедленное выполнение.</p><h3>С какими задачами можно обратиться</h3><ul class="check-list"><li><Icon name="check" size={20}/>Регулярная уборка офисных и коммерческих помещений</li><li><Icon name="check" size={20}/>Подъезды и общие помещения зданий</li><li><Icon name="check" size={20}/>Промежуточная, тщательная и окончательная уборка после строительства</li><li><Icon name="check" size={20}/>Мойка стекла, генеральная и специальная уборка по договорённости</li></ul></div><aside class="aside-card"><p class="eyebrow">ПРЯМАЯ СВЯЗЬ</p><h2>KnaBa в Берлине</h2><address>{company.street}<br />{company.city}</address><a class="text-link" href={company.phoneHref}><Icon name="phone" size={18}/>{company.phone}</a><a class="text-link" href={`mailto:${company.email}`}>{company.email} <Icon size={18}/></a><p class="visit-note">Пожалуйста, договаривайтесь о личных встречах заранее.</p></aside></section>
+  <section class="container section section-tight"><div class="section-heading"><div><p class="eyebrow">С УЧЁТОМ ВАШЕГО ОБЪЕКТА</p><h2>Наши услуги по уборке</h2></div><p>Условия и возможность выполнения согласовываются индивидуально.</p></div><div class="related-links">{services.map((service) => <a href={`/ru/leistungen/${service.slug}/`}>{service.name}<Icon size={18}/></a>)}</div></section>
+  <section class="container region-planning"><div><p class="eyebrow">ЧТО УКАЗАТЬ В ЗАЯВКЕ</p><h2>Четыре пункта.<br />Хорошее начало.</h2></div><ol><li><strong>Где?</strong><span>Адрес или почтовый индекс объекта.</span></li><li><strong>Что?</strong><span>Тип объекта, примерная площадь и нужная услуга.</span></li><li><strong>Когда?</strong><span>Желаемое начало, частота и возможное время.</span></li><li><strong>Какие особенности?</strong><span>Доступ, материал, этап стройки и другие требования.</span></li></ol></section>
+  <section class="container cta-banner"><div><p class="eyebrow">ГОТОВИМСЯ ВМЕСТЕ</p><h2>Ваша уборка<br />начинается с плана.</h2></div><a class="button button-dark" href="/ru/planer/">Выбрать услугу в планировщике <Icon /></a></section>
+</Layout>
+<style>
+  address { font-style: normal; line-height: 1.8; margin: 24px 0; }
+  .aside-card { align-self: start; }
+  .aside-card .text-link { display: flex; overflow-wrap: anywhere; }
+  .visit-note { margin: 20px 0 0; }
+  .region-planning { margin-block: 28px 80px; background: #e5edf7; padding: clamp(26px, 5vw, 58px); border-radius: 22px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+  .region-planning ol { margin: 0; padding-left: 24px; }
+  .region-planning li { padding: 12px 0 16px 8px; border-bottom: 1px solid #c6d5de; }
+  .region-planning li:first-child { padding-top: 0; }
+  .region-planning li:last-child { border-bottom: 0; }
+  .region-planning strong { display: block; font-size: 18px; margin-bottom: 6px; }
+  .region-planning span { display: block; font-size: 14px; color: var(--muted); line-height: 1.7; }
+  @media (max-width: 700px) { .region-planning { grid-template-columns: 1fr; gap: 20px; } }
+</style>

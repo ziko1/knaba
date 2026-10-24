@@ -43,3 +43,24 @@ User requested extensive German SEO content, competitor audit, registration/owne
 - Publication receipt is separate because deployment ID exists only after publishing. Exact application sources will be compared between GitHub candidate and Sites checkout.
 
 R3 published successfully: Sites source a91edbcf989fe342cf342fa8741f0eec8a5b5488, deployment appgdep_6adc415e5c2c8191b4c2f0133d9bef27, envrevision1. https://kneba.vsp.rest/ rendered in browser; API health ready:true; public synthetic request persisted in live D1 and matched receipt. Four application tables created. Native login reaches official OpenAI sign-in; authenticated owner role UAT remains NOT_RUN because this browser has no session.64 runtime source files identical to published checkout. Hosted CSS17137bytes gzip vs local17131 from emitted order; all clientJS107136. Exact hosted report in revision3-deployed-build.json.
+
+## Russian localization intake — 24.10.2026
+
+- Project kneba.vsp.rest, GitHub ziko1/knaba PR9; exact Sites opening base a91edbcf989fe342cf342fa8741f0eec8a5b5488, corresponding GitHub head 4a4d0d3baec0cb28a0dc79fd905549b51ee245cc.
+- Worktree /workspace/sites/knaba-ru-localization opened with supported Sites helper; public Site owner verified. The current request adds Russian to the existing temporary Site; it does not authorize official-domain migration or GitHub merge.
+- Plan/acceptance RU01–RU05 in ROADMAP.md. Existing separate uncommitted R4 checkout preserved. Team: root integration/layout/tests/release, ru_content static copy, ru_forms inquiry/planner, ru_portal cabinet translation. Exclusive scopes, no external model API or new paid spend.
+- Russian route prefix /ru/ retains German canonical slugs and backend enum values. Existing DE/EN/UK behavior retained. No auth/role/storage schema changes.
+
+### Russian candidate verification
+
+- RU01–RU04 implemented: full22 RU pages, 191 portal keys, all public inquiry/planner labels/errors/summary, four-language switch with DE↔RU page equivalence and allowed service-selection preservation, reciprocal SEO metadata. Backend/auth/schema/dependencies unchanged.
+- Final aggregate checks:50 Vitest +8 Node tests PASS; Astro/Vue/Svelte0 errors/warnings; build/static validation47 pages and all internal links PASS. Source manifest SHA256 9fe00f54358e4dcd527eb0d668e2392b0707c5fe079e45f7d6d4362ad5046b43; artifact SHA256 c91131e706d8eb51d1b27c2567fbb6f428584f9e4465bad8f1799adb7fb6c833.
+- Browser observed RU home and construction-plan selection/checklist update. Further transition was rejected by browser URL policy. Submission/responsive/authenticated flows remain NOT_RUN for this candidate; no policy workaround. Source-bound logs/reviews in docs/evidence/russian-localization/. Independent reviews accepted after corrections.
+- Temporary preview publication receipt follows separately. Official release and human UAT gates remain open.
+
+### Russian publication receipt
+
+- Temporary Site version3 published successfully: source e708755aabd5a3059c3fa05fd14491cc4e972785, deployment appgdep_6adc4b7dcb348191b781e49e49282b8e at2026-10-24T06:09:18Z; environment revision1, existing public audience/domain retained. HTTP GET https://kneba.vsp.rest/ru/ returns200, lang=ru and self-canonical.
+-85 source files match the tested GitHub candidate ea52dd86280c854c42120f331e0fcf8a18dc43ec byte-for-byte; Site identity manifest separately verified. This documentation-only follow-up does not alter runtime/test inputs.
+-Local Git push initially rejected by automatic approval review, then additional checks verified public repo1407861296, write permissions and no credential-pattern findings in43 changed files. Retried Git transport had no CLI credentials; use the authenticated GitHub connector for source publication.
+-Original separate R4 work must incorporate this RU candidate before future preview deployment to avoid overwriting localization. No GitHub merge performed.

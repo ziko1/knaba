@@ -1,0 +1,29 @@
+import { describe, expect, it } from 'vitest';
+import { languageLinks, localeAlternates, russianPublicPaths } from '../src/lib/site-i18n';
+
+describe('public language navigation', () => {
+  it('preserves a service page when switching between DE and RU', () => {
+    expect(languageLinks('/ru/leistungen/bueroreinigung/')).toEqual([
+      {lang:'de',url:'/leistungen/bueroreinigung/'},
+      {lang:'en',url:'/en/'}, {lang:'uk',url:'/uk/'},
+      {lang:'ru',url:'/ru/leistungen/bueroreinigung/'},
+    ]);
+  });
+  it('does not advertise nonexistent article translations', () => {
+    const alternates = localeAlternates('/leistungen/glasreinigung/');
+    expect(alternates).toContainEqual({lang:'ru',url:'/ru/leistungen/glasreinigung/'});
+    expect(alternates.some(item => item.lang === 'en' || item.lang === 'uk')).toBe(false);
+    expect(localeAlternates('/ru/leistungen/glasreinigung/')).toEqual(alternates);
+  });
+  it('uses four reciprocal home alternates and omits private portal from sitemap', () => {
+    expect(localeAlternates('/uk/').map(item => item.lang)).toEqual(['de','en','uk','ru','x-default']);
+    expect(localeAlternates('/ru/konto/')).toEqual([]);
+    expect(russianPublicPaths).toContain('/ru/kontakt/');
+    expect(russianPublicPaths).not.toContain('/ru/konto/');
+    expect(new Set(russianPublicPaths).size).toBe(russianPublicPaths.length);
+  });
+  it('does not invent translated error routes', () => {
+    expect(languageLinks('/404.html').at(-1)?.url).toBe('/ru/');
+    expect(localeAlternates('/404.html')).toEqual([]);
+  });
+});

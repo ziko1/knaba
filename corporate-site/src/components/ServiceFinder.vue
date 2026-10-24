@@ -3,10 +3,14 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 import { objectChoices, needChoices, getService } from "../lib/planner";
 import { useFinderStore } from "../stores/finder";
 import { plannerStore } from "../stores/planner";
+import { publicText, type PublicLocale } from "../lib/public-i18n";
+
+const props = withDefaults(defineProps<{ locale?: PublicLocale }>(), { locale: "de" });
+const t = (text: string) => publicText(text, props.locale);
 
 const finder = useFinderStore();
 const selected = ref(plannerStore.getState().service);
-const suggestion = computed(() => getService(finder.recommendation));
+const suggestion = computed(() => getService(finder.recommendation, props.locale));
 let unsubscribe: (() => void) | undefined;
 onMounted(() => {
   selected.value = plannerStore.getState().service;
@@ -18,29 +22,29 @@ function choose() { plannerStore.getState().selectService(suggestion.value.slug)
 
 <template>
   <section class="finder" aria-labelledby="finder-heading">
-    <div class="tool-kicker"><span>01</span> PASSENDE LEISTUNG FINDEN</div>
-    <h2 id="finder-heading">Was braucht Ihr Objekt?</h2>
-    <p class="intro">Zwei Angaben helfen bei der Orientierung. Den genauen Umfang stimmen wir persönlich ab.</p>
+    <div class="tool-kicker"><span>01</span> {{ t("PASSENDE LEISTUNG FINDEN") }}</div>
+    <h2 id="finder-heading">{{ t("Was braucht Ihr Objekt?") }}</h2>
+    <p class="intro">{{ t("Zwei Angaben helfen bei der Orientierung. Den genauen Umfang stimmen wir persönlich ab.") }}</p>
     <fieldset>
-      <legend>Ihr Objekt</legend>
+      <legend>{{ t("Ihr Objekt") }}</legend>
       <div class="choices">
-        <button v-for="option in objectChoices" :key="option.value" type="button" :aria-pressed="finder.object === option.value" @click="finder.chooseObject(option.value)">{{ option.label }}</button>
+        <button v-for="option in objectChoices" :key="option.value" type="button" :aria-pressed="finder.object === option.value" @click="finder.chooseObject(option.value)">{{ t(option.label) }}</button>
       </div>
     </fieldset>
     <fieldset>
-      <legend>Ihr Schwerpunkt</legend>
+      <legend>{{ t("Ihr Schwerpunkt") }}</legend>
       <div class="choices">
-        <button v-for="option in needChoices" :key="option.value" type="button" :aria-pressed="finder.need === option.value" @click="finder.chooseNeed(option.value)">{{ option.label }}</button>
+        <button v-for="option in needChoices" :key="option.value" type="button" :aria-pressed="finder.need === option.value" @click="finder.chooseNeed(option.value)">{{ t(option.label) }}</button>
       </div>
     </fieldset>
     <div class="recommendation" aria-live="polite" aria-atomic="true">
-      <span class="recommendation-label">UNSERE ORIENTIERUNGSHILFE</span>
+      <span class="recommendation-label">{{ t("UNSERE ORIENTIERUNGSHILFE") }}</span>
       <h3>{{ suggestion.name }}</h3>
       <p>{{ suggestion.description }}</p>
-      <button class="button button-dark" type="button" @click="choose">{{ selected === suggestion.slug ? 'Im Plan ausgewählt ✓' : 'Für meinen Plan auswählen →' }}</button>
-      <a :href="`/leistungen/${suggestion.slug}/`">Leistung im Detail ansehen ↗</a>
+      <button class="button button-dark" type="button" @click="choose">{{ selected === suggestion.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →") }}</button>
+      <a :href="`${props.locale === 'ru' ? '/ru' : ''}/leistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
     </div>
-    <p class="note">Nur eine Orientierungshilfe. Keine automatische Buchung und keine Preiszusage.</p>
+    <p class="note">{{ t("Nur eine Orientierungshilfe. Keine automatische Buchung und keine Preiszusage.") }}</p>
   </section>
 </template>
 

@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import { sectors } from "../../data/ru-content";
+---
+
+<Layout lang="ru"
+  title="Уборка для вашей отрасли | KnaBa"
+  description="Уборка для компаний, управляющих организаций, строительства, образования, торговли и учреждений ухода в Берлине и Бранденбурге."
+  ><section class="container page-intro">
+    <p class="eyebrow">ВАША ОТРАСЛЬ</p><h1>
+      Разные помещения.<br /><span>Одинаковое внимание.</span>
+    </h1><p>
+      Требования офиса отличаются от подъезда или стройплощадки. Мы подбираем уборку с учётом использования вашего объекта.
+    </p>
+  </section><section class="container section section-tight">
+    <div class="sector-grid">
+      {
+        sectors.map(([t, d], i) => (
+          <article>
+            <>
+              <span class="service-number">0{i + 1}</span>
+              <h2>{t}</h2>
+              <p>{d}</p>
+              <a href="/ru/kontakt/" class="text-link">
+                Обсудить потребности <Icon size={18} />
+              </a>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section><section class="container cta-banner">
+    <div>
+      <h2>У вашего объекта особые требования?<br />Давайте их обсудим.</h2>
+    </div><a href="/ru/kontakt/" class="button button-dark"
+      >Связаться с нами <Icon /></a>
+  </section></Layout
+>

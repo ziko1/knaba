@@ -1,3 +1,4 @@
+import { russianPublicPaths } from '../lib/site-i18n';
 import { siteConfig } from '../data/site';
 import { services } from '../data/company';
 import { guides } from '../data/seo-content';
@@ -6,7 +7,7 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = () => {
   // A sitemap contains indexable pages only. The temporary release is noindex.
   const paths = siteConfig.temporary ? [] : [
-    '/', '/en/', '/uk/', '/leistungen/', '/branchen/', '/unternehmen/', '/karriere/',
+    '/', '/en/', '/uk/', ...russianPublicPaths, '/leistungen/', '/branchen/', '/unternehmen/', '/karriere/',
     '/kontakt/', '/planer/', '/impressum/', '/datenschutz/', '/berlin/', '/ratgeber/',
     ...services.map(s => `/leistungen/${s.slug}/`),
     ...guides.map(g => `/ratgeber/${g.slug}/`),

@@ -2,11 +2,15 @@
   import { onMount } from "svelte";
   import { getService, getPreparation } from "../lib/planner";
   import { plannerStore } from "../stores/planner";
+  import { publicText, type PublicLocale } from "../lib/public-i18n";
+
+  let { locale = "de" }: { locale?: PublicLocale } = $props();
+  const t = (text: string) => publicText(text, locale);
 
   let selected = $state(plannerStore.getState().service);
   let checked = $state<string[]>([]);
-  const service = $derived(getService(selected));
-  const preparation = $derived(getPreparation(selected));
+  const service = $derived(getService(selected, locale));
+  const preparation = $derived(getPreparation(selected, locale));
   const completed = $derived(checked.filter((item) => preparation.includes(item)).length);
   onMount(() => {
     selected = plannerStore.getState().service;
@@ -21,15 +25,15 @@
 </script>
 
 <section class="checklist" aria-labelledby="checklist-heading">
-  <div class="tool-kicker"><span>02</span> GUT VORBEREITET ANFRAGEN</div>
-  <h2 id="checklist-heading">Ihr Reinigungsplan.</h2>
-  <p class="intro">Eine kleine Merkliste für das erste Gespräch.</p>
+  <div class="tool-kicker"><span>02</span> {t("GUT VORBEREITET ANFRAGEN")}</div>
+  <h2 id="checklist-heading">{t("Ihr Reinigungsplan.")}</h2>
+  <p class="intro">{t("Eine kleine Merkliste für das erste Gespräch.")}</p>
   <div class="selected-service" aria-live="polite" aria-atomic="true">
-    <span>AUSGEWÄHLTE LEISTUNG</span>
+    <span>{t("AUSGEWÄHLTE LEISTUNG")}</span>
     <h3>{service.name}</h3>
   </div>
   <fieldset>
-    <legend>Diese Angaben können Sie vorbereiten</legend>
+    <legend>{t("Diese Angaben können Sie vorbereiten")}</legend>
     {#each preparation as item}
       <label class:done={checked.includes(item)}>
         <input type="checkbox" value={item} bind:group={checked} />
@@ -38,12 +42,12 @@
     {/each}
   </fieldset>
   <div class="progress-line">
-    <p role="status">{completed} von {preparation.length} Punkten vorbereitet</p>
-    <button type="button" onclick={resetChecklist} disabled={completed === 0}>Zurücksetzen</button>
+    <p role="status">{locale === "ru" ? `Подготовлено: ${completed} из ${preparation.length}` : `${completed} von ${preparation.length} Punkten vorbereitet`}</p>
+    <button type="button" onclick={resetChecklist} disabled={completed === 0}>{t("Zurücksetzen")}</button>
   </div>
-  <progress max={preparation.length} value={completed} aria-label="Vorbereitete Angaben"></progress>
-  <a class="button button-dark" href={`/kontakt/?leistung=${selected}`}>Mit dieser Leistung anfragen →</a>
-  <p class="note">Die Leistung wird in die Anfrage übernommen. Häkchen bleiben nur auf dieser Seite und werden nicht übertragen. Sie können auch ohne vollständige Merkliste anfragen.</p>
+  <progress max={preparation.length} value={completed} aria-label={t("Vorbereitete Angaben")}></progress>
+  <a class="button button-dark" href={`${locale === "ru" ? "/ru" : ""}/kontakt/?leistung=${selected}`}>{t("Mit dieser Leistung anfragen →")}</a>
+  <p class="note">{t("Die Leistung wird in die Anfrage übernommen. Häkchen bleiben nur auf dieser Seite und werden nicht übertragen. Sie können auch ohne vollständige Merkliste anfragen.")}</p>
 </section>
 
 <style>

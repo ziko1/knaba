@@ -1,0 +1,27 @@
+{
+  "task": "KNABA-RU",
+  "baseSitesSha": "a91edbcf989fe342cf342fa8741f0eec8a5b5488",
+  "baseGitHubSha": "4a4d0d3baec0cb28a0dc79fd905549b51ee245cc",
+  "scope": "Russian localization of the existing temporary public Site",
+  "sourceState": "working-tree candidate bound by source-sha256.json; publication commit recorded separately",
+  "sourceManifestSha256": "9fe00f54358e4dcd527eb0d668e2392b0707c5fe079e45f7d6d4362ad5046b43",
+  "buildArtifactSha256": "c91131e706d8eb51d1b27c2567fbb6f428584f9e4465bad8f1799adb7fb6c833",
+  "checks": {
+    "typecheck": "PASS (Astro/Vue/Svelte; 0 errors/warnings)",
+    "vitest": "50/50 PASS",
+    "nodeTests": "8/8 PASS",
+    "staticBuild": "47 HTML pages; 22 Russian routes; internal links/canonical/reciprocal hreflang PASS",
+    "browserObserved": "DE to RU home; Russian planner; construction selection updated Russian checklist and localized inquiry link",
+    "browserNotRun": "Inquiry submission and responsive viewport matrix: cloud Browser URL policy rejected further action; no workaround attempted. Authenticated role flows and physical devices NOT_RUN."
+  },
+  "review": {
+    "rootLayout": "ru_portal; no remaining blocker after allowed service query preservation",
+    "publicForms": "ru_portal; parser/secure-ID localization findings resolved",
+    "portal": "ru_forms; terminology/area label findings resolved",
+    "publicContent": "ru_forms; mixed-language findings resolved; ru_portal final scan accepted",
+    "legalTranslation": "ru_portal; meaning/section fidelity PASS; no legal certification"
+  },
+  "externalPaidBudgetEur": 0,
+  "nativeRuntimeCost": "UNKNOWN",
+  "officialReleaseGates": "unchanged; human UAT, field data, legal/operator approval not certified"
+}

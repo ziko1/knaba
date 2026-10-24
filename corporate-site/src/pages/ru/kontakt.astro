@@ -1,0 +1,50 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import Inquiry from "../../components/Inquiry";
+import { company } from "../../data/company";
+---
+
+<Layout lang="ru"
+  title="Контакты и заявка на уборку | KnaBa Берлин"
+  breadcrumbs={[{name:"Главная",url:"/ru/"},{name:"Контакты",url:"/ru/kontakt/"}]}
+  description="Запросите уборку в KnaBa. Опишите объект или свяжитесь с нами по телефону +49 (30) 679 330 54 и адресу kontakt@knaba.de."
+>
+  <section class="container page-intro">
+    <p class="eyebrow">КОНТАКТЫ</p><h1>
+      Ваш объект.<br /><span>Наш следующий разговор.</span>
+    </h1><p>
+      Расскажите, какая уборка нужна. Или позвоните напрямую — обсудим ваши потребности лично.
+    </p>
+  </section>
+  <section class="container contact-layout">
+    <div class="contact-details">
+      <h2>Связаться с KnaBa.</h2><p>
+        Ваш контакт в Берлине и Бранденбурге.
+      </p><div class="contact-item">
+        <Icon name="phone" size={22} /><div>
+          <small>Телефон</small><a href={company.phoneHref}>{company.phone}</a>
+        </div>
+      </div><div class="contact-item">
+        <Icon name="mail" size={22} /><div>
+          <small>Электронная почта</small><a href={`mailto:${company.email}`}
+            >{company.email}</a>
+        </div>
+      </div><div class="contact-item">
+        <Icon name="pin" size={22} /><div>
+          <small>Адрес</small><p>{company.street}<br />{company.city}</p>
+        </div>
+      </div><p class="notice">
+        Три шага к заявке: выберите услугу, опишите объект, проверьте данные и отправьте. Регистрация не нужна. Это ещё не заказ и не подтверждение даты.
+      </p>
+    </div><div>
+      <Inquiry locale="ru" client:load /><noscript
+        ><div class="aside-card">
+          <h2>Запросить уборку</h2><p>
+            Сообщите нужную услугу, адрес объекта и способ обратной связи напрямую по электронной почте или телефону.
+          </p><a class="button button-dark" href={`mailto:${company.email}`}
+            >Написать письмо</a>
+        </div></noscript>
+    </div>
+  </section>
+</Layout>

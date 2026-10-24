@@ -34,8 +34,8 @@ for (const file of files) {
 for (const file of pages) {
   const html = await readFile(file, "utf8");
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
-  assert.match(html, /<html lang="(de|en|uk)"/);
-  if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт/);
+  assert.match(html, /<html lang="(de|en|uk|ru)"/);
+  if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
   if (!official || /konto|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
@@ -80,13 +80,30 @@ assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
+const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
+assert.equal(russianPages.length, 22, 'Full Russian public route tree plus portal');
+for (const file of russianPages) {
+  const html = await readFile(file, 'utf8');
+  const route = '/' + relative(root, file).replace(/index\.html$/, '');
+  assert.match(html, /<html lang="ru"/);
+  assert.ok(html.includes(`rel="canonical" href="${origin}${route}"`), `${route}: self canonical`);
+  assert.match(html, /property="og:locale" content="ru_RU"/);
+  assert.ok(html.includes('href="/ru/kontakt/"'), `${route}: Russian contact navigation`);
+  assert.ok(html.includes('href="/ru/konto/"'), `${route}: Russian portal navigation`);
+  if (route !== '/ru/konto/') {
+    const germanRoute = route.slice(3);
+    assert.ok(html.includes(`hreflang="de" href="${origin}${germanRoute}"`));
+    const german = await readFile(resolve(root, `.${germanRoute}index.html`), 'utf8');
+    assert.ok(german.includes(`hreflang="ru" href="${origin}${route}"`), `${route}: reciprocal alternate`);
+  }
+}
 const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'), 'utf8'));
 assert.equal(catalogue.version, 1);
 const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,official?23:0);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,official?44:0);
 if(official) assert.match(robots,/Sitemap: https:\/\/knaba\.de\/sitemap\.xml/);
 else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');

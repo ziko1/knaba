@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import { company } from "../../data/company";
+---
+
+<Layout lang="ru"
+  title="Работа и инициативные обращения | KnaBa"
+  description="Интересует работа в уборке зданий? Узнайте у KnaBa о текущих возможностях в Берлине и Бранденбурге."
+  ><section class="container page-intro">
+    <p class="eyebrow">РАБОТА В KNABA</p><h1>
+      Хорошая работа.<br /><span>Чистый результат.</span>
+    </h1><p>
+      Вы аккуратны, надёжны и интересуетесь уборкой зданий? Будем рады вашему обращению.
+    </p>
+  </section><section class="container section section-tight detail-grid">
+    <div>
+      <h2>Давайте познакомимся.</h2><p>
+        Узнайте о текущих возможностях для сотрудников по уборке. График, место работы и требования обсудим лично.
+      </p><p>
+        Для первого контакта достаточно имени, способа обратной связи и краткого сообщения об опыте и доступности. Не отправляйте на этом этапе паспортные данные или сведения о здоровье.
+      </p><a
+        href={`mailto:${company.email}?subject=%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%D0%B2%20KnaBa`}
+        class="button button-dark">Написать письмо <Icon name="mail" /></a>
+    </div><aside class="aside-card">
+      <h2>Узнать напрямую</h2><p>
+        О текущих возможностях можно узнать непосредственно в KnaBa.
+      </p><a href={company.phoneHref} class="text-link"
+        >{company.phone}<Icon name="phone" size={19} /></a>
+    </aside>
+  </section></Layout
+>
