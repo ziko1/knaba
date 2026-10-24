@@ -1,3 +1,5 @@
+import { OwnerInbox } from './OwnerConversation';
+import { conversationCopy } from '../lib/assistant-conversation';
 import { createRequestId } from "../lib/request-id";
 import { createMemo, createSignal, For, Match, onCleanup, onMount, Show, Switch, type Accessor } from 'solid-js';
 import { createQuery, QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/solid-query';
@@ -5,7 +7,7 @@ import { approvedRoles, checklistItems, portalHeader, requestStatuses, type Appr
 import { frequencyOptions, objectOptions, portalMessages, serviceKeys, resolvePortalLocale, portalReturnTo, portalPublicPath, formatPortalDate, type PortalLocale, type PortalText } from '../lib/portal-i18n';
 import '../styles/portal.css';
 
-type Tab = 'overview' | 'requests' | 'newRequest' | 'people' | 'activity';
+type Tab = 'overview' | 'requests' | 'newRequest' | 'people' | 'activity' | 'assistant';
 type Text = Accessor<PortalText>;
 class PortalError extends Error { constructor(public status: number, public code = '') { super(`Portal HTTP ${status}`); } }
 async function api<T>(path: string, method = 'GET', body?: unknown, signal?: AbortSignal): Promise<T> {
@@ -49,6 +51,7 @@ function PortalContent(props: {locale?: PortalLocale}) {
   const [error, setError] = createSignal('');
   const [filter, setFilter] = createSignal('all');
   const t = createMemo(() => portalMessages[locale()]);
+  const talk = createMemo(() => conversationCopy[locale()]);
   onMount(() => {
     const requested = new URLSearchParams(location.search).get('lang');
     let saved: string | null = null;
@@ -65,7 +68,7 @@ function PortalContent(props: {locale?: PortalLocale}) {
   const isManager = () => role() === 'owner' || role() === 'admin';
   const filteredRequests = () => requests().filter((item) => filter() === 'all' || item.status === filter());
   const heading = () => role() === 'worker' ? t().assignedJobs : role() === 'client' ? t().yourRequests : t().allRequests;
-  const currentTab = () => (tab() === 'people' || tab() === 'activity') && role() !== 'owner' || tab() === 'newRequest' && role() !== 'client' ? 'overview' : tab();
+  const currentTab = () => (tab() === 'people' || tab() === 'activity' || tab() === 'assistant') && role() !== 'owner' || tab() === 'newRequest' && role() !== 'client' ? 'overview' : tab();
   async function refresh() {
     await cache.invalidateQueries({ queryKey:['knaba-session'] });
     await cache.invalidateQueries({ queryKey:['knaba-dashboard'] });
@@ -106,16 +109,17 @@ function PortalContent(props: {locale?: PortalLocale}) {
       <Match when={authorized()}>
         <div class="portal-shell">
           <aside class="portal-sidebar"><div class="portal-person"><span class="portal-avatar" aria-hidden="true">{(session.data?.profile?.name ?? session.data?.user?.name ?? 'K').slice(0,1).toUpperCase()}</span><div><p class="portal-small">{t().profileCaption}</p><strong>{session.data?.profile?.name ?? session.data?.user?.name}</strong><span class="portal-role-label">{t()[role()]}</span></div></div>
-            <nav aria-label={t().portal}><For each={(['overview','requests',...(role()==='client'?['newRequest']:[]),...(role()==='owner'?['people','activity']:[])] as Tab[])}>{item=><button type="button" classList={{'portal-tab':true,'is-active':currentTab()===item}} aria-current={currentTab()===item?'page':undefined} onClick={()=>chooseTab(item)}><span aria-hidden="true">{{overview:'◈',requests:'▤',newRequest:'＋',people:'◎',activity:'↻'}[item]}</span>{t()[item]}<Show when={item==='people' && profiles().some(p=>p.status==='pending')}><span class="portal-count">{profiles().filter(p=>p.status==='pending').length}</span></Show></button>}</For></nav><p class="portal-sidebar-note">{t().security}</p>
+            <nav aria-label={t().portal}><For each={(['overview','requests',...(role()==='client'?['newRequest']:[]),...(role()==='owner'?['people','activity','assistant']:[])] as Tab[])}>{item=><button type="button" classList={{'portal-tab':true,'is-active':currentTab()===item}} aria-current={currentTab()===item?'page':undefined} onClick={()=>chooseTab(item)}><span aria-hidden="true">{{overview:'◈',requests:'▤',newRequest:'＋',people:'◎',activity:'↻',assistant:'✉'}[item]}</span>{item==='assistant'?talk().inbox:t()[item]}<Show when={item==='people' && profiles().some(p=>p.status==='pending')}><span class="portal-count">{profiles().filter(p=>p.status==='pending').length}</span></Show></button>}</For></nav><p class="portal-sidebar-note">{t().security}</p>
           </aside>
           <div class="portal-content">
-            <div class="portal-content-heading"><div><p class="portal-kicker">{t()[role()]}</p><h2>{currentTab()==='overview'?t().welcome:currentTab()==='requests'?heading():t()[currentTab()]}</h2></div><button type="button" class="portal-refresh" aria-label={t().refresh} disabled={dashboard.isFetching||busy()} onClick={()=>void refresh()}>↻ <span>{t().refresh}</span></button></div>
+            <div class="portal-content-heading"><div><p class="portal-kicker">{t()[role()]}</p><h2>{currentTab()==='overview'?t().welcome:currentTab()==='requests'?heading():currentTab()==='assistant'?talk().inbox:t()[currentTab() as Exclude<Tab,'assistant'>]}</h2></div><button type="button" class="portal-refresh" aria-label={t().refresh} disabled={dashboard.isFetching||busy()} onClick={()=>void refresh()}>↻ <span>{t().refresh}</span></button></div>
             <Show when={dashboard.isFetching && !dashboard.isPending}><p class="portal-small" role="status">{t().loading}</p></Show>
             <Show when={dashboard.isError}><div class="portal-alert portal-alert-error" role="alert"><p>{errorMessage(dashboard.error,t())}</p><button type="button" class="button button-outline" onClick={()=>void refresh()} disabled={dashboard.isFetching}>{t().retry}</button></div></Show>
             <Show when={dashboard.isPending}><div class="portal-empty" role="status">{t().loading}</div></Show>
             <Show when={dashboard.data && !dashboard.isError}>
               <Show when={dashboard.data?.limited}><p class="portal-alert">{t().limited}</p></Show>
               <Switch>
+                <Match when={currentTab()==='assistant' && role()==='owner'}><OwnerInbox locale={locale}/></Match>
                 <Match when={currentTab()==='overview'}><div class="portal-metrics"><div class="portal-metric"><span>{role()==='worker'?t().assignedJobs:t().total}</span><strong>{requests().length}</strong></div><div class="portal-metric portal-metric-lilac"><span>{t().open}</span><strong>{requests().filter(r=>!['completed','cancelled'].includes(r.status)).length}</strong></div><div class="portal-metric portal-metric-coral"><span>{role()==='owner'?t().waiting:t().completedCount}</span><strong>{role()==='owner'?profiles().filter(p=>p.status==='pending').length:requests().filter(r=>r.status==='completed').length}</strong></div></div><div class="portal-next"><span class="portal-kicker">{t().nextStep}</span><h3>{role()==='client'?t().createRequestTitle:heading()}</h3><p>{roleGuide()}</p><button type="button" class="button button-dark" onClick={()=>chooseTab(role()==='client'?'newRequest':role()==='owner'?'people':'requests')}>{role()==='client'?t().newRequest:role()==='owner'?t().people:t().requests} →</button></div><p class="portal-small">{t().notificationNote}</p></Match>
                 <Match when={currentTab()==='newRequest' && role()==='client'}><RequestForm locale={locale} t={t} busy={busy} submit={async body=>{const result=await mutate('/api/portal/requests','POST',body,t().received);if(result)setTab('requests');return result;}} /></Match>
                 <Match when={currentTab()==='requests'}><div class="portal-list-toolbar"><label><span class="sr-only">{t().filterLabel}</span><select value={filter()} onChange={e=>setFilter(e.currentTarget.value)}><option value="all">{t().all}</option><For each={requestStatuses}>{status=><option value={status}>{t()[status]}</option>}</For></select></label><Show when={role()==='client'}><button type="button" class="button button-dark" onClick={()=>chooseTab('newRequest')}>＋ {t().newRequest}</button></Show></div><Show when={filteredRequests().length} fallback={<div class="portal-empty"><span class="portal-round-symbol" aria-hidden="true">▤</span><p>{role()==='worker'?t().emptyJobs:isManager()?t().emptyAdmin:t().emptyRequests}</p></div>}><div class="portal-request-list"><For each={filteredRequests()}>{request=><RequestCard request={request} profiles={profiles()} role={role()} t={t} locale={locale} busy={busy} patch={(body)=>mutate(`/api/portal/requests/${encodeURIComponent(request.id)}`,'PATCH',body,t().requestUpdated)} />}</For></div></Show></Match>

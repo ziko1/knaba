@@ -38,3 +38,6 @@ No production deployment or GitHub merge is part of this source assembly.
 
 ## Release safeguard
 `npm run test:release-policy` exercises the bounded pure-Node policy tests; `npm run audit:release` deliberately exits with status 1 until `docs/unified/RELEASE_READINESS.json` has independently verified proofs for all gates. A syntactically complete receipt is **not** independent verification or a deploy authorization. Never bypass this script to interpret an untested integration branch as customer-ready.
+
+## Follow-up: owner conversation source changes
+The original `corporate-site/` import SHA in the layout section is a **historical baseline**, not a claim that the site remains unchanged forever. The active integration candidate now includes bounded, tested changes for owner conversations, D1 migration, UI and Worker routing. `scripts/verify-snapshot.mjs` preserves the exact ERP Git tree and reports the new corporate tree identity explicitly; tests and source manifests must be regenerated for each new candidate, not assigned the original `db6c...` runtime evidence. See `docs/unified/KNABA_ASSISTANT_IMPLEMENTATION_2026-10-24.md`.

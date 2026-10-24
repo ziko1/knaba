@@ -43,3 +43,9 @@
 ## 2026-10-24 — fail-closed delivery gate
 - Added `scripts/release-readiness.mjs`, CLI and 5 policy tests, and `docs/unified/RELEASE_READINESS.json`. Syntax/structure QA 5/5 PASS on isolated Node18 interpreter (policy is pure JS). Gate intentionally BLOCKED with missing source-specific release evidence, owner approval and handover. This is NOT Node24 ERP/site runtime testing.
 - Opened unmerged Draft PR #12 https://github.com/ziko1/knaba/pull/12 for unified source; new branch count 15 (original inventory of 14 preserved as historical snapshot). No source-modifying CI/production changes.
+
+## 2026-10-24 — KN-U03/KN-U04 local owner conversation checkpoint
+- На незлитій integration branch реалізовано `corporate-site/worker/assistant-threads.ts`, локальну D1 migration 0001, guest + owner UI, private capability за заголовком, idempotency, audit, owner-only permission, IP-bucket rate-limit, routing до Cloudflare Worker.
+- TDD red/green: 404→201; rate-limit 201→429; відсутній CF-IP 201→503; worker Assets missing `/api/assistant/*`→fixed. Локальні тестові журнали у VPS temporary folder; точний commit SHA додається до PR після GitHub write/verify.
+- Гарантованого live owner identity, production D1, полів GDPR retention, A11Y/devices, delivery notifications чи ERP synchronization поки немає. Existing information assistant зберігся, real generative AI НЕ підключено. Release guard block залишається.
+- Деталі: `docs/unified/KNABA_ASSISTANT_IMPLEMENTATION_2026-10-24.md`. Original `erp/` Git tree не змінювати.

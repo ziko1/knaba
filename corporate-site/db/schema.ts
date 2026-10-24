@@ -24,3 +24,26 @@ export const audit = sqliteTable("portal_audit", {
 export const rateLimits = sqliteTable("portal_rate_limits", {
   key: text("key").primaryKey(), count: integer("count").notNull(), expiresAt: integer("expires_at").notNull(),
 });
+
+export const assistantThreads=sqliteTable('assistant_threads',{
+  id:text('id').primaryKey(),
+  capabilityHash:text('capability_hash').notNull().unique(),
+  openingHash:text('opening_hash').notNull(),
+  openingKey:text('opening_key').notNull(),
+  locale:text('locale').notNull(),
+  status:text('status').notNull().default('open'),
+  consentVersion:text('consent_version').notNull(),
+  createdAt:text('created_at').notNull(),
+  expiresAt:text('expires_at').notNull(),
+  lastMessageAt:text('last_message_at').notNull(),
+},t=>[index('assistant_threads_recent').on(t.lastMessageAt)]);
+export const assistantMessages=sqliteTable('assistant_messages',{
+  id:text('id').primaryKey(),
+  threadId:text('thread_id').notNull().references(()=>assistantThreads.id,{onDelete:'cascade'}),
+  author:text('author').notNull(),
+  body:text('body').notNull(),
+  idempotencyKey:text('idempotency_key').notNull(),
+  payloadHash:text('payload_hash').notNull(),
+  createdAt:text('created_at').notNull(),
+  lastMutation:text('last_mutation').notNull(),
+},t=>[uniqueIndex('assistant_message_dedupe').on(t.threadId,t.author,t.idempotencyKey),index('assistant_message_thread').on(t.threadId)]);

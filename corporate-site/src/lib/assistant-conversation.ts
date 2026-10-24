@@ -1,0 +1,54 @@
+// Website visitor's anonymous conversation is distinct from ephemeral FAQ answers.
+// Tokens never appear in URLs, DOM or telemetry; sessionStorage is tab-scoped.
+export type ConversationLocale = 'de'|'en'|'uk'|'ru';
+export type ConversationIdentity = {id:string;capability:string};
+export type ConversationMessage = {id:string;author:'visitor'|'owner';message:string;createdAt:string};
+export type ConversationThread = {id:string;locale:ConversationLocale;status:string;createdAt:string;expiresAt:string;lastMessageAt:string};
+export type ConversationDetails = {thread:ConversationThread;messages:ConversationMessage[];hasMore:boolean};
+export type OwnerThreadList = {threads:ConversationThread[];hasMore:boolean};
+export const sessionStorageKey='knaba-owner-thread-v1';
+const identifier=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const secret=/^[a-zA-Z0-9_-]{43}$/;
+export const createRequestKey=()=>crypto.randomUUID();
+export function createCapability():string {
+  const bytes=crypto.getRandomValues(new Uint8Array(32));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+export function restoreConversation(raw:string|null):ConversationIdentity|null {
+  if(!raw||raw.length>256)return null;
+  try {
+    const value=JSON.parse(raw) as Record<string,unknown>;
+    return typeof value.id==='string'&&identifier.test(value.id)&&typeof value.capability==='string'&&secret.test(value.capability)?{id:value.id,capability:value.capability}:null;
+  }catch{return null;}
+}
+export class ConversationHttpError extends Error {
+  constructor(public status:number,public code:string){super(`Conversation HTTP ${status}`);}
+}
+const pathFor=(id:string,suffix='')=>{
+  if(!identifier.test(id))throw new Error('Invalid thread identifier');
+  return `/api/assistant/threads/${id}${suffix}`;
+};
+async function json<T>(path:string,method:'GET'|'POST'='GET',body?:unknown,capability?:string):Promise<T>{
+  if(!/^\/api\/assistant\/(?:owner\/)?threads(?:\/[0-9a-f-]{36}(?:\/messages)?)?$/i.test(path))throw new Error('Invalid API path');
+  if(capability!==undefined&&!secret.test(capability))throw new Error('Invalid private capability');
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),15000);
+  try{
+    const response=await fetch(path,{method,credentials:'same-origin',cache:'no-store',mode:'same-origin',signal:controller.signal,headers:{Accept:'application/json',...(body===undefined?{}:{'Content-Type':'application/json','X-KnaBa-Request':'portal-v1'}),...(capability?{'X-KnaBa-Thread-Capability':capability}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})});
+    if(!response.ok){const parsed=await response.json().catch(()=>null) as {error?:{code?:string}}|null;throw new ConversationHttpError(response.status,parsed?.error?.code||'unavailable');}
+    return response.json() as Promise<T>;
+  }finally{clearTimeout(timeout);}
+}
+export function loadVisitorThread(id:string,capability:string){return json<ConversationDetails>(pathFor(id),'GET',undefined,capability);}
+export function createVisitorThread(payload:{capability:string;idempotencyKey:string;locale:ConversationLocale;message:string;consentAccepted:true}){return json<{id:string;received:true}>('/api/assistant/threads','POST',payload);}
+export function sendVisitorMessage(id:string,capability:string,payload:{message:string;idempotencyKey:string}){return json<{message:ConversationMessage}>(pathFor(id,'/messages'),'POST',payload,capability);}
+export function listOwnerThreads(){return json<OwnerThreadList>('/api/assistant/owner/threads');}
+export function loadOwnerThread(id:string){if(!identifier.test(id))throw new Error('Invalid thread identifier');return json<ConversationDetails>(`/api/assistant/owner/threads/${id}`);}
+export function sendOwnerMessage(id:string,payload:{message:string;idempotencyKey:string}){if(!identifier.test(id))throw new Error('Invalid thread identifier');return json<{message:ConversationMessage}>(`/api/assistant/owner/threads/${id}/messages`,'POST',payload);}
+
+export const conversationCopy={
+  de:{title:'Mit KnaBa persönlich sprechen',intro:'Direkter Kontakt mit dem KnaBa-Team. Diese Nachrichten sind keine KI-Antworten.',consent:'Ich habe die Datenschutzhinweise gelesen und möchte, dass KnaBa meine Nachricht für diese Unterhaltung verarbeitet.',begin:'Gespräch starten',send:'Nachricht senden',refresh:'Antworten aktualisieren',guest:'Sie',owner:'KnaBa-Team',placeholder:'Beschreiben Sie bitte Ihr Anliegen ...',privacy:'Nachrichten werden für die Bearbeitung gespeichert. Der private Zugriffsschlüssel bleibt nur in diesem Browser-Tab. Ohne Anmeldung ist eine Wiederherstellung nach Schließen des Tabs nicht möglich.',failure:'Übermittlung nicht bestätigt. Bitte dieselbe Nachricht erneut senden.',refreshFailure:'Nachricht gespeichert, aber Aktualisierung fehlgeschlagen. Bitte Antworten aktualisieren.',received:'Nachricht gespeichert. Hier können Sie auch die Antwort lesen.',empty:'Noch keine Nachrichten.',inbox:'Kundengespräche',inboxEmpty:'Derzeit keine Gespräche vorhanden.',open:'Gespräch öffnen',back:'Zur Übersicht',reply:'Antwort an den Kunden ...',forget:'Zugriff in diesem Tab vergessen',forgetNotice:'Dadurch verlieren Sie den Zugriff auf die Unterhaltung. Die serverseitige Nachricht wird nicht gelöscht.',status:'Gesprächsstatus',tooLong:'Bitte geben Sie 2–1500 Zeichen ein.',unavailable:'Die Unterhaltung ist nicht verfügbar oder der private Zugriff ist abgelaufen.',more:'Es werden nur die letzten 80 Nachrichten angezeigt.',subject:'Unterhaltung',guestPrivacy:'Für den Kontakt mit dem Team ist eine Zustimmung erforderlich.'},
+  en:{title:'Speak directly with KnaBa',intro:'Talk with the KnaBa team. These messages are not AI responses.',consent:'I have read the privacy notice and agree to KnaBa processing my message for this conversation.',begin:'Start conversation',send:'Send message',refresh:'Refresh replies',guest:'You',owner:'KnaBa team',placeholder:'Please describe what you need ...',privacy:'Messages are stored for processing. Your private access key stays in this browser tab only. After closing this tab, you cannot restore anonymous access.',failure:'Delivery is not confirmed. Retry the same message.',refreshFailure:'Message saved, but refreshing failed. Refresh replies to see it.',received:'Message saved. You can read the response here.',empty:'No messages yet.',inbox:'Customer conversations',inboxEmpty:'No conversations yet.',open:'Open conversation',back:'Back to inbox',reply:'Reply to customer ...',forget:'Forget access in this tab',forgetNotice:'You will lose access to this thread. This does not delete the server-side messages.',status:'Conversation status',tooLong:'Enter 2–1500 characters.',unavailable:'Conversation unavailable or private access expired.',more:'Only the 80 most recent messages are shown.',subject:'Conversation',guestPrivacy:'You must consent before contacting the team.'},
+  uk:{title:'Зв’язатися безпосередньо з KnaBa',intro:'Повідомлення отримує команда KnaBa. Це не відповіді штучного інтелекту.',consent:'Я ознайомився/ознайомилася з політикою приватності й погоджуюся на обробку повідомлення для цієї розмови.',begin:'Почати розмову',send:'Надіслати повідомлення',refresh:'Оновити відповіді',guest:'Ви',owner:'Команда KnaBa',placeholder:'Опишіть своє звернення ...',privacy:'Повідомлення зберігаються для опрацювання. Приватний ключ доступу лишається лише у вкладці браузера. Після її закриття анонімний доступ не відновиться.',failure:'Надсилання не підтверджено. Повторіть те саме повідомлення.',refreshFailure:'Повідомлення збережено, але оновлення не вдалося. Натисніть «Оновити відповіді».',received:'Повідомлення збережено. Тут з’явиться відповідь.',empty:'Повідомлень ще немає.',inbox:'Переговори з клієнтами',inboxEmpty:'Поки що немає розмов.',open:'Відкрити розмову',back:'До списку',reply:'Відповідь клієнтові ...',forget:'Забути доступ у цій вкладці',forgetNotice:'Ви втратите доступ до розмови. Це не видаляє повідомлення із сервера.',status:'Статус розмови',tooLong:'Введіть 2–1500 символів.',unavailable:'Розмова недоступна або приватний доступ завершився.',more:'Відображаються лише 80 останніх повідомлень.',subject:'Розмова',guestPrivacy:'Для звернення до команди потрібна згода.'},
+  ru:{title:'Связаться напрямую с KnaBa',intro:'Сообщения получает команда KnaBa. Это не ответы искусственного интеллекта.',consent:'Я ознакомился/ознакомилась с политикой конфиденциальности и согласен/согласна на обработку сообщения для этой беседы.',begin:'Начать диалог',send:'Отправить сообщение',refresh:'Обновить ответы',guest:'Вы',owner:'Команда KnaBa',placeholder:'Опишите ваш вопрос ...',privacy:'Сообщения сохраняются для обработки. Закрытый ключ доступа остаётся только в этой вкладке браузера. После закрытия вкладки анонимный доступ восстановить нельзя.',failure:'Доставка не подтверждена. Повторите то же сообщение.',refreshFailure:'Сообщение сохранено, но обновление не удалось. Нажмите «Обновить ответы».',received:'Сообщение сохранено. Ответ появится здесь.',empty:'Сообщений пока нет.',inbox:'Переписка с клиентами',inboxEmpty:'Пока нет обращений.',open:'Открыть беседу',back:'К списку',reply:'Ответ клиенту ...',forget:'Забыть доступ в этой вкладке',forgetNotice:'Вы потеряете доступ к беседе. Сообщения на сервере не удаляются.',status:'Статус беседы',tooLong:'Введите 2–1500 символов.',unavailable:'Беседа недоступна или закрытый доступ истёк.',more:'Показаны только последние 80 сообщений.',subject:'Беседа',guestPrivacy:'Для обращения к команде требуется согласие.'},
+} as const;

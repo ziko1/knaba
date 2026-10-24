@@ -115,6 +115,11 @@ else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
 if(!official) assert.match(headers,/X-Robots-Tag: noindex, follow/);
+// Cloudflare Assets must forward every dynamic API family to the Worker.
+// Without this rule, a statically valid UI still returns 404 for new chats.
+const workerConfig=JSON.parse(await readFile(resolve('dist/server/wrangler.json'),'utf8'));
+for(const path of ['/api/leads','/api/portal/*','/api/assistant/*'])
+  assert.ok(workerConfig.assets?.run_worker_first?.includes(path),`Worker routing missing: ${path}`);
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,

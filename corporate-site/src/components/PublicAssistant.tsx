@@ -1,3 +1,4 @@
+import { VisitorOwnerChat } from './OwnerConversation';
 import { createMemo, createSignal, For, onMount, Show } from 'solid-js';
 import { answerQuestion, assistantCopy, assistantLocales, type AssistantAnswer, type AssistantLocale, type Topic } from '../lib/public-assistant';
 import '../styles/public-assistant.css';
@@ -32,7 +33,8 @@ export default function PublicAssistant(props: {locale?:AssistantLocale}) {
       <div class="assistant-topics"><For each={Object.entries(t().topics) as [Topic,string][]}>{([topic,label])=><button type="button" disabled={!ready()} onClick={()=>send(label,topic)}>{label} <span aria-hidden="true">↗</span></button>}</For></div>
       <div class="assistant-history" role="log" aria-label={t().title} aria-live="polite" aria-relevant="additions"><For each={turns()}>{turn=><div class="assistant-turn"><p class="assistant-question"><strong>{t().you}</strong><span>{turn.question}</span></p><div class="assistant-answer"><strong>{t().title}</strong><p>{turn.answer.text}</p><div class="assistant-links"><For each={turn.answer.links}>{link=><a href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>}</For></div></div></div>}</For><div ref={latest}/></div>
       <form class="assistant-form" onSubmit={event=>{event.preventDefault();send();}}><label for="assistant-question">{t().question}</label><div><input ref={input} id="assistant-question" type="text" maxLength={500} value={question()} disabled={!ready()} autocomplete="off" aria-invalid={!!error()} aria-describedby="assistant-privacy assistant-error" onInput={e=>{setQuestion(e.currentTarget.value);setError('');}}/><button type="submit" class="button button-dark" disabled={!ready()||!question().trim()}>{t().send} <span aria-hidden="true">↑</span></button></div><p id="assistant-error" role="alert">{error()}</p></form>
-      <p id="assistant-privacy" class="assistant-privacy">{t().privacy}</p><Show when={turns().length}><button class="assistant-reset" type="button" onClick={reset}>{t().clear}</button></Show>
+      <p id="assistant-privacy" class="assistant-privacy">{t().privacy}</p>
+      <VisitorOwnerChat locale={locale} /><Show when={turns().length}><button class="assistant-reset" type="button" onClick={reset}>{t().clear}</button></Show>
     </div>
   </section>;
 }

@@ -3,7 +3,6 @@ import { existsSync, readFileSync } from 'node:fs';
 
 const expected = Object.freeze({
   erp: 'a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43',
-  'corporate-site': '6ce56eb811af9733ce9b0b08dab3b636dfaf6371',
 });
 
 function git(...args) {
@@ -24,6 +23,17 @@ for (const [dir, treeSha] of Object.entries(expected)) {
   if (dirty) { fail(`${dir}: uncommitted modifications; snapshot is no longer exact`); continue; }
   process.stdout.write(`PASS ${dir}: ${actual}\n`);
 }
+// Source assembly froze this site tree; feature work intentionally changes it.
+// Report the change honestly rather than re-labeling the old import as identical.
+const originalSiteTree='6ce56eb811af9733ce9b0b08dab3b636dfaf6371';
+let currentSiteTree;
+try { currentSiteTree=git('rev-parse','HEAD:corporate-site'); }
+catch { fail('missing corporate-site Git tree'); }
+if(currentSiteTree){
+  const dirty=git('status','--porcelain','--','corporate-site');
+  if(dirty)fail('corporate-site: uncommitted changes; tests cannot be SHA-pinned');
+  else process.stdout.write(`${currentSiteTree===originalSiteTree?'PASS original import':'FEATURE CHANGE'} corporate-site: ${currentSiteTree} (original ${originalSiteTree})\n`);
+}
 for (const path of [
   'erp/AGENTS.md',
   'erp/KNABA_DE_TARGET_SPEC.md',
@@ -40,4 +50,4 @@ for (const path of [
 }
 const root = JSON.parse(readFileSync('package.json','utf8'));
 if (root.private !== true || root.name !== 'knaba-unified-integration') fail('root package metadata not isolated');
-if (process.exitCode !== 1) process.stdout.write('PASS source-only import integrity; integration runtime NOT_RUN\n');
+if (process.exitCode !== 1) process.stdout.write('PASS tracked source integrity; combined runtime acceptance NOT_RUN\n');
