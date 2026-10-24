@@ -72,3 +72,8 @@ Live partial acceptance: RU public entry, pricing/service response and inquiry h
 | VIS-05 | Owner brand/UAT approval, independent review, production performance and deployment | BLOCKED_REVIEW; no release |
 
 Candidate branch: `codex/knaba-vibrant-cleaning-illustrations-20261024`; original candidate base is untouched. This visual change does not close ERP, notification, legal or customer-handover gates.
+
+
+### VIS-04 QA update — 24.10.2026
+
+Actual isolated Node 24/Astro/Vitest and offline Chromium browser verification finished for source SHA `46015da12f0e77fac1669915ed1b8ca309ab652d`: **VIS-01–VIS-04 evidence available**, details and remaining caveats in [VISUAL_ART_QA_2026-10-24.md](docs/evidence/VISUAL_ART_QA_2026-10-24.md). `npm run check` PASS, Vitest 71 and Node 8 PASS, build/verify PASS 51 pages, browser smoke PASS on 320/390/768/1440. This supersedes VIS-04's earlier NOT_RUN status for local synthetic QA; physical-device and comprehensive accessibility review remain pending. VIS-05 owner/independent review, official-hosting release and integration reconcile remain **OPEN**. No merge or deploy.
