@@ -146,7 +146,7 @@ const report = {
   networkTransfer: "NOT_MEASURED",
 };
 await writeFile(
-  official ? "docs/evidence/official-build-verification.json" : "docs/build-verification.json",
+  process.env.KNABA_BUILD_REPORT_PATH || (official ? "docs/evidence/official-build-verification.json" : "docs/build-verification.json"),
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(JSON.stringify(report, null, 2));
