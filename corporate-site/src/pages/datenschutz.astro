@@ -1,0 +1,42 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { company } from "../data/company";
+---
+
+<Layout
+  title="Datenschutzhinweise zum Entwurf | KnaBa"
+  description="Informationen zur Funktionsweise des Anfrage-Assistenten und zum Datenschutz im Website-Entwurf von KnaBa."
+  ><article class="container legal">
+    <p class="eyebrow">DATENSCHUTZ</p><h1>Datenschutzhinweise</h1><p
+      class="notice"
+    >
+      Diese Hinweise beschreiben den technischen Website-Entwurf. Die
+      vollständige Datenschutzerklärung muss vor Veröffentlichung auf den
+      tatsächlichen Hosting- und Kommunikationsbetrieb abgestimmt werden.
+    </p><h2>Kontakt</h2><p>
+      {company.legalName}<br />{company.street}, {company.city}<br /><a
+        href={`mailto:${company.email}`}>{company.email}</a>
+    </p><h2>Anfrage-Assistent</h2><p>
+      Die eingegebenen Angaben werden im aktuellen Browserfenster verarbeitet.
+      Diese Version überträgt das Formular nicht an einen Anfrageserver und
+      speichert die Angaben nicht im Local Storage. Beim Verlassen oder Neuladen
+      der Seite geht der Entwurf verloren.
+    </p><p>
+      Erst wenn Sie „Im E-Mail-Programm öffnen“ wählen, werden die Angaben an
+      Ihr E-Mail-Programm übergeben. Sie entscheiden dort selbst über den
+      Versand. Alternativ können Sie den Text auf Ihre ausdrückliche Aktion in
+      die Zwischenablage kopieren.
+    </p><h2>Cookies und externe Inhalte</h2><p>
+      Der Website-Code setzt keine Analyse- oder Werbe-Cookies und lädt keine
+      externen Schriftarten, Karten oder Bilder. Alle Bilddateien werden mit der
+      Website ausgeliefert. Der Hostinganbieter kann technisch notwendige
+      Verbindungsdaten verarbeiten; dies ist vor Veröffentlichung gesondert zu
+      dokumentieren.
+    </p><h2>Vor Veröffentlichung zu ergänzen</h2><p>
+      Zu bestätigen sind insbesondere der Verantwortliche, Hostinganbieter und
+      Empfänger, Zwecke und Rechtsgrundlagen, Aufbewahrungsfristen,
+      Betroffenenrechte sowie die zuständige Aufsichtsbehörde. Eine spätere
+      serverseitige Anfragefunktion erfordert entsprechend ergänzte Angaben.
+    </p>
+  </article></Layout
+>

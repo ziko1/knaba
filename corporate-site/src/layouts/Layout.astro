@@ -1,0 +1,158 @@
+---
+import "../styles/global.css";
+import { company } from "../data/company";
+import Icon from "../components/Icon.astro";
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = true } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  ["/leistungen/", "Leistungen"],
+  ["/branchen/", "Branchen"],
+  ["/unternehmen/", "Über KnaBa"],
+  ["/karriere/", "Karriere"],
+] as const;
+const canonical = new URL(path, "https://knaba.de");
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "KnaBa Gebäudereinigung",
+  url: "https://knaba.de",
+  telephone: "+493067933054",
+  email: company.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: company.street,
+    postalCode: "10315",
+    addressLocality: "Berlin",
+    addressCountry: "DE",
+  },
+  areaServed: ["Berlin", "Brandenburg"],
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#123c34" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+    />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+    <div class="topline">
+      <div class="container">
+        <span
+          ><span class="dot"></span> Ihr Reinigungspartner in Berlin & Brandenburg</span
+        ><a href={company.phoneHref}
+          ><Icon name="phone" size={14} />{company.phone}</a>
+      </div>
+    </div>
+    <header class="header">
+      <div class="container nav-wrap">
+        <a
+          href="/"
+          class="brand"
+          aria-label="KnaBa Gebäudereinigung – Startseite"
+          ><span class="brand-mark"
+            ><span></span><span></span><span></span></span
+          ><span class="brand-type">KnaBa<span>GEBÄUDEREINIGUNG</span></span></a
+        >
+        <nav class="desktop-nav" aria-label="Hauptnavigation">
+          {
+            nav.map(([href, text]) => (
+              <a
+                href={href}
+                aria-current={path.startsWith(href) ? "page" : undefined}
+              >
+                {text}
+              </a>
+            ))
+          }
+        </nav>
+        <a class="button button-dark nav-cta" href="/kontakt/"
+          >Angebot anfragen <Icon size={17} /></a
+        >
+        <details class="mobile-nav">
+          <summary aria-label="Menü öffnen"
+            ><span>Menü</span><span class="menu-lines">☰</span></summary
+          ><nav aria-label="Mobile Hauptnavigation">
+            {nav.map(([href, text]) => <a href={href}>{text}</a>)}<a
+              href="/kontakt/">Angebot anfragen →</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="/"
+            ><span class="brand-mark"
+              ><span></span><span></span><span></span></span
+            ><span class="brand-type">KnaBa<span>GEBÄUDEREINIGUNG</span></span
+            ></a
+          ><p>Gepflegte Räume.<br />Ein gutes Gefühl.</p><span
+            class="footer-region">Berlin & Brandenburg</span>
+        </div>
+        <div>
+          <h2>Entdecken</h2><a href="/leistungen/">Unsere Leistungen</a><a
+            href="/branchen/">Ihre Branche</a
+          ><a href="/unternehmen/">Über KnaBa</a><a href="/karriere/"
+            >Karriere</a>
+        </div>
+        <div>
+          <h2>Kontakt</h2><a href={company.phoneHref}>{company.phone}</a><a
+            href={`mailto:${company.email}`}>{company.email}</a
+          ><p>{company.street}<br />{company.city}</p>
+        </div>
+        <div>
+          <h2>Ihr nächster Schritt</h2><p>
+            Erzählen Sie uns von Ihrem Objekt.<br />Wir besprechen Ihren Bedarf.
+          </p><a href="/kontakt/" class="text-link light"
+            >Reinigung anfragen <Icon size={18} /></a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© {new Date().getFullYear()} KnaBa</span><div>
+          <a href="/impressum/">Impressum</a><a href="/datenschutz/"
+            >Datenschutz</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const menu = document.querySelector<HTMLDetailsElement>(".mobile-nav");
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menu?.open) {
+          menu.open = false;
+          menu.querySelector("summary")?.focus();
+        }
+      });
+      document.addEventListener("click", (event) => {
+        if (
+          menu?.open &&
+          event.target instanceof Node &&
+          !menu.contains(event.target)
+        )
+          menu.open = false;
+      });
+    </script>
+  </body>
+</html>

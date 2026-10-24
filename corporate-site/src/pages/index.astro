@@ -1,0 +1,247 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { services } from "../data/company";
+---
+
+<Layout
+  title="KnaBa Gebäudereinigung | Berlin & Brandenburg"
+  description="Gebäudereinigung in Berlin und Brandenburg: Büro-, Unterhalts-, Glas-, Bau- und Treppenhausreinigung. Besprechen Sie Ihren Reinigungsbedarf mit KnaBa."
+>
+  <section class="hero container">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="small-line"></span> SAUBERKEIT MIT ANSPRUCH
+      </p><h1>
+        Saubere Räume.<br />Einfach ein<br /><span>gutes Gefühl.</span>
+      </h1><p class="hero-description">
+        Professionelle Gebäudereinigung für Unternehmen, Hausverwaltungen und
+        Bauprojekte in Berlin und Brandenburg.
+      </p><div class="hero-actions">
+        <a href="/kontakt/" class="button button-dark"
+          >Reinigung anfragen <Icon size={19} /></a
+        ><a href="/leistungen/" class="text-link"
+          >Leistungen entdecken <span>↗</span></a>
+      </div><div class="hero-notes">
+        <span><Icon name="check" size={17} /> Individuell abgestimmt</span><span
+          ><Icon name="check" size={17} /> Persönlicher Kontakt</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <picture
+        ><source
+          type="image/webp"
+          srcset="/images/office-640.webp 640w, /images/office-1200.webp 1200w"
+          sizes="(max-width: 760px) 100vw, 52vw"
+        /><img
+          src="/images/office-1200.webp"
+          width="1200"
+          height="801"
+          alt="Lichtdurchfluteter Büroflur mit gepflegten Glasflächen – Symbolbild"
+          fetchpriority="high"
+        /></picture
+      ><span class="photo-note">Symbolbild</span><div class="image-label">
+        <span class="label-icon"><Icon name="sparkle" size={24} /></span><div>
+          <strong>Ihr Objekt. Unser Fokus.</strong><span
+            >Bis ins Detail gepflegt.</span>
+        </div>
+      </div><div class="visual-corner">K<span>SAUBER. KLAR. KNABA.</span></div>
+    </div>
+  </section>
+  <div class="trust-band">
+    <div class="container">
+      <span>FÜR RÄUME, DIE MEHR VERDIENEN.</span><div>Büros & Gewerbe</div><div>
+        Hausverwaltungen
+      </div><div>Bau & Immobilien</div>
+    </div>
+  </div>
+  <section class="section container" id="leistungen">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">UNSERE LEISTUNGEN</p><h2>
+          Für jedes Objekt.<br />Die passende Reinigung.
+        </h2>
+      </div><div>
+        <p>
+          Regelmäßige Pflege oder ein besonderer Einsatz:<br
+            class="desktop-only"
+          /> Wir richten uns nach Ihrem Bedarf.
+        </p><a href="/leistungen/" class="text-link"
+          >Alle Leistungen ansehen <Icon size={18} /></a>
+      </div>
+    </div><div class="service-grid">
+      {
+        services.map((s, i) => (
+          <a class="service-card" href={`/leistungen/${s.slug}/`}>
+            <>
+              <div class="service-card-top">
+                <>
+                  <span class="service-icon">
+                    <Icon name={s.icon} size={28} />
+                  </span>
+                  <span class="service-number">0{i + 1}</span>
+                </>
+              </div>
+              <h3>{s.name}</h3>
+              <p>{s.description}</p>
+              <span class="service-card-bottom">
+                Mehr erfahren <Icon name="diagonal" size={19} />
+              </span>
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+  <section class="approach">
+    <div class="container approach-grid">
+      <div>
+        <p class="eyebrow">GUT GEREINIGT. GUT ORGANISIERT.</p><h2>
+          Sie kümmern sich<br />um Ihr Geschäft.<br /><span
+            >Wir um die Sauberkeit.</span>
+        </h2><p>
+          Jedes Gebäude hat seinen eigenen Alltag. Deshalb beginnt eine passende
+          Reinigung mit einem Gespräch: über Ihre Räume, Ihre Abläufe und das
+          Ergebnis, das Sie erwarten.
+        </p><a href="/unternehmen/" class="text-link light"
+          >KnaBa kennenlernen <Icon size={19} /></a>
+      </div><div class="principles">
+        {
+          [
+            [
+              "01",
+              "Passend zu Ihrem Objekt",
+              "Leistungsumfang, Materialien und Reinigungsintervalle werden gemeinsam abgestimmt.",
+            ],
+            [
+              "02",
+              "Klar miteinander sprechen",
+              "Ihre Anforderungen stehen im Mittelpunkt – vom ersten Kontakt bis zur laufenden Abstimmung.",
+            ],
+            [
+              "03",
+              "In Ihrer Region",
+              "Gebäudereinigung in Berlin und Brandenburg. Mit einem direkten Kontakt in Berlin.",
+            ],
+          ].map(([n, t, d]) => (
+            <div>
+              <>
+                <span>{n}</span>
+                <div>
+                  <>
+                    <h3>{t}</h3>
+                    <p>{d}</p>
+                  </>
+                </div>
+              </>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">SO EINFACH GEHT’S</p><h2>
+          Drei Schritte zu<br />gepflegten Räumen.
+        </h2>
+      </div><p>
+        Von Ihrer Anfrage zum passenden Reinigungsplan.<br />Persönlich und ohne
+        komplizierte Umwege.
+      </p>
+    </div><div class="steps">
+      {
+        [
+          [
+            "01",
+            "Bedarf beschreiben",
+            "Welche Reinigung benötigen Sie? Erzählen Sie uns kurz von Ihrem Objekt.",
+          ],
+          [
+            "02",
+            "Details abstimmen",
+            "Wir besprechen Umfang, Zugang und Termine. Bei Bedarf direkt vor Ort.",
+          ],
+          [
+            "03",
+            "Angebot vereinbaren",
+            "Sie erhalten ein individuelles Angebot. Der Start erfolgt nach gemeinsamer Abstimmung.",
+          ],
+        ].map(([n, t, d]) => (
+          <div>
+            <>
+              <span>{n}</span>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container region-section">
+    <div class="region-graphic" aria-hidden="true">
+      <div class="map-grid"></div><div class="map-orbit orbit-one"></div><div
+        class="map-orbit orbit-two"
+      >
+      </div><div class="map-center">
+        <span>↗</span><strong>Berlin</strong><small>Brandenburg</small>
+      </div><span class="map-caption">IN IHRER REGION ZU HAUSE</span>
+    </div><div class="region-copy">
+      <p class="eyebrow">BERLIN & BRANDENBURG</p><h2>
+        Ganz in Ihrer Nähe.<br />Für Ihr Objekt da.
+      </h2><p>
+        Vom Büro in der Stadt bis zur Immobilie im Umland: Fragen Sie Ihren
+        Standort und den gewünschten Leistungsumfang direkt bei uns an.
+      </p><a href="/kontakt/" class="text-link"
+        >Objekt besprechen <Icon size={18} /></a>
+    </div>
+  </section>
+  <section class="section container faq-section">
+    <div>
+      <p class="eyebrow">GUT ZU WISSEN</p><h2>
+        Ihre Fragen.<br />Unsere Antworten.
+      </h2>
+    </div><div class="faq-list">
+      {
+        [
+          [
+            "Was kostet eine Reinigung?",
+            "Der Preis richtet sich nach Fläche, Zustand, Leistungsumfang und Häufigkeit. Kontaktieren Sie uns für ein individuelles Angebot.",
+          ],
+          [
+            "Kann ich eine regelmäßige Reinigung vereinbaren?",
+            "Ja. Für die Unterhaltsreinigung stimmen wir den Umfang und die Reinigungsintervalle auf Ihr Objekt ab.",
+          ],
+          [
+            "In welcher Region ist KnaBa tätig?",
+            "KnaBa bietet Gebäudereinigung in Berlin und Brandenburg an. Die konkrete Verfügbarkeit für Ihr Objekt klären wir im Gespräch.",
+          ],
+          [
+            "Welche Angaben helfen bei der Anfrage?",
+            "Hilfreich sind die gewünschte Leistung, der Standort, die ungefähre Fläche und Ihr Wunschtermin. Wenn noch nicht alles feststeht, klären wir die Details gemeinsam.",
+          ],
+        ].map(([q, a]) => (
+          <details>
+            <>
+              <summary>
+                {q}
+                <span>+</span>
+              </summary>
+              <p>{a}</p>
+            </>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container cta-banner">
+    <div>
+      <p class="eyebrow">LASSEN SIE UNS SPRECHEN</p><h2>
+        Sauberkeit beginnt<br />mit einem guten Gespräch.
+      </h2>
+    </div><a class="button button-dark" href="/kontakt/"
+      >Jetzt Reinigung anfragen <Icon size={20} /></a>
+  </section>
+</Layout>

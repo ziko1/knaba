@@ -1,0 +1,45 @@
+{
+  "scope": "production-build-static-validation",
+  "pages": 15,
+  "internalLinks": "PASS",
+  "metadata": "PASS",
+  "draftNoindex": "PASS",
+  "externalImageScriptRequests": "NONE_IN_HTML",
+  "cssGzip": 5511,
+  "allEmittedJsGzip": 14974,
+  "assets": [
+    {
+      "name": "_astro/Inquiry.CtyB9T0Z.js",
+      "bytes": 16823,
+      "gzip": 6215
+    },
+    {
+      "name": "_astro/Layout._LCOoRfh.css",
+      "bytes": 22247,
+      "gzip": 5511
+    },
+    {
+      "name": "_astro/client.CYLU2B43.js",
+      "bytes": 6044,
+      "gzip": 2519
+    },
+    {
+      "name": "_astro/web.DwVT0tu2.js",
+      "bytes": 15786,
+      "gzip": 6240
+    },
+    {
+      "name": "images/office-1200.webp",
+      "bytes": 54590,
+      "gzip": 54628
+    },
+    {
+      "name": "images/office-640.webp",
+      "bytes": 23398,
+      "gzip": 23426
+    }
+  ],
+  "artifactSha256": "ec279bb046b54a08f33b0881823e0c43c9fd56b5f6730e5015b6413d03c14294",
+  "fieldWebVitals": "NOT_RUN",
+  "networkTransfer": "NOT_MEASURED"
+}

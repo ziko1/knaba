@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { company } from "../data/company";
+---
+
+<Layout
+  title="Impressum | KnaBa"
+  description="Anbieterinformationen und Kontakt zu KnaBa in Berlin."
+  ><article class="container legal">
+    <p class="eyebrow">ANBIETERINFORMATIONEN</p><h1>Impressum</h1><p
+      class="notice"
+    >
+      Entwurfsfassung der neuen Website. Die Anbieterangaben wurden dem
+      bestehenden Impressum auf knaba.de entnommen und müssen vor
+      Veröffentlichung bestätigt werden.
+    </p><h2>Anbieter</h2><p>
+      Alexander Knaus<br />KNABA Bauhelfer<br />{company.street}<br />{
+        company.city
+      }<br />Deutschland
+    </p><h2>Kontakt</h2><p>
+      Telefon: <a href={company.phoneHref}>{company.phone}</a><br />E-Mail: <a
+        href={`mailto:${company.email}`}>{company.email}</a>
+    </p><h2>Umsatzsteuer-Identifikationsnummer</h2><p>{company.vatId}</p><h2>
+      Bildhinweis
+    </h2><p>
+      Die Büroaufnahme ist ein Symbolbild und zeigt kein nachgewiesenes
+      Kundenprojekt von KnaBa. Quelle: Unsplash.
+    </p><h2>Bestehende Anbieterinformationen</h2><p>
+      Die bisherigen Angaben finden Sie unter <a
+        class="text-link"
+        href="https://knaba.de/impressum">knaba.de/impressum ↗</a
+      >.
+    </p>
+  </article></Layout
+>

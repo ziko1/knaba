@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import Inquiry from "../components/Inquiry";
+import { company } from "../data/company";
+---
+
+<Layout
+  title="Kontakt & Reinigungsanfrage | KnaBa Berlin"
+  description="Fragen Sie Ihre Reinigung bei KnaBa an. Beschreiben Sie Ihr Objekt oder kontaktieren Sie uns direkt unter +49 (30) 679 330 54 und kontakt@knaba.de."
+>
+  <section class="container page-intro">
+    <p class="eyebrow">KONTAKT</p><h1>
+      Ihr Objekt.<br /><span>Unser nächstes Gespräch.</span>
+    </h1><p>
+      Erzählen Sie uns, welche Reinigung Sie benötigen. Oder rufen Sie uns
+      direkt an – wir besprechen Ihren Bedarf persönlich.
+    </p>
+  </section>
+  <section class="container contact-layout">
+    <div class="contact-details">
+      <h2>Direkt zu KnaBa.</h2><p>
+        Ihr Kontakt für Berlin und Brandenburg.
+      </p><div class="contact-item">
+        <Icon name="phone" size={22} /><div>
+          <small>Telefon</small><a href={company.phoneHref}>{company.phone}</a>
+        </div>
+      </div><div class="contact-item">
+        <Icon name="mail" size={22} /><div>
+          <small>E-Mail</small><a href={`mailto:${company.email}`}
+            >{company.email}</a>
+        </div>
+      </div><div class="contact-item">
+        <Icon name="pin" size={22} /><div>
+          <small>Adresse</small><p>{company.street}<br />{company.city}</p>
+        </div>
+      </div><p class="notice">
+        Der Anfrage-Assistent bereitet Ihre E-Mail vor. Sie prüfen und versenden
+        sie anschließend selbst in Ihrem E-Mail-Programm.
+      </p>
+    </div><div>
+      <Inquiry client:load /><noscript
+        ><div class="aside-card">
+          <h2>Ihre Reinigung anfragen</h2><p>
+            Bitte nennen Sie uns die gewünschte Leistung, den Objektstandort und
+            eine Rückrufmöglichkeit direkt per E-Mail oder Telefon.
+          </p><a class="button button-dark" href={`mailto:${company.email}`}
+            >E-Mail schreiben</a>
+        </div></noscript>
+    </div>
+  </section>
+</Layout>
