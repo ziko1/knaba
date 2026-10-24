@@ -26,7 +26,7 @@ const translated = {
 }[lang];
 const footerLabels = {de:['Reinigungsplan erstellen','Unsere Leistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Cleaning planner (DE)','Our services (DE)','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa (DE)','Careers (DE)'],uk:['Планер прибирання (DE)','Наші послуги (DE)','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa (DE)','Робота (DE)'],ru:['Составить план уборки','Наши услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
-const showFloatingAssistant = !/^\/(?:ru\/)?(?:assistent|konto|portal)\/$/.test(path);
+const showFloatingAssistant = !/^\/(?:ru\/)?(?:assistent|konto|portal|editor)\/$/.test(path);
 const floatingAssistantLabel = {de:'KnaBa Assistent',en:'KnaBa Assistant',uk:'Помічник KnaBa',ru:'Помощник KnaBa'}[lang];
 const localPath = (url: string) => lang === 'ru' ? `/ru${url}` : url;
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
