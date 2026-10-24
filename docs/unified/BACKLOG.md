@@ -65,3 +65,8 @@ See corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md for exact boundari
 ## Guest chat recovery increment — 2026-10-24
 - **KN-U24** (`SOURCE_LOCAL_QA_PASS / DEPLOY_BLOCKED`): versioned manual guest recovery code, no new schema or paid provider. Exact SHA `3cd7ba796753dba8d4701925d4c5f70fb82038ba`, local E2E guest→owner→guest isolated cross-tab, 107 Vitest + 8 Node, 52-page build. Requires live Sites owner identity/backup/privacy acceptance.
 - **KN-U25** (`PENDING`): add email notification outbox to current `assistant_threads` domain with **new migration after CMS/CRM 0002**; do not copy PR19 `assistant_conversations` SQL or enable email provider without verified provider rights/quota/cost. Must remain disabled by default.
+
+
+## 2026-10-25 — notification outbox increment
+- **KN-U25** (`CODE_LOCAL_QA_PASS / PROVIDER_DISABLED`): D1 0003 owner notification outbox with exactly-once persisted domain-event links, owner-only read status and explicit disabled email status. Exact source `e67061b8a6984282edaaa641eb27b8015f2c1b62`; local migrated database + backup/restore, 110/110 Vitest +8/8 Node, 52-page build, synthetic guest/owner browser accepted. Not live.
+- **KN-U26** (`BLOCKED_EXTERNAL`): after native Sites backup/identity/legal and budget gates, implement opt-in email provider with provider idempotency, explicit daily spend/rate limits, bounded retries, privacy review, verified real delivery receipts. No auto enable by config guess or old PR19 migration.
