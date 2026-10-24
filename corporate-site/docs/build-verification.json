@@ -5,8 +5,8 @@
   "metadata": "PASS",
   "indexMode": "TEMPORARY_NOINDEX",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 19178,
-  "allEmittedJsGzip": 138264,
+  "cssGzip": 19454,
+  "allEmittedJsGzip": 138279,
   "assets": [
     {
       "name": "_astro/AssistantInbox.CDVp1hsY.js",
@@ -49,9 +49,9 @@
       "gzip": 8595
     },
     {
-      "name": "_astro/Layout.BdCTVf0e.css",
-      "bytes": 52888,
-      "gzip": 12452
+      "name": "_astro/Layout.CZ3ZgasI.css",
+      "bytes": 54323,
+      "gzip": 12728
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_0_lang.I_NgTm7l.js",
@@ -59,9 +59,9 @@
       "gzip": 611
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.Wj15ZnYG.js",
-      "bytes": 715,
-      "gzip": 411
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.CjKg3mtf.js",
+      "bytes": 757,
+      "gzip": 426
     },
     {
       "name": "_astro/Portal.BjK6zqOh.js",
@@ -154,7 +154,7 @@
       "gzip": 12839
     }
   ],
-  "artifactSha256": "5efd9c27bac3e4bb4abff1b63206f96664b456011549d927cdd6855a51bff29b",
+  "artifactSha256": "49655ac869a431f4f05c999d07c11e62a24a05e5a1f7c2dfe3d31f83b9a962ad",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }
