@@ -24,3 +24,35 @@ export const audit = sqliteTable("portal_audit", {
 export const rateLimits = sqliteTable("portal_rate_limits", {
   key: text("key").primaryKey(), count: integer("count").notNull(), expiresAt: integer("expires_at").notNull(),
 });
+
+/** A visitor owns only conversations for which they hold a high-entropy secret. */
+export const assistantConversations = sqliteTable("assistant_conversations", {
+  id: text("id").primaryKey(),
+  tokenHash: text("token_hash").notNull(),
+  locale: text("locale").notNull(),
+  status: text("status").notNull().default("assistant"),
+  contactName: text("contact_name").notNull().default(""),
+  contactEmail: text("contact_email").notNull().default(""),
+  contactPhone: text("contact_phone").notNull().default(""),
+  privacyVersion: text("privacy_version").notNull(),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+}, t => [index("assistant_conversations_updated").on(t.updatedAt)]);
+export const assistantMessages = sqliteTable("assistant_messages", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
+  sender: text("sender").notNull(),
+  kind: text("kind").notNull().default("text"),
+  content: text("content").notNull(),
+  requestKey: text("request_key").notNull(),
+  createdAt: text("created_at").notNull(),
+}, t => [uniqueIndex("assistant_message_retry").on(t.conversationId,t.requestKey),index("assistant_messages_thread").on(t.conversationId,t.createdAt)]);
+export const assistantOffers = sqliteTable("assistant_offers", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
+  content: text("content").notNull(),
+  state: text("state").notNull().default("pending"),
+  requestKey: text("request_key").notNull(),
+  createdAt: text("created_at").notNull(),
+  decidedAt: text("decided_at"),
+}, t => [uniqueIndex("assistant_offer_retry").on(t.conversationId,t.requestKey),index("assistant_offers_thread").on(t.conversationId,t.createdAt)]);

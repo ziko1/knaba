@@ -2036,3 +2036,9 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
 /* Locale navigation remains available on narrow screens. */
 .site-language-bar{background:#f0f5f1;border-bottom:1px solid #d8e4df}.site-language-bar nav{display:flex;justify-content:flex-end;gap:.25rem}.site-language-bar a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font-size:.78rem;font-weight:700;color:#244c43}.site-language-bar a[aria-current=true]{text-decoration:underline;text-underline-offset:5px;background:#dceadf}.site-language-bar a:focus-visible{outline:2px solid #244c43;outline-offset:-3px}html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=ru] h1,html[lang=ru] h2{overflow-wrap:break-word}
 @media(min-width:1001px) and (max-width:1250px){html[lang=ru] .desktop-nav{gap:.7rem;font-size:.72rem}html[lang=ru] .nav-wrap{gap:1rem}}
+
+.knaba-widget-root{position:fixed;right:clamp(10px,2.5vw,30px);bottom:max(15px,env(safe-area-inset-bottom));z-index:90}
+.knaba-widget-root [data-knaba-open]{display:flex;gap:12px;align-items:center;border:1px solid #295a53;border-radius:48px;background:#12383d;color:#fff;padding:13px 21px;font:750 14px/1.4 "Helvetica Neue",Arial,sans-serif;box-shadow:0 15px 36px -18px #09272c}
+.knaba-widget-root [data-knaba-open] span{color:#def59e;font-size:23px}
+.knaba-widget-root [data-knaba-open]:disabled{opacity:.7}
+@media(max-width:480px){.knaba-widget-root{right:10px;bottom:max(10px,env(safe-area-inset-bottom))}}

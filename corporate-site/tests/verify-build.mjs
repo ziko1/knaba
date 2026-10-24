@@ -38,7 +38,7 @@ for (const file of pages) {
   if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!official || /konto|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!official || /konto|postfach|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -80,9 +80,20 @@ assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
+assert.match(homepage, /data-knaba-open/, 'Chat launcher is present without eager framework hydration');
+const workerConfig=JSON.parse(await readFile(resolve('dist/server/wrangler.json'),'utf8'));
+for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
+  assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
-assert.equal(russianPages.length, 22, 'Full Russian public route tree plus portal');
-for (const file of russianPages) {
+const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
+assert.equal(russianPublicPages.length, 22, 'Full Russian public route tree plus portal');
+assert.equal(russianPages.length, 23, 'Private Russian owner inbox is an additional noindex page');
+const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
+assert.match(russianInbox, /<html lang="ru"/);
+assert.match(russianInbox, /name="robots" content="noindex, follow"/);
+const germanInbox = await readFile(resolve(root,'postfach/index.html'),'utf8');
+assert.match(germanInbox, /name="robots" content="noindex, follow"/);
+for (const file of russianPublicPages) {
   const html = await readFile(file, 'utf8');
   const route = '/' + relative(root, file).replace(/index\.html$/, '');
   assert.match(html, /<html lang="ru"/);

@@ -1,0 +1,53 @@
+.ka-wrap { position:fixed; right:clamp(10px,2.5vw,30px); bottom:max(15px,env(safe-area-inset-bottom)); z-index:90; font:14px/1.5 "Helvetica Neue",Arial,sans-serif; color:#173b3f; }
+.ka-wrap * { box-sizing:border-box; }
+.ka-wrap button { touch-action:manipulation; }
+.ka-launcher { display:flex; align-items:center; gap:12px; background:#12383d; color:#fff; border:1px solid #295a53; border-radius:48px; padding:13px 21px; font-weight:750; box-shadow:0 15px 36px -18px #09272c; }
+.ka-launcher span { color:#def59e; font-size:23px; }
+.ka-panel { display:flex; flex-direction:column; width:min(390px,calc(100vw - 20px)); height:min(680px,calc(100dvh - 40px)); overflow:hidden; background:#fcfdf9; border:1px solid #d7e1da; border-radius:22px; box-shadow:0 28px 90px -30px rgba(8,35,39,.38); }
+.ka-header { display:flex; gap:10px; align-items:center; justify-content:space-between; flex-shrink:0; padding:17px 18px; background:#13383d; color:white; }
+.ka-header strong { display:block; font-size:16px; font-weight:760; }
+.ka-header small { display:block; color:#d8ebdf; font-size:11px; margin-top:3px; }
+.ka-wrap .ka-icon { border:0; background:transparent; color:inherit; font-size:23px; min-width:34px; min-height:34px; border-radius:9px; }
+.ka-header .ka-icon:hover { background:#34595e; }
+.ka-history { flex:1 1 auto; overflow:auto; min-height:100px; background:linear-gradient(160deg,#f1f5eb,#fffdf9); padding:20px 14px; overscroll-behavior:contain; scrollbar-width:thin; }
+.ka-message { width:fit-content; max-width:88%; white-space:pre-wrap; overflow-wrap:anywhere; border-radius:16px; padding:10px 13px; margin:0 0 10px; color:#174048; background:#fff; font-size:13px; line-height:1.55; border:1px solid #e0e8e4; }
+.ka-message span { display:block; font-weight:800; font-size:10px; letter-spacing:.02em; margin-bottom:5px; color:#56716c; }
+.ka-message span:empty { display:none; }
+.ka-customer { margin-left:auto; background:#e0f3b3; border-color:#cfe3a9; }
+.ka-owner { background:#e5e3fc; border-color:#dcd8f6; }
+.ka-status { font-size:12px; text-align:center; background:#e6f0eb; padding:11px; border-radius:11px; color:#2a5347; line-height:1.5; }
+.ka-offer { padding:13px; border:1px solid #b4d0bb; background:#f2f8eb; border-radius:12px; margin-bottom:15px; }
+.ka-offer strong { display:block; font-size:12px; }
+.ka-offer p { font-size:13px; white-space:pre-wrap; margin:9px 0; color:#1e4444; overflow-wrap:anywhere; }
+.ka-offer small { color:#47645b; }
+.ka-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.ka-row button { flex:1; min-width:90px; border:1px solid #bdd3c2; background:white; color:#164044; padding:9px 6px; border-radius:10px; font-size:12px; font-weight:750; }
+.ka-bottom { flex:0 0 auto; max-height:63%; overflow-y:auto; padding:12px 14px 14px; background:#fff; border-top:1px solid #e2e9e1; }
+.ka-note { font-size:11px; line-height:1.45; color:#526b66; margin:0 0 10px; }
+.ka-consent { display:flex; gap:8px; align-items:flex-start; font-size:11px; line-height:1.5; padding:8px; border-radius:9px; background:#eef5ed; margin-bottom:10px; }
+.ka-consent input { width:16px; height:16px; flex-shrink:0; margin:2px 0 0; accent-color:#226251; }
+.ka-consent a { color:#174c49; text-decoration:underline; }
+.ka-chat-form textarea,.ka-handoff-form input { width:100%; min-width:0; background:#fcfdfb; color:#173b3f; border:1px solid #cddbd3; border-radius:11px; padding:9px 11px; resize:vertical; font:inherit; font-size:13px; }
+.ka-chat-form textarea { min-height:49px; max-height:100px; }
+.ka-chat-form textarea:focus-visible,.ka-handoff-form input:focus-visible { outline:2px solid #628571; outline-offset:1px; }
+.ka-form-row { display:flex; align-items:center; justify-content:flex-end; gap:6px; margin-top:7px; }
+.ka-form-row .ka-icon { font-size:17px; border:1px solid #e4e9e1; }
+.ka-wrap .ka-main-button { padding:9px 15px; border:0; background:#163c40; color:white; border-radius:10px; font-weight:730; font-size:12px; margin-left:auto; }
+.ka-wrap button:disabled { opacity:.52; cursor:not-allowed; }
+.ka-contact-owner { display:block; margin:8px 0; width:100%; color:#184b48; font-size:12px; font-weight:700; padding:9px 12px; border:1px solid #cdded6; background:#f0f7e8; border-radius:10px; }
+.ka-handoff-form { display:grid; gap:8px; margin:10px 0; padding:12px; background:#eff6f1; border-radius:12px; }
+.ka-handoff-form .ka-main-button { width:100%; }
+.ka-bottom nav { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; font-size:11px; color:#345951; }
+.ka-bottom nav a { text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere; }
+.ka-reset { display:block; margin:10px auto 0; background:none; border:0; font-size:11px; color:#567569; text-decoration:underline; }
+.ka-ephemeral { margin:7px 0 0; text-align:center; font-size:10px; line-height:1.4; color:#6b8074; }
+.ka-error { border-top:1px solid #f4d9d4; background:#fff0e9; padding:8px 13px; margin:0; font-size:12px; color:#7d382d; }
+@media (max-width:480px) {
+  .ka-wrap { right:10px; bottom:max(10px,env(safe-area-inset-bottom)); }
+  .ka-panel { height:min(640px,calc(100dvh - 20px)); width:calc(100vw - 20px); border-radius:16px; }
+  .ka-history { padding:13px 10px; }
+  .ka-bottom { padding:10px 12px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .ka-wrap * { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
+}
