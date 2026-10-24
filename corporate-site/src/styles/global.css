@@ -2036,3 +2036,29 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
 /* Locale navigation remains available on narrow screens. */
 .site-language-bar{background:#f0f5f1;border-bottom:1px solid #d8e4df}.site-language-bar nav{display:flex;justify-content:flex-end;gap:.25rem}.site-language-bar a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font-size:.78rem;font-weight:700;color:#244c43}.site-language-bar a[aria-current=true]{text-decoration:underline;text-underline-offset:5px;background:#dceadf}.site-language-bar a:focus-visible{outline:2px solid #244c43;outline-offset:-3px}html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=ru] h1,html[lang=ru] h2{overflow-wrap:break-word}
 @media(min-width:1001px) and (max-width:1250px){html[lang=ru] .desktop-nav{gap:.7rem;font-size:.72rem}html[lang=ru] .nav-wrap{gap:1rem}}
+
+
+/* KnaBa vivid 2D cleaning art — static SVG, no runtime JS. */
+.hero-art { background: linear-gradient(135deg,#a7e6ff 0%,#dcffd8 55%,#fff2b0 100%); }
+.hero-art:before { background:#ffdc68; }
+.hero h1 .hero-highlight { background:linear-gradient(transparent 61%,#fff08c 61%,#fff08c 92%,transparent 92%); }
+.office-art { display:block;object-fit:contain;object-position:center; }
+.service-card { box-shadow:0 6px 25px #2049680d; }
+.service-card:nth-child(6n+1) { background:#e8fad6; }
+.service-card:nth-child(6n+2) { background:#dceeff; }
+.service-card:nth-child(6n+3) { background:#d8f7ff; }
+.service-card:nth-child(6n+4) { background:#ffe9d8; }
+.service-card:nth-child(6n+5) { background:#eee4ff; }
+.service-card:nth-child(6n+6) { background:#e0fae7; }
+.service-card-art, .locale-service-art, .detail-service-art {
+  display:block;width:100%;height:auto;aspect-ratio:720/500;object-fit:cover;
+  background:#eff9ff;border-radius:14px;
+}
+.service-card-art { margin:0 0 19px;box-shadow:0 4px 14px #1e5d6610;transition:transform .22s ease; }
+.service-card:hover .service-card-art { transform:translateY(-3px); }
+.detail-service-art { margin:0 0 24px; }
+.locale-service-art { margin:0 0 16px; }
+@media (prefers-reduced-motion:reduce) {
+ .service-card-art { transition:none; }
+ .service-card:hover .service-card-art { transform:none; }
+}
