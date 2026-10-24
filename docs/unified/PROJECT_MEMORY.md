@@ -69,3 +69,11 @@ owner Assistant inbox. Додано CRM lead-contacts зі статусами, �
 Деталі в corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md.
 Всі нові результати LOCAL/SYNTHETIC, owner/provider identity UAT та
 D1-ERP PostgreSQL bridge НЕ підтверджені. Не merge/production deploy.
+
+
+## 2026-10-24 — unified website + KNABA Studio candidate checkpoint
+- Ізольована гілка `codex/knaba-studio-site-unified-20261024` на базі PR #23, source-code `9fb3801a9ae8403dde2dc143c04cd6296c065f88` (root tree `c7f8707359cf363c5c8a28e3d2f8b2a151cbd1b6`, site tree `19b4ee005a464f9bf5ab85c054779c64916a1235`, ERP tree не змінено `a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43`).
+- Reuse PR #21 (2D, Bauhelfer, locale dropdown, lazy floating Assistant) + PR #23 (CMS/CRM/Portal); source diff змінює тільки `corporate-site/` 22 файли; старі API/схеми/D1 migration незмінні.
+- VPS verified Node24/npm11: 104 Vitest +8 Node PASS, check PASS, build 52 HTML, static PASS, npm audit production 0 reported; 16 Chromium locale×width PASS, Wrangler local migrations 0000..0002 і HTTP 9/9 PASS, synthetic owner edit/save/publish, CRM/portal browser PASS.
+- One final container artifact `18bec8c9cfca72ec52d94422d10acb0fead263e506ed985f8d62c0cd774d810d`; local UAT не дорівнює live owner acceptance. Native Sites publish/DB backup недоступні. PR19/PR22 не зливали й D1 схеми не дублювали. QA/gates: `docs/unified/KNABA_UNIFIED_SITE_CMS_CRM_QA_2026-10-24.md`.
+- Release status: **SITE_STUDIO_LOCAL_QA_PASS / LIVE_NOT_DEPLOYED / CUSTOMER_HANDOVER_BLOCKED**.

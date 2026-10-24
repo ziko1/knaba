@@ -53,3 +53,10 @@
 | QA-STUDIO | P0 | Edge, actual browser/device, reviewer, rollback and owner signoff | NOT_RUN |
 
 See corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md for exact boundaries.
+
+
+## 2026-10-24 — unified website + CMS/CRM source checkpoint
+- **KN-U21** (`LOCAL_QA_PASS`, base PR23): port PR21 original 2D/DE-RU-EN-UK/company Bauhelfer/accessible single-language-dropdown/compact lazy assistant into one Studio/CRM/Portal source. Exact tested code SHA `9fb3801a9ae8403dde2dc143c04cd6296c065f88` with 104+8 tests, 52 HTML, 16 browser checks, local CMS owner E2E. No production approval.
+- **KN-U22** (`BLOCKED_EXTERNAL`, release P0): gain authenticated native ChatGPT Sites version/read/publish/rollback API and real live D1 backup/restore; audit identity spoof boundary; native owner UAT/consent/device. Do not bypass by DNS or alternate database.
+- **KN-U23** (`PENDING`, after U22 and GDPR): reconcile PR19 notifications/recovery and PR22 richer Studio features into the one existing CMS/CRM, avoid competing migrations `0002/0003`, require independent tests and provider/budget gates.
+- No changes to the existing ERP source-tree or prior backlog acceptance evidence.
