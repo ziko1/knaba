@@ -38,3 +38,8 @@
 ## Незакриті acceptance
 
 - Гостьовий + власниковий реальний браузер із підтвердженим Sites Auth та D1 provider; user consent і legally approved privacy текст; keyboard/320px/200% zoom; пагінація для inbox і повідомлень; блокування/закриття діалогів, retention/erasure; email/WhatsApp одержувача; E2E зовнішнього CRM/ERP; незалежний review. Без цих доказів release guard залишається `BLOCKED`.
+
+## Evidence hardening after full SHA checkout
+At the exact unmerged code SHA `f6b95f9b26d39bf246e307f3f00255da3f116ea7`, Node24.21.0 passed Astro/Vue/Svelte checks, 76/76 Vitest and 8/8 inquiry tests; the 51-page build and static verifier passed. Release gate exit=1 as intended (25 blockers). This was executed on a clean commit checkout with shared, lockfile-installed dependencies. No real owner login or production D1 was exercised.
+
+The same code produced two differing full-static artifact digests (`c450650b...` in the earlier worktree, `06b8121b...` in the exact-SHA recheck). A byte comparison isolated the difference to random Astro island `uid` attributes on 10 generated HTML pages; code source changes were not implicated. **Do not infer byte-for-byte reproducibility or reuse a previous artifact digest for a new build.** An actual deployment needs to capture and verify the precise archive bytes. A TDD regression was added to prevent `tests/verify-build.mjs` from rewriting the tracked `corporate-site/docs/build-verification.json` on every QA run. The new report is emitted under ignored `dist/evidence/build-verification.json` and is bound to that one build; historic source receipts stay intact.

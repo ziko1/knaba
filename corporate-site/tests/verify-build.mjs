@@ -1,5 +1,5 @@
-import { readFile, readdir, stat, writeFile } from "node:fs/promises";
-import { resolve, join, relative } from "node:path";
+import { readFile, readdir, stat, writeFile, mkdir } from "node:fs/promises";
+import { resolve, join, relative, dirname } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
@@ -131,11 +131,17 @@ const report = {
   allEmittedJsGzip: jsGzip,
   assets,
   artifactSha256: hash.digest("hex"),
+  reproducibility: "BYTES_OF_THIS_BUILD_ONLY_ASTRO_ISLAND_UID_MAY_DIFFER",
   fieldWebVitals: "NOT_RUN",
   networkTransfer: "NOT_MEASURED",
 };
-await writeFile(
-  official ? "docs/evidence/official-build-verification.json" : "docs/build-verification.json",
-  JSON.stringify(report, null, 2) + "\n",
-);
+// Output is build-specific and must not mutate tracked historical source evidence.
+// Astro island UIDs can differ between identical-source builds: capture the actual
+// artifact hash for THIS build; only copy into durable evidence after review.
+const receiptPath = process.env.KNABA_VERIFICATION_REPORT_PATH ||
+  (official ? 'dist/evidence/official-build-verification.json' : 'dist/evidence/build-verification.json');
+const target=resolve(receiptPath);
+if(!target.startsWith(resolve('dist')+'/'))throw new Error('Build verification output must stay under dist');
+await mkdir(dirname(target),{recursive:true});
+await writeFile(target,JSON.stringify(report,null,2)+"\n");
 console.log(JSON.stringify(report, null, 2));

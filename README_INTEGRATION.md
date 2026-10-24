@@ -41,3 +41,6 @@ No production deployment or GitHub merge is part of this source assembly.
 
 ## Follow-up: owner conversation source changes
 The original `corporate-site/` import SHA in the layout section is a **historical baseline**, not a claim that the site remains unchanged forever. The active integration candidate now includes bounded, tested changes for owner conversations, D1 migration, UI and Worker routing. `scripts/verify-snapshot.mjs` preserves the exact ERP Git tree and reports the new corporate tree identity explicitly; tests and source manifests must be regenerated for each new candidate, not assigned the original `db6c...` runtime evidence. See `docs/unified/KNABA_ASSISTANT_IMPLEMENTATION_2026-10-24.md`.
+
+## Static-build receipt discipline
+`npm run verify:build --prefix corporate-site` writes a **per-build** receipt to ignored `corporate-site/dist/evidence/build-verification.json`, not a tracked old JSON. Astro island UIDs currently produce byte-wise variation across identical-source builds, so each deployment must archive the exact emitted bytes and verify that archive separately. The release gate remains BLOCKED without exact deployed artifact evidence and real human/provider UAT.
