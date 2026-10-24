@@ -76,3 +76,10 @@ R3 published successfully: Sites source a91edbcf989fe342cf342fa8741f0eec8a5b5488
 ## Assistant notification continuation (2026-10-24)
 
 - Source-pinned follow-up to PR #13 (`5b5f1dca323eca371a7c3f160e1614ac46e7c41b`), isolated Draft; new D1 notification outbox, disabled Resend adapter with daily rate budget, client recovery code and owner inbox delivery status. Details and release gates in `docs/KNABA_ASSISTANT_NOTIFICATIONS_UK.md`. No live migration/deploy, no paid AI or email activation.
+
+## 24.10.2026 — LANG-NOTIFY integrated candidate
+
+- Окремий кандидат від PR #18 (`0730a2159e8b0577fab780ab2496ab287b11c259`): переносимо рівно три UI/test-файли з PR #15. Збережено assistant recovery, owner outbox/notifications (disabled by default) і локалізації DE/EN/UK/RU; нових API, SQL, production-залежностей немає.
+- На source candidate локально: 63 Vitest + 8 Node, 84 Astro files typecheck clean, 49 HTML, 60 Chromium viewport сценаріїв, 3 end-to-end браузер+Wrangler/D1 recovery сценаріїв (320/390/1280), ізольовані міграції 0000→0001→0002 — PASS. Artifact SHA256 `f4347c542314283c88a39fa35c43c85c52186ea250af36f35b13d8f0971bdc33`; цей digest належить локальній збірці й не є deployment receipt.
+- ChatGPT Sites target `appgprj_6adc346d6f8881918b73ac79ebc5d759` не доступний для публікації/backup з наявних конекторів. AppDeploy не містить цього проєкту, Opera connector disconnected. Не виконано merge/deploy/migration remote; live owner/role UAT, privacy approval, physical devices NOT_RUN.
+- Детальна QA/rollback і межі: `docs/evidence/LANGUAGE_NOTIFICATIONS_RELEASE_2026-10-24_UK.md`. Витрати на зовнішні AI/email API: EUR0 активовано, квоти provider UNKNOWN. VPS диск приблизно 93% використано; без видалень.
