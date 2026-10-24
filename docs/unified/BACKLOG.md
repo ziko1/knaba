@@ -60,3 +60,8 @@ See corporate-site/docs/KNABA_STUDIO_CMS_CRM_2026-10-24_UK.md for exact boundari
 - **KN-U22** (`BLOCKED_EXTERNAL`, release P0): gain authenticated native ChatGPT Sites version/read/publish/rollback API and real live D1 backup/restore; audit identity spoof boundary; native owner UAT/consent/device. Do not bypass by DNS or alternate database.
 - **KN-U23** (`PENDING`, after U22 and GDPR): reconcile PR19 notifications/recovery and PR22 richer Studio features into the one existing CMS/CRM, avoid competing migrations `0002/0003`, require independent tests and provider/budget gates.
 - No changes to the existing ERP source-tree or prior backlog acceptance evidence.
+
+
+## Guest chat recovery increment — 2026-10-24
+- **KN-U24** (`SOURCE_LOCAL_QA_PASS / DEPLOY_BLOCKED`): versioned manual guest recovery code, no new schema or paid provider. Exact SHA `3cd7ba796753dba8d4701925d4c5f70fb82038ba`, local E2E guest→owner→guest isolated cross-tab, 107 Vitest + 8 Node, 52-page build. Requires live Sites owner identity/backup/privacy acceptance.
+- **KN-U25** (`PENDING`): add email notification outbox to current `assistant_threads` domain with **new migration after CMS/CRM 0002**; do not copy PR19 `assistant_conversations` SQL or enable email provider without verified provider rights/quota/cost. Must remain disabled by default.

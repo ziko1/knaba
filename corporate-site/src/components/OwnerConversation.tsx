@@ -1,5 +1,6 @@
 import { createMemo, createSignal, For, onMount, Show, type Accessor } from 'solid-js';
 import { conversationCopy, createCapability, createRequestKey, createVisitorThread, listOwnerThreads, loadOwnerThread, loadVisitorThread, restoreConversation, sendOwnerMessage, sendVisitorMessage, sessionStorageKey, ConversationHttpError, type ConversationDetails, type ConversationIdentity, type ConversationLocale, type ConversationMessage, type ConversationThread } from '../lib/assistant-conversation';
+import { formatRecoveryCode, parseRecoveryCode } from '../lib/assistant-recovery';
 import '../styles/owner-conversation.css';
 
 function MessageHistory(props:{messages:ConversationMessage[];locale:ConversationLocale;hasMore:boolean}){
@@ -16,6 +17,10 @@ export function VisitorOwnerChat(props:{locale:Accessor<ConversationLocale>}){
   const [busy,setBusy]=createSignal(false);
   const [error,setError]=createSignal('');
   const [notice,setNotice]=createSignal('');
+  const [recoveryCode,setRecoveryCode]=createSignal('');
+  const [recoveryDraft,setRecoveryDraft]=createSignal('');
+  let recoveryInput:HTMLInputElement|undefined;
+
   const t=createMemo(()=>conversationCopy[props.locale()]);
   let pendingStart:{capability:string;idempotencyKey:string;locale:ConversationLocale;message:string;consentAccepted:true}|null=null;
   let pendingReply:{idempotencyKey:string;message:string}|null=null;
@@ -66,12 +71,74 @@ export function VisitorOwnerChat(props:{locale:Accessor<ConversationLocale>}){
   function forget(){
     if(!confirm(t().forgetNotice))return;
     try{sessionStorage.removeItem(sessionStorageKey);}catch{}
-    setIdentity(null);setMessages([]);setHasMore(false);setDraft('');setError('');setNotice('');pendingStart=null;pendingReply=null;setConsent(false);
+    setIdentity(null);setMessages([]);setHasMore(false);setDraft('');setRecoveryCode('');setRecoveryDraft('');setError('');setNotice('');pendingStart=null;pendingReply=null;setConsent(false);
+  }
+
+  function revealRecovery() {
+    const current=identity();
+    if(!current)return;
+    try {setRecoveryCode(formatRecoveryCode(current));setError('');}
+    catch {setError(t().unavailable);}
+  }
+  async function copyRecovery() {
+    const code=recoveryCode();
+    if(!code || !identity())return;
+    try {
+      if(!navigator.clipboard?.writeText)throw new Error('Clipboard API unavailable');
+      await navigator.clipboard.writeText(code);
+      setNotice(t().copiedCode);setError('');
+    }catch{
+      setError(t().copyManual);
+      recoveryInput?.focus();recoveryInput?.select();
+    }
+  }
+  async function recover(event:Event) {
+    event.preventDefault();
+    if(busy()||identity())return;
+    const target=parseRecoveryCode(recoveryDraft());
+    if(!target){setError(t().restoreInvalid);return;}
+    setBusy(true);setError('');setNotice('');
+    try {
+      // Verify ownership of the bearer capability against D1 *before* persisting locally.
+      const view=await loadVisitorThread(target.id,target.capability);
+      setIdentity(target);setMessages(view.messages);setHasMore(view.hasMore);
+      setDraft('');setRecoveryDraft('');setRecoveryCode('');setConsent(false);
+      pendingStart=null;pendingReply=null;
+      try{sessionStorage.setItem(sessionStorageKey,JSON.stringify(target));}catch{/* User may block tab storage. */}
+      setNotice(t().restoreSuccess);
+    }catch {
+      // Deliberately indistinguishable for unknown, expired, or incorrect credentials.
+      setError(t().restoreInvalid);
+    }finally{setBusy(false);}
   }
   return <section class="knaba-owner-chat" aria-label={t().title}>
     <div class="knaba-owner-intro"><h3>{t().title}</h3><p>{t().intro}</p></div>
-    <Show when={identity()}><MessageHistory messages={messages()} locale={props.locale()} hasMore={hasMore()}/><div class="knaba-owner-actions"><button type="button" onClick={()=>void refresh()} disabled={busy()}>{t().refresh}</button><button type="button" onClick={forget} disabled={busy()}>{t().forget}</button></div></Show>
-    <Show when={!identity()}><p class="knaba-owner-caption">{t().privacy}</p></Show>
+    <Show when={identity()}>
+      <MessageHistory messages={messages()} locale={props.locale()} hasMore={hasMore()}/>
+      <div class="knaba-owner-actions">
+        <button type="button" onClick={()=>void refresh()} disabled={busy()}>{t().refresh}</button>
+        <button type="button" onClick={revealRecovery} disabled={busy()}>{t().saveCode}</button>
+        <button type="button" onClick={forget} disabled={busy()}>{t().forget}</button>
+      </div>
+      <Show when={recoveryCode()}>
+        <div class="knaba-owner-recovery-code">
+          <label for="knaba-owner-recovery-code">{t().restoreInput}</label>
+          <input id="knaba-owner-recovery-code" ref={recoveryInput} type="text" value={recoveryCode()} readOnly spellcheck={false} autocomplete="off" aria-describedby="knaba-owner-code-warning"/>
+          <button type="button" onClick={()=>void copyRecovery()}>{t().copyCode}</button>
+          <p id="knaba-owner-code-warning">{t().codeWarning}</p>
+        </div>
+      </Show>
+    </Show>
+    <Show when={!identity()}>
+      <p class="knaba-owner-caption">{t().privacy}</p>
+      <form class="knaba-owner-restore" onSubmit={recover}>
+        <label for="knaba-restore-code">{t().restoreTitle}</label>
+        <div>
+          <input id="knaba-restore-code" type="password" spellcheck={false} autocomplete="off" value={recoveryDraft()} onInput={e=>{setRecoveryDraft(e.currentTarget.value);setError('');}} disabled={busy()} aria-label={t().restoreInput}/>
+          <button type="submit" disabled={busy()||!recoveryDraft().trim()}>{t().restoreAction}</button>
+        </div>
+      </form>
+    </Show>
     <form class="knaba-owner-compose" onSubmit={send}>
       <label for="owner-visitor-message">{t().placeholder}</label>
       <textarea id="owner-visitor-message" rows={3} minLength={2} maxLength={1500} required value={draft()} onInput={e=>setDraft(e.currentTarget.value)} disabled={busy()}/>

@@ -77,3 +77,9 @@ D1-ERP PostgreSQL bridge НЕ підтверджені. Не merge/production de
 - VPS verified Node24/npm11: 104 Vitest +8 Node PASS, check PASS, build 52 HTML, static PASS, npm audit production 0 reported; 16 Chromium locale×width PASS, Wrangler local migrations 0000..0002 і HTTP 9/9 PASS, synthetic owner edit/save/publish, CRM/portal browser PASS.
 - One final container artifact `18bec8c9cfca72ec52d94422d10acb0fead263e506ed985f8d62c0cd774d810d`; local UAT не дорівнює live owner acceptance. Native Sites publish/DB backup недоступні. PR19/PR22 не зливали й D1 схеми не дублювали. QA/gates: `docs/unified/KNABA_UNIFIED_SITE_CMS_CRM_QA_2026-10-24.md`.
 - Release status: **SITE_STUDIO_LOCAL_QA_PASS / LIVE_NOT_DEPLOYED / CUSTOMER_HANDOVER_BLOCKED**.
+
+
+## 2026-10-24 — KNABA private guest conversation recovery
+- Окремий branch `codex/knaba-conversation-recovery-20261024` поверх PR #24; exact source `3cd7ba796753dba8d4701925d4c5f70fb82038ba`, site tree `ac344d1e4d322dde2194a9428bd7064386037286`; ERP tree незмінний.
+- Мануальний bearer code `KNABA2` для існуючого D1 guest chat (256-bit base64url), серверна перевірка перед відновленням, лише sessionStorage поточної вкладки; 4 локалізації. **Без** нових міграцій/зовнішніх викликів. Не плутати із несумісним PR19.
+- QA: справжній RED з відсутнім модулем, GREEN 107 Vitest + 8 Node, 52 page build, 98 Astro без помилок, local D1 0000..0002, окремий browser-context recovery + synthetic owner reply PASS; artifact digest `eefc670e9d1346ccbc1bc4b41a05db0cb97da01d75eeeae3d152a15b4ea8dee3`. Статус локальний PASS, Sites preview production не оновлений. Документ `docs/unified/KNABA_GUEST_CHAT_RECOVERY_QA_2026-10-24.md`.
