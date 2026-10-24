@@ -9,7 +9,7 @@ This scope is the new corporate marketing surface. Existing KNABA V4 roadmap and
 | C03 | Detailed sitemap, implementation plan and reusable prompt | Written; reviewed with route corrections |
 | C04 | Corporate pages and honest interactive inquiry path | Implemented; bounded browser flow verified |
 | C05 | Checks, build, behavior, size budgets and independent review | Local checks passed in documented scope; broader accessibility/device checks NOT_RUN |
-| C06 | Approved release, domain, legal content, real hosted verification | BLOCKED: no release authorization |
+| C06 | Official-domain release with approved legal/brand content | Future release; temporary preview explicitly authorized separately in revision2 |
 
 ## Follow-up backlog
 
@@ -19,3 +19,16 @@ This scope is the new corporate marketing surface. Existing KNABA V4 roadmap and
 4. Release approved artifact to selected host; retain old deployment for rollback. Verify real mobile request and email/CRM delivery.
 5. Measure deployed mobile CWV and conversion baseline before optimizing further.
 6. Prepare localization architecture and staged 55-language backlog. German is implemented now; each additional locale requires translated content, native-language review, locale SEO and accessibility QA before exposure.
+
+## Revision 2 — authorized temporary preview (24 October 2026)
+
+| ID | Acceptance | State |
+|---|---|---|
+| R201 | Colorful coherent responsive design | Implemented; desktop screenshot and iframe320/390/768 reviewed |
+| R202 | Vue/Pinia finder, Svelte checklist, Zustand selection, Solid Query catalogue and inquiry handoff | Browser flow and 11 Vitest cases passed |
+| R203 | Tailwind4/TypeScript/Vite/Vitest actual integration | Checks/build passed; existing 8 inquiry tests retained |
+| R204 | Visible temporary notice/noindex/removal and migration plan | Implemented; live meta noindex verified, raw HTTP headers not verified |
+| R205 | Public HTTPS kneba.vsp.rest | PASS: domain/provider/TLS active and live browser flow verified |
+| R206 | Updated plan, prompt, README, memory, evidence | PASS: plan/prompt/source manifest and live receipts recorded |
+
+Selected Svelte and Vite from the requested slash alternatives. SvelteKit/Turbopack are not installed. No merge or official knaba.de migration. Human UAT, full screen-reader/zoom/physical-device coverage, field CWV, real Lead delivery and final legal/operator approval remain NOT_RUN/future work.

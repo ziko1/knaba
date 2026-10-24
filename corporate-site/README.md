@@ -1,13 +1,12 @@
-# KnaBa corporate website candidate
+# KnaBa corporate website — temporary preview
 
-Astro 7 + TypeScript + SolidJS. A separately buildable marketing surface in `ziko1/knaba`, based on user-confirmed `knaba.de`. It does not replace the existing KNABA V4 application or modify its pending branches.
+German corporate cleaning website for KnaBa, Berlin & Brandenburg. Temporary address: `https://kneba.vsp.rest`. Official existing website: `https://knaba.de`. This is an isolated marketing surface in `ziko1/knaba`; the KNABA V4 application is preserved.
 
-## Run
+## Run and verify
 
-Node >=22.23.4 (tested on Node 24.19.0).
+Node >=22.23.4 (tested Node24.19.0).
 
 ```sh
-cd corporate-site
 npm ci
 npm run check
 npm test
@@ -16,17 +15,34 @@ npm run verify:build
 npm run preview
 ```
 
-15 prerendered pages, including six service pages and the 404 page. Only the inquiry assistant uses a SolidJS browser island. The marketing pages remain readable without JavaScript. Contact details and services are centralized in `src/data/company.ts`.
+## Architecture
 
-The inquiry assistant **prepares an email draft**. It does not create a server-side Lead, send a message or claim delivery. No tracking, remote fonts, external image requests or personal-data storage are included. The image is illustrative, not a client reference.
+| Technology | Actual responsibility |
+|---|---|
+| Astro7 + Vite | Static routing/prerender and one build pipeline |
+| SolidJS | Inquiry wizard and query-backed catalogue |
+| Vue3 + Pinia | Service finder and local object/need filters |
+| Svelte5 | Preparation checklist, progress/reset, inquiry handoff |
+| Zustand vanilla | Shared validated service selection among planner islands |
+| TanStack Solid Query | Local catalogue request, cache, timeout/cancellation/error/retry |
+| Tailwind CSS4 | Tokens, utilities and responsive planner layout |
+| TypeScript | Contracts and Astro/Vue/Svelte checks |
+| Vitest | Planner rules, state isolation, catalogue boundary tests |
 
-## Release boundary
+Svelte was selected from the requested Svelte/SvelteKit alternatives; Vite was selected from Vite/Turbopack. SvelteKit and Turbopack are not installed or claimed integrated. Do not add a second router or unused builder to this Astro project.
 
-This candidate is deliberately **noindex** and `robots.txt` disallows crawling. The legal/privacy pages clearly remain drafts. No domain or production deployment has been changed. Before production: obtain owner approval, verify legal content and image provenance/licensing, confirm hosting/privacy requirements, approve redirects, remove the index block in the reviewed release, activate the prepared sitemap, and verify the deployed artifact plus real user flows. Actual email delivery, field Web Vitals and full accessibility certification are not claimed.
+16 prerendered HTML pages, six service details, local catalogue JSON and sitemap. Homepage is fully static with no framework islands. Only `/planer/` loads the three interactive frameworks; `/kontakt/` loads the Solid inquiry. No external fonts/images, analytics, localStorage or personal-data persistence. Original SVG illustration is symbolic, not a KnaBa reference project.
 
-The existing application's KNB-21 / AC-62 Lead integration is a separate follow-up requiring real API contracts and endpoint access. No guessed endpoint or credential is embedded.
+The inquiry **prepares an email draft**; it does not send or create a server Lead. Planner transfers the service via a validated query parameter. Checklist checkmarks intentionally remain on the planner, as explained on screen.
+
+## Temporary hosting
+
+Every page labels the temporary preview and remains noindex/nofollow; robots disallows crawling. Domain constants live in `src/data/site.ts` and `astro.config.mjs`. `public/_headers` requests noindex and basic headers; live host behavior must be verified separately. DNS and removal/migration instructions are in `docs/TEMPORARY_HOSTING.md` once deployment is verified. No automatic expiry or deletion has been scheduled.
+
+Final legal/operator review, human UAT, real Lead delivery and field Web Vitals remain future official-release work. Temporary-public access is explicitly authorized by the user on 24 October 2026. No changes to official knaba.de or vsp.rest apex are part of this scope.
 
 - [Audit](docs/SOURCE_AUDIT.md)
-- [Plan and expanded Ukrainian prompt](docs/PLAN_AND_PROMPT_UK.md)
+- [Plan and expanded prompt](docs/PLAN_AND_PROMPT_UK.md)
+- [Revision2 acceptance and architecture](docs/REVISION_2_PLAN_UK.md)
 - [Roadmap](ROADMAP.md)
-- [Project memory](PROJECT_MEMORY.md)
+- [Memory](PROJECT_MEMORY.md)

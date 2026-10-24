@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { company } from "../data/company";
+import { siteConfig } from "../data/site";
 import Icon from "../components/Icon.astro";
 interface Props {
   title: string;
@@ -11,16 +12,17 @@ const { title, description, noindex = true } = Astro.props;
 const path = Astro.url.pathname;
 const nav = [
   ["/leistungen/", "Leistungen"],
+  ["/planer/", "Reinigungsplaner"],
   ["/branchen/", "Branchen"],
   ["/unternehmen/", "Über KnaBa"],
   ["/karriere/", "Karriere"],
 ] as const;
-const canonical = new URL(path, "https://knaba.de");
+const canonical = new URL(path, siteConfig.origin);
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "KnaBa Gebäudereinigung",
-  url: "https://knaba.de",
+  url: siteConfig.officialOrigin,
   telephone: "+493067933054",
   email: company.email,
   address: {
@@ -39,7 +41,7 @@ const structuredData = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#123c34" />
+    <meta name="theme-color" content="#102d34" />
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
@@ -57,6 +59,7 @@ const structuredData = {
   </head>
   <body>
     <a href="#main" class="skip-link">Zum Inhalt springen</a>
+    {siteConfig.temporary && <div class="preview-banner"><div class="container"><span><span class="preview-dot"></span><strong>Temporäre Vorschau</strong><span class="preview-domain"> · kneba.vsp.rest</span></span><a href={siteConfig.officialOrigin}>Zur offiziellen Website <span aria-hidden="true">↗</span></a></div></div>}
     <div class="topline">
       <div class="container">
         <span
@@ -113,7 +116,7 @@ const structuredData = {
             class="footer-region">Berlin & Brandenburg</span>
         </div>
         <div>
-          <h2>Entdecken</h2><a href="/leistungen/">Unsere Leistungen</a><a
+          <h2>Entdecken</h2><a href="/planer/">Reinigungsplan erstellen</a><a href="/leistungen/">Unsere Leistungen</a><a
             href="/branchen/">Ihre Branche</a
           ><a href="/unternehmen/">Über KnaBa</a><a href="/karriere/"
             >Karriere</a>
@@ -130,6 +133,7 @@ const structuredData = {
             >Reinigung anfragen <Icon size={18} /></a>
         </div>
       </div>
+      {siteConfig.temporary && <div class="container preview-footer"><span class="preview-dot"></span><p>Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden. <a href={siteConfig.officialOrigin}>knaba.de ↗</a></p></div>}
       <div class="container footer-bottom">
         <span>© {new Date().getFullYear()} KnaBa</span><div>
           <a href="/impressum/">Impressum</a><a href="/datenschutz/"

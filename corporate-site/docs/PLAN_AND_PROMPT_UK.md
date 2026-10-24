@@ -262,3 +262,19 @@ UI ТА КОНТЕНТ
 6. Розвивати мовні пакети до 55 локалей лише з перевіркою кожної мови та підтвердженим попитом/змістом.
 
 На час написання документа остаточний commit нового сайту, результати тестів, browser QA, фактичний payload та live-стан **не стверджуються**. Вони додаються координатором після відповідних перевірок.
+
+## Ревізія 2 — кольоровий сайт і тимчасовий домен
+
+Актуальне доповнення: [REVISION_2_PLAN_UK.md](REVISION_2_PLAN_UK.md). Воно зберігає попередній аудит і змінює реалізацію під нове доручення користувача від 24.10.2026.
+
+### Розгорнутий промпт для подальшого розвитку
+
+Розвивай `ziko1/knaba/corporate-site` як тимчасову публічну версію KnaBa на `https://kneba.vsp.rest`. Зберігай корпоративні факти з перевіреного knaba.de. Дотримуйся кольорового editorial-дизайну: navy, teal, lime, coral та periwinkle; великі заголовки, ясні CTA, власна SVG-ілюстрація, responsive компоненти без зовнішніх шрифтів. У кожній сторінці показуй `Temporäre Vorschau`, посилання на офіційний knaba.de, noindex/nofollow та тимчасову канонічну адресу.
+
+Astro — єдиний router і prerender; Vite — один build pipeline; Tailwind CSS v4 — tokens/utilities; TypeScript — всі контракти. SolidJS відповідає за трьохетапну заявку та TanStack Query каталог; Vue3+Pinia — фільтри й підбір послуг; Svelte5 — checklist підготовки. Zustand vanilla передає лише вибрану послугу між островами. Pinia не дублює цей стан. Персональні дані не записувати в localStorage/cookies/telemetry. Не завантажувати Vue, Solid і Svelte на сторінках, які їх не потребують. SvelteKit і Turbopack — альтернативи для окремої погодженої міграції, не додаткові залежності цього Astro-проєкту.
+
+Planer має давати корисний шлях: об’єкт → рекомендована послуга → checklist → заявка з передвибраною послугою. Каталог завантажуй із справжнього локального endpoint із schema validation, loading/error/retry. Form готує mailto і текст для копіювання; не імітуй CRM, доставку або надіслану заявку. Майбутня справжня server delivery потребує перевіреного контракту.
+
+Vitest перевіряє бізнес-правила, незалежний стан, invalid service/schema і handoff. Запускай Astro/Vue/Svelte typecheck, build, static verifier, аудит runtime dependencies. Перевір browser на mobile/desktop, keyboard/focus, міжфреймворковий стан, відповідність підсумку та стани помилок. Фіксуй exact SHA та фактичні sizes, не вигадуй CWV. Окремо перевір live HTTPS на kneba.vsp.rest і звір artifact.
+
+Тимчасове розміщення ізолюй від `vsp.rest` root і офіційного `knaba.de`. Запиши project/version/deployment IDs і лише створені DNS record IDs. Майбутнє видалення/перенесення виконуй за окремим дорученням через runbook; не видаляй чужі записи або офіційний сайт. Не купуй платні послуги. Оновлюй README, ROADMAP, PROJECT_MEMORY та evidence за результатом, не змінюй старий аудит заднім числом.

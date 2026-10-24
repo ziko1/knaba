@@ -1,6 +1,6 @@
 {
   "name": "knaba-corporate-site",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -9,18 +9,30 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro check",
-    "test": "node --test tests/*.test.mjs",
+    "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
+    "test": "vitest run && node --test tests/inquiry.test.mjs",
     "verify:build": "node tests/verify-build.mjs",
     "preview": "astro preview --host 0.0.0.0"
   },
   "dependencies": {
     "@astrojs/solid-js": "7.1.1",
     "astro": "7.4.2",
-    "solid-js": "1.9.17"
+    "solid-js": "1.9.17",
+    "@astrojs/vue": "7.1.2",
+    "@astrojs/svelte": "9.1.1",
+    "vue": "3.5.44",
+    "svelte": "5.57.2",
+    "pinia": "4.1.0",
+    "zustand": "5.0.16",
+    "@tanstack/solid-query": "5.104.5"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "@tailwindcss/vite": "4.3.3",
+    "tailwindcss": "4.3.3",
+    "vitest": "5.0.5",
+    "svelte-check": "4.7.7",
+    "vue-tsc": "3.3.13"
   }
 }

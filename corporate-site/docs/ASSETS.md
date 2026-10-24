@@ -1,5 +1,7 @@
-# Image provenance
+# Assets — revision 2
 
-The decorative office image is sourced from https://images.unsplash.com/photo-1497366754035-f200968a6e72 (downloaded with width=1800, quality=85). It is a generic illustrative interior, not a KnaBa project or employee photograph. Locally optimized using sharp into 640px (23,398 bytes) and 1200px (54,590 bytes) WebP variants; both are served locally. Original company gallery images were not copied. Confirm the exact author/license and intended commercial usage with the owner before public launch, or replace with approved company photography. Source-image discovery and current usage alone are not a legal rights clearance.
+The hero is now an original inline SVG office illustration in `src/pages/index.astro`, created for this preview. It is explicitly symbolic, not a photograph or documented KnaBa customer project. No external image/font requests.
 
-The KnaBa wordmark treatment is a new design proposal, not an assertion of an approved registered logo.
+The two Unsplash-derived WebP images from revision 1 were removed from the public assets. Their old licence/provenance gap no longer applies to the served revision 2 illustration. Historical evidence screenshot may still show the earlier candidate; it is not served as website imagery.
+
+Wordmark and geometric brand motif are proposed design work, not a claim of approved official logo ownership. Company-name and logo approval remain part of the future official-site release.

@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "allowJs": true, "checkJs": true },
+  "include": ["src/**/*.svelte", "src/stores/**/*.ts", "src/lib/planner.ts", "src/data/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

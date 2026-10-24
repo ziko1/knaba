@@ -1,0 +1,52 @@
+{
+  "dateUTC": "2026-10-24T04:39:57.504722+00:00",
+  "baseSHA": "5ca7dbfdb11603151b48fd78a9524927b57b99a6",
+  "source": "revision2-source-sha256.json",
+  "checks": {
+    "astroVueSvelte": "PASS:0errors/0warnings",
+    "vitest": "PASS:11",
+    "inquiryTests": "PASS:8",
+    "build": "PASS:16HTML+JSON+sitemap",
+    "staticVerifier": "PASS",
+    "npmAuditOmitDev": "0 reported vulnerabilities",
+    "gitDiffCheck": "PASS"
+  },
+  "browser": {
+    "runtime": "Chrome cloud browser local Astro dev preview",
+    "desktopVisual": "PASS",
+    "responsiveIframeWidths": [
+      320,
+      390,
+      768
+    ],
+    "routes": [
+      "/",
+      "/planer/",
+      "/kontakt/?leistung=baureinigung",
+      "/leistungen/glasreinigung/"
+    ],
+    "horizontalOverflow": "NONE in 12 combinations (iframe client widths305/375/753 due scrollbar)",
+    "mobileMenuEscape": "PASS",
+    "vueToSvelteService": "PASS",
+    "solidCatalogueToSharedService": "PASS",
+    "checklistProgressAndResetOnServiceChange": "PASS 2/4→0/4",
+    "inquiryPreselectAndSummary": "PASS synthetic Baureinigung/Baustelle/10315/250/Einmalig; no send",
+    "catalogueError": "PASS after temporary local endpoint removal and cache-busting; fixtures restored",
+    "recovery": "reload on endpoint restoration; manual retry-success not independently observed due dev HMR"
+  },
+  "independentReview": {
+    "agent": "/root/hosting",
+    "findings": [
+      "stale earlier build report replaced with final report",
+      "plural service copy corrected"
+    ],
+    "status": "No unresolved material code finding in reviewed scope"
+  },
+  "notRun": [
+    "real email sending or server Lead delivery",
+    "physical devices",
+    "screen reader and200%zoom",
+    "field Core Web Vitals",
+    "human UAT and sustained business outcomes"
+  ]
+}

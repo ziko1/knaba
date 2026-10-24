@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceFinder from '../components/ServiceFinder.vue';
+import CleaningChecklist from '../components/CleaningChecklist.svelte';
+import Catalogue from '../components/Catalogue.tsx';
+---
+<Layout title="Reinigungsplaner | KnaBa Berlin" description="Finden Sie die passende Reinigung für Ihr Objekt, bereiten Sie die wichtigsten Angaben vor und starten Sie Ihre individuelle Anfrage bei KnaBa.">
+  <section class="container section">
+    <p class="eyebrow">IHR OBJEKT. IHR PLAN.</p>
+    <h1 class="max-w-4xl">Welche Reinigung<br/><span class="text-teal-700">passt zu Ihnen?</span></h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed">Wählen Sie Ihr Objekt und stellen Sie die nächsten Schritte zusammen. Ein praktischer Start für Ihr Gespräch mit KnaBa — ohne Registrierung.</p>
+    <noscript><p class="notice">Der interaktive Planer benötigt JavaScript. Alle Leistungen finden Sie auch in unserer <a href="/leistungen/">Leistungsübersicht</a>. Sie erreichen uns direkt über <a href="/kontakt/">Kontakt</a>.</p></noscript>
+    <div class="mt-10 grid items-start gap-6 lg:grid-cols-2">
+      <ServiceFinder client:load />
+      <CleaningChecklist client:load />
+    </div>
+    <div class="mt-10"><Catalogue client:visible /></div>
+    <p class="mt-8 text-sm text-slate-600">Die Auswahl bleibt nur in diesem geöffneten Planer. Es werden keine Angaben gespeichert oder versendet. Ein verbindlicher Leistungsumfang und Preis werden persönlich vereinbart.</p>
+  </section>
+</Layout>

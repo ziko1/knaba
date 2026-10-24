@@ -33,6 +33,8 @@ for (const file of pages) {
   const html = await readFile(file, "utf8");
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
   assert.match(html, /<html lang="de"/);
+  assert.match(html, /Temporäre Vorschau/);
+  assert.match(html, /rel="canonical" href="https:\/\/kneba\.vsp\.rest/);
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
   assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
@@ -63,12 +65,14 @@ const cssGzip = assets
 const jsGzip = assets
   .filter((a) => a.name.endsWith(".js"))
   .reduce((n, a) => n + a.gzip, 0);
-assert.ok(cssGzip < 25 * 1024, "CSS budget 25KiB gzip");
-assert.ok(jsGzip < 50 * 1024, "All emitted JS budget 50KiB gzip");
-assert.ok(
-  assets.find((a) => a.name === "images/office-640.webp").bytes < 300 * 1024,
-  "Mobile image budget 300KiB",
-);
+assert.ok(cssGzip < 30 * 1024, "CSS budget 30KiB gzip");
+assert.ok(jsGzip < 160 * 1024, "Revision 2 all emitted JS budget 160KiB gzip");
+const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
+assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
+const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'), 'utf8'));
+assert.equal(catalogue.version, 1);
+const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
+assert.match(robots, /Disallow: \//);
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,
