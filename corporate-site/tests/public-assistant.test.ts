@@ -16,6 +16,18 @@ describe('public KnaBa information assistant',()=>{
     expect(answer.text).toBe(assistantCopy[locale].price);
     expect(answer.text).not.toMatch(/\d+\s*(?:€|EUR)/);
   });
+  it.each([
+    ['de','Was kostet ein Bauhelfer?','Bauhilfsarbeiten','/kontakt/'],
+    ['en','Do you offer construction helpers?','construction support','/kontakt/'],
+    ['uk','Чи є будівельні роботи?','будівельні роботи','/kontakt/'],
+    ['ru','Есть подсобные работы?','подсобные строительные работы','/ru/kontakt/'],
+  ] as const)('covers the verified Bauhelfer offering in %s without fake booking or rates', (locale,question,phrase,href)=>{
+    const answer=answerQuestion(question,locale);
+    expect(answer.text).toContain(phrase);
+    expect(answer.text).not.toMatch(/\d+\s*(?:€|EUR)/);
+    expect(answer.links).toHaveLength(1);
+    expect(answer.links[0].href).toBe(href);
+  });
   it('hands the selected service to the existing enquiry form',()=>{
     expect(answerQuestion('Fenster reinigen','de').links.map(link=>link.href)).toEqual(['/leistungen/glasreinigung/','/kontakt/?leistung=glasreinigung']);
     expect(answerQuestion('Уборка офиса','ru').text).toContain('Уборка офисов');
