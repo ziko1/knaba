@@ -16,7 +16,7 @@ const slugs = [
 ];
 
 (async () => {
-  const browser = await chromium.launch({headless:true,args:['--no-sandbox']});
+  const browser = await chromium.launch({headless:true,executablePath:process.env.KNABA_CHROME_PATH,args:['--no-sandbox']});
   try {
     for (const {prefix,lang} of locales) {
       const widths = lang === 'de' ? [320,390,768,1280] : [390];
