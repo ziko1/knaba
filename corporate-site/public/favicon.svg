@@ -1,13 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112" role="img" aria-labelledby="title">
-<title>KnaBa Bau: Gebäude, Kernbohrung und saubere Übergabe</title>
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00cad1"/><stop offset=".56" stop-color="#08a890"/><stop offset="1" stop-color="#b4ed23"/></linearGradient></defs>
-<path d="M56 3 106 31v49l-50 29L6 80V31Z" fill="#0a2933" stroke="#e0ff79" stroke-width="3.5"/>
-<path d="M56 8 101 34v21L56 31 12 55V34Z" fill="url(#g)"/>
-<path d="m27 57 29-23 29 23v29l-29 16-29-16Z" fill="#083b46" stroke="#e7fff7" stroke-width="3.6" stroke-linejoin="round"/>
-<path d="M56 35v61M30 57l26-20 26 20" fill="none" stroke="#00cad1" stroke-width="3"/>
-<circle cx="55" cy="70" r="19.5" fill="#06212d" stroke="#fff" stroke-width="3"/>
-<circle cx="55" cy="70" r="12" fill="#e2f8f4" stroke="#02b7ba" stroke-width="3"/>
-<circle cx="55" cy="70" r="5.5" fill="#f78438"/>
-<path d="M76 78h19M85.5 68v19" stroke="#b8f420" stroke-width="4" stroke-linecap="round"/>
-<path d="M15 89c12-10 24-3 30-1" fill="none" stroke="#f78a3e" stroke-width="5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112" role="img" aria-label="KnaBa Baureinigung und Fensterabzieher">
+<title>KnaBa Baureinigung: Gebäude, Fensterabzieher und saubere Übergabe</title>
+<defs>
+ <linearGradient id="bau-teal" x1="0" y1="1" x2="1" y2="0">
+  <stop stop-color="#007b89"/><stop offset="1" stop-color="#13b8b4"/>
+ </linearGradient>
+</defs>
+<rect x="4" y="4" width="104" height="104" rx="24" fill="#e5f8f3"/>
+<!-- Structured construction silhouette, not a generic office or drill mark -->
+<path d="M17 72V40L36 23L53 37V18L70 9L96 29V74" fill="none" stroke="#093440" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M19 71V42L36 27L50 39V68M55 68V22L69 14L92 31V72" fill="url(#bau-teal)" opacity=".92"/>
+<path d="M30 43h9v13h-9zM60 32h10v13H60zM76 41h9v12h-9z" fill="#ffd35e" rx="2"/>
+<path d="M19 65h24M61 56h24" stroke="#e4fff2" stroke-width="3" stroke-linecap="round"/>
+<!-- The diagonal squeegee makes cleaning the defining symbol -->
+<g transform="rotate(-18 55 76)">
+ <rect x="13" y="68" width="87" height="13" rx="6" fill="#0d3b47"/>
+ <rect x="16" y="69.5" width="81" height="5.5" rx="2.7" fill="#ffca46"/>
+ <path d="M55 82v20" stroke="#0d3b47" stroke-width="10" stroke-linecap="round"/>
+ <path d="M55 86v11" stroke="#16aca8" stroke-width="3.5" stroke-linecap="round"/>
+</g>
+<path d="m94 11 2.5 6.4L103 20l-6.5 2.5-2.5 6.5-2.5-6.5L85 20l6.5-2.6Z" fill="#facb4a"/>
 </svg>
