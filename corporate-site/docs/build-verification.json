@@ -3,7 +3,7 @@
   "pages": 99,
   "internalLinks": "PASS",
   "metadata": "PASS",
-  "indexMode": "TEMPORARY_NOINDEX",
+  "indexMode": "VSP_PENDING_APPROVAL",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "cssGzip": 25477,
   "allEmittedJsGzip": 163364,
@@ -189,7 +189,7 @@
       "gzip": 12839
     }
   ],
-  "artifactSha256": "0a89e6e8167a1703de897123fc637500ceb68475fec1eb720477eab25cdbb277",
+  "artifactSha256": "a956d0e0ac8bdd4243733087b089958df361dd2dbb331311c12e51f291eef4b9",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }
