@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-25T14:37:07.267519+00:00",
+  "repository": "ziko1/knaba",
+  "branch": "feat/knaba-assistant-erp-bridge-20261025",
+  "testedCodeCommit": "dc279a9fb9148278b86f808394b52371d5cb80ed",
+  "baseCommit": "daa925b980d4485774433fe11956b49a47f63a14",
+  "originalRuntimeBase": "3398aefe696d8c317a63b10443457a39af5ed5d3",
+  "documentationOnlyRebase": {
+    "verified": true,
+    "changedPaths": [
+      "corporate-site/PROJECT_MEMORY.md",
+      "corporate-site/ROADMAP.md",
+      "corporate-site/docs/KNABA_SERVICE_CARD_LIVE_RELEASE_2026-10-25_UK.md"
+    ],
+    "runtimeAndTestsIdentical": true
+  },
+  "node": "v24.22.1",
+  "checks": [
+    {
+      "command": "npm run check",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "preexistingHints": 4
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "vitestTests": 211,
+      "vitestFiles": 29,
+      "nodeTests": 16
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "mode": "default TEMPORARY_NOINDEX"
+    },
+    {
+      "command": "node --test vps/*.test.mjs",
+      "exitCode": 0,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run verify:build",
+      "exitCode": 0,
+      "htmlPages": 103,
+      "serviceRouteAssertions": 8
+    },
+    {
+      "command": "node tests/assistant-erp-browser.mjs",
+      "exitCode": 0,
+      "report": "assistant-erp-browser.json",
+      "guestLocales": 4,
+      "guestLayoutChecks": 24,
+      "ownerLayoutChecks": 4,
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "externalRequests": 0
+    }
+  ],
+  "build": {
+    "clientArtifactSha256": "df124398977952f6fc552c079da8f4dbd31403df6f9ca002b634d4a6c486fe48",
+    "workerSha256": "2e0d13e38ed6de19cc652b9cd557860b1d73a888c92fa30ef611e155da2a90f5",
+    "cssGzip": 35004,
+    "allEmittedJsGzip": 200986,
+    "sizeNote": "All emitted assets, not measured page transfer or field Web Vitals."
+  },
+  "independentReview": {
+    "decision": "APPROVE_SOURCE_CANDIDATE",
+    "receipt": "assistant-erp-review.json",
+    "outstandingFindings": 0,
+    "reviewedRuntimeSchemaHash": "dc5de5c2d1a1633e8fc97870a79e8230b0066714e6995bf92181f350df7a95f0",
+    "matchedCurrentFiles": true,
+    "focusedTests": 59,
+    "schedulerRestoreTests": 2
+  },
+  "erp": {
+    "sourceCommit": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+    "receipt": "assistant-erp-contract/verification.json",
+    "integrationTests": 50,
+    "httpCheckGroups": 12,
+    "combinedCheckGroups": 4,
+    "postgres": "17.11",
+    "isolatedResourcesCleaned": true,
+    "sourceBoundary": "Combined receipt predates owner-only diagnostics and zero-attempt cancellation fix. Exercised preview, confirm, payload and dispatcher bodies unchanged; final local tests cover later changes. No claim of full final-file equality.",
+    "inheritedSnapshotGate": "FAIL: expected ERP tree a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43, actual d269a8cc681e3c1d0d7dd334c6f587bc3625b481; full ERP regression not run."
+  },
+  "release": {
+    "sourceCandidate": "PASS",
+    "deployment": "NOT_AUTHORIZED_OR_PERFORMED",
+    "merge": "NOT_PERFORMED",
+    "liveMigration": "NOT_PERFORMED",
+    "bridgeActivation": "DISABLED",
+    "realExternalDispatch": "NOT_PERFORMED",
+    "paidServicesActivated": false
+  },
+  "openAcceptance": [
+    "Real owner UAT, human captcha, target ERP credentials/mapping and TLS",
+    "Physical devices, screen reader, Safari/Firefox and field performance",
+    "Legacy data inventory/import if an actual legacy source exists",
+    "Retention/deletion and processor/legal approval",
+    "Target backup/restore and old-artifact rollback rehearsal without loss of new records"
+  ],
+  "cost": {
+    "newExternalPurchasesEUR": 0,
+    "existingRuntimeCost": "UNKNOWN"
+  },
+  "localTestedCodeCommit": "551cc1b25e33ce2a3e9f9e62d1b884be6632061a",
+  "publishedCodeTree": "d542a975374caa47b4f08fe607da40fc3e432849",
+  "publicationEquivalence": "GitHub Git Data API produced exactly the local tested Git tree; commit metadata differs. Final receipt commit changes documentation only."
+}

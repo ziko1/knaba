@@ -3,6 +3,7 @@
 ## Assistant → ERP candidate — 25.10.2026
 
 - User approved implementation of the reviewed migration/bridge contract in a separate branch and Draft PR. No merge, dev/production deployment, live migration, provider activation or real outbound delivery in this scope.
+- Tested implementation commit `dc279a9fb9148278b86f808394b52371d5cb80ed`; final receipt commit changes documentation only. Latest PR65 documentation-only updates through `daa925b980d4485774433fe11956b49a47f63a14` preserved; reviewed runtime/schema digest unchanged.
 - Branch `feat/knaba-assistant-erp-bridge-20261025`, based on PR65 `3398aefe696d8c317a63b10443457a39af5ed5d3`; preserves latest site/service-grid work. ERP contract verified against PR41 `683c09d0346fd05e0f2cd323da640bbb176c5c47` without changing ERP source.
 - Additive0005 outbox; explicit normalized preview/confirmation; scoped tokens/Origin/CAS; immutable signed lead.upsert, leases/retries/cancellation and honest receipt states. Off by default. DE/EN/UK/RU customer flow and owner-only sanitized diagnostics; confirmed old conversations remain discoverable in inbox.
 - Existing conversation/messages/offers schema remains canonical. Legacy threads data inventory/import is NOT_RUN. Real calling, WhatsApp media, ERP channel/operator dialogue and multi-operator claim remain separate work.

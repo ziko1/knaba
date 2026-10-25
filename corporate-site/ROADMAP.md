@@ -250,6 +250,6 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Fixed private HTTPS target, exact-byte HMAC, immutable event retry, lease fencing, bounded receipts and cancel race handling.
 - [x] Customer states in DE/EN/UK/RU; owner-only diagnostics and newest relevant request ordering.
 - [x] Isolated migration/API/dispatcher/runtime/backup and actual Nest+PostgreSQL contract checks; local Chromium flow evidence.
-- [ ] Independent final acceptance receipt and Draft PR exact SHA verification; see `docs/evidence/assistant-erp-bridge-qa.json` for final gate states.
+- [x] Independent source review and exact tested code receipt (`dc279a9fb9148278b86f808394b52371d5cb80ed`); publication is a Draft PR, with no deployment acceptance. See `docs/evidence/assistant-erp-bridge-qa.json`.
 - [ ] Inventory actual legacy data if present; real owner UAT, approved mapping/credentials, retention/legal controls and target backup/rollback rehearsal before activation.
 - [ ] Separate approval for merge, deployment, live migration and real dispatch. Voice/WhatsApp calling, ERP channel and bidirectional operator handoff require a later contract.
