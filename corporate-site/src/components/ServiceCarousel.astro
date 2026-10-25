@@ -117,13 +117,13 @@ const ui = {
 
       previous.addEventListener('click', () => goTo(activeIndex - 1), {signal});
       next.addEventListener('click', () => goTo(activeIndex + 1), {signal});
-      dots.forEach((dot, index) => dot.addEventListener('click', () => goTo(index), {signal}));
+      dots.forEach((dot, index) => dot.addEventListener('click', () => goTo(index, false), {signal}));
       track.addEventListener('keydown', (event: KeyboardEvent) => {
         if (event.target !== track) return;
         if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); }
         else if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); }
-        else if (event.key === 'Home') { event.preventDefault(); goTo(0); }
-        else if (event.key === 'End') { event.preventDefault(); goTo(slides.length - 1); }
+        else if (event.key === 'Home') { event.preventDefault(); goTo(0, false); }
+        else if (event.key === 'End') { event.preventDefault(); goTo(slides.length - 1, false); }
       }, {signal});
       // Keep controls stable during animated programmatic scrolling; don't show
       // transient intermediate slides as the active one. Native swipe remains live.
