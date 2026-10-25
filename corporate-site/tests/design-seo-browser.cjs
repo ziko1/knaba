@@ -61,13 +61,20 @@ let pages=0;
          assert.ok(graph.some(e=>e['@type']==='LocalBusiness'));
          assert.ok(graph.some(e=>e['@type']==='WebSite'));
          if(expectedNoindex)assert.match(await page.locator('meta[name="robots"]').getAttribute('content'),/noindex/);
-         if(width===390&&lang==='uk'){
-           await page.locator('[data-carousel-next]').click();
-           await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='02 / 08',{timeout:5000});
-         }
-         assert.deepEqual(errors,[],'uncaught page errors '+lang+' '+width);
+         // The keyboard-only skip link must stay off-screen until deliberately focused.
+         const skip=await page.locator('.skip-link').evaluate(node=>({
+           fixed:getComputedStyle(node).position==='fixed',
+           top:node.getBoundingClientRect().top,
+           focused:document.activeElement===node
+         }));
+         assert.ok(skip.fixed && skip.top<0 && !skip.focused,'skip link hidden by default '+lang+' '+width+': '+JSON.stringify(skip));
          if(screenshotDir && width===390 && lang==='uk') await page.screenshot({path:join(screenshotDir,'knaba-uk-mobile-390.png'),fullPage:true});
          if(screenshotDir && width===1440 && lang==='de') await page.screenshot({path:join(screenshotDir,'knaba-de-desktop-1440.png'),fullPage:true});
+         if(width===390&&lang==='uk'){
+           await page.locator('[data-carousel-next]').click();
+           await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='02 / 08',null,{timeout:5000});
+         }
+         assert.deepEqual(errors,[],'uncaught page errors '+lang+' '+width);
          console.log('HERO_PASS',lang,width,'colors',metrics.colors,'overflow',metrics.overflow);
          pages++;
        } finally {await page.close()}
