@@ -84,6 +84,7 @@ const ui = {
 
       const signal = (this.controller = new AbortController()).signal;
       let activeIndex = 0;
+      let requestedIndex: number | null = null;
 
       const update = (index: number) => {
         activeIndex = Math.max(0, Math.min(slides.length - 1, index));
@@ -95,6 +96,7 @@ const ui = {
 
       const goTo = (index: number, animate = true) => {
         const target = Math.max(0, Math.min(slides.length - 1, index));
+        requestedIndex = target;
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         track.scrollTo({
           left: slides[target].offsetLeft - slides[0].offsetLeft,
@@ -123,7 +125,22 @@ const ui = {
         else if (event.key === 'Home') { event.preventDefault(); goTo(0); }
         else if (event.key === 'End') { event.preventDefault(); goTo(slides.length - 1); }
       }, {signal});
+      // Keep controls stable during animated programmatic scrolling; don't show
+      // transient intermediate slides as the active one. Native swipe remains live.
+      const finishScroll = () => {
+        if (requestedIndex !== null) {
+          const targetLeft = slides[requestedIndex].offsetLeft - slides[0].offsetLeft;
+          if (Math.abs(track.scrollLeft - targetLeft) > 3) return;
+        }
+        requestedIndex = null;
+        update(nearest());
+      };
+      track.addEventListener('pointerdown', () => { requestedIndex = null; }, {signal});
+      track.addEventListener('touchstart', () => { requestedIndex = null; }, {passive: true, signal});
+      track.addEventListener('wheel', () => { requestedIndex = null; }, {passive: true, signal});
+      track.addEventListener('scrollend', finishScroll, {signal});
       track.addEventListener('scroll', () => {
+        if (requestedIndex !== null) return;
         cancelAnimationFrame(this.frame);
         this.frame = requestAnimationFrame(() => update(nearest()));
       }, {passive: true, signal});
