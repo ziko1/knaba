@@ -5,7 +5,10 @@ import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
 const root = resolve("dist/client");
-const official = process.env.KNABA_RELEASE_MODE === "official";
+const releaseMode = process.env.KNABA_RELEASE_MODE;
+const official = releaseMode === "official";
+const vsp = releaseMode === "vsp";
+const indexingApproved = official || (vsp && process.env.KNABA_VSP_INDEX_APPROVED === "1");
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -49,7 +52,7 @@ for (const file of pages) {
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!official || /konto|postfach|studio|crm|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html"))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -126,18 +129,18 @@ const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,official?68:0);
-if(official) assert.match(robots,/Sitemap: https:\/\/knaba\.de\/sitemap\.xml/);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?68:0);
+if(indexingApproved) assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
 else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
-if(!official) assert.match(headers,/X-Robots-Tag: noindex, follow/);
+if(!indexingApproved) assert.match(headers,/X-Robots-Tag: noindex, follow/);
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,
   internalLinks: "PASS",
   metadata: "PASS",
-  indexMode: official ? "OFFICIAL" : "TEMPORARY_NOINDEX",
+  indexMode: official ? "OFFICIAL" : vsp ? (indexingApproved ? "VSP_PUBLIC" : "VSP_PENDING_APPROVAL") : "TEMPORARY_NOINDEX",
   externalImageScriptRequests: "NONE_IN_HTML",
   cssGzip,
   allEmittedJsGzip: jsGzip,

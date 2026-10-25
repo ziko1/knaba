@@ -138,3 +138,10 @@ checks required before marking preview ready. Site Studio's old positional CSS
 selectors may not map after the design change; published Studio page count was
 read-only verified 0 at intake on 2026-10-25. Official knaba.de and the One.com
 DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
+
+
+## 2026-10-25 — deployed current BauService VPS development release
+- Latest public KnaBa 99-page construction rebrand from PR #34 preserved, not downgraded to prior 51-page PR #32.
+- Authorized user requested deploy to kneba.vsp.rest; code-only update SHA 87b6fb49a658e60781d35c44f2667d720dfcf6ac, build a956d0e0ac8bdd4243733087b089958df361dd2dbb331311c12e51f291eef4b9. No new DB migration, keys, paid LLM or DNS changes. Real HTTPS 200, live Chromium 24/24 route checks, protected SQLite backup and rollback receipt.
+- Explicit build-time VSP search index approval added; current public site remains noindex, sitemap=0. Node now returns real X-Robots-Tag: noindex/follow, protected Studio keeps noindex/nofollow. Owner /readyz=503 by design, old Sites D1 not exported; do not delete Sites or claim handover ready.
+- Complete evidence and failure/rollback/recovery receipts: corporate-site/vps/KNABA_BAUSERVICE_VSP_CODE_RELEASE_2026-10-25_UK.md.
