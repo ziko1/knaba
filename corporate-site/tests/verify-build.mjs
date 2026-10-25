@@ -63,6 +63,7 @@ for (const file of pages) {
   assert.ok(title && !titles.has(title), `${file}: unique title`);
   titles.add(title);
   assert.doesNotMatch(html, /<(?:script|img)[^>]+src="https?:/);
+  assert.doesNotMatch(html, /<a\b[^>]*\bhref=["']https?:\/\/(?:www\.)?knaba\.de(?:[\/"'])/i, `${file}: no outbound link to original company site`);
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
     const path = url.split("?")[0].split("#")[0];
     if (["/login/", "/logout/"].includes(path)) continue;
@@ -79,7 +80,14 @@ for (const file of pages) {
   const graphs = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
   assert.ok(graphs.length > 0, `${file}: structured data`);
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
-  assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
+  const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
+  assert.ok(business, `${file}: LocalBusiness present`);
+  assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
+  assert.equal(business.url, origin, `${file}: business URL uses the current host`);
+  for(const node of graphNodes){
+    if(node['@type']==='Service') assert.equal(node.provider?.['@id'],origin+'/#business',`${file}: service provider`);
+    if(node['@type']==='Article') assert.equal(node.publisher?.['@id'],origin+'/#business',`${file}: article publisher`);
+  }
   if (isPublicGuide(file)) assert.ok(graphNodes.some(g=>g['@type']==='Article'),`${file}: expected editorial Article schema`);
   if (file.includes('/bauleistungen/') && !file.endsWith('/bauleistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
@@ -100,6 +108,11 @@ const jsGzip = assets
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
 assert.equal(pages.length,117,'117 source-built pages: 103 original + 14 new localized guides (2 replace legacy shells)');
+for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
+  const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
+  assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
+  assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
+}
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
 assert.match(homepage, /data-knaba-open/, 'Chat launcher is present without eager framework hydration');

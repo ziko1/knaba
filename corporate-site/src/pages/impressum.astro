@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { company } from "../data/company";
+import { siteConfig } from '../data/site';
 ---
 
 <Layout title="Impressum und Anbieterangaben | KnaBa Berlin" description="Anbieterangaben von KnaBa: Alexander Knaus, KNABA Bauhelfer in Berlin. Anschrift, Kontakt, Umsatzsteuer-ID und rechtliche Hinweise.">
@@ -8,7 +9,7 @@ import { company } from "../data/company";
     <p class="eyebrow">TRANSPARENT & ERREICHBAR</p>
     <h1>Impressum</h1>
     <p class="legal-intro">Angaben zum Anbieter nach § 5 Digitale-Dienste-Gesetz (DDG).</p>
-    <p class="notice">Sie besuchen die temporäre Website auf <strong>kneba.vsp.rest</strong>. Die Anbieterangaben wurden am 24. Oktober 2026 mit dem veröffentlichten Impressum auf <a href="https://knaba.de/impressum">knaba.de</a> abgeglichen.</p>
+    <p class="notice">Diese Anbieterangaben gelten für den KnaBa-Auftritt unter <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 25. Oktober 2026.</p>
 
     <div class="legal-contact-grid">
       <section aria-labelledby="anbieter">

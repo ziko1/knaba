@@ -26,10 +26,10 @@ function validWebmasterProof(value: unknown): string | undefined {
 const googleProof=siteConfig.indexable?validWebmasterProof(import.meta.env.KNABA_GOOGLE_SITE_VERIFICATION):undefined;
 const bingProof=siteConfig.indexable?validWebmasterProof(import.meta.env.KNABA_BING_SITE_VERIFICATION):undefined;
 const translated = {
-  de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
-  en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
-  uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
-  ru: {skip:'Перейти к содержимому',preview:'Временный сайт',official:'Официальный сайт',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация',retire:'Временный сайт kneba.vsp.rest. Этот адрес может быть удалён после переноса на официальный сайт.'},
+  de: {skip:'Zum Inhalt springen', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum'},
+  en: {skip:'Skip to content',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)'},
+  uk: {skip:'Перейти до вмісту',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)'},
+  ru: {skip:'Перейти к содержимому',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация'},
 }[lang];
 const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
@@ -58,9 +58,9 @@ const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": "https://knaba.de/#business",
+  "@id": siteConfig.origin + "/#business",
   name: "KnaBa Baureinigung & BauService",
-  url: siteConfig.officialOrigin,
+  url: siteConfig.origin,
   telephone: "+493067933054",
   email: company.email,
   address: {

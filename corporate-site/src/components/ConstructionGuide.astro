@@ -23,7 +23,7 @@ const localeTitle=t(guide.title);
   schema={{
     '@type':'Article','@id':url+'#article',url,mainEntityOfPage:url,
     headline:localeTitle,description:t(guide.description),inLanguage:locale,
-    publisher:{'@id':'https://knaba.de/#business'}
+    publisher:{'@id':siteConfig.origin+'/#business'}
   }}>
   <article class="construction-guide" aria-labelledby="guide-title">
     <header class="container guide-head">

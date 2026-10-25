@@ -1,12 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { company } from '../../data/company';
+import { siteConfig } from '../../data/site';
 ---
 <Layout lang="ru" title="Юридическая информация и реквизиты | KnaBa Берлин" description="Реквизиты KnaBa: Alexander Knaus, KNABA Bauhelfer в Берлине. Адрес, контакты, номер плательщика НДС и юридическая информация.">
   <article class="container legal">
     <p class="eyebrow">ПРОЗРАЧНОСТЬ И ПРЯМАЯ СВЯЗЬ</p><h1>Юридическая информация</h1>
     <p class="legal-intro">Сведения о поставщике согласно § 5 Закона о цифровых услугах Германии (Digitale-Dienste-Gesetz, DDG).</p>
-    <p class="notice">Вы на временном сайте <strong>kneba.vsp.rest</strong>. Сведения о поставщике сверены 24 октября 2026 года с опубликованными реквизитами на <a href="https://knaba.de/impressum">knaba.de</a>.</p>
+    <p class="notice">Эти реквизиты поставщика указаны для сайта KnaBa <strong>{new URL(siteConfig.origin).hostname}</strong>. Актуализация: 25 октября 2026 года.</p>
     <div class="legal-contact-grid">
       <section aria-labelledby="anbieter"><h2 id="anbieter">Поставщик</h2><address>Alexander Knaus<br />KNABA Bauhelfer<br />{company.street}<br />{company.city}<br />Германия</address></section>
       <section aria-labelledby="kontakt"><h2 id="kontakt">Прямой контакт</h2><p>Телефон: <a href={company.phoneHref}>{company.phone}</a><br />Электронная почта: <a href={`mailto:${company.email}`}>{company.email}</a></p><a class="text-link" href="/ru/kontakt/">Перейти к контактам →</a></section>
