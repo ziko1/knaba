@@ -238,3 +238,9 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Pre-switch durable online SQLite backup knaba-2026-10-25T05-20-51-748Z.sqlite, SHA256 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0, five migration files unchanged. SQLite integrity_check ok before/after; web container only recreated.
 - Post-deploy TLS verify=0, Docker healthy. Public FAQ/Studio/assistant-config HTTP200, no external provider/billing activation. Browser EN/UK link-label-to-destination PASS; 16/16 FAQ locale-width flows + 1 Astro SPA navigation, 32/32 post-close Assistant/footer interactions PASS; complete responsive 102/102 generated HTML route Chromium check PASS.
 - Runbook remains dev-only, /readyz=503 due missing verified real owner. No main merge, no official knaba.de cutover, no real owner Studio UAT, no physical device/human Turnstile completion; VPS disk ~95% full, 9.9GiB free, no unreviewed deletion.
+
+## KNABA FAQ Studio leaf-edit correction — 25.10.2026
+- Existing public FAQ catalog: 42 Q/A × DE/EN/UK/RU and 72 studioPages were already present; edit selection failed because `details` and `summary` were missing from the safe ancestry grammar.
+- Focused fix in `src/lib/site-studio-contract.ts`: permit those two tags only as ancestors; reject direct editing of entire FAQ containers. Leaf SPAN/P, length bounds, XSS rejection and SSR escaping retained.
+- Exact executable SHA `1d58071edecd79870c1f1bcd563e54ed70b35805`: RED (one Vitest, one SSR failing), then GREEN 147 Vitest + 8 Node inquiry + 18 VPS Node, 103-page VSP build + verifier PASS; isolated Chromium UK FAQ preview select/edit/undo PASS.
+- Source-only Draft PR; NOT deployed. Real KNABA owner UAT, data-backed PUBLISH/restore and release provenance remain open. Full evidence in `docs/KNABA_FAQ_STUDIO_LEAF_EDITOR_2026-10-25_UK.md`.
