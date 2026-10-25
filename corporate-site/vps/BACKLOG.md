@@ -59,3 +59,10 @@
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+
+## KN-OPS-PROVENANCE-001 — 2026-10-25
+- [x] Audit active visual-card release receipt (PR59 SHA label, exact new CSS hash) and distinguish it from its unpushed parent source.
+- [x] Prepare source-only, build/browser-tested PR59+PR53+PR57 integration at `a9fee7c119eada9951fe835f288d9d6afaff9b03`.
+- [ ] P0 Recover/mirror all active source changes, source manifest and same-artifact tree hash. Do not infer complete source from a hotfix label.
+- [ ] P0 Unify release locks across agents, lease-check `current`, verify SQLite backup and immutable rollback; avoid deleting or overwriting unverified QA/customer data.
+- [ ] P0 Check latest owner credentials/authorization through protected workflow; `readyz 503` is not acceptance.
