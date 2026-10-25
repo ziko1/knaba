@@ -134,5 +134,5 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [x] Replace outdated office illustration reference in Impressum with actual Bau-cleaning site description
 - [x] Browser check 98/98 live routes before this increment (no overflow, legal link overlap or broken footer logo); 7 focused 200%-font checks
 - [x] Candidate Node24 check/build/tests and synthetic captcha lifecycle + footer/browser regressions
-- [ ] Deploy this exact increment on kneba.vsp.rest with immutable code version, pre-switch backup, HTTPS/live route and real widget verification
+- [x] Development-domain preview code deployed (runtime 132145f94c53aabfa72645c3cc157d4c07c76ac2), online SQLite backup verified and retained, HTTPS valid, 98/98 live browser pages, real Turnstile iframe displayed (human completion NOT_RUN)
 - [ ] Genuine human on-device Turnstile acceptance, owner account, privacy/legal signoff, field CWV, a11y/screen reader and GDPR data-retention checks

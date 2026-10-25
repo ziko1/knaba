@@ -187,3 +187,12 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Isolated Node24 (network none): Astro/Vue/Svelte check 0 errors / 0 warnings (4 hints), Vitest 126/126, inquiry Node 8/8, VPS Node 14/14, 99 pages/static links/build PASS; 8 six-tile locale checks, 7 hero carousel browser scenarios, 4 browser flows using synthetic provider script (NOT human challenge) PASS.
 - Latest static artifact SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede. VPS-mounted assets/ live real-human challenge remain separately gated.
 - Full 98 public HTML routes on prior live build: Chromium mobile 98/98 PASS basic footer/overflow checks; 7 focused 200% root-font samples no overflow. Not a physical device/real a11y or field CWV proof.
+
+
+## Live development release receipt — 25.10.2026
+- Active immutable code release: /srv/knaba/vps/releases/132145f94c53aabfa72645c3cc157d4c07c76ac2; previous 89b1ad4fb22f665863196040ea9e696119fb0690 retained for code rollback.
+- Pre-switch SQLite online backup: knaba-2026-10-25T04-14-26-764Z.sqlite, SHA256 626d449bd4e148d6aca402a426ae87d275f04cefe0de908735e43b62a9212e55, 5 migration files, 217088 bytes, integrity_check ok pre and post; no schema migrations.
+- Live HTTPS trusted ssl_verify_result 0, Docker healthy; home, UK, catalogue, DE/RU privacy and captcha config HTTP200; anonymous CRM 401; /readyz 503 (owner NOT enrolled). Missing and invalid Turnstile token POST -> HTTP422.
+- Post-deploy live browser: 98/98 routes responsive footer/no overflow/no broken logo, four synthetic consent-triggered provider flows PASS, 32/32 after-close legal-link hit tests PASS, 32/32 initial footer + 4 synthetic short pages PASS, seven localized carousel scenarios PASS.
+- Separate REAL Cloudflare managed widget browser observation: after privacy acknowledgement, one cross-origin Turnstile frame, widget 322x71 at 390px and a visible Verify you are human checkbox, no parent JS errors. Auxiliary brunhild.challenges.cloudflare.com request returned net::ERR_NAME_NOT_RESOLVED in the isolated VPS Chromium; successful human verification NOT_RUN.
+- Disk warning ~96% (approx 7.8 GiB available at last check). No cleanup; official knaba.de release, main merge, owner onboarding, legal consent/AVV, data migration and physical device QA still blocked/not run. Code tests do not establish end-to-end human CAPTCHA acceptance.
