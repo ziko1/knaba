@@ -15,6 +15,7 @@ describe('KNABA approved 3D logo on all shared locale routes',()=>{
    expect(layout.split('media="(max-width: 700px)"').length-1).toBe(2);
    expect(layout).toContain('class="brand footer-brand construction-brand"');
    expect(layout).toContain('alt={brandAlt}');
+   expect(layout.match(/aria-label=\{brandAlt\}/g)).toHaveLength(2);
    for(const locale of ['de:','en:','uk:','ru:'])expect(layout).toContain(locale);
  });
  it('uses transparent first-party assets with correct teal, gold and slogan',()=>{
