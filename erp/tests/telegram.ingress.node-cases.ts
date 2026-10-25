@@ -16,7 +16,7 @@ function fakeStore(){
         if(records.has(key))return {rows:[]};
         records.set(key,{companyId:company,payload});return {rows:[{event_id:id}]};
       }
-      const old=records.get(key);return {rows:old?[{company_id:old.companyId,identical:old.payload===payload}]:[]};
+      const old=records.get(key);return {rows:old?[{company_id:old.companyId,identical:old.payload===canonicalPayload}]:[]};
     },
     event:async (type:string,fields:unknown)=>{events.push({type,fields});}
   })};
