@@ -263,3 +263,9 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 ## 2026-10-25 — Partner parity · 5 official logos (draft)
 - Based on PR #68 `fffcee9f67517bbb9aa72319eace91fd516722a1`: added one localized DE/EN/UK/RU Astro partner section and typed five-entry official asset inventory after FAQ. Position 1–2 image filenames do not establish company names; HIT, Stromkreis, Gewobag are named; no invented partner identities or legacy outbound links.
 - Responsive 5/3/2 columns; VPS CSP scoped image-CDN allowlist. 12/12 static connector read-back checks PASS. `npm run check`, Vitest, build, E2E/device, image CDN HTTP and real VPS QA NOT_RUN. No deployment/merge. Evidence: `docs/evidence/KNABA_PARTNERS_PARITY_2026-10-25_UK.md`.
+
+## Browser-policy QA guard checkpoint (2026-10-25, Draft PR #72)
+
+- Previous brand browser QA repeatedly hit Chromium `ERR_BLOCKED_BY_ADMINISTRATOR`. This is an execution-environment policy, not proof of a site defect or pass.
+- Added scoped `corporate-site/AGENTS.md`, read-only three-engine browser gate and responsive brand test, plus Node regression coverage. Failover is only for infrastructure blocks; 503 and product assertions are FAIL. Browser gate 2=BLOCKED, never PASS. KNABA_BROWSER_SKIP=chromium avoids repeating a verified block within the same agent environment.
+- Isolated Node 22.16.0 regression test: 7/7 PASS. The brand browser test remains BLOCKED due absent Node Playwright in this local checker; live 16-case browser/device QA and full Node24 Astro build are NOT_RUN. No merge/deploy or paid service. Follow exact SHA and independent review before release.
