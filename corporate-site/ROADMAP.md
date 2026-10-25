@@ -115,3 +115,24 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [ ] Confirm official legal service details, permits, specialist subcontractors and image/brand approval before knaba.de release.
 - [ ] Human independent design/accessibility review, real CWV and multi-device QA.
 - [ ] Translate legal notices only after professional/legal review; do not falsely label German legal text as EN/UK.
+
+
+## KNABA-UX-CAPTCHA — 2026-10-25
+- [x] Preserve shared footer dark rebrand, legal clearance and all four locales
+- [x] Sixth planning CTA card on home and service catalogue, 4 languages
+- [x] Turnstile client + server and VPS bearer forwarding, Node24 build/unit tests
+- [x] Free Turnstile widget and root-only VPS secret provisioned for kneba.vsp.rest; v1 code and browser frame published in Draft PR #42, without human challenge completion
+- [ ] Manual captcha completion, privacy/legal, genuine owner onboarding, physical mobile/a11y and field Web Vitals
+- [ ] Separate legacy office editorial URLs replacement and redirects with owner-approved content
+
+
+## KNABA-UX-CAPTCHA-P2 — 25.10.2026, second hardening increment
+- [x] Prevent publicly deployed VPS from silently accepting new chats if both Turnstile credentials are missing (503 fail-closed)
+- [x] Load challenge only after visitor acknowledges privacy notice; same-tab privacy navigation; show actual provider disclosure in DE/RU
+- [x] Refresh expired or timed-out tokens; preserve alternative telephone/e-mail contact
+- [x] Fix post-close mobile Assistant launcher covering privacy/legal footer links, add 32 cross-locale viewport regressions
+- [x] Replace outdated office illustration reference in Impressum with actual Bau-cleaning site description
+- [x] Browser check 98/98 live routes before this increment (no overflow, legal link overlap or broken footer logo); 7 focused 200%-font checks
+- [x] Candidate Node24 check/build/tests and synthetic captcha lifecycle + footer/browser regressions
+- [x] Development-domain preview code deployed (runtime 132145f94c53aabfa72645c3cc157d4c07c76ac2), online SQLite backup verified and retained, HTTPS valid, 98/98 live browser pages, real Turnstile iframe displayed (human completion NOT_RUN)
+- [ ] Genuine human on-device Turnstile acceptance, owner account, privacy/legal signoff, field CWV, a11y/screen reader and GDPR data-retention checks

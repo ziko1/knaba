@@ -59,3 +59,34 @@
 .ka-recovery-row button,.ka-recovery-save button { padding:9px 11px; background:#edf5e4; border:1px solid #bfd6bd; border-radius:9px; font-weight:700; font-size:11px; color:#17423b; }
 .ka-recovery-save { margin-top:10px; display:flex; flex-direction:column; align-items:center; gap:6px; }
 .ka-recovery-save small { color:#5d7468; font-size:10px; line-height:1.45; max-width:320px; text-align:center; }
+
+/* Turnstile is intentionally visible on conversation creation, never over the page. */
+.ka-captcha{margin:9px 0;padding:10px;background:#f2f8f2;border:1px solid #c7ddcf;border-radius:12px;}
+.ka-captcha[hidden]{display:none}
+.ka-captcha-heading{font-weight:750;font-size:12px;margin-bottom:8px;color:#1b4642}
+.ka-captcha-widget{min-height:1px;max-width:100%;overflow:hidden}
+.ka-captcha p{font-size:11px;margin:8px 0 0;color:#385e54}
+.ka-captcha a{text-decoration:underline;font-weight:750;min-height:44px;display:inline-flex;align-items:center}
+
+.ka-captcha .ka-captcha-privacy{font-size:10px;line-height:1.5;color:#59726d}
+.ka-captcha-retry{border:1px solid #8db8a9;border-radius:8px;padding:8px 11px;margin:4px 9px 4px 0;background:#fff;color:#134942;font-weight:750;min-height:44px}
+
+/* Both launcher states share the same 54px mobile hitbox.
+   The initial static button is already circular; without this, the Solid
+   fallback grows to ~190px after closing and covers footer privacy links. */
+@media (max-width:760px) {
+  .ka-wrap .ka-launcher {
+    width:54px;
+    height:54px;
+    min-height:54px;
+    padding:0;
+    gap:0;
+    border-radius:50%;
+    align-items:center;
+    justify-content:center;
+    font-size:0;
+  }
+  .ka-wrap .ka-launcher span { font-size:27px; line-height:1; }
+}
+
+.ka-captcha-hint{margin:5px 0 11px;padding:8px 10px;border-left:3px solid #1b7779;background:#eff7f0;color:#254a47;font-size:12px;line-height:1.5}

@@ -1,6 +1,7 @@
 import { assistantAnswer, assistantLocale } from '../src/lib/assistant-knowledge';
 import type { WorkerEnv, D1Database, WorkerContext } from './types';
 import { ownerNotice,drainOwnerNotifications,notificationDeliveryEnabled } from './notifications';
+import { captchaConfig, verifyCaptcha } from './turnstile';
 
 /** Scoped public conversations + owner inbox. Never trust client-provided identity or role. */
 type Row = Record<string, unknown>;
@@ -103,10 +104,13 @@ async function thread(db:D1Database,row:Row):Promise<Response> {
 }
 async function createConversation(request:Request,env:WorkerEnv) {
   const db=database(env),b=await bodyOf(request);
-  fields(b,['locale','privacyAccepted','website']);
+  fields(b,['locale','privacyAccepted','website','captchaToken']);
   if(b.privacyAccepted!==true)fail(422,'privacy','Datenschutzhinweise bitte bestätigen.');
   if(b.website!==undefined && b.website!=='')fail(422,'validation','Anfrage ungültig.');
   await throttle(db,request,'create',10,3600);
+  const captcha=await verifyCaptcha(request,env,b.captchaToken);
+  if(captcha==='unavailable')fail(503,'captcha_unavailable','Sicherheitsprüfung ist derzeit nicht erreichbar.');
+  if(captcha!=='ok')fail(422,'captcha_required','Bitte die Sicherheitsprüfung abschließen.');
   // Expired buckets can be removed without touching active requests or chat records.
   await db.prepare('DELETE FROM portal_rate_limits WHERE expires_at < ?').bind(Math.floor(Date.now()/1000)-3600).run();
   const token=secret(),id=newId(),time=now(),locale=assistantLocale(b.locale);
@@ -245,6 +249,10 @@ async function flushAfter(response:Promise<Response>,env:WorkerEnv,ctx?:WorkerCo
 export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,ctx?:WorkerContext):Promise<Response> {
   try {
     const path=new URL(request.url).pathname.replace(/\/$/,'');
+    if(path==='/api/assistant/captcha'&&request.method==='GET'){
+      const config=captchaConfig(env);
+      return reply(config,config.unavailable?503:200);
+    }
     if(path==='/api/assistant/conversations'&&request.method==='POST')return await createConversation(request,env);
     if(path==='/api/assistant/owner/notifications'&&request.method==='GET'){
       requireOwner(owner);

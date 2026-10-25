@@ -55,6 +55,14 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     }});
     assert.equal((await fake.json()).role,'anonymous');
     assert.equal((await fetchAt('/api/crm/contacts')).status,401);
+    // The VPS proxy must preserve guest conversation bearer tokens, not the legacy -token spelling.
+    const started=await fetchAt('/api/assistant/conversations',{method:'POST',headers:bodyHeaders,
+      body:JSON.stringify({locale:'de',privacyAccepted:true,website:''})});
+    assert.equal(started.status,201,await started.clone().text());
+    const conversation=await started.json();
+    assert.equal((await fetchAt('/api/assistant/conversations/'+conversation.id)).status,404);
+    assert.equal((await fetchAt('/api/assistant/conversations/'+conversation.id,
+      {headers:{'X-Knaba-Conversation':conversation.token}})).status,200);
     assert.equal((await fetchAt('/api/studio/page?page=%2F')).status,401);
 
     const form=new URLSearchParams({email:owner,password,return_to:'/studio/'});
@@ -164,6 +172,8 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
     const live=await probe('kneba.vsp.rest');
     assert.equal(live.status,200);
     assert.equal(live.headers['strict-transport-security'],'max-age=604800');
+    // Public VPS must fail closed when Turnstile secrets are missing.
+    assert.equal((await probe('kneba.vsp.rest','https','/api/assistant/captcha')).status,503);
     const canIndex = process.env.KNABA_RELEASE_MODE === 'official'
       || (process.env.KNABA_RELEASE_MODE === 'vsp' && process.env.KNABA_VSP_INDEX_APPROVED === '1');
     assert.equal(live.headers['x-robots-tag'], canIndex ? undefined : 'noindex, follow',

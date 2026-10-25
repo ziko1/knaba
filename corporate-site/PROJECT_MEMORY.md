@@ -169,3 +169,30 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Public HTTPS with system CA verification: 99 built HTML routes have expected statuses (97 HTTP200 and 2 intentional 308 for the DE/RU legacy office pages), no unexpected errors. Extra EN/UK office URLs also redirect 308. HSTS max-age 604800, header and meta robots noindex/follow; Let's Encrypt SSL unchanged and valid. New squeegee/building SVG is served live.
 - Live Chromium automated 320x700, 390x844, 390x1550 and 768x1024 synthetic short-page footer test: bottom matches viewport and horizontal overflow zero.
 - Real owner account still unprovisioned (/readyz 503), on-device manual UAT and external-provider data export unverified. No paid providers used, no official knaba.de changes. VPS disk warning about 95 percent usage persists.
+
+
+## 25.10.2026 — UX/Assistant captcha candidate
+- Baseline live e5142f245aac806f4748c1db55a87629c1009bc2, preserving dark footer and assistant legal links; isolated draft for sixth CTA, real Turnstile token verification, bearer header fix.
+- Node24 no-network: 117 Vitest, 8 Node inquiry, 14 VPS tests PASS, 99 routes build/verify PASS, 8 localized six-tile checks PASS; artifact digest b1b32d7f95844b69b50888e3e431ddcd1448e1908014202be90126502fff922e.
+- Full focused report docs/KNABA_SITE_FOOTER_SQUARE_CAPTCHA_AUDIT_2026-10-25_UK.md. Legal/owner/physical device acceptance open.
+
+- Rebased on newer deployed carousel SHA fe78624f4263d5f410b9fa29a2329c8ac19a6a74; QA re-run: 123 Vitest, 8 inquiry, 14 VPS tests PASS, 99 routes, 32 catalogue mobile-footer widths plus 4 short page widths, 7 carousel scenarios PASS.
+
+
+## KNABA 2026-10-25 — continuation of PR #42 (hardening checkpoint)
+- Baseline exact deployed code: 89b1ad4fb22f665863196040ea9e696119fb0690; current domain kneba.vsp.rest, HTTPS trusted, Docker healthy. Root-only Turnstile server credential exists; not in repo.
+- RED evidence: after first opening/closing KNABA Assistant, Solid fallback launcher was 189.67px and covered mobile footer Datenschutz at widths 360, 390, 480, 600 and both legal links at 760. The initial-launcher-only test missed this state.
+- Fixed Solid fallback launcher to same 54px mobile circle, checked across 4 locales x 8 widths: 32/32 PASS; initial footer 32/32 + 4 short viewports PASS.
+- Production fail-closed if Turnstile keys missing; consent-triggered lazy third-party script, expiry reset, DE/RU factual privacy disclosure, same-tab legal link, corrected Imprint construction illustration.
+- Isolated Node24 (network none): Astro/Vue/Svelte check 0 errors / 0 warnings (4 hints), Vitest 126/126, inquiry Node 8/8, VPS Node 14/14, 99 pages/static links/build PASS; 8 six-tile locale checks, 7 hero carousel browser scenarios, 4 browser flows using synthetic provider script (NOT human challenge) PASS.
+- Latest static artifact SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede. VPS-mounted assets/ live real-human challenge remain separately gated.
+- Full 98 public HTML routes on prior live build: Chromium mobile 98/98 PASS basic footer/overflow checks; 7 focused 200% root-font samples no overflow. Not a physical device/real a11y or field CWV proof.
+
+
+## Live development release receipt — 25.10.2026
+- Active immutable code release: /srv/knaba/vps/releases/132145f94c53aabfa72645c3cc157d4c07c76ac2; previous 89b1ad4fb22f665863196040ea9e696119fb0690 retained for code rollback.
+- Pre-switch SQLite online backup: knaba-2026-10-25T04-14-26-764Z.sqlite, SHA256 626d449bd4e148d6aca402a426ae87d275f04cefe0de908735e43b62a9212e55, 5 migration files, 217088 bytes, integrity_check ok pre and post; no schema migrations.
+- Live HTTPS trusted ssl_verify_result 0, Docker healthy; home, UK, catalogue, DE/RU privacy and captcha config HTTP200; anonymous CRM 401; /readyz 503 (owner NOT enrolled). Missing and invalid Turnstile token POST -> HTTP422.
+- Post-deploy live browser: 98/98 routes responsive footer/no overflow/no broken logo, four synthetic consent-triggered provider flows PASS, 32/32 after-close legal-link hit tests PASS, 32/32 initial footer + 4 synthetic short pages PASS, seven localized carousel scenarios PASS.
+- Separate REAL Cloudflare managed widget browser observation: after privacy acknowledgement, one cross-origin Turnstile frame, widget 322x71 at 390px and a visible Verify you are human checkbox, no parent JS errors. Auxiliary brunhild.challenges.cloudflare.com request returned net::ERR_NAME_NOT_RESOLVED in the isolated VPS Chromium; successful human verification NOT_RUN.
+- Disk warning ~96% (approx 7.8 GiB available at last check). No cleanup; official knaba.de release, main merge, owner onboarding, legal consent/AVV, data migration and physical device QA still blocked/not run. Code tests do not establish end-to-end human CAPTCHA acceptance.
