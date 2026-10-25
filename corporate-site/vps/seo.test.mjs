@@ -4,6 +4,13 @@ import { readFileSync } from 'node:fs';
 import { renderPublishedSeo } from './seo.mjs';
 
 const html=readFileSync(new URL('../dist/client/index.html',import.meta.url),'utf8');
+// Publishing a Studio title must preserve the exact configured crawler gate,
+// including fail-closed VSP builds awaiting actual legal/owner approval.
+const shouldIndex = process.env.KNABA_RELEASE_MODE === 'official'
+  || (process.env.KNABA_RELEASE_MODE === 'vsp' && process.env.KNABA_VSP_INDEX_APPROVED === '1');
+const expectedRobots = '<meta name="robots" content="'
+  + (shouldIndex ? 'index, follow, max-image-preview:large' : 'noindex, follow') + '"';
+assert.ok(html.includes(expectedRobots), 'Source HTML must encode its explicit indexing gate');
 const mode=process.env.KNABA_RELEASE_MODE;
 if (!['official','vsp'].includes(mode)) throw Error('Explicit release mode required for SEO QA');
 const expectedOrigin=mode==='vsp'?'https://kneba.vsp.rest':'https://knaba.de';
@@ -21,7 +28,7 @@ test('published title and description update server HTML head, OG while preservi
   assert.match(result,/\<meta name="description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
   assert.match(result,/\<meta property="og:description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
   assert.ok(result.includes(expectedCanonical), "SEO publishing cannot rewrite the canonical host");
-  assert.match(result,/name="robots" content="index, follow, max-image-preview:large"/);
+  assert.ok(result.includes(expectedRobots), 'Studio SEO must preserve crawler gate after publishing');
 });
 test('no drafts/empty/corrupt published or duplicate SEO entries are rendered',()=>{
   assert.equal(renderPublishedSeo(html,dbRow([{selector:'@title',kind:'text',value:'Draft only'}],0)),html);

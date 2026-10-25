@@ -84,6 +84,10 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     const html=publicResponse.html;
     assert.ok(html.includes('Saubere Bauprojekte &amp; Büros'),'server-rendered published body text');
     assert.ok(html.includes('<title>KNABA Studio &amp; Bauhelfer Berlin</title>'),'server-rendered SEO title');
+    if(process.env.KNABA_RELEASE_MODE==='vsp' && process.env.KNABA_VSP_INDEX_APPROVED!=='1'){
+      assert.ok(html.includes('name="robots" content="noindex, follow"'),
+        'Owner-published Studio SEO must not bypass VSP indexing approval');
+    }
     const privateStatus=await page.evaluate(async()=>{
       const result=await fetch('/api/studio/page?page=%2F',{credentials:'same-origin'});
       return result.status;

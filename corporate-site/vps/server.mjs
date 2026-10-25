@@ -81,7 +81,13 @@ async function sendStatic(root,req,res,path,db){
   const privatePath=/^\/(?:studio|crm|konto|postfach|ru\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
-  if(privatePath||res.statusCode===404)res.setHeader('X-Robots-Tag','noindex, nofollow');
+  if(privatePath||res.statusCode===404){
+    res.setHeader('X-Robots-Tag','noindex, nofollow');
+  }else if(ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"')){
+    // Node serves static HTML directly; Cloudflare _headers rules are not applied here.
+    // Preserve the build-time noindex decision as an actual HTTP response header.
+    res.setHeader('X-Robots-Tag','noindex, follow');
+  }
   res.setHeader('Content-Length',bytes.length);
   res.end(req.method==='HEAD'?undefined:bytes);
 }

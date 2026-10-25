@@ -158,6 +158,7 @@ test('VSP origin: exact Host and TLS only, no cross-domain redirects or spoofed 
       response.on('end',()=>resolve({
         status:response.statusCode,
         location:response.headers.location,
+        headers:response.headers,
         body:Buffer.concat(chunks).toString('utf8')
       }));
     });
@@ -167,8 +168,16 @@ test('VSP origin: exact Host and TLS only, no cross-domain redirects or spoofed 
     seed=await create(true);
     await seed.close();seed=null;
     app=await create(false);
-    assert.equal((await probe('/')).status,200);
-    assert.equal((await probe('/studio/')).status,200);
+    const home=await probe('/');
+    assert.equal(home.status,200);
+    const expectedPublicHeader=process.env.KNABA_RELEASE_MODE==='vsp'
+      && process.env.KNABA_VSP_INDEX_APPROVED!=='1' ? 'noindex, follow' : undefined;
+    assert.equal(home.headers['x-robots-tag'],expectedPublicHeader,
+      'VPS HTTP responses must honor the same crawler gate as the HTML');
+    const studio=await probe('/studio/');
+    assert.equal(studio.status,200);
+    assert.equal(studio.headers['x-robots-tag'],'noindex, nofollow',
+      'Private Studio must retain stronger noindex/nofollow');
     assert.equal((await probe('/healthz')).status,200);
     assert.equal((await probe('/readyz')).status,503);
     assert.equal((await probe('/api/crm/contacts')).status,401);

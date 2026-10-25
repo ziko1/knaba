@@ -16,7 +16,7 @@ interface Props {
   alternates?: {lang:string;url:string}[];
 }
 const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs = [], alternates = [] } = Astro.props;
-const isNoindex = siteConfig.temporary || noindex;
+const isNoindex = !siteConfig.indexable || noindex;
 const translated = {
   de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Ihr Reinigungspartner in Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Gepflegte Räume. Ein gutes Gefühl.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
   en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Your cleaning partner in Berlin & Brandenburg',quote:'Request cleaning (DE)',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Clean spaces. A better feeling.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
