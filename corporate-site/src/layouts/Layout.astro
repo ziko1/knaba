@@ -5,6 +5,7 @@ import { siteConfig } from "../data/site";
 import Icon from "../components/Icon.astro";
 
 import { languageLinks, localeAlternates } from "../lib/site-i18n";
+import LocaleCatalog from "../components/LocaleCatalog.astro";
 import { ClientRouter } from "astro:transitions";
 interface Props {
   title: string;
@@ -136,6 +137,7 @@ const structuredData = {
             {languages.map(item => <a data-language-switch href={item.url} lang={item.lang} hreflang={item.lang} aria-current={lang===item.lang?'page':undefined}>
               <span>{languageNames[item.lang]}</span><span class="site-language-code" aria-hidden="true">{item.lang.toUpperCase()}</span>
             </a>)}
+            <LocaleCatalog locale={lang} />
           </nav>
         </details>
         <details class="mobile-nav">
