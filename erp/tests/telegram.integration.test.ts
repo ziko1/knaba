@@ -4,6 +4,8 @@ import {Database} from '../apps/api/database.ts';
 import {Engine} from '../apps/api/engine.ts';
 import {WorkerRunner} from '../apps/worker/runner.ts';
 import {acceptTelegramWebhook} from '../apps/api/telegram-ingress.ts';
+import {TelegramBotAdapter} from '../packages/integrations/telegram.ts';
+import {stageTelegramReply} from '../apps/worker/telegram-delivery.ts';
 
 const pg=process.env.DATABASE_URL?describe:describe.skip;
 const SECRET='synthetic-Telegram-QA-secret-20261025';
@@ -34,6 +36,22 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    const list=(kind:string)=>db.transaction(company,'QA_READ',tx=>tx.list(kind));
    const execute=async(command:string,payload:any={},expectedVersion?:number)=>engine.execute(await engine.getActor(actorId,company),command,{input:payload,idempotency_key:'test-'+randomUUID(),...(expectedVersion===undefined?{}:{expected_version:expectedVersion})});
    return {company,submit,drain,list,execute,runner};
+ }
+ async function operatorReply(f:Awaited<ReturnType<typeof setup>>,id:number){
+   await f.submit(id,'Bitte Baureinigung anbieten');await f.drain();
+   const channel=(await f.list('channel'))[0]!;
+   await f.execute('handoff.take',{channel_id:channel.id},channel.version);
+   const guest=(await f.list('user')).find(u=>u.data.guest)!;
+   await db.transaction(f.company,'SYNTHETIC_TELEGRAM_CONSENT',tx=>tx.add('notification_setting',{
+     user_id:guest.id,language:'DE',telegram_consent:true,telegram_opted_out:false,
+     telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY'
+   }));
+   const reply=await f.execute('message.send',{channel_id:channel.id,text:'Ihre Anfrage wird bearbeitet.',language:'DE'});
+   return {channel,guest,reply};
+ }
+ function mockAdapter(request:typeof fetch){
+   return new TelegramBotAdapter({token:'123456:ABCDEFghijk1234567890_ABCDEFghijk',enabled:true,
+     allowedChatIds:['187650211']},request);
  }
 
  it('exact update replay is one guest/channel/message and cannot cross company or impersonate operator',async()=>{
@@ -72,4 +90,58 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
      expect(deliveries[0].data.provider_message_id).toBeUndefined();
    } finally {vi.unstubAllGlobals();}
  });
+ it('approved synthetic operator reply records only API_ACCEPTED, dedupes stage/replay, never reports delivered',async()=>{
+   const f=await setup();const {reply}=await operatorReply(f,211);
+   let sends=0;
+   f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+   f.runner.options.telegram=mockAdapter((async (_url,opts)=>{
+     sends++;
+     const req=JSON.parse(String(opts?.body));
+     expect(req).toMatchObject({chat_id:'187650211',text:'Ihre Anfrage wird bearbeitet.',link_preview_options:{is_disabled:true}});
+     return new Response(JSON.stringify({ok:true,result:{message_id:453,chat:{id:187650211}}}),{status:200});
+   }) as typeof fetch);
+   await f.drain();
+   const rows=(await f.list('telegram_delivery')).filter(d=>d.data.message_id===reply.id);
+   expect(rows).toHaveLength(1);
+   expect(rows[0].data).toMatchObject({status:'API_ACCEPTED',provider_message_id:'453'});
+   expect(await stageTelegramReply(db,engine,f.company,reply.id,1)).toMatchObject({delivery_id:rows[0].id});
+   await f.drain();expect(sends).toBe(1);
+ });
+
+ it('revoked channel identity or opt-out between staging and send blocks without provider I/O',async()=>{
+   for(const condition of ['revoked','opted_out']){
+     const f=await setup();const {reply,guest}=await operatorReply(f,condition==='revoked'?212:213);
+     f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+     let calls=0;
+     f.runner.options.telegram=mockAdapter((async()=>{calls++;throw Error('PROVIDER_MUST_NOT_BE_CALLED')}) as typeof fetch);
+     await stageTelegramReply(db,engine,f.company,reply.id,1);
+     await db.transaction(f.company,'SYNTHETIC_REVOCATION',async tx=>{
+       if(condition==='revoked'){
+         const identity=(await tx.list('contact_identity')).find(i=>i.data.userId===guest.id)!;
+         await tx.save(identity,{...identity.data,active:false,revokedAt:new Date().toISOString()});
+       } else {
+         const setting=(await tx.list('notification_setting')).find(i=>i.data.user_id===guest.id)!;
+         await tx.save(setting,{...setting.data,telegram_consent:false,telegram_opted_out:true});
+       }
+     });
+     await f.drain();
+     const result=(await f.list('telegram_delivery')).find(d=>d.data.message_id===reply.id)!;
+     expect(result.data.status).toBe('BLOCKED');
+     expect(calls).toBe(0);
+   }
+ });
+
+ it('uncertain synthetic provider call stays UNKNOWN after recovery and is never resent',async()=>{
+   const f=await setup();const {reply}=await operatorReply(f,214);
+   f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+   let calls=0;
+   f.runner.options.telegram=mockAdapter((async()=>{calls++;throw Error('SYNTHETIC_TIMEOUT')}) as typeof fetch);
+   await f.drain();
+   const result=(await f.list('telegram_delivery')).find(d=>d.data.message_id===reply.id)!;
+   expect(result.data).toMatchObject({status:'UNKNOWN',error:'PROVIDER_OUTCOME_UNKNOWN'});
+   expect(calls).toBe(1);
+   await stageTelegramReply(db,engine,f.company,reply.id,1);
+   await f.drain();expect(calls).toBe(1);
+ });
+
 });
