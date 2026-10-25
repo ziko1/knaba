@@ -178,14 +178,21 @@ button {
 .skip-link {
   position: fixed;
   left: 16px;
-  top: -80px;
+  top: 12px;
   z-index: 100;
   background: var(--green);
   color: white;
   padding: 14px;
+  max-width: calc(100vw - 32px);
+  overflow-wrap: anywhere;
+  /* A fixed -80px is not enough for wrapped labels at 200% text size. */
+  transform: translateY(calc(-100% - 28px));
+  pointer-events: none;
+  transition: none;
 }
 .skip-link:focus {
-  top: 12px;
+  transform: none;
+  pointer-events: auto;
 }
 .topline {
   background: var(--green);
@@ -2212,4 +2219,16 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
     align-items: center;
     min-height: 44px;
   }
+}
+
+/* Accessible 200% root-text reflow on compact CSS viewport widths.
+   Keep the brand, language switcher and menu inside the 320px viewport. */
+@media (max-width: 700px) {
+  .nav-wrap { gap: 8px; }
+  .mobile-nav summary { min-width: 44px; justify-content: center; }
+  /* Focus-visible skip link must not cover the navigation controls. */
+  .skip-link:focus { max-width: min(180px, calc(100vw - 172px)); }
+}
+@media (max-width: 340px) {
+  .construction-brand img { width: min(140px, 43vw); }
 }
