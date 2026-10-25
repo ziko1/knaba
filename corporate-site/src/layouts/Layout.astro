@@ -18,6 +18,15 @@ interface Props {
 }
 const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs = [], alternates = [] } = Astro.props;
 const isNoindex = !siteConfig.indexable || noindex;
+// Verification tags identify a verified webmaster property; they do not activate indexing.
+// Validate build-provided tokens to prevent untrusted HTML, and never expose provider credentials.
+function validVerificationToken(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const token = value.trim();
+  return /^[A-Za-z0-9_.:-]{10,180}$/.test(token) ? token : undefined;
+}
+const googleVerification = siteConfig.indexable ? validVerificationToken(import.meta.env.KNABA_GOOGLE_SITE_VERIFICATION) : undefined;
+const bingVerification = siteConfig.indexable ? validVerificationToken(import.meta.env.KNABA_BING_SITE_VERIFICATION) : undefined;
 const translated = {
   de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
   en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
@@ -47,6 +56,14 @@ const nav = [
 const canonical = new URL(path, siteConfig.origin);
 const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
 const pageSchemas = Array.isArray(schema) ? schema : [schema];
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': siteConfig.officialOrigin + '/#website',
+  url: siteConfig.officialOrigin,
+  name: 'KnaBa',
+  inLanguage: ['de','en','uk','ru'],
+  publisher: {'@id':'https://knaba.de/#business'}
+};
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -73,10 +90,13 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#102d34" />
     <meta name="description" content={description} />
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
     <meta name="robots" content={isNoindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KnaBa" />
     <meta property="og:locale" content={{de:"de_DE",en:"en_GB",uk:"uk_UA",ru:"ru_RU"}[lang]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -84,13 +104,15 @@ const structuredData = {
     <meta property="og:image" content={new URL('/images/knaba-construction-logo.svg',siteConfig.origin)} />
     <meta property="og:image:width" content="510" /><meta property="og:image:height" content="110" />
     <meta property="og:image:alt" content="KnaBa · Baureinigung &amp; BauService · Berlin" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     {pageAlternates.map(item => <link rel="alternate" hreflang={item.lang} href={new URL(item.url,siteConfig.origin)} />)}
     <title>{title}</title>
     <ClientRouter />
     <script
       type="application/ld+json"
-      set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
+      set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
     />
   </head>
   <body>
