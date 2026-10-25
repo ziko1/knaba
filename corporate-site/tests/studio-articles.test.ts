@@ -90,4 +90,24 @@ describe('Studio owner-published multilingual knowledge pages',()=>{
    expect((await invoke('POST','/api/studio/article/draft',{page:articlePath,version:0,content:{...content,title:'New version'}})).status).toBe(409);
    expect((await invoke('POST','/api/studio/draft',{page:articlePath,version:1,entries:[{selector:'@title',kind:'text',value:'Hidden collision'}]})).status).toBe(422);
  });
+ it('can unpublish an approved article with explicit confirmation, retaining its draft and revision history',async()=>{
+   expect((await invoke('POST','/api/studio/article/draft',{page:articlePath,version:0,content})).status).toBe(200);
+   expect((await invoke('POST','/api/studio/article/publish',{page:articlePath,version:1,confirm:'PUBLISH'})).status).toBe(200);
+   expect((await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:1,confirm:'UNPUBLISH'},'anonymous')).status).toBe(401);
+   expect((await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:1,confirm:'UNPUBLISH'},'admin')).status).toBe(403);
+   expect((await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:1,confirm:'PUBLISH'})).status).toBe(422);
+   expect((await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:0,confirm:'UNPUBLISH'})).status).toBe(409);
+   const hidden=await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:1,confirm:'UNPUBLISH'});
+   expect(hidden.status).toBe(200);
+   expect(hidden.body.published).toBe(false);
+   const row=db.prepare('SELECT draft_json,published_json,draft_version,published_version FROM studio_pages WHERE page_path=?').get(articlePath) as Record<string,unknown>;
+   expect(Number(row.published_version)).toBe(0);
+   expect(Number(row.draft_version)).toBe(1);
+   expect(row.published_json).toBe('[]');
+   expect(JSON.parse(String(row.draft_json))).toEqual(content);
+   expect((await invoke('GET','/api/studio/article?page='+encodeURIComponent(articlePath))).body.published).toBeNull();
+   expect((await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:1,confirm:'UNPUBLISH'})).body.unchanged).toBe(true);
+   expect((db.prepare("SELECT count(*) as n FROM studio_revisions WHERE page_path=? AND action='unpublished'").get(articlePath) as {n:number}).n).toBe(1);
+ });
+
 });
