@@ -59,3 +59,10 @@
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+
+## PR53 inline login and release provenance (2026-10-25)
+- [x] Source-only inline login and no-full-reload synthetic owner flow at code `eeb015461be87e91fc6129fd3f5d5d90b43e47b3`; 23 test files and 103-page Node24 build, browser owner session and Studio Pro smoke PASS.
+- [ ] **P0 Release traceability:** active `kneba.vsp.rest` release `7e774...` does not resolve as exact GitHub commit and Node runtime lacks candidate JSON login despite indexable static HTML. Do not deploy previous 7f886 branch over active; investigate Issue #54, pin source & rollback hash and retest.
+- [ ] **P0** Real KNABA owner verified email/secure secret, `/readyz` truth, genuine HTTP login, full GDPR and backup/restore UAT. Do not create/print/share real owner credentials by guess.
+- [ ] Storage ~95% full; /tmp ~14G and Docker ~17G only READ-ONLY surveyed; verify age/ownership/open handles before any cleanup. No deletion yet.
+- [ ] Reconcile PR52 search-index release with owner/legal/SEO approvals, stage private/public robots/canonicals and route checks, field CWV, before customer release.
