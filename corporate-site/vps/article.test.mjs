@@ -41,7 +41,7 @@ test('published owner Studio knowledge pages are indexable HTML, linked from gui
    assert.match(res.headers.get('content-type')||'',/text\/html/);
    assert.match(html,/<title>Baureinigung &amp; Übergabe richtig planen<\/title>/);
    assert.match(html,/<h1[^>]*>Baureinigung &amp; Übergabe richtig planen<\/h1>/);
-   assert.match(html,/<link rel="canonical" href="https:\/\/kneba\.vsp\.rest\/wissen\/baureinigung-planung\/"\s*\/>/);
+   assert.match(html,/<link rel="canonical" href="https:\/\/kneba\.vsp\.rest\/wissen\/baureinigung-planung\/"\s*\/?>/);
    assert.match(html,/<meta name="robots" content="index, follow, max-image-preview:large"/);
    assert.ok(!html.includes('https://knaba.de/wissen/'+slug+'/'));
    assert.match(html,/"@type":"Article"/);
