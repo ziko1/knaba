@@ -179,3 +179,9 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] P1 Full component/block tree editing, reorder/add/delete templates, global header/footer/menu links with scoped published snapshot and review.
 - [ ] P1 Signed image upload storage, mime+SVG sanitization, content rights/resize, resource caps, deletion/rollback.
 - [ ] P1 Real AI provider authorization with fresh quota, cost cap, transfer/privacy approval; never enable on flags alone.
+
+## Studio Pro dev release follow-up, 25.10.2026
+- [x] Deployed code-only Studio candidate to kneba.vsp.rest at SHA 24dd7fc826ff50c3fab9273ce9e654fbee2095b6, 98 public index URLs + one 404 page verified; immutable rollback and SQLite online backup retained.
+- [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
+- [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
+- [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
