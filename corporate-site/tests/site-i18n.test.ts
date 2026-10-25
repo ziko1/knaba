@@ -2,6 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { languageLinks, localeAlternates, russianPublicPaths } from '../src/lib/site-i18n';
 
 describe('public language navigation', () => {
+  it('preserves every published construction article across all four languages', () => {
+    for (const slug of ['bauendreinigung-vorbereiten','baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste']) {
+      const route='/ratgeber/'+slug+'/';
+      const expected=[{lang:'de',url:route},{lang:'en',url:'/en'+route},{lang:'uk',url:'/uk'+route},{lang:'ru',url:'/ru'+route}];
+      for (const prefix of ['','/en','/uk','/ru']) {
+        expect(languageLinks(prefix+route)).toEqual(expected);
+        expect(localeAlternates(prefix+route)).toEqual([...expected,{lang:'x-default',url:route}]);
+      }
+    }
+  });
   it('preserves a service page when switching between DE and RU', () => {
     expect(languageLinks('/ru/leistungen/bueroreinigung/')).toEqual([
       {lang:'de',url:'/leistungen/bueroreinigung/'},

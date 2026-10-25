@@ -3,12 +3,19 @@ import {studioPages} from '../src/lib/studio-pages';
 import {normalizeStudioPage} from '../src/lib/site-studio-contract';
 
 describe('Studio editable site route inventory',()=>{
-  it('offers all 72 multilingual core, FAQ and construction service pages',()=>{
-    expect(studioPages).toHaveLength(72);
-    expect(new Set(studioPages.map(x=>x.path)).size).toBe(72);
+  it('offers all 88 multilingual core, FAQ, service and construction guide pages',()=>{
+    expect(studioPages).toHaveLength(88);
+    expect(new Set(studioPages.map(x=>x.path)).size).toBe(88);
     for(const item of studioPages){
       expect(normalizeStudioPage(item.path)).toBe(item.path);
       expect(item.title.trim().length).toBeGreaterThan(0);
+    }
+  });
+  it('includes each construction article in all published languages without retired office guides',()=>{
+    for(const prefix of ['', '/en', '/uk', '/ru']) {
+      for(const slug of ['bauendreinigung-vorbereiten','baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste'])
+        expect(studioPages.some(page=>page.path===prefix+'/ratgeber/'+slug+'/')).toBe(true);
+      expect(studioPages.some(page=>page.path===prefix+'/ratgeber/bueroreinigung-checkliste/')).toBe(false);
     }
   });
   it('offers all four published FAQ pages to the owner editor',()=>{

@@ -3,6 +3,7 @@ import { resolve, join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import {constructionGuideRoutes} from '../src/data/construction-guide-routes.ts';
 
 const root = resolve("dist/client");
 const releaseMode = process.env.KNABA_RELEASE_MODE;
@@ -10,6 +11,8 @@ const official = releaseMode === "official";
 const vsp = releaseMode === "vsp";
 const indexingApproved = official || vsp;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
+const publishedGuideSlugs = new Set(constructionGuideRoutes.map(guide=>guide.slug));
+const expectedPublicRoutes = 72 + constructionGuideRoutes.length * 4;
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const lists = await Promise.all(
@@ -36,6 +39,8 @@ for (const file of files) {
 }
 for (const file of pages) {
   const html = await readFile(file, "utf8");
+  const guideSlug = file.match(/\/ratgeber\/([^/]+)\/index\.html$/)?.[1];
+  const publishedGuide = !!guideSlug && publishedGuideSlugs.has(guideSlug);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
   assert.match(html, /<html lang="(de|en|uk|ru)"/);
   // One accessible locale disclosure in the header, not a full-width strip.
@@ -52,7 +57,7 @@ for (const file of pages) {
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html"))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -77,7 +82,14 @@ for (const file of pages) {
   assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
   if (file.includes('/bauleistungen/') && !file.endsWith('/bauleistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
-  if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html')) assert.match(html,/name="robots" content="noindex, follow"/);
+  if (guideSlug && !publishedGuide) assert.match(html,/name="robots" content="noindex, follow"/);
+  if (publishedGuide) {
+    const article=graphNodes.find(g=>g['@type']==='Article');
+    assert.ok(article, `${file}: published guide Article schema`);
+    assert.equal(article.inLanguage, locale, `${file}: article language`);
+    assert.equal(article.url, origin+'/'+relative(root,file).replace(/index\.html$/,''), `${file}: article canonical URL`);
+    assert.ok(article.headline && article.description, `${file}: meaningful article metadata`);
+  }
   assert.match(html,/name="astro-view-transitions-enabled"/);
   for (const img of html.matchAll(/<img\b[^>]*>/g)) {
     assert.match(img[0], /alt="[^"]+"/);
@@ -101,8 +113,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 31, 'Expanded localized Russian tree with FAQ and portal');
-assert.equal(russianPages.length, 32, 'Private Russian owner inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 34, 'Expanded localized Russian tree with construction guides, FAQ and portal');
+assert.equal(russianPages.length, 35, 'Private Russian owner inbox is an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -129,10 +141,10 @@ const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?72:0);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?expectedPublicRoutes:0);
 if(indexingApproved) {
   assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
-  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,72*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
+  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,expectedPublicRoutes*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
   for(const privatePart of ['/konto/','/studio/','/crm/','/postfach/'])
     assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
 } else assert.doesNotMatch(robots,/Sitemap:/);

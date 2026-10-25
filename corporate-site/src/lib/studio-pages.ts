@@ -1,4 +1,5 @@
 import {constructionOffers} from '../data/construction-offers';
+import {constructionGuideRoutes} from '../data/construction-guide-routes';
 
 export type StudioPageOption = {path:string;title:string};
 /** Published Astro public pages only; never include owner/CRM/legal/retired office URLs. */
@@ -18,6 +19,7 @@ const locales=[{prefix:'',name:'DE'},{prefix:'/en',name:'EN'},{prefix:'/uk',name
 export const studioPages: readonly StudioPageOption[] = Object.freeze(
   locales.flatMap(({prefix,name})=>[
     ...common.map(item=>({path:prefix+item.path,title:name+' · '+item.title})),
-    ...constructionOffers.map(item=>({path:prefix+'/bauleistungen/'+item.slug+'/',title:name+' · '+item.name.de}))
+    ...constructionOffers.map(item=>({path:prefix+'/bauleistungen/'+item.slug+'/',title:name+' · '+item.name.de})),
+    ...constructionGuideRoutes.map(item=>({path:prefix+'/ratgeber/'+item.slug+'/',title:name+' · '+item.title}))
   ])
 );

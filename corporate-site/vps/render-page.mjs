@@ -70,6 +70,50 @@ function stylePatch(html,node,entries){
   });
   return attrPatch(html,node,'style',[...untouched,...authored].join(';'));
 }
+/** Keep this page's existing Article facts aligned with owner-published visible copy. */
+function syncArticleMetadata(html){
+  if(!/"@type"\s*:\s*"Article"/.test(html))return html;
+  let document;
+  try{document=parse(html,{sourceCodeLocationInfo:true});}catch{return html;}
+  const main=findMain(document);
+  if(!main)return html;
+  const descendants=node=>{
+    const result=[];const stack=[node];
+    while(stack.length){const item=stack.pop();result.push(item);stack.push(...(item.childNodes||[]));}
+    return result;
+  };
+  const attr=(node,name)=>node.attrs?.find(item=>item.name===name)?.value;
+  const heads=descendants(document).filter(node=>node.tagName==='head');
+  const headings=descendants(main).filter(node=>node.tagName==='h1');
+  if(heads.length!==1||headings.length!==1)return html;
+  const headNodes=descendants(heads[0]);
+  const descriptions=headNodes.filter(node=>node.tagName==='meta'&&attr(node,'name')==='description');
+  const canonicals=headNodes.filter(node=>node.tagName==='link'&&attr(node,'rel')==='canonical');
+  if(descriptions.length!==1||canonicals.length!==1)return html;
+  const content=node=>node.nodeName==='#text'?node.value:(node.childNodes||[]).map(content).join('');
+  const headline=content(headings[0]).trim();
+  const description=attr(descriptions[0],'content');
+  const canonical=attr(canonicals[0],'href');
+  if(!headline||!description||!canonical)return html;
+  const patches=[];
+  for(const script of headNodes.filter(node=>node.tagName==='script'&&attr(node,'type')==='application/ld+json')){
+    const location=script.sourceCodeLocation;
+    if(!location?.startTag||!location?.endTag)continue;
+    let data;
+    try{data=JSON.parse(content(script));}catch{continue;}
+    const nodes=Array.isArray(data)?data:Array.isArray(data?.['@graph'])?data['@graph']:[data];
+    let changed=false;
+    for(const node of nodes){
+      if(node?.['@type']!=='Article'||node.url!==canonical)continue;
+      if(node.headline===headline&&node.description===description)continue;
+      node.headline=headline;node.description=description;changed=true;
+    }
+    if(changed)patches.push({start:location.startTag.endOffset,end:location.endTag.startOffset,value:JSON.stringify(data).replace(/</g,'\\u003c')});
+  }
+  for(const patch of patches.sort((a,b)=>b.start-a.start))
+    html=html.slice(0,patch.start)+patch.value+html.slice(patch.end);
+  return html;
+}
 export function renderPublishedPage(html,row){
   if(typeof html!=='string'||html.length>400000 || !row || !Number.isInteger(row.published_version) ||
     row.published_version<1 || typeof row.published_json!=='string' || row.published_json.length>64000)return html;
@@ -107,5 +151,6 @@ export function renderPublishedPage(html,row){
       result=result.slice(0,patches[i].start)+patches[i].value+result.slice(patches[i].end);
     }
   }
-  return renderPublishedSeo(result,row);
+  result=renderPublishedSeo(result,row);
+  return result===html?result:syncArticleMetadata(result);
 }
