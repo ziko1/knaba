@@ -298,7 +298,7 @@ export class WorkerRunner {
     const source=await this.db.query('SELECT payload FROM webhook_inbox WHERE provider=$1 AND event_id=$2 AND company_id=$3',['TELEGRAM',job.data.event_id,job.company_id]);
     assert(source.rows.length===1,'NOT_FOUND_SAFE');
     const input=source.rows[0].payload as TelegramInbound;
-    assert(input.kind==='MESSAGE'&&input.id===job.data.event_id&&input.sender===input.chat_id&&/^\\d{1,16}$/.test(input.sender)&&input.id.startsWith('TELEGRAM:')&&['text','voice','photo','document','callback','other'].includes(input.type),'ACCESS_DENIED');
+    assert(input.kind==='MESSAGE'&&input.id===job.data.event_id&&input.sender===input.chat_id&&/^\d{1,16}$/.test(input.sender)&&input.id.startsWith('TELEGRAM:')&&['text','voice','photo','document','callback','other'].includes(input.type),'ACCESS_DENIED');
     const route=await this.db.transaction(job.company_id,serviceId,async tx=>{
       const previous=(await tx.list('conversation_input')).find(row=>row.data.provider==='TELEGRAM'&&row.data.provider_event_id===input.id);
       if(previous)return previous;
