@@ -32,8 +32,8 @@ test('Studio description safely escapes HTML while updating OG and Twitter',()=>
 });
 test('drafts, missing Twitter tags and private routes fail closed',()=>{
   assert.equal(renderPublishedSeo(html,{...row('@title','Draft'),published_version:0}),html);
-  assert.equal(renderPublishedSeo(html.replace(/<meta name="twitter:title"[^>]*>\n/,''),
-    row('@title','New')),html);
+  const missingTwitter=html.replace(/<meta name="twitter:title"[^>]*>\n/,'');
+  assert.equal(renderPublishedSeo(missingTwitter,row('@title','New')),missingTwitter);
   for(const p of ['/studio/','/konto/','/api/leads/','/admin/','/crm/'])
     assert.equal(editablePublicHtmlPath(p),false);
   assert.equal(editablePublicHtmlPath('/bauleistungen/baureinigung/'),true);
