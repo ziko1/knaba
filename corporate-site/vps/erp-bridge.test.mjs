@@ -16,14 +16,14 @@ const config=()=>({
   KNABA_ERP_ALLOWED_ORIGIN:'https://api.knaba.example.test',
   KNABA_ERP_KEY_ID:'site_test_v1',
   KNABA_ERP_SECRET:'SYNTHETIC_ONLY_DO_NOT_USE_IN_LIVE_20261025',
-  KNABA_ERP_SERVICE_MAP_JSON:JSON.stringify({bueroreinigung:'service_clean'}),
+  KNABA_ERP_SERVICE_MAP_JSON:JSON.stringify({baureinigung:'service_clean'}),
 });
 function fixture(){
  const dir=mkdtempSync(join(tmpdir(),'knaba-bridge-'));
  const {db}=openLocalDatabase(join(dir,'site.sqlite'));
  const id=randomUUID(),at='2026-10-25T11:00:00.000Z';
  const request={
-    id,service:'bueroreinigung',object_type:'Büro / Gewerbe',postcode:'10315',area:'200',
+    id,service:'baureinigung',object_type:'Baustelle',postcode:'10315',area:'200',
     frequency:'Regelmäßig',message:'Synthetic customer note that must NOT enter bridge.',
     contact_name:'Synthetic Visitor',email:'contact@example.test',phone:'',address:'Berlin',
     dedupe_scope:'synthetic',idempotency_key:'synthetic-idempotency-key',payload_hash:'synthetic-digest',
@@ -58,7 +58,7 @@ test('approved pinned integration signs exact canonical HMAC and confirms only a
      assert.deepEqual(envelope.payload.serviceIds,['service_clean']);
      assert.equal(envelope.payload.contact.email,'contact@example.test');
      assert.equal(envelope.payload.contact.name,'Synthetic Visitor');
-     assert.equal(envelope.payload.facts.propertyType,'Büro / Gewerbe');
+     assert.equal(envelope.payload.facts.propertyType,'Baustelle');
      assert.equal(envelope.payload.facts.measurementSource,'CUSTOMER_STATED');
      assert.equal(envelope.payload.facts.quantityMilli,200000);
      assert.equal(envelope.payload.facts.recurring,true);
@@ -131,7 +131,7 @@ test('changed service mapping after ambiguous outcome is blocked before another 
  const f=fixture();let calls=0;
  try{
   await deliverPendingLead(f.db,config(),async()=>{calls++;throw Error('unknown')},NOW);
-  const env={...config(),KNABA_ERP_SERVICE_MAP_JSON:JSON.stringify({bueroreinigung:'different_service'})};
+  const env={...config(),KNABA_ERP_SERVICE_MAP_JSON:JSON.stringify({baureinigung:'different_service'})};
   const outcome=await deliverPendingLead(f.db,env,async()=>{calls++;throw Error('FORBIDDEN')},NOW+400000);
   assert.equal(outcome.status,'BLOCKED');assert.equal(f.row().last_error,'ENVELOPE_CHANGED');
   assert.equal(calls,1);
