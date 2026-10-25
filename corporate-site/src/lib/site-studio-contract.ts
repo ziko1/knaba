@@ -9,7 +9,7 @@ export class StudioInputError extends Error {
   constructor(message: string) { super(message); this.name = 'StudioInputError'; }
 }
 const MAX_ENTRIES = 80;
-const TAGS = '(?:section|div|article|aside|figure|figcaption|knaba-service-carousel|h[1-6]|p|span|a|strong|em|small|li|ul|ol|img|blockquote|b|i|label)';
+const TAGS = '(?:section|div|article|aside|details|summary|figure|figcaption|knaba-service-carousel|h[1-6]|p|span|a|strong|em|small|li|ul|ol|img|blockquote|b|i|label)';
 const selectorPattern = new RegExp('^#main(?: > ' + TAGS + ':nth-of-type\\((?:[1-9][0-9]?)\\)){1,10}$');
 const pagePattern = /^\/(?:[a-z0-9-]+\/){0,4}$/;
 const restricted = new Set(['api','studio','konto','postfach','portal','admin','login','logout','_astro','assets','images']);
@@ -38,6 +38,8 @@ export function validateStudioEntries(input: unknown): StudioEntry[] {
     if(typeof kind!=='string' || !allowedKinds.has(kind as StudioKind) || typeof value!=='string' || value.length > 700 || !isPlain(value))
       return reject('Bitte verwenden Sie normalen, sicheren Text.');
     const element=selector.split(' > ').at(-1)?.split(':')[0];
+    // These FAQ ancestors may appear in a leaf selector but must never be replaced wholesale.
+    if(element==='details'||element==='summary') return reject('Nur einzelne FAQ-Texte dürfen bearbeitet werden.');
     if((selector==='@title'||selector==='@description') && kind!=='text') return reject('SEO-Felder erlauben nur Text.');
     if(selector==='@title' && (!value.trim() || value.length>100)) return reject('Der Seitentitel muss zwischen 1 und 100 Zeichen enthalten.');
     if(selector==='@description' && value.length>250) return reject('Die Seitenbeschreibung ist zu lang.');

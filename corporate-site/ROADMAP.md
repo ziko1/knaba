@@ -209,3 +209,10 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Published exact 7f886606d5711ac93a88d3d93b54a0a9b5638525 code on kneba.vsp.rest; previous code preserved, fresh SQLite backup and verified integrity
 - [x] Post-deploy HTTPS/certificate, Docker health, source SHA, EN/UK footer link semantics, 16 FAQ, 32 Assistant-close, 102 all-route checks
 - [ ] Real owner authorizes Studio editing, legal/processors signoff, physical device testing, browser Turnstile human acceptance, verified offsite backup and disk-pressure recovery
+
+## KN-FAQ-STUDIO-LEAF — 25.10.2026
+- [x] Reproduce rejected FAQ question/answer selector from current DOM, including failing SSR test (RED).
+- [x] Permit native details/summary as ancestors without allowing destructive rich-node replacement or HTML injection.
+- [x] Node24, all site tests, full static build, SSR tests and isolated preview select/edit/undo QA (GREEN) at executable SHA `1d58071edecd79870c1f1bcd563e54ed70b35805`.
+- [ ] Publish only after the active VPS SHA is source-traceable and owner-scoped authentication/draft/publish/restore UAT is completed with immutable release/rollback.
+- [ ] Future FAQ CRUD (add/reorder/delete) requires separate typed contract, revision history, accessibility and locale QA. Do not call current leaf editor a full FAQ CMS.
