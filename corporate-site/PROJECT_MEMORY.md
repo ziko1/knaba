@@ -269,3 +269,11 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Node24 check/180 Vitest/16 Node/23 VPS/117-page build + static icon/order verification PASS; isolated Chromium 32 home/catalog, 32 detail and eight title cases PASS. One actual build artifact SHA256 `35f4d2cf9503950e898c8fd88982d6fd92735c042be27a39ef537bd111c70976`.
 - Payload compared with baseline: all emitted JS gzip +0 B, total CSS gzip +122 B, homepage HTML gzip +612 B. Field CWV not measured. Evidence: `docs/KNABA_SVG_SERVICE_ICONS_2026-10-25_UK.md`.
 - Actual dev deployment requires an immutable source-pinned release, pre-switch backup and public smoke. Real owner /readyz=503; physical device, native zoom, legal and customer acceptance NOT_RUN. No source-publication permission bypass.
+
+
+## KNABA Control Center — 25.10.2026 isolated rebase onto preview
+- Private latest-preview base: `06c51f0c2bc6aaf6a6c6f26848839fdddecc55b2` (SVG icon refinement), with only 17 scoped admin files from public Draft PR #69 `e0a36713e5a109cdc6e583a33284414fe4a1525b`.
+- Actual isolated Node24 check/test/build/verify and 23/23 VPS checks PASS; Chromium synthetic owner/admin/guest reflow 320/390/768/1440 and unsaved-editor guard PASS. Artifact SHA documented in `docs/evidence/knaba-control-center-2026-10-25.json`.
+- No real DB migration, paid providers or official knaba.de changes. Live owner remains unactivated; genuine owner UAT, independent human security review, field performance and physical-device tests unknown.
+- Earlier backup SHA `1fc9492a9695d98dfd3fd3e41169353d0e98b63232f14fadcfd86e66595eaad8` verified SQLite integrity; source packet is kept private on VPS, never pushed to public GitHub.
+- Publish only with current-source lease, storage healthy, verified release packet and automatic rollback gates.

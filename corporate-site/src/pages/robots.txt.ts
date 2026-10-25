@@ -6,6 +6,7 @@ export const GET: APIRoute = () => new Response([
   'Disallow: /api/',
   'Disallow: /konto/',
   'Disallow: /ru/konto/',
+  'Disallow: /admin/',
   'Disallow: /studio/',
   'Disallow: /crm/',
   'Disallow: /postfach/',

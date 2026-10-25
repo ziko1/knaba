@@ -1,0 +1,56 @@
+{
+  "createdAtUtc": "2026-10-25T16:34:01.516810+00:00",
+  "project": "KNABA",
+  "scope": "Private live source + new unified admin shell",
+  "sourceBaseSha": "06c51f0c2bc6aaf6a6c6f26848839fdddecc55b2",
+  "publicFeatureHeadSha": "e0a36713e5a109cdc6e583a33284414fe4a1525b",
+  "artifactSha256": "a50926dc95af843277ba8377f76b6b2e315b6f3e356ff07d99a3d2c383203375",
+  "build": {
+    "mode": "VSP_PUBLIC",
+    "htmlPages": 118,
+    "cssGzipBytes": 40474,
+    "allEmittedJsGzipBytes": 187239
+  },
+  "qa": {
+    "astroVueSvelteCheck": "PASS",
+    "vitestSuites": "30 PASS",
+    "nodeExtra": "16 PASS",
+    "vpsSuite": "23/23 PASS",
+    "build": "PASS",
+    "staticVerifier": "PASS",
+    "syntheticChromium": {
+      "source": "private-live-source-plus-scoped-admin-diff",
+      "synthetic": true,
+      "tests": [
+        "anonymous deny:PASS",
+        "non-management roles deny:PASS",
+        "admin CRM and forged Studio view:PASS",
+        "owner 5 sections, dirty guard, focus retention:PASS",
+        "320px reflow:PASS",
+        "390px reflow:PASS",
+        "768px reflow:PASS",
+        "1440px reflow:PASS",
+        "zero uncaught page errors:PASS"
+      ],
+      "errors": [],
+      "status": "PASS"
+    }
+  },
+  "backup": {
+    "sha256": "1fc9492a9695d98dfd3fd3e41169353d0e98b63232f14fadcfd86e66595eaad8",
+    "integrity": "ok",
+    "migrations": 6
+  },
+  "data": {
+    "databaseMigrationsChanged": false,
+    "liveDBUsedForBrowserQA": false,
+    "realOwnerEnrolled": false
+  },
+  "gatesNotPassed": [
+    "owner real login",
+    "independent human approval",
+    "physical device",
+    "field Core Web Vitals"
+  ],
+  "statusAtCreation": "SOURCE_QA_PASS__DEPLOY_NOT_YET_PERFORMED"
+}

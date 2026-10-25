@@ -82,3 +82,10 @@
 - [ ] Consider printable project brief after validating need with B2B users; existing planner has no file export.
 - [ ] Storage health92.88% → below current90% cutover threshold; retain backups/data. Reconcile latest current pointer before dev rollout.
 - [ ] Human UAT, legal signoff and live owner/enquiry delivery remain open.
+
+
+## Unified KNABA Control Center /admin/ — candidate 2026-10-25
+- [x] Isolated private live-source candidate preserving exact active release source `30cdeb75c46ad90e1fb921e78c9928235f3ac29a` and only scoped admin files.
+- [ ] Run full Node24 checks + static preview verifier + backend/API auth tests on exact private candidate SHA and secure live-staging browser.
+- [ ] Validate owner account via independently verified invite; no automatic owner privilege or reusable password disclosure.
+- [ ] Review release lock, backup+restore, source manifest and current symlink lease before any deploy; no live migration or paid provider activation.

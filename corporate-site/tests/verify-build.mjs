@@ -57,7 +57,7 @@ for (const file of pages) {
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -148,14 +148,14 @@ assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?expectedPubli
 if(indexingApproved) {
   assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
   assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,expectedPublicRoutes*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
-  for(const privatePart of ['/konto/','/studio/','/crm/','/postfach/'])
+  for(const privatePart of ['/admin/','/konto/','/studio/','/crm/','/postfach/'])
     assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
 } else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
 if(!indexingApproved) assert.match(headers,/X-Robots-Tag: noindex, follow/);
-else assert.doesNotMatch(headers.split('/konto/*')[0],/X-Robots-Tag: noindex/,'Public VSP release must not send blanket noindex');
-for(const path of ['/konto/*','/studio/*','/crm/*','/postfach/*','/ru/konto/*','/ru/postfach/*'])
+else assert.doesNotMatch(headers.split('/admin/*')[0],/X-Robots-Tag: noindex/,'Public VSP release must not send blanket noindex');
+for(const path of ['/admin/*','/konto/*','/studio/*','/crm/*','/postfach/*','/ru/konto/*','/ru/postfach/*'])
   assert.ok(headers.includes(path+'\n  X-Robots-Tag: noindex, nofollow'),'Private robots header '+path);
 const report = {
   scope: "production-build-static-validation",
