@@ -10,13 +10,16 @@
     "dev": "node scripts/preview-worker.mjs",
     "build": "astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs",
     "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
-    "test": "vitest run && node --test tests/inquiry.test.mjs tests/verify-live-artifact.test.mjs",
+    "test": "vitest run && node --test tests/inquiry.test.mjs tests/verify-live-artifact.test.mjs tests/vps-seo.test.mjs tests/indexnow-submit.test.mjs tests/marketing-contrast.test.mjs tests/sitemap-parity.test.mjs",
     "verify:build": "node tests/verify-build.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "db:generate": "drizzle-kit generate",
     "dev:content": "astro dev",
     "db:migrate:local": "wrangler d1 migrations apply DB --local --config dist/server/wrangler.json --persist-to .wrangler/state",
-    "test:artifact": "node --test tests/verify-live-artifact.test.mjs"
+    "test:artifact": "node --test tests/verify-live-artifact.test.mjs",
+    "test:visual": "node tests/design-seo-browser.cjs",
+    "test:reflow": "node tests/accessibility-reflow-browser.cjs",
+    "test:guides-browser": "node tests/construction-guides-browser.cjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "7.1.1",

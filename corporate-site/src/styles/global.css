@@ -2232,3 +2232,15 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 @media (max-width: 340px) {
   .construction-brand img { width: min(140px, 43vw); }
 }
+
+/* PR50 accessibility integration: anchored viewport menu at narrow widths.
+   Keep PR64's responsive header, keyboard and skip-link behavior unchanged. */
+@media (max-width:700px) {
+  .site-language-options {
+    position:fixed;
+    top:91px;
+    right:12px;
+    left:auto;
+    width:min(352px,calc(100vw - 24px));
+  }
+}

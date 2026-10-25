@@ -1,9 +1,14 @@
 ---
+import Guide from '../../../components/ConstructionGuide.astro';
+import {constructionGuides,constructionGuideBySlug,type ConstructionGuide} from '../../../data/construction-guides';
 import Legacy from '../../../components/ConstructionLegacy.astro';
-import {guides} from '../../../data/seo-content.ts';
+import {guides as previousGuides} from '../../../data/seo-content';
 export function getStaticPaths(){
-  return guides.map(item=>({params:{slug:item.slug}}));
+  return [
+    ...constructionGuides.map(guide=>({params:{slug:guide.slug},props:{guide,slug:guide.slug}})),
+    ...previousGuides.filter(item=>!constructionGuideBySlug(item.slug)).map(item=>({params:{slug:item.slug},props:{slug:item.slug}}))
+  ];
 }
-const {slug}=Astro.params;
+const {guide,slug}=Astro.props as {guide?:ConstructionGuide;slug:string};
 ---
-<Legacy locale="ru" slug={slug!}/>
+{guide ? <Guide locale="ru" guide={guide} /> : <Legacy locale="ru" kind="guide" slug={slug} />}

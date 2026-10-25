@@ -1,0 +1,159 @@
+{
+  "schema": "KNABA_RECONCILED_CANDIDATE_QA_V1",
+  "date": "2026-10-25",
+  "project": "KNABA (separate from AVENQO)",
+  "repo": "ziko1/knaba",
+  "branch": "feat/knaba-reconciled-ui-seo-20261025",
+  "parent": {
+    "pr": 64,
+    "sha": "6d3ca1193ff98ffc46e7688a74896789fd2fb6a3",
+    "immutableSource": "PR64 code + FAQ Studio + provenance/release verifier"
+  },
+  "source": {
+    "browserTestedSha": "4580e30a4ea22c5fc4869b81b87e4bed7a59a373",
+    "finalCliAndTestedSha": "ac9da47cad26b65efef81afd08ad47bc4cb6bffe",
+    "mergedIntoMain": false,
+    "prodOrPreviewDeployed": false,
+    "retainedExternalPR50": "024883b16dcfe423dcb9cdd454c3dbaa30a567bd"
+  },
+  "modifiedScopes": {
+    "preservedFromPr64": [
+      "ConstructionDetail.astro",
+      "ConstructionFaq.astro",
+      "SiteStudio.tsx",
+      "src/pages/sitemap.xml.ts",
+      "vps/server.mjs",
+      "scripts/verify-live-artifact.mjs",
+      "worker/studio.ts"
+    ],
+    "portedFromPr50": [
+      "localized construction headline",
+      "asymmetric colorful homepage and B2B editorial panels",
+      "catalogue palettes and WCAG gradient captions",
+      "4-locale carousel text contrast",
+      "mobile language dropdown reflow fix",
+      "safe owner Studio HTML/OG/Twitter metadata handling",
+      "optional gated Google/Bing webmaster meta",
+      "disabled-by-default IndexNow CLI",
+      "browser/contrast/security unit tests"
+    ],
+    "preservedFromPr59": [
+      "light sixth service request card",
+      "full-width explore-services link"
+    ],
+    "dependenciesAdded": 0,
+    "dataMigrations": 0,
+    "liveAuthChanges": 0
+  },
+  "qa": {
+    "environment": "VPS isolated temporary Git clone, cached Docker node:24-bookworm-slim v24.22.1, npm ci --offline --ignore-scripts, --network none, bounded CPU/memory/pids",
+    "commitWithRuntimeSourceTests": "4580e30a4ea22c5fc4869b81b87e4bed7a59a373",
+    "typecheck": "PASS Astro/Vue/Svelte",
+    "vitest": {
+      "passed": 151,
+      "failed": 0
+    },
+    "nodeTestsAtCodeSha": {
+      "passed": 30,
+      "failed": 0
+    },
+    "vpsTests": {
+      "passed": 18,
+      "failed": 0
+    },
+    "codeStaticBuild": {
+      "pages": 103,
+      "status": "PASS",
+      "indexMode": "VSP_PUBLIC",
+      "artifactSha256": "2df31ec03654f9e69e8e1ea8ec3d4e541602fcb8cbbcd0540fa96917d260c8e6",
+      "cssGzipBytes": 32077,
+      "allEmittedJsGzipBytes": 169413
+    },
+    "actualBrowser": {
+      "status": "24/24 design + 6/6 reflow + footer legal link clearance PASS",
+      "sourceSha": "4580e30a4ea22c5fc4869b81b87e4bed7a59a373",
+      "publicBrowser": false,
+      "network": "none",
+      "screenshotEvidence": [
+        {
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-reconcile-visual-20261025/knaba-de-desktop-1440.png",
+          "sha256": "23849ef83379411bd16c340d5aaff4990903e46c7942ab82bd1e1e104a517a6e",
+          "bytes": 1721786
+        },
+        {
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-reconcile-visual-20261025/knaba-uk-mobile-390.png",
+          "sha256": "e3736916a119c44f168f61578646512c5b6a1316348882fa13f67f62643fc076",
+          "bytes": 977254
+        }
+      ],
+      "limitation": "CSS viewport reflow equivalents, not physical mobile, true zoom, screen-reader or field Web Vitals"
+    },
+    "buildWithDummyOwnerProof": {
+      "artifactSha256": "bb6781ec7df756083be270519b48a6f64a9327fc26560af3a212bfd0380b27e3",
+      "indexable": true,
+      "googleBingMeta": "PASS with synthetic non-production strings",
+      "generatedSitemapUrls": 72,
+      "generatedHreflangEntries": 360,
+      "indexNowDryRun": {
+        "mode": "DRY_RUN_ONLY",
+        "urlCount": 72,
+        "networkRequests": 0
+      }
+    },
+    "finalCliRevision": {
+      "sha": "ac9da47cad26b65efef81afd08ad47bc4cb6bffe",
+      "npmTest": {
+        "vitestPassed": 151,
+        "nodePassed": 35,
+        "failed": 0
+      },
+      "diffCheck": "PASS",
+      "nodeSyntaxCheck": "PASS",
+      "buildProof": "PASS on same code + parity tests/source-only changes"
+    }
+  },
+  "observedLive": {
+    "origin": "https://kneba.vsp.rest",
+    "currentRelease": "5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c",
+    "releaseManifestPublicSourcePush": "BLOCKED_BY_AUTO_REVIEW",
+    "publicSourceBundle": "stored on VPS, read-only inspected, not pushed/copied into candidate",
+    "homepageHttp": 200,
+    "faqHttp": 200,
+    "indexableMeta": true,
+    "robotsHasSitemap": true,
+    "sitemapUrls": 88,
+    "hreflangLinks": 440,
+    "candidateSitemapUrls": 72,
+    "candidateHreflangLinks": 360,
+    "missingPaths": [
+      "/ratgeber/baureinigung-phasen/",
+      "/ratgeber/baureinigung-kosten-planen/",
+      "/ratgeber/bauuebergabe-checkliste/",
+      "/ratgeber/bauendreinigung-vorbereiten/"
+    ],
+    "missingEachLocale": [
+      "de",
+      "en",
+      "uk",
+      "ru"
+    ],
+    "totalMissing": 16,
+    "actualParityGate": {
+      "result": "FAIL_CLOSED_EXPECTED",
+      "code": "URL_REGRESSION",
+      "sourceSha": "ac9da47cad26b65efef81afd08ad47bc4cb6bffe",
+      "blockedRelease": true
+    },
+    "activePointerStableDuringParityCheck": true,
+    "drive": "197 GiB total, 173 GiB used, 15 GiB free (93% full) near start of task"
+  },
+  "release": {
+    "decision": "BLOCKED_URL_REGRESSION",
+    "safeNextStep": "review and publish approved 4 guide templates in all 4 locales, rerun 88+ URL parity, independent code/security/device UAT and owner release approval",
+    "noProductionDeployment": true,
+    "noMerge": true,
+    "noLiveDataChanges": true,
+    "noPaidProviderCalls": true,
+    "noIndexNowSubmit": true
+  }
+}

@@ -22,6 +22,13 @@ describe('public language navigation', () => {
     expect(russianPublicPaths).not.toContain('/ru/konto/');
     expect(new Set(russianPublicPaths).size).toBe(russianPublicPaths.length);
   });
+  it('provides reciprocal alternates for the four actual translated guides',()=>{
+    for(const slug of ['baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste','bauendreinigung-vorbereiten']){
+      const original='/ratgeber/'+slug+'/';
+      expect(languageLinks('/uk'+original)).toEqual(['de','en','uk','ru'].map(lang=>({lang,url:lang==='de'?original:'/'+lang+original})));
+      expect(localeAlternates(original).map(x=>x.lang)).toEqual(['de','en','uk','ru','x-default']);
+    }
+  });
   it('does not invent translated error routes', () => {
     expect(languageLinks('/404.html').at(-1)?.url).toBe('/ru/');
     expect(localeAlternates('/404.html')).toEqual([]);
