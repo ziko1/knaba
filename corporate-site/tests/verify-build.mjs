@@ -111,6 +111,9 @@ assert.equal(pages.length,117,'117 source-built pages: 103 original + 14 new loc
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
+  assert.match(source, /id="partner"/, prefix+'homepage partner section');
+  assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
   assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
 }
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');

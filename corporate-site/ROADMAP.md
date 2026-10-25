@@ -238,3 +238,11 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Physical Android/iOS browser + screen reader + true 200% zoom acceptance and field Web Vitals baseline.
 - [ ] Explicit approval then preview-only immutable cutover using shared lock/CAS, protected SQLite online backup and post-deploy SHA+route smoke; preserve rollback. Official knaba.de/main merge require separate approval.
 - [ ] Google/Bing Webmaster property verification and planned submit only after owner-controlled publication; no IndexNow send, paid analytics or external model dispatch by default.
+
+## KN-PARTNERS-5 — 25.10.2026 (source-only)
+- [x] Compare the official KnaBa page's five partner image references with the three displayed in the user-supplied mobile screenshot.
+- [x] Add one deduplicated data source, localized section and responsive cards to homepage across DE/EN/UK/RU, retaining original logo order and no old-site navigation.
+- [x] Add focused Vitest + static build guards; verify 12/12 source invariants via GitHub read-back.
+- [ ] Node24 check/test/build/verify:build on exact new branch SHA; independent review.
+- [ ] Verify image HTTP availability, CDN/privacy approval or migrate images to first-party copies; E2E 320/390/768/1440px, all four locales.
+- [ ] Confirm active VPS SHA, secure backup/rollback, owner UAT and explicit publication approval before deployment or merge.
