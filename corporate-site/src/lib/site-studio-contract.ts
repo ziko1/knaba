@@ -9,7 +9,7 @@ export class StudioInputError extends Error {
   constructor(message: string) { super(message); this.name = 'StudioInputError'; }
 }
 const MAX_ENTRIES = 80;
-const TAGS = '(?:section|div|article|aside|figure|figcaption|h[1-6]|p|span|a|strong|em|small|li|ul|ol|img|blockquote|b|i|label)';
+const TAGS = '(?:section|div|article|aside|figure|figcaption|knaba-service-carousel|h[1-6]|p|span|a|strong|em|small|li|ul|ol|img|blockquote|b|i|label)';
 const selectorPattern = new RegExp('^#main(?: > ' + TAGS + ':nth-of-type\\((?:[1-9][0-9]?)\\)){1,10}$');
 const pagePattern = /^\/(?:[a-z0-9-]+\/){0,4}$/;
 const restricted = new Set(['api','studio','konto','postfach','portal','admin','login','logout','_astro','assets','images']);
@@ -41,7 +41,7 @@ export function validateStudioEntries(input: unknown): StudioEntry[] {
     if(kind==='alt' && element!=='img') return reject('Alternativtext ist nur für Bilder erlaubt.');
     if(kind==='href' && (element!=='a' || !safeStudioHref(value))) return reject('Dieser Link ist nicht erlaubt.');
     if(kind==='color' && !/^#[0-9a-fA-F]{6}$/.test(value)) return reject('Bitte eine sechsstellige HEX-Farbe eingeben.');
-    if(kind==='text' && selector!=='@title' && selector!=='@description' && ['img','section','div','article','aside','ul','ol','figure'].includes(element??'')) return reject('Bitte einen reinen Textbereich auswählen.');
+    if(kind==='text' && selector!=='@title' && selector!=='@description' && ['img','section','div','article','aside','ul','ol','figure','knaba-service-carousel'].includes(element??'')) return reject('Bitte einen reinen Textbereich auswählen.');
     const unique=selector+'\u0000'+kind;
     if(seen.has(unique)) return reject('Doppelte Änderung.');
     seen.add(unique);

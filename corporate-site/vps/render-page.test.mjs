@@ -5,7 +5,7 @@ import {renderPublishedPage} from './render-page.mjs';
 const raw=readFileSync(new URL('../dist/client/index.html',import.meta.url),'utf8');
 const textSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2)';
 const linkSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1)';
-const imageSelector='#main > section:nth-of-type(1) > div:nth-of-type(2) > img:nth-of-type(1)';
+const imageSelector='#main > section:nth-of-type(1) > knaba-service-carousel:nth-of-type(1) > div:nth-of-type(1) > article:nth-of-type(1) > div:nth-of-type(2) > img:nth-of-type(1)';
 const row=entries=>({published_json:JSON.stringify(entries),published_version:1});
 test('published leaf text and existing link/image attributes are rendered in actual HTML, without removing SVG icon',()=>{
   const result=renderPublishedPage(raw,row([

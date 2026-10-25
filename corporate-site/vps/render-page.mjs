@@ -23,7 +23,7 @@ function findSelected(main,selector){
   if(!selector.startsWith('#main > '))return null;
   let current=main;
   for(const chunk of selector.slice('#main > '.length).split(' > ')){
-    const match=/^([a-z][a-z0-9]*):nth-of-type\(([1-9][0-9]?)\)$/.exec(chunk);
+    const match=/^([a-z][a-z0-9-]*):nth-of-type\(([1-9][0-9]?)\)$/.exec(chunk);
     if(!match)return null;
     const children=(current.childNodes||[]).filter(x=>x.tagName===match[1]);
     current=children[Number(match[2])-1];
