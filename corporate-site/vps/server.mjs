@@ -157,7 +157,7 @@ export async function createKnabaVpsServer({
       const rt=returnPath(url.searchParams.get('return_to'));
       // Reuse first-party login in the Solid portal; legacy HTML POST still redirects.
       const jsonLogin=String(req.headers.accept||'').split(',').some(v=>v.split(';')[0].trim().toLowerCase()==='application/json');
-      if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET'||req.method==='HEAD')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -184,7 +184,7 @@ export async function createKnabaVpsServer({
     }
     if(url.pathname==='/logout/'||url.pathname==='/logout'){
       const rt=returnPath(url.searchParams.get('return_to'));
-      if(req.method==='GET')return send(res,200,logoutPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET'||req.method==='HEAD')return send(res,200,logoutPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       try{
