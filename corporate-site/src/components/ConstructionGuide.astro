@@ -11,10 +11,10 @@ const url=siteConfig.origin+prefix+'/ratgeber/'+guide.slug+'/';
 const service=offerBySlug(guide.service);
 const related=constructionGuides.filter(item=>item.slug!==guide.slug).slice(0,3);
 const navCopy={
- de:{label:'PRAXIS / BAUREINIGUNG',index:'In diesem Ratgeber',notes:'Für Ihre Projektabstimmung',notesIntro:'Nutzen Sie diese Punkte, um den Umfang bei Ihrer Anfrage klar zu beschreiben.',related:'Weitere Baufragen klären',back:'Alle Bau-Ratgeber',next:'Vom Ratgeber zum abgestimmten Einsatz.',more:'Passende Bauleistung',legal:'Information zur Planung. Der tatsächliche Umfang, fachliche Anforderungen und eventuelle Zusatzarbeiten werden individuell vereinbart.',action:'Projekt unverbindlich anfragen'},
- en:{label:'PRACTICAL GUIDE / CONSTRUCTION CLEANING',index:'In this guide',notes:'For your project discussion',notesIntro:'Use these points to describe the scope clearly in your request.',related:'Explore more project questions',back:'All construction guides',next:'Turn your plan into an agreed scope.',more:'Related construction service',legal:'Information for planning only. Actual work, specialist requirements and additional tasks are agreed for each project.',action:'Discuss your project'},
- uk:{label:'ПРАКТИЧНИЙ ПОРАДНИК / БУДІВЕЛЬНИЙ КЛІНІНГ',index:'У цьому пораднику',notes:'Для обговорення вашого проєкту',notesIntro:'Скористайтеся цими пунктами, щоб точно описати обсяг робіт у зверненні.',related:'Інші питання вашого проєкту',back:'Усі порадники',next:'Від підготовки до погодженого обсягу.',more:'Пов’язана послуга',legal:'Матеріал для планування. Фактичні роботи, вимоги до фахівців і додаткові завдання узгоджуються для кожного об’єкта.',action:'Обговорити проєкт'},
- ru:{label:'ПРАКТИЧЕСКОЕ РУКОВОДСТВО / СТРОИТЕЛЬНЫЙ КЛИНИНГ',index:'В этом руководстве',notes:'Для обсуждения вашего проекта',notesIntro:'Используйте эти пункты, чтобы точно описать объём работ при обращении.',related:'Другие вопросы вашего проекта',back:'Все руководства',next:'От подготовки к согласованному объёму.',more:'Связанная услуга',legal:'Информация для планирования. Фактические работы, требования к специалистам и дополнительные задачи согласуются для каждого объекта.',action:'Обсудить проект'}
+ de:{label:'PRAXIS / BAUREINIGUNG',index:'In diesem Ratgeber',notes:'Für Ihre Projektabstimmung',notesIntro:'Nutzen Sie diese Punkte, um den Umfang bei Ihrer Anfrage klar zu beschreiben.',related:'Weitere Baufragen klären',back:'Alle Bau-Ratgeber',next:'Vom Ratgeber zum abgestimmten Einsatz.',more:'Passende Bauleistung',legal:'Information zur Planung. Der tatsächliche Umfang, fachliche Anforderungen und eventuelle Zusatzarbeiten werden individuell vereinbart.',action:'Projekt unverbindlich anfragen',checkBadge:'CHECKLISTE'},
+ en:{label:'PRACTICAL GUIDE / CONSTRUCTION CLEANING',index:'In this guide',notes:'For your project discussion',notesIntro:'Use these points to describe the scope clearly in your request.',related:'Explore more project questions',back:'All construction guides',next:'Turn your plan into an agreed scope.',more:'Related construction service',legal:'Information for planning only. Actual work, specialist requirements and additional tasks are agreed for each project.',action:'Discuss your project',checkBadge:'CHECKLIST'},
+ uk:{label:'ПРАКТИЧНИЙ ПОРАДНИК / БУДІВЕЛЬНИЙ КЛІНІНГ',index:'У цьому пораднику',notes:'Для обговорення вашого проєкту',notesIntro:'Скористайтеся цими пунктами, щоб точно описати обсяг робіт у зверненні.',related:'Інші питання вашого проєкту',back:'Усі порадники',next:'Від підготовки до погодженого обсягу.',more:'Пов’язана послуга',legal:'Матеріал для планування. Фактичні роботи, вимоги до фахівців і додаткові завдання узгоджуються для кожного об’єкта.',action:'Обговорити проєкт',checkBadge:'ЧЕКЛІСТ'},
+ ru:{label:'ПРАКТИЧЕСКОЕ РУКОВОДСТВО / СТРОИТЕЛЬНЫЙ КЛИНИНГ',index:'В этом руководстве',notes:'Для обсуждения вашего проекта',notesIntro:'Используйте эти пункты, чтобы точно описать объём работ при обращении.',related:'Другие вопросы вашего проекта',back:'Все руководства',next:'От подготовки к согласованному объёму.',more:'Связанная услуга',legal:'Информация для планирования. Фактические работы, требования к специалистам и дополнительные задачи согласуются для каждого объекта.',action:'Обсудить проект',checkBadge:'ЧЕКЛИСТ'}
 }[locale];
 const localeTitle=t(guide.title);
 ---
@@ -52,7 +52,7 @@ const localeTitle=t(guide.title);
       </div>
     </div>
     <section class="container guide-checks" aria-labelledby="guide-check-title">
-      <div class="guide-check-intro"><span class="guide-kicker">KNABA / CHECKLISTE</span><h2 id="guide-check-title">{navCopy.notes}</h2><p>{navCopy.notesIntro}</p></div>
+      <div class="guide-check-intro"><span class="guide-kicker">KNABA / {navCopy.checkBadge}</span><h2 id="guide-check-title">{navCopy.notes}</h2><p>{navCopy.notesIntro}</p></div>
       <ul>{guide.checklist.map((item,index)=><li><span aria-hidden="true">{String(index+1).padStart(2,'0')}</span>{t(item)}</li>)}</ul>
     </section>
     <section class="container guide-related" aria-labelledby="guide-related-title">
@@ -95,7 +95,7 @@ const localeTitle=t(guide.title);
 .guide-check-intro p,.guide-convert p{font-size:15px;line-height:1.7;color:#3e5b59}
 .guide-checks ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
 .guide-checks li{display:flex;gap:16px;align-items:flex-start;padding:17px 20px;background:#fff;border-radius:14px;font-size:15px;font-weight:650;color:#163e45;line-height:1.5;overflow-wrap:anywhere}
-.guide-checks li span{color:#0a747a;font-weight:900;font-size:14px}
+.guide-checks li span{color:#0a747a;font-weight:900;font-size:14px;flex:0 0 2.2ch;white-space:nowrap}
 .guide-related{padding-block:clamp(40px,6vw,80px)}
 .guide-related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:25px}
 .guide-related-grid a{display:flex;flex-direction:column;gap:13px;min-height:190px;background:#e8f5e9;border:1px solid #d0e6d4;border-radius:17px;padding:25px;text-decoration:none;color:#143f43}
