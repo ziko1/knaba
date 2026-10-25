@@ -178,14 +178,21 @@ button {
 .skip-link {
   position: fixed;
   left: 16px;
-  top: -80px;
+  top: 12px;
   z-index: 100;
   background: var(--green);
   color: white;
   padding: 14px;
+  max-width: calc(100vw - 32px);
+  overflow-wrap: anywhere;
+  /* Fixed -80px fails when translated skip text wraps at 200% font size. */
+  transform: translateY(calc(-100% - 28px));
+  pointer-events: none;
+  transition: none;
 }
 .skip-link:focus {
-  top: 12px;
+  transform: none;
+  pointer-events: auto;
 }
 .topline {
   background: var(--green);
@@ -2208,4 +2215,14 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
     align-items: center;
     min-height: 44px;
   }
+}
+
+/* 200%-text reflow: keep the header logo, locale selector and touch-sized
+   menu button within a 320px mobile CSS viewport. No visual spacer. */
+@media (max-width: 700px) {
+  .nav-wrap { gap: 8px; }
+  .mobile-nav summary { min-width: 44px; justify-content: center; }
+}
+@media (max-width: 340px) {
+  .construction-brand img { width: min(140px, 43vw); }
 }
