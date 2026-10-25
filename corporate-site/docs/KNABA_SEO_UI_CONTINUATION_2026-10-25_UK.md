@@ -67,3 +67,17 @@
 5. Only then stage site-only deployment with independent database/Compose backup, capacity check, explicit release approval and rollback rehearsal.
 
 **Product verdict:** PATCH_SOURCE_COMMITTED / STATIC_LIVE_CRAWL_PASS_ON_DIFFERENT_RUNTIME / SEO_STANDALONE_3_OF_3_PASS / FULL_BUILD_NOT_RUN / OWNER_NOT_READY / NOT_CUSTOMER_READY.
+
+## Additional 2026-10-25 exact-source full QA (supersedes earlier NOT_RUN for this code only)
+
+**Tested executable SHA:** `07dbf5c8c0ba9771de50e183fbaf7ddd8bd611e0`. Source was cloned by exact 40-char SHA before execution; no runtime source changes after this test. Separate evidence-only commit does not change executable source.
+
+- Official Node.js `v24.22.1` tar SHA-256 passed verification against NodeJS-published SHASUMS.
+- In unprivileged `sentinelx` ephemeral RAM directory with new npm cache and `--ignore-scripts`: `npm ci` PASS, `npm run check` PASS (**0 errors, 0 warnings, 4 hints**), `npm test` PASS (8/8 inquiry tests; Vitest count not captured), `npm run build` PASS, `npm run verify:build` PASS; artifact content SHA-256 from verifier `f5997c650aa31fbb2d0feb6cbe036f59008964c20a6929e20e8cfecdfad43705`; `node --test vps/*.test.mjs` **19/19 PASS**, `node --test vps/seo-standalone.test.mjs` **3/3 PASS**.
+- Pinned Chrome for Testing **156.0.8078.47**, download SHA-256 `e6c94490f0b6b337225aeb2d2a5034858516b7017356980ba94f5176d8774a50`: complete **60/60** local static-browser cases on construction home, catalogue and service details in DE/EN/UK/RU (320/390/760/1280 widths plus 200%-root-font checks at 390); **32/32** footer legal-link/assistant overlap checks PASS.
+- Source was NOT deployed by this test. The active `kneba.vsp.rest` release is different, and customer/device/browser-reader UAT remains **NOT_RUN**. No root or Docker access, no use of production secrets, services, data or database.
+- Google/other social provider OAuth client verification and secure role mapping remain **NOT_IMPLEMENTED**, and owner enrollment is still unverified (`/readyz` 503).
+- No Web Vitals field scores, official-domain Search Console evidence or index coverage results were produced. PageSpeed API returned 429 quota exhausted; do not requery or infer a score.
+- Evidence is stored at `docs/evidence/knaba-pr55-source-qa-2026-10-25.json`.
+
+**New readiness statement:** CODE_BUILD_TYPE_UNIT_BROWSER_PASS on the pinned executable SHA, but OWNER_AUTH/GDPR/REAL_DEVICE/DEPLOY/EXTERNAL SEO gates remain open. This does NOT make KNABA production- or customer-ready.
