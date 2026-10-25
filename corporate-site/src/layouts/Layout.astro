@@ -34,6 +34,8 @@ const localPath = (url: string) => {
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
+const accessLabel = {de:'Anmelden',en:'Sign in',uk:'Увійти',ru:'Войти'}[lang];
+const mobileAccessLabel = {de:'Anmelden / Zugang anfragen',en:'Sign in / Request access',uk:'Вхід / запит на доступ',ru:'Вход / запрос доступа'}[lang];
 const languageLabel = {de:'Sprache',en:'Language',uk:'Мова',ru:'Язык'}[lang];
 const languageNames: Record<string,string> = {de:'Deutsch',en:'English',uk:'Українська',ru:'Русский'};
 const translatedNav = {en:['Services','Project planner','B2B sectors','About','Construction guides'],uk:['Послуги','Планувальник','Галузі B2B','Про нас','Поради'],ru:['Услуги','Планировщик','Отрасли B2B','О нас','Советы']};
@@ -123,7 +125,7 @@ const structuredData = {
         <a class="button button-dark nav-cta" href={localPath("/kontakt/")}
           >{translated.quote} <Icon size={17} /></a
         >
-        <a class="account-link" href={localPath("/konto/")}>{translated.account} ↗</a>
+        <a class="account-link account-entry" href={localPath("/konto/")}><span aria-hidden="true">✳</span> {accessLabel}</a>
         <details class="site-language-switcher">
           <summary aria-label={`${languageLabel}: ${languageNames[lang]}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
@@ -145,7 +147,7 @@ const structuredData = {
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
           ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
             {nav.map(([href, text]) => <a href={href}>{text}</a>)}<a
-              href={localPath("/kontakt/")}>{translated.quote} →</a><a href={localPath("/konto/")}>{translated.account}</a>
+              href={localPath("/kontakt/")}>{translated.quote} →</a><a class="mobile-account-entry" href={localPath("/konto/")}>{mobileAccessLabel}</a>
           </nav>
         </details>
       </div>
@@ -155,7 +157,7 @@ const structuredData = {
       <div class="container footer-grid">
         <div>
           <a class="brand footer-brand construction-brand" href={homePath} aria-label="KnaBa – Baureinigung und BauService"><img src="/images/knaba-construction-logo-footer.svg" width="510" height="110" alt="KnaBa – Baureinigung &amp; BauService" loading="lazy" decoding="async" /></a>
-          <p>{translated.tagline}</p><span
+          <p>{translated.tagline}</p><p class="vsp-credit"><a href="https://vsp.rest/" aria-label="VSP Creative Studio">Web-Technologie · VSP Studio</a></p><span
             class="footer-region">{lang === 'ru' ? 'Берлин и Бранденбург' : 'Berlin & Brandenburg'}</span>
         </div>
         <div>
