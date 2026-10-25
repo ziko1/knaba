@@ -2090,13 +2090,21 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   top: calc(100% + 8px);
   right: 0;
   z-index: 60;
-  width: 208px;
-  max-width: calc(100vw - 32px);
+  width: min(352px, calc(100vw - 24px));
+  max-height: min(75svh, 640px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 6px;
   border: 1px solid #cbdcd1;
   border-radius: 16px;
   background: #fff;
   box-shadow: 0 18px 38px #102f3828;
+}
+/* On narrow phones the language control has a second menu to its right.
+   Reserve that width before sizing the opened 99-target catalog; otherwise
+   the menu starts outside the left edge at 320px (observed -36px). */
+@media (max-width: 480px) {
+  .site-language-options { width: min(320px, calc(100vw - 72px)); }
 }
 .site-language-options a {
   display: flex;

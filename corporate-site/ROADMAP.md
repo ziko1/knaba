@@ -124,3 +124,25 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [ ] Securely provision free Turnstile widget keys and publish validated code to kneba.vsp.rest with live browser QA
 - [ ] Manual captcha completion, privacy/legal, genuine owner onboarding, physical mobile/a11y and field Web Vitals
 - [ ] Separate legacy office editorial URLs replacement and redirects with owner-approved content
+
+## KN-I18N-99 — поетапна локалізація (25.10.2026)
+
+| ID | Acceptance / scope | Verified state |
+|---|---|---|
+| I99-01 | 99 unique canonical BCP47 targets, native names, RTL directions | CODE PASS: 99 catalog, 4 published / 95 pending |
+| I99-02 | Searchable compact mobile locale picker without 95 SSR list items | CODE PASS: lazy `/languages.json`, HTML baseline measured |
+| I99-03 | No invented `/locale/` pages or hreflang; roles and business enums untouched | CODE TEST PASS (regression + 14 VPS fixtures) |
+| I99-04 | Exact Node24 build/static/regression tests | PASS: 121 Vitest + 8 inquiry + 14 VPS, 99 Astro pages; latest test-only SHA 2 VPS PASS |
+| I99-05 | Localized copy, forms, errors, assistant, policy per remaining 95 languages | NOT_DONE — translations and independent native review required |
+| I99-06 | Verified owner admin credentials + real HTTP Studio save/publish/restore | BLOCKED_OWNER_IDENTITY — only synthetic isolated tests pass |
+| I99-07 | Mobile/browser/RTL/a11y/field CWV and owner content review | NOT_RUN |
+| I99-08 | VPS dev deployment then official-language SEO indexing with rollback | NOT_DEPLOYED/NOT_APPROVED; disk 95%, current live site untouched |
+
+No automatic provider spending. External translations budget EUR0 reserved until consent, provider quota and rates verified. Bounded glossary-first rollout, no 99x full-site build before disk/performance baseline.
+
+## I18N99 + PR42 scoped continuation, 2026-10-25
+- [x] Source integration with 99 target locale registry and honest 4 published / 95 pending state.
+- [x] Static/mobile/keyboard/browser/test QA including phone dropdown correction.
+- [ ] Deploy to dev VPS with backup and strict TLS, preserve existing Turnstile/Carousel/CRM.
+- [ ] Translate 95 remaining languages only with terminology, owner/legal/content review and RTL/device QA.
+- [ ] Verify human CAPTCHA, real owner identity and physical mobile UAT.
