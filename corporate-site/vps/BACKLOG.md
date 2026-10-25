@@ -59,3 +59,14 @@
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+
+## Current PR #66 — KNABA practical guides and safety (2026-10-25)
+
+- [x] New first-party DE/EN/UK/RU guides for all four live slugs; 117 source-built HTML pages, 88 URLs, reciprocal alternates and localized index links.
+- [x] Actual read-only sitemap parity gate PASS (88 current, 88 candidate, 0 removed or added); no private source bundle was copied.
+- [x] Node24/Vitest/VPS/Chromium acceptance and final source/artifact SHA recorded in `docs/evidence/knaba-guides-88-route-parity-2026-10-25.json`.
+- [ ] P0 Review translations and article facts with actual KnaBa company owner; no published source author credentials fabricated.
+- [ ] P0 Independent code/security and full accessibility/physical mobile QA; existing test screenshot and CSS reflow are not device evidence.
+- [ ] P0 Confirm active VPS release pointer/source receipt anew immediately before any user-approved preview cutover; lock/CAS, backup/integrity, rollback and HTTPS smoke.
+- [ ] P0 Genuine owner invitation/onboarding and login/Studio edit/publish/restore UAT; /readyz unresolved independently.
+- [ ] P1 Real field LCP/INP/CLS baseline; audit index coverage/Search Console/Bing only with verified owner properties. No subscriptions or paid dispatch without budget.
