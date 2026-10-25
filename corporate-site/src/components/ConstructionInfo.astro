@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import {company} from '../data/company';
 import {constructionBusinessCopy as c} from '../data/construction-offers';
 import type {ConstructionLocale} from '../data/construction-offers';
 import {infoGuidance,guidanceCopy,type InfoVariant} from '../data/construction-guidance';
@@ -72,7 +71,6 @@ const guidance=infoGuidance[variant];
   </div>
 </section>}
 <section class="container cta-banner"><div><p class="eyebrow">{cta.region}</p><h2>{cta.ready}</h2><p>{cta.note}</p></div><a class="button button-dark" href={prefix+'/kontakt/'}>{cta.cta} ↗</a></section>
-<section class="container section section-tight"><p><strong>KnaBa</strong> · {company.street}, {company.city} · <a href={company.phoneHref}>{company.phone}</a> · <a href={'mailto:'+company.email}>{company.email}</a></p></section>
 </Layout>
 <style>
 .bau-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.bau-info-card{background:#ebf5ed;padding:32px 28px;border:1px solid #d6e9de;border-radius:20px;display:flex;flex-direction:column;min-height:255px}.bau-info-card:nth-child(even){background:#e7f2f5}.bau-info-card h2{font-size:23px;line-height:1.15;margin:22px 0 10px}.bau-info-card p{font-size:14px;line-height:1.65;color:#48665e}.bau-info-card a{margin-top:auto}.bau-info-number{font-size:15px;color:#0a8c92;font-weight:850}

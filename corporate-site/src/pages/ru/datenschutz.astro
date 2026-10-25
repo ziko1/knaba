@@ -1,13 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { company } from '../../data/company';
+import { siteConfig } from '../../data/site';
 const sections = [['verantwortlicher','Оператор данных'],['website','Посещение сайта'],['kontakt','Заявки и контакты'],['konto','Вход и аккаунт'],['rollen','Роли и данные заказов'],['dienstleister','Технические поставщики'],['speicherung','Сроки хранения'],['rechte','Ваши права']] as const;
 ---
 <Layout lang="ru" title="Политика конфиденциальности | KnaBa Берлин" description="Как KnaBa обрабатывает данные при посещении сайта, отправке заявок на уборку и работе в кабинете клиентов и сотрудников. Контакт по защите данных и ваши права.">
   <article class="container legal">
     <p class="eyebrow">ВАШИ ДАННЫЕ</p><h1>Политика конфиденциальности</h1>
     <p class="legal-intro">Здесь описано, какие данные обрабатывает сайт, для чего они нужны и куда обращаться с вопросами.</p>
-    <p class="notice">Эта политика относится к временному сайту <strong>kneba.vsp.rest</strong>. Для существующего сайта <a href="https://knaba.de/impressum">knaba.de</a> действуют опубликованные там сведения. Редакция от 25 октября 2026 года.</p>
+    <p class="notice">Эта политика относится к сайту <strong>{new URL(siteConfig.origin).hostname}</strong>. Редакция от 25 октября 2026 года.</p>
     <nav class="privacy-contents" aria-label="Содержание политики конфиденциальности">{sections.map(([id,label])=><a href={`#${id}`}>{label}</a>)}</nav>
     <section aria-labelledby="verantwortlicher">
       <h2 id="verantwortlicher">1. Оператор данных и контакты</h2>

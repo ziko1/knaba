@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { company } from "../data/company";
+import { siteConfig } from '../data/site';
 const sections = [
   ["verantwortlicher", "Verantwortlicher"],
   ["website", "Besuch der Website"],
@@ -18,7 +19,7 @@ const sections = [
     <p class="eyebrow">IHRE DATEN IM BLICK</p>
     <h1>Datenschutzerklärung</h1>
     <p class="legal-intro">Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.</p>
-    <p class="notice">Diese Erklärung betrifft die temporäre Website <strong>kneba.vsp.rest</strong>. Für das bestehende Angebot unter <a href="https://knaba.de/impressum">knaba.de</a> gelten die dort veröffentlichten Informationen. Stand: 25. Oktober 2026.</p>
+    <p class="notice">Diese Erklärung gilt für die Website <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 25. Oktober 2026.</p>
 
     <nav class="privacy-contents" aria-label="Inhalt der Datenschutzerklärung">
       {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
