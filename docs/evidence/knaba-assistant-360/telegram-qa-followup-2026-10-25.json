@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA / Assistant 360 Telegram",
+  "kind": "SOURCE_BOUND_QA_FOLLOWUP",
+  "date": "2026-10-25",
+  "testedCodeSha": "7c79bca070c782c6a95a5c4e42b9776d9efd9991",
+  "baseline": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+  "environment": {
+    "type": "isolated VPS Docker QA",
+    "node": "24.22.1",
+    "npm": "11.19.1",
+    "postgres": "17.11",
+    "python": "3.12",
+    "openpyxl": "3.1.5",
+    "pillow": "11.3.0",
+    "pdftotext": "25.03.0",
+    "network": "private Docker bridge; PostgreSQL without published ports",
+    "data": "synthetic company records only",
+    "productionModified": false,
+    "externalProviderCalls": 0
+  },
+  "checks": [
+    {
+      "label": "PDF/XLSX/CSV independent file verification",
+      "sourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "command": "vitest run tests/resources.test.ts",
+      "status": "PASS",
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "label": "engine PostgreSQL fixture missing migration red",
+      "sourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "command": "vitest run tests/engine.integration.test.ts --testNamePattern 'atomic confirmation refuses'",
+      "status": "EXPECTED_FAIL_BEFORE_FIX",
+      "error": "relation \"aggregates\" does not exist"
+    },
+    {
+      "label": "engine PostgreSQL fixture migration green",
+      "sourceSha": "dfddb766e9ecbca9738e0a1004f8a23b8a043456",
+      "command": "vitest run tests/engine.integration.test.ts --testNamePattern 'atomic confirmation refuses'",
+      "status": "PASS",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 51
+    },
+    {
+      "label": "Telegram STOP new and existing consent red",
+      "sourceSha": "dfddb766e9ecbca9738e0a1004f8a23b8a043456",
+      "command": "vitest run tests/telegram.integration.test.ts --testNamePattern 'STOP on a new|private /stop'",
+      "status": "EXPECTED_FAIL_BEFORE_FIX",
+      "failed": 2,
+      "error": "expected opt-out preference not persisted; existing consent remained true"
+    },
+    {
+      "label": "Telegram STOP green",
+      "sourceSha": "7c79bca070c782c6a95a5c4e42b9776d9efd9991",
+      "command": "vitest run tests/telegram.integration.test.ts --testNamePattern 'STOP on a new|private /stop'",
+      "status": "PASS",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 5
+    },
+    {
+      "label": "Node 24 typecheck",
+      "sourceSha": "7c79bca070c782c6a95a5c4e42b9776d9efd9991",
+      "command": "npm run typecheck",
+      "status": "PASS"
+    },
+    {
+      "label": "full ERP with genuine PostgreSQL 17.11",
+      "sourceSha": "7c79bca070c782c6a95a5c4e42b9776d9efd9991",
+      "command": "npm test",
+      "status": "PASS",
+      "passed": 2300,
+      "failed": 0,
+      "skipped": 0,
+      "testFilesPassed": 91,
+      "testFilesTotal": 91,
+      "durationSeconds": 98,
+      "note": "No real Telegram/WhatsApp provider calls; test data synthetic"
+    },
+    {
+      "label": "full web/server/worker build",
+      "sourceSha": "7c79bca070c782c6a95a5c4e42b9776d9efd9991",
+      "command": "npm run build",
+      "status": "IN_PROGRESS_AT_RECEIPT",
+      "artifactSha256": null,
+      "note": "Run through isolated bounded Docker QA only. Do not treat as PASS without exit code and artifact verification."
+    }
+  ],
+  "outstanding": [
+    "Independent code/security review",
+    "Real owner sign-in and KNABA portal/ERP bridge",
+    "Legal consent/data retention/processor approval",
+    "Real Telegram BotFather, WABA and permitted recipients",
+    "Physical and browser calling UAT",
+    "Verified full build artifact and rollback rehearsal"
+  ],
+  "productionApproval": false,
+  "merged": false,
+  "deployPerformed": false
+}

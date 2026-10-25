@@ -9,6 +9,8 @@ import {authorizeAutomationRun} from '../../packages/domain/automation-authority
 import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assistant-playground.ts';
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
+import type {TelegramInbound,TelegramBotAdapter} from '../../packages/integrations/telegram.ts';
+import {stageTelegramReply,processTelegramOutbound} from './telegram-delivery.ts';
 import {assistantToolCatalog,dispatchAssistantTools} from '../../packages/integrations/assistant-tools.ts';
 import {assistantToolHost} from '../api/assistant-runtime.ts';
 import {internalAssistantHost} from '../api/internal-assistant.ts';
@@ -22,12 +24,13 @@ import type { Database, PgTransaction } from '../api/database.ts';
 import type { Engine } from '../api/engine.ts';
 import { assert, DomainError, type Actor, type Data, type Entity } from '../../packages/domain/core.ts';
 import { whatsAppPolicy, isQuietHour } from '../../packages/domain/communications.ts';
+import {ROLE_PERMISSIONS} from '../../packages/domain/permissions.ts';
 import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,nextQuietWindowEnd,safeRetryDelayMs,projectDeliveryNotifications,deliveryDecision,type DeliveryFailureClass} from '../../packages/domain/notification-policy.ts';
 import { DeepSeekAdapter, WhatsAppCloudAdapter, type WhatsAppInbound, type WhatsAppOutput, type SupportedLanguage } from '../../packages/integrations/index.ts';
 
 export interface OutboxJob {id:string;company_id:string;type:string;data:Data;attempts:number;leased_until:string|Date;lease_token?:string;}
 export interface SqlRunner {query:(statement:string,params?:unknown[])=>Promise<{rows:any[]}>;}
-export interface WorkerOptions {integrationWebhook?:IntegrationWebhookAdapter;companyId:string;appMode:string;batchSize?:number;leaseMs?:number;maxAttempts?:number;now?:()=>Date;ai?:DeepSeekAdapter;whatsapp?:WhatsAppCloudAdapter;testRecipients?:string[];publicOrigin?:string;whatsappCapabilities?:{accountVerified:boolean;buttons:boolean;lists:boolean};}
+export interface WorkerOptions {integrationWebhook?:IntegrationWebhookAdapter;companyId:string;appMode:string;batchSize?:number;leaseMs?:number;maxAttempts?:number;now?:()=>Date;ai?:DeepSeekAdapter;whatsapp?:WhatsAppCloudAdapter;testRecipients?:string[];publicOrigin?:string;whatsappCapabilities?:{accountVerified:boolean;buttons:boolean;lists:boolean};telegram?:TelegramBotAdapter;telegramApprovedConsentVersion?:string;}
 const key=(...values:string[])=>createHash('sha256').update(values.join('\u0000')).digest('hex');
 const at=(value:string|Date)=>new Date(value).toISOString();
 export const serviceId='knaba-integration-service';
@@ -72,6 +75,8 @@ export class WorkerRunner {
     catch(error){if(error instanceof DeferredJob)await finish('RETRY_SCHEDULED','NOT_DUE',error.availableAt);else {const code=error instanceof DomainError?error.code:'WORKER_ERROR';const retry=job.attempts<(this.options.maxAttempts??4)&&retryable(error);await finish(retry?'RETRY_SCHEDULED':'FAILED',code,retry?new Date(this.now().getTime()+retryDelayMs(job.attempts)).toISOString():undefined);}}finally{clearInterval(heartbeat);}}
   async handle(job:OutboxJob){switch(job.type){
     case 'whatsapp.inbound':case 'whatsapp.webhook_received':return this.inbound(job);
+    case 'telegram.inbound':return this.telegramInbound(job);
+    case 'telegram.outbound_requested':return processTelegramOutbound(this.db,this.engine,job,this.options.telegram,this.options.telegramApprovedConsentVersion);
     case 'whatsapp.router_response':return this.routerResponse(job);
     case 'integration.outbound_requested':return processIntegrationOutbound(this.db,this.engine,job,this.options.integrationWebhook,this.now);
     case 'handoff.manager_reminder':{const result=await processHandoffReminder(this.db,this.engine,job,this.now().toISOString());if(result.status==='DEFERRED')throw new DeferredJob(result.notBefore);return result;}
@@ -162,7 +167,9 @@ export class WorkerRunner {
     await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WEB'},`web:${member.user_id}`);
     if(recipient.settings?.data.whatsapp_consent===true&&!recipient.settings?.data.opted_out)await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WHATSAPP'},`wa:${member.user_id}`);
     if(recipient.preference?.data.mode==='ORIGINAL_AND_AUTO'&&recipient.preference.data.target_language!==message.data.language&&recipient.actor.permissions.includes('translation.use'))await this.command(job,'translation.request',{message_id:message.id,target_language:recipient.preference.data.target_language},`translation:${member.user_id}`,recipient.actor);
-  }}
+  }
+    if(job.type==='message.created'&&channel.data.source_provider==='TELEGRAM')await stageTelegramReply(this.db,this.engine,job.company_id,message.id,job.data.version);
+  }
   private async delivery(job:OutboxJob){
     const entity=await this.entity(job,'delivery',job.data.delivery_id);
     if(['API_ACCEPTED','SENT','DELIVERED','READ','FAILED','DEAD_LETTER','UNKNOWN','CANCELLED'].includes(entity.data.status))return;
@@ -289,6 +296,80 @@ export class WorkerRunner {
     }
     await check();
    });
+  }
+  /** Telegram's private update identity is verified at ingress but never conveys a KNABA role or membership. */
+  private async telegramInbound(job:OutboxJob){
+    assert(job.data.provider==='TELEGRAM'&&typeof job.data.event_id==='string','ACCESS_DENIED');
+    const source=await this.db.query('SELECT payload FROM webhook_inbox WHERE provider=$1 AND event_id=$2 AND company_id=$3',['TELEGRAM',job.data.event_id,job.company_id]);
+    assert(source.rows.length===1,'NOT_FOUND_SAFE');
+    const input=source.rows[0].payload as TelegramInbound;
+    assert(input.kind==='MESSAGE'&&input.id===job.data.event_id&&input.sender===input.chat_id&&/^\d{1,16}$/.test(input.sender)&&input.id.startsWith('TELEGRAM:')&&['text','voice','photo','document','callback','other'].includes(input.type),'ACCESS_DENIED');
+    const route=await this.db.transaction(job.company_id,serviceId,async tx=>{
+      const previous=(await tx.list('conversation_input')).find(row=>row.data.provider==='TELEGRAM'&&row.data.provider_event_id===input.id);
+      if(previous)return previous;
+      const identities=(await tx.list('contact_identity')).filter(row=>row.data.type==='TELEGRAM'&&row.data.value===input.sender&&row.data.verified===true&&row.data.active!==false&&!row.data.revokedAt&&!row.data.revoked_at&&(!row.data.expiresAt||Date.parse(row.data.expiresAt)>this.now().getTime()));
+      const users=[...new Set(identities.map(row=>row.data.userId))];assert(users.length<=1,'AMBIGUOUS_RECIPIENT');
+      let userId=users[0] as string|undefined;
+      if(!userId){
+        const user=await tx.add('user',{name:'Telegram guest',roles:['GUEST'],permissions:['chat.read','chat.write','lead.create'],siteIds:[],customerIds:[],warehouseIds:[],active:true,guest:true});
+        userId=user.id;
+        await tx.add('contact_identity',{type:'TELEGRAM',value:input.sender,userId,verified:true,active:true,verificationSource:'TELEGRAM_SECRET_HEADER',verifiedAt:this.now().toISOString(),customerVerified:false});
+      }
+      // A Telegram webhook authenticates a channel sender, NOT a KNABA login.
+      // Never reuse a privileged/customer/worker principal simply because its
+      // contact_identity contains the same Telegram numeric ID.
+      const linked=await tx.get('user',userId);
+      const effective=await this.engine.actorIn(tx,userId);
+      const explicitAllowed=new Set(['chat.read','chat.write','lead.create']);
+      // Preserve ERP's canonical GUEST rights; never permit rights or scopes
+      // belonging to an authenticated KNABA employee/customer account.
+      const guestAllowed=new Set([...(ROLE_PERMISSIONS.GUEST??[]),...explicitAllowed]);
+      assert(
+        linked.data.active===true&&linked.data.guest===true&&
+        Array.isArray(linked.data.roles)&&linked.data.roles.length===1&&linked.data.roles[0]==='GUEST'&&
+        Array.isArray(linked.data.permissions)&&linked.data.permissions.includes('chat.write')&&
+        linked.data.permissions.every((permission:string)=>explicitAllowed.has(permission))&&
+        effective.roles.length===1&&effective.roles[0]==='GUEST'&&
+        effective.permissions.every((permission:string)=>guestAllowed.has(permission))&&
+        effective.siteIds.length===0&&effective.customerIds.length===0&&effective.warehouseIds.length===0,
+        'ACCESS_DENIED'
+      );
+      let channel=(await tx.list('channel')).find(row=>row.data.created_by===userId&&row.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&row.data.source_provider==='TELEGRAM');
+      if(!channel){
+        const date=this.now().toISOString();
+        channel=await tx.add('channel',{type:'PRIVATE_CUSTOMER_ASSISTANT',name:'Telegram consultation',source_provider:'TELEGRAM',created_by:userId,members:[{user_id:userId,joined_at:date,history_from:date,external:true},{user_id:serviceId,joined_at:date,history_from:date,external:false}],handoff:{state:'HANDOFF_PENDING',canonical_state:'HUMAN_QUEUED',owner_id:null,requested_at:date}});
+      }
+      return tx.add('conversation_input',{provider_event_id:input.id,provider:'TELEGRAM',user_id:userId,channel_id:channel.id,received_at:input.received_at,input,language:'DE',status:'PENDING'});
+    });
+    if(route.data.status!=='PENDING')return;
+    if(input.type!=='text'||!input.text){
+      await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'MANUAL_REVIEW',reason:input.type==='callback'?'TELEGRAM_CALLBACK_UNBOUND':'TELEGRAM_MEDIA_REQUIRES_APPROVED_QUARANTINE',completed_at:this.now().toISOString()}));
+      return;
+    }
+    // An exact private STOP is an unsubscribe, never a privileged ERP command.
+    // Apply the preference and mark the inbound event in one durable transaction.
+    const telegramCommand=input.text.trim().toLowerCase();
+    if(telegramCommand==='/stop'||telegramCommand==='stop'){
+      await this.db.transaction(job.company_id,serviceId,async tx=>{
+        const record=await tx.get('conversation_input',route.id);
+        if(record.data.status!=='PENDING')return;
+        const now=this.now().toISOString();
+        const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===record.data.user_id);
+        if(!settings.length){
+          await tx.add('notification_setting',{user_id:record.data.user_id,language:record.data.language??'DE',
+            telegram_consent:false,telegram_opted_out:true,telegram_opted_out_at:now});
+        }else{
+          for(const setting of settings){
+            await tx.save(setting,{...setting.data,telegram_consent:false,telegram_opted_out:true,telegram_opted_out_at:now});
+          }
+        }
+        await tx.save(record,{...record.data,status:'PROCESSED',router_state:'TELEGRAM_OPT_OUT',completed_at:now});
+      });
+      return;
+    }
+    const actor=await this.engine.getActor(route.data.user_id,job.company_id);
+    const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:'DE'},'telegram-inbound-message',actor);
+    await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'PROCESSED',message_id:message.id,router_state:'HUMAN_QUEUED',completed_at:this.now().toISOString()}));
   }
   private async inbound(job:OutboxJob){const provider=job.data.provider??'WHATSAPP';const inbox=await this.db.query('SELECT payload FROM webhook_inbox WHERE provider=$1 AND event_id=$2 AND company_id=$3',[provider,job.data.event_id,job.company_id]);assert(inbox.rows.length===1,'NOT_FOUND_SAFE');const input=inbox.rows[0].payload as WhatsAppInbound;assert(input.kind==='MESSAGE'||input.kind==='STATUS','VALIDATION_ERROR');
     if(input.kind==='STATUS'){const matches=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('delivery')).filter(d=>d.data.provider_message_id===input.id));for(const d of matches)await this.command(job,'delivery.status',{delivery_id:d.id,status:input.status,provider_message_id:input.id,error:input.error_code?`META_${input.error_code}`:undefined},`status:${d.id}`);await this.routerStatus(job,input);return;}

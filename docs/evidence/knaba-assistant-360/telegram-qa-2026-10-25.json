@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA Assistant 360 / Telegram",
+  "date": "2026-10-25",
+  "scope": "source-only Draft PR #41; no real provider integration or deployment",
+  "source": {
+    "testedCodeSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+    "branch": "feat/knaba-assistant-360-telegram-20261025",
+    "basedOn": "feat/knaba-assistant-360-voice-20261025",
+    "artifactSha256": null,
+    "note": "Later documentation commits do not change tested executable code. No verified complete distribution artifact."
+  },
+  "environment": {
+    "target": "isolated SferaHost VPS disposable Docker QA",
+    "node": "24.22.1",
+    "postgres": "17.11",
+    "databaseScope": "synthetic company only, transient private Docker network and tmpfs; no public port",
+    "providerCalls": "none; outbound Bot API mocked, optional provider disabled by default",
+    "diskPressure": "96% VPS capacity used at last read; no destructive cleanup"
+  },
+  "checks": [
+    {
+      "name": "TypeScript",
+      "command": "cd erp && npm run typecheck",
+      "status": "PASS",
+      "testedSourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "note": "Node 24.22.1, exit 0"
+    },
+    {
+      "name": "Telegram real SQL",
+      "command": "cd erp && vitest run tests/telegram.integration.test.ts",
+      "status": "PASS",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "testedSourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "note": "real PostgreSQL 17.11; synthetic authenticated operator, private guest, cross-company fence, opt-out/revoke, unknown outcome, replay"
+    },
+    {
+      "name": "Telegram boundary and ingress node tests",
+      "command": "node --experimental-strip-types --test tests/telegram.boundary.node-cases.ts tests/telegram.ingress.node-cases.ts",
+      "status": "PASS",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "testedSourceSha": "054bf0f6b64eac1b6d0414f354a1487345d33dc6",
+      "note": "Node24 source-only, earlier tested code; later commits modify worker/runtime but not these test bodies"
+    },
+    {
+      "name": "Related WhatsApp and communications",
+      "command": "cd erp && vitest run tests/whatsapp-router.test.ts tests/integrations.test.ts tests/communications.test.ts tests/handoff-calendar.test.ts",
+      "status": "PARTIAL_PASS",
+      "passed": 244,
+      "failed": 0,
+      "skipped": 2,
+      "testedSourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "note": "read preserved /tmp/v.log while isolated test container was still alive; 2 environment-gated cases skipped"
+    },
+    {
+      "name": "Full CPU/non-PostgreSQL tests",
+      "command": "cd erp && vitest run",
+      "status": "FAIL_ENVIRONMENT",
+      "passed": 1858,
+      "failed": 6,
+      "skipped": 434,
+      "testedSourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "note": "6 test failures all tests/resources.test.ts requiring missing Python openpyxl in temporary QA image; suite NOT PASS"
+    },
+    {
+      "name": "Full project build",
+      "command": "cd erp && npm run build",
+      "status": "NOT_VERIFIED",
+      "testedSourceSha": "8d7f5530067ddead1164b26ff4cc7a45f65e6e04",
+      "note": "Node24 TypeScript stage passed; Vite transform did not complete before QA container/agent timeout. No artifact produced or attested."
+    },
+    {
+      "name": "Real Telegram outbound",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "No BotFather-approved bot/token, real opt-in, processor approval, test recipient or outbound dispatch configured"
+    },
+    {
+      "name": "KNABA real owner and data migration",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "Company owner identity, old D1 legacy data backup/reconciliation, cross-site bridge, legal retention and UAT not completed"
+    },
+    {
+      "name": "Live site/official domain production release",
+      "status": "NOT_RUN",
+      "note": "No merge/deploy/DB mutation/DNS changes made in this increment"
+    }
+  ],
+  "risks": [
+    "Shared webhook secret header is not a body HMAC; HTTPS, BotFather ownership and path origin controls required",
+    "Delivery API_ACCEPTED is not recipient DELIVERED/READ or commercial acceptance",
+    "Unknown provider outcomes block blind resends and require human reconciliation",
+    "Worktree is a candidate; pre-release security review, GDPR, actual provider device/UAT and full build still required"
+  ],
+  "releaseAllowed": false
+}

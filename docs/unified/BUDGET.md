@@ -17,3 +17,23 @@
 - New payable AI/voice/WhatsApp provider activation authorized in this stage: EUR 0; providers NOT activated, tokens NOT added. Fresh WABA calling eligibility, balance, model credits, PSTN/SIP prices and actual monthly runtime cost UNKNOWN.
 - Local development used existing VPS, npm public dependencies and isolated checkout; no spending API activated. Shared disk observed 197 GiB total, 176 GiB used, ~11 GiB free (~95% used) during build; no deletion of shared caches/volumes/backups without owner verification.
 - Voice Web Speech availability and browser-vendor processing is device-dependent; no assertion of zero vendor data-processing charges or universal browser support. Before any provider call confirm lawful region/contract, permissions, price, fresh quota and reserve project budget. Production/merge require separate approval.
+
+## Telegram Assistant 360 incremental budget 2026-10-25
+- New Telegram Bot API / outbound AI / WhatsApp Calling activation: **0 EUR authorized and 0 provider requests made in this code development**. Fresh real provider balance, tariffs and quotas UNKNOWN; no assumptions of free production use.
+- Project source-only local tests reused installed Node22; required Node24 repo build/SQL acceptance pending environment and quota. Do not activate `TELEGRAM_WEBHOOK_SECRET` or real outbound without company permission, data/privacy agreement, allowed recipients and budget reservation. Shared VPS remains under disk-pressure caution.
+
+## 2026-10-25 — Telegram source-only validation budget
+
+- Outbound Bot API is deliberately absent from default `workerOptions`. No real Telegram/AI/WhatsApp calls, new subscriptions, provider tokens, or paid compute authorization initiated by this work. All provider balances/tariffs/quota **UNKNOWN**; new external spending authorization stays 0 EUR.
+- QA reused cached Docker Node 24, PostgreSQL 17 and synthetic temporary tmpfs database/network. VPS at last read 95% used (~11 GiB free), so no new persistent PG service, production migration, arbitrary prune, paid runner or destructive cleanup. Product development and blocked external release gates remain separate.
+
+## 2026-10-25 — Telegram QA runtime evidence, no new provider activation
+
+- Reused cached VPS Node24/PostgreSQL images; installed free software `openpyxl==3.1.5`, `Pillow==11.3.0`, `poppler-utils` **only in isolated QA Docker layers**, not production. Measured full ERP real-Postgres test ~98s; isolated web/server/worker build ~314s. These are runtime durations, NOT billed AI usage or price estimates.
+- No Meta/Telegram/LLM outbound calls, customer-data uploads, paid service activation or new external spending authorization. Real quotas, Telegram provider eligibility/tariffs, hosting cost and account balances UNKNOWN; approved new paid-provider ceiling remains 0 EUR.
+- Shared VPS had ~9–10 GiB free / 95% used before final artifact checks. Maintain no-destructive-prune policy and cap QA CPU/RAM/PIDs. Source-only QA and tiny synthetic DB/network must not be confused with real company production deployment.
+
+## Telegram security QA — 25.10.2026
+
+- Additional targeted PostgreSQL tests, 2303-case full suite (~96s), Node24 build (~315s) and isolated binary startup reused the user's existing VPS and cached Docker images. Real new infrastructure/proprietary AI/Telegram/WhatsApp provider spend remained **0 activated**; actual hosting plan bill, remaining quotas and external provider rates remain UNKNOWN.
+- Last read `/srv/knaba` filesystem ~93% full (~14 GiB free); no destructive prune or deletion of backups, data or other projects. Keep model/provider dispatch disabled until explicit company scope, pricing/quota, privacy review and reserved budget are confirmed.

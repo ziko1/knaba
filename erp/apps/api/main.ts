@@ -12,6 +12,8 @@ import {Engine} from './engine.ts';
 import {createApiModule} from './http.ts';
 import {identityCommands} from '../../packages/domain/identity.ts';
 import {verifyWhatsAppSignature,verifyWhatsAppChallenge,parseWhatsAppWebhook} from '../../packages/integrations/index.ts';
+import {acceptTelegramWebhook} from './telegram-ingress.ts';
+import {TelegramBoundaryError} from '../../packages/integrations/telegram.ts';
 import {createHash} from 'node:crypto';
 const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']).default('DEMO'),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
 if(env.APP_MODE==='PRODUCTION'&&(!env.AUTH_ENCRYPTION_KEY||!env.PUBLIC_ORIGIN||!env.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
@@ -27,6 +29,7 @@ app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptS
 app.use(['/api/v1/media/upload','/api/v1/media/uploads'],express.json({limit:'28mb'}));
 app.use(['/api/v1/mobile/events','/api/v1/device-events/batch'],express.json({limit:'1mb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
 app.use('/api/v1/integrations',express.json({limit:'256kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
+app.use(['/webhooks/telegram','/api/v1/webhooks/telegram'],express.json({limit:'64kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
 app.use(express.json({limit:'8mb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
 app.use((err:any,_req:any,res:any,next:any)=>{if(err?.type==='entity.too.large'||err instanceof SyntaxError){res.status(400).json({code:'VALIDATION_ERROR',details:{reason:'INVALID_JSON_OR_BODY_TOO_LARGE'}});return;}next(err);});
 app.use((req:any,res:any,next:any)=>{if(req.path.startsWith('/api/')||req.path.startsWith('/webhooks/'))res.setHeader('Cache-Control','private, no-store');next();});
@@ -35,6 +38,16 @@ server.get('/ready',async(_req:any,res:any)=>{try{await assertGpsStorageSafe(db,
 server.get('/version',(_req:any,res:any)=>res.json({sha:buildSha,gitSha:buildSha,version:'0.1.0',mode:env.APP_MODE}));
 server.get(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],(req:any,res:any)=>{try{const result=verifyWhatsAppChallenge(req.query,process.env.WHATSAPP_VERIFY_TOKEN??'');res.status(200).send(result);}catch{res.status(403).send('Forbidden');}});
 server.post(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],async(req:any,res:any)=>{try{if(!process.env.WHATSAPP_APP_SECRET||!verifyWhatsAppSignature(req.rawBody,req.headers['x-hub-signature-256'],process.env.WHATSAPP_APP_SECRET)){res.status(401).json({code:'ACCESS_DENIED'});return;}const configuredPhone=process.env.WHATSAPP_PHONE_NUMBER_ID;if(!configuredPhone){res.status(503).json({code:'MISSING_CONFIGURATION'});return;}const values=(req.body?.entry??[]).flatMap((entry:any)=>(entry.changes??[]).map((change:any)=>change.value));if(!values.length||values.some((value:any)=>value?.metadata?.phone_number_id!==configuredPhone)){res.status(401).json({code:'ACCESS_DENIED'});return;}const events=parseWhatsAppWebhook(req.body);await db.transaction(env.COMPANY_ID,'WHATSAPP_INBOX',async tx=>{for(const event of events){const eventId=event.kind==='STATUS'?`${event.id}:${event.status}:${event.received_at}`:event.id;const row=await tx.query('INSERT INTO webhook_inbox(provider,event_id,company_id,payload) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING event_id',['WHATSAPP',eventId,env.COMPANY_ID,JSON.stringify(event)]);if(row.rows.length)await tx.event('whatsapp.inbound',{provider:'WHATSAPP',event_id:eventId});}});res.status(200).json({accepted:true});}catch{res.status(400).json({code:'VALIDATION_ERROR'});}});
+// Telegram webhook has a separate verified secret header; no implicit customer/worker permissions.
+server.post(['/webhooks/telegram','/api/v1/webhooks/telegram'],async(req:any,res:any)=>{
+ try {
+  const receipt=await acceptTelegramWebhook(db,env.COMPANY_ID,req.rawBody,req.headers['x-telegram-bot-api-secret-token'],process.env.TELEGRAM_WEBHOOK_SECRET);
+  res.status(200).json(receipt);
+ } catch(error) {
+  if(error instanceof TelegramBoundaryError)res.status(error.code==='ACCESS_DENIED'?401:error.code==='MISSING_CONFIGURATION'?503:400).json({code:error.code});
+  else res.status(503).json({code:'DEPENDENCY_UNAVAILABLE'});
+ }
+});
 const assets:Record<string,string>|undefined=globals.__KNABA_ASSETS__;
 const types:Record<string,string>={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json','.ico':'image/x-icon'};
 server.use((req:any,res:any,next:any)=>{if(req.method!=='GET'||req.path.startsWith('/api/')||req.path.startsWith('/webhooks/'))return next();let path=req.path;const file=assets?.[path]??(extname(path)?undefined:assets?.['/index.html']);if(file){res.setHeader('Content-Type',types[extname(path)]??'text/html; charset=utf-8');res.setHeader('Cache-Control',path.startsWith('/assets/')?'public, max-age=31536000, immutable':'no-cache');res.send(Buffer.from(file,'base64'));return;}const root=resolve('dist/web');const safe=resolve(root,'.'+path);if(safe.startsWith(root+'/')&&existsSync(safe)){res.sendFile(safe);return;}if(!extname(path)&&existsSync(resolve(root,'index.html'))){res.sendFile(resolve(root,'index.html'));return;}res.status(404).json({code:'NOT_FOUND_SAFE'});});

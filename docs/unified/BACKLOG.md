@@ -46,3 +46,36 @@
 - KN-V05: WhatsApp Business Calling/Messaging provider with eligible WABA, signed webhook, provider-aware VoIP handoff; BLOCKED_EXTERNAL credentials/quotas/pricing.
 - KN-V06: D1→ERP outbox/inbox, HR/worker reports, CRM/quotes, scoped operator queue; NOT_IMPLEMENTED, requires ERP business contract and synthetic SQL acceptance.
 - KN-V07: GDPR/§201 StGB legal/recording policy, company owner UAT, devices, field p95/CWV, disaster/rollback and explicit production release; BLOCKED_EXTERNAL/NOT_RUN.
+
+## 2026-10-25 — Assistant 360 Telegram channel (source-only)
+- **KN-U19 / P1**: private Telegram Bot API ingress with constant-time shared webhook header, safe update validation, duplicate/cross-company guard, atomic PostgreSQL inbox + outbox and guest-scoped handoff. New adapter/route/worker code is an unmerged Draft PR stacked on voice PR #38; no live activation.
+- **KN-U20 / P1**: integrate actual authenticated worker and manager operator UAT, Telegram outbound outbox + callback receipts, approved BotFather account, GDPR retention and consent, bounded quota, real PostgreSQL replay and full Node24 QA. **PENDING / BLOCKED_EXTERNAL**. Telegram sender helper alone is disabled and no provider calls are authorized.
+- Preserve existing KN-U06 WhatsApp scope and original ERP V4/V3 acceptance. Detail: `docs/plans/2026-10-25-knaba-assistant-360-telegram.md`.
+
+## 2026-10-25 — Telegram continuation evidence
+
+- `KN-U19` **IMPLEMENTED_SOURCE / SQL_TARGETED_QA_PASS / DEPLOY_NOT_RUN**: signed-by-secret private webhook (Telegram shared header), strict scoped normalization, durable Postgres inbox/worker/guest conversation; actual PostgreSQL 17.11 duplicate/cross-company smoke PASS on source `8d7f5530067ddead1164b26ff4cc7a45f65e6e04`. Final full acceptance still PENDING.
+- `KN-U20` **IMPLEMENTED_SOURCE_PARTIAL**: one human-owned private outbound ticket per message, lease/restart fencing and states `BLOCKED/API_ACCEPTED/UNKNOWN`, mocked Bot API with current opt-in and revocation; 5/5 targeted PG tests PASS. **BLOCKED_EXTERNAL**: real operator enrollment, user-facing opt-in, live BotFather/test recipient, real delivery reconciliation, GDPR retention/export/deletion, independent reviewer and deploy.
+- KNABA remains `RELEASE_BLOCKED`: broad Node24 no-PG Vitest has 6 environment failures due missing `openpyxl`; do not translate 1858 local passing cases into product acceptance. No release or billing activation.
+
+## 2026-10-25 — verified Telegram/ERP QA progress
+
+- **KN-U19 source candidate / QA PASS** at code SHA `7c79bca070c782c6a95a5c4e42b9776d9efd9991`: private signed-by-header Telegram ingress, dedupe, isolated guest/owner handoff. All 2300/2300 ERP tests PASS on genuine PostgreSQL17; source not deployed/accepted.
+- **KN-U20 source candidate / QA PASS, external delivery BLOCKED**: authorized human replies stage one durable Telegram send ticket; source, consent/version, active identity and current membership gates; provider absence BLOCKED, unknown outcome UNKNOWN. No real Telegram Bot API send performed, no test recipient or company legal approval.
+- **KN-U21 privacy opt-out / QA PASS**: private `STOP` and `/stop` revoke Telegram consent atomically, no unintended re-opt-in from `/start` and no message relay of STOP. Verified failing-before/fixed-after genuine PostgreSQL tests. Actual user-visible opt-in/retention policy and legal sign-off still outstanding.
+- **QA-ENV-001 RESOLVED (isolated QA only)**: repeatable Node24 + Python/openpyxl/Pillow/pdftotext recipe; 68/68 resources cases and full 2300/2300 after adding missing QA-only tools. No new runtime dependency.
+- **PERF-001 P1 pending**: Vite bundle minified 653.95 KB / gzip 207.75 KB and 4m54s Vite build. Profile actual cold mobile startup, interaction, CWV and chunk graph before code splitting; do not adjust warnings without measured improvement.
+- **Release unchanged BLOCKED**: 5/5 release policy tests PASS; actual release gate exit 1 on source-bound checks. Independent security reviewer, real KNABA owner accounts, protected D1↔ERP reconciliation, company consent/GDPR, live provider/device and backup/rollback remain NOT_RUN/BLOCKED_EXTERNAL. Artifact SHA checks are development receipts, not customer acceptance.
+
+## Security continuation — Telegram provider authentication and human takeover (25.10.2026)
+
+- **SEC-TG-AUTH-001 — CODE + TARGETED SQL PASS:** Telegram ingress no longer imports existing KNABA `DIRECTOR`/client/worker principals by numeric `contact_identity` alone. A Telegram sender gets only a bounded `GUEST` principal and a separate private thread; unsafe prelinked identities fail closed rather than impersonating an employee. Genuine SQL red/green proof and full 2303/2303 regression at code SHA `683c09d0346fd05e0f2cd323da640bbb176c5c47`.
+- **SEC-TG-OPERATOR-002 — CODE + TARGETED SQL PASS:** stage/send now requires current active human owner membership in the exact claimed conversation. A role plus stale `HUMAN_ACTIVE` owner_id is insufficient; revoked operator yields blocked delivery and zero provider calls. Targeted RED prior to fix, 10/10 Telegram SQL GREEN at code SHA above.
+- **P1 future authenticated linking — NOT_RUN:** For KNABA employees, clients and owners, implement server-authorized one-time expiring identity challenge, tenant-scoped confirmation and MFA/consent as necessary. Do not treat Telegram contact identity or `/start` as portal/ERP login; do not bypass the guest-only model or expose payroll/GPS from bot prompts. Existing KNABA Studio source PR #64 and ERP PR #41 must be reconciled through an additive versioned event bridge after verified owner enrollment, never by blind merging.
+- **Security/release gate — BLOCKED:** external code reviewer, actual BotFather/Meta credentials, permitted test recipients, GDPR/AVV and retention, independent restore, real owner and device/UAT, server-to-server site/ERP bridge and exact deployed-artifact attestation remain pending. These source fixes are not a product-release PASS.
+
+## KNABA Assistant 360 — artifact and security receipt 25.10.2026
+
+- **SEC-TG-AUTH-001 / SEC-TG-OPERATOR-002 — SOURCE + QA ACCEPTED; NOT DEPLOYED:** 2303/2303 full ERP tests with genuine PostgreSQL 17, 10/10 Telegram cases, exact source `683c09d0346fd05e0f2cd323da640bbb176c5c47`, complete API+worker+web build exit0, source/hash check, isolated runtime smoke PASS. Evidence `docs/evidence/knaba-assistant-360/telegram-security-2026-10-25.json`.
+- **INT-KNABA-STUDIO-ERP / P0 — BLOCKED_INTEGRATION:** Latest public-site source work represented by Draft PR #64 is not an integrated runtime with ERP Telegram PR #41. Establish verified scoped event bridge, legacy SQLite/D1 data reconciliation, owner identity and consent policies before considering any cross-branch integration or public release. Existing current KNABA website/Studio and prior PRs must be preserved.
+- **KNABA-DE-RELEASE / P0 — HOLD:** genuine external provider data/recipient/quotas, live Telegram/WhatsApp/calling, privacy/GDPR owner approval, full device and independent security reviews, backup/restore, customer UAT and explicit production deploy approval are NOT_RUN/BLOCKED_EXTERNAL. GitHub PR #41 remains Draft.

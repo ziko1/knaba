@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "project": "KNABA Assistant 360 Telegram / ERP",
+  "scope": "Source-only hardening for Draft PR #41; no live Telegram/WhatsApp use",
+  "verifiedApplicationSha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+  "baselineDocumentationHead": "b05643690987275c81f7736643a01ea219a22744",
+  "testEnvironment": {
+    "node": "24.22.1",
+    "postgres": "17.11-bookworm",
+    "qaImage": "knaba-qa/node24-erp-npm:20261025",
+    "database": "synthetic tenants in disposable private Docker network/tmpfs",
+    "providerCalls": 0,
+    "productionDataTouched": false
+  },
+  "reproducedDefects": [
+    {
+      "issue": "SEC-TG-AUTH-001",
+      "redSha": "d769a772b90aeb457ab12db173fc75ec29d6932b",
+      "redSignal": "Prelinked Telegram sender identity referencing DIRECTOR led to message authored as operator (expected zero)",
+      "greenSha": "e1e32fdaefd9d3355a59a7c7dfdf9200b98409ad",
+      "fix": "Require dedicated GUEST-only principal with canonical guest permissions and zero effective site/customer/warehouse scopes, reject privileged links",
+      "targetedResult": "9/9 Telegram integration PASS on genuine PostgreSQL"
+    },
+    {
+      "issue": "SEC-TG-GUEST-ONLY",
+      "redSha": "b8a4109a1248abaa009fb40836340bf39549a2d4",
+      "redSignal": "New Telegram guest had both GUEST and CLIENT roles rather than dedicated GUEST only",
+      "greenSha": "e1e32fdaefd9d3355a59a7c7dfdf9200b98409ad",
+      "fix": "GUEST role only; retain canonical ROLE_PERMISSIONS.GUEST and prevent extra account roles",
+      "targetedResult": "9/9 Telegram integration PASS"
+    },
+    {
+      "issue": "SEC-TG-OPERATOR-002",
+      "redSha": "c66ed6ea466a13f127d8d77a9edf959d71275520",
+      "redSignal": "Revoked operator remained stale HUMAN_ACTIVE owner; outbound returned API_ACCEPTED instead of BLOCKED",
+      "greenSha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+      "fix": "Recheck operator is active non-external participant at both ticket staging and outbound preflight",
+      "targetedResult": "10/10 Telegram integration PASS; mocked provider calls zero"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Node24 typecheck",
+      "status": "PASS",
+      "command": "cd erp && npm run typecheck",
+      "sha": "683c09d0346fd05e0f2cd323da640bbb176c5c47"
+    },
+    {
+      "name": "All ERP with real PostgreSQL17",
+      "status": "PASS",
+      "command": "cd erp && npm test",
+      "testSuitesPassed": 91,
+      "testSuitesFailed": 0,
+      "testsPassed": 2303,
+      "testsFailed": 0,
+      "testsSkipped": 0,
+      "elapsedSeconds": 95.98,
+      "sha": "683c09d0346fd05e0f2cd323da640bbb176c5c47"
+    },
+    {
+      "name": "Full API+web+worker build",
+      "status": "PASS",
+      "command": "cd erp && npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 315,
+      "viteTransformedModules": 120,
+      "sha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+      "gitClean": true,
+      "sourceProvenance": "PINNED_CONTAINER_CONTEXT"
+    },
+    {
+      "name": "Node syntax checks",
+      "status": "PASS",
+      "command": "node --check dist/server.mjs && node --check dist/worker.mjs",
+      "sha": "683c09d0346fd05e0f2cd323da640bbb176c5c47"
+    },
+    {
+      "name": "API and Worker smoke",
+      "status": "PASS",
+      "scope": "isolated TEST with synthetic PostgreSQL, no external providers",
+      "observations": {
+        "health": 200,
+        "version": 200,
+        "versionMatchesExactSha": true,
+        "readinessWithoutConfiguredCompany": 503,
+        "telegramWebhookWithoutConfiguredSecret": 503,
+        "workerStarted": true,
+        "workerHeartbeat": true
+      }
+    },
+    {
+      "name": "Git diff and source cleanliness",
+      "status": "PASS",
+      "command": "git diff --check b05643690987275c81f7736643a01ea219a22744 HEAD; git status --porcelain",
+      "sha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+      "clean": true
+    },
+    {
+      "name": "Release readiness",
+      "status": "BLOCKED_AS_DESIGNED",
+      "command": "node scripts/verify-release-readiness.mjs",
+      "exitCode": 1,
+      "reasons": [
+        "production approval and exact release receipt absent",
+        "owner-chat, real ERP bridge, GDPR, browser/device, backups/restore and customer UAT not accepted"
+      ]
+    }
+  ],
+  "artifactHashes": {
+    "dist/server.mjs": "7545b8ca6bd801666d469fb939f72452d77b1d563a9713b0b46606558ada2f8a",
+    "dist/worker.mjs": "45a17c79158cdfd090b290d7cdca012e87157c49b816bf6c03ee739c3486bd0e",
+    "dist/release.json": "53f03af44c944dfada217971abb2a27a9d184029c5f62f2985be90073de6fe1b",
+    "dist/web/assets/index-BHGYZJVp.css": "72953d7119713bef904f8d85df6600bc344a016f50b800835a577571b4d2c96a",
+    "dist/web/assets/index-Cy1SZrLS.js": "32767f65f5413abc6a46d919184e620f613368f2e31f5ae524afea3dec565c7b"
+  },
+  "webBuildWarning": {
+    "minifiedJsKb": 653.95,
+    "gzipJsKb": 207.75,
+    "note": "Build sizes, not live page transfer or field Core Web Vitals; optimize only after baseline"
+  },
+  "repoReconciliation": {
+    "assistantPr": 41,
+    "assistantBasePr": 38,
+    "siteReferencePr": 64,
+    "siteAndErpNotUnifiedAtRuntime": true
+  },
+  "independentSecurityReview": "NOT_RUN (no GitHub PR41 review submissions found)",
+  "externalProviders": "DISABLED_OR_UNVERIFIED",
+  "remainingRequired": [
+    "Verified KNABA owner identity and consent",
+    "BotFather token/Meta WABA eligibility and permitted recipient",
+    "Actual provider calls, live voice and owner-client UAT",
+    "Reconciled SQLite/D1 site ↔ PostgreSQL ERP idempotent event bridge",
+    "German GDPR retention/DSAR/processor assessment",
+    "Independent QA/security review",
+    "Backup+restore rehearsal and release approval"
+  ],
+  "releaseApproval": false,
+  "merged": false,
+  "productionDeployed": false
+}
