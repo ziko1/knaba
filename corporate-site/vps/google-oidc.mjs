@@ -115,7 +115,8 @@ export function acceptGoogleIdentity(db,{subject,email,ownerEmail=''}) {
   if(!googleSchemaReady(db))throw Error('Social schema unavailable');
   if(typeof subject!=='string'||!/^[\x21-\x7e]{1,255}$/.test(subject))throw Error('Invalid Google subject');
   const address=normalizeEmail(email),owner=ownerEmail?normalizeEmail(ownerEmail):'';
-  if(owner && address===owner)throw Error('Owner Google enrollment requires protected account linking');
+  if((owner && address===owner)||address==='kontakt@knaba.de')
+    throw Error('Company owner email requires protected account linking');
   const mapped=db.prepare('SELECT u.id,u.email,u.disabled FROM vps_google_identities g JOIN vps_users u ON u.id=g.user_id WHERE g.google_sub=?').get(subject);
   if(mapped){
     if(mapped.disabled || mapped.email!==address)throw Error('Google email changed; account recovery required');
