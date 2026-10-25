@@ -1,5 +1,6 @@
 import { openLocalDatabase } from './database.mjs';
 import { createOwner } from './auth.mjs';
+import { issueOwnerInvite } from './owner-invite.mjs';
 import { backup } from 'node:sqlite';
 import { createHash } from 'node:crypto';
 import { readFile, mkdir, chmod, stat } from 'node:fs/promises';
@@ -14,8 +15,8 @@ if(['backup','migrate'].includes(command)){
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','backup','audit','migrate'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|backup|audit|migrate\n');process.exit(2);
+if(!['init-owner','invite-owner','backup','audit','migrate'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|backup|audit|migrate\n');process.exit(2);
 }
 if(command==='audit'){
   // Read-only snapshot inspection. Never initialize schemas or silently create a database.
@@ -59,6 +60,20 @@ try {
     const password=value.replace(/[\r\n]+$/,'');
     const owner=createOwner(db,process.env.OWNER_EMAIL,password);
     process.stdout.write('Owner enrolled: '+owner.email+' (no password returned)\n');
+  }
+  if(command==='invite-owner'){
+    if(!process.env.OWNER_EMAIL)throw Error('OWNER_EMAIL is not configured on the server.');
+    const origin=new URL(process.env.KNABA_PUBLIC_ORIGIN||'');
+    if(origin.protocol!=='https:' || !['kneba.vsp.rest','knaba.de'].includes(origin.hostname) ||
+      origin.username || origin.password || origin.port || origin.pathname!=='/')
+      throw Error('A canonical verified HTTPS KNABA origin is required.');
+    const invite=issueOwnerInvite(db,process.env.OWNER_EMAIL);
+    // Only deliver through authorized email transport. Never write to customer logs.
+    process.stdout.write(JSON.stringify({
+      to:invite.email,
+      activationUrl:origin.origin+'/activate-owner/#token='+invite.token,
+      expiresAt:new Date(invite.expiresAt).toISOString()
+    })+'\n');
   }
   if(command==='backup'){
     const location=process.env.KNABA_BACKUP_DIR||'/var/lib/knaba/backups';
