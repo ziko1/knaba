@@ -46,7 +46,7 @@ const src=(p)=>pathToFileURL(ROOT+'/'+p).href;
     req.pipe(upstream);
   });
   proxy.listen(19443,'127.0.0.1');await once(proxy,'listening');
-  browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage','--host-resolver-rules=MAP knaba.test 127.0.0.1']});
+  browser=await chromium.launch({headless:true,executablePath:process.env.KNABA_BROWSER_CHROME_PATH||chromium.executablePath(),args:['--no-sandbox','--disable-dev-shm-usage','--host-resolver-rules=MAP knaba.test 127.0.0.1']});
   const ctx=await browser.newContext({ignoreHTTPSErrors:true,viewport:{width:390,height:844}});
   const page=await ctx.newPage();
   const jsErrors=[];
