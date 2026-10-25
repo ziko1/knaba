@@ -2090,7 +2090,9 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   top: calc(100% + 8px);
   right: 0;
   z-index: 60;
-  width: min(352px, calc(100vw - 24px));
+  /* Keep the dropdown left edge within the screen even when the mobile menu
+     occupies the rightmost 60px; avoid a 36px off-screen panel at 320px. */
+  width: min(352px, calc(100vw - 72px));
   max-height: min(75svh, 640px);
   overflow-y: auto;
   overscroll-behavior: contain;
