@@ -13,12 +13,12 @@ const sections = [
 ] as const;
 ---
 
-<Layout title="Datenschutzerklärung | KnaBa Gebäudereinigung Berlin" description="So verarbeitet KnaBa Daten beim Website-Besuch, bei Reinigungsanfragen und im Kunden- und Mitarbeiterportal. Datenschutzkontakt und Ihre Rechte.">
+<Layout title="Datenschutzerklärung | KnaBa Baureinigung & BauService Berlin" description="So verarbeitet KnaBa Daten beim Website-Besuch, bei Reinigungsanfragen und im Kunden- und Mitarbeiterportal. Datenschutzkontakt und Ihre Rechte.">
   <article class="container legal">
     <p class="eyebrow">IHRE DATEN IM BLICK</p>
     <h1>Datenschutzerklärung</h1>
     <p class="legal-intro">Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.</p>
-    <p class="notice">Diese Erklärung betrifft die temporäre Website <strong>kneba.vsp.rest</strong>. Für das bestehende Angebot unter <a href="https://knaba.de/impressum">knaba.de</a> gelten die dort veröffentlichten Informationen. Stand: 24. Oktober 2026.</p>
+    <p class="notice">Diese Erklärung betrifft die temporäre Website <strong>kneba.vsp.rest</strong>. Für das bestehende Angebot unter <a href="https://knaba.de/impressum">knaba.de</a> gelten die dort veröffentlichten Informationen. Stand: 25. Oktober 2026.</p>
 
     <nav class="privacy-contents" aria-label="Inhalt der Datenschutzerklärung">
       {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
@@ -53,6 +53,7 @@ const sections = [
       <h2 id="assistent">KNABA Assistant und Kundenkommunikation</h2>
       <p>Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der lokalen Server-Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.</p>
       <p>Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der lokalen Server-Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Nur berechtigte Inhaber sehen eingegangene Kundennachrichten. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.</p>
+      <p>Vor der Neuanlage eines Chats wird eine Sicherheitsprüfung mit <strong>Cloudflare Turnstile</strong> durchgeführt. Das Prüfelement wird erst geladen, nachdem Sie die Datenschutzhinweise zur Kenntnis genommen und dies bestätigt haben. Beim Laden können technische Browser-, Geräte- und Verbindungsdaten an Cloudflare übertragen werden; der erzeugte Prüftoken wird mit Cloudflare serverseitig auf Gültigkeit geprüft. Ohne gültige Prüfung ist die Einrichtung eines neuen Chats nicht möglich. Sie erreichen uns weiterhin telefonisch und per E-Mail. Weitere Informationen finden Sie in der <a href="https://www.cloudflare.com/de-de/privacypolicy/">Datenschutzerklärung von Cloudflare</a>. Die genaue rechtliche Einordnung und die Verträge mit Dienstleistern bedürfen vor der offiziellen Veröffentlichung einer Prüfung durch den Anbieter.</p>
       <p>Die freiwillige Spracheingabe kann Audio an den Anbieter Ihres Browsers übertragen; KnaBa speichert nur gesendeten erkannten Text. Speichern Sie keine Passwörter, Gesundheitsdaten oder Zugangscodes im Chat. Die Löschfrist für Chats wurde noch nicht automatisiert und muss vor dem offiziellen Betrieb festgelegt werden; Auskunft und Löschung können beim oben genannten Verantwortlichen angefragt werden.</p>
     </section>
     <section aria-labelledby="konto">

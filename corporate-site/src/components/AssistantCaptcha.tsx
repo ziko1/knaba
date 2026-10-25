@@ -75,9 +75,9 @@ export default function AssistantCaptcha(props:{
         size:'flexible',
         'response-field':false,
         callback:(token:string)=>update('verified',token),
-        'expired-callback':()=>update('pending'),
+        'expired-callback':()=>{update('pending');if(widgetId)provider.reset(widgetId);},
         'error-callback':()=>{update('error');return true;},
-        'timeout-callback':()=>update('pending'),
+        'timeout-callback':()=>{update('pending');if(widgetId)provider.reset(widgetId);},
       });
       if(state()!=='verified')update('pending');
     }catch{update('error');}

@@ -14,6 +14,10 @@ describe('Assistant Turnstile server-side verification',()=>{
   it('is explicitly disabled only if both keys are absent and fails closed for half configured',async()=>{
     expect(captchaConfig({})).toEqual({enabled:false,sitekey:null,unavailable:false});
     expect(await verifyCaptcha(request,{},'')).toBe('ok');
+    // Preview/production MUST NOT silently disable CAPTCHA if secrets disappear.
+    const production={TURNSTILE_REQUIRED:'1'} as WorkerEnv;
+    expect(captchaConfig(production)).toEqual({enabled:false,sitekey:null,unavailable:true});
+    expect(await verifyCaptcha(request,production,'')).toBe('unavailable');
     expect(captchaConfig({TURNSTILE_SITE_KEY:enabled.TURNSTILE_SITE_KEY}).unavailable).toBe(true);
     expect(await verifyCaptcha(request,{TURNSTILE_SITE_KEY:enabled.TURNSTILE_SITE_KEY},'sampletoken123')).toBe('unavailable');
     expect(captchaConfig(enabled)).toEqual({enabled:true,sitekey:enabled.TURNSTILE_SITE_KEY,unavailable:false});

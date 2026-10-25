@@ -184,3 +184,13 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Latest source+test SHA `8a7d5c926d435ea69fcde5ba6b657fed1a41c587` adds an HTTP regression proving `/languages.json` returns 99 targets / 4 published / 95 pending with no 95-item SSR HTML list; that exact SHA Node VPS server tests 2/2 PASS. Full QA was on unchanged executable code SHA b1ef6e9, plus targeted test on latest 8a7d5c9.
 - One-page size measured with gzip level9: pre-change live home 33975 B raw / 6297 B gzip; initial eager catalog 63783/10299; final lazy catalog 37644/7786. Only requested language list loads on `<details>` opening, not every page. This is transferred HTML size, NOT Web Vitals or field p95.
 - 99 BCP47 codes in machine manifest; **only 4 published locales**, other 95 remain NOT_TRANSLATED. No fake locale URLs, no pending hreflang. No new deps, server/database/auth changes, paid providers or production merge/deploy. Real owner enrollment blocked pending verified owner account; synthetic isolated owner login/Studio draft/publish/restore covered by VPS tests. Native review/physical browser test/field CWV NOT_RUN. Detail: `docs/I18N_99_ROLLOUT_UK.md`.
+
+
+## KNABA 2026-10-25 — continuation of PR #42 (hardening checkpoint)
+- Baseline exact deployed code: 89b1ad4fb22f665863196040ea9e696119fb0690; current domain kneba.vsp.rest, HTTPS trusted, Docker healthy. Root-only Turnstile server credential exists; not in repo.
+- RED evidence: after first opening/closing KNABA Assistant, Solid fallback launcher was 189.67px and covered mobile footer Datenschutz at widths 360, 390, 480, 600 and both legal links at 760. The initial-launcher-only test missed this state.
+- Fixed Solid fallback launcher to same 54px mobile circle, checked across 4 locales x 8 widths: 32/32 PASS; initial footer 32/32 + 4 short viewports PASS.
+- Production fail-closed if Turnstile keys missing; consent-triggered lazy third-party script, expiry reset, DE/RU factual privacy disclosure, same-tab legal link, corrected Imprint construction illustration.
+- Isolated Node24 (network none): Astro/Vue/Svelte check 0 errors / 0 warnings (4 hints), Vitest 126/126, inquiry Node 8/8, VPS Node 14/14, 99 pages/static links/build PASS; 8 six-tile locale checks, 7 hero carousel browser scenarios, 4 browser flows using synthetic provider script (NOT human challenge) PASS.
+- Latest static artifact SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede. VPS-mounted assets/ live real-human challenge remain separately gated.
+- Full 98 public HTML routes on prior live build: Chromium mobile 98/98 PASS basic footer/overflow checks; 7 focused 200% root-font samples no overflow. Not a physical device/real a11y or field CWV proof.

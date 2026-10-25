@@ -121,7 +121,7 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [x] Preserve shared footer dark rebrand, legal clearance and all four locales
 - [x] Sixth planning CTA card on home and service catalogue, 4 languages
 - [x] Turnstile client + server and VPS bearer forwarding, Node24 build/unit tests
-- [ ] Securely provision free Turnstile widget keys and publish validated code to kneba.vsp.rest with live browser QA
+- [x] Free Turnstile widget and root-only VPS secret provisioned for kneba.vsp.rest; v1 code and browser frame published in Draft PR #42, without human challenge completion
 - [ ] Manual captcha completion, privacy/legal, genuine owner onboarding, physical mobile/a11y and field Web Vitals
 - [ ] Separate legacy office editorial URLs replacement and redirects with owner-approved content
 
@@ -139,3 +139,15 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 | I99-08 | VPS dev deployment then official-language SEO indexing with rollback | NOT_DEPLOYED/NOT_APPROVED; disk 95%, current live site untouched |
 
 No automatic provider spending. External translations budget EUR0 reserved until consent, provider quota and rates verified. Bounded glossary-first rollout, no 99x full-site build before disk/performance baseline.
+
+
+## KNABA-UX-CAPTCHA-P2 — 25.10.2026, second hardening increment
+- [x] Prevent publicly deployed VPS from silently accepting new chats if both Turnstile credentials are missing (503 fail-closed)
+- [x] Load challenge only after visitor acknowledges privacy notice; same-tab privacy navigation; show actual provider disclosure in DE/RU
+- [x] Refresh expired or timed-out tokens; preserve alternative telephone/e-mail contact
+- [x] Fix post-close mobile Assistant launcher covering privacy/legal footer links, add 32 cross-locale viewport regressions
+- [x] Replace outdated office illustration reference in Impressum with actual Bau-cleaning site description
+- [x] Browser check 98/98 live routes before this increment (no overflow, legal link overlap or broken footer logo); 7 focused 200%-font checks
+- [x] Candidate Node24 check/build/tests and synthetic captcha lifecycle + footer/browser regressions
+- [ ] Deploy this exact increment on kneba.vsp.rest with immutable code version, pre-switch backup, HTTPS/live route and real widget verification
+- [ ] Genuine human on-device Turnstile acceptance, owner account, privacy/legal signoff, field CWV, a11y/screen reader and GDPR data-retention checks
