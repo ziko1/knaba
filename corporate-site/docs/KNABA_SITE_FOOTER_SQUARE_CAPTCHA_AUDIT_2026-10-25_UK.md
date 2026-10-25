@@ -38,3 +38,12 @@
 - Full-route audit live baseline: 98/98 HTML маршрутів у Chromium на 390px, без переповнення, несправних логотипів або перекритих legal-посилань; 7 сторінок із CSS font-size 200% не мали overflow. Browser test не замінює фізичний zoom/screen reader.
 - Exact candidate Node24 QA: 126/126 Vitest; 8/8 inquiry; 14/14 VPS; 99 generated HTML і verify:build PASS; artifact digest SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede.
 - Unverified: власник не пройшов реальний Turnstile на телефоні, GDPR/AVV не затверджено, owner account не enrolled (/readyz 503), фізичний Android/iOS, повні screen-reader та field CWV — не доведено.
+
+
+## Live development deployment — receipt
+- Exact website runtime commit: 132145f94c53aabfa72645c3cc157d4c07c76ac2; old code 89b1ad4fb22f665863196040ea9e696119fb0690 retained for rollback. GitHub changes live in Draft PR #42; official knaba.de untouched.
+- Before switching: immutable code build, consistent SQLite audit, no schema diff, fresh backup knaba-2026-10-25T04-14-26-764Z.sqlite SHA256 626d449bd4e148d6aca402a426ae87d275f04cefe0de908735e43b62a9212e55; DB integrity ok. Only web container recreated.
+- After switching: HTTPS certificate verified (curl ssl_verify_result=0), Docker healthy, /, /uk, /uk/leistungen, privacy pages and /api/assistant/captcha HTTP200; anonymous CRM 401; /readyz expected 503; invalid/missing captcha POST 422.
+- Live Chromium on domain: 98/98 HTML routes passed content/overflow/footer assertions; 32/32 locale/width assistant close scenarios and 32/32 initial footer scenarios + 4 synthetic short-page scenarios PASS. 7 carousel scenario flows PASS; 4 consent-gated workflows used a synthetic provider script and PASS.
+- Real Cloudflare managed widget visually observed with cross-origin iframe and checkbox after privacy acknowledgment on mobile 390px; no script before acknowledged notice. Human CAPTCHA completion and actual owner/client messaging still NOT_RUN. A request to brunhild.challenges.cloudflare.com failed DNS resolution from isolated VPS Chromium; requires check from actual phone network before acceptance.
+- Owner UAT, GDPR/AVV legal review, true device a11y/200% zoom, field CWV, D1 import/reconciliation and physical human completion remain independent blockers. VPS disk 96% / approx 7.8 GiB free; no unreviewed cleanup.
