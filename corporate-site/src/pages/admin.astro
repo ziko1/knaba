@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AdminControlCenter from '../components/AdminControlCenter.tsx';
+---
+<Layout title="KNABA Control Center | Geschützte Verwaltung" description="Ein geschützter KNABA Verwaltungsbereich für Kundenanfragen, Baustelleneinsätze, CRM, Nachrichten und die Websiteverwaltung." noindex={true}>
+  <section class="kncc-page" aria-label="KNABA Control Center">
+    <h1 class="sr-only">KNABA Control Center</h1>
+    <AdminControlCenter client:load />
+    <noscript><div class="container"><p>Bitte aktivieren Sie JavaScript für die KNABA Verwaltung. Alternativ können Sie das <a href="/konto/">KnaBa Portal</a> öffnen.</p></div></noscript>
+  </section>
+</Layout>
+<style>.kncc-page{padding-block:clamp(1.25rem,3vw,2.75rem) 5rem;min-height:65vh}.kncc-page>.container{padding-block:2rem}</style>

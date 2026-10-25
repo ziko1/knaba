@@ -49,6 +49,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     const expectedCanonical=staticHtml.match(/<link rel="canonical" href="[^"]+"\/?>/)?.[0];
     assert.ok(expectedCanonical);
     assert.equal((await fetchAt('/studio/')).status,200);
+    assert.equal((await fetchAt('/admin/')).status,200);
     assert.equal((await fetchAt('/crm/')).status,200);
     assert.match((await fetchAt('/crm/')).headers.get('X-Robots-Tag'),/noindex/);
     assert.equal((await fetchAt('/illustrations/hero-cleaning.svg')).status,200);
@@ -188,7 +189,7 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
     const canIndex = ['official', 'vsp'].includes(process.env.KNABA_RELEASE_MODE);
     assert.equal(live.headers['x-robots-tag'], canIndex ? undefined : 'noindex, follow',
       'Production Node must preserve the same public crawler gate as its static HTML');
-    for (const route of ['/konto/', '/ru/konto/', '/studio/', '/crm/', '/postfach/', '/ru/postfach/']) {
+    for (const route of ['/admin/', '/konto/', '/ru/konto/', '/studio/', '/crm/', '/postfach/', '/ru/postfach/']) {
       const privatePage = await probe('kneba.vsp.rest', 'https', route);
       assert.equal(privatePage.status, 200);
       assert.equal(privatePage.headers['x-robots-tag'], 'noindex, nofollow');

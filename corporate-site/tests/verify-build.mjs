@@ -52,7 +52,7 @@ for (const file of pages) {
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html"))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html"))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
