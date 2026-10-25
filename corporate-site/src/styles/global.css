@@ -1234,12 +1234,13 @@ button {
     gap: 45px;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .desktop-nav {
     display: none;
   }
   .nav-cta {
-    margin-left: auto;
+    /* The same contact action remains available in the mobile menu. */
+    display: none;
   }
   .mobile-nav {
     display: block;
@@ -1278,6 +1279,8 @@ button {
     font-size: 14px;
     border-bottom: 1px solid var(--line);
   }
+}
+@media (max-width: 900px) {
   .hero h1 {
     font-size: 50px;
   }
