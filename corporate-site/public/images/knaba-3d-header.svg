@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 350" role="img" aria-labelledby="knaba-title knaba-desc">
   <title id="knaba-title">KNABA</title>
-  <desc id="knaba-desc">Drei geometrische Bauwerke, KNABA mit goldener A-Akzentuierung, Unser Ziel ist Ihre Wertschöpfung</desc>
+  <desc id="knaba-desc">Drei geometrische Bauwerke, KNABA mit limettengrüner A-Akzentuierung, Unser Ziel ist Ihre Wertschöpfung</desc>
   <defs>
     <linearGradient id="buildingLeft" x1="0" x2=".9" y1=".15" y2="1"><stop stop-color="#13B8B4"/><stop offset=".32" stop-color="#087C81"/><stop offset=".72" stop-color="#102F38"/><stop offset="1" stop-color="#164F5A"/></linearGradient>
     <linearGradient id="buildingRight" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#007B89"/><stop offset=".42" stop-color="#102F38"/><stop offset="1" stop-color="#0C646F"/></linearGradient>
     <linearGradient id="metalInk" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#087C81"/><stop offset=".2" stop-color="#102F38"/><stop offset=".72" stop-color="#102F38"/><stop offset="1" stop-color="#087C81"/></linearGradient>
-    <linearGradient id="goldAccent" x1="0" x2=".45" y1="0" y2="1"><stop stop-color="#FFF0B0"/><stop offset=".24" stop-color="#FDBE38"/><stop offset=".7" stop-color="#D58A1D"/><stop offset="1" stop-color="#FFE5A0"/></linearGradient>
-    <linearGradient id="goldBase" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#FFF1BB"/><stop offset=".35" stop-color="#FDBE38"/><stop offset="1" stop-color="#946220"/></linearGradient>
+    <linearGradient id="limeAccent" x1="0" x2=".45" y1="0" y2="1"><stop stop-color="#F3FFC6"/><stop offset=".24" stop-color="#D8F779"/><stop offset=".7" stop-color="#9DBD51"/><stop offset="1" stop-color="#EAFFA6"/></linearGradient>
+    <linearGradient id="limeBase" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#F3FFC6"/><stop offset=".35" stop-color="#D8F779"/><stop offset="1" stop-color="#688456"/></linearGradient>
   </defs>
   <g aria-hidden="true">
     <g>
@@ -92,12 +92,12 @@
       <path d="M328 226 380 253 V270 L328 243 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
       <path d="M272 254 319 231 M329 231 376 254" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
     </g>
-    <rect x="34" y="266" width="347" height="13" rx="2.5" fill="url(#goldBase)"/>
-    <path d="M34 266H381" fill="none" stroke="#FFF4D0" stroke-width="2" opacity=".88"/>
+    <rect x="34" y="266" width="347" height="13" rx="2.5" fill="url(#limeBase)"/>
+    <path d="M34 266H381" fill="none" stroke="#EAF5C3" stroke-width="2" opacity=".88"/>
   </g>
   <g font-family="Arial,Helvetica,sans-serif" font-size="206" font-weight="800" letter-spacing="-4" aria-hidden="true">
     <text x="396" y="256" textLength="728" lengthAdjust="spacingAndGlyphs" fill="#061F28" stroke="#061F28" stroke-width="6" transform="translate(3 5)">KNABA</text>
-    <text x="396" y="256" textLength="728" lengthAdjust="spacingAndGlyphs" fill="url(#metalInk)" stroke="#061F28" stroke-width="2.5" paint-order="stroke fill">KN<tspan fill="url(#goldAccent)" stroke="#6A4919" stroke-width="2">A</tspan>BA</text>
+    <text x="396" y="256" textLength="728" lengthAdjust="spacingAndGlyphs" fill="url(#metalInk)" stroke="#061F28" stroke-width="2.5" paint-order="stroke fill">KN<tspan fill="url(#limeAccent)" stroke="#102F38" stroke-width="2">A</tspan>BA</text>
   </g>
 <text x="24" y="333" textLength="1086" lengthAdjust="spacingAndGlyphs" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="400" fill="#102F38">Unser Ziel ist Ihre Wertschöpfung</text>
 </svg>

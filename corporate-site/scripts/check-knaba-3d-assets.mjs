@@ -15,7 +15,10 @@ for (const [surface, compact, file] of variants) {
     assert.equal(source, render3dLogo(surface, compact), 'committed SVG matches generator');
     assert.match(source, /<title id="knaba-title">KNABA<\/title>/);
     assert.equal((source.match(/fill="url\(#buildingLeft\)"/g) || []).length, 20);
-    assert.match(source, /fill="url\(#goldAccent\)"/);
+    assert.match(source, /fill="url\(#limeAccent\)"/);
+    assert.match(source, /fill="url\(#limeBase\)"/);
+    assert.match(source, /#D8F779/);
+    assert.ok(!source.includes('#FDBE38'), 'old orange not permitted in A/base');
     assert.ok(!/<script|<foreignObject|(?:href|src)="https?:/i.test(source), 'no active or external resources');
     assert.ok(!/fill="#(?:FBFCF7|102E36)"/.test(source), 'no background plates');
     assert.ok(Buffer.byteLength(source) < 15_000, 'bounded image payload');
