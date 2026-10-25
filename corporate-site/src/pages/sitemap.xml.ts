@@ -1,9 +1,15 @@
-import { siteConfig } from '../data/site';
-import { constructionOffers } from '../data/construction-offers';
-import type { APIRoute } from 'astro';
+import {siteConfig} from '../data/site';
+import {studioPages} from '../lib/studio-pages';
+import {localeAlternates} from '../lib/site-i18n';
+import type {APIRoute} from 'astro';
+const escapeXml=(s:string)=>s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// One authoritative public URL catalog, shared with the existing Studio.
 export const GET: APIRoute = () => {
-  const base=['/','/leistungen/','/branchen/','/unternehmen/','/karriere/','/kontakt/','/planer/','/berlin/','/ratgeber/',
-    ...constructionOffers.map(o=>'/bauleistungen/'+o.slug+'/')];
-  const paths=!siteConfig.indexable?[]:['','/en','/uk','/ru'].flatMap(prefix=>base.map(path=>prefix+path));
-  return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+paths.map(p=>'<url><loc>'+siteConfig.origin+p+'</loc></url>').join('')+'</urlset>\n',{headers:{'Content-Type':'application/xml; charset=utf-8'}});
+  const publicRoutes=siteConfig.indexable?studioPages.map(p=>p.path):[];
+  const entries=publicRoutes.map(path=>'<url><loc>'+escapeXml(siteConfig.origin+path)+'</loc>'+
+    localeAlternates(path).map(item=>'<xhtml:link rel="alternate" hreflang="'+escapeXml(item.lang)+
+      '" href="'+escapeXml(siteConfig.origin+item.url)+'" />').join('')+'</url>').join('');
+  return new Response('<?xml version="1.0" encoding="UTF-8"?>\n'+
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'+
+    entries+'</urlset>\n',{headers:{'Content-Type':'application/xml; charset=utf-8'}});
 };

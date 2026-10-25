@@ -8,7 +8,7 @@ const root = resolve("dist/client");
 const releaseMode = process.env.KNABA_RELEASE_MODE;
 const official = releaseMode === "official";
 const vsp = releaseMode === "vsp";
-const indexingApproved = official || (vsp && process.env.KNABA_VSP_INDEX_APPROVED === "1");
+const indexingApproved = official || vsp;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -101,8 +101,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 30, 'Expanded localized Russian tree plus portal');
-assert.equal(russianPages.length, 31, 'Private Russian owner inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 31, 'Expanded localized Russian tree with FAQ and portal');
+assert.equal(russianPages.length, 32, 'Private Russian owner inbox is an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -129,12 +129,19 @@ const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?68:0);
-if(indexingApproved) assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
-else assert.doesNotMatch(robots,/Sitemap:/);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?72:0);
+if(indexingApproved) {
+  assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
+  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,72*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
+  for(const privatePart of ['/konto/','/studio/','/crm/','/postfach/'])
+    assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
+} else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
 if(!indexingApproved) assert.match(headers,/X-Robots-Tag: noindex, follow/);
+else assert.doesNotMatch(headers.split('/konto/*')[0],/X-Robots-Tag: noindex/,'Public VSP release must not send blanket noindex');
+for(const path of ['/konto/*','/studio/*','/crm/*','/postfach/*','/ru/konto/*','/ru/postfach/*'])
+  assert.ok(headers.includes(path+'\n  X-Robots-Tag: noindex, nofollow'),'Private robots header '+path);
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,

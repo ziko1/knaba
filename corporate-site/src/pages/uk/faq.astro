@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ConstructionFaq from '../../components/ConstructionFaq.astro';
+import {faqCopy} from '../../data/construction-faq';
+const lang = 'uk' as const;
+const t = faqCopy[lang];
+---
+<Layout lang={lang} title={t.pageTitle} description={t.pageDescription}>
+  <ConstructionFaq locale={lang} full />
+</Layout>
