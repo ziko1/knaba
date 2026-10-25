@@ -2243,3 +2243,22 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 .vsp-credit a:hover{color:#fff;opacity:1}
 @media(max-width:700px){.nav-wrap > .account-entry{display:none}}
 @media(prefers-reduced-motion:reduce){.nav-wrap > .account-entry{transition:none}}
+
+/* Published owner-reviewed knowledge articles, rendered server-side in the existing Astro shell. */
+.seo-dynamic-article{max-width:1020px;padding-block:clamp(35px,6vw,95px)}
+.seo-dynamic-article h1{font-size:clamp(2.1rem,5vw,4.6rem);line-height:1.08;letter-spacing:-.04em;max-width:20ch;overflow-wrap:break-word;color:#102d34}
+.seo-article-lead{font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.65;max-width:64ch;color:#375d55;margin:1.4rem 0 2.2rem}
+.seo-article-copy{max-width:76ch;font-size:1.05rem;line-height:1.85;color:#24423b}
+.seo-article-copy p{margin:0 0 1.25rem;overflow-wrap:anywhere}
+.seo-article-copy h2{font-size:clamp(1.4rem,2.5vw,1.9rem);margin:2rem 0 .65rem;color:#164d48}
+.seo-article-links{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;margin-top:3rem}
+.seo-article-links>a:first-child{text-decoration:underline;text-underline-offset:5px;min-height:44px;display:inline-flex;align-items:center}
+.seo-published-guides{padding-block:clamp(35px,5vw,70px)}
+.seo-published-guides h2{font-size:clamp(1.7rem,3vw,2.8rem);margin-bottom:.75rem}
+.seo-published-guides ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px;list-style:none;padding:0;margin:2rem 0}
+.seo-published-guides li{min-width:0;padding:1.3rem;border:1px solid #cdded1;border-radius:16px;background:#edf7f1}
+.seo-published-guides li:nth-child(3n+2){background:#ecf4fc}
+.seo-published-guides li:nth-child(3n+3){background:#fff0e5}
+.seo-published-guides li a{display:inline-block;font-weight:800;color:#124e48;text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere}
+.seo-published-guides li p{font-size:.91rem;line-height:1.6;margin:.65rem 0 0;color:#49645c}
+.seo-published-guides a:focus-visible,.seo-article-links a:focus-visible{outline:3px solid #ab7639;outline-offset:3px}
