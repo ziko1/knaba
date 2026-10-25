@@ -96,7 +96,8 @@ test('code exchange only at fixed Google endpoint, never needs refresh tokens',a
 test('Google account registration stays unprivileged and never email-links or creates owner',()=>{
   const db=database();
   try{
-    assert.throws(()=>acceptGoogleIdentity(db,{subject:'owner-sub',email:owner,ownerEmail:owner}),/Owner/);
+    assert.throws(()=>acceptGoogleIdentity(db,{subject:'owner-sub',email:owner,ownerEmail:owner}),/owner/);
+    assert.throws(()=>acceptGoogleIdentity(db,{subject:'brand-contact',email:'kontakt@knaba.de',ownerEmail:''}),/owner/);
     assert.equal(db.prepare('SELECT count(*) AS n FROM vps_users').get().n,0);
     db.prepare('INSERT INTO vps_users (id,email,salt,password_hash,created_at) VALUES (?,?,?,?,?)')
       .run('existing-user','existing@example.test','00','00','2026-10-25');
