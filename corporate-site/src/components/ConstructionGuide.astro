@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {siteConfig} from '../data/site';
+import {constructionBusinessCopy, offerBySlug, type ConstructionLocale} from '../data/construction-offers';
+import {constructionGuides, type ConstructionGuide, type GuideText} from '../data/construction-guides';
+
+const {guide,locale='de'}=Astro.props as {guide:ConstructionGuide;locale:ConstructionLocale};
+const prefix=locale==='de'?'':'/'+locale;
+const t=(text:GuideText)=>text[locale];
+const url=siteConfig.origin+prefix+'/ratgeber/'+guide.slug+'/';
+const service=offerBySlug(guide.service);
+const related=constructionGuides.filter(item=>item.slug!==guide.slug).slice(0,3);
+const navCopy={
+ de:{label:'PRAXIS / BAUREINIGUNG',index:'In diesem Ratgeber',notes:'Für Ihre Projektabstimmung',notesIntro:'Nutzen Sie diese Punkte, um den Umfang bei Ihrer Anfrage klar zu beschreiben.',related:'Weitere Baufragen klären',back:'Alle Bau-Ratgeber',next:'Vom Ratgeber zum abgestimmten Einsatz.',more:'Passende Bauleistung',legal:'Information zur Planung. Der tatsächliche Umfang, fachliche Anforderungen und eventuelle Zusatzarbeiten werden individuell vereinbart.',action:'Projekt unverbindlich anfragen'},
+ en:{label:'PRACTICAL GUIDE / CONSTRUCTION CLEANING',index:'In this guide',notes:'For your project discussion',notesIntro:'Use these points to describe the scope clearly in your request.',related:'Explore more project questions',back:'All construction guides',next:'Turn your plan into an agreed scope.',more:'Related construction service',legal:'Information for planning only. Actual work, specialist requirements and additional tasks are agreed for each project.',action:'Discuss your project'},
+ uk:{label:'ПРАКТИЧНИЙ ПОРАДНИК / БУДІВЕЛЬНИЙ КЛІНІНГ',index:'У цьому пораднику',notes:'Для обговорення вашого проєкту',notesIntro:'Скористайтеся цими пунктами, щоб точно описати обсяг робіт у зверненні.',related:'Інші питання вашого проєкту',back:'Усі порадники',next:'Від підготовки до погодженого обсягу.',more:'Пов’язана послуга',legal:'Матеріал для планування. Фактичні роботи, вимоги до фахівців і додаткові завдання узгоджуються для кожного об’єкта.',action:'Обговорити проєкт'},
+ ru:{label:'ПРАКТИЧЕСКОЕ РУКОВОДСТВО / СТРОИТЕЛЬНЫЙ КЛИНИНГ',index:'В этом руководстве',notes:'Для обсуждения вашего проекта',notesIntro:'Используйте эти пункты, чтобы точно описать объём работ при обращении.',related:'Другие вопросы вашего проекта',back:'Все руководства',next:'От подготовки к согласованному объёму.',more:'Связанная услуга',legal:'Информация для планирования. Фактические работы, требования к специалистам и дополнительные задачи согласуются для каждого объекта.',action:'Обсудить проект'}
+}[locale];
+const localeTitle=t(guide.title);
+---
+<Layout lang={locale} title={localeTitle+' | KnaBa'} description={t(guide.description)}
+  breadcrumbs={[{name:'KnaBa',url:prefix+'/'},{name:navCopy.back,url:prefix+'/ratgeber/'},{name:localeTitle,url:prefix+'/ratgeber/'+guide.slug+'/'}]}
+  schema={{
+    '@type':'Article','@id':url+'#article',url,mainEntityOfPage:url,
+    headline:localeTitle,description:t(guide.description),inLanguage:locale,
+    publisher:{'@id':'https://knaba.de/#business'}
+  }}>
+  <article class="construction-guide" aria-labelledby="guide-title">
+    <header class="container guide-head">
+      <a class="guide-back" href={prefix+'/ratgeber/'}>← {navCopy.back}</a>
+      <p class="eyebrow">{navCopy.label} · BERLIN & BRANDENBURG</p>
+      <h1 id="guide-title">{localeTitle}</h1>
+      <p class="guide-intro">{t(guide.intro)}</p>
+      <div class="guide-head-actions">
+        <a class="button button-dark" href={prefix+'/kontakt/?anliegen=baureinigung'}>{navCopy.action} ↗</a>
+        {service && <a class="guide-textlink" href={prefix+'/bauleistungen/'+service.slug+'/'}>{navCopy.more} →</a>}
+      </div>
+    </header>
+    <div class="container guide-body">
+      <aside class="guide-sidebar">
+        <nav class="guide-toc" aria-label={navCopy.index}>
+          <h2>{navCopy.index}</h2>
+          <ol>{guide.sections.map((section,index)=><li><a href={'#guide-step-'+(index+1)}>{t(section.heading)}</a></li>)}</ol>
+        </nav>
+      </aside>
+      <div class="guide-chapters">
+        {guide.sections.map((section,index)=><section id={'guide-step-'+(index+1)} class="guide-chapter">
+          <span class="guide-chapter-number" aria-hidden="true">{String(index+1).padStart(2,'0')} / 04</span>
+          <h2>{t(section.heading)}</h2>
+          <p>{t(section.body)}</p>
+        </section>)}
+      </div>
+    </div>
+    <section class="container guide-checks" aria-labelledby="guide-check-title">
+      <div class="guide-check-intro"><span class="guide-kicker">KNABA / CHECKLISTE</span><h2 id="guide-check-title">{navCopy.notes}</h2><p>{navCopy.notesIntro}</p></div>
+      <ul>{guide.checklist.map((item,index)=><li><span aria-hidden="true">{String(index+1).padStart(2,'0')}</span>{t(item)}</li>)}</ul>
+    </section>
+    <section class="container guide-related" aria-labelledby="guide-related-title">
+      <h2 id="guide-related-title">{navCopy.related}</h2>
+      <div class="guide-related-grid">{related.map((item,index)=><a href={prefix+'/ratgeber/'+item.slug+'/'}>
+        <span aria-hidden="true">0{index+1}</span>
+        <strong>{t(item.title)}</strong>
+        <span aria-hidden="true">↗</span>
+      </a>)}</div>
+    </section>
+    <section class="container guide-convert">
+      <div><h2>{navCopy.next}</h2><p>{navCopy.legal}</p></div>
+      <a href={prefix+'/kontakt/?anliegen=baureinigung'} class="button button-dark">{navCopy.action} ↗</a>
+    </section>
+  </article>
+</Layout>
+<style>
+.construction-guide{min-width:0}
+.guide-head{margin-block:clamp(24px,4vw,60px) clamp(36px,5vw,70px);padding:clamp(25px,5vw,68px);border:1px solid #d9e7dc;border-radius:28px;background:linear-gradient(115deg,#cceeed,#f5f1dc 65%,#f3dfeb);position:relative;overflow:hidden}
+.guide-head:before{content:'';position:absolute;width:240px;height:240px;top:-130px;right:-95px;border:25px solid #ffffff66;border-radius:50%;pointer-events:none}
+.guide-back,.guide-textlink{display:inline-flex;align-items:center;min-height:44px;color:#16575d;font-size:14px;font-weight:750;text-underline-offset:5px}
+.guide-head .eyebrow{margin:20px 0 15px}
+.guide-head h1{font-size:clamp(35px,5.5vw,70px);line-height:1.09;letter-spacing:-.055em;color:#102f38;max-width:16ch;overflow-wrap:anywhere;text-wrap:balance}
+.guide-intro{font-size:clamp(16px,1.8vw,21px);line-height:1.68;color:#355953;max-width:74ch;margin:20px 0 0}
+.guide-head-actions{display:flex;gap:16px 24px;align-items:center;flex-wrap:wrap;margin-top:28px}
+.guide-body{display:grid;grid-template-columns:minmax(190px,.36fr) minmax(0,1fr);gap:clamp(22px,4vw,65px);align-items:start;padding-bottom:70px}
+.guide-sidebar{position:sticky;top:24px}
+.guide-toc{padding:25px;border-radius:20px;background:#f0f6f0;border:1px solid #d8e8dc}
+.guide-toc h2{font-size:19px;line-height:1.25;color:#143b41;margin:0 0 18px}
+.guide-toc ol{padding-left:18px;margin:0;display:grid;gap:16px}
+.guide-toc a{display:inline-flex;min-height:44px;align-items:center;font-size:14px;line-height:1.4;color:#235e5f;overflow-wrap:anywhere}
+.guide-chapters{display:grid;gap:18px;min-width:0}
+.guide-chapter{padding:clamp(25px,3.6vw,45px);border-radius:23px;background:#eef7f2;scroll-margin-top:26px}
+.guide-chapter:nth-child(2){background:#f6ecdd}.guide-chapter:nth-child(3){background:#efebfa}.guide-chapter:nth-child(4){background:#f7e9e3}
+.guide-chapter-number,.guide-kicker{font-weight:850;letter-spacing:.13em;font-size:12px;color:#17585d}
+.guide-chapter h2{font-size:clamp(23px,2.5vw,35px);line-height:1.2;letter-spacing:-.035em;margin:18px 0;overflow-wrap:anywhere}
+.guide-chapter p{font-size:16px;line-height:1.78;color:#3b5651;margin:0;overflow-wrap:anywhere}
+.guide-checks{padding:clamp(25px,4vw,52px);background:#e6eff7;border:1px solid #d0dfeb;border-radius:24px;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1fr);gap:24px}
+.guide-checks h2,.guide-related h2,.guide-convert h2{font-size:clamp(25px,3.2vw,42px);line-height:1.16;letter-spacing:-.04em;margin:14px 0}
+.guide-check-intro p,.guide-convert p{font-size:15px;line-height:1.7;color:#3e5b59}
+.guide-checks ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.guide-checks li{display:flex;gap:16px;align-items:flex-start;padding:17px 20px;background:#fff;border-radius:14px;font-size:15px;font-weight:650;color:#163e45;line-height:1.5;overflow-wrap:anywhere}
+.guide-checks li span{color:#0a747a;font-weight:900;font-size:14px}
+.guide-related{padding-block:clamp(40px,6vw,80px)}
+.guide-related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:25px}
+.guide-related-grid a{display:flex;flex-direction:column;gap:13px;min-height:190px;background:#e8f5e9;border:1px solid #d0e6d4;border-radius:17px;padding:25px;text-decoration:none;color:#143f43}
+.guide-related-grid a:nth-child(2){background:#faf0da;border-color:#e9dfc5}.guide-related-grid a:nth-child(3){background:#eee7f8;border-color:#e1d8ea}
+.guide-related-grid strong{font-size:17px;line-height:1.33;overflow-wrap:anywhere}
+.guide-related-grid a>span:last-child{margin-top:auto;align-self:flex-end}
+.guide-convert{display:flex;justify-content:space-between;align-items:center;gap:25px;padding:clamp(27px,4vw,48px);border-radius:23px;background:#d8f0df;margin-bottom:clamp(40px,6vw,75px)}
+.guide-convert p{max-width:62ch}
+.guide-back:focus-visible,.guide-toc a:focus-visible,.guide-related a:focus-visible,.guide-textlink:focus-visible{outline:3px solid #076f78;outline-offset:4px}
+@media(max-width:800px){.guide-body{grid-template-columns:1fr}.guide-sidebar{position:static}.guide-toc ol{grid-template-columns:repeat(2,minmax(0,1fr))}.guide-related-grid{grid-template-columns:1fr 1fr}.guide-checks{grid-template-columns:1fr}}
+@media(max-width:580px){.guide-head{border-radius:19px}.guide-toc ol{grid-template-columns:1fr}.guide-related-grid{grid-template-columns:1fr}.guide-related-grid a{min-height:140px}.guide-convert{flex-direction:column;align-items:flex-start}.guide-head-actions{align-items:stretch}.guide-head-actions .button{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.guide-chapter{scroll-behavior:auto}}
+</style>
