@@ -326,6 +326,27 @@ export class WorkerRunner {
       await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'MANUAL_REVIEW',reason:input.type==='callback'?'TELEGRAM_CALLBACK_UNBOUND':'TELEGRAM_MEDIA_REQUIRES_APPROVED_QUARANTINE',completed_at:this.now().toISOString()}));
       return;
     }
+    // An exact private STOP is an unsubscribe, never a privileged ERP command.
+    // Apply the preference and mark the inbound event in one durable transaction.
+    const telegramCommand=input.text.trim().toLowerCase();
+    if(telegramCommand==='/stop'||telegramCommand==='stop'){
+      await this.db.transaction(job.company_id,serviceId,async tx=>{
+        const record=await tx.get('conversation_input',route.id);
+        if(record.data.status!=='PENDING')return;
+        const now=this.now().toISOString();
+        const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===record.data.user_id);
+        if(!settings.length){
+          await tx.add('notification_setting',{user_id:record.data.user_id,language:record.data.language??'DE',
+            telegram_consent:false,telegram_opted_out:true,telegram_opted_out_at:now});
+        }else{
+          for(const setting of settings){
+            await tx.save(setting,{...setting.data,telegram_consent:false,telegram_opted_out:true,telegram_opted_out_at:now});
+          }
+        }
+        await tx.save(record,{...record.data,status:'PROCESSED',router_state:'TELEGRAM_OPT_OUT',completed_at:now});
+      });
+      return;
+    }
     const actor=await this.engine.getActor(route.data.user_id,job.company_id);
     const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:'DE'},'telegram-inbound-message',actor);
     await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'PROCESSED',message_id:message.id,router_state:'HUMAN_QUEUED',completed_at:this.now().toISOString()}));
