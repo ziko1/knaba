@@ -215,3 +215,26 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Deployed only the user-authorized VSP development host, verified source SHA 24dd7fc826ff50c3fab9273ce9e654fbee2095b6; prior release 77c2a96a... retained. New JS/HTML renderer/hydration from the tested exact artifact; no schema/migrations, billing/DNS/official-domain changes.
 - Real HTTPS smoke: 98 public index paths 96×200, 2×308; 404 page separately, unknown path ultimately 404. Studio/CRM/portal/inbox/media/languages/healthz=200; anonymous owner APIs=401. TLS trust verified and KnaBa container healthy; SQLite integrity=ok and 5 migrations unchanged. Backup checksum and rollback in docs/STUDIO_PRO_DEV_DEPLOY_2026-10-25_UK.md.
 - Not full acceptance: live owner not enrolled /readyz=503, disk warning ~96% used, independent reviewer / genuine device UAT and external AI provider budget still missing. Keep draft PR, avoid main merge.
+
+
+## KNABA FAQ Studio continuation — 25.10.2026
+- Verified base live development source 24dd7fc826ff50c3fab9273ce9e654fbee2095b6, current PR51 c3563b07c9ea2e9134fdce3ad7a0f7d4b5f618b0. PR51 preserves current i18n99/Turnstile/Studio Pro; four-language 42-question FAQ not yet deployed when work started.
+- New FAQ routes were missing from src/lib/studio-pages.ts (68 entries). RED focused Vitest repro; added four public-only FAQ routes, 72 entries, kept owner-only permissions.
+- Isolated Node24 offline check/test/build/static: 144 Vitest, 8 inquiry, 16 VPS tests PASS, 103 HTML pages, 16 FAQ browser viewport/language scenarios + one client-navigation scenario PASS. Built digest 77e730e639c7ceb33ef501832e00ffeead75dd0e5daa6bb75cfcf8d7282647ed.
+- Release receipt and remaining risks: docs/KNABA_FAQ_STUDIO_QA_2026-10-25_UK.md. No official-domain cutover, real owner enrolment or AI provider activation.
+
+
+## Footer localized public-route labels — 25.10.2026
+- Exact starting code/development VPS release de94da89794f15fdb05ac2f068df2e4a52a64f4d, 103 public HTML pages.
+- Found stale EN/UK footer labels marked (DE) for four destinations that are already fully localized: branchen, ratgeber, berlin, karriere. Actual DE-only legal notices correctly retain (DE).
+- RED: real live Chromium with UK/EN footer navigation failed (EN branchen was Your sector (DE) despite EN destination).
+- GREEN: changed only eight labels in shared src/layouts/Layout.astro; kept DE/RU copy, legal links, route URLs and private gates intact.
+- Isolated networkless Node24 QA: check 0 errors, Vitest 144/144, inquiry 8/8, VPS Node tests 16/16, build/verify 103 HTML PASS. Artifact digest SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
+- Real Chromium focused footer test on isolated candidate: EN and UK labels map to valid localized pages, German-only legal destinations remain labeled (DE). Physical device remains NOT_RUN.
+
+
+## Actual live development-domain receipt — 25.10.2026, localized footer
+- Verified published code release: 7f886606d5711ac93a88d3d93b54a0a9b5638525 at https://kneba.vsp.rest/. Previous exact code de94da89794f15fdb05ac2f068df2e4a52a64f4d retained for code-only rollback.
+- Pre-switch durable online SQLite backup knaba-2026-10-25T05-20-51-748Z.sqlite, SHA256 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0, five migration files unchanged. SQLite integrity_check ok before/after; web container only recreated.
+- Post-deploy TLS verify=0, Docker healthy. Public FAQ/Studio/assistant-config HTTP200, no external provider/billing activation. Browser EN/UK link-label-to-destination PASS; 16/16 FAQ locale-width flows + 1 Astro SPA navigation, 32/32 post-close Assistant/footer interactions PASS; complete responsive 102/102 generated HTML route Chromium check PASS.
+- Runbook remains dev-only, /readyz=503 due missing verified real owner. No main merge, no official knaba.de cutover, no real owner Studio UAT, no physical device/human Turnstile completion; VPS disk ~95% full, 9.9GiB free, no unreviewed deletion.

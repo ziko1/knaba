@@ -185,3 +185,27 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+
+
+## KNABA FAQ + Studio compatibility — 25.10.2026
+- [x] Source-based integration on current Studio Pro/Turnstile, not older PR #44
+- [x] 42 distinct FAQ items × 4 real languages, native accordion, search, category and empty state
+- [x] Four public FAQ URLs, localized home teaser, footer, sitemap and alternates
+- [x] Existing owner Studio page selector includes four FAQ URLs, still scoped to validated public pages
+- [x] RED/GREEN route-inventory test and offline Node24 QA (144 Vitest + 8 inquiry + 16 VPS)
+- [x] Real browser static HTML: four languages × four widths, FAQ search/filter/client nav
+- [ ] Exact-source guarded live development-domain rollout, backup/rollback and public route revalidation
+- [ ] Owner authenticated Studio actual editing UAT, human Turnstile, GDPR legal review and field CWV remain blocked independently
+
+
+## EN/UK footer reflow and language-accuracy gate — 25.10.2026
+- [x] Red: verify inaccurate DE labels on already translated EN/UK destinations
+- [x] Green: repair eight labels through shared Layout; preserve actual German-only legal labeling
+- [x] Node24 full tests, 103-page static verifier, route-language browser checks on 390px
+- [ ] Source-pinned dev-domain deployment with backup and actual live regression, no production domain/main merge
+
+
+## Localized footer development release receipt — 25.10.2026
+- [x] Published exact 7f886606d5711ac93a88d3d93b54a0a9b5638525 code on kneba.vsp.rest; previous code preserved, fresh SQLite backup and verified integrity
+- [x] Post-deploy HTTPS/certificate, Docker health, source SHA, EN/UK footer link semantics, 16 FAQ, 32 Assistant-close, 102 all-route checks
+- [ ] Real owner authorizes Studio editing, legal/processors signoff, physical device testing, browser Turnstile human acceptance, verified offsite backup and disk-pressure recovery

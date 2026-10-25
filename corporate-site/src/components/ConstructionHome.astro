@@ -4,6 +4,7 @@ import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '.
 import type {ConstructionLocale} from '../data/construction-offers';
 import {company} from '../data/company';
 import ServiceCarousel from './ServiceCarousel.astro';
+import ConstructionFaq from './ConstructionFaq.astro';
 import {projectCard} from '../data/construction-project-card';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];
@@ -54,7 +55,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 <div class="bau-planner-cta"><p>{t.note}</p><a class="bau-inline" href={planner}>{locale==='de'?'Anfrage vorbereiten':locale==='en'?'Prepare your enquiry':locale==='uk'?'Підготувати запит':'Подготовить запрос'} →</a></div>
 </section>
 <section class="container bau-end-cta"><div><p class="bau-kicker">{t.region}</p><h2>{t.ready}</h2><a href={company.phoneHref}>{company.phone}</a></div><a class="button button-dark" href={contact}>{t.cta} ↗</a></section>
-<section class="container bau-faq bau-section"><div class="bau-heading"><h2>{t.questions}</h2></div><div>{t.faqs.map(([q,a])=><details><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div></section>
+<ConstructionFaq locale={locale} />
 </Layout>
 <style>
 .bau-hero{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);align-items:center;gap:clamp(26px,4.5vw,70px);padding-top:clamp(45px,7vw,115px);padding-bottom:clamp(50px,7vw,110px)}

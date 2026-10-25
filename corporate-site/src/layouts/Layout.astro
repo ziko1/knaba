@@ -24,7 +24,7 @@ const translated = {
   uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
   ru: {skip:'Перейти к содержимому',preview:'Временный сайт',official:'Официальный сайт',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация',retire:'Временный сайт kneba.vsp.rest. Этот адрес может быть удалён после переноса на официальный сайт.'},
 }[lang];
-const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa','Careers (DE)'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa','Робота (DE)'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
+const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
 const localPath = (url: string) => {
   if(lang === 'de') return url;
@@ -161,7 +161,7 @@ const structuredData = {
         <div>
           <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
             href={localPath("/branchen/")}>{footerLabels[2]}</a
-          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
+          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
             >{footerLabels[6]}</a>
         </div>
         <div>
