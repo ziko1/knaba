@@ -72,3 +72,18 @@ New code path is a **source-only implementation candidate**, not a live bot. Loc
 **External documentation:** [Telegram Bot API](https://core.telegram.org/bots/api), `setWebhook(secret_token)` and `sendMessage`.
 
 **Rollback:** Do not configure the webhook secret / setWebhook while unapproved. On an accepted future release, disable delivery before provider switch; preserve inbound/outbox entries and revert source routing without destructive DB migration.
+
+## 2026-10-25 — Phase KN-U20 delivery increment (source-only, review pending)
+
+**Code SHA:** `8d7f5530067ddead1164b26ff4cc7a45f65e6e04`. Evidence file: `docs/evidence/knaba-assistant-360/telegram-qa-2026-10-25.json`.
+
+- [x] Fixed the real PostgreSQL-blocking sender validation bug: incorrectly doubled digit escape in Telegram worker source. Genuine PostgreSQL test was RED (`telegram.inbound` FAILED `ACCESS_DENIED`) before this patch and GREEN after `288a485ee67f113d4864e2fe089aae5326beb9eb`.
+- [x] Added `erp/apps/worker/telegram-delivery.ts` with one deterministic outbound ticket per operator-authored, current human-claimed private Telegram reply. The canonical worker revalidates actor/guest/company/channel scope, message version, consent/version, active Telegram identity and explicit opt-out before any external send. A revoked source or unconfigured adapter records `BLOCKED`; uncertain outcome records `UNKNOWN`, not a fabricated `DELIVERED` or automatic duplicate send.
+- [x] Added genuine PostgreSQL tests `erp/tests/telegram.integration.test.ts`: 5/5 PASS at the code SHA on PostgreSQL 17.11 (synthetic company, no real Telegram/AI requests), including replay, cross-company, human takeover, consent/revocation and timeout fencing.
+- [x] Node24 TypeScript and 244 related WhatsApp/communication/handoff tests PASS (2 additional integration cases skipped). Standalone Telegram boundary 14/14 PASS on prior unchanged module source.
+- [ ] Full project `npm run build`: **NOT_VERIFIED**. Vite transform in resource-limited ephemeral Docker did not produce a verified artifact before timeout. Do not infer code acceptance from TypeScript.
+- [ ] Full `vitest run`: **FAIL_ENVIRONMENT**, 1858 passed/6 failed/434 skipped, all six failures require Python `openpyxl` absent from test image (`tests/resources.test.ts`). Do not label full suite PASS; rerun with permitted installed Python dependency and actual PG.
+- [ ] Independent code/security review, site/VPS ↔ ERP integration, authorized KNABA owner onboarding, privacy/call recording/data retention and real provider/device UAT remain **NOT_RUN/BLOCKED_EXTERNAL**. No production deploy or paid activation.
+
+**Safety:** Existing production site and D1/PostgreSQL data were not touched. Only an isolated checkout and temporary private DB were used. VSP disk pressure 96% requires resource-safe QA planning. Keep PR Draft and release gate fail-closed.
+
