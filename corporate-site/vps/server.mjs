@@ -137,6 +137,14 @@ export async function createKnabaVpsServer({
     const effectiveOrigin=localTest&&rawHost.startsWith('127.0.0.1')?origin:(base.protocol+'//'+rawHost);
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
+    // Public rebrand: stop serving the discontinued office-cleaning marketing URL.
+    // Historical CRM service IDs are intentionally left intact.
+    const legacyOffice=url.pathname.match(/^\/(?:(ru|en|uk)\/)?leistungen\/bueroreinigung\/?$/);
+    if(publicHost==='kneba.vsp.rest' && legacyOffice){
+      if(req.method!=='GET' && req.method!=='HEAD')return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
+      const destination='/'+(legacyOffice[1]?legacyOffice[1]+'/':'')+'leistungen/';
+      return send(res,308,'Service catalogue moved',{Location:destination});
+    }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
       if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});

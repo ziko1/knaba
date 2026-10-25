@@ -138,3 +138,10 @@ checks required before marking preview ready. Site Studio's old positional CSS
 selectors may not map after the design change; published Studio page count was
 read-only verified 0 at intake on 2026-10-25. Official knaba.de and the One.com
 DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
+
+
+## 2026-10-25 — Owner-directed Bau cleaning/mobile brand finish candidate
+- Source baseline `d571832fde7a10b19936ca9321b0de4c661ebf7d`. Isolated branch `fix/knaba-footer-brand-final-20261025`.
+- Existing 4-locale Bau/BauService catalog reused. Visual mark updated to building + glass squeegee; public JSON catalogue reduced to Baureinigung (historic CRM enums preserved); old Büroreinigung public routes redirect to catalog; short-page footer flex layout fixed with Playwright red/green at 390×1550.
+- QA: Node24 108 Vitest + 8 inquiry + 14 VPS PASS; Astro/Vue/Svelte 0 errors; 99 HTML+Worker PASS, source-pinned artifact `b71e716a8f73016f9be63fe7c523898c7737e172f38d8d317e2b7b4bd749527c`. Full report: `docs/KNABA_BAU_BRANDING_MOBILE_FINISH_2026-10-25.md`.
+- Public deployment and real owner UAT separate. No database migration, paid activation, or changes to official `knaba.de`.

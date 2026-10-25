@@ -69,7 +69,7 @@ const validText = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0 && value.length <= 1000;
 
 export function parseCatalogue(value: unknown): CatalogueData {
-  if (!isRecord(value) || value.version !== 1 || !Array.isArray(value.services) || value.services.length !== services.length)
+  if (!isRecord(value) || value.version !== 1 || !Array.isArray(value.services) || !([1,services.length].includes(value.services.length)))
     throw new Error("Der Leistungskatalog ist derzeit nicht lesbar.");
   const seen = new Set<string>();
   const items = value.services.map((item: unknown): CatalogueItem => {
