@@ -3,6 +3,7 @@ import { resolve, join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import {parseStaticHeaderRules} from "./static-header-rules.mjs";
 
 const root = resolve("dist/client");
 const releaseMode = process.env.KNABA_RELEASE_MODE;
@@ -137,11 +138,16 @@ if(indexingApproved) {
     assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
 } else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');
-assert.match(headers,/X-Content-Type-Options: nosniff/);
-if(!indexingApproved) assert.match(headers,/X-Robots-Tag: noindex, follow/);
-else assert.doesNotMatch(headers.split('/konto/*')[0],/X-Robots-Tag: noindex/,'Public VSP release must not send blanket noindex');
-for(const path of ['/konto/*','/studio/*','/crm/*','/postfach/*','/ru/konto/*','/ru/postfach/*'])
-  assert.ok(headers.includes(path+'\n  X-Robots-Tag: noindex, nofollow'),'Private robots header '+path);
+const headerRules = parseStaticHeaderRules(headers);
+const publicHeaders = headerRules.get('/*').join('\n');
+assert.match(publicHeaders,/^X-Content-Type-Options: nosniff$/m);
+if(!indexingApproved) assert.match(publicHeaders,/^X-Robots-Tag: noindex, follow$/m);
+else assert.doesNotMatch(publicHeaders,/^X-Robots-Tag:\s*noindex\b/im,'Public VSP release must not send blanket noindex');
+for(const path of ['/admin/*','/konto/*','/studio/*','/crm/*','/postfach/*','/ru/konto/*','/ru/postfach/*','/login/*','/logout/*']) {
+  const scoped = headerRules.get(path) || [];
+  assert.ok(scoped.includes('X-Robots-Tag: noindex, nofollow'),'Private robots header '+path);
+  assert.ok(scoped.includes('Cache-Control: private, no-store'),'Private no-store '+path);
+}
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,
