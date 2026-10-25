@@ -21,3 +21,8 @@
 ## Telegram Assistant 360 incremental budget 2026-10-25
 - New Telegram Bot API / outbound AI / WhatsApp Calling activation: **0 EUR authorized and 0 provider requests made in this code development**. Fresh real provider balance, tariffs and quotas UNKNOWN; no assumptions of free production use.
 - Project source-only local tests reused installed Node22; required Node24 repo build/SQL acceptance pending environment and quota. Do not activate `TELEGRAM_WEBHOOK_SECRET` or real outbound without company permission, data/privacy agreement, allowed recipients and budget reservation. Shared VPS remains under disk-pressure caution.
+
+## 2026-10-25 — Telegram source-only validation budget
+
+- Outbound Bot API is deliberately absent from default `workerOptions`. No real Telegram/AI/WhatsApp calls, new subscriptions, provider tokens, or paid compute authorization initiated by this work. All provider balances/tariffs/quota **UNKNOWN**; new external spending authorization stays 0 EUR.
+- QA reused cached Docker Node 24, PostgreSQL 17 and synthetic temporary tmpfs database/network. VPS at last read 95% used (~11 GiB free), so no new persistent PG service, production migration, arbitrary prune, paid runner or destructive cleanup. Product development and blocked external release gates remain separate.
