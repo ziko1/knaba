@@ -53,6 +53,6 @@ export function safeStudioHref(value: string): boolean {
   if(value.startsWith('/') && !value.startsWith('//') && !value.includes('\\') && !/[\s<>]/.test(value)) return true;
   try {
     const url=new URL(value);
-    return url.protocol==='https:' && (url.hostname==='knaba.de'||url.hostname==='www.knaba.de') && !url.username && !url.password;
+    return ['https://kneba.vsp.rest','https://knaba.de','https://www.knaba.de'].includes(url.origin) && !url.username && !url.password;
   } catch { return false; }
 }
