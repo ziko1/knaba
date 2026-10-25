@@ -1,5 +1,6 @@
 import { createSignal, For, Show, onMount, onCleanup } from 'solid-js';
 import { normalizeStudioPage, validateStudioEntries, type StudioEntry, type StudioKind } from '../lib/site-studio-contract';
+import {studioPages} from '../lib/studio-pages';
 import '../styles/site-studio.css';
 
 type Language='de'|'en'|'uk'|'ru';
@@ -7,13 +8,15 @@ type Revision={id:string;version:number;action:string;createdAt:string};
 type PageResponse={page:string;version:number;draft:StudioEntry[];published:StudioEntry[];publishedVersion:number;history:Revision[];updatedAt:string};
 type Selected={selector:string;tag:string;kind:StudioKind;value:string;href?:string;alt?:string;rich?:boolean};
 type ApiError={error?:{message:string;code:string}};
-const pages=[
-  {path:'/',title:'Startseite DE'}, {path:'/ru/',title:'Главная RU'},
-  {path:'/en/',title:'Home EN'}, {path:'/uk/',title:'Головна UK'},
-  {path:'/leistungen/',title:'Leistungen'}, {path:'/ru/leistungen/',title:'Услуги'},
-  {path:'/unternehmen/',title:'Unternehmen'}, {path:'/kontakt/',title:'Kontakt'},
-  {path:'/karriere/',title:'Karriere'}, {path:'/ratgeber/',title:'Ratgeber'}
-];
+const pages=studioPages;
+const paddingPresets=['0','8','16','24','32','48','64'] as const;
+const fontSizes=['12','14','16','18','20','24','28','32','40','48','56','64','72'] as const;
+const modes={
+  de:{visual:'Visuell',manual:'Manuell · JSON',section:'Abschnitt gestalten',apply:'Geprüfte Änderungen in Vorschau übernehmen',reset:'JSON zurücksetzen',manualHint:'Nur validiertes JSON mit selector, kind und value. Kein freies HTML, CSS oder JavaScript. Änderungen zuerst übernehmen, dann separat speichern/veröffentlichen.',unsent:'Nicht übernommene JSON-Änderungen zuerst prüfen.',background:'Hintergrund',padding:'Innenabstand',fontSize:'Schriftgröße',media:'Medienbibliothek',aiReady:'AI-Vorschläge bereit (Freigabe und Budget bestätigt)',aiLocked:'AI-Vorschläge gesperrt: Anbieter, aktuelle Quote und Ausgabenlimit prüfen'},
+  en:{visual:'Visual',manual:'Manual · JSON',section:'Style section',apply:'Validate and apply to preview',reset:'Reset JSON',manualHint:'Structured JSON with selector, kind and value only. Arbitrary HTML/CSS/JS is not accepted. Apply to preview, then save and publish separately.',unsent:'Apply or reset your manual changes before leaving.',background:'Background',padding:'Padding',fontSize:'Font size',media:'Media library',aiReady:'AI suggestions available (approval and budget checked)',aiLocked:'AI suggestions locked: verify provider, fresh quota and spending cap'},
+  uk:{visual:'Візуальний',manual:'Ручний · JSON',section:'Налаштувати секцію',apply:'Перевірити й застосувати у перегляді',reset:'Скинути JSON',manualHint:'Лише структурований JSON з selector, kind та value. Довільний HTML/CSS/JS заборонений. Спершу застосуйте, потім окремо збережіть і опублікуйте.',unsent:'Спочатку застосуйте або скиньте ручні зміни.',background:'Фон',padding:'Відступ',fontSize:'Розмір шрифту',media:'Бібліотека зображень',aiReady:'AI-підказки доступні після перевірки дозволу та бюджету',aiLocked:'AI-підказки заблоковані: перевірте провайдера, свіжу квоту й бюджет'},
+  ru:{visual:'Визуальный',manual:'Ручной · JSON',section:'Настроить секцию',apply:'Проверить и применить в предпросмотре',reset:'Сбросить JSON',manualHint:'Только структурированный JSON с selector, kind и value. Произвольный HTML/CSS/JS запрещен. Сначала примените, затем отдельно сохраните и опубликуйте.',unsent:'Сначала примените или сбросьте ручные изменения.',background:'Фон',padding:'Отступ',fontSize:'Размер шрифта',media:'Библиотека изображений',aiReady:'AI-подсказки доступны после проверки прав и бюджета',aiLocked:'AI-подсказки заблокированы: проверьте провайдера, квоту и бюджет'}
+} as const;
 const copy={
   de:{studio:'Site Studio',owner:'Inhaber-Konsole',loading:'Zugang wird geprüft…',denied:'Nur der verifizierte Inhaber hat Zugriff. Bitte melden Sie sich im KnaBa Portal an.',portal:'Zum Portal',page:'Seite',open:'Öffnen',preview:'Live-Vorschau',edit:'Element anklicken',properties:'Eigenschaften',select:'Klicken Sie auf einen Text oder ein Bild in der Vorschau.',text:'Inhalt',kind:'Feld',save:'Entwurf speichern',publish:'Veröffentlichen',confirm:'Zum Veröffentlichen PUBLISH eingeben',unsaved:'Nicht gespeicherte Änderungen',published:'Öffentliche Version',draft:'Entwurf',versions:'Versionen',restore:'Als neuen Entwurf wiederherstellen',undo:'Rückgängig',redo:'Wiederholen',reset:'Feld zurücksetzen',seo:'SEO der Seite',title:'Seitentitel',description:'Meta-Beschreibung',ai:'AI-Textvorschlag',instruction:'Was soll verbessert werden?',suggest:'Vorschlag erzeugen',use:'Vorschlag übernehmen',aiNote:'Eine externe AI wird nur mit bestätigter Freigabe, Guthaben und Budget verwendet. Niemals automatisch veröffentlichen. Keine Kundendaten in Prompts.',empty:'Noch keine veröffentlichten Änderungen.',okDraft:'Entwurf gespeichert.',okPublish:'Version veröffentlicht.',okRestore:'Version als Entwurf wiederhergestellt.',mobile:'Mobil',desktop:'Desktop',color:'Textfarbe',status:'Status',nav:'Editor-Navigation',hint:'Nur die öffentliche Seite wird bearbeitet. Formulare, Preise, Rollen und Kundendaten bleiben geschützt.'},
   ru:{studio:'Редактор сайта',owner:'Панель владельца',loading:'Проверка доступа…',denied:'Доступ только владельцу. Войдите в портал KnaBa.',portal:'В портал',page:'Страница',open:'Открыть',preview:'Просмотр',edit:'Нажмите элемент',properties:'Свойства',select:'Выберите текст или изображение на странице.',text:'Содержимое',kind:'Поле',save:'Сохранить черновик',publish:'Опубликовать',confirm:'Для публикации введите PUBLISH',unsaved:'Изменения не сохранены',published:'Публичная версия',draft:'Черновик',versions:'История',restore:'Восстановить в черновик',undo:'Отменить',redo:'Повторить',reset:'Сбросить поле',seo:'SEO страницы',title:'Заголовок',description:'Мета-описание',ai:'AI-предложение',instruction:'Как изменить текст?',suggest:'Создать вариант',use:'Использовать',aiNote:'AI доступен только при подтвержденных ключе, квоте и бюджете. Публикация всегда вручную. Без данных клиентов.',empty:'Нет опубликованных правок.',okDraft:'Черновик сохранён.',okPublish:'Версия опубликована.',okRestore:'Версия восстановлена в черновик.',mobile:'Телефон',desktop:'ПК',color:'Цвет текста',status:'Статус',nav:'Навигация',hint:'Редактируется только публичный контент. Формы, цены, роли и персональные данные защищены.'},
@@ -33,6 +36,7 @@ async function requestJson<T>(path:string,body?:Record<string,unknown>):Promise<
 export default function SiteStudio(){
   const [language,setLanguage]=createSignal<Language>('de');
   const t=()=>copy[language()];
+  const mt=()=>modes[language()];
   const [authorized,setAuthorized]=createSignal(false);
   const [checking,setChecking]=createSignal(true);
   const [page,setPage]=createSignal('/');
@@ -51,6 +55,11 @@ export default function SiteStudio(){
   const [publishCheck,setPublishCheck]=createSignal('');
   const [instruction,setInstruction]=createSignal('');
   const [suggestion,setSuggestion]=createSignal('');
+  const [aiReady,setAiReady]=createSignal(false);
+  const [media,setMedia]=createSignal<string[]>([]);
+  const [editorMode,setEditorMode]=createSignal<'visual'|'manual'>('visual');
+  const [manualSource,setManualSource]=createSignal('[]');
+  const [manualPending,setManualPending]=createSignal(false);
   const [undo,setUndo]=createSignal<StudioEntry[][]>([]);
   const [redo,setRedo]=createSignal<StudioEntry[][]>([]);
   let frame:HTMLIFrameElement|undefined;
@@ -62,8 +71,34 @@ export default function SiteStudio(){
   function applyLocal(next:StudioEntry[],remember=true){
     try {const validated=validateStudioEntries(next);
       if(remember){setUndo(prev=>[...prev.slice(-24),draft()]);setRedo([]);}
-      setDraft(validated);transmit(validated);setError('');setSuggestion('');
+      setDraft(validated);setManualSource(JSON.stringify(validated,null,2));setManualPending(false);transmit(validated);setError('');setSuggestion('');
     } catch(problem){setError(problem instanceof Error?problem.message:String(problem));}
+  }
+  function switchMode(next:'visual'|'manual'){
+    if(next===editorMode())return;
+    if(manualPending()){setError(mt().unsent);return;}
+    setManualSource(JSON.stringify(draft(),null,2));setEditorMode(next);setError('');
+  }
+  function applyManual(){
+    if(busy())return;
+    try{
+      if(manualSource().length>32000)throw new Error('JSON ist zu lang (max 32 KB).');
+      const parsed:unknown=JSON.parse(manualSource());
+      const valid=validateStudioEntries(parsed);
+      applyLocal(valid);
+      setNotice('✓ '+mt().apply);
+    }catch(problem){setError(problem instanceof Error?problem.message:String(problem));}
+  }
+  const parentSectionSelector=()=>{
+    const fragments=selected()?.selector.split(' > ')||[];
+    const index=fragments.findIndex(part=>part.startsWith('section:nth-of-type('));
+    return index<0?null:fragments.slice(0,index+1).join(' > ');
+  };
+  function selectSection(){
+    const selector=parentSectionSelector();
+    if(!selector)return;
+    setSelected({selector,tag:'section',kind:'background',value:'#ffffff'});
+    setKind('background');setSuggestion('');
   }
   function updateField(selector:string,field:StudioKind,value:string){
     const next=draft().filter(e=>!(e.selector===selector&&e.kind===field));
@@ -82,6 +117,8 @@ export default function SiteStudio(){
     setUndo(prev=>[...prev,draft()]);const next=stack[stack.length-1];setRedo(stack.slice(0,-1));applyLocal(next,false);
   }
   async function load(path:string){
+    if(manualPending()){setError(mt().unsent);return;}
+    if(changed() && path!==page()){setError(t().unsaved);return;}
     let normalized:string;
     try{normalized=normalizeStudioPage(path);}catch(problem){setError(String(problem));return;}
     setBusy(true);setError('');setNotice('');
@@ -89,12 +126,13 @@ export default function SiteStudio(){
       const result=await requestJson<PageResponse>('/api/studio/page?page='+encodeURIComponent(normalized));
       setPage(normalized);setPathInput(normalized);setVersion(result.version);setPublishedVersion(result.publishedVersion);
       setDraft(result.draft);setSaved(result.draft);setHistory(result.history);setSelected(null);
+      setManualSource(JSON.stringify(result.draft,null,2));setManualPending(false);transmit(result.draft);
       setUndo([]);setRedo([]);setPublishCheck('');setSuggestion('');
     }catch(problem){setError(problem instanceof Error?problem.message:String(problem));}
     finally{setBusy(false);}
   }
   async function save(){
-    if(busy()||!changed())return;
+    if(busy()||!changed()||manualPending())return;
     setBusy(true);setError('');setNotice('');
     try{
       const valid=validateStudioEntries(draft());
@@ -106,7 +144,7 @@ export default function SiteStudio(){
     finally{setBusy(false);}
   }
   async function publish(){
-    if(busy()||changed()||publishCheck()!=='PUBLISH'||version()===0)return;
+    if(busy()||changed()||manualPending()||publishCheck()!=='PUBLISH'||version()===0)return;
     setBusy(true);setError('');setNotice('');
     try{
       await requestJson('/api/studio/publish',{page:page(),version:version(),confirm:'PUBLISH'});
@@ -126,7 +164,7 @@ export default function SiteStudio(){
     finally{setBusy(false);}
   }
   async function askAi(){
-    const entry=selected();if(!entry||kind()!=='text'||busy())return;
+    const entry=selected();if(!entry||kind()!=='text'||busy()||!aiReady())return;
     setBusy(true);setError('');setSuggestion('');
     try{
       const result=await requestJson<{suggestion:string}>('/api/studio/assist',{
@@ -154,13 +192,36 @@ export default function SiteStudio(){
     if(preferred in copy)setLanguage(preferred);
     window.addEventListener('message',onFrameMessage);
     void requestJson<{role:string}>('/api/portal/session').then(async result=>{
-      if(result.role==='owner'){setAuthorized(true);await load('/');}
+      if(result.role==='owner'){
+        setAuthorized(true);
+        const status=await requestJson<{ready:boolean}>('/api/studio/ai-status').catch(()=>({ready:false}));
+        setAiReady(status.ready===true);
+        void requestJson<{assets:unknown}>('/studio-media.json').then(result=>{
+          const paths=Array.isArray(result.assets)?result.assets:[];
+          setMedia(paths.filter((value):value is string=>typeof value==='string'
+            && /^\/(?:images|illustrations)\/[a-z0-9/_-]+\.(?:svg|png|jpe?g|webp|avif)$/.test(value)).slice(0,200));
+        }).catch(()=>setMedia([]));
+        await load('/');
+      }
     }).catch(problem=>setError(problem instanceof Error?problem.message:String(problem))).finally(()=>setChecking(false));
   });
   onCleanup(()=>{ if(typeof window !== 'undefined') window.removeEventListener('message',onFrameMessage); });
-  const selectedFallback=()=>{const item=selected();if(!item)return '';return kind()==='href'?item.href||'':kind()==='alt'?item.alt||'':item.value;};
+  const selectedFallback=()=>{
+    const item=selected();if(!item)return '';
+    if(kind()==='href')return item.href||'';
+    if(kind()==='alt')return item.alt||'';
+    if(kind()==='background'||kind()==='color')return '#ffffff';
+    if(kind()==='padding'||kind()==='fontSize')return '24';
+    return item.value;
+  };
   const selectedValue=()=>{const item=selected();return item?valueFor(item.selector,kind(),selectedFallback()):'';};
-  const kindsFor=()=>selected()?.tag==='img'?['src','alt'] as StudioKind[]:selected()?.tag==='a'?(selected()?.rich?['href','color'] as StudioKind[]:['text','href','color'] as StudioKind[]):['text','color'] as StudioKind[];
+  const kindsFor=():StudioKind[]=>{
+    const tag=selected()?.tag;
+    if(tag==='img')return ['src','alt'];
+    if(['section','div','article','aside','figure','blockquote','knaba-service-carousel'].includes(tag||''))return ['background','padding','color'];
+    if(tag==='a')return selected()?.rich?['href','color','fontSize']:['text','href','color','fontSize'];
+    return ['text','color','fontSize'];
+  };
 
   return <div class="knaba-studio" lang={language()}>
     <header class="studio-top">
@@ -174,6 +235,10 @@ export default function SiteStudio(){
         <label>{t().page}<select value={pages.find(p=>p.path===pathInput())?.path||'custom'} onChange={event=>{if(event.currentTarget.value!=='custom')setPathInput(event.currentTarget.value);}}><For each={pages}>{option=><option value={option.path}>{option.title}</option>}</For><option value="custom">Eigener Pfad</option></select></label>
         <label class="studio-path-label"><span class="sr-only">Pfad</span><input aria-label="Pfad" value={pathInput()} onInput={event=>setPathInput(event.currentTarget.value)} spellcheck={false} /></label>
         <button type="button" class="studio-btn" disabled={busy()} onClick={()=>void load(pathInput())}>{t().open}</button>
+        <div class="studio-mode-toggle" role="group" aria-label="Studio editor mode">
+          <button type="button" classList={{active:editorMode()==='visual'}} aria-pressed={editorMode()==='visual'} onClick={()=>switchMode('visual')}>{mt().visual}</button>
+          <button type="button" classList={{active:editorMode()==='manual'}} aria-pressed={editorMode()==='manual'} onClick={()=>switchMode('manual')}>{mt().manual}</button>
+        </div>
         <span class="studio-spacer" />
         <div class="studio-viewport"><button type="button" classList={{active:!mobile()}} onClick={()=>setMobile(false)} title={t().desktop}>▣</button><button type="button" classList={{active:mobile()}} onClick={()=>setMobile(true)} title={t().mobile}>▯</button></div>
         <button type="button" class="studio-btn" disabled={!undo().length||busy()} onClick={undoEdit} aria-label={t().undo}>↶</button>
@@ -193,19 +258,66 @@ export default function SiteStudio(){
         <aside class="studio-inspector" aria-label={t().properties}>
           <div class="studio-section">
             <p class="studio-kicker">01 / {t().edit}</p><h2>{t().properties}</h2>
-            <Show when={selected()} fallback={<p class="studio-muted">{t().select}</p>}>
-              {item=><>
-                <p class="studio-code" title={item().selector}>{item().selector}</p>
-                <label>{t().kind}<select value={kind()} onChange={event=>{setKind(event.currentTarget.value as StudioKind);setSuggestion('');}}><For each={kindsFor()}>{option=><option value={option}>{option}</option>}</For></select></label>
-                <label>{t().text}
-                  <Show when={kind()==='text'||kind()==='alt'} fallback={<input value={selectedValue()} onInput={event=>updateField(item().selector,kind(),event.currentTarget.value)} spellcheck={false}/>}>
-                    <textarea rows={4} value={selectedValue()} maxLength={700} onInput={event=>updateField(item().selector,kind(),event.currentTarget.value)} />
-                  </Show>
+            <Show when={editorMode()==='visual'} fallback={
+              <div class="studio-manual">
+                <p class="studio-muted">{mt().manualHint}</p>
+                <label for="studio-json-editor">StudioEntry[] · JSON
+                  <textarea id="studio-json-editor" class="studio-json" rows={14} value={manualSource()}
+                    onInput={event=>{setManualSource(event.currentTarget.value);setManualPending(true);setNotice('');}}
+                    spellcheck={false} autocapitalize="off" autocomplete="off" />
                 </label>
-                <Show when={kind()==='src'}><p class="studio-muted">/images/ oder /illustrations/ · .svg, .png, .jpg, .webp, .avif</p></Show>
-                <Show when={kind()==='color'}><input aria-label={t().color} type="color" value={selectedValue().match(/^#[a-fA-F0-9]{6}$/)?selectedValue():'#203c36'} onInput={event=>updateField(item().selector,'color',event.currentTarget.value)}/></Show>
-                <button type="button" class="studio-minor" onClick={()=>removeField(item().selector,kind())}>{t().reset}</button>
-              </>}
+                <div class="studio-manual-actions">
+                  <button type="button" class="studio-btn" disabled={busy()||!manualPending()} onClick={applyManual}>{mt().apply}</button>
+                  <button type="button" class="studio-minor" onClick={()=>{setManualSource(JSON.stringify(draft(),null,2));setManualPending(false);setError('');}}>{mt().reset}</button>
+                </div>
+                <Show when={manualPending()}><p role="status" class="studio-message">{mt().unsent}</p></Show>
+              </div>
+            }>
+              <Show when={selected()} fallback={<p class="studio-muted">{t().select}</p>}>
+                {item=><>
+                  <p class="studio-code" title={item().selector}>{item().selector}</p>
+                  <Show when={parentSectionSelector() && item().tag!=='section'}>
+                    <button type="button" class="studio-btn studio-section-select" onClick={selectSection}>{mt().section} ↗</button>
+                  </Show>
+                  <label>{t().kind}<select value={kind()} onChange={event=>{setKind(event.currentTarget.value as StudioKind);setSuggestion('');}}>
+                    <For each={kindsFor()}>{option=><option value={option}>{option==='background'?mt().background:option==='padding'?mt().padding:option==='fontSize'?mt().fontSize:option}</option>}</For>
+                  </select></label>
+                  <Show when={!['background','padding','fontSize','color'].includes(kind())}>
+                    <label>{t().text}
+                      <Show when={kind()==='text'||kind()==='alt'} fallback={<input value={selectedValue()} onInput={event=>updateField(item().selector,kind(),event.currentTarget.value)} spellcheck={false}/>}>
+                        <textarea rows={4} value={selectedValue()} maxLength={700} onInput={event=>updateField(item().selector,kind(),event.currentTarget.value)} />
+                      </Show>
+                    </label>
+                  </Show>
+                  <Show when={kind()==='src'}>
+                    <p class="studio-muted">/images/ oder /illustrations/ · .svg, .png, .jpg, .webp, .avif</p>
+                    <label>{mt().media}
+                      <select value={selectedValue()} onChange={event=>updateField(item().selector,'src',event.currentTarget.value)}>
+                        <Show when={!media().includes(selectedValue()) && selectedValue()}>
+                          <option value={selectedValue()}>{selectedValue()}</option>
+                        </Show>
+                        <For each={media()}>{asset=><option value={asset}>{asset}</option>}</For>
+                      </select>
+                    </label>
+                    <Show when={/^\/(?:images|illustrations)\/[a-z0-9/_-]+\.(?:svg|png|jpe?g|webp|avif)$/.test(selectedValue())}>
+                      <img class="studio-media-thumb" src={selectedValue()} alt="" width="180" loading="lazy"/>
+                    </Show>
+                  </Show>
+                  <Show when={kind()==='color'||kind()==='background'}><label>{kind()==='color'?t().color:mt().background}
+                    <input aria-label={kind()==='color'?t().color:mt().background} type="color"
+                      value={/^#[a-fA-F0-9]{6}$/.test(selectedValue())?selectedValue():'#ffffff'}
+                      onInput={event=>updateField(item().selector,kind(),event.currentTarget.value)} />
+                  </label></Show>
+                  <Show when={kind()==='padding'||kind()==='fontSize'}>
+                    <label>{kind()==='padding'?mt().padding:mt().fontSize}
+                      <select value={selectedValue()} onChange={event=>updateField(item().selector,kind(),event.currentTarget.value)}>
+                        <For each={kind()==='padding'?paddingPresets:fontSizes}>{size=><option value={size}>{size}px</option>}</For>
+                      </select>
+                    </label>
+                  </Show>
+                  <button type="button" class="studio-minor" onClick={()=>removeField(item().selector,kind())}>{t().reset}</button>
+                </>}
+              </Show>
             </Show>
           </div>
           <div class="studio-section">
@@ -216,8 +328,9 @@ export default function SiteStudio(){
           <div class="studio-section">
             <p class="studio-kicker">03 / AI</p><h2>{t().ai}</h2>
             <p class="studio-muted">{t().aiNote}</p>
+            <p class="studio-ai-status" role="status" aria-live="polite">{aiReady()?mt().aiReady:mt().aiLocked}</p>
             <label>{t().instruction}<textarea rows={3} maxLength={800} value={instruction()} placeholder="Kürzer, präziser, freundlich…" onInput={event=>setInstruction(event.currentTarget.value)}/></label>
-            <button type="button" class="studio-btn" disabled={busy()||!selected()||kind()!=='text'||instruction().trim().length<3} onClick={()=>void askAi()}>{t().suggest}</button>
+            <button type="button" class="studio-btn" disabled={!aiReady()||busy()||!selected()||kind()!=='text'||instruction().trim().length<3} onClick={()=>void askAi()}>{t().suggest}</button>
             <Show when={suggestion()}><div class="studio-suggestion"><p>{suggestion()}</p><button type="button" class="studio-btn" onClick={()=>{const el=selected();if(el)updateField(el.selector,'text',suggestion());setSuggestion('');}}>{t().use}</button></div></Show>
           </div>
           <div class="studio-section">
@@ -227,9 +340,9 @@ export default function SiteStudio(){
             </Show>
           </div>
           <div class="studio-publish">
-            <button type="button" class="studio-save" disabled={busy()||!changed()} onClick={()=>void save()}>{t().save}</button>
+            <button type="button" class="studio-save" disabled={busy()||manualPending()||!changed()} onClick={()=>void save()}>{t().save}</button>
             <label>{t().confirm}<input value={publishCheck()} onInput={event=>setPublishCheck(event.currentTarget.value)} placeholder="PUBLISH" autocomplete="off" spellcheck={false}/></label>
-            <button type="button" class="studio-publish-button" disabled={busy()||changed()||!version()||publishedVersion()===version()||publishCheck()!=='PUBLISH'} onClick={()=>void publish()}>{t().publish} ↗</button>
+            <button type="button" class="studio-publish-button" disabled={busy()||manualPending()||changed()||!version()||publishedVersion()===version()||publishCheck()!=='PUBLISH'} onClick={()=>void publish()}>{t().publish} ↗</button>
             <p>{t().hint}</p>
           </div>
         </aside>

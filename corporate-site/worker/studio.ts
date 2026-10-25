@@ -113,6 +113,18 @@ async function restore(db:D1Database,page:string,revisionId:string,expected:numb
   const entries=parseStored(row.snapshot_json);
   return writeDraft(db,page,entries,expected,actorId,'restore');
 }
+/** Read-only flags; never put model credentials or quota balances in API responses. */
+function aiReadiness(env:WorkerEnv){
+  const lastCheck=Date.parse(env.STUDIO_AI_QUOTA_CHECKED_AT||'');
+  const dailyCap=Number(env.STUDIO_AI_DAILY_BUDGET_CENTS);
+  const perCall=Number(env.STUDIO_AI_REQUEST_COST_CAP_CENTS);
+  const quotaFresh=Number.isFinite(lastCheck)&&lastCheck<=Date.now()&&Date.now()-lastCheck<=86400000;
+  const approved=env.STUDIO_AI_ENABLED==='true'&&env.STUDIO_AI_APPROVED==='true';
+  const modelOK=Boolean(env.STUDIO_AI_MODEL && /^[a-zA-Z0-9._-]{1,90}$/.test(env.STUDIO_AI_MODEL));
+  const capOK=Number.isInteger(dailyCap)&&Number.isInteger(perCall)&&dailyCap>=1&&perCall>=1&&perCall<=dailyCap;
+  return {ready:approved&&Boolean(env.STUDIO_AI_API_KEY)&&modelOK&&capOK&&quotaFresh,
+    approved,quotaFresh,budgetConfigured:capOK,dailyCap,perCall};
+}
 async function aiSuggestion(env:WorkerEnv,db:D1Database,body:Row){
   keys(body,['selector','text','instruction','locale']);
   const selector=text(body.selector),oldText=text(body.text),instruction=text(body.instruction),locale=text(body.locale);
@@ -120,13 +132,8 @@ async function aiSuggestion(env:WorkerEnv,db:D1Database,body:Row){
   if(instruction.length<3||instruction.length>800 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(instruction) || !['de','ru','en','uk'].includes(locale))
     return fail(422,'instruction','Bitte eine kurze, gültige Anweisung und Sprache wählen.');
   // A short-lived operator-attested budget prevents accidental billing from stale settings.
-  const lastCheck=Date.parse(env.STUDIO_AI_QUOTA_CHECKED_AT||'');
-  const dailyCap=Number(env.STUDIO_AI_DAILY_BUDGET_CENTS);
-  const perCall=Number(env.STUDIO_AI_REQUEST_COST_CAP_CENTS);
-  if(env.STUDIO_AI_ENABLED!=='true'||env.STUDIO_AI_APPROVED!=='true'||!env.STUDIO_AI_API_KEY||
-    !env.STUDIO_AI_MODEL || !/^[a-zA-Z0-9._-]{1,90}$/.test(env.STUDIO_AI_MODEL) ||
-    !Number.isInteger(dailyCap)||!Number.isInteger(perCall)||dailyCap<1||perCall<1||perCall>dailyCap||
-    !Number.isFinite(lastCheck)||Date.now()-lastCheck>86400000 || lastCheck>Date.now())
+  const {ready,dailyCap,perCall}=aiReadiness(env);
+  if(!ready)
     return fail(503,'ai_not_configured','AI ist noch nicht freigeschaltet: Schlüssel, frisches Guthaben, Preisdeckel und Inhaber-Freigabe fehlen.');
   const today=new Date().toISOString().slice(0,10);
   const reserved=await db.prepare("INSERT INTO studio_ai_budget (day,scope,reserved_cents,request_count) VALUES (?,?,?,1) ON CONFLICT(day,scope) DO UPDATE SET reserved_cents=reserved_cents+excluded.reserved_cents,request_count=request_count+1 WHERE reserved_cents+excluded.reserved_cents<=? AND request_count<8 RETURNING reserved_cents")
@@ -159,6 +166,10 @@ export async function handleStudio(request:Request,env:WorkerEnv,actor:StudioAct
   ownerOnly(actor);
   const db=database(env);
   if(path==='/api/studio/page' && request.method==='GET') return studioPage(db,pageFromRequest(request));
+  if(path==='/api/studio/ai-status' && request.method==='GET'){
+    const {ready,approved,quotaFresh,budgetConfigured}=aiReadiness(env);
+    return apiResponse({ready,approved,quotaFresh,budgetConfigured,provider:'server-configured',saved:false,published:false});
+  }
   if(request.method!=='POST') return fail(405,'method','Diese Methode ist nicht erlaubt.');
   const body=await readJson(request);
   if(path==='/api/studio/draft'){

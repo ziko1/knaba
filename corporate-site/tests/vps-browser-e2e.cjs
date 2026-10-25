@@ -17,8 +17,8 @@ const LOGIN='owner@example.test';
 const PASSWORD='synthetic-not-a-real-account-password-2026';
 const temp=mkdtempSync(join(tmpdir(),'knaba-browser-'));
 const src=path=>pathToFileURL(ROOT+'/'+path).href;
-const pSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
-const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+const pSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2)';
+const aSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1)';
 (async()=>{
   let app,browser,proxy;
   try{
@@ -52,13 +52,20 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(ORIGIN+'/',{waitUntil:'networkidle'});
     assert.equal(await page.locator('html').getAttribute('lang'),'de');
-    assert.ok((await page.locator('img[src="/illustrations/hero-cleaning.svg"]').count())>=1);
+    assert.ok((await page.locator('img[src="/illustrations/baureinigung.svg"]').count())>=1);
     const homeOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
     assert.ok(homeOverflow<=1,'Mobile homepage overflow '+homeOverflow);
     await page.goto(ORIGIN+'/ru/',{waitUntil:'networkidle'});
     assert.equal(await page.locator('html').getAttribute('lang'),'ru');
     await page.goto(ORIGIN+'/studio/',{waitUntil:'networkidle'});
     assert.equal(await page.locator('.studio-workspace').count(),0,'anonymous must not enter editor');
+    const art=await page.evaluate(async()=>{
+      const response=await fetch('/studio-media.json',{cache:'no-store'});
+      return {status:response.status,body:await response.json()};
+    });
+    assert.equal(art.status,200,'bundled public media catalog loads');
+    assert.ok(art.body.assets.includes('/illustrations/baureinigung.svg'),'Bundled image selectable');
+
 
     await page.goto(ORIGIN+'/login/?return_to=%2Fstudio%2F');
     await page.locator('input[name="email"]').fill(LOGIN);
@@ -68,8 +75,23 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     await page.locator('.studio-workspace').waitFor({timeout:12000});
     assert.equal((await page.context().cookies()).some(c=>c.name==='__Host-knaba-session'&&c.secure&&c.httpOnly),true);
     const frame=page.frameLocator('.studio-preview-wrap iframe');
+    async function waitLead(value){
+      await page.waitForFunction(expected=>{
+        const iframe=document.querySelector('.studio-preview-wrap iframe');
+        return iframe?.contentDocument?.querySelector('.bau-lead')?.textContent===expected;
+      },value,{timeout:9000});
+    }
+
+    const originalText=await frame.locator(pSelector).innerText();
     await frame.locator(pSelector).click();
-    await page.locator('.studio-inspector textarea').first().fill('Saubere Bauprojekte & Büros');
+    await page.locator('.studio-inspector textarea').first().fill('Temporary unsaved live text');
+    await waitLead('Temporary unsaved live text');
+    assert.equal(await frame.locator(pSelector).innerText(),'Temporary unsaved live text');
+    await page.locator('.studio-toolbar button[aria-label="Undo"]').click();
+    await waitLead(originalText);
+    assert.equal(await frame.locator(pSelector).innerText(),originalText,'visual Undo restores original text');
+    await frame.locator(pSelector).click();
+    await page.locator('.studio-inspector textarea').first().fill('Saubere Bauprojekte & Bauhelfer');
     await page.locator('.studio-section').nth(1).locator('input').first().fill('KNABA Studio & Bauhelfer Berlin');
     await page.locator('.studio-save').click();
     await page.waitForTimeout(250);
@@ -82,7 +104,7 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     });
     assert.equal(publicResponse.status,200);
     const html=publicResponse.html;
-    assert.ok(html.includes('Saubere Bauprojekte &amp; Büros'),'server-rendered published body text');
+    assert.ok(html.includes('Saubere Bauprojekte &amp; Bauhelfer'),'server-rendered published body text');
     assert.ok(html.includes('<title>KNABA Studio &amp; Bauhelfer Berlin</title>'),'server-rendered SEO title');
     const privateStatus=await page.evaluate(async()=>{
       const result=await fetch('/api/studio/page?page=%2F',{credentials:'same-origin'});
@@ -95,6 +117,36 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     await frame.locator(aSelector).click();
     const kind=await page.locator('.studio-inspector .studio-section').first().locator('select').inputValue();
     assert.equal(kind,'href','Icon-bearing link selects href, not destructive text.');
+    await page.locator('.studio-mode-toggle button').nth(1).click();
+    const manual=page.locator('#studio-json-editor');
+    await manual.fill(JSON.stringify([
+      {selector:'#main > section:nth-of-type(1)',kind:'background',value:'#213344'},
+      {selector:pSelector,kind:'text',value:'Manual visual site content'}
+    ],null,2));
+    await page.locator('.studio-manual-actions .studio-btn').click();
+    await waitLead('Manual visual site content');
+    assert.equal(await frame.locator(pSelector).innerText(),'Manual visual site content');
+    assert.equal(await frame.locator('main#main section').first().evaluate(el=>el.style.backgroundColor),'rgb(33, 51, 68)');
+    await manual.fill('invalid-json');
+    await page.locator('.studio-manual-actions .studio-btn').click();
+    assert.equal(await frame.locator(pSelector).innerText(),'Manual visual site content','Invalid JSON never updates preview');
+    await page.locator('.studio-manual-actions .studio-minor').click();
+    await page.locator('.studio-save').click();
+    await page.locator('.studio-publish input[placeholder="PUBLISH"]').fill('PUBLISH');
+    await page.locator('.studio-publish-button').click();
+    await page.waitForTimeout(350);
+    const publishedDesign=await page.evaluate(async()=>await (await fetch('/',{cache:'no-store'})).text());
+    assert.match(publishedDesign,/Manual visual site content/);
+    assert.match(publishedDesign,/background-color:#213344/);
+    const mobileStudioOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+    assert.ok(mobileStudioOverflow<=1,'Studio has 390px viewport overflow '+mobileStudioOverflow);
+    await page.setViewportSize({width:320,height:700});
+    const narrowOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+    assert.ok(narrowOverflow<=1,'Studio 320px horizontal overflow '+narrowOverflow);
+    await page.setViewportSize({width:768,height:1024});
+    const tabletOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+    assert.ok(tabletOverflow<=1,'Studio 768px horizontal overflow '+tabletOverflow);
+
     assert.equal(errors.length,0,'Browser JS errors: '+errors.join('; '));
     console.log(JSON.stringify({browser:'Chromium',source:'isolated VPS candidate',viewport:'390x844',mobileOverflowPx:homeOverflow,
       authenticatedOwner:true,sessionCookieSecure:true,serverRenderedBody:true,serverRenderedSeo:true,
