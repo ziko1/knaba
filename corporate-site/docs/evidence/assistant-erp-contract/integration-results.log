@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /work/erp
+
+ ✓ tests/integration-events.test.ts (50 tests) 544ms
+
+ Test Files  1 passed (1)
+      Tests  50 passed (50)
+   Start at  14:21:40
+   Duration  1.11s (transform 268ms, setup 0ms, import 411ms, tests 544ms, environment 0ms)

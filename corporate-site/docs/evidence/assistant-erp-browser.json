@@ -1,0 +1,204 @@
+{
+  "browser": "153.0.8010.0",
+  "source": "local built site + actual Worker and VPS runtime",
+  "localTest": true,
+  "syntheticDataOnly": true,
+  "scheduledDelivery": "disabled by test wrapper",
+  "locales": [
+    "de",
+    "en",
+    "uk",
+    "ru"
+  ],
+  "layouts": [
+    {
+      "locale": "de",
+      "stage": "form",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "de",
+      "stage": "form",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "de",
+      "stage": "form",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "de",
+      "stage": "preview",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "de",
+      "stage": "preview",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "de",
+      "stage": "preview",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "en",
+      "stage": "form",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "en",
+      "stage": "form",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "en",
+      "stage": "form",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "en",
+      "stage": "preview",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "en",
+      "stage": "preview",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "en",
+      "stage": "preview",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "uk",
+      "stage": "form",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "uk",
+      "stage": "form",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "uk",
+      "stage": "form",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "uk",
+      "stage": "preview",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "uk",
+      "stage": "preview",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "uk",
+      "stage": "preview",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "ru",
+      "stage": "form",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "ru",
+      "stage": "form",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "ru",
+      "stage": "form",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "locale": "ru",
+      "stage": "preview",
+      "width": 320,
+      "overflow": 0
+    },
+    {
+      "locale": "ru",
+      "stage": "preview",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "locale": "ru",
+      "stage": "preview",
+      "width": 1440,
+      "overflow": 0
+    }
+  ],
+  "protectedPreview": true,
+  "separateConfirmation": true,
+  "keyboardConfirmationAt320": true,
+  "queuedAndCancelled": true,
+  "disabledConfigFallback": true,
+  "uncertainAndAcceptedReadOnly": true,
+  "ownerDiagnostics": true,
+  "ownerLocales": [
+    "de",
+    "ru"
+  ],
+  "ownerAuth": "synthetic verified session cookie; production TLS/login not tested",
+  "clientErrors": 0,
+  "consoleErrors": 0,
+  "externalRequests": 0,
+  "sourceHashes": {
+    "tests/assistant-erp-browser.mjs": "1e6d4b085b0e08ffe6c7b28d6e56785f1f658a75fc29bb22cf09556483098667",
+    "src/components/AssistantLead.tsx": "dc3c101bc98a9484b2211e46a996117f6ee83ad869c1b0da8a8a6636d1149baf",
+    "src/components/KnabaAssistant.tsx": "01de04140f87c2fd10cc619807e5c7c88884a8a3aefcd40440ca989140590d79",
+    "src/components/AssistantInbox.tsx": "801aa3c9382eb5121d274dd4ac1cf709a9e82e322a6420519af3df2856157b57",
+    "src/styles/assistant-lead.css": "7c463237063390b8b7b129c4b578aef7698fb2c3a93289dee9a75868d0b5f33d",
+    "src/lib/assistant-lead-ui.ts": "a7c25ae9ab61d8746520974fe602c9b7a7a8224c114f99b5d7247ff6daec6ea3",
+    "src/lib/assistant-erp-contract.ts": "8d0f82b89a2bcb5f4351947a7b3d6a46ba2f500e6af4b6f0262f41f030c99474",
+    "dist/server/index.js": "2e0d13e38ed6de19cc652b9cd557860b1d73a888c92fa30ef611e155da2a90f5",
+    "dist/client/_astro/AssistantLead.Exj92i4R.js": "4124c4e08651f487b54332b4187c4fa008c5a7766f82204fe2a5c606c23c340f",
+    "dist/client/_astro/AssistantLead.BYoGnIxo.js": "47f3bf1a12de56cc183dfe73372b98db061c9a885aedb11ef2a2aa8c4f0b998b",
+    "dist/client/_astro/AssistantInbox.DuzWOIhc.js": "cc4a994624de649d9223b954fb82c4c20e172671fa8f659cd071841ae844193f",
+    "dist/client/_astro/AssistantInbox.XM54Tb1W.js": "6d5bef355c36a3e9c20618c1a565388aa027b1283c4ae5616a7c162a26b3bcf0",
+    "dist/client/_astro/KnabaAssistant.Bp8oNwhG.js": "95883b5a901210ed8030ed1da18ea8a302c41399cdbbf2218dd1eb59cd110195",
+    "dist/client/_astro/KnabaAssistant.D_lXXTtP.js": "5d145eef84b985c1ae3a519797cd577c62a36794a0a9eede414c9e25c1d7788b"
+  },
+  "screenshots": 20,
+  "ownerLayoutChecks": 4,
+  "visuallyInspected": [
+    "uk-confirmation-320.png",
+    "de-confirmation-1440.png",
+    "owner-ru-320.png",
+    "owner-de-1440.png"
+  ],
+  "limitations": [
+    "Chromium on Linux; not physical mobile devices or screen readers",
+    "Owner session is synthetic; production TLS/login not tested",
+    "Scheduled ERP delivery disabled; no live ERP integration exercised"
+  ],
+  "screenshotsStorage": "Not committed; reproducible with tests/assistant-erp-browser.mjs. Screenshots inspected during QA."
+}

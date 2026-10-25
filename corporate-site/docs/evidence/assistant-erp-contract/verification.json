@@ -1,0 +1,76 @@
+{
+  "scope": "Synthetic website ERP bridge QA only",
+  "erpSourceSha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+  "erpTrackedFilesComparedToGitBlobs": 545,
+  "erpTrackedFileMismatches": 0,
+  "node": "v24.22.1",
+  "postgres": "17.11",
+  "results": {
+    "standaloneActualNestHttpWithPostgres": {
+      "status": "PASS",
+      "checkGroups": 12,
+      "exitCode": 0
+    },
+    "existingIntegrationEventsVitest": {
+      "status": "PASS",
+      "tests": 50,
+      "skipped": 0,
+      "realPostgresCases": 4,
+      "exitCode": 0
+    },
+    "combinedWebsiteSqliteToNestHttpToPostgres": {
+      "status": "PASS",
+      "checkGroups": 4,
+      "httpCalls": 3,
+      "authoritativeLeads": 1,
+      "exitCode": 0
+    },
+    "localErpTypecheckIncludingQaHarnesses": {
+      "status": "PASS",
+      "exitCode": 0
+    },
+    "rootSnapshotVerifierAtRequestedBaseline": {
+      "status": "FAIL_INHERITED_BASELINE",
+      "exitCode": 1,
+      "expectedErpTree": "a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43",
+      "actualErpTree": "d269a8cc681e3c1d0d7dd334c6f587bc3625b481"
+    }
+  },
+  "observedHttpContract": {
+    "APPLIED": 201,
+    "QUARANTINED": 201,
+    "ACCESS_DENIED": 403,
+    "INACTIVE_MAPPING_NEEDS_APPROVAL": 422,
+    "INVALID_ENVELOPE_OR_JSON": 400
+  },
+  "combinedEvidence": [
+    "Unconfirmed DRAFT produced zero HTTP calls and zero ERP leads.",
+    "Confirmed request executed unmodified website payload builder and dispatcher.",
+    "Transport lost the first response after actual Nest HTTP201 APPLIED and real PostgreSQL commit.",
+    "Retry sent byte-identical event content; actual ERP returned duplicate:true with the same effect_id.",
+    "PostgreSQL contained exactly one authoritative lead, one lead audit row and one lead.created outbox row for the retry scenario.",
+    "Website-allowed but ERP-unmapped service returned HTTP201 QUARANTINED SERVICE_NOT_MAPPED; website stored QUARANTINED and sent no further automatic retry."
+  ],
+  "limits": {
+    "postgresCpu": 0.5,
+    "postgresMemoryBytes": 536870912,
+    "postgresDataTmpfsBytes": 268435456,
+    "nodeCpu": 1,
+    "nodeMemoryBytes": 1073741824,
+    "internalDockerNetwork": true,
+    "publishedPorts": 0,
+    "postgresHostMounts": 0,
+    "sourceMountReadOnly": true
+  },
+  "websiteSourceBoundary": "Exact copied source hashes are recorded in combined-results.log. After the successful run, the candidate added an owner-only diagnostic projection and DTO types, plus adjusted cancellation while SENDING with zero attempts. Tested preview, confirmation, config, envelope payload, signature and dispatcher paths remained unchanged. This receipt does not claim whole final-file equality or cover the later diagnostics/cancellation cases; their local website tests are separate.",
+  "notRun": [
+    "Production deployment or live data writes",
+    "Actual Cloudflare D1 remote service or platform scheduler",
+    "Website HTTP authentication/browser path (handled independently by parent)",
+    "External AI, CRM, WhatsApp or paid provider calls",
+    "Entire ERP regression suite",
+    "Owner diagnostics and SENDING-zero-attempt cancellation changes introduced after the copied source snapshot"
+  ],
+  "localPostgresFallbackReason": "Portable PostgreSQL17.10 binary worked, but local runtime maps only UID0 and has no capabilities; runuser, setpriv and alternate user namespace failed. PostgreSQL root safeguard was not bypassed. Authorized isolated existing VPS Docker was used instead.",
+  "cleanup": "Own remote containers, internal network, PostgreSQL tmpfs data and temporary source/dependencies were removed. Source-only reusable harnesses and sanitized evidence are stored at the candidate paths. No commits, pushes or tracked ERP source edits were made by this QA worker."
+}

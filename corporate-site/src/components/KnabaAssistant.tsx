@@ -3,10 +3,12 @@ import { assistantGreeting, assistantLocale, type AssistantLocale } from '../lib
 import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../lib/assistant-recovery';
 import '../styles/assistant.css';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
+import AssistantLead, {type LeadAction} from './AssistantLead';
+import type { ErpLeadView } from '../lib/assistant-erp-contract';
 
 type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string};
 type Offer = {id:string;content:string;state:'pending'|'accepted'|'declined'};
-type Thread = {conversation:{id:string;status:'assistant'|'human'|'closed'};messages:Message[];offers:Offer[]};
+type Thread = {conversation:{id:string;status:'assistant'|'human'|'closed'};messages:Message[];offers:Offer[];lead?:ErpLeadView|null};
 type Ticket = AssistantTicket;
 const STORAGE='knaba-assistant-ticket-v1';
 const captions = {
@@ -35,6 +37,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const captchaChanged=(status:CaptchaState,token='')=>{setCaptchaStatus(status);setCaptchaToken(token);};
   const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
   let recognition:Recognition|null=null,log:HTMLDivElement|undefined;
+  let conversationRevision=0;
   const privacyPath=locale==='ru'?'/ru/datenschutz/':'/datenschutz/';
   onMount(()=>{
     try {
@@ -45,9 +48,30 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     onCleanup(()=>{clearInterval(timer);recognition?.stop();window.speechSynthesis?.cancel();});
   });
   createEffect(()=>{thread()?.messages.length;thread()?.offers.length;queueMicrotask(()=>{if(log)log.scrollTop=log.scrollHeight;});});
-  async function load(current:Ticket){
-    try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token);if(ticket()?.id===current.id){setThread(result);setError('');}}
-    catch{if(open())setError(t.no);}
+  async function load(current:Ticket):Promise<boolean>{
+    const revision=conversationRevision;
+    try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token);if(ticket()?.id===current.id&&revision===conversationRevision){setThread(result);setError('');}return true;}
+    catch{if(open()&&ticket()?.id===current.id&&revision===conversationRevision)setError(t.no);return false;}
+  }
+  async function leadAction(action:LeadAction,input:unknown):Promise<ErpLeadView|null>{
+    if(busy())throw Error('busy');
+    if(!accepted()){setError(t.privacy);throw Error('privacy_required');}
+    setBusy(true);setError('');conversationRevision++;
+    try{
+      const current=await ensure();
+      const result=await http<{lead:ErpLeadView|null}>(`/api/assistant/conversations/${current.id}/lead/${action}`,'POST',input,current.token);
+      // Invalidate polling started while the mutation was pending.
+      conversationRevision++;
+      if(ticket()?.id===current.id){
+        setThread(previous=>previous?.conversation.id===current.id?{...previous,lead:result.lead}:{conversation:{id:current.id,status:'assistant'},messages:[],offers:[],lead:result.lead});
+        void load(current);
+      }
+      return result.lead;
+    }finally{setBusy(false);}
+  }
+  async function refreshLead(){
+    const current=ticket();
+    if(!current||!await load(current))throw Error('unavailable');
   }
   async function ensure():Promise<Ticket>{
     if(ticket())return ticket()!;
@@ -112,7 +136,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     event.preventDefault();if(busy())return;
     const recovered=parseRecoveryCode(recoveryInput());
     if(!recovered){setError(t.invalidCode);return;}
-    setBusy(true);setError('');
+    setBusy(true);setError('');conversationRevision++;
     try {
       // Server validates the bearer token before storing or displaying a conversation.
       const result=await http<Thread>(`/api/assistant/conversations/${recovered.id}`,'GET',undefined,recovered.token);
@@ -134,6 +158,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   function reset(){
     if(!window.confirm(t.fresh))return;
     try{sessionStorage.removeItem(STORAGE);}catch{}
+    conversationRevision++;
     setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');setRecoveryInput('');setCodeCopied(false);
     setCaptchaToken('');setCaptchaStatus('loading');setCaptchaResetVersion(v=>v+1);
   }
@@ -178,8 +203,9 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
             </form>
             <button type="button" class="ka-contact-owner" onClick={()=>setHuman(v=>!v)} disabled={busy()}>{t.human} ↗</button>
           </Show>
+          <AssistantLead locale={locale} conversationKey={ticket()?.id??'new'} lead={thread()?.lead} canStart={accepted()&&Boolean(ticket()||captchaStatus()==='disabled'||captchaStatus()==='verified'&&captchaToken())} busy={busy()} closed={thread()?.conversation.status==='closed'} onAction={leadAction} onRefresh={refreshLead}/>
           <nav aria-label="KnaBa"><a href="tel:+493067933054">☎ +49 (30) 679 330 54</a><a href="mailto:kontakt@knaba.de">✉ kontakt@knaba.de</a></nav>
-          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
+          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" disabled={busy()} onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
         </div>
       </section>
     </Show>

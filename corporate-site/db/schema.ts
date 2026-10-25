@@ -120,3 +120,19 @@ export const crmContactNotes = sqliteTable('crm_contact_notes',{
   createdAt:text('created_at').notNull(),
 },t=>[uniqueIndex('crm_note_idempotency').on(t.contactKey,t.actorId,t.idempotencyKey),
   index('crm_note_contact_recent').on(t.contactKey,t.createdAt)]);
+
+/** One explicitly confirmed website request is also its durable ERP outbox record. */
+export const assistantErpRequests=sqliteTable('assistant_erp_requests',{
+  id:text('id').primaryKey(),
+  conversationId:text('conversation_id').notNull().references(()=>assistantConversations.id),
+  scopeHash:text('scope_hash').notNull(),snapshotJson:text('snapshot_json').notNull(),
+  envelopeJson:text('envelope_json').notNull(),previewHash:text('preview_hash').notNull(),
+  version:integer('version').notNull(),state:text('state').notNull().default('DRAFT'),
+  previewExpiresAt:integer('preview_expires_at').notNull(),consentAt:integer('consent_at'),revokedAt:integer('revoked_at'),
+  eventId:text('event_id').notNull(),externalId:text('external_id').notNull(),
+  attempts:integer('attempts').notNull().default(0),nextAttemptAt:integer('next_attempt_at').notNull().default(0),
+  leaseToken:text('lease_token'),leaseUntil:integer('lease_until'),receiptJson:text('receipt_json'),lastError:text('last_error'),
+  createdAt:integer('created_at').notNull(),updatedAt:integer('updated_at').notNull(),
+},t=>[uniqueIndex('assistant_erp_conversation').on(t.conversationId),
+  uniqueIndex('assistant_erp_event').on(t.eventId),uniqueIndex('assistant_erp_external').on(t.externalId),
+  index('assistant_erp_due').on(t.state,t.nextAttemptAt)]);

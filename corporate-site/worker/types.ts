@@ -22,6 +22,16 @@ export interface WorkerEnv {
   ASSISTANT_PUBLIC_ORIGIN?: string;
   ASSISTANT_EMAIL_DAILY_LIMIT?: string;
   RESEND_API_KEY?: string;
+  /** Private ERP bridge bindings. Disabled unless explicitly approved and fully configured. */
+  ASSISTANT_ERP_ENABLED?: string;
+  ASSISTANT_ERP_ORIGIN?: string;
+  ASSISTANT_ERP_SOURCE?: string;
+  ASSISTANT_ERP_SITE_ID?: string;
+  ASSISTANT_ERP_COMPANY_ID?: string;
+  ASSISTANT_ERP_KEY_ID?: string;
+  ASSISTANT_ERP_SECRET?: string;
+  ASSISTANT_ERP_MAPPING_VERSION?: string;
+  ASSISTANT_ERP_SERVICES_JSON?: string;
   STUDIO_AI_ENABLED?: string;
   STUDIO_AI_APPROVED?: string;
   STUDIO_AI_API_KEY?: string;

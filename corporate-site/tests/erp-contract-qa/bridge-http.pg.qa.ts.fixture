@@ -1,0 +1,126 @@
+/** Standalone synthetic HTTP + PostgreSQL QA; not part of the production bundle.
+ * Run: DATABASE_URL=<isolated PostgreSQL> node --import tsx tests/bridge-http.pg.qa.ts
+ * The listener binds only 127.0.0.1 and no worker/provider process is started.
+ */
+import 'reflect-metadata';
+import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+import {NestFactory} from '@nestjs/core';
+import express from 'express';
+import {Database} from '../apps/api/database.ts';
+import {Engine} from '../apps/api/engine.ts';
+import {createApiModule} from '../apps/api/http.ts';
+import {integrationCommands,type IntegrationEnvelope} from '../packages/domain/integrations.ts';
+import {parseIntegrationCredentials,signIntegrationEvent} from '../packages/integrations/generic-events.ts';
+import type {Actor,CommandContext,Data,Transaction} from '../packages/domain/core.ts';
+
+const sourceSha='683c09d0346fd05e0f2cd323da640bbb176c5c47';
+assert(process.env.DATABASE_URL,'Use a disposable PostgreSQL database with synthetic data only');
+const db=new Database();
+const secret='synthetic-http-qa-only-never-live-secret-123456789';
+const run=randomUUID();
+const companyA=`bridge-http-a-${run}`,companyB=`bridge-http-b-${run}`;
+const sourceA='synthetic_bridge',sourceB='synthetic_other',sourceInactive='synthetic_inactive';
+const now=new Date().toISOString();
+const credentials=parseIntegrationCredentials(JSON.stringify([
+ {source:sourceA,companyId:companyA,keyId:'key_a',secret,enabled:true},
+ {source:sourceA,companyId:companyA,keyId:'key_unapproved',secret,enabled:true},
+ {source:sourceA,companyId:companyA,keyId:'key_disabled',secret,enabled:false},
+ {source:sourceB,companyId:companyB,keyId:'key_b',secret,enabled:true},
+ {source:sourceInactive,companyId:companyA,keyId:'key_inactive',secret,enabled:true},
+]));
+function event(eventId:string,source=sourceA,externalId=eventId):IntegrationEnvelope{return {
+ schema_version:'1',event_id:eventId,event_type:'lead.upsert',source,occurred_at:now,external_id:externalId,
+ payload:{contact:{name:'Synthetic HTTP contact',email:'http-qa@example.test'},serviceIds:['service_1'],
+ language:'UK',facts:{condition:'Synthetic customer statement',desiredPeriod:'Synthetic desired period'},source:{landingPage:'https://example.test/uk/'}},
+};}
+async function fixture(companyId:string,source:string,keyId:string){await db.transaction(companyId,'QA_FIXTURE',async tx=>{
+ const actor:Actor={companyId,userId:'owner',roles:['OWNER'],permissions:['bot.settings.manage'],siteIds:[],warehouseIds:[],customerIds:[],mfaVerified:true};
+ const context:CommandContext={tx,actor,now,idempotencyKey:'synthetic-http-fixture',requireOwn(){throw Error('Unexpected own access');},requireSite(){throw Error('Unexpected site access');}};
+ const command=async(name:string,input:Data)=>{const def=integrationCommands[name]!;return def.handler(context,def.schema.parse(input));};
+ await tx.add('user',{roles:['OWNER'],active:true},'owner');await tx.add('service',{active:true},'service_1');
+ const draft=await command('integration_config.create',{source,ownerUserId:'owner',allowedServiceIds:['service_1'],credentialKeyIds:[keyId]});
+ const preview=await command('integration_config.preview',{id:draft.id,example:event('preview',source)});
+ await command('integration_config.activate',{id:draft.id,command_hash:preview.command_hash,expected_version:preview.expected_version});
+});}
+const results:{name:string;status:'PASS'}[]=[];
+async function check(name:string,fn:()=>Promise<void>){await fn();results.push({name,status:'PASS'});console.log(`PASS ${name}`);}
+let app:Awaited<ReturnType<typeof NestFactory.create>>|undefined;
+try{
+ await db.migrate();await fixture(companyA,sourceA,'key_a');await fixture(companyB,sourceB,'key_b');
+ const pg=(await db.query('SELECT version() AS version')).rows[0].version;
+ app=await NestFactory.create(createApiModule({db,engine:new Engine(db,'TEST'),companyId:companyA,appMode:'TEST',buildSha:sourceSha,integrationCredentials:credentials}),{bodyParser:false,logger:['error','warn']});
+ // Identical integration JSON/raw-body/error middleware to apps/api/main.ts.
+ app.use('/api/v1/integrations',express.json({limit:'256kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
+ app.use(express.json({limit:'8mb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
+ app.use((error:any,_req:any,res:any,next:any)=>{if(error?.type==='entity.too.large'||error instanceof SyntaxError){res.status(400).json({code:'VALIDATION_ERROR',details:{reason:'INVALID_JSON_OR_BODY_TOO_LARGE'}});return;}next(error);});
+ app.use((_req:any,res:any,next:any)=>{res.setHeader('Cache-Control','private, no-store');next();});
+ await app.listen(0,'127.0.0.1');
+ const base=await app.getUrl();
+ async function post(body:unknown,options:{source?:string;keyId?:string;timestamp?:string;signature?:string;raw?:string;headers?:Record<string,string>}={}){
+  const raw=options.raw??JSON.stringify(body);const timestamp=options.timestamp??String(Math.floor(Date.now()/1000));
+  const signature=options.signature??signIntegrationEvent(Buffer.from(raw),timestamp,secret);
+  const response=await fetch(`${base}/api/v1/integrations/${options.source??sourceA}/events`,{method:'POST',headers:{'content-type':'application/json','x-knaba-key-id':options.keyId??'key_a','x-knaba-timestamp':timestamp,'x-knaba-signature':signature,...options.headers},body:raw,signal:AbortSignal.timeout(15000)});
+  return {status:response.status,body:await response.json() as any};
+ }
+ async function count(kind:string,companyId=companyA){return (await db.query('SELECT count(*)::int AS n FROM aggregates WHERE company_id=$1 AND kind=$2',[companyId,kind])).rows[0].n;}
+ await check('version identifies exact ERP source and TEST runtime',async()=>{const r=await fetch(`${base}/api/v1/version`);assert.equal(r.status,200);assert.equal(r.headers.get('cache-control'),'private, no-store');assert.deepEqual((await r.json() as any).sha,sourceSha);});
+ await check('HTTP authentication rejects missing/unknown/disabled/unapproved keys without writes',async()=>{
+  for(const keyId of ['', 'unknown','key_disabled','key_unapproved']){const r=await post(event(`auth_${keyId||'missing'}`),{keyId});assert.equal(r.status,403);assert.equal(r.body.code,'ACCESS_DENIED');assert.deepEqual(r.body.details,{});}
+  assert.equal(await count('integration_event'),0);assert.equal(await count('lead'),0);
+ });
+ await check('HTTP rejects unknown source and stale/future signed timestamps without writes',async()=>{
+  const unknown=await post(event('unknown_source'),{source:'unknown_source'});assert.equal(unknown.status,403);
+  for(const offset of [-301,301]){const r=await post(event(`time_${offset}`),{timestamp:String(Math.floor(Date.now()/1000)+offset)});assert.equal(r.status,403);}
+  assert.equal(await count('integration_event'),0);
+ });
+ await check('HTTP HMAC covers exact raw bytes and rejects merged header values',async()=>{
+  const e=event('tamper'),raw=JSON.stringify(e),timestamp=String(Math.floor(Date.now()/1000));
+  const signature=signIntegrationEvent(Buffer.from(raw),timestamp,secret);
+  assert.equal((await post(e,{raw:raw+' ',timestamp,signature})).status,403);
+  assert.equal((await post(e,{headers:{'x-knaba-timestamp':`${timestamp}, ${timestamp}`}})).status,403);
+  assert.equal((await post(e,{headers:{'x-knaba-key-id':'key_a, key_a'}})).status,403);
+  assert.equal(await count('lead'),0);
+ });
+ await check('HTTP rejects caller company override and source mismatch before business effects',async()=>{
+  const a=await post({...event('company_override'),company_id:companyB});assert.equal(a.status,400);assert.equal(a.body.code,'VALIDATION_ERROR');
+  const b=await post(event('source_override',sourceB));assert.equal(b.status,400);assert.equal(b.body.details.reason,'INTEGRATION_SOURCE_MISMATCH');
+  assert.equal(await count('lead'),0);assert.equal(await count('lead',companyB),0);
+ });
+ await check('HTTP inactive source returns422 NEEDS_APPROVAL',async()=>{
+  const r=await post(event('inactive',sourceInactive),{source:sourceInactive,keyId:'key_inactive'});
+  assert.equal(r.status,422);assert.equal(r.body.code,'NEEDS_APPROVAL');assert.equal(r.body.details.reason,'INTEGRATION_INACTIVE');
+ });
+ await check('HTTP malformed/oversized JSON is rejected by actual parser middleware',async()=>{
+  const invalid=await post(null,{raw:'{'});assert.equal(invalid.status,400);assert.equal(invalid.body.details.reason,'INVALID_JSON_OR_BODY_TOO_LARGE');
+  const oversized=await post(null,{raw:JSON.stringify({synthetic:'x'.repeat(262144)}),signature:'sha256='+'a'.repeat(64)});assert.equal(oversized.status,400);assert.equal(oversized.body.details.reason,'INVALID_JSON_OR_BODY_TOO_LARGE');
+ });
+ let appliedId:string;
+ await check('ten concurrent actual HTTP deliveries persist exactly one APPLIED lead/audit/outbox',async()=>{
+  const e=event('http_concurrent');const receipts=await Promise.all(Array.from({length:10},()=>post(e)));
+  for(const r of receipts){assert.equal(r.status,201);assert.equal(r.body.status,'APPLIED');assert.equal(r.body.event_id,e.event_id);}
+  assert.equal(receipts.filter(r=>!r.body.duplicate).length,1);assert.equal(new Set(receipts.map(r=>r.body.effect_id)).size,1);appliedId=receipts[0].body.effect_id;
+  assert.equal(await count('lead'),1);assert.equal(await count('integration_event'),1);
+  assert.equal((await db.query("SELECT count(*)::int AS n FROM outbox WHERE company_id=$1 AND type='lead.created' AND data->>'leadId'=$2",[companyA,appliedId])).rows[0].n,1);
+  assert.equal((await db.query('SELECT count(*)::int AS n FROM audit_log WHERE company_id=$1 AND aggregate_id=$2',[companyA,appliedId])).rows[0].n,1);
+ });
+ await check('same event with changed payload returns durable QUARANTINED receipt, never overwrites lead',async()=>{
+  const e=event('http_concurrent');e.payload={...e.payload,language:'DE'};
+  const first=await post(e),replay=await post(e);assert.equal(first.status,201);assert.equal(first.body.status,'QUARANTINED');assert.equal(first.body.reason,'EVENT_ID_PAYLOAD_CONFLICT');assert.equal(first.body.duplicate,false);assert.equal(replay.body.duplicate,true);assert.equal(replay.body.quarantine_id,first.body.quarantine_id);
+  assert.equal((await db.query("SELECT data->>'language' AS language FROM aggregates WHERE company_id=$1 AND kind='lead' AND id=$2",[companyA,appliedId])).rows[0].language,'UK');
+  assert.equal(await count('integration_quarantine'),1);
+ });
+ await check('unmapped services quarantine durably without another authoritative lead',async()=>{
+  const e=event('service_unmapped');e.payload={...e.payload,serviceIds:['other_service']};const r=await post(e);
+  assert.equal(r.status,201);assert.equal(r.body.status,'QUARANTINED');assert.equal(r.body.reason,'SERVICE_NOT_MAPPED');assert.equal(await count('lead'),1);
+ });
+ await check('server-side credentials isolate companies for identical external/event IDs',async()=>{
+  const r=await post(event('http_concurrent',sourceB),{source:sourceB,keyId:'key_b'});assert.equal(r.status,201);assert.equal(r.body.status,'APPLIED');assert.notEqual(r.body.effect_id,appliedId);assert.equal(await count('lead',companyB),1);
+  assert.deepEqual((await db.query("SELECT company_id FROM aggregates WHERE kind='lead' AND id=ANY($1::text[]) ORDER BY company_id",[[appliedId,r.body.effect_id]])).rows.map(row=>row.company_id).sort(),[companyA,companyB].sort());
+ });
+ await check('signed whitespace is accepted, unsafe imported authority fields quarantine',async()=>{
+  const e=event('whitespace');assert.equal((await post(e,{raw:JSON.stringify(e,null,2)})).body.status,'APPLIED');
+  const unsafe=event('unsafe_authority');unsafe.payload={...unsafe.payload,ownerUserId:'attacker',verified:true};const r=await post(unsafe);assert.equal(r.body.status,'QUARANTINED');assert.equal(r.body.reason,'INVALID_FIELD_MAPPING');
+ });
+ console.log(JSON.stringify({status:'PASS',sourceSha,node:process.version,postgres:pg,total:results.length,results,companies:[companyA,companyB],isolation:'loopback HTTP; disposable PostgreSQL; synthetic only; no provider/worker'},null,2));
+}finally{await app?.close();await db.close();}

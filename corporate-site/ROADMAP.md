@@ -242,3 +242,14 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Physical Android/iOS, Safari/Firefox, real browser 200% zoom, screen-reader QA, field CWV, owner-approved service/brand/legal acceptance, verified offsite restore.
 - [ ] P2 coherent locally hosted SVG service icons replacing platform-dependent emoji only after separate brand/design review; do not impact current approved layout or active feature delivery.
 - [ ] Official `knaba.de` release, source-publication gate and main merge **separately gated**; no inference from successful dev domain smoke.
+
+## Assistant → ERP confirmed lead candidate — 25.10.2026
+
+- [x] Preserve current conversations schema and add0005 outbox; no conflicting legacy migration.
+- [x] Separate structured preview/explicit confirmation from ordinary handoff and offer acceptance.
+- [x] Fixed private HTTPS target, exact-byte HMAC, immutable event retry, lease fencing, bounded receipts and cancel race handling.
+- [x] Customer states in DE/EN/UK/RU; owner-only diagnostics and newest relevant request ordering.
+- [x] Isolated migration/API/dispatcher/runtime/backup and actual Nest+PostgreSQL contract checks; local Chromium flow evidence.
+- [ ] Independent final acceptance receipt and Draft PR exact SHA verification; see `docs/evidence/assistant-erp-bridge-qa.json` for final gate states.
+- [ ] Inventory actual legacy data if present; real owner UAT, approved mapping/credentials, retention/legal controls and target backup/rollback rehearsal before activation.
+- [ ] Separate approval for merge, deployment, live migration and real dispatch. Voice/WhatsApp calling, ERP channel and bidirectional operator handoff require a later contract.
