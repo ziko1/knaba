@@ -90,7 +90,7 @@ export class TelegramBotAdapter {
     try {
       response = await this.request(`https://api.telegram.org/bot${this.config.token}/sendMessage`, {
         method: 'POST', redirect: 'error', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({chat_id: chatId, text, disable_web_page_preview: true}), signal: AbortSignal.timeout(this.config.timeoutMs ?? 15000)
+        body: JSON.stringify({chat_id: chatId, text, link_preview_options: {is_disabled: true}}), signal: AbortSignal.timeout(this.config.timeoutMs ?? 15000)
       });
     } catch { return fail('PROVIDER_OUTCOME_UNKNOWN'); }
     let payload: unknown;
