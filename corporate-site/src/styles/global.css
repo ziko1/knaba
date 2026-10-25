@@ -2153,3 +2153,16 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 .footer-brand.construction-brand img{width:205px}
 @media(max-width:920px){.construction-brand img{width:175px}.footer-brand.construction-brand img{width:190px}}
 @media(max-width:390px){.construction-brand img{width:153px}.footer-brand.construction-brand img{width:180px}}
+
+/* Mobile controls: prevent native summary chevrons and reduce assistant obstruction. */
+.mobile-nav summary,.site-language-switcher summary{list-style:none!important}
+.mobile-nav summary::marker,.site-language-switcher summary::marker{content:"";font-size:0}
+.mobile-nav summary::-webkit-details-marker,.site-language-switcher summary::-webkit-details-marker{display:none}
+@media(max-width:760px){
+  .knaba-widget-root [data-knaba-open]{
+    width:54px;height:54px;min-height:54px;display:flex;justify-content:center;
+    align-items:center;padding:0;gap:0;border-radius:50%;font-size:0;
+    box-shadow:0 8px 20px -9px #09272c;
+  }
+  .knaba-widget-root [data-knaba-open] span{font-size:27px;line-height:1}
+}

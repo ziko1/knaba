@@ -182,7 +182,7 @@ const structuredData = {
       </div>
     </footer>
     <div class="knaba-widget-root" data-knaba-widget data-locale={lang}>
-      <button type="button" data-knaba-open aria-label="KNABA Assistant öffnen"><span aria-hidden="true">✳</span> KNABA Assistant</button>
+      <button type="button" data-knaba-open aria-label={lang==='de'?'KnaBa Assistent öffnen':lang==='en'?'Open KnaBa assistant':lang==='uk'?'Відкрити помічника KnaBa':'Открыть помощника KnaBa'}><span aria-hidden="true">✳</span> KNABA Assistant</button>
     </div>
     <script>
       async function mountAssistant(button: HTMLButtonElement) {
