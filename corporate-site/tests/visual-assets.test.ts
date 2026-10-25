@@ -16,9 +16,11 @@ for (const name of artwork) {
 }
 test('all localized homepages use branded construction illustrations', async () => {
   const page=await readFile(new URL('../src/components/ConstructionHome.astro',import.meta.url),'utf8');
+  const carousel=await readFile(new URL('../src/components/ServiceCarousel.astro',import.meta.url),'utf8');
   const layout=await readFile(new URL('../src/layouts/Layout.astro',import.meta.url),'utf8');
-  expect(page).toContain('src="/illustrations/baureinigung.svg"');
-  expect(page).not.toContain('hero-cleaning.svg');
+  expect(page).toContain('<ServiceCarousel locale={locale} />');
+  expect(carousel).toContain('src="/illustrations/baureinigung.svg"');
+  expect(carousel).not.toContain('hero-cleaning.svg');
   expect(layout).toContain('/images/knaba-construction-logo.svg');
   expect(layout).not.toContain('class="brand-mark"');
 });
