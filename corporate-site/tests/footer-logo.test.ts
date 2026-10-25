@@ -18,13 +18,15 @@ describe('KNABA approved 3D logo on all shared locale routes',()=>{
    expect(layout.match(/aria-label=\{brandAlt\}/g)).toHaveLength(2);
    for(const locale of ['de:','en:','uk:','ru:'])expect(layout).toContain(locale);
  });
- it('uses transparent first-party assets with correct teal, gold and slogan',()=>{
+ it('uses transparent first-party assets with correct teal, site-lime accent and unchanged slogan',()=>{
    for(const svg of [header,footer,mobileHeader,mobileFooter]){
      expect(svg).toContain('<title id="knaba-title">KNABA</title>');
      expect(svg).toContain('Drei geometrische Bauwerke');
      expect(svg).toContain('#13B8B4');
-     expect(svg).toContain('#FDBE38');
-     expect(svg).toContain('fill="url(#goldAccent)"');
+     expect(svg).toContain('#D8F779');
+     expect(svg).toContain('fill="url(#limeAccent)"');
+     expect(svg).toContain('fill="url(#limeBase)"');
+     expect(svg).not.toContain('#FDBE38');
      for(const forbidden of ['<script','<foreignObject','href="http','src="http','fill="#FBFCF7"','fill="#102E36"'])expect(svg).not.toContain(forbidden);
      expect(Buffer.byteLength(svg)).toBeLessThan(15000);
    }
