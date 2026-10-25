@@ -57,6 +57,15 @@ describe('KNABA Site Studio input and publication rules', () => {
     expect(validateStudioEntries([{selector,kind:'color',value:'#203040'}])).toHaveLength(1);
     expect(validateStudioEntries([{selector:'@description',kind:'text',value:'Saubere Räume.'}])).toHaveLength(1);
   });
+  it('accepts only the bounded KNABA carousel tag for live visual edits',()=>{
+    const image='#main > section:nth-of-type(1) > knaba-service-carousel:nth-of-type(1) > div:nth-of-type(1) > article:nth-of-type(1) > div:nth-of-type(2) > img:nth-of-type(1)';
+    const title='#main > section:nth-of-type(1) > knaba-service-carousel:nth-of-type(1) > div:nth-of-type(1) > article:nth-of-type(1) > div:nth-of-type(3) > h2:nth-of-type(1)';
+    expect(validateStudioEntries([{selector:image,kind:'alt',value:'Construction cleaning'}])).toHaveLength(1);
+    expect(validateStudioEntries([{selector:title,kind:'text',value:'Construction cleaning'}])).toHaveLength(1);
+    expect(()=>validateStudioEntries([{selector:image.replace('knaba-service-carousel','custom-widget'),kind:'alt',value:'X'}])).toThrow(StudioInputError);
+    expect(()=>validateStudioEntries([{selector:title,kind:'text',value:'<script>'}])).toThrow(StudioInputError);
+    expect(()=>validateStudioEntries([{selector:'#main > section:nth-of-type(1) > knaba-service-carousel:nth-of-type(1)',kind:'text',value:'Replace entire carousel'}])).toThrow(StudioInputError);
+  });
   it('rejects invalid input shape and control characters',()=>{
     expect(()=>validateStudioEntries(null)).toThrow(StudioInputError);
     expect(()=>validateStudioEntries([{selector,kind:'text',value:'A\u0000B'}])).toThrow(StudioInputError);
