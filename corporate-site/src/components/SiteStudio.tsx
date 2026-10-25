@@ -1,4 +1,4 @@
-import { createSignal, For, Show, onMount, onCleanup } from 'solid-js';
+import { createSignal, createEffect, For, Show, onMount, onCleanup } from 'solid-js';
 import { normalizeStudioPage, validateStudioEntries, type StudioEntry, type StudioKind } from '../lib/site-studio-contract';
 import {studioPages} from '../lib/studio-pages';
 import '../styles/site-studio.css';
@@ -64,6 +64,15 @@ export default function SiteStudio(){
   const [redo,setRedo]=createSignal<StudioEntry[][]>([]);
   let frame:HTMLIFrameElement|undefined;
   const changed=()=>JSON.stringify(draft())!==JSON.stringify(saved());
+  // Notify only the enclosing Control Center about unsaved draft edits.
+  // The editor remains independently usable at the legacy /studio/ route.
+  createEffect(() => {
+    const dirty = changed() || manualPending();
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent<boolean>('knaba:studio:dirty', {detail:dirty}));
+  });
+  onCleanup(() => {
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent<boolean>('knaba:studio:dirty', {detail:false}));
+  });
   const valueFor=(selector:string,field:StudioKind,fallback='')=>draft().find(e=>e.selector===selector&&e.kind===field)?.value??fallback;
   function transmit(entries:StudioEntry[]=draft()){
     frame?.contentWindow?.postMessage({type:'knaba:studio:apply',page:page(),entries},location.origin);
