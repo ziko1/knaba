@@ -202,3 +202,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 
 ## 2026-10-25 — I18N99 on live VSP development server
 - Executable SHA 403c33a95b29311817c9c53910b07011c4cfa81b, 99 static routes expected HTTP statuses, 54 post-deploy Chromium pass, strict TLS and Turnstile config verified. Backup SHA 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0. 4 published translations, 95 pending. Full receipt docs/I18N99_PR42_INTEGRATION_20261025_UK.md.
+
+## 2026-10-25 — PR48: PR46-compatible mobile 200%-text and locale-picker accessibility
+- Exact tested/deployed executable source SHA `77c2a96a870d1ba0e5a0bf766dee1aca541ada8a`, based on latest PR46 docs-head `4ba7dfd9d2e8b490aeb6d4791da4906cbe573436`. Keep PR Draft; no main merge.
+- Fixed 320px / 200% root-text header overflow, hidden/focused skip-link intercepting menu and Escape from locale-search input. Changed only shared CSS, LocaleCatalog.astro, existing browser test; Turnstile, eight slides, CRM and auth unchanged.
+- Actual offline Node24 type/test/build/VPS QA 20 passing Vitest files / 99 HTML; local Chromium 16 language viewports, 12 font200, fallback/navigation PASS. Deployed to `kneba.vsp.rest`; post-deploy real Chromium 12/12 locale and 12/12 font200 PASS; HTTPS/Turnstile-config/99-target endpoint/healthy and pre-post SQLite integrity verified.
+- Staged artifact tree digest `138d46df30a294d1371a3d8d5a3737f0cd32235817eb31538a1d18f7a8c06a6d`; immutable previous release/online backup preserved, schema/Compose unchanged. Details and rollback: `docs/KNABA_PR48_MOBILE_200PCT_ACCESSIBILITY_2026-10-25_UK.md`.
+- Physical Android/iOS, screen reader, real browser zoom, owner onboarding (/readyz=503), legal/GDPR and old Sites data migration remain open. Shared VPS ~96% disk usage.
