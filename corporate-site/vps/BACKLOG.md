@@ -66,3 +66,8 @@
 - [ ] **P0** Real KNABA owner verified email/secure secret, `/readyz` truth, genuine HTTP login, full GDPR and backup/restore UAT. Do not create/print/share real owner credentials by guess.
 - [ ] Storage ~95% full; /tmp ~14G and Docker ~17G only READ-ONLY surveyed; verify age/ownership/open handles before any cleanup. No deletion yet.
 - [ ] Reconcile PR52 search-index release with owner/legal/SEO approvals, stage private/public robots/canonicals and route checks, field CWV, before customer release.
+
+## PR56 safe login follow-up 2026-10-25
+- [x] Private HEAD parity source fix `0bf7b0d0b539ab2931be880df78fb165a3331c89` (GET+HEAD /login and /logout, noindex) after live HTTP405 RED, regression tests `a15323ff1ca7322ab67b01143150c84da895dbb6`. 23 Vitest files, 103-page build, synthetic HTTPS browser E2E PASS.
+- [ ] Live dev deploy HOLD: source unknown `7e774...` differs from PR base 7f886; never downgrade current public indexing/FAQ/Studio. Keep /readyz truthfully 503 until owner verified.
+- [ ] Disk temp sweep is only read-only: /tmp ~14GiB, /var/lib/docker ~17GiB; verify specific names/mtimes/open handles and retention before any safe cleanup, no indiscriminate prune.
