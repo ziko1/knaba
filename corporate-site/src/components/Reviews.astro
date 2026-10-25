@@ -1,0 +1,18 @@
+---
+import PublicReviews from './PublicReviews';
+import {reviewsCopy, type ReviewLocale} from '../data/reviews';
+import '../styles/reviews.css';
+const {locale='de'} = Astro.props as {locale: ReviewLocale};
+const t=reviewsCopy[locale];
+const contact=(locale==='de'?'':'/'+locale)+'/kontakt/';
+const externalLabel={de:'KnaBa auf ProvenExpert ansehen',en:'View KnaBa on ProvenExpert',uk:'Переглянути KnaBa на ProvenExpert',ru:'Посмотреть KnaBa на ProvenExpert'}[locale];
+---
+<section class="container knaba-reviews" id="reviews" aria-labelledby="reviews-title">
+  <div class="reviews-heading">
+    <div><p class="reviews-kicker">{t.label}</p><h2 id="reviews-title">{t.title}</h2></div>
+    <p>{t.intro}</p>
+  </div>
+  <PublicReviews locale={locale} client:visible />
+  <p class="reviews-fine-print"><a href="https://www.google.com/maps?cid=6323808801410846096">Google Maps <span aria-hidden="true">↗</span></a> · <a href="https://www.provenexpert.com/knaba-dienstleistungen-bau-und-gebaeudereinigung/">{externalLabel} <span aria-hidden="true">↗</span></a></p>
+  <noscript><p class="reviews-notice">{t.noScript} <a href={contact}>{t.contact} ↗</a></p></noscript>
+</section>

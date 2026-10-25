@@ -193,7 +193,7 @@ export async function createKnabaVpsServer({
       catch(e){return send(res,e?.code==='too_large'?413:400,'Invalid request');}
       const user=readSession(db,req.headers.cookie);
       const headers=new Headers();
-      for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization']){
+      for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization','idempotency-key']){
         if(req.headers[name]!==undefined&&name!=='content-length')headers.set(name,String(req.headers[name]));
       }
       // Only server-side verified sessions can supply these Cloudflare Sites legacy identity headers.

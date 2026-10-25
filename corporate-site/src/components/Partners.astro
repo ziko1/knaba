@@ -1,0 +1,25 @@
+---
+import {partners,partnersCopy,partnerSource} from '../data/partners';
+import type {ConstructionLocale} from '../data/construction-offers';
+import '../styles/partners.css';
+
+const {locale='de',id='knaba-partners'}=Astro.props as {locale?:ConstructionLocale;id?:string};
+const t=partnersCopy[locale];
+---
+<section class="container knaba-partners" aria-labelledby={id+'-title'}>
+  <div class="knaba-partners-heading">
+    <p class="eyebrow">{t.label}</p>
+    <h2 id={id+'-title'}>{t.title}</h2>
+    <p>{t.intro}</p>
+  </div>
+  <ul class="knaba-partners-grid">
+    {partners.map(partner=><li class="knaba-partner">
+      <div class="knaba-partner-image"><img src={partner.image} alt={partner.name} width={partner.width} height={partner.height} loading="lazy" decoding="async" /></div>
+      <span aria-hidden="true">{partner.name}</span>
+    </li>)}
+  </ul>
+  <div class="knaba-partners-source">
+    <a href={partnerSource.url}>{t.source} <span aria-hidden="true">↗</span></a>
+    <p>{t.checked} <time datetime={partnerSource.checkedOn}>{t.date}</time></p>
+  </div>
+</section>

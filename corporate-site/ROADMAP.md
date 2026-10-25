@@ -242,3 +242,12 @@ Root owns implementation; Codex corporate_audit provides independent audit/revie
 - Publication/deployment separate from code acceptance. Public source publication previously blocked; preserve privately unless authorized.
 
 CORP-01..04 candidate checks complete; independent review ACCEPT; exact source and commands in docs/KNABA_CORPORATE_TEMPLATE_2026-10-25_UK.md. Live publication remains BLOCKED, not marked as deployed.
+
+## Partners and genuine reviews — 2026-10-25
+User requests implementation and deployment to existing development site, preserving current work.
+- TRUST-01: Five original partner logos explicitly listed on https://knaba.de/, checked 2026-10-25; four-language responsive section and source attribution. No invented endorsements.
+- TRUST-02: Public first-party review submission with explicit publication consent, private email, CAPTCHA, idempotency, rate limits, durable storage and owner moderation. No fake seeded testimonials or disclosure of private portal feedback.
+- TRUST-03: Owner review controls, public loading/error/empty states, accessibility and four-language copy; publish only approved originals.
+- TRUST-04: Preserve current 2c3cccda FAQ editing/artifact verification, corporate improvements and requested six-card order; check exact-source build, actual SQLite API flow, responsive browser and anonymous authorization.
+- TRUST-05: Release only after proven cache-only storage recovery, fresh online backup, additive migration verification, current-pointer guard, immutable artifact attestation and live checks. Never prune backups or customer data.
+- Root integrates and deploys; delegated partners/frontend/backend implementations and independent rollout inspection. Public GitHub source push remains unavailable after prior automatic review rejection; private source recovery required.

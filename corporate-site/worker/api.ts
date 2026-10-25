@@ -5,6 +5,7 @@ import type { D1Database, D1Statement, WorkerEnv, WorkerContext } from './types'
 import { handleAssistant } from './assistant';
 import { handleStudio, StudioFault } from './studio';
 import { handleCrmApi } from './crm';
+import { handleReviews, ReviewFault } from './reviews';
 
 type Row = Record<string, unknown>;
 const PRIVACY_VERSION = '2026-10-24';
@@ -250,8 +251,10 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
       await dbFor(env).prepare('SELECT id FROM profiles LIMIT 1').first();return response({ready:true});
     }
     if(path==='/api/leads'&&request.method==='POST')return await createRequest(request,env,null);
+    if(path==='/api/reviews'||path==='/api/reviews/captcha')return await handleReviews(request,env,{owner:false,id:null});
     if(path==='/api/studio/published' && request.method==='GET') return await handleStudio(request,env,{owner:false,id:null},req=>readBody(req,32768));
     const s=await session(request,env);
+    if(path.startsWith('/api/reviews/'))return await handleReviews(request,env,{owner:s.role==='owner',id:s.user?.id||null});
     if(path.startsWith('/api/crm/'))return await handleCrmApi(request,env,s,{readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit)});
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
     if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null},ctx);
@@ -264,6 +267,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(match&&request.method==='PATCH')return await patchRequest(request,env,s,match[1]);
     return response({error:{code:'not_found',message:'Dieser Endpunkt ist nicht verfügbar.'}},404);
   } catch(error) {
+    if(error instanceof ReviewFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof StudioFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof ApiFault)return response({error:{code:error.code,message:error.message,...(error.fields?{fields:error.fields}:{})}},error.status);
     // Never expose database errors, identities, SQL or raw payloads in responses/logs.

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CompanyProfile from './CompanyProfile.astro';
+import Partners from './Partners.astro';
 import {careersCopy,careersHref} from '../data/careers';
 import {company} from '../data/company';
 import {constructionBusinessCopy as c} from '../data/construction-offers';
@@ -54,6 +55,7 @@ const articleCopy={
 <Layout lang={locale} title={t.title+' | KnaBa'} description={t.lead}>
 <section class="container page-intro"><p class="eyebrow">{t.label}</p><h1>{t.title}</h1><p>{t.lead}</p></section>
 {variant==='unternehmen' && <CompanyProfile locale={locale} />}
+{variant==='unternehmen' && <Partners locale={locale} />}
 {variant==='ratgeber' && <section class="container section section-tight bau-articles" aria-labelledby="bau-articles-title">
   <div class="bau-articles-heading"><h2 id="bau-articles-title">{articleCopy.heading}</h2><p>{articleCopy.intro}</p></div>
   <div class="bau-article-grid">{constructionGuides.map((guide,index)=><a class="bau-article-card" href={prefix+'/ratgeber/'+guide.slug+'/'}>

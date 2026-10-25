@@ -42,6 +42,7 @@ function loadScript():Promise<TurnstileAPI> {
 export default function AssistantCaptcha(props:{
   locale: AssistantLocale;
   resetVersion: number;
+  endpoint?: '/api/assistant/captcha' | '/api/reviews/captcha';
   onChange:(state:CaptchaState,token?:string)=>void;
 }) {
   const [state,setState]=createSignal<CaptchaState>('loading');
@@ -60,7 +61,7 @@ export default function AssistantCaptcha(props:{
     const current=++generation;
     update('loading');
     try{
-      const response=await fetch('/api/assistant/captcha',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(8_000)});
+      const response=await fetch(props.endpoint ?? '/api/assistant/captcha',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(8_000)});
       if(!response.ok)throw Error('captcha config unavailable');
       const cfg=await response.json() as {enabled?:unknown;sitekey?:unknown;unavailable?:unknown};
       if(cfg.unavailable)throw Error('captcha configuration incomplete');

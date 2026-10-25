@@ -7,6 +7,7 @@ const sections = [
   ["kontakt", "Anfragen & Kontakt"],
   ["konto", "Anmeldung & Benutzerkonto"],
   ["rollen", "Rollen & Auftragsdaten"],
+  ["bewertungen", "Öffentliche Rückmeldungen"],
   ["dienstleister", "Technische Dienstleister"],
   ["speicherung", "Speicherdauer"],
   ["rechte", "Ihre Rechte"],
@@ -72,7 +73,15 @@ const sections = [
         <li><strong>Website-Inhaber:</strong> Rollenfreigaben, Rechteverwaltung und das Benutzerverzeichnis. Registrierungen, Änderungen an Berechtigungen und Änderungen an Anfragen werden mit handelnder Benutzerkennung, Vorgangskennung, Aktion und Zeitpunkt zur Nachvollziehbarkeit protokolliert.</li>
       </ul>
       <p>Die Auftragsbearbeitung erfolgt im Rahmen der Anbahnung oder Erfüllung des Vertrags. Soweit Daten von Beschäftigten für das Beschäftigungsverhältnis erforderlich sind, ist § 26 Abs. 1 BDSG maßgeblich. Sicherheits- und Berechtigungsprotokolle dienen der Kontrolle erlaubter Zugriffe und der Aufklärung von Fehlbedienung oder Missbrauch.</p>
-      <p>Der Website-Code erstellt keine Werbeprofile und bewertet keine Arbeitsleistung automatisch. Das System prüft technische Zugriffsberechtigungen; die Freigabe einer beantragten Rolle entscheidet der Inhaber. Eine Eingangsbestätigung für eine Anfrage ist keine automatische Vertragsannahme. Rückmeldungen und Profildaten sind nicht öffentlich sichtbar. Mitarbeitende erhalten zu zugewiesenen Aufträgen keine E-Mail-Adressen, Telefonnummern oder Kundenkontokennungen aus den jeweiligen Datenfeldern. Interne Einsatznotizen werden im Kundenbereich nicht angezeigt.</p>
+      <p>Der Website-Code erstellt keine Werbeprofile und bewertet keine Arbeitsleistung automatisch. Das System prüft technische Zugriffsberechtigungen; die Freigabe einer beantragten Rolle entscheidet der Inhaber. Eine Eingangsbestätigung für eine Anfrage ist keine automatische Vertragsannahme. Private Rückmeldungen aus dem Auftragsportal und Profildaten sind nicht öffentlich sichtbar. Mitarbeitende erhalten zu zugewiesenen Aufträgen keine E-Mail-Adressen, Telefonnummern oder Kundenkontokennungen aus den jeweiligen Datenfeldern. Interne Einsatznotizen werden im Kundenbereich nicht angezeigt.</p>
+    </section>
+
+    <section aria-labelledby="bewertungen">
+      <h2 id="bewertungen">Öffentliche Rückmeldungen von Kunden und Partnern</h2>
+      <p>Über das Rückmeldungsformular auf der Startseite können Sie einen eigenen Erfahrungsbericht einreichen. Mit Ihrer ausdrücklichen Einwilligung dürfen Ihr Anzeigename, eine freiwillig angegebene Firma, Ihre angegebene Beziehung zu KnaBa und der Text nach Prüfung durch den Inhaber auf dieser Website erscheinen. Bitte nennen Sie keine vertraulichen Projektinformationen oder personenbezogenen Daten anderer Personen.</p>
+      <p>Ihre E-Mail-Adresse bleibt im geschützten Bereich und dient der Zuordnung und gegebenenfalls der Klärung Ihrer Rückmeldung. Gespeichert werden außerdem der Zeitpunkt und die Fassung Ihrer Einwilligung, der Bearbeitungsstatus und die Veröffentlichungsschritte. Die Einreichung führt nicht automatisch zur Veröffentlichung. Eine angegebene Kunden- oder Partnerbeziehung wird durch das Formular nicht automatisch bestätigt. Private Rückmeldungen aus dem Auftragsportal werden nicht in diesen Bereich übernommen.</p>
+      <p>Die Sicherheitsprüfung verwendet Cloudflare Turnstile. Technische Informationen können dafür an Cloudflare übermittelt werden. Zur Begrenzung wiederholter Einsendungen verarbeitet der Dienst zeitlich begrenzte Hashwerte von Netzwerk- und E-Mail-Angaben. Es werden keine Rückmeldungen automatisch an externe Bewertungsplattformen oder KI-Anbieter weitergegeben.</p>
+      <p>Sie können Ihre Einwilligung für die Zukunft widerrufen und die Entfernung Ihrer Rückmeldung über <a href={`mailto:${company.email}`}>{company.email}</a> anfordern. Der Inhaber kann die Veröffentlichung zurücknehmen. Eine automatische Löschfrist oder Selbstbedienung zur vollständigen Löschung ist derzeit nicht eingerichtet; Löschanliegen werden über diesen Kontakt bearbeitet.</p>
     </section>
 
     <section aria-labelledby="dienstleister">
@@ -100,7 +109,7 @@ const sections = [
     <section aria-labelledby="aenderungen">
       <h2 id="aenderungen">9. Änderungen dieser Hinweise</h2>
       <p>Ändern sich Funktionen, Dienstleister oder Verarbeitungszwecke, werden diese Informationen entsprechend angepasst. Neue Werbe- oder Analysefunktionen sind durch diese Erklärung nicht vorab aktiviert.</p>
-      <p class="legal-version">Stand: 24. Oktober 2026 · <a href="/impressum/">Anbieterangaben im Impressum</a></p>
+      <p class="legal-version">Stand: 25. Oktober 2026 · <a href="/impressum/">Anbieterangaben im Impressum</a></p>
     </section>
   </article>
 </Layout>

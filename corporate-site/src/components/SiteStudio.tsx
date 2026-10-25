@@ -2,6 +2,7 @@ import { createSignal, For, Show, onMount, onCleanup } from 'solid-js';
 import { normalizeStudioPage, validateStudioEntries, type StudioEntry, type StudioKind } from '../lib/site-studio-contract';
 import {studioPages} from '../lib/studio-pages';
 import '../styles/site-studio.css';
+import ReviewsModeration from './ReviewsModeration';
 
 type Language='de'|'en'|'uk'|'ru';
 type Revision={id:string;version:number;action:string;createdAt:string};
@@ -347,6 +348,7 @@ export default function SiteStudio(){
           </div>
         </aside>
       </div>
+      <ReviewsModeration locale={language()} />
     </Show>
   </div>;
 }

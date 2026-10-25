@@ -106,10 +106,13 @@ const jsGzip = assets
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
-assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
+const homeIslands = homepage.match(/<astro-island\b[^>]*>/g) || [];
+assert.equal(homeIslands.length, 1, 'Only the functional reviews island hydrates on the homepage');
+assert.match(homeIslands[0], /component-url="[^"]*PublicReviews\./, 'Owner components never hydrate publicly');
+assert.match(homeIslands[0], /client="visible"/, 'Reviews hydrate only when visible');
 assert.match(homepage, /data-knaba-open/, 'Chat launcher is present without eager framework hydration');
 const workerConfig=JSON.parse(await readFile(resolve('dist/server/wrangler.json'),'utf8'));
-for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
+for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/reviews','/api/reviews/*'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));

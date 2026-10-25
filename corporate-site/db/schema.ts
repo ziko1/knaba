@@ -1,4 +1,5 @@
-import { integer, sqliteTable, text, uniqueIndex, index, primaryKey } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
+import { integer, sqliteTable, text, uniqueIndex, index, primaryKey, check } from "drizzle-orm/sqlite-core";
 
 export const profiles = sqliteTable("profiles", {
   id: text("id").primaryKey(), name: text("name").notNull(), email: text("email").notNull(),
@@ -120,3 +121,27 @@ export const crmContactNotes = sqliteTable('crm_contact_notes',{
   createdAt:text('created_at').notNull(),
 },t=>[uniqueIndex('crm_note_idempotency').on(t.contactKey,t.actorId,t.idempotencyKey),
   index('crm_note_contact_recent').on(t.contactKey,t.createdAt)]);
+
+/** Public testimonials require separate explicit consent; private order feedback is never copied. */
+export const publicReviews = sqliteTable('public_reviews', {
+  id: text('id').primaryKey(),
+  displayName: text('display_name').notNull(),
+  email: text('email').notNull(),
+  company: text('company').notNull().default(''),
+  relationship: text('relationship', {enum:['client','partner']}).notNull(),
+  reviewText: text('review_text').notNull(),
+  status: text('status', {enum:['pending','published','hidden']}).notNull().default('pending'),
+  consentAt: text('consent_at').notNull(),
+  consentVersion: text('consent_version').notNull(),
+  dedupeScope: text('dedupe_scope').notNull(),
+  idempotencyKey: text('idempotency_key').notNull(),
+  payloadHash: text('payload_hash').notNull(),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+  publishedAt: text('published_at'),
+  version: integer('version').notNull().default(1),
+  lastMutation: text('last_mutation').notNull(),
+}, t => [uniqueIndex('public_review_idempotency').on(t.dedupeScope,t.idempotencyKey),
+  index('public_review_listing').on(t.status,t.publishedAt,t.id),
+  check('public_review_relationship',sql`${t.relationship} IN ('client','partner')`),
+  check('public_review_status',sql`${t.status} IN ('pending','published','hidden')`)]);
