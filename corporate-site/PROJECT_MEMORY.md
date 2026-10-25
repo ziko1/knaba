@@ -159,3 +159,13 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Fresh actual `dist/client` artifact SHA256 `e07816d0aeb2154dabc483cf2748afc6c6a2951b1b615a011a59c4e8687a60ce`; worker SHA256 `b84a86d458fbae242eadef7b296f5cec8d1f7b9def1149deb8241f846145d105`, bundled renderer `4313a678824926f93b09e417bd65d58844e33bb602952d4c22cfe180f2f7ed64`, homepage `e0496be03a80cf26e4b5b18a4230f3316140e9fc22c9d404d19a820404d5d8d6`.
 - Real Chromium on isolated Nginx static build: synthetic short-page footer bottom matches viewport on 320×700, 390×844, 390×1550, 768×1024; horizontal overflow 0. Ukrainian catalog has 10 linked service cards; public JSON serves only `baureinigung`, no office service. No production database mutations in tests.
 - Further public deployment still requires strict TLS/live routes, verified backups and rollback. Do not modify external official `knaba.de`, source-provider historical data, owner secrets, or unrelated services.
+
+
+## Live development VPS rebrand verified — 2026-10-25
+
+- User-authorized dev release code SHA 90d3701fb06b5d82e632a3d2db01e983a9ba45f0 installed under /srv/knaba/vps/releases; previous 87b6fb49a658e60781d35c44f2667d720dfcf6ac preserved for rollback, compose/DNS/SSL unchanged.
+- Backup before app upgrade: knaba-2026-10-25T01-24-39-899Z.sqlite, SHA256 d5f4e30851ed8bf0f981d26615910263f786d67095be4b0d387b83f58991ef56, five existing migrations, 217088 bytes. No database schema or user record changes.
+- Isolated runtime route tests passed; DE/EN/UK/RU old office paths redirect HTTP308, API catalogue now contains only the stable Baureinigung service. Host spoof refused HTTP421. Development app Docker healthy.
+- Public HTTPS with system CA verification: 99 built HTML routes have expected statuses (97 HTTP200 and 2 intentional 308 for the DE/RU legacy office pages), no unexpected errors. Extra EN/UK office URLs also redirect 308. HSTS max-age 604800, header and meta robots noindex/follow; Let's Encrypt SSL unchanged and valid. New squeegee/building SVG is served live.
+- Live Chromium automated 320x700, 390x844, 390x1550 and 768x1024 synthetic short-page footer test: bottom matches viewport and horizontal overflow zero.
+- Real owner account still unprovisioned (/readyz 503), on-device manual UAT and external-provider data export unverified. No paid providers used, no official knaba.de changes. VPS disk warning about 95 percent usage persists.

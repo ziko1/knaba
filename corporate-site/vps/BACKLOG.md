@@ -31,3 +31,9 @@
 - [x] Discontinued office-cleaning public API no longer markets historic code; retired office detail URLs redirect to modern catalog.
 - [ ] Verify post-deploy strict SSL, 99 routes, mobile actual device view and returning real user flow.
 - [ ] Reconcile old official knaba.de office-service text with company owner before official-domain changes.
+
+## BauService rebrand public dev release, 2026-10-25
+- [x] HTTPS, 99-route, 4-locale legacy office redirects, public Baureinigung catalogue, new logo, mobile browser footer checks.
+- [ ] Genuine owner enrollment and live CMS/CRM UAT; /readyz returns 503 intentionally.
+- [ ] Physical Android/iOS browser checks, accessibility, legal review and external backup/restore.
+- [ ] Confirm revised service positioning with company owner before touching separate official knaba.de.
