@@ -231,3 +231,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - GREEN: changed only eight labels in shared src/layouts/Layout.astro; kept DE/RU copy, legal links, route URLs and private gates intact.
 - Isolated networkless Node24 QA: check 0 errors, Vitest 144/144, inquiry 8/8, VPS Node tests 16/16, build/verify 103 HTML PASS. Artifact digest SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
 - Real Chromium focused footer test on isolated candidate: EN and UK labels map to valid localized pages, German-only legal destinations remain labeled (DE). Physical device remains NOT_RUN.
+
+
+## Actual live development-domain receipt — 25.10.2026, localized footer
+- Verified published code release: 7f886606d5711ac93a88d3d93b54a0a9b5638525 at https://kneba.vsp.rest/. Previous exact code de94da89794f15fdb05ac2f068df2e4a52a64f4d retained for code-only rollback.
+- Pre-switch durable online SQLite backup knaba-2026-10-25T05-20-51-748Z.sqlite, SHA256 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0, five migration files unchanged. SQLite integrity_check ok before/after; web container only recreated.
+- Post-deploy TLS verify=0, Docker healthy. Public FAQ/Studio/assistant-config HTTP200, no external provider/billing activation. Browser EN/UK link-label-to-destination PASS; 16/16 FAQ locale-width flows + 1 Astro SPA navigation, 32/32 post-close Assistant/footer interactions PASS; complete responsive 102/102 generated HTML route Chromium check PASS.
+- Runbook remains dev-only, /readyz=503 due missing verified real owner. No main merge, no official knaba.de cutover, no real owner Studio UAT, no physical device/human Turnstile completion; VPS disk ~95% full, 9.9GiB free, no unreviewed deletion.

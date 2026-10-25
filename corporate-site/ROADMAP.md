@@ -203,3 +203,9 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Green: repair eight labels through shared Layout; preserve actual German-only legal labeling
 - [x] Node24 full tests, 103-page static verifier, route-language browser checks on 390px
 - [ ] Source-pinned dev-domain deployment with backup and actual live regression, no production domain/main merge
+
+
+## Localized footer development release receipt — 25.10.2026
+- [x] Published exact 7f886606d5711ac93a88d3d93b54a0a9b5638525 code on kneba.vsp.rest; previous code preserved, fresh SQLite backup and verified integrity
+- [x] Post-deploy HTTPS/certificate, Docker health, source SHA, EN/UK footer link semantics, 16 FAQ, 32 Assistant-close, 102 all-route checks
+- [ ] Real owner authorizes Studio editing, legal/processors signoff, physical device testing, browser Turnstile human acceptance, verified offsite backup and disk-pressure recovery

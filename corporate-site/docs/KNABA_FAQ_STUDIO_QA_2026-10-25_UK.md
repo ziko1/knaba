@@ -31,3 +31,12 @@
 - Corrected only four EN and four UK labels; kept actual /datenschutz/ and /impressum/ (DE) disclosure since those pages remain German for these locales.
 - Exact updated candidate rebuilt on Node 24 with 144/144 Vitest, 8/8 inquiry, 16/16 VPS tests, 103 built HTML pages; artifact SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
 - Browser GREEN checks both EN/UK footer destination label and returned page language. No DNS, DB, auth, vendor, main or official site changes.
+
+
+## Post-deployment operator receipt (25.10.2026)
+- Live development site code commit 7f886606d5711ac93a88d3d93b54a0a9b5638525; previous de94da89794f15fdb05ac2f068df2e4a52a64f4d remains immutable code rollback. GitHub PR #51 stays Draft, no official-domain/main merge.
+- Before switching: SQLite online backup knaba-2026-10-25T05-20-51-748Z.sqlite SHA256 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0, five migrations unchanged. Existing DB integrity ok; no schema change. Only KnaBa web container recreated.
+- Live TLS verified, Docker healthy. /, /en/, /uk/, all four /faq/ routes, /studio/, /healthz, /datenschutz/ HTTP200. Public Turnstile configuration remains enabled without leaked secret.
+- Actual live Chromium on exact deployment: EN and UK localized public footer labels and local-language destinations PASS; German-only legal notices continue to show (DE). FAQ search/filters: 16/16 locale viewport cases + UK ClientRouter navigation PASS; footer after Assistant close 32/32 PASS; global HTML route audit 102/102 PASS with no horizontal overflow/hidden legal links/broken footer logo.
+- Source test candidate Node24: 144 Vitest + 8 inquiry + 16 VPS Node tests, build 103 HTML, exact artifact SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
+- Not claimed: verified human owner login/editor publish, human Turnstile pass on device, legal signoff, field CWV/real device, offsite restore, ChatGPT Sites/D1 reconciliation, production readiness. Disk warning ~95%; no unrelated data cleanups.
