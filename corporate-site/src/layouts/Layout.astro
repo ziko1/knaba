@@ -6,6 +6,7 @@ import Icon from "../components/Icon.astro";
 
 import { languageLinks, localeAlternates } from "../lib/site-i18n";
 import LocaleCatalog from "../components/LocaleCatalog.astro";
+import {corporateBreadcrumbs,navigationCurrent} from '../lib/corporate-navigation';
 import { ClientRouter } from "astro:transitions";
 interface Props {
   title: string;
@@ -16,7 +17,7 @@ interface Props {
   breadcrumbs?: {name:string;url:string}[];
   alternates?: {lang:string;url:string}[];
 }
-const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs = [], alternates = [] } = Astro.props;
+const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [] } = Astro.props;
 const isNoindex = !siteConfig.indexable || noindex;
 const translated = {
   de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
@@ -26,6 +27,7 @@ const translated = {
 }[lang];
 const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
+const breadcrumbs = suppliedBreadcrumbs.length ? suppliedBreadcrumbs : corporateBreadcrumbs(path, lang);
 const localPath = (url: string) => {
   if(lang === 'de') return url;
   if((lang==='en'||lang==='uk') && ['/impressum/','/datenschutz/','/konto/'].includes(url)) return url;
@@ -114,7 +116,7 @@ const structuredData = {
             nav.map(([href, text]) => (
               <a
                 href={href}
-                aria-current={path.startsWith(href) ? "page" : undefined}
+                aria-current={navigationCurrent(path, href)}
               >
                 {text}
               </a>
@@ -145,13 +147,13 @@ const structuredData = {
           <summary aria-label={translated.menu}
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
           ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
-            {nav.map(([href, text]) => <a href={href}>{text}</a>)}<a
+            {nav.map(([href, text]) => <a href={href} aria-current={navigationCurrent(path, href)}>{text}</a>)}<a
               href={localPath("/kontakt/")}>{translated.quote} →</a><a href={localPath("/konto/")}>{translated.account}</a>
           </nav>
         </details>
       </div>
     </header>
-    <main id="main" tabindex="-1">{breadcrumbs.length > 0 && <nav class="container breadcrumbs" aria-label={lang === 'de' ? 'Brotkrümelnavigation' : lang === 'ru' ? 'Путь к странице' : 'Breadcrumb'}><ol>{breadcrumbs.map((item,index)=><li>{index === breadcrumbs.length-1 ? <span aria-current="page">{item.name}</span> : <a href={item.url}>{item.name}</a>}</li>)}</ol></nav>}<slot /></main>
+    <main id="main" tabindex="-1">{breadcrumbs.length > 0 && <nav class="container breadcrumbs" aria-label={lang === 'de' ? 'Brotkrümelnavigation' : lang === 'ru' ? 'Путь к странице' : lang === 'uk' ? 'Шлях до сторінки' : 'Breadcrumb'}><ol>{breadcrumbs.map((item,index)=><li>{index === breadcrumbs.length-1 ? <span aria-current="page">{item.name}</span> : <a href={item.url}>{item.name}</a>}</li>)}</ol></nav>}<slot /></main>
     <footer class="footer">
       <div class="container footer-grid">
         <div>
