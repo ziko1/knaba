@@ -2226,3 +2226,8 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 @media (max-width: 340px) {
   .construction-brand img { width: min(140px, 43vw); }
 }
+/* At 200% text, the focus-visible skip chip may wrap into header controls.
+   Keep it usable by pointer and keyboard without blocking mobile navigation. */
+@media (max-width: 700px) {
+  .skip-link:focus { max-width: min(180px, calc(100vw - 172px)); }
+}
