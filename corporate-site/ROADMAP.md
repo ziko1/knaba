@@ -196,3 +196,10 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Real browser static HTML: four languages × four widths, FAQ search/filter/client nav
 - [ ] Exact-source guarded live development-domain rollout, backup/rollback and public route revalidation
 - [ ] Owner authenticated Studio actual editing UAT, human Turnstile, GDPR legal review and field CWV remain blocked independently
+
+
+## EN/UK footer reflow and language-accuracy gate — 25.10.2026
+- [x] Red: verify inaccurate DE labels on already translated EN/UK destinations
+- [x] Green: repair eight labels through shared Layout; preserve actual German-only legal labeling
+- [x] Node24 full tests, 103-page static verifier, route-language browser checks on 390px
+- [ ] Source-pinned dev-domain deployment with backup and actual live regression, no production domain/main merge

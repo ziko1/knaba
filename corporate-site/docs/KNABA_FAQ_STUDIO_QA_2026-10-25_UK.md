@@ -24,3 +24,10 @@
 - Deploy only kneba.vsp.rest and web service; check HTTPS, all public HTML pages, new FAQ, Turnstile public config without exposing secret, CRM forbidden 401, /readyz truthfully 503 if owner not enrolled.
 - Include post-deploy real Chromium FAQ in four languages; mark official knaba.de, main merge, missing owner enrollment, physical-device UAT, human Turnstile completion, legal signoff, offsite backup and D1 migration as blocked.
 - Disk ~95% used; /tmp dominated by QA branches and Docker metadata has misleading reclaimable estimates. No arbitrary deletion/prune or shared-process interruption.
+
+
+## Subsequent correction: misleading German markers in the shared footer
+- Old live footer in English/Ukrainian labeled four localized destinations as (DE), misleading users. Verified RED in Chromium at en/branchen.
+- Corrected only four EN and four UK labels; kept actual /datenschutz/ and /impressum/ (DE) disclosure since those pages remain German for these locales.
+- Exact updated candidate rebuilt on Node 24 with 144/144 Vitest, 8/8 inquiry, 16/16 VPS tests, 103 built HTML pages; artifact SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
+- Browser GREEN checks both EN/UK footer destination label and returned page language. No DNS, DB, auth, vendor, main or official site changes.

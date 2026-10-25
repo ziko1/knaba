@@ -222,3 +222,12 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - New FAQ routes were missing from src/lib/studio-pages.ts (68 entries). RED focused Vitest repro; added four public-only FAQ routes, 72 entries, kept owner-only permissions.
 - Isolated Node24 offline check/test/build/static: 144 Vitest, 8 inquiry, 16 VPS tests PASS, 103 HTML pages, 16 FAQ browser viewport/language scenarios + one client-navigation scenario PASS. Built digest 77e730e639c7ceb33ef501832e00ffeead75dd0e5daa6bb75cfcf8d7282647ed.
 - Release receipt and remaining risks: docs/KNABA_FAQ_STUDIO_QA_2026-10-25_UK.md. No official-domain cutover, real owner enrolment or AI provider activation.
+
+
+## Footer localized public-route labels — 25.10.2026
+- Exact starting code/development VPS release de94da89794f15fdb05ac2f068df2e4a52a64f4d, 103 public HTML pages.
+- Found stale EN/UK footer labels marked (DE) for four destinations that are already fully localized: branchen, ratgeber, berlin, karriere. Actual DE-only legal notices correctly retain (DE).
+- RED: real live Chromium with UK/EN footer navigation failed (EN branchen was Your sector (DE) despite EN destination).
+- GREEN: changed only eight labels in shared src/layouts/Layout.astro; kept DE/RU copy, legal links, route URLs and private gates intact.
+- Isolated networkless Node24 QA: check 0 errors, Vitest 144/144, inquiry 8/8, VPS Node tests 16/16, build/verify 103 HTML PASS. Artifact digest SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
+- Real Chromium focused footer test on isolated candidate: EN and UK labels map to valid localized pages, German-only legal destinations remain labeled (DE). Physical device remains NOT_RUN.
