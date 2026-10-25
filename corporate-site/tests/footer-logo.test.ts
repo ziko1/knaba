@@ -12,7 +12,7 @@ describe('KNABA approved 3D logo on all shared locale routes',()=>{
      expect(layout.split('/images/'+name).length-1).toBe(1);
    }
    expect(layout.match(/<picture class="knaba-3d-media">/g)).toHaveLength(2);
-   expect(layout.match(/media="\\(max-width: 700px\\)"/g)).toHaveLength(2);
+   expect(layout.split('media="(max-width: 700px)"').length-1).toBe(2);
    expect(layout).toContain('class="brand footer-brand construction-brand"');
    expect(layout).toContain('alt={brandAlt}');
    for(const locale of ['de:','en:','uk:','ru:'])expect(layout).toContain(locale);
