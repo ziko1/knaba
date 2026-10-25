@@ -1,0 +1,75 @@
+{
+  "project": "KNABA",
+  "date": "2026-10-25",
+  "task": "owner-email-invitation-provisioning",
+  "base_source_sha": "7f886606d5711ac93a88d3d93b54a0a9b5638525",
+  "runtime_status": "SOURCE_TESTED_NOT_DEPLOYED",
+  "business_email": "kontakt@knaba.de",
+  "email_evidence": "official website and source company data",
+  "message_delivery": {
+    "provider": "Gmail",
+    "sent_message_id": "1a17302b42d53960",
+    "type": "owner authorization confirmation request",
+    "reusable_password_sent": false,
+    "activation_token_sent": false,
+    "delivered_or_reply_confirmed": false
+  },
+  "implementation": {
+    "new_migration": "0005_owner_invite.sql",
+    "hash_only_tokens": true,
+    "token_lifetime_minutes": 120,
+    "one_use": true,
+    "latest_invite_revokes_prior": true,
+    "no_automatic_owner_creation": true,
+    "fragment_delivery_no_url_logs": true,
+    "csrf": true,
+    "same_origin_referrer_policy": true,
+    "password_min_length": 16,
+    "owner_attestation": true,
+    "no_external_mail_service_activated": true
+  },
+  "checks": {
+    "node_version": "24.22.1",
+    "astro_vue_svelte": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "vitest": {
+      "pass": 144,
+      "total": 144,
+      "files": 23
+    },
+    "node_inquiry": {
+      "pass": 8,
+      "total": 8
+    },
+    "vps_tests": {
+      "pass": 22,
+      "total": 22
+    },
+    "html_pages": 103,
+    "static_verifier": "PASS",
+    "browser": {
+      "synthetic_owner_enroll": "PASS",
+      "cookie_login": "PASS",
+      "studio_access": "PASS",
+      "390px_overflow": 0,
+      "js_errors": 0,
+      "live_data_touched": false
+    },
+    "client_artifact_sha256": "1ebcb02f1f5b9bf3278c5eff4651118b85a5f5977b2927715b311f5418d598ee"
+  },
+  "blockers": {
+    "expected_owner_email_env": "EMPTY",
+    "live_readyz": 503,
+    "live_source_sha": "7e774c32863ad6b9f90a95288b5bd3495d941a51",
+    "live_source_public_git_commit_retrievable": false,
+    "disk_used_pct_approx": 96,
+    "real_owner_email_verification": "NOT_CONFIRMED",
+    "independent_security_review": "NOT_RUN",
+    "migration_live": "NOT_RUN",
+    "owner_account_live": "NOT_CREATED",
+    "activation_invite_live": "NOT_ISSUED",
+    "production_knaba_domain_unchanged": true
+  }
+}

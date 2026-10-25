@@ -203,3 +203,12 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Green: repair eight labels through shared Layout; preserve actual German-only legal labeling
 - [x] Node24 full tests, 103-page static verifier, route-language browser checks on 390px
 - [ ] Source-pinned dev-domain deployment with backup and actual live regression, no production domain/main merge
+
+
+## 2026-10-25 — KNABA owner email enrollment code candidate
+- Owner contact email kontakt@knaba.de confirmed in corporate-site/src/data/company.ts and KNABA official public contact page. Public address is NOT proof of mailbox ownership; contact inbox confirmation request sent via connected Gmail, ID 1a17302b42d53960, without reusable password or activation token.
+- Branch feat/knaba-owner-email-enrollment-20261025 on base 7f886606d5711ac93a88d3d93b54a0a9b5638525. One-use two-hour 256-bit SHA256-only owner capability + additive 0005 migration + safe same-origin activation page, clear token fragment, explicit password creation and business authority attestation; no public ready-to-use account created.
+- RED/GREEN Node TDD: issuance/claim, hash-only storage, expiry, owner role, CLI origin restrictions; HTTP 403 invalid Origin, 401 bad/replayed capability, 303 valid claim, authenticated Studio login. Real Chromium RED caught no-referrer Origin:null; GREEN same-origin keeps CSRF enforcement and removes fragment. Synthetic 390px owner login PASS, zero JS errors.
+- Node24 source evidence: 144/144 Vitest, 8/8 inquiry, 22/22 VPS tests, 103 HTML pages, static verifier, check 0 errors/warnings; artifact SHA256 1ebcb02f1f5b9bf3278c5eff4651118b85a5f5977b2927715b311f5418d598ee.
+- Current live VPS changed independently to local SHA 7e774c32863ad6b9f90a95288b5bd3495d941a51 not retrievable as public GitHub commit; disk ~96% used, config owner email empty, zero owner users, /readyz503. Do not deploy or migrate without exact source reconciliation, owner verified email response, independent security review and storage gate.
+- No paid AI/email provider activation, no official knaba.de change, no production login/password leak, no live SQLite modification. Details docs/plans/2026-10-25-owner-email-enrollment.md and docs/evidence/knaba-owner-enrollment-20261025.json.
