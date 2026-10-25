@@ -18,7 +18,8 @@
     "db:migrate:local": "wrangler d1 migrations apply DB --local --config dist/server/wrangler.json --persist-to .wrangler/state",
     "test:artifact": "node --test tests/verify-live-artifact.test.mjs",
     "test:visual": "node tests/design-seo-browser.cjs",
-    "test:reflow": "node tests/accessibility-reflow-browser.cjs"
+    "test:reflow": "node tests/accessibility-reflow-browser.cjs",
+    "test:guides-browser": "node tests/construction-guides-browser.cjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "7.1.1",
