@@ -216,3 +216,10 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Node24, all site tests, full static build, SSR tests and isolated preview select/edit/undo QA (GREEN) at executable SHA `1d58071edecd79870c1f1bcd563e54ed70b35805`.
 - [ ] Publish only after the active VPS SHA is source-traceable and owner-scoped authentication/draft/publish/restore UAT is completed with immutable release/rollback.
 - [ ] Future FAQ CRUD (add/reorder/delete) requires separate typed contract, revision history, accessibility and locale QA. Do not call current leaf editor a full FAQ CMS.
+
+## KN-VISUAL-FAQ-AUDIT-INTEGRATION — 2026-10-25
+- [x] Reuse scoped PR59 pastel 6th service card/full-width link plus PR53 immutable SHA gate and PR57 safe FAQ Studio text leaf editing.
+- [x] Node24 on exact Git commit, 147 Vitest/16 Node/18 VPS PASS, both index modes 103-page build/static PASS, browser 12 locale × width PASS.
+- [ ] P0 Recover source-recovery.patch and full active runtime provenance; compare each expected build artifact before upgrading.
+- [ ] P0 New preview release only with shared lock + current SHA lease + online backup/hash/integrity and code-only rollback; preserve already-indexed public preview until separately reviewed.
+- [ ] Real owner account and Studio publish/restore, physical device/screen reader, GDPR, CWV, official site signoff remain separate.
