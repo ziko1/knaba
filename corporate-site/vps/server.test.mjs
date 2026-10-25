@@ -132,3 +132,53 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     await rm(dir,{recursive:true,force:true});
   }
 });
+
+test('VSP origin: exact Host and TLS only, no cross-domain redirects or spoofed identity',async()=>{
+  const dir=await mkdtemp(join(tmpdir(),'knaba-vsp-host-test-'));
+  const dbPath=join(dir,'state.sqlite');
+  const create=(localTest)=>createKnabaVpsServer({
+    dbPath,ownerEmail:'',origin:'https://kneba.vsp.rest',localTest,
+    staticRoot:new URL('../dist/client/',import.meta.url).pathname,
+    workerPath:new URL('../dist/server/index.js',import.meta.url).href,
+    host:'127.0.0.1',port:0
+  });
+  let seed=null,app=null;
+  const probe=(path,headers={})=>new Promise((resolve,reject)=>{
+    const request=httpRequest({
+      hostname:'127.0.0.1',port:app.port,path,
+      headers:{Host:'kneba.vsp.rest','X-Forwarded-Proto':'https',...headers}
+    },response=>{
+      const chunks=[];
+      response.on('data',c=>chunks.push(c));
+      response.on('end',()=>resolve({
+        status:response.statusCode,
+        location:response.headers.location,
+        body:Buffer.concat(chunks).toString('utf8')
+      }));
+    });
+    request.on('error',reject);request.end();
+  });
+  try{
+    seed=await create(true);
+    await seed.close();seed=null;
+    app=await create(false);
+    assert.equal((await probe('/')).status,200);
+    assert.equal((await probe('/studio/')).status,200);
+    assert.equal((await probe('/healthz')).status,200);
+    assert.equal((await probe('/readyz')).status,503);
+    assert.equal((await probe('/api/crm/contacts')).status,401);
+    assert.equal((await probe('/',{Host:'knaba.de'})).status,421);
+    assert.equal((await probe('/',{Host:'www.knaba.de'})).status,421);
+    assert.equal((await probe('/',{Host:'kneba.vsp.rest.evil.test'})).status,421);
+    assert.equal((await probe('/',{'X-Forwarded-Proto':'http'})).status,421);
+    const visitor=await probe('/api/portal/session',{
+      'oai-authenticated-user-id':'forged-owner','oai-authenticated-user-email':'owner@example.test'
+    });
+    assert.equal(visitor.status,200);
+    assert.equal(JSON.parse(visitor.body).role,'anonymous');
+  } finally {
+    await seed?.close().catch(()=>{});
+    await app?.close().catch(()=>{});
+    await rm(dir,{recursive:true,force:true});
+  }
+});
