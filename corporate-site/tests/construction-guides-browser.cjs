@@ -30,6 +30,17 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
      assert.equal(await page.locator('h1').count(),1);
      assert.equal(await page.locator('.guide-chapter').count(),4);
      assert.equal(await page.locator('.guide-checks li').count(),4);
+     const checkNumber=await page.locator('.guide-checks li span').first().evaluate(node=>({
+       text:node.textContent.trim(),
+       whiteSpace:getComputedStyle(node).whiteSpace,
+       minWidth:node.getBoundingClientRect().width
+     }));
+     assert.equal(checkNumber.text,'01');
+     assert.equal(checkNumber.whiteSpace,'nowrap','Checklist ordinal must not wrap as 0 on one line and 1 on another');
+     assert.ok(checkNumber.minWidth>=17,'Checklist ordinal should have a reserved compact column');
+     const checklistLabel=(await page.locator('.guide-kicker').textContent()).trim().toLocaleUpperCase();
+     const localBadge={de:'CHECKLISTE',en:'CHECKLIST',uk:'ЧЕКЛІСТ',ru:'ЧЕКЛИСТ'}[lang];
+     assert.ok(checklistLabel.includes(localBadge),'Checklist eyebrow must match the current language');
      assert.equal(await page.locator('.guide-related-grid a').count(),3);
      const canonical=await page.locator('link[rel="canonical"]').getAttribute('href');
      assert.equal(canonical,'https://kneba.vsp.rest'+pathname);
