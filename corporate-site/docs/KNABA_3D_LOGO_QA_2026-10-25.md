@@ -14,3 +14,14 @@ One shared `Layout.astro` supplies header/footer for DE/EN/UK/RU and route varia
 - Full Vitest/Astro/Node suite, built candidate, real browser responsive UX (320/390/768/1440), zoom 200%, physical device, WCAG assessment and independent review: **NOT_RUN on this commit**. User-requested source-only candidate, not release acceptance.
 - Run `cd corporate-site && npm ci && npm run check && npm test && npm run build && npm run verify:build` with pinned compatible Node24 in a separate safe worktree; verify asset HTTP and cache update before deployment. Record exact new artifact SHA.
 - No actual deployment, no migration. Rollback: discard this PR; previous site/assets intact. Host storage ~95% occupied at last external audit; do not install dependencies/build on live VPS without storage and safety review.
+
+## Focused source QA evidence (current candidate)
+- Exact four SVG blob SHA-1 values match local generated/art-rendered bytes:
+  - header `441ca78c6d1573c89813f32dd1ebb66b1ddccd9b`
+  - footer `0fbcd2ec51f9fdb33f8331b857d96188aff28739`
+  - mobile header `71235acbfa4fd7670b16d4ca8b16a96084dd66b0`
+  - mobile footer `9e2e406c784608af8f01091c8b1e94b065469568`
+- Isolated `node --test scripts/check-knaba-3d-assets.mjs`: **6/6 PASS, 0 failed** (Node v22.16.0); generator reproducibility, three-building geometry, 3D colors, transparency, file-size caps and both flat slogan-contrast ratios. These are focused asset checks, **not full Node24 build acceptance**.
+- Static connected-source checks of PR Layout/assets/branch: **10/10 PASS**; DOM-compiled full app not tested.
+- Attempted browser QA using Chromium via local `file://` and HTTP loopback; both returned `net::ERR_BLOCKED_BY_ADMINISTRATOR` before rendering. Browser QA **BLOCKED/NOT_RUN**; this is not a site defect and is not PASS.
+- The SVGs were also rendered in isolated CairoSVG on paper `#FBFCF7` and footer `#102E36` for manual contrast/layout review.
