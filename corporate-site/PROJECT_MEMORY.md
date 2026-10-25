@@ -111,3 +111,9 @@ VPS immutable release /srv/knaba/vps/releases/638db18f04ed55f2a9452dd0a6db45560d
 - 111 files typecheck 0 errors/0 warnings (4 hints); VSP 102/102 Vitest + 8/8 inquiry + 14/14 VPS Node PASS, 51-page build/static verify PASS, offline real Chromium authenticated Studio publish PASS. Official build fallback 14/14 VPS PASS. One VSP build hash: 03039bcb1e793bf9e55761eb7473fb883fa3361748bcfb7b84283ac4948195fb.
 - Current live VPS remains older PR #29 release, /readyz 503 and legacy ChatGPT Sites database NOT exported. Private owner credentials and GDPR/legal approval still missing. No migration, public deployment, provider activation, payment, DNS edit or deletion took place.
 - Full receipt and release gates: docs/evidence/knaba-vps-integration-qa-2026-10-25.md. Keep separate project memory/roadmap/backlog; do not infer complete handover.
+
+
+## 2026-10-25 — owner-scoped indexing guard for KnaBa VPS
+- Source-only PR #32 follow-up code SHA 198f606f5101314d2d3019b047580c7fe18b0ddb, tree 9cf2d77db1cd5230637c8b9d989463d7d310dd64; VSP build now VSP_PENDING_APPROVAL by default, using meta + HTTP noindex and zero sitemap until actual owner/legal/data acceptance. Values such as yes cannot approve. Only exact KNABA_VSP_INDEX_APPROVED=1 at BUILD time enables VSP_PUBLIC.
+- Verified 111 files check 0 errors/warnings; 102/102 Vitest, 8/8 Node inquiry, 14/14 VPS regressions, 51 pages and no-network owner/Studio browser E2E PASS. One guarded artifact SHA256 2170b09bac840720df023f8b2f7e8485bdf09b09342884017f61ebde7235cbfc. Indexable artifact is synthetic test only, NOT live release.
+- Existing kneba.vsp.rest remains older deployed PR #29, readyz 503; old Sites D1 reconciliation and real owner enrollment NOT VERIFIED. No merge/deploy, DNS, live SQLite changes, provider key, paid calls or Sites deletion. Runbook: corporate-site/vps/VSP_REST_CUTOVER_UK.md; evidence: docs/evidence/knaba-vps-integration-qa-2026-10-25.md.

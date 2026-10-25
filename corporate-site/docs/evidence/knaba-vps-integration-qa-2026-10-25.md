@@ -44,3 +44,16 @@ The test execution ran on this exact worktree before the code was committed; the
 Retain original release and VPS SQLite snapshots in separate directories; retain historical Sites/D1 project until restored copy is verified. Production rollback requires approved operator and new checks. A DNS reversal to old Sites is NOT an assured rollback: old CNAME already previously returned HTTP 403 before cutover.
 
 **Decision: INTEGRATED_SCOPED_QA_PASS / PUBLIC_DEPLOY_HOLD / CUSTOMER_DATA_EXPORT_BLOCKED / OWNER_AUTH_REQUIRED / INDEPENDENT_REVIEW_NOT_RUN.**
+
+
+## 2026-10-25 continuation — fail-closed VSP SEO release approval
+
+- Executable source/test code SHA: 198f606f5101314d2d3019b047580c7fe18b0ddb; Git tree: 9cf2d77db1cd5230637c8b9d989463d7d310dd64. A documentation-only commit follows after this tested source. The historical indexed artifact above must NOT be assumed deployed.
+- Scope: no second CMS/queue, no customer-data/provider change, no public deployment. Added an explicit build-time owner-approved indexing gate (KNABA_VSP_INDEX_APPROVED=1) for KNABA_RELEASE_MODE=vsp.
+- VSP without any flag: canonical https://kneba.vsp.rest/, no preview banner, HTML meta noindex/follow, static _headers global X-Robots-Tag noindex/follow, actual Node24 public HTML HTTP header X-Robots-Tag noindex/follow, empty sitemap, no robots Sitemap line. Private Studio retains stronger noindex/nofollow.
+- RED TDD evidence: updated static acceptance failed for original automatically indexed VSP source, exit 1. Separate public Node HTTP header test failed on original code with missing X-Robots-Tag, exit 1. Minimal production source fixes then made each focused test GREEN.
+- Default VSP after fix generated 51 HTML pages and verify:build PASS; indexMode VSP_PENDING_APPROVAL; one artifact SHA256 2170b09bac840720df023f8b2f7e8485bdf09b09342884017f61ebde7235cbfc. Invalid literal yes also remained fail-closed; only EXACT flag value 1 produced a synthetic VSP_PUBLIC build with 44 sitemap addresses and artifact SHA256 03039bcb1e793bf9e55761eb7473fb883fa3361748bcfb7b84283ac4948195fb. This is only a test of the release flag, NOT owner approval and NOT deployed.
+- Backwards compatibility: KNABA_RELEASE_MODE=official remained OFFICIAL with 51 pages, original canonical https://knaba.de/ and 14/14 VPS tests PASS; never deployed.
+- Latest fail-closed source QA on exact code: Node24.22.1 no-network Docker; npm run check 111 Astro files, 0 errors, 0 warnings, 4 hints; Vue/Svelte clean. npm test 102/102 Vitest + 8/8 Node inquiry PASS; npm run build 51 HTML + existing Worker + SSR renderer PASS; npm run verify:build PASS; node --test vps/*.test.mjs 14/14 PASS; git diff --check PASS.
+- Independent synthetic browser E2E (no network, temporary SQLite and TLS): Chromium 390x844, synthetic owner Secure/HttpOnly login, Studio edit/save/publish, new body and SEO served by Node, icon link edit, zero horizontal overflow/JS errors PASS. New acceptance checks Studio publishing never lifts unapproved noindex.
+- Indexing gate is build-time only: modifying container environment later does not rewrite compiled HTML/robots/sitemap. Formal site-owner/legal/data approval and release acceptance are prerequisites before any indexed deployment. Production RELEASE=HOLD; OLD SITES DELETE=BLOCKED.
