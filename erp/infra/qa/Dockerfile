@@ -4,6 +4,8 @@
 FROM python:3.12-slim
 
 COPY --from=node:24-bookworm-slim /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:24-bookworm-slim /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
+RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 RUN python3 -m pip install --no-cache-dir --disable-pip-version-check \
       openpyxl==3.1.5 Pillow==11.3.0 \
@@ -12,5 +14,5 @@ RUN python3 -m pip install --no-cache-dir --disable-pip-version-check \
       poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 
-RUN node -v && python3 -c "import openpyxl,PIL; print(openpyxl.__version__,PIL.__version__)" \
+RUN node -v && npm -v && python3 -c "import openpyxl,PIL; print(openpyxl.__version__,PIL.__version__)" \
     && pdftotext -v
