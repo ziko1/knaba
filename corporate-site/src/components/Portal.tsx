@@ -140,6 +140,13 @@ function LoginFields(props:{t:Text;locale:Accessor<PortalLocale>;onSuccess:()=>P
   const [error,setError]=createSignal('');
   const passwordLabel=()=>({de:'Passwort',en:'Password',uk:'Пароль',ru:'Пароль'} as const)[props.locale()];
   const accessLabel=()=>({de:'Neuen Zugang anfragen',en:'Request an account',uk:'Запросити доступ',ru:'Запросить доступ'} as const)[props.locale()];
+  const googleLabel=()=>({de:'Mit Google anmelden',en:'Continue with Google',uk:'Увійти через Google',ru:'Войти через Google'} as const)[props.locale()];
+  const [googleEnabled,setGoogleEnabled]=createSignal(false);
+  onMount(()=>{
+    void fetch('/auth/providers.json',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(6500)})
+      .then(response=>response.ok?response.json():null)
+      .then(data=>setGoogleEnabled(data?.google===true)).catch(()=>setGoogleEnabled(false));
+  });
   async function login(event:SubmitEvent) {
     event.preventDefault();
     if(busy())return;
@@ -164,6 +171,9 @@ function LoginFields(props:{t:Text;locale:Accessor<PortalLocale>;onSuccess:()=>P
       value={password()} onInput={event=>setPassword(event.currentTarget.value)}/></label>
     <Show when={error()}><p class="portal-alert portal-alert-error" role="alert">{error()}</p></Show>
     <button type="submit" class="button button-dark" disabled={busy()}>{busy()?props.t().loading:props.t().signIn}</button>
+    <Show when={googleEnabled()}><a class="button button-outline portal-google-login"
+      href={'/auth/google/start?return_to='+encodeURIComponent(portalReturnTo(props.locale()))}
+      rel="nofollow">{googleLabel()} →</a></Show>
     <a href={portalPublicPath('/kontakt/',props.locale())} class="portal-access-request">{accessLabel()} →</a>
   </form>;
 }
