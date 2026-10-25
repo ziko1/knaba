@@ -122,6 +122,8 @@ export async function createKnabaVpsServer({
   const server=createHttpServer(async(req,res)=>{
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
+    if(!localTest && req.headers['x-forwarded-proto']==='https')
+      res.setHeader('Strict-Transport-Security','max-age=604800');
     res.setHeader('X-Frame-Options','SAMEORIGIN');
     res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
     res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");

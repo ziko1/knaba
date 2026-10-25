@@ -42,7 +42,7 @@ describe('KNABA Site Studio input and publication rules', () => {
   it('permits exactly the active KnaBa VPS origin for Studio links',()=>{
     const link='#main > section:nth-of-type(1) > a:nth-of-type(1)';
     expect(validateStudioEntries([{selector:link,kind:'href',value:'https://kneba.vsp.rest/kontakt/'}])).toHaveLength(1);
-    for(const href of ['https://kneba.vsp.rest.evil.test/kontakt/','http://kneba.vsp.rest/kontakt/','https://evil.test@kneba.vsp.rest/kontakt/']){
+    for(const href of ['https://kneba.vsp.rest.evil.test/kontakt/','http://kneba.vsp.rest/kontakt/','https://evil.test@kneba.vsp.rest/kontakt/','https://kneba.vsp.rest:9443/kontakt/','https://knaba.de:8443/kontakt/']){
       expect(()=>validateStudioEntries([{selector:link,kind:'href',value:href}])).toThrow(StudioInputError);
     }
   });

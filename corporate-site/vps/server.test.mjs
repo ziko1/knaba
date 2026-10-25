@@ -178,6 +178,10 @@ test('VSP origin: exact Host and TLS only, no cross-domain redirects or spoofed 
     assert.equal(studio.status,200);
     assert.equal(studio.headers['x-robots-tag'],'noindex, nofollow',
       'Private Studio must retain stronger noindex/nofollow');
+    assert.equal((await probe('/')).headers['strict-transport-security'],'max-age=604800',
+      'VPS HTTPS application must preserve the existing scoped seven-day HSTS contract');
+    assert.equal((await probe('/',{'X-Forwarded-Proto':'http'})).headers['strict-transport-security'],undefined,
+      'Never claim HSTS for a non-TLS upstream request');
     assert.equal((await probe('/healthz')).status,200);
     assert.equal((await probe('/readyz')).status,503);
     assert.equal((await probe('/api/crm/contacts')).status,401);
