@@ -32,3 +32,8 @@
 - Reused cached VPS Node24/PostgreSQL images; installed free software `openpyxl==3.1.5`, `Pillow==11.3.0`, `poppler-utils` **only in isolated QA Docker layers**, not production. Measured full ERP real-Postgres test ~98s; isolated web/server/worker build ~314s. These are runtime durations, NOT billed AI usage or price estimates.
 - No Meta/Telegram/LLM outbound calls, customer-data uploads, paid service activation or new external spending authorization. Real quotas, Telegram provider eligibility/tariffs, hosting cost and account balances UNKNOWN; approved new paid-provider ceiling remains 0 EUR.
 - Shared VPS had ~9–10 GiB free / 95% used before final artifact checks. Maintain no-destructive-prune policy and cap QA CPU/RAM/PIDs. Source-only QA and tiny synthetic DB/network must not be confused with real company production deployment.
+
+## Telegram security QA — 25.10.2026
+
+- Additional targeted PostgreSQL tests, 2303-case full suite (~96s), Node24 build (~315s) and isolated binary startup reused the user's existing VPS and cached Docker images. Real new infrastructure/proprietary AI/Telegram/WhatsApp provider spend remained **0 activated**; actual hosting plan bill, remaining quotas and external provider rates remain UNKNOWN.
+- Last read `/srv/knaba` filesystem ~93% full (~14 GiB free); no destructive prune or deletion of backups, data or other projects. Keep model/provider dispatch disabled until explicit company scope, pricing/quota, privacy review and reserved budget are confirmed.
