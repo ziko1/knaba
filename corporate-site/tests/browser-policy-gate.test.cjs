@@ -79,3 +79,13 @@ test('verified Chromium policy block can be skipped in repeated same-environment
   assert.equal(result.engine,'webkit');
   assert.deepEqual(result.skipped.map(s=>s.reason),['SKIPPED_BY_OPERATOR']);
 });
+test('Chromium QA launch must not explicitly disable the browser sandbox',async()=>{
+  const standard=newEngine();
+  const original=standard.launch.bind(standard);
+  standard.launch=async(options)=>{
+    assert.ok(!options.args?.includes('--no-sandbox'),'must not add --no-sandbox');
+    return original();
+  };
+  const result=await runBrowserGate({origin,engines:{chromium:standard},suite:async()=>1});
+  assert.equal(result.status,'PASS');
+});

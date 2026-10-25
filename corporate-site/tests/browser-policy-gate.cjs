@@ -37,7 +37,6 @@ async function runBrowserGate({origin,engines,suite,skipEngines=[]}){
     try{
       const options={headless:true};
       if(name==='chromium'){
-        options.args=['--no-sandbox','--disable-dev-shm-usage'];
         if(process.env.KNABA_CHROME_PATH)options.executablePath=process.env.KNABA_CHROME_PATH;
       }
       browser=await driver.launch(options);
