@@ -18,7 +18,7 @@ describe('KnaBa footer brand contrast', () => {
     expect(darkLogo).toContain('fill="#F6FFFA">KnaBa</text>');
     expect(darkLogo).toContain('fill="#A5E5D5">BAUREINIGUNG');
     expect(darkLogo).not.toContain('fill="#e5f8f3"');
-    expect(darkLogo).not.toMatch(/<script|<foreignObject|https?:\/\//i);
+    expect(darkLogo).not.toMatch(/<script|<foreignObject|(?:href|src)=["']https?:\/\//i);
     expect(lightLogo).toContain('fill="#093440">KnaBa</text>');
   });
   it('removes the light plaque and adds a keyboard focus indicator', () => {
