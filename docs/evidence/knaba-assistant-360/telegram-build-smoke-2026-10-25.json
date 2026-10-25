@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA Assistant 360",
+  "date": "2026-10-25",
+  "scope": "Telegram source candidate; isolated ERP Node/PostgreSQL QA and built-artifact smoke only",
+  "codeSha": "7c79bca070c782c6a95a5c4e42b9776d9efd9991",
+  "branch": "feat/knaba-assistant-360-telegram-20261025",
+  "runtime": {
+    "node": "24.22.1",
+    "npm": "11.19.1",
+    "postgres": "17.11",
+    "qaImage": "knaba-qa/node24-erp-npm:20261025",
+    "networkPolicy": "No external network in build/smoke; isolated PostgreSQL network with no host-published port",
+    "dataType": "synthetic only",
+    "prodSystemsMutated": false,
+    "secretProvidersConfigured": false
+  },
+  "verified": [
+    {
+      "kind": "full-test",
+      "command": "cd erp && npm test",
+      "status": "PASS",
+      "passed": 2300,
+      "failed": 0,
+      "skipped": 0,
+      "suitesPassed": 91,
+      "suitesTotal": 91,
+      "durationSeconds": 98,
+      "evidenceRef": "docs/evidence/knaba-assistant-360/telegram-qa-followup-2026-10-25.json"
+    },
+    {
+      "kind": "build",
+      "command": "cd erp && npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedSeconds": 314,
+      "viteBuildSeconds": 294,
+      "viteTransformedModules": 120
+    },
+    {
+      "kind": "compiled-syntax",
+      "command": "node --check dist/server.mjs && node --check dist/worker.mjs",
+      "status": "PASS"
+    },
+    {
+      "kind": "source-and-artifact-identity",
+      "command": "git rev-parse HEAD; git status --porcelain; node check dist/release.json; sha256sum dist/*",
+      "status": "PASS",
+      "gitClean": true,
+      "releaseCodeShaMatches": true,
+      "sourceProvenance": "PINNED_CONTAINER_CONTEXT",
+      "sourceDirtyInBundledReceipt": null
+    },
+    {
+      "kind": "isolated-built-api-smoke",
+      "status": "PASS",
+      "checks": {
+        "health": {
+          "path": "/health",
+          "http": 200
+        },
+        "version": {
+          "path": "/version",
+          "http": 200,
+          "shaMatches": true
+        },
+        "website": {
+          "path": "/",
+          "http": 200
+        },
+        "readyWithoutCompany": {
+          "path": "/ready",
+          "http": 503,
+          "expectedSecurityGate": true
+        },
+        "telegramWithoutConfiguredSecret": {
+          "path": "/webhooks/telegram",
+          "http": 503,
+          "code": "MISSING_CONFIGURATION",
+          "expectedSecurityGate": true
+        }
+      }
+    },
+    {
+      "kind": "isolated-built-worker-smoke",
+      "status": "PASS",
+      "checks": [
+        "KNABA DE durable worker started",
+        "worker heartbeat file created"
+      ],
+      "providersEnabled": false
+    },
+    {
+      "kind": "release-policy-tests",
+      "command": "npm run test:release-policy",
+      "status": "PASS",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "kind": "actual-source-release-gate",
+      "command": "node scripts/verify-release-readiness.mjs",
+      "runtimeNode": "18.19.1",
+      "expectedExit": 1,
+      "actualExit": 1,
+      "status": "BLOCKED_AS_DESIGNED",
+      "blockingReasons": [
+        "source SHA/receipt mismatch",
+        "artifact receipt not registered with release policy",
+        "owner production approval missing",
+        "identity-scope, owner-chat, ERP bridge, security-GDPR, browser/native UAT, notifications, backup-rollback, legal/customer approval missing"
+      ]
+    }
+  ],
+  "artifacts": {
+    "server": {
+      "path": "dist/server.mjs",
+      "sha256": "3184e8415e85d150d3d0b92b35ac2b686e6d3d280150cbe29e3cd8f1f7608421",
+      "bytes": 3140841
+    },
+    "worker": {
+      "path": "dist/worker.mjs",
+      "sha256": "2a0ef34d9457736579f2080a07b1a43800602dd8c77cb09843b4284911cf97e4",
+      "bytes": 1204803
+    },
+    "release": {
+      "path": "dist/release.json",
+      "sha256": "65e46e9b44160b5b183c1352172cb690c35fde9893a3af2ac0defab03a313286",
+      "bytes": 198
+    },
+    "web": {
+      "dist/web/assets/index-BHGYZJVp.css": "72953d7119713bef904f8d85df6600bc344a016f50b800835a577571b4d2c96a",
+      "dist/web/assets/index-Cy1SZrLS.js": "32767f65f5413abc6a46d919184e620f613368f2e31f5ae524afea3dec565c7b",
+      "dist/web/icon.svg": "ab7c30da0d3310a456d9cc1853ba99b0ebdef31f74ddba3b3de420c81e5ac18b",
+      "dist/web/index.html": "db9ebc66abcd75cce4c7484cba04b9515a09de794316ec86a1114bc22133cdd5",
+      "dist/web/manifest.webmanifest": "ee45bc98a552fe376880365ffbab90c3e839b53e4aa47a18057f298979034ea9",
+      "dist/web/sw.js": "4ce7ba981b7dacb0a4023c3bdc35fdf670583a58f699f615df6a8f99dc355d3f",
+      "dist/web/widget.js": "dac8ea39e35725e2a2a4c1c83901ff9c982eadb15cb8e4f4cbbd000f491cef44"
+    }
+  },
+  "frontendBuildTelemetry": {
+    "jsMinifiedKbApprox": 653.95,
+    "jsGzipKbApprox": 207.75,
+    "cssKbApprox": 90.35,
+    "cssGzipKbApprox": 18.17,
+    "warning": "Vite chunk >500kB; split only after an end-user startup/Web Vitals baseline; gzip totals here are build estimates, not real page transfer."
+  },
+  "release": {
+    "status": "BLOCKED_EXTERNAL",
+    "releaseApproved": false,
+    "mergePerformed": false,
+    "productionDeployPerformed": false,
+    "gatesOutstanding": [
+      "Real KNABA owner enrollment",
+      "D1 legacy data backup/reconciliation and ERP bridge",
+      "Actual Meta/Telegram provider credentials with authorized test recipients",
+      "GDPR/AVV and consent version approval",
+      "Independent security review and live/device/UAT",
+      "Verified backup/restore and rollback rehearsals"
+    ]
+  },
+  "notes": [
+    "No real Telegram messages, AI calls, WhatsApp calls or chargeable providers activated",
+    "Only synthetic private Docker/QA runtime used",
+    "The built code and test receipt are source-bound but not a production attestation or company acceptance."
+  ]
+}
