@@ -9,7 +9,7 @@
 
 ## Реалізація за етапами
 1. У збірках `KNABA_RELEASE_MODE=vsp|official` індексація **лише публічних** сторінок дозволена; тимчасова preview-збірка без визначеного режиму залишається noindex. Публічний root заголовок `X-Robots-Tag: noindex, follow` не формується. Закриті маршрути Studio/CRM/кабінет/пошта/вхід залишаються noindex/nofollow; жодних секретів або даних користувачів у sitemap.
-2. `sitemap.xml` формується лише з існуючого `studioPages` (68 DE/EN/UK/RU статичних публічних сторінок), містить канонічний origin і взаємні `hreflang` + x-default, без неіснуючих 95 мов. `robots.txt` не блокує публічні сторінки.
+2. `sitemap.xml` формується лише з існуючого `studioPages` (72 DE/EN/UK/RU статичних публічних сторінок, включно з FAQ), містить канонічний origin і взаємні `hreflang` + x-default, без неіснуючих 95 мов. `robots.txt` не блокує публічні сторінки.
 3. У Studio owner-only `@title` і `@description` уже застосовуються на VPS до серверного HTML/OG **лише після PUBLISH**. Додати підказки SEO та уніфікований список URL; створення нових маршрутів Studio поки NOT_IMPLEMENTED — потрібні справжня сторінка, контент, посилання, локалізації, canonical, schema, sitemap і QA. Не видавати редагування наявної сторінки за створення нової.
 4. Google AI Overviews / AI Mode не вимагають спеціального `llms.txt` чи особливої AI-схеми; базовий SEO, читабельний контент, перевірені структуровані дані і доступні robots. Документація: https://developers.google.com/search/docs/appearance/ai-features .
 5. OpenAI `OAI-SearchBot` не заборонено стандартним robots; це не гарантує появи в ChatGPT-пошуку: https://developers.openai.com/api/docs/bots . IndexNow для Bing-подібних партнерів є тільки в PR #50, без dispatch. Google — через Search Console / sitemap, не IndexNow.
@@ -27,3 +27,9 @@
 - Solid portal uses client-side login then rechecks authenticated session without reloading. Registration is **not anonymous open sign-up**: after authenticated identity, a user without profile submits a pending approval. For first-time visitors `Request access` links to the company's contact form.
 - Header and mobile menu now have explicit access entry; quiet footer link to `https://vsp.rest/`; Studio SEO panel clarifies publish boundary and new-route limitation.
 - Runtime/Chromium/device checks not yet executed. No staging or production code deployment.
+
+## 42 FAQ / PR #51 selectively integrated
+- PR #51 head `c3563b07c9ea2e9134fdce3ad7a0f7d4b5f618b0` is exactly one commit ahead of PR #49 and has 12 isolated changed paths.
+- Copy only its safe FAQ data/component, DE/EN/UK/RU routes, home cards, locale path rules and FAQ regression test. Preserve the new auth/layout/SEO code in this branch.
+- Extended the central public `studioPages` to **72** built routes (4 FAQ locales) and automatic sitemap/hreflang. 4 FAQ pages can be edited/published in Studio.
+- Its PR source states **TESTS IN PROGRESS**; after this cross-feature integration tests/build/review remain NOT_RUN. No merged PR, no live deployment.

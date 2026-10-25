@@ -1,0 +1,138 @@
+---
+import {constructionFaq,faqCopy} from '../data/construction-faq';
+import type {ConstructionLocale} from '../data/construction-offers';
+const {locale='de',full=false} = Astro.props as {locale:ConstructionLocale;full?:boolean};
+const t=faqCopy[locale];
+const prefix=locale==='de'?'':('/'+locale);
+const groups=full?constructionFaq:constructionFaq.map(group=>({...group,items:group.items.slice(0,1)}));
+const total=groups.reduce((sum,group)=>sum+group.items.length,0);
+const headingId=full?'knaba-faq-all-title':'knaba-faq-preview-title';
+---
+<section class:list={['container','knaba-faq',{'knaba-faq-full':full,'knaba-faq-preview':!full}]} aria-labelledby={headingId} data-faq-full={full?'true':undefined} data-faq-results={t.results}>
+  <div class="knaba-faq-heading">
+    <p class="knaba-faq-eyebrow">{t.eyebrow}</p>
+    {full?<h1 id={headingId}>{t.title}</h1>:<h2 id={headingId}>{t.title}</h2>}
+    <p>{t.lead}</p>
+  </div>
+  <div class="knaba-faq-body">
+    {full && <div class="knaba-faq-tools">
+      <label class="knaba-faq-search">
+        <span>{t.search}</span>
+        <input type="search" name="q" placeholder={t.placeholder} autocomplete="off" data-faq-search />
+      </label>
+      <label class="knaba-faq-category">
+        <span>{t.category}</span>
+        <select data-faq-select>
+          <option value="all">{t.all}</option>
+          {constructionFaq.map(group=><option value={group.id}>{group.title[locale]}</option>)}
+        </select>
+      </label>
+      <span class="knaba-faq-counter" data-faq-count role="status" aria-live="polite">{total} {t.results}</span>
+    </div>}
+    <div class="knaba-faq-groups" data-faq-groups>
+      {groups.map(group=><section class="knaba-faq-group" data-faq-group={group.id} aria-labelledby={'knaba-faq-group-'+group.id}>
+        <h3 id={'knaba-faq-group-'+group.id}>{group.title[locale]}</h3>
+        <div class="knaba-faq-items">
+          {group.items.map(item=><details data-faq-entry={item.id}>
+            <summary><span>{item.question[locale]}</span><span class="knaba-faq-plus" aria-hidden="true">+</span></summary>
+            <p>{item.answer[locale]}</p>
+          </details>)}
+        </div>
+      </section>)}
+    </div>
+    {full && <p class="knaba-faq-empty" data-faq-empty hidden>{t.empty}</p>}
+    <div class="knaba-faq-actions">
+      {full?<a class="knaba-faq-link" href={prefix+'/'}>{t.back} <span aria-hidden="true">←</span></a>:<a class="knaba-faq-link" href={prefix+'/faq/'}>{t.more} <span aria-hidden="true">↗</span></a>}
+      <a class="knaba-faq-contact" href={prefix+'/kontakt/'}>{t.contact} <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+<style>
+  .knaba-faq{padding-block:clamp(36px,5vw,76px);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);column-gap:clamp(30px,5vw,72px);row-gap:22px;color:#0d343a}
+  .knaba-faq-full{display:block;max-width:1120px}
+  .knaba-faq-heading{margin:0;min-width:0}
+  .knaba-faq-eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#158a80;margin:0 0 14px}
+  .knaba-faq-heading h1,.knaba-faq-heading h2{font-size:clamp(32px,4vw,55px);line-height:1.09;letter-spacing:-.048em;overflow-wrap:break-word;margin:0 0 18px;color:#0b313b}
+  .knaba-faq-heading>p:last-child{color:#506963;font-size:clamp(14px,1.5vw,16px);line-height:1.6;max-width:54ch;margin:0}
+  .knaba-faq-body,.knaba-faq-groups{min-width:0}
+  .knaba-faq-full .knaba-faq-heading{max-width:780px;margin:0 0 clamp(24px,4vw,42px)}
+  .knaba-faq-groups{display:grid;gap:24px}
+  .knaba-faq-group{min-width:0}
+  .knaba-faq-group h3{color:#197b77;font-size:15px;letter-spacing:.018em;font-weight:800;margin:0 0 8px}
+  .knaba-faq-items{border-top:1px solid #d2e4dc}
+  .knaba-faq-items details{border-bottom:1px solid #d2e4dc;padding:0;min-width:0}
+  .knaba-faq-items summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:60px;padding:15px 0;font-size:clamp(15px,1.7vw,18px);line-height:1.4;font-weight:720;overflow-wrap:anywhere}
+  .knaba-faq-items summary::-webkit-details-marker{display:none}
+  .knaba-faq-items summary::marker{content:''}
+  .knaba-faq-items summary:focus-visible{outline:3px solid #167e79;outline-offset:3px;border-radius:6px}
+  .knaba-faq-plus{flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:#e5f2eb;color:#124c53;display:grid;place-items:center;font-weight:500;font-size:22px;line-height:1;transition:transform .15s}
+  .knaba-faq-items details[open] .knaba-faq-plus{transform:rotate(45deg);background:#d3f197}
+  .knaba-faq-items details p{font-size:15px;line-height:1.7;color:#4f6662;max-width:74ch;margin:0 36px 20px 0;overflow-wrap:break-word}
+  .knaba-faq-actions{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin-top:25px}
+  .knaba-faq-link,.knaba-faq-contact{font-size:14px;font-weight:800;color:#086e75;text-decoration:underline;text-underline-offset:5px;padding:9px 0;min-height:44px;display:inline-flex;align-items:center;gap:9px}
+  .knaba-faq-contact{color:#12434b}
+  .knaba-faq-link:focus-visible,.knaba-faq-contact:focus-visible{outline:3px solid #167e79;outline-offset:4px}
+  .knaba-faq-preview .knaba-faq-groups{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .knaba-faq-preview .knaba-faq-group{border-radius:15px;background:#f1f7f3;padding:17px;min-height:150px}
+  .knaba-faq-preview .knaba-faq-group:nth-child(even){background:#edf5f6}
+  .knaba-faq-preview .knaba-faq-group h3{font-size:12px}
+  .knaba-faq-preview .knaba-faq-items{border-top:0}
+  .knaba-faq-preview .knaba-faq-items details{border:0}
+  .knaba-faq-preview .knaba-faq-items summary{padding:5px 0;font-size:15px}
+  .knaba-faq-preview .knaba-faq-items details p{margin:8px 0 2px;font-size:13px}
+  .knaba-faq-tools{display:flex;align-items:end;flex-wrap:wrap;gap:14px;margin:0 0 38px}
+  .knaba-faq-tools label{display:grid;gap:8px;font-size:13px;font-weight:700;color:#254d51;min-width:0}
+  .knaba-faq-tools input,.knaba-faq-tools select{height:48px;width:100%;border:1px solid #b4cfc5;border-radius:12px;background:#fff;color:#0d343a;font:inherit;font-size:15px;padding:0 13px}
+  .knaba-faq-tools input:focus-visible,.knaba-faq-tools select:focus-visible{outline:3px solid #167e79;outline-offset:2px}
+  .knaba-faq-search{flex:2 1 300px}
+  .knaba-faq-category{flex:1 1 210px}
+  .knaba-faq-counter{font-size:13px;color:#557067;min-width:95px;padding-bottom:14px}
+  .knaba-faq-full .knaba-faq-group{display:grid;grid-template-columns:minmax(160px,.3fr) minmax(0,.7fr);gap:24px;padding-block:17px}
+  .knaba-faq-full .knaba-faq-group h3{padding-top:14px}
+  .knaba-faq [hidden]{display:none!important}
+  .knaba-faq-empty{padding:20px;border:1px dashed #b4cfc5;border-radius:12px;color:#435d57}
+  @media(max-width:900px){.knaba-faq{grid-template-columns:minmax(0,1fr)}.knaba-faq-full .knaba-faq-group{grid-template-columns:1fr;gap:0}.knaba-faq-full .knaba-faq-group h3{padding-top:4px}}
+  @media(max-width:610px){.knaba-faq{padding-block:40px;row-gap:20px}.knaba-faq-heading h1,.knaba-faq-heading h2{font-size:clamp(31px,8.1vw,43px)}.knaba-faq-preview .knaba-faq-groups{grid-template-columns:1fr;gap:10px}.knaba-faq-preview .knaba-faq-group{min-height:0;padding:13px 17px}.knaba-faq-preview .knaba-faq-items summary{min-height:46px}.knaba-faq-full .knaba-faq-tools{margin-bottom:26px}.knaba-faq-tools label{flex:1 1 100%}.knaba-faq-counter{padding:0}.knaba-faq-group h3{margin-top:6px}.knaba-faq-items summary{font-size:16px}}
+  @media(prefers-reduced-motion:reduce){.knaba-faq-plus{transition:none}}
+</style>
+<script>
+  function connectFaqSearch() {
+    document.querySelectorAll<HTMLElement>('.knaba-faq[data-faq-full="true"]').forEach(root => {
+      if (root.dataset.faqReady === 'yes') return;
+      const search = root.querySelector<HTMLInputElement>('[data-faq-search]');
+      const picker = root.querySelector<HTMLSelectElement>('[data-faq-select]');
+      const counter = root.querySelector<HTMLElement>('[data-faq-count]');
+      const empty = root.querySelector<HTMLElement>('[data-faq-empty]');
+      if (!search || !picker || !counter || !empty) return;
+      root.dataset.faqReady = 'yes';
+      const groups = [...root.querySelectorAll<HTMLElement>('[data-faq-group]')];
+      const entries = groups.map(group => ({group,rows:[...group.querySelectorAll<HTMLDetailsElement>('[data-faq-entry]')].map(row=>({
+        row,
+        content:(row.textContent||'').toLocaleLowerCase().normalize('NFKC')
+      }))}));
+      const update = () => {
+        const q = search.value.trim().toLocaleLowerCase().normalize('NFKC');
+        const category = picker.value;
+        let visible = 0;
+        for (const entry of entries) {
+          let sectionCount = 0;
+          const categoryMatches = category === 'all' || entry.group.dataset.faqGroup === category;
+          for (const {row,content} of entry.rows) {
+            const matches = categoryMatches && (!q || content.includes(q));
+            row.hidden = !matches;
+            if (!matches) row.open = false;
+            if (matches) { visible++; sectionCount++; }
+          }
+          entry.group.hidden = sectionCount === 0;
+        }
+        counter.textContent = String(visible) + ' ' + (root.dataset.faqResults || '');
+        empty.hidden = visible !== 0;
+      };
+      search.addEventListener('input',update);
+      picker.addEventListener('change',update);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',connectFaqSearch,{once:true});
+  else connectFaqSearch();
+  document.addEventListener('astro:page-load',connectFaqSearch);
+</script>
