@@ -170,3 +170,10 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] 95 independently reviewed page/form/legal/assistant translations; do not advertise as available before done.
 - [ ] Human Turnstile completion, real owner authorization and Android/iPhone device testing.
 - [ ] External offsite backup/restore and disk usage improvement with verified non-destructive candidates.
+
+## 2026-10-25 — 200%-text mobile and locale-picker acceptance (PR #48)
+- [x] Browser RED at 320 CSS px / 200% root text: 27–28px header overflow and obscured menu due to offscreen/focused skip-link.
+- [x] CSS fix for responsive brand/menu/skip-link, preserved high-contrast footer; keyboard Escape within search restores language trigger focus.
+- [x] Exact source SHA `77c2a96a870d1ba0e5a0bf766dee1aca541ada8a`: offline Node24 check/test/build, 99 HTML; Chromium 16 original language viewports +12 font200, manifest-fallback and locale-navigation PASS.
+- [x] Development VPS deployed with immutable rollback release, pre/post SQLite integrity and backup, HTTPS noindex/HSTS and live 12+12 Chromium PASS. Evidence `docs/KNABA_PR48_MOBILE_200PCT_ACCESSIBILITY_2026-10-25_UK.md`.
+- [ ] Physical-device/mobile Safari/Android zoom and assistive tech/200% browser zoom review; genuine owner/Turnstile, GDPR/legal, D1 reconciliation, field CWV and final customer handover not complete.
