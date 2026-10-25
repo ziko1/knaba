@@ -58,6 +58,10 @@ const aSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-o
     await inline.waitFor({timeout:16000});
     assert.equal(await inline.locator('input[name="email"]').count(),1,'Visible inline email field');
     assert.equal(await inline.locator('input[name="password"]').count(),1,'Visible password input');
+    // Counted framenavigated events include same-document Astro client-routing.
+    // Preserve an actual window-scoped marker instead: full reload drops it.
+    const inlineDocumentMarker='synthetic-keep-document-20261025';
+    await inlinePage.evaluate(value=>window.__knabaSyntheticDocumentMark=value,inlineDocumentMarker);
     const navigationsAtLogin=inlineNavigations;
     await inline.locator('input[name="email"]').fill(LOGIN);
     await inline.locator('input[name="password"]').fill('synthetic-invalid-password');
@@ -78,7 +82,9 @@ const aSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-o
     assert.equal(privateSession.status,200);
     assert.equal(privateSession.role,'owner');
     assert.equal(new URL(inlinePage.url()).pathname,'/konto/','AJAX login stays on the portal URL');
-    assert.equal(inlineNavigations,navigationsAtLogin,'AJAX login does not replace the HTML document');
+    const documentPreserved=await inlinePage.evaluate(value=>window.__knabaSyntheticDocumentMark===value,inlineDocumentMarker);
+    assert.equal(documentPreserved,true,'AJAX login must preserve the current HTML document');
+    console.log('INLINE_LOGIN_NAV_EVENTS',inlineNavigations-navigationsAtLogin,'(same-document events allowed)');
     assert.ok((await inlineContext.cookies()).some(c=>c.name==='__Host-knaba-session'&&c.secure&&c.httpOnly),'Host-only session cookie required');
     console.log('INLINE_LOGIN_BROWSER_PASS invalid+valid_same_window_secure_session');
     await inlineContext.close();
