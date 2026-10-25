@@ -66,7 +66,17 @@ const aSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-o
     assert.equal((await inlineContext.cookies()).some(c=>c.name==='__Host-knaba-session'),false,'Bad password must not authenticate');
     await inline.locator('input[name="password"]').fill(PASSWORD);
     await inline.locator('button[type="submit"]').click();
-    await inlinePage.locator('.portal-verified').waitFor({timeout:18000});
+    await inlinePage.locator('.portal-shell').waitFor({state:'visible',timeout:18000});
+    // The verified badge is deliberately display:none on <=520px; it still
+    // exists after a real authenticated session, but is not a visible-state gate.
+    assert.equal(await inlinePage.locator('.portal-verified').count(),1);
+    const privateSession=await inlinePage.evaluate(async()=>{
+      const r=await fetch('/api/portal/session',{credentials:'same-origin',cache:'no-store'});
+      const json=await r.json();
+      return {status:r.status,role:json.role};
+    });
+    assert.equal(privateSession.status,200);
+    assert.equal(privateSession.role,'owner');
     assert.equal(new URL(inlinePage.url()).pathname,'/konto/','AJAX login stays on the portal URL');
     assert.equal(inlineNavigations,navigationsAtLogin,'AJAX login does not replace the HTML document');
     assert.ok((await inlineContext.cookies()).some(c=>c.name==='__Host-knaba-session'&&c.secure&&c.httpOnly),'Host-only session cookie required');
