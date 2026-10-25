@@ -248,3 +248,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 ## 2026-10-25 — live-source reconciliation (isolated)
 - Existing dev release is a versioned static overlay on recovered unpushed 7e774c3 source. Its source-recovery patch was cleanly applied on the known PR #59 visual-card branch; PR #60 FAQ editor / artifact verifier was independently inspected and cleanly applied. See docs/KNABA_VSP_SOURCE_RECONCILIATION_2026-10-25_UK.md for exact SHA, artifact and fresh QA.
 - VPS cache-only cleanup freed ~5.18GB, disk 96%→93%; owner /readyz 503 is intentional until independently verified enrollment. No official merge, migration, secrets, paid provider or production change was made.
+
+## UXSVC-GRID-2026-10-25 — requested mobile order (source only)
+
+- Canonical six-card display order on four published locales (DE/EN/UK/RU): first three cleaning services → **04 project planning CTA** → **05 Bauhelfer** → **06 Baustellenberäumung**; same sequence on homepage and service catalogue.
+- Planner card is not a sixth service. ServiceCarousel, service slugs, CRM, ERP and additional services remain intact. Pastel mint/sage card visual now also applies to catalogue; non-emoji action arrows and dynamic ordinal labels.
+- Exact tested executable commit `b40c2e173e505ff9725449c30009fae02f131b3c`: Node24 check PASS; 152 Vitest + 16 Node PASS; 103-page build PASS; 8 published homepage/catalogue localized route-order and ordinal checks PASS. Artifact SHA256 `4360d614079371cf620ff495f43f0540df09cd129ce4a8b16128840922f99192`.
+- Full commands, limitations and release gates: `docs/KNABA_SERVICE_CARD_ORDER_QA_2026-10-25_UK.md`. Real screenshots, physical-device/200% zoom, independent review and live cutover **NOT_RUN**; Opera connector unavailable. No merge/deploy, new paid provider or live data mutation.
