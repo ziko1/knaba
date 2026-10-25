@@ -71,3 +71,16 @@ Run from corporate-site only after a public release build is staged:
 - No merge, no production deploy, no alteration to live database or analytics/paid provider activation. `kneba.vsp.rest` remains noindex. Last observed VPS disk was ~96% full; evaluate disk headroom before deployment.
 
 **Remaining acceptance**: independent code/security review, field/mobile device and 200% zoom/accessibility tests, owner content/legal review, current-site source reconciliation, release+rollback approval, Search Console/Bing property proof and noindex release decision.
+
+### Continued accessibility contrast and reflow QA — 25 October
+
+- **Exact code SHA:** `34b2c4693a6ddfa986a9194c71689043cf826578`. Static preview build SHA-256: `a5bd7cc91c14f75d9c79f271de5a6971ccdde6e32716d01a4f9341f192c7f2fa`.
+- TDD: initial seven CSS contrast checks failed (min card ordinal 2.50:1, action 3.62:1, etc.), then 7/7 passed after raising text contrast and toning down bright CTA gradient endpoints. Gradient-stop math is a conservative CSS token gate, NOT a screen-pixel WCAG audit.
+- Chromium reflow test initially failed: at 320 CSS px the locale popup began at x=−36. Anchoring the mobile locale popover to viewport at 12px corrected clipping. 6/6 reflow, keyboard Escape/focus, reduced-motion, assistant/footer tests PASS. This uses CSS viewport widths 640/320 as 200%/400% reflow equivalents, not real hardware/browser zoom.
+- Node 24.22.1 / offline dependencies: `npm run check`, `npm test`, `npm run build`, `npm run verify:build` and synthetic VPS integration PASS. 136 Vitest + 8 inquiry + 3 IndexNow + 4 Studio SEO + 7 color tests PASS; 2/2 VPS integration PASS. Static build emitted 103 HTML pages, 30,434 bytes aggregate CSS gzip and 165,326 bytes aggregate emitted JS gzip.
+- Playwright offline: 24/24 design and SEO UI scenarios; 6/6 accessible reflow; 36/36 existing footer checks (including legal links staying clear of floating Assistant). This is limited browser evidence, not p75 field CWV.
+- Current unrelated preview hotfix release `visual-card-8668458cb06f-20261025` changed live VPS at 12:31 UTC. A transient 503 during its rollout was followed by 200 and healthy container. Its GitHub source differs from PR #50; no concurrent live deploy/rebase performed.
+- Preview robots now includes sitemap; HTTP HEAD responses no longer show `X-Robots-Tag: noindex`. Do not assume Search Console ownership, indexed URLs, or owner-approved SEO release solely from this.
+- Disk inventory: 197 GiB filesystem ~96% used; ~14 GiB under shared `/tmp` and Docker reports reclaimable images, but cleanup was deliberately **NOT** executed because candidates include cross-project worktrees and stopped container references.
+
+[Exact latest QA receipt](evidence/knaba-color-seo-accessibility-2026-10-25.json). Remaining: independent human/agent review, actual device/zoom and accessibility tests, field CWV, approval of indexing and company content, merge/release and rollback plan.
