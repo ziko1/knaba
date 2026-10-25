@@ -110,3 +110,31 @@ VPS immutable release /srv/knaba/vps/releases/638db18f04ed55f2a9452dd0a6db45560d
 - User clarified KNABA site is in development without customers. Current VPS database row counts checked 0 for owner/users, leads, chats and Studio; legacy provider data not independently accessible. Preserve unknown original data and backups.
 - Source-pinned merge commit `417f40bba42f26ff88c620edba22a92f58f5213a` deployed on `kneba.vsp.rest`, building on Draft PR #29 + reused PR #30. HTML SSR from published CMS revisions, safe URL/Host, 7-day HSTS. No schema changes, no API fees.
 - 102 Vitest + 8 Node inquiry + 14 Node VPS PASS; 51/51 public routes verified HTTP200 using system TLS and real Let's Encrypt cert. Owner setup and real device UAT NOT_RUN, /readyz503. Exact receipt: `vps/KNABA_STUDIO_SSR_LIVE_QA_2026-10-25.md`. No main merge, no offsite backup or official-domain mutation.
+
+## 2026-10-25: Construction-cleaning brand and four-locale site candidate
+
+Owner-directed repositioning of KnaBa on the **development** domain kneba.vsp.rest
+from general building/office cleaning to **Baureinigung & BauService**. Shared SVG
+building/core-bore brand replaces the three-stripe mark on all public layouts and
+favicon. Existing old URLs are replaced with noindex/legacy navigation instead of
+deleting historical CRM service keys or silently changing previous request meaning.
+New primary offering: Baugrob-, Bauzwischen-, Baufein-, Bauendreinigung,
+Baustellenberäumung, Bauhelfer. Requested core drilling, wall/deck penetrations and
+other construction work are explicitly **not confirmed capabilities**: technical
+review, qualified trade, structural/fire-safety approvals and separate contracts
+are prerequisites. No unverified licences, contractors, reviews or prices are shown.
+
+Public page templates/home, catalogue, offer detail, contact, planner, sectors,
+about, Berlin, careers and guides now have DE/EN/UK/RU routes. The public inquiry
+and new portal request form retain the existing canonical Baureinigung service ID;
+a specific additional construction request is preserved in an allowlisted message.
+The KNABA Assistant language knowledge and portal new-request entry points were
+updated. Old stored portal requests, private auth, SQLite schema/records and ERP
+were not modified. Legal pages retain their previously reviewed languages.
+
+Checkpoints: Node 24 container with no network/paid dependencies; Astro check,
+Vitest/Node tests, static links, SSR Studio publish/restore, and direct HTTPS smoke
+checks required before marking preview ready. Site Studio's old positional CSS
+selectors may not map after the design change; published Studio page count was
+read-only verified 0 at intake on 2026-10-25. Official knaba.de and the One.com
+DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.

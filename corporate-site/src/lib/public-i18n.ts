@@ -1,7 +1,8 @@
+import {enUI,ukUI} from './construction-ui-translations.ts';
 import { ruServices } from '../data/ru-services.ts';
 import type { Service } from '../data/company.ts';
 
-export type PublicLocale = 'de' | 'ru';
+export type PublicLocale = 'de' | 'ru' | 'en' | 'uk';
 const ru: Record<string, string> = {
   'Ihr Browser unterstützt keine sichere Anfragekennung. Bitte nutzen Sie einen aktuellen Browser oder kontaktieren Sie KnaBa direkt.':'Ваш браузер не поддерживает безопасный идентификатор заявки. Используйте современный браузер или свяжитесь с KnaBa напрямую.',
   'Leistung':'Услуга','Objekt':'Объект','Kontakt':'Контакты',
@@ -41,15 +42,20 @@ const ru: Record<string, string> = {
 };
 
 export function publicText(text: string, locale: PublicLocale = 'de'): string {
-  return locale === 'ru' ? (ru[text] ?? text) : text;
+  return locale === 'ru' ? (ru[text] ?? text) : locale === 'en' ? (enUI[text] ?? text) : locale === 'uk' ? (ukUI[text] ?? text) : text;
 }
 
 export function localizedService<T extends {slug: Service['slug']; name: string; description: string}>(service: T, locale: PublicLocale = 'de'): T {
-  return locale === 'ru' ? {...service, ...ruServices[service.slug]} as T : service;
+  if(service.slug === 'baureinigung' && locale !== 'de'){
+    const names={en:'Construction cleaning',uk:'Будівельний клінінг',ru:'Строительный клининг'};
+    const descriptions={en:'Rough, interim, fine and final cleaning on construction sites.',uk:'Грубе, міжетапне, тонке і фінальне прибирання будівельних об’єктів.',ru:'Черновая, промежуточная, тонкая и финальная уборка стройплощадок.'};
+    return {...service,name:names[locale],description:descriptions[locale]} as T;
+  }
+  return locale === 'ru' ? {...service,...ruServices[service.slug]} as T : service;
 }
 
 export function publicApiError(code: unknown, locale: PublicLocale, fallback: string): string {
-  if (locale !== 'ru') return fallback;
+  if (locale !== 'ru') return publicText(fallback,locale);
   const messages: Record<string, string> = {
     rate_limit: 'Слишком много заявок. Повторите попытку позже или позвоните нам.',
     privacy: 'Подтвердите, что вы ознакомились с информацией о защите данных.',

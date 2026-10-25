@@ -104,3 +104,14 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [ ] Підключити справжню owner identity через protected stdin, перевірити реальні ролі, HTTPS trusted Traefik, field Web Vitals, GDPR/security/legal/browser/physical-device UAT.
 - [ ] Публічний apex/www cutover, acceptance та rollback і лише потім окремо перевірене відключення та видалення старого Sites.
 - [ ] Розширений blocks/menu/media builder, server-rendered SEO, provider AI квота і бюджет, CRM-to-ERP bridge.
+
+## 2026-10-25 BauService rebrand checkpoint
+- [x] New accessible construction/BauService SVG logo, shared layout/favicons.
+- [x] New four-language core public routes and construction offer catalogue.
+- [x] Contract-qualified drilling, wall/ceiling penetrations and auxiliary inquiries; no false execution promises.
+- [x] Legacy marketing links isolated/noindex; historical CRM service codes unchanged.
+- [x] Public new request, portal new request and KNABA Assistant updated for construction workflows.
+- [ ] External device/browser and owner content review; real lead submission only with approved test record.
+- [ ] Confirm official legal service details, permits, specialist subcontractors and image/brand approval before knaba.de release.
+- [ ] Human independent design/accessibility review, real CWV and multi-device QA.
+- [ ] Translate legal notices only after professional/legal review; do not falsely label German legal text as EN/UK.

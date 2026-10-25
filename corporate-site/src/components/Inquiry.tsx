@@ -3,6 +3,7 @@ import { publicText, publicApiError, localizedService, type PublicLocale } from 
 import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
 import { company, services } from "../data/company";
+import { offerBySlug } from "../data/construction-offers";
 import {
   buildInquiry,
   emptyInquiry,
@@ -17,7 +18,7 @@ import type { InquiryData } from "../lib/inquiry";
 export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const locale = () => props.locale ?? "de";
   const t = (text: string) => publicText(text, locale());
-  const path = (value: string) => locale() === "ru" ? `/ru${value}` : value;
+  const path = (value: string) => locale() === "de" ? value : "/"+locale()+value;
   const [step, setStep] = createSignal(0);
   const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
@@ -72,8 +73,16 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
     const selected = new URLSearchParams(window.location.search).get(
       "leistung",
     );
-    if (selected && isKnownService(selected))
+    if (selected && isKnownService(selected) && selected === "baureinigung")
       setData((previous) => ({ ...previous, service: selected }));
+    // Strict allowlist: no arbitrary URL text enters a lead.
+    const topic = offerBySlug(new URLSearchParams(window.location.search).get("anliegen") || "");
+    if(topic) setData(previous => ({
+      ...previous,
+      service:"baureinigung",
+      objectType:"Baustelle",
+      message: "Bauleistung: "+topic.name.de+"\n"+previous.message,
+    }));
     setReady(true);
   });
 
@@ -287,7 +296,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                   required
                 >
                   <option value="">{t("Bitte auswählen")}</option>
-                  <For each={services}>
+                  <For each={services.filter(service => service.slug === "baureinigung")}>
                     {(service) => (
                       <option value={service.slug}>{localizedService(service, locale()).name}</option>
                     )}
@@ -318,7 +327,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                     }
                   >
                     <option value="">{t("Bitte auswählen")}</option>
-                    <For each={objectTypes}>
+                    <For each={objectTypes.filter(type => type === "Baustelle" || type === "Anderes Objekt")}>
                       {(type) => <option value={type}>{t(type)}</option>}
                     </For>
                   </select>

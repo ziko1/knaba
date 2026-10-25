@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {constructionOffers,constructionBusinessCopy as c,localeValue} from '../data/construction-offers';
+import type {ConstructionLocale} from '../data/construction-offers';
+import ServiceFinder from './ServiceFinder.vue';
+import CleaningChecklist from './CleaningChecklist.svelte';
+import Catalogue from './Catalogue.tsx';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const t=c[locale];const prefix=locale==='de'?'':'/'+locale;
+const intro={de:'Planen Sie die Baureinigung passend zur Bauphase. Zusatzarbeiten können Sie direkt als Projektanfrage auswählen.',en:'Prepare your construction cleaning request by project phase. Additional works can be requested separately.',uk:'Підготуйте заявку на будівельний клінінг за етапом робіт. Додаткові завдання запитуйте окремо.',ru:'Подготовьте заявку на строительный клининг по этапам работ. Дополнительные задачи запросите отдельно.'}[locale];
+---
+<Layout lang={locale} title={t.focus+' | KnaBa'} description={intro}>
+<section class="container section"><p class="eyebrow">KnaBa / BAUPLAN</p><h1>{t.focus}</h1><p class="mt-6 max-w-2xl text-lg leading-relaxed">{intro}</p>
+<noscript><p class="notice"><a href={prefix+'/leistungen/'}>{t.all}</a> · <a href={prefix+'/kontakt/'}>{t.cta}</a></p></noscript>
+<div class="mt-10 grid items-start gap-6 lg:grid-cols-2"><ServiceFinder locale={locale} client:load/><CleaningChecklist locale={locale} client:load/></div>
+<div class="mt-10"><Catalogue locale={locale} client:visible/></div>
+<section class="bau-planner-extras"><h2>{t.optional}</h2><p>{t.contractIntro}</p>
+<div>{constructionOffers.filter(o=>!o.core).map(o=><a href={prefix+'/kontakt/?anliegen='+o.slug}>{localeValue(o.name,locale)} ↗</a>)}</div></section><p class="mt-8 text-sm text-slate-600">{t.note}</p>
+</section>
+</Layout>
+<style>
+.bau-planner-extras{margin-top:40px;background:#e7f5e8;border-radius:20px;padding:30px}.bau-planner-extras h2{font-size:24px}.bau-planner-extras p{color:#536f64;line-height:1.6}.bau-planner-extras>div{display:flex;flex-wrap:wrap;gap:12px}.bau-planner-extras a{color:#0a656d;text-decoration:underline;padding:10px;border:1px solid #9fcbc0;border-radius:12px;background:#fff;font-size:14px}
+</style>

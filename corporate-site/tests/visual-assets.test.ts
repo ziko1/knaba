@@ -14,10 +14,18 @@ for (const name of artwork) {
     expect((svg.match(/<g(?=[\s>])/g) || []).length).toBe((svg.match(/<\/g>/g) || []).length);
   });
 }
-test('homepages feature cleaning artwork instead of an empty-room hero', async () => {
-  for (const file of ['../src/pages/index.astro', '../src/pages/ru/index.astro']) {
-    const page = await readFile(new URL(file, import.meta.url), 'utf8');
-    expect(page).toContain('src="/illustrations/hero-cleaning.svg"');
-    expect(page).toContain('class="service-card-art"');
+test('all localized homepages use branded construction illustrations', async () => {
+  const page=await readFile(new URL('../src/components/ConstructionHome.astro',import.meta.url),'utf8');
+  const layout=await readFile(new URL('../src/layouts/Layout.astro',import.meta.url),'utf8');
+  expect(page).toContain('src="/illustrations/baureinigung.svg"');
+  expect(page).not.toContain('hero-cleaning.svg');
+  expect(layout).toContain('/images/knaba-construction-logo.svg');
+  expect(layout).not.toContain('class="brand-mark"');
+});
+test('new KnaBa brand marks are self-contained vector graphics',async()=>{
+  for(const file of ['knaba-construction-logo.svg','knaba-construction-mark.svg']){
+    const svg=await readFile(new URL('../public/images/'+file,import.meta.url),'utf8');
+    expect(svg).toMatch(/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+    expect(svg).not.toMatch(/<script|<image|<foreignObject|href="https?:/i);
   }
 });

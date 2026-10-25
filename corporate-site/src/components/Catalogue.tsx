@@ -32,7 +32,7 @@ function CatalogueContent(props: { locale?: PublicLocale }) {
           <p class="text-xs font-bold tracking-widest text-emerald-900">{t("ODER DIREKT AUSWÄHLEN")}</p>
           <h2 id="catalogue-heading" class="mt-3 text-3xl font-bold tracking-tight">{t("Alle Leistungen im Überblick.")}</h2>
         </div>
-        <a class="text-link" href={props.locale === "ru" ? "/ru/leistungen/" : "/leistungen/"}>{t("Zu den Leistungsseiten ↗")}</a>
+        <a class="text-link" href={props.locale === "de" || !props.locale ? "/leistungen/" : "/" + props.locale + "/leistungen/"}>{t("Zu den Leistungsseiten ↗")}</a>
       </div>
       <p class="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">{t("Wählen Sie eine Leistung für Ihren Plan. Umfang und Verfügbarkeit klären wir gemeinsam für Ihr Objekt.")}</p>
       <Switch>
@@ -47,7 +47,7 @@ function CatalogueContent(props: { locale?: PublicLocale }) {
         </Match>
         <Match when={query.isSuccess}>
           <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <For each={query.data?.services}>{(service) => (
+            <For each={query.data?.services.filter(service => service.slug === "baureinigung")}>{(service) => (
               <button type="button" aria-pressed={selected() === service.slug} onClick={() => plannerStore.getState().selectService(service.slug)} class="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-left transition-colors hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-700 aria-pressed:border-emerald-800 aria-pressed:bg-emerald-50">
                 <span class="block text-base font-bold leading-snug text-emerald-950 [overflow-wrap:anywhere]">{localizedService(service, props.locale).name}</span>
                 <span class="mt-2 block text-sm leading-relaxed text-slate-600">{localizedService(service, props.locale).description}</span>

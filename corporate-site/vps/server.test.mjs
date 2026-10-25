@@ -72,7 +72,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await logged.json()).role,'owner');
     assert.equal((await fetchAt('/api/crm/contacts',{headers:{Cookie:cookie}})).status,200);
 
-    const data={page:'/',version:0,entries:[{selector:'#main > section:nth-of-type(1) > p:nth-of-type(1)',kind:'text',value:'Sauber und sicher'}]};
+    const data={page:'/',version:0,entries:[{selector:'#main > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > strong:nth-of-type(1)',kind:'text',value:'KnaBa Bauprojekt'}]};
     const publishHeaders={...bodyHeaders,Cookie:cookie};
     const saved=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(data)});
     assert.equal(saved.status,200,await saved.text());
@@ -82,17 +82,17 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(pubReply.status,200,await pubReply.text());
     pub=await (await fetchAt('/api/studio/published?page=%2F')).json();
     assert.equal(pub.version,1);
-    assert.equal(pub.entries[0].value,'Sauber und sicher');
+    assert.equal(pub.entries[0].value,'KnaBa Bauprojekt');
     assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:bodyHeaders,body:JSON.stringify({page:'/',version:1,confirm:'PUBLISH'})})).status,401);
 
     // A saved draft must not affect crawlers until an explicit owner publish.
-    const actualParagraph='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
-    const actualLink='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+    const actualParagraph='#main > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2)';
+    const actualLink='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1)';
     const seoDraft={page:'/',version:1,entries:[...data.entries,
       {selector:'@title',kind:'text',value:'KnaBa · Neuer & sicherer Titel'},
-      {selector:'@description',kind:'text',value:'Offizielle Beratung für Gebäudereinigung & Bauhelfer.'},
-      {selector:actualParagraph,kind:'text',value:'Sauber und sicher für Bauprojekte & Büros'},
-      {selector:actualLink,kind:'href',value:'/leistungen/baureinigung/'}
+      {selector:'@description',kind:'text',value:'Baureinigung & Bauhelfer in Berlin.'},
+      {selector:actualParagraph,kind:'text',value:'Baustelle sauber zur Übergabe'},
+      {selector:actualLink,kind:'href',value:'/bauleistungen/baureinigung/'}
     ]};
     const saveSeo=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(seoDraft)});
     assert.equal(saveSeo.status,200,await saveSeo.text());
@@ -102,9 +102,9 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
       body:JSON.stringify({page:'/',version:2,confirm:'PUBLISH'})})).status,200);
     const rendered=await (await fetchAt('/')).text();
     assert.ok(rendered.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
-    assert.ok(rendered.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
-    assert.ok(rendered.includes('href="/leistungen/baureinigung/"'));
-    assert.ok(rendered.includes('content="Offizielle Beratung für Gebäudereinigung &amp; Bauhelfer."'));
+    assert.ok(rendered.includes('Baustelle sauber zur Übergabe'));
+    assert.ok(rendered.includes('href="/bauleistungen/baureinigung/"'));
+    assert.ok(rendered.includes('content="Baureinigung &amp; Bauhelfer in Berlin."'));
     assert.ok(rendered.includes(expectedCanonical));
     const privateSeo=await (await fetchAt('/studio/')).text();
     assert.ok(!privateSeo.includes('<title>KnaBa · Neuer'));
@@ -115,7 +115,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await (await fetchAt('/api/studio/published?page=%2F')).json()).version,2);
     const persistedHtml=await (await fetchAt('/')).text();
     assert.ok(persistedHtml.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
-    assert.ok(persistedHtml.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
+    assert.ok(persistedHtml.includes('Baustelle sauber zur Übergabe'));
     assert.equal((await (await fetchAt('/api/portal/session',{headers:{Cookie:cookie}})).json()).role,'owner');
 
     const logout=await fetchAt('/logout/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Cookie:cookie},body:new URLSearchParams({return_to:'/'})});

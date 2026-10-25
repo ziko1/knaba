@@ -2145,3 +2145,11 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
  .service-card-art { transition:none; }
  .service-card:hover .service-card-art { transform:none; }
 }
+
+/* KnaBa Bau-brand global shared header/footer (no legacy three-bar mark). */
+.construction-brand{display:inline-flex;align-items:center;text-decoration:none!important;flex:0 0 auto;min-width:0}
+.construction-brand img{display:block;width:clamp(165px,16vw,246px);height:auto;max-height:68px;object-fit:contain;object-position:left center}
+.footer-brand.construction-brand{background:#f6fff6;border-radius:14px;padding:9px 13px;width:max-content;max-width:100%}
+.footer-brand.construction-brand img{width:205px}
+@media(max-width:920px){.construction-brand img{width:175px}.footer-brand.construction-brand img{width:190px}}
+@media(max-width:390px){.construction-brand img{width:153px}.footer-brand.construction-brand img{width:180px}}
