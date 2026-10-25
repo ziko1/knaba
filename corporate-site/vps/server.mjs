@@ -116,6 +116,7 @@ export async function createKnabaVpsServer({
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
   const env={DB:d1,OWNER_EMAIL:ownerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
+    TURNSTILE_REQUIRED:localTest?'0':'1',
     ASSETS:{fetch:async request=>{
       return new Response('Static assets are served at the VPS edge.',{status:404});
     }}};

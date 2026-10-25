@@ -26,3 +26,14 @@
 - /readyz=503 until real verified owner enrollment; no automatic accounts or privilege bypass.
 - Approximately 95 percent used on 197 GB VPS; no unsafe automatic cleanup, no production database/schema changes, no payment.
 - This record is candidate QA. Public dev deployment requires a fresh backup, immutable rollback artifact, strict TLS and live route/browser checks. Official knaba.de remains separate.
+
+
+## Latest source integration superseding earlier 127-case candidate — 2026-10-25
+- Preserved latest actual VPS development code 132145f94c53aabfa72645c3cc157d4c07c76ac2 with fail-closed Turnstile and assistant-close footer fixes (no owner data or secrets touched).
+- Full Node24 source QA on combined code after mobile CSS correction: Astro/Vue/Svelte 162 files, 0 errors and 0 warnings (4 hints); 130 Vitest + 8 inquiry + 14 VPS Node tests PASS; 99 HTML routes, static verifier PASS.
+- Independent real Chromium synthetic acceptance: 16 locale viewport scenarios + pending JSON failover + same-tab real-language navigation + 4 consent-first synthetic Turnstile provider simulations + 32 post-assistant-close footer scenarios + 7 carousel/deep links + 4 short-page footer + 32 normal footer = 97 PASS. Human CAPTCHA/physical device remains NOT_RUN.
+- Final dist/client SHA256 fb334e95c09b4079ab75b0fb3c31237470d9b363702bb29abd6bae5b5fa3a89e; Worker SHA256 ee474b0c3f81aa3bba7d8fef04076428b386057969b978a2b7337297230bd98a; VPS renderer SHA256 9c0295fd969c1f232bd15b3a30828c856cd7a9f8a47f9e4d5421385f286a98fb; homepage SHA256 88d8996c3c40137c1ced85fcffb12d3537155338594c45ed4a2d17331fcfbcfa.
+- Browser QA confirms 95 pending languages are not links; no invented hreflang/URLs and 4 real translations still work. One mobile 320px overflow was observed RED and fixed GREEN; no other app/CMS/CRM/schema changes.
+- Compilation mode VSP_PENDING_APPROVAL (no indexing). Real owner enrollment and human CAPTCHA are still external.
+- Latest disk observation: 96 percent used, about 7.8 GiB available. No safe cleanup of unknown volumes undertaken.
+- This section establishes candidate readiness only; public dev release requires immutable copy, SQLite backup, origin/TLS smoke, external route/mobile QA, rollback.

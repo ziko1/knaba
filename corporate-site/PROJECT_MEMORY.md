@@ -187,3 +187,15 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 
 ## 2026-10-25 — I18N99 merged with PR42 candidate
 - Four published locales, 95 pending BCP47 targets. Verified 127 Vitest, 8 inquiry, 14 VPS, 99 HTML, 16+2 locale-browser, 7 carousel and 36 footer/browser scenarios. Corrected 320px dropdown overflow. Evidence: docs/I18N99_PR42_INTEGRATION_20261025_UK.md. No claim of 99 completed translations.
+
+## KNABA 2026-10-25 — continuation of PR #42 (hardening checkpoint)
+- Baseline exact deployed code: 89b1ad4fb22f665863196040ea9e696119fb0690; current domain kneba.vsp.rest, HTTPS trusted, Docker healthy. Root-only Turnstile server credential exists; not in repo.
+- RED evidence: after first opening/closing KNABA Assistant, Solid fallback launcher was 189.67px and covered mobile footer Datenschutz at widths 360, 390, 480, 600 and both legal links at 760. The initial-launcher-only test missed this state.
+- Fixed Solid fallback launcher to same 54px mobile circle, checked across 4 locales x 8 widths: 32/32 PASS; initial footer 32/32 + 4 short viewports PASS.
+- Production fail-closed if Turnstile keys missing; consent-triggered lazy third-party script, expiry reset, DE/RU factual privacy disclosure, same-tab legal link, corrected Imprint construction illustration.
+- Isolated Node24 (network none): Astro/Vue/Svelte check 0 errors / 0 warnings (4 hints), Vitest 126/126, inquiry Node 8/8, VPS Node 14/14, 99 pages/static links/build PASS; 8 six-tile locale checks, 7 hero carousel browser scenarios, 4 browser flows using synthetic provider script (NOT human challenge) PASS.
+- Latest static artifact SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede. VPS-mounted assets/ live real-human challenge remain separately gated.
+- Full 98 public HTML routes on prior live build: Chromium mobile 98/98 PASS basic footer/overflow checks; 7 focused 200% root-font samples no overflow. Not a physical device/real a11y or field CWV proof.
+
+## KNABA I18N99 + latest Turnstile follow-up, 2026-10-25
+- Source incorporates 132145f94c53aabfa72645c3cc157d4c07c76ac2; Node24 130 Vitest + 8 inquiry + 14 VPS, 99 HTML pass and 97 Chromium scenario PASS on the combined source. Exact artifact report: docs/evidence/i18n99-pr42-hardening-build-20261025.json. Deploy not yet confirmed.
