@@ -22,7 +22,7 @@ export async function stageTelegramReply(db:Pick<Database,'transaction'>,engine:
        channel.data.handoff?.state!=='HUMAN_ACTIVE'||channel.data.handoff?.owner_id!==message.data.author_id)return {status:'NOT_APPLICABLE'};
     const author=await engine.actorIn(tx,message.data.author_id);
     if(author.companyId!==companyId||!author.roles.some(role=>['OWNER','DIRECTOR','OPERATIONS_MANAGER','DISPATCHER'].includes(role)))return {status:'NOT_APPLICABLE'};
-    const recipientIds=[...new Set((channel.data.members??[]).filter((m:Data)=>m.external===true&&activeMember(m,Date.now())).map((m:Data)=>m.user_id))];
+    const recipientIds=[...new Set<string>((channel.data.members??[]).filter((m:Data)=>m.external===true&&typeof m.user_id==='string'&&m.user_id.length>0&&activeMember(m,Date.now())).map((m:Data)=>m.user_id as string))];
     if(recipientIds.length!==1||recipientIds[0]===message.data.author_id)return {status:'NOT_APPLICABLE'};
     const id=digest('knaba-telegram-reply-v1',companyId,messageId,String(version),recipientIds[0]);
     try {const old=await tx.get('telegram_delivery',id);return {delivery_id:old.id,status:'PENDING'};}
