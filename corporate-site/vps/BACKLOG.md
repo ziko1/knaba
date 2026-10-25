@@ -14,3 +14,13 @@
 - [ ] P0 Review and safely reconcile newer assistant recovery/outbox PR #26/#27 against VPS schema, without conflicting migrations.
 - [ ] P0 GDPR retention/erasure/export, DPA and legally approved host disclosures.
 - [ ] P1 Real phone/PC browser UAT, WCAG keyboard/screen-reader, performance and p95 baseline, safe rollback drill.
+
+
+## Post-SSL/Studio SSR deployment 2026-10-25
+- [x] Strict TLS verify chain and expiry; Let's Encrypt certificate active for kneba.vsp.rest.
+- [x] Server-side Studio published HTML and SEO, HSTS, correct Host/canonical, source-pinned QA.
+- [ ] P0 Authorized real owner enrollment and browser/mobile acceptance (current readyz=503).
+- [ ] P0 Preserve and reconcile old provider dataset only if such records exist; do not assume emptiness.
+- [ ] P1 Assistant guest conversation recovery + owner notification schema adaptation from PR #26/#27.
+- [ ] P1 Real SMTP/WhatsApp/AI only after provider authorization, pricing, quota and data protection.
+- [ ] P1 Offsite backup/restore, disk 94% warning, device/accessibility/performance baseline.

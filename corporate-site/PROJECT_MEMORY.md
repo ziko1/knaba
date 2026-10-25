@@ -104,3 +104,9 @@ VPS immutable release /srv/knaba/vps/releases/638db18f04ed55f2a9452dd0a6db45560d
 ## 2026-10-25 — KnaBa VSP VPS cutover checkpoint
 - `kneba.vsp.rest` moved to existing VPS 51.77.35.6 with independent login and corrected DE/RU hosting disclosures, code commit `695a58077cf119096301c268c017d0d392712b71` and immutable release. Cloudflare DNS A, strict Let's Encrypt HTTPS 200. 101 Vitest+8 Node+1 VPS E2E PASS; 51 static routes HTTP200. Exact evidence: `vps/KNABA_PUBLIC_VPS_CUTOVER_2026-10-25.md`.
 - Old provider D1 data not imported, owner not enrolled (/readyz=503), newer PR #26/#27 migration conflicts not reconciled: **PUBLIC_SITE_DEPLOYED / CUSTOMER_HANDOVER_BLOCKED**. Do not delete old data, and do not merge main without review.
+
+
+## 2026-10-25 — Studio SSR integrated public dev release
+- User clarified KNABA site is in development without customers. Current VPS database row counts checked 0 for owner/users, leads, chats and Studio; legacy provider data not independently accessible. Preserve unknown original data and backups.
+- Source-pinned merge commit `417f40bba42f26ff88c620edba22a92f58f5213a` deployed on `kneba.vsp.rest`, building on Draft PR #29 + reused PR #30. HTML SSR from published CMS revisions, safe URL/Host, 7-day HSTS. No schema changes, no API fees.
+- 102 Vitest + 8 Node inquiry + 14 Node VPS PASS; 51/51 public routes verified HTTP200 using system TLS and real Let's Encrypt cert. Owner setup and real device UAT NOT_RUN, /readyz503. Exact receipt: `vps/KNABA_STUDIO_SSR_LIVE_QA_2026-10-25.md`. No main merge, no offsite backup or official-domain mutation.
