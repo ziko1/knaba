@@ -56,7 +56,7 @@ try{
             horizontalOverflow:document.documentElement.scrollWidth-innerWidth,
             footerBottom:footer.getBoundingClientRect().bottom,
             viewportHeight:innerHeight,
-            touchTargets:width<=760?links.map(link=>Math.round(link.getBoundingClientRect().height)):[],
+            touchTargets:innerWidth<=760?links.map(link=>Math.round(link.getBoundingClientRect().height)):[],
           };
         });
         assert.equal(evidence.error,undefined,JSON.stringify({route,width,evidence}));
