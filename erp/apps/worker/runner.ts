@@ -308,7 +308,7 @@ export class WorkerRunner {
       if(!userId){
         const user=await tx.add('user',{name:'Telegram guest',roles:['GUEST','CLIENT'],permissions:['chat.read','chat.write','lead.create'],siteIds:[],customerIds:[],warehouseIds:[],active:true,guest:true});
         userId=user.id;
-        await tx.add('contact_identity',{type:'TELEGRAM',value:input.sender,userId,verified:true,active:true,verificationSource:'SIGNED_TELEGRAM_WEBHOOK_SECRET',verifiedAt:this.now().toISOString(),customerVerified:false});
+        await tx.add('contact_identity',{type:'TELEGRAM',value:input.sender,userId,verified:true,active:true,verificationSource:'TELEGRAM_SECRET_HEADER',verifiedAt:this.now().toISOString(),customerVerified:false});
       }
       let channel=(await tx.list('channel')).find(row=>row.data.created_by===userId&&row.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&row.data.source_provider==='TELEGRAM');
       if(!channel){
