@@ -224,3 +224,17 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Publish and independently review reconciled Draft PR; verify GitHub commit/tree exactly matches tested application code.
 - [ ] Owner invitation and real owner UAT (no automatic owner rights), external security/browser/accessibility review, storage release gate, then separately gated developer site cutover.
 - [ ] Official knaba.de DNS, customer migrations and production launch require separate approval.
+
+## KNABA-SEO-GUIDES-88 — 25.10.2026
+
+- [x] Restore four independent, contract-honest construction guide topics with DE/EN/UK/RU text and accessible responsive template.
+- [x] Reuse existing eight construction service contracts, keep legacy DE/RU guide links where still valid, provide 16 genuine article routes.
+- [x] Update existing `studioPages`, sitemap, HTML hreflang and guide-index internal links, not a duplicate CMS.
+- [x] Source-pin isolated Node24 check/test/build/verify: 117 HTML pages, 88 sitemap loc, 440 href alternates, 157 Vitest + 35 Node + 18 VPS PASS.
+- [x] Chromium: 16 guide URL routes + 6 reflow scenarios; original 24 marketing scenarios and six reflow tests PASS. Mobile checklist typography/localization corrected.
+- [x] Source-candidate sitemap compared with actual captured live sitemap: 88/88, missing=0; current pointer unchanged during parity audit.
+- [ ] Independent code/security and qualified DE/EN/UK/RU editorial language review; no invented authorship, services, rankings or warranties.
+- [ ] Genuine KNABA owner/legal/GDPR acceptance; test real owner login and protected Studio published SEO/article flows.
+- [ ] Physical Android/iOS browser + screen reader + true 200% zoom acceptance and field Web Vitals baseline.
+- [ ] Explicit approval then preview-only immutable cutover using shared lock/CAS, protected SQLite online backup and post-deploy SHA+route smoke; preserve rollback. Official knaba.de/main merge require separate approval.
+- [ ] Google/Bing Webmaster property verification and planned submit only after owner-controlled publication; no IndexNow send, paid analytics or external model dispatch by default.
