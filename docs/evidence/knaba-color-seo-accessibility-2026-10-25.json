@@ -1,0 +1,129 @@
+{
+  "format": "KNABA_DEV_QA_V1",
+  "project": "KNABA corporate-site (independent of AVENQO)",
+  "checkedAt": "2026-10-25",
+  "sourceCommitSha": "34b2c4693a6ddfa986a9194c71689043cf826578",
+  "previewArtifactSha256": "a5bd7cc91c14f75d9c79f271de5a6971ccdde6e32716d01a4f9341f192c7f2fa",
+  "testContext": {
+    "runtime": "Node 24.22.1, cached node:24-bookworm-slim",
+    "dependencyInstall": "npm ci --offline --ignore-scripts --no-audit --no-fund, network disabled",
+    "browser": "cached Playwright Chromium, network disabled, static local 127.0.0.1 server",
+    "isolation": "short-lived cloned source in /var/lib/sentinelx/uploads; deleted on exit; no real credentials or live dataset",
+    "buildMode": "TEMPORARY_NOINDEX, separate from active VPS preview"
+  },
+  "verification": {
+    "gitDiffCheck": "PASS",
+    "npmRunCheck": "PASS",
+    "npmTest": "PASS",
+    "vitest": {
+      "passed": 136,
+      "failed": 0
+    },
+    "inquiryNodeTests": {
+      "passed": 8,
+      "failed": 0
+    },
+    "indexNowNodeTests": {
+      "passed": 3,
+      "failed": 0
+    },
+    "studioSeoNodeTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "gradientContrastNodeTests": {
+      "passed": 7,
+      "failed": 0,
+      "criterion": "WCAG AA 4.5:1 at declared CSS gradient endpoints; not pixel sampling"
+    },
+    "npmRunBuild": "PASS",
+    "npmRunVerifyBuild": "PASS",
+    "staticHtmlPages": 103,
+    "emittedCssGzipBytes": 30434,
+    "emittedJsGzipBytes": 165326,
+    "vpsIntegration": {
+      "passed": 2,
+      "failed": 0,
+      "kind": "synthetic owner authentication, Studio publishing, CRM guards, backup and restore; live DB untouched"
+    },
+    "chromiumDesignSeo": {
+      "passed": 24,
+      "failed": 0,
+      "viewportsCssPx": [
+        320,
+        390,
+        768,
+        980,
+        1440
+      ],
+      "locales": [
+        "de",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "layoutOverflowPx": 0
+    },
+    "chromiumReflow": {
+      "passed": 6,
+      "failed": 0,
+      "cssViewports": [
+        640,
+        320
+      ],
+      "reflowReference": [
+        "200% of 1280px",
+        "400% of 1280px"
+      ],
+      "keyboardMenus": true,
+      "escapeFocusRestore": true,
+      "reducedMotion": true,
+      "footerLinksNotOccluded": true,
+      "disclaimer": "CSS viewport reflow equivalence, NOT actual physical device or native browser zoom"
+    },
+    "chromiumFooter": "PASS 36 cases: 4 short-height scenarios + 4 locale routes x 8 widths, target sizes >=44px on mobile, fixed assistant clear of legal links"
+  },
+  "redGreenEvidence": {
+    "contrast": {
+      "failingCommit": "9533f89c68a02e5188d06ec977f0e79b81940163",
+      "observedFailure": "7 of 7 AA endpoint checks failed; minimum: home card description 4.21:1, ordinal 2.50:1, card link 3.62:1, request title 3.44:1, first carousel accent 4.22:1, catalog body 4.07:1, catalog request body 4.06:1",
+      "fixedAtSourceSha": "34b2c4693a6ddfa986a9194c71689043cf826578",
+      "green": "7 of 7 PASS"
+    },
+    "languageDropdown": {
+      "failingCommit": "66d8d0363d188f91b0c963bad9e57e73831172ab",
+      "observedFailure": "locale dropdown rect.x=-36 at 320px CSS viewport, clipping left of viewport",
+      "fix": "responsive fixed-position dropdown aligned with viewport right:12px; width=min(352px,100vw-24px)",
+      "green": "6 of 6 reflow tests PASS (not physical zoom)"
+    }
+  },
+  "concurrentLivePreview": {
+    "origin": "https://kneba.vsp.rest/",
+    "actualActiveReleaseWhenObserved": "visual-card-8668458cb06f-20261025",
+    "sourcePatchCommit": "8668458cb06f52a0920b2f90aadd7305d2995b63",
+    "comparedWithCandidate": "diverged; no merge or overwriting of active site",
+    "observation": "a transient 503 occurred during separate preview rollout; follow-up homepage, /faq/, /uk/leistungen/ HTTP 200; container healthy",
+    "robots": "robots.txt lists sitemap and X-Robots-Tag noindex was not present in HTTP HEAD; site may now be indexable by a parallel release",
+    "releaseMutationPerformed": false
+  },
+  "resourceAudit": {
+    "filesystem": "197 GiB total, 178 GiB used, approx 9.3 GiB available, 96% utilization",
+    "knabaReleasesApprox": "70 MiB",
+    "knabaRepositoriesApprox": "1.7 GiB",
+    "tempApprox": "14 GiB (cross-project files: DO NOT delete based on size alone)",
+    "dockerImages": "23.03 GB virtual size; Docker estimates 22.02 GB reclaimable but images/containers from multiple projects can be involved",
+    "pruningPerformed": false,
+    "safetyDecision": "No delete, docker prune, or volume cleanup without exact candidates, ownership/retention checks, active/stopped container references, snapshot and rollback"
+  },
+  "remainingGates": [
+    "Independent code/security review by an actual separate reviewer",
+    "Physical Android/iOS browser zoom and 200% text resize with real accessibility tooling",
+    "Screen reader testing and complete 103-page WCAG audit",
+    "Field Core Web Vitals (p75 LCP/INP/CLS), live authenticated owner UAT",
+    "Reconcile current VPS visual-card source with stacked PR #45 -> #47 -> #50",
+    "Verify owner-approved preview indexing policy and Search Console/Bing property ownership",
+    "Disk capacity & retention plan before release",
+    "Explicit owner approval for merge or deployment"
+  ],
+  "releaseDecision": "DRAFT_ONLY — NO MERGE OR DEPLOYMENT"
+}

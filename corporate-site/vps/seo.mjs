@@ -31,8 +31,14 @@ function replaceExactlyOne(html,matcher,body){
   return count===1?result:null;
 }
 function meta(html,qualifier,value){
-  const pattern=new RegExp('<meta '+qualifier+' content="[^"]*"\s*/?>','g');
+  const pattern=new RegExp('<meta\\s+'+qualifier+'\\s+content="[^"]*"\\s*/?>','g');
   return replaceExactlyOne(html,pattern,'<meta '+qualifier+' content="'+escapeHtml(value)+'">');
+}
+// Older release snapshots may not contain Twitter tags; synchronize them when present,
+// while keeping the existing atomic fail-closed behavior for duplicated or malformed tags.
+function optionalMeta(html,qualifier,value){
+  const exists=new RegExp('<meta\\s+'+qualifier+'\\s+content=', 'g').test(html);
+  return exists?meta(html,qualifier,value):html;
 }
 export function renderPublishedSeo(html,row){
   if(typeof html!=='string'||html.length>400000)return html;
@@ -46,11 +52,15 @@ export function renderPublishedSeo(html,row){
     if(candidate===null)return html;
     candidate=meta(candidate,'property="og:title"',title);
     if(candidate===null)return html;
+    candidate=optionalMeta(candidate,'name="twitter:title"',title);
+    if(candidate===null)return html;
   }
   if(desc!==undefined && desc!==''){
     candidate=meta(candidate,'name="description"',desc);
     if(candidate===null)return html;
     candidate=meta(candidate,'property="og:description"',desc);
+    if(candidate===null)return html;
+    candidate=optionalMeta(candidate,'name="twitter:description"',desc);
     if(candidate===null)return html;
   }
   return candidate;

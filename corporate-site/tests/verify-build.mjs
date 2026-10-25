@@ -52,6 +52,8 @@ for (const file of pages) {
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
+  assert.match(html, /<meta property="og:site_name" content="KnaBa"/);
+  assert.match(html, /<meta name="twitter:description" content="[^"]+"/);
   if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html"))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
@@ -75,6 +77,7 @@ for (const file of pages) {
   assert.ok(graphs.length > 0, `${file}: structured data`);
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
   assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
+  assert.ok(graphNodes.some(g=>g['@type']==='WebSite' && g.name==='KnaBa'),`${file}: WebSite entity`);
   if (file.includes('/bauleistungen/') && !file.endsWith('/bauleistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
   if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html')) assert.match(html,/name="robots" content="noindex, follow"/);
@@ -130,8 +133,18 @@ assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?72:0);
-if(indexingApproved) assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
-else assert.doesNotMatch(robots,/Sitemap:/);
+if(indexingApproved) {
+  assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
+  assert.match(sitemap,/xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
+  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,72*5,"72 localized sitemap entries each with 5 alternates");
+  for(const locale of ['de','en','uk','ru','x-default']) {
+    const matches=[...sitemap.matchAll(/hreflang="([^"]+)"/g)].filter(m=>m[1]===locale);
+    assert.equal(matches.length,72,"sitemap reciprocal alternate: "+locale);
+  }
+} else {
+  assert.doesNotMatch(robots,/Sitemap:/);
+  assert.doesNotMatch(sitemap,/<url>|<xhtml:link /,"noindex mode publishes no discoverable sitemap URLs");
+}
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
 if(!indexingApproved) assert.match(headers,/X-Robots-Tag: noindex, follow/);

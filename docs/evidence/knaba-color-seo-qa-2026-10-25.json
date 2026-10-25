@@ -1,0 +1,129 @@
+{
+  "$schema": "knaba:qa-evidence:1",
+  "project": "KNABA corporate-site, ziko1/knaba",
+  "date": "2026-10-25",
+  "sourceSha": "4988e2012142f1b710ef78d3c658d13a211241cc",
+  "environment": {
+    "runtime": "Node 24.22.1 in cached Docker node:24-bookworm-slim",
+    "npm": "npm ci --offline --ignore-scripts --no-audit --no-fund",
+    "network": "none",
+    "vps": "vsp shared, /srv 197 GiB 179 GiB used, 8.7 GiB available at last read",
+    "independentBranch": "feat/knaba-color-seo-20261025",
+    "sourceIsolation": "shallow clone under /var/lib/sentinelx/uploads with trap cleanup"
+  },
+  "tests": {
+    "astroVueSvelteChecks": "PASS (Astro 0 errors 0 warnings; Svelte 0 errors 0 warnings)",
+    "vitest": {
+      "passed": 136,
+      "failed": 0
+    },
+    "inquiry": {
+      "passed": 8,
+      "failed": 0
+    },
+    "indexnow": {
+      "passed": 3,
+      "failed": 0
+    },
+    "studioSeo": {
+      "passed": 4,
+      "failed": 0,
+      "details": "HTML/OG/Twitter sync, self-closing meta, escaping, legacy compatibility, fail-closed and scoped edits"
+    },
+    "vpsServer": {
+      "passed": 2,
+      "failed": 0,
+      "details": "synthetic owner auth, Studio SEO publishing, CRM guards, restart, local SQLite backup/restore, Host/HTTPS policy"
+    },
+    "previewBuild": {
+      "status": "PASS",
+      "pages": 103,
+      "mode": "TEMPORARY_NOINDEX",
+      "artifactSha256": "6090d8516bd8f9ff7b1e9f082be00a7b7f32716c38521772abfb6626c1900623",
+      "cssGzip": 30423,
+      "emittedJsGzip": 165326
+    },
+    "officialSyntheticBuild": {
+      "status": "PASS",
+      "indexedMeta": true,
+      "canonical": true,
+      "googleVerificationMeta": true,
+      "bingVerificationMeta": true,
+      "sitemapUrlCount": 72,
+      "sitemapHreflangLinks": 360,
+      "robotsSitemap": true,
+      "policy": "purely synthetic env flags and dummy tokens; not published; no URL submitted"
+    },
+    "chromium": {
+      "status": "PASS",
+      "scenarios": 24,
+      "locales": [
+        "de",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "viewportsPx": [
+        320,
+        390,
+        768,
+        980,
+        1440
+      ],
+      "allViewportsFor": [
+        "de",
+        "uk"
+      ],
+      "single390For": [
+        "en",
+        "ru"
+      ],
+      "horizontalOverflowPx": 0,
+      "homepageCards": 6,
+      "distinctCardBackgrounds": 6,
+      "carouselSlides": 8,
+      "faqPages": true,
+      "internalRelatedServiceLinks": true,
+      "publicJsonLd": true,
+      "skipLinkHiddenByDefault": true,
+      "network": "none",
+      "server": "isolated static HTTP",
+      "images": [
+        {
+          "name": "knaba-uk-mobile-390.png",
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-pr50-visual-20261025/knaba-uk-mobile-390.png",
+          "bytes": 985956,
+          "sha256": "44662ef7aa0bb6cf2f41c0f38cab96c399c470b058736ac8cc55a804d79e16e0"
+        },
+        {
+          "name": "knaba-de-desktop-1440.png",
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-pr50-visual-20261025/knaba-de-desktop-1440.png",
+          "bytes": 1753961,
+          "sha256": "336d5c2d08fe5e69d2f4f4f05c5d7458e31c7362b9b95c901612340682480de9"
+        }
+      ]
+    }
+  },
+  "liveReadOnly": {
+    "previewOrigin": "https://kneba.vsp.rest",
+    "homepageStatus": 200,
+    "faqStatusAtEarlyAudit": 404,
+    "faqStatusAtRecheck": 200,
+    "faqFixAttribution": "separate external release on VPS; not attributed to this source branch",
+    "xRobotsTag": "noindex, follow",
+    "productionDeployment": "NOT_PERFORMED",
+    "merge": "NOT_PERFORMED"
+  },
+  "remaining": [
+    "physical Android browser",
+    "200% zoom and full accessibility/screen reader verification",
+    "Web Vitals field p75",
+    "real owner/client UAT",
+    "independent review",
+    "real Google Search Console/Bing property ownership, quotas and indexing",
+    "complete official multilingual copy/legal approval",
+    "staging/current VPS deployment of PR50",
+    "disk-space recovery with separately approved safe retention policy"
+  ],
+  "releaseDecision": "DRAFT_ONLY_NOT_READY"
+}
