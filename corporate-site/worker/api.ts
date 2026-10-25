@@ -159,7 +159,13 @@ async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|nu
   const values=[requestId,s?.user!.id||null,data.service,data.objectType,data.postcode,data.area,data.frequency,data.message,data.name,data.email,data.phone,address,scope,key,payloadHash,PRIVACY_VERSION,time,time,mutation];
   const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='client' AND status='approved')":'';
   const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id]:[]));
-  await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time)]);
+  // Persist a minimal reference-only ERP bridge event in the SAME D1/SQLite batch.
+  // Neither customer PII nor provider credentials are duplicated in this table.
+  // Existing idempotency replays do not create a second event.
+  const bridge=db.prepare("INSERT INTO site_erp_outbox (id,request_id,kind,status,created_at,updated_at) "+
+    "SELECT id,id,'lead.upsert','PENDING',created_at,created_at FROM cleaning_requests WHERE id=? AND last_mutation=? "+
+    "ON CONFLICT(request_id) DO NOTHING").bind(requestId,mutation);
+  await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time),bridge]);
   const result=await db.prepare('SELECT * FROM cleaning_requests WHERE dedupe_scope=? AND idempotency_key=?').bind(scope,key).first<Row>();
   if(!result)fail(403,'forbidden','Die Freigabe wurde geändert. Bitte laden Sie die Seite erneut.');
   if(result!.payload_hash!==payloadHash)fail(409,'idempotency_conflict','Die Anfragekennung ist bereits belegt.');
