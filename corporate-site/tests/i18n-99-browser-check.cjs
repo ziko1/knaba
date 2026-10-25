@@ -92,8 +92,36 @@ const server=http.createServer((request,response)=>{
           assert.equal(await page.locator('[data-locale-item]:visible').count(),1);
           assert.equal(await page.locator('[data-locale-item]:visible .locale-catalog-code').textContent(),'zh-Hant');
           assert.equal(errors.length,0,'JS console exceptions '+errors.join('; '));
+          // Integrated FAQ from the same site: all 42 real Q/As, category
+          // counts and empty-state search must survive the lazy i18n UI.
+          const faqPath=lang==='de'?'/faq/':'/'+lang+'/faq/';
+          const faqResponse=await page.goto('http://127.0.0.1:8383'+faqPath,
+            {waitUntil:'load',timeout:13000});
+          assert.equal(faqResponse.status(),200,faqPath);
+          assert.equal(await page.locator('html').getAttribute('lang'),lang);
+          assert.equal(await page.locator('[data-faq-entry]').count(),42);
+          assert.equal(await page.locator('[data-faq-group]').count(),6);
+          assert.equal((await page.locator('[data-faq-count]').textContent()).trim().startsWith('42'),true);
+          const filter=page.locator('[data-faq-search]');
+          await filter.fill('___nonexistent_kna_ba_search___');
+          assert.equal(await page.locator('[data-faq-entry]:visible').count(),0);
+          assert.equal(await page.locator('[data-faq-empty]').isVisible(),true);
+          await filter.fill('');
+          assert.equal(await page.locator('[data-faq-entry]:visible').count(),42);
+          const firstCategory=await page.locator('[data-faq-group]').first().getAttribute('data-faq-group');
+          await page.locator('[data-faq-select]').selectOption(firstCategory);
+          assert.equal(await page.locator('[data-faq-entry]:visible').count(),7);
+          const firstSummary=page.locator('[data-faq-entry]:visible > summary').first();
+          await firstSummary.focus();
+          await page.keyboard.press('Enter');
+          assert.equal(await page.locator('[data-faq-entry]:visible[open]').count(),1);
+          const faqOverflow=await page.evaluate(()=>
+            document.documentElement.scrollWidth-document.documentElement.clientWidth);
+          assert(faqOverflow<=2,faqPath+' FAQ horizontal overflow '+faqOverflow);
+          assert.equal(errors.length,0,'Browser errors across i18n and FAQ: '+errors.join('; '));
           passed++;
-          console.log('I18N99_BROWSER_PASS',width,lang,'pending=95','links=0','lazy=1','overflow=0');
+          console.log('I18N99_FAQ_BROWSER_PASS',width,lang,'pending=95','faq=42','category=7',
+            'emptyState=ok','keyboard=ok','overflow=0');
         }finally{await context.close();}
       }
     }
