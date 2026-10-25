@@ -13,8 +13,15 @@ function rule(css,selector){
   const re=new RegExp('(?:^|\\})\\s*'+escaped+'\\s*\\{([^}]*)\\}','gm');
   const matches=[...css.matchAll(re)];
   assert.ok(matches.length,'Missing exact CSS rule: '+selector);
-  // Later selectors of equal specificity override earlier declarations.
-  return matches.at(-1)[1];
+  // CSS contains media overrides without colour variables: select the
+  // latest declaration of the relevant colour tokens, not the last size rule.
+  const bodies=matches.map(match=>match[1]);
+  if(selector.startsWith('.service-slide')) {
+    const palette=bodies.filter(body=>body.includes('--card:')&&body.includes('--accent:'));
+    assert.ok(palette.length,'Missing carousel palette tokens: '+selector);
+    return palette.at(-1);
+  }
+  return bodies.at(-1);
 }
 function normalizeHex(hex){
   assert.match(hex,/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i);
