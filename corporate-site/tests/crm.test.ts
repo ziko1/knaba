@@ -178,3 +178,26 @@ describe('KNABA CRM shared leads, role isolation, versioning',()=>{
     }finally{db.db.close();}
   });
 });
+
+describe('owner-only ERP bridge status projection',()=>{
+  it('exposes aggregate site outbox states only to the owner; never a contact or secret',async()=>{
+    const {db,env}=setup();
+    try{
+      const at='2026-10-25T13:00:00.000Z';
+      for(const [id,state] of [['lead-1','PENDING'],['lead-2','APPLIED'],['lead-3','REVIEW']])
+        db.db.prepare('INSERT INTO site_erp_outbox (id,request_id,status,created_at,updated_at) VALUES (?,?,?,?,?)')
+          .run(id,id,state,at,at);
+      expect((await handleApi(req('/api/crm/bridge-status'),env)).status).toBe(401);
+      expect((await handleApi(req('/api/crm/bridge-status','client'),env)).status).toBe(403);
+      expect((await handleApi(req('/api/crm/bridge-status','admin'),env)).status).toBe(403);
+      const reply=await handleApi(req('/api/crm/bridge-status','owner'),env);
+      expect(reply.status,await reply.clone().text()).toBe(200);
+      const raw=await reply.text();
+      expect(raw).not.toContain('sales@example.test');
+      expect(raw).not.toContain('test-owner');
+      expect(raw).not.toContain('token');
+      expect(JSON.parse(raw)).toEqual({scope:'SITE_OUTBOX_ONLY',counts:{pending:1,leased:0,applied:1,review:1,blocked:0}});
+      expect(db.db.prepare('SELECT COUNT(*) AS n FROM site_erp_outbox').get()!.n).toBe(3);
+    }finally{db.db.close();}
+  });
+});
