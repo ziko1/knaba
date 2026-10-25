@@ -11,3 +11,9 @@
 | VPS | Вже наявний; нові сервіси не створювати | ~24 GiB free / 88% used 2026-10-24 | Targeted worktree, очищення лише після перевірки власності і rollback |
 
 Перед кожним платним provider call: підтвердити авторизацію, data boundaries, ціну, fresh quota і зарезервувати верхню оцінку в budget ledger; при невідомому списанні звірити usage/billing. Free fallback лише з підтвердженим правом і квотою, без silently enabled services.
+
+
+## 2026-10-25 — KNABA Assistant 360 authorization fence
+- New payable AI/voice/WhatsApp provider activation authorized in this stage: EUR 0; providers NOT activated, tokens NOT added. Fresh WABA calling eligibility, balance, model credits, PSTN/SIP prices and actual monthly runtime cost UNKNOWN.
+- Local development used existing VPS, npm public dependencies and isolated checkout; no spending API activated. Shared disk observed 197 GiB total, 176 GiB used, ~11 GiB free (~95% used) during build; no deletion of shared caches/volumes/backups without owner verification.
+- Voice Web Speech availability and browser-vendor processing is device-dependent; no assertion of zero vendor data-processing charges or universal browser support. Before any provider call confirm lawful region/contract, permissions, price, fresh quota and reserve project budget. Production/merge require separate approval.
