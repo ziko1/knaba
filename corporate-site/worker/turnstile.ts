@@ -3,11 +3,11 @@ import type { WorkerEnv } from './types';
 const VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 export type CaptchaConfig = { enabled: boolean; sitekey: string | null; unavailable: boolean };
 
-/** Missing both keys is development-only opt-out; a partial/invalid configuration fails closed. */
+/** Production requires both credentials; only explicit local test mode may omit them. */
 export function captchaConfig(env: WorkerEnv): CaptchaConfig {
   const sitekey=(env.TURNSTILE_SITE_KEY ?? '').trim();
   const secret=(env.TURNSTILE_SECRET_KEY ?? '').trim();
-  if (!sitekey && !secret) return {enabled:false, sitekey:null, unavailable:false};
+  if (!sitekey && !secret) return {enabled:false, sitekey:null, unavailable:env.TURNSTILE_REQUIRED==='1'};
   if (!/^[a-zA-Z0-9_-]{12,128}$/.test(sitekey) || !/^[a-zA-Z0-9_-]{12,128}$/.test(secret))
     return {enabled:false, sitekey:null, unavailable:true};
   return {enabled:true, sitekey, unavailable:false};

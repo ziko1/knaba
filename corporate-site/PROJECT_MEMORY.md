@@ -177,3 +177,13 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Full focused report docs/KNABA_SITE_FOOTER_SQUARE_CAPTCHA_AUDIT_2026-10-25_UK.md. Legal/owner/physical device acceptance open.
 
 - Rebased on newer deployed carousel SHA fe78624f4263d5f410b9fa29a2329c8ac19a6a74; QA re-run: 123 Vitest, 8 inquiry, 14 VPS tests PASS, 99 routes, 32 catalogue mobile-footer widths plus 4 short page widths, 7 carousel scenarios PASS.
+
+
+## KNABA 2026-10-25 — continuation of PR #42 (hardening checkpoint)
+- Baseline exact deployed code: 89b1ad4fb22f665863196040ea9e696119fb0690; current domain kneba.vsp.rest, HTTPS trusted, Docker healthy. Root-only Turnstile server credential exists; not in repo.
+- RED evidence: after first opening/closing KNABA Assistant, Solid fallback launcher was 189.67px and covered mobile footer Datenschutz at widths 360, 390, 480, 600 and both legal links at 760. The initial-launcher-only test missed this state.
+- Fixed Solid fallback launcher to same 54px mobile circle, checked across 4 locales x 8 widths: 32/32 PASS; initial footer 32/32 + 4 short viewports PASS.
+- Production fail-closed if Turnstile keys missing; consent-triggered lazy third-party script, expiry reset, DE/RU factual privacy disclosure, same-tab legal link, corrected Imprint construction illustration.
+- Isolated Node24 (network none): Astro/Vue/Svelte check 0 errors / 0 warnings (4 hints), Vitest 126/126, inquiry Node 8/8, VPS Node 14/14, 99 pages/static links/build PASS; 8 six-tile locale checks, 7 hero carousel browser scenarios, 4 browser flows using synthetic provider script (NOT human challenge) PASS.
+- Latest static artifact SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede. VPS-mounted assets/ live real-human challenge remain separately gated.
+- Full 98 public HTML routes on prior live build: Chromium mobile 98/98 PASS basic footer/overflow checks; 7 focused 200% root-font samples no overflow. Not a physical device/real a11y or field CWV proof.

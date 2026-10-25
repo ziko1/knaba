@@ -28,3 +28,13 @@
 Повернути лише immutable code release symlink /srv/knaba/vps/current та recreate тільки web-сервіс з незмінною Compose. Не замінювати або відновлювати живу SQLite автоматично. Ні main merge, ні deployment на офіційний knaba.de.
 
 - Інтегровано поверх actual live carousel parent fe78624f4263d5f410b9fa29a2329c8ac19a6a74 (не втрачено 8-слайдовий hero).
+
+
+## Продовження: реальні mobile-state регресії та privacy-by-default
+- Відтворено RED у live PR42: після відкриття/закриття KNABA Assistant його заміна .ka-launcher розширювалась до 189.67px і перекривала юридичні посилання на ширинах 360/390/480/600/760. Інша кнопка data-knaba-open була коректною.
+- GREEN на candidate: кругла кнопка 54px у обох станах, 32/32 (4 мови × 8 ширин) після закриття, 32/32 початковий футер + 4 короткі сторінки; окремі 7 сценаріїв каруселі пройшли.
+- P0 безпека: TURNSTILE_REQUIRED=1 у публічному Node VPS, при порожніх секретах /api/assistant/captcha відповідає 503 і не створює розмов; явно localTest лишається сумісним зі старими synthetic тестами.
+- Privacy: до підтвердження прочитання Datenschutzhinweise зовнішній скрипт Turnstile не завантажується. Виконано 4 browser-тести з контрольованою підміною скрипту (не дійсне проходження CAPTCHA); оновлено DE/RU Datenschutzhinweise описом фактичної передачі даних до Cloudflare. Юридичний signoff власника все ще потрібен.
+- Full-route audit live baseline: 98/98 HTML маршрутів у Chromium на 390px, без переповнення, несправних логотипів або перекритих legal-посилань; 7 сторінок із CSS font-size 200% не мали overflow. Browser test не замінює фізичний zoom/screen reader.
+- Exact candidate Node24 QA: 126/126 Vitest; 8/8 inquiry; 14/14 VPS; 99 generated HTML і verify:build PASS; artifact digest SHA256 3bf9b20eaa22a60adca9843930c4aae82c2f6f42224da452598df9f610974ede.
+- Unverified: власник не пройшов реальний Turnstile на телефоні, GDPR/AVV не затверджено, owner account не enrolled (/readyz 503), фізичний Android/iOS, повні screen-reader та field CWV — не доведено.
