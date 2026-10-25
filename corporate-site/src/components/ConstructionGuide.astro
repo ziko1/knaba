@@ -34,7 +34,7 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
       <aside class="guide-sidebar">
         <nav class="guide-contents" aria-labelledby="guide-contents-title">
           <h2 id="guide-contents-title">{labels.contents}</h2>
-          <ol>{guide.sections.map(section=><li><a href={'#'+section.id}>{section.title[locale]}</a></li>)}</ol>
+          <ol>{guide.sections.map(section=><li><a href={'#'+section.id}>{section.title[locale].replace(/^\d+\.\s*/,'')}</a></li>)}</ol>
           <a class="guide-checklist-link" href="#project-checklist">{labels.checklist} <span aria-hidden="true">↓</span></a>
         </nav>
         <div class="guide-service">
