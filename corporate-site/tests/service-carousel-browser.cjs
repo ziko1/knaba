@@ -43,6 +43,7 @@ const slugs = [
         await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='02 / 08');
         await page.locator('[data-carousel-dot]').last().click();
         await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='08 / 08');
+        await page.waitForFunction(()=>{ const track=document.querySelector('[data-carousel-track]'); const cards=[...document.querySelectorAll('[data-carousel-slide]')];return track && Math.abs(track.scrollLeft-(cards.at(-1).offsetLeft-cards[0].offsetLeft))<3; });
         await page.locator('[data-carousel-track]').focus();
         await page.keyboard.press('Home');
         await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='01 / 08');
