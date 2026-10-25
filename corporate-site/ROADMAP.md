@@ -251,3 +251,11 @@ User requests implementation and deployment to existing development site, preser
 - TRUST-04: Preserve current 2c3cccda FAQ editing/artifact verification, corporate improvements and requested six-card order; check exact-source build, actual SQLite API flow, responsive browser and anonymous authorization.
 - TRUST-05: Release only after proven cache-only storage recovery, fresh online backup, additive migration verification, current-pointer guard, immutable artifact attestation and live checks. Never prune backups or customer data.
 - Root integrates and deploys; delegated partners/frontend/backend implementations and independent rollout inspection. Public GitHub source push remains unavailable after prior automatic review rejection; private source recovery required.
+
+## KN-SVG-01 — shared service icons and mobile title repair (2026-10-25)
+
+- [x] Typed fixed first-party SVG icons (eight real services and separate project planner), four published locales, no external icon SDK, JS or new migration.
+- [x] Same icons on home, catalogue, technical offers, hero carousel and detail pages; original service contracts/order preserved.
+- [x] Mobile long-title improvement; code SHA `57ccd417cb918cf351f280173050915883f63158`, 180 Vitest + 16 Node + 23 VPS, 117-page build, 32 grid + 32 detail Chromium and 8 title mobile cases PASS. Payload baseline tracked.
+- [ ] Version-pinned VSP preview rollout with SQLite backup, rollback and live localized smoke; official domain excluded.
+- [ ] Genuine owner enrollment /readyz=503; physical Safari/Firefox/Android, native 200% zoom, screen-reader/field CWV, offsite restore and official sign-off.

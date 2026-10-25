@@ -262,3 +262,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Code `addff803dcb537af7272d468ecd3dd4990f626d3`: factual company profile/home link, shared public breadcrumbs and active navigation, localized careers email route, catalog-card consistency. Four locales, no dependencies/data/auth changes.
 - 159 Vitest +8 form Node +20 VPS Node, check/build/static117 pages and67 Chromium cases PASS; independent Codex corporate_audit ACCEPT. Evidence: docs/KNABA_CORPORATE_TEMPLATE_2026-10-25_UK.md.
 - NOT_DEPLOYED: storage92.88%, cutoverAllowed=false; no public source push (prior rejection remains). Physical device/legal/real owner/UAT/CWV remain NOT_RUN. Next: owner proof content, storage health and source-current reconciliation before authorized dev rollout.
+
+## KN-SVG-01 — 2026-10-25 SVG site-wide pictogram checkpoint
+
+- Active base `30cdeb75c46ad90e1fb921e78c9928235f3ac29a`; code-tested `57ccd417cb918cf351f280173050915883f63158`. First-party eight-service SVG registry plus separate project CTA; same across DE/EN/UK/RU on homepage, catalog, technical offers, hero and detail templates. Scoped mobile long-heading correction.
+- Node24 check/180 Vitest/16 Node/23 VPS/117-page build + static icon/order verification PASS; isolated Chromium 32 home/catalog, 32 detail and eight title cases PASS. One actual build artifact SHA256 `35f4d2cf9503950e898c8fd88982d6fd92735c042be27a39ef537bd111c70976`.
+- Payload compared with baseline: all emitted JS gzip +0 B, total CSS gzip +122 B, homepage HTML gzip +612 B. Field CWV not measured. Evidence: `docs/KNABA_SVG_SERVICE_ICONS_2026-10-25_UK.md`.
+- Actual dev deployment requires an immutable source-pinned release, pre-switch backup and public smoke. Real owner /readyz=503; physical device, native zoom, legal and customer acceptance NOT_RUN. No source-publication permission bypass.
