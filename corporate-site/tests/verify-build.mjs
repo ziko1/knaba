@@ -5,7 +5,12 @@ import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
 const root = resolve("dist/client");
-const official = process.env.KNABA_RELEASE_MODE === "official";
+const releaseMode = process.env.KNABA_RELEASE_MODE;
+const official = releaseMode === "official";
+const vsp = releaseMode === "vsp";
+const publicRelease = official || vsp;
+const temporary = !publicRelease;
+const indexingApproved = official || (vsp && process.env.KNABA_VSP_INDEX_APPROVED === "1");
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -46,10 +51,18 @@ for (const file of pages) {
   assert.equal(currentLinks.length, 1, `${file}: exactly one selected language`);
   assert.equal(currentLinks[0][1], locale, `${file}: selected language matches document`);
   assert.doesNotMatch(html, /class="site-language-bar"|class="language-nav"/, `${file}: no duplicate language strip`);
-  if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
+  if (temporary) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
+  if (vsp) assert.doesNotMatch(html, /class="preview-banner"/, "VPS release must not advertise a preview");
+  if (vsp && /(?:^|\/)(?:ru\/)?datenschutz\/index\.html$/.test(file)) {
+    assert.doesNotMatch(html, /OpenAI Sites|ChatGPT-Anmeldung|вход выполняется через авторизацию ChatGPT|Этот сайт предоставляется через OpenAI Sites/);
+    assert.match(html, /SQLite/);
+  }
+  if (vsp && /(?:^|\/)(?:ru\/)?impressum\/index\.html$/.test(file))
+    assert.doesNotMatch(html, /<p class="notice">(?:Sie besuchen die temporäre|Вы на временном)/);
+
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!official || /konto|postfach|studio|crm|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /konto|postfach|studio|crm|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -125,18 +138,19 @@ const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,official?44:0);
-if(official) assert.match(robots,/Sitemap: https:\/\/knaba\.de\/sitemap\.xml/);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?44:0);
+if(indexingApproved) assert.ok(robots.includes(`Sitemap: ${origin}/sitemap.xml`));
 else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
-if(!official) assert.match(headers,/X-Robots-Tag: noindex, follow/);
+if(!indexingApproved) assert.match(headers,/\/\*\n  X-Robots-Tag: noindex, follow/);
+else assert.doesNotMatch(headers,/\/\*\n  X-Robots-Tag: noindex, follow/);
 const report = {
   scope: "production-build-static-validation",
   pages: pages.length,
   internalLinks: "PASS",
   metadata: "PASS",
-  indexMode: official ? "OFFICIAL" : "TEMPORARY_NOINDEX",
+  indexMode: official ? "OFFICIAL" : vsp ? (indexingApproved ? "VSP_PUBLIC" : "VSP_PENDING_APPROVAL") : "TEMPORARY_NOINDEX",
   externalImageScriptRequests: "NONE_IN_HTML",
   cssGzip,
   allEmittedJsGzip: jsGzip,
@@ -146,7 +160,7 @@ const report = {
   networkTransfer: "NOT_MEASURED",
 };
 await writeFile(
-  official ? "docs/evidence/official-build-verification.json" : "docs/build-verification.json",
+  process.env.KNABA_BUILD_REPORT_PATH || (official ? "docs/evidence/official-build-verification.json" : vsp ? "docs/evidence/vsp-build-verification.json" : "docs/build-verification.json"),
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(JSON.stringify(report, null, 2));

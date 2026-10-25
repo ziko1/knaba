@@ -6,7 +6,7 @@ import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = () => {
   // A sitemap contains indexable pages only. The temporary release is noindex.
-  const paths = siteConfig.temporary ? [] : [
+  const paths = !siteConfig.indexable ? [] : [
     '/', '/en/', '/uk/', ...russianPublicPaths, '/leistungen/', '/branchen/', '/unternehmen/', '/karriere/',
     '/kontakt/', '/planer/', '/impressum/', '/datenschutz/', '/berlin/', '/ratgeber/',
     ...services.map(s => `/leistungen/${s.slug}/`),

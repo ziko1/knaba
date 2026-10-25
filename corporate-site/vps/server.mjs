@@ -4,6 +4,8 @@ import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { editablePublicHtmlPath } from './seo.mjs';
+import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
 const mime={
   '.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8',
@@ -43,7 +45,7 @@ async function readBody(req,limit){
   }
   return Buffer.concat(chunks);
 }
-async function sendStatic(root,req,res,path){
+async function sendStatic(root,req,res,path,db){
   let decoded;
   try{decoded=decodeURIComponent(path);}catch{return send(res,400,'Bad path');}
   if(decoded.includes('\0')||decoded.includes('\\')||/\/\./.test(decoded))return send(res,404,'Not found');
@@ -65,12 +67,27 @@ async function sendStatic(root,req,res,path){
   }
   if(stats.size>10*1024*1024)return send(res,413,'Asset too large');
   const ext=extname(file).toLowerCase();
-  const bytes=await readFile(file);
+  let bytes=await readFile(file);
+  // Only published SEO fields appear in the HTTP HTML returned to crawlers.
+  // Drafts, private routes and error pages must never influence page metadata.
+  if(ext==='.html' && res.statusCode!==404 && editablePublicHtmlPath(decoded)){
+    const row=db.prepare('SELECT published_json,published_version FROM studio_pages WHERE page_path=?').get(decoded);
+    if(row?.published_version>0){
+      const transformed=renderPublishedPage(bytes.toString('utf8'),row);
+      bytes=Buffer.from(transformed,'utf8');
+    }
+  }
   const hashed=/\/_astro\//.test(path);
   const privatePath=/^\/(?:studio|crm|konto|postfach|ru\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
-  if(privatePath||res.statusCode===404)res.setHeader('X-Robots-Tag','noindex, nofollow');
+  if(privatePath||res.statusCode===404){
+    res.setHeader('X-Robots-Tag','noindex, nofollow');
+  }else if(ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"')){
+    // Node serves static HTML directly; Cloudflare _headers rules are not applied here.
+    // Preserve the build-time noindex decision as an actual HTTP response header.
+    res.setHeader('X-Robots-Tag','noindex, follow');
+  }
   res.setHeader('Content-Length',bytes.length);
   res.end(req.method==='HEAD'?undefined:bytes);
 }
@@ -105,6 +122,8 @@ export async function createKnabaVpsServer({
   const server=createHttpServer(async(req,res)=>{
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
+    if(!localTest && req.headers['x-forwarded-proto']==='https')
+      res.setHeader('Strict-Transport-Security','max-age=604800');
     res.setHeader('X-Frame-Options','SAMEORIGIN');
     res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
     res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
@@ -116,7 +135,7 @@ export async function createKnabaVpsServer({
       const ready=Boolean(ownerEmail&&db.prepare('SELECT id FROM vps_users WHERE email=? AND disabled=0').get(ownerEmail.toLowerCase()));
       return send(res,url.pathname==='/healthz'||ready?200:503,url.pathname==='/healthz'?'healthy':ready?'ready':'owner enrollment required');
     }
-    if(rawHost==='www.knaba.de'){
+    if(rawHost==='www.knaba.de' && publicHost==='knaba.de'){
       if(!['GET','HEAD'].includes(req.method))return send(res,421,'Wrong host');
       return send(res,308,'Canonical origin',{Location:'https://knaba.de'+url.pathname+url.search});
     }
@@ -184,7 +203,7 @@ export async function createKnabaVpsServer({
       return res.end(Buffer.from(await reply.arrayBuffer()));
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed');
-    try{return await sendStatic(root,req,res,url.pathname);}catch{return send(res,503,'Service temporarily unavailable');}
+    try{return await sendStatic(root,req,res,url.pathname,db);}catch{return send(res,503,'Service temporarily unavailable');}
   });
   server.requestTimeout=20_000;
   server.headersTimeout=15_000;

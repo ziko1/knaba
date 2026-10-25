@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import {siteConfig} from "../data/site";
 import { company } from "../data/company";
 ---
 
@@ -8,7 +9,7 @@ import { company } from "../data/company";
     <p class="eyebrow">TRANSPARENT & ERREICHBAR</p>
     <h1>Impressum</h1>
     <p class="legal-intro">Angaben zum Anbieter nach § 5 Digitale-Dienste-Gesetz (DDG).</p>
-    <p class="notice">Sie besuchen die temporäre Website auf <strong>kneba.vsp.rest</strong>. Die Anbieterangaben wurden am 24. Oktober 2026 mit dem veröffentlichten Impressum auf <a href="https://knaba.de/impressum">knaba.de</a> abgeglichen.</p>
+    {siteConfig.temporary ? <p class="notice">Sie besuchen die temporäre Website auf <strong>kneba.vsp.rest</strong>. Die Anbieterangaben wurden am 24. Oktober 2026 mit dem veröffentlichten Impressum auf <a href="https://knaba.de/impressum">knaba.de</a> abgeglichen.</p> : <p class="notice">Dieses Angebot ist unter <strong>{new URL(siteConfig.origin).hostname}</strong> erreichbar. Die Angaben zum Anbieter wurden mit dem Impressum auf <a href="https://knaba.de/impressum">knaba.de</a> abgeglichen; die rechtliche Freigabe für den VPS-Betrieb bleibt erforderlich.</p>}
 
     <div class="legal-contact-grid">
       <section aria-labelledby="anbieter">

@@ -9,6 +9,11 @@ import { createKnabaVpsServer } from './server.mjs';
 import { createOwner } from './auth.mjs';
 
 const origin='https://knaba.de';
+// Authentication remains tested against original knaba.de origin fixture;
+// static build canonical independently follows the explicit selected release.
+const buildMode=process.env.KNABA_RELEASE_MODE;
+if (!['official','vsp'].includes(buildMode)) throw Error('Explicit release mode required for server QA');
+const buildCanonical=`rel="canonical" href="${buildMode==='vsp'?'https://kneba.vsp.rest':'https://knaba.de'}/"`;
 const owner='owner@example.test';
 const password='synthetic-only-not-a-real-password-2026';
 test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup',async()=>{
@@ -82,10 +87,37 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(pub.entries[0].value,'Sauber und sicher');
     assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:bodyHeaders,body:JSON.stringify({page:'/',version:1,confirm:'PUBLISH'})})).status,401);
 
+    // A saved draft must not affect crawlers until an explicit owner publish.
+    const actualParagraph='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
+    const actualLink='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+    const seoDraft={page:'/',version:1,entries:[...data.entries,
+      {selector:'@title',kind:'text',value:'KnaBa · Neuer & sicherer Titel'},
+      {selector:'@description',kind:'text',value:'Offizielle Beratung für Gebäudereinigung & Bauhelfer.'},
+      {selector:actualParagraph,kind:'text',value:'Sauber und sicher für Bauprojekte & Büros'},
+      {selector:actualLink,kind:'href',value:'/leistungen/baureinigung/'}
+    ]};
+    const saveSeo=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(seoDraft)});
+    assert.equal(saveSeo.status,200,await saveSeo.text());
+    const beforeSeo=await (await fetchAt('/')).text();
+    assert.ok(!beforeSeo.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
+    assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:publishHeaders,
+      body:JSON.stringify({page:'/',version:2,confirm:'PUBLISH'})})).status,200);
+    const rendered=await (await fetchAt('/')).text();
+    assert.ok(rendered.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
+    assert.ok(rendered.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
+    assert.ok(rendered.includes('href="/leistungen/baureinigung/"'));
+    assert.ok(rendered.includes('content="Offizielle Beratung für Gebäudereinigung &amp; Bauhelfer."'));
+    assert.ok(rendered.includes(buildCanonical), "Publishing must preserve selected build canonical");
+    const privateSeo=await (await fetchAt('/studio/')).text();
+    assert.ok(!privateSeo.includes('<title>KnaBa · Neuer'));
+
     await backup(app.db,backupPath);
     await app.close();
     app=await make();restarted=true;
-    assert.equal((await (await fetchAt('/api/studio/published?page=%2F')).json()).version,1);
+    assert.equal((await (await fetchAt('/api/studio/published?page=%2F')).json()).version,2);
+    const persistedHtml=await (await fetchAt('/')).text();
+    assert.ok(persistedHtml.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
+    assert.ok(persistedHtml.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
     assert.equal((await (await fetchAt('/api/portal/session',{headers:{Cookie:cookie}})).json()).role,'owner');
 
     const logout=await fetchAt('/logout/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Cookie:cookie},body:new URLSearchParams({return_to:'/'})});
@@ -98,10 +130,73 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     const {openLocalDatabase}=await import('./database.mjs');
     const recovered=openLocalDatabase(restoredPath);
     const stored=recovered.db.prepare("SELECT published_version FROM studio_pages WHERE page_path='/'").get();
-    assert.equal(stored.published_version,1);
+    assert.equal(stored.published_version,2);
     recovered.db.close();
   } finally{
     await app.close().catch(()=>{});
+    await rm(dir,{recursive:true,force:true});
+  }
+});
+
+test('VSP origin: exact Host and TLS only, no cross-domain redirects or spoofed identity',async()=>{
+  const dir=await mkdtemp(join(tmpdir(),'knaba-vsp-host-test-'));
+  const dbPath=join(dir,'state.sqlite');
+  const create=(localTest)=>createKnabaVpsServer({
+    dbPath,ownerEmail:'',origin:'https://kneba.vsp.rest',localTest,
+    staticRoot:new URL('../dist/client/',import.meta.url).pathname,
+    workerPath:new URL('../dist/server/index.js',import.meta.url).href,
+    host:'127.0.0.1',port:0
+  });
+  let seed=null,app=null;
+  const probe=(path,headers={})=>new Promise((resolve,reject)=>{
+    const request=httpRequest({
+      hostname:'127.0.0.1',port:app.port,path,
+      headers:{Host:'kneba.vsp.rest','X-Forwarded-Proto':'https',...headers}
+    },response=>{
+      const chunks=[];
+      response.on('data',c=>chunks.push(c));
+      response.on('end',()=>resolve({
+        status:response.statusCode,
+        location:response.headers.location,
+        headers:response.headers,
+        body:Buffer.concat(chunks).toString('utf8')
+      }));
+    });
+    request.on('error',reject);request.end();
+  });
+  try{
+    seed=await create(true);
+    await seed.close();seed=null;
+    app=await create(false);
+    const home=await probe('/');
+    assert.equal(home.status,200);
+    const expectedPublicHeader=process.env.KNABA_RELEASE_MODE==='vsp'
+      && process.env.KNABA_VSP_INDEX_APPROVED!=='1' ? 'noindex, follow' : undefined;
+    assert.equal(home.headers['x-robots-tag'],expectedPublicHeader,
+      'VPS HTTP responses must honor the same crawler gate as the HTML');
+    const studio=await probe('/studio/');
+    assert.equal(studio.status,200);
+    assert.equal(studio.headers['x-robots-tag'],'noindex, nofollow',
+      'Private Studio must retain stronger noindex/nofollow');
+    assert.equal((await probe('/')).headers['strict-transport-security'],'max-age=604800',
+      'VPS HTTPS application must preserve the existing scoped seven-day HSTS contract');
+    assert.equal((await probe('/',{'X-Forwarded-Proto':'http'})).headers['strict-transport-security'],undefined,
+      'Never claim HSTS for a non-TLS upstream request');
+    assert.equal((await probe('/healthz')).status,200);
+    assert.equal((await probe('/readyz')).status,503);
+    assert.equal((await probe('/api/crm/contacts')).status,401);
+    assert.equal((await probe('/',{Host:'knaba.de'})).status,421);
+    assert.equal((await probe('/',{Host:'www.knaba.de'})).status,421);
+    assert.equal((await probe('/',{Host:'kneba.vsp.rest.evil.test'})).status,421);
+    assert.equal((await probe('/',{'X-Forwarded-Proto':'http'})).status,421);
+    const visitor=await probe('/api/portal/session',{
+      'oai-authenticated-user-id':'forged-owner','oai-authenticated-user-email':'owner@example.test'
+    });
+    assert.equal(visitor.status,200);
+    assert.equal(JSON.parse(visitor.body).role,'anonymous');
+  } finally {
+    await seed?.close().catch(()=>{});
+    await app?.close().catch(()=>{});
     await rm(dir,{recursive:true,force:true});
   }
 });

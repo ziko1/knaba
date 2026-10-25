@@ -1,7 +1,7 @@
 import {writeFile} from 'node:fs/promises';
-const temporary=process.env.KNABA_RELEASE_MODE!=='official';
+const indexingApproved=process.env.KNABA_RELEASE_MODE==='official' || (process.env.KNABA_RELEASE_MODE==='vsp' && process.env.KNABA_VSP_INDEX_APPROVED==='1');
 await writeFile('.astro-static/_headers',`/*
-  ${temporary?'X-Robots-Tag: noindex, follow\n  ':''}X-Content-Type-Options: nosniff
+  ${!indexingApproved?'X-Robots-Tag: noindex, follow\n  ':''}X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 /konto/*
