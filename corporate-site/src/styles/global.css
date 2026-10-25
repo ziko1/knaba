@@ -77,6 +77,21 @@ html {
 }
 body {
   margin: 0;
+  /* Flex shell keeps the footer flush to the bottom on tall mobile webviews,
+     while allowing full-length service pages to scroll normally. */
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+body > main {
+  flex: 1 0 auto;
+  min-width: 0;
+  width: 100%;
+}
+body > footer.footer {
+  flex: 0 0 auto;
+  margin-top: auto;
 }
 a {
   color: inherit;

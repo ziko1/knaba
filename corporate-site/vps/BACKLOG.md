@@ -24,3 +24,16 @@
 - [ ] P1 Assistant guest conversation recovery + owner notification schema adaptation from PR #26/#27.
 - [ ] P1 Real SMTP/WhatsApp/AI only after provider authorization, pricing, quota and data protection.
 - [ ] P1 Offsite backup/restore, disk 94% warning, device/accessibility/performance baseline.
+
+## 2026-10-25 construction brand/footer polish
+- [x] Building + window squeegee brand across wordmark, icon, favicon.
+- [x] Footer short-page gap regression fixed in synthetic 320/390/768 browser layouts.
+- [x] Discontinued office-cleaning public API no longer markets historic code; retired office detail URLs redirect to modern catalog.
+- [ ] Verify post-deploy strict SSL, 99 routes, mobile actual device view and returning real user flow.
+- [ ] Reconcile old official knaba.de office-service text with company owner before official-domain changes.
+
+## BauService rebrand public dev release, 2026-10-25
+- [x] HTTPS, 99-route, 4-locale legacy office redirects, public Baureinigung catalogue, new logo, mobile browser footer checks.
+- [ ] Genuine owner enrollment and live CMS/CRM UAT; /readyz returns 503 intentionally.
+- [ ] Physical Android/iOS browser checks, accessibility, legal review and external backup/restore.
+- [ ] Confirm revised service positioning with company owner before touching separate official knaba.de.

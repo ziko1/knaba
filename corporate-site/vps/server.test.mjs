@@ -149,9 +149,9 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
   const setup=await createKnabaVpsServer({...opts,localTest:true});
   await setup.close();
   const prod=await createKnabaVpsServer({...opts,localTest:false});
-  const probe=(host,proto='https')=>new Promise((resolve,reject)=>{
+  const probe=(host,proto='https',path='/')=>new Promise((resolve,reject)=>{
     const request=httpRequest({
-      host:'127.0.0.1',port:prod.port,path:'/',method:'GET',
+      host:'127.0.0.1',port:prod.port,path,method:'GET',
       headers:{Host:host,'X-Forwarded-Proto':proto}
     },response=>{
       response.resume();
@@ -171,6 +171,12 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
     assert.equal((await probe('www.knaba.de')).status,421);
     assert.equal((await probe('kneba.vsp.rest.evil.test')).status,421);
     assert.equal((await probe('kneba.vsp.rest','http')).status,421);
+    // Deprecated office-marketing routes must never serve the legacy service.
+    for(const lang of ['', 'ru/', 'en/', 'uk/']){
+      const result=await probe('kneba.vsp.rest','https',`/${lang}leistungen/bueroreinigung/`);
+      assert.equal(result.status,308);
+      assert.equal(result.headers.location,`/${lang}leistungen/`);
+    }
   }finally{
     await prod.close();
     await rm(dir,{recursive:true,force:true});

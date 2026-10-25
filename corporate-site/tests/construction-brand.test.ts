@@ -3,7 +3,20 @@ import {constructionOffers,offerBySlug,constructionBusinessCopy} from '../src/da
 import {languageLinks,localeAlternates} from '../src/lib/site-i18n';
 import {services} from '../src/data/company';
 import {defaultService,recommendService} from '../src/lib/planner';
+import {readFileSync} from 'node:fs';
 describe('construction branding and protected historic contracts',()=>{
+  it('uses a building + window-squeegee identity, not a concrete drill icon',()=>{
+    const mark=readFileSync(new URL('../public/images/knaba-construction-mark.svg',import.meta.url),'utf8');
+    const logo=readFileSync(new URL('../public/images/knaba-construction-logo.svg',import.meta.url),'utf8');
+    const favicon=readFileSync(new URL('../public/favicon.svg',import.meta.url),'utf8');
+    for(const svg of [mark,logo,favicon]){
+      expect(svg).toContain('Fensterabzieher');
+      expect(svg).not.toContain('Kernbohrung');
+    }
+    expect(logo).toContain('BAUREINIGUNG');
+    expect(logo).toContain('KnaBa');
+  });
+
   it('has localized and unique offer slugs',()=>{
     const slugs=constructionOffers.map(item=>item.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
