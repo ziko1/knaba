@@ -11,7 +11,7 @@ function fakeStore(){
   const events: Array<unknown> = [];
   const db = {transaction:async (_company:string,_actor:string,fn:(tx:any)=>Promise<any>)=> fn({
     query:async (_sql:string,params:unknown[])=>{
-      const [provider,id,company,payload]=params as string[]; const key=`${provider}:${id}`;
+      const [provider,id,company,payload]=params as string[]; const canonicalPayload=_sql.startsWith('INSERT')?payload:company; const key=`${provider}:${id}`;
       if(_sql.startsWith('INSERT')){
         if(records.has(key))return {rows:[]};
         records.set(key,{companyId:company,payload});return {rows:[{event_id:id}]};
