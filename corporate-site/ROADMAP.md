@@ -115,3 +115,12 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [ ] Confirm official legal service details, permits, specialist subcontractors and image/brand approval before knaba.de release.
 - [ ] Human independent design/accessibility review, real CWV and multi-device QA.
 - [ ] Translate legal notices only after professional/legal review; do not falsely label German legal text as EN/UK.
+
+
+## KNABA-UX-CAPTCHA — 2026-10-25
+- [x] Preserve shared footer dark rebrand, legal clearance and all four locales
+- [x] Sixth planning CTA card on home and service catalogue, 4 languages
+- [x] Turnstile client + server and VPS bearer forwarding, Node24 build/unit tests
+- [ ] Securely provision free Turnstile widget keys and publish validated code to kneba.vsp.rest with live browser QA
+- [ ] Manual captcha completion, privacy/legal, genuine owner onboarding, physical mobile/a11y and field Web Vitals
+- [ ] Separate legacy office editorial URLs replacement and redirects with owner-approved content

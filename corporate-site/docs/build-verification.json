@@ -5,8 +5,8 @@
   "metadata": "PASS",
   "indexMode": "VSP_PENDING_APPROVAL",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 25477,
-  "allEmittedJsGzip": 163364,
+  "cssGzip": 27282,
+  "allEmittedJsGzip": 165179,
   "assets": [
     {
       "name": "_astro/AssistantInbox.CSGgv6Ab.js",
@@ -14,14 +14,14 @@
       "gzip": 3898
     },
     {
-      "name": "_astro/Catalogue.D45mQBED.js",
+      "name": "_astro/Catalogue.Bq3GzxuS.js",
       "bytes": 3869,
       "gzip": 1761
     },
     {
-      "name": "_astro/CleaningChecklist.CPXPuOyC.js",
+      "name": "_astro/CleaningChecklist.DsRkWbHK.js",
       "bytes": 3093,
-      "gzip": 1596
+      "gzip": 1595
     },
     {
       "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
@@ -29,9 +29,9 @@
       "gzip": 5575
     },
     {
-      "name": "_astro/ConstructionHome.2P-ah1Xs.css",
-      "bytes": 7849,
-      "gzip": 1898
+      "name": "_astro/ConstructionHome.Cjy1qYpz.css",
+      "bytes": 14463,
+      "gzip": 3378
     },
     {
       "name": "_astro/ConstructionPlanner.CoABF6jx.css",
@@ -49,29 +49,29 @@
       "gzip": 10523
     },
     {
-      "name": "_astro/KnabaAssistant.CDEBANg7.js",
-      "bytes": 26645,
-      "gzip": 9816
+      "name": "_astro/KnabaAssistant.B4E1wLB2.js",
+      "bytes": 31909,
+      "gzip": 11599
     },
     {
-      "name": "_astro/KnabaAssistant.uUkLhH79.css",
-      "bytes": 5677,
-      "gzip": 1861
+      "name": "_astro/KnabaAssistant.DoHnVVGI.css",
+      "bytes": 6366,
+      "gzip": 2022
     },
     {
-      "name": "_astro/Layout.CWlqpjjc.css",
-      "bytes": 55002,
-      "gzip": 12872
+      "name": "_astro/Layout.DL2PNqFJ.css",
+      "bytes": 55624,
+      "gzip": 13036
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.C2abP0E1.js",
+      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.BXo48fL5.js",
       "bytes": 1091,
       "gzip": 613
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.De1Wei6Z.js",
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.Bv2TPMLY.js",
       "bytes": 4029,
-      "gzip": 1676
+      "gzip": 1677
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_2_lang.Cfi5Vg5C.js",
@@ -89,14 +89,14 @@
       "gzip": 24061
     },
     {
-      "name": "_astro/ServiceFinder.BAGw4K-1.js",
+      "name": "_astro/ServiceFinder.B5Wx65LQ.js",
       "bytes": 2948,
-      "gzip": 1475
+      "gzip": 1476
     },
     {
-      "name": "_astro/SiteStudio.HIRlWvna.js",
+      "name": "_astro/SiteStudio.CBcAqxWA.js",
       "bytes": 21945,
-      "gzip": 7873
+      "gzip": 7875
     },
     {
       "name": "_astro/build.DBsCgAUW.js",
@@ -134,9 +134,9 @@
       "gzip": 1364
     },
     {
-      "name": "_astro/planner.CV16dmAD.js",
-      "bytes": 5544,
-      "gzip": 2320
+      "name": "_astro/planner.ms1HKqpf.js",
+      "bytes": 5557,
+      "gzip": 2329
     },
     {
       "name": "_astro/portal-contract.XZmVB1GG.js",
@@ -164,9 +164,9 @@
       "gzip": 25876
     },
     {
-      "name": "_astro/site-studio-contract.CZvrwfpz.js",
-      "bytes": 2797,
-      "gzip": 1432
+      "name": "_astro/site-studio-contract.yf9RZlZ7.js",
+      "bytes": 2845,
+      "gzip": 1452
     },
     {
       "name": "_astro/store.CdnqIiRy.js",
@@ -189,7 +189,7 @@
       "gzip": 12839
     }
   ],
-  "artifactSha256": "a956d0e0ac8bdd4243733087b089958df361dd2dbb331311c12e51f291eef4b9",
+  "artifactSha256": "b1b32d7f95844b69b50888e3e431ddcd1448e1908014202be90126502fff922e",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

@@ -47,6 +47,23 @@ async function start(locale='ru'){
 const tokenHeader=(ticket:{token:string})=>({'X-KnaBa-Conversation':ticket.token});
 const key=()=>crypto.randomUUID();
 describe('KNABA Assistant backend',()=>{
+  it('publishes only the sitekey, refuses unverified creation and accepts a valid Turnstile response',async()=>{
+    env.TURNSTILE_SITE_KEY='0x4AAAAAAAAtestsite';
+    env.TURNSTILE_SECRET_KEY='0x4BBBBBBBBtestsecret';
+    const config=await call('/api/assistant/captcha');
+    expect(config.status).toBe(200);
+    const publicConfig=await config.json() as Record<string,unknown>;
+    expect(publicConfig.enabled).toBe(true);
+    expect(publicConfig.sitekey).toBe(env.TURNSTILE_SITE_KEY);
+    expect(JSON.stringify(publicConfig)).not.toContain(env.TURNSTILE_SECRET_KEY);
+    expect((await call('/api/assistant/conversations','POST',{locale:'uk',privacyAccepted:true,website:''})).status).toBe(422);
+    const mock=vi.spyOn(globalThis,'fetch').mockResolvedValueOnce(new Response(JSON.stringify({success:true,hostname:'kneba.vsp.rest'})));
+    try{
+      const created=await call('/api/assistant/conversations','POST',{locale:'uk',privacyAccepted:true,website:'',captchaToken:'approved-human-token'});
+      expect(created.status,await created.clone().text()).toBe(201);
+      expect(mock).toHaveBeenCalledOnce();
+    }finally{mock.mockRestore();}
+  });
   it('enforces privacy, same origin and bounded public input',async()=>{
     expect((await call('/api/assistant/conversations','POST',{locale:'ru',privacyAccepted:false})).status).toBe(422);
     expect((await call('/api/assistant/conversations','POST',{locale:'ru',privacyAccepted:true,website:'bot'})).status).toBe(422);

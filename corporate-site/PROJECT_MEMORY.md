@@ -169,3 +169,11 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Public HTTPS with system CA verification: 99 built HTML routes have expected statuses (97 HTTP200 and 2 intentional 308 for the DE/RU legacy office pages), no unexpected errors. Extra EN/UK office URLs also redirect 308. HSTS max-age 604800, header and meta robots noindex/follow; Let's Encrypt SSL unchanged and valid. New squeegee/building SVG is served live.
 - Live Chromium automated 320x700, 390x844, 390x1550 and 768x1024 synthetic short-page footer test: bottom matches viewport and horizontal overflow zero.
 - Real owner account still unprovisioned (/readyz 503), on-device manual UAT and external-provider data export unverified. No paid providers used, no official knaba.de changes. VPS disk warning about 95 percent usage persists.
+
+
+## 25.10.2026 — UX/Assistant captcha candidate
+- Baseline live e5142f245aac806f4748c1db55a87629c1009bc2, preserving dark footer and assistant legal links; isolated draft for sixth CTA, real Turnstile token verification, bearer header fix.
+- Node24 no-network: 117 Vitest, 8 Node inquiry, 14 VPS tests PASS, 99 routes build/verify PASS, 8 localized six-tile checks PASS; artifact digest b1b32d7f95844b69b50888e3e431ddcd1448e1908014202be90126502fff922e.
+- Full focused report docs/KNABA_SITE_FOOTER_SQUARE_CAPTCHA_AUDIT_2026-10-25_UK.md. Legal/owner/physical device acceptance open.
+
+- Rebased on newer deployed carousel SHA fe78624f4263d5f410b9fa29a2329c8ac19a6a74; QA re-run: 123 Vitest, 8 inquiry, 14 VPS tests PASS, 99 routes, 32 catalogue mobile-footer widths plus 4 short page widths, 7 carousel scenarios PASS.

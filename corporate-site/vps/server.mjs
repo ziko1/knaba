@@ -104,7 +104,7 @@ function logoutPage(returnTo){
     '<form method="post" action="/logout/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'"><button type="submit">Abmelden</button></form>');
 }
 export async function createKnabaVpsServer({
-  dbPath,staticRoot,workerPath,ownerEmail='',port=8080,host='0.0.0.0',
+  dbPath,staticRoot,workerPath,ownerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
@@ -115,7 +115,7 @@ export async function createKnabaVpsServer({
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
-  const env={DB:d1,OWNER_EMAIL:ownerEmail,
+  const env={DB:d1,OWNER_EMAIL:ownerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
     ASSETS:{fetch:async request=>{
       return new Response('Static assets are served at the VPS edge.',{status:404});
     }}};
@@ -126,7 +126,8 @@ export async function createKnabaVpsServer({
       res.setHeader('Strict-Transport-Security','max-age=604800');
     res.setHeader('X-Frame-Options','SAMEORIGIN');
     res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
-    res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
+    const challengeOrigin=turnstileSiteKey && turnstileSecretKey ? ' https://challenges.cloudflare.com' : '';
+    res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'"+challengeOrigin+"; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'"+challengeOrigin+"; frame-src 'self'"+challengeOrigin+"; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
     const rawHost=String(req.headers.host||'').toLowerCase();
     const allowed=rawHost===publicHost || (localTest && /^127\.0\.0\.1(?::\d+)?$/.test(rawHost));
     const url=new URL(req.url||'/',origin);
@@ -191,7 +192,7 @@ export async function createKnabaVpsServer({
       catch(e){return send(res,e?.code==='too_large'?413:400,'Invalid request');}
       const user=readSession(db,req.headers.cookie);
       const headers=new Headers();
-      for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation-token','authorization']){
+      for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization']){
         if(req.headers[name]!==undefined&&name!=='content-length')headers.set(name,String(req.headers[name]));
       }
       // Only server-side verified sessions can supply these Cloudflare Sites legacy identity headers.
@@ -228,6 +229,8 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     staticRoot:process.env.KNABA_STATIC_ROOT||new URL('../dist/client/',import.meta.url).pathname,
     workerPath:new URL('../dist/server/index.js',import.meta.url).href,
     ownerEmail:process.env.OWNER_EMAIL||'',
+    turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
+    turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',
     origin:process.env.KNABA_PUBLIC_ORIGIN||'https://knaba.de',
     port,host:'0.0.0.0',localTest:process.env.KNABA_LOCAL_TEST==='1'
   });

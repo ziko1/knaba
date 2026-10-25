@@ -4,6 +4,7 @@ import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '.
 import type {ConstructionLocale} from '../data/construction-offers';
 import {company} from '../data/company';
 import ServiceCarousel from './ServiceCarousel.astro';
+import {projectCard} from '../data/construction-project-card';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];
 const prefix=locale==='de'?'':('/'+locale);
@@ -12,6 +13,7 @@ const contact=prefix+'/kontakt/';
 const planner=prefix+'/planer/';
 const keys=constructionOffers.filter(s=>s.core);
 const extras=constructionOffers.filter(s=>!s.core);
+const project=projectCard[locale];
 ---
 <Layout lang={locale} title={t.title} description={t.intro}
 schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
@@ -35,6 +37,11 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
       <div class="bau-card-top"><span class="bau-service-emoji" aria-hidden="true">{item.icon}</span><span class="bau-ordinal">0{i+1}</span></div>
       <h3>{localeValue(item.name,locale)}</h3><p>{localeValue(item.description,locale)}</p><span class="bau-card-action">{t.details} <span aria-hidden="true">↗</span></span>
     </a>)}
+    <a class="bau-card bau-card-request" href={planner}>
+      <div class="bau-card-top"><span class="bau-service-emoji" aria-hidden="true">📋</span><span class="bau-ordinal">06 / KnaBa</span></div>
+      <h3>{project.title}</h3><p>{project.description}</p>
+      <span class="bau-card-action">{project.action} <span aria-hidden="true">↗</span></span>
+    </a>
   </div>
   <a href={catalog} class="bau-inline">{t.all} <span aria-hidden="true">→</span></a>
 </section>
@@ -65,6 +72,9 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
 .bau-card{display:flex;flex-direction:column;border-radius:22px;padding:26px;background:#f0f5f0;border:1px solid #d9e7db;text-decoration:none;color:#12343c;min-height:285px;transition:transform .2s,box-shadow .2s}
 .bau-card:nth-child(3n+2){background:#e9f4f6}.bau-card:nth-child(3n){background:#f1f2d9}.bau-card:hover{transform:translateY(-3px);box-shadow:0 16px 30px #0c3c3b1e}
+.bau-card.bau-card-request{background:linear-gradient(138deg,#103741,#086e73);border:1px solid #14757a;color:#fff}
+.bau-card-request .bau-ordinal{color:#cbeec1}.bau-card.bau-card-request p{color:#e0efeb}.bau-card-request .bau-card-action{color:#dff5ad}
+.bau-card:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
 .bau-card-top{display:flex;align-items:center;justify-content:space-between}.bau-service-emoji{font-size:27px;line-height:1}.bau-ordinal{font-size:13px;letter-spacing:.08em;color:#6c9187}
 .bau-card h3{margin:26px 0 10px;font-size:clamp(19px,2vw,26px);letter-spacing:-.035em;overflow-wrap:anywhere}
 .bau-card p{margin:0 0 22px;color:#506a64;font-size:14px;line-height:1.65}.bau-card-action{margin-top:auto;color:#087b83;font-size:13px;font-weight:800;display:flex;justify-content:space-between}
