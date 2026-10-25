@@ -2181,3 +2181,25 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
   }
   .knaba-widget-root [data-knaba-open] span{font-size:27px;line-height:1}
 }
+
+/* Footer legal links must remain clear of the fixed assistant on every viewport.
+   Reserve horizontal space instead of adding a vertical gap below the footer. */
+.footer-bottom > div {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  column-gap: 18px;
+  row-gap: 8px;
+  margin-inline-end: 220px;
+}
+@media (max-width: 760px) {
+  .footer-bottom > div {
+    justify-content: flex-start;
+    column-gap: 16px;
+    margin-inline-end: 76px;
+  }
+  .footer-bottom a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
