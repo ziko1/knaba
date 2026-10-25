@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-/** Official release is a deliberate build-time choice; preview stays noindex. */
+/** Public VSP/official releases are indexable; unreleased preview remains noindex. */
 const mode = import.meta.env.KNABA_RELEASE_MODE;
 const official = mode === 'official';
 const vsp = mode === 'vsp';
@@ -7,6 +7,6 @@ export const siteConfig = {
   origin: official ? 'https://knaba.de' : 'https://kneba.vsp.rest',
   officialOrigin: 'https://knaba.de',
   temporary: !official,
-  // Browser preview semantics are independent from an owner-approved indexing release gate.
-  indexable: official || (vsp && import.meta.env.KNABA_VSP_INDEX_APPROVED === '1'),
+  // Public release may be indexed, private/404 paths always remain excluded.
+  indexable: official || vsp,
 } as const;

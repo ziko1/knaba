@@ -3,7 +3,7 @@ import { createPinia, setActivePinia } from "pinia";
 import { services } from "../src/data/company";
 import { createPlannerStore } from "../src/stores/planner";
 import { useFinderStore } from "../src/stores/finder";
-import { fetchCatalogue, getPreparation, parseCatalogue, recommendService } from "../src/lib/planner";
+import { fetchCatalogue, getPreparation, parseCatalogue, recommendConstructionTopic, recommendService } from "../src/lib/planner";
 
 const catalogue = () => ({ version: 1, services: services.map(({ slug, name, description, details }) => ({ slug, name, description, details: [...details] })) });
 
@@ -30,6 +30,22 @@ describe("useful recommendations", () => {
 });
 
 describe("shared selection", () => {
+  it("preserves the chosen cleaning phase across islands without changing the CRM service", () => {
+    const store = createPlannerStore();
+    expect(recommendConstructionTopic('routine')).toBe('bauzwischenreinigung');
+    expect(recommendConstructionTopic('intensive')).toBe('baustellenraeumung');
+    store.getState().selectTopic(recommendConstructionTopic('intensive'));
+    expect(store.getState().service).toBe('baureinigung');
+    expect(store.getState().topic).toBe('baustellenraeumung');
+    store.getState().selectTopic('kernbohrungen');
+    expect(store.getState().topic).toBe('baustellenraeumung');
+    store.getState().reset();
+    expect(store.getState().topic).toBe('baureinigung');
+  });
+  it("provides genuinely translated construction preparation", () => {
+    expect(getPreparation('baureinigung', 'en')).toContain('Confirm site access, water and electricity');
+    expect(getPreparation('baureinigung', 'uk')).toContain('Уточніть доступ, воду та електрику на об’єкті');
+  });
   it("notifies islands about a selection and lets them unsubscribe", () => {
     const store = createPlannerStore();
     const observed: string[] = [];

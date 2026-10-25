@@ -4,6 +4,7 @@ import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
 import { company, services } from "../data/company";
 import { offerBySlug } from "../data/construction-offers";
+import { inquirySupportPath } from "../lib/inquiry-navigation";
 import {
   buildInquiry,
   emptyInquiry,
@@ -18,7 +19,7 @@ import type { InquiryData } from "../lib/inquiry";
 export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const locale = () => props.locale ?? "de";
   const t = (text: string) => publicText(text, locale());
-  const path = (value: string) => locale() === "de" ? value : "/"+locale()+value;
+  const path = (value: '/datenschutz/' | '/konto/') => inquirySupportPath(value, locale());
   const [step, setStep] = createSignal(0);
   const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
@@ -81,7 +82,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       ...previous,
       service:"baureinigung",
       objectType:"Baustelle",
-      message: "Bauleistung: "+topic.name.de+"\n"+previous.message,
+      message: {de:'Bauleistung',en:'Construction service',uk:'Будівельна послуга',ru:'Строительная услуга'}[locale()]+": "+topic.name[locale()]+"\n"+previous.message,
     }));
     setReady(true);
   });
