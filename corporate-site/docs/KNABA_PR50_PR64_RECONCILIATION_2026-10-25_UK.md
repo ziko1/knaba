@@ -59,3 +59,19 @@
 4. Слідом, і лише після підтвердження власності та дозволу власника, налаштовувати GSC/Bing submit, CMP/consent analytics, IndexNow (якщо потрібно). Ключі не в Git і не в логах.
 
 **Зараз:** Candidate reviewable, але `RELEASE_BLOCKED_URL_REGRESSION`. Платних provider dispatch немає, live/DB не змінено.
+
+## Завершення відновлення 88 маршрутів — оновлення 25.10.2026
+
+Цей розділ **замінює попередній статус `RELEASE_BLOCKED_URL_REGRESSION`** для нової гілки PR #66, але не стирає історичного факту виявленої регресії.
+
+- Внесено чотири **нові оригінальні** інформаційні порадники DE/EN/UK/RU із реальними розгорнутими змістовими секціями, чеклістами, структурованими даними `Article`, перелінкуванням та локалізованими CTA. Приватний source bundle активного VPS не копійовано й не завантажено до GitHub; зафіксовано лише семантичні теми вже публічних сторінок.
+- Статична збірка тепер має **117 HTML**, **88 `<loc>`**, **440 `xhtml:link`**. Дві попередні DE/RU legacy-заглушки відповідного slug замінені повноцінним матеріалом без дублювання маршрутів.
+- Порівняння *фактично захопленого* `https://kneba.vsp.rest/sitemap.xml` із точним `dist/client/sitemap.xml` через `verify-sitemap-parity.mjs`: **PASS**, `currentCount:88, candidateCount:88, missing:[], added:[]`. Release pointer `b14b0be1cfd43100afb073780da7c4bd1e8e6c99` був сталим протягом цього порівняння. При новому релізі — повторити, не використовувати застарілий результат.
+- **Повністю перевірений executable SHA:** `5f65461b2b1aee8c50c0876f1df2f1a2c05e34cc`. Node v24.22.1, cached offline dependencies: `npm run check`, `npm test`, `npm run build`, `npm run verify:build`, `node --test vps/*.test.mjs` — PASS. **157/157 Vitest, 35/35 Node, 18/18 VPS**.
+- Статичний збірний артефакт SHA256: `22bdf11283cb7b98af9edc34aac416007bbef1d175fa4a4b4c2a3bc2473990f7`. CSS gzip 34 843 bytes, emitted client JS gzip 182 659 bytes — **не** польові Web Vitals.
+- Chromium у приватній мережево-ізольованій тестовій копії: **22/22 guide scenarios**, **24/24 marketing scenarios**, **6/6 reflow** (еквівалент viewport, не фізичне масштабування). Додатково виправлено дворядкове `01` у мобільному чеклісті та локалізацію заголовка чекліста. Український 390px знімок візуально перевірено.
+- IndexNow `--dry-run` з 88 публічними URL: **0 надсилань**. Жодного фактичного додавання до Google/Bing не відбулося.
+
+**Поточний релізний стан: `DRAFT_REVIEW_READY_NOT_DEVICE_OR_OWNER_ACCEPTED`.** Новий blocking stage: незалежний code/security review, перевірка фактичним власником KnaBa чотирьох перекладів/заявлених послуг, GDPR/legal/consent, реальний мобільний/збільшений шрифт і screen reader, польові CWV, перевірена авторизація власника Studio, replay/CAS поточного релізу, backup+rollback. Права публікації на офіційному `knaba.de` та merge не надавалися.
+
+Докази: [QA evidence](evidence/knaba-guides-88-route-parity-2026-10-25.json). Відновлені файли не містять секретів, платних зовнішніх AI SDK, платіжних викликів або доступу до live SQLite.
