@@ -59,3 +59,11 @@
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+
+
+## Full-site audit development deployment — 2026-10-25
+- [x] 7e774c32863ad6b9f90a95288b5bd3495d941a51 running on VSP, code-only rollout, previous code and fresh SQLite backup retained; live public browser and all102 active HTML URLs PASS.
+- [x] Explicit VSP_PUBLIC indexing and72-URL sitemap; private noindex/no-store, anonymous owner401 remain verified.
+- [ ] Real verified owner enrollment (/readyz503), authentic enquiry delivery and human CAPTCHA acceptance.
+- [ ] Explicit user approval for public GitHub source push; approval reviewer rejected public publication. Private source recovery patch is in current release directory.
+- [ ] Owner-supplied verified cases/photos/credentials; legal signoff; physical device a11y, security review, field CWV, external restore and disk maintenance.

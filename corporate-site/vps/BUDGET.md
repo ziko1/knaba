@@ -10,3 +10,9 @@ Uses existing VPS and cached Node 24 Docker image; no paid AI/model APIs,
 new cloud services, domain purchases or billable workflows authorized.
 Actual provider quotas/remaining balances are UNKNOWN. Runtime data are not
 migrated or deleted. Runtime release requires atomic symlink rollback.
+
+
+## Full-site audit — 2026-10-25
+- Existing VPS and cached Node24/Chromium used. No new npm dependencies, paid services, external AI dispatch or billable workflow activated. Quotas/balances remain UNKNOWN.
+- Before rollout: about9.4GiB available on197GiB filesystem (about95% used). Final compressed release687093B; no data deletion, pruning or retention changes.
+- Browser QA container removed after completion. Runtime limits unchanged; official production cutover remains outside this development release.

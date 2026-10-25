@@ -209,3 +209,12 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Published exact 7f886606d5711ac93a88d3d93b54a0a9b5638525 code on kneba.vsp.rest; previous code preserved, fresh SQLite backup and verified integrity
 - [x] Post-deploy HTTPS/certificate, Docker health, source SHA, EN/UK footer link semantics, 16 FAQ, 32 Assistant-close, 102 all-route checks
 - [ ] Real owner authorizes Studio editing, legal/processors signoff, physical device testing, browser Turnstile human acceptance, verified offsite backup and disk-pressure recovery
+
+
+## Full-site audit/content release — 25.10.2026
+- [x] All 102 active HTML routes audited; 72 public routes checked for unique metadata, canonical, hreflang, H1 and index policy
+- [x] 8 service types x4 languages, practical guidance and contact preparation published on kneba.vsp.rest
+- [x] Planner topic choice, EN/UK/RU translations, valid privacy/account links and safe locale switching fixed
+- [x] Independent content/code review, Node24 checks, browser candidate and live smoke, backup/source-pinned dev rollout at 7e774c3
+- [ ] Explicit approval to push source branch to public ziko1/knaba; automatic approval rejected publication, no PR created
+- [ ] Real owner and enquiry-delivery UAT, legal signoff, physical devices, field CWV, offsite restore and disk maintenance remain open

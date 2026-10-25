@@ -238,3 +238,12 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Pre-switch durable online SQLite backup knaba-2026-10-25T05-20-51-748Z.sqlite, SHA256 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0, five migration files unchanged. SQLite integrity_check ok before/after; web container only recreated.
 - Post-deploy TLS verify=0, Docker healthy. Public FAQ/Studio/assistant-config HTTP200, no external provider/billing activation. Browser EN/UK link-label-to-destination PASS; 16/16 FAQ locale-width flows + 1 Astro SPA navigation, 32/32 post-close Assistant/footer interactions PASS; complete responsive 102/102 generated HTML route Chromium check PASS.
 - Runbook remains dev-only, /readyz=503 due missing verified real owner. No main merge, no official knaba.de cutover, no real owner Studio UAT, no physical device/human Turnstile completion; VPS disk ~95% full, 9.9GiB free, no unreviewed deletion.
+
+
+## Full-site construction-content audit and development release — 2026-10-25
+- Exact deployed executable SHA 7e774c32863ad6b9f90a95288b5bd3495d941a51 at 11:58:10 UTC, previous 7f886606d5711ac93a88d3d93b54a0a9b5638525 retained. 8 service types x4 locales and 24 info/contact pages expanded; localized planner/topic/consent/portal links repaired.
+- Public VSP mode now indexable: 72 sitemap URLs and 360 hreflang entries. Preview/private/legacy remain noindex. Stable CRM service enum, runtime/schema/deps unchanged.
+- Node24 QA 148 Vitest +8 inquiry +16 VPS PASS, check 0 errors/warnings, 103 HTML static PASS. 102-route candidate browser, 4 conversion flows, 24 reflow cases, exact-source targeted labels and final live four-language mobile smoke PASS. Live GET 102/102 active HTML200; anonymous owner APIs401; Docker healthy.
+- Final client tree SHA256 2a7121f731d2d24f59bb34af124f3b57a2346485dc3292f21c8cef211e3a71cf. Fresh SQLite backup integrity ok; 5 migrations unchanged.
+- Public GitHub push blocked twice by auto-review requiring explicit public-source publication permission; DO NOT retry/bypass without direct approval. Branch remains local, recoverable patch retained privately in deployed release. No PR/main merge/official-domain change.
+- /readyz503 owner enrollment required; real delivery/human CAPTCHA, legal signoff, physical-device a11y/security, field CWV and offsite restore NOT_VERIFIED. Disk about95% used, 9.4GiB free; no cleanup or paid providers. Report: docs/KNABA_FULL_SITE_AUDIT_2026-10-25_UK.md.

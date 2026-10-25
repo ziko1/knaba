@@ -1,0 +1,1000 @@
+{
+  "timeUtc": "2026-10-25T11:50:21.317Z",
+  "source": "working-tree candidate",
+  "allRouteCount": 102,
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/branchen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/unternehmen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/karriere/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/kontakt/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/planer/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/berlin/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/faq/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/baureinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/bauhilfe/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/durchbrueche/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/leistungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/branchen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/unternehmen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/karriere/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/kontakt/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/planer/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/berlin/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/ratgeber/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/faq/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/baureinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/bauhilfe/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/durchbrueche/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/en/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/leistungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/branchen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/unternehmen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/karriere/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/kontakt/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/planer/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/berlin/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/ratgeber/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/faq/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/baureinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/bauhilfe/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/durchbrueche/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/branchen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/unternehmen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/karriere/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/kontakt/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/planer/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/berlin/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/faq/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/baureinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/bauhilfe/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/durchbrueche/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/impressum/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/datenschutz/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/bueroreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/glasreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/baureinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/grundreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/leistungen/treppenreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/impressum/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/datenschutz/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/bueroreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/glasreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/baureinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/grundreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/leistungen/treppenreinigung/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/konto/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/konto/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/postfach/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/postfach/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/studio/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    },
+    {
+      "path": "/crm/",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "badImages": [],
+      "errors": []
+    }
+  ],
+  "flows": [
+    {
+      "lang": "de",
+      "before": "Baufein- & Bauendreinigung",
+      "after": "Bauzwischenreinigung",
+      "selected": "Bauzwischenreinigung",
+      "href": "/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "progress": "0 von 4 Punkten vorbereitet",
+      "message": "Bauleistung: Bauzwischenreinigung\n",
+      "privacy": "/datenschutz/",
+      "review": "PASS"
+    },
+    {
+      "lang": "en",
+      "before": "Fine and final cleaning",
+      "after": "Cleaning between construction phases",
+      "selected": "Cleaning between construction phases",
+      "href": "/en/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "progress": "0 of 4 items prepared",
+      "message": "Construction service: Cleaning between construction phases\n",
+      "privacy": "/datenschutz/",
+      "review": "PASS"
+    },
+    {
+      "lang": "uk",
+      "before": "Тонке та фінальне прибирання",
+      "after": "Міжетапне прибирання",
+      "selected": "Міжетапне прибирання",
+      "href": "/uk/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "progress": "Підготовлено: 0 із 4",
+      "message": "Будівельна послуга: Міжетапне прибирання\n",
+      "privacy": "/datenschutz/",
+      "review": "PASS"
+    },
+    {
+      "lang": "ru",
+      "before": "Тонкая и финальная уборка",
+      "after": "Промежуточная уборка",
+      "selected": "Промежуточная уборка",
+      "href": "/ru/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "progress": "Подготовлено: 0 из 4",
+      "message": "Строительная услуга: Промежуточная уборка\n",
+      "privacy": "/ru/datenschutz/",
+      "review": "PASS"
+    }
+  ],
+  "languageSwitch": "EN to UK preserves selected topic",
+  "layout": [
+    {
+      "width": 320,
+      "path": "/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "path": "/leistungen/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "path": "/bauleistungen/baureinigung/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "path": "/bauleistungen/kernbohrungen/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "path": "/uk/kontakt/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "path": "/faq/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/leistungen/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/bauleistungen/baureinigung/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/bauleistungen/kernbohrungen/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/uk/kontakt/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "path": "/faq/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/leistungen/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/bauleistungen/baureinigung/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/bauleistungen/kernbohrungen/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/uk/kontakt/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "path": "/faq/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "textZoom": "200%",
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "textZoom": "200%",
+      "path": "/en/bauleistungen/baureinigung/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "textZoom": "200%",
+      "path": "/uk/kontakt/",
+      "overflow": 0
+    }
+  ],
+  "fails": [],
+  "artifactSha256": "d8aae01c3ea0b5617f51b3f3992f61a209dc4006018cf91dcbec59aa83043388",
+  "artifactFiles": 161,
+  "artifactDigestAlgorithm": "SHA256 of JS-string-lexicographically-sorted files, each relative POSIX path + NUL + raw bytes + NUL; matches tests/verify-build.mjs",
+  "digestCorrection": "Earlier d6301187 used pathlib component sorting; replaced with canonical string sorting, unchanged content."
+}
