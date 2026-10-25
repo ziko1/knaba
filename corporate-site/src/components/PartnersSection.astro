@@ -12,7 +12,7 @@ const t=partnerCopy[locale];
   </header>
   <ul class="knaba-partners-grid" role="list">
     {officialPartnerLogos.map((partner, index) => (
-      <li class="knaba-partner-card">
+      <li class="knaba-partner-card" data-partner-id={partner.id}>
         <div class="knaba-partner-image">
           <img
             src={partner.src}
