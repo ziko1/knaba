@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from './Icon.astro';
+import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import {company} from '../data/company';
 import {siteConfig} from '../data/site';
 import type {ConstructionLocale,ConstructionOffer} from '../data/construction-offers';
@@ -21,7 +22,7 @@ const serviceUrl=siteConfig.origin+prefix+'/bauleistungen/'+offer.slug+'/';
 <Layout lang={locale} title={title+' | KnaBa Berlin'} description={desc}
 breadcrumbs={[{name:'KnaBa',url:prefix+'/'},{name:t.all,url:prefix+'/leistungen/'},{name:title,url:prefix+'/bauleistungen/'+offer.slug+'/'}]}
 schema={{'@type':'Service','@id':serviceUrl+'#service',url:serviceUrl,name:title,description:desc,serviceType:title,provider:{'@id':'https://knaba.de/#business'},areaServed:['Berlin','Brandenburg']}}>
-<section class="container page-intro"><a class="breadcrumb" href={prefix+'/leistungen/'}>← {t.all}</a><p class="eyebrow">{isSpecial?t.optional:t.standard}</p><h1>{title}</h1><p>{desc}</p><a class="button button-dark" href={contact}>{t.request} <Icon size={18}/></a></section>
+<section class="container page-intro service-detail-intro"><a class="breadcrumb" href={prefix+'/leistungen/'}>← {t.all}</a><p class="eyebrow service-type-label"><ConstructionServiceIcon name={offer.slug} size={24} />{isSpecial?t.optional:t.standard}</p><h1>{title}</h1><p>{desc}</p><a class="button button-dark" href={contact}>{t.request} <Icon size={18}/></a></section>
 <section class="container section section-tight detail-grid"><div class="service-overview"><h2>{label('overview')}</h2>
 <p>{detail.overview[locale]}</p>
 <ul class="service-stages">{offer.steps.map(item=><li>{localeValue(item,locale)}</li>)}</ul>
@@ -46,6 +47,8 @@ schema={{'@type':'Service','@id':serviceUrl+'#service',url:serviceUrl,name:title
 <section class="container cta-banner"><div><h2>{t.ready}</h2></div><a class="button button-dark" href={contact}>{t.cta} →</a></section>
 </Layout>
 <style>
+.service-type-label{display:flex;align-items:center;gap:10px;margin-top:0;max-width:100%}
+@media(max-width:610px){.service-detail-intro h1{font-size:clamp(28px,7.5vw,38px);line-height:1.14;letter-spacing:-.045em;overflow-wrap:anywhere;hyphens:auto}.service-detail-intro .service-type-label{font-size:11px;line-height:1.5}}
 .bau-note{color:#566f6b;line-height:1.7;margin:25px 0}.bau-warning{border-radius:16px;background:#fff1d4;border:1px solid #e9c985;padding:22px;margin:24px 0;color:#56432d}.bau-warning p{color:#56432d;line-height:1.65}.aside-card li{margin:10px 0;color:#415954;line-height:1.55}
 .service-overview,.service-content-card,.service-expectations>div,.service-quote>div{min-width:0}
 .service-overview>p,.service-content-card li,.service-expectations p,.service-quote p{font-size:16px;line-height:1.8;color:#415954;overflow-wrap:anywhere}

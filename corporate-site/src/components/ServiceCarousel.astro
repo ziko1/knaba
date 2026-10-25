@@ -1,5 +1,6 @@
 ---
 import {getServiceCarouselSlides} from '../lib/service-carousel';
+import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import type {ConstructionLocale} from '../data/construction-offers';
 
 const {locale = 'de'} = Astro.props as {locale: ConstructionLocale};
@@ -27,7 +28,7 @@ const ui = {
               <span class="art-orbit art-orbit-one"></span>
               <span class="art-orbit art-orbit-two"></span>
               <span class="art-building"><i></i><i></i><i></i><i></i></span>
-              <span class="art-symbol">{slide.icon}</span>
+              <span class="art-symbol"><ConstructionServiceIcon name={slide.slug} size={60} /></span>
               <span class="art-baseline"></span>
             </div>
           )}
@@ -181,7 +182,7 @@ const ui = {
   .art-orbit-two { width:100px; height:100px; top:auto; right:auto; bottom:-48px; left:-20px; border-width:12px; }
   .art-building { position:absolute; left:14%; top:19%; width:31%; height:68%; border:6px solid #0d51554d; border-radius:12px 12px 0 0; display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:11px; transform:skewY(-5deg); }
   .art-building i { display:block; background:#fff9; border-radius:5px; }
-  .art-symbol { position:relative; z-index:1; margin-left:26%; width:120px; height:120px; border:7px solid #ffffff99; background:#fffdf8e0; box-shadow:0 16px 35px #123d3930; border-radius:32px; display:grid; place-items:center; font-size:60px; line-height:1; transform:rotate(-8deg); }
+  .art-symbol { position:relative; z-index:1; margin-left:26%; width:120px; height:120px; border:7px solid #ffffff99; background:#fffdf8e0; box-shadow:0 16px 35px #123d3930; border-radius:32px; display:grid; place-items:center; color:var(--accent); line-height:1; transform:rotate(-8deg); }
   .art-baseline { position:absolute; bottom:16px; left:10%; right:10%; height:9px; border-radius:10px; background:#155c6170; }
   .slide-body { display:flex; flex:1; flex-direction:column; align-items:flex-start; padding:17px 2px 0; min-width:0; }
   .slide-subline { font-size:10px; line-height:1.4; font-weight:850; color:var(--accent); letter-spacing:.11em; }
@@ -211,7 +212,7 @@ const ui = {
     .slide-body h2 { font-size:clamp(20px,5.4vw,25px); }
     .slide-body p { font-size:12px; line-height:1.5; }
     .slide-overline { font-size:10px; }
-    .art-symbol { width:105px; height:105px; font-size:53px; }
+    .art-symbol { width:105px; height:105px; }
     .carousel-controls { justify-content:flex-start; padding-right:54px; gap:6px; }
     .carousel-dots { gap:0; }
     .carousel-dot { min-width:13px; padding-inline:2px; }

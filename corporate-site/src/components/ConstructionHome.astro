@@ -5,6 +5,7 @@ import type {ConstructionLocale} from '../data/construction-offers';
 import {company} from '../data/company';
 import ServiceCarousel from './ServiceCarousel.astro';
 import ConstructionFaq from './ConstructionFaq.astro';
+import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import CompanyProfile from './CompanyProfile.astro';
 import Partners from './Partners.astro';
 import Reviews from './Reviews.astro';
@@ -39,13 +40,13 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
   <div class="bau-card-grid">
     {constructionGridCards.map((card,i) => card.kind === 'project' ? (
       <a class="bau-card bau-card-request" href={planner}>
-        <div class="bau-card-top"><span class="bau-service-emoji" aria-hidden="true">📋</span><span class="bau-ordinal">{constructionGridOrdinal(i)} / KnaBa</span></div>
+        <div class="bau-card-top"><span class="bau-service-icon" aria-hidden="true"><ConstructionServiceIcon name="project" /></span><span class="bau-ordinal">{constructionGridOrdinal(i)} / KnaBa</span></div>
         <h3>{project.title}</h3><p>{project.description}</p>
         <span class="bau-card-action">{project.action} <span aria-hidden="true">↗︎</span></span>
       </a>
     ) : (
       <a class="bau-card" href={prefix+'/bauleistungen/'+card.offer.slug+'/'}>
-        <div class="bau-card-top"><span class="bau-service-emoji" aria-hidden="true">{card.offer.icon}</span><span class="bau-ordinal">{constructionGridOrdinal(i)}</span></div>
+        <div class="bau-card-top"><span class="bau-service-icon" aria-hidden="true"><ConstructionServiceIcon name={card.offer.slug} /></span><span class="bau-ordinal">{constructionGridOrdinal(i)}</span></div>
         <h3>{localeValue(card.offer.name,locale)}</h3><p>{localeValue(card.offer.description,locale)}</p>
         <span class="bau-card-action">{t.details} <span aria-hidden="true">↗︎</span></span>
       </a>
@@ -55,7 +56,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 </section>
 <section class="bau-contract" aria-labelledby="bau-contract-heading"><div class="container bau-contract-grid">
   <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.all} <span aria-hidden="true">→</span></a></div>
-  <div class="bau-extra-list">{extras.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'}><span class="bau-service-emoji" aria-hidden="true">{item.icon}</span><span>{localeValue(item.name,locale)}</span><span aria-hidden="true">↗</span></a>)}</div>
+  <div class="bau-extra-list">{extras.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'}><span class="bau-service-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} /></span><span>{localeValue(item.name,locale)}</span><span aria-hidden="true">↗</span></a>)}</div>
 </div></section>
 <CompanyProfile locale={locale} compact />
 <Partners locale={locale} />
@@ -90,7 +91,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-services-more:hover{background:#daf0e8;text-decoration:none}
 .bau-services-more:focus-visible{outline:3px solid #0c7d81;outline-offset:3px}
 .bau-card:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
-.bau-card-top{display:flex;align-items:center;justify-content:space-between}.bau-service-emoji{font-size:27px;line-height:1}.bau-ordinal{font-size:13px;letter-spacing:.08em;color:#6c9187}
+.bau-card-top{display:flex;align-items:center;justify-content:space-between}.bau-service-icon{display:inline-grid;place-items:center;width:40px;height:40px;flex-shrink:0;border-radius:13px;color:#076e77;background:#ffffffb8;border:1px solid #ffffffc9;box-shadow:0 4px 12px #103d3d10}.bau-ordinal{font-size:13px;letter-spacing:.08em;color:#6c9187}
 .bau-card h3{margin:26px 0 10px;font-size:clamp(19px,2vw,26px);letter-spacing:-.035em;overflow-wrap:anywhere}
 .bau-card p{margin:0 0 22px;color:#506a64;font-size:14px;line-height:1.65}.bau-card-action{margin-top:auto;color:#087b83;font-size:13px;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-card-action>span{font-family:Arial,sans-serif;font-size:20px;font-weight:700;line-height:1}
 .bau-contract{background:#dcefe8;padding-block:clamp(55px,8vw,95px)}.bau-contract-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:50px;align-items:center}.bau-contract .button{margin-top:20px}

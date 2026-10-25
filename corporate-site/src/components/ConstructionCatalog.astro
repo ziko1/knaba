@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import type {ConstructionLocale} from '../data/construction-offers';
 import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '../data/construction-offers';
 import {projectCard} from '../data/construction-project-card';
+import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
@@ -14,20 +15,20 @@ const project=projectCard[locale];
 <section class="container section section-tight"><h2>{t.standard}</h2><div class="bau-offer-grid">
 {constructionGridCards.map((card,i) => card.kind === 'project' ? (
   <a href={prefix+'/planer/'} class="bau-offer bau-offer-request">
-    <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true">📋</span><span class="bau-ordinal">{constructionGridOrdinal(i)} / KnaBa</span></div>
+    <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name="project" size={30} /></span><span class="bau-ordinal">{constructionGridOrdinal(i)} / KnaBa</span></div>
     <h3>{project.title}</h3><p>{project.description}</p>
     <span class="bau-offer-action">{project.action} <span aria-hidden="true">↗︎</span></span>
   </a>
 ) : (
   <a href={prefix+'/bauleistungen/'+card.offer.slug+'/'} class="bau-offer">
-    <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true">{card.offer.icon}</span><span class="bau-ordinal">{constructionGridOrdinal(i)}</span></div>
+    <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name={card.offer.slug} size={30} /></span><span class="bau-ordinal">{constructionGridOrdinal(i)}</span></div>
     <h3>{localeValue(card.offer.name,locale)}</h3><p>{localeValue(card.offer.description,locale)}</p>
     <span class="bau-offer-action">{t.details} <span aria-hidden="true">→</span></span>
   </a>
 ))}
 </div></section>
 <section class="container section section-tight" id="zusatzarbeiten"><p class="eyebrow">B2B / TECHNISCH</p><h2>{t.optional}</h2><p class="bau-disclaimer">{t.contractIntro}</p>
-<div class="bau-offer-grid">{additional.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'} class="bau-offer special"><div class="bau-icon" aria-hidden="true">{item.icon}</div><h3>{localeValue(item.name,locale)}</h3><p>{localeValue(item.description,locale)}</p><span>{t.request} →</span></a>)}</div>
+<div class="bau-offer-grid">{additional.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'} class="bau-offer special"><div class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} size={30} /></div><h3>{localeValue(item.name,locale)}</h3><p>{localeValue(item.description,locale)}</p><span>{t.request} →</span></a>)}</div>
 <p class="bau-disclaimer">{t.note}</p></section>
 <section class="container cta-banner"><div><h2>{t.ready}</h2></div><a class="button button-dark" href={prefix+'/kontakt/'}>{t.cta} →</a></section>
 </Layout>
@@ -41,7 +42,7 @@ const project=projectCard[locale];
 .bau-offer-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-offer .bau-ordinal{color:#6c9187;font-size:13px;letter-spacing:.08em;white-space:nowrap}.bau-offer-action{display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-offer-action>span{font-family:Arial,sans-serif;font-size:19px;font-weight:700;line-height:1}
 .bau-offer h3{font-size:23px;line-height:1.18;margin:22px 0 12px;letter-spacing:-.03em;overflow-wrap:anywhere}
 .bau-offer p{font-size:14px;color:#546f67;line-height:1.7;flex:1}.bau-offer>span{margin-top:18px;font-weight:800;color:#0c838a;font-size:14px}
-.bau-icon{font-size:31px}.bau-disclaimer{max-width:850px;color:#59736c;line-height:1.75}
+.bau-icon{display:inline-grid;place-items:center;width:44px;height:44px;border:1px solid #ffffffc9;border-radius:14px;background:#ffffffb8;color:#076e77;box-shadow:0 4px 12px #103d3d10}.bau-disclaimer{max-width:850px;color:#59736c;line-height:1.75}
 @media(max-width:850px){.bau-offer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.bau-offer-grid{grid-template-columns:1fr}.bau-offer{min-height:210px}}
 </style>
