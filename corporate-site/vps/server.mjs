@@ -3,7 +3,8 @@ import { readFile,stat } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
-import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { createLogin,createSession,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { googleConfigured,googleSchemaReady,googleOnlyUser,startGoogleLogin,consumeGoogleState,exchangeGoogleCode,acceptGoogleIdentity,googleStateCookie,googleCookieState } from './google-oidc.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
@@ -91,13 +92,15 @@ async function sendStatic(root,req,res,path,db){
   res.setHeader('Content-Length',bytes.length);
   res.end(req.method==='HEAD'?undefined:bytes);
 }
-function loginPage(returnTo,invalid=false){
+function loginPage(returnTo,invalid=false,googleEnabled=false){
   const error=invalid?'<p role="alert" class="error">Anmeldung fehlgeschlagen. Bitte Angaben prüfen.</p>':'';
   return html('KnaBa | Sicher anmelden','<h1>KnaBa · sicher anmelden</h1><p>Verwaltungszugang für autorisierte Personen.</p>'+error+
     '<form method="post" action="/login/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
     '<label>E-Mail<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
     '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
-    '<button type="submit">Anmelden</button></form><p><a href="/">Zur Website</a></p>');
+    '<button type="submit">Anmelden</button></form>'+
+    (googleEnabled?'<p><a rel="nofollow" href="/auth/google/start?return_to='+encodeURIComponent(returnTo)+'">Mit Google anmelden →</a></p>':'')+
+    '<p><a href="/">Zur Website</a></p>');
 }
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
@@ -105,13 +108,14 @@ function logoutPage(returnTo){
 }
 export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
-  origin='https://knaba.de',localTest=false
+  origin='https://knaba.de',localTest=false,googleOidc={enabled:false,clientId:'',clientSecret:''}
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   const base=new URL(origin);
   if(base.protocol!=='https:'&&!localTest)throw Error('Production HTTPS origin required.');
   const publicHost=base.host.toLowerCase();
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
+  const googleReady=googleConfigured(googleOidc,db);
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
@@ -153,11 +157,60 @@ export async function createKnabaVpsServer({
       const destination='/'+(legacyOffice[1]?legacyOffice[1]+'/':'')+'leistungen/';
       return send(res,308,'Service catalogue moved',{Location:destination});
     }
+    // First-party discovery never leaks OAuth client secrets and does not enable third-party scripts.
+    if(url.pathname==='/auth/providers.json'){
+      if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed',{Allow:'GET,HEAD'});
+      return send(res,200,req.method==='HEAD'?'':JSON.stringify({google:googleReady}),{
+        'Content-Type':'application/json; charset=utf-8','X-Robots-Tag':'noindex,nofollow'
+      });
+    }
+    if(url.pathname==='/auth/google/start'){
+      if(!googleReady)return send(res,404,'Not found',{'X-Robots-Tag':'noindex,nofollow'});
+      if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
+      try {
+        const pending=startGoogleLogin(db,{
+          clientId:googleOidc.clientId,origin:effectiveOrigin,
+          returnTo:returnPath(url.searchParams.get('return_to'))
+        });
+        return send(res,302,'Google authorization required',{
+          Location:pending.authorizationUrl,
+          'Set-Cookie':googleStateCookie(pending.state,{secure:!localTest}),
+          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'
+        });
+      }catch{return send(res,503,'Sign-in temporarily unavailable',{'X-Robots-Tag':'noindex,nofollow'});}
+    }
+    if(url.pathname==='/auth/google/callback'){
+      if(!googleReady)return send(res,404,'Not found',{'X-Robots-Tag':'noindex,nofollow'});
+      if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
+      const clear=googleStateCookie('',{secure:!localTest,clear:true});
+      try {
+        if(url.searchParams.has('error'))throw Error('Provider declined');
+        const pending=consumeGoogleState(db,{
+          state:url.searchParams.get('state')||'',
+          cookieState:googleCookieState(req.headers.cookie)
+        });
+        const claims=await exchangeGoogleCode(url.searchParams.get('code'),pending,{
+          clientId:googleOidc.clientId,clientSecret:googleOidc.clientSecret,
+          origin:effectiveOrigin,fetchImpl:googleOidc.fetchImpl||fetch
+        });
+        const account=acceptGoogleIdentity(db,{...claims,ownerEmail});
+        const session=createSession(db,account);
+        return send(res,303,'Continue to KnaBa',{
+          Location:pending.return_to,
+          'Set-Cookie':[clear,sessionCookie(session.token,{secure:!localTest})],
+          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'
+        });
+      }catch{
+        return send(res,401,'Google sign-in could not be verified.',{
+          'Set-Cookie':clear,'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'
+        });
+      }
+    }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
       // Reuse first-party login in the Solid portal; legacy HTML POST still redirects.
       const jsonLogin=String(req.headers.accept||'').split(',').some(v=>v.split(';')[0].trim().toLowerCase()==='application/json');
-      if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET')return send(res,200,loginPage(rt,false,googleReady),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -173,7 +226,7 @@ export async function createKnabaVpsServer({
         try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
         if(!result)return jsonLogin
           ? send(res,401,JSON.stringify({error:'Invalid credentials'}),{'Content-Type':'application/json; charset=utf-8','X-Robots-Tag':'noindex,nofollow'})
-          : send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+          : send(res,401,loginPage(target,true,googleReady),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
         if(jsonLogin)return send(res,200,JSON.stringify({ok:true}),{
           'Content-Type':'application/json; charset=utf-8',
           'X-Robots-Tag':'noindex,nofollow',
@@ -200,7 +253,12 @@ export async function createKnabaVpsServer({
       let body;
       try{body=['GET','HEAD'].includes(req.method)?undefined:await readBody(req,64*1024);}
       catch(e){return send(res,e?.code==='too_large'?413:400,'Invalid request');}
-      const user=readSession(db,req.headers.cookie);
+      const sessionUser=readSession(db,req.headers.cookie);
+      // Never promote a Google-only account if OWNER_EMAIL is reconfigured later.
+      const socialOwnerAttempt=Boolean(sessionUser && ownerEmail &&
+        sessionUser.email.trim().toLowerCase()===ownerEmail.trim().toLowerCase() &&
+        (!googleSchemaReady(db) && googleOidc.enabled===true || googleOnlyUser(db,sessionUser.id)));
+      const user=socialOwnerAttempt?null:sessionUser;
       const headers=new Headers();
       for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization']){
         if(req.headers[name]!==undefined&&name!=='content-length')headers.set(name,String(req.headers[name]));
@@ -242,6 +300,11 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
     turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',
     origin:process.env.KNABA_PUBLIC_ORIGIN||'https://knaba.de',
+    googleOidc:{
+      enabled:process.env.KNABA_GOOGLE_LOGIN_ENABLED==='1',
+      clientId:process.env.KNABA_GOOGLE_CLIENT_ID||'',
+      clientSecret:process.env.KNABA_GOOGLE_CLIENT_SECRET||''
+    },
     port,host:'0.0.0.0',localTest:process.env.KNABA_LOCAL_TEST==='1'
   });
   process.stdout.write('KNABA VPS service listening on internal port '+instance.port+'\n');

@@ -36,10 +36,16 @@ export function createLogin(db,{email,password,clientKey}){
   if(!state)return null;
   const row=db.prepare('SELECT id,email,salt,password_hash,disabled FROM vps_users WHERE email=?').get(address);
   if(!row || row.disabled || !validPassword(row,password))return null;
+  return createSession(db,{id:row.id,email:row.email});
+}
+/** Creates a server-side session only after the caller has authenticated an existing user. */
+export function createSession(db,{id,email}){
+  if(typeof id!=='string'||!id||typeof email!=='string'||!email)throw Error('Verified identity required');
+  const now=Math.floor(Date.now()/1000);
   const token=randomBytes(32).toString('base64url');
   db.prepare('INSERT INTO vps_sessions(token_hash,user_id,created_at,expires_at) VALUES (?,?,?,?)')
-    .run(hash(token),row.id,now,now+maxAgeSeconds);
-  return {token,user:{id:row.id,email:row.email}};
+    .run(hash(token),id,now,now+maxAgeSeconds);
+  return {token,user:{id,email}};
 }
 export function readSession(db,cookieHeader){
   if(typeof cookieHeader!=='string'||cookieHeader.length>4096)return null;
