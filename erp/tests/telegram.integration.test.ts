@@ -198,6 +198,31 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
  });
 
+ it('revoking the operator channel membership cancels an already queued Telegram reply',async()=>{
+   const f=await setup();
+   const {channel,reply}=await operatorReply(f,615);
+   await stageTelegramReply(db,engine,f.company,reply.id,1);
+   const revokedAt=new Date().toISOString();
+   await db.transaction(f.company,'SYNTHETIC_OPERATOR_REVOCATION',async tx=>{
+     const current=await tx.get('channel',channel.id);
+     expect(current.data.handoff).toMatchObject({state:'HUMAN_ACTIVE',owner_id:'operator'});
+     const changed=(current.data.members as Array<any>).map(member=>
+       member.user_id==='operator'?{...member,revoked_at:revokedAt,revocation_reason:'SYNTHETIC_QA'}:member);
+     await tx.save(current,{...current.data,members:changed});
+   });
+   let sendCalls=0;
+   f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+   f.runner.options.telegram=mockAdapter((async()=>{
+     sendCalls++;
+     return new Response(JSON.stringify({ok:true,result:{message_id:817,chat:{id:187650211}}}),{status:200});
+   }) as typeof fetch);
+   await f.drain();
+   const receipts=(await f.list('telegram_delivery')).filter(d=>d.data.message_id===reply.id);
+   expect(receipts).toHaveLength(1);
+   expect(receipts[0].data.status).toBe('BLOCKED');
+   expect(sendCalls).toBe(0);
+ });
+
  it('uncertain synthetic provider call stays UNKNOWN after recovery and is never resent',async()=>{
    const f=await setup();const {reply}=await operatorReply(f,214);
    f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
