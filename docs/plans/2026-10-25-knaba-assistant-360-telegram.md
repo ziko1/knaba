@@ -87,3 +87,13 @@ New code path is a **source-only implementation candidate**, not a live bot. Loc
 
 **Safety:** Existing production site and D1/PostgreSQL data were not touched. Only an isolated checkout and temporary private DB were used. VSP disk pressure 96% requires resource-safe QA planning. Keep PR Draft and release gate fail-closed.
 
+## 2026-10-25 — follow-up completed checks (source only)
+
+- [x] Reproduce/fix missing PostgreSQL migration in the isolated ERP engine test beforeEach/beforeAll sequence; same focused test RED for missing `aggregates`, GREEN after explicit `db.migrate()`.
+- [x] Add private Telegram STOP//stop opt-out that atomically revokes existing consent or persists first opt-out; no implicit re-consent on /start. Focused real SQL tests RED before implementation and GREEN after; no outbound signal for opt-out.
+- [x] Full source-pinned ERP test on Node24.22.1 + real PostgreSQL17.11: **2300 PASS / 0 FAIL / 0 SKIP**, 91 test files, source `7c79bca070c782c6a95a5c4e42b9776d9efd9991`.
+- [x] Isolated full `npm run build` exit0 with source-pinned server/worker/web SHA256; built API/worker smoke PASS without real Telegram or any provider calls. Release policy 5/5 PASS, actual release guard blocks missing production gates (exit1) by design.
+- [ ] Independent security review + actual BotFather account, consent and live permitted recipient; owner UAT, D1→ERP bridge, German legal/DSAR/privacy, device/voice/browser QA, backup/rollback rehearsal and separate production approval **BLOCKED_EXTERNAL**.
+- [ ] Performance follow-up: Vite build ~4m54s, JS 653.95 kB minified / 207.75 kB gzip; measure mobile loading baseline before choosing chunks/splitting to avoid regressions.
+
+Artifacts and exact checks: `docs/evidence/knaba-assistant-360/telegram-qa-followup-2026-10-25.json`, `docs/evidence/knaba-assistant-360/telegram-build-smoke-2026-10-25.json`. **No merge, no deployed website/API change, no provider activation.**
