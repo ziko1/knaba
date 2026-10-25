@@ -2090,8 +2090,10 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   top: calc(100% + 8px);
   right: 0;
   z-index: 60;
-  width: 208px;
-  max-width: calc(100vw - 32px);
+  width: min(352px, calc(100vw - 24px));
+  max-height: min(75svh, 640px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 6px;
   border: 1px solid #cbdcd1;
   border-radius: 16px;
