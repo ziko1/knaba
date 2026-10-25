@@ -34,6 +34,17 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     const site=await fetchAt('/');
     assert.equal(site.status,200);
     const staticHtml=await site.text();
+    // A translated-route claim requires reviewed content. Pending languages are
+    // metadata-only, never injected into every HTML page or published as links.
+    assert.match(staticHtml,/data-locale-catalog/);
+    assert.doesNotMatch(staticHtml,/<li[^>]*data-locale-item/);
+    const languageResponse=await fetchAt('/languages.json');
+    assert.equal(languageResponse.status,200);
+    const manifest=await languageResponse.json();
+    assert.equal(manifest.targets,99);
+    assert.equal(manifest.published,4);
+    assert.equal(manifest.pending,95);
+    assert.equal(manifest.locales.filter(item=>item.status==='pending').length,95);
     assert.match(staticHtml,/knaba.de/);
     const expectedCanonical=staticHtml.match(/<link rel="canonical" href="[^"]+"\/?>/)?.[0];
     assert.ok(expectedCanonical);
