@@ -137,3 +137,42 @@ test('changed service mapping after ambiguous outcome is blocked before another 
   assert.equal(calls,1);
  }finally{f.finish();}
 });
+
+test('deleting an unsent source request cascades the outbox reference for privacy erasure',async()=>{
+ const f=fixture();let calls=0;
+ try{
+   f.db.prepare('DELETE FROM cleaning_requests WHERE id=?').run(f.id);
+   assert.equal(f.row(),undefined);
+   const result=await deliverPendingLead(f.db,config(),async()=>{calls++;throw Error('FORBIDDEN')},NOW);
+   assert.equal(result.status,'IDLE');
+   assert.equal(calls,0);
+ }finally{f.finish();}
+});
+test('expired crash lease is recovered using one stable event identity',async()=>{
+ const f=fixture();let calls=0;
+ try{
+   f.db.prepare("UPDATE site_erp_outbox SET status='LEASED',lease_token=?,lease_until=?,attempts=1 WHERE id=?").run('crashed-worker',Math.floor(NOW/1000)-5,f.id);
+   const result=await deliverPendingLead(f.db,config(),async(_url,init)=>{
+     calls++;
+     const event=JSON.parse(init.body);
+     assert.equal(event.event_id,f.id);
+     return new Response(JSON.stringify({event_id:f.id,status:'APPLIED',effect_id:'erp-recovered'}),{status:200});
+   },NOW);
+   assert.equal(result.status,'APPLIED');
+   assert.equal(f.row().attempts,2);
+   assert.equal(f.row().erp_effect_id,'erp-recovered');
+   assert.equal(calls,1);
+ }finally{f.finish();}
+});
+test('forged or mismatched HTTP acknowledgement can never mark ERP receipt as applied',async()=>{
+ const f=fixture();let calls=0;
+ try{
+   const result=await deliverPendingLead(f.db,config(),async()=>{
+     calls++;
+     return new Response(JSON.stringify({event_id:'wrong-event',status:'APPLIED',effect_id:'erp-forged'}),{status:200});
+   },NOW);
+   assert.equal(result.status,'PENDING');
+   assert.equal(f.row().erp_effect_id,null);
+   assert.equal(calls,1);
+ }finally{f.finish();}
+});
