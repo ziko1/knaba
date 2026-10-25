@@ -1,0 +1,67 @@
+{
+  "schema": "knaba.google_oidc.qa.v1",
+  "captured_on": "2026-10-25",
+  "executable_sha": "23a7623d95c2c2d17b94f76e0e2668988d4d3e54",
+  "base_pr": "https://github.com/ziko1/knaba/pull/55",
+  "draft_pr": "https://github.com/ziko1/knaba/pull/63",
+  "environment": "sentinelx user 998 on shared VPS, unprivileged RAM-backed temp, no production secrets/data",
+  "runtime": {
+    "node": "v24.22.1",
+    "verification": "official SHASUMS256 SHA-256 PASS",
+    "npm_install": "PASS --ignore-scripts"
+  },
+  "checks": {
+    "typecheck": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0
+    },
+    "vitest": {
+      "status": "PASS",
+      "test_files": 24,
+      "tests": 146
+    },
+    "inquiry_node": {
+      "status": "PASS",
+      "tests": 8
+    },
+    "astro_build": "PASS",
+    "build_verify": {
+      "status": "PASS",
+      "artifact_sha256": "d4214e3a168145600171aa2c2fb89cc6819ad256eff7ccd50d2bd0f9f86cc1cb"
+    },
+    "vps_node_suite": {
+      "status": "PASS",
+      "tests": 26,
+      "failures": 0
+    },
+    "google_oidc_unit": {
+      "status": "PASS",
+      "tests": 5,
+      "failures": 0
+    },
+    "synthetic_http_provider_flow": "PASS_2_SCENARIOS",
+    "live_google_oauth": "NOT_RUN"
+  },
+  "controls": {
+    "google_enabled_in_repo_example": false,
+    "oauth_credentials_supplied": false,
+    "owner_provisioned": false,
+    "schema_migrated_in_live": false,
+    "external_provider_requests": "NONE",
+    "official_domain_changed": false,
+    "customer_data_changed": false,
+    "paid_services_activated": false,
+    "production_deploy": false
+  },
+  "outstanding": [
+    "independent security review",
+    "PR58 owner invitation compatibility review",
+    "real Google Cloud Web OAuth app+consent and callback whitelisting",
+    "data processing consent and owner validation",
+    "live real-device/provider QA",
+    "real owner account linking separate gated feature",
+    "staging release operator backup/rollback"
+  ],
+  "status": "SOURCE_QA_PASS__LIVE_DISABLED__RELEASE_HOLD"
+}
