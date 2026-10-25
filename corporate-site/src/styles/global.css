@@ -2125,6 +2125,15 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   /* Keep the account link in mobile navigation, including at enlarged text sizes. */
   .nav-wrap > .account-link { display: none; }
   .site-language-switcher { margin-left: auto; }
+  /* The dropdown is wider than the trigger. Anchoring it to the narrow trigger
+     clips the left side on 320px reflow/zoom viewports; anchor to the viewport. */
+  .site-language-options {
+    position: fixed;
+    top: 91px; /* 83px mobile header + 8px spacing; mobile topline is hidden. */
+    right: 12px;
+    left: auto;
+    width: min(352px, calc(100vw - 24px));
+  }
 }
 @media (max-width: 380px) {
   .site-language-switcher > summary { min-width: 68px; gap: 4px; padding-inline: 7px; }
