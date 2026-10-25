@@ -35,3 +35,10 @@
 4. Провести реальний inbound/outbound/status/error/timeout/revoke тест на дозволених акаунтах, перевірити фактичні витрати, error-rate та журнал. Лише після відновлення backup, затвердження замовником і release gate погоджувати production deploy.
 
 **Відкат:** вимкнути outbound і webhook routing у керованій конфігурації, зберегти inbox/outbox, не видаляти клієнтські дані та не робити destructive SQL down migration.
+
+## Оновлення 2026-10-25 — opt-out, тести та локальний запуск
+
+- Приватні повідомлення з текстом `STOP` або `/stop` (без урахування регістру/зайвих пробілів) обробляються як відписка: в одній PostgreSQL-транзакції позначається `notification_setting.telegram_consent=false`, `telegram_opted_out=true`, зберігається UTC-час та стан `conversation_input=PROCESSED`. Команду не пересилають у людський чат; повтор того самого Telegram update не дублює операції.
+- `/start` **НЕ** відновлює згоду автоматично: майбутній opt-in потребує окремого погодженого UX і версійованого Datenschutzhinweis. Підтвердження відписки через реальний Bot API без дозволу не надсилалося. Можливість конкурентних STOP та вже розпочатого provider send потребує окремого production threat-model/UAT.
+- Цільові STOP-тести були RED, потім GREEN після патча, загальний локальний QA — **2300/2300 PASS** на реальному PostgreSQL17.11, Node24.22.1, source `7c79bca070c782c6a95a5c4e42b9776d9efd9991`. Верифіковані `dist/server.mjs`, `dist/worker.mjs` та статичні web assets мають власні SHA256 у `docs/evidence/knaba-assistant-360/telegram-build-smoke-2026-10-25.json`.
+- Бінарний локальний smoke: /health 200, /version SHA exact, /ready 503 при неналаштованій тестовій компанії, /webhooks/telegram 503 без секрету; worker стартував і створив heartbeat. Вебхук у живому KNABA не налаштовано, компанію й реального власника не авторизовано, production залишається BLOCKED. Поточні правила Telegram Bot API щодо secret header та HTTPS: https://core.telegram.org/bots/api.
