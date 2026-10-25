@@ -6,6 +6,7 @@ import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
+import { parseArticlePath,publishedArticle,renderArticleDocument,listPublishedArticles,addPublishedGuideLinks,expandPublishedSitemap } from '../dist/vps/articles.mjs';
 
 const mime={
   '.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8',
@@ -45,7 +46,28 @@ async function readBody(req,limit){
   }
   return Buffer.concat(chunks);
 }
-async function sendStatic(root,req,res,path,db){
+async function serveArticle(root,req,res,path,db){
+  const location=parseArticlePath(path);
+  if(!location)return false;
+  const record=db.prepare('SELECT published_version,published_json FROM studio_pages WHERE page_path=?').get(path);
+  const article=publishedArticle(record);
+  if(!article)return false;
+  // Existing Astro Ratgeber template ensures the same brand, navigation and CSP.
+  const template=join(root,location.locale==='de'?'ratgeber/index.html':location.locale+'/ratgeber/index.html');
+  const source=await readFile(template,'utf8').catch(()=>null);
+  if(!source)return false;
+  const html=renderArticleDocument(source,{...location,...article},listPublishedArticles(db));
+  if(!html)return false;
+  const bytes=Buffer.from(html,'utf8');
+  res.statusCode=200;
+  res.setHeader('Content-Type','text/html; charset=utf-8');
+  res.setHeader('Cache-Control','no-cache');
+  if(html.includes('<meta name="robots" content="noindex'))res.setHeader('X-Robots-Tag','noindex, follow');
+  res.setHeader('Content-Length',bytes.length);
+  res.end(req.method==='HEAD'?undefined:bytes);
+  return true;
+}
+async function sendStatic(root,req,res,path,db,origin){
   let decoded;
   try{decoded=decodeURIComponent(path);}catch{return send(res,400,'Bad path');}
   if(decoded.includes('\0')||decoded.includes('\\')||/\/\./.test(decoded))return send(res,404,'Not found');
@@ -76,6 +98,15 @@ async function sendStatic(root,req,res,path,db){
       const transformed=renderPublishedPage(bytes.toString('utf8'),row);
       bytes=Buffer.from(transformed,'utf8');
     }
+  }
+  // Published knowledge pages are added only to public, already-built guides and sitemap.
+  if(ext==='.html' && res.statusCode!==404 && /^\/(?:(?:en|uk|ru)\/)?ratgeber\/$/.test(decoded)){
+    const loc=/^\/(en|uk|ru)\//.exec(decoded);
+    const lang=loc?loc[1]:'de';
+    bytes=Buffer.from(addPublishedGuideLinks(bytes.toString('utf8'),lang,listPublishedArticles(db)),'utf8');
+  }
+  if(ext==='.xml' && decoded==='/sitemap.xml'){
+    bytes=Buffer.from(expandPublishedSitemap(bytes.toString('utf8'),origin,listPublishedArticles(db)),'utf8');
   }
   const hashed=/\/_astro\//.test(path);
   const privatePath=/^\/(?:studio|crm|konto|postfach|ru\/(?:konto|postfach))\//.test(path);
@@ -222,7 +253,10 @@ export async function createKnabaVpsServer({
       return res.end(Buffer.from(await reply.arrayBuffer()));
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed');
-    try{return await sendStatic(root,req,res,url.pathname,db);}catch{return send(res,503,'Service temporarily unavailable');}
+    try{
+      if(parseArticlePath(url.pathname) && await serveArticle(root,req,res,url.pathname,db))return;
+      return await sendStatic(root,req,res,url.pathname,db,base.origin);
+    }catch{return send(res,503,'Service temporarily unavailable');}
   });
   server.requestTimeout=20_000;
   server.headersTimeout=15_000;
