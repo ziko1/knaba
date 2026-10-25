@@ -92,13 +92,15 @@ async function sendStatic(root,req,res,path,db){
   res.setHeader('Content-Length',bytes.length);
   res.end(req.method==='HEAD'?undefined:bytes);
 }
-function loginPage(returnTo,invalid=false){
+function loginPage(returnTo,invalid=false,googleEnabled=false){
   const error=invalid?'<p role="alert" class="error">Anmeldung fehlgeschlagen. Bitte Angaben prüfen.</p>':'';
   return html('KnaBa | Sicher anmelden','<h1>KnaBa · sicher anmelden</h1><p>Verwaltungszugang für autorisierte Personen.</p>'+error+
     '<form method="post" action="/login/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
     '<label>E-Mail<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
     '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
-    '<button type="submit">Anmelden</button></form><p><a href="/">Zur Website</a></p>');
+    '<button type="submit">Anmelden</button></form>'+
+    (googleEnabled?'<p><a rel="nofollow" href="/auth/google/start?return_to='+encodeURIComponent(returnTo)+'">Mit Google anmelden →</a></p>':'')+
+    '<p><a href="/">Zur Website</a></p>');
 }
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
@@ -208,7 +210,7 @@ export async function createKnabaVpsServer({
       const rt=returnPath(url.searchParams.get('return_to'));
       // Reuse first-party login in the Solid portal; legacy HTML POST still redirects.
       const jsonLogin=String(req.headers.accept||'').split(',').some(v=>v.split(';')[0].trim().toLowerCase()==='application/json');
-      if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET')return send(res,200,loginPage(rt,false,googleReady),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -224,7 +226,7 @@ export async function createKnabaVpsServer({
         try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
         if(!result)return jsonLogin
           ? send(res,401,JSON.stringify({error:'Invalid credentials'}),{'Content-Type':'application/json; charset=utf-8','X-Robots-Tag':'noindex,nofollow'})
-          : send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+          : send(res,401,loginPage(target,true,googleReady),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
         if(jsonLogin)return send(res,200,JSON.stringify({ok:true}),{
           'Content-Type':'application/json; charset=utf-8',
           'X-Robots-Tag':'noindex,nofollow',
