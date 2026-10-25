@@ -39,6 +39,17 @@ function bindLocaleCatalog() {
       empty.hidden=count!==0;
     };
     input.addEventListener('input',filter);
+    // Search inputs may consume Escape natively; always let keyboard users
+    // dismiss the disclosure and regain focus on its trigger.
+    input.addEventListener('keydown',(event)=>{
+      if(event.key!=='Escape')return;
+      event.preventDefault();
+      event.stopPropagation();
+      input.value='';
+      filter();
+      disclosure.open=false;
+      disclosure.querySelector<HTMLElement>('summary')?.focus();
+    });
     const load=async()=>{
       if(loaded||loading)return;
       loading=true;
