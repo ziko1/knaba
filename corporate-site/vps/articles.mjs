@@ -1,4 +1,5 @@
 import {parseArticlePath,publishedArticle} from '../src/lib/article-contract.ts';
+export {parseArticlePath,publishedArticle} from '../src/lib/article-contract.ts';
 
 /** VPS-only public HTML. No raw markup or executable user input is accepted. */
 const esc=(s)=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
