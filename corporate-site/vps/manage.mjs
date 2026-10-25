@@ -8,14 +8,14 @@ import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
-if(['backup','migrate'].includes(command)){
+if(['backup','migrate','migrate-google-auth'].includes(command)){
   const usage=inspectStorage(dirname(dbPath));
   if(usage.state==='critical')throw Error('Insufficient disk space for safe backup/migration; source data unchanged.');
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','backup','audit','migrate'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|backup|audit|migrate\n');process.exit(2);
+if(!['init-owner','backup','audit','migrate','migrate-google-auth'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|backup|audit|migrate|migrate-google-auth\n');process.exit(2);
 }
 if(command==='audit'){
   // Read-only snapshot inspection. Never initialize schemas or silently create a database.
@@ -31,7 +31,7 @@ if(command==='audit'){
   } finally {db.close();}
   process.exit();
 }
-if(command==='migrate'){
+if(command==='migrate' || command==='migrate-google-auth'){
   // Existing durable data must have an independent, verified backup before schema changes.
   const original=await stat(dbPath).catch(()=>null);
   if(original?.size){
@@ -48,6 +48,27 @@ if(command==='migrate'){
 }
 const {db,migrations}=openLocalDatabase(dbPath,{allowMigrations:command==='migrate'});
 try {
+  if(command==='migrate-google-auth'){
+    if(process.env.KNABA_GOOGLE_SCHEMA_APPROVED!=='1')
+      throw Error('Separate Google auth schema migration approval is required.');
+    const path='vps/google-oidc.sql';
+    const sql=await readFile(new URL('./google-oidc.sql',import.meta.url),'utf8');
+    const sha=createHash('sha256').update(sql).digest('hex');
+    const prior=db.prepare('SELECT sha256 FROM vps_schema_migrations WHERE filename=?').get(path);
+    if(prior && prior.sha256!==sha)throw Error('Google auth migration checksum mismatch');
+    if(!prior){
+      db.exec('BEGIN IMMEDIATE');
+      try {
+        db.exec(sql);
+        db.prepare('INSERT INTO vps_schema_migrations VALUES (?,?,?)')
+          .run(path,sha,new Date().toISOString());
+        db.exec('COMMIT');
+      }catch(error){db.exec('ROLLBACK');throw error;}
+    }
+    const integrity=db.prepare('PRAGMA integrity_check').get();
+    if(integrity.integrity_check!=='ok')throw Error('Post-migration integrity check failed');
+    process.stdout.write('Google auth schema prepared, sha256='+sha+' (provider remains disabled until separately configured)\n');
+  }
   if(command==='init-owner'){
     if(!process.env.OWNER_EMAIL)throw Error('OWNER_EMAIL must be provisioned via protected server environment.');
     if(process.stdin.isTTY)throw Error('Passphrase must be passed through private stdin (never a command argument).');
