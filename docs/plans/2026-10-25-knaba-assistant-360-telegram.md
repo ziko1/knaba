@@ -97,3 +97,11 @@ New code path is a **source-only implementation candidate**, not a live bot. Loc
 - [ ] Performance follow-up: Vite build ~4m54s, JS 653.95 kB minified / 207.75 kB gzip; measure mobile loading baseline before choosing chunks/splitting to avoid regressions.
 
 Artifacts and exact checks: `docs/evidence/knaba-assistant-360/telegram-qa-followup-2026-10-25.json`, `docs/evidence/knaba-assistant-360/telegram-build-smoke-2026-10-25.json`. **No merge, no deployed website/API change, no provider activation.**
+
+## 2026-10-25 — security + artifact verification continuation
+
+- [x] Security RED: Telegram contact identity referencing a `DIRECTOR` was mistakenly used as an authorized message author. GREEN: dedicated GUEST-only channel principal, no internal role/scope import. Tests 9/9 genuine PG after fix.
+- [x] Security RED: revoked human chat membership could still result in `API_ACCEPTED` Telegram send from a stale `HUMAN_ACTIVE` owner. GREEN: check active operator membership at stage and immediately before dispatch; 10/10 Telegram PG PASS.
+- [x] Full Node24.22.1/real PG17 `npm test`: **2303/2303 PASS**, 91/91 tests, zero skipped/failures on code SHA `683c09d0346fd05e0f2cd323da640bbb176c5c47`.
+- [x] Full `npm run build` exit0 on exact code SHA; actual server/worker/web and `release.json` hashes verified. Built API/worker isolated startup, expected fail-closed webhook/ready states PASS. Artifact/evidence: `docs/evidence/knaba-assistant-360/telegram-security-2026-10-25.json`.
+- [ ] Independent reviewer (PR #41 had no submitted reviews at this checkpoint); real BotFather/Meta provider and legal consent/UAT; D1/SQLite↔PostgreSQL idempotent bridge; owner account and live voice/device; backup/restore; production approval. Treat product and live Telegram availability as **NOT_READY**.
