@@ -90,6 +90,20 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    expect(inbound[0]).toMatchObject({status:'FAILED',last_error:'ACCESS_DENIED'});
  });
 
+ it('Telegram messages keep a dedicated GUEST-only identity across separate updates',async()=>{
+   const f=await setup();
+   await f.submit(601,'Guten Tag');await f.drain();
+   const first=(await f.list('user')).find(u=>u.data.guest===true)!;
+   expect(first).toBeDefined();
+   expect(first.data.roles).toEqual(['GUEST']);
+   await f.submit(602,'Bitte um Rückruf');await f.drain();
+   const guests=(await f.list('user')).filter(u=>u.data.guest===true);
+   expect(guests).toHaveLength(1);
+   expect(guests[0].id).toBe(first.id);
+   expect((await f.list('channel')).filter(c=>c.data.source_provider==='TELEGRAM')).toHaveLength(1);
+   expect((await f.list('message')).map(m=>m.data.text)).toEqual(['Guten Tag','Bitte um Rückruf']);
+ });
+
  it('only human owner reply from claimed private Telegram thread with fresh consent queues one delivery',async()=>{
    const f=await setup();
    vi.stubGlobal('fetch',vi.fn(async()=>{throw Error('must not contact Telegram');}));
