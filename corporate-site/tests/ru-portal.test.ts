@@ -27,7 +27,8 @@ describe('Russian portal locale', () => {
 
   it('keeps localized navigation and sign-in return targets internal', () => {
     expect(portalReturnTo('ru')).toBe('/ru/konto/');
-    expect(portalReturnTo('uk')).toBe('/konto/?lang=uk');
+    expect(portalReturnTo('uk')).toBe('/uk/konto/');
+    expect(portalReturnTo('en')).toBe('/en/konto/');
     expect(portalPublicPath('/datenschutz/', 'ru')).toBe('/ru/datenschutz/');
     expect(portalPublicPath('/kontakt/', 'de')).toBe('/kontakt/');
   });

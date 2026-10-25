@@ -138,3 +138,30 @@ checks required before marking preview ready. Site Studio's old positional CSS
 selectors may not map after the design change; published Studio page count was
 read-only verified 0 at intake on 2026-10-25. Official knaba.de and the One.com
 DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
+
+## 2026-10-25 continuation — construction requests and protected locales
+
+Project KnaBa development branch feat/knaba-baureinigung-20261025;
+independent from AVENQO and official knaba.de release approval.
+
+- Added pure bounded construction-inquiry.ts: exact 8-offer slug allowlist,
+  human-readable category prefix in the existing message, 500-char limit.
+  Public and signed-in clients submit canonical baureinigung backend service.
+  Historic CRM codes and SQLite schema remain intact.
+- Native GET planner offers all 8 construction categories in DE/EN/UK/RU and
+  works without JS. Contact forms preserve the category, refuse untrusted URL
+  parameters and disclose special-work contractor/safety prerequisites.
+- Authenticated client request form lists the 8 scopes, bounded message,
+  and qualified-work disclaimer. Record display resolves category only
+  from exact recognized prefix, no client-data access change.
+- Fixed existing KnaBa Studio decorative-arrow links so selecting rich
+  CTAs edits href rather than following links. No second CMS created.
+- New private EN/UK account pages retain locale across login, with noindex
+  meta, robots directives, private X-Robots-Tag and German legal fallback.
+- Used only cached Node24 and Chromium containers, network disabled for
+  isolated tests. Browser fake TLS origin knaba.test and fresh SQLite
+  never accessed live PII or created public leads.
+- Outstanding: real device/browser assistive tests, independently confirmed
+  accessibility and field CWV/p95, owner acceptance of subcontractor
+  qualifications, specialised drilling and German legal content. No merge
+  or production release without acceptance. Unknown provider quotas/costs.

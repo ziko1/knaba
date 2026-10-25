@@ -18,16 +18,16 @@ interface Props {
 const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs = [], alternates = [] } = Astro.props;
 const isNoindex = siteConfig.temporary || noindex;
 const translated = {
-  de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
-  en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
-  uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
-  ru: {skip:'Перейти к содержимому',preview:'Временный сайт',official:'Официальный сайт',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация',retire:'Временный сайт kneba.vsp.rest. Этот адрес может быть удалён после переноса на официальный сайт.'},
+  de: {skip:'Zum Inhalt springen', preview:'Temporäre Vorschau', official:'Zur offiziellen Website', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie von Ihrer Baustelle und Bauphase. Wir klären Ihren Leistungsumfang.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum', retire:'Temporäre Vorschau auf kneba.vsp.rest. Diese Adresse kann nach dem Umzug zur offiziellen Website wieder entfernt werden.'},
+  en: {skip:'Skip to content',preview:'Temporary preview',official:'Official website',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your construction site and project stage. We will discuss the scope.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)',retire:'Temporary preview at kneba.vsp.rest. This address can be removed after the move to the official website.'},
+  uk: {skip:'Перейти до вмісту',preview:'Тимчасовий сайт',official:'Офіційний сайт',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про будівельний об’єкт та етап робіт. Ми уточнимо обсяг.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)',retire:'Тимчасовий сайт kneba.vsp.rest. Цю адресу можна видалити після перенесення на офіційний сайт.'},
+  ru: {skip:'Перейти к содержимому',preview:'Временный сайт',official:'Официальный сайт',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о стройплощадке и этапе работ. Мы уточним объём.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация',retire:'Временный сайт kneba.vsp.rest. Этот адрес может быть удалён после переноса на официальный сайт.'},
 }[lang];
-const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector (DE)','Guides (DE)','Berlin & surroundings (DE)','About KnaBa','Careers (DE)'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь (DE)','Поради (DE)','Берлін та околиці (DE)','Про KnaBa','Робота (DE)'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
+const footerLabels = {de:['Bauprojekt planen','Bauleistungen','B2B-Baupartner','Bauratgeber','Berlin & Brandenburg','Über KnaBa','Karriere'],en:['Project enquiry','Construction services','B2B sectors','Construction guides','Berlin & Brandenburg','About KnaBa','Careers'],uk:['Заявка на будівництво','Будівельні послуги','Будівельні партнери B2B','Поради для будівництва','Берлін і Бранденбург','Про KnaBa','Робота'],ru:['Заявка на строительный проект','Строительные услуги','Партнёры B2B','Советы по строительству','Берлин и Бранденбург','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
 const localPath = (url: string) => {
   if(lang === 'de') return url;
-  if((lang==='en'||lang==='uk') && ['/impressum/','/datenschutz/','/konto/'].includes(url)) return url;
+  if((lang==='en'||lang==='uk') && ['/impressum/','/datenschutz/'].includes(url)) return url;
   return '/'+lang+url;
 };
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
@@ -154,7 +154,7 @@ const structuredData = {
         <div>
           <a class="brand footer-brand construction-brand" href={homePath} aria-label="KnaBa – Baureinigung und BauService"><img src="/images/knaba-construction-logo.svg" width="510" height="110" alt="KnaBa – Baureinigung &amp; BauService" loading="lazy" /></a>
           <p>{translated.tagline}</p><span
-            class="footer-region">{lang === 'ru' ? 'Берлин и Бранденбург' : 'Berlin & Brandenburg'}</span>
+            class="footer-region">{lang === 'ru' ? 'Берлин и Бранденбург' : lang === 'uk' ? 'Берлін і Бранденбург' : 'Berlin & Brandenburg'}</span>
         </div>
         <div>
           <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
@@ -218,20 +218,22 @@ const structuredData = {
       initializeSiteStudioLive();
     </script>
     <script>
-      import { services } from '../data/company';
-      function preserveServiceSelection() {
-        const selected = new URLSearchParams(location.search).get('leistung');
-        if (!selected || !services.some(service => service.slug === selected)) return;
+      import {resolveOfferFromQuery} from '../lib/construction-inquiry';
+      function preserveConstructionOffer() {
+        const params=new URLSearchParams(location.search);
+        const raw=params.get('anliegen')??params.get('leistung');
+        // Keep only allowlisted, non-personal category IDs when changing language.
+        if (!raw || resolveOfferFromQuery(raw)!==raw) return;
         document.querySelectorAll<HTMLAnchorElement>('a[data-language-switch]').forEach(link => {
           const target = new URL(link.href);
-          if (target.origin === location.origin && /^\/(?:ru\/)?kontakt\/$/.test(target.pathname)) {
-            target.searchParams.set('leistung', selected);
+          if (target.origin === location.origin && /^\/(?:en\/|uk\/|ru\/)?kontakt\/$/.test(target.pathname)) {
+            target.searchParams.set('anliegen', raw);
             link.href = target.href;
           }
         });
       }
-      preserveServiceSelection();
-      document.addEventListener('astro:page-load', preserveServiceSelection);
+      preserveConstructionOffer();
+      document.addEventListener('astro:page-load',preserveConstructionOffer);
 
       const disclosures = ".mobile-nav, .site-language-switcher";
       document.addEventListener("keydown", (event) => {

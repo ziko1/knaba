@@ -22,6 +22,15 @@ describe('public language navigation', () => {
     expect(russianPublicPaths).not.toContain('/ru/konto/');
     expect(new Set(russianPublicPaths).size).toBe(russianPublicPaths.length);
   });
+  it('links to the actual language-matched private client portals without SEO indexing',()=>{
+    expect(languageLinks('/en/konto/')).toEqual([
+      {lang:'de',url:'/konto/'},
+      {lang:'en',url:'/en/konto/'},
+      {lang:'uk',url:'/uk/konto/'},
+      {lang:'ru',url:'/ru/konto/'},
+    ]);
+    expect(localeAlternates('/en/konto/')).toEqual([]);
+  });
   it('does not invent translated error routes', () => {
     expect(languageLinks('/404.html').at(-1)?.url).toBe('/ru/');
     expect(localeAlternates('/404.html')).toEqual([]);

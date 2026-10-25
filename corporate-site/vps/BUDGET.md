@@ -10,3 +10,8 @@ Uses existing VPS and cached Node 24 Docker image; no paid AI/model APIs,
 new cloud services, domain purchases or billable workflows authorized.
 Actual provider quotas/remaining balances are UNKNOWN. Runtime data are not
 migrated or deleted. Runtime release requires atomic symlink rollback.
+
+### 2026-10-25 development continuation
+Cached Node 24 and Playwright containers only. No cloud-model or new paid
+subscriptions; actual quota/balance remains unknown. VPS disk ~94% full,
+12 GiB free at initial check. No destructive cleanup or live DB mutation.

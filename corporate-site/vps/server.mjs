@@ -78,7 +78,7 @@ async function sendStatic(root,req,res,path,db){
     }
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:studio|crm|konto|postfach|ru\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:studio|crm|konto|postfach|(?:en|uk|ru)\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
   if(privatePath||res.statusCode===404)res.setHeader('X-Robots-Tag','noindex, nofollow');

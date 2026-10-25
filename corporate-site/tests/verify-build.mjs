@@ -82,6 +82,18 @@ for (const file of pages) {
     assert.match(img[0], /height="\d+"/);
   }
 }
+// Each locale must expose every construction offer in a JS-free, GET-only
+// project planner. Only the allowlisted offer slug may enter the URL.
+const expectedOffers=['baureinigung','bauzwischenreinigung','bauendreinigung',
+  'baustellenraeumung','bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
+for(const locale of ['de','en','uk','ru']) {
+  const prefix=locale==='de'?'':locale+'/';
+  const planner=await readFile(resolve(root,prefix+'planer/index.html'),'utf8');
+  assert.match(planner,/method="get"/,locale+': native GET form');
+  const values=[...planner.matchAll(/<input[^>]*name="anliegen"[^>]*value="([^"]+)"/g)].map(m=>m[1]);
+  assert.deepEqual(values,expectedOffers,locale+': full supported construction catalog');
+  assert.doesNotMatch(planner,/<astro-island/,locale+': no hydration for offer selection');
+}
 const cssGzip = assets
   .filter((a) => a.name.endsWith(".css"))
   .reduce((n, a) => n + a.gzip, 0);
@@ -100,6 +112,13 @@ const russianPages = pages.filter(file => relative(root, file).startsWith('ru/')
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
 assert.equal(russianPublicPages.length, 30, 'Expanded localized Russian tree plus portal');
 assert.equal(russianPages.length, 31, 'Private Russian owner inbox is an additional noindex page');
+for(const locale of ['en','uk']) {
+  const page=await readFile(resolve(root,locale+'/konto/index.html'),'utf8');
+  assert.match(page,new RegExp('<html lang="'+locale+'"'));
+  assert.match(page,/name="robots" content="noindex, follow"/);
+  assert.ok(!/<link\s+rel="alternate"[^>]*hreflang=/.test(page),locale+': private routes must not generate SEO alternate link metadata');
+  assert.match(page,/astro-island/,locale+': portal should be an actual client island');
+}
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -124,6 +143,8 @@ const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'),
 assert.equal(catalogue.version, 1);
 const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
+for(const locale of ['en','uk']) assert.ok(robots.includes('Disallow: /'+locale+'/konto/'));
+
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((sitemap.match(/<loc>/g)||[]).length,official?68:0);

@@ -40,6 +40,12 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await fetchAt('/studio/')).status,200);
     assert.equal((await fetchAt('/crm/')).status,200);
     assert.match((await fetchAt('/crm/')).headers.get('X-Robots-Tag'),/noindex/);
+    for(const locale of ['en','uk']){
+      const portalPage=await fetchAt('/'+locale+'/konto/');
+      assert.equal(portalPage.status,200);
+      assert.match(portalPage.headers.get('x-robots-tag'),/noindex/i);
+      assert.match(await portalPage.text(),new RegExp('<html lang="'+locale+'"'));
+    }
     assert.equal((await fetchAt('/illustrations/hero-cleaning.svg')).status,200);
     assert.equal((await fetchAt('/.git/config')).status,404);
     const wrongHostStatus=await new Promise((resolve,reject)=>{
@@ -169,6 +175,62 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
     assert.equal((await probe('kneba.vsp.rest','http')).status,421);
   }finally{
     await prod.close();
+    await rm(dir,{recursive:true,force:true});
+  }
+});
+
+test('VPS real HTTP persists a qualified construction lead without affecting live data',async()=>{
+  // This database and synthetic email exist only inside this isolated test run.
+  const {prepareConstructionLead}=await import('../src/lib/construction-inquiry.ts');
+  const dir=await mkdtemp(join(tmpdir(),'knaba-construction-quote-'));
+  let app;
+  try {
+    app=await createKnabaVpsServer({
+      dbPath:join(dir,'site.sqlite'),
+      ownerEmail:'owner@example.invalid',
+      localTest:true,
+      staticRoot:new URL('../dist/client/',import.meta.url).pathname,
+      workerPath:new URL('../dist/server/index.js',import.meta.url).href,
+      host:'127.0.0.1',port:0,
+    });
+    const origin='https://knaba.de';
+    const input={
+      service:'baureinigung',objectType:'Baustelle',postcode:'10315',area:'120',
+      frequency:'Noch offen',name:'Synthetic QA',email:'qa-integration@example.invalid',
+      phone:'',message:'Ø 120 mm, Trassenplan und Statik zu prüfen',
+    };
+    const prepared=prepareConstructionLead(input,'kernbohrungen');
+    const payload={...prepared,idempotencyKey:'knaba-construction-integration-01',
+      privacyAccepted:true,website:''};
+    const headers={
+      Host:'knaba.de',Origin:origin,'Sec-Fetch-Site':'same-origin',
+      'X-KnaBa-Request':'portal-v1','Content-Type':'application/json',
+    };
+    const call=async(data, overrides={})=>fetch('http://127.0.0.1:'+app.port+'/api/leads',{
+      method:'POST',headers:{...headers,...overrides},body:JSON.stringify(data),
+    });
+    const first=await call(payload);
+    assert.equal(first.status,201,await first.clone().text());
+    const ack=await first.json();
+    assert.deepEqual(Object.keys(ack).sort(),['id','received']);
+    assert.equal(ack.received,true);
+    const row=app.db.prepare('SELECT service,object_type,message,postcode FROM cleaning_requests WHERE id=?').get(ack.id);
+    assert.equal(row.service,'baureinigung');
+    assert.equal(row.object_type,'Baustelle');
+    assert.equal(row.postcode,'10315');
+    assert.match(row.message,/kernbohrungen/);
+    assert.match(row.message,/Kernbohrungen/);
+    assert.match(row.message,/Ø 120 mm/);
+    assert.equal((await app.db.prepare('SELECT count(*) AS count FROM cleaning_requests').get().count),1);
+    const again=await call(payload);
+    assert.equal(again.status,200);
+    assert.equal((await again.json()).id,ack.id);
+    assert.equal((await call({...payload,message:payload.message+' altered'})).status,409);
+    assert.equal((await call(payload,{Origin:'https://evil.invalid'})).status,403);
+    assert.equal((await call({...payload,privacyAccepted:false})).status,422);
+    assert.equal(app.db.prepare('SELECT count(*) AS count FROM cleaning_requests').get().count,1);
+  } finally {
+    await app?.close().catch(()=>{});
     await rm(dir,{recursive:true,force:true});
   }
 });

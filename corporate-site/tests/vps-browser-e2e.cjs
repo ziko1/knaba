@@ -17,8 +17,8 @@ const LOGIN='owner@example.test';
 const PASSWORD='synthetic-not-a-real-account-password-2026';
 const temp=mkdtempSync(join(tmpdir(),'knaba-browser-'));
 const src=path=>pathToFileURL(ROOT+'/'+path).href;
-const pSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
-const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+const pSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2)';
+const aSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1)';
 (async()=>{
   let app,browser,proxy;
   try{
@@ -52,11 +52,76 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(ORIGIN+'/',{waitUntil:'networkidle'});
     assert.equal(await page.locator('html').getAttribute('lang'),'de');
-    assert.ok((await page.locator('img[src="/illustrations/hero-cleaning.svg"]').count())>=1);
+    assert.ok((await page.locator('img[src="/illustrations/baureinigung.svg"]').count())>=1);
     const homeOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
     assert.ok(homeOverflow<=1,'Mobile homepage overflow '+homeOverflow);
     await page.goto(ORIGIN+'/ru/',{waitUntil:'networkidle'});
     assert.equal(await page.locator('html').getAttribute('lang'),'ru');
+
+    // Four real mobile viewport checks using the production-built static pages.
+    const mobileRoutes=['/planer/','/en/planer/','/uk/planer/','/ru/planer/'];
+    const mobileWidths=[320,390,768];
+    const checks=[];
+    for(const width of mobileWidths){
+      await page.setViewportSize({width,height:844});
+      for(const route of mobileRoutes){
+        await page.goto(ORIGIN+route,{waitUntil:'domcontentloaded'});
+        assert.equal(await page.locator('input[name="anliegen"]').count(),8,'Every service selectable: '+route);
+        const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+        assert.ok(overflow<=1,'Overflow '+overflow+'px at '+width+' '+route);
+        checks.push({route,width,overflow});
+      }
+    }
+    await page.setViewportSize({width:390,height:844});
+    for(const locale of ['en','uk']){
+      await page.goto(ORIGIN+'/'+locale+'/konto/',{waitUntil:'networkidle'});
+      assert.equal(await page.locator('html').getAttribute('lang'),locale);
+      assert.match(await page.locator('meta[name="robots"]').getAttribute('content'),/noindex/);
+      const signIn=page.locator('a[href*="/login/?return_to="]').first();
+      await signIn.waitFor({timeout:12000});
+      const returnUrl=new URL(await signIn.getAttribute('href'),ORIGIN);
+      assert.equal(returnUrl.pathname,'/login/');
+      assert.equal(returnUrl.searchParams.get('return_to'),'/'+locale+'/konto/');
+      const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+      assert.ok(overflow<=1,'Private portal '+locale+' overflows '+overflow+'px');
+    }
+    await page.goto(ORIGIN+'/planer/',{waitUntil:'networkidle'});
+    if(process.env.KNABA_QA_DIR){
+      await page.screenshot({path:process.env.KNABA_QA_DIR+'/planner-390.png',fullPage:false});
+    }
+    await page.locator('input[name="anliegen"][value="kernbohrungen"]').check();
+    assert.equal(await page.locator('input[name="anliegen"]:checked').inputValue(),'kernbohrungen');
+    await page.locator('.construction-pick-form button[type="submit"]').click();
+    await page.waitForURL('**/kontakt/?anliegen=kernbohrungen',{timeout:12000});
+    await page.locator('#inquiry-service').waitFor({timeout:12000});
+    await page.waitForFunction(()=>document.querySelector('#inquiry-service')?.value==='kernbohrungen');
+    assert.equal(await page.locator('#inquiry-service').inputValue(),'kernbohrungen');
+    assert.ok((await page.locator('.construction-contract-disclaimer').count())>=1,
+      'Unconfirmed concrete drilling work requires visible contract disclaimer');
+    const ruLink=await page.locator('a[data-language-switch][lang="ru"]').getAttribute('href');
+    assert.ok(ruLink.includes('/ru/kontakt/?anliegen=kernbohrungen'),'Locale link preserves the safe offer slug');
+    await page.locator('.wizard form button[type="submit"]').click();
+    await page.locator('#inquiry-postcode').waitFor();
+    assert.equal(await page.locator('#inquiry-object').inputValue(),'Baustelle');
+    await page.locator('#inquiry-postcode').fill('10315');
+    await page.locator('#inquiry-frequency').selectOption('Noch offen');
+    await page.locator('.wizard form button[type="submit"]').click();
+    await page.locator('#inquiry-name').waitFor();
+    await page.locator('#inquiry-name').fill('Synthetic Browser QA');
+    await page.locator('#inquiry-email').fill('browser-qa@example.invalid');
+    await page.locator('#inquiry-message').fill('Beton Ø 120 mm, Leitungen und Statik vor Ausführung prüfen.');
+    await page.locator('.wizard form button[type="submit"]').click();
+    await page.locator('#inquiry-summary').waitFor();
+    const summary=await page.locator('#inquiry-summary').inputValue();
+    assert.ok(summary.includes('kernbohrungen')&&summary.includes('Beton Ø 120 mm'),'Selected offer must survive review');
+    await page.locator('.privacy-check input[type="checkbox"]').check();
+    await page.getByRole('button',{name:/Anfrage senden/}).click();
+    await page.locator('.receipt-card').waitFor({timeout:15000});
+    const lead=app.db.prepare("SELECT service,message,email FROM cleaning_requests WHERE email='browser-qa@example.invalid'").get();
+    assert.equal(lead.service,'baureinigung');
+    assert.match(lead.message,/kernbohrungen/);
+    assert.match(lead.message,/Ø 120 mm/);
+
     await page.goto(ORIGIN+'/studio/',{waitUntil:'networkidle'});
     assert.equal(await page.locator('.studio-workspace').count(),0,'anonymous must not enter editor');
 
@@ -69,7 +134,7 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     assert.equal((await page.context().cookies()).some(c=>c.name==='__Host-knaba-session'&&c.secure&&c.httpOnly),true);
     const frame=page.frameLocator('.studio-preview-wrap iframe');
     await frame.locator(pSelector).click();
-    await page.locator('.studio-inspector textarea').first().fill('Saubere Bauprojekte & Büros');
+    await page.locator('.studio-inspector textarea').first().fill('Bauprojekte sauber & sicher zur Übergabe');
     await page.locator('.studio-section').nth(1).locator('input').first().fill('KNABA Studio & Bauhelfer Berlin');
     await page.locator('.studio-save').click();
     await page.waitForTimeout(250);
@@ -82,7 +147,7 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     });
     assert.equal(publicResponse.status,200);
     const html=publicResponse.html;
-    assert.ok(html.includes('Saubere Bauprojekte &amp; Büros'),'server-rendered published body text');
+    assert.ok(html.includes('Bauprojekte sauber &amp; sicher zur Übergabe'),'server-rendered published body text');
     assert.ok(html.includes('<title>KNABA Studio &amp; Bauhelfer Berlin</title>'),'server-rendered SEO title');
     const privateStatus=await page.evaluate(async()=>{
       const result=await fetch('/api/studio/page?page=%2F',{credentials:'same-origin'});
@@ -98,7 +163,8 @@ const aSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-o
     assert.equal(errors.length,0,'Browser JS errors: '+errors.join('; '));
     console.log(JSON.stringify({browser:'Chromium',source:'isolated VPS candidate',viewport:'390x844',mobileOverflowPx:homeOverflow,
       authenticatedOwner:true,sessionCookieSecure:true,serverRenderedBody:true,serverRenderedSeo:true,
-      iconLinkEditable:true,clientErrors:errors.length,liveDataTouched:false,externalNetwork:'none'}));
+      iconLinkEditable:true,clientErrors:errors.length,mobileChecks:checks.length,
+      testedConstructionEnquiry:true,clientDataTouched:false,liveDataTouched:false,externalNetwork:'none'}));
     await context.close();
   }finally{
     if(browser)await browser.close().catch(()=>{});

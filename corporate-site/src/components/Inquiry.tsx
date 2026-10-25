@@ -1,15 +1,15 @@
 import { For, Show, createSignal, onMount } from "solid-js";
-import { publicText, publicApiError, localizedService, type PublicLocale } from "../lib/public-i18n";
+import { publicText, publicApiError, type PublicLocale } from "../lib/public-i18n";
 import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
-import { company, services } from "../data/company";
-import { offerBySlug } from "../data/construction-offers";
+import { company } from "../data/company";
+import {constructionOffers,offerBySlug,constructionBusinessCopy,localeValue} from "../data/construction-offers";
+import {prepareConstructionLead,constructionNoteLimit,resolveOfferFromQuery,defaultConstructionOffer} from "../lib/construction-inquiry";
 import {
   buildInquiry,
   emptyInquiry,
   frequencies,
   inquiryLimits,
-  isKnownService,
   objectTypes,
   validateInquiry,
 } from "../lib/inquiry";
@@ -18,7 +18,14 @@ import type { InquiryData } from "../lib/inquiry";
 export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const locale = () => props.locale ?? "de";
   const t = (text: string) => publicText(text, locale());
-  const path = (value: string) => locale() === "de" ? value : "/"+locale()+value;
+  const path = (value: string) => {
+    if(locale() === "de" || (["en","uk"].includes(locale()) && value==="/datenschutz/"))return value;
+    return "/"+locale()+value;
+  };
+  const [selectedOffer,setSelectedOffer]=createSignal<string>(defaultConstructionOffer);
+  const activeOffer=()=>offerBySlug(selectedOffer()) ?? constructionOffers[0];
+  const selectedCopy=()=>constructionBusinessCopy[locale()];
+  const preparedRequest=()=>prepareConstructionLead(data(),selectedOffer());
   const [step, setStep] = createSignal(0);
   const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
@@ -70,21 +77,21 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   }
 
   onMount(() => {
-    const selected = new URLSearchParams(window.location.search).get(
-      "leistung",
-    );
-    if (selected && isKnownService(selected) && selected === "baureinigung")
-      setData((previous) => ({ ...previous, service: selected }));
-    // Strict allowlist: no arbitrary URL text enters a lead.
-    const topic = offerBySlug(new URLSearchParams(window.location.search).get("anliegen") || "");
-    if(topic) setData(previous => ({
-      ...previous,
-      service:"baureinigung",
-      objectType:"Baustelle",
-      message: "Bauleistung: "+topic.name.de+"\n"+previous.message,
-    }));
+    const params = new URLSearchParams(window.location.search);
+    setSelectedOffer(resolveOfferFromQuery(params.get("anliegen") ?? params.get("leistung")));
+    // Only the existing, validated backend enum is submitted. The selected
+    // construction offer is carried in an allowlisted message prefix.
+    setData(previous=>({...previous,service:"baureinigung",objectType:"Baustelle"}));
     setReady(true);
   });
+
+  function chooseOffer(value:string) {
+    if(!offerBySlug(value))return;
+    setSelectedOffer(value);
+    idempotencyKey="";
+    setError("");
+    setInvalidField(null);
+  }
 
   function update(field: keyof InquiryData, value: string) {
     idempotencyKey = "";
@@ -124,14 +131,15 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       move(step() + 1);
       return;
     }
-    const issues = validateInquiry(data(), locale());
-    const first = (Object.keys(issues) as (keyof InquiryData)[])[0];
-    if (first) {
-      showFieldError(first, issues[first] || t("Bitte prüfen Sie Ihre Angaben."));
-      return;
-    }
     try {
-      setReview(buildInquiry(data(), locale()));
+      const prepared=preparedRequest();
+      const issues=validateInquiry(prepared,locale());
+      const first=(Object.keys(issues) as (keyof InquiryData)[])[0];
+      if(first){
+        showFieldError(first,issues[first] || t("Bitte prüfen Sie Ihre Angaben."));
+        return;
+      }
+      setReview(buildInquiry(prepared, locale()));
       setError("");
       setInvalidField(null);
       setStatus("");
@@ -140,7 +148,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       showFieldError(
         "message",
         cause instanceof Error
-          ? cause.message
+          ? t(cause.message)
           : t("Bitte prüfen Sie Ihre Angaben."),
       );
     }
@@ -156,7 +164,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       idempotencyKey ||= createRequestId();
       const response = await fetch("/api/leads", {
         method: "POST", headers: {"Content-Type":"application/json", ...portalHeader},
-        body: JSON.stringify({...data(), privacyAccepted:true, website:website(), idempotencyKey}),
+        body: JSON.stringify({...preparedRequest(), privacyAccepted:true, website:website(), idempotencyKey}),
         signal:controller.signal,
       });
       const result = await response.json();
@@ -241,7 +249,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               {t(". Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.")}
             </p>
             <Show when={!receipt()}>
-              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} target="_blank" rel="noopener">{t("Datenschutzhinweise")}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
+              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} target="_blank" rel="noopener">{t("Datenschutzhinweise")}{["en","uk"].includes(locale())?" (DE)":""}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
             </Show>
             <p class="form-status" role="alert">{error()}</p>
             <div class="wizard-actions">
@@ -286,25 +294,31 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                 </label>
                 <select
                   id="inquiry-service"
-                  name="service"
+                  name="anliegen"
                   aria-invalid={invalidField() === "service" ? true : undefined}
                   aria-describedby={descriptionFor("service")}
-                  value={data().service}
-                  onChange={(event) =>
-                    update("service", event.currentTarget.value)
-                  }
+                  value={selectedOffer()}
+                  onChange={(event) => chooseOffer(event.currentTarget.value)}
                   required
                 >
                   <option value="">{t("Bitte auswählen")}</option>
-                  <For each={services.filter(service => service.slug === "baureinigung")}>
-                    {(service) => (
-                      <option value={service.slug}>{localizedService(service, locale()).name}</option>
-                    )}
-                  </For>
+                  <optgroup label={selectedCopy().standard}>
+                    <For each={constructionOffers.filter(offer => offer.core)}>
+                      {(offer) => <option value={offer.slug}>{localeValue(offer.name,locale())}</option>}
+                    </For>
+                  </optgroup>
+                  <optgroup label={selectedCopy().optional}>
+                    <For each={constructionOffers.filter(offer => !offer.core)}>
+                      {(offer) => <option value={offer.slug}>{localeValue(offer.name,locale())}</option>}
+                    </For>
+                  </optgroup>
                 </select>
                 <p class="field-hint">
                   {t("Wählen Sie die Leistung, die am besten zu Ihrem Bedarf passt. Weitere Wünsche können Sie im letzten Schritt ergänzen.")}
                 </p>
+                <Show when={!activeOffer().core}>
+                  <p class="construction-contract-disclaimer" role="note">{selectedCopy().contractIntro}</p>
+                </Show>
               </div>
             </Show>
             <Show when={step() === 1}>
@@ -479,7 +493,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                     }
                     aria-describedby={descriptionFor("message")}
                     rows={4}
-                    maxLength={inquiryLimits.message}
+                    maxLength={constructionNoteLimit(selectedOffer())}
                     value={data().message}
                     onInput={(event) =>
                       update("message", event.currentTarget.value)
@@ -487,13 +501,16 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                     placeholder={t("Zum Beispiel Wunschtermin, Zugangszeiten oder besondere Anforderungen.")}
                   />
                   <span class="field-hint">
-                    {data().message.length} / {inquiryLimits.message} {t("Zeichen. Bitte keine sensiblen Daten eintragen.")}
+                    {data().message.length} / {constructionNoteLimit(selectedOffer())} {t("Zeichen. Bitte keine sensiblen Daten eintragen.")}
                   </span>
+                  <Show when={!activeOffer().core}>
+                    <p class="construction-contract-disclaimer">{selectedCopy().contractIntro}</p>
+                  </Show>
                 </div>
               </div>
               <p class="field-hint">
                 {t("Im nächsten Schritt prüfen Sie Ihre Anfrage und senden sie direkt an KnaBa. Eine Registrierung ist dafür nicht erforderlich. Informationen zur Verarbeitung finden Sie unter")}{" "}
-                <a href={path("/datenschutz/")}>{t("Datenschutz")}</a>.
+                <a href={path("/datenschutz/")}>{t("Datenschutz")}{["en","uk"].includes(locale())?" (DE)":""}</a>.
               </p>
             </Show>
           </fieldset>

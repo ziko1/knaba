@@ -2166,3 +2166,10 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
   }
   .knaba-widget-root [data-knaba-open] span{font-size:27px;line-height:1}
 }
+
+/* Special construction-work intake: visibly distinguish non-confirmed capabilities. */
+.construction-contract-disclaimer{
+ background:#fff3db;border:1px solid #eacb84;border-radius:12px;
+ padding:13px 16px;color:#604320;font-size:13px;line-height:1.55;
+ margin:10px 0 18px;max-width:100%;overflow-wrap:anywhere;
+}

@@ -95,10 +95,13 @@ export function resolvePortalLocale(requested?: string | null, pageLocale?: Port
   return 'de';
 }
 export function portalReturnTo(locale: PortalLocale): string {
-  return locale === 'ru' ? '/ru/konto/' : `/konto/?lang=${locale}`;
+  return locale === 'de' ? '/konto/' : '/'+locale+'/konto/';
 }
 export function portalPublicPath(path: string, locale: PortalLocale): string {
-  return locale === 'ru' ? `/ru${path}` : path;
+  if(locale === 'ru') return '/ru'+path;
+  if((locale === 'en' || locale === 'uk') &&
+     ['/kontakt/','/planer/','/leistungen/','/branchen/','/konto/'].includes(path)) return '/'+locale+path;
+  return path;
 }
 export function formatPortalDate(date: string | null | undefined, locale: PortalLocale): string {
   if (!date) return '';

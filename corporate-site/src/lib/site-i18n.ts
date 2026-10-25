@@ -19,6 +19,10 @@ export const russianPublicPaths=germanPaths.map(path=>'/ru'+path);
 function withoutLocale(path:string) {return path.replace(/^\/(?:ru|en|uk)(?=\/)/,'')||'/';}
 export function languageLinks(pathname:string):Alternate[] {
  const path=withoutLocale(pathname);
+ if(path==='/konto/')return [
+  {lang:'de',url:'/konto/'},{lang:'en',url:'/en/konto/'},
+  {lang:'uk',url:'/uk/konto/'},{lang:'ru',url:'/ru/konto/'},
+ ];
  if(publicSet.has(path))return [
   {lang:'de',url:path}, {lang:'en',url:'/en'+path},
   {lang:'uk',url:'/uk'+path}, {lang:'ru',url:'/ru'+path},

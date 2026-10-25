@@ -49,9 +49,13 @@ function editable(target:EventTarget|null):HTMLElement|null{
   const main=document.querySelector('#main');
   while(element && main?.contains(element)){
     if(element.matches(ignore) || element.closest(ignore)) return null;
+    // A construction CTA may wrap a decorative arrow <span> or SVG. Selecting
+    // the link must edit its href rather than follow it or select the arrow.
+    const link=element.closest('a');
+    if(link && link!==element && main.contains(link)){element=link;continue;}
     const richLink=element instanceof HTMLAnchorElement &&
-      element.children.length>0 && [...element.children].every(child=>child instanceof SVGElement) &&
-      Boolean(element.textContent?.trim());
+      element.children.length>0 && Boolean(element.textContent?.trim()) &&
+      !element.querySelector(ignore);
     if(element instanceof HTMLElement && editableTags.has(element.tagName) &&
       (element.tagName==='IMG' || richLink || (element.children.length===0 && Boolean(element.textContent?.trim())))) {
       const key=selectorFor(element);

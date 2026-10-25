@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Portal from './Portal.tsx';
+type Locale='en'|'uk';
+const {locale}=Astro.props as {locale:Locale};
+const i18n={
+  en:{
+    title:'My KnaBa | Construction project portal',
+    description:'Private KnaBa portal to manage construction cleaning requests, approved jobs and messages. Access requires account approval.',
+    kicker:'KNABA / PRIVATE ACCESS',heading:'Your project.',accent:'Clearly organised.',
+    intro:'Construction enquiries, site work and agreements in one secure portal. All roles require owner approval.',
+    noScript:'This account portal needs JavaScript. You can send a construction enquiry by email or call KnaBa.',
+    email:'Email KnaBa'
+  },
+  uk:{
+    title:'Мій KnaBa | Кабінет будівельних проєктів',
+    description:'Захищений кабінет KnaBa для заявок на будівельний клінінг, погоджених робіт та листування. Потрібне підтвердження доступу.',
+    kicker:'KNABA / ОСОБИСТИЙ КАБІНЕТ',heading:'Ваш проєкт.',accent:'Усе організовано.',
+    intro:'Запити на будівельний клінінг, роботи на об’єктах і домовленості в одному захищеному кабінеті. Доступ погоджує власник.',
+    noScript:'Для кабінету потрібен JavaScript. Ви можете надіслати заявку поштою або зателефонувати KnaBa.',
+    email:'Написати KnaBa'
+  }
+}[locale];
+---
+<Layout lang={locale} title={i18n.title} description={i18n.description} noindex={true}>
+<section class="container portal-page">
+  <div class="portal-page-intro">
+    <p class="eyebrow">{i18n.kicker}</p><h1>{i18n.heading}<br/><span>{i18n.accent}</span></h1>
+    <p>{i18n.intro}</p>
+  </div>
+  <Portal locale={locale} client:load/>
+  <noscript><p class="notice">{i18n.noScript} <a href="mailto:kontakt@knaba.de">{i18n.email}</a> · <a href="tel:+493067933054">+49 (30) 679 330 54</a>.</p></noscript>
+</section>
+</Layout>
+<style>
+.portal-page{padding-top:clamp(2.5rem,5vw,5rem)}
+.portal-page-intro{max-width:50rem}
+.portal-page-intro h1{font-size:clamp(2.6rem,5vw,4.5rem);margin-bottom:1.2rem}
+.portal-page-intro h1 span{color:#3d7561}
+.portal-page-intro>p:last-child{max-width:38rem;font-size:1.05rem;margin-bottom:2rem}
+</style>
