@@ -10,3 +10,8 @@ Uses existing VPS and cached Node 24 Docker image; no paid AI/model APIs,
 new cloud services, domain purchases or billable workflows authorized.
 Actual provider quotas/remaining balances are UNKNOWN. Runtime data are not
 migrated or deleted. Runtime release requires atomic symlink rollback.
+
+## KNABA source-only integrated FAQ/visual QA — 2026-10-25
+- Reused existing SferaHost VPS and cached Node24/Chromium Docker images; ephemeral RAM-backed build workspaces cleaned on task completion.
+- Paid external AI, email, translation, indexing/SEO submission and cloud CI providers: no new calls or activations in this scoped change. New external service budget consumed: EUR 0 from known tool actions; actual VPS operating bill, quotas and shared resource charges remain UNKNOWN.
+- VPS disk was around 96% utilized during audit; no unrelated files, database rows, backups or Docker volumes were deleted.
