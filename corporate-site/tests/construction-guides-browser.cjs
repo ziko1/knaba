@@ -2,10 +2,14 @@
 // Run against loopback source-built static HTTP only; does not touch live or auth.
 // KNABA_TEST_URL=http://127.0.0.1:18769 KNABA_PLAYWRIGHT_MODULE=/app/node_modules/playwright
 const assert=require('node:assert/strict');
+const {mkdirSync}=require('node:fs');
+const {join}=require('node:path');
 const {chromium}=require(process.env.KNABA_PLAYWRIGHT_MODULE||'playwright');
 const base=(process.env.KNABA_TEST_URL||'').replace(/\/$/,'');
 if(!/^http:\/\/(?:127\.0\.0\.1|localhost):\d+$/.test(base))
   throw new Error('An isolated loopback HTTP server with explicit port is required');
+const screenshotDir=process.env.KNABA_SCREENSHOT_DIR;
+if(screenshotDir)mkdirSync(screenshotDir,{recursive:true});
 const expected=['baureinigung-phasen','baureinigung-kosten-planen',
   'bauuebergabe-checkliste','bauendreinigung-vorbereiten'];
 const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
@@ -46,6 +50,10 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
      assert.ok(computed.bodyLength>=680,'Guide too thin in '+lang+' '+slug+': '+computed.bodyLength);
      assert.ok(computed.guideTitle.length>18&&computed.firstChapter.length>15);
      assert.deepEqual(errors,[],'JS errors in '+lang+' '+slug);
+     if(screenshotDir && lang==='uk' && slug==='baureinigung-kosten-planen')
+       await page.screenshot({path:join(screenshotDir,'knaba-uk-guide-mobile-390.png'),fullPage:true});
+     if(screenshotDir && lang==='de' && slug==='bauuebergabe-checkliste')
+       await page.screenshot({path:join(screenshotDir,'knaba-de-guide-mobile-390.png'),fullPage:true});
      console.log('GUIDE_BROWSER_PASS',lang,slug,computed.bodyLength+' characters');
      verified++;
     }finally{await page.close()}
