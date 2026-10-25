@@ -37,3 +37,10 @@
 - [ ] Genuine owner enrollment and live CMS/CRM UAT; /readyz returns 503 intentionally.
 - [ ] Physical Android/iOS browser checks, accessibility, legal review and external backup/restore.
 - [ ] Confirm revised service positioning with company owner before touching separate official knaba.de.
+
+## Development-site I18N99 + latest Turnstile, 2026-10-25
+- [x] Dev-only release SHA 403c33a deployed, 99 HTML routes, 54 LIVE Chromium, manifest 99 targets / 4 published / 95 pending.
+- [x] Mobile language menu positioning fix (320px), lazy load and fallback; previous Carousel/Assistant/footer retained.
+- [ ] Real customer/owner Turnstile acceptance and provision authorized owner without passing a password in code.
+- [ ] Translate/legal-review pending 95 locales before any public localization claim or hreflang.
+- [ ] Physical devices, independent security review, verified external backup, safe disk pressure reduction.

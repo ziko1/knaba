@@ -199,3 +199,6 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 
 ## KNABA I18N99 + latest Turnstile follow-up, 2026-10-25
 - Source incorporates 132145f94c53aabfa72645c3cc157d4c07c76ac2; Node24 130 Vitest + 8 inquiry + 14 VPS, 99 HTML pass and 97 Chromium scenario PASS on the combined source. Exact artifact report: docs/evidence/i18n99-pr42-hardening-build-20261025.json. Deploy not yet confirmed.
+
+## 2026-10-25 — I18N99 on live VSP development server
+- Executable SHA 403c33a95b29311817c9c53910b07011c4cfa81b, 99 static routes expected HTTP statuses, 54 post-deploy Chromium pass, strict TLS and Turnstile config verified. Backup SHA 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0. 4 published translations, 95 pending. Full receipt docs/I18N99_PR42_INTEGRATION_20261025_UK.md.

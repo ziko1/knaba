@@ -163,3 +163,10 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Source QA 130 Vitest, 8 inquiry, 14 VPS, static verifier, 97 browser scenarios.
 - [ ] Code-only dev deployment with TLS/browser acceptance and rollback.
 - [ ] 95 language translations, native review, real CAPTCHA and owner UAT.
+
+## KNABA I18N99 dev deploy verified, 25.10.2026
+- [x] Dev VPS code 403c33a deployed with immutable fallback and verified SQLite pre-backup.
+- [x] 99 static routes HTTP expected (97x200/2x308), browser 54 live scenarios, noindex, CAPTCHA public config preserved.
+- [ ] 95 independently reviewed page/form/legal/assistant translations; do not advertise as available before done.
+- [ ] Human Turnstile completion, real owner authorization and Android/iPhone device testing.
+- [ ] External offsite backup/restore and disk usage improvement with verified non-destructive candidates.

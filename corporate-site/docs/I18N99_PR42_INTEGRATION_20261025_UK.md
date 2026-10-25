@@ -37,3 +37,13 @@
 - Compilation mode VSP_PENDING_APPROVAL (no indexing). Real owner enrollment and human CAPTCHA are still external.
 - Latest disk observation: 96 percent used, about 7.8 GiB available. No safe cleanup of unknown volumes undertaken.
 - This section establishes candidate readiness only; public dev release requires immutable copy, SQLite backup, origin/TLS smoke, external route/mobile QA, rollback.
+
+
+## Live VPS development deployment and independent acceptance, 2026-10-25
+- Exact executable source commit 403c33a95b29311817c9c53910b07011c4cfa81b deployed to /srv/knaba/vps/releases/403c33a95b29311817c9c53910b07011c4cfa81b. Previous immutable code 132145f94c53aabfa72645c3cc157d4c07c76ac2 retained. Shared TLS/Traefik/Cloudflare DNS, separate knaba.de domain and other apps unchanged.
+- Pre-change native SQLite backup knaba-2026-10-25T04-22-18-826Z.sqlite, SHA256 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0, five pre-existing migrations, 217088 bytes. Data reused, no schema changes.
+- Isolated production-like Node24 stage: homepage, DE/EN/UK/RU, construction catalog, language JSON, login and health HTTP200; 99/4/95 inventory, Host spoof HTTP421, anonymous Studio HTTP401, owner /readyz HTTP503 by design. Staging DB copied from backup and disposable container removed.
+- Post-switch STRICT default-system-trust TLS: 99 compiled HTML route status checks 97 HTTP200 + two intended 308 obsolete office redirects; 0 errors. Public /languages.json HTTP200 and correct 99 targets/4 published/95 pending. Homepage four real language links, no pending list in SSR, X-Robots-Tag noindex/follow, HSTS max-age 604800, SSL verify=0. /healthz200, /readyz503, anonymous Studio401, owner notifications403.
+- Real Chromium on LIVE HTTPS: 16 language picker viewports + 2 fallback/same-tab language scenarios + 4 consent-first Turnstile flows with SYNTHETIC provider script + 32 footer-after-Assistant-close cases = 54 PASS. Prior 97 compiled-source browser scenarios also PASS. Human Turnstile completion remains NOT_RUN, despite public CAPTCHA config enabled=true and unavailable=false, CSP correctly allowing the provider domain.
+- Post-release KnaBa Docker healthy. Cleaned precisely this task's reproducible npm installation 664 MiB, without touching user data, backups, images from other services or runtime assets. Disk after cleanup ~96 percent used, ~9.1GiB available.
+- This is DEVELOPMENT_SITE_DEPLOYED and I18N99_TARGET_REGISTRY_PASS, not 99 actual translated websites nor production-ready CMS/CRM/Assistant. Real owner enrollment, physical device/manual CAPTCHA, native/legal translator review, p95 and independent security audit remain open.
