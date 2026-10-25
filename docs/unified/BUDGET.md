@@ -26,3 +26,9 @@
 
 - Outbound Bot API is deliberately absent from default `workerOptions`. No real Telegram/AI/WhatsApp calls, new subscriptions, provider tokens, or paid compute authorization initiated by this work. All provider balances/tariffs/quota **UNKNOWN**; new external spending authorization stays 0 EUR.
 - QA reused cached Docker Node 24, PostgreSQL 17 and synthetic temporary tmpfs database/network. VPS at last read 95% used (~11 GiB free), so no new persistent PG service, production migration, arbitrary prune, paid runner or destructive cleanup. Product development and blocked external release gates remain separate.
+
+## 2026-10-25 — Telegram QA runtime evidence, no new provider activation
+
+- Reused cached VPS Node24/PostgreSQL images; installed free software `openpyxl==3.1.5`, `Pillow==11.3.0`, `poppler-utils` **only in isolated QA Docker layers**, not production. Measured full ERP real-Postgres test ~98s; isolated web/server/worker build ~314s. These are runtime durations, NOT billed AI usage or price estimates.
+- No Meta/Telegram/LLM outbound calls, customer-data uploads, paid service activation or new external spending authorization. Real quotas, Telegram provider eligibility/tariffs, hosting cost and account balances UNKNOWN; approved new paid-provider ceiling remains 0 EUR.
+- Shared VPS had ~9–10 GiB free / 95% used before final artifact checks. Maintain no-destructive-prune policy and cap QA CPU/RAM/PIDs. Source-only QA and tiny synthetic DB/network must not be confused with real company production deployment.
