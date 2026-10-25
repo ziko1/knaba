@@ -104,3 +104,10 @@ VPS immutable release /srv/knaba/vps/releases/638db18f04ed55f2a9452dd0a6db45560d
 ## 2026-10-25 — KnaBa VSP VPS cutover checkpoint
 - `kneba.vsp.rest` moved to existing VPS 51.77.35.6 with independent login and corrected DE/RU hosting disclosures, code commit `695a58077cf119096301c268c017d0d392712b71` and immutable release. Cloudflare DNS A, strict Let's Encrypt HTTPS 200. 101 Vitest+8 Node+1 VPS E2E PASS; 51 static routes HTTP200. Exact evidence: `vps/KNABA_PUBLIC_VPS_CUTOVER_2026-10-25.md`.
 - Old provider D1 data not imported, owner not enrolled (/readyz=503), newer PR #26/#27 migration conflicts not reconciled: **PUBLIC_SITE_DEPLOYED / CUSTOMER_HANDOVER_BLOCKED**. Do not delete old data, and do not merge main without review.
+
+
+## 2026-10-25 — unified VSP source candidate checkpoint (additive)
+- Three existing source streams were reconciled without deploying or changing main: PR #29 (public VPS routing), PR #30 (Studio server HTML/SEO + storage guard) and PR #28 (explicit VSP indexing mode, strict Host). Exact tested integrated code HEAD: 095c6c1e5fb1a2018aec0fec5986b3661af5edb6. Tree: 609897b31c40b96b813ecea97745ae1727da9471.
+- 111 files typecheck 0 errors/0 warnings (4 hints); VSP 102/102 Vitest + 8/8 inquiry + 14/14 VPS Node PASS, 51-page build/static verify PASS, offline real Chromium authenticated Studio publish PASS. Official build fallback 14/14 VPS PASS. One VSP build hash: 03039bcb1e793bf9e55761eb7473fb883fa3361748bcfb7b84283ac4948195fb.
+- Current live VPS remains older PR #29 release, /readyz 503 and legacy ChatGPT Sites database NOT exported. Private owner credentials and GDPR/legal approval still missing. No migration, public deployment, provider activation, payment, DNS edit or deletion took place.
+- Full receipt and release gates: docs/evidence/knaba-vps-integration-qa-2026-10-25.md. Keep separate project memory/roadmap/backlog; do not infer complete handover.
