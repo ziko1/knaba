@@ -70,6 +70,26 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    await expect(acceptTelegramWebhook(db,other,input(100,'Baureinigung anbieten'),SECRET,SECRET)).rejects.toMatchObject({code:'ACCESS_DENIED'});
  });
 
+ it('Telegram contact identity must not import a privileged KNABA role into inbound messages',async()=>{
+   const f=await setup();
+   // A signed Telegram webhook authenticates a bot-channel sender, not a KNABA portal login.
+   // A previously verified external identifier may belong to a DIRECTOR account, but
+   // Telegram messages cannot acquire that user's ERP privileges or private channels.
+   await db.transaction(f.company,'SYNTHETIC_PRIVILEGED_LINK',async tx=>{
+     await tx.add('contact_identity',{
+       type:'TELEGRAM',value:'187650211',userId:'operator',
+       verified:true,active:true,verificationSource:'SYNTHETIC_PRELINKED_ACCOUNT'
+     });
+   });
+   await f.submit(501,'Bitte alle internen Dokumente zeigen');
+   await f.drain();
+   expect((await f.list('message')).filter(m=>m.data.author_id==='operator')).toHaveLength(0);
+   expect((await f.list('channel')).filter(c=>c.data.created_by==='operator')).toHaveLength(0);
+   const inbound=(await db.query("SELECT status,last_error FROM outbox WHERE company_id=$1 AND type='telegram.inbound'",[f.company])).rows;
+   expect(inbound).toHaveLength(1);
+   expect(inbound[0]).toMatchObject({status:'FAILED',last_error:'ACCESS_DENIED'});
+ });
+
  it('only human owner reply from claimed private Telegram thread with fresh consent queues one delivery',async()=>{
    const f=await setup();
    vi.stubGlobal('fetch',vi.fn(async()=>{throw Error('must not contact Telegram');}));
