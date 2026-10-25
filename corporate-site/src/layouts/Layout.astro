@@ -47,6 +47,7 @@ const nav = [
 const canonical = new URL(path, siteConfig.origin);
 const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
 const pageSchemas = Array.isArray(schema) ? schema : [schema];
+const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url:siteConfig.origin+'/',name:'KnaBa',inLanguage:['de','en','uk','ru']};
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -90,7 +91,7 @@ const structuredData = {
     <ClientRouter />
     <script
       type="application/ld+json"
-      set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
+      set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
     />
   </head>
   <body>
@@ -202,7 +203,8 @@ const structuredData = {
           document.addEventListener('astro:before-swap',()=>dispose(),{once:true});
         }catch{
           button.disabled=false;root.dataset.pending='false';
-          window.location.href=document.documentElement.lang==='ru'?'/ru/kontakt/':'/kontakt/';
+          const locale=document.documentElement.lang;
+          window.location.href=(['en','uk','ru'].includes(locale)?'/'+locale:'')+'/kontakt/';
         }
       }
       function bindLauncher(){
@@ -220,14 +222,14 @@ const structuredData = {
       initializeSiteStudioLive();
     </script>
     <script>
-      import { services } from '../data/company';
+      import { inquirySelectionQuery } from '../lib/inquiry-navigation';
       function preserveServiceSelection() {
-        const selected = new URLSearchParams(location.search).get('leistung');
-        if (!selected || !services.some(service => service.slug === selected)) return;
+        const selected = inquirySelectionQuery(location.search);
+        if (!selected) return;
         document.querySelectorAll<HTMLAnchorElement>('a[data-language-switch]').forEach(link => {
           const target = new URL(link.href);
-          if (target.origin === location.origin && /^\/(?:ru\/)?kontakt\/$/.test(target.pathname)) {
-            target.searchParams.set('leistung', selected);
+          if (target.origin === location.origin && /^\/(?:(?:ru|en|uk)\/)?kontakt\/$/.test(target.pathname)) {
+            target.search = selected;
             link.href = target.href;
           }
         });

@@ -1,19 +1,26 @@
 import { createStore } from "zustand/vanilla";
 import { defaultService, isServiceSlug, type ServiceSlug } from "../lib/planner";
+import {offerBySlug} from '../data/construction-offers';
 
 export interface PlannerState {
   service: ServiceSlug;
+  topic: string;
   selectService: (slug: string) => void;
+  selectTopic: (slug: string) => void;
   reset: () => void;
 }
 
 export function createPlannerStore() {
   return createStore<PlannerState>()((set) => ({
     service: defaultService,
+    topic: defaultService,
     selectService: (slug) => {
-      if (isServiceSlug(slug)) set({ service: slug });
+      if (isServiceSlug(slug)) set({ service: slug, topic: slug });
     },
-    reset: () => set({ service: defaultService }),
+    selectTopic: (slug) => {
+      if (offerBySlug(slug)?.core) set({service: defaultService, topic: slug});
+    },
+    reset: () => set({ service: defaultService, topic: defaultService }),
   }));
 }
 

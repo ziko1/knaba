@@ -4,6 +4,7 @@ import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
 import { company, services } from "../data/company";
 import { offerBySlug } from "../data/construction-offers";
+import { inquirySupportPath } from "../lib/inquiry-navigation";
 import {
   buildInquiry,
   emptyInquiry,
@@ -18,7 +19,8 @@ import type { InquiryData } from "../lib/inquiry";
 export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const locale = () => props.locale ?? "de";
   const t = (text: string) => publicText(text, locale());
-  const path = (value: string) => locale() === "de" ? value : "/"+locale()+value;
+  const supportLabel = (text: string) => t(text) + (["en", "uk"].includes(locale()) ? " (DE)" : "");
+  const path = (value: '/datenschutz/' | '/konto/') => inquirySupportPath(value, locale());
   const [step, setStep] = createSignal(0);
   const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
@@ -81,7 +83,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       ...previous,
       service:"baureinigung",
       objectType:"Baustelle",
-      message: "Bauleistung: "+topic.name.de+"\n"+previous.message,
+      message: {de:'Bauleistung',en:'Construction service',uk:'Будівельна послуга',ru:'Строительная услуга'}[locale()]+": "+topic.name[locale()]+"\n"+previous.message,
     }));
     setReady(true);
   });
@@ -241,7 +243,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               {t(". Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.")}
             </p>
             <Show when={!receipt()}>
-              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} target="_blank" rel="noopener">{t("Datenschutzhinweise")}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
+              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} target="_blank" rel="noopener">{supportLabel("Datenschutzhinweise")}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
             </Show>
             <p class="form-status" role="alert">{error()}</p>
             <div class="wizard-actions">
@@ -257,7 +259,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               >
                 {t("Angaben bearbeiten")}
               </button></Show>
-              <Show when={receipt()}><a class="button button-dark" href={path("/konto/")}>{t("Zum Kundenportal →")}</a></Show>
+              <Show when={receipt()}><a class="button button-dark" href={path("/konto/")}>{supportLabel("Zum Kundenportal →")}</a></Show>
               <a class="button button-dark" href={review()?.href}>
                 {t("Im E-Mail-Programm öffnen ↗")}
               </a>
@@ -493,7 +495,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               </div>
               <p class="field-hint">
                 {t("Im nächsten Schritt prüfen Sie Ihre Anfrage und senden sie direkt an KnaBa. Eine Registrierung ist dafür nicht erforderlich. Informationen zur Verarbeitung finden Sie unter")}{" "}
-                <a href={path("/datenschutz/")}>{t("Datenschutz")}</a>.
+                <a href={path("/datenschutz/")}>{supportLabel("Datenschutz")}</a>.
               </p>
             </Show>
           </fieldset>

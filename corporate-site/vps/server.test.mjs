@@ -185,10 +185,14 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
     assert.equal(live.headers['strict-transport-security'],'max-age=604800');
     // Public VPS must fail closed when Turnstile secrets are missing.
     assert.equal((await probe('kneba.vsp.rest','https','/api/assistant/captcha')).status,503);
-    const canIndex = process.env.KNABA_RELEASE_MODE === 'official'
-      || (process.env.KNABA_RELEASE_MODE === 'vsp' && process.env.KNABA_VSP_INDEX_APPROVED === '1');
+    const canIndex = ['official', 'vsp'].includes(process.env.KNABA_RELEASE_MODE);
     assert.equal(live.headers['x-robots-tag'], canIndex ? undefined : 'noindex, follow',
       'Production Node must preserve the same public crawler gate as its static HTML');
+    for (const route of ['/konto/', '/ru/konto/', '/studio/', '/crm/', '/postfach/', '/ru/postfach/']) {
+      const privatePage = await probe('kneba.vsp.rest', 'https', route);
+      assert.equal(privatePage.status, 200);
+      assert.equal(privatePage.headers['x-robots-tag'], 'noindex, nofollow');
+    }
     assert.equal((await probe('www.knaba.de')).status,421);
     assert.equal((await probe('kneba.vsp.rest.evil.test')).status,421);
     assert.equal((await probe('kneba.vsp.rest','http')).status,421);

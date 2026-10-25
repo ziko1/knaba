@@ -3,20 +3,25 @@
   import { getService, getPreparation } from "../lib/planner";
   import { plannerStore } from "../stores/planner";
   import { publicText, type PublicLocale } from "../lib/public-i18n";
+  import {offerBySlug} from '../data/construction-offers';
 
   let { locale = "de" }: { locale?: PublicLocale } = $props();
   const t = (text: string) => publicText(text, locale);
 
   let selected = $state(plannerStore.getState().service);
+  let topic = $state(plannerStore.getState().topic);
   let checked = $state<string[]>([]);
   const service = $derived(getService(selected, locale));
+  const offer = $derived(offerBySlug(topic));
   const preparation = $derived(getPreparation(selected, locale));
   const completed = $derived(checked.filter((item) => preparation.includes(item)).length);
   onMount(() => {
     selected = plannerStore.getState().service;
+    topic = plannerStore.getState().topic;
     return plannerStore.subscribe((state) => {
-      if (state.service !== selected) {
+      if (state.service !== selected || state.topic !== topic) {
         selected = state.service;
+        topic = state.topic;
         checked = [];
       }
     });
@@ -30,7 +35,7 @@
   <p class="intro">{t("Eine kleine Merkliste für das erste Gespräch.")}</p>
   <div class="selected-service" aria-live="polite" aria-atomic="true">
     <span>{t("AUSGEWÄHLTE LEISTUNG")}</span>
-    <h3>{service.name}</h3>
+    <h3>{offer ? offer.name[locale] : service.name}</h3>
   </div>
   <fieldset>
     <legend>{t("Diese Angaben können Sie vorbereiten")}</legend>
@@ -42,11 +47,11 @@
     {/each}
   </fieldset>
   <div class="progress-line">
-    <p role="status">{locale === "ru" ? `Подготовлено: ${completed} из ${preparation.length}` : `${completed} von ${preparation.length} Punkten vorbereitet`}</p>
+    <p role="status">{{de:`${completed} von ${preparation.length} Punkten vorbereitet`,en:`${completed} of ${preparation.length} items prepared`,uk:`Підготовлено: ${completed} із ${preparation.length}`,ru:`Подготовлено: ${completed} из ${preparation.length}`}[locale]}</p>
     <button type="button" onclick={resetChecklist} disabled={completed === 0}>{t("Zurücksetzen")}</button>
   </div>
   <progress max={preparation.length} value={completed} aria-label={t("Vorbereitete Angaben")}></progress>
-  <a class="button button-dark" href={`${locale === "ru" ? "/ru" : ""}/kontakt/?leistung=${selected}`}>{t("Mit dieser Leistung anfragen →")}</a>
+  <a class="button button-dark" href={`${locale === "de" ? "" : "/"+locale}/kontakt/?leistung=${selected}${offer ? '&anliegen='+offer.slug : ''}`}>{t("Mit dieser Leistung anfragen →")}</a>
   <p class="note">{t("Die Leistung wird in die Anfrage übernommen. Häkchen bleiben nur auf dieser Seite und werden nicht übertragen. Sie können auch ohne vollständige Merkliste anfragen.")}</p>
 </section>
 

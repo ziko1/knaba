@@ -18,6 +18,11 @@ export const needChoices = [
 export type ObjectChoice = (typeof objectChoices)[number]["value"];
 export type NeedChoice = (typeof needChoices)[number]["value"];
 
+/** Marketing detail is separate from the stable CRM baureinigung enum. */
+export function recommendConstructionTopic(need: NeedChoice) {
+  return {routine:'bauzwischenreinigung',glass:'bauendreinigung',intensive:'baustellenraeumung',handover:'bauendreinigung'}[need];
+}
+
 export function isServiceSlug(value: unknown): value is ServiceSlug {
   return typeof value === "string" && services.some((item) => item.slug === value);
 }
@@ -39,6 +44,10 @@ const preparation: Record<ServiceSlug, readonly string[]> = {
   grundreinigung: ["Verschmutzungen und betroffene Flächen beschreiben", "Boden- und Oberflächenmaterialien nennen", "Ungefähre Fläche notieren", "Besondere Anforderungen und mögliche Zeitfenster nennen"],
   treppenreinigung: ["Aufgänge und Etagen zählen", "Eingangsbereiche und Gemeinschaftsflächen notieren", "Gewünschte Reinigungsintervalle überlegen", "Zugang und Ansprechpartner für das Haus klären"],
 };
+const constructionPreparation = {
+  en: ['Describe the construction stage and current condition', 'Note approximate floor area and affected rooms', 'Give the planned handover or occupancy date', 'Confirm site access, water and electricity'],
+  uk: ['Опишіть етап будівництва та стан об’єкта', 'Укажіть приблизну площу й приміщення', 'Назвіть заплановану дату здачі або заселення', 'Уточніть доступ, воду та електрику на об’єкті'],
+} as const;
 const preparationRu: Record<ServiceSlug, readonly string[]> = {
   bueroreinigung: ["Укажите приблизительную площадь офиса и его зоны", "Уточните рабочее время и возможное время доступа", "Продумайте желаемую периодичность уборки", "Укажите особые материалы или зоны с ограничениями"],
   unterhaltsreinigung: ["Перечислите зоны для регулярной уборки", "Опишите использование объекта и поток посетителей", "Продумайте желаемую периодичность уборки", "Уточните доступ, ключи и контактное лицо"],
@@ -48,7 +57,9 @@ const preparationRu: Record<ServiceSlug, readonly string[]> = {
   treppenreinigung: ["Укажите количество подъездов и этажей", "Перечислите входные и общие зоны", "Продумайте желаемую периодичность уборки", "Уточните доступ и контактное лицо по дому"],
 };
 export function getPreparation(slug: string, locale: PublicLocale = "de"): readonly string[] {
-  return (locale === "ru" ? preparationRu : preparation)[isServiceSlug(slug) ? slug : defaultService];
+  const selected = isServiceSlug(slug) ? slug : defaultService;
+  if (selected === 'baureinigung' && (locale === 'en' || locale === 'uk')) return constructionPreparation[locale];
+  return (locale === "ru" ? preparationRu : preparation)[selected];
 }
 
 export interface CatalogueItem {
