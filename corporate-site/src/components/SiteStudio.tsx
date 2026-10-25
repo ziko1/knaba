@@ -1,6 +1,7 @@
 import { createSignal, For, Show, onMount, onCleanup } from 'solid-js';
 import { normalizeStudioPage, validateStudioEntries, type StudioEntry, type StudioKind } from '../lib/site-studio-contract';
 import {studioPages} from '../lib/studio-pages';
+import ArticleStudio from './ArticleStudio';
 import '../styles/site-studio.css';
 
 type Language='de'|'en'|'uk'|'ru';
@@ -231,6 +232,7 @@ export default function SiteStudio(){
     <Show when={checking()}><div class="studio-gate" role="status">{t().loading}</div></Show>
     <Show when={!checking()&&!authorized()}><div class="studio-gate" role="alert"><h2>{t().denied}</h2><a class="button button-dark" href="/konto/">{t().portal} ↗</a></div></Show>
     <Show when={!checking()&&authorized()}>
+      <ArticleStudio language={language()} />
       <div class="studio-toolbar" aria-label={t().nav}>
         <label>{t().page}<select value={pages.find(p=>p.path===pathInput())?.path||'custom'} onChange={event=>{if(event.currentTarget.value!=='custom')setPathInput(event.currentTarget.value);}}><For each={pages}>{option=><option value={option.path}>{option.title}</option>}</For><option value="custom">Eigener Pfad</option></select></label>
         <label class="studio-path-label"><span class="sr-only">Pfad</span><input aria-label="Pfad" value={pathInput()} onInput={event=>setPathInput(event.currentTarget.value)} spellcheck={false} /></label>
