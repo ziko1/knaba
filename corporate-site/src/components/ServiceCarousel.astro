@@ -1,0 +1,225 @@
+---
+import {getServiceCarouselSlides} from '../lib/service-carousel';
+import type {ConstructionLocale} from '../data/construction-offers';
+
+const {locale = 'de'} = Astro.props as {locale: ConstructionLocale};
+const slides = getServiceCarouselSlides(locale);
+const ui = {
+  de: {carousel:'Karussell der Bauleistungen',slide:'Folie',previous:'Vorherige Leistung',next:'Nächste Leistung',show:'Leistung anzeigen',details:'Leistung ansehen',core:'BAU + CLEAN',extra:'AUF ANFRAGE',hint:'Wischen oder mit den Pfeiltasten navigieren',image:'Illustration einer Reinigungskraft auf der Baustelle'},
+  en: {carousel:'Construction service carousel',slide:'Slide',previous:'Previous service',next:'Next service',show:'Show service',details:'View service',core:'BUILD + CLEAN',extra:'BY ENQUIRY',hint:'Swipe or use the arrow keys to browse',image:'Illustration of a worker cleaning a construction site'},
+  uk: {carousel:'Слайдер будівельних послуг',slide:'Слайд',previous:'Попередня послуга',next:'Наступна послуга',show:'Показати послугу',details:'Переглянути послугу',core:'БУДІВНИЦТВО + КЛІНІНГ',extra:'ЗА ЗАПИТОМ',hint:'Гортайте пальцем або клавішами зі стрілками',image:'Ілюстрація прибирання будівельного майданчика'},
+  ru: {carousel:'Слайдер строительных услуг',slide:'Слайд',previous:'Предыдущая услуга',next:'Следующая услуга',show:'Показать услугу',details:'Подробнее об услуге',core:'СТРОЙКА + КЛИНИНГ',extra:'ПО ЗАПРОСУ',hint:'Листайте пальцем или клавишами со стрелками',image:'Иллюстрация уборки строительной площадки'},
+}[locale];
+---
+<knaba-service-carousel class="service-carousel" aria-label={ui.carousel}>
+  <div class="carousel-track" id="knaba-services-track" data-carousel-track
+    role="region" aria-roledescription={ui.carousel} aria-label={ui.hint} tabindex="0">
+    {slides.map((slide,index) => (
+      <article class="service-slide" data-carousel-slide role="group"
+        aria-roledescription={ui.slide} aria-label={`${index + 1} / ${slides.length}: ${slide.title}`}>
+        <div class="slide-overline"><span>KnaBa / {slide.number}</span><span>{slide.core ? ui.core : ui.extra}</span></div>
+        <div class="slide-art" aria-hidden={index === 0 ? undefined : "true"}>
+          {index === 0 ? (
+            <img src="/illustrations/baureinigung.svg" alt={ui.image} width="720" height="500"
+              loading="eager" decoding="async" fetchpriority="high" />
+          ) : (
+            <div class="slide-artwork">
+              <span class="art-orbit art-orbit-one"></span>
+              <span class="art-orbit art-orbit-two"></span>
+              <span class="art-building"><i></i><i></i><i></i><i></i></span>
+              <span class="art-symbol">{slide.icon}</span>
+              <span class="art-baseline"></span>
+            </div>
+          )}
+        </div>
+        <div class="slide-body">
+          <span class="slide-subline">BERLIN & BRANDENBURG</span>
+          <h2>{slide.title}</h2>
+          <p>{slide.description}</p>
+          <a class="slide-link" href={slide.href}>
+            {ui.details}<span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+  <div class="carousel-controls">
+    <button type="button" class="carousel-arrow" data-carousel-prev aria-label={ui.previous} disabled>
+      <span aria-hidden="true">←</span>
+    </button>
+    <div class="carousel-dots" role="group" aria-label={ui.carousel}>
+      {slides.map((slide,index) => (
+        <button class="carousel-dot" type="button" data-carousel-dot
+          aria-controls="knaba-services-track" aria-current={index===0 ? 'true' : 'false'}
+          aria-label={`${ui.show} ${index + 1}: ${slide.title}`}>
+          <span class="sr-only">{slide.number}</span>
+        </button>
+      ))}
+    </div>
+    <button type="button" class="carousel-arrow" data-carousel-next aria-label={ui.next}>
+      <span aria-hidden="true">→</span>
+    </button>
+    <span class="carousel-counter" data-carousel-status aria-live="polite" aria-atomic="true">
+      01 / {String(slides.length).padStart(2,'0')}
+    </span>
+  </div>
+  <p class="carousel-hint">{ui.hint}</p>
+</knaba-service-carousel>
+
+<script>
+  // Native overflow/scroll-snap works on touch and without JS. JS adds controls and keyboard support.
+  class KnaBaServiceCarousel extends HTMLElement {
+    private controller: AbortController | null = null;
+    private frame = 0;
+
+    connectedCallback() {
+      if (this.controller) return;
+      const track = this.querySelector<HTMLElement>('[data-carousel-track]');
+      const slides = Array.from(this.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+      const dots = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'));
+      const previous = this.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+      const next = this.querySelector<HTMLButtonElement>('[data-carousel-next]');
+      const status = this.querySelector<HTMLElement>('[data-carousel-status]');
+      if (!track || !slides.length || dots.length !== slides.length || !previous || !next || !status) return;
+
+      const signal = (this.controller = new AbortController()).signal;
+      let activeIndex = 0;
+      let requestedIndex: number | null = null;
+
+      const update = (index: number) => {
+        activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+        dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === activeIndex)));
+        previous.disabled = activeIndex === 0;
+        next.disabled = activeIndex === slides.length - 1;
+        status.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      };
+
+      const goTo = (index: number, animate = true) => {
+        const target = Math.max(0, Math.min(slides.length - 1, index));
+        requestedIndex = target;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        track.scrollTo({
+          left: slides[target].offsetLeft - slides[0].offsetLeft,
+          behavior: animate && !reduceMotion ? 'smooth' : 'auto',
+        });
+        update(target);
+      };
+
+      const nearest = () => {
+        let result = 0;
+        let distance = Infinity;
+        slides.forEach((slide, index) => {
+          const diff = Math.abs(slide.offsetLeft - slides[0].offsetLeft - track.scrollLeft);
+          if (diff < distance) { distance = diff; result = index; }
+        });
+        return result;
+      };
+
+      previous.addEventListener('click', () => goTo(activeIndex - 1), {signal});
+      next.addEventListener('click', () => goTo(activeIndex + 1), {signal});
+      dots.forEach((dot, index) => dot.addEventListener('click', () => goTo(index, false), {signal}));
+      track.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (event.target !== track) return;
+        if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); }
+        else if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); }
+        else if (event.key === 'Home') { event.preventDefault(); goTo(0, false); }
+        else if (event.key === 'End') { event.preventDefault(); goTo(slides.length - 1, false); }
+      }, {signal});
+      // Keep controls stable during animated programmatic scrolling; don't show
+      // transient intermediate slides as the active one. Native swipe remains live.
+      const finishScroll = () => {
+        if (requestedIndex !== null) {
+          const targetLeft = slides[requestedIndex].offsetLeft - slides[0].offsetLeft;
+          if (Math.abs(track.scrollLeft - targetLeft) > 3) return;
+        }
+        requestedIndex = null;
+        update(nearest());
+      };
+      track.addEventListener('pointerdown', () => { requestedIndex = null; }, {signal});
+      track.addEventListener('touchstart', () => { requestedIndex = null; }, {passive: true, signal});
+      track.addEventListener('wheel', () => { requestedIndex = null; }, {passive: true, signal});
+      track.addEventListener('scrollend', finishScroll, {signal});
+      track.addEventListener('scroll', () => {
+        if (requestedIndex !== null) return;
+        cancelAnimationFrame(this.frame);
+        this.frame = requestAnimationFrame(() => update(nearest()));
+      }, {passive: true, signal});
+      window.addEventListener('resize', () => goTo(activeIndex, false), {passive: true, signal});
+      update(0);
+    }
+
+    disconnectedCallback() {
+      this.controller?.abort();
+      this.controller = null;
+      cancelAnimationFrame(this.frame);
+    }
+  }
+
+  if (!customElements.get('knaba-service-carousel')) {
+    customElements.define('knaba-service-carousel', KnaBaServiceCarousel);
+  }
+</script>
+
+<style>
+  .service-carousel { display:block; min-width:0; width:100%; }
+  .carousel-track { display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:none; border-radius:28px; }
+  .carousel-track::-webkit-scrollbar { display:none; }
+  .service-slide { --card:#e1f4e8; --art:#c4e6ce; --accent:#0c7e85; position:relative; flex:0 0 100%; min-width:0; min-height:480px; display:flex; flex-direction:column; padding:clamp(15px,2vw,24px); scroll-snap-align:start; scroll-snap-stop:always; border-radius:28px; background:var(--card); isolation:isolate; overflow:hidden; }
+  .service-slide:nth-child(8n + 2) { --card:#dff4f7; --art:#b2e5eb; --accent:#096e91; }
+  .service-slide:nth-child(8n + 3) { --card:#f8efce; --art:#ffe29a; --accent:#875620; }
+  .service-slide:nth-child(8n + 4) { --card:#e9e8fa; --art:#c5c7ee; --accent:#5943a6; }
+  .service-slide:nth-child(8n + 5) { --card:#e7f1d4; --art:#c9e58a; --accent:#496d23; }
+  .service-slide:nth-child(8n + 6) { --card:#d7eee9; --art:#93d5c8; --accent:#066e66; }
+  .service-slide:nth-child(8n + 7) { --card:#fae5dd; --art:#f6c1aa; --accent:#954c36; }
+  .service-slide:nth-child(8n + 8) { --card:#ede6f8; --art:#d3c3ee; --accent:#6b438f; }
+  .slide-overline { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:11px; font-weight:850; letter-spacing:.09em; line-height:1.4; color:#325b57; text-transform:uppercase; }
+  .slide-overline span:last-child { color:var(--accent); text-align:right; }
+  .slide-art { margin-top:12px; position:relative; width:100%; height:clamp(150px,20vw,218px); background:var(--art); border-radius:21px; overflow:hidden; }
+  .slide-art img { display:block; height:100%; width:100%; object-fit:cover; object-position:center; mix-blend-mode:multiply; }
+  .slide-artwork { position:absolute; inset:0; display:grid; place-items:center; background:linear-gradient(130deg,#ffffff57 4%,transparent 58%),var(--art); }
+  .art-orbit { position:absolute; border:2px solid #ffffff8a; border-radius:50%; width:175px; height:175px; top:-65px; right:-40px; }
+  .art-orbit-two { width:100px; height:100px; top:auto; right:auto; bottom:-48px; left:-20px; border-width:12px; }
+  .art-building { position:absolute; left:14%; top:19%; width:31%; height:68%; border:6px solid #0d51554d; border-radius:12px 12px 0 0; display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:11px; transform:skewY(-5deg); }
+  .art-building i { display:block; background:#fff9; border-radius:5px; }
+  .art-symbol { position:relative; z-index:1; margin-left:26%; width:120px; height:120px; border:7px solid #ffffff99; background:#fffdf8e0; box-shadow:0 16px 35px #123d3930; border-radius:32px; display:grid; place-items:center; font-size:60px; line-height:1; transform:rotate(-8deg); }
+  .art-baseline { position:absolute; bottom:16px; left:10%; right:10%; height:9px; border-radius:10px; background:#155c6170; }
+  .slide-body { display:flex; flex:1; flex-direction:column; align-items:flex-start; padding:17px 2px 0; min-width:0; }
+  .slide-subline { font-size:10px; line-height:1.4; font-weight:850; color:var(--accent); letter-spacing:.11em; }
+  .slide-body h2 { font-size:clamp(21px,2.5vw,29px); line-height:1.13; letter-spacing:-.035em; font-weight:800; color:#10333b; margin:9px 0; overflow-wrap:anywhere; }
+  .slide-body p { font-size:13px; line-height:1.55; color:#3a5754; margin:0 0 16px; overflow-wrap:anywhere; }
+  .slide-link { display:inline-flex; gap:17px; justify-content:space-between; align-items:center; margin-top:auto; min-height:44px; padding:10px 17px; border-radius:999px; background:#10353b; color:#fff; font-weight:800; font-size:13px; text-decoration:none; }
+  .slide-link:hover { background:#05676e; }
+  .slide-link span { font-size:19px; line-height:1; }
+  .carousel-controls { display:flex; align-items:center; justify-content:center; gap:10px; padding-top:17px; min-height:63px; }
+  .carousel-arrow { display:grid; place-items:center; border:1px solid #a4c9bf; color:#0c444c; background:#eff8f1; width:44px; height:44px; flex-shrink:0; border-radius:50%; font-size:20px; }
+  .carousel-arrow:hover:not(:disabled) { background:#d3f59a; border-color:#79a86a; }
+  .carousel-arrow:disabled { opacity:.35; cursor:default; }
+  .carousel-dots { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:1px; min-width:0; }
+  .carousel-dot { display:grid; place-items:center; padding:10px 4px; border:0; background:transparent; min-width:19px; min-height:44px; }
+  .carousel-dot::before { content:''; width:8px; height:8px; border-radius:50%; display:block; background:#8aa8a2; transition:width .18s,background .18s; }
+  .carousel-dot[aria-current='true']::before { width:19px; border-radius:9px; background:#086d7b; }
+  .carousel-counter { font-size:11px; font-weight:850; letter-spacing:.08em; color:#315b58; white-space:nowrap; font-variant-numeric:tabular-nums; margin-left:3px; }
+  .carousel-hint { font-size:11px; color:#526b64; text-align:center; margin:0; line-height:1.4; }
+  @media (max-width:880px) {
+    .service-slide { min-height:460px; }
+    .slide-art { height:clamp(170px,36vw,250px); }
+  }
+  @media (max-width:610px) {
+    .carousel-track,.service-slide { border-radius:23px; }
+    .service-slide { min-height:445px; padding:16px; }
+    .slide-art { height:clamp(160px,43vw,220px); border-radius:16px; }
+    .slide-body h2 { font-size:clamp(20px,5.4vw,25px); }
+    .slide-body p { font-size:12px; line-height:1.5; }
+    .slide-overline { font-size:10px; }
+    .art-symbol { width:105px; height:105px; font-size:53px; }
+    .carousel-controls { justify-content:flex-start; padding-right:54px; gap:6px; }
+    .carousel-dots { gap:0; }
+    .carousel-dot { min-width:13px; padding-inline:2px; }
+    .carousel-dot[aria-current='true']::before { width:15px; }
+    .carousel-counter { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .carousel-dot::before { transition:none; }
+    .carousel-track { scroll-behavior:auto; }
+  }
+</style>
