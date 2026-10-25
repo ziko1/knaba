@@ -176,3 +176,45 @@ test('forged or mismatched HTTP acknowledgement can never mark ERP receipt as ap
    assert.equal(calls,1);
  }finally{f.finish();}
 });
+
+test('two workers racing to claim the same source event execute exactly one network send',async()=>{
+ const f=fixture();let release;let sends=0;
+ try{
+  const gate=new Promise(resolve=>{release=resolve;});
+  const first=deliverPendingLead(f.db,config(),async(_url,init)=>{
+    sends++;
+    await gate;
+    const envelope=JSON.parse(init.body);
+    return new Response(JSON.stringify({event_id:envelope.event_id,status:'APPLIED',effect_id:'erp-concurrent'}),{status:200});
+  },NOW);
+  const second=await deliverPendingLead(f.db,config(),async()=>{sends++;throw Error('DOUBLE_SEND')},NOW);
+  assert.equal(second.status,'IDLE');
+  release();
+  assert.equal((await first).status,'APPLIED');
+  assert.equal(sends,1);
+  assert.equal(f.row().attempts,1);
+ }finally{release?.();f.finish();}
+});
+test('a permanent ERP rejection stays BLOCKED with no blind automatic retry',async()=>{
+ const f=fixture();let calls=0;
+ try{
+  const transport=async()=>{calls++;return new Response(JSON.stringify({code:'ACCESS_DENIED'}),{status:401});};
+  const outcome=await deliverPendingLead(f.db,config(),transport,NOW);
+  assert.equal(outcome.status,'BLOCKED');
+  assert.equal(f.row().last_error,'ERP_REJECTED');
+  assert.equal((await deliverPendingLead(f.db,config(),transport,NOW+400000)).status,'IDLE');
+  assert.equal(calls,1);
+ }finally{f.finish();}
+});
+test('unknown provider outcome is capped by the deterministic retry budget',async()=>{
+ const f=fixture();let calls=0;
+ try{
+  f.db.prepare("UPDATE site_erp_outbox SET attempts=4 WHERE id=?").run(f.id);
+  const outcome=await deliverPendingLead(f.db,config(),async()=>{calls++;throw Error('PROVIDER_TIMEOUT')},NOW);
+  assert.equal(outcome.status,'BLOCKED');
+  assert.equal(f.row().attempts,5);
+  assert.equal(f.row().last_error,'MAX_RETRIES');
+  assert.equal((await deliverPendingLead(f.db,config(),async()=>{calls++;throw Error('FORBIDDEN')},NOW+400000)).status,'IDLE');
+  assert.equal(calls,1);
+ }finally{f.finish();}
+});
