@@ -90,3 +90,20 @@ body:has(.studio-page) [data-knaba-widget]{display:none}
   .studio-canvas-head{font-size:.7rem}
 }
 @media(prefers-reduced-motion:reduce){.knaba-studio *{scroll-behavior:auto!important;transition:none!important}}
+
+/* KNABA Studio Pro: accessible visual/manual modes and bounded design controls. */
+.studio-mode-toggle{display:flex;gap:2px;padding:3px;background:#e7f0eb;border:1px solid var(--studio-line);border-radius:11px}
+.studio-mode-toggle button{min-height:36px;padding:5px 10px;border:0;border-radius:8px;background:transparent;color:#315a4e;font-size:.79rem;font-weight:750}
+.studio-mode-toggle button.active{background:#fff;color:#115d49;box-shadow:0 2px 7px #102b2719}
+.studio-section-select{margin-bottom:.9rem;max-width:100%}
+.studio-manual{min-width:0}
+.studio-manual .studio-json{min-height:285px;width:100%;max-width:100%;resize:vertical;overflow:auto;tab-size:2;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;background:#0f2b31;color:#e4f4ee;border:1px solid #476960}
+.studio-manual-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.studio-manual-actions .studio-btn{flex:1;min-width:180px}
+.studio-manual .studio-message{margin:.6rem 0}
+@media(max-width:780px){.studio-mode-toggle{margin-inline:auto 0}.studio-mode-toggle button{padding-inline:7px;font-size:.75rem}.studio-manual .studio-json{min-height:230px}}
+@media(max-width:420px){.studio-mode-toggle{order:3;width:100%;justify-content:stretch}.studio-mode-toggle button{flex:1}}
+
+.studio-ai-status{padding:.65rem .7rem;background:#e5efea;border:1px solid #bbd6c8;border-radius:9px;color:#214c41;font-size:.79rem;line-height:1.5}
+
+.studio-media-thumb{display:block;width:min(180px,100%);height:auto;max-height:160px;object-fit:contain;margin:8px 0;padding:8px;border-radius:10px;background:#eef4ee;border:1px solid #d7e4da}

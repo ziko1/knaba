@@ -6,26 +6,57 @@ const isPreview=()=>new URLSearchParams(location.search).get('knaba_studio_previ
 let generation=0;
 let hovered:HTMLElement|null=null;
 let editorBound=false;
+// Each preview replay first restores the exact pre-edit DOM baseline. Without
+// this, undo/removing a field left stale text or styles visible in the iframe.
+let undoApplied:Array<()=>void>=[];
+function resetApplied(){
+  for(const restore of undoApplied.reverse()) restore();
+  undoApplied=[];
+}
+function setAttr(target:Element,name:string,value:string){
+  const before=target.getAttribute(name);
+  undoApplied.push(()=>before===null?target.removeAttribute(name):target.setAttribute(name,before));
+  target.setAttribute(name,value);
+}
+function setStyle(target:HTMLElement,name:string,value:string){
+  const before=target.style.getPropertyValue(name), priority=target.style.getPropertyPriority(name);
+  undoApplied.push(()=>{if(before)target.style.setProperty(name,before,priority);else target.style.removeProperty(name);});
+  target.style.setProperty(name,value);
+}
+
 
 function apply(entries:StudioEntry[]){
+  resetApplied();
   for(const entry of entries){
     if(entry.selector==='@title'){
+      const before=document.title;
+      undoApplied.push(()=>{document.title=before;});
       document.title=entry.value;
-      document.querySelector('meta[property="og:title"]')?.setAttribute('content',entry.value);
+      const og=document.querySelector('meta[property="og:title"]');
+      if(og)setAttr(og,'content',entry.value);
       continue;
     }
     if(entry.selector==='@description'){
-      document.querySelector('meta[name="description"]')?.setAttribute('content',entry.value);
-      document.querySelector('meta[property="og:description"]')?.setAttribute('content',entry.value);
+      for(const query of ['meta[name="description"]','meta[property="og:description"]']){
+        const meta=document.querySelector(query);
+        if(meta)setAttr(meta,'content',entry.value);
+      }
       continue;
     }
     const target=document.querySelector(entry.selector);
     if(!(target instanceof HTMLElement)) continue;
-    if(entry.kind==='text' && target.childElementCount===0 && editableTags.has(target.tagName) && target.tagName!=='IMG') target.textContent=entry.value;
-    if(entry.kind==='href' && target instanceof HTMLAnchorElement) target.setAttribute('href',entry.value);
-    if(entry.kind==='src' && target instanceof HTMLImageElement) target.setAttribute('src',entry.value);
-    if(entry.kind==='alt' && target instanceof HTMLImageElement) target.alt=entry.value;
-    if(entry.kind==='color') target.style.color=entry.value;
+    if(entry.kind==='text' && target.childElementCount===0 && editableTags.has(target.tagName) && target.tagName!=='IMG'){
+      const before=target.textContent;
+      undoApplied.push(()=>{target.textContent=before;});
+      target.textContent=entry.value;
+    }
+    if(entry.kind==='href' && target instanceof HTMLAnchorElement)setAttr(target,'href',entry.value);
+    if(entry.kind==='src' && target instanceof HTMLImageElement)setAttr(target,'src',entry.value);
+    if(entry.kind==='alt' && target instanceof HTMLImageElement)setAttr(target,'alt',entry.value);
+    if(entry.kind==='color')setStyle(target,'color',entry.value);
+    if(entry.kind==='background')setStyle(target,'background-color',entry.value);
+    if(entry.kind==='padding')setStyle(target,'padding',entry.value+'px');
+    if(entry.kind==='fontSize')setStyle(target,'font-size',entry.value+'px');
   }
 }
 function selectorFor(node:Element):string|null{
@@ -49,9 +80,10 @@ function editable(target:EventTarget|null):HTMLElement|null{
   const main=document.querySelector('#main');
   while(element && main?.contains(element)){
     if(element.matches(ignore) || element.closest(ignore)) return null;
+    // Support links with SVG icons *and* inline spans (CTA arrows/labels).
+    // Such links expose only href and safe styles, never destructive rich-text replacement.
     const richLink=element instanceof HTMLAnchorElement &&
-      element.children.length>0 && [...element.children].every(child=>child instanceof SVGElement) &&
-      Boolean(element.textContent?.trim());
+      element.children.length>0 && Boolean(element.textContent?.trim());
     if(element instanceof HTMLElement && editableTags.has(element.tagName) &&
       (element.tagName==='IMG' || richLink || (element.children.length===0 && Boolean(element.textContent?.trim())))) {
       const key=selectorFor(element);
@@ -129,5 +161,5 @@ async function publishedContent(){
 }
 export function initializeSiteStudioLive(){
   void publishedContent();
-  document.addEventListener('astro:page-load',()=>void publishedContent());
+  document.addEventListener('astro:page-load',()=>{undoApplied=[];void publishedContent();});
 }

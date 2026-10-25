@@ -66,6 +66,22 @@ describe('KNABA Site Studio input and publication rules', () => {
     expect(()=>validateStudioEntries([{selector:title,kind:'text',value:'<script>'}])).toThrow(StudioInputError);
     expect(()=>validateStudioEntries([{selector:'#main > section:nth-of-type(1) > knaba-service-carousel:nth-of-type(1)',kind:'text',value:'Replace entire carousel'}])).toThrow(StudioInputError);
   });
+  it('supports bounded visual design tokens, not CSS or script injection',()=>{
+    const block='#main > section:nth-of-type(1)';
+    const title='#main > section:nth-of-type(1) > h2:nth-of-type(1)';
+    expect(validateStudioEntries([
+      {selector:block,kind:'background',value:'#123456'},
+      {selector:block,kind:'padding',value:'24'},
+      {selector:title,kind:'fontSize',value:'40'},
+    ])).toHaveLength(3);
+    for(const invalid of [
+      {selector:block,kind:'background',value:'url(javascript:alert(1))'},
+      {selector:block,kind:'padding',value:'999'},
+      {selector:title,kind:'fontSize',value:'calc(1px + 1vw)'},
+      {selector:block,kind:'fontSize',value:'24'},
+      {selector:title,kind:'padding',value:'24'},
+    ]) expect(()=>validateStudioEntries([invalid])).toThrow(StudioInputError);
+  });
   it('rejects invalid input shape and control characters',()=>{
     expect(()=>validateStudioEntries(null)).toThrow(StudioInputError);
     expect(()=>validateStudioEntries([{selector,kind:'text',value:'A\u0000B'}])).toThrow(StudioInputError);

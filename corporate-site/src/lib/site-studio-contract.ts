@@ -3,7 +3,7 @@
  * No HTML/CSS/script authoring, no arbitrary DOM selectors or remote images.
  * Editing operational fields, prices, sessions and live customer data is forbidden.
  */
-export type StudioKind = 'text' | 'href' | 'src' | 'alt' | 'color';
+export type StudioKind = 'text' | 'href' | 'src' | 'alt' | 'color' | 'background' | 'padding' | 'fontSize';
 export interface StudioEntry { selector: string; kind: StudioKind; value: string }
 export class StudioInputError extends Error {
   constructor(message: string) { super(message); this.name = 'StudioInputError'; }
@@ -13,7 +13,11 @@ const TAGS = '(?:section|div|article|aside|figure|figcaption|knaba-service-carou
 const selectorPattern = new RegExp('^#main(?: > ' + TAGS + ':nth-of-type\\((?:[1-9][0-9]?)\\)){1,10}$');
 const pagePattern = /^\/(?:[a-z0-9-]+\/){0,4}$/;
 const restricted = new Set(['api','studio','konto','postfach','portal','admin','login','logout','_astro','assets','images']);
-const allowedKinds = new Set<StudioKind>(['text','href','src','alt','color']);
+const allowedKinds = new Set<StudioKind>(['text','href','src','alt','color','background','padding','fontSize']);
+const blockTags = new Set(['section','div','article','aside','figure','blockquote','knaba-service-carousel']);
+const typographyTags = new Set(['h1','h2','h3','h4','h5','h6','p','span','a','strong','em','small','li','figcaption','blockquote','label','b','i']);
+const paddingPresets = new Set(['0','8','16','24','32','48','64']);
+const fontSizePresets = new Set(['12','14','16','18','20','24','28','32','40','48','56','64','72']);
 const reject = (message: string): never => { throw new StudioInputError(message); };
 const isPlain = (value: string) => !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f<>]/.test(value);
 export function normalizeStudioPage(input: unknown): string {
@@ -41,6 +45,13 @@ export function validateStudioEntries(input: unknown): StudioEntry[] {
     if(kind==='alt' && element!=='img') return reject('Alternativtext ist nur für Bilder erlaubt.');
     if(kind==='href' && (element!=='a' || !safeStudioHref(value))) return reject('Dieser Link ist nicht erlaubt.');
     if(kind==='color' && !/^#[0-9a-fA-F]{6}$/.test(value)) return reject('Bitte eine sechsstellige HEX-Farbe eingeben.');
+    if(kind==='background' && (!blockTags.has(element??'') || !/^#[0-9a-fA-F]{6}$/.test(value)))
+      return reject('Der Hintergrund ist nur für einen erlaubten Abschnitt mit HEX-Farbe editierbar.');
+    if(kind==='padding' && (!blockTags.has(element??'') || !paddingPresets.has(value)))
+      return reject('Abstand ist nur für einen erlaubten Abschnitt mit festem Wert editierbar.');
+    if(kind==='fontSize' && (!typographyTags.has(element??'') || !fontSizePresets.has(value)))
+      return reject('Schriftgröße ist nur für Text und in festen Stufen editierbar.');
+
     if(kind==='text' && selector!=='@title' && selector!=='@description' && ['img','section','div','article','aside','ul','ol','figure','knaba-service-carousel'].includes(element??'')) return reject('Bitte einen reinen Textbereich auswählen.');
     const unique=selector+'\u0000'+kind;
     if(seen.has(unique)) return reject('Doppelte Änderung.');

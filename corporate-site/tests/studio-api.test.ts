@@ -102,6 +102,27 @@ describe('KNABA Studio owner isolation + atomic draft/release',()=>{
     expect((await invoke('POST','/api/studio/draft',{page:'/',version:0,entries:[{...initial[0],value:'x'.repeat(33000)}]})).status).toBe(413);
     expect(sqlite.prepare('SELECT count(*) as n FROM studio_pages').get()).toEqual({n:0});
   });
+  it('reports owner-only AI readiness without disclosing keys or making paid calls',async()=>{
+    expect((await invoke('GET','/api/studio/ai-status',undefined,'anonymous')).status).toBe(401);
+    expect((await invoke('GET','/api/studio/ai-status',undefined,'admin')).status).toBe(403);
+    const initialStatus=await invoke('GET','/api/studio/ai-status');
+    expect(initialStatus.status).toBe(200);
+    expect(initialStatus.body.ready).toBe(false);
+    env.STUDIO_AI_ENABLED='true';
+    env.STUDIO_AI_APPROVED='true';
+    env.STUDIO_AI_API_KEY='test-secret-NEVER-show';
+    env.STUDIO_AI_MODEL='gpt-test';
+    env.STUDIO_AI_QUOTA_CHECKED_AT=new Date().toISOString();
+    env.STUDIO_AI_DAILY_BUDGET_CENTS='100';
+    env.STUDIO_AI_REQUEST_COST_CAP_CENTS='10';
+    const approved=await invoke('GET','/api/studio/ai-status');
+    expect(approved.status).toBe(200);
+    expect(approved.body.ready).toBe(true);
+    expect(JSON.stringify(approved.body)).not.toContain('test-secret-NEVER-show');
+    expect(sqlite.prepare('SELECT count(*) as n FROM studio_ai_budget').get()).toEqual({n:0});
+    env.STUDIO_AI_QUOTA_CHECKED_AT='2020-01-01T00:00:00Z';
+    expect((await invoke('GET','/api/studio/ai-status')).body.ready).toBe(false);
+  });
   it('does not spend on AI without a fresh authorized quota and budget',async()=>{
     const result=await invoke('POST','/api/studio/assist',{selector:editorSelector,text:'Saubere Räume',instruction:'Make it simpler',locale:'de'});
     expect(result.status).toBe(503);

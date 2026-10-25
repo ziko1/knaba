@@ -54,12 +54,21 @@ function nodePatch(html,node,edit){
   if(edit.kind==='href' && node.tagName==='a')return attrPatch(html,node,'href',edit.value);
   if(edit.kind==='src' && node.tagName==='img')return attrPatch(html,node,'src',edit.value);
   if(edit.kind==='alt' && node.tagName==='img')return attrPatch(html,node,'alt',edit.value);
-  if(edit.kind==='color'){
-    const current=node.attrs?.find(x=>x.name==='style')?.value||'';
-    return attrPatch(html,node,'style',current.replace(/;?\s*color\s*:\s*#[0-9a-f]{6}\s*;?/gi,'')+
-      (current?';':'')+'color:'+edit.value);
-  }
   return null;
+}
+const styleProperties={color:'color',background:'background-color',padding:'padding',fontSize:'font-size'};
+function stylePatch(html,node,entries){
+  const raw=node.attrs?.find(x=>x.name==='style')?.value||'';
+  const managed=new Set(Object.values(styleProperties));
+  const untouched=raw.split(';').map(x=>x.trim()).filter(declaration=>{
+    const key=/^([a-z-]+)\s*:/.exec(declaration)?.[1]?.toLowerCase();
+    return declaration && (!key || !managed.has(key));
+  });
+  const authored=entries.map(edit=>{
+    const property=styleProperties[edit.kind];
+    return property+':'+(edit.kind==='padding'||edit.kind==='fontSize'?edit.value+'px':edit.value);
+  });
+  return attrPatch(html,node,'style',[...untouched,...authored].join(';'));
 }
 export function renderPublishedPage(html,row){
   if(typeof html!=='string'||html.length>400000 || !row || !Number.isInteger(row.published_version) ||
@@ -74,10 +83,21 @@ export function renderPublishedPage(html,row){
     const main=findMain(document);
     if(!main)return html;
     const patches=[];
+    const stylesBySelector=new Map();
     for(const edit of bodyEdits){
       const node=findSelected(main,edit.selector);
       if(!node)continue;
+      if(Object.hasOwn(styleProperties,edit.kind)){
+        if(!stylesBySelector.has(edit.selector))stylesBySelector.set(edit.selector,{node,entries:[]});
+        stylesBySelector.get(edit.selector).entries.push(edit);
+        continue;
+      }
       const patch=nodePatch(html,node,edit);
+      if(patch && Number.isInteger(patch.start) && Number.isInteger(patch.end) &&
+        patch.start>=0 && patch.end>=patch.start && patch.end<=html.length)patches.push(patch);
+    }
+    for(const {node,entries} of stylesBySelector.values()){
+      const patch=stylePatch(html,node,entries);
       if(patch && Number.isInteger(patch.start) && Number.isInteger(patch.end) &&
         patch.start>=0 && patch.end>=patch.start && patch.end<=html.length)patches.push(patch);
     }
