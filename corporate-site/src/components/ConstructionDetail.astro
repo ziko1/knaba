@@ -4,14 +4,14 @@ import Icon from './Icon.astro';
 import {company} from '../data/company';
 import {siteConfig} from '../data/site';
 import type {ConstructionLocale,ConstructionOffer} from '../data/construction-offers';
-import {constructionBusinessCopy as copy,localeValue} from '../data/construction-offers';
+import {constructionBusinessCopy as copy,localeValue,constructionOffers} from '../data/construction-offers';
 const {locale='de',offer}=Astro.props as {locale:ConstructionLocale,offer:ConstructionOffer};
 const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
 const title=localeValue(offer.name,locale);const desc=localeValue(offer.description,locale);
 const contact=prefix+'/kontakt/?anliegen='+offer.slug;
 const isSpecial=!offer.core;
 const serviceUrl=new URL(prefix+'/bauleistungen/'+offer.slug+'/',siteConfig.origin).href;
-const related=(await import('../data/construction-offers')).constructionOffers.filter(candidate=>candidate.slug!==offer.slug && candidate.core===offer.core).slice(0,2);
+const related=constructionOffers.filter(candidate=>candidate.slug!==offer.slug && candidate.core===offer.core).slice(0,2);
 ---
 <Layout lang={locale} title={title+' | KnaBa Berlin'} description={desc}
 breadcrumbs={[{name:'KnaBa',url:prefix+'/'},{name:t.all,url:prefix+'/leistungen/'},{name:title,url:prefix+'/bauleistungen/'+offer.slug+'/'}]}
