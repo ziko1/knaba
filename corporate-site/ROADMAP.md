@@ -185,3 +185,19 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+
+## KN-SEO-52 — Search / AI discovery + first-party authorization checkpoint (2026-10-25)
+
+| ID | Goal / required evidence | State |
+|---|---|---|
+| KSEO-01 | Remove public VSP `noindex` only; preserve preview/private restrictions | SOURCE_PASS, Node24 isolated tests PASS; LIVE_NOT_DEPLOYED |
+| KSEO-02 | One canonical built-route sitemap, 72 DE/EN/UK/RU URLs, hreflang | SOURCE_PASS, build static verifier PASS |
+| KSEO-03 | 42 construction FAQs and four published routes, integrated with Studio | SOURCE_PASS, 144 Vitest incl FAQ; browser of PR52 NOT_RUN |
+| KSEO-04 | Header/mobile login CTA, VSP brand credit, accessible same-window first-party sign-in, old form fallback | SOURCE_PASS, Node VPS tests PASS; human/browser auth UAT NOT_RUN |
+| KSEO-05 | Registration of new untrusted public identities, email verification, Google/social OAuth, role approval | NOT_IMPLEMENTED for anonymous users; authenticated portal profile approval exists; no email provider |
+| KSEO-06 | Per-new-page automated SEO marketing, secure CMS-created dynamic paths, crawlable HTML and post-publish IndexNow queue | PARTIAL: existing built pages use SSR SEO; NEW_DYNAMIC_URL + INDEXNOW_AUTOMATION NOT_IMPLEMENTED |
+| KSEO-07 | 50 visible PRs (1..51, excluding absent #11) inventoried, preserve ERP and resolve conflicting branches | INVENTORY_DONE, acceptance-by-PR and source merge review OPEN |
+| KSEO-08 | Google/Bing/Webmaster verification, real crawl/index/ranking, performance baseline | NOT_RUN; indexing is not guaranteed |
+| KSEO-09 | Exact-source review + owner UAT + 95% disk guard + backup/rollback + controlled VSP build/release | LOCAL_SOURCE_QA_PASS, independent/live/release gates OPEN |
+
+No main merge, prod deploy or data mutation. Source-bound verification receipt: `docs/evidence/KNABA_PR52_QA_2026-10-25.md`. 

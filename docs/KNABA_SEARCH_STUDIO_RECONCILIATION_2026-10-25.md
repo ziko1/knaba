@@ -33,3 +33,9 @@
 - Copy only its safe FAQ data/component, DE/EN/UK/RU routes, home cards, locale path rules and FAQ regression test. Preserve the new auth/layout/SEO code in this branch.
 - Extended the central public `studioPages` to **72** built routes (4 FAQ locales) and automatic sitemap/hreflang. 4 FAQ pages can be edited/published in Studio.
 - Its PR source states **TESTS IN PROGRESS**; after this cross-feature integration tests/build/review remain NOT_RUN. No merged PR, no live deployment.
+
+## Fresh isolated QA / live read-only measurements — 2026-10-25
+- Application source: `d7267ce2d3a2b3700e71b0cf53ad059a2555eb3b`.
+- Node24 Docker `npm ci`, check, 23 Vitest files / 144 tests, VSP+preview build and verify-build, VPS Node tests all return 0.
+- VSP CSS gzip 30426 bytes, all emitted JS gzip 169751 bytes; VSP artifact `f3c9e0c3dce43c82d10f8d523f5013113d453c22d8c39809a636d0461269808d`, preview `0a2b7da7ed4913837108bed8bc6313680a1c1691a2e002c20be75ded3285d358`.
+- Live 72/72 HTTP200 current release (independent of tested source), root still `noindex`, VPS container `KNABA_RELEASE_MODE=unset`. 95% disk. No release performed. Full details: `docs/evidence/KNABA_PR52_QA_2026-10-25.md`.
