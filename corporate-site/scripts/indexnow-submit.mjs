@@ -15,7 +15,8 @@ export function collectPublicUrls(xml, expectedOrigin) {
   const unique=new Set();
   for (const value of urls) {
     const url=new URL(value);
-    if (url.origin !== expectedOrigin || url.search || url.hash || !/^\/[a-zA-Z0-9/_-]*$/.test(url.pathname)) {
+    if (url.origin !== expectedOrigin || url.search || url.hash || !/^\/[a-zA-Z0-9/_-]*$/.test(url.pathname) ||
+        /^\/(?:en\/|uk\/|ru\/)?(?:api|konto|postfach|portal|studio|crm)(?:\/|$)/.test(url.pathname)) {
       throw new Error('Unsafe or cross-origin sitemap URL');
     }
     unique.add(url.href);
