@@ -202,3 +202,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 
 ## 2026-10-25 — I18N99 on live VSP development server
 - Executable SHA 403c33a95b29311817c9c53910b07011c4cfa81b, 99 static routes expected HTTP statuses, 54 post-deploy Chromium pass, strict TLS and Turnstile config verified. Backup SHA 9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0. 4 published translations, 95 pending. Full receipt docs/I18N99_PR42_INTEGRATION_20261025_UK.md.
+
+
+## 2026-10-25 KNABA Studio Pro source (live-base candidate)
+- Current prior live VPS branch SHA 77c2a96a870d1ba0e5a0bf766dee1aca541ada8a; Studio executable SHA 24dd7fc826ff50c3fab9273ce9e654fbee2095b6 in isolated branch feat/knaba-studio-pro-livebase-20261025. 15 functional files over current PR48, no DB schema/auth-proxy/payment/package changes. Earlier tested branch b056747... was rebased by safe overlay to preserve PR48 200% mobile/keyboard picker hardening and real Turnstile.
+- 3 Studio design tokens (background HEX on section, pixel padding presets, font size presets), safe SSR style aggregation, visual/manual JSON modes, deterministic iframe undo, 68 public route picker, bundled file manifest and owner-only AI readiness flags. Existing PUBLISH/rollback/D1 versioning preserved.
+- RED→GREEN focused tests run for design SSR, 68-route inventory, AI readiness and local media. Node24 exact integrated SHA QA: 137/137 Vitest across 22 test files, 8/8 inquiry, 16/16 VPS Node tests, Astro/Vue/Svelte checks zero errors/warnings, 99 public HTML pages and static verifier PASS. Build artifact SHA256 80e1242106ebf75ab5dd608da099d896e363661c3fcef9aa1f243a2fa974b511. Synthetic private HTTPS Chromium owner login/Studio edit/undo/manual JSON/SSR/check no console errors PASS (not real owner/device).
+- Real VPS at intake ~96% disk used, /readyz=503 because genuine KNABA owner not enrolled. No paid AI credentials or actual quota verified. No external paid inference, no provider activation, no main merge or official knaba.de cutover. Independent reviewer and real owner UAT not certified. Detailed acceptance in docs/plans/2026-10-25-knaba-studio-pro.md.

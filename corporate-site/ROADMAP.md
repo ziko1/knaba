@@ -170,3 +170,12 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] 95 independently reviewed page/form/legal/assistant translations; do not advertise as available before done.
 - [ ] Human Turnstile completion, real owner authorization and Android/iPhone device testing.
 - [ ] External offsite backup/restore and disk usage improvement with verified non-destructive candidates.
+
+## STUDIO-PRO implementation and owner acceptance — 2026-10-25
+- [x] Owner-scope Studio Pro code: visual/manual JSON, live preview undo, layout design tokens, 68 public pages, curated local media, AI readiness endpoint, original revision/PUBLISH semantics preserved.
+- [x] Synthetic owner/auth/SSR/regression + desktop/mobile Chromium isolated test and Node24 source QA; exact code SHA 24dd7fc826ff50c3fab9273ce9e654fbee2095b6.
+- [ ] P0 Verified KNABA owner onboarding via protected stdin; real HTTPS login and editor/CRM UAT; /readyz=200 currently NOT DONE.
+- [ ] P0 Independent security review, physical mobile+PC accessibility incl 200% text, backup/restore rehearsal, disk warning (96% used), artifact and immutable rollback gating before production acceptance.
+- [ ] P1 Full component/block tree editing, reorder/add/delete templates, global header/footer/menu links with scoped published snapshot and review.
+- [ ] P1 Signed image upload storage, mime+SVG sanitization, content rights/resize, resource caps, deletion/rollback.
+- [ ] P1 Real AI provider authorization with fresh quota, cost cap, transfer/privacy approval; never enable on flags alone.
