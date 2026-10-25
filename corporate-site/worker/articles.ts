@@ -107,7 +107,7 @@ async function unpublish(db:D1Database,page:string,expected:number,actorId:strin
 }
 async function restore(db:D1Database,page:string,rid:string,expected:number,actorId:string){
   if(!/^[0-9a-f-]{36}$/i.test(rid))return fail(422,'revision','Ungültige Revision.');
-  const row=await db.prepare("SELECT snapshot_json FROM studio_revisions WHERE page_path=? AND id=? AND action IN ('draft','restore','published')").bind(page,rid).first<Row>();
+  const row=await db.prepare("SELECT snapshot_json FROM studio_revisions WHERE page_path=? AND id=? AND action IN ('draft','restore','published','unpublished')").bind(page,rid).first<Row>();
   if(!row)return fail(404,'revision_missing','Diese Revision existiert nicht.');
   const content=stored(row.snapshot_json);
   if(!content)return fail(422,'article_content','Diese Revision enthält keinen gültigen Artikel.');
