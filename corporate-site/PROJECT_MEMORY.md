@@ -255,3 +255,11 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Planner card is not a sixth service. ServiceCarousel, service slugs, CRM, ERP and additional services remain intact. Pastel mint/sage card visual now also applies to catalogue; non-emoji action arrows and dynamic ordinal labels.
 - Exact tested executable commit `b40c2e173e505ff9725449c30009fae02f131b3c`: Node24 check PASS; 152 Vitest + 16 Node PASS; 103-page build PASS; 8 published homepage/catalogue localized route-order and ordinal checks PASS. Artifact SHA256 `4360d614079371cf620ff495f43f0540df09cd129ce4a8b16128840922f99192`.
 - Full commands, limitations and release gates: `docs/KNABA_SERVICE_CARD_ORDER_QA_2026-10-25_UK.md`. Real screenshots, physical-device/200% zoom, independent review and live cutover **NOT_RUN**; Opera connector unavailable. No merge/deploy, new paid provider or live data mutation.
+
+## UXSVC-GRID live preview — 2026-10-25
+
+- Live **developer preview only** at `https://kneba.vsp.rest`: actual private integrated source SHA `b14b0be1cfd43100afb073780da7c4bd1e8e6c99`, parent active VPS SHA `9d06b6ae622267299f4ef820890064837587477f`. GitHub Draft PR #65 remains a **different source ancestry** and is not merged or promoted as the live tree.
+- Verified preview artifact SHA256 `c2e8e988a691ba989c4280569193910fa487b81f7d1a99afb8f37cf7d8c3e9d6` (177 files). Code QA 156 Vitest + 16 Node + 22 VPS, pre-release Chromium 32/32 card combinations and 116/116 index-route reflow checks. Independent live 8/8 locale home/catalogue routes with 01–06 and correct ordering; 96/96 live clickable action-center tests at 320/390 px; /healthz=200 and TLS valid.
+- Prior version `9d06b6ae...` and verified private SQLite backup retained for rollback. No DB migrations, CRM changes, owner grant, official `knaba.de` deploy or main merge. /readyz=503 persists as **owner enrollment required**, do not bypass.
+- An initial direct loopback smoke used an invalid Host and correctly received 421, causing a safe automatic rollback. Correct local check uses `-H 'Host: kneba.vsp.rest'`; Host validation unchanged.
+- Complete source-vs-release lineage, safety gates and evidence: `docs/KNABA_SERVICE_CARD_LIVE_RELEASE_2026-10-25_UK.md`. Physical mobile, Safari, native zoom, a11y/screen reader, real field CWV and owner UAT not yet accepted.
