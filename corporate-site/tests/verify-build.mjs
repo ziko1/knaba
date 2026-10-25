@@ -46,7 +46,7 @@ for (const file of pages) {
   assert.equal(currentLinks.length, 1, `${file}: exactly one selected language`);
   assert.equal(currentLinks[0][1], locale, `${file}: selected language matches document`);
   assert.doesNotMatch(html, /class="site-language-bar"|class="language-nav"/, `${file}: no duplicate language strip`);
-  if (!official) assert.match(html, /Temporäre Vorschau|Temporary preview|Тимчасовий сайт|Временный сайт/);
+  if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
   if (!official || /konto|postfach|studio|crm|404/.test(file)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
@@ -72,14 +72,27 @@ for (const file of pages) {
   assert.ok(graphs.length > 0, `${file}: structured data`);
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
   assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
-  if (file.includes('/leistungen/') && !file.endsWith('/leistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
-  if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Article'));
+  if (file.includes('/bauleistungen/') && !file.endsWith('/bauleistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
+  if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
+  if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html')) assert.match(html,/name="robots" content="noindex, follow"/);
   assert.match(html,/name="astro-view-transitions-enabled"/);
   for (const img of html.matchAll(/<img\b[^>]*>/g)) {
     assert.match(img[0], /alt="[^"]+"/);
     assert.match(img[0], /width="\d+"/);
     assert.match(img[0], /height="\d+"/);
   }
+}
+// Each locale must expose every construction offer in a JS-free, GET-only
+// project planner. Only the allowlisted offer slug may enter the URL.
+const expectedOffers=['baureinigung','bauzwischenreinigung','bauendreinigung',
+  'baustellenraeumung','bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
+for(const locale of ['de','en','uk','ru']) {
+  const prefix=locale==='de'?'':locale+'/';
+  const planner=await readFile(resolve(root,prefix+'planer/index.html'),'utf8');
+  assert.match(planner,/method="get"/,locale+': native GET form');
+  const values=[...planner.matchAll(/<input[^>]*name="anliegen"[^>]*value="([^"]+)"/g)].map(m=>m[1]);
+  assert.deepEqual(values,expectedOffers,locale+': full supported construction catalog');
+  assert.doesNotMatch(planner,/<astro-island/,locale+': no hydration for offer selection');
 }
 const cssGzip = assets
   .filter((a) => a.name.endsWith(".css"))
@@ -97,8 +110,15 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 22, 'Full Russian public route tree plus portal');
-assert.equal(russianPages.length, 23, 'Private Russian owner inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 30, 'Expanded localized Russian tree plus portal');
+assert.equal(russianPages.length, 31, 'Private Russian owner inbox is an additional noindex page');
+for(const locale of ['en','uk']) {
+  const page=await readFile(resolve(root,locale+'/konto/index.html'),'utf8');
+  assert.match(page,new RegExp('<html lang="'+locale+'"'));
+  assert.match(page,/name="robots" content="noindex, follow"/);
+  assert.ok(!/<link\s+rel="alternate"[^>]*hreflang=/.test(page),locale+': private routes must not generate SEO alternate link metadata');
+  assert.match(page,/astro-island/,locale+': portal should be an actual client island');
+}
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -123,9 +143,11 @@ const catalogue = JSON.parse(await readFile(resolve(root, 'api/catalogue.json'),
 assert.equal(catalogue.version, 1);
 const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
+for(const locale of ['en','uk']) assert.ok(robots.includes('Disallow: /'+locale+'/konto/'));
+
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,official?44:0);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,official?68:0);
 if(official) assert.match(robots,/Sitemap: https:\/\/knaba\.de\/sitemap\.xml/);
 else assert.doesNotMatch(robots,/Sitemap:/);
 const headers = await readFile(resolve(root,'_headers'),'utf8');

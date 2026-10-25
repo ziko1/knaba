@@ -1,6 +1,6 @@
 export const company = {
   name: "KnaBa",
-  descriptor: "Gebäudereinigung",
+  descriptor: "Baureinigung & BauService",
   legalName: "Alexander Knaus · KNABA Bauhelfer",
   phone: "+49 (30) 679 330 54",
   phoneHref: "tel:+493067933054",

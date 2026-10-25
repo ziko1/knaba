@@ -4,3 +4,14 @@
 - Isolated Docker limits: 1 CPU, 512 MiB RAM, PIDs 96; storage persistent and separate from code release.
 - VPS 197GiB filesystem, approx 14GiB free at intake (93% used). Do not delete unverified data/cache/backups.
 - Before any paid external API call verify actual balance, pricing and request-cost ceiling; reserve funds first.
+
+## 2026-10-25 preview rebrand
+Uses existing VPS and cached Node 24 Docker image; no paid AI/model APIs,
+new cloud services, domain purchases or billable workflows authorized.
+Actual provider quotas/remaining balances are UNKNOWN. Runtime data are not
+migrated or deleted. Runtime release requires atomic symlink rollback.
+
+### 2026-10-25 development continuation
+Cached Node 24 and Playwright containers only. No cloud-model or new paid
+subscriptions; actual quota/balance remains unknown. VPS disk ~94% full,
+12 GiB free at initial check. No destructive cleanup or live DB mutation.

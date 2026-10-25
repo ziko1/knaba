@@ -88,7 +88,7 @@ export function validateInquiry(
     /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(data.message)
   )
     errors.message = "Die Nachricht darf maximal 500 Zeichen enthalten.";
-  if (locale === "ru") for (const field of Object.keys(errors) as (keyof InquiryData)[]) errors[field] = publicText(errors[field]!, locale);
+  if (locale !== "de") for (const field of Object.keys(errors) as (keyof InquiryData)[]) errors[field] = publicText(errors[field]!, locale);
   return errors;
 }
 

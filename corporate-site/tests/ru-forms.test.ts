@@ -43,9 +43,9 @@ describe('Russian inquiry with stable backend contracts', () => {
     const slug = recommendService('construction', 'routine');
     const service = getService(slug, 'ru');
     expect(service.slug).toBe('baureinigung');
-    expect(service.name).toBe('Уборка после строительства');
+    expect(service.name).toBe('Строительный клининг');
     expect(getPreparation(slug, 'ru')).toContain('Укажите планируемую дату передачи или заселения');
-    expect(getPreparation('unknown', 'ru')).toEqual(getPreparation('bueroreinigung', 'ru'));
+    expect(getPreparation('unknown', 'ru')).toEqual(getPreparation('baureinigung', 'ru'));
   });
   it('shows actionable localized API errors and avoids server language leakage', () => {
     expect(publicApiError('rate_limit', 'ru', 'German server text')).toContain('Слишком много заявок');

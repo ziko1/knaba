@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type {ConstructionLocale} from '../data/construction-offers';
+const {locale,slug,kind='service'}=Astro.props as {locale:ConstructionLocale,slug:string,kind?:'service'|'guide'};
+const IDs=['unterhaltsreinigung','bueroreinigung','glasreinigung','baureinigung','grundreinigung','treppenreinigung','bueroreinigung-checkliste','bauendreinigung-vorbereiten','treppenhausreinigung-leistungsverzeichnis','reinigungsleistungen-vergleichen'];
+const id=String(Math.max(1,IDs.indexOf(slug)+1)).padStart(2,'0');
+const prefix=locale==='de'?'':'/'+locale;
+const t={
+ de:{title:'Unsere Leistungen am Bau',note:'Das Leistungsangebot wurde auf Baureinigung, Bauhilfe und Zusatzleistungen für Bauunternehmen neu ausgerichtet. Bitte nutzen Sie die aktuelle Übersicht.',cta:'Aktuelle Bauleistungen anzeigen'},
+ ru:{title:'Строительный клининг и BauService',note:'Мы обновили каталог: основное направление — строительный клининг, помощь на объектах и дополнительные работы по договору.',cta:'Посмотреть новые услуги'},
+ en:{title:'Construction cleaning and site services',note:'Our current services focus on construction cleaning and site support.',cta:'View current services'},
+ uk:{title:'Будівельний клінінг та BauService',note:'Тепер основні послуги — будівельний клінінг, допомога на майданчиках і додаткові роботи за договором.',cta:'Переглянути послуги'}
+}[locale];
+---
+<Layout lang={locale} title={t.title+' | KnaBa · '+(kind==='guide'?'R':'S')+id} description={t.note} noindex={true}>
+<section class="container page-intro"><p class="eyebrow">KnaBa / BAUSERVICE</p><h1>{t.title}</h1><p>{t.note}</p><a class="button button-dark" href={prefix+'/leistungen/'}>{t.cta} →</a></section>
+</Layout>

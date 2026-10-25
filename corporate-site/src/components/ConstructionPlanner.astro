@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {constructionOffers,constructionBusinessCopy as content,localeValue} from '../data/construction-offers';
+import type {ConstructionLocale} from '../data/construction-offers';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const t=content[locale];
+const prefix=locale==='de'?'':'/'+locale;
+const ui={
+  de:{
+    heading:'Bauprojekt anfragen',description:'Wählen Sie eine Bauleistung. Danach ergänzen Sie Objekt, Bauphase, Kontaktdaten und besondere Anforderungen in der geschützten Anfrage.',
+    selection:'Gewünschte Bauleistung',common:'Baureinigung & Bauhilfe',special:'Technische Arbeiten und Zusatzleistungen',
+    more:'Leistungsdetails ansehen',check:'Wichtige Punkte zur Vorbereitung',
+    submit:'Weiter zur Projektanfrage',notice:'Eine Anfrage ist noch kein Auftrag. Preis, Umfang, Eignung, Zuständigkeit und Ausführungstermin werden gesondert vereinbart.',
+    help:'Bitte nur eine Leistung auswählen. Weitere Arbeiten können Sie im Nachrichtenfeld ergänzen.',
+    specialNote:'Für Kernbohrungen und Durchführungen sind technische Freigaben, Prüfung von Leitungen und Statik, geeignete Fachunternehmen sowie separate Vertragsbedingungen erforderlich.'
+  },
+  en:{
+    heading:'Plan your construction project',description:'Choose the type of construction work. Add the location, project phase, contact details and requirements securely in the next step.',
+    selection:'Requested construction service',common:'Construction cleaning & site support',special:'Technical and additional services',
+    more:'View service details',check:'What to prepare',
+    submit:'Continue to project enquiry',notice:'An enquiry is not an order. Scope, technical feasibility, qualifications, cost and dates are confirmed separately.',
+    help:'Select one primary service. Describe additional tasks in the message field.',
+    specialNote:'Core drilling and wall or ceiling penetrations require assessment of utilities, structure, permits and qualified contractors before any separate agreement.'
+  },
+  uk:{
+    heading:'Планування будівельного проєкту',description:'Оберіть потрібні роботи. На наступному кроці вкажіть об’єкт, етап будівництва, контактні дані та особливі вимоги.',
+    selection:'Оберіть будівельну послугу',common:'Будівельний клінінг і помічники',special:'Технічні та додаткові роботи',
+    more:'Деталі послуги',check:'Що підготувати',
+    submit:'Перейти до заявки',notice:'Заявка не є замовленням. Обсяг, технічну можливість, виконавців, вартість і дату узгоджують окремо.',
+    help:'Оберіть один основний напрям. Додаткові роботи опишіть у повідомленні.',
+    specialNote:'Буріння бетону та проходки вимагають перевірки комунікацій, конструкцій, дозволів і кваліфікації виконавців до укладення окремого договору.'
+  },
+  ru:{
+    heading:'Планирование строительного проекта',description:'Выберите нужные работы. На следующем шаге укажите объект, этап строительства, контактные данные и особые условия.',
+    selection:'Выберите строительную услугу',common:'Строительный клининг и помощники',special:'Технические и дополнительные работы',
+    more:'Подробнее об услуге',check:'Что подготовить',
+    submit:'Перейти к заявке',notice:'Заявка не является заказом. Объём, техническую возможность, исполнителей, стоимость и дату согласуют отдельно.',
+    help:'Выберите одну основную услугу. Дополнительные работы опишите в сообщении.',
+    specialNote:'Бурение бетона и проходки требуют проверки коммуникаций, конструкций, разрешений и квалификации исполнителей до отдельного договора.'
+  }
+}[locale];
+const core=constructionOffers.filter(offer=>offer.core);
+const optional=constructionOffers.filter(offer=>!offer.core);
+---
+<Layout lang={locale} title={ui.heading+' | KnaBa'} description={ui.description}>
+<section class="container construction-request-page">
+  <header class="construction-request-header">
+    <p class="eyebrow">KnaBa / BAUSERVICE</p>
+    <h1>{ui.heading}</h1>
+    <p>{ui.description}</p>
+  </header>
+  <form class="construction-pick-form" method="get" action={prefix+'/kontakt/'}>
+    <fieldset>
+      <legend class="construction-legend">{ui.selection}</legend>
+      <p class="construction-instruction">{ui.help}</p>
+      <h2 class="construction-group-title">{ui.common}</h2>
+      <div class="construction-select-grid">
+        {core.map((offer,index)=><article class="construction-choice">
+          <label for={'bau-'+offer.slug} class="construction-choice-main">
+            <input id={'bau-'+offer.slug} type="radio" name="anliegen" value={offer.slug} checked={index===0} required />
+            <span class="construction-choice-symbol" aria-hidden="true">{offer.icon}</span>
+            <span class="construction-choice-title">{localeValue(offer.name,locale)}</span>
+            <span class="construction-choice-desc">{localeValue(offer.description,locale)}</span>
+          </label>
+          <details><summary>{ui.check}</summary><ul>{offer.steps.map(item=><li>{localeValue(item,locale)}</li>)}</ul>
+            <a href={prefix+'/bauleistungen/'+offer.slug+'/'}>{ui.more} ↗</a></details>
+        </article>)}
+      </div>
+      <h2 class="construction-group-title">{ui.special}</h2>
+      <p class="construction-special-note">{ui.specialNote}</p>
+      <div class="construction-select-grid">
+        {optional.map(offer=><article class="construction-choice construction-special">
+          <label for={'bau-'+offer.slug} class="construction-choice-main">
+            <input id={'bau-'+offer.slug} type="radio" name="anliegen" value={offer.slug} required />
+            <span class="construction-choice-symbol" aria-hidden="true">{offer.icon}</span>
+            <span class="construction-choice-title">{localeValue(offer.name,locale)}</span>
+            <span class="construction-choice-desc">{localeValue(offer.description,locale)}</span>
+          </label>
+          <details><summary>{ui.check}</summary><ul>{offer.steps.map(item=><li>{localeValue(item,locale)}</li>)}</ul>
+            <a href={prefix+'/bauleistungen/'+offer.slug+'/'}>{ui.more} ↗</a></details>
+        </article>)}
+      </div>
+    </fieldset>
+    <div class="construction-pick-submit">
+      <div><strong>{t.ready}</strong><p>{ui.notice}</p></div>
+      <button class="button button-dark" type="submit">{ui.submit} <span aria-hidden="true">↗</span></button>
+    </div>
+  </form>
+</section>
+</Layout>
+<style>
+.construction-request-page{padding-block:clamp(45px,5vw,85px) clamp(60px,7vw,110px)}
+.construction-request-header{max-width:900px;margin-bottom:35px}
+.construction-request-header h1{font-size:clamp(40px,5vw,72px);line-height:1.05;letter-spacing:-.065em;color:#0a323c;margin:15px 0 19px}
+.construction-request-header>p:last-child{font-size:clamp(17px,2vw,20px);line-height:1.65;max-width:740px;color:#526a65}
+.construction-pick-form fieldset{margin:0;padding:0;border:0;min-width:0}
+.construction-legend{font-size:clamp(23px,2.5vw,32px);font-weight:800;letter-spacing:-.035em;color:#143a41;margin-bottom:6px}
+.construction-instruction{font-size:14px;color:#5e736d;margin:6px 0 24px}
+.construction-group-title{font-size:21px;color:#164147;margin:26px 0 18px}
+.construction-select-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.construction-choice{min-width:0;border:1.5px solid #d0e3d8;border-radius:19px;background:#f5faf6;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.construction-choice:has(input:checked){border-color:#048c95;box-shadow:inset 0 0 0 1px #048c95,0 5px 19px #008b9114;background:#e9f7f2}
+.construction-choice:focus-within{outline:2px solid #0e8790;outline-offset:2px}
+.construction-choice-main{display:grid;grid-template-columns:25px 37px minmax(0,1fr);align-items:center;column-gap:12px;cursor:pointer;padding:23px;min-height:150px}
+.construction-choice-main input{grid-row:1/3;grid-column:1;width:21px;height:21px;accent-color:#008b94;margin:0}
+.construction-choice-symbol{grid-column:2;grid-row:1;font-size:28px}
+.construction-choice-title{grid-column:3;grid-row:1;font-size:19px;line-height:1.2;letter-spacing:-.022em;font-weight:780;color:#163d42;overflow-wrap:anywhere}
+.construction-choice-desc{grid-column:2/4;grid-row:2;font-size:13px;line-height:1.6;color:#547069;align-self:start;padding-top:12px}
+.construction-choice details{margin:0 22px 22px;background:#fff;border-radius:11px;padding:13px 15px;font-size:13px}
+.construction-choice summary{font-weight:750;cursor:pointer;color:#146b70;min-height:25px;line-height:1.5}
+.construction-choice details ul{padding-left:20px;margin:11px 0;line-height:1.65;color:#53685f}
+.construction-choice details a{color:#0a7d85;text-underline-offset:3px;overflow-wrap:anywhere}
+.construction-special{background:#fcf8ef;border-color:#ecd9b4}
+.construction-special-note{color:#694a25;border-radius:12px;padding:18px 21px;background:#fff2d9;border:1px solid #eecb8e;line-height:1.6;font-size:14px}
+.construction-pick-submit{display:flex;align-items:center;justify-content:space-between;gap:25px;background:#0e343e;color:#fff;border-radius:20px;margin-top:30px;padding:clamp(23px,4vw,40px)}
+.construction-pick-submit strong{font-size:clamp(19px,2.1vw,26px);line-height:1.2}
+.construction-pick-submit p{color:#c5d9d6;font-size:13px;line-height:1.6;max-width:660px}
+.construction-pick-submit button{flex:none;white-space:normal;min-height:56px;max-width:100%;text-align:center;justify-content:center}
+@media(max-width:680px){
+.construction-select-grid{grid-template-columns:minmax(0,1fr)}
+.construction-choice-main{min-height:128px;padding:20px}
+.construction-pick-submit{flex-direction:column;align-items:stretch}
+}
+@media(prefers-reduced-motion:reduce){.construction-choice{transition:none}}
+</style>

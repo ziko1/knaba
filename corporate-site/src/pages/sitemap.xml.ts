@@ -1,16 +1,9 @@
-import { russianPublicPaths } from '../lib/site-i18n';
 import { siteConfig } from '../data/site';
-import { services } from '../data/company';
-import { guides } from '../data/seo-content';
+import { constructionOffers } from '../data/construction-offers';
 import type { APIRoute } from 'astro';
-
 export const GET: APIRoute = () => {
-  // A sitemap contains indexable pages only. The temporary release is noindex.
-  const paths = siteConfig.temporary ? [] : [
-    '/', '/en/', '/uk/', ...russianPublicPaths, '/leistungen/', '/branchen/', '/unternehmen/', '/karriere/',
-    '/kontakt/', '/planer/', '/impressum/', '/datenschutz/', '/berlin/', '/ratgeber/',
-    ...services.map(s => `/leistungen/${s.slug}/`),
-    ...guides.map(g => `/ratgeber/${g.slug}/`),
-  ];
-  return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + paths.map(path=>`<url><loc>${siteConfig.origin}${path}</loc></url>`).join('')+'</urlset>\n', {headers:{'Content-Type':'application/xml; charset=utf-8'}});
+  const base=['/','/leistungen/','/branchen/','/unternehmen/','/karriere/','/kontakt/','/planer/','/berlin/','/ratgeber/',
+    ...constructionOffers.map(o=>'/bauleistungen/'+o.slug+'/')];
+  const paths=siteConfig.temporary?[]:['','/en','/uk','/ru'].flatMap(prefix=>base.map(path=>prefix+path));
+  return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+paths.map(p=>'<url><loc>'+siteConfig.origin+p+'</loc></url>').join('')+'</urlset>\n',{headers:{'Content-Type':'application/xml; charset=utf-8'}});
 };

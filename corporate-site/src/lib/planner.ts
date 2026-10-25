@@ -2,18 +2,18 @@ import { services } from "../data/company";
 import { localizedService, type PublicLocale } from "./public-i18n";
 
 export type ServiceSlug = (typeof services)[number]["slug"];
-export const defaultService: ServiceSlug = "bueroreinigung";
+export const defaultService: ServiceSlug = "baureinigung";
 export const objectChoices = [
-  { value: "office", label: "Büro & Gewerbe" },
-  { value: "housing", label: "Wohnimmobilie" },
-  { value: "construction", label: "Bauprojekt" },
-  { value: "education", label: "Bildung & Betreuung" },
+  { value: "office", label: "Gewerbebau & Sanierung" },
+  { value: "housing", label: "Wohnbau & Modernisierung" },
+  { value: "construction", label: "Neubau & Baustelle" },
+  { value: "education", label: "Technik & Leitungen" },
 ] as const;
 export const needChoices = [
-  { value: "routine", label: "Laufende Pflege" },
-  { value: "glass", label: "Fenster & Fassade" },
-  { value: "intensive", label: "Gründliche Reinigung" },
-  { value: "handover", label: "Nach Bauarbeiten" },
+  { value: "routine", label: "Bauzwischenreinigung" },
+  { value: "glass", label: "Baufeinreinigung" },
+  { value: "intensive", label: "Baustellenberäumung" },
+  { value: "handover", label: "Bauendreinigung" },
 ] as const;
 export type ObjectChoice = (typeof objectChoices)[number]["value"];
 export type NeedChoice = (typeof needChoices)[number]["value"];
@@ -22,17 +22,13 @@ export function isServiceSlug(value: unknown): value is ServiceSlug {
   return typeof value === "string" && services.some((item) => item.slug === value);
 }
 
-export function recommendService(object: ObjectChoice, need: NeedChoice): ServiceSlug {
-  if (need === "glass") return "glasreinigung";
-  if (need === "intensive") return "grundreinigung";
-  if (need === "handover" || object === "construction") return "baureinigung";
-  if (object === "housing") return "treppenreinigung";
-  if (object === "education") return "unterhaltsreinigung";
-  return "bueroreinigung";
+export function recommendService(_object: ObjectChoice, _need: NeedChoice): ServiceSlug {
+  // Published construction-cleaning requests use the stable existing CRM enum.
+  return "baureinigung";
 }
 
 export function getService(slug: string, locale: PublicLocale = "de") {
-  return localizedService(services.find((item) => item.slug === slug) ?? services[1], locale);
+  return localizedService(services.find((item) => item.slug === slug) ?? services.find((item)=>item.slug === defaultService)!, locale);
 }
 
 const preparation: Record<ServiceSlug, readonly string[]> = {

@@ -40,6 +40,12 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await fetchAt('/studio/')).status,200);
     assert.equal((await fetchAt('/crm/')).status,200);
     assert.match((await fetchAt('/crm/')).headers.get('X-Robots-Tag'),/noindex/);
+    for(const locale of ['en','uk']){
+      const portalPage=await fetchAt('/'+locale+'/konto/');
+      assert.equal(portalPage.status,200);
+      assert.match(portalPage.headers.get('x-robots-tag'),/noindex/i);
+      assert.match(await portalPage.text(),new RegExp('<html lang="'+locale+'"'));
+    }
     assert.equal((await fetchAt('/illustrations/hero-cleaning.svg')).status,200);
     assert.equal((await fetchAt('/.git/config')).status,404);
     const wrongHostStatus=await new Promise((resolve,reject)=>{
@@ -72,7 +78,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await logged.json()).role,'owner');
     assert.equal((await fetchAt('/api/crm/contacts',{headers:{Cookie:cookie}})).status,200);
 
-    const data={page:'/',version:0,entries:[{selector:'#main > section:nth-of-type(1) > p:nth-of-type(1)',kind:'text',value:'Sauber und sicher'}]};
+    const data={page:'/',version:0,entries:[{selector:'#main > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > strong:nth-of-type(1)',kind:'text',value:'KnaBa Bauprojekt'}]};
     const publishHeaders={...bodyHeaders,Cookie:cookie};
     const saved=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(data)});
     assert.equal(saved.status,200,await saved.text());
@@ -82,17 +88,17 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(pubReply.status,200,await pubReply.text());
     pub=await (await fetchAt('/api/studio/published?page=%2F')).json();
     assert.equal(pub.version,1);
-    assert.equal(pub.entries[0].value,'Sauber und sicher');
+    assert.equal(pub.entries[0].value,'KnaBa Bauprojekt');
     assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:bodyHeaders,body:JSON.stringify({page:'/',version:1,confirm:'PUBLISH'})})).status,401);
 
     // A saved draft must not affect crawlers until an explicit owner publish.
-    const actualParagraph='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
-    const actualLink='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+    const actualParagraph='#main > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2)';
+    const actualLink='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1)';
     const seoDraft={page:'/',version:1,entries:[...data.entries,
       {selector:'@title',kind:'text',value:'KnaBa · Neuer & sicherer Titel'},
-      {selector:'@description',kind:'text',value:'Offizielle Beratung für Gebäudereinigung & Bauhelfer.'},
-      {selector:actualParagraph,kind:'text',value:'Sauber und sicher für Bauprojekte & Büros'},
-      {selector:actualLink,kind:'href',value:'/leistungen/baureinigung/'}
+      {selector:'@description',kind:'text',value:'Baureinigung & Bauhelfer in Berlin.'},
+      {selector:actualParagraph,kind:'text',value:'Baustelle sauber zur Übergabe'},
+      {selector:actualLink,kind:'href',value:'/bauleistungen/baureinigung/'}
     ]};
     const saveSeo=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(seoDraft)});
     assert.equal(saveSeo.status,200,await saveSeo.text());
@@ -102,9 +108,9 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
       body:JSON.stringify({page:'/',version:2,confirm:'PUBLISH'})})).status,200);
     const rendered=await (await fetchAt('/')).text();
     assert.ok(rendered.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
-    assert.ok(rendered.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
-    assert.ok(rendered.includes('href="/leistungen/baureinigung/"'));
-    assert.ok(rendered.includes('content="Offizielle Beratung für Gebäudereinigung &amp; Bauhelfer."'));
+    assert.ok(rendered.includes('Baustelle sauber zur Übergabe'));
+    assert.ok(rendered.includes('href="/bauleistungen/baureinigung/"'));
+    assert.ok(rendered.includes('content="Baureinigung &amp; Bauhelfer in Berlin."'));
     assert.ok(rendered.includes(expectedCanonical));
     const privateSeo=await (await fetchAt('/studio/')).text();
     assert.ok(!privateSeo.includes('<title>KnaBa · Neuer'));
@@ -115,7 +121,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await (await fetchAt('/api/studio/published?page=%2F')).json()).version,2);
     const persistedHtml=await (await fetchAt('/')).text();
     assert.ok(persistedHtml.includes('<title>KnaBa · Neuer &amp; sicherer Titel</title>'));
-    assert.ok(persistedHtml.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
+    assert.ok(persistedHtml.includes('Baustelle sauber zur Übergabe'));
     assert.equal((await (await fetchAt('/api/portal/session',{headers:{Cookie:cookie}})).json()).role,'owner');
 
     const logout=await fetchAt('/logout/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Cookie:cookie},body:new URLSearchParams({return_to:'/'})});
@@ -169,6 +175,62 @@ test('vsp HTTPS canonical Host verification and narrowly scoped HSTS',async()=>{
     assert.equal((await probe('kneba.vsp.rest','http')).status,421);
   }finally{
     await prod.close();
+    await rm(dir,{recursive:true,force:true});
+  }
+});
+
+test('VPS real HTTP persists a qualified construction lead without affecting live data',async()=>{
+  // This database and synthetic email exist only inside this isolated test run.
+  const {prepareConstructionLead}=await import('../src/lib/construction-inquiry.ts');
+  const dir=await mkdtemp(join(tmpdir(),'knaba-construction-quote-'));
+  let app;
+  try {
+    app=await createKnabaVpsServer({
+      dbPath:join(dir,'site.sqlite'),
+      ownerEmail:'owner@example.invalid',
+      localTest:true,
+      staticRoot:new URL('../dist/client/',import.meta.url).pathname,
+      workerPath:new URL('../dist/server/index.js',import.meta.url).href,
+      host:'127.0.0.1',port:0,
+    });
+    const origin='https://knaba.de';
+    const input={
+      service:'baureinigung',objectType:'Baustelle',postcode:'10315',area:'120',
+      frequency:'Noch offen',name:'Synthetic QA',email:'qa-integration@example.invalid',
+      phone:'',message:'Ø 120 mm, Trassenplan und Statik zu prüfen',
+    };
+    const prepared=prepareConstructionLead(input,'kernbohrungen');
+    const payload={...prepared,idempotencyKey:'knaba-construction-integration-01',
+      privacyAccepted:true,website:''};
+    const headers={
+      Host:'knaba.de',Origin:origin,'Sec-Fetch-Site':'same-origin',
+      'X-KnaBa-Request':'portal-v1','Content-Type':'application/json',
+    };
+    const call=async(data, overrides={})=>fetch('http://127.0.0.1:'+app.port+'/api/leads',{
+      method:'POST',headers:{...headers,...overrides},body:JSON.stringify(data),
+    });
+    const first=await call(payload);
+    assert.equal(first.status,201,await first.clone().text());
+    const ack=await first.json();
+    assert.deepEqual(Object.keys(ack).sort(),['id','received']);
+    assert.equal(ack.received,true);
+    const row=app.db.prepare('SELECT service,object_type,message,postcode FROM cleaning_requests WHERE id=?').get(ack.id);
+    assert.equal(row.service,'baureinigung');
+    assert.equal(row.object_type,'Baustelle');
+    assert.equal(row.postcode,'10315');
+    assert.match(row.message,/kernbohrungen/);
+    assert.match(row.message,/Kernbohrungen/);
+    assert.match(row.message,/Ø 120 mm/);
+    assert.equal((await app.db.prepare('SELECT count(*) AS count FROM cleaning_requests').get().count),1);
+    const again=await call(payload);
+    assert.equal(again.status,200);
+    assert.equal((await again.json()).id,ack.id);
+    assert.equal((await call({...payload,message:payload.message+' altered'})).status,409);
+    assert.equal((await call(payload,{Origin:'https://evil.invalid'})).status,403);
+    assert.equal((await call({...payload,privacyAccepted:false})).status,422);
+    assert.equal(app.db.prepare('SELECT count(*) AS count FROM cleaning_requests').get().count,1);
+  } finally {
+    await app?.close().catch(()=>{});
     await rm(dir,{recursive:true,force:true});
   }
 });

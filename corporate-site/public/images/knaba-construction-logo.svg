@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 110" role="img" aria-labelledby="title">
+<title>KnaBa – Baureinigung &amp; BauService</title>
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#03ced1"/><stop offset="1" stop-color="#bbef31"/></linearGradient></defs>
+<path d="M51 4 98 30v48L51 105 4 78V30Z" fill="#093240" stroke="#b7eb33" stroke-width="2.7"/>
+<path d="m51 8 43 24v19L51 29 8 51V32Z" fill="url(#g)"/>
+<path d="m23 56 28-23 28 23v28l-28 17-28-17Z" fill="#093b46" stroke="#e3ffef" stroke-width="2.8"/>
+<path d="M51 34v63" stroke="#00d0d3" stroke-width="2"/>
+<circle cx="51" cy="69" r="20" fill="#06212d" stroke="#fff" stroke-width="2.8"/><circle cx="51" cy="69" r="12" fill="#e8faf3" stroke="#04b5c6" stroke-width="3"/><circle cx="51" cy="69" r="5.5" fill="#f9873c"/>
+<path d="M74 79h15M82 71v16" stroke="#bcf33e" stroke-width="3.5" stroke-linecap="round"/>
+<text x="116" y="75" font-family="Arial,Helvetica,sans-serif" font-size="66" font-weight="900" letter-spacing="-3" fill="#092f3d">KnaBa</text>
+<path d="m120 35 13-11 13 11-13 14Z" fill="#bef33c" opacity=".95"/>
+<text x="120" y="103" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="800" letter-spacing="1.6" fill="#098688">BAUREINIGUNG · BAUSERVICE</text>
+</svg>

@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {renderPublishedPage} from './render-page.mjs';
 const raw=readFileSync(new URL('../dist/client/index.html',import.meta.url),'utf8');
-const textSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
-const linkSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
+const textSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2)';
+const linkSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1)';
 const imageSelector='#main > section:nth-of-type(1) > div:nth-of-type(2) > img:nth-of-type(1)';
 const row=entries=>({published_json:JSON.stringify(entries),published_version:1});
 test('published leaf text and existing link/image attributes are rendered in actual HTML, without removing SVG icon',()=>{
@@ -14,11 +14,11 @@ test('published leaf text and existing link/image attributes are rendered in act
     {selector:imageSelector,kind:'alt',value:'KnaBa Reinigung & Bauhelfer'},
   ]));
   assert.match(result,/Neue Bauleistungen &amp; Qualität/);
-  assert.doesNotMatch(result,/Neben der Baureinigung nennt KnaBa/);
-  assert.match(result,/Bauhilfe anfragen/);
+  assert.doesNotMatch(result,/Büroreinigung/);
+  assert.match(result,/Bauprojekt anfragen/);
   assert.match(result,/href="\/leistungen\/baureinigung\/"/);
   assert.match(result,/alt="KnaBa Reinigung &amp; Bauhelfer"/);
-  assert.match(result,/hero-cleaning\.svg/);
+  assert.match(result,/baureinigung\.svg/);
   assert.ok(result.includes(raw.match(/<link rel="canonical" href="[^"]+"\/?>/)?.[0]));
   assert.ok(result.includes('<script'));
 });

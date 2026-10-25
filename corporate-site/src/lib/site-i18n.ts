@@ -1,41 +1,39 @@
-import { services } from '../data/company';
-import { guides } from '../data/seo-content';
-
-export type SiteLocale = 'de' | 'en' | 'uk' | 'ru';
-type Alternate = { lang: string; url: string };
-const germanPaths = [
-  '/', '/leistungen/', '/branchen/', '/unternehmen/', '/karriere/',
-  '/kontakt/', '/planer/', '/impressum/', '/datenschutz/', '/berlin/', '/ratgeber/',
-  ...services.map(service => `/leistungen/${service.slug}/`),
-  ...guides.map(guide => `/ratgeber/${guide.slug}/`),
+import {services} from '../data/company';
+import {guides} from '../data/seo-content';
+import {constructionOffers} from '../data/construction-offers';
+export type SiteLocale = 'de'|'en'|'uk'|'ru';
+type Alternate = {lang:string;url:string};
+const publicPaths = [
+ '/', '/leistungen/','/branchen/','/unternehmen/','/karriere/',
+ '/kontakt/','/planer/','/berlin/','/ratgeber/',
+ ...constructionOffers.map(item=>'/bauleistungen/'+item.slug+'/')
 ];
-export const russianPublicPaths = germanPaths.map(path => `/ru${path}`);
-const localizedPaths = new Set([...germanPaths, '/konto/']);
-
-function equivalentPath(pathname: string): string | undefined {
-  const path = pathname.replace(/^\/ru(?=\/)/, '') || '/';
-  if (path === '/en/' || path === '/uk/') return '/';
-  return localizedPaths.has(path) ? path : undefined;
+const publicSet = new Set(publicPaths);
+const legacyPaths=[
+ '/impressum/','/datenschutz/',
+ ...services.map(s=>'/leistungen/'+s.slug+'/'),
+ ...guides.map(g=>'/ratgeber/'+g.slug+'/'),
+];
+const germanPaths=[...new Set([...publicPaths,...legacyPaths])];
+export const russianPublicPaths=germanPaths.map(path=>'/ru'+path);
+function withoutLocale(path:string) {return path.replace(/^\/(?:ru|en|uk)(?=\/)/,'')||'/';}
+export function languageLinks(pathname:string):Alternate[] {
+ const path=withoutLocale(pathname);
+ if(path==='/konto/')return [
+  {lang:'de',url:'/konto/'},{lang:'en',url:'/en/konto/'},
+  {lang:'uk',url:'/uk/konto/'},{lang:'ru',url:'/ru/konto/'},
+ ];
+ if(publicSet.has(path))return [
+  {lang:'de',url:path}, {lang:'en',url:'/en'+path},
+  {lang:'uk',url:'/uk'+path}, {lang:'ru',url:'/ru'+path},
+ ];
+ const legacy=germanPaths.includes(path);
+ return [{lang:'de',url:legacy?path:'/'},{lang:'en',url:'/en/'},{lang:'uk',url:'/uk/'},{lang:'ru',url:legacy?'/ru'+path:'/ru/'}];
 }
-
-/** Detailed EN/UK translations do not exist; link to their honest overview. */
-export function languageLinks(pathname: string): Alternate[] {
-  const path = equivalentPath(pathname) ?? '/';
-  return [
-    { lang: 'de', url: path },
-    { lang: 'en', url: '/en/' },
-    { lang: 'uk', url: '/uk/' },
-    { lang: 'ru', url: `/ru${path}` },
-  ];
-}
-
-export function localeAlternates(pathname: string, existing: Alternate[] = []): Alternate[] {
-  const path = equivalentPath(pathname);
-  if (!path || path === '/konto/') return existing;
-  if (path === '/') return [...languageLinks(path), { lang: 'x-default', url: '/' }];
-  return [
-    { lang: 'de', url: path },
-    { lang: 'ru', url: `/ru${path}` },
-    { lang: 'x-default', url: path },
-  ];
+export function localeAlternates(pathname:string,existing:Alternate[]=[]):Alternate[]{
+ const path=withoutLocale(pathname);
+ if(path.startsWith('/konto/')||path.startsWith('/postfach/')||path.startsWith('/studio/')||path.startsWith('/crm/'))return existing;
+ if(publicSet.has(path))return [...languageLinks(path),{lang:'x-default',url:path}];
+ if(legacyPaths.includes(path))return [{lang:'de',url:path},{lang:'ru',url:'/ru'+path},{lang:'x-default',url:path}];
+ return existing;
 }

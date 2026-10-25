@@ -9,23 +9,23 @@ const catalogue = () => ({ version: 1, services: services.map(({ slug, name, des
 
 describe("useful recommendations", () => {
   it("maps routine object needs independently", () => {
-    expect(recommendService("office", "routine")).toBe("bueroreinigung");
-    expect(recommendService("housing", "routine")).toBe("treppenreinigung");
-    expect(recommendService("education", "routine")).toBe("unterhaltsreinigung");
+    expect(recommendService("office", "routine")).toBe("baureinigung");
+    expect(recommendService("housing", "routine")).toBe("baureinigung");
+    expect(recommendService("education", "routine")).toBe("baureinigung");
     expect(recommendService("construction", "routine")).toBe("baureinigung");
   });
   it("honors explicit special tasks over the object category", () => {
-    expect(recommendService("housing", "glass")).toBe("glasreinigung");
-    expect(recommendService("construction", "intensive")).toBe("grundreinigung");
+    expect(recommendService("housing", "glass")).toBe("baureinigung");
+    expect(recommendService("construction", "intensive")).toBe("baureinigung");
     expect(recommendService("office", "handover")).toBe("baureinigung");
   });
   it("updates the Pinia-derived recommendation without selecting a service", () => {
     setActivePinia(createPinia());
     const finder = useFinderStore();
     finder.chooseObject("housing");
-    expect(finder.recommendation).toBe("treppenreinigung");
+    expect(finder.recommendation).toBe("baureinigung");
     finder.chooseNeed("glass");
-    expect(finder.recommendation).toBe("glasreinigung");
+    expect(finder.recommendation).toBe("baureinigung");
   });
 });
 
@@ -39,7 +39,7 @@ describe("shared selection", () => {
     expect(observed).toEqual(["baureinigung"]);
     unsubscribe();
     store.getState().reset();
-    expect(store.getState().service).toBe("bueroreinigung");
+    expect(store.getState().service).toBe("baureinigung");
     expect(observed).toEqual(["baureinigung"]);
   });
   it("ignores invalid slugs and isolates store instances", () => {
@@ -48,11 +48,11 @@ describe("shared selection", () => {
     first.getState().selectService("glasreinigung");
     first.getState().selectService("../../kontakt");
     expect(first.getState().service).toBe("glasreinigung");
-    expect(second.getState().service).toBe("bueroreinigung");
+    expect(second.getState().service).toBe("baureinigung");
   });
   it("offers specific construction preparation and a safe fallback", () => {
     expect(getPreparation("baureinigung")).toContain("Geplanten Übergabe- oder Bezugstermin nennen");
-    expect(getPreparation("unknown")).toEqual(getPreparation("bueroreinigung"));
+    expect(getPreparation("unknown")).toEqual(getPreparation("baureinigung"));
   });
 });
 

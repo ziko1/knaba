@@ -42,7 +42,7 @@ function choose() { plannerStore.getState().selectService(suggestion.value.slug)
       <h3>{{ suggestion.name }}</h3>
       <p>{{ suggestion.description }}</p>
       <button class="button button-dark" type="button" @click="choose">{{ selected === suggestion.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →") }}</button>
-      <a :href="`${props.locale === 'ru' ? '/ru' : ''}/leistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
+      <a :href="`${props.locale === 'de' ? '' : '/'+props.locale}/bauleistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
     </div>
     <p class="note">{{ t("Nur eine Orientierungshilfe. Keine automatische Buchung und keine Preiszusage.") }}</p>
   </section>
