@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node scripts/preview-worker.mjs",
-    "build": "astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs",
+    "build": "node scripts/clean-build.mjs && astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs",
     "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
     "test": "vitest run && node --test tests/inquiry.test.mjs",
     "verify:build": "node tests/verify-build.mjs",
