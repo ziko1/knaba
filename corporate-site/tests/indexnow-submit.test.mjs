@@ -14,6 +14,7 @@ test('extracts only canonical sitemap URLs, not hreflang targets',()=>{
   assert.deepEqual(collectPublicUrls(xml,'https://knaba.de'),['https://knaba.de/','https://knaba.de/leistungen/']);
   assert.throws(()=>collectPublicUrls(xml,'https://kneba.vsp.rest'),/Unsafe/);
   assert.throws(()=>collectPublicUrls('<url><loc>https://knaba.de/konto/?token=1</loc></url>','https://knaba.de'),/Unsafe/);
+  assert.throws(()=>collectPublicUrls('<url><loc>https://knaba.de/ru/postfach/</loc></url>','https://knaba.de'),/Unsafe/);
 });
 test('key proof stays on identical HTTPS host',()=>{
   const args={origin:'https://knaba.de',urls:['https://knaba.de/'],key:'12345678',keyLocation:'https://knaba.de/12345678.txt'};
