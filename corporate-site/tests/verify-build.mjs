@@ -108,8 +108,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 35, 'Four full published Russian guides without losing old routes');
-assert.equal(russianPages.length, 36, '35 public Russian pages and private owner inbox');
+assert.equal(russianPublicPages.length, 34, 'Three new Russian guide files and one existing legacy URL converted to a full guide');
+assert.equal(russianPages.length, 35, '34 public Russian pages and one private owner inbox');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
