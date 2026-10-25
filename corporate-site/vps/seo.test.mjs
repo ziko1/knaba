@@ -15,6 +15,8 @@ test('published title and description update server HTML head, OG while preservi
   assert.match(result,/\<meta property="og:title" content="KnaBa – neue Leistungen &amp; Pflege"\/?\>/);
   assert.match(result,/\<meta name="description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
   assert.match(result,/\<meta property="og:description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
+  assert.match(result,/\<meta name="twitter:title" content="KnaBa – neue Leistungen &amp; Pflege"\/?\>/);
+  assert.match(result,/\<meta name="twitter:description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
   assert.ok(result.includes(html.match(/<link rel="canonical" href="[^"]+"\/?>/)?.[0]));
   assert.ok(result.includes(html.match(/<meta name="robots" content="[^"]+"\/?>/)?.[0]));
 });

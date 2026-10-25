@@ -26,15 +26,15 @@ const project=projectCard[locale];
 <section class="container cta-banner"><div><h2>{t.ready}</h2></div><a class="button button-dark" href={prefix+'/kontakt/'}>{t.cta} →</a></section>
 </Layout>
 <style>
-.bau-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
-.bau-offer{padding:28px;min-height:260px;background:#e9f5ed;border-radius:20px;display:flex;flex-direction:column;border:1px solid #d8e9df;text-decoration:none;color:#12353e}
+.bau-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px;min-width:0;max-width:100%}
+.bau-offer{padding:28px;min-height:260px;min-width:0;max-width:100%;background:#e9f5ed;border-radius:20px;display:flex;flex-direction:column;border:1px solid #d8e9df;text-decoration:none;color:#12353e}
 .bau-offer:nth-child(even){background:#e6f2f5}.bau-offer.special{background:#f2f3db}
-.bau-offer.bau-offer-request{background:linear-gradient(138deg,#103741,#086e73);color:#fff;border-color:#16777c}
-.bau-offer.bau-offer-request p{color:#e0efeb}.bau-offer.bau-offer-request>span{color:#dff5ad}
+.bau-offer.bau-offer-request{background:linear-gradient(135deg,#e7e2f7,#f3eff8);color:#14343b;border-color:#d6d3e8}
+.bau-offer.bau-offer-request p{color:#4c655f}.bau-offer.bau-offer-request>span{color:#075c63}
 .bau-offer:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
 .bau-offer h3{font-size:23px;line-height:1.18;margin:22px 0 12px;letter-spacing:-.03em;overflow-wrap:anywhere}
 .bau-offer p{font-size:14px;color:#546f67;line-height:1.7;flex:1}.bau-offer>span{margin-top:18px;font-weight:800;color:#0c838a;font-size:14px}
 .bau-icon{font-size:31px}.bau-disclaimer{max-width:850px;color:#59736c;line-height:1.75}
 @media(max-width:850px){.bau-offer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.bau-offer-grid{grid-template-columns:1fr}.bau-offer{min-height:210px}}
+@media(max-width:760px){.bau-offer-grid{grid-template-columns:1fr}.bau-offer{min-height:210px}}
 </style>

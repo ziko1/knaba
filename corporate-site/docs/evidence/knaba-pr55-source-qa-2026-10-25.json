@@ -1,0 +1,114 @@
+{
+  "schema": "knaba.qa.v1",
+  "project": "KnaBa corporate site",
+  "captured_on": "2026-10-25",
+  "target": "Draft PR #55",
+  "executable_source_sha": "07dbf5c8c0ba9771de50e183fbaf7ddd8bd611e0",
+  "source_parent_sha": "1a85b01be9947176c501eaa8acaf610afe0c21b2",
+  "execution": {
+    "environment": "unprivileged SentinelX user 998 on shared VPS, ephemeral /dev/shm, no live writes",
+    "runtime": "Node.js v24.22.1",
+    "node_tar_sha256_verified_from_official_shasums": true,
+    "npm": "11.19.1",
+    "install": "npm ci --ignore-scripts --no-audit --no-fund",
+    "astro_vue_svelte_typecheck": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "hints": 4
+    },
+    "unit_and_inquiry": {
+      "status": "PASS",
+      "inquiry_pass": 8,
+      "vitest_count": "NOT_RECORDED"
+    },
+    "astro_build": "PASS",
+    "static_build_verifier": {
+      "status": "PASS",
+      "artifact_sha256": "f5997c650aa31fbb2d0feb6cbe036f59008964c20a6929e20e8cfecdfad43705",
+      "hash_scope": "reported by repo's verify:build script; not asserted as zip/commit hash"
+    },
+    "vps_node_suite": {
+      "status": "PASS",
+      "pass": 19,
+      "fail": 0
+    },
+    "seo_standalone": {
+      "status": "PASS",
+      "pass": 3,
+      "fail": 0
+    },
+    "chromium": {
+      "version": "Google Chrome for Testing 156.0.8078.47",
+      "downloaded_zip_sha256": "e6c94490f0b6b337225aeb2d2a5034858516b7017356980ba94f5176d8774a50",
+      "site": "isolated 127.0.0.1 static preview, NOT kneba.vsp.rest deployment",
+      "service_card_reflow_cases": {
+        "status": "PASS",
+        "pass": 60,
+        "fail": 0,
+        "locales": [
+          "de",
+          "en",
+          "uk",
+          "ru"
+        ],
+        "widths_css_px": [
+          320,
+          390,
+          760,
+          1280
+        ],
+        "font_zoom_200_percent_tested_at_390": true
+      },
+      "footer_legal_overlap_cases": {
+        "status": "PASS",
+        "pass": 32,
+        "fail": 0
+      },
+      "full_device_a11y": "NOT_RUN"
+    }
+  },
+  "live_baseline": {
+    "target": "https://kneba.vsp.rest",
+    "live_source": "7e774c32863ad6b9f90a95288b5bd3495d941a51",
+    "matches_tested_source": false,
+    "public_sitemap_url_checks": {
+      "http_200": 72,
+      "total": 72,
+      "locales_each": 18
+    },
+    "checked_extra_internal_targets": {
+      "broken": 0,
+      "total": 6
+    },
+    "parsable_schema_counts": {
+      "LocalBusiness": 72,
+      "WebSite": 72,
+      "Service": 32,
+      "BreadcrumbList": 32
+    },
+    "owner_ready_http": 503,
+    "disk_percent_used_at_last_read": 96
+  },
+  "access": {
+    "github_status": "AccessLint success only; CI not inferred",
+    "git_main_merged": false,
+    "staging_code_deployed": false,
+    "owner_provisioned": false,
+    "oauth_google_real_provider": "NOT_CONFIGURED",
+    "search_console": "UNAVAILABLE_GSC_WIZARD_TRIAL_EXPIRED",
+    "pagespeed": "HTTP_429_QUOTA_EXCEEDED",
+    "search_rankings": "NOT_MEASURED",
+    "field_core_web_vitals": "NOT_MEASURED"
+  },
+  "pending": [
+    "independent_security_and_UI_review",
+    "release operator scoped access to protected deployment",
+    "owner verified authority and business services",
+    "live captcha human check",
+    "authenticated owner UAT",
+    "physical-device a11y/CWV",
+    "single canonical official-domain plan"
+  ],
+  "release_decision": "HOLD"
+}
