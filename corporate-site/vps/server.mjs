@@ -4,6 +4,8 @@ import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { editablePublicHtmlPath } from './seo.mjs';
+import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
 const mime={
   '.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8',
@@ -43,7 +45,7 @@ async function readBody(req,limit){
   }
   return Buffer.concat(chunks);
 }
-async function sendStatic(root,req,res,path){
+async function sendStatic(root,req,res,path,db){
   let decoded;
   try{decoded=decodeURIComponent(path);}catch{return send(res,400,'Bad path');}
   if(decoded.includes('\0')||decoded.includes('\\')||/\/\./.test(decoded))return send(res,404,'Not found');
@@ -65,7 +67,16 @@ async function sendStatic(root,req,res,path){
   }
   if(stats.size>10*1024*1024)return send(res,413,'Asset too large');
   const ext=extname(file).toLowerCase();
-  const bytes=await readFile(file);
+  let bytes=await readFile(file);
+  // Only published SEO fields appear in the HTTP HTML returned to crawlers.
+  // Drafts, private routes and error pages must never influence page metadata.
+  if(ext==='.html' && res.statusCode!==404 && editablePublicHtmlPath(decoded)){
+    const row=db.prepare('SELECT published_json,published_version FROM studio_pages WHERE page_path=?').get(decoded);
+    if(row?.published_version>0){
+      const transformed=renderPublishedPage(bytes.toString('utf8'),row);
+      bytes=Buffer.from(transformed,'utf8');
+    }
+  }
   const hashed=/\/_astro\//.test(path);
   const privatePath=/^\/(?:studio|crm|konto|postfach|ru\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
@@ -184,7 +195,7 @@ export async function createKnabaVpsServer({
       return res.end(Buffer.from(await reply.arrayBuffer()));
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed');
-    try{return await sendStatic(root,req,res,url.pathname);}catch{return send(res,503,'Service temporarily unavailable');}
+    try{return await sendStatic(root,req,res,url.pathname,db);}catch{return send(res,503,'Service temporarily unavailable');}
   });
   server.requestTimeout=20_000;
   server.headersTimeout=15_000;
