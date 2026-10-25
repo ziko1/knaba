@@ -33,3 +33,18 @@
 - Verify ID token: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
 
 **Verdict:** SOURCE_GATED_IDENTITY_FLOW_PASS / GOOGLE_LIVE_NOT_CONFIGURED / OWNER_NOT_PROVISIONED / NOT_DEPLOYED / NO_PRODUCTION_APPROVAL.
+
+## Final source acceptance addendum (subsequent to the initial five-test checkpoint)
+
+**Latest tested executable SHA**: `23a7623d95c2c2d17b94f76e0e2668988d4d3e54`.
+An additional classic non-JavaScript login link was added for enabled providers only, with regression assertions that the link is absent when Google is disabled. No code after this source SHA was changed by the receipt commits.
+
+Fresh unprivileged verified Node.js 24.22.1 test run:
+- **24/24 Vitest files, 146/146 tests PASS**, inquiry 8/8 PASS.
+- Astro/Vue/Svelte typechecks **0 errors, 0 warnings**; full build and static verifier PASS.
+- **26/26 VPS tests PASS**, including Google OIDC/JWKS/PKCE/pending-account simulated callback and owner anti-escalation suites.
+- Current static artifact verifier SHA256 `d4214e3a168145600171aa2c2fb89cc6819ad256eff7ccd50d2bd0f9f86cc1cb` applies only to this exact built artifact.
+- Machine-readable receipt: `corporate-site/docs/evidence/knaba-google-oidc-qa-2026-10-25.json`.
+- `git diff --check` for first source generation PASS; exact later code needs independent reviewer before any release.
+
+**Note:** Parallel KnaBa PR #58 adds invitation-based owner enrollment on a different branch and touches related auth contracts. Do not merge/release the two without source-pinned conflict review and runtime QA. No owner invitation or provider activation was performed here.
