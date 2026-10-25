@@ -16,7 +16,8 @@
     "db:generate": "drizzle-kit generate",
     "dev:content": "astro dev",
     "db:migrate:local": "wrangler d1 migrations apply DB --local --config dist/server/wrangler.json --persist-to .wrangler/state",
-    "test:visual": "node tests/design-seo-browser.cjs"
+    "test:visual": "node tests/design-seo-browser.cjs",
+    "test:reflow": "node tests/accessibility-reflow-browser.cjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "7.1.1",
