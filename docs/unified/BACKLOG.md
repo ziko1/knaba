@@ -36,3 +36,13 @@
 - KN-U05/U06: зовнішні email/WhatsApp delivery/receipts `BLOCKED_EXTERNAL`; не вдавати, що власник отримує push (доступна лише ручна перевірка inbox).
 - KN-U07: D1→ERP PostgreSQL міст **НЕ реалізовано**; наступний самостійний P0 з окремими E2E SQL тестами.
 - KN-U18 fail-closed release check обов'язковий незалежно від будь-яких локальних PASS.
+
+
+## KN-VOICE-360 — 2026-10-25 scoped queue (feature branch)
+- KN-V01: Safe DE/EN/RU/UK public role and intent router; local TDD tests passed; independent acceptance pending.
+- KN-V02: Web Speech browser button, multilingual synthesis, localized UI, explicit microphone permission, owner chat anchor; local type/test/build passed before final site nav update; real device test pending.
+- KN-V03: Localized assistant link on site header/mobile nav; candidate code, final check and responsive review pending.
+- KN-V04: True browser WebRTC media gateway with session auth, STT/TTS budget fencing and human softphone; NOT_IMPLEMENTED, requires verified provider/consent.
+- KN-V05: WhatsApp Business Calling/Messaging provider with eligible WABA, signed webhook, provider-aware VoIP handoff; BLOCKED_EXTERNAL credentials/quotas/pricing.
+- KN-V06: D1→ERP outbox/inbox, HR/worker reports, CRM/quotes, scoped operator queue; NOT_IMPLEMENTED, requires ERP business contract and synthetic SQL acceptance.
+- KN-V07: GDPR/§201 StGB legal/recording policy, company owner UAT, devices, field p95/CWV, disaster/rollback and explicit production release; BLOCKED_EXTERNAL/NOT_RUN.

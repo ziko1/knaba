@@ -57,3 +57,11 @@
 - Real **local** Wrangler Worker using synthetic D1 and artificial owner identity: guest POST 201, owner inbox GET 200, owner reply POST 201, guest message GET 200, mismatched owner 403. No real Sites Auth, real D1 production, real WhatsApp/email or user acceptance.
 - Release safety gate remains intentionally blocked (exit 1; 25 required conditions) and the PR is Draft/unmerged. Source-linked local checkpoint: `docs/evidence/knaba-unified/assistant-chat-local-20261024.json`.
 - Security blocker: verify that production Sites trusted identity headers are injected/sanitized and cannot be supplied by arbitrary browsers/direct-origin requests before any provider deployment. Also approve GDPR message retention, erasure, vendor AVV and operator access policy. No production changes or paid activation performed.
+
+
+## 2026-10-25 — KNABA Assistant 360 voice/dispatch candidate
+- Child feature branch: feat/knaba-assistant-360-voice-20261025 based on integration Draft PR #12 HEAD 1c15e5a4451ef26d080863ba3ddcaeaefbf7b0d4. Full plan: docs/plans/2026-10-25-knaba-assistant-360-voice.md.
+- Public-only DE/EN/RU/UK intent routing, role selector, click-to-listen browser Web Speech STT/TTS, stop/reset/locale cleanup, owner form handoff and discoverable site navigation in existing Astro/Solid UI. No backend auth, D1, ERP or old contract modified; worker/customer roles remain server protected.
+- Local Node 24.22.1 candidate checks: Vitest 96/96, Node inquiry 8/8, Astro/Vue/Svelte diagnostics clean, build/static verifier PASS before the final nav copy amendment; rerun on final SHA before claiming final proof. Browser-native microphone/vendor voices and actual live WhatsApp calling NOT_RUN.
+- No real WhatsApp Business account eligibility, phone/media provider, owner softphone, D1↔ERP bridge or legal/UAT acceptance confirmed. All external calls/providers remain off. No merge, production deploy or new paid activation. VPS disk ~95% used, capacity constrained.
+- Prior source pins and historical receipts remain unchanged; independent review and release gates remain open. Follow the new plan, not a claimed full product acceptance.

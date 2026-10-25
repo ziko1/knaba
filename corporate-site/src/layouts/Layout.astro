@@ -29,6 +29,7 @@ const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
 const languageLabel = {de:'Sprache',en:'Language',uk:'Мова',ru:'Язык'}[lang];
+const voiceNavLabel = {de:'KI sprechen',en:'Talk to KnaBa',uk:'Говорити з KnaBa',ru:'Говорить с KnaBa'}[lang];
 const translatedNav = {en:['Services (DE)','Planner (DE)','Sectors (DE)','About (DE)','Guides (DE)'],uk:['Послуги (DE)','Планер (DE)','Галузі (DE)','Про нас (DE)','Поради (DE)'],ru:['Услуги','Планер уборки','Отрасли','О нас','Советы']};
 const nav = [
   ["/leistungen/", "Leistungen"],
@@ -123,13 +124,13 @@ const structuredData = {
         <a class="button button-dark nav-cta" href={localPath("/kontakt/")}
           >{translated.quote} <Icon size={17} /></a
         >
-        <a class="account-link" href={`${localPath("/assistent/")}?lang=${lang}`}>{translated.account} ↗</a>
+        <a class="account-link" href={`${localPath("/assistent/")}?lang=${lang}`} aria-label={voiceNavLabel}>🎙 {voiceNavLabel}</a>
         <details class="mobile-nav">
           <summary aria-label={translated.menu}
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
           ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
             {nav.map(([href, text]) => <a href={href}>{text}</a>)}<a
-              href={localPath("/kontakt/")}>{translated.quote} →</a><a href={`${localPath("/assistent/")}?lang=${lang}`}>{translated.account}</a>
+              href={localPath("/kontakt/")}>{translated.quote} →</a><a href={`${localPath("/assistent/")}?lang=${lang}`}>🎙 {voiceNavLabel}</a>
           </nav>
         </details>
       </div>
