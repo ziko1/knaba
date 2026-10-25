@@ -108,6 +108,16 @@ describe('Studio owner-published multilingual knowledge pages',()=>{
    expect((await invoke('GET','/api/studio/article?page='+encodeURIComponent(articlePath))).body.published).toBeNull();
    expect((await invoke('POST','/api/studio/article/unpublish',{page:articlePath,version:1,confirm:'UNPUBLISH'})).body.unchanged).toBe(true);
    expect((db.prepare("SELECT count(*) as n FROM studio_revisions WHERE page_path=? AND action='unpublished'").get(articlePath) as {n:number}).n).toBe(1);
+   const history=(await invoke('GET','/api/studio/article?page='+encodeURIComponent(articlePath))).body.history as Array<{id:string;action:string}>;
+   const unpublishRevision=history.find(v=>v.action==='unpublished');
+   expect(unpublishRevision?.id).toMatch(/^[a-f0-9-]{36}$/);
+   const restored=await invoke('POST','/api/studio/article/restore',{
+     page:articlePath,version:1,revisionId:unpublishRevision?.id
+   });
+   expect(restored.status).toBe(200);
+   const afterRestore=await invoke('GET','/api/studio/article?page='+encodeURIComponent(articlePath));
+   expect(afterRestore.body.draft).toEqual(content);
+   expect(afterRestore.body.publishedVersion).toBe(0);
  });
 
 });
