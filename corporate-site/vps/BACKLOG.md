@@ -44,3 +44,8 @@
 - [ ] Real customer/owner Turnstile acceptance and provision authorized owner without passing a password in code.
 - [ ] Translate/legal-review pending 95 locales before any public localization claim or hreflang.
 - [ ] Physical devices, independent security review, verified external backup, safe disk pressure reduction.
+
+## 2026-10-25 — KNABA PR48 accessible mobile header/locale
+- [x] Verified code SHA `77c2a96a870d1ba0e5a0bf766dee1aca541ada8a` deployed to dev VPS, 200%-text header/skip/menu fix, locale-search Escape, verified 16+12 source-browser QA and 12+12 LIVE QA.
+- [x] SQLite online backup `pre-pr48-77c2a96a870d1ba0e5a0bf766dee1aca541ada8a-20261025T043507Z.sqlite`, integrity PASS; no schema/Compose/server changes, old immutable release preserved. See `docs/KNABA_PR48_MOBILE_200PCT_ACCESSIBILITY_2026-10-25_UK.md`.
+- [ ] Genuine physical-device 200% zoom/assistive-tech, real human CAPTCHA, owner enrollment (/readyz 503), GDPR, old Sites data reconciliation, field CWV and disk ~96%-utilization remedy remain pending.

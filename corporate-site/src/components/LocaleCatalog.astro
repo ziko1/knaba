@@ -39,6 +39,16 @@ function bindLocaleCatalog() {
       empty.hidden=count!==0;
     };
     input.addEventListener('input',filter);
+    // Native search inputs can consume Escape; close the picker explicitly.
+    input.addEventListener('keydown',(event)=>{
+      if(event.key!=='Escape')return;
+      event.preventDefault();
+      event.stopPropagation();
+      input.value='';
+      filter();
+      disclosure.open=false;
+      disclosure.querySelector<HTMLElement>('summary')?.focus();
+    });
     const load=async()=>{
       if(loaded||loading)return;
       loading=true;
