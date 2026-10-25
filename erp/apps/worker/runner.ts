@@ -9,7 +9,8 @@ import {authorizeAutomationRun} from '../../packages/domain/automation-authority
 import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assistant-playground.ts';
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
-import type {TelegramInbound} from '../../packages/integrations/telegram.ts';
+import type {TelegramInbound,TelegramBotAdapter} from '../../packages/integrations/telegram.ts';
+import {stageTelegramReply,processTelegramOutbound} from './telegram-delivery.ts';
 import {assistantToolCatalog,dispatchAssistantTools} from '../../packages/integrations/assistant-tools.ts';
 import {assistantToolHost} from '../api/assistant-runtime.ts';
 import {internalAssistantHost} from '../api/internal-assistant.ts';
@@ -28,7 +29,7 @@ import { DeepSeekAdapter, WhatsAppCloudAdapter, type WhatsAppInbound, type Whats
 
 export interface OutboxJob {id:string;company_id:string;type:string;data:Data;attempts:number;leased_until:string|Date;lease_token?:string;}
 export interface SqlRunner {query:(statement:string,params?:unknown[])=>Promise<{rows:any[]}>;}
-export interface WorkerOptions {integrationWebhook?:IntegrationWebhookAdapter;companyId:string;appMode:string;batchSize?:number;leaseMs?:number;maxAttempts?:number;now?:()=>Date;ai?:DeepSeekAdapter;whatsapp?:WhatsAppCloudAdapter;testRecipients?:string[];publicOrigin?:string;whatsappCapabilities?:{accountVerified:boolean;buttons:boolean;lists:boolean};}
+export interface WorkerOptions {integrationWebhook?:IntegrationWebhookAdapter;companyId:string;appMode:string;batchSize?:number;leaseMs?:number;maxAttempts?:number;now?:()=>Date;ai?:DeepSeekAdapter;whatsapp?:WhatsAppCloudAdapter;testRecipients?:string[];publicOrigin?:string;whatsappCapabilities?:{accountVerified:boolean;buttons:boolean;lists:boolean};telegram?:TelegramBotAdapter;telegramApprovedConsentVersion?:string;}
 const key=(...values:string[])=>createHash('sha256').update(values.join('\u0000')).digest('hex');
 const at=(value:string|Date)=>new Date(value).toISOString();
 export const serviceId='knaba-integration-service';
@@ -74,6 +75,7 @@ export class WorkerRunner {
   async handle(job:OutboxJob){switch(job.type){
     case 'whatsapp.inbound':case 'whatsapp.webhook_received':return this.inbound(job);
     case 'telegram.inbound':return this.telegramInbound(job);
+    case 'telegram.outbound_requested':return processTelegramOutbound(this.db,this.engine,job,this.options.telegram,this.options.telegramApprovedConsentVersion);
     case 'whatsapp.router_response':return this.routerResponse(job);
     case 'integration.outbound_requested':return processIntegrationOutbound(this.db,this.engine,job,this.options.integrationWebhook,this.now);
     case 'handoff.manager_reminder':{const result=await processHandoffReminder(this.db,this.engine,job,this.now().toISOString());if(result.status==='DEFERRED')throw new DeferredJob(result.notBefore);return result;}
@@ -164,7 +166,9 @@ export class WorkerRunner {
     await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WEB'},`web:${member.user_id}`);
     if(recipient.settings?.data.whatsapp_consent===true&&!recipient.settings?.data.opted_out)await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WHATSAPP'},`wa:${member.user_id}`);
     if(recipient.preference?.data.mode==='ORIGINAL_AND_AUTO'&&recipient.preference.data.target_language!==message.data.language&&recipient.actor.permissions.includes('translation.use'))await this.command(job,'translation.request',{message_id:message.id,target_language:recipient.preference.data.target_language},`translation:${member.user_id}`,recipient.actor);
-  }}
+  }
+    if(job.type==='message.created'&&channel.data.source_provider==='TELEGRAM')await stageTelegramReply(this.db,this.engine,job.company_id,message.id,job.data.version);
+  }
   private async delivery(job:OutboxJob){
     const entity=await this.entity(job,'delivery',job.data.delivery_id);
     if(['API_ACCEPTED','SENT','DELIVERED','READ','FAILED','DEAD_LETTER','UNKNOWN','CANCELLED'].includes(entity.data.status))return;
