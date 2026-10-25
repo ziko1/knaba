@@ -1,10 +1,9 @@
 import type {ConstructionLocale} from './construction-offers';
 
-// Original logos listed on the official company homepage; no new endorsements.
+// Show only logos currently evidenced on the official company homepage (2026-10-25).
+// Further partner names need confirmation from the company before public display.
 export const partnerSource = {url:'https://knaba.de/',checkedOn:'2026-10-25'} as const;
 export const partners = [
-  {name:'GOLDBECK',image:'/images/partners/goldbeck.jpeg',width:210,height:170},
-  {name:'Bonava',image:'/images/partners/bonava.jpeg',width:407,height:283},
   {name:'HIT · Hanseatische Immobilien Treuhand',image:'/images/partners/hit.png',width:400,height:400},
   {name:'Stromkreis',image:'/images/partners/stromkreis.png',width:1682,height:338},
   {name:'Gewobag',image:'/images/partners/gewobag.png',width:1200,height:367},
