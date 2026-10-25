@@ -1,0 +1,12 @@
+{
+  "status": "RED",
+  "sourceSha": "fec2fcf43017d36e47ae4064ce174f0e54e5eb0d",
+  "symptom": "Sequential preview then VSP build copied .prerender/_astro into client output",
+  "cssGzipTotal": 65393,
+  "publicCssGzip": 33754,
+  "budgetBytes": 40960,
+  "command": "KNABA_RELEASE_MODE=vsp npm run verify:build",
+  "exitCode": 1,
+  "log": "/tmp/knaba-guides-final-verify.log",
+  "proposedFix": "Clean only generated .astro-static and dist before building; no data/cache/schema deletion"
+}

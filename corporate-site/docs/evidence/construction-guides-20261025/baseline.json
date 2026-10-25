@@ -1,0 +1,20 @@
+{
+  "timeUtc": "2026-10-25T12:33:55.497284+00:00",
+  "sourceBase": "60361c9385dec42c46b942fc093357f7d31b0a13",
+  "checks": [
+    {
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "title": "Unsere Leistungen am Bau | KnaBa \u00b7 S08",
+      "robots": "noindex, follow",
+      "genericPlaceholder": true
+    },
+    {
+      "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 404,
+      "title": "Seite nicht gefunden | KnaBa",
+      "robots": "noindex, follow",
+      "genericPlaceholder": false
+    }
+  ]
+}

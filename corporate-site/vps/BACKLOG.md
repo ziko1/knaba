@@ -67,3 +67,10 @@
 - [ ] Real verified owner enrollment (/readyz503), authentic enquiry delivery and human CAPTCHA acceptance.
 - [ ] Explicit user approval for public GitHub source push; approval reviewer rejected public publication. Private source recovery patch is in current release directory.
 - [ ] Owner-supplied verified cases/photos/credentials; legal signoff; physical device a11y, security review, field CWV, external restore and disk maintenance.
+
+
+## Guides public-development release — 2026-10-25
+- [x] Published 5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c after preserving visual hotfix 8668458; 116 HTML routes resolve, 88 sitemap URLs, four-language browser flows PASS.
+- [x] Studio Article SSR metadata consistency and clean build outputs verified. No DB schema/auth/dependency changes.
+- [ ] Owner enrollment, real delivery/human CAPTCHA, legal review, physical-device accessibility, field CWV and offsite restore remain open.
+- [ ] Public source push needs explicit approval; recovery bundle retained privately. Existing PR58 owner invitation and PR56 auth/SEO remain separate work; no email sent in this task.

@@ -1,0 +1,26 @@
+{
+  "status": "DEV_CODE_DEPLOYED",
+  "target": "https://kneba.vsp.rest",
+  "sourceSha": "5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c",
+  "previousRelease": "visual-card-8668458cb06f-20261025",
+  "preservedSourcePatch": "8668458cb06f52a0920b2f90aadd7305d2995b63",
+  "clientSha256": "855a7c938166f9e4c1507641ad9c59392b81ebe4552680e80c451f81518ef95d",
+  "rendererSha256": "d6925dcee8900ddd94ec61463b3e9e0b3a8b98a13d91243e02fcd79f579602c2",
+  "timeUtc": "2026-10-25T12:57:51Z",
+  "backup": {
+    "path": "/var/lib/knaba/backups/knaba-2026-10-25T12-57-50-325Z.sqlite",
+    "sha256": "9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0",
+    "migrations": [
+      "0000_needy_war_machine.sql",
+      "0001_lazy_angel.sql",
+      "0002_tense_mother_askani.sql",
+      "0003_absurd_bedlam.sql",
+      "0004_dusty_hiroim.sql"
+    ],
+    "bytes": 217088
+  },
+  "databaseIntegrity": "ok",
+  "migrations": 5,
+  "composeSha256": "6883e120f521cf9251cf3221027cd8b82e609ab0d028511484ac32688f722604",
+  "publicSourcePush": "BLOCKED_BY_AUTO_REVIEW"
+}

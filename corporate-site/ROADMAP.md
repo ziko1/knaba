@@ -218,3 +218,13 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Independent content/code review, Node24 checks, browser candidate and live smoke, backup/source-pinned dev rollout at 7e774c3
 - [ ] Explicit approval to push source branch to public ziko1/knaba; automatic approval rejected publication, no PR created
 - [ ] Real owner and enquiry-delivery UAT, legal signoff, physical devices, field CWV, offsite restore and disk maintenance remain open
+
+
+## Construction guide rollout — 25.10.2026
+- [x] GUIDE-01/02: Four full construction guides in four locales, accessible contents/checklist, contextual enquiry and index cards
+- [x] GUIDE-03: 16 article versions, 88 Studio/sitemap routes, reciprocal locale alternates; existing preparation article restored
+- [x] GUIDE-05: Article JSON-LD follows published H1/description; drafts, invalid data and foreign nodes protected
+- [x] GUIDE-06: Clean repeatable preview→VSP builds; generated duplicates removed without touching persistent state
+- [x] GUIDE-04: Independent review, exact 5b5261e QA, guarded dev deployment, backup and live browser/HTTP checks; parallel contrast fix preserved
+- [ ] Real owner/editor/lead-delivery UAT and legal/device/CWV/offsite-backup acceptance
+- [ ] Explicit public GitHub push permission; coordinate existing auth/Studio PRs without duplicate implementation
