@@ -26,7 +26,7 @@ const translations = {
     crmText:'Kontakte, Verkaufsphasen, interne Notizen und echte Anfragen.',
     messagesText:'Gespräche mit Kunden und Übergaben vom KNABA Assistant.',
     studioText:'Seiten, Inhalte und Veröffentlichungen mit Vorschau bearbeiten.',
-    language:'Sprache', refresh:'Sitzung prüfen'
+    language:'Sprache', refresh:'Sitzung prüfen', unsaved:'Im Website-Editor gibt es ungespeicherte Änderungen. Trotzdem wechseln?'
   },
   en: {
     title:'One company. One workspace.', subtitle:'Website, jobs and customer communication in one place, with your existing KnaBa sign-in.',
@@ -36,7 +36,7 @@ const translations = {
     retry:'Try again', denied:'This workspace requires an approved KnaBa management account.', portal:'Go to personal portal',
     welcome:'Your control centre', choose:'Open section', operationsText:'Requests, jobs, team approvals and audit history in the existing portal.',
     crmText:'Contacts, sales stages, internal notes and real enquiries.', messagesText:'Customer conversations and KNABA Assistant handovers.',
-    studioText:'Edit pages, content and publications with live preview.', language:'Language', refresh:'Verify session'
+    studioText:'Edit pages, content and publications with live preview.', language:'Language', refresh:'Verify session', unsaved:'There are unsaved website edits. Leave this section anyway?'
   },
   uk: {
     title:'Одна компанія. Один кабінет.', subtitle:'Сайт, замовлення та спілкування з клієнтами в одному місці — з чинним входом KNABA.',
@@ -47,7 +47,7 @@ const translations = {
     welcome:'Центр керування', choose:'Відкрити розділ', operationsText:'Заявки, роботи, дозволи працівників та історія змін у чинному порталі.',
     crmText:'Контакти, етапи продажу, внутрішні нотатки та справжні заявки.',
     messagesText:'Розмови з клієнтами та передача звернень від KNABA Assistant.',
-    studioText:'Редагування сторінок, вмісту й публікацій із переглядом.', language:'Мова', refresh:'Перевірити сеанс'
+    studioText:'Редагування сторінок, вмісту й публікацій із переглядом.', language:'Мова', refresh:'Перевірити сеанс', unsaved:'У редакторі є незбережені зміни. Усе одно перейти до іншого розділу?'
   },
   ru: {
     title:'Одна компания. Один кабинет.', subtitle:'Сайт, заказы и общение с клиентами в одном месте — с существующим входом KNABA.',
@@ -58,7 +58,7 @@ const translations = {
     welcome:'Центр управления', choose:'Открыть раздел', operationsText:'Заявки, работы, права команды и история изменений в существующем портале.',
     crmText:'Контакты, этапы продаж, внутренние заметки и настоящие заявки.',
     messagesText:'Диалоги с клиентами и обращения от KNABA Assistant.',
-    studioText:'Редактирование страниц, содержимого и публикаций с предпросмотром.', language:'Язык', refresh:'Проверить сессию'
+    studioText:'Редактирование страниц, содержимого и публикаций с предпросмотром.', language:'Язык', refresh:'Проверить сессию', unsaved:'В редакторе есть несохранённые изменения. Всё равно перейти к другому разделу?'
   }
 } as const;
 
@@ -80,6 +80,8 @@ export default function AdminControlCenter() {
     overview:'',operations:t().operationsText,crm:t().crmText,messages:t().messagesText,studio:t().studioText
   }));
   let pending: AbortController | null = null;
+  let verifiedAt = 0;
+  const [studioDirty,setStudioDirty] = createSignal(false);
 
   function updateUrl(view: string, locale: PortalLocale) {
     const url = new URL(location.href);
@@ -88,7 +90,8 @@ export default function AdminControlCenter() {
     history.replaceState(history.state,'',url);
   }
   function openSection(view: AdminSection) {
-    if (!allowed().includes(view)) return;
+    if (!allowed().includes(view) || view===selected()) return;
+    if (selected()==='studio' && studioDirty() && !window.confirm(t().unsaved)) return;
     setRequested(view);
     updateUrl(view,language());
   }
@@ -100,8 +103,8 @@ export default function AdminControlCenter() {
     pending?.abort();
     const controller = new AbortController();
     pending = controller;
-    setPhase('checking');
-    setSession(null);
+    // Keep authorized editor state mounted during routine, successful revalidation.
+    if (!session()) setPhase('checking');
     const timer = setTimeout(() => controller.abort(),12000);
     try {
       const response = await fetch('/api/portal/session', {
@@ -112,9 +115,10 @@ export default function AdminControlCenter() {
       const data = await response.json() as PortalSession;
       if (pending !== controller) return;
       setSession(data);
+      verifiedAt = Date.now();
       setPhase('ready');
     } catch {
-      if (pending === controller) setPhase('error');
+      if (pending === controller) { setSession(null); setPhase('error'); }
     } finally {
       clearTimeout(timer);
       if (pending === controller) pending = null;
@@ -125,14 +129,18 @@ export default function AdminControlCenter() {
     setRequested(params.get('view') || 'overview');
     setLanguage(resolvePortalLocale(params.get('lang'),undefined,navigator.language.slice(0,2)));
     void verifySession();
-    const onFocus = () => { void verifySession(); };
-    const onVisibility = () => { if (!document.hidden) void verifySession(); };
+    const revalidate = () => { if (Date.now()-verifiedAt>15_000) void verifySession(); };
+    const onFocus = () => { revalidate(); };
+    const onVisibility = () => { if (!document.hidden) revalidate(); };
+    const onStudioDirty = (event:Event) => {setStudioDirty((event as CustomEvent<boolean>).detail===true);};
     window.addEventListener('focus',onFocus);
     document.addEventListener('visibilitychange',onVisibility);
+    window.addEventListener('knaba:studio:dirty',onStudioDirty);
     onCleanup(() => {
       pending?.abort();
       window.removeEventListener('focus',onFocus);
       document.removeEventListener('visibilitychange',onVisibility);
+      window.removeEventListener('knaba:studio:dirty',onStudioDirty);
     });
   });
   const signIn = () => '/login/?return_to=' + encodeURIComponent('/admin/?view=' + selected() + '&lang=' + language());
