@@ -232,3 +232,13 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Exact-source isolated Node24 check, 152 Vitest + 16 Node, 103-page build and 8/8 locale route-order tests: documented in `docs/KNABA_SERVICE_CARD_ORDER_QA_2026-10-25_UK.md` (tested code SHA `b40c2e173e505ff9725449c30009fae02f131b3c`).
 - [ ] Independent diff/design review, real Chromium/Safari screenshots at 320–1440 px, 200% zoom and screen-reader/mobile acceptance.
 - [ ] Version-pinned VSP preview roll-forward with backup+rollback after explicit release approval, then live smoke; official `knaba.de` rollout remains separately gated.
+
+## UXSVC-GRID — live preview acceptance 2026-10-25
+
+- [x] Canonical 01–06 layout with project CTA at 04 on DE/EN/UK/RU homepage and catalogue; icon/link/action CSS consistent, 4-locale source assertions.
+- [x] Integration on **latest private VPS baseline** with immutable actual live SHA `b14b0be1cfd43100afb073780da7c4bd1e8e6c99`; existing Studio FAQ/navigation recovered, no broad merge of divergent Draft PRs. Confirmed live `kneba.vsp.rest`, 8/8 public homepage/catalogue routes and 96 action-center interactive checks; 32 Chromium viewport cases and 116/116 route reflow PASS, previous release and SQLite backup intact.
+- [x] Independent artifact check (177 files) SHA256 `c2e8e988a691ba989c4280569193910fa487b81f7d1a99afb8f37cf7d8c3e9d6`, live /healthz=200, TLS verified. Detailed receipts: `docs/KNABA_SERVICE_CARD_LIVE_RELEASE_2026-10-25_UK.md`.
+- [ ] Owner enrollment /readyz 503, genuine Studio owner UAT and required security/privacy release gates — not bypassed.
+- [ ] Physical Android/iOS, Safari/Firefox, real browser 200% zoom, screen-reader QA, field CWV, owner-approved service/brand/legal acceptance, verified offsite restore.
+- [ ] P2 coherent locally hosted SVG service icons replacing platform-dependent emoji only after separate brand/design review; do not impact current approved layout or active feature delivery.
+- [ ] Official `knaba.de` release, source-publication gate and main merge **separately gated**; no inference from successful dev domain smoke.
