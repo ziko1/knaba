@@ -5,7 +5,7 @@ Scope: KnaBa only, repo ziko1/knaba. Candidate at kneba.vsp.rest. NO merge, prod
 ## Read-only live audit evidence (25 Oct 2026)
 - Homepage /: HTTP 200; X-Robots-Tag noindex, follow; restrictive CSP. Staging noindex is intentional until owner approval.
 - Sampled /, /en/, /uk/, /ru/, /leistungen/, /uk/leistungen/, /bauleistungen/baureinigung/, /uk/bauleistungen/kernbohrungen/, /kontakt/, /impressum/: HTTP 200, one h1, description, self canonical, hreflang, JSON-LD present. This sample is not a 100% site crawl.
-- /faq/: HTTP 404 on live. Candidate source has FAQ; verify deployment/version reconciliation and retest with browser after release.
+- /faq/: HTTP 404 in the early live audit, but **HTTP 200 on independent VPS recheck at about 11:56 UTC, 25 Oct**. The deployment changed separately; do not attribute this live fix to this draft PR.
 - /de/: HTTP 404 by design; canonical German homepage is /.
 - /sitemap.xml: HTTP 200 and ZERO loc elements during noindex. Public release is expected to generate 72 URL entries, 4 localizations x 18 service/navigation URLs. Do not submit noindex sitemap.
 - VPS disk: 197 GiB total, ~8.5 GiB free (96% used). New heavyweight installs, CI caches and production deployments are not justified without disk review.
@@ -57,3 +57,17 @@ Run from corporate-site only after a public release build is staged:
 - Search Console: https://developers.google.com/search/docs/monitor-debug/search-console-start
 - Bing IndexNow: https://www.bing.com/indexnow/getstarted
 - Consent mode v2: https://developers.google.com/tag-platform/security/guides/consent
+
+## 25 Oct continued QA and release checkpoint
+
+**Tested source SHA:** `4988e2012142f1b710ef78d3c658d13a211241cc`. **Artifact SHA-256 (preview):** `6090d8516bd8f9ff7b1e9f082be00a7b7f32716c38521772abfb6626c1900623`.
+
+- Docker Node 24.22.1, offline npm ci, `npm run check`, `npm test`, `npm run build`, `npm run verify:build`: PASS. Vitest 136/136, inquiry 8/8, IndexNow 3/3, new Studio SEO regressions 4/4.
+- Additional `node --test vps/server.test.mjs`: 2/2 PASS in synthetic SQLite/auth/Studio publish/restore environment, no real tenant data.
+- Preview static build: 103 pages, 30,423 bytes aggregate CSS gzip, 165,326 bytes aggregate emitted JS gzip; **not field transfer or Core Web Vitals**.
+- Synthetic official build only: 72 sitemap URL entries, 360 `xhtml:link` alternates; title/canonical/index and dummy Google/Bing site verification tags PASS. Not published, no indexing or submissions.
+- Isolated Chromium with cached image and no network: 24/24 localized cases PASS, 320/390/768/980/1440px coverage per the browser test, six visually distinct card backgrounds, no horizontal overflow, eight carousel slides and accessible initial skip-link hidden state. Screenshot evidence and SHA-256 checksums are in [source-pinned QA receipt](evidence/knaba-color-seo-qa-2026-10-25.json).
+- The initial screenshot contained a fixed skip-link artefact because capture happened after programmatic carousel scrolling; moving capture before interaction removed the artefact. No production CSS bypass.
+- No merge, no production deploy, no alteration to live database or analytics/paid provider activation. `kneba.vsp.rest` remains noindex. Last observed VPS disk was ~96% full; evaluate disk headroom before deployment.
+
+**Remaining acceptance**: independent code/security review, field/mobile device and 200% zoom/accessibility tests, owner content/legal review, current-site source reconciliation, release+rollback approval, Search Console/Bing property proof and noindex release decision.
