@@ -37,3 +37,8 @@
 - [ ] Genuine owner enrollment and live CMS/CRM UAT; /readyz returns 503 intentionally.
 - [ ] Physical Android/iOS browser checks, accessibility, legal review and external backup/restore.
 - [ ] Confirm revised service positioning with company owner before touching separate official knaba.de.
+
+## 2026-10-25 — footer privacy/assistant overlap acceptance
+- [x] На `kneba.vsp.rest` встановлено source `f58f6b03780c36e0b89a6c8ba3d851be0a991b84`: 32/32 4-language responsive privacy-link clearance і 4/4 short-page footer tests, SSL/health PASS, pre/post SQLite integrity PASS; compose/migrations unchanged.
+- [x] Попередній реліз та захищений онлайн-backup збережено; artifact digest/documentation у `docs/KNABA_ASSISTANT_FOOTER_CLEARANCE_2026-10-25_UK.md`.
+- [ ] Physical mobile devices, 200% browser zoom, screen-reader/accessibility, field metrics і реальний owner/CRM UAT залишаються не підтвердженими; disk близько 95%.

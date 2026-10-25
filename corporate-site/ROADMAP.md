@@ -115,3 +115,11 @@ Code mirror on GitHub: 68fed278b3460e554ebb70937002816e4cb6e66c, exact source tr
 - [ ] Confirm official legal service details, permits, specialist subcontractors and image/brand approval before knaba.de release.
 - [ ] Human independent design/accessibility review, real CWV and multi-device QA.
 - [ ] Translate legal notices only after professional/legal review; do not falsely label German legal text as EN/UK.
+
+## KNABA mobile footer & Assistant (25.10.2026)
+- [x] Зафіксовано RED перетин privacy/legal links та фіксованого Assistant у Chromium на 360–1440px.
+- [x] CSS clearance без додаткового білого/вертикального провалу; мінімум 44px hit areas на мобільних.
+- [x] 4 локалі × 8 ширин + 4 short-page regressions, перевірені на code SHA `f58f6b03780c36e0b89a6c8ba3d851be0a991b84` у build і live dev VPS; TLS, healthy та rollback-попередник підтверджено.
+- [ ] Фізичний Android/iOS UAT, 200% zoom та screen reader, незалежний людський review; не прирівнювати headless browser до device-ready.
+- [ ] Реальний власник/правові сторінки/попередній провайдер D1 і customer handover — окремі блокери.
+- Evidence: `docs/KNABA_ASSISTANT_FOOTER_CLEARANCE_2026-10-25_UK.md`.

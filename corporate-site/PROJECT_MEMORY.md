@@ -169,3 +169,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Public HTTPS with system CA verification: 99 built HTML routes have expected statuses (97 HTTP200 and 2 intentional 308 for the DE/RU legacy office pages), no unexpected errors. Extra EN/UK office URLs also redirect 308. HSTS max-age 604800, header and meta robots noindex/follow; Let's Encrypt SSL unchanged and valid. New squeegee/building SVG is served live.
 - Live Chromium automated 320x700, 390x844, 390x1550 and 768x1024 synthetic short-page footer test: bottom matches viewport and horizontal overflow zero.
 - Real owner account still unprovisioned (/readyz 503), on-device manual UAT and external-provider data export unverified. No paid providers used, no official knaba.de changes. VPS disk warning about 95 percent usage persists.
+
+## 2026-10-25 — перевірений live footer/KNABA Assistant collision fix (PR #37)
+- Дочірня Draft-гілка над PR #36. **Перевірений/deployed code SHA** `f58f6b03780c36e0b89a6c8ba3d851be0a991b84`, без merge. Документаційні коміти після code SHA не підмінюють identity виконуваного артефакту.
+- Усунуто перекриття footer legal links плаваючою кнопкою KNABA Assistant (при ширинах 360–1440px у RED), не створюючи новий вертикальний провал.
+- Node24 source check/test/build/SSR/VPS тести PASS; dev site після code-only оновлення: 32/32 локалізовані браузерні комбінації + 4/4 short-page PASS, strict HTTPS/health PASS, SQLite pre/post integrity PASS, current symlink перевірено, попередня версія й backup збережені.
+- Артефакт dist/client tree SHA256: `20c37b57e8a4ce7161f540ce66c6434a55136cfe7b35bedd57fc06ea49e2c71a`.
+- Подробиці, rollback і відкриті release gates: `docs/KNABA_ASSISTANT_FOOTER_CLEARANCE_2026-10-25_UK.md`. /readyz=503 без реального owner; фізичний пристрій, legal/GDPR, old data export, full security/UAT — NOT_READY. Shared VPS disk ~95%, без видалення даних.
