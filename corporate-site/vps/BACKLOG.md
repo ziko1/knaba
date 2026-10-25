@@ -74,3 +74,11 @@
 - [x] Studio Article SSR metadata consistency and clean build outputs verified. No DB schema/auth/dependency changes.
 - [ ] Owner enrollment, real delivery/human CAPTCHA, legal review, physical-device accessibility, field CWV and offsite restore remain open.
 - [ ] Public source push needs explicit approval; recovery bundle retained privately. Existing PR58 owner invitation and PR56 auth/SEO remain separate work; no email sent in this task.
+
+
+## Corporate template audit — 2026-10-25
+- [x] Candidate CORP-01..04: company facts, shared navigation, careers contact and catalog design; isolated QA + independent review.
+- [ ] Acquire approved real case studies/before-after photos/team images/references and factual qualification documents; no fake placeholders.
+- [ ] Consider printable project brief after validating need with B2B users; existing planner has no file export.
+- [ ] Storage health92.88% → below current90% cutover threshold; retain backups/data. Reconcile latest current pointer before dev rollout.
+- [ ] Human UAT, legal signoff and live owner/enquiry delivery remain open.

@@ -228,3 +228,17 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] GUIDE-04: Independent review, exact 5b5261e QA, guarded dev deployment, backup and live browser/HTTP checks; parallel contrast fix preserved
 - [ ] Real owner/editor/lead-delivery UAT and legal/device/CWV/offsite-backup acceptance
 - [ ] Explicit public GitHub push permission; coordinate existing auth/Studio PRs without duplicate implementation
+
+
+## Corporate template increment — 2026-10-25
+Source request: inspect what the KNABA corporate website template lacks and implement the useful gaps.
+Base: 7590f15db7e1590afe6eaef1388f1963a5042b66; active developer release observed 5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c.
+Root owns implementation; Codex corporate_audit provides independent audit/review; no external paid dispatch.
+- CORP-01: factual company profile on company page and discoverable home teaser, DE/EN/UK/RU; existing company data only, no fabricated trust claims.
+- CORP-02: shared breadcrumbs on nine public page types and correct desktop/mobile current section, preserve deep-page breadcrumbs and private routing.
+- CORP-03: careers actions open localized email intent instead of construction quotation wizard; no automatic sending or new form storage.
+- CORP-04: harmonize final catalog tile with homepage and localize timeline kicker; mobile/desktop, keyboard and four-language checks.
+- Evidence planned: Node24 check/test/build/verify, navigation regression tests, Chromium route/reflow/CTA checks, independent diff review.
+- Publication/deployment separate from code acceptance. Public source publication previously blocked; preserve privately unless authorized.
+
+CORP-01..04 candidate checks complete; independent review ACCEPT; exact source and commands in docs/KNABA_CORPORATE_TEMPLATE_2026-10-25_UK.md. Live publication remains BLOCKED, not marked as deployed.

@@ -256,3 +256,9 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Exact final SHA: checks zero errors/warnings, 152 Vitest + 8 inquiry + 20 VPS tests PASS. Static 117 HTML PASS. Candidate: 20 guide/index pages, four enquiry flows, four locale switches, four keyboard cases, 28 responsive/200% cases and 16 home cases PASS. Live: eight flows and four locale switches PASS, all POST blocked. HTTP: 114 direct 200 plus two expected retired-office 308→200.
 - Client SHA256 855a7c938166f9e4c1507641ad9c59392b81ebe4552680e80c451f81518ef95d, 177 files; compiled renderer d6925dcee8900ddd94ec61463b3e9e0b3a8b98a13d91243e02fcd79f579602c2. Fresh SQLite backup, integrity ok, five migrations unchanged, container healthy. No auth/dependency/payment/main/official-domain changes.
 - Public GitHub push still requires explicit authorization after previous automatic rejection; not retried. Private incremental source bundle retained on VPS. Real owner enrollment (/readyz503), genuine delivery/CAPTCHA, legal/device/CWV and offsite restore remain unverified. Details: docs/KNABA_GUIDES_RELEASE_2026-10-25_UK.md.
+
+
+## Corporate template candidate — 2026-10-25
+- Code `addff803dcb537af7272d468ecd3dd4990f626d3`: factual company profile/home link, shared public breadcrumbs and active navigation, localized careers email route, catalog-card consistency. Four locales, no dependencies/data/auth changes.
+- 159 Vitest +8 form Node +20 VPS Node, check/build/static117 pages and67 Chromium cases PASS; independent Codex corporate_audit ACCEPT. Evidence: docs/KNABA_CORPORATE_TEMPLATE_2026-10-25_UK.md.
+- NOT_DEPLOYED: storage92.88%, cutoverAllowed=false; no public source push (prior rejection remains). Physical device/legal/real owner/UAT/CWV remain NOT_RUN. Next: owner proof content, storage health and source-current reconciliation before authorized dev rollout.

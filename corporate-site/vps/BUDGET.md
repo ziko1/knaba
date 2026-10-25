@@ -21,3 +21,7 @@ migrated or deleted. Runtime release requires atomic symlink rollback.
 ## Guides release — 2026-10-25
 - Existing Node24 and cached Chromium reused; no paid provider/dependency activation. Archive 778282 B; SQLite backup 217088 B. About 9.2 GiB free / 96% used before deployment. No runtime-data cleanup.
 - Final public CSS 33872 B gzip; all emitted JS 169470 B gzip (+105 B versus full-site audit baseline). Server-rendered article copy adds no client content library. These are build sizes, not field latency or CWV.
+
+
+## Corporate template candidate — 2026-10-25
+Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: root implementation, corporate_audit independent review. No paid provider/CI service activated, quotas UNKNOWN. JS payload unchanged; no server mutation or cleanup performed.

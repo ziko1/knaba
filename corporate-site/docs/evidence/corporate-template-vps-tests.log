@@ -1,0 +1,28 @@
+✔ audit never bootstraps missing customer database (86.443605ms)
+✔ audit is genuinely read-only, migration count and integrity verified (113.744264ms)
+✔ published article edits keep JSON-LD aligned with rendered H1 and description (53.782555ms)
+✔ article sync does not publish drafts, accept invalid HTML edits or rewrite malformed JSON-LD (7.097775ms)
+✔ a search title edit preserves visible article headline and unrelated structured data (2.905852ms)
+✔ only the canonical article is synchronized and ambiguous headings fail closed (17.475945ms)
+✔ owner published section background+padding and headline font size combine safely (16.242454ms)
+✔ unsafe design tokens fail closed, preserving original HTML (0.328303ms)
+✔ published leaf text and existing link/image attributes are rendered in actual HTML, without removing SVG icon (50.580692ms)
+✔ content edits in draft, invalid tokens and paths are never sent in HTML (0.39915ms)
+✔ missing/outdated selectors cannot corrupt HTML or remove scripts (16.594187ms)
+✔ Server-side published color and SEO are escaped and stable (12.424322ms)
+✔ published title and description update server HTML head, OG while preserving canonical/robots (1.66567ms)
+✔ no drafts/empty/corrupt published or duplicate SEO entries are rendered (0.210637ms)
+✔ untrusted content never creates script, attributes, or second tags (1.0192ms)
+✔ title metadata updates do not change the body or head for non SEO edits (0.174993ms)
+✔ official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup (457.420706ms)
+✔ vsp HTTPS canonical Host verification and narrowly scoped HSTS (22.608521ms)
+✔ storage safety: normal, low-free, high-usage and critical profiles (1.073291ms)
+✔ unknown/impossible measurements fail closed (0.42595ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 602.597182
