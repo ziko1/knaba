@@ -54,6 +54,12 @@ const base = (process.env.KNABA_TEST_URL || 'http://127.0.0.1:4321').replace(/\/
           assert.equal(await page.locator('[data-locale-empty]').isVisible(),true);
           await page.keyboard.press('Escape');
           assert.equal(await page.locator('.site-language-switcher').evaluate(e=>e.open),false);
+          assert.equal(await menu.evaluate(e=>document.activeElement===e),true,'Escape returns focus to the locale trigger');
+          await menu.click();
+          assert.equal(await page.locator('[data-locale-item]').count(),95,'Reopen retains the 95 pending entries');
+          assert.equal(requests,1,'Reopen must reuse the already fetched manifest');
+          await page.keyboard.press('Escape');
+          assert.equal(await page.locator('.site-language-switcher').evaluate(e=>e.open),false);
           cases++;
           console.log('LANG_BROWSER_PASS',route,width,JSON.stringify({pending:evidence.pending,requests,overflow:evidence.overflow,panel:evidence.panel}));
         } finally { await page.close(); }
