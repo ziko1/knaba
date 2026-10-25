@@ -232,3 +232,21 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Exact-source isolated Node24 check, 152 Vitest + 16 Node, 103-page build and 8/8 locale route-order tests: documented in `docs/KNABA_SERVICE_CARD_ORDER_QA_2026-10-25_UK.md` (tested code SHA `b40c2e173e505ff9725449c30009fae02f131b3c`).
 - [ ] Independent diff/design review, real Chromium/Safari screenshots at 320–1440 px, 200% zoom and screen-reader/mobile acceptance.
 - [ ] Version-pinned VSP preview roll-forward with backup+rollback after explicit release approval, then live smoke; official `knaba.de` rollout remains separately gated.
+
+## UXSVC-GRID — live preview acceptance 2026-10-25
+
+- [x] Canonical 01–06 layout with project CTA at 04 on DE/EN/UK/RU homepage and catalogue; icon/link/action CSS consistent, 4-locale source assertions.
+- [x] Integration on **latest private VPS baseline** with immutable actual live SHA `b14b0be1cfd43100afb073780da7c4bd1e8e6c99`; existing Studio FAQ/navigation recovered, no broad merge of divergent Draft PRs. Confirmed live `kneba.vsp.rest`, 8/8 public homepage/catalogue routes and 96 action-center interactive checks; 32 Chromium viewport cases and 116/116 route reflow PASS, previous release and SQLite backup intact.
+- [x] Independent artifact check (177 files) SHA256 `c2e8e988a691ba989c4280569193910fa487b81f7d1a99afb8f37cf7d8c3e9d6`, live /healthz=200, TLS verified. Detailed receipts: `docs/KNABA_SERVICE_CARD_LIVE_RELEASE_2026-10-25_UK.md`.
+- [ ] Owner enrollment /readyz 503, genuine Studio owner UAT and required security/privacy release gates — not bypassed.
+- [ ] Physical Android/iOS, Safari/Firefox, real browser 200% zoom, screen-reader QA, field CWV, owner-approved service/brand/legal acceptance, verified offsite restore.
+- [ ] P2 coherent locally hosted SVG service icons replacing platform-dependent emoji only after separate brand/design review; do not impact current approved layout or active feature delivery.
+- [ ] Official `knaba.de` release, source-publication gate and main merge **separately gated**; no inference from successful dev domain smoke.
+ 
+## Site-to-ERP lead bridge — 2026-10-25
+
+- [x] Source-only additive SQLite/D1 lead reference outbox created; one public lead+audit+outbox transaction with replay and rollback tests.
+- [x] Reuse actual ERP HMAC integration receiver and owner-approved allowed service mapping; opt-in CLI `--once` disabled by default, exact request/digest and 5 bounded retries with state transitions, STOP after blocking mismatched privacy/endpoint/source.
+- [x] Owner-only site CRM aggregate dashboard counts, no external transfer button or PII exposure.
+- [x] Synthetic HMAC publisher tests and real SQLite->PostgreSQL17 in-process contract check with lost ACK + one ERP lead.
+- [ ] **External rollout blocked:** owner identity and lawful privacy consent, real BotFather/Meta/ERP integrations, provider quotas, actual domain HTTPS connectivity, backup/restore, owner UAT, separate migration approval and independent security review. Continue prior published site and Studio tasks independently.
