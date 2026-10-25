@@ -36,3 +36,12 @@ One shared `Layout.astro` supplies header/footer for DE/EN/UK/RU and route varia
 - Source-only Draft PR #72; no deployment/merge. Full Node24 `npm ci`, `npm run check`, `npm test`, `npm run build`, `npm run verify:build`, real browser and independent review remain release gates. Exact commit must be re-read from GitHub after the QA-only patch.
 
 - Security regression: the new browser gate does not add `--no-sandbox` or browser-policy bypass flags.
+
+## Client export and fresh verification — 2026-10-25
+- A/B presentation prepared from repository SVG assets: live/current logo `knaba-construction-logo.svg`, `knaba-construction-logo-footer.svg`; candidate `knaba-3d-header/footer/mobile-*.svg`. The public https://kneba.vsp.rest/ image paths still point to the old/live files. *Customer mockups are NOT screenshots*; A/B previews use CSS theme backgrounds `#FBFCF7` / `#102E36`. Current mobile header resizes the desktop logo rather than shipping a separate SVG.
+- All six source vector Git blob SHA-1 identities matched GitHub source, all six client presentation PNG files decoded, eight transparent logo PNGs inspected, and both downloadable archives passed ZIP CRC/dedup validation. These asset-level checks do not prove deployment.
+- Repeated isolated test `node --test scripts/check-knaba-3d-assets.mjs`: **6/6 PASS, 0 failed** under locally installed Node 22.16.0 on source-identical four SVGs (same four Git blob SHAs as this PR).
+- Repeated isolated test `node --test tests/browser-policy-gate.test.cjs`: **8/8 PASS, 0 failed** on source-identical browser policy implementation/test file (Git blob hashes `f546e349f8eee143f40494edf39fef7d0bda8401` and `6e0ae41d51a838ce20f18d084d65ece72291fbfb`). Synthetic browser policies only; no actual page browser pass.
+- Follow-up accessibility fix to `src/layouts/Layout.astro`: **two anchor accessible names localized** with `aria-label={brandAlt}` in addition to two already localized image `alt={brandAlt}` attributes. Added a Vitest assertion for both anchors; checked via GitHub source readback. Entire Vitest suite **NOT_RUN**.
+- `node` in file-workbench is 22.16.0, below project declared `>=22.23.4`; pinned compatible Node24+Astro dependency installation and full integration checks **NOT_RUN**. Do not infer full release QA from isolated Node script tests. Real browser remains blocked by current environment; no repeated identical Chromium policy bypass attempted.
+- Gate remains unchanged: **Draft only, no merge, no VPS/production deploy; independent review and release approval outstanding.**
