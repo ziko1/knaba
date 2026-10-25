@@ -22,6 +22,9 @@ export async function stageTelegramReply(db:Pick<Database,'transaction'>,engine:
        channel.data.handoff?.state!=='HUMAN_ACTIVE'||channel.data.handoff?.owner_id!==message.data.author_id)return {status:'NOT_APPLICABLE'};
     const author=await engine.actorIn(tx,message.data.author_id);
     if(author.companyId!==companyId||!author.roles.some(role=>['OWNER','DIRECTOR','OPERATIONS_MANAGER','DISPATCHER'].includes(role)))return {status:'NOT_APPLICABLE'};
+    // A stale HUMAN_ACTIVE owner reference is not an active channel membership.
+    const ownerMembers=(channel.data.members??[]).filter((m:Data)=>m.user_id===author.userId&&m.external!==true&&activeMember(m,Date.now()));
+    if(ownerMembers.length!==1)return {status:'NOT_APPLICABLE'};
     const recipientIds=[...new Set<string>((channel.data.members??[]).filter((m:Data)=>m.external===true&&typeof m.user_id==='string'&&m.user_id.length>0&&activeMember(m,Date.now())).map((m:Data)=>m.user_id as string))];
     if(recipientIds.length!==1||recipientIds[0]===message.data.author_id)return {status:'NOT_APPLICABLE'};
     const id=digest('knaba-telegram-reply-v1',companyId,messageId,String(version),recipientIds[0]);
@@ -78,6 +81,10 @@ export async function processTelegramOutbound(
          !await engine.visible(tx,recipient,message))throw new Error('CURRENT_SCOPE_DENIED');
     }catch{await blocked(tx,ticket,'CURRENT_SCOPE_DENIED');return {kind:'skip'};}
     const current=Date.now();
+    // Re-check operator membership immediately before outbound I/O, even when
+    // handoff.owner_id still refers to the removed human operator.
+    const currentOwner=(channel.data.members??[]).filter((m:Data)=>m.user_id===operator.userId&&m.external!==true&&activeMember(m,current));
+    if(currentOwner.length!==1){await blocked(tx,ticket,'OPERATOR_MEMBERSHIP_REVOKED');return {kind:'skip'};}
     const member=(channel.data.members??[]).filter((m:Data)=>m.user_id===recipient.userId&&m.external===true&&activeMember(m,current));
     const identities=(await tx.list('contact_identity')).filter(i=>i.data.type==='TELEGRAM'&&i.data.userId===recipient.userId&&i.data.active!==false&&i.data.verified===true&&!i.data.revoked_at&&!i.data.revokedAt&&(!i.data.expiresAt||Date.parse(i.data.expiresAt)>current));
     const chatIds=[...new Set(identities.map(i=>i.data.value))];
