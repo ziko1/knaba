@@ -131,6 +131,39 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    }
  });
 
+ it('STOP on a new private Telegram thread records a durable channel opt-out without sending a chat message',async()=>{
+   const f=await setup();
+   await f.submit(301,'STOP');await f.drain();
+   const guest=(await f.list('user')).find(u=>u.data.guest);
+   expect(guest).toBeDefined();
+   const settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest!.id);
+   expect(settings).toHaveLength(1);
+   expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
+   expect(await f.list('message')).toHaveLength(0);
+   const command=(await f.list('conversation_input')).find(i=>i.data.provider_event_id==='TELEGRAM:301');
+   expect(command?.data).toMatchObject({status:'PROCESSED',router_state:'TELEGRAM_OPT_OUT'});
+   await f.submit(301,'STOP');await f.drain();
+   expect((await f.list('notification_setting')).filter(s=>s.data.user_id===guest!.id)).toHaveLength(1);
+ });
+
+ it('private /stop revokes previously approved Telegram consent; /start never restores it implicitly',async()=>{
+   const f=await setup();
+   await f.submit(302,'Bitte ein Angebot');await f.drain();
+   const guest=(await f.list('user')).find(u=>u.data.guest)!;
+   await db.transaction(f.company,'SYNTHETIC_PRECONSENT',tx=>tx.add('notification_setting',{
+     user_id:guest.id,telegram_consent:true,telegram_opted_out:false,
+     telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY',language:'DE'
+   }));
+   await f.submit(303,'/stop');await f.drain();
+   let settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
+   expect(settings).toHaveLength(1);
+   expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
+   expect((await f.list('message')).map(m=>m.data.text)).toEqual(['Bitte ein Angebot']);
+   await f.submit(304,'/start');await f.drain();
+   settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
+   expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
+ });
+
  it('uncertain synthetic provider call stays UNKNOWN after recovery and is never resent',async()=>{
    const f=await setup();const {reply}=await operatorReply(f,214);
    f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
