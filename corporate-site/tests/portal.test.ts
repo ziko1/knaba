@@ -211,3 +211,36 @@ describe('public lead intake and request boundaries',()=>{
     expect((await call('/api/portal/health')).status).toBe(200);
   });
 });
+
+
+describe('site to ERP lead outbox remains durable and never auto-dispatches',()=>{
+  it('accepts one public lead and queues one reference-only event atomically across exact replay',async()=>{
+    const request=lead();
+    const accepted=await call('/api/leads',undefined,'POST',request);
+    expect(accepted.status,await accepted.clone().text()).toBe(201);
+    const result=await accepted.json() as {id:string;received:boolean};
+    expect(result.received).toBe(true);
+    const rows=db.sql.prepare('SELECT id,request_id,kind,status,attempts,envelope_sha256 FROM site_erp_outbox').all() as Record<string,unknown>[];
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({id:result.id,request_id:result.id,kind:'lead.upsert',status:'PENDING',attempts:0,envelope_sha256:null});
+    const fields=db.sql.prepare('PRAGMA table_info(site_erp_outbox)').all().map(row=>row.name);
+    expect(fields).not.toContain('email');
+    expect(fields).not.toContain('message');
+    const replay=await call('/api/leads',undefined,'POST',request);
+    expect(replay.status).toBe(200);
+    expect((await replay.json() as {id:string}).id).toBe(result.id);
+    expect(db.sql.prepare('SELECT COUNT(*) AS n FROM site_erp_outbox').get()!.n).toBe(1);
+    const conflict=await call('/api/leads',undefined,'POST',{...request,message:'Different approved text'});
+    expect(conflict.status).toBe(409);
+    expect(db.sql.prepare('SELECT COUNT(*) AS n FROM site_erp_outbox').get()!.n).toBe(1);
+  });
+  it('outbox insert failure rolls back original public lead and its audit; no acknowledged phantom request',async()=>{
+    const request=lead();
+    db.sql.exec("CREATE TRIGGER synthetic_outbox_failure BEFORE INSERT ON site_erp_outbox BEGIN SELECT RAISE(ABORT,'SYNTHETIC_OUTBOX_FAIL'); END");
+    const failed=await call('/api/leads',undefined,'POST',request);
+    expect(failed.status).not.toBe(201);
+    expect(db.sql.prepare('SELECT COUNT(*) AS n FROM cleaning_requests').get()!.n).toBe(0);
+    expect(db.sql.prepare("SELECT COUNT(*) AS n FROM portal_audit WHERE action='request.created'").get()!.n).toBe(0);
+    expect(db.sql.prepare('SELECT COUNT(*) AS n FROM site_erp_outbox').get()!.n).toBe(0);
+  });
+});
