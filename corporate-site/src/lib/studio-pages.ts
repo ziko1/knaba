@@ -12,6 +12,7 @@ const common=[
   {path:'/planer/',title:'Planer'},
   {path:'/berlin/',title:'Berlin & Brandenburg'},
   {path:'/ratgeber/',title:'Ratgeber'},
+  {path:'/faq/',title:'FAQ · Baureinigung'},
 ] as const;
 const locales=[{prefix:'',name:'DE'},{prefix:'/en',name:'EN'},{prefix:'/uk',name:'UK'},{prefix:'/ru',name:'RU'}] as const;
 export const studioPages: readonly StudioPageOption[] = Object.freeze(

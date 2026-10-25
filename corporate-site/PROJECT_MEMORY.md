@@ -215,3 +215,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Deployed only the user-authorized VSP development host, verified source SHA 24dd7fc826ff50c3fab9273ce9e654fbee2095b6; prior release 77c2a96a... retained. New JS/HTML renderer/hydration from the tested exact artifact; no schema/migrations, billing/DNS/official-domain changes.
 - Real HTTPS smoke: 98 public index paths 96×200, 2×308; 404 page separately, unknown path ultimately 404. Studio/CRM/portal/inbox/media/languages/healthz=200; anonymous owner APIs=401. TLS trust verified and KnaBa container healthy; SQLite integrity=ok and 5 migrations unchanged. Backup checksum and rollback in docs/STUDIO_PRO_DEV_DEPLOY_2026-10-25_UK.md.
 - Not full acceptance: live owner not enrolled /readyz=503, disk warning ~96% used, independent reviewer / genuine device UAT and external AI provider budget still missing. Keep draft PR, avoid main merge.
+
+
+## KNABA FAQ Studio continuation — 25.10.2026
+- Verified base live development source 24dd7fc826ff50c3fab9273ce9e654fbee2095b6, current PR51 c3563b07c9ea2e9134fdce3ad7a0f7d4b5f618b0. PR51 preserves current i18n99/Turnstile/Studio Pro; four-language 42-question FAQ not yet deployed when work started.
+- New FAQ routes were missing from src/lib/studio-pages.ts (68 entries). RED focused Vitest repro; added four public-only FAQ routes, 72 entries, kept owner-only permissions.
+- Isolated Node24 offline check/test/build/static: 144 Vitest, 8 inquiry, 16 VPS tests PASS, 103 HTML pages, 16 FAQ browser viewport/language scenarios + one client-navigation scenario PASS. Built digest 77e730e639c7ceb33ef501832e00ffeead75dd0e5daa6bb75cfcf8d7282647ed.
+- Release receipt and remaining risks: docs/KNABA_FAQ_STUDIO_QA_2026-10-25_UK.md. No official-domain cutover, real owner enrolment or AI provider activation.
