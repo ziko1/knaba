@@ -1,0 +1,67 @@
+---
+import {pendingSiteLocales} from '../lib/locale-catalog';
+import type {PublishedSiteLocale} from '../lib/locale-catalog';
+const {locale='de'}=Astro.props as {locale?:PublishedSiteLocale};
+const messages={
+  de:{heading:'99 Zielsprachen',search:'Sprache suchen',summary:'4 veröffentlicht · 95 geplant',pending:'Weitere Zielsprachen',note:'Noch nicht übersetzte Sprachen sind nicht auswählbar. Unübersetzte Seiten werden nicht als Übersetzung ausgezeichnet.',empty:'Keine passende Sprache',soon:'Geplant'},
+  en:{heading:'99 target languages',search:'Find a language',summary:'4 published · 95 planned',pending:'Additional target languages',note:'Languages awaiting translation cannot be selected. Untranslated pages are never labelled as translations.',empty:'No matching language',soon:'Planned'},
+  uk:{heading:'99 цільових мов',search:'Знайти мову',summary:'4 опубліковано · 95 заплановано',pending:'Інші цільові мови',note:'Мови без готового перекладу поки не можна вибрати. Неперекладений вміст не видаємо за переклад.',empty:'Мову не знайдено',soon:'У плані'},
+  ru:{heading:'99 целевых языков',search:'Найти язык',summary:'4 опубликовано · 95 запланировано',pending:'Другие целевые языки',note:'Пока перевод не готов, язык нельзя выбрать. Непереведённые страницы не выдаются за перевод.',empty:'Язык не найден',soon:'В плане'}
+} as const;
+const t=messages[locale];
+---
+<section data-locale-catalog class="locale-catalog" aria-label={t.heading}>
+  <div class="locale-catalog-heading"><strong>{t.heading}</strong><small>{t.summary}</small></div>
+  <label class="locale-catalog-search"><span>{t.search}</span><input type="search" autocomplete="off" data-locale-search placeholder={t.search} aria-controls="knaba-pending-languages"/></label>
+  <ul class="locale-catalog-list" id="knaba-pending-languages" aria-label={t.pending}>
+    {pendingSiteLocales.map(item=>
+      <li data-locale-item data-search={`${item.nativeLabel} ${item.englishLabel} ${item.code}`.toLocaleLowerCase()}>
+        <span lang={item.code} dir={item.direction}>{item.nativeLabel}</span>
+        <span class="locale-catalog-code">{item.code}</span>
+        <span class="locale-catalog-pending">{t.soon}</span>
+      </li>
+    )}
+  </ul>
+  <p class="locale-catalog-empty" hidden data-locale-empty role="status">{t.empty}</p>
+  <p class="locale-catalog-note">{t.note}</p>
+</section>
+<script>
+function bindLocaleCatalog() {
+  for(const root of document.querySelectorAll<HTMLElement>('[data-locale-catalog]')) {
+    const input=root.querySelector<HTMLInputElement>('[data-locale-search]');
+    const empty=root.querySelector<HTMLElement>('[data-locale-empty]');
+    if(!input||!empty||input.dataset.bound==='1') continue;
+    input.dataset.bound='1';
+    const items=[...root.querySelectorAll<HTMLElement>('[data-locale-item]')];
+    input.addEventListener('input',()=>{
+      const q=input.value.trim().toLocaleLowerCase();
+      let count=0;
+      for(const item of items) {
+        const matched=(item.dataset.search||'').includes(q);
+        item.hidden=!matched;
+        if(matched)count++;
+      }
+      empty.hidden=count!==0;
+    });
+  }
+}
+bindLocaleCatalog();
+document.addEventListener('astro:page-load',bindLocaleCatalog);
+</script>
+<style>
+.locale-catalog{border-top:1px solid #d7e4da;margin:4px 0 0;padding:12px 8px 5px;color:#23483f}
+.locale-catalog-heading{display:grid;gap:5px;margin:0 0 12px}
+.locale-catalog-heading strong{font-size:.91rem;color:#143d32}
+.locale-catalog-heading small{font-size:.73rem;color:#5b7168}
+.locale-catalog-search{display:grid;gap:5px;font-size:.76rem;font-weight:700;margin-bottom:9px}
+.locale-catalog-search input{min-height:44px;width:100%;padding:8px 12px;border:1px solid #aebfb5;border-radius:10px;color:#103c33;background:#fff;font-size:16px}
+.locale-catalog-search input:focus-visible{outline:3px solid #8fcaa5;outline-offset:2px}
+.locale-catalog-list{margin:0;padding:0;list-style:none;max-height:188px;overflow-y:auto;overscroll-behavior:contain;border-top:1px solid #ebf0ec}
+.locale-catalog-list li{display:flex;gap:8px;align-items:center;padding:9px 3px;min-height:34px;color:#526a5e;border-bottom:1px solid #edf1ee;font-size:.79rem}
+.locale-catalog-list li[hidden],.locale-catalog-empty[hidden]{display:none}
+.locale-catalog-list li>span:first-child{min-width:0;flex:1;overflow-wrap:anywhere}
+.locale-catalog-code{color:#778b7e;font-size:.65rem;text-transform:uppercase}
+.locale-catalog-pending{color:#556b61;border-radius:6px;background:#edf3ed;font-size:.64rem;white-space:nowrap;padding:3px 6px}
+.locale-catalog-note{margin:11px 0 0;font-size:.71rem;line-height:1.48;color:#547168}
+.locale-catalog-empty{margin:12px 0;font-size:.8rem;color:#79522d}
+</style>
