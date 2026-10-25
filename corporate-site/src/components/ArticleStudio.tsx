@@ -38,6 +38,7 @@ export default function ArticleStudio(props:{language:Locale}){
   const [publishedVersion,setPublishedVersion]=createSignal(0);
   const [history,setHistory]=createSignal<Revision[]>([]);
   const [confirm,setConfirm]=createSignal('');
+  const [unpublishCheck,setUnpublishCheck]=createSignal('');
   const [busy,setBusy]=createSignal(false);
   const [error,setError]=createSignal('');
   const [notice,setNotice]=createSignal('');
@@ -58,7 +59,7 @@ export default function ArticleStudio(props:{language:Locale}){
       const res=await api<ArticlePage>('/api/studio/article?page='+encodeURIComponent(path));
       setPage(res.page);setDraft(res.draft);setSaved(res.draft);
       setVersion(res.version);setPublishedVersion(res.publishedVersion);setHistory(res.history);
-      setConfirm('');
+      setConfirm('');setUnpublishCheck('');
     }catch(problem){setError(problem instanceof Error?problem.message:String(problem));}
     finally{setLoading(false);}
   }
@@ -83,6 +84,18 @@ export default function ArticleStudio(props:{language:Locale}){
     try{
       const result=await api<{version:number}>('/api/studio/article/publish',{page:page(),version:version(),confirm:'PUBLISH'});
       setPublishedVersion(result.version);setConfirm('');setNotice(t().published);
+      await refresh();
+    }catch(problem){setError(problem instanceof Error?problem.message:String(problem));}
+    finally{setBusy(false);}
+  }
+  async function unpublish(){
+    if(!page()||busy()||changed()||!publishedVersion()||unpublishCheck()!=='UNPUBLISH')return;
+    setBusy(true);setError('');setNotice('');
+    try{
+      const result=await api<{published:boolean}>('/api/studio/article/unpublish',{page:page(),version:version(),confirm:'UNPUBLISH'});
+      if(result.published!==false)throw new Error('Publication state was not confirmed');
+      setPublishedVersion(0);setUnpublishCheck('');
+      setNotice(({de:'Der Artikel ist nicht mehr öffentlich.',en:'Article unpublished.',uk:'Статтю знято з публікації.',ru:'Статья снята с публикации.'} as const)[props.language]);
       await refresh();
     }catch(problem){setError(problem instanceof Error?problem.message:String(problem));}
     finally{setBusy(false);}
@@ -130,6 +143,17 @@ export default function ArticleStudio(props:{language:Locale}){
                 <button type="button" class="studio-publish-button" disabled={busy()||loading()||changed()||!canPublish()||confirm()!=='PUBLISH'||version()===0||publishedVersion()===version()}
                   onClick={()=>void publish()}>{t().publish}</button>
               </div>
+              <Show when={publishedVersion()>0}>
+                <div class="studio-article-unpublish">
+                  <p>{({de:'Öffentliche Seite zurückziehen, ohne Entwurf oder Verlauf zu löschen.',en:'Take this page offline while retaining draft and history.',uk:'Зняти публікацію, зберігши чернетку та історію.',ru:'Снять публикацию, сохранив черновик и историю.'} as const)[props.language]}</p>
+                  <label>{({de:'UNPUBLISH zur Bestätigung',en:'Type UNPUBLISH to confirm',uk:'Введіть UNPUBLISH для підтвердження',ru:'Введите UNPUBLISH для подтверждения'} as const)[props.language]}
+                    <input autocomplete="off" spellcheck={false} value={unpublishCheck()}
+                      placeholder="UNPUBLISH" onInput={e=>setUnpublishCheck(e.currentTarget.value)} />
+                  </label>
+                  <button type="button" disabled={busy()||loading()||changed()||unpublishCheck()!=='UNPUBLISH'}
+                    onClick={()=>void unpublish()}>{({de:'Veröffentlichung zurückziehen',en:'Unpublish article',uk:'Зняти з публікації',ru:'Снять с публикации'} as const)[props.language]}</button>
+                </div>
+              </Show>
               <Show when={!canPublish()}><p class="studio-muted">{t().validate}</p></Show>
               <p class="studio-muted">{t().hint}</p>
             </div>

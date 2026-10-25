@@ -12,6 +12,8 @@ describe('KNABA Studio owner-only knowledge editor',()=>{
     const article=source('components/ArticleStudio.tsx');
     expect(article).toContain("'/api/studio/article/draft'");
     expect(article).toContain("'/api/studio/article/publish'");
+    expect(article).toContain("'/api/studio/article/unpublish'");
+    expect(article).toContain("unpublishCheck()!=='UNPUBLISH'");
     expect(article).toContain("'/api/studio/articles'");
     expect(article).toContain('confirm');
     expect(article).toContain('preview');
