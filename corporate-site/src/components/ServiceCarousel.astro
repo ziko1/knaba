@@ -18,9 +18,9 @@ const ui = {
       <article class="service-slide" data-carousel-slide role="group"
         aria-roledescription={ui.slide} aria-label={`${index + 1} / ${slides.length}: ${slide.title}`}>
         <div class="slide-overline"><span>KnaBa / {slide.number}</span><span>{slide.core ? ui.core : ui.extra}</span></div>
-        <div class="slide-art" aria-hidden="true">
+        <div class="slide-art" aria-hidden={index === 0 ? undefined : "true"}>
           {index === 0 ? (
-            <img src="/illustrations/baureinigung.svg" alt="" width="720" height="500"
+            <img src="/illustrations/baureinigung.svg" alt={ui.image} width="720" height="500"
               loading="eager" decoding="async" fetchpriority="high" />
           ) : (
             <div class="slide-artwork">
