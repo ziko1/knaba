@@ -3,6 +3,12 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {renderPublishedPage} from './render-page.mjs';
 const raw=readFileSync(new URL('../dist/client/index.html',import.meta.url),'utf8');
+// Both release builds must keep their own explicitly selected canonical host.
+const mode=process.env.KNABA_RELEASE_MODE;
+if (!['official','vsp'].includes(mode)) throw Error('Explicit release mode required for VPS renderer QA');
+const expectedOrigin=mode==='vsp'?'https://kneba.vsp.rest':'https://knaba.de';
+const expectedCanonical=`rel="canonical" href="${expectedOrigin}/"`;
+assert.ok(raw.includes(expectedCanonical), 'Build artifact must match selected release origin');
 const textSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1)';
 const linkSelector='#main > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)';
 const imageSelector='#main > section:nth-of-type(1) > div:nth-of-type(2) > img:nth-of-type(1)';
@@ -19,7 +25,7 @@ test('published leaf text and existing link/image attributes are rendered in act
   assert.match(result,/href="\/leistungen\/baureinigung\/"/);
   assert.match(result,/alt="KnaBa Reinigung &amp; Bauhelfer"/);
   assert.match(result,/hero-cleaning\.svg/);
-  assert.match(result,/rel="canonical" href="https:\/\/knaba.de\/"/);
+  assert.ok(result.includes(expectedCanonical), "Content publishing must preserve release canonical host");
   assert.ok(result.includes('<script'));
 });
 test('content edits in draft, invalid tokens and paths are never sent in HTML',()=>{
@@ -41,5 +47,5 @@ test('Server-side published color and SEO are escaped and stable',()=>{
   assert.match(result,/style="color:#284f41"/);
   assert.match(result,/<title>KnaBa &amp; Bauhelfer<\/title>/);
   assert.match(result,/name="description" content="Unsere Bauhelfer &amp; Reinigung in Berlin"/);
-  assert.match(result,/rel="canonical" href="https:\/\/knaba.de\/"/);
+  assert.ok(result.includes(expectedCanonical), "Content publishing must preserve release canonical host");
 });

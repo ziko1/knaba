@@ -4,6 +4,11 @@ import { readFileSync } from 'node:fs';
 import { renderPublishedSeo } from './seo.mjs';
 
 const html=readFileSync(new URL('../dist/client/index.html',import.meta.url),'utf8');
+const mode=process.env.KNABA_RELEASE_MODE;
+if (!['official','vsp'].includes(mode)) throw Error('Explicit release mode required for SEO QA');
+const expectedOrigin=mode==='vsp'?'https://kneba.vsp.rest':'https://knaba.de';
+const expectedCanonical=`rel="canonical" href="${expectedOrigin}/"`;
+assert.ok(html.includes(expectedCanonical), 'Build artifact must match selected release origin');
 const title='KnaBa – neue Leistungen & Pflege';
 const description='Gebäudereinigung & Bauhelfer in Berlin, persönliche Beratung.';
 const dbRow=(entries,version=2)=>({published_json:JSON.stringify(entries),published_version:version});
@@ -15,7 +20,7 @@ test('published title and description update server HTML head, OG while preservi
   assert.match(result,/\<meta property="og:title" content="KnaBa – neue Leistungen &amp; Pflege"\/?\>/);
   assert.match(result,/\<meta name="description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
   assert.match(result,/\<meta property="og:description" content="Gebäudereinigung &amp; Bauhelfer in Berlin, persönliche Beratung\."\/?\>/);
-  assert.match(result,/rel="canonical" href="https:\/\/knaba.de\/"/);
+  assert.ok(result.includes(expectedCanonical), "SEO publishing cannot rewrite the canonical host");
   assert.match(result,/name="robots" content="index, follow, max-image-preview:large"/);
 });
 test('no drafts/empty/corrupt published or duplicate SEO entries are rendered',()=>{

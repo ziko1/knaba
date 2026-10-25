@@ -9,6 +9,11 @@ import { createKnabaVpsServer } from './server.mjs';
 import { createOwner } from './auth.mjs';
 
 const origin='https://knaba.de';
+// Authentication remains tested against original knaba.de origin fixture;
+// static build canonical independently follows the explicit selected release.
+const buildMode=process.env.KNABA_RELEASE_MODE;
+if (!['official','vsp'].includes(buildMode)) throw Error('Explicit release mode required for server QA');
+const buildCanonical=`rel="canonical" href="${buildMode==='vsp'?'https://kneba.vsp.rest':'https://knaba.de'}/"`;
 const owner='owner@example.test';
 const password='synthetic-only-not-a-real-password-2026';
 test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup',async()=>{
@@ -102,7 +107,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.ok(rendered.includes('Sauber und sicher für Bauprojekte &amp; Büros'));
     assert.ok(rendered.includes('href="/leistungen/baureinigung/"'));
     assert.ok(rendered.includes('content="Offizielle Beratung für Gebäudereinigung &amp; Bauhelfer."'));
-    assert.ok(rendered.includes('rel="canonical" href="https://knaba.de/"'));
+    assert.ok(rendered.includes(buildCanonical), "Publishing must preserve selected build canonical");
     const privateSeo=await (await fetchAt('/studio/')).text();
     assert.ok(!privateSeo.includes('<title>KnaBa · Neuer'));
 
