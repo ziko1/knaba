@@ -15,7 +15,7 @@ integration('PostgreSQL command transaction and read authorization',()=>{
  const call=(a:Actor,name:string,input:Data,key=randomUUID(),version?:number)=>engine.execute(a,name,{input,idempotency_key:key,expected_version:version});
  const list=(kind:string)=>db.transaction(company,ids.owner,tx=>tx.list(kind));
  const add=(kind:string,data:Data,id?:string)=>db.transaction(company,ids.owner,tx=>tx.add(kind,data,id));
- beforeAll(async()=>{db=new Database();await db.query('SELECT 1');engine=new Engine(db,'TEST');});
+ beforeAll(async()=>{db=new Database();await db.migrate();await db.query('SELECT 1');engine=new Engine(db,'TEST');});
  beforeEach(async()=>{
   company=`qa-${randomUUID()}`;
   await db.transaction(company,'QA_FIXTURE',async tx=>{
