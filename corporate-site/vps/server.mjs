@@ -155,7 +155,9 @@ export async function createKnabaVpsServer({
     }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
-      if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      // Reuse first-party login in the Solid portal; legacy HTML POST still redirects.
+      const jsonLogin=String(req.headers.accept||'').split(',').some(v=>v.split(';')[0].trim().toLowerCase()==='application/json');
+      if(req.method==='GET'||req.method==='HEAD')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -169,13 +171,20 @@ export async function createKnabaVpsServer({
         if(password.length>256 || email.length>320)return send(res,422,'Invalid form');
         let result=null;
         try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
-        if(!result)return send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8'});
+        if(!result)return jsonLogin
+          ? send(res,401,JSON.stringify({error:'Invalid credentials'}),{'Content-Type':'application/json; charset=utf-8','X-Robots-Tag':'noindex,nofollow'})
+          : send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+        if(jsonLogin)return send(res,200,JSON.stringify({ok:true}),{
+          'Content-Type':'application/json; charset=utf-8',
+          'X-Robots-Tag':'noindex,nofollow',
+          'Set-Cookie':sessionCookie(result.token,{secure:!localTest})
+        });
         return redirect(res,target,{'Set-Cookie':sessionCookie(result.token,{secure:!localTest})});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
     }
     if(url.pathname==='/logout/'||url.pathname==='/logout'){
       const rt=returnPath(url.searchParams.get('return_to'));
-      if(req.method==='GET')return send(res,200,logoutPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET'||req.method==='HEAD')return send(res,200,logoutPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       try{

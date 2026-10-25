@@ -203,3 +203,17 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Green: repair eight labels through shared Layout; preserve actual German-only legal labeling
 - [x] Node24 full tests, 103-page static verifier, route-language browser checks on 390px
 - [ ] Source-pinned dev-domain deployment with backup and actual live regression, no production domain/main merge
+
+## KNABA PR53 — first-party no-reload sign-in; source-only gate (2026-10-25)
+- [x] Reuse PR52's scoped inline Solid login and JSON cookie response on current FAQ/Studio Pro source, without reverting localized footer labels.
+- [x] Preserve existing CSRF/Host/Fetched-site check, request/credential limits and preexisting password/rate policy; negative Origin/cross-site tests, owner session refresh and 4-locale entry.
+- [x] Exact code SHA `eeb015461be87e91fc6129fd3f5d5d90b43e47b3` Node24 check/test/build/VPS PASS, 103 pages; synthetic HTTPS browser `4a31a86f41ba677158969cf223f65070b559029e` PASS in-place login and private Studio edit/publish/undo, no production data.
+- [ ] Reconcile live release `7e774...` with GitHub source and indexing state (Issue #54), then merge/retest exact new final SHA with source-pinned artifacts before any dev deploy.
+- [ ] Onboard real verified owner via private channel, genuine auth/UAT, owner/employee/client isolation, GDPR, physical-device tests; remain Draft/unmerged; no official-site cutover.
+- Documentation: `docs/KNABA_PR53_INLINE_ACCOUNT_QA_2026-10-25_UK.md`.
+
+## KNABA authenticated portal continuation — HEAD/noindex parity acceptance
+- [x] Live RED for HEAD on private login (405/no index header), supported HEAD200/noindex/empty-body in source for login/logout; no password/session side effects.
+- [x] Final executable code `0bf7b0d0b539ab2931be880df78fb165a3331c89` + test-only `a15323ff1ca7322ab67b01143150c84da895dbb6`; Node24 full check/test/build+VPS 23 test files / 103 pages, synthetic HTTPS browser in-place auth/Studio PASS.
+- [ ] Reconcile exact active `7e774...` Git source/build, preserve its indexable published HTML, private headers and data; apply minimal new changes to final traced SHA and rerun all tests before controlled dev deploy (Issue #54).
+- [ ] Verified owner onboarding, client/staff authorization, GDPR/legal and real-device UAT, Chrome/Safari/Firefox browser scaling, Google/Social OIDC only with configured provider and consent; NO production release.

@@ -33,6 +33,14 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await fetchAt('/readyz')).status,200);
     const site=await fetchAt('/');
     assert.equal(site.status,200);
+    // HEAD must represent the same noindex private page as GET. Previously
+    // /login/ and /logout/ returned 405 without X-Robots-Tag.
+    for(const privatePath of ['/login/','/logout/']){
+      const head=await fetchAt(privatePath,{method:'HEAD'});
+      assert.equal(head.status,200,'HEAD private route '+privatePath);
+      assert.match(head.headers.get('X-Robots-Tag'),/noindex/,'Private HEAD must stay unindexable');
+      assert.equal(await head.text(),'','HEAD must return headers without a response body');
+    }
     const staticHtml=await site.text();
     // A translated-route claim requires reviewed content. Pending languages are
     // metadata-only, never injected into every HTML page or published as links.
@@ -81,6 +89,30 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(badOrigin.status,403);
     const failed=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({email:owner,password:'wrong pw',return_to:'/studio/'})});
     assert.equal(failed.status,401);
+    const ajaxForged=await fetchAt('/login/',{
+      method:'POST',headers:{Origin:'https://evil.invalid','Content-Type':'application/x-www-form-urlencoded',Accept:'application/json'},
+      body:new URLSearchParams({email:owner,password,return_to:'/studio/'})
+    });
+    assert.equal(ajaxForged.status,403,'JSON login must enforce origin');
+    assert.equal(ajaxForged.headers.get('set-cookie'),null);
+    const ajaxCrossSite=await fetchAt('/login/',{
+      method:'POST',headers:{Origin:origin,'Sec-Fetch-Site':'cross-site','Content-Type':'application/x-www-form-urlencoded',Accept:'application/json'},
+      body:new URLSearchParams({email:owner,password,return_to:'/studio/'})
+    });
+    assert.equal(ajaxCrossSite.status,403,'Forged cross-site JSON login must not set cookies');
+    assert.equal(ajaxCrossSite.headers.get('set-cookie'),null);
+    const ajaxBad=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Accept:'application/json'},
+      body:new URLSearchParams({email:owner,password:'invalid',return_to:'/konto/'})});
+    assert.equal(ajaxBad.status,401);
+    assert.equal(ajaxBad.headers.get('set-cookie'),null);
+    assert.equal(ajaxBad.headers.get('content-type'),'application/json; charset=utf-8');
+    const ajaxSigned=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Accept:'application/json'},body:form});
+    assert.equal(ajaxSigned.status,200);
+    assert.equal((await ajaxSigned.json()).ok,true);
+    assert.equal(ajaxSigned.headers.get('location'),null);
+    assert.match(ajaxSigned.headers.get('set-cookie'),/HttpOnly/);
+    const ajaxCookie=ajaxSigned.headers.get('set-cookie').split(';')[0];
+    assert.equal((await (await fetchAt('/api/portal/session',{headers:{Cookie:ajaxCookie}})).json()).role,'owner');
     const signed=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:form});
     assert.equal(signed.status,303);
     assert.equal(signed.headers.get('location'),'/studio/');

@@ -231,3 +231,15 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - GREEN: changed only eight labels in shared src/layouts/Layout.astro; kept DE/RU copy, legal links, route URLs and private gates intact.
 - Isolated networkless Node24 QA: check 0 errors, Vitest 144/144, inquiry 8/8, VPS Node tests 16/16, build/verify 103 HTML PASS. Artifact digest SHA256 c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d.
 - Real Chromium focused footer test on isolated candidate: EN and UK labels map to valid localized pages, German-only legal destinations remain labeled (DE). Physical device remains NOT_RUN.
+
+## 2026-10-25 — PR53 inline-account source candidate
+- Reused current FAQ/Studio Pro GitHub source base `7f886606d5711ac93a88d3d93b54a0a9b5638525` (do not replace concurrently deployed 7e774...).
+- New first-party 4-language inline `/konto/` login + existing JSON `POST /login/` session contract, mobile account CTA, subtle footer VSP credit and owner-only Studio SEO guidance. No new OAuth/Google login, unknown owner identity must not be invented.
+- Verified executable code SHA `eeb015461be87e91fc6129fd3f5d5d90b43e47b3`: isolated Node24 full check/test/build/verify/VPS suite exit 0, 23 passing test files, 103 HTML. Isolated synthetic HTTPS Chromium on test-only SHA `4a31a86f41ba677158969cf223f65070b559029e` PASS: invalid/valid sign-in, cookie, in-place private portal, Studio SSR, no live writes.
+- Runtime release HOLD due active `7e774c32863ad6b9f90a95288b5bd3495d941a51` source/provenance drift and current indexable public HTML with old VPS JSON login handler. Issue #54 tracks reconciliation. Full receipts: `docs/KNABA_PR53_INLINE_ACCOUNT_QA_2026-10-25_UK.md`.
+- No production/dev deploy of PR53, no main merge, no customer data/DB migration, no paid providers. Real owner, GDPR, actual devices and prior Sites export remain P0 open.
+
+## KNABA PR56 (historical PR53 branch) — final source-only hardening checkpoint
+- Confirmed **live RED** `HEAD /login/` was HTTP405 and missing private robots header, while GET remained noindex. Patched JSON-login capable candidate `vps/server.mjs` to support HEAD on login/logout with unchanged noindex and no DB writes; tests cover 200 + noindex + empty body.
+- New **executable source SHA** `0bf7b0d0b539ab2931be880df78fb165a3331c89`, test-only `a15323ff1ca7322ab67b01143150c84da895dbb6`: fresh Node24 source checks, 23 Vitest files, 103-page build, VPS Node suite + isolated synthetic HTTPS real Chromium owner/Studio E2E **PASS**. No real owner/PII or external provider calls; static artifact `948c9386fd535866213a59637272e7245672a7e864edb88798d6e0087701617e`.
+- **Do not deploy** old GitHub source over current unmirrored `7e774...` development release; live provenance/SEO gate Issue #54 unresolved, standalone PR #56 remains Draft. Security, genuine owners, staff/client, offsite backup, physical device and GDPR acceptance open.

@@ -45,7 +45,50 @@ const aSelector='#main > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-o
       req.pipe(upstream);
     });
     proxy.listen(19443,'127.0.0.1');await once(proxy,'listening');
-    browser=await chromium.launch({headless:true,executablePath:chromium.executablePath(),args:['--no-sandbox','--disable-dev-shm-usage','--host-resolver-rules=MAP knaba.test 127.0.0.1']});
+    browser=await chromium.launch({headless:true,executablePath:process.env.KNABA_CHROME_PATH||chromium.executablePath(),args:['--no-sandbox','--disable-dev-shm-usage','--host-resolver-rules=MAP knaba.test 127.0.0.1']});
+    // Test the real first-party AJAX login against synthetic HTTPS and disposable
+    // SQLite. An invalid password cannot set a cookie; a valid password updates
+    // the portal in the same browser document without an HTML navigation.
+    const inlineContext=await browser.newContext({ignoreHTTPSErrors:true,viewport:{width:390,height:844}});
+    const inlinePage=await inlineContext.newPage();
+    let inlineNavigations=0;
+    inlinePage.on('framenavigated',frame=>{if(frame===inlinePage.mainFrame())inlineNavigations++});
+    await inlinePage.goto(ORIGIN+'/konto/',{waitUntil:'domcontentloaded'});
+    const inline=inlinePage.locator('.portal-inline-login');
+    await inline.waitFor({timeout:16000});
+    assert.equal(await inline.locator('input[name="email"]').count(),1,'Visible inline email field');
+    assert.equal(await inline.locator('input[name="password"]').count(),1,'Visible password input');
+    // Counted framenavigated events include same-document Astro client-routing.
+    // Preserve an actual window-scoped marker instead: full reload drops it.
+    const inlineDocumentMarker='synthetic-keep-document-20261025';
+    await inlinePage.evaluate(value=>window.__knabaSyntheticDocumentMark=value,inlineDocumentMarker);
+    const navigationsAtLogin=inlineNavigations;
+    await inline.locator('input[name="email"]').fill(LOGIN);
+    await inline.locator('input[name="password"]').fill('synthetic-invalid-password');
+    await inline.locator('button[type="submit"]').click();
+    await inline.locator('[role="alert"]').waitFor({timeout:12000});
+    assert.equal((await inlineContext.cookies()).some(c=>c.name==='__Host-knaba-session'),false,'Bad password must not authenticate');
+    await inline.locator('input[name="password"]').fill(PASSWORD);
+    await inline.locator('button[type="submit"]').click();
+    await inlinePage.locator('.portal-shell').waitFor({state:'visible',timeout:18000});
+    // The verified badge is deliberately display:none on <=520px; it still
+    // exists after a real authenticated session, but is not a visible-state gate.
+    assert.equal(await inlinePage.locator('.portal-verified').count(),1);
+    const privateSession=await inlinePage.evaluate(async()=>{
+      const r=await fetch('/api/portal/session',{credentials:'same-origin',cache:'no-store'});
+      const json=await r.json();
+      return {status:r.status,role:json.role};
+    });
+    assert.equal(privateSession.status,200);
+    assert.equal(privateSession.role,'owner');
+    assert.equal(new URL(inlinePage.url()).pathname,'/konto/','AJAX login stays on the portal URL');
+    const documentPreserved=await inlinePage.evaluate(value=>window.__knabaSyntheticDocumentMark===value,inlineDocumentMarker);
+    assert.equal(documentPreserved,true,'AJAX login must preserve the current HTML document');
+    console.log('INLINE_LOGIN_NAV_EVENTS',inlineNavigations-navigationsAtLogin,'(same-document events allowed)');
+    assert.ok((await inlineContext.cookies()).some(c=>c.name==='__Host-knaba-session'&&c.secure&&c.httpOnly),'Host-only session cookie required');
+    console.log('INLINE_LOGIN_BROWSER_PASS invalid+valid_same_window_secure_session');
+    await inlineContext.close();
+
     const context=await browser.newContext({ignoreHTTPSErrors:true,viewport:{width:390,height:844}});
     const page=await context.newPage();
     const errors=[];

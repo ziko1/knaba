@@ -99,7 +99,7 @@ function PortalContent(props: {locale?: PortalLocale}) {
     <Switch>
       <Match when={!ready() || session.isPending}><div class="portal-empty" role="status"><span class="portal-loader" />{t().loading}</div></Match>
       <Match when={session.isError}><div class="portal-empty" role="alert"><p>{errorMessage(session.error,t())}</p><button type="button" class="button button-dark" disabled={session.isFetching} onClick={()=>void session.refetch()}>{t().retry}</button></div></Match>
-      <Match when={!session.data?.user}><div class="portal-welcome-grid"><div class="portal-welcome"><span class="portal-kicker">{t().portal}</span><h2>{t().loginTitle}</h2><p>{t().loginText}</p><a data-astro-reload target="_top" class="button button-dark" href={`/login/?return_to=${encodeURIComponent(portalReturnTo(locale()))}`}>{t().signIn}<span aria-hidden="true">↗</span></a><p class="portal-small">{t().loginNote}</p></div><div class="portal-welcome-side"><span class="portal-welcome-symbol" aria-hidden="true">✳</span><h3>{t().noAccount}</h3><p>{t().requestHelp}</p><a class="text-link" href={portalPublicPath('/kontakt/',locale())}>{t().publicInquiry} →</a></div></div></Match>
+      <Match when={!session.data?.user}><div class="portal-welcome-grid"><div class="portal-welcome"><span class="portal-kicker">{t().portal}</span><h2>{t().loginTitle}</h2><p>{t().loginText}</p><LoginFields t={t} locale={locale} onSuccess={refresh} /><p class="portal-small">{t().loginNote}</p></div><div class="portal-welcome-side"><span class="portal-welcome-symbol" aria-hidden="true">✳</span><h3>{t().noAccount}</h3><p>{t().requestHelp}</p><a class="text-link" href={portalPublicPath('/kontakt/',locale())}>{t().publicInquiry} →</a></div></div></Match>
       <Match when={role()==='suspended'}><div class="portal-empty portal-wait"><span class="portal-round-symbol" aria-hidden="true">Ⅱ</span><h2>{t().suspendedTitle}</h2><p>{t().suspendedText}</p><a class="text-link" href="mailto:kontakt@knaba.de">kontakt@knaba.de ↗</a></div></Match>
       <Match when={session.data?.user && !session.data?.profile && role()!=='owner'}><Registration session={session.data!} locale={locale} t={t} busy={busy} submit={body=>mutate('/api/portal/register','POST',body,t().registered)} /></Match>
       <Match when={role()==='pending'}><div class="portal-empty portal-wait"><span class="portal-round-symbol" aria-hidden="true">◷</span><p class="portal-kicker">{t().pending}</p><h2>{t().pendingTitle}</h2><p>{t().pendingText}</p><p>{t().pendingHelp}</p><button type="button" class="button button-dark" disabled={session.isFetching} onClick={()=>void session.refetch()}>{session.isFetching?t().loading:t().refresh}</button></div></Match>
@@ -129,6 +129,43 @@ function PortalContent(props: {locale?: PortalLocale}) {
     </Switch>
     <p class="portal-footer-note">{t().portalHint} <a href={portalPublicPath('/datenschutz/',locale())}>{t().privacyLink} ↗</a></p>
   </div>;
+}
+
+
+/** Inline login uses the same CSRF, password verification, rate limit and HttpOnly session as the VPS form. */
+function LoginFields(props:{t:Text;locale:Accessor<PortalLocale>;onSuccess:()=>Promise<void>}) {
+  const [email,setEmail]=createSignal('');
+  const [password,setPassword]=createSignal('');
+  const [busy,setBusy]=createSignal(false);
+  const [error,setError]=createSignal('');
+  const passwordLabel=()=>({de:'Passwort',en:'Password',uk:'Пароль',ru:'Пароль'} as const)[props.locale()];
+  const accessLabel=()=>({de:'Neuen Zugang anfragen',en:'Request an account',uk:'Запросити доступ',ru:'Запросить доступ'} as const)[props.locale()];
+  async function login(event:SubmitEvent) {
+    event.preventDefault();
+    if(busy())return;
+    setBusy(true);setError('');
+    try{
+      const response=await fetch('/login/',{
+        method:'POST',credentials:'same-origin',cache:'no-store',
+        headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},
+        body:new URLSearchParams({email:email().trim(),password:password(),return_to:portalReturnTo(props.locale())}),
+        signal:AbortSignal.timeout(15_000)
+      });
+      if(!response.ok || (await response.json().catch(()=>null))?.ok!==true)throw Error('Sign-in unsuccessful');
+      setPassword('');
+      await props.onSuccess();
+    }catch{setError(props.t().loginError);}finally{setBusy(false);}
+  }
+  return <form class="portal-inline-login" method="post" action="/login/" onSubmit={login}>
+    <input type="hidden" name="return_to" value={portalReturnTo(props.locale())}/>
+    <label>{props.t().email}<input name="email" type="email" autocomplete="username" required maxLength={320}
+      value={email()} onInput={event=>setEmail(event.currentTarget.value)}/></label>
+    <label>{passwordLabel()}<input name="password" type="password" autocomplete="current-password" required maxLength={256}
+      value={password()} onInput={event=>setPassword(event.currentTarget.value)}/></label>
+    <Show when={error()}><p class="portal-alert portal-alert-error" role="alert">{error()}</p></Show>
+    <button type="submit" class="button button-dark" disabled={busy()}>{busy()?props.t().loading:props.t().signIn}</button>
+    <a href={portalPublicPath('/kontakt/',props.locale())} class="portal-access-request">{accessLabel()} →</a>
+  </form>;
 }
 
 function Registration(props: {session:PortalSession;locale:Accessor<PortalLocale>;t:Text;busy:Accessor<boolean>;submit:(body:unknown)=>Promise<boolean>}) {

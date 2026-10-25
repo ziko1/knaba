@@ -2232,3 +2232,14 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 @media (max-width: 340px) {
   .construction-brand img { width: min(140px, 43vw); }
 }
+
+/* Scoped account CTA and low-emphasis studio credit, shared by all layouts. */
+.nav-wrap > .account-entry{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:44px;padding:9px 13px;border-radius:999px;background:#d9f39b;color:#12393b;border:1px solid #a6cc77;font-weight:800;box-shadow:0 3px 10px #163c3112;transition:background .16s ease}
+.nav-wrap > .account-entry:hover{background:#c5eb80;color:#113535}
+.nav-wrap > .account-entry:focus-visible,.mobile-account-entry:focus-visible,.vsp-credit a:focus-visible{outline:3px solid #c17d26;outline-offset:3px}
+.mobile-nav nav .mobile-account-entry{border-radius:10px;background:#e3f4bd;color:#163b37;font-weight:800;margin-top:6px}
+.vsp-credit{font-size:11px;line-height:1.6;opacity:.78;margin:.5rem 0 0}
+.vsp-credit a{color:#c3dcdb;text-decoration:underline;text-underline-offset:3px}
+.vsp-credit a:hover{color:#fff;opacity:1}
+@media(max-width:700px){.nav-wrap > .account-entry{display:none}}
+@media(prefers-reduced-motion:reduce){.nav-wrap > .account-entry{transition:none}}
