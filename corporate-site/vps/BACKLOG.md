@@ -67,3 +67,12 @@
 - [ ] Approve actual ERP source/company/service mapping, credentials and data handling before setting `ASSISTANT_ERP_ENABLED=approved`; credentials alone do not imply readiness.
 - [ ] Rehearse old-artifact rollback without discarding new records; older startup migration gates may reject the additive migration. Stop queue and retain current DB/ERP receipts.
 - [ ] Real owner UI/provider/TLS acceptance, retention/deletion policy, physical-device/screen-reader QA. No deployment or live change is included in this candidate.
+
+## Unified KNABA Control Center /admin/ — source-only 2026-10-25
+- [x] Create separate source-only branch for shared administration shell, no second login/CRM/CMS and no production deploy.
+- [x] Define owner/admin role-based navigation; no direct Studio/Inbox links for non-owners, keep legacy deep links.
+- [x] Add noindex/no-store/private route contracts and role tests (execution still NOT_RUN).
+- [ ] P0 Run Node 24 check, tests, static verifier and authenticated browser QA on exact SHA/artifact, then independent security and UX review.
+- [ ] P0 Validate real owner enrollment/SSO state, session expiry, role revocation and missing historical data on isolated staging; require rollback rehearsal.
+- [ ] P1 Mobile 320/390/768, 200% zoom, screen reader, four locales and measured startup/performance; finish contextual shell parity.
+- [ ] P1 Separately reconcile ERP/D1 data and assistant provider onboarding before any real dispatch; never claim full ERP access from the shell.
