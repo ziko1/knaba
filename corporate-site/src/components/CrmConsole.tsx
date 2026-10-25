@@ -10,6 +10,7 @@ type Contact={
 type Note={id:string;body:string;createdAt:string;actorId:string};
 type ListResponse={contacts:Contact[];limited:boolean};
 type NoteResponse={notes:Note[];limited:boolean};
+type ErpBridgeStatus={scope:'SITE_OUTBOX_ONLY';counts:{pending:number;leased:number;applied:number;review:number;blocked:number}};
 const stages: {value:Stage;label:string}[]=[
   {value:'new',label:'Neu'},{value:'contacted',label:'Kontaktiert'},
   {value:'qualified',label:'Qualifiziert'},{value:'proposal',label:'Angebot'},
@@ -42,6 +43,8 @@ export default function CrmConsole() {
   const [busy,setBusy]=createSignal(false);
   const [error,setError]=createSignal('');
   const [notice,setNotice]=createSignal('');
+  const [bridge,setBridge]=createSignal<ErpBridgeStatus|null>(null);
+  const [bridgeWarning,setBridgeWarning]=createSignal(false);
   const [selected,setSelected]=createSignal<Contact|null>(null);
   const [stage,setStage]=createSignal<Stage>('new');
   const [tagText,setTagText]=createSignal('');
@@ -54,11 +57,24 @@ export default function CrmConsole() {
   const salesCount=createMemo(()=>contacts().filter(c=>c.stage==='won').length);
   const inProgressCount=createMemo(()=>contacts().filter(c=>['contacted','qualified','proposal'].includes(c.stage)).length);
 
+  async function reloadBridgeStatus(){
+    setBridgeWarning(false);
+    let role='';
+    try{role=(await api<{role:string}>('/api/portal/session')).role;}
+    catch{setBridge(null);return;}
+    if(role!=='owner'){setBridge(null);return;}
+    try{
+      const status=await api<ErpBridgeStatus>('/api/crm/bridge-status');
+      if(status.scope!=='SITE_OUTBOX_ONLY')throw new Error('Unexpected bridge scope');
+      setBridge(status);
+    }catch{setBridge(null);setBridgeWarning(true);}
+  }
   async function reload() {
     setLoading(true);setError('');
     try{
       const data=await api<ListResponse>('/api/crm/contacts?q='+encodeURIComponent(search().trim()));
       setContacts(data.contacts);setLimited(data.limited);
+      await reloadBridgeStatus();
       const previous=selected();
       if(previous) {
         const item=data.contacts.find(c=>c.id===previous.id);
@@ -124,6 +140,21 @@ export default function CrmConsole() {
       <div><span>In Bearbeitung · Ansicht</span><strong>{inProgressCount()}</strong></div>
       <div><span>Gewonnen · Ansicht</span><strong>{salesCount()}</strong></div>
     </div>
+    <Show when={bridge()}>{status=>
+      <section class="kncrm-bridge" aria-labelledby="kncrm-bridge-heading">
+        <div class="kncrm-bridge-copy">
+          <p class="eyebrow">SITE / ERP</p>
+          <h3 id="kncrm-bridge-heading">Übergabestatus</h3>
+          <p>Lokale Warteschlange der Website. Die Übertragung erfordert eine gesonderte Freigabe und erfolgt nicht durch diese Anzeige.</p>
+        </div>
+        <dl class="kncrm-bridge-counts">
+          <div><dt>Wartend</dt><dd>{status().counts.pending+status().counts.leased}</dd></div>
+          <div><dt>Im ERP bestätigt</dt><dd>{status().counts.applied}</dd></div>
+          <div><dt>Prüfen / blockiert</dt><dd>{status().counts.review+status().counts.blocked}</dd></div>
+        </dl>
+      </section>
+    }</Show>
+    <Show when={bridgeWarning()}><p class="kncrm-alert" role="status">Der lokale ERP-Übergabestatus ist derzeit nicht verfügbar. Ihre CRM-Anfragen bleiben davon unberührt.</p></Show>
     <Show when={error()}><p class="kncrm-alert kncrm-error" role="alert">{error()}</p></Show>
     <Show when={notice()}><p class="kncrm-alert" role="status" aria-live="polite">{notice()}</p></Show>
     <div class="kncrm-grid">
