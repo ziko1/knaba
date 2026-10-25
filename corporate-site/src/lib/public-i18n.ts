@@ -4,6 +4,15 @@ import type { Service } from '../data/company.ts';
 
 export type PublicLocale = 'de' | 'ru' | 'en' | 'uk';
 const ru: Record<string, string> = {
+  'Gewerbebau & Sanierung':'Коммерческое строительство и реконструкция',
+  'Wohnbau & Modernisierung':'Жилищное строительство и модернизация',
+  'Neubau & Baustelle':'Новостройка и стройплощадка',
+  'Technik & Leitungen':'Техника и коммуникации',
+  'Bauzwischenreinigung':'Промежуточная уборка',
+  'Baufeinreinigung':'Тонкая уборка',
+  'Baustellenberäumung':'Расчистка стройплощадки',
+  'Bauendreinigung':'Финальная уборка',
+
   'Ihr Browser unterstützt keine sichere Anfragekennung. Bitte nutzen Sie einen aktuellen Browser oder kontaktieren Sie KnaBa direkt.':'Ваш браузер не поддерживает безопасный идентификатор заявки. Используйте современный браузер или свяжитесь с KnaBa напрямую.',
   'Leistung':'Услуга','Objekt':'Объект','Kontakt':'Контакты',
   'Büro / Gewerbe':'Офис / коммерческое помещение','Wohngebäude / Treppenhaus':'Жилое здание / подъезд','Baustelle':'Стройплощадка','Bildung / Betreuung':'Образование / уход','Anderes Objekt':'Другой объект',

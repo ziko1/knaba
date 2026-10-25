@@ -1,3 +1,4 @@
+import {studioPages} from '../src/lib/studio-pages';
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {constructionFaq,faqCopy} from '../src/data/construction-faq';
@@ -67,6 +68,7 @@ describe('KNABA localized construction FAQ',()=>{
       expect(site(page)).toContain('full />');
       expect(site(page)).toContain('faqCopy');
     }
-    expect(site('pages/sitemap.xml.ts')).toContain("'/faq/'");
+    expect(site('pages/sitemap.xml.ts')).toContain('studioPages');
+    for(const prefix of ['', '/en', '/uk', '/ru']) expect(studioPages.some(page=>page.path===prefix+'/faq/')).toBe(true);
   });
 });

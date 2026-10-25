@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { objectChoices, needChoices, getService } from "../lib/planner";
+import { objectChoices, needChoices, recommendConstructionTopic } from "../lib/planner";
+import {offerBySlug} from '../data/construction-offers';
 import { useFinderStore } from "../stores/finder";
 import { plannerStore } from "../stores/planner";
 import { publicText, type PublicLocale } from "../lib/public-i18n";
@@ -9,15 +10,15 @@ const props = withDefaults(defineProps<{ locale?: PublicLocale }>(), { locale: "
 const t = (text: string) => publicText(text, props.locale);
 
 const finder = useFinderStore();
-const selected = ref(plannerStore.getState().service);
-const suggestion = computed(() => getService(finder.recommendation, props.locale));
+const selected = ref(plannerStore.getState().topic);
+const suggestion = computed(() => offerBySlug(recommendConstructionTopic(finder.need))!);
 let unsubscribe: (() => void) | undefined;
 onMounted(() => {
-  selected.value = plannerStore.getState().service;
-  unsubscribe = plannerStore.subscribe((state) => { selected.value = state.service; });
+  selected.value = plannerStore.getState().topic;
+  unsubscribe = plannerStore.subscribe((state) => { selected.value = state.topic; });
 });
 onUnmounted(() => unsubscribe?.());
-function choose() { plannerStore.getState().selectService(suggestion.value.slug); }
+function choose() { plannerStore.getState().selectTopic(suggestion.value.slug); }
 </script>
 
 <template>
@@ -39,8 +40,9 @@ function choose() { plannerStore.getState().selectService(suggestion.value.slug)
     </fieldset>
     <div class="recommendation" aria-live="polite" aria-atomic="true">
       <span class="recommendation-label">{{ t("UNSERE ORIENTIERUNGSHILFE") }}</span>
-      <h3>{{ suggestion.name }}</h3>
-      <p>{{ suggestion.description }}</p>
+      <h3>{{ suggestion.name[props.locale] }}</h3>
+      <p>{{ t(objectChoices.find(option => option.value === finder.object)!.label) }} · {{ t(needChoices.find(option => option.value === finder.need)!.label) }}</p>
+      <p>{{ suggestion.description[props.locale] }}</p>
       <button class="button button-dark" type="button" @click="choose">{{ selected === suggestion.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →") }}</button>
       <a :href="`${props.locale === 'de' ? '' : '/'+props.locale}/bauleistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
     </div>
