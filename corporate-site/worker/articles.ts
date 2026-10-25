@@ -87,6 +87,24 @@ async function publish(db:D1Database,page:string,expected:number,actorId:string)
   if(!results[0]?.meta?.changes||!results[1]?.meta?.changes)return fail(409,'stale_version','Veröffentlichung konnte nicht atomar bestätigt werden.');
   return response({page,version:expected,published:true});
 }
+/** Remove a public article without deleting the draft, prior published snapshot or revisions. */
+async function unpublish(db:D1Database,page:string,expected:number,actorId:string){
+  const row=await get(db,page);
+  if(!row)return fail(404,'article_missing','Der Artikel existiert nicht.');
+  if(Number(row.draft_version)!==expected)return fail(409,'stale_version','Artikel zwischenzeitlich geändert.');
+  if(!Number(row.published_version))return response({page,version:expected,published:false,unchanged:true});
+  const now=new Date().toISOString(),rid=crypto.randomUUID();
+  const results=await db.batch([
+    // Insert old published state BEFORE clearing public fields; both are guarded in one transaction.
+    db.prepare("INSERT INTO studio_revisions (id,page_path,version,action,snapshot_json,actor_id,created_at) SELECT ?,page_path,published_version,'unpublished',published_json,?,? FROM studio_pages WHERE page_path=? AND draft_version=? AND published_version>0")
+      .bind(rid,actorId,now,page,expected),
+    db.prepare("UPDATE studio_pages SET published_json='[]',published_version=0,updated_at=?,updated_by=? WHERE page_path=? AND draft_version=? AND published_version>0")
+      .bind(now,actorId,page,expected)
+  ]);
+  if(!results[0]?.meta?.changes||!results[1]?.meta?.changes)
+    return fail(409,'stale_version','Die Freigabe konnte nicht atomar zurückgenommen werden.');
+  return response({page,version:expected,published:false});
+}
 async function restore(db:D1Database,page:string,rid:string,expected:number,actorId:string){
   if(!/^[0-9a-f-]{36}$/i.test(rid))return fail(422,'revision','Ungültige Revision.');
   const row=await db.prepare("SELECT snapshot_json FROM studio_revisions WHERE page_path=? AND id=? AND action IN ('draft','restore','published')").bind(page,rid).first<Row>();
@@ -110,6 +128,11 @@ export async function handleStudioArticles(request:Request,db:D1Database,actorId
     keys(body,['page','version','confirm']);
     if(body.confirm!=='PUBLISH')return fail(422,'confirm','Bitte PUBLISH eingeben.');
     return publish(db,pathFor(body.page),validVersion(body.version),actorId);
+  }
+  if(path==='/api/studio/article/unpublish'){
+    keys(body,['page','version','confirm']);
+    if(body.confirm!=='UNPUBLISH')return fail(422,'confirm','Bitte UNPUBLISH eingeben.');
+    return unpublish(db,pathFor(body.page),validVersion(body.version),actorId);
   }
   if(path==='/api/studio/article/restore'){
     keys(body,['page','version','revisionId']);
