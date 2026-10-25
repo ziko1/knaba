@@ -75,6 +75,57 @@ const base = (process.env.KNABA_TEST_URL || 'http://127.0.0.1:4321').replace(/\/
       assert.equal(await failed.locator('.site-language-options a[data-language-switch]').count(),4);
       console.log('LANG_MANIFEST_FAILURE_FALLBACK_PASS');
     } finally { await failed.close(); }
+    // Reflow and keyboard acceptance at 200% root text size, including 320px.
+    let largeTextCases=0;
+    for(const route of ['/', '/en/', '/uk/', '/ru/']) {
+      for(const width of [320,390,640]) {
+        const page=await browser.newPage({viewport:{width,height:844},deviceScaleFactor:1});
+        try {
+          const response=await page.goto(base+route,{waitUntil:'load',timeout:20000});
+          assert.equal(response?.status(),200);
+          await page.addStyleTag({content:'html{font-size:200%!important}'});
+          const layout=await page.evaluate(()=>{
+            const skip=document.querySelector('.skip-link');
+            const box=skip.getBoundingClientRect();
+            const rects=['.construction-brand img','.site-language-switcher>summary','.mobile-nav>summary']
+              .map(q=>document.querySelector(q).getBoundingClientRect());
+            return {
+              overflow:document.documentElement.scrollWidth-innerWidth,
+              controlsWithin:rects.every(r=>r.left>=-1&&r.right<=innerWidth+1),
+              offscreenSkip:box.bottom<=-1,
+              skipPointerEvents:getComputedStyle(skip).pointerEvents,
+            };
+          });
+          assert.ok(layout.overflow<=1&&layout.controlsWithin,JSON.stringify({route,width,layout}));
+          assert.equal(layout.offscreenSkip,true,JSON.stringify({route,width,layout}));
+          assert.equal(layout.skipPointerEvents,'none');
+          await page.locator('.skip-link').focus();
+          const skipFocus=await page.locator('.skip-link').evaluate(e=>{
+            const b=e.getBoundingClientRect();
+            return document.activeElement===e && b.top>=0 && b.left>=0 && b.right<=innerWidth+1 &&
+              getComputedStyle(e).pointerEvents==='auto';
+          });
+          assert.equal(skipFocus,true,'Skip link must remain keyboard-focus visible');
+          const nav=page.locator('.mobile-nav>summary');
+          await nav.click({timeout:4000});
+          assert.equal(await page.locator('.mobile-nav').evaluate(e=>e.open),true,'Mobile menu stays clickable after text resize');
+          await page.keyboard.press('Escape');
+          assert.equal(await page.locator('.mobile-nav').evaluate(e=>e.open),false);
+          await page.locator('.site-language-switcher>summary').click({timeout:4000});
+          await page.waitForSelector('[data-locale-item]',{timeout:12000});
+          const panel=await page.locator('.site-language-options').evaluate(e=>{
+            const b=e.getBoundingClientRect();
+            return {left:b.left,right:b.right,viewport:innerWidth,overflow:document.documentElement.scrollWidth-innerWidth};
+          });
+          assert.ok(panel.left>=-1&&panel.right<=width+1&&panel.overflow<=1,
+            JSON.stringify({route,width,panel}));
+          await page.keyboard.press('Escape');
+          largeTextCases++;
+          console.log('FONT200_PASS',route,width);
+        }finally{await page.close()}
+      }
+    }
+    console.log('FONT200_TOTAL',largeTextCases);
     console.log('LANG_BROWSER_TOTAL',cases);
   } finally { await browser.close(); }
 })().catch(error=>{console.error(error.stack);process.exitCode=1;});
