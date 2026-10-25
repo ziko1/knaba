@@ -5,7 +5,7 @@ import '../styles/site-studio.css';
 type Language='de'|'en'|'uk'|'ru';
 type Revision={id:string;version:number;action:string;createdAt:string};
 type PageResponse={page:string;version:number;draft:StudioEntry[];published:StudioEntry[];publishedVersion:number;history:Revision[];updatedAt:string};
-type Selected={selector:string;tag:string;kind:StudioKind;value:string;href?:string;alt?:string};
+type Selected={selector:string;tag:string;kind:StudioKind;value:string;href?:string;alt?:string;rich?:boolean};
 type ApiError={error?:{message:string;code:string}};
 const pages=[
   {path:'/',title:'Startseite DE'}, {path:'/ru/',title:'Главная RU'},
@@ -139,14 +139,14 @@ export default function SiteStudio(){
   }
   function onFrameMessage(event:MessageEvent){
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
-    const data=event.data as {type?:string;page?:string;selector?:string;kind?:StudioKind;tag?:string;value?:string;href?:string;alt?:string};
+    const data=event.data as {type?:string;page?:string;selector?:string;kind?:StudioKind;tag?:string;value?:string;href?:string;alt?:string;rich?:boolean};
     if(!data||data.page!==page())return;
     if(data.type==='knaba:studio:ready') {transmit();return;}
     if(data.type!=='knaba:studio:select'||!data.selector||!data.kind||!data.tag)return;
     const candidate={selector:data.selector,kind:data.kind,value:data.value||''};
     try{validateStudioEntries([candidate]);}
     catch{return;}
-    setSelected({selector:data.selector,kind:data.kind,tag:data.tag,value:data.value||'',href:data.href,alt:data.alt});
+    setSelected({selector:data.selector,kind:data.kind,tag:data.tag,value:data.value||'',href:data.href,alt:data.alt,rich:data.rich});
     setKind(data.kind);setSuggestion('');setInstruction('');
   }
   onMount(()=>{
@@ -160,7 +160,7 @@ export default function SiteStudio(){
   onCleanup(()=>{ if(typeof window !== 'undefined') window.removeEventListener('message',onFrameMessage); });
   const selectedFallback=()=>{const item=selected();if(!item)return '';return kind()==='href'?item.href||'':kind()==='alt'?item.alt||'':item.value;};
   const selectedValue=()=>{const item=selected();return item?valueFor(item.selector,kind(),selectedFallback()):'';};
-  const kindsFor=()=>selected()?.tag==='img'?['src','alt'] as StudioKind[]:selected()?.tag==='a'?['text','href','color'] as StudioKind[]:['text','color'] as StudioKind[];
+  const kindsFor=()=>selected()?.tag==='img'?['src','alt'] as StudioKind[]:selected()?.tag==='a'?(selected()?.rich?['href','color'] as StudioKind[]:['text','href','color'] as StudioKind[]):['text','color'] as StudioKind[];
 
   return <div class="knaba-studio" lang={language()}>
     <header class="studio-top">
@@ -202,7 +202,7 @@ export default function SiteStudio(){
                     <textarea rows={4} value={selectedValue()} maxLength={700} onInput={event=>updateField(item().selector,kind(),event.currentTarget.value)} />
                   </Show>
                 </label>
-                <Show when={kind()==='src'}><p class="studio-muted">/images/*.svg, .png, .jpg, .webp, .avif</p></Show>
+                <Show when={kind()==='src'}><p class="studio-muted">/images/ oder /illustrations/ · .svg, .png, .jpg, .webp, .avif</p></Show>
                 <Show when={kind()==='color'}><input aria-label={t().color} type="color" value={selectedValue().match(/^#[a-fA-F0-9]{6}$/)?selectedValue():'#203c36'} onInput={event=>updateField(item().selector,'color',event.currentTarget.value)}/></Show>
                 <button type="button" class="studio-minor" onClick={()=>removeField(item().selector,kind())}>{t().reset}</button>
               </>}

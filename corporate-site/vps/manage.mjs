@@ -4,11 +4,32 @@ import { backup } from 'node:sqlite';
 import { createHash } from 'node:crypto';
 import { readFile, mkdir, chmod, stat } from 'node:fs/promises';
 import { DatabaseSync } from 'node:sqlite';
-import { join } from 'node:path';
+import { join,dirname } from 'node:path';
+import { inspectStorage } from './storage.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
+if(['backup','migrate'].includes(command)){
+  const usage=inspectStorage(dirname(dbPath));
+  if(usage.state==='critical')throw Error('Insufficient disk space for safe backup/migration; source data unchanged.');
+  if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
+}
+
 if(!['init-owner','backup','audit','migrate'].includes(command||'')){
   process.stderr.write('Usage: node vps/manage.mjs init-owner|backup|audit|migrate\n');process.exit(2);
+}
+if(command==='audit'){
+  // Read-only snapshot inspection. Never initialize schemas or silently create a database.
+  const available=await stat(dbPath).catch(()=>null);
+  if(!available?.isFile())throw Error('Audit requires an existing database; none created.');
+  const db=new DatabaseSync(dbPath,{readOnly:true});
+  try{
+    const rows=db.prepare('SELECT filename,sha256,installed_at FROM vps_schema_migrations ORDER BY filename').all();
+    const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").all();
+    const integrity=db.prepare('PRAGMA integrity_check').get();
+    process.stdout.write(JSON.stringify({migrations:rows,tables:tables.map(r=>r.name),integrity:integrity.integrity_check},null,2)+'\n');
+    if(integrity.integrity_check!=='ok')process.exitCode=2;
+  } finally {db.close();}
+  process.exit();
 }
 if(command==='migrate'){
   // Existing durable data must have an independent, verified backup before schema changes.
@@ -48,11 +69,5 @@ try {
     await chmod(path,0o600);
     const h=createHash('sha256').update(await readFile(path)).digest('hex');
     process.stdout.write(JSON.stringify({path,sha256:h,migrations,bytes:(await readFile(path)).length})+'\n');
-  }
-  if(command==='audit'){
-    const rows=db.prepare('SELECT filename,sha256,installed_at FROM vps_schema_migrations ORDER BY filename').all();
-    const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").all();
-    const integrity=db.prepare('PRAGMA integrity_check').get();
-    process.stdout.write(JSON.stringify({migrations:rows,tables:tables.map(r=>r.name),integrity:integrity.integrity_check},null,2)+'\n');
   }
 } finally {db.close();}
