@@ -44,7 +44,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
       <span class="bau-card-action">{project.action} <span aria-hidden="true">↗</span></span>
     </a>
   </div>
-  <a href={catalog} class="bau-inline">{t.all} <span aria-hidden="true">→</span></a>
+  <a href={catalog} class="bau-inline bau-services-more">{t.all} <span aria-hidden="true">→</span></a>
 </section>
 <section class="bau-contract" aria-labelledby="bau-contract-heading"><div class="container bau-contract-grid">
   <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.all} <span aria-hidden="true">→</span></a></div>
@@ -73,8 +73,12 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
 .bau-card{display:flex;flex-direction:column;border-radius:22px;padding:26px;background:#f0f5f0;border:1px solid #d9e7db;text-decoration:none;color:#12343c;min-height:285px;transition:transform .2s,box-shadow .2s}
 .bau-card:nth-child(3n+2){background:#e9f4f6}.bau-card:nth-child(3n){background:#f1f2d9}.bau-card:hover{transform:translateY(-3px);box-shadow:0 16px 30px #0c3c3b1e}
-.bau-card.bau-card-request{background:linear-gradient(138deg,#103741,#086e73);border:1px solid #14757a;color:#fff}
-.bau-card-request .bau-ordinal{color:#cbeec1}.bau-card.bau-card-request p{color:#e0efeb}.bau-card-request .bau-card-action{color:#dff5ad}
+.bau-card.bau-card-request{background:linear-gradient(140deg,#ddf1e8 0%,#e8f5ef 58%,#f1f4dc 100%);border:1px solid #9bcbbb;color:#12343c;box-shadow:inset 0 1px #ffffffc9}
+.bau-card.bau-card-request:hover{border-color:#63a795;box-shadow:0 16px 30px #0c3c3b1e,inset 0 1px #ffffffeb}
+.bau-card-request .bau-ordinal{color:#45635b}.bau-card.bau-card-request p{color:#415c55}.bau-card-request .bau-card-action{color:#07646c}
+.bau-services-more{display:flex;justify-content:space-between;gap:18px;width:100%;padding:14px 22px;min-height:60px;border:1px solid #c4dfd5;border-radius:18px;background:#e8f4f0;color:#075f67}
+.bau-services-more:hover{background:#daf0e8;text-decoration:none}
+.bau-services-more:focus-visible{outline:3px solid #0c7d81;outline-offset:3px}
 .bau-card:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
 .bau-card-top{display:flex;align-items:center;justify-content:space-between}.bau-service-emoji{font-size:27px;line-height:1}.bau-ordinal{font-size:13px;letter-spacing:.08em;color:#6c9187}
 .bau-card h3{margin:26px 0 10px;font-size:clamp(19px,2vw,26px);letter-spacing:-.035em;overflow-wrap:anywhere}
