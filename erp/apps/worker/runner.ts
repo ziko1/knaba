@@ -310,10 +310,26 @@ export class WorkerRunner {
       const users=[...new Set(identities.map(row=>row.data.userId))];assert(users.length<=1,'AMBIGUOUS_RECIPIENT');
       let userId=users[0] as string|undefined;
       if(!userId){
-        const user=await tx.add('user',{name:'Telegram guest',roles:['GUEST','CLIENT'],permissions:['chat.read','chat.write','lead.create'],siteIds:[],customerIds:[],warehouseIds:[],active:true,guest:true});
+        const user=await tx.add('user',{name:'Telegram guest',roles:['GUEST'],permissions:['chat.read','chat.write','lead.create'],siteIds:[],customerIds:[],warehouseIds:[],active:true,guest:true});
         userId=user.id;
         await tx.add('contact_identity',{type:'TELEGRAM',value:input.sender,userId,verified:true,active:true,verificationSource:'TELEGRAM_SECRET_HEADER',verifiedAt:this.now().toISOString(),customerVerified:false});
       }
+      // A Telegram webhook authenticates a channel sender, NOT a KNABA login.
+      // Never reuse a privileged/customer/worker principal simply because its
+      // contact_identity contains the same Telegram numeric ID.
+      const linked=await tx.get('user',userId);
+      const effective=await this.engine.actorIn(tx,userId);
+      const allowed=new Set(['chat.read','chat.write','lead.create']);
+      assert(
+        linked.data.active===true&&linked.data.guest===true&&
+        Array.isArray(linked.data.roles)&&linked.data.roles.length===1&&linked.data.roles[0]==='GUEST'&&
+        Array.isArray(linked.data.permissions)&&linked.data.permissions.includes('chat.write')&&
+        linked.data.permissions.every((permission:string)=>allowed.has(permission))&&
+        effective.roles.length===1&&effective.roles[0]==='GUEST'&&
+        effective.permissions.every((permission:string)=>allowed.has(permission))&&
+        effective.siteIds.length===0&&effective.customerIds.length===0&&effective.warehouseIds.length===0,
+        'ACCESS_DENIED'
+      );
       let channel=(await tx.list('channel')).find(row=>row.data.created_by===userId&&row.data.type==='PRIVATE_CUSTOMER_ASSISTANT'&&row.data.source_provider==='TELEGRAM');
       if(!channel){
         const date=this.now().toISOString();
