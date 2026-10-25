@@ -1,0 +1,23 @@
+# KNABA — пошукова індексація, Studio і ревізія PR
+Дата: 2026-10-25. Статус: **Draft/source only; NOT_DEPLOYED, NOT_MERGED, NOT_READY**.
+
+## База та історія
+- Поточна робоча гілка: PR #49 `feat/knaba-studio-pro-livebase-20261025` source parent `386602d468a8aa04977eab44d642bde7c7ad7c28`, не `main`.
+- PR #50 head `d5c90db6bfe2a81180bc9c1d473e9ffde46d2702`: інша, розбіжна гілка SEO/FAQ/візуального дизайну. Не зливати без вибіркового review.
+- PR #1: окрема V3 KNABA DE Node/Postgres; PR #12: об'єднана структура `corporate-site/` + `erp/` + `docs/unified/`, але D1↔Postgres міст не готовий. `main` містить нормативну специфікацію; потрібна перевірка всіх попередніх PR #1–#50 та acceptance, а не автоматичне злиття.
+- Preserve-first: `AGENTS.md` (де існує), `KNABA_DE_MASTER_SPEC.md`, `PROJECT_MEMORY.md`, `ROADMAP.md`, `docs/unified/*`, бекенд, міграції, тести і rollback receipts.
+
+## Реалізація за етапами
+1. У збірках `KNABA_RELEASE_MODE=vsp|official` індексація **лише публічних** сторінок дозволена; тимчасова preview-збірка без визначеного режиму залишається noindex. Публічний root заголовок `X-Robots-Tag: noindex, follow` не формується. Закриті маршрути Studio/CRM/кабінет/пошта/вхід залишаються noindex/nofollow; жодних секретів або даних користувачів у sitemap.
+2. `sitemap.xml` формується лише з існуючого `studioPages` (68 DE/EN/UK/RU статичних публічних сторінок), містить канонічний origin і взаємні `hreflang` + x-default, без неіснуючих 95 мов. `robots.txt` не блокує публічні сторінки.
+3. У Studio owner-only `@title` і `@description` уже застосовуються на VPS до серверного HTML/OG **лише після PUBLISH**. Додати підказки SEO та уніфікований список URL; створення нових маршрутів Studio поки NOT_IMPLEMENTED — потрібні справжня сторінка, контент, посилання, локалізації, canonical, schema, sitemap і QA. Не видавати редагування наявної сторінки за створення нової.
+4. Google AI Overviews / AI Mode не вимагають спеціального `llms.txt` чи особливої AI-схеми; базовий SEO, читабельний контент, перевірені структуровані дані і доступні robots. Документація: https://developers.google.com/search/docs/appearance/ai-features .
+5. OpenAI `OAI-SearchBot` не заборонено стандартним robots; це не гарантує появи в ChatGPT-пошуку: https://developers.openai.com/api/docs/bots . IndexNow для Bing-подібних партнерів є тільки в PR #50, без dispatch. Google — через Search Console / sitemap, не IndexNow.
+6. Сторонні аналітики/маркетингова автоматизація, AI-provider calls і акаунти власника — тільки після авторизації, GDPR/CMP review, свіжих тарифів, квот і бюджету. Без фальшивих відгуків, keyword stuffing або вигаданого трафіку.
+
+## Перед завершенням
+- Node >=22.23.4: `npm ci && npm run check && npm test && npm run build && npm run verify:build` для `vsp` і preview режимів; Node24: `node --test vps/*.test.mjs`.
+- Верифікувати GET/HEAD headers public/private/404, canonical, hreflang, XML, HTTP status, auth/session, UAT і 320/390/768/980/1440px, 200% text scaling; measured p75 CWV baseline.
+- Review реальних послуг і текстів knaba.de, copyright, Impressum/Datenschutz; official owner approval, verified Search Console/Bing property and sitemap submit NOT_RUN.
+- Live PR49 раніше свідчив `/readyz=503` і використання VPS ~96%; свіжого runtime доказу немає. Backup/restore/owner + independent security QA до релізу обов'язкові.
+- Ніяких merge, VPS deploy, DNS, SQL, видалень або платних API до окремого release gate. Відкат — останній незмінений VPS release + snapshot БД.
