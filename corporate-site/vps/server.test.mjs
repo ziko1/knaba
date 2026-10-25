@@ -81,6 +81,18 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(badOrigin.status,403);
     const failed=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({email:owner,password:'wrong pw',return_to:'/studio/'})});
     assert.equal(failed.status,401);
+    const ajaxBad=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Accept:'application/json'},
+      body:new URLSearchParams({email:owner,password:'invalid',return_to:'/konto/'})});
+    assert.equal(ajaxBad.status,401);
+    assert.equal(ajaxBad.headers.get('set-cookie'),null);
+    assert.equal(ajaxBad.headers.get('content-type'),'application/json; charset=utf-8');
+    const ajaxSigned=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',Accept:'application/json'},body:form});
+    assert.equal(ajaxSigned.status,200);
+    assert.equal((await ajaxSigned.json()).ok,true);
+    assert.equal(ajaxSigned.headers.get('location'),null);
+    assert.match(ajaxSigned.headers.get('set-cookie'),/HttpOnly/);
+    const ajaxCookie=ajaxSigned.headers.get('set-cookie').split(';')[0];
+    assert.equal((await (await fetchAt('/api/portal/session',{headers:{Cookie:ajaxCookie}})).json()).role,'owner');
     const signed=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:form});
     assert.equal(signed.status,303);
     assert.equal(signed.headers.get('location'),'/studio/');

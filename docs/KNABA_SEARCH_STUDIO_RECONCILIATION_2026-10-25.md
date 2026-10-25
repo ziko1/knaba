@@ -21,3 +21,9 @@
 - Review реальних послуг і текстів knaba.de, copyright, Impressum/Datenschutz; official owner approval, verified Search Console/Bing property and sitemap submit NOT_RUN.
 - Live PR49 раніше свідчив `/readyz=503` і використання VPS ~96%; свіжого runtime доказу немає. Backup/restore/owner + independent security QA до релізу обов'язкові.
 - Ніяких merge, VPS deploy, DNS, SQL, видалень або платних API до окремого release gate. Відкат — останній незмінений VPS release + snapshot БД.
+
+## Scoped login + UI increment (source only)
+- Server `/login/` accepts `Accept: application/json` from same-origin portal, returns generic error 401 or 200 with existing HttpOnly session cookie; existing HTML POST 303 fallback preserved. Auth, origins, rate limits and owner approval remain server-side.
+- Solid portal uses client-side login then rechecks authenticated session without reloading. Registration is **not anonymous open sign-up**: after authenticated identity, a user without profile submits a pending approval. For first-time visitors `Request access` links to the company's contact form.
+- Header and mobile menu now have explicit access entry; quiet footer link to `https://vsp.rest/`; Studio SEO panel clarifies publish boundary and new-route limitation.
+- Runtime/Chromium/device checks not yet executed. No staging or production code deployment.
