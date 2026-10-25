@@ -224,3 +224,11 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Publish and independently review reconciled Draft PR; verify GitHub commit/tree exactly matches tested application code.
 - [ ] Owner invitation and real owner UAT (no automatic owner rights), external security/browser/accessibility review, storage release gate, then separately gated developer site cutover.
 - [ ] Official knaba.de DNS, customer migrations and production launch require separate approval.
+
+## UXSVC-GRID — mobile service order and consistent visual language (2026-10-25)
+
+- [x] Shared grid sequence `01–03 cleaning / 04 planner / 05 Bauhelfer / 06 Baustellenberäumung` on home and catalogue without changing offer identifiers; four published locales inherit one source.
+- [x] Planner CTA harmonised with existing pastel palette, dynamic ordinal labels and text-rendered action arrows; keyboard focus and responsive grid preserved.
+- [x] Exact-source isolated Node24 check, 152 Vitest + 16 Node, 103-page build and 8/8 locale route-order tests: documented in `docs/KNABA_SERVICE_CARD_ORDER_QA_2026-10-25_UK.md` (tested code SHA `b40c2e173e505ff9725449c30009fae02f131b3c`).
+- [ ] Independent diff/design review, real Chromium/Safari screenshots at 320–1440 px, 200% zoom and screen-reader/mobile acceptance.
+- [ ] Version-pinned VSP preview roll-forward with backup+rollback after explicit release approval, then live smoke; official `knaba.de` rollout remains separately gated.
