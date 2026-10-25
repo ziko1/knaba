@@ -71,7 +71,7 @@ test('mock outbound distinguishes provider acceptance from delivery and unknown 
   const config={token:'123456:ABCDEFghijk1234567890_ABCDEFghijk',enabled:true,allowedChatIds:['123456789']};
   const policy={consent:true,verifiedPrivateRecipient:true};
   const ok=new TelegramBotAdapter(config,(async (_url,opts) => {
-    const body=JSON.parse(String(opts?.body));assert.equal(body.chat_id,'123456789');assert.equal(body.disable_web_page_preview,true);
+    const body=JSON.parse(String(opts?.body));assert.equal(body.chat_id,'123456789');assert.deepEqual(body.link_preview_options,{is_disabled:true});
     return new Response(JSON.stringify({ok:true,result:{message_id:78,chat:{id:123456789}}}));
   }) as typeof fetch);
   assert.deepEqual(await ok.sendText('123456789','Original',policy),{provider_message_id:'78',status:'API_ACCEPTED'});
