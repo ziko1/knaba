@@ -23,7 +23,7 @@ export async function acceptTelegramWebhook(
     if (insert.rows.length) {
       await tx.event('telegram.inbound',{provider:'TELEGRAM',event_id:event.id});
     } else {
-      const old = await tx.query('SELECT company_id, payload = $4::jsonb AS identical FROM webhook_inbox WHERE provider=$1 AND event_id=$2',params);
+      const old = await tx.query('SELECT company_id, payload = $3::jsonb AS identical FROM webhook_inbox WHERE provider=$1 AND event_id=$2',[params[0],params[1],params[3]]);
       if (old.rows.length!==1 || old.rows[0]?.company_id!==companyId)
         throw new TelegramBoundaryError('ACCESS_DENIED');
       if (old.rows[0]?.identical!==true)
