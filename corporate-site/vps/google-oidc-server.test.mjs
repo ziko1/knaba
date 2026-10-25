@@ -45,6 +45,7 @@ test('Google sign-in is fail-closed, code+PKCE callback is one-use, new user is 
     const unconfigured=await at('/auth/providers.json');
     assert.equal(unconfigured.status,200);
     assert.deepEqual(await unconfigured.json(),{google:false});
+    assert.doesNotMatch(await (await at('/login/')).text(),/Mit Google anmelden/);
     assert.equal((await at('/auth/google/start')).status,404);
     await app.close();app=null;
     const pre=openLocalDatabase(dbPath,{allowMigrations:false});
@@ -58,6 +59,7 @@ test('Google sign-in is fail-closed, code+PKCE callback is one-use, new user is 
         fetchImpl:makeMock(()=>activeNonce,'new.client@example.test')}
     });
     assert.deepEqual(await (await at('/auth/providers.json')).json(),{google:true});
+    assert.match(await (await at('/login/')).text(),/Mit Google anmelden/);
     const start=await at('/auth/google/start?return_to=%2Fuk%2Fkonto%2F');
     assert.equal(start.status,302);
     assert.match(start.headers.get('x-robots-tag'),/noindex/);
