@@ -33,6 +33,14 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await fetchAt('/readyz')).status,200);
     const site=await fetchAt('/');
     assert.equal(site.status,200);
+    // HEAD must represent the same noindex private page as GET. Previously
+    // /login/ and /logout/ returned 405 without X-Robots-Tag.
+    for(const privatePath of ['/login/','/logout/']){
+      const head=await fetchAt(privatePath,{method:'HEAD'});
+      assert.equal(head.status,200,'HEAD private route '+privatePath);
+      assert.match(head.headers.get('X-Robots-Tag'),/noindex/,'Private HEAD must stay unindexable');
+      assert.equal(await head.text(),'','HEAD must return headers without a response body');
+    }
     const staticHtml=await site.text();
     // A translated-route claim requires reviewed content. Pending languages are
     // metadata-only, never injected into every HTML page or published as links.
