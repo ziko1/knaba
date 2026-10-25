@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import {siteConfig} from '../data/site';
+import {company} from '../data/company';
 import {offerBySlug, type ConstructionLocale} from '../data/construction-offers';
 import {constructionGuides, type ConstructionGuide} from '../data/construction-guides';
 
@@ -12,6 +13,12 @@ const labels={
   en:{guides:'Construction guides',label:'PRACTICAL CONSTRUCTION GUIDANCE',contents:'In this guide',checklist:'For your project discussion',checklistIntro:'Use these points to prepare the conversation. The exact scope is agreed for your property.',service:'Related service',request:'Enquire about this project',requestTitle:'Turn your plan into an agreed scope.',requestText:'Describe the construction phase, areas and timing. We will discuss site requirements and the scope of work.',related:'Explore more project questions',read:'Read the guide',back:'All construction guides',section:'Section'},
   uk:{guides:'Поради з будівельного клінінгу',label:'ПРАКТИКА / БУДІВЕЛЬНИЙ КЛІНІНГ',contents:'У цьому пораднику',checklist:'Для обговорення вашого проєкту',checklistIntro:'Використайте ці пункти для підготовки розмови. Конкретний обсяг погоджується для вашого об’єкта.',service:'Відповідна послуга',request:'Надіслати запит про цей проєкт',requestTitle:'Від підготовки до погодженого обсягу.',requestText:'Опишіть етап будівництва, площі та терміни. Разом уточнимо умови на об’єкті й перелік робіт.',related:'Інші питання вашого проєкту',read:'Читати порадник',back:'Усі поради',section:'Розділ'},
   ru:{guides:'Советы по строительному клинингу',label:'ПРАКТИКА / СТРОИТЕЛЬНЫЙ КЛИНИНГ',contents:'В этом руководстве',checklist:'Для обсуждения вашего проекта',checklistIntro:'Используйте эти пункты для подготовки разговора. Конкретный объём согласуется для вашего объекта.',service:'Подходящая услуга',request:'Отправить запрос по проекту',requestTitle:'От подготовки к согласованному объёму.',requestText:'Опишите этап строительства, площади и сроки. Вместе уточним условия на объекте и перечень работ.',related:'Другие вопросы вашего проекта',read:'Читать руководство',back:'Все советы',section:'Раздел'},
+}[locale];
+const tools={
+  de:{print:'Ratgeber drucken / als PDF speichern',hint:'Markieren Sie, was bereits geklärt ist. Ihre Häkchen werden nicht an KnaBa oder mit einer Anfrage gesendet. Für Ihre Unterlagen können Sie den Ratgeber drucken oder im Druckdialog als PDF speichern.',source:'Quelle'},
+  en:{print:'Print guide / save as PDF',hint:'Tick the points you have already clarified. Your ticks are not sent to KnaBa or included in an enquiry. For your records, print the guide or save it as a PDF in the print dialog.',source:'Source'},
+  uk:{print:'Друк порадника / зберегти як PDF',hint:'Позначте пункти, які вже узгодили. Відмітки не надсилаються до KnaBa або разом із заявкою. Для себе можна роздрукувати порадник чи зберегти його як PDF у вікні друку.',source:'Джерело'},
+  ru:{print:'Печать руководства / сохранить PDF',hint:'Отметьте пункты, которые уже согласовали. Отметки не отправляются в KnaBa или вместе с заявкой. Для себя можно распечатать руководство или сохранить его как PDF в окне печати.',source:'Источник'},
 }[locale];
 const offer=offerBySlug(guide.serviceSlug);
 if(!offer?.core) throw new Error('Construction guide must reference a published core service');
@@ -29,6 +36,8 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
       <p class="eyebrow">{labels.label}</p>
       <h1>{guide.title[locale]}</h1>
       <p class="guide-lead">{guide.intro[locale]}</p>
+      <button type="button" class="button button-dark guide-print-button" data-guide-print hidden>{tools.print}</button>
+      <p class="guide-print-source">KnaBa · {company.phone} · {company.email}<br />{tools.source}: {guideUrl}</p>
     </section>
     <section class="container section section-tight guide-layout" aria-label={labels.guides}>
       <aside class="guide-sidebar">
@@ -53,7 +62,8 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
           <p class="eyebrow">KnaBa / {labels.guides}</p>
           <h2 id="guide-checklist-title">{labels.checklist}</h2>
           <p>{labels.checklistIntro}</p>
-          <ul>{guide.checklist.map(item=><li><span class="guide-check" aria-hidden="true">✓</span><span>{item[locale]}</span></li>)}</ul>
+          <p class="guide-checklist-hint" id="guide-checklist-hint">{tools.hint}</p>
+          <ul>{guide.checklist.map(item=><li><label class="guide-check-item"><input type="checkbox" aria-describedby="guide-checklist-hint" /><span>{item[locale]}</span></label></li>)}</ul>
         </section>
       </div>
     </section>
@@ -70,11 +80,26 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
   </section>
 </Layout>
 
+<script>
+  function initializeGuidePrint() {
+    document.querySelectorAll<HTMLButtonElement>('[data-guide-print]').forEach(button=>{
+      if(button.dataset.ready) return;
+      button.dataset.ready='true';
+      button.hidden=false;
+      button.addEventListener('click',()=>window.print());
+    });
+  }
+  initializeGuidePrint();
+  document.addEventListener('astro:page-load',initializeGuidePrint);
+</script>
+
 <style>
   .construction-guide{overflow-wrap:anywhere}
   .guide-intro{padding-bottom:2.5rem}
   .guide-intro h1{max-width:1000px;font-size:clamp(2.4rem,5.1vw,4.1rem);line-height:1.12;text-wrap:balance}
   .guide-intro .guide-lead{max-width:78ch;font-size:1.0625rem;line-height:1.85}
+  .guide-print-button{white-space:normal;max-width:100%;font-size:.875rem;min-height:44px;line-height:1.5;text-align:left;margin-top:1rem}
+  .guide-print-button[hidden],.guide-print-source{display:none}
   .guide-intro .breadcrumb{min-height:44px;display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;font-size:.875rem}
   .guide-layout{display:grid;grid-template-columns:minmax(220px,.7fr) minmax(0,1.65fr);gap:clamp(2rem,5vw,5rem);align-items:start}
   .guide-sidebar,.guide-prose{min-width:0}
@@ -97,8 +122,11 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
   .guide-checklist{scroll-margin-top:110px;padding:clamp(1.5rem,3vw,2.5rem);border-radius:22px;background:#e7f1f3;border:1px solid #ccdfe1}
   .guide-checklist .eyebrow{font-size:.6875rem;color:#1b6563;line-height:1.7}
   .guide-checklist ul{display:grid;gap:1rem;list-style:none;margin:1.5rem 0 0;padding:0}
-  .guide-checklist li{display:flex;align-items:flex-start;gap:.8rem}
-  .guide-check{display:inline-flex;justify-content:center;align-items:center;flex-shrink:0;min-width:1.5rem;height:1.5rem;margin-top:.15rem;border-radius:50%;background:#d0e7dc;color:#165a50;font-weight:800;font-size:.875rem}
+  .guide-check-item{display:flex;align-items:flex-start;gap:.8rem;cursor:pointer;min-height:44px;padding:.35rem 0}
+  .guide-check-item input{flex:0 0 auto;width:1.4rem;height:1.4rem;margin:.25rem 0 0;accent-color:#165a50;cursor:pointer}
+  .guide-check-item span{min-width:0}
+  .guide-check-item input:focus-visible,.guide-print-button:focus-visible{outline:3px solid #137b78;outline-offset:4px}
+  .guide-checklist .guide-checklist-hint{font-size:.875rem;line-height:1.7}
   .guide-cta{gap:2rem;overflow-wrap:anywhere}
   .guide-cta>div{min-width:0}
   .guide-cta p{max-width:62ch;margin-bottom:0;color:#34594b;font-size:1rem}
@@ -115,4 +143,25 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
   .guide-related-card:focus-visible,.construction-guide a:focus-visible{outline:3px solid #137b78;outline-offset:5px}
   @media(max-width:900px){.guide-layout{grid-template-columns:1fr;gap:2rem}.guide-sidebar{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1.25rem;align-items:start}.guide-service{margin-top:0}.guide-related-grid{grid-template-columns:1fr}.guide-cta{align-items:flex-start;flex-direction:column}}
   @media(max-width:560px){.guide-sidebar{grid-template-columns:1fr}.guide-intro h1{font-size:2.25rem}.guide-intro{padding-top:2.5rem}.guide-section,.guide-checklist{scroll-margin-top:90px}.guide-contents{padding:1.25rem}.guide-cta .button{width:100%}}
+  @media print{
+    :global(body:has(.construction-guide)){display:block;background:#fff;color:#000}
+    :global(body:has(.construction-guide)>:not(main)){display:none!important}
+    :global(body:has(.construction-guide) #main){display:block;margin:0;padding:0}
+    :global(body:has(.construction-guide) #main>:not(.construction-guide)){display:none!important}
+    .guide-sidebar,.guide-intro .breadcrumb,.guide-print-button,.guide-section-number,.guide-checklist-hint{display:none!important}
+    .construction-guide .container{width:100%;max-width:none;padding:0;margin:0}
+    .guide-layout{display:block}
+    .guide-intro h1{font-size:22pt;line-height:1.2;margin:0 0 10pt}
+    .guide-intro .guide-lead{font-size:11pt;line-height:1.5;max-width:none}
+    .guide-print-source{display:block;font-size:9pt!important;line-height:1.5!important;color:#000!important;margin:12pt 0 20pt;overflow-wrap:anywhere}
+    .guide-section{border:0;padding:0;margin:16pt 0}
+    .guide-section h2,.guide-checklist h2{font-size:15pt;line-height:1.3;margin:0 0 8pt;break-after:avoid}
+    .guide-section p:not(.guide-section-number),.guide-section li,.guide-checklist p,.guide-checklist li{font-size:11pt;line-height:1.5;color:#000;orphans:3;widows:3}
+    .guide-checklist{background:#fff;border:1pt solid #555;border-radius:0;padding:12pt;margin:18pt 0}
+    .guide-checklist ul{gap:6pt;margin:10pt 0 0}
+    .guide-checklist li{break-inside:avoid}
+    .guide-check-item{min-height:0;padding:2pt 0;gap:8pt}
+    .guide-check-item input{appearance:none;width:12pt;height:12pt;border:1pt solid #000;border-radius:0;position:relative;margin-top:2pt}
+    .guide-check-item input:checked::after{content:'×';position:absolute;inset:-4pt 0 0;text-align:center;font:bold 18pt/1.1 sans-serif;color:#000}
+  }
 </style>
