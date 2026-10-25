@@ -24,6 +24,7 @@ import type { Database, PgTransaction } from '../api/database.ts';
 import type { Engine } from '../api/engine.ts';
 import { assert, DomainError, type Actor, type Data, type Entity } from '../../packages/domain/core.ts';
 import { whatsAppPolicy, isQuietHour } from '../../packages/domain/communications.ts';
+import {ROLE_PERMISSIONS} from '../../packages/domain/permissions.ts';
 import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,nextQuietWindowEnd,safeRetryDelayMs,projectDeliveryNotifications,deliveryDecision,type DeliveryFailureClass} from '../../packages/domain/notification-policy.ts';
 import { DeepSeekAdapter, WhatsAppCloudAdapter, type WhatsAppInbound, type WhatsAppOutput, type SupportedLanguage } from '../../packages/integrations/index.ts';
 
@@ -319,14 +320,17 @@ export class WorkerRunner {
       // contact_identity contains the same Telegram numeric ID.
       const linked=await tx.get('user',userId);
       const effective=await this.engine.actorIn(tx,userId);
-      const allowed=new Set(['chat.read','chat.write','lead.create']);
+      const explicitAllowed=new Set(['chat.read','chat.write','lead.create']);
+      // Preserve ERP's canonical GUEST rights; never permit rights or scopes
+      // belonging to an authenticated KNABA employee/customer account.
+      const guestAllowed=new Set([...(ROLE_PERMISSIONS.GUEST??[]),...explicitAllowed]);
       assert(
         linked.data.active===true&&linked.data.guest===true&&
         Array.isArray(linked.data.roles)&&linked.data.roles.length===1&&linked.data.roles[0]==='GUEST'&&
         Array.isArray(linked.data.permissions)&&linked.data.permissions.includes('chat.write')&&
-        linked.data.permissions.every((permission:string)=>allowed.has(permission))&&
+        linked.data.permissions.every((permission:string)=>explicitAllowed.has(permission))&&
         effective.roles.length===1&&effective.roles[0]==='GUEST'&&
-        effective.permissions.every((permission:string)=>allowed.has(permission))&&
+        effective.permissions.every((permission:string)=>guestAllowed.has(permission))&&
         effective.siteIds.length===0&&effective.customerIds.length===0&&effective.warehouseIds.length===0,
         'ACCESS_DENIED'
       );
