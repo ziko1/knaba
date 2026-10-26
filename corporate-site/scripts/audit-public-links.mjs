@@ -136,8 +136,13 @@ export async function auditPublicLinks({
   const seeds=new Set();
   for(const raw of locs){
     const u=resolved(raw,origin);
-    if(!u||u.origin!==origin){issue('UNTRUSTED_SITEMAP_URL','/sitemap.xml',raw);continue}
-    seeds.add(localPath(u));
+    const canonicalOrigin=KNABA_PUBLIC_ORIGINS[mode];
+    if(!u||(u.origin!==origin&&!(testUrl&&u.origin===canonicalOrigin))){
+      issue('UNTRUSTED_SITEMAP_URL','/sitemap.xml',raw);continue;
+    }
+    // A static loopback build retains public canonical URLs in its sitemap.
+    // Rewrite only their paths to the explicitly approved localhost preview.
+    seeds.add(origin+u.pathname);
   }
   if(seeds.size!==locs.length)issue('DUPLICATE_OR_UNSAFE_SITEMAP','/sitemap.xml');
   if(expectedSitemapRoutes!==undefined&&seeds.size!==expectedSitemapRoutes)
