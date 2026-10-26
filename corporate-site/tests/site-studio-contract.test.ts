@@ -1,3 +1,4 @@
+import { siteConfig } from '../src/data/site';
 import { describe, expect, it } from 'vitest';
 import { normalizeStudioPage, validateStudioEntries, StudioInputError } from '../src/lib/site-studio-contract';
 
@@ -39,11 +40,12 @@ describe('KNABA Site Studio input and publication rules', () => {
     expect(validateStudioEntries([{selector:image,kind:'src',value:'/illustrations/baureinigung.svg'}])).toHaveLength(1);
     expect(validateStudioEntries([{selector:link,kind:'href',value:'/kontakt/'}])).toHaveLength(1);
   });
-  it('allows the active origin but rejects legacy-site redirection and lookalikes',()=>{
+  it('allows only the active deployment origin, never cross-domain links or lookalikes',()=>{
     const link='#main > section:nth-of-type(1) > a:nth-of-type(1)';
     const assertHref=(href:string)=>validateStudioEntries([{selector:link,kind:'href',value:href}]);
-    expect(assertHref('https://kneba.vsp.rest/kontakt/')).toHaveLength(1);
-    expect(()=>assertHref('https://knaba.de/leistungen/')).toThrow(StudioInputError);
+    expect(assertHref(siteConfig.origin+'/kontakt/')).toHaveLength(1);
+    const inactiveOrigin=siteConfig.origin==='https://knaba.de'?'https://kneba.vsp.rest':'https://knaba.de';
+    expect(()=>assertHref(inactiveOrigin+'/leistungen/')).toThrow(StudioInputError);
     expect(()=>assertHref('https://www.knaba.de/')).toThrow(StudioInputError);
     for(const href of [
       'https://kneba.vsp.rest.evil.test/path',

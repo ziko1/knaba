@@ -246,3 +246,16 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Node24 check/test/build/verify:build on exact new branch SHA; independent review.
 - [ ] Verify image HTTP availability, CDN/privacy approval or migrate images to first-party copies; E2E 320/390/768/1440px, all four locales.
 - [ ] Confirm active VPS SHA, secure backup/rollback, owner UAT and explicit publication approval before deployment or merge.
+
+## KNABA official parity / licensed media gate — 26.10.2026
+
+| ID | Criterion | State |
+| --- | --- | --- |
+| OP01 | Verify existing functions vs real official public pages before changes, no duplicate partner block or contact handler | Source audit recorded; reuse existing |
+| OP02 | Internal links only on preview, active-origin Studio href validation, no source-note marketing UI | Source changes and regression checks added; build/runtime NOT_RUN |
+| OP03 | Shared four-locale Gallery + nav + Studio + SEO parity using first-party illustrations | Implemented source only; QA/build NOT_RUN |
+| OP04 | German/Russian third-party partner CDN privacy and image-rights disclosure | Draft legal source only; owner/rightsholder review REQUIRED |
+| OP05 | Verify genuine rights on original project photos/logos and any certifications or professional licenses | BLOCKED pending documentary proof; no fabricated claims |
+| OP06 | Node24 tests/build, mobile 320/390/768/1440, independent QA, exact artifact, VPS release checksum and backup/rollback | NOT_RUN/BLOCKED; do not deploy or merge without release approval |
+
+See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
