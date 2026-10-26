@@ -1,9 +1,9 @@
 # KNABA Omnichannel Bots — evidence & release gates (26.10.2026)
 
-**TESTED_SOURCE_COMMIT:** `8e36c07584ec98ce39de3a09c49b2ca3765c5eb2`  
-**ERP_GIT_TREE:** `9b7c03ee57695a3b2bd1ff9f4c819a820f72ded5`  
-**CORPORATE_SITE_GIT_TREE:** `4b60d0db5595f71ba2e73f2b0e67f30835363ff4`  
-**Historical import ancestor:** `66b07fb46d23c7110473c51fc23ce58d3c40a1b1` (not rebased / not advanced).  
+**TESTED_SOURCE_COMMIT:** `8e36c07584ec98ce39de3a09c49b2ca3765c5eb2`
+**ERP_GIT_TREE:** `9b7c03ee57695a3b2bd1ff9f4c819a820f72ded5`
+**CORPORATE_SITE_GIT_TREE:** `4b60d0db5595f71ba2e73f2b0e67f30835363ff4`
+**Historical import ancestor:** `66b07fb46d23c7110473c51fc23ce58d3c40a1b1` (not rebased / not advanced).
 Isolated **existing VPS** worktree: `/tmp/knaba-omnichannel-20261026`; source checked out directly from GitHub branch, detached from production and other working trees. Node.js 24.22.1 public npm binary. Preview-only site deployment: **NONE**. No provider calls.
 
 | Check | Status & evidence | Coverage limitation |
@@ -27,5 +27,5 @@ Isolated **existing VPS** worktree: `/tmp/knaba-omnichannel-20261026`; source ch
 - 439 skipped SQL integration tests; real browser, multi-tenant negative DB tests, real mobile browser/microphone tests and independent review/UAT NOT_RUN.
 - No committed code or source provenance was overwritten, no main merge, no release production, no migration, no database access; provider prices/balances UNKNOWN.
 
-**Verdict: DRAFT_SOURCE_READY_FOR_REVIEW; INTEGRATED_CUSTOMER_DELIVERY_NOT_READY.**  
+**Verdict: DRAFT_SOURCE_READY_FOR_REVIEW; INTEGRATED_CUSTOMER_DELIVERY_NOT_READY.**
 Route follow-up: `docs/plans/2026-10-26-knaba-omnichannel-assistant-360.md`, canonical KN-U20 backlog.
