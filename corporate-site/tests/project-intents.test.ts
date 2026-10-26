@@ -7,7 +7,7 @@ const slugs=['bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauh
 
 describe('Corporate project-intent SEO content',()=>{
   it('guides users to the same four live core construction services in every locale',()=>{
-    const active=new Set(constructionOffers.filter(offer=>offer.core).map(offer=>offer.slug));
+    const active=new Set<string>(constructionOffers.filter(offer=>offer.core).map(offer=>offer.slug));
     for(const locale of locales){
       const copy=projectIntents[locale];
       expect(copy.cases.map(item=>item.slug)).toEqual(slugs);
