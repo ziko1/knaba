@@ -7,57 +7,12 @@ export type ManagedReview = PublicReview & {
   email: string; consentAt: string; status: 'pending' | 'published' | 'hidden'; version: number;
 };
 
-// Editorial examples, never API records, customer identities or rating evidence.
-// Keep this model separate from PublicReview and never seed it into the database.
-export const reviewExamples = {
-  de: {
-    title: 'So könnte eine Rückmeldung aussehen',
-    disclosure: 'Die folgenden Texte sind frei erfundene Beispiele. Sie stammen nicht von Kunden und belegen keine ausgeführten Aufträge.',
-    badge: 'Beispiel · frei erfunden',
-    items: [
-      {topic: 'Reinigung vor der Übergabe', text: 'Vor der Übergabe war noch ziemlich viel Baustaub in den Räumen. Wir haben vorher besprochen, welche Flächen gereinigt werden sollen und was noch nicht fertig ist. Gut fand ich, dass wir zum Schluss gemeinsam durchgegangen sind und offene Punkte direkt klären konnten.'},
-      {topic: 'Abstimmung auf der Baustelle', text: 'Bei uns waren noch mehrere Gewerke gleichzeitig vor Ort. Deshalb war mir wichtig, dass die Reinigung zum Bauablauf passt. Die Bereiche und Zugangszeiten vorher abzusprechen hat geholfen. Eine Änderung im Ablauf konnten wir kurz am Telefon klären.'},
-      {topic: 'Unterstützung bei der Vorbereitung', text: 'Wir brauchten Hilfe beim Vorbereiten und Freiräumen einzelner Bereiche. Vor dem Einsatz wurde geklärt, was dazugehört und was nicht. Das hat die Abstimmung für mich einfacher gemacht. Beim nächsten Mal würde ich die Fotos und Maße gleich mit der Anfrage schicken.'},
-    ],
-  },
-  en: {
-    title: 'What feedback could look like',
-    disclosure: 'The following texts are fictional examples. They are not customer reviews and do not document completed projects.',
-    badge: 'Example · fictional text',
-    items: [
-      {topic: 'Cleaning before handover', text: 'There was still quite a bit of building dust before the handover. We talked through which areas needed cleaning and which were still being worked on. I appreciated walking through together at the end so we could clear up any remaining points.'},
-      {topic: 'Coordinating work on site', text: 'We still had several trades working on site, so the cleaning had to fit around them. Agreeing the areas and access times beforehand helped. When the schedule changed, we sorted it out with a quick phone call.'},
-      {topic: 'Help preparing the site', text: 'We needed help preparing and clearing a few areas. Before the visit, we agreed what was included and what was outside the scope. That made coordination easier for me. Next time I would send photos and measurements with the first enquiry.'},
-    ],
-  },
-  uk: {
-    title: 'Як може виглядати відгук',
-    disclosure: 'Нижче — вигадані приклади текстів. Це не відгуки клієнтів і не підтвердження виконаних замовлень.',
-    badge: 'Приклад відгуку · вигаданий текст',
-    items: [
-      {topic: 'Прибирання перед здачею', text: 'Перед здачею в приміщеннях ще було чимало будівельного пилу. Заздалегідь обговорили, що потрібно прибрати, а де роботи ще тривають. Сподобалося, що наприкінці разом пройшлися об’єктом і одразу з’ясували всі питання.'},
-      {topic: 'Узгодження робіт на об’єкті', text: 'На об’єкті одночасно працювали кілька бригад, тому прибирання треба було вписати в загальний графік. Допомогло те, що заздалегідь узгодили зони й час доступу. Коли графік трохи змінився, домовилися коротким дзвінком.'},
-      {topic: 'Допомога з підготовкою', text: 'Потрібна була допомога з підготовкою та звільненням окремих ділянок. До початку уточнили, що входить у роботи, а що ні. Мені так було простіше все організувати. Наступного разу одразу додам до запиту фото й розміри — це зекономить час на уточненнях.'},
-    ],
-  },
-  ru: {
-    title: 'Как может выглядеть отзыв',
-    disclosure: 'Ниже — вымышленные примеры текстов. Это не отзывы клиентов и не подтверждение выполненных заказов.',
-    badge: 'Пример отзыва · вымышленный текст',
-    items: [
-      {topic: 'Уборка перед сдачей', text: 'Перед сдачей в помещениях ещё было немало строительной пыли. Заранее обсудили, что нужно убрать, а где работы пока продолжаются. Понравилось, что в конце вместе прошли по объекту и сразу разобрали оставшиеся вопросы.'},
-      {topic: 'Согласование работ на объекте', text: 'На объекте одновременно работали несколько бригад, поэтому уборку нужно было вписать в общий график. Помогло то, что заранее согласовали зоны и время доступа. Когда график немного изменился, договорились коротким звонком.'},
-      {topic: 'Помощь с подготовкой', text: 'Нужна была помощь с подготовкой и освобождением отдельных участков. До начала уточнили, что входит в работы, а что нет. Мне так было проще всё организовать. В следующий раз сразу приложу к запросу фото и размеры — будет меньше уточнений.'},
-    ],
-  },
-} as const satisfies Record<ReviewLocale, {title: string; disclosure: string; badge: string; items: readonly {topic: string; text: string}[]}>;
-
 export const reviewsCopy = {
   de: {
-    label: 'ERFAHRUNGEN / ZUSAMMENARBEIT', title: 'Rückmeldungen zur Zusammenarbeit.',
-    intro: 'Ihre Erfahrung mit KnaBa zählt. Teilen Sie, wie die Zusammenarbeit an Ihrem Projekt verlaufen ist.',
+    label: 'PROJEKTE / ZUSAMMENARBEIT', title: 'Zusammenarbeit beginnt mit Klarheit.'
+    intro: 'Baureinigung, Baustellenvorbereitung oder regelmäßige Pflege: Entscheidend ist, dass Aufgaben, Zugang und Termine zu Ihrem Objekt passen.'
     loading: 'Rückmeldungen werden geladen …', empty: 'Hier ist Platz für Ihre Erfahrung.',
-    emptyText: 'Auf dieser Website sind noch keine Rückmeldungen veröffentlicht. Haben Sie mit KnaBa zusammengearbeitet? Wir freuen uns über Ihren Bericht.',
+    emptyText: 'Schon mit KnaBa zusammengearbeitet? Erzählen Sie von Ihrer persönlichen Erfahrung – ehrlich und in Ihren eigenen Worten.'
     loadError: 'Die Rückmeldungen können gerade nicht geladen werden.', retry: 'Erneut versuchen',
     write: 'Erfahrung teilen', close: 'Formular schließen', formTitle: 'Ihre Rückmeldung an KnaBa',
     formIntro: 'Bitte berichten Sie nur über eine eigene Zusammenarbeit. Jede Rückmeldung wird vor der Veröffentlichung geprüft.',
@@ -79,10 +34,10 @@ export const reviewsCopy = {
     versionConflict: 'Die Rückmeldung wurde inzwischen geändert. Die Liste wurde aktualisiert; bitte prüfen Sie den aktuellen Stand.', updated: 'Status gespeichert.', refresh: 'Liste aktualisieren',
   },
   en: {
-    label: 'EXPERIENCES / WORKING TOGETHER', title: 'Feedback on working together.',
-    intro: 'Your experience with KnaBa matters. Tell us how working together on your project went.',
+    label: 'PROJECTS / WORKING TOGETHER', title: 'Good work starts with a clear plan.'
+    intro: 'Construction cleaning, site preparation or regular maintenance: the right approach starts with your building, schedule and a clearly agreed scope.'
     loading: 'Loading feedback …', empty: 'Your experience belongs here.',
-    emptyText: 'No feedback has been published on this website yet. Have you worked with KnaBa? We would welcome your account.',
+    emptyText: 'Have you worked with KnaBa? Share your own experience in your own words, so others can understand what working together is like.'
     loadError: 'Feedback could not be loaded right now.', retry: 'Try again',
     write: 'Share your experience', close: 'Close form', formTitle: 'Your feedback for KnaBa',
     formIntro: 'Please describe your own experience of working with us. Every submission is reviewed before publication.',
@@ -104,10 +59,10 @@ export const reviewsCopy = {
     versionConflict: 'This feedback has changed. The list has been refreshed; please review its current status.', updated: 'Status saved.', refresh: 'Refresh list',
   },
   uk: {
-    label: 'ДОСВІД / СПІВПРАЦЯ', title: 'Відгуки про співпрацю.',
-    intro: 'Ваш досвід роботи з KnaBa важливий. Розкажіть, як пройшла співпраця на вашому об’єкті.',
+    label: 'ПРОЄКТИ / СПІВПРАЦЯ', title: 'Якісна співпраця починається з домовленостей.'
+    intro: 'Будівельний клінінг, підготовка майданчика чи регулярне прибирання: важливо узгодити завдання, доступ і строки саме під ваш об’єкт.'
     loading: 'Завантажуємо відгуки …', empty: 'Тут може бути ваш відгук.',
-    emptyText: 'На цьому сайті опублікованих відгуків поки немає. Ви вже працювали з KnaBa? Будемо раді почути про ваш досвід.',
+    emptyText: 'Вже співпрацювали з KnaBa? Поділіться власним досвідом своїми словами — це допоможе іншим зорієнтуватися.'
     loadError: 'Зараз не вдалося завантажити відгуки.', retry: 'Спробувати ще',
     write: 'Поділитися досвідом', close: 'Закрити форму', formTitle: 'Ваш відгук про KnaBa',
     formIntro: 'Розкажіть про власний досвід співпраці. Перед публікацією кожен відгук проходить перевірку.',
@@ -129,10 +84,10 @@ export const reviewsCopy = {
     versionConflict: 'Відгук уже змінився. Список оновлено — перевірте актуальний стан.', updated: 'Статус збережено.', refresh: 'Оновити список',
   },
   ru: {
-    label: 'ОПЫТ / СОТРУДНИЧЕСТВО', title: 'Отзывы о сотрудничестве.',
-    intro: 'Ваш опыт работы с KnaBa важен. Расскажите, как прошло сотрудничество на вашем объекте.',
+    label: 'ПРОЕКТЫ / СОТРУДНИЧЕСТВО', title: 'Хорошая работа начинается с договорённостей.'
+    intro: 'Строительный клининг, подготовка площадки или регулярная уборка: важно заранее согласовать задачи, доступ и сроки именно для вашего объекта.'
     loading: 'Загружаем отзывы …', empty: 'Здесь может быть ваш отзыв.',
-    emptyText: 'На этом сайте опубликованных отзывов пока нет. Вы уже работали с KnaBa? Будем рады узнать о вашем опыте.',
+    emptyText: 'Уже сотрудничали с KnaBa? Поделитесь личным опытом своими словами — это поможет другим сориентироваться.'
     loadError: 'Сейчас не удалось загрузить отзывы.', retry: 'Повторить',
     write: 'Поделиться опытом', close: 'Закрыть форму', formTitle: 'Ваш отзыв о KnaBa',
     formIntro: 'Расскажите о собственном опыте сотрудничества. Перед публикацией каждый отзыв проходит проверку.',
