@@ -6,6 +6,7 @@ import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
 import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
 import { issueAccountInvite, acceptAccountInvite, revokeAccountInvite, AccountInviteError } from './account-invite.mjs';
+import {authLanguage,authWords} from './auth-locale.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
@@ -17,13 +18,14 @@ const mime={
   '.avif':'image/avif','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2'
 };
 const loginStyle='body{background:#f2f6f2;margin:0;min-height:100vh;display:grid;place-items:center;font:16px system-ui,sans-serif;color:#193e32}main{background:#fff;box-sizing:border-box;width:min(400px,calc(100vw - 32px));padding:2.2rem;border:1px solid #d2e2d7;border-radius:18px;box-shadow:0 20px 55px #12392710}h1{font-size:1.5rem}label{display:block;margin:1rem 0;font-size:.9rem;font-weight:600}input{display:block;width:100%;box-sizing:border-box;padding:.78rem;font:inherit;margin-top:.45rem;border:1px solid #aabcb4;border-radius:8px}button{width:100%;background:#155b46;color:white;border:none;padding:.85rem;border-radius:8px;font:inherit;cursor:pointer}a{color:#195d47}.error{padding:.6rem;color:#8c1f20;background:#feecec}';
+const authCss=':focus-visible{outline:3px solid #117a57;outline-offset:3px}.auth-languages{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1rem}.auth-languages a{font-size:.78rem;text-decoration:none;border-radius:999px;border:1px solid #c6d9d0;padding:.35rem .6rem}.auth-languages a[aria-current=page]{background:#155b46;color:#fff;border-color:#155b46}.auth-subtle{font-size:.9rem}.auth-help{border-left:3px solid #177b5e;padding:.65rem .8rem;background:#f0f8f4}.auth-checkbox{display:flex;align-items:start;gap:.7rem;font-weight:400;line-height:1.5}.auth-checkbox input{width:1.2rem;height:1.2rem;flex:none;margin:.1rem 0}.auth-checkbox span{flex:1;min-width:0}@media(max-width:600px){body{display:block;padding:1.25rem .75rem}main{width:100%;margin:0 auto;padding:1.5rem 1.25rem;box-shadow:0 7px 24px #12392710}h1{font-size:1.5rem;line-height:1.3}}';
 const escapeHTML=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const returnPath=value=>{
   if(typeof value!=='string'||value.length>180||!value.startsWith('/')||value.startsWith('//')||value.includes('\\')||/[\r\n\0]/.test(value))return '/konto/';
   try{const u=new URL(value,'https://knaba.de');return u.origin==='https://knaba.de'?u.pathname+u.search:'/konto/';}catch{return '/konto/';}
 };
-function html(title,content){
-  return '<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escapeHTML(title)+'</title><style>'+loginStyle+'</style></head><body><main>'+content+'</main></body></html>';
+function html(title,content,lang='de'){
+  return '<!doctype html><html lang="'+authLanguage(lang)+'"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escapeHTML(title)+'</title><style>'+loginStyle+authCss+'</style></head><body><main>'+content+'</main></body></html>';
 }
 function send(res,status,body,headers={}){
   res.writeHead(status,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...headers});
@@ -93,13 +95,33 @@ async function sendStatic(root,req,res,path,db){
   res.setHeader('Content-Length',bytes.length);
   res.end(req.method==='HEAD'?undefined:bytes);
 }
-function loginPage(returnTo,invalid=false){
-  const error=invalid?'<p role="alert" class="error">Anmeldung fehlgeschlagen. Bitte Angaben prüfen.</p>':'';
-  return html('KnaBa | Sicher anmelden','<h1>KnaBa · sicher anmelden</h1><p>Verwaltungszugang für autorisierte Personen.</p>'+error+
-    '<form method="post" action="/login/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
-    '<label>E-Mail<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
-    '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
-    '<button type="submit">Anmelden</button></form><p><a href="/register/">Konto mit Einladung erstellen</a></p><p><a href="/">Zur Website</a></p>');
+const languageCodes=['de','uk','en','ru'];
+function authLangNavigation(section,lang,returnTo='/konto/'){
+  const word=authWords(lang);
+  const links=languageCodes.map(code=>{
+    const destination=section==='login'
+      ?'/login/?lang='+code+'&return_to='+encodeURIComponent(returnTo)
+      :'/register/?lang='+code;
+    return '<a href="'+destination+'" lang="'+code+'"'+
+      (code===lang?' aria-current="page"':'')+'>'+code.toUpperCase()+'</a>';
+  }).join('');
+  return '<nav class="auth-languages" aria-label="'+escapeHTML(word.language)+'">'+links+'</nav>';
+}
+function loginPage(returnTo,invalid=false,lang='de'){
+  lang=authLanguage(lang);
+  const word=authWords(lang);
+  const error=invalid?'<p role="alert" class="error">'+escapeHTML(word.invalid)+'</p>':'';
+  return html('KnaBa | '+word.signIn,
+    authLangNavigation('login',lang,returnTo)+
+    '<h1>'+escapeHTML(word.signInTitle)+'</h1><p>'+escapeHTML(word.signInIntro)+'</p>'+error+
+    '<form method="post" action="/login/?lang='+lang+'">'+
+    '<input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
+    '<label>'+escapeHTML(word.email)+'<input type="email" name="email" inputmode="email" autocapitalize="none" spellcheck="false" autocomplete="username" required maxlength="320"></label>'+
+    '<label>'+escapeHTML(word.password)+'<input type="password" name="password" autocomplete="current-password" required minlength="8" maxlength="256"></label>'+
+    '<button type="submit">'+escapeHTML(word.signIn)+'</button></form>'+
+    '<p class="auth-subtle"><a href="/register/?lang='+lang+'">'+escapeHTML(word.inviteLink)+'</a></p>'+
+    '<p class="auth-subtle">'+escapeHTML(word.inviteHelp)+' <a href="/kontakt/">'+escapeHTML(word.contact)+'</a></p>'+
+    '<p><a href="/">'+escapeHTML(word.website)+'</a></p>',lang);
 }
 function ownerActivationPage(){
   // Capability stays in fragment (not sent to HTTP servers or access logs).
@@ -125,8 +147,11 @@ function ownerActivationPage(){
     '<p><a href="/login/?return_to=%2Fstudio%2F">Zur Anmeldung</a></p>'+
     '<script>'+script+'</script>');
 }
-function registrationPage(){
-  // Fragment-only token: no token in request URL, referer, proxy access logs or history.
+function registrationPage(lang='de'){
+  lang=authLanguage(lang);
+  const word=authWords(lang);
+  // One-use invitation secret is only ever in the fragment and form POST body.
+  // Never send it as a query parameter, referer or a logging attribute.
   const script="(function(){const params=new URLSearchParams(location.hash.slice(1));"+
     "const token=params.get('token')||'';"+
     "const ok=/^[A-Za-z0-9_-]{43}$/.test(token);"+
@@ -134,21 +159,27 @@ function registrationPage(){
     "if(field&&ok)field.value=token;"+
     "const submit=document.querySelector('button[type=submit]');"+
     "if(submit)submit.disabled=!ok;"+
-    "history.replaceState(null,'',location.pathname);"+
+    "if(ok)for(const link of document.querySelectorAll('.auth-languages a'))link.hash='token='+token;"+
+    "history.replaceState(null,'',location.pathname+location.search);"+
     "})();";
-  return html('KnaBa | Kunden- und Mitarbeiterkonto',
-    '<h1>KNABA · Konto aktivieren</h1>'+
-    '<p>Die Registrierung erfolgt derzeit über eine persönliche Einladung. Kunden und Mitarbeitende erhalten nach der Registrierung zunächst den Status „Warten auf Freigabe“. Bitte geben Sie den Einladungscode nur auf dieser Seite ein.</p>'+
-    '<form action="/register/" method="post">'+
+  return html('KnaBa | '+word.registrationTitle,
+    authLangNavigation('register',lang)+
+    '<h1>'+escapeHTML(word.registrationTitle)+'</h1>'+
+    '<p>'+escapeHTML(word.registrationIntro)+'</p>'+
+    '<p class="auth-help" role="note">'+escapeHTML(word.tokenNote)+'</p>'+
+    '<form action="/register/?lang='+lang+'" method="post">'+
     '<input type="hidden" name="token" value="">'+
-    '<label>Vollständiger Name<input name="name" autocomplete="name" maxlength="160" required minlength="2"></label>'+
-    '<label>E-Mail (wie in der Einladung)<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
-    '<label>Passwort (16–256 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label><input type="checkbox" name="privacy" value="on" required> Ich habe die <a href="/datenschutz/">Datenschutzhinweise</a> gelesen und stimme der Bearbeitung meiner Registrierungsdaten zu.</label>'+
-    '<button type="submit" disabled>Konto erstellen</button></form>'+
-    '<p>Keine Einladung? <a href="/kontakt/">Kontaktieren Sie KNABA</a>.</p>'+
-    '<p><a href="/login/">Zur Anmeldung</a></p><script>'+script+'</script>');
+    '<label>'+escapeHTML(word.name)+'<input name="name" autocomplete="name" maxlength="160" required minlength="2"></label>'+
+    '<label>'+escapeHTML(word.invitedEmail)+'<input type="email" inputmode="email" autocapitalize="none" spellcheck="false" name="email" autocomplete="username" required maxlength="320"></label>'+
+    '<label>'+escapeHTML(word.newPassword)+'<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>'+escapeHTML(word.confirm)+'<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
+    escapeHTML(word.privacyBefore)+' <a href="/datenschutz/">'+escapeHTML(word.privacyLink)+'</a> '+
+    escapeHTML(word.privacyAfter)+'</span></label>'+
+    '<button type="submit" disabled>'+escapeHTML(word.register)+'</button></form>'+
+    '<p class="auth-subtle">'+escapeHTML(word.inviteHelp)+' <a href="/kontakt/">'+escapeHTML(word.contact)+'</a></p>'+
+    '<p><a href="/login/?lang='+lang+'">'+escapeHTML(word.backLogin)+'</a></p>'+
+    '<script>'+script+'</script>',lang);
 }
 function invitationPage(invite=null,origin='',notice=''){
   const result=invite?
@@ -282,7 +313,7 @@ export async function createKnabaVpsServer({
       };
       if(req.method==='GET'){
         if(url.searchParams.has('token'))return send(res,400,'Invitation secrets belong only in URL fragments');
-        return send(res,200,registrationPage(),headers);
+        return send(res,200,registrationPage(authLanguage(url.searchParams.get('lang'))),headers);
       }
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!ownerEmail)return send(res,503,'Onboarding is not configured');
@@ -300,7 +331,7 @@ export async function createKnabaVpsServer({
           password:params.get('password')||'',confirmed:params.get('password_confirm')||'',
           privacyAccepted:params.get('privacy')==='on',ownerEmail
         });
-        return redirect(res,'/login/?return_to=%2Fkonto%2F',{'Referrer-Policy':'no-referrer'});
+        return redirect(res,'/login/?'+(authLanguage(url.searchParams.get('lang'))==='de'?'':'lang='+authLanguage(url.searchParams.get('lang'))+'&')+'return_to=%2Fkonto%2F',{'Referrer-Policy':'no-referrer'});
       }catch(error){
         if(error?.code==='too_large')return send(res,413,'Invalid registration form');
         if(error instanceof AccountInviteError)return send(res,422,'Invalid, expired or already used invitation or form');
@@ -365,7 +396,7 @@ export async function createKnabaVpsServer({
     }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
-      if(req.method==='GET')return send(res,200,loginPage(rt),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET')return send(res,200,loginPage(rt,false,authLanguage(url.searchParams.get('lang'))),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -379,7 +410,7 @@ export async function createKnabaVpsServer({
         if(password.length>256 || email.length>320)return send(res,422,'Invalid form');
         let result=null;
         try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
-        if(!result)return send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8'});
+        if(!result)return send(res,401,loginPage(target,true,authLanguage(url.searchParams.get('lang'))),{'Content-Type':'text/html; charset=utf-8'});
         return redirect(res,target,{'Set-Cookie':sessionCookie(result.token,{secure:!localTest})});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
     }
