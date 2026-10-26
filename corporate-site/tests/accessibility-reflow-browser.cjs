@@ -18,7 +18,7 @@ const cases=[
 ];
 (async()=>{
   const browser=await chromium.launch({headless:true,executablePath:process.env.KNABA_CHROME_PATH||undefined,
-    args:['--no-sandbox','--disable-dev-shm-usage']});
+    args:['--disable-dev-shm-usage']});
   let passed=0;
   try{
     for(const item of cases){
