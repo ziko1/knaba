@@ -3,11 +3,11 @@ import {constructionOffers} from '../src/data/construction-offers';
 import projectIntents from '../src/data/project-intents.json';
 
 const locales=['de','en','uk','ru'] as const;
-const slugs=['bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe'] as const;
+const slugs=['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe','kernbohrungen'] as const;
 
 describe('Corporate project-intent SEO content',()=>{
-  it('guides users to the same four live core construction services in every locale',()=>{
-    const active=new Set<string>(constructionOffers.filter(offer=>offer.core).map(offer=>offer.slug));
+  it('guides users to the same six active construction offers in every locale',()=>{
+    const active=new Set<string>(constructionOffers.map(offer=>offer.slug));
     for(const locale of locales){
       const copy=projectIntents[locale];
       expect(copy.cases.map(item=>item.slug)).toEqual(slugs);

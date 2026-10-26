@@ -8,6 +8,12 @@
     "note": "Die Beispiele sind Orientierung, kein verbindliches Leistungs- oder Terminversprechen. Verfügbarkeit, Entsorgung, Facharbeiten und Konditionen werden für jedes Objekt gesondert geprüft und vereinbart.",
     "cases": [
       {
+        "slug": "baureinigung",
+        "situation": "Ein Bauprojekt benötigt Reinigung über mehrere Phasen",
+        "explanation": "Bei Neubau, Umbau oder Sanierung können Grob-, Zwischen-, Fein- und Endreinigung unterschiedliche Ziele haben. Eine gemeinsame Leistungsbeschreibung hält fest, welche Abschnitte wann freigegeben werden und welche Arbeiten tatsächlich dazugehören.",
+        "request": "Bauzeitenplan, Flächen nach Bauphase und gewünschte Reinigungsschritte."
+      },
+      {
         "slug": "bauzwischenreinigung",
         "situation": "Gewerke wechseln, die Baustelle bleibt aktiv",
         "explanation": "Nach staubintensiven Arbeiten werden freigegebene Zonen für den nächsten Bauabschnitt vorbereitet. Eine Bauzwischenreinigung kann laufende Abläufe ergänzen; neue Verschmutzung durch spätere Arbeiten ist gesondert zu berücksichtigen.",
@@ -30,6 +36,12 @@
         "situation": "Bauleitung benötigt Unterstützung bei Hilfsarbeiten",
         "explanation": "Für vorbereitende und begleitende Tätigkeiten können Bauhelfer angefragt werden. Aufgaben, Ansprechpartner, Sicherheitsunterweisung und Abgrenzung zu qualifikationspflichtigen Facharbeiten gehören vorab in die Vereinbarung.",
         "request": "Konkrete Hilfstätigkeiten, Einsatzzeitraum und verantwortliche Bauleitung."
+      },
+      {
+        "slug": "kernbohrungen",
+        "situation": "Eine Kernbohrung für technische Leitungen wird angefragt",
+        "explanation": "Öffnungen für Lüftung, Wasser oder Kabel sind keine gewöhnliche Bauhilfsarbeit. Teilen Sie Maße, Bauteil, Lage und vorhandene Freigaben mit. KnaBa prüft die Anfrage; eine Ausführung ist nur nach technischer Klärung, qualifiziertem Betrieb und gesonderter Vereinbarung möglich.",
+        "request": "Pläne, Bohrdurchmesser, Bauteil, Leitungslage und erforderliche Freigaben."
       }
     ]
   },
@@ -41,6 +53,12 @@
     "request": "Useful details for your enquiry",
     "note": "These examples are guidance, not a binding service or availability promise. Site access, disposal, specialist work, pricing and dates are assessed and agreed for each project.",
     "cases": [
+      {
+        "slug": "baureinigung",
+        "situation": "Cleaning is needed across several construction stages",
+        "explanation": "A new build, conversion or renovation may need rough, interim, fine and final cleaning at different times. One clearly agreed scope helps identify which areas can be released for each stage and which tasks are included.",
+        "request": "Project schedule, areas by construction phase and required cleaning stages."
+      },
       {
         "slug": "bauzwischenreinigung",
         "situation": "Trades are changing, construction is still under way",
@@ -64,6 +82,12 @@
         "situation": "Your site manager needs auxiliary support",
         "explanation": "Site preparation and supporting tasks can be discussed as construction assistance. Confirm tasks, supervision, safety induction and boundaries with specialist trades before agreeing the work.",
         "request": "Specific auxiliary tasks, dates and the responsible site manager."
+      },
+      {
+        "slug": "kernbohrungen",
+        "situation": "You need to enquire about a technical core drilling",
+        "explanation": "Openings for ventilation, water or cabling are not ordinary auxiliary works. Include dimensions, the building element, proposed location and existing approvals. KnaBa can assess the enquiry; any execution depends on technical checks, qualified contractors and a separate agreement.",
+        "request": "Drawings, opening size, structural details, existing services and permissions."
       }
     ]
   },
@@ -75,6 +99,12 @@
     "request": "Що корисно вказати у запиті",
     "note": "Це приклади для орієнтації, а не гарантія виконання чи вільної дати. Доступ, вивезення відходів, спеціальні роботи, ціни й строки погоджують окремо для кожного об’єкта.",
     "cases": [
+      {
+        "slug": "baureinigung",
+        "situation": "Об’єкту потрібне прибирання на кількох етапах",
+        "explanation": "Для новобудови, ремонту чи реконструкції грубе, міжетапне, тонке й фінальне прибирання можуть виконуватися в різний час. Єдиний погоджений опис робіт допомагає визначити готові зони, послідовність та межі послуг.",
+        "request": "Графік будівництва, площі за етапами й потрібні види прибирання."
+      },
       {
         "slug": "bauzwischenreinigung",
         "situation": "Підрядники змінюються, будівництво триває",
@@ -98,6 +128,12 @@
         "situation": "Керівнику будівництва потрібні помічники",
         "explanation": "Підготовчі та супровідні завдання можна узгодити як допоміжні будівельні роботи. Обов’язки, нагляд, інструктаж і межі спеціальних робіт визначають до початку.",
         "request": "Конкретні завдання, період роботи й відповідальний керівник."
+      },
+      {
+        "slug": "kernbohrungen",
+        "situation": "Потрібно оцінити запит на буріння отвору",
+        "explanation": "Проходки для вентиляції, води чи кабелів не належать до звичайних допоміжних робіт. Додайте розміри, конструкцію, місце й дозволи. KnaBa розглядає запит; виконання можливе лише після технічної перевірки, визначення кваліфікованого виконавця й окремого договору.",
+        "request": "Креслення, діаметр, елемент конструкції, комунікації та погодження."
       }
     ]
   },
@@ -109,6 +145,12 @@
     "request": "Что указать в запросе",
     "note": "Примеры помогают сориентироваться, но не обещают услуги или свободную дату. Доступ, вывоз отходов, специальные работы, цены и сроки согласуются для каждого объекта отдельно.",
     "cases": [
+      {
+        "slug": "baureinigung",
+        "situation": "Объекту нужна уборка на нескольких этапах",
+        "explanation": "Для новостройки, ремонта и реконструкции черновая, промежуточная, тонкая и финальная уборка могут проводиться в разное время. Единый согласованный перечень работ помогает определить готовые зоны, последовательность и границы услуг.",
+        "request": "График строительства, площади по этапам и необходимые виды уборки."
+      },
       {
         "slug": "bauzwischenreinigung",
         "situation": "Подрядчики сменяются, стройка продолжается",
@@ -132,6 +174,12 @@
         "situation": "Прорабу нужна помощь с подсобными работами",
         "explanation": "Подготовку и поддержку работ можно согласовать как строительные подсобные услуги. Задачи, надзор, инструктаж и границы технических работ определяют до начала.",
         "request": "Конкретные задачи, период работ и ответственный руководитель."
+      },
+      {
+        "slug": "kernbohrungen",
+        "situation": "Нужно оценить запрос на бурение отверстия",
+        "explanation": "Проходки для вентиляции, воды или кабелей не относятся к обычным подсобным работам. Укажите размеры, конструкцию, место и разрешения. KnaBa рассматривает запрос; выполнение возможно только после технической проверки, привлечения квалифицированного исполнителя и отдельного договора.",
+        "request": "Чертежи, диаметр, элементы конструкции, коммуникации и согласования."
       }
     ]
   }

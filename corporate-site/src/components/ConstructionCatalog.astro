@@ -4,12 +4,13 @@ import type {ConstructionLocale} from '../data/construction-offers';
 import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '../data/construction-offers';
 import {projectCard} from '../data/construction-project-card';
 import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
-import ProjectIntentGuide from './ProjectIntentGuide.astro';
+import projectIntents from '../data/project-intents.json';
 import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
 const additional=constructionOffers.filter(item=>!item.core);
 const project=projectCard[locale];
+const intents=projectIntents[locale];
 const seo={
   de:{title:'Baureinigung & Bauhelfer in Berlin | KnaBa',description:'Bauzwischenreinigung, Baufein- und Bauendreinigung, Baustellenberäumung und Bauhilfe in Berlin & Brandenburg. Leistungen und Anfrage bei KnaBa.'},
   en:{title:'Construction Cleaning & Site Support Berlin | KnaBa',description:'Construction cleaning, interim and final site cleaning, clearance and support in Berlin & Brandenburg. Compare services and prepare a KnaBa project enquiry.'},
@@ -37,7 +38,21 @@ const seo={
 <section class="container section section-tight" id="zusatzarbeiten"><p class="eyebrow">B2B / TECHNISCH</p><h2>{t.optional}</h2><p class="bau-disclaimer">{t.contractIntro}</p>
 <div class="bau-offer-grid">{additional.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'} class="bau-offer special"><div class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} size={30} /></div><h3>{localeValue(item.name,locale)}</h3><p>{localeValue(item.description,locale)}</p><span>{t.request} →</span></a>)}</div>
 <p class="bau-disclaimer">{t.note}</p></section>
-<ProjectIntentGuide locale={locale} />
+<section class="container section section-tight" aria-labelledby="project-intents-heading">
+  <p class="eyebrow">{intents.eyebrow}</p>
+  <h2 id="project-intents-heading">{intents.title}</h2>
+  <p class="bau-disclaimer">{intents.intro}</p>
+  <div class="bau-offer-grid project-intents-grid">
+    {intents.cases.map((item,i)=><article class="bau-offer">
+      <span class="bau-ordinal" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
+      <h3>{item.situation}</h3>
+      <p>{item.explanation}</p>
+      <p><strong>{intents.request}:</strong> {item.request}</p>
+      <a class="bau-offer-action" href={prefix+'/bauleistungen/'+item.slug+'/'}>{intents.link} →</a>
+    </article>)}
+  </div>
+  <p class="bau-disclaimer">{intents.note}</p>
+</section>
 <section class="container cta-banner"><div><h2>{t.ready}</h2></div><a class="button button-dark" href={prefix+'/kontakt/'}>{t.cta} →</a></section>
 </Layout>
 <style>
