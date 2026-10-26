@@ -166,7 +166,7 @@ describe('KNABA /MODULES and owner automation proposals (no provider I/O)',()=>{
   const f=await setup();
   const menu=await f.route('/MODULES'),rows=await f.db.list('whatsapp_router_action');
   expect(menu.result).toMatchObject({handled:true,state:'MODULES'});
-  expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='tasks')).toBe(true);
+  expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='shifts')).toBe(true);
   expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='owner_admin')).toBe(false);
   expect(f.engine.calls).toHaveLength(0);
   const guest=await f.route('/MODULES',undefined,'client');
