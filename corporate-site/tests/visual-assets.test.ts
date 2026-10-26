@@ -21,7 +21,8 @@ test('all localized homepages use branded construction illustrations', async () 
   expect(page).toContain('<ServiceCarousel locale={locale} />');
   expect(carousel).toContain('src="/illustrations/baureinigung.svg"');
   expect(carousel).not.toContain('hero-cleaning.svg');
-  expect(layout).toContain("new URL('/images/knaba-social.png', siteConfig.origin).href");
+  expect(layout).toContain("lang === 'de' ? 'knaba-social.png' : `knaba-social-${lang}.png`");
+  expect(layout).toContain("new URL('/images/' + socialAsset, siteConfig.origin).href");
   expect(layout).toContain('<meta property="og:image" content={socialImage} />');
   expect(layout).toContain('<meta name="twitter:image" content={socialImage} />');
   expect(layout).toContain('src={logoAssets.header}');
