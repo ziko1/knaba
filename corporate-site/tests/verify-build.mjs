@@ -105,10 +105,28 @@ for (const file of pages) {
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
   if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html') && !isPublicGuide(file)) assert.match(html,/name="robots" content="noindex, follow"/);
   assert.match(html,/name="astro-view-transitions-enabled"/);
+  const carouselSlugs = ['bauzwischenreinigung','bauendreinigung','baustellenraeumung',
+    'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
+  const carouselPaths = carouselSlugs.map(slug => '/illustrations/carousel/' + slug + '.webp');
+  const decorativePaths = [];
   for (const img of html.matchAll(/<img\b[^>]*>/g)) {
-    assert.match(img[0], /alt="[^"]+"/);
+    if (img[0].includes('alt=""')) {
+      const src = img[0].match(/\bsrc="([^"]+)"/)?.[1];
+      assert.ok(carouselPaths.includes(src), file + ': unapproved empty-alt image ' + src);
+      // Decorative images repeat slide descriptions and are hidden from assistive tech.
+      const context = html.slice(Math.max(0,img.index - 140),img.index);
+      assert.match(context, /<div class="slide-art" aria-hidden="true"[^>]*>$/, file + ': empty-alt must be aria-hidden');
+      decorativePaths.push(src);
+    } else {
+      assert.match(img[0], /alt="[^"]+"/);
+    }
     assert.match(img[0], /width="\d+"/);
     assert.match(img[0], /height="\d+"/);
+  }
+  if (/(?:\/client\/|\/client\/(?:en|uk|ru)\/)index\.html$/.test(file)) {
+    assert.deepEqual(decorativePaths,carouselPaths,file + ': seven distinct carousel artworks');
+  } else {
+    assert.equal(decorativePaths.length,0,file + ': decorative art only on homepages');
   }
 }
 const cssGzip = assets

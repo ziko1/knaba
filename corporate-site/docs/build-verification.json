@@ -1,12 +1,13 @@
 {
   "scope": "production-build-static-validation",
-  "pages": 103,
+  "pages": 121,
   "internalLinks": "PASS",
   "metadata": "PASS",
-  "indexMode": "VSP_PENDING_APPROVAL",
+  "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 30073,
-  "allEmittedJsGzip": 168526,
+  "externalPartnerImagesInMarkup": 0,
+  "cssGzip": 34624,
+  "allEmittedJsGzip": 182737,
   "assets": [
     {
       "name": "_astro/AssistantInbox.CSGgv6Ab.js",
@@ -14,14 +15,14 @@
       "gzip": 3898
     },
     {
-      "name": "_astro/Catalogue.Bq3GzxuS.js",
+      "name": "_astro/Catalogue.BLLio4rn.js",
       "bytes": 3869,
-      "gzip": 1761
+      "gzip": 1759
     },
     {
-      "name": "_astro/CleaningChecklist.DsRkWbHK.js",
-      "bytes": 3093,
-      "gzip": 1595
+      "name": "_astro/CleaningChecklist.DDKwRc8D.js",
+      "bytes": 3425,
+      "gzip": 1736
     },
     {
       "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
@@ -29,17 +30,32 @@
       "gzip": 5575
     },
     {
+      "name": "_astro/ConstructionDetail.jOPzks5E.css",
+      "bytes": 4556,
+      "gzip": 1007
+    },
+    {
       "name": "_astro/ConstructionFaq.B36A57JG.css",
       "bytes": 7557,
       "gzip": 1534
     },
     {
-      "name": "_astro/ConstructionHome.Cjy1qYpz.css",
-      "bytes": 14463,
-      "gzip": 3378
+      "name": "_astro/ConstructionGuide.BjnrWshr.css",
+      "bytes": 6776,
+      "gzip": 1610
     },
     {
-      "name": "_astro/ConstructionPlanner.CoABF6jx.css",
+      "name": "_astro/ConstructionHome.DGUaWmlD.css",
+      "bytes": 18497,
+      "gzip": 4005
+    },
+    {
+      "name": "_astro/ConstructionInfo.a05_1_hJ.css",
+      "bytes": 5285,
+      "gzip": 1156
+    },
+    {
+      "name": "_astro/ConstructionPlanner.Df1NlpXi.css",
       "bytes": 5088,
       "gzip": 1365
     },
@@ -49,9 +65,9 @@
       "gzip": 3858
     },
     {
-      "name": "_astro/Inquiry.gMrZjBhZ.js",
-      "bytes": 19580,
-      "gzip": 6709
+      "name": "_astro/Inquiry.Cuppk_6w.js",
+      "bytes": 19768,
+      "gzip": 6857
     },
     {
       "name": "_astro/KnabaAssistant.CDL77fMx.css",
@@ -64,24 +80,24 @@
       "gzip": 11747
     },
     {
-      "name": "_astro/Layout.DyB6K5Mb.css",
-      "bytes": 59676,
-      "gzip": 13836
+      "name": "_astro/Layout.DM6yU0qB.css",
+      "bytes": 60811,
+      "gzip": 13987
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.Bm8czzpj.js",
-      "bytes": 1091,
-      "gzip": 612
+      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.z5knU6u0.js",
+      "bytes": 1115,
+      "gzip": 631
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.iQtjZm_r.js",
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.BhO731dw.js",
       "bytes": 4534,
-      "gzip": 1855
+      "gzip": 1856
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_2_lang.Cfi5Vg5C.js",
-      "bytes": 757,
-      "gzip": 425
+      "name": "_astro/Layout.astro_astro_type_script_index_2_lang.ZLS--sGz.js",
+      "bytes": 699,
+      "gzip": 400
     },
     {
       "name": "_astro/Portal.D7rXCBWs.css",
@@ -94,14 +110,14 @@
       "gzip": 24061
     },
     {
-      "name": "_astro/ServiceFinder.B5Wx65LQ.js",
-      "bytes": 2948,
-      "gzip": 1476
+      "name": "_astro/ServiceFinder.BSwUivDi.js",
+      "bytes": 3152,
+      "gzip": 1541
     },
     {
-      "name": "_astro/SiteStudio.EXtRy4BH.js",
-      "bytes": 30683,
-      "gzip": 10607
+      "name": "_astro/SiteStudio.DYL007E2.js",
+      "bytes": 69667,
+      "gzip": 23864
     },
     {
       "name": "_astro/build.DBsCgAUW.js",
@@ -129,11 +145,6 @@
       "gzip": 496
     },
     {
-      "name": "_astro/company.DUu80Qn9.js",
-      "bytes": 3621,
-      "gzip": 1638
-    },
-    {
       "name": "_astro/construction-offers.JHkzFsCC.js",
       "bytes": 9902,
       "gzip": 3836
@@ -144,9 +155,14 @@
       "gzip": 1364
     },
     {
-      "name": "_astro/planner.ms1HKqpf.js",
-      "bytes": 5557,
-      "gzip": 2329
+      "name": "_astro/inquiry-navigation.CrOHsgSS.js",
+      "bytes": 338,
+      "gzip": 235
+    },
+    {
+      "name": "_astro/planner.C4q2IlSo.js",
+      "bytes": 6370,
+      "gzip": 2678
     },
     {
       "name": "_astro/portal-contract.XZmVB1GG.js",
@@ -159,9 +175,9 @@
       "gzip": 852
     },
     {
-      "name": "_astro/public-i18n.CUFVYWLm.js",
-      "bytes": 37092,
-      "gzip": 10665
+      "name": "_astro/public-i18n.BoOyI6Zo.js",
+      "bytes": 41281,
+      "gzip": 12212
     },
     {
       "name": "_astro/rolldown-runtime.DK3Fl9T5.js",
@@ -174,9 +190,9 @@
       "gzip": 25876
     },
     {
-      "name": "_astro/site-studio-contract.2oHBBok8.js",
-      "bytes": 3640,
-      "gzip": 1720
+      "name": "_astro/site-studio-contract.D7bJSmpy.js",
+      "bytes": 3851,
+      "gzip": 1834
     },
     {
       "name": "_astro/store.CdnqIiRy.js",
@@ -197,9 +213,44 @@
       "name": "_astro/web.SEEheerW.js",
       "bytes": 33499,
       "gzip": 12839
+    },
+    {
+      "name": "illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "gzip": 52158
+    },
+    {
+      "name": "illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "gzip": 70105
+    },
+    {
+      "name": "illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "gzip": 80215
+    },
+    {
+      "name": "illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "gzip": 36885
+    },
+    {
+      "name": "illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "gzip": 61222
+    },
+    {
+      "name": "illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "gzip": 64216
+    },
+    {
+      "name": "illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "gzip": 56898
     }
   ],
-  "artifactSha256": "c05519f298821574679f1061bf13c3eb20578b85c9c206e7b9433dd9a428cd6d",
+  "artifactSha256": "bf1bfa09bf3a38862a3b2ec8bdebfa236f307333b009c0ba1fa879abb22d49e2",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

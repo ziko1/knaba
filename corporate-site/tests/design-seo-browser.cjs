@@ -36,7 +36,45 @@ let pages=0;
          assert.equal(await page.locator('html').getAttribute('lang'),lang);
          assert.equal(await page.locator('h1').count(),1);
          assert.equal(await page.locator('.bau-card').count(),6,'five core services + one project card');
-         assert.equal(await page.locator('.bau-editorial-panel').count(),2);
+         assert.equal(await page.locator('.bau-editorial-panel').count(),0,'PR68: no duplicate editorial panels');
+         assert.equal(await page.locator('#partner .knaba-partner-card').count(),5,'five partners in single component');
+         assert.equal(await page.locator('.scene-art').count(),7,'seven distinct WebP carousel scenes');
+         const carouselSources=await page.locator('.scene-art').evaluateAll(nodes=>nodes.map(node=>new URL(node.src).pathname));
+         assert.equal(new Set(carouselSources).size,7,'non-repeated 2D artwork');
+         assert.ok(carouselSources.every(src=>src.endsWith('.webp')),'seven WebP assets');
+         // A present img element is not evidence the lazy asset can be decoded.
+         const partnerImages=page.locator('#partner img');
+         assert.equal(await partnerImages.count(),5);
+         for(let i=0;i<5;i++){
+           const img=partnerImages.nth(i);
+           await img.scrollIntoViewIfNeeded();
+           await img.evaluate(node=>node.decode());
+           const imageInfo=await img.evaluate(node=>({loaded:node.complete&&node.naturalWidth>0,
+             origin:new URL(node.currentSrc).origin,naturalWidth:node.naturalWidth}));
+           assert.ok(imageInfo.loaded,'partner '+i+' not decoded '+JSON.stringify(imageInfo));
+           assert.equal(imageInfo.origin,new URL(base).origin,'all logos must load from same origin');
+         }
+         if(width===390&&lang==='uk'){
+           if(screenshotDir) await page.locator('#partner').screenshot({path:join(screenshotDir,'knaba-uk-partners-390.png')});
+           // Only after scrolling through the snap region can native lazy-loading
+           // prove that every unique WebP can actually decode.
+           for(let i=1;i<8;i++){
+             const slide=page.locator('.service-slide').nth(i);
+             await slide.scrollIntoViewIfNeeded();
+             const img=slide.locator('img.scene-art');
+             await img.evaluate(node=>node.decode());
+             const art=await img.evaluate(node=>({loaded:node.complete&&node.naturalWidth>0,
+               width:node.naturalWidth,src:new URL(node.currentSrc).pathname}));
+             assert.ok(art.loaded&&art.width>=500,'WebP art '+i+' not decoded '+JSON.stringify(art));
+           }
+           // Returning to the first slide also verifies keyboard/Home state recovery.
+           await page.locator('[data-carousel-track]').focus();
+           await page.keyboard.press('Home');
+           await page.waitForFunction(()=>
+             document.querySelector('[data-carousel-status]')?.textContent?.trim()==='01 / 08',
+             null,{timeout:5000});
+         }
+         assert.equal(await page.locator('a[href^="https://knaba.de"]').count(),0,'no old-domain outbound CTA');
          assert.equal(await page.locator('.service-slide').count(),8);
          const metrics=await page.evaluate(()=>{
            const cards=[...document.querySelectorAll('.bau-card')];

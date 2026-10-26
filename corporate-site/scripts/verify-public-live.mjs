@@ -5,6 +5,9 @@ import {pathToFileURL} from 'node:url';
 const origins = Object.freeze({vsp:'https://kneba.vsp.rest', official:'https://knaba.de'});
 const locales = Object.freeze([{lang:'de',p:''},{lang:'en',p:'/en'},{lang:'uk',p:'/uk'},{lang:'ru',p:'/ru'}]);
 const partnerIds = ['official-01','official-02','hit','stromkreis','gewobag'];
+const carouselSlugs = ['bauzwischenreinigung','bauendreinigung','baustellenraeumung',
+  'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
+const carouselAssets = Object.freeze(carouselSlugs.map(slug => '/illustrations/carousel/' + slug + '.webp'));
 
 async function readBounded(response) {
   if (!response.body) return '';
@@ -36,6 +39,10 @@ function partnerMediaSources(html) {
 function validPartnerMediaPath(value,index) {
   return typeof value==='string' && value===partnerAssets[index] ? value : null;
 }
+function carouselMediaSources(html) {
+  return [...html.matchAll(/<img\b[^>]*\bsrc=["'](\/illustrations\/carousel\/[^"']+)["']/gi)]
+    .map(item=>item[1]);
+}
 
 async function mediaBytes(response) {
   if(!response.body) return Buffer.alloc(0);
@@ -52,11 +59,13 @@ async function mediaBytes(response) {
   } finally {await reader.cancel().catch(()=>{});}
   return Buffer.concat(chunks);
 }
-function validImageSignature(bytes,contentType){
+function validImageSignature(bytes,contentType,kind='partner'){
   const type=(contentType||'').toLowerCase().split(';')[0].trim();
   const jpeg=bytes.length>=3&&bytes[0]===0xff&&bytes[1]===0xd8&&bytes[2]===0xff;
   const png=bytes.length>=8&&bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
-  return (type==='image/jpeg'&&jpeg)||(type==='image/png'&&png);
+  const webp=bytes.length>=12&&bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WEBP';
+  return kind==='carousel' ? type==='image/webp'&&webp :
+    (type==='image/jpeg'&&jpeg)||(type==='image/png'&&png);
 }
 
 function inspect(html,lang,kind) {
@@ -72,6 +81,8 @@ function inspect(html,lang,kind) {
   if(kind==='home') {
     const found=[...html.matchAll(/<li\b[^>]*\bdata-partner-id=["']([^"']+)["']/gi)].map(x=>x[1]);
     if(JSON.stringify(found)!==JSON.stringify(partnerIds)) errors.push('PARTNERS_NOT_FIVE_IN_ORDER');
+    if(JSON.stringify(carouselMediaSources(html))!==JSON.stringify(carouselAssets))
+      errors.push('CAROUSEL_MEDIA_NOT_SEVEN_IN_ORDER');
     const dest=(lang==='de'?'':'/'+lang)+'/galerie/';
     if(!html.includes('href="'+dest+'"')&&!html.includes("href='"+dest+"'"))
       errors.push('GALLERY_NAV_MISSING');
@@ -87,7 +98,7 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
   if(!Object.hasOwn(origins,mode)||typeof fetchImpl!=='function'||!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>15000)
     throw new TypeError('INVALID_GATE_CONFIGURATION');
   const origin=origins[mode],checks=[];
-  let partnerMedia=[];
+  let partnerMedia=[],carouselMedia=[];
   async function probe(path,kind,lang) {
     const errors=[];let status=null;
     try {
@@ -104,6 +115,7 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
         errors.push(...inspect(html,lang,pageKind));
         if(pageKind==='home'&&lang==='de'){
           partnerMedia=partnerMediaSources(html);
+          carouselMedia=carouselMediaSources(html);
           if(partnerMedia.length!==5||partnerMedia.some(x=>!x)) errors.push('PARTNER_IMAGES_MISSING');
         }
       } else if(status===503&&kind==='ready') {
@@ -139,6 +151,31 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
     }
     checks.push({path:label,status,result:errors.length?'FAIL':'PASS',errors});
   }
+  async function probeCarouselMedia(src,index) {
+    const errors=[];let status=null;
+    const label='carousel-image:'+carouselSlugs[index];
+    // Only one fixed first-party path is allowed per slide. No dynamic external URL.
+    const path=typeof src==='string'&&src===carouselAssets[index] ? src : null;
+    if(!path) errors.push('INVALID_CAROUSEL_MEDIA_PATH');
+    else try {
+      const response=await fetchImpl(origin+path,{
+        method:'GET',redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(timeoutMs),
+        headers:{accept:'image/webp',range:'bytes=0-127','user-agent':'KNABA-release-verifier/1.0'},
+      });
+      status=response.status;
+      if(status!==200&&status!==206){
+        errors.push('HTTP_'+status);
+        await response.body?.cancel().catch(()=>{});
+      } else {
+        const bytes=await mediaBytes(response);
+        if(!validImageSignature(bytes,response.headers.get('content-type'),'carousel'))
+          errors.push('BAD_CAROUSEL_IMAGE');
+      }
+    } catch(error){
+      errors.push(error?.message==='MEDIA_TOO_LARGE'?'MEDIA_TOO_LARGE':'FETCH_FAILED');
+    }
+    checks.push({path:label,status,result:errors.length?'FAIL':'PASS',errors});
+  }
   for(const {lang,p} of locales) {
     await probe(p+'/','page',lang);
     await probe(p+'/galerie/','page',lang);
@@ -146,6 +183,7 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
   await probe('/healthz','health');
   await probe('/readyz','ready');
   for(let i=0;i<partnerMedia.length;i++) await probeMedia(partnerMedia[i],i);
+  for(let i=0;i<carouselMedia.length;i++) await probeCarouselMedia(carouselMedia[i],i);
   return {
     scope:'PUBLIC_HTTP_ONLY',mode,origin,
     outcome:checks.every(x=>x.result==='PASS')?'PASS_HTTP':'FAIL',

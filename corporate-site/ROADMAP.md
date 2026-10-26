@@ -289,3 +289,25 @@ See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
 - [ ] Full clean Node >=22.23.4 `npm ci && npm run check && npm test && npm run build && KNABA_RELEASE_MODE=vsp npm run verify:build` pinned to final source; independent review, actual responsive/keyboard/screenreader QA.
 - [ ] Rights holder approval for partner logos and data protection of cross-origin CDN. Authenticated invitation claim by genuine KNABA owner, preserving `/readyz` security gate.
 - [ ] After verification and explicit preview rollout approval, immutable backup/CAS deploy, full postdeploy `verify:live`: 10 site routes + 5 genuine media fetches, AND source SHA/artifact match. Production/public release requires separate verified approval.
+
+## PR73-75 unified partner/carousel integration 26.10.2026
+| Gate | Status |
+| --- | --- |
+| One PartnersSection, five locally stored logo assets; 4 locales; no duplicate | Source DONE; brand rights HOLD |
+| Seven unique optimized WebP, slide01 SVG, preserved design | Source DONE; binary content checked |
+| First-party media only, no old-site customer links, fail-closed verification | Local source/build QA PASS |
+| Node24 npm ci / check / Vitest 165 / native Node 74 / build / verify:build | Local isolated QA PASS; exact remote SHA still to verify |
+| 121 HTML pages, 12 images | Loopback 121/121 + 12/12 PASS; not public |
+| Browser, accessibility, keyboard/reflow, independent review | OPEN |
+| Logo rights, owner enrollment, immutable verified backup/rollback | BLOCKED / NOT DONE |
+| Authorized preview deployment plus postdeploy exact artifacts | NOT DONE; do not touch main or knaba.de |
+
+### Source snapshot after current PR73 updates
+- [x] Node24 clean offline npm ci/check, 165 Vitest, 75 native Node, build/artifact verifier on 15f-based source.
+- [x] 121 source-built HTML URLs and 12 image URLs verified by local HTTP byte comparison.
+- [ ] Preserve independent browser screenshots and code/security review receipt before publication.
+- [ ] Confirm rights to all five logos, customer partnership assertions and final UA/EN/RU copy.
+- [ ] Preview backup+rollback rehearsal, operator-approved roll-forward, postdeploy same-origin/SEO/health/browser gate; untouched today.
+
+- [x] Isolated Chromium 16/16 logo + 24/24 responsive visual + 6/6 CSS-width reflow, with real partner and artwork decode; screenshots on QA host, not public cutover.
+- [ ] Physical devices, independent human code/legal review, trademark license, preview rollback and live retest still open.

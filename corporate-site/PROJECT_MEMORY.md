@@ -299,3 +299,21 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - All 16 exact published SVG assets and source generator verifier were checked against GitHub blob SHAs in a readable VPS workspace. Native Node18 `scripts/check-knaba-3d-assets.mjs` **19/19 PASS**, scoped to those exact files.
 - Added real CDN media readiness to existing public `verify:live`, not a duplicate pipeline. Code SHA `f9bba323ea4d6eef003528c6911be641a42da42d`: test RED exposed incorrect PASS when all five images returned HTTP500; after change 11/11 targeted tests PASS on exact GitHub source in VPS Node18. Unsafe origins and bad image formats fail closed. Live old preview remains FAIL (9/10 HTTP probes), owner not enrolled (/readyz 503); new CDN probes intentionally skip absent original partner card markup.
 - Full Node24 Astro/Vue/Svelte/worker build, all Vitest, real browser/device/UAT, exact release artifacts, logo rights/privacy consent and approval remain OPEN. Do not report app/customer release or change production. Canonical details `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
+
+## PR73+PR74+PR75 unified source — 2026-10-26
+- Existing PartnersSection reused, five local logo assets integrated, four locales preserved. PR74 7 original 2D WebP files cherry-picked above final PR73 2026-10-26 HEAD; no redundant second partner component. Privacy/CSP/media gate updated for same-origin assets. Official-site customer links forbidden.
+- Full clean Node24.22.1 npm ci and check PASSED; 165/165 Vitest, 36/36 + 27/27 + 11/11 native Node, build and verify:build PASSED. Local loopback 121/121 HTML + 12/12 art/partner asset bytes PASSED. Artifact SHA256 35c3a7d77de782a4f2694815276be6938fc0e1abc77c7d02575e74644bea6e74 for that source-built artifact; re-verify on exact final PR HEAD.
+- Rights to republish/represent brands NOT VERIFIED; owner-ready, independent browser review, immutable off-host backup/rollback and public preview cutover remain gated. See docs/evidence/KNABA_PR73_PR74_PR75_UNIFIED_2026-10-26_UK.md. No main/production/knaba.de changes.
+
+## Latest-source QA receipt — 26.10.2026
+
+- Updated PR #73 baseline: SHA 15f44511a57add6f3c058c7b8ca2158da4cf6403; candidate source checkpoint SHA 5cdec8cd48167cc07a9a4bac12a86ff92763798b, prior to these evidence-only document edits. New upstream updates to partner-card sizing, privacy-copy removal and Studio release contracts were preserved.
+- Node 24.22.1 final source: clean offline npm ci, check, Vitest 165/165, native 36/36 + 27/27 + 12/12, build and verify:build — PASS. Built client artifact SHA256 bf1bfa09bf3a38862a3b2ec8bdebfa236f307333b009c0ba1fa879abb22d49e2. Tests are scoped to source-built isolated candidate, NOT to live VPS release.
+- Loopback browser/HTTP on this code: 121/121 static HTML routes, 12/12 local media byte equality PASS; no clickable outbound knaba.de links. Chromium browser screenshots/test logs are stored in an isolated QA workspace; browser device status must be reported only on final browser job success.
+- Live kneba.vsp.rest independently returned gallery 404, readyz 200 on this date and had an active release symlink updated concurrently by another process. Treat live SHA as independent; no release cutover performed here.
+- Mark local screenshots as QA evidence, not publication of partner marks; rightsholder/customer approval still OPEN. CDN privacy dependency removed; release checklist and rollback still OPEN.
+
+## Final browser evidence, same 15f-based source snapshot
+
+- Containerized Chromium with a confirmed existing browser binary: 16/16 localized 3D-logo viewport cases PASS, 24/24 four-locale visual/SEO/service cases PASS, and 6/6 CSS-width 200%/400% reflow+keyboard cases PASS. All five real local partner images were scrolled into view and decoded, and seven 2D WebP carousel artworks were decoded on UK 390px. Screenshots: knaba-de-desktop-1440.png, knaba-uk-mobile-390.png, knaba-uk-partners-390.png; workspace /tmp/knaba-unified-visual-20261026 on authorized QA VPS. Real device/actual browser zoom and external legal QA remain NOT_VERIFIED.
+- Latest candidate verified at git SHA 5cdec8cd48167cc07a9a4bac12a86ff92763798b, before evidence-only metadata commit, and built artifact SHA256 bf1bfa09bf3a38862a3b2ec8bdebfa236f307333b009c0ba1fa879abb22d49e2. Recheck exact remote tree after GitHub publish.
