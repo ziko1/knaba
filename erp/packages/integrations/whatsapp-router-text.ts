@@ -1,6 +1,9 @@
 import type { SupportedLanguage } from './deepseek.ts';
 export const routerLanguages:SupportedLanguage[]=['DE','UK','RU','PL','LT','EN'];
 const rows:Record<string,string[]>={
+ workerInterest:['Als Mitarbeiter anfragen','Заявка працівника','Заявка работника','Zgłoszenie pracownika','Darbuotojo paraiška','Worker application'],
+ workerInterestReceived:['Anfrage erfasst, noch keine Anmeldung/Freigabe. Identität im geschützten Portal prüfen; Inhaber entscheidet später.','Запит зареєстровано, але облікового запису та прав ще немає. Підтвердіть особу в захищеному кабінеті; власник розгляне пізніше.','Заявка сохранена, аккаунт и права не созданы. Подтвердите личность в защищённом портале.','Zgłoszenie przyjęte, bez konta i uprawnień. Weryfikacja w portalu.','Paraiška gauta, paskyra nesukurta.','Application recorded, no account or permissions granted. Verify identity in secure portal; owner reviews later.'],
+ workerInterestExisting:['Заявка вже на розгляді.' ,'Запит уже існує; нового облікового запису чи прав не створено.','Запрос уже существует; новых прав нет.','Zgłoszenie już istnieje.','Paraiška jau yra.','Application already exists; no rights granted.'],
  modules:['Systemfunktionen','Функції системи','Функции системы','Funkcje systemu','Sistemos funkcijos','System functions'],
  automations:['Automationsentwurf','Чернетка автоматизації','Черновик автоматизации','Szkic automatyzacji','Automatizavimo juodraštis','Automation draft'],
  moduleSourceOnly:['ERP-Modul im Quellcode vorhanden, aber noch nicht live verbunden. Keine Aktion ausgeführt.','Модуль ERP існує у коді, але ще не підключений до сайту. Дію не виконано.','Модуль ERP есть в коде, но ещё не подключён к сайту. Действие не выполнено.','Moduł ERP nie jest jeszcze podłączony.','ERP modulis dar neprijungtas.','ERP module exists in source but is not connected live. No action performed.'],
@@ -95,7 +98,7 @@ export function originalMessageLanguage(text:string,fallback:SupportedLanguage):
 /** Exact standalone commands only. Quoted text and an ordinary sentence never execute a work action. */
 export function parseRouterCommand(text:string):{command:string;language?:SupportedLanguage}|undefined {
   const value=text.trim().replace(/^\//,'').toLocaleUpperCase();if(!value||value.length>40||value.includes('\n'))return;
-  const common=['MODULES','AUTOMATIONS','MENU','BACK','CANCEL','CONTINUE','HELP','SHIFT','START','BREAK','RESUME','END','TRAVEL','MATERIALS','TASKS','HOURS','PAYROLL','CHATS','GPS','ADMIN','LANGUAGE','OPTIN','STOP'];
+  const common=['REGISTER','MODULES','AUTOMATIONS','MENU','BACK','CANCEL','CONTINUE','HELP','SHIFT','START','BREAK','RESUME','END','TRAVEL','MATERIALS','TASKS','HOURS','PAYROLL','CHATS','GPS','ADMIN','LANGUAGE','OPTIN','STOP'];
   if(common.includes(value))return {command:value};
   const aliases:Record<string,[string,SupportedLanguage]>={МЕНЮ:['MENU','UK'],ПЕРЕРВА:['BREAK','UK'],ПОВЕРНУВСЯ:['RESUME','UK'],ЗАВЕРШИТИ:['END','UK'],ПЕРЕЇЗД:['TRAVEL','UK'],МАТЕРІАЛИ:['MATERIALS','UK'],МОВА:['LANGUAGE','UK'],ДОПОМОГА:['HELP','UK'],НАЧАТЬ:['START','RU'],ПЕРЕРЫВ:['BREAK','RU'],ВЕРНУЛСЯ:['RESUME','RU'],ЗАВЕРШИТЬ:['END','RU'],ПЕРЕЕЗД:['TRAVEL','RU'],ЯЗЫК:['LANGUAGE','RU'],ПОМОЩЬ:['HELP','RU'],PAUSE:['BREAK','DE'],ENDE:['END','DE'],SPRACHE:['LANGUAGE','DE'],HILFE:['HELP','DE'],PRZERWA:['BREAK','PL'],WRÓCIŁEM:['RESUME','PL'],KONIEC:['END','PL'],JĘZYK:['LANGUAGE','PL'],POMOC:['HELP','PL'],PERTRAUKA:['BREAK','LT'],GRĮŽAU:['RESUME','LT'],BAIGTI:['END','LT'],KALBA:['LANGUAGE','LT'],PAGALBA:['HELP','LT']};
   const match=aliases[value];return match?{command:match[0],language:match[1]}:undefined;
