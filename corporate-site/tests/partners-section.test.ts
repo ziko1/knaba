@@ -11,6 +11,12 @@ describe('KNABA official partner parity',()=>{
     expect(new Set(officialPartnerLogos.map(p=>p.src)).size).toBe(5);
     for (const p of officialPartnerLogos) {
       expect(new URL(p.src).origin).toBe('https://impro.usercontent.one');
+      const queryOrder=[...new URL(p.src).searchParams.keys()];
+      // The image CDN's Sharp pipeline requires resize() before ignoreAspectRatio().
+      // Wrong order returns HTTP 500, even when the source image exists.
+      expect(queryOrder.indexOf('resize')).toBeGreaterThanOrEqual(0);
+      expect(queryOrder.indexOf('ignoreAspectRatio')).toBeGreaterThan(queryOrder.indexOf('resize'));
+
       expect(p.src).toContain('/domain/knaba.de/media/knaba.de/onewebmedia/');
       expect(p.width).toBeGreaterThan(0);
       expect(p.height).toBeGreaterThan(0);

@@ -15,27 +15,27 @@ const media = 'https://impro.usercontent.one/appid/oneComWsb/domain/knaba.de/med
 export const officialPartnerLogos = [
   {
     id: 'official-01', name: null,
-    src: media + 'Rf5da8e62e102cc22357161bd92c4cb74.jpeg?etag=%222959-60817516%22&ignoreAspectRatio=&quality=85&resize=149%2B121&sourceContentType=image%2Fjpeg',
+    src: media + 'Rf5da8e62e102cc22357161bd92c4cb74.jpeg?etag=%222959-60817516%22&quality=85&resize=149%2B121&ignoreAspectRatio=&sourceContentType=image%2Fjpeg',
     width: 149, height: 121,
   },
   {
     id: 'official-02', name: null,
-    src: media + 'OIP.jpeg?etag=%2218d9-60817a36%22&ignoreAspectRatio=&quality=85&resize=150%2B104&sourceContentType=image%2Fjpeg',
+    src: media + 'OIP.jpeg?etag=%2218d9-60817a36%22&quality=85&resize=150%2B104&ignoreAspectRatio=&sourceContentType=image%2Fjpeg',
     width: 150, height: 104,
   },
   {
     id: 'hit', name: 'HIT · Hanseatische Immobilien Treuhand',
-    src: media + 'HIT-Hanseatische-Immobilien-Treuhand.png?etag=%221ec3-60817a40%22&ignoreAspectRatio=&resize=149%2B149&sourceContentType=image%2Fpng',
+    src: media + 'HIT-Hanseatische-Immobilien-Treuhand.png?etag=%221ec3-60817a40%22&resize=149%2B149&ignoreAspectRatio=&sourceContentType=image%2Fpng',
     width: 149, height: 149,
   },
   {
     id: 'stromkreis', name: 'Stromkreis',
-    src: media + 'Stromkreis_Logo_Ihr-Energieexperte_Juni2020.png?etag=%2270b0-60817a50%22&ignoreAspectRatio=&resize=210%2B42&sourceContentType=image%2Fpng',
+    src: media + 'Stromkreis_Logo_Ihr-Energieexperte_Juni2020.png?etag=%2270b0-60817a50%22&resize=210%2B42&ignoreAspectRatio=&sourceContentType=image%2Fpng',
     width: 210, height: 42,
   },
   {
     id: 'gewobag', name: 'Gewobag',
-    src: media + '1200px-Gewobag_logo.svg___serialized1.png?etag=%22edcf-60817aa9%22&ignoreAspectRatio=&resize=168%2B51&sourceContentType=image%2Fpng',
+    src: media + '1200px-Gewobag_logo.svg___serialized1.png?etag=%22edcf-60817aa9%22&resize=168%2B51&ignoreAspectRatio=&sourceContentType=image%2Fpng',
     width: 168, height: 51,
   },
 ] as const;
