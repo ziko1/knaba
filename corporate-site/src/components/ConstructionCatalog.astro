@@ -10,8 +10,14 @@ const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
 const additional=constructionOffers.filter(item=>!item.core);
 const project=projectCard[locale];
+const seo={
+  de:{title:'Baureinigung & Bauhelfer in Berlin | KnaBa',description:'Bauzwischenreinigung, Baufein- und Bauendreinigung, Baustellenberäumung und Bauhilfe in Berlin & Brandenburg. Leistungen und Anfrage bei KnaBa.'},
+  en:{title:'Construction Cleaning & Site Support Berlin | KnaBa',description:'Construction cleaning, interim and final site cleaning, clearance and support in Berlin & Brandenburg. Compare services and prepare a KnaBa project enquiry.'},
+  uk:{title:'Будівельний клінінг і помічники в Берліні | KnaBa',description:'Міжетапне, тонке й фінальне прибирання, розчищення майданчика та будівельні помічники в Берліні й Бранденбурзі. Порівняйте послуги KnaBa.'},
+  ru:{title:'Строительный клининг и помощь в Берлине | KnaBa',description:'Промежуточная, тонкая и финальная уборка, расчистка стройплощадки и строительные помощники в Берлине и Бранденбурге. Услуги KnaBa.'}
+}[locale];
 ---
-<Layout lang={locale} title={t.catalogTitle+' | KnaBa'} description={t.catalogIntro}>
+<Layout lang={locale} title={seo.title} description={seo.description}>
 <section class="container page-intro"><p class="eyebrow">KnaBa / BAUSERVICE</p><h1>{t.catalogTitle}</h1><p>{t.catalogIntro}</p></section>
 <section class="container section section-tight"><h2>{t.standard}</h2><div class="bau-offer-grid">
 {constructionGridCards.map((card,i) => card.kind === 'project' ? (
