@@ -45,22 +45,22 @@ export const partnerCopy: Record<ConstructionLocale, {
 }> = {
   de: {
     eyebrow: 'KnaBa / Netzwerk', title: 'Unsere Partner.',
-    description: 'Alle fünf Logos aus der offiziellen Partnerübersicht von KnaBa.',
+    description: 'Unternehmen aus dem KnaBa-Partnernetzwerk.',
     logo: 'Logo von', unnamed: 'Partnerlogo aus der offiziellen KnaBa-Übersicht, Position',
   },
   en: {
     eyebrow: 'KnaBa / Network', title: 'Our partners.',
-    description: 'All five logos listed in KnaBa’s official partner overview.',
+    description: 'Businesses in the KnaBa partner network.',
     logo: 'Logo of', unnamed: 'Partner logo from KnaBa’s official list, position',
   },
   uk: {
     eyebrow: 'KnaBa / Партнери', title: 'Наші партнери.',
-    description: 'Усі п’ять логотипів з офіційного переліку партнерів KnaBa.',
+    description: 'Компанії партнерської мережі KnaBa.',
     logo: 'Логотип', unnamed: 'Логотип із офіційного переліку партнерів KnaBa, позиція',
   },
   ru: {
     eyebrow: 'KnaBa / Партнёры', title: 'Наши партнёры.',
-    description: 'Все пять логотипов из официального списка партнёров KnaBa.',
+    description: 'Компании партнёрской сети KnaBa.',
     logo: 'Логотип', unnamed: 'Логотип из официального списка партнёров KnaBa, позиция',
   },
 };

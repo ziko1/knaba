@@ -39,11 +39,12 @@ describe('KNABA Site Studio input and publication rules', () => {
     expect(validateStudioEntries([{selector:image,kind:'src',value:'/illustrations/baureinigung.svg'}])).toHaveLength(1);
     expect(validateStudioEntries([{selector:link,kind:'href',value:'/kontakt/'}])).toHaveLength(1);
   });
-  it('accepts the actual VPS origin for owner-edited links, never lookalike domains or unsafe ports',()=>{
+  it('allows the active origin but rejects legacy-site redirection and lookalikes',()=>{
     const link='#main > section:nth-of-type(1) > a:nth-of-type(1)';
     const assertHref=(href:string)=>validateStudioEntries([{selector:link,kind:'href',value:href}]);
     expect(assertHref('https://kneba.vsp.rest/kontakt/')).toHaveLength(1);
-    expect(assertHref('https://knaba.de/leistungen/')).toHaveLength(1);
+    expect(()=>assertHref('https://knaba.de/leistungen/')).toThrow(StudioInputError);
+    expect(()=>assertHref('https://www.knaba.de/')).toThrow(StudioInputError);
     for(const href of [
       'https://kneba.vsp.rest.evil.test/path',
       'http://kneba.vsp.rest/kontakt/',
