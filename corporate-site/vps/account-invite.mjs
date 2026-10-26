@@ -1,0 +1,92 @@
+/**
+ * Source-only, human-delivered account onboarding for KNABA VPS.
+ * Owner may issue a one-use email/role-scoped capability; issuance does not
+ * prove mailbox ownership or grant operational role permissions.
+ * Client and worker profile approval stays in the existing portal.
+ */
+import {randomBytes,createHash} from 'node:crypto';
+import {normalizeEmail,createCredentialsUser} from './auth.mjs';
+
+const hash=value=>createHash('sha256').update(value).digest('hex');
+const tokenPattern=/^[A-Za-z0-9_-]{43}$/;
+const inviteTtlMs=7*24*60*60*1000;
+const dailyLimit=20;
+export class AccountInviteError extends Error {
+  constructor(message){super(message);this.name='AccountInviteError';}
+}
+function validateTime(now){
+  if(!Number.isSafeInteger(now)||now<=0)throw new AccountInviteError('Invalid request time');
+}
+function transaction(db,operation){
+  db.exec('BEGIN IMMEDIATE');
+  try {const value=operation();db.exec('COMMIT');return value;}
+  catch(error){db.exec('ROLLBACK');throw error;}
+}
+function validEmail(input){
+  try{return normalizeEmail(input);}
+  catch{throw new AccountInviteError('Invalid email');}
+}
+function ownerIdentity(db,issuerId,ownerEmail){
+  if(typeof issuerId!=='string'||!issuerId)throw new AccountInviteError('Owner session required');
+  const expected=validEmail(ownerEmail);
+  const issuer=db.prepare('SELECT id,email,disabled FROM vps_users WHERE id=?').get(issuerId);
+  if(!issuer||issuer.disabled||issuer.email!==expected)throw new AccountInviteError('Owner session required');
+  return issuer;
+}
+export function issueAccountInvite(db,{issuerId,ownerEmail,email,role,now=Date.now()}){
+  validateTime(now);
+  if(!['client','worker'].includes(role))throw new AccountInviteError('Unsupported account role');
+  const address=validEmail(email);
+  const expected=validEmail(ownerEmail);
+  if(address===expected)throw new AccountInviteError('Owner account is managed separately');
+  const token=randomBytes(32).toString('base64url');
+  const expiresAt=now+inviteTtlMs;
+  transaction(db,()=>{
+    ownerIdentity(db,issuerId,expected);
+    if(db.prepare('SELECT 1 FROM vps_users WHERE email=?').get(address))
+      throw new AccountInviteError('Account already exists');
+    const today=db.prepare('SELECT count(*) AS total FROM vps_account_invites WHERE issued_by=? AND issued_at>?')
+      .get(issuerId,now-24*60*60*1000).total;
+    if(today>=dailyLimit)throw new AccountInviteError('Invitation daily limit reached');
+    // Rotation invalidates a previously lost token before creating another.
+    db.prepare('UPDATE vps_account_invites SET used_at=? WHERE email=? AND used_at IS NULL')
+      .run(now,address);
+    db.prepare('INSERT INTO vps_account_invites (token_hash,email,requested_role,issued_by,issued_at,expires_at) VALUES (?,?,?,?,?,?)')
+      .run(hash(token),address,role,issuerId,now,expiresAt);
+  });
+  return {token,email:address,role,expiresAt};
+}
+export function acceptAccountInvite(db,{token,email,name,password,confirmed,privacyAccepted,ownerEmail,now=Date.now()}){
+  validateTime(now);
+  const address=validEmail(email);
+  const expected=validEmail(ownerEmail);
+  if(address===expected)throw new AccountInviteError('Protected owner identity');
+  if(typeof token!=='string'||!tokenPattern.test(token))throw new AccountInviteError('Invalid or expired invitation');
+  if(typeof name!=='string'||name.trim().length<2||name.trim().length>160||
+    /[\u0000-\u001f\u007f<>]/.test(name))throw new AccountInviteError('Invalid full name');
+  if(privacyAccepted!==true)throw new AccountInviteError('Privacy confirmation is required');
+  if(typeof password!=='string'||password.length<16||password.length>256||
+     password!==confirmed)throw new AccountInviteError('Invalid password confirmation');
+  return transaction(db,()=>{
+    const invite=db.prepare('SELECT email,requested_role,issued_by,expires_at,used_at FROM vps_account_invites WHERE token_hash=?')
+      .get(hash(token));
+    if(!invite||invite.used_at!==null||invite.expires_at<=now||invite.email!==address)
+      throw new AccountInviteError('Invalid or expired invitation');
+    ownerIdentity(db,invite.issued_by,expected);
+    if(!['client','worker'].includes(invite.requested_role))
+      throw new AccountInviteError('Invalid account role');
+    if(db.prepare('SELECT 1 FROM vps_users WHERE email=?').get(address))
+      throw new AccountInviteError('Account already exists');
+    const user=createCredentialsUser(db,address,password);
+    const time=new Date(now).toISOString();
+    const mutation=randomBytes(18).toString('base64url');
+    db.prepare('INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES (?,?,?,?,NULL,?,?,?,?,1,?)')
+      .run(user.id,name.trim(),address,invite.requested_role,'pending','2026-10-24',time,time,mutation);
+    db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
+      .run(randomBytes(18).toString('base64url'),user.id,'profile.invited',user.id,time);
+    const consumed=db.prepare('UPDATE vps_account_invites SET used_at=?,used_by=? WHERE token_hash=? AND used_at IS NULL')
+      .run(now,user.id,hash(token));
+    if(consumed.changes!==1)throw new AccountInviteError('Invalid or expired invitation');
+    return {...user,role:invite.requested_role,status:'pending'};
+  });
+}

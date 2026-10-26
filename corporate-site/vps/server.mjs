@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
 import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
+import { issueAccountInvite, acceptAccountInvite, AccountInviteError } from './account-invite.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
@@ -79,7 +80,7 @@ async function sendStatic(root,req,res,path,db){
     }
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|ru\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|invite-user|activate-owner|logout|ru\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',privatePath?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
   if(privatePath||res.statusCode===404){
@@ -98,7 +99,7 @@ function loginPage(returnTo,invalid=false){
     '<form method="post" action="/login/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
     '<label>E-Mail<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
     '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
-    '<button type="submit">Anmelden</button></form><p><a href="/">Zur Website</a></p>');
+    '<button type="submit">Anmelden</button></form><p><a href="/register/">Konto mit Einladung erstellen</a></p><p><a href="/">Zur Website</a></p>');
 }
 function ownerActivationPage(){
   // Capability stays in fragment (not sent to HTTP servers or access logs).
@@ -123,6 +124,45 @@ function ownerActivationPage(){
     '<button type="submit" disabled>Zugang aktivieren</button></form>'+
     '<p><a href="/login/?return_to=%2Fstudio%2F">Zur Anmeldung</a></p>'+
     '<script>'+script+'</script>');
+}
+function registrationPage(){
+  // Fragment-only token: no token in request URL, referer, proxy access logs or history.
+  const script="(function(){const params=new URLSearchParams(location.hash.slice(1));"+
+    "const token=params.get('token')||'';"+
+    "const ok=/^[A-Za-z0-9_-]{43}$/.test(token);"+
+    "const field=document.querySelector('input[name=token]');"+
+    "if(field&&ok)field.value=token;"+
+    "const submit=document.querySelector('button[type=submit]');"+
+    "if(submit)submit.disabled=!ok;"+
+    "history.replaceState(null,'',location.pathname);"+
+    "})();";
+  return html('KnaBa | Kunden- und Mitarbeiterkonto',
+    '<h1>KNABA · Konto aktivieren</h1>'+
+    '<p>Die Registrierung erfolgt derzeit über eine persönliche Einladung. Kunden und Mitarbeitende erhalten nach der Registrierung zunächst den Status „Warten auf Freigabe“. Bitte geben Sie den Einladungscode nur auf dieser Seite ein.</p>'+
+    '<form action="/register/" method="post">'+
+    '<input type="hidden" name="token" value="">'+
+    '<label>Vollständiger Name<input name="name" autocomplete="name" maxlength="160" required minlength="2"></label>'+
+    '<label>E-Mail (wie in der Einladung)<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
+    '<label>Passwort (16–256 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label><input type="checkbox" name="privacy" value="on" required> Ich habe die <a href="/datenschutz/">Datenschutzhinweise</a> gelesen und stimme der Bearbeitung meiner Registrierungsdaten zu.</label>'+
+    '<button type="submit" disabled>Konto erstellen</button></form>'+
+    '<p>Keine Einladung? <a href="/kontakt/">Kontaktieren Sie KNABA</a>.</p>'+
+    '<p><a href="/login/">Zur Anmeldung</a></p><script>'+script+'</script>');
+}
+function invitationPage(invite=null,origin=''){
+  const result=invite?
+    '<p role="status">Einladung erstellt. Den Link ausschließlich persönlich und sicher an die berechtigte Person weitergeben. Es wurde keine E-Mail versandt.</p>'+
+    '<label>Einmaliger Link (maximal 7 Tage)<input type="text" readonly value="'+
+      escapeHTML(origin+'/register/#token='+invite.token)+'" onclick="this.select()"></label>':'';
+  return html('KnaBa | Kontoeinladung',
+    '<h1>KNABA · Konto einladen</h1>'+
+    '<p>Nur der angemeldete Inhaber darf Kunden oder Mitarbeitende einladen. Die ausgewählte Rolle ist lediglich eine Anfrage und muss danach im Portal freigegeben werden.</p>'+
+    '<form method="post" action="/invite-user/">'+
+    '<label>E-Mail des Empfängers<input type="email" name="email" maxlength="320" required></label>'+
+    '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="worker">Mitarbeiter/in</option></select></label>'+
+    '<button type="submit">Einladung generieren</button></form>'+result+
+    '<p><a href="/studio/">Zur Verwaltung</a></p>');
 }
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
@@ -215,6 +255,68 @@ export async function createKnabaVpsServer({
           return send(res,invalid?401:422,invalid?'Invitation expired or already used':'Check activation details');
         }
         return send(res,409,'Owner account activation unavailable');
+      }
+    }
+    if(url.pathname==='/register/'||url.pathname==='/register'){
+      const headers={
+        'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+        'X-Frame-Options':'DENY',
+        'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      };
+      if(req.method==='GET'){
+        if(url.searchParams.has('token'))return send(res,400,'Invitation secrets belong only in URL fragments');
+        return send(res,200,registrationPage(),headers);
+      }
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!ownerEmail)return send(res,503,'Onboarding is not configured');
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readBody(req,6144)).toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==6||new Set(keys).size!==6||
+          keys.some(key=>!['token','email','name','password','password_confirm','privacy'].includes(key)))
+          return send(res,422,'Invalid registration form');
+        acceptAccountInvite(db,{
+          token:params.get('token')||'',email:params.get('email')||'',name:params.get('name')||'',
+          password:params.get('password')||'',confirmed:params.get('password_confirm')||'',
+          privacyAccepted:params.get('privacy')==='on',ownerEmail
+        });
+        return redirect(res,'/login/?return_to=%2Fkonto%2F',{'Referrer-Policy':'no-referrer'});
+      }catch(error){
+        if(error?.code==='too_large')return send(res,413,'Invalid registration form');
+        if(error instanceof AccountInviteError)return send(res,422,'Invalid, expired or already used invitation or form');
+        return send(res,409,'Registration temporarily unavailable');
+      }
+    }
+    if(url.pathname==='/invite-user/'||url.pathname==='/invite-user'){
+      const user=readSession(db,req.headers.cookie);
+      if(!user)return send(res,401,'Login required');
+      if(!ownerEmail||user.email.toLowerCase()!==ownerEmail.toLowerCase())
+        return send(res,403,'Owner approval required');
+      const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
+      if(req.method==='GET')return send(res,200,invitationPage(),headers);
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==2||new Set(keys).size!==2||
+          keys.some(key=>!['email','role'].includes(key)))return send(res,422,'Invalid invitation form');
+        const invite=issueAccountInvite(db,{
+          issuerId:user.id,ownerEmail,email:params.get('email')||'',role:params.get('role')||''
+        });
+        return send(res,200,invitationPage(invite,base.origin),headers);
+      }catch(error){
+        if(error?.code==='too_large')return send(res,413,'Invalid invitation form');
+        if(error instanceof AccountInviteError)
+          return send(res,error.message==='Invitation daily limit reached'?429:422,'Invitation not available');
+        return send(res,409,'Invitation temporarily unavailable');
       }
     }
     if(url.pathname==='/login/'||url.pathname==='/login'){

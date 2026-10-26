@@ -8,18 +8,21 @@ export function normalizeEmail(input){
   if(s.length>320||!emailFormat.test(s))throw Error('Invalid owner email.');
   return s;
 }
-export function createOwner(db,email,password){
+export function createCredentialsUser(db,email,password){
   const address=normalizeEmail(email);
   if(typeof password!=='string'||password.length<16||password.length>256)
-    throw Error('An owner passphrase must be 16 to 256 characters long.');
+    throw Error('A passphrase must be 16 to 256 characters long.');
+  const existing=db.prepare('SELECT id FROM vps_users WHERE lower(email)=?').get(address);
+  if(existing)throw Error('Account already exists.');
   const salt=randomBytes(16).toString('hex');
   const digest=scryptSync(password,Buffer.from(salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024}).toString('hex');
-  const existing=db.prepare('SELECT id FROM vps_users WHERE lower(email)=?').get(address);
-  if(existing)throw Error('Owner already exists. Use a separately reviewed reset procedure.');
   const id=randomBytes(18).toString('base64url');
   db.prepare('INSERT INTO vps_users (id,email,salt,password_hash,created_at) VALUES (?,?,?,?,?)')
     .run(id,address,salt,digest,new Date().toISOString());
   return {id,email:address};
+}
+export function createOwner(db,email,password){
+  return createCredentialsUser(db,email,password);
 }
 function validPassword(row,password){
   const attempt=scryptSync(password,Buffer.from(row.salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024});

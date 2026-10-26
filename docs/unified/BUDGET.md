@@ -40,3 +40,6 @@
 
 ## Modular CMS recovery — 2026-10-26
 Existing VPS, GitHub connector and cached Node24 dependencies only; new paid provider/AI service activations: NONE. ChatGPT Work credits/provider remaining quotas UNKNOWN. VPS observed 197G with ~21G free (~90% used); no destructive cleanup, new DB, production deploy or owner data changes. Remain below the 90% release gate before future cutover.
+
+## KNABA user onboarding QA — 26.10.2026
+Local synthetic tests only on isolated VPS, verified official Node24 tar and public npm dependencies, no new billable provider dispatch. KNABA email/OIDC/WhatsApp/SMS/LLM not activated, no production DB/secret changes, no paid service authorization. Actual hosting/network/quota/balance remains UNKNOWN; existing budget rules preserved.
