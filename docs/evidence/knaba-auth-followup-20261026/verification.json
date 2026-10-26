@@ -1,0 +1,174 @@
+{
+  "scope": "source-only, synthetic Node24 VPS and GitHub Draft PR #107",
+  "base_commit": "a7a6a1cbef9c96837eda7dee008c98be182543b2",
+  "node": "24.22.1",
+  "site_check": {
+    "status": "PASS",
+    "errors": 0,
+    "warnings": 0,
+    "existing_hints": 4
+  },
+  "site_build": {
+    "status": "PASS",
+    "pages": 130,
+    "release_mode": "vsp",
+    "artifact_sha256_one_build": "c04b99013eeee567d45477ecda99638ec8383ab4e152df9641e90909021303f4"
+  },
+  "site_verifier": {
+    "status": "PASS",
+    "routes": 28,
+    "catalog_units": 1001
+  },
+  "vps_node_test": {
+    "status": "PASS",
+    "passed": 59,
+    "failed": 0
+  },
+  "site_vitest": {
+    "status": "PASS",
+    "passed": 256
+  },
+  "site_other_node": {
+    "status": "PASS",
+    "test_counts": [
+      32,
+      27,
+      9
+    ]
+  },
+  "root_node_test": {
+    "status": "PASS",
+    "passed": 25,
+    "failed": 0
+  },
+  "external_provider": {
+    "verified_knaba_mail_sender": false,
+    "send_attempts": 0
+  },
+  "not_run": [
+    "real password-change HTTP POST end-to-end",
+    "independent security review",
+    "real browser/device human UAT",
+    "production SQL ledger and off-host restore",
+    "ERP tenant auth bridge",
+    "production deployment"
+  ],
+  "github_main_merge": false,
+  "live_db_migration": false,
+  "production_deploy": false,
+  "logs_local_sha256": {
+    "site_check": {
+      "sha256": "3ff0c463b37024c05c126814cee54aaa9c7ddb1d7ee28156415b34f9fe740828",
+      "bytes": 1461,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/site_check.txt",
+      "original_local_sha256": "0c47b3743389f570a1aeabd7220527771bd94c4a44688503102eac0563a12193",
+      "whitespace_normalized": true
+    },
+    "site_build": {
+      "sha256": "9d169709851866db00a63f8965e26c299aa5ed3ba3821cc6836dd3b3d641048e",
+      "bytes": 10599,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/site_build.txt",
+      "original_local_sha256": "bf15c5888225aac3b661802f641091e27bc2096705a3373d87c7116c038b8f23",
+      "whitespace_normalized": true
+    },
+    "site_build_verify": {
+      "sha256": "42abf381ad1280e4f4c014d25d75063b59ea8145811d29f3f994ed2ba7cee383",
+      "bytes": 7060,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/site_build_verify.txt"
+    },
+    "site_tests": {
+      "sha256": "53876c65f7b590af3ddbdd47f829edf37a05c4af72f498a2d517a41c6a4ec1c1",
+      "bytes": 11326,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/site_tests.txt"
+    },
+    "vps_backend_tests": {
+      "sha256": "1601e79e6bf2ca36334e41603032c39656568493214121a3861c003806412379",
+      "bytes": 5679,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/vps_backend_tests.txt"
+    },
+    "root_tests": {
+      "sha256": "57d1df5bf9ea35cb69dcb45f110539f9c80a0d0ffbfa687f3665b1a55ca05579",
+      "bytes": 2111,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/root_tests.txt"
+    },
+    "red_auth_ip": {
+      "sha256": "ff91f2620d41a54e0a67863d38b1822bac50dc89cee107b63753de92908e9d16",
+      "bytes": 1535,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/red_auth_ip.txt",
+      "original_local_sha256": "21cab75ab724ceeb6684d0dcbdab638aa6729271e264c7322e3125ed7fdb7ba1",
+      "redacted": true,
+      "whitespace_normalized": true
+    },
+    "green_auth_ip": {
+      "sha256": "30f7407df5cf26ce5abee8ea75f4781312779e74c07c8ef19cf99143cec79e9f",
+      "bytes": 225,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/green_auth_ip.txt"
+    },
+    "red_revoke": {
+      "sha256": "67b7144cd8f34b9bb238ab3a292f98f7a1f8677b2880a246578d3f892767d090",
+      "bytes": 1439,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/red_revoke.txt",
+      "original_local_sha256": "d409d01b46d9cf7358897277046ff97d70a397f815baa67c5229dc615159be27",
+      "whitespace_normalized": true
+    },
+    "green_revoke": {
+      "sha256": "6c2f27145fb02ba425ce88b865ba3af120ed5a972270f23b500a8e72ea57cf5e",
+      "bytes": 715,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/green_revoke.txt"
+    },
+    "red_revoke_http": {
+      "sha256": "d6fa9d412d3e76cb1ab2d81c0d0197fa2bb07275a9a0df2322782fd97bc495ea",
+      "bytes": 1012,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/red_revoke_http.txt",
+      "original_local_sha256": "24f42626e3d2ea8a5ea73b33a9af46e1a23a5d121595218be43714929acd6ecb",
+      "whitespace_normalized": true
+    },
+    "green_revoke_http": {
+      "sha256": "1169428d9b09b9ed8864777c50470b44172b60b0d005c96c9bb6ca83ad9ff045",
+      "bytes": 217,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/green_revoke_http.txt"
+    },
+    "red_rotation": {
+      "sha256": "82c3e32229df1a3b1d4fd7fb3b006bd972b204605d090a15d0b9e2e1471123e8",
+      "bytes": 938,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/red_rotation.txt",
+      "original_local_sha256": "9786cfea7386a977b8b0ef9a35570791575fc251f18f20522b311488d92ff7d9",
+      "whitespace_normalized": true
+    },
+    "green_rotation": {
+      "sha256": "1a3e899f5786419c43463d8909c661ca8672b25b69005ff7b053a7562dcce0d2",
+      "bytes": 210,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/green_rotation.txt"
+    },
+    "red_password_page": {
+      "sha256": "b917bd83ab9cf436fde815f1edb90cc6d7b8ee029ee2e3cf3c85ea20fa03f0de",
+      "bytes": 1033,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/red_password_page.txt",
+      "original_local_sha256": "900833794b963ce1106e46cb079f40a5bffb375645ac176b4a74889bbf595a38",
+      "whitespace_normalized": true
+    },
+    "green_password_page": {
+      "sha256": "73b3ba795984b4bab68774bb74cf3d64d525ce01599f7138579ed22ebbf2125b",
+      "bytes": 217,
+      "local_qa_only": true,
+      "repository_path": "docs/evidence/knaba-auth-followup-20261026/logs/green_password_page.txt"
+    }
+  },
+  "published_redaction": "Two opaque synthetic session tokens in the expected failing pre-fix test log were redacted from the tracked copy; original unredacted log remains only in bounded local QA runtime.",
+  "published_log_normalization": "Tracked QA logs have ASCII trailing whitespace stripped to keep git diff whitespace gate passing. Exact raw logs are tied by original_local_sha256 where different; synthetic bearer-shaped values are redacted."
+}

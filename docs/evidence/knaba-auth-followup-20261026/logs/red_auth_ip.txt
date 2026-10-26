@@ -1,0 +1,40 @@
+✖ shared client IP stops credential validation after 20 attempts across distinct addresses (3652.880567ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3755.136112
+
+✖ failing tests:
+
+test at corporate-site/vps/auth-hardening.test.mjs:17:1
+✖ shared client IP stops credential validation after 20 attempts across distinct addresses (3652.880567ms)
+  AssertionError [ERR_ASSERTION]: same socket IP must not evade limit by rotating email
+  + actual - expected
+
+  + {
+  +   token: '[REDACTED_SYNTHETIC_SESSION]',
+  +   user: {
+  +     email: 'test20@example.test',
+  +     id: 'nUraUhWg8_wSO2KbwN3lGDJe'
+  +   }
+  + }
+  - null
+
+      at file:///tmp/knaba-auth-hardening-20261026/corporate-site/vps/auth-hardening.test.mjs:24:12
+      at fixture (file:///tmp/knaba-auth-hardening-20261026/corporate-site/vps/auth-hardening.test.mjs:13:14)
+      at TestContext.<anonymous> (file:///tmp/knaba-auth-hardening-20261026/corporate-site/vps/auth-hardening.test.mjs:18:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { token: '[REDACTED_SYNTHETIC_SESSION]', user: { id: 'nUraUhWg8_wSO2KbwN3lGDJe', email: 'test20@example.test' } },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

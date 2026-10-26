@@ -86,3 +86,12 @@ Historical import remains `66b07fb46d23c7110473c51fc23ce58d3c40a1b1`; committed 
 
 ## KN-U19 — modular CMS source recovery, 2026-10-26
 Source-only Draft: preserved latest live site and ERP source, unified typed registry of existing Portal/CRM/Inbox/Studio, compatible URLs, preview deployment inventory and negative authorization/release tests. Real ERP identity/tenant bridge, SQL QA, UAT, a11y/device/performance/off-host restore and production gates remain OPEN. No other pending PR/worktree discarded; see `KNABA_MODULAR_CMS_RECOVERY_2026-10-26_UK.md`.
+
+## KN-AUTH-007 — client/worker registration, 2026-10-26
+- SOURCE_LOCAL_QA: owner-only invitation, 7-day hashed 256-bit single-use token, 20 per 24h rate limit, pending profile+audit, reuse existing login/roles. Tests: VPS 55/55, site 256+68, root 25, check/build/verify; NO PROD.
+- P0 BLOCKED: actual owner authorization/secure handoff; email/OIDC verification provider, quotas and privacy approval; real DB ledger+backup/rollback; independent security review, user/browser/device/accessibility UAT, actual approved deployment.
+- P0 BLOCKED: ERP tenant/company/site/customer scoped stable subjects, revocation, D1/SQLite→PostgreSQL idempotent bridge, no email-only trust. Preserve original module queue.
+- P1 DEFER: partner enrollment, provider-backed self-signup + password recovery + additional server-side locale and verified email deliverability.
+
+## KN-AUTH-008 / P0 — authentication continuation 2026-10-26
+SOURCE_LOCAL_QA: owner invite revocation, 60-per-15m TCP-source login quota, password change with session invalidation, 59 VPS tests and site/root/check/build/verifier PASS. No SQL rewrite. P0 HOLD: trusted reverse proxy real client address, live POST credential test (tool safety blocked), independent security review, verified KNABA sender/OTP, ERP tenant scoped identity, off-host backup+restore, browser/device/a11y and real owner acceptance. See KNABA_AUTH_SECURITY_CONTINUATION_2026-10-26_UK.md.
