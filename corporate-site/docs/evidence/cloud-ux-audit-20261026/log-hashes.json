@@ -1,0 +1,54 @@
+[
+  {
+    "log": "check.log.gz",
+    "rawSha256": "bbad8a7ad8c882da14f095d282f344ef6ed2d0d8b019badb432f19058006d6c2"
+  },
+  {
+    "log": "full-test.log.gz",
+    "rawSha256": "12436ff120202ca8b06eca4f2cbdad0d64cd1f20be1fe2654b8cb41ea51c985d"
+  },
+  {
+    "log": "browser-policy-tests.log.gz",
+    "rawSha256": "c9b4f2dcaa40bb27cc04453f45650fa9e50a2c48257bc31b1c10dace975a3f8a"
+  },
+  {
+    "log": "i18n-tests.log.gz",
+    "rawSha256": "5635045a369c9fe27a7e4cd2100697fc6bd369b90cb86e5800a854a661c31dd2"
+  },
+  {
+    "log": "build.log.gz",
+    "rawSha256": "635cdc50d54c01e3f63b03251ade28eb1249b70b3462ed9948719beac87bfed5"
+  },
+  {
+    "log": "i18n.log.gz",
+    "rawSha256": "851bfa1378be4fb2a065efe48550b787f33b13d9367eb6890cd1da37c7511832"
+  },
+  {
+    "log": "verify.log.gz",
+    "rawSha256": "5dd96f073fb87fc9248bff9859de533ad8f7c13068bb55dd475583537a0e4551"
+  },
+  {
+    "log": "vps-test.log.gz",
+    "rawSha256": "c1214e89c3f933dddcf7e5cb1be0217aafcfb81a1dad262b647aad2ba802b85e"
+  },
+  {
+    "log": "studio-body-red.log.gz",
+    "rawSha256": "42ddaa801f38ae6fa7ea5a5b0e3e10d8fcdd69f1e00e1f4a518ce53273f3bce6"
+  },
+  {
+    "log": "studio-body-green.log.gz",
+    "rawSha256": "33fbfdb3bee175e34a233294fa59497c74b998940be3584ce1ef2a5ca80b63a1"
+  },
+  {
+    "log": "studio-body-regression.log.gz",
+    "rawSha256": "d7b711ca6413859e023eeed38eaf8af536aef19374bb7c065b88dd0112c13c83"
+  },
+  {
+    "log": "migration-guard-red.log.gz",
+    "rawSha256": "c2db3216de6034521d4361afb03ed57a530522283773aa2a85d36b4d0065ab51"
+  },
+  {
+    "log": "migration-guard-green.log.gz",
+    "rawSha256": "d26f0a5f7866881e898883f37d6a7e0ab847add424a54bfdbf447f1a99fb4b2a"
+  }
+]

@@ -168,6 +168,14 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  const sectionIds = ['bau-hero-title', 'bau-services-title', 'bau-contract-heading', 'bau-process-title', 'company-profile-title', 'knaba-partners-title', 'reviews-title', 'knaba-faq-preview-title', 'bau-final-contact-title'];
+  const positions = sectionIds.map(id => source.indexOf('id="' + id + '"'));
+  assert.ok(positions.every(position => position >= 0), prefix + 'all homepage sections retained');
+  assert.deepEqual([...positions].sort((a,b) => a-b), positions, prefix + 'visitor journey section order');
+  const planner = await readFile(resolve(root,prefix+'planer/index.html'),'utf8');
+  const topics = [...planner.matchAll(/data-planner-topic="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(topics, ['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe'], prefix + 'five usable core topics rendered before API/JS');
+  assert.doesNotMatch(planner, /Leistungskatalog wird geladen/, prefix + 'known services do not wait for an unused API');
   const publicCatalog = '/' + prefix + 'leistungen/';
   const extrasLabel = {
     '':'Zusatzarbeiten ansehen',

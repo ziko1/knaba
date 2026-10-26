@@ -331,3 +331,5 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Full acceptance/remaining P1-P2 and receipts: docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md. No main merge, official-domain change, paid provider activation or real company test message.
 
 - Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
+## KN-CLOUD-AUDIT-20261026
+User-authorized browser audit/fixes/repository persistence/test-domain rollout. Base/live2164b9505f824486594b2633a05f5fd91aee8c04. Cloud Chrome122 route visits; planner/full core choices, topic-specific preparation, PR84 section hierarchy, success-phone dedup, Assistant keyboard focus/Escape, Studio32KiB guard and full migration-ledger preflight implemented. Six SQL files/journal/dependencies unchanged. Evidence and full open gaps: docs/evidence/cloud-ux-audit-20261026/AUDIT_UK.md. Independent API/UI reviews passed; source/build and VPS41/41 accepted in scoped candidate. Public source SHA/deployment receipt appended after publication; no whole-product readiness claim.

@@ -29,12 +29,10 @@ test('contextual telephone pages suppress the fallback, across localized routes'
 
 test('home closing conversion panel does not repeat the global telephone', () => {
   const source = read('../src/components/ConstructionHome.astro');
-  const cta = source.match(/<section class="container bau-end-cta"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+  const cta = source.split('<section class="container bau-end-cta" aria-labelledby="bau-final-contact-title">')[1]?.split('</section>')[0];
   assert.ok(cta, 'closing conversion panel exists');
   assert.doesNotMatch(cta, /company\.phone|phoneHref|tel:/);
   assert.match(cta, /href=\{contact\}/, 'contact path remains');
-  assert.ok(source.indexOf('<ConstructionFaq ') < source.indexOf('class="container bau-end-cta"'), 'final enquiry follows FAQ');
-  assert.ok(source.indexOf('id="bau-process-title"') < source.indexOf('<CompanyProfile '), 'process precedes company profile');
 });
 
 test('information cards do not repeat the same contact link for each card', () => {

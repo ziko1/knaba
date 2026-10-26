@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "scope": "KNABA authorized test-domain rollout",
+  "sourceSha": "2ad00f69af447c76952f772292672165b1029b3d",
+  "sourceBranch": "fix/knaba-cloud-ux-audit-20261026",
+  "sourceCheckout": "/tmp/knaba-cloud-audit-2ad00f69-20261026",
+  "candidateRelease": "/srv/knaba/vps/releases/2ad00f69af447c76952f772292672165b1029b3d",
+  "artifactSha256": "aa35980c9018f412d6d856f5fa0ae1b068d11352366df50c26ca750653210683",
+  "sourceAndDependencies": {
+    "packageUnchanged": true,
+    "lockUnchanged": true,
+    "lockSha256": "698db197e722f7106773083b576c60f8b43d987f54d15a7bdb4bfa6dc9ae475e",
+    "network": "none",
+    "node": "24.22.1"
+  },
+  "attempts": [
+    {
+      "stage": "initial QA",
+      "result": "ENVIRONMENT_FAILURE",
+      "reason": "SentinelX clone uid998 vs container uid1000; Astro EACCES",
+      "exitCode": 1
+    },
+    {
+      "stage": "uid998 QA",
+      "result": "ENVIRONMENT_FAILURE",
+      "reason": "900MiB container imposed V8 ~448MiB heap; Astro check OOM",
+      "exitCode": 134
+    },
+    {
+      "stage": "2GiB container, 1536MiB V8 heap, uid998",
+      "result": "PASS",
+      "commands": [
+        "npm run check",
+        "KNABA_RELEASE_MODE=vsp npm run build",
+        "npm run verify:build",
+        "npm run test:vps"
+      ],
+      "exitCode": 0,
+      "tests": {
+        "vps": 41,
+        "failed": 0
+      },
+      "pages": 122,
+      "clientFiles": 220,
+      "qaLogSha256": "ae3e1cb293541ebbe183662b4e9876bee493015c7cbf5aacbdc56600c8eade9e",
+      "job": "job_437e8d2228cd"
+    }
+  ],
+  "databasePreflight": {
+    "readOnly": true,
+    "sourceMigrations": 6,
+    "appliedMigrations": 6,
+    "unknown": 0,
+    "drift": 0,
+    "pending": 0,
+    "sqlAndJournalByteIdentical": true,
+    "homepageStudioRows": 0
+  },
+  "rollout": {
+    "startedAtUtc": "2026-10-26T14:34:37.210479+00:00",
+    "status": "PREFLIGHT_BLOCKED_CURRENT_CHANGED",
+    "expectedCurrent": "2164b9505f824486594b2633a05f5fd91aee8c04",
+    "observedCurrent": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+    "bothLocksAcquired": true,
+    "switched": false,
+    "backupCreatedByThisAttempt": false,
+    "schemaMigrationExecuted": false,
+    "rollbackExecuted": false,
+    "reason": "CAS refused to overwrite a concurrent release; integrate current runtime source before retry"
+  },
+  "concurrentRelease": {
+    "sourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+    "builtFromSha": "c6277c94b9dd69ee036a41e84a1d2ca1f64363f8",
+    "sourceBranch": "fix/knaba-user-acceptance-20261026",
+    "containerStartedAtUtc": "2026-10-26T14:26:55.051751246Z",
+    "artifactSha256Verified": "b4467375ce695206c42193e239d3405f8526b638113b31bad50580db8429dc2b",
+    "buildReportMatches": true,
+    "manifestArtifactMismatch": true,
+    "manifestArtifactClaim": "ceab809aafa13092332bc00f2400268f66247ba954466f6e94fde0ac319529a8",
+    "runtimeFilesVerified": 279,
+    "runtimeFileMismatches": 0,
+    "pages": 122,
+    "clientFiles": 222
+  },
+  "acceptance": {
+    "deployedByThisTask": false,
+    "public127RouteChecks": "NOT_RUN_FOR_CANDIDATE",
+    "browser": "NOT_RUN_FOR_CANDIDATE",
+    "officialDomainChanged": false,
+    "customerReady": false
+  }
+}
