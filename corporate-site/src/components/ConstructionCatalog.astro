@@ -4,6 +4,7 @@ import type {ConstructionLocale} from '../data/construction-offers';
 import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '../data/construction-offers';
 import {projectCard} from '../data/construction-project-card';
 import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
+import ProjectIntentGuide from './ProjectIntentGuide.astro';
 import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
@@ -30,6 +31,7 @@ const project=projectCard[locale];
 <section class="container section section-tight" id="zusatzarbeiten"><p class="eyebrow">B2B / TECHNISCH</p><h2>{t.optional}</h2><p class="bau-disclaimer">{t.contractIntro}</p>
 <div class="bau-offer-grid">{additional.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'} class="bau-offer special"><div class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} size={30} /></div><h3>{localeValue(item.name,locale)}</h3><p>{localeValue(item.description,locale)}</p><span>{t.request} →</span></a>)}</div>
 <p class="bau-disclaimer">{t.note}</p></section>
+<ProjectIntentGuide locale={locale} />
 <section class="container cta-banner"><div><h2>{t.ready}</h2></div><a class="button button-dark" href={prefix+'/kontakt/'}>{t.cta} →</a></section>
 </Layout>
 <style>
