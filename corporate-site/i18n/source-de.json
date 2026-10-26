@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "c561a3f4b82fca9fb8ada5abf97e39ea25388755738e21b45632319d1fe2273e",
+  "sourceDigest": "c23b1fed5a44a2c1c18c2b8c9277333992b669ab0e38b107acdc052c16b0f8f8",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -31,7 +31,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 946,
+  "unitCount": 998,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -155,6 +155,13 @@
       "source": "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der lokalen Server-Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "029dd4e50c758f6603164cb5": {
+      "kind": "meta:twitter:description",
+      "source": "Praktische Informationen für Bauunternehmen und Bauherren: Abstimmung der Reinigungsphasen, Baustellenvorbereitung und sichere Spezialanfragen.",
+      "routes": [
+        "/ratgeber/"
       ]
     },
     "03449cfd42ae11eb8bc65817": {
@@ -319,6 +326,13 @@
         "/unternehmen/"
       ]
     },
+    "07864e091e4a4c336472c4d0": {
+      "kind": "meta:twitter:title",
+      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "0796f8e4bbbe40baef203857": {
       "kind": "text",
       "source": "Technik, Zugang & Sicherheit abstimmen",
@@ -352,6 +366,13 @@
     "08918f41d75e37fb8a8eff6f": {
       "kind": "text",
       "source": "Zugang, Ansprechpartner und Kontrolltermin werden gemeinsam geklärt. Eine Anfrage allein ist keine automatische Beauftragung.",
+      "routes": [
+        "/unternehmen/"
+      ]
+    },
+    "08abac685b50304482c21cc1": {
+      "kind": "meta:twitter:title",
+      "source": "Baureinigung ist unser Schwerpunkt. | KnaBa",
       "routes": [
         "/unternehmen/"
       ]
@@ -642,11 +663,11 @@
         "/ratgeber/"
       ]
     },
-    "11992421f0d6adaee43c25fa": {
-      "kind": "meta:description",
-      "source": "Reinigung zwischen Gewerken, Staub- und Schmutzbeseitigung nach abgestimmten Bauabschnitten.",
+    "119009faa8b830c4e9147e96": {
+      "kind": "meta:twitter:title",
+      "source": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen | KnaBa",
       "routes": [
-        "/bauleistungen/bauzwischenreinigung/"
+        "/ratgeber/baureinigung-phasen/"
       ]
     },
     "123674269214ccfcbbfe9211": {
@@ -904,6 +925,13 @@
         "/bauleistungen/durchbrueche/"
       ]
     },
+    "18ab5c657dc4c6d8111701f6": {
+      "kind": "meta:twitter:description",
+      "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag. Berlin & Brandenburg.",
+      "routes": [
+        "/leistungen/"
+      ]
+    },
     "18c29177dc2f699ec9f054ef": {
       "kind": "text",
       "source": "Das Schutzverfahren hängt von Material, Technik und Umfeld ab. Geeignete Absaugung, Wasserführung, Abschirmung und zulässige Arbeitszeiten sind Teil der Vorprüfung.",
@@ -975,6 +1003,13 @@
         "/galerie/"
       ]
     },
+    "1bc1477876a94ce7f5a779c7": {
+      "kind": "meta:twitter:description",
+      "source": "Projektbezogene Hilfs- und Zusatzarbeiten: Leistungsumfang, Qualifikation, Partner, Termine und Konditionen werden vor Vertragsabschluss geprüft. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
     "1be972e650e0f5e9204bc0cb": {
       "kind": "text",
       "source": "Baugrob-, Bauzwischen-, Baufein- und Bauendreinigung. Ergänzend Bauhelfer und vertraglich abgestimmte Zusatzleistungen. Berlin & Brandenburg.",
@@ -1003,11 +1038,25 @@
         "/bauleistungen/baustellenraeumung/"
       ]
     },
+    "1cd08a6975aad02e0d659fa7": {
+      "kind": "meta:twitter:title",
+      "source": "Impressum und Anbieterangaben | KnaBa Berlin",
+      "routes": [
+        "/impressum/"
+      ]
+    },
     "1cd1c0eacc16c2eda461312f": {
       "kind": "text",
       "source": "Saubere Bauübergabe: die Checkliste nach der Endreinigung | KnaBa",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "1ced3bd06894431e75b2db5c": {
+      "kind": "meta:twitter:description",
+      "source": "Öffnungen für technische Kommunikation und Medien: nur nach Prüfung von Statik, Leitungsführung und erforderlichen Genehmigungen. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/durchbrueche/"
       ]
     },
     "1d2a333fac2b97e56ab0fcad": {
@@ -1022,6 +1071,13 @@
       "source": "Zugang, Umgebungsschutz und Umgang mit Wasser, Schlamm oder Bohrkern gesondert abstimmen.",
       "routes": [
         "/bauleistungen/kernbohrungen/"
+      ]
+    },
+    "1dfd0e4de571e09a929f04ec": {
+      "kind": "meta:description",
+      "source": "Öffnungen für technische Kommunikation und Medien: nur nach Prüfung von Statik, Leitungsführung und erforderlichen Genehmigungen. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/durchbrueche/"
       ]
     },
     "1e0e1dd8f7820ab97227c672": {
@@ -1104,6 +1160,13 @@
       "source": "Administratoren:",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "1f9e79c5cb1709740bb17399": {
+      "kind": "meta:twitter:title",
+      "source": "Baustellenberäumung | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/baustellenraeumung/"
       ]
     },
     "1fa4186262dc313774a274a4": {
@@ -1253,13 +1316,6 @@
       "source": "Klären Sie Zufahrt, Entladung, Aufzug, Wasser, Strom und erlaubte Arbeitszeiten. Die Kontaktperson vor Ort sollte freigegebene Wege und Räume zeigen können. Schlüsselübergabe und besondere Zutrittsregeln werden persönlich abgestimmt; Zugangsdaten gehören nicht in eine allgemeine Anfrage.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
-      ]
-    },
-    "23c85fdbb12b2b0c8c44701b": {
-      "kind": "meta:og:title",
-      "source": "Baureinigung. Bauhilfe. Zusatzleistungen. | KnaBa",
-      "routes": [
-        "/leistungen/"
       ]
     },
     "23f4353366b2141e3dee3ceb": {
@@ -1445,6 +1501,13 @@
         "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
+    "287e1c33d0f1c636a72b88ff": {
+      "kind": "meta:description",
+      "source": "Reinigung zwischen Gewerken, Staub- und Schmutzbeseitigung nach abgestimmten Bauabschnitten. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauzwischenreinigung/"
+      ]
+    },
     "28a5b94c9388668c9bdd1c06": {
       "kind": "text",
       "source": "Freigeschaltete Nutzer melden sich direkt auf dem KnaBa-Server mit E-Mail-Adresse und Passwort an. Statt des Klartextpassworts speichern wir einen gesalzenen, mit scrypt abgeleiteten Prüfwert. Sitzungstoken werden auf dem Server nur als SHA-256-Prüfwerte gespeichert; der Browser erhält dafür ein technisch notwendiges Secure-, HttpOnly- und SameSite-Cookie. Die zuständige Administration entscheidet über die Freigabe eines Zugangs.",
@@ -1480,6 +1543,13 @@
         "/karriere/"
       ]
     },
+    "29feb53eb2a2afad7429f784": {
+      "kind": "meta:twitter:title",
+      "source": "Für Bauunternehmen. Für Bauträger. Für Ihre Baustelle. | KnaBa",
+      "routes": [
+        "/branchen/"
+      ]
+    },
     "2a257ea4eff8fd44a911c9b7": {
       "kind": "text",
       "source": "KnaBa / 04",
@@ -1499,6 +1569,13 @@
       "source": "Wir verarbeiten die für den gewünschten Kundenbereich erforderlichen Daten zur Bereitstellung des angefragten Dienstes nach Art. 6 Abs. 1 Buchst. b DSGVO. Die Prüfung und Beschränkung von Zugriffsrechten schützt Kunden- und Unternehmensdaten und beruht auf Art. 6 Abs. 1 Buchst. f DSGVO. Pflichtangaben sind für die Zuordnung des Profils erforderlich; ohne diese Angaben kann kein Portalzugang eingerichtet werden. Sie können KnaBa weiterhin telefonisch oder per E-Mail kontaktieren.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "2a7c62dd3be79b20c6c33d4e": {
+      "kind": "meta:og:description",
+      "source": "Reinigung zwischen Gewerken, Staub- und Schmutzbeseitigung nach abgestimmten Bauabschnitten. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauzwischenreinigung/"
       ]
     },
     "2b335fa1efd5303aef90d5e4": {
@@ -1573,6 +1650,13 @@
         "/unternehmen/"
       ]
     },
+    "2d05d9f10c1918ba753e083b": {
+      "kind": "meta:twitter:description",
+      "source": "Gereinigte Flächen gemeinsam prüfen: Leistungsumfang, Restpunkte, Vorschäden und neue Verschmutzung bei der Übergabe nachvollziehbar festhalten.",
+      "routes": [
+        "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
     "2d08090c860e77aab67146d0": {
       "kind": "text",
       "source": "KnaBa / Bauratgeber",
@@ -1626,6 +1710,13 @@
         "/bauleistungen/bauendreinigung/",
         "/bauleistungen/baureinigung/",
         "/bauleistungen/bauzwischenreinigung/"
+      ]
+    },
+    "2e217dec8bd8cab9100a755c": {
+      "kind": "meta:og:description",
+      "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag. Berlin & Brandenburg.",
+      "routes": [
+        "/leistungen/"
       ]
     },
     "2e3e63baeed15f89a5ecbb7e": {
@@ -1699,13 +1790,6 @@
         "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
-    "3041ad5fa5cbde6617c92c57": {
-      "kind": "meta:description",
-      "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung.",
-      "routes": [
-        "/bauleistungen/baustellenraeumung/"
-      ]
-    },
     "304d084548d9fd800ee6c1fb": {
       "kind": "text",
       "source": "Legen Sie fest, was vorher weggeräumt wird und was am Objekt verbleibt. Bauabfälle, Materiallager und bewegliche Einrichtungsgegenstände benötigen eine eindeutige Zuständigkeit. Sammlung, Abtransport und Entsorgung sind unterschiedliche Leistungen und werden, soweit benötigt, gesondert vereinbart.",
@@ -1753,6 +1837,13 @@
       "source": "ÜBER KNABA",
       "routes": [
         "/unternehmen/"
+      ]
+    },
+    "31367d04ea9b6bb60e6d2017": {
+      "kind": "meta:twitter:title",
+      "source": "Baureinigung & BauService in Berlin",
+      "routes": [
+        "/"
       ]
     },
     "3152b410aa21af1d938ea3db": {
@@ -1830,6 +1921,13 @@
         "/unternehmen/"
       ]
     },
+    "335854b80baa27de241196a7": {
+      "kind": "meta:description",
+      "source": "Durchführungen für Kabel, Lüftung, Wasser oder Heizung: technische Prüfung und Ausführung nur nach gesonderter Vereinbarung durch qualifizierte Betriebe. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/kernbohrungen/"
+      ]
+    },
     "342725c180b6973405da61bb": {
       "kind": "text",
       "source": "9. Änderungen dieser Hinweise",
@@ -1887,11 +1985,25 @@
         "/faq/"
       ]
     },
+    "357a233ebb15820b18dcf389": {
+      "kind": "meta:twitter:description",
+      "source": "Durchführungen für Kabel, Lüftung, Wasser oder Heizung: technische Prüfung und Ausführung nur nach gesonderter Vereinbarung durch qualifizierte Betriebe. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/kernbohrungen/"
+      ]
+    },
     "35da6d0947201bc4546613ec": {
       "kind": "text",
       "source": "Ziel der Anfrage ist eine belastbare Entscheidung zu Machbarkeit, Zuständigkeit und Leistungsumfang. Erst danach können Ausführung und Termin verbindlich vereinbart werden.",
       "routes": [
         "/bauleistungen/kernbohrungen/"
+      ]
+    },
+    "367d6bcaab92e724c5507ece": {
+      "kind": "meta:twitter:description",
+      "source": "Erzählen Sie von der Baustelle und dem Bauabschnitt. Wir prüfen die passende Baureinigung oder Zusatzleistung und klären die Konditionen persönlich.",
+      "routes": [
+        "/kontakt/"
       ]
     },
     "368567047f940fff02c6a13d": {
@@ -2447,6 +2559,13 @@
         "/unternehmen/"
       ]
     },
+    "47c847b8fefbcd794aa3ca64": {
+      "kind": "meta:twitter:description",
+      "source": "Baugrob-, Bauzwischen-, Baufein- und Bauendreinigung. Ergänzend Bauhelfer und vertraglich abgestimmte Zusatzleistungen. Berlin & Brandenburg.",
+      "routes": [
+        "/"
+      ]
+    },
     "4818756098a7914079694e37": {
       "kind": "text",
       "source": "Was kann ich bei Fragen nach einem Einsatz tun?",
@@ -2735,6 +2854,13 @@
         "/datenschutz/"
       ]
     },
+    "4e33468c25f8292698667de8": {
+      "kind": "meta:twitter:description",
+      "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/baureinigung/"
+      ]
+    },
     "4e9a0e328ec1ceb3f426233e": {
       "kind": "text",
       "source": "Sanierung & Modernisierung",
@@ -2816,18 +2942,18 @@
         "/planer/"
       ]
     },
-    "50d81739111643a77ec080cf": {
-      "kind": "meta:description",
-      "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
-      "routes": [
-        "/leistungen/"
-      ]
-    },
     "50e3f4eec74ca79b44455218": {
       "kind": "text",
       "source": "5. Geschützte Bereiche und Zugriffsrechte",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "50e58c1081993eb375a6055f": {
+      "kind": "meta:og:description",
+      "source": "Durchführungen für Kabel, Lüftung, Wasser oder Heizung: technische Prüfung und Ausführung nur nach gesonderter Vereinbarung durch qualifizierte Betriebe. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/kernbohrungen/"
       ]
     },
     "515feb4d7cd4d9646819055d": {
@@ -2883,13 +3009,6 @@
         "/galerie/"
       ]
     },
-    "51a02f066659b30ab999f870": {
-      "kind": "meta:description",
-      "source": "Projektbezogene Hilfs- und Zusatzarbeiten: Leistungsumfang, Qualifikation, Partner, Termine und Konditionen werden vor Vertragsabschluss geprüft.",
-      "routes": [
-        "/bauleistungen/zusatzarbeiten/"
-      ]
-    },
     "51d06fa5848e406ee4abce32": {
       "kind": "text",
       "source": "Gereinigte Flächen gemeinsam prüfen: Leistungsumfang, Restpunkte, Vorschäden und neue Verschmutzung bei der Übergabe nachvollziehbar festhalten.",
@@ -2927,6 +3046,13 @@
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
         "/leistungen/"
+      ]
+    },
+    "52743d74e7e06b9aaf277be4": {
+      "kind": "meta:og:description",
+      "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/baustellenraeumung/"
       ]
     },
     "52a636211376a9df34229f38": {
@@ -3074,13 +3200,6 @@
         "/kontakt/"
       ]
     },
-    "58adcde8ccfa31b84a75ebcb": {
-      "kind": "meta:og:description",
-      "source": "Öffnungen für technische Kommunikation und Medien: nur nach Prüfung von Statik, Leitungsführung und erforderlichen Genehmigungen.",
-      "routes": [
-        "/bauleistungen/durchbrueche/"
-      ]
-    },
     "58f5e5057931694cc4a7fe4b": {
       "kind": "text",
       "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn.",
@@ -3105,6 +3224,13 @@
       "source": "Enthaltene Leistungen und Ausnahmen abgleichen",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
+      ]
+    },
+    "5a0c4385ead0a34ad588c350": {
+      "kind": "meta:og:description",
+      "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauendreinigung/"
       ]
     },
     "5a3978bb5fad230ba527d47e": {
@@ -3155,18 +3281,18 @@
         "/ratgeber/bauuebergabe-checkliste/"
       ]
     },
+    "5b9e28757e3c129d478c8a29": {
+      "kind": "meta:twitter:title",
+      "source": "Bei KnaBa auf der Baustelle mitarbeiten. | KnaBa",
+      "routes": [
+        "/karriere/"
+      ]
+    },
     "5bb1cd6baa8d47a521704770": {
       "kind": "text",
       "source": "Diese Angaben können Sie vorbereiten",
       "routes": [
         "/planer/"
-      ]
-    },
-    "5bf86976317f353b79cf73d3": {
-      "kind": "meta:description",
-      "source": "Öffnungen für technische Kommunikation und Medien: nur nach Prüfung von Statik, Leitungsführung und erforderlichen Genehmigungen.",
-      "routes": [
-        "/bauleistungen/durchbrueche/"
       ]
     },
     "5c8e95c2cd588f0a3982ca74": {
@@ -3188,6 +3314,20 @@
       "source": "Die gewünschte Reinigung wird nach Räumen, Materialien und Verschmutzung beschrieben. Besondere Anforderungen und ausgeschlossene Arbeiten gehören in dieselbe Vereinbarung.",
       "routes": [
         "/unternehmen/"
+      ]
+    },
+    "5cbbc355f74fe9bcb77f11fb": {
+      "kind": "meta:twitter:title",
+      "source": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe | KnaBa",
+      "routes": [
+        "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "5d89dcb06d307514eb9e4c6d": {
+      "kind": "meta:og:description",
+      "source": "Projektbezogene Hilfs- und Zusatzarbeiten: Leistungsumfang, Qualifikation, Partner, Termine und Konditionen werden vor Vertragsabschluss geprüft. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/zusatzarbeiten/"
       ]
     },
     "5de2bd86f6985172be7ca848": {
@@ -3230,6 +3370,13 @@
       "source": "BAU + CLEAN",
       "routes": [
         "/"
+      ]
+    },
+    "5fbe52e583ee6f55225148f8": {
+      "kind": "meta:twitter:title",
+      "source": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/zusatzarbeiten/"
       ]
     },
     "5fc26df0eaa00f7f1314dc91": {
@@ -3291,13 +3438,6 @@
       "source": "Keine Ausführung ohne geklärte statische und technische Voraussetzungen. Brandschutzabschottungen, Abdichtungen und Installationen sind eigenständige Leistungen; ihre Eignung und Dokumentation werden mit dem verantwortlichen Fachbetrieb festgelegt.",
       "routes": [
         "/bauleistungen/durchbrueche/"
-      ]
-    },
-    "616e1129ff60721b1e95968f": {
-      "kind": "meta:og:description",
-      "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn.",
-      "routes": [
-        "/bauleistungen/bauendreinigung/"
       ]
     },
     "618ac2e177b2761260455674": {
@@ -3363,6 +3503,13 @@
     "6384ae01349942efe21324fc": {
       "kind": "text",
       "source": "1. Verantwortlicher und Kontakt",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
+    "6398b27ebc45473a8dd4cd6a": {
+      "kind": "meta:twitter:description",
+      "source": "So verarbeitet KnaBa Daten beim Website-Besuch, bei Reinigungsanfragen und im Kunden- und Mitarbeiterportal. Datenschutzkontakt und Ihre Rechte.",
       "routes": [
         "/datenschutz/"
       ]
@@ -3527,6 +3674,13 @@
       "source": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe | KnaBa",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "672b521b2680017fca2a1986": {
+      "kind": "meta:twitter:description",
+      "source": "KnaBa aus Berlin verbindet Baureinigung, Baustellenvorbereitung und Bauhilfsarbeiten. Wir sprechen direkt über Bauabschnitt, Objekt und benötigte Leistung.",
+      "routes": [
+        "/unternehmen/"
       ]
     },
     "67504c591ba48b214a92f701": {
@@ -3709,6 +3863,13 @@
         "/bauleistungen/durchbrueche/"
       ]
     },
+    "6cf6aa9d82e9520fc1306bb5": {
+      "kind": "meta:og:description",
+      "source": "Öffnungen für technische Kommunikation und Medien: nur nach Prüfung von Statik, Leitungsführung und erforderlichen Genehmigungen. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/durchbrueche/"
+      ]
+    },
     "6d2c56aef811732c9552e764": {
       "kind": "text",
       "source": "TRANSPARENT & ERREICHBAR",
@@ -3862,11 +4023,11 @@
         "/ratgeber/bauuebergabe-checkliste/"
       ]
     },
-    "6f586ccae6cbfa439a1df08e": {
-      "kind": "meta:description",
-      "source": "Bauhilfsarbeiten, Baustellenvorbereitung und Unterstützung nach Leistungsvereinbarung mit Bauunternehmen.",
+    "6f4894b4c1cfad0be0956a7d": {
+      "kind": "meta:twitter:description",
+      "source": "Anbieterangaben von KnaBa: Alexander Knaus, KNABA Bauhelfer in Berlin. Anschrift, Kontakt, Umsatzsteuer-ID und rechtliche Hinweise.",
       "routes": [
-        "/bauleistungen/bauhilfe/"
+        "/impressum/"
       ]
     },
     "6f88f1c499165c94fb661760": {
@@ -3885,13 +4046,6 @@
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
-      ]
-    },
-    "70bca51ae93aa1c4b477b003": {
-      "kind": "meta:og:description",
-      "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung.",
-      "routes": [
-        "/bauleistungen/baustellenraeumung/"
       ]
     },
     "711fcd23a2f4f83b39b0d60a": {
@@ -4080,6 +4234,13 @@
         "/faq/"
       ]
     },
+    "75725df5d426147c34227bce": {
+      "kind": "meta:twitter:title",
+      "source": "Saubere Bauübergabe: die Checkliste nach der Endreinigung | KnaBa",
+      "routes": [
+        "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
     "75986753c05e82cbe0b3f57b": {
       "kind": "text",
       "source": "Welcher Bauabschnitt ist abgeschlossen, welche Arbeiten laufen noch und wann ist die Übergabe geplant? Diese Reihenfolge bestimmt den passenden Reinigungstermin.",
@@ -4106,6 +4267,13 @@
       "source": "Bauhelfer & Baustellenvorbereitung | KnaBa Berlin",
       "routes": [
         "/bauleistungen/bauhilfe/"
+      ]
+    },
+    "775114a7068c7dcd6402d82a": {
+      "kind": "meta:twitter:title",
+      "source": "Kernbohrungen in Beton – Anfrage | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/kernbohrungen/"
       ]
     },
     "77754cac34903a9991c48d62": {
@@ -4152,6 +4320,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "7893a52d617775787f203bb3": {
+      "kind": "meta:description",
+      "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/baureinigung/"
       ]
     },
     "791000fa3cf03e173889b80d": {
@@ -4211,6 +4386,13 @@
         "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
+    "7a24717220fd20320c202a83": {
+      "kind": "meta:twitter:description",
+      "source": "Welche Angaben machen Angebote zur Baureinigung vergleichbar? Fläche, Bauzustand, Materialien, Zugang und Zusatzarbeiten strukturiert vorbereiten.",
+      "routes": [
+        "/ratgeber/baureinigung-kosten-planen/"
+      ]
+    },
     "7b79e1ed9b0bb1798cb4dc7f": {
       "kind": "attr:aria-label",
       "source": "Passend zu Ihrem nächsten Schritt",
@@ -4221,6 +4403,13 @@
         "/kontakt/",
         "/ratgeber/",
         "/unternehmen/"
+      ]
+    },
+    "7c4b6c967e73677962242cf3": {
+      "kind": "meta:twitter:title",
+      "source": "Baureinigung. Bauhilfe. Zusatzleistungen. | KnaBa Berlin",
+      "routes": [
+        "/leistungen/"
       ]
     },
     "7c805da80ead0c3d3e54829b": {
@@ -4326,18 +4515,18 @@
         "/unternehmen/"
       ]
     },
+    "803c8ab5f2dfeb0b34286f22": {
+      "kind": "meta:description",
+      "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag. Berlin & Brandenburg.",
+      "routes": [
+        "/leistungen/"
+      ]
+    },
     "809d4d32b250cdd232ca2a59": {
       "kind": "text",
       "source": "Website-Inhaber:",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "80f2bbdc8fa2187713e4216e": {
-      "kind": "text",
-      "source": "Baureinigung. Bauhilfe. Zusatzleistungen. | KnaBa",
-      "routes": [
-        "/leistungen/"
       ]
     },
     "8134c651c1c457df82e427c1": {
@@ -4790,6 +4979,13 @@
         "/berlin/"
       ]
     },
+    "8b490bcc6c7db9c47d9b1283": {
+      "kind": "meta:description",
+      "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauendreinigung/"
+      ]
+    },
     "8ba3470a7cc166c9139d5ac0": {
       "kind": "text",
       "source": "3. Fein- und Endreinigung: fertige Oberflächen betrachten",
@@ -4903,13 +5099,6 @@
       "source": "anfordern. Der Inhaber kann die Veröffentlichung zurücknehmen. Eine automatische Löschfrist oder Selbstbedienung zur vollständigen Löschung ist derzeit nicht eingerichtet; Löschanliegen werden über diesen Kontakt bearbeitet.",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "8e1615f89525e5b01add7894": {
-      "kind": "meta:og:description",
-      "source": "Projektbezogene Hilfs- und Zusatzarbeiten: Leistungsumfang, Qualifikation, Partner, Termine und Konditionen werden vor Vertragsabschluss geprüft.",
-      "routes": [
-        "/bauleistungen/zusatzarbeiten/"
       ]
     },
     "8e5c3a3fe0bcd701b2c11cd4": {
@@ -5154,6 +5343,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "92f7aad0c458ae8ab6b1864a": {
+      "kind": "meta:twitter:description",
+      "source": "Planen Sie die Baureinigung passend zur Bauphase. Zusatzarbeiten können Sie direkt als Projektanfrage auswählen.",
+      "routes": [
+        "/planer/"
+      ]
+    },
     "9338ffabd12a486b3fcb8270": {
       "kind": "text",
       "source": "Details ansehen",
@@ -5188,13 +5384,6 @@
       "source": "Bei der Grobreinigung werden vereinbarte lose Reste und grobe Verschmutzungen aus freigegebenen Arbeitsbereichen aufgenommen. Benennen Sie betroffene Räume, Laufwege und Sammelstellen. Material, das noch gebraucht wird, muss von Resten unterscheidbar sein; die Reinigung entscheidet nicht eigenständig über dessen Entsorgung.",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
-      ]
-    },
-    "946a65f8a3b843ee97a4d293": {
-      "kind": "meta:description",
-      "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn.",
-      "routes": [
-        "/bauleistungen/bauendreinigung/"
       ]
     },
     "9544b20d99d7853b3b16651b": {
@@ -5296,13 +5485,6 @@
         "/datenschutz/"
       ]
     },
-    "97663688496001c017373e26": {
-      "kind": "meta:og:description",
-      "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe.",
-      "routes": [
-        "/bauleistungen/baureinigung/"
-      ]
-    },
     "97764c818e21e6fee76e408d": {
       "kind": "text",
       "source": "KnaBa · +49 (30) 679 330 54 · kontakt@knaba.de",
@@ -5311,6 +5493,13 @@
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "97b199a9f4a7ef07fc31c17b": {
+      "kind": "meta:twitter:description",
+      "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/baustellenraeumung/"
       ]
     },
     "97c00fad2e977db0fe7ae614": {
@@ -5363,6 +5552,13 @@
         "/leistungen/"
       ]
     },
+    "99d907b2b16ab6f5f90ed6d9": {
+      "kind": "meta:twitter:title",
+      "source": "Wand- & Deckendurchbrüche – Anfrage | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/durchbrueche/"
+      ]
+    },
     "99db2b237551c765679fc969": {
       "kind": "text",
       "source": "Kontakt",
@@ -5402,6 +5598,20 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
+    "99e83ca200dc81343ced2bcc": {
+      "kind": "meta:twitter:description",
+      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
+    "9a0d6397cf1283c495e98901": {
+      "kind": "meta:twitter:title",
+      "source": "Datenschutzerklärung | KnaBa Baureinigung & BauService Berlin",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "9a6b91546f9a60ba7b2a8526": {
       "kind": "attr:aria-label",
       "source": "Leistung anzeigen 4: Baustellenberäumung",
@@ -5415,6 +5625,13 @@
       "routes": [
         "/",
         "/faq/"
+      ]
+    },
+    "9abcda963e2c027fd687f3a7": {
+      "kind": "meta:og:description",
+      "source": "Bauhilfsarbeiten, Baustellenvorbereitung und Unterstützung nach Leistungsvereinbarung mit Bauunternehmen. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauhilfe/"
       ]
     },
     "9be75c50edd27ee637b7c62a": {
@@ -5443,6 +5660,13 @@
       "source": "KnaBa / 08",
       "routes": [
         "/"
+      ]
+    },
+    "9d2056799147ed2aae3f63ac": {
+      "kind": "meta:twitter:title",
+      "source": "Baureinigung | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/baureinigung/"
       ]
     },
     "9d93e89bd4c3770180153759": {
@@ -5484,19 +5708,19 @@
         "/unternehmen/"
       ]
     },
-    "9e510aa01dcd84eb7fdc6d2b": {
-      "kind": "meta:og:description",
-      "source": "Reinigung zwischen Gewerken, Staub- und Schmutzbeseitigung nach abgestimmten Bauabschnitten.",
-      "routes": [
-        "/bauleistungen/bauzwischenreinigung/"
-      ]
-    },
     "9e8b054826db8b56c57a3c6c": {
       "kind": "text",
       "source": "HIT · Hanseatische Immobilien Treuhand",
       "routes": [
         "/",
         "/unternehmen/"
+      ]
+    },
+    "9e99ab9c3fb51327f7048f23": {
+      "kind": "meta:twitter:description",
+      "source": "Bauendreinigung vorbereiten: fertige Flächen, empfindliche Materialien, Restarbeiten und Zugang klären. Mit einer Checkliste für Ihre Projektanfrage.",
+      "routes": [
+        "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
     "9ede8ffff0be746d7bab8b98": {
@@ -5511,6 +5735,13 @@
       "source": "Sie können Ihre Einwilligung für die Zukunft widerrufen und die Entfernung Ihrer Rückmeldung über",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "9f3cd78a37de5da871722486": {
+      "kind": "meta:twitter:description",
+      "source": "KnaBa ist in Berlin ansässig. Projektstandort, Erreichbarkeit und Termine in Berlin oder Brandenburg werden vor einer Beauftragung abgestimmt.",
+      "routes": [
+        "/berlin/"
       ]
     },
     "9f7a562ca9e5e9adde6faf8d": {
@@ -5578,6 +5809,13 @@
       "routes": [
         "/",
         "/leistungen/"
+      ]
+    },
+    "a1043b4b8eeb8f335ac834e9": {
+      "kind": "meta:twitter:title",
+      "source": "Ihr Bauprojekt. Unser nächstes Gespräch. | KnaBa",
+      "routes": [
+        "/kontakt/"
       ]
     },
     "a185df61cd7cbc5bb1552370": {
@@ -5738,18 +5976,11 @@
         "/bauleistungen/bauhilfe/"
       ]
     },
-    "a7786806ab34235a30de377d": {
-      "kind": "meta:og:description",
-      "source": "Bauhilfsarbeiten, Baustellenvorbereitung und Unterstützung nach Leistungsvereinbarung mit Bauunternehmen.",
+    "a76436fa4c128f1c4e4af429": {
+      "kind": "meta:twitter:title",
+      "source": "Bauhelfer & Baustellenvorbereitung | KnaBa Berlin",
       "routes": [
         "/bauleistungen/bauhilfe/"
-      ]
-    },
-    "a7d3a8c44f2de48e1410d6a7": {
-      "kind": "meta:description",
-      "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe.",
-      "routes": [
-        "/bauleistungen/baureinigung/"
       ]
     },
     "a869d2243688307903e3237d": {
@@ -5778,6 +6009,13 @@
       "source": "KnaBa aus Berlin verbindet Baureinigung, Baustellenvorbereitung und Bauhilfsarbeiten. Wir sprechen direkt über Bauabschnitt, Objekt und benötigte Leistung.",
       "routes": [
         "/unternehmen/"
+      ]
+    },
+    "a9bee3cec2135b4f87850e79": {
+      "kind": "meta:twitter:description",
+      "source": "Welche Reinigungsphase passt zum Baufortschritt? Grobreinigung, Zwischenreinigung und Endreinigung abgrenzen und mit den Gewerken abstimmen.",
+      "routes": [
+        "/ratgeber/baureinigung-phasen/"
       ]
     },
     "a9d48fd394f3e94aa9e07dc5": {
@@ -5852,6 +6090,13 @@
       "source": "2. Die tatsächlichen Aufwandsfaktoren benennen",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
+      ]
+    },
+    "abb605b09ffb9867fe62aacc": {
+      "kind": "meta:twitter:title",
+      "source": "Besser geplant. Sauber übergeben. | KnaBa",
+      "routes": [
+        "/ratgeber/"
       ]
     },
     "abb8d9511784f462c5d52eac": {
@@ -5952,6 +6197,13 @@
         "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
+    "ae03788ddd08785a17a933e6": {
+      "kind": "meta:twitter:title",
+      "source": "Mein KnaBa | Kunden- und Mitarbeiterportal",
+      "routes": [
+        "/konto/"
+      ]
+    },
     "ae2d1020aa97a692ff5674f3": {
       "kind": "text",
       "source": "Kernbohrungen & Spezialarbeiten",
@@ -5973,6 +6225,13 @@
       "routes": [
         "/datenschutz/",
         "/impressum/"
+      ]
+    },
+    "aedca49d614f925a5f3c0117": {
+      "kind": "meta:twitter:title",
+      "source": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen | KnaBa",
+      "routes": [
+        "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
     "aee178fad194040eb8b23179": {
@@ -6115,6 +6374,13 @@
         "/"
       ]
     },
+    "b3f376a1b01fbe9b3d507d6c": {
+      "kind": "text",
+      "source": "Baureinigung. Bauhilfe. Zusatzleistungen. | KnaBa Berlin",
+      "routes": [
+        "/leistungen/"
+      ]
+    },
     "b420e4520f138b9e1793ac2f": {
       "kind": "text",
       "source": "Schriftlicher Umfang und Termin für die Sichtkontrolle",
@@ -6127,13 +6393,6 @@
       "source": "Bedingungen abstimmen: enthaltene Leistungen, Ausschlüsse, Termine und Preisgrundlage konkret vereinbaren.",
       "routes": [
         "/kontakt/"
-      ]
-    },
-    "b4da026d673f688f8efa5d1d": {
-      "kind": "meta:og:description",
-      "source": "Durchführungen für Kabel, Lüftung, Wasser oder Heizung: technische Prüfung und Ausführung nur nach gesonderter Vereinbarung durch qualifizierte Betriebe.",
-      "routes": [
-        "/bauleistungen/kernbohrungen/"
       ]
     },
     "b523a5436f3fbfaf76aaaed9": {
@@ -6422,6 +6681,13 @@
         "/galerie/"
       ]
     },
+    "bddb71b6b0813059a4ab692f": {
+      "kind": "meta:twitter:description",
+      "source": "Bauhilfsarbeiten, Baustellenvorbereitung und Unterstützung nach Leistungsvereinbarung mit Bauunternehmen. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauhilfe/"
+      ]
+    },
     "be07951b9cb1edacb2b79ec3": {
       "kind": "text",
       "source": "Prüfen Sie die Planung nach Änderungen am Bauablauf erneut. Halten Sie zusätzliche Einsätze und deren Umfang fest, bevor sie beauftragt werden. Eine gemeinsame Sichtkontrolle beendet den vereinbarten Reinigungsschritt; technische Mängel und die Bauabnahme bleiben getrennte Vorgänge.",
@@ -6616,6 +6882,13 @@
         "/faq/"
       ]
     },
+    "c131502b4cafd80f92d51d96": {
+      "kind": "meta:twitter:description",
+      "source": "Sie interessieren sich für Baureinigung, Baufeinreinigung oder Bauhelfer-Aufgaben? Fragen Sie nach aktuellen Möglichkeiten. Diese Seite stellt keine unbestätigten Stellenangebote dar.",
+      "routes": [
+        "/karriere/"
+      ]
+    },
     "c159cf14eaf6f7b7c82d2360": {
       "kind": "text",
       "source": "UNSERE ORIENTIERUNGSHILFE",
@@ -6635,6 +6908,13 @@
       "source": "Sie interessieren sich für Baureinigung, Baufeinreinigung oder Bauhelfer-Aufgaben? Fragen Sie nach aktuellen Möglichkeiten. Diese Seite stellt keine unbestätigten Stellenangebote dar.",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "c19fc900569b6202af2cb408": {
+      "kind": "meta:description",
+      "source": "Projektbezogene Hilfs- und Zusatzarbeiten: Leistungsumfang, Qualifikation, Partner, Termine und Konditionen werden vor Vertragsabschluss geprüft. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/zusatzarbeiten/"
       ]
     },
     "c1f8c4b0213362d3dbde4c14": {
@@ -6759,11 +7039,32 @@
         "/branchen/"
       ]
     },
+    "c640e60cc4434b56317fd3e6": {
+      "kind": "meta:twitter:title",
+      "source": "Unsere Leistungen am Bau | KnaBa",
+      "routes": [
+        "/planer/"
+      ]
+    },
+    "c6d92e3ec4b32d3a6a50c70f": {
+      "kind": "meta:twitter:description",
+      "source": "42 Antworten zu Baureinigung, Bauhelfern, Kernbohrungsanfragen, Kosten, Sicherheit und Bauablauf in Berlin und Brandenburg.",
+      "routes": [
+        "/faq/"
+      ]
+    },
     "c79f9927ec73c3c80c0afc0b": {
       "kind": "text",
       "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
       "routes": [
         "/leistungen/"
+      ]
+    },
+    "c8005263f58d2feef4ff51d8": {
+      "kind": "meta:twitter:title",
+      "source": "Baufein- & Bauendreinigung | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/bauendreinigung/"
       ]
     },
     "c859c006bb4cd02dcb88436d": {
@@ -6830,6 +7131,13 @@
         "/unternehmen/"
       ]
     },
+    "ca23fa3099548fd89f4d6da8": {
+      "kind": "meta:twitter:description",
+      "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauendreinigung/"
+      ]
+    },
     "ca96312504f329d6e5a3f7e5": {
       "kind": "text",
       "source": "Leistung im Detail ansehen ↗",
@@ -6863,13 +7171,6 @@
       "source": "KNABA Bauhelfer",
       "routes": [
         "/impressum/"
-      ]
-    },
-    "cb4f0b3ab98f28bb28da78b8": {
-      "kind": "meta:og:description",
-      "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
-      "routes": [
-        "/leistungen/"
       ]
     },
     "cb5fa03094a5876729bb2cba": {
@@ -6922,6 +7223,13 @@
         "/bauleistungen/baureinigung/"
       ]
     },
+    "ccff4520599e431d029fe9be": {
+      "kind": "meta:twitter:description",
+      "source": "Unsere Arbeit folgt den Bauphasen, der Baustellenorganisation und Ihrer abgestimmten Leistungsbeschreibung.",
+      "routes": [
+        "/branchen/"
+      ]
+    },
     "cd2d8fb578754276ff9f9e54": {
       "kind": "text",
       "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
@@ -6949,6 +7257,13 @@
       "source": "4. Angebote nach Umfang vergleichen",
       "routes": [
         "/ratgeber/"
+      ]
+    },
+    "ce7bca517aca6cdfd6ecd539": {
+      "kind": "meta:twitter:description",
+      "source": "Reinigung zwischen Gewerken, Staub- und Schmutzbeseitigung nach abgestimmten Bauabschnitten. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauzwischenreinigung/"
       ]
     },
     "cea5318d997fa6f5d1e03d09": {
@@ -7025,6 +7340,13 @@
       "source": "Nehmen Sie das aktuelle Leistungsverzeichnis, die Raumliste und vereinbarte Änderungen mit. Benennen Sie eine entscheidungsfähige Kontaktperson für den Auftraggeber und eine für das Reinigungsteam. Bei mehreren Bauabschnitten sollten die tatsächlich gereinigten Bereiche eindeutig markiert sein.",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "d0d63ff6b9305a39896a7c73": {
+      "kind": "meta:twitter:title",
+      "source": "Baureinigung für Bauprojekte in Ihrer Region. | KnaBa",
+      "routes": [
+        "/berlin/"
       ]
     },
     "d170f4844cbebb172926b9f1": {
@@ -7394,6 +7716,13 @@
       "source": "Ansprechpartner und Entscheidung über Änderungen am Auftragsumfang festlegen.",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "da489d61794c84c973cebff7": {
+      "kind": "meta:og:description",
+      "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/baureinigung/"
       ]
     },
     "da844577b20ca8f039e18fe3": {
@@ -7819,11 +8148,25 @@
         "/ratgeber/"
       ]
     },
+    "e852a4570546d455dd08f2c1": {
+      "kind": "meta:twitter:title",
+      "source": "Fragen & Antworten zur Baureinigung | KnaBa Berlin",
+      "routes": [
+        "/faq/"
+      ]
+    },
     "e8d74ef23540cf1ecb329455": {
       "kind": "text",
       "source": "Beschreiben Sie die Zusatzarbeiten im Nachrichtenfeld der Anfrage.",
       "routes": [
         "/kontakt/"
+      ]
+    },
+    "e8ef33c1ed17c22c61599b4b": {
+      "kind": "meta:description",
+      "source": "Bauhilfsarbeiten, Baustellenvorbereitung und Unterstützung nach Leistungsvereinbarung mit Bauunternehmen. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/bauhilfe/"
       ]
     },
     "e93c78db98366722a5cfdd6d": {
@@ -7946,12 +8289,26 @@
         "/faq/"
       ]
     },
+    "ecce50139674e9eb98604d80": {
+      "kind": "meta:og:title",
+      "source": "Baureinigung. Bauhilfe. Zusatzleistungen. | KnaBa Berlin",
+      "routes": [
+        "/leistungen/"
+      ]
+    },
     "edb4188c505fe8679469299d": {
       "kind": "text",
       "source": "Sie haben einen konkreten Bauabschnitt? Beschreiben Sie Fläche, Zeitraum und Leistungsbedarf – wir stimmen den Umfang persönlich ab.",
       "routes": [
         "/",
         "/leistungen/"
+      ]
+    },
+    "edc2396b4a530c0845c17bb9": {
+      "kind": "meta:twitter:title",
+      "source": "Bauzwischenreinigung | KnaBa Berlin",
+      "routes": [
+        "/bauleistungen/bauzwischenreinigung/"
       ]
     },
     "ee4ed5091f798b5c3d0dc772": {
@@ -8001,6 +8358,20 @@
       "source": "Ungefähre Fläche und betroffene Räume notieren",
       "routes": [
         "/planer/"
+      ]
+    },
+    "f09e2b86b4392f4713f64c9b": {
+      "kind": "meta:twitter:description",
+      "source": "Ihr KnaBa Portal für Reinigungsanfragen, geplante Einsätze und die Zusammenarbeit mit unserem Team. Persönlicher Zugang mit Freigabe durch den Inhaber.",
+      "routes": [
+        "/konto/"
+      ]
+    },
+    "f0f9300f470d18b767bf9ff1": {
+      "kind": "meta:description",
+      "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung. Berlin & Brandenburg.",
+      "routes": [
+        "/bauleistungen/baustellenraeumung/"
       ]
     },
     "f0fe8078f88522eac1f635fe": {
@@ -8477,13 +8848,6 @@
       "source": "Projektumfang, Einsatzort und Verfügbarkeit werden vor der Beauftragung persönlich abgestimmt.",
       "routes": [
         "/unternehmen/"
-      ]
-    },
-    "fd5ef0ebdf6449a8e330f774": {
-      "kind": "meta:description",
-      "source": "Durchführungen für Kabel, Lüftung, Wasser oder Heizung: technische Prüfung und Ausführung nur nach gesonderter Vereinbarung durch qualifizierte Betriebe.",
-      "routes": [
-        "/bauleistungen/kernbohrungen/"
       ]
     },
     "fd617037ae02a680e6eff006": {
