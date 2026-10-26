@@ -12,6 +12,7 @@ import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
 import type {TelegramInbound,TelegramBotAdapter} from '../../packages/integrations/telegram.ts';
 import {telegramPublicIntent} from '../../packages/integrations/telegram-public-navigation.ts';
 import {captureMessengerWorkerInterest} from '../../packages/integrations/messenger-worker-interest.ts';
+import {stageTelegramPublicReplyIn} from './telegram-public-reply.ts';
 import {stageTelegramReply,processTelegramOutbound} from './telegram-delivery.ts';
 import {assistantToolCatalog,dispatchAssistantTools} from '../../packages/integrations/assistant-tools.ts';
 import {assistantToolHost} from '../api/assistant-runtime.ts';
@@ -78,7 +79,7 @@ export class WorkerRunner {
   async handle(job:OutboxJob){switch(job.type){
     case 'whatsapp.inbound':case 'whatsapp.webhook_received':return this.inbound(job);
     case 'telegram.inbound':return this.telegramInbound(job);
-    case 'telegram.outbound_requested':return processTelegramOutbound(this.db,this.engine,job,this.options.telegram,this.options.telegramApprovedConsentVersion);
+    case 'telegram.outbound_requested':return processTelegramOutbound(this.db,this.engine,job,this.options.telegram,this.options.telegramApprovedConsentVersion,this.options.publicOrigin);
     case 'whatsapp.router_response':return this.routerResponse(job);
     case 'integration.outbound_requested':return processIntegrationOutbound(this.db,this.engine,job,this.options.integrationWebhook,this.now);
     case 'handoff.manager_reminder':{const result=await processHandoffReminder(this.db,this.engine,job,this.now().toISOString());if(result.status==='DEFERRED')throw new DeferredJob(result.notBefore);return result;}
@@ -377,9 +378,17 @@ export class WorkerRunner {
     const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:'DE'},'telegram-inbound-message',actor);
     await this.record(job,'conversation_input',route.id,async(row,tx)=>{
       if(publicIntent==='REGISTER')await captureMessengerWorkerInterest(tx,actor,row,this.now().toISOString());
-      return {...row.data,status:'PROCESSED',message_id:message.id,
+      const completedAt=this.now().toISOString();
+      const data={...row.data,status:'PROCESSED',message_id:message.id,
         router_state:publicIntent?'TELEGRAM_PUBLIC_INTENT':'HUMAN_QUEUED',
-        ...(publicIntent?{bot_public_intent:publicIntent}:{}),completed_at:this.now().toISOString()};
+        ...(publicIntent?{bot_public_intent:publicIntent}:{}),completed_at:completedAt};
+      // Public navigation is only queued for a valid, versioned, preexisting
+      // consent. The source receipt and outbound ticket commit atomically.
+      await stageTelegramPublicReplyIn(tx,{...row,data},{
+        publicOrigin:this.options.publicOrigin,approvedConsentVersion:this.options.telegramApprovedConsentVersion,
+        now:completedAt
+      });
+      return data;
     });
   }
   private async inbound(job:OutboxJob){const provider=job.data.provider??'WHATSAPP';const inbox=await this.db.query('SELECT payload FROM webhook_inbox WHERE provider=$1 AND event_id=$2 AND company_id=$3',[provider,job.data.event_id,job.company_id]);assert(inbox.rows.length===1,'NOT_FOUND_SAFE');const input=inbox.rows[0].payload as WhatsAppInbound;assert(input.kind==='MESSAGE'||input.kind==='STATUS','VALIDATION_ERROR');
