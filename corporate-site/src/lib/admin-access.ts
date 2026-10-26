@@ -1,14 +1,12 @@
-/** Client navigation only. All business permissions are enforced by the existing APIs. */
+/** Client navigation only. Every business permission is enforced by the real APIs. */
+import { mountedAdminModuleIdsForRole } from './admin-module-registry';
+
 export const adminSectionIds = ['overview', 'operations', 'crm', 'messages', 'studio'] as const;
 export type AdminSection = (typeof adminSectionIds)[number];
 
-const ownerSections: readonly AdminSection[] = adminSectionIds;
-const managerSections: readonly AdminSection[] = ['overview', 'operations', 'crm'];
-
 export function allowedAdminSections(role: string | null | undefined): AdminSection[] {
-  if (role === 'owner') return [...ownerSections];
-  if (role === 'admin') return [...managerSections];
-  return [];
+  const mounted = mountedAdminModuleIdsForRole(role);
+  return mounted.length ? ['overview', ...mounted] : [];
 }
 
 export function resolveAdminSection(role: string | null | undefined, requested: string | null | undefined): AdminSection {

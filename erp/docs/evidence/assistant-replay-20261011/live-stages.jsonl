@@ -1,0 +1,7 @@
+{"stage":"exact-live-runtime","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:31:50Z","completedAt":"2026-10-11T00:31:50.503Z"}
+{"stage":"full-unit-and-postgres","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:31:50Z","completedAt":"2026-10-11T00:33:19.477Z"}
+{"stage":"rendered-browser-scenarios","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:33:19Z","completedAt":"2026-10-11T00:35:52.752Z"}
+{"stage":"encrypted-delivery-backup","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:35:52Z","completedAt":"2026-10-11T00:35:53.695Z"}
+{"stage":"backup-tamper-rejection","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:35:53Z","completedAt":"2026-10-11T00:35:53.892Z"}
+{"stage":"empty-database-private-blob-restore","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:35:53Z","completedAt":"2026-10-11T00:35:54.741Z"}
+{"stage":"bundled-worker-heartbeat-and-restart","status":"PASSED","gitSha":"a10e70911fb519ec7d8199fa66141cd12b462926","startedAt":"2026-10-11T00:35:54Z","completedAt":"2026-10-11T00:35:55.697Z"}

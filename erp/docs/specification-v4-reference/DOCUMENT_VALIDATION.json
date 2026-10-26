@@ -1,0 +1,17 @@
+{
+  "artifact": "KNABA DE specification V4",
+  "scope": "Document consistency only; application tests NOT_RUN",
+  "requirements": 24,
+  "acceptance_criteria": 72,
+  "source_sections_mapped": 33,
+  "brief_pages": 3,
+  "checks": [
+    "AC IDs unique and sequential",
+    "KNB IDs unique and sequential",
+    "Money example 285.60 verified",
+    "Time example 8:00 / 7:25 verified",
+    "Inventory 8.5 L verified",
+    "DST examples 3 h / 1 h verified",
+    "PDF page count and text bounds verified"
+  ]
+}

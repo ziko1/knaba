@@ -1,0 +1,14 @@
+{
+  "sourceGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+  "requestedOS": "18.5",
+  "requestedDevice": "iPhone 16",
+  "hostArchitecture": "arm64",
+  "runtimeDownload": "NOT_NEEDED",
+  "status": "SIMULATOR_READY_XCTEST_NOT_RUN",
+  "xctestExecution": "NOT_RUN",
+  "physicalDeviceVerification": "NOT_RUN",
+  "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+  "runtimeBuildVersion": "22F77",
+  "deviceUdid": "F9FD7E4F-FC77-458F-A76E-6752FCACAAE8",
+  "deviceState": "Booted"
+}

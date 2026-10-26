@@ -1,0 +1,27 @@
+{
+  "source": "User request to implement and deploy isolated KNABA DE product, 2026-10-05; continued 2026-10-06; explicit Railway staging approval 2026-10-06 EUR10/month",
+  "allowed_actions": [
+    "new isolated repository",
+    "local databases and tests",
+    "synthetic staging deployment",
+    "non-destructive staging migrations",
+    "staging smoke"
+  ],
+  "prohibited_actions": [
+    "reuse AVENQO assets",
+    "purchase hosting plans",
+    "send real customer messages",
+    "bank payments",
+    "real procurement",
+    "company legal acceptance"
+  ],
+  "environment": "DEMO synthetic staging",
+  "dns_changes": false,
+  "real_customer_data": false,
+  "production_company_release": false,
+  "billing_account": "USER_EXPLICITLY_AUTHORIZED_CONNECTED_RAILWAY",
+  "spend_limit_eur": 10,
+  "allowed_recipients": [],
+  "external_owner_handover": "BLOCKED_EXTERNAL",
+  "allowed_target": "Railway new KNABA DE Staging project"
+}

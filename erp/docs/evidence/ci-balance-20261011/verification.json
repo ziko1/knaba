@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "repository": "ziko1/knaba",
+  "observedAtUtc": "2026-10-11T18:11:37.947Z",
+  "status": "BLOCKED",
+  "scope": "Prevent duplicate verification jobs and provide a manual native iOS Simulator fallback",
+  "baseGitSha": "c931fbe60a50d3a6193480cc9742d99fc6f3b714",
+  "baseBranch": "codex/knaba-v4-recovery-20261011",
+  "configurationGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+  "configurationGitTree": "9d2db7ab61f90f5ec2aac50f9fd2a7763e0b08ef",
+  "branch": "ci/balance-github-codemagic-20261011",
+  "pullRequest": "https://github.com/ziko1/knaba/pull/7",
+  "sourcePreservation": {
+    "status": "PASS",
+    "compareUrl": "https://github.com/ziko1/knaba/compare/c931fbe60a50d3a6193480cc9742d99fc6f3b714...013a7851118dd6d8c420dabca5763148993835d1",
+    "changedPaths": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/native.yml",
+      ".github/workflows/responsive.yml",
+      "codemagic.yaml"
+    ],
+    "applicationDependenciesTestsNativeSource": "UNCHANGED",
+    "stagingWorkflow": "UNCHANGED",
+    "loadWorkflow": "UNCHANGED"
+  },
+  "configuration": {
+    "status": "PASS",
+    "codemagicSha256": "de8f27a04684e9c39c6106a6278a61ad705df9727d0a72c7aba83b163a551a38",
+    "codemagicBlobSha": "dd11e2a034040bb23a8caec953ba1d980d6ca236",
+    "checks": [
+      "YAML parsed and all existing GitHub job commands/actions/permissions retained",
+      "release/native main branch push with prior tags retained; PRs to any base retained",
+      "responsive main push with original file path filters retained",
+      "3 Bash blocks passed bash -n and embedded Python parsed successfully",
+      "Xcode 16.4 / iOS Simulator 18.5 / XcodeGen 7193eb447a6f60061f069e07bc1efd32d73c0e19 pins retained",
+      "manual-only Codemagic, M2, 30-minute cap, no publishing or secret groups",
+      "CODE_SIGNING_ALLOWED=NO and original build.sh / simulator-preparation / XCTest commands retained"
+    ]
+  },
+  "githubExecution": {
+    "status": "BLOCKED_ENVIRONMENT",
+    "reason": "Provider account-level execution restriction: jobs are reported failed before any runner or test starts",
+    "attemptedGitSha": "111af6c6700213aa0b317675654ad7ea99784b77",
+    "runs": [
+      {
+        "runId": 38160747731,
+        "runUrl": "https://github.com/ziko1/knaba/actions/runs/38160747731",
+        "jobs": [
+          {
+            "jobId": 114532954288,
+            "name": "verify",
+            "conclusion": "failure",
+            "runnerId": 0,
+            "executedSteps": 0,
+            "url": "https://github.com/ziko1/knaba/actions/runs/38160747731/job/114532954288"
+          }
+        ]
+      },
+      {
+        "runId": 38160747673,
+        "runUrl": "https://github.com/ziko1/knaba/actions/runs/38160747673",
+        "jobs": [
+          {
+            "jobId": 114532954214,
+            "name": "responsive",
+            "conclusion": "failure",
+            "runnerId": 0,
+            "executedSteps": 0,
+            "url": "https://github.com/ziko1/knaba/actions/runs/38160747673/job/114532954214"
+          }
+        ]
+      },
+      {
+        "runId": 38160747670,
+        "runUrl": "https://github.com/ziko1/knaba/actions/runs/38160747670",
+        "jobs": [
+          {
+            "jobId": 114532953579,
+            "name": "Android debug APK and conservative vectors",
+            "conclusion": "failure",
+            "runnerId": 0,
+            "executedSteps": 0,
+            "url": "https://github.com/ziko1/knaba/actions/runs/38160747670/job/114532953579"
+          },
+          {
+            "jobId": 114532953724,
+            "name": "iOS unsigned simulator app and XCTest",
+            "conclusion": "failure",
+            "runnerId": 0,
+            "executedSteps": 0,
+            "url": "https://github.com/ziko1/knaba/actions/runs/38160747670/job/114532953724"
+          }
+        ]
+      }
+    ],
+    "currentConfigurationGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+    "currentConfigurationGithub": "NOT_RUN; explicit [skip ci] while provider execution is blocked"
+  },
+  "codemagic": {
+    "status": "PASS",
+    "applicationId": "6acbcd4a20e48927a17e4a6c",
+    "workflowId": "ios-simulator-tests",
+    "runId": "6acbcebc546ce6236ced9272",
+    "runUrl": "https://codemagic.io/app/6acbcd4a20e48927a17e4a6c/build/6acbcebc546ce6236ced9272",
+    "requestedGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+    "runnerRequested": "mac_mini_m2",
+    "imageXcodeRequested": "16.4",
+    "maxBuildDurationMinutes": 30,
+    "sourceGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+    "durationSeconds": 378,
+    "build": "PASS",
+    "testResults": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "expectedFailures": 0,
+      "individualPassedLogEntries": 19
+    },
+    "observedDevice": {
+      "architecture": "arm64",
+      "deviceId": "F9FD7E4F-FC77-458F-A76E-6752FCACAAE8",
+      "deviceName": "KNABA-iOS-18.5-013a7851118d",
+      "modelName": "iPhone 16",
+      "osBuildNumber": "22F77",
+      "osVersion": "18.5",
+      "platform": "iOS Simulator"
+    },
+    "observedToolchain": {
+      "xcode": "Xcode 16.4\nBuild version 16F6",
+      "swift": "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)\nTarget: arm64-apple-macosx15.0",
+      "xcodegen": "Version: 2.43.0"
+    },
+    "signing": "CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA",
+    "sourceReceipt": "source-sha.txt",
+    "testSummary": "xctest-summary.json",
+    "rawBuildLog": "ios-build.log",
+    "rawTestLog": "ios-tests.log",
+    "nativeReceipt": "native-receipt.json",
+    "independentVerification": "artifact-verification.json",
+    "archives": {
+      "evidence": {
+        "bytes": 127254,
+        "sha256": "39aa549c18945188e931a5974059b05afd90fa63961c473d48040252efd78a70",
+        "zipCrc": "PASS"
+      },
+      "simulatorApp": {
+        "bytes": 5539221,
+        "sha256": "ab37f4dc326fa08b10b0809386193db547a918082eb903dd0abbd77e9af3f6d3",
+        "zipCrc": "PASS",
+        "receiptSizeAndHashMatch": true,
+        "bundleFilesVerified": 45
+      }
+    },
+    "preparationReceiptNote": "simulator-preparation.json was created before XCTest and intentionally retains NOT_RUN at that earlier stage; the final xctest-summary.json and passed test logs prove the executed result."
+  },
+  "priorAcceptance": {
+    "latestObservedRelease": {
+      "gitSha": "c931fbe60a50d3a6193480cc9742d99fc6f3b714",
+      "runId": 38099583536,
+      "runUrl": "https://github.com/ziko1/knaba/actions/runs/38099583536",
+      "status": "FAIL",
+      "failedStep": "Real isolated SQL browser restore and worker restart acceptance",
+      "packaging": "SKIPPED",
+      "handling": "Preserved; no unrelated acceptance fix or retest in CI balancing scope"
+    },
+    "latestObservedNative": [
+      {
+        "gitSha": "c931fbe60a50d3a6193480cc9742d99fc6f3b714",
+        "runId": 38099583480,
+        "runUrl": "https://github.com/ziko1/knaba/actions/runs/38099583480",
+        "status": "SUCCESS",
+        "scope": "Historical GitHub Android/iOS job results; do not relabel as fresh tests of current CI configuration"
+      },
+      {
+        "gitSha": "c931fbe60a50d3a6193480cc9742d99fc6f3b714",
+        "runId": 38099581391,
+        "runUrl": "https://github.com/ziko1/knaba/actions/runs/38099581391",
+        "status": "SUCCESS",
+        "scope": "Historical GitHub Android/iOS job results; do not relabel as fresh tests of current CI configuration"
+      }
+    ],
+    "archivedApplicationSource": "a10e70911fb519ec7d8199fa66141cd12b462926",
+    "archivedEvidence": "../assistant-replay-20261011/verification.json"
+  },
+  "fullProductReadiness": "NOT_READY",
+  "excludedAcceptance": [
+    "Fresh Android host/build tests",
+    "Fresh backend/PostgreSQL/browser/load acceptance",
+    "Physical iPhone/Android GPS and battery behavior",
+    "Company signing/App Store provisioning",
+    "Live providers or deployment"
+  ],
+  "nextStep": "Review the stacked CI PR and use the bounded manual iOS workflow when needed. Restore provider execution before accepting GitHub gates; retain the earlier release-acceptance failure separately. No merge/deploy included.",
+  "testedGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+  "readinessScopes": {
+    "manualCodemagicIosSimulator": "READY",
+    "githubHostedExecution": "BLOCKED",
+    "fullProduct": "NOT_READY"
+  }
+}

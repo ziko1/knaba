@@ -1,0 +1,13 @@
+{
+  "sourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+  "runId": 38098204054,
+  "jobId": 114348501193,
+  "lines": [
+    "2026-10-11T00:35:52.5442573Z   27 passed (2.5m)",
+    "2026-10-11T00:35:53.6996863Z Running backup-tamper-rejection against isolated synthetic data.",
+    "2026-10-11T00:35:54.7085775Z PASSED: restored 17 original tables, exact original row counts and 12 private blob checksums/references; durable erasure ledgers verified (explicit isolated synthetic restore without privacy history), transient permits empty; current GPS storage safety verified and 0 expired GPS points purged before access.",
+    "2026-10-11T00:35:54.7148028Z PASSED: isolated database and private blobs restored; source database unchanged.",
+    "2026-10-11T00:36:21.1106034Z  2026-10-11 00:23:01.805 UTC [1] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+    "2026-10-11T00:36:21.1137668Z  waiting for server to start....2026-10-11 00:23:01.492 UTC [48] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit"
+  ]
+}

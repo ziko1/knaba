@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "status": "APPROVED_TARGET_V4_PRESERVE_WORKING_STACK",
+  "acceptedAt": "2026-10-08 20:28:52 UTC",
+  "authority": "Explicit user reply in this conversation",
+  "userDecision": "V4 — цільова; зберегти працюючий стек через погоджені ADR (рекомендовано)",
+  "targetSpecification": "KNABA_DE_TARGET_SPEC.md",
+  "targetReferenceCommit": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+  "targetReferenceSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+  "preservedOriginalV3": "KNABA_DE_MASTER_SPEC.md",
+  "preservedV3Sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+  "approvedArchitectureADR": "docs/adr/0002-v4-target-and-preserved-runtime.md",
+  "preservedStack": [
+    "NestJS",
+    "Node 24",
+    "PostgreSQL with pg/SQL",
+    "transactional PostgreSQL outbox and leased worker"
+  ],
+  "targetCriteria": 72,
+  "targetApplicationAcceptance": "NOT_RUN",
+  "currentTestedBaselineGitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "scopeLimits": [
+    "Approval adopts V4 target contracts and preserves working runtime through ADR; it does not certify 72 criteria or apply executable changes.",
+    "Non-conflicting implemented V3 features/history and regression scope remain preserved.",
+    "Company/legal/provider/signing/physical/operating gates remain unaccepted.",
+    "Existing EUR10/month staging authorization persists; original expired cutoff is not extended; provider Dashboard MFA remains required.",
+    "No main merge or production launch inferred."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "tested_sha": "fed71117d4c2b22b4aa1bef864008cd5b3584beb",
+  "evidence": "docs/evidence/final-offline-result.json",
+  "passed": 367,
+  "failed": 0,
+  "real_postgres_skipped": 37,
+  "total": 404,
+  "scope": "Actual synthetic CPU suite at the tested candidate. Later packaging/documentation changes do not constitute a new test execution; package-release.py verifies that runtime and test source still match this SHA."
+}

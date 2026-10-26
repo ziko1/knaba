@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+KNABA_GRADLE_PROJECT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -f "$KNABA_GRADLE_PROJECT_DIR/gradle/wrapper/gradle-wrapper.jar" ]; then
+  exec java -classpath "$KNABA_GRADLE_PROJECT_DIR/gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain "$@"
+fi
+if [ -n "${KNABA_GRADLE_HOME:-}" ] && [ -x "$KNABA_GRADLE_HOME/bin/gradle" ]; then
+  exec "$KNABA_GRADLE_HOME/bin/gradle" -p "$KNABA_GRADLE_PROJECT_DIR" "$@"
+fi
+if command -v gradle >/dev/null 2>&1; then
+  gradle --version | grep -q '^Gradle 8\.13$' || { echo 'MISSING_TOOLCHAIN: Gradle 8.13 required'; exit 69; }
+  exec gradle -p "$KNABA_GRADLE_PROJECT_DIR" "$@"
+fi
+echo 'BLOCKED_EXTERNAL: no cached Gradle 8.13 or canonical wrapper JAR. Provision Gradle 8.13 and SDK 36; run gradle wrapper --gradle-version 8.13 to generate the official wrapper before building.'
+exit 69
