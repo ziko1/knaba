@@ -6,7 +6,7 @@
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40874,
+  "cssGzip": 40880,
   "allEmittedJsGzip": 187318,
   "assets": [
     {
@@ -55,9 +55,9 @@
       "gzip": 1987
     },
     {
-      "name": "_astro/ConstructionHome.r-RJBkvC.css",
-      "bytes": 15775,
-      "gzip": 3504
+      "name": "_astro/ConstructionHome.CwwagHkQ.css",
+      "bytes": 15760,
+      "gzip": 3510
     },
     {
       "name": "_astro/ConstructionInfo.CEmfH-x0.css",
@@ -295,7 +295,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "d8cbf28ac3cc5f8bfd34ca0a41926bbe7f88667dea30a237e4cddd7bd74a2fae",
+  "artifactSha256": "0c2f4bed4d02e1dfc2792af7283d3c18c883d53d645a70a161f927ee36c8da7f",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

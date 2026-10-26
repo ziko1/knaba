@@ -105,3 +105,13 @@ test('Catalogue request CTA text meets AA on gradient endpoints',()=>{
     ['link','.bau-offer.bau-offer-request>span']
   ])expectContrast(color(catalog,selector),backgrounds,'catalogue request '+label);
 });
+
+
+test('Hero catalogue pill and arrow maintain normal-text AA in default and hover states',()=>{
+  for(const selector of ['.bau-secondary-cta','.bau-secondary-cta:hover','.bau-secondary-cta-arrow']){
+    const css=rule(home,selector,'background');
+    const match=/(?:^|;)\s*background\s*:\s*(#[0-9a-f]{6})\b/i.exec(css);
+    assert.ok(match,selector+' expected solid background');
+    expectContrast(color(home,selector),[normalizeHex(match[1])],selector);
+  }
+});
