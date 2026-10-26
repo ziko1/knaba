@@ -29,7 +29,7 @@ const related=constructionGuides.filter(item=>item.slug!==guide.slug);
 ---
 <Layout lang={locale} title={guide.title[locale]+' | KnaBa'} description={guide.description[locale]}
   breadcrumbs={[{name:'KnaBa',url:prefix+'/'},{name:labels.guides,url:prefix+'/ratgeber/'},{name:guide.title[locale],url:guidePath}]}
-  schema={{'@type':'Article','@id':guideUrl+'#article',url:guideUrl,mainEntityOfPage:guideUrl,headline:guide.title[locale],description:guide.description[locale],inLanguage:locale,publisher:{'@id':'https://knaba.de/#business'}}}>
+  schema={{'@type':'Article','@id':guideUrl+'#article',url:guideUrl,mainEntityOfPage:guideUrl,headline:guide.title[locale],description:guide.description[locale],inLanguage:locale,publisher:{'@id':siteConfig.origin+'/#business'}}}>
   <article class="construction-guide">
     <section class="container page-intro guide-intro">
       <a class="breadcrumb" href={prefix+'/ratgeber/'}><span aria-hidden="true">←</span> {labels.back}</a>

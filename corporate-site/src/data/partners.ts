@@ -1,17 +1,25 @@
-import type {ConstructionLocale} from './construction-offers';
+import type { ConstructionLocale } from './construction-offers';
 
-// Show only logos currently evidenced on the official company homepage (2026-10-25).
-// Further partner names need confirmation from the company before public display.
-export const partnerSource = {url:'https://knaba.de/',checkedOn:'2026-10-25'} as const;
-export const partners = [
-  {name:'HIT · Hanseatische Immobilien Treuhand',image:'/images/partners/hit.png',width:400,height:400},
-  {name:'Stromkreis',image:'/images/partners/stromkreis.png',width:1682,height:338},
-  {name:'Gewobag',image:'/images/partners/gewobag.png',width:1200,height:367},
+/**
+ * Official KNABA partner-list sequence as audited 2026-10-26.
+ * GOLDBECK and BONAVA are identified from the two original logo images;
+ * the official names/relationships and trademark rights still require
+ * customer/rightsholder sign-off before public release.
+ * All fixed assets come from existing PR #75 and load from our own origin.
+ */
+export const officialPartnerLogos = [
+  {id:'official-01', name:'GOLDBECK', src:'/images/partners/goldbeck.jpg', width:149, height:121},
+  {id:'official-02', name:'BONAVA', src:'/images/partners/bonava.jpg', width:150, height:104},
+  {id:'hit', name:'HIT · Hanseatische Immobilien Treuhand', src:'/images/partners/hit.png', width:149, height:149},
+  {id:'stromkreis', name:'Stromkreis', src:'/images/partners/stromkreis.png', width:210, height:42},
+  {id:'gewobag', name:'Gewobag', src:'/images/partners/gewobag.png', width:168, height:51},
 ] as const;
 
-export const partnersCopy = {
-  de:{label:'PARTNER',title:'Unsere Partner.',intro:'Diese Unternehmen werden auf knaba.de als Partner vorgestellt.',source:'Partner auf knaba.de ansehen',checked:'Quelle geprüft am',date:'25.10.2026'},
-  en:{label:'PARTNERS',title:'Our partners.',intro:'These companies are presented as partners on knaba.de.',source:'View partners on knaba.de',checked:'Source checked on',date:'25 October 2026'},
-  uk:{label:'ПАРТНЕРИ',title:'Наші партнери.',intro:'Ці компанії зазначені як партнери на knaba.de.',source:'Переглянути партнерів на knaba.de',checked:'Джерело перевірено',date:'25.10.2026'},
-  ru:{label:'ПАРТНЁРЫ',title:'Наши партнёры.',intro:'Эти компании указаны как партнёры на knaba.de.',source:'Посмотреть партнёров на knaba.de',checked:'Источник проверен',date:'25.10.2026'},
-} satisfies Record<ConstructionLocale,{label:string;title:string;intro:string;source:string;checked:string;date:string}>;
+export const partnerCopy: Record<ConstructionLocale, {
+  eyebrow:string; title:string; description:string; logo:string;
+}> = {
+  de:{eyebrow:'KnaBa / Netzwerk',title:'Unsere Partner.',description:'Unternehmen aus dem KnaBa-Partnernetzwerk.',logo:'Logo von'},
+  en:{eyebrow:'KnaBa / Network',title:'Our partners.',description:'Businesses in the KnaBa partner network.',logo:'Logo of'},
+  uk:{eyebrow:'KnaBa / Партнери',title:'Наші партнери.',description:'Компанії партнерської мережі KnaBa.',logo:'Логотип'},
+  ru:{eyebrow:'KnaBa / Партнёры',title:'Наши партнёры.',description:'Компании партнёрской сети KnaBa.',logo:'Логотип'},
+};

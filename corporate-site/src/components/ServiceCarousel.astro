@@ -1,6 +1,5 @@
 ---
 import {getServiceCarouselSlides} from '../lib/service-carousel';
-import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import type {ConstructionLocale} from '../data/construction-offers';
 
 const {locale = 'de'} = Astro.props as {locale: ConstructionLocale};
@@ -24,13 +23,8 @@ const ui = {
             <img src="/illustrations/baureinigung.svg" alt={ui.image} width="720" height="500"
               loading="eager" decoding="async" fetchpriority="high" />
           ) : (
-            <div class="slide-artwork">
-              <span class="art-orbit art-orbit-one"></span>
-              <span class="art-orbit art-orbit-two"></span>
-              <span class="art-building"><i></i><i></i><i></i><i></i></span>
-              <span class="art-symbol"><ConstructionServiceIcon name={slide.slug} size={60} /></span>
-              <span class="art-baseline"></span>
-            </div>
+            <img src={`/illustrations/carousel/${slide.slug}.webp`} alt="" width="960" height="550"
+              class="scene-art" loading="lazy" decoding="async" />
           )}
         </div>
         <div class="slide-body">
@@ -165,7 +159,7 @@ const ui = {
   .service-carousel { display:block; min-width:0; width:100%; }
   .carousel-track { display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:none; border-radius:28px; }
   .carousel-track::-webkit-scrollbar { display:none; }
-  .service-slide { --card:#e1f4e8; --art:#c4e6ce; --accent:#0c7e85; position:relative; flex:0 0 100%; min-width:0; min-height:480px; display:flex; flex-direction:column; padding:clamp(15px,2vw,24px); scroll-snap-align:start; scroll-snap-stop:always; border-radius:28px; background:var(--card); isolation:isolate; overflow:hidden; }
+  .service-slide { --card:#e1f4e8; --art:#c4e6ce; --accent:#066b70; position:relative; flex:0 0 100%; min-width:0; min-height:480px; display:flex; flex-direction:column; padding:clamp(15px,2vw,24px); scroll-snap-align:start; scroll-snap-stop:always; border-radius:28px; background:var(--card); isolation:isolate; overflow:hidden; }
   .service-slide:nth-child(8n + 2) { --card:#dff4f7; --art:#b2e5eb; --accent:#096e91; }
   .service-slide:nth-child(8n + 3) { --card:#f8efce; --art:#ffe29a; --accent:#875620; }
   .service-slide:nth-child(8n + 4) { --card:#e9e8fa; --art:#c5c7ee; --accent:#5943a6; }
@@ -177,13 +171,7 @@ const ui = {
   .slide-overline span:last-child { color:var(--accent); text-align:right; }
   .slide-art { margin-top:12px; position:relative; width:100%; height:clamp(150px,20vw,218px); background:var(--art); border-radius:21px; overflow:hidden; }
   .slide-art img { display:block; height:100%; width:100%; object-fit:cover; object-position:center; mix-blend-mode:multiply; }
-  .slide-artwork { position:absolute; inset:0; display:grid; place-items:center; background:linear-gradient(130deg,#ffffff57 4%,transparent 58%),var(--art); }
-  .art-orbit { position:absolute; border:2px solid #ffffff8a; border-radius:50%; width:175px; height:175px; top:-65px; right:-40px; }
-  .art-orbit-two { width:100px; height:100px; top:auto; right:auto; bottom:-48px; left:-20px; border-width:12px; }
-  .art-building { position:absolute; left:14%; top:19%; width:31%; height:68%; border:6px solid #0d51554d; border-radius:12px 12px 0 0; display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:11px; transform:skewY(-5deg); }
-  .art-building i { display:block; background:#fff9; border-radius:5px; }
-  .art-symbol { position:relative; z-index:1; margin-left:26%; width:120px; height:120px; border:7px solid #ffffff99; background:#fffdf8e0; box-shadow:0 16px 35px #123d3930; border-radius:32px; display:grid; place-items:center; color:var(--accent); line-height:1; transform:rotate(-8deg); }
-  .art-baseline { position:absolute; bottom:16px; left:10%; right:10%; height:9px; border-radius:10px; background:#155c6170; }
+  .slide-art img.scene-art { mix-blend-mode:normal; }
   .slide-body { display:flex; flex:1; flex-direction:column; align-items:flex-start; padding:17px 2px 0; min-width:0; }
   .slide-subline { font-size:10px; line-height:1.4; font-weight:850; color:var(--accent); letter-spacing:.11em; }
   .slide-body h2 { font-size:clamp(21px,2.5vw,29px); line-height:1.13; letter-spacing:-.035em; font-weight:800; color:#10333b; margin:9px 0; overflow-wrap:anywhere; }
@@ -212,7 +200,6 @@ const ui = {
     .slide-body h2 { font-size:clamp(20px,5.4vw,25px); }
     .slide-body p { font-size:12px; line-height:1.5; }
     .slide-overline { font-size:10px; }
-    .art-symbol { width:105px; height:105px; }
     .carousel-controls { justify-content:flex-start; padding-right:54px; gap:6px; }
     .carousel-dots { gap:0; }
     .carousel-dot { min-width:13px; padding-inline:2px; }

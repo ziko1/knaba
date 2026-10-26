@@ -1,17 +1,18 @@
 {
   "scope": "production-build-static-validation",
-  "pages": 118,
+  "pages": 122,
   "internalLinks": "PASS",
   "metadata": "PASS",
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
-  "cssGzip": 40596,
-  "allEmittedJsGzip": 187239,
+  "externalPartnerImagesInMarkup": 0,
+  "cssGzip": 40801,
+  "allEmittedJsGzip": 187318,
   "assets": [
     {
-      "name": "_astro/AdminControlCenter.DJwbxp2F.js",
+      "name": "_astro/AdminControlCenter.Bw7ThzpQ.js",
       "bytes": 14266,
-      "gzip": 5642
+      "gzip": 5644
     },
     {
       "name": "_astro/AssistantCaptcha.C9V2wgSd.js",
@@ -54,14 +55,14 @@
       "gzip": 1987
     },
     {
-      "name": "_astro/ConstructionHome.BHu3Qv-S.css",
-      "bytes": 15387,
-      "gzip": 3555
+      "name": "_astro/ConstructionHome.DsREAkcS.css",
+      "bytes": 14979,
+      "gzip": 3365
     },
     {
-      "name": "_astro/ConstructionInfo.tTyYAqIf.css",
-      "bytes": 5690,
-      "gzip": 1193
+      "name": "_astro/ConstructionInfo.0zeENaJ6.css",
+      "bytes": 7262,
+      "gzip": 1434
     },
     {
       "name": "_astro/ConstructionPlanner.Df1NlpXi.css",
@@ -104,9 +105,9 @@
       "gzip": 657
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.Bz0ubDSm.js",
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.BhO731dw.js",
       "bytes": 4534,
-      "gzip": 1855
+      "gzip": 1856
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_2_lang.ZLS--sGz.js",
@@ -114,9 +115,9 @@
       "gzip": 400
     },
     {
-      "name": "_astro/Partners.B2D1HZ0u.css",
-      "bytes": 4801,
-      "gzip": 1191
+      "name": "_astro/Partners.DySK8qOf.css",
+      "bytes": 4962,
+      "gzip": 1345
     },
     {
       "name": "_astro/Portal.Bmw0xRnv.js",
@@ -139,9 +140,9 @@
       "gzip": 1541
     },
     {
-      "name": "_astro/SiteStudio.Cd6P0gCs.js",
-      "bytes": 38463,
-      "gzip": 12734
+      "name": "_astro/SiteStudio.B3wXFirH.js",
+      "bytes": 38498,
+      "gzip": 12745
     },
     {
       "name": "_astro/SiteStudio.CwM3dz5f.css",
@@ -239,9 +240,9 @@
       "gzip": 25876
     },
     {
-      "name": "_astro/site-studio-contract.BFuoKsr5.js",
-      "bytes": 3750,
-      "gzip": 1769
+      "name": "_astro/site-studio-contract.D7bJSmpy.js",
+      "bytes": 3851,
+      "gzip": 1834
     },
     {
       "name": "_astro/store.Bq_zyWjX.js",
@@ -257,9 +258,44 @@
       "name": "_astro/web.3XqM_zZ3.js",
       "bytes": 34006,
       "gzip": 13007
+    },
+    {
+      "name": "illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "gzip": 52158
+    },
+    {
+      "name": "illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "gzip": 70105
+    },
+    {
+      "name": "illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "gzip": 80215
+    },
+    {
+      "name": "illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "gzip": 36885
+    },
+    {
+      "name": "illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "gzip": 61222
+    },
+    {
+      "name": "illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "gzip": 64216
+    },
+    {
+      "name": "illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "gzip": 56898
     }
   ],
-  "artifactSha256": "1c466595f5d7c0b05f182bf2b3bcad19d6e5dafddc84c9abcc3d309c3216fde6",
+  "artifactSha256": "043a4835776da145a56a2ab6b8f1e015d6b56bc534fdc371077af9704a9d28e7",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

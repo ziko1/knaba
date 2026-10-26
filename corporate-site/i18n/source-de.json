@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "162008fa9134d6c721102e4165b14bd20f7b6b3de36ac1c74d2f4e87f461fb13",
+  "sourceDigest": "5f6f3d20442df835d4da32b75fb559180250ced76b467698638785ff34e7d579",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -17,6 +17,7 @@
     "/branchen/",
     "/datenschutz/",
     "/faq/",
+    "/galerie/",
     "/impressum/",
     "/karriere/",
     "/kontakt/",
@@ -30,7 +31,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 931,
+  "unitCount": 948,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -127,6 +128,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -193,6 +195,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -212,6 +215,13 @@
       "source": "Leistung anzeigen 1: Baureinigung",
       "routes": [
         "/"
+      ]
+    },
+    "0478fa652e108ea66f6a5875": {
+      "kind": "attr:alt",
+      "source": "Symbolische Illustration: Saubere Objektübergabe",
+      "routes": [
+        "/galerie/"
       ]
     },
     "04c9f73de7375987da60d613": {
@@ -255,6 +265,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -343,6 +354,13 @@
       "source": "Zugang, Ansprechpartner und Kontrolltermin werden gemeinsam geklärt. Eine Anfrage allein ist keine automatische Beauftragung.",
       "routes": [
         "/unternehmen/"
+      ]
+    },
+    "08e3d6d9b09763ead0d91faf": {
+      "kind": "text",
+      "source": "Illustrative Darstellungen typischer Arbeitsabläufe – keine Fotos konkreter Kundenaufträge.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "08eb06edfc2a934ff8ef46aa": {
@@ -455,6 +473,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -486,6 +505,39 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
+    "0e7b45246fdc0c93ddb85b32": {
+      "kind": "text",
+      "source": "Galerie",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -561,6 +613,14 @@
         "/ratgeber/"
       ]
     },
+    "1110585984ef7a5521d3c2c0": {
+      "kind": "text",
+      "source": "Unternehmen aus dem KnaBa-Partnernetzwerk.",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "11456f43feb0b87c637a6fd4": {
       "kind": "text",
       "source": "Öffentliche Rückmeldungen von Kunden und Partnern",
@@ -594,13 +654,6 @@
       "source": "Die Kontrolle einer Reinigungsleistung ersetzt keine bautechnische Abnahme. Wiederzutritt anderer Gewerke und gegebenenfalls einen weiteren Reinigungstermin abstimmen.",
       "routes": [
         "/ratgeber/"
-      ]
-    },
-    "12a3101fce4c9b71af0c5651": {
-      "kind": "text",
-      "source": "Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Externe Karten oder Videos sind nicht eingebettet. Ein externer Link übermittelt erst beim Öffnen eine Anfrage an den jeweiligen Anbieter.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "12af3ddfdafbff576068d25b": {
@@ -683,6 +736,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -907,6 +961,13 @@
         "/ratgeber/baureinigung-phasen/"
       ]
     },
+    "1ba5413aa3d63abfa947f946": {
+      "kind": "text",
+      "source": "Einblicke in unsere Arbeitsbereiche",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "1be972e650e0f5e9204bc0cb": {
       "kind": "text",
       "source": "Baugrob-, Bauzwischen-, Baufein- und Bauendreinigung. Ergänzend Bauhelfer und vertraglich abgestimmte Zusatzleistungen. Berlin & Brandenburg.",
@@ -980,6 +1041,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1037,6 +1099,20 @@
         "/datenschutz/"
       ]
     },
+    "1fa4186262dc313774a274a4": {
+      "kind": "text",
+      "source": "Baureinigung nach Bauabschnitt",
+      "routes": [
+        "/galerie/"
+      ]
+    },
+    "1fb3aa180a67a3447e588973": {
+      "kind": "text",
+      "source": "Von der Bauphase",
+      "routes": [
+        "/"
+      ]
+    },
     "201aebb99ef3037a2f3ce2cd": {
       "kind": "text",
       "source": "Grobreinigung: vereinbarte Bereiche freimachen",
@@ -1061,6 +1137,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1149,6 +1226,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1215,6 +1293,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1226,14 +1305,6 @@
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
-    "2622a10d23639277733f16fe": {
-      "kind": "text",
-      "source": "Diese Unternehmen werden auf knaba.de als Partner vorgestellt.",
-      "routes": [
-        "/",
         "/unternehmen/"
       ]
     },
@@ -1278,6 +1349,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1309,6 +1381,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1386,6 +1459,13 @@
         "/ratgeber/baureinigung-phasen/"
       ]
     },
+    "298f6f08a396d1b308040a3e": {
+      "kind": "text",
+      "source": "Diese Anbieterangaben gelten für den KnaBa-Auftritt unter",
+      "routes": [
+        "/impressum/"
+      ]
+    },
     "29fb7756b0033a88d2f989a5": {
       "kind": "text",
       "source": "Interesse an einer Mitarbeit?",
@@ -1454,13 +1534,6 @@
         "/bauleistungen/baureinigung/"
       ]
     },
-    "2c76e208be3c6ee89f83648c": {
-      "kind": "text",
-      "source": "Stand des Quellenabgleichs: 24. Oktober 2026.",
-      "routes": [
-        "/impressum/"
-      ]
-    },
     "2ca268427828de3cf203c188": {
       "kind": "text",
       "source": "Datenschutz",
@@ -1478,6 +1551,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1554,6 +1628,13 @@
         "/unternehmen/"
       ]
     },
+    "2e79c0032238f55721389f84": {
+      "kind": "meta:description",
+      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "2ebd22b182dd2ca9a3ce04cf": {
       "kind": "text",
       "source": "Auch Zufahrt, Aufzug, verfügbare Arbeitszeiten und laufende Gewerke beeinflussen den Ablauf. Beschreiben Sie diese Bedingungen ehrlich. Wenn Arbeitsbereiche mehrfach eingerichtet oder nach anderen Gewerken erneut gereinigt werden müssen, sollte das im Angebot als eigener Umfang erkennbar sein.",
@@ -1616,14 +1697,6 @@
       "source": "Eine gute Bauendreinigung beginnt vor dem ersten Reinigungstermin. Bauleitung und Reinigungsteam brauchen denselben Überblick: Welche Bereiche sind fertig, was wird noch bearbeitet und welches Ergebnis wird erwartet? Mit einer abgestimmten Vorbereitung lassen sich unnötige Wiederholungen und Missverständnisse bei der Übergabe vermeiden.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
-      ]
-    },
-    "3039bb292d52d1207505455a": {
-      "kind": "attr:alt",
-      "source": "HIT · Hanseatische Immobilien Treuhand",
-      "routes": [
-        "/",
-        "/unternehmen/"
       ]
     },
     "3041ad5fa5cbde6617c92c57": {
@@ -1711,14 +1784,6 @@
         "/impressum/"
       ]
     },
-    "320df7114fb4cc0f73a95fd4": {
-      "kind": "text",
-      "source": "Partner auf knaba.de ansehen",
-      "routes": [
-        "/",
-        "/unternehmen/"
-      ]
-    },
     "32fed574c148da2b30d34dd1": {
       "kind": "text",
       "source": "Vollständiges Impressum",
@@ -1750,6 +1815,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1804,6 +1870,13 @@
       "source": "Wie stelle ich eine Projektanfrage?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "34e48f3f74be8cd0d812453e": {
+      "kind": "text",
+      "source": "Grob-, Zwischen- und Endreinigung werden passend zum Baufortschritt abgestimmt.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "35015c8aaae19bb1d4f5a84e": {
@@ -1922,6 +1995,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -1941,6 +2015,13 @@
       "source": ". Für Hinweise zu Inhalten oder Rechten Dritter erreichen Sie uns über die oben genannten Kontaktdaten.",
       "routes": [
         "/impressum/"
+      ]
+    },
+    "3ac9d36b905e4ed9ff50d4c7": {
+      "kind": "text",
+      "source": "Diese Erklärung gilt für die Website",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "3ac9f9946996225372599d54": {
@@ -1978,6 +2059,13 @@
         "/branchen/"
       ]
     },
+    "3b9417e576a83cacf189f949": {
+      "kind": "text",
+      "source": "Die Bau- und Reinigungsillustrationen einschließlich der Galerie sind symbolische Darstellungen. Sie zeigen weder ein bestimmtes Kundenobjekt noch einen dokumentierten Reinigungseinsatz.",
+      "routes": [
+        "/impressum/"
+      ]
+    },
     "3c2e11e37282592828a7a96d": {
       "kind": "text",
       "source": "Berlin & Brandenburg",
@@ -1995,6 +2083,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2082,6 +2171,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2157,6 +2247,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2237,11 +2328,11 @@
         "/berlin/"
       ]
     },
-    "4507e1abc52154df78564d0e": {
+    "44e2cf2ee8cbd40469439856": {
       "kind": "text",
-      "source": "gelten die dort veröffentlichten Informationen. Stand: 25. Oktober 2026.",
+      "source": "Partnerlogos und Markenzeichen bleiben den jeweiligen Rechteinhabern zugeordnet. Wenn Sie Fragen zur Bildnutzung, zu Nutzungsrechten oder möglichen Rechtsverletzungen haben, wenden Sie sich bitte über die angegebenen Kontaktdaten an KnaBa. Die Darstellung ist kein Nachweis einer gesonderten Zertifizierung oder Fachzulassung.",
       "routes": [
-        "/datenschutz/"
+        "/impressum/"
       ]
     },
     "4509d6d07071336d71a02929": {
@@ -2289,6 +2380,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2341,6 +2433,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2360,6 +2453,20 @@
       "source": "Was kann ich bei Fragen nach einem Einsatz tun?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "48374f74b18dae31f79e2d9b": {
+      "kind": "attr:alt",
+      "source": "Symbolische Illustration: Baustellenvorbereitung",
+      "routes": [
+        "/galerie/"
+      ]
+    },
+    "4840b66678eb2e01e9863d2c": {
+      "kind": "text",
+      "source": "Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Eigene Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Die fünf Partnerlogos werden direkt von dieser Website geladen; für deren Anzeige wird kein externer Bilddienst kontaktiert. Die Unternehmenszeichen gehören ihren jeweiligen Rechteinhabern. Externe Karten und Videos sind nicht eingebettet.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "48e1c3cd464a966dd59943e7": {
@@ -2422,6 +2529,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2448,6 +2556,14 @@
       "source": "Diese Website wird auf einem eigenen angemieteten VPS über einen HTTPS-Reverse-Proxy betrieben. Portal-, Anfrage- und Chatdaten werden in einer lokalen SQLite-Datenbank des KnaBa-Dienstes gespeichert; getrennte Sicherungskopien dienen der Wiederherstellung. Externe generative KI, automatisierte E-Mail- und WhatsApp-Versanddienste sind derzeit nicht aktiviert. Zugang erhalten nur entsprechend berechtigte Personen.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "4a80f03f8888d8265c1b977e": {
+      "kind": "text",
+      "source": "KnaBa / Netzwerk",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "4a8c02e8b687f58719caeaba": {
@@ -2508,6 +2624,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2643,6 +2760,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2744,6 +2862,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -2756,6 +2875,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "518ce591218e71a08e2c7d1d": {
+      "kind": "text",
+      "source": "Material, Erreichbarkeit und Reinigungsverfahren abstimmen.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "51a02f066659b30ab999f870": {
@@ -2787,13 +2913,6 @@
       "source": "Ihr Bauprojekt. Unser nächstes Gespräch. | KnaBa",
       "routes": [
         "/kontakt/"
-      ]
-    },
-    "521e3ccaed27a459f06b01a9": {
-      "kind": "text",
-      "source": "Diese Erklärung betrifft die temporäre Website",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "5220355b94c6c68bbd8e6628": {
@@ -2870,6 +2989,13 @@
       "source": "Die Darstellung der Leistungen dient der Information. Den konkreten Leistungsumfang, den Termin und den Preis stimmen wir individuell mit Ihnen ab. Eine Anfrage oder ein angelegtes Kundenkonto ist noch keine verbindliche Auftragsbestätigung.",
       "routes": [
         "/impressum/"
+      ]
+    },
+    "5468afb74f8c7f6d16cbdb08": {
+      "kind": "text",
+      "source": "bis zur sauberen Übergabe.",
+      "routes": [
+        "/"
       ]
     },
     "54dd903fd96c4d2a289b7a32": {
@@ -2987,6 +3113,13 @@
       "source": "Quelle: https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "5a50772edc9e437a411ed0e5": {
+      "kind": "text",
+      "source": "Abnahmebereiche und Nachkontrollen gemeinsam festlegen.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "5a89f7125cfb707beaa50c23": {
@@ -3124,13 +3257,6 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
-    "607b930c66e4bf32ed9fe784": {
-      "kind": "attr:aria-label",
-      "source": "Unsere Leistungen am Bau",
-      "routes": [
-        "/"
-      ]
-    },
     "60b3fca95fe95b3c998b22a4": {
       "kind": "text",
       "source": "Direkter Kontakt",
@@ -3196,6 +3322,13 @@
         "/"
       ]
     },
+    "62b068a4081c47a53b46f3d4": {
+      "kind": "text",
+      "source": "Baustellenvorbereitung",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "62bd652a6e0f4dd064a6cafd": {
       "kind": "text",
       "source": "Kernbohrungen in Beton – Anfrage",
@@ -3205,6 +3338,13 @@
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
         "/leistungen/"
+      ]
+    },
+    "630378311b6ae13e18ff782d": {
+      "kind": "text",
+      "source": "Arbeitsbereiche, sichere Zugänge und Abläufe vor Beginn klären.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "6326b1192ebf9409794152ac": {
@@ -3247,6 +3387,14 @@
       "source": "Mitarbeitende:",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "6465dc0607ee6c90491ac70f": {
+      "kind": "attr:alt",
+      "source": "Logo von Stromkreis",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "64ae8dde83d83a0cd1c55251": {
@@ -3322,6 +3470,13 @@
         "/datenschutz/"
       ]
     },
+    "6668b39dcca6e1b5e7c89d68": {
+      "kind": "attr:alt",
+      "source": "Symbolische Illustration: Glas- und Oberflächenreinigung",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "66b15f119556dbd091e7c594": {
       "kind": "text",
       "source": "Spezielle Bauarbeiten sind kein automatisches Angebot; Qualifikation, Statik, Schutzmaßnahmen und Vertrag werden separat geprüft.",
@@ -3353,6 +3508,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3405,6 +3561,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3474,11 +3631,27 @@
         "/bauleistungen/bauendreinigung/"
       ]
     },
+    "6a360d69368e30f1e32196d0": {
+      "kind": "attr:alt",
+      "source": "Logo von BONAVA",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "6a857b140780a47a12b06e37": {
       "kind": "attr:aria-label",
       "source": "8 / 8: Zusätzliche Bauleistungen – Anfrage",
       "routes": [
         "/"
+      ]
+    },
+    "6aca51677d5674eac5a31e38": {
+      "kind": "attr:alt",
+      "source": "Logo von GOLDBECK",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "6af7179ad9076dd8c65dedcf": {
@@ -3493,6 +3666,13 @@
       "source": "Sie interessieren sich für Baureinigung, Baufeinreinigung oder Bauhelfer-Aufgaben? Fragen Sie nach aktuellen Möglichkeiten. Diese Seite stellt keine unbestätigten Stellenangebote dar.",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "6c1c2e443ad61ade9703369b": {
+      "kind": "text",
+      "source": "Glas- und Oberflächenreinigung",
+      "routes": [
+        "/galerie/"
       ]
     },
     "6c37fab6ffecf34dce58401f": {
@@ -3554,6 +3734,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3585,6 +3766,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3606,19 +3788,19 @@
         "/ratgeber/"
       ]
     },
-    "6da59b9157674baef2b34a95": {
-      "kind": "text",
-      "source": "knaba.de",
-      "routes": [
-        "/datenschutz/",
-        "/impressum/"
-      ]
-    },
     "6df89c8cb2b94512f65f3e1e": {
       "kind": "text",
       "source": "Nicht ohne geeignete statische Prüfung und erforderliche Freigaben. Die Zuständigkeit des Tragwerksplaners und des qualifizierten Fachbetriebs ist vorab zu klären.",
       "routes": [
         "/faq/"
+      ]
+    },
+    "6e2164bf6d73448130bfab09": {
+      "kind": "text",
+      "source": ". Stand: 25. Oktober 2026.",
+      "routes": [
+        "/datenschutz/",
+        "/impressum/"
       ]
     },
     "6e27a8dc0695148d0f35fa7c": {
@@ -3638,6 +3820,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3729,6 +3912,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3788,6 +3972,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3814,6 +3999,13 @@
       "source": "Datenschutzerklärung | KnaBa Baureinigung & BauService Berlin",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "7297dde9f8b0bcc44308dd59": {
+      "kind": "meta:og:description",
+      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "72a92b971b245d8a49bae701": {
@@ -3948,6 +4140,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -3962,11 +4155,25 @@
         "/unternehmen/"
       ]
     },
+    "791000fa3cf03e173889b80d": {
+      "kind": "attr:alt",
+      "source": "Symbolische Illustration: Baureinigung nach Bauabschnitt",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "79405b79b85a96c43eceb2cc": {
       "kind": "text",
       "source": "Ihre Rechte",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "794a674f4400fc9b9adfca57": {
+      "kind": "text",
+      "source": "Projekt anfragen",
+      "routes": [
+        "/galerie/"
       ]
     },
     "79667f599544e6dec8a2d0c2": {
@@ -4081,13 +4288,6 @@
         "/faq/"
       ]
     },
-    "7f6430778247eb4ababb6e5e": {
-      "kind": "text",
-      "source": "03 / ÜBERGABE",
-      "routes": [
-        "/"
-      ]
-    },
     "7fc6f0ccc4444e0406988d3f": {
       "kind": "meta:og:title",
       "source": "Fragen & Antworten zur Baureinigung | KnaBa Berlin",
@@ -4112,6 +4312,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -4258,14 +4459,6 @@
         "/bauleistungen/baureinigung/"
       ]
     },
-    "85121d567bad07baa23fe42c": {
-      "kind": "text",
-      "source": "Quelle geprüft am",
-      "routes": [
-        "/",
-        "/unternehmen/"
-      ]
-    },
     "8546ed50803bac1fa6df1d74": {
       "kind": "text",
       "source": "Technische Facharbeiten oder unbekannte Stoffe nicht eigenständig übernehmen. Qualifikation, Freigabe und sichere Arbeitsweise müssen zuvor geklärt werden.",
@@ -4408,13 +4601,6 @@
         "/bauleistungen/kernbohrungen/"
       ]
     },
-    "88558324892dcbb52aa944ea": {
-      "kind": "text",
-      "source": "Wir machen Baustellen",
-      "routes": [
-        "/"
-      ]
-    },
     "885b57016aacce2d21b2aa62": {
       "kind": "text",
       "source": "Für Bauunternehmen. Für Bauträger. Für Ihre Baustelle.",
@@ -4527,6 +4713,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -4691,6 +4878,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -4852,6 +5040,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -5010,14 +5199,6 @@
         "/bauleistungen/bauendreinigung/"
       ]
     },
-    "951b9b8883758177fe2a3afd": {
-      "kind": "attr:alt",
-      "source": "Gewobag",
-      "routes": [
-        "/",
-        "/unternehmen/"
-      ]
-    },
     "9544b20d99d7853b3b16651b": {
       "kind": "text",
       "source": "Im Achterkastell 39",
@@ -5035,6 +5216,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -5066,6 +5248,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -5085,14 +5268,6 @@
       "source": "Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "95a1c07098f5e169a09d90e2": {
-      "kind": "attr:alt",
-      "source": "Stromkreis",
-      "routes": [
-        "/",
-        "/unternehmen/"
       ]
     },
     "95e2b0555cff9b16e4225301": {
@@ -5145,6 +5320,13 @@
       "source": "Termin: bevorzugter Zeitraum, Abnahme und noch tätige Gewerke.",
       "routes": [
         "/kontakt/"
+      ]
+    },
+    "98c6764bde07e4c2397ca9be": {
+      "kind": "text",
+      "source": "Saubere Objektübergabe",
+      "routes": [
+        "/galerie/"
       ]
     },
     "98c6e14f597602e357c9e1bc": {
@@ -5200,6 +5382,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -5288,6 +5471,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -5534,13 +5718,6 @@
         "/unternehmen/"
       ]
     },
-    "a5864d2315bac12f3a8a38a1": {
-      "kind": "text",
-      "source": "übergabebereit.",
-      "routes": [
-        "/"
-      ]
-    },
     "a5b072435b2ab068d11cc2a7": {
       "kind": "text",
       "source": "Möglichst früh vor dem betreffenden Bauabschnitt oder Abnahmetermin. So lassen sich Umfang, Personalbedarf und Zugang abstimmen.",
@@ -5629,6 +5806,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -6027,14 +6205,6 @@
         "/berlin/"
       ]
     },
-    "b6fda69f4e64a2cd4c06801f": {
-      "kind": "text",
-      "source": "PARTNER",
-      "routes": [
-        "/",
-        "/unternehmen/"
-      ]
-    },
     "b76e8942c0dd0f0cf783a207": {
       "kind": "text",
       "source": "Frage nicht dabei? Projekt anfragen",
@@ -6049,13 +6219,6 @@
       "routes": [
         "/",
         "/faq/"
-      ]
-    },
-    "b7c089cad19fd21aac16c6e4": {
-      "kind": "text",
-      "source": "02 / BAUFEIN",
-      "routes": [
-        "/"
       ]
     },
     "b7c5272cd053e4ec36fc186e": {
@@ -6120,13 +6283,6 @@
       "source": "Gibt es feste Quadratmeterpreise?",
       "routes": [
         "/faq/"
-      ]
-    },
-    "bad4f0f6ff9cb4251f31fe71": {
-      "kind": "text",
-      "source": "Sie besuchen die temporäre Website auf",
-      "routes": [
-        "/impressum/"
       ]
     },
     "baeb251bfc87ac10880d5b93": {
@@ -6208,6 +6364,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -6267,6 +6424,13 @@
         "/berlin/"
       ]
     },
+    "bdd85159b1ec4dd636ffed77": {
+      "kind": "text",
+      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "be07951b9cb1edacb2b79ec3": {
       "kind": "text",
       "source": "Prüfen Sie die Planung nach Änderungen am Bauablauf erneut. Halten Sie zusätzliche Einsätze und deren Umfang fest, bevor sie beauftragt werden. Eine gemeinsame Sichtkontrolle beendet den vereinbarten Reinigungsschritt; technische Mängel und die Bauabnahme bleiben getrennte Vorgänge.",
@@ -6312,6 +6476,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -6364,6 +6529,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -6416,6 +6582,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -6551,18 +6718,18 @@
         "/faq/"
       ]
     },
+    "c45c7a3f0a2c97f3896f0cfe": {
+      "kind": "text",
+      "source": "KNABA / GALERIE",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "c5433b34a22ca0fa4e1d6721": {
       "kind": "text",
       "source": "PASSENDE LEISTUNG FINDEN",
       "routes": [
         "/planer/"
-      ]
-    },
-    "c5aa1216c15fdd5d453e15d4": {
-      "kind": "text",
-      "source": ". Die Anbieterangaben wurden am 24. Oktober 2026 mit dem veröffentlichten Impressum auf",
-      "routes": [
-        "/impressum/"
       ]
     },
     "c5bc27dccf5832fa31f0d475": {
@@ -6577,6 +6744,14 @@
       "source": "Datenschutzerklärung von Cloudflare",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "c5dbc76f4de0fcf9d0c504e8": {
+      "kind": "text",
+      "source": "BONAVA",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "c5ed56688bba29cc05b10914": {
@@ -6648,6 +6823,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -6659,6 +6835,14 @@
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
+    "c9fc497394f486f636a641d6": {
+      "kind": "text",
+      "source": "GOLDBECK",
+      "routes": [
+        "/",
         "/unternehmen/"
       ]
     },
@@ -6754,11 +6938,11 @@
         "/bauleistungen/baureinigung/"
       ]
     },
-    "cd6ee40b4e91682c915ba06f": {
+    "cd2d8fb578754276ff9f9e54": {
       "kind": "text",
-      "source": "Die Bau- und Reinigungsillustrationen sind symbolische Darstellungen. Sie zeigen weder ein bestimmtes Kundenobjekt noch einen dokumentierten Reinigungseinsatz.",
+      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
       "routes": [
-        "/impressum/"
+        "/galerie/"
       ]
     },
     "cd82bd2ebcbe2e115d12e4e7": {
@@ -6890,6 +7074,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -7037,6 +7222,14 @@
         "/datenschutz/"
       ]
     },
+    "d66307dc0a71a3ed9b34225c": {
+      "kind": "attr:alt",
+      "source": "Logo von HIT · Hanseatische Immobilien Treuhand",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "d66429c315083db526fb23fc": {
       "kind": "text",
       "source": "Was unterscheidet Baufein- und Bauendreinigung?",
@@ -7109,6 +7302,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -7150,6 +7344,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -7277,6 +7472,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -7296,13 +7492,6 @@
       "source": "Nächste Leistung",
       "routes": [
         "/"
-      ]
-    },
-    "dc13a8e1f34c431d4c77dc4f": {
-      "kind": "text",
-      "source": ". Für das bestehende Angebot unter",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "dc2cee64a7f53229f279a9bd": {
@@ -7582,6 +7771,13 @@
         "/leistungen/"
       ]
     },
+    "e5e73b6dabcfe2d50034612b": {
+      "kind": "text",
+      "source": "Bildrechte und Marken",
+      "routes": [
+        "/impressum/"
+      ]
+    },
     "e62f1bf69759c4006ca235e3": {
       "kind": "text",
       "source": "Für den ersten Kontakt genügen eine kurze Nachricht und Ihre Kontaktdaten. Bitte keine Ausweiskopien, Bank- oder Gesundheitsdaten senden.",
@@ -7674,6 +7870,13 @@
         "/bauleistungen/baustellenraeumung/"
       ]
     },
+    "e9f00bfaa373bd3cb70a2804": {
+      "kind": "meta:og:title",
+      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "e9f5ab34f2097d71aedc9f76": {
       "kind": "text",
       "source": "Weiter →",
@@ -7730,6 +7933,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -7885,13 +8089,6 @@
         "/unternehmen/"
       ]
     },
-    "f2efc10aeed08fdf7acee177": {
-      "kind": "text",
-      "source": "01 / BAUGROB",
-      "routes": [
-        "/"
-      ]
-    },
     "f40b9f6d0e3c575b2f989a3f": {
       "kind": "text",
       "source": "Erfahrung teilen",
@@ -7989,13 +8186,6 @@
         "/bauleistungen/bauzwischenreinigung/"
       ]
     },
-    "f683ebb03102ff358808bf97": {
-      "kind": "text",
-      "source": "abgeglichen.",
-      "routes": [
-        "/impressum/"
-      ]
-    },
     "f6981954d5c2338a71f7395e": {
       "kind": "text",
       "source": "Gehen Sie Raum für Raum vor und prüfen Sie nur die vereinbarten Aufgaben: beispielsweise Böden, zugängliche Oberflächen, Glas, Rahmen oder Sanitärausstattung. Eine feste Reihenfolge verhindert, dass kleine Nebenräume übersehen oder dieselben Bereiche mehrfach ohne klare Zuordnung beurteilt werden.",
@@ -8020,6 +8210,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -8100,6 +8291,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -8208,6 +8400,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",
@@ -8227,6 +8420,14 @@
       "source": "Gemeinsamen Rundgang mit Zugang und Beleuchtung organisieren",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "fc7be9f896fa4392b0252723": {
+      "kind": "attr:alt",
+      "source": "Logo von Gewobag",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "fcbfdacf0547b8aed0986621": {
@@ -8253,6 +8454,7 @@
         "/branchen/",
         "/datenschutz/",
         "/faq/",
+        "/galerie/",
         "/impressum/",
         "/karriere/",
         "/kontakt/",

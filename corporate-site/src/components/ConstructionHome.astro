@@ -32,9 +32,6 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
   </div>
   <ServiceCarousel locale={locale} />
 </section>
-<section class="bau-ribbon" aria-label={t.focus}>
-  <div class="container"><span>01 / {locale==='de'?'BAUGROB':locale==='en'?'ROUGH CLEAN':locale==='uk'?'ГРУБЕ ПРИБИРАННЯ':'ЧЕРНОВАЯ УБОРКА'}</span><span>02 / {locale==='de'?'BAUFEIN':locale==='en'?'FINE CLEAN':locale==='uk'?'ТОНКЕ ПРИБИРАННЯ':'ТОНКАЯ УБОРКА'}</span><span>03 / {locale==='de'?'ÜBERGABE':locale==='en'?'HANDOVER':locale==='uk'?'ЗДАЧА':'СДАЧА'}</span></div>
-</section>
 <section class="container bau-section" id="bau-services">
   <div class="bau-heading"><p class="bau-kicker">KnaBa / BAUSERVICE</p><h2>{t.focus}</h2><p>{t.focusIntro}</p></div>
   <div class="bau-card-grid">
@@ -70,17 +67,16 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 </Layout>
 <style>
 .bau-hero{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);align-items:center;gap:clamp(26px,4.5vw,70px);padding-top:clamp(45px,7vw,115px);padding-bottom:clamp(50px,7vw,110px)}
-.bau-hero-copy h1{font-size:clamp(47px,6.7vw,103px);line-height:1.02;letter-spacing:-.078em;margin:22px 0 32px;color:#0b303a}
-.bau-hero-copy h1 span{color:#0c9897;box-shadow:inset 0 -.12em 0 #d9f685}
-.bau-lead{font-size:clamp(17px,1.9vw,22px);line-height:1.7;color:#486260;max-width:640px}
+.bau-hero-copy{min-width:0}
+.bau-hero-copy h1{font-size:clamp(42px,6.1vw,90px);line-height:1.07;letter-spacing:-.065em;margin:18px 0 24px;color:#0b303a;text-wrap:balance;overflow-wrap:break-word}
+.bau-hero-copy h1 span{color:#0c9897;text-decoration:underline;text-decoration-color:#d9f685;text-decoration-thickness:.11em;text-underline-offset:.04em;text-decoration-skip-ink:none}
+.bau-lead{font-size:clamp(17px,1.9vw,22px);line-height:1.6;color:#486260;max-width:57ch;overflow-wrap:break-word}
 .bau-kicker{font-size:12px;letter-spacing:.12em;font-weight:850;text-transform:uppercase;color:#087e86;line-height:1.6}
 .bau-dot{display:inline-block;width:9px;height:9px;border-radius:100%;background:#b8ed2f;margin-right:10px;box-shadow:0 0 0 3px #d9f7d9}
-.bau-actions{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:32px}
+.bau-actions{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:27px}
 .bau-inline{display:inline-flex;align-items:center;gap:12px;font-weight:750;color:#087f85;text-decoration:none;min-height:44px}
 .bau-inline:hover{text-decoration:underline;text-underline-offset:5px}
-.bau-trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:31px;font-size:12px;font-weight:650;color:#4d675e}
-.bau-ribbon{background:#092f38;color:#dff9c4}.bau-ribbon>.container{display:flex;justify-content:space-between;gap:22px;align-items:center;padding-block:21px;font-size:12px;letter-spacing:.12em;font-weight:800}
-.bau-section{padding-block:clamp(46px,7vw,96px)}.bau-heading{max-width:850px;margin-bottom:36px}.bau-heading h2,.bau-contract h2,.bau-end-cta h2{font-size:clamp(34px,4.3vw,60px);letter-spacing:-.055em;line-height:1.1;color:#0b313b;margin:14px 0}.bau-heading>p:last-child,.bau-contract p{font-size:17px;color:#49645f;line-height:1.65;max-width:630px}
+.bau-trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:25px;font-size:12px;font-weight:650;color:#4d675e}.bau-section{padding-block:clamp(46px,7vw,96px)}.bau-heading{max-width:850px;margin-bottom:36px}.bau-heading h2,.bau-contract h2,.bau-end-cta h2{font-size:clamp(34px,4.3vw,60px);letter-spacing:-.055em;line-height:1.1;color:#0b313b;margin:14px 0}.bau-heading>p:last-child,.bau-contract p{font-size:17px;color:#49645f;line-height:1.65;max-width:630px}
 .bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
 .bau-card{display:flex;flex-direction:column;border-radius:22px;padding:26px;background:#f0f5f0;border:1px solid #d9e7db;text-decoration:none;color:#12343c;min-height:285px;transition:transform .2s,box-shadow .2s}
 .bau-card:nth-child(3n+2){background:#e9f4f6}.bau-card:nth-child(3n){background:#f1f2d9}.bau-card:hover{transform:translateY(-3px);box-shadow:0 16px 30px #0c3c3b1e}
@@ -99,6 +95,13 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.bau-steps>div{background:#0c333b;color:#fff;padding:30px;border-radius:21px;min-height:180px}.bau-step-counter{color:#c7f34e;font-size:27px;font-weight:900}.bau-steps h3{color:#fff;font-size:20px;line-height:1.25;margin-top:30px}.bau-planner-cta{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:20px}.bau-planner-cta p{max-width:660px;font-size:13px;color:#536b66}
 .bau-end-cta{background:linear-gradient(120deg,#d8f3d3,#eaf7ec);border-radius:25px;padding:clamp(28px,5vw,60px);display:flex;justify-content:space-between;gap:20px;align-items:center}.bau-end-cta a:not(.button){font-weight:700}.bau-end-cta h2{margin:12px 0 20px}
 .bau-faq{display:grid;grid-template-columns:1fr 1.35fr;gap:30px}.bau-faq details{border-bottom:1px solid #d2e4dc;padding:21px 0}.bau-faq summary{list-style:none;display:flex;justify-content:space-between;gap:20px;font-weight:780;cursor:pointer}.bau-faq details p{margin:15px 0 0;color:#516a65;font-size:15px;line-height:1.7}
-@media(max-width:880px){.bau-hero{grid-template-columns:1fr}.bau-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bau-contract-grid{grid-template-columns:1fr}.bau-faq{grid-template-columns:1fr}}
-@media(max-width:610px){.bau-hero{padding-top:40px}.bau-hero-copy h1{font-size:clamp(40px,10.8vw,61px);letter-spacing:-.06em}.bau-card-grid,.bau-steps{grid-template-columns:1fr}.bau-card{min-height:230px}.bau-ribbon>.container{font-size:9px;gap:9px}.bau-end-cta{flex-direction:column;align-items:flex-start}.bau-planner-cta{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.bau-card{transition:none}.bau-card:hover{transform:none}}@media(min-width:881px) and (max-width:1100px){.bau-hero{gap:clamp(18px,3vw,34px)}.bau-hero-copy h1{font-size:clamp(43px,5.75vw,65px)}.bau-actions{gap:15px;margin-top:22px}}
+@media(max-width:880px){.bau-hero{grid-template-columns:1fr}.bau-hero-copy{max-width:720px}.bau-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bau-card.bau-card-request{grid-column:span 2}.bau-contract-grid{grid-template-columns:1fr}.bau-faq{grid-template-columns:1fr}}
+@media(max-width:610px){.bau-card:nth-child(1),.bau-card.bau-card-request{grid-column:auto}.bau-hero{padding-top:32px;gap:26px}.bau-hero-copy h1{font-size:clamp(36px,9vw,58px);line-height:1.09;letter-spacing:-.055em;margin:16px 0 20px}.bau-lead{font-size:16px;line-height:1.6}.bau-actions{margin-top:24px;gap:12px}.bau-trust{margin-top:20px;gap:8px 12px}.bau-card-grid,.bau-steps{grid-template-columns:1fr}.bau-card{min-height:230px}.bau-end-cta{flex-direction:column;align-items:flex-start}.bau-planner-cta{flex-direction:column;align-items:flex-start}}
+
+
+.bau-card.bau-card-request:hover{border-color:#63a795}
+.bau-services-more{display:flex;justify-content:space-between;gap:18px;width:100%;padding:14px 22px;min-height:60px;border:1px solid #c4dfd5;border-radius:18px;background:#e8f4f0;color:#075f67}
+.bau-services-more:hover{background:#daf0e8;text-decoration:none}
+.bau-services-more:focus-visible{outline:3px solid #0c7d81;outline-offset:3px}
 </style>

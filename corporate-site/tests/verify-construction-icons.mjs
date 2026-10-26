@@ -35,7 +35,23 @@ for(const prefix of ['','en/','uk/','ru/']){
   const home=parse(readFileSync(urlPath(''),'utf8'));
   check(byClass(home,'bau-card-grid')[0],core,prefix+'home primary');
   check(byClass(home,'bau-extra-list')[0],extras,prefix+'home extras');
-  check(byClass(home,'carousel-track')[0],carousel.slice(1),prefix+'hero carousel');
+  const track=byClass(home,'carousel-track')[0];
+  assert.ok(track,prefix+'hero carousel present');
+  // Carousel slide 01 keeps the original SVG illustration; slides 02-08
+  // intentionally use seven original WebPs instead of repeated SVG pictograms.
+  const heroImages=all(track,n=>n.tagName==='img');
+  assert.deepEqual(heroImages.map(n=>attr(n,'src')),[
+    '/illustrations/baureinigung.svg',
+    ...carousel.slice(1).map(slug=>'/illustrations/carousel/'+slug+'.webp')
+  ],prefix+'hero artwork order');
+  assert.equal(symbols(track).length,0,prefix+'no duplicated service icon overlays');
+  for(const image of heroImages.slice(1)){
+    assert.equal(attr(image,'loading'),'lazy',prefix+'deferred artwork');
+    assert.equal(attr(image,'alt'),'',prefix+'artwork is decorative with repeated text caption');
+    assert.equal(attr(image.parentNode,'aria-hidden'),'true',prefix+'decorative section hidden from AT');
+    assert.equal(attr(image,'width'),'960');
+    assert.equal(attr(image,'height'),'550');
+  }
   const catalog=parse(readFileSync(urlPath('leistungen/'),'utf8'));
   const sections=byClass(catalog,'bau-offer-grid');
   assert.equal(sections.length,2,prefix+'catalogue both sections');

@@ -1,17 +1,14 @@
-.knaba-partners{padding-block:clamp(36px,6vw,80px)}
-.knaba-partners-heading{max-width:760px;margin-bottom:28px}
-.knaba-partners-heading h2{font-size:clamp(28px,3.5vw,46px);line-height:1.18;letter-spacing:-.045em;color:#0b313b;margin:14px 0 18px;text-wrap:balance;overflow-wrap:anywhere}
-.knaba-partners-heading>p:last-child{color:#405f58;line-height:1.75;max-width:68ch}
-.knaba-partners-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;list-style:none;padding:0;margin:0}
-.knaba-partner{display:flex;flex-direction:column;align-items:center;gap:18px;min-width:0;padding:20px 16px;border:1px solid #d5e4dc;border-radius:18px;background:#fff}
-.knaba-partner-image{display:flex;align-items:center;justify-content:center;width:100%;height:128px}
-.knaba-partner-image img{display:block;width:100%;height:100%;max-width:220px;object-fit:contain}
-.knaba-partner>span{margin-top:auto;text-align:center;color:#405f58;font-size:13px;line-height:1.5;font-weight:650;overflow-wrap:anywhere}
-.knaba-partners-source{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;margin-top:20px}
-.knaba-partners-source a{display:inline-flex;align-items:center;gap:10px;min-height:44px;color:#075e66;font-size:14px;line-height:1.6;font-weight:750;text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere}
-.knaba-partners-source a:hover{color:#103b41}
-.knaba-partners-source a:focus-visible{outline:3px solid #08777b;outline-offset:4px;border-radius:3px}
-.knaba-partners-source p{font-size:12px;line-height:1.7;color:#48645b;margin:0}
-@media(max-width:1000px){.knaba-partners-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:680px){.knaba-partners-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.knaba-partner{padding:18px 12px}.knaba-partner-image{height:110px}}
-@media(max-width:380px){.knaba-partners-grid{grid-template-columns:1fr}.knaba-partner-image{height:128px}}
+.knaba-partners{padding-block:clamp(44px,6vw,88px);min-width:0}
+.knaba-partners-heading{max-width:800px;margin-bottom:clamp(22px,3vw,40px)}
+.knaba-partners-eyebrow{font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:850;color:#087e86}
+.knaba-partners-heading h2{font-size:clamp(32px,4vw,54px);line-height:1.12;letter-spacing:-.05em;color:#0b313b;margin:14px 0 18px;text-wrap:balance;overflow-wrap:anywhere}
+.knaba-partners-heading>p:last-child{color:#405f58;line-height:1.65;font-size:clamp(15px,1.45vw,18px)}
+.knaba-partners-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));list-style:none;padding:0;margin:0;gap:clamp(10px,1.3vw,18px)}
+.knaba-partner-card{display:grid;grid-template-rows:106px minmax(76px,auto);align-items:center;min-width:0;min-height:225px;padding:clamp(14px,2vw,24px);background:#fff;border:1px solid #d5e5df;border-radius:24px;box-shadow:0 8px 24px #12343c08;transition:box-shadow .2s,border-color .2s}
+.knaba-partner-image{width:100%;height:106px;min-width:0;display:flex;align-items:center;justify-content:center}
+.knaba-partner-image img{display:block;width:auto;height:auto;max-width:100%;max-height:105px;object-fit:contain}
+.knaba-partner-name{display:grid;place-items:center;min-height:76px;font-size:clamp(12px,1vw,14px);font-weight:700;line-height:1.45;text-align:center;color:#3d5d56;overflow-wrap:anywhere;margin:12px 0 0}
+@media(max-width:1050px){.knaba-partners-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:580px){.knaba-partners-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.knaba-partner-card{grid-template-rows:94px minmax(76px,auto);min-height:205px;border-radius:19px;padding:14px}.knaba-partner-image{height:94px}.knaba-partner-image img{max-height:93px}.knaba-partner-card:last-child:nth-child(odd){grid-column:1/-1;width:calc((100% - clamp(10px,1.3vw,18px))/2);justify-self:center}}
+@media(max-width:339px){.knaba-partners-grid{grid-template-columns:1fr}.knaba-partner-card:last-child:nth-child(odd){grid-column:auto;width:100%}}
+@media(prefers-reduced-motion:reduce){.knaba-partner-card{transition:none}}

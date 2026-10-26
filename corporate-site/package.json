@@ -21,7 +21,9 @@
     "i18n:extract": "node scripts/i18n-source-catalog.mjs extract",
     "i18n:draft": "node scripts/i18n-source-catalog.mjs draft",
     "i18n:report": "node scripts/i18n-source-catalog.mjs report",
-    "i18n:verify": "node scripts/i18n-source-catalog.mjs verify-source"
+    "i18n:verify": "node scripts/i18n-source-catalog.mjs verify-source",
+    "test:vps": "node --test vps/*.test.mjs",
+    "verify:live": "node scripts/verify-public-live.mjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "7.1.1",

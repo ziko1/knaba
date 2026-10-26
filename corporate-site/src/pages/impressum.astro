@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { company } from "../data/company";
+import { siteConfig } from '../data/site';
 ---
 
 <Layout title="Impressum und Anbieterangaben | KnaBa Berlin" description="Anbieterangaben von KnaBa: Alexander Knaus, KNABA Bauhelfer in Berlin. Anschrift, Kontakt, Umsatzsteuer-ID und rechtliche Hinweise.">
@@ -8,7 +9,7 @@ import { company } from "../data/company";
     <p class="eyebrow">TRANSPARENT & ERREICHBAR</p>
     <h1>Impressum</h1>
     <p class="legal-intro">Angaben zum Anbieter nach § 5 Digitale-Dienste-Gesetz (DDG).</p>
-    <p class="notice">Sie besuchen die temporäre Website auf <strong>kneba.vsp.rest</strong>. Die Anbieterangaben wurden am 24. Oktober 2026 mit dem veröffentlichten Impressum auf <a href="https://knaba.de/impressum">knaba.de</a> abgeglichen.</p>
+    <p class="notice">Diese Anbieterangaben gelten für den KnaBa-Auftritt unter <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 25. Oktober 2026.</p>
 
     <div class="legal-contact-grid">
       <section aria-labelledby="anbieter">
@@ -30,11 +31,12 @@ import { company } from "../data/company";
 
     <h2>Inhalte und Bildmaterial</h2>
     <p>Die Darstellung der Leistungen dient der Information. Den konkreten Leistungsumfang, den Termin und den Preis stimmen wir individuell mit Ihnen ab. Eine Anfrage oder ein angelegtes Kundenkonto ist noch keine verbindliche Auftragsbestätigung.</p>
-    <p>Die Bau- und Reinigungsillustrationen sind symbolische Darstellungen. Sie zeigen weder ein bestimmtes Kundenobjekt noch einen dokumentierten Reinigungseinsatz.</p>
+    <p>Die Bau- und Reinigungsillustrationen einschließlich der Galerie sind symbolische Darstellungen. Sie zeigen weder ein bestimmtes Kundenobjekt noch einen dokumentierten Reinigungseinsatz.</p>
+    <h2>Bildrechte und Marken</h2>
+    <p>Partnerlogos und Markenzeichen bleiben den jeweiligen Rechteinhabern zugeordnet. Wenn Sie Fragen zur Bildnutzung, zu Nutzungsrechten oder möglichen Rechtsverletzungen haben, wenden Sie sich bitte über die angegebenen Kontaktdaten an KnaBa. Die Darstellung ist kein Nachweis einer gesonderten Zertifizierung oder Fachzulassung.</p>
 
     <h2>Datenschutz und rechtliche Anliegen</h2>
     <p>Informationen zum Besuch der Website, zur Anmeldung und zu den geschützten Benutzerbereichen finden Sie in unserer <a href="/datenschutz/">Datenschutzerklärung</a>. Für Hinweise zu Inhalten oder Rechten Dritter erreichen Sie uns über die oben genannten Kontaktdaten.</p>
-    <p class="legal-version">Stand des Quellenabgleichs: 24. Oktober 2026.</p>
   </article>
 </Layout>
 

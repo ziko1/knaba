@@ -12,7 +12,8 @@ const vsp = releaseMode === "vsp";
 const indexingApproved = official || vsp;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 const publishedGuideSlugs = new Set(constructionGuideRoutes.map(guide=>guide.slug));
-const expectedPublicRoutes = 72 + constructionGuideRoutes.length * 4;
+// Four locales * (11 shared public routes including gallery + 8 construction offers + guide routes).
+const expectedPublicRoutes = 4 * (11 + 8 + constructionGuideRoutes.length);
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const lists = await Promise.all(
@@ -27,6 +28,7 @@ const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
 const titles = new Set();
+let externalPartnerImagesInMarkup = 0;
 for (const file of files) {
   const bytes = await readFile(file);
   const name = relative(root, file);
@@ -62,7 +64,19 @@ for (const file of pages) {
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
   titles.add(title);
-  assert.doesNotMatch(html, /<(?:script|img)[^>]+src="https?:/);
+  // No external scripts or images. All partner logos must be first-party.
+  assert.doesNotMatch(html, /<script\b[^>]*\bsrc="https?:\/\//i, file + ': external script');
+  const externalImageSources = [...html.matchAll(/<img\b[^>]*\bsrc="(https?:\/\/[^"]+)"/gi)].map(match => match[1]);
+  const partnerItems = [...html.matchAll(/<li class="knaba-partner-card" data-partner-id="([^"]+)"[^>]*>[\s\S]*?<\/li>/g)];
+  const partnerImageSources = partnerItems.map(match => match[0].match(/<img\b[^>]*\bsrc="([^"]+)"/i)?.[1]);
+  assert.deepEqual(externalImageSources, [], file + ': all images must be first-party');
+  if(partnerItems.length) {
+    assert.deepEqual(partnerItems.map(match=>match[1]), ['official-01','official-02','hit','stromkreis','gewobag'],file+': partner order');
+    assert.deepEqual(partnerImageSources, ['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png'],file+': exact local partner assets');
+  }
+  externalPartnerImagesInMarkup += externalImageSources.length;
+  assert.doesNotMatch(html, /(?:Переглянути партнерів на knaba\.de|Джерело перевірено \d{2}\.\d{2}\.\d{4}|Stand des Quellenabgleichs|Дата сверки с источником)/i, file + ': internal research notices on customer pages');
+  assert.doesNotMatch(html, /<a\b[^>]*\bhref=["']https?:\/\/(?:www\.)?knaba\.de(?:[\/"'])/i, `${file}: no outbound link to original company site`);
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
     const path = url.split("?")[0].split("#")[0];
     if (["/login/", "/logout/"].includes(path)) continue;
@@ -79,7 +93,14 @@ for (const file of pages) {
   const graphs = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
   assert.ok(graphs.length > 0, `${file}: structured data`);
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
-  assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
+  const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
+  assert.ok(business, `${file}: LocalBusiness present`);
+  assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
+  assert.equal(business.url, origin, `${file}: business URL uses the current host`);
+  for(const node of graphNodes){
+    if(node['@type']==='Service') assert.equal(node.provider?.['@id'],origin+'/#business',`${file}: service provider`);
+    if(node['@type']==='Article') assert.equal(node.publisher?.['@id'],origin+'/#business',`${file}: article publisher`);
+  }
   if (file.includes('/bauleistungen/') && !file.endsWith('/bauleistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
   if (guideSlug && !publishedGuide) assert.match(html,/name="robots" content="noindex, follow"/);
@@ -91,10 +112,28 @@ for (const file of pages) {
     assert.ok(article.headline && article.description, `${file}: meaningful article metadata`);
   }
   assert.match(html,/name="astro-view-transitions-enabled"/);
+  const carouselSlugs = ['bauzwischenreinigung','bauendreinigung','baustellenraeumung',
+    'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
+  const carouselPaths = carouselSlugs.map(slug => '/illustrations/carousel/' + slug + '.webp');
+  const decorativePaths = [];
   for (const img of html.matchAll(/<img\b[^>]*>/g)) {
-    assert.match(img[0], /alt="[^"]+"/);
+    if (img[0].includes('alt=""')) {
+      const src = img[0].match(/\bsrc="([^"]+)"/)?.[1];
+      assert.ok(carouselPaths.includes(src), file + ': unapproved empty-alt image ' + src);
+      // Decorative images repeat slide descriptions and are hidden from assistive tech.
+      const context = html.slice(Math.max(0,img.index - 140),img.index);
+      assert.match(context, /<div class="slide-art" aria-hidden="true"[^>]*>$/, file + ': empty-alt must be aria-hidden');
+      decorativePaths.push(src);
+    } else {
+      assert.match(img[0], /alt="[^"]+"/);
+    }
     assert.match(img[0], /width="\d+"/);
     assert.match(img[0], /height="\d+"/);
+  }
+  if (/(?:\/client\/|\/client\/(?:en|uk|ru)\/)index\.html$/.test(file)) {
+    assert.deepEqual(decorativePaths,carouselPaths,file + ': seven distinct carousel artworks');
+  } else {
+    assert.equal(decorativePaths.length,0,file + ': decorative art only on homepages');
   }
 }
 const cssGzip = assets
@@ -105,6 +144,15 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
+assert.equal(pages.length,122,'122 source-built pages: 118 live-base routes plus four new gallery locales');
+for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
+  const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
+  assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
+  assert.match(source, /id="partner"/, prefix+'homepage partner section');
+  assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
+  assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
+}
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 const homeIslands = homepage.match(/<astro-island\b[^>]*>/g) || [];
 assert.equal(homeIslands.length, 1, 'Only the functional reviews island hydrates on the homepage');
@@ -116,8 +164,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/revie
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 34, 'Expanded localized Russian tree with construction guides, FAQ and portal');
-assert.equal(russianPages.length, 35, 'Private Russian owner inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 35, 'Russian public tree includes gallery and construction guides');
+assert.equal(russianPages.length, 36, 'Russian private inbox is an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -164,6 +212,7 @@ const report = {
   metadata: "PASS",
   indexMode: official ? "OFFICIAL" : vsp ? (indexingApproved ? "VSP_PUBLIC" : "VSP_PENDING_APPROVAL") : "TEMPORARY_NOINDEX",
   externalImageScriptRequests: "NONE_IN_HTML",
+  externalPartnerImagesInMarkup,
   cssGzip,
   allEmittedJsGzip: jsGzip,
   assets,

@@ -5,7 +5,7 @@ import {constructionGuideRoutes} from '../data/construction-guide-routes';
 export type SiteLocale = 'de'|'en'|'uk'|'ru';
 type Alternate = {lang:string;url:string};
 const publicPaths = [
- '/', '/leistungen/','/branchen/','/unternehmen/','/karriere/',
+ '/', '/leistungen/','/branchen/','/unternehmen/','/galerie/','/karriere/',
  '/kontakt/','/planer/','/berlin/','/ratgeber/','/faq/',
  ...constructionOffers.map(item=>'/bauleistungen/'+item.slug+'/'),
  ...constructionGuideRoutes.map(item=>'/ratgeber/'+item.slug+'/')
