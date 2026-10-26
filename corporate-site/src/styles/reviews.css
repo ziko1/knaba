@@ -1,6 +1,5 @@
 .knaba-reviews{padding-block:clamp(42px,6vw,88px);color:#14343b;min-width:0}
 .reviews-heading{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(22px,5vw,64px);align-items:end;margin-bottom:32px}
-.reviews-kicker{font-size:.75rem;font-weight:850;letter-spacing:.11em;color:#08757b;line-height:1.6;margin:0 0 14px}
 .reviews-heading h2{font-size:clamp(30px,3.8vw,48px);line-height:1.15;letter-spacing:-.045em;color:#0b313b;margin:0;text-wrap:balance}
 .reviews-heading>p{line-height:1.8;color:#486260;max-width:48ch;margin:0}
 .reviews-content,.review-form-panel,.reviews-moderation,.reviews-form{min-width:0;overflow-wrap:anywhere}
