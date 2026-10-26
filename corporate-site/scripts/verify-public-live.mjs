@@ -2,7 +2,8 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 // Read-only live HTTP gate. Complements (never replaces) immutable artifact QA.
-const origins = Object.freeze({vsp:'https://kneba.vsp.rest', official:'https://knaba.de'});
+export const KNABA_PUBLIC_ORIGINS = Object.freeze({vsp:'https://kneba.vsp.rest', official:'https://knaba.de'});
+const origins = KNABA_PUBLIC_ORIGINS;
 const locales = Object.freeze([{lang:'de',p:''},{lang:'en',p:'/en'},{lang:'uk',p:'/uk'},{lang:'ru',p:'/ru'}]);
 const partnerIds = ['official-01','official-02','hit','stromkreis','gewobag'];
 
