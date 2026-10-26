@@ -1,0 +1,14 @@
+{
+  "base": {
+    "jsGzip": 188346,
+    "cssGzip": 40890,
+    "htmlPages": 122
+  },
+  "candidate": {
+    "jsGzip": 189223,
+    "cssGzip": 40890,
+    "htmlPages": 122
+  },
+  "baseSha": "d48cc81ca3db4f689c3126ec60dd17a4192319b7",
+  "method": "Same local Node24 environment, node:zlib gzipSync default options, all emitted files. Payload only, not field performance or per-route transfer."
+}

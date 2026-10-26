@@ -60,13 +60,13 @@ const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
 const languageLabel = {de:'Sprache',en:'Language',uk:'Мова',ru:'Язык'}[lang];
 const languageNames: Record<string,string> = {de:'Deutsch',en:'English',uk:'Українська',ru:'Русский'};
-const translatedNav = {en:['Services','Project planner','B2B sectors','About','Gallery','Construction guides'],uk:['Послуги','Планувальник','Галузі B2B','Про нас','Галерея','Поради'],ru:['Услуги','Планировщик','Отрасли B2B','О нас','Галерея','Советы']};
+const translatedNav = {en:['Services','Project planner','B2B sectors','About','How we work','Construction guides'],uk:['Послуги','Планувальник','Галузі B2B','Про нас','Як ми працюємо','Поради'],ru:['Услуги','Планировщик','Отрасли B2B','О нас','Как мы работаем','Советы']};
 const nav = [
   ["/leistungen/", "Bauleistungen"],
   ["/planer/", "Bauprojekt planen"],
   ["/branchen/", "Baupartner"],
   ["/unternehmen/", "Über KnaBa"],
-  ["/galerie/", "Galerie"],
+  ["/galerie/", "Arbeitsabläufe"],
   ["/ratgeber/", "Bauratgeber"],
 ].map(([url,label],index)=>[localPath(url),lang==='de'?label:translatedNav[lang][index]]);
 const canonical = new URL(path, siteConfig.origin);
@@ -193,7 +193,7 @@ const structuredData = {
         <div>
           <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
             href={localPath("/branchen/")}>{footerLabels[2]}</a
-          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Galerie",en:"Gallery",uk:"Галерея",ru:"Галерея"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
+          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
             >{footerLabels[6]}</a>
         </div>
         <div>

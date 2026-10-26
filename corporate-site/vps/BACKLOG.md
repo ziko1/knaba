@@ -1,4 +1,11 @@
 # KNABA VPS backlog
+
+## Current checkpoint — 26.10.2026 release-gap audit
+- [x] Candidate source fixes: full-ledger revalidation under SQLite write lock and atomic rollback; Studio body limit; opt-in exact-IP proxy resolver.56 isolated VPS tests PASS; historical SQL unchanged.
+- [ ] Verify real proxy peer/IP stability and XFF provenance before setting `KNABA_TRUSTED_PROXY_IPS`; default remains empty, live buckets unchanged.
+- [ ] Disk≈91% exceeds current90% cutover threshold; safe storage plan preserving all customer state/backups, then exact-candidate mobile/browser+owner acceptance and locked test rollout.
+- [ ] Current `/readyz=200` supersedes old503 notes, but real owner-role/delivery UAT, off-host restore and ERP/voice integration remain open.
+- Source/evidence: `../docs/KNABA_RELEASE_GAP_AUDIT_2026-10-26_UK.md`; no deployment in this task.
 - P0 Obtain authorized One.com DNS credentials/approval and One.com official-site backup; preserve all email DNS.
 - P0 Obtain complete ChatGPT Sites/D1 export, migrations and verified backup->restore/record reconciliation.
 - P0 Provision real owner, safe staff/client enrollment, SSL/proxy trusted IP, private auth full browser UAT, security review.

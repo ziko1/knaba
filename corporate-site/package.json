@@ -10,7 +10,7 @@
     "dev": "node scripts/preview-worker.mjs",
     "build": "node scripts/clean-build.mjs && astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs",
     "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
-    "test": "vitest run && node --test tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/verify-live-artifact.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs",
+    "test": "vitest run && node --test tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/verify-live-artifact.test.mjs tests/gallery-workflow-content.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs",
     "verify:build": "node tests/verify-build.mjs && node scripts/i18n-source-catalog.mjs verify-source && node scripts/audit-i18n-output.mjs && node tests/check-project-cta.mjs && node tests/verify-construction-icons.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "db:generate": "drizzle-kit generate",

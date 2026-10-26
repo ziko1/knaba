@@ -2,6 +2,7 @@ import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid
 import { assistantGreeting, assistantLocale, type AssistantLocale } from '../lib/assistant-knowledge';
 import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../lib/assistant-recovery';
 import '../styles/assistant.css';
+import {createAsyncViewScope} from '../lib/async-view-scope';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
 
 type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string};
@@ -74,6 +75,11 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     isOpen:open,panel:()=>panel,launcher:()=>launcher,stopSpeech,
     close:()=>{setOpen(false);setCaptchaToken('');setCaptchaStatus('loading');},
   });
+  const requests=createAsyncViewScope();
+  let polling=false;
+  onCleanup(()=>requests.dispose());
+  const contactPath=locale==='de'?'/kontakt/':`/${locale}/kontakt/`;
+  const contactLabel={de:'Alle Kontaktmöglichkeiten',en:'All contact options',uk:'Усі способи зв’язку',ru:'Все способы связи'}[locale];
   const privacyPath=locale==='ru'?'/ru/datenschutz/':'/datenschutz/';
   onMount(()=>{
     try {
@@ -86,10 +92,14 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   createEffect(()=>{if(open())dialog.focusOnOpen();});
   createEffect(()=>{thread()?.messages.length;thread()?.offers.length;queueMicrotask(()=>{if(log)log.scrollTop=log.scrollHeight;});});
   async function load(current:Ticket){
-    try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token);if(ticket()?.id===current.id){setThread(result);setError('');}}
-    catch{if(open())setError(t.no);}
+    if(busy()||polling)return;
+    polling=true;
+    const latest=requests.begin();
+    const sameTicket=()=>ticket()?.id===current.id&&ticket()?.token===current.token;
+    try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token);if(latest()&&sameTicket()){setThread(result);setError('');}}
+    catch{if(latest()&&sameTicket()&&open())setError(t.no);}finally{polling=false;}
   }
-  async function ensure():Promise<Ticket>{
+  async function ensure(latest:()=>boolean):Promise<Ticket>{
     if(ticket())return ticket()!;
     if(captchaStatus()!=='disabled' && (captchaStatus()!=='verified'||!captchaToken())){
       throw Error('captcha_required');
@@ -99,9 +109,10 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     try{
       created=await http<Ticket>('/api/assistant/conversations','POST',{locale,privacyAccepted:accepted(),website:'',...(captcha?{captchaToken:captcha}:{})});
     }catch(error){
-      if(captcha){setCaptchaToken('');setCaptchaStatus('pending');setCaptchaResetVersion(n=>n+1);}
+      if(latest()&&captcha){setCaptchaToken('');setCaptchaStatus('pending');setCaptchaResetVersion(n=>n+1);}
       throw error;
     }
+    if(!latest())throw Error('superseded');
     setTicket(created);
     try{sessionStorage.setItem(STORAGE,JSON.stringify(created));}catch{}
     return created;
@@ -109,28 +120,36 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   async function send(event:Event){
     event.preventDefault();if(busy()||!draft().trim())return;
     if(!accepted()){setError(t.privacy);return;}
-    setBusy(true);setError('');
+    const latest=requests.begin(),submitted=draft(),requestKey=key()||crypto.randomUUID();
+    setBusy(true);setError('');setKey(requestKey);
     try{
-      const current=await ensure(),requestKey=key()||crypto.randomUUID();
-      setKey(requestKey);
-      setThread(await http<Thread>(`/api/assistant/conversations/${current.id}/messages`,'POST',{content:draft().trim(),idempotencyKey:requestKey},current.token));
-      setKey('');setDraft('');
-    }catch(problem){setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);}finally{setBusy(false);}
+      const current=await ensure(latest);
+      if(!latest())return;
+      const result=await http<Thread>(`/api/assistant/conversations/${current.id}/messages`,'POST',{content:submitted.trim(),idempotencyKey:requestKey},current.token);
+      if(!latest())return;
+      setThread(result);
+      // Typing another message while this request runs must not lose that draft.
+      if(key()===requestKey){if(draft()===submitted)setDraft('');setKey('');}
+    }catch(problem){if(latest())setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);}finally{if(latest())setBusy(false);}
   }
   async function handoff(event:Event){
-    event.preventDefault();if(!accepted()){setError(t.privacy);return;}
+    event.preventDefault();if(busy())return;if(!accepted()){setError(t.privacy);return;}
+    const latest=requests.begin(),contact={name:name().trim(),email:email().trim(),phone:phone().trim()};
     setBusy(true);setError('');
     try{
-      const current=await ensure();
-      setThread(await http<Thread>(`/api/assistant/conversations/${current.id}/handoff`,'POST',{name:name().trim(),email:email().trim(),phone:phone().trim()},current.token));
-      setHuman(false);
-    }catch(problem){setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);}finally{setBusy(false);}
+      const current=await ensure(latest);
+      if(!latest())return;
+      const result=await http<Thread>(`/api/assistant/conversations/${current.id}/handoff`,'POST',contact,current.token);
+      if(!latest())return;
+      setThread(result);setHuman(false);
+    }catch(problem){if(latest())setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);}finally{if(latest())setBusy(false);}
   }
   async function decide(offer:Offer,decision:'accepted'|'declined'){
     const current=ticket();if(!current||busy())return;
+    const latest=requests.begin();
     setBusy(true);setError('');
-    try{setThread(await http<Thread>(`/api/assistant/conversations/${current.id}/offers/${offer.id}/decision`,'POST',{decision},current.token));}
-    catch{setError(t.no);}finally{setBusy(false);}
+    try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}/offers/${offer.id}/decision`,'POST',{decision},current.token);if(latest())setThread(result);}
+    catch{if(latest())setError(t.no);}finally{if(latest())setBusy(false);}
   }
   function speak(){
     if(!('speechSynthesis' in window))return;
@@ -152,13 +171,15 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     event.preventDefault();if(busy())return;
     const recovered=parseRecoveryCode(recoveryInput());
     if(!recovered){setError(t.invalidCode);return;}
+    const latest=requests.begin();
     setBusy(true);setError('');
     try {
       // Server validates the bearer token before storing or displaying a conversation.
       const result=await http<Thread>(`/api/assistant/conversations/${recovered.id}`,'GET',undefined,recovered.token);
+      if(!latest())return;
       setTicket(recovered);setThread(result);setAccepted(true);setRecoveryInput('');setHuman(false);
       try{sessionStorage.setItem(STORAGE,JSON.stringify(recovered));}catch{}
-    }catch{setError(t.invalidCode);}finally{setBusy(false);}
+    }catch{if(latest())setError(t.invalidCode);}finally{if(latest())setBusy(false);}
   }
   async function copyRecovery(){
     const current=ticket();if(!current)return;
@@ -172,7 +193,8 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     }
   }
   function reset(){
-    if(!window.confirm(t.fresh))return;
+    if(busy()||!window.confirm(t.fresh))return;
+    requests.invalidate();stopSpeech();
     try{sessionStorage.removeItem(STORAGE);}catch{}
     setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');setRecoveryInput('');setCodeCopied(false);
     setCaptchaToken('');setCaptchaStatus('loading');setCaptchaResetVersion(v=>v+1);
@@ -218,8 +240,8 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
             </form>
             <button type="button" class="ka-contact-owner" onClick={()=>setHuman(v=>!v)} disabled={busy()}>{t.human} ↗</button>
           </Show>
-          <nav aria-label="KnaBa"><a href="tel:+493067933054">☎ +49 (30) 679 330 54</a><a href="mailto:kontakt@knaba.de">✉ kontakt@knaba.de</a></nav>
-          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
+          <nav aria-label="KnaBa"><a href={contactPath}>{contactLabel} ↗</a></nav>
+          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" onClick={reset} disabled={busy()}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
         </div>
       </section>
     </Show>

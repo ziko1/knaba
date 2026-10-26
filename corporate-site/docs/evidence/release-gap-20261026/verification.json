@@ -1,0 +1,75 @@
+{
+  "testedCodeSha": "229ba40806a8278d24c559acf693e726f11b8256",
+  "environment": "Local Node v24.22.1; locked npm dependencies; isolated SQLite for API tests",
+  "commands": {
+    "check": {
+      "path": "check.log.gz",
+      "uncompressedSha256": "3ddbbc77a1ee17288915e8416ca968c16d295cb8d4b4c656375ba1a3be582728",
+      "exitCode": 0,
+      "command": "npm run check"
+    },
+    "vitest": {
+      "path": "vitest.log.gz",
+      "uncompressedSha256": "f908ab00fdfbb65482ae2393b4759a9b5c69496b9dc0a3a24a3c77f7323504e3",
+      "exitCode": 0,
+      "command": "npm test (Vitest output captured; Node suites explicitly rerun separately)"
+    },
+    "nodeTests": {
+      "path": "nodeTests.log.gz",
+      "uncompressedSha256": "c2d296938a080e0787e94b51cdc467ddc1d36595f3eab5962db02212c5a5a855",
+      "exitCode": 0,
+      "command": "node --test tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/verify-live-artifact.test.mjs tests/gallery-workflow-content.test.mjs tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs tests/i18n-source-catalog.test.mjs"
+    },
+    "build": {
+      "path": "build.log.gz",
+      "uncompressedSha256": "7ed51570db66b7ee053514477b3c41f221c5031646170531e9c0fcce94c1f394",
+      "exitCode": 0,
+      "command": "node scripts/clean-build.mjs; KNABA_RELEASE_MODE=vsp npm run build"
+    },
+    "i18n": {
+      "path": "i18n.log.gz",
+      "uncompressedSha256": "1e689e700f8b12f31dfe8964899fa9392da78d830d792d23820785f5429a5ca7",
+      "exitCode": 0,
+      "command": "npm run i18n:extract"
+    },
+    "verifyBuild": {
+      "path": "verifyBuild.log.gz",
+      "uncompressedSha256": "b6fe3d809007acf04ce7b2fe4e19bc4540c1a7849a47b36383b828e88368ac62",
+      "exitCode": 0,
+      "command": "KNABA_RELEASE_MODE=vsp npm run verify:build"
+    },
+    "vpsTests": {
+      "path": "vpsTests.log.gz",
+      "uncompressedSha256": "1c4f4fc25dc7a47f6f13e2143c91cfc2e0384dc1fa0ab510d8ae5268f84ee14e",
+      "exitCode": 0,
+      "command": "KNABA_RELEASE_MODE=vsp npm run test:vps"
+    },
+    "npmAudit": {
+      "path": "npmAudit.log.gz",
+      "uncompressedSha256": "55d5f73533ac6f68e087a47ab75168bda489504535279a51475dbc70aa6a93da",
+      "exitCode": 0,
+      "command": "npm audit --omit=dev --json"
+    }
+  },
+  "results": {
+    "check": "0 errors, 0 warnings, 4 preexisting hints",
+    "vitest": 234,
+    "nodeTests": 68,
+    "vpsTests": 56,
+    "buildHtml": 122,
+    "i18nSourceRoutes": 26,
+    "i18nSourceUnits": 948,
+    "runtimeNpmAuditVulnerabilities": 0
+  },
+  "independentReview": "gap-matrix.json independent_review (21 file SHA256 bindings)",
+  "clientArtifactSha256": "6e98cd797fde6dbc1f720bf754eb376ce44386acfc14ec95924ba5cd03c02901",
+  "limitations": [
+    "Live browser checks target old deployed cecb321, not this candidate",
+    "Real owner/device/provider acceptance and field CWV not run",
+    "Early verifier was run with wrong release-mode environment; re-run in VSP mode passes",
+    "Earlier incremental artifact contained stale JS; only generated outputs cleaned and rebuilt; unchanged size budgets pass",
+    "npm test log captured Vitest only in final pass; all 68 Node tests explicitly run and logged separately"
+  ],
+  "publishedCodeSha": "7de449b319f57f0d07d2f43b4b6a25e0219c1158",
+  "sourceTreeSha": "d6bc0694541f42b871a221c4b7f0696d90b5e3f6"
+}

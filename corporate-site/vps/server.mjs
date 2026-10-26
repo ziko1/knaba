@@ -3,6 +3,7 @@ import { readFile,stat } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
+import { createClientAddressResolver } from './client-address.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
@@ -105,12 +106,13 @@ function logoutPage(returnTo){
 }
 export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
-  origin='https://knaba.de',localTest=false
+  origin='https://knaba.de',localTest=false,trustedProxyIps=[]
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   const base=new URL(origin);
   if(base.protocol!=='https:'&&!localTest)throw Error('Production HTTPS origin required.');
   const publicHost=base.host.toLowerCase();
+  const clientAddress=createClientAddressResolver(trustedProxyIps);
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
@@ -168,7 +170,7 @@ export async function createKnabaVpsServer({
         const target=returnPath(params.get('return_to'));
         if(password.length>256 || email.length>320)return send(res,422,'Invalid form');
         let result=null;
-        try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
+        try{result=createLogin(db,{email,password,clientKey:clientAddress(req)});}catch{/* Uniform response */}
         if(!result)return send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8'});
         return redirect(res,target,{'Set-Cookie':sessionCookie(result.token,{secure:!localTest})});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
@@ -201,8 +203,9 @@ export async function createKnabaVpsServer({
         headers.set('oai-authenticated-user-id',user.id);
         headers.set('oai-authenticated-user-email',user.email);
       }
-      // Never forward incoming cf-connecting-ip or forged oai-* headers.
-      headers.set('cf-connecting-ip',String(req.socket.remoteAddress||'127.0.0.1'));
+      // Never forward incoming cf-connecting-ip or forged oai-* headers. The
+      // verified proxy chain (when configured) isolates each visitor's limits.
+      headers.set('cf-connecting-ip',clientAddress(req));
       const urlForWorker=effectiveOrigin+url.pathname+url.search;
       let reply;
       try{
@@ -233,6 +236,7 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
     turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',
     origin:process.env.KNABA_PUBLIC_ORIGIN||'https://knaba.de',
+    trustedProxyIps:process.env.KNABA_TRUSTED_PROXY_IPS?.trim()?process.env.KNABA_TRUSTED_PROXY_IPS.split(',').map(value=>value.trim()):[],
     port,host:'0.0.0.0',localTest:process.env.KNABA_LOCAL_TEST==='1'
   });
   process.stdout.write('KNABA VPS service listening on internal port '+instance.port+'\n');
