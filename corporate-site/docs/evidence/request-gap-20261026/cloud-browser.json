@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-10-26T15:09:59.706Z",
+  "browser": "Cloud Chrome",
+  "viewport": {
+    "width": 1363,
+    "height": 936
+  },
+  "pages": [
+    {
+      "brokenImages": 0,
+      "h1": 1,
+      "kind": "partners",
+      "lang": "uk",
+      "overflow": false,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/uk/partner/#goldbeck"
+    },
+    {
+      "badges": [
+        "Beispiel · frei erfunden",
+        "Beispiel · frei erfunden",
+        "Beispiel · frei erfunden"
+      ],
+      "disclosure": "So könnte eine Rückmeldung aussehen\n\nDie folgenden Texte sind frei erfundene Beispiele. Sie stammen nicht von Kunden und belegen keine ausgeführten Aufträge.",
+      "kind": "reviews",
+      "lang": "de",
+      "overflow": false,
+      "phones": 1,
+      "url": "https://kneba.vsp.rest/#reviews"
+    },
+    {
+      "badges": [
+        "Example · fictional text",
+        "Example · fictional text",
+        "Example · fictional text"
+      ],
+      "disclosure": "What feedback could look like\n\nThe following texts are fictional examples. They are not customer reviews and do not document completed projects.",
+      "kind": "reviews",
+      "lang": "en",
+      "overflow": false,
+      "phones": 1,
+      "url": "https://kneba.vsp.rest/en/#reviews"
+    },
+    {
+      "badges": [
+        "Пример отзыва · вымышленный текст",
+        "Пример отзыва · вымышленный текст",
+        "Пример отзыва · вымышленный текст"
+      ],
+      "disclosure": "Как может выглядеть отзыв\n\nНиже — вымышленные примеры текстов. Это не отзывы клиентов и не подтверждение выполненных заказов.",
+      "kind": "reviews",
+      "lang": "ru",
+      "overflow": false,
+      "phones": 1,
+      "url": "https://kneba.vsp.rest/ru/#reviews"
+    },
+    {
+      "brokenImages": 0,
+      "h1": 1,
+      "kind": "partners",
+      "lang": "de",
+      "overflow": false,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/partner/"
+    },
+    {
+      "brokenImages": 0,
+      "h1": 1,
+      "kind": "partners",
+      "lang": "en",
+      "overflow": false,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/en/partner/"
+    },
+    {
+      "brokenImages": 0,
+      "h1": 1,
+      "kind": "partners",
+      "lang": "ru",
+      "overflow": false,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/ru/partner/"
+    },
+    {
+      "badges": [
+        "Приклад відгуку · вигаданий текст",
+        "Приклад відгуку · вигаданий текст",
+        "Приклад відгуку · вигаданий текст"
+      ],
+      "disclosure": "Як може виглядати відгук\n\nНижче — вигадані приклади текстів. Це не відгуки клієнтів і не підтвердження виконаних замовлень.",
+      "height": 936,
+      "kind": "reviews",
+      "lang": "uk",
+      "overflow": false,
+      "phones": 1,
+      "url": "https://kneba.vsp.rest/uk/#reviews",
+      "width": 1363
+    }
+  ],
+  "forms": [
+    {
+      "expanded": "true",
+      "focused": "INPUT",
+      "formVisible": true,
+      "lang": "uk",
+      "submitDisabled": true,
+      "url": "https://kneba.vsp.rest/uk/#reviews",
+      "closed": true
+    },
+    {
+      "expanded": "true",
+      "focused": "INPUT",
+      "formVisible": true,
+      "lang": "de",
+      "submitDisabled": true,
+      "url": "https://kneba.vsp.rest/#reviews",
+      "closed": true
+    },
+    {
+      "expanded": "true",
+      "focused": "INPUT",
+      "formVisible": true,
+      "lang": "en",
+      "submitDisabled": true,
+      "url": "https://kneba.vsp.rest/en/#reviews",
+      "closed": true
+    },
+    {
+      "expanded": "true",
+      "focused": "INPUT",
+      "formVisible": true,
+      "lang": "ru",
+      "submitDisabled": true,
+      "url": "https://kneba.vsp.rest/ru/#reviews",
+      "closed": true
+    }
+  ],
+  "submissions": 0,
+  "captchaSolved": false,
+  "mobile": "NOT_RUN",
+  "localEngines": "BLOCKED NO_USABLE_BROWSER",
+  "screenshot": "live-reviews-uk-verified.jpg"
+}
