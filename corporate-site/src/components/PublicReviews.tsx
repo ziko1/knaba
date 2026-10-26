@@ -102,9 +102,8 @@ export default function PublicReviews(props: {locale: ReviewLocale}) {
     <Show when={loading()}><p class="reviews-status" role="status">{t().loading}</p></Show>
     <Show when={!loading()&&loadError()}><div class="reviews-notice" role="alert"><p>{t().loadError}</p><button type="button" class="reviews-link" onClick={()=>void load()}>{t().retry}</button></div></Show>
     <Show when={!loading()&&!loadError()}>
-      <Show when={reviews().length>0} fallback={<div class="reviews-empty">
-        <div class="reviews-empty-mark" aria-hidden="true">✳</div>
-        <div><h3>{t().empty}</h3><p>{t().emptyText}</p></div>
+      <Show when={reviews().length>0} fallback={<div class="reviews-notice reviews-empty" role="status">
+        <h3>{t().empty}</h3><p>{t().emptyText}</p>
       </div>}>
         <div class="reviews-grid"><For each={reviews()}>{review=><figure class="review-card">
           <span class="review-quote-mark" aria-hidden="true">“</span>
