@@ -124,7 +124,7 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,117,'117 source-built pages: 103 original + 14 new localized guides (2 replace legacy shells)');
+assert.equal(pages.length,121,'121 source-built pages: 117 previous routes plus four new gallery locales');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
@@ -141,8 +141,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 34, 'Three new Russian guide files and one existing legacy URL converted to a full guide');
-assert.equal(russianPages.length, 35, '34 public Russian pages and one private owner inbox');
+assert.equal(russianPublicPages.length, 35, '34 existing Russian public routes plus one gallery');
+assert.equal(russianPages.length, 36, '35 public Russian pages and one private owner inbox');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -169,10 +169,10 @@ const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?88:0);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?92:0);
 if(indexingApproved) {
   assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
-  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,88*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
+  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,92*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
   for(const privatePart of ['/konto/','/studio/','/crm/','/postfach/'])
     assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
 } else assert.doesNotMatch(robots,/Sitemap:/);

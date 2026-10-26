@@ -29,6 +29,10 @@ describe('public language navigation', () => {
       expect(localeAlternates(original).map(x=>x.lang)).toEqual(['de','en','uk','ru','x-default']);
     }
   });
+  it('preserves the first-party gallery in four real localizations',()=>{
+    expect(languageLinks('/ru/galerie/')).toEqual(['de','en','uk','ru'].map(lang=>({lang,url:lang==='de'?'/galerie/':'/'+lang+'/galerie/'})));
+    expect(localeAlternates('/galerie/').map(x=>x.lang)).toEqual(['de','en','uk','ru','x-default']);
+  });
   it('does not invent translated error routes', () => {
     expect(languageLinks('/404.html').at(-1)?.url).toBe('/ru/');
     expect(localeAlternates('/404.html')).toEqual([]);
