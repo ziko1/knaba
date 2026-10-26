@@ -14,10 +14,17 @@ const intents:Readonly<Record<string,TelegramPublicIntent>>={
   '/call':'CONTACT','/privacy':'PRIVACY','/datenschutz':'PRIVACY',
   '/human':'HUMAN','/owner':'HUMAN'
 };
+/** The language command only changes display language, never legal opt-in. */
+export function telegramRequestedLocale(text:unknown):SupportedLanguage|undefined {
+  if(typeof text!=='string'||text.length>32||text.includes('\n'))return;
+  const match=/^\/(?:lang|language) (de|uk|ru|pl|lt|en)$/i.exec(text.trim());
+  return match?match[1]!.toUpperCase() as SupportedLanguage:undefined;
+}
 export function telegramPublicIntent(text:unknown):TelegramPublicIntent|undefined {
   if(typeof text!=='string'||text.length>80||text.includes('\n'))return;
   const input=text.trim().toLowerCase();
   if(input==='/start'||input==='/start website')return 'MENU';
+  if(telegramRequestedLocale(input))return 'MENU';
   return Object.hasOwn(intents,input)?intents[input]:undefined;
 }
 /** Presentation only, disabled for outbound until consent and provider gate. */
