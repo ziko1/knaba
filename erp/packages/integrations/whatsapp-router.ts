@@ -5,6 +5,7 @@ import {whatsAppPolicy} from '../domain/communications.ts';
 import {renderWhatsAppMessage,type WhatsAppInbound,type WhatsAppOutput} from './whatsapp.ts';
 import type {SupportedLanguage} from './deepseek.ts';
 import {languageLabel,originalMessageLanguage,parseRouterCommand,routerLanguages,routerText} from './whatsapp-router-text.ts';
+import {botModulesFor,botModuleById,botModuleLabel,botModuleSiteUrl} from './bot-module-catalog.ts';
 
 export interface RouterPrecondition {kind:string;id:string;version:number;}
 export interface RouterPersistence<Tx extends Transaction=Transaction> {transaction<T>(companyId:string,actorId:string,operation:(tx:Tx)=>Promise<T>):Promise<T>;}
@@ -121,11 +122,63 @@ export class WhatsAppRouter<Tx extends Transaction> {
     else if(selected.length<10)selected.push({label:'MENU',intent:'MAIN'});
     return this.respond(ctx,selected.length===1?this.text(ctx,'empty'):body,selected,state);
   }
+  /** One menu covering current SITE links, actual WhatsApp Engine commands, and
+   * disconnected ERP functions clearly marked SOURCE_ONLY (never fake endpoints). */
+  private async modules(ctx:RouteContext<Tx>,offset=0):Promise<RouterResult> {
+    const rows=botModulesFor(ctx.actor,true);
+    const choices:Choice[]=rows.map(row=>({
+      label:botModuleLabel(row,ctx.language),intent:'BOT_MODULE',payload:{id:row.id},
+      ...(row.permission?{permission:row.permission}:{})
+    }));
+    return this.page(ctx,this.text(ctx,'modules'),choices,'BOT_MODULE_PAGE',{},offset,'MODULES');
+  }
+  private async selectModule(ctx:RouteContext<Tx>,id:unknown):Promise<RouteStep> {
+    const module=botModuleById(id,ctx.actor,true);
+    assert(module,'ACCESS_DENIED');
+    if(module.permission)this.require(ctx,module.permission);
+    if(module.status==='WHATSAPP_COMMAND'&&module.command)
+      return this.navigate(ctx,module.command);
+    const link=botModuleSiteUrl(module,this.options.publicOrigin);
+    const body=botModuleLabel(module,ctx.language)+'\n'+
+      (module.status==='SOURCE_ONLY'?this.text(ctx,'moduleSourceOnly'):
+       link?link+'\n'+(module.audience==='PUBLIC'?'':this.text(ctx,'noReauth')):this.text(ctx,'moduleLinkUnavailable'));
+    return this.respond(ctx,body,[{label:'MENU',intent:'MAIN'},{label:this.text(ctx,'modules'),intent:'MODULES'}],'MODULE_DETAIL');
+  }
+  /** Owner proposals never activate an automation or approve business changes. */
+  private async automations(ctx:RouteContext<Tx>):Promise<RouterResult> {
+    assert(ctx.actor.roles.includes('OWNER')&&!external(ctx.actor)&&ctx.actor.permissions.includes('scope.company'),'ACCESS_DENIED');
+    this.require(ctx,'automation.manage');this.require(ctx,'decision.manage');
+    return this.respond(ctx,this.text(ctx,'automationIntro'),[
+      {label:this.text(ctx,'automationLead'),intent:'AUTOMATION_TEMPLATE',payload:{trigger:'lead.created'},permission:'automation.manage'},
+      {label:this.text(ctx,'automationMaterial'),intent:'AUTOMATION_TEMPLATE',payload:{trigger:'material_request.submitted'},permission:'automation.manage'},
+      {label:'MENU',intent:'MAIN'}
+    ],'AUTOMATIONS');
+  }
+  private async automationDraft(ctx:RouteContext<Tx>,trigger:unknown):Promise<RouteStep> {
+    assert(ctx.actor.roles.includes('OWNER')&&!external(ctx.actor)&&ctx.actor.permissions.includes('scope.company'),'ACCESS_DENIED');
+    this.require(ctx,'automation.manage');this.require(ctx,'decision.manage');
+    assert(trigger==='lead.created'||trigger==='material_request.submitted','VALIDATION_ERROR');
+    const lead=trigger==='lead.created';
+    const name=lead?'Kundenanfrage prüfen':'Materialanfrage prüfen';
+    const parameters={reason:lead?'Neue Kundenanfrage':'Neue Materialanfrage',
+      summaryDE:lead?'Neue Anfrage zur Prüfung durch den Inhaber. Keine automatische Zusage.':
+        'Materialanforderung zur manuellen Entscheidung. Keine automatische Freigabe.'};
+    const input={
+      name,trigger,filters:{},action:'CREATE_DECISION',ownerId:ctx.actor.userId,
+      scope:{siteIds:[],customerIds:[]},cooldownSeconds:300,maxAttempts:3,
+      activeFrom:ctx.now,parameters
+    };
+    return this.preview(ctx,name+'\n'+this.text(ctx,'automationNoActivation'),{
+      name:'automation_rule.create',input,guards:[],presentation:'AUTOMATION_DRAFT'
+    });
+  }
   private async main(ctx:RouteContext<Tx>,offset=0){
     const items:[string,string,string][]=[['shift','SHIFT','shift.manage'],['travel','TRAVEL','trip.manage'],['materials','MATERIALS','inventory.request'],['tasks','TASKS','task.read'],['hours','HOURS','shift.read'],['payroll','PAYROLL','finance.payout.ack'],['chats','CHATS','chat.read'],['gps','GPS','device.self']];
     const choices:Choice[]=items.filter(([, ,p])=>this.allowed(ctx,p)).map(([name,intent,permission])=>({label:this.text(ctx,name),intent,permission}));
     const mapPermission=this.mapPermission(ctx);if(mapPermission)choices.splice(Math.min(2,choices.length),0,{label:this.text(ctx,'openMap'),intent:'MAP',permission:mapPermission});
     if(ctx.actor.permissions.some(p=>['bot.manage','bot.settings.manage','integration.status','identity.manage','decision.manage'].includes(p))&&!external(ctx.actor))choices.push({label:this.text(ctx,'admin'),intent:'ADMIN'});
+    choices.push({label:this.text(ctx,'modules'),intent:'MODULES'});
+    if(ctx.actor.roles.includes('OWNER')&&this.allowed(ctx,'automation.manage')&&this.allowed(ctx,'decision.manage')&&ctx.actor.permissions.includes('scope.company'))choices.push({label:this.text(ctx,'automations'),intent:'AUTOMATIONS',permission:'automation.manage'});
     if(ctx.session.data.suspended_flow)choices.push({label:this.text(ctx,'continue'),intent:'CONTINUE'});
     choices.push({label:this.text(ctx,'language'),intent:'LANGUAGE'},{label:this.text(ctx,'help'),intent:'HELP'});return this.page(ctx,this.text(ctx,'main'),choices,'MAIN',{},offset,'MAIN');
   }
@@ -137,6 +190,8 @@ export class WhatsAppRouter<Tx extends Transaction> {
     if(command==='LANGUAGE')return this.respond(ctx,this.text(ctx,'language'),routerLanguages.map(code=>({label:languageLabel[code],intent:'SET_LANGUAGE',payload:{language:code}})),'LANGUAGE');
     if(command==='HELP')return this.respond(ctx,`${this.text(ctx,'helpNotice')}${this.web()?`\n${this.web()}`:''}`,[{label:'MENU',intent:'MAIN'}],'HELP');
     if(command==='GPS'){this.require(ctx,'device.self');const devices=await this.visible(ctx,'device',d=>d.data.employeeId===ctx.actor.userId&&d.data.active);ctx.accessRefs.push(...devices.map(ref));return this.respond(ctx,`${this.text(ctx,'gpsNotice')}\n${devices.map(d=>d.id).join('\n')}${this.web('/app')?`\n${this.web('/app')}`:''}`,[{label:'MENU',intent:'MAIN'}],'GPS');}
+    if(command==='MODULES')return this.modules(ctx);
+    if(command==='AUTOMATIONS')return this.automations(ctx);
     if(command==='ADMIN')return this.admin(ctx);
     if(command==='MAP'){assert(this.mapPermission(ctx),'ACCESS_DENIED');return this.respond(ctx,this.mapLink(ctx),[{label:'MENU',intent:'MAIN'}],'MAP');}
     if(command==='OPTIN'||command==='STOP'){assert(ctx.actor.permissions.includes('chat.read'),'ACCESS_DENIED');const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);return this.immediate(ctx,{name:'notifications.configure',input:{language:ctx.language,whatsapp_consent:command==='OPTIN',opted_out:command==='STOP',quiet_start:settings?.data.quiet_start??22,quiet_end:settings?.data.quiet_end??7,allowed_fallback:settings?.data.allowed_fallback??'WEB'},guards:[],presentation:command});}
@@ -163,6 +218,11 @@ export class WhatsAppRouter<Tx extends Transaction> {
     const p=action.data.payload;
     switch(action.data.intent){
       case 'MAIN':return this.main(ctx,p.offset??0);
+      case 'MODULES':return this.modules(ctx);
+      case 'BOT_MODULE_PAGE':return this.modules(ctx,p.offset??0);
+      case 'BOT_MODULE':return this.selectModule(ctx,p.id);
+      case 'AUTOMATIONS':return this.automations(ctx);
+      case 'AUTOMATION_TEMPLATE':return this.automationDraft(ctx,p.trigger);
       case 'START':case 'SHIFT':case 'BREAK':case 'RESUME':case 'END':case 'TRAVEL':case 'MATERIALS':case 'PAYROLL':case 'TASKS':case 'HOURS':case 'CHATS':case 'GPS':case 'MAP':case 'HELP':case 'ADMIN':case 'LANGUAGE':case 'CONTINUE':return this.navigate(ctx,action.data.intent);
       case 'CANCEL':return this.navigate(ctx,'CANCEL');
       case 'SET_LANGUAGE':{assert(routerLanguages.includes(p.language),'VALIDATION_ERROR');ctx.language=p.language;const setting=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);const data={...setting?.data,user_id:ctx.actor.userId,language:p.language,language_source:'EXPLICIT',language_selected_at:ctx.now};if(setting)await ctx.tx.save(setting,data);else await ctx.tx.add('notification_setting',data);return this.main(ctx);}
@@ -201,7 +261,7 @@ export class WhatsAppRouter<Tx extends Transaction> {
     try{const result=await this.engine.execute(actor,plan.name,{input:plan.input,expected_version:plan.expectedVersion,preconditions:[...plan.guards,ref(action)],idempotency_key:digest('whatsapp-router-command',companyId,action.id)});
       return await this.db.transaction(companyId,this.options.systemActorId??'knaba-integration-service',async tx=>{const ctx=await this.context(tx,inputId);const current=await tx.get('whatsapp_router_action',action.id);assert(current.data.claimed_input_id===inputId,'ACCESS_DENIED');await tx.save(current,{...current.data,status:'SUCCEEDED',result_id:result?.id??null,result_kind:result?.kind??null,completed_at:ctx.now});await this.setFlow(ctx,null,null);ctx.requiredPermissions.add(this.engine.registry[plan.name]!.permission);ctx.accessRefs.push(...plan.guards);if(result?.id&&result.kind&&await this.engine.visible(tx,ctx.actor,result))ctx.accessRefs.push(ref(result));
         if(plan.presentation==='HOURS'){return this.respond(ctx,`${this.text(ctx,'hours')}\n${result.shiftId}\n${this.text(ctx,'WORKING')}: ${result.workSeconds}s\n${this.text(ctx,'TRAVELLING')}: ${result.travelSeconds}s\n${this.text(ctx,'ON_BREAK')}: ${result.breakSeconds}s\n${this.text(ctx,'AWAY_PENDING_REASON')}: ${result.pendingSeconds}s`,[{label:'MENU',intent:'MAIN'}],'HOURS');}
-        const notice=plan.presentation==='OPTIN'?this.text(ctx,'optin'):plan.presentation==='STOP'?this.text(ctx,'stopped'):plan.name==='request.create'?this.text(ctx,'draft'):this.text(ctx,'saved');
+        const notice=plan.presentation==='OPTIN'?this.text(ctx,'optin'):plan.presentation==='STOP'?this.text(ctx,'stopped'):plan.presentation==='AUTOMATION_DRAFT'?this.text(ctx,'automationDraftSaved'):plan.name==='request.create'?this.text(ctx,'draft'):this.text(ctx,'saved');
         const choices:Choice[]=[{label:'MENU',intent:'MAIN'}];if(plan.name==='request.create')choices.unshift({label:this.text(ctx,'submit'),intent:'REQUEST_SUBMIT',payload:{requestId:result.id,unit:plan.input.unit},guards:[ref(result)],permission:'inventory.request'});
         return {...await this.respond(ctx,`${notice}${result?.id?`\n${result.id}`:''}${plan.name.startsWith('shift.')||plan.name.startsWith('trip.')?`\n${this.text(ctx,'noGps')}`:''}`,choices,'COMMAND_SUCCEEDED'),command:plan.name};
       });
