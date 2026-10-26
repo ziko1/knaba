@@ -85,3 +85,11 @@ test('all discovered same-origin non-sitemap pages are audited',async()=>{
   assert.equal(r.checkedPages,3);
   assert.equal(r.outcome,'PASS');
 });
+
+test('loopback preview audits production-canonical sitemap without fetching the live host',async()=>{
+  const m=mock();
+  const r=await auditPublicLinks({mode:'vsp',testUrl:'http://127.0.0.1:18769',fetchImpl:m.fetch,expectedSitemapRoutes:2});
+  assert.equal(r.outcome,'PASS');
+  assert.equal(r.checkedPages,2);
+  assert.ok(m.seen.every(x=>x.url.startsWith('http://127.0.0.1:18769/')));
+});
