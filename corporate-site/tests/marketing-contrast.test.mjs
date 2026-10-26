@@ -8,7 +8,7 @@ import {readFileSync} from 'node:fs';
 const home=readFileSync(new URL('../src/components/ConstructionHome.astro',import.meta.url),'utf8');
 const catalog=readFileSync(new URL('../src/components/ConstructionCatalog.astro',import.meta.url),'utf8');
 const carousel=readFileSync(new URL('../src/components/ServiceCarousel.astro',import.meta.url),'utf8');
-function rule(css,selector){
+function rule(css,selector,requiredDeclaration){
   const escaped=selector.replace(/[.*+?^$()|[\]{}\\]/g,'\\$&');
   const re=new RegExp('(?:^|\\})\\s*'+escaped+'\\s*\\{([^}]*)\\}','gm');
   const matches=[...css.matchAll(re)];
@@ -21,6 +21,13 @@ function rule(css,selector){
     assert.ok(palette.length,'Missing carousel palette tokens: '+selector);
     return palette.at(-1);
   }
+  // Layout-only mobile overrides must not hide earlier palette values.
+  if(requiredDeclaration){
+    const declaration=new RegExp('(?:^|;)\\s*'+requiredDeclaration+'\\s*:','i');
+    const candidates=bodies.filter(body=>declaration.test(body));
+    assert.ok(candidates.length,'Missing '+requiredDeclaration+' declaration: '+selector);
+    return candidates.at(-1);
+  }
   return bodies.at(-1);
 }
 function normalizeHex(hex){
@@ -28,12 +35,12 @@ function normalizeHex(hex){
   return hex.length===4?'#'+[...hex.slice(1)].map(c=>c+c).join(''):hex;
 }
 function color(css,selector){
-  const match=/(?:^|;)\s*color\s*:\s*(#[0-9a-f]{3}(?:[0-9a-f]{3})?)\b/i.exec(rule(css,selector));
+  const match=/(?:^|;)\s*color\s*:\s*(#[0-9a-f]{3}(?:[0-9a-f]{3})?)\b/i.exec(rule(css,selector,'color'));
   assert.ok(match,'Missing foreground: '+selector);
   return normalizeHex(match[1]);
 }
 function stops(css,selector){
-  const match=/(?:^|;)\s*background\s*:\s*linear-gradient\(([^;]+)\)/i.exec(rule(css,selector));
+  const match=/(?:^|;)\s*background\s*:\s*linear-gradient\(([^;]+)\)/i.exec(rule(css,selector,'background'));
   assert.ok(match,'Missing gradient: '+selector);
   const result=(match[1].match(/#[0-9a-f]{6}\b/gi)||[]).map(normalizeHex);
   assert.ok(result.length>=2,'Missing stops: '+selector);
@@ -55,6 +62,12 @@ const homeStops=[1,2,3,4,5].flatMap(i=>stops(home,'.bau-card:nth-child('+i+')'))
 for(const [label,selector] of [['description','.bau-card p'],['ordinal','.bau-ordinal'],['link','.bau-card-action']]){
   test('Home service-card '+label+' meets WCAG AA on all pastel stops',()=>expectContrast(color(home,selector),homeStops,label));
 }
+test('responsive layout override does not mask an earlier declared gradient or foreground',()=>{
+  const css='.probe{color:#123456;background:linear-gradient(110deg,#f0f0f0,#ffffff)}'+
+    '@media(max-width:600px){.other{display:block}.probe{grid-column:span 2}}';
+  assert.equal(color(css,'.probe'),'#123456');
+  assert.deepEqual(stops(css,'.probe'),['#f0f0f0','#ffffff']);
+});
 test('PR59 light homepage request-card foregrounds pass on its pastel gradient stops',()=>{
   const backgrounds=stops(home,'.bau-card.bau-card-request');
   for(const [label,selector] of [
