@@ -49,6 +49,6 @@ describe('independently-authored construction guide catalogue',()=>{
        expect(studioPages.filter(entry=>entry.path===route).length).toBe(1);
      }
    }
-   expect(studioPages).toHaveLength(88);
+   // The full public-route count is asserted once in studio-pages.test.ts.
  });
 });
