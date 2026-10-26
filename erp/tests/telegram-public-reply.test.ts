@@ -120,8 +120,8 @@ describe('Telegram public reply through existing worker lease and provider adapt
    await f.tx.save(ticket,{...ticket.data,created_at:new Date().toISOString()});
    const job={id:'synthetic-job',company_id:'company-a',type:'telegram.outbound_requested',
      data:{delivery_id:ticket.id},lease_token:'synthetic-lease'};
-   const db=({transaction:async (_company:string,_actor:string,fn:(tx:MemoryTx)=>Promise<unknown>)=>fn(f.tx)}
-     as unknown as Pick<Database,'transaction'>);
+   const db={transaction:(_company:string,_actor:string,fn:(tx:MemoryTx)=>Promise<unknown>)=>fn(f.tx)}
+     as unknown as Pick<Database,'transaction'>;
    return {f,db,job,ticketId:ticket.id};
  }
  function adapter(chat:string,request:typeof fetch){
