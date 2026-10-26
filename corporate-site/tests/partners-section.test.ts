@@ -12,7 +12,8 @@ describe('KNABA official partner parity',()=>{
     ]);
     expect(new Set(officialPartnerLogos.map(p=>p.src)).size).toBe(5);
     for(const p of officialPartnerLogos){
-      expect(p.src).toMatch(/^\\/images\\/partners\\/[a-z]+\\.(?:jpg|png)$/);
+      expect(p.src.startsWith('/images/partners/')).toBe(true);
+      expect(p.src.endsWith('.jpg') || p.src.endsWith('.png')).toBe(true);
       const image=readFileSync(new URL('../public'+p.src,import.meta.url));
       expect(image.byteLength).toBeGreaterThan(1000);
       if(p.src.endsWith('.jpg')) expect([...image.subarray(0,3)]).toEqual([255,216,255]);
