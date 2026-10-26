@@ -3,6 +3,7 @@ import {WhatsAppRouter,parseReceiptCents,type RouterPrecondition} from '../packa
 import {parseRouterCommand} from '../packages/integrations/whatsapp-router-text.ts';
 import {renderWhatsAppMessage,type WhatsAppOutput} from '../packages/integrations/whatsapp.ts';
 import {communicationsCommands} from '../packages/domain/communications.ts';
+import {commerceCommands} from '../packages/domain/commerce.ts';
 import {operationsCommands} from '../packages/domain/operations.ts';
 import {resourcesCommands} from '../packages/domain/resources.ts';
 import {ROLE_PERMISSIONS} from '../packages/domain/permissions.ts';
@@ -158,4 +159,42 @@ describe('protected WhatsApp map navigation (CPU router fixtures; no real provid
  it('revoked chosen permission or external role cancels queued map delivery even when another map permission remains',async()=>{for(const patch of [{roles:['QUALITY_CONTROL'],permissions:['location.route.read']},{roles:['CLIENT'],permissions:['trip.read','location.route.read']}]){const f=await setup(),r=await f.route('MAP');await f.db.change('user','employee',patch);expect(await f.router.prepareResponse('company',r.result.responseId!)).toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});expect((await f.response(r.result.responseId!)).data.status).toBe('CANCELLED');expect(f.engine.calls).toHaveLength(0);}});
  it('adds the protected link to an own active trip short card and keeps history navigation with no active shift',async()=>{const f=await setup(),empty=await f.route('TRAVEL');expect((await f.response(empty.result.responseId!)).data.output.text).toContain('https://knaba.example.com/app/trips?map=1');const shift=await f.start();await f.db.change('shift',shift.id,{activity:'TRAVELLING'});await f.db.add('trip',{employeeId:'employee',shiftId:shift.id,siteId:'site-a',state:'IN_PROGRESS',destination:{kind:'SITE',id:'site-b'},purpose:'Own approved work purpose'},'own-trip');await f.db.add('trip',{employeeId:'other',shiftId:shift.id,state:'IN_PROGRESS',destination:{kind:'SITE',id:'secret'},purpose:'FOREIGN_PRIVATE_CANARY'},'foreign-trip');const r=await f.route('TRAVEL'),response=await f.response(r.result.responseId!);expect(response.data.output.text).toContain('own-trip');expect(response.data.output.text).toContain('/app/trips?map=1');expect(response.data.output.text).not.toMatch(/FOREIGN_PRIVATE_CANARY|foreign-trip|secret/);expect(response.data.required_permissions).toContain('trip.read');expect((await f.db.get('shift',shift.id)).data.activity).toBe('TRAVELLING');expect(f.engine.calls.map(c=>c.name)).toEqual(['shift.start']);});
  it('keeps manual fallback without an invented public origin and never treats quoted map text as a command',async()=>{const f=await setup({publicOrigin:undefined});const r=await f.route('MAP'),response=await f.response(r.result.responseId!);expect(response.data.output.text).toContain('Відкрити мапу');expect(response.data.output.text).not.toMatch(/https?:|token=|lat=|lng=/);expect((await f.route('Please MAP the route tomorrow')).result.handled).toBe(false);expect((await f.route('«MAP»')).result.handled).toBe(false);expect(f.engine.calls).toHaveLength(0);});
+});
+
+describe('KNABA /MODULES and owner automation proposals (no provider I/O)',()=>{
+ it('opens public + scoped worker functions and does not execute hidden ERP modules',async()=>{
+  const f=await setup();
+  const menu=await f.route('/MODULES'),rows=await f.db.list('whatsapp_router_action');
+  expect(menu.result).toMatchObject({handled:true,state:'MODULES'});
+  expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='tasks')).toBe(true);
+  expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='owner_admin')).toBe(false);
+  expect(f.engine.calls).toHaveLength(0);
+  const guest=await f.route('/MODULES',undefined,'client');
+  expect(guest.result).toMatchObject({handled:true,state:'MODULES'});
+  const restricted=(await f.db.list('whatsapp_router_action')).filter(a=>a.data.user_id==='client'&&a.data.intent==='BOT_MODULE');
+  expect(restricted.every(a=>['services','enquiry','planner','contact','account','privacy'].includes(a.data.payload.id))).toBe(true);
+ });
+ it('draft wizard is owner-only and never executes or activates without confirmation',async()=>{
+  const f=await setup();
+  await expect(f.route('/AUTOMATIONS')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await f.db.change('user','client',{roles:['CLIENT'],permissions:['automation.manage','decision.manage','scope.company']});
+  await expect(f.route('/AUTOMATIONS',undefined,'client')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await f.db.change('user','employee',{roles:['OWNER'],permissions:['automation.manage','decision.manage']});
+  (f.engine.registry as Record<string,unknown>)['automation_rule.create']=commerceCommands['automation_rule.create'];
+  const menu=await f.route('/AUTOMATIONS');
+  expect(menu.result).toMatchObject({handled:true,state:'AUTOMATIONS'});
+  expect((await f.response(menu.result.responseId!)).data.output.text).toContain('ЧЕРНЕТКУ');
+  const preview=await f.pick(menu.result,0);
+  expect(preview.result.state).toBe('PREVIEW');
+  const action=(await f.db.list('whatsapp_router_action')).find(a=>a.data.intent==='EXECUTE'&&a.data.payload.plan?.name==='automation_rule.create');
+  expect(action?.data.payload.plan?.input).toMatchObject({
+    trigger:'lead.created',action:'CREATE_DECISION',ownerId:'employee',
+    scope:{siteIds:[],customerIds:[]}
+  });
+  expect(f.engine.calls).toHaveLength(0);
+  expect(await f.db.list('automation_rule')).toHaveLength(0);
+  await f.db.change('user','employee',{roles:['EMPLOYEE'],permissions:[]});
+  expect(await f.router.prepareResponse('company',preview.result.responseId!))
+    .toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});
+ });
 });
