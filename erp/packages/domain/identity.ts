@@ -20,6 +20,21 @@ async function guardRoles(c:CommandContext,userRoles:string[],permissions:string
 }
 async function lastOwner(c:CommandContext,userId:string,nextRoles:string[],active=true){const target=await c.tx.get('user',userId);if(target.data.roles.includes('OWNER')&&(!active||!nextRoles.includes('OWNER'))){const count=(await c.tx.list('user')).filter(u=>u.data.active!==false&&u.data.roles.includes('OWNER')).length;assert(count>1,'INVALID_STATE',{reason:'LAST_OWNER_PROTECTED'});}}
 export const identityCommands:CommandRegistry={
+ /** Limited company-scoped inbox; no identities, email, chat IDs, or tokens in response. */
+ 'worker_registration_interest.inbox':command('identity.manage',
+   z.object({limit:z.number().int().min(1).max(50).default(20)}).strict(),
+   async(c,i)=>{
+     assert(c.actor.roles.some(r=>['OWNER','DIRECTOR','OPERATIONS_MANAGER'].includes(r))&&
+       c.actor.permissions.includes('identity.manage'),'ACCESS_DENIED');
+     const rows=(await c.tx.list('worker_registration_interest'))
+       .filter(row=>row.companyId===c.actor.companyId&&
+         ['REQUESTED','AWAITING_IDENTITY_PROOF'].includes(row.data.state))
+       .sort((a,b)=>a.createdAt.localeCompare(b.createdAt)||a.id.localeCompare(b.id));
+     return {items:rows.slice(0,i.limit).map(row=>({id:row.id,version:row.version,
+       state:row.data.state,source_provider:row.data.source_provider,
+       received_at:row.createdAt,needs_portal_identity:row.data.state==='AWAITING_IDENTITY_PROOF'})),
+       has_more:rows.length>i.limit};
+   }),
  /** Owner approval process is prepared in code; company sign-off remains at
   * final handover. REVIEW does not create employee, issue token, or assign site.
   */
