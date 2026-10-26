@@ -25,7 +25,6 @@
 .reviews-status{padding:26px 0;color:#486260;line-height:1.7}
 .reviews-notice,.reviews-error,.reviews-success{border-radius:12px;padding:16px 20px;line-height:1.75;font-size:.9375rem;overflow-wrap:anywhere}
 .reviews-notice{border:1px solid #d4ddd7;background:#f1f4ed;color:#405c58}
-.reviews-notice p{margin:0}
 .reviews-error{background:#fff1ec;border:1px solid #dba08c;color:#733922}
 .reviews-success{background:#e7f3e5;border:1px solid #a0c299;color:#25562c;margin:20px 0 0}
 .review-form-panel{padding:clamp(22px,4vw,40px);margin-top:24px;border:1px solid #cdded6;border-radius:24px;background:#f2f5ef;max-width:960px}
