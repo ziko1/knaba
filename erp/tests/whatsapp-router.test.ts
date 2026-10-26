@@ -249,9 +249,14 @@ describe('owner receives employee interest queue in existing WhatsApp router, re
   expect(f.engine.calls).toHaveLength(0);
   const action=(await f.db.list('whatsapp_router_action')).find(x=>x.data.intent==='WORKER_DETAIL')!;
   expect(action.data.permission).toBe('identity.manage');
-  const detail=await f.route(undefined,action.data.action_hash,'employee').catch(()=>null);
-  // Opaque callback token itself is never the stored hash; no direct replay.
-  expect(detail).toBeNull();
+  // Opaque callback token itself is never the persisted hash.
+  const forged=await f.route(undefined,action.data.action_hash,'employee');
+  expect(forged.result.handled).toBe(false);
+  const detail=await f.pick(r.result,0);
+  expect(detail.result).toMatchObject({handled:true,state:'WORKER_DETAIL'});
+  const text=(await f.response(detail.result.responseId!)).data.output.text;
+  expect(text).toContain('interest-1');
+  expect(text).not.toContain('PRIVATE_SHOULD_NOT_LEAK');
   expect((await f.db.get('worker_registration_interest','interest-1')).data.state).toBe('REQUESTED');
  });
  it('denies client with injected permission and cancels stale owner reply after revocation',async()=>{
