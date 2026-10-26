@@ -8,6 +8,7 @@ import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import CompanyProfile from './CompanyProfile.astro';
 import Partners from './Partners.astro';
 import Reviews from './Reviews.astro';
+import MarketingStories from './MarketingStories.astro';
 import {projectCard} from '../data/construction-project-card';
 import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
@@ -58,6 +59,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 <div class="bau-planner-cta"><p>{t.note}</p><a class="bau-inline" href={planner}>{locale==='de'?'Anfrage vorbereiten':locale==='en'?'Prepare your enquiry':locale==='uk'?'Підготувати запит':'Подготовить запрос'} →</a></div>
 </section>
 
+<MarketingStories locale={locale} />
 <CompanyProfile locale={locale} compact />
 <Partners locale={locale} />
 <Reviews locale={locale} />
