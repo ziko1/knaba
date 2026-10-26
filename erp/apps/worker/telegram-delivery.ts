@@ -3,6 +3,7 @@ import {assert,DomainError,type Data,type Entity} from '../../packages/domain/co
 import type {Database,PgTransaction} from '../api/database.ts';
 import type {Engine} from '../api/engine.ts';
 import {TelegramBotAdapter,TelegramBoundaryError} from '../../packages/integrations/telegram.ts';
+import {prepareTelegramPublicReplyIn} from './telegram-public-reply.ts';
 
 const service='knaba-integration-service';
 const digest=(...parts:string[])=>createHash('sha256').update(parts.join('\0')).digest('hex');
@@ -49,7 +50,7 @@ async function blocked(tx:PgTransaction,ticket:Entity,reason:string){
 /** Persist SENDING before external I/O; an uncertain network result is never blindly resent. */
 export async function processTelegramOutbound(
   db:Pick<Database,'transaction'>,engine:Engine,job:TelegramDeliveryJob,adapter?:TelegramBotAdapter,
-  approvedConsentVersion?:string
+  approvedConsentVersion?:string,publicOrigin?:string
 ):Promise<void>{
   assert(typeof job.data.delivery_id==='string'&&job.data.delivery_id.length===64,'VALIDATION_ERROR');
   const preflight:Pending=await db.transaction(job.company_id,service,async tx=>{
@@ -64,6 +65,16 @@ export async function processTelegramOutbound(
     if(!adapter){await blocked(tx,ticket,'PROVIDER_DISABLED');return {kind:'skip'};}
     if(!approvedConsentVersion||typeof approvedConsentVersion!=='string'||approvedConsentVersion.length>128){
       await blocked(tx,ticket,'LEGAL_APPROVAL_REQUIRED');return {kind:'skip'};
+    }
+    if(ticket.data.purpose==='PUBLIC_NAVIGATION'){
+      const prep=await prepareTelegramPublicReplyIn(tx,engine,ticket,{
+        publicOrigin,approvedConsentVersion,now:new Date().toISOString()
+      });
+      if(prep.status==='BLOCKED'){await blocked(tx,ticket,prep.reason);return {kind:'skip'};}
+      await tx.save(ticket,{...ticket.data,status:'SENDING',sending_job_id:job.id,
+        sending_lease_hash:digest(job.lease_token??''),started_at:new Date().toISOString()});
+      return {kind:'send',deliveryId:ticket.id,chatId:prep.chatId,text:prep.text,
+        recipientId:prep.recipientId};
     }
     const message=await tx.get('message',ticket.data.message_id),channel=await tx.get('channel',ticket.data.channel_id);
     if(message.data.channel_id!==channel.id||message.data.message_version!==ticket.data.message_version||message.data.deleted_at||
