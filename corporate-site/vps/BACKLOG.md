@@ -111,3 +111,10 @@
 - [ ] Trusted-proxy IP/rate-limit contract, OG raster, owner/delivery/device/legal/offsite/field-performance acceptance remain OPEN. See ../docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md for final receipt.
 
 - Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.
+
+
+## 2026-10-26 — Customer demo completion backlog
+- [x] CD-01: display only published DE/EN/UK/RU in public language picker; retain 99-language source inventory; regenerate i18n and build verification.
+- [x] CD-02: reuse source-only #101 truthful public reviews, 258 Vitest + 68 Node + 41 VPS and cached Chromium responsive tests on isolated build.
+- [ ] CD-03: independent review, current-server CAS against latest, secure off-site restore and storage below published gate (observed 91% used), then authorized preview only.
+- [ ] CD-04: real owner/visitor E2E reception+reply, provider/no-fake-delivery checks, physical-device/a11y and human acceptance. See `../docs/KNABA_CUSTOMER_DEMO_ACCEPTANCE_2026-10-26_UK.md`.

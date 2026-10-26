@@ -322,3 +322,10 @@ Team: root (UI/browser/integration), project_audit (API source), release_audit (
 Current task adds explicit fictional review examples (3×DE/EN/UK/RU) to the existing empty review state, never to database/API/ratings, and restores the missed request for localized partner descriptions: /partner/×4 with five anchored profiles linked from existing logo cards. Exact requirement matrix, source provenance, baseline and remaining voice/ERP/payment/Studio/i18n/owner gaps: `docs/evidence/request-gap-20261026/AUDIT_UK.md`. Preserve actual live baseline cecb321ac41106c7a4f6da2d4a98308508852b38; do not overwrite concurrent enquiry/planner/Assistant work with an older divergent branch. Code-only test-domain rollout requires off-host source, current-pointer CAS, both existing locks, storage gate, online backup and live recheck. No new providers, real review submissions, main merge or official-domain change.
 
 - Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.
+
+
+## 2026-10-26 — Presentation-quality staging gate
+- [x] Hide unpublished 95-language roadmap from public picker without deleting target catalog, keep DE/EN/UK/RU translation links.
+- [x] Reuse review authenticity fix from stacked #101 instead of duplicating it; scoped Node24 258 Vitest+68 Node+41 VPS QA and 16+16 cached Chromium viewport cases +12 zoom PASS.
+- [ ] Forward-integrate latest independently deployed preview sources before any change; wait for offhost backup/storage release gate and independent security review.
+- [ ] Owner/client real UAT for request→CRM→reply, ERP bridge, voice/WhatsApp/Telegram/provider permissions, physical devices and legal/customer signoff. No false customer-release label.

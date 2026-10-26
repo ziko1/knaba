@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "5e0335d144f5f0d56cb7de56ebbd387b44215cd9dd94389973609dd7e1b4852f",
+  "sourceDigest": "99e71399755c36b16d7bde28f824a622eef5350cc6cc38f4121c4b4cbe050993",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1021,
+  "unitCount": 1012,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -1947,40 +1947,6 @@
         "/kontakt/"
       ]
     },
-    "334fbfd4081dedb9d4090bd8": {
-      "kind": "text",
-      "source": "4 veröffentlicht · 95 geplant",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
     "342725c180b6973405da61bb": {
       "kind": "text",
       "source": "9. Änderungen dieser Hinweise",
@@ -2134,40 +2100,6 @@
       "source": "Rollen & Auftragsdaten",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "3a7f1fae911ae897e5feda9c": {
-      "kind": "text",
-      "source": "Sprache suchen",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
       ]
     },
     "3a7fa6f551904a80586fea5b": {
@@ -2334,40 +2266,6 @@
       "kind": "text",
       "source": "Umsatzsteuer-ID",
       "routes": [
-        "/unternehmen/"
-      ]
-    },
-    "3ef2f75f6a6befef98645325": {
-      "kind": "text",
-      "source": "99 Zielsprachen",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
       ]
     },
@@ -2855,40 +2753,6 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
-    "4ad5bf1738da4a21b9109ee9": {
-      "kind": "text",
-      "source": "Noch nicht übersetzte Sprachen sind nicht auswählbar. Unübersetzte Seiten werden nicht als Übersetzung ausgezeichnet.",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
     "4add22df2a4bc01dd8edc0cc": {
       "kind": "text",
       "source": "Ergänzen Sie aussagekräftige Fotos nur dort, wo sie Zustand oder Zugänglichkeit erklären. Beschränken Sie die Aufnahmen auf notwendige Bereiche und entfernen Sie personenbezogene oder vertrauliche Details. Eine Besichtigung oder Rückfrage kann trotzdem nötig sein; Bilder ersetzen keine verbindliche Leistungsabstimmung.",
@@ -3010,40 +2874,6 @@
         "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
-    "4ed97a792698cf61375ea293": {
-      "kind": "attr:aria-label",
-      "source": "99 Zielsprachen",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
     "4f30947bb1d827d1abc663d4": {
       "kind": "text",
       "source": "3. Materialien und Verschmutzungen beschreiben",
@@ -3112,40 +2942,6 @@
       "source": ". Die genaue rechtliche Einordnung und die Verträge mit Dienstleistern bedürfen vor der offiziellen Veröffentlichung einer Prüfung durch den Anbieter.",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "518a2e4b6256e8bdb59f29d9": {
-      "kind": "text",
-      "source": "Keine passende Sprache",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
       ]
     },
     "51a02f066659b30ab999f870": {
@@ -5681,40 +5477,6 @@
         "/unternehmen/"
       ]
     },
-    "958b13cb192b703038752c62": {
-      "kind": "attr:aria-label",
-      "source": "Weitere Zielsprachen",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
     "9593d022cead4dfdaf91ad4c": {
       "kind": "text",
       "source": "Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.",
@@ -5907,40 +5669,6 @@
       "source": "Nur eine Orientierungshilfe. Keine automatische Buchung und keine Preiszusage.",
       "routes": [
         "/planer/"
-      ]
-    },
-    "9e4d4afa66a115ddb574fd06": {
-      "kind": "attr:placeholder",
-      "source": "Sprache suchen",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
       ]
     },
     "9e510aa01dcd84eb7fdc6d2b": {
@@ -6263,40 +5991,6 @@
       "kind": "meta:description",
       "source": "KnaBa aus Berlin verbindet Baureinigung, Baustellenvorbereitung und Bauhilfsarbeiten. Wir sprechen direkt über Bauabschnitt, Objekt und benötigte Leistung.",
       "routes": [
-        "/unternehmen/"
-      ]
-    },
-    "a9d48fd394f3e94aa9e07dc5": {
-      "kind": "text",
-      "source": "Weitere Sprachen werden erst beim Öffnen geladen.",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
       ]
     },

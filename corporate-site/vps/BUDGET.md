@@ -43,3 +43,7 @@ Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: 
 - Canonical storage preparation snapshot89.64% used,21,898,014,720B available, healthy; must recheck before cutover. No cache/container/image/volume/customer data deletion. Runtime limits unchanged.
 
 - Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.
+
+
+## 2026-10-26 — customer demo QA budget
+Existing VPS/cache-pinned Node24 and Chromium image reused; 508 lockfile dependencies installed in isolated temporary checkout. New paid providers, hosted AI, WhatsApp/Telegram, billing activation and customer data mutations: NONE. Actual existing hosting charges and provider credits UNKNOWN. Disk measured 91% used / ~18 GiB free; no paid infrastructure, shared-prune or live cutover until verified storage gates.
