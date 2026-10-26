@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "490a27fa025484d9cd3757b3fc7da8c2195dc4d9118c61b1abca4f6b91262a0f",
+  "sourceDigest": "902ae117c3a9bf4ba5fe5ab08db7b0fa659083c278239d49463da5b9865cccca",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -31,7 +31,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 946,
+  "unitCount": 945,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -5353,14 +5353,6 @@
       "source": "Systematisch nach Räumen und Flächen prüfen",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
-      ]
-    },
-    "99a529f326af85f3e891f31b": {
-      "kind": "text",
-      "source": "04 / KnaBa",
-      "routes": [
-        "/",
-        "/leistungen/"
       ]
     },
     "99db2b237551c765679fc969": {
