@@ -1,7 +1,7 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
 const read=(path:string)=>readFileSync(new URL(path,import.meta.url),'utf8');
-describe('KNABA licensed-source gallery and navigation',()=>{
+describe('KNABA work-process guide and navigation',()=>{
   it('reuses exactly one Astro component for DE/EN/UK/RU routes',()=>{
     const c=read('../src/components/ConstructionGallery.astro');
     const paths={
@@ -26,11 +26,11 @@ describe('KNABA licensed-source gallery and navigation',()=>{
       expect(read('../public/illustrations/'+asset)).toContain('<svg');
     }
     expect(c).not.toContain('https://knaba.de/');
-    for(const marker of ['Illustrative Darstellungen','Original illustrations','схематичні ілюстрації','схематические иллюстрации'])expect(c).toContain(marker);
+    for(const marker of ['Schematische Illustrationen','Original illustrations','Схематичні ілюстрації','Схематичные иллюстрации'])expect(c).toContain(marker);
   });
-  it('keeps the gallery inside existing navigation and protects users from research URLs',()=>{
+  it('keeps the work-process route in existing navigation and protects users from research URLs',()=>{
     const layout=read('../src/layouts/Layout.astro');
-    expect(layout).toContain('["/galerie/", "Galerie"]');
+    expect(layout).toContain('["/galerie/", "Arbeitsabläufe"]');
     expect(layout).toContain('localPath("/galerie/")');
     expect(read('../src/pages/impressum.astro')).not.toContain('Stand des Quellenabgleichs');
     expect(read('../src/pages/ru/impressum.astro')).not.toContain('Дата сверки с источником');
