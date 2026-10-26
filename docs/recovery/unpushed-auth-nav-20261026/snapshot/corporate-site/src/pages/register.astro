@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AuthHub from '../components/AuthHub.tsx';
+---
+<Layout title="KnaBa | Registrierung" description="Neues Kunden-, Mitarbeiter- oder Partnerkonto beantragen und Ihre E-Mail-Adresse bestätigen." noindex={true}>
+  <section class="kauth-page" aria-label="KnaBa Registrierung">
+    <h1 class="sr-only">KnaBa Registrierung</h1>
+    <AuthHub mode="register" client:load/>
+    <noscript><div class="container"><p>Zur Registrierung wird JavaScript benötigt. Für Anfragen: <a href="mailto:kontakt@knaba.de">kontakt@knaba.de</a>.</p></div></noscript>
+  </section>
+</Layout>
