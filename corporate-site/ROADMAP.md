@@ -259,3 +259,11 @@ No automatic provider spending. External translations budget EUR0 reserved until
 | OP06 | Node24 tests/build, mobile 320/390/768/1440, independent QA, exact artifact, VPS release checksum and backup/rollback | NOT_RUN/BLOCKED; do not deploy or merge without release approval |
 
 See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
+
+## PUBLIC-HTTP-RELEASE-GATE-2026-10-26
+- [x] Add read-only fail-closed HTTP acceptance to existing Draft PR #73 for 4 localized home pages, 4 galleries, /healthz and /readyz; synthetic 7/7 PASS and live 9/10 FAIL (correct refusal to promote).
+- [x] Repair partner CDN's actual HTTP500 transform-order defect in all five existing URLs; fetched exact resulting JPEG/PNG as **5/5 HTTP200**, known dimensions and byte counts. Regression assertion added to existing partner Vitest. Both are **source-only** until deploy.
+- [ ] Pass full Node >=22.23.4 `npm ci; npm run check; npm test; npm run build; KNABA_RELEASE_MODE=vsp npm run verify:build` on latest exact runtime SHA; independent security/code/visual review.
+- [ ] Confirm rightsholder permission for partner-logo publication and CDN client-IP/GDPR; self-host only after actual copyright approval. Real mobile/browser 320/390/768/1440 DE/EN/UK/RU with screenshots and keyboard/contrast/zoom.
+- [ ] Securely activate actual rightful customer owner through verified one-use invite; live /readyz is currently 503 `owner enrollment required`. Do not fake readiness or bypass owner authentication.
+- [ ] Only after authorized immutable staging rollout with verified backup/rollback, re-run `npm run verify:live`: 10/10 PASS plus artifact SHA match and owner UAT; production/main require a separate exact release approval.
