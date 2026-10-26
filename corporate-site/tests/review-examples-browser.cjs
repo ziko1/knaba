@@ -28,6 +28,10 @@ async function suite({browser,origin}){
           const href=await card.locator('a').getAttribute('href');
           assert.ok(href.startsWith(locale==='de'?'/':'/'+locale+'/'));
         }
+        const editorialImage=page.locator('.marketing-stories-visual img');
+        assert.match((await editorialImage.getAttribute('alt')).trim(),/./);
+        await editorialImage.scrollIntoViewIfNeeded();
+        assert.ok(await editorialImage.evaluate(node=>node.complete&&node.naturalWidth>0));
         assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
         await page.locator('.reviews-action button').focus();await page.keyboard.press('Enter');
         await page.locator('[name="displayName"]').waitFor({state:'visible'});
