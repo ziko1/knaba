@@ -69,6 +69,7 @@ const nav = [
   ["/ratgeber/", "Bauratgeber"],
 ].map(([url,label],index)=>[localPath(url),lang==='de'?label:translatedNav[lang][index]]);
 const canonical = new URL(path, siteConfig.origin);
+const socialImage = new URL('/images/knaba-social.png', siteConfig.origin).href;
 const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
 const pageSchemas = Array.isArray(schema) ? schema : [schema];
 const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url:siteConfig.origin+'/',name:'KnaBa',inLanguage:['de','en','uk','ru']};
@@ -109,11 +110,15 @@ const structuredData = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(logoAssets.header,siteConfig.origin)} />
-    <meta property="og:image:type" content="image/svg+xml" />
-    <meta property="og:image:width" content="1140" /><meta property="og:image:height" content="350" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={brandAlt + ' · ' + brand.slogan} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={brandAlt + ' · ' + brand.slogan} />
     {pageAlternates.map(item => <link rel="alternate" hreflang={item.lang} href={new URL(item.url,siteConfig.origin)} />)}
     <title>{title}</title>
     <ClientRouter />
