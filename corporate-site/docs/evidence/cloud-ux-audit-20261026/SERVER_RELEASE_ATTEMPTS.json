@@ -1,0 +1,1402 @@
+{
+  "initialCacheReclaim": {
+    "action": "remove_three_verified_unused_reproducible_node_modules_only",
+    "utc": "2026-10-26T14:06:14Z",
+    "before": {
+      "availableBytes": 20043157504,
+      "totalBytes": 211271204864,
+      "usedPercent": 90.51,
+      "cutoverAllowed": false
+    },
+    "after": {
+      "availableBytes": 22131494912,
+      "totalBytes": 211271204864,
+      "usedPercent": 89.52,
+      "cutoverAllowed": true
+    },
+    "removed": [
+      {
+        "path": "/tmp/knaba-integrate-73-74-75-20261026/corporate-site/node_modules",
+        "bytesApparent": 623716164,
+        "inode": 1104721,
+        "sourceAndLockPreserved": true,
+        "processReferences": [],
+        "runtimeMounts": []
+      },
+      {
+        "path": "/tmp/knaba-unified-latest-20261026/corporate-site/node_modules",
+        "bytesApparent": 623703021,
+        "inode": 975041,
+        "sourceAndLockPreserved": true,
+        "processReferences": [],
+        "runtimeMounts": []
+      },
+      {
+        "path": "/tmp/knaba-cta-mobile-20261026-sentinelx/corporate-site/node_modules",
+        "bytesApparent": 623706580,
+        "inode": 273371,
+        "sourceAndLockPreserved": true,
+        "processReferences": [],
+        "runtimeMounts": []
+      }
+    ],
+    "removedApparentBytes": 1871125765,
+    "dataBackupsReleasesSourceUntouched": true
+  },
+  "additionalCacheReclaim": {
+    "utc": "2026-10-26T14:48:37Z",
+    "removedPath": "/tmp/knaba-customer-ux-20261026/corporate-site/node_modules",
+    "removedApparentBytes": 623757286,
+    "sourceAndLockPreserved": true,
+    "processReferences": [],
+    "runtimeMounts": [],
+    "before": {
+      "availableBytes": 21230592000,
+      "totalBytes": 211271204864,
+      "usedPercent": 89.95
+    },
+    "after": {
+      "availableBytes": 21926748160,
+      "totalBytes": 211271204864,
+      "usedPercent": 89.62
+    }
+  },
+  "concurrentReleaseCAS": {
+    "task": "KNABA cloud user audit test-domain rollout",
+    "target": "https://kneba.vsp.rest",
+    "sourceSha": "2ad00f69af447c76952f772292672165b1029b3d",
+    "previousSourceSha": "2164b9505f824486594b2633a05f5fd91aee8c04",
+    "artifactSha256": "aa35980c9018f412d6d856f5fa0ae1b068d11352366df50c26ca750653210683",
+    "startedAtUtc": "2026-10-26T14:34:37.210479+00:00",
+    "schemaMigrationExecuted": false,
+    "officialDomainChanged": false,
+    "status": "PREFLIGHT_BLOCKED",
+    "error": "Current changed: abort"
+  },
+  "storagePreflight": {
+    "task": "KNABA cloud user audit test-domain rollout",
+    "target": "https://kneba.vsp.rest",
+    "sourceSha": "73755d154f5e551daa53db848d46f12be15459d4",
+    "previousSourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+    "artifactSha256": "f687ce5c39f2f677ecfcc6d79a7a86dad852d09307b01ea07b535ccd9df0c950",
+    "startedAtUtc": "2026-10-26T14:46:34.923298+00:00",
+    "schemaMigrationExecuted": false,
+    "officialDomainChanged": false,
+    "status": "PREFLIGHT_BLOCKED",
+    "releaseLocks": [
+      ".knaba-preview-deploy.lock",
+      ".ui-visual-release.lock"
+    ],
+    "compareAndSwap": {
+      "expectedPreviousSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+      "preflightMatched": true,
+      "finalPointer": null
+    },
+    "error": "Command failed ['docker', 'exec', 'knaba-vps-internal', 'node', '/app/vps/doctor.mjs'] exit 2 "
+  },
+  "transientProxyRollback": {
+    "task": "KNABA cloud user audit test-domain rollout",
+    "target": "https://kneba.vsp.rest",
+    "sourceSha": "73755d154f5e551daa53db848d46f12be15459d4",
+    "previousSourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+    "artifactSha256": "f687ce5c39f2f677ecfcc6d79a7a86dad852d09307b01ea07b535ccd9df0c950",
+    "startedAtUtc": "2026-10-26T14:49:01.181100+00:00",
+    "schemaMigrationExecuted": false,
+    "officialDomainChanged": false,
+    "status": "ROLLED_BACK_VERIFIED",
+    "releaseLocks": [
+      ".knaba-preview-deploy.lock",
+      ".ui-visual-release.lock"
+    ],
+    "compareAndSwap": {
+      "expectedPreviousSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+      "preflightMatched": true,
+      "finalPointer": null
+    },
+    "storage": {
+      "filesystem": "/var/lib/knaba",
+      "state": "healthy",
+      "availableBytes": 21926674432,
+      "totalBytes": 211271204864,
+      "usedPercent": 89.62,
+      "cutoverAllowed": true
+    },
+    "databasePreflight": {
+      "sourceMigrations": 6,
+      "appliedMigrations": 6,
+      "checksumMatch": true,
+      "pending": 0,
+      "homepageStudioRows": 0
+    },
+    "composeSha256": "6883e120f521cf9251cf3221027cd8b82e609ab0d028511484ac32688f722604",
+    "backup": {
+      "path": "/srv/knaba/vps/state/backups/knaba-2026-10-26T14-49-01-554Z.sqlite",
+      "sha256": "7549611309deb63cec95f56796aac7b7cd28863544ffc9a89e885114c0a3455d",
+      "bytes": 233472,
+      "integrity": "ok",
+      "offHostRestore": "NOT_RUN"
+    },
+    "databaseFinalPreSwitch": {
+      "sourceMigrations": 6,
+      "appliedMigrations": 6,
+      "checksumMatch": true,
+      "pending": 0,
+      "homepageStudioRows": 0
+    },
+    "databaseAfter": {
+      "sourceMigrations": 6,
+      "appliedMigrations": 6,
+      "checksumMatch": true,
+      "pending": 0,
+      "homepageStudioRows": 0
+    },
+    "routeChecks": {
+      "count": 127,
+      "passed": 127,
+      "failed": [],
+      "responses": [
+        {
+          "path": "/__knaba_audit_missing_73755d15__/",
+          "expected": 404,
+          "status": 404,
+          "pass": true,
+          "bytes": 11620,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/admin/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 22103,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/bauleistungen/bauendreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 21049,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/bauhilfe/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20373,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/baureinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20665,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/baustellenraeumung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20324,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/bauzwischenreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20705,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/durchbrueche/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20999,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/kernbohrungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 21099,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/bauleistungen/zusatzarbeiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20989,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/berlin/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 17232,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/branchen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 18098,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/crm/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 18964,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/datenschutz/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 33332,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/bauendreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20774,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/bauhilfe/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20123,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/baureinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20482,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/baustellenraeumung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20156,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/bauzwischenreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20519,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/durchbrueche/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20579,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/kernbohrungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20834,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/bauleistungen/zusatzarbeiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20702,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/berlin/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 16953,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/branchen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 17717,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/faq/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 34970,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/galerie/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 17683,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 57481,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/karriere/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 17044,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/kontakt/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 26054,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/leistungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 25292,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/planer/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 29846,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/ratgeber/bauendreinigung-vorbereiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24856,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/ratgeber/baureinigung-kosten-planen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24772,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/ratgeber/baureinigung-phasen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24648,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/ratgeber/bauuebergabe-checkliste/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24818,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/ratgeber/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 22167,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/unternehmen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19659,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/faq/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 36149,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/galerie/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 17709,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/impressum/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 15787,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 58001,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/karriere/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 17303,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/kontakt/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 26346,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/konto/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 21744,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/leistungen/baureinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12350,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/leistungen/bueroreinigung/",
+          "expected": 308,
+          "status": 308,
+          "pass": true,
+          "bytes": 23,
+          "location": "/leistungen/",
+          "robots": null
+        },
+        {
+          "path": "/leistungen/glasreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12357,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/leistungen/grundreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12364,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/leistungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 25369,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/leistungen/treppenreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12378,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/leistungen/unterhaltsreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12399,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/planer/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 30099,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/postfach/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 21665,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/ratgeber/bauendreinigung-vorbereiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24973,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ratgeber/baureinigung-kosten-planen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 25144,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ratgeber/baureinigung-phasen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24899,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ratgeber/bauuebergabe-checkliste/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 25128,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ratgeber/bueroreinigung-checkliste/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12496,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ratgeber/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 22682,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ratgeber/reinigungsleistungen-vergleichen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12545,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 12608,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/bauleistungen/bauendreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24368,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/bauhilfe/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23555,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/baureinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23912,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/baustellenraeumung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23415,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/bauzwischenreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23902,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/durchbrueche/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24604,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/kernbohrungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24928,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/bauleistungen/zusatzarbeiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24727,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/berlin/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19643,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/branchen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20571,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/datenschutz/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 43742,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/faq/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 41982,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/galerie/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19576,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/impressum/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 18494,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 64328,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/karriere/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19915,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/kontakt/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 29167,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/konto/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23449,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/ru/leistungen/baureinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 13867,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/leistungen/bueroreinigung/",
+          "expected": 308,
+          "status": 308,
+          "pass": true,
+          "bytes": 23,
+          "location": "/ru/leistungen/",
+          "robots": null
+        },
+        {
+          "path": "/ru/leistungen/glasreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 13874,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/leistungen/grundreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 13881,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/leistungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 27935,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/leistungen/treppenreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 13895,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/leistungen/unterhaltsreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 13916,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/planer/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 33800,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/postfach/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23148,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 30416,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/ratgeber/baureinigung-kosten-planen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 30497,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/ratgeber/baureinigung-phasen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 30605,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/ratgeber/bauuebergabe-checkliste/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 30748,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/ratgeber/bueroreinigung-checkliste/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 14013,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/ratgeber/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 27096,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/ratgeber/reinigungsleistungen-vergleichen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 14062,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 14125,
+          "location": null,
+          "robots": "noindex, follow"
+        },
+        {
+          "path": "/ru/unternehmen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 22560,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/studio/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 18431,
+          "location": null,
+          "robots": "noindex, nofollow"
+        },
+        {
+          "path": "/uk/bauleistungen/bauendreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24343,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/bauhilfe/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23463,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/baureinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23813,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/baustellenraeumung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23501,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/bauzwischenreinigung/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 23795,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/durchbrueche/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24438,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/kernbohrungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24664,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/bauleistungen/zusatzarbeiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 24398,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/berlin/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19550,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/branchen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 20457,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/faq/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 41913,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/galerie/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19446,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 64234,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/karriere/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19786,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/kontakt/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 28880,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/leistungen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 27849,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/planer/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 32983,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 29886,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/ratgeber/baureinigung-kosten-planen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 29815,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/ratgeber/baureinigung-phasen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 29978,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/ratgeber/bauuebergabe-checkliste/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 30318,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/ratgeber/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 26857,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/unternehmen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 22517,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/unternehmen/",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 19845,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/healthz",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 7,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/readyz",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 5,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/robots.txt",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 248,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/sitemap.xml",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 51295,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/languages.json",
+          "expected": 200,
+          "status": 200,
+          "pass": true,
+          "bytes": 6952,
+          "location": null,
+          "robots": null
+        }
+      ]
+    },
+    "publicHttpsSmoke": {
+      "count": 10,
+      "passed": 0,
+      "responses": [
+        {
+          "path": "/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/en/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/uk/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/ru/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/kontakt/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/planer/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/galerie/",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/healthz",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/readyz",
+          "expected": 200,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        },
+        {
+          "path": "/__knaba_audit_missing_73755d15__/",
+          "expected": 404,
+          "status": 503,
+          "pass": false,
+          "bytes": 20,
+          "location": null,
+          "robots": null
+        }
+      ]
+    },
+    "error": "Public HTTPS regression",
+    "rollbackSourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38"
+  }
+}
