@@ -21,15 +21,17 @@
 - Shared `Layout.astro`: унікальні `title`/`description`, canonical, взаємні hreflang DE/EN/UK/RU, Open Graph, LocalBusiness, WebSite, BreadcrumbList.
 - `robots.txt.ts` та `sitemap.xml.ts`: публічні URL окремо від owner/CRM/API, 4 реально перекладені мови, без вигаданих 95 локалізацій.
 - Існуючі нативні сторінки /bauleistungen/, /berlin/, /ratgeber/ та контактні шляхи; не генерувати сотні порожніх районних doorway-сторінок.
-- `public/images/knaba-social.png`: існуюче PNG 1200×630 (розмір і підпис PNG підтверджені за GitHub blob), раніше Open Graph посилався на SVG логотип 1140×350.
+- Раніше PNG `public/images/knaba-social.png` мало старі написи «Gebäudereinigung / Saubere Räume», хоча тепер сайт спеціалізується на Baureinigung і Bauhelfer. Перевірено власне зображення, а не тільки MIME та розміри. Чинні DE/EN/UK/RU 3D SVG логотипи використані для нових social cards.
 - Existing `vps/seo.mjs` оновлює title/description в OG та Twitter **тільки якщо відповідні метатеги існують**. В `Layout.astro` Twitter title/description не було.
 
 ## 3. Реалізовано у новій Draft-гілці
 
-1. Один і той самий реальний first-party `knaba-social.png` у `og:image` та `twitter:image`, PNG MIME і коректні 1200×630; локалізований alt.
+1. Чотири **локалізовані** first-party PNG `knaba-social.png`, `knaba-social-en.png`, `knaba-social-uk.png`, `knaba-social-ru.png` (1200×630), створені з наявних SVG логотипів через `scripts/generate-social-cards.mjs`; на кожній мові правильний зміст Baureinigung & BauService. На сторінках відповідної локалі OG і Twitter використовують той самий PNG та локалізований alt.
 2. `twitter:title` та `twitter:description` — узгоджені зі звичайними і OG-тегами, також після SEO-редагування через наявний Studio SSR шлях.
 3. Каталог /leistungen/ має локалізовану назву Берліна в заголовку та регіон у description; детальні /bauleistungen/{slug}/ отримали регіон у description без дублювання видимих CTA чи змін до умов послуг.
-4. Розширено **наявний** `tests/verify-build.mjs`: перевірка реальних PNG-байтів/dimensions, кожної згенерованої HTML сторінки, OG/Twitter parity, image URL і локального сервісного опису. Нових npm-залежностей немає.
+4. Розширено **наявний** `tests/verify-build.mjs`: перевірка реальних PNG-байтів/розмірів **усіх чотирьох** файлів, кожної згенерованої HTML сторінки, OG/Twitter parity, image URL відповідної локалі і локального сервісного опису. Оновлено два старих Vitest-тести SVG/брендингу без ослаблення перевірки логотипів. Нових прямих npm-залежностей немає: генератор використовує наявний locked Sharp/Astro.
+
+Переглянута графіка: DE SHA-256 `a0de6a6dd3135ec9d9559b40ed209fa0add02d0935460bd3e1f2f76b82df1365`, EN `aac86e749283c79e8a506ed5951c38d026435cf215bb899bc4ced7f1b7afaf3a`, UK `87f7f6b20e80dfcdbe2f58200d62dddacb6ee2237f70162375337acafc782eea`, RU `98987336c9d6c8edde9f7796385d360f0d16438fd9510fbe9e62b273ed400cff`. SHA-256 перевірені на сервері перед завантаженням; GitHub blob read-back збігся. Це перевірка цілісності вихідних файлів, **не** оцінка їхнього вигляду в соцмережах.
 
 **Важливо:** ці зміни самі по собі не є підтвердженням фактичної індексації, трафіку, заявок, живого CWV чи права на customer production cutover.
 
