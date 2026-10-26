@@ -1,11 +1,12 @@
 import {createSignal, For, onCleanup, onMount, Show} from 'solid-js';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
-import {reviewDate, reviewExamples, reviewsCopy, type PublicReview, type ReviewLocale} from '../data/reviews';
+import {reviewDate, reviewsCopy, type PublicReview, type ReviewLocale} from '../data/reviews';
+import {marketingStories} from '../data/marketing-stories';
 import {createRequestId} from '../lib/request-id';
 
 export default function PublicReviews(props: {locale: ReviewLocale}) {
   const t=()=>reviewsCopy[props.locale];
-  const examples=()=>reviewExamples[props.locale];
+  const stories=()=>marketingStories[props.locale];
   const [reviews,setReviews]=createSignal<PublicReview[]>([]);
   const [total,setTotal]=createSignal(0);
   const [loading,setLoading]=createSignal(true);
@@ -103,14 +104,15 @@ export default function PublicReviews(props: {locale: ReviewLocale}) {
     <Show when={loading()}><p class="reviews-status" role="status">{t().loading}</p></Show>
     <Show when={!loading()&&loadError()}><div class="reviews-notice" role="alert"><p>{t().loadError}</p><button type="button" class="reviews-link" onClick={()=>void load()}>{t().retry}</button></div></Show>
     <Show when={!loading()&&!loadError()}>
-      <Show when={reviews().length>0} fallback={<div class="reviews-examples" aria-labelledby="review-examples-title">
-        <div class="reviews-example-heading"><h3 id="review-examples-title">{examples().title}</h3><p>{examples().disclosure}</p></div>
-        <div class="reviews-grid"><For each={examples().items}>{example=><figure class="review-card review-example">
-          <span class="review-example-badge">{examples().badge}</span>
-          <blockquote><p>{example.text}</p></blockquote>
-          <figcaption><strong>{example.topic}</strong></figcaption>
-        </figure>}</For></div>
-        <p class="reviews-example-invitation">{t().emptyText}</p>
+      <Show when={reviews().length>0} fallback={<div class="reviews-stories" aria-labelledby="reviews-stories-title">
+        <div class="reviews-story-heading"><h3 id="reviews-stories-title">{stories().heading}</h3><p>{stories().intro}</p></div>
+        <div class="reviews-story-grid"><For each={stories().items}>{item=><article class="reviews-story">
+          <img class="reviews-story-image" src={item.image} alt={item.alt} width={960} height={540} loading="lazy" decoding="async" />
+          <div class="reviews-story-body"><h4>{item.title}</h4><p>{item.description}</p>
+            <a class="reviews-story-link" href={(props.locale==='de'?'':'/'+props.locale)+'/'+item.path+'/'}>{item.action}<span aria-hidden="true">↗</span></a>
+          </div>
+        </article>}</For></div>
+        <p class="reviews-story-invitation">{t().emptyText}</p>
       </div>}>
         <div class="reviews-grid"><For each={reviews()}>{review=><figure class="review-card">
           <span class="review-quote-mark" aria-hidden="true">“</span>
