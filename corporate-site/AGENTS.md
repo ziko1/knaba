@@ -15,3 +15,11 @@ This file complements the existing project memory, roadmap, PR instructions and 
 - Retain required Datenschutz regulator/contact disclosures. Repeated destinations across separate functional landmarks can be legitimate; duplicate adjacent CTAs to one catalogue or repeated enquiry CTAs in one service detail are not.
 - Homepage: one hero catalogue CTA; no repeated wide button after the six cards; `#zusatzarbeiten` must have a distinct localized label. Details: opening and closing enquiry buttons, with price, phone, guides and legal notes kept.
 - Require existing source and built-HTML gates, Node24 check/test/build/i18n/verify/VPS and isolated browser widths+keyboard on exact artifact. Public cutover gates remain separate.
+
+## KNABA official evidence / public trust content (REUSE-FIRST, 2026-10-26)
+
+- Treat https://knaba.de/ as the primary source for verified public KNABA company/service claims; compare against the current template, canonical src/data/company.ts, routes and existing components before additions. Do not duplicate services, contact CTAs, partners, CMS, CRM, ERP or verified copy.
+- A USt-ID/Steuernummer, the repository LICENSE for software or a partner logo is **not** a trade permit, specialist qualification, endorsement or media reuse grant. Publish a license/certificate only after validating owner, issuer/registry, validity, legal scope and right to reproduce. Without evidence omit the claim.
+- Never write synthetic public reviews as customer testimonials. First-party feedback must use existing consent/moderation/review API; when empty, show honest empty state; preserve submitted customer data.
+- Third-party ratings require exact public source, historical source date, count, originating platform and non-live designation unless freshly independently revalidated. No invented review identities, quote text, updated counts, Review/AggregateRating SEO markup or licenses.
+- Preserve placement CompanyProfile → WhyKnaBa → Partners → Reviews. Add responsive sections only for confirmed uncovered needs. Verify DE/EN/UK/RU, 320/390/768/1440 px, keyboard/200% zoom, i18n, CSS budget, privacy/legal and links before releasing. No production merge/deploy under this rule.

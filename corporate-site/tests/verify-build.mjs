@@ -168,10 +168,12 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
-  const sectionIds = ['bau-hero-title', 'bau-services-title', 'bau-contract-heading', 'bau-process-title', 'company-profile-title', 'knaba-partners-title', 'reviews-title', 'knaba-faq-preview-title', 'bau-final-contact-title'];
+  const sectionIds = ['bau-hero-title', 'bau-services-title', 'bau-contract-heading', 'bau-process-title', 'company-profile-title', 'why-knaba-title', 'knaba-partners-title', 'reviews-title', 'knaba-faq-preview-title', 'bau-final-contact-title'];
   const positions = sectionIds.map(id => source.indexOf('id="' + id + '"'));
   assert.ok(positions.every(position => position >= 0), prefix + 'all homepage sections retained');
   assert.deepEqual([...positions].sort((a,b) => a-b), positions, prefix + 'visitor journey section order');
+  assert.match(source, /class="external-review-evidence"/, prefix + 'historical independent review evidence');
+  assert.match(source, /22\.08\.2025/, prefix + 'historical rating source date');
   const planner = await readFile(resolve(root,prefix+'planer/index.html'),'utf8');
   const topics = [...planner.matchAll(/data-planner-topic="([^"]+)"/g)].map(match => match[1]);
   assert.deepEqual(topics, ['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe'], prefix + 'five usable core topics rendered before API/JS');
