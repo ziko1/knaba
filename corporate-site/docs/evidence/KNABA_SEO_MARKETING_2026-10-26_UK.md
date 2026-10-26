@@ -72,6 +72,20 @@
 - Google CWV орієнтири p75: LCP ≤ 2,5 с, INP ≤ 200 мс, CLS ≤ 0,1; **не стверджувати PASS без польових даних**.
 - Релізний статус до окремого погодження: **HOLD**. Немає дозволу на main merge, production deploy, DNS, Google Ads, Analytics/Consent mode activation або обробку реальних персональних даних.
 
+
+## 9. Фактичний публічний VSP SEO-аудит 26.10.2026 (read-only з підключеного VPS)
+
+| URL | HTTP | Перевірений фактичний результат |
+|---|---|---|
+| `https://kneba.vsp.rest/` | 200 | index/follow, self-canonical VSP, старе `og:image` = локалізований SVG |
+| `https://kneba.vsp.rest/leistungen/` | 200 | title «Baureinigung. Bauhilfe. Zusatzleistungen. \| KnaBa», старий SVG social image |
+| `https://kneba.vsp.rest/en/` | 200 | англійський title, self-canonical і EN SVG social image |
+| `https://kneba.vsp.rest/robots.txt` | 200 | `Sitemap: https://kneba.vsp.rest/sitemap.xml` |
+| `https://kneba.vsp.rest/sitemap.xml` | 200 | **88** `<loc>` публічних URL |
+| `https://kneba.vsp.rest/galerie/` | **404** | помилка живого сайту, **не** помилка локальної SEO-гілки |
+
+Прямий HTTP GET без owner/cookie/POST, без зміни сайту. Кандидат має **92 очікуваних маршрути** (4 локалі × [11 common + 8 construction offers + 4 construction guides]); відсутні live/gallery URL перед наступним релізом треба звірити з артефактом і виконати server smoke. **Важливо:** ця таблиця описує *старий live-деплой*, а не QA-кандидат. Не оголошувати виправлення 404 в інтернеті, доки немає перевіреної публікації.
+
 ## 8. Наступні кроки власника
 
 1. Підтвердити preferred canonical домен і дозвіл на VSP release, окремо від `knaba.de`.
