@@ -34,3 +34,10 @@ Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: 
 - Permanent web limits remain1CPU/512MiB/96PIDs. Private backup and same-host restored copy retained; no customer data/cache/backups deleted.
 
 - Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
+
+
+## 2026-10-26 — Content continuation
+- Existing pinned Node24/dependencies/VPS reused; no new dependencies, paid AI/email/CI services, domains, or provider calls. Actual model/hosting charges and quotas UNKNOWN.
+- Three existing Codex executors: root integration/content/QA; ux_research Finder then independent Assistant review; code_audit Assistant then independent content/storage review.
+- Built CSS40,891B gzip, all emitted JS191,544B gzip; new editorial article is server-rendered and excluded from client route metadata. No field-performance claim.
+- Canonical storage preparation snapshot89.64% used,21,898,014,720B available, healthy; must recheck before cutover. No cache/container/image/volume/customer data deletion. Runtime limits unchanged.

@@ -308,3 +308,13 @@ Source: user requests full kneba.vsp.rest user/browser audit, fixes, repository 
 - OPS-01: Persist tested source off-host, verify fresh source/artifact/DB backup/storage gate, roll out to explicitly authorized development domain only, preserve rollback and reverify browser.
 - FULL-01: Record remaining ERP/voice/provider/owner/device/legal/field-performance gaps honestly; no fabricated feature completion, paid providers or main/official-domain release.
 Team: root (UI/browser/integration), project_audit (API source), release_audit (server/storage + independent review). External provider spending: none dispatched; account balances unknown.
+
+
+## 2026-10-26 — Content continuation acceptance
+- [x] REUSE-01: retain PR91 and incorporate PR89/90, including the latest live73755d1.
+- [x] CONTENT-01: property-specific Finder guidance in DE/EN/UK/RU, correct technical-work separation.
+- [x] CONTENT-02: Bauhelfer guide, six-point checklist, service/enquiry routes, sitemap/hreflang/Studio integration.
+- [x] CHAT-01: stale/overlapping Assistant request protection and draft preservation;16race regressions. This closes the earlier stale-poll/Finder source gaps.
+- [x] QA-01: independent review,359automated tests,126-page build,27-route/982-unit source extraction.
+- [ ] OPS-01: persist exact tested source, fresh storage+CAS+backup/restore, authorized test-domain rollout and live readback (receipt will supersede this preparation state).
+- [ ] Preserve separate mobile/device/owner/provider/legal/offsite/CWV acceptance; trusted-proxy rate-limit and OG raster remain open.

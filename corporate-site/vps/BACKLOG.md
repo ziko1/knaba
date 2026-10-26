@@ -102,3 +102,10 @@
 - Exact scope and evidence: ../docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md.
 
 - Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
+
+
+## 2026-10-26 — Content continuation
+- [x] Previous P2 Finder object guidance and Assistant stale/overlapping GET gaps are implemented with independent review and tests.
+- [x] Reuse workflow content; add Bauhelfer enquiry-preparation guide4locales;126built pages. Source/server QA359tests PASS.
+- [ ] Authorized test deployment on exact persisted source requires fresh canonical storage check, current73755d1CAS, private SQLite online backup + separate-file restore, immutable rollback and live readback.
+- [ ] Trusted-proxy IP/rate-limit contract, OG raster, owner/delivery/device/legal/offsite/field-performance acceptance remain OPEN. See ../docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md for final receipt.

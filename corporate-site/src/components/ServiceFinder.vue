@@ -5,6 +5,7 @@ import {offerBySlug} from '../data/construction-offers';
 import { useFinderStore } from "../stores/finder";
 import { plannerStore } from "../stores/planner";
 import { publicText, type PublicLocale } from "../lib/public-i18n";
+import {getFinderGuidance} from '../data/construction-site-guidance';
 
 const props = withDefaults(defineProps<{ locale?: PublicLocale }>(), { locale: "de" });
 const t = (text: string) => publicText(text, props.locale);
@@ -12,6 +13,7 @@ const t = (text: string) => publicText(text, props.locale);
 const finder = useFinderStore();
 const selected = ref(plannerStore.getState().topic);
 const suggestion = computed(() => offerBySlug(recommendConstructionTopic(finder.need))!);
+const guidance = computed(() => getFinderGuidance(finder.object, finder.need, props.locale));
 let unsubscribe: (() => void) | undefined;
 onMounted(() => {
   selected.value = plannerStore.getState().topic;
@@ -43,6 +45,12 @@ function choose() { plannerStore.getState().selectTopic(suggestion.value.slug); 
       <h3>{{ suggestion.name[props.locale] }}</h3>
       <p>{{ t(objectChoices.find(option => option.value === finder.object)!.label) }} · {{ t(needChoices.find(option => option.value === finder.need)!.label) }}</p>
       <p>{{ suggestion.description[props.locale] }}</p>
+      <div class="object-guidance">
+        <h4>{{ guidance.heading }}</h4>
+        <ul><li v-for="item in guidance.items" :key="item">{{ item }}</li></ul>
+        <p>{{ guidance.phase }}</p>
+        <a v-if="guidance.related" :href="guidance.related.path">{{ guidance.related.label }} ↗</a>
+      </div>
       <button class="button button-dark" type="button" @click="choose">{{ selected === suggestion.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →") }}</button>
       <a :href="`${props.locale === 'de' ? '' : '/'+props.locale}/bauleistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
     </div>
@@ -68,6 +76,11 @@ h3 { font-size:1.35rem; line-height:1.2; margin:.6rem 0; overflow-wrap:anywhere;
 .recommendation p { font-size:.9rem; line-height:1.6; margin:.7rem 0 1rem; }
 .recommendation .button { width:100%; white-space:normal; }
 .recommendation a { display:block; margin-top:1rem; font-size:.85rem; text-decoration:underline; text-underline-offset:4px; }
+.object-guidance { border-top:1px solid #cddbd5; padding-top:1rem; margin:1rem 0; }
+.object-guidance h4 { font-size:.9rem; line-height:1.4; margin:0 0 .6rem; }
+.object-guidance ul { padding-left:1.1rem; margin:0; font-size:.86rem; line-height:1.6; }
+.object-guidance li+li { margin-top:.5rem; }
+.object-guidance p { margin-bottom:0; }
 .note { font-size:.76rem; margin:1rem 0 0; }
 @media(max-width:370px) { .choices { grid-template-columns:1fr; } }
 </style>

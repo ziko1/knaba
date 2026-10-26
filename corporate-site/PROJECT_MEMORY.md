@@ -333,3 +333,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
 ## KN-CLOUD-AUDIT-20261026
 User-authorized browser audit/fixes/repository persistence/test-domain rollout. Base/live2164b9505f824486594b2633a05f5fd91aee8c04. Cloud Chrome122 route visits; planner/full core choices, topic-specific preparation, PR84 section hierarchy, success-phone dedup, Assistant keyboard focus/Escape, Studio32KiB guard and full migration-ledger preflight implemented. Six SQL files/journal/dependencies unchanged. Evidence and full open gaps: docs/evidence/cloud-ux-audit-20261026/AUDIT_UK.md. Independent API/UI reviews passed; source/build and VPS41/41 accepted in scoped candidate. Public source SHA/deployment receipt appended after publication; no whole-product readiness claim.
+
+
+## 2026-10-26 — Content refinement and Assistant request lifecycle
+- User asks to continue KNABA development and fill gaps. Branch feat/knaba-content-refinement-20261026 reuses PR89/90 and retains PR91, without main merge. Latest observed live73755d1 is included as an ancestor.
+- Four-language Bauhelfer preparation guide (5guides/20routes total), property-specific Finder advice, meaningful workflow gallery, and stale Assistant request cancellation/identity guards implemented. New draft text survives an older successful send; consent/auth/CAPTCHA unchanged.
+- Independent content/Finder and Assistant reviews: no blockers. Node24 check0/0; Vitest250 +Node32/27/9 +VPS41; build126; DE27/982; artifact6a5fecdda37dbc4f273f03502116bf9b6d7bac6b317f15621c8083276530bbdc. Browser/live/device evidence separate.
+- No backend schema/dependency changes versus73755d1, no cache/data deletion or paid-provider activation. Canonical storage89.64% healthy at preparation, must recheck under lock. See docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md for final rollout evidence and remaining gaps.

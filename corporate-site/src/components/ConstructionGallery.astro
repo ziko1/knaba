@@ -4,25 +4,25 @@ import type { ConstructionLocale } from '../data/construction-offers';
 const {locale='de'} = Astro.props as {locale:ConstructionLocale};
 const prefix = locale === 'de' ? '' : '/' + locale;
 const copy = {
-  de: {label:'KNABA / ARBEITSABLAUF',title:'So arbeitet KnaBa',intro:'Vier typische Arbeitsschritte – von der Baustellenvorbereitung bis zur sauberen Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.',notice:'Schematische Illustrationen zur Orientierung – keine Fotos konkreter Kundenaufträge.',alt:'Symbolische Illustration',action:'Projekt anfragen',detail:'Leistung ansehen',items:[
+  de: {label:'KNABA / ARBEITSABLAUF',title:'So arbeitet KnaBa',intro:'Vier Arbeitsbereiche rund um Baustellenvorbereitung, Reinigung und Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.',notice:'Schematische Illustrationen zur Orientierung – keine Fotos konkreter Kundenaufträge.',alt:'Symbolische Illustration',action:'Projekt anfragen',detail:'Leistung ansehen',items:[
     ['Baureinigung nach Bauabschnitt','Grob-, Zwischen- und Endreinigung werden passend zum Baufortschritt abgestimmt.'],
     ['Baustellenvorbereitung','Arbeitsbereiche, sichere Zugänge und Abläufe vor Beginn klären.'],
     ['Zwischenreinigung von Staub und Oberflächen','Staub und erreichbare Oberflächen zwischen den Gewerken reinigen.'],
     ['Saubere Objektübergabe','Abnahmebereiche und Nachkontrollen gemeinsam festlegen.']
   ]},
-  en: {label:'KNABA / HOW WE WORK',title:'How KnaBa works',intro:'Four typical steps from preparing the site to a clean handover. Find the service that fits your project.',notice:'Original illustrations of typical workflows, not photographs of specific client work.',alt:'Illustrative graphic',action:'Enquire about a project',detail:'View the service',items:[
+  en: {label:'KNABA / HOW WE WORK',title:'How KnaBa works',intro:'Four areas of work covering site preparation, cleaning and handover. Find the service that fits your project.',notice:'Original illustrations of typical workflows, not photographs of specific client work.',alt:'Illustrative graphic',action:'Enquire about a project',detail:'View the service',items:[
     ['Cleaning throughout construction','Agree rough, interim and final cleaning for each phase.'],
     ['Preparing the site','Review safe access, work areas and site procedures.'],
     ['Dust and surface cleaning between phases','Remove dust and clean accessible surfaces between trades.'],
     ['Preparing for handover','Define inspection zones and final checks.']
   ]},
-  uk: {label:'KNABA / РОБОЧІ ПРОЦЕСИ',title:'Як працює KnaBa',intro:'Чотири типові етапи — від підготовки майданчика до здачі чистого об’єкта. Перегляньте послугу для свого проєкту.',notice:'Схематичні ілюстрації типових процесів, не фото виконаних замовлень.',alt:'Схематична ілюстрація',action:'Надіслати запит',detail:'Переглянути послугу',items:[
+  uk: {label:'KNABA / РОБОЧІ ПРОЦЕСИ',title:'Як працює KnaBa',intro:'Чотири напрями робіт: підготовка майданчика, прибирання та здача об’єкта. Перегляньте послугу для свого проєкту.',notice:'Схематичні ілюстрації типових процесів, не фото виконаних замовлень.',alt:'Схематична ілюстрація',action:'Надіслати запит',detail:'Переглянути послугу',items:[
     ['Прибирання за етапами','Узгодження грубого, проміжного та фінального прибирання.'],
     ['Підготовка майданчика','Погодження доступу, робочих зон і правил безпеки.'],
     ['Міжетапне очищення пилу й поверхонь','Прибирання пилу та доступних поверхонь між роботами підрядників.'],
     ['Підготовка до здачі','Узгодження зон приймання та фінального контролю.']
   ]},
-  ru: {label:'KNABA / РАБОЧИЕ ПРОЦЕССЫ',title:'Как работает KnaBa',intro:'Четыре типовых этапа — от подготовки площадки до сдачи чистого объекта. Найдите подходящую услугу для проекта.',notice:'Схематичные иллюстрации рабочих процессов, не фотографии выполненных заказов.',alt:'Схематическая иллюстрация',action:'Отправить запрос',detail:'Подробнее об услуге',items:[
+  ru: {label:'KNABA / РАБОЧИЕ ПРОЦЕССЫ',title:'Как работает KnaBa',intro:'Четыре направления работ: подготовка площадки, уборка и сдача объекта. Найдите подходящую услугу для проекта.',notice:'Схематичные иллюстрации рабочих процессов, не фотографии выполненных заказов.',alt:'Схематическая иллюстрация',action:'Отправить запрос',detail:'Подробнее об услуге',items:[
     ['Уборка по этапам','Согласование черновой, промежуточной и финальной уборки.'],
     ['Подготовка площадки','Согласование доступа, рабочих зон и безопасности.'],
     ['Промежуточная уборка пыли и поверхностей','Удаление пыли с доступных поверхностей между работами подрядчиков.'],

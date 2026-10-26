@@ -162,7 +162,7 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,122,'122 source-built pages: 118 live-base routes plus four new gallery locales');
+assert.equal(pages.length,126,'126 source-built pages: 122 retained pages plus Bauhelfer guide in four locales');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
@@ -240,8 +240,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/revie
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 35, 'Russian public tree includes gallery and construction guides');
-assert.equal(russianPages.length, 36, 'Russian private inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 36, 'Russian public tree includes gallery and all five construction guides');
+assert.equal(russianPages.length, 37, 'Russian private inbox is an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);

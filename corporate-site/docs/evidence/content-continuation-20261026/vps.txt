@@ -1,0 +1,54 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 test:vps
+> node --test vps/*.test.mjs
+
+✔ published FAQ question/answer leaf edits preserve accordion, second item and HTML escaping (18.50702ms)
+✔ untrusted FAQ rich text fails closed instead of changing HTML (0.387241ms)
+✔ sign-in card includes padding inside viewport width for 320px devices (1.312635ms)
+✔ audit never bootstraps missing customer database (114.855075ms)
+✔ audit is genuinely read-only, migration count and integrity verified (174.32111ms)
+✔ verified unique SQL filenames match Drizzle journal without changing DB (3.149472ms)
+✔ parallel owner invite and ERP both numbered 0005 are rejected before migration (1.198697ms)
+✔ new SQL absent from journal is blocked rather than silently skipped on D1 (0.847609ms)
+✔ journal entries without corresponding SQL and malformed journal fail closed (1.212127ms)
+✔ duplicate journal order cannot imply two applied steps (0.88184ms)
+✔ symlinked SQL is not followed during preflight (0.7191ms)
+✔ current public-review sequence retains all six canonical SQL entries (2.121157ms)
+✔ fresh actual SQLite contains public reviews and passes integrity (17.889441ms)
+✔ actual baseline 1 upgrades once and retains prior receipts/data (33.162893ms)
+✔ actual baseline 5 upgrades once and retains prior receipts/data (30.954418ms)
+✔ unknown historical ledger fails closed before creating pending public reviews (22.901287ms)
+✔ all applied checksums are checked before any earlier pending SQL runs (15.410455ms)
+✔ pending migration is refused when allowMigrations=false (32.728513ms)
+✔ duplicate source ordinal is rejected before creating SQLite or parent directory (2.651118ms)
+✔ journal cannot silently reverse the SQL application order (3.022766ms)
+✔ journal timestamps must be finite and strictly increasing (2.195666ms)
+✔ online synthetic SQLite backup restores the complete migration ledger and preserved data (34.109222ms)
+✔ published article edits keep JSON-LD aligned with rendered H1 and description (46.625804ms)
+✔ article sync does not publish drafts, accept invalid HTML edits or rewrite malformed JSON-LD (6.142139ms)
+✔ a search title edit preserves visible article headline and unrelated structured data (3.73148ms)
+✔ only the canonical article is synchronized and ambiguous headings fail closed (14.234587ms)
+✔ owner published section background+padding and headline font size combine safely (32.850022ms)
+✔ unsafe design tokens fail closed, preserving original HTML (0.528238ms)
+✔ published leaf text and existing link/image attributes are rendered in actual HTML, without removing SVG icon (58.645681ms)
+✔ content edits in draft, invalid tokens and paths are never sent in HTML (0.432127ms)
+✔ missing/outdated selectors cannot corrupt HTML or remove scripts (13.623061ms)
+✔ Server-side published color and SEO are escaped and stable (12.628935ms)
+✔ real VPS review flow preserves idempotency, trusted owner moderation, privacy and restart durability (348.659131ms)
+✔ published title and description update server HTML head, OG while preserving canonical/robots (3.861733ms)
+✔ no drafts/empty/corrupt published or duplicate SEO entries are rendered (0.382314ms)
+✔ untrusted content never creates script, attributes, or second tags (0.695015ms)
+✔ title metadata updates do not change the body or head for non SEO edits (0.235056ms)
+✔ official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup (439.10744ms)
+✔ vsp HTTPS canonical Host verification and narrowly scoped HSTS (26.692801ms)
+✔ storage safety: normal, low-free, high-usage and critical profiles (1.417991ms)
+✔ unknown/impossible measurements fail closed (0.478385ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 856.410927
