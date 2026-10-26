@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0ee97833e027a8601d56c354ab0b4270110bd4987f0a9b7d32fc92bee6106d94",
+  "sourceDigest": "f2ac06a24c0d066fd372518a2e60002a1c46852b9a102e91cca768c5d45ed429",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -31,7 +31,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 945,
+  "unitCount": 949,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -280,6 +280,13 @@
         "/unternehmen/"
       ]
     },
+    "058ffa480b30df9ce2a78275": {
+      "kind": "text",
+      "source": "KNABA / ARBEITSABLAUF",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "05bc81cb4f85ca2fcc5bb61d": {
       "kind": "text",
       "source": "Bauendreinigung",
@@ -354,13 +361,6 @@
       "source": "Zugang, Ansprechpartner und Kontrolltermin werden gemeinsam geklärt. Eine Anfrage allein ist keine automatische Beauftragung.",
       "routes": [
         "/unternehmen/"
-      ]
-    },
-    "08e3d6d9b09763ead0d91faf": {
-      "kind": "text",
-      "source": "Illustrative Darstellungen typischer Arbeitsabläufe – keine Fotos konkreter Kundenaufträge.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "08eb06edfc2a934ff8ef46aa": {
@@ -520,38 +520,6 @@
         "/unternehmen/"
       ]
     },
-    "0e7b45246fdc0c93ddb85b32": {
-      "kind": "text",
-      "source": "Galerie",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
     "0edaa848f6bb2507739f0cf6": {
       "kind": "text",
       "source": "Nein, nicht automatisch. Abfallart, Transport, zulässiger Entsorger und Kosten müssen ausdrücklich vereinbart werden.",
@@ -597,6 +565,13 @@
       "source": "Bewehrung und Leitungen prüfen",
       "routes": [
         "/bauleistungen/kernbohrungen/"
+      ]
+    },
+    "104bf7de4582d2e773635295": {
+      "kind": "text",
+      "source": "So arbeitet KnaBa | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
       ]
     },
     "109030afc83743cd9b2a6d80": {
@@ -961,13 +936,6 @@
         "/ratgeber/baureinigung-phasen/"
       ]
     },
-    "1ba5413aa3d63abfa947f946": {
-      "kind": "text",
-      "source": "Einblicke in unsere Arbeitsbereiche",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "1be972e650e0f5e9204bc0cb": {
       "kind": "text",
       "source": "Baugrob-, Bauzwischen-, Baufein- und Bauendreinigung. Ergänzend Bauhelfer und vertraglich abgestimmte Zusatzleistungen. Berlin & Brandenburg.",
@@ -1180,11 +1148,25 @@
         "/bauleistungen/bauzwischenreinigung/"
       ]
     },
+    "21baf46f5703dd51633600df": {
+      "kind": "text",
+      "source": "Staub und erreichbare Oberflächen zwischen den Gewerken reinigen.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "21de741c835085e64a1cb43d": {
       "kind": "text",
       "source": "Zusammenarbeit mit klaren Schnittstellen",
       "routes": [
         "/branchen/"
+      ]
+    },
+    "22061665ef40769c791a915c": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Baustellenvorbereitung",
+      "routes": [
+        "/galerie/"
       ]
     },
     "224fd9d8a4f67d5413e02d12": {
@@ -1633,13 +1615,6 @@
       "source": "Standort",
       "routes": [
         "/unternehmen/"
-      ]
-    },
-    "2e79c0032238f55721389f84": {
-      "kind": "meta:description",
-      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "2ebd22b182dd2ca9a3ce04cf": {
@@ -2201,6 +2176,38 @@
         "/faq/"
       ]
     },
+    "4070e905bcde88ff2d719f61": {
+      "kind": "text",
+      "source": "Arbeitsabläufe",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
     "407a9192a83d2f1b61591162": {
       "kind": "text",
       "source": "Entscheidend sind Fläche, Verschmutzung, Bauphase, Zugang und Leistungsumfang. Eine belastbare Kalkulation erfolgt nach Klärung dieser Angaben.",
@@ -2645,6 +2652,13 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
+    "4b1a4b6409cdfb2c887405f8": {
+      "kind": "meta:og:description",
+      "source": "Vier typische Arbeitsschritte – von der Baustellenvorbereitung bis zur sauberen Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "4b27ee8d48b70eb9a1a02481": {
       "kind": "text",
       "source": "Fein- und Endreinigung: fertige Oberflächen betrachten",
@@ -2874,13 +2888,6 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
-      ]
-    },
-    "518ce591218e71a08e2c7d1d": {
-      "kind": "text",
-      "source": "Material, Erreichbarkeit und Reinigungsverfahren abstimmen.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "51a02f066659b30ab999f870": {
@@ -3468,13 +3475,6 @@
         "/datenschutz/"
       ]
     },
-    "6668b39dcca6e1b5e7c89d68": {
-      "kind": "attr:alt",
-      "source": "Symbolische Illustration: Glas- und Oberflächenreinigung",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "66b15f119556dbd091e7c594": {
       "kind": "text",
       "source": "Spezielle Bauarbeiten sind kein automatisches Angebot; Qualifikation, Statik, Schutzmaßnahmen und Vertrag werden separat geprüft.",
@@ -3666,9 +3666,9 @@
         "/karriere/"
       ]
     },
-    "6c1c2e443ad61ade9703369b": {
-      "kind": "text",
-      "source": "Glas- und Oberflächenreinigung",
+    "6c18f4cb244b07453c44da6c": {
+      "kind": "meta:description",
+      "source": "Vier typische Arbeitsschritte – von der Baustellenvorbereitung bis zur sauberen Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.",
       "routes": [
         "/galerie/"
       ]
@@ -3840,6 +3840,13 @@
         "/bauleistungen/baureinigung/"
       ]
     },
+    "6ead60ba6e1ec59082555375": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Zwischenreinigung von Staub und Oberflächen",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "6eb54b1ef9089213baf85efd": {
       "kind": "text",
       "source": "Eine kurze Übersicht mit Bereich, Beobachtung, zuständiger Kontaktperson und vereinbartem Folgetermin ist oft ausreichend. Trennen Sie erledigte Punkte von ungeprüften oder noch offenen. Beide Seiten sollten dieselbe Fassung erhalten, damit spätere Rückfragen auf einer gemeinsamen Grundlage beantwortet werden.",
@@ -3999,9 +4006,9 @@
         "/datenschutz/"
       ]
     },
-    "7297dde9f8b0bcc44308dd59": {
-      "kind": "meta:og:description",
-      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
+    "72a6f827d99b07f5b4111a2e": {
+      "kind": "text",
+      "source": "Zwischenreinigung von Staub und Oberflächen",
       "routes": [
         "/galerie/"
       ]
@@ -4063,6 +4070,13 @@
       "source": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "7432107c1ea6b1438d124fec": {
+      "kind": "meta:og:title",
+      "source": "So arbeitet KnaBa | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
       ]
     },
     "747b0d7a3c56454cdd1dbd2a": {
@@ -4180,6 +4194,13 @@
       "routes": [
         "/",
         "/faq/"
+      ]
+    },
+    "79b5258ee7a70d74b27c3e73": {
+      "kind": "text",
+      "source": "Vier typische Arbeitsschritte – von der Baustellenvorbereitung bis zur sauberen Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "79c30c3ba06437b57a97c5fd": {
@@ -4469,6 +4490,13 @@
       "source": "Nennen Sie mögliche Arbeitszeiten, frühesten Beginn, Einsatzort und Sprachen für die Abstimmung auf der Baustelle.",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "85cd21a1d41b1735c059db59": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Baureinigung nach Bauabschnitt",
+      "routes": [
+        "/galerie/"
       ]
     },
     "85d318de3000fb4bec6cdd34": {
@@ -5824,6 +5852,20 @@
         "/faq/"
       ]
     },
+    "ab1dc5582c719978db6e7055": {
+      "kind": "attr:alt",
+      "source": "Symbolische Illustration: Zwischenreinigung von Staub und Oberflächen",
+      "routes": [
+        "/galerie/"
+      ]
+    },
+    "ab56d3a9eec411aab516b160": {
+      "kind": "text",
+      "source": "So arbeitet KnaBa",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "ab6d2a28b915b0151caaee4d": {
       "kind": "text",
       "source": "2. Die tatsächlichen Aufwandsfaktoren benennen",
@@ -5843,6 +5885,13 @@
       "source": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "ac9550fae91b794975d706c0": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Saubere Objektübergabe",
+      "routes": [
+        "/galerie/"
       ]
     },
     "acabe4b25272eae476197ae6": {
@@ -6083,6 +6132,13 @@
       "source": "Für das Portal wird ein Profil mit Name, E-Mail-Adresse, gewünschter Rolle als Kunde oder Mitarbeitende, Freigabestatus und zugewiesener Rolle gespeichert. Hinzu kommen Erstellungs- und Änderungszeitpunkte sowie die Version der zur Kenntnis genommenen Datenschutzhinweise. Die Auswahl einer Rolle bei der Registrierung verleiht noch keine entsprechenden Zugriffsrechte. Der Website-Inhaber prüft und erteilt die Freigabe. Bis dahin können Sie keine fremden Auftragsdaten einsehen.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "b311effd78eee0d1c4d62e6b": {
+      "kind": "text",
+      "source": "Schematische Illustrationen zur Orientierung – keine Fotos konkreter Kundenaufträge.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "b3918adc736a05cbf92236d8": {
@@ -6392,13 +6448,6 @@
         "/berlin/"
       ]
     },
-    "bdd85159b1ec4dd636ffed77": {
-      "kind": "text",
-      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "be07951b9cb1edacb2b79ec3": {
       "kind": "text",
       "source": "Prüfen Sie die Planung nach Änderungen am Bauablauf erneut. Halten Sie zusätzliche Einsätze und deren Umfang fest, bevor sie beauftragt werden. Eine gemeinsame Sichtkontrolle beendet den vereinbarten Reinigungsschritt; technische Mängel und die Bauabnahme bleiben getrennte Vorgänge.",
@@ -6686,13 +6735,6 @@
         "/faq/"
       ]
     },
-    "c45c7a3f0a2c97f3896f0cfe": {
-      "kind": "text",
-      "source": "KNABA / GALERIE",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "c5433b34a22ca0fa4e1d6721": {
       "kind": "text",
       "source": "PASSENDE LEISTUNG FINDEN",
@@ -6899,13 +6941,6 @@
         "/bauleistungen/baureinigung/"
       ]
     },
-    "cd2d8fb578754276ff9f9e54": {
-      "kind": "text",
-      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "cd82bd2ebcbe2e115d12e4e7": {
       "kind": "text",
       "source": "Freigaben und zuständige Planer oder Fachbetriebe benennen.",
@@ -6985,6 +7020,7 @@
         "/berlin/",
         "/branchen/",
         "/faq/",
+        "/galerie/",
         "/karriere/",
         "/kontakt/",
         "/leistungen/",
@@ -7807,7 +7843,8 @@
       "kind": "text",
       "source": "Leistung ansehen",
       "routes": [
-        "/"
+        "/",
+        "/galerie/"
       ]
     },
     "e9636bc611ddc457ff6886d4": {
@@ -7829,13 +7866,6 @@
       "source": "Arbeitsflächen und Zugänge im freigegebenen Bereich beräumen.",
       "routes": [
         "/bauleistungen/baustellenraeumung/"
-      ]
-    },
-    "e9f00bfaa373bd3cb70a2804": {
-      "kind": "meta:og:title",
-      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
-      "routes": [
-        "/galerie/"
       ]
     },
     "e9f5ab34f2097d71aedc9f76": {
