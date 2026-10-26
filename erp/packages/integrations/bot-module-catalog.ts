@@ -44,7 +44,7 @@ const modules:readonly BotModule[]=[
   {id:'automation',label:['Automationen entwerfen','Чернетки автоматизацій','Черновики автоматизаций','Automatyzacje','Automatizavimas','Automation drafts'],audience:'OWNER',status:'WHATSAPP_COMMAND',permission:'automation.manage',command:'AUTOMATIONS'},
   {id:'orders',label:['Aufträge / Angebote','Замовлення / пропозиції','Заказы / предложения','Zlecenia / oferty','Užsakymai','Orders / quotes'],audience:'OWNER',status:'SOURCE_ONLY',permission:'commerce.read'},
   {id:'planning',label:['Einsatzplanung','Планування виїздів','Планирование выездов','Harmonogram','Tvarkaraštis','Dispatch planning'],audience:'OWNER',status:'SOURCE_ONLY',permission:'dispatch.read'},
-  {id:'employees',label:['Personal / Onboarding','Персонал / реєстрація','Персонал / регистрация','Personel','Darbuotojai','Staff / onboarding'],audience:'OWNER',status:'SOURCE_ONLY',permission:'identity.manage'},
+  {id:'employees',label:['Personal / Onboarding','Персонал / реєстрація','Персонал / регистрация','Personel','Darbuotojai','Staff / onboarding'],audience:'OWNER',status:'WHATSAPP_COMMAND',permission:'identity.manage',command:'WORKERS'},
   {id:'quality',label:['Qualität / Abnahmen','Контроль якості','Контроль качества','Kontrola jakości','Kokybės kontrolė','Quality / acceptance'],audience:'OWNER',status:'SOURCE_ONLY',permission:'task.review'},
   {id:'finance',label:['Buchhaltung','Бухгалтерія','Бухгалтерия','Księgowość','Apskaita','Accounting'],audience:'OWNER',status:'SOURCE_ONLY',permission:'finance.payroll'},
   {id:'analytics',label:['Berichte / Analyse','Звіти / аналітика','Отчёты / аналитика','Raporty','Ataskaitos','Reports / analytics'],audience:'OWNER',status:'SOURCE_ONLY',permission:'report.read'},
