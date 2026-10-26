@@ -1,18 +1,18 @@
 {
   "scope": "production-build-static-validation",
-  "pages": 122,
+  "pages": 126,
   "internalLinks": "PASS",
   "metadata": "PASS",
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40890,
-  "allEmittedJsGzip": 195442,
+  "cssGzip": 40959,
+  "allEmittedJsGzip": 190810,
   "assets": [
     {
-      "name": "_astro/AdminControlCenter.CA2r5637.js",
+      "name": "_astro/AdminControlCenter.C1Xjw6E2.js",
       "bytes": 14266,
-      "gzip": 5666
+      "gzip": 5665
     },
     {
       "name": "_astro/AssistantCaptcha.6JFtqcaw.js",
@@ -80,11 +80,6 @@
       "gzip": 3858
     },
     {
-      "name": "_astro/Inquiry.BEZmVDuz.js",
-      "bytes": 20181,
-      "gzip": 7096
-    },
-    {
       "name": "_astro/Inquiry.CEGEsZ8e.js",
       "bytes": 20641,
       "gzip": 7338
@@ -120,9 +115,9 @@
       "gzip": 400
     },
     {
-      "name": "_astro/Partners.DySK8qOf.css",
-      "bytes": 4962,
-      "gzip": 1345
+      "name": "_astro/Partners.spIlufU2.css",
+      "bytes": 5457,
+      "gzip": 1457
     },
     {
       "name": "_astro/Portal.CI7QnWYj.js",
@@ -135,9 +130,9 @@
       "gzip": 3780
     },
     {
-      "name": "_astro/PublicReviews.CVGPDiyJ.js",
-      "bytes": 8789,
-      "gzip": 3335
+      "name": "_astro/PublicReviews.BkXhlKme.js",
+      "bytes": 9331,
+      "gzip": 3483
     },
     {
       "name": "_astro/ServiceFinder.DQ4O4RH9.js",
@@ -150,9 +145,9 @@
       "gzip": 2701
     },
     {
-      "name": "_astro/SiteStudio.DIKPuj0x.js",
-      "bytes": 38503,
-      "gzip": 12740
+      "name": "_astro/SiteStudio.DlaIHF-w.js",
+      "bytes": 38538,
+      "gzip": 12750
     },
     {
       "name": "_astro/admin.DZEqblwF.css",
@@ -225,14 +220,14 @@
       "gzip": 350
     },
     {
-      "name": "_astro/reviews.8c45fDDb.js",
-      "bytes": 15162,
-      "gzip": 5494
+      "name": "_astro/reviews.BkvJoBCK.css",
+      "bytes": 8221,
+      "gzip": 2215
     },
     {
-      "name": "_astro/reviews.CsUgINld.css",
-      "bytes": 8374,
-      "gzip": 2258
+      "name": "_astro/reviews.DPXMaZl-.js",
+      "bytes": 20859,
+      "gzip": 7801
     },
     {
       "name": "_astro/rolldown-runtime.DK3Fl9T5.js",
@@ -300,7 +295,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "b4467375ce695206c42193e239d3405f8526b638113b31bad50580db8429dc2b",
+  "artifactSha256": "7698331081e7a193e6bf23feb566ab9a8979c5c1033afae5056c1ead0c8bfc7c",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

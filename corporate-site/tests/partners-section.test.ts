@@ -1,6 +1,6 @@
 import {describe,expect,it} from 'vitest';
 import {readFileSync} from 'node:fs';
-import {officialPartnerLogos,partnerCopy} from '../src/data/partners';
+import {officialPartnerLogos,partnerCopy,partnerDirectoryCopy,partnerProfilePath} from '../src/data/partners';
 
 const load=(p:string)=>readFileSync(new URL(p,import.meta.url),'utf8');
 
@@ -38,5 +38,25 @@ describe('KNABA official partner parity',()=>{
     expect(section).toContain('data-partner-id={partner.id}');
     expect(section).toContain('loading="lazy"');
     expect(section).not.toMatch(/<a[^>]+href=["']https?:\/\/(?:www\.)?knaba\.de/);
+  });
+  it('routes every partner to an existing localized directory and a unique profile anchor',()=>{
+    expect(new Set(officialPartnerLogos.map(partner=>partner.slug)).size).toBe(5);
+    for(const locale of ['de','en','uk','ru'] as const){
+      const prefix=locale==='de'?'':locale+'/';
+      expect(load('../src/pages/'+prefix+'partner.astro')).toContain('locale="'+locale+'"');
+      expect(partnerDirectoryCopy[locale].intro.length).toBeGreaterThan(30);
+      for(const partner of officialPartnerLogos){
+        const destination=new URL(partnerProfilePath(locale,partner.slug),'https://kneba.vsp.rest');
+        expect(destination.origin).toBe('https://kneba.vsp.rest');
+        expect(destination.pathname).toBe('/'+prefix+'partner/');
+        expect(destination.hash).toBe('#'+partner.slug);
+        expect(partner.description[locale].length).toBeGreaterThan(60);
+      }
+    }
+    expect(load('../src/components/Partners.astro')).toContain('href={partnerProfilePath(locale,partner.slug)}');
+    const directory=load('../src/components/PartnerDirectory.astro');
+    expect(directory).toContain('id={partner.slug}');
+    expect(directory).toContain('partner.description[locale]');
+    expect(directory).not.toContain('partner.source');
   });
 });

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "d5f995a1504c9f46cc6709579cf2bd0c2b20a72c7884c7e730cd8695ee9dfe20",
+  "sourceDigest": "06abef87ae018a0bad55721b16c5ff6d5ebac2f588bbf7cb7de33072534a57eb",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -23,6 +23,7 @@
     "/kontakt/",
     "/konto/",
     "/leistungen/",
+    "/partner/",
     "/planer/",
     "/ratgeber/",
     "/ratgeber/bauendreinigung-vorbereiten/",
@@ -31,7 +32,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 944,
+  "unitCount": 963,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -134,6 +135,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -201,6 +203,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -271,6 +274,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -278,6 +282,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "0567e060ef8ecaab269d5c37": {
+      "kind": "text",
+      "source": "Unsere Partner im Überblick | KnaBa",
+      "routes": [
+        "/partner/"
       ]
     },
     "05bc81cb4f85ca2fcc5bb61d": {
@@ -332,6 +343,13 @@
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "07bcae0ea37157c5de4ac3da": {
+      "kind": "meta:og:title",
+      "source": "Unsere Partner im Überblick | KnaBa",
+      "routes": [
+        "/partner/"
       ]
     },
     "082d0efac0b9ab56e5bda1e0": {
@@ -396,6 +414,13 @@
       "source": "ERFAHRUNGEN / ZUSAMMENARBEIT",
       "routes": [
         "/"
+      ]
+    },
+    "0b335dd3c3d8a881862d2b1e": {
+      "kind": "text",
+      "source": "GOLDBECK plant, baut und betreut Immobilien. Zum Leistungsspektrum gehören unter anderem Industriehallen, Büros, Bildungsbauten, Wohngebäude und gebäudenahe Dienstleistungen.",
+      "routes": [
+        "/partner/"
       ]
     },
     "0b54cabb9e756694af171aef": {
@@ -479,6 +504,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -511,6 +537,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -543,6 +570,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -742,6 +770,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -975,6 +1004,14 @@
         "/"
       ]
     },
+    "1c24f182f897092a3bac86fe": {
+      "kind": "text",
+      "source": "Unternehmen kennenlernen",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "1c38e405ae551e0ab0e1e243": {
       "kind": "text",
       "source": "Ihre Zusammenarbeit mit KnaBa",
@@ -1047,6 +1084,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -1143,12 +1181,21 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
+    "2098e047e5855cef1049c415": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: BONAVA",
+      "routes": [
+        "/",
         "/unternehmen/"
       ]
     },
@@ -1232,6 +1279,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -1299,6 +1347,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -1355,6 +1404,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -1387,6 +1437,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -1450,6 +1501,13 @@
       "source": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen | KnaBa",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
+      ]
+    },
+    "293995bf6151b11fbf4b748d": {
+      "kind": "text",
+      "source": "Startseite",
+      "routes": [
+        "/partner/"
       ]
     },
     "293ce5413d6e08934baa0304": {
@@ -1527,6 +1585,13 @@
         "/ratgeber/bauuebergabe-checkliste/"
       ]
     },
+    "2b831fd02b58eb175b290c85": {
+      "kind": "text",
+      "source": "Bonava entwickelt Wohnquartiere, Häuser und Wohnungen. Die Planung verbindet die Gebäude mit ihrem Umfeld und den Bedürfnissen der Menschen, die dort wohnen.",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "2b97da18b7de27b19ef05538": {
       "kind": "text",
       "source": "Zwischenreinigung: den Gewerkewechsel vorbereiten",
@@ -1564,6 +1629,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -1616,6 +1682,7 @@
       "source": "Stromkreis",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -1769,6 +1836,13 @@
         "/berlin/"
       ]
     },
+    "31a64433e38f95675c1b4d91": {
+      "kind": "meta:description",
+      "source": "Lernen Sie die Unternehmen aus unserem Partnerbereich und ihre Tätigkeitsfelder kennen.",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "31bba4353d592277535cf82d": {
       "kind": "text",
       "source": "Raumliste mit fertigen und noch bearbeiteten Bereichen",
@@ -1821,6 +1895,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2001,6 +2076,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2008,6 +2084,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "3a7fa6f551904a80586fea5b": {
+      "kind": "text",
+      "source": "Lernen Sie die Unternehmen aus unserem Partnerbereich und ihre Tätigkeitsfelder kennen.",
+      "routes": [
+        "/partner/"
       ]
     },
     "3aaa191eabf7d7e10143523f": {
@@ -2089,6 +2172,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2177,6 +2261,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2252,6 +2337,7 @@
         "/karriere/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2341,6 +2427,13 @@
         "/bauleistungen/bauhilfe/"
       ]
     },
+    "4575162085490b7dfc529607": {
+      "kind": "text",
+      "source": "Gewobag ist ein kommunales Wohnungsunternehmen in Berlin. Zu seinen Aufgaben zählen die Bewirtschaftung, der Neubau und die Modernisierung von Wohnraum sowie die Entwicklung von Quartieren.",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "45deea0fcd775f99944e238f": {
       "kind": "text",
       "source": "Container, Zufahrt, Aufzug oder Tragewege und zuständigen Entsorger abstimmen.",
@@ -2385,6 +2478,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2438,6 +2532,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2466,6 +2561,13 @@
       "source": "Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Eigene Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Die fünf Partnerlogos werden direkt von dieser Website geladen; für deren Anzeige wird kein externer Bilddienst kontaktiert. Die Unternehmenszeichen gehören ihren jeweiligen Rechteinhabern. Externe Karten und Videos sind nicht eingebettet.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "48dff4cdf7b230d2c90ff646": {
+      "kind": "text",
+      "source": "Hanseatische Immobilien Treuhand aus Stade ist aus dem Bauträger- und Projektentwicklungsgeschäft bekannt. Das Unternehmensprofil gehört zum Bereich Immobilien und Bauprojekte.",
+      "routes": [
+        "/partner/"
       ]
     },
     "48e1c3cd464a966dd59943e7": {
@@ -2527,6 +2629,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2555,6 +2658,7 @@
       "source": "KnaBa / Netzwerk",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -2622,6 +2726,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2759,6 +2864,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2861,6 +2967,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -2913,6 +3020,13 @@
       "source": "Leistung anfragen →",
       "routes": [
         "/leistungen/"
+      ]
+    },
+    "528b3adf1810f6ea89c04949": {
+      "kind": "text",
+      "source": "Stromkreis berät zu Energielösungen für Privat- und Geschäftskunden. Dazu gehören Strom- und Gastarife sowie Beratung zu Photovoltaik und weiteren Energiedienstleistungen.",
+      "routes": [
+        "/partner/"
       ]
     },
     "52a636211376a9df34229f38": {
@@ -3389,6 +3503,7 @@
       "source": "Logo von Stromkreis",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -3509,6 +3624,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3562,6 +3678,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3631,6 +3748,7 @@
       "source": "Logo von BONAVA",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -3646,6 +3764,7 @@
       "source": "Logo von GOLDBECK",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -3735,6 +3854,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3767,6 +3887,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3821,6 +3942,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3913,6 +4035,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3973,6 +4096,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4141,6 +4265,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4313,6 +4438,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4701,6 +4827,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4865,6 +4992,7 @@
         "/karriere/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4990,6 +5118,14 @@
         "/datenschutz/"
       ]
     },
+    "9026daadac7cf8b32d046a6a": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: Stromkreis",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "904a32fd2da030bbcaa23125": {
       "kind": "text",
       "source": "Ist die Entsorgung von Bauschutt inklusive?",
@@ -5027,6 +5163,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5204,6 +5341,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5236,6 +5374,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5264,6 +5403,14 @@
       "source": "Deutschland",
       "routes": [
         "/impressum/"
+      ]
+    },
+    "96931cca6d723d931aca735e": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: HIT · Hanseatische Immobilien Treuhand",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "96eee44ba73bb6a88fbe83e4": {
@@ -5362,6 +5509,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5451,6 +5599,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5472,6 +5621,7 @@
       "source": "HIT · Hanseatische Immobilien Treuhand",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -5529,6 +5679,14 @@
       "source": "Verantwortlicher",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "a0332614e53a27f7218d1d16": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: GOLDBECK",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "a08d93ed82ec3c938c7a7d51": {
@@ -5749,6 +5907,13 @@
         "/bauleistungen/bauhilfe/"
       ]
     },
+    "a92199fbf07d93fc662307f6": {
+      "kind": "text",
+      "source": "Unsere Partner im Überblick",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "a97e4302e4ed9125019d71c9": {
       "kind": "meta:description",
       "source": "KnaBa aus Berlin verbindet Baureinigung, Baustellenvorbereitung und Bauhilfsarbeiten. Wir sprechen direkt über Bauabschnitt, Objekt und benötigte Leistung.",
@@ -5779,6 +5944,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5977,13 +6143,6 @@
       "source": "Entsorgung gesondert abstimmen",
       "routes": [
         "/bauleistungen/baustellenraeumung/"
-      ]
-    },
-    "afb71c358f6cfbde44ec3972": {
-      "kind": "text",
-      "source": "Was unsere Kunden und Partner sagen.",
-      "routes": [
-        "/"
       ]
     },
     "afd8fb808a76a9d50c0c0855": {
@@ -6337,6 +6496,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6398,6 +6558,13 @@
         "/galerie/"
       ]
     },
+    "bde14d5d3d99bc7e34e82d06": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen auf dieser Seite",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "be07951b9cb1edacb2b79ec3": {
       "kind": "text",
       "source": "Prüfen Sie die Planung nach Änderungen am Bauablauf erneut. Halten Sie zusätzliche Einsätze und deren Umfang fest, bevor sie beauftragt werden. Eine gemeinsame Sichtkontrolle beendet den vereinbarten Reinigungsschritt; technische Mängel und die Bauabnahme bleiben getrennte Vorgänge.",
@@ -6449,6 +6616,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6502,6 +6670,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6555,6 +6724,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6718,6 +6888,7 @@
       "source": "BONAVA",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -6789,6 +6960,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6803,6 +6975,7 @@
       "source": "GOLDBECK",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -6917,6 +7090,7 @@
       "source": "Gewobag",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -6987,6 +7161,7 @@
         "/karriere/",
         "/kontakt/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -7040,6 +7215,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -7187,6 +7363,7 @@
       "source": "Logo von HIT · Hanseatische Immobilien Treuhand",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -7268,6 +7445,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -7310,6 +7488,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -7438,6 +7617,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -7574,6 +7754,13 @@
         "/impressum/"
       ]
     },
+    "e0430aa49ebf8163d006ca70": {
+      "kind": "meta:og:description",
+      "source": "Lernen Sie die Unternehmen aus unserem Partnerbereich und ihre Tätigkeitsfelder kennen.",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "e04bb8add0488d1c2501cce5": {
       "kind": "text",
       "source": "Ja, als technische Anfrage mit Angabe von Zweck, Wandaufbau, Durchmesser und Plänen. Eine Freigabe der Ausführung erfolgt erst nach Prüfung.",
@@ -7618,6 +7805,13 @@
       "source": "Nutzen Sie diese Kontaktdaten auch für Auskunfts-, Berichtigungs- oder Löschungsanliegen. Bitte teilen Sie uns nur die Angaben mit, die wir zur Zuordnung und Bearbeitung Ihres Anliegens benötigen.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "e17c659d2f1f41ae6a13d1a2": {
+      "kind": "text",
+      "source": "Rückmeldungen zur Zusammenarbeit.",
+      "routes": [
+        "/"
       ]
     },
     "e1f2b5552b556712c7b43c78": {
@@ -7824,6 +8018,14 @@
         "/ratgeber/baureinigung-phasen/"
       ]
     },
+    "e98788693b731ad79a8eb12b": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: Gewobag",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "e9c97b446435123a42ec0a94": {
       "kind": "text",
       "source": "Arbeitsflächen und Zugänge im freigegebenen Bereich beräumen.",
@@ -7900,6 +8102,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -8182,6 +8385,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -8263,6 +8467,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -8372,6 +8577,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -8393,6 +8599,7 @@
       "source": "Logo von Gewobag",
       "routes": [
         "/",
+        "/partner/",
         "/unternehmen/"
       ]
     },
@@ -8426,6 +8633,7 @@
         "/kontakt/",
         "/konto/",
         "/leistungen/",
+        "/partner/",
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",

@@ -1,0 +1,304 @@
+{
+  "all_execution": "PLANNED_NOT_STARTED",
+  "capacity_groups_are_dispatch_authorization": false,
+  "concurrency": {
+    "concurrent_worker_limit": 2,
+    "coordinator_slots_reserved": 1,
+    "max_workers_requested": 4,
+    "mode": "BOUNDED_WORKERS",
+    "runtime_slots": 3
+  },
+  "dispatch_gate": "Approved dependency graph, fresh capability/permission checks and exclusive file scopes required",
+  "domain_leads": {
+    "repository": "repository-lead",
+    "web": "software-architect"
+  },
+  "domains": [
+    "repository",
+    "web"
+  ],
+  "independent_review": {
+    "execution": "PLANNED_NOT_STARTED",
+    "reason": "Reviewer not yet assigned",
+    "requirement": "Reviewer executor must differ from artifact author"
+  },
+  "noncoding_requires_git_or_code_tests": false,
+  "ownership": {
+    "parallel_writes": "BLOCKED_UNTIL_NONOVERLAPPING_SCOPES_ASSIGNED",
+    "shared_file_owner": "coordinator",
+    "worker_scopes": "UNASSIGNED"
+  },
+  "phases": [
+    {
+      "capacity_groups": [
+        [
+          "repository-lead",
+          "software-architect"
+        ],
+        [
+          "ui-designer"
+        ]
+      ],
+      "depends_on": [],
+      "execution": "PLANNED_NOT_STARTED",
+      "phase_id": "brief",
+      "required_evidence": [
+        "requirement_ids_and_acceptance",
+        "current_capabilities_and_permissions",
+        "task_dependencies_and_nonoverlapping_ownership",
+        "shared_contracts_agreed",
+        "authenticated_account_identity",
+        "exact_owner_repository_visibility",
+        "authorized_operation_scope",
+        "protected_branch_policy"
+      ]
+    },
+    {
+      "capacity_groups": [
+        [
+          "repository-operator",
+          "ui-designer"
+        ],
+        [
+          "web-engineer"
+        ]
+      ],
+      "depends_on": [
+        "brief"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "phase_id": "implement",
+      "required_evidence": [
+        "actual_artifacts_and_author_attribution",
+        "changed_scope_and_known_limits"
+      ]
+    },
+    {
+      "capacity_groups": [
+        [
+          "functional-reviewer",
+          "performance-reviewer"
+        ],
+        [
+          "repository-reviewer",
+          "security-reviewer"
+        ]
+      ],
+      "depends_on": [
+        "implement"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "phase_id": "verify",
+      "required_evidence": [
+        "authenticated_account_identity",
+        "authorized_operation_scope",
+        "exact_owner_repository_visibility",
+        "functional_behavior",
+        "maintainability",
+        "measured_performance",
+        "protected_branch_policy",
+        "regression_risk",
+        "remote_state_receipt",
+        "responsive_accessible_localized_ui",
+        "rollback_or_recovery",
+        "security_and_access"
+      ]
+    },
+    {
+      "capacity_groups": [
+        [
+          "repository-lead",
+          "software-architect"
+        ]
+      ],
+      "depends_on": [
+        "verify"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "phase_id": "integrate",
+      "required_evidence": [
+        "aggregate_acceptance_evidence",
+        "accessible_final_deliverable",
+        "memory_checkpoint_and_remaining_unknowns"
+      ]
+    }
+  ],
+  "provider_selection": "FRESH_CAPABILITY_CHECK_REQUIRED_NO_PROVIDER_ASSUMED",
+  "repository_work_requested": true,
+  "required_capabilities": [
+    {
+      "state": "FRESH_CHECK_REQUIRED",
+      "type": "browser.ui_inspect"
+    },
+    {
+      "state": "FRESH_CHECK_REQUIRED",
+      "type": "code.execute_checks"
+    },
+    {
+      "state": "FRESH_CHECK_REQUIRED",
+      "type": "code.read_write"
+    },
+    {
+      "state": "FRESH_CHECK_REQUIRED",
+      "type": "repository.authorized_operation"
+    },
+    {
+      "state": "FRESH_CHECK_REQUIRED",
+      "type": "repository.identity_read"
+    },
+    {
+      "state": "FRESH_CHECK_REQUIRED",
+      "type": "repository.remote_state_read"
+    }
+  ],
+  "role_count_including_coordinator": 10,
+  "roles": [
+    {
+      "domains": [
+        "repository",
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "label": "Coordinator and sole shared-file integrator",
+      "phases": [
+        "brief",
+        "implement",
+        "verify",
+        "integrate"
+      ],
+      "role_id": "coordinator"
+    },
+    {
+      "domains": [
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Independent functional and regression reviewer",
+      "phases": [
+        "verify"
+      ],
+      "role_id": "functional-reviewer"
+    },
+    {
+      "domains": [
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Independent performance reviewer",
+      "phases": [
+        "verify"
+      ],
+      "role_id": "performance-reviewer"
+    },
+    {
+      "domains": [
+        "repository"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Repository and account operation lead",
+      "phases": [
+        "brief",
+        "integrate"
+      ],
+      "role_id": "repository-lead"
+    },
+    {
+      "domains": [
+        "repository"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Repository lifecycle operator",
+      "phases": [
+        "implement"
+      ],
+      "role_id": "repository-operator"
+    },
+    {
+      "domains": [
+        "repository"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Independent repository-state reviewer",
+      "phases": [
+        "verify"
+      ],
+      "role_id": "repository-reviewer"
+    },
+    {
+      "domains": [
+        "repository",
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Independent security reviewer",
+      "phases": [
+        "verify"
+      ],
+      "role_id": "security-reviewer"
+    },
+    {
+      "domains": [
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Software architect",
+      "phases": [
+        "brief",
+        "integrate"
+      ],
+      "role_id": "software-architect"
+    },
+    {
+      "domains": [
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Product and accessible UI designer",
+      "phases": [
+        "brief",
+        "implement"
+      ],
+      "role_id": "ui-designer"
+    },
+    {
+      "domains": [
+        "web"
+      ],
+      "execution": "PLANNED_NOT_STARTED",
+      "executor": "UNASSIGNED",
+      "label": "Web engineer",
+      "phases": [
+        "implement"
+      ],
+      "role_id": "web-engineer"
+    }
+  ],
+  "schema_version": 1,
+  "skill_fallback": "Use procedural review only where permitted; missing capability stays BLOCKED",
+  "skills": [
+    {
+      "auto_install": false,
+      "name": "coding-autopilot",
+      "state": "UNCHECKED"
+    },
+    {
+      "auto_install": false,
+      "name": "verify-repository-readiness",
+      "state": "UNCHECKED"
+    },
+    {
+      "auto_install": false,
+      "name": "web-ui-coding-skills",
+      "state": "UNCHECKED"
+    }
+  ],
+  "validation_policy": "Choose checks for actual artifact and risk; do not impose Git or code tests on noncoding work"
+}
