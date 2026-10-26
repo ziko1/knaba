@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "project_id": "knaba-de",
+  "goal": "Scoped implementation/evidence checkpoint, not product acceptance",
+  "source_brief": {
+    "path": "corporate-site/docs/evidence/migration-composition-20261026/BRIEF.md",
+    "sha256": "6674c1e31bbce99299454f2e3bd9897d553b9b0153fa61e5325a17834576fc62"
+  },
+  "scope_files": [
+    "corporate-site/PROJECT_MEMORY.md",
+    "corporate-site/ROADMAP.md",
+    "corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md",
+    "corporate-site/docs/plans/2026-10-26-readiness-repairs.md",
+    "corporate-site/drizzle/0006_owner_invite.sql",
+    "corporate-site/drizzle/meta/0006_snapshot.json",
+    "corporate-site/drizzle/meta/_journal.json",
+    "corporate-site/package.json",
+    "corporate-site/tests/owner-activation-browser.cjs",
+    "corporate-site/vps/database.mjs",
+    "corporate-site/vps/manage.mjs",
+    "corporate-site/vps/manage.test.mjs",
+    "corporate-site/vps/migration-guard.mjs",
+    "corporate-site/vps/migration-upgrade.test.mjs",
+    "corporate-site/vps/owner-invite.mjs",
+    "corporate-site/vps/owner-invite.test.mjs",
+    "corporate-site/vps/owner-onboarding.test.mjs",
+    "corporate-site/vps/server.mjs",
+    "corporate-site/vps/server.test.mjs"
+  ],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "виправ це и продовжуй",
+      "criteria": [
+        {
+          "id": "C1",
+          "text": "Scoped code repair and evidence exist; independent acceptance remains separately required.",
+          "artifact_ids": [
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8",
+            "A9",
+            "A10",
+            "A11",
+            "A12",
+            "A13",
+            "A14",
+            "A15",
+            "A16",
+            "A17",
+            "A18"
+          ],
+          "check_ids": [
+            "K1"
+          ]
+        }
+      ],
+      "review": {
+        "path": "corporate-site/docs/evidence/migration-composition-20261026/independent-review-pending.json",
+        "sha256": "1c953ff25fe7d1b28aa1ddea6bf82790079894e69b694152a6d1ad347f5d0ea1"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "requirement_ids": [
+        "R1"
+      ],
+      "depends_on": [],
+      "status": "done"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "A0",
+      "path": "corporate-site/PROJECT_MEMORY.md",
+      "sha256": "90b52a5ecda713041604236843cb11b7d4c5a6ab589333001e6b9dc829d93836",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A1",
+      "path": "corporate-site/ROADMAP.md",
+      "sha256": "964d63b5a4b88874b0aa1a64111094161d2e38d43ed4261c4bb76301b8bf9a54",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A2",
+      "path": "corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md",
+      "sha256": "243bec31e3f49128747e4959e1a924f00468b8c9496f609b882157e33980c8c7",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A3",
+      "path": "corporate-site/docs/plans/2026-10-26-readiness-repairs.md",
+      "sha256": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A4",
+      "path": "corporate-site/drizzle/0006_owner_invite.sql",
+      "sha256": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A5",
+      "path": "corporate-site/drizzle/meta/0006_snapshot.json",
+      "sha256": "9b4ed782c402189e333c02abb69e21e41ec839a5f74af55977ca3f073364d88a",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A6",
+      "path": "corporate-site/drizzle/meta/_journal.json",
+      "sha256": "034c73e092ccd8080b461f5c9844cfc979409b1e630a74473c1f82c763438cc5",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A7",
+      "path": "corporate-site/package.json",
+      "sha256": "3cd28886c668c783cb5573a5ad335263120d8b709224ae8c5262752da1a958b5",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A8",
+      "path": "corporate-site/tests/owner-activation-browser.cjs",
+      "sha256": "bafd082f557fdeeb6a7f8c4192223b7cdc7f8f63ef5ef84624164eddaf0992e9",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A9",
+      "path": "corporate-site/vps/database.mjs",
+      "sha256": "6c8cefa7acbe636e6bacaf3cd329bd715b4aa1f5aa08033b7b6d49db77b89c47",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A10",
+      "path": "corporate-site/vps/manage.mjs",
+      "sha256": "bd5bd4a59f4de9e9e4c2b428e1d1f653f91376c75aecc4173f51b0dfa1d6dd1c",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A11",
+      "path": "corporate-site/vps/manage.test.mjs",
+      "sha256": "62595592c767c21c7a5ac62614cae77f64e26fe24a07c7473b558f5f1ae33b5a",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A12",
+      "path": "corporate-site/vps/migration-guard.mjs",
+      "sha256": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A13",
+      "path": "corporate-site/vps/migration-upgrade.test.mjs",
+      "sha256": "b7b4779f3fa5795900f57c5cd612f3d56d4ef7aac926d17f7704d17c94670a9d",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A14",
+      "path": "corporate-site/vps/owner-invite.mjs",
+      "sha256": "c88f951ad461cea390f994ec0ee2eb6e3d9525982f0707cc21eefc75bbf6b7ec",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A15",
+      "path": "corporate-site/vps/owner-invite.test.mjs",
+      "sha256": "4cfee94689782d3a03b6e5d42a77efd1d049b963f78f8cafaa2880414f66e11e",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A16",
+      "path": "corporate-site/vps/owner-onboarding.test.mjs",
+      "sha256": "cfc3015f134d83454555e3db63a1050a1973d2f2c165d521ae4db2ca352662d5",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A17",
+      "path": "corporate-site/vps/server.mjs",
+      "sha256": "239b70c86d40a08a382e9b0a5e5ac6d68fb957c748a9917b56fe51f0e18b2e35",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A18",
+      "path": "corporate-site/vps/server.test.mjs",
+      "sha256": "95b8f6e60ac92bf1f9a3f3f13501e9b5613f35ca40ea7694f86785e2f1eea624",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    }
+  ],
+  "checks": [
+    {
+      "id": "K1",
+      "required": true,
+      "artifact_ids": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "A10",
+        "A11",
+        "A12",
+        "A13",
+        "A14",
+        "A15",
+        "A16",
+        "A17",
+        "A18"
+      ],
+      "evidence": {
+        "path": "corporate-site/docs/evidence/migration-composition-20261026/ai-team-check.json",
+        "sha256": "3223ebbb16cc2a58af45bbd7498aa868769a6c574c8ef236a60e8f83dde6fe79"
+      }
+    }
+  ]
+}
