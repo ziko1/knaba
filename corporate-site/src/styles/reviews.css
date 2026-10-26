@@ -14,12 +14,6 @@
 .review-card figcaption{display:grid;gap:5px;border-top:1px solid #c6d1cc;padding-top:18px;font-size:.875rem;line-height:1.6}
 .review-card figcaption strong{font-size:1rem;color:#133d40}
 .review-meta{color:#4f6867;font-size:.75rem}
-.reviews-example-heading{margin-bottom:24px}
-.reviews-example-heading p,.reviews-example-invitation{line-height:1.75;margin-top:16px}
-.reviews-examples .reviews-grid{align-items:stretch}
-.review-example{display:flex;flex-direction:column;gap:0}
-.review-example-badge{display:block;align-self:flex-start;padding:7px 10px;border:1px solid #819d98;border-radius:6px;background:#fff;color:#173e42;font-size:.8125rem;line-height:1.5;font-weight:750}
-.review-example figcaption{margin-top:auto}
 .reviews-action{display:flex;justify-content:flex-start;margin-top:24px}
 .reviews-button{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:48px;padding:13px 21px;border:1px solid #123a43;border-radius:10px;background:#123a43;color:#fff;font:inherit;font-size:.875rem;font-weight:750;line-height:1.5;cursor:pointer;max-width:100%;text-align:center;overflow-wrap:anywhere;white-space:normal}
 .reviews-button:hover{background:#075f65;border-color:#075f65}
