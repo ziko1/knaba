@@ -5,6 +5,7 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { inspectMigrationSequence } from './migration-guard.mjs';
 import { openLocalDatabase } from './database.mjs';
 
@@ -26,7 +27,7 @@ async function fixture(work) {
 }
 
 test('current review migration is preserved and owner invite migration is forward-only ordinal 0006', () => {
-  const { names } = inspectMigrationSequence(new URL('../drizzle/', import.meta.url));
+  const { names } = inspectMigrationSequence(fileURLToPath(new URL('../drizzle/', import.meta.url)));
   assert.equal(names[5], '0005_public_reviews.sql');
   assert.equal(names[6], '0006_owner_invite.sql');
 });
