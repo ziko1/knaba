@@ -15,7 +15,7 @@ const expected=['baureinigung-phasen','baureinigung-kosten-planen',
 const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.KNABA_CHROME_PATH||undefined,
-   args:['--no-sandbox','--disable-dev-shm-usage']});
+   args:['--disable-dev-shm-usage']});
  let verified=0;
  try{
   for(const [lang,prefix] of locales){
