@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "repository": "ziko1/knaba",
+  "source_branch": "main",
+  "source_commit": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+  "source_tree": "1d708588f17f390c5e55460841af633d607d9e42",
+  "observed_at_utc": "2026-10-08",
+  "scope": "Read-only document binary transfer verification. No application/source acceptance, Git mutation, Railway mutation, package install or network shell.",
+  "status": "BLOCKED_BINARY_TRANSFER_NOT_VERIFIED",
+  "tree_metadata_verified": true,
+  "tree_truncated": false,
+  "binary_bytes_obtained": false,
+  "artifacts": [
+    {
+      "remote_path": "docs/specification/KNABA_DE_Developer_Brief_V4_UK.pdf",
+      "git_blob_sha1_reported": "8172dd01f8045caaa1c958675f296fb05c1df7b5",
+      "git_tree_bytes": 61520,
+      "git_mode": "100644",
+      "reported_sha256": "832809377478973df831a0d92c28e683bdefc3df1b2d3f33e4013200597f1f16",
+      "local_binary_file": null,
+      "verified_bytes": null,
+      "verified_sha256": null,
+      "verified_git_blob_sha1": null,
+      "status": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED",
+      "attempts": [
+        {
+          "tool": "github_fetch",
+          "route": "GitHub REST git/blobs",
+          "error": "HTTPError: 400: GitHub Fetch only accepts UTF-8 text. (Response: None)",
+          "error_code": "INVALID_ARGUMENT"
+        },
+        {
+          "tool": "github_fetch_blob",
+          "error": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0x93 in position 10: invalid start byte",
+          "error_code": "UNKNOWN"
+        }
+      ],
+      "checks": {
+        "sha256": "NOT_RUN",
+        "git_blob_sha1": "NOT_RUN",
+        "pdf_structure_page_count": "NOT_RUN",
+        "zip_crc_path_symlink_limits": "NOT_APPLICABLE",
+        "zip_inner_document_identity": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "remote_path": "docs/specification/KNABA_DE_Developer_Package_V4_UK.zip",
+      "git_blob_sha1_reported": "62f948a92efa45e06a9516015ff8ceb5bd31f02f",
+      "git_tree_bytes": 105541,
+      "git_mode": "100644",
+      "reported_sha256": "22dce2e1e72f14a0cb7834c73c9b2f00f77136049c9378d09d55df65f701649b",
+      "local_binary_file": null,
+      "verified_bytes": null,
+      "verified_sha256": null,
+      "verified_git_blob_sha1": null,
+      "status": "NOT_DOWNLOADED_NOT_INDEPENDENTLY_VERIFIED",
+      "attempts": [
+        {
+          "tool": "github_fetch",
+          "route": "GitHub REST git/blobs",
+          "error": "HTTPError: 400: GitHub Fetch only accepts UTF-8 text. (Response: None)",
+          "error_code": "INVALID_ARGUMENT"
+        },
+        {
+          "tool": "github_fetch_blob",
+          "error": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0x9b in position 17: invalid start byte",
+          "error_code": "UNKNOWN"
+        }
+      ],
+      "checks": {
+        "sha256": "NOT_RUN",
+        "git_blob_sha1": "NOT_RUN",
+        "pdf_structure_page_count": "NOT_APPLICABLE",
+        "zip_crc_path_symlink_limits": "NOT_RUN",
+        "zip_inner_document_identity": "NOT_RUN"
+      }
+    }
+  ],
+  "reason": "Both connector read paths decode response bytes as UTF-8. Generic REST fetch rejected binary; dedicated blob fetch raised UnicodeDecodeError. No alternate network shell/install used.",
+  "next": "Obtain binary-capable authorized download or user-provided actual PDF/ZIP bytes before verifying SHA256/Git blob/structure/inner-document identities. Reported manifest/validation claims do not independently establish binary correctness."
+}

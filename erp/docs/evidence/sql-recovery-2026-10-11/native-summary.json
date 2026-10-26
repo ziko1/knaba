@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA DE / ziko1/knaba",
+  "firstObservedAtUtc": "2026-10-11 00:16:25 UTC",
+  "terminalObservedAtUtc": "2026-10-11 00:23:29 UTC",
+  "recordedAtUtc": "2026-10-11 00:25:11 UTC",
+  "expectedSourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "sourceGitTree": "464057c0a7cea50a7a55eb1d5f88fb95f3203225",
+  "run": {
+    "id": 38097796144,
+    "url": "https://github.com/ziko1/knaba/actions/runs/38097796144",
+    "event": "push",
+    "branch": "codex/knaba-v4-sql-recovery-20261011",
+    "status": "completed",
+    "conclusion": "success",
+    "startedAt": "2026-10-11T00:15:15Z",
+    "updatedAt": "2026-10-11T00:23:10Z",
+    "attempt": 1
+  },
+  "jobs": [
+    {
+      "id": 114347231300,
+      "name": "iOS unsigned simulator app and XCTest",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ziko1/knaba/actions/runs/38097796144/job/114347231300",
+      "failedStages": []
+    },
+    {
+      "id": 114347231540,
+      "name": "Android debug APK and conservative vectors",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ziko1/knaba/actions/runs/38097796144/job/114347231540",
+      "failedStages": []
+    }
+  ],
+  "duplicatePrRun": {
+    "id": 38097799808,
+    "scope": "CONTEXT_ONLY_NOT_USED_FOR_ACCEPTANCE",
+    "queried": false
+  },
+  "sourceDeltaFromPrior": {
+    "previousSourceGitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "files": [
+      "docs/evidence/offline-execution-scope.json",
+      "tests/handoff-calendar.integration.test.ts",
+      "tests/work-notifications.integration.test.ts"
+    ],
+    "nativeOrWorkflowInputsChanged": false,
+    "check": "git diff --name-only exact pinned source SHAs"
+  },
+  "overall": "PASSED_SCOPED_NATIVE_DEBUG_SIMULATOR",
+  "failureStage": null,
+  "android": {
+    "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "nativeJavaGeofenceCasesPassed": 30,
+    "nativeJavaLanguageClockCasesPassed": 36,
+    "nativeJavaCasesPassed": 66,
+    "localization": {
+      "locales": 6,
+      "completeStringsPerLocale": 91
+    },
+    "lint": {
+      "errors": 0,
+      "fatal": 0,
+      "warnings": 10,
+      "issueIds": {
+        "InlinedApi": 1,
+        "OldTargetApi": 1,
+        "AppBundleLocaleChanges": 1,
+        "AndroidGradlePluginVersion": 1,
+        "PluralsCandidate": 2,
+        "DataExtractionRules": 2,
+        "ObsoleteSdkInt": 1,
+        "MissingApplicationIcon": 1
+      }
+    },
+    "hostedApkV2Verification": "PASSED",
+    "independentApkSignatureVerification": "NOT_RUN",
+    "apk": {
+      "bytes": 2594536,
+      "sha256": "526ad668249928122dbc7f1c06ece149a38eab05024d02336c7f19a821d5398d",
+      "receiptSizeAndHashMatch": true
+    },
+    "receiptBuild": "Android debug APK; Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, Java 17.0.16, SDK 36",
+    "boundary": "Host Java vectors and debug APK; not Android instrumentation or physical-device acceptance",
+    "rawJobLog": "https://github.com/ziko1/knaba/actions/runs/38097796144/job/114347231540",
+    "receipt": "docs/evidence/sql-recovery-2026-10-11/native/android-native-receipt.json",
+    "lintXml": "docs/evidence/sql-recovery-2026-10-11/native/android-lint-results.xml"
+  },
+  "ios": {
+    "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "xctest": {
+      "result": "Passed",
+      "totalTestCount": 19,
+      "passedTests": 19,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "expectedFailures": 0
+    },
+    "device": {
+      "architecture": "arm64",
+      "deviceId": "BD49BAE1-7817-4B29-A91D-32BAF5904171",
+      "deviceName": "KNABA-iOS-18.5-3f4370c3b3ba",
+      "modelName": "iPhone 16",
+      "osBuildNumber": "22F77",
+      "osVersion": "18.5",
+      "platform": "iOS Simulator"
+    },
+    "actualTestDeviceMatchesPreparedSimulator": true,
+    "appArchive": {
+      "bytes": 5539478,
+      "sha256": "f68c77b5c15d776adda04ade80cf11e7323520452be4dd65c30ac8f524feca72",
+      "receiptSizeAndHashMatch": true,
+      "zipCrc": "PASSED",
+      "innerEntries": 69,
+      "manifestFileHashesVerified": 45,
+      "allManifestFilesMatch": true
+    },
+    "receiptBuild": "iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode",
+    "preparationReceiptBoundary": "Preparation receipt precedes XCTest; actual later xctest-summary.json determines executed test counters",
+    "boundary": "Unsigned simulator app and actual XCTest; not a signed IPA or physical-device acceptance",
+    "rawJobLog": "https://github.com/ziko1/knaba/actions/runs/38097796144/job/114347231300",
+    "receipt": "docs/evidence/sql-recovery-2026-10-11/native/ios-native-receipt.json",
+    "xctestSummary": "docs/evidence/sql-recovery-2026-10-11/native/ios-xctest-summary.json"
+  },
+  "artifacts": [
+    {
+      "id": 11686757183,
+      "name": "knaba-android-debug-3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "url": "https://api.github.com/repos/ziko1/knaba/actions/artifacts/11686757183",
+      "sizeInBytes": 879630,
+      "providerDigest": "sha256:03886932af39014f260366cec44a7931560dec3b18c5bbb2c61f5e1b2d8fbc38",
+      "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "actualBytes": 879630,
+      "actualSha256": "03886932af39014f260366cec44a7931560dec3b18c5bbb2c61f5e1b2d8fbc38",
+      "providerDigestMatches": true,
+      "zipCrc": "PASSED",
+      "archiveEntries": 14
+    },
+    {
+      "id": 11686473126,
+      "name": "knaba-ios-simulator-3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "url": "https://api.github.com/repos/ziko1/knaba/actions/artifacts/11686473126",
+      "sizeInBytes": 5626116,
+      "providerDigest": "sha256:c681db451847d3d518296f14fb4a589b4ac1366a1a27bbdf8523ff5b06931159",
+      "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "actualBytes": 5626116,
+      "actualSha256": "c681db451847d3d518296f14fb4a589b4ac1366a1a27bbdf8523ff5b06931159",
+      "providerDigestMatches": true,
+      "zipCrc": "PASSED",
+      "archiveEntries": 98
+    }
+  ],
+  "priorCheckpointPreservation": {
+    "sourceGitSha": "1cbdbdcacb69a03f2fd9e9ad44c3bb358ac619f6",
+    "status": "PRESERVED_BYTE_FOR_BYTE",
+    "files": [
+      {
+        "path": "knaba-native-current-summary.json",
+        "expectedSha256": "5afd1f246deca17b4f11ab654d4cac02ec41492f3a74585d2541d9bdfaa5b080",
+        "actualSha256": "5afd1f246deca17b4f11ab654d4cac02ec41492f3a74585d2541d9bdfaa5b080"
+      },
+      {
+        "path": "knaba-native-current/knaba-native-android-38096631432.zip",
+        "expectedSha256": "59a3ab2c26b1e3f5a04545a8072766b81d4001077994ef5aec51ee56b7d1ba22",
+        "actualSha256": "59a3ab2c26b1e3f5a04545a8072766b81d4001077994ef5aec51ee56b7d1ba22"
+      },
+      {
+        "path": "knaba-native-current/knaba-native-ios-38096631432.zip",
+        "expectedSha256": "e9e5ad621b3222c3b2324fc7cec7e05e624359862ab67d42d692f35f87a5e9c7",
+        "actualSha256": "e9e5ad621b3222c3b2324fc7cec7e05e624359862ab67d42d692f35f87a5e9c7"
+      }
+    ]
+  },
+  "limits": [
+    "Current native execution and artifacts belong to source 3f4370c; prior 1cbdbdc evidence is retained separately",
+    "Android host Java vectors are not instrumentation or physical-device tests",
+    "Hosted APK v2 verification passed; independent local signature verification was not run",
+    "Unsigned iOS simulator build and XCTest are not an installable signed IPA",
+    "Physical Android/iPhone, real GPS/battery/background OS, company production signing and deployment acceptance remain NOT_RUN",
+    "Application push CI 38097796239 and full product/load acceptance are outside this native summary",
+    "No workflow retry/dispatch/cancel, repository edit or publication performed"
+  ],
+  "originalIndependentSummarySha256": "add860e8640ee9d730c845070a4354d925e04960b2b295aedeae83226f10ff6f",
+  "rawDownloadedEvidenceSha256": {
+    "knaba-native-final/android-job-114347231540.log": "d232d557007b41477e97ff39292020c898369f6a86a8aa204a5a0e7cd743e823",
+    "knaba-native-final/ios-job-114347231300.log": "4edd87b21e766c4f80a421a037fb220f947d2fbc13acb4a7c597779893892a5a",
+    "knaba-native-final/android-native-receipt.json": "e4f01e3927bfe1045fc0f94b455ef1a4a7f965690a1faa5ad38bffa4c6b59287",
+    "knaba-native-final/ios-native-receipt.json": "dd29afe6b98aa2b801c8bc3efe2fff251a663ac9b03d7ec48ecc080ba9a3fb15",
+    "knaba-native-final/ios-xctest-summary.json": "d264d52dfc7a3c101d783df3e7cd75871594e852372396f019d85050e22b7d71",
+    "knaba-native-final/android-lint-results.xml": "686d245fc39f975e376afda4b29d967f7abcd50747be9f0e23c80e590a0205e0",
+    "knaba-native-final/android-apk-verification.txt": "686de95b52eb0987cc193dd5b0e7f40e809d7fd06bc1d4aae84d63a85f2e3b4d",
+    "knaba-native-final/artifact-proof.json": "99333d8145a45b7a084b9b0a3eccf9c59a2e1fdbba91d3593edc8f2cf79f7535"
+  },
+  "persistedNativeEvidence": [
+    {
+      "path": "docs/evidence/sql-recovery-2026-10-11/native/android-apk-verification.txt",
+      "bytes": 955,
+      "sha256": "686de95b52eb0987cc193dd5b0e7f40e809d7fd06bc1d4aae84d63a85f2e3b4d"
+    },
+    {
+      "path": "docs/evidence/sql-recovery-2026-10-11/native/android-lint-results.xml",
+      "bytes": 16341,
+      "sha256": "686d245fc39f975e376afda4b29d967f7abcd50747be9f0e23c80e590a0205e0"
+    },
+    {
+      "path": "docs/evidence/sql-recovery-2026-10-11/native/android-native-receipt.json",
+      "bytes": 578,
+      "sha256": "e4f01e3927bfe1045fc0f94b455ef1a4a7f965690a1faa5ad38bffa4c6b59287"
+    },
+    {
+      "path": "docs/evidence/sql-recovery-2026-10-11/native/artifact-proof.json",
+      "bytes": 3897,
+      "sha256": "99333d8145a45b7a084b9b0a3eccf9c59a2e1fdbba91d3593edc8f2cf79f7535"
+    },
+    {
+      "path": "docs/evidence/sql-recovery-2026-10-11/native/ios-native-receipt.json",
+      "bytes": 8221,
+      "sha256": "dd29afe6b98aa2b801c8bc3efe2fff251a663ac9b03d7ec48ecc080ba9a3fb15"
+    },
+    {
+      "path": "docs/evidence/sql-recovery-2026-10-11/native/ios-xctest-summary.json",
+      "bytes": 978,
+      "sha256": "d264d52dfc7a3c101d783df3e7cd75871594e852372396f019d85050e22b7d71"
+    }
+  ]
+}

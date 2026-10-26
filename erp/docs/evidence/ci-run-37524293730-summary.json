@@ -1,0 +1,38 @@
+{
+  "verifiedAt": "2026-10-06T20:19:00Z",
+  "status": "FAILED",
+  "repository": "ziko1/knaba",
+  "sourceGitSha": "1eb9338ccffabc7dbdf2086194708c7bd2a22f7f",
+  "sourceTreeSha": "efd6f92defb06ada1cba8b21899fec55ee4cd897",
+  "workflowRunId": 37524293730,
+  "jobId": 112477245244,
+  "workflowUrl": "https://github.com/ziko1/knaba/actions/runs/37524293730",
+  "evidenceArtifactId": 11441687400,
+  "artifactSha256": "add9f00e391ab0024321d6979fc3dc5b8bbd739450f74adac4d1182d9b8c83c6",
+  "tests": {
+    "total": 404,
+    "passed": 403,
+    "failed": 1,
+    "skipped": 0,
+    "realPostgreSQLCasesPassed": 37
+  },
+  "browser": {
+    "passed": 0,
+    "failed": 13,
+    "cause": "Static SPA middleware mounted after Nest application init; navigation returned HTTP404 before frontend loaded."
+  },
+  "stages": {
+    "exactRuntimeSha": "PASSED",
+    "encryptedBackup": "PASSED",
+    "emptyDatabaseRestore": "PASSED",
+    "restoredTables": 14,
+    "restoredPrivateBlobs": 2,
+    "bundledWorkerRestart": "PASSED",
+    "tamperGuardEvidence": "FAILED_MISSING_RG_ON_RUNNER"
+  },
+  "unitFailure": {
+    "case": "immutable report photo embedding independent openpyxl reader",
+    "cause": "CI Python environment lacks optional Pillow image decoder; implementation assertion preserved, pinned decoder added for next run."
+  },
+  "scope": "Executed synthetic isolated GitHub runner; does not imply Railway/provider/company/native physical acceptance."
+}

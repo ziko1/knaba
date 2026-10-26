@@ -1,0 +1,15 @@
+{
+  "status": "PASSED_CPU_WITH_SQL_NOT_RUN",
+  "observedAt": "2026-10-06T20:46:00Z",
+  "environment": "managed workspace, sockets restricted",
+  "total": 802,
+  "passed": 708,
+  "failed": 0,
+  "realPostgresSkipped": 94,
+  "reportSha256": "4e583cce10a4f43ba0d919858f40d125cac6a4eb8922c700d36d6a7d1c685e8f",
+  "scope": "Committed candidate has these CPU/domain/document/explicit transport-double regressions. Hosted SQL/browser, actual providers and physical devices are separate outcomes.",
+  "typecheck": "PASSED",
+  "browserDiscovery": 14,
+  "stagingVerifierTransportSafetyChecks": 15,
+  "stagingVerifierLiveStatus": "NOT_RUN"
+}

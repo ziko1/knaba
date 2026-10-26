@@ -1,0 +1,17 @@
+{
+  "status": "PASSED",
+  "recordedAt": "2026-10-09T00:07:43.821503+00:00",
+  "testedCodeSha": "7d8a0e92c083ca22e4f93595bd084031f7272599",
+  "testedCodeTree": "d841afad8b71546d5fc7589d434b8f3bc056e5a2",
+  "changedFilesRestrictedToDocumentation": true,
+  "newLocalMarkdownLinksChecked": 25,
+  "selectedPngHashesChecked": 11,
+  "jsonFilesParsed": 7,
+  "brokenNewLinks": [],
+  "applicationCodeChangesAfterAcceptedSource": [],
+  "laterDocumentationCommitDoesNotRelabelCode": true,
+  "testOnlySuccessorChanges": [
+    "tests/browser.spec.ts"
+  ],
+  "fullReleaseNotReadyStatusPreserved": true
+}
