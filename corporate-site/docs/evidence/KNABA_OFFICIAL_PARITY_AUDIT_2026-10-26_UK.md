@@ -29,3 +29,12 @@
 - Full Node build/check/test/verify:build, image-CDN HTTP, preview/live/browser/device QA й незалежний review на точному commit SHA **NOT_RUN** в обмеженому інтеграційному середовищі; попередні PR PASS не доводять готовності цієї гілки.
 - Точний staging VPS release SHA і rollback backup не прочитані; preview `kneba.vsp.rest` не відкрився через доступний вебчитач. Opera Connector повернув Browser not connected. Не називати будь-який source-only контроль live PASS.
 - Після доступної Node24 збірки: `cd corporate-site && npm ci && npm run check && npm test && npm run build && npm run verify:build`. Окремо перевірка `KNABA_RELEASE_MODE=vsp`, всі 4 мови, 320/390/768/1440, privacy/CDN/CSP, фокус/клавіатура, Studio href validation, sitemap 92 і реальний smoke. До підтвердження оператором ніякого main/production merge/deploy.
+
+## Фактична read-only перевірка VPS 26.10.2026 (SentinelX, host vsp)
+- Підключення наявне; жодних root/sudo чи службових мутацій не виконано.
+- `df -h /`: 197G total, 171G used, 17G free, 92% usage. Масове перевстановлення залежностей або другий довготривалий build без перевірки ресурсів не запускали.
+- Поточний preview symlink: `/srv/knaba/vps/current -> releases/7f6bba5e1108ea78afbe687e276b74c6fc6f37f2` (це **ім'я каталогу релізу**, не доказ вихідного GitHub SHA). Директорія самого релізу непрочитувана для агента, тому точний artifact hash не верифіковано; sudo escalation заборонена в межах аудиту.
+- HTTPS: `/`, `/en/`, `/uk/`, `/ru/` повертають **200**, а `/galerie/` повертає **404**.
+- HTML кожної з чотирьох живих головних сторінок містить **0** входжень `data-partner-id`, які має нова `PartnersSection`. Це не доводить кількість старих логотипів — лише відсутність нової розмітки.
+- Українська live-сторінка `/uk/`: одне входження `Переглянути партнерів на knaba.de`, одне `Джерело перевірено`, три текстові входження `https://knaba.de` (не всі є клікабельними посиланнями). Проблему на скриншоті відтворено незалежно від кешу користувача.
+- Це докази поточного старого **live** артефакту, НЕ тестування нової гілки PR #73. Deployment після повних релізних перевірок і окремого дозволу; жодного прямого редагування `current` чи nginx.
