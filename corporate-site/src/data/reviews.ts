@@ -9,10 +9,10 @@ export type ManagedReview = PublicReview & {
 
 export const reviewsCopy = {
   de: {
-    label: 'PROJEKTE / ZUSAMMENARBEIT', title: 'Zusammenarbeit beginnt mit Klarheit.'
-    intro: 'Baureinigung, Baustellenvorbereitung oder regelmäßige Pflege: Entscheidend ist, dass Aufgaben, Zugang und Termine zu Ihrem Objekt passen.'
+    label: 'PROJEKTE / ZUSAMMENARBEIT', title: 'Zusammenarbeit beginnt mit Klarheit.',
+    intro: 'Baureinigung, Baustellenvorbereitung oder regelmäßige Pflege: Entscheidend ist, dass Aufgaben, Zugang und Termine zu Ihrem Objekt passen.',
     loading: 'Rückmeldungen werden geladen …', empty: 'Hier ist Platz für Ihre Erfahrung.',
-    emptyText: 'Schon mit KnaBa zusammengearbeitet? Erzählen Sie von Ihrer persönlichen Erfahrung – ehrlich und in Ihren eigenen Worten.'
+    emptyText: 'Schon mit KnaBa zusammengearbeitet? Erzählen Sie von Ihrer persönlichen Erfahrung – ehrlich und in Ihren eigenen Worten.',
     loadError: 'Die Rückmeldungen können gerade nicht geladen werden.', retry: 'Erneut versuchen',
     write: 'Erfahrung teilen', close: 'Formular schließen', formTitle: 'Ihre Rückmeldung an KnaBa',
     formIntro: 'Bitte berichten Sie nur über eine eigene Zusammenarbeit. Jede Rückmeldung wird vor der Veröffentlichung geprüft.',
@@ -34,10 +34,10 @@ export const reviewsCopy = {
     versionConflict: 'Die Rückmeldung wurde inzwischen geändert. Die Liste wurde aktualisiert; bitte prüfen Sie den aktuellen Stand.', updated: 'Status gespeichert.', refresh: 'Liste aktualisieren',
   },
   en: {
-    label: 'PROJECTS / WORKING TOGETHER', title: 'Good work starts with a clear plan.'
-    intro: 'Construction cleaning, site preparation or regular maintenance: the right approach starts with your building, schedule and a clearly agreed scope.'
+    label: 'PROJECTS / WORKING TOGETHER', title: 'Good work starts with a clear plan.',
+    intro: 'Construction cleaning, site preparation or regular maintenance: the right approach starts with your building, schedule and a clearly agreed scope.',
     loading: 'Loading feedback …', empty: 'Your experience belongs here.',
-    emptyText: 'Have you worked with KnaBa? Share your own experience in your own words, so others can understand what working together is like.'
+    emptyText: 'Have you worked with KnaBa? Share your own experience in your own words, so others can understand what working together is like.',
     loadError: 'Feedback could not be loaded right now.', retry: 'Try again',
     write: 'Share your experience', close: 'Close form', formTitle: 'Your feedback for KnaBa',
     formIntro: 'Please describe your own experience of working with us. Every submission is reviewed before publication.',
@@ -59,10 +59,10 @@ export const reviewsCopy = {
     versionConflict: 'This feedback has changed. The list has been refreshed; please review its current status.', updated: 'Status saved.', refresh: 'Refresh list',
   },
   uk: {
-    label: 'ПРОЄКТИ / СПІВПРАЦЯ', title: 'Якісна співпраця починається з домовленостей.'
-    intro: 'Будівельний клінінг, підготовка майданчика чи регулярне прибирання: важливо узгодити завдання, доступ і строки саме під ваш об’єкт.'
+    label: 'ПРОЄКТИ / СПІВПРАЦЯ', title: 'Якісна співпраця починається з домовленостей.',
+    intro: 'Будівельний клінінг, підготовка майданчика чи регулярне прибирання: важливо узгодити завдання, доступ і строки саме під ваш об’єкт.',
     loading: 'Завантажуємо відгуки …', empty: 'Тут може бути ваш відгук.',
-    emptyText: 'Вже співпрацювали з KnaBa? Поділіться власним досвідом своїми словами — це допоможе іншим зорієнтуватися.'
+    emptyText: 'Вже співпрацювали з KnaBa? Поділіться власним досвідом своїми словами — це допоможе іншим зорієнтуватися.',
     loadError: 'Зараз не вдалося завантажити відгуки.', retry: 'Спробувати ще',
     write: 'Поділитися досвідом', close: 'Закрити форму', formTitle: 'Ваш відгук про KnaBa',
     formIntro: 'Розкажіть про власний досвід співпраці. Перед публікацією кожен відгук проходить перевірку.',
@@ -84,10 +84,10 @@ export const reviewsCopy = {
     versionConflict: 'Відгук уже змінився. Список оновлено — перевірте актуальний стан.', updated: 'Статус збережено.', refresh: 'Оновити список',
   },
   ru: {
-    label: 'ПРОЕКТЫ / СОТРУДНИЧЕСТВО', title: 'Хорошая работа начинается с договорённостей.'
-    intro: 'Строительный клининг, подготовка площадки или регулярная уборка: важно заранее согласовать задачи, доступ и сроки именно для вашего объекта.'
+    label: 'ПРОЕКТЫ / СОТРУДНИЧЕСТВО', title: 'Хорошая работа начинается с договорённостей.',
+    intro: 'Строительный клининг, подготовка площадки или регулярная уборка: важно заранее согласовать задачи, доступ и сроки именно для вашего объекта.',
     loading: 'Загружаем отзывы …', empty: 'Здесь может быть ваш отзыв.',
-    emptyText: 'Уже сотрудничали с KnaBa? Поделитесь личным опытом своими словами — это поможет другим сориентироваться.'
+    emptyText: 'Уже сотрудничали с KnaBa? Поделитесь личным опытом своими словами — это поможет другим сориентироваться.',
     loadError: 'Сейчас не удалось загрузить отзывы.', retry: 'Повторить',
     write: 'Поделиться опытом', close: 'Закрыть форму', formTitle: 'Ваш отзыв о KnaBa',
     formIntro: 'Расскажите о собственном опыте сотрудничества. Перед публикацией каждый отзыв проходит проверку.',
