@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0ee97833e027a8601d56c354ab0b4270110bd4987f0a9b7d32fc92bee6106d94",
+  "sourceDigest": "35b54617da4cb66728419a2b971f9cc2bd72a6341f058ed619027cad0d0395aa",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -31,7 +31,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 945,
+  "unitCount": 944,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -3220,13 +3220,6 @@
     "5fad8c478916b9ff792942a0": {
       "kind": "text",
       "source": "BAU + CLEAN",
-      "routes": [
-        "/"
-      ]
-    },
-    "5fb282ab7c612e940d013397": {
-      "kind": "text",
-      "source": "Bauprojekt anfragen ↗",
       "routes": [
         "/"
       ]

@@ -29,7 +29,7 @@ test('contextual telephone pages suppress the fallback, across localized routes'
 
 test('home closing conversion panel does not repeat the global telephone', () => {
   const source = read('../src/components/ConstructionHome.astro');
-  const cta = source.split('<section class="container bau-end-cta">')[1]?.split('</section>')[0];
+  const cta = source.split('<section class="container bau-end-cta" aria-labelledby="bau-final-contact-title">')[1]?.split('</section>')[0];
   assert.ok(cta, 'closing conversion panel exists');
   assert.doesNotMatch(cta, /company\.phone|phoneHref|tel:/);
   assert.match(cta, /href=\{contact\}/, 'contact path remains');
@@ -94,6 +94,7 @@ test('homepage has one prominent catalogue CTA and a distinct extra-works deep l
   assert.doesNotMatch(home, /bau-services-more/, 'no duplicate below-card CTA or dead CSS');
   assert.match(home, /href=\{catalog\+'#zusatzarbeiten'\} class="button button-dark">\{t\.extrasCta\}/);
   assert.equal((offers.match(/\bextrasCta:/g)||[]).length,4,'localized contextual extras label');
+  assert.equal((home.match(/href=\{catalog\}/g)||[]).length,1,'hero has exactly one plain catalogue link');
   assert.match(home, /@media\(max-width:610px\)[^\n]*?\.bau-actions\{[^}]*flex-direction:column;/,'mobile buttons stack');
 });
 
@@ -113,4 +114,35 @@ test('contact no-JavaScript guidance reuses visible contacts without repeating t
   assert.match(fallback, /translated\.noScript/);
   assert.doesNotMatch(fallback, /company\.(?:phone|email)|href=\{|tel:|mailto:/);
   assert.equal((contact.match(/\bnoScript:/g)||[]).length,4,'available for all four locales');
+});
+
+test('homepage sections prioritize the visitor journey over repeated CTAs', () => {
+  const source = read('../src/components/ConstructionHome.astro');
+  const sections = [
+    '<section class="bau-hero container"',
+    '<section class="container bau-section" id="bau-services"',
+    '<section class="bau-contract"',
+    'id="bau-process-title"',
+    '<CompanyProfile locale={locale} compact />',
+    '<Partners locale={locale} />',
+    '<Reviews locale={locale} />',
+    '<ConstructionFaq locale={locale} />',
+    '<section class="container bau-end-cta"',
+  ];
+  const positions = sections.map(token => source.indexOf(token));
+  assert.ok(positions.every(position => position >= 0), 'missing homepage section');
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions, 'hero → services → extras → process → trust → reviews → FAQ → final contact');
+  assert.match(source, /<section class="container bau-end-cta" aria-labelledby="bau-final-contact-title">/);
+  assert.match(source, /<section class="container bau-section" id="bau-services" aria-labelledby="bau-services-title">/);
+  assert.match(source, /<section class="container bau-section" aria-labelledby="bau-process-title">/);
+});
+
+test('mobile hero actions use equal-width themed controls with visible keyboard focus', () => {
+  const source = read('../src/components/ConstructionHome.astro');
+  assert.match(source, /\.bau-secondary-cta:focus-visible\s*\{[^}]*outline:/);
+  assert.match(source, /\.bau-secondary-cta-label\s*\{[^}]*overflow-wrap:anywhere/);
+  const mobile = source.split('@media(max-width:610px)')[1]?.split('\n\n')[0];
+  assert.ok(mobile, 'mobile breakpoint must be declared');
+  assert.match(mobile, /\.bau-actions\s*\{[^}]*flex-direction:column/);
+  assert.match(mobile, /\.bau-actions>\.button\s*\{[^}]*width:100%/);
 });
