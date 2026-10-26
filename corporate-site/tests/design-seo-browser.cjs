@@ -13,7 +13,7 @@ const host=new URL(base);
 if (!['http:','https:'].includes(host.protocol)) throw Error('HTTP(S) preview required');
 const screenshotDir=process.env.KNABA_SCREENSHOT_DIR;
 if (screenshotDir) mkdirSync(screenshotDir,{recursive:true});
-const expectedNoindex=process.env.KNABA_EXPECT_NOINDEX!=='0';
+const expectedNoindex=process.env.KNABA_EXPECT_NOINDEX==='1';
 const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
 const widths=[320,390,768,980,1440];
 let pages=0;
@@ -22,7 +22,7 @@ let pages=0;
  const browser=await chromium.launch({
    headless:true,
    executablePath:process.env.KNABA_CHROME_PATH||undefined,
-   args:['--no-sandbox','--disable-dev-shm-usage']
+   args:['--disable-dev-shm-usage']
  });
  try{
    for(const [lang,prefix] of locales){
@@ -36,7 +36,23 @@ let pages=0;
          assert.equal(await page.locator('html').getAttribute('lang'),lang);
          assert.equal(await page.locator('h1').count(),1);
          assert.equal(await page.locator('.bau-card').count(),6,'five core services + one project card');
-         assert.equal(await page.locator('.bau-editorial-panel').count(),2);
+         assert.equal(await page.locator('.bau-editorial-panel').count(),0,'no duplicate editorial sections');
+         assert.equal(await page.locator('.bau-contract').count(),1,'one project services section');
+         assert.equal(await page.locator('.bau-steps').count(),1,'one project timeline');
+         const explore=page.locator('.bau-actions .bau-secondary-cta');
+         assert.equal(await explore.count(),1,'one themed hero catalogue CTA');
+         assert.equal(await explore.getAttribute('href'),prefix+'/leistungen/','same-locale internal catalogue route');
+         if(width<=610){
+           const ctaRects=await page.evaluate(()=>{
+             const primary=document.querySelector('.bau-actions .button-dark').getBoundingClientRect();
+             const secondary=document.querySelector('.bau-actions .bau-secondary-cta').getBoundingClientRect();
+             const arrow=document.querySelector('.bau-actions .bau-secondary-cta-arrow').getBoundingClientRect();
+             return {primaryWidth:primary.width,secondaryWidth:secondary.width,stacked:secondary.top>=primary.bottom,
+               arrowInside:arrow.left>=secondary.left&&arrow.right<=secondary.right};
+           });
+           assert.ok(Math.abs(ctaRects.primaryWidth-ctaRects.secondaryWidth)<=1&&ctaRects.stacked&&ctaRects.arrowInside,
+             'mobile hero pill alignment '+lang+' '+width+': '+JSON.stringify(ctaRects));
+         }
          assert.equal(await page.locator('.service-slide').count(),8);
          const metrics=await page.evaluate(()=>{
            const cards=[...document.querySelectorAll('.bau-card')];
@@ -61,6 +77,7 @@ let pages=0;
          assert.ok(graph.some(e=>e['@type']==='LocalBusiness'));
          assert.ok(graph.some(e=>e['@type']==='WebSite'));
          if(expectedNoindex)assert.match(await page.locator('meta[name="robots"]').getAttribute('content'),/noindex/);
+         else assert.match(await page.locator('meta[name="robots"]').getAttribute('content'),/^index, follow/);
          // The keyboard-only skip link must stay off-screen until deliberately focused.
          const skip=await page.locator('.skip-link').evaluate(node=>({
            fixed:getComputedStyle(node).position==='fixed',
@@ -73,6 +90,11 @@ let pages=0;
          if(width===390&&lang==='uk'){
            await page.locator('[data-carousel-next]').click();
            await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='02 / 08',null,{timeout:5000});
+         }
+         if(width===390&&lang==='uk'){
+           await explore.click();
+           await page.waitForURL(base+'/uk/leistungen/',{timeout:12000});
+           assert.ok((await page.locator('.bau-offer').count())>=6,'real Ukrainian CTA click reaches catalogue');
          }
          assert.deepEqual(errors,[],'uncaught page errors '+lang+' '+width);
          console.log('HERO_PASS',lang,width,'colors',metrics.colors,'overflow',metrics.overflow);
