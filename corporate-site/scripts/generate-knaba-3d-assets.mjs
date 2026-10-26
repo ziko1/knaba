@@ -7,6 +7,20 @@ import {writeFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 
+export const SUPPORTED_LOCALES=Object.freeze(['de','en','uk','ru']);
+export const SLOGANS=Object.freeze({
+  de:'Unser Ziel ist Ihre Wertschöpfung',
+  en:'Our goal is to create value for you.',
+  uk:'Наша мета — створювати цінність для вас.',
+  ru:'Наша цель — создавать ценность для вас.',
+});
+export const BRAND_DESCRIPTIONS=Object.freeze({
+  de:'Drei geometrische Bauwerke, KNABA mit limettengrüner A-Akzentuierung',
+  en:'Three geometric buildings, KNABA with a lime-accented A',
+  uk:'Три геометричні будівлі, KNABA з лаймовим акцентом на літері A',
+  ru:'Три геометрических здания, KNABA с лаймовым акцентом на букве A',
+});
+
 function building(cx,top,count,halfWidth) {
   return Array.from({length:count},(_,n)=>{
     const y=top+27*n,left=cx-halfWidth,right=cx+halfWidth;
@@ -18,16 +32,17 @@ function building(cx,top,count,halfWidth) {
   }).join('');
 }
 
-export function render3dLogo(surface,compact=false) {
+export function render3dLogo(surface,compact=false,locale='de') {
+  if(!SUPPORTED_LOCALES.includes(locale))throw new TypeError('Unsupported KNABA logo locale');
   if(surface!=='header'&&surface!=='footer')throw new TypeError('Unknown KNABA logo surface');
   const light=surface==='header';
   const face1=light?'#102F38':'#F6FFFA',face2=light?'#087C81':'#BDEFE7';
   const depth=light?'#061F28':'#47666A',slogan=light?'#102F38':'#F6FFFA';
   const viewHeight=compact?280:350;
-  const desktopTagline=compact?'':`<text x="24" y="333" textLength="1086" lengthAdjust="spacingAndGlyphs" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="400" fill="${slogan}">Unser Ziel ist Ihre Wertschöpfung</text>`;
+  const desktopTagline=compact?'':`<text x="24" y="333" textLength="1086" lengthAdjust="spacingAndGlyphs" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="400" fill="${slogan}">${SLOGANS[locale]}</text>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 ${viewHeight}" role="img" aria-labelledby="knaba-title knaba-desc">
   <title id="knaba-title">KNABA</title>
-  <desc id="knaba-desc">Drei geometrische Bauwerke, KNABA mit limettengrüner A-Akzentuierung${compact?'':', Unser Ziel ist Ihre Wertschöpfung'}</desc>
+  <desc id="knaba-desc">${BRAND_DESCRIPTIONS[locale]}${compact?'':', '+SLOGANS[locale]}</desc>
   <defs>
     <linearGradient id="buildingLeft" x1="0" x2=".9" y1=".15" y2="1"><stop stop-color="#13B8B4"/><stop offset=".32" stop-color="#087C81"/><stop offset=".72" stop-color="#102F38"/><stop offset="1" stop-color="#164F5A"/></linearGradient>
     <linearGradient id="buildingRight" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#007B89"/><stop offset=".42" stop-color="#102F38"/><stop offset="1" stop-color="#0C646F"/></linearGradient>
@@ -52,10 +67,13 @@ ${desktopTagline}
 
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])) {
  const out=resolve(dirname(fileURLToPath(import.meta.url)),'../public/images');
- for(const [surface,compact,filename] of [
-  ['header',false,'knaba-3d-header.svg'],
-  ['footer',false,'knaba-3d-footer.svg'],
-  ['header',true,'knaba-3d-mobile-header.svg'],
-  ['footer',true,'knaba-3d-mobile-footer.svg']
- ]) writeFileSync(resolve(out,filename),render3dLogo(surface,compact),'utf8');
+ for(const locale of SUPPORTED_LOCALES) {
+   const suffix=locale==='de'?'':'-'+locale;
+   for(const [surface,compact,filename] of [
+     ['header',false,'knaba-3d-header'+suffix+'.svg'],
+     ['footer',false,'knaba-3d-footer'+suffix+'.svg'],
+     ['header',true,'knaba-3d-mobile-header'+suffix+'.svg'],
+     ['footer',true,'knaba-3d-mobile-footer'+suffix+'.svg']
+   ]) writeFileSync(resolve(out,filename),render3dLogo(surface,compact,locale),'utf8');
+ }
 }

@@ -269,3 +269,9 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Previous brand browser QA repeatedly hit Chromium `ERR_BLOCKED_BY_ADMINISTRATOR`. This is an execution-environment policy, not proof of a site defect or pass.
 - Added scoped `corporate-site/AGENTS.md`, read-only three-engine browser gate and responsive brand test, plus Node regression coverage. Failover is only for infrastructure blocks; 503 and product assertions are FAIL. Browser gate 2=BLOCKED, never PASS. KNABA_BROWSER_SKIP=chromium avoids repeating a verified block within the same agent environment.
 - Isolated Node 22.16.0 regression test: 8/8 PASS. The brand browser test remains BLOCKED due absent Node Playwright in this local checker; live 16-case browser/device QA and full Node24 Astro build are NOT_RUN. No merge/deploy or paid service. Follow exact SHA and independent review before release.
+
+
+## 2026-10-26 KN-LOGO-I18N — four languages
+- Localized slogan and accessible SVG descriptions DE/EN/UK/RU without changing German source assets or existing geometry/teal/lime.
+- Source-only Draft code on PR #72. Exact private live VPS release c08e58c41ddad287c154fcfc597654e777fa8db6 was separately tested and deployed; not the same as this older public PR base.
+- Node24 184/184 Vitest, 16/16 extra Node, 27/27 logo/browser boundary and 118/118 live routes PASS. Independent/native Opera UAT and customer translation review OPEN; no paid TinyFish.
