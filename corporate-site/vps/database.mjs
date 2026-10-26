@@ -1,5 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
-import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { inspectMigrationSequence } from './migration-guard.mjs';
+import { mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -40,12 +41,14 @@ export class LocalD1 {
 /** Refuses drifted migrations, never rewrites historical tables. */
 export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/',import.meta.url),allowMigrations=true}={}){
   if(!path?.startsWith('/'))throw Error('Persistent SQLite requires an absolute mounted path');
+  const location=migrationDirectory instanceof URL?fileURLToPath(migrationDirectory):migrationDirectory;
+  // Validate the full SQL+Drizzle sequence before opening or creating a database.
+  const {names}=inspectMigrationSequence(location);
   mkdirSync(dirname(path),{recursive:true,mode:0o700});
   const db=new DatabaseSync(path);
   db.exec('PRAGMA foreign_keys=ON;PRAGMA journal_mode=WAL;PRAGMA synchronous=FULL;PRAGMA busy_timeout=5000;');
   db.exec('CREATE TABLE IF NOT EXISTS vps_schema_migrations (filename TEXT PRIMARY KEY NOT NULL, sha256 TEXT NOT NULL, installed_at TEXT NOT NULL)');
-  const location=migrationDirectory instanceof URL?fileURLToPath(migrationDirectory):migrationDirectory;
-  const names=readdirSync(location).filter(n=>/^\d{4}_[a-zA-Z0-9_]+\.sql$/.test(n)).sort();
+
   for(const name of names){
     const sql=readFileSync(join(location,name),'utf8');
     const digest=createHash('sha256').update(sql).digest('hex');
