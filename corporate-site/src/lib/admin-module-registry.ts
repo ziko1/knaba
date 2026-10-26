@@ -15,15 +15,15 @@ export type AdminModule =
   | Readonly<{ id: ImportedModuleId; state: 'source-only'; runtime: 'erp'; roles: readonly AdminRole[] }>;
 
 export const adminModuleRegistry: readonly AdminModule[] = Object.freeze([
-  Object.freeze({ id: 'operations', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner', 'admin']) }),
-  Object.freeze({ id: 'crm', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner', 'admin']) }),
-  Object.freeze({ id: 'messages', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner']) }),
-  Object.freeze({ id: 'studio', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner']) }),
-  Object.freeze({ id: 'erp', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin']) }),
-  Object.freeze({ id: 'hrm', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin']) }),
-  Object.freeze({ id: 'resources', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin']) }),
-  Object.freeze({ id: 'finance', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner']) }),
-  Object.freeze({ id: 'analytics', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin']) }),
+  Object.freeze({ id: 'operations', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner', 'admin'] as const) }),
+  Object.freeze({ id: 'crm', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner', 'admin'] as const) }),
+  Object.freeze({ id: 'messages', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner'] as const) }),
+  Object.freeze({ id: 'studio', state: 'mounted', runtime: 'site', roles: Object.freeze(['owner'] as const) }),
+  Object.freeze({ id: 'erp', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin'] as const) }),
+  Object.freeze({ id: 'hrm', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin'] as const) }),
+  Object.freeze({ id: 'resources', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin'] as const) }),
+  Object.freeze({ id: 'finance', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner'] as const) }),
+  Object.freeze({ id: 'analytics', state: 'source-only', runtime: 'erp', roles: Object.freeze(['owner', 'admin'] as const) }),
 ] satisfies AdminModule[]);
 
 function isAdminRole(role: string | null | undefined): role is AdminRole {
