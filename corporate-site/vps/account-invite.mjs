@@ -90,3 +90,23 @@ export function acceptAccountInvite(db,{token,email,name,password,confirmed,priv
     return {...user,role:invite.requested_role,status:'pending'};
   });
 }
+
+/** Revoke only this owner's still-open invitation for an exact recipient. */
+export function revokeAccountInvite(db,{issuerId,ownerEmail,email,now=Date.now()}){
+  validateTime(now);
+  const address=validEmail(email);
+  return transaction(db,()=>{
+    ownerIdentity(db,issuerId,ownerEmail);
+    const pending=db.prepare(
+      'SELECT token_hash FROM vps_account_invites WHERE email=? AND issued_by=? AND used_at IS NULL AND issued_at<=? AND expires_at>? ORDER BY issued_at DESC LIMIT 1'
+    ).get(address,issuerId,now,now);
+    if(!pending)return false;
+    const changed=db.prepare('UPDATE vps_account_invites SET used_at=? WHERE token_hash=? AND used_at IS NULL')
+      .run(now,pending.token_hash);
+    if(changed.changes!==1)return false;
+    db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
+      .run(randomBytes(18).toString('base64url'),issuerId,'account.invite.revoked',
+        pending.token_hash,new Date(now).toISOString());
+    return true;
+  });
+}

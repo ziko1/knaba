@@ -3,9 +3,9 @@ import { readFile,stat } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
-import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
 import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
-import { issueAccountInvite, acceptAccountInvite, AccountInviteError } from './account-invite.mjs';
+import { issueAccountInvite, acceptAccountInvite, revokeAccountInvite, AccountInviteError } from './account-invite.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
@@ -150,7 +150,7 @@ function registrationPage(){
     '<p>Keine Einladung? <a href="/kontakt/">Kontaktieren Sie KNABA</a>.</p>'+
     '<p><a href="/login/">Zur Anmeldung</a></p><script>'+script+'</script>');
 }
-function invitationPage(invite=null,origin=''){
+function invitationPage(invite=null,origin='',notice=''){
   const result=invite?
     '<p role="status">Einladung erstellt. Den Link ausschließlich persönlich und sicher an die berechtigte Person weitergeben. Es wurde keine E-Mail versandt.</p>'+
     '<label>Einmaliger Link (maximal 7 Tage)<input type="text" readonly value="'+
@@ -162,7 +162,23 @@ function invitationPage(invite=null,origin=''){
     '<label>E-Mail des Empfängers<input type="email" name="email" maxlength="320" required></label>'+
     '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="worker">Mitarbeiter/in</option></select></label>'+
     '<button type="submit">Einladung generieren</button></form>'+result+
+    (notice?'<p role="status">'+escapeHTML(notice)+'</p>':'')+
+    '<form method="post" action="/invite-user/revoke/">'+
+    '<label>Offene Einladung widerrufen (E-Mail)<input type="email" name="email" maxlength="320" required></label>'+
+    '<button type="submit">Einladung widerrufen</button></form>'+
     '<p><a href="/studio/">Zur Verwaltung</a></p>');
+}
+function credentialPage(invalid=false){
+  return html('KnaBa | Zugangsdaten ändern',
+    '<h1>KNABA · Passwort ändern</h1>'+
+    '<p>Zur Bestätigung ist das bisherige Passwort notwendig. Nach Änderung werden alle bisherigen Sitzungen beendet.</p>'+
+    (invalid?'<p role="alert" class="error">Änderung nicht möglich. Bitte aktuelle Angaben und Passwortanforderungen prüfen.</p>':'')+
+    '<form method="post" action="/account/password/">'+
+    '<label>Aktuelles Passwort<input type="password" name="current" autocomplete="current-password" required></label>'+
+    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="new" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Neues Passwort bestätigen<input type="password" name="confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<button type="submit">Passwort sicher ändern</button></form>'+
+    '<p><a href="/konto/">Zum Konto</a></p>');
 }
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
@@ -291,6 +307,34 @@ export async function createKnabaVpsServer({
         return send(res,409,'Registration temporarily unavailable');
       }
     }
+    if(url.pathname==='/invite-user/revoke/'||url.pathname==='/invite-user/revoke'){
+      const user=readSession(db,req.headers.cookie);
+      if(!user)return send(res,401,'Login required');
+      if(!ownerEmail||user.email.toLowerCase()!==ownerEmail.toLowerCase())
+        return send(res,403,'Owner approval required');
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==1||keys[0]!=='email')return send(res,422,'Invalid revocation request');
+        const revoked=revokeAccountInvite(db,{
+          issuerId:user.id,ownerEmail,email:params.get('email')||''
+        });
+        return send(res,200,invitationPage(null,'',revoked?
+          'Die offene Einladung wurde widerrufen.':'Keine offene Einladung vorhanden.'),{
+          'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
+          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+          'X-Frame-Options':'DENY'
+        });
+      }catch(error){
+        if(error?.code==='too_large')return send(res,413,'Invalid revocation request');
+        if(error instanceof AccountInviteError)return send(res,422,'Invalid revocation request');
+        return send(res,409,'Revocation temporarily unavailable');
+      }
+    }
     if(url.pathname==='/invite-user/'||url.pathname==='/invite-user'){
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
@@ -338,6 +382,35 @@ export async function createKnabaVpsServer({
         if(!result)return send(res,401,loginPage(target,true),{'Content-Type':'text/html; charset=utf-8'});
         return redirect(res,target,{'Set-Cookie':sessionCookie(result.token,{secure:!localTest})});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
+    }
+    if(url.pathname==='/account/password/'||url.pathname==='/account/password'){
+      const user=readSession(db,req.headers.cookie);
+      if(!user)return send(res,401,'Login required');
+      const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
+      if(req.method==='GET')return send(res,200,credentialPage(),headers);
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==3||new Set(keys).size!==3||
+           keys.some(key=>!['current','new','confirm'].includes(key)))
+          return send(res,422,'Invalid form');
+        const changed=rotateCredentials(db,{
+          userId:user.id,currentPassword:params.get('current')||'',
+          newPassword:params.get('new')||'',confirmed:params.get('confirm')||''
+        });
+        if(!changed)return send(res,422,credentialPage(true),headers);
+        return redirect(res,'/login/?return_to=%2Fkonto%2F',{
+          'Set-Cookie':expiredCookie({secure:!localTest}),'Referrer-Policy':'no-referrer'
+        });
+      }catch(error){
+        if(error?.code==='too_large')return send(res,413,'Invalid form');
+        return send(res,409,'Credential update temporarily unavailable');
+      }
     }
     if(url.pathname==='/logout/'||url.pathname==='/logout'){
       const rt=returnPath(url.searchParams.get('return_to'));

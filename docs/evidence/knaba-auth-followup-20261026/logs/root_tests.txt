@@ -1,0 +1,37 @@
+
+> knaba-unified-integration@0.0.0-integration test
+> node --test scripts/*.test.mjs
+
+✔ missing, incomplete and malformed receipts fail closed (1.164841ms)
+✔ blocked or omitted acceptance remains blocked (0.456659ms)
+✔ approval, exact SHA and artifact digest are mandatory (1.104328ms)
+✔ reject duplicate, forged and traversal evidence locations (0.325653ms)
+✔ complete structurally valid receipt passes syntax policy only (0.916524ms)
+✔ manifest includes existing CMS/CRM/portal/inbox and a separate, disabled ERP (4.199424ms)
+✔ fails closed on a fabricated running ERP module (1.574616ms)
+✔ fails closed when mandatory backup/cutover gates disappear (0.539836ms)
+✔ rejects duplicate or unknown module instead of dynamically loading code (0.375374ms)
+✔ rejects invalid source paths and missing checkout (0.330958ms)
+✔ original imported trees and clean source are independently verified (64.234245ms)
+✔ committed ERP and site evolution does not corrupt historical import proof (58.410013ms)
+✔ unstaged ERP edit fails exact-source integrity (51.578647ms)
+✔ unstaged site edit fails exact-source integrity (50.993533ms)
+✔ staged change fails exact-source integrity (49.58494ms)
+✔ untracked root source fails exact-source integrity (60.213378ms)
+✔ dirty root metadata fails exact-source integrity (41.379238ms)
+✔ committed deletion of a canonical file fails (47.278916ms)
+✔ canonical file symlink cannot substitute for tracked regular file (48.939523ms)
+✔ missing historical anchor fails closed without fetching (33.404809ms)
+✔ an unrelated root history cannot claim imported ancestry (43.629309ms)
+✔ historical tree mismatch is never relabeled as feature change (35.216023ms)
+✔ invalid committed root metadata fails: {not json (49.155164ms)
+✔ invalid committed root metadata fails: {"name":"another-project","private":true} (48.305621ms)
+✔ invalid committed root metadata fails: {"name":"knaba-unified-integration","private":false} (49.952681ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 816.135275

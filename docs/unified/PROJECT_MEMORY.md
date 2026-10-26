@@ -110,3 +110,6 @@ Latest observed test release source `0721d55c6673b1e4324c68daf41a82b4a7a7ee2e`. 
 
 ## 2026-10-26 — KNABA owner-issued user registration source candidate
 Base dbff693216c3c6b53a38ef9fed0ab919fd54d095. Added additive SQL 0007, owner-only /invite-user/, one-use email-scoped client/worker /register/; existing salted scrypt /login/, approved/pending role + owner decision, site design, CMS/CRM/Assistant, owner invite 0006 and ERP tree all preserved. Synthetic local Node24 QA VPS 55/55, site 256 Vitest +68 Node, root 25, check/build/verify PASS. Unintegrated ERP, verified email/provider, independent review, human UAT, live release NOT_RUN. Detailed: KNABA_AUTH_REGISTRATION_2026-10-26_UK.md. No merge/deploy.
+
+## 2026-10-26 — KNABA auth hardening continuation (source-only)
+On PR #107 base a7a6a1cbef9c96837eda7dee008c98be182543b2: shared TCP login source limiter, owner invitation revocation + HTTP UI, signed-in credential rotation with all-session revocation, existing Portal localized links. Local Node24 site checks, build, verifier, VPS 59/59, website 256+68, root 25/25 PASS. Actual HTTP POST rotation integration test blocked; live/provider/real owner/independent review remain OPEN. See KNABA_AUTH_SECURITY_CONTINUATION_2026-10-26_UK.md. No merge, deploy or SQL migration.

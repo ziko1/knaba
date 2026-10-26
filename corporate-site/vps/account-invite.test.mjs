@@ -101,3 +101,21 @@ test('invitation issuance is bounded, neither unlimited nor extendable by past u
     assert.equal(db.prepare('SELECT count(*) n FROM vps_account_invites').get().n,20);
   });
 });
+
+test('explicit owner revocation makes an issued invitation unusable before registration',async()=>{
+  const invites=await import('./account-invite.mjs');
+  assert.equal(typeof invites.revokeAccountInvite,'function','missing owner revocation');
+  fixture(({db,owner})=>{
+    const now=1800000000000;
+    const issued=issue(db,owner,{now});
+    assert.equal(invites.revokeAccountInvite(db,{
+      issuerId:owner.id,ownerEmail,email:'new@example.test',now:now+100
+    }),true);
+    assert.throws(()=>register(db,issued.token,{now:now+200}),/invalid|expired|used/i);
+    assert.equal(invites.revokeAccountInvite(db,{
+      issuerId:owner.id,ownerEmail,email:'new@example.test',now:now+300
+    }),false);
+    const replacement=issue(db,owner,{now:now+400});
+    assert.equal(register(db,replacement.token,{now:now+500}).status,'pending');
+  });
+});

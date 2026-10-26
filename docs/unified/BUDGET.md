@@ -43,3 +43,6 @@ Existing VPS, GitHub connector and cached Node24 dependencies only; new paid pro
 
 ## KNABA user onboarding QA — 26.10.2026
 Local synthetic tests only on isolated VPS, verified official Node24 tar and public npm dependencies, no new billable provider dispatch. KNABA email/OIDC/WhatsApp/SMS/LLM not activated, no production DB/secret changes, no paid service authorization. Actual hosting/network/quota/balance remains UNKNOWN; existing budget rules preserved.
+
+## Auth hardening 26.10.2026
+Verified existing local Node24/VPS code and synthetic tests only. Read-only mail sender discovery found no verified KNABA domain; no paid OTP/SMTP/OIDC/LLM provider invoked, no KNABA mail sent, no production SQL or data modified. Real provider usage/pricing and credits UNKNOWN; previous budget and spending policy unchanged.

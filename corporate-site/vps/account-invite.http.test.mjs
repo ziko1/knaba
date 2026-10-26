@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createKnabaVpsServer} from './server.mjs';
 import {createOwner} from './auth.mjs';
+import {issueAccountInvite} from './account-invite.mjs';
 
 const origin='https://knaba.de';
 const ownerEmail='owner@example.test';
@@ -98,6 +99,31 @@ test('VPS HTTP: secure owner invite -> pending worker -> owner approval -> scope
     assert.equal(after.profile.status,'approved');
     assert.equal((await at('/api/crm/contacts',{headers:{Cookie:workerCookie}})).status,403);
     assert.equal((await at('/api/portal/dashboard',{headers:{Cookie:workerCookie}})).status,200);
+    assert.equal((await at('/account/password/',{headers:{Cookie:workerCookie}})).status,200,
+      'existing signed-in account needs an authenticated secret-rotation form');
+
+    const ownerId=service.db.prepare('SELECT id FROM vps_users WHERE email=?').get(ownerEmail).id;
+    issueAccountInvite(service.db,{
+      issuerId:ownerId,ownerEmail,email:'revoke-case@example.test',role:'client'
+    });
+    const revoked=await at('/invite-user/revoke/',form(
+      {email:'revoke-case@example.test'},{Cookie:ownerCookie}
+    ));
+    assert.equal(revoked.status,200,'owner must be able to cancel an unused invitation');
+
+    assert.match(revoked.headers.get('cache-control'),/no-store/);
+    assert.equal((await at('/invite-user/revoke/',form(
+      {email:'revoke-case@example.test'},{Cookie:workerCookie}
+    ))).status,403);
+    assert.equal((await at('/invite-user/revoke/',form(
+      {email:'revoke-case@example.test'},{Cookie:ownerCookie,Origin:'https://bad.example'}
+    ))).status,403);
+    assert.equal((await at('/invite-user/revoke/',form(
+      {email:'revoke-case@example.test',role:'owner'},{Cookie:ownerCookie}
+    ))).status,422);
+    assert.ok(service.db.prepare(
+      'SELECT used_at FROM vps_account_invites WHERE email=?'
+    ).get('revoke-case@example.test').used_at);
   } finally{
     if(service)await service.close();
     await rm(directory,{recursive:true,force:true});

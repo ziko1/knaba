@@ -32,7 +32,18 @@ export function createLogin(db,{email,password,clientKey}){
   const address=normalizeEmail(email);
   const now=Math.floor(Date.now()/1000);
   const bucket=Math.floor(now/900);
-  const key=hash(address+'|'+String(clientKey).slice(0,100)+'|'+bucket);
+  const remote=String(clientKey).slice(0,100);
+  // Stop rotating email addresses around the per-identity five-attempt cap.
+  // The key comes from req.socket.remoteAddress, never a proxy/client header.
+  // Behind a shared Traefik peer this is an aggregate ceiling, not a unique
+  // visitor limiter: leave enough headroom for legitimate company logins.
+  // A trusted-proxy identity contract must be verified before per-user IP limits.
+  const sourceKey=hash('source|'+remote+'|'+bucket);
+  const sourceState=db.prepare(
+    'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<60 RETURNING attempts'
+  ).get(sourceKey,(bucket+1)*900);
+  if(!sourceState)return null;
+  const key=hash(address+'|'+remote+'|'+bucket);
   const state=db.prepare(
     'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<5 RETURNING attempts'
   ).get(key,(bucket+1)*900);
@@ -63,4 +74,36 @@ export function sessionCookie(token,{secure=true}={}){
 }
 export function expiredCookie({secure=true}={}){
   return cookieName+'=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0'+(secure?'; Secure':'');
+}
+
+/** Rotate only a logged-in user's own secret; revoke every prior session. */
+export function rotateCredentials(db,{userId,currentPassword,newPassword,confirmed}){
+  if(typeof userId!=='string'||!userId||
+     typeof currentPassword!=='string'||currentPassword.length>256||
+     typeof newPassword!=='string'||newPassword.length<16||newPassword.length>256||
+     newPassword!==confirmed||newPassword===currentPassword)return false;
+  const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/900);
+  const key=hash('change-credential|'+userId+'|'+bucket);
+  const limit=db.prepare(
+    'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<5 RETURNING attempts'
+  ).get(key,(bucket+1)*900);
+  if(!limit)return false;
+  const row=db.prepare('SELECT salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
+  if(!row||row.disabled||!validPassword(row,currentPassword))return false;
+  const salt=randomBytes(16).toString('hex');
+  const next=scryptSync(newPassword,Buffer.from(salt,'hex'),64,
+    {N:32768,r:8,p:1,maxmem:64*1024*1024}).toString('hex');
+  db.exec('BEGIN IMMEDIATE');
+  try{
+    const saved=db.prepare(
+      'UPDATE vps_users SET salt=?,password_hash=? WHERE id=? AND disabled=0 AND salt=? AND password_hash=?'
+    ).run(salt,next,userId,row.salt,row.password_hash);
+    if(saved.changes!==1){db.exec('ROLLBACK');return false;}
+    db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(userId);
+    db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
+      .run(randomBytes(18).toString('base64url'),userId,'credential.rotated',
+        userId,new Date().toISOString());
+    db.exec('COMMIT');
+    return true;
+  }catch(error){db.exec('ROLLBACK');throw error;}
 }
