@@ -289,3 +289,18 @@ See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
 - [ ] Full clean Node >=22.23.4 `npm ci && npm run check && npm test && npm run build && KNABA_RELEASE_MODE=vsp npm run verify:build` pinned to final source; independent review, actual responsive/keyboard/screenreader QA.
 - [ ] Rights holder approval for partner logos and data protection of cross-origin CDN. Authenticated invitation claim by genuine KNABA owner, preserving `/readyz` security gate.
 - [ ] After verification and explicit preview rollout approval, immutable backup/CAS deploy, full postdeploy `verify:live`: 10 site routes + 5 genuine media fetches, AND source SHA/artifact match. Production/public release requires separate verified approval.
+
+## CLIENT-DAILY-ACCEPTANCE / first-pass quality — 2026-10-26
+
+Canonical requirement and reusable prompt: docs/KNABA_DAILY_CLIENT_ACCEPTANCE_UK.md. This is a **quality gate for existing work**, not a new duplicate feature set. Do not replace earlier accepted milestones.
+
+| Gate | Acceptance | Evidence/state |
+| --- | --- | --- |
+| QA-D01 | Stable design system, hero/contact CTA and no duplicate link/telephone clusters across DE/EN/UK/RU | Hero-pill change on PR #76; 9/9 targeted contrast/source tests on earlier SHA; full browser review of final SHA pending |
+| QA-D02 | Every sitemap and linked same-origin route and fragment, local asset/media, meta/link/a11y basics, zero unexpected 4xx/5xx and zero legacy outbound navigation | Added all-route crawler + 8 targeted tests; live baseline has 12 legacy-domain links and four new gallery routes not yet deployed; source-loopback complete crawl pending |
+| QA-D03 | Correct services/facts/rights/real contact and honest active Assistant/ERP/form behavior; no invented credentials/licenses | Corporate parity review in existing PR #73; final owner/legal/media-rights UAT pending; no real integration activation |
+| QA-D04 | 320/390/640/768/1440 browser/mobile/keyboard, 200% reflow, reduced motion, UI parity/console and access | Logo 16/16 on earlier source SHA; full final-SHA interactive/browser, independent visual and physical device QA pending |
+| QA-D05 | Exact SHA Node 24 check/test/build/verify plus full live link gate, immutable artifact verification and controlled rollback | Earlier SHA 3275f4c full suite PASSED with proper release NODE_ENV; rerun on final branch SHA required; live currently different; no deployment authorized |
+| QA-D06 | Evidence-backed daily customer acceptance, clear PASS/FAIL/BLOCKED/NOT_RUN, no ephemeral-only work | Rule stored in AGENTS/PROJECT_MEMORY and new canonical document; final evidence/owner signoff OPEN |
+
+Gate completion means **all dependent QA, security, rights, owner review, backup and publication permissions** have actual evidence. Do not close as “100% complete” because source/unit/HTTP-only tests are green.
