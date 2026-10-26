@@ -1,0 +1,531 @@
+⚙️  Generating plists...
+⚙️  Generating project...
+⚙️  Writing project...
+Created project at /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+Command line invocation:
+    /Applications/Xcode-16.4.app/Contents/Developer/usr/bin/xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator -destination "generic/platform=iOS Simulator" -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+    SDKROOT = iphonesimulator18.5
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'KNABADE' in project 'KNABADE' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: e7d3eaa36fd1793894eb2848288cab7b
+Build description path: /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/XCBuildData/e7d3eaa36fd1793894eb2848288cab7b.xcbuilddata
+CreateBuildDirectory /Users/builder/clone/apps/mobile-ios/build/Build/Products
+    cd /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+    builtin-create-build-directory /Users/builder/clone/apps/mobile-ios/build/Build/Products
+
+CreateBuildDirectory /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex
+    cd /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+    builtin-create-build-directory /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex
+
+ClangStatCache /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache
+    cd /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -o /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE-03a74a30ef0561b89aae068adff38359-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE-03a74a30ef0561b89aae068adff38359-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator
+    cd /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+    builtin-create-build-directory /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator
+
+CreateBuildDirectory /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/builder/clone/apps/mobile-ios/KNABADE.xcodeproj
+    builtin-create-build-directory /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_const_extract_protocols.json (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftConstValuesFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.LinkFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.LinkFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-OutputFileMap.json (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_const_extract_protocols.json (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftConstValuesFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.LinkFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.LinkFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-OutputFileMap.json (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.hmap (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.hmap
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyStaticMetadataFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyMetadataFileList (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-non-framework-target-headers.hmap (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibPath-normal-x86_64.txt (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibPath-normal-x86_64.txt
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibPath-normal-arm64.txt (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibInstallName-normal-x86_64.txt (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibInstallName-normal-x86_64.txt
+
+WriteAuxiliaryFile /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibInstallName-normal-arm64.txt (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    write-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibInstallName-normal-arm64.txt
+
+MkDir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /bin/mkdir -p /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app
+
+Ld /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/__preview.dylib normal arm64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0-simulator -dynamiclib -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -install_name @rpath/KNABADE.debug.dylib -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_dependency_info.dat -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/__preview.dylib
+
+Ld /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/__preview.dylib normal x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.0-simulator -dynamiclib -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -install_name @rpath/KNABADE.debug.dylib -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_dependency_info.dat -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/__preview.dylib
+
+ProcessInfoPlistFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Info.plist /Users/builder/clone/apps/mobile-ios/Info.plist (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-infoPlistUtility /Users/builder/clone/apps/mobile-ios/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -o /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Info.plist
+
+CpResource /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/PrivacyInfo.xcprivacy /Users/builder/clone/apps/mobile-ios/PrivacyInfo.xcprivacy (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/builder/clone/apps/mobile-ios/PrivacyInfo.xcprivacy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app
+
+CreateUniversalBinary /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/__preview.dylib normal arm64\ x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/__preview.dylib /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/__preview.dylib -output /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/__preview.dylib
+
+CopyStringsFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/uk.lproj/InfoPlist.strings /Users/builder/clone/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/uk.lproj -- /Users/builder/clone/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings
+/Users/builder/clone/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'KNABADE' from project 'KNABADE')
+
+CopyStringsFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/ru.lproj/InfoPlist.strings /Users/builder/clone/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/ru.lproj -- /Users/builder/clone/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings
+/Users/builder/clone/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'KNABADE' from project 'KNABADE')
+
+CopyStringsFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/pl.lproj/InfoPlist.strings /Users/builder/clone/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/pl.lproj -- /Users/builder/clone/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings
+/Users/builder/clone/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'KNABADE' from project 'KNABADE')
+
+CopyStringsFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/lt.lproj/InfoPlist.strings /Users/builder/clone/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/lt.lproj -- /Users/builder/clone/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings
+/Users/builder/clone/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'KNABADE' from project 'KNABADE')
+
+CopyStringsFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/en.lproj/InfoPlist.strings /Users/builder/clone/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/en.lproj -- /Users/builder/clone/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings
+/Users/builder/clone/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'KNABADE' from project 'KNABADE')
+
+CopyStringsFile /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/de.lproj/InfoPlist.strings /Users/builder/clone/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/de.lproj -- /Users/builder/clone/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings
+/Users/builder/clone/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriver KNABADE normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-SwiftDriver -- /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KNABADE -Onone -enforce-exclusivity\=checked @/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios17.0-simulator -g -module-cache-path /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/builder/clone/apps/mobile-ios/build/Index.noindex/DataStore -swift-version 5 -I /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache -output-file-map /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/arm64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-Swift.h -working-directory /Users/builder/clone/apps/mobile-ios -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver KNABADE normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-SwiftDriver -- /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KNABADE -Onone -enforce-exclusivity\=checked @/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target x86_64-apple-ios17.0-simulator -g -module-cache-path /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/builder/clone/apps/mobile-ios/build/Index.noindex/DataStore -swift-version 5 -I /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache -output-file-map /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources-normal/x86_64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/x86_64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-Swift.h -working-directory /Users/builder/clone/apps/mobile-ios -experimental-emit-module-separately -disable-cmo
+
+SwiftEmitModule normal x86_64 Emitting\ module\ for\ KNABADE (in target 'KNABADE' from project 'KNABADE')
+
+EmitSwiftModule normal x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: warning: main actor-isolated instance method 'locationManager(_:didUpdateLocations:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: note: add 'nonisolated' to 'locationManager(_:didUpdateLocations:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:6:69: note: add '@preconcurrency' to the 'CLLocationManagerDelegate' conformance to defer isolation checking to run time
+@MainActor final class LocationTracker: NSObject, ObservableObject, CLLocationManagerDelegate {
+                                                                    ^
+                                                                    @preconcurrency 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: warning: main actor-isolated instance method 'locationManager(_:didFailWithError:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: note: add 'nonisolated' to 'locationManager(_:didFailWithError:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: warning: main actor-isolated instance method 'locationManagerDidChangeAuthorization' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: note: add 'nonisolated' to 'locationManagerDidChangeAuthorization' to make this instance method not isolated to the actor
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+    nonisolated 
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ KNABADE (in target 'KNABADE' from project 'KNABADE')
+EmitSwiftModule normal arm64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: warning: main actor-isolated instance method 'locationManager(_:didUpdateLocations:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: note: add 'nonisolated' to 'locationManager(_:didUpdateLocations:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:6:69: note: add '@preconcurrency' to the 'CLLocationManagerDelegate' conformance to defer isolation checking to run time
+@MainActor final class LocationTracker: NSObject, ObservableObject, CLLocationManagerDelegate {
+                                                                    ^
+                                                                    @preconcurrency 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: warning: main actor-isolated instance method 'locationManager(_:didFailWithError:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: note: add 'nonisolated' to 'locationManager(_:didFailWithError:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: warning: main actor-isolated instance method 'locationManagerDidChangeAuthorization' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: note: add 'nonisolated' to 'locationManagerDidChangeAuthorization' to make this instance method not isolated to the actor
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+    nonisolated 
+
+SwiftCompile normal arm64 Compiling\ Models.swift,\ NativeAPI.swift,\ NativeLocalization.swift /Users/builder/clone/apps/mobile-ios/Sources/Models.swift /Users/builder/clone/apps/mobile-ios/Sources/NativeAPI.swift /Users/builder/clone/apps/mobile-ios/Sources/NativeLocalization.swift (in target 'KNABADE' from project 'KNABADE')
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/Models.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/NativeAPI.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/NativeLocalization.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal arm64 Compiling\ NativeShiftSummary.swift,\ SecureStore.swift /Users/builder/clone/apps/mobile-ios/Sources/NativeShiftSummary.swift /Users/builder/clone/apps/mobile-ios/Sources/SecureStore.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/NativeShiftSummary.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/SecureStore.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal x86_64 Compiling\ NativeShiftSummary.swift,\ SecureStore.swift /Users/builder/clone/apps/mobile-ios/Sources/NativeShiftSummary.swift /Users/builder/clone/apps/mobile-ios/Sources/SecureStore.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/NativeShiftSummary.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/SecureStore.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftDriverJobDiscovery normal x86_64 Emitting module for KNABADE (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for KNABADE (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriver\ Compilation\ Requirements KNABADE normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KNABADE -Onone -enforce-exclusivity\=checked @/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target x86_64-apple-ios17.0-simulator -g -module-cache-path /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/builder/clone/apps/mobile-ios/build/Index.noindex/DataStore -swift-version 5 -I /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache -output-file-map /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources-normal/x86_64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/x86_64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-Swift.h -working-directory /Users/builder/clone/apps/mobile-ios -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling NativeShiftSummary.swift, SecureStore.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriver\ Compilation\ Requirements KNABADE normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KNABADE -Onone -enforce-exclusivity\=checked @/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios17.0-simulator -g -module-cache-path /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/builder/clone/apps/mobile-ios/build/Index.noindex/DataStore -swift-version 5 -I /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache -output-file-map /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/arm64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-Swift.h -working-directory /Users/builder/clone/apps/mobile-ios -experimental-emit-module-separately -disable-cmo
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/x86_64-apple-ios-simulator.swiftmodule /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftmodule (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftmodule /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/x86_64-apple-ios-simulator.swiftmodule
+
+SwiftMergeGeneratedHeaders /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/KNABADE-Swift.h /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-Swift.h /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-Swift.h (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-swiftHeaderTool -arch arm64 /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-Swift.h -arch x86_64 /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-Swift.h -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/KNABADE-Swift.h
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/x86_64-apple-ios-simulator.swiftdoc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftdoc (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftdoc /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/x86_64-apple-ios-simulator.swiftdoc
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/x86_64-apple-ios-simulator.abi.json /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.abi.json (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.abi.json /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/x86_64-apple-ios-simulator.abi.json
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftmodule (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftmodule /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftdoc (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftdoc /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.abi.json (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.abi.json /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftsourceinfo (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftsourceinfo /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo
+
+Copy /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftsourceinfo (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftsourceinfo /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftCompile normal arm64 Compiling\ AppModel.swift,\ KNABADEApp.swift,\ LocationTracker.swift /Users/builder/clone/apps/mobile-ios/Sources/AppModel.swift /Users/builder/clone/apps/mobile-ios/Sources/KNABADEApp.swift /Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/AppModel.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/KNABADEApp.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal arm64 /Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: warning: main actor-isolated instance method 'locationManager(_:didUpdateLocations:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: note: add 'nonisolated' to 'locationManager(_:didUpdateLocations:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:6:69: note: add '@preconcurrency' to the 'CLLocationManagerDelegate' conformance to defer isolation checking to run time
+@MainActor final class LocationTracker: NSObject, ObservableObject, CLLocationManagerDelegate {
+                                                                    ^
+                                                                    @preconcurrency 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: warning: main actor-isolated instance method 'locationManager(_:didFailWithError:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: note: add 'nonisolated' to 'locationManager(_:didFailWithError:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: warning: main actor-isolated instance method 'locationManagerDidChangeAuthorization' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: note: add 'nonisolated' to 'locationManagerDidChangeAuthorization' to make this instance method not isolated to the actor
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+    nonisolated 
+
+SwiftCompile normal x86_64 Compiling\ AppModel.swift,\ KNABADEApp.swift,\ LocationTracker.swift /Users/builder/clone/apps/mobile-ios/Sources/AppModel.swift /Users/builder/clone/apps/mobile-ios/Sources/KNABADEApp.swift /Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/AppModel.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/KNABADEApp.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: warning: main actor-isolated instance method 'locationManager(_:didUpdateLocations:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:110:10: note: add 'nonisolated' to 'locationManager(_:didUpdateLocations:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:6:69: note: add '@preconcurrency' to the 'CLLocationManagerDelegate' conformance to defer isolation checking to run time
+@MainActor final class LocationTracker: NSObject, ObservableObject, CLLocationManagerDelegate {
+                                                                    ^
+                                                                    @preconcurrency 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: warning: main actor-isolated instance method 'locationManager(_:didFailWithError:)' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:144:10: note: add 'nonisolated' to 'locationManager(_:didFailWithError:)' to make this instance method not isolated to the actor
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         ^
+    nonisolated 
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: warning: main actor-isolated instance method 'locationManagerDidChangeAuthorization' cannot be used to satisfy nonisolated requirement from protocol 'CLLocationManagerDelegate'; this is an error in the Swift 6 language mode
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+/Users/builder/clone/apps/mobile-ios/Sources/LocationTracker.swift:104:10: note: add 'nonisolated' to 'locationManagerDidChangeAuthorization' to make this instance method not isolated to the actor
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+         ^
+    nonisolated 
+
+SwiftDriverJobDiscovery normal x86_64 Compiling NativeShiftSummary.swift, SecureStore.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftCompile normal x86_64 Compiling\ Models.swift,\ NativeAPI.swift,\ NativeLocalization.swift /Users/builder/clone/apps/mobile-ios/Sources/Models.swift /Users/builder/clone/apps/mobile-ios/Sources/NativeAPI.swift /Users/builder/clone/apps/mobile-ios/Sources/NativeLocalization.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/Models.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/NativeAPI.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftCompile normal x86_64 /Users/builder/clone/apps/mobile-ios/Sources/NativeLocalization.swift (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling Models.swift, NativeAPI.swift, NativeLocalization.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriverJobDiscovery normal x86_64 Compiling Models.swift, NativeAPI.swift, NativeLocalization.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriverJobDiscovery normal x86_64 Compiling AppModel.swift, KNABADEApp.swift, LocationTracker.swift (in target 'KNABADE' from project 'KNABADE')
+
+SwiftDriver\ Compilation KNABADE normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-Swift-Compilation -- /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KNABADE -Onone -enforce-exclusivity\=checked @/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target x86_64-apple-ios17.0-simulator -g -module-cache-path /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/builder/clone/apps/mobile-ios/build/Index.noindex/DataStore -swift-version 5 -I /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache -output-file-map /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources-normal/x86_64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/x86_64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE-Swift.h -working-directory /Users/builder/clone/apps/mobile-ios -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling AppModel.swift, KNABADEApp.swift, LocationTracker.swift (in target 'KNABADE' from project 'KNABADE')
+
+Ld /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE.debug.dylib normal x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.0-simulator -dynamiclib -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -filelist /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.LinkFileList -install_name @rpath/KNABADE.debug.dylib -Xlinker -rpath -Xlinker @executable_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -framework CoreLocation -framework Security -framework CryptoKit -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE.debug.dylib
+
+SwiftDriver\ Compilation KNABADE normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-Swift-Compilation -- /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KNABADE -Onone -enforce-exclusivity\=checked @/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios17.0-simulator -g -module-cache-path /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/builder/clone/apps/mobile-ios/build/Index.noindex/DataStore -swift-version 5 -I /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/clone/apps/mobile-ios/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-e689e24033456962692e8f9b6597acf5.sdkstatcache -output-file-map /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/builder/clone/apps/mobile-ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-generated-files.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-own-target-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-all-target-headers.hmap -Xcc -iquote -Xcc /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-project-headers.hmap -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources/arm64 -Xcc -I/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE-Swift.h -working-directory /Users/builder/clone/apps/mobile-ios -experimental-emit-module-separately -disable-cmo
+
+Ld /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE.debug.dylib normal arm64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0-simulator -dynamiclib -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -filelist /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.LinkFileList -install_name @rpath/KNABADE.debug.dylib -Xlinker -rpath -Xlinker @executable_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -framework CoreLocation -framework Security -framework CryptoKit -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE.debug.dylib
+
+ConstructStubExecutorLinkFileList /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-ExecutorLinkFileList-normal-x86_64.txt (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    construct-stub-executor-link-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE.debug.dylib /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-ExecutorLinkFileList-normal-x86_64.txt
+note: Using stub executor library with Swift entry point. (in target 'KNABADE' from project 'KNABADE')
+
+Ld /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE normal x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.0-simulator -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibPath-normal-x86_64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibInstallName-normal-x86_64.txt -Xlinker -filelist -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-ExecutorLinkFileList-normal-x86_64.txt /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE.debug.dylib -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE
+
+CreateUniversalBinary /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE.debug.dylib normal arm64\ x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE.debug.dylib /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE.debug.dylib -output /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE.debug.dylib
+
+ConstructStubExecutorLinkFileList /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-ExecutorLinkFileList-normal-arm64.txt (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    construct-stub-executor-link-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE.debug.dylib /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'KNABADE' from project 'KNABADE')
+
+Ld /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE normal arm64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0-simulator -isysroot /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -F/Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE-ExecutorLinkFileList-normal-arm64.txt /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE.debug.dylib -o /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE
+
+CreateUniversalBinary /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE normal arm64\ x86_64 (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/Binary/KNABADE /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/Binary/KNABADE -output /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE
+
+ExtractAppIntentsMetadata (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name KNABADE --sdk-root /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk --xcode-version 16F6 --platform-family iOS --deployment-target 17.0 --bundle-identifier de.knaba.mobile --output /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app --target-triple arm64-apple-ios17.0-simulator --target-triple x86_64-apple-ios17.0-simulator --binary-file /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE --dependency-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE_dependency_info.dat --dependency-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE_dependency_info.dat --stringsdata-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --stringsdata-file /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftFileList --source-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftFileList --metadata-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyMetadataFileList --static-metadata-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/arm64/KNABADE.SwiftConstValuesFileList --swift-const-vals-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/Objects-normal/x86_64/KNABADE.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-10-11 18:07:02.824 appintentsmetadataprocessor[2020:15215] Starting appintentsmetadataprocessor export
+2026-10-11 18:07:02.833 appintentsmetadataprocessor[2020:15215] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+CopySwiftLibs /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE.debug.dylib --scan-folder /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Frameworks --scan-folder /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/PlugIns --scan-folder /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/SystemExtensions --scan-folder /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Extensions --scan-folder /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/System/Library/Frameworks/CoreLocation.framework --scan-folder /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/System/Library/Frameworks/Security.framework --scan-folder /Applications/Xcode-16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/System/Library/Frameworks/CryptoKit.framework --platform iphonesimulator --toolchain /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Info.plist --temp-dir-path /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/ssu --bundle-id de.knaba.mobile --product-path /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app --extracted-metadata-path /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app/Metadata.appintents --metadata-file-list /Users/builder/clone/apps/mobile-ios/build/Build/Intermediates.noindex/KNABADE.build/Debug-iphonesimulator/KNABADE.build/KNABADE.DependencyMetadataFileList --archive-ssu-assets
+2026-10-11 18:07:02.881 appintentsnltrainingprocessor[2021:15227] Parsing options for appintentsnltrainingprocessor
+2026-10-11 18:07:02.883 appintentsnltrainingprocessor[2021:15227] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-RegisterExecutionPolicyException /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app
+
+Validate /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    builtin-validationUtility /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app -infoplist-subpath Info.plist
+
+Touch /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app (in target 'KNABADE' from project 'KNABADE')
+    cd /Users/builder/clone/apps/mobile-ios
+    /usr/bin/touch -c /Users/builder/clone/apps/mobile-ios/build/Build/Products/Debug-iphonesimulator/KNABADE.app
+
+** BUILD SUCCEEDED **
+

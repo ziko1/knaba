@@ -2,6 +2,7 @@ import { createMemo, createSignal, For, lazy, Match, onCleanup, onMount, Show, S
 import type { PortalSession } from '../lib/portal-contract';
 import { resolvePortalLocale, type PortalLocale } from '../lib/portal-i18n';
 import { allowedAdminSections, resolveAdminSection, type AdminSection } from '../lib/admin-access';
+import { visibleAdminModulesForRole } from '../lib/admin-module-registry';
 import '../styles/admin-center.css';
 
 // Only load the real feature island after it is selected. No second CMS, CRM or API.
@@ -26,7 +27,7 @@ const translations = {
     crmText:'Kontakte, Verkaufsphasen, interne Notizen und echte Anfragen.',
     messagesText:'Gespräche mit Kunden und Übergaben vom KNABA Assistant.',
     studioText:'Seiten, Inhalte und Veröffentlichungen mit Vorschau bearbeiten.',
-    language:'Sprache', refresh:'Sitzung prüfen', unsaved:'Im Website-Editor gibt es ungespeicherte Änderungen. Trotzdem wechseln?'
+    language:'Sprache', refresh:'Sitzung prüfen', unsaved:'Im Website-Editor gibt es ungespeicherte Änderungen. Trotzdem wechseln?',integrations:"Weitere Unternehmensmodule",imported:"Quellcode vorhanden · Integration noch nicht aktiv",integrationHint:"Diese Funktionen liegen im separaten ERP. Vor dem Zugriff sind Rollen, Datenübernahme und Bereitstellung zu prüfen.",erp:"ERP & Aufträge",hrm:"Personal & Schichten",resources:"Material & Lager",finance:"Finanzen & Abrechnung",analytics:"Berichte & Kennzahlen"
   },
   en: {
     title:'One company. One workspace.', subtitle:'Website, jobs and customer communication in one place, with your existing KnaBa sign-in.',
@@ -36,7 +37,7 @@ const translations = {
     retry:'Try again', denied:'This workspace requires an approved KnaBa management account.', portal:'Go to personal portal',
     welcome:'Your control centre', choose:'Open section', operationsText:'Requests, jobs, team approvals and audit history in the existing portal.',
     crmText:'Contacts, sales stages, internal notes and real enquiries.', messagesText:'Customer conversations and KNABA Assistant handovers.',
-    studioText:'Edit pages, content and publications with live preview.', language:'Language', refresh:'Verify session', unsaved:'There are unsaved website edits. Leave this section anyway?'
+    studioText:'Edit pages, content and publications with live preview.', language:'Language', refresh:'Verify session', unsaved:'There are unsaved website edits. Leave this section anyway?',integrations:"Additional business modules",imported:"Source imported · integration not active",integrationHint:"These functions belong to the separate ERP runtime. Identity, data exchange and deployment must be verified before access.",erp:"ERP & jobs",hrm:"Staff & shifts",resources:"Materials & stock",finance:"Finance & billing",analytics:"Reports & analytics"
   },
   uk: {
     title:'Одна компанія. Один кабінет.', subtitle:'Сайт, замовлення та спілкування з клієнтами в одному місці — з чинним входом KNABA.',
@@ -47,7 +48,7 @@ const translations = {
     welcome:'Центр керування', choose:'Відкрити розділ', operationsText:'Заявки, роботи, дозволи працівників та історія змін у чинному порталі.',
     crmText:'Контакти, етапи продажу, внутрішні нотатки та справжні заявки.',
     messagesText:'Розмови з клієнтами та передача звернень від KNABA Assistant.',
-    studioText:'Редагування сторінок, вмісту й публікацій із переглядом.', language:'Мова', refresh:'Перевірити сеанс', unsaved:'У редакторі є незбережені зміни. Усе одно перейти до іншого розділу?'
+    studioText:'Редагування сторінок, вмісту й публікацій із переглядом.', language:'Мова', refresh:'Перевірити сеанс', unsaved:'У редакторі є незбережені зміни. Усе одно перейти до іншого розділу?',integrations:"Додаткові бізнес-модулі",imported:"Код збережено · інтеграцію ще не активовано",integrationHint:"Ці функції містяться в окремому ERP. Перед доступом потрібні перевірені права, синхронізація даних і розгортання.",erp:"ERP та замовлення",hrm:"Персонал і зміни",resources:"Матеріали і склад",finance:"Фінанси й рахунки",analytics:"Звіти й аналітика"
   },
   ru: {
     title:'Одна компания. Один кабинет.', subtitle:'Сайт, заказы и общение с клиентами в одном месте — с существующим входом KNABA.',
@@ -58,7 +59,7 @@ const translations = {
     welcome:'Центр управления', choose:'Открыть раздел', operationsText:'Заявки, работы, права команды и история изменений в существующем портале.',
     crmText:'Контакты, этапы продаж, внутренние заметки и настоящие заявки.',
     messagesText:'Диалоги с клиентами и обращения от KNABA Assistant.',
-    studioText:'Редактирование страниц, содержимого и публикаций с предпросмотром.', language:'Язык', refresh:'Проверить сессию', unsaved:'В редакторе есть несохранённые изменения. Всё равно перейти к другому разделу?'
+    studioText:'Редактирование страниц, содержимого и публикаций с предпросмотром.', language:'Язык', refresh:'Проверить сессию', unsaved:'В редакторе есть несохранённые изменения. Всё равно перейти к другому разделу?',integrations:"Дополнительные бизнес-модули",imported:"Код сохранён · интеграция ещё не активна",integrationHint:"Эти функции находятся в отдельной ERP. Перед доступом нужны проверка прав, обмена данными и развёртывания.",erp:"ERP и заказы",hrm:"Персонал и смены",resources:"Материалы и склад",finance:"Финансы и счета",analytics:"Отчёты и аналитика"
   }
 } as const;
 
@@ -72,6 +73,7 @@ export default function AdminControlCenter() {
   const t = createMemo(() => translations[language()]);
   const role = () => session()?.user ? session()!.role : 'anonymous';
   const allowed = createMemo(() => allowedAdminSections(role()));
+  const sourceModules = createMemo(() => visibleAdminModulesForRole(role()).filter(module => module.state === 'source-only'));
   const selected = createMemo(() => resolveAdminSection(role(),requested()));
   const names = createMemo<Record<AdminSection,string>>(() => ({
     overview:t().overview,operations:t().operations,crm:t().crm,messages:t().messages,studio:t().studio
@@ -197,6 +199,20 @@ export default function AdminControlCenter() {
                   <span class="kncc-card-desc">{descriptions()[view]}</span><span class="kncc-card-link">{t().choose} →</span>
                 </button>
               }</For></div>
+              <Show when={sourceModules().length > 0}>
+                <section class="kncc-imported" aria-label={t().integrations}>
+                  <h3>{t().integrations}</h3>
+                  <p>{t().integrationHint}</p>
+                  <ul class="kncc-imported-list">
+                    <For each={sourceModules()}>{module =>
+                      <li class="kncc-imported-card">
+                        <strong>{t()[module.id]}</strong>
+                        <small>{t().imported}</small>
+                      </li>
+                    }</For>
+                  </ul>
+                </section>
+              </Show>
             </Show>
             <Switch>
               <Match when={selected()==='operations'}><div class="kncc-module"><Portal locale={language()} /></div></Match>

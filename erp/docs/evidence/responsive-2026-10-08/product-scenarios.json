@@ -1,0 +1,657 @@
+{
+  "sourceSha": "4ec7076f967d0dbe9fb5d413709ff493005c207e",
+  "runId": "37860709834",
+  "scope": "Actual built React web UI, Chromium and WebKit, explicit in-memory HTTP fixtures using real domain command schemas.",
+  "stats": {
+    "startTime": "2026-10-08T23:44:53.425Z",
+    "duration": 234821.754,
+    "expected": 54,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "scenarios": [
+    {
+      "title": "public entry and request form: 320 \u00d7 568, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2148,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:44:56.675Z",
+      "screenshots": [
+        "chromium-public-320.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 360 \u00d7 800, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2157,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:44:56.662Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 390 \u00d7 844, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1580,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:44:59.986Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 430 \u00d7 932, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1539,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:44:59.993Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 600 \u00d7 960, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1614,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:01.550Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 768 \u00d7 1024, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1663,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:01.592Z",
+      "screenshots": [
+        "chromium-public-768.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 1024 \u00d7 768, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1664,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:03.176Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 1280 \u00d7 800, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1773,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:03.276Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 1440 \u00d7 900, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1967,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:04.853Z",
+      "screenshots": [
+        "chromium-public-1440.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 1920 \u00d7 1080, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1932,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:05.072Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 2560 \u00d7 1440, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2733,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:06.846Z",
+      "screenshots": [
+        "chromium-public-2560.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 667 \u00d7 375, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1536,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:07.025Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 844 \u00d7 390, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1486,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:08.579Z",
+      "screenshots": []
+    },
+    {
+      "title": "all console modules reflow at 320px",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 10562,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:09.593Z",
+      "screenshots": [
+        "chromium-overview-320.png",
+        "chromium-tasks-320.png",
+        "chromium-chat-320.png",
+        "chromium-assistant-320.png"
+      ]
+    },
+    {
+      "title": "all console modules reflow at 768px",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 10694,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:10.083Z",
+      "screenshots": [
+        "chromium-overview-768.png",
+        "chromium-tasks-768.png",
+        "chromium-chat-768.png",
+        "chromium-assistant-768.png"
+      ]
+    },
+    {
+      "title": "all console modules reflow at 1440px",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 6530,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:20.170Z",
+      "screenshots": [
+        "chromium-overview-1440.png",
+        "chromium-tasks-1440.png",
+        "chromium-chat-1440.png",
+        "chromium-assistant-1440.png"
+      ]
+    },
+    {
+      "title": "all console modules reflow at 2560px",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 6781,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:20.799Z",
+      "screenshots": [
+        "chromium-overview-2560.png",
+        "chromium-tasks-2560.png",
+        "chromium-chat-2560.png",
+        "chromium-assistant-2560.png"
+      ]
+    },
+    {
+      "title": "compact navigation traps focus, closes with Escape and recovers after rotation",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1375,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:26.714Z",
+      "screenshots": [
+        "chromium-navigation-phone.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 320 \u00d7 568",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2438,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:27.605Z",
+      "screenshots": [
+        "chromium-task-review-320-568.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 390 \u00d7 340",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 7579,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:28.102Z",
+      "screenshots": [
+        "chromium-task-review-390-340.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 768 \u00d7 1024",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2145,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:30.057Z",
+      "screenshots": [
+        "chromium-task-review-768-1024.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 1024 \u00d7 768",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2234,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:32.214Z",
+      "screenshots": [
+        "chromium-task-review-1024-768.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 1440 \u00d7 900",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 2235,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:34.462Z",
+      "screenshots": [
+        "chromium-task-review-1440-900.png"
+      ]
+    },
+    {
+      "title": "employee chat sends long text and shift form remains reachable with a short viewport",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 1594,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:35.693Z",
+      "screenshots": [
+        "chromium-employee-chat-short-viewport.png"
+      ]
+    },
+    {
+      "title": "customer portal and issue form preserve readable inputs at 320px",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 675,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:36.711Z",
+      "screenshots": [
+        "chromium-customer-issue-phone.png"
+      ]
+    },
+    {
+      "title": "login, activation, text enlargement and reduced motion remain usable",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 885,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:37.303Z",
+      "screenshots": [
+        "chromium-login-phone.png",
+        "chromium-public-enlarged-text.png"
+      ]
+    },
+    {
+      "title": "the actual website contact widget fits a phone and landscape viewport",
+      "file": "responsive.spec.ts",
+      "browser": "chromium",
+      "status": "passed",
+      "durationMs": 993,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:37.399Z",
+      "screenshots": [
+        "chromium-embedded-contact-320.png",
+        "chromium-embedded-contact-844.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 320 \u00d7 568, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 18743,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:39.354Z",
+      "screenshots": [
+        "webkit-public-320.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 360 \u00d7 800, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 19978,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:39.515Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 390 \u00d7 844, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 8955,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:45:59.220Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 430 \u00d7 932, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 10008,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:00.459Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 600 \u00d7 960, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 11375,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:08.195Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 768 \u00d7 1024, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 14863,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:10.506Z",
+      "screenshots": [
+        "webkit-public-768.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 1024 \u00d7 768, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 15535,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:19.596Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 1280 \u00d7 800, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 18092,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:25.395Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 1440 \u00d7 900, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 21964,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:35.151Z",
+      "screenshots": [
+        "webkit-public-1440.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 1920 \u00d7 1080, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 27516,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:43.512Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 2560 \u00d7 1440, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 39502,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:46:57.143Z",
+      "screenshots": [
+        "webkit-public-2560.png"
+      ]
+    },
+    {
+      "title": "public entry and request form: 667 \u00d7 375, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 9473,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:47:11.057Z",
+      "screenshots": []
+    },
+    {
+      "title": "public entry and request form: 844 \u00d7 390, six languages",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 11919,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:47:20.566Z",
+      "screenshots": []
+    },
+    {
+      "title": "all console modules reflow at 320px",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 16161,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:47:32.511Z",
+      "screenshots": [
+        "webkit-overview-320.png",
+        "webkit-tasks-320.png",
+        "webkit-chat-320.png",
+        "webkit-assistant-320.png"
+      ]
+    },
+    {
+      "title": "all console modules reflow at 768px",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 19548,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:47:36.669Z",
+      "screenshots": [
+        "webkit-overview-768.png",
+        "webkit-tasks-768.png",
+        "webkit-chat-768.png",
+        "webkit-assistant-768.png"
+      ]
+    },
+    {
+      "title": "all console modules reflow at 1440px",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 15236,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:47:48.687Z",
+      "screenshots": [
+        "webkit-overview-1440.png",
+        "webkit-tasks-1440.png",
+        "webkit-chat-1440.png",
+        "webkit-assistant-1440.png"
+      ]
+    },
+    {
+      "title": "all console modules reflow at 2560px",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 20001,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:47:56.246Z",
+      "screenshots": [
+        "webkit-overview-2560.png",
+        "webkit-tasks-2560.png",
+        "webkit-chat-2560.png",
+        "webkit-assistant-2560.png"
+      ]
+    },
+    {
+      "title": "compact navigation traps focus, closes with Escape and recovers after rotation",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 3601,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:03.939Z",
+      "screenshots": [
+        "webkit-navigation-phone.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 320 \u00d7 568",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 6422,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:07.556Z",
+      "screenshots": [
+        "webkit-task-review-320-568.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 390 \u00d7 340",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 12326,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:13.999Z",
+      "screenshots": [
+        "webkit-task-review-390-340.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 768 \u00d7 1024",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 8572,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:16.273Z",
+      "screenshots": [
+        "webkit-task-review-768-1024.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 1024 \u00d7 768",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 14044,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:24.870Z",
+      "screenshots": [
+        "webkit-task-review-1024-768.png"
+      ]
+    },
+    {
+      "title": "task create, review, table, board and deep tree: 1440 \u00d7 900",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 15870,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:26.344Z",
+      "screenshots": [
+        "webkit-task-review-1440-900.png"
+      ]
+    },
+    {
+      "title": "employee chat sends long text and shift form remains reachable with a short viewport",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 3478,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:38.962Z",
+      "screenshots": [
+        "webkit-employee-chat-short-viewport.png"
+      ]
+    },
+    {
+      "title": "customer portal and issue form preserve readable inputs at 320px",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 2277,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:42.237Z",
+      "screenshots": [
+        "webkit-customer-issue-phone.png"
+      ]
+    },
+    {
+      "title": "login, activation, text enlargement and reduced motion remain usable",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 2959,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:42.481Z",
+      "screenshots": [
+        "webkit-login-phone.png",
+        "webkit-public-enlarged-text.png"
+      ]
+    },
+    {
+      "title": "the actual website contact widget fits a phone and landscape viewport",
+      "file": "responsive.spec.ts",
+      "browser": "webkit",
+      "status": "passed",
+      "durationMs": 3553,
+      "retry": 0,
+      "startedAt": "2026-10-08T23:48:44.530Z",
+      "screenshots": [
+        "webkit-embedded-contact-320.png",
+        "webkit-embedded-contact-844.png"
+      ]
+    }
+  ],
+  "artifactScreenshotCount": 64,
+  "selectedVisualReview": "visual-review.json"
+}

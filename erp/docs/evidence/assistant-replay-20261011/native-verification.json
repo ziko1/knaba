@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-11T00:29:42.874Z",
+  "repository": "ziko1/knaba",
+  "runId": 38098204040,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/38098204040",
+  "sourceGitSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+  "sourceTree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+  "status": "NATIVE_ARTIFACTS_VERIFIED_BOTH_JOBS_SUCCESS",
+  "android": {
+    "jobId": 114348505925,
+    "jobStatus": "SUCCESS",
+    "artifactId": 11687216877,
+    "artifactName": "knaba-android-debug-a10e70911fb519ec7d8199fa66141cd12b462926",
+    "artifactExpiresAt": "2026-10-25T00:24:59Z",
+    "archiveFile": "knaba-android-debug-a10e7091.zip",
+    "archiveBytes": 879632,
+    "archiveSha256": "fa884e287f3eb1c9012c029c926a77ef8ed85d298f75d18a30c9df6200dc6d91",
+    "githubArtifactDigestMatches": true,
+    "archiveChecks": {
+      "crc": "PASSED",
+      "pathSafety": "PASSED",
+      "duplicatePaths": 0,
+      "symlinks": 0,
+      "entryCount": 14
+    },
+    "sourceReceiptMatches": true,
+    "apk": {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 2594536,
+      "sha256": "9bda22bc6cf6d43dc205e363ea19c42a880855c0d12144a963cf67d23cb6d85d",
+      "receiptAndSha256SumsMatch": true,
+      "archiveChecks": {
+        "crc": "PASSED",
+        "pathSafety": "PASSED",
+        "duplicatePaths": 0,
+        "symlinks": 0,
+        "entryCount": 14
+      }
+    },
+    "javaAssertions": {
+      "geofenceAndPrivacy": 30,
+      "languageClockAndGeneration": 36,
+      "total": 66,
+      "failed": 0,
+      "scope": "Hosted JVM assertion vectors; no Android device instrumentation"
+    },
+    "localization": {
+      "locales": 6,
+      "completeStringsEach": 91,
+      "resourceValidation": "PASSED"
+    },
+    "build": {
+      "assembleDebug": "PASSED",
+      "lintDebug": "PASSED",
+      "toolchain": "Android debug APK; Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, Java 17.0.16, SDK 36"
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 10,
+      "warningIds": {
+        "InlinedApi": 1,
+        "OldTargetApi": 1,
+        "AppBundleLocaleChanges": 1,
+        "AndroidGradlePluginVersion": 1,
+        "PluralsCandidate": 2,
+        "DataExtractionRules": 2,
+        "ObsoleteSdkInt": 1,
+        "MissingApplicationIcon": 1
+      }
+    },
+    "signature": {
+      "hostedApksigner": "VERIFIED_V2",
+      "certificateSha256": "faf240a72225a726eeca6cb8fd605cf53d27821817300aa65c677de770a571b2",
+      "signing": "Ephemeral Android debug key only; production signing NOT_RUN",
+      "independentCryptographicReverification": "NOT_RUN"
+    },
+    "evidenceEntrySha256": {
+      "build/evidence/native-receipt.json": "55070a14494f0aace9d25a1911d67da89ba22976e07a25ef63e62467fca3caf1",
+      "build/evidence/native-vectors.log": "741bf5a05f56e818bb62170e1707977d0cc873d8fd0a1c4259c4742e02b2e53c",
+      "build/evidence/native-localization-vectors.log": "ab7e9e64b75152e06dbf7b854163dc169552076c80e66c755e11b0ff9bc7a90a",
+      "build/evidence/android-build.log": "37d19f6eb7032b38dd9731658458b62a80ae0aaee271aae3365c18b0dd03380d",
+      "build/evidence/apk-verification.txt": "7199080704e69bd3e9d5ab0018a35b2de314907eab95109e586ab2051097eb98",
+      "app/build/reports/lint-results-debug.xml": "686d245fc39f975e376afda4b29d967f7abcd50747be9f0e23c80e590a0205e0"
+    },
+    "sourceBinding": {
+      "receiptMatches": true,
+      "githubArtifactRunHeadMatches": true,
+      "hostedCheckoutLogMatches": true
+    },
+    "listedSteps": {
+      "total": 14,
+      "success": 14,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    }
+  },
+  "ios": {
+    "jobId": 114348505831,
+    "jobStatus": "SUCCESS",
+    "listedSteps": {
+      "total": 12,
+      "success": 12,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "artifactId": 11686352461,
+    "artifactName": "knaba-ios-simulator-a10e70911fb519ec7d8199fa66141cd12b462926",
+    "artifactExpiresAt": "2026-10-25T00:28:13Z",
+    "archiveFile": "knaba-ios-simulator-a10e7091.zip",
+    "archiveBytes": 5625378,
+    "archiveSha256": "7b0731c0de2e676f3502d7960a175e4075bd27eeef66c303fcc46d3c456093c4",
+    "githubArtifactDigestMatches": true,
+    "archiveChecks": {
+      "crc": "PASSED",
+      "pathSafety": "PASSED",
+      "duplicatePaths": 0,
+      "symlinks": 0,
+      "entryCount": 98
+    },
+    "sourceReceiptMatches": true,
+    "simulatorApp": {
+      "path": "KNABADE-simulator.app.zip",
+      "bytes": 5539478,
+      "sha256": "5bbb6334430caf4555f1e616f12be227de791da10ff4fa694ef6e7db7e530018",
+      "receiptAndSha256SumsMatch": true,
+      "archiveChecks": {
+        "crc": "PASSED",
+        "pathSafety": "PASSED",
+        "duplicatePaths": 0,
+        "symlinks": 0,
+        "entryCount": 69
+      },
+      "bundleManifestFiles": 45,
+      "bundleFilesHashesMatched": 45,
+      "missingOrUnexpectedBundleFiles": 0,
+      "bundleIdentifier": "de.knaba.mobile",
+      "sdk": "iphonesimulator18.5"
+    },
+    "build": {
+      "compile": "PASSED",
+      "toolchain": "iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode",
+      "xcodeBuild": "16F6",
+      "xcodegenSourceSha": "7193eb447a6f60061f069e07bc1efd32d73c0e19",
+      "signing": "CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA"
+    },
+    "xctest": {
+      "result": "Passed",
+      "started": 19,
+      "executed": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "expectedFailures": 0,
+      "uniqueLogCasesMatched": 19,
+      "suites": {
+        "KNABADETests.LocalizationAndSummaryTests": 11,
+        "KNABADETests.NativeTests": 8
+      },
+      "logAndXcresultSummaryMatch": true,
+      "resultBundleIncluded": true,
+      "xcresulttoolIndependentlyRerun": "NOT_RUN; structured summary cross-checked with all actual test log cases"
+    },
+    "simulator": {
+      "architecture": "arm64",
+      "deviceId": "43A9158D-DF11-41C7-BACC-EAA34808A5C6",
+      "deviceName": "KNABA-iOS-18.5-a10e70911fb5",
+      "modelName": "iPhone 16",
+      "osBuildNumber": "22F77",
+      "osVersion": "18.5",
+      "platform": "iOS Simulator",
+      "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+      "matchesPreparedDeviceAndRuntime": true,
+      "preparationReceiptNote": "Historical preparation is pre-test; later actual test log and result summary prove execution."
+    },
+    "evidenceEntrySha256": {
+      "evidence/native-receipt.json": "ffa67c0408edd5c6a23d1258a0d5f33a5a8d437b07527e88e646d8a615055e48",
+      "evidence/xctest-summary.json": "efd382cd98afd1a58a2d3f9cbafaf78d21386b348101bce4fecdae3363666946",
+      "evidence/ios-tests.log": "7bf129eb626b69d08ec9f315127fced3ca7e5e1eb87ab217eb55a9504bddcefc",
+      "evidence/ios-build.log": "7d6e4a47074b0d30dbca8bfd7ee4942d6ff51f18ab5469a623657ae423ed5a6d",
+      "evidence/simulator-preparation.json": "6edd8fe6253da939914af54f2664d2f551ce3ef238ce5d92df5a87f3d8d31c28"
+    },
+    "sourceBinding": {
+      "receiptMatches": true,
+      "simulatorPreparationMatches": true,
+      "githubArtifactRunHeadMatches": true,
+      "hostedCheckoutLogMatches": true
+    }
+  },
+  "sourceEquivalence": {
+    "priorSource": "5a9e186699d20de713913884bc4f9ed296914bf1",
+    "independentGitDiffVerified": true,
+    "changes": [
+      "docs/evidence/offline-execution-scope.json",
+      "tests/assistant-runtime.integration.test.ts",
+      "tests/handoff-calendar.integration.test.ts",
+      "tests/work-notifications.integration.test.ts"
+    ],
+    "applicationAndNativeInputsUnchanged": true,
+    "priorNativeEvidenceRemainsBoundToPriorSha": true
+  },
+  "limits": [
+    "Native artifact evidence is bound to exact source a10e70911fb519ec7d8199fa66141cd12b462926.",
+    "Android host Java vectors and simulator XCTest do not prove physical installation, OS background behavior, GPS or battery acceptance.",
+    "Android production signing, signed iOS IPA/TestFlight/App Store provisioning and physical devices remain NOT_RUN.",
+    "No live service or real provider acceptance is certified by these native artifacts."
+  ],
+  "verificationMethod": "Independent downloaded ZIP SHA256 against GitHub metadata, ZIP CRC/path/duplicate/symlink checks, receipt and inner-artifact hashes, actual hosted and bundled test logs, Android lint XML/text, iOS complete bundle manifest and XCTest summary/device/runtime checks. No native build or tests were re-executed locally."
+}

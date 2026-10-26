@@ -1,0 +1,796 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-11T00:19:27.592063+00:00",
+  "repository": "ziko1/knaba",
+  "sourceSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+  "runId": 38097306657,
+  "jobId": 114345762811,
+  "release": {
+    "code_sha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+    "source_dirty": false,
+    "source_provenance": "GIT_WORKTREE",
+    "version": "0.1.0",
+    "builtAt": "2026-10-11T00:10:41.425Z"
+  },
+  "artifact": {
+    "id": 11686922219,
+    "name": "knaba-evidence-5a9e186699d20de713913884bc4f9ed296914bf1",
+    "bytes": 8194247,
+    "sha256": "014619b2e4718888e7e45b55eeb9e3e91e6b0254f1c3c63cc7a41509726d9320",
+    "digestMatchesGitHub": true,
+    "zipCrc": "PASSED"
+  },
+  "unit": {
+    "total": 2242,
+    "passed": 2240,
+    "failed": 2,
+    "skipped": 0,
+    "todo": 0
+  },
+  "classification": {
+    "REAL_POSTGRES": {
+      "total": 421,
+      "passed": 419,
+      "failed": 2,
+      "skipped": 0,
+      "todo": 0
+    },
+    "CPU_IN_MEMORY_DOCUMENT_OR_TRANSPORT_DOUBLE": {
+      "total": 1821,
+      "passed": 1821,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "executionIndex": {
+    "status": "EXACT_INDEX_VALIDATED",
+    "exactGitSource": "5a9e186699d20de713913884bc4f9ed296914bf1",
+    "testFilesVerified": 90,
+    "sha256": "881ad9a2f984e4bf9c563446867fc346681df66cdba0eb98bd76ae589b28d15d",
+    "classificationIsExecutionProof": false
+  },
+  "failedCases": [
+    {
+      "test_path": "tests/assistant-runtime.integration.test.ts",
+      "full_name": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI deduplicates a repeated leased source event without another provider request, draft, estimate, or AI message",
+      "duplicate_name_occurrence": 0,
+      "status": "failed",
+      "durationMs": 126.40090799999962,
+      "failureMessages": [
+        "AssertionError: expected [] to have a length of 1 but got +0\n    at Proxy.<anonymous> (file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1257:20)\n    at Proxy.<anonymous> (file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1029:14)\n    at Proxy.methodWrapper (file:///home/runner/work/knaba/knaba/node_modules/chai/index.js:1686:25)\n    at /home/runner/work/knaba/knaba/tests/assistant-runtime.integration.test.ts:437:134\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///home/runner/work/knaba/knaba/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+      ],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/handoff-calendar.integration.test.ts",
+      "full_name": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority stores exactly one deterministic queue fact with real service commands and no customer time/crew promise",
+      "duplicate_name_occurrence": 0,
+      "status": "failed",
+      "durationMs": 43.779405999999994,
+      "failureMessages": [
+        "AssertionError: expected Error: WORKER_LEASE_LOST { …(2) } to match object { code: 'AI_SUPPRESSED' }\n(1 matching property omitted from actual)\n    at _Assertion.<anonymous> (file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1155:10)\n    at _Assertion.<anonymous> (file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1029:14)\n    at _Assertion.methodWrapper (file:///home/runner/work/knaba/knaba/node_modules/chai/index.js:1686:25)\n    at file:///home/runner/work/knaba/knaba/node_modules/@vitest/expect/dist/index.js:1639:20\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at /home/runner/work/knaba/knaba/tests/handoff-calendar.integration.test.ts:43:483\n    at file:///home/runner/work/knaba/knaba/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+      ],
+      "execution_class": "REAL_POSTGRES"
+    }
+  ],
+  "replayCases": [
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries reclaims a successfully replied and settled job without another provider call, reply, cost write or false human handoff",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 149.26293300000003,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries uses the persisted reply receipt after a settlement crash and retains its unresolved full reservation without resending or handoff",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 96.873422,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retries a confirmed never-invoked zero-cost cancellation once under a fresh real lease and preserves one billed outcome",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 106.66698699999995,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries ignores a delayed old-lease cancellation after a safe successor has durably marked its own provider request started",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 109.51114999999993,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries refuses zero-cost cancellation even from the current lease after its actual provider-start marker commits",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 74.99721499999998,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries retains the full reservation and requests human review when a genuine first provider request is still unknown during lease recovery",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 72.26873799999998,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks SUBSTITUTED_SOURCE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 82.39314999999999,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks WRONG_JOB_TYPE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 79.25761000000011,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks EXPIRED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 74.16442099999995,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries checks REPLACED_LEASE before trusting a previous successful reply or cost record",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 75.88230699999986,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current ACTOR_DISABLED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 43.972443999999996,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current CONFIG_RETIRED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 42.22972299999992,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    },
+    {
+      "test_path": "tests/assistant-answer-replay.integration.test.ts",
+      "full_name": "AI answer real PostgreSQL recovery after persisted replies and known/unknown provider boundaries does not restart a known no-send cancellation after current SERVICE_MEMBERSHIP_REVOKED authority is revoked",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 50.39188200000012,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    }
+  ],
+  "historicalLedgerCases": [
+    {
+      "test_path": "tests/operations-digest.integration.test.ts",
+      "full_name": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy retains actual PostgreSQL legacy ACCEPT/REOPEN ledger arithmetic without rewriting accepted originals or counting period-end reversals",
+      "duplicate_name_occurrence": 0,
+      "status": "passed",
+      "durationMs": 108.00396200000023,
+      "failureMessages": [],
+      "execution_class": "REAL_POSTGRES"
+    }
+  ],
+  "historical40FailureMapping": [
+    {
+      "priorIdentity": 1,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI runs proposal → exact server estimate → private WEB draft, with no lead before explicit authenticated confirmation",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 2,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI supplies bounded currently visible conversation and approved price-book IDs without private knowledge or raw rates",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 3,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects another authenticated guest, absent CSRF and a tampered review hash without creating a lead",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 4,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+      "priorCategory": "RUNTIME_CONFIG_PRECONDITION_DENIES_CANONICAL_SERVICE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rejects a confirmed preview after its original customer message changes, including a replay of the old preview",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 5,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+      "priorCategory": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_RETIRED",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 6,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+      "priorCategory": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: CONFIG_VERSION_CHANGED",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 7,
+      "file": "tests/assistant-runtime.integration.test.ts",
+      "priorFullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+      "priorCategory": "RUNTIME_SETTLEMENT_SKIPPED_AFTER_FALLBACK_AUTHORITY_REJECTION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "assistant runtime: PostgreSQL/Engine/worker/controller with explicitly mocked external AI rechecks fresh server state before dispatch after first provider request: ACTOR_DISABLED",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 8,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority SQL entity listing and pagination return the immutable publication allowlist while draft and mismatched history remain hidden",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 9,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority child foreign-customer metadata cannot redirect the actual SQL parent/customer authorization",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 10,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority current SQL membership revocation blocks a previously visible child even when the caller keeps the old actor",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 11,
+      "file": "tests/commerce-v4-projection.test.ts",
+      "priorFullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 quote version projection: genuine PostgreSQL published source and current customer authority actual SQL order site scope defeats a child-site override without changing publication or its internal snapshot",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 12,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity human review and explicit return preserve the actual QUOTING aggregate and current quote",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 13,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity visit resolution records linked verified facts with a separate audit and never changes the sales lifecycle",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 14,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity portal publication commits one public snapshot and is exposed only after actual publication",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 15,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity a failure after quote publication save rolls back its aggregate, revision, audit and outbox atomically",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 16,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent provider sends create one queued outbox request and cannot create a customer acceptance",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 17,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity concurrent acceptance returns one original acceptance ID and binds exactly one order and dispatch to it",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 18,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity an expired published button rejects before creating any business record or command receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 19,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity current membership revocation hides accepted quote and blocks both fresh acceptance and prior cached receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 20,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity forged external VERIFIED facts produce no lead, revision, audit, receipt or verification source while internal verification creates the linked actual fact",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 21,
+      "file": "tests/commerce-v4.integration.test.ts",
+      "priorFullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 commerce: actual PostgreSQL publication, orthogonal review and original acceptance identity unresolved legacy lifecycle recovery requires an actual internal reason/evidence record and retains the review gate",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 22,
+      "file": "tests/device-gps-privacy-v4.integration.test.ts",
+      "priorFullName": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+      "priorCategory": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "GPS device metadata versus scoped privacy execution (real PostgreSQL) fresh SQL review authority after preview invalidates confirmation atomically and preserves chat plus metadata",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 23,
+      "file": "tests/handoff-calendar.integration.test.ts",
+      "priorFullName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+      "priorCategory": "FIXTURE_HISTORY_TIMESTAMP_VS_SQL_TRANSACTION_CLOCK_SUSPECTED",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 handoff calendar: genuine PostgreSQL command, lease and recipient authority actual worker fallback binds one queued transition/decision/calendar job to the genuine canonical AI job",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 24,
+      "file": "tests/internal-assistant-visibility.integration.test.ts",
+      "priorFullName": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+      "priorCategory": "FIXTURE_OLD_PAGINATION_ENVELOPE",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "PostgreSQL current internal-cache source authorization through authenticated entity reads freshly denies both a cookie/API read and a stale Engine actor when rights are revoked while their real company lock is held",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 25,
+      "file": "tests/material-request-batches-v4.integration.test.ts",
+      "priorFullName": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+      "priorCategory": "RUNTIME_WRONG_IDEMPOTENCY_ERROR",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 multi-SKU MaterialRequest parent/line transactions (real PostgreSQL) real create/replay commits one parent/two genuine children, atomic receipt/audit/outbox and exact per-SKU base units",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 26,
+      "file": "tests/media-upload-idempotency.integration.test.ts",
+      "priorFullName": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+      "priorCategory": "FIXTURE_SPY_RECURSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 media upload atomic SQL receipts and current authorization failure after both blob writes rolls back blobs, aggregate revisions/audit, outbox and receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 27,
+      "file": "tests/operations-digest.integration.test.ts",
+      "priorFullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after an approved source revision changes and no read mutates the old snapshot",
+      "priorCategory": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "mapping": "RETIRED_WITH_EXPLICIT_V4_REPLACEMENT",
+      "currentCases": [
+        {
+          "fullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy immutable digest history is hidden after its linked rework source changes while the accepted original and old snapshot stay intact",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 28,
+      "file": "tests/operations-digest.integration.test.ts",
+      "priorFullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period team event deltas invalidate old history and are recomputed together without business writes",
+      "priorCategory": "FIXTURE_UPDATES_IMMUTABLE_BUSINESS_FACT",
+      "mapping": "RETIRED_WITH_EXPLICIT_V4_REPLACEMENT",
+      "currentCases": [
+        {
+          "fullName": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy current trip dispute, approved closed-period adjustment and in-period rework facts invalidate old history and are recomputed without changing accepted originals",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 29,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback manual advancement produces no SQL effect; the real first shift segment atomically starts its bound order once",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 30,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback employee eligibility failure after the ACK save rolls back ACK, revisions, audit, receipt and outbox",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 31,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback generic Engine ACK by a site-revoked worker with a pending peer creates no ACK/version/audit/outbox/receipt, including replay",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 32,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback current employee deactivation blocks generic cached ACK and crew.start before effects despite unchanged actor sites",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 33,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback generic dispatcher writes and cached availability deny a canonical foreign-site employee while recommendation omits that employee entirely",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 34,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback generic availability and cached receipt reject the dispatcher after its site is revoked without changing the target employee",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 35,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback pausing rejects new order work and preserves its original stage; cancellation keeps actual segments and work logs",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 36,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback a real report receipt cannot close the order, but actual exact report work acceptance can, without changing payment",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 37,
+      "file": "tests/order-lifecycle-v4.integration.test.ts",
+      "priorFullName": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+      "priorCategory": "FIXTURE_OWNER_MISSING_COMMERCE_PERMISSION",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 D07 PostgreSQL actual order transitions and rollback a real open defect blocks closure atomically and keeps the original accepted task immutable",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 38,
+      "file": "tests/v4-core-contracts.integration.test.ts",
+      "priorFullName": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+      "priorCategory": "FIXTURE_OLD_CURSOR_SCOPE_ERROR",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 root core PostgreSQL contracts and keyset authorization each page rechecks site access for a stale actor after revocation and keeps signed cursors bound to actor/company",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 39,
+      "file": "tests/v4-http-runtime-contracts.integration.test.ts",
+      "priorFullName": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+      "priorCategory": "FIXTURE_FROZEN_DATE_VS_SQL_AUDIT_CLOCK",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "V4 actual HTTP controller/auth/SQL runtime boundaries actual audit SQL keyset parses correctly and maintains company scope over cursor pages",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "priorIdentity": 40,
+      "file": "tests/work-notifications.integration.test.ts",
+      "priorFullName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+      "priorCategory": "FIXTURE_ROLE_NOT_INTERNAL_SALES_MANAGER",
+      "mapping": "SAME_CASE_IDENTITY",
+      "currentCases": [
+        {
+          "fullName": "automatic work notifications: actual PostgreSQL producer/worker/activity lifecycle actual order.transition cancellation creates minimal accessible WEB notices only for affected own crew and the addressed accepted-quote customer",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "historical40ResolvedCount": 40,
+  "browserStats": {
+    "startTime": "2026-10-11T00:15:56.044Z",
+    "duration": 146873.707,
+    "expected": 27,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserErrors": [],
+  "stages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:14:40Z",
+      "completedAt": "2026-10-11T00:14:41.168Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "FAILED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:14:41Z",
+      "completedAt": "2026-10-11T00:15:54.856Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "PASSED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:15:54Z",
+      "completedAt": "2026-10-11T00:18:23.103Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:18:23Z",
+      "completedAt": "2026-10-11T00:18:23.915Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:18:23Z",
+      "completedAt": "2026-10-11T00:18:24.088Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:18:24Z",
+      "completedAt": "2026-10-11T00:18:24.807Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "5a9e186699d20de713913884bc4f9ed296914bf1",
+      "startedAt": "2026-10-11T00:18:24Z",
+      "completedAt": "2026-10-11T00:18:25.754Z"
+    }
+  ],
+  "rawReportSha256": "67adc3dee936c014da8d6d876381ad1e530f18e3c5680c280df36969eb6654e3",
+  "limits": [
+    "Exact source 5a9e only; subsequent fixture/source changes need their own hosted run.",
+    "Unit transport/provider doubles remain explicitly classified; real provider/company/physical acceptance is not inferred.",
+    "Per-test source bytes and exact case set were checked against immutable git-show source, never the mutable working tree."
+  ]
+}

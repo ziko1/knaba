@@ -58,3 +58,12 @@
 @media(max-width:800px){.kncc-layout{grid-template-columns:minmax(0,1fr)}.kncc-sidebar{position:static;padding:1rem}.kncc-brand{padding-bottom:.7rem}.kncc-sidebar-caption,.kncc-security{display:none}.kncc-navigation{margin-top:.7rem;flex-direction:row;overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:.2rem;scrollbar-width:thin}.kncc-nav-item{flex:0 0 auto;width:auto;white-space:nowrap;padding:.7rem .9rem}.kncc-site-link{margin-top:.7rem}.kncc-content{min-height:420px}}
 @media(max-width:540px){.kncc{padding-inline:.8rem}.kncc-sidebar,.kncc-content{border-radius:18px}.kncc-cards{grid-template-columns:minmax(0,1fr)}.kncc-card{min-height:165px}.kncc-toolbar{align-items:flex-start}.kncc-tools{width:100%;gap:.35rem}.kncc-tool{flex:1;justify-content:center}.kncc-language{margin-inline-end:auto}.kncc-identity strong{font-size:.8rem}.kncc-module{padding:.4rem}}
 @media(prefers-reduced-motion:reduce){.kncc :is(.kncc-card,.kncc-nav-item){transition:none}}
+
+/* Informational ERP inventory: no inactive link, button or implied SSO. */
+.kncc-imported{border-top:1px solid #dceae0;padding:clamp(1rem,2.8vw,2.3rem)}
+.kncc-imported h3{margin:0 0 .5rem;font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.3}
+.kncc-imported>p{max-width:62ch;color:var(--kc-muted);font-size:.88rem;line-height:1.6;margin:0 0 1.15rem}
+.kncc-imported-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,225px),1fr));gap:.75rem;margin:0;padding:0;list-style:none}
+.kncc-imported-card{min-width:0;display:flex;flex-direction:column;gap:.4rem;border-radius:14px;background:#f4f8f3;border:1px dashed #b9d3be;padding:1rem;color:#254b40}
+.kncc-imported-card strong{font-size:.94rem;line-height:1.35;overflow-wrap:anywhere}
+.kncc-imported-card small{font-size:.77rem;line-height:1.5;color:#47685b}

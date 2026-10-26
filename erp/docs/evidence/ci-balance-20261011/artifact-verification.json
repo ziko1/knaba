@@ -1,0 +1,168 @@
+{
+  "verifiedAtUtc": "2026-10-11T18:10:28.069340+00:00",
+  "sourceGitSha": "013a7851118dd6d8c420dabca5763148993835d1",
+  "status": "PASS",
+  "codemagicRunId": "6acbcebc546ce6236ced9272",
+  "durationSeconds": 378,
+  "archives": {
+    "evidence": {
+      "bytes": 127254,
+      "sha256": "39aa549c18945188e931a5974059b05afd90fa63961c473d48040252efd78a70",
+      "zipCrc": "PASS"
+    },
+    "simulatorApp": {
+      "bytes": 5539221,
+      "sha256": "ab37f4dc326fa08b10b0809386193db547a918082eb903dd0abbd77e9af3f6d3",
+      "zipCrc": "PASS",
+      "receiptSizeAndHashMatch": true,
+      "bundleFilesVerified": 45
+    }
+  },
+  "xctest": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "expectedFailures": 0,
+    "source": "xctest-summary.json independently parsed and 19 passed test-case log entries checked",
+    "caseNames": [
+      "KNABADETests.LocalizationAndSummaryTests testAuthenticatedSummaryCannotBeUsedForDifferentShiftOrSiteOrToAuthorizeGPS",
+      "KNABADETests.LocalizationAndSummaryTests testAuthorizationEpochFailureStopsOldLeaseWhileNetworkFailureKeepsOnlyExistingExpiry",
+      "KNABADETests.LocalizationAndSummaryTests testDisplayAddsOnlyBoundedKnownCurrentActivityAndNeverDuplicatesCounters",
+      "KNABADETests.LocalizationAndSummaryTests testErrorsPrivacyStatesAndFormattedCountersChangeLanguageWithoutChangingCanonicalState",
+      "KNABADETests.LocalizationAndSummaryTests testEverySupportedLanguageCoversAllUIPrivacyStatusAndErrorKeys",
+      "KNABADETests.LocalizationAndSummaryTests testExplicitLanguageAndDeviceFallbackUseFullLocaleTagWithoutInventingUnsupportedLanguage",
+      "KNABADETests.LocalizationAndSummaryTests testInvalidFutureNegativeAndImpossibleCountersNeverRenderAsAuthoritativeTime",
+      "KNABADETests.LocalizationAndSummaryTests testLateEnrollmentAndReceiptCannotWriteAfterAuthorizationEpochIsRevoked",
+      "KNABADETests.LocalizationAndSummaryTests testOlderServerSessionWithoutSummaryRemainsCompatibleAndDoesNotInventZeroTime",
+      "KNABADETests.LocalizationAndSummaryTests testPendingLocalActionStaleSnapshotAndReviewFreezeAtRecordedServerCounters",
+      "KNABADETests.LocalizationAndSummaryTests testServiceAndWaitingStayDistinctAndDurationNeverWrapsAtTwentyFourHours",
+      "KNABADETests.NativeTests testApprovedExceptionCirclesUseActualDistancesAndConservativeExitMargin",
+      "KNABADETests.NativeTests testDuplicateAndClockReorderedObservationsCannotFillTheWindowAndStaleDataBecomesUnknown",
+      "KNABADETests.NativeTests testGapOverNinetySecondsAndAmbiguousPointsRestartTheThreeSampleWindow",
+      "KNABADETests.NativeTests testLeaseRejectsExpiryAndNeverStartsGPSFromOFF",
+      "KNABADETests.NativeTests testLocationRequiresServerIssuedBoundLeaseAndGeofenceVersion",
+      "KNABADETests.NativeTests testOneJumpDoesNotConfirmExitAndDwellIsRequired",
+      "KNABADETests.NativeTests testSharedConservativeVectors",
+      "KNABADETests.NativeTests testV4LeaseAndSeventyTwoHourGPSRetentionBoundaries"
+    ],
+    "device": {
+      "architecture": "arm64",
+      "deviceId": "F9FD7E4F-FC77-458F-A76E-6752FCACAAE8",
+      "deviceName": "KNABA-iOS-18.5-013a7851118d",
+      "modelName": "iPhone 16",
+      "osBuildNumber": "22F77",
+      "osVersion": "18.5",
+      "platform": "iOS Simulator"
+    }
+  },
+  "toolchain": {
+    "xcode": "Xcode 16.4\nBuild version 16F6",
+    "swift": "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)\nTarget: arm64-apple-macosx15.0",
+    "xcodegen": "Version: 2.43.0"
+  },
+  "preparationSnapshotNote": "simulator-preparation.json was created before XCTest and intentionally retains NOT_RUN at that earlier stage; the final xctest-summary.json and passed test logs prove the executed result.",
+  "rawFiles": [
+    {
+      "path": "SHA256SUMS",
+      "bytes": 98,
+      "sha256": "d09a8e81c16aec50209a5ba0442f0285a47385cf9f25cdd7842ea36222cb35d1"
+    },
+    {
+      "path": "available-sdks.txt",
+      "bytes": 743,
+      "sha256": "2f701a54c6bed114a226eb78c7e74ea0dc69093d4a1ebd0a4fc27d57c51588c6"
+    },
+    {
+      "path": "ios-build.log",
+      "bytes": 91541,
+      "sha256": "4cf2a3325e0ad6e808f1669df0792dd68f5b8425c4a675fd059fa5a9ee179ec8"
+    },
+    {
+      "path": "ios-tests.log",
+      "bytes": 70019,
+      "sha256": "ade171b60a5202109a6029b47a5a9ac381ced58aa39917337b52dc5f67221531"
+    },
+    {
+      "path": "native-receipt.json",
+      "bytes": 8221,
+      "sha256": "be833e5ee4e20d16bd3d01d7bd275eb430d2d88d7ceb44f6cc4e22fae8e41eac"
+    },
+    {
+      "path": "simulator-boot-status.log",
+      "bytes": 12356,
+      "sha256": "e60d3a301cbf2f6a6ceaed617481b0e144b728ea3f1b15c967189e9a127f99c2"
+    },
+    {
+      "path": "simulator-boot.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "simulator-created-udid.txt",
+      "bytes": 37,
+      "sha256": "b9febe599c677ac1a2707aaa2d326f13ac65f281eec38a7ab0b9e9dac440e2eb"
+    },
+    {
+      "path": "simulator-device-types.json",
+      "bytes": 53477,
+      "sha256": "db21f56b900f9da25164fef92e6172c7999ccc7d02832f11dbf348cea4cfc066"
+    },
+    {
+      "path": "simulator-devices-before.json",
+      "bytes": 18704,
+      "sha256": "f5096318560075041aee4332b95c171b203ae8963fc8434ced53bf337af26fc0"
+    },
+    {
+      "path": "simulator-devices-ready.json",
+      "bytes": 19320,
+      "sha256": "ac03d7be27efca16b0c31a42ae0c1d76ae51e2366aea6f10b988a54ad0db900e"
+    },
+    {
+      "path": "simulator-preparation.json",
+      "bytes": 498,
+      "sha256": "31b7bf5c23c7a4b43022558dfbeba9ddc3b491cf79abe4f61c66d4c1e4592c6d"
+    },
+    {
+      "path": "simulator-runtimes-before.json",
+      "bytes": 45870,
+      "sha256": "556fe8bd923196a3d68e8738664bec7c6454ed5b24746ac92d7be94fe1c85b7b"
+    },
+    {
+      "path": "simulator-sdk-version.txt",
+      "bytes": 5,
+      "sha256": "a63403a2472f8c14d9ac8ac94ef7e77d9e13844217cddc161cbc573aeaec8836"
+    },
+    {
+      "path": "simulator-xcode-version.txt",
+      "bytes": 30,
+      "sha256": "a8be4f9af0a29137fe7e59b9928056d4a0df297bb46ba40f80eaa6b0ae982f12"
+    },
+    {
+      "path": "source-sha.txt",
+      "bytes": 41,
+      "sha256": "978023adcdc141ab08c3b6e0af444ef9e0abcb1b9f16c95779016dbb31ff93c1"
+    },
+    {
+      "path": "swift-version.txt",
+      "bytes": 97,
+      "sha256": "397d818de37b7a684ba905c1b92230e4534ff4cda0daf8a6eabc2a1fcfd50390"
+    },
+    {
+      "path": "xcode-version.txt",
+      "bytes": 30,
+      "sha256": "a8be4f9af0a29137fe7e59b9928056d4a0df297bb46ba40f80eaa6b0ae982f12"
+    },
+    {
+      "path": "xcodegen-version.txt",
+      "bytes": 16,
+      "sha256": "b0018dbd249b569dfb33ed63706b969b3bb67c636d99af191ce3bdeee3b01a99"
+    },
+    {
+      "path": "xctest-summary.json",
+      "bytes": 977,
+      "sha256": "f0e35a0712e105bd0e3f6e411742fc7629b2babf45d59b926c6578bf2ac91d4c"
+    }
+  ],
+  "physicalDeviceVerification": "NOT_RUN",
+  "appStoreAndProductionProvisioning": "NOT_RUN"
+}

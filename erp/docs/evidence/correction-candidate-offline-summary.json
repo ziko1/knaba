@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T22:00:38.484406+00:00",
+  "status": "CPU_PASSED_SQL_NOT_RUN",
+  "total": 1367,
+  "cpuOrExplicitBoundaryDouble": {
+    "passed": 1205,
+    "failed": 0
+  },
+  "realPostgreSQL": {
+    "total": 162,
+    "executed": 0,
+    "skipped": 162,
+    "status": "NOT_RUN"
+  },
+  "rawLocalReportSha256": "95419d56cb8c37cc69e8b8e5c699b42b56219c027389830790c1d179524cd03f",
+  "classificationInventorySha256": "b0d36011c51a93a95b5fd0f2cb3c95d1fdcd9c07a9031878375ae198c0b345e4",
+  "classificationFileCount": 46,
+  "browserAuthored": 21,
+  "browserActualBackendAuthored": 20,
+  "browserExplicitTransportFixtureAuthored": 1,
+  "typecheck": "PASSED",
+  "scope": "Actual socket-restricted local CPU execution. Exact classification inventory is not SQL proof. This summary precedes new committed-source hosted acceptance; no new browser/native/Docker/live pass implied."
+}

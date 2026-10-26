@@ -1,0 +1,100 @@
+{
+  "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "artifacts": [
+    {
+      "id": 11686757183,
+      "name": "knaba-android-debug-3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "url": "https://api.github.com/repos/ziko1/knaba/actions/artifacts/11686757183",
+      "sizeInBytes": 879630,
+      "providerDigest": "sha256:03886932af39014f260366cec44a7931560dec3b18c5bbb2c61f5e1b2d8fbc38",
+      "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "localPath": "/workspace/scratch/99e539953cbd/knaba-native-final/knaba-native-android-38097796144.zip",
+      "actualBytes": 879630,
+      "actualSha256": "03886932af39014f260366cec44a7931560dec3b18c5bbb2c61f5e1b2d8fbc38",
+      "providerDigestMatches": true,
+      "zipCrc": "PASSED",
+      "archiveEntries": 14
+    },
+    {
+      "id": 11686473126,
+      "name": "knaba-ios-simulator-3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "url": "https://api.github.com/repos/ziko1/knaba/actions/artifacts/11686473126",
+      "sizeInBytes": 5626116,
+      "providerDigest": "sha256:c681db451847d3d518296f14fb4a589b4ac1366a1a27bbdf8523ff5b06931159",
+      "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+      "localPath": "/workspace/scratch/99e539953cbd/knaba-native-final/knaba-native-ios-38097796144.zip",
+      "actualBytes": 5626116,
+      "actualSha256": "c681db451847d3d518296f14fb4a589b4ac1366a1a27bbdf8523ff5b06931159",
+      "providerDigestMatches": true,
+      "zipCrc": "PASSED",
+      "archiveEntries": 98
+    }
+  ],
+  "android": {
+    "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "nativeJavaGeofenceCasesPassed": 30,
+    "nativeJavaLanguageClockCasesPassed": 36,
+    "nativeJavaCasesPassed": 66,
+    "localization": {
+      "locales": 6,
+      "completeStringsPerLocale": 91
+    },
+    "lint": {
+      "errors": 0,
+      "fatal": 0,
+      "warnings": 10,
+      "issueIds": {
+        "InlinedApi": 1,
+        "OldTargetApi": 1,
+        "AppBundleLocaleChanges": 1,
+        "AndroidGradlePluginVersion": 1,
+        "PluralsCandidate": 2,
+        "DataExtractionRules": 2,
+        "ObsoleteSdkInt": 1,
+        "MissingApplicationIcon": 1
+      }
+    },
+    "hostedApkV2Verification": "PASSED",
+    "independentApkSignatureVerification": "NOT_RUN",
+    "apk": {
+      "bytes": 2594536,
+      "sha256": "526ad668249928122dbc7f1c06ece149a38eab05024d02336c7f19a821d5398d",
+      "receiptSizeAndHashMatch": true
+    },
+    "receiptBuild": "Android debug APK; Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, Java 17.0.16, SDK 36",
+    "boundary": "Host Java vectors and debug APK; not Android instrumentation or physical-device acceptance"
+  },
+  "ios": {
+    "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+    "xctest": {
+      "result": "Passed",
+      "totalTestCount": 19,
+      "passedTests": 19,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "expectedFailures": 0
+    },
+    "device": {
+      "architecture": "arm64",
+      "deviceId": "BD49BAE1-7817-4B29-A91D-32BAF5904171",
+      "deviceName": "KNABA-iOS-18.5-3f4370c3b3ba",
+      "modelName": "iPhone 16",
+      "osBuildNumber": "22F77",
+      "osVersion": "18.5",
+      "platform": "iOS Simulator"
+    },
+    "actualTestDeviceMatchesPreparedSimulator": true,
+    "appArchive": {
+      "bytes": 5539478,
+      "sha256": "f68c77b5c15d776adda04ade80cf11e7323520452be4dd65c30ac8f524feca72",
+      "receiptSizeAndHashMatch": true,
+      "zipCrc": "PASSED",
+      "innerEntries": 69,
+      "manifestFileHashesVerified": 45,
+      "allManifestFilesMatch": true
+    },
+    "receiptBuild": "iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode",
+    "preparationReceiptBoundary": "Preparation receipt precedes XCTest; actual later xctest-summary.json determines executed test counters",
+    "boundary": "Unsigned simulator app and actual XCTest; not a signed IPA or physical-device acceptance"
+  }
+}
