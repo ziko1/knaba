@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 import {assert,DomainError,type Data,type Entity,type Transaction} from '../../packages/domain/core.ts';
 import type {Engine} from '../api/engine.ts';
+import type {PgTransaction} from '../api/database.ts';
 import type {SupportedLanguage} from '../../packages/integrations/deepseek.ts';
 import {telegramPublicIntent,telegramPublicReply} from '../../packages/integrations/telegram-public-navigation.ts';
 
@@ -72,7 +73,7 @@ export async function stageTelegramPublicReplyIn(tx:Transaction,source:Entity,
 /** Fresh-bound authority and output revalidation before setting SENDING.
  * Caller owns leased transaction, status transitions, and actual provider I/O.
  */
-export async function prepareTelegramPublicReplyIn(tx:Transaction,engine:Engine,ticket:Entity,
+export async function prepareTelegramPublicReplyIn(tx:PgTransaction,engine:Engine,ticket:Entity,
   opts:TelegramPublicReplyOptions):Promise<PublicPreparation>{
   const deny=(reason:string):PublicPreparation=>({status:'BLOCKED',reason});
   if(!opts.publicOrigin||!opts.approvedConsentVersion||ticket.data.public_origin!==opts.publicOrigin)
