@@ -10,6 +10,7 @@ import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assi
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
 import type {TelegramInbound,TelegramBotAdapter} from '../../packages/integrations/telegram.ts';
+import {telegramPublicIntent} from '../../packages/integrations/telegram-public-navigation.ts';
 import {stageTelegramReply,processTelegramOutbound} from './telegram-delivery.ts';
 import {assistantToolCatalog,dispatchAssistantTools} from '../../packages/integrations/assistant-tools.ts';
 import {assistantToolHost} from '../api/assistant-runtime.ts';
@@ -367,9 +368,13 @@ export class WorkerRunner {
       });
       return;
     }
+    // The Telegram sender remains a GUEST. Commands classify a request for the
+    // existing human inbox; they never call a privileged Engine command or
+    // create an outbound provider response without legal consent.
+    const publicIntent=telegramPublicIntent(input.text);
     const actor=await this.engine.getActor(route.data.user_id,job.company_id);
     const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:'DE'},'telegram-inbound-message',actor);
-    await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'PROCESSED',message_id:message.id,router_state:'HUMAN_QUEUED',completed_at:this.now().toISOString()}));
+    await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'PROCESSED',message_id:message.id,router_state:publicIntent?'TELEGRAM_PUBLIC_INTENT':'HUMAN_QUEUED',...(publicIntent?{bot_public_intent:publicIntent}:{}),completed_at:this.now().toISOString()}));
   }
   private async inbound(job:OutboxJob){const provider=job.data.provider??'WHATSAPP';const inbox=await this.db.query('SELECT payload FROM webhook_inbox WHERE provider=$1 AND event_id=$2 AND company_id=$3',[provider,job.data.event_id,job.company_id]);assert(inbox.rows.length===1,'NOT_FOUND_SAFE');const input=inbox.rows[0].payload as WhatsAppInbound;assert(input.kind==='MESSAGE'||input.kind==='STATUS','VALIDATION_ERROR');
     if(input.kind==='STATUS'){const matches=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('delivery')).filter(d=>d.data.provider_message_id===input.id));for(const d of matches)await this.command(job,'delivery.status',{delivery_id:d.id,status:input.status,provider_message_id:input.id,error:input.error_code?`META_${input.error_code}`:undefined},`status:${d.id}`);await this.routerStatus(job,input);return;}
