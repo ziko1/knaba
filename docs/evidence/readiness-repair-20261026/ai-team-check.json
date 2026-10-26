@@ -1,0 +1,23 @@
+{
+  "schema": "ai-team.check.v1",
+  "project_id": "knaba-de",
+  "check_id": "K1",
+  "kind": "inspection",
+  "status": "PASS",
+  "performed_by": "chatgpt-main",
+  "recorded_at": "2026-10-26T13:52:21.809744+00:00",
+  "artifact_sha256": {
+    "A0": "9f0753e7423ff48cdf14d3ef6600ae689f87df75d6c9cef7b8ea5d92486dbbcd",
+    "A1": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+    "A2": "bab9445236c8ee85065a42062f94e781827831baa638df44f41ddfccfc7a886c",
+    "A3": "8777579ac2470a0b43274edb4516b701fb326585b40a0a2f0b2152223f65d0f8",
+    "A4": "fddd6b816e305ea73dbd01a5e2ce4df79714ae76b14bbf828533e4554a2f6eeb"
+  },
+  "result": {
+    "observations": [
+      "Source bytes and completed test outputs verified; scope and exact commands are in verification.json. Independent review, combined ERP runtime and live acceptance NOT_RUN."
+    ],
+    "tested_source_sha": "58ddae49ff142aa41c88a3d8afd17717265b7f9b",
+    "verification_receipt_sha256": "8ba0f5db8c4c7fd719a9ec382150d323126e084c1e681a977d139f3c3366d928"
+  }
+}
