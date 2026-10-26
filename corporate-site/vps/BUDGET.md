@@ -43,3 +43,10 @@ Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: 
 - Canonical storage preparation snapshot89.64% used,21,898,014,720B available, healthy; must recheck before cutover. No cache/container/image/volume/customer data deletion. Runtime limits unchanged.
 
 - Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.
+
+
+## 2026-10-26 — Content continuation final test deployment
+- [x] PERSIST–VERIFY–PUBLISH–REVERIFY completed for test domain: runtime08637557622588e46fc76fe5f4e5dd5519286b6a, PR93 Draft. Latest56adc59 preserved, both locks/CAS, backup+separate-file same-host restore,6migrations and post-deploy integrityok.
+- [x] 136/136HTTP,22/22public/media,293runtimehashes,228clientfiles/130HTML attestation. Cloud desktop20pages/24scenarios in4locales: Finder, Bauhelfer guide/checklist/contact, Assistant keyboard/draft, workflows and partner pages PASS. No real submissions.
+- Final canonical storage89.66%,21,841,076,224Bavailable, healthy; no cleanup or paid-provider activation. Backup233472B and releasearchive1439634B retained.
+- [ ] Physical/responsive/zoom/screen-reader, real owner/provider/legal/rightsholder/offsite acceptance remain open; separate PR92 not silently integrated. Full evidence: docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md (or ../docs from vps).

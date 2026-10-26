@@ -1,49 +1,80 @@
-# KNABA — продовження контенту й функцій, 26.10.2026
+# KNABA — розвиток, контент і перевірка, 26.10.2026
 
-Доручення: продовжити розвиток чинного KNABA, перевірити прогалини й доповнити продукт. Гілка `feat/knaba-content-refinement-20261026`, початковий HEAD `d48cc81ca3db4f689c3126ec60dd17a4192319b7`; live на початку `cecb321ac41106c7a4f6da2d4a98308508852b38`. Зберігаємо попередній аудит, корпоративний сайт, портал і наявні контракти.
+**Результат:** зміни внесено в код, збережено у [PR №93](https://github.com/ziko1/knaba/pull/93) і розгорнуто на чинному тестовому домені. Реліз `08637557622588e46fc76fe5f4e5dd5519286b6a`, client SHA256 `0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73`. Публікація відбулася 26.10.2026 о 15:15 UTC.
 
-| ID | Зміна | Критерій | Власник / стан |
-|---|---|---|---|
-| REUSE-01 | Інтегрувати чинні PR89/90 без втрати PR91 | Збережені точні теми/межі форми, keyboard Assistant, нові body/migration guards, тематична підготовка та 4 локалізовані workflows; усі регресії проходять | root / інтеграційна база ac21d63 |
-| CONTENT-01 | Змістовна підказка Finder для типу об’єкта | Кожен із 4 типів змінює підготовчі поради DE/EN/UK/RU; потреба окремо визначає послугу; незмінний CRM enum | ux_research / DONE; 12 нових перевірок |
-| CONTENT-02 | Підготовка заявки на Bauhelfer | Один новий практичний порадник у 4 мовах, пов’язаний із реальною послугою, каталогом, sitemap, формою, друком і Studio route metadata | root / DONE; 4 нові локалізовані сторінки |
-| CHAT-01 | Усунути застарілі async-відповіді Assistant | Single-flight polling; старі success/error після mutation/reset/restore/unmount не змінюють поточний діалог; deterministic race tests | code_audit / DONE; 16 race-сценаріїв |
-| QA-01 | Прийняти об’єднаний кандидат | Node24 check/test/build/i18n/verify/VPS, independent review, exact SHA/artifact; runtime/device/live відокремлено | root + reviewers / PASS source/build/server; browser/device окремо |
-| OPS-01 | Зберегти й перевірити дозволене тестове оновлення | Remote git readback; перед будь-яким cutover — healthy storage, current-source CAS, backup/restore й rollback | root / PREPARED; fresh canonical storage gate healthy89.64%, повторити під lock |
+[Відкрити новий український порадник](https://kneba.vsp.rest/uk/ratgeber/bauhelfer-einsatz-vorbereiten/).
 
-Команда: Codex `/root` — інтеграція/контент/QA, `/root/ux_research` — Finder, `/root/code_audit` — concurrency fix. Спільні scoped AGENTS і чинні ai-team-orchestrator/coding-autopilot/verify-repository-readiness. Платні сервіси/провайдери не активуються; фактичні runtime витрати невідомі. Власник інтеграційних файлів/канонічних документів — root; агенти не перетинають файли.
+Доручення користувача: продовжити розвиток чинного проєкту, перевірити прогалини й доповнити продукт. Гілка `feat/knaba-content-refinement-20261026`. Збережено корпоративний сайт, портал, попередні виправлення та контракти. Це приймання тестового релізу; повну готовність до передачі замовнику не заявлено.
 
-Факти Bauhelfer і регіону перевірено за https://knaba.de/ та https://knaba.de/leistungen. Новий текст — редакційна підготовка розмови, не твердження про виконані об’єкти, ліцензії, ціни або гарантовану доступність. Вигадані відгуки й клієнтські фото не додаються. Попередній mobile sandbox blocker не обходиться; реальне owner/device/provider приймання залишається окремим.
+## Що реалізовано
 
+| ID | Прогалина та результат | Стан |
+|---|---|---|
+| REUSE-01 | Об’єднано PR89/90, збережено PR91 і новіший паралельний реліз56adc59: сторінки партнерів та явно позначені демонстраційні приклади відгуків | DONE |
+| CONTENT-01 | Finder тепер дає власні поради для кожного з чотирьох типів об’єкта; фаза роботи має окрему підказку. Технічні роботи відділено від прибирання | DONE, 4 мови, 12 нових тестів |
+| CONTENT-02 | Порадник «Будівельні помічники»: завдання, строки, доступ, погодження, 6 пунктів підготовки. Підключено послугу, форму, sitemap, hreflang, Article metadata і Studio | DONE, 4 мови |
+| CHAT-01 | Захист від запізнілих відповідей та одночасних запитів. Reset/restore/unmount скасовують застарілу роботу; надсилання не стирає нову чернетку | DONE, 16 race-сценаріїв |
+| QA-01 | Перевірка коду, збірки, сервера, незалежний review та сценарії користувача в браузері | PASS у зазначеному нижче обсязі |
+| OPS-01 | Збереження в GitHub, перевірка диска, два release locks, CAS, backup/restore, тестове розгортання та повторна перевірка | DONE |
 
-## Реалізовано та перевірено
+Тепер є **5 практичних порадників / 20 локалізованих маршрутів**, **100 маршрутів Studio** і **130 HTML-сторінок збірки**. Галерея пояснює чотири напрями роботи та позначає схематичні ілюстрації; вони не видаються за реальні клієнтські об’єкти.
 
-- Повторно використано PR89 (`73755d1`) і PR90 (`1fd5860`), зберігши всі зміни попереднього PR91. Новіший live73755d1 є предком кандидата. Галерея тепер пояснює чотири напрями роботи й прямо позначає схематичні ілюстрації; це не портфоліо вигаданих об’єктів.
-- Новий `bauhelfer-einsatz-vorbereiten`: 4 мови, 4 розділи, 6 пунктів підготовки; правильні service/contact links, sitemap, hreflang, Article metadata та Studio whitelist. Загалом 5 порадників / 20 локалізованих маршрутів і 96 маршрутів Studio.
-- Finder: чотири типи об’єкта змінюють підготовку; фаза роботи має окрему підказку. Технічні роботи відділено від прибирання. Чинні CRM/service enums збережено.
-- Assistant: single-flight polling і foreground actions, AbortController та generation/request identity guards; старі відповіді після reset/restore/unmount і застарілий clipboard result не змінюють поточний стан. Надсилання не стирає нову чернетку. Consent, bearer auth, CAPTCHA й 12-секундний timeout збережено.
-- Незалежний взаємний review: code_audit перевірив Finder/порадник, ux_research — реальний diff Assistant і 16 race-тестів; блокерів немає. Уточнено текст про першу заявку й прибрано неточну обіцянку хронологічної послідовності ілюстрацій.
+Наявність послуги Bauhelfer і регіон перевірено за [knaba.de](https://knaba.de/) та [офіційним переліком послуг](https://knaba.de/leistungen). Новий порадник допомагає підготувати розмову. Він не обіцяє ціну, наявність команди, кваліфікацію або підтверджене бронювання. Успадковані демонстраційні відгуки чітко позначені вигаданими; вони не потрапляють у базу, API чи рейтинги.
 
-## Локальна QA
+Чинні CRM enum, consent, bearer authorization, CAPTCHA, timeout, SQL-міграції та залежності збережено. Ширші auth/proxy/migration зміни окремого PR92 не оголошено інтегрованими.
 
-Node24.22.1; наявні pinned dependencies. `check`: Astro/Vue/Svelte0 errors/0warnings (4existinghints). `npm test`: Vitest250/250 у38файлах +Node32/32,27/27,9/9. VSP build і `verify:build`:126HTML, internal links/metadata/CTA/icons PASS. DEsource27routes/982units; 99targets/4published/95pending. VPS41/41. Загалом359автоматизованих тестів.
+## Як перевірено
 
-Початковий build verifier FAIL стосувався застарілого Russian route count35→36 після додавання порадника; виправлено і весь verifier повторно PASS. Немає schema/runtime backend/dependency changes проти73755d1; package.json змінює лише test script для успадкованої gallery regression.
+| Перевірка | Фактичний результат |
+|---|---|
+| Node 24.22.1, Astro/Vue/Svelte | 0 errors, 0 warnings; 4 попередні hints |
+| Vitest | 252/252, 38 файлів |
+| Native Node, окремі прогони | 32/32 + 27/27 + 9/9 |
+| VPS / SQLite / HTTP tests | 41/41 |
+| Разом автоматизованих тестів | **361 PASS** |
+| VSP build і verify:build | 130 HTML; внутрішні посилання, metadata, CTA та icons PASS |
+| Німецький source catalogue | 28 маршрутів, 1001 одиниця; 99 цільових мов, 4 опубліковані, 95 очікують |
+| Публічний HTTPS після rollout | **136/136**: 130 HTML-шляхів, 5 службових ресурсів, невідомий маршрут404 |
+| Публічні сторінки й медіа | **22/22** |
+| Цілісність релізу | 293 runtime hashes без розбіжностей; client attestation228 файлів /130 HTML |
+| Cloud desktop | **20 унікальних сторінок /24 сценарії** у DE/EN/UK/RU |
 
-Client artifact SHA256 `6a5fecdda37dbc4f273f03502116bf9b6d7bac6b317f15621c8083276530bbdc`; CSS40,891B gzip; all emitted JS191,544B gzip (це не network transfer/CWV). QA receipt і знебарвлені logs: `docs/evidence/content-continuation-20261026/`.
+У браузері перевірено: чотири різні підказки Finder; правильний technical-link; 4 розділи, 6 checkbox і 4 related links порадника; перемикання checkbox; видиму кнопку друку; правильну тему `bauhilfe` у формі; Assistant focus/Escape/повернення фокусу й збереження чернетки; 4 workflow cards і 5 partner profiles. На перевірених сторінках по одному H1 і телефону, без зламаних зображень чи горизонтального overflow на desktop.
 
-## Межі приймання
+Друк/PDF фактично не виконувався. Реальні заявки, відгуки, CAPTCHA і provider dispatch не надсилалися. Async races перевірено детермінованими тестами, а не реальним provider-сеансом.
 
-- Browser сценарії exact live artifact будуть записані окремо після дозволеного тестового rollout; source/unit PASS їх не замінює.
-- Responsive320/390/768/1440, фізичні пристрої, screen reader/zoom, реальний owner/login/delivery/roles, legal/rightsholder review, offsite restore та field CWV лишаються OPEN. Відомий sandbox blocker не обходили.
-- Наступні окремі прогалини: trusted-proxy rate-limit contract, OG raster compatibility, реальні затверджені кейси/медіа, owner і provider acceptance. Нові мови або підтверджені кейси не оголошено готовими.
-- Read-only storage review не виявив активних посилань на старі dependency caches, але cleanup не потрібний за поточним canonical gate і не виконувався. Число89.64% отримано саме через чинний `inspectStorage`, не з округленого `df` чи іншої формули. Повторна перевірка під release lock обов’язкова.
+Незалежний взаємний review: code_audit перевірив Finder, порадник та інтеграцію нового live релізу; ux_research — Assistant і його race-сценарії. Блокерів не знайдено; додаткові інтеграційні 47/47 scoped tests пройшли. root відповідав за контент, об’єднання, фінальну QA та rollout.
 
+CSS: **40 949 B gzip**, увесь emitted JS: **194 007 B gzip**. Це розміри збірки, не вимірювання мережевого transfer чи field CWV. Нові залежності, платні API/CI, хмарні ресурси та домени не активувалися. Фактичні витрати й квоти моделі/хостингу невідомі.
 
-## Повторне узгодження після паралельного live релізу
+## Як збережено паралельні зміни
 
-Перед cutover виявлено новий live `56adc59b6665595f26eed3bbaf1319bcdd5f79ee`; кандидат931b25a НЕ розгортався. Збережено нові /partner/×4, описи п’яти партнерів і чітко позначені вигадані приклади відгуків із чужого релізу; їх не подано як справжні клієнтські свідчення. Джерела об’єднано merge33221d9, незалежний review code_audit — без блокерів,47/47scopedtests. CHAT/Finder/guide логіку не втрачено.
+Початкова база — d48cc81, live на початку — cecb321. PR89/90 об’єднано в ac21d63. Перший кандидат931b25a пройшов 359 тестів і126-page build, але **не розгортався**: до cutover сервер уже перейшов на56adc59. Перемикання зупинено, новий source включено merge33221d9, після чого всю необхідну QA повторено.
 
-Фінальна QA після інтеграції: check0errors/0warnings; Vitest252/252; native suites явно повторено32/27/9; VPS41/41 —361тест загалом. Build130HTML;100Studio routes;20construction-guide routes;28DEroutes/1001units. CSS40,949B gzip, JS194,007B gzip. Після початкового CSS budgetFAIL прибрано зайві декларації Finder; існуючі ліміти не підвищували. Повна повторна збірка/verifier/VPS PASS.
+Початковий verifier виявив застарілий лічильник маршрутів після додавання порадника; очікування оновлено зі збереженням перевірки всіх сторінок. Після інтеграції додаткового контенту зафіксовано CSS budget FAIL: прибрано зайві декларації Finder, а не підвищено ліміт. Фінальний build/verifier/VPS PASS. Старі logs у теці evidence залишені як історія першого кандидата; `forward-*` і `qa.json` описують фінальну версію.
 
-**Чинний artifact** `0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73`. Попередні126-page/359-test результати вище — історія першого кандидата, не фінальний deploy. Новий CAS baseline56adc59; обидва наявні release locks мають бути взяті. PR93: https://github.com/ziko1/knaba/pull/93. Окремий PR92 містить ширші auth/proxy/migration зміни і потребує власної інтеграції та приймання; тут його не оголошено виконаним.
+Явний `/404.html` є статичним документом200. Початкове помилкове очікування404 для цього файла уточнено; окремий невідомий URL перевірено і він повертає404.
+
+## Розгортання й дані
+
+Source спочатку збережено в GitHub і звірено через remote ref. Перед перемиканням взято `.knaba-preview-deploy.lock` та `.ui-visual-release.lock`, повторно перевірено CAS56adc59, canonical storage gate, SHA архіву й незмінність backend/SQL/dependencies. Попередній56adc59 збережено для rollback. Контейнер після оновлення healthy.
+
+Online backup: `knaba-2026-10-26T15-15-35-980Z.sqlite`, 233 472 B, SHA256 `7549611309deb63cec95f56796aac7b7cd28863544ffc9a89e885114c0a3455d`. Відновлений окремий файл на тому самому VPS має integrity `ok` і точний ledger шести міграцій. Робоча база після rollout теж integrity `ok`. Це **не offsite restore**; приватний backup у репозиторій не додавався.
+
+Архів релізу: 1 439 634 B, SHA256 `bed02642bd044da9e132ed635bc517e4af15de802a4d3d7ea049e119b684da5c`. Диск перед/після: 89,66%; фінально доступно21 841 076 224 B, canonical gate healthy. Cleanup, видалення даних, pruning і зміни runtime limits не виконувалися.
+
+## Що залишається відкритим
+
+- Responsive matrix320/390/768/1440, фізичні телефони, screen reader і zoom. Відомий Chromium sandbox blocker не обходили; desktop PASS цього не замінює.
+- Реальний owner/login/Studio/CRM/roles та доставка клієнтської заявки; окрема ERP/voice/provider інтеграція.
+- Права на логотипи й реальні кейси/медіа, актуальність партнерських відносин і юридичне приймання.
+- Offsite backup/restore, field CWV, trusted-proxy rate-limit contract і OG raster compatibility.
+- 95 неопублікованих мов із native/legal/dynamic/RTL прийманням.
+
+PR93 лишається Draft. `main` і офіційний `knaba.de` не змінено.
+
+## Докази
+
+У [content-continuation-20261026](evidence/content-continuation-20261026/): `qa.json`, `forward-*.txt`, `deployment.json`, `http.json`, `public-live.json`, `final-readback.json`, `knaba-content-0863755-browser.json` та screenshot нижче.
+
+![Новий український порадник на тестовому сервері](evidence/content-continuation-20261026/knaba-content-0863755-uk.jpg)

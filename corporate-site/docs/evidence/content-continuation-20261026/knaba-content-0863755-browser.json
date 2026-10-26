@@ -1,0 +1,304 @@
+{
+  "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+  "scope": "CLOUD_DESKTOP_NO_REAL_SUBMISSIONS",
+  "observations": [
+    {
+      "kind": "finder",
+      "locale": "uk",
+      "cards": 5,
+      "guidanceItems": 2,
+      "h1": 1,
+      "lang": "uk",
+      "overflow": false,
+      "phone": 1,
+      "technicalLink": "/uk/leistungen/#zusatzarbeiten",
+      "url": "https://kneba.vsp.rest/uk/planer/",
+      "distinctObjectGuidance": 4,
+      "entries": [
+        "Підготуйте для свого об’єкта\nУкажіть години роботи й зайняті офісні або торгові зони; погодьте можливий час прибирання.\nПозначте на плані меблі, делікатні поверхні й приміщення з обмеженим доступом.\n\nДля фінального прибирання: вкажіть дату здачі, незавершені роботи й приміщення для спільного огляду.",
+        "Підготуйте для свого об’єкта\nОкремо вкажіть заселені й вільні квартири, спільні сходи та проходи.\nУзгодьте з контактною особою передачу ключів, поверхи, доступ до ліфта й дати заселення.\n\nДля фінального прибирання: вкажіть дату здачі, незавершені роботи й приміщення для спільного огляду.",
+        "Підготуйте для свого об’єкта\nПерелічіть будівельні ділянки й доступні приміщення, поточні та наступні роботи підрядників.\nУзгодьте з керівником об’єкта місця зберігання матеріалів, маршрути постачання й строки окремих етапів.\n\nДля фінального прибирання: вкажіть дату здачі, незавершені роботи й приміщення для спільного огляду.",
+        "Підготуйте для свого об’єкта\nОпишіть технічні приміщення, встановлене обладнання й доступні поверхні; вкажіть відповідальну особу.\nЗапитуйте клінінг і технічні роботи окремо. Буріння, проходки та роботи з мережами не входять до цього вибору прибирання.\n\nДля фінального прибирання: вкажіть дату здачі, незавершені роботи й приміщення для спільного огляду.\n\nПереглянути технічні роботи ↗"
+      ]
+    },
+    {
+      "kind": "finder",
+      "locale": "de",
+      "cards": 5,
+      "guidanceItems": 2,
+      "h1": 1,
+      "lang": "de",
+      "overflow": false,
+      "phone": 1,
+      "technicalLink": "/leistungen/#zusatzarbeiten",
+      "url": "https://kneba.vsp.rest/planer/",
+      "distinctObjectGuidance": 4,
+      "entries": [
+        "Für Ihr Objekt vorbereiten\nNutzungszeiten und belegte Büro- oder Verkaufsbereiche nennen; mögliche Reinigungsfenster abstimmen.\nMöblierung, empfindliche Oberflächen und Räume mit eingeschränktem Zugang im Flächenplan markieren.\n\nFür die Endreinigung: Übergabetermin, noch offene Restarbeiten und die Räume für die gemeinsame Sichtkontrolle nennen.",
+        "Für Ihr Objekt vorbereiten\nBewohnte und freie Wohnungen sowie gemeinsam genutzte Treppen und Wege getrennt angeben.\nSchlüsselübergabe, Etagen, Aufzug und geplante Einzugstermine mit einer Kontaktperson abstimmen.\n\nFür die Endreinigung: Übergabetermin, noch offene Restarbeiten und die Räume für die gemeinsame Sichtkontrolle nennen.",
+        "Für Ihr Objekt vorbereiten\nBauabschnitte und freigegebene Räume auflisten; laufende und nachfolgende Gewerke dazuschreiben.\nMateriallager, Anlieferwege und gewünschte Abschnittstermine mit der Bauleitung abstimmen.\n\nFür die Endreinigung: Übergabetermin, noch offene Restarbeiten und die Räume für die gemeinsame Sichtkontrolle nennen.",
+        "Für Ihr Objekt vorbereiten\nBetroffene Technikräume, Einbauten und zugängliche Oberflächen beschreiben; zuständige Ansprechperson nennen.\nReinigung und technische Ausführung getrennt anfragen. Bohrungen, Durchführungen und Leitungsarbeiten sind kein Bestandteil dieser Reinigungsauswahl.\n\nFür die Endreinigung: Übergabetermin, noch offene Restarbeiten und die Räume für die gemeinsame Sichtkontrolle nennen.\n\nTechnische Zusatzarbeiten ansehen ↗"
+      ]
+    },
+    {
+      "kind": "finder",
+      "locale": "en",
+      "cards": 5,
+      "guidanceItems": 2,
+      "h1": 1,
+      "lang": "en",
+      "overflow": false,
+      "phone": 1,
+      "technicalLink": "/en/leistungen/#zusatzarbeiten",
+      "url": "https://kneba.vsp.rest/en/planer/",
+      "distinctObjectGuidance": 4,
+      "entries": [
+        "Prepare for your property\nList operating hours and occupied office or retail areas; agree possible cleaning windows.\nMark furniture, sensitive surfaces and rooms with restricted access on the area plan.\n\nFor final cleaning: give the handover date, outstanding work and rooms for a joint visual check.",
+        "Prepare for your property\nDistinguish occupied and vacant homes, shared stairways and access routes.\nAgree keys, floors, lift access and planned move-in dates with a named contact.\n\nFor final cleaning: give the handover date, outstanding work and rooms for a joint visual check.",
+        "Prepare for your property\nList construction sections and released rooms, including current and subsequent trades.\nCoordinate material storage, delivery routes and preferred dates for each section with site management.\n\nFor final cleaning: give the handover date, outstanding work and rooms for a joint visual check.",
+        "Prepare for your property\nDescribe affected plant rooms, installed equipment and accessible surfaces; name the responsible contact.\nEnquire about cleaning and technical work separately. Drilling, service openings and work on utilities are not included in this cleaning selection.\n\nFor final cleaning: give the handover date, outstanding work and rooms for a joint visual check.\n\nExplore technical work ↗"
+      ]
+    },
+    {
+      "kind": "finder",
+      "locale": "ru",
+      "cards": 5,
+      "guidanceItems": 2,
+      "h1": 1,
+      "lang": "ru",
+      "overflow": false,
+      "phone": 1,
+      "technicalLink": "/ru/leistungen/#zusatzarbeiten",
+      "url": "https://kneba.vsp.rest/ru/planer/",
+      "distinctObjectGuidance": 4,
+      "entries": [
+        "Подготовьте для своего объекта\nУкажите часы работы и занятые офисные или торговые зоны; согласуйте возможное время уборки.\nОтметьте на плане мебель, чувствительные поверхности и помещения с ограниченным доступом.\n\nДля финальной уборки: укажите дату сдачи, незавершённые работы и помещения для совместного осмотра.",
+        "Подготовьте для своего объекта\nОтдельно укажите заселённые и свободные квартиры, общие лестницы и проходы.\nСогласуйте с контактным лицом передачу ключей, этажи, доступ к лифту и даты заселения.\n\nДля финальной уборки: укажите дату сдачи, незавершённые работы и помещения для совместного осмотра.",
+        "Подготовьте для своего объекта\nПеречислите строительные участки и доступные помещения, текущие и последующие работы подрядчиков.\nСогласуйте с руководителем объекта места хранения материалов, пути доставки и сроки отдельных этапов.\n\nДля финальной уборки: укажите дату сдачи, незавершённые работы и помещения для совместного осмотра.",
+        "Подготовьте для своего объекта\nОпишите технические помещения, установленное оборудование и доступные поверхности; укажите ответственное лицо.\nЗапрашивайте клининг и технические работы отдельно. Бурение, проходки и работы с коммуникациями не входят в этот выбор уборки.\n\nДля финальной уборки: укажите дату сдачи, незавершённые работы и помещения для совместного осмотра.\n\nПосмотреть технические работы ↗"
+      ]
+    },
+    {
+      "kind": "guide",
+      "locale": "uk",
+      "checks": 6,
+      "contact": "/uk/kontakt/?leistung=baureinigung&anliegen=bauhilfe",
+      "h1": 1,
+      "lang": "uk",
+      "overflow": false,
+      "phone": 1,
+      "print": true,
+      "related": 4,
+      "sections": 4,
+      "title": "Будівельні помічники: як підготувати завдання, доступ і строки | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "checkboxToggle": true
+    },
+    {
+      "kind": "guide",
+      "locale": "de",
+      "checks": 6,
+      "contact": "/kontakt/?leistung=baureinigung&anliegen=bauhilfe",
+      "h1": 1,
+      "lang": "de",
+      "overflow": false,
+      "phone": 1,
+      "print": true,
+      "related": 4,
+      "sections": 4,
+      "title": "Bauhelfer anfragen: Aufgaben, Zugang und Ablauf vorbereiten | KnaBa",
+      "url": "https://kneba.vsp.rest/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "checkboxToggle": true
+    },
+    {
+      "kind": "guide",
+      "locale": "en",
+      "checks": 6,
+      "contact": "/en/kontakt/?leistung=baureinigung&anliegen=bauhilfe",
+      "h1": 1,
+      "lang": "en",
+      "overflow": false,
+      "phone": 1,
+      "print": true,
+      "related": 4,
+      "sections": 4,
+      "title": "Request construction support: prepare tasks, access and timing | KnaBa",
+      "url": "https://kneba.vsp.rest/en/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "checkboxToggle": true
+    },
+    {
+      "kind": "guide",
+      "locale": "ru",
+      "checks": 6,
+      "contact": "/ru/kontakt/?leistung=baureinigung&anliegen=bauhilfe",
+      "h1": 1,
+      "lang": "ru",
+      "overflow": false,
+      "phone": 1,
+      "print": true,
+      "related": 4,
+      "sections": 4,
+      "title": "Строительные помощники: как подготовить задачи, доступ и сроки | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "checkboxToggle": true
+    },
+    {
+      "kind": "guide-contact",
+      "locale": "ru",
+      "phone": 1,
+      "selected": "bauhilfe",
+      "url": "https://kneba.vsp.rest/ru/kontakt/?leistung=baureinigung&anliegen=bauhilfe"
+    },
+    {
+      "kind": "assistant",
+      "locale": "ru",
+      "focusOnOpen": true,
+      "focusReturned": true,
+      "draftPreserved": true,
+      "realMessageSent": false
+    },
+    {
+      "kind": "guide-contact",
+      "locale": "uk",
+      "phone": 1,
+      "selected": "bauhilfe",
+      "url": "https://kneba.vsp.rest/uk/kontakt/?leistung=baureinigung&anliegen=bauhilfe"
+    },
+    {
+      "kind": "assistant",
+      "locale": "uk",
+      "focusOnOpen": true,
+      "focusReturned": true,
+      "draftPreserved": true,
+      "realMessageSent": false
+    },
+    {
+      "kind": "guide-contact",
+      "locale": "en",
+      "phone": 1,
+      "selected": "bauhilfe",
+      "url": "https://kneba.vsp.rest/en/kontakt/?leistung=baureinigung&anliegen=bauhilfe"
+    },
+    {
+      "kind": "assistant",
+      "locale": "en",
+      "focusOnOpen": true,
+      "focusReturned": true,
+      "draftPreserved": true,
+      "realMessageSent": false
+    },
+    {
+      "kind": "guide-contact",
+      "locale": "de",
+      "phone": 1,
+      "selected": "bauhilfe",
+      "url": "https://kneba.vsp.rest/kontakt/?leistung=baureinigung&anliegen=bauhilfe"
+    },
+    {
+      "kind": "assistant",
+      "locale": "de",
+      "focusOnOpen": true,
+      "focusReturned": true,
+      "draftPreserved": true,
+      "realMessageSent": false
+    },
+    {
+      "kind": "galerie",
+      "locale": "de",
+      "brokenImages": 0,
+      "cards": 4,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 0,
+      "title": "So arbeitet KnaBa | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/galerie/"
+    },
+    {
+      "kind": "partner",
+      "locale": "de",
+      "brokenImages": 0,
+      "cards": 0,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 5,
+      "title": "Unsere Partner im Überblick | KnaBa",
+      "url": "https://kneba.vsp.rest/partner/"
+    },
+    {
+      "kind": "galerie",
+      "locale": "en",
+      "brokenImages": 0,
+      "cards": 4,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 0,
+      "title": "How KnaBa works | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/galerie/"
+    },
+    {
+      "kind": "partner",
+      "locale": "en",
+      "brokenImages": 0,
+      "cards": 0,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 5,
+      "title": "Meet our partners | KnaBa",
+      "url": "https://kneba.vsp.rest/en/partner/"
+    },
+    {
+      "kind": "galerie",
+      "locale": "uk",
+      "brokenImages": 0,
+      "cards": 4,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 0,
+      "title": "Як працює KnaBa | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/galerie/"
+    },
+    {
+      "kind": "partner",
+      "locale": "uk",
+      "brokenImages": 0,
+      "cards": 0,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 5,
+      "title": "Більше про наших партнерів | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/partner/"
+    },
+    {
+      "kind": "galerie",
+      "locale": "ru",
+      "brokenImages": 0,
+      "cards": 4,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 0,
+      "title": "Как работает KnaBa | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/galerie/"
+    },
+    {
+      "kind": "partner",
+      "locale": "ru",
+      "brokenImages": 0,
+      "cards": 0,
+      "h1": 1,
+      "overflow": false,
+      "phone": 1,
+      "profiles": 5,
+      "title": "Больше о наших партнёрах | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/partner/"
+    }
+  ],
+  "responsive": "NOT_RUN",
+  "physicalDevice": "NOT_RUN"
+}

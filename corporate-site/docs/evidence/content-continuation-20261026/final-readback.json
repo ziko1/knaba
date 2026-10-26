@@ -1,0 +1,11 @@
+{
+  "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+  "health": "healthy",
+  "storage": {
+    "state": "healthy",
+    "availableBytes": 21841076224,
+    "totalBytes": 211271204864,
+    "usedPercent": 89.66,
+    "cutoverAllowed": true
+  }
+}

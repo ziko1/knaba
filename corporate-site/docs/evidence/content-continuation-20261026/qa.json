@@ -32,10 +32,20 @@
     "concurrentLiveIntegration": "no blockers;47scopedtests"
   },
   "browserResponsive": "NOT_RUN_KNOWN_SANDBOX_BLOCK_RETAINED",
-  "live": "PENDING_DEPLOYMENT",
+  "live": {
+    "status": "TEST_DEPLOYED_VERIFIED",
+    "httpPassed": 136,
+    "httpTotal": 136,
+    "publicMediaChecks": 22,
+    "runtimeHashes": 293,
+    "cloudDesktopPages": 20,
+    "cloudDesktopScenarios": 24,
+    "realMessagesSent": false
+  },
   "customerReady": false,
   "cssGzip": 40949,
   "allEmittedJsGzip": 194007,
   "studioRoutes": 100,
-  "totalAutomatedTests": 361
+  "totalAutomatedTests": 361,
+  "runtimeSourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a"
 }

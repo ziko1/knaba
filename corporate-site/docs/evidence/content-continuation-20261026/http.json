@@ -1,0 +1,962 @@
+{
+  "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+  "checks": [
+    {
+      "path": "/404.html",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 11644,
+      "note": "Explicit static error document is served as an asset; unknown-route status checked separately."
+    },
+    {
+      "path": "/admin/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 22127
+    },
+    {
+      "path": "/bauleistungen/bauendreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21073
+    },
+    {
+      "path": "/bauleistungen/bauhilfe/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20772
+    },
+    {
+      "path": "/bauleistungen/baureinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20689
+    },
+    {
+      "path": "/bauleistungen/baustellenraeumung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20348
+    },
+    {
+      "path": "/bauleistungen/bauzwischenreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20729
+    },
+    {
+      "path": "/bauleistungen/durchbrueche/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21023
+    },
+    {
+      "path": "/bauleistungen/kernbohrungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21123
+    },
+    {
+      "path": "/bauleistungen/zusatzarbeiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21013
+    },
+    {
+      "path": "/berlin/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 17256
+    },
+    {
+      "path": "/branchen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 18122
+    },
+    {
+      "path": "/crm/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 18986
+    },
+    {
+      "path": "/datenschutz/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 33356
+    },
+    {
+      "path": "/en/bauleistungen/bauendreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20786
+    },
+    {
+      "path": "/en/bauleistungen/bauhilfe/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20511
+    },
+    {
+      "path": "/en/bauleistungen/baureinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20494
+    },
+    {
+      "path": "/en/bauleistungen/baustellenraeumung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20168
+    },
+    {
+      "path": "/en/bauleistungen/bauzwischenreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20531
+    },
+    {
+      "path": "/en/bauleistungen/durchbrueche/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20591
+    },
+    {
+      "path": "/en/bauleistungen/kernbohrungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20846
+    },
+    {
+      "path": "/en/bauleistungen/zusatzarbeiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20714
+    },
+    {
+      "path": "/en/berlin/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 16965
+    },
+    {
+      "path": "/en/branchen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 17729
+    },
+    {
+      "path": "/en/faq/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 34982
+    },
+    {
+      "path": "/en/galerie/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20140
+    },
+    {
+      "path": "/en/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 58539
+    },
+    {
+      "path": "/en/karriere/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 17056
+    },
+    {
+      "path": "/en/kontakt/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 26064
+    },
+    {
+      "path": "/en/leistungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25304
+    },
+    {
+      "path": "/en/partner/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 18983
+    },
+    {
+      "path": "/en/planer/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 30367
+    },
+    {
+      "path": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25350
+    },
+    {
+      "path": "/en/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25462
+    },
+    {
+      "path": "/en/ratgeber/baureinigung-kosten-planen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25266
+    },
+    {
+      "path": "/en/ratgeber/baureinigung-phasen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25142
+    },
+    {
+      "path": "/en/ratgeber/bauuebergabe-checkliste/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25312
+    },
+    {
+      "path": "/en/ratgeber/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 22779
+    },
+    {
+      "path": "/en/unternehmen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20720
+    },
+    {
+      "path": "/faq/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 36173
+    },
+    {
+      "path": "/galerie/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20174
+    },
+    {
+      "path": "/impressum/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 15811
+    },
+    {
+      "path": "/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 59136
+    },
+    {
+      "path": "/karriere/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 17327
+    },
+    {
+      "path": "/kontakt/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 26369
+    },
+    {
+      "path": "/konto/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21768
+    },
+    {
+      "path": "/leistungen/baureinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12374
+    },
+    {
+      "path": "/leistungen/bueroreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25393
+    },
+    {
+      "path": "/leistungen/glasreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12381
+    },
+    {
+      "path": "/leistungen/grundreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12388
+    },
+    {
+      "path": "/leistungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25393
+    },
+    {
+      "path": "/leistungen/treppenreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12402
+    },
+    {
+      "path": "/leistungen/unterhaltsreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12423
+    },
+    {
+      "path": "/partner/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 19044
+    },
+    {
+      "path": "/planer/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 30654
+    },
+    {
+      "path": "/postfach/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21689
+    },
+    {
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25491
+    },
+    {
+      "path": "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25908
+    },
+    {
+      "path": "/ratgeber/baureinigung-kosten-planen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25662
+    },
+    {
+      "path": "/ratgeber/baureinigung-phasen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25417
+    },
+    {
+      "path": "/ratgeber/bauuebergabe-checkliste/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 25646
+    },
+    {
+      "path": "/ratgeber/bueroreinigung-checkliste/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12520
+    },
+    {
+      "path": "/ratgeber/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23290
+    },
+    {
+      "path": "/ratgeber/reinigungsleistungen-vergleichen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12569
+    },
+    {
+      "path": "/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 12632
+    },
+    {
+      "path": "/ru/bauleistungen/bauendreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24410
+    },
+    {
+      "path": "/ru/bauleistungen/bauhilfe/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24050
+    },
+    {
+      "path": "/ru/bauleistungen/baureinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23954
+    },
+    {
+      "path": "/ru/bauleistungen/baustellenraeumung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23457
+    },
+    {
+      "path": "/ru/bauleistungen/bauzwischenreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23944
+    },
+    {
+      "path": "/ru/bauleistungen/durchbrueche/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24646
+    },
+    {
+      "path": "/ru/bauleistungen/kernbohrungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24970
+    },
+    {
+      "path": "/ru/bauleistungen/zusatzarbeiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24769
+    },
+    {
+      "path": "/ru/berlin/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 19685
+    },
+    {
+      "path": "/ru/branchen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20613
+    },
+    {
+      "path": "/ru/datenschutz/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 43784
+    },
+    {
+      "path": "/ru/faq/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 42024
+    },
+    {
+      "path": "/ru/galerie/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 22369
+    },
+    {
+      "path": "/ru/impressum/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 18536
+    },
+    {
+      "path": "/ru/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 65431
+    },
+    {
+      "path": "/ru/karriere/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 19957
+    },
+    {
+      "path": "/ru/kontakt/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 29210
+    },
+    {
+      "path": "/ru/konto/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23490
+    },
+    {
+      "path": "/ru/leistungen/baureinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 13909
+    },
+    {
+      "path": "/ru/leistungen/bueroreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 27977
+    },
+    {
+      "path": "/ru/leistungen/glasreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 13916
+    },
+    {
+      "path": "/ru/leistungen/grundreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 13923
+    },
+    {
+      "path": "/ru/leistungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 27977
+    },
+    {
+      "path": "/ru/leistungen/treppenreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 13937
+    },
+    {
+      "path": "/ru/leistungen/unterhaltsreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 13958
+    },
+    {
+      "path": "/ru/partner/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21156
+    },
+    {
+      "path": "/ru/planer/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 34649
+    },
+    {
+      "path": "/ru/postfach/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23191
+    },
+    {
+      "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 31110
+    },
+    {
+      "path": "/ru/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 31342
+    },
+    {
+      "path": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 31191
+    },
+    {
+      "path": "/ru/ratgeber/baureinigung-phasen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 31299
+    },
+    {
+      "path": "/ru/ratgeber/bauuebergabe-checkliste/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 31442
+    },
+    {
+      "path": "/ru/ratgeber/bueroreinigung-checkliste/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 14055
+    },
+    {
+      "path": "/ru/ratgeber/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 27919
+    },
+    {
+      "path": "/ru/ratgeber/reinigungsleistungen-vergleichen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 14104
+    },
+    {
+      "path": "/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 14167
+    },
+    {
+      "path": "/ru/unternehmen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23681
+    },
+    {
+      "path": "/studio/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 18454
+    },
+    {
+      "path": "/uk/bauleistungen/bauendreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24379
+    },
+    {
+      "path": "/uk/bauleistungen/bauhilfe/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23950
+    },
+    {
+      "path": "/uk/bauleistungen/baureinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23849
+    },
+    {
+      "path": "/uk/bauleistungen/baustellenraeumung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23537
+    },
+    {
+      "path": "/uk/bauleistungen/bauzwischenreinigung/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23831
+    },
+    {
+      "path": "/uk/bauleistungen/durchbrueche/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24474
+    },
+    {
+      "path": "/uk/bauleistungen/kernbohrungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24700
+    },
+    {
+      "path": "/uk/bauleistungen/zusatzarbeiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 24434
+    },
+    {
+      "path": "/uk/berlin/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 19586
+    },
+    {
+      "path": "/uk/branchen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20493
+    },
+    {
+      "path": "/uk/faq/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 41949
+    },
+    {
+      "path": "/uk/galerie/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 22271
+    },
+    {
+      "path": "/uk/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 65369
+    },
+    {
+      "path": "/uk/karriere/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 19822
+    },
+    {
+      "path": "/uk/kontakt/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 28916
+    },
+    {
+      "path": "/uk/leistungen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 27885
+    },
+    {
+      "path": "/uk/partner/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 21070
+    },
+    {
+      "path": "/uk/planer/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 33823
+    },
+    {
+      "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 30570
+    },
+    {
+      "path": "/uk/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 30862
+    },
+    {
+      "path": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 30499
+    },
+    {
+      "path": "/uk/ratgeber/baureinigung-phasen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 30662
+    },
+    {
+      "path": "/uk/ratgeber/bauuebergabe-checkliste/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 31002
+    },
+    {
+      "path": "/uk/ratgeber/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 27662
+    },
+    {
+      "path": "/uk/unternehmen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 23672
+    },
+    {
+      "path": "/unternehmen/",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 20983
+    },
+    {
+      "path": "/healthz",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 7
+    },
+    {
+      "path": "/readyz",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 5
+    },
+    {
+      "path": "/api/catalogue.json",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 322
+    },
+    {
+      "path": "/robots.txt",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 248
+    },
+    {
+      "path": "/sitemap.xml",
+      "expected": 200,
+      "status": 200,
+      "pass": true,
+      "bytes": 55929
+    },
+    {
+      "path": "/__knaba-content-continuation-missing-0863755/",
+      "expected": 404,
+      "status": 404,
+      "pass": true,
+      "bytes": 11644
+    }
+  ],
+  "passed": 136,
+  "total": 136,
+  "runtimeHashes": 293,
+  "hashMismatches": []
+}

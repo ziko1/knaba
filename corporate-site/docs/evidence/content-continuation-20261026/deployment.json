@@ -1,0 +1,50 @@
+{
+  "scope": "AUTHORIZED_EXISTING_TEST_DOMAIN_ONLY",
+  "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+  "previousSourceSha": "56adc59b6665595f26eed3bbaf1319bcdd5f79ee",
+  "artifactSha256": "0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73",
+  "archiveSha256": "bed02642bd044da9e132ed635bc517e4af15de802a4d3d7ea049e119b684da5c",
+  "archiveBytes": 1439634,
+  "runtimeFiles": 293,
+  "locks": [
+    ".knaba-preview-deploy.lock",
+    ".ui-visual-release.lock"
+  ],
+  "storageBefore": {
+    "state": "healthy",
+    "availableBytes": 21850812416,
+    "totalBytes": 211271204864,
+    "usedPercent": 89.66,
+    "cutoverAllowed": true
+  },
+  "backup": {
+    "file": "knaba-2026-10-26T15-15-35-980Z.sqlite",
+    "sha256": "7549611309deb63cec95f56796aac7b7cd28863544ffc9a89e885114c0a3455d",
+    "bytes": 233472,
+    "separateFileSameHostRestore": "ok",
+    "migrations": 6,
+    "offsiteRestore": "NOT_RUN"
+  },
+  "rollbackPerformed": false,
+  "cleanupPerformed": false,
+  "customerReady": false,
+  "status": "DEPLOYED_TEST_DOMAIN",
+  "containerHealth": "healthy",
+  "postDeploymentIntegrity": "ok",
+  "attestation": {
+    "status": "PASS",
+    "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+    "artifactSha256": "0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73",
+    "files": 228,
+    "htmlFiles": 130,
+    "pinnedRelease": "/srv/knaba/vps/releases/08637557622588e46fc76fe5f4e5dd5519286b6a"
+  },
+  "storageAfter": {
+    "state": "healthy",
+    "availableBytes": 21850775552,
+    "totalBytes": 211271204864,
+    "usedPercent": 89.66,
+    "cutoverAllowed": true
+  },
+  "deployedAtUtc": "2026-10-26T15:15:42.402689+00:00"
+}
