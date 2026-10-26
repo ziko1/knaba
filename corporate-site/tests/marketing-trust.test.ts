@@ -45,7 +45,7 @@ describe('Marketing and testimonials trust gate',()=>{
     expect(component).toContain('when={reviews().length>0}');
     expect(component).toContain('each={reviews()}');
     expect(component).toContain("fetch('/api/reviews'");
-    expect(component).toContain('class="reviews-empty"');
+    expect(component).toContain('class="reviews-notice reviews-empty"');
     expect(data).toContain('export const reviewsCopy');
     const home=readFileSync(new URL('../src/components/ConstructionHome.astro',import.meta.url),'utf8');
     const marketing=readFileSync(new URL('../src/components/MarketingStories.astro',import.meta.url),'utf8');
