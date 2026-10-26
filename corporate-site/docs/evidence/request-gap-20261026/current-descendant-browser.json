@@ -1,0 +1,80 @@
+{
+  "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+  "checkedAt": "2026-10-26T15:20:56.258Z",
+  "pages": [
+    {
+      "badges": 3,
+      "h1": 1,
+      "lang": "uk",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 0,
+      "url": "https://kneba.vsp.rest/uk/#reviews"
+    },
+    {
+      "badges": 3,
+      "h1": 1,
+      "lang": "de",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 0,
+      "url": "https://kneba.vsp.rest/#reviews"
+    },
+    {
+      "badges": 3,
+      "h1": 1,
+      "lang": "en",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 0,
+      "url": "https://kneba.vsp.rest/en/#reviews"
+    },
+    {
+      "badges": 3,
+      "h1": 1,
+      "lang": "ru",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 0,
+      "url": "https://kneba.vsp.rest/ru/#reviews"
+    },
+    {
+      "badges": 0,
+      "h1": 1,
+      "lang": "de",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/partner/"
+    },
+    {
+      "badges": 0,
+      "h1": 1,
+      "lang": "en",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/en/partner/"
+    },
+    {
+      "badges": 0,
+      "h1": 1,
+      "lang": "uk",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/uk/partner/"
+    },
+    {
+      "badges": 0,
+      "h1": 1,
+      "lang": "ru",
+      "overflow": false,
+      "phones": 1,
+      "profiles": 5,
+      "url": "https://kneba.vsp.rest/ru/partner/"
+    }
+  ],
+  "viewport": "1363x936",
+  "reason": "A concurrent release preserves deployed review/partner source56adc; repeated requested feature checks without reverting it."
+}

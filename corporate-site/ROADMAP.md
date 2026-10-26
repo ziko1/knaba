@@ -306,3 +306,5 @@ Current task adds explicit fictional review examples (3×DE/EN/UK/RU) to the exi
 - [x] Forward-integrate73755d1, persist56adc59/tree229ad353, independently review and pass224Vitest+64native+41VPS; deploy with CAS/locks/storage/backup/restore and verify8affected HTTP routes plus49assets.
 - [x] Cloud Chrome desktop:12disclosed examples,4partner directories/20profiles,4review form open-focus-close flows; source and live receipts saved.
 - [ ] Physical mobile/device/zoom and real owner acceptance; genuine customer reviews; full voice/ERP/payment/Studio/provider integration and95remaining languages. No claims of whole-product completion.
+- [x] Verify requested additions remain live in concurrent descendant0863755:4home review groups+4partner directories rechecked,health200.
+- [ ] Additional planner hydration followup7ed83b2 is source/tested only after CAS rejected newer current086; forward-integrate before future rollout. Never overwrite newer live content with this candidate.
