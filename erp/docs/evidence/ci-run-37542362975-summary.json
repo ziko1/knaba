@@ -1,0 +1,180 @@
+{
+  "status": "FAILED_PACKAGING",
+  "verifiedAt": "2026-10-06T23:01:51.734742+00:00",
+  "source": {
+    "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+    "localEquivalentSha": "c3baec1a3285195cf5e7432f2f7ae4a30bf83116",
+    "gitTree": "2f7d6c939610c397f344fb39efadaaf580e6753c",
+    "trackedFiles": 332,
+    "frozenSourceBytes": "PASSED"
+  },
+  "run": {
+    "id": 37542362975,
+    "jobId": 112538149027,
+    "url": "https://github.com/ziko1/knaba/actions/runs/37542362975",
+    "conclusion": "failure"
+  },
+  "artifact": {
+    "id": 11449618154,
+    "url": "https://github.com/ziko1/knaba/actions/runs/37542362975/artifacts/11449618154",
+    "bytes": 4961072,
+    "sha256": "d88249146355e5eaf7f8dc8b041ef6c8cde0e9c97e8274c8b6f838b9b48acb01",
+    "zipEntries": 78,
+    "crc": "PASSED",
+    "scope": "Raw execution evidence and built files; final source/runtime/docs archives were not delivered."
+  },
+  "unit": {
+    "status": "PASSED",
+    "total": 1472,
+    "passed": 1472,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0,
+    "classification": {
+      "status": "EXACT_INDEX_VALIDATED",
+      "indexIsExecutionProof": false,
+      "realPostgres": {
+        "total": 193,
+        "passed": 193,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "cpuDocumentOrTransportDouble": {
+        "total": 1279,
+        "passed": 1279,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  },
+  "testSourceFiles": 52,
+  "browser": {
+    "status": "PASSED",
+    "passed": 24,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "total": 24
+  },
+  "browserScope": {
+    "actualBackendScenarios": 23,
+    "explicitTransportFixtures": 1
+  },
+  "builtArtifacts": {
+    "status": "PASSED",
+    "count": 14,
+    "sha256AndBytes": "ALL_DOWNLOADED_FILES_CHECKED",
+    "node": "v24.19.0"
+  },
+  "docker": {
+    "status": "PASSED_HOSTED_RECEIPT_CHECKED",
+    "imageId": "sha256:342fe8692309e31d4735c2b67a7fa596b7a9ded60f7bb758a5cdb17cb8f0e795",
+    "sourceProvenance": "PINNED_CONTAINER_CONTEXT"
+  },
+  "isolatedStages": [
+    {
+      "stage": "exact-live-runtime",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:52:24Z",
+      "completedAt": "2026-10-06T22:52:24.776Z"
+    },
+    {
+      "stage": "full-unit-and-postgres",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:52:24Z",
+      "completedAt": "2026-10-06T22:53:10.920Z"
+    },
+    {
+      "stage": "rendered-browser-scenarios",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:53:10Z",
+      "completedAt": "2026-10-06T22:55:37.493Z"
+    },
+    {
+      "stage": "encrypted-delivery-backup",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:55:37Z",
+      "completedAt": "2026-10-06T22:55:38.454Z"
+    },
+    {
+      "stage": "backup-tamper-rejection",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:55:38Z",
+      "completedAt": "2026-10-06T22:55:38.655Z"
+    },
+    {
+      "stage": "empty-database-private-blob-restore",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:55:38Z",
+      "completedAt": "2026-10-06T22:55:39.513Z"
+    },
+    {
+      "stage": "bundled-worker-heartbeat-and-restart",
+      "status": "PASSED",
+      "gitSha": "c1b39120fcfc93659bf72924309a2337ccc92d30",
+      "startedAt": "2026-10-06T22:55:39Z",
+      "completedAt": "2026-10-06T22:55:40.481Z"
+    }
+  ],
+  "backupRestore": {
+    "status": "PASSED_HOSTED_EXECUTION_RECEIPTS",
+    "originalTables": 17,
+    "privateBlobs": 10,
+    "rawLogSha256": "54b2c79f23887dad06f381d9ce06a769ac4752d060daa1274cf1f5406e812313",
+    "localReplay": "NOT_RUN"
+  },
+  "workerRestart": {
+    "status": "PASSED_HOSTED_EXECUTION_RECEIPT",
+    "distinctProcesses": 2,
+    "singleAttempts": true,
+    "gracefulExits": true
+  },
+  "evidenceDigests": {
+    "docs/evidence/release-live-unit.json": "bb9a3d2a37a12e5b41d1dad9c9e012939abf0ba53bd67e9b116572671d4cf5e3",
+    "docs/evidence/live-isolated-verification.json": "5ff6e92611ec5447e441874778b893a121423160578298bd994097fc3195176d",
+    "docs/evidence/browser-result.json": "4b8bf66b86bd207fd5e0a89c971bcd2bc1592a3770e9577a94075d60a2e6f6fa",
+    "docs/evidence/built-artifacts.json": "4af6f788c7ae12039e56c08f91081e96a49d599815cf8290156de8178e631218",
+    "docs/evidence/offline-execution-scope.json": "6239662536a75cf126c159f0405ee5158e1ce010fb162d8e2e5160173a795a3a"
+  },
+  "packaging": {
+    "status": "FAILED",
+    "reason": "CURRENT_EVIDENCE_CONTAINS_SENSITIVE_STATE",
+    "guardCorrectlyRejectedMetadata": true,
+    "findings": [
+      {
+        "path": "docs/evidence/browser-result.json.config.metadata.gitDiff",
+        "rule": "DATABASE_CREDENTIAL_URI",
+        "count": 2
+      },
+      {
+        "path": "docs/evidence/browser-result.json.config.projects[].metadata.gitDiff",
+        "rule": "DATABASE_CREDENTIAL_URI",
+        "count": 2
+      }
+    ],
+    "sourceArchiveDelivery": "NOT_DELIVERED",
+    "runtimeArchiveDelivery": "NOT_DELIVERED",
+    "documentationArchiveDelivery": "NOT_DELIVERED"
+  },
+  "laterAmendment": {
+    "producerFix": "captureGitInfo:{commit:true,diff:false}",
+    "credentialGuard": "UNCHANGED",
+    "configDiscovery": "24_CASES_AND_ZERO_GIT_DIFF_FIELDS",
+    "newSourceHostedAcceptance": "NOT_RUN",
+    "historicalRawEvidence": "PRESERVED_PRIVATE_UNMODIFIED"
+  },
+  "limits": [
+    "Synthetic isolated hosted execution; no public Railway deployment certified.",
+    "Provider/storage fixtures retain explicit doubles; no real provider acceptance inferred.",
+    "No local SQL/browser/restore replay by this independent verifier.",
+    "No production signing, physical device or company legal approval inferred."
+  ]
+}

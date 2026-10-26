@@ -1,14 +1,9 @@
-import { createMemo, createSignal, For, lazy, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createMemo, createSignal, For, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 import type { PortalSession } from '../lib/portal-contract';
 import { resolvePortalLocale, type PortalLocale } from '../lib/portal-i18n';
-import { allowedAdminSections, resolveAdminSection, type AdminSection } from '../lib/admin-access';
+import { allowedAdminModules, allowedAdminSections, resolveAdminSection, type AdminModuleId, type AdminSection } from '../lib/admin-access';
+import AdminModuleOutlet from './AdminModuleOutlet';
 import '../styles/admin-center.css';
-
-// Only load the real feature island after it is selected. No second CMS, CRM or API.
-const Portal = lazy(() => import('./Portal'));
-const CrmConsole = lazy(() => import('./CrmConsole'));
-const AssistantInbox = lazy(() => import('./AssistantInbox'));
-const SiteStudio = lazy(() => import('./SiteStudio'));
 
 type Phase = 'checking' | 'ready' | 'error';
 const translations = {
@@ -62,7 +57,7 @@ const translations = {
   }
 } as const;
 
-const icons: Record<AdminSection,string> = {overview:'◈',operations:'▤',crm:'◎',messages:'✉',studio:'✳'};
+const overviewIcon = '◈';
 
 export default function AdminControlCenter() {
   const [phase,setPhase] = createSignal<Phase>('checking');
@@ -72,6 +67,7 @@ export default function AdminControlCenter() {
   const t = createMemo(() => translations[language()]);
   const role = () => session()?.user ? session()!.role : 'anonymous';
   const allowed = createMemo(() => allowedAdminSections(role()));
+  const modules = createMemo(() => allowedAdminModules(role()));
   const selected = createMemo(() => resolveAdminSection(role(),requested()));
   const names = createMemo<Record<AdminSection,string>>(() => ({
     overview:t().overview,operations:t().operations,crm:t().crm,messages:t().messages,studio:t().studio
@@ -167,9 +163,13 @@ export default function AdminControlCenter() {
             <div class="kncc-brand"><span class="kncc-brand-symbol" aria-hidden="true">✳</span><div><strong>KNABA</strong><small>CONTROL CENTER</small></div></div>
             <p class="kncc-sidebar-caption">{t().session}</p>
             <nav aria-label={t().nav} class="kncc-navigation">
-              <For each={allowed()}>{view=><button type="button" classList={{'kncc-nav-item':true,'is-current':selected()===view}}
-                aria-current={selected()===view?'page':undefined} onClick={() => openSection(view)}>
-                <span class="kncc-nav-icon" aria-hidden="true">{icons[view]}</span><span>{names()[view]}</span>
+              <button type="button" classList={{'kncc-nav-item':true,'is-current':selected()==='overview'}}
+                aria-current={selected()==='overview'?'page':undefined} onClick={() => openSection('overview')}>
+                <span class="kncc-nav-icon" aria-hidden="true">{overviewIcon}</span><span>{t().overview}</span>
+              </button>
+              <For each={modules()}>{module=><button type="button" classList={{'kncc-nav-item':true,'is-current':selected()===module.id}}
+                aria-current={selected()===module.id?'page':undefined} onClick={() => openSection(module.id)}>
+                <span class="kncc-nav-icon" aria-hidden="true">{module.icon}</span><span>{names()[module.id]}</span>
               </button>}</For>
             </nav>
             <p class="kncc-security">{t().hint}</p>
@@ -191,19 +191,16 @@ export default function AdminControlCenter() {
             </div>
             <Show when={selected()==='overview'}>
               <div class="kncc-intro"><span class="kncc-eyebrow">KNABA · CONTROL CENTER</span><h2>{t().title}</h2><p>{t().subtitle}</p></div>
-              <div class="kncc-cards"><For each={allowed().filter(item=>item!=='overview')}>{view=>
-                <button class="kncc-card" type="button" onClick={()=>openSection(view)}>
-                  <span class="kncc-card-icon" aria-hidden="true">{icons[view]}</span><strong>{names()[view]}</strong>
-                  <span class="kncc-card-desc">{descriptions()[view]}</span><span class="kncc-card-link">{t().choose} →</span>
+              <div class="kncc-cards"><For each={modules()}>{module=>
+                <button class="kncc-card" type="button" onClick={()=>openSection(module.id)}>
+                  <span class="kncc-card-icon" aria-hidden="true">{module.icon}</span><strong>{names()[module.id]}</strong>
+                  <span class="kncc-card-desc">{descriptions()[module.id]}</span><span class="kncc-card-link">{t().choose} →</span>
                 </button>
               }</For></div>
             </Show>
-            <Switch>
-              <Match when={selected()==='operations'}><div class="kncc-module"><Portal locale={language()} /></div></Match>
-              <Match when={selected()==='crm'}><div class="kncc-module"><CrmConsole /></div></Match>
-              <Match when={selected()==='messages' && role()==='owner'}><div class="kncc-module"><AssistantInbox locale={language()==='ru'?'ru':'de'} /></div></Match>
-              <Match when={selected()==='studio' && role()==='owner'}><div class="kncc-module"><SiteStudio /></div></Match>
-            </Switch>
+            <Show when={selected()!=='overview'}>
+              <div class="kncc-module"><AdminModuleOutlet id={selected() as AdminModuleId} role={role()} locale={language()} /></div>
+            </Show>
           </section>
         </div>
       </Match>

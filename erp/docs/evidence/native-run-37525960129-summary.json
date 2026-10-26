@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-06T20:32:57Z",
+  "repository": "https://github.com/ziko1/knaba",
+  "runId": 37525960129,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/37525960129",
+  "sourceGitSha": "942b3b2fc575b34b565fff2f4a1cd4d417d5e06b",
+  "status": "PASSED",
+  "scope": "Historical native build and synthetic classifier execution of exact 942b3b2 source. Subsequent source changes are not covered.",
+  "android": {
+    "jobId": 112482907722,
+    "status": "PASSED",
+    "toolchain": {
+      "gradle": "8.13",
+      "androidGradlePlugin": "8.13.0",
+      "kotlin": "2.2.20",
+      "java": "17.0.16",
+      "compileSdk": 36,
+      "buildTools": "35.0.0"
+    },
+    "checks": {
+      "assembleDebug": "PASSED",
+      "lintDebug": "PASSED",
+      "apksignerVerify": "PASSED",
+      "syntheticJvmVectors": {
+        "passed": 16,
+        "failed": 0,
+        "limit": "Host JVM geometry vectors; not Android device/GPS acceptance."
+      }
+    },
+    "artifact": {
+      "id": 11442402327,
+      "name": "knaba-android-debug-942b3b2fc575b34b565fff2f4a1cd4d417d5e06b",
+      "url": "https://github.com/ziko1/knaba/actions/runs/37525960129/artifacts/11442402327",
+      "zipBytes": 903300,
+      "zipSha256": "bd87f32a75397af42e214caf810dd71d0d69295874ecc5baf10151fa59dcbe2d",
+      "independentZipDownloadSha256": "PASSED",
+      "payload": {
+        "file": "app-debug.apk",
+        "bytes": 881684,
+        "sha256": "79a134e1f112f727e4c1c42f423130043573c3617c0838094d09f948a9b79b66",
+        "independentPayloadSha256": "PASSED"
+      }
+    },
+    "signing": {
+      "type": "Ephemeral Android debug certificate",
+      "certificateSha256": "518b801fae7233fe7d0d5dbe7c25c19f215355f89d9e561274ad1845b0ddb5d6",
+      "verifiedScheme": "v2",
+      "productionSigning": "NOT_RUN"
+    },
+    "physicalDeviceVerification": "NOT_RUN",
+    "realGpsAndBatteryAcceptance": "NOT_RUN"
+  },
+  "ios": {
+    "jobId": 112482907357,
+    "status": "PASSED",
+    "toolchain": {
+      "xcode": "16.4",
+      "sdk": "18.5",
+      "xcodegen": "2.43.0",
+      "xcodegenSourceSha": "7193eb447a6f60061f069e07bc1efd32d73c0e19",
+      "swiftLanguageMode": "5.0"
+    },
+    "checks": {
+      "simulatorCompilation": "PASSED",
+      "plistValidation": "PASSED",
+      "xctest": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "device": "iPhone 16",
+        "os": "18.5",
+        "architecture": "arm64",
+        "platform": "iOS Simulator",
+        "evidenceFile": "evidence/xctest-summary.json",
+        "cases": [
+          "Approved exception circles and conservative exit margin",
+          "Lease expiry and no automatic GPS start from OFF",
+          "Dwell requirement and one-jump exit rejection",
+          "Shared conservative vectors"
+        ]
+      }
+    },
+    "artifact": {
+      "id": 11442477883,
+      "name": "knaba-ios-simulator-942b3b2fc575b34b565fff2f4a1cd4d417d5e06b",
+      "url": "https://github.com/ziko1/knaba/actions/runs/37525960129/artifacts/11442477883",
+      "zipBytes": 5374437,
+      "zipSha256": "9b1bafd388e66221e9710c5747ffcf8b38a6ba206b5179113169310164baf148",
+      "independentZipDownloadSha256": "PASSED",
+      "zipCrc": "PASSED",
+      "payload": {
+        "file": "KNABADE-simulator.app.zip",
+        "bytes": 5340734,
+        "sha256": "01c44f77053e8ff84e5a7e9afd4bbb45a2a28dd36a2926a1e97cb72bf7de44c8",
+        "independentPayloadSha256": "PASSED",
+        "independentBundleFileHashes": {
+          "checked": 39,
+          "mismatched": 0
+        },
+        "bundleIdentifier": "de.knaba.mobile",
+        "supportedPlatforms": [
+          "iPhoneSimulator"
+        ],
+        "minimumOs": "16.0",
+        "note": "Debug simulator test host includes XCTest frameworks. This is not a signed installable IPA."
+      }
+    },
+    "signing": "CODE_SIGNING_ALLOWED=NO; simulator only",
+    "physicalDeviceVerification": "NOT_RUN",
+    "realGpsAndBatteryAcceptance": "NOT_RUN",
+    "appStoreAndProductionProvisioning": "NOT_RUN"
+  },
+  "artifactExpiresAt": "2026-10-20 (14-day hosted artifact retention)",
+  "verificationMethod": "Connector job logs/artifact metadata, authorized artifact downloads, independent SHA256/ZIP CRC and iOS bundle-file hash verification. No shell networking, source publication or physical-device tests."
+}

@@ -1,0 +1,116 @@
+{
+  "schema": "KNABA_MODULAR_CMS_QA_V1",
+  "date": "2026-10-26",
+  "repository": "ziko1/knaba",
+  "testDomain": "kneba.vsp.rest",
+  "source": {
+    "testedCommit": "e2ebe6671fde0488a33eb46131ee44d8295dbca8",
+    "testedGitTree": "01a23c5a7b78e8d79aca43e133eab8c1fbb63f38",
+    "siteGitTree": "9f3c2f46b794cce487400e7d71daf4eb2c81c525",
+    "erpGitTree": "d7022fdce70548ff64f0ce3e27b8408baa24bdb9",
+    "historicalImportAnchor": "66b07fb46d23c7110473c51fc23ce58d3c40a1b1"
+  },
+  "site": {
+    "nodeRuntime": "24.22.1",
+    "check": {
+      "status": "PASS",
+      "files": 270,
+      "errors": 0,
+      "warnings": 0,
+      "hints": 4
+    },
+    "vitest": {
+      "status": "PASS",
+      "passed": 256,
+      "failed": 0
+    },
+    "nativeNode": {
+      "status": "PASS",
+      "passed": 68,
+      "failed": 0,
+      "suites": [
+        32,
+        27,
+        9
+      ]
+    },
+    "vpsSyntheticTests": {
+      "status": "PASS",
+      "passed": 41,
+      "failed": 0
+    },
+    "build": {
+      "status": "PASS",
+      "builtHtml": 130,
+      "clientArtifactSha256": "b693f25d87b8a536af475002458f8332b114e863a5b5f45376e49233c07205e9"
+    },
+    "buildAndLinks": {
+      "status": "PASS"
+    },
+    "locales": {
+      "published": [
+        "de",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "pendingTargets": 95
+    },
+    "rawQaLogSha256": "74198cc7e6e760afb7e509f8302c22e3d3f8d0ae81651573edca7c7f40303fbd"
+  },
+  "root": {
+    "sourceAudit": "PASS",
+    "historicalAncestry": "PASS",
+    "modulesManifest": "PASS",
+    "nativeNodeTests": {
+      "status": "PASS",
+      "passed": 25,
+      "failed": 0
+    },
+    "rawQaLogSha256": "98127a6c38d04cc5fd05c5eaf19f17cfd14cb58b4c308b980278291dd1f378e8"
+  },
+  "release": {
+    "policy": "BLOCKED_AS_DESIGNED",
+    "policyOutputSha256": "9f4282c8a310d3deee1762d6ca381a2dd07176bff5343e84386db4192abbf289",
+    "reason": [
+      "erp-bridge-not-integrated",
+      "owner-real-UAT",
+      "device-browser-a11y",
+      "data-protection-legal",
+      "offhost-restore",
+      "independent-review",
+      "production-approval"
+    ],
+    "mainMerged": false,
+    "testVpsDeployedByThisChange": false,
+    "officialProductionDeployed": false
+  },
+  "readOnlyVpsObservation": {
+    "observedCurrentSource": "0721d55c6673b1e4324c68daf41a82b4a7a7ee2e",
+    "http": {
+      "/healthz": 200,
+      "/admin/": 200,
+      "/readyz": 200
+    },
+    "existingManifestCustomerReadyFlag": false,
+    "diskPercentRounded": 90,
+    "diskTotal": "197G",
+    "diskAvailable": "21G"
+  },
+  "notRunOnFinalCandidate": [
+    "actual ERP PostgreSQL+API integration",
+    "real owner/staff/customer UAT",
+    "browser/device/screen reader/200-percent-zoom",
+    "field CWV/p95",
+    "off-host backup restore",
+    "independent human security review"
+  ],
+  "workspaceRecovery": {
+    "vpsGitCheckoutsInspected": 100,
+    "dirtyCandidatesPreserved": true,
+    "workCloudFileSystemAccessible": false,
+    "workCreditBalanceKnown": false
+  },
+  "externalPaidProvidersActivated": false,
+  "note": "Hashes record log content observed during this task; raw QA logs remain on the VPS at temporary paths and are not published to this public repository. The receipt is not a live or production acceptance."
+}

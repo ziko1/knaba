@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "product": "KNABA",
+  "environment": "preview",
+  "deploymentStrategy": "reuse-existing-vps-immutable-releases",
+  "site": {
+    "source": "corporate-site/",
+    "runtime": "Node 24 / Astro / existing VPS Worker",
+    "health": "/healthz",
+    "readiness": "/readyz",
+    "privateManagementRoute": "/admin/",
+    "officialDomainCutover": false
+  },
+  "modules": [
+    {
+      "id": "operations",
+      "area": "operations",
+      "source": "corporate-site/",
+      "legacyPath": "/konto/",
+      "adminView": "operations",
+      "status": "bundled",
+      "roles": [
+        "owner",
+        "admin"
+      ]
+    },
+    {
+      "id": "crm",
+      "area": "crm",
+      "source": "corporate-site/",
+      "legacyPath": "/crm/",
+      "adminView": "crm",
+      "status": "bundled",
+      "roles": [
+        "owner",
+        "admin"
+      ]
+    },
+    {
+      "id": "messages",
+      "area": "communications",
+      "source": "corporate-site/",
+      "legacyPath": "/postfach/",
+      "adminView": "messages",
+      "status": "bundled",
+      "roles": [
+        "owner"
+      ]
+    },
+    {
+      "id": "studio",
+      "area": "cms",
+      "source": "corporate-site/",
+      "legacyPath": "/studio/",
+      "adminView": "studio",
+      "status": "bundled",
+      "roles": [
+        "owner"
+      ]
+    },
+    {
+      "id": "erp-core",
+      "area": "erp",
+      "source": "erp/",
+      "legacyPath": null,
+      "adminView": null,
+      "status": "source-only",
+      "roles": []
+    }
+  ],
+  "promotionGuards": [
+    "exact-source-and-artifact-verification",
+    "RBAC-and-tenant-integration-review",
+    "db-ledger-check-and-verified-off-host-backup",
+    "preview-UX-and-owner-UAT",
+    "non-destructive-rollback",
+    "disk-headroom-below-90-percent",
+    "explicit-production-approval"
+  ]
+}

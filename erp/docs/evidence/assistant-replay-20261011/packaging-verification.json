@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-11T00:39:29.225796+00:00",
+  "status": "INDEPENDENT_PACKAGE_INTEGRITY_VERIFIED",
+  "sourceSha": "a10e70911fb519ec7d8199fa66141cd12b462926",
+  "sourceTree": "c62487ef71a88352df52bf5d396ce2b27f0bbd6c",
+  "outerArtifacts": [
+    {
+      "id": 11687068658,
+      "name": "knaba-runtime-part2-a10e70911fb519ec7d8199fa66141cd12b462926",
+      "bytes": 17419334,
+      "sha256": "f8fa58de56c9231038a6fe9274144d7c8b3edd4756632f71a0f006946b97744a",
+      "crc": "PASSED"
+    },
+    {
+      "id": 11687033713,
+      "name": "knaba-documentation-a10e70911fb519ec7d8199fa66141cd12b462926",
+      "bytes": 1682024,
+      "sha256": "abdb2d158bf0d3f4c44080e25ef9ed3f6ddc018b93c5aa88f16b9e053529f6e4",
+      "crc": "PASSED"
+    },
+    {
+      "id": 11686774098,
+      "name": "knaba-runtime-part1-a10e70911fb519ec7d8199fa66141cd12b462926",
+      "bytes": 24768520,
+      "sha256": "984659b68affff6bf11af38b09f03b19a3cf46b2423bfd628758e58a6e76986a",
+      "crc": "PASSED"
+    },
+    {
+      "id": 11686694237,
+      "name": "knaba-source-delivery-a10e70911fb519ec7d8199fa66141cd12b462926",
+      "bytes": 6094000,
+      "sha256": "6b850559fcd382792e34214e5fe7831bc05cca5235badc2a71cba1c4e604ad90",
+      "crc": "PASSED"
+    }
+  ],
+  "sourceArchive": {
+    "path": "artifacts/hosted-release/KNABA_DE_SOURCE_a10e70911fb519ec7d8199fa66141cd12b462926.zip",
+    "bytes": 6182936,
+    "sha256": "e110eeaf2db19bfb4509396b5478cd1f3a44d2db37a983ff427214bb563a0890"
+  },
+  "documentationArchive": {
+    "path": "artifacts/hosted-release/KNABA_DE_DELIVERY_DOCS_a10e70911fb519ec7d8199fa66141cd12b462926.zip",
+    "bytes": 1720999,
+    "sha256": "bacd8085147680a0be770c0758bdb951a0f68c5d28b25746963335fc774caafc"
+  },
+  "runtimeArchive": {
+    "path": "artifacts/hosted-release/KNABA_DE_RUNTIME_LINUX_X64_a10e70911fb519ec7d8199fa66141cd12b462926.zip",
+    "bytes": 45024537,
+    "sha256": "a2f7ff49d6dd45218f430d4bba7799601086ab83141d84eb28bc337583ce2332",
+    "uploadFullArchive": false,
+    "partSizeLimitBytes": 25165824,
+    "reconstructionVerified": true,
+    "parts": [
+      {
+        "sequence": 1,
+        "path": "artifacts/hosted-release/KNABA_DE_RUNTIME_LINUX_X64_a10e70911fb519ec7d8199fa66141cd12b462926.zip.part001",
+        "bytes": 25165824,
+        "sha256": "f08bdc81d579179f8aaf3c392fc735157d4747bb16b287aab645a35ce5075d10"
+      },
+      {
+        "sequence": 2,
+        "path": "artifacts/hosted-release/KNABA_DE_RUNTIME_LINUX_X64_a10e70911fb519ec7d8199fa66141cd12b462926.zip.part002",
+        "bytes": 19858713,
+        "sha256": "b0ea85b54794a7f5fab9c03fcee575d79270c87221c033fd71f8736afbef2be3"
+      }
+    ],
+    "posixFileModesAndRelativeBinLinksPreserved": true
+  },
+  "sourceFilesVerifiedAgainstGitBlobs": 454,
+  "runtimeSourceFilesVerifiedAgainstGitBlobs": 113,
+  "builtFilesVerified": 14,
+  "documentationFiles": 130,
+  "runtimeFiles": 13985,
+  "runtimeDependencyPackageManifests": 253,
+  "runtimeLinks": [
+    {
+      "path": "node_modules/sharp/node_modules/.bin/semver",
+      "target": "../semver/bin/semver.js"
+    },
+    {
+      "path": "node_modules/.bin/tsx",
+      "target": "../tsx/dist/cli.mjs"
+    },
+    {
+      "path": "node_modules/.bin/esbuild",
+      "target": "../esbuild/bin/esbuild"
+    }
+  ],
+  "runtimeNativeExecutableFormat": "ELF_WITH_EXECUTABLE_MODE",
+  "checks": [
+    "All outer GitHub digest/size/source records matched",
+    "Outer and inner ZIP paths, duplicates and CRC checked",
+    "Runtime parts reconstructed in exact manifest order and full digest matched",
+    "Every committed source archive path/blob/mode checked against exact Git tree",
+    "Every shared runtime source blob and all14 built files checked",
+    "Current documentation evidence hashes checked against manifest",
+    "Runtime launcher links and required Linux binary mode/format checked"
+  ],
+  "limitations": [
+    "This verifies package identity and integrity; no public deployment or live company/provider/physical acceptance is inferred.",
+    "Runtime prerequisite installation and package metadata do not substitute for a production operating rehearsal."
+  ]
+}
