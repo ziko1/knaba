@@ -1,0 +1,88 @@
+---
+import {constructionGuideBySlug} from '../data/construction-guides';
+import type {ConstructionLocale} from '../data/construction-offers';
+
+const {locale='de'} = Astro.props as {locale: ConstructionLocale};
+const prefix = locale === 'de' ? '' : '/' + locale;
+const guideSlugs = ['baureinigung-phasen', 'baureinigung-kosten-planen', 'bauuebergabe-checkliste'] as const;
+const guides = guideSlugs.map(slug => {
+  const guide = constructionGuideBySlug(slug);
+  if (!guide) throw new Error('Missing published construction guide: ' + slug);
+  return guide;
+});
+const content = {
+  de: {
+    eyebrow: 'BAUWISSEN / PRAXIS',
+    heading: 'Vor der Anfrage die richtigen Fragen stellen.',
+    lead: 'Wann ist eine Bauzwischenreinigung sinnvoll? Welche Angaben machen Angebote vergleichbar? Und worauf kommt es bei der sauberen Bauübergabe an? Drei Praxisleitfäden helfen dabei, Flächen, Bauphase und Anforderungen klar abzustimmen.',
+    more: 'Alle Bauratgeber entdecken',
+    label: 'Praktische Ratgeber für Bauprojekte',
+  },
+  en: {
+    eyebrow: 'PROJECT KNOW-HOW / PRACTICAL GUIDES',
+    heading: 'Ask the right questions before requesting a quote.',
+    lead: 'When does interim construction cleaning make sense? What helps you compare quotations fairly? What should you check at handover? These practical guides help you describe your site, construction stage and requirements clearly.',
+    more: 'Explore all construction guides',
+    label: 'Practical guidance for construction projects',
+  },
+  uk: {
+    eyebrow: 'ПОРАДИ / БУДІВЕЛЬНІ ПРОЄКТИ',
+    heading: 'Підготуйте правильні запитання ще до кошторису.',
+    lead: 'Коли потрібне міжетапне прибирання? Як об’єктивно порівняти пропозиції підрядників? Що перевірити під час здачі об’єкта? Практичні порадники допоможуть чітко описати етап робіт, площі й вимоги.',
+    more: 'Переглянути всі будівельні поради',
+    label: 'Практичні порадники для будівельних проєктів',
+  },
+  ru: {
+    eyebrow: 'СОВЕТЫ / СТРОИТЕЛЬНЫЕ ПРОЕКТЫ',
+    heading: 'Задайте правильные вопросы до расчёта сметы.',
+    lead: 'Когда нужна промежуточная уборка? Как сравнить предложения подрядчиков? Что проверить при сдаче объекта? Практические руководства помогут заранее уточнить этап работ, площади и требования.',
+    more: 'Смотреть все советы по строительству',
+    label: 'Практические руководства для строительных проектов',
+  },
+}[locale];
+---
+<section class="home-guides" aria-labelledby="home-guides-title">
+  <div class="container home-guides-inner">
+    <div class="home-guides-copy">
+      <p class="home-guides-eyebrow">{content.eyebrow}</p>
+      <h2 id="home-guides-title">{content.heading}</h2>
+      <p class="home-guides-lead">{content.lead}</p>
+      <a class="home-guides-all" href={prefix+'/ratgeber/'}>{content.more}<span aria-hidden="true">↗</span></a>
+    </div>
+    <nav aria-label={content.label}>
+      <ol class="home-guides-list">
+        {guides.map((guide, index) => <li>
+          <a href={prefix+'/ratgeber/'+guide.slug+'/'}>
+            <span class="home-guides-number" aria-hidden="true">0{index+1}</span>
+            <span class="home-guides-summary">
+              <strong>{guide.title[locale]}</strong>
+              <span>{guide.description[locale]}</span>
+            </span>
+            <span class="home-guides-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>)}
+      </ol>
+    </nav>
+  </div>
+</section>
+<style is:inline>
+.home-guides{background:#0b303b;color:#f4faf7;padding:clamp(52px,8vw,94px) 0}
+.home-guides-inner{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(30px,5vw,88px)}
+.home-guides-eyebrow{color:#c9ef65;letter-spacing:.13em;font-size:12px;font-weight:800;line-height:1.5}
+.home-guides h2{color:#fff;letter-spacing:-.045em;font-size:clamp(30px,3.6vw,51px);line-height:1.13;margin:17px 0 21px;text-wrap:balance}
+.home-guides-lead{color:#c9d9d6;font-size:16px;line-height:1.8;max-width:58ch}
+.home-guides-all{display:inline-flex;align-items:center;gap:14px;color:#cbf473;font-weight:750;min-height:44px;margin-top:20px;text-underline-offset:5px}
+.home-guides-list{list-style:none;padding:0;margin:0}
+.home-guides-list li{border-top:1px solid #ffffff35}
+.home-guides-list li:last-child{border-bottom:1px solid #ffffff35}
+.home-guides-list a{color:inherit;text-decoration:none;display:grid;grid-template-columns:32px minmax(0,1fr) 18px;gap:15px;align-items:start;padding:25px 12px;border-radius:8px}
+.home-guides-list a:hover,.home-guides-list a:focus-visible{background:#ffffff14}
+.home-guides-list a:focus-visible,.home-guides-all:focus-visible{outline:3px solid #cbf473;outline-offset:3px}
+.home-guides-number{color:#cbf473;font-size:13px;font-weight:850;padding-top:5px}
+.home-guides-summary{min-width:0}
+.home-guides-summary strong{display:block;font-size:clamp(17px,1.7vw,21px);line-height:1.4;overflow-wrap:anywhere}
+.home-guides-summary>span{display:block;color:#c6d8d4;font-size:14px;line-height:1.6;margin-top:8px;overflow-wrap:break-word}
+.home-guides-arrow{color:#cbf473}
+@media(max-width:800px){.home-guides-inner{grid-template-columns:1fr;gap:24px}}
+@media(max-width:390px){.home-guides-list a{gap:9px;grid-template-columns:25px minmax(0,1fr) 14px;padding-inline:6px}}
+</style>

@@ -229,6 +229,16 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
   assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
 }
+// Homepage discovery routes must lead to existing editorial guides in every published locale.
+for (const localePrefix of ['', 'en/', 'uk/', 'ru/']) {
+  const source = await readFile(resolve(root, localePrefix + 'index.html'), 'utf8');
+  assert.equal((source.match(/id="home-guides-title"/g) || []).length, 1, localePrefix + ' one editorial guide heading');
+  assert.equal((source.match(/class="home-guides-list"/g) || []).length, 1, localePrefix + ' one editorial guide list');
+  for (const slug of ['baureinigung-phasen', 'baureinigung-kosten-planen', 'bauuebergabe-checkliste']) {
+    assert.ok(source.includes('href="/' + localePrefix + 'ratgeber/' + slug + '/"'), localePrefix + ' guide link: ' + slug);
+  }
+}
+
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 const homeIslands = homepage.match(/<astro-island\b[^>]*>/g) || [];
 assert.equal(homeIslands.length, 1, 'Only the functional reviews island hydrates on the homepage');

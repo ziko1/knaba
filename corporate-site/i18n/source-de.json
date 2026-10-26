@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0cd813cb8d604a9105dc6f0fa8f2c06e019e44d7284095a018c5d7b826ce51a9",
+  "sourceDigest": "852fd408cf058a5e00bb7cbb6466e3bdaa0a217d1ca47b87a14b738d69fdb216",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1001,
+  "unitCount": 1006,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -290,6 +290,13 @@
         "/unternehmen/"
       ]
     },
+    "052aadc2d52c439ff6469c1f": {
+      "kind": "text",
+      "source": "Wann ist eine Bauzwischenreinigung sinnvoll? Welche Angaben machen Angebote vergleichbar? Und worauf kommt es bei der sauberen Bauübergabe an? Drei Praxisleitfäden helfen dabei, Flächen, Bauphase und Anforderungen klar abzustimmen.",
+      "routes": [
+        "/"
+      ]
+    },
     "0567e060ef8ecaab269d5c37": {
       "kind": "text",
       "source": "Unsere Partner im Überblick | KnaBa",
@@ -440,6 +447,13 @@
       "source": "Wer kümmert sich um Genehmigungen?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "0c1189be3821985e2568255f": {
+      "kind": "attr:aria-label",
+      "source": "Praktische Ratgeber für Bauprojekte",
+      "routes": [
+        "/"
       ]
     },
     "0c5f0423dcf4af7a33213565": {
@@ -1365,6 +1379,7 @@
       "kind": "text",
       "source": "Welche Angaben machen Angebote zur Baureinigung vergleichbar? Fläche, Bauzustand, Materialien, Zugang und Zusatzarbeiten strukturiert vorbereiten.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -2491,6 +2506,13 @@
         "/leistungen/"
       ]
     },
+    "43e44fabd917b80bd18edde8": {
+      "kind": "text",
+      "source": "Vor der Anfrage die richtigen Fragen stellen.",
+      "routes": [
+        "/"
+      ]
+    },
     "44d4825a34aab5fa27222c66": {
       "kind": "text",
       "source": "Baureinigung für Bauprojekte in Ihrer Region. | KnaBa",
@@ -3088,6 +3110,7 @@
       "kind": "text",
       "source": "Gereinigte Flächen gemeinsam prüfen: Leistungsumfang, Restpunkte, Vorschäden und neue Verschmutzung bei der Übergabe nachvollziehbar festhalten.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -3819,6 +3842,7 @@
       "kind": "text",
       "source": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen",
       "routes": [
+        "/",
         "/bauleistungen/bauzwischenreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4498,6 +4522,13 @@
       "source": "Materialien und Rückstände beschreiben",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "7a85400c2bb71818bfb88e77": {
+      "kind": "text",
+      "source": "BAUWISSEN / PRAXIS",
+      "routes": [
+        "/"
       ]
     },
     "7b79e1ed9b0bb1798cb4dc7f": {
@@ -5286,6 +5317,7 @@
       "kind": "text",
       "source": "Saubere Bauübergabe: die Checkliste nach der Endreinigung",
       "routes": [
+        "/",
         "/bauleistungen/bauendreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5958,6 +5990,7 @@
       "kind": "text",
       "source": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen",
       "routes": [
+        "/",
         "/bauleistungen/baureinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -8040,6 +8073,13 @@
         "/faq/"
       ]
     },
+    "df87a71958eb2cafc299cda4": {
+      "kind": "text",
+      "source": "Alle Bauratgeber entdecken",
+      "routes": [
+        "/"
+      ]
+    },
     "df8d6661688eccaff86c6b5f": {
       "kind": "text",
       "source": "Besuch der Website",
@@ -8604,6 +8644,7 @@
       "kind": "text",
       "source": "Welche Reinigungsphase passt zum Baufortschritt? Grobreinigung, Zwischenreinigung und Endreinigung abgrenzen und mit den Gewerken abstimmen.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
