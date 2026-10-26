@@ -63,7 +63,7 @@
       ],
       "review": {
         "path": "corporate-site/docs/evidence/migration-composition-20261026/independent-review-pending.json",
-        "sha256": "1c953ff25fe7d1b28aa1ddea6bf82790079894e69b694152a6d1ad347f5d0ea1"
+        "sha256": "134ca2be3b1f167c1c5f4e7d587b6eeecd594e71a4fbbb39bd1d3aa0697db6c5"
       }
     }
   ],
@@ -99,7 +99,7 @@
     {
       "id": "A2",
       "path": "corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md",
-      "sha256": "243bec31e3f49128747e4959e1a924f00468b8c9496f609b882157e33980c8c7",
+      "sha256": "84410e1d5532f18bfeb873a5f022ae9fd9ea4e39a09694af9cadfdd5d6dc845d",
       "authors": [
         "chatgpt-main"
       ],
@@ -277,7 +277,7 @@
       ],
       "evidence": {
         "path": "corporate-site/docs/evidence/migration-composition-20261026/ai-team-check.json",
-        "sha256": "3223ebbb16cc2a58af45bbd7498aa868769a6c574c8ef236a60e8f83dde6fe79"
+        "sha256": "8fc822241f17cd7accc723c9745cc20c0484241764fe82ba635eefd8bf732043"
       }
     }
   ]

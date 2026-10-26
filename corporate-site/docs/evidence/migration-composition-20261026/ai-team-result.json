@@ -13,11 +13,11 @@
     "total": 1
   },
   "artifacts": {
-    "verified": 18,
+    "verified": 19,
     "total": 19
   },
   "checks": {
-    "verified": 0,
+    "verified": 1,
     "total": 1
   },
   "tasks": {
@@ -25,21 +25,13 @@
     "total": 1
   },
   "scoped_files": {
-    "verified": 18,
+    "verified": 19,
     "total": 19
   },
   "findings": [
     {
-      "code": "ARTIFACT_INVALID",
-      "message": "A2: stale or altered file: corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md"
-    },
-    {
-      "code": "CHECK_INVALID",
-      "message": "K1: check has unknown/unverified artifacts"
-    },
-    {
       "code": "REQUIREMENT_UNVERIFIED",
-      "message": "criterion artifact is missing/stale",
+      "message": "independent review is not PASS",
       "requirement_id": "R1"
     },
     {
@@ -60,18 +52,8 @@
   ],
   "remediation": [
     {
-      "code": "ARTIFACT_INVALID",
-      "message": "A2: stale or altered file: corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md",
-      "action": "correct evidence or append a scoped remediation task; reverify"
-    },
-    {
-      "code": "CHECK_INVALID",
-      "message": "K1: check has unknown/unverified artifacts",
-      "action": "correct evidence or append a scoped remediation task; reverify"
-    },
-    {
       "code": "REQUIREMENT_UNVERIFIED",
-      "message": "criterion artifact is missing/stale",
+      "message": "independent review is not PASS",
       "requirement_id": "R1",
       "action": "correct evidence or append a scoped remediation task; reverify"
     },

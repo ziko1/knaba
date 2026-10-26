@@ -9,7 +9,7 @@
   "artifact_sha256": {
     "A0": "90b52a5ecda713041604236843cb11b7d4c5a6ab589333001e6b9dc829d93836",
     "A1": "964d63b5a4b88874b0aa1a64111094161d2e38d43ed4261c4bb76301b8bf9a54",
-    "A2": "243bec31e3f49128747e4959e1a924f00468b8c9496f609b882157e33980c8c7",
+    "A2": "84410e1d5532f18bfeb873a5f022ae9fd9ea4e39a09694af9cadfdd5d6dc845d",
     "A3": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
     "A4": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148",
     "A5": "9b4ed782c402189e333c02abb69e21e41ec839a5f74af55977ca3f073364d88a",
@@ -29,7 +29,8 @@
   },
   "result": {
     "observations": [
-      "Source bytes and completed test outputs verified; scope and exact commands are in verification.json. Independent review, combined ERP runtime and live acceptance NOT_RUN."
+      "Source bytes and completed test outputs verified; scope and exact commands are in verification.json. Independent review, combined ERP runtime and live acceptance NOT_RUN.",
+      "Rechecked appended documentation checkpoint at current bytes; runtime artifacts unchanged from tested source. Documentation rebound: corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md"
     ],
     "tested_source_sha": "43397a708ae781674cc0887baf758ff98fa99180",
     "verification_receipt_sha256": "87a082bde059e138a4fb0cb3b19d6a745e3a17f316252f58b75109b31437e179"
