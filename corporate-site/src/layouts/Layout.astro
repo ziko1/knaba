@@ -38,6 +38,20 @@ const localPath = (url: string) => {
   if((lang==='en'||lang==='uk') && ['/impressum/','/datenschutz/','/konto/'].includes(url)) return url;
   return '/'+lang+url;
 };
+const brandAlt = {
+  de:'KNABA – Baureinigung und BauService',
+  en:'KNABA – construction cleaning and site services',
+  uk:'KNABA – будівельний клінінг і будівельні послуги',
+  ru:'KNABA – строительный клининг и строительные услуги',
+}[lang];
+const logoLocale = lang==='de'?'':'-'+lang;
+const logoVersion='?v=i18n-20261026';
+const logoAssets={
+  header:'/images/knaba-3d-header'+logoLocale+'.svg'+logoVersion,
+  footer:'/images/knaba-3d-footer'+logoLocale+'.svg'+logoVersion,
+  mobileHeader:'/images/knaba-3d-mobile-header'+logoLocale+'.svg'+logoVersion,
+  mobileFooter:'/images/knaba-3d-mobile-footer'+logoLocale+'.svg'+logoVersion,
+};
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
@@ -118,8 +132,11 @@ const structuredData = {
     </div>
     <header class="header">
       <div class="container nav-wrap">
-        <a href={homePath} class="brand construction-brand" aria-label="KnaBa – Baureinigung und BauService">
-          <img src="/images/knaba-construction-logo.svg" width="510" height="110" alt="KnaBa – Baureinigung &amp; BauService" decoding="async" fetchpriority="high"/>
+        <a href={homePath} class="brand construction-brand" aria-label={brandAlt}>
+          <picture class="knaba-3d-media">
+            <source type="image/svg+xml" media="(max-width: 700px)" srcset={logoAssets.mobileHeader} />
+            <img src={logoAssets.header} width="1140" height="350" alt={brandAlt} decoding="async" fetchpriority="high" />
+          </picture>
         </a>
         <nav class="desktop-nav" aria-label={lang === 'de' ? 'Hauptnavigation' : lang === 'uk' ? 'Головна навігація' : lang === 'ru' ? 'Главная навигация' : 'Main navigation'}>
           {
@@ -167,7 +184,10 @@ const structuredData = {
     <footer class="footer">
       <div class="container footer-grid">
         <div>
-          <a class="brand footer-brand construction-brand" href={homePath} aria-label="KnaBa – Baureinigung und BauService"><img src="/images/knaba-construction-logo-footer.svg" width="510" height="110" alt="KnaBa – Baureinigung &amp; BauService" loading="lazy" decoding="async" /></a>
+          <a class="brand footer-brand construction-brand" href={homePath} aria-label={brandAlt}><picture class="knaba-3d-media">
+              <source type="image/svg+xml" media="(max-width: 700px)" srcset={logoAssets.mobileFooter} />
+              <img src={logoAssets.footer} width="1140" height="350" alt={brandAlt} loading="lazy" decoding="async" />
+            </picture></a>
           <p>{translated.tagline}</p><span
             class="footer-region">{lang === 'ru' ? 'Берлин и Бранденбург' : 'Berlin & Brandenburg'}</span>
         </div>

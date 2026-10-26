@@ -246,3 +246,9 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Node24 check/test/build/verify:build on exact new branch SHA; independent review.
 - [ ] Verify image HTTP availability, CDN/privacy approval or migrate images to first-party copies; E2E 320/390/768/1440px, all four locales.
 - [ ] Confirm active VPS SHA, secure backup/rollback, owner UAT and explicit publication approval before deployment or merge.
+
+
+## KN-LOGO-I18N-20261026
+- [x] Localize original KNABA logo slogan for DE/EN/UK/RU using one generator and shared responsive layout.
+- [x] 118-route parity and 16 SVG test receipts, checksum-backed rollback.
+- [ ] Native Opera/device/200% zoom acceptance, independent visual review and customer language approval.
