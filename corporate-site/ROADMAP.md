@@ -281,3 +281,10 @@ User requests implementation and deployment to existing development site, preser
 ## I18N99 language delivery (2026-10-26)
 - [x] Stable extractor/catalogue, glossary, draft/gap report and fail-closed source audit, on isolated fdec254 line.
 - [ ] Complete 95 native-reviewed dynamic/static language packs, full legal/RTL/mobile/accessibility/brand QA, only then public locale route/SEO release. No unknown-cost cloud dispatch.
+
+## KN-VSP-FORWARD-INTEGRATION-20261026
+- [x] Reuse live 83ff0ba source and integrate scoped gallery/5 partners/7 WebP into single existing components without losing reviews/login/Studio/0005 migration.
+- [x] Node24 check, 196 Vitest, 52 native, 24 VPS, 8 contrast, 122-page build/indexed sitemap, 99-target (4 published) i18n extraction and independent isolated loopback Chromium QA (logo 16, visual 24, reflow 6, guides 16+6).
+- [x] Push exact integration source to `fix/knaba-vsp-forward-integration-20261026` for off-host persistence. No main merge/public cutover.
+- [ ] Verify partner trademark usage rights, business claims, actual owner UAT, native device/browser zoom/screen reader and third-party independent security/privacy review.
+- [ ] Pre-cutover current-release lease + verified off-host backup/restore and rollback; separate authorized atomic VSP publication; 4-locale live `verify:live` + health and SHA attestation. Official-domain release remains separate.

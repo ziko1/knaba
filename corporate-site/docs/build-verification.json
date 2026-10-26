@@ -6,7 +6,7 @@
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40801,
+  "cssGzip": 40853,
   "allEmittedJsGzip": 187318,
   "assets": [
     {
@@ -55,9 +55,9 @@
       "gzip": 1987
     },
     {
-      "name": "_astro/ConstructionHome.DsREAkcS.css",
-      "bytes": 14979,
-      "gzip": 3365
+      "name": "_astro/ConstructionHome.DJi4SzHg.css",
+      "bytes": 15335,
+      "gzip": 3417
     },
     {
       "name": "_astro/ConstructionInfo.0zeENaJ6.css",
@@ -295,7 +295,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "043a4835776da145a56a2ab6b8f1e015d6b56bc534fdc371077af9704a9d28e7",
+  "artifactSha256": "3d6d510f16abc6c96b458442bdc42da8911d19bf1e97a283d41ccec5030cc113",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

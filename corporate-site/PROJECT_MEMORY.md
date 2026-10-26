@@ -297,3 +297,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 
 ## 2026-10-26 KNABA I18N99 source-to-review worktree
 - Isolated translation pipeline based on active fdec254. Canonical 99 target catalogue continues 4 published / 95 pending. Static DE public, legal and account segments are versioned by SHA; draft verification rejects stale HTML, unsafe markup and broken placeholders. Real native/legal/dynamic/RTL/browser acceptance remains required. See docs/KNABA_I18N99_PIPELINE_CHECKPOINT_2026-10-26_UK.md.
+
+## 2026-10-26 VSP forward-integration QA gate
+- Rebased current public KNABA preview `83ff0ba402b38209a39d96325fa1c3f9cfed5a86` with saved gallery/partner/WebP work, preserving live reviews, owner login and SQL migration `0005_public_reviews.sql`. Existing `Partners.astro` is the sole section. Working branch `fix/knaba-vsp-forward-integration-20261026` is published separately; this is not a `main` merge.
+- Isolated Node24 build 122 HTML pages, 196 Vitest + 52 Node + 24 VPS + 8 contrast checks PASS; actual Chromium 16 logo cases, 24 visual/nav cases, 6 reflow, 16 guide routes + 6 guide reflow PASS. Exact client artifact SHA256 `3d6d510f16abc6c96b458442bdc42da8911d19bf1e97a283d41ccec5030cc113`. I18N99 4 published / 95 pending.
+- Private loopback VPS container with isolated migrated SQLite passed 8 public home/gallery HTTP routes; `/readyz` intentionally 503 without owner account. See `docs/evidence/KNABA_VSP_FORWARD_INTEGRATION_QA_2026-10-26_UK.md`. Live symlink and customer DB untouched; logo rights/owner UAT, independent review, real device, verified backup/rollback and separate VSP release approval remain OPEN.
+
+- Concurrent VSP release drift 2026-10-26: active source `21a56934f3c3266d31285bb89e0a4ca0c0f755a4` (not on GitHub), manifest readyForRelease=0/storageGateCutoverAllowed=false. The valid local source-recovery bundle hash `dd0ba5568c7192738c937b7cc08eab25744ed75d2580ff1ae158d1a81cddf98b` contains one review-only i18n dynamic commit on top of 83ff; no runtime/schema change declared. Published cutover remains HOLD, cannot overwrite live without current ancestry/backup CAS.

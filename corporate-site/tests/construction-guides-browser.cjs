@@ -28,19 +28,26 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
      assert.equal(res?.status(),200,lang+' '+slug+' should be source-built');
      assert.equal(await page.locator('html').getAttribute('lang'),lang);
      assert.equal(await page.locator('h1').count(),1);
-     assert.equal(await page.locator('.guide-chapter').count(),4);
-     assert.equal(await page.locator('.guide-checks li').count(),4);
-     const checkNumber=await page.locator('.guide-checks li span').first().evaluate(node=>({
-       text:node.textContent.trim(),
-       whiteSpace:getComputedStyle(node).whiteSpace,
-       minWidth:node.getBoundingClientRect().width
+     assert.equal(await page.locator('.guide-section').count(),4,'four editorial sections');
+     assert.equal(await page.locator('.guide-checklist li').count(),5,'five project checklist items');
+     const firstCheck=page.locator('.guide-checklist .guide-check-item input[type="checkbox"]').first();
+     assert.equal(await page.locator('.guide-checklist .guide-check-item input[type="checkbox"]').count(),5);
+     const checkInfo=await firstCheck.evaluate(node=>({
+       width:node.getBoundingClientRect().width,
+       describedBy:node.getAttribute('aria-describedby'),
+       label:node.closest('label')?.textContent.trim()||''
      }));
-     assert.equal(checkNumber.text,'01');
-     assert.equal(checkNumber.whiteSpace,'nowrap','Checklist ordinal must not wrap as 0 on one line and 1 on another');
-     assert.ok(checkNumber.minWidth>=17,'Checklist ordinal should have a reserved compact column');
-     const checklistLabel=(await page.locator('.guide-kicker').textContent()).trim().toLocaleUpperCase();
-     const localBadge={de:'CHECKLISTE',en:'CHECKLIST',uk:'ЧЕКЛІСТ',ru:'ЧЕКЛИСТ'}[lang];
-     assert.ok(checklistLabel.includes(localBadge),'Checklist eyebrow must match the current language');
+     assert.ok(checkInfo.width>=17,'Checkbox has reserved visual width');
+     assert.equal(checkInfo.describedBy,'guide-checklist-hint','Privacy hint associated with checkbox');
+     assert.ok(checkInfo.label.length>=12,'Checklist item label');
+     assert.equal(await firstCheck.isChecked(),false);
+     await firstCheck.check();
+     assert.equal(await firstCheck.isChecked(),true,'Checklist works locally');
+     const heading=(await page.locator('.guide-checklist h2').textContent()).trim();
+     assert.equal(heading,{
+       de:'Für Ihre Projektabstimmung',en:'For your project discussion',
+       uk:'Для обговорення вашого проєкту',ru:'Для обсуждения вашего проекта'
+     }[lang],'Localized checklist heading');
      assert.equal(await page.locator('.guide-related-grid a').count(),3);
      const canonical=await page.locator('link[rel="canonical"]').getAttribute('href');
      assert.equal(canonical,'https://kneba.vsp.rest'+pathname);
@@ -51,11 +58,11 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
      assert.ok(graph.some(node=>node['@type']==='Article'&&node.inLanguage===lang));
      assert.ok(graph.some(node=>node['@type']==='LocalBusiness'));
      const computed=await page.evaluate(()=>{
-       const first=document.querySelector('.guide-chapter h2');
+       const first=document.querySelector('.guide-section h2');
        return {overflow:document.documentElement.scrollWidth-window.innerWidth,
          guideTitle:document.querySelector('h1').textContent.trim(),
          firstChapter:first?.textContent.trim(),
-         bodyLength:[...document.querySelectorAll('.guide-chapter p')].map(node=>node.textContent.trim()).join(' ').length};
+         bodyLength:[...document.querySelectorAll('.guide-section p')].map(node=>node.textContent.trim()).join(' ').length};
      });
      assert.ok(computed.overflow<=1,'Horizontal overflow '+lang+' '+slug+' '+computed.overflow);
      assert.ok(computed.bodyLength>=680,'Guide too thin in '+lang+' '+slug+': '+computed.bodyLength);
@@ -76,13 +83,13 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
       try{
        await page.goto(base+prefix+'/ratgeber/baureinigung-phasen/',{waitUntil:'networkidle'});
        const info=await page.evaluate(()=>{
-         const grid=getComputedStyle(document.querySelector('.guide-body')).gridTemplateColumns.trim().split(/\s+/);
+         const grid=getComputedStyle(document.querySelector('.guide-layout')).gridTemplateColumns.trim().split(/\s+/);
          const related=getComputedStyle(document.querySelector('.guide-related-grid')).gridTemplateColumns.trim().split(/\s+/);
          return {bodyCols:grid.length,relatedCols:related.length,
            overflow:document.documentElement.scrollWidth-window.innerWidth};
        });
-       assert.equal(info.bodyCols,cssWidth<=800?1:2,'Responsive guide body reflow');
-       assert.equal(info.relatedCols,cssWidth<=580?1:cssWidth<=800?2:3,'Related cards grid');
+       assert.equal(info.bodyCols,cssWidth<=900?1:2,'Responsive guide body reflow');
+       assert.equal(info.relatedCols,cssWidth<=900?1:3,'Related cards grid');
        assert.ok(info.overflow<=1,'Responsive overflow '+JSON.stringify(info));
        console.log('GUIDE_REFLOW_PASS',lang,cssWidth);
        verified++;
