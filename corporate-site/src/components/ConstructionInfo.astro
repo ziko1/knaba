@@ -45,10 +45,10 @@ const career=variant==='karriere'?careersCopy[locale]:null;
 const actionHref=career?careersHref(locale):prefix+'/kontakt/';
 const actionLabel=career?career.action:cta.cta;
 const articleCopy={
- de:{heading:'Ihr Bauprojekt Schritt für Schritt vorbereiten',intro:'Vier ausführliche Ratgeber helfen, den richtigen Zeitpunkt, einen klaren Leistungsumfang und die saubere Übergabe abzustimmen.',read:'Ratgeber lesen'},
- en:{heading:'Prepare your project, step by step',intro:'Four practical guides help you agree the timing, define the scope and prepare a clean handover.',read:'Read the guide'},
- uk:{heading:'Підготуйте свій проєкт крок за кроком',intro:'Чотири докладні порадники допоможуть узгодити час, визначити обсяг робіт і підготувати чисту здачу об’єкта.',read:'Читати порадник'},
- ru:{heading:'Подготовьте свой проект шаг за шагом',intro:'Четыре подробных руководства помогут согласовать время, определить объём работ и подготовить чистую сдачу объекта.',read:'Читать руководство'},
+ de:{heading:'Ihr Bauprojekt Schritt für Schritt vorbereiten',intro:'Praktische Ratgeber helfen, Bauhilfe, Reinigung und Übergabe mit einem klaren Leistungsumfang vorzubereiten.',read:'Ratgeber lesen'},
+ en:{heading:'Prepare your project, step by step',intro:'Practical guides help you prepare construction support, cleaning and handover with a clear scope of work.',read:'Read the guide'},
+ uk:{heading:'Підготуйте свій проєкт крок за кроком',intro:'Практичні порадники допоможуть підготувати допоміжні роботи, клінінг і здачу об’єкта з чітким обсягом завдань.',read:'Читати порадник'},
+ ru:{heading:'Подготовьте свой проект шаг за шагом',intro:'Практические руководства помогут подготовить вспомогательные работы, клининг и сдачу объекта с понятным объёмом задач.',read:'Читать руководство'},
 }[locale];
 ---
 <Layout hasInlinePhone={variant==='unternehmen'} hasInlineEmail={variant==='unternehmen'||variant==='karriere'} lang={locale} title={t.title+' | KnaBa'} description={t.lead}>

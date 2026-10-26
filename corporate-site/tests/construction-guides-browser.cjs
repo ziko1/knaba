@@ -1,17 +1,25 @@
-// Independent read-only Chromium acceptance for 16 real multilingual guide routes.
+// Independent Chromium acceptance for every published multilingual guide route.
 // Run against loopback source-built static HTTP only; does not touch live or auth.
 // KNABA_TEST_URL=http://127.0.0.1:18769 KNABA_PLAYWRIGHT_MODULE=/app/node_modules/playwright
 const assert=require('node:assert/strict');
 const {mkdirSync}=require('node:fs');
 const {join}=require('node:path');
+const {constructionGuideRoutes}=require('../src/data/construction-guide-routes.ts');
 const {chromium}=require(process.env.KNABA_PLAYWRIGHT_MODULE||'playwright');
 const base=(process.env.KNABA_TEST_URL||'').replace(/\/$/,'');
 if(!/^http:\/\/(?:127\.0\.0\.1|localhost):\d+$/.test(base))
   throw new Error('An isolated loopback HTTP server with explicit port is required');
 const screenshotDir=process.env.KNABA_SCREENSHOT_DIR;
 if(screenshotDir)mkdirSync(screenshotDir,{recursive:true});
-const expected=['baureinigung-phasen','baureinigung-kosten-planen',
-  'bauuebergabe-checkliste','bauendreinigung-vorbereiten'];
+const expected=constructionGuideRoutes.map(guide=>guide.slug);
+const checklistCounts={
+  'bauhelfer-einsatz-vorbereiten':6,
+  'baureinigung-phasen':5,
+  'baureinigung-kosten-planen':5,
+  'bauuebergabe-checkliste':5,
+  'bauendreinigung-vorbereiten':5,
+};
+assert.deepEqual(Object.keys(checklistCounts).sort(),[...expected].sort(),'Every published guide needs an explicit checklist expectation');
 const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.KNABA_CHROME_PATH||undefined,
@@ -29,9 +37,9 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
      assert.equal(await page.locator('html').getAttribute('lang'),lang);
      assert.equal(await page.locator('h1').count(),1);
      assert.equal(await page.locator('.guide-section').count(),4,'four editorial sections');
-     assert.equal(await page.locator('.guide-checklist li').count(),5,'five project checklist items');
+     assert.equal(await page.locator('.guide-checklist li').count(),checklistCounts[slug],slug+' project checklist items');
      const firstCheck=page.locator('.guide-checklist .guide-check-item input[type="checkbox"]').first();
-     assert.equal(await page.locator('.guide-checklist .guide-check-item input[type="checkbox"]').count(),5);
+     assert.equal(await page.locator('.guide-checklist .guide-check-item input[type="checkbox"]').count(),checklistCounts[slug]);
      const checkInfo=await firstCheck.evaluate(node=>({
        width:node.getBoundingClientRect().width,
        describedBy:node.getAttribute('aria-describedby'),
@@ -48,7 +56,7 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
        de:'Für Ihre Projektabstimmung',en:'For your project discussion',
        uk:'Для обговорення вашого проєкту',ru:'Для обсуждения вашего проекта'
      }[lang],'Localized checklist heading');
-     assert.equal(await page.locator('.guide-related-grid a').count(),3);
+     assert.equal(await page.locator('.guide-related-grid a').count(),expected.length-1);
      const canonical=await page.locator('link[rel="canonical"]').getAttribute('href');
      assert.equal(canonical,'https://kneba.vsp.rest'+pathname);
      const alts=await page.locator('link[rel="alternate"][hreflang]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('hreflang')));
@@ -96,6 +104,6 @@ const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
       }finally{await page.close()}
     }
   }
-  console.log('GUIDE_BROWSER_TOTAL',JSON.stringify({passed:verified,missing:0,locales:4,guideRoutes:16,source:'isolated loopback'}));
+  console.log('GUIDE_BROWSER_TOTAL',JSON.stringify({passed:verified,missing:0,locales:locales.length,guideRoutes:expected.length*locales.length,source:'isolated loopback'}));
  }finally{await browser.close()}
 })().catch(err=>{console.error(err.stack||err);process.exitCode=1});

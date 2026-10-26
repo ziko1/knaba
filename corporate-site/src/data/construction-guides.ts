@@ -1,4 +1,5 @@
 import type {ConstructionLocale} from './construction-offers';
+import {bauhilfeGuide} from './bauhilfe-guide';
 
 export type Text4 = Record<ConstructionLocale, string>;
 export type ConstructionGuide = {
@@ -14,6 +15,7 @@ const T = (de: string, en: string, uk: string, ru: string): Text4 => ({de, en, u
 
 /** Editorial planning guidance. Scope, access and specialist work require project-specific agreement. */
 export const constructionGuides: readonly ConstructionGuide[] = [
+  bauhilfeGuide,
   {
     slug: 'bauendreinigung-vorbereiten',
     serviceSlug: 'bauendreinigung',

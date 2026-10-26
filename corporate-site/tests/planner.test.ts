@@ -3,7 +3,7 @@ import { createPinia, setActivePinia } from "pinia";
 import { services } from "../src/data/company";
 import { createPlannerStore } from "../src/stores/planner";
 import { useFinderStore } from "../src/stores/finder";
-import { fetchCatalogue, getPreparation, parseCatalogue, recommendConstructionTopic, recommendService } from "../src/lib/planner";
+import { fetchCatalogue, getPreparation, getTopicPreparation, parseCatalogue, recommendConstructionTopic, recommendService } from "../src/lib/planner";
 
 const catalogue = () => ({ version: 1, services: services.map(({ slug, name, description, details }) => ({ slug, name, description, details: [...details] })) });
 
@@ -30,6 +30,28 @@ describe("useful recommendations", () => {
 });
 
 describe("shared selection", () => {
+  it("prepares site support and clearance instead of promising a cleaning handover", () => {
+    expect(getTopicPreparation('bauhilfe', 'baureinigung', 'de')[0]).toContain('Unterstützung');
+    expect(getTopicPreparation('baustellenraeumung', 'baureinigung', 'en')[0]).toContain('material types');
+    for (const locale of ['de', 'en', 'uk', 'ru'] as const) {
+      const support = getTopicPreparation('bauhilfe', 'baureinigung', locale);
+      expect(support).toHaveLength(4);
+      expect(support).not.toEqual(getPreparation('baureinigung', locale));
+      expect(getTopicPreparation('bauendreinigung', 'baureinigung', locale)).toEqual(getPreparation('baureinigung', locale));
+    }
+  });
+
+  it("selects each published core topic without changing the CRM service contract", () => {
+    const store = createPlannerStore();
+    for (const topic of ['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe']) {
+      store.getState().selectTopic(topic);
+      expect(store.getState().topic).toBe(topic);
+      expect(store.getState().service).toBe('baureinigung');
+    }
+    store.getState().selectTopic('kernbohrungen');
+    expect(store.getState().topic).toBe('bauhilfe');
+  });
+
   it("preserves the chosen cleaning phase across islands without changing the CRM service", () => {
     const store = createPlannerStore();
     expect(recommendConstructionTopic('routine')).toBe('bauzwischenreinigung');

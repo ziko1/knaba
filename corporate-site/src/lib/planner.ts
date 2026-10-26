@@ -99,3 +99,16 @@ export async function fetchCatalogue(signal?: AbortSignal, fetcher: typeof fetch
   if (!response.ok) throw new Error("Der Leistungskatalog ist momentan nicht erreichbar.");
   return parseCatalogue(await response.json());
 }
+
+
+/** Site-support topics need preparation distinct from final-cleaning handover. */
+export function getTopicPreparation(topic: string, service: string, locale: PublicLocale = "de"): readonly string[] {
+  if (topic !== 'bauhilfe' && topic !== 'baustellenraeumung') return getPreparation(service, locale);
+  const items = {
+    de: [topic === 'bauhilfe' ? 'Aufgaben und benötigte Unterstützung beschreiben' : 'Materialarten, Mengen und freizuräumende Bereiche nennen', 'Zeitraum, Arbeitszeiten und Ansprechpartner vor Ort klären', 'Zugang, Transportwege und Schutzmaßnahmen abstimmen', 'Leistungsgrenzen und gegebenenfalls Entsorgung separat vereinbaren'],
+    en: [topic === 'bauhilfe' ? 'Describe the tasks and support needed' : 'List material types, quantities and areas to clear', 'Confirm dates, working hours and the site contact', 'Agree access, transport routes and safety measures', 'Agree scope limits and any waste disposal separately'],
+    uk: [topic === 'bauhilfe' ? 'Опишіть завдання та потрібну допомогу' : 'Укажіть матеріали, обсяги й ділянки для звільнення', 'Уточніть строки, робочі години та відповідального на об’єкті', 'Узгодьте доступ, маршрути перевезення й заходи безпеки', 'Окремо погодьте межі робіт і можливе вивезення відходів'],
+    ru: [topic === 'bauhilfe' ? 'Опишите задачи и необходимую помощь' : 'Укажите материалы, объёмы и участки для освобождения', 'Уточните сроки, рабочие часы и ответственного на объекте', 'Согласуйте доступ, пути перевозки и меры безопасности', 'Отдельно согласуйте границы работ и возможный вывоз отходов'],
+  };
+  return items[locale];
+}

@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-26T15:00:26.618827+00:00",
+  "sourceSha": "73755d154f5e551daa53db848d46f12be15459d4",
+  "currentPointerStillExpected": true,
+  "dockerHealth": "healthy",
+  "schemaSha256": "3cb3256e5e3ba4ddb5d464583caa99593e6fd82878cf64abf145c094909142b3",
+  "schemaEqualsVerifiedPreDeployBackup": true,
+  "migrationLedgerUnchanged": true,
+  "appliedMigrations": 6,
+  "backupSha256": "7549611309deb63cec95f56796aac7b7cd28863544ffc9a89e885114c0a3455d",
+  "actualManifestSha256": "22186b3c418ebc6a9af80919f818081d7e7c27c2938fd8ff7eca9266e05f5ce5"
+}

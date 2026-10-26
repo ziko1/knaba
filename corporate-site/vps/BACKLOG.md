@@ -89,3 +89,25 @@
 - [ ] Run full Node24 checks + static preview verifier + backend/API auth tests on exact private candidate SHA and secure live-staging browser.
 - [ ] Validate owner account via independently verified invite; no automatic owner privilege or reusable password disclosure.
 - [ ] Review release lock, backup+restore, source manifest and current symlink lease before any deploy; no live migration or paid provider activation.
+
+
+## 2026-10-26 — Current user acceptance audit
+- [x] TEST release cecb321 deployed on kneba.vsp.rest; baseline2164b95 retained. Exact archive, lock/CAS, online backup + separate-file restore/integrity, no schema changes.
+- [x] 127/127 HTTPS probes and 22/22 public/media checks; four-locale live enquiry/planner/Assistant regression.
+- [ ] P1 Trust-boundary-aware proxy IP contract: socket peer currently causes shared lead rate-limit bucket behind Traefik; never blindly trust forwarded headers.
+- [ ] P1 Secure browser responsive/physical-device/zoom/a11y acceptance (isolated Chromium sandbox unavailable).
+- [ ] P1 Real owner delivery/inbox/role UAT, rights/legal and offsite backup restore.
+- [ ] P1 Disk margin: 89.87% before deploy, near90% gate; monitor and plan non-destructive storage maintenance.
+- [ ] P2 Assistant GET overlap/stale-response guard; Finder object-specific guidance; OG PNG/JPEG.
+- Exact scope and evidence: ../docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md.
+
+- Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
+
+
+## 2026-10-26 — Content continuation
+- [x] Previous P2 Finder object guidance and Assistant stale/overlapping GET gaps are implemented with independent review and tests.
+- [x] Reuse workflow content; add Bauhelfer enquiry-preparation guide4locales;126built pages. Source/server QA359tests PASS.
+- [ ] Authorized test deployment on exact persisted source requires fresh canonical storage check, current73755d1CAS, private SQLite online backup + separate-file restore, immutable rollback and live readback.
+- [ ] Trusted-proxy IP/rate-limit contract, OG raster, owner/delivery/device/legal/offsite/field-performance acceptance remain OPEN. See ../docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md for final receipt.
+
+- Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.

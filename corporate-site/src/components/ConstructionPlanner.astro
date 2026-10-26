@@ -7,13 +7,14 @@ import CleaningChecklist from './CleaningChecklist.svelte';
 import Catalogue from './Catalogue.tsx';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=c[locale];const prefix=locale==='de'?'':'/'+locale;
+const plannerTitle={de:'Bauprojekt planen',en:'Plan your construction project',uk:'Спланувати будівельний проєкт',ru:'Спланировать строительный проект'}[locale];
 const intro={de:'Planen Sie die Baureinigung passend zur Bauphase. Zusatzarbeiten können Sie direkt als Projektanfrage auswählen.',en:'Prepare your construction cleaning request by project phase. Additional works can be requested separately.',uk:'Підготуйте заявку на будівельний клінінг за етапом робіт. Додаткові завдання запитуйте окремо.',ru:'Подготовьте заявку на строительный клининг по этапам работ. Дополнительные задачи запросите отдельно.'}[locale];
 ---
-<Layout lang={locale} title={t.focus+' | KnaBa'} description={intro}>
-<section class="container section"><p class="eyebrow">KnaBa / BAUPLAN</p><h1>{t.focus}</h1><p class="mt-6 max-w-2xl text-lg leading-relaxed">{intro}</p>
+<Layout lang={locale} title={plannerTitle+' | KnaBa'} description={intro}>
+<section class="container section"><p class="eyebrow">KnaBa / BAUPLAN</p><h1>{plannerTitle}</h1><p class="mt-6 max-w-2xl text-lg leading-relaxed">{intro}</p>
 <noscript><p class="notice"><a href={prefix+'/leistungen/'}>{t.all}</a> · <a href={prefix+'/kontakt/'}>{t.cta}</a></p></noscript>
 <div class="mt-10 grid items-start gap-6 lg:grid-cols-2"><ServiceFinder locale={locale} client:load/><CleaningChecklist locale={locale} client:load/></div>
-<div class="mt-10"><Catalogue locale={locale} client:visible/></div>
+<div class="mt-10"><Catalogue locale={locale} client:load/></div>
 <section class="bau-planner-extras"><h2>{t.optional}</h2><p>{t.contractIntro}</p>
 <div>{constructionOffers.filter(o=>!o.core).map(o=><a href={prefix+'/kontakt/?anliegen='+o.slug}>{localeValue(o.name,locale)} ↗</a>)}</div></section><p class="mt-8 text-sm text-slate-600">{t.note}</p>
 </section>

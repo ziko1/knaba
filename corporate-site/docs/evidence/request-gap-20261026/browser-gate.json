@@ -1,0 +1,10 @@
+{
+  "status": "BLOCKED",
+  "reason": "NO_USABLE_BROWSER",
+  "engines": {
+    "chromium": "BROWSER_UNAVAILABLE",
+    "webkit": "BROWSER_UNAVAILABLE",
+    "firefox": "BROWSER_UNAVAILABLE"
+  },
+  "note": "No browsers downloaded, no sandbox or policy change. Cloud Chrome used for live checks separately."
+}

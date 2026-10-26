@@ -12,8 +12,8 @@ const vsp = releaseMode === "vsp";
 const indexingApproved = official || vsp;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 const publishedGuideSlugs = new Set(constructionGuideRoutes.map(guide=>guide.slug));
-// Four locales * (11 shared public routes including gallery + 8 construction offers + guide routes).
-const expectedPublicRoutes = 4 * (11 + 8 + constructionGuideRoutes.length);
+// Four locales * (12 shared public routes including gallery/partners + 8 offers + guides).
+const expectedPublicRoutes = 4 * (12 + 8 + constructionGuideRoutes.length);
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const lists = await Promise.all(
@@ -162,12 +162,45 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,122,'122 source-built pages: 118 live-base routes plus four new gallery locales');
+assert.equal(pages.length,130,'130 source-built pages: 122 retained pages plus four partner directories and four Bauhelfer guides');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  const sectionIds = ['bau-hero-title', 'bau-services-title', 'bau-contract-heading', 'bau-process-title', 'company-profile-title', 'knaba-partners-title', 'reviews-title', 'knaba-faq-preview-title', 'bau-final-contact-title'];
+  const positions = sectionIds.map(id => source.indexOf('id="' + id + '"'));
+  assert.ok(positions.every(position => position >= 0), prefix + 'all homepage sections retained');
+  assert.deepEqual([...positions].sort((a,b) => a-b), positions, prefix + 'visitor journey section order');
+  const planner = await readFile(resolve(root,prefix+'planer/index.html'),'utf8');
+  const topics = [...planner.matchAll(/data-planner-topic="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(topics, ['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe'], prefix + 'five usable core topics rendered before API/JS');
+  assert.doesNotMatch(planner, /Leistungskatalog wird geladen/, prefix + 'known services do not wait for an unused API');
+  // The existing /galerie URL is retained for backlinks, but only real
+  // references may ever be presented as completed client projects.
+  // Until then every illustrated process must answer a user's concrete
+  // service question without introducing fake photos or contact-CTA spam.
+  const workflowPage = await readFile(resolve(root,prefix+'galerie/index.html'),'utf8');
+  const workflowText = {
+    '':['So arbeitet KnaBa','Arbeitsabläufe'],
+    'en/':['How KnaBa works','How we work'],
+    'uk/':['Як працює KnaBa','Як ми працюємо'],
+    'ru/':['Как работает KnaBa','Как мы работаем']
+  }[prefix];
+  for(const value of workflowText) {
+    assert.ok(workflowPage.includes(value), prefix+' workflow title/navigation: '+value);
+  }
+  assert.equal((workflowPage.match(/class="knaba-workflow-detail-link"/g)||[]).length,4,
+    prefix+' one service link per illustrated process');
+  for(const slug of ['baureinigung','bauhilfe','bauzwischenreinigung','bauendreinigung']) {
+    assert.ok(workflowPage.includes('href="/'+prefix+'bauleistungen/'+slug+'/"'),
+      prefix+' linked existing service '+slug);
+  }
+  assert.equal((workflowPage.match(/src="\/illustrations\//g)||[]).length,4,
+    prefix+' reuse four first-party, explicitly schematic illustrations');
+  const workflowContactLinks = [...workflowPage.matchAll(/<a\b[^>]*class="button button-dark knaba-gallery-cta"[^>]*>/g)]
+    .filter(match=>match[0].includes('href="/'+prefix+'kontakt/"'));
+  assert.equal(workflowContactLinks.length,1, prefix+' only one final enquiry link');
   const publicCatalog = '/' + prefix + 'leistungen/';
   const extrasLabel = {
     '':'Zusatzarbeiten ansehen',
@@ -207,8 +240,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/revie
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 35, 'Russian public tree includes gallery and construction guides');
-assert.equal(russianPages.length, 36, 'Russian private inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 37, 'Russian public tree includes partners, gallery and construction guides');
+assert.equal(russianPages.length, 38, 'Russian private inbox is an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);

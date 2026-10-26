@@ -1,0 +1,130 @@
+[
+  {
+    "locale": "de",
+    "broken": [],
+    "h1": "Unsere Partner im Überblick",
+    "links": [
+      {
+        "href": "#goldbeck",
+        "target": true
+      },
+      {
+        "href": "#bonava",
+        "target": true
+      },
+      {
+        "href": "#hit",
+        "target": true
+      },
+      {
+        "href": "#stromkreis",
+        "target": true
+      },
+      {
+        "href": "#gewobag",
+        "target": true
+      }
+    ],
+    "overflow": false,
+    "pending": 0,
+    "phones": 1,
+    "profiles": 5,
+    "url": "https://kneba.vsp.rest/partner/"
+  },
+  {
+    "locale": "en",
+    "broken": [],
+    "h1": "Meet our partners",
+    "links": [
+      {
+        "href": "#goldbeck",
+        "target": true
+      },
+      {
+        "href": "#bonava",
+        "target": true
+      },
+      {
+        "href": "#hit",
+        "target": true
+      },
+      {
+        "href": "#stromkreis",
+        "target": true
+      },
+      {
+        "href": "#gewobag",
+        "target": true
+      }
+    ],
+    "overflow": false,
+    "pending": 0,
+    "phones": 1,
+    "profiles": 5,
+    "url": "https://kneba.vsp.rest/en/partner/"
+  },
+  {
+    "locale": "uk",
+    "broken": [],
+    "h1": "Більше про наших партнерів",
+    "links": [
+      {
+        "href": "#goldbeck",
+        "target": true
+      },
+      {
+        "href": "#bonava",
+        "target": true
+      },
+      {
+        "href": "#hit",
+        "target": true
+      },
+      {
+        "href": "#stromkreis",
+        "target": true
+      },
+      {
+        "href": "#gewobag",
+        "target": true
+      }
+    ],
+    "overflow": false,
+    "pending": 0,
+    "phones": 1,
+    "profiles": 5,
+    "url": "https://kneba.vsp.rest/uk/partner/"
+  },
+  {
+    "locale": "ru",
+    "broken": [],
+    "h1": "Больше о наших партнёрах",
+    "links": [
+      {
+        "href": "#goldbeck",
+        "target": true
+      },
+      {
+        "href": "#bonava",
+        "target": true
+      },
+      {
+        "href": "#hit",
+        "target": true
+      },
+      {
+        "href": "#stromkreis",
+        "target": true
+      },
+      {
+        "href": "#gewobag",
+        "target": true
+      }
+    ],
+    "overflow": false,
+    "pending": 0,
+    "phones": 1,
+    "profiles": 5,
+    "url": "https://kneba.vsp.rest/ru/partner/"
+  }
+]

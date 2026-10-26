@@ -1,0 +1,145 @@
+{
+  "scope": "PUBLIC_HTTP_ONLY",
+  "mode": "vsp",
+  "origin": "https://kneba.vsp.rest",
+  "outcome": "PASS_HTTP",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/galerie/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/en/galerie/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/uk/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/uk/galerie/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/ru/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/ru/galerie/",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/healthz",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "/readyz",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "partner-image:official-01",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "partner-image:official-02",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "partner-image:hit",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "partner-image:stromkreis",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "partner-image:gewobag",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:bauzwischenreinigung",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:bauendreinigung",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:baustellenraeumung",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:bauhilfe",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:kernbohrungen",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:durchbrueche",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "path": "carousel-image:zusatzarbeiten",
+      "status": 200,
+      "result": "PASS",
+      "errors": []
+    }
+  ],
+  "releaseSha": null,
+  "releaseShaStatus": "UNKNOWN_REQUIRES_IMMUTABLE_ARTIFACT_ATTESTATION",
+  "deviceVisualStatus": "NOT_RUN",
+  "partnerImageRightsStatus": "NOT_VERIFIED",
+  "customerReady": false
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "file": "forward-build-final.log.gz",
+    "rawSha256": "67ae3db23d8e0224a13cba6501cb46c6149688c278f187b2604af93123556612",
+    "bytes": 10466
+  },
+  {
+    "file": "forward-build.log.gz",
+    "rawSha256": "4369ef453d8d16dfbd04d79b38b1b6a9a4b343f61cd1fe386738f8f5fadcbde5",
+    "bytes": 10230
+  },
+  {
+    "file": "forward-check-final.log.gz",
+    "rawSha256": "8cc676104c00c3fbf36bdb00ebd86e582acf59434606cb20a46a44fbc7626bc5",
+    "bytes": 1578
+  },
+  {
+    "file": "forward-check.log.gz",
+    "rawSha256": "4b2b36ed633e7ca75aad3f0559b0a9db94cb4b80e4f935781cd06d635dcf72ca",
+    "bytes": 1654
+  },
+  {
+    "file": "forward-i18n-final.log.gz",
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "file": "forward-i18n.log.gz",
+    "rawSha256": "6bb29f80cb6264b547fba8f845696b9d00cc363375f29e4263936c06864f58d9",
+    "bytes": 344
+  },
+  {
+    "file": "forward-node-i18n.log.gz",
+    "rawSha256": "7036b79f3644b90c75b6d6db7d590bff6a735a42abae8ee0152e5d83775f90c1",
+    "bytes": 995
+  },
+  {
+    "file": "forward-node-main.log.gz",
+    "rawSha256": "84ddd9a325c1df49dbf46ebf205c49d3e9e55ab7d4d72efbdad054695259a8b8",
+    "bytes": 2645
+  },
+  {
+    "file": "forward-node-policy.log.gz",
+    "rawSha256": "323fb8ec54154763c87d6c23173710cbcaab71339c829d72eb723828cb5fa75a",
+    "bytes": 2194
+  },
+  {
+    "file": "forward-tests.log.gz",
+    "rawSha256": "55507237ee8d6528cedd7fc24be5ca346ac58ed455f18fbd317ba073eb47a4c1",
+    "bytes": 813
+  },
+  {
+    "file": "forward-verify-final.log.gz",
+    "rawSha256": "a2f1ce8b90ab350cffe8b2b7ed6122c8405e5888d1845e0c60d79e4dc2e7e0ab",
+    "bytes": 7157
+  },
+  {
+    "file": "forward-verify.log.gz",
+    "rawSha256": "c5296b6c1f1013da943561e5bce3f4ec4c9744203a20f00d56d0575b8e229248",
+    "bytes": 7157
+  },
+  {
+    "file": "forward-vps-final.log.gz",
+    "rawSha256": "e4fbc484b25b95df2e96fb4216426705ba71a052e880c5ab3d13b91db2e577f5",
+    "bytes": 3940
+  },
+  {
+    "file": "forward-vps.log.gz",
+    "rawSha256": "c3c01c21c55ff67eb029e23d235aec15e22a2eb88e48c0d8926a5da76eb23ce6",
+    "bytes": 3948
+  }
+]

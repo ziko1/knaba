@@ -1,0 +1,961 @@
+{
+  "sourceSha": "2164b9505f824486594b2633a05f5fd91aee8c04",
+  "scope": "PUBLIC_DESKTOP_DOM",
+  "checks": [
+    {
+      "brokenImages": [],
+      "h1": [
+        "Von der Bauphasebis zur sauberen Übergabe."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baureinigung & BauService in Berlin",
+      "url": "https://kneba.vsp.rest/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baureinigung. Bauhilfe. Zusatzleistungen."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baureinigung. Bauhilfe. Zusatzleistungen. | KnaBa",
+      "url": "https://kneba.vsp.rest/leistungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Unsere Leistungen am Bau"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Unsere Leistungen am Bau | KnaBa",
+      "url": "https://kneba.vsp.rest/planer/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Für Bauunternehmen. Für Bauträger. Für Ihre Baustelle."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Für Bauunternehmen. Für Bauträger. Für Ihre Baustelle. | KnaBa",
+      "url": "https://kneba.vsp.rest/branchen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baureinigung ist unser Schwerpunkt."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baureinigung ist unser Schwerpunkt. | KnaBa",
+      "url": "https://kneba.vsp.rest/unternehmen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Einblicke in unsere Arbeitsbereiche"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/galerie/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Besser geplant. Sauber übergeben."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Besser geplant. Sauber übergeben. | KnaBa",
+      "url": "https://kneba.vsp.rest/ratgeber/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Ihr Bauprojekt. Unser nächstes Gespräch."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Ihr Bauprojekt. Unser nächstes Gespräch. | KnaBa",
+      "url": "https://kneba.vsp.rest/kontakt/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Ein guter Plan.Ein sauberer Ablauf."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Mein KnaBa | Kunden- und Mitarbeiterportal",
+      "url": "https://kneba.vsp.rest/konto/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "From construction workto a clean handover."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction cleaning & site services | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Від будівельних робітдо чистої здачі об’єкта."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Будівельний клінінг та BauService | KnaBa Берлін",
+      "url": "https://kneba.vsp.rest/uk/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "От строительных работдо чистой сдачи объекта."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Строительный клининг и BauService | KnaBa Берлин",
+      "url": "https://kneba.vsp.rest/ru/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baureinigung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baureinigung | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/baureinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Bauzwischenreinigung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Bauzwischenreinigung | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/bauzwischenreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baufein- & Bauendreinigung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baufein- & Bauendreinigung | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/bauendreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baustellenberäumung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baustellenberäumung | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/baustellenraeumung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Bauhelfer & Baustellenvorbereitung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Bauhelfer & Baustellenvorbereitung | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/bauhilfe/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Kernbohrungen in Beton – Anfrage"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Kernbohrungen in Beton – Anfrage | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/kernbohrungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Wand- & Deckendurchbrüche – Anfrage"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Wand- & Deckendurchbrüche – Anfrage | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/durchbrueche/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Zusätzliche Bauleistungen – Anfrage"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/bauleistungen/zusatzarbeiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Datenschutzerklärung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Datenschutzerklärung | KnaBa Baureinigung & BauService Berlin",
+      "url": "https://kneba.vsp.rest/datenschutz/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Häufige Fragen. Klare Antworten."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Fragen & Antworten zur Baureinigung | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/faq/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baureinigung für Bauprojekte in Ihrer Region."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baureinigung für Bauprojekte in Ihrer Region. | KnaBa",
+      "url": "https://kneba.vsp.rest/berlin/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Bei KnaBa auf der Baustelle mitarbeiten."
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Bei KnaBa auf der Baustelle mitarbeiten. | KnaBa",
+      "url": "https://kneba.vsp.rest/karriere/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Impressum"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Impressum und Anbieterangaben | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/impressum/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Construction cleaning and site support."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction cleaning and site support. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/leistungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Будівельний клінінг і допоміжні роботи."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Будівельний клінінг і допоміжні роботи. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/leistungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Строительный клининг и помощь на объектах."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Строительный клининг и помощь на объектах. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/leistungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Services for your building project"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Services for your building project | KnaBa",
+      "url": "https://kneba.vsp.rest/en/planer/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Послуги на будівельному об’єкті"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Послуги на будівельному об’єкті | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/planer/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Наши услуги на стройке"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Наши услуги на стройке | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/planer/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Built around construction projects."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Built around construction projects. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/branchen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Для будівельних компаній і забудовників."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Для будівельних компаній і забудовників. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/branchen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Для строительных фирм и застройщиков."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Для строительных фирм и застройщиков. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/branchen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Construction cleaning is our focus."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction cleaning is our focus. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/unternehmen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Наша спеціалізація — будівельний клінінг."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Наша спеціалізація — будівельний клінінг. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/unternehmen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Наша специализация — строительный клининг."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Наша специализация — строительный клининг. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/unternehmen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Explore our areas of work"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Explore our areas of work | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/galerie/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Наші напрями роботи"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Наші напрями роботи | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/galerie/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Наши направления работы"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Наши направления работы | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/galerie/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Prepare better. Handover cleaner."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Prepare better. Handover cleaner. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/ratgeber/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Краще планування — чистіша здача."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Краще планування — чистіша здача. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/ratgeber/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Лучше план — чище сдача."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Лучше план — чище сдача. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/ratgeber/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe | KnaBa",
+      "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen | KnaBa",
+      "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen | KnaBa",
+      "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Saubere Bauübergabe: die Checkliste nach der Endreinigung"
+      ],
+      "lang": "de",
+      "overflow": 0,
+      "title": "Saubere Bauübergabe: die Checkliste nach der Endreinigung | KnaBa",
+      "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Your project. Our next conversation."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Your project. Our next conversation. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/kontakt/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Ваш об’єкт. Наші наступні домовленості."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Ваш об’єкт. Наші наступні домовленості. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/kontakt/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Ваш объект. Наши следующие договорённости."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Ваш объект. Наши следующие договорённости. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/kontakt/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Construction cleaning"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction cleaning | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/baureinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Cleaning between construction phases"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Cleaning between construction phases | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/bauzwischenreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Fine and final cleaning"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Fine and final cleaning | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/bauendreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Construction site clearance"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction site clearance | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/baustellenraeumung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Construction support and preparation"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction support and preparation | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/bauhilfe/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Concrete core drilling – enquiry"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Concrete core drilling – enquiry | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/kernbohrungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Wall and ceiling openings – enquiry"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Wall and ceiling openings – enquiry | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/durchbrueche/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Additional construction works – enquiry"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Additional construction works – enquiry | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/bauleistungen/zusatzarbeiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Questions about your project?"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction cleaning FAQs | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/en/faq/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Construction cleaning across your region."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Construction cleaning across your region. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/berlin/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Work on construction sites with KnaBa."
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Work on construction sites with KnaBa. | KnaBa",
+      "url": "https://kneba.vsp.rest/en/karriere/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Будівельний клінінг"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Будівельний клінінг | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/baureinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Міжетапне прибирання"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Міжетапне прибирання | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/bauzwischenreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Тонке та фінальне прибирання"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Тонке та фінальне прибирання | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/bauendreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Прибирання будмайданчика"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Прибирання будмайданчика | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/baustellenraeumung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Будівельні помічники та підготовка"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Будівельні помічники та підготовка | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/bauhilfe/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Алмазне буріння бетону — запит"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Алмазне буріння бетону — запит | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/kernbohrungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Проходки у стінах і перекриттях — запит"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Проходки у стінах і перекриттях — запит | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/durchbrueche/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Додаткові будівельні роботи — запит"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Додаткові будівельні роботи — запит | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/uk/bauleistungen/zusatzarbeiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Поширені запитання та відповіді"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Запитання про будівельний клінінг | KnaBa Берлін",
+      "url": "https://kneba.vsp.rest/uk/faq/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Будівельний клінінг у вашому регіоні."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Будівельний клінінг у вашому регіоні. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/berlin/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Працюйте на будівельних об’єктах із KnaBa."
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Працюйте на будівельних об’єктах із KnaBa. | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/karriere/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Хороший план.Чёткий порядок."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Мой KnaBa | Кабинет клиентов и сотрудников",
+      "url": "https://kneba.vsp.rest/ru/konto/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Строительный клининг"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Строительный клининг | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/baureinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Промежуточная уборка"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Промежуточная уборка | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/bauzwischenreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Тонкая и финальная уборка"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Тонкая и финальная уборка | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/bauendreinigung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Уборка стройплощадки"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Уборка стройплощадки | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/baustellenraeumung/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Строительные помощники и подготовка"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Строительные помощники и подготовка | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/bauhilfe/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Алмазное бурение бетона — запрос"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Алмазное бурение бетона — запрос | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/kernbohrungen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Проходки в стенах и перекрытиях — запрос"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Проходки в стенах и перекрытиях — запрос | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/durchbrueche/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Дополнительные строительные работы — запрос"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Дополнительные строительные работы — запрос | KnaBa Berlin",
+      "url": "https://kneba.vsp.rest/ru/bauleistungen/zusatzarbeiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Политика конфиденциальности"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Политика конфиденциальности | KnaBa Берлин",
+      "url": "https://kneba.vsp.rest/ru/datenschutz/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Частые вопросы и ответы"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Вопросы о строительном клининге | KnaBa Берлин",
+      "url": "https://kneba.vsp.rest/ru/faq/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Строительный клининг в вашем регионе."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Строительный клининг в вашем регионе. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/berlin/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Работа на строительных объектах с KnaBa."
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Работа на строительных объектах с KnaBa. | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/karriere/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Юридическая информация"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Юридическая информация и реквизиты | KnaBa Берлин",
+      "url": "https://kneba.vsp.rest/ru/impressum/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Prepare for final construction cleaning: from site condition to handover"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Prepare for final construction cleaning: from site condition to handover | KnaBa",
+      "url": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Plan rough, interim and final construction cleaning"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Plan rough, interim and final construction cleaning | KnaBa",
+      "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Plan construction cleaning costs by comparing the scope of work"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Plan construction cleaning costs by comparing the scope of work | KnaBa",
+      "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Clean construction handover: a checklist after final cleaning"
+      ],
+      "lang": "en",
+      "overflow": 0,
+      "title": "Clean construction handover: a checklist after final cleaning | KnaBa",
+      "url": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Підготовка до фінального клінінгу: від стану об’єкта до здачі"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Підготовка до фінального клінінгу: від стану об’єкта до здачі | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Як спланувати грубе, міжетапне й фінальне прибирання"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Як спланувати грубе, міжетапне й фінальне прибирання | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Планування вартості клінінгу: порівнюйте обсяг робіт"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Планування вартості клінінгу: порівнюйте обсяг робіт | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Чиста здача об’єкта: чекліст після фінального прибирання"
+      ],
+      "lang": "uk",
+      "overflow": 0,
+      "title": "Чиста здача об’єкта: чекліст після фінального прибирання | KnaBa",
+      "url": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/"
+    },
+    {
+      "brokenImages": [],
+      "h1": [
+        "Подготовка к финальному клинингу: от состояния объекта до сдачи"
+      ],
+      "lang": "ru",
+      "overflow": 0,
+      "title": "Подготовка к финальному клинингу: от состояния объекта до сдачи | KnaBa",
+      "url": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/"
+    }
+  ],
+  "blockedRoute": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/",
+  "unvisited": [
+    "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/",
+    "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/"
+  ]
+}

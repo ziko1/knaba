@@ -1,0 +1,17 @@
+✔ extracts public HTML headings, metadata, ARIA, placeholders, not code or URLs (21.167922ms)
+✔ deduplicates repeated labels but changes digest for new source copy (3.705892ms)
+✔ reads only first-party published German sitemap paths; no external or private locations (1.244194ms)
+✔ a draft is incomplete and never becomes a published language (1.319675ms)
+✔ 100% static translation remains blocked on dynamic, legal, real reviewer and device gates (1.653146ms)
+✔ stale source rejects even all translations; never silently accepts old packs (1.07211ms)
+✔ rejects unsupported locales and malformed or unknown strings, XSS, changed placeholders (1.188451ms)
+✔ never uses translated business contacts or unsafe browser markup as a replacement payload (0.905435ms)
+✔ adds legally required public routes and the account entry without mixing private admin (3.486377ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.423611

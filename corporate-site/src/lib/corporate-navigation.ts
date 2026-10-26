@@ -5,10 +5,12 @@ const labels: Record<string, Record<SiteLocale, string>> = {
   '/planer/': {de:'Projektplaner',en:'Project planner',uk:'Планувальник',ru:'Планировщик'},
   '/branchen/': {de:'Baupartner',en:'B2B sectors',uk:'Галузі B2B',ru:'Отрасли B2B'},
   '/unternehmen/': {de:'Über KnaBa',en:'About KnaBa',uk:'Про KnaBa',ru:'О KnaBa'},
+  '/partner/': {de:'Partner',en:'Partners',uk:'Партнери',ru:'Партнёры'},
   '/karriere/': {de:'Karriere',en:'Careers',uk:'Робота',ru:'Вакансии'},
   '/kontakt/': {de:'Kontakt',en:'Contact',uk:'Контакти',ru:'Контакты'},
   '/berlin/': {de:'Berlin & Brandenburg',en:'Berlin & Brandenburg',uk:'Берлін і Бранденбург',ru:'Берлин и Бранденбург'},
   '/ratgeber/': {de:'Bauratgeber',en:'Construction guides',uk:'Поради',ru:'Советы'},
+  '/galerie/': {de:'Arbeitsabläufe',en:'How we work',uk:'Як ми працюємо',ru:'Как мы работаем'},
   '/faq/': {de:'Fragen & Antworten',en:'Questions & answers',uk:'Запитання й відповіді',ru:'Вопросы и ответы'},
 };
 function normalPath(path: string) {
