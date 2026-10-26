@@ -57,6 +57,13 @@
       "when": 1793038487699,
       "tag": "0007_account_invites",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1793059339717,
+      "tag": "0008_access_requests",
+      "breakpoints": true
     }
   ]
 }

@@ -46,3 +46,6 @@ Local synthetic tests only on isolated VPS, verified official Node24 tar and pub
 
 ## Auth hardening 26.10.2026
 Verified existing local Node24/VPS code and synthetic tests only. Read-only mail sender discovery found no verified KNABA domain; no paid OTP/SMTP/OIDC/LLM provider invoked, no KNABA mail sent, no production SQL or data modified. Real provider usage/pricing and credits UNKNOWN; previous budget and spending policy unchanged.
+
+## 2026-10-26 · G2 access request work
+No new provider subscriptions or sends, using existing VPS. Brevo: no sending domain; Resend: only another project domain partially failed. KNABA sender, budget, quota and pricing remain UNKNOWN; new external spend is not authorized.

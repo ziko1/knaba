@@ -113,3 +113,6 @@ Base dbff693216c3c6b53a38ef9fed0ab919fd54d095. Added additive SQL 0007, owner-on
 
 ## 2026-10-26 — KNABA auth hardening continuation (source-only)
 On PR #107 base a7a6a1cbef9c96837eda7dee008c98be182543b2: shared TCP login source limiter, owner invitation revocation + HTTP UI, signed-in credential rotation with all-session revocation, existing Portal localized links. Local Node24 site checks, build, verifier, VPS 59/59, website 256+68, root 25/25 PASS. Actual HTTP POST rotation integration test blocked; live/provider/real owner/independent review remain OPEN. See KNABA_AUTH_SECURITY_CONTINUATION_2026-10-26_UK.md. No merge, deploy or SQL migration.
+
+## 2026-10-26 · continuation PR109 G2 access requests
+Source candidate of public /join/ application to owner-only pending queue, no automated user/role creation, existing invitation reused. Added forward 0008 SQL and honest /forgot-password/ help; details KNABA_ACCESS_REQUESTS_2026-10-26_UK.md. Node24 VPS 62/62; verified sender and owner UAT OPEN.

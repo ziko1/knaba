@@ -28,7 +28,7 @@ function register(db,token,opts={}){
 
 test('new invitation is additive, 256-bit, hash-only and never creates a user',()=>{
   fixture(({db,owner,migrations})=>{
-    assert.equal(migrations.at(-1),'0007_account_invites.sql');
+    assert.equal(migrations[7],'0007_account_invites.sql');assert.equal(migrations.at(-1),'0008_access_requests.sql');
     const invite=issue(db,owner,{now:1800000000000});
     assert.match(invite.token,/^[A-Za-z0-9_-]{43}$/);
     const stored=db.prepare('SELECT * FROM vps_account_invites').get();

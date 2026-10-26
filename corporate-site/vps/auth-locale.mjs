@@ -72,3 +72,54 @@ export function authLanguage(raw){
 export function authWords(raw){
   return labels[authLanguage(raw)];
 }
+
+/** Requesting access is not self-provisioning an account or role. */
+const accessLabels=Object.freeze({
+  de:{
+    joinLink:'Zugang anfragen',forgotLink:'Passwort vergessen?',
+    title:'KnaBa · Zugang anfragen',intro:'Fordern Sie einen Kunden- oder Mitarbeiterzugang an. KNABA prüft die Anfrage und sendet bei bestätigter Identität eine persönliche Einladung. Hier wird noch kein Konto erstellt.',
+    fullName:'Vollständiger Name',email:'E-Mail-Adresse',kind:'Ich interessiere mich für',
+    client:'Kundenzugang',worker:'Mitarbeiterzugang',
+    privacy:'Ich habe die Datenschutzhinweise gelesen und stimme der Bearbeitung meiner Zugangs-Anfrage zu.',
+    submit:'Anfrage senden',ok:'Die Anfrage wurde entgegengenommen. Falls ein Zugang eingerichtet werden kann, meldet sich KNABA nach Prüfung. Es wurde noch kein Benutzerkonto erstellt.',
+    back:'Zur Anmeldung',contact:'KNABA kontaktieren',
+    lostTitle:'KnaBa · Passwort vergessen',lostIntro:'Ohne bestätigte E-Mail-Zustellung können wir keinen sicheren automatischen Passwort-Reset versenden. Bitte kontaktieren Sie KNABA über den verifizierten Kontaktweg. Geben Sie niemandem Ihr Passwort bekannt.',
+    passwordChange:'Mit bestehender Sitzung: Passwort ändern'
+  },
+  uk:{
+    joinLink:'Подати заявку на доступ',forgotLink:'Забули пароль?',
+    title:'KnaBa · заявка на доступ',intro:'Подайте заявку на доступ клієнта або працівника. KNABA перевірить звернення й після підтвердження особи надасть персональне запрошення. Обліковий запис ще не створюється.',
+    fullName:'Повне ім’я',email:'Електронна пошта',kind:'Потрібен доступ',
+    client:'Клієнта',worker:'Працівника',
+    privacy:'Я прочитав(-ла) політику конфіденційності та погоджуюся на обробку заявки на доступ.',
+    submit:'Надіслати заявку',ok:'Заявку прийнято. Якщо доступ можна надати, KNABA зв’яжеться після перевірки. Обліковий запис ще не створено.',
+    back:'До входу',contact:'Зв’язатися з KNABA',
+    lostTitle:'KnaBa · забули пароль',lostIntro:'Без підтвердженого каналу email безпечне автоматичне скидання пароля недоступне. Зверніться до KNABA перевіреним способом. Нікому не надсилайте пароль.',
+    passwordChange:'Якщо ви вже увійшли: змінити пароль'
+  },
+  en:{
+    joinLink:'Request account access',forgotLink:'Forgot your password?',
+    title:'KnaBa · request access',intro:'Request client or worker access. KNABA will review your request and provide a personal invitation after checking your identity. This does not create an account yet.',
+    fullName:'Full name',email:'Email address',kind:'Requested access',
+    client:'Client',worker:'Worker',
+    privacy:'I have read the privacy notice and agree to the processing of my access request.',
+    submit:'Send request',ok:'Your request was received. If access can be granted, KNABA will contact you after verification. No account has been created.',
+    back:'Back to sign-in',contact:'Contact KNABA',
+    lostTitle:'KnaBa · forgot password',lostIntro:'Without a verified email-delivery channel we cannot send a secure automatic password reset. Contact KNABA through the verified contact channel. Never share your password.',
+    passwordChange:'Already signed in? Change your password'
+  },
+  ru:{
+    joinLink:'Запросить доступ',forgotLink:'Забыли пароль?',
+    title:'KnaBa · запрос доступа',intro:'Запросите доступ клиента или сотрудника. KNABA рассмотрит заявку и после проверки личности выдаст персональное приглашение. Аккаунт пока не создаётся.',
+    fullName:'Полное имя',email:'Электронная почта',kind:'Какой доступ нужен',
+    client:'Клиент',worker:'Сотрудник',
+    privacy:'Я прочитал(а) политику конфиденциальности и согласен(согласна) на обработку заявки.',
+    submit:'Отправить заявку',ok:'Заявка получена. Если доступ может быть предоставлен, KNABA свяжется с вами после проверки. Аккаунт пока не создан.',
+    back:'К входу',contact:'Связаться с KNABA',
+    lostTitle:'KnaBa · забыли пароль',lostIntro:'Без проверенного канала электронной почты безопасный автоматический сброс пароля недоступен. Свяжитесь с KNABA проверенным способом. Никому не сообщайте пароль.',
+    passwordChange:'Если вы уже вошли: изменить пароль'
+  }
+});
+export function accessWords(raw){
+  return accessLabels[authLanguage(raw)];
+}
