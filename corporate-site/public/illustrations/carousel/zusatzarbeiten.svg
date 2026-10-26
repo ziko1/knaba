@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="550" viewBox="0 0 960 550">
+<title>Zusätzliche Bauarbeiten</title><desc>Eigenständige 2D-Szene: Baustellenteam plant Zusatzleistungen am Zeichentisch.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee6fb"/><stop offset="1" stop-color="#bfb1e2"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#ffffff" stop-opacity=".92"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>
+<filter id="shadow" x="-25%" y="-35%" width="150%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123e48" flood-opacity=".13"/></filter>
+</defs>
+<rect width="960" height="550" rx="32" fill="url(#bg)"/>
+<path d="M0 420h960v130H0z" fill="#d8c8e4"/>
+<path d="M68 86h315v270H68z" fill="#f5ecfb" stroke="#9d90c3" stroke-width="14"/>
+<path d="M221 88v265M69 222h315" stroke="#c3b3d6" stroke-width="10"/>
+<path d="M68 341l93-102 69 62 78-112 72 95" fill="none" stroke="#e1cbe6" stroke-width="35"/>
+<g transform="translate(408 72) scale(.71)"><g transform="translate(0 0) scale(1)">
+<ellipse cx="103" cy="357" rx="94" ry="15" fill="#23475c" opacity=".17"/>
+<path d="M59 217l-17 105 49 7 20-86 14 90h52l-13-116z" fill="#214a5c"/>
+<path d="M42 321q-22 20-4 30h59l-8-27M126 327q-5 25 19 27h55q0-19-26-27" fill="#20303d"/>
+<path d="M48 107q-12 9-18 50l9 76h134l8-82q-1-38-35-45z" fill="#6953a2"/>
+<path d="M65 116h90l-8 28H75z" fill="#fff" opacity=".55"/>
+<path d="M53 190h110" stroke="#edf8fa" stroke-opacity=".58" stroke-width="12"/>
+<path d="M39 133l-27 91M170 137l18 79" fill="none" stroke="#da9870" stroke-width="25" stroke-linecap="round"/>
+<path d="M0 214l27-6 4 24-27 6M175 210l25-4 4 25-26 4" fill="#16475a"/>
+<rect x="92" y="82" width="27" height="40" rx="12" fill="#da9870"/>
+<ellipse cx="106" cy="62" rx="45" ry="48" fill="#da9870"/>
+<path d="M66 54q6-54 44-52 36 0 43 51-41-15-64-25z" fill="#24445b"/>
+<path d="M55 41q4-39 49-44 48 1 53 44z" fill="#f1bb58"/>
+<rect x="48" y="36" width="119" height="15" rx="7" fill="#f1bb58"/>
+<circle cx="94" cy="65" r="3" fill="#304754"/><circle cx="124" cy="65" r="3" fill="#304754"/>
+<path d="M96 83q11 10 22-1" stroke="#975e4d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+</g></g>
+<g transform="translate(689 81) scale(.76)"><g transform="translate(0 0) scale(1)">
+<ellipse cx="103" cy="357" rx="94" ry="15" fill="#23475c" opacity=".17"/>
+<path d="M59 217l-17 105 49 7 20-86 14 90h52l-13-116z" fill="#214a5c"/>
+<path d="M42 321q-22 20-4 30h59l-8-27M126 327q-5 25 19 27h55q0-19-26-27" fill="#20303d"/>
+<path d="M48 107q-12 9-18 50l9 76h134l8-82q-1-38-35-45z" fill="#8069ae"/>
+<path d="M65 116h90l-8 28H75z" fill="#fff" opacity=".55"/>
+<path d="M53 190h110" stroke="#edf8fa" stroke-opacity=".58" stroke-width="12"/>
+<path d="M39 133l-27 91M170 137l18 79" fill="none" stroke="#da9870" stroke-width="25" stroke-linecap="round"/>
+<path d="M0 214l27-6 4 24-27 6M175 210l25-4 4 25-26 4" fill="#16475a"/>
+<rect x="92" y="82" width="27" height="40" rx="12" fill="#da9870"/>
+<ellipse cx="106" cy="62" rx="45" ry="48" fill="#da9870"/>
+<path d="M66 54q6-54 44-52 36 0 43 51-41-15-64-25z" fill="#24445b"/>
+<path d="M55 41q4-39 49-44 48 1 53 44z" fill="#f1bb58"/>
+<rect x="48" y="36" width="119" height="15" rx="7" fill="#f1bb58"/>
+<circle cx="94" cy="65" r="3" fill="#304754"/><circle cx="124" cy="65" r="3" fill="#304754"/>
+<path d="M96 83q11 10 22-1" stroke="#975e4d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+</g></g>
+<g transform="translate(282 344)" filter="url(#shadow)">
+<path d="M0 35h530l-48 78H52z" fill="#f6dca8" stroke="#bd9d75" stroke-width="10"/>
+<path d="M100 112l-20 97M437 112l27 97" stroke="#75588b" stroke-width="17"/>
+<path d="M53 12h443l-15 59H70z" fill="#f8faff" stroke="#a0a4c1" stroke-width="9"/>
+<path d="M109 29h254M109 45h116m23 0h151M109 60h306" stroke="#b2cbd2" stroke-width="6"/>
+<path d="M352 16l63 53M415 17l-64 51" stroke="#5c83b2" stroke-width="6"/>
+</g>
+<path d="M79 458h93l-17 48H92z" fill="#d7bcf1" stroke="#8567a0" stroke-width="7"/>
+<path d="M105 459v-80" stroke="#9370aa" stroke-width="13"/>
+<path d="M114 382l54-41" stroke="#9471b5" stroke-width="12" stroke-linecap="round"/>
+<g transform="translate(818 316)">
+<rect x="1" y="38" width="101" height="122" rx="13" fill="#f8f8f8" stroke="#9581bc" stroke-width="10"/>
+<path d="M24 67h55M24 90h55M24 113h35" stroke="#b7abc9" stroke-width="9"/>
+<circle cx="51" cy="19" r="20" fill="#eec66a"/>
+</g>
+</svg>

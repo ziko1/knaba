@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="550" viewBox="0 0 960 550">
+<title>Baustellenberäumung</title><desc>Eigenständige 2D-Szene: Bauabfälle werden getrennt und Materialien geräumt.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eeebff"/><stop offset="1" stop-color="#bdbbe7"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#ffffff" stop-opacity=".92"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>
+<filter id="shadow" x="-25%" y="-35%" width="150%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123e48" flood-opacity=".13"/></filter>
+</defs>
+<rect width="960" height="550" rx="32" fill="url(#bg)"/>
+<path d="M0 383l960-42v209H0z" fill="#d7d0e8"/>
+<g stroke="#a49bc7" stroke-width="11" fill="none" opacity=".9">
+<path d="M56 124h296v271H56zM56 180h296M56 271h296M83 125l247 267M330 126L82 389"/>
+<path d="M650 65v306M820 65v306M650 135h170M650 233h170"/>
+</g>
+<path d="M72 385h814" stroke="#82779e" stroke-width="13" opacity=".38"/>
+<g transform="translate(82 275)" filter="url(#shadow)">
+<path d="M35 36h246l-26 164H67z" fill="#5d59aa"/>
+<path d="M20 34h276" stroke="#474284" stroke-width="23" stroke-linecap="round"/>
+<path d="M80 37l32-59 43 17 43-40 52 82" fill="#b4a5a5" stroke="#867a82" stroke-width="6"/>
+<path d="M84 115h118" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+<circle cx="76" cy="205" r="18" fill="#4b4772"/><circle cx="236" cy="205" r="18" fill="#4b4772"/>
+</g>
+<g transform="translate(390 292)" filter="url(#shadow)">
+<path d="M0 15h196l-18 142H20z" fill="#edb94f"/>
+<path d="M4 15h185" stroke="#c99135" stroke-width="22" stroke-linecap="round"/>
+<path d="M72 83h43" stroke="#fff4d4" stroke-width="12" stroke-linecap="round"/>
+<circle cx="34" cy="164" r="16" fill="#655b76"/><circle cx="164" cy="164" r="16" fill="#655b76"/>
+</g>
+<g transform="translate(648 342)" filter="url(#shadow)">
+<path d="M6 35h201l-32 83H47z" fill="#e5eef1" stroke="#53788a" stroke-width="9"/>
+<path d="M64 29l37-86 14 4 3 82M151 29l-9-99 13-1 27 101" fill="none" stroke="#a67f57" stroke-width="18" stroke-linecap="round"/>
+<path d="M50 111l-30 72M169 111l47 72" stroke="#53788a" stroke-width="11"/>
+<circle cx="140" cy="185" r="21" fill="#314e65"/>
+</g>
+<path d="M0 493h960" stroke="#f7f3ff" stroke-width="9" opacity=".8"/>
+</svg>

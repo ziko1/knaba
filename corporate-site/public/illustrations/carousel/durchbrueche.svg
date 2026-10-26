@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="550" viewBox="0 0 960 550">
+<title>Wand- und Deckendurchbrüche</title><desc>Eigenständige 2D-Szene: technische Durchführungen für Leitungen im Rohbau.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffebde"/><stop offset="1" stop-color="#e5b7a5"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#ffffff" stop-opacity=".92"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>
+<filter id="shadow" x="-25%" y="-35%" width="150%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123e48" flood-opacity=".13"/></filter>
+</defs>
+<rect width="960" height="550" rx="32" fill="url(#bg)"/>
+<path d="M0 420l960-15v145H0z" fill="#e8c8b7"/>
+<path d="M305 65h488v382H305z" fill="#eadbd2" stroke="#c99d8d" stroke-width="16"/>
+<path d="M338 109h421v293H338z" fill="#c9b9b0"/>
+<path d="M375 146h336v206H375z" fill="#5b7180" stroke="#9bafa7" stroke-width="13"/>
+<path d="M424 143v212M496 143v212" stroke="#1592a0" stroke-width="29" stroke-linecap="round"/>
+<path d="M586 142v214" stroke="#eb9549" stroke-width="25" stroke-linecap="round"/>
+<path d="M653 144v212" stroke="#cae6d9" stroke-width="20" stroke-linecap="round"/>
+<path d="M336 372l427-5" stroke="#f9e5d1" stroke-width="17"/>
+<g stroke="#a2c0b5" stroke-width="9" fill="none">
+<path d="M424 204h228M424 305h228M374 248h338"/>
+</g>
+<g transform="translate(61 121) scale(0.92)">
+<ellipse cx="103" cy="357" rx="94" ry="15" fill="#23475c" opacity=".17"/>
+<path d="M59 217l-17 105 49 7 20-86 14 90h52l-13-116z" fill="#214a5c"/>
+<path d="M42 321q-22 20-4 30h59l-8-27M126 327q-5 25 19 27h55q0-19-26-27" fill="#20303d"/>
+<path d="M48 107q-12 9-18 50l9 76h134l8-82q-1-38-35-45z" fill="#ab664f"/>
+<path d="M65 116h90l-8 28H75z" fill="#fff" opacity=".55"/>
+<path d="M53 190h110" stroke="#edf8fa" stroke-opacity=".58" stroke-width="12"/>
+<path d="M39 133l-27 91M170 137l18 79" fill="none" stroke="#da9870" stroke-width="25" stroke-linecap="round"/>
+<path d="M0 214l27-6 4 24-27 6M175 210l25-4 4 25-26 4" fill="#16475a"/>
+<rect x="92" y="82" width="27" height="40" rx="12" fill="#da9870"/>
+<ellipse cx="106" cy="62" rx="45" ry="48" fill="#da9870"/>
+<path d="M66 54q6-54 44-52 36 0 43 51-41-15-64-25z" fill="#24445b"/>
+<path d="M55 41q4-39 49-44 48 1 53 44z" fill="#ecb54b"/>
+<rect x="48" y="36" width="119" height="15" rx="7" fill="#ecb54b"/>
+<circle cx="94" cy="65" r="3" fill="#304754"/><circle cx="124" cy="65" r="3" fill="#304754"/>
+<path d="M96 83q11 10 22-1" stroke="#975e4d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+</g>
+<path d="M270 300l39-29" stroke="#4b6270" stroke-width="14" stroke-linecap="round"/>
+<g transform="translate(110 349) rotate(-7)" filter="url(#shadow)">
+<rect width="196" height="101" rx="11" fill="#fbfaf5" stroke="#a9897c" stroke-width="8"/>
+<path d="M21 34h123M21 58h88M21 79h144" stroke="#c59e84" stroke-width="9" stroke-linecap="round"/>
+<path d="M153 23l11 13 21-28" stroke="#26a59a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</g>
+<g fill="#fff" opacity=".65"><circle cx="820" cy="146" r="14"/><circle cx="839" cy="174" r="8"/></g>
+</svg>

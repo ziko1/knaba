@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="550" viewBox="0 0 960 550">
+<title>Bauzwischenreinigung</title><desc>Eigenständige 2D-Szene: Industriesauger entfernt Staub zwischen Bauphasen.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9f4f6"/><stop offset="1" stop-color="#97d9e4"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#ffffff" stop-opacity=".92"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>
+<filter id="shadow" x="-25%" y="-35%" width="150%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123e48" flood-opacity=".13"/></filter>
+</defs>
+<rect width="960" height="550" rx="32" fill="url(#bg)"/>
+<path d="M0 405l960-29v174H0z" fill="#b0d8db"/>
+<path d="M80 92h315v263H80z" fill="#e9faf8" stroke="#5595a1" stroke-width="15"/>
+<path d="M188 95v257M289 95v257M82 230h310" stroke="#80bdc7" stroke-width="9"/>
+<path d="M96 335l82-87 66 40 78-99 73 93" fill="none" stroke="#c7e5e2" stroke-width="32" opacity=".85"/>
+<path d="M0 443l960-37M0 508l960-56" stroke="#dff6f4" stroke-width="8"/>
+<g transform="translate(66 322)" filter="url(#shadow)">
+<rect x="16" y="39" width="213" height="142" rx="35" fill="#1a758b"/>
+<rect x="37" y="12" width="166" height="64" rx="22" fill="#287f90"/>
+<path d="M61 14V0h108v14" fill="none" stroke="#205d70" stroke-width="14" stroke-linecap="round"/>
+<rect x="43" y="76" width="159" height="76" rx="14" fill="#e1f4f2"/>
+<circle cx="57" cy="182" r="20" fill="#243e50"/><circle cx="194" cy="182" r="20" fill="#243e50"/>
+</g>
+<g transform="translate(465 94) scale(0.95)">
+<ellipse cx="103" cy="357" rx="94" ry="15" fill="#23475c" opacity=".17"/>
+<path d="M59 217l-17 105 49 7 20-86 14 90h52l-13-116z" fill="#214a5c"/>
+<path d="M42 321q-22 20-4 30h59l-8-27M126 327q-5 25 19 27h55q0-19-26-27" fill="#20303d"/>
+<path d="M48 107q-12 9-18 50l9 76h134l8-82q-1-38-35-45z" fill="#177c98"/>
+<path d="M65 116h90l-8 28H75z" fill="#fff" opacity=".55"/>
+<path d="M53 190h110" stroke="#edf8fa" stroke-opacity=".58" stroke-width="12"/>
+<path d="M39 133l-27 91M170 137l18 79" fill="none" stroke="#da9870" stroke-width="25" stroke-linecap="round"/>
+<path d="M0 214l27-6 4 24-27 6M175 210l25-4 4 25-26 4" fill="#16475a"/>
+<rect x="92" y="82" width="27" height="40" rx="12" fill="#da9870"/>
+<ellipse cx="106" cy="62" rx="45" ry="48" fill="#da9870"/>
+<path d="M66 54q6-54 44-52 36 0 43 51-41-15-64-25z" fill="#24445b"/>
+<path d="M55 41q4-39 49-44 48 1 53 44z" fill="#f4bb43"/>
+<rect x="48" y="36" width="119" height="15" rx="7" fill="#f4bb43"/>
+<circle cx="94" cy="65" r="3" fill="#304754"/><circle cx="124" cy="65" r="3" fill="#304754"/>
+<path d="M96 83q11 10 22-1" stroke="#975e4d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+</g>
+<path d="M281 385q150-76 231-19 45 36 76 84" fill="none" stroke="#1f5367" stroke-width="23" stroke-linecap="round"/>
+<path d="M563 410l105 76" stroke="#b5c9cf" stroke-width="17" stroke-linecap="round"/>
+<path d="M639 477h159" stroke="#1f6b83" stroke-width="24" stroke-linecap="round"/>
+<path d="M745 462q17-20 35-3t35 0q22-21 38 0" fill="none" stroke="#fff" opacity=".75" stroke-width="7"/>
+<g transform="translate(828 220)">
+<path d="M10 140h104v190H10z" fill="#ced9d5"/><path d="M0 332h135" stroke="#60888b" stroke-width="15"/>
+<path d="M15 155h94l-15-42H24z" fill="#fff5eb"/><rect x="22" y="40" width="65" height="66" fill="#e3ece5" stroke="#8da9aa" stroke-width="8"/>
+</g>
+</svg>

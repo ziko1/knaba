@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="550" viewBox="0 0 960 550">
+<title>Baufeinreinigung</title><desc>Eigenständige 2D-Szene: glänzender Empfangsbereich nach der Abschlussreinigung.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4d7"/><stop offset="1" stop-color="#fbd889"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#ffffff" stop-opacity=".92"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>
+<filter id="shadow" x="-25%" y="-35%" width="150%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123e48" flood-opacity=".13"/></filter>
+</defs>
+<rect width="960" height="550" rx="32" fill="url(#bg)"/>
+<path d="M0 372h960v178H0z" fill="#f6d796"/>
+<path d="M0 434l960-42M0 509l960-45" stroke="#fff5d7" stroke-width="9"/>
+<path d="M78 74h390v288H78z" fill="#eff8ef" stroke="#c59b50" stroke-width="16"/>
+<path d="M278 76v281M83 209h380" stroke="#e9c88a" stroke-width="11"/>
+<path d="M116 335l110-110 70 51 96-133 51 82" fill="none" stroke="#d5e8ca" stroke-width="29"/>
+<path d="M80 367h420l170-82 165 91" fill="#fff9e9" opacity=".45"/>
+<path d="M575 115h288v242H575z" fill="#fffefa" stroke="#e7d4a1" stroke-width="12"/>
+<path d="M591 136h255v204H591z" fill="#ddf4ec"/><path d="M591 180h255M715 138v202" stroke="#fff" stroke-width="12"/>
+<g transform="translate(260 358)" filter="url(#shadow)">
+<rect width="218" height="20" rx="9" fill="#bb9b5c"/>
+<rect x="27" y="19" width="22" height="115" rx="8" fill="#c8ae79"/><rect x="171" y="19" width="22" height="115" rx="8" fill="#c8ae79"/>
+<rect x="66" y="-62" width="114" height="65" rx="10" fill="#f5fdff" stroke="#d8be86" stroke-width="6"/>
+</g>
+<g transform="translate(618 360)" filter="url(#shadow)">
+<rect x="7" y="55" width="195" height="74" rx="32" fill="#e7bd4f" stroke="#bd882f" stroke-width="9"/>
+<rect x="46" y="31" width="119" height="50" rx="16" fill="#f8d77d"/>
+<circle cx="56" cy="139" r="20" fill="#345f6a"/><circle cx="170" cy="139" r="20" fill="#345f6a"/>
+<path d="M104 40l-31-70" stroke="#406f79" stroke-width="12" stroke-linecap="round"/>
+<path d="M5 127h195" stroke="#fff7da" stroke-width="12"/>
+</g>
+<path d="M155 132l13 29 28 12-28 11-13 31-11-31-29-11 29-12zM768 81l12 24 24 12-24 11-12 26-11-26-26-11 26-12zM536 279l8 17 18 8-18 8-8 18-8-18-18-8 18-8z" fill="#fff" opacity=".93"/>
+<path d="M84 478q217-37 419 2t357-5" stroke="#fff" stroke-width="11" opacity=".8" fill="none"/>
+</svg>
