@@ -47,3 +47,8 @@ Historical import remains `66b07fb46d23c7110473c51fc23ce58d3c40a1b1`; committed 
 
 ## G1b — 2026-10-26 modular source composition
 Latest site and historical ERP V4 sources preserved together without destructive rewrite. Four active same-origin CMS/CRM/Portal/Inbox modules, ERP runtime stays source-only pending KN-U07 tenant-scoped bridge/DB ledger. Preview-only manifest added; G4/G8/G9/G10 and production release HOLD unchanged. See `KNABA_MODULAR_CMS_RECOVERY_2026-10-26_UK.md`.
+
+## G6a — KNABA Assistant 360 (2026-10-26) 
+- **Completed source-only:** role-scoped cross-channel module inventory/WhatsApp `/MODULES`, two owner-only automation DRAFT templates, Telegram public-intent classification without role elevation, optional verified website messenger links (inactive by default).
+- **Gates before production:** G4 canonical site D1↔ERP PG bridge + owner-worker identity; G3 human two-way handoff; G6 provider consent/outbound/WABA BotFather; legal/privacy/AI costs; separately authorized WebRTC/SIP voice and owner transfer; G8 actual provider, SQL, mobile accessibility/device, backups/rollback; G9 client acceptance.
+- **No silent activation:** `tel:` is an ordinary telephone deep link, not an answered WebRTC/WhatsApp Calling/AI voice call; `/register` is a human-reviewed guest intent, not a verified staff role; automation `DRAFT` is not `ACTIVE`. Full acceptance details: `docs/plans/2026-10-26-knaba-omnichannel-assistant-360.md`.
