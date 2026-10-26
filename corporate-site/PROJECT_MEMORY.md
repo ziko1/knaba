@@ -270,6 +270,12 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Added scoped `corporate-site/AGENTS.md`, read-only three-engine browser gate and responsive brand test, plus Node regression coverage. Failover is only for infrastructure blocks; 503 and product assertions are FAIL. Browser gate 2=BLOCKED, never PASS. KNABA_BROWSER_SKIP=chromium avoids repeating a verified block within the same agent environment.
 - Isolated Node 22.16.0 regression test: 8/8 PASS. The brand browser test remains BLOCKED due absent Node Playwright in this local checker; live 16-case browser/device QA and full Node24 Astro build are NOT_RUN. No merge/deploy or paid service. Follow exact SHA and independent review before release.
 
+
+## 2026-10-26 KN-LOGO-I18N — four languages
+- Localized slogan and accessible SVG descriptions DE/EN/UK/RU without changing German source assets or existing geometry/teal/lime.
+- Source-only Draft code on PR #72. Exact private live VPS release c08e58c41ddad287c154fcfc597654e777fa8db6 was separately tested and deployed; not the same as this older public PR base.
+- Node24 184/184 Vitest, 16/16 extra Node, 27/27 logo/browser boundary and 118/118 live routes PASS. Independent/native Opera UAT and customer translation review OPEN; no paid TinyFish.
+
 ## KNABA official-site functional parity + rights gate (26.10.2026)
 
 - New source-only branch `fix/knaba-official-parity-gallery-rights-20261026` stacked on Draft PR #72, *not* merged/deployed. Reuses PR #71 five-logo block and PR #68 old-site link/dedup protection; no duplicate components for partners, leads, auth or ERP.
@@ -281,3 +287,8 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Draft PR #73 implements a bounded live `verify:live` release gate and a minimal CDN image-transform order fix; exact implementation SHA `bdac0b4d8ec05c3e099d496db41f1576db013e3a`. Targeted verifier tests 7/7 PASS on Node18 (not full project), five new partner image URLs fetched successfully as HTTP200 with declared image dimensions. Baseline URLs previously returned HTTP500. Source-only changes; **NOT DEPLOYED**.
 - Actual 26.10.2026 staging preview: 3/5 partner images; four gallery routes 404; wrong old-domain links/research note on public pages; `/healthz` 200; `/readyz` 503 with `owner enrollment required`. The latter is a purposeful owner-account activation hold in `vps/server.mjs`, not a generic crash; never bypass secure owner enrollment.
 - Release gates OPEN: Node >=22.23.4 full dependency/type/test/build/verify, exact immutable artifact SHA, 4-locale browser/mobile and independent review, image rights/GDPR CDN, controlled owner activation, staging backup/rollback and retest. No main/production modification. See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
+
+## PR #73 isolated Node24 continuation — 26.10.2026
+- Exact code commit `29af230ae666967ff8b3a6f69fc59e1be246a5c4`: 51/51 native `node --test` scenarios PASS in a network-disabled, read-only Node 24.22.1 container. Tests cover inquiry, artifact verification, sitemap, SEO, contrast, browser-policy fallback and bounded live HTTP gate. Initial 1/35 failure was test-helper CSS declaration selection, fixed in commit `29af230`; no design or request-card duplication introduced.
+- Local QA package-lock matched the pre-existing dependency store and `npm ls --depth=0` returned version-consistent dependencies. This is NOT a clean `npm ci` nor full Vitest/Astro check/build/verify; those remain NOT_RUN due tool policy, not PASS. Real browser and owner UAT OPEN. PR #72/#73 code merge simulation conflicts only in project memory/roadmap documentation, preserving the PR72 logo locale/asset receipts instead of dropping them.
+- No protected owner enrollment bypass, production merge, deployment, service restart, DB/visitor data mutation or paid usage.
