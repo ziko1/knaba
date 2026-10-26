@@ -102,6 +102,44 @@ describe('KNABA Studio owner isolation + atomic draft/release',()=>{
     expect((await invoke('POST','/api/studio/draft',{page:'/',version:0,entries:[{...initial[0],value:'x'.repeat(33000)}]})).status).toBe(413);
     expect(sqlite.prepare('SELECT count(*) as n FROM studio_pages').get()).toEqual({n:0});
   });
+  it.each([false,true])('saves a full-size UTF-8 Studio draft (Content-Length supplied: %s)',async(withLength)=>{
+    const entries=Array.from({length:20},(_,index)=>({
+      selector:`#main > section:nth-of-type(1) > p:nth-of-type(${index+1})`,
+      kind:'text',value:'Ä'.repeat(400),
+    }));
+    const body={page:'/',version:0,entries};
+    const json=JSON.stringify(body);
+    // JSON whitespace keeps the content valid while exercising the exact byte limit.
+    const raw=json+' '.repeat(32768-new TextEncoder().encode(json).byteLength);
+    const headers=fixture('POST','/api/studio/draft',body).headers;
+    if(withLength)headers.set('content-length','32768');
+    const result=await handleApi(new Request(uri+'/api/studio/draft',{method:'POST',headers,body:raw}),env);
+    expect(result.status).toBe(200);
+    const saved=(await invoke('GET','/api/studio/page?page=%2F')).body;
+    expect(saved.version).toBe(1);
+    expect(saved.draft).toHaveLength(entries.length);
+    expect(new Map(saved.draft.map((entry:any)=>[entry.selector,entry.value])))
+      .toEqual(new Map(entries.map(entry=>[entry.selector,entry.value])));
+  });
+  it.each(['missing','accurate','understated'])('rejects a Studio body above 32 KiB with %s Content-Length',async(lengthMode)=>{
+    const body={page:'/',version:0,entries:initial};
+    const json=JSON.stringify(body);
+    const raw=json+' '.repeat(32769-new TextEncoder().encode(json).byteLength);
+    const headers=fixture('POST','/api/studio/draft',body).headers;
+    if(lengthMode!=='missing')headers.set('content-length',lengthMode==='accurate'?'32769':'100');
+    const result=await handleApi(new Request(uri+'/api/studio/draft',{method:'POST',headers,body:raw}),env);
+    expect(result.status).toBe(413);
+    expect(sqlite.prepare('SELECT count(*) as n FROM studio_pages').get()).toEqual({n:0});
+    expect(sqlite.prepare('SELECT count(*) as n FROM studio_revisions').get()).toEqual({n:0});
+  });
+  it('retains the smaller public lead body limit without writing a request',async()=>{
+    const body={};
+    const raw=JSON.stringify(body)+' '.repeat(12289-2);
+    const headers=fixture('POST','/api/leads',body,'anonymous').headers;
+    const result=await handleApi(new Request(uri+'/api/leads',{method:'POST',headers,body:raw}),env);
+    expect(result.status).toBe(413);
+    expect(sqlite.prepare('SELECT count(*) as n FROM cleaning_requests').get()).toEqual({n:0});
+  });
   it('reports owner-only AI readiness without disclosing keys or making paid calls',async()=>{
     expect((await invoke('GET','/api/studio/ai-status',undefined,'anonymous')).status).toBe(401);
     expect((await invoke('GET','/api/studio/ai-status',undefined,'admin')).status).toBe(403);
