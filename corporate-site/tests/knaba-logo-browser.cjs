@@ -11,6 +11,7 @@ const {normalizeLoopbackOrigin,runBrowserGate}=require('./browser-policy-gate.cj
 const locales=[['de',''],['en','/en'],['uk','/uk'],['ru','/ru']];
 const widths=[320,390,768,1440];
 const screenshotDir=process.env.KNABA_SCREENSHOT_DIR;
+const brandCopy=require('../src/data/brand-messages.json');
 async function validateBrand(browser,origin){
   let cases=0;
   for(const [lang,prefix] of locales){
@@ -38,13 +39,18 @@ async function validateBrand(browser,origin){
             header:read('header .construction-brand picture img'),footer:read('footer .footer-brand picture img')};
         });
         assert.ok(info.overflow<=1,`${lang}/${width} horizontal overflow: ${info.overflow}`);
+        const suffix=lang==='de'?'':'-'+lang;
         for(const [surface,img] of [['header',info.header],['footer',info.footer]]){
-          const target=`/images/knaba-3d-${width<=700?'mobile-':''}${surface}.svg`;
+          const target=`/images/knaba-3d-${width<=700?'mobile-':''}${surface}${suffix}.svg`;
           assert.equal(new URL(img.src).pathname,target,`${lang}/${width} ${surface} responsive source`);
           assert.ok(img.naturalWidth>0&&img.height>0,`${lang}/${width} ${surface} image loaded`);
           assert.ok(img.x>=-1&&img.right<=info.viewport+1,`${lang}/${width} ${surface} clipped`);
-          assert.ok(img.alt.trim().length>8,`${lang}/${width} ${surface} localized alt missing`);
+          assert.equal(img.alt,brandCopy[lang].descriptor,`${lang}/${width} ${surface} localized alt`);
         }
+        const ogImage=await page.locator('meta[property="og:image"]').getAttribute('content');
+        const ogAlt=await page.locator('meta[property="og:image:alt"]').getAttribute('content');
+        assert.equal(new URL(ogImage).pathname,'/images/knaba-3d-header'+suffix+'.svg');
+        assert.ok(ogAlt.includes(brandCopy[lang].slogan),lang+' '+width+' social logo localization');
         if(width===320||width===390){
           await page.addStyleTag({content:'html{font-size:200%!important}'});
           const reflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);

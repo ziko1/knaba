@@ -271,3 +271,9 @@ User requests implementation and deployment to existing development site, preser
 - [x] Login responsive input card corrected without auth/RBAC modifications; exact code SHA ddf3db88cbce01b50991eb88740ad799fd378f39.
 - [x] Red-green focused test, Node24 suite, 118-page static build and isolated Chromium at 320/360/390/768 widths.
 - [ ] Owner confirmation of email/identity, safe one-use onboarding, actual login and Studio/CRM UAT, first-login own password, external channel/legal approvals. Do not bypass /readyz owner gate.
+
+## KNABA i18n-99 incremental delivery (26.10.2026)
+- [x] Reuse 99-target catalog, truthful 4 published / 95 pending and single approved 4-language 3D brand dictionary.
+- [x] Audit published HTML, localized SVG slogan, accessible alt and hreflang as build release gate.
+- [ ] Complete 95 native-reviewed language packs, legal wording, form/Assistant messages, RTL/device a11y and page-by-page SEO; never auto-publish partial packs.
+- [ ] Real browser/device, legal and owner UAT; release only with exact source/artifact evidence, snapshot and rollback.

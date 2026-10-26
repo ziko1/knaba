@@ -3,23 +3,15 @@
  * Palette corporate-site/src/styles/global.css (#102F38 #13B8B4 #D8F779).
  * To regenerate: node scripts/generate-knaba-3d-assets.mjs
  */
-import {writeFileSync} from 'node:fs';
+import {writeFileSync,readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 
-export const SUPPORTED_LOCALES=Object.freeze(['de','en','uk','ru']);
-export const SLOGANS=Object.freeze({
-  de:'Unser Ziel ist Ihre Wertschöpfung',
-  en:'Our goal is to create value for you.',
-  uk:'Наша мета — створювати цінність для вас.',
-  ru:'Наша цель — создавать ценность для вас.',
-});
-export const BRAND_DESCRIPTIONS=Object.freeze({
-  de:'Drei geometrische Bauwerke, KNABA mit limettengrüner A-Akzentuierung',
-  en:'Three geometric buildings, KNABA with a lime-accented A',
-  uk:'Три геометричні будівлі, KNABA з лаймовим акцентом на літері A',
-  ru:'Три геометрических здания, KNABA с лаймовым акцентом на букве A',
-});
+// One approved, version-controlled source for both rendered logos and HTML metadata.
+const COPY=JSON.parse(readFileSync(new URL('../src/data/brand-messages.json',import.meta.url),'utf8'));
+export const SUPPORTED_LOCALES=Object.freeze(Object.keys(COPY));
+export const SLOGANS=Object.freeze(Object.fromEntries(SUPPORTED_LOCALES.map(code=>[code,COPY[code].slogan])));
+export const BRAND_DESCRIPTIONS=Object.freeze(Object.fromEntries(SUPPORTED_LOCALES.map(code=>[code,COPY[code].svgDescription])));
 
 function building(cx,top,count,halfWidth) {
   return Array.from({length:count},(_,n)=>{

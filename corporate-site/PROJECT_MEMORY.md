@@ -289,3 +289,8 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Exact parent preview source c08e58c41ddad287c154fcfc597654e777fa8db6. Narrow login-only CSS fix, code SHA ddf3db88cbce01b50991eb88740ad799fd378f39.
 - Mobile browser RED: 390px login page overflow 33px; GREEN: 320/360/390/768 overflow 0px. 184 Vitest, 16 Node, 27 focused and 24 VPS checks PASS; 118-page VSP build PASS. No login/session/owner DB logic changed.
 - See docs/KNABA_LOGIN_MOBILE_FIX_2026-10-26_UK.md. Real owner account /readyz=503 remains blocked by identity proof; no temp owner credentials issued.
+
+## KNABA 99 target languages / shared brand (26.10.2026)
+- Existing source already had 4 localized live SVG logo suites (DE/EN/UK/RU); 95 target languages remain pending. Preserve truthful 99/4/95 status.
+- Shared brand-messages.json consolidates SVG slogans, accessibility labels and Open Graph metadata; no geometry/design/auth/schema change.
+- Offline Node24 check/test/build/verify + 24 VPS tests and 24-page/16-SVG audit PASS; real browser BLOCKED, native review/device and real owner pending. See docs/KNABA_BRAND_I18N_RELEASE_2026-10-26_UK.md.

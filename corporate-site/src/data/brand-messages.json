@@ -1,0 +1,22 @@
+{
+  "de": {
+    "descriptor": "KNABA – Baureinigung und BauService",
+    "slogan": "Unser Ziel ist Ihre Wertschöpfung",
+    "svgDescription": "Drei geometrische Bauwerke, KNABA mit limettengrüner A-Akzentuierung"
+  },
+  "en": {
+    "descriptor": "KNABA – construction cleaning and site services",
+    "slogan": "Our goal is to create value for you.",
+    "svgDescription": "Three geometric buildings, KNABA with a lime-accented A"
+  },
+  "uk": {
+    "descriptor": "KNABA – будівельний клінінг і будівельні послуги",
+    "slogan": "Наша мета — створювати цінність для вас.",
+    "svgDescription": "Три геометричні будівлі, KNABA з лаймовим акцентом на літері A"
+  },
+  "ru": {
+    "descriptor": "KNABA – строительный клининг и строительные услуги",
+    "slogan": "Наша цель — создавать ценность для вас.",
+    "svgDescription": "Три геометрических здания, KNABA с лаймовым акцентом на букве A"
+  }
+}

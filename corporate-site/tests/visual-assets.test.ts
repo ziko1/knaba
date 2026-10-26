@@ -21,7 +21,10 @@ test('all localized homepages use branded construction illustrations', async () 
   expect(page).toContain('<ServiceCarousel locale={locale} />');
   expect(carousel).toContain('src="/illustrations/baureinigung.svg"');
   expect(carousel).not.toContain('hero-cleaning.svg');
-  expect(layout).toContain('/images/knaba-construction-logo.svg');
+  expect(layout).toContain('new URL(logoAssets.header,siteConfig.origin)');
+  expect(layout).toContain('knaba-3d-header');
+  expect(layout).toContain('knaba-3d-footer');
+  expect(layout).not.toContain("new URL('/images/knaba-construction-logo.svg'");
   expect(layout).not.toContain('class="brand-mark"');
 });
 test('new KnaBa brand marks are self-contained vector graphics',async()=>{
