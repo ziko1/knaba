@@ -3,17 +3,17 @@
 
 ## Scope і джерела
 - Репозиторій `ziko1/knaba`; інтеграційна гілка `fix/knaba-unified-visual-qa-20261026`.
-- Виконуваний перевірений коміт: `4bfc745223544a3add71a55a7332cb347d0c441d`.
+- Виконуваний перевірений коміт: `d80811a51b983a44ef7df33a61cb07711f476730`.
 - База — Draft PR #73, HEAD `15f44511a57add6f3c058c7b8ca2158da4cf6403`. З Draft PR #74 (`367e6e91710831808e4289c0be720cc0b17c8778`) повторно використано лише 7 існуючих WebP blob + `ServiceCarousel.astro` + тест. Локальні логотипи вже присутні в PR #73 з попередньої інтеграції PR #75; **не додано другого компоненту партнерів**.
-- Новий тестовий контракт: `scripts/image-alt-gate.mjs`, сім Node regression tests і корекція `tests/verify-build.mjs`. Декоративні зображення з `alt=""` допускаються лише всередині явного `aria-hidden="true"`, інші зображення потребують підпису і додатних width/height. Підтверджено RED попередньої перевірки на тих самих WebP та GREEN після зміни.
+- Новий тестовий контракт: `scripts/image-alt-gate.mjs`, дев’ять Node regression tests і корекція `tests/verify-build.mjs`. Декоративні зображення з `alt=""` допускаються лише всередині явного `aria-hidden="true"`, інші зображення потребують підпису і додатних width/height. Підтверджено RED старого verifier на WebP і GREEN після виправлення; окремий RED→GREEN цикл підтвердив перевірку зображень у `<noscript>` (HTML parser `scriptingEnabled: false`).
 - Жодного merge в `main`, release cutover, міграції БД, активації платних сервісів або змін облікових записів.
 
 ## Команди та фактичний QA на Node v24.21.0
 Проведено на VPS у **окремій тимчасовій робочій копії**, git HEAD `4bfc745223544a3add71a55a7332cb347d0c441d`:
 - `npm run check` — exit 0, Astro/Vue/Svelte 0 errors, 0 warnings, 7 non-blocking hints.
-- `npm test` — exit 0: **165 Vitest**, **36 Node core/static**, **27 logo/browser-policy**, **18 image-alt + public-HTTP contract** = **246 tests PASS**.
+- `npm test` — exit 0: **165 Vitest**, **36 Node core/static**, **27 logo/browser-policy**, **20 image-alt + public-HTTP contract** = **246 tests PASS**.
 - `KNABA_RELEASE_MODE=vsp KNABA_VSP_INDEX_APPROVED=1 npm run build` — exit 0, **121 HTML pages**; перехід до `indexable` тут — лише параметр локального build, не зміна публічного сайта.
-- `npm run verify:build` — exit 0, including **18 VPS tests PASS**; **загалом 264 автоматизовані тести**.
+- `npm run verify:build` — exit 0, including **18 VPS tests PASS**; **загалом 266 автоматизованих тестів**.
 - Перевірений статичний client artifact SHA-256: `e631c2db43d73f72019b03de9ad6d61dde79a5da9759bac4430cb1357cb87004`.
 - Увесь згенерований CSS: 34 624 байти gzip, увесь згенерований JS: 182 737 байтів gzip. Це **суми build-артефактів**, не розмір завантаження окремої сторінки, не Web Vitals.
 
