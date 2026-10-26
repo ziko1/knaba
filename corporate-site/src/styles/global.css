@@ -1202,9 +1202,6 @@ button {
   .hero {
     gap: 25px;
   }
-  .hero h1 {
-    font-size: 58px;
-  }
   .hero-actions {
     gap: 14px;
   }
@@ -1281,9 +1278,6 @@ button {
   }
 }
 @media (max-width: 900px) {
-  .hero h1 {
-    font-size: 50px;
-  }
   .hero-description {
     font-size: 14px;
   }
@@ -1692,9 +1686,6 @@ button {
   .hero-actions .text-link {
     padding: 10px 0;
   }
-  .hero-notes {
-    gap: 12px;
-  }
   .service-grid {
     grid-template-columns: 1fr;
   }
@@ -1740,9 +1731,6 @@ button {
   hyphens: auto;
 }
 @media (max-width: 600px) {
-  .service-grid {
-    grid-template-columns: 1fr;
-  }
   .service-card h2,
   .service-card h3 {
     font-size: 22px;
@@ -1844,7 +1832,7 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
 .service-card h2, .service-card h3 { font-size: 23px; line-height: 1.25; font-weight: 550; letter-spacing: -.04em; }
 .service-card p { color: #506766; font-size: 13px; }
 .service-card .eyebrow { color: #4b6b5f; font-size: 8px; margin-bottom: 11px; letter-spacing: .1em; }
-.service-card-bottom { border-color: #1e3e341c; font-size: 11px; padding-top: 15px; }
+.service-card-bottom { border-color: #1e3e341c; padding-top: 15px; }
 .card-arrow { display: grid; place-items: center; height: 32px; width: 32px; border-radius: 50%; background: #ffffff90; }
 .planner-banner { background: #e7e2f6; border-radius: 22px; padding: 55px; display: grid; grid-template-columns: 1.18fr 1fr; gap: 70px; align-items: center; margin-bottom: 90px; }
 .planner-copy h2 { font-size: clamp(30px,2.9vw,39px); }
@@ -1931,7 +1919,6 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 10px; }
   .hero-art { aspect-ratio: 1/1.15; }
   .hero-description { font-size: 14px; }
-  .hero-notes { gap: 12px; }
   .hero h1 .hero-spark { font-size: .55em; margin-left: 3px; }
   .planner-banner { padding: 40px; gap: 40px; }
   .trust-band a { font-size: 15px; gap: 16px; }
@@ -1992,9 +1979,6 @@ h2 { font-size: clamp(31px,3.3vw,47px); line-height: 1.15; font-weight: 500; let
   .section-heading h2 { font-size: 33px; }
   .section-heading { margin-bottom: 27px; }
   .service-card { padding: 25px; border-radius: 16px; }
-  .service-card h2, .service-card h3 { font-size: 23px; }
-  .service-card p { font-size: 13px; }
-  .service-card-top { margin-bottom: 22px; }
   .planner-banner { padding: 31px 25px; grid-template-columns: 1fr; gap: 36px; margin-bottom: 55px; }
   .planner-copy h2 { font-size: 31px; }
   .planner-copy p:not(.eyebrow) { font-size: 13px; }
