@@ -11,15 +11,19 @@ ru:{eyebrow:'ПОДГОТОВКА ЗАПРОСА',title:'От чего зави�
 ---
 <section class="container bau-section" aria-labelledby="knaba-scope-title">
  <div class="bau-heading"><p class="bau-kicker">{copy.eyebrow}</p><h2 id="knaba-scope-title">{copy.title}</h2><p>{copy.lead}</p></div>
- <ul class="bau-card-grid knaba-scope-grid">{copy.items.map((item,i)=><li class="bau-card"><span class="bau-ordinal" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><p>{item}</p></li>)}</ul>
+ <ul class="knaba-scope-grid">{copy.items.map((item,i)=><li class="knaba-scope-card"><span class="knaba-scope-ordinal" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><p>{item}</p></li>)}</ul>
  <p class="knaba-scope-note">{copy.note}</p>
  <a class="button button-dark" href={prefix+'/planer/'}>{copy.action} <span aria-hidden="true">→</span></a>
 </section>
 <style>
-/* Additive layout only: typography, colors, card surfaces and buttons come from the approved design system. */
-.knaba-scope-grid{list-style:none;padding:0;margin:0 0 22px;grid-template-columns:repeat(2,minmax(0,1fr))}
-.knaba-scope-grid>li{min-width:0}
-.knaba-scope-grid>li p{line-height:1.6;margin:12px 0 0;overflow-wrap:anywhere}
-.knaba-scope-note{line-height:1.7;margin-bottom:20px}
-@media(max-width:610px){.knaba-scope-grid{grid-template-columns:1fr}}
+/* Additive section: exact existing KNABA home palette, radii and type scale. No existing styles overridden. */
+.knaba-scope-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0 0 22px}
+.knaba-scope-card{min-width:0;min-height:145px;padding:26px;border:1px solid #d9e7db;border-radius:22px;background:linear-gradient(130deg,#e0f3ed,#f4faf6);color:#12343c}
+.knaba-scope-card:nth-child(2){background:linear-gradient(130deg,#f4edda,#fff7e3)}
+.knaba-scope-card:nth-child(3){background:linear-gradient(130deg,#e9e8f5,#faf5ff)}
+.knaba-scope-card:nth-child(4){background:linear-gradient(130deg,#f5e8e2,#fff5ef)}
+.knaba-scope-ordinal{font-size:13px;letter-spacing:.08em;color:#45635b}
+.knaba-scope-card p{font-size:clamp(16px,1.6vw,19px);font-weight:700;line-height:1.45;margin:18px 0 0;overflow-wrap:anywhere}
+.knaba-scope-note{font-size:14px;color:#506a64;line-height:1.7;margin-bottom:20px}
+@media(max-width:610px){.knaba-scope-grid{grid-template-columns:1fr}.knaba-scope-card{min-height:0;padding:22px}}
 </style>
