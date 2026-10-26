@@ -11,10 +11,15 @@ ru:{eyebrow:'ПОДГОТОВКА ЗАПРОСА',title:'От чего зави�
 ---
 <section class="container bau-section" aria-labelledby="knaba-scope-title">
  <div class="bau-heading"><p class="bau-kicker">{copy.eyebrow}</p><h2 id="knaba-scope-title">{copy.title}</h2><p>{copy.lead}</p></div>
- <ul class="knaba-scope-grid">{copy.items.map((item,i)=><li><span aria-hidden="true">{String(i+1).padStart(2,'0')}</span><p>{item}</p></li>)}</ul>
+ <ul class="bau-card-grid knaba-scope-grid">{copy.items.map((item,i)=><li class="bau-card"><span class="bau-ordinal" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><p>{item}</p></li>)}</ul>
  <p class="knaba-scope-note">{copy.note}</p>
  <a class="button button-dark" href={prefix+'/planer/'}>{copy.action} <span aria-hidden="true">→</span></a>
 </section>
 <style>
-.knaba-scope-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;list-style:none;padding:0;margin:0 0 22px}.knaba-scope-grid li{min-width:0;padding:22px;border-radius:18px;background:#edf5f1;border:1px solid #d5e4db}.knaba-scope-grid span{font-size:13px;font-weight:800;color:#087981}.knaba-scope-grid p{font-weight:650;color:#183b40;line-height:1.6;margin:12px 0 0}.knaba-scope-note{color:#48635d;line-height:1.7;margin-bottom:20px}@media(max-width:610px){.knaba-scope-grid{grid-template-columns:1fr}}
+/* Additive layout only: typography, colors, card surfaces and buttons come from the approved design system. */
+.knaba-scope-grid{list-style:none;padding:0;margin:0 0 22px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.knaba-scope-grid>li{min-width:0}
+.knaba-scope-grid>li p{line-height:1.6;margin:12px 0 0;overflow-wrap:anywhere}
+.knaba-scope-note{line-height:1.7;margin-bottom:20px}
+@media(max-width:610px){.knaba-scope-grid{grid-template-columns:1fr}}
 </style>
