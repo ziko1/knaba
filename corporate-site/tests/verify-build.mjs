@@ -28,6 +28,11 @@ const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
 const titles = new Set();
+const expectedSocialImage = origin + '/images/knaba-social.png';
+const socialPng = await readFile(resolve(root,'images/knaba-social.png'));
+assert.deepEqual([...socialPng.subarray(0,8)],[137,80,78,71,13,10,26,10],'Social image must be PNG');
+assert.equal(socialPng.readUInt32BE(16),1200,'Social image width');
+assert.equal(socialPng.readUInt32BE(20),630,'Social image height');
 let externalPartnerImagesInMarkup = 0;
 for (const file of files) {
   const bytes = await readFile(file);
@@ -64,6 +69,29 @@ for (const file of pages) {
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
   titles.add(title);
+  // First-party social cards must match Studio-edited metadata in every language.
+  const descriptionMeta=html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  const ogTitle=html.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
+  const twitterTitle=html.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1];
+  const ogDescription=html.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
+  const twitterDescription=html.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
+  assert.ok(twitterTitle, file + ': Twitter title missing');
+  assert.equal(twitterTitle, ogTitle, file + ': OG/Twitter title mismatch');
+  assert.equal(ogDescription, descriptionMeta, file + ': OG description mismatch');
+  assert.equal(twitterDescription, descriptionMeta, file + ': Twitter description mismatch');
+  for (const fragment of [
+    '<meta property="og:image" content="' + expectedSocialImage + '"',
+    '<meta name="twitter:image" content="' + expectedSocialImage + '"',
+    '<meta property="og:image:type" content="image/png"',
+    '<meta property="og:image:width" content="1200"',
+    '<meta property="og:image:height" content="630"',
+    '<meta name="twitter:image:alt" content="'
+  ]) assert.ok(html.includes(fragment), file + ': missing social metadata ' + fragment);
+  assert.equal((html.match(/<meta property="og:image" /g) || []).length,1,file + ': one Open Graph image');
+  if (/\/bauleistungen\/[^/]+\/index\.html$/.test(file) ||
+      /(?:^|\/)(?:en\/|uk\/|ru\/)?leistungen\/index\.html$/.test(file)) {
+    assert.match(descriptionMeta, /Berlin|Берлін|Берлин/, file + ': local service snippet');
+  }
   // No external scripts or images. All partner logos must be first-party.
   assert.doesNotMatch(html, /<script\b[^>]*\bsrc="https?:\/\//i, file + ': external script');
   const externalImageSources = [...html.matchAll(/<img\b[^>]*\bsrc="(https?:\/\/[^"]+)"/gi)].map(match => match[1]);
