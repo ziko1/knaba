@@ -77,6 +77,11 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
       {headers:{'X-Knaba-Conversation':conversation.token}})).status,200);
     assert.equal((await fetchAt('/api/studio/page?page=%2F')).status,401);
 
+    const loginPageResponse=await fetchAt('/login/');
+    assert.equal(loginPageResponse.status,200);
+    const loginHtml=await loginPageResponse.text();
+    assert.match(loginHtml,/name="password"[^>]*minlength="8"[^>]*maxlength="256"/);
+    assert.doesNotMatch(loginHtml,/name="password"[^>]*minlength="16"/);
     const form=new URLSearchParams({email:owner,password,return_to:'/studio/'});
     const badOrigin=await fetchAt('/login/',{method:'POST',headers:{Origin:'https://evil.invalid','Content-Type':'application/x-www-form-urlencoded'},body:form});
     assert.equal(badOrigin.status,403);
