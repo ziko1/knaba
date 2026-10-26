@@ -16,7 +16,6 @@
 .reviews-action{display:flex;justify-content:flex-start;margin-top:24px}
 .reviews-button{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:48px;padding:13px 21px;border:1px solid #123a43;border-radius:10px;background:#123a43;color:#fff;font:inherit;font-size:.875rem;font-weight:750;line-height:1.5;cursor:pointer;max-width:100%;text-align:center;overflow-wrap:anywhere;white-space:normal}
 .reviews-button:hover{background:#075f65;border-color:#075f65}
-.reviews-button>span{flex:0 0 auto}
 .reviews-button:disabled,.reviews-link:disabled{cursor:not-allowed;opacity:.6}
 .reviews-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font:inherit;font-size:.875rem;font-weight:700;padding:4px 0;color:#096871;border:0;background:transparent;text-decoration:underline;text-underline-offset:4px;cursor:pointer;white-space:normal;max-width:100%;text-align:start}
 .reviews-content :is(button,input,textarea,select,a):focus-visible,.reviews-moderation :is(button,a):focus-visible{outline:3px solid #08777b;outline-offset:4px}
