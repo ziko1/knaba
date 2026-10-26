@@ -37,3 +37,33 @@ export function telegramPublicMenu(language:SupportedLanguage,officialWebsiteOri
   });
   return 'KNABA · '+(language==='DE'?'Beratung':language==='UK'?'Консультації':language==='RU'?'Консультации':'Consultation')+'\n'+lines.join('\n');
 }
+
+/** Public-only deterministic response. No AI model, employee data or arbitrary links. */
+export function telegramPublicReply(intent:TelegramPublicIntent,language:SupportedLanguage,publicOrigin:string):string {
+  const catalog=botModulesFor(undefined,false);
+  const get=(id:string)=>{
+    const row=catalog.find(item=>item.id===id);
+    if(!row)throw Error('MISSING_PUBLIC_MODULE');
+    const link=botModuleSiteUrl(row,publicOrigin);
+    if(!link)throw Error('INVALID_PUBLIC_ORIGIN');
+    return link;
+  };
+  if(intent==='MENU')return telegramPublicMenu(language,publicOrigin);
+  const texts:Record<TelegramPublicIntent,Record<'DE'|'UK'|'RU'|'EN',string>>={
+    MENU:{DE:'',UK:'',RU:'',EN:''},
+    SERVICES:{DE:'KnaBa BauService: Leistungen und aktuelle Informationen.',UK:'Послуги KnaBa та перевірена інформація.',RU:'Услуги KnaBa и актуальная информация.',EN:'KnaBa services and verified information.'},
+    ENQUIRY:{DE:'Anfrage über das sichere Formular senden. Preise und Termine bestätigt nur KnaBa.',UK:'Залиште заявку через захищену форму. Ціни й час підтверджує компанія.',RU:'Подайте заявку через защищённую форму. Цены и время подтверждает компания.',EN:'Send an enquiry with the secure form. Only KnaBa confirms prices and dates.'},
+    REGISTER:{DE:'Ihre Mitarbeiteranfrage wird geprüft. Ein Konto oder eine Mitarbeiterrolle wurde dadurch NICHT erstellt. Identität nur im sicheren Portal bestätigen.',UK:'Звернення працівника зафіксовано. Обліковий запис і роль НЕ створено. Підтверджуйте особу лише в захищеному кабінеті.',RU:'Обращение сотрудника записано. Учётная запись и роль НЕ созданы. Проверяйте личность только в защищённом кабинете.',EN:'Worker enquiry recorded. No account or staff role granted. Verify identity through the secure portal only.'},
+    CONTACT:{DE:'Kontakt oder Rückruf anfragen. Ein KI-Telefonanruf wurde nicht gestartet.',UK:'Контакти або запит зворотного дзвінка. AI-дзвінок не розпочато.',RU:'Контакты или запрос обратного звонка. AI-звонок не начат.',EN:'Contact or request a callback. No AI phone call has started.'},
+    PRIVACY:{DE:'Hinweise zur Datenverarbeitung:',UK:'Інформація щодо обробки даних:',RU:'Информация об обработке данных:',EN:'Privacy information:'},
+    HUMAN:{DE:'Ihr Anliegen ist für die persönliche Bearbeitung eingegangen. Keine Antwortzeit zugesagt.',UK:'Звернення передано для опрацювання людиною. Час відповіді не гарантовано.',RU:'Обращение передано оператору. Время ответа не гарантируется.',EN:'Your request is queued for a human operator. No response time is guaranteed.'}
+  };
+  const locale=['DE','UK','RU','EN'].includes(language)?language as 'DE'|'UK'|'RU'|'EN':'DE';
+  const routes:Record<TelegramPublicIntent,string>={
+    MENU:'services',SERVICES:'services',ENQUIRY:'enquiry',REGISTER:'account',
+    CONTACT:'contact',PRIVACY:'privacy',HUMAN:'contact'
+  };
+  const response=texts[intent][locale]+'\n'+get(routes[intent]);
+  if(response.length>4096)throw Error('PUBLIC_REPLY_TOO_LONG');
+  return response;
+}
