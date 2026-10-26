@@ -295,6 +295,9 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Shared brand-messages.json consolidates SVG slogans, accessibility labels and Open Graph metadata; no geometry/design/auth/schema change.
 - Offline Node24 check/test/build/verify + 24 VPS tests and 24-page/16-SVG audit PASS; real browser BLOCKED, native review/device and real owner pending. See docs/KNABA_BRAND_I18N_RELEASE_2026-10-26_UK.md.
 
+## 2026-10-26 KNABA I18N99 source-to-review worktree
+- Isolated translation pipeline based on active fdec254. Canonical 99 target catalogue continues 4 published / 95 pending. Static DE public, legal and account segments are versioned by SHA; draft verification rejects stale HTML, unsafe markup and broken placeholders. Real native/legal/dynamic/RTL/browser acceptance remains required. See docs/KNABA_I18N99_PIPELINE_CHECKPOINT_2026-10-26_UK.md.
+
 ## Preview developer self-registration — 2026-10-26
 - Reused PR #58 hashed one-use token mechanism on immutable preview source fdec2549890dde9cd07ec70a6b96b2e88c8fdc10, isolated from active uncommitted i18n/partners work.
 - Preview-only authorized developer email and /register/ share existing KNABA login, DB and security controls. Additive migration 0006 preserves applied 0005_public_reviews; no duplicate authentication system or second live site.

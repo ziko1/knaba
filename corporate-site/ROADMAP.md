@@ -278,6 +278,10 @@ User requests implementation and deployment to existing development site, preser
 - [ ] Complete 95 native-reviewed language packs, legal wording, form/Assistant messages, RTL/device a11y and page-by-page SEO; never auto-publish partial packs.
 - [ ] Real browser/device, legal and owner UAT; release only with exact source/artifact evidence, snapshot and rollback.
 
+## I18N99 language delivery (2026-10-26)
+- [x] Stable extractor/catalogue, glossary, draft/gap report and fail-closed source audit, on isolated fdec254 line.
+- [ ] Complete 95 native-reviewed dynamic/static language packs, full legal/RTL/mobile/accessibility/brand QA, only then public locale route/SEO release. No unknown-cost cloud dispatch.
+
 ## 2026-10-26 KNABA preview login and registration
 - [x] Reuse current secure login and add invite-only developer sign-up + preview-only admin role.
 - [x] Add forward-only invitation migration 0006, invalid/replay/rate-limit/owner-isolation tests, compile full site.
