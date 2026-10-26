@@ -33,3 +33,7 @@
 - `npm run audit:release` fail-closed. **Жодного merge в main, офіційного knaba.de cutover або production-активації** з цього checkpoint.
 
 Наступна залежна задача: порт незалитого AuthHub після виправлення відсутнього CSS та незалежної перевірки CSRF/OTP/signup/owner-role; потім ERP BFF/bridge зі staged PostgreSQL і тестами. Не обривати активні незалежні роботи інших гілок.
+
+## Корекція source-audit після компонування
+
+Чинний preview-сайт перейшов з `PublicAssistant.tsx` на `KnabaAssistant.tsx`; історичний імпорт зберігається через незмінний `IMPORT_COMMIT`/`IMPORT_TREES`. Root provenance validator перевіряє **фактичний поточний** компонент `KnabaAssistant.tsx` замість більше неіснуючого path. Це не скасування жодного QA або правового gate.

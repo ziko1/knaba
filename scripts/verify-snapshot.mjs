@@ -10,10 +10,10 @@ export const IMPORT_TREES = Object.freeze({
   erp: 'a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43',
   'corporate-site': '6ce56eb811af9733ce9b0b08dab3b636dfaf6371',
 });
-const REQUIRED_PATHS = Object.freeze([
+// Current Site PR #93 renamed PublicAssistant to KnabaAssistant. Historical import\n// identity stays pinned above; current source guard must require its real entrypoint.\nconst REQUIRED_PATHS = Object.freeze([
   'erp/AGENTS.md', 'erp/KNABA_DE_TARGET_SPEC.md', 'erp/PROJECT_MEMORY.md',
   'erp/docs/planning/DEVELOPMENT_BACKLOG.json',
-  'corporate-site/PROJECT_MEMORY.md', 'corporate-site/src/components/PublicAssistant.tsx',
+  'corporate-site/PROJECT_MEMORY.md', 'corporate-site/src/components/KnabaAssistant.tsx',
   'corporate-site/worker/api.ts', 'docs/unified/PROJECT_MEMORY.md',
   'docs/unified/BACKLOG.md', 'docs/unified/BUDGET.md',
 ]);
