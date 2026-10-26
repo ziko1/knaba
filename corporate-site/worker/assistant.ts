@@ -2,6 +2,7 @@ import { assistantAnswer, assistantLocale } from '../src/lib/assistant-knowledge
 import type { WorkerEnv, D1Database, WorkerContext } from './types';
 import { ownerNotice,drainOwnerNotifications,notificationDeliveryEnabled } from './notifications';
 import { captchaConfig, verifyCaptcha } from './turnstile';
+import { ErpFault, publicErpConfig, getErpLead, getErpLeadDiagnostics, previewErpLead, confirmErpLead, cancelErpLead } from './assistant-erp';
 
 /** Scoped public conversations + owner inbox. Never trust client-provided identity or role. */
 type Row = Record<string, unknown>;
@@ -96,11 +97,11 @@ async function requireConversation(db:D1Database,id:string,request:Request,owner
     fail(404,'not_found','Gespräch nicht gefunden.');
   return row!;
 }
-async function thread(db:D1Database,row:Row):Promise<Response> {
+async function thread(db:D1Database,row:Row,asOwner=false):Promise<Response> {
   const conversation={id:row.id,locale:row.locale,status:row.status,contactName:row.contact_name,contactEmail:row.contact_email,contactPhone:row.contact_phone,createdAt:row.created_at,updatedAt:row.updated_at};
   const messages=(await db.prepare('SELECT id,sender,kind,content,created_at AS createdAt FROM assistant_messages WHERE conversation_id=? ORDER BY created_at ASC,rowid ASC LIMIT ?').bind(row.id,MAX_HISTORY).all<Row>()).results||[];
   const offers=(await db.prepare('SELECT id,content,state,created_at AS createdAt,decided_at AS decidedAt FROM assistant_offers WHERE conversation_id=? ORDER BY created_at DESC,rowid DESC LIMIT 20').bind(row.id).all<Row>()).results||[];
-  return reply({conversation,messages,offers});
+  return reply({conversation,messages,offers,lead:await getErpLead(db,String(row.id)),...(asOwner?{leadDiagnostics:await getErpLeadDiagnostics(db,String(row.id))}:{})});
 }
 async function createConversation(request:Request,env:WorkerEnv) {
   const db=database(env),b=await bodyOf(request);
@@ -178,7 +179,7 @@ async function handoff(request:Request,env:WorkerEnv,id:string,owner:Owner) {
 async function inbox(env:WorkerEnv,owner:Owner) {
   requireOwner(owner);
   const db=database(env);
-  const data=(await db.prepare("SELECT c.id,c.locale,c.status,c.contact_name AS contactName,c.contact_email AS contactEmail,c.contact_phone AS contactPhone,c.created_at AS createdAt,c.updated_at AS updatedAt, (SELECT content FROM assistant_messages WHERE conversation_id=c.id ORDER BY created_at DESC,rowid DESC LIMIT 1) AS preview FROM assistant_conversations c WHERE c.status!='assistant' ORDER BY c.updated_at DESC,c.id DESC LIMIT ?")
+  const data=(await db.prepare("SELECT c.id,c.locale,c.status,c.contact_name AS contactName,c.contact_email AS contactEmail,c.contact_phone AS contactPhone,c.created_at AS createdAt, MAX(c.updated_at,COALESCE(strftime('%Y-%m-%dT%H:%M:%fZ',r.updated_at/1000.0,'unixepoch'),c.updated_at)) AS updatedAt, (SELECT content FROM assistant_messages WHERE conversation_id=c.id ORDER BY created_at DESC,rowid DESC LIMIT 1) AS preview FROM assistant_conversations c LEFT JOIN assistant_erp_requests r ON r.conversation_id=c.id AND r.consent_at IS NOT NULL WHERE c.status!='assistant' OR r.conversation_id IS NOT NULL ORDER BY updatedAt DESC,c.id DESC LIMIT ?")
     .bind(MAX_INBOX).all<Row>()).results||[];
   return reply({conversations:data,limited:data.length>=MAX_INBOX});
 }
@@ -196,7 +197,7 @@ async function ownerMessage(request:Request,env:WorkerEnv,id:string,owner:Owner)
     if(replay?.content!==content)fail(409,'idempotency_conflict','Diese Anfragekennung gehört zu einer anderen Nachricht.');
   }
   await db.prepare("UPDATE assistant_conversations SET status='human',updated_at=? WHERE id=? AND status!='closed'").bind(now(),id).run();
-  return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!);
+  return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!,true);
 }
 async function ownerOffer(request:Request,env:WorkerEnv,id:string,owner:Owner) {
   const db=database(env),row=await requireConversation(db,id,request,owner,true);
@@ -204,14 +205,14 @@ async function ownerOffer(request:Request,env:WorkerEnv,id:string,owner:Owner) {
   const b=await bodyOf(request);fields(b,['content','idempotencyKey']);
   const content=text(b.content,1400),requestKey=key(b.idempotencyKey);
   const duplicate=await db.prepare('SELECT id,content FROM assistant_offers WHERE conversation_id=? AND request_key=?').bind(id,requestKey).first<Row>();
-  if(duplicate){if(duplicate.content!==content)fail(409,'conflict','Anfragekennung wurde für andere Bedingungen verwendet.');return thread(db,row);}
+  if(duplicate){if(duplicate.content!==content)fail(409,'conflict','Anfragekennung wurde für andere Bedingungen verwendet.');return thread(db,row,true);}
   const pending=await db.prepare("SELECT id FROM assistant_offers WHERE conversation_id=? AND state='pending'").bind(id).first<Row>();
   if(pending)fail(409,'pending_offer','Ein Angebot wartet bereits auf Entscheidung.');
   const result=await db.prepare("INSERT OR IGNORE INTO assistant_offers (id,conversation_id,content,state,request_key,created_at,decided_at) SELECT ?,?,?,'pending',?,?,NULL WHERE NOT EXISTS (SELECT 1 FROM assistant_offers WHERE conversation_id=? AND state='pending')")
     .bind(newId(),id,content,requestKey,now(),id).run();
   if(!result.meta?.changes)fail(409,'conflict','Bitte laden Sie die Angebote neu.');
   await db.prepare("UPDATE assistant_conversations SET status='human',updated_at=? WHERE id=?").bind(now(),id).run();
-  return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!);
+  return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!,true);
 }
 async function decide(request:Request,env:WorkerEnv,id:string,offerId:string,owner:Owner) {
   const db=database(env),row=await requireConversation(db,id,request,owner);
@@ -236,7 +237,7 @@ async function ownerStatus(request:Request,env:WorkerEnv,id:string,owner:Owner) 
   const b=await bodyOf(request);fields(b,['status']);
   if(b.status!=='human'&&b.status!=='closed')fail(422,'validation','Status ungültig.');
   await db.prepare('UPDATE assistant_conversations SET status=?,updated_at=? WHERE id=?').bind(b.status,now(),id).run();
-  return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!);
+  return thread(db,(await db.prepare('SELECT * FROM assistant_conversations WHERE id=?').bind(id).first<Row>())!,true);
 }
 async function flushAfter(response:Promise<Response>,env:WorkerEnv,ctx?:WorkerContext):Promise<Response> {
   const result=await response;
@@ -249,6 +250,21 @@ async function flushAfter(response:Promise<Response>,env:WorkerEnv,ctx?:WorkerCo
 export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,ctx?:WorkerContext):Promise<Response> {
   try {
     const path=new URL(request.url).pathname.replace(/\/$/,'');
+    if(path==='/api/assistant/lead-config'&&request.method==='GET')return reply(publicErpConfig(env));
+    const leadPath=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/lead(?:\/(preview|confirm|cancel))?$/i);
+    if(leadPath){
+      const db=database(env),id=leadPath[1];
+      await requireConversation(db,id,request,owner);
+      if(!leadPath[2]&&request.method==='GET')return reply({lead:await getErpLead(db,id)});
+      if(leadPath[2]&&request.method==='POST'){
+        const body=await bodyOf(request);
+        await throttle(db,request,'lead',30,3600);
+        if(leadPath[2]==='preview')return reply({lead:await previewErpLead(db,env,id,body)});
+        if(leadPath[2]==='confirm')return reply({lead:await confirmErpLead(db,env,id,body)});
+        fields(body,[]);
+        return reply({lead:await cancelErpLead(db,id)});
+      }
+    }
     if(path==='/api/assistant/captcha'&&request.method==='GET'){
       const config=captchaConfig(env);
       return reply(config,config.unavailable?503:200);
@@ -267,7 +283,7 @@ export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,
     if(path==='/api/assistant/owner/conversations'&&request.method==='GET')return await inbox(env,owner);
     const ownerThread=path.match(/^\/api\/assistant\/owner\/conversations\/([0-9a-f-]{36})$/i);
     if(ownerThread&&request.method==='GET'){
-      const db=database(env);return thread(db,await requireConversation(db,ownerThread[1],request,owner,true));
+      const db=database(env);return thread(db,await requireConversation(db,ownerThread[1],request,owner,true),true);
     }
     const ownerMatch=path.match(/^\/api\/assistant\/owner\/conversations\/([0-9a-f-]{36})\/(messages|offers|status)$/i);
     if(ownerMatch&&request.method==='POST'){
@@ -286,6 +302,7 @@ export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,
     return reply({error:{code:'not_found',message:'Nicht verfügbar.'}},404);
   } catch(error) {
     if(error instanceof Fault)return reply({error:{code:error.code,message:error.message}},error.status);
+    if(error instanceof ErpFault)return reply({error:{code:error.code,message:'Bitte prüfen Sie die Anfrage und versuchen Sie es erneut.'}},error.status);
     return reply({error:{code:'unavailable',message:'Der Dienst ist derzeit nicht verfügbar.'}},503);
   }
 }

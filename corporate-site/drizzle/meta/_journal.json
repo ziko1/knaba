@@ -50,6 +50,13 @@
       "when": 1793022236516,
       "tag": "0006_owner_invite",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1793022296516,
+      "tag": "0007_assistant_erp_bridge",
+      "breakpoints": true
     }
   ]
 }

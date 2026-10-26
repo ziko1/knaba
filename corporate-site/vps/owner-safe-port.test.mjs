@@ -18,7 +18,7 @@ async function fixture(work) {
   try {
     const { db, migrations } = openLocalDatabase(path);
     try {
-      assert.equal(migrations.length, 7);
+      assert.equal(migrations.length, 8);
       assert.equal(migrations[5], '0005_public_reviews.sql');
       assert.equal(migrations[6], '0006_owner_invite.sql');
       return await work(db, { dir, path });

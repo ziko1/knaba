@@ -4,10 +4,12 @@ import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../li
 import { createAssistantRequestState,sameAssistantTicket,type AssistantRequestScope } from '../lib/assistant-request-state';
 import '../styles/assistant.css';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
+import AssistantLead, {type LeadAction} from './AssistantLead';
+import type { ErpLeadView } from '../lib/assistant-erp-contract';
 
 type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string};
 type Offer = {id:string;content:string;state:'pending'|'accepted'|'declined'};
-type Thread = {conversation:{id:string;status:'assistant'|'human'|'closed'};messages:Message[];offers:Offer[]};
+type Thread = {conversation:{id:string;status:'assistant'|'human'|'closed'};messages:Message[];offers:Offer[];lead?:ErpLeadView|null};
 type Ticket = AssistantTicket;
 const STORAGE='knaba-assistant-ticket-v1';
 const captions = {
@@ -64,6 +66,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const captchaChanged=(status:CaptchaState,token='')=>{setCaptchaStatus(status);setCaptchaToken(token);};
   const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
   const requests=createAssistantRequestState();
+  let leadController:AbortController|null=null;
   let recognition:Recognition|null=null,log:HTMLDivElement|undefined,panel:HTMLElement|undefined,launcher:HTMLButtonElement|undefined;
   function stopSpeech(){
     const active=recognition;recognition=null;
@@ -86,11 +89,12 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
       if(value&&/^[a-f0-9-]{36}$/i.test(value.id)&&/^[a-f0-9]{64}$/i.test(value.token)){setTicket(value);setAccepted(true);void load(value);}
     }catch{}
     const timer=setInterval(()=>{const current=ticket();if(open()&&current&&!document.hidden)void load(current);},8000);
-    onCleanup(()=>{clearInterval(timer);requests.dispose();stopSpeech();});
+    onCleanup(()=>{clearInterval(timer);leadController?.abort();requests.dispose();stopSpeech();});
   });
   createEffect(()=>{if(open())dialog.focusOnOpen();});
   createEffect(()=>{thread()?.messages.length;thread()?.offers.length;queueMicrotask(()=>{if(log)log.scrollTop=log.scrollHeight;});});
   async function load(current:Ticket){
+    if(busy())return;
     await requests.run('poll',request=>http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token,request.signal),{
       success:result=>{if(sameAssistantTicket(ticket(),current)){setThread(result);setError('');}},
       error:()=>{if(open()&&sameAssistantTicket(ticket(),current))setError(t.no);},
@@ -114,6 +118,47 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     setTicket(created);
     try{sessionStorage.setItem(STORAGE,JSON.stringify(created));}catch{}
     return created;
+  }
+  async function leadAction(action:LeadAction,input:unknown):Promise<ErpLeadView|null>{
+    if(busy())throw Error('busy');
+    if(!accepted())throw Error('privacy_required');
+    // Fence older in-flight polling before changing a lead. Other action
+    // handlers use the same busy signal and cannot overlap.
+    requests.reset();
+    const inGeneration=requests.checkpoint(),controller=new AbortController();
+    leadController=controller;
+    const scope:AssistantRequestScope={
+      signal:controller.signal,
+      isCurrent:()=>inGeneration()&&!controller.signal.aborted,
+      check:()=>{if(!inGeneration()||controller.signal.aborted)throw new DOMException('Conversation superseded','AbortError');},
+    };
+    setBusy(true);setError('');
+    let touched:Ticket|null=null;
+    try{
+      const current=await ensure(scope);
+      touched=current;
+      scope.check();
+      const result=await http<{lead:ErpLeadView|null}>(`/api/assistant/conversations/${current.id}/lead/${action}`,'POST',input,current.token,scope.signal);
+      scope.check();
+      if(sameAssistantTicket(ticket(),current)){
+        setThread(previous=>previous?.conversation.id===current.id?{...previous,lead:result.lead}:previous);
+      }
+      return result.lead;
+    }catch(error){
+      if(scope.isCurrent())setError(t.no);
+      throw error;
+    }finally{
+      if(leadController===controller){
+        leadController=null;
+        setBusy(false);
+        if(touched&&scope.isCurrent()&&sameAssistantTicket(ticket(),touched))void load(touched);
+      }
+    }
+  }
+  async function refreshLead():Promise<void>{
+    const current=ticket();
+    if(!current)throw Error('missing_conversation');
+    await load(current);
   }
   async function send(event:Event){
     event.preventDefault();if(busy()||!draft().trim())return;
@@ -202,6 +247,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   }
   function reset(){
     if(!window.confirm(t.fresh))return;
+    leadController?.abort();leadController=null;
     requests.reset();stopSpeech();setBusy(false);
     try{sessionStorage.removeItem(STORAGE);}catch{}
     setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');setRecoveryInput('');setCodeCopied(false);
@@ -248,8 +294,11 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
             </form>
             <button type="button" class="ka-contact-owner" onClick={()=>setHuman(v=>!v)} disabled={busy()}>{t.human} ↗</button>
           </Show>
+          <AssistantLead locale={locale} conversationKey={ticket()?.id??'new'} lead={thread()?.lead}
+            canStart={accepted()&&Boolean(ticket()||captchaStatus()==='disabled'||captchaStatus()==='verified'&&captchaToken())}
+            busy={busy()} closed={thread()?.conversation.status==='closed'} onAction={leadAction} onRefresh={refreshLead}/>
           <nav aria-label="KnaBa"><a href="tel:+493067933054">☎ +49 (30) 679 330 54</a><a href="mailto:kontakt@knaba.de">✉ kontakt@knaba.de</a></nav>
-          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
+          <Show when={ticket()}><div class="ka-recovery-save"><button type="button" onClick={()=>void copyRecovery()}>{codeCopied()?t.copied:t.copyCode} ↗</button><small>{t.codeWarning}</small></div><button type="button" class="ka-reset" disabled={busy()} onClick={reset}>{t.new}</button><p class="ka-ephemeral">{t.session}</p></Show>
         </div>
       </section>
     </Show>

@@ -1,6 +1,7 @@
 import { handleApi } from './api';
 import type { WorkerEnv, WorkerContext } from './types';
 import { drainOwnerNotifications } from './notifications';
+import { drainErpLeads } from './assistant-erp-dispatch';
 
 export default {
   async fetch(request: Request,env: WorkerEnv,ctx?: WorkerContext): Promise<Response> {
@@ -12,5 +13,7 @@ export default {
   scheduled(_event:unknown,env:WorkerEnv,ctx:WorkerContext):void {
     // Optional cron trigger: controlled separately in hosting settings.
     ctx.waitUntil(drainOwnerNotifications(env).then(()=>undefined));
+    // Fully fail-closed when ERP is not explicitly approved by the operator.
+    if(env.ASSISTANT_ERP_ENABLED==='approved') ctx.waitUntil(drainErpLeads(env).then(()=>undefined));
   },
 };

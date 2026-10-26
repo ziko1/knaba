@@ -130,7 +130,7 @@ function logoutPage(returnTo){
 }
 export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
-  origin='https://knaba.de',localTest=false
+  origin='https://knaba.de',localTest=false,erpBindings={}
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   const base=new URL(origin);
@@ -145,6 +145,12 @@ export async function createKnabaVpsServer({
     ASSETS:{fetch:async request=>{
       return new Response('Static assets are served at the VPS edge.',{status:404});
     }}};
+  // Only explicit private ERP settings may reach the Worker. Never forward
+  // client-controlled request headers, sessions or arbitrary environment values.
+  for(const key of ['ENABLED','ORIGIN','SOURCE','SITE_ID','COMPANY_ID','KEY_ID','SECRET','MAPPING_VERSION','SERVICES_JSON']){
+    const name='ASSISTANT_ERP_'+key;
+    if(typeof erpBindings[name]==='string')env[name]=erpBindings[name];
+  }
   const server=createHttpServer(async(req,res)=>{
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
@@ -285,7 +291,22 @@ export async function createKnabaVpsServer({
   server.maxRequestsPerSocket=100;
   server.listen(port,host);
   await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
-  return {server,db,migrations,port:server.address().port,close:()=>new Promise(resolve=>server.close(()=>{db.close();resolve();}))};
+  let background=Promise.resolve(),running=false,stopping=false;
+  const tick=()=>{
+    if(stopping||running||env.ASSISTANT_ERP_ENABLED!=='approved'||typeof worker.scheduled!=='function')return;
+    running=true;
+    const pending=[];
+    background=Promise.resolve().then(()=>{
+      worker.scheduled({},env,{waitUntil:promise=>pending.push(Promise.resolve(promise))});
+      return Promise.allSettled(pending);
+    }).catch(()=>undefined).finally(()=>{running=false;});
+  };
+  const timer=env.ASSISTANT_ERP_ENABLED==='approved'?setInterval(tick,30_000):null;
+  timer?.unref();
+  return {server,db,migrations,port:server.address().port,close:()=>{
+    stopping=true;if(timer)clearInterval(timer);
+    return new Promise(resolve=>server.close(()=>{void background.finally(()=>{db.close();resolve();});}));
+  }};
 }
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){
   const port=Number(process.env.PORT||8080);
@@ -296,6 +317,7 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     ownerEmail:process.env.OWNER_EMAIL||'',
     turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
     turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',
+    erpBindings:process.env,
     origin:process.env.KNABA_PUBLIC_ORIGIN||'https://knaba.de',
     port,host:'0.0.0.0',localTest:process.env.KNABA_LOCAL_TEST==='1'
   });
