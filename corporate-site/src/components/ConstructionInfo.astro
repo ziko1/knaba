@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import CompanyProfile from './CompanyProfile.astro';
 import Partners from './Partners.astro';
 import {careersCopy,careersHref} from '../data/careers';
-import {company} from '../data/company';
 import {constructionBusinessCopy as c} from '../data/construction-offers';
 import type {ConstructionLocale} from '../data/construction-offers';
 import {infoGuidance,guidanceCopy,type InfoVariant} from '../data/construction-guidance';
@@ -52,7 +51,7 @@ const articleCopy={
  ru:{heading:'Подготовьте свой проект шаг за шагом',intro:'Четыре подробных руководства помогут согласовать время, определить объём работ и подготовить чистую сдачу объекта.',read:'Читать руководство'},
 }[locale];
 ---
-<Layout lang={locale} title={t.title+' | KnaBa'} description={t.lead}>
+<Layout hasInlinePhone={variant==='unternehmen'} hasInlineEmail={variant==='unternehmen'||variant==='karriere'} lang={locale} title={t.title+' | KnaBa'} description={t.lead}>
 <section class="container page-intro"><p class="eyebrow">{t.label}</p><h1>{t.title}</h1><p>{t.lead}</p></section>
 {variant==='unternehmen' && <CompanyProfile locale={locale} />}
 {variant==='unternehmen' && <Partners locale={locale} />}
@@ -62,7 +61,7 @@ const articleCopy={
     <span class="bau-article-number" aria-hidden="true">0{index+1}</span><h3>{guide.title[locale]}</h3><p>{guide.description[locale]}</p><span class="bau-article-link">{articleCopy.read} <span aria-hidden="true">→</span></span>
   </a>)}</div>
 </section>}
-{variant!=='ratgeber' && variant!=='unternehmen' && <section class="container section section-tight"><div class="bau-info-grid">{t.items.map(([title,body],i)=><article class="bau-info-card"><span class="bau-info-number">0{i+1}</span><h2>{title}</h2><p>{body}</p><a class="text-link" href={actionHref}>{actionLabel} →</a></article>)}</div></section>}
+{variant!=='ratgeber' && variant!=='unternehmen' && <section class="container section section-tight"><div class="bau-info-grid">{t.items.map(([title,body],i)=><article class="bau-info-card"><span class="bau-info-number">0{i+1}</span><h2>{title}</h2><p>{body}</p></article>)}</div></section>}
 <section class="container section section-tight bau-guidance" aria-labelledby="guidance-title">
   <div class="bau-guidance-heading"><h2 id="guidance-title">{guidance.heading[locale]}</h2><p>{guidance.intro[locale]}</p></div>
   {variant==='ratgeber' && <nav class="bau-guide-contents" aria-label={guidanceCopy.contents[locale]}>
@@ -78,12 +77,11 @@ const articleCopy={
   </nav>
 </section>
 <section class="container cta-banner"><div><p class="eyebrow">{cta.region}</p><h2>{career?career.title:cta.ready}</h2><p>{career?career.intro:cta.note}</p>{career&&<p class="career-privacy">{career.privacy}</p>}</div><a class="button button-dark" href={actionHref}>{actionLabel} <span aria-hidden="true">↗</span></a></section>
-<section class="container section section-tight"><p><strong>KnaBa</strong> · {company.street}, {company.city} · <a href={company.phoneHref}>{company.phone}</a> · <a href={'mailto:'+company.email}>{company.email}</a></p></section>
 </Layout>
 <style>
 .career-privacy{font-size:14px;line-height:1.7;max-width:72ch;overflow-wrap:anywhere}
 .bau-articles-heading{max-width:78ch;margin-bottom:1.75rem}.bau-articles-heading h2{font-size:clamp(1.625rem,3vw,2.5rem);line-height:1.25;overflow-wrap:anywhere}.bau-articles-heading p{font-size:1rem;line-height:1.8;color:#405e55}.bau-article-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}.bau-article-card{display:flex;flex-direction:column;min-width:0;padding:clamp(1.5rem,3vw,2.25rem);border:1px solid #cadfd3;border-radius:22px;background:#eaf3e8;text-decoration:none;overflow-wrap:anywhere}.bau-article-card:nth-child(2){background:#e6f1f3;border-color:#cadde0}.bau-article-card:nth-child(3){background:#f6eedf;border-color:#e4d8c1}.bau-article-card:nth-child(4){background:#eeedf6;border-color:#d9d6e8}.bau-article-number{color:#196e68;font-size:.875rem;font-weight:800;letter-spacing:.08em;margin-bottom:1.4rem}.bau-article-card h3{font-size:1.5rem;line-height:1.35;letter-spacing:-.025em;color:#153d41;margin-bottom:1rem}.bau-article-card p{font-size:1rem;line-height:1.8;color:#3f5c55;margin-bottom:1.75rem}.bau-article-link{font-size:.9375rem;color:#105f61;font-weight:750;line-height:1.6;margin-top:auto}.bau-article-card:hover{border-color:#147c73}.bau-article-card:focus-visible{outline:3px solid #147c73;outline-offset:5px}@media(max-width:700px){.bau-article-grid{grid-template-columns:1fr}.bau-article-card{padding:1.5rem}}
-.bau-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.bau-info-card{background:#ebf5ed;padding:32px 28px;border:1px solid #d6e9de;border-radius:20px;display:flex;flex-direction:column;min-height:255px}.bau-info-card:nth-child(even){background:#e7f2f5}.bau-info-card h2{font-size:23px;line-height:1.15;margin:22px 0 10px}.bau-info-card p{font-size:14px;line-height:1.65;color:#48665e}.bau-info-card a{margin-top:auto}.bau-info-number{font-size:15px;color:#0a8c92;font-weight:850}
+.bau-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.bau-info-card{background:#ebf5ed;padding:32px 28px;border:1px solid #d6e9de;border-radius:20px;display:flex;flex-direction:column;min-height:255px}.bau-info-card:nth-child(even){background:#e7f2f5}.bau-info-card h2{font-size:23px;line-height:1.15;margin:22px 0 10px}.bau-info-card p{font-size:14px;line-height:1.65;color:#48665e}.bau-info-number{font-size:15px;color:#0a8c92;font-weight:850}
 .bau-guidance-heading{max-width:78ch;margin-bottom:26px}.bau-guidance-heading h2{font-size:clamp(26px,3vw,40px);line-height:1.16;letter-spacing:-.035em;overflow-wrap:anywhere}.bau-guidance-heading p{color:#48665e;line-height:1.75}
 .bau-guide-contents{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}.bau-guide-contents a{display:flex;align-items:center;min-height:44px;padding:10px 15px;border:1px solid #b9d4c9;border-radius:12px;color:#164d50;font-size:14px;font-weight:700;text-decoration:none;max-width:100%;overflow-wrap:anywhere}
 .bau-guidance-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.bau-guidance-section{min-width:0;padding:clamp(22px,3vw,34px);border:1px solid #cddfd6;border-radius:20px;background:#f3f8f2;scroll-margin-top:110px}.bau-guidance-section:nth-child(even){background:#edf5f6}.bau-guidance-section h3{font-size:22px;line-height:1.3;letter-spacing:-.02em;margin:0 0 20px;overflow-wrap:anywhere}.bau-guidance-section ul{margin:0;padding-left:20px;display:grid;gap:16px}.bau-guidance-section li{color:#3c5c55;font-size:15px;line-height:1.75;overflow-wrap:anywhere;padding-left:4px}.bau-guidance-section li::marker{color:#187972}

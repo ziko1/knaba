@@ -304,3 +304,8 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Private loopback VPS container with isolated migrated SQLite passed 8 public home/gallery HTTP routes; `/readyz` intentionally 503 without owner account. See `docs/evidence/KNABA_VSP_FORWARD_INTEGRATION_QA_2026-10-26_UK.md`. Live symlink and customer DB untouched; logo rights/owner UAT, independent review, real device, verified backup/rollback and separate VSP release approval remain OPEN.
 
 - Concurrent VSP release drift 2026-10-26: active source `21a56934f3c3266d31285bb89e0a4ca0c0f755a4` (not on GitHub), manifest readyForRelease=0/storageGateCutoverAllowed=false. The valid local source-recovery bundle hash `dd0ba5568c7192738c937b7cc08eab25744ed75d2580ff1ae158d1a81cddf98b` contains one review-only i18n dynamic commit on top of 83ff; no runtime/schema change declared. Published cutover remains HOLD, cannot overwrite live without current ancestry/backup CAS.
+
+## 26.10.2026 — KNABA link/phone dedup forward candidate (Draft)
+- Based on af58e80af83449a2ee72433c958aedcf0749604f, reuses Draft PR #79 without rewriting gallery/partners/i18n99/career flows. Candidate branch fix/knaba-forward-contact-dedup-20261026.
+- One canonical clickable phone on each of 122 source-built pages, no repeated local href within 509 nav containers, contextual email/self-link guards. Node24 check/test/build/verify/VPS PASS on isolated candidate; i18n catalogue regenerated for current German source. Evidence: docs/evidence/KNABA_CONTACT_LINK_DEDUP_FORWARD_2026-10-26_UK.md.
+- Still source-only: browser/device/customer UAT, media rights, backup/rollback and owner release approval pending. No merge, public deployment, DNS, paid provider, or customer data mutation.

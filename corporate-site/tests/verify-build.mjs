@@ -95,6 +95,18 @@ for (const file of pages) {
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
   const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
   assert.ok(business, `${file}: LocalBusiness present`);
+  const phoneLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](tel:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
+  assert.deepEqual(phoneLinks, [`tel:${business.telephone}`], `${file}: exactly one canonical telephone link`);
+  if (/(?:^|\/)(?:en\/|uk\/|ru\/)?kontakt\/index\.html$/.test(file)) {
+    assert.doesNotMatch(html, /class="button button-dark nav-cta"/, `${file}: no header CTA to itself`);
+    assert.match(html, /<footer\b[\s\S]*?href="\/(?:en\/|uk\/|ru\/)?planer\/"/, `${file}: footer directs visitors to planner instead`);
+  }
+  const emailLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](mailto:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
+  const privacy = /(?:^|\/)datenschutz\/index\.html$/.test(file);
+  assert.equal(emailLinks.length, privacy ? 4 : 1, `${file}: no redundant mail link outside mandated privacy context`);
+  for (const card of html.matchAll(/<article\s+class=["']bau-info-card["'][^>]*>([\s\S]*?)<\/article>/g)) {
+    assert.doesNotMatch(card[1], /<a\b[^>]*\bhref=["']\/(?:en\/|uk\/|ru\/)?kontakt\/["']/i, `${file}: no repeated contact link inside an information card`);
+  }
   assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
   assert.equal(business.url, origin, `${file}: business URL uses the current host`);
   for(const node of graphNodes){

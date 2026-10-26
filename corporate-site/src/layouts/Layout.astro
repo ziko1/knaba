@@ -13,12 +13,14 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  hasInlinePhone?: boolean;
+  hasInlineEmail?: boolean;
   lang?: 'de' | 'en' | 'uk' | 'ru';
   schema?: Record<string, unknown> | Record<string, unknown>[];
   breadcrumbs?: {name:string;url:string}[];
   alternates?: {lang:string;url:string}[];
 }
-const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [] } = Astro.props;
+const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [], hasInlinePhone = false, hasInlineEmail = false } = Astro.props;
 const isNoindex = !siteConfig.indexable || noindex;
 function validWebmasterProof(value: unknown): string | undefined {
   if(typeof value!=='string')return undefined;
@@ -41,6 +43,7 @@ const localPath = (url: string) => {
   if((lang==='en'||lang==='uk') && ['/impressum/','/datenschutz/','/konto/'].includes(url)) return url;
   return '/'+lang+url;
 };
+const isContactPage = path === localPath('/kontakt/');
 const brand = brandMessages[lang];
 const brandAlt = brand.descriptor;
 const logoLocale = lang==='de'?'':'-'+lang;
@@ -75,7 +78,7 @@ const structuredData = {
   "@id": siteConfig.origin + "/#business",
   name: "KnaBa Baureinigung & BauService",
   url: siteConfig.origin,
-  telephone: "+493067933054",
+  telephone: company.phoneHref.slice(4),
   email: company.email,
   address: {
     "@type": "PostalAddress",
@@ -123,10 +126,7 @@ const structuredData = {
     <a href="#main" class="skip-link">{translated.skip}</a>
     <div class="topline">
       <div class="container">
-        <span
-          ><span class="dot"></span> {translated.region}</span
-        ><a href={company.phoneHref}
-          ><Icon name="phone" size={14} />{company.phone}</a>
+        <span><span class="dot"></span> {translated.region}</span>
       </div>
     </div>
     <header class="header">
@@ -149,9 +149,7 @@ const structuredData = {
             ))
           }
         </nav>
-        <a class="button button-dark nav-cta" href={localPath("/kontakt/")}
-          >{translated.quote} <Icon size={17} /></a
-        >
+        {!isContactPage && <a class="button button-dark nav-cta" href={localPath("/kontakt/")}>{translated.quote} <Icon size={17} /></a>}
         <a class="account-link" href={localPath("/konto/")}>{translated.account} ↗</a>
         <details class="site-language-switcher">
           <summary aria-label={`${languageLabel}: ${languageNames[lang]}`}>
@@ -173,8 +171,9 @@ const structuredData = {
           <summary aria-label={translated.menu}
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
           ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
-            {nav.map(([href, text]) => <a href={href} aria-current={navigationCurrent(path, href)}>{text}</a>)}<a
-              href={localPath("/kontakt/")}>{translated.quote} →</a><a href={localPath("/konto/")}>{translated.account}</a>
+            {nav.map(([href, text]) => <a href={href} aria-current={navigationCurrent(path, href)}>{text}</a>)}
+            {!isContactPage && <a href={localPath("/kontakt/")}>{translated.quote} →</a>}
+            <a href={localPath("/konto/")}>{translated.account}</a>
           </nav>
         </details>
       </div>
@@ -197,15 +196,15 @@ const structuredData = {
             >{footerLabels[6]}</a>
         </div>
         <div>
-          <h2>{translated.contact}</h2><a href={company.phoneHref}>{company.phone}</a><a
-            href={`mailto:${company.email}`}>{company.email}</a
-          ><p>{company.street}<br />{company.city}</p>
+          <h2>{translated.contact}</h2>{!hasInlinePhone && <a href={company.phoneHref}>{company.phone}</a>}{!hasInlineEmail && <a
+            href={`mailto:${company.email}`}>{company.email}</a>}
+          <p>{company.street}<br />{company.city}</p>
         </div>
         <div>
           <h2>{translated.next}</h2><p>
             {translated.nextText}
-          </p><a href={localPath("/kontakt/")} class="text-link light"
-            >{translated.quote} <Icon size={18} /></a>
+          </p><a href={isContactPage ? localPath("/planer/") : localPath("/kontakt/")} class="text-link light"
+            >{isContactPage ? footerLabels[0] : translated.quote} <Icon size={18} /></a>
         </div>
       </div>
       <div class="container footer-bottom">

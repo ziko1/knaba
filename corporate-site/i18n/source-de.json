@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "5f6f3d20442df835d4da32b75fb559180250ced76b467698638785ff34e7d579",
+  "sourceDigest": "490a27fa025484d9cd3757b3fc7da8c2195dc4d9118c61b1abca4f6b91262a0f",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -31,7 +31,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 948,
+  "unitCount": 946,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -583,6 +583,13 @@
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/bauzwischenreinigung/",
         "/leistungen/"
+      ]
+    },
+    "0f68096c0d1c87aa5ec7ba71": {
+      "kind": "text",
+      "source": "<div class=\"aside-card\" data-astro-cid-hawopk5z><h2 data-astro-cid-hawopk5z>Bauprojekt anfragen</h2><p data-astro-cid-hawopk5z>E-Mail: kontakt@knaba.de</p></div>",
+      "routes": [
+        "/kontakt/"
       ]
     },
     "0f7917924beb47ea1ae7565c": {
@@ -1678,13 +1685,6 @@
         "/faq/"
       ]
     },
-    "2f8b70149ff7dfbea3be5842": {
-      "kind": "text",
-      "source": "<div class=\"aside-card\" data-astro-cid-hawopk5z><h2 data-astro-cid-hawopk5z>Bauprojekt anfragen</h2><a class=\"button button-dark\" href=\"mailto:kontakt@knaba.de\" data-astro-cid-hawopk5z>kontakt@knaba.de</a></div>",
-      "routes": [
-        "/kontakt/"
-      ]
-    },
     "2f9afe24d04ee299a3b14b97": {
       "kind": "text",
       "source": "Die gewünschte Aufgabe mit Ort, Maßen und vorhandenen Unterlagen beschreiben.",
@@ -2250,7 +2250,6 @@
         "/galerie/",
         "/impressum/",
         "/karriere/",
-        "/kontakt/",
         "/konto/",
         "/leistungen/",
         "/planer/",
@@ -4881,7 +4880,6 @@
         "/galerie/",
         "/impressum/",
         "/karriere/",
-        "/kontakt/",
         "/konto/",
         "/leistungen/",
         "/planer/",
@@ -5555,13 +5553,6 @@
       "source": "Verantwortlicher",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "a03c7985e71233458c3b89e8": {
-      "kind": "text",
-      "source": "Mitarbeit anfragen →",
-      "routes": [
-        "/karriere/"
       ]
     },
     "a08d93ed82ec3c938c7a7d51": {
@@ -6768,13 +6759,6 @@
         "/branchen/"
       ]
     },
-    "c6b79ac3ec97d94d1f86b2b9": {
-      "kind": "text",
-      "source": "<p class=\"notice\" data-astro-cid-t3qry3uv>Das Kundenportal benötigt JavaScript. Für eine Anfrage erreichen Sie uns unter <a href=\"mailto:kontakt@knaba.de\" data-astro-cid-t3qry3uv>kontakt@knaba.de</a> oder <a href=\"tel:+493067933054\" data-astro-cid-t3qry3uv>+49 (30) 679 330 54</a>.</p>",
-      "routes": [
-        "/konto/"
-      ]
-    },
     "c79f9927ec73c3c80c0afc0b": {
       "kind": "text",
       "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
@@ -7970,6 +7954,13 @@
         "/leistungen/"
       ]
     },
+    "ee4ed5091f798b5c3d0dc772": {
+      "kind": "text",
+      "source": "<p class=\"notice\" data-astro-cid-t3qry3uv>Das Kundenportal benötigt JavaScript. Für Anfragen finden Sie unsere Kontaktdaten im Seitenfuß.</p>",
+      "routes": [
+        "/konto/"
+      ]
+    },
     "ee5867334e7263062fc79f3f": {
       "kind": "text",
       "source": "2. Systematisch nach Räumen und Flächen prüfen",
@@ -8146,8 +8137,6 @@
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
         "/leistungen/"
       ]
     },
@@ -8502,17 +8491,6 @@
       "source": "Etwa Montage-, Betonbearbeitungs- oder Abbruchanfragen können geprüft werden. Ausführung und fachliche Zuständigkeit stehen erst nach technischer und rechtlicher Klärung fest.",
       "routes": [
         "/faq/"
-      ]
-    },
-    "fd72fef3bb298c327586f8a7": {
-      "kind": "text",
-      "source": "· Im Achterkastell 39, 10315 Berlin ·",
-      "routes": [
-        "/berlin/",
-        "/branchen/",
-        "/karriere/",
-        "/ratgeber/",
-        "/unternehmen/"
       ]
     },
     "fe2bc27ac97c7db03a6dd1b3": {

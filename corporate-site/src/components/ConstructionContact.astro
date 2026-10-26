@@ -15,7 +15,7 @@ const translated={
  ru:{k:'КОНТАКТЫ / СТРОИТЕЛЬСТВО',title:'Ваш объект. Наши следующие договорённости.',intro:'Расскажите о площадке и этапе работ. Обсудим клининг и проверим возможность дополнительных услуг.',contact:'Связаться напрямую',phone:'Телефон',email:'Почта',address:'Адрес',disclaimer:'Специальные работы требуют технической оценки, квалифицированных исполнителей, разрешений и отдельного договора.',script:'Опишите дополнительные задачи в поле сообщения.'}
 }[locale];
 ---
-<Layout lang={locale} title={translated.title+' | KnaBa'} description={translated.intro}>
+<Layout hasInlinePhone hasInlineEmail lang={locale} title={translated.title+' | KnaBa'} description={translated.intro}>
 <section class="container page-intro"><p class="eyebrow">{translated.k}</p><h1>{translated.title}</h1><p>{translated.intro}</p></section>
 <section class="container contact-layout">
 <div class="contact-details"><h2>{translated.contact}</h2>
@@ -24,7 +24,7 @@ const translated={
 <div class="contact-item"><div><small>{translated.address}</small><p>{company.street}, {company.city}</p></div></div>
 <p class="notice">{translated.disclaimer}</p><p>{translated.script}</p>
 </div>
-<div><Inquiry locale={locale} client:load/><noscript><div class="aside-card"><h2>{t.cta}</h2><a class="button button-dark" href={'mailto:'+company.email}>{company.email}</a></div></noscript></div>
+<div><Inquiry locale={locale} client:load/><noscript><div class="aside-card"><h2>{t.cta}</h2><p>{translated.email}: {company.email}</p></div></noscript></div>
 </section>
 <section class="container section contact-preparation" aria-labelledby="contact-preparation-title">
   <div class="contact-preparation-main">
