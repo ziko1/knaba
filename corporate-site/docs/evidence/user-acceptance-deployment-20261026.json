@@ -1,0 +1,51 @@
+{
+  "scope": "AUTHORIZED_EXISTING_TEST_DOMAIN_ONLY",
+  "origin": "https://kneba.vsp.rest",
+  "sourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+  "runtimeBuiltFromSourceSha": "c6277c94b9dd69ee036a41e84a1d2ca1f64363f8",
+  "runtimeEquivalence": "Later source commits change browser tests only",
+  "previousRelease": "2164b9505f824486594b2633a05f5fd91aee8c04",
+  "archiveSha256": "ceab809aafa13092332bc00f2400268f66247ba954466f6e94fde0ac319529a8",
+  "archiveBytes": 1307351,
+  "lockAndExpectedPointerCheck": true,
+  "backup": {
+    "file": "knaba-2026-10-26T14-25-34-892Z.sqlite",
+    "sha256": "7549611309deb63cec95f56796aac7b7cd28863544ffc9a89e885114c0a3455d",
+    "bytes": 233472,
+    "separateFileSameHostRestoreIntegrity": "ok",
+    "migrationCount": 6,
+    "offsiteRestore": "NOT_RUN"
+  },
+  "postDeploymentIntegrity": "ok",
+  "containerHealth": "healthy",
+  "runtimeFileHashesVerified": 279,
+  "runtimeHashMismatches": [],
+  "httpChecks": {"passed": 127, "total": 127},
+  "mediaAndPublicChecks": {"passed": 22, "total": 22},
+  "storage": {
+    "preDeploymentUsedPercent": 89.87189075493075,
+    "preDeploymentAvailableBytes": 21397778432,
+    "preDeploymentGate": "PASS",
+    "finalObservedUsedPercent": 90.23618975180324,
+    "finalObservedAvailableBytes": 20628119552,
+    "finalState": "WARNING_NEW_CUTOVERS_HOLD",
+    "cleanupPerformed": false
+  },
+  "browserResponsive": {
+    "status": "BLOCKED",
+    "reason": "Chromium sandboxing failed: No usable sandbox",
+    "chromiumSandbox": true,
+    "checksStarted": 0,
+    "securityBypass": false
+  },
+  "isolatedLeadPersistence": {
+    "postStatus": 201,
+    "idempotentRetryStatus": 200,
+    "sameReceipt": true,
+    "exactTopicPersisted": true,
+    "realCompanySubmission": false
+  },
+  "rollbackPerformed": false,
+  "productionAcceptance": "OPEN",
+  "customerReady": false
+}

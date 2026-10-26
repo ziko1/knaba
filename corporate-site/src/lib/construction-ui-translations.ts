@@ -1,5 +1,6 @@
 /** EN/UK translations for existing, contract-compatible enquiry/planner interfaces. */
 export const enUI:Record<string,string>={
+'Projektanfrage':'Project enquiry','Projektanfrage:':'Project enquiry:','Welche Leistung benötigen Sie?':'Which service do you need?','ich möchte folgenden Bedarf mit Ihnen besprechen:':'I would like to discuss the following requirements:',
 'Leistung':'Service','Objekt':'Site','Kontakt':'Contact','An':'To','Betreff':'Subject','E-Mail':'Email','Telefon':'Phone','Ihr Name':'Your name','Ihre Nachricht':'Your message',
 'Welche Reinigung benötigen Sie?':'What construction cleaning do you need?','Erzählen Sie uns von Ihrem Objekt.':'Tell us about your construction site.','Wie können wir Sie erreichen?':'How can we contact you?',
 'Gewünschte Leistung':'Requested service','Objektart':'Type of site','Postleitzahl des Objekts':'Site postal code','Fläche in m²':'Area in m²','Häufigkeit':'Frequency','Einmalig':'One-off','Regelmäßig':'Recurring','Noch offen':'Not yet decided','Baustelle':'Construction site','Anderes Objekt':'Other site',
@@ -38,6 +39,7 @@ export const enUI:Record<string,string>={
 '. Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.':'. Alternatively call or email your enquiry directly.',
 };
 export const ukUI:Record<string,string>={
+'Projektanfrage':'Заявка щодо проєкту','Projektanfrage:':'Заявка щодо проєкту:','Welche Leistung benötigen Sie?':'Яка послуга вам потрібна?','ich möchte folgenden Bedarf mit Ihnen besprechen:':'Хочу обговорити з вами такі роботи:',
 'Leistung':'Послуга','Objekt':'Об’єкт','Kontakt':'Контакт','An':'Кому','Betreff':'Тема','E-Mail':'Електронна пошта','Telefon':'Телефон','Ihr Name':'Ваше ім’я','Ihre Nachricht':'Ваше повідомлення',
 'Welche Reinigung benötigen Sie?':'Яке будівельне прибирання потрібне?','Erzählen Sie uns von Ihrem Objekt.':'Розкажіть про будівельний об’єкт.','Wie können wir Sie erreichen?':'Як з вами зв’язатися?',
 'Gewünschte Leistung':'Потрібна послуга','Objektart':'Тип об’єкта','Postleitzahl des Objekts':'Поштовий індекс','Fläche in m²':'Площа в м²','Häufigkeit':'Періодичність','Einmalig':'Разово','Regelmäßig':'Регулярно','Noch offen':'Поки невідомо','Baustelle':'Будівельний майданчик','Anderes Objekt':'Інший об’єкт',
