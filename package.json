@@ -13,6 +13,8 @@
     "check:erp": "npm --prefix erp run typecheck",
     "test:erp": "npm --prefix erp test",
     "audit:release": "node scripts/verify-release-readiness.mjs",
-    "test:release-policy": "node --test scripts/release-readiness.test.mjs"
+    "test:release-policy": "node --test scripts/release-readiness.test.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "test:source": "node --test scripts/verify-snapshot.test.mjs"
   }
 }

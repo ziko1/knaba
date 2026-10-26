@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "project_id": "knaba-de",
+  "goal": "Scoped implementation/evidence checkpoint, not product acceptance",
+  "source_brief": {
+    "path": "docs/evidence/readiness-repair-20261026/BRIEF.md",
+    "sha256": "6674c1e31bbce99299454f2e3bd9897d553b9b0153fa61e5325a17834576fc62"
+  },
+  "scope_files": [
+    "AGENTS.md",
+    "docs/plans/2026-10-26-readiness-repairs.md",
+    "package.json",
+    "scripts/verify-snapshot.mjs",
+    "scripts/verify-snapshot.test.mjs"
+  ],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "виправ це и продовжуй",
+      "criteria": [
+        {
+          "id": "C1",
+          "text": "Scoped code repair and evidence exist; independent acceptance remains separately required.",
+          "artifact_ids": [
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4"
+          ],
+          "check_ids": [
+            "K1"
+          ]
+        }
+      ],
+      "review": {
+        "path": "docs/evidence/readiness-repair-20261026/independent-review-pending.json",
+        "sha256": "8f80cd5a57c34eec7b880e415eedeea9ad282c20a5895930a99b4f696263d733"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "requirement_ids": [
+        "R1"
+      ],
+      "depends_on": [],
+      "status": "done"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "A0",
+      "path": "AGENTS.md",
+      "sha256": "9f0753e7423ff48cdf14d3ef6600ae689f87df75d6c9cef7b8ea5d92486dbbcd",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A1",
+      "path": "docs/plans/2026-10-26-readiness-repairs.md",
+      "sha256": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A2",
+      "path": "package.json",
+      "sha256": "bab9445236c8ee85065a42062f94e781827831baa638df44f41ddfccfc7a886c",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A3",
+      "path": "scripts/verify-snapshot.mjs",
+      "sha256": "8777579ac2470a0b43274edb4516b701fb326585b40a0a2f0b2152223f65d0f8",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    },
+    {
+      "id": "A4",
+      "path": "scripts/verify-snapshot.test.mjs",
+      "sha256": "fddd6b816e305ea73dbd01a5e2ce4df79714ae76b14bbf828533e4554a2f6eeb",
+      "authors": [
+        "chatgpt-main"
+      ],
+      "task_id": "T1"
+    }
+  ],
+  "checks": [
+    {
+      "id": "K1",
+      "required": true,
+      "artifact_ids": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "evidence": {
+        "path": "docs/evidence/readiness-repair-20261026/ai-team-check.json",
+        "sha256": "13ff27d6c900f18f189fb3db07db8bb6e80747d14bfcf28ad7720f66ac1cfe70"
+      }
+    }
+  ]
+}

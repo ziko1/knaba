@@ -1,0 +1,31 @@
+{
+  "schema": "ai-team.review.v1",
+  "project_id": "knaba-de",
+  "requirement_id": "R1",
+  "status": "NOT_RUN",
+  "reviewer": null,
+  "recorded_at": "2026-10-26T13:52:21.809744+00:00",
+  "source_brief_sha256": "6674c1e31bbce99299454f2e3bd9897d553b9b0153fa61e5325a17834576fc62",
+  "requirement_sha256": "6d30a632ac7632096dbb861fddbd2a3e47b6d0c30a4fb33f6726b00fc41c6e93",
+  "criteria": {
+    "C1": "NOT_RUN"
+  },
+  "artifact_sha256": {
+    "A0": "9f0753e7423ff48cdf14d3ef6600ae689f87df75d6c9cef7b8ea5d92486dbbcd",
+    "A1": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+    "A2": "bab9445236c8ee85065a42062f94e781827831baa638df44f41ddfccfc7a886c",
+    "A3": "8777579ac2470a0b43274edb4516b701fb326585b40a0a2f0b2152223f65d0f8",
+    "A4": "fddd6b816e305ea73dbd01a5e2ce4df79714ae76b14bbf828533e4554a2f6eeb"
+  },
+  "artifact_contract_sha256": {
+    "A0": "c38e995954080ff3e99f8b57d0ae661a8946fec4d4978c62cb9b8a9e413c242e",
+    "A1": "e9e2d23ac7b6c871e44940acaf644742a5aca936b800f14331f823f995e8c75e",
+    "A2": "c194e5d67a75ee90a2268f867d2702207ba2af0bf3b4c2e0485aafe711acfc21",
+    "A3": "915c8c5443d0f178e43d17721b5fe18ca793cdd8ed287a626c4cc149a3a50f45",
+    "A4": "2e6df21c88739022af08e3c45cc8b8bf4b3dd498b0f02da66cc97878ff4ed78f"
+  },
+  "check_evidence_sha256": {
+    "K1": "13ff27d6c900f18f189fb3db07db8bb6e80747d14bfcf28ad7720f66ac1cfe70"
+  },
+  "reason": "No independent reviewer was available/dispatched. No fabricated reviewer identity."
+}
