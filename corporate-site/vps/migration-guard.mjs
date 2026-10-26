@@ -29,6 +29,10 @@ export function inspectMigrationSequence(directory){
        ||registered.has(entry.tag))throw Error('INVALID_MIGRATION_JOURNAL_ORDER');
     const name=entry.tag+'.sql';
     if(!known.has(name))throw Error('JOURNAL_REFERENCES_MISSING_SQL:'+name);
+    if(name!==names[idx])throw Error('JOURNAL_SQL_ORDER_MISMATCH:'+entry.tag);
+    if(!Number.isSafeInteger(entry.when)||entry.when<0
+       ||(idx>0&&entry.when<=journal.entries[idx-1].when))
+      throw Error('INVALID_MIGRATION_JOURNAL_TIMESTAMP:'+entry.tag);
     registered.add(entry.tag);
   }
   for(const name of names){

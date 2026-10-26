@@ -264,3 +264,7 @@ No automatic provider spending. External translations budget EUR0 reserved until
 | MIG-SEQ-RELEASE | Node24 повний QA, owner auth, ERP/assistant integration, rollback/restore, independent review й owner prod go/no-go | **NOT RUN / NOT DEPLOYED**; поточні VPS/клієнтські дані не змінювалися |
 
 Не дублювати функцію міграції, SQL або проектні критерії; це доповнення існуючої VPS бази й PR67, а не новий сервіс.
+
+## 2026-10-26 — bridge/owner migration composition source candidate
+
+Preserve PR67 bridge 0005; selective PR58 owner port at 0006 with journal/custom snapshot. Full applied migration ledger is checked before pending SQL; legacy owner 0005 is blocked, not silently renamed. Current live ledger UNKNOWN; no live migration, owner/email dispatch, main merge or deploy. Scope and tests: `docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md`. Existing later UI, ERP and release approvals remain separate.

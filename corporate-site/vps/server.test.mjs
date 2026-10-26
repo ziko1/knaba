@@ -27,7 +27,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
   });
   const bodyHeaders={Origin:origin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1','Content-Type':'application/json'};
   try{
-    assert.deepEqual(app.migrations.length,6);
+    assert.deepEqual(app.migrations.length,7);
     assert.equal((await fetchAt('/readyz')).status,503);
     createOwner(app.db,owner,password);
     assert.equal((await fetchAt('/readyz')).status,200);
