@@ -9,6 +9,7 @@ import CompanyProfile from './CompanyProfile.astro';
 import Partners from './Partners.astro';
 import Reviews from './Reviews.astro';
 import MarketingStories from './MarketingStories.astro';
+import ProjectScopeGuide from './ProjectScopeGuide.astro';
 import {projectCard} from '../data/construction-project-card';
 import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
 const {locale='de'}=Astro.props as {locale:ConstructionLocale};
@@ -60,6 +61,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 </section>
 
 <MarketingStories locale={locale} />
+<ProjectScopeGuide locale={locale} />
 <CompanyProfile locale={locale} compact />
 <Partners locale={locale} />
 <Reviews locale={locale} />
