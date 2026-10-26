@@ -4,6 +4,7 @@ import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '.
 import type {ConstructionLocale} from '../data/construction-offers';
 import ServiceCarousel from './ServiceCarousel.astro';
 import ConstructionFaq from './ConstructionFaq.astro';
+import HomeGuides from './HomeGuides.astro';
 import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
 import CompanyProfile from './CompanyProfile.astro';
 import Partners from './Partners.astro';
@@ -58,6 +59,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 <div class="bau-planner-cta"><p>{t.note}</p><a class="bau-inline" href={planner}>{locale==='de'?'Anfrage vorbereiten':locale==='en'?'Prepare your enquiry':locale==='uk'?'Підготувати запит':'Подготовить запрос'} →</a></div>
 </section>
 
+<HomeGuides locale={locale} />
 <CompanyProfile locale={locale} compact />
 <Partners locale={locale} />
 <Reviews locale={locale} />
