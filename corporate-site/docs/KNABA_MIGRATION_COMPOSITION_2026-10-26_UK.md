@@ -19,3 +19,7 @@
 Node24.22.1; тести використовують тільки mkdtemp synthetic SQLite. До виправлення 9 FAIL/1 PASS у новому migration suite. Після виправлення 24/24 targeted Node cases PASS (guard + upgrades + CLI audit + owner invites); онлайн backup/restore і PRAGMA integrity/foreign_key_check PASS. Перший owner-port прогін мав 3 FAIL через старе очікування 6 migrations; після явного оновлення до 7 усі пройшли. Функціональні assertions не прибрані.
 
 Повний npm test на точному робочому дереві: cached 509 installed packages звірено з незміненим package-lock (0 missing/mismatch), Docker Node24 із network=none, readonly root, caps=none, uid998, CPU/RAM/PID limits. Фінальні exact commit/commands/counts записуються в evidence після повного прогону; жодної заяви live-ready.
+
+## Source-bound completion checkpoint
+
+На `43397a708ae781674cc0887baf758ff98fa99180`: check/build/verify:build exit0; 44/44 повний VPS Node suite, включно з owner HTTP/CSRF/login/replay, CRM, restart і backup. Node24, Docker network=none, synthetic SQLite. 4 unused-symbol hints збережено, не названо warning-free source. Повний сайт npm test: 211 Vitest +34 Node; перетин із VPS suite не сумувати як унікальні cases. Сирі журнали й SHA256 — `docs/evidence/migration-composition-20261026/`. Незалежне ревʼю NOT_RUN.

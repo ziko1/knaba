@@ -1,0 +1,146 @@
+{
+  "schema": "knaba.repair.evidence.v1",
+  "recorded_at": "2026-10-26T13:50:40.478517+00:00",
+  "repository": "ziko1/knaba",
+  "base_sha": "3e76dec480a87dc9314c267deb78eb86925f4baa",
+  "tested_source_sha": "43397a708ae781674cc0887baf758ff98fa99180",
+  "source_file_sha256": {
+    "corporate-site/PROJECT_MEMORY.md": "90b52a5ecda713041604236843cb11b7d4c5a6ab589333001e6b9dc829d93836",
+    "corporate-site/ROADMAP.md": "964d63b5a4b88874b0aa1a64111094161d2e38d43ed4261c4bb76301b8bf9a54",
+    "corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md": "243bec31e3f49128747e4959e1a924f00468b8c9496f609b882157e33980c8c7",
+    "corporate-site/docs/plans/2026-10-26-readiness-repairs.md": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+    "corporate-site/drizzle/0006_owner_invite.sql": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148",
+    "corporate-site/drizzle/meta/0006_snapshot.json": "9b4ed782c402189e333c02abb69e21e41ec839a5f74af55977ca3f073364d88a",
+    "corporate-site/drizzle/meta/_journal.json": "034c73e092ccd8080b461f5c9844cfc979409b1e630a74473c1f82c763438cc5",
+    "corporate-site/package.json": "3cd28886c668c783cb5573a5ad335263120d8b709224ae8c5262752da1a958b5",
+    "corporate-site/tests/owner-activation-browser.cjs": "bafd082f557fdeeb6a7f8c4192223b7cdc7f8f63ef5ef84624164eddaf0992e9",
+    "corporate-site/vps/database.mjs": "6c8cefa7acbe636e6bacaf3cd329bd715b4aa1f5aa08033b7b6d49db77b89c47",
+    "corporate-site/vps/manage.mjs": "bd5bd4a59f4de9e9e4c2b428e1d1f653f91376c75aecc4173f51b0dfa1d6dd1c",
+    "corporate-site/vps/manage.test.mjs": "62595592c767c21c7a5ac62614cae77f64e26fe24a07c7473b558f5f1ae33b5a",
+    "corporate-site/vps/migration-guard.mjs": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e",
+    "corporate-site/vps/migration-upgrade.test.mjs": "b7b4779f3fa5795900f57c5cd612f3d56d4ef7aac926d17f7704d17c94670a9d",
+    "corporate-site/vps/owner-invite.mjs": "c88f951ad461cea390f994ec0ee2eb6e3d9525982f0707cc21eefc75bbf6b7ec",
+    "corporate-site/vps/owner-invite.test.mjs": "4cfee94689782d3a03b6e5d42a77efd1d049b963f78f8cafaa2880414f66e11e",
+    "corporate-site/vps/owner-onboarding.test.mjs": "cfc3015f134d83454555e3db63a1050a1973d2f2c165d521ae4db2ca352662d5",
+    "corporate-site/vps/server.mjs": "239b70c86d40a08a382e9b0a5e5ac6d68fb957c748a9917b56fe51f0e18b2e35",
+    "corporate-site/vps/server.test.mjs": "95b8f6e60ac92bf1f9a3f3f13501e9b5613f35ca40ea7694f86785e2f1eea624"
+  },
+  "environment": {
+    "node": "24.22.1",
+    "synthetic_data_only": true,
+    "external_provider_calls": 0,
+    "network": "site QA: Docker network=none; root Git/node tests local offline"
+  },
+  "commands": [
+    {
+      "argv": [
+        "npm",
+        "test"
+      ],
+      "exit_code": 0,
+      "vitest_pass": 211,
+      "node_pass": 34,
+      "fail": 0,
+      "skipped": 0,
+      "timing": "before source commit; identical source bytes, final committed rerun pending"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "exit_code": 0,
+      "diagnostics": "0 errors, 0 warnings, 4 unused-symbol hints"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "verify:build"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "--test",
+        "vps/*.test.mjs"
+      ],
+      "exit_code": 0,
+      "pass": 44,
+      "fail": 0,
+      "skipped": 0
+    }
+  ],
+  "logs": {
+    "migration-red.log": {
+      "sha256": "6f9975d041bd402561565192ff8b0e0ae340db686586316d9f4a2e82d5bdb03d",
+      "bytes": 10706,
+      "stored_as": "migration-red.log.gz",
+      "archive_sha256": "9b3e14b83b9bf376d2e9d16335eb27989fa5345e70c8ea7c29f10e5eb8c58d34",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "migration-green.log": {
+      "sha256": "ab0b6cc837d336c19544922fb8782821715cb3522db335747bb323f1be005aa9",
+      "bytes": 2264,
+      "stored_as": "migration-green.log.gz",
+      "archive_sha256": "e193f6d89274dd9e4ff680c8af5c76f9c868cd2b7304091204bb603a0454ab7e",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "site-test.log": {
+      "sha256": "f7be4df3b14f47fcd84d7a1c9c514afadf2aa332dde89b2b706c5c45c1baca12",
+      "bytes": 6928,
+      "stored_as": "site-test.log.gz",
+      "archive_sha256": "25143ea08a5c4b467a0fd48ff9f99bd56de7e790e842ad220cb1d1e8c5bd6476",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "site-check.log": {
+      "sha256": "5f4cc7faebf37d170dd6176d6b306bb4cf7afc2359b0ae5cb823a3a0775e6b72",
+      "bytes": 1519,
+      "stored_as": "site-check.log.gz",
+      "archive_sha256": "4166b0b54264efb625246efc7384cebbbabaf93110301f2b52a3151b27b2f641",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "site-build.log": {
+      "sha256": "b63829a6023d71c203449ba392fdc7e819fd1a47dcf936ea65c9e8e4cf6cca73",
+      "bytes": 13345,
+      "stored_as": "site-build.log.gz",
+      "archive_sha256": "da15a3faa307ae169c7394f154033094f06f27a3f9bba73532606bdac329f2ab",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "site-verify-build.log": {
+      "sha256": "7b734927a50ac4e832a2cacadc9fc5065cbe49bdf2fb1771d4305ea1fc2e42e7",
+      "bytes": 4927,
+      "stored_as": "site-verify-build.log.gz",
+      "archive_sha256": "c217fbedce24f41aed6b85acca119096c8304639ee86d26c770792698063e222",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "vps-full.log": {
+      "sha256": "735c2255bc59070fdac8672e5629a9cd1fe33fdd42e1111bf286a16b7e061e97",
+      "bytes": 4082,
+      "stored_as": "vps-full.log.gz",
+      "archive_sha256": "51587f47507645de5d4a97bea9dea8ed96e0730069831ddf3fe0d447c6b54a58",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "site-build-verification.json": {
+      "sha256": "faae253dd5229fd4ac4989e2f3d099905802b49670e5c5aaf75f396a6dddc96b",
+      "bytes": 4741
+    }
+  },
+  "review": {
+    "self_review": "performed",
+    "independent_review": "NOT_RUN"
+  },
+  "release": "NOT_READY",
+  "live_bot_sha": "UNKNOWN",
+  "no_remote_merge_or_deployment": true
+}
