@@ -95,6 +95,11 @@ for (const file of pages) {
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
   const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
   assert.ok(business, `${file}: LocalBusiness present`);
+  const phoneLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](tel:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
+  assert.deepEqual(phoneLinks, [`tel:${business.telephone}`], `${file}: exactly one canonical telephone link`);
+  for (const card of html.matchAll(/<article\s+class=["']bau-info-card["'][^>]*>([\s\S]*?)<\/article>/g)) {
+    assert.doesNotMatch(card[1], /<a\b[^>]*\bhref=["']\/(?:en\/|uk\/|ru\/)?kontakt\/["']/i, `${file}: no repeated contact link inside an information card`);
+  }
   assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
   assert.equal(business.url, origin, `${file}: business URL uses the current host`);
   for(const node of graphNodes){
