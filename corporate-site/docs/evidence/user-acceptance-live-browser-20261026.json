@@ -1,0 +1,108 @@
+{
+  "sourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+  "scope": "LIVE_DESKTOP_INTERACTIONS_NO_SUBMISSION",
+  "localeForms": [
+    {
+      "focus": "H2",
+      "locale": "en",
+      "overflow": -15,
+      "sendDisabled": true,
+      "summary": "Hello KnaBa,\n\nI would like to discuss the following requirements:\n\nService: Construction support and preparation\nType of site: Construction site\nPostal code: 10315\nApproximate area: Not yet decided\nFrequency: One-off\n\nName: QA Example\nEmail: qa@example.test\nPhone: Not provided\n\nMessage: Construction service: Construction support and preparation\nUnsent browser QA draft.\n\nPlease contact me to discuss the project. Thank you!",
+      "url": "https://kneba.vsp.rest/en/kontakt/"
+    },
+    {
+      "focus": "H2",
+      "locale": "uk",
+      "overflow": -15,
+      "sendDisabled": true,
+      "summary": "Вітаю, KnaBa!\n\nХочу обговорити з вами такі роботи:\n\nПослуга: Будівельні помічники та підготовка\nТип об’єкта: Будівельний майданчик\nПоштовий індекс: 10315\nОрієнтовна площа: Поки невідомо\nПеріодичність: Разово\n\nІм’я: QA Example\nЕлектронна пошта: qa@example.test\nТелефон: Не вказано\n\nПовідомлення: Будівельна послуга: Будівельні помічники та підготовка\nUnsent browser QA draft.\n\nБудь ласка, зв’яжіться зі мною. Дякую!",
+      "url": "https://kneba.vsp.rest/uk/kontakt/"
+    },
+    {
+      "focus": "H2",
+      "locale": "ru",
+      "overflow": -15,
+      "sendDisabled": true,
+      "summary": "Здравствуйте, KnaBa!\n\nЯ хочу обсудить с вами следующие работы:\n\nУслуга: Строительные помощники и подготовка\nТип объекта: Стройплощадка\nПочтовый индекс: 10315\nПриблизительная площадь: Пока не определено\nПериодичность: Разово\n\nИмя: QA Example\nЭлектронная почта: qa@example.test\nТелефон: Не указано\n\nСообщение: Строительная услуга: Строительные помощники и подготовка\nUnsent browser QA draft.\n\nПожалуйста, свяжитесь со мной для согласования. Спасибо!",
+      "url": "https://kneba.vsp.rest/ru/kontakt/"
+    }
+  ],
+  "planner": [
+    {
+      "count": 5,
+      "handoff": "/en/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "locale": "en",
+      "pressed": [
+        "false",
+        "true",
+        "false",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "count": 5,
+      "handoff": "/uk/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "locale": "uk",
+      "pressed": [
+        "false",
+        "true",
+        "false",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "count": 5,
+      "handoff": "/ru/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "locale": "ru",
+      "pressed": [
+        "false",
+        "true",
+        "false",
+        "false",
+        "false"
+      ]
+    }
+  ],
+  "assistant": [
+    {
+      "locale": "de",
+      "opened": "ka-panel",
+      "closed": {
+        "focus": "ka-launcher",
+        "panels": 0
+      },
+      "retained": "Unsent QA draft"
+    },
+    {
+      "locale": "en",
+      "opened": "ka-panel",
+      "closed": {
+        "focus": "ka-launcher",
+        "panels": 0
+      },
+      "retained": "Unsent QA draft"
+    },
+    {
+      "locale": "uk",
+      "opened": "ka-panel",
+      "closed": {
+        "focus": "ka-launcher",
+        "panels": 0
+      },
+      "retained": "Unsent QA draft"
+    },
+    {
+      "locale": "ru",
+      "opened": "ka-panel",
+      "closed": {
+        "focus": "ka-launcher",
+        "panels": 0
+      },
+      "retained": "Unsent QA draft"
+    }
+  ],
+  "deForm": "Manual AX confirms complete Bauhelfer summary, H2 focus and disabled send without consent.",
+  "dePlanner": "5 cards; second selected only; clicked handoff and confirmed preselected Bauzwischenreinigung."
+}

@@ -288,3 +288,13 @@ User requests implementation and deployment to existing development site, preser
 - [x] Push exact integration source to `fix/knaba-vsp-forward-integration-20261026` for off-host persistence. No main merge/public cutover.
 - [ ] Verify partner trademark usage rights, business claims, actual owner UAT, native device/browser zoom/screen reader and third-party independent security/privacy review.
 - [ ] Pre-cutover current-release lease + verified off-host backup/restore and rollback; separate authorized atomic VSP publication; 4-locale live `verify:live` + health and SHA attestation. Official-domain release remains separate.
+
+
+## 2026-10-26 — User acceptance increment
+- [x] Eight enquiry topics, accurate localized summaries and CRM payloads; dynamic message budget and legacy contract regressions.
+- [x] Five planner choices, exact topic handoff, Assistant keyboard focus/Escape/draft, homepage sequence.
+- [x] Independent review, Node24 source/build/VPS checks, live desktop four-locale scenarios; test-domain deployment cecb321 with backup/restore and 127 HTTPS checks.
+- [ ] Finish blocked responsive matrix in a sandbox-capable browser plus physical mobile/a11y/zoom.
+- [ ] Real owner/client delivery and role UAT, trusted-proxy rate-limit fix, Assistant stale-poll guard, Finder object-specific guidance.
+- [ ] Content rights/legal, social-card compatibility, offsite restore, disk headroom, field CWV and separate ERP/voice/provider acceptance.
+- Acceptance and evidence: docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md.

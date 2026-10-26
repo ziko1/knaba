@@ -89,3 +89,16 @@
 - [ ] Run full Node24 checks + static preview verifier + backend/API auth tests on exact private candidate SHA and secure live-staging browser.
 - [ ] Validate owner account via independently verified invite; no automatic owner privilege or reusable password disclosure.
 - [ ] Review release lock, backup+restore, source manifest and current symlink lease before any deploy; no live migration or paid provider activation.
+
+
+## 2026-10-26 — Current user acceptance audit
+- [x] TEST release cecb321 deployed on kneba.vsp.rest; baseline2164b95 retained. Exact archive, lock/CAS, online backup + separate-file restore/integrity, no schema changes.
+- [x] 127/127 HTTPS probes and 22/22 public/media checks; four-locale live enquiry/planner/Assistant regression.
+- [ ] P1 Trust-boundary-aware proxy IP contract: socket peer currently causes shared lead rate-limit bucket behind Traefik; never blindly trust forwarded headers.
+- [ ] P1 Secure browser responsive/physical-device/zoom/a11y acceptance (isolated Chromium sandbox unavailable).
+- [ ] P1 Real owner delivery/inbox/role UAT, rights/legal and offsite backup restore.
+- [ ] P1 Disk margin: 89.87% before deploy, near90% gate; monitor and plan non-destructive storage maintenance.
+- [ ] P2 Assistant GET overlap/stale-response guard; Finder object-specific guidance; OG PNG/JPEG.
+- Exact scope and evidence: ../docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md.
+
+- Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.

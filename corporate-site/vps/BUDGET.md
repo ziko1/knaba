@@ -25,3 +25,12 @@ migrated or deleted. Runtime release requires atomic symlink rollback.
 
 ## Corporate template candidate — 2026-10-25
 Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: root implementation, corporate_audit independent review. No paid provider/CI service activated, quotas UNKNOWN. JS payload unchanged; no server mutation or cleanup performed.
+
+
+## 2026-10-26 — User acceptance audit
+- Existing VPS, cached Node24 and Playwright image; no new npm dependencies, paid API/provider/CI activation or cloud/domain purchases. Model/hosting runtime cost and quotas UNKNOWN.
+- Runtime archive1,307,351 B; pre-switch SQLite backup233,472 B. CSS40,890 B gzip; emitted JS195,442 B gzip (not field CWV).
+- Temporary browser container ran with network none, read-only, 1CPU/1GiB/160PIDs, capabilities dropped and sandbox requested; sandbox unavailable, no security relaxation. Container auto-removed.
+- Permanent web limits remain1CPU/512MiB/96PIDs. Private backup and same-host restored copy retained; no customer data/cache/backups deleted.
+
+- Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
