@@ -20,6 +20,28 @@ async function guardRoles(c:CommandContext,userRoles:string[],permissions:string
 }
 async function lastOwner(c:CommandContext,userId:string,nextRoles:string[],active=true){const target=await c.tx.get('user',userId);if(target.data.roles.includes('OWNER')&&(!active||!nextRoles.includes('OWNER'))){const count=(await c.tx.list('user')).filter(u=>u.data.active!==false&&u.data.roles.includes('OWNER')).length;assert(count>1,'INVALID_STATE',{reason:'LAST_OWNER_PROTECTED'});}}
 export const identityCommands:CommandRegistry={
+ /** Owner approval process is prepared in code; company sign-off remains at
+  * final handover. REVIEW does not create employee, issue token, or assign site.
+  */
+ 'worker_registration_interest.review':command('identity.manage',
+   z.object({id,decision:z.enum(['REVIEW','REJECT']),reason:text}).strict(),
+   async(c,i)=>{
+     assert(c.actor.roles.some(r=>['OWNER','DIRECTOR','OPERATIONS_MANAGER'].includes(r))&&
+       c.actor.permissions.includes('identity.manage')&&c.actor.mfaVerified===true,
+       'NEEDS_REAUTH');
+     const row=await c.tx.get('worker_registration_interest',i.id);
+     assert(row.companyId===c.actor.companyId&&row.data.state==='REQUESTED'&&
+       typeof row.data.guest_user_id==='string','INVALID_STATE');
+     assert(c.expectedVersion===row.version,'VERSION_CONFLICT');
+     const guest=await c.tx.get('user',row.data.guest_user_id);
+     assert(guest.companyId===c.actor.companyId&&guest.data.guest===true,'ACCESS_DENIED');
+     const state=i.decision==='REJECT'?'REJECTED':'AWAITING_IDENTITY_PROOF';
+     const updated=await c.tx.save(row,{...row.data,state,reviewed_by:c.actor.userId,
+       reviewed_at:c.now,review_reason:i.reason,employee_created:false,roles_granted:[]},row.version);
+     await c.tx.event('worker.registration_reviewed',{request_id:updated.id,state});
+     return {id:updated.id,version:updated.version,state,employee_created:false,
+       owner_verified:true,portal_identity_still_required:state==='AWAITING_IDENTITY_PROOF'};
+   },true),
  'user.invite':command('identity.manage',z.object({email:z.string().email().max(200),name:z.string().min(1).max(200),roles:safeRoles,permissions:z.array(permission).max(200).default([]),siteIds:z.array(id).max(100).default([]),warehouseIds:z.array(id).max(100).default([]),expiresHours:z.number().int().min(1).max(48).default(24)}).strict(),async(c,i)=>{await guardRoles(c,i.roles,i.permissions);assert(!(await c.tx.list('user')).some(u=>u.data.email?.toLowerCase()===i.email.toLowerCase()),'INVALID_STATE',{reason:'IDENTITY_ALREADY_EXISTS'});for(const siteId of i.siteIds){c.requireSite(siteId);await c.tx.get('site',siteId);}for(const warehouseId of i.warehouseIds){assert(c.actor.roles.includes('OWNER')||c.actor.warehouseIds.includes(warehouseId),'ACCESS_DENIED');await c.tx.get('stock_location',warehouseId);}for(const old of await c.tx.list('user_invitation'))if(old.data.email===i.email.toLowerCase()&&old.data.status==='PENDING')await c.tx.save(old,{...old.data,status:'REVOKED',revokedAt:c.now,reason:'INVITATION_REPLACED'},old.version);const token=opaqueToken();const invitation=await c.tx.add('user_invitation',{...i,email:i.email.toLowerCase(),tokenHash:hashToken(token),status:'PENDING',expiresAt:new Date(Date.parse(c.now)+i.expiresHours*3600000).toISOString(),createdBy:c.actor.userId});await c.tx.event('identity.invitation_created',{invitationId:invitation.id,email:i.email,roles:i.roles});return {id:invitation.id,token,expiresAt:invitation.data.expiresAt};},true),
  'user.invitation.revoke':command('identity.manage',z.object({id,reason:text}).strict(),async(c,i)=>{const e=await c.tx.get('user_invitation',i.id);assert(e.data.status==='PENDING','INVALID_STATE');return c.tx.save(e,{...e.data,status:'REVOKED',revokedAt:c.now,reason:i.reason},c.expectedVersion);},true),
  'user.roles':command('identity.manage',z.object({userId:id,roles:safeRoles,permissions:z.array(permission).max(200).default([]),siteIds:z.array(id).max(100),warehouseIds:z.array(id).max(100).default([]),reason:text}).strict(),async(c,i)=>{assert(i.userId!==c.actor.userId,'ACCESS_DENIED',{reason:'SELF_ESCALATION_FORBIDDEN'});await guardRoles(c,i.roles,i.permissions);await lastOwner(c,i.userId,i.roles);for(const siteId of i.siteIds){c.requireSite(siteId);await c.tx.get('site',siteId);}for(const warehouseId of i.warehouseIds){assert(c.actor.roles.includes('OWNER')||c.actor.warehouseIds.includes(warehouseId),'ACCESS_DENIED');await c.tx.get('stock_location',warehouseId);}const user=await c.tx.get('user',i.userId);const result=await c.tx.save(user,{...user.data,roles:i.roles,permissions:i.permissions,siteIds:i.siteIds,warehouseIds:i.warehouseIds,roleChangeReason:i.reason,roleChangedBy:c.actor.userId},c.expectedVersion);for(const assignment of await c.tx.list('role_assignment'))if(assignment.data.userId===user.id&&assignment.data.active)await c.tx.save(assignment,{...assignment.data,active:false,revokedAt:c.now,revokedBy:c.actor.userId,revocationReason:'USER_ROLES_REPLACED'},assignment.version);await sql(c.tx as SqlTransaction,'UPDATE auth_sessions SET revoked_at=now() WHERE user_id=$1 AND company_id=$2',[user.id,c.actor.companyId]);await c.tx.event('identity.roles_changed',{userId:user.id,reason:i.reason});return {userId:user.id,version:result.version,roles:i.roles};},true),
