@@ -101,3 +101,16 @@ Source-only Draft: preserved latest live site and ERP source, unified typed regi
 | KN-BOT-09 | P0 | KN-U14, KN-U16 | Full provider/site/ERP SQL E2E, staff+owner UAT and independent security review | NOT_RUN |
 
 DoD/evidence/rollback: `docs/plans/2026-10-26-knaba-omnichannel-assistant-360.md`. No production merge/deploy, no provider credential activation. Historical PR #41 Telegram, PR #67 bridge and PR #97 modular CMS remain separate, never overwritten.
+
+## KN-U20 follow-up — bot augmentation implementation 2 (not a new bot)
+| ID | Priority | Depends | Implemented source / acceptance | State |
+|---|---|---|---|---|
+| KN-BOT-05a | P0 | existing webhook/chat/ERP | WA/TG guest worker intent, company/idempotent receipt, no role or invitation, owner inbox and MFA/CAS review; rollback & negative tests | SOURCE_IMPLEMENTED; real PG/portal UAT NOT_RUN |
+| KN-BOT-03a | P0 | existing Telegram delivery | Explicit locale, deterministic public/menu responses, stage/send only with versioned consent, membership, live lease, no unknown retry | SOURCE_IMPLEMENTED; provider external BLOCKED |
+| KN-BOT-02a | P0 | existing automation engine | Canonical OWNER draft permission only; no approval/execute role; revocation mid-run still denies, exact-source test | SOURCE_IMPLEMENTED; company signoff FINAL |
+| KN-BOT-05b | P0 | KN-U07/U09 | Verified same-account portal identity ↔ worker interest ↔ canonical user.invite; expiry/revoke/DB/UAT | NOT_IMPLEMENTED |
+| KN-BOT-03b | P0 | KN-U05/U06 | Live opt-in/version/Datenschutz, BotFather/WABA ownership, signed delivery/read with real devices | BLOCKED_EXTERNAL |
+| KN-BOT-07b | P1 | Voice provider/legal/quota | Actual site WebRTC voice + transfer, callback/PSTN fallback, DE/EN/RU dialog and accessible devices | NOT_IMPLEMENTED |
+| KN-BOT-09b | P0 | technical gates | Site/ERP real PG provider/device QA + independent security review → **G9 owner company approval** → **G10 owner server migration** | NOT_READY |
+
+No extra owner conversation/role-policy meeting during source development. Every sensitive real permission is still denied unless current backend authorization succeeds; production dispatch remains OFF.
