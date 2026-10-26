@@ -10,7 +10,7 @@ import {aiBudgetHeadroom,type AiCategory} from '../../packages/integrations/assi
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
 import type {TelegramInbound,TelegramBotAdapter} from '../../packages/integrations/telegram.ts';
-import {telegramPublicIntent} from '../../packages/integrations/telegram-public-navigation.ts';
+import {telegramPublicIntent,telegramRequestedLocale} from '../../packages/integrations/telegram-public-navigation.ts';
 import {captureMessengerWorkerInterest} from '../../packages/integrations/messenger-worker-interest.ts';
 import {stageTelegramPublicReplyIn} from './telegram-public-reply.ts';
 import {stageTelegramReply,processTelegramOutbound} from './telegram-delivery.ts';
@@ -374,10 +374,19 @@ export class WorkerRunner {
     // existing human inbox; they never call a privileged Engine command or
     // create an outbound provider response without legal consent.
     const publicIntent=telegramPublicIntent(input.text);
+    const languageRequest=telegramRequestedLocale(input.text);
     const actor=await this.engine.getActor(route.data.user_id,job.company_id);
     const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:'DE'},'telegram-inbound-message',actor);
     await this.record(job,'conversation_input',route.id,async(row,tx)=>{
       if(publicIntent==='REGISTER')await captureMessengerWorkerInterest(tx,actor,row,this.now().toISOString());
+      if(languageRequest){
+        const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===actor.userId);
+        assert(settings.length<=1,'ACCESS_DENIED');
+        const data={...settings[0]?.data,user_id:actor.userId,language:languageRequest,
+          language_source:'EXPLICIT',language_selected_at:this.now().toISOString()};
+        if(settings[0])await tx.save(settings[0],data);
+        else await tx.add('notification_setting',{...data,telegram_consent:false,telegram_opted_out:true});
+      }
       const completedAt=this.now().toISOString();
       const data={...row.data,status:'PROCESSED',message_id:message.id,
         router_state:publicIntent?'TELEGRAM_PUBLIC_INTENT':'HUMAN_QUEUED',
