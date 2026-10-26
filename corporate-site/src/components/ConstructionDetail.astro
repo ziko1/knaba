@@ -16,7 +16,7 @@ const label=(key:keyof typeof serviceContentCopy)=>serviceContentCopy[key][local
 const related=detail.related.map(slug=>offerBySlug(slug)).filter((item):item is ConstructionOffer=>Boolean(item));
 const serviceUrl=siteConfig.origin+prefix+'/bauleistungen/'+offer.slug+'/';
 ---
-<Layout lang={locale} title={title+' | KnaBa Berlin'} description={desc}
+<Layout hasInlinePhone lang={locale} title={title+' | KnaBa Berlin'} description={desc}
 breadcrumbs={[{name:'KnaBa',url:prefix+'/'},{name:t.all,url:prefix+'/leistungen/'},{name:title,url:prefix+'/bauleistungen/'+offer.slug+'/'}]}
 schema={{'@type':'Service','@id':serviceUrl+'#service',url:serviceUrl,name:title,description:desc,serviceType:title,provider:{'@id':siteConfig.origin+'/#business'},areaServed:['Berlin','Brandenburg']}}>
 <section class="container page-intro"><a class="breadcrumb" href={prefix+'/leistungen/'}>← {t.all}</a><p class="eyebrow">{isSpecial?t.optional:t.standard}</p><h1>{title}</h1><p>{desc}</p><a class="button button-dark" href={contact}>{t.request} <Icon size={18}/></a></section>
