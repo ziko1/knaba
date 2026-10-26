@@ -34,9 +34,10 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     const site=await fetchAt('/');
     assert.equal(site.status,200);
     const staticHtml=await site.text();
-    // A translated-route claim requires reviewed content. Pending languages are
-    // metadata-only, never injected into every HTML page or published as links.
-    assert.match(staticHtml,/data-locale-catalog/);
+    // Visitors see only reviewed translations. Keep the 99-language target in
+    // the internal manifest, never in customer-visible HTML or fake links.
+    assert.doesNotMatch(staticHtml,/data-locale-catalog|data-locale-search|99 Zielsprachen|95 geplant/);
+    assert.equal((staticHtml.match(/data-language-switch/g)||[]).length,4);
     assert.doesNotMatch(staticHtml,/<li[^>]*data-locale-item/);
     const languageResponse=await fetchAt('/languages.json');
     assert.equal(languageResponse.status,200);

@@ -52,6 +52,8 @@ for (const file of pages) {
   assert.match(languageMenu[1], /<summary\b[^>]*aria-label="[^"]+"/);
   const localeLinks = [...languageMenu[1].matchAll(/<a\b[^>]*data-language-switch[^>]*\slang="(de|en|uk|ru)"[^>]*>/g)];
   assert.deepEqual(localeLinks.map(link => link[1]), ['de','en','uk','ru'], `${file}: four locale targets`);
+  // Translation roadmap is internal; customers must see only four genuinely translated destinations.
+  assert.doesNotMatch(languageMenu[1], /data-locale-catalog|data-locale-search|99 Zielsprachen|99 target languages|95 geplant|95 planned|99 цільових|99 целевых/, `${file}: no internal translation roadmap in public picker`);
   const currentLinks = localeLinks.filter(link => link[0].includes('aria-current="page"'));
   assert.equal(currentLinks.length, 1, `${file}: exactly one selected language`);
   assert.equal(currentLinks[0][1], locale, `${file}: selected language matches document`);
