@@ -4,25 +4,25 @@ import type { ConstructionLocale } from '../data/construction-offers';
 const {locale='de'} = Astro.props as {locale:ConstructionLocale};
 const prefix = locale === 'de' ? '' : '/' + locale;
 const copy = {
-  de: {label:'KNABA / GALERIE',title:'Einblicke in unsere Arbeitsbereiche',intro:'Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.',notice:'Illustrative Darstellungen, keine Fotos dokumentierter Kundenaufträge. Echte Projektbilder veröffentlichen wir erst nach Freigabe der Bild- und Persönlichkeitsrechte.',alt:'Symbolische Illustration',action:'Projekt anfragen',items:[
+  de: {label:'KNABA / GALERIE',title:'Einblicke in unsere Arbeitsbereiche',intro:'Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.',notice:'Illustrative Darstellungen typischer Arbeitsabläufe – keine Fotos konkreter Kundenaufträge.',alt:'Symbolische Illustration',action:'Projekt anfragen',items:[
     ['Baureinigung nach Bauabschnitt','Grob-, Zwischen- und Endreinigung werden passend zum Baufortschritt abgestimmt.'],
     ['Baustellenvorbereitung','Arbeitsbereiche, sichere Zugänge und Abläufe vor Beginn klären.'],
     ['Glas- und Oberflächenreinigung','Material, Erreichbarkeit und Reinigungsverfahren abstimmen.'],
     ['Saubere Objektübergabe','Abnahmebereiche und Nachkontrollen gemeinsam festlegen.']
   ]},
-  en: {label:'KNABA / GALLERY',title:'Explore our areas of work',intro:'Construction cleaning, site preparation and handover: the kinds of work to discuss with KnaBa.',notice:'Original illustrations, not photographs of completed client work. Real project images require clearance for image and personal rights.',alt:'Illustrative graphic',action:'Enquire about a project',items:[
+  en: {label:'KNABA / GALLERY',title:'Explore our areas of work',intro:'Construction cleaning, site preparation and handover: the kinds of work to discuss with KnaBa.',notice:'Original illustrations of typical workflows, not photographs of specific client work.',alt:'Illustrative graphic',action:'Enquire about a project',items:[
     ['Cleaning throughout construction','Agree rough, interim and final cleaning for each phase.'],
     ['Preparing the site','Review safe access, work areas and site procedures.'],
     ['Glass and surface cleaning','Agree materials, access and cleaning methods.'],
     ['Preparing for handover','Define inspection zones and final checks.']
   ]},
-  uk: {label:'KNABA / ГАЛЕРЕЯ',title:'Наші напрями роботи',intro:'Будівельний клінінг, підготовка майданчика та здача об’єкта — типові процеси, які можна узгодити з KnaBa.',notice:'Оригінальні схематичні ілюстрації, а не фото виконаних замовлень. Реальні знімки публікуються після перевірки прав на зображення й приватності.',alt:'Схематична ілюстрація',action:'Надіслати запит',items:[
+  uk: {label:'KNABA / ГАЛЕРЕЯ',title:'Наші напрями роботи',intro:'Будівельний клінінг, підготовка майданчика та здача об’єкта — типові процеси, які можна узгодити з KnaBa.',notice:'Оригінальні схематичні ілюстрації типових робіт, а не фото конкретних замовлень.',alt:'Схематична ілюстрація',action:'Надіслати запит',items:[
     ['Прибирання за етапами','Узгодження грубого, проміжного та фінального прибирання.'],
     ['Підготовка майданчика','Погодження доступу, робочих зон і правил безпеки.'],
     ['Скло та поверхні','Перевірка матеріалів і технології очищення.'],
     ['Підготовка до здачі','Узгодження зон приймання та фінального контролю.']
   ]},
-  ru: {label:'KNABA / ГАЛЕРЕЯ',title:'Наши направления работы',intro:'Строительный клининг, подготовка площадки и сдача объекта — типовые процессы, которые можно обсудить с KnaBa.',notice:'Оригинальные схематические иллюстрации, а не фотографии выполненных заказов. Реальные снимки публикуются после проверки прав на изображения и конфиденциальности.',alt:'Схематическая иллюстрация',action:'Отправить запрос',items:[
+  ru: {label:'KNABA / ГАЛЕРЕЯ',title:'Наши направления работы',intro:'Строительный клининг, подготовка площадки и сдача объекта — типовые процессы, которые можно обсудить с KnaBa.',notice:'Оригинальные схематические иллюстрации типовых работ, а не фотографии конкретных заказов.',alt:'Схематическая иллюстрация',action:'Отправить запрос',items:[
     ['Уборка по этапам','Согласование черновой, промежуточной и финальной уборки.'],
     ['Подготовка площадки','Согласование доступа, рабочих зон и безопасности.'],
     ['Стёкла и поверхности','Проверка материалов и метода очистки.'],
