@@ -93,3 +93,19 @@ test('loopback preview audits production-canonical sitemap without fetching the 
   assert.equal(r.checkedPages,2);
   assert.ok(m.seen.every(x=>x.url.startsWith('http://127.0.0.1:18769/')));
 });
+
+test('mixed-case javascript scheme is detected without navigation',async()=>{
+  const m=mock({'/':new Response(html('de','<a href=" JaVaScRiPt:alert(1)">Unsafe</a>'),{headers:{'content-type':'text/html'}})});
+  const r=await auditPublicLinks({fetchImpl:m.fetch,expectedSitemapRoutes:2});
+  assert.equal(r.outcome,'FAIL');
+  assert.ok(codes(r).includes('UNSAFE_JS_LINK'));
+  assert.ok(m.seen.every(x=>x.url.startsWith(base+'/')));
+});
+
+test('malformed URL fragment reports a bounded defect rather than aborting the audit',async()=>{
+  const m=mock({'/':new Response(html('de','<a href="/uk/#%ZZ">Invalid fragment</a>'),{headers:{'content-type':'text/html'}})});
+  const r=await auditPublicLinks({fetchImpl:m.fetch,expectedSitemapRoutes:2});
+  assert.equal(r.outcome,'FAIL');
+  assert.ok(codes(r).includes('INVALID_FRAGMENT'));
+  assert.equal(r.checkedPages,2);
+});
