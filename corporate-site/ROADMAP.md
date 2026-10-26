@@ -266,3 +266,8 @@ User requests implementation and deployment to existing development site, preser
 - [ ] Recorded live release and independent post-release test receipt, including backup + rollback and asset identity.
 - [ ] Native Opera/physical-device/200%-zoom and customer review of translated marketing copy; report BLOCKED separately from PASS.
 - [ ] Opera Lab normal-chat native plugin connection, dynamic page-control/accessibility evidence, scoped-cost/browser security gates without TinyFish spending.
+
+## KN-LOGIN-REFLOW-2026-10-26
+- [x] Login responsive input card corrected without auth/RBAC modifications; exact code SHA ddf3db88cbce01b50991eb88740ad799fd378f39.
+- [x] Red-green focused test, Node24 suite, 118-page static build and isolated Chromium at 320/360/390/768 widths.
+- [ ] Owner confirmation of email/identity, safe one-use onboarding, actual login and Studio/CRM UAT, first-login own password, external channel/legal approvals. Do not bypass /readyz owner gate.
