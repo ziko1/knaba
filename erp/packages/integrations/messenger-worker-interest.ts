@@ -1,7 +1,7 @@
 import {createHash} from 'node:crypto';
 import {assert,DomainError,type Actor,type Entity,type Transaction} from '../domain/core.ts';
 
-/** 
+/**
  * Guest intent only. Never creates a KNABA account, verified employee,
  * invitation token, permission, contract, or owner approval.
  * The canonical ERP user.invite and site portal remain the only onboarding.
