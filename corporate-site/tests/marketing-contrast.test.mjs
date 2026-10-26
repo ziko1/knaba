@@ -134,3 +134,18 @@ test('Homepage secondary catalogue CTA matches button system and AA contrast',()
     solidBackground('.bau-secondary-cta-arrow')
   ],'homepage explore arrow disc');
 });
+
+// Navigation regression: one clear entry to the catalogue; contextual extras use the anchored subsection.
+test('Home has one prominent catalogue CTA, not a second full-width duplicate after the service grid',()=>{
+  assert.match(home,/<a class="button button-outline bau-secondary-cta" href=\{catalog\}>/);
+  assert.doesNotMatch(home,/class="bau-inline bau-services-more"/);
+  assert.doesNotMatch(home,/\.bau-services-more\s*(?::[\w-]+)?\s*\{/);
+  assert.match(home,/\.bau-card-grid\{[^}]*margin-bottom:0\b/);
+});
+test('Extra works anchor has a localized, contextual CTA rather than reusing the catalogue label',()=>{
+  assert.match(home,/<a href=\{catalog\+'#zusatzarbeiten'\} class="button button-dark">\{t\.extrasCta\}/);
+  const offers=readFileSync(new URL('../src/data/construction-offers.ts',import.meta.url),'utf8');
+  const labels=[...offers.matchAll(/\bextrasCta:'([^']+)'/g)].map(match=>match[1]);
+  assert.equal(labels.length,4,'Each of DE, EN, UK, RU needs one extra works action label');
+  assert.equal(new Set(labels).size,4,'Locale-specific CTA text must be translated');
+});

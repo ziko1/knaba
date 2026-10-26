@@ -48,3 +48,15 @@ test('no-JavaScript portal help does not add a second telephone link', () => {
     assert.doesNotMatch(read(file), /tel:/, file);
   }
 });
+
+test('service detail presents one opening and one closing inquiry CTA, without repeated aside or pricing links', () => {
+  const detail = read('../src/components/ConstructionDetail.astro');
+  assert.equal((detail.match(/href=\{contact\}/g) || []).length, 2,
+    'only the hero and final section should link to the same enquiry');
+  const aside = detail.split('<aside class="aside-card">')[1]?.split('</aside>')[0] || '';
+  assert.doesNotMatch(aside, /href=\{contact\}/);
+  assert.match(aside, /href=\{company\.phoneHref\}/, 'preserve direct phone access');
+  const quote = detail.split('<section class="container section section-tight service-quote">')[1]?.split('</section>')[0] || '';
+  assert.ok(quote.includes("{label('pricing')}"), 'keep pricing explanation');
+  assert.doesNotMatch(quote, /href=\{contact\}/, 'pricing should not add an identical CTA');
+});
