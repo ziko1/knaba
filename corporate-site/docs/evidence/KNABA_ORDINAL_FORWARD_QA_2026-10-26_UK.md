@@ -35,3 +35,8 @@ npm run test:vps
 - На момент HTTP-аудиту live `/healthz` і `/readyz` = 200; `/galerie/` і `/uk/galerie/` = 404. Це невідповідність старого live релізу, а не доведений дефект нового build.
 - Live source/manifest, незакомічені зміни іншого QA checkout, права на медіа, user/browser/device acceptance на **точному** кандидатові, screen reader, власник/доставка заявок, незалежний review, off-host backup+restore, release lease/rollback і дозвіл власника ще відкриті.
 - **RELEASE HOLD:** не merge PR #83 або PR #82, не розгортати, не міняти DNS, БД, секрети, права браузера чи оплачувані сервіси. Спочатку завершити gates, далі окремий дозвіл на контрольований preview cutover.
+
+## Forward-sync з PR #82 (64e11b0e, 26.10.2026)
+- Під час QA базовий PR #82 просунувся з `5d52c75d` до `64e11b0e32014975393a2d1da728e14b22038e64`, змінив 11 файлів, зокрема Home, i18n і memory. Ізольоване об'єднання збережено без втрати нового contact/design/AGENTS/документації; каталог перегенеровано з уже об'єднаного HTML.
+- Повторний `npm ci`, Astro/Vue/Svelte check, `npm test`, збірка 122 сторінок, `i18n:extract`, `i18n:verify`, `verify:build` (8/8 точних ordinal labels, 52 SVG), `test:vps` (24/24), `git diff --check` — PASS в isolated merge worktree. Остання i18n база PR82: 946 одиниць; отримано 945, видалено тільки `04 / KnaBa`, routes 26, digest `0ee97833e027a8601d56c354ab0b4270110bd4987f0a9b7d32fc92bee6106d94`, згенерований blob `28660cd4646bb83c274329fbc861ace6b64db528`.
+- Новий **локальний** артефакт `6345a20bd5d41ff79ac73e63f0ada156d56e9575300de8225c763da7ff9cec40` замінює попередню тестову збірку; він не опублікований. Для твердження про exact-final-HEAD потрібен fresh read-back/QA після створення merge commit, бо workspace ще не є кінцевим Git SHA.

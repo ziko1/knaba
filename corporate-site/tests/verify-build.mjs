@@ -162,6 +162,31 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  const publicCatalog = '/' + prefix + 'leistungen/';
+  const extrasLabel = {
+    '':'Zusatzarbeiten ansehen',
+    'en/':'Explore additional works',
+    'uk/':'Переглянути додаткові роботи',
+    'ru/':'Подробнее о дополнительных работах'
+  }[prefix];
+  assert.ok(source.includes('class="button button-outline bau-secondary-cta" href="' + publicCatalog + '"'),
+    prefix + 'one prominent hero catalogue CTA');
+  assert.doesNotMatch(source, /class="bau-inline bau-services-more"/,
+    prefix + 'no duplicate homepage catalogue button under the six cards');
+  assert.ok(source.includes('href="' + publicCatalog + '#zusatzarbeiten"'),
+    prefix + 'context-specific extras route');
+  assert.ok(source.includes(extrasLabel),
+    prefix + 'localized extras heading link instead of another generic catalogue label');
+  for (const slug of ['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung',
+    'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten']) {
+    const detail = await readFile(resolve(root,prefix+'bauleistungen/'+slug+'/index.html'),'utf8');
+    const href='/' + prefix + 'kontakt/?anliegen=' + slug;
+    const linked=[...detail.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)]
+      .map(match=>match[1]).filter(value=>value===href);
+    assert.equal(linked.length,2,prefix+slug+' only intro and closing enquiry');
+    assert.match(detail,/class="container section section-tight service-quote"/,
+      prefix+slug+' pricing disclosure remains');
+  }
   assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
   assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
 }

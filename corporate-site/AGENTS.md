@@ -9,3 +9,9 @@ This file complements the existing project memory, roadmap, PR instructions and 
 - If all browser engines are blocked/unavailable, continue independent source checks and Node/Astro/build tests where possible. Record exact SHA, test counts, failed/blocked reasons and next QA location. Do not repeat unchanged blockage prose or claim visual/mobile/device readiness.
 - Opera Connector is a possible separate browser route only after a fresh `list_tabs` success and user-authorized access. An authenticated website session is not proof of native connector access. Work browser and VPS Opera Lab are separate environments.
 - Never merge, deploy to production, edit owner data, change browser policy, disable security gates or activate paid services under this QA fallback rule. Preserve PR Draft until independent review and user release authorization.
+
+## Contact and conversion-link regression (KNABA)
+- Before adding public phone, email or enquiry buttons, audit rendered DE/EN/UK/RU HTML across the shared Layout, contextual sections, mobile menu, noscript and legal pages. Exactly one clickable `tel:` per page; contextual contact or footer fallback, never both.
+- Retain required Datenschutz regulator/contact disclosures. Repeated destinations across separate functional landmarks can be legitimate; duplicate adjacent CTAs to one catalogue or repeated enquiry CTAs in one service detail are not.
+- Homepage: one hero catalogue CTA; no repeated wide button after the six cards; `#zusatzarbeiten` must have a distinct localized label. Details: opening and closing enquiry buttons, with price, phone, guides and legal notes kept.
+- Require existing source and built-HTML gates, Node24 check/test/build/i18n/verify/VPS and isolated browser widths+keyboard on exact artifact. Public cutover gates remain separate.

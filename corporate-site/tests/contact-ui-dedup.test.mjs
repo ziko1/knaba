@@ -86,3 +86,31 @@ test('current contact page avoids redundant header, mobile and footer self-CTAs'
   assert.match(layout, /isContactPage \? localPath\("\/planer\/"\) : localPath\("\/kontakt\/"\)/);
   assert.match(layout, /isContactPage \? footerLabels\[0\] : translated\.quote/);
 });
+
+test('homepage has one prominent catalogue CTA and a distinct extra-works deep link', () => {
+  const home = read('../src/components/ConstructionHome.astro');
+  const offers = read('../src/data/construction-offers.ts');
+  assert.match(home, /class="button button-outline bau-secondary-cta" href=\{catalog\}/);
+  assert.doesNotMatch(home, /bau-services-more/, 'no duplicate below-card CTA or dead CSS');
+  assert.match(home, /href=\{catalog\+'#zusatzarbeiten'\} class="button button-dark">\{t\.extrasCta\}/);
+  assert.equal((offers.match(/\bextrasCta:/g)||[]).length,4,'localized contextual extras label');
+  assert.match(home, /@media\(max-width:610px\)[^\n]*?\.bau-actions\{[^}]*flex-direction:column;/,'mobile buttons stack');
+});
+
+test('service details have two focused contact CTAs without removing pricing and phone', () => {
+  const detail = read('../src/components/ConstructionDetail.astro');
+  assert.equal((detail.match(/href=\{contact\}/g)||[]).length,2,'top and final contact CTA only');
+  assert.match(detail, /href=\{company\.phoneHref\}/,'keep one direct phone');
+  assert.match(detail, /class="container section section-tight service-quote"/,'retain pricing explanation');
+  assert.match(detail, /class="container cta-banner"/,'keep conversion CTA after related services');
+  assert.match(detail, /href=\{prefix\+'\/ratgeber\/'\}/,'keep advice navigation');
+});
+
+test('contact no-JavaScript guidance reuses visible contacts without repeating their values', () => {
+  const contact = read('../src/components/ConstructionContact.astro');
+  const fallback = contact.match(/<noscript>([\s\S]*?)<\/noscript>/)?.[1];
+  assert.ok(fallback, 'contact no-script guidance exists');
+  assert.match(fallback, /translated\.noScript/);
+  assert.doesNotMatch(fallback, /company\.(?:phone|email)|href=\{|tel:|mailto:/);
+  assert.equal((contact.match(/\bnoScript:/g)||[]).length,4,'available for all four locales');
+});

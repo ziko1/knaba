@@ -26,7 +26,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
     <p class="bau-kicker"><span class="bau-dot"></span>{t.label}</p>
     <h1>{t.hero}<br/><span>{t.highlight}</span></h1>
     <p class="bau-lead">{t.intro}</p>
-    <div class="bau-actions"><a class="button button-dark" href={contact}>{t.cta} <span aria-hidden="true">↗</span></a><a class="bau-inline" href={catalog}>{t.all} <span aria-hidden="true">→</span></a></div>
+    <div class="bau-actions"><a class="button button-dark" href={contact}>{t.cta} <span aria-hidden="true">↗</span></a><a class="button button-outline bau-secondary-cta" href={catalog}><span class="bau-secondary-cta-label">{t.all}</span><span class="bau-secondary-cta-arrow" aria-hidden="true">→</span></a></div>
     <div class="bau-trust"><span>✓ {t.region}</span><span>✓ B2B · KnaBa</span><span>✓ {locale==='de'?'Nach Vereinbarung':locale==='en'?'By agreement':locale==='uk'?'За домовленістю':'По договорённости'}</span></div>
   </div>
   <ServiceCarousel locale={locale} />
@@ -48,10 +48,9 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
       </a>
     ))}
   </div>
-  <a href={catalog} class="bau-inline bau-services-more">{t.all} <span aria-hidden="true">→</span></a>
 </section>
 <section class="bau-contract" aria-labelledby="bau-contract-heading"><div class="container bau-contract-grid">
-  <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.all} <span aria-hidden="true">→</span></a></div>
+  <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.extrasCta} <span aria-hidden="true">→</span></a></div>
   <div class="bau-extra-list">{extras.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'}><span class="bau-service-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} /></span><span>{localeValue(item.name,locale)}</span><span aria-hidden="true">↗</span></a>)}</div>
 </div></section>
 <CompanyProfile locale={locale} compact />
@@ -75,8 +74,13 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-actions{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:27px}
 .bau-inline{display:inline-flex;align-items:center;gap:12px;font-weight:750;color:#087f85;text-decoration:none;min-height:44px}
 .bau-inline:hover{text-decoration:underline;text-underline-offset:5px}
+.bau-secondary-cta{background:#e8f4f0;border-color:#b1d7cc;color:#075f67;font-weight:750;justify-content:space-between;max-width:100%;min-width:0;text-decoration:none}
+.bau-secondary-cta:hover{background:#d9eee5;border-color:#80b4a9;text-decoration:none}
+.bau-secondary-cta:focus-visible{outline:3px solid #0b6b73;outline-offset:3px}
+.bau-secondary-cta-label{min-width:0;overflow-wrap:anywhere;text-align:left}
+.bau-secondary-cta-arrow{flex:0 0 30px;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#cbe9db;color:#0b4950;font-size:18px;line-height:1}
 .bau-trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:25px;font-size:12px;font-weight:650;color:#4d675e}.bau-section{padding-block:clamp(46px,7vw,96px)}.bau-heading{max-width:850px;margin-bottom:36px}.bau-heading h2,.bau-contract h2,.bau-end-cta h2{font-size:clamp(34px,4.3vw,60px);letter-spacing:-.055em;line-height:1.1;color:#0b313b;margin:14px 0}.bau-heading>p:last-child,.bau-contract p{font-size:17px;color:#49645f;line-height:1.65;max-width:630px}
-.bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:0}
 .bau-card{display:flex;flex-direction:column;border-radius:22px;padding:26px;background:#f0f5f0;border:1px solid #d9e7db;text-decoration:none;color:#12343c;min-height:285px;transition:transform .2s,box-shadow .2s}
 .bau-card:nth-child(1){background:linear-gradient(130deg,#e0f3ed,#f4faf6)}
 .bau-card:nth-child(2){background:linear-gradient(130deg,#f4edda,#fff7e3)}
@@ -87,9 +91,6 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-card.bau-card-request{background:linear-gradient(140deg,#ddf1e8 0%,#e8f5ef 58%,#f1f4dc 100%);border:1px solid #9bcbbb;color:#12343c;box-shadow:inset 0 1px #ffffffc9}
 .bau-card.bau-card-request:hover{border-color:#63a795;box-shadow:0 16px 30px #0c3c3b1e,inset 0 1px #ffffffeb}
 .bau-card-request .bau-ordinal{color:#45635b}.bau-card.bau-card-request p{color:#415c55}.bau-card-request .bau-card-action{color:#07646c}
-.bau-services-more{display:flex;justify-content:space-between;gap:18px;width:100%;padding:14px 22px;min-height:60px;border:1px solid #c4dfd5;border-radius:18px;background:#e8f4f0;color:#075f67}
-.bau-services-more:hover{background:#daf0e8;text-decoration:none}
-.bau-services-more:focus-visible{outline:3px solid #0c7d81;outline-offset:3px}
 .bau-card:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
 .bau-card-top{display:flex;align-items:center;justify-content:space-between}.bau-service-icon{display:inline-grid;place-items:center;width:40px;height:40px;flex-shrink:0;border-radius:13px;color:#076e77;background:#ffffffb8;border:1px solid #ffffffc9;box-shadow:0 4px 12px #103d3d10}.bau-ordinal{font-size:13px;letter-spacing:.08em;color:#45635b}
 .bau-card h3{margin:26px 0 10px;font-size:clamp(19px,2vw,26px);letter-spacing:-.035em;overflow-wrap:anywhere}
@@ -101,11 +102,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-faq{display:grid;grid-template-columns:1fr 1.35fr;gap:30px}.bau-faq details{border-bottom:1px solid #d2e4dc;padding:21px 0}.bau-faq summary{list-style:none;display:flex;justify-content:space-between;gap:20px;font-weight:780;cursor:pointer}.bau-faq details p{margin:15px 0 0;color:#516a65;font-size:15px;line-height:1.7}
 @media(prefers-reduced-motion:reduce){.bau-card{transition:none}.bau-card:hover{transform:none}}@media(min-width:881px) and (max-width:1100px){.bau-hero{gap:clamp(18px,3vw,34px)}.bau-hero-copy h1{font-size:clamp(43px,5.75vw,65px)}.bau-actions{gap:15px;margin-top:22px}}
 @media(max-width:880px){.bau-hero{grid-template-columns:1fr}.bau-hero-copy{max-width:720px}.bau-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bau-card.bau-card-request{grid-column:span 2}.bau-contract-grid{grid-template-columns:1fr}.bau-faq{grid-template-columns:1fr}}
-@media(max-width:610px){.bau-card:nth-child(1),.bau-card.bau-card-request{grid-column:auto}.bau-hero{padding-top:32px;gap:26px}.bau-hero-copy h1{font-size:clamp(36px,9vw,58px);line-height:1.09;letter-spacing:-.055em;margin:16px 0 20px}.bau-lead{font-size:16px;line-height:1.6}.bau-actions{margin-top:24px;gap:12px}.bau-trust{margin-top:20px;gap:8px 12px}.bau-card-grid,.bau-steps{grid-template-columns:1fr}.bau-card{min-height:230px}.bau-end-cta{flex-direction:column;align-items:flex-start}.bau-planner-cta{flex-direction:column;align-items:flex-start}}
+@media(max-width:610px){.bau-card:nth-child(1),.bau-card.bau-card-request{grid-column:auto}.bau-hero{padding-top:32px;gap:26px}.bau-hero-copy h1{font-size:clamp(36px,9vw,58px);line-height:1.09;letter-spacing:-.055em;margin:16px 0 20px}.bau-lead{font-size:16px;line-height:1.6}.bau-actions{margin-top:24px;gap:12px;flex-direction:column;align-items:stretch}.bau-actions>.button{width:100%;min-width:0;max-width:100%;justify-content:space-between;text-align:left;overflow-wrap:anywhere}.bau-trust{margin-top:20px;gap:8px 12px}.bau-card-grid,.bau-steps{grid-template-columns:1fr}.bau-card{min-height:230px}.bau-end-cta{flex-direction:column;align-items:flex-start}.bau-planner-cta{flex-direction:column;align-items:flex-start}}
 
 
-.bau-card.bau-card-request:hover{border-color:#63a795}
-.bau-services-more{display:flex;justify-content:space-between;gap:18px;width:100%;padding:14px 22px;min-height:60px;border:1px solid #c4dfd5;border-radius:18px;background:#e8f4f0;color:#075f67}
-.bau-services-more:hover{background:#daf0e8;text-decoration:none}
-.bau-services-more:focus-visible{outline:3px solid #0c7d81;outline-offset:3px}
 </style>
