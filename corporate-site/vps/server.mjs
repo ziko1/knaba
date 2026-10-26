@@ -4,6 +4,7 @@ import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { activateOwnerInvite,OwnerInviteError } from './owner-invite.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
@@ -14,7 +15,7 @@ const mime={
   '.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp',
   '.avif':'image/avif','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2'
 };
-const loginStyle='body{background:#f2f6f2;margin:0;min-height:100vh;display:grid;place-items:center;font:16px system-ui,sans-serif;color:#193e32}main{background:#fff;box-sizing:border-box;width:min(400px,calc(100vw - 32px));padding:2.2rem;border:1px solid #d2e2d7;border-radius:18px;box-shadow:0 20px 55px #12392710}h1{font-size:1.5rem}label{display:block;margin:1rem 0;font-size:.9rem;font-weight:600}input{display:block;width:100%;box-sizing:border-box;padding:.78rem;font:inherit;margin-top:.45rem;border:1px solid #aabcb4;border-radius:8px}button{width:100%;background:#155b46;color:white;border:none;padding:.85rem;border-radius:8px;font:inherit;cursor:pointer}a{color:#195d47}.error{padding:.6rem;color:#8c1f20;background:#feecec}';
+const loginStyle='body{background:#f2f6f2;margin:0;min-height:100vh;display:grid;place-items:center;font:16px system-ui,sans-serif;color:#193e32}main{background:#fff;box-sizing:border-box;width:min(400px,calc(100vw - 32px));padding:2.2rem;border:1px solid #d2e2d7;border-radius:18px;box-shadow:0 20px 55px #12392710}h1{font-size:1.5rem}label{display:block;margin:1rem 0;font-size:.9rem;font-weight:600}input{display:block;width:100%;box-sizing:border-box;padding:.78rem;font:inherit;margin-top:.45rem;border:1px solid #aabcb4;border-radius:8px}button{width:100%;background:#155b46;color:white;border:none;padding:.85rem;border-radius:8px;font:inherit;cursor:pointer}a{color:#195d47}input[type=hidden]{display:none}input[type=checkbox]{display:inline;width:18px;height:18px;margin-right:.45rem}button:disabled{opacity:.6;cursor:not-allowed}.error{padding:.6rem;color:#8c1f20;background:#feecec}';
 const escapeHTML=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const returnPath=value=>{
   if(typeof value!=='string'||value.length>180||!value.startsWith('/')||value.startsWith('//')||value.includes('\\')||/[\r\n\0]/.test(value))return '/konto/';
@@ -97,14 +98,37 @@ function loginPage(returnTo,invalid=false){
     '<form method="post" action="/login/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
     '<label>E-Mail<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
     '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
-    '<button type="submit">Anmelden</button></form><p><a href="/">Zur Website</a></p>');
+    '<button type="submit">Anmelden</button></form><p><a href="/register/">Konto mit Einladung einrichten</a></p><p><a href="/">Zur Website</a></p>');
+}
+function previewRegistrationPage(){
+  // Invitation is in URL fragment: never send it in GET, Referer or server logs.
+  const script="(function(){const token=new URLSearchParams(location.hash.slice(1)).get('token')||'';"+
+    "history.replaceState(null,'',location.pathname);"+
+    "const valid=/^[A-Za-z0-9_-]{43}$/.test(token);"+
+    "const field=document.querySelector('input[name=token]');"+
+    "if(field&&valid)field.value=token;"+
+    "document.querySelector('button[type=submit]').disabled=!valid;"+
+    "})();";
+  return html('KNABA | Registrierung',
+    '<h1>KNABA · Konto einrichten</h1>'+
+    '<p>Geschützter Testzugang: Nur Personen mit einer einmaligen persönlichen Einladung können sich registrieren. Die Einladung ist 2 Stunden gültig.</p>'+
+    '<form method="post" action="/register/">'+
+    '<input type="hidden" name="token" value="">'+
+    '<label>E-Mail-Adresse der Einladung<input type="email" name="email" autocomplete="username" maxlength="320" required></label>'+
+    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="password" autocomplete="new-password" minlength="16" maxlength="256" required></label>'+
+    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" minlength="16" maxlength="256" required></label>'+
+    '<label><input type="checkbox" name="attested" value="on" required>Ich bin zur Nutzung dieses KNABA-Testzugangs berechtigt.</label>'+
+    '<button type="submit" disabled>Konto aktivieren</button></form>'+
+    '<p>Keine Einladung erhalten? Bitte kontaktieren Sie die Website-Entwicklung.</p>'+
+    '<p><a href="/login/?return_to=%2Fadmin%2F">Zur Anmeldung</a></p>'+
+    '<script>'+script+'</script>');
 }
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
     '<form method="post" action="/logout/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'"><button type="submit">Abmelden</button></form>');
 }
 export async function createKnabaVpsServer({
-  dbPath,staticRoot,workerPath,ownerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
+  dbPath,staticRoot,workerPath,ownerEmail='',previewOwnerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
@@ -115,7 +139,10 @@ export async function createKnabaVpsServer({
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
-  const env={DB:d1,OWNER_EMAIL:ownerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
+  const previewRegistrationEnabled=origin==='https://kneba.vsp.rest' && Boolean(previewOwnerEmail);
+  const env={DB:d1,OWNER_EMAIL:ownerEmail,
+    PREVIEW_OWNER_EMAIL:previewRegistrationEnabled?previewOwnerEmail:'',
+    TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
     TURNSTILE_REQUIRED:localTest?'0':'1',
     ASSETS:{fetch:async request=>{
       return new Response('Static assets are served at the VPS edge.',{status:404});
@@ -152,6 +179,55 @@ export async function createKnabaVpsServer({
       if(req.method!=='GET' && req.method!=='HEAD')return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
       const destination='/'+(legacyOffice[1]?legacyOffice[1]+'/':'')+'leistungen/';
       return send(res,308,'Service catalogue moved',{Location:destination});
+    }
+    if(url.pathname==='/register/'||url.pathname==='/register'){
+      const headers={
+        'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store',
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'same-origin',
+        'X-Frame-Options':'DENY',
+        'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      };
+      if(!previewRegistrationEnabled)return send(res,404,'Not found');
+      if(req.method==='GET'){
+        if(url.search)return send(res,400,'Invitation tokens must not be sent in query strings');
+        return send(res,200,previewRegistrationPage(),headers);
+      }
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const raw=await readBody(req,4096);
+        const params=new URLSearchParams(raw.toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==5||new Set(keys).size!==5||
+          keys.some(k=>!['token','email','password','password_confirm','attested'].includes(k)))
+          return send(res,422,'Invalid registration form');
+        const email=params.get('email')||'';
+        const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/900);
+        const client=String(req.socket.remoteAddress||'local').slice(0,100);
+        const key=createHash('sha256').update('preview-register|'+email.toLowerCase()+'|'+client+'|'+bucket).digest('hex');
+        const allowance=db.prepare(
+          'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<10 RETURNING attempts'
+        ).get(key,(bucket+1)*900);
+        if(!allowance)return send(res,429,'Registration temporarily rate limited',{'Retry-After':'900'});
+        if(email.trim().toLowerCase()!==previewOwnerEmail.trim().toLowerCase())
+          return send(res,401,'Invalid or expired invitation');
+        activateOwnerInvite(db,{
+          token:params.get('token')||'',
+          email,password:params.get('password')||'',
+          confirmed:params.get('password_confirm')||'',
+          attested:params.get('attested')==='on'
+        });
+        return redirect(res,'/login/?return_to=%2Fadmin%2F',{'Referrer-Policy':'no-referrer'});
+      }catch(error){
+        if(error?.code==='too_large')return send(res,413,'Invalid registration form');
+        if(error instanceof OwnerInviteError){
+          const invalid=/Invalid or expired invitation/.test(error.message);
+          return send(res,invalid?401:422,invalid?'Invalid or expired invitation':'Check registration details');
+        }
+        return send(res,409,'Registration unavailable');
+      }
     }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
@@ -230,6 +306,8 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     staticRoot:process.env.KNABA_STATIC_ROOT||new URL('../dist/client/',import.meta.url).pathname,
     workerPath:new URL('../dist/server/index.js',import.meta.url).href,
     ownerEmail:process.env.OWNER_EMAIL||'',
+    previewOwnerEmail:process.env.KNABA_PREVIEW_OWNER_EMAIL||'',
+
     turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
     turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',
     origin:process.env.KNABA_PUBLIC_ORIGIN||'https://knaba.de',

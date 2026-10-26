@@ -9,6 +9,7 @@ export interface D1Database { prepare(sql: string): D1Statement; batch<T = Recor
 export interface WorkerEnv {
   DB?: D1Database;
   OWNER_EMAIL?: string;
+  PREVIEW_OWNER_EMAIL?: string;
   /** Cloudflare Turnstile: public site key and confidential server-only secret. */
   TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;

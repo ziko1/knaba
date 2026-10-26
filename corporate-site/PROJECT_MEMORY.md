@@ -294,3 +294,8 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Existing source already had 4 localized live SVG logo suites (DE/EN/UK/RU); 95 target languages remain pending. Preserve truthful 99/4/95 status.
 - Shared brand-messages.json consolidates SVG slogans, accessibility labels and Open Graph metadata; no geometry/design/auth/schema change.
 - Offline Node24 check/test/build/verify + 24 VPS tests and 24-page/16-SVG audit PASS; real browser BLOCKED, native review/device and real owner pending. See docs/KNABA_BRAND_I18N_RELEASE_2026-10-26_UK.md.
+
+## Preview developer self-registration — 2026-10-26
+- Reused PR #58 hashed one-use token mechanism on immutable preview source fdec2549890dde9cd07ec70a6b96b2e88c8fdc10, isolated from active uncommitted i18n/partners work.
+- Preview-only authorized developer email and /register/ share existing KNABA login, DB and security controls. Additive migration 0006 preserves applied 0005_public_reviews; no duplicate authentication system or second live site.
+- Acceptance, QA results, storage cutover blocker and pending private email delivery in docs/plans/2026-10-26-preview-invite-registration.md. Later user-directed data removal requires backup/independent review; no automatic deletion.

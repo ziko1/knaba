@@ -277,3 +277,11 @@ User requests implementation and deployment to existing development site, preser
 - [x] Audit published HTML, localized SVG slogan, accessible alt and hreflang as build release gate.
 - [ ] Complete 95 native-reviewed language packs, legal wording, form/Assistant messages, RTL/device a11y and page-by-page SEO; never auto-publish partial packs.
 - [ ] Real browser/device, legal and owner UAT; release only with exact source/artifact evidence, snapshot and rollback.
+
+## 2026-10-26 KNABA preview login and registration
+- [x] Reuse current secure login and add invite-only developer sign-up + preview-only admin role.
+- [x] Add forward-only invitation migration 0006, invalid/replay/rate-limit/owner-isolation tests, compile full site.
+- [ ] Push source/PR, reconcile live source, independent security/release review.
+- [ ] Resolve storage warning, backup/restore, apply migration and release to the same development app.
+- [ ] Privately invite developer, real claim/login/Studio customer UAT.
+- [ ] Separate company owner onboarding after authorization; future test account cleanup only by explicit owner request.

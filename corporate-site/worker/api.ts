@@ -54,7 +54,11 @@ async function session(request: Request,env: WorkerEnv): Promise<PortalSession> 
   }
   const row=await dbFor(env).prepare('SELECT * FROM profiles WHERE id=?').bind(userId).first<Row>();
   const p=row?profile(row):null;
-  const owner=Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!);
+  const companyOwner=Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!);
+  // Development-only delegated owner access: never grant this via knaba.de.
+  const previewOwner=new URL(request.url).origin==='https://kneba.vsp.rest' &&
+    Boolean(env.PREVIEW_OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.PREVIEW_OWNER_EMAIL!);
+  const owner=companyOwner||previewOwner;
   // An identity email change never transfers a previously approved profile.
   const identityChanged=Boolean(p && normalizeEmail(p.email)!==normalizeEmail(email));
   const corruptMembership=Boolean(row && (!['pending','approved','suspended'].includes(str(row.status)) || (row.role!==null&&!approvedRoles.includes(row.role as ApprovedRole)) || (row.status==='approved'&&!approvedRoles.includes(row.role as ApprovedRole))));

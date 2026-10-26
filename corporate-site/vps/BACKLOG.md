@@ -89,3 +89,7 @@
 - [ ] Run full Node24 checks + static preview verifier + backend/API auth tests on exact private candidate SHA and secure live-staging browser.
 - [ ] Validate owner account via independently verified invite; no automatic owner privilege or reusable password disclosure.
 - [ ] Review release lock, backup+restore, source manifest and current symlink lease before any deploy; no live migration or paid provider activation.
+
+### Preview registration (2026-10-26)
+- Existing KNABA auth augmented with invite-only developer registration; details and release gates in ../docs/plans/2026-10-26-preview-invite-registration.md.
+- Never bypass storage warning or duplicate the deployment. Verify source, off-host backups and credentials before cutover, then one private invite and real browser UAT.
