@@ -1,3 +1,4 @@
+import { offerBySlug } from "../data/construction-offers.ts";
 import { company, services } from "../data/company.ts";
 import { publicText, localizedService, type PublicLocale } from "./public-i18n.ts";
 
@@ -92,7 +93,7 @@ export function validateInquiry(
   return errors;
 }
 
-export function buildInquiry(data: InquiryData, locale: PublicLocale = "de"): {
+export function buildInquiry(data: InquiryData, locale: PublicLocale = "de", constructionTopic = ""): {
   subject: string;
   body: string;
   href: string;
@@ -101,13 +102,16 @@ export function buildInquiry(data: InquiryData, locale: PublicLocale = "de"): {
   const t = (text: string) => publicText(text, locale);
   if (Object.keys(errors).length) throw new Error(Object.values(errors)[0]);
   const service = localizedService(services.find((service) => service.slug === data.service)!, locale);
-  const subject = `${t("Reinigungsanfrage:")} ${service.name}`;
+  const offer = constructionTopic ? offerBySlug(constructionTopic) : undefined;
+  if (constructionTopic && !offer) throw new Error("Unknown construction topic");
+  const serviceName = offer?.name[locale] ?? service.name;
+  const subject = `${t(offer ? "Projektanfrage:" : "Reinigungsanfrage:")} ${serviceName}`;
   const body = [
     t("Guten Tag KnaBa,"),
     "",
-    t("ich möchte folgenden Reinigungsbedarf mit Ihnen besprechen:"),
+    t(offer ? "ich möchte folgenden Bedarf mit Ihnen besprechen:" : "ich möchte folgenden Reinigungsbedarf mit Ihnen besprechen:"),
     "",
-    `${t("Leistung")}: ${service.name}`,
+    `${t("Leistung")}: ${serviceName}`,
     `${t("Objektart")}: ${t(data.objectType)}`,
     `${t("Postleitzahl")}: ${data.postcode.trim()}`,
     `${t("Ungefähre Fläche")}: ${data.area.trim() ? `${data.area} ${locale === "ru" ? "м²" : "m²"}` : t("Noch offen")}`,

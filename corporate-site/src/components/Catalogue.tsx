@@ -1,16 +1,17 @@
+import { constructionOffers } from "../data/construction-offers";
 import { createSignal, For, Match, onCleanup, onMount, Show, Switch } from "solid-js";
 import { QueryClient, QueryClientProvider, createQuery } from "@tanstack/solid-query";
 import { fetchCatalogue } from "../lib/planner";
 import { plannerStore } from "../stores/planner";
-import { publicText, localizedService, type PublicLocale } from "../lib/public-i18n";
+import { publicText, type PublicLocale } from "../lib/public-i18n";
 
 function CatalogueContent(props: { locale?: PublicLocale }) {
   const t = (text: string) => publicText(text, props.locale);
   const [enabled, setEnabled] = createSignal(false);
-  const [selected, setSelected] = createSignal(plannerStore.getState().service);
+  const [selected, setSelected] = createSignal(plannerStore.getState().topic);
   onMount(() => {
-    setSelected(plannerStore.getState().service);
-    const unsubscribe = plannerStore.subscribe((state) => setSelected(state.service));
+    setSelected(plannerStore.getState().topic);
+    const unsubscribe = plannerStore.subscribe((state) => setSelected(state.topic));
     onCleanup(unsubscribe);
     setEnabled(true);
   });
@@ -47,10 +48,10 @@ function CatalogueContent(props: { locale?: PublicLocale }) {
         </Match>
         <Match when={query.isSuccess}>
           <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <For each={query.data?.services.filter(service => service.slug === "baureinigung")}>{(service) => (
-              <button type="button" aria-pressed={selected() === service.slug} onClick={() => plannerStore.getState().selectService(service.slug)} class="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-left transition-colors hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-700 aria-pressed:border-emerald-800 aria-pressed:bg-emerald-50">
-                <span class="block text-base font-bold leading-snug text-emerald-950 [overflow-wrap:anywhere]">{localizedService(service, props.locale).name}</span>
-                <span class="mt-2 block text-sm leading-relaxed text-slate-600">{localizedService(service, props.locale).description}</span>
+            <For each={constructionOffers.filter(service => service.core)}>{(service) => (
+              <button type="button" aria-pressed={selected() === service.slug} onClick={() => plannerStore.getState().selectTopic(service.slug)} class="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-left transition-colors hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-700 aria-pressed:border-emerald-800 aria-pressed:bg-emerald-50">
+                <span class="block text-base font-bold leading-snug text-emerald-950 [overflow-wrap:anywhere]">{service.name[props.locale ?? "de"]}</span>
+                <span class="mt-2 block text-sm leading-relaxed text-slate-600">{service.description[props.locale ?? "de"]}</span>
                 <span class="mt-4 block text-xs font-bold text-emerald-900">{selected() === service.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →")}</span>
               </button>
             )}</For>

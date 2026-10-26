@@ -21,18 +21,18 @@ const project=projectCard[locale];
 ---
 <Layout hasInlinePhone hasInlineEmail lang={locale} title={t.title} description={t.intro}
 schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
-<section class="bau-hero container">
+<section class="bau-hero container" aria-labelledby="bau-hero-title">
   <div class="bau-hero-copy">
     <p class="bau-kicker"><span class="bau-dot"></span>{t.label}</p>
-    <h1>{t.hero}<br/><span>{t.highlight}</span></h1>
+    <h1 id="bau-hero-title">{t.hero}<br/><span>{t.highlight}</span></h1>
     <p class="bau-lead">{t.intro}</p>
     <div class="bau-actions"><a class="button button-dark" href={contact}>{t.cta} <span aria-hidden="true">↗</span></a><a class="button button-outline bau-secondary-cta" href={catalog}><span class="bau-secondary-cta-label">{t.all}</span><span class="bau-secondary-cta-arrow" aria-hidden="true">→</span></a></div>
     <div class="bau-trust"><span>✓ {t.region}</span><span>✓ B2B · KnaBa</span><span>✓ {locale==='de'?'Nach Vereinbarung':locale==='en'?'By agreement':locale==='uk'?'За домовленістю':'По договорённости'}</span></div>
   </div>
   <ServiceCarousel locale={locale} />
 </section>
-<section class="container bau-section" id="bau-services">
-  <div class="bau-heading"><p class="bau-kicker">KnaBa / BAUSERVICE</p><h2>{t.focus}</h2><p>{t.focusIntro}</p></div>
+<section class="container bau-section" id="bau-services" aria-labelledby="bau-services-title">
+  <div class="bau-heading"><p class="bau-kicker">KnaBa / BAUSERVICE</p><h2 id="bau-services-title">{t.focus}</h2><p>{t.focusIntro}</p></div>
   <div class="bau-card-grid">
     {constructionGridCards.map((card,i) => card.kind === 'project' ? (
       <a class="bau-card bau-card-request" href={planner}>
@@ -53,15 +53,15 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
   <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.extrasCta} <span aria-hidden="true">→</span></a></div>
   <div class="bau-extra-list">{extras.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'}><span class="bau-service-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} /></span><span>{localeValue(item.name,locale)}</span><span aria-hidden="true">↗</span></a>)}</div>
 </div></section>
-<CompanyProfile locale={locale} compact />
-<Partners locale={locale} />
-<section class="container bau-section"><div class="bau-heading"><p class="bau-kicker">{{de:"PLANUNG / ABLAUF",en:"PLANNING / PROCESS",uk:"ПЛАНУВАННЯ / ЕТАПИ",ru:"ПЛАНИРОВАНИЕ / ЭТАПЫ"}[locale]}</p><h2>{t.phases}</h2></div>
+<section class="container bau-section" aria-labelledby="bau-process-title"><div class="bau-heading"><p class="bau-kicker">{{de:"PLANUNG / ABLAUF",en:"PLANNING / PROCESS",uk:"ПЛАНУВАННЯ / ЕТАПИ",ru:"ПЛАНИРОВАНИЕ / ЭТАПЫ"}[locale]}</p><h2 id="bau-process-title">{t.phases}</h2></div>
 <div class="bau-steps">{t.steps.map((label,i)=><div><span class="bau-step-counter">0{i+1}</span><h3>{label}</h3></div>)}</div>
 <div class="bau-planner-cta"><p>{t.note}</p><a class="bau-inline" href={planner}>{locale==='de'?'Anfrage vorbereiten':locale==='en'?'Prepare your enquiry':locale==='uk'?'Підготувати запит':'Подготовить запрос'} →</a></div>
 </section>
-<section class="container bau-end-cta"><div><p class="bau-kicker">{t.region}</p><h2>{t.ready}</h2></div><a class="button button-dark" href={contact}>{t.cta} ↗</a></section>
+<CompanyProfile locale={locale} compact />
+<Partners locale={locale} />
 <Reviews locale={locale} />
 <ConstructionFaq locale={locale} />
+<section class="container bau-end-cta" aria-labelledby="bau-final-contact-title"><div><p class="bau-kicker">{t.region}</p><h2 id="bau-final-contact-title">{t.ready}</h2></div><a class="button button-dark" href={contact}>{t.cta} <span aria-hidden="true">↗</span></a></section>
 </Layout>
 <style>
 .bau-hero{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);align-items:center;gap:clamp(26px,4.5vw,70px);padding-top:clamp(45px,7vw,115px);padding-bottom:clamp(50px,7vw,110px)}
@@ -98,7 +98,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-contract{background:#dcefe8;padding-block:clamp(55px,8vw,95px)}.bau-contract-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:50px;align-items:center}.bau-contract .button{margin-top:20px}
 .bau-extra-list{display:grid;gap:10px}.bau-extra-list>a{display:flex;align-items:center;gap:15px;padding:18px 22px;background:#fff;border-radius:16px;color:#16363e;text-decoration:none;font-size:17px;font-weight:700;min-width:0}.bau-extra-list>a>span:nth-child(2){flex:1;overflow-wrap:anywhere}
 .bau-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.bau-steps>div{background:#0c333b;color:#fff;padding:30px;border-radius:21px;min-height:180px}.bau-step-counter{color:#c7f34e;font-size:27px;font-weight:900}.bau-steps h3{color:#fff;font-size:20px;line-height:1.25;margin-top:30px}.bau-planner-cta{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:20px}.bau-planner-cta p{max-width:660px;font-size:13px;color:#536b66}
-.bau-end-cta{background:linear-gradient(120deg,#d8f3d3,#eaf7ec);border-radius:25px;padding:clamp(28px,5vw,60px);display:flex;justify-content:space-between;gap:20px;align-items:center}.bau-end-cta a:not(.button){font-weight:700}.bau-end-cta h2{margin:12px 0 20px}
+.bau-end-cta{margin-block:clamp(36px,5vw,76px) clamp(44px,7vw,96px);background:linear-gradient(120deg,#d8f3d3,#eaf7ec);border-radius:25px;padding:clamp(28px,5vw,60px);display:flex;justify-content:space-between;gap:20px;align-items:center}.bau-end-cta a:not(.button){font-weight:700}.bau-end-cta h2{margin:12px 0 20px}
 .bau-faq{display:grid;grid-template-columns:1fr 1.35fr;gap:30px}.bau-faq details{border-bottom:1px solid #d2e4dc;padding:21px 0}.bau-faq summary{list-style:none;display:flex;justify-content:space-between;gap:20px;font-weight:780;cursor:pointer}.bau-faq details p{margin:15px 0 0;color:#516a65;font-size:15px;line-height:1.7}
 @media(prefers-reduced-motion:reduce){.bau-card{transition:none}.bau-card:hover{transform:none}}@media(min-width:881px) and (max-width:1100px){.bau-hero{gap:clamp(18px,3vw,34px)}.bau-hero-copy h1{font-size:clamp(43px,5.75vw,65px)}.bau-actions{gap:15px;margin-top:22px}}
 @media(max-width:880px){.bau-hero{grid-template-columns:1fr}.bau-hero-copy{max-width:720px}.bau-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bau-card.bau-card-request{grid-column:span 2}.bau-contract-grid{grid-template-columns:1fr}.bau-faq{grid-template-columns:1fr}}

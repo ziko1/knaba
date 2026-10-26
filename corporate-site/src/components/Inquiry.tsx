@@ -1,18 +1,17 @@
 import { For, Show, createSignal, onMount } from "solid-js";
-import { publicText, publicApiError, localizedService, type PublicLocale } from "../lib/public-i18n";
+import { publicText, publicApiError, type PublicLocale } from "../lib/public-i18n";
 import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
-import { company, services } from "../data/company";
-import { offerBySlug } from "../data/construction-offers";
+import { company } from "../data/company";
+import { constructionOffers, offerBySlug } from "../data/construction-offers";
+import { constructionInquiryData, constructionMessageLimit, validateConstructionInquiry } from "../lib/inquiry-construction";
 import { inquirySupportPath } from "../lib/inquiry-navigation";
 import {
   buildInquiry,
   emptyInquiry,
   frequencies,
   inquiryLimits,
-  isKnownService,
   objectTypes,
-  validateInquiry,
 } from "../lib/inquiry";
 import type { InquiryData } from "../lib/inquiry";
 
@@ -21,6 +20,9 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const t = (text: string) => publicText(text, locale());
   const supportLabel = (text: string) => t(text) + (["en", "uk"].includes(locale()) ? " (DE)" : "");
   const path = (value: '/datenschutz/' | '/konto/') => inquirySupportPath(value, locale());
+  const [topic, setTopic] = createSignal("");
+  const requestData = () => constructionInquiryData(data(), topic(), locale());
+  const messageLimit = () => constructionMessageLimit(topic(), locale());
   const [step, setStep] = createSignal(0);
   const [ready, setReady] = createSignal(false);
   const [data, setData] = createSignal<InquiryData>(emptyInquiry());
@@ -72,21 +74,19 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   }
 
   onMount(() => {
-    const selected = new URLSearchParams(window.location.search).get(
-      "leistung",
-    );
-    if (selected && isKnownService(selected) && selected === "baureinigung")
-      setData((previous) => ({ ...previous, service: selected }));
-    // Strict allowlist: no arbitrary URL text enters a lead.
-    const topic = offerBySlug(new URLSearchParams(window.location.search).get("anliegen") || "");
-    if(topic) setData(previous => ({
-      ...previous,
-      service:"baureinigung",
-      objectType:"Baustelle",
-      message: {de:'Bauleistung',en:'Construction service',uk:'Будівельна послуга',ru:'Строительная услуга'}[locale()]+": "+topic.name[locale()]+"\n"+previous.message,
-    }));
+    const params = new URLSearchParams(window.location.search);
+    const selected = offerBySlug(params.get("anliegen") || "")
+      ?? (params.get("leistung") === "baureinigung" ? offerBySlug("baureinigung") : undefined);
+    if (selected) selectTopic(selected.slug);
     setReady(true);
   });
+
+  function selectTopic(value: string) {
+    const offer = offerBySlug(value);
+    setTopic(offer?.slug ?? "");
+    update("service", offer ? "baureinigung" : "");
+    if (offer && !data().objectType) update("objectType", "Baustelle");
+  }
 
   function update(field: keyof InquiryData, value: string) {
     idempotencyKey = "";
@@ -114,7 +114,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
         step() === 0
           ? ["service"]
           : ["objectType", "postcode", "area", "frequency"];
-      const issues = validateInquiry(data(), locale());
+      const issues = validateConstructionInquiry(data(), topic(), locale());
       const first = relevant.find((field) => issues[field]);
       if (first) {
         showFieldError(
@@ -126,14 +126,14 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       move(step() + 1);
       return;
     }
-    const issues = validateInquiry(data(), locale());
+    const issues = validateConstructionInquiry(data(), topic(), locale());
     const first = (Object.keys(issues) as (keyof InquiryData)[])[0];
     if (first) {
       showFieldError(first, issues[first] || t("Bitte prüfen Sie Ihre Angaben."));
       return;
     }
     try {
-      setReview(buildInquiry(data(), locale()));
+      setReview(buildInquiry(requestData(), locale(), topic()));
       setError("");
       setInvalidField(null);
       setStatus("");
@@ -158,7 +158,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       idempotencyKey ||= createRequestId();
       const response = await fetch("/api/leads", {
         method: "POST", headers: {"Content-Type":"application/json", ...portalHeader},
-        body: JSON.stringify({...data(), privacyAccepted:true, website:website(), idempotencyKey}),
+        body: JSON.stringify({...requestData(), privacyAccepted:true, website:website(), idempotencyKey}),
         signal:controller.signal,
       });
       const result = await response.json();
@@ -194,7 +194,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   }
 
   return (
-    <section class="wizard" aria-label={t("Reinigungsanfrage")} aria-busy={sending()}>
+    <section class="wizard" aria-label={t("Projektanfrage")} aria-busy={sending()}>
       <ol class="wizard-progress" aria-label={t("Schritte der Anfrage")}>
         <For each={labels}>
           {(label, index) => (
@@ -214,7 +214,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
         {review()
           ? receipt() ? t("Vielen Dank für Ihre Anfrage.") : t("Ihre Anfrage im Überblick.")
           : [
-              t("Welche Reinigung benötigen Sie?"),
+              t("Welche Leistung benötigen Sie?"),
               t("Erzählen Sie uns von Ihrem Objekt."),
               t("Wie können wir Sie erreichen?"),
             ][step()]}
@@ -291,16 +291,16 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                   name="service"
                   aria-invalid={invalidField() === "service" ? true : undefined}
                   aria-describedby={descriptionFor("service")}
-                  value={data().service}
+                  value={topic()}
                   onChange={(event) =>
-                    update("service", event.currentTarget.value)
+                    selectTopic(event.currentTarget.value)
                   }
                   required
                 >
                   <option value="">{t("Bitte auswählen")}</option>
-                  <For each={services.filter(service => service.slug === "baureinigung")}>
+                  <For each={constructionOffers}>
                     {(service) => (
-                      <option value={service.slug}>{localizedService(service, locale()).name}</option>
+                      <option value={service.slug}>{service.name[locale()]}</option>
                     )}
                   </For>
                 </select>
@@ -481,7 +481,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                     }
                     aria-describedby={descriptionFor("message")}
                     rows={4}
-                    maxLength={inquiryLimits.message}
+                    maxLength={messageLimit()}
                     value={data().message}
                     onInput={(event) =>
                       update("message", event.currentTarget.value)
@@ -489,7 +489,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                     placeholder={t("Zum Beispiel Wunschtermin, Zugangszeiten oder besondere Anforderungen.")}
                   />
                   <span class="field-hint">
-                    {data().message.length} / {inquiryLimits.message} {t("Zeichen. Bitte keine sensiblen Daten eintragen.")}
+                    {data().message.length} / {messageLimit()} {t("Zeichen. Bitte keine sensiblen Daten eintragen.")}
                   </span>
                 </div>
               </div>
