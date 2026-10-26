@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "490a27fa025484d9cd3757b3fc7da8c2195dc4d9118c61b1abca4f6b91262a0f",
+  "sourceDigest": "c561a3f4b82fca9fb8ada5abf97e39ea25388755738e21b45632319d1fe2273e",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -3176,6 +3176,13 @@
         "/karriere/"
       ]
     },
+    "5c9881c3f1bd5289c49f24b9": {
+      "kind": "text",
+      "source": "Zusatzarbeiten ansehen",
+      "routes": [
+        "/"
+      ]
+    },
     "5cacd752ff458150a791f400": {
       "kind": "text",
       "source": "Die gewünschte Reinigung wird nach Räumen, Materialien und Verschmutzung beschrieben. Besondere Anforderungen und ausgeschlossene Arbeiten gehören in dieselbe Vereinbarung.",
@@ -3221,13 +3228,6 @@
     "5fad8c478916b9ff792942a0": {
       "kind": "text",
       "source": "BAU + CLEAN",
-      "routes": [
-        "/"
-      ]
-    },
-    "5fb282ab7c612e940d013397": {
-      "kind": "text",
-      "source": "Bauprojekt anfragen ↗",
       "routes": [
         "/"
       ]

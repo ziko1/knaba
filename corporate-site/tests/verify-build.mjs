@@ -164,6 +164,27 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
   assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
   assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
+  // Page hierarchy is intentional: offer -> delivery process -> proof -> questions -> final contact.
+  const order = [
+    'class="bau-hero container"', 'id="bau-services"', 'class="bau-contract"',
+    'id="bau-process-title"', 'class="container company-profile company-profile-compact"',
+    'class="container knaba-partners"', 'id="reviews"', 'class="container knaba-faq knaba-faq-preview"',
+    'class="container bau-end-cta"',
+  ];
+  const positions=order.map(token=>source.indexOf(token));
+  assert.ok(positions.every(value=>value>=0),prefix+'all customer journey blocks present');
+  assert.deepEqual([...positions].sort((a,b)=>a-b),positions,prefix+'blocks in decision-first order');
+  assert.match(source, /aria-labelledby="bau-final-contact-title"/,prefix+'final contact landmark');
+  assert.doesNotMatch(source, /bau-services-more/,prefix+'no duplicate full-width catalogue action');
+  const cataloguePath='/'+prefix+'leistungen/';
+  assert.ok(source.includes('class="button button-outline bau-secondary-cta" href="'+cataloguePath+'"'),
+    prefix+'primary catalogue discoverability in hero button');
+  const extrasLabel={'':'Zusatzarbeiten ansehen','en/':'Explore additional works',
+    'uk/':'Переглянути додаткові роботи','ru/':'Подробнее о дополнительных работах'}[prefix];
+  assert.ok(source.includes(extrasLabel),prefix+'localized distinct extra works CTA');
+  const finalContact=source.indexOf('class="container bau-end-cta"');
+  const footer=source.indexOf('<footer');
+  assert.ok(footer>finalContact,prefix+'final conversion above footer');
 }
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 const homeIslands = homepage.match(/<astro-island\b[^>]*>/g) || [];
