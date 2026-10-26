@@ -5,7 +5,7 @@ import {normalizeStudioPage} from '../src/lib/site-studio-contract';
 describe('Studio editable site route inventory',()=>{
   it('offers all 92 multilingual core, FAQ, service and practical guide pages',()=>{
     expect(studioPages).toHaveLength(92);
-    expect(new Set(studioPages.map(x=>x.path)).size).toBe(88);
+    expect(new Set(studioPages.map(x=>x.path)).size).toBe(studioPages.length);
     for(const item of studioPages){
       expect(normalizeStudioPage(item.path)).toBe(item.path);
       expect(item.title.trim().length).toBeGreaterThan(0);
