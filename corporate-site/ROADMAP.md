@@ -259,3 +259,10 @@ User requests implementation and deployment to existing development site, preser
 - [x] Mobile long-title improvement; code SHA `57ccd417cb918cf351f280173050915883f63158`, 180 Vitest + 16 Node + 23 VPS, 117-page build, 32 grid + 32 detail Chromium and 8 title mobile cases PASS. Payload baseline tracked.
 - [ ] Version-pinned VSP preview rollout with SQLite backup, rollback and live localized smoke; official domain excluded.
 - [ ] Genuine owner enrollment /readyz=503; physical Safari/Firefox/Android, native 200% zoom, screen-reader/field CWV, offsite restore and official sign-off.
+
+## KN-LOGO-I18N-20261026
+- [x] Localize DE/EN/UK/RU visible slogan and SVG accessibility descriptions in existing generator; reusable responsive component, no duplicate routes.
+- [x] Verify generated source determinism and run pinned Node24 tests/build with 118 locale routes.
+- [ ] Recorded live release and independent post-release test receipt, including backup + rollback and asset identity.
+- [ ] Native Opera/physical-device/200%-zoom and customer review of translated marketing copy; report BLOCKED separately from PASS.
+- [ ] Opera Lab normal-chat native plugin connection, dynamic page-control/accessibility evidence, scoped-cost/browser security gates without TinyFish spending.

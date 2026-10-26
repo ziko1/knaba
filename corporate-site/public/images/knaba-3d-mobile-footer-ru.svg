@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 280" role="img" aria-labelledby="knaba-title knaba-desc">
+  <title id="knaba-title">KNABA</title>
+  <desc id="knaba-desc">Три геометрических здания, KNABA с лаймовым акцентом на букве A</desc>
+  <defs>
+    <linearGradient id="buildingLeft" x1="0" x2=".9" y1=".15" y2="1"><stop stop-color="#13B8B4"/><stop offset=".32" stop-color="#087C81"/><stop offset=".72" stop-color="#102F38"/><stop offset="1" stop-color="#164F5A"/></linearGradient>
+    <linearGradient id="buildingRight" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#007B89"/><stop offset=".42" stop-color="#102F38"/><stop offset="1" stop-color="#0C646F"/></linearGradient>
+    <linearGradient id="metalInk" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#BDEFE7"/><stop offset=".2" stop-color="#F6FFFA"/><stop offset=".72" stop-color="#F6FFFA"/><stop offset="1" stop-color="#BDEFE7"/></linearGradient>
+    <linearGradient id="limeAccent" x1="0" x2=".45" y1="0" y2="1"><stop stop-color="#F3FFC6"/><stop offset=".24" stop-color="#D8F779"/><stop offset=".7" stop-color="#9DBD51"/><stop offset="1" stop-color="#EAFFA6"/></linearGradient>
+    <linearGradient id="limeBase" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#F3FFC6"/><stop offset=".35" stop-color="#D8F779"/><stop offset="1" stop-color="#688456"/></linearGradient>
+  </defs>
+  <g aria-hidden="true">
+    <g>
+      <path d="M36 118 88 91 V108 L36 135 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M96 91 148 118 V135 L96 108 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M40 119 87 96 M97 96 144 119" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M36 145 88 118 V135 L36 162 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M96 118 148 145 V162 L96 135 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M40 146 87 123 M97 123 144 146" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M36 172 88 145 V162 L36 189 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M96 145 148 172 V189 L96 162 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M40 173 87 150 M97 150 144 173" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M36 199 88 172 V189 L36 216 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M96 172 148 199 V216 L96 189 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M40 200 87 177 M97 177 144 200" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M36 226 88 199 V216 L36 243 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M96 199 148 226 V243 L96 216 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M40 227 87 204 M97 204 144 227" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M36 253 88 226 V243 L36 270 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M96 226 148 253 V270 L96 243 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M40 254 87 231 M97 231 144 254" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g>
+    <g>
+      <path d="M146 64 204 37 V54 L146 81 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 37 270 64 V81 L212 54 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 65 203 42 M213 42 266 65" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 91 204 64 V81 L146 108 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 64 270 91 V108 L212 81 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 92 203 69 M213 69 266 92" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 118 204 91 V108 L146 135 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 91 270 118 V135 L212 108 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 119 203 96 M213 96 266 119" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 145 204 118 V135 L146 162 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 118 270 145 V162 L212 135 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 146 203 123 M213 123 266 146" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 172 204 145 V162 L146 189 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 145 270 172 V189 L212 162 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 173 203 150 M213 150 266 173" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 199 204 172 V189 L146 216 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 172 270 199 V216 L212 189 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 200 203 177 M213 177 266 200" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 226 204 199 V216 L146 243 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 199 270 226 V243 L212 216 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 227 203 204 M213 204 266 227" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M146 253 204 226 V243 L146 270 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M212 226 270 253 V270 L212 243 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M150 254 203 231 M213 231 266 254" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g>
+    <g>
+      <path d="M268 118 320 91 V108 L268 135 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M328 91 380 118 V135 L328 108 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M272 119 319 96 M329 96 376 119" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M268 145 320 118 V135 L268 162 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M328 118 380 145 V162 L328 135 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M272 146 319 123 M329 123 376 146" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M268 172 320 145 V162 L268 189 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M328 145 380 172 V189 L328 162 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M272 173 319 150 M329 150 376 173" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M268 199 320 172 V189 L268 216 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M328 172 380 199 V216 L328 189 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M272 200 319 177 M329 177 376 200" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M268 226 320 199 V216 L268 243 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M328 199 380 226 V243 L328 216 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M272 227 319 204 M329 204 376 227" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g><g>
+      <path d="M268 253 320 226 V243 L268 270 Z" fill="url(#buildingLeft)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M328 226 380 253 V270 L328 243 Z" fill="url(#buildingRight)" stroke="#0A343E" stroke-width="1.2"/>
+      <path d="M272 254 319 231 M329 231 376 254" fill="none" stroke="#6DE3DC" stroke-opacity=".65" stroke-width="2.3"/>
+    </g>
+    <rect x="34" y="266" width="347" height="13" rx="2.5" fill="url(#limeBase)"/>
+    <path d="M34 266H381" fill="none" stroke="#EAF5C3" stroke-width="2" opacity=".88"/>
+  </g>
+  <g font-family="Arial,Helvetica,sans-serif" font-size="206" font-weight="800" letter-spacing="-4" aria-hidden="true">
+    <text x="396" y="256" textLength="728" lengthAdjust="spacingAndGlyphs" fill="#47666A" stroke="#47666A" stroke-width="6" transform="translate(3 5)">KNABA</text>
+    <text x="396" y="256" textLength="728" lengthAdjust="spacingAndGlyphs" fill="url(#metalInk)" stroke="#47666A" stroke-width="2.5" paint-order="stroke fill">KN<tspan fill="url(#limeAccent)" stroke="#BDEFE7" stroke-width="2">A</tspan>BA</text>
+  </g>
+
+</svg>

@@ -277,3 +277,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - No real DB migration, paid providers or official knaba.de changes. Live owner remains unactivated; genuine owner UAT, independent human security review, field performance and physical-device tests unknown.
 - Earlier backup SHA `1fc9492a9695d98dfd3fd3e41169353d0e98b63232f14fadcfd86e66595eaad8` verified SQLite integrity; source packet is kept private on VPS, never pushed to public GitHub.
 - Publish only with current-source lease, storage healthy, verified release packet and automatic rollback gates.
+
+## 2026-10-26 — KNABA multilingual logo, candidate checkpoint
+- Keep original DE logo bytes, geometry, 3D lime palette, and slogan. Six SVG desktop variants EN/UK/RU and six corresponding mobile variants generated deterministically by existing `scripts/generate-knaba-3d-assets.mjs` (16 total).
+- Visible copy: EN “Our goal is to create value for you.”; UK “Наша мета — створювати цінність для вас.”; RU “Наша цель — создавать ценность для вас.” DE original unchanged. Source suffix per locale handled only in shared Layout.astro; no hard-coded pages or duplicate branding components.
+- Isolated Node24 npm ci/check/test/build/verify:build PASS: 184 Vitest +16 extra Node +27 focused logo/browser-boundary tests, 118 generated HTML pages; exact client artifact SHA256 recorded in immutable release manifest upon deployment. Read-only system font mount was required for faithful raster preview; fontless Sharp gave invalid placeholder glyphs and is not a production-site defect.
+- Existing Opera Lab GUI screenshot, new tab, text input and mouse click dispatch are confirmed; screenshot alone and DISPATCHED are NOT page navigation. Browser in this chat via native Opera Browser Connector returns Browser not connected; 16-case native Opera UAT, screen-reader/device/zoom and independent human review remain OPEN.
+- Public release must use tested source, DB backup + rollback, compare 118 old/new endpoints, preserve private original source, and update public Draft PR via only authorized brand source files; no direct private source dump to public GitHub.
