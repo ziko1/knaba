@@ -1,0 +1,77 @@
+{
+  "at": "2026-10-26T14:52:17.562Z",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "language": "de",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/partner/",
+      "status": 200,
+      "language": "de",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "language": "en",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/en/partner/",
+      "status": 200,
+      "language": "en",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/uk/",
+      "status": 200,
+      "language": "uk",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/uk/partner/",
+      "status": 200,
+      "language": "uk",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/ru/",
+      "status": 200,
+      "language": "ru",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    },
+    {
+      "path": "/ru/partner/",
+      "status": 200,
+      "language": "ru",
+      "oneH1": true,
+      "uniqueIds": true,
+      "onePhone": true,
+      "profileTargets": 5
+    }
+  ]
+}
