@@ -23,17 +23,18 @@ function fixture(run){
  try{return run({dir,file,baseline});}finally{rmSync(dir,{recursive:true,force:true});}
 }
 const rows=db=>db.prepare('SELECT * FROM vps_schema_migrations ORDER BY filename').all().map(r=>({...r}));
-test('current public-review sequence retains all six canonical SQL entries',()=>{
+test('review migration remains ordinal 0005 and owner invite is a unique forward-only 0006',()=>{
  const {names,journalEntries}=inspectMigrationSequence(source.pathname);
- assert.equal(names.length,6);assert.equal(journalEntries,6);
- assert.equal(names.at(-1),'0005_public_reviews.sql');
- assert.equal(names.some(name=>/owner_invite|erp_bridge/.test(name)),false);
+ assert.equal(names.length,7);assert.equal(journalEntries,7);
+ assert.equal(names[5],'0005_public_reviews.sql');
+ assert.equal(names.at(-1),'0006_owner_invite.sql');
+ assert.equal(names.some(name=>/erp_bridge/.test(name)),false);
 });
 test('fresh actual SQLite contains public reviews and passes integrity',()=>fixture(({file})=>{
  const {db,migrations}=openLocalDatabase(file);
  try{
-  assert.equal(migrations.length,6);
-  for(const name of ['public_reviews','studio_pages'])
+  assert.equal(migrations.length,7);
+  for(const name of ['public_reviews','vps_owner_invites','studio_pages'])
    assert.equal(db.prepare('SELECT count(*) AS n FROM sqlite_master WHERE type=\'table\' AND name=?').get(name).n,1);
   assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');
   assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);
@@ -45,13 +46,13 @@ for(const count of [1,5])test('actual baseline '+count+' upgrades once and retai
  current.db.exec("CREATE TABLE qa_sentinel(id INTEGER PRIMARY KEY,value TEXT); INSERT INTO qa_sentinel VALUES(1,'synthetic preserved')");current.db.close();
  current=openLocalDatabase(file);
  try{
-  assert.equal(rows(current.db).length,6);assert.deepEqual(rows(current.db).slice(0,count),before);
+  assert.equal(rows(current.db).length,7);assert.deepEqual(rows(current.db).slice(0,count),before);
   assert.equal(current.db.prepare('SELECT value FROM qa_sentinel').get().value,'synthetic preserved');
   current.db.prepare('UPDATE qa_sentinel SET value=? WHERE id=1').run('updated and preserved');
  }finally{current.db.close();}
  current=openLocalDatabase(file,{allowMigrations:false});
  try{
-  assert.equal(rows(current.db).length,6);assert.deepEqual(rows(current.db).slice(0,count),before);
+  assert.equal(rows(current.db).length,7);assert.deepEqual(rows(current.db).slice(0,count),before);
   assert.equal(current.db.prepare('SELECT value FROM qa_sentinel').get().value,'updated and preserved');
  }finally{current.db.close();}
 }));

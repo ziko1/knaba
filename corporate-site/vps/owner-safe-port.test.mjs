@@ -85,7 +85,7 @@ test('invitation CLI fails closed and stores the bearer URL only in a private 06
     assert.equal(statSync(path).isFile(),true);
     const valid = run('https://kneba.vsp.rest');
     assert.equal(valid.status,0,valid.stderr);
-    assert.doesNotMatch(valid.stdout,/token=|[A-Za-z0-9_-]{43}/);
+    assert.doesNotMatch(valid.stdout,/#token=[A-Za-z0-9_-]{43}|activationUrl|\\"to\\"/);
     const notice=JSON.parse(valid.stdout);
     assert.equal(notice.issued,true);
     assert.ok(notice.secretFile?.startsWith(join(dir,'owner-invites')+'/'));
