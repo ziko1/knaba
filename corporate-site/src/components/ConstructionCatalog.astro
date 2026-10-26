@@ -9,8 +9,9 @@ const {locale='de'}=Astro.props as {locale:ConstructionLocale};
 const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
 const additional=constructionOffers.filter(item=>!item.core);
 const project=projectCard[locale];
+const searchCity={de:'Berlin',en:'Berlin',uk:'Берлін',ru:'Берлин'}[locale];
 ---
-<Layout lang={locale} title={t.catalogTitle+' | KnaBa'} description={t.catalogIntro}>
+<Layout lang={locale} title={t.catalogTitle+' | KnaBa '+searchCity} description={t.catalogIntro+' '+t.region+'.'}>
 <section class="container page-intro"><p class="eyebrow">KnaBa / BAUSERVICE</p><h1>{t.catalogTitle}</h1><p>{t.catalogIntro}</p></section>
 <section class="container section section-tight"><h2>{t.standard}</h2><div class="bau-offer-grid">
 {constructionGridCards.map((card,i) => card.kind === 'project' ? (
