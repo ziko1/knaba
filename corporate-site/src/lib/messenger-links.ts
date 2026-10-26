@@ -16,7 +16,7 @@ export function publicMessengerLinks(config:PublicMessengerConfig,locale:PublicM
   const tg=typeof config.telegramBotUsername==='string'?config.telegramBotUsername.trim():'';
   const whatsapp=/^[1-9][0-9]{7,14}$/.test(wa)
     ?'https://wa.me/'+wa+'?text='+encodeURIComponent(hello[locale]):undefined;
-  const telegram=/^[a-zA-Z][a-zA-Z0-9_]{3,30}bot$/i.test(tg)&&tg.length<=32
+  const telegram=/^[a-zA-Z][a-zA-Z0-9_]{1,28}bot$/i.test(tg)&&tg.length<=32
     ?'https://t.me/'+tg+'?start=website':undefined;
   return {whatsapp,telegram} as const;
 }
