@@ -16,3 +16,13 @@
 ## Release hold
 - During audit public preview `https://kneba.vsp.rest` still served older `21a56934f3c3266d31285bb89e0a4ca0c0f755a4` with duplicate phones. This fix is NOT deployed and does not change the official knaba.de domain.
 - Keep PR in Draft; require authorized publisher, rights/privacy review, owner UAT, verified off-host customer-state recovery, staged browser/keyboard/real-device QA, lease-protected cutover and rollback proof. Do not bypass staged release holds.
+
+## Follow-on QA: catalogue and service-detail CTA cleanup (26.10.2026)
+- Compared with existing Draft PRs #80/#81 and ported only UX changes to current PR #82; did not copy older components. Gallery, optimized carousel, local partner logos, auth, reviews, Studio, ERP and i18n remain preserved.
+- Home DE/EN/UK/RU: one styled hero link to `/leistungen/`, no duplicated full-width CTA beneath six cards, contextual `/leistungen/#zusatzarbeiten` with distinct localized label; removed dead duplicate `.bau-services-more` CSS. Mobile targets >=44 CSS px.
+- Every service detail (8 service slugs × 4 locales) renders two enquiry actions (opening and closing), not four, retaining price notes, phone, FAQ, related content, safety disclaimers and guides. JS-disabled contact fallback uses four localized explanatory sentences, not a duplicate email.
+- RED/GREEN: two new source tests RED while nine older passed; final 12/12 targeted PASS. Node24.22.1 `npm run check`, `npm test`, `npm run build`, `npm run i18n:extract`, `npm run i18n:verify`, `npm run verify:build`, `npm run test:vps` exit 0 in VSP mode. Vitest 196/196, native main 28/28, policy/assets 27/27, i18n 9/9 and VPS 24/24.
+- Independent HTML parser: 122/122 HTML pages HTTP200, 122/122 exactly one clickable telephone, no duplicate local href inside 509 nav groups and 32/32 service details with exactly two request links.
+- Real sandboxed Chromium against isolated loopback: 24 design cases, 6 CSS reflow/keyboard cases and 52 changed-CTA cases (16 responsive homepage, 32 service details, 4 JavaScript-disabled contact) all PASS; physical device/browser zoom/screen reader not tested.
+- FINAL artifact SHA-256 `e71121f05ce134eabdd56b5cabc69755df3ef704dcb5eb008f1ed6567a9513b2`. Earlier artifact digests in this file are historical; this is the newest candidate.
+- Public `kneba.vsp.rest` was not updated. Official `knaba.de` untouched. No merge/deploy, DNS, customer records, migration, secrets or paid APIs. Rights/privacy, off-host DB restore, owner UAT, independent review, real device and immutable rollback remain open.

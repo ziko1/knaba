@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "490a27fa025484d9cd3757b3fc7da8c2195dc4d9118c61b1abca4f6b91262a0f",
+  "sourceDigest": "c20cee1f3b96e91d28239c5b93c56eae67b12749f561262d649220792263a4e6",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -583,13 +583,6 @@
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/bauzwischenreinigung/",
         "/leistungen/"
-      ]
-    },
-    "0f68096c0d1c87aa5ec7ba71": {
-      "kind": "text",
-      "source": "<div class=\"aside-card\" data-astro-cid-hawopk5z><h2 data-astro-cid-hawopk5z>Bauprojekt anfragen</h2><p data-astro-cid-hawopk5z>E-Mail: kontakt@knaba.de</p></div>",
-      "routes": [
-        "/kontakt/"
       ]
     },
     "0f7917924beb47ea1ae7565c": {
@@ -1499,6 +1492,13 @@
       "source": "Wir verarbeiten die für den gewünschten Kundenbereich erforderlichen Daten zur Bereitstellung des angefragten Dienstes nach Art. 6 Abs. 1 Buchst. b DSGVO. Die Prüfung und Beschränkung von Zugriffsrechten schützt Kunden- und Unternehmensdaten und beruht auf Art. 6 Abs. 1 Buchst. f DSGVO. Pflichtangaben sind für die Zuordnung des Profils erforderlich; ohne diese Angaben kann kein Portalzugang eingerichtet werden. Sie können KnaBa weiterhin telefonisch oder per E-Mail kontaktieren.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "2a76a0630617f3e3809754c0": {
+      "kind": "text",
+      "source": "<div class=\"aside-card\" data-astro-cid-hawopk5z><h2 data-astro-cid-hawopk5z>Bauprojekt anfragen</h2><p data-astro-cid-hawopk5z>Das Formular benötigt JavaScript. Sie erreichen uns über die oben angegebenen Kontaktdaten.</p></div>",
+      "routes": [
+        "/kontakt/"
       ]
     },
     "2b335fa1efd5303aef90d5e4": {
@@ -2918,14 +2918,6 @@
       "kind": "text",
       "source": "Leistung anfragen →",
       "routes": [
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
         "/leistungen/"
       ]
     },
@@ -3174,6 +3166,13 @@
       "source": "Bei KnaBa auf der Baustelle mitarbeiten. | KnaBa",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "5c9881c3f1bd5289c49f24b9": {
+      "kind": "text",
+      "source": "Zusatzarbeiten ansehen",
+      "routes": [
+        "/"
       ]
     },
     "5cacd752ff458150a791f400": {
@@ -4637,20 +4636,6 @@
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
-      ]
-    },
-    "88a02a35eb76a160c48490ae": {
-      "kind": "text",
-      "source": "Leistung anfragen ↗",
-      "routes": [
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/"
       ]
     },
     "88ab31f3ee05eccb0a32e8d3": {
