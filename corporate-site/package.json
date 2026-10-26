@@ -11,7 +11,7 @@
     "build": "astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs",
     "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
     "test": "vitest run && node --test tests/inquiry.test.mjs tests/verify-live-artifact.test.mjs tests/vps-seo.test.mjs tests/indexnow-submit.test.mjs tests/marketing-contrast.test.mjs tests/sitemap-parity.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/verify-public-live.test.mjs",
-    "verify:build": "node tests/verify-build.mjs && node tests/check-project-cta.mjs",
+    "verify:build": "node tests/verify-build.mjs && node tests/check-project-cta.mjs && npm run test:vps",
     "preview": "astro preview --host 0.0.0.0",
     "db:generate": "drizzle-kit generate",
     "dev:content": "astro dev",
@@ -21,7 +21,8 @@
     "test:reflow": "node tests/accessibility-reflow-browser.cjs",
     "test:guides-browser": "node tests/construction-guides-browser.cjs",
     "test:logo:browser": "node tests/knaba-logo-browser.cjs",
-    "verify:live": "node scripts/verify-public-live.mjs"
+    "verify:live": "node scripts/verify-public-live.mjs",
+    "test:vps": "node --test vps/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "7.1.1",

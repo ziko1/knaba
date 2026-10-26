@@ -1,4 +1,4 @@
-import { siteConfig } from '../data/site';
+import { siteConfig } from '../data/site.ts';
 /**
  * Shared, deliberately restricted public-content contract.
  * No HTML/CSS/script authoring, no arbitrary DOM selectors or remote images.
