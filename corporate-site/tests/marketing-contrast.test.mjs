@@ -105,3 +105,32 @@ test('Catalogue request CTA text meets AA on gradient endpoints',()=>{
     ['link','.bau-offer.bau-offer-request>span']
   ])expectContrast(color(catalog,selector),backgrounds,'catalogue request '+label);
 });
+
+test('Homepage secondary catalogue CTA matches button system and AA contrast',()=>{
+  const heroActions=home.match(/<div class="bau-actions">([\s\S]*?)<\/div>/)?.[1];
+  assert.ok(heroActions,'Missing homepage hero actions');
+  assert.match(heroActions,/<a class="button button-dark" href=\{contact\}>/);
+  assert.match(heroActions,/<a class="button button-outline bau-secondary-cta" href=\{catalog\}><span class="bau-secondary-cta-label">\{t\.all\}<\/span><span class="bau-secondary-cta-arrow" aria-hidden="true">→<\/span><\/a>/);
+  assert.match(home,/const catalog=prefix\+'\/leistungen\/';/);
+
+  const pill=rule(home,'.bau-secondary-cta');
+  assert.match(pill,/max-width:100%/);
+  assert.match(pill,/border-color:#b1d7cc/);
+  assert.match(rule(home,'.bau-secondary-cta-label'),/overflow-wrap:anywhere/);
+  assert.match(rule(home,'.bau-secondary-cta-arrow'),/flex:0 0 30px/);
+  assert.match(rule(home,'.bau-secondary-cta:focus-visible'),/outline:3px solid/);
+  assert.match(home,/\.bau-actions>\.button\{width:100%;min-width:0;max-width:100%/);
+
+  const solidBackground=(selector)=>{
+    const match=/(?:^|;)\s*background\s*:\s*(#[0-9a-f]{6})\b/i.exec(rule(home,selector,'background'));
+    assert.ok(match,'Missing solid background: '+selector);
+    return normalizeHex(match[1]);
+  };
+  expectContrast(color(home,'.bau-secondary-cta'),[
+    solidBackground('.bau-secondary-cta'),
+    solidBackground('.bau-secondary-cta:hover')
+  ],'homepage explore pill default and hover');
+  expectContrast(color(home,'.bau-secondary-cta-arrow'),[
+    solidBackground('.bau-secondary-cta-arrow')
+  ],'homepage explore arrow disc');
+});

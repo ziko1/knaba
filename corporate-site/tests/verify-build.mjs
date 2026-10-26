@@ -3,6 +3,7 @@ import { resolve, join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import { assertImageAlternatives } from "../scripts/image-alt-gate.mjs";
 
 const root = resolve("dist/client");
 const releaseMode = process.env.KNABA_RELEASE_MODE;
@@ -105,11 +106,7 @@ for (const file of pages) {
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
   if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html') && !isPublicGuide(file)) assert.match(html,/name="robots" content="noindex, follow"/);
   assert.match(html,/name="astro-view-transitions-enabled"/);
-  for (const img of html.matchAll(/<img\b[^>]*>/g)) {
-    assert.match(img[0], /alt="[^"]+"/);
-    assert.match(img[0], /width="\d+"/);
-    assert.match(img[0], /height="\d+"/);
-  }
+  assertImageAlternatives(html, file);
 }
 const cssGzip = assets
   .filter((a) => a.name.endsWith(".css"))
