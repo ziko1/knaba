@@ -242,3 +242,25 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Physical Android/iOS, Safari/Firefox, real browser 200% zoom, screen-reader QA, field CWV, owner-approved service/brand/legal acceptance, verified offsite restore.
 - [ ] P2 coherent locally hosted SVG service icons replacing platform-dependent emoji only after separate brand/design review; do not impact current approved layout or active feature delivery.
 - [ ] Official `knaba.de` release, source-publication gate and main merge **separately gated**; no inference from successful dev domain smoke.
+
+## Assistant → ERP confirmed lead candidate — 25.10.2026
+
+- [x] Preserve current conversations schema and add0005 outbox; no conflicting legacy migration.
+- [x] Separate structured preview/explicit confirmation from ordinary handoff and offer acceptance.
+- [x] Fixed private HTTPS target, exact-byte HMAC, immutable event retry, lease fencing, bounded receipts and cancel race handling.
+- [x] Customer states in DE/EN/UK/RU; owner-only diagnostics and newest relevant request ordering.
+- [x] Isolated migration/API/dispatcher/runtime/backup and actual Nest+PostgreSQL contract checks; local Chromium flow evidence.
+- [x] Independent source review and exact tested code receipt (`dc279a9fb9148278b86f808394b52371d5cb80ed`); publication is a Draft PR, with no deployment acceptance. See `docs/evidence/assistant-erp-bridge-qa.json`.
+- [ ] Inventory actual legacy data if present; real owner UAT, approved mapping/credentials, retention/legal controls and target backup/rollback rehearsal before activation.
+- [ ] Separate approval for merge, deployment, live migration and real dispatch. Voice/WhatsApp calling, ERP channel and bidirectional operator handoff require a later contract.
+
+## 2026-10-26 — MIGRATION-ORDINAL-001 (source-only PR67)
+
+| ID | Acceptance | Result |
+| --- | --- | --- |
+| MIG-SEQ-PRECHECK | Єдиний fail-closed source validator до будь-якого SQLite create; перевірка SQL ordinal, journal, regular files | **SOURCE TESTED**: branch PR67, commit `9c2e87ec4830271006eec6d52883c5f8c69dc093`, Node18 tests 7/7, syntax and exact blob readback PASS |
+| MIG-SEQ-SQL | Обидві фактичні таблиці owner/ERP сумісні з попередніми 0000–0004 | **DISPOSABLE PYTHON SQLITE PASS**: обидва порядки, 15 таблиць, integrity=ok, foreign_keys=ok. Не означає D1/production upgrade PASS |
+| MIG-SEQ-INTEGRATE | Об'єднати PR #58/#67, забезпечити єдині порядкові номери SQL і Drizzle journal/snapshot, не змінити applied migration | **BLOCKED / NOT IMPLEMENTED**: PRs залишаються незалежними Draft; потрібна canonical integration branch + exact live schema ledger |
+| MIG-SEQ-RELEASE | Node24 повний QA, owner auth, ERP/assistant integration, rollback/restore, independent review й owner prod go/no-go | **NOT RUN / NOT DEPLOYED**; поточні VPS/клієнтські дані не змінювалися |
+
+Не дублювати функцію міграції, SQL або проектні критерії; це доповнення існуючої VPS бази й PR67, а не новий сервіс.

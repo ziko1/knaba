@@ -36,6 +36,13 @@
       "when": 1792877696633,
       "tag": "0004_dusty_hiroim",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1792937448101,
+      "tag": "0005_assistant_erp_bridge",
+      "breakpoints": true
     }
   ]
 }

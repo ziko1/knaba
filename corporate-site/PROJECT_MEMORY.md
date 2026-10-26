@@ -1,5 +1,16 @@
 # KnaBa corporate-site memory
 
+## Assistant → ERP candidate — 25.10.2026
+
+- User approved implementation of the reviewed migration/bridge contract in a separate branch and Draft PR. No merge, dev/production deployment, live migration, provider activation or real outbound delivery in this scope.
+- Tested implementation commit `dc279a9fb9148278b86f808394b52371d5cb80ed`; final receipt commit changes documentation only. Latest PR65 documentation-only updates through `daa925b980d4485774433fe11956b49a47f63a14` preserved; reviewed runtime/schema digest unchanged.
+- Branch `feat/knaba-assistant-erp-bridge-20261025`, based on PR65 `3398aefe696d8c317a63b10443457a39af5ed5d3`; preserves latest site/service-grid work. ERP contract verified against PR41 `683c09d0346fd05e0f2cd323da640bbb176c5c47` without changing ERP source.
+- Additive0005 outbox; explicit normalized preview/confirmation; scoped tokens/Origin/CAS; immutable signed lead.upsert, leases/retries/cancellation and honest receipt states. Off by default. DE/EN/UK/RU customer flow and owner-only sanitized diagnostics; confirmed old conversations remain discoverable in inbox.
+- Existing conversation/messages/offers schema remains canonical. Legacy threads data inventory/import is NOT_RUN. Real calling, WhatsApp media, ERP channel/operator dialogue and multi-operator claim remain separate work.
+- Independent review by `/root/bridge_security_review`; fixes include old-thread inbox ordering and zero-attempt cancellation. Runtime scheduler/backup, API/dispatcher and isolated actual Nest+PostgreSQL checks are recorded with their exact tested boundaries in `docs/KNABA_ASSISTANT_ERP_BRIDGE_2026-10-25_UK.md` and `docs/evidence/assistant-erp-bridge-qa.json`.
+- Browser evidence uses synthetic local data, scheduled transport suppressed and external traffic denied. Actual PG tests use temporary containers with no live data/providers; container/network cleanup required and recorded. Physical device, screen-reader, real owner/provider/TLS acceptance remain open.
+- No paid external service activated or purchased; incremental external purchases EUR0, existing runtime cost UNKNOWN. Release decision remains Draft/review only, bridge disabled.
+
 - User request: audit current cleaning-company website, offer modern fast stack choices, write detailed plan/prompt and implement the corporate website.
 - The user explicitly confirmed `knaba.de` / KnaBa after initial `kneba.de` typo.
 - Repository `ziko1/knaba`; isolated candidate branch `codex/knaba-corporate-astro-20261024`, base `ff748a2e5731e973883344ed28f3e82cf8a3bc06` (`main`, specification-only).
@@ -263,3 +274,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Prior version `9d06b6ae...` and verified private SQLite backup retained for rollback. No DB migrations, CRM changes, owner grant, official `knaba.de` deploy or main merge. /readyz=503 persists as **owner enrollment required**, do not bypass.
 - An initial direct loopback smoke used an invalid Host and correctly received 421, causing a safe automatic rollback. Correct local check uses `-H 'Host: kneba.vsp.rest'`; Host validation unchanged.
 - Complete source-vs-release lineage, safety gates and evidence: `docs/KNABA_SERVICE_CARD_LIVE_RELEASE_2026-10-25_UK.md`. Physical mobile, Safari, native zoom, a11y/screen reader, real field CWV and owner UAT not yet accepted.
+
+## 2026-10-26 — MIGRATION-ORDINAL-001 / PR67 cross-branch source gate
+
+- Зіставлено непоєднані Draft PR #58 `0005_owner_invite.sql` та PR #67 `0005_assistant_erp_bridge.sql`; SQL створюють різні таблиці, але ідентичний ordinal і різні Drizzle journals. Використано чинний VPS `openLocalDatabase`, жодного нового engine/DB.
+- У **тому самому Draft PR #67** додано `vps/migration-guard.mjs`, `vps/migration-guard.test.mjs`; guard викликається **до SQLite database open** у `vps/database.mjs`, а тест додано до існуючого `npm test`. Колізія ordinal, unjournaled/absent SQL, malformed journal/symlink відхиляються. Бездеструктивний default на поточних шести міграціях.
+- Code/test source checkpoint `9c2e87ec4830271006eec6d52883c5f8c69dc093`: actual GitHub source readback, 7/7 focused Node18 tests, two JS syntax checks і реальна filename/journal перевірка 6/6 PASS; повний Node24/Astro/ERP/DB CLI CI та independent review NOT RUN. На двох disposable in-memory SQLite за реальними SQL blob обидва порядки owner/ERP 0005 дають 15 таблиць, `PRAGMA integrity_check=ok`, 0 FK помилок; це **не** acceptance реальної міграції.
+- Далі: створити одну dependency-aware integration branch із **унікальною forward-only нумерацією/journal** (не переписувати already-applied SQL hashes), перевірити live read-only schema ledger, backup/restore у disposable середовищі й незалежне review; лише потім owner staging/prod gate. На live DB міграції не виконані, PR Draft.

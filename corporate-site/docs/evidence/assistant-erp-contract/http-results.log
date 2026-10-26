@@ -1,0 +1,74 @@
+PASS version identifies exact ERP source and TEST runtime
+PASS HTTP authentication rejects missing/unknown/disabled/unapproved keys without writes
+PASS HTTP rejects unknown source and stale/future signed timestamps without writes
+PASS HTTP HMAC covers exact raw bytes and rejects merged header values
+PASS HTTP rejects caller company override and source mismatch before business effects
+PASS HTTP inactive source returns422 NEEDS_APPROVAL
+PASS HTTP malformed/oversized JSON is rejected by actual parser middleware
+PASS ten concurrent actual HTTP deliveries persist exactly one APPLIED lead/audit/outbox
+PASS same event with changed payload returns durable QUARANTINED receipt, never overwrites lead
+PASS unmapped services quarantine durably without another authoritative lead
+PASS server-side credentials isolate companies for identical external/event IDs
+PASS signed whitespace is accepted, unsafe imported authority fields quarantine
+{
+  "status": "PASS",
+  "sourceSha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+  "node": "v24.22.1",
+  "postgres": "PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "total": 12,
+  "results": [
+    {
+      "name": "version identifies exact ERP source and TEST runtime",
+      "status": "PASS"
+    },
+    {
+      "name": "HTTP authentication rejects missing/unknown/disabled/unapproved keys without writes",
+      "status": "PASS"
+    },
+    {
+      "name": "HTTP rejects unknown source and stale/future signed timestamps without writes",
+      "status": "PASS"
+    },
+    {
+      "name": "HTTP HMAC covers exact raw bytes and rejects merged header values",
+      "status": "PASS"
+    },
+    {
+      "name": "HTTP rejects caller company override and source mismatch before business effects",
+      "status": "PASS"
+    },
+    {
+      "name": "HTTP inactive source returns422 NEEDS_APPROVAL",
+      "status": "PASS"
+    },
+    {
+      "name": "HTTP malformed/oversized JSON is rejected by actual parser middleware",
+      "status": "PASS"
+    },
+    {
+      "name": "ten concurrent actual HTTP deliveries persist exactly one APPLIED lead/audit/outbox",
+      "status": "PASS"
+    },
+    {
+      "name": "same event with changed payload returns durable QUARANTINED receipt, never overwrites lead",
+      "status": "PASS"
+    },
+    {
+      "name": "unmapped services quarantine durably without another authoritative lead",
+      "status": "PASS"
+    },
+    {
+      "name": "server-side credentials isolate companies for identical external/event IDs",
+      "status": "PASS"
+    },
+    {
+      "name": "signed whitespace is accepted, unsafe imported authority fields quarantine",
+      "status": "PASS"
+    }
+  ],
+  "companies": [
+    "bridge-http-a-5a2d0440-8d7f-4efa-8490-274f460db1f7",
+    "bridge-http-b-5a2d0440-8d7f-4efa-8490-274f460db1f7"
+  ],
+  "isolation": "loopback HTTP; disposable PostgreSQL; synthetic only; no provider/worker"
+}

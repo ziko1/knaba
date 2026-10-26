@@ -1,0 +1,93 @@
+/** Actual website SQL/preview/confirmation/dispatcher → actual Nest HTTP → real PostgreSQL.
+ * Website sources are copied without edits into corporate-site-bridge-fixture; hashes are recorded.
+ * Only the transport destination is substituted, from reserved example.test HTTPS to local HTTP.
+ */
+import 'reflect-metadata';
+import assert from 'node:assert/strict';
+import {randomUUID,createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {resolve} from 'node:path';
+import {NestFactory} from '@nestjs/core';
+import express from 'express';
+import {Database} from '../apps/api/database.ts';
+import {Engine} from '../apps/api/engine.ts';
+import {createApiModule} from '../apps/api/http.ts';
+import {integrationCommands} from '../packages/domain/integrations.ts';
+import {parseIntegrationCredentials} from '../packages/integrations/generic-events.ts';
+import type {Actor,CommandContext,Data} from '../packages/domain/core.ts';
+import {Db,erpTestEnv,erpTestInput,insertErpTestConversation} from '../../corporate-site-bridge-fixture/tests/helpers/assistant-erp-fixture.ts';
+import {previewErpLead,confirmErpLead,getErpLead} from '../../corporate-site-bridge-fixture/worker/assistant-erp.ts';
+import {drainErpLeads} from '../../corporate-site-bridge-fixture/worker/assistant-erp-dispatch.ts';
+
+assert(process.env.DATABASE_URL,'Disposable PostgreSQL required');
+const db=new Database(),company=`bridge-combined-${randomUUID()}`,sourceSha='683c09d0346fd05e0f2cd323da640bbb176c5c47';
+const fixturePath=fileURLToPath(new URL('../../corporate-site-bridge-fixture/',import.meta.url));
+const hashes=JSON.parse(readFileSync(resolve(fixturePath,'source-hashes.json'),'utf8'));
+for(const [path,expected] of Object.entries(hashes))assert.equal(createHash('sha256').update(readFileSync(resolve(fixturePath,path))).digest('hex'),expected,`source hash ${path}`);
+process.chdir(fixturePath);
+const site=new Db(),env={...erpTestEnv(),DB:site,ASSISTANT_ERP_COMPANY_ID:company};
+let time=Date.now();
+const id=randomUUID(),badId=randomUUID(),calls:{body:string;status:number;receipt:any}[]=[];
+let app:Awaited<ReturnType<typeof NestFactory.create>>|undefined;
+const checks:string[]=[];
+async function check(name:string,fn:()=>Promise<void>){await fn();checks.push(name);console.log(`PASS ${name}`);}
+function stored(conversationId=id){return site.sql.prepare('SELECT * FROM assistant_erp_requests WHERE conversation_id=?').get(conversationId) as Record<string,unknown>;}
+async function leadCount(){return (await db.query("SELECT count(*)::int AS n FROM aggregates WHERE company_id=$1 AND kind='lead'",[company])).rows[0].n;}
+try{
+ await db.migrate();
+ await db.transaction(company,'QA_FIXTURE',async tx=>{
+  const actor:Actor={companyId:company,userId:'owner',roles:['OWNER'],permissions:['bot.settings.manage'],siteIds:[],warehouseIds:[],customerIds:[],mfaVerified:true};
+  const context:CommandContext={tx,actor,now:new Date(time).toISOString(),idempotencyKey:'synthetic-combined-fixture',requireOwn(){throw Error('Unexpected own access');},requireSite(){throw Error('Unexpected site access');}};
+  const cmd=async(name:string,input:Data)=>{const def=integrationCommands[name]!;return def.handler(context,def.schema.parse(input));};
+  await tx.add('user',{roles:['OWNER'],active:true},'owner');await tx.add('service',{active:true},'service-cleaning');
+  const draft=await cmd('integration_config.create',{source:'knaba_web',ownerUserId:'owner',allowedServiceIds:['service-cleaning'],credentialKeyIds:['test-key']});
+  const preview=await cmd('integration_config.preview',{id:draft.id,example:{schema_version:'1',event_id:'example',event_type:'lead.upsert',source:'knaba_web',occurred_at:new Date(time).toISOString(),external_id:'example',payload:{contact:{name:'Synthetic',email:'example@example.test'},serviceIds:['service-cleaning']}}});
+  await cmd('integration_config.activate',{id:draft.id,command_hash:preview.command_hash,expected_version:preview.expected_version});
+ });
+ const credentials=parseIntegrationCredentials(JSON.stringify([{source:'knaba_web',companyId:company,keyId:'test-key',secret:env.ASSISTANT_ERP_SECRET,enabled:true}]));
+ app=await NestFactory.create(createApiModule({db,engine:new Engine(db,'TEST'),companyId:company,appMode:'TEST',buildSha:sourceSha,integrationCredentials:credentials}),{bodyParser:false,logger:['error','warn']});
+ app.use('/api/v1/integrations',express.json({limit:'256kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
+ app.use(express.json({limit:'8mb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
+ app.use((error:any,_req:any,res:any,next:any)=>{if(error?.type==='entity.too.large'||error instanceof SyntaxError){res.status(400).json({code:'VALIDATION_ERROR',details:{reason:'INVALID_JSON_OR_BODY_TOO_LARGE'}});return;}next(error);});
+ await app.listen(0,'127.0.0.1');const local=await app.getUrl();
+ let loseFirst=true;
+ const transport:typeof fetch=async(url,options)=>{
+  assert.equal(url,'https://erp.example.test/api/v1/integrations/knaba_web/events');
+  assert.equal(options?.redirect,'error');assert.equal(options?.credentials,'omit');
+  const response=await fetch(`${local}/api/v1/integrations/knaba_web/events`,options);
+  const receipt=await response.clone().json();calls.push({body:String(options?.body),status:response.status,receipt});
+  if(loseFirst){loseFirst=false;await response.body?.cancel();throw Error('Synthetic response loss after real ERP commit');}
+  return response;
+ };
+ const dispatch=()=>drainErpLeads(env,{transport,now:()=>time,random:()=>0});
+ insertErpTestConversation(site,id);
+ await check('production website preview stays DRAFT and creates no HTTP call or ERP lead',async()=>{
+  const p=await previewErpLead(site,env,id,erpTestInput,time);assert.equal(p.state,'DRAFT');assert.equal(p.preview.email,'client@example.test');
+  assert.equal((await dispatch()).processed,0);assert.equal(calls.length,0);assert.equal(await leadCount(),0);
+ });
+ await check('confirmation queues immutable payload; lost response after actual PostgreSQL commit becomes RETRY',async()=>{
+  const p=await getErpLead(site,id);assert(p);const queued=await confirmErpLead(site,env,id,{version:p.version,previewHash:p.previewHash,confirmed:true},time);assert.equal(queued.state,'QUEUED');
+  assert.equal((await dispatch()).retry,1);assert.equal(stored().state,'RETRY');assert.equal(stored().attempts,1);
+  assert.equal(calls[0].status,201);assert.equal(calls[0].receipt.status,'APPLIED');assert.equal(calls[0].receipt.duplicate,false);assert.equal(await leadCount(),1);
+ });
+ await check('retry preserves exact event bytes and receives duplicate APPLIED with one lead/audit/outbox',async()=>{
+  time+=6000;assert.equal((await dispatch()).applied,1);assert.equal(stored().state,'APPLIED');assert.equal(stored().attempts,2);
+  assert.equal(calls.length,2);assert.equal(calls[0].body,calls[1].body);assert.equal(calls[1].status,201);assert.equal(calls[1].receipt.duplicate,true);assert.equal(calls[0].receipt.effect_id,calls[1].receipt.effect_id);assert.equal(await leadCount(),1);
+  const receipt=JSON.parse(String(stored().receipt_json));assert.equal(receipt.effect_id,calls[1].receipt.effect_id);
+  const lead=(await db.query("SELECT data FROM aggregates WHERE company_id=$1 AND kind='lead' AND id=$2",[company,receipt.effect_id])).rows[0].data;
+  assert.equal(lead.contact.email,'client@example.test');assert.equal(lead.contact.name,'Test Client');assert.deepEqual(lead.serviceIds,['service-cleaning']);assert.equal(lead.facts.condition,'Construction dust');assert.equal(lead.facts.desiredPeriod,'Next week');
+  assert.equal((await db.query('SELECT count(*)::int AS n FROM audit_log WHERE company_id=$1 AND aggregate_id=$2',[company,receipt.effect_id])).rows[0].n,1);
+  assert.equal((await db.query("SELECT count(*)::int AS n FROM outbox WHERE company_id=$1 AND type='lead.created' AND data->>'leadId'=$2",[company,receipt.effect_id])).rows[0].n,1);
+  assert.equal((await dispatch()).processed,0);assert.equal(calls.length,2);
+ });
+ await check('website-allowed but ERP-unmapped service becomes durable QUARANTINED, never success or retry',async()=>{
+  const services=JSON.parse(env.ASSISTANT_ERP_SERVICES_JSON!);services.push({...services[0],id:'service-not-mapped'});env.ASSISTANT_ERP_SERVICES_JSON=JSON.stringify(services);
+  insertErpTestConversation(site,badId);const p=await previewErpLead(site,env,badId,{...erpTestInput,serviceId:'service-not-mapped'},time);
+  await confirmErpLead(site,env,badId,{version:p.version,previewHash:p.previewHash,confirmed:true},time);
+  const r=await dispatch();assert.equal(r.applied,0);assert.equal(r.review,1);assert.equal(stored(badId).state,'QUARANTINED');assert.equal(calls[2].status,201);assert.equal(calls[2].receipt.status,'QUARANTINED');assert.equal(calls[2].receipt.reason,'SERVICE_NOT_MAPPED');assert.equal(await leadCount(),1);
+  assert.equal((await db.query("SELECT count(*)::int AS n FROM aggregates WHERE company_id=$1 AND kind='integration_quarantine'",[company])).rows[0].n,1);
+  assert.equal((await dispatch()).processed,0);assert.equal(calls.length,3);
+ });
+ console.log(JSON.stringify({status:'PASS',erpSourceSha:sourceSha,websiteSourceSha256:hashes,node:process.version,postgres:(await db.query('SELECT version() AS version')).rows[0].version,total:checks.length,checks,transportCalls:calls.length,leadCount:await leadCount(),company,isolation:'Node SQLite SQL adapter; unmodified production website functions; transport URL only injected; real loopback Nest HTTP; disposable PostgreSQL; no provider or live mutations'},null,2));
+}finally{await app?.close();await db.close();site.sql.close();}

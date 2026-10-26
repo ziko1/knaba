@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-source-review",
+  "reviewer": "/root/bridge_security_review",
+  "createdAt": "2026-10-25T14:34:57.145Z",
+  "decision": "APPROVE_SOURCE_CANDIDATE",
+  "outstandingCodeFindings": [],
+  "repository": "ziko1/knaba",
+  "branch": "feat/knaba-assistant-erp-bridge-20261025",
+  "baseCommit": "3398aefe696d8c317a63b10443457a39af5ed5d3",
+  "reviewedRevision": {
+    "kind": "uncommitted-working-tree",
+    "note": "The code was not committed at review time. Approval is bound to the exact runtime/schema file set below; documentation and test files are excluded from this composite."
+  },
+  "manifest": {
+    "root": "corporate-site",
+    "hash": "SHA-256",
+    "compositeSha256": "dc5de5c2d1a1633e8fc97870a79e8230b0066714e6995bf92181f350df7a95f0",
+    "algorithm": "Sort relative paths with JavaScript Array.sort() (all paths are ASCII). For each path in that order, append UTF-8 path bytes, one NUL byte (0x00), exact file bytes without normalization, and one NUL byte. Compute SHA-256 over the resulting concatenation. Individual file hashes use exact file bytes only.",
+    "pseudocode": "const h=createHash(\"sha256\"); for (const path of paths.sort()) { h.update(path+\"\\0\"); h.update(readFileSync(path)); h.update(\"\\0\"); } h.digest(\"hex\");",
+    "files": [
+      {
+        "path": "db/schema.ts",
+        "bytes": 8842,
+        "sha256": "560b8ed7aaf4cdb17b0c8cceb55b80b7ffb458e64871697928ab7932914af431"
+      },
+      {
+        "path": "drizzle/0005_assistant_erp_bridge.sql",
+        "bytes": 1258,
+        "sha256": "20b356d984205853336590c54e89f36d46661d53e867b8c6e802a621a22c6c29"
+      },
+      {
+        "path": "drizzle/meta/0005_snapshot.json",
+        "bytes": 35518,
+        "sha256": "b38d5cf34257249d8f5528cccf1457abf71930120ce7b41d490dcc2a066202d6"
+      },
+      {
+        "path": "drizzle/meta/_journal.json",
+        "bytes": 921,
+        "sha256": "ac3c26348c05bf348c03e9bac1956cdbb3088dad79c257e9c0c6efb64e21d4a2"
+      },
+      {
+        "path": "src/components/AssistantInbox.tsx",
+        "bytes": 12620,
+        "sha256": "801aa3c9382eb5121d274dd4ac1cf709a9e82e322a6420519af3df2856157b57"
+      },
+      {
+        "path": "src/components/AssistantLead.tsx",
+        "bytes": 10061,
+        "sha256": "dc3c101bc98a9484b2211e46a996117f6ee83ad869c1b0da8a8a6636d1149baf"
+      },
+      {
+        "path": "src/components/KnabaAssistant.tsx",
+        "bytes": 24988,
+        "sha256": "01de04140f87c2fd10cc619807e5c7c88884a8a3aefcd40440ca989140590d79"
+      },
+      {
+        "path": "src/lib/assistant-erp-contract.ts",
+        "bytes": 1256,
+        "sha256": "8d0f82b89a2bcb5f4351947a7b3d6a46ba2f500e6af4b6f0262f41f030c99474"
+      },
+      {
+        "path": "src/lib/assistant-lead-ui.ts",
+        "bytes": 10089,
+        "sha256": "a7c25ae9ab61d8746520974fe602c9b7a7a8224c114f99b5d7247ff6daec6ea3"
+      },
+      {
+        "path": "src/styles/assistant-lead.css",
+        "bytes": 2773,
+        "sha256": "7c463237063390b8b7b129c4b578aef7698fb2c3a93289dee9a75868d0b5f33d"
+      },
+      {
+        "path": "vps/server.mjs",
+        "bytes": 17049,
+        "sha256": "35982a5752b4dc7ff66ee0d844941f8a077eda10585b1e85633b15273dd3c0f7"
+      },
+      {
+        "path": "worker/assistant-erp-dispatch.ts",
+        "bytes": 8718,
+        "sha256": "e6f42d70cc2897f0990a089ec46393f4b6d83d6c0546424d0e220610eb95c27a"
+      },
+      {
+        "path": "worker/assistant-erp.ts",
+        "bytes": 13921,
+        "sha256": "09b4826231a06362ad730f47b23cfcdac08f72c5ef6be84256f38d6d84647887"
+      },
+      {
+        "path": "worker/assistant.ts",
+        "bytes": 22483,
+        "sha256": "b0ec692cdba2b8b03158f49bb6a0e0011ff9aa37adef0096e40b762d0fa51adf"
+      },
+      {
+        "path": "worker/index.ts",
+        "bytes": 1034,
+        "sha256": "1f86152146434eeeef7c692a9805aa692831f176053a7321fbebd6a8a14b86c3"
+      },
+      {
+        "path": "worker/types.ts",
+        "bytes": 1934,
+        "sha256": "d69b2617a2a3d423ad9a55e538ede642c60a44abea5ebc6b11cc186ea5fc4bc9"
+      }
+    ]
+  },
+  "scope": [
+    "Structured lead normalization, preview/version/hash expiry, explicit confirmation and idempotent replay.",
+    "Scoped guest conversation authentication, Origin/body validation, owner authorization and minimized public/owner DTOs.",
+    "Fixed HTTPS ERP destination, exact-byte HMAC, immutable event identity, company/site/mapping scope and current authority checks.",
+    "Durable outbox claim leases, concurrency, bounded retry/receipt handling, cancellation races and stale worker fencing.",
+    "DE/EN/UK/RU customer UI, explicit consent, captcha entry path, stale response guards and truthful acceptance/uncertainty copy.",
+    "Owner inbox visibility/order and sanitized read-only reconciliation diagnostics.",
+    "Additive0005 schema and snapshot continuity; private VPS bindings, scheduled dispatch and shutdown behavior.",
+    "Related tests and implementation documentation reviewed; no deployment or provider activation approval."
+  ],
+  "findingsFixed": [
+    {
+      "id": "REVIEW-01",
+      "severity": "P2",
+      "status": "FIXED_AND_REVIEWED",
+      "paths": [
+        "worker/assistant.ts",
+        "tests/assistant-erp-api.test.ts"
+      ],
+      "problem": "A newly confirmed lead on an old recovered conversation could remain outside the owner inbox LIMIT100 because sorting used only the old conversation timestamp.",
+      "fix": "Join only consented requests and sort/display the maximum of conversation ISO time and request epoch-millisecond time.",
+      "validation": "Regression creates 101 newer conversations: draft remains absent and confirmation resurfaces the old conversation first with the correct timestamp."
+    },
+    {
+      "id": "REVIEW-02",
+      "severity": "P2",
+      "status": "FIXED_AND_REVIEWED",
+      "paths": [
+        "worker/assistant-erp.ts",
+        "tests/assistant-erp-dispatch.test.ts",
+        "tests/assistant-erp.test.ts"
+      ],
+      "problem": "Cancellation after claim but before the first transport attempt changed SENDING/attempts=0 to UNKNOWN and permanently blocked a fresh preview despite zero sends.",
+      "fix": "Atomically mark never-attempted claimed work CANCELLED and clear its unused lease. Preserve UNKNOWN for attempted or explicitly uncertain work. The final pre-transport attempts increment remains fenced by state, lease and revocation.",
+      "validation": "Deterministic test pauses signing, cancels, confirms a replacement, then resumes the old signer. It sends nothing and cannot alter the replacement; only the replacement event is subsequently applied."
+    }
+  ],
+  "contractFollowupAddressed": {
+    "topic": "Owner reconciliation diagnostics",
+    "status": "ADDRESSED_AND_REVIEWED",
+    "details": "Owner-only thread responses now project validated event ID, attempts, allowlisted error code and matching APPLIED/QUARANTINED receipt IDs. Guest responses omit diagnostics; arbitrary provider fields and credentials are suppressed. Owner UI is read-only."
+  },
+  "independentlyExecutedChecks": [
+    {
+      "command": "npx --no-install vitest run tests/assistant-erp.test.ts tests/assistant-erp-api.test.ts tests/assistant-erp-dispatch.test.ts tests/assistant-lead-ui.test.ts",
+      "cwd": "corporate-site",
+      "nodeVersion": "v24.22.1",
+      "exitCode": 0,
+      "testFilesPassed": 4,
+      "testsPassed": 59,
+      "testsFailed": 0
+    },
+    {
+      "command": "node --test vps/assistant-erp.test.mjs",
+      "cwd": "corporate-site",
+      "nodeVersion": "v24.22.1",
+      "exitCode": 0,
+      "testsPassed": 2,
+      "testsFailed": 0,
+      "coverage": [
+        "Private scheduler configuration and non-overlap",
+        "Graceful background completion before database close",
+        "Isolated SQLite backup/restore and disabled restart without dispatch"
+      ]
+    },
+    {
+      "command": "git diff --check",
+      "cwd": "corporate-site",
+      "exitCode": 0
+    }
+  ],
+  "notRunByThisReviewer": [
+    "Full repository test/check/build suites and Chromium runs; root owns their independent evidence.",
+    "Actual Nest HTTP/PostgreSQL integration execution; the separate ERP QA agent owns that evidence.",
+    "Real ERP DNS/TLS, live credentials/mapping, provider calls or production/development deployment.",
+    "Physical devices, screen-reader sessions, human captcha, real owner UAT or live old-artifact rollback.",
+    "GDPR/legal acceptance, retention/deletion policy acceptance or real legacy database inventory/import."
+  ],
+  "limitations": [
+    "This is source-candidate approval, not merge, deployment, live migration or external dispatch authorization.",
+    "Approval must be revisited for any behavioral change to the listed files after the recorded digest.",
+    "No runtime source was authored, edited, committed or pushed by this reviewer. This documentation artifact was explicitly requested after the independent review."
+  ]
+}

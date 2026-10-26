@@ -1,11 +1,14 @@
 import { createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 import type { PortalSession } from '../lib/portal-contract';
 import '../styles/assistant-inbox.css';
+import { AssistantLeadSummary } from './AssistantLead';
+import type { ErpLeadDiagnostics, ErpLeadView, ErpPublicConfig } from '../lib/assistant-erp-contract';
+import { leadCopy } from '../lib/assistant-lead-ui';
 
 type ThreadItem={id:string;locale:string;status:string;contactName:string;contactEmail:string;contactPhone:string;createdAt:string;updatedAt:string;preview:string|null};
 type Message={id:string;sender:'assistant'|'customer'|'owner';content:string;createdAt:string};
 type Offer={id:string;content:string;state:string;createdAt:string;decidedAt:string|null};
-type Thread={conversation:ThreadItem;messages:Message[];offers:Offer[]};
+type Thread={conversation:ThreadItem;messages:Message[];offers:Offer[];lead?:ErpLeadView|null;leadDiagnostics?:ErpLeadDiagnostics|null};
 type NotificationStatus={enabled:boolean;counts:Record<string,number>};
 async function call<T>(path:string,method='GET',data?:unknown):Promise<T>{
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
@@ -17,6 +20,8 @@ async function call<T>(path:string,method='GET',data?:unknown):Promise<T>{
 }
 export default function AssistantInbox(props:{locale?:'de'|'ru'}){
   const ru=props.locale==='ru';
+  const leadLocale=ru?'ru':'de',leadLabels=leadCopy[leadLocale];
+  const [leadConfig,setLeadConfig]=createSignal<ErpPublicConfig|null>(null);
   const [role,setRole]=createSignal('loading'),[list,setList]=createSignal<ThreadItem[]>([]),[active,setActive]=createSignal(''),[thread,setThread]=createSignal<Thread|null>(null);
   const [answer,setAnswer]=createSignal(''),[proposal,setProposal]=createSignal(''),[answerKey,setAnswerKey]=createSignal(''),[offerKey,setOfferKey]=createSignal('');
   const [busy,setBusy]=createSignal(false),[fault,setFault]=createSignal(''),[updated,setUpdated]=createSignal(false);
@@ -46,6 +51,8 @@ export default function AssistantInbox(props:{locale?:'de'|'ru'}){
         const session=await call<PortalSession>('/api/portal/session');
         setRole(session.role);
         if(session.role==='owner'){
+          // Optional export labels must not delay the existing inbox.
+          void call<ErpPublicConfig>('/api/assistant/lead-config').then(setLeadConfig).catch(()=>undefined);
           await refresh();
           const deepLink=new URLSearchParams(window.location.search).get('conversation');
           if(deepLink && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(deepLink))await openConversation(deepLink);
@@ -104,6 +111,7 @@ export default function AssistantInbox(props:{locale?:'de'|'ru'}){
         <div class="ki-body">
           <Show when={thread()} fallback={<p class="ki-empty">{ru?'Выберите диалог слева.':'Bitte ein Gespräch auswählen.'}</p>}>
             <header class="ki-thread-head"><div><strong>{thread()!.conversation.contactName||'KnaBa Besucher'}</strong><small>{thread()!.conversation.contactEmail} {thread()!.conversation.contactPhone}</small></div><button type="button" disabled={busy()} onClick={()=>void setStatus(thread()!.conversation.status==='closed'?'human':'closed')}>{thread()!.conversation.status==='closed'?label.reopen:label.closed}</button></header>
+            <Show when={thread()!.lead}>{lead=><section class="ki-lead" aria-label={leadLabels.ownerTitle}><h3>{leadLabels.ownerTitle}</h3><p role="status" class="ka-lead-status">{leadLabels.states[lead().state]}</p><AssistantLeadSummary lead={lead()} locale={leadLocale} services={leadConfig()?.services}/><Show when={lead().cancelRequested&&lead().state!=='CANCELLED'}><p class="ka-lead-note">{leadLabels.cancelPending}</p></Show><Show when={thread()!.leadDiagnostics}>{diagnostics=><details class="ki-lead-diagnostics"><summary>{ru?'Проверка передачи в ERP':'ERP-Übertragung prüfen'}</summary><p>{ru?'Перед повторной обработкой сверьте событие и квитанцию в ERP. Не создавайте новую заявку для обхода неопределённого результата.':'Ereignis und Beleg im ERP abgleichen, bevor der Vorgang erneut bearbeitet wird. Bei unklarem Ergebnis keine Ersatzanfrage erstellen.'}</p><dl class="ka-lead-summary"><dt>{ru?'Событие':'Ereignis'}</dt><dd><code>{diagnostics().eventId}</code></dd><dt>{ru?'Попытки доставки':'Zustellversuche'}</dt><dd>{diagnostics().attempts}</dd><Show when={diagnostics().lastError}>{error=><><dt>{ru?'Причина проверки':'Prüfgrund'}</dt><dd><code>{error()}</code></dd></>}</Show><Show when={diagnostics().receipt}>{receipt=><><dt>{ru?'Квитанция ERP':'ERP-Beleg'}</dt><dd><code>{receipt().status} · {(()=>{const r=receipt();return r.status==='APPLIED'?r.effectId:r.quarantineId;})()}</code></dd></>}</Show></dl></details>}</Show></section>}</Show>
             <div class="ki-messages"><For each={thread()!.messages}>{m=><article class={`ki-message ki-from-${m.sender}`}><small>{m.sender==='owner'?'KnaBa':m.sender==='assistant'?'KNABA Assistant':ru?'Клиент':'Kunde'} · {date(m.createdAt)}</small><p>{m.content}</p></article>}</For></div>
             <Show when={thread()!.offers?.length}><h3>{label.offer}</h3><For each={thread()!.offers}>{o=><div class="ki-offer"><p>{o.content}</p><small>{o.state==='accepted'?label.accepted:o.state==='declined'?label.declined:label.pending}</small></div>}</For></Show>
             <Show when={thread()!.conversation.status!=='closed'}>

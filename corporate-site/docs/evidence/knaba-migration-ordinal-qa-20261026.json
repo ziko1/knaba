@@ -1,0 +1,51 @@
+{
+  "schema": "project-source-evidence.v1",
+  "captured_date": "2026-10-26",
+  "project": "ziko1/knaba",
+  "scope": "MIGRATION-ORDINAL-001",
+  "code_commit_sha": "9c2e87ec4830271006eec6d52883c5f8c69dc093",
+  "branch": "feat/knaba-assistant-erp-bridge-20261025",
+  "head_before_receipt": "176af463a83c63c68019333d75daf1d87ca34fe2",
+  "draft": true,
+  "test_results": [
+    {
+      "command": "node --test vps/migration-guard.test.mjs",
+      "environment": "isolated nonroot SentinelX vsp, Node18.19.1; current six SQL file names and exact journal; synthetic fixtures",
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "command": "node --check vps/database.mjs && node --check vps/migration-guard.mjs",
+      "environment": "isolated Node18.19.1 with exact GitHub JS blobs",
+      "exit_code": 0
+    },
+    {
+      "command": "Python sqlite3 :memory: apply original 0000-0004 + both independent 0005 SQL in both orders",
+      "environment": "isolated in-memory synthetic database, no live DB",
+      "runs": 2,
+      "integrity": "ok",
+      "foreign_key_errors": 0,
+      "tables": 15,
+      "schema_names_sha256": "6ef2eb4082e3c79218a1a7c4a7cdfec5f4d231988e01085968aa2edf467b680e",
+      "exit_code": 0
+    }
+  ],
+  "source_git_blobs": {
+    "corporate-site/vps/database.mjs": "d37bf3d3ae62cf6b651de6cab569dfd5a9d9e615",
+    "corporate-site/vps/migration-guard.mjs": "6465be10877b794ab584381f807c2c1623a35682",
+    "corporate-site/vps/migration-guard.test.mjs": "56fa1bce6c31545aaae7c8257045b9a0c23512a7",
+    "corporate-site/drizzle/meta/_journal.json": "4cb74403cc913009bab1de85deb59647eae2a4d6"
+  },
+  "no_customer_or_production_mutation": true,
+  "release_ready": false,
+  "not_run": [
+    "renumbered unified PR58+PR67 source/journal/snapshot",
+    "node24 full build and native Drizzle/D1 migration replay",
+    "live DB ledger inspection",
+    "independent review and full ERP integration",
+    "backup and production promotion"
+  ],
+  "note": "Synthetic/source checks are scoped evidence only. No independent product release acceptance or claim of full functionality."
+}

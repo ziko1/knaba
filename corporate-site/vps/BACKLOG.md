@@ -59,3 +59,11 @@
 - [ ] HIGH: verified real owner email + private credentials, restore /readyz 200 and live owner/browser acceptance.
 - [ ] HIGH: independent security review, physical device a11y, low-storage doctor, external backup, old D1 record reconcile.
 - [ ] HIGH: structured page/section/template composer, multi-page shared nav/footer, authorized media upload, safe AI provider dispatch after actual quota/pricing/cost approval.
+## Assistant ERP bridge candidate — 2026-10-25
+
+- [x] Private allowlisted ERP bindings, disabled by default; nonoverlapping30s scheduler and graceful background shutdown.
+- [x] Additive0005 and isolated online SQLite backup/restore preserve history/outbox with dispatch disabled.
+- [ ] Before any rollout: inspect exact live schema/source and legacy-data existence, verify backup/restore, explicitly apply0005 under separate release authorization. New code requires0005 even when dispatch is off.
+- [ ] Approve actual ERP source/company/service mapping, credentials and data handling before setting `ASSISTANT_ERP_ENABLED=approved`; credentials alone do not imply readiness.
+- [ ] Rehearse old-artifact rollback without discarding new records; older startup migration gates may reject the additive migration. Stop queue and retain current DB/ERP receipts.
+- [ ] Real owner UI/provider/TLS acceptance, retention/deletion policy, physical-device/screen-reader QA. No deployment or live change is included in this candidate.

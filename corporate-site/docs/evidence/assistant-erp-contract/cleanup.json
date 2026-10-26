@@ -1,0 +1,14 @@
+{
+  "containersAndNetwork": {
+    "ok": true,
+    "output": "ddb762e78fcc1a683980ef2599785b38b5034b1ca9e6def2e0b1c8659d9e5e58 []\n1197e7dba7ce8eaeb2157fe65a819c95caeab8add30c43ab211a476a928acfd0 true {\"knaba.qa\":\"bridge-http-683c09d-20261025\"} 1\nFlag --time has been deprecated, use --timeout instead\nknaba-bridge-pg-683c09d\nknaba-bridge-http-683c09d",
+    "duration": 0.31,
+    "returncode": 0
+  },
+  "temporarySource": {
+    "ok": true,
+    "output": "{'own_temporary_source_removed': True}",
+    "duration": 0.39,
+    "returncode": 0
+  }
+}

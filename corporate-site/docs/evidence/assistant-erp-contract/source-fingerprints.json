@@ -1,0 +1,22 @@
+{
+  "erp_source_sha": "683c09d0346fd05e0f2cd323da640bbb176c5c47",
+  "harness_sha256": {
+    "bridge-http.pg.qa.ts.fixture": "8f25d5db6d2c8e57d926dfa2eb9cdfdb3967f19de55d076b2034410cb02da2fa",
+    "bridge-website.pg.qa.ts.fixture": "ed679915a822f3e75eb400995bd7f3ba8cf8d95fe85259bfe5191ab37cdb2c76"
+  },
+  "archive_format": "Original executed TypeScript bytes, named .ts.fixture to avoid website compiler/test discovery. Copy to pinned ERP/tests and remove only the .fixture suffix.",
+  "website_source_sha256": {
+    "worker/assistant-erp.ts": "e2b3e4936d0de8f504a5ee758682c5ff4c5a2ef412902921ac4b15c15b0aebee",
+    "worker/assistant-erp-dispatch.ts": "e6f42d70cc2897f0990a089ec46393f4b6d83d6c0546424d0e220610eb95c27a",
+    "worker/types.ts": "d69b2617a2a3d423ad9a55e538ede642c60a44abea5ebc6b11cc186ea5fc4bc9",
+    "src/lib/assistant-erp-contract.ts": "f4ac4bd899b23dda7aacb0ebd11b83a1462a6791d92175acf06ef6148f581cc2",
+    "tests/helpers/assistant-erp-fixture.ts": "4bad9e3b84a18d1a860d7c75010f0ae0560fa099c8daea294c23f3f534bdd05b",
+    "drizzle/0000_needy_war_machine.sql": "443dfc2d55807c5ec5649758ca926ceca0de9be81292c9da09988b586debc230",
+    "drizzle/0001_lazy_angel.sql": "fbb8d471e6061933e5c4af39f4e0eda4c5718a1677010d4613e6279f3052c881",
+    "drizzle/0002_tense_mother_askani.sql": "22741475744dcc916c216cb343bedb0c616d1517ab16dc5a9b90648eb27ad3b0",
+    "drizzle/0003_absurd_bedlam.sql": "8f21e073faa31f0cd86f0d1616828c9cd89e16b25f0a30295d7476af67e306fe",
+    "drizzle/0004_dusty_hiroim.sql": "c24b6689439fa8347f866da23264b2acb25d71c29600d80f89984698a0d457f6",
+    "drizzle/0005_assistant_erp_bridge.sql": "20b356d984205853336590c54e89f36d46661d53e867b8c6e802a621a22c6c29",
+    "package.json": "7a5fc760f5dd757dcf4e83d7b16cc5d6dee1d84191c4a53bff1378ef33adb51c"
+  }
+}
