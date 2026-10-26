@@ -42,7 +42,7 @@ try{
   const openHome=async(locale='de')=>{
     await page.goto(base+(locale==='de'?'/':'/'+locale+'/'),{waitUntil:'networkidle'});
     await page.locator('#reviews').scrollIntoViewIfNeeded();
-    await page.locator('.reviews-empty').waitFor();
+    await page.locator('.reviews-examples').waitFor();
   };
   const overflow=async()=>assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page has horizontal overflow');
   for(const locale of ['de','en','uk','ru']){
@@ -57,13 +57,14 @@ try{
           await page.waitForFunction(el=>el.complete&&el.naturalWidth>0,await img.elementHandle());
           assert.ok((await img.getAttribute('alt')).trim());
         }
-        assert.equal(await partners.locator('a').getAttribute('href'),'https://knaba.de/');
+        assert.equal(await partners.locator('a').count(),5);
+        for(const link of await partners.locator('a').all())assert.ok((await link.getAttribute('href')).startsWith((locale==='de'?'':'/'+locale)+'/partner/#'));
         await overflow();
       }
     });
     await check(locale+' empty state / collapsed form / no CAPTCHA script',async()=>{
       await page.setViewportSize({width:320,height:900});await openHome(locale);
-      assert.equal(await page.locator('.review-card').count(),0);
+      assert.equal(await page.locator('.review-example').count(),3);
       assert.equal(await page.locator('#review-form-panel').isVisible(),false);
       assert.equal(await page.locator('script[data-knaba-turnstile]').count(),0);
       await overflow();
@@ -140,7 +141,7 @@ try{
   await check('public load error and recovery',async()=>{
     const fail=route=>route.abort('failed');await page.route('**/api/reviews',fail);
     await page.goto(base+'/en/');await page.locator('#reviews').scrollIntoViewIfNeeded();await page.locator('.reviews-notice[role="alert"]').waitFor();
-    await page.unroute('**/api/reviews',fail);await page.locator('.reviews-notice button').click();await page.locator('.reviews-empty').waitFor();
+    await page.unroute('**/api/reviews',fail);await page.locator('.reviews-notice button').click();await page.locator('.reviews-examples').waitFor();
   });
   await check('no script errors or external requests',async()=>{assert.deepEqual(report.pageErrors,[]);assert.deepEqual(report.externalRequests,[]);});
 }finally{

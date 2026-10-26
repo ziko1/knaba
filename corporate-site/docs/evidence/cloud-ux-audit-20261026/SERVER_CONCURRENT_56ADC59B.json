@@ -1,0 +1,175 @@
+{
+  "candidateSourceSha": "7c28657ebcd5eb68850eb0ff20c75f37b0bb86f7",
+  "candidateSourceTreeSha": "9dd910c7b20da6a9651537dceb782d8e4b199a80",
+  "status": "BLOCKED_CONCURRENT_RELEASE_BEFORE_QA_OR_SWITCH",
+  "expectedPreviousSourceSha": "73755d154f5e551daa53db848d46f12be15459d4",
+  "observedRelease": {
+    "sourceSha": "56adc59b6665595f26eed3bbaf1319bcdd5f79ee",
+    "sourceTreeSha": "229ad3536def39f910af444406281d87c1a4ea05",
+    "previousSourceSha": "73755d154f5e551daa53db848d46f12be15459d4",
+    "targetOrigin": "https://kneba.vsp.rest",
+    "status": "DEPLOYED_TEST_DOMAIN_VERIFIED",
+    "artifactSha256": "3351c9b7e1f850079c3d89b82e90be39c4dd2b723f8c3880e6ec1921b8486ef0",
+    "builtHtmlPages": 126,
+    "cssGzip": 40879,
+    "schemaMigrationsRequested": false,
+    "databaseSchemaChanged": false,
+    "officialDomainChanged": false,
+    "deployedAtUtc": "2026-10-26T15:06:47.542167+00:00",
+    "backupIntegrity": "ok",
+    "independentRestoreIntegrity": "ok",
+    "backupSha256": "c150d356b9f8a168273cbf943f1ade781a1d6747c2ce9ebb1d156a86563163c7",
+    "health": "PASS",
+    "readiness": "PASS"
+  },
+  "observedParents": [
+    "e585c5991b9e7d708156688dfdc3867c7c3fb4db",
+    "73755d154f5e551daa53db848d46f12be15459d4"
+  ],
+  "runtimeFilesVerification": "All recorded hashes match actual release",
+  "ledger": {
+    "applied": 6,
+    "source": 6,
+    "match": true,
+    "homeStudioRows": 0
+  },
+  "changesFrom737": [
+    {
+      "path": "corporate-site/PROJECT_MEMORY.md",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/ROADMAP.md",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/docs/build-verification.json",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/AUDIT_UK.md",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/browser-gate.json",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/build.log.gz",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/check.log.gz",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/i18n.log.gz",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/local-routes.json",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/team-plan.json",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/test.log.gz",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/verify.log.gz",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/docs/evidence/request-gap-20261026/vps-test.log.gz",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/i18n/source-de.json",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/components/PartnerDirectory.astro",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/src/components/Partners.astro",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/components/PublicReviews.tsx",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/data/partners.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/data/reviews.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/lib/corporate-navigation.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/lib/site-i18n.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/lib/studio-pages.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/pages/en/partner.astro",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/src/pages/partner.astro",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/partner.astro",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/partner.astro",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/src/styles/partners.css",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/src/styles/reviews.css",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/tests/partners-section.test.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/tests/review-examples-browser.cjs",
+      "type": "A"
+    },
+    {
+      "path": "corporate-site/tests/reviews-browser.mjs",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/tests/site-i18n.test.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/tests/studio-pages.test.ts",
+      "type": "M"
+    },
+    {
+      "path": "corporate-site/tests/verify-build.mjs",
+      "type": "M"
+    }
+  ],
+  "action": "Retain observed release; integrate new work before fresh QA and rollout."
+}
