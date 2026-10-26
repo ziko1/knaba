@@ -4,6 +4,13 @@ import {marketingStories} from '../data/marketing-stories';
 const {locale='de'}=Astro.props as {locale:ReviewLocale};
 const t=marketingStories[locale];
 const prefix=locale==='de'?'':'/'+locale;
+const heroAlt={
+  de:'Illustrative Szenen: Baustaub absaugen, Arbeitsbereiche schützen und Büro reinigen',
+  en:'Illustrative scenes: vacuuming construction dust, protecting surfaces and cleaning an office',
+  uk:'Ілюстративні сцени: очищення будівельного пилу, захист поверхонь і прибирання офісу',
+  ru:'Иллюстративные сцены: удаление строительной пыли, защита поверхностей и уборка офиса',
+}[locale];
+const imageCaption={de:'Illustratives Bildmotiv',en:'Illustrative visual',uk:'Ілюстративне зображення',ru:'Ілюстративне зображення'}[locale];
 const eyebrow={
   de:'KONKRETE FRAGEN / BERLIN & BRANDENBURG',
   en:'REAL PROJECT NEEDS / BERLIN & BRANDENBURG',
@@ -14,7 +21,10 @@ const eyebrow={
 <section class="container marketing-stories" id="projektanfragen" aria-labelledby="marketing-stories-title">
   <header class="marketing-stories-intro">
     <div><p class="marketing-stories-kicker">{eyebrow}</p><h2 id="marketing-stories-title">{t.heading}</h2></div>
-    <p>{t.intro}</p>
+    <div class="marketing-stories-visual">
+      <p>{t.intro}</p>
+      <figure><img src="/images/knaba-editorial-cleaning-triptych.webp" alt={heroAlt} width="1200" height="800" loading="lazy" decoding="async" /><figcaption>{imageCaption}</figcaption></figure>
+    </div>
   </header>
   <div class="marketing-stories-grid">
     {t.items.map(item=>(
@@ -33,7 +43,11 @@ const eyebrow={
 .marketing-stories-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);align-items:end;gap:24px;margin-bottom:32px}
 .marketing-stories-kicker{font-size:.75rem;line-height:1.6;font-weight:850;letter-spacing:.09em;color:#087981;margin:0 0 14px;overflow-wrap:anywhere}
 .marketing-stories-intro h2{margin:0;color:#113941;font-size:clamp(32px,4.2vw,53px);line-height:1.13;letter-spacing:-.046em;text-wrap:balance}
-.marketing-stories-intro>p{color:#47625d;line-height:1.75;margin:0;max-width:58ch}
+.marketing-stories-visual{min-width:0}
+.marketing-stories-visual>p{color:#47625d;line-height:1.75;margin:0;max-width:58ch}
+.marketing-stories-visual figure{margin:20px 0 0}
+.marketing-stories-visual img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#dfebe2;border-radius:17px;border:1px solid #d4e3dc}
+.marketing-stories-visual figcaption{font-size:.7rem;line-height:1.5;color:#57726a;margin-top:8px}
 .marketing-stories-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .marketing-story{min-width:0;overflow:hidden;border:1px solid #d4e3dc;border-radius:23px;background:#f5f8f3;box-shadow:0 9px 22px #12393c0d;display:flex;flex-direction:column}
 .marketing-story:nth-child(2){background:#f9f5ed;border-color:#e7dfd0}.marketing-story:nth-child(3){background:#f0f7f9;border-color:#d3e2e7}
