@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '../data/construction-offers';
 import type {ConstructionLocale} from '../data/construction-offers';
-import {company} from '../data/company';
 import ServiceCarousel from './ServiceCarousel.astro';
 import ConstructionFaq from './ConstructionFaq.astro';
 import PartnersSection from './PartnersSection.astro';
@@ -45,17 +44,16 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
       </a>
     ))}
   </div>
-  <a href={catalog} class="bau-inline bau-services-more">{t.all} <span aria-hidden="true">→</span></a>
 </section>
 <section class="bau-contract" aria-labelledby="bau-contract-heading"><div class="container bau-contract-grid">
-  <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.all} <span aria-hidden="true">→</span></a></div>
+  <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.extrasCta} <span aria-hidden="true">→</span></a></div>
   <div class="bau-extra-list">{extras.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'}><span class="bau-service-emoji" aria-hidden="true">{item.icon}</span><span>{localeValue(item.name,locale)}</span><span aria-hidden="true">↗</span></a>)}</div>
 </div></section>
 <section class="container bau-section"><div class="bau-heading"><p class="bau-kicker">PLANUNG / TIMELINE</p><h2>{t.phases}</h2></div>
 <div class="bau-steps">{t.steps.map((label,i)=><div><span class="bau-step-counter">0{i+1}</span><h3>{label}</h3></div>)}</div>
 <div class="bau-planner-cta"><p>{t.note}</p><a class="bau-inline" href={planner}>{locale==='de'?'Anfrage vorbereiten':locale==='en'?'Prepare your enquiry':locale==='uk'?'Підготувати запит':'Подготовить запрос'} →</a></div>
 </section>
-<section class="container bau-end-cta"><div><p class="bau-kicker">{t.region}</p><h2>{t.ready}</h2><a href={company.phoneHref}>{company.phone}</a></div><a class="button button-dark" href={contact}>{t.cta} ↗</a></section>
+<section class="container bau-end-cta"><div><p class="bau-kicker">{t.region}</p><h2>{t.ready}</h2></div><a class="button button-dark" href={contact}>{t.cta} ↗</a></section>
 <ConstructionFaq locale={locale} />
 <PartnersSection locale={locale} />
 </Layout>
@@ -76,7 +74,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 .bau-secondary-cta-label{min-width:0;overflow-wrap:anywhere;text-align:left}
 .bau-secondary-cta-arrow{flex:0 0 30px;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#cbe9db;color:#0b4950;font-size:18px;line-height:1}
 .bau-trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:25px;font-size:12px;font-weight:650;color:#4d675e}.bau-section{padding-block:clamp(46px,7vw,96px)}.bau-heading{max-width:850px;margin-bottom:36px}.bau-heading h2,.bau-contract h2,.bau-end-cta h2{font-size:clamp(34px,4.3vw,60px);letter-spacing:-.055em;line-height:1.1;color:#0b313b;margin:14px 0}.bau-heading>p:last-child,.bau-contract p{font-size:17px;color:#49645f;line-height:1.65;max-width:630px}
-.bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.bau-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:0}
 .bau-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;border-radius:24px;padding:clamp(24px,2.5vw,35px);background:#e1f4f5;border:1px solid #d5e6dc;text-decoration:none;color:#12343c;min-height:285px;transition:transform .2s,box-shadow .2s}
 .bau-card::before{content:'';position:absolute;z-index:-1;top:-100px;right:-87px;width:230px;height:230px;border:26px solid #ffffff48;border-radius:50%;pointer-events:none}
 .bau-card:nth-child(1){grid-column:auto;background:linear-gradient(124deg,#baebec,#e6f7e7)}
@@ -103,7 +101,4 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
 
 
 .bau-card.bau-card-request:hover{border-color:#63a795}
-.bau-services-more{display:flex;justify-content:space-between;gap:18px;width:100%;padding:14px 22px;min-height:60px;border:1px solid #c4dfd5;border-radius:18px;background:#e8f4f0;color:#075f67}
-.bau-services-more:hover{background:#daf0e8;text-decoration:none}
-.bau-services-more:focus-visible{outline:3px solid #0c7d81;outline-offset:3px}
 </style>

@@ -95,6 +95,11 @@ for (const file of pages) {
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
   const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
   assert.ok(business, `${file}: LocalBusiness present`);
+  const phoneLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](tel:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
+  assert.deepEqual(phoneLinks, [`tel:${business.telephone}`], `${file}: exactly one canonical telephone link`);
+  for (const card of html.matchAll(/<article\s+class=["']bau-info-card["'][^>]*>([\s\S]*?)<\/article>/g)) {
+    assert.doesNotMatch(card[1], /<a\b[^>]*\bhref=["']\/(?:en\/|uk\/|ru\/)?kontakt\/["']/i, `${file}: no repeated contact link inside an information card`);
+  }
   assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
   assert.equal(business.url, origin, `${file}: business URL uses the current host`);
   for(const node of graphNodes){
@@ -119,6 +124,19 @@ assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
 assert.equal(pages.length,121,'121 source-built pages: 117 previous routes plus four new gallery locales');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
+  const overviewHref = '/' + prefix + 'leistungen/';
+  const extrasHref = overviewHref + '#zusatzarbeiten';
+  const extrasLabels = {
+    '':'Zusatzarbeiten ansehen',
+    'en/':'Explore additional works',
+    'uk/':'Переглянути додаткові роботи',
+    'ru/':'Подробнее о дополнительных работах',
+  };
+  assert.equal((source.match(/class="button button-outline bau-secondary-cta"/g)||[]).length,1,prefix+'one hero catalogue CTA');
+  assert.ok(source.includes('class="button button-outline bau-secondary-cta" href="'+overviewHref+'"'),prefix+'hero catalogue route');
+  assert.doesNotMatch(source, /bau-services-more/,prefix+'no second catalogue CTA under service cards');
+  assert.ok(source.includes('href="'+extrasHref+'" class="button button-dark"'),prefix+'contextual extra works anchor');
+  assert.ok(source.includes(extrasLabels[prefix]),prefix+'localized extra works CTA');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
