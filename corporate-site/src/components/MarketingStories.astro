@@ -1,0 +1,46 @@
+---
+import type {ReviewLocale} from '../data/reviews';
+import {marketingStories} from '../data/marketing-stories';
+const {locale='de'}=Astro.props as {locale:ReviewLocale};
+const t=marketingStories[locale];
+const prefix=locale==='de'?'':'/'+locale;
+const heroAlt={
+  de:'Illustrative Szenen: Baustaub absaugen, Arbeitsbereiche schützen und Büro reinigen',
+  en:'Illustrative scenes: vacuuming construction dust, protecting surfaces and cleaning an office',
+  uk:'Ілюстративні сцени: очищення будівельного пилу, захист поверхонь і прибирання офісу',
+  ru:'Иллюстративные сцены: удаление строительной пыли, защита поверхностей и уборка офиса',
+}[locale];
+const imageCaption={de:'Illustratives Bildmotiv',en:'Illustrative visual',uk:'Ілюстративне зображення',ru:'Ілюстративне зображення'}[locale];
+const eyebrow={
+  de:'KONKRETE FRAGEN / BERLIN & BRANDENBURG',
+  en:'REAL PROJECT NEEDS / BERLIN & BRANDENBURG',
+  uk:'ЗАПИТИ ЗАМОВНИКІВ / БЕРЛІН І БРАНДЕНБУРГ',
+  ru:'ЗАДАЧИ ЗАКАЗЧИКОВ / БЕРЛИН И БРАНДЕНБУРГ',
+}[locale];
+---
+<section class="container section marketing-stories" id="projektanfragen" aria-labelledby="marketing-stories-title">
+  <header class="section-heading marketing-stories-intro">
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id="marketing-stories-title">{t.heading}</h2>
+      <p>{t.intro}</p>
+    </div>
+    <figure class="marketing-stories-visual" style="margin:0;min-width:0">
+      <img src="/images/knaba-editorial-cleaning-triptych.webp" alt={heroAlt} width="1200" height="800" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:17px" />
+      <figcaption style="font-size:.72rem;line-height:1.5;color:#526a62;margin-top:8px">{imageCaption}</figcaption>
+    </figure>
+  </header>
+  <div class="service-grid marketing-stories-grid">
+    {t.items.map(item=>(
+      <article class="service-card marketing-story">
+        <img src={item.image} alt={item.alt} width="960" height="540" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin-bottom:18px" />
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        <div class="service-card-bottom">
+          <a class="text-link" href={prefix+'/'+item.path+'/'}>{item.action}</a>
+          <span class="card-arrow" aria-hidden="true">↗</span>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

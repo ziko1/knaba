@@ -1,6 +1,5 @@
 .knaba-reviews{padding-block:clamp(42px,6vw,88px);color:#14343b;min-width:0}
 .reviews-heading{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(22px,5vw,64px);align-items:end;margin-bottom:32px}
-.reviews-kicker{font-size:.75rem;font-weight:850;letter-spacing:.11em;color:#08757b;line-height:1.6;margin:0 0 14px}
 .reviews-heading h2{font-size:clamp(30px,3.8vw,48px);line-height:1.15;letter-spacing:-.045em;color:#0b313b;margin:0;text-wrap:balance}
 .reviews-heading>p{line-height:1.8;color:#486260;max-width:48ch;margin:0}
 .reviews-content,.review-form-panel,.reviews-moderation,.reviews-form{min-width:0;overflow-wrap:anywhere}
@@ -14,16 +13,9 @@
 .review-card figcaption{display:grid;gap:5px;border-top:1px solid #c6d1cc;padding-top:18px;font-size:.875rem;line-height:1.6}
 .review-card figcaption strong{font-size:1rem;color:#133d40}
 .review-meta{color:#4f6867;font-size:.75rem}
-.reviews-example-heading{margin-bottom:24px}
-.reviews-example-heading p,.reviews-example-invitation{line-height:1.75;margin-top:16px}
-.reviews-examples .reviews-grid{align-items:stretch}
-.review-example{display:flex;flex-direction:column;gap:0}
-.review-example-badge{display:block;align-self:flex-start;padding:7px 10px;border:1px solid #819d98;border-radius:6px;background:#fff;color:#173e42;font-size:.8125rem;line-height:1.5;font-weight:750}
-.review-example figcaption{margin-top:auto}
 .reviews-action{display:flex;justify-content:flex-start;margin-top:24px}
 .reviews-button{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:48px;padding:13px 21px;border:1px solid #123a43;border-radius:10px;background:#123a43;color:#fff;font:inherit;font-size:.875rem;font-weight:750;line-height:1.5;cursor:pointer;max-width:100%;text-align:center;overflow-wrap:anywhere;white-space:normal}
 .reviews-button:hover{background:#075f65;border-color:#075f65}
-.reviews-button>span{flex:0 0 auto}
 .reviews-button:disabled,.reviews-link:disabled{cursor:not-allowed;opacity:.6}
 .reviews-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font:inherit;font-size:.875rem;font-weight:700;padding:4px 0;color:#096871;border:0;background:transparent;text-decoration:underline;text-underline-offset:4px;cursor:pointer;white-space:normal;max-width:100%;text-align:start}
 .reviews-content :is(button,input,textarea,select,a):focus-visible,.reviews-moderation :is(button,a):focus-visible{outline:3px solid #08777b;outline-offset:4px}
@@ -33,11 +25,9 @@
 .reviews-status{padding:26px 0;color:#486260;line-height:1.7}
 .reviews-notice,.reviews-error,.reviews-success{border-radius:12px;padding:16px 20px;line-height:1.75;font-size:.9375rem;overflow-wrap:anywhere}
 .reviews-notice{border:1px solid #d4ddd7;background:#f1f4ed;color:#405c58}
-.reviews-notice p{margin:0}
 .reviews-error{background:#fff1ec;border:1px solid #dba08c;color:#733922}
 .reviews-success{background:#e7f3e5;border:1px solid #a0c299;color:#25562c;margin:20px 0 0}
 .review-form-panel{padding:clamp(22px,4vw,40px);margin-top:24px;border:1px solid #cdded6;border-radius:24px;background:#f2f5ef;max-width:960px}
-.review-form-panel[hidden]{display:none}
 .review-form-panel h3{font-size:clamp(23px,3vw,31px);letter-spacing:-.03em;margin:0 0 12px;line-height:1.3}
 .review-form-panel>p{margin:0 0 26px;line-height:1.8;color:#486260;max-width:70ch}
 .reviews-form fieldset{border:0;margin:0;padding:0;min-width:0}
@@ -49,7 +39,7 @@
 .reviews-consent{display:flex;align-items:flex-start;gap:12px;font-size:.875rem;line-height:1.8;margin-top:24px;font-weight:400}
 .reviews-consent input{width:20px;height:20px;flex:0 0 20px;margin:4px 0 0;accent-color:#096871}
 .reviews-form .reviews-button{margin-top:20px}
-.reviews-honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.reviews-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .reviews-form .ka-captcha{max-width:100%;min-width:0;margin-top:24px}
 .reviews-form .ka-captcha-heading{font-size:.875rem;font-weight:700;margin-bottom:10px}
 .reviews-form .ka-captcha-widget{max-width:100%;min-width:0}

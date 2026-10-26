@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title id="title">Construction site preparation</title><desc id="desc">Editorial vector illustration of tools, protective covers and work area preparation.</desc>
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2ece4"/><stop offset="1" stop-color="#eaf4eb"/></linearGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4d7d0"/><stop offset="1" stop-color="#8eb3aa"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dffaff"/><stop offset="1" stop-color="#83c6cd"/></linearGradient>
+  <filter id="soft"><feDropShadow dx="0" dy="12" stdDeviation="13" flood-color="#0e4148" flood-opacity=".15"/></filter>
+  <clipPath id="frame"><rect width="960" height="540" rx="28"/></clipPath>
+</defs><g clip-path="url(#frame)">
+<rect width="960" height="540" fill="url(#wall)"/>
+<path d="M0 343 960 310V540H0Z" fill="url(#floor)"/>
+<path d="M0 351 960 320" fill="none" stroke="#f8fff9" stroke-width="5" opacity=".7"/>
+<rect x="58" y="45" width="340" height="265" rx="8" fill="#0a4750" opacity=".95"/>
+<rect x="70" y="56" width="316" height="243" rx="2" fill="url(#glass)"/>
+<path d="M222 56V299M70 174H386" fill="none" stroke="#125660" stroke-width="13"/>
+<path d="M73 63h304v98H73Z" fill="#f5ffff" opacity=".2"/>
+<path d="M70 290 110 230 176 271 242 204 320 263 386 217V299H70Z" fill="#90b9b7" opacity=".35"/>
+<path d="M0 465Q290 360 960 459V540H0Z" fill="#e4eee6" opacity=".2"/>
+
+<path d="M431 81h345l76 229H490Z" fill="#f7e6c1" opacity=".75"/>
+<path d="M446 85v250M531 85v250M615 85v250M699 85v250M783 85v250" stroke="#d6c4a5" stroke-width="7"/>
+<path d="M420 332H858" stroke="#d6bd9c" stroke-width="13"/>
+<g filter="url(#soft)"><path d="M608 134 520 426M677 134 760 426" stroke="#dc9e39" stroke-width="18" stroke-linecap="round"/>
+<path d="M605 134h74" stroke="#e3b44d" stroke-width="25" stroke-linecap="round"/>
+<path d="M573 224h133M545 318h190" stroke="#e3b44d" stroke-width="18" stroke-linecap="round"/>
+<path d="M520 428h-22M761 428h25" stroke="#244850" stroke-width="13" stroke-linecap="round"/></g>
+<g filter="url(#soft)"><rect x="80" y="369" width="361" height="83" rx="13" fill="#16676d"/><rect x="94" y="381" width="332" height="21" rx="5" fill="#aee8d1"/>
+<path d="m111 427 21-18 25 18 24-18 24 18 23-18 25 18 23-18 25 18 24-18 21 18 24-18" stroke="#d4f2e2" stroke-width="8" fill="none"/></g>
+<path d="M151 368V294h244v74Z" fill="#effafa" stroke="#c5dbd5" stroke-width="5"/>
+<rect x="168" y="310" width="78" height="40" rx="5" fill="#de9a4e"/><rect x="258" y="310" width="116" height="40" rx="5" fill="#cfdfd5"/>
+<path d="M259 310h116" stroke="#7baa9b" stroke-width="10"/>
+<path d="m835 376-17-21-17 21" fill="none" stroke="#226870" stroke-width="12" stroke-linecap="round"/>
+<path d="M818 355v88" stroke="#226870" stroke-width="11" stroke-linecap="round"/>
+
+</g></svg>
