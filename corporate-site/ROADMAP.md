@@ -247,6 +247,12 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [ ] Verify image HTTP availability, CDN/privacy approval or migrate images to first-party copies; E2E 320/390/768/1440px, all four locales.
 - [ ] Confirm active VPS SHA, secure backup/rollback, owner UAT and explicit publication approval before deployment or merge.
 
+
+## KN-LOGO-I18N-20261026
+- [x] Localize original KNABA logo slogan for DE/EN/UK/RU using one generator and shared responsive layout.
+- [x] 118-route parity and 16 SVG test receipts, checksum-backed rollback.
+- [ ] Native Opera/device/200% zoom acceptance, independent visual review and customer language approval.
+
 ## KNABA official parity / licensed media gate — 26.10.2026
 
 | ID | Criterion | State |
@@ -256,7 +262,7 @@ No automatic provider spending. External translations budget EUR0 reserved until
 | OP03 | Shared four-locale Gallery + nav + Studio + SEO parity using first-party illustrations | Implemented source only; QA/build NOT_RUN |
 | OP04 | German/Russian third-party partner CDN privacy and image-rights disclosure | Draft legal source only; owner/rightsholder review REQUIRED |
 | OP05 | Verify genuine rights on original project photos/logos and any certifications or professional licenses | BLOCKED pending documentary proof; no fabricated claims |
-| OP06 | Node24 tests/build, mobile 320/390/768/1440, independent QA, exact artifact, VPS release checksum and backup/rollback | NOT_RUN/BLOCKED; do not deploy or merge without release approval |
+| OP06 | Node24 tests/build, mobile 320/390/768/1440, independent QA, exact artifact, VPS release checksum and backup/rollback | Native Node24 subset 51/51 PASS at code SHA 29af230; full build/browser/independent review BLOCKED, no deploy or merge approval |
 
 See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
 
@@ -267,3 +273,9 @@ See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
 - [ ] Confirm rightsholder permission for partner-logo publication and CDN client-IP/GDPR; self-host only after actual copyright approval. Real mobile/browser 320/390/768/1440 DE/EN/UK/RU with screenshots and keyboard/contrast/zoom.
 - [ ] Securely activate actual rightful customer owner through verified one-use invite; live /readyz is currently 503 `owner enrollment required`. Do not fake readiness or bypass owner authentication.
 - [ ] Only after authorized immutable staging rollout with verified backup/rollback, re-run `npm run verify:live`: 10/10 PASS plus artifact SHA match and owner UAT; production/main require a separate exact release approval.
+
+## PR #73 Node24 focused QA checkpoint — 26.10.2026
+- [x] Restore source-based contrast test selection without duplicating the request card: commit `29af230`; 8/8 contrast, 51/51 combined native Node24 tests PASS on that exact code SHA.
+- [x] Preserve PR #72 KN-LOGO-I18N localization/asset QA receipts in the stacked PR documentation instead of discarding them during integration.
+- [ ] Pinned clean `npm ci`, full Astro/Vue/Svelte check, Vitest, build and `verify:build` remain NOT_RUN/blocked by execution policy on this branch. Native Node tests are not an equivalent gate.
+- [ ] Independent code/security review, browser/reflow/keyboard/language QA and logo rights/CDN approval; verify owner activation and preview deployment integrity with separate authorization.
