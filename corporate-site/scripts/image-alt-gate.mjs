@@ -9,7 +9,7 @@ import {parse} from 'parse5';
 export function assertImageAlternatives(html, label = 'page') {
   if (typeof html !== 'string' || html.length > 5_000_000)
     throw new TypeError('INVALID_HTML_INPUT');
-  const document = parse(html);
+  const document = parse(html, {scriptingEnabled: false});
   let images = 0;
   let decorativeImages = 0;
 

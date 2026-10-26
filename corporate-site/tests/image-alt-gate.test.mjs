@@ -43,3 +43,16 @@ test('missing or invalid intrinsic dimensions remain release blockers', () => {
 test('rejects unbounded input', () => {
   assert.throws(() => assertImageAlternatives('x'.repeat(5_000_001)), /INVALID_HTML_INPUT/);
 });
+
+
+test('noscript fallback image without alt must fail even with JavaScript disabled', () => {
+  assert.throws(() => assertImageAlternatives(document(
+    '<noscript><img src="/fallback.svg" width="960" height="550"></noscript>'
+  )), /missing alt attribute/);
+});
+
+test('template image descendants retain the same alt contract', () => {
+  assert.throws(() => assertImageAlternatives(document(
+    '<template><img src="/template.svg" alt="" width="960" height="550"></template>'
+  )), /aria-hidden subtree/);
+});
