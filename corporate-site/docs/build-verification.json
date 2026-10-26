@@ -6,7 +6,7 @@
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40949,
+  "cssGzip": 40719,
   "allEmittedJsGzip": 194050,
   "assets": [
     {
@@ -95,9 +95,9 @@
       "gzip": 11134
     },
     {
-      "name": "_astro/Layout.DTHz471I.css",
-      "bytes": 60637,
-      "gzip": 13944
+      "name": "_astro/Layout.BlrP7ZC3.css",
+      "bytes": 59016,
+      "gzip": 13714
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_0_lang.CRsA9Vh8.js",
@@ -290,7 +290,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "9fd5ae7977cd2f6e61f1cad753d16e5cbd075c2620c17de4012488e19ceac658",
+  "artifactSha256": "d686a73a8ce1f47bdff1db481722b0e14572655cffa945912e8d57cce327373b",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }
