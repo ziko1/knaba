@@ -4,6 +4,7 @@ import type { Service } from '../data/company.ts';
 
 export type PublicLocale = 'de' | 'ru' | 'en' | 'uk';
 const ru: Record<string, string> = {
+  'Projektanfrage':'Заявка по проекту','Projektanfrage:':'Заявка по проекту:','Welche Leistung benötigen Sie?':'Какая услуга вам нужна?','ich möchte folgenden Bedarf mit Ihnen besprechen:':'Я хочу обсудить с вами следующие работы:',
   'Gewerbebau & Sanierung':'Коммерческое строительство и реконструкция',
   'Wohnbau & Modernisierung':'Жилищное строительство и модернизация',
   'Neubau & Baustelle':'Новостройка и стройплощадка',

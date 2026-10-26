@@ -24,6 +24,31 @@ async function http<T>(path:string,method='GET',data?:unknown,token?:string):Pro
   }finally{clearTimeout(timeout);}
 }
 type Recognition={lang:string;continuous:boolean;interimResults:boolean;onresult:((event:{results:ArrayLike<ArrayLike<{transcript:string}>>})=>void)|null;onend:(()=>void)|null;onerror:(()=>void)|null;start:()=>void;stop:()=>void};
+
+// Keep focus in the ordinary tab order: this is a nonmodal, dismissible panel.
+export function assistantDialogControls(options:{
+  isOpen:()=>boolean;
+  panel:()=>HTMLElement|undefined;
+  launcher:()=>HTMLButtonElement|undefined;
+  close:()=>void;
+  stopSpeech:()=>void;
+}) {
+  const focus=(element:HTMLElement|undefined)=>{if(element?.isConnected)element.focus({preventScroll:true});};
+  const close=()=>{
+    options.stopSpeech();
+    options.close();
+    // Solid replaces the panel with a new launcher, including after lazy mount.
+    queueMicrotask(()=>{if(!options.isOpen())focus(options.launcher());});
+  };
+  return {
+    focusOnOpen:()=>queueMicrotask(()=>{if(options.isOpen())focus(options.panel());}),
+    close,
+    keydown:(event:KeyboardEvent)=>{
+      if(event.key!=='Escape'||event.isComposing||event.defaultPrevented)return;
+      event.preventDefault();event.stopPropagation();close();
+    },
+  };
+}
 export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpen?:boolean}){
   const locale=assistantLocale(props.locale),t=captions[locale],speechLocale={de:'de-DE',en:'en-GB',uk:'uk-UA',ru:'ru-RU'}[locale];
   const [open,setOpen]=createSignal(props.initialOpen??false),[ticket,setTicket]=createSignal<Ticket|null>(null),[thread,setThread]=createSignal<Thread|null>(null);
@@ -34,14 +59,21 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const [captchaResetVersion,setCaptchaResetVersion]=createSignal(0);
   const captchaChanged=(status:CaptchaState,token='')=>{setCaptchaStatus(status);setCaptchaToken(token);};
   const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
-  let recognition:Recognition|null=null,log:HTMLDivElement|undefined;
-  let launcher:HTMLButtonElement|undefined,closeButton:HTMLButtonElement|undefined;
-  const closePanel=()=>{
-    recognition?.stop();window.speechSynthesis?.cancel();setRecording(false);
-    setOpen(false);setCaptchaToken('');setCaptchaStatus('loading');
-    queueMicrotask(()=>launcher?.focus());
-  };
-  createEffect(()=>{if(open())queueMicrotask(()=>closeButton?.focus());});
+  let recognition:Recognition|null=null,log:HTMLDivElement|undefined,panel:HTMLElement|undefined,launcher:HTMLButtonElement|undefined;
+  function stopSpeech(){
+    const active=recognition;recognition=null;
+    if(active){
+      // A final result may arrive after stop; never overwrite a closed draft.
+      active.onresult=null;active.onend=null;active.onerror=null;
+      try{active.stop();}catch{}
+    }
+    setRecording(false);
+    window.speechSynthesis?.cancel();
+  }
+  const dialog=assistantDialogControls({
+    isOpen:open,panel:()=>panel,launcher:()=>launcher,stopSpeech,
+    close:()=>{setOpen(false);setCaptchaToken('');setCaptchaStatus('loading');},
+  });
   const privacyPath=locale==='ru'?'/ru/datenschutz/':'/datenschutz/';
   onMount(()=>{
     try {
@@ -49,8 +81,9 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
       if(value&&/^[a-f0-9-]{36}$/i.test(value.id)&&/^[a-f0-9]{64}$/i.test(value.token)){setTicket(value);setAccepted(true);void load(value);}
     }catch{}
     const timer=setInterval(()=>{const current=ticket();if(open()&&current&&!document.hidden)void load(current);},8000);
-    onCleanup(()=>{clearInterval(timer);recognition?.stop();window.speechSynthesis?.cancel();});
+    onCleanup(()=>{clearInterval(timer);stopSpeech();});
   });
+  createEffect(()=>{if(open())dialog.focusOnOpen();});
   createEffect(()=>{thread()?.messages.length;thread()?.offers.length;queueMicrotask(()=>{if(log)log.scrollTop=log.scrollHeight;});});
   async function load(current:Ticket){
     try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token);if(ticket()?.id===current.id){setThread(result);setError('');}}
@@ -146,8 +179,8 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   }
   return <aside class="ka-wrap" lang={locale}>
     <Show when={open()} fallback={<button ref={launcher} type="button" class="ka-launcher" onClick={()=>setOpen(true)} aria-label={t.open}><span aria-hidden="true">✳</span> KNABA Assistant</button>}>
-      <section role="dialog" aria-modal="false" aria-label="KNABA Assistant" class="ka-panel" onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closePanel();}}}>
-        <header class="ka-header"><div><strong>✳ KNABA Assistant</strong><small>{t.tag}</small></div><button ref={closeButton} type="button" class="ka-icon" onClick={closePanel} aria-label={t.close}>×</button></header>
+      <section ref={panel} role="dialog" aria-modal="false" aria-label="KNABA Assistant" class="ka-panel" tabIndex={-1} onKeyDown={dialog.keydown}>
+        <header class="ka-header"><div><strong>✳ KNABA Assistant</strong><small>{t.tag}</small></div><button type="button" class="ka-icon" onClick={dialog.close} aria-label={t.close}>×</button></header>
         <div ref={log} class="ka-history" aria-live="polite" aria-relevant="additions">
           <p class="ka-message ka-assistant"><span>KNABA Assistant</span>{assistantGreeting(locale)}</p>
           <For each={thread()?.messages??[]}>{item=><p class={`ka-message ka-${item.sender}`}><span>{item.sender==='owner'?'KnaBa':item.sender==='assistant'?'KNABA Assistant':''}</span>{item.content}</p>}</For>

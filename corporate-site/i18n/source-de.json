@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "6774bb3bf453b3ea53bc4f8a9b3ed8e7dcd1f82de6e449124c31825dc53022d6",
+  "sourceDigest": "78509ae377b255f06f998f24ecfbc34e4f4494d23cf33c9bdf203d47fab1d11f",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -2496,13 +2496,6 @@
         "/datenschutz/"
       ]
     },
-    "49666f30451ee75d68633596": {
-      "kind": "text",
-      "source": "Welche Reinigung benötigen Sie?",
-      "routes": [
-        "/kontakt/"
-      ]
-    },
     "4976e692f86959a8a1eb4a64": {
       "kind": "text",
       "source": "So wird die Anfrage konkret",
@@ -2674,6 +2667,7 @@
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/bauzwischenreinigung/",
         "/bauleistungen/zusatzarbeiten/",
+        "/kontakt/",
         "/leistungen/",
         "/planer/"
       ]
@@ -3053,6 +3047,13 @@
         "/datenschutz/"
       ]
     },
+    "58520b45c761d30c83830d7d": {
+      "kind": "text",
+      "source": "Welche Leistung benötigen Sie?",
+      "routes": [
+        "/kontakt/"
+      ]
+    },
     "5854a54b50fe74a549822880": {
       "kind": "text",
       "source": "Im freigeschalteten Kundenbereich wird eine gesendete Anfrage zusätzlich Ihrem Benutzerkonto zugeordnet. Öffentlich abgesendete Anfragen werden einem später registrierten Konto nicht automatisch zugeordnet. Wir speichern auch den Stand der zur Kenntnis genommenen Datenschutzhinweise, den Zeitpunkt und technische Kennungen, um wiederholte Übertragungen derselben Anfrage zu erkennen. Die Bestätigung, dass Sie diese Hinweise gelesen haben, ist keine Einwilligung in Werbung.",
@@ -3135,6 +3136,7 @@
         "/",
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
+        "/kontakt/",
         "/leistungen/"
       ]
     },
@@ -3266,6 +3268,7 @@
         "/bauleistungen/bauendreinigung/",
         "/bauleistungen/baureinigung/",
         "/bauleistungen/bauzwischenreinigung/",
+        "/kontakt/",
         "/leistungen/",
         "/planer/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3329,6 +3332,7 @@
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
+        "/kontakt/",
         "/leistungen/"
       ]
     },
@@ -4610,6 +4614,7 @@
         "/bauleistungen/baureinigung/",
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/bauzwischenreinigung/",
+        "/kontakt/",
         "/leistungen/",
         "/planer/",
         "/ratgeber/baureinigung-phasen/"
@@ -5058,6 +5063,7 @@
         "/bauleistungen/baureinigung/",
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/durchbrueche/",
+        "/kontakt/",
         "/leistungen/",
         "/planer/"
       ]
@@ -7124,6 +7130,13 @@
         "/berlin/"
       ]
     },
+    "d61669d3b445901234b9dfb8": {
+      "kind": "attr:aria-label",
+      "source": "Projektanfrage",
+      "routes": [
+        "/kontakt/"
+      ]
+    },
     "d622dea637c562beb67558c2": {
       "kind": "text",
       "source": "<p>Die interaktive Auswahl benötigt JavaScript. Alle Leistungen sind über die Leistungsseiten erreichbar.</p>",
@@ -7143,13 +7156,6 @@
       "source": "Kratzer, Verätzungen, Farbabweichungen und andere Materialschäden lassen sich durch Reinigung nicht automatisch beheben. Beschädigte oder unbekannte Oberflächen werden vorab besprochen; Spezialbehandlungen gehören nur bei ausdrücklicher Vereinbarung zum Auftrag.",
       "routes": [
         "/bauleistungen/bauendreinigung/"
-      ]
-    },
-    "d6474a745d3984658677a599": {
-      "kind": "attr:aria-label",
-      "source": "Reinigungsanfrage",
-      "routes": [
-        "/kontakt/"
       ]
     },
     "d647c931a24fb50578ec8211": {
@@ -7705,6 +7711,7 @@
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
+        "/kontakt/",
         "/leistungen/"
       ]
     },
