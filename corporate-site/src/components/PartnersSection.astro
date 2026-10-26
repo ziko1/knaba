@@ -11,20 +11,19 @@ const t=partnerCopy[locale];
     <p>{t.description}</p>
   </header>
   <ul class="knaba-partners-grid" role="list">
-    {officialPartnerLogos.map((partner, index) => (
+    {officialPartnerLogos.map((partner) => (
       <li class="knaba-partner-card" data-partner-id={partner.id}>
         <div class="knaba-partner-image">
           <img
             src={partner.src}
-            alt={partner.name ? `${t.logo} ${partner.name}` : `${t.unnamed} ${index + 1}`}
+            alt={`${t.logo} ${partner.name}`}
             width={partner.width}
             height={partner.height}
             loading="lazy"
             decoding="async"
-            referrerpolicy="no-referrer"
           />
         </div>
-        {partner.name && <p class="knaba-partner-name">{partner.name}</p>}
+        <p class="knaba-partner-name">{partner.name}</p>
       </li>
     ))}
   </ul>

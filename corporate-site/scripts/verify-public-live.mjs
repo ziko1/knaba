@@ -23,8 +23,7 @@ async function readBounded(response) {
 }
 
 
-const partnerMediaRoot='https://impro.usercontent.one/appid/oneComWsb/domain/knaba.de/media/knaba.de/onewebmedia/';
-const imageKeys=new Set(['etag','resize','ignoreAspectRatio','quality','sourceContentType']);
+const partnerAssets=Object.freeze(['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png']);
 
 function partnerMediaSources(html) {
   const cards=[...html.matchAll(/<li\b[^>]*\bdata-partner-id=["']([^"']+)["'][^>]*>([\s\S]*?)<\/li>/gi)];
@@ -34,18 +33,10 @@ function partnerMediaSources(html) {
     return (img?.[1]||img?.[2]||'').replaceAll('&amp;','&');
   });
 }
-function validPartnerMediaUrl(value) {
-  if(typeof value!=='string'||!value.startsWith(partnerMediaRoot)) return null;
-  try {
-    const u=new URL(value);
-    if(u.origin!=='https://impro.usercontent.one'||u.username||u.password||u.hash||
-       !u.pathname.startsWith('/appid/oneComWsb/domain/knaba.de/media/knaba.de/onewebmedia/')) return null;
-    const keys=[...u.searchParams.keys()];
-    if(keys.some(k=>!imageKeys.has(k))) return null;
-    if(keys.indexOf('resize')<0||keys.indexOf('ignoreAspectRatio')<=keys.indexOf('resize')) return null;
-    return u.href;
-  } catch { return null; }
+function validPartnerMediaPath(value,index) {
+  return typeof value==='string' && value===partnerAssets[index] ? value : null;
 }
+
 async function mediaBytes(response) {
   if(!response.body) return Buffer.alloc(0);
   const reader=response.body.getReader(),chunks=[];
@@ -55,7 +46,7 @@ async function mediaBytes(response) {
       const {done,value}=await reader.read();
       if(done) break;
       total+=value.byteLength;
-      if(total>32768) throw new Error('MEDIA_TOO_LARGE');
+      if(total>98304) throw new Error('MEDIA_TOO_LARGE');
       chunks.push(Buffer.from(value));
     }
   } finally {await reader.cancel().catch(()=>{});}
@@ -127,8 +118,9 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
   async function probeMedia(src,index) {
     const label='partner-image:'+partnerIds[index];
     const errors=[];let status=null;
-    const checkedUrl=validPartnerMediaUrl(src);
-    if(!checkedUrl) errors.push('UNSAFE_OR_BROKEN_PARTNER_CDN_URL');
+    const checkedPath=validPartnerMediaPath(src,index);
+    const checkedUrl=checkedPath ? origin+checkedPath : null;
+    if(!checkedUrl) errors.push('UNSAFE_OR_MISSING_PARTNER_ASSET');
     else try {
       const response=await fetchImpl(checkedUrl,{
         method:'GET',redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(timeoutMs),

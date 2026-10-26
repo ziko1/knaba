@@ -4,7 +4,7 @@ import {verifyPublicLive} from '../scripts/verify-public-live.mjs';
 
 const langs=['de','en','uk','ru'];
 const ids=['official-01','official-02','hit','stromkreis','gewobag'];
-const mediaRoot='https://impro.usercontent.one/appid/oneComWsb/domain/knaba.de/media/knaba.de/onewebmedia/';
+const images=['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png'];
 
 function markup(lang,gallery=false,{cards=ids,legacy=false,missingAlt=false,unsafeMedia=false,noImage=false}={}) {
   const alternates=langs.filter(x=>!missingAlt||x!=='ru')
@@ -13,14 +13,14 @@ function markup(lang,gallery=false,{cards=ids,legacy=false,missingAlt=false,unsa
   const content=gallery
     ? '<section><h1 id="knaba-gallery-title">Gallery</h1><ul class="knaba-gallery-grid">'
        +Array(4).fill('<li class="knaba-gallery-card">Work</li>').join('')+'</ul></section>'
-    : '<a href="'+path+'">Gallery</a><ul>'+cards.map((id,i)=>'<li data-partner-id="'+id+'">'+(noImage?'':('<img src="'+(unsafeMedia&&i===0?'https://attacker.invalid/other.png':mediaRoot+id+'.png?resize=120%2B120&amp;ignoreAspectRatio=')+'" alt="Logo">'))+'</li>').join('')+'</ul>';
+    : '<a href="'+path+'">Gallery</a><ul>'+cards.map((id,i)=>'<li data-partner-id="'+id+'">'+(noImage?'':('<img src="'+(unsafeMedia&&i===0?'https://attacker.invalid/other.png':images[i])+'" alt="Logo">'))+'</li>').join('')+'</ul>';
   return '<html lang="'+lang+'"><head>'+alternates+'</head><body>'+content
     +(legacy?'<a href="https://knaba.de/">old</a>':'')+'<footer>Footer</footer></body></html>';
 }
 function mock({cards=ids,ready=200,gallery=200,legacy=false,missingAlt=false,fail=null,large=false,media=206,badMime=false,badMagic=false,unsafeMedia=false,noImage=false,seen=[]}={}) {
   return async url=>{
     seen.push(url);
-    if(url.startsWith(mediaRoot)){
+    if(images.includes(new URL(url).pathname)){
       const signature=badMagic?new Uint8Array([1,2,3,4,5,6,7,8]):new Uint8Array([137,80,78,71,13,10,26,10,0]);
       return new Response(signature,{status:media,headers:{'content-type':badMime?'text/html':'image/png'}});
     }
@@ -72,7 +72,7 @@ test('invalid mode and unbounded timeout never fetch',async()=>{
 });
 
 
-test('broken CDN HTTP500 rejects otherwise healthy web release',async()=>{
+test('broken local asset HTTP500 rejects otherwise healthy web release',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock({media:500})});
   assert.equal(r.outcome,'FAIL');
   assert.equal(issues(r).filter(e=>e==='HTTP_500').length,5);
@@ -86,7 +86,7 @@ test('bad image MIME or signature is not a logo PASS',async()=>{
 test('untrusted image origin is refused without contacting it',async()=>{
   const seen=[];
   const r=await verifyPublicLive({fetchImpl:mock({unsafeMedia:true,seen})});
-  assert.ok(issues(r).includes('UNSAFE_OR_BROKEN_PARTNER_CDN_URL'));
+  assert.ok(issues(r).includes('UNSAFE_OR_MISSING_PARTNER_ASSET'));
   assert.equal(seen.filter(x=>x.startsWith('https://attacker.invalid')).length,0);
 });
 test('missing images in all five valid cards blocks release',async()=>{

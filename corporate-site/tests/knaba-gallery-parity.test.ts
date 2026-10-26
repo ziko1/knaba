@@ -34,7 +34,7 @@ describe('KNABA licensed-source gallery and navigation',()=>{
     expect(layout).toContain('localPath("/galerie/")');
     expect(read('../src/pages/impressum.astro')).not.toContain('Stand des Quellenabgleichs');
     expect(read('../src/pages/ru/impressum.astro')).not.toContain('Дата сверки с источником');
-    expect(read('../src/pages/datenschutz.astro')).toContain('impro.usercontent.one');
-    expect(read('../src/pages/ru/datenschutz.astro')).toContain('impro.usercontent.one');
+    expect(read('../src/pages/datenschutz.astro')).not.toContain('impro.usercontent.one');
+    expect(read('../src/pages/ru/datenschutz.astro')).not.toContain('impro.usercontent.one');
   });
 });

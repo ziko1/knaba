@@ -63,20 +63,15 @@ for (const file of pages) {
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
   titles.add(title);
-  // No external scripts. The five fixed partner logo slots are the ONLY
-  // allowed third-party image requests in generated public HTML.
+  // No external scripts or images. All partner logos must be first-party.
   assert.doesNotMatch(html, /<script\b[^>]*\bsrc="https?:\/\//i, file + ': external script');
   const externalImageSources = [...html.matchAll(/<img\b[^>]*\bsrc="(https?:\/\/[^"]+)"/gi)].map(match => match[1]);
   const partnerItems = [...html.matchAll(/<li class="knaba-partner-card" data-partner-id="([^"]+)"[^>]*>[\s\S]*?<\/li>/g)];
   const partnerImageSources = partnerItems.map(match => match[0].match(/<img\b[^>]*\bsrc="([^"]+)"/i)?.[1]);
-  assert.deepEqual(externalImageSources, partnerImageSources.filter(src => src?.startsWith('https://')), file + ': external images outside partner section');
-  if (partnerItems.length) {
-    assert.deepEqual(partnerItems.map(match => match[1]), ['official-01','official-02','hit','stromkreis','gewobag'], file + ': partner logo count and order');
-  }
-  for (const source of externalImageSources) {
-    const url = new URL(source);
-    assert.equal(url.origin, 'https://impro.usercontent.one', file + ': partner CDN');
-    assert.ok(url.pathname.startsWith('/appid/oneComWsb/domain/knaba.de/media/knaba.de/onewebmedia/'), file + ': specific CDN path');
+  assert.deepEqual(externalImageSources, [], file + ': all images must be first-party');
+  if(partnerItems.length) {
+    assert.deepEqual(partnerItems.map(match=>match[1]), ['official-01','official-02','hit','stromkreis','gewobag'],file+': partner order');
+    assert.deepEqual(partnerImageSources, ['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png'],file+': exact local partner assets');
   }
   externalPartnerImagesInMarkup += externalImageSources.length;
   assert.doesNotMatch(html, /(?:Переглянути партнерів на knaba\.de|Джерело перевірено \d{2}\.\d{2}\.\d{4}|Stand des Quellenabgleichs|Дата сверки с источником)/i, file + ': internal research notices on customer pages');
@@ -188,7 +183,7 @@ const report = {
   internalLinks: "PASS",
   metadata: "PASS",
   indexMode: official ? "OFFICIAL" : vsp ? (indexingApproved ? "VSP_PUBLIC" : "VSP_PENDING_APPROVAL") : "TEMPORARY_NOINDEX",
-  externalImageScriptRequests: "KNOWN_PARTNER_LOGOS_ONLY",
+  externalImageScriptRequests: "NONE_IN_HTML",
   externalPartnerImagesInMarkup,
   cssGzip,
   allEmittedJsGzip: jsGzip,
