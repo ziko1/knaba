@@ -2,6 +2,18 @@
 
 This scope is the new corporate marketing surface. Existing KNABA V4 roadmap and acceptance history on application branches remain unchanged.
 
+## Current gap audit — 26.10.2026
+
+- [x] Reconcile PR91/90/89/88 and V4/ERP evidence; retain22 groups,24 KNB and72 AC in `docs/evidence/release-gap-20261026/gap-matrix.json`.
+- [x] Source candidate: Assistant/inbox races and auth expiry, contextual contact dedup, gallery workflows, Studio32KiB parser, opt-in trusted proxy and atomic migration preflight; independent review and234+68+56 suites.
+- [x] Actual live health/ready200,98 desktop navigable pages and126 HTTP endpoints (old deployedcecb321).
+- [ ] Candidate mobile/device/screen reader/zoom acceptance; trusted-proxy topology and live two-client negative checks.
+- [ ] Storage below90% cutover gate, off-host restore, locked source-pinned test rollout and owner UAT.
+- [ ] Integrate latest site into existing PR86 ERP line with reviewed additive reviews/bridge/owner ledger; preserve canonical unified roadmap.
+- [ ] Full voice/provider/legal/field performance/95-locales and Studio composer/media gates remain open.
+
+Exact evidence and scope: [release gap audit](docs/KNABA_RELEASE_GAP_AUDIT_2026-10-26_UK.md). Historical entries below retain their original scope and must not override this checkpoint.
+
 | ID | Acceptance | State |
 |---|---|---|
 | C01 | Audit live source and confirm company/domain with user | Implemented, source documented |

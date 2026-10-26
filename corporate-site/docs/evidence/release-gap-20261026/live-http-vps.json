@@ -1,0 +1,1015 @@
+{
+  "time": "2026-10-26T14:54:52.096005+00:00",
+  "environment": "VPS read-only public HTTPS",
+  "observedRelease": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/",
+      "bytes": 58001,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/404.html",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/404.html",
+      "bytes": 11620,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/admin/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/admin/",
+      "bytes": 22103,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/bauendreinigung/",
+      "bytes": 21049,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/bauhilfe/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/bauhilfe/",
+      "bytes": 20373,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/baureinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/baureinigung/",
+      "bytes": 20665,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/baustellenraeumung/",
+      "bytes": 20324,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/bauzwischenreinigung/",
+      "bytes": 20705,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/durchbrueche/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/durchbrueche/",
+      "bytes": 20999,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/kernbohrungen/",
+      "bytes": 21099,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/bauleistungen/zusatzarbeiten/",
+      "bytes": 20989,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/berlin/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/berlin/",
+      "bytes": 17232,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/branchen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/branchen/",
+      "bytes": 18098,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/crm/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/crm/",
+      "bytes": 18964,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/datenschutz/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/datenschutz/",
+      "bytes": 33332,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/",
+      "bytes": 57481,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/bauendreinigung/",
+      "bytes": 20774,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/bauhilfe/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/bauhilfe/",
+      "bytes": 20123,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/baureinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/baureinigung/",
+      "bytes": 20482,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/baustellenraeumung/",
+      "bytes": 20156,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/bauzwischenreinigung/",
+      "bytes": 20519,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/durchbrueche/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/durchbrueche/",
+      "bytes": 20579,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/kernbohrungen/",
+      "bytes": 20834,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/bauleistungen/zusatzarbeiten/",
+      "bytes": 20702,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/berlin/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/berlin/",
+      "bytes": 16953,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/branchen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/branchen/",
+      "bytes": 17717,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/faq/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/faq/",
+      "bytes": 34970,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/galerie/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/galerie/",
+      "bytes": 17683,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/karriere/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/karriere/",
+      "bytes": 17044,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/kontakt/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/kontakt/",
+      "bytes": 26054,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/leistungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/leistungen/",
+      "bytes": 25292,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/planer/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/planer/",
+      "bytes": 29846,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/ratgeber/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/ratgeber/",
+      "bytes": 22167,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/",
+      "bytes": 24856,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/",
+      "bytes": 24772,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/",
+      "bytes": 24648,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/",
+      "bytes": 24818,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/en/unternehmen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/en/unternehmen/",
+      "bytes": 19659,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/faq/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/faq/",
+      "bytes": 36149,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/galerie/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/galerie/",
+      "bytes": 17709,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/impressum/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/impressum/",
+      "bytes": 15787,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/karriere/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/karriere/",
+      "bytes": 17303,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/kontakt/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/kontakt/",
+      "bytes": 26346,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/konto/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/konto/",
+      "bytes": 21744,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/",
+      "bytes": 25369,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/baureinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/baureinigung/",
+      "bytes": 12350,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/bueroreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/",
+      "bytes": 25369,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/glasreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/glasreinigung/",
+      "bytes": 12357,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/grundreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/grundreinigung/",
+      "bytes": 12364,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/treppenreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/treppenreinigung/",
+      "bytes": 12378,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/leistungen/unterhaltsreinigung/",
+      "bytes": 12399,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/planer/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/planer/",
+      "bytes": 30099,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/postfach/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/postfach/",
+      "bytes": 21665,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/",
+      "bytes": 22682,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/",
+      "bytes": 24973,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
+      "bytes": 25144,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/",
+      "bytes": 24899,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
+      "bytes": 25128,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/bueroreinigung-checkliste/",
+      "bytes": 12496,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/reinigungsleistungen-vergleichen/",
+      "bytes": 12545,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "bytes": 12608,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/",
+      "bytes": 64328,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/bauendreinigung/",
+      "bytes": 24368,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/bauhilfe/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/bauhilfe/",
+      "bytes": 23555,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/baureinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/baureinigung/",
+      "bytes": 23912,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/baustellenraeumung/",
+      "bytes": 23415,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/bauzwischenreinigung/",
+      "bytes": 23902,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/durchbrueche/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/durchbrueche/",
+      "bytes": 24604,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/kernbohrungen/",
+      "bytes": 24928,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/bauleistungen/zusatzarbeiten/",
+      "bytes": 24727,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/berlin/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/berlin/",
+      "bytes": 19643,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/branchen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/branchen/",
+      "bytes": 20571,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/datenschutz/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/datenschutz/",
+      "bytes": 43742,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/faq/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/faq/",
+      "bytes": 41982,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/galerie/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/galerie/",
+      "bytes": 19576,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/impressum/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/impressum/",
+      "bytes": 18494,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/karriere/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/karriere/",
+      "bytes": 19915,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/kontakt/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/kontakt/",
+      "bytes": 29167,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/konto/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/konto/",
+      "bytes": 23449,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/",
+      "bytes": 27935,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/baureinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/baureinigung/",
+      "bytes": 13867,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/bueroreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/",
+      "bytes": 27935,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/glasreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/glasreinigung/",
+      "bytes": 13874,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/grundreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/grundreinigung/",
+      "bytes": 13881,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/treppenreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/treppenreinigung/",
+      "bytes": 13895,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/leistungen/unterhaltsreinigung/",
+      "bytes": 13916,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/planer/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/planer/",
+      "bytes": 33800,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/postfach/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/postfach/",
+      "bytes": 23148,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/",
+      "bytes": 27096,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "bytes": 30416,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/",
+      "bytes": 30497,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/",
+      "bytes": 30605,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/",
+      "bytes": 30748,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/bueroreinigung-checkliste/",
+      "bytes": 14013,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/reinigungsleistungen-vergleichen/",
+      "bytes": 14062,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "bytes": 14125,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/ru/unternehmen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/ru/unternehmen/",
+      "bytes": 22560,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/studio/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/studio/",
+      "bytes": 18431,
+      "cacheControl": "private, no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/",
+      "bytes": 64234,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/bauendreinigung/",
+      "bytes": 24343,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/bauhilfe/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/bauhilfe/",
+      "bytes": 23463,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/baureinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/baureinigung/",
+      "bytes": 23813,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/baustellenraeumung/",
+      "bytes": 23501,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/bauzwischenreinigung/",
+      "bytes": 23795,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/durchbrueche/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/durchbrueche/",
+      "bytes": 24438,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/kernbohrungen/",
+      "bytes": 24664,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/bauleistungen/zusatzarbeiten/",
+      "bytes": 24398,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/berlin/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/berlin/",
+      "bytes": 19550,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/branchen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/branchen/",
+      "bytes": 20457,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/faq/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/faq/",
+      "bytes": 41913,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/galerie/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/galerie/",
+      "bytes": 19446,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/karriere/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/karriere/",
+      "bytes": 19786,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/kontakt/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/kontakt/",
+      "bytes": 28880,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/leistungen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/leistungen/",
+      "bytes": 27849,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/planer/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/planer/",
+      "bytes": 32983,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/ratgeber/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/ratgeber/",
+      "bytes": 26857,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "bytes": 29886,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/",
+      "bytes": 29815,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/",
+      "bytes": 29978,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/",
+      "bytes": 30318,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/uk/unternehmen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/uk/unternehmen/",
+      "bytes": 22517,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/unternehmen/",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/unternehmen/",
+      "bytes": 19845,
+      "cacheControl": "no-cache",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/healthz",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/healthz",
+      "bytes": 7,
+      "cacheControl": "no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/readyz",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/readyz",
+      "bytes": 5,
+      "cacheControl": "no-store",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/robots.txt",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/robots.txt",
+      "bytes": 248,
+      "cacheControl": "public, max-age=300",
+      "nosniff": "nosniff"
+    },
+    {
+      "route": "/sitemap.xml",
+      "status": 200,
+      "finalUrl": "https://kneba.vsp.rest/sitemap.xml",
+      "bytes": 51295,
+      "cacheControl": "public, max-age=300",
+      "nosniff": "nosniff"
+    }
+  ]
+}

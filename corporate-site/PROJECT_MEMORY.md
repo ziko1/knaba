@@ -1,5 +1,11 @@
 # KnaBa corporate-site memory
 
+## Current checkpoint — 26.10.2026 full gap audit
+
+Latest audited site base PR91 d48cc81; published code candidate `7de449b319f57f0d07d2f43b4b6a25e0219c1158`, identical tested tree `d6bc0694541f42b871a221c4b7f0696d90b5e3f6`. See [current audit](docs/KNABA_RELEASE_GAP_AUDIT_2026-10-26_UK.md) and its22-group/72-AC matrix. Reused PR90/89 without repeating PR88, preserved all122 routes and SQL history. Async/auth expiry/contact dedup, Studio body budget, trusted-proxy opt-in, transaction-safe migration fixes independently reviewed.234 Vitest +68 Node +56 VPS PASS, check/build/i18n/verify PASS. These are candidate evidence; NOT full-product acceptance.
+
+Fresh live: releasececb321, health/ready200;98 navigable desktop browser pages and126 HTTPS endpoints checked. Older owner503 observations below are historical. No deploy in this task. Disk≈91% holds cutover. ERP exists separately in PR86, not integrated into this site branch. Remaining: exact-candidate mobile/device/a11y, owner/provider/legal UAT, off-host restore, full ERP/voice and pending locales. Main and official domain unchanged; no paid service activated.
+
 - User request: audit current cleaning-company website, offer modern fast stack choices, write detailed plan/prompt and implement the corporate website.
 - The user explicitly confirmed `knaba.de` / KnaBa after initial `kneba.de` typo.
 - Repository `ziko1/knaba`; isolated candidate branch `codex/knaba-corporate-astro-20261024`, base `ff748a2e5731e973883344ed28f3e82cf8a3bc06` (`main`, specification-only).

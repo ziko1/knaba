@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "task_id": "GAP-01",
+  "project": "KNABA",
+  "repository": "ziko1/knaba",
+  "date": "2026-10-26",
+  "reviewer": "Codex /root/gap_review",
+  "source_baseline": "d48cc81ca3db4f689c3126ec60dd17a4192319b7",
+  "source_branch": "fix/knaba-release-gap-audit-20261026",
+  "assessment_kind": "READ_ONLY_SOURCE_REQUIREMENT_AUDIT_WITH_COORDINATOR_LIVE_OBSERVATIONS",
+  "scope_notice": "Rows describe the inspected baseline and separate historical source lineages, not acceptance of uncommitted fixes. Test results and deployment claims require coordinator exact-source evidence.",
+  "live_observation": {
+    "source": "Coordinator message in current task, not independently probed by this reviewer",
+    "current_release": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+    "readyz_http_status": 200,
+    "readyz_status": "ready",
+    "filesystem_capacity_percent": 91,
+    "deployment_in_this_task": false,
+    "supersedes": "Historical /readyz=503 owner-unprovisioned observations are not current."
+  },
+  "rows": [
+    {
+      "id": "GAP-01",
+      "requirement": "One integrated KNABA product",
+      "status": "BLOCKED_INTEGRATION",
+      "finding": "Current site branch contains no erp/ or docs/unified/. ERP and canonical unified governance exist in PR86 lineage; this is an integration gap, not missing ERP implementation.",
+      "source_refs": [
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/MASTER_ROADMAP.md",
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/PROJECT_MEMORY.md"
+      ]
+    },
+    {
+      "id": "GAP-02",
+      "requirement": "Complete requirement traceability",
+      "status": "OPEN",
+      "finding": "Keep 24 V4 blocks and 72 compound acceptance scenarios separate from website route/test counts. ERP preserves 34 modules, 432 requirements and 475 criteria; no aggregate PASS substitutes for whole-criterion acceptance.",
+      "source_refs": [
+        "KNABA_DE_MASTER_SPEC.md",
+        "origin/fix/knaba-source-provenance-20261026:erp/docs/requirements/MODULE_READINESS.md"
+      ]
+    },
+    {
+      "id": "GAP-03",
+      "requirement": "Public pages and service coverage",
+      "status": "IMPLEMENTED_SOURCE",
+      "finding": "Four public locales, eight construction services, five partners, FAQs, guides, careers and gallery exist; older missing-gallery observations are superseded.",
+      "source_refs": [
+        "corporate-site/src/pages/",
+        "corporate-site/src/components/Partners.astro",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-04",
+      "requirement": "Homepage order and contact deduplication",
+      "status": "IMPLEMENTED_SOURCE",
+      "finding": "PR91 already incorporates homepage order; PR88 differs mainly in older CSS. Preserve one tel link per page, one hero catalogue CTA and distinct extras link.",
+      "source_refs": [
+        "corporate-site/AGENTS.md",
+        "corporate-site/src/components/ConstructionHome.astro",
+        "origin/fix/knaba-restore-home-blocks-20261026:corporate-site/src/components/ConstructionHome.astro"
+      ]
+    },
+    {
+      "id": "GAP-05",
+      "requirement": "Accurate enquiry and planner flows",
+      "status": "IMPLEMENTED_SOURCE",
+      "finding": "PR91 adds eight precise enquiry topics, five planner cards and compatible CRM category/message handoff; needs regression on integrated candidate.",
+      "source_refs": [
+        "corporate-site/src/components/Inquiry.tsx",
+        "corporate-site/src/components/Catalogue.tsx",
+        "corporate-site/src/components/ConstructionPlanner.astro",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-06",
+      "requirement": "Gallery gives useful process guidance",
+      "status": "AVAILABLE_UNINTEGRATED_AT_BASE",
+      "finding": "PR90 preserves existing routes while converting decorative gallery to compact work-process cards linked to real services. Illustrations remain explicitly schematic.",
+      "source_refs": [
+        "origin/fix/knaba-workflow-reference-value-20261026:corporate-site/src/components/ConstructionGallery.astro",
+        "origin/fix/knaba-workflow-reference-value-20261026:corporate-site/docs/KNABA_WORK_PROOF_POLICY_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-07",
+      "requirement": "Assistant freshness and navigation lifetime",
+      "status": "DEFECT_AT_BASE",
+      "finding": "8-second polling with 12-second request timeout can overlap. Old request results need single-flight and generation/invalidation guards, including owner inbox selection. Existing chat/recovery/offer features must remain.",
+      "source_refs": [
+        "corporate-site/src/components/KnabaAssistant.tsx",
+        "corporate-site/src/components/AssistantInbox.tsx",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-08",
+      "requirement": "Generative AI and real voice dispatcher",
+      "status": "PARTIAL_BLOCKED_EXTERNAL",
+      "finding": "Site knowledge is deterministic and browser Speech API is not an accepted WebRTC/WhatsApp Calling/STT/TTS/operator softphone integration. Provider authorization, budget, privacy and actual device tests remain separate.",
+      "source_refs": [
+        "corporate-site/src/lib/assistant-knowledge.ts",
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/BACKLOG.md"
+      ]
+    },
+    {
+      "id": "GAP-09",
+      "requirement": "Verified owner access and actual role UAT",
+      "status": "LIVE_READY_HEALTH_REPORTED_UAT_OPEN",
+      "finding": "Coordinator fresh observation: /readyz HTTP200 ready at current cecb321. Historical owner-503 observations are not current. Readiness health alone does not prove real owner authentication, enquiry delivery, inbox/reply and company role UAT.",
+      "source_refs": [
+        "corporate-site/vps/server.mjs",
+        "corporate-site/vps/BACKLOG.md",
+        "coordinator-fresh-live-observation-2026-10-26"
+      ]
+    },
+    {
+      "id": "GAP-10",
+      "requirement": "Full Studio editor",
+      "status": "PARTIAL_IMPLEMENTATION",
+      "finding": "Visual/manual text/link/local-image editing, design tokens, revisions and SSR exist. Full block tree/reordering/templates/global menu composition and safe media upload remain open.",
+      "source_refs": [
+        "corporate-site/src/components/SiteStudio.tsx",
+        "corporate-site/worker/studio.ts",
+        "corporate-site/vps/BACKLOG.md"
+      ]
+    },
+    {
+      "id": "GAP-11",
+      "requirement": "Studio request body budget",
+      "status": "DEFECT_AT_BASE_FIX_AVAILABLE",
+      "finding": "Studio passes 32768 to readBody, but streaming enforcement incorrectly uses MAX_BODY rather than maxBytes. PR89 contains focused fix and tests.",
+      "source_refs": [
+        "corporate-site/worker/api.ts",
+        "origin/fix/knaba-cloud-ux-audit-20261026:corporate-site/tests/studio-api.test.ts"
+      ]
+    },
+    {
+      "id": "GAP-12",
+      "requirement": "Proxy-aware independent visitor rate limits",
+      "status": "DEFECT_AT_BASE",
+      "finding": "Socket peer identity behind reverse proxy can combine visitors into one bucket. Require explicit trusted proxy contract, spoof rejection and two-visitor tests; do not blindly accept forwarding headers.",
+      "source_refs": [
+        "corporate-site/vps/server.mjs",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-13",
+      "requirement": "Migration preflight and schema preservation",
+      "status": "DEFECT_AT_BASE_FIX_AVAILABLE",
+      "finding": "Reuse PR89 whole-ledger-before-pending-SQL guards. Current 0005_public_reviews differs from PR87 0005_assistant_erp_bridge; never wholesale import PR87 SQL/journal or rewrite historic receipts.",
+      "source_refs": [
+        "corporate-site/vps/database.mjs",
+        "corporate-site/drizzle/0005_public_reviews.sql",
+        "origin/fix/knaba-cloud-ux-audit-20261026:corporate-site/vps/migration-guard.mjs",
+        "origin/fix/knaba-migration-composition-20261026:corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-14",
+      "requirement": "Site-to-ERP durable bridge",
+      "status": "AVAILABLE_UNINTEGRATED",
+      "finding": "PR67/87 source candidate exists; no accepted current-site-plus-ERP runtime. Need scoped event contract, durable inbox/outbox, idempotency, actual SQL replay and data reconciliation.",
+      "source_refs": [
+        "origin/feat/knaba-assistant-erp-bridge-20261025:corporate-site/drizzle/0005_assistant_erp_bridge.sql",
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/BACKLOG.md"
+      ]
+    },
+    {
+      "id": "GAP-15",
+      "requirement": "ERP business domains",
+      "status": "IMPLEMENTED_IN_SEPARATE_LINEAGE_NOT_ACCEPTED_INTEGRATED",
+      "finding": "Roles, quotations, scheduling, time, GPS, payroll, inventory, media and documents have source implementation on ERP lineage. Historical tests are tied to their own SHA and do not certify current integrated product.",
+      "source_refs": [
+        "origin/fix/knaba-source-provenance-20261026:erp/docs/requirements/MODULE_READINESS.md",
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/BACKLOG.md"
+      ]
+    },
+    {
+      "id": "GAP-16",
+      "requirement": "Email WhatsApp Telegram delivery",
+      "status": "PARTIAL_BLOCKED_EXTERNAL",
+      "finding": "Site Resend outbox exists; real recipient/provider configuration, current quotas, consent and delivery receipts are unaccepted. Separate ERP transport candidates exist.",
+      "source_refs": [
+        "corporate-site/worker/notifications.ts",
+        "corporate-site/worker/types.ts",
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/BACKLOG.md"
+      ]
+    },
+    {
+      "id": "GAP-17",
+      "requirement": "Localization targets",
+      "status": "PARTIAL_IMPLEMENTATION",
+      "finding": "99 target locales are catalogued, four published and 95 pending. Do not invent translated URLs or hreflang or claim all targets ready. Legal/native-language/RTL acceptance remains separate.",
+      "source_refs": [
+        "corporate-site/src/lib/locale-catalog.ts",
+        "corporate-site/ROADMAP.md"
+      ]
+    },
+    {
+      "id": "GAP-18",
+      "requirement": "Authentic reviews and proof of work",
+      "status": "IMPLEMENTED_SOURCE_CONTENT_APPROVAL_OPEN",
+      "finding": "Review submission, consent, CAPTCHA, moderation and idempotency exist. Genuine reviews/cases and rights on photos/logos require actual approval; no fabricated testimonials.",
+      "source_refs": [
+        "corporate-site/worker/reviews.ts",
+        "corporate-site/src/components/PublicReviews.tsx",
+        "corporate-site/src/components/ReviewsModeration.tsx",
+        "corporate-site/vps/BACKLOG.md"
+      ]
+    },
+    {
+      "id": "GAP-19",
+      "requirement": "Responsive and accessible premium UI",
+      "status": "PARTIAL_QA",
+      "finding": "Existing shared design/focus/reflow code and historic browser checks exist. Last PR91 responsive suite was blocked by unavailable sandbox; physical devices, screen reader and native zoom are not accepted. Current candidate needs fresh bounded checks.",
+      "source_refs": [
+        "corporate-site/AGENTS.md",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-20",
+      "requirement": "SEO and measured performance",
+      "status": "PARTIAL_QA",
+      "finding": "Canonical/hreflang/sitemap/404 guards exist. Social-card PNG/JPEG compatibility, field CWV, p95/p99/load and cold mobile measurements remain open. Aggregate built bytes are not CWV.",
+      "source_refs": [
+        "corporate-site/tests/verify-build.mjs",
+        "corporate-site/src/layouts/Layout.astro",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md"
+      ]
+    },
+    {
+      "id": "GAP-21",
+      "requirement": "Data preservation and operations",
+      "status": "RELEASE_HOLD",
+      "finding": "Same-host backup/restore historical evidence exists. Off-host restore, old D1 reconciliation, actual rollback rehearsal and retention/export/erasure acceptance remain open. Coordinator fresh df reports Capacity91%; no deployment in this task.",
+      "source_refs": [
+        "corporate-site/vps/BACKLOG.md",
+        "corporate-site/docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md",
+        "coordinator-fresh-live-observation-2026-10-26"
+      ]
+    },
+    {
+      "id": "GAP-22",
+      "requirement": "Full release and customer handover",
+      "status": "NOT_READY",
+      "finding": "Unified release receipt remains unbound source/artifact with 11 NOT_RUN/BLOCKED_EXTERNAL gates and no production approval. Site fixes alone do not close legal, owner/company UAT, native/provider or full business acceptance.",
+      "source_refs": [
+        "origin/fix/knaba-source-provenance-20261026:docs/unified/RELEASE_READINESS.json",
+        "KNABA_DE_MASTER_SPEC.md"
+      ]
+    }
+  ],
+  "v4_coverage": {
+    "canonical_source": "KNABA_DE_MASTER_SPEC.md",
+    "blocks": [
+      "KNB-01",
+      "KNB-02",
+      "KNB-03",
+      "KNB-04",
+      "KNB-05",
+      "KNB-06",
+      "KNB-07",
+      "KNB-08",
+      "KNB-09",
+      "KNB-10",
+      "KNB-11",
+      "KNB-12",
+      "KNB-13",
+      "KNB-14",
+      "KNB-15",
+      "KNB-16",
+      "KNB-17",
+      "KNB-18",
+      "KNB-19",
+      "KNB-20",
+      "KNB-21",
+      "KNB-22",
+      "KNB-23",
+      "KNB-24"
+    ],
+    "compound_acceptance_criteria": [
+      "AC-01",
+      "AC-02",
+      "AC-03",
+      "AC-04",
+      "AC-05",
+      "AC-06",
+      "AC-07",
+      "AC-08",
+      "AC-09",
+      "AC-10",
+      "AC-11",
+      "AC-12",
+      "AC-13",
+      "AC-14",
+      "AC-15",
+      "AC-16",
+      "AC-17",
+      "AC-18",
+      "AC-19",
+      "AC-20",
+      "AC-21",
+      "AC-22",
+      "AC-23",
+      "AC-24",
+      "AC-25",
+      "AC-26",
+      "AC-27",
+      "AC-28",
+      "AC-29",
+      "AC-30",
+      "AC-31",
+      "AC-32",
+      "AC-33",
+      "AC-34",
+      "AC-35",
+      "AC-36",
+      "AC-37",
+      "AC-38",
+      "AC-39",
+      "AC-40",
+      "AC-41",
+      "AC-42",
+      "AC-43",
+      "AC-44",
+      "AC-45",
+      "AC-46",
+      "AC-47",
+      "AC-48",
+      "AC-49",
+      "AC-50",
+      "AC-51",
+      "AC-52",
+      "AC-53",
+      "AC-54",
+      "AC-55",
+      "AC-56",
+      "AC-57",
+      "AC-58",
+      "AC-59",
+      "AC-60",
+      "AC-61",
+      "AC-62",
+      "AC-63",
+      "AC-64",
+      "AC-65",
+      "AC-66",
+      "AC-67",
+      "AC-68",
+      "AC-69",
+      "AC-70",
+      "AC-71",
+      "AC-72"
+    ],
+    "status": "PRESERVED_REQUIREMENTS_NOT_CLOSED_BY_WEBSITE_AUDIT",
+    "erp_scope": "Source exists in separate ERP lineage. Historical source/tests are not missing code and are not fresh integrated acceptance.",
+    "historical_erp_index": {
+      "source_ref": "origin/fix/knaba-source-provenance-20261026:erp/docs/requirements/MODULE_READINESS.md",
+      "modules": 34,
+      "requirements": 432,
+      "criteria": 475,
+      "acceptance_claim": false
+    },
+    "groups": [
+      {
+        "from": "AC-01",
+        "to": "AC-14",
+        "related_blocks": [
+          "KNB-01",
+          "KNB-02",
+          "KNB-03",
+          "KNB-04",
+          "KNB-05",
+          "KNB-06",
+          "KNB-07",
+          "KNB-21",
+          "KNB-22"
+        ],
+        "scope": "Integration, permissions, identities, languages, WhatsApp, qualification/handoff, AI and budget",
+        "status": "SEPARATE_ERP_OR_INTEGRATED_ACCEPTANCE_NOT_RUN_IN_THIS_REVIEW"
+      },
+      {
+        "from": "AC-15",
+        "to": "AC-30",
+        "related_blocks": [
+          "KNB-03",
+          "KNB-07",
+          "KNB-08",
+          "KNB-09",
+          "KNB-10",
+          "KNB-11",
+          "KNB-12",
+          "KNB-13",
+          "KNB-18",
+          "KNB-19",
+          "KNB-20"
+        ],
+        "scope": "Pricing, quotes, client rights, scheduling, quality, chat and translation",
+        "status": "SEPARATE_ERP_OR_INTEGRATED_ACCEPTANCE_NOT_RUN_IN_THIS_REVIEW"
+      },
+      {
+        "from": "AC-31",
+        "to": "AC-43",
+        "related_blocks": [
+          "KNB-13",
+          "KNB-14",
+          "KNB-15",
+          "KNB-17",
+          "KNB-22"
+        ],
+        "scope": "Time, DST, corrections, geofences, offline/native and travel",
+        "status": "SEPARATE_ERP_OR_INTEGRATED_ACCEPTANCE_NOT_RUN_IN_THIS_REVIEW"
+      },
+      {
+        "from": "AC-44",
+        "to": "AC-58",
+        "related_blocks": [
+          "KNB-03",
+          "KNB-05",
+          "KNB-16",
+          "KNB-17",
+          "KNB-18",
+          "KNB-19",
+          "KNB-20"
+        ],
+        "scope": "Payroll/payouts, inventory/procurement, media, notifications and immutable reports",
+        "status": "SEPARATE_ERP_OR_INTEGRATED_ACCEPTANCE_NOT_RUN_IN_THIS_REVIEW"
+      },
+      {
+        "from": "AC-59",
+        "to": "AC-72",
+        "related_blocks": [
+          "KNB-01",
+          "KNB-14",
+          "KNB-21",
+          "KNB-22",
+          "KNB-23",
+          "KNB-24"
+        ],
+        "scope": "Accessibility, shared business commands, security/privacy, load, restore, migrations, installation, full business journey and handover",
+        "status": "SEPARATE_ERP_OR_INTEGRATED_ACCEPTANCE_NOT_RUN_IN_THIS_REVIEW"
+      }
+    ]
+  },
+  "reuse_order": [
+    "Preserve PR91 latest site baseline; no wholesale PR88 cherry-pick.",
+    "Selectively integrate PR90 workflow/gallery and PR89 Studio streaming limit plus migration guard.",
+    "Complete proxy identity and async request-lifetime fixes, then exact-source regressions and independent review.",
+    "For whole-product integration, preserve PR86 canonical monorepo/ERP and forward-port accepted latest site.",
+    "Separately review additive composition of current public_reviews, ERP bridge and owner invitation migrations against real ledger; never rewrite historic SQL/receipts.",
+    "Run exact integrated SQL/E2E and obtain real owner/provider/native/legal/restore/handover acceptance."
+  ],
+  "release_conclusion": "NOT_READY_FOR_FULL_PRODUCT_RELEASE",
+  "independent_review": {
+    "reviewer": "Codex /root/gap_review",
+    "reviewed_against_base": "d48cc81ca3db4f689c3126ec60dd17a4192319b7",
+    "decision": "ACCEPT_SCOPED_SOURCE_CHANGES_NO_REMAINING_BLOCKER_FOUND",
+    "does_not_accept": [
+      "runtime deployment",
+      "trusted proxy topology configuration",
+      "full product release",
+      "real owner/provider/device/legal acceptance",
+      "human UAT",
+      "field performance"
+    ],
+    "findings_resolved": [
+      {
+        "id": "REV-01",
+        "priority": "P1",
+        "finding": "Whole-ledger preflight had a race before migration lock; concurrent unknown receipt could still permit pending SQL.",
+        "reproduction": "Independent synthetic Node24 SQLite interleaving produced openedDespiteUnknownLedger=true and pendingPublicReviewsApplied=1 before correction.",
+        "resolution": "Whole ledger revalidated under BEGIN IMMEDIATE; pending SQL, receipts and auth DDL share one transaction. Unknown/checksum concurrent changes, valid concurrent completion and all-pending rollback regressions pass."
+      },
+      {
+        "id": "REV-02",
+        "priority": "P1",
+        "finding": "Latest-generation GET checks without single-flight could discard every slow poll when response time exceeds interval.",
+        "resolution": "Public polling and owner refresh now single-flight; deferred-handler tests cross repeated polling calls."
+      },
+      {
+        "id": "REV-03",
+        "priority": "P2",
+        "finding": "Notification dispatch finally could clear busy for a later owner mutation while its post-dispatch refresh was pending.",
+        "resolution": "Dispatch clears its busy state before refresh; regression confirms later mutation remains busy."
+      }
+    ],
+    "additional_reviewed_behavior": [
+      "Current owner401/403 clears cached private state and invalidates late reads; stale older401 cannot clear a newer selection.",
+      "Assistant uses one localized contact-page link; existing page tel-link policy preserved.",
+      "Proxy IP trust is empty by default, exact-literal only, bounded forwarded chain, right-to-left trust walk; real environment must configure verified proxy explicitly.",
+      "Studio streaming body limit uses per-route maxBytes while public lead limit remains smaller.",
+      "Gallery keeps existing route and clear schematic disclosure, links each process to existing localized service.",
+      "No historic SQL or dependency-lock changes."
+    ],
+    "independent_test_runs": [
+      {
+        "command": "node node_modules/vitest/vitest.mjs run tests/assistant-async-state.test.ts tests/studio-api.test.ts tests/knaba-gallery-parity.test.ts",
+        "cwd": "corporate-site",
+        "result": "26/26 PASS at pre-auth-expiry frontend checkpoint; overlapping tests, not additive"
+      },
+      {
+        "command": "node --test corporate-site/vps/migration-guard.test.mjs corporate-site/vps/migration-upgrade.test.mjs",
+        "result": "23/23 PASS after migration concurrency correction"
+      },
+      {
+        "command": "node node_modules/vitest/vitest.mjs run tests/assistant-async-state.test.ts",
+        "cwd": "corporate-site",
+        "result": "14/14 PASS on final frontend including auth-expiry and contact dedup"
+      }
+    ],
+    "reviewed_file_sha256": {
+      "corporate-site/src/components/AssistantInbox.tsx": "6d0f8ed23e4ab10de8f148fde168f08632775ed34768b52c828ffb5f16f014d0",
+      "corporate-site/src/components/KnabaAssistant.tsx": "26ee2266bcc2ea6b073a94bc251783e25dba7dc34ef5b9ae2d0a22525a8baaa3",
+      "corporate-site/src/lib/async-view-scope.ts": "01c848fc2acd55326982ebd5d2a5bc2b02a582ad145432e7f5cb8926acc74d77",
+      "corporate-site/src/components/ConstructionGallery.astro": "35b0644aa9f549de26639073710efffbf882e3010ad7823f4e6cee497a37e369",
+      "corporate-site/src/layouts/Layout.astro": "ac4728313b33be1a17c37341d7dcebdc96f242d1e1fb653bffc37723d78544c5",
+      "corporate-site/src/lib/corporate-navigation.ts": "8ed00598c0b798d728ed984019d006e57b48d0f7da950c8708fa06680c90d512",
+      "corporate-site/worker/api.ts": "cbd2222864f06c181bcbee2008cefa0178328d9c0016043b7a30bf21cb399191",
+      "corporate-site/vps/server.mjs": "3204dbccbbf03af6d71b55a96b4b88183462bdfd121f5757169996d89ef5cc34",
+      "corporate-site/vps/database.mjs": "44a277653c491893e551faa410cfa6b44769faa0a8d7a31fb3b34ee4ef92b03e",
+      "corporate-site/vps/client-address.mjs": "16ccd59fc305c837be6a3efe4377323851079bf9cc81819ff6e2e65a0a0d4f19",
+      "corporate-site/vps/migration-guard.mjs": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e",
+      "corporate-site/.env.example": "7711f67a03b42b6490feab7d19f4fb61687bf2cfdf108446bd1a12a7ac5d5124",
+      "corporate-site/tests/assistant-async-state.test.ts": "324ef3b108b964a094f73531425300e638a916bbbab4d7123af4f33c42778f50",
+      "corporate-site/tests/studio-api.test.ts": "056c90eade58675d0896a04e241c458170c61535f3a0a102933ee915bfc0506f",
+      "corporate-site/tests/knaba-gallery-parity.test.ts": "4bfdc85febb34e2000e455747e9c9a0e7c204a7325fb7f662e249a9a94313845",
+      "corporate-site/tests/gallery-workflow-content.test.mjs": "e5d5655d2b197c014896129383c30bfbeabb8ffaa84ff3eeec52ba5189e17268",
+      "corporate-site/tests/verify-build.mjs": "70d5654170831f23070ac5337fe35f3133346db8e2b62773c27a677de2a17ce1",
+      "corporate-site/vps/client-address.test.mjs": "3ac701f922384fed84cdbcd7c12926a21a70885cd25fae579712b36a024c7c8f",
+      "corporate-site/vps/proxy-rate-limit.test.mjs": "75668312c43c944ec99649e7d7d3203d50dc137fd51bbf8a1a203d50695c2cf6",
+      "corporate-site/vps/migration-guard.test.mjs": "c47da4ab1118d248d7b54e41651defc1eded7be7c1afabaa4263eb0c703a36ce",
+      "corporate-site/vps/migration-upgrade.test.mjs": "b4bad30ed8d3a281235f236f1f210a8913cbcfcf1c5ca4dc9ea92708890e0a2d"
+    }
+  }
+}

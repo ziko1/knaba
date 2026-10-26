@@ -1,4 +1,6 @@
 # KNABA VPS budget
+- 26.10.2026 gap audit: local Node24 and existing connected VPS/browser; no new dependencies, paid vendors or external model dispatch. Provider/model balances and runtime cost UNKNOWN, no zero-cost claim.
+- Local all-assets gzip baseline→candidate: JS188346→189223B (+877B), CSS40890→40890B. Not a field speed claim. Disk live≈91%; no cleanup/deployment/customer-data changes.
 - Existing SferaHost VPS reused, node:24-bookworm-slim image already cached.
 - New paid AI, email, WhatsApp or CI services: NONE ACTIVATED. Actual hosting bill/model quotas UNKNOWN.
 - Isolated Docker limits: 1 CPU, 512 MiB RAM, PIDs 96; storage persistent and separate from code release.

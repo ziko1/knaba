@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-26",
+  "environment": "Cloud Chrome through cua_repl, live kneba.vsp.rest",
+  "releaseObservedViaVpsPointer": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+  "candidateDeployed": false,
+  "method": "Breadth-first navigation of same-origin links observed in page DOM, excluding query strings and fragments; read-only browser inspection",
+  "routesVisited": 98,
+  "remainingDiscoveredRoutes": 0,
+  "viewportCssPixels": {"width": 1363, "height": 936},
+  "checks": {"exactlyOneH1": 98, "canonicalPresent": 98, "noHorizontalDocumentOverflow": 98},
+  "interactions": [
+    {"route": "/uk/kontakt/", "action": "Select bauhilfe then Next", "observed": "Object step defaults to construction site and focus moves to its heading"},
+    {"route": "/uk/kontakt/", "action": "Enter synthetic postcode 10315 and select one-off frequency then Next", "observed": "Contact step displayed and heading focused; no submission made"}
+  ],
+  "limitations": [
+    "The 98 navigable pages are not all 122 generated HTML artifacts; private, legacy and error endpoints are covered separately by HTTP/source tests.",
+    "No claim of visual review for every pixel, all images or every interaction.",
+    "Opera connector returned Browser not connected.",
+    "Five native Ctrl+plus attempts in one batch did not change width or devicePixelRatio; native zoom and mobile viewport acceptance NOT_RUN.",
+    "Physical device, screen reader, genuine owner/client submission, CAPTCHA and provider calling NOT_RUN.",
+    "New candidate UI is not deployed and is not covered by this live browser observation."
+  ]
+}
