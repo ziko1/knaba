@@ -109,3 +109,5 @@
 - [x] Reuse workflow content; add Bauhelfer enquiry-preparation guide4locales;126built pages. Source/server QA359tests PASS.
 - [ ] Authorized test deployment on exact persisted source requires fresh canonical storage check, current73755d1CAS, private SQLite online backup + separate-file restore, immutable rollback and live readback.
 - [ ] Trusted-proxy IP/rate-limit contract, OG raster, owner/delivery/device/legal/offsite/field-performance acceptance remain OPEN. See ../docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md for final receipt.
+
+- Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.

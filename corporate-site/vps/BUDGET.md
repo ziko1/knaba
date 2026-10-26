@@ -41,3 +41,5 @@ Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: 
 - Three existing Codex executors: root integration/content/QA; ux_research Finder then independent Assistant review; code_audit Assistant then independent content/storage review.
 - Built CSS40,891B gzip, all emitted JS191,544B gzip; new editorial article is server-rendered and excluded from client route metadata. No field-performance claim.
 - Canonical storage preparation snapshot89.64% used,21,898,014,720B available, healthy; must recheck before cutover. No cache/container/image/volume/customer data deletion. Runtime limits unchanged.
+
+- Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.

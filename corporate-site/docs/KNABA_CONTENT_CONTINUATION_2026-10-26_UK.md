@@ -38,3 +38,12 @@ Client artifact SHA256 `6a5fecdda37dbc4f273f03502116bf9b6d7bac6b317f15621c808327
 - Responsive320/390/768/1440, фізичні пристрої, screen reader/zoom, реальний owner/login/delivery/roles, legal/rightsholder review, offsite restore та field CWV лишаються OPEN. Відомий sandbox blocker не обходили.
 - Наступні окремі прогалини: trusted-proxy rate-limit contract, OG raster compatibility, реальні затверджені кейси/медіа, owner і provider acceptance. Нові мови або підтверджені кейси не оголошено готовими.
 - Read-only storage review не виявив активних посилань на старі dependency caches, але cleanup не потрібний за поточним canonical gate і не виконувався. Число89.64% отримано саме через чинний `inspectStorage`, не з округленого `df` чи іншої формули. Повторна перевірка під release lock обов’язкова.
+
+
+## Повторне узгодження після паралельного live релізу
+
+Перед cutover виявлено новий live `56adc59b6665595f26eed3bbaf1319bcdd5f79ee`; кандидат931b25a НЕ розгортався. Збережено нові /partner/×4, описи п’яти партнерів і чітко позначені вигадані приклади відгуків із чужого релізу; їх не подано як справжні клієнтські свідчення. Джерела об’єднано merge33221d9, незалежний review code_audit — без блокерів,47/47scopedtests. CHAT/Finder/guide логіку не втрачено.
+
+Фінальна QA після інтеграції: check0errors/0warnings; Vitest252/252; native suites явно повторено32/27/9; VPS41/41 —361тест загалом. Build130HTML;100Studio routes;20construction-guide routes;28DEroutes/1001units. CSS40,949B gzip, JS194,007B gzip. Після початкового CSS budgetFAIL прибрано зайві декларації Finder; існуючі ліміти не підвищували. Повна повторна збірка/verifier/VPS PASS.
+
+**Чинний artifact** `0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73`. Попередні126-page/359-test результати вище — історія першого кандидата, не фінальний deploy. Новий CAS baseline56adc59; обидва наявні release locks мають бути взяті. PR93: https://github.com/ziko1/knaba/pull/93. Окремий PR92 містить ширші auth/proxy/migration зміни і потребує власної інтеграції та приймання; тут його не оголошено виконаним.

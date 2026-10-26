@@ -76,11 +76,10 @@ h3 { font-size:1.35rem; line-height:1.2; margin:.6rem 0; overflow-wrap:anywhere;
 .recommendation p { font-size:.9rem; line-height:1.6; margin:.7rem 0 1rem; }
 .recommendation .button { width:100%; white-space:normal; }
 .recommendation a { display:block; margin-top:1rem; font-size:.85rem; text-decoration:underline; text-underline-offset:4px; }
-.object-guidance { border-top:1px solid #cddbd5; padding-top:1rem; margin:1rem 0; }
-.object-guidance h4 { font-size:.9rem; line-height:1.4; margin:0 0 .6rem; }
+.object-guidance { border-top:1px solid #cddbd5; padding-top:1rem; }
+.object-guidance h4 { font-size:.9rem; margin:0 0 .6rem; }
 .object-guidance ul { padding-left:1.1rem; margin:0; font-size:.86rem; line-height:1.6; }
 .object-guidance li+li { margin-top:.5rem; }
-.object-guidance p { margin-bottom:0; }
 .note { font-size:.76rem; margin:1rem 0 0; }
 @media(max-width:370px) { .choices { grid-template-columns:1fr; } }
 </style>

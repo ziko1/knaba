@@ -1,8 +1,8 @@
 {
   "scope": "LOCAL_SOURCE_BUILD_AND_ISOLATED_SERVER_TESTS",
   "node": "24.22.1",
-  "integrationBase": "ac21d63fae5f8c3f8e18dadb5d4ccb400f9240af",
-  "latestIncludedLive": "73755d154f5e551daa53db848d46f12be15459d4",
+  "integrationBase": "33221d9",
+  "latestIncludedLive": "56adc59b6665595f26eed3bbaf1319bcdd5f79ee",
   "check": {
     "errors": 0,
     "warnings": 0,
@@ -10,7 +10,7 @@
   },
   "vitest": {
     "files": 38,
-    "passed": 250
+    "passed": 252
   },
   "nativeNodeSuites": [
     32,
@@ -18,19 +18,24 @@
     9
   ],
   "vpsTests": 41,
-  "htmlPages": 126,
+  "htmlPages": 130,
   "sourceLocales": {
-    "routes": 27,
-    "units": 982
+    "routes": 28,
+    "units": 1001
   },
   "publishedLocales": 4,
   "pendingLocales": 95,
-  "artifactSha256": "6a5fecdda37dbc4f273f03502116bf9b6d7bac6b317f15621c8083276530bbdc",
+  "artifactSha256": "0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73",
   "independentReviews": {
     "contentFinder": "no blockers",
-    "assistantRequestLifecycle": "no blockers"
+    "assistantRequestLifecycle": "no blockers",
+    "concurrentLiveIntegration": "no blockers;47scopedtests"
   },
   "browserResponsive": "NOT_RUN_KNOWN_SANDBOX_BLOCK_RETAINED",
   "live": "PENDING_DEPLOYMENT",
-  "customerReady": false
+  "customerReady": false,
+  "cssGzip": 40949,
+  "allEmittedJsGzip": 194007,
+  "studioRoutes": 100,
+  "totalAutomatedTests": 361
 }
