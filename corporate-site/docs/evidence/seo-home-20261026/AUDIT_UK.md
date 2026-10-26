@@ -8,7 +8,7 @@
 
 ## Зовнішній і технічний SEO-аудит (26.10)
 - Firecrawl live scrape (HTML, markdown, links): `/` та офіційний `https://www.knaba.de/`; перевірено head/canonical/hreflang/robots/JSON-LD та фактичний набір послуг.
-- Незалежний Python HTTP+HTMLParser crawler через VPS: **100/100 індексованих sitemap URL повернули HTTP 200**, 0 дубльованих title, 0 дубльованих meta description, усі canonical єдиний self URL, усі HTML містять lang, один H1, 4+ hreflang, коректний JSON-LD. `/robots.txt` HTTP 200, sitemap вказаний.
+- Незалежний Python HTTP+HTMLParser crawler через VPS: **100/100 публічних URL із sitemap повернули HTTP 200**, 0 дубльованих title, 0 дубльованих meta description, усі canonical єдиний self URL, усі HTML містять lang, один H1, 4+ hreflang, коректний JSON-LD. `/robots.txt` HTTP 200, sitemap вказаний.
 - На 4 головних є 7 `alt=""` для декоративних ілюстрацій каруселі; підписи до послуг присутні. Це **не** підтверджена accessibility/SEO-помилка: свідомо залишено, щоб не дублювати текст для screen readers.
 - Sitemap навмисно не включає юридичні/noindex та приватні URL: їх не можна трактувати як биті посилання через відсутність у sitemap. Повноцінний external broken-link crawl, CWV, мобільний Lighthouse, Search Console impressions/queries/clicks, позиції, crawl budget, індексація Google, backlink profile і конверсії **не виміряні**.
 
@@ -37,3 +37,8 @@
 
 ## Контроль продовження роботи
 Відкривши цей checkpoint, звірити `git rev-parse HEAD`, `git status`, поточний GitHub PR/head, точний `/srv/knaba/vps/current`; не запускати повторний rollout, якщо release змінився, поки нові зміни не інтегровані. Наступним незалежним етапом — browser QA нового staged artifact і підключення реального вимірювання SEO/конверсій після згоди власника. 
+
+## Завершальний локальний HTTP-smoke і preflight
+- У замкненому `127.0.0.1`-сервері для **того самого** `dist/client` пройшли **16/16** HTTP200: 4 головні + 3 тематичні guide URL ×4 мови; **12/12** тематичних внутрішніх посилань, **4/4** єдині семантичні блоки на головних. Це не browser visual/device acceptance.
+- `node vps/doctor.mjs /srv/knaba/vps --strict` лише read-only → `healthy`, `usedPercent=89.78`, `cutoverAllowed=true` на момент перевірки. Цей gate не замінює current-CAS, locks, офіційного дозволу власника, незалежного review, backup+restore та runtime postchecks.
+- GitHub Draft PR #98, code+catalog artifact HEAD до цієї документаційної правки `ea1f5866fe2460b9a17e41e34c54081918da8886`; runtime та build не змінено. Стан тестового VPS на момент перевірки — `0721d55c6673b1e4324c68daf41a82b4a7a7ee2e`; нову збірку **не розгорнуто**. Причина: до дозволеного контрольованого тестового перемикання не виконано незалежний code/visual review і root-only state backup/restore з блокуваннями. Не перезаписувати чинний реліз без цих gates.
