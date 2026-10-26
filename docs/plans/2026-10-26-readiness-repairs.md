@@ -13,11 +13,14 @@
 - Run inline; no verified subagent dispatch/budget available. Independent review remains NOT_RUN unless genuinely obtained.
 
 ## Tasks
-- [ ] TDD historical import/current source separation; dirty/staged/untracked/missing paths and metadata fail closed.
-- [ ] Compose exact PR67 site with preserved PR41 ERP/root contracts, selectively port PR58 owner code; maintain its traceability and original branch.
+- [x] TDD historical import/current source separation; dirty/staged/untracked/missing paths and metadata fail closed.
+- [ ] Separate PR67-based worktree for selectively ported PR58 owner code and migration repair; preserve PR41 site/ERP and all original branches.
 - [ ] TDD real SQLite migration fresh/upgrade/replay/checksum/alternate-ledger behavior; complete SQL journal/custom snapshot at 0006.
 - [ ] Run targeted and available complete module checks; preserve source-bound stdout/stderr and report unavailable scopes.
 - [ ] Commit, publish Draft candidate, read back exact Git tree and archive evidence. Release stays blocked until separate acceptance/approval.
 
 ## Review focus
 Historical anchor ancestry; arbitrary current changes must be visible not auto-accepted; pending SQL must not run before ledger validation; old SQL bytes/receipt timestamps must remain unchanged on upgrade; full owner/bridge integration and rollback must not be inferred from schema compatibility.
+
+## Ruling after source inspection
+A wholesale PR67 site replacement would change 295 files and delete the PR41 voice/owner conversation components. It was inspected only in this isolated index and restored without commit. Keep two focused repairs on their existing source lines instead of claiming an unreviewed feature-preserving combined product. Root repair: 15 source + 5 release-policy cases PASS; runtime and independent integration acceptance remain separate.
