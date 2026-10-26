@@ -1,0 +1,38 @@
+{
+  "schema": "ai-team.check.v1",
+  "project_id": "knaba-de",
+  "check_id": "K1",
+  "kind": "inspection",
+  "status": "PASS",
+  "performed_by": "chatgpt-main",
+  "recorded_at": "2026-10-26T13:52:21.809744+00:00",
+  "artifact_sha256": {
+    "A0": "90b52a5ecda713041604236843cb11b7d4c5a6ab589333001e6b9dc829d93836",
+    "A1": "964d63b5a4b88874b0aa1a64111094161d2e38d43ed4261c4bb76301b8bf9a54",
+    "A2": "84410e1d5532f18bfeb873a5f022ae9fd9ea4e39a09694af9cadfdd5d6dc845d",
+    "A3": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+    "A4": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148",
+    "A5": "9b4ed782c402189e333c02abb69e21e41ec839a5f74af55977ca3f073364d88a",
+    "A6": "034c73e092ccd8080b461f5c9844cfc979409b1e630a74473c1f82c763438cc5",
+    "A7": "3cd28886c668c783cb5573a5ad335263120d8b709224ae8c5262752da1a958b5",
+    "A8": "bafd082f557fdeeb6a7f8c4192223b7cdc7f8f63ef5ef84624164eddaf0992e9",
+    "A9": "6c8cefa7acbe636e6bacaf3cd329bd715b4aa1f5aa08033b7b6d49db77b89c47",
+    "A10": "bd5bd4a59f4de9e9e4c2b428e1d1f653f91376c75aecc4173f51b0dfa1d6dd1c",
+    "A11": "62595592c767c21c7a5ac62614cae77f64e26fe24a07c7473b558f5f1ae33b5a",
+    "A12": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e",
+    "A13": "b7b4779f3fa5795900f57c5cd612f3d56d4ef7aac926d17f7704d17c94670a9d",
+    "A14": "c88f951ad461cea390f994ec0ee2eb6e3d9525982f0707cc21eefc75bbf6b7ec",
+    "A15": "4cfee94689782d3a03b6e5d42a77efd1d049b963f78f8cafaa2880414f66e11e",
+    "A16": "cfc3015f134d83454555e3db63a1050a1973d2f2c165d521ae4db2ca352662d5",
+    "A17": "239b70c86d40a08a382e9b0a5e5ac6d68fb957c748a9917b56fe51f0e18b2e35",
+    "A18": "95b8f6e60ac92bf1f9a3f3f13501e9b5613f35ca40ea7694f86785e2f1eea624"
+  },
+  "result": {
+    "observations": [
+      "Source bytes and completed test outputs verified; scope and exact commands are in verification.json. Independent review, combined ERP runtime and live acceptance NOT_RUN.",
+      "Rechecked appended documentation checkpoint at current bytes; runtime artifacts unchanged from tested source. Documentation rebound: corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md"
+    ],
+    "tested_source_sha": "43397a708ae781674cc0887baf758ff98fa99180",
+    "verification_receipt_sha256": "87a082bde059e138a4fb0cb3b19d6a745e3a17f316252f58b75109b31437e179"
+  }
+}

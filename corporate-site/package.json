@@ -10,7 +10,7 @@
     "dev": "node scripts/preview-worker.mjs",
     "build": "astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs",
     "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
-    "test": "vitest run && node --test tests/inquiry.test.mjs tests/verify-live-artifact.test.mjs vps/migration-guard.test.mjs",
+    "test": "vitest run && node --test tests/inquiry.test.mjs tests/verify-live-artifact.test.mjs vps/migration-guard.test.mjs vps/migration-upgrade.test.mjs",
     "verify:build": "node tests/verify-build.mjs && node tests/check-project-cta.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "db:generate": "drizzle-kit generate",

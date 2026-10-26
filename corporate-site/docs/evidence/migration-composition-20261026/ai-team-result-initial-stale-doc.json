@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "project_id": "knaba-de",
+  "complete": false,
+  "complete_relative_to_manifest": false,
+  "global_completeness": "NOT_ASSERTED",
+  "requirements": {
+    "verified": 0,
+    "total": 1
+  },
+  "criteria": {
+    "verified": 0,
+    "total": 1
+  },
+  "artifacts": {
+    "verified": 18,
+    "total": 19
+  },
+  "checks": {
+    "verified": 0,
+    "total": 1
+  },
+  "tasks": {
+    "verified": 0,
+    "total": 1
+  },
+  "scoped_files": {
+    "verified": 18,
+    "total": 19
+  },
+  "findings": [
+    {
+      "code": "ARTIFACT_INVALID",
+      "message": "A2: stale or altered file: corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md"
+    },
+    {
+      "code": "CHECK_INVALID",
+      "message": "K1: check has unknown/unverified artifacts"
+    },
+    {
+      "code": "REQUIREMENT_UNVERIFIED",
+      "message": "criterion artifact is missing/stale",
+      "requirement_id": "R1"
+    },
+    {
+      "code": "TASK_UNEVIDENCED",
+      "message": "T1: no owned artifact has passed a mapped criterion and review"
+    }
+  ],
+  "requirement_results": [
+    {
+      "id": "R1",
+      "verified": false
+    }
+  ],
+  "limitations": [
+    "Coverage is relative to the supplied original-requirement list and scoped-file inventory. A coordinator must independently compare them with the full original brief and actual changes.",
+    "Recorded check outcomes and reviewer identities are not authenticated by this offline verifier. It checks exact file bytes, bindings and structure; it does not execute tests or prove live/device readiness.",
+    "Hashes describe this verification snapshot; verify again if any deliverable or evidence changes."
+  ],
+  "remediation": [
+    {
+      "code": "ARTIFACT_INVALID",
+      "message": "A2: stale or altered file: corporate-site/docs/KNABA_MIGRATION_COMPOSITION_2026-10-26_UK.md",
+      "action": "correct evidence or append a scoped remediation task; reverify"
+    },
+    {
+      "code": "CHECK_INVALID",
+      "message": "K1: check has unknown/unverified artifacts",
+      "action": "correct evidence or append a scoped remediation task; reverify"
+    },
+    {
+      "code": "REQUIREMENT_UNVERIFIED",
+      "message": "criterion artifact is missing/stale",
+      "requirement_id": "R1",
+      "action": "correct evidence or append a scoped remediation task; reverify"
+    },
+    {
+      "code": "TASK_UNEVIDENCED",
+      "message": "T1: no owned artifact has passed a mapped criterion and review",
+      "action": "correct evidence or append a scoped remediation task; reverify"
+    }
+  ]
+}
