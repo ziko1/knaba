@@ -95,6 +95,18 @@ for (const file of pages) {
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
   const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
   assert.ok(business, `${file}: LocalBusiness present`);
+  const phoneLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](tel:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
+  assert.deepEqual(phoneLinks, [`tel:${business.telephone}`], `${file}: exactly one canonical telephone link`);
+  if (/(?:^|\/)(?:en\/|uk\/|ru\/)?kontakt\/index\.html$/.test(file)) {
+    assert.doesNotMatch(html, /class="button button-dark nav-cta"/, `${file}: no header CTA to itself`);
+    assert.match(html, /<footer\b[\s\S]*?href="\/(?:en\/|uk\/|ru\/)?planer\/"/, `${file}: footer directs visitors to planner instead`);
+  }
+  const emailLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](mailto:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
+  const privacy = /(?:^|\/)datenschutz\/index\.html$/.test(file);
+  assert.equal(emailLinks.length, privacy ? 4 : 1, `${file}: no redundant mail link outside mandated privacy context`);
+  for (const card of html.matchAll(/<article\s+class=["']bau-info-card["'][^>]*>([\s\S]*?)<\/article>/g)) {
+    assert.doesNotMatch(card[1], /<a\b[^>]*\bhref=["']\/(?:en\/|uk\/|ru\/)?kontakt\/["']/i, `${file}: no repeated contact link inside an information card`);
+  }
   assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
   assert.equal(business.url, origin, `${file}: business URL uses the current host`);
   for(const node of graphNodes){
@@ -150,6 +162,31 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
   assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  const publicCatalog = '/' + prefix + 'leistungen/';
+  const extrasLabel = {
+    '':'Zusatzarbeiten ansehen',
+    'en/':'Explore additional works',
+    'uk/':'Переглянути додаткові роботи',
+    'ru/':'Подробнее о дополнительных работах'
+  }[prefix];
+  assert.ok(source.includes('class="button button-outline bau-secondary-cta" href="' + publicCatalog + '"'),
+    prefix + 'one prominent hero catalogue CTA');
+  assert.doesNotMatch(source, /class="bau-inline bau-services-more"/,
+    prefix + 'no duplicate homepage catalogue button under the six cards');
+  assert.ok(source.includes('href="' + publicCatalog + '#zusatzarbeiten"'),
+    prefix + 'context-specific extras route');
+  assert.ok(source.includes(extrasLabel),
+    prefix + 'localized extras heading link instead of another generic catalogue label');
+  for (const slug of ['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung',
+    'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten']) {
+    const detail = await readFile(resolve(root,prefix+'bauleistungen/'+slug+'/index.html'),'utf8');
+    const href='/' + prefix + 'kontakt/?anliegen=' + slug;
+    const linked=[...detail.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)]
+      .map(match=>match[1]).filter(value=>value===href);
+    assert.equal(linked.length,2,prefix+slug+' only intro and closing enquiry');
+    assert.match(detail,/class="container section section-tight service-quote"/,
+      prefix+slug+' pricing disclosure remains');
+  }
   assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
   assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
 }

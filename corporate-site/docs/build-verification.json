@@ -6,7 +6,7 @@
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40853,
+  "cssGzip": 40874,
   "allEmittedJsGzip": 187318,
   "assets": [
     {
@@ -40,9 +40,9 @@
       "gzip": 5575
     },
     {
-      "name": "_astro/ConstructionDetail.DbnmhShC.css",
-      "bytes": 5562,
-      "gzip": 1183
+      "name": "_astro/ConstructionDetail.Dr5jo8LU.css",
+      "bytes": 5310,
+      "gzip": 1126
     },
     {
       "name": "_astro/ConstructionFaq.B36A57JG.css",
@@ -55,14 +55,14 @@
       "gzip": 1987
     },
     {
-      "name": "_astro/ConstructionHome.DJi4SzHg.css",
-      "bytes": 15335,
-      "gzip": 3417
+      "name": "_astro/ConstructionHome.r-RJBkvC.css",
+      "bytes": 15775,
+      "gzip": 3504
     },
     {
-      "name": "_astro/ConstructionInfo.0zeENaJ6.css",
-      "bytes": 7262,
-      "gzip": 1434
+      "name": "_astro/ConstructionInfo.CEmfH-x0.css",
+      "bytes": 7179,
+      "gzip": 1425
     },
     {
       "name": "_astro/ConstructionPlanner.Df1NlpXi.css",
@@ -295,7 +295,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "3d6d510f16abc6c96b458442bdc42da8911d19bf1e97a283d41ccec5030cc113",
+  "artifactSha256": "e71121f05ce134eabdd56b5cabc69755df3ef704dcb5eb008f1ed6567a9513b2",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }
