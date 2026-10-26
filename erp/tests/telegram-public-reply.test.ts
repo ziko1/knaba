@@ -1,5 +1,4 @@
 import {describe,it,expect,vi} from 'vitest';
-import type {Database} from '../apps/api/database.ts';
 import {TelegramBotAdapter} from '../packages/integrations/telegram.ts';
 import {processTelegramOutbound} from '../apps/worker/telegram-delivery.ts';
 import {DomainError,type Actor,type Data,type Entity,type Transaction} from '../packages/domain/core.ts';
@@ -120,8 +119,7 @@ describe('Telegram public reply through existing worker lease and provider adapt
    await f.tx.save(ticket,{...ticket.data,created_at:new Date().toISOString()});
    const job={id:'synthetic-job',company_id:'company-a',type:'telegram.outbound_requested',
      data:{delivery_id:ticket.id},lease_token:'synthetic-lease'};
-   const db={transaction:(_company:string,_actor:string,fn:(tx:MemoryTx)=>Promise<unknown>)=>fn(f.tx)}
-     as unknown as Pick<Database,'transaction'>;
+   const db:any={transaction:async (...args:any[])=>args[2](f.tx)};
    return {f,db,job,ticketId:ticket.id};
  }
  function adapter(chat:string,request:typeof fetch){
