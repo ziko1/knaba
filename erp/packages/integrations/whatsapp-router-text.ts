@@ -1,6 +1,15 @@
 import type { SupportedLanguage } from './deepseek.ts';
 export const routerLanguages:SupportedLanguage[]=['DE','UK','RU','PL','LT','EN'];
 const rows:Record<string,string[]>={
+ modules:['Systemfunktionen','Функції системи','Функции системы','Funkcje systemu','Sistemos funkcijos','System functions'],
+ automations:['Automationsentwurf','Чернетка автоматизації','Черновик автоматизации','Szkic automatyzacji','Automatizavimo juodraštis','Automation draft'],
+ moduleSourceOnly:['ERP-Modul im Quellcode vorhanden, aber noch nicht live verbunden. Keine Aktion ausgeführt.','Модуль ERP існує у коді, але ще не підключений до сайту. Дію не виконано.','Модуль ERP есть в коде, но ещё не подключён к сайту. Действие не выполнено.','Moduł ERP nie jest jeszcze podłączony.','ERP modulis dar neprijungtas.','ERP module exists in source but is not connected live. No action performed.'],
+ moduleLinkUnavailable:['Link noch nicht freigegeben. Sicheren Webzugang prüfen.','Посилання ще не підтверджене. Скористайтеся захищеним сайтом.','Ссылка ещё не подтверждена. Используйте защищённый сайт.','Link niedostępny.','Nuoroda nepasiekiama.','Link not verified. Use the secure website.'],
+ automationIntro:['Nur der verifizierte Inhaber darf eine Regel als ENTWURF vorschlagen. Aktivierung erst nach separater Vorschau und Freigabe im ERP/MFA.','Лише перевірений власник може створити ЧЕРНЕТКУ правила. Активація — після окремого перегляду й погодження в ERP/MFA.','Только проверенный владелец может создать ЧЕРНОВИК правила. Активация — после отдельного просмотра и согласования в ERP/MFA.','Tylko właściciel: szkic, potem akceptacja w ERP/MFA.','Tik savininkui: juodraštis, tada ERP/MFA patvirtinimas.','Verified owner may create DRAFT only. Preview and ERP/MFA approval are required before activation.'],
+ automationLead:['Neue Leads zur Entscheidung','Нові заявки на погодження','Новые заявки на согласование','Nowe zapytania','Naujos užklausos','New leads for review'],
+ automationMaterial:['Materialanfragen zur Entscheidung','Заявки матеріалів на погодження','Заявки материалов на согласование','Wnioski materiałowe','Medžiagų užklausos','Material requests for review'],
+ automationNoActivation:['Nur ein Vorschlag: keine Nachrichten versendet, keine Regel aktiviert.','Лише пропозиція: повідомлень не надіслано, правило не активовано.','Только предложение: сообщения не отправлены, правило не активировано.','Tylko projekt, nie aktywowano.','Tik juodraštis, neaktyvuota.','Draft only: no messages sent and no rule activated.'],
+ automationDraftSaved:['Regel als DRAFT gespeichert; Vorschau und ERP/MFA-Freigabe stehen noch aus.','Правило збережено як ЧЕРНЕТКУ; потрібні перегляд та погодження в ERP/MFA.','Правило сохранено как ЧЕРНОВИК; нужны просмотр и согласование в ERP/MFA.','Szkic zapisany.','Juodraštis išsaugotas.','Automation DRAFT saved. ERP preview and MFA approval remain pending.'],
  main:['KNABA DE · Arbeitsmenü','KNABA DE · Робоче меню','KNABA DE · Рабочее меню','KNABA DE · Menu pracy','KNABA DE · Darbo meniu','KNABA DE · Work menu'],
  select:['Auswählen','Вибрати','Выбрать','Wybierz','Pasirinkti','Choose'],
  shift:['Meine Schicht','Моя зміна','Моя смена','Moja zmiana','Mano pamaina','My shift'],
@@ -86,7 +95,7 @@ export function originalMessageLanguage(text:string,fallback:SupportedLanguage):
 /** Exact standalone commands only. Quoted text and an ordinary sentence never execute a work action. */
 export function parseRouterCommand(text:string):{command:string;language?:SupportedLanguage}|undefined {
   const value=text.trim().replace(/^\//,'').toLocaleUpperCase();if(!value||value.length>40||value.includes('\n'))return;
-  const common=['MENU','BACK','CANCEL','CONTINUE','HELP','SHIFT','START','BREAK','RESUME','END','TRAVEL','MATERIALS','TASKS','HOURS','PAYROLL','CHATS','GPS','ADMIN','LANGUAGE','OPTIN','STOP'];
+  const common=['MODULES','AUTOMATIONS','MENU','BACK','CANCEL','CONTINUE','HELP','SHIFT','START','BREAK','RESUME','END','TRAVEL','MATERIALS','TASKS','HOURS','PAYROLL','CHATS','GPS','ADMIN','LANGUAGE','OPTIN','STOP'];
   if(common.includes(value))return {command:value};
   const aliases:Record<string,[string,SupportedLanguage]>={МЕНЮ:['MENU','UK'],ПЕРЕРВА:['BREAK','UK'],ПОВЕРНУВСЯ:['RESUME','UK'],ЗАВЕРШИТИ:['END','UK'],ПЕРЕЇЗД:['TRAVEL','UK'],МАТЕРІАЛИ:['MATERIALS','UK'],МОВА:['LANGUAGE','UK'],ДОПОМОГА:['HELP','UK'],НАЧАТЬ:['START','RU'],ПЕРЕРЫВ:['BREAK','RU'],ВЕРНУЛСЯ:['RESUME','RU'],ЗАВЕРШИТЬ:['END','RU'],ПЕРЕЕЗД:['TRAVEL','RU'],ЯЗЫК:['LANGUAGE','RU'],ПОМОЩЬ:['HELP','RU'],PAUSE:['BREAK','DE'],ENDE:['END','DE'],SPRACHE:['LANGUAGE','DE'],HILFE:['HELP','DE'],PRZERWA:['BREAK','PL'],WRÓCIŁEM:['RESUME','PL'],KONIEC:['END','PL'],JĘZYK:['LANGUAGE','PL'],POMOC:['HELP','PL'],PERTRAUKA:['BREAK','LT'],GRĮŽAU:['RESUME','LT'],BAIGTI:['END','LT'],KALBA:['LANGUAGE','LT'],PAGALBA:['HELP','LT']};
   const match=aliases[value];return match?{command:match[0],language:match[1]}:undefined;
