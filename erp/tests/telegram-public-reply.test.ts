@@ -1,4 +1,7 @@
-import {describe,it,expect} from 'vitest';
+import {describe,it,expect,vi} from 'vitest';
+import type {Database} from '../apps/api/database.ts';
+import {TelegramBotAdapter} from '../packages/integrations/telegram.ts';
+import {processTelegramOutbound} from '../apps/worker/telegram-delivery.ts';
 import {DomainError,type Actor,type Data,type Entity,type Transaction} from '../packages/domain/core.ts';
 import type {Engine} from '../apps/api/engine.ts';
 import type {PgTransaction} from '../apps/api/database.ts';
@@ -28,6 +31,13 @@ class MemoryTx implements Transaction {
     const current={...row,data,version:row.version+1};this.records.set(row.kind+':'+row.id,current);return current;
   }
   async event(type:string,data:Data){this.events.push({type,data});}
+  async query(sql:string,params:unknown[]=[]){
+    if(sql.includes('FROM outbox')&&sql.includes('leased_until>clock_timestamp()')&&
+       params[0]===this.companyId&&params[1]==='synthetic-job'&&params[2]==='synthetic-lease')
+      return {rows:[{type:'telegram.outbound_requested',data:{delivery_id:this.pendingDeliveryId}}]};
+    throw Error('UNEXPECTED_SQL_STATEMENT');
+  }
+  pendingDeliveryId='';
 }
 const t='2026-10-26T19:05:00.000Z',approved='TEST_ONLY_NOTICE_2026';
 async function fixture(){
@@ -99,5 +109,54 @@ describe('existing Telegram outbox, deterministic opt-in public responses',()=>{
      input:{...f.source.data.input,text:'Need a construction quotation tomorrow'}}};
    expect(await stageTelegramPublicReplyIn(f.tx,source,f.opts)).toEqual({status:'NOT_APPLICABLE'});
    expect(f.tx.events).toHaveLength(0);
+ });
+});
+
+describe('Telegram public reply through existing worker lease and provider adapter (synthetic HTTP)',()=>{
+ async function prepared(){
+   const f=await fixture(),staged=await f.stage(),
+     ticket=await f.tx.get('telegram_delivery',(staged as {delivery_id:string}).delivery_id);
+   f.tx.pendingDeliveryId=ticket.id;
+   await f.tx.save(ticket,{...ticket.data,created_at:new Date().toISOString()});
+   const job={id:'synthetic-job',company_id:'company-a',type:'telegram.outbound_requested',
+     data:{delivery_id:ticket.id},lease_token:'synthetic-lease'};
+   const db={transaction:async (_company:string,_actor:string,fn:(tx:MemoryTx)=>Promise<unknown>)=>fn(f.tx)}
+     as unknown as Pick<Database,'transaction'>;
+   return {f,db,job,ticketId:ticket.id};
+ }
+ function adapter(chat:string,request:typeof fetch){
+   return new TelegramBotAdapter({token:'123456:ABCDEFghijk1234567890_ABCDEFghijk',
+     enabled:true,allowedChatIds:[chat]},request);
+ }
+ it('marks accepted once with durable receipt and never repeats accepted provider send',async()=>{
+   const {f,db,job,ticketId}=await prepared();
+   const fetcher=vi.fn(async (_url:string,init?:RequestInit)=>{
+     expect(JSON.parse(String(init?.body))).toMatchObject({chat_id:f.chat});
+     return new Response(JSON.stringify({ok:true,result:{message_id:123,chat:{id:Number(f.chat)}}}),
+       {status:200,headers:{'content-type':'application/json'}});
+   });
+   const sender=adapter(f.chat,fetcher as unknown as typeof fetch);
+   await processTelegramOutbound(db,f.engine,job,sender,approved,f.opts.publicOrigin);
+   expect((await f.tx.get('telegram_delivery',ticketId)).data)
+      .toMatchObject({status:'API_ACCEPTED',provider_message_id:'123'});
+   await processTelegramOutbound(db,f.engine,job,sender,approved,f.opts.publicOrigin);
+   expect(fetcher).toHaveBeenCalledTimes(1);
+ });
+ it('revocation before provider I/O blocks all requests without Meta/Telegram network calls',async()=>{
+   const {f,db,job,ticketId}=await prepared();
+   await f.tx.save(f.setting,{...f.setting.data,telegram_opted_out:true});
+   const fetcher=vi.fn(async()=>{throw Error('NEVER_CALL_PROVIDER');});
+   await processTelegramOutbound(db,f.engine,job,adapter(f.chat,fetcher as typeof fetch),approved,f.opts.publicOrigin);
+   expect(fetcher).not.toHaveBeenCalled();
+   expect((await f.tx.get('telegram_delivery',ticketId)).data.status).toBe('BLOCKED');
+ });
+ it('unknown network result is UNKNOWN and never blindly resent on job replay',async()=>{
+   const {f,db,job,ticketId}=await prepared();
+   const fetcher=vi.fn(async()=>{throw Error('SYNTHETIC_NETWORK_TIMEOUT');});
+   const sender=adapter(f.chat,fetcher as typeof fetch);
+   await processTelegramOutbound(db,f.engine,job,sender,approved,f.opts.publicOrigin);
+   expect((await f.tx.get('telegram_delivery',ticketId)).data.status).toBe('UNKNOWN');
+   await processTelegramOutbound(db,f.engine,job,sender,approved,f.opts.publicOrigin);
+   expect(fetcher).toHaveBeenCalledTimes(1);
  });
 });
