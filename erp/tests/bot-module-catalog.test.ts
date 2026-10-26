@@ -1,6 +1,7 @@
 import {describe,it,expect} from 'vitest';
 import {botModuleById,botModulesFor,botModuleLabel,botModuleSiteUrl} from '../packages/integrations/bot-module-catalog.ts';
 import {parseRouterCommand} from '../packages/integrations/whatsapp-router-text.ts';
+import {ROLE_PERMISSIONS} from '../packages/domain/permissions.ts';
 
 const staff={roles:['EMPLOYEE'],permissions:['shift.manage','shift.read','task.read','inventory.request','chat.read']};
 const director={roles:['OWNER'],permissions:['bot.manage','bot.settings.manage','identity.manage','lead.manage',
@@ -47,4 +48,22 @@ describe('KNABA bot module catalogue / default deny',()=>{
     expect(parseRouterCommand('please /automations and approve now')).toBeUndefined();
     expect(parseRouterCommand('/approve')).toBeUndefined();
   });
+});
+
+describe('default canonical owner role: create drafts without activating business rules',()=>{
+ it('supports owner-only previews with existing role grants; does not grant approval/execution',()=>{
+  const owner={roles:['OWNER'],permissions:ROLE_PERMISSIONS.OWNER};
+  expect(owner.permissions).toContain('automation.manage');
+  expect(owner.permissions).toContain('decision.manage');
+  expect(owner.permissions).toContain('scope.company');
+  expect(owner.permissions).not.toContain('automation.approve');
+  expect(owner.permissions).not.toContain('automation.execute');
+  expect(botModuleById('automation',owner,true)).toMatchObject({
+    status:'WHATSAPP_COMMAND',command:'AUTOMATIONS'
+  });
+  for(const role of ['DIRECTOR','BOT_ADMIN']){
+    expect(botModuleById('automation',{roles:[role],permissions:ROLE_PERMISSIONS[role]},true))
+      .toBeUndefined();
+  }
+ });
 });
