@@ -14,7 +14,7 @@ describe('KNABA approved design additive contract',()=>{
   expect(guide).toContain('class="button button-dark"');
   expect(guide).toContain('href={prefix+\'/planer/\'}');
   expect(guide).not.toMatch(/font-family|@import|<script|client:load|!important/);
-  expect(guide).toContain('grid-template-columns:1fr');
+  expect(guide).toContain('class="bau-card-grid"');
  });
  it('includes four real languages and never promises a fixed price',()=>{
   for(const locale of ['de','en','uk','ru'])expect(guide).toContain(locale+':{eyebrow:');
