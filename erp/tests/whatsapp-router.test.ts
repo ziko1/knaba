@@ -198,3 +198,39 @@ describe('KNABA /MODULES and owner automation proposals (no provider I/O)',()=>{
     .toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});
  });
 });
+
+describe('WhatsApp additive worker registration interest, no automatic owner action',()=>{
+ it('registers a GUEST intent once and never grants staff identity across provider retries',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const first=await f.route('/REGISTER',undefined,'client');
+  expect(first.result).toMatchObject({handled:true,state:'WORKER_INTEREST_RECORDED'});
+  const rows=await f.db.list('worker_registration_interest');
+  expect(rows).toHaveLength(1);
+  expect(rows[0]!.data).toMatchObject({state:'REQUESTED',employee_created:false,
+    roles_granted:[],requires_owner_review:true});
+  expect((await f.db.get('user','client')).data.roles).toEqual(['GUEST','CLIENT']);
+  const repeat=await f.route('/REGISTER',undefined,'client');
+  expect(repeat.result).toMatchObject({handled:true,state:'WORKER_INTEREST_RECORDED'});
+  expect((await f.db.list('worker_registration_interest'))).toHaveLength(1);
+  expect(f.db.events.filter(x=>x.type==='worker.registration_requested')).toHaveLength(1);
+  expect(f.engine.calls).toHaveLength(0);
+ });
+ it('does not interpret prose or a recognized employee as an application',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const regular=await f.route('Please REGISTER my brother',undefined,'client');
+  expect(regular.result.handled).toBe(false);
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+  await expect(f.route('/REGISTER')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+ });
+ it('revoked contact cannot register or inherit protected worker data',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const contact=(await f.db.list('contact_identity')).find(x=>x.data.userId==='client')!;
+  await f.db.change('contact_identity',contact.id,{revoked_at:f.db.now.toISOString()});
+  await expect(f.route('/REGISTER',undefined,'client')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+ });
+});
