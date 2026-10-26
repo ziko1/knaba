@@ -7,7 +7,7 @@ import {assert,DomainError,type Actor,type Entity,type Transaction} from '../dom
  * The canonical ERP user.invite and site portal remain the only onboarding.
  */
 export type MessengerEnrollmentProvider='TELEGRAM'|'WHATSAPP';
-export type MessengerEnrollmentState='REQUESTED'|'INVITED'|'REJECTED'|'CANCELLED'|'CLOSED';
+export type MessengerEnrollmentState='REQUESTED'|'AWAITING_IDENTITY_PROOF'|'INVITED'|'REJECTED'|'CANCELLED'|'CLOSED';
 
 const digest=(...parts:string[])=>createHash('sha256').update(parts.join('\u0000')).digest('hex');
 const isValidTime=(value:unknown,now:number)=>!value||typeof value==='string'&&Number.isFinite(Date.parse(value))&&Date.parse(value)>now;
@@ -51,7 +51,7 @@ export async function captureMessengerWorkerInterest(
     assert(old.companyId===actor.companyId&&old.data.source_provider===provider&&
       old.data.guest_user_id===actor.userId&&old.data.contact_identity_id===identities[0]!.id,
       'ACCESS_DENIED');
-    assert(['REQUESTED','INVITED','REJECTED','CANCELLED','CLOSED'].includes(old.data.state),'INVALID_STATE');
+    assert(['REQUESTED','AWAITING_IDENTITY_PROOF','INVITED','REJECTED','CANCELLED','CLOSED'].includes(old.data.state),'INVALID_STATE');
     return {id:old.id,state:old.data.state as MessengerEnrollmentState,created:false};
   }catch(error){
     if(!(error instanceof DomainError&&error.code==='NOT_FOUND_SAFE'))throw error;
