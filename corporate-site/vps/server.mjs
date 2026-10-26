@@ -4,6 +4,7 @@ import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,sessionCookie,expiredCookie } from './auth.mjs';
+import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
 
@@ -99,6 +100,30 @@ function loginPage(returnTo,invalid=false){
     '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
     '<button type="submit">Anmelden</button></form><p><a href="/">Zur Website</a></p>');
 }
+function ownerActivationPage(){
+  // Capability stays in fragment (not sent to HTTP servers or access logs).
+  // A scoped private GET copies it to a hidden POST field then clears history.
+  const script="(function(){const fragment=new URLSearchParams(location.hash.slice(1));"+
+    "const token=fragment.get('token')||'';"+
+    "const ok=/^[A-Za-z0-9_-]{43}$/.test(token);"+
+    "const field=document.querySelector('input[name=token]');"+
+    "if(field&&ok)field.value=token;"+
+    "const submit=document.querySelector('button[type=submit]');"+
+    "if(submit)submit.disabled=!ok;"+
+    "history.replaceState(null,'',location.pathname);"+
+    "})();";
+  return html('KnaBa | Inhaber-Zugang aktivieren',
+    '<h1>KNABA · geschützte Inhaber-Aktivierung</h1>'+
+    '<p>Diese einmalige Einladung ist zwei Stunden gültig. Nur die berechtigte Person darf sie verwenden.</p>'+
+    '<form method="post" action="/activate-owner/">'+
+    '<input type="hidden" name="token" value="">'+
+    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label><input type="checkbox" name="attested" value="on" required> Ich bestätige, dass ich für KNABA zur Verwaltung bevollmächtigt bin.</label>'+
+    '<button type="submit" disabled>Zugang aktivieren</button></form>'+
+    '<p><a href="/login/?return_to=%2Fstudio%2F">Zur Anmeldung</a></p>'+
+    '<script>'+script+'</script>');
+}
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
     '<form method="post" action="/logout/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'"><button type="submit">Abmelden</button></form>');
@@ -152,6 +177,45 @@ export async function createKnabaVpsServer({
       if(req.method!=='GET' && req.method!=='HEAD')return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
       const destination='/'+(legacyOffice[1]?legacyOffice[1]+'/':'')+'leistungen/';
       return send(res,308,'Service catalogue moved',{Location:destination});
+    }
+    if(url.pathname==='/activate-owner/'||url.pathname==='/activate-owner'){
+      const headers={
+        'Content-Type':'text/html; charset=utf-8',
+        'Cache-Control':'private, no-store',
+        'X-Robots-Tag':'noindex,nofollow',
+        'Referrer-Policy':'no-referrer',
+        'X-Frame-Options':'DENY',
+        'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      };
+      if(!ownerEmail)return send(res,503,'Owner access is not configured.');
+      if(req.method==='GET'){
+        if(url.search)return send(res,400,'Invitation tokens must not be put in URL query strings.');
+        return send(res,200,ownerActivationPage(),headers);
+      }
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readBody(req,4096)).toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==4||new Set(keys).size!==4||
+           keys.some(k=>!['token','password','password_confirm','attested'].includes(k)))
+          return send(res,422,'Invalid activation form');
+        activateOwnerInvite(db,{
+          token:params.get('token')||'',email:ownerEmail,
+          password:params.get('password')||'',confirmed:params.get('password_confirm')||'',
+          attested:params.get('attested')==='on'
+        });
+        return redirect(res,'/login/?return_to=%2Fstudio%2F',{'Referrer-Policy':'no-referrer'});
+      }catch(error){
+        if(error?.code==='too_large')return send(res,413,'Invalid activation form');
+        if(error instanceof OwnerInviteError){
+          const invalid=/Invalid or expired invitation/.test(error.message);
+          return send(res,invalid?401:422,invalid?'Invitation expired or already used':'Check activation details');
+        }
+        return send(res,409,'Owner account activation unavailable');
+      }
     }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
