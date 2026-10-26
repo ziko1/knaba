@@ -234,3 +234,34 @@ describe('WhatsApp additive worker registration interest, no automatic owner act
   expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
  });
 });
+
+describe('owner receives employee interest queue in existing WhatsApp router, read-only',()=>{
+ it('shows only company-scoped pending reference and never exposes contact information or approves staff',async()=>{
+  const f=await setup();
+  await f.db.change('user','employee',{roles:['OWNER'],siteIds:[],warehouseIds:[],active:true});
+  await f.db.add('worker_registration_interest',{state:'REQUESTED',source_provider:'TELEGRAM',
+    guest_user_id:'guest-hidden',provider_sender:'PRIVATE_SHOULD_NOT_LEAK',
+    contact_identity_id:'hidden-contact',roles_granted:[],employee_created:false},'interest-1');
+  const r=await f.route('/WORKERS'),response=await f.response(r.result.responseId!);
+  expect(r.result).toMatchObject({handled:true,state:'WORKER_REQUESTS'});
+  expect(response.data.output.text).toContain('Заявки працівників');
+  expect(JSON.stringify(response.data.output)).not.toContain('PRIVATE_SHOULD_NOT_LEAK');
+  expect(f.engine.calls).toHaveLength(0);
+  const action=(await f.db.list('whatsapp_router_action')).find(x=>x.data.intent==='WORKER_DETAIL')!;
+  expect(action.data.permission).toBe('identity.manage');
+  const detail=await f.route(undefined,action.data.action_hash,'employee').catch(()=>null);
+  // Opaque callback token itself is never the stored hash; no direct replay.
+  expect(detail).toBeNull();
+  expect((await f.db.get('worker_registration_interest','interest-1')).data.state).toBe('REQUESTED');
+ });
+ it('denies client with injected permission and cancels stale owner reply after revocation',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['CLIENT'],permissions:['identity.manage']});
+  await expect(f.route('/WORKERS',undefined,'client')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await f.db.change('user','employee',{roles:['OWNER'],active:true,siteIds:[]});
+  const result=await f.route('/WORKERS');
+  await f.db.change('user','employee',{roles:['EMPLOYEE'],permissions:[]});
+  expect(await f.router.prepareResponse('company',result.result.responseId!))
+    .toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});
+ });
+});
