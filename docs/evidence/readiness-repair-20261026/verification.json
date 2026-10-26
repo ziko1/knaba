@@ -1,0 +1,85 @@
+{
+  "schema": "knaba.repair.evidence.v1",
+  "recorded_at": "2026-10-26T13:50:40.478517+00:00",
+  "repository": "ziko1/knaba",
+  "base_sha": "49c4db1b94cf9c7265512cd9bd8d1e972f2597de",
+  "tested_source_sha": "58ddae49ff142aa41c88a3d8afd17717265b7f9b",
+  "source_file_sha256": {
+    "AGENTS.md": "9f0753e7423ff48cdf14d3ef6600ae689f87df75d6c9cef7b8ea5d92486dbbcd",
+    "docs/plans/2026-10-26-readiness-repairs.md": "b0f1ca43789f7c42e871ef9ce438c5e646860e2f192d7187015be673c634b796",
+    "package.json": "bab9445236c8ee85065a42062f94e781827831baa638df44f41ddfccfc7a886c",
+    "scripts/verify-snapshot.mjs": "8777579ac2470a0b43274edb4516b701fb326585b40a0a2f0b2152223f65d0f8",
+    "scripts/verify-snapshot.test.mjs": "fddd6b816e305ea73dbd01a5e2ce4df79714ae76b14bbf828533e4554a2f6eeb"
+  },
+  "environment": {
+    "node": "24.22.1",
+    "synthetic_data_only": true,
+    "external_provider_calls": 0,
+    "network": "site QA: Docker network=none; root Git/node tests local offline"
+  },
+  "commands": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "scripts/*.test.mjs"
+      ],
+      "exit_code": 0,
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/verify-snapshot.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/verify-release-readiness.mjs"
+      ],
+      "exit_code": 1,
+      "expected": "release remains BLOCKED"
+    }
+  ],
+  "logs": {
+    "snapshot-red.log": {
+      "sha256": "f068c3b6d64fd95b50ed192b7cf37785070fc4fa89db588057df3d3444df974d",
+      "bytes": 19650,
+      "stored_as": "snapshot-red.log.gz",
+      "archive_sha256": "efb11e390b46de3479869d2e47011918947fecccd5d0292ed7d8d912b1064696",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "root-final-tests.log": {
+      "sha256": "44c7c5a7fc9255e381bd82880b26ef83331b3dc5919139b205e19c8be9b8077f",
+      "bytes": 1634,
+      "stored_as": "root-final-tests.log.gz",
+      "archive_sha256": "954bb56b8acd6b75bde6f5f2d21c9df161248fc903b760be9dc0c0cc963f32ef",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "root-final-source.log": {
+      "sha256": "646a0da50fa92ed19aca7d3d27fa17afeaa42827b12988e812da09e938416532",
+      "bytes": 409,
+      "stored_as": "root-final-source.log.gz",
+      "archive_sha256": "9322d72f0abea96866da9ee93c211cf9599d93adda9e91350f89f6b53602e0e2",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    },
+    "root-final-release.log": {
+      "sha256": "1a9ea387650a6b397c726d1c0c4b4109f691dacc7de4393a72f5bdfe5eb857e3",
+      "bytes": 1356,
+      "stored_as": "root-final-release.log.gz",
+      "archive_sha256": "14910f0a1bd9c174859b294dc9c1909227193ffb2fdf840b56d7515a1981b7f1",
+      "compression": "gzip; decompressed bytes exactly match original sha256"
+    }
+  },
+  "review": {
+    "self_review": "performed",
+    "independent_review": "NOT_RUN"
+  },
+  "release": "NOT_READY",
+  "live_bot_sha": "UNKNOWN",
+  "no_remote_merge_or_deployment": true
+}
