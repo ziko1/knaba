@@ -39,7 +39,7 @@
 .reviews-consent{display:flex;align-items:flex-start;gap:12px;font-size:.875rem;line-height:1.8;margin-top:24px;font-weight:400}
 .reviews-consent input{width:20px;height:20px;flex:0 0 20px;margin:4px 0 0;accent-color:#096871}
 .reviews-form .reviews-button{margin-top:20px}
-.reviews-honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.reviews-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .reviews-form .ka-captcha{max-width:100%;min-width:0;margin-top:24px}
 .reviews-form .ka-captcha-heading{font-size:.875rem;font-weight:700;margin-bottom:10px}
 .reviews-form .ka-captcha-widget{max-width:100%;min-width:0}
