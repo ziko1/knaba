@@ -1,8 +1,9 @@
 import { openLocalDatabase } from './database.mjs';
 import { createOwner } from './auth.mjs';
+import { issueOwnerInvite } from './owner-invite.mjs';
 import { backup } from 'node:sqlite';
-import { createHash } from 'node:crypto';
-import { readFile, mkdir, chmod, stat } from 'node:fs/promises';
+import { createHash, randomBytes } from 'node:crypto';
+import { readFile, mkdir, chmod, stat, lstat, writeFile } from 'node:fs/promises';
 import { DatabaseSync } from 'node:sqlite';
 import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
@@ -14,8 +15,8 @@ if(['backup','migrate'].includes(command)){
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','backup','audit','migrate'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|backup|audit|migrate\n');process.exit(2);
+if(!['init-owner','invite-owner','backup','audit','migrate'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|backup|audit|migrate\n');process.exit(2);
 }
 if(command==='audit'){
   // Read-only snapshot inspection. Never initialize schemas or silently create a database.
@@ -46,6 +47,11 @@ if(command==='migrate'){
     process.stdout.write('Pre-migration backup verified sha256='+digest+' path='+target+'\n');
   }
 }
+if(command==='invite-owner'){
+  // Invitation never bootstraps or migrates the user's database by accident.
+  const existing=await stat(dbPath).catch(()=>null);
+  if(!existing?.isFile())throw Error('An existing migrated KNABA database is required for owner invitation.');
+}
 const {db,migrations}=openLocalDatabase(dbPath,{allowMigrations:command==='migrate'});
 try {
   if(command==='init-owner'){
@@ -59,6 +65,31 @@ try {
     const password=value.replace(/[\r\n]+$/,'');
     const owner=createOwner(db,process.env.OWNER_EMAIL,password);
     process.stdout.write('Owner enrolled: '+owner.email+' (no password returned)\n');
+  }
+  if(command==='invite-owner'){
+    if(!process.env.OWNER_EMAIL)throw Error('Private OWNER_EMAIL configuration is required.');
+    let origin;
+    try{origin=new URL(process.env.KNABA_PUBLIC_ORIGIN||'');}
+    catch{throw Error('Verified KNABA HTTPS origin is required.');}
+    if(origin.protocol!=='https:'||!['knaba.de','kneba.vsp.rest'].includes(origin.hostname)||
+       origin.port||origin.username||origin.password||origin.pathname!=='/'||origin.search||origin.hash)
+      throw Error('Verified KNABA HTTPS origin is required.');
+    const directory=join(dirname(dbPath),'owner-invites');
+    await mkdir(directory,{recursive:true,mode:0o700});
+    const folder=await lstat(directory);
+    if(!folder.isDirectory()||(folder.mode & 0o077)!==0)
+      throw Error('Private owner invitation directory must be a real mode 0700 directory.');
+    // No HTTP/email delivery or automatic account creation. The operator
+    // controls the private 0600 handoff and must confirm identity separately.
+    const invite=issueOwnerInvite(db,process.env.OWNER_EMAIL);
+    const file=join(directory,'owner-invite-'+Date.now()+'-'+randomBytes(12).toString('hex')+'.json');
+    await writeFile(file,JSON.stringify({
+      to:invite.email,
+      activationUrl:origin.origin+'/activate-owner/#token='+invite.token,
+      expiresAt:new Date(invite.expiresAt).toISOString()
+    })+'\n',{encoding:'utf8',mode:0o600,flag:'wx'});
+    await chmod(file,0o600);
+    process.stdout.write(JSON.stringify({issued:true,secretFile:file,expiresAt:new Date(invite.expiresAt).toISOString()})+'\n');
   }
   if(command==='backup'){
     const location=process.env.KNABA_BACKUP_DIR||'/var/lib/knaba/backups';
