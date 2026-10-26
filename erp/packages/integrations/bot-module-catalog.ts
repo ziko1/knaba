@@ -65,6 +65,7 @@ export function botModulesFor(actor:Pick<Actor,'roles'|'permissions'>|undefined,
   return modules.filter(row=>{
     if(row.audience==='PUBLIC')return true;
     if(!trusted || !row.permission || !actor!.permissions.includes(row.permission))return false;
+    if(row.id==='automation'&&!actor!.roles.includes('OWNER'))return false;
     return row.audience==='STAFF' || actor!.roles.some(role=>ownerRoles.has(role));
   });
 }
