@@ -6,6 +6,7 @@ import {renderWhatsAppMessage,type WhatsAppInbound,type WhatsAppOutput} from './
 import type {SupportedLanguage} from './deepseek.ts';
 import {languageLabel,originalMessageLanguage,parseRouterCommand,routerLanguages,routerText} from './whatsapp-router-text.ts';
 import {botModulesFor,botModuleById,botModuleLabel,botModuleSiteUrl} from './bot-module-catalog.ts';
+import {captureMessengerWorkerInterest} from './messenger-worker-interest.ts';
 
 export interface RouterPrecondition {kind:string;id:string;version:number;}
 export interface RouterPersistence<Tx extends Transaction=Transaction> {transaction<T>(companyId:string,actorId:string,operation:(tx:Tx)=>Promise<T>):Promise<T>;}
@@ -178,6 +179,7 @@ export class WhatsAppRouter<Tx extends Transaction> {
     const mapPermission=this.mapPermission(ctx);if(mapPermission)choices.splice(Math.min(2,choices.length),0,{label:this.text(ctx,'openMap'),intent:'MAP',permission:mapPermission});
     if(ctx.actor.permissions.some(p=>['bot.manage','bot.settings.manage','integration.status','identity.manage','decision.manage'].includes(p))&&!external(ctx.actor))choices.push({label:this.text(ctx,'admin'),intent:'ADMIN'});
     choices.push({label:this.text(ctx,'modules'),intent:'MODULES'});
+    if(ctx.actor.roles.includes('GUEST'))choices.push({label:this.text(ctx,'workerInterest'),intent:'REGISTER'});
     if(ctx.actor.roles.includes('OWNER')&&this.allowed(ctx,'automation.manage')&&this.allowed(ctx,'decision.manage')&&ctx.actor.permissions.includes('scope.company'))choices.push({label:this.text(ctx,'automations'),intent:'AUTOMATIONS',permission:'automation.manage'});
     if(ctx.session.data.suspended_flow)choices.push({label:this.text(ctx,'continue'),intent:'CONTINUE'});
     choices.push({label:this.text(ctx,'language'),intent:'LANGUAGE'},{label:this.text(ctx,'help'),intent:'HELP'});return this.page(ctx,this.text(ctx,'main'),choices,'MAIN',{},offset,'MAIN');
@@ -190,6 +192,12 @@ export class WhatsAppRouter<Tx extends Transaction> {
     if(command==='LANGUAGE')return this.respond(ctx,this.text(ctx,'language'),routerLanguages.map(code=>({label:languageLabel[code],intent:'SET_LANGUAGE',payload:{language:code}})),'LANGUAGE');
     if(command==='HELP')return this.respond(ctx,`${this.text(ctx,'helpNotice')}${this.web()?`\n${this.web()}`:''}`,[{label:'MENU',intent:'MAIN'}],'HELP');
     if(command==='GPS'){this.require(ctx,'device.self');const devices=await this.visible(ctx,'device',d=>d.data.employeeId===ctx.actor.userId&&d.data.active);ctx.accessRefs.push(...devices.map(ref));return this.respond(ctx,`${this.text(ctx,'gpsNotice')}\n${devices.map(d=>d.id).join('\n')}${this.web('/app')?`\n${this.web('/app')}`:''}`,[{label:'MENU',intent:'MAIN'}],'GPS');}
+    if(command==='REGISTER'){
+      const interest=await captureMessengerWorkerInterest(ctx.tx,ctx.actor,ctx.source,ctx.now);
+      const hint=this.web('/konto/');
+      return this.respond(ctx,this.text(ctx,interest.created?'workerInterestReceived':'workerInterestExisting')+
+        (hint?'\n'+hint:''),[{label:'MENU',intent:'MAIN'}],'WORKER_INTEREST_RECORDED');
+    }
     if(command==='MODULES')return this.modules(ctx);
     if(command==='AUTOMATIONS')return this.automations(ctx);
     if(command==='ADMIN')return this.admin(ctx);
@@ -218,6 +226,7 @@ export class WhatsAppRouter<Tx extends Transaction> {
     const p=action.data.payload;
     switch(action.data.intent){
       case 'MAIN':return this.main(ctx,p.offset??0);
+      case 'REGISTER':return this.navigate(ctx,'REGISTER');
       case 'MODULES':return this.modules(ctx);
       case 'BOT_MODULE_PAGE':return this.modules(ctx,p.offset??0);
       case 'BOT_MODULE':return this.selectModule(ctx,p.id);
