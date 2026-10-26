@@ -4,6 +4,7 @@ import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '.
 import type {ConstructionLocale} from '../data/construction-offers';
 import {company} from '../data/company';
 import ServiceCarousel from './ServiceCarousel.astro';
+import ConstructionPartners from './ConstructionPartners.astro';
 import ConstructionFaq from './ConstructionFaq.astro';
 import {projectCard} from '../data/construction-project-card';
 import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
@@ -45,6 +46,7 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
     ))}
   </div>
   <a href={catalog} class="bau-inline bau-services-more">{t.all} <span aria-hidden="true">→</span></a>
+  <ConstructionPartners locale={locale} />
 </section>
 <section class="bau-contract" aria-labelledby="bau-contract-heading"><div class="container bau-contract-grid">
   <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.all} <span aria-hidden="true">→</span></a></div>

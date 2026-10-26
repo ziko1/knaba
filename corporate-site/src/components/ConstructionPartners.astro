@@ -1,0 +1,32 @@
+---
+import type { ConstructionLocale } from '../data/construction-offers';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const title={de:'Unsere Partner',en:'Our partners',uk:'Наші партнери',ru:'Наши партнёры'}[locale];
+const partners=[
+  {name:'GOLDBECK',image:'/images/partners/goldbeck.jpg',w:149,h:121},
+  {name:'BONAVA',image:'/images/partners/bonava.jpg',w:150,h:104},
+  {name:'HIT · Hanseatische Immobilien Treuhand',image:'/images/partners/hit.png',w:149,h:149},
+  {name:'Stromkreis',image:'/images/partners/stromkreis.png',w:210,h:42},
+  {name:'Gewobag',image:'/images/partners/gewobag.png',w:168,h:51},
+] as const;
+---
+<div class="knaba-partners" aria-labelledby="knaba-partners-heading">
+  <h2 id="knaba-partners-heading">{title}</h2>
+  <ul class="knaba-partners-grid" aria-label={title}>
+    {partners.map(partner=><li class="knaba-partner-card">
+      <img src={partner.image} width={partner.w} height={partner.h} alt={partner.name} loading="lazy" decoding="async" />
+      <span>{partner.name}</span>
+    </li>)}
+  </ul>
+</div>
+<style>
+.knaba-partners{margin-block:clamp(55px,7vw,90px) 0}
+.knaba-partners h2{font-size:clamp(30px,4.3vw,54px);line-height:1.15;letter-spacing:-.045em;color:#0b313b;margin:0 0 28px}
+.knaba-partners-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0}
+.knaba-partner-card{min-width:0;min-height:204px;padding:20px 14px;border:1px solid #d3e3dd;border-radius:24px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:18px}
+.knaba-partner-card img{width:100%;max-width:175px;height:110px;object-fit:contain;object-position:center}
+.knaba-partner-card span{font-size:14px;font-weight:650;line-height:1.45;color:#365751;text-align:center;overflow-wrap:anywhere}
+@media(max-width:1050px){.knaba-partners-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.knaba-partners-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.knaba-partner-card{padding:17px 12px;min-height:185px;border-radius:20px}.knaba-partner-card img{height:100px}.knaba-partner-card span{font-size:13px}}
+@media(max-width:350px){.knaba-partners-grid{grid-template-columns:1fr}.knaba-partner-card{min-height:165px}}
+</style>
