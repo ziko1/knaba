@@ -309,3 +309,10 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Based on af58e80af83449a2ee72433c958aedcf0749604f, reuses Draft PR #79 without rewriting gallery/partners/i18n99/career flows. Candidate branch fix/knaba-forward-contact-dedup-20261026.
 - One canonical clickable phone on each of 122 source-built pages, no repeated local href within 509 nav containers, contextual email/self-link guards. Node24 check/test/build/verify/VPS PASS on isolated candidate; i18n catalogue regenerated for current German source. Evidence: docs/evidence/KNABA_CONTACT_LINK_DEDUP_FORWARD_2026-10-26_UK.md.
 - Still source-only: browser/device/customer UAT, media rights, backup/rollback and owner release approval pending. No merge, public deployment, DNS, paid provider, or customer data mutation.
+
+## 26.10.2026 — KNABA Berlin SEO / marketing source candidate
+- Reuse latest homepage/order Draft PR #84 @ c1a742c2f5a5a1409cc975172ad5a82d93324c50; follow-up branch `feat/knaba-seo-marketing-20261026` (stacked, no main merge).
+- Shared SEO social tags now reuse existing first-party `images/knaba-social.png` (1200x630), with corresponding OG/Twitter titles/descriptions; existing Astro sitemap, hreflang, canonical, LocalBusiness and owner Studio SEO remain authoritative.
+- Service catalogue/detail meta descriptions use factual Berlin & Brandenburg service area in DE/EN/UK/RU. Existing `verify-build.mjs` validates all built social metadata, asset dimensions and local service intent; no new dependency, ad pixel, tracking or user-data change.
+- Research, keyword→route map, Google Business Profile actions requiring owner credentials, GDPR-safe paid campaign prerequisites and domain migration gate: `docs/evidence/KNABA_SEO_MARKETING_2026-10-26_UK.md`.
+- Still **DRAFT / NOT_DEPLOYED**. VSP vs official domain indexing policy, real Search Console/GBP access, live CWV, user-journey browser tests, actual leads/customer review, backup and release permissions are OPEN; do not claim rankings, conversions or full release.
