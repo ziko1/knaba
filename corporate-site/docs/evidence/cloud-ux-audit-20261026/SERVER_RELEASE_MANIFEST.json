@@ -1,0 +1,34 @@
+{
+  "kind": "KNABA_VERIFIED_TEST_DOMAIN_RELEASE",
+  "status": "DEPLOYED_TEST_DOMAIN_VERIFIED",
+  "sourceSha": "73755d154f5e551daa53db848d46f12be15459d4",
+  "sourceTreeSha": "4e1f58304ebfbfef8f042eadc421a592412146c6",
+  "testedSourceRef": "fix/knaba-cloud-ux-audit-20261026",
+  "artifactSha256": "f687ce5c39f2f677ecfcc6d79a7a86dad852d09307b01ea07b535ccd9df0c950",
+  "clientFiles": 220,
+  "builtHtmlPages": 122,
+  "runtimeHelperIncluded": true,
+  "qa": {
+    "check": "PASS",
+    "build": "PASS",
+    "verifyBuild": "PASS",
+    "vpsTests": {
+      "pass": 41,
+      "fail": 0
+    },
+    "node": "24.22.1",
+    "noNetwork": true,
+    "cachedPinnedDependencies": true,
+    "logSha256": "81cb4f890449d5d1b5f426b79b9fe1fce7b4266473bdba93f3d06254a3f85dcd"
+  },
+  "targetOrigin": "https://kneba.vsp.rest",
+  "officialDomainChanged": false,
+  "schemaMigrationsRequested": false,
+  "createdAtUtc": "2026-10-26T14:46:09.705614+00:00",
+  "previousSourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+  "deployedAtUtc": "2026-10-26T14:51:45.519347+00:00",
+  "deploymentReceipt": "/srv/knaba/vps/evidence/cloud-ux-audit-73755d154f5e/deployment-receipt.json",
+  "customerReady": false,
+  "databaseSchemaChanged": false,
+  "publicArtifactSha256Verified": "f687ce5c39f2f677ecfcc6d79a7a86dad852d09307b01ea07b535ccd9df0c950"
+}

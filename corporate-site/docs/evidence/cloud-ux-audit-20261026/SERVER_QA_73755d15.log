@@ -1,0 +1,571 @@
+v24.22.1
+
+> knaba-corporate-site@0.3.0 check
+> astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json
+
+14:44:13 [types] Generated 90ms
+14:44:13 [check] Getting diagnostics for Astro files in /app...
+[96mvps/server.mjs[0m:[93m120[0m:[93m25[0m - [93mwarning[0m[90m ts(6133): [0m'request' is declared but its value is never read.
+
+[7m120[0m     ASSETS:{fetch:async request=>{
+[7m   [0m [93m                        ~~~~~~~[0m
+[96mvps/server.mjs[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'createHash' is declared but its value is never read.
+
+[7m4[0m import { createHash } from 'node:crypto';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mvps/server.mjs[0m:[93m3[0m:[93m18[0m - [93mwarning[0m[90m ts(6133): [0m'relative' is declared but its value is never read.
+
+[7m3[0m import { resolve,relative,sep,join,extname } from 'node:path';
+[7m [0m [93m                 ~~~~~~~~[0m
+
+[96mvps/server.test.mjs[0m:[93m24[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'restarted' is declared but its value is never read.
+
+[7m24[0m   let restarted=false;
+[7m  [0m [93m      ~~~~~~~~~[0m
+
+Result (254 files): 
+- 0 errors
+- 0 warnings
+- 4 hints
+
+Loading svelte-check in workspace: /app
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings
+
+> knaba-corporate-site@0.3.0 build
+> node scripts/clean-build.mjs && astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs
+
+14:44:36 [types] Generated 82ms
+14:44:36 [build] output: "static"
+14:44:36 [build] mode: "static"
+14:44:36 [build] directory: /app/.astro-static/
+14:44:36 [build] Collecting build info...
+14:44:36 [build] ✓ Completed in 277ms.
+14:44:36 [build] Building static entrypoints...
+14:44:39 [vite] ✓ built in 2.70s
+14:44:41 [vite] ✓ built in 1.84s
+14:44:41 [build] Rearranging server assets...
+
+ generating static routes 
+14:44:41   ├─ /404.html (+15ms) 
+14:44:41   ├─ /admin/index.html (+10ms) 
+14:44:41   ├─ /api/catalogue.json (+2ms) 
+14:44:41   ├─ /bauleistungen/baureinigung/index.html (+3ms) 
+14:44:41   ├─ /bauleistungen/bauzwischenreinigung/index.html (+3ms) 
+14:44:41   ├─ /bauleistungen/bauendreinigung/index.html (+3ms) 
+14:44:41   ├─ /bauleistungen/baustellenraeumung/index.html (+2ms) 
+14:44:41   ├─ /bauleistungen/bauhilfe/index.html (+2ms) 
+14:44:41   ├─ /bauleistungen/kernbohrungen/index.html (+2ms) 
+14:44:41   ├─ /bauleistungen/durchbrueche/index.html (+2ms) 
+14:44:41   ├─ /bauleistungen/zusatzarbeiten/index.html (+1ms) 
+14:44:41   ├─ /berlin/index.html (+5ms) 
+14:44:41   ├─ /branchen/index.html (+2ms) 
+14:44:41   ├─ /crm/index.html (+4ms) 
+14:44:41   ├─ /datenschutz/index.html (+3ms) 
+14:44:41   ├─ /en/bauleistungen/baureinigung/index.html (+2ms) 
+14:44:41   ├─ /en/bauleistungen/bauzwischenreinigung/index.html (+1ms) 
+14:44:41   ├─ /en/bauleistungen/bauendreinigung/index.html (+1ms) 
+14:44:41   ├─ /en/bauleistungen/baustellenraeumung/index.html (+1ms) 
+14:44:41   ├─ /en/bauleistungen/bauhilfe/index.html (+1ms) 
+14:44:41   ├─ /en/bauleistungen/kernbohrungen/index.html (+1ms) 
+14:44:41   ├─ /en/bauleistungen/durchbrueche/index.html (+1ms) 
+14:44:41   ├─ /en/bauleistungen/zusatzarbeiten/index.html (+28ms) 
+14:44:41   ├─ /en/berlin/index.html (+2ms) 
+14:44:41   ├─ /en/branchen/index.html (+5ms) 
+14:44:41   ├─ /en/faq/index.html (+4ms) 
+14:44:41   ├─ /en/galerie/index.html (+3ms) 
+14:44:41   ├─ /en/karriere/index.html (+2ms) 
+14:44:41   ├─ /en/kontakt/index.html (+6ms) 
+14:44:41   ├─ /en/leistungen/index.html (+3ms) 
+14:44:41   ├─ /en/planer/index.html (+18ms) 
+14:44:41   ├─ /en/ratgeber/bauendreinigung-vorbereiten/index.html (+3ms) 
+14:44:41   ├─ /en/ratgeber/baureinigung-phasen/index.html (+2ms) 
+14:44:41   ├─ /en/ratgeber/baureinigung-kosten-planen/index.html (+1ms) 
+14:44:41   ├─ /en/ratgeber/bauuebergabe-checkliste/index.html (+1ms) 
+14:44:41   ├─ /en/ratgeber/index.html (+2ms) 
+14:44:41   ├─ /en/unternehmen/index.html (+2ms) 
+14:44:41   ├─ /en/index.html (+9ms) 
+14:44:41   ├─ /faq/index.html (+3ms) 
+14:44:41   ├─ /galerie/index.html (+3ms) 
+14:44:41   ├─ /impressum/index.html (+2ms) 
+14:44:41   ├─ /karriere/index.html (+26ms) 
+14:44:41   ├─ /kontakt/index.html (+3ms) 
+14:44:41   ├─ /konto/index.html (+25ms) 
+14:44:41   ├─ /languages.json (+7ms) 
+14:44:41   ├─ /leistungen/unterhaltsreinigung/index.html (+2ms) 
+14:44:41   ├─ /leistungen/bueroreinigung/index.html (+1ms) 
+14:44:41   ├─ /leistungen/glasreinigung/index.html (+1ms) 
+14:44:41   ├─ /leistungen/baureinigung/index.html (+1ms) 
+14:44:41   ├─ /leistungen/grundreinigung/index.html (+1ms) 
+14:44:41   ├─ /leistungen/treppenreinigung/index.html (+1ms) 
+14:44:41   ├─ /leistungen/index.html (+2ms) 
+14:44:41   ├─ /planer/index.html (+5ms) 
+14:44:41   ├─ /postfach/index.html (+4ms) 
+14:44:41   ├─ /ratgeber/bueroreinigung-checkliste/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/bauendreinigung-vorbereiten/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/reinigungsleistungen-vergleichen/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/baureinigung-phasen/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/baureinigung-kosten-planen/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/bauuebergabe-checkliste/index.html (+1ms) 
+14:44:41   ├─ /ratgeber/index.html (+2ms) 
+14:44:41   ├─ /robots.txt (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/baureinigung/index.html (+2ms) 
+14:44:41   ├─ /ru/bauleistungen/bauzwischenreinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/bauendreinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/baustellenraeumung/index.html (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/bauhilfe/index.html (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/kernbohrungen/index.html (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/durchbrueche/index.html (+1ms) 
+14:44:41   ├─ /ru/bauleistungen/zusatzarbeiten/index.html (+1ms) 
+14:44:41   ├─ /ru/berlin/index.html (+2ms) 
+14:44:41   ├─ /ru/branchen/index.html (+2ms) 
+14:44:41   ├─ /ru/datenschutz/index.html (+3ms) 
+14:44:41   ├─ /ru/faq/index.html (+9ms) 
+14:44:41   ├─ /ru/galerie/index.html (+2ms) 
+14:44:41   ├─ /ru/impressum/index.html (+11ms) 
+14:44:41   ├─ /ru/karriere/index.html (+2ms) 
+14:44:41   ├─ /ru/kontakt/index.html (+2ms) 
+14:44:41   ├─ /ru/konto/index.html (+4ms) 
+14:44:41   ├─ /ru/leistungen/unterhaltsreinigung/index.html (+2ms) 
+14:44:41   ├─ /ru/leistungen/bueroreinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/leistungen/glasreinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/leistungen/baureinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/leistungen/grundreinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/leistungen/treppenreinigung/index.html (+1ms) 
+14:44:41   ├─ /ru/leistungen/index.html (+3ms) 
+14:44:41   ├─ /ru/planer/index.html (+4ms) 
+14:44:41   ├─ /ru/postfach/index.html (+2ms) 
+14:44:41   ├─ /ru/ratgeber/bueroreinigung-checkliste/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/bauendreinigung-vorbereiten/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/reinigungsleistungen-vergleichen/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/baureinigung-phasen/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/baureinigung-kosten-planen/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/bauuebergabe-checkliste/index.html (+1ms) 
+14:44:41   ├─ /ru/ratgeber/index.html (+2ms) 
+14:44:41   ├─ /ru/unternehmen/index.html (+2ms) 
+14:44:41   ├─ /ru/index.html (+3ms) 
+14:44:41   ├─ /sitemap.xml (+3ms) 
+14:44:41   ├─ /studio/index.html (+5ms) 
+14:44:41   ├─ /studio-media.json (+2ms) 
+14:44:41   ├─ /uk/bauleistungen/baureinigung/index.html (+2ms) 
+14:44:41   ├─ /uk/bauleistungen/bauzwischenreinigung/index.html (+1ms) 
+14:44:41   ├─ /uk/bauleistungen/bauendreinigung/index.html (+1ms) 
+14:44:41   ├─ /uk/bauleistungen/baustellenraeumung/index.html (+1ms) 
+14:44:41   ├─ /uk/bauleistungen/bauhilfe/index.html (+1ms) 
+14:44:41   ├─ /uk/bauleistungen/kernbohrungen/index.html (+1ms) 
+14:44:41   ├─ /uk/bauleistungen/durchbrueche/index.html (+1ms) 
+14:44:41   ├─ /uk/bauleistungen/zusatzarbeiten/index.html (+1ms) 
+14:44:41   ├─ /uk/berlin/index.html (+2ms) 
+14:44:41   ├─ /uk/branchen/index.html (+2ms) 
+14:44:41   ├─ /uk/faq/index.html (+3ms) 
+14:44:41   ├─ /uk/galerie/index.html (+32ms) 
+14:44:41   ├─ /uk/karriere/index.html (+3ms) 
+14:44:41   ├─ /uk/kontakt/index.html (+3ms) 
+14:44:41   ├─ /uk/leistungen/index.html (+2ms) 
+14:44:41   ├─ /uk/planer/index.html (+3ms) 
+14:44:41   ├─ /uk/ratgeber/bauendreinigung-vorbereiten/index.html (+2ms) 
+14:44:41   ├─ /uk/ratgeber/baureinigung-phasen/index.html (+1ms) 
+14:44:41   ├─ /uk/ratgeber/baureinigung-kosten-planen/index.html (+1ms) 
+14:44:41   ├─ /uk/ratgeber/bauuebergabe-checkliste/index.html (+1ms) 
+14:44:41   ├─ /uk/ratgeber/index.html (+2ms) 
+14:44:41   ├─ /uk/unternehmen/index.html (+2ms) 
+14:44:41   ├─ /uk/index.html (+3ms) 
+14:44:41   ├─ /unternehmen/index.html (+2ms) 
+14:44:41   ├─ /index.html (+3ms) 
+14:44:41 ✓ Completed in 520ms.
+
+14:44:41 [build] ✓ Completed in 5.23s.
+14:44:41 [build] 122 page(s) built in 5.51s
+14:44:41 [build] Complete!
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.5 building server environment for production...
+transforming...
+✓ 21 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/.vite/manifest.json    0.15 kB │ gzip:  0.11 kB
+dist/server/wrangler.json          1.52 kB │ gzip:  0.77 kB
+dist/server/index.js             156.58 kB │ gzip: 41.64 kB
+
+✓ built in 63ms
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/.assetsignore                  0.02 kB
+dist/client/__cloudflare_fallback_entry__  0.00 kB │ gzip: 0.02 kB
+
+✓ built in 59ms
+
+  dist/vps/render-page.mjs  183.1kb
+
+⚡ Done in 12ms
+
+> knaba-corporate-site@0.3.0 verify:build
+> node tests/verify-build.mjs && node scripts/i18n-source-catalog.mjs verify-source && node scripts/audit-i18n-output.mjs && node tests/check-project-cta.mjs && node tests/verify-construction-icons.mjs
+
+{
+  "scope": "production-build-static-validation",
+  "pages": 122,
+  "internalLinks": "PASS",
+  "metadata": "PASS",
+  "indexMode": "VSP_PUBLIC",
+  "externalImageScriptRequests": "NONE_IN_HTML",
+  "externalPartnerImagesInMarkup": 0,
+  "cssGzip": 40810,
+  "allEmittedJsGzip": 187663,
+  "assets": [
+    {
+      "name": "_astro/AdminControlCenter.Cn0sjOBw.js",
+      "bytes": 14236,
+      "gzip": 5648
+    },
+    {
+      "name": "_astro/AssistantCaptcha.6JFtqcaw.js",
+      "bytes": 4593,
+      "gzip": 2151
+    },
+    {
+      "name": "_astro/AssistantInbox.DEp6QQFZ.js",
+      "bytes": 9984,
+      "gzip": 3918
+    },
+    {
+      "name": "_astro/Catalogue.BEvrMu9l.js",
+      "bytes": 2497,
+      "gzip": 1257
+    },
+    {
+      "name": "_astro/CleaningChecklist.DTxOthYo.js",
+      "bytes": 3524,
+      "gzip": 1802
+    },
+    {
+      "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+      "bytes": 16365,
+      "gzip": 5575
+    },
+    {
+      "name": "_astro/ConstructionDetail.Dr5jo8LU.css",
+      "bytes": 5310,
+      "gzip": 1126
+    },
+    {
+      "name": "_astro/ConstructionFaq.B36A57JG.css",
+      "bytes": 7557,
+      "gzip": 1534
+    },
+    {
+      "name": "_astro/ConstructionGuide.BwTvmGH_.css",
+      "bytes": 10027,
+      "gzip": 1987
+    },
+    {
+      "name": "_astro/ConstructionHome.BiwcYlN_.css",
+      "bytes": 15830,
+      "gzip": 3520
+    },
+    {
+      "name": "_astro/ConstructionInfo.CEmfH-x0.css",
+      "bytes": 7179,
+      "gzip": 1425
+    },
+    {
+      "name": "_astro/ConstructionPlanner.Df1NlpXi.css",
+      "bytes": 5088,
+      "gzip": 1365
+    },
+    {
+      "name": "_astro/CrmConsole.BTYlkLay.css",
+      "bytes": 4198,
+      "gzip": 1364
+    },
+    {
+      "name": "_astro/CrmConsole.Dm_TuNAg.js",
+      "bytes": 10138,
+      "gzip": 3858
+    },
+    {
+      "name": "_astro/Inquiry.BTuxlwAM.js",
+      "bytes": 20428,
+      "gzip": 7302
+    },
+    {
+      "name": "_astro/KnabaAssistant.CDL77fMx.css",
+      "bytes": 6740,
+      "gzip": 2115
+    },
+    {
+      "name": "_astro/KnabaAssistant.QriFaoJO.js",
+      "bytes": 28989,
+      "gzip": 10613
+    },
+    {
+      "name": "_astro/Layout.DTHz471I.css",
+      "bytes": 60637,
+      "gzip": 13944
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.DprYTaxp.js",
+      "bytes": 1155,
+      "gzip": 653
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.BhO731dw.js",
+      "bytes": 4534,
+      "gzip": 1856
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_2_lang.DwkLSAzj.js",
+      "bytes": 699,
+      "gzip": 402
+    },
+    {
+      "name": "_astro/Partners.DySK8qOf.css",
+      "bytes": 4962,
+      "gzip": 1345
+    },
+    {
+      "name": "_astro/Portal.Cx2O2xH9.js",
+      "bytes": 73090,
+      "gzip": 20236
+    },
+    {
+      "name": "_astro/Portal.D7rXCBWs.css",
+      "bytes": 15312,
+      "gzip": 3780
+    },
+    {
+      "name": "_astro/PublicReviews.CVGPDiyJ.js",
+      "bytes": 8789,
+      "gzip": 3335
+    },
+    {
+      "name": "_astro/ServiceFinder.BVhXWwx6.js",
+      "bytes": 3152,
+      "gzip": 1543
+    },
+    {
+      "name": "_astro/SiteStudio.CwM3dz5f.css",
+      "bytes": 9098,
+      "gzip": 2701
+    },
+    {
+      "name": "_astro/SiteStudio.Ds5fJ25f.js",
+      "bytes": 38503,
+      "gzip": 12741
+    },
+    {
+      "name": "_astro/admin.DZEqblwF.css",
+      "bytes": 7323,
+      "gzip": 2346
+    },
+    {
+      "name": "_astro/client.BmCSL1aC.js",
+      "bytes": 1023,
+      "gzip": 618
+    },
+    {
+      "name": "_astro/client.BvmcPhtz.js",
+      "bytes": 36300,
+      "gzip": 14158
+    },
+    {
+      "name": "_astro/client.CduTYU_c.js",
+      "bytes": 7604,
+      "gzip": 3505
+    },
+    {
+      "name": "_astro/client.svelte.B37ztSkl.js",
+      "bytes": 889,
+      "gzip": 496
+    },
+    {
+      "name": "_astro/construction-offers.Ckck60VF.js",
+      "bytes": 9942,
+      "gzip": 3861
+    },
+    {
+      "name": "_astro/inquiry-navigation.zQJP3-Dy.js",
+      "bytes": 338,
+      "gzip": 237
+    },
+    {
+      "name": "_astro/planner.BdiWDzIp.js",
+      "bytes": 7145,
+      "gzip": 2949
+    },
+    {
+      "name": "_astro/portal-contract.C8CYT_9k.js",
+      "bytes": 240,
+      "gzip": 193
+    },
+    {
+      "name": "_astro/portal-i18n.B5JfUKAg.js",
+      "bytes": 43529,
+      "gzip": 13893
+    },
+    {
+      "name": "_astro/preload-helper.DHhhL8Zf.js",
+      "bytes": 1665,
+      "gzip": 852
+    },
+    {
+      "name": "_astro/public-i18n.028mNz-8.js",
+      "bytes": 42148,
+      "gzip": 12360
+    },
+    {
+      "name": "_astro/request-id.BT2U5kLe.js",
+      "bytes": 525,
+      "gzip": 350
+    },
+    {
+      "name": "_astro/reviews.8c45fDDb.js",
+      "bytes": 15162,
+      "gzip": 5494
+    },
+    {
+      "name": "_astro/reviews.CsUgINld.css",
+      "bytes": 8374,
+      "gzip": 2258
+    },
+    {
+      "name": "_astro/rolldown-runtime.DK3Fl9T5.js",
+      "bytes": 158,
+      "gzip": 154
+    },
+    {
+      "name": "_astro/runtime-core.esm-bundler.CGTtZF5w.js",
+      "bytes": 67280,
+      "gzip": 25876
+    },
+    {
+      "name": "_astro/site-studio-contract.D7bJSmpy.js",
+      "bytes": 3851,
+      "gzip": 1834
+    },
+    {
+      "name": "_astro/store.DTuZ3aM8.js",
+      "bytes": 5128,
+      "gzip": 2046
+    },
+    {
+      "name": "_astro/vue-app.C4bVv5_6.js",
+      "bytes": 6097,
+      "gzip": 2888
+    },
+    {
+      "name": "_astro/web.Bis8Lcub.js",
+      "bytes": 34020,
+      "gzip": 13009
+    },
+    {
+      "name": "illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "gzip": 52158
+    },
+    {
+      "name": "illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "gzip": 70105
+    },
+    {
+      "name": "illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "gzip": 80215
+    },
+    {
+      "name": "illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "gzip": 36885
+    },
+    {
+      "name": "illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "gzip": 61222
+    },
+    {
+      "name": "illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "gzip": 64216
+    },
+    {
+      "name": "illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "gzip": 56898
+    }
+  ],
+  "artifactSha256": "f687ce5c39f2f677ecfcc6d79a7a86dad852d09307b01ea07b535ccd9df0c950",
+  "fieldWebVitals": "NOT_RUN",
+  "networkTransfer": "NOT_MEASURED"
+}
+{"status":"PASS","digest":"78509ae377b255f06f998f24ecfbc34e4f4494d23cf33c9bdf203d47fab1d11f","routes":26,"units":944}
+{"status":"PASS","targetLanguages":99,"published":4,"pending":95,"checkedPages":24,"checkedSvgAssets":16}
+PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and exact 01–06 labels
+PASS: 52 localized SVG icon placements/sections (DE,EN,UK,RU; 8 details per locale), static/a11y
+
+> knaba-corporate-site@0.3.0 test:vps
+> node --test vps/*.test.mjs
+
+✔ published FAQ question/answer leaf edits preserve accordion, second item and HTML escaping (34.855132ms)
+✔ untrusted FAQ rich text fails closed instead of changing HTML (0.430443ms)
+✔ sign-in card includes padding inside viewport width for 320px devices (1.354416ms)
+✔ audit never bootstraps missing customer database (59.606065ms)
+✔ audit is genuinely read-only, migration count and integrity verified (48.393136ms)
+✔ verified unique SQL filenames match Drizzle journal without changing DB (7.387017ms)
+✔ parallel owner invite and ERP both numbered 0005 are rejected before migration (1.08223ms)
+✔ new SQL absent from journal is blocked rather than silently skipped on D1 (0.712897ms)
+✔ journal entries without corresponding SQL and malformed journal fail closed (0.897327ms)
+✔ duplicate journal order cannot imply two applied steps (0.659812ms)
+✔ symlinked SQL is not followed during preflight (0.5774ms)
+✔ current public-review sequence retains all six canonical SQL entries (2.248513ms)
+✔ fresh actual SQLite contains public reviews and passes integrity (7.551912ms)
+✔ actual baseline 1 upgrades once and retains prior receipts/data (6.145483ms)
+✔ actual baseline 5 upgrades once and retains prior receipts/data (4.900304ms)
+✔ unknown historical ledger fails closed before creating pending public reviews (5.537922ms)
+✔ all applied checksums are checked before any earlier pending SQL runs (3.587088ms)
+✔ pending migration is refused when allowMigrations=false (6.428889ms)
+✔ duplicate source ordinal is rejected before creating SQLite or parent directory (1.467936ms)
+✔ journal cannot silently reverse the SQL application order (1.371982ms)
+✔ journal timestamps must be finite and strictly increasing (1.570302ms)
+✔ online synthetic SQLite backup restores the complete migration ledger and preserved data (13.415855ms)
+✔ published article edits keep JSON-LD aligned with rendered H1 and description (75.799148ms)
+✔ article sync does not publish drafts, accept invalid HTML edits or rewrite malformed JSON-LD (3.964676ms)
+✔ a search title edit preserves visible article headline and unrelated structured data (2.780712ms)
+✔ only the canonical article is synchronized and ambiguous headings fail closed (10.862534ms)
+✔ owner published section background+padding and headline font size combine safely (34.195239ms)
+✔ unsafe design tokens fail closed, preserving original HTML (0.34331ms)
+✔ published leaf text and existing link/image attributes are rendered in actual HTML, without removing SVG icon (78.805018ms)
+✔ content edits in draft, invalid tokens and paths are never sent in HTML (0.518855ms)
+✔ missing/outdated selectors cannot corrupt HTML or remove scripts (16.491401ms)
+✔ Server-side published color and SEO are escaped and stable (7.271441ms)
+✔ real VPS review flow preserves idempotency, trusted owner moderation, privacy and restart durability (358.078539ms)
+✔ published title and description update server HTML head, OG while preserving canonical/robots (3.095942ms)
+✔ no drafts/empty/corrupt published or duplicate SEO entries are rendered (0.295354ms)
+✔ untrusted content never creates script, attributes, or second tags (0.364786ms)
+✔ title metadata updates do not change the body or head for non SEO edits (0.183802ms)
+✔ official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup (564.868204ms)
+✔ vsp HTTPS canonical Host verification and narrowly scoped HSTS (19.360459ms)
+✔ storage safety: normal, low-free, high-usage and critical profiles (0.924449ms)
+✔ unknown/impossible measurements fail closed (0.351273ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2676.998795

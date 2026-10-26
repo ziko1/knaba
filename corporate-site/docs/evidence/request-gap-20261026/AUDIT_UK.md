@@ -63,3 +63,6 @@ Before cutover, server advanced to73755d154f5e551daa53db848d46f12be15459d4 at14:
 - Deployment/storage/runtime hashes: `deployment-receipt.json`; server build: `vps-build-verification.json`, `vps-build-verify.log.gz`. Storage after cutover89.64%,cutoverAllowed=true.
 
 The broader VOICE-01, ERP-01, PAY-01, full STUDIO-01 and95 pending languages remain open as described above. The available memory was reconciled; inaccessible chats, owner credentials, commercial integrations and actual customer testimonials were not invented.
+
+### Final forward integration of planner hydration fix
+PR89 advanced to7c28657 while PR94 was opened. Preserved that full commit and its evidence; resolved only the generated build-report conflict by regenerating the merged report. Additional runtime changes are exactly Catalogue ready-state gating and ConstructionPlanner client:load, preventing a dropped first click before hydration. Independent source review PASS. Repeated check/test/build/verify/VPS all PASS (224Vitest,64native,41VPS), recorded in `forward-hydration-qa.log.gz`. Review examples and partner profiles are unchanged. The next deployment receipt and focused browser checks attest this final combined source separately from the earlier56adc rollout.

@@ -7,7 +7,7 @@
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
   "cssGzip": 40879,
-  "allEmittedJsGzip": 190127,
+  "allEmittedJsGzip": 191427,
   "assets": [
     {
       "name": "_astro/AdminControlCenter.DwIbIO8s.js",
@@ -28,6 +28,11 @@
       "name": "_astro/Catalogue.BEvrMu9l.js",
       "bytes": 2497,
       "gzip": 1257
+    },
+    {
+      "name": "_astro/Catalogue.Crju7cCp.js",
+      "bytes": 2569,
+      "gzip": 1300
     },
     {
       "name": "_astro/CleaningChecklist.DTxOthYo.js",
@@ -290,7 +295,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "55d3ecdf9dfc72df8a89b7c14540cb67f7f4c7f4bbf1e8ddadcdac765c89f09f",
+  "artifactSha256": "a76f9158c4f3828d836722a899b4b68d64be312b598485faa4ac814e411abf0b",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }
