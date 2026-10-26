@@ -8,6 +8,7 @@ const common=[
   {path:'/leistungen/',title:'Bauleistungen'},
   {path:'/branchen/',title:'B2B Branchen'},
   {path:'/unternehmen/',title:'Unternehmen'},
+  {path:'/galerie/',title:'Galerie'},
   {path:'/karriere/',title:'Karriere'},
   {path:'/kontakt/',title:'Kontakt'},
   {path:'/planer/',title:'Planer'},

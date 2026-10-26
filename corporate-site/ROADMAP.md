@@ -252,3 +252,40 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Localize original KNABA logo slogan for DE/EN/UK/RU using one generator and shared responsive layout.
 - [x] 118-route parity and 16 SVG test receipts, checksum-backed rollback.
 - [ ] Native Opera/device/200% zoom acceptance, independent visual review and customer language approval.
+
+## KNABA official parity / licensed media gate — 26.10.2026
+
+| ID | Criterion | State |
+| --- | --- | --- |
+| OP01 | Verify existing functions vs real official public pages before changes, no duplicate partner block or contact handler | Source audit recorded; reuse existing |
+| OP02 | Internal links only on preview, active-origin Studio href validation, no source-note marketing UI | Source changes and regression checks added; build/runtime NOT_RUN |
+| OP03 | Shared four-locale Gallery + nav + Studio + SEO parity using first-party illustrations | Implemented source only; QA/build NOT_RUN |
+| OP04 | German/Russian third-party partner CDN privacy and image-rights disclosure | Draft legal source only; owner/rightsholder review REQUIRED |
+| OP05 | Verify genuine rights on original project photos/logos and any certifications or professional licenses | BLOCKED pending documentary proof; no fabricated claims |
+| OP06 | Node24 tests/build, mobile 320/390/768/1440, independent QA, exact artifact, VPS release checksum and backup/rollback | Native Node24 subset 51/51 PASS at code SHA 29af230; full build/browser/independent review BLOCKED, no deploy or merge approval |
+
+See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
+
+## PUBLIC-HTTP-RELEASE-GATE-2026-10-26
+- [x] Add read-only fail-closed HTTP acceptance to existing Draft PR #73 for 4 localized home pages, 4 galleries, /healthz and /readyz; synthetic 7/7 PASS and live 9/10 FAIL (correct refusal to promote).
+- [x] Repair partner CDN's actual HTTP500 transform-order defect in all five existing URLs; fetched exact resulting JPEG/PNG as **5/5 HTTP200**, known dimensions and byte counts. Regression assertion added to existing partner Vitest. Both are **source-only** until deploy.
+- [ ] Pass full Node >=22.23.4 `npm ci; npm run check; npm test; npm run build; KNABA_RELEASE_MODE=vsp npm run verify:build` on latest exact runtime SHA; independent security/code/visual review.
+- [ ] Confirm rightsholder permission for partner-logo publication and CDN client-IP/GDPR; self-host only after actual copyright approval. Real mobile/browser 320/390/768/1440 DE/EN/UK/RU with screenshots and keyboard/contrast/zoom.
+- [ ] Securely activate actual rightful customer owner through verified one-use invite; live /readyz is currently 503 `owner enrollment required`. Do not fake readiness or bypass owner authentication.
+- [ ] Only after authorized immutable staging rollout with verified backup/rollback, re-run `npm run verify:live`: 10/10 site-route PASS and 5/5 partner-media PASS (if all five logos rendered), plus artifact SHA match and owner UAT; production/main require a separate exact release approval.
+
+## PR #73 Node24 focused QA checkpoint — 26.10.2026
+- [x] Restore source-based contrast test selection without duplicating the request card: commit `29af230`; 8/8 contrast, 51/51 combined native Node24 tests PASS on that exact code SHA.
+- [x] Preserve PR #72 KN-LOGO-I18N localization/asset QA receipts in the stacked PR documentation instead of discarding them during integration.
+- [ ] Pinned clean `npm ci`, full Astro/Vue/Svelte check, Vitest, build and `verify:build` remain NOT_RUN/blocked by execution policy on this branch. Native Node tests are not an equivalent gate.
+- [ ] Independent code/security review, browser/reflow/keyboard/language QA and logo rights/CDN approval; verify owner activation and preview deployment integrity with separate authorization.
+
+## PR73 STACK-AND-MEDIA-GATE-2026-10-26
+
+- [x] Merge PR72 updated localized logo assets (15 additions) into the existing PR73 after resolving the shared `Layout.astro` edits; GitHub `mergeable_state=clean` with base `16dd23c7c9ee1fad9f10cb4d45c2c366c6900845`.
+- [x] Native Node18 source-pinned 19/19 existing logo/locale/contrast tests PASS, exact matched SVG + generator blobs.
+- [x] Extend existing `verify:live` so five images must really load with valid signatures via bounded, allowlisted HTTPS GETs, not merely exist as five HTML cards; TDD red captured the silent CDN HTTP500 false positive, code commit `f9bba323ea4d6eef003528c6911be641a42da42d`, 11/11 targeted Node tests PASS.
+- [x] Re-run the exact new `verify:live` against old preview: 9/10 HTTP checks FAIL as expected, since site is not up to date and customer owner enrollment still not confirmed; five media checks are correctly not attempted where five partner elements are absent.
+- [ ] Full clean Node >=22.23.4 `npm ci && npm run check && npm test && npm run build && KNABA_RELEASE_MODE=vsp npm run verify:build` pinned to final source; independent review, actual responsive/keyboard/screenreader QA.
+- [ ] Rights holder approval for partner logos and data protection of cross-origin CDN. Authenticated invitation claim by genuine KNABA owner, preserving `/readyz` security gate.
+- [ ] After verification and explicit preview rollout approval, immutable backup/CAS deploy, full postdeploy `verify:live`: 10 site routes + 5 genuine media fetches, AND source SHA/artifact match. Production/public release requires separate verified approval.

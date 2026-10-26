@@ -39,7 +39,8 @@ async function validateBrand(browser,origin){
         });
         assert.ok(info.overflow<=1,`${lang}/${width} horizontal overflow: ${info.overflow}`);
         for(const [surface,img] of [['header',info.header],['footer',info.footer]]){
-          const target=`/images/knaba-3d-${width<=700?'mobile-':''}${surface}.svg`;
+          const localeSuffix=lang==='de'?'':'-'+lang;
+          const target=`/images/knaba-3d-${width<=700?'mobile-':''}${surface}${localeSuffix}.svg`;
           assert.equal(new URL(img.src).pathname,target,`${lang}/${width} ${surface} responsive source`);
           assert.ok(img.naturalWidth>0&&img.height>0,`${lang}/${width} ${surface} image loaded`);
           assert.ok(img.x>=-1&&img.right<=info.viewport+1,`${lang}/${width} ${surface} clipped`);

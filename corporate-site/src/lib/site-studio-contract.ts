@@ -1,3 +1,4 @@
+import { siteConfig } from '../data/site.ts';
 /**
  * Shared, deliberately restricted public-content contract.
  * No HTML/CSS/script authoring, no arbitrary DOM selectors or remote images.
@@ -66,6 +67,6 @@ export function safeStudioHref(value: string): boolean {
   if(value.startsWith('/') && !value.startsWith('//') && !value.includes('\\') && !/[\s<>]/.test(value)) return true;
   try {
     const url=new URL(value);
-    return ['https://kneba.vsp.rest','https://knaba.de','https://www.knaba.de'].includes(url.origin) && !url.username && !url.password;
+    return url.origin === siteConfig.origin && !url.username && !url.password;
   } catch { return false; }
 }
