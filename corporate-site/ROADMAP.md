@@ -253,3 +253,14 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Independent source review and exact tested code receipt (`dc279a9fb9148278b86f808394b52371d5cb80ed`); publication is a Draft PR, with no deployment acceptance. See `docs/evidence/assistant-erp-bridge-qa.json`.
 - [ ] Inventory actual legacy data if present; real owner UAT, approved mapping/credentials, retention/legal controls and target backup/rollback rehearsal before activation.
 - [ ] Separate approval for merge, deployment, live migration and real dispatch. Voice/WhatsApp calling, ERP channel and bidirectional operator handoff require a later contract.
+
+## 2026-10-26 — MIGRATION-ORDINAL-001 (source-only PR67)
+
+| ID | Acceptance | Result |
+| --- | --- | --- |
+| MIG-SEQ-PRECHECK | Єдиний fail-closed source validator до будь-якого SQLite create; перевірка SQL ordinal, journal, regular files | **SOURCE TESTED**: branch PR67, commit `9c2e87ec4830271006eec6d52883c5f8c69dc093`, Node18 tests 7/7, syntax and exact blob readback PASS |
+| MIG-SEQ-SQL | Обидві фактичні таблиці owner/ERP сумісні з попередніми 0000–0004 | **DISPOSABLE PYTHON SQLITE PASS**: обидва порядки, 15 таблиць, integrity=ok, foreign_keys=ok. Не означає D1/production upgrade PASS |
+| MIG-SEQ-INTEGRATE | Об'єднати PR #58/#67, забезпечити єдині порядкові номери SQL і Drizzle journal/snapshot, не змінити applied migration | **BLOCKED / NOT IMPLEMENTED**: PRs залишаються незалежними Draft; потрібна canonical integration branch + exact live schema ledger |
+| MIG-SEQ-RELEASE | Node24 повний QA, owner auth, ERP/assistant integration, rollback/restore, independent review й owner prod go/no-go | **NOT RUN / NOT DEPLOYED**; поточні VPS/клієнтські дані не змінювалися |
+
+Не дублювати функцію міграції, SQL або проектні критерії; це доповнення існуючої VPS бази й PR67, а не новий сервіс.
