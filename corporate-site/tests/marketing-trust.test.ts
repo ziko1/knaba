@@ -53,7 +53,9 @@ describe('Marketing and testimonials trust gate',()=>{
     expect(marketing).toContain('marketingStories[locale]');
     expect(marketing).toContain('src={item.image}');
     expect(marketing).toContain('/images/knaba-editorial-cleaning-triptych.webp');
-    expect(marketing).toContain('figcaption>{imageCaption}</figcaption>');
+    expect(marketing).toContain('{imageCaption}</figcaption>');
+    expect(marketing).toContain('class="service-card marketing-story"');
+    expect(marketing).not.toContain('<style>');
     const webp=readFileSync(new URL('../public/images/knaba-editorial-cleaning-triptych.webp',import.meta.url));
     expect(webp.subarray(0,4).toString()).toBe('RIFF');
     expect(webp.subarray(8,12).toString()).toBe('WEBP');
