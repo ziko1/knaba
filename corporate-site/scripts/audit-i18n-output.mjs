@@ -1,6 +1,6 @@
 /**
  * KNABA translation release gate: check *published* public routes and approved
- * first-party branded SVG assets. Pending targets cannot leak into SEO or URLs.
+ * first-party branded SVG and PNG social assets. Pending targets cannot leak into SEO or URLs.
  * Run after the exact-source static build; fail-closed, no network or database.
  */
 import {readFileSync, existsSync, statSync} from 'node:fs';
@@ -24,7 +24,7 @@ function nodes(root,name,out=[]){
   for(const child of root.childNodes||[])nodes(child,name,out);
   return out;
 }
-let checkedPages=0,checkedAssets=0;
+let checkedPages=0,checkedAssets=0,checkedSocialAssets=0;
 for(const code of published){
   const suffix=code==='de'?'':'-'+code;
   for(const page of ['/', '/kontakt/', '/leistungen/', '/planer/', '/faq/', '/unternehmen/']){
@@ -36,7 +36,10 @@ for(const code of published){
     const metas=nodes(doc,'meta'),links=nodes(doc,'link'),images=nodes(doc,'img'),sources=nodes(doc,'source');
     const meta=(key)=>metas.find(x=>getAttr(x,'property')===key);
     const img=getAttr(meta('og:image'),'content')||'';
-    assert(img.includes('/images/knaba-3d-header'+suffix+'.svg'),code+page+' old/wrong social logo');
+    const socialPath='/images/knaba-social'+suffix+'.png';
+    assert(img.endsWith(socialPath),code+page+' old/wrong social image');
+    const twitterImage=metas.find(x=>getAttr(x,'name')==='twitter:image');
+    assert(getAttr(twitterImage,'content')===img,code+page+' OG/Twitter image mismatch');
     assert(getAttr(meta('og:image:alt'),'content')?.includes(brand[code].slogan),code+page+' untranslated social label');
     assert(images.some(x=>(getAttr(x,'src')||'').includes('/images/knaba-3d-header'+suffix+'.svg')),code+page+' wrong header');
     assert(images.some(x=>(getAttr(x,'src')||'').includes('/images/knaba-3d-footer'+suffix+'.svg')),code+page+' wrong footer');
@@ -47,6 +50,13 @@ for(const code of published){
     assert(alternates.length===published.length+1,code+page+' unreviewed locale in hreflang');
     checkedPages++;
   }
+  const socialImage=join(root,'images','knaba-social'+suffix+'.png');
+  assert(existsSync(socialImage),code+' missing social PNG');
+  const bytes=readFileSync(socialImage);
+  assert(statSync(socialImage).size<150000,code+' oversized social PNG');
+  assert(bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),code+' incorrect social PNG magic');
+  assert(bytes.readUInt32BE(16)===1200&&bytes.readUInt32BE(20)===630,code+' invalid social PNG dimensions');
+  checkedSocialAssets++;
   for(const surface of ['header','footer','mobile-header','mobile-footer']){
     const file=join(root,'images','knaba-3d-'+surface+suffix+'.svg');
     assert(existsSync(file),code+' missing '+surface+' brand asset');
@@ -63,4 +73,4 @@ for(const entry of manifest.locales.filter(x=>x.status==='pending')){
   assert(!Object.hasOwn(brand,entry.code),entry.code+' has unapproved brand');
   assert(!existsSync(join(root,entry.code,'index.html')),entry.code+' falsely published');
 }
-console.log(JSON.stringify({status:'PASS',targetLanguages:99,published:published.length,pending:manifest.pending,checkedPages,checkedSvgAssets:checkedAssets}));
+console.log(JSON.stringify({status:'PASS',targetLanguages:99,published:published.length,pending:manifest.pending,checkedPages,checkedSvgAssets:checkedAssets,checkedSocialAssets}));
