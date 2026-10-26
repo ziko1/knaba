@@ -79,7 +79,7 @@ test('loopback preview is explicit and external SSRF origins are rejected',async
 
 test('all discovered same-origin non-sitemap pages are audited',async()=>{
   const m=mock({'/':new Response(html('de','<a href="/extra/">More</a>'),{headers:{'content-type':'text/html'}}),
-    '/extra/':new Response(html('de','<h2>Extra</h2>'),{headers:{'content-type':'text/html'}})});
+    '/extra/':new Response(html('de','<h2>Extra</h2>').replace('href="'+base+'"','href="'+base+'/extra/"'),{headers:{'content-type':'text/html'}})});
   const r=await auditPublicLinks({fetchImpl:m.fetch,expectedSitemapRoutes:2});
   assert.equal(r.extraPages,1);
   assert.equal(r.checkedPages,3);
