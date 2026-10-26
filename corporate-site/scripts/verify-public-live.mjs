@@ -62,6 +62,9 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
       if(status===200&&kind==='page') {
         if(!response.headers.get('content-type')?.toLowerCase().includes('text/html')) errors.push('NOT_HTML');
         errors.push(...inspect(await readBounded(response),lang,path.endsWith('/galerie/')?'gallery':'home'));
+      } else if(status===503&&kind==='ready') {
+        const note=(await readBounded(response)).trim();
+        if(note==='owner enrollment required') errors.push('OWNER_ENROLLMENT_REQUIRED');
       } else await response.body?.cancel().catch(()=>{});
     } catch(error) {
       errors.push(error?.message==='BODY_TOO_LARGE'?'BODY_TOO_LARGE':'FETCH_FAILED');

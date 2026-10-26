@@ -19,7 +19,7 @@ function mock({cards=ids,ready=200,gallery=200,legacy=false,missingAlt=false,fai
   return async url=>{
     const path=new URL(url).pathname;
     if(path===fail) throw Error('network');
-    if(path==='/readyz') return new Response('ready',{status:ready});
+    if(path==='/readyz') return new Response(ready===503?'owner enrollment required':'ready',{status:ready});
     if(path==='/healthz') return new Response('healthy',{status:200});
     const lang=(path.match(/^\/(en|uk|ru)\//)||[])[1]||'de';
     const g=path.endsWith('/galerie/');
@@ -42,7 +42,7 @@ test('only three logos: four language homes fail closed',async()=>{
 });
 test('/readyz 503 fails even if /healthz 200',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock({ready:503})});
-  assert.deepEqual(r.checks.at(-1).errors,['HTTP_503']);
+  assert.deepEqual(r.checks.at(-1).errors,['HTTP_503','OWNER_ENROLLMENT_REQUIRED']);
 });
 test('four missing galleries are not accepted',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock({gallery:404})});
