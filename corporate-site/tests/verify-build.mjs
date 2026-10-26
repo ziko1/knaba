@@ -28,11 +28,12 @@ const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
 const titles = new Set();
-const expectedSocialImage = origin + '/images/knaba-social.png';
-const socialPng = await readFile(resolve(root,'images/knaba-social.png'));
-assert.deepEqual([...socialPng.subarray(0,8)],[137,80,78,71,13,10,26,10],'Social image must be PNG');
-assert.equal(socialPng.readUInt32BE(16),1200,'Social image width');
-assert.equal(socialPng.readUInt32BE(20),630,'Social image height');
+for (const suffix of ['', '-en', '-uk', '-ru']) {
+  const socialPng = await readFile(resolve(root,'images/knaba-social'+suffix+'.png'));
+  assert.deepEqual([...socialPng.subarray(0,8)],[137,80,78,71,13,10,26,10],'Social image must be PNG '+suffix);
+  assert.equal(socialPng.readUInt32BE(16),1200,'Social image width '+suffix);
+  assert.equal(socialPng.readUInt32BE(20),630,'Social image height '+suffix);
+}
 let externalPartnerImagesInMarkup = 0;
 for (const file of files) {
   const bytes = await readFile(file);
@@ -52,6 +53,7 @@ for (const file of pages) {
   assert.match(html, /<html lang="(de|en|uk|ru)"/);
   // One accessible locale disclosure in the header, not a full-width strip.
   const locale = html.match(/<html lang="(de|en|uk|ru)"/)?.[1];
+  const expectedSocialImage = origin + '/images/knaba-social' + (locale === 'de' ? '' : '-' + locale) + '.png';
   const languageMenu = html.match(/<details class="site-language-switcher">([\s\S]*?)<\/details>/);
   assert.ok(languageMenu, `${file}: language dropdown must exist`);
   assert.match(languageMenu[1], /<summary\b[^>]*aria-label="[^"]+"/);
