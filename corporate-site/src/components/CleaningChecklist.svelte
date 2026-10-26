@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getService, getPreparation } from "../lib/planner";
+  import { getService, getTopicPreparation } from "../lib/planner";
   import { plannerStore } from "../stores/planner";
   import { publicText, type PublicLocale } from "../lib/public-i18n";
   import {offerBySlug} from '../data/construction-offers';
@@ -13,7 +13,7 @@
   let checked = $state<string[]>([]);
   const service = $derived(getService(selected, locale));
   const offer = $derived(offerBySlug(topic));
-  const preparation = $derived(getPreparation(selected, locale));
+  const preparation = $derived(getTopicPreparation(topic, selected, locale));
   const completed = $derived(checked.filter((item) => preparation.includes(item)).length);
   onMount(() => {
     selected = plannerStore.getState().service;
@@ -31,7 +31,7 @@
 
 <section class="checklist" aria-labelledby="checklist-heading">
   <div class="tool-kicker"><span>02</span> {t("GUT VORBEREITET ANFRAGEN")}</div>
-  <h2 id="checklist-heading">{t("Ihr Reinigungsplan.")}</h2>
+  <h2 id="checklist-heading">{{de:"Ihr Projektplan.",en:"Your project plan.",uk:"Ваш план проєкту.",ru:"Ваш план проекта."}[locale]}</h2>
   <p class="intro">{t("Eine kleine Merkliste für das erste Gespräch.")}</p>
   <div class="selected-service" aria-live="polite" aria-atomic="true">
     <span>{t("AUSGEWÄHLTE LEISTUNG")}</span>

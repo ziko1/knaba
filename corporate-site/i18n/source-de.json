@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "06abef87ae018a0bad55721b16c5ff6d5ebac2f588bbf7cb7de33072534a57eb",
+  "sourceDigest": "4fa9eb32d9bdec06a8ecb96b2023ea58db733649ad41246fcdf856cbb2482cdb",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -311,8 +311,7 @@
       "kind": "text",
       "source": "Unsere Leistungen am Bau",
       "routes": [
-        "/",
-        "/planer/"
+        "/"
       ]
     },
     "071e054bb1a5efb8459b514b": {
@@ -2128,6 +2127,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "3b16da78a6a6fb24ad3ef036": {
+      "kind": "meta:og:title",
+      "source": "Bauprojekt planen | KnaBa",
+      "routes": [
+        "/planer/"
+      ]
+    },
     "3b384a63ebcc8465d5e44091": {
       "kind": "text",
       "source": "Zugang, Wasser und Strom vor Ort klären",
@@ -2767,7 +2773,8 @@
         "/bauleistungen/bauzwischenreinigung/",
         "/bauleistungen/zusatzarbeiten/",
         "/kontakt/",
-        "/leistungen/"
+        "/leistungen/",
+        "/planer/"
       ]
     },
     "4cbd58c9dc50462ba0bf1d06": {
@@ -2797,13 +2804,6 @@
       "source": "4. Änderungen und Übergabe vorher regeln",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
-      ]
-    },
-    "4d8e71f72a21249071e6d277": {
-      "kind": "text",
-      "source": "Leistungskatalog wird geladen …",
-      "routes": [
-        "/planer/"
       ]
     },
     "4da1bd984792d1a52f9954cb": {
@@ -3073,7 +3073,8 @@
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/bauzwischenreinigung/",
         "/bauleistungen/zusatzarbeiten/",
-        "/leistungen/"
+        "/leistungen/",
+        "/planer/"
       ]
     },
     "53f2d983fac2d025e847836a": {
@@ -5054,7 +5055,8 @@
         "/bauleistungen/baureinigung/",
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/durchbrueche/",
-        "/leistungen/"
+        "/leistungen/",
+        "/planer/"
       ]
     },
     "8ece33f01df1a5f7f570a80a": {
@@ -5625,13 +5627,6 @@
         "/unternehmen/"
       ]
     },
-    "9ede8ffff0be746d7bab8b98": {
-      "kind": "text",
-      "source": "Unsere Leistungen am Bau | KnaBa",
-      "routes": [
-        "/planer/"
-      ]
-    },
     "9edf5ec6fcd04b38c746e1a3": {
       "kind": "text",
       "source": "Sie können Ihre Einwilligung für die Zukunft widerrufen und die Entfernung Ihrer Rückmeldung über",
@@ -6008,13 +6003,6 @@
       "source": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
-      ]
-    },
-    "acabe4b25272eae476197ae6": {
-      "kind": "text",
-      "source": "Ihr Reinigungsplan.",
-      "routes": [
-        "/planer/"
       ]
     },
     "acb15eaabe4adcdf9439ed29": {
@@ -6429,7 +6417,8 @@
         "/bauleistungen/bauzwischenreinigung/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
-        "/leistungen/"
+        "/leistungen/",
+        "/planer/"
       ]
     },
     "bc00cd80f4489b36f9581a86": {
@@ -6442,7 +6431,8 @@
         "/bauleistungen/baureinigung/",
         "/bauleistungen/baustellenraeumung/",
         "/bauleistungen/bauzwischenreinigung/",
-        "/leistungen/"
+        "/leistungen/",
+        "/planer/"
       ]
     },
     "bc8bc95e5aaeb1fd42e2443b": {
@@ -7814,13 +7804,6 @@
         "/"
       ]
     },
-    "e1f2b5552b556712c7b43c78": {
-      "kind": "meta:og:title",
-      "source": "Unsere Leistungen am Bau | KnaBa",
-      "routes": [
-        "/planer/"
-      ]
-    },
     "e24299ecb637f660f24b9b08": {
       "kind": "text",
       "source": "Was vorab geklärt werden muss",
@@ -8079,6 +8062,13 @@
         "/ratgeber/baureinigung-phasen/"
       ]
     },
+    "ec221a44c0eea9066f73f090": {
+      "kind": "text",
+      "source": "Im Plan ausgewählt ✓",
+      "routes": [
+        "/planer/"
+      ]
+    },
     "ec4b1b8457848a7bf16bb656": {
       "kind": "text",
       "source": "Fragen & Antworten",
@@ -8153,6 +8143,13 @@
       "source": "Bauunternehmen, Generalunternehmer und Projektverantwortliche können Reinigungs- und Bauhilfsleistungen für definierte Bauabschnitte anfragen.",
       "routes": [
         "/faq/"
+      ]
+    },
+    "ef4c935956ebd0babcb71c1b": {
+      "kind": "text",
+      "source": "Ihr Projektplan.",
+      "routes": [
+        "/planer/"
       ]
     },
     "ef9cfa49092d9e6cb2b79286": {
@@ -8275,6 +8272,13 @@
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "f48aeaa6f7b73b56010c93cd": {
+      "kind": "text",
+      "source": "Bauprojekt planen | KnaBa",
+      "routes": [
+        "/planer/"
       ]
     },
     "f4a18806370880c6c5c22acf": {

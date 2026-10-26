@@ -224,7 +224,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
         fallback={
           <>
             <Show when={receipt()} fallback={<p class="form-status">{t("Bitte prüfen Sie Ihre Angaben. Mit „Anfrage senden“ übermitteln Sie diese direkt an KnaBa.")}</p>}>
-              <div class="receipt-card" role="status"><strong>{t("Anfrage eingegangen")}</strong><p>{t("Ihre Vorgangsnummer:")} <code>{receipt()}</code></p><p>{t("Wir prüfen Ihren Bedarf. Ein Termin und ein Auftrag entstehen erst nach persönlicher Vereinbarung.")}</p><p>{t("Bei Rückfragen erreichen Sie uns unter")} <a href={company.phoneHref}>{company.phone}</a>.</p></div>
+              <div class="receipt-card" role="status"><strong>{t("Anfrage eingegangen")}</strong><p>{t("Ihre Vorgangsnummer:")} <code>{receipt()}</code></p><p>{t("Wir prüfen Ihren Bedarf. Ein Termin und ein Auftrag entstehen erst nach persönlicher Vereinbarung.")}</p></div>
             </Show>
             <div class="review-summary">
               <label for="inquiry-summary">
