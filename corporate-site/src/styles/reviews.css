@@ -14,10 +14,6 @@
 .review-card figcaption{display:grid;gap:5px;border-top:1px solid #c6d1cc;padding-top:18px;font-size:.875rem;line-height:1.6}
 .review-card figcaption strong{font-size:1rem;color:#133d40}
 .review-meta{color:#4f6867;font-size:.75rem}
-.reviews-empty{display:flex;gap:20px;align-items:center;padding:clamp(24px,4vw,38px);border:1px solid #d0e3d9;border-radius:21px;background:linear-gradient(110deg,#edf6ed,#f4f8ed);color:#14343b}
-.reviews-empty-mark{display:grid;place-items:center;flex:0 0 60px;width:60px;height:60px;border-radius:18px;background:#d4ecdb;color:#166c71;font-size:2rem}
-.reviews-empty h3{font-size:clamp(20px,2.6vw,29px);line-height:1.23;letter-spacing:-.025em;margin:0 0 10px;color:#163b40}
-.reviews-empty p{font-size:.925rem;line-height:1.7;color:#48635d;margin:0}
 .reviews-action{display:flex;justify-content:flex-start;margin-top:24px}
 .reviews-button{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:48px;padding:13px 21px;border:1px solid #123a43;border-radius:10px;background:#123a43;color:#fff;font:inherit;font-size:.875rem;font-weight:750;line-height:1.5;cursor:pointer;max-width:100%;text-align:center;overflow-wrap:anywhere;white-space:normal}
 .reviews-button:hover{background:#075f65;border-color:#075f65}
@@ -72,5 +68,5 @@
 .reviews-moderation-filter select{min-width:0;max-width:100%;min-height:44px;border:1px solid #a5beb3;border-radius:8px;padding:8px 12px;background:#fff;color:#14343b;font:inherit}
 .reviews-pagination{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:20px;font-size:.8125rem;line-height:1.6}
 @media(max-width:900px){.reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reviews-heading{grid-template-columns:1fr;gap:18px}.reviews-heading>p{max-width:70ch}}
-@media(max-width:600px){.reviews-empty{align-items:flex-start;gap:12px;padding:21px}.reviews-empty-mark{flex-basis:42px;width:42px;height:42px;font-size:1.5rem}.reviews-grid,.reviews-form-grid{grid-template-columns:1fr}.review-card{padding:24px}.reviews-moderation{padding:16px}.reviews-moderation-card{padding:18px}.reviews-moderation-card dl{grid-template-columns:1fr}}
+@media(max-width:600px){.reviews-grid,.reviews-form-grid{grid-template-columns:1fr}.review-card{padding:24px}.reviews-moderation{padding:16px}.reviews-moderation-card{padding:18px}.reviews-moderation-card dl{grid-template-columns:1fr}}
 @media(max-width:380px){.review-form-panel{padding:18px}.reviews-form :is(input:not([type=checkbox]),textarea,select){padding-inline:9px}.reviews-button{gap:10px;padding-inline:16px}}
