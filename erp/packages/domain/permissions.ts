@@ -18,7 +18,7 @@ export const ROLE_PERMISSIONS:Record<string,string[]>={
 };
 export function hasPermission(actor:Actor,p:string){return actor.permissions.includes(p);}
 export function enforcePermission(actor:Actor,p:string){if(!hasPermission(actor,p))throw new DomainError('ACCESS_DENIED');}
-export const sensitiveKinds=new Set(['user','employee','contact_identity','role_assignment','session','device','tracking_policy','location_sample','geopoint','payroll_calculation','rate_history','official_payslip','payout','payout_allocation','receipt','media_upload','knowledge','assistant_config']);
+export const sensitiveKinds=new Set(['user','employee','contact_identity','role_assignment','session','device','tracking_policy','location_sample','geopoint','payroll_calculation','rate_history','official_payslip','payout','payout_allocation','receipt','media_upload','knowledge','assistant_config','worker_registration_interest']);
 export function publicEntity(e:Entity):Entity{const data={...e.data};for(const key of ['passwordHash','password_hash','totpSecret','totp_secret','tokenHash','token_hash','codeHash','code_hash','csrf_hash','accessToken','apiKey','secret','privateKey'])delete data[key];return {...e,data};}
 // Command permissions are canonical; roles receive no implicit wildcard or finance/GPS bypass.
 const add=(role:string,rights:string[])=>ROLE_PERMISSIONS[role]=[...new Set([...(ROLE_PERMISSIONS[role]??[]),...rights])];
