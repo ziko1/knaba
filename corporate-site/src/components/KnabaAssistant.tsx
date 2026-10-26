@@ -35,6 +35,13 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const captchaChanged=(status:CaptchaState,token='')=>{setCaptchaStatus(status);setCaptchaToken(token);};
   const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
   let recognition:Recognition|null=null,log:HTMLDivElement|undefined;
+  let launcher:HTMLButtonElement|undefined,closeButton:HTMLButtonElement|undefined;
+  const closePanel=()=>{
+    recognition?.stop();window.speechSynthesis?.cancel();setRecording(false);
+    setOpen(false);setCaptchaToken('');setCaptchaStatus('loading');
+    queueMicrotask(()=>launcher?.focus());
+  };
+  createEffect(()=>{if(open())queueMicrotask(()=>closeButton?.focus());});
   const privacyPath=locale==='ru'?'/ru/datenschutz/':'/datenschutz/';
   onMount(()=>{
     try {
@@ -138,9 +145,9 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     setCaptchaToken('');setCaptchaStatus('loading');setCaptchaResetVersion(v=>v+1);
   }
   return <aside class="ka-wrap" lang={locale}>
-    <Show when={open()} fallback={<button type="button" class="ka-launcher" onClick={()=>setOpen(true)} aria-label={t.open}><span aria-hidden="true">✳</span> KNABA Assistant</button>}>
-      <section role="dialog" aria-modal="false" aria-label="KNABA Assistant" class="ka-panel">
-        <header class="ka-header"><div><strong>✳ KNABA Assistant</strong><small>{t.tag}</small></div><button type="button" class="ka-icon" onClick={()=>{setOpen(false);setCaptchaToken('');setCaptchaStatus('loading');}} aria-label={t.close}>×</button></header>
+    <Show when={open()} fallback={<button ref={launcher} type="button" class="ka-launcher" onClick={()=>setOpen(true)} aria-label={t.open}><span aria-hidden="true">✳</span> KNABA Assistant</button>}>
+      <section role="dialog" aria-modal="false" aria-label="KNABA Assistant" class="ka-panel" onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closePanel();}}}>
+        <header class="ka-header"><div><strong>✳ KNABA Assistant</strong><small>{t.tag}</small></div><button ref={closeButton} type="button" class="ka-icon" onClick={closePanel} aria-label={t.close}>×</button></header>
         <div ref={log} class="ka-history" aria-live="polite" aria-relevant="additions">
           <p class="ka-message ka-assistant"><span>KNABA Assistant</span>{assistantGreeting(locale)}</p>
           <For each={thread()?.messages??[]}>{item=><p class={`ka-message ka-${item.sender}`}><span>{item.sender==='owner'?'KnaBa':item.sender==='assistant'?'KNABA Assistant':''}</span>{item.content}</p>}</For>

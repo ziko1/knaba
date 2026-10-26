@@ -288,3 +288,15 @@ User requests implementation and deployment to existing development site, preser
 - [x] Push exact integration source to `fix/knaba-vsp-forward-integration-20261026` for off-host persistence. No main merge/public cutover.
 - [ ] Verify partner trademark usage rights, business claims, actual owner UAT, native device/browser zoom/screen reader and third-party independent security/privacy review.
 - [ ] Pre-cutover current-release lease + verified off-host backup/restore and rollback; separate authorized atomic VSP publication; 4-locale live `verify:live` + health and SHA attestation. Official-domain release remains separate.
+
+
+## KN-CLOUD-AUDIT-20261026 — current user acceptance request
+Source: user requests full kneba.vsp.rest user/browser audit, fixes, repository persistence and test-server rollout. Base/live verified 2164b9505f824486594b2633a05f5fd91aee8c04. Existing canonical scope is retained.
+- UX-01: Crawl every discoverable public route in cloud Chrome; verify titles/H1, images, desktop reflow, navigation and core form/planner/assistant/FAQ/gallery flows. Mobile/device/a11y and authenticated owner acceptance tracked separately.
+- UX-02: Expose all five core construction choices in the planner using existing marketing topics and unchanged CRM service enum; selected state/checklist/contact topic must agree in DE/EN/UK/RU.
+- UX-03: Forward-integrate PR84 section order (process → company/partners → reviews/FAQ → final action), preserving latest labels/brand/components; no duplicate phone after form success.
+- API-01: Honor Studio's bounded 32KiB payload allowance while keeping normal 12KiB request cap; streaming/header bypass regressions and persistence proof.
+- QA-01: Required check/test/build/i18n/build verifier/VPS gates; independent diff review on exact source.
+- OPS-01: Persist tested source off-host, verify fresh source/artifact/DB backup/storage gate, roll out to explicitly authorized development domain only, preserve rollback and reverify browser.
+- FULL-01: Record remaining ERP/voice/provider/owner/device/legal/field-performance gaps honestly; no fabricated feature completion, paid providers or main/official-domain release.
+Team: root (UI/browser/integration), project_audit (API source), release_audit (server/storage + independent review). External provider spending: none dispatched; account balances unknown.
