@@ -96,7 +96,7 @@ function loginPage(returnTo,invalid=false){
   return html('KnaBa | Sicher anmelden','<h1>KnaBa · sicher anmelden</h1><p>Verwaltungszugang für autorisierte Personen.</p>'+error+
     '<form method="post" action="/login/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'">'+
     '<label>E-Mail<input type="email" name="email" autocomplete="username" required maxlength="320"></label>'+
-    '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Passwort<input type="password" name="password" autocomplete="current-password" required minlength="8" maxlength="256"></label>'+
     '<button type="submit">Anmelden</button></form><p><a href="/">Zur Website</a></p>');
 }
 function logoutPage(returnTo){
