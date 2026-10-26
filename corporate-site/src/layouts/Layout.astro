@@ -69,7 +69,8 @@ const nav = [
   ["/ratgeber/", "Bauratgeber"],
 ].map(([url,label],index)=>[localPath(url),lang==='de'?label:translatedNav[lang][index]]);
 const canonical = new URL(path, siteConfig.origin);
-const socialImage = new URL('/images/knaba-social.png', siteConfig.origin).href;
+const socialAsset = lang === 'de' ? 'knaba-social.png' : `knaba-social-${lang}.png`;
+const socialImage = new URL('/images/' + socialAsset, siteConfig.origin).href;
 const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
 const pageSchemas = Array.isArray(schema) ? schema : [schema];
 const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url:siteConfig.origin+'/',name:'KnaBa',inLanguage:['de','en','uk','ru']};
