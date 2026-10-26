@@ -1,10 +1,11 @@
 import {describe,it,expect} from 'vitest';
 import {studioPages} from '../src/lib/studio-pages';
 import {normalizeStudioPage} from '../src/lib/site-studio-contract';
+import {constructionGuideRoutes} from '../src/data/construction-guide-routes';
 
 describe('Studio editable site route inventory',()=>{
-  it('offers all 96 multilingual core, partner, FAQ, service and construction guide pages',()=>{
-    expect(studioPages).toHaveLength(96);
+  it('offers all 100 multilingual core, partner, FAQ, service and construction guide pages',()=>{
+    expect(studioPages).toHaveLength(100);
     expect(new Set(studioPages.map(x=>x.path)).size).toBe(studioPages.length);
     for(const item of studioPages){
       expect(normalizeStudioPage(item.path)).toBe(item.path);
@@ -13,7 +14,7 @@ describe('Studio editable site route inventory',()=>{
   });
   it('includes each construction article in all published languages without retired office guides',()=>{
     for(const prefix of ['', '/en', '/uk', '/ru']) {
-      for(const slug of ['bauendreinigung-vorbereiten','baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste'])
+      for(const {slug} of constructionGuideRoutes)
         expect(studioPages.some(page=>page.path===prefix+'/ratgeber/'+slug+'/')).toBe(true);
       expect(studioPages.some(page=>page.path===prefix+'/ratgeber/bueroreinigung-checkliste/')).toBe(false);
     }
@@ -33,9 +34,9 @@ describe('Studio editable site route inventory',()=>{
       expect(studioPages.some(x=>x.path===prefix+'/bauleistungen/kernbohrungen/')).toBe(true);
     }
   });
-  it('exposes all four guides in four published languages without private routes',()=>{
+  it('exposes every published guide in four languages without private routes',()=>{
     for(const prefix of ['', '/en','/uk','/ru']){
-      for(const slug of ['baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste','bauendreinigung-vorbereiten']){
+      for(const {slug} of constructionGuideRoutes){
         const path=prefix+'/ratgeber/'+slug+'/';
         expect(studioPages.some(page=>page.path===path)).toBe(true);
         expect(normalizeStudioPage(path)).toBe(path);

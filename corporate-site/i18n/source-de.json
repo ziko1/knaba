@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "4fa9eb32d9bdec06a8ecb96b2023ea58db733649ad41246fcdf856cbb2482cdb",
+  "sourceDigest": "0cd813cb8d604a9105dc6f0fa8f2c06e019e44d7284095a018c5d7b826ce51a9",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -27,12 +27,13 @@
     "/planer/",
     "/ratgeber/",
     "/ratgeber/bauendreinigung-vorbereiten/",
+    "/ratgeber/bauhelfer-einsatz-vorbereiten/",
     "/ratgeber/baureinigung-kosten-planen/",
     "/ratgeber/baureinigung-phasen/",
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 963,
+  "unitCount": 1001,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -86,6 +87,7 @@
       "source": "Bauendreinigung vorbereiten: fertige Flächen, empfindliche Materialien, Restarbeiten und Zugang klären. Mit einer Checkliste für Ihre Projektanfrage.",
       "routes": [
         "/ratgeber/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -139,6 +141,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -207,6 +210,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -246,6 +250,7 @@
       "source": "Beschreiben Sie Bauphase, Flächen und Termin. Wir klären gemeinsam die Voraussetzungen und den Leistungsumfang.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -278,6 +283,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -289,6 +295,13 @@
       "source": "Unsere Partner im Überblick | KnaBa",
       "routes": [
         "/partner/"
+      ]
+    },
+    "058ffa480b30df9ce2a78275": {
+      "kind": "text",
+      "source": "KNABA / ARBEITSABLAUF",
+      "routes": [
+        "/galerie/"
       ]
     },
     "05bc81cb4f85ca2fcc5bb61d": {
@@ -371,13 +384,6 @@
       "source": "Zugang, Ansprechpartner und Kontrolltermin werden gemeinsam geklärt. Eine Anfrage allein ist keine automatische Beauftragung.",
       "routes": [
         "/unternehmen/"
-      ]
-    },
-    "08e3d6d9b09763ead0d91faf": {
-      "kind": "text",
-      "source": "Illustrative Darstellungen typischer Arbeitsabläufe – keine Fotos konkreter Kundenaufträge.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "08eb06edfc2a934ff8ef46aa": {
@@ -507,6 +513,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -540,39 +547,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/",
-        "/unternehmen/"
-      ]
-    },
-    "0e7b45246fdc0c93ddb85b32": {
-      "kind": "text",
-      "source": "Galerie",
-      "routes": [
-        "/",
-        "/bauleistungen/bauendreinigung/",
-        "/bauleistungen/bauhilfe/",
-        "/bauleistungen/baureinigung/",
-        "/bauleistungen/baustellenraeumung/",
-        "/bauleistungen/bauzwischenreinigung/",
-        "/bauleistungen/durchbrueche/",
-        "/bauleistungen/kernbohrungen/",
-        "/bauleistungen/zusatzarbeiten/",
-        "/berlin/",
-        "/branchen/",
-        "/datenschutz/",
-        "/faq/",
-        "/galerie/",
-        "/impressum/",
-        "/karriere/",
-        "/kontakt/",
-        "/konto/",
-        "/leistungen/",
-        "/partner/",
-        "/planer/",
-        "/ratgeber/",
-        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -624,6 +599,24 @@
       "source": "Bewehrung und Leitungen prüfen",
       "routes": [
         "/bauleistungen/kernbohrungen/"
+      ]
+    },
+    "0fdf1607b559904aabeafa44": {
+      "kind": "text",
+      "source": "PRAXIS / BAUPROJEKTE",
+      "routes": [
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "104bf7de4582d2e773635295": {
+      "kind": "text",
+      "source": "So arbeitet KnaBa | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
       ]
     },
     "109030afc83743cd9b2a6d80": {
@@ -739,13 +732,6 @@
         "/faq/"
       ]
     },
-    "141ad4a65bf0273ecebc822d": {
-      "kind": "text",
-      "source": "Vier ausführliche Ratgeber helfen, den richtigen Zeitpunkt, einen klaren Leistungsumfang und die saubere Übergabe abzustimmen.",
-      "routes": [
-        "/ratgeber/"
-      ]
-    },
     "1420e68c4f5a386fdb2d349f": {
       "kind": "text",
       "source": "© 2026 KnaBa",
@@ -773,6 +759,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -982,18 +969,18 @@
         "/datenschutz/"
       ]
     },
+    "1b7cfb87dd647725e7ba7723": {
+      "kind": "text",
+      "source": "Benennen Sie auch die Grenzen der Anfrage. Reinigung, Beräumung, Transport und technische Arbeiten sind unterschiedliche Aufgaben. Wenn Sie mehrere Leistungen benötigen, führen Sie diese getrennt auf. So lässt sich vor dem Einsatz klären, welche Tätigkeiten KnaBa übernehmen kann und welche Voraussetzungen fehlen.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "1b8d7ef58f27015cd23733d7": {
       "kind": "text",
       "source": "Änderungen und zusätzliche Einsätze schriftlich festhalten",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
-      ]
-    },
-    "1ba5413aa3d63abfa947f946": {
-      "kind": "text",
-      "source": "Einblicke in unsere Arbeitsbereiche",
-      "routes": [
-        "/galerie/"
       ]
     },
     "1be972e650e0f5e9204bc0cb": {
@@ -1087,6 +1074,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -1184,6 +1172,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -1226,11 +1215,25 @@
         "/bauleistungen/bauzwischenreinigung/"
       ]
     },
+    "21baf46f5703dd51633600df": {
+      "kind": "text",
+      "source": "Staub und erreichbare Oberflächen zwischen den Gewerken reinigen.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "21de741c835085e64a1cb43d": {
       "kind": "text",
       "source": "Zusammenarbeit mit klaren Schnittstellen",
       "routes": [
         "/branchen/"
+      ]
+    },
+    "22061665ef40769c791a915c": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Baustellenvorbereitung",
+      "routes": [
+        "/galerie/"
       ]
     },
     "224fd9d8a4f67d5413e02d12": {
@@ -1282,6 +1285,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -1350,6 +1354,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -1362,6 +1367,7 @@
       "routes": [
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
       ]
@@ -1407,10 +1413,18 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "276483ba6309888eeb4dd519": {
+      "kind": "text",
+      "source": "4. Zusatzarbeiten und Abschluss separat abstimmen",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "2770780a63d702cc8011f0dd": {
@@ -1440,6 +1454,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -1579,6 +1594,7 @@
       "source": "Alle Bauratgeber",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -1632,6 +1648,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -1643,6 +1660,7 @@
       "source": "KnaBa / Bauratgeber",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -1690,6 +1708,7 @@
       "source": "Checkliste zur Projektvorbereitung",
       "routes": [
         "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
         "/bauleistungen/baureinigung/",
         "/bauleistungen/bauzwischenreinigung/"
       ]
@@ -1699,13 +1718,6 @@
       "source": "Standort",
       "routes": [
         "/unternehmen/"
-      ]
-    },
-    "2e79c0032238f55721389f84": {
-      "kind": "meta:description",
-      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "2ebd22b182dd2ca9a3ce04cf": {
@@ -1770,6 +1782,13 @@
       "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung.",
       "routes": [
         "/bauleistungen/baustellenraeumung/"
+      ]
+    },
+    "3048a8f5ea08cfcac27366bb": {
+      "kind": "text",
+      "source": "Quelle: https://kneba.vsp.rest/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "304d084548d9fd800ee6c1fb": {
@@ -1857,6 +1876,13 @@
         "/impressum/"
       ]
     },
+    "3291be2294cd4f137fb37d6f": {
+      "kind": "text",
+      "source": "Zugang und Rahmenbedingungen nennen",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "32fed574c148da2b30d34dd1": {
       "kind": "text",
       "source": "Vollständiges Impressum",
@@ -1898,6 +1924,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2079,6 +2106,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2182,6 +2210,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2214,6 +2243,13 @@
       "source": "GUT VORBEREITET ANFRAGEN",
       "routes": [
         "/planer/"
+      ]
+    },
+    "3e49269f736262c3edfaf887": {
+      "kind": "text",
+      "source": "Ansprechpartner, Einweisung und notwendige Abstimmungen",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "3e8e494d4deec41ce9793cf6": {
@@ -2271,6 +2307,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2290,6 +2327,40 @@
       "routes": [
         "/",
         "/faq/"
+      ]
+    },
+    "4070e905bcde88ff2d719f61": {
+      "kind": "text",
+      "source": "Arbeitsabläufe",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "407a9192a83d2f1b61591162": {
@@ -2347,6 +2418,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2365,6 +2437,13 @@
       "source": "Kontrolle mit der richtigen Grundlage vorbereiten",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "4286dd56f0ae2f3661b8cc34": {
+      "kind": "text",
+      "source": "Zusatzarbeiten und Abschluss separat abstimmen",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "42964cb085683c4d3a492663": {
@@ -2488,6 +2567,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2542,6 +2622,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2639,6 +2720,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2736,6 +2818,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2774,7 +2857,8 @@
         "/bauleistungen/zusatzarbeiten/",
         "/kontakt/",
         "/leistungen/",
-        "/planer/"
+        "/planer/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "4cbd58c9dc50462ba0bf1d06": {
@@ -2820,6 +2904,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "4dd7568a20615c947a54b3ef": {
+      "kind": "text",
+      "source": "Vier Arbeitsbereiche rund um Baustellenvorbereitung, Reinigung und Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "4e051571cdb1f88679dc1ec3": {
       "kind": "text",
       "source": "Aktuellen Baufortschritt pro Bereich beschreiben",
@@ -2839,6 +2930,13 @@
       "source": "Sanierung & Modernisierung",
       "routes": [
         "/branchen/"
+      ]
+    },
+    "4eaf01fd1397a34ff488a080": {
+      "kind": "text",
+      "source": "Ort, Gebäude und betroffene Arbeitsbereiche",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "4ed97a792698cf61375ea293": {
@@ -2868,6 +2966,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -2971,17 +3070,11 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
-      ]
-    },
-    "518ce591218e71a08e2c7d1d": {
-      "kind": "text",
-      "source": "Material, Erreichbarkeit und Reinigungsverfahren abstimmen.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "51a02f066659b30ab999f870": {
@@ -2997,6 +3090,7 @@
       "routes": [
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/"
       ]
@@ -3048,6 +3142,13 @@
       "source": "Ist die Baustellenberäumung eine eigene Leistung?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "52ec1bf0318f0c9a34a59e0b": {
+      "kind": "meta:description",
+      "source": "Vier Arbeitsbereiche rund um Baustellenvorbereitung, Reinigung und Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "52f8238ce1cab40df2085159": {
@@ -3259,6 +3360,7 @@
       "source": "Nutzen Sie diese Punkte als Gesprächsgrundlage. Der konkrete Umfang wird für Ihr Objekt vereinbart.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -3311,6 +3413,13 @@
       "source": "6 / 8: Kernbohrungen in Beton – Anfrage",
       "routes": [
         "/"
+      ]
+    },
+    "5e98f1e18464109173a2f58b": {
+      "kind": "text",
+      "source": "Für die Endreinigung: Übergabetermin, noch offene Restarbeiten und die Räume für die gemeinsame Sichtkontrolle nennen.",
+      "routes": [
+        "/planer/"
       ]
     },
     "5ec7fbf144f4a885dd46828d": {
@@ -3485,6 +3594,13 @@
         "/impressum/"
       ]
     },
+    "63e0bab3dc4d0ff15efabd96": {
+      "kind": "meta:description",
+      "source": "Bereiten Sie Ihre Anfrage für Bauhilfsarbeiten vor: konkrete Aufgaben, Arbeitsbereiche, Zeitfenster, Ansprechpartner und separat abzustimmende Leistungen.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "6418c784da81d018a2a31531": {
       "kind": "text",
       "source": "Kundinnen und Kunden:",
@@ -3520,6 +3636,7 @@
       "source": "Vom Ratgeber zum abgestimmten Einsatz.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -3544,6 +3661,13 @@
       "source": "20–1.200 Zeichen. Bitte keine vertraulichen Projektinformationen oder persönlichen Daten Dritter nennen.",
       "routes": [
         "/"
+      ]
+    },
+    "65cb149ec0b3c82d3ded2828": {
+      "kind": "text",
+      "source": "Für das erste Gespräch reichen Ort oder Postleitzahl, Gebäudeart, Etagen und die betroffenen Bereiche. Erwähnen Sie Anlieferungsmöglichkeiten, Treppen, Aufzüge und bekannte Zugangsbeschränkungen. Beschreiben Sie Materialien nach Art, Menge und Abmessungen; unbekannte Angaben können als offene Frage stehen bleiben.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "65cdc89f6e02c92890783ab9": {
@@ -3579,13 +3703,6 @@
       "source": "Sie können sich bei einer Datenschutzaufsichtsbehörde beschweren. Für in Berlin ansässige Unternehmen ist insbesondere die",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "6668b39dcca6e1b5e7c89d68": {
-      "kind": "attr:alt",
-      "source": "Symbolische Illustration: Glas- und Oberflächenreinigung",
-      "routes": [
-        "/galerie/"
       ]
     },
     "66b15f119556dbd091e7c594": {
@@ -3629,6 +3746,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -3640,6 +3758,13 @@
       "source": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe | KnaBa",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "672b631e2ca4402228af9804": {
+      "kind": "text",
+      "source": "3. Zugang und Rahmenbedingungen nennen",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "67504c591ba48b214a92f701": {
@@ -3683,6 +3808,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -3696,6 +3822,7 @@
         "/bauleistungen/bauzwischenreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -3783,11 +3910,11 @@
         "/karriere/"
       ]
     },
-    "6c1c2e443ad61ade9703369b": {
+    "6b9f4fcc185ab5fdbb7f9926": {
       "kind": "text",
-      "source": "Glas- und Oberflächenreinigung",
+      "source": "Für Ihr Objekt vorbereiten",
       "routes": [
-        "/galerie/"
+        "/planer/"
       ]
     },
     "6c37fab6ffecf34dce58401f": {
@@ -3859,6 +3986,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -3892,6 +4020,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -3947,6 +4076,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -3958,6 +4088,13 @@
       "source": "Entsorgung, Arbeiten in schwer erreichbarer Höhe, Schadstoffsanierung und die Beseitigung von Bauschäden sind nicht automatisch enthalten. Unbekannte Rückstände und besonders empfindliche Oberflächen müssen vor der Reinigung geprüft werden.",
       "routes": [
         "/bauleistungen/baureinigung/"
+      ]
+    },
+    "6ead60ba6e1ec59082555375": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Zwischenreinigung von Staub und Oberflächen",
+      "routes": [
+        "/galerie/"
       ]
     },
     "6eb54b1ef9089213baf85efd": {
@@ -4001,6 +4138,18 @@
       "routes": [
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "70630ff9952acd75b0930f6f": {
+      "kind": "text",
+      "source": "Bereiten Sie Ihre Anfrage für Bauhilfsarbeiten vor: konkrete Aufgaben, Arbeitsbereiche, Zeitfenster, Ansprechpartner und separat abzustimmende Leistungen.",
+      "routes": [
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -4040,6 +4189,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -4101,6 +4251,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -4121,9 +4272,9 @@
         "/datenschutz/"
       ]
     },
-    "7297dde9f8b0bcc44308dd59": {
-      "kind": "meta:og:description",
-      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
+    "72a6f827d99b07f5b4111a2e": {
+      "kind": "text",
+      "source": "Zwischenreinigung von Staub und Oberflächen",
       "routes": [
         "/galerie/"
       ]
@@ -4168,6 +4319,7 @@
       "source": "Weitere Baufragen klären",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -4185,6 +4337,13 @@
       "source": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "7432107c1ea6b1438d124fec": {
+      "kind": "meta:og:title",
+      "source": "So arbeitet KnaBa | KnaBa Berlin",
+      "routes": [
+        "/galerie/"
       ]
     },
     "747b0d7a3c56454cdd1dbd2a": {
@@ -4229,6 +4388,13 @@
         "/bauleistungen/bauhilfe/"
       ]
     },
+    "77181775a479d2f2acad0fd9": {
+      "kind": "text",
+      "source": "Zeitfenster und Abhängigkeiten klären",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "77754cac34903a9991c48d62": {
       "kind": "text",
       "source": "Das hängt von Fläche, Material, Zugänglichkeit und Risiko ab. Bei komplexen oder technischen Leistungen kann ein Ortstermin notwendig sein.",
@@ -4270,6 +4436,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -4352,11 +4519,25 @@
         "/bauleistungen/baureinigung/"
       ]
     },
+    "7d6185a01d0fc756d4b5d019": {
+      "kind": "text",
+      "source": "Praktische Ratgeber helfen, Bauhilfe, Reinigung und Übergabe mit einem klaren Leistungsumfang vorzubereiten.",
+      "routes": [
+        "/ratgeber/"
+      ]
+    },
     "7dbe2a3def390d4a5c39a4a1": {
       "kind": "text",
       "source": "Bei bewohnten oder teilweise genutzten Gebäuden Reinigungszonen, Schutzbereiche und zulässige Arbeitszeiten klar abgrenzen.",
       "routes": [
         "/berlin/"
+      ]
+    },
+    "7ddcaf2d1bf4392435d2ea28": {
+      "kind": "text",
+      "source": "Materialien, Mengen, Wege und Zugangsbeschränkungen",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "7e153a613817776039ecac5d": {
@@ -4371,6 +4552,13 @@
       "source": "durchgeführt. Das Prüfelement wird erst geladen, nachdem Sie die Datenschutzhinweise zur Kenntnis genommen und dies bestätigt haben. Beim Laden können technische Browser-, Geräte- und Verbindungsdaten an Cloudflare übertragen werden; der erzeugte Prüftoken wird mit Cloudflare serverseitig auf Gültigkeit geprüft. Ohne gültige Prüfung ist die Einrichtung eines neuen Chats nicht möglich. Sie erreichen uns weiterhin telefonisch und per E-Mail. Weitere Informationen finden Sie in der",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "7e36c5f66757ed5da9d5ce19": {
+      "kind": "meta:og:description",
+      "source": "Vier Arbeitsbereiche rund um Baustellenvorbereitung, Reinigung und Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.",
+      "routes": [
+        "/galerie/"
       ]
     },
     "7e6ff2585183999197f20d7d": {
@@ -4443,6 +4631,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -4535,6 +4724,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "838e289abae624fa7f3dc70e": {
+      "kind": "text",
+      "source": "Bauabschnitte und freigegebene Räume auflisten; laufende und nachfolgende Gewerke dazuschreiben.",
+      "routes": [
+        "/planer/"
+      ]
+    },
     "83a816b1123924827a4f314b": {
       "kind": "meta:description",
       "source": "Ihr KnaBa Portal für Reinigungsanfragen, geplante Einsätze und die Zusammenarbeit mit unserem Team. Persönlicher Zugang mit Freigabe durch den Inhaber.",
@@ -4554,6 +4750,13 @@
       "source": "Ein guter Plan.",
       "routes": [
         "/konto/"
+      ]
+    },
+    "844966c9c08e40ff054341f8": {
+      "kind": "meta:og:description",
+      "source": "Bereiten Sie Ihre Anfrage für Bauhilfsarbeiten vor: konkrete Aufgaben, Arbeitsbereiche, Zeitfenster, Ansprechpartner und separat abzustimmende Leistungen.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "847ac48e9bd37313a9cb37fa": {
@@ -4593,6 +4796,13 @@
       "source": "Nennen Sie mögliche Arbeitszeiten, frühesten Beginn, Einsatzort und Sprachen für die Abstimmung auf der Baustelle.",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "85cd21a1d41b1735c059db59": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Baureinigung nach Bauabschnitt",
+      "routes": [
+        "/galerie/"
       ]
     },
     "85d318de3000fb4bec6cdd34": {
@@ -4646,6 +4856,13 @@
         "/datenschutz/"
       ]
     },
+    "86760fd74742e9953afd3f76": {
+      "kind": "text",
+      "source": "Das gewünschte Ergebnis beschreiben",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "8677a0638f67b86347841cd6": {
       "kind": "text",
       "source": "Unterweisung, geeignete Schutzausrüstung, Ansprechpartner und Grenzen der Tätigkeit gehören zur Einsatzvorbereitung.",
@@ -4665,6 +4882,13 @@
       "source": "Ihre Erfahrung mit KnaBa zählt. Teilen Sie, wie die Zusammenarbeit an Ihrem Projekt verlaufen ist.",
       "routes": [
         "/"
+      ]
+    },
+    "86ed6f0263f3b4284dd3ecf1": {
+      "kind": "text",
+      "source": "Konkrete Aufgaben, Reihenfolge und gewünschtes Ergebnis",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "86fba25c8cc498e941f53a18": {
@@ -4753,16 +4977,6 @@
         "/faq/"
       ]
     },
-    "8878ba832df9a65e9832f0a6": {
-      "kind": "text",
-      "source": "PRAXIS / BAUREINIGUNG",
-      "routes": [
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/"
-      ]
-    },
     "88ab31f3ee05eccb0a32e8d3": {
       "kind": "text",
       "source": "Gibt es einen Mindestauftragswert?",
@@ -4832,6 +5046,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -4997,6 +5212,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5073,6 +5289,7 @@
         "/bauleistungen/bauendreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -5083,6 +5300,13 @@
       "source": "Was braucht Ihr Objekt?",
       "routes": [
         "/planer/"
+      ]
+    },
+    "8f65c939974ad3b166c9f8be": {
+      "kind": "text",
+      "source": "Halten Sie fest, welche Lieferungen oder Vorarbeiten vor dem Einsatz abgeschlossen sein müssen. Bestimmen Sie eine Kontaktperson für Änderungen am Ablauf. Falls sich der Bauzustand ändert, können Umfang und Termin erneut abgestimmt werden, bevor die Mannschaft anreist.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "8f731cb1304b2d41263d461c": {
@@ -5169,6 +5393,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5347,6 +5572,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5380,6 +5606,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5441,6 +5668,7 @@
       "source": "KnaBa · +49 (30) 679 330 54 · kontakt@knaba.de",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -5515,6 +5743,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5605,6 +5834,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5684,11 +5914,19 @@
         "/unternehmen/"
       ]
     },
+    "a062f0ba3dbcab6a77b02aea": {
+      "kind": "text",
+      "source": "Kernbohrungen, Durchbrüche oder andere technische Leistungen werden nicht automatisch Bestandteil einer Bauhelfer-Anfrage. Fachliche Voraussetzungen, Zuständigkeit und Beauftragung müssen dafür gesondert geklärt werden. Auch eine mögliche Entsorgung ist ausdrücklich zu besprechen; aus dem Wort Beräumung ergibt sich kein pauschaler Entsorgungsumfang.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "a08d93ed82ec3c938c7a7d51": {
       "kind": "text",
       "source": "In diesem Ratgeber",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -5723,6 +5961,7 @@
         "/bauleistungen/baureinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -5770,6 +6009,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "a37b34dc8646a78852afff5d": {
+      "kind": "text",
+      "source": "Materiallager, Anlieferwege und gewünschte Abschnittstermine mit der Bauleitung abstimmen.",
+      "routes": [
+        "/planer/"
+      ]
+    },
     "a3968eb4dcc7f06592fbdb2c": {
       "kind": "text",
       "source": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe",
@@ -5777,6 +6023,7 @@
         "/bauleistungen/bauendreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -5943,6 +6190,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -5984,6 +6232,20 @@
         "/faq/"
       ]
     },
+    "ab1dc5582c719978db6e7055": {
+      "kind": "attr:alt",
+      "source": "Symbolische Illustration: Zwischenreinigung von Staub und Oberflächen",
+      "routes": [
+        "/galerie/"
+      ]
+    },
+    "ab56d3a9eec411aab516b160": {
+      "kind": "text",
+      "source": "So arbeitet KnaBa",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "ab6d2a28b915b0151caaee4d": {
       "kind": "text",
       "source": "2. Die tatsächlichen Aufwandsfaktoren benennen",
@@ -6003,6 +6265,20 @@
       "source": "Zusätzliche Bauleistungen – Anfrage | KnaBa Berlin",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "ac3a4d158999dcbb12effc5d": {
+      "kind": "text",
+      "source": "Vereinbaren Sie vor Beginn, woran die Erledigung der Aufgaben erkannt wird und wer Rückfragen beantwortet. Halten Sie Änderungen, noch offene Punkte und gewünschte Folgeschritte fest. Preis, Termin und ein verbindlicher Auftrag ergeben sich erst aus der konkreten Abstimmung, nicht aus diesem Ratgeber.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
+    "ac9550fae91b794975d706c0": {
+      "kind": "attr:aria-label",
+      "source": "Leistung ansehen: Saubere Objektübergabe",
+      "routes": [
+        "/galerie/"
       ]
     },
     "acb15eaabe4adcdf9439ed29": {
@@ -6231,6 +6507,13 @@
         "/datenschutz/"
       ]
     },
+    "b311effd78eee0d1c4d62e6b": {
+      "kind": "text",
+      "source": "Schematische Illustrationen zur Orientierung – keine Fotos konkreter Kundenaufträge.",
+      "routes": [
+        "/galerie/"
+      ]
+    },
     "b3918adc736a05cbf92236d8": {
       "kind": "attr:aria-label",
       "source": "1 / 8: Baureinigung",
@@ -6299,6 +6582,7 @@
       "source": "Abschnitt",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -6406,6 +6690,13 @@
         "/datenschutz/"
       ]
     },
+    "bb382634fe8102f3af928cde": {
+      "kind": "text",
+      "source": "Nennen Sie den gewünschten Zeitraum und mögliche Arbeitszeiten. Beschreiben Sie, ob ein einzelner Einsatz oder mehrere Bauabschnitte geplant sind. Markieren Sie feste Übergabetermine und geben Sie an, welche Termine noch offen sind. Aus einer Anfrage entsteht noch keine Terminbestätigung.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "bbc65262fb18f645d003e0d0": {
       "kind": "text",
       "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe.",
@@ -6490,6 +6781,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -6508,6 +6800,7 @@
       "source": "Markieren Sie, was bereits geklärt ist. Ihre Häkchen werden nicht an KnaBa oder mit einer Anfrage gesendet. Für Ihre Unterlagen können Sie den Ratgeber drucken oder im Druckdialog als PDF speichern.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -6539,13 +6832,6 @@
       "source": "Mehrere Gebäude, Etagen oder Bauabschnitte mit separaten Flächenlisten anfragen. Das unterstützt eine nachvollziehbare Reihenfolge der Einsätze.",
       "routes": [
         "/berlin/"
-      ]
-    },
-    "bdd85159b1ec4dd636ffed77": {
-      "kind": "text",
-      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
-      "routes": [
-        "/galerie/"
       ]
     },
     "bde14d5d3d99bc7e34e82d06": {
@@ -6610,6 +6896,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -6664,6 +6951,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -6718,6 +7006,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -6845,13 +7134,6 @@
         "/faq/"
       ]
     },
-    "c45c7a3f0a2c97f3896f0cfe": {
-      "kind": "text",
-      "source": "KNABA / GALERIE",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "c5433b34a22ca0fa4e1d6721": {
       "kind": "text",
       "source": "PASSENDE LEISTUNG FINDEN",
@@ -6903,11 +7185,25 @@
         "/leistungen/"
       ]
     },
+    "c83ef1615348600a4747f1c6": {
+      "kind": "text",
+      "source": "Bauhelfer anfragen: Aufgaben, Zugang und Ablauf vorbereiten",
+      "routes": [
+        "/bauleistungen/bauhilfe/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
     "c859c006bb4cd02dcb88436d": {
       "kind": "attr:aria-label",
       "source": "Bauratgeber",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -6954,6 +7250,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -7046,6 +7343,13 @@
         "/berlin/"
       ]
     },
+    "cc7438638b5ec0cd5ff64212": {
+      "kind": "text",
+      "source": "Zusatzarbeiten, Entsorgung und Abschlusskriterien separat klären",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "cc925b5fdc9cd2de776b70ac": {
       "kind": "text",
       "source": "Vereinbarte Hilfstätigkeiten und Baustellenvorbereitung können Bauunternehmen unterstützen. Konkrete Aufgaben, Aufsicht und Zuständigkeit werden vertraglich festgelegt.",
@@ -7059,13 +7363,6 @@
       "source": "Grobe Verschmutzungen und vereinbarte lose Materialreste in freigegebenen Bereichen aufnehmen.",
       "routes": [
         "/bauleistungen/baureinigung/"
-      ]
-    },
-    "cd2d8fb578754276ff9f9e54": {
-      "kind": "text",
-      "source": "Baureinigung, Baustellenvorbereitung und saubere Übergaben: typische Arbeitsschritte rund um Ihr Projekt.",
-      "routes": [
-        "/galerie/"
       ]
     },
     "cd82bd2ebcbe2e115d12e4e7": {
@@ -7148,6 +7445,7 @@
         "/berlin/",
         "/branchen/",
         "/faq/",
+        "/galerie/",
         "/karriere/",
         "/kontakt/",
         "/leistungen/",
@@ -7155,6 +7453,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -7209,6 +7508,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -7439,6 +7739,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -7450,6 +7751,7 @@
       "source": "Für Ihre Projektabstimmung",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -7482,6 +7784,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -7541,6 +7844,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "da7c48ce23a8b2c585dde37b": {
+      "kind": "text",
+      "source": "Gewünschter Zeitraum und noch offene Vorarbeiten",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "da844577b20ca8f039e18fe3": {
       "kind": "text",
       "source": "WISSEN / KNABA",
@@ -7568,6 +7878,13 @@
       "source": "Zwei Angaben helfen bei der Orientierung. Den genauen Umfang stimmen wir persönlich ab.",
       "routes": [
         "/planer/"
+      ]
+    },
+    "db77689032700bec6d4d58e4": {
+      "kind": "text",
+      "source": "Listen Sie die Aufgaben nach Bereichen auf: etwa Arbeitszonen vorbereiten, vereinbarte Materialien bereitstellen oder nach einem Bauabschnitt Ordnung schaffen. Schreiben Sie dazu, was bereits erledigt ist, was noch fehlt und welche Arbeiten zuerst stattfinden sollen. Eine klare Reihenfolge ist hilfreicher als die allgemeine Bitte, auf der Baustelle mitzuhelfen.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "dba2d3a39104b069a4490bd4": {
@@ -7611,6 +7928,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -7622,6 +7940,13 @@
       "source": "Nächste Leistung",
       "routes": [
         "/"
+      ]
+    },
+    "dbf1885e8fdaa64f5f838b73": {
+      "kind": "text",
+      "source": "Bauhelfer anfragen: Aufgaben, Zugang und Ablauf vorbereiten | KnaBa",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "dc2cee64a7f53229f279a9bd": {
@@ -7778,6 +8103,7 @@
       "source": "Dieses Bauprojekt anfragen",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -7984,7 +8310,8 @@
       "kind": "text",
       "source": "Leistung ansehen",
       "routes": [
-        "/"
+        "/",
+        "/galerie/"
       ]
     },
     "e9636bc611ddc457ff6886d4": {
@@ -8016,13 +8343,6 @@
         "/bauleistungen/baustellenraeumung/"
       ]
     },
-    "e9f00bfaa373bd3cb70a2804": {
-      "kind": "meta:og:title",
-      "source": "Einblicke in unsere Arbeitsbereiche | KnaBa Berlin",
-      "routes": [
-        "/galerie/"
-      ]
-    },
     "e9f5ab34f2097d71aedc9f76": {
       "kind": "text",
       "source": "Weiter →",
@@ -8050,6 +8370,7 @@
       "source": "Passende Leistung",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
@@ -8060,6 +8381,13 @@
       "source": "Wege, Materiallager und Entsorgung abstimmen",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
+      ]
+    },
+    "eaf3d8973ba3cc1a28cef00f": {
+      "kind": "text",
+      "source": "Klären Sie mit der zuständigen Bauleitung, wer vor Ort einweist und welche Regeln oder Freigaben gelten. Zugangscodes, Ausweiskopien und vertrauliche Bauunterlagen gehören nicht in eine erste Kontaktanfrage. Falls Fotos hilfreich sind, stimmen Sie zunächst einen geeigneten Übermittlungsweg und den notwendigen Inhalt ab.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "ec221a44c0eea9066f73f090": {
@@ -8096,6 +8424,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -8136,6 +8465,13 @@
       "source": "2. Systematisch nach Räumen und Flächen prüfen",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "eeb45a997d55df3c4546bcba": {
+      "kind": "text",
+      "source": "1. Das gewünschte Ergebnis beschreiben",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "ef18ce00aa499ed4d21f8b58": {
@@ -8270,6 +8606,7 @@
       "routes": [
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/bauuebergabe-checkliste/"
       ]
@@ -8393,6 +8730,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -8441,6 +8779,13 @@
         "/ratgeber/"
       ]
     },
+    "f78c9c2212098ea53ed171f7": {
+      "kind": "text",
+      "source": "Eine hilfreiche Anfrage beschreibt mehr als die gewünschte Zahl an Bauhelfern. Entscheidend sind die konkreten Aufgaben, der Zustand der Baustelle und die Abstimmung mit den anderen Gewerken. Diese Vorbereitung erleichtert das erste Gespräch; Verfügbarkeit, Personalbedarf und Leistungsumfang werden danach gemeinsam geklärt.",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
     "f7b26689ea2209c524309d4c": {
       "kind": "text",
       "source": "Die E-Mail dient Rückfragen zur Rückmeldung. Für den Widerruf der Veröffentlichung kontaktieren Sie KnaBa.",
@@ -8475,6 +8820,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -8493,6 +8839,13 @@
       "source": "Was zur Adresse dazugehört",
       "routes": [
         "/berlin/"
+      ]
+    },
+    "f9135d6192f819af561c875f": {
+      "kind": "meta:og:title",
+      "source": "Bauhelfer anfragen: Aufgaben, Zugang und Ablauf vorbereiten | KnaBa",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "f9176922f9296ae934aa3db6": {
@@ -8521,6 +8874,13 @@
       "source": "Zwischenreinigung wird an konkrete Bauabschnitte geknüpft, etwa nach vereinbarten staubintensiven Arbeiten. Bauleitung und Folgegewerk legen fest, welche Flächen zugänglich und wie weit vorbereitet sein sollen. Eine Reinigung ist dabei keine Freigabe für fachtechnische Folgearbeiten.",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
+      ]
+    },
+    "faaf61c04418d465c2aa6497": {
+      "kind": "text",
+      "source": "2. Zeitfenster und Abhängigkeiten klären",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "fab3289536d9291562bfea6d": {
@@ -8585,6 +8945,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -8641,6 +9002,7 @@
         "/planer/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
@@ -8694,6 +9056,7 @@
       "source": "Ratgeber drucken / als PDF speichern",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"

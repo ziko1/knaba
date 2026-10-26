@@ -1,0 +1,32 @@
+{
+  "candidateSourceSha": "5cad5e529ac844c0fb04a8100dec2bb105eed5bc",
+  "candidateSourceTreeSha": "0ca2cb1e5f227fd9b763074f55b9a003d86849d5",
+  "status": "BLOCKED_CONCURRENT_RELEASE_BEFORE_QA_OR_SWITCH",
+  "expectedPreviousSourceSha": "56adc59b6665595f26eed3bbaf1319bcdd5f79ee",
+  "observedRelease": {
+    "sourceSha": "08637557622588e46fc76fe5f4e5dd5519286b6a",
+    "sourceTreeSha": "bb18c534e17450295e7eea3eea90e7090e28be7c",
+    "artifactSha256": "0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73",
+    "builtHtmlPages": 130,
+    "deployedAtUtc": "2026-10-26T15:15:42.402689+00:00",
+    "testedSourceRef": "feat/knaba-content-refinement-20261026",
+    "deploymentReceipt": "/srv/knaba/vps/evidence/content-continuation-0863755/deployment.json"
+  },
+  "independentReadOnlyChecks": {
+    "actualArtifactMatches": true,
+    "serverDatabaseGuardWorkerUnchangedFrom737": true,
+    "sourceAndLiveMigrations": 6,
+    "migrationChecksumMatch": true,
+    "homepageStudioRows": 0
+  },
+  "response": {
+    "action": "Preserve concurrent release and reconcile its source; bounded reservation using both existing locks.",
+    "locks": [
+      ".knaba-preview-deploy.lock",
+      ".ui-visual-release.lock"
+    ],
+    "reservationStartedAtUtc": "2026-10-26T15:22:53.711714+00:00",
+    "reservationMaxSeconds": 600,
+    "compareAndSwapMatched": "08637557622588e46fc76fe5f4e5dd5519286b6a"
+  }
+}

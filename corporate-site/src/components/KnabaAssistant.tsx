@@ -1,6 +1,7 @@
 import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 import { assistantGreeting, assistantLocale, type AssistantLocale } from '../lib/assistant-knowledge';
 import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../lib/assistant-recovery';
+import { createAssistantRequestState,sameAssistantTicket,type AssistantRequestScope } from '../lib/assistant-request-state';
 import '../styles/assistant.css';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
 
@@ -15,13 +16,16 @@ const captions = {
   uk: {tag:'Онлайн-консультація · Зв’язок із власником',open:'Відкрити чат',close:'Закрити',welcome:'Вітаю! Підкажу щодо послуг KnaBa.',placeholder:'Ваше питання чи побажання …',privacy:'Я ознайомився з політикою конфіденційності та хочу надіслати цю розмову KnaBa.',captcha:'Пройдіть перевірку безпеки.',captchaPrompt:'Після підтвердження ознайомлення з політикою з’явиться перевірка безпеки.',send:'Надіслати',human:'Зв’язатися з власником',name:'Ім’я (необов’язково)',email:'Email (необов’язково)',phone:'Телефон (необов’язково)',request:'Передати власнику',notice:'Автоматичні відповіді не є офертою. Ціни й час підтверджує лише KnaBa.',hold:'Запит у кабінеті власника. Відповідь з’явиться тут.',no:'З’єднання втрачено. Спробуйте ще раз.',agreement:'Умови для погодження',pending:'Перевірте умови. Це не автоматичне укладення договору чи замовлення.',accept:'Підтвердити зміст',decline:'Відхилити',accepted:'Підтверджено',declined:'Відхилено',mic:'Диктувати',speak:'Озвучити',recording:'Розпізнавання голосу може передати аудіо постачальнику браузера. Продовжити?',unsupported:'Ваш браузер не підтримує розпізнавання голосу.',new:'Нова розмова',fresh:'Почати нову розмову? Без збереженого коду ви можете втратити доступ до попередньої.',privacyLink:'Конфіденційність',session:'Збережіть приватний код доступу, щоб відновити розмову після закриття браузера.',closed:'Цю розмову закрито.',copyCode:'Зберегти код доступу',copied:'Код скопійовано',manualCopy:'Скопіюйте цей код доступу',restoreTitle:'Відновити попередню розмову',restorePlaceholder:'Код доступу KNABA',restoreAction:'Відкрити розмову',codeWarning:'Кожен, хто знає цей код, зможе читати розмову. Бережіть його.',invalidCode:'Недійсний або прострочений код доступу.',},
   ru: {tag:'Онлайн-консультация · Связь с владельцем',open:'Открыть чат',close:'Закрыть',welcome:'Здравствуйте! Помогу с услугами KnaBa.',placeholder:'Ваш вопрос или пожелание …',privacy:'Я ознакомился с политикой конфиденциальности и хочу отправить эту беседу KnaBa.',captcha:'Пройдите проверку безопасности.',captchaPrompt:'После подтверждения ознакомления с политикой появится проверка безопасности.',send:'Отправить',human:'Связаться с владельцем',name:'Имя (необязательно)',email:'Email (необязательно)',phone:'Телефон (необязательно)',request:'Передать владельцу',notice:'Автоматические ответы не являются офертой. Цены и сроки подтверждает только KnaBa.',hold:'Обращение есть в кабинете владельца. Ответ появится здесь.',no:'Нет соединения. Повторите попытку.',agreement:'Условия для согласования',pending:'Проверьте условия. Это не автоматическое заключение договора или заказа.',accept:'Подтвердить содержание',decline:'Отклонить',accepted:'Подтверждено',declined:'Отклонено',mic:'Диктовать',speak:'Озвучить',recording:'Распознавание речи может передать аудио поставщику браузера. Продолжить?',unsupported:'Ваш браузер не поддерживает распознавание речи.',new:'Новая беседа',fresh:'Начать новую беседу? Без сохранённого кода доступ к прежнему разговору может быть утрачен.',privacyLink:'Конфиденциальность',session:'Сохраните личный код доступа, чтобы восстановить переписку после закрытия браузера.',closed:'Этот разговор закрыт.',copyCode:'Сохранить код доступа',copied:'Код скопирован',manualCopy:'Скопируйте код доступа',restoreTitle:'Восстановить прошлый разговор',restorePlaceholder:'Код доступа KNABA',restoreAction:'Открыть разговор',codeWarning:'Любой, у кого есть этот код, сможет прочитать переписку. Храните его в тайне.',invalidCode:'Неверный или устаревший код доступа.',}
 } as const;
-async function http<T>(path:string,method='GET',data?:unknown,token?:string):Promise<T>{
+async function http<T>(path:string,method='GET',data?:unknown,token?:string,signal?:AbortSignal):Promise<T>{
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),12000);
+  const abort=()=>controller.abort();
+  if(signal?.aborted)abort();
+  else signal?.addEventListener('abort',abort,{once:true});
   try {
     const r=await fetch(path,{method,credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-KnaBa-Request':'portal-v1',...(token?{'X-KnaBa-Conversation':token}:{})},body:data===undefined?undefined:JSON.stringify(data),signal:controller.signal});
     if(!r.ok)throw new Error(String(r.status));
     return await r.json() as T;
-  }finally{clearTimeout(timeout);}
+  }finally{clearTimeout(timeout);signal?.removeEventListener('abort',abort);}
 }
 type Recognition={lang:string;continuous:boolean;interimResults:boolean;onresult:((event:{results:ArrayLike<ArrayLike<{transcript:string}>>})=>void)|null;onend:(()=>void)|null;onerror:(()=>void)|null;start:()=>void;stop:()=>void};
 
@@ -59,6 +63,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const [captchaResetVersion,setCaptchaResetVersion]=createSignal(0);
   const captchaChanged=(status:CaptchaState,token='')=>{setCaptchaStatus(status);setCaptchaToken(token);};
   const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
+  const requests=createAssistantRequestState();
   let recognition:Recognition|null=null,log:HTMLDivElement|undefined,panel:HTMLElement|undefined,launcher:HTMLButtonElement|undefined;
   function stopSpeech(){
     const active=recognition;recognition=null;
@@ -81,15 +86,18 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
       if(value&&/^[a-f0-9-]{36}$/i.test(value.id)&&/^[a-f0-9]{64}$/i.test(value.token)){setTicket(value);setAccepted(true);void load(value);}
     }catch{}
     const timer=setInterval(()=>{const current=ticket();if(open()&&current&&!document.hidden)void load(current);},8000);
-    onCleanup(()=>{clearInterval(timer);stopSpeech();});
+    onCleanup(()=>{clearInterval(timer);requests.dispose();stopSpeech();});
   });
   createEffect(()=>{if(open())dialog.focusOnOpen();});
   createEffect(()=>{thread()?.messages.length;thread()?.offers.length;queueMicrotask(()=>{if(log)log.scrollTop=log.scrollHeight;});});
   async function load(current:Ticket){
-    try{const result=await http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token);if(ticket()?.id===current.id){setThread(result);setError('');}}
-    catch{if(open())setError(t.no);}
+    await requests.run('poll',request=>http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token,request.signal),{
+      success:result=>{if(sameAssistantTicket(ticket(),current)){setThread(result);setError('');}},
+      error:()=>{if(open()&&sameAssistantTicket(ticket(),current))setError(t.no);},
+    });
   }
-  async function ensure():Promise<Ticket>{
+  async function ensure(request:AssistantRequestScope):Promise<Ticket>{
+    request.check();
     if(ticket())return ticket()!;
     if(captchaStatus()!=='disabled' && (captchaStatus()!=='verified'||!captchaToken())){
       throw Error('captcha_required');
@@ -97,11 +105,12 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     const captcha=captchaStatus()==='verified'?captchaToken():undefined;
     let created:Ticket;
     try{
-      created=await http<Ticket>('/api/assistant/conversations','POST',{locale,privacyAccepted:accepted(),website:'',...(captcha?{captchaToken:captcha}:{})});
+      created=await http<Ticket>('/api/assistant/conversations','POST',{locale,privacyAccepted:accepted(),website:'',...(captcha?{captchaToken:captcha}:{})},undefined,request.signal);
     }catch(error){
-      if(captcha){setCaptchaToken('');setCaptchaStatus('pending');setCaptchaResetVersion(n=>n+1);}
+      if(request.isCurrent()&&captcha){setCaptchaToken('');setCaptchaStatus('pending');setCaptchaResetVersion(n=>n+1);}
       throw error;
     }
+    request.check();
     setTicket(created);
     try{sessionStorage.setItem(STORAGE,JSON.stringify(created));}catch{}
     return created;
@@ -109,28 +118,45 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   async function send(event:Event){
     event.preventDefault();if(busy()||!draft().trim())return;
     if(!accepted()){setError(t.privacy);return;}
-    setBusy(true);setError('');
-    try{
-      const current=await ensure(),requestKey=key()||crypto.randomUUID();
-      setKey(requestKey);
-      setThread(await http<Thread>(`/api/assistant/conversations/${current.id}/messages`,'POST',{content:draft().trim(),idempotencyKey:requestKey},current.token));
-      setKey('');setDraft('');
-    }catch(problem){setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);}finally{setBusy(false);}
+    const content=draft().trim(),requestKey=key()||crypto.randomUUID();
+    await requests.run('action',async request=>{
+      const current=await ensure(request);request.check();
+      const result=await http<Thread>(`/api/assistant/conversations/${current.id}/messages`,'POST',{content,idempotencyKey:requestKey},current.token,request.signal);
+      return {current,result};
+    },{
+      start:()=>{setBusy(true);setError('');setKey(requestKey);},
+      success:({current,result})=>{
+        if(!sameAssistantTicket(ticket(),current))return;
+        setThread(result);
+        // The visitor may already be writing the next message while this one sends.
+        if(key()===requestKey){setKey('');setDraft('');}
+      },
+      error:problem=>setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no),
+      finish:()=>setBusy(false),
+    });
   }
   async function handoff(event:Event){
-    event.preventDefault();if(!accepted()){setError(t.privacy);return;}
-    setBusy(true);setError('');
-    try{
-      const current=await ensure();
-      setThread(await http<Thread>(`/api/assistant/conversations/${current.id}/handoff`,'POST',{name:name().trim(),email:email().trim(),phone:phone().trim()},current.token));
-      setHuman(false);
-    }catch(problem){setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);}finally{setBusy(false);}
+    event.preventDefault();if(busy())return;
+    if(!accepted()){setError(t.privacy);return;}
+    const contact={name:name().trim(),email:email().trim(),phone:phone().trim()};
+    await requests.run('action',async request=>{
+      const current=await ensure(request);request.check();
+      const result=await http<Thread>(`/api/assistant/conversations/${current.id}/handoff`,'POST',contact,current.token,request.signal);
+      return {current,result};
+    },{
+      start:()=>{setBusy(true);setError('');},
+      success:({current,result})=>{if(sameAssistantTicket(ticket(),current)){setThread(result);setHuman(false);}},
+      error:problem=>setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no),
+      finish:()=>setBusy(false),
+    });
   }
   async function decide(offer:Offer,decision:'accepted'|'declined'){
     const current=ticket();if(!current||busy())return;
-    setBusy(true);setError('');
-    try{setThread(await http<Thread>(`/api/assistant/conversations/${current.id}/offers/${offer.id}/decision`,'POST',{decision},current.token));}
-    catch{setError(t.no);}finally{setBusy(false);}
+    await requests.run('action',request=>http<Thread>(`/api/assistant/conversations/${current.id}/offers/${offer.id}/decision`,'POST',{decision},current.token,request.signal),{
+      start:()=>{setBusy(true);setError('');},
+      success:result=>{if(sameAssistantTicket(ticket(),current))setThread(result);},
+      error:()=>setError(t.no),finish:()=>setBusy(false),
+    });
   }
   function speak(){
     if(!('speechSynthesis' in window))return;
@@ -152,27 +178,31 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     event.preventDefault();if(busy())return;
     const recovered=parseRecoveryCode(recoveryInput());
     if(!recovered){setError(t.invalidCode);return;}
-    setBusy(true);setError('');
-    try {
-      // Server validates the bearer token before storing or displaying a conversation.
-      const result=await http<Thread>(`/api/assistant/conversations/${recovered.id}`,'GET',undefined,recovered.token);
-      setTicket(recovered);setThread(result);setAccepted(true);setRecoveryInput('');setHuman(false);
-      try{sessionStorage.setItem(STORAGE,JSON.stringify(recovered));}catch{}
-    }catch{setError(t.invalidCode);}finally{setBusy(false);}
+    await requests.run('action',request=>http<Thread>(`/api/assistant/conversations/${recovered.id}`,'GET',undefined,recovered.token,request.signal),{
+      start:()=>{setBusy(true);setError('');},
+      success:result=>{
+        // Server validates the bearer token before storing or displaying a conversation.
+        setTicket(recovered);setThread(result);setAccepted(true);setRecoveryInput('');setHuman(false);
+        try{sessionStorage.setItem(STORAGE,JSON.stringify(recovered));}catch{}
+      },
+      error:()=>setError(t.invalidCode),finish:()=>setBusy(false),
+    });
   }
   async function copyRecovery(){
     const current=ticket();if(!current)return;
     const code=formatRecoveryCode(current);
+    const isCurrent=requests.checkpoint();
     setCodeCopied(false);
     try{
       await navigator.clipboard.writeText(code);
-      setCodeCopied(true);
+      if(isCurrent()&&sameAssistantTicket(ticket(),current))setCodeCopied(true);
     }catch{
-      window.prompt(t.manualCopy,code);
+      if(isCurrent()&&sameAssistantTicket(ticket(),current))window.prompt(t.manualCopy,code);
     }
   }
   function reset(){
     if(!window.confirm(t.fresh))return;
+    requests.reset();stopSpeech();setBusy(false);
     try{sessionStorage.removeItem(STORAGE);}catch{}
     setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');setRecoveryInput('');setCodeCopied(false);
     setCaptchaToken('');setCaptchaStatus('loading');setCaptchaResetVersion(v=>v+1);

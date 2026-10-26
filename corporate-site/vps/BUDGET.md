@@ -25,3 +25,21 @@ migrated or deleted. Runtime release requires atomic symlink rollback.
 
 ## Corporate template candidate — 2026-10-25
 Existing local Node24/dependencies/Chromium reused. Two actual Codex executors: root implementation, corporate_audit independent review. No paid provider/CI service activated, quotas UNKNOWN. JS payload unchanged; no server mutation or cleanup performed.
+
+
+## 2026-10-26 — User acceptance audit
+- Existing VPS, cached Node24 and Playwright image; no new npm dependencies, paid API/provider/CI activation or cloud/domain purchases. Model/hosting runtime cost and quotas UNKNOWN.
+- Runtime archive1,307,351 B; pre-switch SQLite backup233,472 B. CSS40,890 B gzip; emitted JS195,442 B gzip (not field CWV).
+- Temporary browser container ran with network none, read-only, 1CPU/1GiB/160PIDs, capabilities dropped and sandbox requested; sandbox unavailable, no security relaxation. Container auto-removed.
+- Permanent web limits remain1CPU/512MiB/96PIDs. Private backup and same-host restored copy retained; no customer data/cache/backups deleted.
+
+- Final read-back: current=cecb321, container healthy, 279 runtime hashes match. Disk subsequently90.236% used /20,628,119,552 B available: WARNING, further cutovers HOLD; no cleanup performed.
+
+
+## 2026-10-26 — Content continuation
+- Existing pinned Node24/dependencies/VPS reused; no new dependencies, paid AI/email/CI services, domains, or provider calls. Actual model/hosting charges and quotas UNKNOWN.
+- Three existing Codex executors: root integration/content/QA; ux_research Finder then independent Assistant review; code_audit Assistant then independent content/storage review.
+- Built CSS40,891B gzip, all emitted JS191,544B gzip; new editorial article is server-rendered and excluded from client route metadata. No field-performance claim.
+- Canonical storage preparation snapshot89.64% used,21,898,014,720B available, healthy; must recheck before cutover. No cache/container/image/volume/customer data deletion. Runtime limits unchanged.
+
+- Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.

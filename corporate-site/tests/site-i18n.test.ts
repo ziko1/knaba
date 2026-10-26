@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { languageLinks, localeAlternates, russianPublicPaths } from '../src/lib/site-i18n';
+import {constructionGuideRoutes} from '../src/data/construction-guide-routes';
 
 describe('public language navigation', () => {
   it('keeps partner profiles in the selected language and includes reciprocal alternates', () => {
@@ -10,7 +11,7 @@ describe('public language navigation', () => {
     }
   });
   it('preserves every published construction article across all four languages', () => {
-    for (const slug of ['bauendreinigung-vorbereiten','baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste']) {
+    for (const {slug} of constructionGuideRoutes) {
       const route='/ratgeber/'+slug+'/';
       const expected=[{lang:'de',url:route},{lang:'en',url:'/en'+route},{lang:'uk',url:'/uk'+route},{lang:'ru',url:'/ru'+route}];
       for (const prefix of ['','/en','/uk','/ru']) {
@@ -39,8 +40,8 @@ describe('public language navigation', () => {
     expect(russianPublicPaths).not.toContain('/ru/konto/');
     expect(new Set(russianPublicPaths).size).toBe(russianPublicPaths.length);
   });
-  it('provides reciprocal alternates for the four actual translated guides',()=>{
-    for(const slug of ['baureinigung-phasen','baureinigung-kosten-planen','bauuebergabe-checkliste','bauendreinigung-vorbereiten']){
+  it('provides reciprocal alternates for every actual translated guide',()=>{
+    for(const {slug} of constructionGuideRoutes){
       const original='/ratgeber/'+slug+'/';
       expect(languageLinks('/uk'+original)).toEqual(['de','en','uk','ru'].map(lang=>({lang,url:lang==='de'?original:'/'+lang+original})));
       expect(localeAlternates(original).map(x=>x.lang)).toEqual(['de','en','uk','ru','x-default']);

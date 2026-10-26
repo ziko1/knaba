@@ -290,6 +290,14 @@ User requests implementation and deployment to existing development site, preser
 - [ ] Pre-cutover current-release lease + verified off-host backup/restore and rollback; separate authorized atomic VSP publication; 4-locale live `verify:live` + health and SHA attestation. Official-domain release remains separate.
 
 
+## 2026-10-26 — User acceptance increment
+- [x] Eight enquiry topics, accurate localized summaries and CRM payloads; dynamic message budget and legacy contract regressions.
+- [x] Five planner choices, exact topic handoff, Assistant keyboard focus/Escape/draft, homepage sequence.
+- [x] Independent review, Node24 source/build/VPS checks, live desktop four-locale scenarios; test-domain deployment cecb321 with backup/restore and 127 HTTPS checks.
+- [ ] Finish blocked responsive matrix in a sandbox-capable browser plus physical mobile/a11y/zoom.
+- [ ] Real owner/client delivery and role UAT, trusted-proxy rate-limit fix, Assistant stale-poll guard, Finder object-specific guidance.
+- [ ] Content rights/legal, social-card compatibility, offsite restore, disk headroom, field CWV and separate ERP/voice/provider acceptance.
+- Acceptance and evidence: docs/KNABA_USER_ACCEPTANCE_2026-10-26_UK.md.
 ## KN-CLOUD-AUDIT-20261026 — current user acceptance request
 Source: user requests full kneba.vsp.rest user/browser audit, fixes, repository persistence and test-server rollout. Base/live verified 2164b9505f824486594b2633a05f5fd91aee8c04. Existing canonical scope is retained.
 - UX-01: Crawl every discoverable public route in cloud Chrome; verify titles/H1, images, desktop reflow, navigation and core form/planner/assistant/FAQ/gallery flows. Mobile/device/a11y and authenticated owner acceptance tracked separately.
@@ -301,5 +309,16 @@ Source: user requests full kneba.vsp.rest user/browser audit, fixes, repository 
 - FULL-01: Record remaining ERP/voice/provider/owner/device/legal/field-performance gaps honestly; no fabricated feature completion, paid providers or main/official-domain release.
 Team: root (UI/browser/integration), project_audit (API source), release_audit (server/storage + independent review). External provider spending: none dispatched; account balances unknown.
 
+
+## 2026-10-26 — Content continuation acceptance
+- [x] REUSE-01: retain PR91 and incorporate PR89/90, including the latest live73755d1.
+- [x] CONTENT-01: property-specific Finder guidance in DE/EN/UK/RU, correct technical-work separation.
+- [x] CONTENT-02: Bauhelfer guide, six-point checklist, service/enquiry routes, sitemap/hreflang/Studio integration.
+- [x] CHAT-01: stale/overlapping Assistant request protection and draft preservation;16race regressions. This closes the earlier stale-poll/Finder source gaps.
+- [x] QA-01: independent review,359automated tests,126-page build,27-route/982-unit source extraction.
+- [ ] OPS-01: persist exact tested source, fresh storage+CAS+backup/restore, authorized test-domain rollout and live readback (receipt will supersede this preparation state).
+- [ ] Preserve separate mobile/device/owner/provider/legal/offsite/CWV acceptance; trusted-proxy rate-limit and OG raster remain open.
 ## KN-REQUEST-GAP-20261026 — memory / site / repository reconciliation
 Current task adds explicit fictional review examples (3×DE/EN/UK/RU) to the existing empty review state, never to database/API/ratings, and restores the missed request for localized partner descriptions: /partner/×4 with five anchored profiles linked from existing logo cards. Exact requirement matrix, source provenance, baseline and remaining voice/ERP/payment/Studio/i18n/owner gaps: `docs/evidence/request-gap-20261026/AUDIT_UK.md`. Preserve actual live baseline cecb321ac41106c7a4f6da2d4a98308508852b38; do not overwrite concurrent enquiry/planner/Assistant work with an older divergent branch. Code-only test-domain rollout requires off-host source, current-pointer CAS, both existing locks, storage gate, online backup and live recheck. No new providers, real review submissions, main merge or official-domain change.
+
+- Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.

@@ -10,6 +10,7 @@ const labels: Record<string, Record<SiteLocale, string>> = {
   '/kontakt/': {de:'Kontakt',en:'Contact',uk:'Контакти',ru:'Контакты'},
   '/berlin/': {de:'Berlin & Brandenburg',en:'Berlin & Brandenburg',uk:'Берлін і Бранденбург',ru:'Берлин и Бранденбург'},
   '/ratgeber/': {de:'Bauratgeber',en:'Construction guides',uk:'Поради',ru:'Советы'},
+  '/galerie/': {de:'Arbeitsabläufe',en:'How we work',uk:'Як ми працюємо',ru:'Как мы работаем'},
   '/faq/': {de:'Fragen & Antworten',en:'Questions & answers',uk:'Запитання й відповіді',ru:'Вопросы и ответы'},
 };
 function normalPath(path: string) {

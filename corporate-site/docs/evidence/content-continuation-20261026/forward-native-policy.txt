@@ -1,0 +1,35 @@
+✔ reproducible localized transparent knaba-3d-header.svg (1.953208ms)
+✔ reproducible localized transparent knaba-3d-footer.svg (0.301985ms)
+✔ reproducible localized transparent knaba-3d-mobile-header.svg (0.383595ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer.svg (0.308846ms)
+✔ reproducible localized transparent knaba-3d-header-en.svg (1.047563ms)
+✔ reproducible localized transparent knaba-3d-footer-en.svg (0.313041ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-en.svg (0.276228ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-en.svg (0.194126ms)
+✔ reproducible localized transparent knaba-3d-header-uk.svg (0.386729ms)
+✔ reproducible localized transparent knaba-3d-footer-uk.svg (0.38718ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-uk.svg (0.241726ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-uk.svg (0.29143ms)
+✔ reproducible localized transparent knaba-3d-header-ru.svg (0.322044ms)
+✔ reproducible localized transparent knaba-3d-footer-ru.svg (0.246413ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-ru.svg (0.282406ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-ru.svg (0.383525ms)
+✔ approved locale registry is exact and free of filler (0.925884ms)
+✔ dark slogan is readable on site paper token (0.525123ms)
+✔ light slogan is readable on current footer token (0.098955ms)
+✔ admin-blocked Chromium falls back once to WebKit, no duplicate Chrome launch (1.88617ms)
+✔ all policy-blocked browsers remain BLOCKED, not PASS (0.35955ms)
+✔ unavailable Chrome executable falls back to WebKit (0.5497ms)
+✔ site response 503 is FAIL, never fallback to conceal site outage (0.194457ms)
+✔ suite assertion failure is FAIL, never hidden by another browser (0.409964ms)
+✔ reject public websites and unsafe preview paths (0.419488ms)
+✔ verified Chromium policy block can be skipped in repeated same-environment QA (0.415412ms)
+✔ Chromium QA launch must not explicitly disable the browser sandbox (0.321183ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 116.43019

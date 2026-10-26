@@ -1,0 +1,41 @@
+{
+  "scope": "LOCAL_SOURCE_BUILD_AND_ISOLATED_SERVER_TESTS",
+  "node": "24.22.1",
+  "integrationBase": "33221d9",
+  "latestIncludedLive": "56adc59b6665595f26eed3bbaf1319bcdd5f79ee",
+  "check": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 4
+  },
+  "vitest": {
+    "files": 38,
+    "passed": 252
+  },
+  "nativeNodeSuites": [
+    32,
+    27,
+    9
+  ],
+  "vpsTests": 41,
+  "htmlPages": 130,
+  "sourceLocales": {
+    "routes": 28,
+    "units": 1001
+  },
+  "publishedLocales": 4,
+  "pendingLocales": 95,
+  "artifactSha256": "0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73",
+  "independentReviews": {
+    "contentFinder": "no blockers",
+    "assistantRequestLifecycle": "no blockers",
+    "concurrentLiveIntegration": "no blockers;47scopedtests"
+  },
+  "browserResponsive": "NOT_RUN_KNOWN_SANDBOX_BLOCK_RETAINED",
+  "live": "PENDING_DEPLOYMENT",
+  "customerReady": false,
+  "cssGzip": 40949,
+  "allEmittedJsGzip": 194007,
+  "studioRoutes": 100,
+  "totalAutomatedTests": 361
+}

@@ -1,0 +1,17 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 test
+> vitest run && node --test tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/gallery-workflow-content.test.mjs tests/verify-live-artifact.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs
+
+
+ RUN  v5.0.5 /workspace/scratch/50508bde3407/knaba/corporate-site
+
+
+ Test Files  38 passed (38)
+      Tests  252 passed (252)
+   Start at  09:11:30
+   Duration  1.71s (import 39%, tests 29%, transform 27%, worker 5%)
+
+    Isolate  38 workers spawned · ~166ms startup each (spawn + environment, per file)
+             at least ~736ms faster with isolate: false — reuses workers across files instead of one per file
+
