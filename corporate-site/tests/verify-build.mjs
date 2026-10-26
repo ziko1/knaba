@@ -11,6 +11,11 @@ const official = releaseMode === "official";
 const vsp = releaseMode === "vsp";
 const indexingApproved = official || vsp;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
+const approvedGuideSlugs = [
+  "baureinigung-phasen", "baureinigung-kosten-planen",
+  "bauuebergabe-checkliste", "bauendreinigung-vorbereiten"
+];
+const isPublicGuide=(file)=>approvedGuideSlugs.some(slug=>file.endsWith("/ratgeber/"+slug+"/index.html"));
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const lists = await Promise.all(
@@ -25,6 +30,7 @@ const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
 const titles = new Set();
+let externalPartnerImagesInMarkup = 0;
 for (const file of files) {
   const bytes = await readFile(file);
   const name = relative(root, file);
@@ -53,12 +59,29 @@ for (const file of pages) {
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html"))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || ((file.includes("/ratgeber/") && !file.endsWith("/ratgeber/index.html")) && !isPublicGuide(file))) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
   titles.add(title);
-  assert.doesNotMatch(html, /<(?:script|img)[^>]+src="https?:/);
+  // No external scripts. The five fixed partner logo slots are the ONLY
+  // allowed third-party image requests in generated public HTML.
+  assert.doesNotMatch(html, /<script\b[^>]*\bsrc="https?:\/\//i, file + ': external script');
+  const externalImageSources = [...html.matchAll(/<img\b[^>]*\bsrc="(https?:\/\/[^"]+)"/gi)].map(match => match[1]);
+  const partnerItems = [...html.matchAll(/<li class="knaba-partner-card" data-partner-id="([^"]+)"[^>]*>[\s\S]*?<\/li>/g)];
+  const partnerImageSources = partnerItems.map(match => match[0].match(/<img\b[^>]*\bsrc="([^"]+)"/i)?.[1]);
+  assert.deepEqual(externalImageSources, partnerImageSources.filter(src => src?.startsWith('https://')), file + ': external images outside partner section');
+  if (partnerItems.length) {
+    assert.deepEqual(partnerItems.map(match => match[1]), ['official-01','official-02','hit','stromkreis','gewobag'], file + ': partner logo count and order');
+  }
+  for (const source of externalImageSources) {
+    const url = new URL(source);
+    assert.equal(url.origin, 'https://impro.usercontent.one', file + ': partner CDN');
+    assert.ok(url.pathname.startsWith('/appid/oneComWsb/domain/knaba.de/media/knaba.de/onewebmedia/'), file + ': specific CDN path');
+  }
+  externalPartnerImagesInMarkup += externalImageSources.length;
+  assert.doesNotMatch(html, /(?:Переглянути партнерів на knaba\.de|Джерело перевірено \d{2}\.\d{2}\.\d{4}|Stand des Quellenabgleichs|Дата сверки с источником)/i, file + ': internal research notices on customer pages');
+  assert.doesNotMatch(html, /<a\b[^>]*\bhref=["']https?:\/\/(?:www\.)?knaba\.de(?:[\/"'])/i, `${file}: no outbound link to original company site`);
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
     const path = url.split("?")[0].split("#")[0];
     if (["/login/", "/logout/"].includes(path)) continue;
@@ -75,10 +98,18 @@ for (const file of pages) {
   const graphs = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
   assert.ok(graphs.length > 0, `${file}: structured data`);
   const graphNodes=graphs.flatMap(g=>g['@graph']||[g]);
-  assert.ok(graphNodes.some(g=>g['@type']==='LocalBusiness'));
+  const business=graphNodes.find(g=>g['@type']==='LocalBusiness');
+  assert.ok(business, `${file}: LocalBusiness present`);
+  assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
+  assert.equal(business.url, origin, `${file}: business URL uses the current host`);
+  for(const node of graphNodes){
+    if(node['@type']==='Service') assert.equal(node.provider?.['@id'],origin+'/#business',`${file}: service provider`);
+    if(node['@type']==='Article') assert.equal(node.publisher?.['@id'],origin+'/#business',`${file}: article publisher`);
+  }
+  if (isPublicGuide(file)) assert.ok(graphNodes.some(g=>g['@type']==='Article'),`${file}: expected editorial Article schema`);
   if (file.includes('/bauleistungen/') && !file.endsWith('/bauleistungen/index.html')) assert.ok(graphNodes.some(g=>g['@type']==='Service'));
   if (/\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file)) assert.match(html, /name="robots" content="noindex, follow"/);
-  if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html')) assert.match(html,/name="robots" content="noindex, follow"/);
+  if (file.includes('/ratgeber/') && !file.endsWith('/ratgeber/index.html') && !isPublicGuide(file)) assert.match(html,/name="robots" content="noindex, follow"/);
   assert.match(html,/name="astro-view-transitions-enabled"/);
   for (const img of html.matchAll(/<img\b[^>]*>/g)) {
     assert.match(img[0], /alt="[^"]+"/);
@@ -94,6 +125,15 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
+assert.equal(pages.length,122,'122 source-built pages: 117 previous routes + four gallery locales + private admin center');
+for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
+  const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
+  assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
+  assert.match(source, /id="partner"/, prefix+'homepage partner section');
+  assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  assert.doesNotMatch(source, /<a[^>]+href="https?:\/\/(?:www\.)?knaba\.de\//, prefix+'no legacy official-site outbound links');
+  assert.doesNotMatch(source, /class="bau-ribbon"|class="container bau-editorial"|class="bau-editorial-panel"/, prefix+'duplicate sections');
+}
 const homepage = await readFile(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(homepage, /<astro-island/, 'Home remains framework-free');
 assert.match(homepage, /data-knaba-open/, 'Chat launcher is present without eager framework hydration');
@@ -102,8 +142,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads'])
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 31, 'Expanded localized Russian tree with FAQ and portal');
-assert.equal(russianPages.length, 32, 'Private Russian owner inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 35, '34 existing Russian public routes plus one gallery');
+assert.equal(russianPages.length, 36, '35 public Russian pages and one private owner inbox');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -130,10 +170,10 @@ const robots = await readFile(resolve(root, 'robots.txt'), 'utf8');
 assert.match(robots, /Disallow: \/api\//);
 assert.doesNotMatch(robots, /Disallow: \/\s*$/m);
 const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
-assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?72:0);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?92:0);
 if(indexingApproved) {
   assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
-  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,72*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
+  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,92*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
   for(const privatePart of ['/konto/','/studio/','/crm/','/postfach/'])
     assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
 } else assert.doesNotMatch(robots,/Sitemap:/);
@@ -154,7 +194,8 @@ const report = {
   internalLinks: "PASS",
   metadata: "PASS",
   indexMode: official ? "OFFICIAL" : vsp ? (indexingApproved ? "VSP_PUBLIC" : "VSP_PENDING_APPROVAL") : "TEMPORARY_NOINDEX",
-  externalImageScriptRequests: "NONE_IN_HTML",
+  externalImageScriptRequests: "KNOWN_PARTNER_LOGOS_ONLY",
+  externalPartnerImagesInMarkup,
   cssGzip,
   allEmittedJsGzip: jsGzip,
   assets,

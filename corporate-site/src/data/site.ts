@@ -1,6 +1,8 @@
 /// <reference types="vite/client" />
 /** Public VSP/official releases are indexable; unreleased preview remains noindex. */
-const mode = import.meta.env.KNABA_RELEASE_MODE;
+// Astro injects import.meta.env; native Node/VPS ESM does not.
+const nodeMode = (globalThis as {process?: {env?: {KNABA_RELEASE_MODE?: string}}}).process?.env?.KNABA_RELEASE_MODE;
+const mode = import.meta.env?.KNABA_RELEASE_MODE ?? nodeMode;
 const official = mode === 'official';
 const vsp = mode === 'vsp';
 export const siteConfig = {

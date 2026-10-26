@@ -76,3 +76,29 @@
 - [ ] P0 Validate real owner enrollment/SSO state, session expiry, role revocation and missing historical data on isolated staging; require rollback rehearsal.
 - [ ] P1 Mobile 320/390/768, 200% zoom, screen reader, four locales and measured startup/performance; finish contextual shell parity.
 - [ ] P1 Separately reconcile ERP/D1 data and assistant provider onboarding before any real dispatch; never claim full ERP access from the shell.
+
+## Current PR #66 — KNABA practical guides and safety (2026-10-25)
+
+- [x] New first-party DE/EN/UK/RU guides for all four live slugs; 117 source-built HTML pages, 88 URLs, reciprocal alternates and localized index links.
+- [x] Actual read-only sitemap parity gate PASS (88 current, 88 candidate, 0 removed or added); no private source bundle was copied.
+- [x] Node24/Vitest/VPS/Chromium acceptance and final source/artifact SHA recorded in `docs/evidence/knaba-guides-88-route-parity-2026-10-25.json`.
+- [ ] P0 Review translations and article facts with actual KnaBa company owner; no published source author credentials fabricated.
+- [ ] P0 Independent code/security and full accessibility/physical mobile QA; existing test screenshot and CSS reflow are not device evidence.
+- [ ] P0 Confirm active VPS release pointer/source receipt anew immediately before any user-approved preview cutover; lock/CAS, backup/integrity, rollback and HTTPS smoke.
+- [ ] P0 Genuine owner invitation/onboarding and login/Studio edit/publish/restore UAT; /readyz unresolved independently.
+- [ ] P1 Real field LCP/INP/CLS baseline; audit index coverage/Search Console/Bing only with verified owner properties. No subscriptions or paid dispatch without budget.
+
+## 2026-10-25 — KNABA owner email enrollment code candidate
+- Owner contact email kontakt@knaba.de confirmed in corporate-site/src/data/company.ts and KNABA official public contact page. Public address is NOT proof of mailbox ownership; contact inbox confirmation request sent via connected Gmail, ID 1a17302b42d53960, without reusable password or activation token.
+- Branch feat/knaba-owner-email-enrollment-20261025 on base 7f886606d5711ac93a88d3d93b54a0a9b5638525. One-use two-hour 256-bit SHA256-only owner capability + additive 0005 migration + safe same-origin activation page, clear token fragment, explicit password creation and business authority attestation; no public ready-to-use account created.
+- RED/GREEN Node TDD: issuance/claim, hash-only storage, expiry, owner role, CLI origin restrictions; HTTP 403 invalid Origin, 401 bad/replayed capability, 303 valid claim, authenticated Studio login. Real Chromium RED caught no-referrer Origin:null; GREEN same-origin keeps CSRF enforcement and removes fragment. Synthetic 390px owner login PASS, zero JS errors.
+- Node24 source evidence: 144/144 Vitest, 8/8 inquiry, 22/22 VPS tests, 103 HTML pages, static verifier, check 0 errors/warnings; artifact SHA256 1ebcb02f1f5b9bf3278c5eff4651118b85a5f5977b2927715b311f5418d598ee.
+- Current live VPS changed independently to local SHA 7e774c32863ad6b9f90a95288b5bd3495d941a51 not retrievable as public GitHub commit; disk ~96% used, config owner email empty, zero owner users, /readyz503. Do not deploy or migrate without exact source reconciliation, owner verified email response, independent security review and storage gate.
+- No paid AI/email provider activation, no official knaba.de change, no production login/password leak, no live SQLite modification. Details docs/plans/2026-10-25-owner-email-enrollment.md and docs/evidence/knaba-owner-enrollment-20261025.json.
+
+
+## KNABA integration candidate — 2026-10-26 (source only, unverified)
+- Combine current visual/DE-EN-UK-RU gallery+partners line (#73), existing admin indexability/control center line (#70/#69), consent-gated Assistant ERP line (#67), and owner invitation line (#58) into one isolated candidate.
+- Resolve conflicting copy and enforce both public-guide indexing and private /admin/* noindex. Preserve existing Studio, CRM and Assistant flows; no second auth/CMS.
+- Resolve migration sequence conflict: assistant_erp_requests uses 0005; owner_invites uses 0006 in the unified candidate. **Never rename any migration previously applied on a live DB.** Confirm live migration ledger and take verified snapshot/backup before considering release.
+- Live host source/artifact baseline and real owner approval pending. No merge to main, production deploy, DB migration, secret/provider activation or owner provisioning.

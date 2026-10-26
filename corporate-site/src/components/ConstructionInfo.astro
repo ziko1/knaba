@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import {company} from '../data/company';
 import {constructionBusinessCopy as c} from '../data/construction-offers';
 import type {ConstructionLocale} from '../data/construction-offers';
 import {infoGuidance,guidanceCopy,type InfoVariant} from '../data/construction-guidance';
+import {constructionGuides} from '../data/construction-guides';
 const {locale='de',variant}=Astro.props as {locale:ConstructionLocale,variant:InfoVariant};
 const prefix=locale==='de'?'':'/'+locale;
 const blocks={
@@ -56,8 +56,21 @@ const guidance=infoGuidance[variant];
     <p>{guidanceCopy.related[locale]}</p><ul>{guidance.links.map(link=><li><a href={prefix+link.path}>{link.label[locale]} <span aria-hidden="true">↗</span></a></li>)}</ul>
   </nav>
 </section>
+{variant==='ratgeber' && <section class="container section section-tight" aria-labelledby="published-guide-heading">
+  <div class="bau-guidance-heading">
+    <h2 id="published-guide-heading">{locale==='de'?'Vertiefende Bau-Ratgeber':locale==='en'?'Detailed construction guides':locale==='uk'?'Докладні порадники з будівельного клінінгу':'Подробные руководства по строительному клинингу'}</h2>
+    <p>{locale==='de'?'Vier praktische Artikel zur Vorbereitung, Kostenplanung und Abnahme. Kein verbindliches Preis- oder Leistungsversprechen.':locale==='en'?'Four practical articles on stages, quotes, preparation and handover. No fixed pricing or service commitment.':locale==='uk'?'Чотири практичні матеріали про етапи, кошториси, підготовку й здачу об’єкта. Без фіксованих цін чи гарантій послуг.':'Четыре практических материала об этапах, сметах, подготовке и сдаче объекта. Без фиксированных цен и гарантий услуг.'}</p>
+  </div>
+  <div class="bau-editorial-guides">
+  {constructionGuides.map((item,index)=><a class="bau-editorial-guide" href={prefix+'/ratgeber/'+item.slug+'/'}>
+    <span aria-hidden="true">{String(index+1).padStart(2,'0')} / KNABA</span>
+    <h3>{item.title[locale]}</h3>
+    <p>{item.description[locale]}</p>
+    <span aria-hidden="true">↗</span>
+  </a>)}
+  </div>
+</section>}
 <section class="container cta-banner"><div><p class="eyebrow">{cta.region}</p><h2>{cta.ready}</h2><p>{cta.note}</p></div><a class="button button-dark" href={prefix+'/kontakt/'}>{cta.cta} ↗</a></section>
-<section class="container section section-tight"><p><strong>KnaBa</strong> · {company.street}, {company.city} · <a href={company.phoneHref}>{company.phone}</a> · <a href={'mailto:'+company.email}>{company.email}</a></p></section>
 </Layout>
 <style>
 .bau-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.bau-info-card{background:#ebf5ed;padding:32px 28px;border:1px solid #d6e9de;border-radius:20px;display:flex;flex-direction:column;min-height:255px}.bau-info-card:nth-child(even){background:#e7f2f5}.bau-info-card h2{font-size:23px;line-height:1.15;margin:22px 0 10px}.bau-info-card p{font-size:14px;line-height:1.65;color:#48665e}.bau-info-card a{margin-top:auto}.bau-info-number{font-size:15px;color:#0a8c92;font-weight:850}
@@ -67,4 +80,16 @@ const guidance=infoGuidance[variant];
 .bau-related{padding-top:26px}.bau-related p{font-weight:800;color:#143d41}.bau-related ul{list-style:none;margin:0;padding:0;display:flex;gap:10px 22px;flex-wrap:wrap}.bau-related a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:#126b6d;font-weight:700;text-underline-offset:5px;overflow-wrap:anywhere}.bau-related a:focus-visible,.bau-guide-contents a:focus-visible{outline:3px solid #137a7a;outline-offset:4px;border-radius:5px}.bau-guide-contents a:hover{background:#e2f0e5}
 @media(max-width:760px){.bau-guidance-grid{grid-template-columns:1fr}.bau-guide-contents{display:grid}.bau-guidance-section{scroll-margin-top:90px}}
 @media(max-width:870px){.bau-info-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.bau-info-grid{grid-template-columns:1fr}.bau-info-card{min-height:210px}}
+
+.bau-editorial-guides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.bau-editorial-guide{display:flex;flex-direction:column;min-height:250px;padding:clamp(22px,3vw,34px);background:linear-gradient(135deg,#d1eff0,#eef9e9);border:1px solid #d5e4dd;border-radius:22px;text-decoration:none;color:#183c43;min-width:0}
+.bau-editorial-guide:nth-child(2){background:linear-gradient(135deg,#f6dcc5,#fff1d9)}
+.bau-editorial-guide:nth-child(3){background:linear-gradient(135deg,#e8dffd,#f5edfb)}
+.bau-editorial-guide:nth-child(4){background:linear-gradient(135deg,#d8ebd7,#eaf5e1)}
+.bau-editorial-guide>span:first-child{font-size:12px;font-weight:850;color:#226166}
+.bau-editorial-guide h3{font-size:clamp(20px,2.2vw,29px);line-height:1.2;margin:19px 0 12px;overflow-wrap:anywhere}
+.bau-editorial-guide p{font-size:14px;line-height:1.65;color:#355953;margin:0 0 15px;overflow-wrap:anywhere}
+.bau-editorial-guide>span:last-child{align-self:flex-end;margin-top:auto;font-size:22px}
+.bau-editorial-guide:focus-visible{outline:3px solid #176873;outline-offset:4px}
+@media(max-width:700px){.bau-editorial-guides{grid-template-columns:1fr}.bau-editorial-guide{min-height:210px}}
 </style>

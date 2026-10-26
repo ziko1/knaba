@@ -253,3 +253,53 @@ No automatic provider spending. External translations budget EUR0 reserved until
 - [x] Independent source review and exact tested code receipt (`dc279a9fb9148278b86f808394b52371d5cb80ed`); publication is a Draft PR, with no deployment acceptance. See `docs/evidence/assistant-erp-bridge-qa.json`.
 - [ ] Inventory actual legacy data if present; real owner UAT, approved mapping/credentials, retention/legal controls and target backup/rollback rehearsal before activation.
 - [ ] Separate approval for merge, deployment, live migration and real dispatch. Voice/WhatsApp calling, ERP channel and bidirectional operator handoff require a later contract.
+
+## KNABA-SEO-GUIDES-88 — 25.10.2026
+
+- [x] Restore four independent, contract-honest construction guide topics with DE/EN/UK/RU text and accessible responsive template.
+- [x] Reuse existing eight construction service contracts, keep legacy DE/RU guide links where still valid, provide 16 genuine article routes.
+- [x] Update existing `studioPages`, sitemap, HTML hreflang and guide-index internal links, not a duplicate CMS.
+- [x] Source-pin isolated Node24 check/test/build/verify: 117 HTML pages, 88 sitemap loc, 440 href alternates, 157 Vitest + 35 Node + 18 VPS PASS.
+- [x] Chromium: 16 guide URL routes + 6 reflow scenarios; original 24 marketing scenarios and six reflow tests PASS. Mobile checklist typography/localization corrected.
+- [x] Source-candidate sitemap compared with actual captured live sitemap: 88/88, missing=0; current pointer unchanged during parity audit.
+- [ ] Independent code/security and qualified DE/EN/UK/RU editorial language review; no invented authorship, services, rankings or warranties.
+- [ ] Genuine KNABA owner/legal/GDPR acceptance; test real owner login and protected Studio published SEO/article flows.
+- [ ] Physical Android/iOS browser + screen reader + true 200% zoom acceptance and field Web Vitals baseline.
+- [ ] Explicit approval then preview-only immutable cutover using shared lock/CAS, protected SQLite online backup and post-deploy SHA+route smoke; preserve rollback. Official knaba.de/main merge require separate approval.
+- [ ] Google/Bing Webmaster property verification and planned submit only after owner-controlled publication; no IndexNow send, paid analytics or external model dispatch by default.
+
+## KN-PARTNERS-5 — 25.10.2026 (source-only)
+- [x] Compare the official KnaBa page's five partner image references with the three displayed in the user-supplied mobile screenshot.
+- [x] Add one deduplicated data source, localized section and responsive cards to homepage across DE/EN/UK/RU, retaining original logo order and no old-site navigation.
+- [x] Add focused Vitest + static build guards; verify 12/12 source invariants via GitHub read-back.
+- [ ] Node24 check/test/build/verify:build on exact new branch SHA; independent review.
+- [ ] Verify image HTTP availability, CDN/privacy approval or migrate images to first-party copies; E2E 320/390/768/1440px, all four locales.
+- [ ] Confirm active VPS SHA, secure backup/rollback, owner UAT and explicit publication approval before deployment or merge.
+
+## KNABA official parity / licensed media gate — 26.10.2026
+
+| ID | Criterion | State |
+| --- | --- | --- |
+| OP01 | Verify existing functions vs real official public pages before changes, no duplicate partner block or contact handler | Source audit recorded; reuse existing |
+| OP02 | Internal links only on preview, active-origin Studio href validation, no source-note marketing UI | Source changes and regression checks added; build/runtime NOT_RUN |
+| OP03 | Shared four-locale Gallery + nav + Studio + SEO parity using first-party illustrations | Implemented source only; QA/build NOT_RUN |
+| OP04 | German/Russian third-party partner CDN privacy and image-rights disclosure | Draft legal source only; owner/rightsholder review REQUIRED |
+| OP05 | Verify genuine rights on original project photos/logos and any certifications or professional licenses | BLOCKED pending documentary proof; no fabricated claims |
+| OP06 | Node24 tests/build, mobile 320/390/768/1440, independent QA, exact artifact, VPS release checksum and backup/rollback | NOT_RUN/BLOCKED; do not deploy or merge without release approval |
+
+See `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`.
+
+## 2026-10-25 — KNABA owner email enrollment code candidate
+- Owner contact email kontakt@knaba.de confirmed in corporate-site/src/data/company.ts and KNABA official public contact page. Public address is NOT proof of mailbox ownership; contact inbox confirmation request sent via connected Gmail, ID 1a17302b42d53960, without reusable password or activation token.
+- Branch feat/knaba-owner-email-enrollment-20261025 on base 7f886606d5711ac93a88d3d93b54a0a9b5638525. One-use two-hour 256-bit SHA256-only owner capability + additive 0005 migration + safe same-origin activation page, clear token fragment, explicit password creation and business authority attestation; no public ready-to-use account created.
+- RED/GREEN Node TDD: issuance/claim, hash-only storage, expiry, owner role, CLI origin restrictions; HTTP 403 invalid Origin, 401 bad/replayed capability, 303 valid claim, authenticated Studio login. Real Chromium RED caught no-referrer Origin:null; GREEN same-origin keeps CSRF enforcement and removes fragment. Synthetic 390px owner login PASS, zero JS errors.
+- Node24 source evidence: 144/144 Vitest, 8/8 inquiry, 22/22 VPS tests, 103 HTML pages, static verifier, check 0 errors/warnings; artifact SHA256 1ebcb02f1f5b9bf3278c5eff4651118b85a5f5977b2927715b311f5418d598ee.
+- Current live VPS changed independently to local SHA 7e774c32863ad6b9f90a95288b5bd3495d941a51 not retrievable as public GitHub commit; disk ~96% used, config owner email empty, zero owner users, /readyz503. Do not deploy or migrate without exact source reconciliation, owner verified email response, independent security review and storage gate.
+- No paid AI/email provider activation, no official knaba.de change, no production login/password leak, no live SQLite modification. Details docs/plans/2026-10-25-owner-email-enrollment.md and docs/evidence/knaba-owner-enrollment-20261025.json.
+
+
+## KNABA integration candidate — 2026-10-26 (source only, unverified)
+- Combine current visual/DE-EN-UK-RU gallery+partners line (#73), existing admin indexability/control center line (#70/#69), consent-gated Assistant ERP line (#67), and owner invitation line (#58) into one isolated candidate.
+- Resolve conflicting copy and enforce both public-guide indexing and private /admin/* noindex. Preserve existing Studio, CRM and Assistant flows; no second auth/CMS.
+- Resolve migration sequence conflict: assistant_erp_requests uses 0005; owner_invites uses 0006 in the unified candidate. **Never rename any migration previously applied on a live DB.** Confirm live migration ledger and take verified snapshot/backup before considering release.
+- Live host source/artifact baseline and real owner approval pending. No merge to main, production deploy, DB migration, secret/provider activation or owner provisioning.

@@ -16,7 +16,7 @@ const project=projectCard[locale];
   <a href={prefix+'/planer/'} class="bau-offer bau-offer-request">
     <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true">📋</span><span class="bau-ordinal">{constructionGridOrdinal(i)} / KnaBa</span></div>
     <h3>{project.title}</h3><p>{project.description}</p>
-    <span class="bau-offer-action">{project.action} <span aria-hidden="true">↗︎</span></span>
+    <span class="bau-offer-action">{project.action} <span aria-hidden="true">↗</span></span>
   </a>
 ) : (
   <a href={prefix+'/bauleistungen/'+card.offer.slug+'/'} class="bau-offer">
@@ -33,14 +33,22 @@ const project=projectCard[locale];
 </Layout>
 <style>
 .bau-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
-.bau-offer{padding:28px;min-height:260px;background:#e9f5ed;border-radius:20px;display:flex;flex-direction:column;border:1px solid #d8e9df;text-decoration:none;color:#12353e}
-.bau-offer:nth-child(even){background:#e6f2f5}.bau-offer.special{background:#f2f3db}
-.bau-offer.bau-offer-request{background:linear-gradient(140deg,#ddf1e8 0%,#e8f5ef 58%,#f1f4dc 100%);border:1px solid #9bcbbb;color:#12343c;box-shadow:inset 0 1px #ffffffc9}
-.bau-offer.bau-offer-request p{color:#415c55}.bau-offer.bau-offer-request>span{color:#07646c}.bau-offer.bau-offer-request .bau-ordinal{color:#45635b}
+.bau-offer{position:relative;isolation:isolate;overflow:hidden;padding:28px;min-height:260px;background:#d8f2eb;border-radius:23px;display:flex;flex-direction:column;border:1px solid #d8e9df;text-decoration:none;color:#12353e;transition:transform .18s,box-shadow .18s}
+.bau-offer::before{content:'';position:absolute;z-index:-1;right:-65px;top:-65px;width:185px;height:185px;border:22px solid #ffffff70;border-radius:50%}
+.bau-offer:nth-child(3n + 1){background:linear-gradient(145deg,#bae7e9,#e6f7f2)}
+.bau-offer:nth-child(3n + 2){background:linear-gradient(145deg,#fce1b7,#fcf6d7)}
+.bau-offer:nth-child(3n){background:linear-gradient(145deg,#e5d9fa,#f5effc)}
+.bau-offer.special:nth-child(odd){background:linear-gradient(145deg,#fbd8ca,#fff0e2)}
+.bau-offer.special:nth-child(even){background:linear-gradient(145deg,#d5eec6,#f0f7d7)}
+.bau-offer:hover{transform:translateY(-3px);box-shadow:0 15px 28px #0b3c3e19}
+@media(prefers-reduced-motion:reduce){.bau-offer{transition:none}.bau-offer:hover{transform:none}}
+.bau-offer.bau-offer-request{background:linear-gradient(140deg,#ddf1e8 0%,#e8f5ef 58%,#f1f4dc 100%);color:#12343c;border-color:#9bcbbb}
+.bau-offer.bau-offer-request p{color:#355953}.bau-offer.bau-offer-request>span{color:#065b61}
 .bau-offer:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
 .bau-offer-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-offer .bau-ordinal{color:#6c9187;font-size:13px;letter-spacing:.08em;white-space:nowrap}.bau-offer-action{display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-offer-action>span{font-family:Arial,sans-serif;font-size:19px;font-weight:700;line-height:1}
 .bau-offer h3{font-size:23px;line-height:1.18;margin:22px 0 12px;letter-spacing:-.03em;overflow-wrap:anywhere}
-.bau-offer p{font-size:14px;color:#546f67;line-height:1.7;flex:1}.bau-offer>span{margin-top:18px;font-weight:800;color:#0c838a;font-size:14px}
+.bau-offer p{font-size:14px;color:#355953;line-height:1.7;flex:1}.bau-offer>span{margin-top:18px;font-weight:800;color:#065b61;font-size:14px}
+.bau-offer-top{display:flex;align-items:center;justify-content:space-between;gap:15px}.bau-ordinal{font-size:13px;font-weight:750;letter-spacing:.08em;color:#3e6058}
 .bau-icon{font-size:31px}.bau-disclaimer{max-width:850px;color:#59736c;line-height:1.75}
 @media(max-width:850px){.bau-offer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.bau-offer-grid{grid-template-columns:1fr}.bau-offer{min-height:210px}}

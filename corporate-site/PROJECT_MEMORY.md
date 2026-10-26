@@ -274,3 +274,46 @@ DNS are OUT OF SCOPE, as are merge to main or release acceptance by the client.
 - Prior version `9d06b6ae...` and verified private SQLite backup retained for rollback. No DB migrations, CRM changes, owner grant, official `knaba.de` deploy or main merge. /readyz=503 persists as **owner enrollment required**, do not bypass.
 - An initial direct loopback smoke used an invalid Host and correctly received 421, causing a safe automatic rollback. Correct local check uses `-H 'Host: kneba.vsp.rest'`; Host validation unchanged.
 - Complete source-vs-release lineage, safety gates and evidence: `docs/KNABA_SERVICE_CARD_LIVE_RELEASE_2026-10-25_UK.md`. Physical mobile, Safari, native zoom, a11y/screen reader, real field CWV and owner UAT not yet accepted.
+
+## 25.10.2026 — PR #66: KNABA 88-route original-guide restoration (source-only)
+
+- Scope only KNABA corporate-site; active project, separate memory/roadmap/backlog/budget from AVENQO. Existing repo instructions, Studio, ERP and prior receipts remain authoritative.
+- Previously PR #66 source built only 72 public sitemap URLs whereas live KNABA exposed 88. Four construction guide topics in four real published languages were missing. Live release source recovery remained `PRIVATE_ROOT_ONLY_NOT_GITHUB` and was **not** copied into GitHub or used to bypass review.
+- Independently authored four practical, non-price-promising guides at matching slugs: `baureinigung-phasen`, `baureinigung-kosten-planen`, `bauuebergabe-checkliste`, `bauendreinigung-vorbereiten`. DE/EN/UK/RU each has distinct useful sections, preparation checklist, internal service links, self-canonical, reciprocal hreflang, Article/LocalBusiness/Breadcrumb structured data; former legacy guide route is converted rather than duplicated.
+- Existing `studioPages` inventory and static sitemap now have 88 URLs, with 440 href alternates. Index contains visible links to guides. No auth, CRM, worker, migration, protected owner data or API changes.
+- Exact fully checked executable SHA: `5f65461b2b1aee8c50c0876f1df2f1a2c05e34cc`. Node24.22.1 isolated/offline: Astro/Vue/Svelte PASS; 157/157 Vitest, 35/35 Node, 18/18 synthetic VPS, 117 HTML/build/static verifier PASS. Artifact SHA256 `22bdf11283cb7b98af9edc34aac416007bbef1d175fa4a4b4c2a3bc2473990f7`.
+- Isolated Chromium guide scenarios 22/22 (16 routes and six reflows), marketing 24/24, old accessibility reflow 6/6. Fixed locally observed mobile checklist ordinal wrap and German checklist label on UK locale; final UK mobile screenshot inspected. Real physical Android, screen reader and actual zoom remain NOT_RUN.
+- Read-only live sitemap/candidate artifact gate returned **PASS 88/88, missing 0, extra 0**, stable live release pointer `b14b0be1cfd43100afb073780da7c4bd1e8e6c99` through check. IndexNow 88-URL dry-run sent zero requests. Current live site is a separate running release; PR #66 is NOT deployed.
+- Source-bound machine receipt: `corporate-site/docs/evidence/knaba-guides-88-route-parity-2026-10-25.json`. Independent/owner/localized editorial review, consent/legal sign-off, release CAS+backup/rollback, field CWV and physical devices remain blockers. NO merge, DNS, production cutover, paid API or real data mutation.
+
+## 2026-10-25 — Partner parity · 5 official logos (draft)
+- Based on PR #68 `fffcee9f67517bbb9aa72319eace91fd516722a1`: added one localized DE/EN/UK/RU Astro partner section and typed five-entry official asset inventory after FAQ. Position 1–2 image filenames do not establish company names; HIT, Stromkreis, Gewobag are named; no invented partner identities or legacy outbound links.
+- Responsive 5/3/2 columns; VPS CSP scoped image-CDN allowlist. 12/12 static connector read-back checks PASS. `npm run check`, Vitest, build, E2E/device, image CDN HTTP and real VPS QA NOT_RUN. No deployment/merge. Evidence: `docs/evidence/KNABA_PARTNERS_PARITY_2026-10-25_UK.md`.
+
+## Browser-policy QA guard checkpoint (2026-10-25, Draft PR #72)
+
+- Previous brand browser QA repeatedly hit Chromium `ERR_BLOCKED_BY_ADMINISTRATOR`. This is an execution-environment policy, not proof of a site defect or pass.
+- Added scoped `corporate-site/AGENTS.md`, read-only three-engine browser gate and responsive brand test, plus Node regression coverage. Failover is only for infrastructure blocks; 503 and product assertions are FAIL. Browser gate 2=BLOCKED, never PASS. KNABA_BROWSER_SKIP=chromium avoids repeating a verified block within the same agent environment.
+- Isolated Node 22.16.0 regression test: 8/8 PASS. The brand browser test remains BLOCKED due absent Node Playwright in this local checker; live 16-case browser/device QA and full Node24 Astro build are NOT_RUN. No merge/deploy or paid service. Follow exact SHA and independent review before release.
+
+## KNABA official-site functional parity + rights gate (26.10.2026)
+
+- New source-only branch `fix/knaba-official-parity-gallery-rights-20261026` stacked on Draft PR #72, *not* merged/deployed. Reuses PR #71 five-logo block and PR #68 old-site link/dedup protection; no duplicate components for partners, leads, auth or ERP.
+- Official site audit: /, /leistungen, /ber, /galerie, /jobs, /kontakt, /impressum. Added one shared Astro gallery for DE/EN/UK/RU with first-party schematic illustrations, nav/Studio/sitemap/hreflang integration. Actual official photographs and licensing/certification claims excluded until owner/rightsholder verification; `LICENSE` Apache 2.0 applies to source code, not photo rights.
+- Security: owner Studio absolute href now only on active configured site origin; targeted old-site link regression tests. HTML verification distinguishes five approved partner remote logos from forbidden other image/script URLs; CDN privacy disclosure in DE/RU and legal-rights wording. Removed visitor-facing legacy source-check dates; kept legal policy revision dates.
+- Source-bound evidence: `docs/evidence/KNABA_OFFICIAL_PARITY_AUDIT_2026-10-26_UK.md`. Browser connector unavailable; npm full build/tests/live/device and rights review NOT_RUN, no production authorization. No deployment claimed.
+
+## 2026-10-25 — KNABA owner email enrollment code candidate
+- Owner contact email kontakt@knaba.de confirmed in corporate-site/src/data/company.ts and KNABA official public contact page. Public address is NOT proof of mailbox ownership; contact inbox confirmation request sent via connected Gmail, ID 1a17302b42d53960, without reusable password or activation token.
+- Branch feat/knaba-owner-email-enrollment-20261025 on base 7f886606d5711ac93a88d3d93b54a0a9b5638525. One-use two-hour 256-bit SHA256-only owner capability + additive 0005 migration + safe same-origin activation page, clear token fragment, explicit password creation and business authority attestation; no public ready-to-use account created.
+- RED/GREEN Node TDD: issuance/claim, hash-only storage, expiry, owner role, CLI origin restrictions; HTTP 403 invalid Origin, 401 bad/replayed capability, 303 valid claim, authenticated Studio login. Real Chromium RED caught no-referrer Origin:null; GREEN same-origin keeps CSRF enforcement and removes fragment. Synthetic 390px owner login PASS, zero JS errors.
+- Node24 source evidence: 144/144 Vitest, 8/8 inquiry, 22/22 VPS tests, 103 HTML pages, static verifier, check 0 errors/warnings; artifact SHA256 1ebcb02f1f5b9bf3278c5eff4651118b85a5f5977b2927715b311f5418d598ee.
+- Current live VPS changed independently to local SHA 7e774c32863ad6b9f90a95288b5bd3495d941a51 not retrievable as public GitHub commit; disk ~96% used, config owner email empty, zero owner users, /readyz503. Do not deploy or migrate without exact source reconciliation, owner verified email response, independent security review and storage gate.
+- No paid AI/email provider activation, no official knaba.de change, no production login/password leak, no live SQLite modification. Details docs/plans/2026-10-25-owner-email-enrollment.md and docs/evidence/knaba-owner-enrollment-20261025.json.
+
+
+## KNABA integration candidate — 2026-10-26 (source only, unverified)
+- Combine current visual/DE-EN-UK-RU gallery+partners line (#73), existing admin indexability/control center line (#70/#69), consent-gated Assistant ERP line (#67), and owner invitation line (#58) into one isolated candidate.
+- Resolve conflicting copy and enforce both public-guide indexing and private /admin/* noindex. Preserve existing Studio, CRM and Assistant flows; no second auth/CMS.
+- Resolve migration sequence conflict: assistant_erp_requests uses 0005; owner_invites uses 0006 in the unified candidate. **Never rename any migration previously applied on a live DB.** Confirm live migration ledger and take verified snapshot/backup before considering release.
+- Live host source/artifact baseline and real owner approval pending. No merge to main, production deploy, DB migration, secret/provider activation or owner provisioning.

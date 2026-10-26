@@ -1,12 +1,14 @@
 import {services} from '../data/company';
 import {guides} from '../data/seo-content';
 import {constructionOffers} from '../data/construction-offers';
+import {constructionGuides} from '../data/construction-guides';
 export type SiteLocale = 'de'|'en'|'uk'|'ru';
 type Alternate = {lang:string;url:string};
 const publicPaths = [
- '/', '/leistungen/','/branchen/','/unternehmen/','/karriere/',
+ '/', '/leistungen/','/branchen/','/unternehmen/','/galerie/','/karriere/',
  '/kontakt/','/planer/','/berlin/','/ratgeber/','/faq/',
- ...constructionOffers.map(item=>'/bauleistungen/'+item.slug+'/')
+ ...constructionOffers.map(item=>'/bauleistungen/'+item.slug+'/'),
+ ...constructionGuides.map(item=>'/ratgeber/'+item.slug+'/')
 ];
 const publicSet = new Set(publicPaths);
 const legacyPaths=[

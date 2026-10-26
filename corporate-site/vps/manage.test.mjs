@@ -22,14 +22,14 @@ test('audit is genuinely read-only, migration count and integrity verified',asyn
   try{
     const file=join(dir,'existing.sqlite');
     const prepared=openLocalDatabase(file);
-    assert.equal(prepared.migrations.length,6);
+    assert.equal(prepared.migrations.length,7);
     prepared.db.close();
     const before=createHash('sha256').update(await readFile(file)).digest('hex');
     const result=run(file,'audit');
     assert.equal(result.status,0,result.stderr);
     const parsed=JSON.parse(result.stdout);
     assert.equal(parsed.integrity,'ok');
-    assert.equal(parsed.migrations.length,6);
+    assert.equal(parsed.migrations.length,7);
     assert.ok(parsed.tables.includes('assistant_erp_requests'));
     assert.ok(parsed.tables.includes('studio_pages'));
     assert.ok(parsed.tables.includes('crm_contact_state'));

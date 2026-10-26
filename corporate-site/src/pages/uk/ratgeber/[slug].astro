@@ -1,0 +1,9 @@
+---
+import Guide from '../../../components/ConstructionGuide.astro';
+import {constructionGuides,constructionGuideBySlug,type ConstructionGuide} from '../../../data/construction-guides';
+export function getStaticPaths(){
+  return constructionGuides.map(guide=>({params:{slug:guide.slug},props:{guide}}));
+}
+const {guide}=Astro.props as {guide:ConstructionGuide};
+---
+<Guide locale="uk" guide={guide} />

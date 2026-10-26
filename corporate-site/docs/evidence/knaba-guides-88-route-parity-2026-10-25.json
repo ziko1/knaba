@@ -1,0 +1,147 @@
+{
+  "schema": "KNABA_GUIDE_RECOVERY_QA_V1",
+  "date": "2026-10-25",
+  "repo": "ziko1/knaba",
+  "branch": "feat/knaba-reconciled-ui-seo-20261025",
+  "sourceSha": "5f65461b2b1aee8c50c0876f1df2f1a2c05e34cc",
+  "upstreamPr64": "6d3ca1193ff98ffc46e7688a74896789fd2fb6a3",
+  "priorSourceSha": "ac9da47cad26b65efef81afd08ad47bc4cb6bffe",
+  "summary": "Four original, practically detailed construction guides in DE/EN/UK/RU, indexed by existing Studio public-route inventory; no private VPS source bundle copied.",
+  "guideSlugs": [
+    "baureinigung-phasen",
+    "baureinigung-kosten-planen",
+    "bauuebergabe-checkliste",
+    "bauendreinigung-vorbereiten"
+  ],
+  "languages": [
+    "de",
+    "en",
+    "uk",
+    "ru"
+  ],
+  "codeProtection": {
+    "ownerSourceBundleCopied": false,
+    "externalPaidModelsActivated": false,
+    "sourceDependencyChanges": false,
+    "changesToAuthOrCRM": false,
+    "migrationsAdded": false,
+    "liveTenantDataTouched": false,
+    "indexNowSubmitted": false,
+    "googleSitemapSubmitted": false,
+    "previewOrProductionDeployed": false,
+    "mainMerged": false,
+    "contentReviewByActualKnaBaOwner": "NOT_PERFORMED"
+  },
+  "quality": {
+    "isolatedBuild": "Node 24.22.1, cached Docker image, 2 CPUs, 3 GiB memory, pids<=260, --network none, no new npm registry calls",
+    "npmRunCheck": "PASS",
+    "vitest": {
+      "passed": 157,
+      "failed": 0,
+      "files": 26
+    },
+    "nodeUnitTests": {
+      "passed": 35,
+      "failed": 0
+    },
+    "vpsIntegrationTests": {
+      "passed": 18,
+      "failed": 0
+    },
+    "npmRunBuild": "PASS",
+    "npmRunVerifyBuild": "PASS",
+    "build": {
+      "pages": 117,
+      "sitemapLoc": 88,
+      "sitemapHreflang": 440,
+      "indexMode": "VSP_PUBLIC",
+      "artifactSha256": "22bdf11283cb7b98af9edc34aac416007bbef1d175fa4a4b4c2a3bc2473990f7",
+      "cssGzipBytes": 34843,
+      "emittedClientJsGzipBytes": 182659,
+      "fieldLCP": "NOT_MEASURED",
+      "fieldINP": "NOT_MEASURED",
+      "fieldCLS": "NOT_MEASURED"
+    },
+    "browser": {
+      "runtime": "cached Chromium via Playwright, source-built isolated HTTP at 127.0.0.1, no Internet network",
+      "guides": {
+        "passed": 22,
+        "failed": 0,
+        "uniqueGuideRoutes": 16,
+        "additionalReflowCases": 6
+      },
+      "existingMarketing": {
+        "passed": 24,
+        "failed": 0
+      },
+      "accessibilityReflow": {
+        "passed": 6,
+        "failed": 0,
+        "method": "640/320 CSS px width equivalence, NOT actual browser zoom or physical device"
+      },
+      "keyboardMenusAndNoOverflow": "PASS in tested cases",
+      "humanScreenReader": "NOT_RUN",
+      "physicalAndroid": "NOT_RUN",
+      "footerInteraction": "Previously tested at earlier SHA; not included in this exact final-SHA run",
+      "visualManualReview": "DE/UK mobile guide screenshots inspected. Fixed checklist ordinal wrapping and localized checklist heading.",
+      "screenshots": [
+        {
+          "filename": "knaba-de-desktop-1440.png",
+          "bytes": 1721786,
+          "sha256": "23849ef83379411bd16c340d5aaff4990903e46c7942ab82bd1e1e104a517a6e",
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-guides-final-proof-20261025/knaba-de-desktop-1440.png"
+        },
+        {
+          "filename": "knaba-de-guide-mobile-390.png",
+          "bytes": 497356,
+          "sha256": "52c1d68250a4fc6a7f0789b538399dd5b9b2390c7c6d02da647e8523fa2a6c1d",
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-guides-final-proof-20261025/knaba-de-guide-mobile-390.png"
+        },
+        {
+          "filename": "knaba-uk-guide-mobile-390.png",
+          "bytes": 427066,
+          "sha256": "4e0aa7f43c3b78e89d9bdf8e0a900146eb7da4d120b5c3a3726ee85ddc7595b7",
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-guides-final-proof-20261025/knaba-uk-guide-mobile-390.png"
+        },
+        {
+          "filename": "knaba-uk-mobile-390.png",
+          "bytes": 977254,
+          "sha256": "e3736916a119c44f168f61578646512c5b6a1316348882fa13f67f62643fc076",
+          "pathOnVps": "/var/lib/sentinelx/uploads/knaba-guides-final-proof-20261025/knaba-uk-mobile-390.png"
+        }
+      ]
+    },
+    "liveSitemapParity": {
+      "status": "PASS",
+      "currentUrlCount": 88,
+      "candidateUrlCount": 88,
+      "missing": 0,
+      "added": 0,
+      "method": "captured live sitemap XML + exact dist/client/sitemap.xml, read-only verify-sitemap-parity CLI",
+      "activePointerStableDuringVerification": true,
+      "observedActiveReleaseAtTest": "/srv/knaba/vps/releases/b14b0be1cfd43100afb073780da7c4bd1e8e6c99",
+      "noLiveWrites": true
+    },
+    "indexNow": {
+      "mode": "DRY_RUN_ONLY",
+      "urlCount": 88,
+      "networkRequestsFromCLI": 0
+    }
+  },
+  "environmentObservations": {
+    "siteStatus": "HTTP 200 on home, FAQ and both DE/UK sampled guide URLs",
+    "vpsFilesystem": "197 GiB, 166 GiB used, 22 GiB free, ~89% used at latest read",
+    "sourcePublicationOfLiveRelease": "Separate from branch; do not copy protected source bundle",
+    "ownerActivation": "UNVERIFIED",
+    "officialDomainRelease": "NOT_PERFORMED"
+  },
+  "releaseDecision": "DRAFT_REVIEW_READY_NOT_DEVICE_OR_OWNER_ACCEPTED",
+  "remaining": [
+    "Independent second-party code/security and localization content review",
+    "Actual KNABA owner approval of editorial accuracy, legal/GDPR and sign-in",
+    "Physical device, true browser zoom, real screen-reader and full accessibility acceptance",
+    "Field Core Web Vitals collection on approved live origin",
+    "Resolve any active preview branch drift and explicit release approval",
+    "Separate verified read-only production/preview release attestation and rollback snapshot"
+  ]
+}

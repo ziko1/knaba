@@ -2232,3 +2232,25 @@ html[lang=ru] .brand-type>span{font-size:.48rem;letter-spacing:.08em}html[lang=r
 @media (max-width: 340px) {
   .construction-brand img { width: min(140px, 43vw); }
 }
+
+/* PR50 accessibility integration: anchored viewport menu at narrow widths.
+   Keep PR64's responsive header, keyboard and skip-link behavior unchanged. */
+@media (max-width:700px) {
+  .site-language-options {
+    position:fixed;
+    top:91px;
+    right:12px;
+    left:auto;
+    width:min(352px,calc(100vw - 24px));
+  }
+}
+
+/* Approved KNABA 3D family; no extra plaques or borders, shared across all locale routes.
+   Width belongs to picture so constrained mobile navigation keeps its existing budget. */
+.construction-brand .knaba-3d-media{display:block;line-height:0;min-width:0;width:clamp(165px,16vw,246px);background:transparent;border:0;box-shadow:none}
+.construction-brand .knaba-3d-media img{display:block;width:100%;height:auto;max-height:76px;aspect-ratio:1140/350;object-fit:contain;object-position:left center}
+.footer-brand.construction-brand .knaba-3d-media{width:100%;background:transparent;border:0;box-shadow:none}
+.footer-brand.construction-brand .knaba-3d-media img{width:100%;max-height:none}
+@media(max-width:920px){.construction-brand .knaba-3d-media{width:175px}.footer-brand.construction-brand .knaba-3d-media{width:100%}}
+@media(max-width:700px){.construction-brand .knaba-3d-media{width:clamp(112px,38vw,170px)}.construction-brand .knaba-3d-media img{aspect-ratio:1140/280;max-height:none}.footer-brand.construction-brand .knaba-3d-media{width:100%}}
+@media(max-width:340px){.construction-brand .knaba-3d-media{width:min(118px,37vw)}.footer-brand.construction-brand .knaba-3d-media{width:100%}}

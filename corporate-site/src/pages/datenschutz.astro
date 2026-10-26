@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { company } from "../data/company";
+import { siteConfig } from '../data/site';
 const sections = [
   ["verantwortlicher", "Verantwortlicher"],
   ["website", "Besuch der Website"],
@@ -18,7 +19,7 @@ const sections = [
     <p class="eyebrow">IHRE DATEN IM BLICK</p>
     <h1>Datenschutzerklärung</h1>
     <p class="legal-intro">Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.</p>
-    <p class="notice">Diese Erklärung betrifft die temporäre Website <strong>kneba.vsp.rest</strong>. Für das bestehende Angebot unter <a href="https://knaba.de/impressum">knaba.de</a> gelten die dort veröffentlichten Informationen. Stand: 25. Oktober 2026.</p>
+    <p class="notice">Diese Erklärung gilt für die Website <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 25. Oktober 2026.</p>
 
     <nav class="privacy-contents" aria-label="Inhalt der Datenschutzerklärung">
       {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
@@ -34,7 +35,7 @@ const sections = [
     <section aria-labelledby="website">
       <h2 id="website">2. Besuch der Website und Gerätespeicher</h2>
       <p>Beim Abruf übermittelt Ihr Browser technische Verbindungsdaten, insbesondere die IP-Adresse, die aufgerufene Adresse, den Zeitpunkt und Browserinformationen. Die Hosting-Infrastruktur benötigt diese Daten zur Übertragung der Inhalte und zum Schutz des Angebots vor Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. f DSGVO; unser Interesse ist ein sicherer und erreichbarer Webdienst.</p>
-      <p>Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Externe Karten oder Videos sind nicht eingebettet. Ein externer Link übermittelt erst beim Öffnen eine Anfrage an den jeweiligen Anbieter.</p>
+      <p>Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Eigene Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Die fünf Partnerlogos werden derzeit beim Laden des Partnerbereichs vom Bilddienst impro.usercontent.one bezogen. Dieser Dienst kann dabei IP-Adresse, angeforderte Bilddatei und technische Browserdaten empfangen, auch ohne Klick auf eine externe Website. Die Bildrechte und die zugehörigen Datenschutz- und Dienstleisterangaben müssen vor der Veröffentlichung mit dem Anbieter abschließend geprüft werden. Externe Karten und Videos sind nicht eingebettet.</p>
       <p>Die Anmeldung kann technisch notwendige Cookies oder vergleichbare Sitzungstechniken des Anmeldedienstes verwenden. Soweit ein Zugriff auf Ihr Gerät für den ausdrücklich gewünschten Anmeldevorgang unbedingt erforderlich ist, richtet sich dieser nach § 25 Abs. 2 Nr. 2 TDDDG. Für die Verarbeitung personenbezogener Daten gilt zusätzlich die jeweilige Rechtsgrundlage der DSGVO. Optionale Analyse- oder Werbefunktionen sind damit nicht freigegeben.</p>
       <p>Der Reinigungsplaner und noch nicht gesendete Anfrageentwürfe halten Eingaben im aktuellen Browserfenster. Diese Entwürfe werden nicht als personenbezogene Datensätze im Local Storage gespeichert. Ein Neuladen oder Schließen des Fensters kann den Entwurf verwerfen. Erst mit dem Absenden wird eine Anfrage serverseitig gespeichert.</p>
     </section>
