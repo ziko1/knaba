@@ -4,7 +4,7 @@ import type {D1Database,D1Result,D1Statement,WorkerEnv} from '../../worker/types
 
 export class Db implements D1Database{
   sql=new DatabaseSync(':memory:');
-  constructor(all=true){this.sql.exec('PRAGMA foreign_keys=ON');for(const file of readdirSync('drizzle').filter(f=>f.endsWith('.sql')&&(all||!f.startsWith('0005_'))).sort())this.sql.exec(readFileSync('drizzle/'+file,'utf8'));}
+  constructor(all=true){this.sql.exec('PRAGMA foreign_keys=ON');for(const file of readdirSync('drizzle').filter(f=>f.endsWith('.sql')&&(all||!f.startsWith('0007_'))).sort())this.sql.exec(readFileSync('drizzle/'+file,'utf8'));}
   prepare(query:string):D1Statement{
     const sql=this.sql;let values:unknown[]=[];
     return {bind(...args:unknown[]){values=args;return this;},

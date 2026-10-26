@@ -147,7 +147,7 @@ describe('Assistant ERP cancellation and migration preservation',()=>{
       older.sql.prepare("INSERT INTO assistant_offers(id,conversation_id,content,request_key,created_at) VALUES ('o',?,'Unchanged offer','k','2026')").run(id);
       older.sql.prepare("INSERT INTO assistant_notifications(id,conversation_id,event_key,kind,status,attempts,next_attempt_at,last_error,created_at,updated_at) VALUES ('n',?,'e','owner_handoff','pending',0,0,'','2026','2026')").run(id);
       const before=['assistant_conversations','assistant_messages','assistant_offers','assistant_notifications'].map(table=>older.sql.prepare(`SELECT * FROM ${table}`).all());
-      older.sql.exec(readFileSync('drizzle/0005_assistant_erp_bridge.sql','utf8'));
+      older.sql.exec(readFileSync('drizzle/0007_assistant_erp_bridge.sql','utf8'));
       const after=['assistant_conversations','assistant_messages','assistant_offers','assistant_notifications'].map(table=>older.sql.prepare(`SELECT * FROM ${table}`).all());
       expect(after).toEqual(before);expect(older.sql.prepare('PRAGMA foreign_key_check').all()).toEqual([]);
       expect(older.sql.prepare('SELECT COUNT(*) n FROM assistant_erp_requests').get()!.n).toBe(0);

@@ -147,8 +147,8 @@ async function guestMessage(request:Request,env:WorkerEnv,id:string,owner:Owner)
   if(result.meta?.changes) {
     if(row.status==='assistant') {
       const answer=assistantAnswer(content,assistantLocale(row.locale));
-      await db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) VALUES (?,?,'assistant','text',?,?,?)")
-        .bind(newId(),id,answer.text,'reply:'+requestKey,now()).run();
+      await db.prepare("INSERT OR IGNORE INTO assistant_messages (id,conversation_id,sender,kind,content,request_key,created_at) SELECT ?,?,'assistant','text',?,?,? WHERE EXISTS (SELECT 1 FROM assistant_conversations WHERE id=? AND status='assistant')")
+        .bind(newId(),id,answer.text,'reply:'+requestKey,now(),id).run();
       if(answer.handoff)await db.batch([
          db.prepare("UPDATE assistant_conversations SET status='human',updated_at=? WHERE id=? AND status='assistant'").bind(now(),id),
          ownerNotice(db,id,`handoff:${id}`,'owner_handoff'),
