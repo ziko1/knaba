@@ -8,9 +8,14 @@ const mobileHeader=read('../public/images/knaba-3d-mobile-header.svg');
 const mobileFooter=read('../public/images/knaba-3d-mobile-footer.svg');
 describe('KNABA approved 3D logo on all shared locale routes',()=>{
  it('connects one desktop and one mobile 3D source per surface',()=>{
-   for(const name of ['knaba-3d-header.svg','knaba-3d-footer.svg','knaba-3d-mobile-header.svg','knaba-3d-mobile-footer.svg']){
-     expect(layout.split('/images/'+name).length-1).toBe(1);
+   for(const key of ['header','footer','mobileHeader','mobileFooter']){
+     expect(layout).toContain('logoAssets.'+key);
    }
+   expect(layout).toContain("const logoLocale = lang==='de'?'':'-'+lang");
+   expect(layout).toContain('src={logoAssets.header}');
+   expect(layout).toContain('src={logoAssets.footer}');
+   expect(layout).toContain('srcset={logoAssets.mobileHeader}');
+   expect(layout).toContain('srcset={logoAssets.mobileFooter}');
    expect(layout.match(/<picture class="knaba-3d-media">/g)).toHaveLength(2);
    expect(layout.split('media="(max-width: 700px)"').length-1).toBe(2);
    expect(layout).toContain('class="brand footer-brand construction-brand"');

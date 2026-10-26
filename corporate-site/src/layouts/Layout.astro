@@ -44,6 +44,14 @@ const brandAlt = {
   uk:'KNABA – будівельний клінінг і будівельні послуги',
   ru:'KNABA – строительный клининг и строительные услуги',
 }[lang];
+const logoLocale = lang==='de'?'':'-'+lang;
+const logoVersion='?v=i18n-20261026';
+const logoAssets={
+  header:'/images/knaba-3d-header'+logoLocale+'.svg'+logoVersion,
+  footer:'/images/knaba-3d-footer'+logoLocale+'.svg'+logoVersion,
+  mobileHeader:'/images/knaba-3d-mobile-header'+logoLocale+'.svg'+logoVersion,
+  mobileFooter:'/images/knaba-3d-mobile-footer'+logoLocale+'.svg'+logoVersion,
+};
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
@@ -127,8 +135,8 @@ const structuredData = {
       <div class="container nav-wrap">
         <a href={homePath} class="brand construction-brand" aria-label={brandAlt}>
           <picture class="knaba-3d-media">
-            <source type="image/svg+xml" media="(max-width: 700px)" srcset="/images/knaba-3d-mobile-header.svg?v=lime-20261026" />
-            <img src="/images/knaba-3d-header.svg?v=lime-20261026" width="1140" height="350" alt={brandAlt} decoding="async" fetchpriority="high" />
+            <source type="image/svg+xml" media="(max-width: 700px)" srcset={logoAssets.mobileHeader} />
+            <img src={logoAssets.header} width="1140" height="350" alt={brandAlt} decoding="async" fetchpriority="high" />
           </picture>
         </a>
         <nav class="desktop-nav" aria-label={lang === 'de' ? 'Hauptnavigation' : lang === 'uk' ? 'Головна навігація' : lang === 'ru' ? 'Главная навигация' : 'Main navigation'}>
@@ -178,8 +186,8 @@ const structuredData = {
       <div class="container footer-grid">
         <div>
           <a class="brand footer-brand construction-brand" href={homePath} aria-label={brandAlt}><picture class="knaba-3d-media">
-              <source type="image/svg+xml" media="(max-width: 700px)" srcset="/images/knaba-3d-mobile-footer.svg?v=lime-20261026" />
-              <img src="/images/knaba-3d-footer.svg?v=lime-20261026" width="1140" height="350" alt={brandAlt} loading="lazy" decoding="async" />
+              <source type="image/svg+xml" media="(max-width: 700px)" srcset={logoAssets.mobileFooter} />
+              <img src={logoAssets.footer} width="1140" height="350" alt={brandAlt} loading="lazy" decoding="async" />
             </picture></a>
           <p>{translated.tagline}</p><span
             class="footer-region">{lang === 'ru' ? 'Берлин и Бранденбург' : 'Berlin & Brandenburg'}</span>
