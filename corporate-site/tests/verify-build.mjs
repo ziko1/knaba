@@ -57,7 +57,13 @@ for (const file of pages) {
   assert.equal(currentLinks[0][1], locale, `${file}: selected language matches document`);
   assert.doesNotMatch(html, /class="site-language-bar"|class="language-nav"/, `${file}: no duplicate language strip`);
   if (!official) assert.doesNotMatch(html, /class="preview-banner"/, 'No intrusive preview bar on VPS staging');
+  const isNotFoundDocument = file.endsWith("/404.html");
+  if (isNotFoundDocument) {
+    assert.doesNotMatch(html, /<link rel="canonical"/, file + ": 404 must not publish canonical URL");
+    assert.doesNotMatch(html, /<meta property="og:url"/, file + ": 404 must not publish Open Graph URL");
+  } else {
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
+  }
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
   if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);

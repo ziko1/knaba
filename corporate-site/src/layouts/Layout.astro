@@ -13,6 +13,7 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  omitCanonical?: boolean;
   hasInlinePhone?: boolean;
   hasInlineEmail?: boolean;
   lang?: 'de' | 'en' | 'uk' | 'ru';
@@ -20,7 +21,7 @@ interface Props {
   breadcrumbs?: {name:string;url:string}[];
   alternates?: {lang:string;url:string}[];
 }
-const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [], hasInlinePhone = false, hasInlineEmail = false } = Astro.props;
+const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [], hasInlinePhone = false, hasInlineEmail = false, omitCanonical = false } = Astro.props;
 const isNoindex = !siteConfig.indexable || noindex;
 function validWebmasterProof(value: unknown): string | undefined {
   if(typeof value!=='string')return undefined;
@@ -101,14 +102,14 @@ const structuredData = {
     {googleProof && <meta name="google-site-verification" content={googleProof} />}
     {bingProof && <meta name="msvalidate.01" content={bingProof} />}
     <meta name="robots" content={isNoindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
-    <link rel="canonical" href={canonical} />
+    {!omitCanonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="KnaBa" />
     <meta property="og:locale" content={{de:"de_DE",en:"en_GB",uk:"uk_UA",ru:"ru_RU"}[lang]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!omitCanonical && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={new URL(logoAssets.header,siteConfig.origin)} />
     <meta property="og:image:type" content="image/svg+xml" />
     <meta property="og:image:width" content="1140" /><meta property="og:image:height" content="350" />
