@@ -55,9 +55,9 @@ for (const prefix of ['/', '/en/', '/uk/', '/ru/']) {
       const ordinal = findFirst(card, node => node.nodeName === 'span' && hasClass(node, 'bau-ordinal'));
       assert.ok(ordinal, prefix + route + ': ordinal missing at position ' + (i + 1));
       assert.equal(
-        textContent(ordinal).trim().slice(0, 2),
+        textContent(ordinal).trim(),
         String(i + 1).padStart(2, '0'),
-        prefix + route + ': wrong ordinal at position ' + (i + 1),
+        prefix + route + ': ordinal must match entire label at position ' + (i + 1),
       );
       assert.equal(
         hasClass(card, isHome ? 'bau-card-request' : 'bau-offer-request'),
@@ -67,4 +67,4 @@ for (const prefix of ['/', '/en/', '/uk/', '/ru/']) {
     }
   }
 }
-console.log('PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and 01–06 labels');
+console.log('PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and exact 01–06 labels');
