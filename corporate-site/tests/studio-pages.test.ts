@@ -4,8 +4,8 @@ import {normalizeStudioPage} from '../src/lib/site-studio-contract';
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes';
 
 describe('Studio editable site route inventory',()=>{
-  it('offers all 96 multilingual core, FAQ, service and construction guide pages',()=>{
-    expect(studioPages).toHaveLength(96);
+  it('offers all 100 multilingual core, partner, FAQ, service and construction guide pages',()=>{
+    expect(studioPages).toHaveLength(100);
     expect(new Set(studioPages.map(x=>x.path)).size).toBe(studioPages.length);
     for(const item of studioPages){
       expect(normalizeStudioPage(item.path)).toBe(item.path);
@@ -29,6 +29,7 @@ describe('Studio editable site route inventory',()=>{
     for(const prefix of ['','/en','/uk','/ru']){
       expect(studioPages.some(x=>x.path===prefix+'/')).toBe(true);
       expect(studioPages.some(x=>x.path===prefix+'/galerie/')).toBe(true);
+      expect(studioPages.some(x=>x.path===prefix+'/partner/')).toBe(true);
       expect(studioPages.some(x=>x.path===prefix+'/bauleistungen/baureinigung/')).toBe(true);
       expect(studioPages.some(x=>x.path===prefix+'/bauleistungen/kernbohrungen/')).toBe(true);
     }

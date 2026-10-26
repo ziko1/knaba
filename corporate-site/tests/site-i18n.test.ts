@@ -3,6 +3,13 @@ import { languageLinks, localeAlternates, russianPublicPaths } from '../src/lib/
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes';
 
 describe('public language navigation', () => {
+  it('keeps partner profiles in the selected language and includes reciprocal alternates', () => {
+    const expected=['de','en','uk','ru'].map(lang=>({lang,url:(lang==='de'?'':'/'+lang)+'/partner/'}));
+    for(const {url} of expected){
+      expect(languageLinks(url)).toEqual(expected);
+      expect(localeAlternates(url)).toEqual([...expected,{lang:'x-default',url:'/partner/'}]);
+    }
+  });
   it('preserves every published construction article across all four languages', () => {
     for (const {slug} of constructionGuideRoutes) {
       const route='/ratgeber/'+slug+'/';
