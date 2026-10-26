@@ -33,7 +33,8 @@ describe('one approved KNABA brand catalog for the 99-locale release pipeline',(
   it('localizes social cards on shared public and private layouts without static German art',()=>{
     expect(layout).toContain('brandMessages[lang]');
     expect(layout).toContain('const brandAlt = brand.descriptor');
-    expect(layout).toContain("new URL('/images/knaba-social.png', siteConfig.origin).href");
+    expect(layout).toContain("lang === 'de' ? 'knaba-social.png' : `knaba-social-${lang}.png`");
+    expect(layout).toContain("new URL('/images/' + socialAsset, siteConfig.origin).href");
     expect(layout).toContain('<meta property="og:image" content={socialImage} />');
     expect(layout).toContain('<meta name="twitter:image" content={socialImage} />');
     expect(layout).toContain('src={logoAssets.header}');
