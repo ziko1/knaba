@@ -45,6 +45,24 @@ test('public access request needs consent; no role elevation; owner-only review'
   assert.equal(logged.status,303);
   const ownerList=await at('/access-requests/',{headers:{Cookie:cookie}});
   assert.equal(ownerList.status,200);
-  assert.match(await ownerList.text(),/candidate@example.test/);
+  const ownerMarkup=await ownerList.text();
+  assert.match(ownerMarkup,/candidate@example.test/);
+  assert.match(ownerMarkup,/<form method="post" action="\/invite-user\/">/);
+  assert.match(ownerMarkup,/name="email" value="candidate@example.test"/);
+  assert.match(ownerMarkup,/name="role" value="client"/);
+  assert.match(ownerMarkup,/<input type="checkbox" required>/);
+  assert.doesNotMatch(ownerMarkup,/name="role" value="owner"/);
+  assert.equal(ownerList.headers.get('referrer-policy'),'no-referrer');
+  const inviteReply=await at('/invite-user/',post({
+    email:'candidate@example.test',role:'client'
+  },{Cookie:cookie}));
+  assert.equal(inviteReply.status,200);
+  const inviteMarkup=await inviteReply.text();
+  assert.match(inviteMarkup,/register\/#token=[A-Za-z0-9_-]{43}/);
+  assert.equal(app.db.prepare('SELECT requested_role FROM vps_account_invites WHERE email=?').get('candidate@example.test').requested_role,'client');
+  assert.equal(app.db.prepare('SELECT count(*) AS n FROM vps_users').get().n,2,
+    'generating an owner invitation cannot create an applicant account');
+
+
  }finally{if(app)await app.close();await rm(dir,{recursive:true,force:true});}
 });

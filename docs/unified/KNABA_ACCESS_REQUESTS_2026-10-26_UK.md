@@ -24,3 +24,12 @@ Source: продовження вже наявного PR #109 (parent SHA 5a754
 
 ## Обмеження / наступний крок
 KNABA verified email/OIDC/OTP, proof of email, privacy/legal retention/DSAR cleanup, trusted proxy/WAF/Captcha, verified owner UAT, ERP tenant-isolated subject mapping, незалежний review та production release. Не використовувати домен чи ключі AVENQO для KNABA та не створювати платних інтеграцій без тарифів/квот/дозволів.
+
+
+## 2026-10-27 — Owner inbox prefilled guarded personal invitation (test-domain candidate)
+- The owner-only access-requests page now renders an existing invitation endpoint POST form per pending request, pre-filling HTML-escaped applicant email and database-validated client/worker requested role. The owner must visibly acknowledge independent identity verification. The checkbox is a UI requirement, not independent server-side evidence of identity verification; owner session authorization, origin policy, invite rate limits and pending approval remain server-enforced.
+- Public submission never grants account, password, session or operational role. Invitation issuance alone does not create the applicant account, and a later owner Portal approval is still required.
+- No new SQL/schema change, no provider, no production domain, no frontend replacement, no privileged data mutation in this candidate.
+- TDD RED observed: the owner pending view originally lacked POST invitation form. GREEN synthetic HTTP test checked prefill, owner-only response, invocation of existing invite handler, the role client and no applicant account creation. Full VPS Node24 suite: 62/62 PASS on source.
+- Real browser remains BLOCKED_ENV: isolated Playwright runtime missing headless shell and installed browser crashed; no changes to Chromium policy or sandbox. Device validation remains NOT_RUN.
+- Verified sender for KNABA, real owner human UAT, open email self-signup, account loss recovery, ERP tenant identity and independent security review remain OPEN.

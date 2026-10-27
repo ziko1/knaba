@@ -166,6 +166,12 @@ function reviewRequestsPage(requests){
     '<span>'+escapeHTML(record.intent==='client'?'Kunde':'Mitarbeiter')+'</span>'+
     '<p>'+escapeHTML(record.email)+'</p>'+
     '<p><small>'+escapeHTML(new Date(record.created_at).toISOString())+'</small></p>'+
+    '<form method="post" action="/invite-user/">'+
+    '<input type="hidden" name="email" value="'+escapeHTML(record.email)+'">'+
+    '<input type="hidden" name="role" value="'+escapeHTML(record.intent)+'">'+
+    '<label class="auth-checkbox"><input type="checkbox" required>'+
+    '<span>Ich habe die Identität über einen unabhängigen Kontaktweg geprüft.</span></label>'+
+    '<button type="submit">Einladung als '+escapeHTML(record.intent==='client'?'Kunde':'Mitarbeiter')+' erstellen</button></form>'+
     '<form method="post" action="/access-requests/resolve/">'+
     '<input type="hidden" name="id" value="'+escapeHTML(record.id)+'">'+
     '<label class="auth-checkbox"><input type="checkbox" name="reviewed" value="on" required>'+
