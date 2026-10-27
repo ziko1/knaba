@@ -49,3 +49,6 @@ Verified existing local Node24/VPS code and synthetic tests only. Read-only mail
 
 ## 2026-10-26 · G2 access request work
 No new provider subscriptions or sends, using existing VPS. Brevo: no sending domain; Resend: only another project domain partially failed. KNABA sender, budget, quota and pricing remain UNKNOWN; new external spend is not authorized.
+
+## 2026-10-27 · owner invitation attestation
+Existing isolated VPS Node24 runtime reused, zero new external email/OIDC/AI/paid-provider calls or subscriptions activated. KNABA delivery domain not verified, external budget and quota UNKNOWN. No production deploy or main merge without separate release gates.

@@ -169,7 +169,7 @@ function reviewRequestsPage(requests){
     '<form method="post" action="/invite-user/">'+
     '<input type="hidden" name="email" value="'+escapeHTML(record.email)+'">'+
     '<input type="hidden" name="role" value="'+escapeHTML(record.intent)+'">'+
-    '<label class="auth-checkbox"><input type="checkbox" required>'+
+    '<label class="auth-checkbox"><input type="checkbox" name="identity_verified" value="on" required>'+
     '<span>Ich habe die Identität über einen unabhängigen Kontaktweg geprüft.</span></label>'+
     '<button type="submit">Einladung als '+escapeHTML(record.intent==='client'?'Kunde':'Mitarbeiter')+' erstellen</button></form>'+
     '<form method="post" action="/access-requests/resolve/">'+
@@ -254,6 +254,8 @@ function invitationPage(invite=null,origin='',notice=''){
     '<form method="post" action="/invite-user/">'+
     '<label>E-Mail des Empfängers<input type="email" name="email" maxlength="320" required></label>'+
     '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="worker">Mitarbeiter/in</option></select></label>'+
+    '<label class="auth-checkbox"><input type="checkbox" name="identity_verified" value="on" required>'+
+    '<span>Ich habe die Person über einen unabhängigen Kontaktweg überprüft. Eine E-Mail-Adresse allein genügt nicht.</span></label>'+
     '<button type="submit">Einladung generieren</button></form>'+result+
     (notice?'<p role="status">'+escapeHTML(notice)+'</p>':'')+
     '<form method="post" action="/invite-user/revoke/">'+
@@ -514,10 +516,12 @@ export async function createKnabaVpsServer({
       try{
         const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
         const keys=[...params.keys()];
-        if(keys.length!==2||new Set(keys).size!==2||
-          keys.some(key=>!['email','role'].includes(key)))return send(res,422,'Invalid invitation form');
+        if(keys.length!==3||new Set(keys).size!==3||
+          keys.some(key=>!['email','role','identity_verified'].includes(key))||
+          params.get('identity_verified')!=='on')return send(res,422,'Invalid invitation form');
         const invite=issueAccountInvite(db,{
-          issuerId:user.id,ownerEmail,email:params.get('email')||'',role:params.get('role')||''
+          issuerId:user.id,ownerEmail,email:params.get('email')||'',role:params.get('role')||'',
+          identityVerified:params.get('identity_verified')==='on'
         });
         return send(res,200,invitationPage(invite,base.origin),headers);
       }catch(error){

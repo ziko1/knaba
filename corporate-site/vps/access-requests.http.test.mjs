@@ -50,11 +50,11 @@ test('public access request needs consent; no role elevation; owner-only review'
   assert.match(ownerMarkup,/<form method="post" action="\/invite-user\/">/);
   assert.match(ownerMarkup,/name="email" value="candidate@example.test"/);
   assert.match(ownerMarkup,/name="role" value="client"/);
-  assert.match(ownerMarkup,/<input type="checkbox" required>/);
+  assert.match(ownerMarkup,/name="identity_verified" value="on" required/);
   assert.doesNotMatch(ownerMarkup,/name="role" value="owner"/);
   assert.equal(ownerList.headers.get('referrer-policy'),'no-referrer');
   const inviteReply=await at('/invite-user/',post({
-    email:'candidate@example.test',role:'client'
+    email:'candidate@example.test',role:'client',identity_verified:'on'
   },{Cookie:cookie}));
   assert.equal(inviteReply.status,200);
   const inviteMarkup=await inviteReply.text();

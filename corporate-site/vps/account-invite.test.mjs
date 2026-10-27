@@ -19,7 +19,7 @@ function fixture(work) {
   } finally{db.close();rmSync(path,{recursive:true,force:true});}
 }
 function issue(db,owner,opts={}){
-  return issueAccountInvite(db,{issuerId:owner.id,ownerEmail,email:'new@example.test',role:'client',...opts});
+  return issueAccountInvite(db,{issuerId:owner.id,ownerEmail,email:'new@example.test',role:'client',identityVerified:true,...opts});
 }
 function register(db,token,opts={}){
   return acceptAccountInvite(db,{token,email:'new@example.test',name:'Test User',password:newPassword,
@@ -118,4 +118,25 @@ test('explicit owner revocation makes an issued invitation unusable before regis
     const replacement=issue(db,owner,{now:now+400});
     assert.equal(register(db,replacement.token,{now:now+500}).status,'pending');
   });
+});
+
+test('owner identity attestation is required before a one-use invitation and produces audit without plaintext token',()=>{
+ fixture(({db,owner})=>{
+  assert.throws(()=>issueAccountInvite(db,{
+   issuerId:owner.id,ownerEmail,email:'pending@example.test',role:'worker'
+  }),/attestation|verification|confirm/i);
+  assert.equal(db.prepare('SELECT count(*) AS n FROM vps_account_invites').get().n,0);
+  const result=issueAccountInvite(db,{
+   issuerId:owner.id,ownerEmail,email:'pending@example.test',role:'worker',identityVerified:true
+  });
+  assert.match(result.token,/^[A-Za-z0-9_-]{43}$/);
+  const row=db.prepare(
+   "SELECT actor_id,entity_id FROM portal_audit WHERE action='account.invite.owner-attested'"
+  ).get();
+  assert.equal(row?.actor_id,owner.id);
+  assert.match(row.entity_id,/^[a-f0-9]{64}$/);
+  assert.equal(row.entity_id,db.prepare('SELECT token_hash FROM vps_account_invites WHERE email=?')
+    .get('pending@example.test').token_hash);
+  assert.notEqual(row.entity_id,result.token);
+ });
 });

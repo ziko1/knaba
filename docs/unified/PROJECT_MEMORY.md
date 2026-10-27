@@ -125,3 +125,6 @@ Source candidate of public /join/ application to owner-only pending queue, no au
 - TDD RED observed: the owner pending view originally lacked POST invitation form. GREEN synthetic HTTP test checked prefill, owner-only response, invocation of existing invite handler, the role client and no applicant account creation. Full VPS Node24 suite: 62/62 PASS on source.
 - Real browser remains BLOCKED_ENV: isolated Playwright runtime missing headless shell and installed browser crashed; no changes to Chromium policy or sandbox. Device validation remains NOT_RUN.
 - Verified sender for KNABA, real owner human UAT, open email self-signup, account loss recovery, ERP tenant identity and independent security review remain OPEN.
+
+## 2026-10-27 — KNABA owner attestation gate for invitation requests
+Continued existing Draft PR #109 (parent f60d0fb0b8327bd1cee26ca7f9bc71e1650cbf33). Owner-issued account invitation now requires exact POST identity_verified=on and true lower-layer assertion; SQL audit records owner assertion by digest, never the bearer token. Existing pending role/approval and site components preserved; RED->GREEN focused 9/9; Node24 with current preview frontend 63/63. Sender/email proof, owner human UAT and production gates remain OPEN. Details: KNABA_AUTH_SECURITY_CONTINUATION_2026-10-26_UK.md.
