@@ -322,3 +322,17 @@ Team: root (UI/browser/integration), project_audit (API source), release_audit (
 Current task adds explicit fictional review examples (3×DE/EN/UK/RU) to the existing empty review state, never to database/API/ratings, and restores the missed request for localized partner descriptions: /partner/×4 with five anchored profiles linked from existing logo cards. Exact requirement matrix, source provenance, baseline and remaining voice/ERP/payment/Studio/i18n/owner gaps: `docs/evidence/request-gap-20261026/AUDIT_UK.md`. Preserve actual live baseline cecb321ac41106c7a4f6da2d4a98308508852b38; do not overwrite concurrent enquiry/planner/Assistant work with an older divergent branch. Code-only test-domain rollout requires off-host source, current-pointer CAS, both existing locks, storage gate, online backup and live recheck. No new providers, real review submissions, main merge or official-domain change.
 
 - Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.
+
+
+## Legal/Datenschutz gate — 28.10.2026
+
+- [x] LEGAL-01: inspect official published Impressum, current preview headers, shared company facts, staged auth/assistant capabilities and old legal audit; identify legal code/documentation gaps (not lawyer-certified).
+- [x] LEGAL-02: update existing German + Russian \`impressum.astro\` and \`datenschutz.astro\` without replacing existing policies, preserving central company data and real source behavior; no fictitious permissions, no false cookie/retention assurances.
+- [x] LEGAL-03: add direct automated-assistant notice in the existing \`KnabaAssistant.tsx\` for DE/EN/UK/RU and six scoped legal source tests integrated into existing npm test command.
+- [x] LEGAL-04: run isolated text regression on SHA \`a62bc91fbc426ce8b830d5cac6ee9e61c35748f2\` => Node 18.19.1, **6/6 PASS**; report not equivalent to full Astro/Node24 E2E QA.
+- [ ] LEGAL-05 (BLOCKER, owner + counsel): verify official company/legal/HR/contract facts, §18 HwO/HWK, Gewerbe status, potential AÜG risk, B2C/PAngV/withdrawal and VSBG.
+- [ ] LEGAL-06 (BLOCKER, privacy/operations): actual Article 28 processor agreements, global data flow/cookies, Article 30 record, deletion/retention matrix and backup deletion, DSR response procedure, incident plan, security review.
+- [ ] LEGAL-07 (BLOCKER, release): independent current-SHA review; full Node >=22.23.4 check/test/build + VPS + 4-language link/cookie/device/browser; operator approval of legal text; safe staged rollout with backup & rollback; validate after official domain migration.
+- [ ] LEGAL-08 (future, not authorized yet): if online paid booking, social auth, external AI/WhatsApp voice, recording, analytics or marketing is enabled, create purpose-specific contract/notice/consent/accessibility/consumer-law QA before activation.
+
+Canonical detailed audit and sources: \`docs/LEGAL_AUDIT_UK.md\`. Stacked Draft source candidate, no production merge or deploy.
