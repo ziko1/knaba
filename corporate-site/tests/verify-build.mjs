@@ -5,6 +5,8 @@ import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes.ts';
 
+import {assertNoPrunedClassesInHtml,findUnusedLegacyStyleSymbols} from '../scripts/legacy-css-budget.mjs';
+
 const root = resolve("dist/client");
 const releaseMode = process.env.KNABA_RELEASE_MODE;
 const official = releaseMode === "official";
@@ -30,6 +32,7 @@ const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
 const titles = new Set();
+const unusedLegacyStyles = findUnusedLegacyStyleSymbols();
 let externalPartnerImagesInMarkup = 0;
 for (const file of files) {
   const bytes = await readFile(file);
@@ -43,6 +46,7 @@ for (const file of files) {
 }
 for (const file of pages) {
   const html = await readFile(file, "utf8");
+  assertNoPrunedClassesInHtml(html, unusedLegacyStyles, file);
   const guideSlug = file.match(/\/ratgeber\/([^/]+)\/index\.html$/)?.[1];
   const publishedGuide = !!guideSlug && publishedGuideSlugs.has(guideSlug);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
