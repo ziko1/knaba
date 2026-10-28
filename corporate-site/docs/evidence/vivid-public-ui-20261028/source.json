@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "103e3f9feb58aeec7323ae7c4fa5f4cf011355fa",
+  "sourceTree": "c7379b2eada21a51fa96b34ab09d43be4919688b",
+  "parentCommit": "e2ab9b1883bcac8559dd34939d75bb3e9676dd69",
+  "artifactSha256": "3b5449e1a972afcf4d22d51789553b28b2c1964d9e5cb23ffaf94f10dced42c0",
+  "runtime": "Node24.22.1",
+  "releaseMode": "vsp",
+  "sourceFilesSha256": {
+    "corporate-site/astro.config.mjs": "c10438252fa48464789628d1bc26a654b205277cf9fead2784a66e01ff070836",
+    "corporate-site/docs/build-verification.json": "a487c29d8d2bbcf913396b9cdffd590d2ae0f4005baf88081f7d58003084410d",
+    "corporate-site/docs/plans/2026-10-28-vivid-public-ui.md": "e3257a4b2cc283f7dee25a1ba5cc2e2eb3d2f7b00f7cd6e020eb7e13e27fcc66",
+    "corporate-site/scripts/legacy-css-budget.mjs": "466e366241161da986200c2c09794d7058715165e1a975a0968ea27b1248218a",
+    "corporate-site/src/components/ServiceCarousel.astro": "23c455cda0cfb39758508fe22cd5d123faf1669ddb4b7d7521eb062912fba737",
+    "corporate-site/src/layouts/Layout.astro": "538be33ca1b1188a681183d7b9c1fbadf0d3845b241f51c4b7f7f2d0a0ddf7ca",
+    "corporate-site/src/scripts/public-motion.ts": "fed9e109db3340a97a4d78e5a935e66eaaa9e7efd5ee372527bd8593ab31afbb",
+    "corporate-site/src/styles/public-vivid.css": "29da504b4fee92a7f40a2b040a40fcc6d33c58e0847936b66cba03b20a29c023",
+    "corporate-site/tests/legacy-css-budget.test.ts": "e726a2412a29bc710983e8459310e16e444b6806d371d87ba4f431619f90b796",
+    "corporate-site/tests/public-motion.test.ts": "03ea275a9ba5c413d4da558728dd12971edafde69f35358a34ce605e703b58eb",
+    "corporate-site/tests/verify-build.mjs": "276cde48ea5dd14d24a4d6123064ce3684a93c4fdb1a7ad48f2835d25fb1febb",
+    "corporate-site/tests/vivid-public-ui-browser.cjs": "4552fa4aa7ec9a73d62a14c7bc9a8e7e4c11b072009137840cd1e1fa16b8eb70"
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "baselineSource": "e2ab9b1883bcac8559dd34939d75bb3e9676dd69",
+  "candidateSource": "103e3f9feb58aeec7323ae7c4fa5f4cf011355fa",
+  "node": "v24.22.1",
+  "mode": "vsp",
+  "status": "PASS",
+  "methodology": "parse5 text nodes excluding script/style and stylesheet links; ordered attributes href/src/alt/action/name/type/id/aria-label/aria-labelledby. Generated script and stylesheet URLs are excluded from content contracts; linked-image URLs are compared. Static content parity is not browser visibility or end-to-end acceptance.",
+  "baselineHtmlPages": 130,
+  "candidateHtmlPages": 130,
+  "routeParity": true,
+  "mismatches": [],
+  "phoneViolations": [],
+  "baseline": {
+    "css": {
+      "count": 27,
+      "raw": 329826,
+      "gzip": 79783
+    },
+    "publicCss": {
+      "count": 14,
+      "raw": 168283,
+      "gzip": 40949
+    },
+    "compilerIntermediateCss": {
+      "count": 13,
+      "raw": 161543,
+      "gzip": 38834
+    },
+    "js": {
+      "count": 35,
+      "raw": 536756,
+      "gzip": 192591
+    },
+    "artifactSha256": "b9786fd729516afcb0d832782200d5e595f3f1265e3dfdd7fbb63bd89aaf0b5d",
+    "homepage": {
+      "htmlRaw": 68200,
+      "htmlGzip": 16766,
+      "linkedAssets": [
+        {
+          "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+          "raw": 16365,
+          "gzip": 5575
+        },
+        {
+          "path": "/_astro/ConstructionFaq.B36A57JG.css",
+          "raw": 7557,
+          "gzip": 1534
+        },
+        {
+          "path": "/_astro/ConstructionHome.BiwcYlN_.css",
+          "raw": 15830,
+          "gzip": 3520
+        },
+        {
+          "path": "/_astro/KnabaAssistant.CDL77fMx.css",
+          "raw": 6740,
+          "gzip": 2115
+        },
+        {
+          "path": "/_astro/Layout.DTHz471I.css",
+          "raw": 60637,
+          "gzip": 13944
+        },
+        {
+          "path": "/_astro/Layout.astro_astro_type_script_index_0_lang.8anyiHQt.js",
+          "raw": 1155,
+          "gzip": 648
+        },
+        {
+          "path": "/_astro/Layout.astro_astro_type_script_index_1_lang.bqXGCNWh.js",
+          "raw": 4534,
+          "gzip": 1855
+        },
+        {
+          "path": "/_astro/Layout.astro_astro_type_script_index_2_lang.DwkLSAzj.js",
+          "raw": 699,
+          "gzip": 402
+        },
+        {
+          "path": "/_astro/Partners.spIlufU2.css",
+          "raw": 5457,
+          "gzip": 1457
+        },
+        {
+          "path": "/_astro/reviews.BkvJoBCK.css",
+          "raw": 8221,
+          "gzip": 2215
+        }
+      ],
+      "htmlAndLinkedAssetsGzip": 50031
+    }
+  },
+  "candidate": {
+    "css": {
+      "count": 14,
+      "raw": 162095,
+      "gzip": 39410
+    },
+    "publicCss": {
+      "count": 14,
+      "raw": 162095,
+      "gzip": 39410
+    },
+    "compilerIntermediateCss": {
+      "count": 0,
+      "raw": 0,
+      "gzip": 0
+    },
+    "js": {
+      "count": 35,
+      "raw": 536756,
+      "gzip": 192591
+    },
+    "artifactSha256": "3b5449e1a972afcf4d22d51789553b28b2c1964d9e5cb23ffaf94f10dced42c0",
+    "homepage": {
+      "htmlRaw": 70438,
+      "htmlGzip": 17558,
+      "linkedAssets": [
+        {
+          "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+          "raw": 16365,
+          "gzip": 5575
+        },
+        {
+          "path": "/_astro/ConstructionFaq.B36A57JG.css",
+          "raw": 7557,
+          "gzip": 1534
+        },
+        {
+          "path": "/_astro/ConstructionHome.CgZrnpLX.css",
+          "raw": 16615,
+          "gzip": 3668
+        },
+        {
+          "path": "/_astro/KnabaAssistant.CDL77fMx.css",
+          "raw": 6740,
+          "gzip": 2115
+        },
+        {
+          "path": "/_astro/Layout.Cm4MFthu.css",
+          "raw": 53664,
+          "gzip": 12257
+        },
+        {
+          "path": "/_astro/Layout.astro_astro_type_script_index_0_lang.8anyiHQt.js",
+          "raw": 1155,
+          "gzip": 648
+        },
+        {
+          "path": "/_astro/Layout.astro_astro_type_script_index_1_lang.bqXGCNWh.js",
+          "raw": 4534,
+          "gzip": 1855
+        },
+        {
+          "path": "/_astro/Layout.astro_astro_type_script_index_3_lang.DwkLSAzj.js",
+          "raw": 699,
+          "gzip": 402
+        },
+        {
+          "path": "/_astro/Partners.spIlufU2.css",
+          "raw": 5457,
+          "gzip": 1457
+        },
+        {
+          "path": "/_astro/reviews.BkvJoBCK.css",
+          "raw": 8221,
+          "gzip": 2215
+        }
+      ],
+      "htmlAndLinkedAssetsGzip": 49284
+    }
+  },
+  "cssComparison": {
+    "publicCssGzipDelta": -1539,
+    "publicCssGzipReductionPercent": 3.758333536838506,
+    "candidateAllEmittedCssBudgetBytes": 40960,
+    "candidateAllEmittedCssBudgetPass": true,
+    "note": "Baseline clean builds consistently retain 13 duplicate compiler CSS files under .prerender; candidate contains no such directory. css is the literal all-emitted sum. Compare publicCss, which excludes only .prerender compiler intermediates, for design-related savings: 14 public CSS files on each side. No files were deleted to obtain these measurements. Do not interpret the inflated baseline all-emitted sum as design-related savings."
+  },
+  "homepageHtmlAndLinkedAssetsGzipDelta": -747
+}
