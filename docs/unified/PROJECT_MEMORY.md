@@ -128,3 +128,8 @@ Source candidate of public /join/ application to owner-only pending queue, no au
 
 ## 2026-10-27 — KNABA owner attestation gate for invitation requests
 Continued existing Draft PR #109 (parent f60d0fb0b8327bd1cee26ca7f9bc71e1650cbf33). Owner-issued account invitation now requires exact POST identity_verified=on and true lower-layer assertion; SQL audit records owner assertion by digest, never the bearer token. Existing pending role/approval and site components preserved; RED->GREEN focused 9/9; Node24 with current preview frontend 63/63. Sender/email proof, owner human UAT and production gates remain OPEN. Details: KNABA_AUTH_SECURITY_CONTINUATION_2026-10-26_UK.md.
+
+
+## 2026-10-28 — partner-request reuse and source QA
+
+One scoped partner-account enhancement is being developed on existing customer PR #110 lineage without changing owner/developer login, migrations or official domain. Partners only submit and track their own requests in the existing cleaning_requests store; server-scoped filtering and conditional SQL guards ensure authorized partner/approved membership. Worker notes, third-party requests, CRM, employees and admin role changes stay inaccessible. Evidence will bind final source SHA to full Node24, HTTP/SQLite and isolated Chromium results. ERP/WhatsApp/provider identity linkage and human customer acceptance are not implied.

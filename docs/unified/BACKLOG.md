@@ -106,3 +106,9 @@ SOURCE_LOCAL_QA: owner invite revocation, 60-per-15m TCP-source login quota, pas
 - [x] Both owner invite UI entrypoints show named required identity-checked field; backend requires exact confirmation before invoking existing one-use invitation.
 - [x] Owner acknowledgement audited transactionally as assertion, never as independently verified identity.
 - [ ] Actual owner identity/evidence review, KNABA email proof and verified sender/OIDC, UI/device/a11y acceptance, provider pricing, ERP tenant-scoped SSO and production release.
+
+
+## KN-PARTNER-PORTAL-20261028 — власні запити партнерів
+
+- SOURCE_QA_PASS_PREVIEW_NOT_DEPLOYED: partner requests reuse server-scoped client_id workflow and existing Portal; owner can review. DoD: approved only; create/list/cancel, replay safe; role revocation default-deny; IDOR/worker-note/CRM/admin negative tests; DE/EN/UK/RU and 320–1440px browser checks; no migration.
+- BLOCKED_EXTERNAL: company approval of partnership/business process, ERP customer/partner mapping, data processing/retention, provider-backed email recovery, owner live UAT, physical device screen-reader, official production cutover.
