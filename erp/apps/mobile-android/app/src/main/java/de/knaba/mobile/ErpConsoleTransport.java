@@ -30,7 +30,6 @@ final class ErpConsoleTransport {
     synchronized void clear() { epoch++; cookie = ""; csrf = ""; }
     synchronized boolean isSignedIn() { return !cookie.isEmpty() && !csrf.isEmpty(); }
     synchronized String origin() { return origin; }
-    private static JSONObject error(int status, String code) { return new JSONObject().put("status", status).put("code", code); }
 
     private JSONObject call(String path, JSONObject body, boolean authenticated, boolean login) throws Exception {
         final String base, activeCookie, activeCsrf;
