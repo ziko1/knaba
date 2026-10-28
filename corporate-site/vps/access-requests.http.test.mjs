@@ -47,6 +47,7 @@ test('public access request needs consent; no role elevation; owner-only review'
   assert.equal(ownerList.status,200);
   const ownerMarkup=await ownerList.text();
   assert.match(ownerMarkup,/candidate@example.test/);
+  assert.match(ownerMarkup,/Gültig bis:/,'owner needs deadline visibility before a request expires');
   assert.match(ownerMarkup,/<form method="post" action="\/invite-user\/">/);
   assert.match(ownerMarkup,/name="email" value="candidate@example.test"/);
   assert.match(ownerMarkup,/name="role" value="client"/);

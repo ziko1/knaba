@@ -7,7 +7,8 @@ import {randomBytes,createHash} from 'node:crypto';
 import {normalizeEmail} from './auth.mjs';
 
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const ttlMs=30*24*3600*1000;
+export const ACCESS_REQUEST_TTL_DAYS=30;
+const ttlMs=ACCESS_REQUEST_TTL_DAYS*24*3600*1000;
 const validID=/^[A-Za-z0-9_-]{24}$/;
 export class AccessRequestError extends Error{
   constructor(message,code='invalid'){super(message);this.name='AccessRequestError';this.code=code;}
@@ -80,7 +81,7 @@ export function listAccessRequests(db,{ownerId,ownerEmail,now=Date.now()}){
   verifiedOwner(db,{ownerId,ownerEmail});
   timeMs(now);
   return db.prepare(
-    "SELECT id,name,email,intent,created_at FROM vps_access_requests"+
+    "SELECT id,name,email,intent,created_at,expires_at FROM vps_access_requests"+
     " WHERE status='pending' AND expires_at>? ORDER BY created_at DESC,id DESC LIMIT 100"
   ).all(now);
 }
