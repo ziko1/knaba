@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount } from "solid-js";
+import { For, Show, createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { publicText, publicApiError, type PublicLocale } from "../lib/public-i18n";
 import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
@@ -6,6 +6,7 @@ import { company } from "../data/company";
 import { constructionOffers, offerBySlug } from "../data/construction-offers";
 import { constructionInquiryData, constructionMessageLimit, validateConstructionInquiry } from "../lib/inquiry-construction";
 import { inquirySupportPath } from "../lib/inquiry-navigation";
+import { inquiryDraftCopy, inquiryDraftMemory } from "../lib/inquiry-draft";
 import {
   buildInquiry,
   emptyInquiry,
@@ -34,7 +35,10 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const [sending, setSending] = createSignal(false);
   const [receipt, setReceipt] = createSignal("");
   const [website, setWebsite] = createSignal("");
-  let idempotencyKey = "";
+  const [dirty, setDirty] = createSignal(false);
+  const [draftNotice, setDraftNotice] = createSignal("");
+  let entryTopic = "";
+  let activeRequest: AbortController | null = null;
   const [error, setError] = createSignal("");
   const [invalidField, setInvalidField] = createSignal<
     keyof InquiryData | null
@@ -74,22 +78,67 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   }
 
   onMount(() => {
+    const saved = inquiryDraftMemory.read();
+    const navigationTopic = inquiryDraftMemory.takeNavigationTopic();
+    if (saved) {
+      setData(saved.data);
+      setTopic(saved.topic);
+      setStep([0, 1, 2].includes(saved.step) ? saved.step : 0);
+      setDirty(true);
+      setDraftNotice(inquiryDraftCopy[locale()].restored);
+      if (saved.reviewing) {
+        try { setReview(buildInquiry(requestData(), locale(), topic())); }
+        catch { setStep(2); }
+      }
+    }
     const params = new URLSearchParams(window.location.search);
     const selected = offerBySlug(params.get("anliegen") || "")
       ?? (params.get("leistung") === "baureinigung" ? offerBySlug("baureinigung") : undefined);
-    if (selected) selectTopic(selected.slug);
+    entryTopic = selected?.slug ?? "";
+    const explicitSelection = !saved || navigationTopic === selected?.slug
+      || (navigationTopic === undefined && selected?.slug !== saved.entryTopic);
+    if (selected && selected.slug !== topic() && explicitSelection) {
+      selectTopic(selected.slug);
+      setReview(null);
+      setStep(0);
+    }
+    inquiryDraftMemory.connectNavigation(document, window);
     setReady(true);
+    onCleanup(() => {
+      saveDraft();
+      inquiryDraftMemory.releaseIfEmpty();
+      activeRequest?.abort();
+      activeRequest = null;
+    });
+  });
+
+  function saveDraft() {
+    if (!ready()) return;
+    if (receipt()) { inquiryDraftMemory.clear(); return; }
+    if (dirty()) inquiryDraftMemory.save({data: data(), topic: topic(), step: step(), reviewing: !!review(), entryTopic});
+  }
+
+  createEffect(() => {
+    if (!ready()) return;
+    saveDraft();
   });
 
   function selectTopic(value: string) {
     const offer = offerBySlug(value);
+    if ((offer?.slug ?? "") !== topic()) {
+      inquiryDraftMemory.resetSubmission();
+      if (ready()) setDirty(true);
+    }
     setTopic(offer?.slug ?? "");
     update("service", offer ? "baureinigung" : "");
     if (offer && !data().objectType) update("objectType", "Baustelle");
   }
 
   function update(field: keyof InquiryData, value: string) {
-    idempotencyKey = "";
+    if (data()[field] !== value) {
+      inquiryDraftMemory.resetSubmission();
+      if (ready()) { setDirty(true); setDraftNotice(""); }
+    }
     setData((previous) => ({ ...previous, [field]: value }));
     if (invalidField() === field) {
       setInvalidField(null);
@@ -153,23 +202,31 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
     if (!privacy()) { setError(t("Bitte bestätigen Sie, dass Sie die Datenschutzhinweise gelesen haben.")); return; }
     setSending(true); setError(""); setStatus("");
     const controller = new AbortController();
+    activeRequest = controller;
     const timer = setTimeout(() => controller.abort(), 15000);
     try {
-      idempotencyKey ||= createRequestId();
+      const submission = inquiryDraftMemory.prepareSubmission(requestData(), website(), createRequestId);
       const response = await fetch("/api/leads", {
         method: "POST", headers: {"Content-Type":"application/json", ...portalHeader},
-        body: JSON.stringify({...requestData(), privacyAccepted:true, website:website(), idempotencyKey}),
+        body: JSON.stringify(submission),
         signal:controller.signal,
       });
       const result = await response.json();
+      if (activeRequest !== controller || controller.signal.aborted) return;
       if (!response.ok) throw new Error(publicApiError(result.error?.code, locale(), result.error?.message || t("Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.")));
       if (!result.received || typeof result.id !== "string") throw new Error(t("Die Eingangsbestätigung fehlt. Bitte versuchen Sie es erneut."));
       setReceipt(result.id);
+      setDirty(false);
+      inquiryDraftMemory.clear();
       setStatus(t("Ihre Anfrage ist bei KnaBa eingegangen. Dies ist noch keine Termin- oder Auftragsbestätigung."));
       queueMicrotask(() => heading?.focus());
     } catch (cause) {
+      if (activeRequest !== controller) return;
       setError(cause instanceof Error && cause.name !== "AbortError" ? (locale() === "ru" && (cause instanceof TypeError || cause instanceof SyntaxError) ? t("Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.") : t(cause.message)) : t("Die Verbindung hat zu lange gedauert. Sie können mit derselben Anfrage erneut versuchen oder uns direkt kontaktieren."));
-    } finally {clearTimeout(timer);setSending(false);}
+    } finally {
+      clearTimeout(timer);
+      if (activeRequest === controller) { activeRequest = null; setSending(false); }
+    }
   }
 
   async function copySummary() {
@@ -219,6 +276,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               t("Wie können wir Sie erreichen?"),
             ][step()]}
       </h2>
+      <Show when={draftNotice()}><p class="form-status" role="status" aria-live="polite">{draftNotice()}</p></Show>
       <Show
         when={!review()}
         fallback={

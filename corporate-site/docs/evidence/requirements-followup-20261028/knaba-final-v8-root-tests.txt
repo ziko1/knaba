@@ -1,0 +1,17 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-unified-integration@0.0.0-integration test
+> node --test scripts/*.test.mjs
+
+✔ scripts/mobile-workspace-source.test.mjs (95.967077ms)
+✔ scripts/release-readiness.test.mjs (122.289156ms)
+✔ scripts/verify-module-manifest.test.mjs (89.343855ms)
+✔ scripts/verify-snapshot.test.mjs (2275.072091ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2301.315334

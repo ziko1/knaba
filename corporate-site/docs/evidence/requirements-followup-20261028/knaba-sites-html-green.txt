@@ -1,0 +1,17 @@
+✔ requires explicit Sites mode and a complete verified artifact before changing files (17.979853ms)
+✔ preserves every exact UTF-8 body, static asset, and original Worker with a reproducible manifest (67.362072ms)
+✔ canonical aliases preserve queries and always stay on the same origin (29.093442ms)
+✔ conditional GET/HEAD accepts strong, weak, list and wildcard tags without changing404 or allowing writes (32.182264ms)
+✔ delegates API requests and scheduled events with original identity, bindings, request bodies and context (26.381694ms)
+✔ preserves non-HTML assets, ranges, redirects,404 fallback, and missing-binding503 behavior (27.564203ms)
+✔ idempotent preparation verifies the whole frozen artifact and rejects later drift (35.364747ms)
+✔ rejects partial preparation and symlink inputs before removing any HTML (13.121681ms)
+✔ bundle/runtime validation failure leaves the source build intact (17.316147ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 273.860163

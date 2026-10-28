@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
+import "../styles/public-vivid.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
+import { resolveSocialImageOrigin } from "../lib/social-image-origin";
 import brandMessages from "../data/brand-messages.json";
 import Icon from "../components/Icon.astro";
 
@@ -39,6 +41,11 @@ const translated = {
 }[lang];
 const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
+// Public decoration excludes authenticated tools and the standalone app pages.
+const publicSection = path.replace(/^\/(?:en|uk|ru)(?=\/|$)/, '').split('/')[1] ?? '';
+const publicDesign = ['', 'leistungen', 'bauleistungen', 'planer', 'kontakt', 'branchen',
+  'unternehmen', 'galerie', 'ratgeber', 'partner', 'faq', 'berlin', 'karriere',
+  'impressum', 'datenschutz'].includes(publicSection);
 const breadcrumbs = suppliedBreadcrumbs.length ? suppliedBreadcrumbs : corporateBreadcrumbs(path, lang);
 const localPath = (url: string) => {
   if(lang === 'de') return url;
@@ -50,6 +57,8 @@ const brand = brandMessages[lang];
 const brandAlt = brand.descriptor;
 const logoLocale = lang==='de'?'':'-'+lang;
 const logoVersion='?v=i18n-20261026';
+const socialImage='/images/knaba-social-'+lang+'.png';
+const socialOrigin=resolveSocialImageOrigin(siteConfig,import.meta.env.PUBLIC_KNABA_AUTH_MODE,import.meta.env.PUBLIC_KNABA_ASSET_ORIGIN);
 const logoAssets={
   header:'/images/knaba-3d-header'+logoLocale+'.svg'+logoVersion,
   footer:'/images/knaba-3d-footer'+logoLocale+'.svg'+logoVersion,
@@ -114,11 +123,13 @@ const structuredData = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {!omitCanonical && <meta property="og:url" content={canonical} />}
-    <meta property="og:image" content={new URL(logoAssets.header,siteConfig.origin)} />
-    <meta property="og:image:type" content="image/svg+xml" />
-    <meta property="og:image:width" content="1140" /><meta property="og:image:height" content="350" />
+    <meta property="og:image" content={new URL(socialImage,socialOrigin)} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={brandAlt + ' · ' + brand.slogan} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL(socialImage,socialOrigin)} />
+    <meta name="twitter:image:alt" content={brandAlt + ' · ' + brand.slogan} />
     {pageAlternates.map(item => <link rel="alternate" hreflang={item.lang} href={new URL(item.url,siteConfig.origin)} />)}
     <title>{title}</title>
     <ClientRouter />
@@ -127,7 +138,7 @@ const structuredData = {
       set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
     />
   </head>
-  <body>
+  <body data-public-design={publicDesign ? 'vivid' : undefined}>
     <a href="#main" class="skip-link">{translated.skip}</a>
     <div class="topline">
       <div class="container">
@@ -253,6 +264,8 @@ const structuredData = {
       document.addEventListener('astro:page-load',bindLauncher);
     </script>
     <script>
+      import { initializePublicMotion } from '../scripts/public-motion';
+      initializePublicMotion();
       import { initializeSiteStudioLive } from "../scripts/site-studio-live";
       initializeSiteStudioLive();
     </script>

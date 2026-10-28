@@ -387,3 +387,30 @@ Removed implicit deletion of expired access requests during a new submission. Ex
 ## 28.10.2026 — migration URL correction and isolated production SEO
 
 Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixture reproduced /ber 303 to an absent page. Added exact 308 company/career and observed canonical trailing-slash mappings for GET/HEAD; unknown URLs remain 404 and POST is rejected. Full relevant VPS suite 90/90 and root suite 25/25 PASS. Production HTML/SEO verified in an isolated official build: 130 HTML, 104 indexable including legal pages, 100 sitemap entries; no indexing submission or production deployment. Six domain literals require the official source catalogue to be extracted before verify; staging catalogue restored afterward. Detailed evidence is in docs/evidence/staging-release-20261028. Final runtime deployment and authenticated cloud acceptance are still required.
+
+
+## 28.10.2026 — visual presentation source candidate
+
+Base `9127b1d3424517ea061df2eea2ecc820a6bcfbde`, preserving the concurrent PublicReviews fix. Added an isolated vivid brand theme and bounded, reduced-motion-aware entrances; only zero-reference legacy presentation selectors were pruned. No content/routes/forms/roles/data/provider change. Original 130-page HTML contract PASS: 15,184 text fragments, 6,098 links and 938 controls unchanged. Fresh Node24 check 0 errors/0 warnings (6 existing hints), 263 Vitest + 77 native website assertions and 25 root assertions PASS. Standalone build/i18n/CTA/icon gates PASS: CSS39,767 gzip, clientJS193,036 gzip; artifact `c62fee61eed4d203f0078e797ad0307152c406d85ee00bde44586f26001131d4`. Browser preview is BLOCKED by managed preview/error-URL policy; no visual/mobile/device acceptance claimed. VPS post-build rerun PASS90/90 with0 failures. Final source persistence is owned by the release task. No deployment in this work. Evidence: `docs/evidence/visual-polish-20261028/README.md`.
+
+
+### 28.10.2026 — final motion contrast verification
+
+Final contrast follow-up: removed entrance opacity fading while retaining bounded translation. Rebuilt artifact `9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d`; CSS39,767 and clientJS193,024 gzip. Fresh root25, module263 Vitest/41 files +77 native, check0 errors/0 warnings/6 hints, preservation130 pages and authorized VPS90/90 PASS. Browser acceptance remains BLOCKED; no deployment. This supersedes the earlier visual artifact/JS totals only.
+
+
+## 28.10.2026 — recorded requirements and public-flow follow-up
+
+Accessible recorded corporate-site requirements reconciled against current code; see `docs/KNABA_REQUIREMENTS_RECONCILIATION_2026-10-28_UK.md`. Preserved newer Assistant/Finder/Studio-SSR/privacy fixes and merged four-locale `/app/` source without claiming native distribution or ERP readiness. Closed bounded omissions: localized raster social metadata/assets and transient inquiry draft/retry/navigation protection (no new Storage/provider writes). Focused30/30 across5 files PASS; source/asset/lifecycle independent review ACCEPT after stale-query and Astro fallback corrections. Full build/browser/test-host acceptance belongs to the final integrated release. Structural Studio composer, upload workflow and95 reviewed locales remain real code/content gaps; owner/provider/legal/native/ERP gates remain separate.
+
+
+## 28.10.2026 — final requirements follow-up and native header correction
+
+Supersedes pending local/public-desktop acceptance in the preceding follow-up entry only. Both canonical/native full builds and verify:build PASS; final Vitest322/322, typechecks0 errors/0 warnings/7 hints. Original130 routes/938 controls preserved in both134-page builds, with disclosed mobile additions and DE/RU privacy differences. TEST v6 served134 exact HTML bodies,9 exact representative assets and13 expected anonymous API/read/auth responses. Coordinator desktop QA at1363×936 verified carousel/FAQ, inquiry review→home→Back restoration/renewed consent, DE→UK content retention, native sign-in gateway, disabled unsigned app downloads and Assistant Escape/focus; no submissions/auth/provider calls.
+
+V6 static HTTP noindex was actually missing despite134 meta noindex tags. Bounded native Worker correction: default staging, all-routes dispatch, private no-store, preserved body/status/HEAD/304/range/API and upstream/scoped crawler restrictions. Focused37/37 PASS and independent ACCEPT; full local gates repeated. Evidence: docs/evidence/requirements-followup-20261028/static-headers-source.json and updated requirements matrix. V7 publication/header readback belongs to the owning release receipt and is not certified by this checkpoint. Structural Studio/media upload/95 locales, owner/role/mobile UAT, ERP/native distribution and provider/legal gates remain open.
+
+
+## 28.10.2026 — reconcile TEST v8 / PR #114 and #115
+
+Bounded integration on existing PR #114. Local tested runtime `eae6669c136490b1a94594e493b65c46f1f7f403`, identical GitHub tree at `5d182161aeb53281693f324b3c583c2c7d09fc4d`. Reused public-vivid/public-motion/carousel/optimizer from #115, preserved #114 form/auth/privacy/HTML security fixes and no-opacity contrast. Old styling/motion entrypoints removed. 357 Vitest +77 Node +90 VPS +9 HTML +28 root PASS; 134 pages, unchanged content/control contract, 20 responsive iframe layouts plus scoped browser interaction PASS. TEST v10 published 2026-10-28 20:17:03 UTC from native source 05534fd88e9c53ffc03a933d3c688284cdb48ea3. Final HTTPS: 134/134 exact HTML with meta+HTTP noindex/security, 9 resources, 3 index/config, 13 API and 5 protocol checks PASS. Scoped live browser flows repeated successfully. Version9 was rejected before deployment by archive preflight; v8 retained for rollback. GitHub CI remains UNKNOWN; physical device/authenticated owner/provider/whole-product gates remain open. Exact matrix, commands/logs, source and rollback: [integration report](docs/evidence/integration-114-115-20261028/REPORT_UK.md).

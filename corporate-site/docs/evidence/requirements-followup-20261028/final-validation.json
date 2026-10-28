@@ -1,0 +1,190 @@
+{
+  "date": "2026-10-28",
+  "scope": "Final website code c35ac616d60bcf9269e53f98d0c483312030b5d7, both supported hosting builds, final native TEST v8 publication and read-only HTTPS acceptance; authenticated owner and production acceptance remain separate.",
+  "base_integration_sha": "a760178a1224cc3657ea0bcdc87626d426e7bbb8",
+  "tests": {
+    "typecheck": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "hints": 7,
+      "evidence": "knaba-final-v8-check.txt"
+    },
+    "vitest": {
+      "status": "PASS",
+      "tests": 333,
+      "files": 47,
+      "evidence": "knaba-final-v8-tests.txt"
+    },
+    "native_regression_chain": {
+      "status": "PASS",
+      "reported_test_modules": [
+        4,
+        2,
+        1,
+        2
+      ],
+      "evidence": "knaba-final-v8-tests.txt",
+      "count_note": "Final complete npm test output reports 9 native test modules; do not relabel this as a fresh individual-assertion count."
+    },
+    "vps_http": {
+      "status": "PASS",
+      "tests": 90,
+      "evidence": "knaba-final-v8-vps-tests.txt"
+    },
+    "sites_html_preparation": {
+      "status": "PASS",
+      "focused_fixture_tests": 9,
+      "fixture_evidence": "knaba-sites-html-green.txt",
+      "final_module_pass": 1,
+      "final_evidence": "knaba-final-v8-preparation-tests.txt"
+    },
+    "root_source_release_policy": {
+      "status": "PASS",
+      "reported_test_modules": 4,
+      "evidence": "knaba-final-v8-root-tests.txt"
+    },
+    "static_headers": {
+      "status": "PASS",
+      "focused_tests": 37,
+      "included_in_vitest": true
+    },
+    "social_image_origin": {
+      "status": "PASS",
+      "focused_tests": 15,
+      "included_in_vitest": true
+    }
+  },
+  "builds": {
+    "vps": {
+      "scope": "production-build-static-validation",
+      "pages": 134,
+      "internalLinks": "PASS",
+      "metadata": "PASS",
+      "indexMode": "VSP_STAGING_NOINDEX",
+      "externalImageScriptRequests": "NONE_IN_HTML",
+      "externalPartnerImagesInMarkup": 0,
+      "cssGzip": 39824,
+      "allEmittedJsGzip": 195314,
+      "artifactSha256": "dff87bd49bdac74eb6f2260619306b4031b9953f4f99318654b88af28973f5a5",
+      "fieldWebVitals": "NOT_RUN",
+      "networkTransfer": "NOT_MEASURED",
+      "status": "PASS",
+      "evidence": "knaba-final-v8-verify-vps.txt"
+    },
+    "sites": {
+      "scope": "production-build-static-validation",
+      "pages": 134,
+      "internalLinks": "PASS",
+      "metadata": "PASS",
+      "indexMode": "VSP_STAGING_NOINDEX",
+      "externalImageScriptRequests": "NONE_IN_HTML",
+      "externalPartnerImagesInMarkup": 0,
+      "cssGzip": 39824,
+      "allEmittedJsGzip": 195315,
+      "artifactSha256": "fc2646afaf3748d46c41d96b6c5cf8518d3c59626703be2a5e7a7242c2475f5b",
+      "fieldWebVitals": "NOT_RUN",
+      "networkTransfer": "NOT_MEASURED",
+      "status": "PASS",
+      "evidence": "knaba-final-v8-verify-sites.txt",
+      "preparation": {
+        "status": "PASS",
+        "html_pages_embedded": 134,
+        "non_html_static_files_retained": 106,
+        "application_before_preparation_sha256": "94ba081c1c73e6734a95dbdf4a74c76b600d80c6d825baccca7ba6f834acc699",
+        "prepared_worker_sha256": "3047d576f6a3795780ebfd37aa2f2569f7ec6cd747c157ab1b93aea793249c62",
+        "manifest_sha256": "8a141c8840c4980123737e3cf488306ea5ec756bb3d86e1b1229ab62d3f18251",
+        "evidence": "sites-html-artifact.json",
+        "original_html_preserved_outside_public_dist": true,
+        "runtime_get_and_head_readback_per_page": true
+      }
+    }
+  },
+  "independent_review": {
+    "inquiry": "ACCEPTED",
+    "hosting_auth_privacy": "ACCEPTED after normalized return-path and RU wording corrections",
+    "native_static_headers": "ACCEPTED; 37 focused tests; final native v8 HTML reaches the application header wrapper and all 134 hosted headers pass. Earlier v6/v7 findings retained as historical receipts.",
+    "native_html_preparation": "ACCEPTED; routing/API preservation and filesystem/integrity guards independently reviewed; 9 fixture tests.",
+    "social_image_origin": "ACCEPTED; explicit validated native TEST asset origin, unchanged canonical/hreflang identity.",
+    "generated_prerender_cleanup": "ACCEPTED; only generated .astro-static/.prerender removed before Vite public copy, existing size budget retained.",
+    "final_receipt_consistency": "ACCEPT; independent read-only review reconciled six final receipts, source/artifact/manifest/screenshot hashes, all hosted counts, current logs and browser limitations. No extra execution acceptance inferred."
+  },
+  "providers_activated": false,
+  "native_apps_and_erp_runtime_acceptance": "NOT_RUN",
+  "hosting_auth": {
+    "explicit_build_flag": "PUBLIC_KNABA_AUTH_MODE=sites",
+    "default": "VPS",
+    "sites": "Native Sites gateway; server-side identity and role approval unchanged",
+    "return_path_regression": "FAIL before normalization guard, PASS afterward",
+    "database": "Existing test D1 binding DB preserved; migration0000 unchanged and pending migrations retained"
+  },
+  "input_sha256": {
+    "src/lib/hosting-auth.ts": "a094dae7e75b43cd5dcbbe0bfd9da5e16bc1a4844d4c6b8d510d588aa9fdb06a",
+    "src/lib/inquiry-draft.ts": "d638de2f30357fddf39cbe6db7fde3e22adf30c9e1f4647e59c6a9e0dc5c9060",
+    "src/components/Inquiry.tsx": "409247c9364c9578355a20529516f04e4fdea0ff7ff50640dd02d69c0a045c40",
+    "src/components/Portal.tsx": "560ad19a8e00254e0f27cb00273c59b627d112207da5cc968c5abf681c02428b",
+    "src/components/AdminControlCenter.tsx": "e9a5abc8e082d72bbfd9d027b9460cc77bdaae6b91d393fc3344e7fa3a3664d0",
+    "src/pages/datenschutz.astro": "5a4738758b338a4f4ab2a95862b1e4cd7ff883cfd89546bf008beb7ddccc2a7a",
+    "src/pages/ru/datenschutz.astro": "0bcda3a703152d7932eda4c0efcef37b3e5d2aedb0d226839adc2c4b38120789",
+    "worker/index.ts": "bdf7ade8e6b0611598ca78b574f3bd246fb895b1bc34209fae2fb9ce84197286",
+    "worker/types.ts": "5c51c6dbbae0ca79f0ef2774d2e36009bab78e6733f65b66127256bf0f255d8c",
+    "vite.worker.config.ts": "d4e528ebf4271ec4a11fc07652db845f816d9221e9e0a45b1f97aa3cac1f800c",
+    "tests/verify-build.mjs": "b86ccd2b1ee4633b43094e78e78f5a048a482bff2922a3e26c8b20e5b94e17f5",
+    "tests/worker-static-headers.test.ts": "4c9a472ed0f6e775a072201ca6820cb293eb46e7991d96337ff05d893e7fb915",
+    "src/lib/social-image-origin.ts": "324d60f9cb2cd265e79bd59718dbeac57d533fcea4734da5a0ee6b84cf7e9cbf",
+    "src/layouts/Layout.astro": "e8546cb5e6327ae4b300572d381765ceee9c2b3b394d24454c75af35513cb900",
+    "scripts/prepare-sites-html.mjs": "bbc4a5a7689ed2399047fdd3b6911ab042cb01e85c5cd288da6374cadedf3a7c",
+    "tests/prepare-sites-html.test.mjs": "2c92a5221f0aefa39d1f14f5313b95efaf2a82aa013d635d16e19ab210492049",
+    "scripts/security-headers.mjs": "6fb57350b0a80f274b29c5e1c42aea916c33faee0cc9d23d846f06e0fb722a0d"
+  },
+  "test_publication": {
+    "current_observed_version": 8,
+    "status": "PASS",
+    "deployment_status": "succeeded",
+    "evidence": "hosted-test.json",
+    "publication_receipt": "test-publication.json",
+    "pages_exact": 134,
+    "meta_noindex": 134,
+    "html_http_noindex": 134,
+    "test_social_image_references": 134,
+    "resources": 9,
+    "indexing_files": 3,
+    "api_checks": 13,
+    "protocol_checks": 5,
+    "finished_at": "2026-10-28T14:35:57.823Z"
+  },
+  "canonical_code_sha": "c35ac616d60bcf9269e53f98d0c483312030b5d7",
+  "native_published_source_sha": "ca2d68e19b659603e253462466359b827f8bb8fb",
+  "preservation": {
+    "status": "PASS",
+    "evidence": "preservation.json",
+    "original_routes_retained": 130,
+    "current_routes": 134,
+    "original_controls_retained": 938,
+    "normalization": "Only observed app promo/footer additions, two disclosed hosting privacy updates, and four generated form hydration IDs."
+  },
+  "browser": {
+    "desktop": "PASS_SCOPED",
+    "evidence": "browser-desktop.json",
+    "final_screenshot": "knaba-test-uk-desktop.jpg",
+    "limits": "v6 functional flows and v8 reload/visual check; no mobile/physical-device/screen-reader or authenticated owner UAT."
+  },
+  "feature_readiness_caveats": [
+    {
+      "path": "/api/reviews/captcha",
+      "state": "CAPTCHA_DISABLED_BY_ENVIRONMENT"
+    },
+    {
+      "path": "/api/assistant/captcha",
+      "state": "CAPTCHA_DISABLED_BY_ENVIRONMENT"
+    }
+  ],
+  "status": "PASS_WITH_EXPLICIT_EXTERNAL_ACCEPTANCE_GATES",
+  "remaining_acceptance": [
+    "Studio structural page composer and controlled media upload/rights lifecycle remain future implementation.",
+    "KnaBa full locale publication remains 4 published / 95 pending.",
+    "Signed native application distributions and ERP runtime integration are not accepted by website validation.",
+    "Authenticated owner/admin/Studio UAT, actual communication/provider delivery, legal/media approval, physical devices and field performance remain separate.",
+    "Production/VPS deployment was not performed; existing server filesystem permissions and separate Webstudio capacity gates remain unresolved."
+  ]
+}

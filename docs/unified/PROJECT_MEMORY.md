@@ -3,6 +3,8 @@
 **Проєкт:** KnaBa Gebäudereinigung, окремий від AVENQO. **Репозиторій:** https://github.com/ziko1/knaba. **Дата фактичної перевірки:** 2026-10-24.
 **Статус:** INTEGRATION_PLANNED / DELIVERY_NOT_READY. Є перевірені окремі модулі та історичні runtime receipts; спільний release SHA/artifact і клієнтський UAT відсутні.
 
+**Оновлення corporate TEST, 2026-10-28:** окремий корпоративний TEST v8 опублікований і має scoped hosted/browser evidence нижче. Наведені датовані інвентарі зберігаються як історичні checkpoints; спільний ERP runtime, клієнтський UAT і production handover залишаються неприйнятими.
+
 ## Непорушні джерела
 1. ERP: `KNABA_DE_TARGET_SPEC.md` (V4, на ERP-гілках) є target; `KNABA_DE_MASTER_SPEC.md` — історична V3/специфікація, неперекреслені вимоги зберігати. Root `AGENTS.md`, `PROJECT_MEMORY.md`, `MASTER_ROADMAP.md`, `docs/planning/DEVELOPMENT_BACKLOG.json` на ERP-гілках — **не перезаписувати**.
 2. Маркетинг: `corporate-site/PROJECT_MEMORY.md`, `ROADMAP.md`, SEO/legal audits, Russian і PublicAssistant receipts — зберегти в первісному вигляді.
@@ -138,3 +140,18 @@ One scoped partner-account enhancement is being developed on existing customer P
 ## 28.10.2026 — KNABA no-duplicate continuity and access-retention
 
 Per owner instructions, before each continuation inspect accessible prior conversation requirements and current GitHub HEAD/PR/worktrees/test domain, then patch the active leaf instead of duplicating code/PRs. Source-only ongoing ERP runner scheduling, PR #112 mobile/PWA and PR #103 messenger work are separate and must not be silently overwritten or represented as deployed. Access retention was incomplete: 30-day expiry was lazy on new /join/. This cycle adds guarded private reporting/backup-before-delete to existing VPS manage CLI and daily read-only systemd audit templates; legal approval for erasure, backup-retention and provider-connected workflows is still external. The official knaba.de production domain remains untouched.
+
+
+## 2026-10-28 — TEST-V8-20261028: корпоративний сайт опубліковано, unified release відкритий
+
+Дозволений public TEST: [https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/uk/](https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/uk/). Canonical executable code `c35ac616d60bcf9269e53f98d0c483312030b5d7`; native source `ca2d68e19b659603e253462466359b827f8bb8fb`; deployment `appgdep_6ae207db10c081919e32386f0cd902b2` від `2026-10-28T14:34:18.077544+00:00`. Це окрема корпоративна публікація, не production `knaba.de`, DNS/індексаційний cutover або приймання ERP.
+
+Фінальні докази: 333 Vitest/47 files, native regression chain PASS (9 modules у фінальному runner), 90 VPS HTTP, 9 artifact-preparation fixtures; Astro/typechecks0 errors/0 warnings/7 hints; обидві verified builds, CSS39,824 gzip за початкового40KiB ліміту. Hosted v8 PASS:134 точних HTML/hash +134 meta/HTTP noindex +134 TEST OG origins,9 assets,3 indexing files,13 anonymous API/read/authorization і5 HEAD/304/404 checks. Початкові130 маршрути/938 controls збережені в134-page артефакті з зафіксованими mobile/privacy додатками.
+
+Native HTML finalizer закрив підтверджений dispatcher bypass: початкові HTML перевіряються, зберігаються в audit copy і передаються через чинний Worker headers policy; видаляються лише generated HTML із native publication tree. TEST-only social origin і виключення generated prerender code виправлені без зміни templates/API/auth/migrations, client content чи бюджетів. Історичні v6/v7 failures лишаються окремими receipts.
+
+Browser: фінальний v8 UK visual reload без overflow/несправних завантажених зображень. Desktop interaction flows виконано на v6 із тими самими client modules для перевірених сценаріїв: carousel/FAQ, Inquiry3steps→review→home→Back із відновленням і renewed consent, DE→UK typed content, gateway/app/Assistant Escape/focus. Немає форм/повідомлень/auth/provider submissions у цьому browser/read-only acceptance. Це не mobile/owner/role/Studio/ERP UAT.
+
+Не змінено G2–G10/unified readiness: source-only ERP scheduling, mobile/PWA та messenger branches не видаються за активований runtime; D1→Postgres bridge, owner identity/conversation UAT, providers, legal/retention/backup, physical devices та customer handover відкриті. Реальні функціональні прогалини: structural Studio composer, controlled media upload і95 reviewed locales; native signed distributions/ERP SSO не прийняті. Паралельний VSP private TEST v1 має14 HTTPS PASS, але browser owner gate не є product visual acceptance й не належить до інтеграційного доказу KnaBa.
+
+Джерела: `corporate-site/docs/KNABA_REQUIREMENTS_RECONCILIATION_2026-10-28_UK.md` та `corporate-site/docs/evidence/requirements-followup-20261028/` (`test-publication.json`, `hosted-test.json`, `final-validation.json`, `browser-desktop.json`, `preservation.json`). `docs/unified/RELEASE_READINESS.json` не підвищується на підставі цієї website-публікації.

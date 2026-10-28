@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "Original built HTML contract versus final motion build without opacity fading",
+  "sourceBase": "9127b1d3424517ea061df2eea2ecc820a6bcfbde",
+  "originalPages": 130,
+  "currentPages": 130,
+  "textFragments": 15184,
+  "links": 6098,
+  "controls": 938,
+  "text": "unchanged",
+  "linksResult": "unchanged",
+  "controlsResult": "unchanged",
+  "differences": {},
+  "baselineFileSHA256": "94807429db76323205309920b86e8d4014689c2392fb72a130eae2c9e3de5d8d",
+  "rules": [
+    "HTMLParser ignores script/style data",
+    "Whitespace collapsed per data fragment",
+    "Links retain href, aria-label, target, rel",
+    "Controls retain all attributes except class, style, src, and data-astro-*"
+  ],
+  "artifactSha256": "9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d"
+}

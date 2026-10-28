@@ -49,7 +49,7 @@ async function validateBrand(browser,origin){
         }
         const ogImage=await page.locator('meta[property="og:image"]').getAttribute('content');
         const ogAlt=await page.locator('meta[property="og:image:alt"]').getAttribute('content');
-        assert.equal(new URL(ogImage).pathname,'/images/knaba-3d-header'+suffix+'.svg');
+        assert.equal(new URL(ogImage).pathname,'/images/knaba-social-'+lang+'.png');
         assert.ok(ogAlt.includes(brandCopy[lang].slogan),lang+' '+width+' social logo localization');
         if(width===320||width===390){
           await page.addStyleTag({content:'html{font-size:200%!important}'});

@@ -1,0 +1,114 @@
+{
+  "version": 10,
+  "nativeSourceSha": "05534fd88e9c53ffc03a933d3c688284cdb48ea3",
+  "startedAt": "2026-10-28T20:17:41.364Z",
+  "checks": [
+    {
+      "name": "carousel-next",
+      "counter": "02 / 08"
+    },
+    {
+      "name": "carousel-End",
+      "counter": "08 / 08"
+    },
+    {
+      "name": "carousel-Home-and-FAQ",
+      "counter": "01 / 08",
+      "faqOpen": ""
+    },
+    {
+      "name": "inquiry-review",
+      "syntheticDraft": true,
+      "submitEnabledBeforeConsent": false
+    },
+    {
+      "name": "inquiry-home-back",
+      "consent": false,
+      "draftRetained": true,
+      "review": true
+    },
+    {
+      "name": "UK-EN-draft",
+      "consent": false,
+      "draftRetained": true,
+      "headings": [
+        "Get in touch",
+        "Your enquiry at a glance.",
+        "Help us understand the scope of your enquiry",
+        "How the enquiry becomes a clear brief",
+        "Explore",
+        "Contact",
+        "Your next step"
+      ],
+      "lang": "en"
+    },
+    {
+      "name": "assistant-Escape-focus",
+      "dialogVisible": 0,
+      "focus": "Open chat",
+      "sent": false
+    },
+    {
+      "name": "app-exclusion-and-download-readiness",
+      "design": null,
+      "downloadLinks": 0,
+      "overflow": true,
+      "unapproved": [
+        "A signed download has not yet been approved.",
+        "A signed download has not yet been approved."
+      ],
+      "overflowAfterNavigationSettled": false,
+      "initialOverflowWasDuringTransition": true
+    },
+    {
+      "name": "portal-anonymous-render",
+      "design": null,
+      "signInInvoked": false
+    },
+    {
+      "name": "portal-UK-language",
+      "text": "KnaBa. Persönlich verbunden.\n\nEin guter Plan.\nEin sauberer Ablauf.\n\nIhr direkter Weg zu Anfragen, Einsätzen und einer gut organisierten Zusammenarbeit.\n\nМій KnaBa\nМова кабінету\nDeutsch\nEnglish\nУкраїнська\nРусский\nМІЙ KNABA\nВітаємо в кабінеті KnaBa.\n\nУвійдіть через ChatGPT і подайте профіль KnaBa на підтвердження. Власник сайту перевіряє нові акаунти та ролі.\n\nУвійти через ChatGPT\n↗\n\nВхід відбувається в OpenAI. KnaBa не отримує пароль ChatGPT; відповідний доступ до кабінету надає власник.\n\n✳\nПотрібно лише замовити прибирання?\n\nОпишіть потреби. Обсяг, дату й ціну узгоджують індивідуально. Заявка ще не є замовленням.\n\nЗаявка без реєстрації →\n\nЦя мова застосовується до інтерфейсу та повідомлень кабінету. Введений користувачами вміст автоматично не перекладається. Конфіденційність ↗"
+    },
+    {
+      "name": "locale-home",
+      "path": "/en/",
+      "brokenLoadedImages": 0,
+      "design": "vivid",
+      "h1": 1,
+      "lang": "en",
+      "overflow": false,
+      "phones": 1
+    },
+    {
+      "name": "locale-home",
+      "path": "/ru/",
+      "brokenLoadedImages": 0,
+      "design": "vivid",
+      "h1": 1,
+      "lang": "ru",
+      "overflow": false,
+      "phones": 1
+    },
+    {
+      "name": "locale-home",
+      "path": "/",
+      "brokenLoadedImages": 0,
+      "design": "vivid",
+      "h1": 1,
+      "lang": "de",
+      "overflow": false,
+      "phones": 1
+    },
+    {
+      "name": "locale-home",
+      "path": "/uk/",
+      "brokenLoadedImages": 0,
+      "design": "vivid",
+      "h1": 1,
+      "lang": "uk",
+      "overflow": false,
+      "phones": 1
+    }
+  ],
+  "finishedAt": "2026-10-28T20:22:53.884Z"
+}

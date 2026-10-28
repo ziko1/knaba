@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "f8df0275a5d312ebf898cbbd7eab01cb69b5e99767513a3e041197bd678f655e",
+  "sourceDigest": "1c48a936b7817f6fc042174f94d881c342611626d4ce4ca3d82e0a40c778acd9",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -153,13 +153,6 @@
       "source": "Baureinigung planen: vom Bauabschnitt bis zur Übergabe",
       "routes": [
         "/ratgeber/"
-      ]
-    },
-    "02758b1df4b2fcdd6763886d": {
-      "kind": "text",
-      "source": "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der lokalen Server-Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "03449cfd42ae11eb8bc65817": {
@@ -2488,6 +2481,13 @@
       "routes": [
         "/",
         "/faq/"
+      ]
+    },
+    "401977b2d1c63f29dc0067f0": {
+      "kind": "text",
+      "source": "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der serverseitigen Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "4070e905bcde88ff2d719f61": {
@@ -5864,13 +5864,6 @@
         "/bauleistungen/bauendreinigung/"
       ]
     },
-    "947cb027bec949cb9ad610e1": {
-      "kind": "text",
-      "source": "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der lokalen Server-Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.",
-      "routes": [
-        "/datenschutz/"
-      ]
-    },
     "9544b20d99d7853b3b16651b": {
       "kind": "text",
       "source": "Im Achterkastell 39",
@@ -7036,6 +7029,13 @@
       "source": "Zugang, freie Arbeitsbereiche und andere Gewerke",
       "routes": [
         "/"
+      ]
+    },
+    "b957948e04168eaa5472fd9f": {
+      "kind": "text",
+      "source": "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der serverseitigen Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "b97aaf1df6150edf9b4ecc93": {

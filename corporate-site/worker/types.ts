@@ -17,6 +17,8 @@ export interface WorkerEnv {
   TURNSTILE_SECRET_KEY?: string;
   /** Mandatory on public VPS, independent of widget availability. */
   TURNSTILE_REQUIRED?: string;
+  /** Native static responses default to staging; only this explicit runtime value permits public indexing. */
+  KNABA_RELEASE_MODE?: string;
   ASSETS?: { fetch(request: Request): Promise<Response> };
   /** All notification credentials and approval flags are server-only runtime bindings. */
   ASSISTANT_NOTIFICATIONS_ENABLED?: string;

@@ -1,0 +1,6 @@
+{"progress":25,"total":134,"failed":0}
+{"progress":50,"total":134,"failed":0}
+{"progress":75,"total":134,"failed":0}
+{"progress":100,"total":134,"failed":0}
+{"progress":125,"total":134,"failed":0}
+{"status":"PASS","summary":{"pages":{"count":134,"pass":134,"fail":0,"blocked":0},"resources":{"count":9,"pass":9,"fail":0,"blocked":0},"indexingFiles":{"count":3,"pass":3,"fail":0,"blocked":0},"api":{"count":13,"pass":13,"fail":0,"blocked":0},"protocol":{"count":5,"pass":5,"fail":0,"blocked":0},"exactHtmlBodies":134,"htmlMetaNoindex":134,"htmlHttpNoindex":134,"featureReadinessCaveats":[{"path":"/api/reviews/captcha","state":"CAPTCHA_DISABLED_BY_ENVIRONMENT"},{"path":"/api/assistant/captcha","state":"CAPTCHA_DISABLED_BY_ENVIRONMENT"}]},"findings":[],"receipt":"/workspace/scratch/9edc85de5c65/knaba-current/corporate-site/docs/evidence/requirements-followup-20261028/hosted-test.json"}

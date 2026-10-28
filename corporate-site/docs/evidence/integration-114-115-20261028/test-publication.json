@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "scope": "Existing KNABA TEST only; production/DNS/real customer data unchanged",
+  "savedVersion": {
+    "id": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_b0931727849881918e699e51aa36aacb",
+    "project_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+    "version_number": 10,
+    "source": {
+      "commit_sha": "05534fd88e9c53ffc03a933d3c688284cdb48ea3"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_0000000069f48246b41fa6cc055158b4",
+      "content_hash": "sha256:38a47ca059dd8f810933d9a7195f5c7dd7e6aafd13d05e266b3f742bfa890909",
+      "size_bytes": 7086080,
+      "file_count": 131
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6ae2582e8aa88191970ddb2c51996b33",
+    "project_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+    "title": "KnaBa · Temporäre Vorschau",
+    "version_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_b0931727849881918e699e51aa36aacb",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6adc346d6f8881918b73ac79ebc5d759",
+    "failure_message": null,
+    "env_set_revision": 1,
+    "updated_at": "2026-10-28T20:17:03.876888+00:00"
+  },
+  "runtimeGitHubSha": "5d182161aeb53281693f324b3c583c2c7d09fc4d",
+  "runtimeLocalTestedSha": "eae6669c136490b1a94594e493b65c46f1f7f403",
+  "runtimeTree": "9eb293e0d8b07e9a3400932ba203ac3374871383",
+  "workerSha256": "c996994bed59b2735ccdee4252fab44e99b326a084f605e37f11317dd5b03610",
+  "rollbackVersionId": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_2e03382694948191b0ad5816dc11fd61",
+  "rejectedSavedVersion9": {
+    "deployed": false,
+    "id": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_614527e377d08191bc0d415b2598d9ea",
+    "reason": "Archive preflight found redundant static HTML; corrected package uses new evidence-only native source commit."
+  },
+  "audiencePreserved": "public",
+  "d1BindingPreserved": "DB",
+  "remoteMigrationsRequested": false,
+  "readback": "hosted-test.json",
+  "browserReadback": "browser-live.json",
+  "ciRuntime": {
+    "workflow_runs": []
+  },
+  "limitations": [
+    "Authenticated owner/admin/Studio UAT not run",
+    "No form/chat/email/provider submission",
+    "CAPTCHA remains disabled by existing TEST configuration",
+    "Physical devices, OS reduced-motion, forced-colors and 200% text not repeated"
+  ]
+}

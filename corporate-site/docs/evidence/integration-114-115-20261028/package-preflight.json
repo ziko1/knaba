@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "runtimeChanged": false,
+  "workerSha256": "c996994bed59b2735ccdee4252fab44e99b326a084f605e37f11317dd5b03610",
+  "archiveHtmlFiles": 0,
+  "archiveFiles": 131,
+  "rejectedSavedVersion": 9,
+  "rejectedVersionDeployed": false,
+  "reason": "Redundant static HTML in initial archive could bypass Worker security headers. Removed only byte-identical generated copies; reran prepared-artifact validation. Save API is idempotent by source SHA; this evidence-only source checkpoint obtains a distinct corrected saved version.",
+  "staticFiles": 106,
+  "embeddedHtmlPages": 134
+}

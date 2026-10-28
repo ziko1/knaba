@@ -184,7 +184,8 @@ const ui = {
   .carousel-arrow:hover:not(:disabled) { background:#d3f59a; border-color:#79a86a; }
   .carousel-arrow:disabled { opacity:.35; cursor:default; }
   .carousel-dots { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:1px; min-width:0; }
-  .carousel-dot { display:grid; place-items:center; padding:10px 4px; border:0; background:transparent; min-width:19px; min-height:44px; }
+  .carousel-dot { display:grid; place-items:center; padding:10px 4px; border:0; border-radius:8px; background:transparent; min-width:24px; min-height:44px; }
+  .carousel-arrow:focus-visible,.carousel-dot:focus-visible { outline:3px solid #086d7b; outline-offset:3px; }
   .carousel-dot::before { content:''; width:8px; height:8px; border-radius:50%; display:block; background:#8aa8a2; transition:width .18s,background .18s; }
   .carousel-dot[aria-current='true']::before { width:19px; border-radius:9px; background:#086d7b; }
   .carousel-counter { font-size:11px; font-weight:850; letter-spacing:.08em; color:#315b58; white-space:nowrap; font-variant-numeric:tabular-nums; margin-left:3px; }
@@ -205,6 +206,16 @@ const ui = {
     .carousel-dot { min-width:13px; padding-inline:2px; }
     .carousel-dot[aria-current='true']::before { width:15px; }
     .carousel-counter { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  }
+  /* Keep all eight touch targets and the live position readable on narrow screens.
+     The separate dot row leaves room for the existing 44px navigation arrows. */
+  @media (max-width:610px) {
+    .carousel-controls { display:grid; grid-template-columns:44px minmax(0,1fr) 44px; gap:6px 12px; padding:17px 8px 6px; }
+    [data-carousel-prev] { grid-column:1; grid-row:1; }
+    [data-carousel-next] { grid-column:3; grid-row:1; }
+    .carousel-dots { grid-column:1 / -1; grid-row:2; justify-self:center; gap:4px; max-width:100%; }
+    .carousel-dot { width:26px; min-width:26px; padding-inline:0; }
+    .carousel-counter { grid-column:2; grid-row:1; position:static; width:auto; height:auto; margin:0; overflow:visible; clip-path:none; text-align:center; font-size:12px; }
   }
   @media (prefers-reduced-motion:reduce) {
     .carousel-dot::before { transition:none; }

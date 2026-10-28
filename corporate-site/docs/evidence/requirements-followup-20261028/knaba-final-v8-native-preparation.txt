@@ -1,0 +1,12 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 prepare:sites-html
+> node scripts/prepare-sites-html.mjs
+
+{
+  "status": "prepared",
+  "htmlPages": 134,
+  "staticFiles": 106,
+  "workerSha256": "3047d576f6a3795780ebfd37aa2f2569f7ec6cd747c157ab1b93aea793249c62",
+  "manifest": ".sites-html/manifest.json"
+}
