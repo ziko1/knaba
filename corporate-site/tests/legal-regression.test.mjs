@@ -51,3 +51,16 @@ test('legal source never represents a generic privacy acknowledgement as marketi
     assert.match(sourceCode, /Einmal-Einladung|одноразовому приглашению/);
   }
 });
+
+test('assistant transparency is shown in all four public languages before a message is sent', () => {
+  const component = readFileSync(new URL('../src/components/KnabaAssistant.tsx', import.meta.url), 'utf8');
+  for (const notice of [
+    'Dies ist ein automatisierter Assistent, kein Mensch.',
+    'You are interacting with an automated assistant, not a person.',
+    'Це автоматизований помічник, а не людина.',
+    'Это автоматизированный помощник, а не человек.',
+  ]) {
+    assert.ok(component.includes(notice), `Missing localized assistant transparency: ${notice}`);
+  }
+  assert.match(component, /<p class="ka-note">\{t\.notice\}<\/p>/);
+});
