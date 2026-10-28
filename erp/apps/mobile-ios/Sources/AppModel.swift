@@ -3,6 +3,9 @@ import Combine
 
 @MainActor final class AppModel: ObservableObject {
     @Published var origin = ""
+    @Published var siteWebsite = UserDefaults.standard.string(forKey: "knaba-site-origin") ?? "" {
+        didSet { UserDefaults.standard.set(siteWebsite, forKey: "knaba-site-origin") }
+    }
     @Published var enrollmentCode = ""
     @Published var siteId = ""
     @Published var destinationId = ""

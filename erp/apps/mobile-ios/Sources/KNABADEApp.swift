@@ -2,7 +2,16 @@ import SwiftUI
 
 @main @MainActor struct KNABADEApp: App {
     @StateObject private var model = AppModel()
-    var body: some Scene { WindowGroup { CompanionView(model: model) } }
+    var body: some Scene {
+        WindowGroup {
+            TabView {
+                ERPConsoleView()
+                    .tabItem { Label("KNABA ERP", systemImage: "square.grid.2x2") }
+                CompanionView(model: model)
+                    .tabItem { Label("My shift", systemImage: "clock.arrow.circlepath") }
+            }
+        }
+    }
 }
 @MainActor struct CompanionView: View {
     @ObservedObject var model: AppModel

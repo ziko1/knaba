@@ -1,0 +1,30 @@
+---
+import type {ConstructionLocale} from '../data/construction-offers';
+interface Props { locale: ConstructionLocale }
+const {locale} = Astro.props;
+const prefix=locale==='de'?'':'/'+locale;
+const messages={
+  de:{tag:'DIGITALE ZUSAMMENARBEIT',title:'KnaBa unterwegs steuern',desc:'Für Kunden, Baustellenteams und die Geschäftsleitung. Anfragen, Einsätze und Kommunikation direkt im mobilen KNABA-Arbeitsbereich — mit serverseitig freigegebenen Rollen.',owner:'Geschäftsleitung',ownerText:'Aufträge, Teams und Freigaben zentral verwalten.',worker:'Mitarbeitende',workerText:'Zugewiesene Aufgaben und bewusste Zeiterfassung.',client:'Kunden & Partner',clientText:'Anfragen und Zusammenarbeit am richtigen Ort.',button:'Android & iPhone entdecken',note:'Native App-Downloads nach Prüfung und Signatur. Der Webzugang ist separat verfügbar.'},
+  en:{tag:'CONNECTED WORK',title:'Manage KnaBa on the move',desc:'For customers, site crews and company owners. Requests, assignments and team communication in the mobile KNABA workspace, with server-approved roles.',owner:'Management',ownerText:'Coordinate orders, teams and approvals.',worker:'Employees',workerText:'Assigned tasks and voluntary time tracking.',client:'Customers & partners',clientText:'Requests and collaboration in one place.',button:'Explore Android & iPhone',note:'Native downloads follow signing and verification. Web access remains separate.'},
+  uk:{tag:'ЦИФРОВА СПІВПРАЦЯ',title:'Керуйте KnaBa з телефона',desc:'Для клієнтів, бригад і власника. Заявки, призначення та командна комунікація в мобільній системі KNABA з перевіркою серверних ролей.',owner:'Власник і керівники',ownerText:'Керуйте замовленнями, командами та погодженнями.',worker:'Працівники',workerText:'Призначені завдання та добровільний облік часу.',client:'Клієнти й партнери',clientText:'Заявки та співпраця в одному місці.',button:'Android та iPhone',note:'Завантаження нативних збірок — після підпису й перевірки. Вебкабінет доступний окремо.'},
+  ru:{tag:'ЦИФРОВОЕ СОТРУДНИЧЕСТВО',title:'Управляйте KnaBa с телефона',desc:'Для клиентов, бригад и владельца. Заявки, назначения и сообщения в мобильной системе KNABA с проверкой серверных ролей.',owner:'Владелец и менеджеры',ownerText:'Заказы, команды и согласования.',worker:'Сотрудники',workerText:'Назначенные задания и добровольный учёт времени.',client:'Клиенты и партнёры',clientText:'Запросы и совместная работа.',button:'Android и iPhone',note:'Загрузка нативных приложений после подписания и проверки. Веб-кабинет доступен отдельно.'}
+}[locale];
+---
+<section class="knaba-home-mobile container" aria-labelledby="knaba-home-mobile-heading">
+ <div class="knaba-home-mobile-copy">
+  <p class="knaba-home-mobile-eyebrow">KNABA DE / {messages.tag}</p>
+  <h2 id="knaba-home-mobile-heading">{messages.title}</h2>
+  <p>{messages.desc}</p>
+  <a class="button button-dark" href={prefix+'/app/'}>{messages.button} <span aria-hidden="true">↗</span></a>
+  <p class="knaba-home-mobile-note">{messages.note}</p>
+ </div>
+ <div class="knaba-home-mobile-features">
+  <article><span aria-hidden="true">01</span><h3>{messages.owner}</h3><p>{messages.ownerText}</p></article>
+  <article><span aria-hidden="true">02</span><h3>{messages.worker}</h3><p>{messages.workerText}</p></article>
+  <article><span aria-hidden="true">03</span><h3>{messages.client}</h3><p>{messages.clientText}</p></article>
+ </div>
+</section>
+<style is:inline>
+.knaba-home-mobile{border-radius:28px;background:linear-gradient(130deg,#123c43,#22544a);padding:clamp(26px,5vw,65px);margin-block:clamp(36px,6vw,70px);color:#fff;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(20px,4vw,45px);align-items:center}.knaba-home-mobile-copy h2{font-size:clamp(30px,4vw,53px);letter-spacing:-.055em;color:#fff;margin:12px 0 18px}.knaba-home-mobile-copy>p{line-height:1.65;color:#deeee7;max-width:55ch}.knaba-home-mobile-eyebrow{font-size:11px!important;font-weight:850;letter-spacing:.14em}.knaba-home-mobile .button{background:#d6f381;color:#133c34;margin-top:14px;display:inline-flex;gap:16px;align-items:center;min-height:48px}.knaba-home-mobile .button:hover{background:#eefcc2}.knaba-home-mobile-note{font-size:12px!important;opacity:.9}.knaba-home-mobile-features{display:grid;gap:12px}.knaba-home-mobile-features article{background:#ffffff12;border:1px solid #ffffff40;border-radius:18px;padding:16px 20px}.knaba-home-mobile-features article span{color:#d4f68a;font-size:12px;font-weight:800}.knaba-home-mobile-features article h3{color:#fff;margin:5px 0;font-size:18px}.knaba-home-mobile-features article p{color:#d5eee2;margin:0;font-size:13px;line-height:1.55}.knaba-home-mobile a:focus-visible{outline:3px solid #ffe98e;outline-offset:4px}
+@media(max-width:730px){.knaba-home-mobile{grid-template-columns:1fr;border-radius:22px}.knaba-home-mobile-features{grid-template-columns:1fr}.knaba-home-mobile .button{width:100%;justify-content:center}}
+</style>
