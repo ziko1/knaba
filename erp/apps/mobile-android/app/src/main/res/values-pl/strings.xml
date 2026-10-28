@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="mobile_workspace_title">Panel KNABA</string>
+    <string name="mobile_website_hint">Adres HTTPS strony KNABA</string>
+    <string name="mobile_open_portal">Otwórz KNABA Mobile</string>
+    <string name="mobile_open_account">Moje konto KnaBa</string>
+    <string name="mobile_open_erp">Otwórz KNABA ERP</string>
+    <string name="mobile_login_notice">Logowanie odbywa się w przeglądarce. Role nadaje serwer; GPS się nie włącza.</string>
+    <string name="mobile_invalid_origin">Podaj prawidłowy adres HTTPS bez ścieżki.</string>
     <string name="app_name">KNABA DE</string>
     <string name="title">KNABA DE · Czas i lokalizacja</string>
     <string name="privacy_notice">Lokalizacja tylko po Twojej aktywacji i zgodzie serwera. Przerwa lub koniec zmiany wyłącza GPS. Na obiekcie wysyłane są tylko odległość i jakość; współrzędne tylko podczas zatwierdzonych przejazdów służbowych.</string>

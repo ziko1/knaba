@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="mobile_workspace_title">KNABA Arbeitsbereich</string>
+    <string name="mobile_website_hint">HTTPS-Adresse der KNABA-Website</string>
+    <string name="mobile_open_portal">KNABA Mobile öffnen</string>
+    <string name="mobile_open_account">Mein KnaBa Konto</string>
+    <string name="mobile_open_erp">KNABA ERP öffnen</string>
+    <string name="mobile_login_notice">Die Anmeldung erfolgt sicher im Browser. Rollen erteilt nur der Server; GPS startet hier nicht.</string>
+    <string name="mobile_invalid_origin">Gültige HTTPS-Adresse ohne Pfad erforderlich.</string>
     <string name="app_name">KNABA DE</string>
     <string name="title">KNABA DE · Arbeitszeit &amp; Standort</string>
     <string name="privacy_notice">Standort nur nach Ihrer Aktivierung und genehmigter Server-Richtlinie. Pause oder Schichtende beendet GPS. Am Objekt werden nur Abstand und Qualität übertragen; Koordinaten nur auf genehmigten Dienstfahrten.</string>

@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="mobile_workspace_title">Робочий простір KNABA</string>
+    <string name="mobile_website_hint">HTTPS-адреса сайту KNABA</string>
+    <string name="mobile_open_portal">Відкрити KNABA Mobile</string>
+    <string name="mobile_open_account">Мій кабінет KNABA</string>
+    <string name="mobile_open_erp">Відкрити KNABA ERP</string>
+    <string name="mobile_login_notice">Вхід відкривається у браузері. Ролі призначає сервер; GPS не вмикається.</string>
+    <string name="mobile_invalid_origin">Введіть чинну HTTPS-адресу без шляху.</string>
     <string name="app_name">KNABA DE</string>
     <string name="title">KNABA DE · Час і геолокація</string>
     <string name="privacy_notice">Геолокація лише після вашої активації та дозволу сервера. Пауза або кінець зміни зупиняє GPS. На об’єкті передається лише відстань і якість; координати — лише в дозволених службових поїздках.</string>

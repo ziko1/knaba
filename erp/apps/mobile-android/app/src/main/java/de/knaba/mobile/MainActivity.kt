@@ -2,6 +2,7 @@ package de.knaba.mobile
 
 import android.Manifest
 import android.app.Activity
+import android.net.Uri
 import android.app.AlertDialog
 import android.app.NotificationManager
 import android.content.Context
@@ -23,6 +24,7 @@ class MainActivity : Activity() {
     private lateinit var queueView: TextView
     private lateinit var origin: EditText
     private lateinit var code: EditText
+    private lateinit var website: EditText
     private lateinit var site: EditText
     private lateinit var destination: EditText
     private val io = Executors.newSingleThreadExecutor()
@@ -43,6 +45,16 @@ class MainActivity : Activity() {
         setContentView(ScrollView(this).apply { addView(layout) })
         layout.addView(TextView(this).apply { setText(R.string.title); textSize = 24f })
         button(layout, R.string.language_label) { chooseLanguage() }
+        layout.addView(TextView(this).apply { setText(R.string.mobile_workspace_title); textSize = 20f })
+        website = EditText(this).apply {
+            setHint(R.string.mobile_website_hint)
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_URI
+            setText(getPreferences(Context.MODE_PRIVATE).getString("knaba-site-origin", ""))
+        }; layout.addView(website)
+        button(layout, R.string.mobile_open_portal) { openWorkspace(true, "/app/") }
+        button(layout, R.string.mobile_open_account) { openWorkspace(true, "/konto/") }
+        button(layout, R.string.mobile_open_erp) { openWorkspace(false, "/console") }
+        layout.addView(TextView(this).apply { setText(R.string.mobile_login_notice) })
         layout.addView(TextView(this).apply { setText(R.string.privacy_notice) })
         status = TextView(this).apply { setText(R.string.status_off) }; layout.addView(status)
         layout.addView(TextView(this).apply { setText(R.string.my_shift); textSize = 20f })
@@ -105,6 +117,14 @@ class MainActivity : Activity() {
         }
         renderShift()
         if (store.read().has("deviceToken")) refresh()
+    }
+    /** Browser-owned login/OIDC session; never bridge device bearer credentials to site cookies. */
+    private fun openWorkspace(site: Boolean, route: String) {
+        val entered = if (site) website.text.toString() else origin.text.toString()
+        val uri = try { WorkspaceLinks.url(entered, route) }
+                  catch (_: IllegalArgumentException) { throw NativeActionFailure(R.string.mobile_invalid_origin) }
+        if (site) getPreferences(Context.MODE_PRIVATE).edit().putString("knaba-site-origin", entered.trim()).apply()
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri.toASCIIString())).addCategory(Intent.CATEGORY_BROWSABLE))
     }
     private fun chooseLanguage() {
         val tags = listOf("") + LanguagePolicy.SUPPORTED

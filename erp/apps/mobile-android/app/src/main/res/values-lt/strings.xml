@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="mobile_workspace_title">KNABA darbo vieta</string>
+    <string name="mobile_website_hint">KNABA svetainės HTTPS adresas</string>
+    <string name="mobile_open_portal">Atidaryti KNABA Mobile</string>
+    <string name="mobile_open_account">Mano KNABA paskyra</string>
+    <string name="mobile_open_erp">Atidaryti KNABA ERP</string>
+    <string name="mobile_login_notice">Prisijungimas vyksta naršyklėje. Teises skiria serveris; GPS neįjungiamas.</string>
+    <string name="mobile_invalid_origin">Įveskite teisingą HTTPS adresą be kelio.</string>
     <string name="app_name">KNABA DE</string>
     <string name="title">KNABA DE · Laikas ir vieta</string>
     <string name="privacy_notice">Vieta renkama tik jums įjungus ir serveriui leidus. Pertrauka arba pamainos pabaiga išjungia GPS. Objekte siunčiamas tik atstumas ir kokybė; koordinatės tik patvirtintose darbo kelionėse.</string>
