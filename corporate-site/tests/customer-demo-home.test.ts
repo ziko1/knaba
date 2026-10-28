@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
-const read = relative => readFileSync(new URL(relative,import.meta.url),'utf8');
+const read = (relative:string) => readFileSync(new URL(relative,import.meta.url),'utf8');
 const home=read('../src/components/ConstructionHome.astro');
 const why=read('../src/components/WhyKnaBa.astro');
 const guides=read('../src/components/HomeGuides.astro');
