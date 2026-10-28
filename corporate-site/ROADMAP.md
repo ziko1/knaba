@@ -366,3 +366,13 @@ Removed implicit deletion of expired access requests during a new submission. Ex
 ## 28.10.2026 — migration URL correction and isolated production SEO
 
 Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixture reproduced /ber 303 to an absent page. Added exact 308 company/career and observed canonical trailing-slash mappings for GET/HEAD; unknown URLs remain 404 and POST is rejected. Full relevant VPS suite 90/90 and root suite 25/25 PASS. Production HTML/SEO verified in an isolated official build: 130 HTML, 104 indexable including legal pages, 100 sitemap entries; no indexing submission or production deployment. Six domain literals require the official source catalogue to be extracted before verify; staging catalogue restored afterward. Detailed evidence is in docs/evidence/staging-release-20261028. Final runtime deployment and authenticated cloud acceptance are still required.
+
+
+## 28.10.2026 — visual presentation enhancement
+
+- [x] Preserve all 130 routes and original text/link/control contract while adding the shared brand/motion layer; retain the concurrent PublicReviews fix.
+- [x] Independent source review corrections, Node24 checks, 263 Vitest +77 native website and25 root assertions, standalone build/i18n/CTA/icon gates; unchanged CSS/JS budget limits.
+- [x] Complete post-build VPS rerun:90/90 PASS,0 failures.
+- [ ] Complete source persistence and browser/mobile/keyboard/device acceptance; managed preview currently BLOCKED.
+- [ ] Separately authorize and verify any staging publication; customer production/official-domain/provider gates remain separate.
+- Evidence: `docs/evidence/visual-polish-20261028/README.md` (base `9127b1d3424517ea061df2eea2ecc820a6bcfbde`, no deployment).

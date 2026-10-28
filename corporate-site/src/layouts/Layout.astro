@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/visual-polish.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import brandMessages from "../data/brand-messages.json";
@@ -123,7 +124,7 @@ const structuredData = {
       set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
     />
   </head>
-  <body>
+  <body class="knaba-vivid">
     <a href="#main" class="skip-link">{translated.skip}</a>
     <div class="topline">
       <div class="container">
@@ -249,6 +250,7 @@ const structuredData = {
       document.addEventListener('astro:page-load',bindLauncher);
     </script>
     <script>
+      import '../scripts/visual-motion';
       import { initializeSiteStudioLive } from "../scripts/site-studio-live";
       initializeSiteStudioLive();
     </script>

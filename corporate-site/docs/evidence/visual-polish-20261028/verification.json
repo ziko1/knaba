@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-28",
+  "scope": "KnaBa visual presentation source candidate; no deployment",
+  "baseSourceSha": "9127b1d3424517ea061df2eea2ecc820a6bcfbde",
+  "sourceState": "Uncommitted visual changes on recorded base; final candidate commit is recorded by the owning release task",
+  "runtime": "Node v24.22.1",
+  "sourceFiles": {
+    "src/layouts/Layout.astro": "66326c20d40dbbaf310924e158ff250b72fe2bbae06f1a87c047d97282b2cd32",
+    "src/styles/global.css": "27261a5be479debccbc4691ee900c8e1646d16a267b7031fca0d64673f8e0250",
+    "src/styles/visual-polish.css": "58e4b6102a0ff03ea85dc4535ac59b062d9809e80c502ba32ca804f9b7fdbe5f",
+    "src/scripts/visual-motion.ts": "804d4b85c2f58cbf52bd4c82067589550a04559d98fece35af97cca8892b8859"
+  },
+  "checks": {
+    "rootNpmTest": {
+      "status": "PASS",
+      "exitCode": 0,
+      "nativeAssertions": 25
+    },
+    "moduleCheck": {
+      "status": "PASS",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "existingAstroHints": 6
+    },
+    "moduleNpmTest": {
+      "status": "PASS",
+      "exitCode": 0,
+      "vitestTests": 263,
+      "vitestFiles": 41,
+      "nativeAssertions": 77
+    },
+    "nativeCountVerification": {
+      "status": "PASS",
+      "method": "Same native Node test files rerun with --test-isolation=none --test-reporter=tap to expose assertion counts"
+    },
+    "build": {
+      "status": "PASS",
+      "pages": 130,
+      "artifactSha256": "c62fee61eed4d203f0078e797ad0307152c406d85ee00bde44586f26001131d4"
+    },
+    "buildVerifier": {
+      "status": "PASS",
+      "internalLinks": "PASS",
+      "metadata": "PASS",
+      "mode": "VSP_STAGING_NOINDEX",
+      "cssGzip": 39767,
+      "cssBudgetBytes": 40960,
+      "clientJsGzip": 193036,
+      "clientJsBudgetBytes": 225280,
+      "publishedLocales": 4,
+      "plannedLocales": 95,
+      "i18nRoutes": 28,
+      "i18nUnits": 1053
+    },
+    "originalContentContract": {
+      "status": "PASS",
+      "pages": 130,
+      "textFragments": 15184,
+      "links": 6098,
+      "controls": 938
+    },
+    "browser": {
+      "status": "BLOCKED",
+      "reason": "Managed terminal.local preview returned ERR_HTTP_RESPONSE_CODE_FAILURE; following error URL was rejected by browser policy. No retry/bypass or visual/mobile/device PASS claimed."
+    },
+    "vpsTests": {
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 90,
+      "failures": 0,
+      "durationMs": 10387,
+      "ordering": "Rerun after standalone build completed; earlier missing-dist run superseded"
+    },
+    "deployment": {
+      "status": "NOT_RUN"
+    },
+    "fieldCoreWebVitals": {
+      "status": "NOT_RUN"
+    },
+    "networkTransfer": {
+      "status": "NOT_MEASURED"
+    }
+  },
+  "independentReviewFixes": [
+    "Carousel active-dot highlight targets ::before, preserving the 44px button hit target without a large colored block.",
+    "FAQ even-group background changed to #e9f9fa to retain small-heading contrast with existing #197b77 text.",
+    "Carousel slide accents 2/6/7 darkened to #075d7b/#055f58/#813c29; hero decorative pseudo-element bounded by inset:0."
+  ],
+  "executionOrdering": "Managed preview stopped before final standalone build; previous simultaneous preview/build writers generated a duplicate Layout stylesheet. Final build artifact is the sole validated result.",
+  "pruning": "Applied only the zero-reference legacy-selector pruning. No duplicate-declaration optimization applied. Live content, routes, controls and behavior retained.",
+  "logsSHA256": {
+    "knaba-root-tests-9127.log": "342c4cdc76250cfbe0526945250d6d586540ced43ecdc3824d7dd732228d6f08",
+    "knaba-check-9127.log": "f5f7e5b40d65d18335076e51bb7730159c9dd5cc5d522a509376c9fbc166d995",
+    "knaba-tests-9127.log": "dbcdb89a9193a8082815b3e003bb4aa48aa6b85c3327dc192178cc853d61fea4",
+    "knaba-root-native-9127.tap": "d918e48fb12fbf16446f764ba4efbce18e5e012433a8f2f9f76799b32022a644",
+    "knaba-native-9127.tap": "43c5c7491a021c516ee2aceb83273eafe3f3a1562a35a02421e143e0f1bfa4c8",
+    "knaba-vps-tests-authorized.log": "44e5e69fe68b2f106d7794a338dd2f60d5277e94d56fe0d1ebcdb9f05dd74be1"
+  },
+  "remaining": [
+    "Browser visual and interaction acceptance",
+    "Mobile viewport/keyboard/device/zoom/screen-reader acceptance",
+    "Authenticated owner/provider flows",
+    "Field performance",
+    "Separate authorized staging publication and live readback",
+    "Official-domain/customer-production release gates"
+  ]
+}
