@@ -343,3 +343,9 @@ Canonical detailed audit and sources: \`docs/LEGAL_AUDIT_UK.md\`. Stacked Draft 
 - [x] Ізольовані Node24 site check/build/verify/тести та ERP typecheck й CPU-тести зафіксовані в окремих QA-логах. 439 реальних PostgreSQL-кейсів не були запущені в CPU-only прогоні.
 - [ ] Окрема server-only email конфігурація та передача тимчасового секрету поза GitHub; завершити реальний live login/logout/role smoke для developer без публікації пароля в документації.
 - [ ] Повторити live preview QA на опублікованому точному Git SHA, незалежний review, мобільні пристрої, Google/Microsoft OAuth, ERP/PostgreSQL SQL concurrency та замовницький UAT. Production cutover окремий і не дозволений цими тестами.
+
+## 28.10.2026 — staging release coordinator / noindex correction
+
+User confirmed this session coordinates kneba.vsp.rest only. No customer production, DNS, search submission or public-profile changes. Base ab6533a6a0ff1d17d0e2dab0a86909cbdc9f3760; release/knaba-staging-20261028 is an isolated candidate. Preserve the concurrent owner-settings/access-dialog worktree; no automatic all-PR merge.
+
+Confirmed defect: vsp build made staging indexable. Corrected public HTML, HTTP and static-document headers; isolated official mode retains production SEO. Empty staging sitemap no longer prevents strict translation-catalog verification: reuse existing Studio route registry. Exact checks, initial test-fixture correction and limitations: docs/evidence/staging-release-20261028/indexability-checkpoint.json. Deployment, role browser UAT, ERP integration and provider gates remain unaccepted.

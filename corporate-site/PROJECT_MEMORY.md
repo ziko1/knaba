@@ -364,3 +364,9 @@ Preserved canonical `/admin/` and old `/studio/`, `/crm/`, `/konto/`, `/postfach
 - The separately preserved KNABA ERP PostgreSQL identity implementation uses the same minimum for hashing, one-use invitations and self-service password rotation, without changing its role permissions or privileged MFA requirements.
 - TDD on the original PR #110 source: focused regressions first failed on the previous 16/12 minima, then the new 8-character cases passed. Isolated Node 24 full website check/build/verification and 79 VPS tests passed; ERP typecheck and 1866 offline tests passed (439 PostgreSQL integration cases skipped in this CPU-only run). Source publication, live preview verification and real developer enrollment require separate receipts. Never treat unit tests as physical-device, real OAuth or full PostgreSQL acceptance.
 - Privileged developer identity remains bound to a separate private server email and a revocable server-side grant; never place real email, password, token, session, or private SQLite state into this public repository.
+
+## 28.10.2026 — staging release coordinator / noindex correction
+
+User confirmed this session coordinates kneba.vsp.rest only. No customer production, DNS, search submission or public-profile changes. Base ab6533a6a0ff1d17d0e2dab0a86909cbdc9f3760; release/knaba-staging-20261028 is an isolated candidate. Preserve the concurrent owner-settings/access-dialog worktree; no automatic all-PR merge.
+
+Confirmed defect: vsp build made staging indexable. Corrected public HTML, HTTP and static-document headers; isolated official mode retains production SEO. Empty staging sitemap no longer prevents strict translation-catalog verification: reuse existing Studio route registry. Exact checks, initial test-fixture correction and limitations: docs/evidence/staging-release-20261028/indexability-checkpoint.json. Deployment, role browser UAT, ERP integration and provider gates remain unaccepted.

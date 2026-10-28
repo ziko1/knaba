@@ -86,12 +86,12 @@ async function sendStatic(root,req,res,path,db){
     }
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|ru\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|uk|ru)\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',privatePath?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
   if(privatePath||res.statusCode===404){
     res.setHeader('X-Robots-Tag','noindex, nofollow');
-  }else if(ext==='.html' && (!['official','vsp'].includes(process.env.KNABA_RELEASE_MODE) || bytes.includes('<meta name="robots" content="noindex, follow"'))){
+  }else if(process.env.KNABA_RELEASE_MODE!=='official' || req.headers.host?.split(':')[0]==='kneba.vsp.rest' || (ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"'))){
     // The Node VPS runtime does not apply Cloudflare Pages _headers rules.
     // Preserve the built HTML crawler gate in the actual HTTP response.
     res.setHeader('X-Robots-Tag','noindex, follow');

@@ -12,6 +12,21 @@ const fixture='<!doctype html><html lang="de"><head><title>KNABA Bauarbeiten</ti
 '<style>.x{content:"Private literal"}</style></main><footer><span>Kontakt</span></footer></body></html>';
 const catalog=()=>buildCatalog([{path:'/',html:fixture},{path:'/kontakt/',html:fixture.replace('Bauhilfe','Bauprojekt')}]);
 const codes=['de','en','uk','ru','fr','ar'];
+test('empty staging sitemap still verifies the source registry, without retired or private pages',()=>{
+ const root=mkdtempSync(join(tmpdir(),'knaba-staging-catalog-'));
+ try{
+  writeFileSync(join(root,'sitemap.xml'),'<urlset></urlset>');
+  writeFileSync(join(root,'index.html'),fixture.replace('<head>','<head><meta name="robots" content="noindex, follow">'));
+  mkdirSync(join(root,'kontakt'));
+  writeFileSync(join(root,'kontakt','index.html'),fixture);
+  assert.throws(()=>catalogFromDist(root),/SITEMAP_EMPTY/);
+  const result=catalogFromDist(root,['/','/kontakt/','/admin/','/en/']);
+  assert.deepEqual(result.routes,['/','/kontakt/']);
+  assert.throws(()=>catalogFromDist(root,['/','/missing/']),/MISSING_BUILT_PUBLIC_ROUTE/);
+  writeFileSync(join(root,'index.html'),fixture);
+  assert.throws(()=>catalogFromDist(root,['/']),/SITEMAP_EMPTY/);
+ }finally{rmSync(root,{recursive:true,force:true});}
+});
 function packComplete(c,language='fr'){
  const draft=makeDraft(c,language,codes);
  for(const [id,unit] of Object.entries(c.units))draft.translations[id]=unit.source;

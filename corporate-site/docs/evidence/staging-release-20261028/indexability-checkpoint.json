@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-28T06:30:49.910843+00:00",
+  "status": "SOURCE_QA_STAGING_SWITCH_PENDING",
+  "tested_source": "working-tree candidate",
+  "base_sha": "ab6533a6a0ff1d17d0e2dab0a86909cbdc9f3760",
+  "scope": "Staging noindex in vsp HTML, HTTP and document assets; production mode isolated; translation gate uses canonical route registry with empty preview sitemap.",
+  "red": "staging-indexability.test.ts: vsp expected false, got true (1 fail, 3 pass)",
+  "green": {
+    "indexability": "4/4 PASS",
+    "catalog": "10/10 PASS",
+    "server": "2/2 PASS",
+    "root": "25/25 PASS",
+    "site": "263 Vitest + 76 Node PASS before final catalogue regression; affected catalogue retested",
+    "build": "PASS vsp",
+    "verify_build": "PASS vsp; 28 DE routes / 1046 units / 4 published languages"
+  },
+  "prior_full_vps": "87/88; added checks for nonexistent en/uk portal paths returned 404; corrected test route list to actual DE/RU paths, focused server 2/2 PASS",
+  "production": "PENDING_USER_APPROVAL; no deployment or domain change",
+  "limits": [
+    "No role browser acceptance yet",
+    "Field Web Vitals UNKNOWN",
+    "ERP live unavailable; Railway reauthentication required",
+    "GSC connector INVALID_ARGUMENT; metrics UNKNOWN"
+  ]
+}

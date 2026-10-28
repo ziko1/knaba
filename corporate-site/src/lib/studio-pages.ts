@@ -1,5 +1,5 @@
-import {constructionOffers} from '../data/construction-offers';
-import {constructionGuideRoutes} from '../data/construction-guide-routes';
+import {constructionOffers} from '../data/construction-offers.ts';
+import {constructionGuideRoutes} from '../data/construction-guide-routes.ts';
 
 export type StudioPageOption = {path:string;title:string};
 /** Published Astro public pages only; never include owner/CRM/legal/retired office URLs. */

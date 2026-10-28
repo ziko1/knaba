@@ -9,6 +9,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 import {resolve,dirname,join,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {studioPages} from '../src/lib/studio-pages.ts';
 export const CATALOG_VERSION=1;
 export const SOURCE_LOCALE='de';
 const EXCLUDED=new Set(['script','style','svg','template','iframe','code','pre']);
@@ -111,12 +112,15 @@ export function validatePack(c,pack,targetCodes){
  return {status:errors.length?'INVALID':missingCount?'INCOMPLETE':'REVIEW_REQUIRED',published:false,
   translatedUnits:count,totalUnits:sourceIds.length,missingCount,coveragePercent,errors,blockers};
 }
-export function catalogFromDist(root){
+export function catalogFromDist(root,publicPaths=[]){
  const dir=resolve(root),xml=readFileSync(join(dir,'sitemap.xml'),'utf8');
  const first=[...xml.matchAll(/<loc>\s*([^<]+)<\/loc>/gi)][0];
- if(!first)throw new Error('SITEMAP_EMPTY');
- const origin=new URL(first[1].trim().replace(/&amp;/g,'&')).origin;
- const sitemapRoutes=germanPathsFromSitemap(xml,origin);
+ // A staging sitemap is intentionally empty. Extract its exact existing
+ // source route registry, never infer publication from all files or old packs.
+ if(!first && (!publicPaths.length || !/<meta name="robots" content="noindex, follow"/.test(readFileSync(join(dir,'index.html'),'utf8'))))throw new Error('SITEMAP_EMPTY');
+ const sitemapRoutes=first
+  ?germanPathsFromSitemap(xml,new URL(first[1].trim().replace(/&amp;/g,'&')).origin)
+  :publicPaths.filter(path=>goodPath(path)&&path!=='/konto/');
  if(!sitemapRoutes.length)throw new Error('NO_GERMAN_PUBLIC_ROUTES');
  // Legal text and public sign-in must be translated too, even though private
  // management pages and legal routes are not in the public SEO sitemap.
@@ -136,12 +140,12 @@ if(cli){
  const dir=resolve('dist/client'),catalogPath=resolve('i18n/source-de.json');
  try{
   if(command==='extract'){
-   const c=catalogFromDist(dir);
+   const c=catalogFromDist(dir,studioPages.map(page=>page.path));
    mkdirSync(dirname(catalogPath),{recursive:true});
    writeFileSync(catalogPath,JSON.stringify(c,null,2)+'\n');
    console.log(JSON.stringify({status:'PASS',sourceDigest:c.sourceDigest,routes:c.routes.length,units:c.unitCount,limit:'STATIC_CONTENT_ONLY'}));
   }else if(command==='verify-source'){
-   const actual=catalogFromDist(dir),saved=JSON.parse(readFileSync(catalogPath,'utf8'));
+   const actual=catalogFromDist(dir,studioPages.map(page=>page.path)),saved=JSON.parse(readFileSync(catalogPath,'utf8'));
    if(JSON.stringify(actual)!==JSON.stringify(saved))throw new Error('SOURCE_CATALOG_STALE_RUN_EXTRACT');
    console.log(JSON.stringify({status:'PASS',digest:actual.sourceDigest,routes:actual.routes.length,units:actual.unitCount}));
   }else if(command==='draft'){
