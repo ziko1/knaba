@@ -3,7 +3,7 @@
 **Стан:** готовий перевірений тестовий артефакт, НЕ прийнятий production-реліз. Цей пакет не містить реальних облікових записів, БД, секретів, SSL-ключів або даних розробника.
 
 ## Що містить
-- `knaba-owner-app-20261028.tar.gz` — зібраний сайт + Node24 backend + міграції (462 entries).
+- `knaba-owner-app-20261028.tar.gz` — зібраний сайт + Node24 backend + міграції (414 entries).
 - `compose.owner.yaml` — автономний Docker Compose без Coolify/Traefik. Публічно не відкриває порт; лише `127.0.0.1:19110`.
 - `site.env.example` — приклад змінних без секретів.
 - `bundle-manifest.json` — SHA-256 та джерело.
@@ -54,10 +54,10 @@ curl -f -H 'Host: knaba.de' -H 'X-Forwarded-Proto: https' http://127.0.0.1:19110
 **Не переносити** тестову SQLite БД зі сторонніми даними чи секрети VSP. Після погодженого перенесення реальних даних потрібен окремий захищений канал та перевірений план міграції.
 
 ## Підтверджений результат автономної репетиції
-Архів SHA-256 перевірено, усі 462 entries без symlinks/path traversal; `docker compose config` PASS з тестовим origin; міграції чистої SQLite PASS; ізольований Node24 відповів 200 на /healthz, / і /login/ за правильних Host/HTTPS proxy headers. /readyz = 503 без owner enrollment — очікуваний захисний стан. Не підміняти його успішним end-to-end owner UAT.
+Архів SHA-256 перевірено, усі 414 entries без symlinks/path traversal; `docker compose config` PASS з тестовим origin; міграції чистої SQLite PASS; ізольований Node24 відповів 200 на /healthz, / і /login/ за правильних Host/HTTPS proxy headers. /readyz = 503 без owner enrollment — очікуваний захисний стан. Не підміняти його успішним end-to-end owner UAT.
 
-## Пакет на VPS (підготовлений до передачі)
-`/srv/knaba/vps/evidence/knaba-owner-handoff-20261028/KNABA_OWNER_HANDOFF_2026-10-28.zip`
-SHA-256 ZIP: `40da67ba4777958eb36cae7475872ec3b5f1902120599b4e57bef41c9e36b230`.
-SHA-256 app tar.gz: `6b6283d08efa95ae36a9ba9adb0dbccb0e702888c9ac69028a03cc5c6f5b415b`.
-Файл приватний на VPS: скопіювати через авторизований SFTP/SCP, не відкривати публічне посилання.
+## Перевірений фінальний пакет на VPS
+Шлях: `/srv/knaba/vps/evidence/knaba-owner-handoff-20261028/KNABA_OWNER_HANDOFF_2026-10-28.zip`.
+SHA-256 ZIP: `70782724d1958164ff5ba3027129fa20eec24141e3e3e26b4627bf36fe45b305`.
+SHA-256 application archive: `dce222b330f2fd269f7a3d82e26e6b5356c238fd08bb79b8021cd6fd43ce4f5e`.
+В архіві 414 entries, без live БД, секретів, внутрішніх deployment evidence та preview hosting config. Перевірено fresh SQLite migration і HTTP 200 для /healthz, / та /login/ за HTTPS reverse-proxy headers; /readyz=503 до owner enrollment. Зберігати архів приватно, копіювати через авторизований SFTP/SCP.
