@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "14012be3f482afd10cb04e8cbfd16795e34c40f328b61a279a7ba33a9f171185",
+  "sourceDigest": "066bce65493102a219f1df5552c4ef708108f496d9301fa471d6bbf5a68fddfd",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1046,
+  "unitCount": 1047,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -2342,6 +2342,40 @@
       "source": "Nutzen Sie zunächst die Kontaktadresse für eine kurze Vorstellung. Ausweiskopien, Bankdaten und andere sensible Unterlagen gehören nicht in eine allgemeine Erstanfrage.",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "3dbc668cb6d2d3a6c5a125e4": {
+      "kind": "text",
+      "source": "Mobile App",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "3dc89df50d52778bc368d70a": {
