@@ -114,7 +114,7 @@ bundle(){
  # Includes ONLY reviewed application release artifacts, never config, secrets, raw SQLite or node_modules.
  tar -C "$project" -czf "$bundle" dist vps drizzle package.json
  chmod 600 "$bundle"
- sha256sum "$bundle" > "$bundle.sha256"
+ ( cd "$dir" && sha256sum "$(basename "$bundle")" > "$(basename "$bundle").sha256" )
  chmod 600 "$bundle.sha256"
  printf 'BUNDLE_CREATED source=%s archive_sha256=%s\n' "$sha" "$(sha256sum "$bundle"|cut -d' ' -f1)"
 }
