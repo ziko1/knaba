@@ -50,15 +50,24 @@ test('VPS HTTP: secure owner invite -> pending worker -> owner approval -> scope
     const ownerLogin=await at('/login/',form({email:ownerEmail,password:ownerPass,return_to:'/studio/'}));
     assert.equal(ownerLogin.status,303);
     const ownerCookie=ownerLogin.headers.get('set-cookie').split(';')[0];
-    assert.equal((await at('/invite-user/',{headers:{Cookie:ownerCookie}})).status,200);
+    const ownerInvitePage=await at('/invite-user/',{headers:{Cookie:ownerCookie}});
+    assert.equal(ownerInvitePage.status,200);
+    assert.match(await ownerInvitePage.text(),/name="identity_verified" value="on" required/);
+    assert.equal((await at('/invite-user/',form(
+      {email:'worker@example.test',role:'worker'},{Cookie:ownerCookie}
+    ))).status,422,'no invitation without explicit owner attestation');
+
     assert.equal((await at('/invite-user/',form(
       {email:'worker@example.test',role:'worker'},{Cookie:ownerCookie,Origin:'https://evil.test'}
     ))).status,403);
     assert.equal((await at('/invite-user/',form(
-      {email:'worker@example.test',role:'owner'},{Cookie:ownerCookie}
+      {email:'worker@example.test',role:'owner',identity_verified:'on'},{Cookie:ownerCookie}
+    ))).status,422);
+    assert.equal((await at('/invite-user/',form(
+      {email:'worker@example.test',role:'worker',identity_verified:'no'},{Cookie:ownerCookie}
     ))).status,422);
     const invited=await at('/invite-user/',form(
-      {email:'worker@example.test',role:'worker'},{Cookie:ownerCookie}
+      {email:'worker@example.test',role:'worker',identity_verified:'on'},{Cookie:ownerCookie}
     ));
     assert.equal(invited.status,200);
     assert.match(invited.headers.get('cache-control'),/no-store/);
@@ -104,7 +113,7 @@ test('VPS HTTP: secure owner invite -> pending worker -> owner approval -> scope
 
     const ownerId=service.db.prepare('SELECT id FROM vps_users WHERE email=?').get(ownerEmail).id;
     issueAccountInvite(service.db,{
-      issuerId:ownerId,ownerEmail,email:'revoke-case@example.test',role:'client'
+      issuerId:ownerId,ownerEmail,email:'revoke-case@example.test',role:'client',identityVerified:true
     });
     const revoked=await at('/invite-user/revoke/',form(
       {email:'revoke-case@example.test'},{Cookie:ownerCookie}

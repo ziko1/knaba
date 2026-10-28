@@ -33,9 +33,10 @@ function ownerIdentity(db,issuerId,ownerEmail){
   if(!issuer||issuer.disabled||issuer.email!==expected)throw new AccountInviteError('Owner session required');
   return issuer;
 }
-export function issueAccountInvite(db,{issuerId,ownerEmail,email,role,now=Date.now()}){
+export function issueAccountInvite(db,{issuerId,ownerEmail,email,role,identityVerified=false,now=Date.now()}){
   validateTime(now);
   if(!['client','worker'].includes(role))throw new AccountInviteError('Unsupported account role');
+  if(identityVerified!==true)throw new AccountInviteError('Owner identity verification attestation required');
   const address=validEmail(email);
   const expected=validEmail(ownerEmail);
   if(address===expected)throw new AccountInviteError('Owner account is managed separately');
@@ -51,8 +52,14 @@ export function issueAccountInvite(db,{issuerId,ownerEmail,email,role,now=Date.n
     // Rotation invalidates a previously lost token before creating another.
     db.prepare('UPDATE vps_account_invites SET used_at=? WHERE email=? AND used_at IS NULL')
       .run(now,address);
+    const tokenHash=hash(token);
     db.prepare('INSERT INTO vps_account_invites (token_hash,email,requested_role,issued_by,issued_at,expires_at) VALUES (?,?,?,?,?,?)')
-      .run(hash(token),address,role,issuerId,now,expiresAt);
+      .run(tokenHash,address,role,issuerId,now,expiresAt);
+    // Audit only the owner's assertion. It is not proof of mailbox or identity ownership.
+    // The digest cannot be exchanged for the invitation bearer capability.
+    db.prepare('INSERT INTO portal_audit(id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
+      .run(randomBytes(18).toString('base64url'),issuerId,
+        'account.invite.owner-attested',tokenHash,new Date(now).toISOString());
   });
   return {token,email:address,role,expiresAt};
 }

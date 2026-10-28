@@ -31,3 +31,12 @@ Existing Node VPS login, scrypt credential store, HttpOnly same-site sessions, o
 - Public self-service email sign-up, forgotten-password recovery without signed-in session, partner registration, email/OIDC claims and real mail provider authorization remain OPEN.
 - Real owner identity/UAT, source-bound independent code/security review, trusted proxy config, live backup/restore and DB ledger review, GDPR/legal sender rights, browser/mobile/a11y, true PostgreSQL-ERP scoped identity bridge, staging deployment and product release remain NOT_RUN.
 - No main merge, production deploy, real data migration or destructive cleanup. Before rollout verify backups, CAS/current artifact, rollback and obtain specific release authorization. If no deployment, revert the Draft changes only.
+
+
+## 2026-10-27 · INVITE OWNER-ASSERTED IDENTIFICATION GATE (Source candidate)
+- Discovered confirmed gap: both owner-only invitation forms displayed identity-verification checkbox UI, but the server accepted invite POST with only email+role and the lower-level issueAccountInvite module did not require any owner assertion.
+- Reused existing invitation/session/scoped owner auth, added strict boolean identityVerified=true to issueAccountInvite contract (fail-closed, caller must opt in), required third exact POST field identity_verified=on in owner endpoint, plus named/required checkbox on owner invitation and pending-request form.
+- Within the existing SQLite invite transaction, emit portal_audit action account.invite.owner-attested with owner actor_id and SHA256 invitation hash as entity_id; no plaintext secret or personal email in audit event. This records the owner's attestation ONLY, not independent proof of mailbox/identity ownership.
+- TDD: three focused HTTP/unit tests RED (two absent named fields; one module missing required attestation), then GREEN 9/9. Additional invalid-value/role and audit linkage checks also GREEN. Final exact-backend+running-frontend Node24 full VPS suite 63/63 PASS.
+- No new database migration, no password/session change, no automatic role approval, no external provider, no production merge. Runtime and owner UAT not yet implied by source QA.
+- Existing human verification and follow-up owner confirmation remain essential before sending one-time invitation; no KNABA verified email/OIDC sender is connected.

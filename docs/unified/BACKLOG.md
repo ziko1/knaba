@@ -95,3 +95,14 @@ Source-only Draft: preserved latest live site and ERP source, unified typed regi
 
 ## KN-AUTH-008 / P0 — authentication continuation 2026-10-26
 SOURCE_LOCAL_QA: owner invite revocation, 60-per-15m TCP-source login quota, password change with session invalidation, 59 VPS tests and site/root/check/build/verifier PASS. No SQL rewrite. P0 HOLD: trusted reverse proxy real client address, live POST credential test (tool safety blocked), independent security review, verified KNABA sender/OTP, ERP tenant scoped identity, off-host backup+restore, browser/device/a11y and real owner acceptance. See KNABA_AUTH_SECURITY_CONTINUATION_2026-10-26_UK.md.
+
+## G2 auth · continuation 26.10.2026
+- [x] Source applicant queue with consent, same-origin protection, pending only and owner review.
+- [x] Existing personal invitations and server-confirmed roles reused, no automatic admin elevation.
+- [ ] Verified KNABA sender and email ownership checks + safe self-service reset.
+- [ ] Live owner/client UAT, independent browser/device/accessibility, privacy retention/DSAR, proxy provenance/WAF and ERP tenant bridge.
+
+## 2026-10-27 · INVITE OWNER-ATTESTATION
+- [x] Both owner invite UI entrypoints show named required identity-checked field; backend requires exact confirmation before invoking existing one-use invitation.
+- [x] Owner acknowledgement audited transactionally as assertion, never as independently verified identity.
+- [ ] Actual owner identity/evidence review, KNABA email proof and verified sender/OIDC, UI/device/a11y acceptance, provider pricing, ERP tenant-scoped SSO and production release.
