@@ -346,6 +346,19 @@ export async function createKnabaVpsServer({
     const effectiveOrigin=localTest&&rawHost.startsWith('127.0.0.1')?origin:(base.protocol+'//'+rawHost);
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
+    // URLs observed on the existing official site (2026-10-28). Preserve their
+    // meaning when the approved release eventually moves to the official host.
+    // This also makes the exact mapping reviewable on staging before cutover.
+    const legacyPublicRoutes={
+      '/ber':'/unternehmen/','/ber/':'/unternehmen/',
+      '/jobs':'/karriere/','/jobs/':'/karriere/',
+      '/leistungen':'/leistungen/','/galerie':'/galerie/',
+      '/kontakt':'/kontakt/','/impressum':'/impressum/'
+    };
+    if(Object.hasOwn(legacyPublicRoutes,url.pathname)){
+      if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
+      return send(res,308,'Canonical page moved',{Location:legacyPublicRoutes[url.pathname]+url.search});
+    }
     // Public rebrand: stop serving the discontinued office-cleaning marketing URL.
     // Historical CRM service IDs are intentionally left intact.
     const legacyOffice=url.pathname.match(/^\/(?:(ru|en|uk)\/)?leistungen\/bueroreinigung\/?$/);

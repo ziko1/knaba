@@ -11,6 +11,27 @@ import { createOwner } from './auth.mjs';
 const origin='https://knaba.de';
 const owner='owner@example.test';
 const password='synthetic-only-not-a-real-password-2026';
+test('legacy migration preserves observed company and recruitment URLs without a home-page fallback',async()=>{
+  const dir=await mkdtemp(join(tmpdir(),'knaba-legacy-urls-'));
+  try{
+    for(const host of ['knaba.de','kneba.vsp.rest']){
+      const app=await createKnabaVpsServer({dbPath:join(dir,host+'.sqlite'),ownerEmail:'',origin:'https://'+host,localTest:true,
+        staticRoot:new URL('../dist/client/',import.meta.url).pathname,workerPath:new URL('../dist/server/index.js',import.meta.url).href,host:'127.0.0.1',port:0});
+      try{
+        const read=(path,method='GET')=>fetch('http://127.0.0.1:'+app.port+path,{method,redirect:'manual',headers:{Host:host}});
+        for(const [old,target] of [['/ber','/unternehmen/'],['/ber/','/unternehmen/'],['/jobs','/karriere/'],['/jobs/','/karriere/'],['/leistungen','/leistungen/'],['/galerie','/galerie/'],['/kontakt','/kontakt/'],['/impressum','/impressum/']]){
+          const response=await read(old+'?utm_source=migration-check');
+          assert.equal(response.status,308,old);
+          assert.equal(response.headers.get('location'),target+'?utm_source=migration-check');
+          assert.equal((await read(target)).status,200,target);
+          assert.equal((await read(old,'HEAD')).status,308,old+' HEAD');
+          assert.equal((await read(old,'POST')).status,405,old+' POST must not replay a mutation');
+        }
+        assert.equal((await read('/unknown-old-service/')).status,404);
+      }finally{await app.close();}
+    }
+  }finally{await rm(dir,{recursive:true,force:true});}
+});
 test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup',async()=>{
   const dir=await mkdtemp(join(tmpdir(),'knaba-vps-test-'));
   const dbPath=join(dir,'state.sqlite'),backupPath=join(dir,'backup.sqlite');

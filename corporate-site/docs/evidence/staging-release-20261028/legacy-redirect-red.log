@@ -1,0 +1,29 @@
+✖ legacy migration preserves observed company and recruitment URLs without a home-page fallback (62.625868ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 207.105693
+
+✖ failing tests:
+
+test at vps/server.test.mjs:14:1
+✖ legacy migration preserves observed company and recruitment URLs without a home-page fallback (62.625868ms)
+  AssertionError [ERR_ASSERTION]: /ber
+  
+  303 !== 308
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/23db9ae4168f/knaba/corporate-site/vps/server.test.mjs:24:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 303,
+    expected: 308,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

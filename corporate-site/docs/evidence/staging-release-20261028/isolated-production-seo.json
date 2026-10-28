@@ -1,0 +1,24 @@
+{
+  "source": "b05b112bf907188db49e904b42c67ee1bdd6c322",
+  "time": "2026-10-28T08:17:19.253434+00:00",
+  "environment": "isolated local build; NOT DEPLOYED",
+  "release_mode": "official",
+  "runs": [
+    {
+      "command": "npm run build",
+      "started_at": "2026-10-28T08:17:11.806915+00:00",
+      "finished_at": "2026-10-28T08:17:18.341845+00:00",
+      "exit_code": 0,
+      "log": "official-build.log"
+    },
+    {
+      "command": "npm run verify:build",
+      "started_at": "2026-10-28T08:17:18.341927+00:00",
+      "finished_at": "2026-10-28T08:17:19.253123+00:00",
+      "exit_code": 1,
+      "log": "official-verify.log"
+    }
+  ],
+  "staging_artifact_restored": true,
+  "index_submission": "NOT_PERFORMED"
+}

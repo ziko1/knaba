@@ -1,0 +1,17 @@
+{
+  "source": "working-tree atop b05b112bf907188db49e904b42c67ee1bdd6c322",
+  "started_at": "2026-10-28T08:21:11.306219+00:00",
+  "finished_at": "2026-10-28T08:21:12.072944+00:00",
+  "reproduction": "/ber returned temporary303 to absent /ber/ instead of permanent equivalent company route",
+  "test": "node --test vps/server.test.mjs",
+  "exit_code": 0,
+  "source_urls": [
+    "https://knaba.de/ber",
+    "https://knaba.de/jobs",
+    "https://knaba.de/leistungen",
+    "https://knaba.de/galerie",
+    "https://knaba.de/kontakt",
+    "https://knaba.de/impressum"
+  ],
+  "limits": "isolated real SQLite and HTTP; staging deployment still pending"
+}

@@ -1,0 +1,7 @@
+{
+  "source": "working tree atop b05b112bf907188db49e904b42c67ee1bdd6c322 with legacy public redirects",
+  "started_at": "2026-10-28T08:21:55.080537+00:00",
+  "finished_at": "2026-10-28T08:22:06.878176+00:00",
+  "command": "npm run test:vps",
+  "exit_code": 0
+}
