@@ -3,6 +3,7 @@ import {WhatsAppRouter,parseReceiptCents,type RouterPrecondition} from '../packa
 import {parseRouterCommand} from '../packages/integrations/whatsapp-router-text.ts';
 import {renderWhatsAppMessage,type WhatsAppOutput} from '../packages/integrations/whatsapp.ts';
 import {communicationsCommands} from '../packages/domain/communications.ts';
+import {commerceCommands} from '../packages/domain/commerce.ts';
 import {operationsCommands} from '../packages/domain/operations.ts';
 import {resourcesCommands} from '../packages/domain/resources.ts';
 import {ROLE_PERMISSIONS} from '../packages/domain/permissions.ts';
@@ -158,4 +159,181 @@ describe('protected WhatsApp map navigation (CPU router fixtures; no real provid
  it('revoked chosen permission or external role cancels queued map delivery even when another map permission remains',async()=>{for(const patch of [{roles:['QUALITY_CONTROL'],permissions:['location.route.read']},{roles:['CLIENT'],permissions:['trip.read','location.route.read']}]){const f=await setup(),r=await f.route('MAP');await f.db.change('user','employee',patch);expect(await f.router.prepareResponse('company',r.result.responseId!)).toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});expect((await f.response(r.result.responseId!)).data.status).toBe('CANCELLED');expect(f.engine.calls).toHaveLength(0);}});
  it('adds the protected link to an own active trip short card and keeps history navigation with no active shift',async()=>{const f=await setup(),empty=await f.route('TRAVEL');expect((await f.response(empty.result.responseId!)).data.output.text).toContain('https://knaba.example.com/app/trips?map=1');const shift=await f.start();await f.db.change('shift',shift.id,{activity:'TRAVELLING'});await f.db.add('trip',{employeeId:'employee',shiftId:shift.id,siteId:'site-a',state:'IN_PROGRESS',destination:{kind:'SITE',id:'site-b'},purpose:'Own approved work purpose'},'own-trip');await f.db.add('trip',{employeeId:'other',shiftId:shift.id,state:'IN_PROGRESS',destination:{kind:'SITE',id:'secret'},purpose:'FOREIGN_PRIVATE_CANARY'},'foreign-trip');const r=await f.route('TRAVEL'),response=await f.response(r.result.responseId!);expect(response.data.output.text).toContain('own-trip');expect(response.data.output.text).toContain('/app/trips?map=1');expect(response.data.output.text).not.toMatch(/FOREIGN_PRIVATE_CANARY|foreign-trip|secret/);expect(response.data.required_permissions).toContain('trip.read');expect((await f.db.get('shift',shift.id)).data.activity).toBe('TRAVELLING');expect(f.engine.calls.map(c=>c.name)).toEqual(['shift.start']);});
  it('keeps manual fallback without an invented public origin and never treats quoted map text as a command',async()=>{const f=await setup({publicOrigin:undefined});const r=await f.route('MAP'),response=await f.response(r.result.responseId!);expect(response.data.output.text).toContain('Відкрити мапу');expect(response.data.output.text).not.toMatch(/https?:|token=|lat=|lng=/);expect((await f.route('Please MAP the route tomorrow')).result.handled).toBe(false);expect((await f.route('«MAP»')).result.handled).toBe(false);expect(f.engine.calls).toHaveLength(0);});
+});
+
+describe('KNABA /MODULES and owner automation proposals (no provider I/O)',()=>{
+ it('opens public + scoped worker functions and does not execute hidden ERP modules',async()=>{
+  const f=await setup();
+  const menu=await f.route('/MODULES'),rows=await f.db.list('whatsapp_router_action');
+  expect(menu.result).toMatchObject({handled:true,state:'MODULES'});
+  expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='shifts')).toBe(true);
+  expect(rows.some(a=>a.data.intent==='BOT_MODULE'&&a.data.payload.id==='owner_admin')).toBe(false);
+  expect(f.engine.calls).toHaveLength(0);
+  const guest=await f.route('/MODULES',undefined,'client');
+  expect(guest.result).toMatchObject({handled:true,state:'MODULES'});
+  const restricted=(await f.db.list('whatsapp_router_action')).filter(a=>a.data.user_id==='client'&&a.data.intent==='BOT_MODULE');
+  expect(restricted.every(a=>['services','enquiry','planner','contact','account','privacy'].includes(a.data.payload.id))).toBe(true);
+ });
+ it('draft wizard is owner-only and never executes or activates without confirmation',async()=>{
+  const f=await setup();
+  await expect(f.route('/AUTOMATIONS')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await f.db.change('user','client',{roles:['CLIENT'],permissions:['automation.manage','decision.manage','scope.company']});
+  await expect(f.route('/AUTOMATIONS',undefined,'client')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await f.db.change('user','employee',{roles:['OWNER'],permissions:['automation.manage','decision.manage']});
+  (f.engine.registry as Record<string,unknown>)['automation_rule.create']=commerceCommands['automation_rule.create'];
+  const menu=await f.route('/AUTOMATIONS');
+  expect(menu.result).toMatchObject({handled:true,state:'AUTOMATIONS'});
+  expect((await f.response(menu.result.responseId!)).data.output.text).toContain('ЧЕРНЕТКУ');
+  const preview=await f.pick(menu.result,0);
+  expect(preview.result.state).toBe('PREVIEW');
+  const action=(await f.db.list('whatsapp_router_action')).find(a=>a.data.intent==='EXECUTE'&&a.data.payload.plan?.name==='automation_rule.create');
+  expect(action?.data.payload.plan?.input).toMatchObject({
+    trigger:'lead.created',action:'CREATE_DECISION',ownerId:'employee',
+    scope:{siteIds:[],customerIds:[]}
+  });
+  expect(f.engine.calls).toHaveLength(0);
+  expect(await f.db.list('automation_rule')).toHaveLength(0);
+  await f.db.change('user','employee',{roles:['EMPLOYEE'],permissions:[]});
+  expect(await f.router.prepareResponse('company',preview.result.responseId!))
+    .toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});
+ });
+});
+
+describe('WhatsApp additive worker registration interest, no automatic owner action',()=>{
+ it('registers a GUEST intent once and never grants staff identity across provider retries',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const first=await f.route('/REGISTER',undefined,'client');
+  expect(first.result).toMatchObject({handled:true,state:'WORKER_INTEREST_RECORDED'});
+  const rows=await f.db.list('worker_registration_interest');
+  expect(rows).toHaveLength(1);
+  expect(rows[0]!.data).toMatchObject({state:'REQUESTED',employee_created:false,
+    roles_granted:[],requires_owner_review:true});
+  expect((await f.db.get('user','client')).data.roles).toEqual(['GUEST','CLIENT']);
+  const repeat=await f.route('/REGISTER',undefined,'client');
+  expect(repeat.result).toMatchObject({handled:true,state:'WORKER_INTEREST_RECORDED'});
+  expect((await f.db.list('worker_registration_interest'))).toHaveLength(1);
+  expect(f.db.events.filter(x=>x.type==='worker.registration_requested')).toHaveLength(1);
+  expect(f.engine.calls).toHaveLength(0);
+ });
+ it('does not interpret prose or a recognized employee as an application',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const regular=await f.route('Please REGISTER my brother',undefined,'client');
+  expect(regular.result.handled).toBe(false);
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+  await expect(f.route('/REGISTER')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+ });
+ it('revoked contact cannot register or inherit protected worker data',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const contact=(await f.db.list('contact_identity')).find(x=>x.data.userId==='client')!;
+  await f.db.change('contact_identity',contact.id,{revoked_at:f.db.now.toISOString()});
+  await expect(f.route('/REGISTER',undefined,'client')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+ });
+});
+
+describe('owner receives employee interest queue in existing WhatsApp router, read-only',()=>{
+ it('shows only company-scoped pending reference and never exposes contact information or approves staff',async()=>{
+  const f=await setup();
+  await f.db.change('user','employee',{roles:['OWNER'],siteIds:[],warehouseIds:[],active:true});
+  await f.db.add('worker_registration_interest',{state:'REQUESTED',source_provider:'TELEGRAM',
+    guest_user_id:'guest-hidden',provider_sender:'PRIVATE_SHOULD_NOT_LEAK',
+    contact_identity_id:'hidden-contact',roles_granted:[],employee_created:false},'interest-1');
+  const r=await f.route('/WORKERS'),response=await f.response(r.result.responseId!);
+  expect(r.result).toMatchObject({handled:true,state:'WORKER_REQUESTS'});
+  expect(response.data.output.text).toContain('Заявки працівників');
+  expect(JSON.stringify(response.data.output)).not.toContain('PRIVATE_SHOULD_NOT_LEAK');
+  expect(f.engine.calls).toHaveLength(0);
+  const action=(await f.db.list('whatsapp_router_action')).find(x=>x.data.intent==='WORKER_DETAIL')!;
+  expect(action.data.permission).toBe('identity.manage');
+  // Opaque callback token itself is never the persisted hash.
+  const forged=await f.route(undefined,action.data.action_hash,'employee');
+  expect(forged.result.handled).toBe(false);
+  const detail=await f.pick(r.result,0);
+  expect(detail.result).toMatchObject({handled:true,state:'WORKER_DETAIL'});
+  const text=(await f.response(detail.result.responseId!)).data.output.text;
+  expect(text).toContain('interest-1');
+  expect(text).not.toContain('PRIVATE_SHOULD_NOT_LEAK');
+  expect((await f.db.get('worker_registration_interest','interest-1')).data.state).toBe('REQUESTED');
+ });
+ it('denies client with injected permission and cancels stale owner reply after revocation',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['CLIENT'],permissions:['identity.manage']});
+  await expect(f.route('/WORKERS',undefined,'client')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await f.db.change('user','employee',{roles:['OWNER'],active:true,siteIds:[]});
+  const result=await f.route('/WORKERS');
+  await f.db.change('user','employee',{roles:['EMPLOYEE'],permissions:[]});
+  expect(await f.router.prepareResponse('company',result.result.responseId!))
+    .toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});
+ });
+});
+
+
+describe('WhatsApp partner enquiries require owner review, not automatic registration',()=>{
+ it('guest /PARTNER is idempotent and never grants an account',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const first=await f.route('/PARTNER',undefined,'client');
+  expect(first.result).toMatchObject({handled:true,state:'PARTNER_INTEREST_RECORDED'});
+  const rows=await f.db.list('partner_registration_interest');
+  expect(rows).toHaveLength(1);
+  expect(rows[0]!.data).toMatchObject({state:'REQUESTED',partner_created:false,
+    roles_granted:[],requires_owner_review:true});
+  await f.route('/PARTNER',undefined,'client');
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(1);
+  expect(f.db.events.filter(e=>e.type==='partner.registration_requested')).toHaveLength(1);
+  expect((await f.db.get('user','client')).data.roles).toEqual(['GUEST','CLIENT']);
+  expect(f.engine.calls).toHaveLength(0);
+ });
+ it('owner /PARTNERS shows redacted queue, not grantable roles',async()=>{
+  const f=await setup();
+  await f.db.change('user','employee',{roles:['OWNER'],siteIds:[],warehouseIds:[],active:true});
+  await f.db.add('partner_registration_interest',{state:'REQUESTED',source_provider:'TELEGRAM',
+    guest_user_id:'hidden',contact_identity_id:'SECRET_CONTACT',provider_sender:'PRIVATE_TOKEN',
+    roles_granted:[],partner_created:false},'partner-1');
+  const r=await f.route('/PARTNERS'),output=await f.response(r.result.responseId!);
+  expect(r.result.state).toBe('PARTNER_REQUESTS');
+  expect(JSON.stringify(output.data.output)).not.toContain('SECRET_CONTACT');
+  expect(JSON.stringify(output.data.output)).not.toContain('PRIVATE_TOKEN');
+  expect(f.engine.calls).toHaveLength(0);
+ });
+ it('blocks employee pretending to be new partner',async()=>{
+  const f=await setup();
+  await expect(f.route('/PARTNER')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(0);
+ });
+});
+
+
+describe('owner channel preferences are consumed by WhatsApp intake',()=>{
+ it('owner preference can pause new bot registration without disabling human contact',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  await f.db.add('bot_config',{channel:'WHATSAPP',defaultLanguage:'RU',
+    workerRequestsEnabled:false,partnerRequestsEnabled:false,
+    humanEscalationEnabled:true,replyMode:'HUMAN_FIRST'},'knaba-channel-whatsapp');
+  expect((await f.route('/REGISTER',undefined,'client')).result.state).toBe('REGISTRATION_DISABLED');
+  expect((await f.route('/PARTNER',undefined,'client')).result.state).toBe('REGISTRATION_DISABLED');
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(0);
+  expect(f.db.events.filter(e=>e.type.endsWith('.registration_requested'))).toHaveLength(0);
+ });
+});
+
+
+describe('owner multilingual channel setting is reflected in WhatsApp guest navigation',()=>{
+ it('WA no user locale uses owner-selected channel default without granting business access',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  await f.db.add('bot_config',{channel:'WHATSAPP',defaultLanguage:'RU',
+    workerRequestsEnabled:true,partnerRequestsEnabled:true,
+    humanEscalationEnabled:true,replyMode:'HUMAN_FIRST'},'knaba-channel-whatsapp');
+  const result=await f.route('/MENU',undefined,'client');
+  const response=await f.response(result.result.responseId!);
+  expect(response.data.output.text).toContain('Рабочее меню');
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(0);
+ });
 });

@@ -236,4 +236,48 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    await f.drain();expect(calls).toBe(1);
  });
 
+ it('bot /register records one revocable guest worker interest, no direct employee enrollment',async()=>{
+   const f=await setup();
+   await f.submit(801,'/register');await f.drain();
+   await f.submit(802,'/register');await f.drain();
+   const rows=await f.list('worker_registration_interest');
+   expect(rows).toHaveLength(1);
+   expect(rows[0]!.data).toMatchObject({
+     source_provider:'TELEGRAM',state:'REQUESTED',requires_owner_review:true,
+     roles_granted:[],employee_created:false
+   });
+   const guest=(await f.list('user')).find(u=>u.data.guest===true)!;
+   expect(guest.data.roles).toEqual(['GUEST']);
+   expect(await f.list('user_invitation')).toHaveLength(0);
+ });
+
+ it('a versioned consenting guest receives one deterministic Russian menu via the existing delivery queue',async()=>{
+   const f=await setup();
+   await f.submit(810,'/start');await f.drain();
+   const guest=(await f.list('user')).find(u=>u.data.guest===true)!;
+   await db.transaction(f.company,'SYNTHETIC_VERIFIED_OPTIN',tx=>tx.add('notification_setting',{
+     user_id:guest.id,telegram_consent:true,telegram_opted_out:false,
+     telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY',language:'DE'
+   }));
+   const sent:string[]=[];
+   f.runner.options.publicOrigin='https://kneba.vsp.rest/';
+   f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+   f.runner.options.telegram=mockAdapter((async (_url,options)=>{
+     const body=JSON.parse(String(options?.body));sent.push(body.text);
+     return new Response(JSON.stringify({ok:true,result:{message_id:828,chat:{id:187650211}}}),
+       {status:200,headers:{'content-type':'application/json'}});
+   }) as typeof fetch);
+   await f.submit(811,'/lang ru');await f.drain();
+   const settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
+   expect(settings).toHaveLength(1);
+   expect(settings[0]!.data).toMatchObject({language:'RU',telegram_consent:true,
+     telegram_opted_out:false,language_source:'EXPLICIT'});
+   expect(sent).toHaveLength(1);
+   expect(sent[0]).toContain('Услуги');
+   const receipts=(await f.list('telegram_delivery')).filter(d=>d.data.purpose==='PUBLIC_NAVIGATION');
+   expect(receipts).toHaveLength(1);
+   expect(receipts[0]!.data).toMatchObject({status:'API_ACCEPTED',public_intent:'MENU'});
+   expect((await f.list('user')).find(u=>u.id===guest.id)!.data.roles).toEqual(['GUEST']);
+ });
+
 });

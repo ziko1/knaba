@@ -86,3 +86,49 @@ Historical import remains `66b07fb46d23c7110473c51fc23ce58d3c40a1b1`; committed 
 
 ## KN-U19 — modular CMS source recovery, 2026-10-26
 Source-only Draft: preserved latest live site and ERP source, unified typed registry of existing Portal/CRM/Inbox/Studio, compatible URLs, preview deployment inventory and negative authorization/release tests. Real ERP identity/tenant bridge, SQL QA, UAT, a11y/device/performance/off-host restore and production gates remain OPEN. No other pending PR/worktree discarded; see `KNABA_MODULAR_CMS_RECOVERY_2026-10-26_UK.md`.
+
+## KN-U20 — KNABA Assistant 360 omnichannel bots (2026-10-26; separate Draft)
+| ID | Priority | Depends | Acceptance | Status |
+|---|---|---|---|---|
+| KN-BOT-01 | P0 | KN-U19, PR97 | Role-bound 26 module catalogue, /MODULES, no fake ERP links, exact-source tests | CODE_IMPLEMENTED_DRAFT |
+| KN-BOT-02 | P0 | KN-U19 | WhatsApp owner proposals for lead.created/material_request.submitted; DRAFT only; no activation before ERP preview+MFA | CODE_IMPLEMENTED_DRAFT |
+| KN-BOT-03 | P0 | KN-U03, KN-U07 | Telegram guest public commands classified in human handoff; consent/provider outbound not enabled | PARTIAL_SOURCE_ONLY |
+| KN-BOT-04 | P1 | Verified WABA/BotFather account | Optional site click-to-chat, 4 locales, no guessed number or private session in URL | CODE_IMPLEMENTED_DISABLED_BY_DEFAULT |
+| KN-BOT-05 | P0 | KN-U07, KN-U09 | Worker self-registration intent → one canonical identity, owner MFA review, single-use invite, audit, replay and tenant negative tests | PENDING |
+| KN-BOT-06 | P0 | KN-U04, KN-U06, external consent | Real customer bot replies and owner conversation on both providers, genuine delivery receipts | BLOCKED_EXTERNAL |
+| KN-BOT-07 | P1 | Provider/legal/voice budget | WebRTC AI receptionist, call routing/transfer/timeout, STT/TTS, accessibility, live device QA | NOT_IMPLEMENTED |
+| KN-BOT-08 | P0 | KN-U07, approval | Full automation DSL wizard + owner step-up, authorizations, triggers, testable pause/rollback and analytics | PENDING |
+| KN-BOT-09 | P0 | KN-U14, KN-U16 | Full provider/site/ERP SQL E2E, staff+owner UAT and independent security review | NOT_RUN |
+
+DoD/evidence/rollback: `docs/plans/2026-10-26-knaba-omnichannel-assistant-360.md`. No production merge/deploy, no provider credential activation. Historical PR #41 Telegram, PR #67 bridge and PR #97 modular CMS remain separate, never overwritten.
+
+## KN-U20 follow-up — bot augmentation implementation 2 (not a new bot)
+| ID | Priority | Depends | Implemented source / acceptance | State |
+|---|---|---|---|---|
+| KN-BOT-05a | P0 | existing webhook/chat/ERP | WA/TG guest worker intent, company/idempotent receipt, no role or invitation, owner inbox and MFA/CAS review; rollback & negative tests | SOURCE_IMPLEMENTED; real PG/portal UAT NOT_RUN |
+| KN-BOT-03a | P0 | existing Telegram delivery | Explicit locale, deterministic public/menu responses, stage/send only with versioned consent, membership, live lease, no unknown retry | SOURCE_IMPLEMENTED; provider external BLOCKED |
+| KN-BOT-02a | P0 | existing automation engine | Canonical OWNER draft permission only; no approval/execute role; revocation mid-run still denies, exact-source test | SOURCE_IMPLEMENTED; company signoff FINAL |
+| KN-BOT-05b | P0 | KN-U07/U09 | Verified same-account portal identity ↔ worker interest ↔ canonical user.invite; expiry/revoke/DB/UAT | NOT_IMPLEMENTED |
+| KN-BOT-03b | P0 | KN-U05/U06 | Live opt-in/version/Datenschutz, BotFather/WABA ownership, signed delivery/read with real devices | BLOCKED_EXTERNAL |
+| KN-BOT-07b | P1 | Voice provider/legal/quota | Actual site WebRTC voice + transfer, callback/PSTN fallback, DE/EN/RU dialog and accessible devices | NOT_IMPLEMENTED |
+| KN-BOT-09b | P0 | technical gates | Site/ERP real PG provider/device QA + independent security review → **G9 owner company approval** → **G10 owner server migration** | NOT_READY |
+
+No extra owner conversation/role-policy meeting during source development. Every sensitive real permission is still denied unless current backend authorization succeeds; production dispatch remains OFF.
+
+
+## KN-U20 — наступні приймальні кроки до повноцінної KNABA (28.10.2026)
+
+| ID | Пріоритет | Вимога / acceptance (BOT-Axx) | Поточний стан |
+|---|---|---|---|
+| KN-BOT-10 | P0 | REUSE-ONLY partner guest WA/TG `/PARTNER`/`/partner` → окремий durable request, cross-company/identity/replay negative | SOURCE CANDIDATE; реальна PG/company UAT NOT_RUN |
+| KN-BOT-11 | P0 | Owner MFA `partner_registration_interest.inbox/review` і worker в єдиному ERP+app API, без видачі ролі на REVIEW | SOURCE CANDIDATE; native/UAT NOT_RUN |
+| KN-BOT-12 | P0 | Owner/developer delegated channel preferences з optimistic CAS, non-secret record, UI і actual WA/TG consumed flags | SOURCE CANDIDATE; server secret rotation via admin NOT_IMPLEMENTED |
+| KN-BOT-13 | P0 | Коректна інтеграція PR110 owner/client/partner registration, preserved migration ledger, actual verified invitation, trust binding, rollback | PENDING INTEGRATION |
+| KN-BOT-14 | P0 | Власник затверджує worker/partner з повідомлення бота **тільки** через linked portal MFA, signed one-use challenge і canonical ERP; native same command | NOT_IMPLEMENTED; bot read-only handoff |
+| KN-BOT-15 | P0 | Реальні нові/існуючі клієнти: двосторонній бот/вебчат, first reply + operator handoff, metadata/consent/delivery real providers, 3 мови | BLOCKED_EXTERNAL+INTEGRATION |
+| KN-BOT-16 | P1 | Приєднання ERP jobs/shift/materials/crew workflows до authenticated bot+app owner presets, bounded automation approval+rollback | PARTIAL WA; full E2E NOT_RUN |
+| KN-BOT-17 | P1 | Захищене додавання/ротація provider keys через server secret store або owner/developer write-only vault, ніколи не JSON/front-end plaintext | Server .env.template exists; admin vault pending security design |
+| KN-BOT-18 | P1 | Справжній AI голос DE/EN/RU, WebRTC/WhatsApp Calling/PSTN eligibility+rate + human transfer | BLOCKED_EXTERNAL |
+| KN-BOT-19 | P0 | Source+build+genuine PostgreSQL, iOS/Android/desktop, provider inbox/outbox, GDPR, security independent review, release+rollback | NOT_ACCEPTED |
+
+Не змінювати канонічні попередні KN-BOT ID/статуси без підтвердження; ця таблиця додає наступні незалежні пункти. `docs/prompts/KNABA_ASSISTANT_PRODUCT_SYSTEM_UK.md` — матриця BOT-A01…BOT-A12.

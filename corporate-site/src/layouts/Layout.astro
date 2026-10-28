@@ -4,6 +4,7 @@ import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import brandMessages from "../data/brand-messages.json";
 import Icon from "../components/Icon.astro";
+import {publicMessengerLinks} from "../lib/messenger-links";
 
 import { languageLinks, localeAlternates } from "../lib/site-i18n";
 import LocaleCatalog from "../components/LocaleCatalog.astro";
@@ -45,6 +46,12 @@ const localPath = (url: string) => {
   return '/'+lang+url;
 };
 const isContactPage = path === localPath('/kontakt/');
+const messengerLinks=publicMessengerLinks({
+  // These are public destinations, never credentials. Set ONLY after verifying
+  // the official WhatsApp Business ownership and BotFather username.
+  whatsappNumber:import.meta.env.KNABA_VERIFIED_WHATSAPP_NUMBER,
+  telegramBotUsername:import.meta.env.KNABA_VERIFIED_TELEGRAM_BOT
+},lang);
 const brand = brandMessages[lang];
 const brandAlt = brand.descriptor;
 const logoLocale = lang==='de'?'':'-'+lang;
@@ -199,6 +206,11 @@ const structuredData = {
         <div>
           <h2>{translated.contact}</h2>{!hasInlinePhone && <a href={company.phoneHref}>{company.phone}</a>}{!hasInlineEmail && <a
             href={`mailto:${company.email}`}>{company.email}</a>}
+          {(messengerLinks.whatsapp||messengerLinks.telegram)&&
+            <nav aria-label={lang==='de'?'Messenger-Kontakt':lang==='uk'?'Зв’язок у месенджерах':lang==='ru'?'Связь в мессенджерах':'Messenger contact'}>
+              {messengerLinks.whatsapp&&<a href={messengerLinks.whatsapp} rel="noopener noreferrer" target="_blank">WhatsApp · {lang==='uk'?'Написати':lang==='ru'?'Написать':lang==='en'?'Message':'Schreiben'}</a>}
+              {messengerLinks.telegram&&<a href={messengerLinks.telegram} rel="noopener noreferrer" target="_blank">Telegram · {lang==='uk'?'Написати':lang==='ru'?'Написать':lang==='en'?'Message':'Schreiben'}</a>}
+            </nav>}
           <p>{company.street}<br />{company.city}</p>
         </div>
         <div>

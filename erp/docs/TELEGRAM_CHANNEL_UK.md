@@ -1,5 +1,47 @@
 # KNABA Assistant 360 — Telegram-канал (кандидат, без live-активації)
 
+## 28.10.2026 — завершення підключення адаптера до worker (поточна PR #103)
+
+Раніше `apps/worker/runner.ts` приймав `WorkerOptions.telegram`, але
+`apps/worker/main.ts` ніколи не створював `TelegramBotAdapter` з runtime
+конфігурації. Цю прогалину усунуто, без нового Telegram-клієнта або дублювання
+черг. **Значення за замовчуванням: outbound OFF**; токен сам по собі не активує
+мережевий виклик. Для закритої тестової відправки потрібні одночасно:
+
+- `LIVE_SEND_ALLOWED=true` та `TELEGRAM_LIVE_SEND_ALLOWED=true`;
+- приватний `TELEGRAM_BOT_TOKEN` від підтвердженого власником BotFather;
+- `TELEGRAM_APPROVED_CONSENT_VERSION` (погоджена реальна версія повідомлення);
+- `TELEGRAM_ALLOWED_CHAT_IDS` (непорожній список дозволених приватних отримувачів);
+- `PUBLIC_ORIGIN` з HTTPS на перевіреному домені KNABA (тільки корінь URL).
+
+Всі змінні є в `erp/.env.example`, їх **значення лишаються лише в приватному
+secret store**. Неповна конфігурація з двома ввімкненими прапорцями блокує
+старт worker, не робить запит до Telegram. Список отримувачів **не** є
+підтвердженням consent: перед кожною відправкою перевіряються поточний
+дозвіл, відписка, версія, роль/членство, стан повідомлення та lease.
+Немає підтвердженого KNABA BotFather-акаунта, реальної відправки, тесту
+на пристрої або юридичного opt-in; реліз лишається HOLD.
+
+Для презентації без BotFather/Meta акаунтів є виконуваний сценарій:
+`cd erp && ./node_modules/.bin/tsx scripts/bot-channel-selfcheck.ts`.
+Він використовує справжні парсери, HMAC-перевірку синтетичного WhatsApp
+запиту, каталог команд і DE/EN/RU публічні відповіді Telegram. Вивід
+явно маркує `PROTOCOL / PUBLIC INTENT SIMULATION ONLY`: жодних
+реальних повідомлень, згод, записів ERP, провайдерів або дзвінків.
+
+`scripts/environment-check.mjs` тепер окремо перевіряє Telegram-only
+активацію: якщо обидва Telegram/global flags явно увімкнені та є версія
+згоди, TLS origin і allowlist, **Meta токен не потрібен**. Водночас
+неповні WhatsApp credentials за заявленої WhatsApp конфігурації лишаються
+блокером. Без global/Telegram opt-in будь-який outbound вимкнений.
+
+**QA цього доповнення:** офлайн-перевірка виконується, цільові 146/146 PASS
+до додавання тестів preflight; 5/5 preflight PASS, Node 24 TypeScript
+PASS. Повна локальна ERP suite з ізольованим openpyxl 3.1.5:
+1957 PASS / 2 FAIL / 441 SKIP (pdftotext ENOENT та XLSX photo embedding).
+Повна збірка Vite на VPS досягла 260 s timeout; release gate **HOLD**.
+Реальні WABA/Telegram/UAT/provider-delivery **NOT_RUN**.
+
 **Проєкт:** KNABA DE, окремий від AVENQO. **Стан:** SOURCE_ONLY / NOT_RELEASED.
 Кодова інтеграція цього каналу належить до Draft PR #41 і залежить від незлитого PR #38 та первинної ERP V4. Поточний VPS-сайт `kneba.vsp.rest` не змінювався. Весь V3/V4 acceptance, `erp/AGENTS.md`, `erp/KNABA_DE_TARGET_SPEC.md` та наявні правила безпеки й бюджетів залишаються головними.
 

@@ -40,3 +40,18 @@
 
 ## Modular CMS recovery — 2026-10-26
 Existing VPS, GitHub connector and cached Node24 dependencies only; new paid provider/AI service activations: NONE. ChatGPT Work credits/provider remaining quotas UNKNOWN. VPS observed 197G with ~21G free (~90% used); no destructive cleanup, new DB, production deploy or owner data changes. Remain below the 90% release gate before future cutover.
+
+## KNABA WhatsApp/Telegram omnichannel phase, 2026-10-26
+- **New paid provider authorization:** 0 EUR; no WABA/Telegram/voice/LLM paid API invocation, new provider subscription, token activation, database migration or production deployment. Actual total VPS bill, provider balances/quotas, price per call/message and ChatGPT Work balance UNKNOWN (do not invent usage).
+- **Testing:** isolated existing VPS checkout under `/tmp/knaba-omnichannel-20261026`, Node24.22.1 via public npm, pinned package-lock npm ci with ignore-scripts, targeted Vitest and static site Astro build. This is not proof of live integrations. Existing shared VPS filesystem was ~91% occupied at initial read; never prune another team's volumes/artifacts.
+- For any future Meta WhatsApp Business/SIP/PSTN/WebRTC/STT/TTS request, confirm KNABA owner/provider authorization, GDPR data boundary, approved recipient, fresh quota and exact price; reserve bound before dispatch and reconcile unknown outcomes.
+
+## KNABA omnichannel phase 2 — October 26, 2026
+New WABA, BotFather, voice/PSTN/SIP, LLM/hosting charge authorizations: **0 EUR**. Only existing connected VPS, GitHub, public npm Node24 and isolated Python QA virtualenv used. Provider billing/quota and chat Work credits UNKNOWN; nothing charged or activated through those providers. Continue synthetic, source-only implementation without ownership confirmation; confirm real tariff/quota, privacy, service agreement and final company signoff only before production activation/migration. Release remains blocked even with code tests passing.
+
+
+## 2026-10-28 — окремий бюджет наступної KNABA bot/server інтеграції
+
+Нові платні зовнішні WABA/SIP/PSTN/WebRTC/STT/TTS/LLM/secret vault підписки **не активовані**; авторизований додатковий provider spend **0 EUR**. Ціни, fresh quota, company WABA/BotFather правовласник, consent/Datenschutz і billing — **UNKNOWN**. Використано лише чинні VPS/GitHub та встановлені Node24 залежності для source/CPU тестів. За бюджетними блокерами — лише затверджений scoped paid call з верхньою оцінкою та записом у ledger, інакше явний BLOCKED_EXTERNAL для цього кроку.
+
+При future credentials: серверний secret store/env залишається окремим від збережених `bot_config` preferences; write-only encrypted admin vault потребує конкретної незалежної security/privacy перевірки й відкату, не активується неявно. Не робити docker prune, DB/volume deletion, live webhook registration, перенесення інших проєктів чи платних викликів без фактичної перевірки ресурсів і дозволу.
