@@ -140,3 +140,19 @@ test('owner identity attestation is required before a one-use invitation and pro
   assert.notEqual(row.entity_id,result.token);
  });
 });
+
+test('eight-character invited registration remains pending for every non-operator role',()=>{
+  fixture(({db,owner})=>{
+    for(const role of ['client','worker','partner']){
+      const email='eight-'+role+'@example.test';
+      const one=issueAccountInvite(db,{issuerId:owner.id,ownerEmail,email,role,identityVerified:true});
+      const input={token:one.token,email,name:'Eight Password',password:'Qa9!bcde',confirmed:'Qa9!bcde',privacyAccepted:true,ownerEmail};
+      assert.throws(()=>acceptAccountInvite(db,{...input,password:'Qa9!bcd',confirmed:'Qa9!bcd'}),AccountInviteError);
+      const signed=acceptAccountInvite(db,input);
+      assert.equal(signed.status,'pending');
+      const profile=db.prepare('SELECT role,status FROM profiles WHERE id=?').get(signed.id);
+      assert.equal(profile.role,null);
+      assert.equal(profile.status,'pending');
+    }
+  });
+});

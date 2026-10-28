@@ -336,3 +336,10 @@ Current task adds explicit fictional review examples (3×DE/EN/UK/RU) to the exi
 - [ ] LEGAL-08 (future, not authorized yet): if online paid booking, social auth, external AI/WhatsApp voice, recording, analytics or marketing is enabled, create purpose-specific contract/notice/consent/accessibility/consumer-law QA before activation.
 
 Canonical detailed audit and sources: \`docs/LEGAL_AUDIT_UK.md\`. Stacked Draft source candidate, no production merge or deploy.
+
+## 28.10.2026 — пароль 8+ та окремий доступ розробника (KNABA preview)
+- [x] Узгодити мінімум 8 символів у VPS/ERP backend та формах DE/EN/UK/RU; старі паролі й захист сесій не змінювати.
+- [x] Red/green регресії: новий пароль із 8 символів дозволено, 7 — відхилено, developer grant є відкличним, клієнт/працівник/партнер очікують погодження власника.
+- [x] Ізольовані Node24 site check/build/verify/тести та ERP typecheck й CPU-тести зафіксовані в окремих QA-логах. 439 реальних PostgreSQL-кейсів не були запущені в CPU-only прогоні.
+- [ ] Окрема server-only email конфігурація та передача тимчасового секрету поза GitHub; завершити реальний live login/logout/role smoke для developer без публікації пароля в документації.
+- [ ] Повторити live preview QA на опублікованому точному Git SHA, незалежний review, мобільні пристрої, Google/Microsoft OAuth, ERP/PostgreSQL SQL concurrency та замовницький UAT. Production cutover окремий і не дозволений цими тестами.

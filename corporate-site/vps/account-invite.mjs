@@ -73,7 +73,7 @@ export function acceptAccountInvite(db,{token,email,name,password,confirmed,priv
   if(typeof name!=='string'||name.trim().length<2||name.trim().length>160||
     /[\u0000-\u001f\u007f<>]/.test(name))throw new AccountInviteError('Invalid full name');
   if(privacyAccepted!==true)throw new AccountInviteError('Privacy confirmation is required');
-  if(typeof password!=='string'||password.length<16||password.length>256||
+  if(typeof password!=='string'||password.length<8||password.length>256||
      password!==confirmed)throw new AccountInviteError('Invalid password confirmation');
   return transaction(db,()=>{
     const invite=db.prepare('SELECT email,requested_role,issued_by,expires_at,used_at FROM vps_account_invites WHERE token_hash=?')

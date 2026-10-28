@@ -48,3 +48,22 @@ describe('canonical role and bootstrap boundaries',()=>{
  it('production cookie cannot be downgraded by an insecure runtime override',()=>{const db=new FixtureDb(),auth=new AuthService(db,engine(db),{companyId:'company',appMode:'PRODUCTION',cookieSecure:false});const res=response();auth.cookie(res,opaqueToken());expect(res.cookies[0].options.secure).toBe(true);});
  it('offline bootstrap closes after one owner and creates no wildcard or unapproved financial rights',async()=>{const db=new FixtureDb(),auth=new AuthService(db,engine(db),{companyId:'company',appMode:'PRODUCTION',encryptionKey:'synthetic offline bootstrap encryption key'});const input={name:'Authorized fixture owner',email:'owner@example.test',password:'Secure bootstrap password 123!',totpSecret:'JBSWY3DPEHPK3PXP',evidence:'Synthetic authorization fixture, not company approval'};const created=await auth.bootstrapOwner(input);const user=await db.get('user',created.userId);expect(user.data.permissions).not.toContain('*');expect(user.data.permissions.some((p:string)=>p.startsWith('finance.'))).toBe(false);await expect(auth.bootstrapOwner(input)).rejects.toMatchObject({code:'INVALID_STATE',details:{reason:'BOOTSTRAP_CLOSED'}});});
 });
+
+describe('eight-character minimum on distinct ERP authentication contract',()=>{
+ it('hashes eight-character passwords and rejects seven',async()=>{
+  await expect(hashPassword('Qa9!bcd')).rejects.toThrow();
+  const hash=await hashPassword('Qa9!bcde');
+  expect(await verifyPassword('Qa9!bcde',hash)).toBe(true);
+  expect(await verifyPassword('Qa9!bcd',hash)).toBe(false);
+ });
+ it('rotates password and activates a scoped invitation with eight characters',async()=>{
+  const schema=identityCommands['user.password.rotate']!.schema;
+  expect(()=>schema.parse({currentPassword:'old',newPassword:'Qa9!bcd'})).toThrow();
+  expect(()=>schema.parse({currentPassword:'old',newPassword:'Qa9!bcde'})).not.toThrow();
+  const db=new FixtureDb();
+  const issued=await run(db,'user.invite',{name:'Synthetic Worker',email:'worker8@example.test',roles:['EMPLOYEE']});
+  await expect(activateInvitation(db,'company',{token:issued.token,password:'Qa9!bcd'})).rejects.toBeDefined();
+  const enrolled=await db.transaction('company','ACTIVATE',tx=>activateInvitation(tx,'company',{token:issued.token,password:'Qa9!bcde'}));
+  expect((await db.get('user',enrolled.userId)).data.roles).toEqual(['EMPLOYEE']);
+ });
+});

@@ -52,7 +52,7 @@ test('KNABA shared auth entrypoint: localized sign-in, invite onboarding and no 
     assert.match(ru,/<button[^>]*disabled[^>]*>/);
     const en=await(await get('/register/?lang=en')).text();
     assert.match(en,/<html lang="en"/);
-    assert.match(en,/16–256/);
+    assert.match(en,/8–256/);
     assert.equal((await get('/register/?token=fake')).status,400);
     const submit=await fetch('http://127.0.0.1:'+app.port+'/register/?lang=uk',{
       method:'POST',redirect:'manual',

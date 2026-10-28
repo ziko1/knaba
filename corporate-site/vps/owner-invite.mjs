@@ -51,8 +51,8 @@ export function activateOwnerInvite(db,{token,email,password,confirmed,attested,
   if(!['owner','developer'].includes(purpose))throw new OwnerInviteError('Unsupported operator purpose.');
   if(!Number.isSafeInteger(now)||now<1)throw new OwnerInviteError('Invalid activation time.');
   if(attested!==true)throw new OwnerInviteError('Business owner authorization must be confirmed.');
-  if(typeof password!=='string'||password.length<16||password.length>256)
-    throw new OwnerInviteError('Password must contain 16 to 256 characters.');
+  if(typeof password!=='string'||password.length<8||password.length>256)
+    throw new OwnerInviteError('Password must contain 8 to 256 characters.');
   if(password!==confirmed)throw new OwnerInviteError('Password confirmation does not match.');
   if(typeof token!=='string'||!tokenFormat.test(token))
     throw new OwnerInviteError('Invalid or expired invitation.');

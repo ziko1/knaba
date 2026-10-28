@@ -12,7 +12,7 @@ const labels = Object.freeze({
     registrationIntro:'Kunden, Partner und Mitarbeitende registrieren sich mit einer persönlichen Einladung. Die angeforderte Rolle wird anhand der Einladung erkannt und nach Prüfung durch den Inhaber freigegeben.',
     tokenNote:'Ohne eine gültige persönliche Einladung ist keine Kontoaktivierung möglich.',
     name:'Vollständiger Name', invitedEmail:'E-Mail (wie in der Einladung)',
-    newPassword:'Passwort (16–256 Zeichen)', confirm:'Passwort bestätigen',
+    newPassword:'Passwort (8–256 Zeichen)', confirm:'Passwort bestätigen',
     privacyBefore:'Ich habe die', privacyLink:'Datenschutzhinweise',
     privacyAfter:'gelesen und stimme der Verarbeitung meiner Registrierungsdaten zu.',
     register:'Konto erstellen', backLogin:'Bereits registriert? Anmelden'
@@ -28,7 +28,7 @@ const labels = Object.freeze({
     registrationIntro:'Клієнти, партнери й працівники реєструються за персональним запрошенням. Запитувана роль визначається за запрошенням і набирає чинності лише після погодження власником.',
     tokenNote:'Без чинного персонального запрошення активувати обліковий запис неможливо.',
     name:'Повне ім’я', invitedEmail:'Електронна пошта (як у запрошенні)',
-    newPassword:'Пароль (16–256 символів)', confirm:'Підтвердіть пароль',
+    newPassword:'Пароль (8–256 символів)', confirm:'Підтвердіть пароль',
     privacyBefore:'Я прочитав(-ла)', privacyLink:'політику конфіденційності',
     privacyAfter:'та погоджуюся на обробку моїх даних для реєстрації.',
     register:'Створити обліковий запис', backLogin:'Уже маєте обліковий запис? Увійти'
@@ -44,7 +44,7 @@ const labels = Object.freeze({
     registrationIntro:'Clients, partners and workers register using personal invitations. Requested role is derived from the invitation and takes effect only after owner approval.',
     tokenNote:'A valid personal invitation is required to activate an account.',
     name:'Full name', invitedEmail:'Email address (as in your invitation)',
-    newPassword:'Password (16–256 characters)', confirm:'Confirm password',
+    newPassword:'Password (8–256 characters)', confirm:'Confirm password',
     privacyBefore:'I have read the', privacyLink:'privacy notice',
     privacyAfter:'and agree to the processing of my registration details.',
     register:'Create account', backLogin:'Already have an account? Sign in'
@@ -60,7 +60,7 @@ const labels = Object.freeze({
     registrationIntro:'Клиенты, партнёры и сотрудники регистрируются по личному приглашению. Роль Клиент/сотрудник определяется приглашением и действует только после подтверждения владельца.',
     tokenNote:'Без действующего приглашения создать активный аккаунт нельзя.',
     name:'Полное имя', invitedEmail:'Электронная почта (из приглашения)',
-    newPassword:'Пароль (16–256 символов)', confirm:'Подтвердите пароль',
+    newPassword:'Пароль (8–256 символов)', confirm:'Подтвердите пароль',
     privacyBefore:'Я прочитал(а)', privacyLink:'политику конфиденциальности',
     privacyAfter:'и согласен(согласна) на обработку моих регистрационных данных.',
     register:'Создать аккаунт', backLogin:'Уже есть аккаунт? Войти'

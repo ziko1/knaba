@@ -10,8 +10,8 @@ export function normalizeEmail(input){
 }
 export function createCredentialsUser(db,email,password){
   const address=normalizeEmail(email);
-  if(typeof password!=='string'||password.length<16||password.length>256)
-    throw Error('A passphrase must be 16 to 256 characters long.');
+  if(typeof password!=='string'||password.length<8||password.length>256)
+    throw Error('A passphrase must be 8 to 256 characters long.');
   const existing=db.prepare('SELECT id FROM vps_users WHERE lower(email)=?').get(address);
   if(existing)throw Error('Account already exists.');
   const salt=randomBytes(16).toString('hex');
@@ -86,7 +86,7 @@ export function expiredCookie({secure=true}={}){
 export function rotateCredentials(db,{userId,currentPassword,newPassword,confirmed}){
   if(typeof userId!=='string'||!userId||
      typeof currentPassword!=='string'||currentPassword.length>256||
-     typeof newPassword!=='string'||newPassword.length<16||newPassword.length>256||
+     typeof newPassword!=='string'||newPassword.length<8||newPassword.length>256||
      newPassword!==confirmed||newPassword===currentPassword)return false;
   const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/900);
   const key=hash('change-credential|'+userId+'|'+bucket);

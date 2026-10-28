@@ -101,3 +101,16 @@ test('invitation CLI fails closed and stores the bearer URL only in a private 06
     }finally{opened.db.close();}
   }finally{await rm(dir,{recursive:true,force:true});}
 });
+
+test('owner and developer one-use activation accept eight-character secrets, not seven',async()=>{
+  const {issueOwnerInvite,activateOwnerInvite}=await import('./owner-invite.mjs');
+  await fixture(db=>{
+    const one=issueOwnerInvite(db,'qa8-owner@example.test');
+    assert.throws(()=>activateOwnerInvite(db,{token:one.token,email:'qa8-owner@example.test',password:'Qa9!bcd',confirmed:'Qa9!bcd',attested:true,purpose:'owner'}));
+    assert.ok(activateOwnerInvite(db,{token:one.token,email:'qa8-owner@example.test',password:'Qa9!bcde',confirmed:'Qa9!bcde',attested:true,purpose:'owner'}).id);
+    const dev=issueOwnerInvite(db,'qa8-developer@example.test');
+    assert.ok(activateOwnerInvite(db,{token:dev.token,email:'qa8-developer@example.test',password:'Qa9!bcde',confirmed:'Qa9!bcde',attested:true,purpose:'developer'}).id);
+    assert.equal(db.prepare("SELECT count(*) n FROM vps_staff_grants WHERE active=1 AND purpose='developer'").get().n,1);
+    assert.throws(()=>activateOwnerInvite(db,{token:dev.token,email:'qa8-developer@example.test',password:'Qa9!bcde',confirmed:'Qa9!bcde',attested:true,purpose:'developer'}));
+  });
+});

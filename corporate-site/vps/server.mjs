@@ -222,8 +222,8 @@ function ownerActivationPage(purpose='owner'){
     '<p>Diese einmalige Einladung ist zwei Stunden gültig. Nur die berechtigte Person darf sie verwenden.</p>'+
     '<form method="post" action="/activate-'+(purpose==='developer'?'developer':'owner')+'/">'+
     '<input type="hidden" name="token" value="">'+
-    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Neues Passwort (mindestens 8 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
+    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
     '<label><input type="checkbox" name="attested" value="on" required> Ich bestätige, dass ich für KNABA zur Verwaltung bevollmächtigt bin.</label>'+
     '<button type="submit" disabled>Zugang aktivieren</button></form>'+
     '<p><a href="/login/?return_to=%2Fstudio%2F">Zur Anmeldung</a></p>'+
@@ -253,8 +253,8 @@ function registrationPage(lang='de'){
     '<input type="hidden" name="token" value="">'+
     '<label>'+escapeHTML(word.name)+'<input name="name" autocomplete="name" maxlength="160" required minlength="2"></label>'+
     '<label>'+escapeHTML(word.invitedEmail)+'<input type="email" inputmode="email" autocapitalize="none" spellcheck="false" name="email" autocomplete="username" required maxlength="320"></label>'+
-    '<label>'+escapeHTML(word.newPassword)+'<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>'+escapeHTML(word.confirm)+'<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>'+escapeHTML(word.newPassword)+'<input type="password" name="password" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
+    '<label>'+escapeHTML(word.confirm)+'<input type="password" name="password_confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
     '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
     escapeHTML(word.privacyBefore)+' <a href="/datenschutz/">'+escapeHTML(word.privacyLink)+'</a> '+
     escapeHTML(word.privacyAfter)+'</span></label>'+
@@ -292,8 +292,8 @@ function credentialPage(invalid=false){
     (invalid?'<p role="alert" class="error">Änderung nicht möglich. Bitte aktuelle Angaben und Passwortanforderungen prüfen.</p>':'')+
     '<form method="post" action="/account/password/">'+
     '<label>Aktuelles Passwort<input type="password" name="current" autocomplete="current-password" required></label>'+
-    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="new" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>Neues Passwort bestätigen<input type="password" name="confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Neues Passwort (mindestens 8 Zeichen)<input type="password" name="new" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
+    '<label>Neues Passwort bestätigen<input type="password" name="confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
     '<button type="submit">Passwort sicher ändern</button></form>'+
     '<p><a href="/konto/">Zum Konto</a></p>');
 }
