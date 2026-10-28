@@ -3,7 +3,9 @@ import type { PortalSession } from '../lib/portal-contract';
 import { resolvePortalLocale, type PortalLocale } from '../lib/portal-i18n';
 import { allowedAdminModules, allowedAdminSections, resolveAdminSection, type AdminModuleId, type AdminSection } from '../lib/admin-access';
 import AdminModuleOutlet from './AdminModuleOutlet';
+import { hostingAuthentication } from '../lib/hosting-auth';
 import '../styles/admin-center.css';
+const hostingAuth = hostingAuthentication();
 
 type Phase = 'checking' | 'ready' | 'error';
 const translations = {
@@ -139,7 +141,7 @@ export default function AdminControlCenter() {
       window.removeEventListener('knaba:studio:dirty',onStudioDirty);
     });
   });
-  const signIn = () => '/login/?return_to=' + encodeURIComponent('/admin/?view=' + selected() + '&lang=' + language());
+  const signIn = () => hostingAuth.signIn('/admin/?view=' + selected() + '&lang=' + language());
 
   return <div class="kncc" lang={language()}>
     <Switch>
@@ -152,7 +154,7 @@ export default function AdminControlCenter() {
       <Match when={allowed().length===0}>
         <div class="kncc-gate"><span class="kncc-glyph" aria-hidden="true">✳</span><h2>{t().session}</h2><p>{t().denied}</p>
           <div class="kncc-gate-links">
-            <Show when={!session()?.user}><a class="kncc-action" href={signIn()}>{t().signIn}</a></Show>
+            <Show when={!session()?.user}><a class="kncc-action" data-astro-reload target="_top" href={signIn()}>{t().signIn}</a></Show>
             <a class="kncc-action kncc-action-secondary" href="/konto/">{t().portal}</a>
           </div>
         </div>
@@ -186,7 +188,7 @@ export default function AdminControlCenter() {
                     <option value="de">DE</option><option value="en">EN</option><option value="uk">UK</option><option value="ru">RU</option>
                   </select></label>
                 <button type="button" class="kncc-tool" onClick={() => void verifySession()}>{t().refresh}</button>
-                <a class="kncc-tool" href="/logout/?return_to=%2Fadmin%2F">{t().signOut}</a>
+                <a class="kncc-tool" data-astro-reload target="_top" href={hostingAuth.signOut('/admin/')}>{t().signOut}</a>
               </div>
             </div>
             <Show when={selected()==='overview'}>

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T14:35:57.823Z",
+  "scope": "Authorized TEST-only publication; existing public KnaBa TEST audience preserved. No production custom domains, DNS or default branch merge.",
+  "project_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759",
+  "url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site",
+  "verified_browser_url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/uk/",
+  "visibility": "public (existing audience unchanged)",
+  "version_number": 8,
+  "version_id": "appgprj_6adc346d6f8881918b73ac79ebc5d759~appgver_2e03382694948191b0ad5816dc11fd61",
+  "deployment_id": "appgdep_6ae207db10c081919e32386f0cd902b2",
+  "deployment_status": "succeeded",
+  "deployment_updated_at": "2026-10-28T14:34:18.077544+00:00",
+  "env_set_revision": 1,
+  "native_source_sha": "ca2d68e19b659603e253462466359b827f8bb8fb",
+  "canonical_code_sha": "c35ac616d60bcf9269e53f98d0c483312030b5d7",
+  "saved_archive": {
+    "content_hash": "sha256:001dfd1ac72731e4cfdb4129ea35b4bdec9be2453b9464cda4f96e2a75807138",
+    "file_count": 131,
+    "size_bytes": 7086080
+  },
+  "build_flags": {
+    "PUBLIC_KNABA_AUTH_MODE": "sites",
+    "PUBLIC_KNABA_ASSET_ORIGIN": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site",
+    "KNABA_RELEASE_MODE": "vsp"
+  },
+  "build_artifact_sha256": "fc2646afaf3748d46c41d96b6c5cf8518d3c59626703be2a5e7a7242c2475f5b",
+  "prepared_worker_sha256": "3047d576f6a3795780ebfd37aa2f2569f7ec6cd747c157ab1b93aea793249c62",
+  "preparation_manifest_sha256": "8a141c8840c4980123737e3cf488306ea5ec756bb3d86e1b1229ab62d3f18251",
+  "native_database": {
+    "binding": "DB",
+    "status": "Existing D1 binding retained; migration 0000 unchanged and pending 0001–0009 applied in prior v6. No further migration changes in v7/v8.",
+    "public_read_health": "PASS; exact hosted API evidence in hosted-test.json",
+    "production_database_modified": false
+  },
+  "source_variant_note": "Native privacy wording and source-de catalog match the actual Sites/D1 hosting; the canonical VPS catalog remains separate.",
+  "validation": {
+    "source_and_build": "final-validation.json",
+    "actual_https": "hosted-test.json",
+    "preservation": "preservation.json",
+    "desktop": "browser-desktop.json"
+  },
+  "previous_versions": {
+    "v6": "hosted-test-v6-before-header-fix.json",
+    "v7": "hosted-test-v7-before-dispatch-fix.json",
+    "finding_resolved_in_v8": "Native dispatcher served existing HTML before the application Worker. v8 retains exact HTML outside public dist and serves those bytes through the existing Worker/header policy; all API dispatch remains with the original application."
+  },
+  "rollback": {
+    "source": "c35ac616d60bcf9269e53f98d0c483312030b5d7 and native ca2d68e19b659603e253462466359b827f8bb8fb retained",
+    "previous_test_version": 7,
+    "caution": "v7 is a historical source/asset checkpoint, not a validated header-policy rollback target; it retains the documented static dispatch finding. No rollback was performed.",
+    "production_changed": false
+  },
+  "providers_activated": false,
+  "owner_uat": "NOT_RUN",
+  "production_deployment": "NOT_RUN",
+  "status": "PASS_TEST_PUBLICATION"
+}

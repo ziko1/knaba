@@ -381,3 +381,15 @@ Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixtu
 ### 28.10.2026 — final motion contrast verification
 
 Final contrast follow-up: removed entrance opacity fading while retaining bounded translation. Rebuilt artifact `9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d`; CSS39,767 and clientJS193,024 gzip. Fresh root25, module263 Vitest/41 files +77 native, check0 errors/0 warnings/6 hints, preservation130 pages and authorized VPS90/90 PASS. Browser acceptance remains BLOCKED; no deployment. This supersedes the earlier visual artifact/JS totals only.
+
+
+## 28.10.2026 — recorded requirements and public-flow follow-up
+
+Accessible recorded corporate-site requirements reconciled against current code; see `docs/KNABA_REQUIREMENTS_RECONCILIATION_2026-10-28_UK.md`. Preserved newer Assistant/Finder/Studio-SSR/privacy fixes and merged four-locale `/app/` source without claiming native distribution or ERP readiness. Closed bounded omissions: localized raster social metadata/assets and transient inquiry draft/retry/navigation protection (no new Storage/provider writes). Focused30/30 across5 files PASS; source/asset/lifecycle independent review ACCEPT after stale-query and Astro fallback corrections. Full build/browser/test-host acceptance belongs to the final integrated release. Structural Studio composer, upload workflow and95 reviewed locales remain real code/content gaps; owner/provider/legal/native/ERP gates remain separate.
+
+
+## 28.10.2026 — final requirements follow-up and native header correction
+
+Supersedes pending local/public-desktop acceptance in the preceding follow-up entry only. Both canonical/native full builds and verify:build PASS; final Vitest322/322, typechecks0 errors/0 warnings/7 hints. Original130 routes/938 controls preserved in both134-page builds, with disclosed mobile additions and DE/RU privacy differences. TEST v6 served134 exact HTML bodies,9 exact representative assets and13 expected anonymous API/read/auth responses. Coordinator desktop QA at1363×936 verified carousel/FAQ, inquiry review→home→Back restoration/renewed consent, DE→UK content retention, native sign-in gateway, disabled unsigned app downloads and Assistant Escape/focus; no submissions/auth/provider calls.
+
+V6 static HTTP noindex was actually missing despite134 meta noindex tags. Bounded native Worker correction: default staging, all-routes dispatch, private no-store, preserved body/status/HEAD/304/range/API and upstream/scoped crawler restrictions. Focused37/37 PASS and independent ACCEPT; full local gates repeated. Evidence: docs/evidence/requirements-followup-20261028/static-headers-source.json and updated requirements matrix. V7 publication/header readback belongs to the owning release receipt and is not certified by this checkpoint. Structural Studio/media upload/95 locales, owner/role/mobile UAT, ERP/native distribution and provider/legal gates remain open.

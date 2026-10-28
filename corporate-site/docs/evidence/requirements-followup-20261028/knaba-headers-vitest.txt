@@ -1,0 +1,13 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v5.0.5 /workspace/scratch/9edc85de5c65/knaba-current/corporate-site
+
+
+ Test Files  46 passed (46)
+      Tests  322 passed (322)
+   Start at  15:06:43
+   Duration  2.73s (tests 38%, transform 30%, import 29%, worker 3%)
+
+    Isolate  46 workers spawned · ~170ms startup each (spawn + environment, per file)
+             at least ~946ms faster with isolate: false — reuses workers across files instead of one per file
+

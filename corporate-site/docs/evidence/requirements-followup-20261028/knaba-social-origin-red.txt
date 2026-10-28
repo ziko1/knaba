@@ -1,0 +1,25 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v5.0.5 /workspace/scratch/9edc85de5c65/knaba-current/corporate-site
+
+ ❯ tests/social-image-origin.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/social-image-origin.test.ts [ tests/social-image-origin.test.ts ]
+Error: Cannot find module '../src/lib/social-image-origin' imported from /workspace/scratch/9edc85de5c65/knaba-current/corporate-site/tests/social-image-origin.test.ts
+ ❯ tests/social-image-origin.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { resolveSocialImageOrigin } from '../src/lib/social-image-orig…
+       | ^
+      3|
+      4| const staging = { origin: 'https://kneba.vsp.rest', temporary: true };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:27:11
+   Duration  212ms (worker 97%, environment 3%)
+

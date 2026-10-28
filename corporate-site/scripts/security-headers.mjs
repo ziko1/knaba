@@ -1,4 +1,7 @@
-import {writeFile} from 'node:fs/promises';
+import {writeFile,rm} from 'node:fs/promises';
+// Astro's prerender bundle is generated server code, never a public asset.
+// Some builds retain this intermediate directory after rendering completes.
+await rm(new URL('../.astro-static/.prerender/',import.meta.url),{recursive:true,force:true});
 const indexable=process.env.KNABA_RELEASE_MODE==='official';
 await writeFile('.astro-static/_headers',`/*
   ${!indexable?'X-Robots-Tag: noindex, follow\n  ':''}X-Content-Type-Options: nosniff

@@ -6,7 +6,7 @@ export type SiteLocale = 'de'|'en'|'uk'|'ru';
 type Alternate = {lang:string;url:string};
 const publicPaths = [
  '/', '/leistungen/','/branchen/','/unternehmen/','/partner/','/galerie/','/karriere/',
- '/kontakt/','/planer/','/berlin/','/ratgeber/','/faq/',
+ '/kontakt/','/planer/','/berlin/','/ratgeber/','/faq/','/app/',
  ...constructionOffers.map(item=>'/bauleistungen/'+item.slug+'/'),
  ...constructionGuideRoutes.map(item=>'/ratgeber/'+item.slug+'/')
 ];

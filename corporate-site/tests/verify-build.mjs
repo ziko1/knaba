@@ -24,6 +24,8 @@ async function walk(dir) {
   return lists.flat().sort();
 }
 const files = await walk(root);
+assert.ok(!files.some(file => relative(root,file).split(/[\\/]/).includes('.prerender')),
+  'Astro prerender server intermediates must never be published as client assets');
 const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
@@ -65,7 +67,7 @@ for (const file of pages) {
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   }
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /admin|konto|postfach|studio|crm|404|\/app\//.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -162,7 +164,7 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,130,'130 source-built pages: 122 retained pages plus four partner directories and four Bauhelfer guides');
+assert.equal(pages.length,134,'134 source-built pages: 130 existing public/private pages plus four localized KNABA Mobile entry pages');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
@@ -236,12 +238,12 @@ assert.match(homeIslands[0], /component-url="[^"]*PublicReviews\./, 'Owner compo
 assert.match(homeIslands[0], /client="visible"/, 'Reviews hydrate only when visible');
 assert.match(homepage, /data-knaba-open/, 'Chat launcher is present without eager framework hydration');
 const workerConfig=JSON.parse(await readFile(resolve('dist/server/wrangler.json'),'utf8'));
-for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/reviews','/api/reviews/*'])
-  assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
+assert.equal(workerConfig.assets.run_worker_first, true,
+  'Worker runs first for every API and static route so native response headers are always applied');
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 37, 'Russian public tree includes partners, gallery and construction guides');
-assert.equal(russianPages.length, 38, 'Russian private inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 38, 'Russian tree includes partners, gallery, construction guides and mobile entry');
+assert.equal(russianPages.length, 39, 'Russian private inbox remains an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);

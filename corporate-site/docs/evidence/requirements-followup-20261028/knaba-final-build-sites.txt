@@ -1,0 +1,196 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 build
+> node scripts/clean-build.mjs && astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs
+
+14:48:21 [types] Generated 1.17s
+14:48:21 [build] output: "static"
+14:48:21 [build] mode: "static"
+14:48:21 [build] directory: /workspace/scratch/9edc85de5c65/knaba/.astro-static/
+14:48:21 [build] Collecting build info...
+14:48:21 [build] ✓ Completed in 1.32s.
+14:48:21 [build] Building static entrypoints...
+14:48:24 [vite] ✓ built in 2.76s
+14:48:26 [vite] ✓ built in 1.40s
+14:48:26 [build] Rearranging server assets...
+
+ generating static routes 
+14:48:26   ├─ /404.html (+12ms) 
+14:48:26   ├─ /admin/index.html (+9ms) 
+14:48:26   ├─ /api/catalogue.json (+2ms) 
+14:48:26   ├─ /app/index.html (+4ms) 
+14:48:26   ├─ /bauleistungen/baureinigung/index.html (+3ms) 
+14:48:26   ├─ /bauleistungen/bauzwischenreinigung/index.html (+5ms) 
+14:48:26   ├─ /bauleistungen/bauendreinigung/index.html (+2ms) 
+14:48:26   ├─ /bauleistungen/baustellenraeumung/index.html (+2ms) 
+14:48:26   ├─ /bauleistungen/bauhilfe/index.html (+2ms) 
+14:48:26   ├─ /bauleistungen/kernbohrungen/index.html (+2ms) 
+14:48:26   ├─ /bauleistungen/durchbrueche/index.html (+2ms) 
+14:48:26   ├─ /bauleistungen/zusatzarbeiten/index.html (+1ms) 
+14:48:26   ├─ /berlin/index.html (+6ms) 
+14:48:26   ├─ /branchen/index.html (+3ms) 
+14:48:26   ├─ /crm/index.html (+4ms) 
+14:48:26   ├─ /datenschutz/index.html (+4ms) 
+14:48:26   ├─ /en/app/index.html (+6ms) 
+14:48:26   ├─ /en/bauleistungen/baureinigung/index.html (+2ms) 
+14:48:26   ├─ /en/bauleistungen/bauzwischenreinigung/index.html (+5ms) 
+14:48:26   ├─ /en/bauleistungen/bauendreinigung/index.html (+2ms) 
+14:48:26   ├─ /en/bauleistungen/baustellenraeumung/index.html (+2ms) 
+14:48:26   ├─ /en/bauleistungen/bauhilfe/index.html (+2ms) 
+14:48:26   ├─ /en/bauleistungen/kernbohrungen/index.html (+2ms) 
+14:48:26   ├─ /en/bauleistungen/durchbrueche/index.html (+2ms) 
+14:48:26   ├─ /en/bauleistungen/zusatzarbeiten/index.html (+2ms) 
+14:48:26   ├─ /en/berlin/index.html (+3ms) 
+14:48:26   ├─ /en/branchen/index.html (+2ms) 
+14:48:26   ├─ /en/faq/index.html (+5ms) 
+14:48:26   ├─ /en/galerie/index.html (+4ms) 
+14:48:26   ├─ /en/karriere/index.html (+12ms) 
+14:48:26   ├─ /en/kontakt/index.html (+7ms) 
+14:48:26   ├─ /en/leistungen/index.html (+4ms) 
+14:48:26   ├─ /en/partner/index.html (+5ms) 
+14:48:26   ├─ /en/planer/index.html (+22ms) 
+14:48:26   ├─ /en/ratgeber/bauhelfer-einsatz-vorbereiten/index.html (+12ms) 
+14:48:26   ├─ /en/ratgeber/bauendreinigung-vorbereiten/index.html (+2ms) 
+14:48:26   ├─ /en/ratgeber/baureinigung-phasen/index.html (+2ms) 
+14:48:26   ├─ /en/ratgeber/baureinigung-kosten-planen/index.html (+2ms) 
+14:48:26   ├─ /en/ratgeber/bauuebergabe-checkliste/index.html (+3ms) 
+14:48:26   ├─ /en/ratgeber/index.html (+4ms) 
+14:48:26   ├─ /en/unternehmen/index.html (+3ms) 
+14:48:26   ├─ /en/index.html (+9ms) 
+14:48:26   ├─ /faq/index.html (+2ms) 
+14:48:26   ├─ /galerie/index.html (+2ms) 
+14:48:26   ├─ /impressum/index.html (+2ms) 
+14:48:26   ├─ /karriere/index.html (+3ms) 
+14:48:26   ├─ /kontakt/index.html (+3ms) 
+14:48:26   ├─ /konto/index.html (+25ms) 
+14:48:26   ├─ /languages.json (+7ms) 
+14:48:26   ├─ /leistungen/unterhaltsreinigung/index.html (+14ms) 
+14:48:26   ├─ /leistungen/bueroreinigung/index.html (+6ms) 
+14:48:26   ├─ /leistungen/glasreinigung/index.html (+2ms) 
+14:48:26   ├─ /leistungen/baureinigung/index.html (+5ms) 
+14:48:26   ├─ /leistungen/grundreinigung/index.html (+3ms) 
+14:48:26   ├─ /leistungen/treppenreinigung/index.html (+1ms) 
+14:48:26   ├─ /leistungen/index.html (+3ms) 
+14:48:26   ├─ /partner/index.html (+3ms) 
+14:48:26   ├─ /planer/index.html (+5ms) 
+14:48:26   ├─ /postfach/index.html (+6ms) 
+14:48:26   ├─ /ratgeber/bueroreinigung-checkliste/index.html (+5ms) 
+14:48:26   ├─ /ratgeber/bauendreinigung-vorbereiten/index.html (+2ms) 
+14:48:26   ├─ /ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html (+1ms) 
+14:48:26   ├─ /ratgeber/reinigungsleistungen-vergleichen/index.html (+1ms) 
+14:48:26   ├─ /ratgeber/bauhelfer-einsatz-vorbereiten/index.html (+2ms) 
+14:48:26   ├─ /ratgeber/baureinigung-phasen/index.html (+1ms) 
+14:48:26   ├─ /ratgeber/baureinigung-kosten-planen/index.html (+1ms) 
+14:48:26   ├─ /ratgeber/bauuebergabe-checkliste/index.html (+2ms) 
+14:48:26   ├─ /ratgeber/index.html (+9ms) 
+14:48:26   ├─ /robots.txt (+2ms) 
+14:48:26   ├─ /ru/app/index.html (+3ms) 
+14:48:26   ├─ /ru/bauleistungen/baureinigung/index.html (+2ms) 
+14:48:26   ├─ /ru/bauleistungen/bauzwischenreinigung/index.html (+2ms) 
+14:48:26   ├─ /ru/bauleistungen/bauendreinigung/index.html (+2ms) 
+14:48:26   ├─ /ru/bauleistungen/baustellenraeumung/index.html (+2ms) 
+14:48:26   ├─ /ru/bauleistungen/bauhilfe/index.html (+2ms) 
+14:48:26   ├─ /ru/bauleistungen/kernbohrungen/index.html (+2ms) 
+14:48:26   ├─ /ru/bauleistungen/durchbrueche/index.html (+3ms) 
+14:48:26   ├─ /ru/bauleistungen/zusatzarbeiten/index.html (+3ms) 
+14:48:26   ├─ /ru/berlin/index.html (+3ms) 
+14:48:26   ├─ /ru/branchen/index.html (+2ms) 
+14:48:26   ├─ /ru/datenschutz/index.html (+4ms) 
+14:48:26   ├─ /ru/faq/index.html (+3ms) 
+14:48:26   ├─ /ru/galerie/index.html (+2ms) 
+14:48:26   ├─ /ru/impressum/index.html (+2ms) 
+14:48:26   ├─ /ru/karriere/index.html (+3ms) 
+14:48:26   ├─ /ru/kontakt/index.html (+8ms) 
+14:48:26   ├─ /ru/konto/index.html (+4ms) 
+14:48:26   ├─ /ru/leistungen/unterhaltsreinigung/index.html (+3ms) 
+14:48:26   ├─ /ru/leistungen/bueroreinigung/index.html (+2ms) 
+14:48:26   ├─ /ru/leistungen/glasreinigung/index.html (+2ms) 
+14:48:26   ├─ /ru/leistungen/baureinigung/index.html (+24ms) 
+14:48:26   ├─ /ru/leistungen/grundreinigung/index.html (+4ms) 
+14:48:26   ├─ /ru/leistungen/treppenreinigung/index.html (+2ms) 
+14:48:26   ├─ /ru/leistungen/index.html (+11ms) 
+14:48:26   ├─ /ru/partner/index.html (+8ms) 
+14:48:26   ├─ /ru/planer/index.html (+7ms) 
+14:48:26   ├─ /ru/postfach/index.html (+4ms) 
+14:48:26   ├─ /ru/ratgeber/bueroreinigung-checkliste/index.html (+3ms) 
+14:48:26   ├─ /ru/ratgeber/bauendreinigung-vorbereiten/index.html (+5ms) 
+14:48:26   ├─ /ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html (+1ms) 
+14:48:26   ├─ /ru/ratgeber/reinigungsleistungen-vergleichen/index.html (+2ms) 
+14:48:26   ├─ /ru/ratgeber/bauhelfer-einsatz-vorbereiten/index.html (+3ms) 
+14:48:26   ├─ /ru/ratgeber/baureinigung-phasen/index.html (+3ms) 
+14:48:26   ├─ /ru/ratgeber/baureinigung-kosten-planen/index.html (+2ms) 
+14:48:26   ├─ /ru/ratgeber/bauuebergabe-checkliste/index.html (+2ms) 
+14:48:26   ├─ /ru/ratgeber/index.html (+3ms) 
+14:48:26   ├─ /ru/unternehmen/index.html (+3ms) 
+14:48:26   ├─ /ru/index.html (+5ms) 
+14:48:26   ├─ /sitemap.xml (+3ms) 
+14:48:26   ├─ /studio/index.html (+5ms) 
+14:48:26   ├─ /studio-media.json (+3ms) 
+14:48:26   ├─ /uk/app/index.html (+3ms) 
+14:48:26   ├─ /uk/bauleistungen/baureinigung/index.html (+2ms) 
+14:48:26   ├─ /uk/bauleistungen/bauzwischenreinigung/index.html (+4ms) 
+14:48:26   ├─ /uk/bauleistungen/bauendreinigung/index.html (+2ms) 
+14:48:26   ├─ /uk/bauleistungen/baustellenraeumung/index.html (+2ms) 
+14:48:26   ├─ /uk/bauleistungen/bauhilfe/index.html (+2ms) 
+14:48:26   ├─ /uk/bauleistungen/kernbohrungen/index.html (+2ms) 
+14:48:26   ├─ /uk/bauleistungen/durchbrueche/index.html (+2ms) 
+14:48:26   ├─ /uk/bauleistungen/zusatzarbeiten/index.html (+2ms) 
+14:48:26   ├─ /uk/berlin/index.html (+2ms) 
+14:48:26   ├─ /uk/branchen/index.html (+2ms) 
+14:48:26   ├─ /uk/faq/index.html (+13ms) 
+14:48:26   ├─ /uk/galerie/index.html (+2ms) 
+14:48:26   ├─ /uk/karriere/index.html (+2ms) 
+14:48:26   ├─ /uk/kontakt/index.html (+15ms) 
+14:48:26   ├─ /uk/leistungen/index.html (+3ms) 
+14:48:26   ├─ /uk/partner/index.html (+4ms) 
+14:48:26   ├─ /uk/planer/index.html (+6ms) 
+14:48:26   ├─ /uk/ratgeber/bauhelfer-einsatz-vorbereiten/index.html (+3ms) 
+14:48:26   ├─ /uk/ratgeber/bauendreinigung-vorbereiten/index.html (+2ms) 
+14:48:26   ├─ /uk/ratgeber/baureinigung-phasen/index.html (+2ms) 
+14:48:26   ├─ /uk/ratgeber/baureinigung-kosten-planen/index.html (+2ms) 
+14:48:26   ├─ /uk/ratgeber/bauuebergabe-checkliste/index.html (+2ms) 
+14:48:26   ├─ /uk/ratgeber/index.html (+2ms) 
+14:48:26   ├─ /uk/unternehmen/index.html (+3ms) 
+14:48:26   ├─ /uk/index.html (+7ms) 
+14:48:26   ├─ /unternehmen/index.html (+3ms) 
+14:48:26   ├─ /index.html (+4ms) 
+14:48:26 ✓ Completed in 664ms.
+
+14:48:26 [build] ✓ Completed in 5.16s.
+14:48:26 [build] 134 page(s) built in 6.48s
+14:48:26 [build] Complete!
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/vite/sites-vite-plugin" without a file extension (vite.worker.config.ts:3:23). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.5 building server environment for production...
+transforming...
+✓ 21 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/.vite/manifest.json    0.15 kB │ gzip:  0.11 kB
+dist/server/wrangler.json          1.52 kB │ gzip:  0.77 kB
+dist/server/index.js             157.04 kB │ gzip: 41.70 kB
+
+✓ built in 68ms
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/.assetsignore                  0.02 kB
+dist/client/__cloudflare_fallback_entry__  0.00 kB │ gzip: 0.02 kB
+
+✓ built in 58ms
+
+  dist/vps/render-page.mjs  183.1kb
+
+⚡ Done in 20ms

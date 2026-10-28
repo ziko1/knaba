@@ -33,7 +33,10 @@ describe('one approved KNABA brand catalog for the 99-locale release pipeline',(
   it('localizes social cards on shared public and private layouts without static German art',()=>{
     expect(layout).toContain('brandMessages[lang]');
     expect(layout).toContain('const brandAlt = brand.descriptor');
-    expect(layout).toContain('new URL(logoAssets.header,siteConfig.origin)');
+    expect(layout).toContain('new URL(socialImage,socialOrigin)');
+    expect(layout).toContain('resolveSocialImageOrigin(siteConfig,import.meta.env.PUBLIC_KNABA_AUTH_MODE,import.meta.env.PUBLIC_KNABA_ASSET_ORIGIN)');
+    expect(layout).toContain("'/images/knaba-social-'+lang+'.png'");
+    expect(layout).toContain('property="og:image:type" content="image/png"');
     expect(layout).toContain("content={brandAlt + ' · ' + brand.slogan}");
     expect(layout).not.toContain("og:image:alt\" content=\"KnaBa · Baureinigung");
   });

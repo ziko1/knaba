@@ -1,0 +1,7 @@
+{
+  "source": "working-tree tests atop 9127b1d3424517ea061df2eea2ecc820a6bcfbde; runtime unchanged",
+  "time": "2026-10-28T09:10:13.650728+00:00",
+  "command": "node --test vps/access-requests.http.test.mjs vps/account-invite.http.test.mjs vps/owner-onboarding.test.mjs vps/oidc.http.test.mjs",
+  "exit_code": 1,
+  "reason": "Native HTML form policy no-referrer conflicts with mandatory Origin; tests require strict-origin and preserve null/cross-origin denial."
+}

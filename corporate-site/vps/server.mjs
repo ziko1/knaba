@@ -144,9 +144,13 @@ function loginPage(returnTo,invalid=false,lang='de',providers=[]){
     '<p class="auth-subtle"><a href="/join/?lang='+lang+'">'+escapeHTML(accessWords(lang).joinLink)+'</a> · <a href="/forgot-password/?lang='+lang+'">'+escapeHTML(accessWords(lang).forgotLink)+'</a></p>'+
     '<p><a href="/">'+escapeHTML(word.website)+'</a></p>',lang);
 }
+// Native HTML POSTs under no-referrer use Origin:null and fail the mandatory
+// CSRF check. strict-origin keeps same-origin HTTPS form Origin while revealing
+// neither URL paths nor query/fragment tokens. OIDC redirects retain no-referrer.
+const privateFormReferrerPolicy='strict-origin';
 const privateAccountHeaders={
   'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-  'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+  'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,
   'X-Frame-Options':'DENY',
   'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
 };
@@ -443,7 +447,7 @@ export async function createKnabaVpsServer({
         'Content-Type':'text/html; charset=utf-8',
         'Cache-Control':'private, no-store',
         'X-Robots-Tag':'noindex,nofollow',
-        'Referrer-Policy':'no-referrer',
+        'Referrer-Policy':privateFormReferrerPolicy,
         'X-Frame-Options':'DENY',
         'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
       };
@@ -480,7 +484,7 @@ export async function createKnabaVpsServer({
     if(url.pathname==='/register/'||url.pathname==='/register'){
       const headers={
         'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,
         'X-Frame-Options':'DENY',
         'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
       };
@@ -530,7 +534,7 @@ export async function createKnabaVpsServer({
         return send(res,200,invitationPage(null,'',revoked?
           'Die offene Einladung wurde widerrufen.':'Keine offene Einladung vorhanden.'),{
           'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,
           'X-Frame-Options':'DENY'
         });
       }catch(error){
@@ -545,7 +549,7 @@ export async function createKnabaVpsServer({
       if(!operator(user))
         return send(res,403,'Owner approval required');
       const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,'X-Frame-Options':'DENY'};
       if(req.method==='GET')return send(res,200,invitationPage(),headers);
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
@@ -574,7 +578,7 @@ export async function createKnabaVpsServer({
       const provider=oidcPath[1],action=oidcPath[2]||'';
       const cfg=oidcConfig[provider];
       if(!cfg)return send(res,404,'Social provider not configured');
-      const heads={...privateAccountHeaders,'Referrer-Policy':'no-referrer'};
+      const heads=privateAccountHeaders;
       if(action===''){
         if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
         const link=url.searchParams.get('mode')==='link';
@@ -613,7 +617,7 @@ export async function createKnabaVpsServer({
             'Set-Cookie':cleared,'Referrer-Policy':'no-referrer'});
         try{
           if(url.searchParams.has('iss')&&url.searchParams.get('iss')!==cfg.issuer)
-            return send(res,401,'Social identity issuer mismatch',{'Set-Cookie':cleared});
+            return send(res,401,'Social identity issuer mismatch',{'Set-Cookie':cleared,'Referrer-Policy':'no-referrer'});
           const result=await completeOidc(db,{
             provider,config:oidcConfig,origin:base.origin,
             code:url.searchParams.get('code'),state:url.searchParams.get('state'),
@@ -653,7 +657,7 @@ export async function createKnabaVpsServer({
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
       const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,'X-Frame-Options':'DENY'};
       if(req.method==='GET')return send(res,200,credentialPage(),headers);
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');

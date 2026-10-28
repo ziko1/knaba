@@ -1,0 +1,49 @@
+{
+  "project": "KNABA_MOBILE",
+  "moduleOf": "KNABA_DE",
+  "branch": "feat/knaba-android-ios-workspace-20261028",
+  "items": [
+    {
+      "id": "MOBILE-001",
+      "description": "Mobile website entry, secure release links and app install metadata",
+      "acceptance": "Four locales, no misleading download, source/build QA",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "MOBILE-002",
+      "description": "Native Android/iOS secure browser handoff and portable URLs",
+      "acceptance": "Six native locales, reject unsafe origins, no token reuse, native compile/device verification",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "MOBILE-003",
+      "description": "Website/ERP identity integration with audited server-side scoped claims",
+      "acceptance": "Working verified login/logout/PCKE/OIDC, site-ERP bridge, tenant isolation, revocation",
+      "status": "BLOCKED_INTEGRATION"
+    },
+    {
+      "id": "MOBILE-004",
+      "description": "Customer orders and verified owner-client conversations",
+      "acceptance": "End-to-end persistence, consent, receipts, no cross-customer reads",
+      "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-005",
+      "description": "Owner dispatch, worker assignments and review",
+      "acceptance": "RBAC, status, eligible worker checks, audit, real integration UAT",
+      "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-006",
+      "description": "Partner lifecycle and company-scoped operations",
+      "acceptance": "Partner-vs-customer isolation and approved scoped data",
+      "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-007",
+      "description": "Real Android/iOS signing and store distribution",
+      "acceptance": "Exact SHA/artifact, signed verified APK/IPA, hardware QA, customer acceptance",
+      "status": "BLOCKED_EXTERNAL"
+    }
+  ]
+}

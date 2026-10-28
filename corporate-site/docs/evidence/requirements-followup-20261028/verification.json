@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-28",
+  "scope": "Accessible recorded corporate-site requirements, final source/build validation and actual native TEST v8 HTTPS evidence; historical focused/v6/v7 checkpoints and scoped coordinator desktop evidence are labeled separately.",
+  "startingSourceSha": "13de14a339231fb1f3ad43f3195d01133acf2099",
+  "integratedBaseSha": "a760178a1224cc3657ea0bcdc87626d426e7bbb8",
+  "finalSourceSha": "c35ac616d60bcf9269e53f98d0c483312030b5d7",
+  "sourceSHA256": {
+    "src/components/Inquiry.tsx": "409247c9364c9578355a20529516f04e4fdea0ff7ff50640dd02d69c0a045c40",
+    "src/lib/inquiry-draft.ts": "d638de2f30357fddf39cbe6db7fde3e22adf30c9e1f4647e59c6a9e0dc5c9060",
+    "tests/inquiry-draft.test.ts": "f09e4750d71cd4b4dde7a06507b0b9b8bc3cf88ed6cba36802b2d0c3582e4fdc",
+    "src/layouts/Layout.astro": "9e34be867d49937a2be14ce9bbfd82262f2409e61789758eeea7046240bd5bdc",
+    "scripts/generate-knaba-social-assets.mjs": "33697fe7f0f1effd674ebe8d01fcec7f57836534d82b8a52fa70bebc8dfc8866",
+    "scripts/audit-i18n-output.mjs": "f76d9e09929868fd9afa0016239d10a269706fa1017a55cbeeb0387625a0affa",
+    "tests/brand-i18n.test.ts": "6d65f2fb27b0ce5f7643d6a066b3f74bcb7fec7fd102f9f021c3c2a5e52f020c",
+    "tests/social-card-assets.test.ts": "98419b0a1032e8eaf9cb2651a36307814956dc970e4d4c344fad19153c5e21b5",
+    "tests/knaba-logo-browser.cjs": "cf5efca1a568dee18f5e7ef9cd3589a89d225e19b24b0538f4ce1ffdd25c4c08"
+  },
+  "checks": {
+    "socialRegressionBefore": {
+      "failed": 2,
+      "passed": 2
+    },
+    "inquiryComponentRegressionBefore": {
+      "failed": 3,
+      "passed": 5
+    },
+    "finalFocused": {
+      "status": "PASS",
+      "files": 5,
+      "tests": 30,
+      "exitCode": 0,
+      "command": "npx vitest run tests/inquiry-draft.test.ts tests/inquiry-navigation.test.ts tests/inquiry-construction.test.ts tests/brand-i18n.test.ts tests/social-card-assets.test.ts",
+      "scope": "Historical focused social/inquiry checkpoint before the subsequent hosting, header and social-origin changes; final complete suites are recorded separately."
+    },
+    "independentSocialReview": "ACCEPT",
+    "independentInquiryReview": "ACCEPT after both concrete findings fixed",
+    "diffCheck": "PASS",
+    "fullBuild": {
+      "status": "PASS",
+      "variants": [
+        "canonical VPS",
+        "native Sites"
+      ],
+      "evidence": "final-validation.json"
+    },
+    "fullTestSuite": {
+      "status": "PASS",
+      "vitestPassed": 333,
+      "files": 47,
+      "vpsHttpPassed": 90,
+      "sitesPreparationFixturesPassed": 9,
+      "evidence": "final-validation.json",
+      "nativeRegressionChain": "PASS",
+      "nativeRegressionReportedModules": [
+        4,
+        2,
+        1,
+        2
+      ],
+      "nativeCountNote": "Earlier 77-case native checkpoint is historical; final complete npm test output reports 9 native test modules."
+    },
+    "browser": {
+      "status": "PASS_SCOPED_V8_VISUAL_AND_V6_SAME_CLIENT_INTERACTIONS",
+      "observer": "Owning release task /root",
+      "viewport": {
+        "width": 1363,
+        "height": 936
+      },
+      "scenarios": [
+        "Homepage overflow/loaded-image check, carousel and FAQ",
+        "Inquiry three steps to review; home to Back restores values/review and resets privacy/send eligibility",
+        "DE to UK preserves typed inquiry content",
+        "Native gateway visible without password/invite UI",
+        "UK app page opens with unsigned/unconfigured downloads disabled",
+        "Ukrainian Assistant opens; Escape closes and returns focus"
+      ],
+      "noSubmissions": true,
+      "limits": [
+        "No mobile/physical devices",
+        "No authenticated owner/role UAT",
+        "No native unload prompt acceptance",
+        "No screen-reader/field-performance/provider acceptance"
+      ],
+      "evidence": "browser-desktop.json",
+      "interactionExecutionVersion": "v6",
+      "finalVisualExecutionVersion": "v8",
+      "clientAssetsForInteractionFlows": "The checked interaction modules are unchanged between v6 and v8; final v8 full interaction rerun not claimed.",
+      "finalVisualChecks": [
+        "Ukrainian page reload",
+        "No horizontal overflow",
+        "No broken loaded images"
+      ]
+    },
+    "deployment": {
+      "v6": "HISTORICAL_MISSING_STATIC_HTTP_NOINDEX",
+      "v7": "HISTORICAL_NATIVE_DISPATCHER_BYPASS",
+      "v8": {
+        "status": "PASS",
+        "url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/uk/",
+        "deploymentId": "appgdep_6ae207db10c081919e32386f0cd902b2",
+        "publishedAt": "2026-10-28T14:34:18.077544+00:00",
+        "canonicalCodeSha": "c35ac616d60bcf9269e53f98d0c483312030b5d7",
+        "nativeSourceSha": "ca2d68e19b659603e253462466359b827f8bb8fb",
+        "evidence": "test-publication.json"
+      },
+      "sourceHeaderFix": "37 focused PASS; independent ACCEPT; static-headers-source.json",
+      "artifactFinalizer": "9 fixture PASS; independent ACCEPT; runtime headers verified on v8"
+    },
+    "typechecks": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "hints": 7,
+      "evidence": "final-validation.json"
+    },
+    "builtVerification": {
+      "status": "PASS",
+      "variants": [
+        "canonical VPS",
+        "native Sites"
+      ],
+      "cssGzipBytes": 39824,
+      "cssGzipLimitBytes": 40960,
+      "budgetRaised": false,
+      "evidence": "final-validation.json"
+    },
+    "contentPreservation": {
+      "status": "PASS",
+      "originalRoutes": 130,
+      "finalRoutes": 134,
+      "originalControls": 938,
+      "evidence": "preservation.json",
+      "scope": "Original ordered text/link/control contracts with disclosed mobile additions, two privacy pages and generated hydration IDs; final native metadata-only asset origin is checked in hosted-test.json."
+    },
+    "hostedV6": {
+      "status": "REVIEW_FINDINGS",
+      "exactHtmlBodies": 134,
+      "metaNoindex": 134,
+      "httpStaticNoindex": 0,
+      "apiReadAuthorizationPass": 13,
+      "evidence": "hosted-test-v6-before-header-fix.json"
+    },
+    "hostedV7": {
+      "status": "HISTORICAL_REVIEW_FINDINGS",
+      "evidence": "hosted-test-v7-before-dispatch-fix.json"
+    },
+    "hostedV8": {
+      "status": "PASS",
+      "exactHtmlBodies": 134,
+      "metaNoindex": 134,
+      "httpNoindex": 134,
+      "testOgOrigins": 134,
+      "resourcesPassed": 9,
+      "indexingFilesPassed": 3,
+      "apiReadAuthorizationPassed": 13,
+      "protocolPassed": 5,
+      "nativeBuildArtifactSha256": "fc2646afaf3748d46c41d96b6c5cf8518d3c59626703be2a5e7a7242c2475f5b",
+      "publishedWorkerSha256": "3047d576f6a3795780ebfd37aa2f2569f7ec6cd747c157ab1b93aea793249c62",
+      "evidence": "hosted-test.json",
+      "captcha": "Disabled by environment; response/config correctness is not anti-bot acceptance.",
+      "resourcesScope": "Non-HTML resources: expected HTTP status, MIME and exact body/hash only; native platform may omit application security headers. The HTML application header policy and API noindex/schema/anonymous-denial contracts are verified separately."
+    }
+  },
+  "independentReviewCorrections": [
+    "Preserve actual form selection despite carried original URL query; honor distinct explicit service navigation.",
+    "Do not cancel Astro before-preparation, which otherwise invokes full-document fallback.",
+    "Use delivery-neutral restored-answer wording; a timed-out request may have been received."
+  ],
+  "privacy": "One transient module-memory draft; no browser Storage, PII URL, server write or provider call added. Consent resets. Exact replay identity retained for uncertain delivery. Confirmed receipt clears memory/listeners.",
+  "logSHA256": "f7fc5ec4e5c0cc8626a1e1391432f2ce67e5bd3ea02138660dda95f452b2bd63",
+  "remaining": [
+    "Native unload prompt; mobile/physical devices, full keyboard/zoom/screen-reader and field-performance acceptance",
+    "Real authenticated owner/role/Studio/customer UAT and owner-to-visitor delivery",
+    "Structural Studio block/template/shared-nav composer",
+    "Controlled media upload/storage/rights/rollback workflow",
+    "95 full reviewed language packs (4 published / 95 pending)",
+    "Proxy/two-client rate-limit, actual CAPTCHA and off-host backup/restore acceptance",
+    "Verified owner/provider/merchant inputs, actual service delivery and legal/retention/media approvals",
+    "Independent D1-to-ERP scoped runtime integration and native signed app distribution/ERP SSO",
+    "Official production/domain/indexing cutover and customer handover under separate authorization"
+  ],
+  "sourceSHA256Scope": "Historical social/inquiry checkpoint before subsequent hosting/asset-origin fixes. Final source pins and hashes are in final-validation.json and dedicated review receipts; do not reinterpret these earlier file hashes as final.",
+  "finalNativeSourceSha": "ca2d68e19b659603e253462466359b827f8bb8fb"
+}

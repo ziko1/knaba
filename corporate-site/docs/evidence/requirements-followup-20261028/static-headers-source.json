@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T14:10:41.538555+00:00",
+  "scope": "Native Worker static-header correction following actual public TEST v6 readback; source and local acceptance only.",
+  "sourceBaseCommit": "8649d782cbcd4ba681f9ccfcc66feb3daa656a61",
+  "finalReleaseCommit": "OWNING_RELEASE_TASK",
+  "sourceSHA256": {
+    "worker/index.ts": "bdf7ade8e6b0611598ca78b574f3bd246fb895b1bc34209fae2fb9ce84197286",
+    "worker/types.ts": "5c51c6dbbae0ca79f0ef2774d2e36009bab78e6733f65b66127256bf0f255d8c",
+    "vite.worker.config.ts": "d4e528ebf4271ec4a11fc07652db845f816d9221e9e0a45b1f97aa3cac1f800c",
+    "tests/worker-static-headers.test.ts": "4c9a472ed0f6e775a072201ca6820cb293eb46e7991d96337ff05d893e7fb915"
+  },
+  "trigger": {
+    "evidence": "hosted-test-v6-before-header-fix.json",
+    "exactHtmlBodies": 134,
+    "metaNoindex": 134,
+    "staticHttpNoindex": 0
+  },
+  "primaryInstalledSupport": {
+    "wranglerSchema": "node_modules/wrangler/config-schema.json: assets.run_worker_first anyOf includes boolean; true routes every request to User Worker",
+    "cloudflarePlugin": "node_modules/@cloudflare/vite-plugin/dist/index.mjs maps run_worker_first===true to user_worker [/*]"
+  },
+  "checks": {
+    "focusedBefore": {
+      "passed": 7,
+      "failed": 24,
+      "tests": 31,
+      "exitCode": 1,
+      "log": "knaba-static-headers-before.log"
+    },
+    "focusedAfter": {
+      "status": "PASS",
+      "passed": 37,
+      "failed": 0,
+      "exitCode": 0,
+      "command": "npx vitest run tests/worker-static-headers.test.ts",
+      "log": "knaba-static-headers-after.log"
+    },
+    "independentSourceReview": {
+      "status": "ACCEPT",
+      "reviewer": "/root/knaba_ui_audit/knaba_requirements_map",
+      "remainingConcreteBlockers": 0
+    },
+    "diffCheck": "PASS",
+    "owningReleaseFullVitest": {
+      "status": "PASS",
+      "files": 46,
+      "passed": 322,
+      "log": "knaba-headers-vitest.txt"
+    },
+    "owningReleaseTypechecks": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "hints": 7,
+      "log": "knaba-headers-check.txt"
+    },
+    "owningReleaseBuilds": {
+      "vps": "PASS",
+      "nativeSites": "PASS"
+    },
+    "owningReleaseBuildVerification": {
+      "vps": "PASS",
+      "nativeSites": "PASS",
+      "buildVerifierAdjustment": "Parent replaced stale array .includes checks with strict assert.equal(run_worker_first,true); stronger all-routes dispatch gate preserved."
+    }
+  },
+  "reviewCorrections": [
+    "Do not make missing/failing _astro responses immutable; only success/304 get the existing long-lived asset policy.",
+    "Preserve upstream nofollow/noarchive and other stricter robots directives instead of replacing them with noindex,follow.",
+    "Agent-scoped directives do not satisfy required global private/error restrictions; prepend global required flags when the upstream value is scoped.",
+    "Keep GET text MIME type on the bodyless missing-ASSETS HEAD fallback."
+  ],
+  "preservedBehavior": [
+    "API dispatch and scheduled notifications unchanged.",
+    "No body parsing or HTML transformation; preserve streaming body, status, statusText, HEAD, 304, 206, content-type/length/range, ETag, Last-Modified and Location.",
+    "Private route cache policy and existing static security headers enforced; upstream error caching preserved.",
+    "Default staging; explicit native runtime KNABA_RELEASE_MODE=official required for public indexing."
+  ],
+  "logs": {
+    "knaba-static-headers-before.log": {
+      "sha256": "a3250ad39fcc7512ae2605252f436c4572339306c8da1e0c360e65b605db0603",
+      "bytes": 10092
+    },
+    "knaba-static-headers-after.log": {
+      "sha256": "70a21aef92a8e7bbc8bbaf809d72be079b1630d3e12ab76231cbee501f4228f6",
+      "bytes": 322
+    },
+    "knaba-headers-vitest.txt": {
+      "sha256": "a48541e102cd22dd9ab96188c7946d6e1c28577d02393112de64032a2f87169c",
+      "bytes": 526
+    },
+    "knaba-headers-check.txt": {
+      "sha256": "ff13559d9634d69a0080fbc4c1dd666559ce0cad4aa0fb4e2832b9ea74b0d799",
+      "bytes": 2429
+    },
+    "knaba-headers-build-vps.txt": {
+      "sha256": "15e8fb34afc98f8632b6d572334c25449985fb86f3adf0304423df23ef0d51c6",
+      "bytes": 11154
+    },
+    "knaba-headers-build-sites.txt": {
+      "sha256": "7d3bf1bf9bab45bedbbf55d20b36b2510c6bdce1f615788702ef0c0955c7c075",
+      "bytes": 11131
+    },
+    "knaba-headers-verify-vps.txt": {
+      "sha256": "fcf637084406cc478774c52d7108de1d24c02e12d79ae0a7bd0b4d30213e38e9",
+      "bytes": 7274
+    },
+    "knaba-headers-verify-sites.txt": {
+      "sha256": "ca76fc713286145bce51e99881c804fa56282a88a63f38e83cf72566405dcec2",
+      "bytes": 7274
+    }
+  },
+  "publicationBoundary": "This receipt does not certify v7 publication or live response headers. The owning release task publishes v7 and records the actual hosted/header result separately; retain the v6 finding receipt.",
+  "notRunByThisPatch": [
+    "Browser/server execution",
+    "Deploy or GitHub mutation",
+    "Authenticated access, form/message submission or provider calls",
+    "Data/database mutations"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-28",
+  "scope": "KnaBa public TEST desktop: v6 functional interactions; v7 and final v8 reload/layout checks. Final v8 keeps the tested client interaction bundles and changes native HTML delivery, share-card origin and build cleanup. Functional flows were not separately repeated on v8.",
+  "origin": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site",
+  "verified_url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/uk/",
+  "viewport": {
+    "width": 1363,
+    "height": 936
+  },
+  "checks": [
+    {
+      "name": "homepage layout",
+      "result": "PASS",
+      "observed": "DE/UK homepage; no horizontal overflow or broken loaded image in inspected desktop viewport"
+    },
+    {
+      "name": "carousel",
+      "result": "PASS",
+      "observed": "Next control changes01/08 to02/08"
+    },
+    {
+      "name": "FAQ",
+      "result": "PASS",
+      "observed": "Existing question expands correct answer"
+    },
+    {
+      "name": "inquiry navigation",
+      "result": "PASS",
+      "observed": "Three-step synthetic draft→review→homepage→browser Back restores service,postcode,area,frequency,name,email,message and review step; consent resets false and submit stays disabled"
+    },
+    {
+      "name": "inquiry language switch",
+      "result": "PASS",
+      "observed": "DE→UK preserves entered answers and service while interface labels change; consent stays false"
+    },
+    {
+      "name": "native portal entry",
+      "result": "PASS",
+      "observed": "Anonymous /konto/ shows native Sites sign-in href and top-level target; unavailable VPS password/invite controls are hidden; no sign-in performed"
+    },
+    {
+      "name": "mobile distribution page",
+      "result": "PASS",
+      "observed": "/uk/app/ opens from home promo; unsigned native downloads correctly unavailable; role and separate ERP availability disclosure visible"
+    },
+    {
+      "name": "assistant dialog",
+      "result": "PASS",
+      "observed": "Opens in Ukrainian; send disabled without consent; Escape closes and focus returns to launcher; no message or microphone action"
+    }
+  ],
+  "screenshot": {
+    "file": "knaba-test-uk-desktop.jpg",
+    "bytes": 110038,
+    "sha256": "da0809d94892accf48e4f05eb5e5bbbe713939261d30c744e1dbf085a3651109",
+    "pixel_width": 1348,
+    "pixel_height": 926,
+    "version": 8
+  },
+  "limits": [
+    "Desktop viewport only; no physical/mobile device, zoom or screen reader acceptance",
+    "No inquiry/review/message was submitted; no provider or outbound communication activated",
+    "No authentication or owner/admin/Studio/ERP UAT",
+    "No claim that test input survives hard reload or closed browser process",
+    "Browser console extension errors are not treated as application-origin failures; no complete console/network audit claimed"
+  ],
+  "final_version": 8,
+  "final_deployment_id": "appgdep_6ae207db10c081919e32386f0cd902b2",
+  "final_reload": {
+    "result": "PASS",
+    "url": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/uk/",
+    "horizontal_overflow": false,
+    "broken_loaded_images": 0,
+    "og_image": "https://kneba-temporary-preview.just-fawn-8470.chatgpt.site/images/knaba-social-uk.png",
+    "scope": "Read-only DOM and visual desktop inspection after final v8 publication; not mobile/owner acceptance."
+  }
+}
