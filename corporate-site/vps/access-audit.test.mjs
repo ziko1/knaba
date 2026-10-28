@@ -6,6 +6,26 @@ import {tmpdir} from 'node:os';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {openLocalDatabase} from './database.mjs';
+import {submitAccessRequest,listAccessRequests} from './access-requests.mjs';
+import {createOwner} from './auth.mjs';
+
+test('a public access request never deletes expired enquiries or bypasses approved retention',()=>{
+  const folder=mkdtempSync(join(tmpdir(),'knaba-retention-submit-'));
+  let db;
+  try{
+    ({db}=openLocalDatabase(join(folder,'site.sqlite')));
+    const owner=createOwner(db,'owner@example.test','synthetic-retention-password');
+    const now=Date.now();
+    const args={name:'Synthetic applicant',email:'expired@example.test',intent:'partner',consented:true,peer:'test'};
+    submitAccessRequest(db,{...args,now:now-31*86400000});
+    const before=db.prepare('SELECT * FROM vps_access_requests').get();
+    submitAccessRequest(db,{...args,email:'new@example.test',now});
+    assert.deepEqual(db.prepare('SELECT * FROM vps_access_requests WHERE id=?').get(before.id),before);
+    assert.equal(db.prepare('SELECT count(*) AS n FROM vps_access_requests').get().n,2);
+    assert.equal(db.prepare('SELECT count(*) AS n FROM vps_users').get().n,1);
+    assert.equal(listAccessRequests(db,{ownerId:owner.id,ownerEmail:'owner@example.test',now}).length,1);
+  }finally{db?.close();rmSync(folder,{recursive:true,force:true});}
+});
 
 const command=new URL('./manage.mjs',import.meta.url).pathname;
 const call=(file,args=[])=>spawnSync(process.execPath,[command,'access-audit',...args],{

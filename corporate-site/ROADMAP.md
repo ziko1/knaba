@@ -349,3 +349,8 @@ Canonical detailed audit and sources: \`docs/LEGAL_AUDIT_UK.md\`. Stacked Draft 
 User confirmed this session coordinates kneba.vsp.rest only. No customer production, DNS, search submission or public-profile changes. Base ab6533a6a0ff1d17d0e2dab0a86909cbdc9f3760; release/knaba-staging-20261028 is an isolated candidate. Preserve the concurrent owner-settings/access-dialog worktree; no automatic all-PR merge.
 
 Confirmed defect: vsp build made staging indexable. Corrected public HTML, HTTP and static-document headers; isolated official mode retains production SEO. Empty staging sitemap no longer prevents strict translation-catalog verification: reuse existing Studio route registry. Exact checks, initial test-fixture correction and limitations: docs/evidence/staging-release-20261028/indexability-checkpoint.json. Deployment, role browser UAT, ERP integration and provider gates remain unaccepted.
+
+
+## 28.10.2026 — access request retention correction
+
+Removed implicit deletion of expired access requests during a new submission. Expiry restricts processing; deletion remains exclusively in the existing approved retention workflow with backup. A regression first reproduced lost rows, then passed with preserved expired record and unchanged owner/user counts. Updated DE/RU privacy for partner, separate revocable developer access and access requests without account creation. No invented retention approval or EN/UK legal publication. Node24 focused 11/11, legal 6/6, full VPS 89/89 and staging build/catalog/verify PASS. Evidence: docs/evidence/staging-release-20261028/retention-checkpoint.json. This working-tree slice still requires final staging deployment and browser acceptance.

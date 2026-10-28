@@ -1,0 +1,19 @@
+✔ a public access request never deletes expired enquiries or bypasses approved retention (124.639772ms)
+✔ read-only access request audit reports aggregate counts without applicant data (200.173573ms)
+✔ read-only access request audit refuses unknown flags and missing database (128.33915ms)
+✔ public access request needs consent; no role elevation; owner-only review (474.445759ms)
+✔ access retention is dry-run by default and emits aggregate counts with no personal data (223.57636ms)
+✔ no retention changes without explicit legal/owner approval or with unsupported arguments (342.27297ms)
+✔ retention apply makes verified private online backup before deleting expired only and is idempotent (265.739866ms)
+✔ retention refuses missing database without materializing one (130.607781ms)
+✔ backup destination cannot escape state through an external path or a symlink (167.853016ms)
+✔ symlinked backup directory is refused before any deletion (163.028147ms)
+✔ retention backup creation tightens umask before SQLite backup starts (0.313679ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1399.910717

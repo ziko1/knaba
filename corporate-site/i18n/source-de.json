@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "14012be3f482afd10cb04e8cbfd16795e34c40f328b61a279a7ba33a9f171185",
+  "sourceDigest": "aa24d91c6590bd9dad5ba491e27edb4e27bbedf9c059bb5cf85cb66fe7f35b30",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1046,
+  "unitCount": 1048,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -295,13 +295,6 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
-      ]
-    },
-    "051c5ea5158ec136c3cb7ec3": {
-      "kind": "text",
-      "source": "Ein neuer Kunden- oder Mitarbeitendenzugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des berechtigten Inhabers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle (Kunde oder Mitarbeitende), die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch den Inhaber ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "052aadc2d52c439ff6469c1f": {
@@ -2800,6 +2793,13 @@
         "/leistungen/"
       ]
     },
+    "4a1bed42ad23037291ebb249": {
+      "kind": "text",
+      "source": "Ein neuer Kunden-, Mitarbeitenden- oder Partnerzugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des berechtigten Inhabers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle (Kunde, Mitarbeitende oder Partner), die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch den Inhaber ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "4a3f1a96f9e07c22f181ae23": {
       "kind": "text",
       "source": "Zum Inhalt springen",
@@ -3430,6 +3430,13 @@
         "/bauleistungen/bauzwischenreinigung/",
         "/leistungen/",
         "/planer/"
+      ]
+    },
+    "593d34d551a64c6b70a81b58": {
+      "kind": "text",
+      "source": "Über die Zugangsanfrage werden Name, E-Mail-Adresse, gewünschte Nutzung als Kunde, Mitarbeitender oder Partner sowie der Eingang und die Prüfung der Anfrage verarbeitet. Die Zugangsanfrage richtet noch kein Konto ein und erteilt keine Berechtigungen. Berechtigte Personen prüfen die Anfrage und können eine persönliche Einladung ausstellen. Freigegebene Partner sehen ausschließlich ihre eigenen Projektanfragen. Ein gesondert berechtigter Entwickler kann Verwaltungsaufgaben übernehmen; sein Zugriff ist widerrufbar und wird protokolliert.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "59470ee22ed403ce56e292f7": {
@@ -8407,6 +8414,13 @@
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "e131ddef96076655ffefbe98": {
+      "kind": "text",
+      "source": "Die Gültigkeit einer Zugangsanfrage begrenzt ihre Bearbeitung und bedeutet keine automatische Löschung. Neue Zugangsanfragen löschen keine früheren Anfragen. Die gesonderte Löschroutine setzt eine vom Betreiber freigegebene Regel, eine Sicherungskopie und deren Prüfung voraus; sie ersetzt keine vollständige Lösch- und Backup-Richtlinie.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "e1370580aaadd74e964e8866": {
