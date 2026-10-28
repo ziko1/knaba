@@ -91,7 +91,7 @@ async function sendStatic(root,req,res,path,db){
   res.setHeader('Cache-Control',privatePath?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
   if(privatePath||res.statusCode===404){
     res.setHeader('X-Robots-Tag','noindex, nofollow');
-  }else if(ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"')){
+  }else if(ext==='.html' && (!['official','vsp'].includes(process.env.KNABA_RELEASE_MODE) || bytes.includes('<meta name="robots" content="noindex, follow"'))){
     // The Node VPS runtime does not apply Cloudflare Pages _headers rules.
     // Preserve the built HTML crawler gate in the actual HTTP response.
     res.setHeader('X-Robots-Tag','noindex, follow');
