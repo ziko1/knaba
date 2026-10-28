@@ -33,6 +33,8 @@ Use `/srv/knaba/vps/.env` (root:root 0600) solely for Docker Compose interpolati
 ```dotenv
 KNABA_PUBLIC_HOST=knaba.de
 KNABA_PUBLIC_ORIGIN=https://knaba.de
+# Existing reverse-proxy network on the owner machine (default Coolify):
+KNABA_PROXY_NETWORK=coolify
 KNABA_RUNTIME_UID=<id -u knaba>
 KNABA_RUNTIME_GID=<id -g knaba>
 ```

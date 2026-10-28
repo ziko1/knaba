@@ -29,6 +29,7 @@ services:
       NODE_ENV: production
       PORT: "8080"
       KNABA_PUBLIC_ORIGIN: "${KNABA_PUBLIC_ORIGIN:?Set KNABA_PUBLIC_ORIGIN}"
+      KNABA_PUBLIC_HOST: "${KNABA_PUBLIC_HOST:?Set KNABA_PUBLIC_HOST}"
       KNABA_DB_PATH: "/var/lib/knaba/site.sqlite"
       KNABA_BACKUP_DIR: "/var/lib/knaba/backups"
       KNABA_LOCAL_TEST: "0"
@@ -39,7 +40,7 @@ services:
       - coolify
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "coolify"
+      traefik.docker.network: "${KNABA_PROXY_NETWORK:-coolify}"
       traefik.http.routers.knaba-vps-http.rule: "Host(`${KNABA_PUBLIC_HOST:?Set KNABA_PUBLIC_HOST}`)"
       traefik.http.routers.knaba-vps-http.entrypoints: "http"
       traefik.http.routers.knaba-vps-http.middlewares: "knaba-vps-redirect"
@@ -55,7 +56,7 @@ services:
       traefik.http.middlewares.knaba-vps-secure-headers.headers.stsSeconds: "604800"
       traefik.http.services.knaba-vps.loadbalancer.server.port: "8080"
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get({hostname:'127.0.0.1',port:8080,path:'/healthz',headers:{Host:'kneba.vsp.rest'}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      test: ["CMD", "node", "-e", "require('http').get({hostname:'127.0.0.1',port:8080,path:'/healthz',headers:{Host:process.env.KNABA_PUBLIC_HOST}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
       interval: 30s
       timeout: 5s
       start_period: 15s
@@ -65,3 +66,4 @@ services:
 networks:
   coolify:
     external: true
+    name: "${KNABA_PROXY_NETWORK:-coolify}"
