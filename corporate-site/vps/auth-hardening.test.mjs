@@ -14,7 +14,10 @@ function fixture(work){
   finally{db.close();rmSync(root,{recursive:true,force:true});}
 }
 
-test('shared client IP stops credential validation after 60 attempts across distinct addresses',()=>{
+test('shared client IP stops credential validation after 60 attempts across distinct addresses',t=>{
+  // This is a fixed 15-minute counter. Freeze the test clock to keep a
+  // slow scrypt loop from straddling a real window boundary.
+  t.mock.method(Date,'now',()=>Date.UTC(2026,9,28,8,1,0));
   fixture(db=>{
     for(let i=0;i<61;i++)createCredentialsUser(db,'test'+i+'@example.test',password);
     for(let i=0;i<60;i++){

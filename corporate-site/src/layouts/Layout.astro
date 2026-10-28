@@ -15,6 +15,7 @@ interface Props {
   description: string;
   noindex?: boolean;
   omitCanonical?: boolean;
+  mobileApp?: boolean;
   hasInlinePhone?: boolean;
   hasInlineEmail?: boolean;
   lang?: 'de' | 'en' | 'uk' | 'ru';
@@ -22,7 +23,7 @@ interface Props {
   breadcrumbs?: {name:string;url:string}[];
   alternates?: {lang:string;url:string}[];
 }
-const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [], hasInlinePhone = false, hasInlineEmail = false, omitCanonical = false } = Astro.props;
+const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [], hasInlinePhone = false, hasInlineEmail = false, omitCanonical = false, mobileApp = false } = Astro.props;
 const isNoindex = !siteConfig.indexable || noindex;
 function validWebmasterProof(value: unknown): string | undefined {
   if(typeof value!=='string')return undefined;
@@ -110,6 +111,9 @@ const structuredData = {
     <meta name="robots" content={isNoindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
     {!omitCanonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {mobileApp && <link rel="manifest" href="/app-manifest.json" />}
+    {mobileApp && <link rel="apple-touch-icon" href="/images/knaba-mobile-192.png" />}
+    {mobileApp && <meta name="apple-mobile-web-app-capable" content="yes" />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="KnaBa" />
     <meta property="og:locale" content={{de:"de_DE",en:"en_GB",uk:"uk_UA",ru:"ru_RU"}[lang]} />
@@ -199,7 +203,7 @@ const structuredData = {
         <div>
           <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
             href={localPath("/branchen/")}>{footerLabels[2]}</a
-          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
+          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/app/")}>{{de:"Mobile App",en:"Mobile app",uk:"Мобільний застосунок",ru:"Мобильное приложение"}[lang]}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
             >{footerLabels[6]}</a>
         </div>
         <div>

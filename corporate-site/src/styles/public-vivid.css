@@ -281,6 +281,11 @@ body[data-public-design="vivid"] #main .bau-end-cta {
 }
 body[data-public-design="vivid"] #main .bau-end-cta .button { flex-shrink: 0; }
 
+/* Preserve the mobile-app promo's original light action on its dark panel. */
+body[data-public-design="vivid"] #main .knaba-home-mobile .button { background: #d6f381; color: #133c34; }
+body[data-public-design="vivid"] #main .knaba-home-mobile .button:hover { background: #eefcc2; }
+body[data-public-design="vivid"] #main .knaba-home-mobile .button:focus-visible { outline: 3px solid #ffe98e; outline-offset: 4px; }
+
 /* Supporting pages and the existing enquiry stay calm and easy to scan. */
 body[data-public-design="vivid"] #main .page-intro { position: relative; isolation: isolate; }
 body[data-public-design="vivid"] #main .page-intro::before {

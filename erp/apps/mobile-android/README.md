@@ -1,6 +1,6 @@
 # KNABA DE Android
 
-Actual Kotlin application, package `de.knaba.mobile`, min API 26 / compile and target API 36. Java 17, Gradle 8.13, Android Gradle Plugin 8.13.0, Kotlin 2.2.20 are pinned. No boot receiver, no sticky hidden GPS restart, no background-location permission. Location foreground service starts only from a visible activity after explicit activation. Android Keystore AES-GCM protects device credentials and the ordered durable offline queue.
+Actual Kotlin application, package `de.knaba.mobile`, min API 31 / compile and target API 36. Java 17, Gradle 8.13, Android Gradle Plugin 8.13.0, Kotlin 2.2.20 are pinned. No boot receiver, no sticky hidden GPS restart, no background-location permission. Location foreground service starts only from a visible activity after explicit activation. Android Keystore AES-GCM protects device credentials and the ordered durable offline queue.
 
 Install Gradle 8.13 and Android SDK 36 then run `gradle --no-daemon :app:assembleDebug` from this directory. Production signing must use KNABA DE-controlled stable key; no fabricated release signing is included. Run `apksigner verify --print-certs app/build/outputs/apk/debug/app-debug.apk`, record SHA-256 and install on a physical approved test device. See `docs/MOBILE.md` for contract and field tests. Build and physical tests remain NOT_RUN until the recorded checks actually execute.
 
@@ -13,3 +13,8 @@ Explicit GPS activation requires fine-location permission, Android13+ notificati
 Every vault/API instance shares an authentication generation fence. Logout invalidates pending work before clearing credentials; request responses, enrollment, queue acknowledgments, summary publication and location queue writes from an older generation cannot modify a new account. Re-enrollment requires sign-out first. Device credentials remain Android Keystore-protected; no plaintext token fallback was added.
 
 Run `bash scripts/test-localization.sh` for actual XML catalog/format/reference checks plus36 compiled Java locale, display-clock and delayed-response generation regressions. Run `bash scripts/test-vectors.sh` for the unchanged16 geofence vectors. Both are CPU/JVM checks, not Android-runtime, APK, physical GPS or provider acceptance. The current localization/auth-generation Kotlin source needs a fresh hosted Android compile; historical APKs do not prove this source.
+
+
+## KNABA Mobile workspace handoff
+
+The app keeps its existing native device enrollment, offline work-time queue and explicit GPS controls. A new public **KNABA website HTTPS origin** (separate from the existing ERP device origin) opens the mobile role entry \`/app/\` or \`/konto/\` in the OS browser. \`/console\` uses the existing ERP origin, if configured. No device bearer token, Android Keystore material or GPS consent is passed to a browser session. Roles and browser authentication are enforced by their respective servers. Website and ERP identity are **not yet unified**. Site-origin preference is non-secret and can be updated after a hosting move. The Android app still requires its own server enrollment to use shift/location functions.
