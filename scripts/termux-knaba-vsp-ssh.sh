@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# KNABA physical server: one-time setup from Termux on the server's Wi-Fi.
+# KNABA physical server: setup from any Internet connection via Cloudflare Access.
 # Creates TWO PHONE-LOCAL private keys with no passphrase for passwordless login.
 # Keep the phone locked. Never share files without the .pub suffix.
 # Server identity and addresses verified on 2026-10-28 via authenticated SentinelX.
@@ -9,11 +9,12 @@ umask 077
 die() { printf 'ПОМИЛКА: %s\n' "$*" >&2; exit 1; }
 command -v pkg >/dev/null || die 'Запустіть цей файл у Termux на телефоні.'
 [[ -t 0 ]] || die 'Запустіть bash файл у відкритому терміналі, не через pipe.'
-printf '%s\n' 'Перший запуск: телефон і сервер мають бути в одній Wi-Fi мережі.'
+printf '%s\n' 'Підключення через інтернет: ssh-knaba.vsp.rest. Спільний Wi-Fi не потрібний.'
+printf '%s\n' 'Потрібні працюючий сервер і його Cloudflare Tunnel; offline-сервер недоступний.'
 printf '%s\n' 'Нові ключі будуть БЕЗ passphrase, тільки у приватній папці Termux.'
 printf '%s\n' 'Пароль knaba потрібен для початкового входу та sudo. Введення невидиме.'
-if ! command -v ssh >/dev/null || ! command -v python >/dev/null; then
-  pkg install -y openssh python
+if ! command -v ssh >/dev/null || ! command -v python >/dev/null || ! command -v cloudflared >/dev/null; then
+  pkg install -y openssh python cloudflared
 fi
 
 sshdir="$HOME/.ssh"
@@ -68,11 +69,14 @@ Host knaba knaba-lan vsp vsp-lan
     ForwardAgent no
     ServerAliveInterval 30
     ServerAliveCountMax 3
-    ConnectTimeout 10
 Host knaba vsp
-    HostName 100.109.95.101
+    HostName ssh-knaba.vsp.rest
+    ProxyCommand cloudflared access ssh --hostname %h
+    ConnectTimeout 180
 Host knaba-lan vsp-lan
     HostName 192.168.188.154
+    ProxyCommand none
+    ConnectTimeout 10
 Host knaba knaba-lan
     User knaba
     IdentityFile ~/.ssh/id_ed25519_knaba_phone
@@ -137,37 +141,32 @@ pub_knaba=$(cat "$sshdir/id_ed25519_knaba_phone.pub")
 pub_vsp=$(cat "$sshdir/id_ed25519_vsp_phone.pub")
 # Both remote login shells are /bin/bash (verified). %q quotes command and data.
 printf -v remote_cmd 'sudo bash -c %q bash %q %q' "$REMOTE_INSTALL" "$pub_knaba" "$pub_vsp"
+printf '\n%s\n' 'У браузері пройдіть Cloudflare Access із дозволеною поштою та кодом. Потім поверніться до Termux.'
+printf '%s\n' 'Якщо браузер не відкриється автоматично, відкрийте посилання, яке покаже cloudflared.'
+# Login separately so the SSH handshake timeout does not expire during OTP.
+# Suppress stdout because access login may print the application token there.
+if ! cloudflared access login https://ssh-knaba.vsp.rest >/dev/null; then
+  die 'Вхід Cloudflare Access не завершено. Ключі збережені; повторіть запуск після авторизації.'
+fi
 printf '\n%s\n' 'Встановлення тільки ПУБЛІЧНИХ ключів через knaba. Введіть пароль, якщо буде запит.'
-ssh -F "$conf" -o PreferredAuthentications=publickey,password -o PasswordAuthentication=yes -tt knaba-lan "$remote_cmd"
+if ! ssh -F "$conf" -o PreferredAuthentications=publickey,password -o PasswordAuthentication=yes -tt knaba "$remote_cmd"; then
+  die 'SSH через інтернет не завершився. Ключі збережені на телефоні. Якщо Tunnel down/1033/502 або timeout — перевірте інтернет і cloudflared на самому сервері. Паролі й приватні ключі в чат не надсилайте.'
+fi
 
 for u in knaba vsp; do
   # Test the same main SSH config used by the short commands, including any
-  # pre-existing user options. Do not switch Tailscale on a failed check.
-  if ! result=$(ssh -o BatchMode=yes "$u-lan" 'id -un'); then
-    die "Вхід $u-lan не пройшов. Tailscale SSH не змінено. Для діагностики: ssh -F ~/.ssh/knaba-vsp.conf $u-lan"
+  # pre-existing user options. Both checks use the public Access hostname.
+  if ! result=$(ssh -o BatchMode=yes "$u" 'id -un'); then
+    die "Вхід $u ключем не пройшов. Для діагностики: ssh -F ~/.ssh/knaba-vsp.conf $u"
   fi
-  [[ "$result" == "$u" ]] || die "Перевірка входу $u не пройшла. Tailscale SSH не змінено."
-  printf 'ПЕРЕВІРЕНО: %s — вхід ключем через Wi-Fi без пароля.\n' "$u"
+  [[ "$result" == "$u" ]] || die "Перевірка входу $u не пройшла."
+  printf 'ПЕРЕВІРЕНО: %s — вхід ключем через Cloudflare, без SSH-пароля.\n' "$u"
 done
 
-# Only after BOTH key logins succeed, stop the alternate SSH implementation
-# intercepting Tailscale port 22. VPN connectivity and other prefs stay intact.
-printf '\n%s\n' 'Обидва ключі працюють. Перемикаю Tailscale на стандартний OpenSSH.'
-printf '%s\n' 'sudo може ще раз запитати пароль knaba.'
-ssh -F "$conf" -tt knaba-lan 'sudo tailscale set --ssh=false'
-
-remote_ok=yes
-for u in knaba vsp; do
-  if result=$(ssh -o BatchMode=yes "$u" 'id -un') && [[ "$result" == "$u" ]]; then
-    printf 'ПЕРЕВІРЕНО: %s — вхід через Tailscale.\n' "$u"
-  else
-    remote_ok=no
-    printf 'НЕ ПЕРЕВІРЕНО: %s через Tailscale. Увімкніть Tailscale на телефоні й перевірте доступ до сервера.\n' "$u"
-  fi
-done
-printf '\n%s\n' 'Wi-Fi: ssh knaba-lan або ssh vsp-lan'
-printf '%s\n' 'Через Tailscale: ssh knaba або ssh vsp'
+printf '\n%s\n' 'Через будь-який інтернет: ssh knaba або ssh vsp'
+printf '%s\n' 'Локальні необов’язкові команди: ssh knaba-lan або ssh vsp-lan'
 printf '%s\n' 'Root: ssh knaba, потім sudo -i (потрібен пароль knaba).'
 printf '%s\n' 'У vsp пароль заблокований: це не заважає входу ключем з поточним UsePAM=yes, але sudo може вимагати окремого налаштування.'
-printf '%s\n' 'Після налаштування перевірте ssh knaba і ssh vsp з ВИМКНЕНИМ Wi-Fi телефона.'
-[[ "$remote_ok" == yes ]] || exit 2
+printf '%s\n' 'Cloudflare може періодично просити браузерний вхід/код після завершення Access-сесії.'
+printf '%s\n' 'Якщо не встигли ввести код: cloudflared access login https://ssh-knaba.vsp.rest >/dev/null'
+printf '%s\n' 'Після налаштування перевірте ssh knaba і ssh vsp також через мобільну мережу.'
