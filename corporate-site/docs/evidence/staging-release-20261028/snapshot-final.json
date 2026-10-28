@@ -1,0 +1,8 @@
+{
+  "time": "2026-10-28T08:27:58.519112+00:00",
+  "source": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "environment": "clean isolated git worktree",
+  "command": "node scripts/verify-snapshot.mjs",
+  "exit_code": 0,
+  "note": "Earlier run rejected a dirty development tree; no checks were bypassed."
+}

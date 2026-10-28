@@ -7,10 +7,15 @@
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
   "cssGzip": 40949,
-  "allEmittedJsGzip": 195116,
+  "allEmittedJsGzip": 222536,
   "assets": [
     {
       "name": "_astro/AdminControlCenter.CxZYoEad.js",
+      "bytes": 15228,
+      "gzip": 5893
+    },
+    {
+      "name": "_astro/AdminControlCenter.Die-Y1pT.js",
       "bytes": 15228,
       "gzip": 5893
     },
@@ -135,12 +140,22 @@
       "gzip": 3483
     },
     {
+      "name": "_astro/PublicReviews.DpQeOvv1.js",
+      "bytes": 8667,
+      "gzip": 3318
+    },
+    {
       "name": "_astro/ServiceFinder.rfKo1-F4.js",
       "bytes": 11064,
       "gzip": 4866
     },
     {
       "name": "_astro/SiteStudio.C7hESLX_.js",
+      "bytes": 38615,
+      "gzip": 12768
+    },
+    {
+      "name": "_astro/SiteStudio.Cfi_LCuW.js",
       "bytes": 38615,
       "gzip": 12768
     },
@@ -213,6 +228,11 @@
       "name": "_astro/request-id.BT2U5kLe.js",
       "bytes": 525,
       "gzip": 350
+    },
+    {
+      "name": "_astro/reviews.BK4RiOmH.js",
+      "bytes": 15119,
+      "gzip": 5441
     },
     {
       "name": "_astro/reviews.BkvJoBCK.css",
@@ -290,7 +310,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "cb3d8a86a52d85e1fbca6a17981a76598558b976d18ed67222e4a3f88dffa9eb",
+  "artifactSha256": "2cbe7dc24a5605374d343a74355f7842ccc6bd353bc87ad7cc2cd07621db83da",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

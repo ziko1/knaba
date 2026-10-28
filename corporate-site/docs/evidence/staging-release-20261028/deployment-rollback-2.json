@@ -1,0 +1,142 @@
+{
+  "source": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "started_at": "2026-10-28T08:33:18.187616+00:00",
+  "environment": "https://kneba.vsp.rest",
+  "customer_production": "NOT_TOUCHED",
+  "switched": true,
+  "previous_source": "306feaec00eb78fd620412de12208ed8ee45f029",
+  "archive_sha256": "7e4dfe6d097616023da8482fc3a90f60fb15ecfe5bd460d3c6b864f5a65029dd",
+  "client_artifact_sha256": "67459b81c58f45058f6184c282f78392d3f94ab70b94d86945eeca809f3117e0",
+  "config_sha256": {
+    "docker-compose.yml": "6883e120f521cf9251cf3221027cd8b82e609ab0d028511484ac32688f722604",
+    "config/site.env": "485afd95a4977182b9899c35ed0809345262581d8b8c78ec286c5a649bc48230"
+  },
+  "image_id": "sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205",
+  "backup_sha256": "6ff65987a86b948f987109288081686b8d2c175332ffd3c3799f06ad1f9fa1d9",
+  "backup_bytes": 311296,
+  "before": {
+    "integrity": "ok",
+    "foreign_key_errors": 0,
+    "counts": {
+      "assistant_conversations": 0,
+      "assistant_messages": 0,
+      "assistant_notifications": 0,
+      "assistant_offers": 0,
+      "cleaning_requests": 2,
+      "crm_contact_notes": 0,
+      "crm_contact_state": 0,
+      "portal_audit": 2,
+      "portal_rate_limits": 3,
+      "profiles": 0,
+      "public_reviews": 0,
+      "studio_ai_budget": 0,
+      "studio_pages": 0,
+      "studio_revisions": 0,
+      "vps_access_requests": 0,
+      "vps_account_invites": 0,
+      "vps_login_limits": 4,
+      "vps_oidc_links": 0,
+      "vps_oidc_states": 0,
+      "vps_owner_invites": 0,
+      "vps_schema_migrations": 10,
+      "vps_sessions": 1,
+      "vps_staff_grants": 0,
+      "vps_users": 1
+    },
+    "schema_sha256": "f94e70a0b14a807dff49f9996074b4b5bbee973d21da158760faa9fee3f3dbd2"
+  },
+  "files": {
+    "uploads_present": false,
+    "existing_qa_and_receipt_directories": "PRESERVED_UNCHANGED",
+    "static_assets": "previous immutable release retained"
+  },
+  "existing_staged_artifact": "REUSED_AFTER_EXACT_RAW_FILE_VERIFICATION",
+  "migration_files_sha256": {
+    "0003_absurd_bedlam.sql": "8f21e073faa31f0cd86f0d1616828c9cd89e16b25f0a30295d7476af67e306fe",
+    "0009_partner_access.sql": "824eb00ec092b7229513e615107eb457d08ba09f01ad5ca3296b7e6aaf567aab",
+    "0001_lazy_angel.sql": "fbb8d471e6061933e5c4af39f4e0eda4c5718a1677010d4613e6279f3052c881",
+    "0006_owner_invite.sql": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148",
+    "0005_public_reviews.sql": "f97b805b4a628ece1ddf8bf35c8987f48942e81b43d39b555cc55dbb0c30994b",
+    "0004_dusty_hiroim.sql": "c24b6689439fa8347f866da23264b2acb25d71c29600d80f89984698a0d457f6",
+    "0008_access_requests.sql": "263f28745f30c2cbb0e02e3384d694aa36fe8c937eab08807184eecb2c339b95",
+    "0007_account_invites.sql": "1bd5496f410e46c7a31c39ee98d1d9762320adebbe699af1de42651cb2173fb2",
+    "0002_tense_mother_askani.sql": "22741475744dcc916c216cb343bedb0c616d1517ab16dc5a9b90648eb27ad3b0",
+    "0000_needy_war_machine.sql": "443dfc2d55807c5ec5649758ca926ceca0de9be81292c9da09988b586debc230",
+    "meta/0000_snapshot.json": "fa7f918edddfac060682c009ee1eb0bfef79124cd0314c54a83a6c45596fbf61",
+    "meta/0008_snapshot.json": "0dff856ffa0da6d667e87e564696a3aaf1241ed894caba34731362132d13cabc",
+    "meta/0007_snapshot.json": "a9931e58ae1a2e284a463a6e5cb140979118576a645dd1ac5a9c05a07cca402b",
+    "meta/0006_snapshot.json": "d71a5017f33f52e0cdda2e5de5c32b4477297cca69f3eaf66a4bfb06a85a4f43",
+    "meta/0001_snapshot.json": "3f78940654d991e9cc1422428a75adb511700654568dada0f3999975ee1cb8fe",
+    "meta/0004_snapshot.json": "ad29064292404a10c0a21f46c73292aaaf068dd6e15d51925fa9466851b3c80d",
+    "meta/0002_snapshot.json": "d98c506ed2692e19f3634ddeb0e7ca5d64c1942f1b2be6bc653b8f6e899dcb4b",
+    "meta/0005_snapshot.json": "78f115d4c8b6ceeb97301548b143b305dac22d52a4dd8d215dfc8c8b8fd1d28b",
+    "meta/0003_snapshot.json": "7d9f1c8626f81ba7d858b8885d987545483887d1827b2475bfa9ad37b6e621bf",
+    "meta/_journal.json": "d86b8d3f6cb7417e1685503c1c9c2df86ecb64413d639832a0c15b924bf96a5a"
+  },
+  "isolated_restore": {
+    "restored_runtime": "PASS",
+    "results": [
+      {
+        "path": "/readyz",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/api/crm/contacts",
+        "status": 401,
+        "expected": 401
+      },
+      {
+        "path": "/ber",
+        "status": 308,
+        "expected": 308
+      },
+      {
+        "path": "/jobs",
+        "status": 308,
+        "expected": 308
+      }
+    ]
+  },
+  "restore_state": {
+    "integrity": "ok",
+    "foreign_key_errors": 0,
+    "counts": {
+      "assistant_conversations": 0,
+      "assistant_messages": 0,
+      "assistant_notifications": 0,
+      "assistant_offers": 0,
+      "cleaning_requests": 2,
+      "crm_contact_notes": 0,
+      "crm_contact_state": 0,
+      "portal_audit": 2,
+      "portal_rate_limits": 3,
+      "profiles": 0,
+      "public_reviews": 0,
+      "studio_ai_budget": 0,
+      "studio_pages": 0,
+      "studio_revisions": 0,
+      "vps_access_requests": 0,
+      "vps_account_invites": 0,
+      "vps_login_limits": 4,
+      "vps_oidc_links": 0,
+      "vps_oidc_states": 0,
+      "vps_owner_invites": 0,
+      "vps_schema_migrations": 10,
+      "vps_sessions": 1,
+      "vps_staff_grants": 0,
+      "vps_users": 1
+    },
+    "schema_sha256": "f94e70a0b14a807dff49f9996074b4b5bbee973d21da158760faa9fee3f3dbd2"
+  },
+  "result": "BLOCKED",
+  "error": "Public status mismatch /uk/",
+  "rollback": "PREVIOUS_CODE_RESTORED_WITH_CURRENT_DATABASE",
+  "rollback_ready_status": 503,
+  "finished_at": "2026-10-28T08:33:22.028988+00:00"
+}

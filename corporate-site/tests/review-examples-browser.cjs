@@ -1,26 +1,24 @@
 'use strict';
-// Isolated, read-only browser contract: no real submissions or owner account.
+// Isolated browser contract. Legacy filename retained; release 28.10 shows only
+// real moderated feedback or an honest empty state, never invented testimonials.
 const assert=require('node:assert/strict');
 const {mkdirSync}=require('node:fs');
 const {join}=require('node:path');
 const {normalizeLoopbackOrigin,runBrowserGate}=require('./browser-policy-gate.cjs');
-const labels={de:/frei erfunden/,en:/fictional text/,uk:/вигаданий текст/,ru:/вымышленный текст/};
+const locales=['de','en','uk','ru'];
 async function suite({browser,origin}){
   let cases=0;
-  for(const locale of Object.keys(labels)){
+  for(const locale of locales){
     for(const width of [320,390,768,1440]){
       const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
       try{
         await page.route('**/api/reviews',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({reviews:[],total:0})}));
         await page.goto(origin+(locale==='de'?'/':'/'+locale+'/'));
         await page.locator('#reviews').scrollIntoViewIfNeeded();
-        await page.locator('.reviews-examples').waitFor();
-        assert.equal(await page.locator('.review-example').count(),3);
-        for(const card of await page.locator('.review-example').all()){
-          assert.match(await card.locator('.review-example-badge').innerText(),labels[locale]);
-          assert.equal(await card.locator('time,[itemtype*="Review"]').count(),0);
-        }
-        assert.ok(await page.locator('.reviews-example-heading p').isVisible());
+        await page.locator('.reviews-empty').waitFor();
+        assert.equal(await page.locator('.review-card,.review-example,.reviews-examples').count(),0);
+        assert.ok((await page.locator('.reviews-empty').innerText()).trim().length>20);
+        assert.equal(await page.locator('.reviews-empty').getAttribute('role'),'status');
         assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
         await page.locator('.reviews-action button').focus();await page.keyboard.press('Enter');
         await page.locator('[name="displayName"]').waitFor({state:'visible'});
@@ -28,7 +26,7 @@ async function suite({browser,origin}){
         await page.locator('.reviews-action button').click();
         if(process.env.KNABA_SCREENSHOT_DIR&&locale==='uk'&&(width===390||width===1440)){
           mkdirSync(process.env.KNABA_SCREENSHOT_DIR,{recursive:true});
-          await page.locator('.reviews-examples').screenshot({path:join(process.env.KNABA_SCREENSHOT_DIR,'review-examples-'+width+'.png')});
+          await page.locator('.reviews-empty').screenshot({path:join(process.env.KNABA_SCREENSHOT_DIR,'review-empty-'+width+'.png')});
         }
         if(width===320){
           await page.addStyleTag({content:'html{font-size:200%!important}'});
@@ -43,7 +41,7 @@ async function suite({browser,origin}){
     await page.route('**/api/reviews',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({reviews:[{id:'fixture',displayName:'Synthetic QA fixture',company:'',relationship:'client',text:'Only this published fixture should be visible.',createdAt:'2026-10-26T12:00:00Z'}],total:1})}));
     await page.goto(origin+'/en/');await page.locator('#reviews').scrollIntoViewIfNeeded();
     await page.getByText('Synthetic QA fixture',{exact:true}).waitFor();
-    assert.equal(await page.locator('.review-example,.reviews-examples').count(),0);
+    assert.equal(await page.locator('.review-example,.reviews-examples,.reviews-empty').count(),0);
     assert.equal(await page.locator('.review-card').count(),1);cases++;
     await page.unroute('**/api/reviews');
     await page.route('**/api/reviews',route=>route.fulfill({status:503,body:'unavailable'}));
