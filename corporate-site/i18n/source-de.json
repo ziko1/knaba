@@ -898,7 +898,6 @@
       ]
     },
     "168afe12d379c228069f8a2f": {
-
       "kind": "text",
       "source": "Die Anmeldung kann technisch notwendige Cookies oder vergleichbare Sitzungstechniken des Anmeldedienstes verwenden. Soweit ein Zugriff auf Ihr Gerät für den ausdrücklich gewünschten Anmeldevorgang unbedingt erforderlich ist, richtet sich dieser nach § 25 Abs. 2 Nr. 2 TDDDG. Für die Verarbeitung personenbezogener Daten gilt zusätzlich die jeweilige Rechtsgrundlage der DSGVO. Optionale Analyse- oder Werbefunktionen sind damit nicht freigegeben.",
       "routes": [
@@ -1799,7 +1798,6 @@
         "/"
       ]
     },
-
     "2e3e63baeed15f89a5ecbb7e": {
       "kind": "text",
       "source": "Standort",
@@ -2700,7 +2698,6 @@
     "46f3a63cbd389562304510b2": {
       "kind": "text",
       "source": "Klären Sie anschließend, wer Zugang und Schutz der gereinigten Bereiche übernimmt. Wenn weitere Gewerke folgen, vereinbaren Sie die spätere Kontrolle beziehungsweise Nachreinigung separat. Der Abschluss der Reinigungsleistung bedeutet nicht, dass alle baulichen oder vertraglichen Fragen des Projekts erledigt sind.",
-
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
       ]
@@ -3601,7 +3598,6 @@
       "kind": "text",
       "source": "BAU + CLEAN",
       "routes": [
-
         "/"
       ]
     },
@@ -4502,7 +4498,6 @@
       ]
     },
     "73968dda7a310d864db95d46": {
-
       "kind": "text",
       "source": "Ob sich ein kleiner Einzelauftrag realisieren lässt, klären wir nach Ort, Anfahrt und gewünschtem Leistungsumfang.",
       "routes": [
@@ -5403,7 +5398,6 @@
       "source": "Nach der Endreinigung hilft eine gemeinsame Sichtkontrolle, das Ergebnis mit dem vereinbarten Auftrag abzugleichen. Sie schafft Klarheit für Bauleitung, Reinigungsteam und Auftraggeber. Diese Checkliste betrifft die Reinigungsleistung; sie ersetzt keine technische Prüfung, bauliche Abnahme oder Beurteilung der Arbeiten anderer Gewerke.",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
-
       ]
     },
     "8db26af74772ba560b1d1ce9": {
@@ -6304,7 +6298,6 @@
       "kind": "meta:og:description",
       "source": "KnaBa aus Berlin verbindet Baureinigung, Baustellenvorbereitung und Bauhilfsarbeiten. Wir sprechen direkt über Bauabschnitt, Objekt und benötigte Leistung.",
       "routes": [
-
         "/unternehmen/"
       ]
     },
@@ -7205,7 +7198,6 @@
         "/bauleistungen/bauhilfe/",
         "/bauleistungen/baureinigung/",
         "/bauleistungen/baustellenraeumung/",
-
         "/bauleistungen/bauzwischenreinigung/",
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
@@ -8106,7 +8098,6 @@
     "d9112fc9f07c47dddbac3f16": {
       "kind": "text",
       "source": "Quelle: https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
-
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
       ]
@@ -9007,7 +8998,6 @@
       ]
     },
     "f6981954d5c2338a71f7395e": {
-
       "kind": "text",
       "source": "Gehen Sie Raum für Raum vor und prüfen Sie nur die vereinbarten Aufgaben: beispielsweise Böden, zugängliche Oberflächen, Glas, Rahmen oder Sanitärausstattung. Eine feste Reihenfolge verhindert, dass kleine Nebenräume übersehen oder dieselben Bereiche mehrfach ohne klare Zuordnung beurteilt werden.",
       "routes": [
@@ -9446,4 +9436,3 @@
     "real-browser-and-screen-reader"
   ]
 }
-
