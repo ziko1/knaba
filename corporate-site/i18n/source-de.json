@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0cd813cb8d604a9105dc6f0fa8f2c06e019e44d7284095a018c5d7b826ce51a9",
+  "sourceDigest": "4bc8c39046e0b59336978ab2d2740ff73c352771d0261cf7631f1e54d0f9548d",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1001,
+  "unitCount": 1026,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -160,6 +160,13 @@
       "source": "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der lokalen Server-Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "02ce62ca6a741b7c2aa9320e": {
+      "kind": "attr:alt",
+      "source": "Illustration eines hellen Innenraums in der Bauendphase",
+      "routes": [
+        "/"
       ]
     },
     "03449cfd42ae11eb8bc65817": {
@@ -407,16 +414,16 @@
         "/datenschutz/"
       ]
     },
-    "09f4e9d0852197f448ce24e2": {
+    "09ea9c8fa339087736d148e7": {
       "kind": "text",
-      "source": "Ihr Bauprojekt hat einen direkten Ansprechpartner.",
+      "source": "Wenn auf der Baustelle mehrere Gewerke nacheinander arbeiten, bleiben Staub und lose Reste zurück. Wir klären, welche Bereiche zugänglich sind, welche Arbeiten schon abgeschlossen wurden und wann eine Zwischenreinigung hilft.",
       "routes": [
         "/"
       ]
     },
-    "0a30e693b5d6b694bfa6e7b9": {
+    "09f4e9d0852197f448ce24e2": {
       "kind": "text",
-      "source": "ERFAHRUNGEN / ZUSAMMENARBEIT",
+      "source": "Ihr Bauprojekt hat einen direkten Ansprechpartner.",
       "routes": [
         "/"
       ]
@@ -773,6 +780,13 @@
         "/bauleistungen/bauendreinigung/"
       ]
     },
+    "14c08dd32dbff7682232c5de": {
+      "kind": "text",
+      "source": "Bauzwischenreinigung ansehen",
+      "routes": [
+        "/"
+      ]
+    },
     "14cb74f61f57c9de8cbd6c7d": {
       "kind": "meta:og:description",
       "source": "Erzählen Sie von der Baustelle und dem Bauabschnitt. Wir prüfen die passende Baureinigung oder Zusatzleistung und klären die Konditionen persönlich.",
@@ -839,6 +853,13 @@
       "source": "Bitte klären Sie Anfahrt, Schlüssel oder Zutrittsfreigaben, Strom und Wasser sowie sichere Arbeitswege entsprechend dem Auftrag.",
       "routes": [
         "/faq/"
+      ]
+    },
+    "166b8703a7ffcf94f086590c": {
+      "kind": "text",
+      "source": "KONKRETE FRAGEN / BERLIN & BRANDENBURG",
+      "routes": [
+        "/"
       ]
     },
     "168afe12d379c228069f8a2f": {
@@ -931,6 +952,13 @@
       "source": "Gewerbebau & Sanierung",
       "routes": [
         "/planer/"
+      ]
+    },
+    "1a269adb322681b0d32ba3fa": {
+      "kind": "text",
+      "source": "Gewünschter Termin und ergänzende Arbeiten",
+      "routes": [
+        "/"
       ]
     },
     "1a4760358e6398ace2b5b318": {
@@ -1143,6 +1171,13 @@
       "source": "Grobreinigung: vereinbarte Bereiche freimachen",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
+      ]
+    },
+    "20725f10740ca082acc89e1f": {
+      "kind": "text",
+      "source": "Bauhelfer anfragen",
+      "routes": [
+        "/"
       ]
     },
     "207780de2356b6f96756fb55": {
@@ -1552,6 +1587,13 @@
         "/"
       ]
     },
+    "2a3912e355807e99d97e8741": {
+      "kind": "attr:alt",
+      "source": "Illustration eines gepflegten Innenbereichs mit Reinigungsgeräten zwischen Bauphasen",
+      "routes": [
+        "/"
+      ]
+    },
     "2a4a392b11e97f37423e3ed6": {
       "kind": "text",
       "source": "Welche zusätzlichen Bauarbeiten sind möglich?",
@@ -1571,6 +1613,13 @@
       "source": "<div class=\"aside-card\" data-astro-cid-hawopk5z><h2 data-astro-cid-hawopk5z>Bauprojekt anfragen</h2><p data-astro-cid-hawopk5z>Das Formular benötigt JavaScript. Sie erreichen uns über die oben angegebenen Kontaktdaten.</p></div>",
       "routes": [
         "/kontakt/"
+      ]
+    },
+    "2b0708ab386c8c2b225f00ee": {
+      "kind": "attr:alt",
+      "source": "Illustrative Szenen: Baustaub absaugen, Arbeitsbereiche schützen und Büro reinigen",
+      "routes": [
+        "/"
       ]
     },
     "2b335fa1efd5303aef90d5e4": {
@@ -1653,6 +1702,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "2cd247d8410186dace6fccf5": {
+      "kind": "text",
+      "source": "PROJEKTE / ZUSAMMENARBEIT",
+      "routes": [
+        "/"
       ]
     },
     "2d08090c860e77aab67146d0": {
@@ -1931,6 +1987,13 @@
         "/unternehmen/"
       ]
     },
+    "33e83e36418dac44ac00b968": {
+      "kind": "text",
+      "source": "Drei Situationen, in denen ein klar vereinbarter Leistungsumfang besonders wichtig ist. Wählen Sie Ihren Ausgangspunkt.",
+      "routes": [
+        "/"
+      ]
+    },
     "342725c180b6973405da61bb": {
       "kind": "text",
       "source": "9. Änderungen dieser Hinweise",
@@ -2072,6 +2135,13 @@
         "/"
       ]
     },
+    "3952fc0f1ce217889bd57828": {
+      "kind": "text",
+      "source": "Die Räume sind fast fertig, doch einzelne Gewerke arbeiten weiter? Wir klären, welche Bereiche freigegeben sind, welche Oberflächen besondere Pflege brauchen und wann die Reinigung stattfinden soll.",
+      "routes": [
+        "/"
+      ]
+    },
     "3953eccb002b6077252b6841": {
       "kind": "text",
       "source": "Rollen & Auftragsdaten",
@@ -2167,6 +2237,13 @@
       "source": "Zugang, Wasser und Strom vor Ort klären",
       "routes": [
         "/planer/"
+      ]
+    },
+    "3b42c62ac610ba4f0e504ebf": {
+      "kind": "text",
+      "source": "Für eine passende Projektanfrage helfen diese Angaben. Ein verbindlicher Preis entsteht erst nach individueller Prüfung und Vereinbarung.",
+      "routes": [
+        "/"
       ]
     },
     "3b549084ef2146a4f8edc351": {
@@ -2519,6 +2596,13 @@
         "/partner/"
       ]
     },
+    "4579b72a96dae03905eb7a8b": {
+      "kind": "text",
+      "source": "Zusammenarbeit beginnt mit Klarheit.",
+      "routes": [
+        "/"
+      ]
+    },
     "45deea0fcd775f99944e238f": {
       "kind": "text",
       "source": "Container, Zufahrt, Aufzug oder Tragewege und zuständigen Entsorger abstimmen.",
@@ -2629,6 +2713,13 @@
         "/unternehmen/"
       ]
     },
+    "47a5ee5654b47ab2e848356c": {
+      "kind": "text",
+      "source": "Sie kennen noch nicht alle Angaben? Beschreiben Sie zunächst, was bereits feststeht.",
+      "routes": [
+        "/"
+      ]
+    },
     "4818756098a7914079694e37": {
       "kind": "text",
       "source": "Was kann ich bei Fragen nach einem Einsatz tun?",
@@ -2648,6 +2739,13 @@
       "source": "Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Eigene Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Die fünf Partnerlogos werden direkt von dieser Website geladen; für deren Anzeige wird kein externer Bilddienst kontaktiert. Die Unternehmenszeichen gehören ihren jeweiligen Rechteinhabern. Externe Karten und Videos sind nicht eingebettet.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "48834a440fda4e976f23a9b2": {
+      "kind": "text",
+      "source": "Illustratives Bildmotiv",
+      "routes": [
+        "/"
       ]
     },
     "48dff4cdf7b230d2c90ff646": {
@@ -2768,6 +2866,7 @@
       "kind": "text",
       "source": "Projektanfrage vorbereiten",
       "routes": [
+        "/",
         "/berlin/",
         "/kontakt/",
         "/ratgeber/"
@@ -3015,6 +3114,13 @@
         "/planer/"
       ]
     },
+    "50d2903958fc363da1f09528": {
+      "kind": "text",
+      "source": "Was beeinflusst den Leistungsumfang?",
+      "routes": [
+        "/"
+      ]
+    },
     "50d81739111643a77ec080cf": {
       "kind": "meta:description",
       "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
@@ -3199,6 +3305,13 @@
         "/"
       ]
     },
+    "54da56e47e284430308ddb30": {
+      "kind": "text",
+      "source": "Der Übergabetermin rückt näher",
+      "routes": [
+        "/"
+      ]
+    },
     "54dd903fd96c4d2a289b7a32": {
       "kind": "text",
       "source": "Zusätzliche Leistungen sollten vor der Ausführung mit Umfang, Verantwortlichen, Zeit und Kosten freigegeben werden.",
@@ -3232,6 +3345,13 @@
       "source": "Schadstoffverdacht, Schimmel, unbekannte Stäube und ungesicherte Höhenarbeiten gehören nicht in einen gewöhnlichen Reinigungsauftrag. Informieren Sie die Bauleitung; die Gefährdung und erforderliche Fachkunde müssen zuerst geklärt werden.",
       "routes": [
         "/ratgeber/"
+      ]
+    },
+    "57285b74ae425be0c34faf84": {
+      "kind": "attr:alt",
+      "source": "Illustration von Werkzeug und geschützten Arbeitsbereichen auf einer Baustelle",
+      "routes": [
+        "/"
       ]
     },
     "57b9ea38815b3f4b158d3c5b": {
@@ -3510,6 +3630,20 @@
       "source": "Keine Ausführung ohne geklärte statische und technische Voraussetzungen. Brandschutzabschottungen, Abdichtungen und Installationen sind eigenständige Leistungen; ihre Eignung und Dokumentation werden mit dem verantwortlichen Fachbetrieb festgelegt.",
       "routes": [
         "/bauleistungen/durchbrueche/"
+      ]
+    },
+    "614aceb6e70921a36277b175": {
+      "kind": "text",
+      "source": "ANFRAGE VORBEREITEN",
+      "routes": [
+        "/"
+      ]
+    },
+    "616a96d08714fa3ca63599fa": {
+      "kind": "text",
+      "source": "Ob Arbeitsbereiche vorbereitet oder Materialien im vereinbarten Umfang bewegt werden sollen: Sagen Sie uns, welche Aufgaben anstehen, welche Zugänge möglich sind und wer vor Ort koordiniert.",
+      "routes": [
+        "/"
       ]
     },
     "616e1129ff60721b1e95968f": {
@@ -3915,6 +4049,13 @@
       "source": "Für Ihr Objekt vorbereiten",
       "routes": [
         "/planer/"
+      ]
+    },
+    "6bc6e89c8a7992bf1892c971": {
+      "kind": "text",
+      "source": "Auf der Baustelle fehlt eine helfende Hand",
+      "routes": [
+        "/"
       ]
     },
     "6c37fab6ffecf34dce58401f": {
@@ -4512,6 +4653,13 @@
         "/unternehmen/"
       ]
     },
+    "7c0fbfb58c33446eb2c72230": {
+      "kind": "text",
+      "source": "Das zählt bei Ihrer Anfrage",
+      "routes": [
+        "/"
+      ]
+    },
     "7c805da80ead0c3d3e54829b": {
       "kind": "text",
       "source": "Sinnvoll ist eine gemeinsame Sichtkontrolle der vereinbarten Bereiche. Restarbeiten und erneute Verschmutzung durch spätere Gewerke werden getrennt erfasst; die Reinigung ersetzt keine technische Bauabnahme.",
@@ -4873,13 +5021,6 @@
     "8688bb0676d6ea00f089acef": {
       "kind": "text",
       "source": "E-Mail (nicht öffentlich)",
-      "routes": [
-        "/"
-      ]
-    },
-    "86cec9ccc7506af08d81498d": {
-      "kind": "text",
-      "source": "Ihre Erfahrung mit KnaBa zählt. Teilen Sie, wie die Zusammenarbeit an Ihrem Projekt verlaufen ist.",
       "routes": [
         "/"
       ]
@@ -5545,6 +5686,13 @@
         "/bauleistungen/bauendreinigung/"
       ]
     },
+    "946d1aee724130381dc333e4": {
+      "kind": "text",
+      "source": "Bauendreinigung planen",
+      "routes": [
+        "/"
+      ]
+    },
     "9544b20d99d7853b3b16651b": {
       "kind": "text",
       "source": "Im Achterkastell 39",
@@ -5770,6 +5918,13 @@
       "routes": [
         "/",
         "/faq/"
+      ]
+    },
+    "9b45e0640f56e8e5759f8378": {
+      "kind": "text",
+      "source": "Baureinigung, Baustellenvorbereitung oder regelmäßige Pflege: Entscheidend ist, dass Aufgaben, Zugang und Termine zu Ihrem Objekt passen.",
+      "routes": [
+        "/"
       ]
     },
     "9be75c50edd27ee637b7c62a": {
@@ -6662,6 +6817,13 @@
         "/konto/"
       ]
     },
+    "b87cbd1f5626aefa732d5d19": {
+      "kind": "text",
+      "source": "Zugang, freie Arbeitsbereiche und andere Gewerke",
+      "routes": [
+        "/"
+      ]
+    },
     "b97aaf1df6150edf9b4ecc93": {
       "kind": "text",
       "source": "Mengen, Qualitätsanforderungen, Ausschlüsse und Übergabe in einer Leistungsbeschreibung festhalten.",
@@ -7255,6 +7417,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "c9995cb11eca9db0c1a14f18": {
+      "kind": "text",
+      "source": "Zwischen den Gewerken muss Platz bleiben",
+      "routes": [
+        "/"
       ]
     },
     "c9fc497394f486f636a641d6": {
@@ -7977,6 +8146,13 @@
         "/datenschutz/"
       ]
     },
+    "dd1bf76817a85d3b6ac46cb1": {
+      "kind": "text",
+      "source": "Bauphase, Verschmutzung und empfindliche Materialien",
+      "routes": [
+        "/"
+      ]
+    },
     "dd4fc5523ce61d788d64a5a1": {
       "kind": "text",
       "source": "Ergebnis und Übergabe",
@@ -8121,13 +8297,6 @@
       "source": "Nutzen Sie diese Kontaktdaten auch für Auskunfts-, Berichtigungs- oder Löschungsanliegen. Bitte teilen Sie uns nur die Angaben mit, die wir zur Zuordnung und Bearbeitung Ihres Anliegens benötigen.",
       "routes": [
         "/datenschutz/"
-      ]
-    },
-    "e17c659d2f1f41ae6a13d1a2": {
-      "kind": "text",
-      "source": "Rückmeldungen zur Zusammenarbeit.",
-      "routes": [
-        "/"
       ]
     },
     "e24299ecb637f660f24b9b08": {
@@ -9042,6 +9211,13 @@
       "source": "Etwa Montage-, Betonbearbeitungs- oder Abbruchanfragen können geprüft werden. Ausführung und fachliche Zuständigkeit stehen erst nach technischer und rechtlicher Klärung fest.",
       "routes": [
         "/faq/"
+      ]
+    },
+    "fdf762e87d95e943d3ccaaa2": {
+      "kind": "text",
+      "source": "Fläche, Art und Zustand des Objekts",
+      "routes": [
+        "/"
       ]
     },
     "fe2bc27ac97c7db03a6dd1b3": {

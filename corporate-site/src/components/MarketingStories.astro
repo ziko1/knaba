@@ -5,10 +5,10 @@ const {locale='de'}=Astro.props as {locale:ReviewLocale};
 const t=marketingStories[locale];
 const prefix=locale==='de'?'':'/'+locale;
 const heroAlt={
-  de:'Illustrative Szenen: Baustaub absaugen, Arbeitsbereiche schützen und Büro reinigen',
-  en:'Illustrative scenes: vacuuming construction dust, protecting surfaces and cleaning an office',
-  uk:'Ілюстративні сцени: очищення будівельного пилу, захист поверхонь і прибирання офісу',
-  ru:'Иллюстративные сцены: удаление строительной пыли, защита поверхностей и уборка офиса',
+  de:'Illustrative Szenen: Baustaub absaugen, Arbeitsbereiche schützen und Zwischenreinigung auf Baustellen',
+  en:'Illustrative scenes: vacuuming construction dust, protecting surfaces and cleaning between construction stages',
+  uk:'Ілюстративні сцени: очищення будівельного пилу, захист поверхонь і міжетапне прибирання',
+  ru:'Иллюстративные сцены: удаление строительной пыли, защита поверхностей и межэтапная уборка',
 }[locale];
 const imageCaption={de:'Illustratives Bildmotiv',en:'Illustrative visual',uk:'Ілюстративне зображення',ru:'Ілюстративне зображення'}[locale];
 const eyebrow={

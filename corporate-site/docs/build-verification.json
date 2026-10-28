@@ -6,13 +6,13 @@
   "indexMode": "VSP_PUBLIC",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40949,
-  "allEmittedJsGzip": 194007,
+  "cssGzip": 40934,
+  "allEmittedJsGzip": 192816,
   "assets": [
     {
-      "name": "_astro/AdminControlCenter.D5RorKeK.js",
-      "bytes": 14236,
-      "gzip": 5648
+      "name": "_astro/AdminControlCenter.2qnqoIKv.js",
+      "bytes": 17693,
+      "gzip": 6694
     },
     {
       "name": "_astro/AssistantCaptcha.6JFtqcaw.js",
@@ -95,9 +95,9 @@
       "gzip": 11134
     },
     {
-      "name": "_astro/Layout.DTHz471I.css",
-      "bytes": 60637,
-      "gzip": 13944
+      "name": "_astro/Layout.EChUDBUv.css",
+      "bytes": 60375,
+      "gzip": 13918
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_0_lang.CRsA9Vh8.js",
@@ -130,9 +130,9 @@
       "gzip": 3780
     },
     {
-      "name": "_astro/PublicReviews.BkXhlKme.js",
-      "bytes": 9331,
-      "gzip": 3483
+      "name": "_astro/PublicReviews.B5zVXfU8.js",
+      "bytes": 8731,
+      "gzip": 3331
     },
     {
       "name": "_astro/ServiceFinder.rfKo1-F4.js",
@@ -145,14 +145,14 @@
       "gzip": 2701
     },
     {
-      "name": "_astro/SiteStudio.DF4Wt3pw.js",
+      "name": "_astro/SiteStudio.Dzot_oUj.js",
       "bytes": 38615,
       "gzip": 12769
     },
     {
-      "name": "_astro/admin.DZEqblwF.css",
-      "bytes": 7323,
-      "gzip": 2346
+      "name": "_astro/admin.DCtMD0_t.css",
+      "bytes": 8064,
+      "gzip": 2529
     },
     {
       "name": "_astro/client.BmCSL1aC.js",
@@ -215,14 +215,14 @@
       "gzip": 350
     },
     {
-      "name": "_astro/reviews.BkvJoBCK.css",
-      "bytes": 8221,
-      "gzip": 2215
+      "name": "_astro/reviews.BFQVI05f.js",
+      "bytes": 15510,
+      "gzip": 5716
     },
     {
-      "name": "_astro/reviews.DPXMaZl-.js",
-      "bytes": 20859,
-      "gzip": 7801
+      "name": "_astro/reviews.CjqtbtBr.css",
+      "bytes": 7515,
+      "gzip": 2043
     },
     {
       "name": "_astro/rolldown-runtime.DK3Fl9T5.js",
@@ -288,9 +288,14 @@
       "name": "illustrations/carousel/zusatzarbeiten.webp",
       "bytes": 56860,
       "gzip": 56898
+    },
+    {
+      "name": "images/knaba-editorial-cleaning-triptych.webp",
+      "bytes": 119268,
+      "gzip": 119326
     }
   ],
-  "artifactSha256": "0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73",
+  "artifactSha256": "74d39d51db67f0733d2c895e2977113d73c28497d8c43b4e14fb7fa9ce236513",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

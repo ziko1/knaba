@@ -1,0 +1,18 @@
+---
+import type {ConstructionLocale} from '../data/construction-offers';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const prefix=locale==='de'?'':'/'+locale;
+const copy={
+de:{eyebrow:'ANFRAGE VORBEREITEN',title:'Was beeinflusst den Leistungsumfang?',lead:'Für eine passende Projektanfrage helfen diese Angaben. Ein verbindlicher Preis entsteht erst nach individueller Prüfung und Vereinbarung.',items:['Fläche, Art und Zustand des Objekts','Bauphase, Verschmutzung und empfindliche Materialien','Zugang, freie Arbeitsbereiche und andere Gewerke','Gewünschter Termin und ergänzende Arbeiten'],action:'Projektanfrage vorbereiten',note:'Sie kennen noch nicht alle Angaben? Beschreiben Sie zunächst, was bereits feststeht.'},
+en:{eyebrow:'PREPARE YOUR ENQUIRY',title:'What determines the scope of work?',lead:'These details help prepare a project enquiry. Pricing is agreed only after an individual assessment.',items:['Area, type and condition of the property','Construction phase, dirt and sensitive materials','Access, available areas and other trades','Preferred date and additional work'],action:'Prepare your project enquiry',note:'Missing some details? Start with what you already know.'},
+uk:{eyebrow:'ПІДГОТОВКА ЗАПИТУ',title:'Від чого залежить обсяг і вартість?',lead:'Ці відомості допоможуть підготувати запит. Остаточну вартість визначають після індивідуального погодження.',items:['Площа, тип і стан об’єкта','Етап будівництва, забруднення та делікатні матеріали','Доступ, вільні зони та інші підрядники','Бажаний строк і додаткові роботи'],action:'Підготувати запит',note:'Не знаєте всіх деталей? Почніть із того, що вже відомо.'},
+ru:{eyebrow:'ПОДГОТОВКА ЗАПРОСА',title:'От чего зависят объём и стоимость?',lead:'Эти сведения помогут подготовить запрос. Окончательная стоимость определяется после индивидуального согласования.',items:['Площадь, тип и состояние объекта','Этап строительства, загрязнения и деликатные материалы','Доступ, свободные зоны и другие подрядчики','Желаемые сроки и дополнительные работы'],action:'Подготовить запрос',note:'Не знаете всех деталей? Начните с того, что уже известно.'}
+}[locale];
+---
+<section class="container bau-section" aria-labelledby="knaba-scope-title">
+ <div class="bau-heading"><p class="bau-kicker">{copy.eyebrow}</p><h2 id="knaba-scope-title">{copy.title}</h2><p>{copy.lead}</p></div>
+ <div class="bau-card-grid">{copy.items.map((item,i)=><div class="bau-card"><span class="bau-ordinal" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><p>{item}</p></div>)}</div>
+ <p class="knaba-scope-note">{copy.note}</p>
+ <a class="button button-dark" href={prefix+'/planer/'}>{copy.action} <span aria-hidden="true">→</span></a>
+</section>
+
