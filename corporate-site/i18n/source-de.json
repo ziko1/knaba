@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0de25aa9db27b6ceb2a030217e61f9280bef2d2b18952adddc5aad131a0808d4",
+  "sourceDigest": "14012be3f482afd10cb04e8cbfd16795e34c40f328b61a279a7ba33a9f171185",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1023,
+  "unitCount": 1046,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -304,6 +304,13 @@
         "/datenschutz/"
       ]
     },
+    "052aadc2d52c439ff6469c1f": {
+      "kind": "text",
+      "source": "Wann ist eine Bauzwischenreinigung sinnvoll? Welche Angaben machen Angebote vergleichbar? Und worauf kommt es bei der sauberen Bauübergabe an? Drei Praxisleitfäden helfen dabei, Flächen, Bauphase und Anforderungen klar abzustimmen.",
+      "routes": [
+        "/"
+      ]
+    },
     "0567e060ef8ecaab269d5c37": {
       "kind": "text",
       "source": "Unsere Partner im Überblick | KnaBa",
@@ -324,6 +331,13 @@
       "routes": [
         "/bauleistungen/baureinigung/",
         "/planer/"
+      ]
+    },
+    "0605e7f98371ccc11347ff70": {
+      "kind": "text",
+      "source": "Ob Grob-, Zwischen-, Fein- oder Endreinigung: Wir klären Baufortschritt, Zugänge und den gewünschten Übergabetermin vor der Beauftragung.",
+      "routes": [
+        "/"
       ]
     },
     "06e56d557a99139d0681758c": {
@@ -456,6 +470,13 @@
         "/faq/"
       ]
     },
+    "0c1189be3821985e2568255f": {
+      "kind": "attr:aria-label",
+      "source": "Praktische Ratgeber für Bauprojekte",
+      "routes": [
+        "/"
+      ]
+    },
     "0c5f0423dcf4af7a33213565": {
       "kind": "text",
       "source": "1. Grobreinigung: vereinbarte Bereiche freimachen",
@@ -566,6 +587,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "0e8dfaaff1041c7863234fd4": {
+      "kind": "text",
+      "source": "Bauhilfe mit klarem Leistungsumfang",
+      "routes": [
+        "/"
       ]
     },
     "0edaa848f6bb2507739f0cf6": {
@@ -870,6 +898,7 @@
       ]
     },
     "168afe12d379c228069f8a2f": {
+
       "kind": "text",
       "source": "Die Anmeldung kann technisch notwendige Cookies oder vergleichbare Sitzungstechniken des Anmeldedienstes verwenden. Soweit ein Zugriff auf Ihr Gerät für den ausdrücklich gewünschten Anmeldevorgang unbedingt erforderlich ist, richtet sich dieser nach § 25 Abs. 2 Nr. 2 TDDDG. Für die Verarbeitung personenbezogener Daten gilt zusätzlich die jeweilige Rechtsgrundlage der DSGVO. Optionale Analyse- oder Werbefunktionen sind damit nicht freigegeben.",
       "routes": [
@@ -966,6 +995,13 @@
       "source": "Gewerbebau & Sanierung",
       "routes": [
         "/planer/"
+      ]
+    },
+    "1a269adb322681b0d32ba3fa": {
+      "kind": "text",
+      "source": "Gewünschter Termin und ergänzende Arbeiten",
+      "routes": [
+        "/"
       ]
     },
     "1a4760358e6398ace2b5b318": {
@@ -1400,6 +1436,7 @@
       "kind": "text",
       "source": "Welche Angaben machen Angebote zur Baureinigung vergleichbar? Fläche, Bauzustand, Materialien, Zugang und Zusatzarbeiten strukturiert vorbereiten.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -1608,6 +1645,13 @@
         "/kontakt/"
       ]
     },
+    "2af928e673722ebd6217da57": {
+      "kind": "text",
+      "source": "DARUM KNABA",
+      "routes": [
+        "/"
+      ]
+    },
     "2b335fa1efd5303aef90d5e4": {
       "kind": "text",
       "source": "Baufein- und Endreinigung",
@@ -1748,6 +1792,14 @@
         "/bauleistungen/bauzwischenreinigung/"
       ]
     },
+    "2df46930e65b61ac8a2bba3b": {
+      "kind": "text",
+      "source": "Baustellenvorbereitung und unterstützende Arbeiten lassen sich ergänzend anfragen. Fach- oder genehmigungspflichtige Leistungen werden gesondert geprüft.",
+      "routes": [
+        "/"
+      ]
+    },
+
     "2e3e63baeed15f89a5ecbb7e": {
       "kind": "text",
       "source": "Standort",
@@ -2211,6 +2263,13 @@
         "/planer/"
       ]
     },
+    "3b42c62ac610ba4f0e504ebf": {
+      "kind": "text",
+      "source": "Für eine passende Projektanfrage helfen diese Angaben. Ein verbindlicher Preis entsteht erst nach individueller Prüfung und Vereinbarung.",
+      "routes": [
+        "/"
+      ]
+    },
     "3b549084ef2146a4f8edc351": {
       "kind": "text",
       "source": "Vor der Beauftragung",
@@ -2541,6 +2600,13 @@
         "/leistungen/"
       ]
     },
+    "43e44fabd917b80bd18edde8": {
+      "kind": "text",
+      "source": "Vor der Anfrage die richtigen Fragen stellen.",
+      "routes": [
+        "/"
+      ]
+    },
     "44d4825a34aab5fa27222c66": {
       "kind": "text",
       "source": "Baureinigung für Bauprojekte in Ihrer Region. | KnaBa",
@@ -2634,6 +2700,7 @@
     "46f3a63cbd389562304510b2": {
       "kind": "text",
       "source": "Klären Sie anschließend, wer Zugang und Schutz der gereinigten Bereiche übernimmt. Wenn weitere Gewerke folgen, vereinbaren Sie die spätere Kontrolle beziehungsweise Nachreinigung separat. Der Abschluss der Reinigungsleistung bedeutet nicht, dass alle baulichen oder vertraglichen Fragen des Projekts erledigt sind.",
+
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
       ]
@@ -2670,6 +2737,13 @@
         "/ratgeber/baureinigung-phasen/",
         "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
+      ]
+    },
+    "47a5ee5654b47ab2e848356c": {
+      "kind": "text",
+      "source": "Sie kennen noch nicht alle Angaben? Beschreiben Sie zunächst, was bereits feststeht.",
+      "routes": [
+        "/"
       ]
     },
     "4818756098a7914079694e37": {
@@ -2811,6 +2885,7 @@
       "kind": "text",
       "source": "Projektanfrage vorbereiten",
       "routes": [
+        "/",
         "/berlin/",
         "/kontakt/",
         "/ratgeber/"
@@ -3065,6 +3140,13 @@
         "/planer/"
       ]
     },
+    "50d2903958fc363da1f09528": {
+      "kind": "text",
+      "source": "Was beeinflusst den Leistungsumfang?",
+      "routes": [
+        "/"
+      ]
+    },
     "50d81739111643a77ec080cf": {
       "kind": "meta:description",
       "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
@@ -3138,6 +3220,7 @@
       "kind": "text",
       "source": "Gereinigte Flächen gemeinsam prüfen: Leistungsumfang, Restpunkte, Vorschäden und neue Verschmutzung bei der Übergabe nachvollziehbar festhalten.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -3518,6 +3601,7 @@
       "kind": "text",
       "source": "BAU + CLEAN",
       "routes": [
+
         "/"
       ]
     },
@@ -3581,6 +3665,13 @@
       "source": "Keine Ausführung ohne geklärte statische und technische Voraussetzungen. Brandschutzabschottungen, Abdichtungen und Installationen sind eigenständige Leistungen; ihre Eignung und Dokumentation werden mit dem verantwortlichen Fachbetrieb festgelegt.",
       "routes": [
         "/bauleistungen/durchbrueche/"
+      ]
+    },
+    "614aceb6e70921a36277b175": {
+      "kind": "text",
+      "source": "ANFRAGE VORBEREITEN",
+      "routes": [
+        "/"
       ]
     },
     "616e1129ff60721b1e95968f": {
@@ -3897,6 +3988,7 @@
       "kind": "text",
       "source": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen",
       "routes": [
+        "/",
         "/bauleistungen/bauzwischenreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -4410,6 +4502,7 @@
       ]
     },
     "73968dda7a310d864db95d46": {
+
       "kind": "text",
       "source": "Ob sich ein kleiner Einzelauftrag realisieren lässt, klären wir nach Ort, Anfahrt und gewünschtem Leistungsumfang.",
       "routes": [
@@ -4589,6 +4682,13 @@
       "source": "Materialien und Rückstände beschreiben",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "7a85400c2bb71818bfb88e77": {
+      "kind": "text",
+      "source": "BAUWISSEN / PRAXIS",
+      "routes": [
+        "/"
       ]
     },
     "7a884cfb3338eae2350ad95c": {
@@ -5131,6 +5231,13 @@
         "/ratgeber/baureinigung-phasen/"
       ]
     },
+    "8977996becd617d1faa15541": {
+      "kind": "text",
+      "source": "Projektbezogene Glas- und Sonderreinigungen können ebenfalls angefragt werden; Umfang und Voraussetzungen klären wir vorab.",
+      "routes": [
+        "/"
+      ]
+    },
     "89d9516f52d13a4f53a310e0": {
       "kind": "text",
       "source": "Deutsch",
@@ -5296,6 +5403,7 @@
       "source": "Nach der Endreinigung hilft eine gemeinsame Sichtkontrolle, das Ergebnis mit dem vereinbarten Auftrag abzugleichen. Sie schafft Klarheit für Bauleitung, Reinigungsteam und Auftraggeber. Diese Checkliste betrifft die Reinigungsleistung; sie ersetzt keine technische Prüfung, bauliche Abnahme oder Beurteilung der Arbeiten anderer Gewerke.",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+
       ]
     },
     "8db26af74772ba560b1d1ce9": {
@@ -5398,6 +5506,7 @@
       "kind": "text",
       "source": "Saubere Bauübergabe: die Checkliste nach der Endreinigung",
       "routes": [
+        "/",
         "/bauleistungen/bauendreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5469,6 +5578,13 @@
       "source": "Ist die Entsorgung von Bauschutt inklusive?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "90688d750efc943572cfb8fb": {
+      "kind": "text",
+      "source": "KnaBa verbindet Baureinigung, vereinbarte Bauhilfsarbeiten und die Abstimmung rund um Ihr Objekt in Berlin und Brandenburg. Diese drei Punkte helfen bei der Projektplanung.",
+      "routes": [
+        "/"
       ]
     },
     "9080b0415ba56738f00c1658": {
@@ -6084,6 +6200,7 @@
       "kind": "text",
       "source": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen",
       "routes": [
+        "/",
         "/bauleistungen/baureinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6187,6 +6304,7 @@
       "kind": "meta:og:description",
       "source": "KnaBa aus Berlin verbindet Baureinigung, Baustellenvorbereitung und Bauhilfsarbeiten. Wir sprechen direkt über Bauabschnitt, Objekt und benötigte Leistung.",
       "routes": [
+
         "/unternehmen/"
       ]
     },
@@ -6461,6 +6579,13 @@
       "source": "Zum Schutz vor automatisierten oder übermäßigen Anfragen verwenden wir technische Prüffelder und Anfragezähler. Für öffentliche Anfragen wird dafür eine aus E-Mail-Adresse und Datum berechnete Prüfkennung gespeichert. Soweit die Infrastruktur eine IP-Adresse für diese Prüfung bereitstellt, wird ergänzend eine Prüfkennung aus IP-Adresse und Datum verwendet; die rohe IP-Adresse wird dafür nicht in der Portal-Datenbank gespeichert. Bei angemeldeten Konten wird eine Prüfkennung aus der Benutzerkennung verwendet. Diese Kennungen sind nicht als verlässlich anonym anzusehen. Die Verarbeitung dient der Missbrauchsabwehr nach Art. 6 Abs. 1 Buchst. f DSGVO; abgelaufene Zähler werden bei weiteren Prüfungen bereinigt.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "ad790e02d570bc19abb8d7be": {
+      "kind": "text",
+      "source": "Direkte regionale Abstimmung",
+      "routes": [
+        "/"
       ]
     },
     "ad8848c80961ceabdf0078b3": {
@@ -6795,6 +6920,13 @@
         "/konto/"
       ]
     },
+    "b87cbd1f5626aefa732d5d19": {
+      "kind": "text",
+      "source": "Zugang, freie Arbeitsbereiche und andere Gewerke",
+      "routes": [
+        "/"
+      ]
+    },
     "b97aaf1df6150edf9b4ecc93": {
       "kind": "text",
       "source": "Mengen, Qualitätsanforderungen, Ausschlüsse und Übergabe in einer Leistungsbeschreibung festhalten.",
@@ -7002,6 +7134,13 @@
         "/karriere/"
       ]
     },
+    "be8c1967c409d22362d79678": {
+      "kind": "text",
+      "source": "Reinigung passend zur Bauphase",
+      "routes": [
+        "/"
+      ]
+    },
     "bef43d7be91ed0a13ae84505": {
       "kind": "attr:aria-label",
       "source": "KnaBa Assistent öffnen",
@@ -7066,6 +7205,7 @@
         "/bauleistungen/bauhilfe/",
         "/bauleistungen/baureinigung/",
         "/bauleistungen/baustellenraeumung/",
+
         "/bauleistungen/bauzwischenreinigung/",
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
@@ -7966,6 +8106,7 @@
     "d9112fc9f07c47dddbac3f16": {
       "kind": "text",
       "source": "Quelle: https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
+
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
       ]
@@ -8124,6 +8265,13 @@
         "/datenschutz/"
       ]
     },
+    "dd1bf76817a85d3b6ac46cb1": {
+      "kind": "text",
+      "source": "Bauphase, Verschmutzung und empfindliche Materialien",
+      "routes": [
+        "/"
+      ]
+    },
     "dd4fc5523ce61d788d64a5a1": {
       "kind": "text",
       "source": "Ergebnis und Übergabe",
@@ -8192,6 +8340,13 @@
       "source": "Kann ich nur eine einzelne Leistung anfragen?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "df87a71958eb2cafc299cda4": {
+      "kind": "text",
+      "source": "Alle Bauratgeber entdecken",
+      "routes": [
+        "/"
       ]
     },
     "df8d6661688eccaff86c6b5f": {
@@ -8451,6 +8606,13 @@
       "source": "Bodenbeläge, Naturstein, Holz, Glas, Beschichtungen und Armaturen möglichst genau angeben. Pflegehinweise der Hersteller und vorhandene Schäden vor Beginn bereitstellen.",
       "routes": [
         "/ratgeber/"
+      ]
+    },
+    "e818d4f4e05a60e674340579": {
+      "kind": "text",
+      "source": "Ein Baupartner, der Abläufe mitdenkt.",
+      "routes": [
+        "/"
       ]
     },
     "e8d74ef23540cf1ecb329455": {
@@ -8758,6 +8920,7 @@
       "kind": "text",
       "source": "Welche Reinigungsphase passt zum Baufortschritt? Grobreinigung, Zwischenreinigung und Endreinigung abgrenzen und mit den Gewerken abstimmen.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -8844,6 +9007,7 @@
       ]
     },
     "f6981954d5c2338a71f7395e": {
+
       "kind": "text",
       "source": "Gehen Sie Raum für Raum vor und prüfen Sie nur die vereinbarten Aufgaben: beispielsweise Böden, zugängliche Oberflächen, Glas, Rahmen oder Sanitärausstattung. Eine feste Reihenfolge verhindert, dass kleine Nebenräume übersehen oder dieselben Bereiche mehrfach ohne klare Zuordnung beurteilt werden.",
       "routes": [
@@ -9099,6 +9263,13 @@
         "/unternehmen/"
       ]
     },
+    "fc0d62023e7e55169538cb07": {
+      "kind": "text",
+      "source": "KnaBa hat seinen Sitz in Berlin. Einsatzort, Ansprechpartner, Sicherheitsvorgaben und Leistungen werden für jedes Projekt individuell vereinbart.",
+      "routes": [
+        "/"
+      ]
+    },
     "fc2ede3e298030fca5cb32d8": {
       "kind": "text",
       "source": "Gemeinsamen Rundgang mit Zugang und Beleuchtung organisieren",
@@ -9191,6 +9362,13 @@
         "/faq/"
       ]
     },
+    "fdf762e87d95e943d3ccaaa2": {
+      "kind": "text",
+      "source": "Fläche, Art und Zustand des Objekts",
+      "routes": [
+        "/"
+      ]
+    },
     "fe2bc27ac97c7db03a6dd1b3": {
       "kind": "text",
       "source": "Fertige Bereiche und Restarbeiten trennen",
@@ -9268,3 +9446,4 @@
     "real-browser-and-screen-reader"
   ]
 }
+
