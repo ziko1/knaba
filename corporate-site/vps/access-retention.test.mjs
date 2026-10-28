@@ -144,3 +144,10 @@ test('symlinked backup directory is refused before any deletion',()=>{
   }finally{rmSync(target,{recursive:true,force:true});}
  }finally{rmSync(f.folder,{recursive:true,force:true});}
 });
+
+
+test('retention backup creation tightens umask before SQLite backup starts',()=>{
+ const src=readFileSync(new URL('./access-retention.mjs',import.meta.url),'utf8');
+ assert.match(src,/process\.umask\(0o077\)/);
+ assert.match(src,/finally\{process\.umask\(previousUmask\);\}/);
+});

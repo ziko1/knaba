@@ -85,7 +85,10 @@ export async function manageAccessRetention({dbPath,apply=false,approval='',owne
   sufficientDisk(dbPath,file.size);
   const dir=await privateBackupDir(dbPath,backupDir);
   const path=join(dir,'access-retention-'+new Date(now).toISOString().replace(/[:.]/g,'-')+'-'+randomBytes(12).toString('hex')+'.sqlite');
-  await backup(snapshot,path);
+  // Creation itself must be private; chmod after copying alone exposes PII.
+  const previousUmask=process.umask(0o077);
+  try{await backup(snapshot,path);}
+  finally{process.umask(previousUmask);}
   await chmod(path,0o600);
   const saved=await lstat(path);
   if(!saved.isFile()||saved.isSymbolicLink()||(saved.mode&0o077)!==0)

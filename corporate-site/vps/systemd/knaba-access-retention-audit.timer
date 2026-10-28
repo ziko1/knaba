@@ -2,7 +2,7 @@
 Description=KNABA private access-request retention audit once per day
 
 [Timer]
-OnCalendar=*-*-* 03:40:00
+OnCalendar=*-*-* 03:40:00 Europe/Berlin
 RandomizedDelaySec=300
 Persistent=true
 AccuracySec=1min
