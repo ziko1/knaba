@@ -1,0 +1,18 @@
+{
+  "source": "working-tree atop 9127b1d3424517ea061df2eea2ecc820a6bcfbde",
+  "runs": [
+    {
+      "command": "node --check vps/server.mjs",
+      "time": "2026-10-28T09:10:42.076667+00:00",
+      "exit_code": 0,
+      "log": "syntax.log"
+    },
+    {
+      "command": "node --test --test-concurrency=2 vps/access-audit.test.mjs vps/access-requests.http.test.mjs vps/access-retention-systemd.test.mjs vps/access-retention.test.mjs vps/account-invite.http.test.mjs vps/account-invite.test.mjs vps/auth-hardening.test.mjs vps/auth-unified-ui.test.mjs vps/customer-operator.cli.test.mjs vps/customer-release.http.test.mjs vps/faq-studio-editor.test.mjs vps/host-portability.test.mjs vps/login-layout.test.mjs vps/manage.test.mjs vps/migration-guard.test.mjs vps/migration-upgrade.test.mjs vps/oidc.http.test.mjs vps/oidc.test.mjs vps/owner-onboarding.test.mjs vps/owner-safe-port.test.mjs vps/partner-inquiry.http.test.mjs vps/render-article.test.mjs vps/render-page-design.test.mjs vps/render-page.test.mjs vps/reviews.test.mjs vps/seo.test.mjs vps/server.test.mjs vps/storage.test.mjs",
+      "time": "2026-10-28T09:10:42.110374+00:00",
+      "exit_code": 0,
+      "log": "green.log"
+    }
+  ],
+  "live_browser_retest": "PENDING_DEPLOYMENT"
+}

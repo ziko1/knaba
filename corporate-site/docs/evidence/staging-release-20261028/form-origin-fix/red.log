@@ -1,0 +1,95 @@
+✖ public access request needs consent; no role elevation; owner-only review (155.359221ms)
+✖ VPS HTTP: secure owner invite -> pending worker -> owner approval -> scoped portal (154.172566ms)
+✖ Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partner and one-use callback (91.48923ms)
+✖ private activation GET is no-store, noindex, origin-bound and does not expose owner email (73.978229ms)
+✔ wrong-origin, invalid, replayed and expired activations fail without creating privileged users (221.624195ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 444.154511
+
+✖ failing tests:
+
+test at vps/access-requests.http.test.mjs:9:1
+✖ public access request needs consent; no role elevation; owner-only review (155.359221ms)
+  AssertionError [ERR_ASSERTION]: native form submissions must preserve Origin without disclosing paths
+  + actual - expected
+  
+  + 'no-referrer'
+  - 'strict-origin'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/23db9ae4168f/knaba/corporate-site/vps/access-requests.http.test.mjs:24:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'no-referrer',
+    expected: 'strict-origin',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/account-invite.http.test.mjs:14:1
+✖ VPS HTTP: secure owner invite -> pending worker -> owner approval -> scoped portal (154.172566ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'no-referrer'
+  - 'strict-origin'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/23db9ae4168f/knaba/corporate-site/vps/account-invite.http.test.mjs:40:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'no-referrer',
+    expected: 'strict-origin',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/oidc.http.test.mjs:16:1
+✖ Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partner and one-use callback (91.48923ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'no-referrer'
+  - 'strict-origin'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/23db9ae4168f/knaba/corporate-site/vps/oidc.http.test.mjs:52:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'no-referrer',
+    expected: 'strict-origin',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/owner-onboarding.test.mjs:21:1
+✖ private activation GET is no-store, noindex, origin-bound and does not expose owner email (73.978229ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'no-referrer'
+  - 'strict-origin'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/23db9ae4168f/knaba/corporate-site/vps/owner-onboarding.test.mjs:33:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'no-referrer',
+    expected: 'strict-origin',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

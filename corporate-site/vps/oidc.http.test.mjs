@@ -47,7 +47,9 @@ test('Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partn
   });
   const page=await at('/login/');
   assert.equal(page.status,200);assert.match(await page.text(),/Google/);
-  assert.equal((await at('/auth/oidc/google/')).status,200);
+  const consentPage=await at('/auth/oidc/google/');
+  assert.equal(consentPage.status,200);
+  assert.equal(consentPage.headers.get('referrer-policy'),'strict-origin');
   const body=new URLSearchParams({mode:'signup',intent:'partner',privacy:'on'});
   const denied=await at('/auth/oidc/google/start/',{method:'POST',
    headers:{'Content-Type':'application/x-www-form-urlencoded'},body});
@@ -55,6 +57,7 @@ test('Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partn
   const start=await at('/auth/oidc/google/start/',{method:'POST',
    headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body});
   assert.equal(start.status,303);
+  assert.equal(start.headers.get('referrer-policy'),'no-referrer','provider redirects retain no-referrer');
   const external=new URL(start.headers.get('location'));
   assert.equal(external.origin,'https://accounts.google.com');
   assert.equal(external.searchParams.get('code_challenge_method'),'S256');
@@ -64,10 +67,14 @@ test('Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partn
    .get(createHash('sha256').update(state).digest('hex')).nonce;
   const cookie=start.headers.get('set-cookie').split(';')[0];
   assert.equal(received,0);
+  const wrongIssuer=await at('/auth/oidc/google/callback/?iss=https%3A%2F%2Fevil.example&code=synthetic-code&state='+state);
+  assert.equal(wrongIssuer.status,401);
+  assert.equal(wrongIssuer.headers.get('referrer-policy'),'no-referrer');
   const bad=await at('/auth/oidc/google/callback/?code=synthetic-code&state='+state);
   assert.equal(bad.status,401);
   const completed=await at('/auth/oidc/google/callback/?code=synthetic-code&state='+state,{headers:{Cookie:cookie}});
   assert.equal(completed.status,303,await completed.clone().text());
+  assert.equal(completed.headers.get('referrer-policy'),'no-referrer','callback redirect must not expose code or state');
   assert.equal(completed.headers.get('location'),'/konto/');
   assert.equal(received,2);
   const sessionToken=completed.headers.get('set-cookie').match(/__Host-knaba-session=([A-Za-z0-9_-]{43})/)?.[1];
