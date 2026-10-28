@@ -1,0 +1,12 @@
+[Unit]
+Description=KNABA private access-request retention audit once per day
+
+[Timer]
+OnCalendar=*-*-* 03:40:00
+RandomizedDelaySec=300
+Persistent=true
+AccuracySec=1min
+Unit=knaba-access-retention-audit.service
+
+[Install]
+WantedBy=timers.target

@@ -8,6 +8,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
 import {ACCESS_REQUEST_TTL_DAYS} from './access-requests.mjs';
+import {manageAccessRetention} from './access-retention.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
 if(['backup','migrate'].includes(command)){
@@ -16,8 +17,8 @@ if(['backup','migrate'].includes(command)){
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','invite-owner','invite-developer','revoke-developer','backup','audit','access-audit','migrate'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|revoke-developer|backup|audit|access-audit|migrate\n');
+if(!['init-owner','invite-owner','invite-developer','revoke-developer','backup','audit','access-audit','access-retention','migrate'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|revoke-developer|backup|audit|access-audit|access-retention|migrate\n');
   process.exit(2);
 }
 if(command==='access-audit'){
@@ -47,6 +48,21 @@ if(command==='access-audit'){
       observedAtUtc:new Date(now).toISOString()
     })+'\n');
   }finally{snapshot.close();}
+  process.exit();
+}
+if(command==='access-retention'){
+  const opts=process.argv.slice(3);
+  if(opts.length>1 || (opts.length===1 && opts[0]!=='--apply')){
+    process.stderr.write('Usage: node vps/manage.mjs access-retention [--apply]\n');
+    process.exit(2);
+  }
+  const report=await manageAccessRetention({
+    dbPath,apply:opts[0]==='--apply',
+    approval:process.env.KNABA_ACCESS_RETENTION_APPROVED||'',
+    ownerEmail:process.env.OWNER_EMAIL||'',
+    backupDir:process.env.KNABA_ACCESS_RETENTION_BACKUP_DIR
+  });
+  process.stdout.write(JSON.stringify(report)+'\n');
   process.exit();
 }
 if(command==='audit'){

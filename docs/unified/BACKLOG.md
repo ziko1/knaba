@@ -112,3 +112,10 @@ SOURCE_LOCAL_QA: owner invite revocation, 60-per-15m TCP-source login quota, pas
 
 - SOURCE_QA_PASS_PREVIEW_NOT_DEPLOYED: partner requests reuse server-scoped client_id workflow and existing Portal; owner can review. DoD: approved only; create/list/cancel, replay safe; role revocation default-deny; IDOR/worker-note/CRM/admin negative tests; DE/EN/UK/RU and 320–1440px browser checks; no migration.
 - BLOCKED_EXTERNAL: company approval of partnership/business process, ERP customer/partner mapping, data processing/retention, provider-backed email recovery, owner live UAT, physical device screen-reader, official production cutover.
+
+
+## KN-AUTH-RETENTION-20261028 — зберігання заявок на доступ
+
+- SOURCE_QA: доповнено існуючий manage.mjs командою access-retention з read-only звітом, без PII та без нових SQL таблиць. Видалення тільки після явного KNABA_ACCESS_RETENTION_APPROVED=YES, валідної DB/власника, приватного перевіреного SQLite backup та в межах 1000 записів. При повторі без прострочених записів backup не створюється.
+- SOURCE_QA: відтворювані Node24 TDD RED/GREEN/negative tests, відмова при symlink/шляху за межами state; існуючий access-audit не замінено. Портативні unit-файли systemd щоденно запускають тільки dry-run.
+- NOT_APPROVED_EXTERNAL: автоматичне видалення та retention backup copies, GDPR/DSAR/legal sign-off, визначення owner і реальне production розгортання; staging audit може працювати без запису клієнтських даних.
