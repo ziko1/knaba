@@ -19,7 +19,7 @@ for (const [locale, privacyPath, imprintPath] of [
       assert.ok(privacy.includes(`aria-labelledby="${anchor}"`), `${locale}: missing privacy section ${anchor}`);
       assert.ok(privacy.includes(`id="${anchor}"`), `${locale}: missing privacy title ${anchor}`);
     }
-    assert.match(privacy, /28\.\s*(?:Oktober|октября)\s*2026/);
+    assert.match(privacy, /28\.?\s*(?:Oktober|октября)\s*2026/);
     assert.match(privacy, /§ 25(?:\s+Abs\.)?.*TDDDG/);
     assert.match(privacy, /Turnstile/);
     assert.match(privacy, /§ 201 StGB/);
@@ -34,7 +34,7 @@ for (const [locale, privacyPath, imprintPath] of [
     const imprint = source(imprintPath);
     assert.match(imprint, /§ 5/);
     assert.match(imprint, /VSBG/);
-    assert.match(imprint, /28\.\s*(?:Oktober|октября)\s*2026/);
+    assert.match(imprint, /28\.?\s*(?:Oktober|октября)\s*2026/);
     for (const token of ['company.street', 'company.city', 'company.email', 'company.vatId']) {
       assert.ok(imprint.includes(token), `${locale}: missing central company value ${token}`);
     }
