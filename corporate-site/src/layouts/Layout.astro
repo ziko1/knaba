@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/public-vivid.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import brandMessages from "../data/brand-messages.json";
@@ -38,6 +39,11 @@ const translated = {
 }[lang];
 const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
+// Keep public presentation separate from the account, Studio and admin tools.
+const publicSection = path.replace(/^\/(?:en|uk|ru)(?=\/|$)/, '').split('/')[1] ?? '';
+const publicDesign = ['', 'leistungen', 'bauleistungen', 'planer', 'kontakt', 'branchen',
+  'unternehmen', 'galerie', 'ratgeber', 'partner', 'faq', 'berlin', 'karriere',
+  'impressum', 'datenschutz'].includes(publicSection);
 const breadcrumbs = suppliedBreadcrumbs.length ? suppliedBreadcrumbs : corporateBreadcrumbs(path, lang);
 const localPath = (url: string) => {
   if(lang === 'de') return url;
@@ -123,7 +129,7 @@ const structuredData = {
       set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
     />
   </head>
-  <body>
+  <body data-public-design={publicDesign ? 'vivid' : undefined}>
     <a href="#main" class="skip-link">{translated.skip}</a>
     <div class="topline">
       <div class="container">
@@ -251,6 +257,10 @@ const structuredData = {
     <script>
       import { initializeSiteStudioLive } from "../scripts/site-studio-live";
       initializeSiteStudioLive();
+    </script>
+    <script>
+      import { initializePublicMotion } from "../scripts/public-motion";
+      initializePublicMotion();
     </script>
     <script>
       import { inquirySelectionQuery } from '../lib/inquiry-navigation';

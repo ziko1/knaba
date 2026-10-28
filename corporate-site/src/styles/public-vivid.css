@@ -1,0 +1,344 @@
+/* Public-site finish. Existing content, brand assets, routes and application
+   styles stay in their own components. No extra fonts, images or framework. */
+body[data-public-design="vivid"] {
+  --vivid-teal: #075f63;
+  --vivid-ink: #0b343d;
+  --vivid-lime: #d4f74f;
+  --vivid-line: #b9d7ca;
+  --vivid-shadow: 0 14px 34px -24px #143f40;
+  background: #fcfdf9;
+}
+
+/* Small, legible controls and clear navigation landmarks. */
+body[data-public-design="vivid"] .topline {
+  background: #123d40;
+  border-color: #123d40;
+  color: #e5f1e6;
+  font-size: 11px;
+}
+body[data-public-design="vivid"] .topline .dot { background: var(--vivid-lime); }
+body[data-public-design="vivid"] .header {
+  background: #fcfdf9;
+  border-bottom: 1px solid #e0e9dc;
+}
+body[data-public-design="vivid"] .desktop-nav a {
+  position: relative;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 2px;
+}
+body[data-public-design="vivid"] .desktop-nav a:hover,
+body[data-public-design="vivid"] .desktop-nav a[aria-current] {
+  color: #075f63;
+  text-decoration: underline;
+}
+body[data-public-design="vivid"] .site-language-switcher > summary,
+body[data-public-design="vivid"] .mobile-nav > summary {
+  border: 1px solid #a9c8bc;
+  background: #eff6e6;
+  box-shadow: 0 2px 0 #123d4008;
+}
+body[data-public-design="vivid"] .site-language-options a[aria-current] {
+  background: #e5f7bd;
+  color: #194b39;
+}
+body[data-public-design="vivid"] .mobile-nav nav {
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(580px, calc(100vh - 140px));
+  max-height: min(580px, calc(100svh - 140px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  border: 1px solid #b9d7ca;
+  padding: 10px;
+  box-shadow: 0 20px 50px -20px #123d4060;
+}
+body[data-public-design="vivid"] .mobile-nav nav a {
+  min-height: 48px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  font-size: 15px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+body[data-public-design="vivid"] .mobile-nav nav a:hover,
+body[data-public-design="vivid"] .mobile-nav nav a[aria-current] { background: #e9f5d5; }
+body[data-public-design="vivid"] .breadcrumbs { color: #42655b; }
+body[data-public-design="vivid"] .breadcrumbs a { color: #075f63; }
+
+/* Primary actions keep one clear, consistent visual priority. */
+body[data-public-design="vivid"] .button-dark {
+  background: linear-gradient(125deg, #08716d, #103d46);
+  border: 1px solid #0c514e;
+  color: #fff;
+  box-shadow: 0 7px 18px -10px #075f6380, inset 0 1px 0 #ffffff26;
+}
+body[data-public-design="vivid"] .button-dark:hover {
+  background: linear-gradient(125deg, #075d59, #082f37);
+  color: #fff;
+}
+body[data-public-design="vivid"] .button:active { transform: translateY(1px); }
+body[data-public-design="vivid"] :is(.button, .bau-inline, .text-link):focus-visible {
+  outline: 3px solid #08716d;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* A sunlit architectural backdrop frames the existing hero, without adding
+   another image request or moving the heading while the page loads. */
+body[data-public-design="vivid"] #main .bau-hero {
+  position: relative;
+  isolation: isolate;
+  padding-top: clamp(40px, 5vw, 76px);
+  padding-bottom: clamp(48px, 6vw, 88px);
+}
+body[data-public-design="vivid"] #main .bau-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset: 22px -28px 24px;
+  border: 1px solid #e2ecd4;
+  border-radius: 36px;
+  background:
+    radial-gradient(ellipse at 90% 8%, #dafa917d, transparent 50%),
+    radial-gradient(ellipse at 8% 98%, #bfeae45c, transparent 52%),
+    linear-gradient(120deg, #f8fbe9, #f3faf5 58%, #e8f6df);
+}
+body[data-public-design="vivid"] #main .bau-hero-copy > .bau-kicker {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #b6d3b5;
+  border-radius: 12px;
+  background: #ffffffb3;
+  color: #165c50;
+  font-size: 11px;
+  letter-spacing: .085em;
+}
+body[data-public-design="vivid"] #main .bau-dot { flex: 0 0 9px; background: #5c9b20; box-shadow: 0 0 0 4px #d4f74f80; }
+body[data-public-design="vivid"] #main .bau-hero-copy h1 {
+  font-size: clamp(42px, 5.6vw, 82px);
+  line-height: 1.06;
+  letter-spacing: -.057em;
+  color: var(--vivid-ink);
+}
+body[data-public-design="vivid"] #main .bau-hero-copy h1 span {
+  color: #087774;
+  text-decoration-color: var(--vivid-lime);
+  text-decoration-thickness: .105em;
+}
+body[data-public-design="vivid"] #main .bau-lead { color: #3c5c57; }
+body[data-public-design="vivid"] #main .bau-secondary-cta {
+  background: #fffef8;
+  border-color: #9fbcaa;
+  box-shadow: 0 4px 12px -8px #123d4050;
+}
+body[data-public-design="vivid"] #main .bau-secondary-cta-arrow { background: var(--vivid-lime); color: #25451b; }
+body[data-public-design="vivid"] #main .bau-trust { color: #365c48; line-height: 1.6; gap: 8px 14px; }
+body[data-public-design="vivid"] #main .bau-trust > span { padding: 5px 0; }
+
+/* The first slide is an accent panel; the remaining original slide palettes
+   and all eight illustrations are preserved. */
+body[data-public-design="vivid"] #main .carousel-track { box-shadow: 0 20px 34px -25px #0a454d80; }
+body[data-public-design="vivid"] #main .service-slide:first-child {
+  background: radial-gradient(ellipse at 100% 0, #1e7977, transparent 70%), #103d46;
+  border: 1px solid #206d68;
+}
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-overline { color: #d7e9de; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-overline span:last-child,
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-subline { color: #defa8b; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-art { background: #dcf5ba; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-art img { mix-blend-mode: normal; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-body h2 { color: #fff; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-body p { color: #dcebe5; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-link { background: var(--vivid-lime); color: #173e30; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-link:hover { background: #e7ff9c; }
+body[data-public-design="vivid"] #main .service-slide:first-child .slide-link:focus-visible { outline: 3px solid #defa8b; outline-offset: 4px; }
+body[data-public-design="vivid"] #main .carousel-arrow { background: #fffef8; border-color: #92baaa; }
+body[data-public-design="vivid"] #main .carousel-arrow:hover:not(:disabled) { background: var(--vivid-lime); }
+body[data-public-design="vivid"] #main .carousel-dot[aria-current="true"]::before { background: #0b746a; }
+body[data-public-design="vivid"] #main .carousel-hint { color: #426353; }
+
+/* Consistent, individually coloured service cards across home and catalogue. */
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer) {
+  --card-wash: #def4e4;
+  --card-accent: #086e66;
+  position: relative;
+  border: 1px solid #bcd5c7;
+  border-radius: 24px;
+  background: linear-gradient(140deg, var(--card-wash), #fffef8);
+  box-shadow: var(--vivid-shadow);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):nth-child(6n + 2) { --card-wash: #dceffb; --card-accent: #185c87; }
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):nth-child(6n + 3) { --card-wash: #eee3fc; --card-accent: #64439c; }
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):nth-child(6n + 4) { --card-wash: #e4f6b5; --card-accent: #41631a; }
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):nth-child(6n + 5) { --card-wash: #ffe5d3; --card-accent: #984f24; }
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):nth-child(6n + 6) { --card-wash: #d5f2ed; --card-accent: #13685c; }
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer)::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: 0 28px auto;
+  height: 3px;
+  border-radius: 0 0 6px 6px;
+  background: var(--card-accent);
+}
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer) :is(.bau-service-icon, .bau-icon) {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #ffffffc9;
+  color: var(--card-accent);
+  background: #fffef9;
+  box-shadow: 0 4px 14px -9px var(--card-accent);
+}
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer) p { color: #405e58; font-size: 15px; }
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer) .bau-ordinal { color: #476257; font-variant-numeric: tabular-nums; }
+body[data-public-design="vivid"] #main :is(.bau-card-action, .bau-offer-action) { color: var(--card-accent, #075f63); }
+body[data-public-design="vivid"] #main :is(.bau-card-action, .bau-offer-action) > span {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  background: #ffffffc9;
+  border: 1px solid #aec9bb;
+  border-radius: 50%;
+  transition: transform .2s ease;
+}
+body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):focus-visible {
+  outline: 3px solid #08716d;
+  outline-offset: 4px;
+  border-color: #08716d;
+}
+
+/* Alternating light and dark sections give the long homepage a clear rhythm. */
+body[data-public-design="vivid"] #main .bau-contract {
+  background: radial-gradient(ellipse at 100% 0, #ddfba7, transparent 65%), #e5f2e9;
+  border-block: 1px solid #c8ddc5;
+}
+body[data-public-design="vivid"] #main .bau-extra-list > a {
+  border: 1px solid #b6d1c3;
+  box-shadow: 0 5px 16px -14px #123d40;
+}
+body[data-public-design="vivid"] #main .bau-steps > div {
+  position: relative;
+  background: linear-gradient(135deg, #145754, #0b343d);
+  border: 1px solid #1d6260;
+  box-shadow: var(--vivid-shadow);
+}
+body[data-public-design="vivid"] #main .bau-step-counter {
+  display: inline-grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  background: var(--vivid-lime);
+  color: #23442e;
+  border-radius: 16px;
+  font-size: 23px;
+  font-variant-numeric: tabular-nums;
+}
+body[data-public-design="vivid"] #main .bau-steps > div:nth-child(2) .bau-step-counter { background: #c9e9f9; }
+body[data-public-design="vivid"] #main .bau-steps > div:nth-child(3) .bau-step-counter { background: #ffd9ba; }
+body[data-public-design="vivid"] #main .home-guides { background: radial-gradient(ellipse at 0 0, #185f59, transparent 65%), #0b303b; }
+body[data-public-design="vivid"] #main .home-guides-list a { padding-block: 26px; }
+body[data-public-design="vivid"] #main .home-guides-arrow {
+  display: inline-grid;
+  place-items: center;
+  min-height: 28px;
+  color: #ddfc80;
+}
+body[data-public-design="vivid"] #main .company-profile-card {
+  background: radial-gradient(ellipse at 100% 0, #dbf98e, transparent 65%), #eaf5de;
+  border-color: #acc895;
+  box-shadow: var(--vivid-shadow);
+}
+body[data-public-design="vivid"] #main .company-profile-contact > a {
+  padding: 12px 15px;
+  border: 1px solid #c1d7ad;
+  border-radius: 12px;
+  background: #ffffffe6;
+}
+body[data-public-design="vivid"] #main .why-knaba { background: #f0f6ed; border-block: 1px solid #e0e9dc; }
+body[data-public-design="vivid"] #main .why-knaba-item { border-color: #c1d8c9; box-shadow: var(--vivid-shadow); }
+body[data-public-design="vivid"] #main .why-knaba-number { background: #d4f2a4; color: #2a541e; }
+body[data-public-design="vivid"] #main .why-knaba-item:nth-child(2) .why-knaba-number { background: #c7eee4; color: #125f50; }
+body[data-public-design="vivid"] #main .why-knaba-item:nth-child(3) .why-knaba-number { background: #e1d5fa; color: #563c84; }
+body[data-public-design="vivid"] #main .knaba-partner-card { border-color: #cbdac7; box-shadow: var(--vivid-shadow); }
+body[data-public-design="vivid"] #main .knaba-faq-preview .knaba-faq-group { border: 1px solid #c8ddd0; background: #f2f7e7; }
+body[data-public-design="vivid"] #main .knaba-faq-preview .knaba-faq-group:nth-child(even) { background: #eaf5f3; }
+body[data-public-design="vivid"] #main .knaba-faq-plus { background: #ddedcc; color: #244c2d; }
+body[data-public-design="vivid"] #main .knaba-faq-items details[open] .knaba-faq-plus { background: var(--vivid-lime); }
+body[data-public-design="vivid"] #main .knaba-faq-group h3,
+body[data-public-design="vivid"] #main .knaba-faq-eyebrow { color: #17675e; }
+body[data-public-design="vivid"] #main .bau-end-cta {
+  position: relative;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 100% 0, #e6ff9e, transparent 62%), #d4f0b9;
+  border: 1px solid #adc988;
+  box-shadow: var(--vivid-shadow);
+}
+body[data-public-design="vivid"] #main .bau-end-cta .button { flex-shrink: 0; }
+
+/* Supporting pages and the existing enquiry stay calm and easy to scan. */
+body[data-public-design="vivid"] #main .page-intro { position: relative; isolation: isolate; }
+body[data-public-design="vivid"] #main .page-intro::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+  inset: 8px -24px 12px;
+  border-radius: 28px;
+  background: linear-gradient(115deg, #f0f8dd, #edf8f4 65%, #fcfdf9);
+}
+body[data-public-design="vivid"] #main .contact-layout .wizard { border-color: #aac9b8; box-shadow: 0 15px 38px -25px #164d40; }
+body[data-public-design="vivid"] #main .wizard-progress > li[aria-current="step"] { border-color: #0a7569; color: #075f55; }
+body[data-public-design="vivid"] #main .field :is(input, select, textarea):focus-visible { outline: 3px solid #0b7567; outline-offset: 3px; }
+body[data-public-design="vivid"] .footer { background: linear-gradient(120deg, #12434a, #0b2b34); border-top: 4px solid #c9ed71; }
+body[data-public-design="vivid"] .footer a:hover { color: #e0fa95; }
+body[data-public-design="vivid"] .footer a:focus-visible { outline-color: #dcfa8c; }
+body[data-public-design="vivid"] .footer h2 { color: #d9f09e; letter-spacing: .04em; }
+
+@media (hover: hover) and (pointer: fine) {
+  body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):hover {
+    transform: translateY(-4px);
+    border-color: var(--card-accent);
+    box-shadow: 0 18px 32px -21px #164a4555;
+  }
+  body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):hover :is(.bau-card-action, .bau-offer-action) > span { transform: translate(2px, -2px); }
+  body[data-public-design="vivid"] #main .bau-extra-list > a:hover { background: #f9ffef; transform: translateX(3px); }
+}
+@media (hover: none) {
+  body[data-public-design="vivid"] #main a.bau-card:hover,
+  body[data-public-design="vivid"] .button-dark:hover { transform: none; }
+}
+@media (max-width: 880px) {
+  body[data-public-design="vivid"] #main .bau-hero::before { inset: 12px -20px 20px; border-radius: 28px; }
+  body[data-public-design="vivid"] #main .bau-hero-copy h1 { font-size: clamp(42px, 7.6vw, 64px); }
+  body[data-public-design="vivid"] #main .service-carousel { max-width: 620px; width: 100%; justify-self: center; }
+}
+@media (max-width: 760px) {
+  body[data-public-design="vivid"] #main .page-intro::before { inset-inline: -12px; }
+}
+@media (max-width: 610px) {
+  body[data-public-design="vivid"] #main .bau-hero { padding-top: 34px; padding-bottom: 42px; }
+  body[data-public-design="vivid"] #main .bau-hero::before { inset: 10px -12px 14px; border-radius: 24px; }
+  body[data-public-design="vivid"] #main .bau-hero-copy > .bau-kicker { font-size: 10px; padding: 7px 9px; letter-spacing: .045em; }
+  body[data-public-design="vivid"] #main .bau-hero-copy h1 { font-size: clamp(35px, 8.7vw, 53px); line-height: 1.1; }
+  body[data-public-design="vivid"] #main .bau-hero-copy .bau-lead { font-size: 17px; line-height: 1.65; }
+  body[data-public-design="vivid"] #main .bau-trust { gap: 4px 12px; font-size: 12px; }
+  body[data-public-design="vivid"] #main .bau-trust > span { padding-block: 3px; }
+  body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer) { border-radius: 20px; }
+  body[data-public-design="vivid"] #main .bau-end-cta .button { max-width: 100%; white-space: normal; text-align: left; }
+  body[data-public-design="vivid"] #main .page-intro::before { inset-inline: -12px; border-radius: 20px; }
+  body[data-public-design="vivid"] .footer-bottom { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer, .button, .bau-extra-list > a):is(:hover, :active),
+  body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer):hover :is(.bau-card-action, .bau-offer-action) > span { transform: none; }
+}
+@media (forced-colors: active) {
+  body[data-public-design="vivid"] #main :is(.bau-hero, .page-intro)::before { display: none; }
+  body[data-public-design="vivid"] #main :is(a.bau-card, a.bau-offer, .button, .service-slide) { border: 1px solid CanvasText; }
+}
