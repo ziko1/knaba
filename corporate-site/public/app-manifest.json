@@ -1,0 +1,30 @@
+{
+  "name": "KNABA DE | My KnaBa",
+  "short_name": "KNABA",
+  "description": "KNABA mobile customer and team workspace",
+  "id": "/app/",
+  "lang": "de",
+  "start_url": "/app/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f0f7f2",
+  "theme_color": "#153e35",
+  "icons": [
+    {
+      "src": "/images/knaba-construction-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mein KnaBa",
+      "url": "/konto/"
+    },
+    {
+      "name": "Kontakt",
+      "url": "/kontakt/"
+    }
+  ]
+}
