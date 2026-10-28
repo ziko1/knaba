@@ -2,7 +2,16 @@ import SwiftUI
 
 @main @MainActor struct KNABADEApp: App {
     @StateObject private var model = AppModel()
-    var body: some Scene { WindowGroup { CompanionView(model: model) } }
+    var body: some Scene {
+        WindowGroup {
+            TabView {
+                ERPConsoleView()
+                    .tabItem { Label("KNABA ERP", systemImage: "square.grid.2x2") }
+                CompanionView(model: model)
+                    .tabItem { Label("My shift", systemImage: "clock.arrow.circlepath") }
+            }
+        }
+    }
 }
 @MainActor struct CompanionView: View {
     @ObservedObject var model: AppModel
@@ -16,21 +25,6 @@ import SwiftUI
                         Text(model.text(.deviceLanguage)).tag("system")
                         ForEach(NativeLanguage.allCases) { language in Text(language.name).tag(language.rawValue) }
                     }.accessibilityIdentifier("languageSelector")
-                }
-                Section(model.text(.mobileWorkspace)) {
-                    TextField(model.text(.mobileWebsiteHint), text: $model.siteWebsite)
-                        .textInputAutocapitalization(.never).autocorrectionDisabled().keyboardType(.URL)
-                    if let appURL = WorkspaceRoutes.url(origin: model.siteWebsite, path: "/app/") {
-                        Link(model.text(.mobilePortal), destination: appURL)
-                        if let accountURL = WorkspaceRoutes.url(origin: model.siteWebsite, path: "/konto/") {
-                            Link(model.text(.mobileAccount), destination: accountURL)
-                        }
-                    } else {
-                        Text(model.text(.mobileLoginNotice)).font(.caption).foregroundStyle(.secondary)
-                    }
-                    if let erpURL = WorkspaceRoutes.url(origin: model.origin, path: "/console") {
-                        Link(model.text(.mobileErp), destination: erpURL)
-                    }
                 }
                 TimelineView(.periodic(from: Date(), by: 1)) { timeline in
                     Section(model.text(.myShift)) { shiftCard(now: timeline.date) }

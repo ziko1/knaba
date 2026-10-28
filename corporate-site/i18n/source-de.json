@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "066bce65493102a219f1df5552c4ef708108f496d9301fa471d6bbf5a68fddfd",
+  "sourceDigest": "daa1e970ed2927957c562e50a62cf28a85891bc6b3d213577d28365c0afcf3ad",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1047,
+  "unitCount": 1058,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -477,6 +477,13 @@
         "/"
       ]
     },
+    "0c53f52a75b893c1290905f9": {
+      "kind": "text",
+      "source": "Geschäftsleitung",
+      "routes": [
+        "/"
+      ]
+    },
     "0c5f0423dcf4af7a33213565": {
       "kind": "text",
       "source": "1. Grobreinigung: vereinbarte Bereiche freimachen",
@@ -709,6 +716,13 @@
       "source": "Reinigung zwischen Gewerken, Staub- und Schmutzbeseitigung nach abgestimmten Bauabschnitten.",
       "routes": [
         "/bauleistungen/bauzwischenreinigung/"
+      ]
+    },
+    "122eeca04172518242eba896": {
+      "kind": "text",
+      "source": "Anfragen und Zusammenarbeit am richtigen Ort.",
+      "routes": [
+        "/"
       ]
     },
     "123674269214ccfcbbfe9211": {
@@ -3136,6 +3150,13 @@
         "/ratgeber/"
       ]
     },
+    "4f30b0c246ab9f78137e4b6e": {
+      "kind": "text",
+      "source": "KNABA DE / DIGITALE ZUSAMMENARBEIT",
+      "routes": [
+        "/"
+      ]
+    },
     "4f43a40eeee37f655c7d3837": {
       "kind": "meta:og:title",
       "source": "Bauzwischenreinigung | KnaBa Berlin",
@@ -4110,6 +4131,13 @@
         "/datenschutz/"
       ]
     },
+    "6b068fbed3b5cfe16b021926": {
+      "kind": "text",
+      "source": "Native App-Downloads nach Prüfung und Signatur. Der Webzugang ist separat verfügbar.",
+      "routes": [
+        "/"
+      ]
+    },
     "6b10bbc5f40a01176c73df2c": {
       "kind": "meta:description",
       "source": "Sie interessieren sich für Baureinigung, Baufeinreinigung oder Bauhelfer-Aufgaben? Fragen Sie nach aktuellen Möglichkeiten. Diese Seite stellt keine unbestätigten Stellenangebote dar.",
@@ -4322,6 +4350,13 @@
       "source": "Bauhilfsarbeiten, Baustellenvorbereitung und Unterstützung nach Leistungsvereinbarung mit Bauunternehmen.",
       "routes": [
         "/bauleistungen/bauhilfe/"
+      ]
+    },
+    "6f7cf07ae5fef1ade238af96": {
+      "kind": "text",
+      "source": "Mitarbeitende",
+      "routes": [
+        "/"
       ]
     },
     "6f88f1c499165c94fb661760": {
@@ -6503,6 +6538,13 @@
         "/"
       ]
     },
+    "aa9953c7f1407b115bd9c510": {
+      "kind": "text",
+      "source": "KnaBa unterwegs steuern",
+      "routes": [
+        "/"
+      ]
+    },
     "aaeae6b7410d4c054de81e79": {
       "kind": "text",
       "source": "Werden Böden, Türen und Sanitärräume gereinigt?",
@@ -7447,6 +7489,13 @@
         "/faq/"
       ]
     },
+    "c4a9f66b2acea373024f0410": {
+      "kind": "text",
+      "source": "Zugewiesene Aufgaben und bewusste Zeiterfassung.",
+      "routes": [
+        "/"
+      ]
+    },
     "c5433b34a22ca0fa4e1d6721": {
       "kind": "text",
       "source": "PASSENDE LEISTUNG FINDEN",
@@ -7692,6 +7741,13 @@
       "source": "4. Angebote nach Umfang vergleichen",
       "routes": [
         "/ratgeber/"
+      ]
+    },
+    "ce8e52a4e13e0f6e0bb56677": {
+      "kind": "text",
+      "source": "Aufträge, Teams und Freigaben zentral verwalten.",
+      "routes": [
+        "/"
       ]
     },
     "cea5318d997fa6f5d1e03d09": {
@@ -8822,6 +8878,13 @@
         "/faq/"
       ]
     },
+    "ef29a754e92de611e5f004ca": {
+      "kind": "text",
+      "source": "Für Kunden, Baustellenteams und die Geschäftsleitung. Anfragen, Einsätze und Kommunikation direkt im mobilen KNABA-Arbeitsbereich — mit serverseitig freigegebenen Rollen.",
+      "routes": [
+        "/"
+      ]
+    },
     "ef4c935956ebd0babcb71c1b": {
       "kind": "text",
       "source": "Ihr Projektplan.",
@@ -8941,6 +9004,13 @@
         "/"
       ]
     },
+    "f4441eddb6e763534613007a": {
+      "kind": "text",
+      "source": "Android & iPhone entdecken",
+      "routes": [
+        "/"
+      ]
+    },
     "f44668234b08320d50dfa4b8": {
       "kind": "text",
       "source": "Welche Reinigungsphase passt zum Baufortschritt? Grobreinigung, Zwischenreinigung und Endreinigung abgrenzen und mit den Gewerken abstimmen.",
@@ -8994,6 +9064,13 @@
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
         "/leistungen/"
+      ]
+    },
+    "f55d5eded1c43c31a19cc51c": {
+      "kind": "text",
+      "source": "Kunden & Partner",
+      "routes": [
+        "/"
       ]
     },
     "f5666e6fc75add90f1fcd4f7": {

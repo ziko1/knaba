@@ -65,3 +65,18 @@ Release gates: 0 TS/build/runtime failures, Android actual compilation+emulator/
 
 ## 9. Контрольний звіт кожного проходу
 Видавай: **Зроблено**, **Перевірено** з exact SHA/командами, **Не підтверджено**, **Блокери**, **Наступна єдина задача**, посилання на один PR і артефакти. Повністю завершені зміни — тільки після off-host push і reverify. Не плутай поточний PWA/launcher MVP із готовим native ERP, не публікуй непідписані збірки як реліз, не обіцяй фонову роботу "до 12".
+
+
+## Native-first виконання — 28.10.2026, PR #112
+Уточнення від власника: **не робити браузер або WebView замість застосунків**.
+- Android launcher: `ErpConsoleActivity` та окремий доступний `MainActivity` для обліку часу/GPS.
+- iOS owner-first: `ERPConsoleView` у нативному `TabView` + окремий `CompanionView` для робочих змін.
+- Обидва нативні екрани працюють із серверними `/api/v1/auth/login`, `/me`, `/dashboard`, `/commands`, `/entities/:kind`, `/channels/:id/messages` та `/commands/:name`. НЕ вигадувати інші маршрути.
+- Актор, його ролі, компанія, site/customer-скоуп і дозволені команди надходять тільки з ERP. Жодних ролей із локальної форми. Керування об'єктами, заявками, бригадами, працівниками, задачами, повідомленнями, звітами та налаштуваннями — за фактичним серверним каталогом прав.
+- Авторизація ERP нативна: email+password+optional 2FA, сесійний Cookie у пам’яті (без UserDefaults), csrf у пам’яті, HTTPS/no redirects, logout з відкликанням. Зміна сервера очищує сесію; origin — лише не секретна конфігурація. Website cookie login і ERP login **все ще різні**, потрібен окремий перевірений SSO bridge. Заборонено копіювати employee device bearer у user auth.
+- Нативні дії вимагають idempotency UUID, схеми сервера, optimistic expected_version. High-risk action вимагає додаткового UI підтвердження, а серверну MFA/рольну перевірку ніхто не оминає.
+- Worker presence/position: тільки наявний опціональний Android/iOS explicit GPS зі справжнім server lease. Присутність власник бачить через серверні shift/presence записи; немає дозволу/даних/свіжості — не називати працівника відсутнім чи таким, що не працює. Без законного GPS workflow користуватись чеклістами й ручними підтвердженнями, а не прихованим трекінгом.
+- На сайті: одна помітна localized homepage секція після `ProjectScopeGuide` перед FAQ, відкрита `/app/` з перевіреними download links. Не показувати фіктивні APK/iOS links. Версії для клієнта потребують реального signing/device UAT і server migration.
+
+### Обов'язкові невиконані acceptance
+Повний спільний SSO корпоративний сайт↔ERP, фактичні відправлення повідомлень клієнт↔власник через єдиний backend та інтеграція partners, усі server scoped workflows, native Android APK debug/signed, iOS Xcode .xcarchive/TestFlight, real owner/worker/customer role UAT, нагляд за геолокацією за законними дозволами, зовнішній server backup+rollback, підписаний URL на сайті. Не підміняти їх тестом source або build.

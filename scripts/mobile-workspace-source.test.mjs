@@ -1,34 +1,37 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-const root=new URL('../',import.meta.url);
-const read=path=>readFileSync(new URL(path,root),'utf8');
-
-test('native KNABA workspace uses browser handoff without sharing device bearer credentials',()=>{
- const android=read('erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt');
- const ios=read('erp/apps/mobile-ios/Sources/KNABADEApp.swift');
- const aurl=read('erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/WorkspaceLinks.java');
- const surl=read('erp/apps/mobile-ios/Sources/WorkspaceRoutes.swift');
- assert.ok(android.includes('Intent.ACTION_VIEW'));
- assert.ok(android.includes('CATEGORY_BROWSABLE'));
- assert.ok(android.includes('openWorkspace(true, "/app/")'));
- assert.ok(android.includes('openWorkspace(false, "/console")'));
- assert.ok(ios.includes('Link(model.text(.mobilePortal)'));
- assert.ok(ios.includes('Link(model.text(.mobileErp)'));
- assert.ok(aurl.includes('getRawUserInfo() != null'));
- assert.ok(surl.includes('value.user == nil, value.password == nil'));
- assert.ok(!android.includes('Intent.ACTION_VIEW + deviceToken'));
+const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
+test('KNABA Mobile ships genuine role-based native views without embedded browser',()=>{
+ const iOS=read('erp/apps/mobile-ios/Sources/ERPConsoleView.swift');
+ const android=read('erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt');
+ const manifest=read('erp/apps/mobile-android/app/src/main/AndroidManifest.xml');
+ const root=read('erp/apps/mobile-ios/Sources/KNABADEApp.swift');
+ assert.match(iOS,/struct ERPConsoleView: View/);assert.match(iOS,/ERPCommandForm/);
+ assert.match(android,/class ErpConsoleActivity : Activity/);assert.match(android,/api\.command/);
+ assert.match(manifest,/android:name=".ErpConsoleActivity" android:exported="true"/);
+ assert.match(root,/ERPConsoleView\(\)/);
+ assert.doesNotMatch(iOS,/WKWebView|SFSafariViewController/);
+ assert.doesNotMatch(android,/android\.webkit|WebView\(/);
 });
-
-test('mobile portal preserves backend-restricted partners, gated binaries and no private offline caching',()=>{
- const page=read('corporate-site/src/components/MobileAppPage.astro');
- const worker=read('corporate-site/public/mobile-sw.js');
- const site=read('corporate-site/src/components/Portal.tsx');
- assert.ok(page.includes("role==='owner'||role==='admin'"));
- assert.ok(page.includes('androidDistributionUrl'));
- assert.ok(page.includes('iosDistributionUrl'));
- assert.ok(!worker.includes('caches.open'));
- assert.ok(!worker.includes('cache.put'));
- assert.ok(site.includes('data-knaba-role="partner"'));
- assert.ok(site.includes("['owner','admin','worker','client'].includes(role())"));
+test('Native accounts use existing ERP authenticated server commands and do not bypass access or location gate',()=>{
+ const swift=read('erp/apps/mobile-ios/Sources/ERPConsoleCore.swift');
+ const java=read('erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java');
+ const auth=read('erp/apps/api/auth.ts');
+ const api=read('erp/apps/api/http.ts');
+ assert.match(swift,/\/api\/v1\/auth\/login/); assert.match(java,/\/api\/v1\/auth\/login/);
+ assert.match(swift,/X-CSRF-Token/);assert.match(java,/X-CSRF-Token/);
+ assert.match(swift,/idempotency_key/);assert.match(java,/idempotency_key/);
+ assert.match(swift,/\/api\/v1\/commands/); assert.match(java,/\/api\/v1\/commands/);
+ assert.match(auth,/SESSION_COOKIE='knaba_session'/);assert.match(api,/@Get\('entities\/:kind'\)/);
+ assert.doesNotMatch(swift,/deviceToken/);assert.doesNotMatch(java,/deviceToken/);
+});
+test('Homepage contains one mobile work section in correct process-to-FAQ flow and no fake downloads',()=>{
+ const home=read('corporate-site/src/components/ConstructionHome.astro');
+ const promo=read('corporate-site/src/components/HomeMobilePromo.astro');
+ assert.equal((home.match(/<HomeMobilePromo locale=/g)||[]).length,1);
+ assert.ok(home.indexOf('<ProjectScopeGuide')<home.indexOf('<HomeMobilePromo'));
+ assert.ok(home.indexOf('<HomeMobilePromo')<home.indexOf('<ConstructionFaq'));
+ assert.match(promo,/href=\{prefix\+'\/app\/'\}/);
+ assert.doesNotMatch(promo,/\.apk|\.ipa|testflight\.apple\.com/);
 });

@@ -1,5 +1,52 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="erp_title">KNABA · Zarządzanie</string>
+    <string name="erp_login_intro">Zaloguj się na zatwierdzone konto ERP. Bez przeglądarki w aplikacji.</string>
+    <string name="erp_server">Adres HTTPS serwera ERP</string>
+    <string name="erp_email">E-mail</string>
+    <string name="erp_password">Hasło</string>
+    <string name="erp_otp">Kod 2FA (jeśli wymagany)</string>
+    <string name="erp_sign_in">Zaloguj bezpiecznie</string>
+    <string name="erp_privacy">Role i dostęp do danych zatwierdza wyłącznie serwer KNABA. GPS pozostaje wyłączony.</string>
+    <string name="erp_refresh">Odśwież</string>
+    <string name="erp_role">Rola</string>
+    <string name="erp_active_shifts">Aktywne zmiany</string>
+    <string name="erp_decisions">Decyzje</string>
+    <string name="erp_sites">Obiekty</string>
+    <string name="erp_requests">Zapytania</string>
+    <string name="erp_orders">Zlecenia</string>
+    <string name="erp_tasks">Zadania</string>
+    <string name="erp_crew">Przydziały ekip</string>
+    <string name="erp_people">Pracownicy</string>
+    <string name="erp_shifts">Zmiany</string>
+    <string name="erp_presence">Status obecności</string>
+    <string name="erp_customers">Klienci</string>
+    <string name="erp_messages">Wiadomości</string>
+    <string name="erp_alerts">Powiadomienia</string>
+    <string name="erp_users">Użytkownicy i role</string>
+    <string name="erp_settings">Ustawienia</string>
+    <string name="erp_actions">Dozwolone działania</string>
+    <string name="erp_time_tools">Czas pracy i GPS</string>
+    <string name="erp_logout">Wyloguj</string>
+    <string name="erp_presence_notice">Lokalizacja tylko za wyraźną zgodą, z ważną polityką i świeżym stanem serwera. Brak pozycji = nieznany.</string>
+    <string name="erp_server_scope">Dane ograniczone uprawnieniami serwera</string>
+    <string name="erp_back">Wstecz</string>
+    <string name="erp_empty">Brak dostępnych rekordów</string>
+    <string name="erp_count">Rekordy: %1$d</string>
+    <string name="erp_close">Zamknij</string>
+    <string name="erp_message">Napisz wiadomość</string>
+    <string name="erp_send">Wyślij</string>
+    <string name="erp_actions_intro">Wyłącznie dozwolone działania serwera. Wrażliwe operacje wymagają potwierdzenia.</string>
+    <string name="erp_expected_version">Oczekiwana wersja (opcjonalnie)</string>
+    <string name="erp_submit">Wyślij do KNABA</string>
+    <string name="erp_confirm_sensitive">Potwierdź wrażliwą operację</string>
+    <string name="erp_cancel">Anuluj</string>
+    <string name="erp_confirm">Potwierdź</string>
+    <string name="erp_saved">Zapisano</string>
+    <string name="erp_loading">Ładowanie…</string>
+    <string name="erp_error">Błąd KNABA: %1$s</string>
+    <string name="erp_fields_required">Wypełnij wymagane pola.</string>
+
     <string name="mobile_workspace_title">Panel KNABA</string>
     <string name="mobile_website_hint">Adres HTTPS strony KNABA</string>
     <string name="mobile_open_portal">Otwórz KNABA Mobile</string>
