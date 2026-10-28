@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 test:logo:browser
+> node tests/knaba-logo-browser.cjs
+
+KNABA_LOGO_BROWSER_QA {"status":"PASS","engine":"chromium","cases":16,"skipped":[]}

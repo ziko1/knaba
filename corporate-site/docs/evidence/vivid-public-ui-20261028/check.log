@@ -1,0 +1,44 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 check
+> astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json
+
+14:47:55 [types] Generated 296ms
+14:47:55 [check] Getting diagnostics for Astro files in /workspace/scratch/4399223b73d0/knaba/corporate-site...
+vps/oidc.mjs:5:46 - warning ts(6133): 'createSessionForUser' is declared but its value is never read.
+
+5 import {normalizeEmail,createCredentialsUser,createSessionForUser} from './auth.mjs';
+                                               ~~~~~~~~~~~~~~~~~~~~
+
+vps/oidc.test.mjs:149:9 - warning ts(6133): 'original' is declared but its value is never read.
+
+149   const original=createOwner(db,owner,'synthetic-owner-password-2026');
+            ~~~~~~~~
+
+vps/server.mjs:323:25 - warning ts(6133): 'request' is declared but its value is never read.
+
+323     ASSETS:{fetch:async request=>{
+                            ~~~~~~~
+vps/server.mjs:4:1 - warning ts(6133): 'createHash' is declared but its value is never read.
+
+4 import { createHash } from 'node:crypto';
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vps/server.mjs:3:18 - warning ts(6133): 'relative' is declared but its value is never read.
+
+3 import { resolve,relative,sep,join,extname } from 'node:path';
+                   ~~~~~~~~
+
+vps/server.test.mjs:45:7 - warning ts(6133): 'restarted' is declared but its value is never read.
+
+45   let restarted=false;
+         ~~~~~~~~~
+
+Result (306 files):
+- 0 errors
+- 0 warnings
+- 6 hints
+
+Loading svelte-check in workspace: /workspace/scratch/4399223b73d0/knaba/corporate-site
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

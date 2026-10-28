@@ -366,3 +366,19 @@ Removed implicit deletion of expired access requests during a new submission. Ex
 ## 28.10.2026 — migration URL correction and isolated production SEO
 
 Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixture reproduced /ber 303 to an absent page. Added exact 308 company/career and observed canonical trailing-slash mappings for GET/HEAD; unknown URLs remain 404 and POST is rejected. Full relevant VPS suite 90/90 and root suite 25/25 PASS. Production HTML/SEO verified in an isolated official build: 130 HTML, 104 indexable including legal pages, 100 sitemap entries; no indexing submission or production deployment. Six domain literals require the official source catalogue to be extracted before verify; staging catalogue restored afterward. Detailed evidence is in docs/evidence/staging-release-20261028. Final runtime deployment and authenticated cloud acceptance are still required.
+
+## 28.10.2026 — vivid public UI / зручність
+
+Feature source `103e3f9feb58aeec7323ae7c4fa5f4cf011355fa`, on latest coordinated staging parent `e2ab9b1883bcac8559dd34939d75bb3e9676dd69`. План: `docs/plans/2026-10-28-vivid-public-ui.md`; evidence: `docs/evidence/vivid-public-ui-20261028/QA_UK.md`.
+
+| ID | Критерій | Стан |
+| --- | --- | --- |
+| VUI01 | Виразні публічні сторінки, узгоджені картки, зручні мобільні дії | IMPLEMENTED / independent source + visual review PASS |
+| VUI02 | Зберегти тексти, посилання, медіа та функціональні контракти | PASS, 130/130 HTML, чотири локалі, один tel на сторінку |
+| VUI03 | Progressive motion, reduced motion, keyboard, no-JS та reflow | PASS, 16 logo +43 public browser scenarios, loopback Chromium |
+| VUI04 | Незмінені бюджети, source/build/i18n/VPS перевірки на точному SHA | PASS, public CSS39410B <40960B; повні результати у QA receipt |
+| VUI05 | Release на сервер, physical-device/owner UAT, field CWV | NOT_RUN; окремі чинні release authorization / backup / rollback gates |
+
+Main і production не змінено. Наявний scope ERP, авторизації, платних провайдерів, юридичного/нативного мовного приймання не закривається цим дизайном.
+
+**Final forward candidate0faad8da1551262c0fc4a583fe45ed4e5f43616f** зберігає новий mobile-розділ із staging75c599b0:134/134маршрути без text/contract differences,487 automatic tests і67 browser scenarios PASS. CSS39451B, незмінений ліміт40960B. VUI01–VUI04 підтверджено на цьому точному source; VUI05 залишається NOT_RUN. Актуальний receipt: `docs/evidence/vivid-public-ui-20261028/forward-mobile/QA_UK.md`.
