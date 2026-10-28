@@ -1,0 +1,4 @@
+PASS historical import: 66b07fb46d23c7110473c51fc23ce58d3c40a1b1
+FEATURE CHANGE erp: b31158003d45fb257424c9f43fa20585dcaf73f6 (original a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43)
+FEATURE CHANGE corporate-site: 06701985de2da33f646fa1f430a00102c4ec4c6e (original 6ce56eb811af9733ce9b0b08dab3b636dfaf6371)
+FAIL uncommitted tracked/staged/untracked files; current source cannot be SHA-pinned

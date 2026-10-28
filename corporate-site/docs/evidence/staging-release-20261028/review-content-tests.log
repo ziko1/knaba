@@ -1,0 +1,126 @@
+
+> knaba-corporate-site@0.3.0 test
+> vitest run && node --test tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/gallery-workflow-content.test.mjs tests/verify-live-artifact.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs && node --test tests/legal-regression.test.mjs tests/partner-portal-regression.test.mjs
+
+
+ RUN  v5.0.5 /workspace/scratch/23db9ae4168f/knaba/corporate-site
+
+
+ Test Files  41 passed (41)
+      Tests  263 passed (263)
+   Start at  09:46:13
+   Duration  1.56s (import 41%, tests 38%, transform 16%, worker 5%)
+
+    Isolate  41 workers spawned · ~139ms startup each (spawn + environment, per file)
+             at least ~675ms faster with isolate: false — reuses workers across files instead of one per file
+
+✔ the shared frame exposes only one default telephone link (2.966676ms)
+✔ contextual telephone pages suppress the fallback, across localized routes (1.183659ms)
+✔ home closing conversion panel does not repeat the global telephone (0.430278ms)
+✔ information cards do not repeat the same contact link for each card (0.48243ms)
+✔ no-JavaScript portal help does not add a second telephone link (0.396759ms)
+✔ informational pages use shared contact details rather than an extra contact strip (0.537062ms)
+✔ profile and contextual contacts suppress shared footer email duplicates (1.963276ms)
+✔ no-JavaScript fallbacks use contextual mail without duplicating link (4.379965ms)
+✔ current contact page avoids redundant header, mobile and footer self-CTAs (1.198585ms)
+✔ homepage has one prominent catalogue CTA and a distinct extra-works deep link (0.925116ms)
+✔ service details have two focused contact CTAs without removing pricing and phone (0.376781ms)
+✔ contact no-JavaScript guidance reuses visible contacts without repeating their values (0.348477ms)
+✔ KNABA gallery route is honestly presented as a work-process guide in all four locales (1.01599ms)
+✔ schematic artwork remains labelled, never sold as a completed customer reference (0.294056ms)
+✔ each work process links to one distinct canonical existing service, not four duplicate contact CTAs (0.983832ms)
+✔ shared header, mobile navigation and footer use honest translated work-process name (0.247188ms)
+✔ empty inquiry requires service, object, location, frequency and contact identity (1.720502ms)
+✔ valid inquiry allows unknown area and optional phone/message without pricing (0.581787ms)
+✔ invalid service is rejected instead of accepted from an untrusted query (0.684577ms)
+✔ postcode preserves leading zero and rejects incomplete or nonnumeric inputs (0.245002ms)
+✔ area is optional but if provided is a positive bounded integer (0.201875ms)
+✔ message query punctuation cannot inject recipients or additional mailto parameters (0.264661ms)
+✔ email/header-like control characters and oversized fields are rejected (0.142652ms)
+✔ maximum unicode inputs produce a bounded, round-trip-safe mailto (0.199934ms)
+✔ pins an immutable release and proves all file bytes using build-verifier ordering (20.600346ms)
+✔ reports a genuine artifact mismatch, without accepting approximate asset sizes (7.543696ms)
+✔ fails closed on a switched release rather than reading a moving current symlink (7.945201ms)
+✔ detects an ABA release switch even if current returns to its original SHA (7.894101ms)
+✔ does not read a newer release if current already differs from expected source (7.202179ms)
+✔ rejects mutation of pinned release files during the audit (6.293615ms)
+✔ rejects symlink inside release contents to prevent reading outside of the release (4.015056ms)
+✔ rejects malformed expected source or missing artifact hash (7.27096ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.091037
+✔ reproducible localized transparent knaba-3d-header.svg (1.585348ms)
+✔ reproducible localized transparent knaba-3d-footer.svg (0.295078ms)
+✔ reproducible localized transparent knaba-3d-mobile-header.svg (0.402549ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer.svg (0.292639ms)
+✔ reproducible localized transparent knaba-3d-header-en.svg (1.048383ms)
+✔ reproducible localized transparent knaba-3d-footer-en.svg (0.311743ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-en.svg (0.218348ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-en.svg (0.150883ms)
+✔ reproducible localized transparent knaba-3d-header-uk.svg (0.427415ms)
+✔ reproducible localized transparent knaba-3d-footer-uk.svg (0.301004ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-uk.svg (0.345244ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-uk.svg (0.254727ms)
+✔ reproducible localized transparent knaba-3d-header-ru.svg (0.149129ms)
+✔ reproducible localized transparent knaba-3d-footer-ru.svg (0.180426ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-ru.svg (0.29089ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-ru.svg (0.216911ms)
+✔ approved locale registry is exact and free of filler (1.026114ms)
+✔ dark slogan is readable on site paper token (0.224777ms)
+✔ light slogan is readable on current footer token (0.076092ms)
+✔ admin-blocked Chromium falls back once to WebKit, no duplicate Chrome launch (3.01938ms)
+✔ all policy-blocked browsers remain BLOCKED, not PASS (0.405728ms)
+✔ unavailable Chrome executable falls back to WebKit (1.434117ms)
+✔ site response 503 is FAIL, never fallback to conceal site outage (0.303676ms)
+✔ suite assertion failure is FAIL, never hidden by another browser (1.512359ms)
+✔ reject public websites and unsafe preview paths (0.712094ms)
+✔ verified Chromium policy block can be skipped in repeated same-environment QA (0.703607ms)
+✔ Chromium QA launch must not explicitly disable the browser sandbox (0.323588ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.629184
+✔ empty staging sitemap still verifies the source registry, without retired or private pages (15.592475ms)
+✔ extracts public HTML headings, metadata, ARIA, placeholders, not code or URLs (1.858136ms)
+✔ deduplicates repeated labels but changes digest for new source copy (2.634517ms)
+✔ reads only first-party published German sitemap paths; no external or private locations (0.374451ms)
+✔ a draft is incomplete and never becomes a published language (1.615152ms)
+✔ 100% static translation remains blocked on dynamic, legal, real reviewer and device gates (1.19935ms)
+✔ stale source rejects even all translations; never silently accepts old packs (0.889596ms)
+✔ rejects unsupported locales and malformed or unknown strings, XSS, changed placeholders (0.917106ms)
+✔ never uses translated business contacts or unsafe browser markup as a replacement payload (0.995174ms)
+✔ adds legally required public routes and the account entry without mixing private admin (1.987089ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 150.768081
+✔ de: privacy navigation targets exist and disclose current services (2.308008ms)
+✔ de: legal notice is truthful about inquiries and published company data (0.401797ms)
+✔ ru: privacy navigation targets exist and disclose current services (0.665418ms)
+✔ ru: legal notice is truthful about inquiries and published company data (0.286865ms)
+✔ legal source never represents a generic privacy acknowledgement as marketing consent (0.702497ms)
+✔ assistant transparency is shown in all four public languages before a message is sent (0.324377ms)
+✔ partner is a first-class authenticated portal role with its own request controls (0.986011ms)
+✔ partner backend can only create and view own scoped requests, never worker notes (4.03154ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 71.645502
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

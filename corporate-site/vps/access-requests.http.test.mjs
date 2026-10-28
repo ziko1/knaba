@@ -21,16 +21,22 @@ test('public access request needs consent; no role elevation; owner-only review'
    body:new URLSearchParams(fields)});
   const page=await at('/join/?lang=uk');
   assert.equal(page.status,200);
+  assert.equal(page.headers.get('referrer-policy'),'strict-origin','native form submissions must preserve Origin without disclosing paths');
   assert.match(await page.text(),/Заявк|заявк/);
   const fields={name:'Тест Клієнт',email:'candidate@example.test',intent:'client',privacy:'on'};
   assert.equal((await at('/join/',post(fields,{Origin:'https://bad.example'}))).status,403);
   assert.equal((await at('/join/',post({...fields,intent:'owner'}))).status,422);
   assert.equal((await at('/join/',post({...fields,privacy:''}))).status,422);
+  assert.equal((await at('/join/',post(fields,{Origin:'null'}))).status,403,'opaque/null origin remains forbidden');
+  assert.equal((await at('/join/',post(fields,{'Sec-Fetch-Site':'cross-site'}))).status,403);
+  const missingOrigin=post(fields);delete missingOrigin.headers.Origin;
+  assert.equal((await at('/join/',missingOrigin)).status,403);
   const accepted=await at('/join/',post(fields));
   assert.equal(accepted.status,202);
   assert.doesNotMatch(await accepted.text(),/candidate@example.test/);
   assert.equal((await at('/join/',post(fields))).status,202);
   assert.equal(app.db.prepare('SELECT count(*) AS n FROM vps_access_requests').get().n,1);
+  assert.equal(app.db.prepare('SELECT privacy_version FROM vps_access_requests WHERE email=?').get(fields.email).privacy_version,'2026-10-28');
   assert.equal(app.db.prepare('SELECT count(*) AS n FROM vps_users').get().n,1);
   assert.equal((await at('/access-requests/')).status,401);
   createCredentialsUser(app.db,'worker@example.test','synthetic-worker-secret-2026');
@@ -53,7 +59,7 @@ test('public access request needs consent; no role elevation; owner-only review'
   assert.match(ownerMarkup,/name="role" value="client"/);
   assert.match(ownerMarkup,/name="identity_verified" value="on" required/);
   assert.doesNotMatch(ownerMarkup,/name="role" value="owner"/);
-  assert.equal(ownerList.headers.get('referrer-policy'),'no-referrer');
+  assert.equal(ownerList.headers.get('referrer-policy'),'strict-origin');
   const inviteReply=await at('/invite-user/',post({
     email:'candidate@example.test',role:'client',identity_verified:'on'
   },{Cookie:cookie}));

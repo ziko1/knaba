@@ -1,0 +1,34 @@
+{
+  "source": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "time": "2026-10-28T08:28:03.321806+00:00",
+  "client_artifact_sha256": "67459b81c58f45058f6184c282f78392d3f94ab70b94d86945eeca809f3117e0",
+  "runs": [
+    {
+      "command": "npm run build",
+      "started_at": "2026-10-28T08:27:37.312590+00:00",
+      "finished_at": "2026-10-28T08:27:45.091997+00:00",
+      "exit_code": 0,
+      "log": "final-build.log"
+    },
+    {
+      "command": "npm run verify:build",
+      "started_at": "2026-10-28T08:27:45.092018+00:00",
+      "finished_at": "2026-10-28T08:27:47.127586+00:00",
+      "exit_code": 0,
+      "log": "final-verify.log"
+    },
+    {
+      "command": "node --test --test-concurrency=2 vps/*.test.mjs",
+      "started_at": "2026-10-28T08:27:47.127603+00:00",
+      "finished_at": "2026-10-28T08:28:03.128138+00:00",
+      "exit_code": 0,
+      "log": "final-vps.log"
+    },
+    {
+      "command": "owner-server-setup.sh bundle",
+      "exit_code": 0,
+      "output": "BUNDLE_CREATED source=5cf1f9734c4b140344aa02e584a634a86e310b71 archive_sha256=7e4dfe6d097616023da8482fc3a90f60fb15ecfe5bd460d3c6b864f5a65029dd"
+    }
+  ],
+  "deployed": false
+}

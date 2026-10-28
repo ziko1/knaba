@@ -1,0 +1,10 @@
+{
+  "time": "2026-10-28T08:25:50.862682+00:00",
+  "source": "b05b112bf907188db49e904b42c67ee1bdd6c322",
+  "local_client_sha256": "cb3d8a86a52d85e1fbca6a17981a76598558b976d18ed67222e4a3f88dffa9eb",
+  "raw_different_files": 19,
+  "difference": "Only generated astro-island uid attributes differ in 19 interactive HTML documents. All remaining HTML, asset names/content and other client files match.",
+  "diagnostic_normalization": "Removed only the value of astro-island uid from HTML for comparison; zero remaining differences. This normalization is NOT used for deployment integrity.",
+  "initial_attempt": "Remote build and static verifier passed; an additional cross-build raw-hash assertion stopped bundle creation. No deployment occurred.",
+  "release_policy": "Final artifact must be verified and checksummed in its build environment, then deployed byte-for-byte with raw SHA256; do not substitute local checksum or claim bit-reproducible builds."
+}

@@ -1,11 +1,10 @@
 import {createSignal, For, onCleanup, onMount, Show} from 'solid-js';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
-import {reviewDate, reviewExamples, reviewsCopy, type PublicReview, type ReviewLocale} from '../data/reviews';
+import {reviewDate, reviewsCopy, type PublicReview, type ReviewLocale} from '../data/reviews';
 import {createRequestId} from '../lib/request-id';
 
 export default function PublicReviews(props: {locale: ReviewLocale}) {
   const t=()=>reviewsCopy[props.locale];
-  const examples=()=>reviewExamples[props.locale];
   const [reviews,setReviews]=createSignal<PublicReview[]>([]);
   const [total,setTotal]=createSignal(0);
   const [loading,setLoading]=createSignal(true);
@@ -103,15 +102,7 @@ export default function PublicReviews(props: {locale: ReviewLocale}) {
     <Show when={loading()}><p class="reviews-status" role="status">{t().loading}</p></Show>
     <Show when={!loading()&&loadError()}><div class="reviews-notice" role="alert"><p>{t().loadError}</p><button type="button" class="reviews-link" onClick={()=>void load()}>{t().retry}</button></div></Show>
     <Show when={!loading()&&!loadError()}>
-      <Show when={reviews().length>0} fallback={<div class="reviews-examples" aria-labelledby="review-examples-title">
-        <div class="reviews-example-heading"><h3 id="review-examples-title">{examples().title}</h3><p>{examples().disclosure}</p></div>
-        <div class="reviews-grid"><For each={examples().items}>{example=><figure class="review-card review-example">
-          <span class="review-example-badge">{examples().badge}</span>
-          <blockquote><p>{example.text}</p></blockquote>
-          <figcaption><strong>{example.topic}</strong></figcaption>
-        </figure>}</For></div>
-        <p class="reviews-example-invitation">{t().emptyText}</p>
-      </div>}>
+      <Show when={reviews().length>0} fallback={<p class="reviews-status reviews-empty" role="status">{t().emptyText}</p>}>
         <div class="reviews-grid"><For each={reviews()}>{review=><figure class="review-card">
           <span class="review-quote-mark" aria-hidden="true">“</span>
           <blockquote><p>{review.text}</p></blockquote>

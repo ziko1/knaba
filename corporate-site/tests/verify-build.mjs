@@ -9,7 +9,7 @@ const root = resolve("dist/client");
 const releaseMode = process.env.KNABA_RELEASE_MODE;
 const official = releaseMode === "official";
 const vsp = releaseMode === "vsp";
-const indexingApproved = official || vsp;
+const indexingApproved = official;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 const publishedGuideSlugs = new Set(constructionGuideRoutes.map(guide=>guide.slug));
 // Four locales * (12 shared public routes including gallery/partners + 8 offers + guides).
@@ -65,7 +65,7 @@ for (const file of pages) {
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   }
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /admin|konto|postfach|studio|crm|404/.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /admin|konto|postfach|studio|crm|404|\/app\//.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -162,7 +162,7 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,130,'130 source-built pages: 122 retained pages plus four partner directories and four Bauhelfer guides');
+assert.equal(pages.length,134,'134 source-built pages: 130 existing public/private pages plus four localized KNABA Mobile entry pages');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
@@ -240,8 +240,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/revie
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 37, 'Russian public tree includes partners, gallery and construction guides');
-assert.equal(russianPages.length, 38, 'Russian private inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 38, 'Russian tree includes partners, gallery, construction guides and mobile entry');
+assert.equal(russianPages.length, 39, 'Russian private inbox remains an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -278,7 +278,7 @@ if(indexingApproved) {
 const headers = await readFile(resolve(root,'_headers'),'utf8');
 assert.match(headers,/X-Content-Type-Options: nosniff/);
 if(!indexingApproved) assert.match(headers,/X-Robots-Tag: noindex, follow/);
-else assert.doesNotMatch(headers.split('/admin/*')[0],/X-Robots-Tag: noindex/,'Public VSP release must not send blanket noindex');
+else assert.doesNotMatch(headers.split('/admin/*')[0],/X-Robots-Tag: noindex/,'Approved official build must not send blanket noindex');
 for(const path of ['/admin/*','/konto/*','/studio/*','/crm/*','/postfach/*','/ru/konto/*','/ru/postfach/*'])
   assert.ok(headers.includes(path+'\n  X-Robots-Tag: noindex, nofollow'),'Private robots header '+path);
 const report = {
@@ -286,7 +286,7 @@ const report = {
   pages: pages.length,
   internalLinks: "PASS",
   metadata: "PASS",
-  indexMode: official ? "OFFICIAL" : vsp ? (indexingApproved ? "VSP_PUBLIC" : "VSP_PENDING_APPROVAL") : "TEMPORARY_NOINDEX",
+  indexMode: official ? "OFFICIAL" : vsp ? "VSP_STAGING_NOINDEX" : "TEMPORARY_NOINDEX",
   externalImageScriptRequests: "NONE_IN_HTML",
   externalPartnerImagesInMarkup,
   cssGzip,

@@ -57,8 +57,8 @@ export function submitAccessRequest(db,{name,email,intent,consented,peer,ownerEm
     const sourceOk=limit(db,sourceKey,(bucket+1)*900,100);
     const addressOk=limit(db,addressKey,(day+1)*86400,3);
     if(!sourceOk||!addressOk)throw new AccessRequestError('Submission rate limited','limited');
-    // Bound personal-data retention for old enquiries without touching accounts.
-    db.prepare('DELETE FROM vps_access_requests WHERE expires_at<=?').run(now);
+    // Expiry limits processing, not storage authorization. Only the protected
+    // access-retention CLI may erase enquiries after approval and online backup.
     if((ownerEmail&&address===normalizeEmail(ownerEmail)) ||
        db.prepare('SELECT 1 FROM vps_users WHERE email=?').get(address))
       return {accepted:true};
@@ -71,7 +71,7 @@ export function submitAccessRequest(db,{name,email,intent,consented,peer,ownerEm
       'INSERT INTO vps_access_requests'+
       '(id,name,email,intent,status,privacy_version,created_at,expires_at)'+
       " VALUES (?,?,?,?,'pending',?,?,?)"
-    ).run(id,safeName,address,intent,'2026-10-26',now,now+ttlMs);
+    ).run(id,safeName,address,intent,'2026-10-28',now,now+ttlMs);
     db.prepare('INSERT INTO portal_audit(id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
       .run(randomBytes(18).toString('base64url'),'public','access.requested',id,new Date(now).toISOString());
     return {accepted:true};

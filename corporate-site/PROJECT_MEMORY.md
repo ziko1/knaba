@@ -364,3 +364,26 @@ Preserved canonical `/admin/` and old `/studio/`, `/crm/`, `/konto/`, `/postfach
 - The separately preserved KNABA ERP PostgreSQL identity implementation uses the same minimum for hashing, one-use invitations and self-service password rotation, without changing its role permissions or privileged MFA requirements.
 - TDD on the original PR #110 source: focused regressions first failed on the previous 16/12 minima, then the new 8-character cases passed. Isolated Node 24 full website check/build/verification and 79 VPS tests passed; ERP typecheck and 1866 offline tests passed (439 PostgreSQL integration cases skipped in this CPU-only run). Source publication, live preview verification and real developer enrollment require separate receipts. Never treat unit tests as physical-device, real OAuth or full PostgreSQL acceptance.
 - Privileged developer identity remains bound to a separate private server email and a revocable server-side grant; never place real email, password, token, session, or private SQLite state into this public repository.
+
+## 28.10.2026 — staging release coordinator / noindex correction
+
+User confirmed this session coordinates kneba.vsp.rest only. No customer production, DNS, search submission or public-profile changes. Base ab6533a6a0ff1d17d0e2dab0a86909cbdc9f3760; release/knaba-staging-20261028 is an isolated candidate. Preserve the concurrent owner-settings/access-dialog worktree; no automatic all-PR merge.
+
+Confirmed defect: vsp build made staging indexable. Corrected public HTML, HTTP and static-document headers; isolated official mode retains production SEO. Empty staging sitemap no longer prevents strict translation-catalog verification: reuse existing Studio route registry. Exact checks, initial test-fixture correction and limitations: docs/evidence/staging-release-20261028/indexability-checkpoint.json. Deployment, role browser UAT, ERP integration and provider gates remain unaccepted.
+
+
+## 28.10.2026 — exact staging verification / privacy correction
+
+Independent verification reused PR #113 staging noindex code instead of repeating it. Base runtime fcce39ca316419417b2eb7d97605bf4006ab5652. Current working-tree change aligns DE/RU privacy with authorized developer/partner/access-request flows and browser language storage; new privacy acknowledgements use 2026-10-28 while historical records remain unchanged. No schema or provider activation.
+
+Fresh Node24.22.1 check 0 errors/0 warnings, 263 Vitest + 77 Node website tests, 88 real SQLite/VPS tests, staging build 130 HTML and verifier PASS. CSS gzip 40949 bytes; artifact digest 7306560cb740f3cfb84e9c05252ea1d08f49a481fb93c5b67c3054a69d445bf1. This is working-tree source QA until the published source/tree and final deployment receipt are bound.
+
+Cloud browser successfully submitted a synthetic enquiry; identical ID and one persisted SQLite record verified read-only. Secure owner sign-in returned failure, so privileged live browser acceptance is BLOCKED. Full ERP integration/provider delivery, physical devices and owner acceptance remain unaccepted. Current service inventory and per-scenario evidence: docs/evidence/staging-release-20261028/DEMO_REGISTER_UK.md. Customer production/DNS/indexing remain PENDING_USER_APPROVAL after demonstration.
+
+## 28.10.2026 — access request retention correction
+
+Removed implicit deletion of expired access requests during a new submission. Expiry restricts processing; deletion remains exclusively in the existing approved retention workflow with backup. A regression first reproduced lost rows, then passed with preserved expired record and unchanged owner/user counts. Updated DE/RU privacy for partner, separate revocable developer access and access requests without account creation. No invented retention approval or EN/UK legal publication. Node24 focused 11/11, legal 6/6, full VPS 89/89 and staging build/catalog/verify PASS. Evidence: docs/evidence/staging-release-20261028/retention-checkpoint.json. This working-tree slice still requires final staging deployment and browser acceptance.
+
+## 28.10.2026 — migration URL correction and isolated production SEO
+
+Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixture reproduced /ber 303 to an absent page. Added exact 308 company/career and observed canonical trailing-slash mappings for GET/HEAD; unknown URLs remain 404 and POST is rejected. Full relevant VPS suite 90/90 and root suite 25/25 PASS. Production HTML/SEO verified in an isolated official build: 130 HTML, 104 indexable including legal pages, 100 sitemap entries; no indexing submission or production deployment. Six domain literals require the official source catalogue to be extracted before verify; staging catalogue restored afterward. Detailed evidence is in docs/evidence/staging-release-20261028. Final runtime deployment and authenticated cloud acceptance are still required.

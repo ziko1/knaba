@@ -1,0 +1,46 @@
+{
+  "time_utc": "2026-10-28T08:51:35.469291+00:00",
+  "environment": "https://kneba.vsp.rest/",
+  "runtime_source": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "tool": "Work cloud browser, CDP tab 5",
+  "checks": [
+    {
+      "case": "Home service carousel next button and keyboard ArrowRight",
+      "result": "PASS",
+      "observed": "02/08 then 03/08"
+    },
+    {
+      "case": "Bauhelfer FAQ expansion",
+      "result": "PASS",
+      "observed": "Tasks, supervision and responsibilities agreed contractually"
+    },
+    {
+      "case": "Reviews form open/close and consent unchecked",
+      "result": "PASS"
+    },
+    {
+      "case": "Empty reviews credibility",
+      "result": "FAIL",
+      "observed": "Three explicitly fictional example testimonials shown; removed in working-tree candidate; requires redeployment and browser verification"
+    },
+    {
+      "case": "Assistant open",
+      "result": "PASS",
+      "observed": "Automated assistant notice, privacy disclosure, tel/mail contacts and consent gate rendered"
+    },
+    {
+      "case": "Assistant synthetic message submission",
+      "result": "BLOCKED",
+      "observed": "Senden returned Bitte schließen Sie die Sicherheitsprüfung ab.; no CAPTCHA solved or bypassed; no answer/handoff PASS"
+    },
+    {
+      "case": "Application console errors on observed interactions",
+      "result": "PASS",
+      "scope": "No same-origin error seen; two Turnstile warnings recorded separately"
+    }
+  ],
+  "viewport_resizing": "NOT_AVAILABLE_IN_EXPOSED_CLOUD_API",
+  "physical_mobile": "NOT_RUN",
+  "zoom_200_percent": "NOT_RUN",
+  "privileged_role_sessions": "BLOCKED_NO_WORKING_AUTHENTICATED_IDENTITIES"
+}

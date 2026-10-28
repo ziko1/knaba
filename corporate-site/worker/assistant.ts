@@ -115,7 +115,7 @@ async function createConversation(request:Request,env:WorkerEnv) {
   await db.prepare('DELETE FROM portal_rate_limits WHERE expires_at < ?').bind(Math.floor(Date.now()/1000)-3600).run();
   const token=secret(),id=newId(),time=now(),locale=assistantLocale(b.locale);
   await db.prepare('INSERT INTO assistant_conversations (id,token_hash,locale,status,contact_name,contact_email,contact_phone,privacy_version,created_at,updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-    .bind(id,await digest(token),locale,'assistant','','','','2026-10-24',time,time).run();
+    .bind(id,await digest(token),locale,'assistant','','','','2026-10-28',time,time).run();
   return reply({id,token,locale,status:'assistant'},201);
 }
 async function guestMessage(request:Request,env:WorkerEnv,id:string,owner:Owner) {

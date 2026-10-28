@@ -1,0 +1,27 @@
+{
+  "time": "2026-10-28T06:50:40.560526+00:00",
+  "environment": "isolated local Node 24.22.1; staging live remains fcce39ca316419417b2eb7d97605bf4006ab5652",
+  "testedSource": "working-tree candidate over fcce39ca316419417b2eb7d97605bf4006ab5652",
+  "files": {
+    "vps/access-requests.mjs": "76f55842f7f52dc216f5307e42c99441f1b6679d86b2482173cd16d8d4971800",
+    "vps/access-audit.test.mjs": "72ac87e07b11b861a72d1f5b99133cce688b5608bb60d067aa27ee0f3e4a4624",
+    "src/pages/datenschutz.astro": "3b6dd100d4bd83721d4dad842b929a1fca81d9c40c603dac17fcbaed9f741d64",
+    "src/pages/ru/datenschutz.astro": "2911dc3eba6815b8f6941b1b682c0df6dd17a87463d087c525748e329851bc36",
+    "i18n/source-de.json": "756be1a1529566ab3b30acf7bd6309f72b4501624db49b1b11866d7978042801"
+  },
+  "results": {
+    "red": "expiry regression reproduced missing expired request",
+    "focused": "11/11 PASS",
+    "legal": "6/6 PASS",
+    "vps": "89/89 PASS; 0 skipped",
+    "stagingBuild": "PASS",
+    "sourceCatalog": "28 routes,1048 units",
+    "buildVerify": "PASS"
+  },
+  "limitations": [
+    "not yet deployed",
+    "company retention policy unapproved",
+    "owner legal UAT NOT_RUN",
+    "ERP/provider delivery not verified"
+  ]
+}

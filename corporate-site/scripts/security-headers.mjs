@@ -1,5 +1,5 @@
 import {writeFile} from 'node:fs/promises';
-const indexable=['official','vsp'].includes(process.env.KNABA_RELEASE_MODE);
+const indexable=process.env.KNABA_RELEASE_MODE==='official';
 await writeFile('.astro-static/_headers',`/*
   ${!indexable?'X-Robots-Tag: noindex, follow\n  ':''}X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

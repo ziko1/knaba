@@ -1,0 +1,15 @@
+{
+  "node": "v24.22.1",
+  "local_test_disabled": true,
+  "public_origin": "https://kneba.vsp.rest",
+  "files": {
+    "vps/server.mjs": "7214fae3d38d4a3680888c7e0094c6657208363920e880f8725995e66f58215a",
+    "dist/server/index.js": "f2a55661f5c8316d0c4ca6b3c0213cb6f570a5d93853ac0db7530b1e0b8063e9",
+    "dist/vps/render-page.mjs": "ea60d53fc2ddb4b2647064cc9185252becd0ef16693f755cf06b6eb6cfd6401d",
+    "package.json": "6d322f1602059107516948ddcae49335770d7fb05972ce73c021132d8427d536"
+  },
+  "time": "2026-10-28T08:39:54.730010+00:00",
+  "active_source": "/srv/knaba/vps/releases/5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "container_state": "running healthy",
+  "matches_verified_artifact": true
+}

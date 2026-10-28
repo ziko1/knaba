@@ -1,0 +1,29 @@
+{
+  "time": "2026-10-28T09:08:37.320423+00:00",
+  "source": "9127b1d3424517ea061df2eea2ecc820a6bcfbde",
+  "checks": [
+    {
+      "case": "same-origin form transport",
+      "status": 422,
+      "expected": 422,
+      "body": "Invalid access request"
+    },
+    {
+      "case": "cross-origin rejection",
+      "status": 403,
+      "expected": 403,
+      "body": "Origin verification failed"
+    },
+    {
+      "case": "missing-origin rejection",
+      "status": 403,
+      "expected": 403,
+      "body": "Origin verification failed"
+    }
+  ],
+  "access_request_tables": [
+    "vps_access_requests"
+  ],
+  "vps_user_count": 1,
+  "result": "PASS_TRANSPORT_BOUNDARY"
+}

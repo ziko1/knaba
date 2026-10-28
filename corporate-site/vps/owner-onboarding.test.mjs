@@ -11,7 +11,7 @@ const email='owner@example.test';
 const passphrase='synthetic-owner-passphrase-2026-not-real';
 async function instance(file) {
   return createKnabaVpsServer({
-    dbPath:file,ownerEmail:email,localTest:true,
+    dbPath:file,ownerEmail:email,developerEmail:'developer@example.test',localTest:true,
     staticRoot:new URL('../dist/client/',import.meta.url).pathname,
     workerPath:new URL('../dist/server/index.js',import.meta.url).href,
     host:'127.0.0.1',port:0
@@ -30,7 +30,10 @@ test('private activation GET is no-store, noindex, origin-bound and does not exp
     assert.match(result.headers.get('cache-control'),/no-store/);
     assert.equal(result.headers.get('x-robots-tag'),'noindex,nofollow');
     assert.equal(result.headers.get('x-frame-options'),'DENY');
-    assert.equal(result.headers.get('referrer-policy'),'no-referrer');
+    assert.equal(result.headers.get('referrer-policy'),'strict-origin');
+    const developerPage=await get('/activate-developer/');
+    assert.equal(developerPage.status,200);
+    assert.equal(developerPage.headers.get('referrer-policy'),'strict-origin');
     const body=await result.text();
     assert.doesNotMatch(body,/owner@example\.test/i);
     assert.match(body,/history\.replaceState/);

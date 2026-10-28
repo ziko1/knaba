@@ -13,6 +13,7 @@ enum NativeLanguage: String, CaseIterable, Identifiable {
 
 enum NativeText: String, CaseIterable {
     case language, deviceLanguage, status, locationOn, locationOff, queued, synchronize
+    case mobileWorkspace, mobileWebsiteHint, mobilePortal, mobileAccount, mobileErp, mobileLoginNotice
     case enrollment, origin, enrollmentCode, enroll, enrollmentNotice, timeWithoutGPS, siteInput
     case startShift, privateBreak, returnToWork, endShift, businessTravel, destinationInput, startTrip, arrive, arrivalNotice
     case locationControl, privacyNotice, enableGPS, backgroundPermission, gpsOff, operatingSystemNotice, reconcile, signOut
@@ -28,6 +29,12 @@ enum NativeStrings {
     // No fallback to German is used for a supported selected language.
     static let rows: [NativeText: [String]] = [
         .language: ["Sprache", "Мова", "Язык", "Język", "Kalba", "Language"],
+        .mobileWorkspace: ["KNABA Arbeitsbereich", "Робочий простір KNABA", "Рабочая система KNABA", "Panel KNABA", "KNABA darbo vieta", "KNABA workspace"],
+        .mobileWebsiteHint: ["HTTPS-Adresse der KNABA-Website", "HTTPS-адреса сайту KNABA", "HTTPS-адрес сайта KNABA", "Adres HTTPS strony KNABA", "KNABA svetainės HTTPS adresas", "KNABA website HTTPS address"],
+        .mobilePortal: ["KNABA Mobile öffnen", "Відкрити KNABA Mobile", "Открыть KNABA Mobile", "Otwórz KNABA Mobile", "Atidaryti KNABA Mobile", "Open KNABA Mobile"],
+        .mobileAccount: ["Mein KnaBa Konto", "Мій кабінет KNABA", "Мой кабинет KNABA", "Moje konto KnaBa", "Mano KNABA paskyra", "My KnaBa account"],
+        .mobileErp: ["KNABA ERP öffnen", "Відкрити KNABA ERP", "Открыть KNABA ERP", "Otwórz KNABA ERP", "Atidaryti KNABA ERP", "Open KNABA ERP"],
+        .mobileLoginNotice: ["Geben Sie die HTTPS-Website-Adresse ein. Der sichere Browser öffnet die Anmeldung; Berechtigungen vergibt nur der Server.", "Вкажіть HTTPS-адресу сайту. Захищений браузер відкриє вхід; права призначає лише сервер.", "Введите HTTPS-адрес сайта. Безопасный браузер откроет вход; права назначает только сервер.", "Podaj adres HTTPS witryny. Bezpieczna przeglądarka otworzy logowanie; role nadaje serwer.", "Įveskite HTTPS svetainės adresą. Saugi naršyklė atvers prisijungimą; teises skiria serveris.", "Enter the HTTPS website address. The browser handles sign-in; only the server grants roles."],
         .deviceLanguage: ["Gerätesprache", "Мова пристрою", "Язык устройства", "Język urządzenia", "Įrenginio kalba", "Device language"],
         .status: ["Status", "Стан", "Состояние", "Stan", "Būsena", "Status"],
         .locationOn: ["Standort sichtbar aktiv", "Геолокацію явно ввімкнено", "Геолокация явно включена", "Lokalizacja widocznie włączona", "Vieta matomai įjungta", "Location visibly active"],

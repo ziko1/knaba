@@ -37,7 +37,7 @@ test('VPS HTTP: secure owner invite -> pending worker -> owner approval -> scope
     assert.equal(page.status,200);
     assert.match(page.headers.get('cache-control'),/no-store/);
     assert.equal(page.headers.get('x-robots-tag'),'noindex,nofollow');
-    assert.equal(page.headers.get('referrer-policy'),'no-referrer');
+    assert.equal(page.headers.get('referrer-policy'),'strict-origin');
     assert.equal(page.headers.get('x-frame-options'),'DENY');
     assert.match(await page.text(),/history\.replaceState/);
     assert.equal((await at('/register/?token=test')).status,400);
@@ -52,6 +52,10 @@ test('VPS HTTP: secure owner invite -> pending worker -> owner approval -> scope
     const ownerCookie=ownerLogin.headers.get('set-cookie').split(';')[0];
     const ownerInvitePage=await at('/invite-user/',{headers:{Cookie:ownerCookie}});
     assert.equal(ownerInvitePage.status,200);
+    assert.equal(ownerInvitePage.headers.get('referrer-policy'),'strict-origin');
+    const passwordPage=await at('/account/password/',{headers:{Cookie:ownerCookie}});
+    assert.equal(passwordPage.status,200);
+    assert.equal(passwordPage.headers.get('referrer-policy'),'strict-origin');
     assert.match(await ownerInvitePage.text(),/name="identity_verified" value="on" required/);
     assert.equal((await at('/invite-user/',form(
       {email:'worker@example.test',role:'worker'},{Cookie:ownerCookie}
@@ -119,6 +123,7 @@ test('VPS HTTP: secure owner invite -> pending worker -> owner approval -> scope
       {email:'revoke-case@example.test'},{Cookie:ownerCookie}
     ));
     assert.equal(revoked.status,200,'owner must be able to cancel an unused invitation');
+    assert.equal(revoked.headers.get('referrer-policy'),'strict-origin','revocation response contains another native form');
 
     assert.match(revoked.headers.get('cache-control'),/no-store/);
     assert.equal((await at('/invite-user/revoke/',form(

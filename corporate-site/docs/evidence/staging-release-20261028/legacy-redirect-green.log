@@ -1,0 +1,11 @@
+✔ legacy migration preserves observed company and recruitment URLs without a home-page fallback (176.243768ms)
+✔ official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup (408.174855ms)
+✔ vsp HTTPS canonical Host verification and narrowly scoped HSTS (31.472138ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 722.975511

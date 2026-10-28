@@ -86,12 +86,12 @@ async function sendStatic(root,req,res,path,db){
     }
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|ru\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|uk|ru)\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',privatePath?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
   if(privatePath||res.statusCode===404){
     res.setHeader('X-Robots-Tag','noindex, nofollow');
-  }else if(ext==='.html' && (!['official','vsp'].includes(process.env.KNABA_RELEASE_MODE) || bytes.includes('<meta name="robots" content="noindex, follow"'))){
+  }else if(process.env.KNABA_RELEASE_MODE!=='official' || req.headers.host?.split(':')[0]==='kneba.vsp.rest' || (ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"'))){
     // The Node VPS runtime does not apply Cloudflare Pages _headers rules.
     // Preserve the built HTML crawler gate in the actual HTTP response.
     res.setHeader('X-Robots-Tag','noindex, follow');
@@ -144,9 +144,13 @@ function loginPage(returnTo,invalid=false,lang='de',providers=[]){
     '<p class="auth-subtle"><a href="/join/?lang='+lang+'">'+escapeHTML(accessWords(lang).joinLink)+'</a> · <a href="/forgot-password/?lang='+lang+'">'+escapeHTML(accessWords(lang).forgotLink)+'</a></p>'+
     '<p><a href="/">'+escapeHTML(word.website)+'</a></p>',lang);
 }
+// Native HTML POSTs under no-referrer use Origin:null and fail the mandatory
+// CSRF check. strict-origin keeps same-origin HTTPS form Origin while revealing
+// neither URL paths nor query/fragment tokens. OIDC redirects retain no-referrer.
+const privateFormReferrerPolicy='strict-origin';
 const privateAccountHeaders={
   'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-  'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+  'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,
   'X-Frame-Options':'DENY',
   'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
 };
@@ -346,6 +350,19 @@ export async function createKnabaVpsServer({
     const effectiveOrigin=localTest&&rawHost.startsWith('127.0.0.1')?origin:(base.protocol+'//'+rawHost);
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
+    // URLs observed on the existing official site (2026-10-28). Preserve their
+    // meaning when the approved release eventually moves to the official host.
+    // This also makes the exact mapping reviewable on staging before cutover.
+    const legacyPublicRoutes={
+      '/ber':'/unternehmen/','/ber/':'/unternehmen/',
+      '/jobs':'/karriere/','/jobs/':'/karriere/',
+      '/leistungen':'/leistungen/','/galerie':'/galerie/',
+      '/kontakt':'/kontakt/','/impressum':'/impressum/'
+    };
+    if(Object.hasOwn(legacyPublicRoutes,url.pathname)){
+      if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
+      return send(res,308,'Canonical page moved',{Location:legacyPublicRoutes[url.pathname]+url.search});
+    }
     // Public rebrand: stop serving the discontinued office-cleaning marketing URL.
     // Historical CRM service IDs are intentionally left intact.
     const legacyOffice=url.pathname.match(/^\/(?:(ru|en|uk)\/)?leistungen\/bueroreinigung\/?$/);
@@ -430,7 +447,7 @@ export async function createKnabaVpsServer({
         'Content-Type':'text/html; charset=utf-8',
         'Cache-Control':'private, no-store',
         'X-Robots-Tag':'noindex,nofollow',
-        'Referrer-Policy':'no-referrer',
+        'Referrer-Policy':privateFormReferrerPolicy,
         'X-Frame-Options':'DENY',
         'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
       };
@@ -467,7 +484,7 @@ export async function createKnabaVpsServer({
     if(url.pathname==='/register/'||url.pathname==='/register'){
       const headers={
         'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,
         'X-Frame-Options':'DENY',
         'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
       };
@@ -517,7 +534,7 @@ export async function createKnabaVpsServer({
         return send(res,200,invitationPage(null,'',revoked?
           'Die offene Einladung wurde widerrufen.':'Keine offene Einladung vorhanden.'),{
           'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer',
+          'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,
           'X-Frame-Options':'DENY'
         });
       }catch(error){
@@ -532,7 +549,7 @@ export async function createKnabaVpsServer({
       if(!operator(user))
         return send(res,403,'Owner approval required');
       const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,'X-Frame-Options':'DENY'};
       if(req.method==='GET')return send(res,200,invitationPage(),headers);
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
@@ -561,7 +578,7 @@ export async function createKnabaVpsServer({
       const provider=oidcPath[1],action=oidcPath[2]||'';
       const cfg=oidcConfig[provider];
       if(!cfg)return send(res,404,'Social provider not configured');
-      const heads={...privateAccountHeaders,'Referrer-Policy':'no-referrer'};
+      const heads=privateAccountHeaders;
       if(action===''){
         if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
         const link=url.searchParams.get('mode')==='link';
@@ -600,7 +617,7 @@ export async function createKnabaVpsServer({
             'Set-Cookie':cleared,'Referrer-Policy':'no-referrer'});
         try{
           if(url.searchParams.has('iss')&&url.searchParams.get('iss')!==cfg.issuer)
-            return send(res,401,'Social identity issuer mismatch',{'Set-Cookie':cleared});
+            return send(res,401,'Social identity issuer mismatch',{'Set-Cookie':cleared,'Referrer-Policy':'no-referrer'});
           const result=await completeOidc(db,{
             provider,config:oidcConfig,origin:base.origin,
             code:url.searchParams.get('code'),state:url.searchParams.get('state'),
@@ -640,7 +657,7 @@ export async function createKnabaVpsServer({
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
       const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
+        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,'X-Frame-Options':'DENY'};
       if(req.method==='GET')return send(res,200,credentialPage(),headers);
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');

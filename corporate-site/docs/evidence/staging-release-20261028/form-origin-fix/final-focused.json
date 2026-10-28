@@ -1,0 +1,7 @@
+{
+  "source": "working-tree atop 9127b1d3424517ea061df2eea2ecc820a6bcfbde",
+  "time": "2026-10-28T09:11:44.713727+00:00",
+  "command": "node --test vps/access-requests.http.test.mjs vps/account-invite.http.test.mjs vps/owner-onboarding.test.mjs vps/oidc.http.test.mjs",
+  "exit_code": 0,
+  "scope": "all affected private form policies; null/missing/cross-site rejection; OIDC redirect/error no-referrer; fixture consent/roles preserved"
+}
