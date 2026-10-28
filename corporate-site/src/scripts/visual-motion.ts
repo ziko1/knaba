@@ -12,7 +12,7 @@ function initializeVisualMotion() {
       observer.unobserve(entry.target);
       if (entry.target.contains(document.activeElement)) continue;
       const animation = entry.target.animate(
-        [{ opacity: 0.72, translate: '0 14px' }, { opacity: 1, translate: '0 0' }],
+        [{ translate: '0 14px' }, { translate: '0 0' }],
         { duration: 440, easing: 'cubic-bezier(.2,.7,.2,1)' },
       );
       animations.add(animation);

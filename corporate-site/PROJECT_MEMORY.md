@@ -392,3 +392,8 @@ Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixtu
 ## 28.10.2026 — visual presentation source candidate
 
 Base `9127b1d3424517ea061df2eea2ecc820a6bcfbde`, preserving the concurrent PublicReviews fix. Added an isolated vivid brand theme and bounded, reduced-motion-aware entrances; only zero-reference legacy presentation selectors were pruned. No content/routes/forms/roles/data/provider change. Original 130-page HTML contract PASS: 15,184 text fragments, 6,098 links and 938 controls unchanged. Fresh Node24 check 0 errors/0 warnings (6 existing hints), 263 Vitest + 77 native website assertions and 25 root assertions PASS. Standalone build/i18n/CTA/icon gates PASS: CSS39,767 gzip, clientJS193,036 gzip; artifact `c62fee61eed4d203f0078e797ad0307152c406d85ee00bde44586f26001131d4`. Browser preview is BLOCKED by managed preview/error-URL policy; no visual/mobile/device acceptance claimed. VPS post-build rerun PASS90/90 with0 failures. Final source persistence is owned by the release task. No deployment in this work. Evidence: `docs/evidence/visual-polish-20261028/README.md`.
+
+
+### 28.10.2026 — final motion contrast verification
+
+Final contrast follow-up: removed entrance opacity fading while retaining bounded translation. Rebuilt artifact `9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d`; CSS39,767 and clientJS193,024 gzip. Fresh root25, module263 Vitest/41 files +77 native, check0 errors/0 warnings/6 hints, preservation130 pages and authorized VPS90/90 PASS. Browser acceptance remains BLOCKED; no deployment. This supersedes the earlier visual artifact/JS totals only.

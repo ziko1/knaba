@@ -376,3 +376,8 @@ Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixtu
 - [ ] Complete source persistence and browser/mobile/keyboard/device acceptance; managed preview currently BLOCKED.
 - [ ] Separately authorize and verify any staging publication; customer production/official-domain/provider gates remain separate.
 - Evidence: `docs/evidence/visual-polish-20261028/README.md` (base `9127b1d3424517ea061df2eea2ecc820a6bcfbde`, no deployment).
+
+
+### 28.10.2026 — final motion contrast verification
+
+Final contrast follow-up: removed entrance opacity fading while retaining bounded translation. Rebuilt artifact `9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d`; CSS39,767 and clientJS193,024 gzip. Fresh root25, module263 Vitest/41 files +77 native, check0 errors/0 warnings/6 hints, preservation130 pages and authorized VPS90/90 PASS. Browser acceptance remains BLOCKED; no deployment. This supersedes the earlier visual artifact/JS totals only.

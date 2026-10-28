@@ -19,10 +19,12 @@ The change adds `visual-polish.css` and `visual-motion.ts` through the shared La
 | VPS suite | PASS; 90/90 tests after the completed standalone build |
 | Deployment / field Core Web Vitals | NOT_RUN |
 
+The listed checks were rerun after the final removal of entrance opacity fading, on the visual candidate committed at `8e6846b91064649841adf2078fd1ba5c5273f6ee` plus that narrowly scoped follow-up.
+
 Native assertion counts were confirmed with the same test files and `--test-isolation=none --test-reporter=tap`; standard npm commands also exited successfully. No new tests or test exceptions were introduced.
 
-Validated artifact: `c62fee61eed4d203f0078e797ad0307152c406d85ee00bde44586f26001131d4`.
-Aggregate emitted CSS: **39,767 bytes gzip**, below the unchanged **40,960-byte** gate. Aggregate emitted client JS: **193,036 bytes gzip**, below the unchanged **225,280-byte** gate. These are artifact totals, not observed page transfers or field performance. The i18n source audit reports 28 routes and 1,053 units.
+Validated artifact: `9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d`.
+Aggregate emitted CSS: **39,767 bytes gzip**, below the unchanged **40,960-byte** gate. Aggregate emitted client JS: **193,024 bytes gzip**, below the unchanged **225,280-byte** gate. These are artifact totals, not observed page transfers or field performance. The i18n source audit reports 28 routes and 1,053 units.
 
 The final build ran with managed preview stopped. An earlier simultaneous preview/build run produced a duplicate Layout CSS artifact; the standalone final build resolves that artifact-writer conflict. An earlier VPS run overlapped build cleanup and lacked `dist/vps/render-page.mjs`; that failed run is not acceptance evidence.
 
@@ -30,10 +32,10 @@ The final build ran with managed preview stopped. An earlier simultaneous previe
 
 `preservation.json` records the reproduced HTMLParser comparison. It skips script/style data, collapses whitespace per text fragment, preserves link `href`/`aria-label`/`target`/`rel`, and compares every control attribute except `class`, `style`, `src` and `data-astro-*`.
 
-Independent review corrected the carousel active indicator to target its `::before` dot rather than its 44px button, and changed the FAQ background to `#e9f9fa` to protect the existing small-heading contrast. The review also darkened three slide accent colors and bounded the decorative hero pseudo-element with `inset: 0`.
+Independent review corrected the carousel active indicator to target its `::before` dot rather than its 44px button, and changed the FAQ background to `#e9f9fa` to protect the existing small-heading contrast. The review also darkened three slide accent colors and bounded the decorative hero pseudo-element with `inset: 0`. Final entrance motion uses only the existing 14px translation for 440ms; removing its opacity fade protects text contrast throughout the animation. Focus handling, reduced motion and Astro navigation cleanup remain intact.
 
 ## Limitations and release boundary
 
 The managed `terminal.local` browser preview returned `ERR_HTTP_RESPONSE_CODE_FAILURE`; the subsequent error URL was refused by browser policy. It was not retried or bypassed. Visual, responsive, keyboard, mobile/device, zoom and screen-reader acceptance therefore remain **BLOCKED / NOT_RUN**, not PASS. Authenticated owner/provider UAT and live field performance are not established by source tests.
 
-No production/staging deployment, DNS change, live-data mutation, official-domain migration or paid-provider activation was performed. The post-build VPS rerun passed 90/90 tests. Final source persistence and any separately authorized release remain with the owning task. `verification.json` binds the current source-file hashes, observed checks and artifact.
+No production/staging deployment, DNS change, live-data mutation, official-domain migration or paid-provider activation was performed. The final post-build VPS rerun passed 90/90 tests in 9.972 seconds using the existing authorized local fixture/loopback gate. A restricted fixture-process attempt was superseded by that completed authorized run. Final source persistence and any separately authorized release remain with the owning task. `verification.json` binds the current source-file hashes, observed checks and artifact.
