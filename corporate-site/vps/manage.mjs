@@ -1,5 +1,5 @@
 import { openLocalDatabase } from './database.mjs';
-import { createOwner } from './auth.mjs';
+import { createOwner,normalizeEmail } from './auth.mjs';
 import { issueOwnerInvite } from './owner-invite.mjs';
 import { backup } from 'node:sqlite';
 import { createHash, randomBytes } from 'node:crypto';
@@ -8,6 +8,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
 import {ACCESS_REQUEST_TTL_DAYS} from './access-requests.mjs';
+import {manageAccessRetention} from './access-retention.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
 if(['backup','migrate'].includes(command)){
@@ -16,8 +17,9 @@ if(['backup','migrate'].includes(command)){
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','invite-owner','backup','audit','migrate','access-audit'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|backup|audit|migrate\n');process.exit(2);
+if(!['init-owner','invite-owner','invite-developer','revoke-developer','backup','audit','access-audit','access-retention','migrate'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|revoke-developer|backup|audit|access-audit|access-retention|migrate\n');
+  process.exit(2);
 }
 if(command==='access-audit'){
   // Private operator report: never write the database or print applicant identities.
@@ -46,6 +48,21 @@ if(command==='access-audit'){
       observedAtUtc:new Date(now).toISOString()
     })+'\n');
   }finally{snapshot.close();}
+  process.exit();
+}
+if(command==='access-retention'){
+  const opts=process.argv.slice(3);
+  if(opts.length>1 || (opts.length===1 && opts[0]!=='--apply')){
+    process.stderr.write('Usage: node vps/manage.mjs access-retention [--apply]\n');
+    process.exit(2);
+  }
+  const report=await manageAccessRetention({
+    dbPath,apply:opts[0]==='--apply',
+    approval:process.env.KNABA_ACCESS_RETENTION_APPROVED||'',
+    ownerEmail:process.env.OWNER_EMAIL||'',
+    backupDir:process.env.KNABA_ACCESS_RETENTION_BACKUP_DIR
+  });
+  process.stdout.write(JSON.stringify(report)+'\n');
   process.exit();
 }
 if(command==='audit'){
@@ -77,7 +94,7 @@ if(command==='migrate'){
     process.stdout.write('Pre-migration backup verified sha256='+digest+' path='+target+'\n');
   }
 }
-if(command==='invite-owner'){
+if(command==='invite-owner'||command==='invite-developer'){
   // Invitation never bootstraps or migrates the user's database by accident.
   const existing=await stat(dbPath).catch(()=>null);
   if(!existing?.isFile())throw Error('An existing migrated KNABA database is required for owner invitation.');
@@ -96,12 +113,18 @@ try {
     const owner=createOwner(db,process.env.OWNER_EMAIL,password);
     process.stdout.write('Owner enrolled: '+owner.email+' (no password returned)\n');
   }
-  if(command==='invite-owner'){
+  if(command==='invite-owner'||command==='invite-developer'){
     if(!process.env.OWNER_EMAIL)throw Error('Private OWNER_EMAIL configuration is required.');
+    if(command==='invite-developer'){
+      const configured=normalizeEmail(process.env.KNABA_DEVELOPER_EMAIL||'');
+      if(configured===normalizeEmail(process.env.OWNER_EMAIL))throw Error('Developer address must differ from owner.');
+      if(!db.prepare('SELECT 1 FROM vps_users WHERE email=? AND disabled=0').get(normalizeEmail(process.env.OWNER_EMAIL)))
+        throw Error('Enroll real owner before inviting developer.');
+    }
     let origin;
     try{origin=new URL(process.env.KNABA_PUBLIC_ORIGIN||'');}
     catch{throw Error('Verified KNABA HTTPS origin is required.');}
-    if(origin.protocol!=='https:'||!['knaba.de','kneba.vsp.rest'].includes(origin.hostname)||
+    if(origin.protocol!=='https:'||!origin.hostname.includes('.')||origin.hostname==='localhost'||
        origin.port||origin.username||origin.password||origin.pathname!=='/'||origin.search||origin.hash)
       throw Error('Verified KNABA HTTPS origin is required.');
     const directory=join(dirname(dbPath),'owner-invites');
@@ -111,15 +134,37 @@ try {
       throw Error('Private owner invitation directory must be a real mode 0700 directory.');
     // No HTTP/email delivery or automatic account creation. The operator
     // controls the private 0600 handoff and must confirm identity separately.
-    const invite=issueOwnerInvite(db,process.env.OWNER_EMAIL);
-    const file=join(directory,'owner-invite-'+Date.now()+'-'+randomBytes(12).toString('hex')+'.json');
+    const invite=issueOwnerInvite(db,command==='invite-developer'?
+      process.env.KNABA_DEVELOPER_EMAIL:process.env.OWNER_EMAIL);
+    const file=join(directory,(command==='invite-developer'?'developer':'owner')+'-invite-'+Date.now()+'-'+randomBytes(12).toString('hex')+'.json');
     await writeFile(file,JSON.stringify({
       to:invite.email,
-      activationUrl:origin.origin+'/activate-owner/#token='+invite.token,
+      activationUrl:origin.origin+(command==='invite-developer'?'/activate-developer/':'/activate-owner/')+'#token='+invite.token,
       expiresAt:new Date(invite.expiresAt).toISOString()
     })+'\n',{encoding:'utf8',mode:0o600,flag:'wx'});
     await chmod(file,0o600);
     process.stdout.write(JSON.stringify({issued:true,secretFile:file,expiresAt:new Date(invite.expiresAt).toISOString()})+'\n');
+  }
+  if(command==='revoke-developer'){
+    if(!process.env.OWNER_EMAIL||!process.env.KNABA_DEVELOPER_EMAIL)
+      throw Error('Both protected owner and developer addresses are required.');
+    const owner=normalizeEmail(process.env.OWNER_EMAIL);
+    const email=normalizeEmail(process.env.KNABA_DEVELOPER_EMAIL);
+    if(email===owner)throw Error('Developer must be distinct.');
+    const ownerUser=db.prepare('SELECT id FROM vps_users WHERE email=? AND disabled=0').get(owner);
+    if(!ownerUser)throw Error('Existing owner is required.');
+    db.exec('BEGIN IMMEDIATE');
+    try{
+      const target=db.prepare("SELECT g.user_id FROM vps_staff_grants g JOIN vps_users u ON u.id=g.user_id WHERE g.email=? AND u.email=? AND g.active=1 AND g.purpose='developer'").get(email,email);
+      if(target){
+        db.prepare('UPDATE vps_staff_grants SET active=0 WHERE user_id=?').run(target.user_id);
+        db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(target.user_id);
+        db.prepare('INSERT INTO portal_audit(id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
+          .run(randomBytes(18).toString('base64url'),ownerUser.id,'developer.revoked',target.user_id,new Date().toISOString());
+      }
+      db.exec('COMMIT');
+      process.stdout.write(JSON.stringify({revoked:Boolean(target)})+'\n');
+    }catch(error){db.exec('ROLLBACK');throw error;}
   }
   if(command==='backup'){
     const location=process.env.KNABA_BACKUP_DIR||'/var/lib/knaba/backups';

@@ -34,12 +34,12 @@ async function sha(value: string): Promise<string> {
 function profile(row: Row): PortalProfile {
   const role=approvedRoles.includes(row.role as ApprovedRole)?row.role as ApprovedRole:null;
   const status=['pending','approved','suspended'].includes(str(row.status))?row.status as PortalProfile['status']:'suspended';
-  return {id:str(row.id),name:str(row.name),email:str(row.email),requestedRole:row.requested_role==='worker'?'worker':'client',role,status,createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
+  return {id:str(row.id),name:str(row.name),email:str(row.email),requestedRole:row.requested_role==='worker'?'worker':row.requested_role==='partner'?'partner':'client',role,status,createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
 }
 function requestView(row: Row,role: PortalRole): CleaningRequest {
   const result: CleaningRequest = {id:str(row.id),clientId:row.client_id as string|null,service:str(row.service),objectType:str(row.object_type),postcode:str(row.postcode),area:str(row.area),frequency:str(row.frequency),message:str(row.message),contactName:str(row.contact_name),address:str(row.address),status:row.status as RequestStatus,assignedWorkerId:row.assigned_worker_id as string|null,scheduledAt:row.scheduled_at as string|null,checklist:JSON.parse(str(row.checklist)||'[]') as ChecklistItem[],customerFeedback:str(row.customer_feedback),adminReply:str(row.admin_reply),createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
-  if (role === 'owner' || role === 'admin' || role === 'client') { result.email=str(row.email); result.phone=str(row.phone); }
-  if (role !== 'client') result.workerNote=str(row.worker_note);
+  if (role === 'owner' || role === 'admin' || role === 'client' || role === 'partner') { result.email=str(row.email); result.phone=str(row.phone); }
+  if (role !== 'client' && role !== 'partner') result.workerNote=str(row.worker_note);
   if (role === 'worker') { result.customerFeedback=''; result.adminReply=''; result.clientId=null; }
   return result;
 }
@@ -54,7 +54,9 @@ async function session(request: Request,env: WorkerEnv): Promise<PortalSession> 
   }
   const row=await dbFor(env).prepare('SELECT * FROM profiles WHERE id=?').bind(userId).first<Row>();
   const p=row?profile(row):null;
-  const owner=Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!);
+  const owner=(Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!)) ||
+    (Boolean(env.DELEGATED_OWNER_ID) && env.DELEGATED_OWNER_ID===userId &&
+      Boolean(env.DEVELOPER_EMAIL) && normalizeEmail(email)===normalizeEmail(env.DEVELOPER_EMAIL!));
   // An identity email change never transfers a previously approved profile.
   const identityChanged=Boolean(p && normalizeEmail(p.email)!==normalizeEmail(email));
   const corruptMembership=Boolean(row && (!['pending','approved','suspended'].includes(str(row.status)) || (row.role!==null&&!approvedRoles.includes(row.role as ApprovedRole)) || (row.status==='approved'&&!approvedRoles.includes(row.role as ApprovedRole))));
@@ -100,7 +102,7 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
   const user=signed(s), db=dbFor(env),body=await readBody(request);
   allowedKeys(body,['name','requestedRole','privacyAccepted']);privacy(body);
   const name=textField(body.name,'Name',80,true);
-  if(body.requestedRole!=='client'&&body.requestedRole!=='worker') fail(422,'validation','Bitte wählen Sie Kunde oder Mitarbeitende.');
+  if(!['client','worker','partner'].includes(String(body.requestedRole))) fail(422,'validation','Bitte wählen Sie Kunde, Partner oder Mitarbeitende.');
   if(s.profile) return response({profile:s.profile});
   await rateLimit(db,`register:${await sha(user.id)}`,10);
   const time=iso(),mutation=id();
@@ -114,9 +116,10 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
 async function dashboard(env: WorkerEnv,s: PortalSession) {
   signed(s);const db=dbFor(env);
   const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false};
+  // Partner is a distinct approved identity without cross-client/ERP read permissions.
   if(['pending','suspended'].includes(s.role)) return response(data);
-  requireRole(s,['client','worker','admin','owner']);
-  const filters=s.role==='client'?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":'';
+  requireRole(s,['client','partner','worker','admin','owner']);
+  const filters=(s.role==='client'||s.role==='partner')?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":'';
   const bind=filters?[s.user!.id]:[];
   const rows=(await db.prepare(`SELECT * FROM cleaning_requests${filters} ORDER BY updated_at DESC,id DESC LIMIT ?`).bind(...bind,MAX_ROWS+1).all<Row>()).results||[];
   data.limited=rows.length>MAX_ROWS;data.requests=rows.slice(0,MAX_ROWS).map(row=>requestView(row,s.role));
@@ -137,7 +140,7 @@ function cleanInput(body: Row,s: PortalSession|null): InquiryData {
   return {...data,name:data.name.trim(),email:normalizeEmail(data.email),postcode:data.postcode.trim(),message:data.message.trim(),phone:data.phone.trim()};
 }
 async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|null) {
-  const db=dbFor(env);if(s)requireRole(s,['client']);const body=await readBody(request);
+  const db=dbFor(env);if(s)requireRole(s,['client','partner']);const body=await readBody(request);
   allowedKeys(body,['service','objectType','postcode','area','frequency','message','address','idempotencyKey','privacyAccepted',...(s?[]:['name','email','phone','website'])]);
   privacy(body);
   if(!s&&str(body.website).trim()) fail(422,'validation','Die Anfrage konnte nicht verarbeitet werden. Bitte kontaktieren Sie uns telefonisch.');
@@ -158,8 +161,8 @@ async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|nu
   }
   const requestId=id(),time=iso(),mutation=id();
   const values=[requestId,s?.user!.id||null,data.service,data.objectType,data.postcode,data.area,data.frequency,data.message,data.name,data.email,data.phone,address,scope,key,payloadHash,PRIVACY_VERSION,time,time,mutation];
-  const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='client' AND status='approved')":'';
-  const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id]:[]));
+  const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND role=? AND status='approved')":'';
+  const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id,s.role]:[]));
   await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time)]);
   const result=await db.prepare('SELECT * FROM cleaning_requests WHERE dedupe_scope=? AND idempotency_key=?').bind(scope,key).first<Row>();
   if(!result)fail(403,'forbidden','Die Freigabe wurde geändert. Bitte laden Sie die Seite erneut.');
@@ -174,7 +177,9 @@ async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
   if(body.status==='approved'&&body.role===null)fail(422,'validation','Bitte wählen Sie eine Rolle.');
   const target=await db.prepare('SELECT * FROM profiles WHERE id=?').bind(targetId).first<Row>();
   if(!target)fail(404,'not_found','Der Datensatz wurde nicht gefunden.');
-  if(targetId===s.user!.id||normalizeEmail(str(target!.email))===normalizeEmail(env.OWNER_EMAIL||''))fail(403,'owner_protected','Die Eigentümerrolle kann hier nicht geändert werden.');
+  if(targetId===s.user!.id||normalizeEmail(str(target!.email))===normalizeEmail(env.OWNER_EMAIL||'')||
+    (Boolean(env.DEVELOPER_EMAIL)&&normalizeEmail(str(target!.email))===normalizeEmail(env.DEVELOPER_EMAIL!)))
+    fail(403,'owner_protected','Geschützte Verwaltungsidentitäten können hier nicht geändert werden.');
   const time=iso(),mutation=id();
   const results=await db.batch([
     db.prepare('UPDATE profiles SET role=?,status=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?').bind(body.role,body.status,time,mutation,targetId,version),
@@ -184,19 +189,19 @@ async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
   return response({profile:profile((await db.prepare('SELECT * FROM profiles WHERE id=?').bind(targetId).first<Row>())!)});
 }
 async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,requestId: string) {
-  requireRole(s,['client','worker','admin','owner']);const db=dbFor(env),body=await readBody(request),version=validVersion(body.version);
-  const permissions=s.role==='client'?['status','customerFeedback']:s.role==='worker'?['status','checklist','workerNote']:['status','assignedWorkerId','scheduledAt','adminReply'];
+  requireRole(s,['client','partner','worker','admin','owner']);const db=dbFor(env),body=await readBody(request),version=validVersion(body.version);
+  const permissions=(s.role==='client'||s.role==='partner')?['status','customerFeedback']:s.role==='worker'?['status','checklist','workerNote']:['status','assignedWorkerId','scheduledAt','adminReply'];
   allowedKeys(body,['version',...permissions]);
   if(Object.keys(body).length<2)fail(422,'validation','Bitte wählen Sie eine Änderung.');
   const row=await db.prepare('SELECT * FROM cleaning_requests WHERE id=?').bind(requestId).first<Row>();
-  if(!row||(s.role==='client'&&row.client_id!==s.user!.id)||(s.role==='worker'&&row.assigned_worker_id!==s.user!.id))fail(404,'not_found','Der Auftrag wurde nicht gefunden.');
+  if(!row||((s.role==='client'||s.role==='partner')&&row.client_id!==s.user!.id)||(s.role==='worker'&&row.assigned_worker_id!==s.user!.id))fail(404,'not_found','Der Auftrag wurde nicht gefunden.');
   const current=row!;const from=current.status as RequestStatus;
   if(s.role==='worker'&&!['scheduled','in_progress'].includes(from))fail(409,'state','Dieser Auftrag kann nicht mehr bearbeitet werden.');
   const next={status:from,assignedWorkerId:current.assigned_worker_id,scheduledAt:current.scheduled_at,checklist:str(current.checklist),workerNote:str(current.worker_note),customerFeedback:str(current.customer_feedback),adminReply:str(current.admin_reply)};
   if(body.status!==undefined){
     if(!requestStatuses.includes(body.status as RequestStatus))fail(422,'validation','Der Status ist ungültig.');
     const to=body.status as RequestStatus;
-    if(s.role==='client'&&(to!=='cancelled'||!['new','reviewing'].includes(from)))fail(403,'forbidden','Eine Absage ist hier nur vor der Einsatzplanung möglich. Bitte kontaktieren Sie uns.');
+    if((s.role==='client'||s.role==='partner')&&(to!=='cancelled'||!['new','reviewing'].includes(from)))fail(403,'forbidden','Eine Absage ist hier nur vor der Einsatzplanung möglich. Bitte kontaktieren Sie uns.');
     if(s.role==='worker'&&!((from==='scheduled'&&to==='in_progress')||(from==='in_progress'&&to==='completed')||from===to))fail(403,'forbidden','Dieser Statuswechsel ist nicht erlaubt.');
     if(!allowedStatus(from,to))fail(409,'state','Dieser Statuswechsel ist nicht möglich.');
     next.status=to;
@@ -233,7 +238,7 @@ async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,req
   if((s.role==='admin'||s.role==='owner')&&next.status==='completed'&&JSON.parse(next.checklist).length!==checklistItems.length)fail(422,'checklist','Vor dem Abschluss muss die Arbeitskraft die vier Prüfpunkte abschließen.');
   const time=iso(),mutation=id();
   const roleGuard=s.role==='owner'?'':" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role=? AND status='approved')";
-  const scopeGuard=s.role==='client'?' AND client_id=?':s.role==='worker'?' AND assigned_worker_id=?':'';
+  const scopeGuard=(s.role==='client'||s.role==='partner')?' AND client_id=?':s.role==='worker'?' AND assigned_worker_id=?':'';
   const workerGuard=needsActiveWorker?" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='worker' AND status='approved')":'';
   const bindings=[next.status,next.assignedWorkerId,next.scheduledAt,next.checklist,next.workerNote,next.customerFeedback,next.adminReply,time,mutation,requestId,version,...(s.role==='owner'?[]:[s.user!.id,s.role]),...(scopeGuard?[s.user!.id]:[]),...(needsActiveWorker?[next.assignedWorkerId]:[])];
   const result=await db.batch([

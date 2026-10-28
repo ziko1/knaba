@@ -4,6 +4,9 @@ import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
+import {hasOwnerAuthority} from './admin-access.mjs';
+import {createSessionForUser} from './auth.mjs';
+import {oidcProviders,beginOidc,completeOidc,oidcStateCookie,clearOidcStateCookie,OidcError} from './oidc.mjs';
 import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
 import { issueAccountInvite, acceptAccountInvite, revokeAccountInvite, AccountInviteError } from './account-invite.mjs';
 import {authLanguage,authWords,accessWords} from './auth-locale.mjs';
@@ -83,12 +86,12 @@ async function sendStatic(root,req,res,path,db){
     }
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|logout|ru\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|ru\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',privatePath?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
   if(privatePath||res.statusCode===404){
     res.setHeader('X-Robots-Tag','noindex, nofollow');
-  }else if(ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"')){
+  }else if(ext==='.html' && (!['official','vsp'].includes(process.env.KNABA_RELEASE_MODE) || bytes.includes('<meta name="robots" content="noindex, follow"'))){
     // The Node VPS runtime does not apply Cloudflare Pages _headers rules.
     // Preserve the built HTML crawler gate in the actual HTTP response.
     res.setHeader('X-Robots-Tag','noindex, follow');
@@ -108,7 +111,21 @@ function authLangNavigation(section,lang,returnTo='/konto/'){
   }).join('');
   return '<nav class="auth-languages" aria-label="'+escapeHTML(word.language)+'">'+links+'</nav>';
 }
-function loginPage(returnTo,invalid=false,lang='de'){
+function oidcConsentPage(provider,link=false){
+  const name=provider==='google'?'Google':'Microsoft';
+  return html('KNABA | '+name+'-Anmeldung',
+    '<h1>KNABA · '+escapeHTML(name)+'</h1>'+
+    '<p>Die Anmeldung erfolgt über den verifizierten Anbieter. KNABA übernimmt keine Passwörter des Anbieters.</p>'+
+    '<form method="post" action="/auth/oidc/'+provider+'/start/">'+
+    '<input type="hidden" name="mode" value="'+(link?'link':'signup')+'">'+
+    (link?
+      '<p>Dieses externe Konto mit Ihrem bereits angemeldeten KNABA-Konto verknüpfen. Die bestätigte E-Mail muss übereinstimmen.</p><input type="hidden" name="intent" value="client">':
+      '<label>Beantragter Zugang<select name="intent" required><option value="client">Kundin / Kunde</option><option value="partner">Geschäftspartner/in</option></select></label>')+
+    '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>Ich habe die <a href="/datenschutz/">Datenschutzhinweise</a> gelesen und stimme dieser Anmeldung zu. Neue Konten warten auf Freigabe durch KNABA.</span></label>'+
+    '<button type="submit">Sicher mit '+escapeHTML(name)+' fortfahren</button></form>'+
+    '<p><a href="/login/">Zur Anmeldung</a></p>');
+}
+function loginPage(returnTo,invalid=false,lang='de',providers=[]){
   lang=authLanguage(lang);
   const word=authWords(lang);
   const error=invalid?'<p role="alert" class="error">'+escapeHTML(word.invalid)+'</p>':'';
@@ -120,6 +137,8 @@ function loginPage(returnTo,invalid=false,lang='de'){
     '<label>'+escapeHTML(word.email)+'<input type="email" name="email" inputmode="email" autocapitalize="none" spellcheck="false" autocomplete="username" required maxlength="320"></label>'+
     '<label>'+escapeHTML(word.password)+'<input type="password" name="password" autocomplete="current-password" required minlength="8" maxlength="256"></label>'+
     '<button type="submit">'+escapeHTML(word.signIn)+'</button></form>'+
+    (providers.length?'<nav aria-label="Social sign-in"><p>Alternativ sicher anmelden:</p>'+
+      providers.map(p=>'<p><a href="/auth/oidc/'+escapeHTML(p)+'/">'+escapeHTML(p==='google'?'Mit Google fortfahren':'Mit Microsoft fortfahren')+'</a></p>').join('')+'</nav>':'')+
     '<p class="auth-subtle"><a href="/register/?lang='+lang+'">'+escapeHTML(word.inviteLink)+'</a></p>'+
     '<p class="auth-subtle">'+escapeHTML(word.inviteHelp)+' <a href="/kontakt/">'+escapeHTML(word.contact)+'</a></p>'+
     '<p class="auth-subtle"><a href="/join/?lang='+lang+'">'+escapeHTML(accessWords(lang).joinLink)+'</a> · <a href="/forgot-password/?lang='+lang+'">'+escapeHTML(accessWords(lang).forgotLink)+'</a></p>'+
@@ -144,7 +163,8 @@ function accessRequestPage(lang='de',received=false){
     '<label>'+escapeHTML(w.email)+'<input type="email" name="email" autocomplete="email" autocapitalize="none" inputmode="email" required maxlength="320"></label>'+
     '<label>'+escapeHTML(w.kind)+'<select name="intent" required>'+
     '<option value="client">'+escapeHTML(w.client)+'</option>'+
-    '<option value="worker">'+escapeHTML(w.worker)+'</option></select></label>'+
+    '<option value="worker">'+escapeHTML(w.worker)+'</option>'+
+    '<option value="partner">'+escapeHTML(w.partner)+'</option></select></label>'+
     '<div style="display:none" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>'+
     '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
     escapeHTML(w.privacy)+' <a href="/datenschutz/">Datenschutz</a></span></label>'+
@@ -163,7 +183,7 @@ function forgottenPasswordPage(lang='de'){
 function reviewRequestsPage(requests){
   const records=requests.map(record=>
     '<li class="access-review-item"><strong>'+escapeHTML(record.name)+'</strong> '+
-    '<span>'+escapeHTML(record.intent==='client'?'Kunde':'Mitarbeiter')+'</span>'+
+    '<span>'+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':'Mitarbeiter')+'</span>'+
     '<p>'+escapeHTML(record.email)+'</p>'+
     '<p><small>'+escapeHTML(new Date(record.created_at).toISOString())+'</small></p>'+
     '<p><small>Gültig bis: '+escapeHTML(new Date(record.expires_at).toISOString().slice(0,10))+' (UTC)</small></p>'+
@@ -172,7 +192,7 @@ function reviewRequestsPage(requests){
     '<input type="hidden" name="role" value="'+escapeHTML(record.intent)+'">'+
     '<label class="auth-checkbox"><input type="checkbox" name="identity_verified" value="on" required>'+
     '<span>Ich habe die Identität über einen unabhängigen Kontaktweg geprüft.</span></label>'+
-    '<button type="submit">Einladung als '+escapeHTML(record.intent==='client'?'Kunde':'Mitarbeiter')+' erstellen</button></form>'+
+    '<button type="submit">Einladung als '+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':'Mitarbeiter')+' erstellen</button></form>'+
     '<form method="post" action="/access-requests/resolve/">'+
     '<input type="hidden" name="id" value="'+escapeHTML(record.id)+'">'+
     '<label class="auth-checkbox"><input type="checkbox" name="reviewed" value="on" required>'+
@@ -180,12 +200,12 @@ function reviewRequestsPage(requests){
     '<button type="submit">Als bearbeitet markieren</button></form></li>').join('');
   return html('KNABA | Zugangs-Anfragen',
     '<h1>KNABA · Zugangs-Anfragen</h1>'+
-    '<p>Nur für den verifizierten Inhaber. Vor dem Versand einer persönlichen Einladung die Person über einen unabhängigen Kontaktweg prüfen. Eine Anfrage allein verleiht keine Rolle.</p>'+
+    '<p>Nur für die verifizierte KNABA-Verwaltung. Vor dem Versand einer persönlichen Einladung die Person über einen unabhängigen Kontaktweg prüfen. Eine Anfrage allein verleiht keine Rolle.</p>'+
     (records?'<ul class="access-review-list">'+records+'</ul>':'<p>Keine offenen Anfragen.</p>')+
     '<p><a href="/invite-user/">Persönliche Einladung nach Identitätsprüfung erstellen</a></p>'+
     '<p><a href="/studio/">Zur Verwaltung</a></p>');
 }
-function ownerActivationPage(){
+function ownerActivationPage(purpose='owner'){
   // Capability stays in fragment (not sent to HTTP servers or access logs).
   // A scoped private GET copies it to a hidden POST field then clears history.
   const script="(function(){const fragment=new URLSearchParams(location.hash.slice(1));"+
@@ -197,13 +217,13 @@ function ownerActivationPage(){
     "if(submit)submit.disabled=!ok;"+
     "history.replaceState(null,'',location.pathname);"+
     "})();";
-  return html('KnaBa | Inhaber-Zugang aktivieren',
-    '<h1>KNABA · geschützte Inhaber-Aktivierung</h1>'+
+  return html(purpose==='developer'?'KnaBa | Entwicklerzugang aktivieren':'KnaBa | Inhaber-Zugang aktivieren',
+    '<h1>KNABA · '+(purpose==='developer'?'geschützte Entwickler-Aktivierung':'geschützte Inhaber-Aktivierung')+'</h1>'+
     '<p>Diese einmalige Einladung ist zwei Stunden gültig. Nur die berechtigte Person darf sie verwenden.</p>'+
-    '<form method="post" action="/activate-owner/">'+
+    '<form method="post" action="/activate-'+(purpose==='developer'?'developer':'owner')+'/">'+
     '<input type="hidden" name="token" value="">'+
-    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Neues Passwort (mindestens 8 Zeichen)<input type="password" name="password" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
+    '<label>Passwort bestätigen<input type="password" name="password_confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
     '<label><input type="checkbox" name="attested" value="on" required> Ich bestätige, dass ich für KNABA zur Verwaltung bevollmächtigt bin.</label>'+
     '<button type="submit" disabled>Zugang aktivieren</button></form>'+
     '<p><a href="/login/?return_to=%2Fstudio%2F">Zur Anmeldung</a></p>'+
@@ -233,8 +253,8 @@ function registrationPage(lang='de'){
     '<input type="hidden" name="token" value="">'+
     '<label>'+escapeHTML(word.name)+'<input name="name" autocomplete="name" maxlength="160" required minlength="2"></label>'+
     '<label>'+escapeHTML(word.invitedEmail)+'<input type="email" inputmode="email" autocapitalize="none" spellcheck="false" name="email" autocomplete="username" required maxlength="320"></label>'+
-    '<label>'+escapeHTML(word.newPassword)+'<input type="password" name="password" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>'+escapeHTML(word.confirm)+'<input type="password" name="password_confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>'+escapeHTML(word.newPassword)+'<input type="password" name="password" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
+    '<label>'+escapeHTML(word.confirm)+'<input type="password" name="password_confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
     '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
     escapeHTML(word.privacyBefore)+' <a href="/datenschutz/">'+escapeHTML(word.privacyLink)+'</a> '+
     escapeHTML(word.privacyAfter)+'</span></label>'+
@@ -251,10 +271,10 @@ function invitationPage(invite=null,origin='',notice=''){
       escapeHTML(origin+'/register/#token='+invite.token)+'" onclick="this.select()"></label>':'';
   return html('KnaBa | Kontoeinladung',
     '<h1>KNABA · Konto einladen</h1>'+
-    '<p>Nur der angemeldete Inhaber darf Kunden oder Mitarbeitende einladen. Die ausgewählte Rolle ist lediglich eine Anfrage und muss danach im Portal freigegeben werden.</p>'+
+    '<p>Nur berechtigte Administratoren dürfen Kunden, Partner oder Mitarbeitende einladen. Die ausgewählte Rolle ist lediglich eine Anfrage und muss danach im Portal freigegeben werden.</p>'+
     '<form method="post" action="/invite-user/">'+
     '<label>E-Mail des Empfängers<input type="email" name="email" maxlength="320" required></label>'+
-    '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="worker">Mitarbeiter/in</option></select></label>'+
+    '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="partner">Geschäftspartner/in</option><option value="worker">Mitarbeiter/in</option></select></label>'+
     '<label class="auth-checkbox"><input type="checkbox" name="identity_verified" value="on" required>'+
     '<span>Ich habe die Person über einen unabhängigen Kontaktweg überprüft. Eine E-Mail-Adresse allein genügt nicht.</span></label>'+
     '<button type="submit">Einladung generieren</button></form>'+result+
@@ -272,8 +292,8 @@ function credentialPage(invalid=false){
     (invalid?'<p role="alert" class="error">Änderung nicht möglich. Bitte aktuelle Angaben und Passwortanforderungen prüfen.</p>':'')+
     '<form method="post" action="/account/password/">'+
     '<label>Aktuelles Passwort<input type="password" name="current" autocomplete="current-password" required></label>'+
-    '<label>Neues Passwort (mindestens 16 Zeichen)<input type="password" name="new" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
-    '<label>Neues Passwort bestätigen<input type="password" name="confirm" autocomplete="new-password" required minlength="16" maxlength="256"></label>'+
+    '<label>Neues Passwort (mindestens 8 Zeichen)<input type="password" name="new" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
+    '<label>Neues Passwort bestätigen<input type="password" name="confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
     '<button type="submit">Passwort sicher ändern</button></form>'+
     '<p><a href="/konto/">Zum Konto</a></p>');
 }
@@ -282,10 +302,11 @@ function logoutPage(returnTo){
     '<form method="post" action="/logout/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'"><button type="submit">Abmelden</button></form>');
 }
 export async function createKnabaVpsServer({
-  dbPath,staticRoot,workerPath,ownerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
-  origin='https://knaba.de',localTest=false
+  dbPath,staticRoot,workerPath,ownerEmail='',developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
+  origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
+  if(developerEmail && (!ownerEmail || developerEmail.trim().toLowerCase()===ownerEmail.trim().toLowerCase()))throw Error('Developer requires a distinct owner identity.');
   const base=new URL(origin);
   if(base.protocol!=='https:'&&!localTest)throw Error('Production HTTPS origin required.');
   const publicHost=base.host.toLowerCase();
@@ -293,11 +314,13 @@ export async function createKnabaVpsServer({
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
-  const env={DB:d1,OWNER_EMAIL:ownerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
+  const env={DB:d1,OWNER_EMAIL:ownerEmail,DEVELOPER_EMAIL:developerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
     TURNSTILE_REQUIRED:localTest?'0':'1',
     ASSETS:{fetch:async request=>{
       return new Response('Static assets are served at the VPS edge.',{status:404});
     }}};
+  const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}));
+  const social=Object.keys(oidcConfig).filter(p=>['google','microsoft'].includes(p));
   const server=createHttpServer(async(req,res)=>{
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
@@ -367,7 +390,7 @@ export async function createKnabaVpsServer({
     if(url.pathname==='/access-requests/resolve/'||url.pathname==='/access-requests/resolve'){
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
-      if(!ownerEmail||user.email.toLowerCase()!==ownerEmail.toLowerCase())
+      if(!operator(user))
         return send(res,403,'Owner approval required');
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
@@ -379,7 +402,7 @@ export async function createKnabaVpsServer({
         if(keys.length!==2||new Set(keys).size!==2||keys.some(k=>!['id','reviewed'].includes(k)))
           return send(res,422,'Invalid owner action');
         markAccessRequestReviewed(db,{
-          ownerId:user.id,ownerEmail,requestId:params.get('id'),
+          ownerId:user.id,ownerEmail,developerEmail,requestId:params.get('id'),
           reviewed:params.get('reviewed')==='on'
         });
         return redirect(res,'/access-requests/');
@@ -393,15 +416,16 @@ export async function createKnabaVpsServer({
     if(url.pathname==='/access-requests/'||url.pathname==='/access-requests'){
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
-      if(!ownerEmail||user.email.toLowerCase()!==ownerEmail.toLowerCase())
+      if(!operator(user))
         return send(res,403,'Owner approval required');
       if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
       try{
-        const records=listAccessRequests(db,{ownerId:user.id,ownerEmail});
+        const records=listAccessRequests(db,{ownerId:user.id,ownerEmail,developerEmail});
         return send(res,200,reviewRequestsPage(records),privateAccountHeaders);
       }catch{return send(res,503,'Owner inbox unavailable');}
     }
-    if(url.pathname==='/activate-owner/'||url.pathname==='/activate-owner'){
+    if(['/activate-owner/','/activate-owner','/activate-developer/','/activate-developer'].includes(url.pathname)){
+      const purpose=url.pathname.includes('developer')?'developer':'owner';
       const headers={
         'Content-Type':'text/html; charset=utf-8',
         'Cache-Control':'private, no-store',
@@ -410,10 +434,10 @@ export async function createKnabaVpsServer({
         'X-Frame-Options':'DENY',
         'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
       };
-      if(!ownerEmail)return send(res,503,'Owner access is not configured.');
+      if(!ownerEmail || (purpose==='developer'&&!developerEmail))return send(res,503,'Operator access is not configured.');
       if(req.method==='GET'){
         if(url.search)return send(res,400,'Invitation tokens must not be put in URL query strings.');
-        return send(res,200,ownerActivationPage(),headers);
+        return send(res,200,ownerActivationPage(purpose),headers);
       }
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
@@ -426,7 +450,7 @@ export async function createKnabaVpsServer({
            keys.some(k=>!['token','password','password_confirm','attested'].includes(k)))
           return send(res,422,'Invalid activation form');
         activateOwnerInvite(db,{
-          token:params.get('token')||'',email:ownerEmail,
+          token:params.get('token')||'',email:purpose==='developer'?developerEmail:ownerEmail,purpose,
           password:params.get('password')||'',confirmed:params.get('password_confirm')||'',
           attested:params.get('attested')==='on'
         });
@@ -465,7 +489,7 @@ export async function createKnabaVpsServer({
         acceptAccountInvite(db,{
           token:params.get('token')||'',email:params.get('email')||'',name:params.get('name')||'',
           password:params.get('password')||'',confirmed:params.get('password_confirm')||'',
-          privacyAccepted:params.get('privacy')==='on',ownerEmail
+          privacyAccepted:params.get('privacy')==='on',ownerEmail,developerEmail
         });
         return redirect(res,'/login/?'+(authLanguage(url.searchParams.get('lang'))==='de'?'':'lang='+authLanguage(url.searchParams.get('lang'))+'&')+'return_to=%2Fkonto%2F',{'Referrer-Policy':'no-referrer'});
       }catch(error){
@@ -477,7 +501,7 @@ export async function createKnabaVpsServer({
     if(url.pathname==='/invite-user/revoke/'||url.pathname==='/invite-user/revoke'){
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
-      if(!ownerEmail||user.email.toLowerCase()!==ownerEmail.toLowerCase())
+      if(!operator(user))
         return send(res,403,'Owner approval required');
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
@@ -488,7 +512,7 @@ export async function createKnabaVpsServer({
         const keys=[...params.keys()];
         if(keys.length!==1||keys[0]!=='email')return send(res,422,'Invalid revocation request');
         const revoked=revokeAccountInvite(db,{
-          issuerId:user.id,ownerEmail,email:params.get('email')||''
+          issuerId:user.id,ownerEmail,developerEmail,email:params.get('email')||''
         });
         return send(res,200,invitationPage(null,'',revoked?
           'Die offene Einladung wurde widerrufen.':'Keine offene Einladung vorhanden.'),{
@@ -505,7 +529,7 @@ export async function createKnabaVpsServer({
     if(url.pathname==='/invite-user/'||url.pathname==='/invite-user'){
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
-      if(!ownerEmail||user.email.toLowerCase()!==ownerEmail.toLowerCase())
+      if(!operator(user))
         return send(res,403,'Owner approval required');
       const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
         'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
@@ -521,7 +545,7 @@ export async function createKnabaVpsServer({
           keys.some(key=>!['email','role','identity_verified'].includes(key))||
           params.get('identity_verified')!=='on')return send(res,422,'Invalid invitation form');
         const invite=issueAccountInvite(db,{
-          issuerId:user.id,ownerEmail,email:params.get('email')||'',role:params.get('role')||'',
+          issuerId:user.id,ownerEmail,developerEmail,email:params.get('email')||'',role:params.get('role')||'',
           identityVerified:params.get('identity_verified')==='on'
         });
         return send(res,200,invitationPage(invite,base.origin),headers);
@@ -532,9 +556,69 @@ export async function createKnabaVpsServer({
         return send(res,409,'Invitation temporarily unavailable');
       }
     }
+    const oidcPath=url.pathname.match(/^\/auth\/oidc\/(google|microsoft)\/(start\/|callback\/)?$/);
+    if(oidcPath){
+      const provider=oidcPath[1],action=oidcPath[2]||'';
+      const cfg=oidcConfig[provider];
+      if(!cfg)return send(res,404,'Social provider not configured');
+      const heads={...privateAccountHeaders,'Referrer-Policy':'no-referrer'};
+      if(action===''){
+        if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
+        const link=url.searchParams.get('mode')==='link';
+        if(link&&!readSession(db,req.headers.cookie))return send(res,401,'Sign in before linking');
+        return send(res,200,oidcConsentPage(provider,link),heads);
+      }
+      if(action==='start/'){
+        if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'POST'});
+        if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+        if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
+          return send(res,415,'Form required');
+        try{
+          const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+          const keys=[...params.keys()];
+          if(keys.length!==3||new Set(keys).size!==3||
+             keys.some(k=>!['intent','privacy','mode'].includes(k)))return send(res,422,'Invalid login form');
+          const link=params.get('mode')==='link';
+          if(!['signup','link'].includes(params.get('mode')))return send(res,422,'Invalid mode');
+          const logged=link?readSession(db,req.headers.cookie):null;
+          if(link&&!logged)return send(res,401,'Sign in before linking');
+          const start=beginOidc(db,{provider,config:oidcConfig,origin:base.origin,
+            intent:params.get('intent'),privacyAccepted:params.get('privacy')==='on',
+            linkUserId:logged?.id||null});
+          return redirect(res,start.redirect,{'Set-Cookie':oidcStateCookie(start.state),
+            'Referrer-Policy':'no-referrer'});
+        }catch(error){
+          if(error?.code==='too_large')return send(res,413,'Invalid form');
+          return send(res,422,'Social sign-in could not start');
+        }
+      }
+      if(action==='callback/'){
+        if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
+        const cleared=clearOidcStateCookie();
+        if((req.url||'').length>4096||url.searchParams.has('error'))
+          return send(res,401,'Social authentication not completed',{
+            'Set-Cookie':cleared,'Referrer-Policy':'no-referrer'});
+        try{
+          if(url.searchParams.has('iss')&&url.searchParams.get('iss')!==cfg.issuer)
+            return send(res,401,'Social identity issuer mismatch',{'Set-Cookie':cleared});
+          const result=await completeOidc(db,{
+            provider,config:oidcConfig,origin:base.origin,
+            code:url.searchParams.get('code'),state:url.searchParams.get('state'),
+            cookie:req.headers.cookie,fetchImpl:oidcFetch
+          });
+          const signed=createSessionForUser(db,result.userId);
+          return redirect(res,'/konto/',{'Set-Cookie':[cleared,sessionCookie(signed.token,{secure:!localTest})],
+            'Referrer-Policy':'no-referrer'});
+        }catch(error){
+          const status=error instanceof OidcError && error.code==='provider_unavailable'?503:401;
+          return send(res,status,'Social authentication failed or requires an existing linked account',{
+            'Set-Cookie':cleared,'Referrer-Policy':'no-referrer'});
+        }
+      }
+    }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
-      if(req.method==='GET')return send(res,200,loginPage(rt,false,authLanguage(url.searchParams.get('lang'))),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET')return send(res,200,loginPage(rt,false,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -548,7 +632,7 @@ export async function createKnabaVpsServer({
         if(password.length>256 || email.length>320)return send(res,422,'Invalid form');
         let result=null;
         try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
-        if(!result)return send(res,401,loginPage(target,true,authLanguage(url.searchParams.get('lang'))),{'Content-Type':'text/html; charset=utf-8'});
+        if(!result)return send(res,401,loginPage(target,true,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8'});
         return redirect(res,target,{'Set-Cookie':sessionCookie(result.token,{secure:!localTest})});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
     }
@@ -615,7 +699,9 @@ export async function createKnabaVpsServer({
       let reply;
       try{
         const workRequest=new Request(urlForWorker,{method:req.method,headers,body,signal:AbortSignal.timeout(16_000)});
-        reply=await worker.fetch(workRequest,env,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
+        const scopedEnv=operator(user)&&user.email.toLowerCase()!==ownerEmail.toLowerCase()
+          ?{...env,DELEGATED_OWNER_ID:user.id}:env;
+        reply=await worker.fetch(workRequest,scopedEnv,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
       }catch{return send(res,503,'Service temporarily unavailable');}
       res.writeHead(reply.status,Object.fromEntries(reply.headers.entries()));
       return res.end(Buffer.from(await reply.arrayBuffer()));
@@ -638,6 +724,7 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     staticRoot:process.env.KNABA_STATIC_ROOT||new URL('../dist/client/',import.meta.url).pathname,
     workerPath:new URL('../dist/server/index.js',import.meta.url).href,
     ownerEmail:process.env.OWNER_EMAIL||'',
+    developerEmail:process.env.KNABA_DEVELOPER_EMAIL||'',
     turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
     turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',
     origin:process.env.KNABA_PUBLIC_ORIGIN||'https://knaba.de',

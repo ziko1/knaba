@@ -28,7 +28,7 @@ function register(db,token,opts={}){
 
 test('new invitation is additive, 256-bit, hash-only and never creates a user',()=>{
   fixture(({db,owner,migrations})=>{
-    assert.equal(migrations[7],'0007_account_invites.sql');assert.equal(migrations.at(-1),'0008_access_requests.sql');
+    assert.equal(migrations[7],'0007_account_invites.sql');assert.equal(migrations.at(-1),'0009_partner_access.sql');
     const invite=issue(db,owner,{now:1800000000000});
     assert.match(invite.token,/^[A-Za-z0-9_-]{43}$/);
     const stored=db.prepare('SELECT * FROM vps_account_invites').get();
@@ -43,7 +43,7 @@ test('only configured owner may issue limited, email-scoped client/worker invita
   fixture(({db,owner})=>{
     const other=createOwner(db,'nonowner@example.test','another-synthetic-strong-passphrase');
     assert.throws(()=>issueAccountInvite(db,{issuerId:other.id,ownerEmail,email:'new@example.test',role:'worker'}),AccountInviteError);
-    for(const role of ['owner','admin','partner','suspended']) {
+    for(const role of ['owner','admin','suspended']) {
       assert.throws(()=>issue(db,owner,{role}),AccountInviteError);
     }
     assert.throws(()=>issue(db,owner,{email:ownerEmail}),AccountInviteError);
@@ -139,4 +139,20 @@ test('owner identity attestation is required before a one-use invitation and pro
     .get('pending@example.test').token_hash);
   assert.notEqual(row.entity_id,result.token);
  });
+});
+
+test('eight-character invited registration remains pending for every non-operator role',()=>{
+  fixture(({db,owner})=>{
+    for(const role of ['client','worker','partner']){
+      const email='eight-'+role+'@example.test';
+      const one=issueAccountInvite(db,{issuerId:owner.id,ownerEmail,email,role,identityVerified:true});
+      const input={token:one.token,email,name:'Eight Password',password:'Qa9!bcde',confirmed:'Qa9!bcde',privacyAccepted:true,ownerEmail};
+      assert.throws(()=>acceptAccountInvite(db,{...input,password:'Qa9!bcd',confirmed:'Qa9!bcd'}),AccountInviteError);
+      const signed=acceptAccountInvite(db,input);
+      assert.equal(signed.status,'pending');
+      const profile=db.prepare('SELECT role,status FROM profiles WHERE id=?').get(signed.id);
+      assert.equal(profile.role,null);
+      assert.equal(profile.status,'pending');
+    }
+  });
 });

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0cd813cb8d604a9105dc6f0fa8f2c06e019e44d7284095a018c5d7b826ce51a9",
+  "sourceDigest": "14012be3f482afd10cb04e8cbfd16795e34c40f328b61a279a7ba33a9f171185",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,13 +33,20 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1001,
+  "unitCount": 1046,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
       "source": "Zwischen Gewerken oder vor Folgearbeiten kann die Reinigung Staub und Schmutz reduzieren. Der Zeitpunkt wird mit der Bauleitung abgestimmt.",
       "routes": [
         "/faq/"
+      ]
+    },
+    "0092f8f48a78e77cc02a0d56": {
+      "kind": "text",
+      "source": "Leistungsspektrum und fachliche Voraussetzungen",
+      "routes": [
+        "/impressum/"
       ]
     },
     "00d0390cae72d6b5449815da": {
@@ -98,13 +105,6 @@
       "source": "2 / 8: Bauzwischenreinigung",
       "routes": [
         "/"
-      ]
-    },
-    "020977b6aa944254c9569df1": {
-      "kind": "text",
-      "source": "Stand: 25. Oktober 2026 ·",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "020f1c7e3d66846c3b563284": {
@@ -174,6 +174,13 @@
       "source": "Eine Anfrage ist keine Leistungszusage und keine automatische Beauftragung. Facharbeiten, Genehmigungen, Entsorgung und neue Kostenpositionen müssen vor Ausführung ausdrücklich geklärt und vereinbart werden.",
       "routes": [
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "0401cdde89f866349f93a9f8": {
+      "kind": "text",
+      "source": "Für Verbraucherinnen und Verbraucher bleiben die gesetzlichen Informations-, Gewährleistungs- und gegebenenfalls Widerrufsrechte uneingeschränkt bestehen. Ob und in welchem Umfang ein Widerrufsrecht bei einer konkreten Beauftragung besteht, richtet sich nach den Umständen des Vertragsschlusses und den anwendbaren gesetzlichen Vorschriften; diese Website schließt solche Rechte nicht aus.",
+      "routes": [
+        "/impressum/"
       ]
     },
     "04167fc5d7370dae53202050": {
@@ -290,6 +297,20 @@
         "/unternehmen/"
       ]
     },
+    "051c5ea5158ec136c3cb7ec3": {
+      "kind": "text",
+      "source": "Ein neuer Kunden- oder Mitarbeitendenzugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des berechtigten Inhabers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle (Kunde oder Mitarbeitende), die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch den Inhaber ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
+    "052aadc2d52c439ff6469c1f": {
+      "kind": "text",
+      "source": "Wann ist eine Bauzwischenreinigung sinnvoll? Welche Angaben machen Angebote vergleichbar? Und worauf kommt es bei der sauberen Bauübergabe an? Drei Praxisleitfäden helfen dabei, Flächen, Bauphase und Anforderungen klar abzustimmen.",
+      "routes": [
+        "/"
+      ]
+    },
     "0567e060ef8ecaab269d5c37": {
       "kind": "text",
       "source": "Unsere Partner im Überblick | KnaBa",
@@ -310,6 +331,13 @@
       "routes": [
         "/bauleistungen/baureinigung/",
         "/planer/"
+      ]
+    },
+    "0605e7f98371ccc11347ff70": {
+      "kind": "text",
+      "source": "Ob Grob-, Zwischen-, Fein- oder Endreinigung: Wir klären Baufortschritt, Zugänge und den gewünschten Übergabetermin vor der Beauftragung.",
+      "routes": [
+        "/"
       ]
     },
     "06e56d557a99139d0681758c": {
@@ -442,6 +470,13 @@
         "/faq/"
       ]
     },
+    "0c1189be3821985e2568255f": {
+      "kind": "attr:aria-label",
+      "source": "Praktische Ratgeber für Bauprojekte",
+      "routes": [
+        "/"
+      ]
+    },
     "0c5f0423dcf4af7a33213565": {
       "kind": "text",
       "source": "1. Grobreinigung: vereinbarte Bereiche freimachen",
@@ -554,6 +589,13 @@
         "/unternehmen/"
       ]
     },
+    "0e8dfaaff1041c7863234fd4": {
+      "kind": "text",
+      "source": "Bauhilfe mit klarem Leistungsumfang",
+      "routes": [
+        "/"
+      ]
+    },
     "0edaa848f6bb2507739f0cf6": {
       "kind": "text",
       "source": "Nein, nicht automatisch. Abfallart, Transport, zulässiger Entsorger und Kosten müssen ausdrücklich vereinbart werden.",
@@ -617,6 +659,13 @@
       "source": "So arbeitet KnaBa | KnaBa Berlin",
       "routes": [
         "/galerie/"
+      ]
+    },
+    "108cb10f798fdaf3c9911ed3": {
+      "kind": "text",
+      "source": "Partnerlogos und Markenzeichen bleiben den jeweiligen Rechteinhabern zugeordnet. Eine bloße Logoabbildung ist keine rechtliche Zusicherung über eine aktuelle Partnerschaft oder Autorisierung; die erforderlichen Nutzungsrechte und die sachliche Richtigkeit der Partnerdarstellung müssen vom Betreiber nachgewiesen werden. Wenn Sie Fragen zur Bildnutzung, zu Nutzungsrechten oder möglichen Rechtsverletzungen haben, wenden Sie sich bitte über die angegebenen Kontaktdaten an KnaBa. Die Darstellung ist kein Nachweis einer gesonderten Zertifizierung oder Fachzulassung.",
+      "routes": [
+        "/impressum/"
       ]
     },
     "109030afc83743cd9b2a6d80": {
@@ -688,6 +737,13 @@
       "source": "E-Mail",
       "routes": [
         "/kontakt/"
+      ]
+    },
+    "1335e8032a6c6959c7b35a21": {
+      "kind": "text",
+      "source": "Die freiwillige Spracheingabe kann nach Aktivierung einer Browser-Spracherkennungsfunktion Audio an den Anbieter Ihres Browsers übertragen; KnaBa speichert nach dem gegenwärtigen Funktionsstand nur den abgesendeten erkannten Text, keine Tonaufnahmen von Telefongesprächen. Eine KI-Telefonie, WhatsApp-Sprachvermittlung oder automatische Aufzeichnung von Gesprächen ist für diesen Stand nicht als aktiviert dokumentiert. Vor dem Einsatz solcher Funktionen sind Anbieter, Empfänger, Rechtsgrundlagen, Speicherdauern und gegebenenfalls Einwilligungen gesondert mitzuteilen; nicht öffentliche Gespräche dürfen nicht unbefugt aufgezeichnet werden (§ 201 StGB). Eine Erklärung zur Datenverarbeitung ersetzt keine gegebenenfalls notwendige Einwilligung zur Aufnahme.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "13396f8161a6589a8ae381c6": {
@@ -848,6 +904,13 @@
         "/datenschutz/"
       ]
     },
+    "16aab69cb80191937fe370af": {
+      "kind": "text",
+      "source": "Anfragen, Angebote und Vertragsabschluss",
+      "routes": [
+        "/impressum/"
+      ]
+    },
     "16c5fb781e8528c687fff8e9": {
       "kind": "meta:description",
       "source": "Erzählen Sie von der Baustelle und dem Bauabschnitt. Wir prüfen die passende Baureinigung oder Zusatzleistung und klären die Konditionen persönlich.",
@@ -933,6 +996,13 @@
         "/planer/"
       ]
     },
+    "1a269adb322681b0d32ba3fa": {
+      "kind": "text",
+      "source": "Gewünschter Termin und ergänzende Arbeiten",
+      "routes": [
+        "/"
+      ]
+    },
     "1a4760358e6398ace2b5b318": {
       "kind": "text",
       "source": "KnaBa / 06",
@@ -945,6 +1015,13 @@
       "source": "Die tatsächlichen Aufwandsfaktoren benennen",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
+      ]
+    },
+    "1ae1677f34a8c27959a5eca3": {
+      "kind": "text",
+      "source": "KNABA Assistant ist ein automatisierter digitaler Assistent und kein menschlicher Mitarbeiter. Er kann Informationen liefern und Nachrichten an berechtigte Personen weiterreichen; seine Antworten sind keine verbindlichen Angebote, Zusagen oder rechtlichen Auskünfte. Für eine persönliche Klärung stehen Telefon und E-Mail zur Verfügung. Eine gegebenenfalls später aktivierte generative KI ist vor der ersten Interaktion klar als KI zu kennzeichnen (Art. 50 EU AI Act).",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "1b1dab432b1b18c50f775e62": {
@@ -960,13 +1037,6 @@
       "source": "Nach Stichwort suchen …",
       "routes": [
         "/faq/"
-      ]
-    },
-    "1b2bb16c24a5781324720318": {
-      "kind": "text",
-      "source": "Die freiwillige Spracheingabe kann Audio an den Anbieter Ihres Browsers übertragen; KnaBa speichert nur gesendeten erkannten Text. Speichern Sie keine Passwörter, Gesundheitsdaten oder Zugangscodes im Chat. Die Löschfrist für Chats wurde noch nicht automatisiert und muss vor dem offiziellen Betrieb festgelegt werden; Auskunft und Löschung können beim oben genannten Verantwortlichen angefragt werden.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "1b7cfb87dd647725e7ba7723": {
@@ -1365,6 +1435,7 @@
       "kind": "text",
       "source": "Welche Angaben machen Angebote zur Baureinigung vergleichbar? Fläche, Bauzustand, Materialien, Zugang und Zusatzarbeiten strukturiert vorbereiten.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -1573,6 +1644,13 @@
         "/kontakt/"
       ]
     },
+    "2af928e673722ebd6217da57": {
+      "kind": "text",
+      "source": "DARUM KNABA",
+      "routes": [
+        "/"
+      ]
+    },
     "2b335fa1efd5303aef90d5e4": {
       "kind": "text",
       "source": "Baufein- und Endreinigung",
@@ -1711,6 +1789,13 @@
         "/bauleistungen/bauhilfe/",
         "/bauleistungen/baureinigung/",
         "/bauleistungen/bauzwischenreinigung/"
+      ]
+    },
+    "2df46930e65b61ac8a2bba3b": {
+      "kind": "text",
+      "source": "Baustellenvorbereitung und unterstützende Arbeiten lassen sich ergänzend anfragen. Fach- oder genehmigungspflichtige Leistungen werden gesondert geprüft.",
+      "routes": [
+        "/"
       ]
     },
     "2e3e63baeed15f89a5ecbb7e": {
@@ -2079,6 +2164,13 @@
         "/datenschutz/"
       ]
     },
+    "39fa2e424bacb3b71dec2162": {
+      "kind": "text",
+      "source": "Transparenzhinweis:",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "3a7f1fae911ae897e5feda9c": {
       "kind": "text",
       "source": "Sprache suchen",
@@ -2169,6 +2261,13 @@
         "/planer/"
       ]
     },
+    "3b42c62ac610ba4f0e504ebf": {
+      "kind": "text",
+      "source": "Für eine passende Projektanfrage helfen diese Angaben. Ein verbindlicher Preis entsteht erst nach individueller Prüfung und Vereinbarung.",
+      "routes": [
+        "/"
+      ]
+    },
     "3b549084ef2146a4f8edc351": {
       "kind": "text",
       "source": "Vor der Beauftragung",
@@ -2224,6 +2323,13 @@
         "/"
       ]
     },
+    "3c34ee10f1d2a8359819c537": {
+      "kind": "text",
+      "source": "Eine freie öffentliche Selbstregistrierung, eine automatische Rechtefreigabe und eine Anmeldung über Google oder andere soziale Netzwerke sind in diesem geprüften Stand nicht aktiviert. Falls externe Identitätsanbieter hinzukommen, müssen deren konkrete Datenflüsse, Empfänger und etwaige Drittlandübermittlungen vor der Aktivierung ergänzt werden.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "3c803073e187ee9e762c069a": {
       "kind": "text",
       "source": "Wand- und Deckendurchbrüche können Tragwerk, Leitungen und Brandabschnitte berühren. Die Anfrage beginnt deshalb mit Plänen und einem klar beschriebenen Zweck. Eine Prüfung durch zuständige Fachleute geht jeder möglichen Ausführungsvereinbarung voraus.",
@@ -2250,13 +2356,6 @@
       "source": "Ansprechpartner, Einweisung und notwendige Abstimmungen",
       "routes": [
         "/ratgeber/bauhelfer-einsatz-vorbereiten/"
-      ]
-    },
-    "3e8e494d4deec41ce9793cf6": {
-      "kind": "text",
-      "source": "Ändern sich Funktionen, Dienstleister oder Verarbeitungszwecke, werden diese Informationen entsprechend angepasst. Neue Werbe- oder Analysefunktionen sind durch diese Erklärung nicht vorab aktiviert.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "3ec26bbc4965f298bbc3d779": {
@@ -2432,6 +2531,14 @@
         "/bauleistungen/baureinigung/"
       ]
     },
+    "4256735319b475bfc6db639f": {
+      "kind": "text",
+      "source": ". Stand: 28. Oktober 2026.",
+      "routes": [
+        "/datenschutz/",
+        "/impressum/"
+      ]
+    },
     "427e389705a3801453e0be38": {
       "kind": "text",
       "source": "Kontrolle mit der richtigen Grundlage vorbereiten",
@@ -2491,18 +2598,18 @@
         "/leistungen/"
       ]
     },
+    "43e44fabd917b80bd18edde8": {
+      "kind": "text",
+      "source": "Vor der Anfrage die richtigen Fragen stellen.",
+      "routes": [
+        "/"
+      ]
+    },
     "44d4825a34aab5fa27222c66": {
       "kind": "text",
       "source": "Baureinigung für Bauprojekte in Ihrer Region. | KnaBa",
       "routes": [
         "/berlin/"
-      ]
-    },
-    "44e2cf2ee8cbd40469439856": {
-      "kind": "text",
-      "source": "Partnerlogos und Markenzeichen bleiben den jeweiligen Rechteinhabern zugeordnet. Wenn Sie Fragen zur Bildnutzung, zu Nutzungsrechten oder möglichen Rechtsverletzungen haben, wenden Sie sich bitte über die angegebenen Kontaktdaten an KnaBa. Die Darstellung ist kein Nachweis einer gesonderten Zertifizierung oder Fachzulassung.",
-      "routes": [
-        "/impressum/"
       ]
     },
     "4509d6d07071336d71a02929": {
@@ -2629,6 +2736,13 @@
         "/unternehmen/"
       ]
     },
+    "47a5ee5654b47ab2e848356c": {
+      "kind": "text",
+      "source": "Sie kennen noch nicht alle Angaben? Beschreiben Sie zunächst, was bereits feststeht.",
+      "routes": [
+        "/"
+      ]
+    },
     "4818756098a7914079694e37": {
       "kind": "text",
       "source": "Was kann ich bei Fragen nach einem Einsatz tun?",
@@ -2641,13 +2755,6 @@
       "source": "Symbolische Illustration: Baustellenvorbereitung",
       "routes": [
         "/galerie/"
-      ]
-    },
-    "4840b66678eb2e01e9863d2c": {
-      "kind": "text",
-      "source": "Der Website-Code verwendet keine Werbe- oder Analyse-Cookies, keine Werbepixel und keine Besucherverfolgung. Eigene Schriftarten, Illustrationen und Styles werden mit der Website ausgeliefert. Die fünf Partnerlogos werden direkt von dieser Website geladen; für deren Anzeige wird kein externer Bilddienst kontaktiert. Die Unternehmenszeichen gehören ihren jeweiligen Rechteinhabern. Externe Karten und Videos sind nicht eingebettet.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "48dff4cdf7b230d2c90ff646": {
@@ -2727,6 +2834,13 @@
         "/unternehmen/"
       ]
     },
+    "4a4e99f4f221b06d9de6a270": {
+      "kind": "text",
+      "source": "Ändern sich Funktionen, Dienstleister oder Verarbeitungszwecke – insbesondere durch Umzug auf den Unternehmensserver, neue Login-Anbieter, KI-Dienste oder Telefonie –, werden die Datenschutzinformationen vor dem entsprechenden Einsatz aktualisiert. Diese Hinweise begründen keine Einwilligung und schalten keine neue Werbung, Analyse oder Gesprächsaufzeichnung frei.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "4a5357cacd6ff68cee66d470": {
       "kind": "text",
       "source": "Inhalte und Bildmaterial",
@@ -2768,6 +2882,7 @@
       "kind": "text",
       "source": "Projektanfrage vorbereiten",
       "routes": [
+        "/",
         "/berlin/",
         "/kontakt/",
         "/ratgeber/"
@@ -2837,6 +2952,13 @@
       "source": "Fein- und Endreinigung: fertige Oberflächen betrachten",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
+      ]
+    },
+    "4b3af1c0c54ebb65a5e32e0a": {
+      "kind": "text",
+      "source": "Assistent & Sprache",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "4baefa997f22c2526becb31a": {
@@ -3015,6 +3137,13 @@
         "/planer/"
       ]
     },
+    "50d2903958fc363da1f09528": {
+      "kind": "text",
+      "source": "Was beeinflusst den Leistungsumfang?",
+      "routes": [
+        "/"
+      ]
+    },
     "50d81739111643a77ec080cf": {
       "kind": "meta:description",
       "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
@@ -3088,6 +3217,7 @@
       "kind": "text",
       "source": "Gereinigte Flächen gemeinsam prüfen: Leistungsumfang, Restpunkte, Vorschäden und neue Verschmutzung bei der Übergabe nachvollziehbar festhalten.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -3302,6 +3432,13 @@
         "/planer/"
       ]
     },
+    "59470ee22ed403ce56e292f7": {
+      "kind": "text",
+      "source": "Auf eine Anfrage bezogene Rückfragen oder notwendige Vertragsnachrichten sind von Werbung zu unterscheiden. Die Kenntnisnahme dieser Datenschutzhinweise, eine Kontaktanfrage, die Portalregistrierung und die Nutzung des Assistenten stellen keine Einwilligung in Newsletter, Werbeanrufe oder Werbenachrichten dar. Der aktuelle Stand enthält keinen aktivierten automatischen Newsletter- oder WhatsApp-Marketingversand. Eine spätere werbliche Ansprache erfolgt nur auf einer hierfür zulässigen Grundlage unter Beachtung von § 7 UWG; ein Widerspruch gegen Direktwerbung ist jederzeit möglich (Art. 21 Abs. 2 DSGVO).",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "59c37f5ab608eccf857c4bb6": {
       "kind": "text",
       "source": "Ja, wenn Umfang, Verantwortlichkeiten und Bauzeiten zusammenpassen. Das Angebot führt die vereinbarten Leistungen getrennt auf.",
@@ -3314,6 +3451,13 @@
       "source": "Enthaltene Leistungen und Ausnahmen abgleichen",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
+      ]
+    },
+    "59d6158ae034ea275735ed15": {
+      "kind": "text",
+      "source": "Speichern Sie keine Passwörter, Gesundheitsdaten oder Zugangscodes im Chat. Die Löschfrist für Chats wurde noch nicht automatisiert und muss vor dem offiziellen Betrieb festgelegt werden; Auskunft und Löschung können beim oben genannten Verantwortlichen angefragt werden.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "5a3978bb5fad230ba527d47e": {
@@ -3378,6 +3522,13 @@
       "source": "Öffnungen für technische Kommunikation und Medien: nur nach Prüfung von Statik, Leitungsführung und erforderlichen Genehmigungen.",
       "routes": [
         "/bauleistungen/durchbrueche/"
+      ]
+    },
+    "5c7eb4c85c6e3ec6530c0bb4": {
+      "kind": "text",
+      "source": "Der aktuell geprüfte Website-Quellstand setzt selbst keine Werbe- oder Analyse-Cookies und keine Werbepixel ein. Eigene Schriftarten, Illustrationen, Styles und die eingebundenen Partnerlogos werden von dieser Website ausgeliefert. Technisch notwendige Cookies oder vergleichbare Speicherzugriffe für Sitzungen und Sicherheit werden unten erläutert. Für künftig hinzukommende, nicht unbedingt erforderliche Dienste wird vor deren Einsatz eine gesonderte, freiwillige Einwilligung eingeholt, soweit § 25 TDDDG dies verlangt. Die Unternehmenszeichen gehören ihren jeweiligen Rechteinhabern. Externe Karten und Videos sind nicht eingebettet.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "5c8e95c2cd588f0a3982ca74": {
@@ -3512,6 +3663,13 @@
         "/bauleistungen/durchbrueche/"
       ]
     },
+    "614aceb6e70921a36277b175": {
+      "kind": "text",
+      "source": "ANFRAGE VORBEREITEN",
+      "routes": [
+        "/"
+      ]
+    },
     "616e1129ff60721b1e95968f": {
       "kind": "meta:og:description",
       "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn.",
@@ -3578,6 +3736,13 @@
       "source": "Allen Anbietern dieselbe Ausgangslage geben",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
+      ]
+    },
+    "63504c3e57fe149ea44ca127": {
+      "kind": "text",
+      "source": "Die hier beschriebenen Bauhilfe- und Reinigungsleistungen werden nur im jeweils zulässigen, konkret vereinbarten Umfang angeboten. Tätigkeiten, für die eine besondere handwerks-, gewerbe-, sicherheits- oder sonstige öffentlich-rechtliche Voraussetzung gilt, dürfen nur nach Erfüllung dieser Voraussetzung und mit geeigneter Fachkunde ausgeführt werden. Die Website stellt keine besondere behördliche Genehmigung, Meisterqualifikation oder Zertifizierung dar, die nicht ausdrücklich nachgewiesen ist.",
+      "routes": [
+        "/impressum/"
       ]
     },
     "6384ae01349942efe21324fc": {
@@ -3819,6 +3984,7 @@
       "kind": "text",
       "source": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen",
       "routes": [
+        "/",
         "/bauleistungen/bauzwischenreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -3862,6 +4028,13 @@
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "698d606ee1b1068ef60512a8": {
+      "kind": "text",
+      "source": "Übermittlungen",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "69da2dd001220c74137fda6c": {
@@ -4041,14 +4214,6 @@
         "/faq/"
       ]
     },
-    "6e2164bf6d73448130bfab09": {
-      "kind": "text",
-      "source": ". Stand: 25. Oktober 2026.",
-      "routes": [
-        "/datenschutz/",
-        "/impressum/"
-      ]
-    },
     "6e27a8dc0695148d0f35fa7c": {
       "kind": "text",
       "source": "Karriere",
@@ -4208,6 +4373,13 @@
       "source": "B2B / BRANCHEN",
       "routes": [
         "/branchen/"
+      ]
+    },
+    "71862056684b5028c71ecca0": {
+      "kind": "text",
+      "source": "Servicekommunikation, Benachrichtigungen und Werbung",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "719f8a812898be9323c8f054": {
@@ -4472,6 +4644,13 @@
         "/faq/"
       ]
     },
+    "79724e8446a62050685d7fb4": {
+      "kind": "text",
+      "source": "Je nach tatsächlicher Konfiguration erhalten Hosting- und Infrastrukturbetreiber, technische Sicherheitsdienstleister sowie im Rahmen der Auftragsbearbeitung berechtigte Mitarbeitende und erforderliche Auftragspartner nur die jeweils notwendigen Daten. Der Einsatz eines eigenen VPS bedeutet nicht, dass keine externen Auftragsverarbeiter tätig sind. Die Auswahl von Hosting, Sicherung, DNS/CDN, Turnstile und gegebenenfalls Nachrichten- oder Anmeldediensten muss vor dem endgültigen Betrieb in einem aktuellen Verzeichnis der Empfänger und Auftragsverarbeiter dokumentiert sein.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "79c30c3ba06437b57a97c5fd": {
       "kind": "text",
       "source": "Ihre Rückmeldung an KnaBa",
@@ -4498,6 +4677,20 @@
       "source": "Materialien und Rückstände beschreiben",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "7a85400c2bb71818bfb88e77": {
+      "kind": "text",
+      "source": "BAUWISSEN / PRAXIS",
+      "routes": [
+        "/"
+      ]
+    },
+    "7a884cfb3338eae2350ad95c": {
+      "kind": "text",
+      "source": "Nachrichten & Werbung",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "7b79e1ed9b0bb1798cb4dc7f": {
@@ -4667,6 +4860,20 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
+    "817a79e3ae7d761acb5f2b34": {
+      "kind": "text",
+      "source": "Stand: 28. Oktober 2026 ·",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
+    "81b31dfc03641df1f10b9498": {
+      "kind": "text",
+      "source": "Bewerbungen",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "81efe22462470baa59eefd88": {
       "kind": "text",
       "source": "Der Reinigungsplaner und noch nicht gesendete Anfrageentwürfe halten Eingaben im aktuellen Browserfenster. Diese Entwürfe werden nicht als personenbezogene Datensätze im Local Storage gespeichert. Ein Neuladen oder Schließen des Fensters kann den Entwurf verwerfen. Erst mit dem Absenden wird eine Anfrage serverseitig gespeichert.",
@@ -4701,13 +4908,6 @@
       "source": "Die Dauer richtet sich nach Fläche, Verschmutzung, Zugänglichkeit und Zahl der Arbeitsphasen. Eine Zeitschätzung folgt erst nach Prüfung.",
       "routes": [
         "/faq/"
-      ]
-    },
-    "82b7001da05aa10b3d9982db": {
-      "kind": "text",
-      "source": "Für Verfahren vor einer Verbraucherschlichtungsstelle besteht nach den veröffentlichten Anbieterangaben weder eine Teilnahmeverpflichtung noch eine Teilnahmebereitschaft.",
-      "routes": [
-        "/impressum/"
       ]
     },
     "82fa512266d6108b9bd7eaeb": {
@@ -4947,6 +5147,13 @@
         "/bauleistungen/kernbohrungen/"
       ]
     },
+    "8822881ced0f73ff335e2aa4": {
+      "kind": "text",
+      "source": "Bitte senden Sie keine Ausweiskopien, Gesundheitsangaben, Sozialversicherungsnummern oder sonstigen besonders sensiblen Daten, solange KnaBa sie nicht auf einer gesondert geprüften Rechtsgrundlage ausdrücklich benötigt. Bewerbung und Einstellung werden nicht allein durch die Nutzung dieser Website begründet. Die Aufbewahrungsdauer nach einer Absage oder Einstellung muss der Verantwortliche für den tatsächlichen Bewerbungsprozess gesondert festlegen und mitteilen; eine automatische Löschung ist für diesen Kontaktweg hier nicht nachgewiesen.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "885b57016aacce2d21b2aa62": {
       "kind": "text",
       "source": "Für Bauunternehmen. Für Bauträger. Für Ihre Baustelle.",
@@ -5017,6 +5224,13 @@
       "source": "2. Zwischenreinigung: den Gewerkewechsel vorbereiten",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
+      ]
+    },
+    "8977996becd617d1faa15541": {
+      "kind": "text",
+      "source": "Projektbezogene Glas- und Sonderreinigungen können ebenfalls angefragt werden; Umfang und Voraussetzungen klären wir vorab.",
+      "routes": [
+        "/"
       ]
     },
     "89d9516f52d13a4f53a310e0": {
@@ -5286,6 +5500,7 @@
       "kind": "text",
       "source": "Saubere Bauübergabe: die Checkliste nach der Endreinigung",
       "routes": [
+        "/",
         "/bauleistungen/bauendreinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -5357,6 +5572,13 @@
       "source": "Ist die Entsorgung von Bauschutt inklusive?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "90688d750efc943572cfb8fb": {
+      "kind": "text",
+      "source": "KnaBa verbindet Baureinigung, vereinbarte Bauhilfsarbeiten und die Abstimmung rund um Ihr Objekt in Berlin und Brandenburg. Diese drei Punkte helfen bei der Projektplanung.",
+      "routes": [
+        "/"
       ]
     },
     "9080b0415ba56738f00c1658": {
@@ -5674,6 +5896,13 @@
         "/ratgeber/bauuebergabe-checkliste/"
       ]
     },
+    "9789dd9d4791ba15fdacf7c7": {
+      "kind": "text",
+      "source": "Bei einer Übermittlung in Staaten außerhalb des EWR muss der Verantwortliche die jeweils einschlägige Grundlage nach Kapitel V DSGVO (beispielsweise einen Angemessenheitsbeschluss oder geeignete Garantien nach Art. 46 DSGVO) prüfen und darüber informieren. Allgemeine Datenschutzlinks eines Anbieters belegen weder eine konkrete Datenübermittlung noch einen gültigen Auftragsverarbeitungsvertrag. Bei einem Server- oder Providerwechsel werden diese Angaben vor Umschaltung anhand des tatsächlichen Datenflusses angepasst.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "97c00fad2e977db0fe7ae614": {
       "kind": "text",
       "source": "Termin: bevorzugter Zeitraum, Abnahme und noch tätige Gewerke.",
@@ -5954,10 +6183,18 @@
         "/faq/"
       ]
     },
+    "a1a7ac7d7331fbaa59a70bce": {
+      "kind": "text",
+      "source": "KNABA Assistant, automatische Antworten und Sprache",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "a1c83c8dce3c088ba1667540": {
       "kind": "text",
       "source": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen",
       "routes": [
+        "/",
         "/bauleistungen/baureinigung/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
@@ -6041,6 +6278,13 @@
       "source": "Wie werden Firmenaufträge abgerechnet?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "a45d77954328278fee7d92ca": {
+      "kind": "text",
+      "source": "Nach den veröffentlichten Anbieterangaben ist KnaBa weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Eine gesetzlich oder vertraglich begründete Pflicht zur Teilnahme bleibt unberührt. Für konkrete Streitfälle gelten die gesetzlichen Informationspflichten, insbesondere § 37 VSBG, soweit anwendbar.",
+      "routes": [
+        "/impressum/"
       ]
     },
     "a471e90726e632f0328f4c94": {
@@ -6330,6 +6574,13 @@
         "/datenschutz/"
       ]
     },
+    "ad790e02d570bc19abb8d7be": {
+      "kind": "text",
+      "source": "Direkte regionale Abstimmung",
+      "routes": [
+        "/"
+      ]
+    },
     "ad8848c80961ceabdf0078b3": {
       "kind": "text",
       "source": "Fotos und Pläne können die Einschätzung erleichtern, ersetzen aber nicht immer eine Besichtigung. Zusatzarbeiten und geänderte Bauzustände vor Ausführung neu abstimmen.",
@@ -6423,6 +6674,13 @@
         "/faq/"
       ]
     },
+    "b0f3b304770515ca66d813d5": {
+      "kind": "text",
+      "source": "Empfänger, Auftragsverarbeitung und Übermittlungen außerhalb des EWR",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "b18361150cab1b171239acd6": {
       "kind": "text",
       "source": "Änderungsfreigabe und gemeinsame Sichtkontrolle vereinbaren",
@@ -6500,13 +6758,6 @@
         "/bauleistungen/baureinigung/"
       ]
     },
-    "b30b2eb026c7c350c94b85f3": {
-      "kind": "text",
-      "source": "Für das Portal wird ein Profil mit Name, E-Mail-Adresse, gewünschter Rolle als Kunde oder Mitarbeitende, Freigabestatus und zugewiesener Rolle gespeichert. Hinzu kommen Erstellungs- und Änderungszeitpunkte sowie die Version der zur Kenntnis genommenen Datenschutzhinweise. Die Auswahl einer Rolle bei der Registrierung verleiht noch keine entsprechenden Zugriffsrechte. Der Website-Inhaber prüft und erteilt die Freigabe. Bis dahin können Sie keine fremden Auftragsdaten einsehen.",
-      "routes": [
-        "/datenschutz/"
-      ]
-    },
     "b311effd78eee0d1c4d62e6b": {
       "kind": "text",
       "source": "Schematische Illustrationen zur Orientierung – keine Fotos konkreter Kundenaufträge.",
@@ -6568,6 +6819,13 @@
       "source": "Kernbohrungen in Beton – Anfrage | KnaBa Berlin",
       "routes": [
         "/bauleistungen/kernbohrungen/"
+      ]
+    },
+    "b6777e7445945a4ecd4d4bb2": {
+      "kind": "text",
+      "source": "Die Website dient der Darstellung von Leistungen und der unverbindlichen Kontaktaufnahme. Über die Anfrage- und Registrierungsfunktionen lassen sich keine kostenpflichtigen Aufträge verbindlich online bestellen oder bezahlen. Ein individueller Vertrag kommt nach den dafür geltenden gesetzlichen Regeln und einer gesonderten Vereinbarung zustande. Ein automatisch erzeugter Eingangsbeleg ist keine Annahme eines Auftrags.",
+      "routes": [
+        "/impressum/"
       ]
     },
     "b699c514485f23d4b69607a0": {
@@ -6634,13 +6892,6 @@
         "/impressum/"
       ]
     },
-    "b7d23a97aedb9e39e2b84a36": {
-      "kind": "text",
-      "source": "KNABA Assistant und Kundenkommunikation",
-      "routes": [
-        "/datenschutz/"
-      ]
-    },
     "b7e5185b8821fcfde5339c88": {
       "kind": "text",
       "source": "Aktuelle Einsatzmöglichkeiten, Anforderungen und Vertragsbedingungen werden persönlich geklärt. Die folgenden Hinweise helfen bei einer ersten Kontaktaufnahme; sie sind kein Stellenangebot.",
@@ -6660,6 +6911,13 @@
       "source": "Ihr KnaBa Portal für Reinigungsanfragen, geplante Einsätze und die Zusammenarbeit mit unserem Team. Persönlicher Zugang mit Freigabe durch den Inhaber.",
       "routes": [
         "/konto/"
+      ]
+    },
+    "b87cbd1f5626aefa732d5d19": {
+      "kind": "text",
+      "source": "Zugang, freie Arbeitsbereiche und andere Gewerke",
+      "routes": [
+        "/"
       ]
     },
     "b97aaf1df6150edf9b4ecc93": {
@@ -6869,6 +7127,13 @@
         "/karriere/"
       ]
     },
+    "be8c1967c409d22362d79678": {
+      "kind": "text",
+      "source": "Reinigung passend zur Bauphase",
+      "routes": [
+        "/"
+      ]
+    },
     "bef43d7be91ed0a13ae84505": {
       "kind": "attr:aria-label",
       "source": "KnaBa Assistent öffnen",
@@ -6965,6 +7230,13 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
+    "bfdf3a557fc8cddf98ceff27": {
+      "kind": "text",
+      "source": "Bewerbungen und personenbezogene Angaben Beschäftigter",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "c02dd5774ec5976f910ab69a": {
       "kind": "text",
       "source": "Zusätzliche Bauleistungen – Anfrage ↗",
@@ -7025,6 +7297,13 @@
         "/bauleistungen/durchbrueche/",
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/"
+      ]
+    },
+    "c0697fa2f785161cb91046ff": {
+      "kind": "text",
+      "source": "Es findet nach dem derzeit geprüften Funktionsstand keine ausschließlich automatisierte Entscheidung statt, die Ihnen gegenüber rechtliche Wirkung entfaltet oder Sie in ähnlicher Weise erheblich beeinträchtigt (Art. 22 DSGVO). Die Freigabe von Rollen erfolgt durch berechtigte Menschen. Ihre gesetzlichen Rechte und mögliche gerichtliche Rechtsbehelfe bleiben unberührt.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "c079677f16b10cdfe1215b48": {
@@ -7306,13 +7585,6 @@
       "source": "Schwerpunkt Baureinigung und Baustellenvorbereitung. Technische Sonderarbeiten nur nach Prüfung und separatem Vertrag.",
       "routes": [
         "/leistungen/"
-      ]
-    },
-    "cb5fa03094a5876729bb2cba": {
-      "kind": "text",
-      "source": "Die Aufbewahrung technischer Betriebs- und Anmeldedaten richtet sich zusätzlich nach den tatsächlich eingesetzten Diensten. Ein Umzug oder eine Stilllegung der Vorschau erfordert deshalb auch eine gesonderte Prüfung der gespeicherten Daten.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "cbec982c251b2d0b099a2c91": {
@@ -7956,6 +8228,13 @@
         "/"
       ]
     },
+    "dc396aaefd2b5c21b544fd91": {
+      "kind": "text",
+      "source": "Bei einer Bewerbung per E-Mail oder auf anderem vereinbartem Kontaktweg verarbeitet KnaBa nur die mitgeteilten Kontaktdaten, Qualifikationen und Bewerbungsunterlagen, soweit dies für die Entscheidung über ein Beschäftigungsverhältnis erforderlich ist (Art. 6 Abs. 1 Buchst. b DSGVO, in Verbindung mit den einschlägigen beschäftigungsdatenschutzrechtlichen Vorschriften, insbesondere § 26 BDSG, soweit anwendbar). Es findet über diese Website keine automatisierte Bewerberauswahl statt.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "dc41b3ce579052c7f4e49bdd": {
       "kind": "meta:og:title",
       "source": "Wand- & Deckendurchbrüche – Anfrage | KnaBa Berlin",
@@ -7975,6 +8254,13 @@
       "source": "10315 Berlin, Deutschland",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "dd1bf76817a85d3b6ac46cb1": {
+      "kind": "text",
+      "source": "Bauphase, Verschmutzung und empfindliche Materialien",
+      "routes": [
+        "/"
       ]
     },
     "dd4fc5523ce61d788d64a5a1": {
@@ -8012,6 +8298,13 @@
         "/bauleistungen/zusatzarbeiten/"
       ]
     },
+    "ddfb3d464dc18e418c6e21bd": {
+      "kind": "text",
+      "source": "Die Aufbewahrung technischer Betriebs- und Anmeldedaten richtet sich zusätzlich nach den tatsächlich eingesetzten Diensten. Für geschäftliche Unterlagen können gesetzliche Aufbewahrungspflichten, insbesondere nach § 147 AO und § 257 HGB, gelten; sie rechtfertigen nicht pauschal das unbegrenzte Speichern sämtlicher Chat-, Profil- oder Logdaten. Der Betreiber muss eine dokumentierte Lösch- und Backup-Routine mit überprüfbaren Fristen je Datenkategorie einrichten. Ein Umzug oder eine Stilllegung der Vorschau erfordert deshalb auch eine gesonderte Prüfung der gespeicherten Daten und Sicherungskopien.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "ddfedd1d76adb8718373af34": {
       "kind": "attr:aria-label",
       "source": "7 / 8: Wand- & Deckendurchbrüche – Anfrage",
@@ -8038,6 +8331,13 @@
       "source": "Kann ich nur eine einzelne Leistung anfragen?",
       "routes": [
         "/faq/"
+      ]
+    },
+    "df87a71958eb2cafc299cda4": {
+      "kind": "text",
+      "source": "Alle Bauratgeber entdecken",
+      "routes": [
+        "/"
       ]
     },
     "df8d6661688eccaff86c6b5f": {
@@ -8297,6 +8597,13 @@
       "source": "Bodenbeläge, Naturstein, Holz, Glas, Beschichtungen und Armaturen möglichst genau angeben. Pflegehinweise der Hersteller und vorhandene Schäden vor Beginn bereitstellen.",
       "routes": [
         "/ratgeber/"
+      ]
+    },
+    "e818d4f4e05a60e674340579": {
+      "kind": "text",
+      "source": "Ein Baupartner, der Abläufe mitdenkt.",
+      "routes": [
+        "/"
       ]
     },
     "e8d74ef23540cf1ecb329455": {
@@ -8604,6 +8911,7 @@
       "kind": "text",
       "source": "Welche Reinigungsphase passt zum Baufortschritt? Grobreinigung, Zwischenreinigung und Endreinigung abgrenzen und mit den Gewerken abstimmen.",
       "routes": [
+        "/",
         "/ratgeber/",
         "/ratgeber/bauendreinigung-vorbereiten/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
@@ -8630,13 +8938,6 @@
       "source": "Zweck, Anzahl, Durchmesser und gewünschte Lage der Öffnungen erfassen.",
       "routes": [
         "/bauleistungen/kernbohrungen/"
-      ]
-    },
-    "f4eaaef8655228779a719402": {
-      "kind": "text",
-      "source": ". Zur Bearbeitung kann eine angemessene Prüfung Ihrer Identität erforderlich sein. Senden Sie uns hierfür nicht unaufgefordert Ausweiskopien oder andere sensible Unterlagen.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "f4f2df77708c1c97f53242af": {
@@ -8952,6 +9253,13 @@
         "/unternehmen/"
       ]
     },
+    "fc0d62023e7e55169538cb07": {
+      "kind": "text",
+      "source": "KnaBa hat seinen Sitz in Berlin. Einsatzort, Ansprechpartner, Sicherheitsvorgaben und Leistungen werden für jedes Projekt individuell vereinbart.",
+      "routes": [
+        "/"
+      ]
+    },
     "fc2ede3e298030fca5cb32d8": {
       "kind": "text",
       "source": "Gemeinsamen Rundgang mit Zugang und Beleuchtung organisieren",
@@ -9044,6 +9352,13 @@
         "/faq/"
       ]
     },
+    "fdf762e87d95e943d3ccaaa2": {
+      "kind": "text",
+      "source": "Fläche, Art und Zustand des Objekts",
+      "routes": [
+        "/"
+      ]
+    },
     "fe2bc27ac97c7db03a6dd1b3": {
       "kind": "text",
       "source": "Fertige Bereiche und Restarbeiten trennen",
@@ -9086,6 +9401,13 @@
         "/bauleistungen/kernbohrungen/",
         "/bauleistungen/zusatzarbeiten/",
         "/leistungen/"
+      ]
+    },
+    "ffba38ba724eec8059b1d026": {
+      "kind": "text",
+      "source": ". Anfragen werden unverzüglich und grundsätzlich spätestens innerhalb eines Monats beantwortet; eine gesetzlich zulässige Verlängerung wird begründet mitgeteilt (Art. 12 Abs. 3 DSGVO). Zur Bearbeitung kann eine angemessene Prüfung Ihrer Identität erforderlich sein. Senden Sie uns hierfür nicht unaufgefordert Ausweiskopien oder andere sensible Unterlagen.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "ffd4bfc03735dfb41c3c990a": {

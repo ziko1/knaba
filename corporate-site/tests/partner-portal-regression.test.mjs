@@ -1,0 +1,21 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+test('partner is a first-class authenticated portal role with its own request controls',()=>{
+  const src=readFileSync(new URL('../src/components/Portal.tsx',import.meta.url),'utf8');
+  assert.match(src,/const canRequest = \(\) => role\(\) === 'client' \|\| role\(\) === 'partner'/);
+  assert.match(src,/const authorized = \(\) => \['owner','admin','worker','client','partner'\]/);
+  assert.match(src,/data-knaba-role=\{role\(\)\}/);
+  assert.match(src,/currentTab\(\)==='newRequest' && canRequest\(\)/);
+  assert.doesNotMatch(src,/<Match when=\{role\(\)==='partner'\}>/);
+  assert.match(src,/role\(\)==='owner'\?\['people','activity'\]/);
+});
+test('partner backend can only create and view own scoped requests, never worker notes',()=>{
+  const src=readFileSync(new URL('../worker/api.ts',import.meta.url),'utf8');
+  assert.match(src,/requireRole\(s,\['client','partner'\]\)/);
+  assert.match(src,/const filters=\(s.role==='client'\|\|s.role==='partner'\)\?' WHERE client_id=\?'/);
+  assert.match(src,/role !== 'client' && role !== 'partner'/);
+  assert.match(src,/const scopeGuard=\(s.role==='client'\|\|s.role==='partner'\)\?' AND client_id=\?'/);
+  assert.match(src,/role=\? AND status='approved'/);
+});

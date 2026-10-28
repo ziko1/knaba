@@ -347,3 +347,20 @@ Current task adds explicit fictional review examples (3×DE/EN/UK/RU) to the exi
 
 ## 2026-10-26 modular admin extension
 Preserved canonical `/admin/` and old `/studio/`, `/crm/`, `/konto/`, `/postfach/`. Typed same-origin registry and lazy adapters reuse existing real features without parallel CMS/API. ERP V4 source imported at repo root separately, NOT a live connector. More at `../docs/unified/KNABA_MODULAR_CMS_RECOVERY_2026-10-26_UK.md`.
+
+
+## KNABA legal/Datenschutz checkpoint — 2026-10-28
+
+- Current task: legal risk audit of official knaba.de vs. preview kneba.vsp.rest, improve **existing** DE/RU Impressum/Datenschutzerklärung and visible four-language automated-assistant notice, without fake legal certification or unapproved deployment.
+- Preserved base: Draft PR #109, source branch \`feat/knaba-unified-signin-registration-20261026\`, exact starting HEAD \`444a06af0d8f80184291a5fe9600251d0dce96cf\`. Dedicated stacked source branch: \`feat/knaba-legal-gdpr-review-20261028\`. Main and customer domain unchanged.
+- Scope: two privacy pages, two imprint pages, existing \`KnabaAssistant.tsx\`, one legal regression test, existing npm test script, existing \`docs/LEGAL_AUDIT_UK.md\`, this memory/roadmap; no auth/provider/data/migration/secret changes. Legal audit appends to prior 24.10.2026 evidence instead of replacing it.
+- Evidence: pinned source \`a62bc91fbc426ce8b830d5cac6ee9e61c35748f2\`, isolated \`node --test tests/legal-regression.test.mjs\` and \`node --check\` on six fetched files: **6/6 PASS** with Node 18.19.1; this is not the project's required Node >=22.23.4 complete check/build. Full test/build, customer/independent legal review and live re-verification are NOT_RUN. Full detail: \`docs/LEGAL_AUDIT_UK.md\` appended audit 28.10.2026.
+- Current official \`knaba.de/impressum\` still serves historical TMG, closed EU ODR and legacy GA disclosure; cannot infer actual tracking. New legal wording is source candidate only, not deployed.
+- BLOCKERS before official release: owner verifies operator & VAT/registry/business status; legal/HR contracts including AÜG risk for Bauhelfer; worker safety/licensing; GDPR AVV/subprocessor/transfers/retention/manual rights workflow/backup deletion; true-cookie/network audit and third-party brand media rights; owner-approved public legal texts, independent legal review, correct owner server deployment and rollback.
+- Do not claim an AGB exists; individual contract terms/Widerrufsbelehrung need separate actual paid order-flow inspection. Any future social OAuth, AI telephony, recording, analytics or marketing requires fresh data-flow and notice before activation.
+
+## 28.10.2026 — KNABA password minimum and developer preview onboarding
+- User explicitly requested a **minimum of 8 characters** (not a fixed length or mandatory downgrade of existing passwords). Reconciled the same minimum in the existing VPS credential creation, owner/developer one-time activation, invite-only client/worker/partner registration, password rotation and the DE/EN/UK/RU form labels; existing scrypt hashing, rate limits, no privilege self-assignment, MFA/provider gates and existing password hashes stay unchanged.
+- The separately preserved KNABA ERP PostgreSQL identity implementation uses the same minimum for hashing, one-use invitations and self-service password rotation, without changing its role permissions or privileged MFA requirements.
+- TDD on the original PR #110 source: focused regressions first failed on the previous 16/12 minima, then the new 8-character cases passed. Isolated Node 24 full website check/build/verification and 79 VPS tests passed; ERP typecheck and 1866 offline tests passed (439 PostgreSQL integration cases skipped in this CPU-only run). Source publication, live preview verification and real developer enrollment require separate receipts. Never treat unit tests as physical-device, real OAuth or full PostgreSQL acceptance.
+- Privileged developer identity remains bound to a separate private server email and a revocable server-side grant; never place real email, password, token, session, or private SQLite state into this public repository.

@@ -1,0 +1,80 @@
+---
+import type {ConstructionLocale} from '../data/construction-offers';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const content={
+  de:{
+    eyebrow:'DARUM KNABA',title:'Ein Baupartner, der Abläufe mitdenkt.',
+    lead:'KnaBa verbindet Baureinigung, vereinbarte Bauhilfsarbeiten und die Abstimmung rund um Ihr Objekt in Berlin und Brandenburg. Diese drei Punkte helfen bei der Projektplanung.',
+    points:[
+      {title:'Reinigung passend zur Bauphase',body:'Ob Grob-, Zwischen-, Fein- oder Endreinigung: Wir klären Baufortschritt, Zugänge und den gewünschten Übergabetermin vor der Beauftragung.'},
+      {title:'Bauhilfe mit klarem Leistungsumfang',body:'Baustellenvorbereitung und unterstützende Arbeiten lassen sich ergänzend anfragen. Fach- oder genehmigungspflichtige Leistungen werden gesondert geprüft.'},
+      {title:'Direkte regionale Abstimmung',body:'KnaBa hat seinen Sitz in Berlin. Einsatzort, Ansprechpartner, Sicherheitsvorgaben und Leistungen werden für jedes Projekt individuell vereinbart.'}
+    ],
+    additional:'Projektbezogene Glas- und Sonderreinigungen können ebenfalls angefragt werden; Umfang und Voraussetzungen klären wir vorab.'
+  },
+  en:{
+    eyebrow:'WHY CHOOSE KNABA',title:'Construction support with the full workflow in mind.',
+    lead:'KnaBa brings together construction cleaning, agreed auxiliary site work and project coordination in Berlin and Brandenburg. Three practical reasons to start a conversation.',
+    points:[
+      {title:'Cleaning matched to each phase',body:'From rough and interim cleaning to final handover, we clarify the project stage, site access and timing before work is agreed.'},
+      {title:'Defined construction support',body:'Site preparation and auxiliary tasks can be requested alongside cleaning. Work requiring specialist qualifications or permits is assessed separately.'},
+      {title:'Direct regional coordination',body:'KnaBa is based in Berlin. Site location, contacts, safety requirements and the precise scope are agreed for each project.'}
+    ],
+    additional:'Project-specific glass and specialist cleaning can also be discussed; scope and conditions are confirmed in advance.'
+  },
+  uk:{
+    eyebrow:'ЧОМУ KNABA',title:'Підтримка будівництва з увагою до всього процесу.',
+    lead:'KnaBa поєднує будівельний клінінг, погоджені допоміжні роботи й координацію на об’єктах Берліна та Бранденбурга. Три практичні переваги для планування.',
+    points:[
+      {title:'Прибирання відповідно до етапу',body:'Від грубого й проміжного до фінального очищення: перед замовленням уточнюємо стан об’єкта, доступ і термін здачі.'},
+      {title:'Допоміжні роботи з чіткими умовами',body:'Підготовку майданчика та допомогу бригадам можна замовити додатково. Спеціалізовані роботи й необхідні дозволи перевіряються окремо.'},
+      {title:'Пряма регіональна координація',body:'Компанія розташована в Берліні. Місце робіт, відповідальні особи, правила безпеки та обсяг погоджуються для кожного проєкту.'}
+    ],
+    additional:'За запитом можливе також очищення скляних поверхонь і спеціалізоване прибирання в межах будівельного проєкту після уточнення умов.'
+  },
+  ru:{
+    eyebrow:'ПОЧЕМУ KNABA',title:'Строительные задачи с учётом всего процесса.',
+    lead:'KnaBa объединяет строительный клининг, согласованные подсобные работы и координацию на объектах Берлина и Бранденбурга. Три практических аргумента для вашего проекта.',
+    points:[
+      {title:'Уборка по этапам строительства',body:'От черновой и промежуточной до финальной: до начала работ уточняем состояние объекта, доступ и сроки сдачи.'},
+      {title:'Подсобные работы с понятными условиями',body:'Подготовку площадки и поддержку бригад можно запросить дополнительно. Специальные работы и необходимые разрешения проверяются отдельно.'},
+      {title:'Прямая координация в регионе',body:'Компания находится в Берлине. Место, ответственные лица, меры безопасности и объём работ согласуются по каждому проекту.'}
+    ],
+    additional:'По запросу также возможна очистка стеклянных поверхностей и специальная уборка в рамках строительного проекта после уточнения условий.'
+  }
+}[locale];
+---
+<section class="why-knaba" aria-labelledby="why-knaba-title">
+  <div class="container">
+    <div class="why-knaba-heading">
+      <p class="why-knaba-eyebrow">{content.eyebrow}</p>
+      <h2 id="why-knaba-title">{content.title}</h2>
+      <p>{content.lead}</p>
+    </div>
+    <ol class="why-knaba-list">
+      {content.points.map((point,index)=><li class="why-knaba-item">
+        <span class="why-knaba-number" aria-hidden="true">0{index+1}</span>
+        <h3>{point.title}</h3>
+        <p>{point.body}</p>
+      </li>)}
+    </ol>
+    <p class="why-knaba-additional">{content.additional}</p>
+  </div>
+</section>
+<style is:inline>
+.why-knaba{padding-block:clamp(50px,7vw,90px);background:#f3f7f0;color:#0b313b}
+.why-knaba-heading{max-width:76ch;margin-bottom:30px}
+.why-knaba-eyebrow{font-size:12px;letter-spacing:.12em;font-weight:850;color:#08757b}
+.why-knaba h2{font-size:clamp(30px,4vw,52px);letter-spacing:-.05em;line-height:1.13;margin:12px 0 18px}
+.why-knaba-heading>p:last-child{line-height:1.8;color:#42615b}
+.why-knaba-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0}
+.why-knaba-item{border:1px solid #cbded1;border-radius:20px;padding:clamp(20px,2.5vw,32px);background:#fff;min-width:0;overflow-wrap:anywhere}
+.why-knaba-item:nth-child(2){background:#e7f3ef}
+.why-knaba-item:nth-child(3){background:#edf1fa}
+.why-knaba-number{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#dff0e7;color:#145c61;font-weight:850}
+.why-knaba-item h3{font-size:clamp(19px,2vw,25px);margin:22px 0 12px;line-height:1.3}
+.why-knaba-item p{line-height:1.75;color:#405e58;margin:0}
+.why-knaba-additional{border-left:3px solid #0b8981;margin:26px 0 0;padding:9px 18px;color:#355b55;line-height:1.7}
+@media(max-width:860px){.why-knaba-list{grid-template-columns:repeat(2,minmax(0,1fr))}.why-knaba-item:last-child{grid-column:1/-1}}
+@media(max-width:600px){.why-knaba-list{grid-template-columns:1fr}.why-knaba-item:last-child{grid-column:auto}}
+</style>

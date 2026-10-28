@@ -87,7 +87,12 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     'CREATE TABLE IF NOT EXISTS vps_users (id TEXT PRIMARY KEY NOT NULL, email TEXT NOT NULL UNIQUE COLLATE NOCASE, salt TEXT NOT NULL, password_hash TEXT NOT NULL, created_at TEXT NOT NULL, disabled INTEGER NOT NULL DEFAULT 0)',
     'CREATE TABLE IF NOT EXISTS vps_sessions (token_hash TEXT PRIMARY KEY NOT NULL, user_id TEXT NOT NULL REFERENCES vps_users(id) ON DELETE CASCADE, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL)',
     'CREATE INDEX IF NOT EXISTS vps_sessions_expiry ON vps_sessions(expires_at)',
-    'CREATE TABLE IF NOT EXISTS vps_login_limits (key TEXT PRIMARY KEY NOT NULL, attempts INTEGER NOT NULL, expires_at INTEGER NOT NULL)'
+    'CREATE TABLE IF NOT EXISTS vps_login_limits (key TEXT PRIMARY KEY NOT NULL, attempts INTEGER NOT NULL, expires_at INTEGER NOT NULL)',
+    // Trusted VPS-only grant; never sourced from browser, D1 profile or OAuth email.
+    "CREATE TABLE IF NOT EXISTS vps_staff_grants (user_id TEXT PRIMARY KEY NOT NULL REFERENCES vps_users(id) ON DELETE CASCADE, email TEXT NOT NULL COLLATE NOCASE, purpose TEXT NOT NULL CHECK (purpose='developer'), active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)), enrolled_at TEXT NOT NULL)"
+,
+    "CREATE TABLE IF NOT EXISTS vps_oidc_states (state_hash TEXT PRIMARY KEY NOT NULL, provider TEXT NOT NULL, nonce TEXT NOT NULL, verifier TEXT NOT NULL, intent TEXT NOT NULL CHECK (intent IN ('client','partner')), link_user_id TEXT REFERENCES vps_users(id), issued_at INTEGER NOT NULL, expires_at INTEGER NOT NULL)",
+    "CREATE TABLE IF NOT EXISTS vps_oidc_links (issuer TEXT NOT NULL, subject TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES vps_users(id) ON DELETE CASCADE, linked_at TEXT NOT NULL, PRIMARY KEY(issuer,subject), UNIQUE(user_id,issuer))"
   ].join(';')+';');
     return {db,d1:new LocalD1(db),migrations:names};
   }catch(error){

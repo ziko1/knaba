@@ -64,6 +64,13 @@
       "when": 1793059339717,
       "tag": "0008_access_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1793059339718,
+      "tag": "0009_partner_access",
+      "breakpoints": true
     }
   ]
 }

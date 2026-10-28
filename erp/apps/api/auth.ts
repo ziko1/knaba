@@ -15,7 +15,7 @@ export const GUEST_COOKIE='knaba_guest';
 export const hashToken=(value:string)=>createHash('sha256').update(value).digest('hex');
 export const opaqueToken=()=>randomBytes(32).toString('base64url');
 export const csrfFor=(token:string)=>createHmac('sha256',token).update('KNABA-DE-CSRF-v1').digest('base64url');
-const passwordSchema=z.string().min(12).max(128);
+const passwordSchema=z.string().min(8).max(128);
 const privileged=['OWNER','DIRECTOR','OPERATIONS_MANAGER','ACCOUNTANT','BOT_ADMIN','DISPATCHER'];
 const derive=(password:string,salt:Buffer)=>new Promise<Buffer>((resolve,reject)=>nodeScrypt(password,salt,64,{N:32768,r:8,p:1,maxmem:64*1024*1024},(error,key)=>error?reject(error):resolve(key)));
 export async function hashPassword(password:string){passwordSchema.parse(password);const salt=randomBytes(24);const key=await derive(password,salt);return `scrypt$v1$32768$8$1$${salt.toString('base64url')}$${key.toString('base64url')}`;}

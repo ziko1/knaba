@@ -18,7 +18,7 @@ async function fixture(work) {
   try {
     const { db, migrations } = openLocalDatabase(path);
     try {
-      assert.equal(migrations.length, 9);
+      assert.equal(migrations.length, 10);
       assert.equal(migrations[5], '0005_public_reviews.sql');
       assert.equal(migrations[6], '0006_owner_invite.sql');
       assert.equal(migrations[7], '0007_account_invites.sql');
@@ -82,7 +82,7 @@ test('invitation CLI fails closed and stores the bearer URL only in a private 06
     const run = (origin,owner=ownerEmail) => spawnSync(process.execPath,
       [new URL('./manage.mjs',import.meta.url).pathname,'invite-owner'],
       {encoding:'utf8',timeout:15000,env:{...process.env,KNABA_DB_PATH:path,OWNER_EMAIL:owner,KNABA_PUBLIC_ORIGIN:origin}});
-    assert.notEqual(run('https://other.example').status,0);
+    assert.notEqual(run('http://other.example').status,0);
     assert.equal(statSync(path).isFile(),true);
     const valid = run('https://kneba.vsp.rest');
     assert.equal(valid.status,0,valid.stderr);
@@ -100,4 +100,17 @@ test('invitation CLI fails closed and stores the bearer URL only in a private 06
       assert.equal(opened.db.prepare('SELECT count(*) n FROM vps_users').get().n,0);
     }finally{opened.db.close();}
   }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('owner and developer one-use activation accept eight-character secrets, not seven',async()=>{
+  const {issueOwnerInvite,activateOwnerInvite}=await import('./owner-invite.mjs');
+  await fixture(db=>{
+    const one=issueOwnerInvite(db,'qa8-owner@example.test');
+    assert.throws(()=>activateOwnerInvite(db,{token:one.token,email:'qa8-owner@example.test',password:'Qa9!bcd',confirmed:'Qa9!bcd',attested:true,purpose:'owner'}));
+    assert.ok(activateOwnerInvite(db,{token:one.token,email:'qa8-owner@example.test',password:'Qa9!bcde',confirmed:'Qa9!bcde',attested:true,purpose:'owner'}).id);
+    const dev=issueOwnerInvite(db,'qa8-developer@example.test');
+    assert.ok(activateOwnerInvite(db,{token:dev.token,email:'qa8-developer@example.test',password:'Qa9!bcde',confirmed:'Qa9!bcde',attested:true,purpose:'developer'}).id);
+    assert.equal(db.prepare("SELECT count(*) n FROM vps_staff_grants WHERE active=1 AND purpose='developer'").get().n,1);
+    assert.throws(()=>activateOwnerInvite(db,{token:dev.token,email:'qa8-developer@example.test',password:'Qa9!bcde',confirmed:'Qa9!bcde',attested:true,purpose:'developer'}));
+  });
 });

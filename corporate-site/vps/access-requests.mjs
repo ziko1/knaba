@@ -5,6 +5,7 @@
  */
 import {randomBytes,createHash} from 'node:crypto';
 import {normalizeEmail} from './auth.mjs';
+import {hasOwnerAuthority} from './admin-access.mjs';
 
 const hash=s=>createHash('sha256').update(s).digest('hex');
 export const ACCESS_REQUEST_TTL_DAYS=30;
@@ -18,13 +19,12 @@ function transaction(db,operation){
   try{const value=operation();db.exec('COMMIT');return value;}
   catch(error){db.exec('ROLLBACK');throw error;}
 }
-function verifiedOwner(db,{ownerId,ownerEmail}){
+function verifiedOwner(db,{ownerId,ownerEmail,developerEmail=''}){
   if(!ownerId||!ownerEmail)throw new AccessRequestError('Owner required','forbidden');
   const email=normalizeEmail(ownerEmail);
-  const owner=db.prepare('SELECT id FROM vps_users WHERE id=? AND email=? AND disabled=0')
-    .get(ownerId,email);
-  if(!owner)throw new AccessRequestError('Owner required','forbidden');
-  return owner;
+  if(!hasOwnerAuthority(db,{userId:ownerId,ownerEmail:email,developerEmail}))
+    throw new AccessRequestError('Owner required','forbidden');
+  return db.prepare('SELECT id FROM vps_users WHERE id=?').get(ownerId);
 }
 function timeMs(now){
   if(!Number.isSafeInteger(now)||now<1)throw new AccessRequestError('Invalid time');
@@ -38,7 +38,7 @@ function limit(db,key,expiresAt,max){
 }
 export function submitAccessRequest(db,{name,email,intent,consented,peer,ownerEmail='',now=Date.now()}){
   timeMs(now);
-  if(consented!==true || !['client','worker'].includes(intent))
+  if(consented!==true || !['client','worker','partner'].includes(intent))
     throw new AccessRequestError('Consent and valid request type required');
   if(typeof name!=='string'||name.trim().length<2||name.trim().length>160||
      /[<>\u0000-\u001f\u007f]/.test(name))
@@ -77,20 +77,20 @@ export function submitAccessRequest(db,{name,email,intent,consented,peer,ownerEm
     return {accepted:true};
   });
 }
-export function listAccessRequests(db,{ownerId,ownerEmail,now=Date.now()}){
-  verifiedOwner(db,{ownerId,ownerEmail});
+export function listAccessRequests(db,{ownerId,ownerEmail,developerEmail='',now=Date.now()}){
+  verifiedOwner(db,{ownerId,ownerEmail,developerEmail});
   timeMs(now);
   return db.prepare(
     "SELECT id,name,email,intent,created_at,expires_at FROM vps_access_requests"+
     " WHERE status='pending' AND expires_at>? ORDER BY created_at DESC,id DESC LIMIT 100"
   ).all(now);
 }
-export function markAccessRequestReviewed(db,{ownerId,ownerEmail,requestId,reviewed,now=Date.now()}){
+export function markAccessRequestReviewed(db,{ownerId,ownerEmail,developerEmail='',requestId,reviewed,now=Date.now()}){
   timeMs(now);
   if(reviewed!==true||typeof requestId!=='string'||!validID.test(requestId))
     throw new AccessRequestError('Invalid reviewed acknowledgement');
   return transaction(db,()=>{
-    verifiedOwner(db,{ownerId,ownerEmail});
+    verifiedOwner(db,{ownerId,ownerEmail,developerEmail});
     const result=db.prepare(
       "UPDATE vps_access_requests SET status='handled',reviewed_at=?,reviewed_by=?"+
       " WHERE id=? AND status='pending' AND expires_at>?"
