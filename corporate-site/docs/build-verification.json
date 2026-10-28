@@ -3,14 +3,14 @@
   "pages": 130,
   "internalLinks": "PASS",
   "metadata": "PASS",
-  "indexMode": "VSP_PUBLIC",
+  "indexMode": "VSP_STAGING_NOINDEX",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
   "cssGzip": 40949,
-  "allEmittedJsGzip": 195126,
+  "allEmittedJsGzip": 195116,
   "assets": [
     {
-      "name": "_astro/AdminControlCenter.jTxjot1t.js",
+      "name": "_astro/AdminControlCenter.CxZYoEad.js",
       "bytes": 15228,
       "gzip": 5893
     },
@@ -105,9 +105,9 @@
       "gzip": 648
     },
     {
-      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.BhO731dw.js",
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.bqXGCNWh.js",
       "bytes": 4534,
-      "gzip": 1856
+      "gzip": 1855
     },
     {
       "name": "_astro/Layout.astro_astro_type_script_index_2_lang.DwkLSAzj.js",
@@ -140,14 +140,14 @@
       "gzip": 4866
     },
     {
+      "name": "_astro/SiteStudio.C7hESLX_.js",
+      "bytes": 38615,
+      "gzip": 12768
+    },
+    {
       "name": "_astro/SiteStudio.CwM3dz5f.css",
       "bytes": 9098,
       "gzip": 2701
-    },
-    {
-      "name": "_astro/SiteStudio.DF4Wt3pw.js",
-      "bytes": 38615,
-      "gzip": 12769
     },
     {
       "name": "_astro/admin.DZEqblwF.css",
@@ -235,9 +235,9 @@
       "gzip": 25909
     },
     {
-      "name": "_astro/site-studio-contract.D7bJSmpy.js",
-      "bytes": 3851,
-      "gzip": 1834
+      "name": "_astro/site-studio-contract.eFNOs0rL.js",
+      "bytes": 3836,
+      "gzip": 1826
     },
     {
       "name": "_astro/store.DTuZ3aM8.js",
@@ -290,7 +290,7 @@
       "gzip": 56898
     }
   ],
-  "artifactSha256": "557c496495a14fe8c77161c2957250af800f4e9624e7981dbbf82c5e3fbad361",
+  "artifactSha256": "cb3d8a86a52d85e1fbca6a17981a76598558b976d18ed67222e4a3f88dffa9eb",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

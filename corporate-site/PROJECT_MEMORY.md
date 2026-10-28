@@ -372,6 +372,14 @@ User confirmed this session coordinates kneba.vsp.rest only. No customer product
 Confirmed defect: vsp build made staging indexable. Corrected public HTML, HTTP and static-document headers; isolated official mode retains production SEO. Empty staging sitemap no longer prevents strict translation-catalog verification: reuse existing Studio route registry. Exact checks, initial test-fixture correction and limitations: docs/evidence/staging-release-20261028/indexability-checkpoint.json. Deployment, role browser UAT, ERP integration and provider gates remain unaccepted.
 
 
+## 28.10.2026 — exact staging verification / privacy correction
+
+Independent verification reused PR #113 staging noindex code instead of repeating it. Base runtime fcce39ca316419417b2eb7d97605bf4006ab5652. Current working-tree change aligns DE/RU privacy with authorized developer/partner/access-request flows and browser language storage; new privacy acknowledgements use 2026-10-28 while historical records remain unchanged. No schema or provider activation.
+
+Fresh Node24.22.1 check 0 errors/0 warnings, 263 Vitest + 77 Node website tests, 88 real SQLite/VPS tests, staging build 130 HTML and verifier PASS. CSS gzip 40949 bytes; artifact digest 7306560cb740f3cfb84e9c05252ea1d08f49a481fb93c5b67c3054a69d445bf1. This is working-tree source QA until the published source/tree and final deployment receipt are bound.
+
+Cloud browser successfully submitted a synthetic enquiry; identical ID and one persisted SQLite record verified read-only. Secure owner sign-in returned failure, so privileged live browser acceptance is BLOCKED. Full ERP integration/provider delivery, physical devices and owner acceptance remain unaccepted. Current service inventory and per-scenario evidence: docs/evidence/staging-release-20261028/DEMO_REGISTER_UK.md. Customer production/DNS/indexing remain PENDING_USER_APPROVAL after demonstration.
+
 ## 28.10.2026 — access request retention correction
 
 Removed implicit deletion of expired access requests during a new submission. Expiry restricts processing; deletion remains exclusively in the existing approved retention workflow with backup. A regression first reproduced lost rows, then passed with preserved expired record and unchanged owner/user counts. Updated DE/RU privacy for partner, separate revocable developer access and access requests without account creation. No invented retention approval or EN/UK legal publication. Node24 focused 11/11, legal 6/6, full VPS 89/89 and staging build/catalog/verify PASS. Evidence: docs/evidence/staging-release-20261028/retention-checkpoint.json. This working-tree slice still requires final staging deployment and browser acceptance.

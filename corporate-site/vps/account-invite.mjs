@@ -89,7 +89,7 @@ export function acceptAccountInvite(db,{token,email,name,password,confirmed,priv
     const time=new Date(now).toISOString();
     const mutation=randomBytes(18).toString('base64url');
     db.prepare('INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES (?,?,?,?,NULL,?,?,?,?,1,?)')
-      .run(user.id,name.trim(),address,invite.requested_role,'pending','2026-10-24',time,time,mutation);
+      .run(user.id,name.trim(),address,invite.requested_role,'pending','2026-10-28',time,time,mutation);
     db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
       .run(randomBytes(18).toString('base64url'),user.id,'profile.invited',user.id,time);
     const consumed=db.prepare('UPDATE vps_account_invites SET used_at=?,used_by=? WHERE token_hash=? AND used_at IS NULL')

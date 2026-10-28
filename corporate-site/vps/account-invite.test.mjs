@@ -74,7 +74,7 @@ test('registration rejects replay, mismatch, invalid consent/password and expiry
     const profile=db.prepare('SELECT role,status,requested_role,privacy_version FROM profiles WHERE id=?').get(accepted.id);
     assert.deepEqual({role:profile.role,status:profile.status,requested_role:profile.requested_role},
       {role:null,status:'pending',requested_role:'client'});
-    assert.ok(profile.privacy_version);
+    assert.equal(profile.privacy_version,'2026-10-28');
     assert.equal(db.prepare('SELECT count(*) n FROM portal_audit WHERE entity_id=? AND action=?').get(accepted.id,'profile.invited').n,1);
     assert.equal(db.prepare('SELECT count(*) n FROM vps_sessions').get().n,0);
     assert.throws(()=>register(db,invite.token,{now:1800000002000}),AccountInviteError);

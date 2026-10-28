@@ -71,7 +71,7 @@ export function submitAccessRequest(db,{name,email,intent,consented,peer,ownerEm
       'INSERT INTO vps_access_requests'+
       '(id,name,email,intent,status,privacy_version,created_at,expires_at)'+
       " VALUES (?,?,?,?,'pending',?,?,?)"
-    ).run(id,safeName,address,intent,'2026-10-26',now,now+ttlMs);
+    ).run(id,safeName,address,intent,'2026-10-28',now,now+ttlMs);
     db.prepare('INSERT INTO portal_audit(id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
       .run(randomBytes(18).toString('base64url'),'public','access.requested',id,new Date(now).toISOString());
     return {accepted:true};

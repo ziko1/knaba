@@ -1,0 +1,42 @@
+{
+  "source": "working-tree merge of local c856baf and remote 306feaec00eb78fd620412de12208ed8ee45f029",
+  "node": "v24.22.1",
+  "runs": [
+    {
+      "label": "merge-vps",
+      "command": "npm run test:vps",
+      "release_mode": "vsp",
+      "started_at": "2026-10-28T07:46:03.818524+00:00",
+      "finished_at": "2026-10-28T07:46:13.949171+00:00",
+      "exit_code": 0,
+      "log": "merge-vps.log"
+    },
+    {
+      "label": "merge-staging-build",
+      "command": "npm run build",
+      "release_mode": "vsp",
+      "started_at": "2026-10-28T07:46:13.949257+00:00",
+      "finished_at": "2026-10-28T07:46:19.157801+00:00",
+      "exit_code": 0,
+      "log": "merge-staging-build.log"
+    },
+    {
+      "label": "merge-i18n",
+      "command": "npm run i18n:extract",
+      "release_mode": "vsp",
+      "started_at": "2026-10-28T07:46:19.157874+00:00",
+      "finished_at": "2026-10-28T07:46:19.486079+00:00",
+      "exit_code": 0,
+      "log": "merge-i18n.log"
+    },
+    {
+      "label": "merge-staging-verify",
+      "command": "npm run verify:build",
+      "release_mode": "vsp",
+      "started_at": "2026-10-28T07:46:19.486119+00:00",
+      "finished_at": "2026-10-28T07:46:20.836831+00:00",
+      "exit_code": 0,
+      "log": "merge-staging-verify.log"
+    }
+  ]
+}

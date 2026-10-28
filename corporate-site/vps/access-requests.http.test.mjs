@@ -31,6 +31,7 @@ test('public access request needs consent; no role elevation; owner-only review'
   assert.doesNotMatch(await accepted.text(),/candidate@example.test/);
   assert.equal((await at('/join/',post(fields))).status,202);
   assert.equal(app.db.prepare('SELECT count(*) AS n FROM vps_access_requests').get().n,1);
+  assert.equal(app.db.prepare('SELECT privacy_version FROM vps_access_requests WHERE email=?').get(fields.email).privacy_version,'2026-10-28');
   assert.equal(app.db.prepare('SELECT count(*) AS n FROM vps_users').get().n,1);
   assert.equal((await at('/access-requests/')).status,401);
   createCredentialsUser(app.db,'worker@example.test','synthetic-worker-secret-2026');

@@ -8,7 +8,7 @@ import { handleCrmApi } from './crm';
 import { handleReviews, ReviewFault } from './reviews';
 
 type Row = Record<string, unknown>;
-const PRIVACY_VERSION = '2026-10-24';
+const PRIVACY_VERSION = '2026-10-28';
 const MAX_BODY = 12_288;
 const MAX_ROWS = 200;
 class ApiFault extends Error {

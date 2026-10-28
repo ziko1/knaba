@@ -70,6 +70,7 @@ describe('portal identity and approval',()=>{
   });
   it('registration starts pending; only exact configured owner gets owner role',async()=>{
     await register('client');const s=await (await call('/api/portal/session','client')).json() as PortalSession;
+    expect(db.sql.prepare('SELECT privacy_version FROM profiles WHERE id=?').get(identities.client[0])?.privacy_version).toBe('2026-10-28');
     expect(s.role).toBe('pending');expect(s.profile?.role).toBeNull();
     expect((await call('/api/portal/requests','client','POST',input())).status).toBe(403);
     expect((await call('/api/portal/roles','client','POST',{userId:identities.client[0],role:'admin',status:'approved',version:1})).status).toBe(403);
@@ -182,7 +183,11 @@ describe('real request persistence, isolation and job workflow',()=>{
 describe('public lead intake and request boundaries',()=>{
   it('stores a public lead and returns only acknowledgment; replay is safe',async()=>{
     const data=lead();const first=await call('/api/leads',undefined,'POST',data);expect(first.status,db.errors.join('\n')).toBe(201);const body=await first.json();expect(Object.keys(body).sort()).toEqual(['id','received']);
+    expect(db.sql.prepare('SELECT privacy_version FROM cleaning_requests WHERE id=?').get(body.id)?.privacy_version).toBe('2026-10-28');
+    // A replay must not rewrite a previously recorded acknowledgement to the new notice version.
+    db.sql.prepare('UPDATE cleaning_requests SET privacy_version=? WHERE id=?').run('2026-10-24',body.id);
     const repeat=await call('/api/leads',undefined,'POST',data);expect(repeat.status).toBe(200);expect((await repeat.json()).id).toBe(body.id);
+    expect(db.sql.prepare('SELECT privacy_version FROM cleaning_requests WHERE id=?').get(body.id)?.privacy_version).toBe('2026-10-24');
     const d=await (await call('/api/portal/dashboard','owner')).json();expect(d.requests[0].id).toBe(body.id);expect(d.requests[0].clientId).toBeNull();
   });
   it('limits repeated anonymous leads and rejects honeypot',async()=>{

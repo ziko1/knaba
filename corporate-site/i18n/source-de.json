@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "aa24d91c6590bd9dad5ba491e27edb4e27bbedf9c059bb5cf85cb66fe7f35b30",
+  "sourceDigest": "d3e043bbb88f61734b9e16c2a6b7999ad91609d4b50166e6dd914c9848479b54",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1048,
+  "unitCount": 1053,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -975,6 +975,13 @@
         "/faq/"
       ]
     },
+    "18c4c45eebbd8e0cd413a777": {
+      "kind": "text",
+      "source": "Wenn Sie die Sprache im Benutzerbereich auswählen, speichert Ihr Browser den gewählten Sprachcode im Local Storage unter „knaba-portal-language“, damit diese Auswahl beim nächsten Öffnen berücksichtigt wird. Dieser Eintrag enthält keine Kontaktdaten oder Anfrageinhalte. Sie können ihn durch Löschen der Website-Daten in Ihrem Browser entfernen.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "1980252162cf2cb89510abc0": {
       "kind": "text",
       "source": "Kernbohrungen, Durchbrüche und andere technische Arbeiten sind Anfragen zur fachlichen Prüfung. Zuständigkeit, Fachkunde, Freigaben und Vertrag müssen vor einer Ausführung feststehen.",
@@ -1087,6 +1094,13 @@
       "source": "Saubere Bauübergabe: die Checkliste nach der Endreinigung | KnaBa",
       "routes": [
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "1d06cf4fcebb7a55b1af800b": {
+      "kind": "text",
+      "source": "Der Website-Code erstellt keine Werbeprofile und bewertet keine Arbeitsleistung automatisch. Das System prüft technische Zugriffsberechtigungen; über die Freigabe einer beantragten Rolle entscheidet eine ausdrücklich berechtigte Person. Eine Eingangsbestätigung für eine Anfrage ist keine automatische Vertragsannahme. Private Rückmeldungen aus dem Auftragsportal und Profildaten sind nicht öffentlich sichtbar. Mitarbeitende erhalten zu zugewiesenen Aufträgen keine E-Mail-Adressen, Telefonnummern oder Kundenkontokennungen aus den jeweiligen Datenfeldern. Interne Einsatznotizen werden im Kundenbereich nicht angezeigt.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "1d2a333fac2b97e56ab0fcad": {
@@ -1853,6 +1867,13 @@
       "source": "Eine gute Bauendreinigung beginnt vor dem ersten Reinigungstermin. Bauleitung und Reinigungsteam brauchen denselben Überblick: Welche Bereiche sind fertig, was wird noch bearbeitet und welches Ergebnis wird erwartet? Mit einer abgestimmten Vorbereitung lassen sich unnötige Wiederholungen und Missverständnisse bei der Übergabe vermeiden.",
       "routes": [
         "/ratgeber/bauendreinigung-vorbereiten/"
+      ]
+    },
+    "3040c5c6e1f4b02f549f52f3": {
+      "kind": "text",
+      "source": "Über das öffentliche Formular für einen Zugangswunsch verarbeiten wir Ihren Namen, Ihre E-Mail-Adresse, die gewünschte Rolle (Kunde, Mitarbeitende oder Geschäftspartner), den Bearbeitungsstatus, Zeitpunkte sowie technische Prüf- und Auditdaten. Das Absenden dieses Formulars erstellt noch kein Benutzerkonto und erteilt keine Zugriffsrechte. Berechtigte Personen prüfen den Zugangswunsch und entscheiden über eine persönliche Einladung.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "3041ad5fa5cbde6617c92c57": {
@@ -2793,13 +2814,6 @@
         "/leistungen/"
       ]
     },
-    "4a1bed42ad23037291ebb249": {
-      "kind": "text",
-      "source": "Ein neuer Kunden-, Mitarbeitenden- oder Partnerzugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des berechtigten Inhabers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle (Kunde, Mitarbeitende oder Partner), die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch den Inhaber ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.",
-      "routes": [
-        "/datenschutz/"
-      ]
-    },
     "4a3f1a96f9e07c22f181ae23": {
       "kind": "text",
       "source": "Zum Inhalt springen",
@@ -2862,13 +2876,6 @@
         "/",
         "/partner/",
         "/unternehmen/"
-      ]
-    },
-    "4a8c02e8b687f58719caeaba": {
-      "kind": "text",
-      "source": "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der lokalen Server-Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Nur berechtigte Inhaber sehen eingegangene Kundennachrichten. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "4aa647df67bed4c9b9f25a2b": {
@@ -2981,6 +2988,13 @@
         "/leistungen/",
         "/planer/",
         "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
+    "4c6172ef6144c82b978e7679": {
+      "kind": "text",
+      "source": "Gesondert freigeschalteter Entwickler:",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "4cbd58c9dc50462ba0bf1d06": {
@@ -3432,13 +3446,6 @@
         "/planer/"
       ]
     },
-    "593d34d551a64c6b70a81b58": {
-      "kind": "text",
-      "source": "Über die Zugangsanfrage werden Name, E-Mail-Adresse, gewünschte Nutzung als Kunde, Mitarbeitender oder Partner sowie der Eingang und die Prüfung der Anfrage verarbeitet. Die Zugangsanfrage richtet noch kein Konto ein und erteilt keine Berechtigungen. Berechtigte Personen prüfen die Anfrage und können eine persönliche Einladung ausstellen. Freigegebene Partner sehen ausschließlich ihre eigenen Projektanfragen. Ein gesondert berechtigter Entwickler kann Verwaltungsaufgaben übernehmen; sein Zugriff ist widerrufbar und wird protokolliert.",
-      "routes": [
-        "/datenschutz/"
-      ]
-    },
     "59470ee22ed403ce56e292f7": {
       "kind": "text",
       "source": "Auf eine Anfrage bezogene Rückfragen oder notwendige Vertragsnachrichten sind von Werbung zu unterscheiden. Die Kenntnisnahme dieser Datenschutzhinweise, eine Kontaktanfrage, die Portalregistrierung und die Nutzung des Assistenten stellen keine Einwilligung in Newsletter, Werbeanrufe oder Werbenachrichten dar. Der aktuelle Stand enthält keinen aktivierten automatischen Newsletter- oder WhatsApp-Marketingversand. Eine spätere werbliche Ansprache erfolgt nur auf einer hierfür zulässigen Grundlage unter Beachtung von § 7 UWG; ein Widerspruch gegen Direktwerbung ist jederzeit möglich (Art. 21 Abs. 2 DSGVO).",
@@ -3557,6 +3564,20 @@
       "source": "Die gewünschte Reinigung wird nach Räumen, Materialien und Verschmutzung beschrieben. Besondere Anforderungen und ausgeschlossene Arbeiten gehören in dieselbe Vereinbarung.",
       "routes": [
         "/unternehmen/"
+      ]
+    },
+    "5cf3efaaa6101c123e42c663": {
+      "kind": "text",
+      "source": "Geschäftspartner:",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
+    "5d77ab678ffb2cee5c9cdf0f": {
+      "kind": "text",
+      "source": "eigene Projektanfragen, deren Bearbeitungsstand und eigene Rückmeldungen; kein Zugriff auf fremde Kunden- oder Partneranfragen.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "5de2bd86f6985172be7ca848": {
@@ -5774,6 +5795,13 @@
         "/bauleistungen/bauendreinigung/"
       ]
     },
+    "947cb027bec949cb9ad610e1": {
+      "kind": "text",
+      "source": "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der lokalen Server-Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "9544b20d99d7853b3b16651b": {
       "kind": "text",
       "source": "Im Achterkastell 39",
@@ -6539,6 +6567,13 @@
         "/datenschutz/"
       ]
     },
+    "acbad77777d3f62868a73c95": {
+      "kind": "text",
+      "source": "Ein neuer Kunden-, Mitarbeitenden- oder Partnerzugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des Inhabers oder eines gesondert freigeschalteten Entwicklers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle, die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch eine berechtigte Person ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "accaf533810e0c88985b87cd": {
       "kind": "text",
       "source": "Arbeitsmittel, Einweisung, Schutzmaßnahmen und verantwortliche Ansprechpartner klären.",
@@ -7111,13 +7146,6 @@
       "source": "Prüfen Sie die Planung nach Änderungen am Bauablauf erneut. Halten Sie zusätzliche Einsätze und deren Umfang fest, bevor sie beauftragt werden. Eine gemeinsame Sichtkontrolle beendet den vereinbarten Reinigungsschritt; technische Mängel und die Bauabnahme bleiben getrennte Vorgänge.",
       "routes": [
         "/ratgeber/baureinigung-phasen/"
-      ]
-    },
-    "be3fcbcd60948cc1dbd70d2b": {
-      "kind": "text",
-      "source": "Der Website-Code erstellt keine Werbeprofile und bewertet keine Arbeitsleistung automatisch. Das System prüft technische Zugriffsberechtigungen; die Freigabe einer beantragten Rolle entscheidet der Inhaber. Eine Eingangsbestätigung für eine Anfrage ist keine automatische Vertragsannahme. Private Rückmeldungen aus dem Auftragsportal und Profildaten sind nicht öffentlich sichtbar. Mitarbeitende erhalten zu zugewiesenen Aufträgen keine E-Mail-Adressen, Telefonnummern oder Kundenkontokennungen aus den jeweiligen Datenfeldern. Interne Einsatznotizen werden im Kundenbereich nicht angezeigt.",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "be4e0cd76bd78c193aa28436": {
@@ -8931,6 +8959,13 @@
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "f45d3da586c2fb353d4bfc22": {
+      "kind": "text",
+      "source": "die für den Inhaber vorgesehenen Verwaltungsfunktionen, einschließlich Anfragen, Chat-Posteingang, Einladungen und Rollenfreigaben. Dieser Zugang verwendet ein eigenes Konto, wird ausdrücklich erteilt und kann widerrufen werden; ein Entwicklerkonto erhält diese Rechte nicht allein durch seine Registrierung oder E-Mail-Adresse.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "f48aeaa6f7b73b56010c93cd": {

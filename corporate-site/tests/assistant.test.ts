@@ -70,6 +70,7 @@ describe('KNABA Assistant backend',()=>{
     expect((await call('/api/assistant/conversations','POST',{locale:'ru',privacyAccepted:true}, {Origin:'https://evil.invalid'})).status).toBe(403);
     expect((await call('/api/assistant/conversations','POST',{locale:'ru',privacyAccepted:true,forged:true})).status).toBe(422);
     const ticket=await start();
+    expect(db.sql.prepare('SELECT privacy_version FROM assistant_conversations WHERE id=?').get(ticket.id)?.privacy_version).toBe('2026-10-28');
     expect((await call(`/api/assistant/conversations/${ticket.id}`)).status).toBe(404);
     expect((await call(`/api/assistant/conversations/${ticket.id}`,'GET',undefined,{'X-KnaBa-Conversation':'f'.repeat(64)})).status).toBe(404);
     expect((await call(`/api/assistant/conversations/${ticket.id}`,'GET',undefined,tokenHeader(ticket))).status).toBe(200);
