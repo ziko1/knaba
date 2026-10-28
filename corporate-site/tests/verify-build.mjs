@@ -240,8 +240,8 @@ for (const route of ['/api/portal/*','/api/assistant/*','/api/leads','/api/revie
   assert.ok(workerConfig.assets.run_worker_first.includes(route), 'Worker-first API route: '+route);
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 37, 'Russian public tree includes partners, gallery and construction guides');
-assert.equal(russianPages.length, 38, 'Russian private inbox is an additional noindex page');
+assert.equal(russianPublicPages.length, 38, 'Russian tree includes partners, gallery, construction guides and mobile entry');
+assert.equal(russianPages.length, 39, 'Russian private inbox remains an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
