@@ -6,7 +6,8 @@ import {renderWhatsAppMessage,type WhatsAppInbound,type WhatsAppOutput} from './
 import type {SupportedLanguage} from './deepseek.ts';
 import {languageLabel,originalMessageLanguage,parseRouterCommand,routerLanguages,routerText} from './whatsapp-router-text.ts';
 import {botModulesFor,botModuleById,botModuleLabel,botModuleSiteUrl} from './bot-module-catalog.ts';
-import {captureMessengerWorkerInterest} from './messenger-worker-interest.ts';
+import {captureMessengerWorkerInterest,captureMessengerPartnerInterest} from './messenger-worker-interest.ts';
+import {botChannelPolicyFor} from '../domain/bot-channel-policy.ts';
 
 export interface RouterPrecondition {kind:string;id:string;version:number;}
 export interface RouterPersistence<Tx extends Transaction=Transaction> {transaction<T>(companyId:string,actorId:string,operation:(tx:Tx)=>Promise<T>):Promise<T>;}
@@ -64,7 +65,8 @@ export class WhatsAppRouter<Tx extends Transaction> {
       const settings=(await tx.list('notification_setting')).find(s=>s.data.user_id===actor.userId);
       const command=parseRouterCommand(input.text??'')??(/^\/?MAP$/i.test((input.text??'').trim())?{command:'MAP'}:undefined);
       const selected=settings?.data.language;
-      const language=(routerLanguages.includes(selected)?selected:command?.language??source.data.language??'DE') as SupportedLanguage;
+      const channelPolicy=await botChannelPolicyFor(tx,'WHATSAPP');
+      const language=(routerLanguages.includes(selected)?selected:command?.language??channelPolicy.defaultLanguage) as SupportedLanguage;
       if(!session)session=await tx.add('whatsapp_router_session',{user_id:actor.userId,sender:input.sender,generation:0,flow:null,suspended_flow:null,language},sessionId);
       const ctx:RouteContext<Tx>={tx,actor,source,session,input,language:routerLanguages.includes(language)?language:'DE',now:this.now().toISOString(),accessRefs:[],requiredPermissions:new Set()};
       const resumed=source.data.router_action_id?await tx.get('whatsapp_router_action',source.data.router_action_id):undefined;
@@ -148,29 +150,46 @@ export class WhatsAppRouter<Tx extends Transaction> {
   /** Existing verified staff/owner identities only. No contact details or
    * credential/approval tokens are exposed in a WhatsApp response.
    */
-  private async workerInterests(ctx:RouteContext<Tx>,offset=0):Promise<RouterResult> {
+  private async workerInterests(ctx:RouteContext<Tx>,offset=0){return this.registrationInterests(ctx,'WORKER',offset);}
+  private async partnerInterests(ctx:RouteContext<Tx>,offset=0){return this.registrationInterests(ctx,'PARTNER',offset);}
+  /** Reuse the same verified owner queue. Bot messages only identify requests;
+   * all decisions must go through the authenticated ERP/app command with MFA.
+   */
+  private async registrationInterests(ctx:RouteContext<Tx>,relationship:'WORKER'|'PARTNER',offset=0):Promise<RouterResult> {
     assert(!external(ctx.actor)&&ctx.actor.roles.some(r=>['OWNER','DIRECTOR','OPERATIONS_MANAGER'].includes(r)),
       'ACCESS_DENIED');
     this.require(ctx,'identity.manage');
-    const rows=(await ctx.tx.list('worker_registration_interest')).filter(x=>x.companyId===ctx.actor.companyId&&
+    const kind=relationship==='PARTNER'?'partner_registration_interest':'worker_registration_interest';
+    const rows=(await ctx.tx.list(kind)).filter(x=>x.companyId===ctx.actor.companyId&&
       ['REQUESTED','AWAITING_IDENTITY_PROOF'].includes(x.data.state))
       .sort((a,b)=>a.createdAt.localeCompare(b.createdAt)||a.id.localeCompare(b.id));
-    return this.page(ctx,rows.length?this.text(ctx,'workerRequests'):this.text(ctx,'workerRequestsEmpty'),
-      rows.map(x=>({label:x.data.source_provider+' · '+x.data.state, intent:'WORKER_DETAIL',
-        payload:{id:x.id},permission:'identity.manage'})),'WORKER_PAGE',{},offset,'WORKER_REQUESTS');
+    const title=relationship==='PARTNER'?'partnerRequests':'workerRequests';
+    const empty=relationship==='PARTNER'?'partnerRequestsEmpty':'workerRequestsEmpty';
+    const detail=relationship==='PARTNER'?'PARTNER_DETAIL':'WORKER_DETAIL';
+    const page=relationship==='PARTNER'?'PARTNER_PAGE':'WORKER_PAGE';
+    const status=relationship==='PARTNER'?'PARTNER_REQUESTS':'WORKER_REQUESTS';
+    return this.page(ctx,rows.length?this.text(ctx,title):this.text(ctx,empty),
+      rows.map(x=>({label:x.data.source_provider+' · '+x.data.state,intent:detail,
+        payload:{id:x.id},permission:'identity.manage'})),page,{},offset,status);
   }
-  private async workerInterestDetail(ctx:RouteContext<Tx>,id:unknown):Promise<RouterResult> {
+  private async workerInterestDetail(ctx:RouteContext<Tx>,id:unknown){return this.registrationInterestDetail(ctx,'WORKER',id);}
+  private async partnerInterestDetail(ctx:RouteContext<Tx>,id:unknown){return this.registrationInterestDetail(ctx,'PARTNER',id);}
+  private async registrationInterestDetail(ctx:RouteContext<Tx>,relationship:'WORKER'|'PARTNER',id:unknown):Promise<RouterResult> {
     assert(!external(ctx.actor)&&ctx.actor.roles.some(r=>['OWNER','DIRECTOR','OPERATIONS_MANAGER'].includes(r)),
       'ACCESS_DENIED');
     this.require(ctx,'identity.manage');
     assert(typeof id==='string'&&id.length>0&&id.length<=100,'ACCESS_DENIED');
-    const row=await ctx.tx.get('worker_registration_interest',id);
+    const kind=relationship==='PARTNER'?'partner_registration_interest':'worker_registration_interest';
+    const row=await ctx.tx.get(kind,id);
     assert(row.companyId===ctx.actor.companyId&&
       ['REQUESTED','AWAITING_IDENTITY_PROOF'].includes(row.data.state),'ACCESS_DENIED');
+    // No sender, guest IDs, phone, approval links or privileged actions in messages.
     return this.respond(ctx,this.text(ctx,'workerInterestReview')+'\n'+row.id+
       '\n'+row.data.source_provider+' · '+row.data.state+
-      (this.web('/admin/')?'\n'+this.web('/admin/'):''),
-      [{label:this.text(ctx,'workerRequests'),intent:'WORKERS'},{label:'MENU',intent:'MAIN'}],'WORKER_DETAIL');
+      (this.web('/admin/')?'\n'+this.web('/admin/'):''),[
+      {label:this.text(ctx,relationship==='PARTNER'?'partnerRequests':'workerRequests'),
+        intent:relationship==='PARTNER'?'PARTNERS':'WORKERS'},{label:'MENU',intent:'MAIN'}
+    ],relationship==='PARTNER'?'PARTNER_DETAIL':'WORKER_DETAIL');
   }
   /** Owner proposals never activate an automation or approve business changes. */
   private async automations(ctx:RouteContext<Tx>):Promise<RouterResult> {
@@ -206,9 +225,13 @@ export class WhatsAppRouter<Tx extends Transaction> {
     const mapPermission=this.mapPermission(ctx);if(mapPermission)choices.splice(Math.min(2,choices.length),0,{label:this.text(ctx,'openMap'),intent:'MAP',permission:mapPermission});
     if(ctx.actor.permissions.some(p=>['bot.manage','bot.settings.manage','integration.status','identity.manage','decision.manage'].includes(p))&&!external(ctx.actor))choices.push({label:this.text(ctx,'admin'),intent:'ADMIN'});
     choices.push({label:this.text(ctx,'modules'),intent:'MODULES'});
-    if(ctx.actor.roles.includes('GUEST'))choices.push({label:this.text(ctx,'workerInterest'),intent:'REGISTER'});
+    if(ctx.actor.roles.includes('GUEST')){
+      choices.push({label:this.text(ctx,'workerInterest'),intent:'REGISTER'});
+      choices.push({label:this.text(ctx,'partnerInterest'),intent:'PARTNER'});
+    }
     if(ctx.actor.roles.some(r=>['OWNER','DIRECTOR','OPERATIONS_MANAGER'].includes(r))&&this.allowed(ctx,'identity.manage'))
-      choices.push({label:this.text(ctx,'workerRequests'),intent:'WORKERS',permission:'identity.manage'});
+      choices.push({label:this.text(ctx,'workerRequests'),intent:'WORKERS',permission:'identity.manage'},
+        {label:this.text(ctx,'partnerRequests'),intent:'PARTNERS',permission:'identity.manage'});
     if(ctx.actor.roles.includes('OWNER')&&this.allowed(ctx,'automation.manage')&&this.allowed(ctx,'decision.manage')&&ctx.actor.permissions.includes('scope.company'))choices.push({label:this.text(ctx,'automations'),intent:'AUTOMATIONS',permission:'automation.manage'});
     if(ctx.session.data.suspended_flow)choices.push({label:this.text(ctx,'continue'),intent:'CONTINUE'});
     choices.push({label:this.text(ctx,'language'),intent:'LANGUAGE'},{label:this.text(ctx,'help'),intent:'HELP'});return this.page(ctx,this.text(ctx,'main'),choices,'MAIN',{},offset,'MAIN');
@@ -222,12 +245,25 @@ export class WhatsAppRouter<Tx extends Transaction> {
     if(command==='HELP')return this.respond(ctx,`${this.text(ctx,'helpNotice')}${this.web()?`\n${this.web()}`:''}`,[{label:'MENU',intent:'MAIN'}],'HELP');
     if(command==='GPS'){this.require(ctx,'device.self');const devices=await this.visible(ctx,'device',d=>d.data.employeeId===ctx.actor.userId&&d.data.active);ctx.accessRefs.push(...devices.map(ref));return this.respond(ctx,`${this.text(ctx,'gpsNotice')}\n${devices.map(d=>d.id).join('\n')}${this.web('/app')?`\n${this.web('/app')}`:''}`,[{label:'MENU',intent:'MAIN'}],'GPS');}
     if(command==='REGISTER'){
+      if(!(await botChannelPolicyFor(ctx.tx,'WHATSAPP')).workerRequestsEnabled)
+        return this.respond(ctx,this.text(ctx,'registrationPaused')+(this.web('/konto/')?'\n'+this.web('/konto/'):''),
+          [{label:'MENU',intent:'MAIN'}],'REGISTRATION_DISABLED');
       const interest=await captureMessengerWorkerInterest(ctx.tx,ctx.actor,ctx.source,ctx.now);
       const hint=this.web('/konto/');
       return this.respond(ctx,this.text(ctx,interest.created?'workerInterestReceived':'workerInterestExisting')+
         (hint?'\n'+hint:''),[{label:'MENU',intent:'MAIN'}],'WORKER_INTEREST_RECORDED');
     }
+    if(command==='PARTNER'){
+      if(!(await botChannelPolicyFor(ctx.tx,'WHATSAPP')).partnerRequestsEnabled)
+        return this.respond(ctx,this.text(ctx,'registrationPaused')+(this.web('/konto/')?'\n'+this.web('/konto/'):''),
+          [{label:'MENU',intent:'MAIN'}],'REGISTRATION_DISABLED');
+      const interest=await captureMessengerPartnerInterest(ctx.tx,ctx.actor,ctx.source,ctx.now);
+      const link=this.web('/konto/');
+      return this.respond(ctx,this.text(ctx,interest.created?'partnerInterestReceived':'partnerInterestExisting')+
+        (link?'\n'+link:''),[{label:'MENU',intent:'MAIN'}],'PARTNER_INTEREST_RECORDED');
+    }
     if(command==='WORKERS')return this.workerInterests(ctx);
+    if(command==='PARTNERS')return this.partnerInterests(ctx);
     if(command==='MODULES')return this.modules(ctx);
     if(command==='AUTOMATIONS')return this.automations(ctx);
     if(command==='ADMIN')return this.admin(ctx);
@@ -259,6 +295,10 @@ export class WhatsAppRouter<Tx extends Transaction> {
       case 'WORKERS':return this.navigate(ctx,'WORKERS');
       case 'WORKER_PAGE':return this.workerInterests(ctx,p.offset??0);
       case 'WORKER_DETAIL':return this.workerInterestDetail(ctx,p.id);
+      case 'PARTNERS':return this.navigate(ctx,'PARTNERS');
+      case 'PARTNER_PAGE':return this.partnerInterests(ctx,p.offset??0);
+      case 'PARTNER_DETAIL':return this.partnerInterestDetail(ctx,p.id);
+      case 'PARTNER':return this.navigate(ctx,'PARTNER');
       case 'REGISTER':return this.navigate(ctx,'REGISTER');
       case 'MODULES':return this.modules(ctx);
       case 'BOT_MODULE_PAGE':return this.modules(ctx,p.offset??0);

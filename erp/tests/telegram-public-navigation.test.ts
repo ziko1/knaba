@@ -5,7 +5,7 @@ describe('Telegram public-only menu and registration interest',()=>{
   it.each([
     ['/start','MENU'],['/start website','MENU'],['/help','MENU'],
     ['/services','SERVICES'],['/request','ENQUIRY'],
-    ['/register','REGISTER'],['/worker','REGISTER'],['/call','CONTACT'],
+    ['/register','REGISTER'],['/worker','REGISTER'],['/partner','PARTNER'],['/call','CONTACT'],
     ['/human','HUMAN'],['/privacy','PRIVACY']
   ])('classifies explicit %s as guest request %s',(raw,expected)=>{
     expect(telegramPublicIntent(raw)).toBe(expected);

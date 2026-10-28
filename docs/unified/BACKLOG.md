@@ -114,3 +114,21 @@ DoD/evidence/rollback: `docs/plans/2026-10-26-knaba-omnichannel-assistant-360.md
 | KN-BOT-09b | P0 | technical gates | Site/ERP real PG provider/device QA + independent security review → **G9 owner company approval** → **G10 owner server migration** | NOT_READY |
 
 No extra owner conversation/role-policy meeting during source development. Every sensitive real permission is still denied unless current backend authorization succeeds; production dispatch remains OFF.
+
+
+## KN-U20 — наступні приймальні кроки до повноцінної KNABA (28.10.2026)
+
+| ID | Пріоритет | Вимога / acceptance (BOT-Axx) | Поточний стан |
+|---|---|---|---|
+| KN-BOT-10 | P0 | REUSE-ONLY partner guest WA/TG `/PARTNER`/`/partner` → окремий durable request, cross-company/identity/replay negative | SOURCE CANDIDATE; реальна PG/company UAT NOT_RUN |
+| KN-BOT-11 | P0 | Owner MFA `partner_registration_interest.inbox/review` і worker в єдиному ERP+app API, без видачі ролі на REVIEW | SOURCE CANDIDATE; native/UAT NOT_RUN |
+| KN-BOT-12 | P0 | Owner/developer delegated channel preferences з optimistic CAS, non-secret record, UI і actual WA/TG consumed flags | SOURCE CANDIDATE; server secret rotation via admin NOT_IMPLEMENTED |
+| KN-BOT-13 | P0 | Коректна інтеграція PR110 owner/client/partner registration, preserved migration ledger, actual verified invitation, trust binding, rollback | PENDING INTEGRATION |
+| KN-BOT-14 | P0 | Власник затверджує worker/partner з повідомлення бота **тільки** через linked portal MFA, signed one-use challenge і canonical ERP; native same command | NOT_IMPLEMENTED; bot read-only handoff |
+| KN-BOT-15 | P0 | Реальні нові/існуючі клієнти: двосторонній бот/вебчат, first reply + operator handoff, metadata/consent/delivery real providers, 3 мови | BLOCKED_EXTERNAL+INTEGRATION |
+| KN-BOT-16 | P1 | Приєднання ERP jobs/shift/materials/crew workflows до authenticated bot+app owner presets, bounded automation approval+rollback | PARTIAL WA; full E2E NOT_RUN |
+| KN-BOT-17 | P1 | Захищене додавання/ротація provider keys через server secret store або owner/developer write-only vault, ніколи не JSON/front-end plaintext | Server .env.template exists; admin vault pending security design |
+| KN-BOT-18 | P1 | Справжній AI голос DE/EN/RU, WebRTC/WhatsApp Calling/PSTN eligibility+rate + human transfer | BLOCKED_EXTERNAL |
+| KN-BOT-19 | P0 | Source+build+genuine PostgreSQL, iOS/Android/desktop, provider inbox/outbox, GDPR, security independent review, release+rollback | NOT_ACCEPTED |
+
+Не змінювати канонічні попередні KN-BOT ID/статуси без підтвердження; ця таблиця додає наступні незалежні пункти. `docs/prompts/KNABA_ASSISTANT_PRODUCT_SYSTEM_UK.md` — матриця BOT-A01…BOT-A12.

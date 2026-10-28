@@ -11,7 +11,8 @@ import {zodToJsonSchema} from 'zod-to-json-schema';
 import {WhatsAppRouter} from '../../packages/integrations/whatsapp-router.ts';
 import type {TelegramInbound,TelegramBotAdapter} from '../../packages/integrations/telegram.ts';
 import {telegramPublicIntent,telegramRequestedLocale} from '../../packages/integrations/telegram-public-navigation.ts';
-import {captureMessengerWorkerInterest} from '../../packages/integrations/messenger-worker-interest.ts';
+import {captureMessengerWorkerInterest,captureMessengerPartnerInterest} from '../../packages/integrations/messenger-worker-interest.ts';
+import {botChannelPolicyFor,botAllowsPublicAutoReply} from '../../packages/domain/bot-channel-policy.ts';
 import {stageTelegramPublicReplyIn} from './telegram-public-reply.ts';
 import {stageTelegramReply,processTelegramOutbound} from './telegram-delivery.ts';
 import {assistantToolCatalog,dispatchAssistantTools} from '../../packages/integrations/assistant-tools.ts';
@@ -376,24 +377,43 @@ export class WorkerRunner {
     const publicIntent=telegramPublicIntent(input.text);
     const languageRequest=telegramRequestedLocale(input.text);
     const actor=await this.engine.getActor(route.data.user_id,job.company_id);
-    const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,language:'DE'},'telegram-inbound-message',actor);
+    const effectiveLanguage=await this.db.transaction(job.company_id,serviceId,async tx=>{
+      const ownerPolicy=await botChannelPolicyFor(tx,'TELEGRAM');
+      const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===actor.userId);
+      assert(settings.length<=1,'ACCESS_DENIED');
+      const userLanguage=settings[0]?.data.language;
+      return languageRequest??(['DE','EN','RU','UK','PL','LT'].includes(userLanguage)?userLanguage:ownerPolicy.defaultLanguage);
+    });
+    const message=await this.command(job,'message.send',{channel_id:route.data.channel_id,text:input.text,
+      language:effectiveLanguage},'telegram-inbound-message',actor);
     await this.record(job,'conversation_input',route.id,async(row,tx)=>{
-      if(publicIntent==='REGISTER')await captureMessengerWorkerInterest(tx,actor,row,this.now().toISOString());
+      const preferences=await botChannelPolicyFor(tx,'TELEGRAM');
+      const intakeAllowed=publicIntent==='REGISTER'?preferences.workerRequestsEnabled:
+        publicIntent==='PARTNER'?preferences.partnerRequestsEnabled:true;
+      if(intakeAllowed&&publicIntent==='REGISTER')
+        await captureMessengerWorkerInterest(tx,actor,row,this.now().toISOString());
+      if(intakeAllowed&&publicIntent==='PARTNER')
+        await captureMessengerPartnerInterest(tx,actor,row,this.now().toISOString());
+      const userSettings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===actor.userId);
+      assert(userSettings.length<=1,'ACCESS_DENIED');
       if(languageRequest){
-        const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===actor.userId);
-        assert(settings.length<=1,'ACCESS_DENIED');
-        const data={...settings[0]?.data,user_id:actor.userId,language:languageRequest,
+        const data={...userSettings[0]?.data,user_id:actor.userId,language:languageRequest,
           language_source:'EXPLICIT',language_selected_at:this.now().toISOString()};
-        if(settings[0])await tx.save(settings[0],data);
+        if(userSettings[0])await tx.save(userSettings[0],data);
         else await tx.add('notification_setting',{...data,telegram_consent:false,telegram_opted_out:true});
+      }else if(userSettings.length===0){
+        // Initial company default cannot opt a guest in or authorize outbound.
+        await tx.add('notification_setting',{user_id:actor.userId,language:preferences.defaultLanguage,
+          language_source:'COMPANY_DEFAULT',telegram_consent:false,telegram_opted_out:true});
       }
       const completedAt=this.now().toISOString();
       const data={...row.data,status:'PROCESSED',message_id:message.id,
-        router_state:publicIntent?'TELEGRAM_PUBLIC_INTENT':'HUMAN_QUEUED',
-        ...(publicIntent?{bot_public_intent:publicIntent}:{}),completed_at:completedAt};
-      // Public navigation is only queued for a valid, versioned, preexisting
-      // consent. The source receipt and outbound ticket commit atomically.
-      await stageTelegramPublicReplyIn(tx,{...row,data},{
+        router_state:publicIntent&&intakeAllowed?'TELEGRAM_PUBLIC_INTENT':'HUMAN_QUEUED',
+        ...(publicIntent&&intakeAllowed?{bot_public_intent:publicIntent}:{}),completed_at:completedAt};
+      // Disabled registrations are still human-visible inbound messages,
+      // but no auto-reply may falsely claim that an application was recorded.
+      if(intakeAllowed&&botAllowsPublicAutoReply(preferences))
+        await stageTelegramPublicReplyIn(tx,{...row,data},{
         publicOrigin:this.options.publicOrigin,approvedConsentVersion:this.options.telegramApprovedConsentVersion,
         now:completedAt
       });

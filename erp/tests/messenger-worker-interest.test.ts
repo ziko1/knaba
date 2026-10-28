@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {DomainError,type Actor,type Data,type Entity,type Transaction} from '../packages/domain/core.ts';
-import {captureMessengerWorkerInterest} from '../packages/integrations/messenger-worker-interest.ts';
+import {captureMessengerWorkerInterest,captureMessengerPartnerInterest} from '../packages/integrations/messenger-worker-interest.ts';
 
 class MemoryTx implements Transaction {
   private entries=new Map<string,Entity>();
@@ -98,5 +98,45 @@ describe('KNABA messenger worker interest; no role changes',()=>{
     const again=await captureMessengerWorkerInterest(f.tx,f.actor,f.source,now);
     expect(again).toMatchObject({state:'REJECTED',created:false});
     expect(f.tx.events).toHaveLength(1);
+  });
+});
+
+
+describe('partner registration uses the existing messenger intake and owner-review boundary',()=>{
+  it.each(['TELEGRAM','WHATSAPP'] as const)('records %s partner request without issuing an account or rights',async provider=>{
+    const f=await setup(provider);
+    const receipt=await captureMessengerPartnerInterest(f.tx,f.actor,f.source,now);
+    expect(receipt).toMatchObject({state:'REQUESTED',created:true});
+    const rows=await f.tx.list('partner_registration_interest');
+    expect(rows).toHaveLength(1);
+    expect(rows[0]!.data).toMatchObject({
+      source_provider:provider,guest_user_id:'guest-a',requires_owner_review:true,
+      requires_verified_portal_identity:true,roles_granted:[],partner_created:false
+    });
+    expect(f.tx.events).toHaveLength(1);
+    expect(f.tx.events[0]!.type).toBe('partner.registration_requested');
+    expect(f.tx.events[0]!.data).not.toHaveProperty('sender');
+    expect(await f.tx.list('user_invitation')).toHaveLength(0);
+    expect(await f.tx.list('user')).toHaveLength(1);
+  });
+  it('does not multiply partner requests on replay and does not merge worker and partner identities',async()=>{
+    const f=await setup();
+    const p=await captureMessengerPartnerInterest(f.tx,f.actor,f.source,now);
+    const w=await captureMessengerWorkerInterest(f.tx,f.actor,f.source,now);
+    expect(p.id).not.toBe(w.id);
+    const replay=await captureMessengerPartnerInterest(f.tx,f.actor,f.source,now);
+    expect(replay).toEqual({...p,created:false});
+    expect(f.tx.events).toHaveLength(2);
+  });
+  it('rejects forged company scope, elevated roles or revoked identity',async()=>{
+    const f=await setup();
+    await expect(captureMessengerPartnerInterest(f.tx,{...f.actor,companyId:'other'},f.source,now))
+      .rejects.toMatchObject({code:'ACCESS_DENIED'});
+    await expect(captureMessengerPartnerInterest(f.tx,{...f.actor,roles:['OWNER']},f.source,now))
+      .rejects.toMatchObject({code:'ACCESS_DENIED'});
+    const identity=await f.tx.get('contact_identity','contact-a');
+    await f.tx.save(identity,{...identity.data,revokedAt:now});
+    await expect(captureMessengerPartnerInterest(f.tx,f.actor,f.source,now))
+      .rejects.toMatchObject({code:'ACCESS_DENIED'});
   });
 });

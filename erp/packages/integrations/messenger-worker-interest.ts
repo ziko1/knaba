@@ -22,6 +22,21 @@ function identityValue(provider:MessengerEnrollmentProvider,value:unknown):strin
 export async function captureMessengerWorkerInterest(
   tx:Transaction,actor:Actor,source:Entity,now:string
 ):Promise<{id:string;state:MessengerEnrollmentState;created:boolean}>{
+  return captureMessengerRegistrationInterest(tx,actor,source,now,'WORKER');
+}
+
+/** The same verified guest-only boundary is reused for partner enquiries.
+ * No account, contract, employee record or partner rights are created here.
+ */
+export async function captureMessengerPartnerInterest(
+  tx:Transaction,actor:Actor,source:Entity,now:string
+):Promise<{id:string;state:MessengerEnrollmentState;created:boolean}>{
+  return captureMessengerRegistrationInterest(tx,actor,source,now,'PARTNER');
+}
+
+async function captureMessengerRegistrationInterest(
+  tx:Transaction,actor:Actor,source:Entity,now:string,relationship:'WORKER'|'PARTNER'
+):Promise<{id:string;state:MessengerEnrollmentState;created:boolean}>{
   assert(source.kind==='conversation_input'&&source.companyId===actor.companyId&&
     source.data.user_id===actor.userId&&source.data.status==='PENDING'&&
     source.data.input?.kind==='MESSAGE'&&source.data.input.id===source.data.provider_event_id,
@@ -45,9 +60,11 @@ export async function captureMessengerWorkerInterest(
     try{return identityValue(provider,row.data.value)===sender;}catch{return false;}
   });
   assert(identities.length===1&&identities[0]!.data.userId===actor.userId,'ACCESS_DENIED');
-  const id=digest('knaba-guest-worker-interest-v1',actor.companyId,provider,sender);
+  const aggregateKind=relationship==='WORKER'?'worker_registration_interest':'partner_registration_interest';
+  const id=digest(relationship==='WORKER'?'knaba-guest-worker-interest-v1':'knaba-guest-partner-interest-v1',
+    actor.companyId,provider,sender);
   try {
-    const old=await tx.get('worker_registration_interest',id);
+    const old=await tx.get(aggregateKind,id);
     assert(old.companyId===actor.companyId&&old.data.source_provider===provider&&
       old.data.guest_user_id===actor.userId&&old.data.contact_identity_id===identities[0]!.id,
       'ACCESS_DENIED');
@@ -56,14 +73,16 @@ export async function captureMessengerWorkerInterest(
   }catch(error){
     if(!(error instanceof DomainError&&error.code==='NOT_FOUND_SAFE'))throw error;
   }
-  const row=await tx.add('worker_registration_interest',{
+  const row=await tx.add(aggregateKind,{
     source_provider:provider,guest_user_id:actor.userId,contact_identity_id:identities[0]!.id,
     channel_id:source.data.channel_id??null,source_input_id:source.id,
     state:'REQUESTED',created_at:now,
     requires_verified_portal_identity:true,requires_owner_review:true,
-    roles_granted:[],site_ids_granted:[],employee_created:false
+    roles_granted:[],site_ids_granted:[],employee_created:false,partner_created:false,
+    requested_relationship:relationship
   },id);
-  await tx.event('worker.registration_requested',{request_id:row.id,source_provider:provider,
+  await tx.event(relationship==='WORKER'?'worker.registration_requested':'partner.registration_requested',
+    {request_id:row.id,source_provider:provider,
     channel_id:source.data.channel_id??null});
   return {id:row.id,state:'REQUESTED',created:true};
 }

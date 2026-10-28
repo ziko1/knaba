@@ -6,11 +6,12 @@ import type {SupportedLanguage} from './deepseek.ts';
  * authenticated KNABA employee/owner; no command here can grant a role, approve
  * registration, activate automation, sign a quote or access ERP records.
  */
-export type TelegramPublicIntent='MENU'|'SERVICES'|'ENQUIRY'|'REGISTER'|'CONTACT'|'PRIVACY'|'HUMAN';
+export type TelegramPublicIntent='MENU'|'SERVICES'|'ENQUIRY'|'REGISTER'|'PARTNER'|'CONTACT'|'PRIVACY'|'HUMAN';
 const intents:Readonly<Record<string,TelegramPublicIntent>>={
   '/menu':'MENU','/help':'MENU','/services':'SERVICES','/leistungen':'SERVICES',
   '/request':'ENQUIRY','/angebot':'ENQUIRY','/register':'REGISTER',
-  '/worker':'REGISTER','/mitarbeiter':'REGISTER','/contact':'CONTACT',
+  '/worker':'REGISTER','/mitarbeiter':'REGISTER','/partner':'PARTNER',
+  '/partnerschaft':'PARTNER','/contact':'CONTACT',
   '/call':'CONTACT','/privacy':'PRIVACY','/datenschutz':'PRIVACY',
   '/human':'HUMAN','/owner':'HUMAN'
 };
@@ -60,6 +61,7 @@ export function telegramPublicReply(intent:TelegramPublicIntent,language:Support
     MENU:{DE:'',UK:'',RU:'',EN:''},
     SERVICES:{DE:'KnaBa BauService: Leistungen und aktuelle Informationen.',UK:'Послуги KnaBa та перевірена інформація.',RU:'Услуги KnaBa и актуальная информация.',EN:'KnaBa services and verified information.'},
     ENQUIRY:{DE:'Anfrage über das sichere Formular senden. Preise und Termine bestätigt nur KnaBa.',UK:'Залиште заявку через захищену форму. Ціни й час підтверджує компанія.',RU:'Подайте заявку через защищённую форму. Цены и время подтверждает компания.',EN:'Send an enquiry with the secure form. Only KnaBa confirms prices and dates.'},
+    PARTNER:{DE:'Partneranfrage für KnaBa erfasst. Eine Freigabe oder ein Partnerkonto wurde NICHT erstellt. Bitte Identität im sicheren Portal nachweisen.',UK:'Запит на партнерство збережено. Доступ і права НЕ надані. Підтвердіть особу в захищеному кабінеті.',RU:'Заявка партнёра принята для проверки. Права и аккаунт НЕ выданы. Подтвердите личность через защищённый портал.',EN:'Partner request received for review. No account or partner rights have been granted. Verify identity in the secure portal.'},
     REGISTER:{DE:'Ihre Mitarbeiteranfrage wird geprüft. Ein Konto oder eine Mitarbeiterrolle wurde dadurch NICHT erstellt. Identität nur im sicheren Portal bestätigen.',UK:'Звернення працівника зафіксовано. Обліковий запис і роль НЕ створено. Підтверджуйте особу лише в захищеному кабінеті.',RU:'Обращение сотрудника записано. Учётная запись и роль НЕ созданы. Проверяйте личность только в защищённом кабинете.',EN:'Worker enquiry recorded. No account or staff role granted. Verify identity through the secure portal only.'},
     CONTACT:{DE:'Kontakt oder Rückruf anfragen. Ein KI-Telefonanruf wurde nicht gestartet.',UK:'Контакти або запит зворотного дзвінка. AI-дзвінок не розпочато.',RU:'Контакты или запрос обратного звонка. AI-звонок не начат.',EN:'Contact or request a callback. No AI phone call has started.'},
     PRIVACY:{DE:'Hinweise zur Datenverarbeitung:',UK:'Інформація щодо обробки даних:',RU:'Информация об обработке данных:',EN:'Privacy information:'},
@@ -67,7 +69,7 @@ export function telegramPublicReply(intent:TelegramPublicIntent,language:Support
   };
   const locale=['DE','UK','RU','EN'].includes(language)?language as 'DE'|'UK'|'RU'|'EN':'DE';
   const routes:Record<TelegramPublicIntent,string>={
-    MENU:'services',SERVICES:'services',ENQUIRY:'enquiry',REGISTER:'account',
+    MENU:'services',SERVICES:'services',ENQUIRY:'enquiry',REGISTER:'account',PARTNER:'account',
     CONTACT:'contact',PRIVACY:'privacy',HUMAN:'contact'
   };
   const response=texts[intent][locale]+'\n'+get(routes[intent]);

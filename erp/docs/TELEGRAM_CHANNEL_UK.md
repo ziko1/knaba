@@ -23,7 +23,7 @@ secret store**. Неповна конфігурація з двома ввімк
 на пристрої або юридичного opt-in; реліз лишається HOLD.
 
 Для презентації без BotFather/Meta акаунтів є виконуваний сценарій:
-`cd erp && ./node_modules/.bin/tsx scripts/demo-omnichannel.ts`.
+`cd erp && ./node_modules/.bin/tsx scripts/bot-channel-selfcheck.ts`.
 Він використовує справжні парсери, HMAC-перевірку синтетичного WhatsApp
 запиту, каталог команд і DE/EN/RU публічні відповіді Telegram. Вивід
 явно маркує `PROTOCOL / PUBLIC INTENT SIMULATION ONLY`: жодних
@@ -35,7 +35,7 @@ secret store**. Неповна конфігурація з двома ввімк
 неповні WhatsApp credentials за заявленої WhatsApp конфігурації лишаються
 блокером. Без global/Telegram opt-in будь-який outbound вимкнений.
 
-**QA цього доповнення:** офлайн-демо виконується, цільові 146/146 PASS
+**QA цього доповнення:** офлайн-перевірка виконується, цільові 146/146 PASS
 до додавання тестів preflight; 5/5 preflight PASS, Node 24 TypeScript
 PASS. Повна локальна ERP suite з ізольованим openpyxl 3.1.5:
 1957 PASS / 2 FAIL / 441 SKIP (pdftotext ENOENT та XLSX photo embedding).

@@ -57,3 +57,12 @@ Latest site and historical ERP V4 sources preserved together without destructive
 - Current code: pending WhatsApp/Telegram employee intake, owner read-only inbox and authenticated ERP review without staff activation, deterministic Telegram responses guarded by explicit versioned opt-in, old assistant/ERP functions retained; owner drafts can be prepared without ability to approve or execute.
 - Build/QA first (G4 identity bridge, G6 real transport adapters and invoices, G8 security + actual PG/device/performance + backups). **Only after this technical acceptance** request company owner's final business-role, privacy and phone-provider policy agreement at **G9 immediately preceding G10 server migration**.
 - Human permission/MFA and provider/legal cost gates are part of secure code behavior, never turned off while waiting for final business signoff; no automatic production merge/deploy.
+
+
+## G6c — спільна робоча KNABA бот-система, 28.10.2026
+
+1. **Уточнено ціль:** WA + TG + сайт + owner/developer admin + mobile з ОДНІЄЮ ERP PostgreSQL authorization/commercial моделлю; нові назви без «demo». Повний майстер-промпт `docs/prompts/KNABA_ASSISTANT_PRODUCT_SYSTEM_UK.md`.
+2. **Source candidate:** розширити існуючі PR103 guest/onboarding/menus, додати partner intake та owner redacted MFA review, non-secret channel preferences і app UI. Статус: code candidate / scope tests; release gate окремий. Owner/employee підтвердження через канали тільки після authenticated binding+step-up.
+3. **Залежність G4/G9:** зіставити й безпечно інтегрувати PR110 corporate owner/partner auth, ERP invitation and existing migrations; реально перевірити site D1/SQLite ↔ ERP PostgreSQL canonical bridge. Не робити прямого змішування графів PR.
+4. **Власник у боті та застосунку:** після verified linking і MFA один command approval й спільні native/web API; до цього бот показує тільки чергу/посилання на захищений процес, без автоматичного призначення ролі. Отримання та відправка клієнтського повідомлення — реальний provider stage, separate.
+5. **External gates:** WABA/BotFather, GDPR, opt-in/versioned notice, fresh provider quotas/cost, voice WebRTC/WhatsApp Calling, real phone/desktop, full report QA — NOT_ACCEPTED. Не зливати PR, не запускати live без verified readiness.

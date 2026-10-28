@@ -270,3 +270,70 @@ describe('owner receives employee interest queue in existing WhatsApp router, re
     .toMatchObject({allowed:false,reason:'ACCESS_REVOKED'});
  });
 });
+
+
+describe('WhatsApp partner enquiries require owner review, not automatic registration',()=>{
+ it('guest /PARTNER is idempotent and never grants an account',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  const first=await f.route('/PARTNER',undefined,'client');
+  expect(first.result).toMatchObject({handled:true,state:'PARTNER_INTEREST_RECORDED'});
+  const rows=await f.db.list('partner_registration_interest');
+  expect(rows).toHaveLength(1);
+  expect(rows[0]!.data).toMatchObject({state:'REQUESTED',partner_created:false,
+    roles_granted:[],requires_owner_review:true});
+  await f.route('/PARTNER',undefined,'client');
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(1);
+  expect(f.db.events.filter(e=>e.type==='partner.registration_requested')).toHaveLength(1);
+  expect((await f.db.get('user','client')).data.roles).toEqual(['GUEST','CLIENT']);
+  expect(f.engine.calls).toHaveLength(0);
+ });
+ it('owner /PARTNERS shows redacted queue, not grantable roles',async()=>{
+  const f=await setup();
+  await f.db.change('user','employee',{roles:['OWNER'],siteIds:[],warehouseIds:[],active:true});
+  await f.db.add('partner_registration_interest',{state:'REQUESTED',source_provider:'TELEGRAM',
+    guest_user_id:'hidden',contact_identity_id:'SECRET_CONTACT',provider_sender:'PRIVATE_TOKEN',
+    roles_granted:[],partner_created:false},'partner-1');
+  const r=await f.route('/PARTNERS'),output=await f.response(r.result.responseId!);
+  expect(r.result.state).toBe('PARTNER_REQUESTS');
+  expect(JSON.stringify(output.data.output)).not.toContain('SECRET_CONTACT');
+  expect(JSON.stringify(output.data.output)).not.toContain('PRIVATE_TOKEN');
+  expect(f.engine.calls).toHaveLength(0);
+ });
+ it('blocks employee pretending to be new partner',async()=>{
+  const f=await setup();
+  await expect(f.route('/PARTNER')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(0);
+ });
+});
+
+
+describe('owner channel preferences are consumed by WhatsApp intake',()=>{
+ it('owner preference can pause new bot registration without disabling human contact',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  await f.db.add('bot_config',{channel:'WHATSAPP',defaultLanguage:'RU',
+    workerRequestsEnabled:false,partnerRequestsEnabled:false,
+    humanEscalationEnabled:true,replyMode:'HUMAN_FIRST'},'knaba-channel-whatsapp');
+  expect((await f.route('/REGISTER',undefined,'client')).result.state).toBe('REGISTRATION_DISABLED');
+  expect((await f.route('/PARTNER',undefined,'client')).result.state).toBe('REGISTRATION_DISABLED');
+  expect(await f.db.list('worker_registration_interest')).toHaveLength(0);
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(0);
+  expect(f.db.events.filter(e=>e.type.endsWith('.registration_requested'))).toHaveLength(0);
+ });
+});
+
+
+describe('owner multilingual channel setting is reflected in WhatsApp guest navigation',()=>{
+ it('WA no user locale uses owner-selected channel default without granting business access',async()=>{
+  const f=await setup();
+  await f.db.change('user','client',{roles:['GUEST','CLIENT'],guest:true,siteIds:[],active:true});
+  await f.db.add('bot_config',{channel:'WHATSAPP',defaultLanguage:'RU',
+    workerRequestsEnabled:true,partnerRequestsEnabled:true,
+    humanEscalationEnabled:true,replyMode:'HUMAN_FIRST'},'knaba-channel-whatsapp');
+  const result=await f.route('/MENU',undefined,'client');
+  const response=await f.response(result.result.responseId!);
+  expect(response.data.output.text).toContain('Рабочее меню');
+  expect(await f.db.list('partner_registration_interest')).toHaveLength(0);
+ });
+});

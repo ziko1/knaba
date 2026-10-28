@@ -12,8 +12,8 @@ const telegramCommands=['/start','/services','/request','/register','/call','/hu
 const whatsappCommands=['/MENU','/MODULES','/AUTOMATIONS','/REGISTER','/HELP'] as const;
 
 /** Output is derived from actual production classifiers/formatters, not a separate fake bot implementation. */
-export function buildBotWalkthrough():string {
-  const syntheticSecret='SYNTHETIC_DEMO_SECRET_NOT_A_REAL_PROVIDER_CREDENTIAL';
+export function buildBotChannelVerification():string {
+  const syntheticSecret='SYNTHETIC_SECURITY_CHECK_SECRET_NOT_A_PROVIDER_CREDENTIAL';
   const envelope={
     object:'whatsapp_business_account',
     entry:[{id:'synthetic-account',changes:[{field:'messages',value:{
@@ -32,7 +32,7 @@ export function buildBotWalkthrough():string {
     kind:'TEXT',text:'KNABA: Demo-Antwort — Anfrage wird durch das Team geprüft.'
   });
   const output=[
-    'KNABA DE | WhatsApp + Telegram | OFFLINE CODE WALKTHROUGH',
+    'KNABA DE | WhatsApp + Telegram | OFFLINE CHANNEL VERIFICATION',
     '=========================================================',
     'STATUS: PROTOCOL / PUBLIC INTENT SIMULATION ONLY',
     'Provider calls: 0 | Real messages: 0 | Database writes: 0',
@@ -74,4 +74,4 @@ export function buildBotWalkthrough():string {
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)
-  process.stdout.write(buildBotWalkthrough());
+  process.stdout.write(buildBotChannelVerification());

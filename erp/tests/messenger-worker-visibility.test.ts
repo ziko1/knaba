@@ -29,3 +29,20 @@ describe('worker registration source cannot be disclosed via generic ERP entity 
    expect(await engine.visible(tx,actor,candidate)).toBe(false);
  });
 });
+
+
+describe('partner registration source is private even for owner generic entity reads',()=>{
+  it('classifies partner intake as sensitive',()=>{
+    expect(sensitiveKinds.has('partner_registration_interest')).toBe(true);
+  });
+  it.each([
+    ['guest',principal(['GUEST'],ROLE_PERMISSIONS.GUEST)],
+    ['employee',principal(['EMPLOYEE'],ROLE_PERMISSIONS.EMPLOYEE)],
+    ['owner',principal(['OWNER'],ROLE_PERMISSIONS.OWNER)],
+    ['bot admin',principal(['BOT_ADMIN'],ROLE_PERMISSIONS.BOT_ADMIN)]
+  ])('does not expose %s partner applicant PII through generic API',async(_,actor)=>{
+    const engine=Object.create(Engine.prototype) as Engine;
+    const partner={...candidate,kind:'partner_registration_interest'};
+    expect(await engine.visible({} as PgTransaction,actor,partner)).toBe(false);
+  });
+});
