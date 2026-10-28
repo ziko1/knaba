@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "0faad8da1551262c0fc4a583fe45ed4e5f43616f",
+  "sourceTree": "6a0a13985f68ad862fc2e6d7476c4d0a3561228f",
+  "coordinatedBaseline": "75c599b0c89bbb0c800e04839af5de6a323d62f3",
+  "artifactSha256": "96ea6397c9ea147c30193274fe757b755c83fe1398f9fc2a185892fa6318ce1b",
+  "runtime": "Node24.22.1",
+  "releaseMode": "vsp",
+  "runtimeAndTestFilesSha256": {
+    "corporate-site/astro.config.mjs": "c10438252fa48464789628d1bc26a654b205277cf9fead2784a66e01ff070836",
+    "corporate-site/scripts/legacy-css-budget.mjs": "466e366241161da986200c2c09794d7058715165e1a975a0968ea27b1248218a",
+    "corporate-site/src/components/ServiceCarousel.astro": "23c455cda0cfb39758508fe22cd5d123faf1669ddb4b7d7521eb062912fba737",
+    "corporate-site/src/layouts/Layout.astro": "47810592ad22a7be47649448f3ec5bc8a84391c2f6dc282b29a32528bef5fbc5",
+    "corporate-site/src/scripts/public-motion.ts": "fed9e109db3340a97a4d78e5a935e66eaaa9e7efd5ee372527bd8593ab31afbb",
+    "corporate-site/src/styles/public-vivid.css": "cea659aa1b171b8bd93b4eae7eb2d30b6a0506f547f9898e4f9bff5eccfe07b0",
+    "corporate-site/tests/legacy-css-budget.test.ts": "e726a2412a29bc710983e8459310e16e444b6806d371d87ba4f431619f90b796",
+    "corporate-site/tests/public-motion.test.ts": "03ea275a9ba5c413d4da558728dd12971edafde69f35358a34ce605e703b58eb",
+    "corporate-site/tests/verify-build.mjs": "dfa27a16929fb1ad0c19227ce212d956558d6ee8a5eb4aec9395a300dd978f0b",
+    "corporate-site/tests/vivid-public-ui-browser.cjs": "4552fa4aa7ec9a73d62a14c7bc9a8e7e4c11b072009137840cd1e1fa16b8eb70"
+  }
+}

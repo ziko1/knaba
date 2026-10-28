@@ -1,13 +1,13 @@
 {
   "scope": "production-build-static-validation",
-  "pages": 130,
+  "pages": 134,
   "internalLinks": "PASS",
   "metadata": "PASS",
   "indexMode": "VSP_STAGING_NOINDEX",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 39410,
-  "allEmittedJsGzip": 192591,
+  "cssGzip": 39451,
+  "allEmittedJsGzip": 192781,
   "assets": [
     {
       "name": "_astro/AdminControlCenter.Die-Y1pT.js",
@@ -95,11 +95,6 @@
       "gzip": 11220
     },
     {
-      "name": "_astro/Layout.Cm4MFthu.css",
-      "bytes": 53664,
-      "gzip": 12257
-    },
-    {
       "name": "_astro/Layout.astro_astro_type_script_index_0_lang.8anyiHQt.js",
       "bytes": 1155,
       "gzip": 648
@@ -113,6 +108,11 @@
       "name": "_astro/Layout.astro_astro_type_script_index_3_lang.DwkLSAzj.js",
       "bytes": 699,
       "gzip": 402
+    },
+    {
+      "name": "_astro/Layout.uqu5NrTp.css",
+      "bytes": 53973,
+      "gzip": 12298
     },
     {
       "name": "_astro/Partners.spIlufU2.css",
@@ -288,9 +288,14 @@
       "name": "illustrations/carousel/zusatzarbeiten.webp",
       "bytes": 56860,
       "gzip": 56898
+    },
+    {
+      "name": "mobile-sw.js",
+      "bytes": 276,
+      "gzip": 190
     }
   ],
-  "artifactSha256": "3b5449e1a972afcf4d22d51789553b28b2c1964d9e5cb23ffaf94f10dced42c0",
+  "artifactSha256": "96ea6397c9ea147c30193274fe757b755c83fe1398f9fc2a185892fa6318ce1b",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

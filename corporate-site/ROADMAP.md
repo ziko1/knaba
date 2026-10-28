@@ -380,3 +380,5 @@ Feature source `103e3f9feb58aeec7323ae7c4fa5f4cf011355fa`, on latest coordinated
 | VUI05 | Release на сервер, physical-device/owner UAT, field CWV | NOT_RUN; окремі чинні release authorization / backup / rollback gates |
 
 Main і production не змінено. Наявний scope ERP, авторизації, платних провайдерів, юридичного/нативного мовного приймання не закривається цим дизайном.
+
+**Final forward candidate0faad8da1551262c0fc4a583fe45ed4e5f43616f** зберігає новий mobile-розділ із staging75c599b0:134/134маршрути без text/contract differences,487 automatic tests і67 browser scenarios PASS. CSS39451B, незмінений ліміт40960B. VUI01–VUI04 підтверджено на цьому точному source; VUI05 залишається NOT_RUN. Актуальний receipt: `docs/evidence/vivid-public-ui-20261028/forward-mobile/QA_UK.md`.

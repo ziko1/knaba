@@ -31,3 +31,7 @@
 Це доповнення до публічного дизайну. Схема даних, авторизація, API, провайдери, залежності, DNS і платні послуги не змінюються. Злиття в `main` і customer production не входять у цей запит. Попередній staging release зберігається; source rollback — revert ізольованого feature commit. Для серверного rollout діють наявні source lease, backup/restore, storage і release gates.
 
 На початку локального QA браузерні executable Chromium/WebKit/Firefox були відсутні: штатний `test:logo:browser` повернув `BLOCKED / NO_USABLE_BROWSER`. Це не помилка сайту й не PASS. Хмарний браузер відкрив чинний `https://kneba.vsp.rest/`, але не має доступу до локального loopback preview. Остаточний результат browser QA фіксується в receipt.
+
+## Фінальне узгодження паралельної mobile-роботи
+
+Staging75c599b0c89bbb0c800e04839af5de6a323d62f3 додав промосекцію й чотири `/app/` після первинної реалізації дизайну. Зміни збережені в merge candidate0faad8da1551262c0fc4a583fe45ed4e5f43616f. Три scoped CSS-правила зберігають початкові світлу кнопку та золотий focus нової секції. Усі134сторінки, новий mobile-контент і контрактні атрибути однакові з актуальним baseline. Остаточні487 автоматичних тестів,67 browser scenarios, артефакт, screenshots та межі приймання: `docs/evidence/vivid-public-ui-20261028/forward-mobile/QA_UK.md`.
