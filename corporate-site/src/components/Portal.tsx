@@ -103,6 +103,33 @@ function PortalContent(props: {locale?: PortalLocale}) {
       <Match when={role()==='suspended'}><div class="portal-empty portal-wait"><span class="portal-round-symbol" aria-hidden="true">Ⅱ</span><h2>{t().suspendedTitle}</h2><p>{t().suspendedText}</p><a class="text-link" href="mailto:kontakt@knaba.de">kontakt@knaba.de ↗</a></div></Match>
       <Match when={session.data?.user && !session.data?.profile && role()!=='owner'}><Registration session={session.data!} locale={locale} t={t} busy={busy} submit={body=>mutate('/api/portal/register','POST',body,t().registered)} /></Match>
       <Match when={role()==='pending'}><div class="portal-empty portal-wait"><span class="portal-round-symbol" aria-hidden="true">◷</span><p class="portal-kicker">{t().pending}</p><h2>{t().pendingTitle}</h2><p>{t().pendingText}</p><p>{t().pendingHelp}</p><button type="button" class="button button-dark" disabled={session.isFetching} onClick={()=>void session.refetch()}>{session.isFetching?t().loading:t().refresh}</button></div></Match>
+      <Match when={role()==='partner'}>
+        <div class="portal-shell" data-knaba-role="partner">
+          <aside class="portal-sidebar">
+            <div class="portal-person">
+              <span class="portal-avatar" aria-hidden="true">{(session.data?.profile?.name ?? session.data?.user?.name ?? 'K').slice(0,1).toUpperCase()}</span>
+              <div>
+                <p class="portal-small">{t().profileCaption}</p>
+                <strong>{session.data?.profile?.name ?? session.data?.user?.name}</strong>
+                <span class="portal-role-label">{t().partner}</span>
+              </div>
+            </div>
+            <p class="portal-sidebar-note">{t().security}</p>
+          </aside>
+          <div class="portal-content">
+            <div class="portal-content-heading">
+              <div><p class="portal-kicker">{t().partner}</p><h2>{t().welcome}</h2></div>
+            </div>
+            <div class="portal-next">
+              <span class="portal-kicker">{t().nextStep}</span>
+              <h3>{t().partner}</h3>
+              <p>{t().partnerGuide}</p>
+              <a class="button button-dark" href={portalPublicPath('/kontakt/',locale())}>{t().contact} ↗</a>
+            </div>
+            <p class="portal-small">{t().notificationNote}</p>
+          </div>
+        </div>
+      </Match>
       <Match when={authorized()}>
         <div class="portal-shell">
           <aside class="portal-sidebar"><div class="portal-person"><span class="portal-avatar" aria-hidden="true">{(session.data?.profile?.name ?? session.data?.user?.name ?? 'K').slice(0,1).toUpperCase()}</span><div><p class="portal-small">{t().profileCaption}</p><strong>{session.data?.profile?.name ?? session.data?.user?.name}</strong><span class="portal-role-label">{t()[role()]}</span></div></div>

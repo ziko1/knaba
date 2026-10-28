@@ -7,6 +7,7 @@ import { readFile, mkdir, chmod, stat, lstat, writeFile } from 'node:fs/promises
 import { DatabaseSync } from 'node:sqlite';
 import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
+import {ACCESS_REQUEST_TTL_DAYS} from './access-requests.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
 if(['backup','migrate'].includes(command)){
@@ -15,8 +16,38 @@ if(['backup','migrate'].includes(command)){
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','invite-owner','invite-developer','revoke-developer','backup','audit','migrate'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|revoke-developer|backup|audit|migrate\n');process.exit(2);
+if(!['init-owner','invite-owner','invite-developer','revoke-developer','backup','audit','access-audit','migrate'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|revoke-developer|backup|audit|access-audit|migrate\n');
+  process.exit(2);
+}
+if(command==='access-audit'){
+  // Private operator report: never write the database or print applicant identities.
+  // A future cleanup action must pass a separate owner-approved gate.
+  if(process.argv.length!==3){
+    process.stderr.write('access-audit takes no arguments. This command is read-only.\n');
+    process.exit(2);
+  }
+  const available=await stat(dbPath).catch(()=>null);
+  if(!available?.isFile())throw Error('Audit requires an existing database; none created.');
+  const snapshot=new DatabaseSync(dbPath,{readOnly:true});
+  try{
+    const now=Date.now();
+    const result=snapshot.prepare(
+      "SELECT count(*) AS total,"+
+      "coalesce(sum(CASE WHEN status='pending' THEN 1 ELSE 0 END),0) AS pending,"+
+      "coalesce(sum(CASE WHEN status='handled' THEN 1 ELSE 0 END),0) AS reviewed,"+
+      "coalesce(sum(CASE WHEN expires_at<=? THEN 1 ELSE 0 END),0) AS pastDue,"+
+      "coalesce(sum(CASE WHEN status='pending' AND expires_at>? AND expires_at<=? THEN 1 ELSE 0 END),0) AS dueWithin7Days"+
+      " FROM vps_access_requests"
+    ).get(now,now,now+7*24*60*60*1000);
+    process.stdout.write(JSON.stringify({
+      scope:'access_requests',mode:'read_only',retentionDays:ACCESS_REQUEST_TTL_DAYS,
+      total:result.total,pending:result.pending,reviewed:result.reviewed,
+      pastDue:result.pastDue,dueWithin7Days:result.dueWithin7Days,
+      observedAtUtc:new Date(now).toISOString()
+    })+'\n');
+  }finally{snapshot.close();}
+  process.exit();
 }
 if(command==='audit'){
   // Read-only snapshot inspection. Never initialize schemas or silently create a database.

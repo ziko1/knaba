@@ -186,6 +186,7 @@ function reviewRequestsPage(requests){
     '<span>'+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':'Mitarbeiter')+'</span>'+
     '<p>'+escapeHTML(record.email)+'</p>'+
     '<p><small>'+escapeHTML(new Date(record.created_at).toISOString())+'</small></p>'+
+    '<p><small>Gültig bis: '+escapeHTML(new Date(record.expires_at).toISOString().slice(0,10))+' (UTC)</small></p>'+
     '<form method="post" action="/invite-user/">'+
     '<input type="hidden" name="email" value="'+escapeHTML(record.email)+'">'+
     '<input type="hidden" name="role" value="'+escapeHTML(record.intent)+'">'+
