@@ -1,0 +1,16 @@
+{
+  "baselineNativeSha": "ca2d68e19b659603e253462466359b827f8bb8fb",
+  "runtimeSha": "eae6669c136490b1a94594e493b65c46f1f7f403",
+  "baselinePages": 134,
+  "candidatePages": 134,
+  "missing": [],
+  "added": [],
+  "deltas": [],
+  "baselineCounts": {
+    "text": 15762,
+    "controls": 582,
+    "links": 6406,
+    "images": 376
+  },
+  "normalization": "Exclude presentation class/style, generated Astro scopes and form hydration keys only; preserve visible text, links, controls and image attributes."
+}

@@ -1,0 +1,306 @@
+{
+  "startedAt": "2026-10-28T20:04:50.024Z",
+  "runtimeSha": "eae6669c136490b1a94594e493b65c46f1f7f403",
+  "checks": [
+    {
+      "name": "carousel keyboard End",
+      "result": "08 / 08"
+    },
+    {
+      "name": "carousel keyboard Home",
+      "result": "01 / 08"
+    },
+    {
+      "name": "FAQ expands",
+      "result": "Які етапи будівництва супроводжує KnaBa?+Залежно від проєкту можна узгодити грубе, міжетапне, тонке й фінальне прибирання за графіком будівництва."
+    },
+    {
+      "name": "form review reached; no submission",
+      "result": true
+    },
+    {
+      "name": "draft restore and renewed consent after Back",
+      "result": {
+        "consent": false,
+        "draft": true,
+        "heading": "Огляд заявки."
+      }
+    },
+    {
+      "name": "UK to EN inquiry draft",
+      "result": {
+        "consent": false,
+        "draft": true,
+        "heading": "Your enquiry at a glance.",
+        "lang": "en"
+      }
+    },
+    {
+      "name": "320x480 mobile menu scroll bounds",
+      "result": {
+        "clientHeight": 338,
+        "menuBottom": 415.5,
+        "open": true,
+        "scrollHeight": 404
+      }
+    },
+    {
+      "name": "short mobile menu keyboard scroll",
+      "result": {
+        "clientHeight": 338,
+        "scrollHeight": 404,
+        "scrollTop": 66
+      }
+    },
+    {
+      "name": "390px carousel last indicator",
+      "result": "08 / 08"
+    },
+    {
+      "name": "no-JS mobile menu",
+      "result": ""
+    },
+    {
+      "name": "no-JS FAQ",
+      "result": ""
+    },
+    {
+      "name": "assistant Escape restores launcher focus",
+      "result": {
+        "dialogCount": 0,
+        "focus": "Open chat"
+      }
+    },
+    {
+      "name": "app retains original design and unsigned downloads disabled",
+      "result": {
+        "buttons": [],
+        "heading": "KnaBa on Android & iPhone",
+        "overflow": false,
+        "publicDesign": null
+      }
+    }
+  ],
+  "responsive": [
+    {
+      "nominalWidth": 320,
+      "clientWidth": 305,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "de",
+      "phoneCount": 1,
+      "scrollWidth": 305
+    },
+    {
+      "nominalWidth": 390,
+      "clientWidth": 375,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "de",
+      "phoneCount": 1,
+      "scrollWidth": 375
+    },
+    {
+      "nominalWidth": 700,
+      "clientWidth": 685,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "de",
+      "phoneCount": 1,
+      "scrollWidth": 685
+    },
+    {
+      "nominalWidth": 768,
+      "clientWidth": 753,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "de",
+      "phoneCount": 1,
+      "scrollWidth": 753
+    },
+    {
+      "nominalWidth": 1440,
+      "clientWidth": 1425,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "de",
+      "phoneCount": 1,
+      "scrollWidth": 1425
+    },
+    {
+      "nominalWidth": 320,
+      "clientWidth": 305,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "en",
+      "phoneCount": 1,
+      "scrollWidth": 305
+    },
+    {
+      "nominalWidth": 390,
+      "clientWidth": 375,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "en",
+      "phoneCount": 1,
+      "scrollWidth": 375
+    },
+    {
+      "nominalWidth": 700,
+      "clientWidth": 685,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "en",
+      "phoneCount": 1,
+      "scrollWidth": 685
+    },
+    {
+      "nominalWidth": 768,
+      "clientWidth": 753,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "en",
+      "phoneCount": 1,
+      "scrollWidth": 753
+    },
+    {
+      "nominalWidth": 1440,
+      "clientWidth": 1425,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "en",
+      "phoneCount": 1,
+      "scrollWidth": 1425
+    },
+    {
+      "nominalWidth": 320,
+      "clientWidth": 305,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "uk",
+      "phoneCount": 1,
+      "scrollWidth": 305
+    },
+    {
+      "nominalWidth": 390,
+      "clientWidth": 375,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "uk",
+      "phoneCount": 1,
+      "scrollWidth": 375
+    },
+    {
+      "nominalWidth": 700,
+      "clientWidth": 685,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "uk",
+      "phoneCount": 1,
+      "scrollWidth": 685
+    },
+    {
+      "nominalWidth": 768,
+      "clientWidth": 753,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "uk",
+      "phoneCount": 1,
+      "scrollWidth": 753
+    },
+    {
+      "nominalWidth": 1440,
+      "clientWidth": 1425,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "uk",
+      "phoneCount": 1,
+      "scrollWidth": 1425
+    },
+    {
+      "nominalWidth": 320,
+      "clientWidth": 305,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "ru",
+      "phoneCount": 1,
+      "scrollWidth": 305
+    },
+    {
+      "nominalWidth": 390,
+      "clientWidth": 375,
+      "counter": 18,
+      "dotHeight": 44,
+      "dotWidth": 26,
+      "h1": 1,
+      "lang": "ru",
+      "phoneCount": 1,
+      "scrollWidth": 375
+    },
+    {
+      "nominalWidth": 700,
+      "clientWidth": 685,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "ru",
+      "phoneCount": 1,
+      "scrollWidth": 685
+    },
+    {
+      "nominalWidth": 768,
+      "clientWidth": 753,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "ru",
+      "phoneCount": 1,
+      "scrollWidth": 753
+    },
+    {
+      "nominalWidth": 1440,
+      "clientWidth": 1425,
+      "counter": 16.5,
+      "dotHeight": 44,
+      "dotWidth": 27,
+      "h1": 1,
+      "lang": "ru",
+      "phoneCount": 1,
+      "scrollWidth": 1425
+    }
+  ]
+}
