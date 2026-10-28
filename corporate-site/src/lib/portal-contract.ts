@@ -1,6 +1,6 @@
 /** Shared wire contract. Authorization is always enforced by the Worker. */
 export const portalHeader = { "X-KnaBa-Request": "portal-v1" } as const;
-export const approvedRoles = ["client", "worker", "admin"] as const;
+export const approvedRoles = ["client", "worker", "partner", "admin"] as const;
 export type ApprovedRole = (typeof approvedRoles)[number];
 export type PortalRole = ApprovedRole | "owner" | "anonymous" | "pending" | "suspended";
 export const requestStatuses = ["new", "reviewing", "scheduled", "in_progress", "completed", "cancelled"] as const;
@@ -9,7 +9,7 @@ export const checklistItems = ["access_checked", "surfaces_cleaned", "quality_ch
 export type ChecklistItem = (typeof checklistItems)[number];
 export interface PortalUser { id: string; email: string; name: string }
 export interface PortalProfile {
-  id: string; name: string; email: string; requestedRole: "client" | "worker";
+  id: string; name: string; email: string; requestedRole: "client" | "worker" | "partner";
   role: ApprovedRole | null; status: "pending" | "approved" | "suspended";
   createdAt: string; updatedAt: string; version: number;
 }
@@ -29,7 +29,7 @@ export interface PortalDashboard {
   profiles: PortalProfile[]; audit: AuditEvent[];
   limited: boolean;
 }
-export interface RegistrationInput { name: string; requestedRole: "client" | "worker"; privacyAccepted: true }
+export interface RegistrationInput { name: string; requestedRole: "client" | "worker" | "partner"; privacyAccepted: true }
 export interface CleaningRequestInput {
   service: string; objectType: string; postcode: string; area: string; frequency: string;
   message: string; address?: string; idempotencyKey: string; privacyAccepted: true;

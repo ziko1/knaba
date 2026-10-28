@@ -46,8 +46,9 @@ export function issueOwnerInvite(db,email,{now=Date.now()}={}){
   return {email:address,token,expiresAt};
 }
 
-export function activateOwnerInvite(db,{token,email,password,confirmed,attested,now=Date.now()}){
+export function activateOwnerInvite(db,{token,email,password,confirmed,attested,purpose='owner',now=Date.now()}){
   const address=normalizeEmail(email);
+  if(!['owner','developer'].includes(purpose))throw new OwnerInviteError('Unsupported operator purpose.');
   if(!Number.isSafeInteger(now)||now<1)throw new OwnerInviteError('Invalid activation time.');
   if(attested!==true)throw new OwnerInviteError('Business owner authorization must be confirmed.');
   if(typeof password!=='string'||password.length<16||password.length>256)
@@ -61,6 +62,12 @@ export function activateOwnerInvite(db,{token,email,password,confirmed,attested,
     if(!entry||entry.email.toLowerCase()!==address||entry.used_at!==null||entry.expires_at<=now)
       throw new OwnerInviteError('Invalid or expired invitation.');
     const owner=createOwner(db,address,password);
+    if(purpose==='developer'){
+      db.prepare("INSERT INTO vps_staff_grants (user_id,email,purpose,active,enrolled_at) VALUES (?,?,'developer',1,?)")
+        .run(owner.id,address,new Date(now).toISOString());
+      db.prepare('INSERT INTO portal_audit(id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
+        .run(randomBytes(18).toString('base64url'),owner.id,'developer.enrolled',owner.id,new Date(now).toISOString());
+    }
     const updated=db.prepare('UPDATE vps_owner_invites SET used_at=? WHERE token_hash=? AND used_at IS NULL')
       .run(now,digest(token));
     if(updated.changes!==1)throw new OwnerInviteError('Invitation already used.');

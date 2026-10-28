@@ -34,7 +34,7 @@ async function sha(value: string): Promise<string> {
 function profile(row: Row): PortalProfile {
   const role=approvedRoles.includes(row.role as ApprovedRole)?row.role as ApprovedRole:null;
   const status=['pending','approved','suspended'].includes(str(row.status))?row.status as PortalProfile['status']:'suspended';
-  return {id:str(row.id),name:str(row.name),email:str(row.email),requestedRole:row.requested_role==='worker'?'worker':'client',role,status,createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
+  return {id:str(row.id),name:str(row.name),email:str(row.email),requestedRole:row.requested_role==='worker'?'worker':row.requested_role==='partner'?'partner':'client',role,status,createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
 }
 function requestView(row: Row,role: PortalRole): CleaningRequest {
   const result: CleaningRequest = {id:str(row.id),clientId:row.client_id as string|null,service:str(row.service),objectType:str(row.object_type),postcode:str(row.postcode),area:str(row.area),frequency:str(row.frequency),message:str(row.message),contactName:str(row.contact_name),address:str(row.address),status:row.status as RequestStatus,assignedWorkerId:row.assigned_worker_id as string|null,scheduledAt:row.scheduled_at as string|null,checklist:JSON.parse(str(row.checklist)||'[]') as ChecklistItem[],customerFeedback:str(row.customer_feedback),adminReply:str(row.admin_reply),createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
@@ -54,7 +54,9 @@ async function session(request: Request,env: WorkerEnv): Promise<PortalSession> 
   }
   const row=await dbFor(env).prepare('SELECT * FROM profiles WHERE id=?').bind(userId).first<Row>();
   const p=row?profile(row):null;
-  const owner=Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!);
+  const owner=(Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!)) ||
+    (Boolean(env.DELEGATED_OWNER_ID) && env.DELEGATED_OWNER_ID===userId &&
+      Boolean(env.DEVELOPER_EMAIL) && normalizeEmail(email)===normalizeEmail(env.DEVELOPER_EMAIL!));
   // An identity email change never transfers a previously approved profile.
   const identityChanged=Boolean(p && normalizeEmail(p.email)!==normalizeEmail(email));
   const corruptMembership=Boolean(row && (!['pending','approved','suspended'].includes(str(row.status)) || (row.role!==null&&!approvedRoles.includes(row.role as ApprovedRole)) || (row.status==='approved'&&!approvedRoles.includes(row.role as ApprovedRole))));
@@ -100,7 +102,7 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
   const user=signed(s), db=dbFor(env),body=await readBody(request);
   allowedKeys(body,['name','requestedRole','privacyAccepted']);privacy(body);
   const name=textField(body.name,'Name',80,true);
-  if(body.requestedRole!=='client'&&body.requestedRole!=='worker') fail(422,'validation','Bitte wählen Sie Kunde oder Mitarbeitende.');
+  if(!['client','worker','partner'].includes(String(body.requestedRole))) fail(422,'validation','Bitte wählen Sie Kunde, Partner oder Mitarbeitende.');
   if(s.profile) return response({profile:s.profile});
   await rateLimit(db,`register:${await sha(user.id)}`,10);
   const time=iso(),mutation=id();
@@ -114,7 +116,8 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
 async function dashboard(env: WorkerEnv,s: PortalSession) {
   signed(s);const db=dbFor(env);
   const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false};
-  if(['pending','suspended'].includes(s.role)) return response(data);
+  // Partner is a distinct approved identity without cross-client/ERP read permissions.
+  if(['pending','suspended','partner'].includes(s.role)) return response(data);
   requireRole(s,['client','worker','admin','owner']);
   const filters=s.role==='client'?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":'';
   const bind=filters?[s.user!.id]:[];
@@ -174,7 +177,9 @@ async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
   if(body.status==='approved'&&body.role===null)fail(422,'validation','Bitte wählen Sie eine Rolle.');
   const target=await db.prepare('SELECT * FROM profiles WHERE id=?').bind(targetId).first<Row>();
   if(!target)fail(404,'not_found','Der Datensatz wurde nicht gefunden.');
-  if(targetId===s.user!.id||normalizeEmail(str(target!.email))===normalizeEmail(env.OWNER_EMAIL||''))fail(403,'owner_protected','Die Eigentümerrolle kann hier nicht geändert werden.');
+  if(targetId===s.user!.id||normalizeEmail(str(target!.email))===normalizeEmail(env.OWNER_EMAIL||'')||
+    (Boolean(env.DEVELOPER_EMAIL)&&normalizeEmail(str(target!.email))===normalizeEmail(env.DEVELOPER_EMAIL!)))
+    fail(403,'owner_protected','Geschützte Verwaltungsidentitäten können hier nicht geändert werden.');
   const time=iso(),mutation=id();
   const results=await db.batch([
     db.prepare('UPDATE profiles SET role=?,status=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?').bind(body.role,body.status,time,mutation,targetId,version),

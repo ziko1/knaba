@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "0cd813cb8d604a9105dc6f0fa8f2c06e019e44d7284095a018c5d7b826ce51a9",
+  "sourceDigest": "07daffc6d380ace6152cd4fdcb2609b26c5a5342535955dfc266cbfa76a1bf5f",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -1538,6 +1538,13 @@
         "/impressum/"
       ]
     },
+    "29bda4466837fbdf31d6a682": {
+      "kind": "text",
+      "source": "Quelle: https://knaba.de/ratgeber/bauuebergabe-checkliste/",
+      "routes": [
+        "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
     "29fb7756b0033a88d2f989a5": {
       "kind": "text",
       "source": "Interesse an einer Mitarbeit?",
@@ -1782,13 +1789,6 @@
       "source": "Baustellenordnung, sortierte Materialreste und abgestimmte Beräumungsarbeiten; Entsorgung nur nach Vereinbarung.",
       "routes": [
         "/bauleistungen/baustellenraeumung/"
-      ]
-    },
-    "3048a8f5ea08cfcac27366bb": {
-      "kind": "text",
-      "source": "Quelle: https://kneba.vsp.rest/ratgeber/bauhelfer-einsatz-vorbereiten/",
-      "routes": [
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "304d084548d9fd800ee6c1fb": {
@@ -2055,6 +2055,13 @@
       "source": "Einsatzort, Dauer, Schnittstellen und benötigte Qualifikation schriftlich festhalten.",
       "routes": [
         "/bauleistungen/bauhilfe/"
+      ]
+    },
+    "38429ed63c2393d16488bfb0": {
+      "kind": "text",
+      "source": "Quelle: https://knaba.de/ratgeber/bauendreinigung-vorbereiten/",
+      "routes": [
+        "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
     "3845da763673de5e73b09672": {
@@ -3316,13 +3323,6 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
-    "5a3978bb5fad230ba527d47e": {
-      "kind": "text",
-      "source": "Quelle: https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
-      "routes": [
-        "/ratgeber/bauuebergabe-checkliste/"
-      ]
-    },
     "5a50772edc9e437a411ed0e5": {
       "kind": "text",
       "source": "Abnahmebereiche und Nachkontrollen gemeinsam festlegen.",
@@ -3517,13 +3517,6 @@
       "source": "Materialgerechte Feinreinigung vor Abnahme, Übergabe oder Nutzungsbeginn.",
       "routes": [
         "/bauleistungen/bauendreinigung/"
-      ]
-    },
-    "618ac2e177b2761260455674": {
-      "kind": "text",
-      "source": "Quelle: https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/",
-      "routes": [
-        "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
     "622851ef599b22b4a62cd59f": {
@@ -4034,6 +4027,14 @@
         "/ratgeber/"
       ]
     },
+    "6da59b9157674baef2b34a95": {
+      "kind": "text",
+      "source": "knaba.de",
+      "routes": [
+        "/datenschutz/",
+        "/impressum/"
+      ]
+    },
     "6df89c8cb2b94512f65f3e1e": {
       "kind": "text",
       "source": "Nicht ohne geeignete statische Prüfung und erforderliche Freigaben. Die Zuständigkeit des Tragwerksplaners und des qualifizierten Fachbetriebs ist vorab zu klären.",
@@ -4277,13 +4278,6 @@
       "source": "Zwischenreinigung von Staub und Oberflächen",
       "routes": [
         "/galerie/"
-      ]
-    },
-    "72a92b971b245d8a49bae701": {
-      "kind": "text",
-      "source": "Quelle: https://kneba.vsp.rest/ratgeber/baureinigung-phasen/",
-      "routes": [
-        "/ratgeber/baureinigung-phasen/"
       ]
     },
     "72ce11dbad6149596ffc0902": {
@@ -4672,6 +4666,13 @@
       "source": "Der Reinigungsplaner und noch nicht gesendete Anfrageentwürfe halten Eingaben im aktuellen Browserfenster. Diese Entwürfe werden nicht als personenbezogene Datensätze im Local Storage gespeichert. Ein Neuladen oder Schließen des Fensters kann den Entwurf verwerfen. Erst mit dem Absenden wird eine Anfrage serverseitig gespeichert.",
       "routes": [
         "/datenschutz/"
+      ]
+    },
+    "81faab27a04d4acea6a7be5d": {
+      "kind": "text",
+      "source": "Quelle: https://knaba.de/ratgeber/baureinigung-kosten-planen/",
+      "routes": [
+        "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
     "82781205c7471cb08212e574": {
@@ -6373,14 +6374,6 @@
         "/faq/"
       ]
     },
-    "ae5720270e392b007b471fef": {
-      "kind": "text",
-      "source": "kneba.vsp.rest",
-      "routes": [
-        "/datenschutz/",
-        "/impressum/"
-      ]
-    },
     "aee178fad194040eb8b23179": {
       "kind": "text",
       "source": "Aktuellen Leistungsumfang und gereinigte Bereiche bereithalten",
@@ -7697,6 +7690,13 @@
         "/planer/"
       ]
     },
+    "d72830485e47cb136d0344cb": {
+      "kind": "text",
+      "source": "Quelle: https://knaba.de/ratgeber/baureinigung-phasen/",
+      "routes": [
+        "/ratgeber/baureinigung-phasen/"
+      ]
+    },
     "d7a63f7090ffd32617605f67": {
       "kind": "text",
       "source": "Datenschutzhinweise",
@@ -7821,13 +7821,6 @@
         "/karriere/",
         "/ratgeber/",
         "/unternehmen/"
-      ]
-    },
-    "d9112fc9f07c47dddbac3f16": {
-      "kind": "text",
-      "source": "Quelle: https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
-      "routes": [
-        "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
     "d92238e470493bcfd8aa44d2": {
@@ -8609,6 +8602,13 @@
         "/ratgeber/bauhelfer-einsatz-vorbereiten/",
         "/ratgeber/baureinigung-kosten-planen/",
         "/ratgeber/bauuebergabe-checkliste/"
+      ]
+    },
+    "f481359e51a20ebc50c44cfc": {
+      "kind": "text",
+      "source": "Quelle: https://knaba.de/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "routes": [
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/"
       ]
     },
     "f48aeaa6f7b73b56010c93cd": {

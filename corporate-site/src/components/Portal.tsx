@@ -88,7 +88,7 @@ function PortalContent(props: {locale?: PortalLocale}) {
     const url = new URL(location.href); url.searchParams.set('lang', value);
     history.replaceState(history.state, '', url);
   }
-  const roleGuide = () => role() === 'owner' ? t().ownerGuide : role() === 'admin' ? t().adminGuide : role() === 'worker' ? t().workerGuide : t().clientGuide;
+  const roleGuide = () => role() === 'owner' ? t().ownerGuide : role() === 'admin' ? t().adminGuide : role() === 'worker' ? t().workerGuide : role() === 'partner' ? t().partnerGuide : t().clientGuide;
   return <div class="portal" lang={locale()}>
     <div class="portal-utility">
       <div class="portal-brand-label"><span class="portal-live-dot" />{t().portal}<Show when={session.data?.user}><span class="portal-verified">✓ {t().authenticated}</span></Show></div>
@@ -133,9 +133,9 @@ function PortalContent(props: {locale?: PortalLocale}) {
 
 function Registration(props: {session:PortalSession;locale:Accessor<PortalLocale>;t:Text;busy:Accessor<boolean>;submit:(body:unknown)=>Promise<boolean>}) {
   const [name,setName]=createSignal(props.session.user?.name ?? '');
-  const [role,setRole]=createSignal<'client'|'worker'>('client');
+  const [role,setRole]=createSignal<'client'|'worker'|'partner'>('client');
   const [accepted,setAccepted]=createSignal(false);
-  return <form class="portal-form portal-registration" onSubmit={event=>{event.preventDefault();void props.submit({name:name().trim(),requestedRole:role(),privacyAccepted:accepted()});}}><span class="portal-kicker">KnaBa · {props.t().profileCaption}</span><h2>{props.t().registerTitle}</h2><p>{props.t().registerText}</p><fieldset disabled={props.busy()}><label>{props.t().name}<input autocomplete="name" required minLength={2} maxLength={80} value={name()} onInput={e=>setName(e.currentTarget.value)}/></label><label>{props.t().email}<input type="email" value={props.session.user?.email} readOnly/></label><label>{props.t().accessFor}<select value={role()} onChange={e=>setRole(e.currentTarget.value as 'client'|'worker')}><option value="client">{props.t().customer}</option><option value="worker">{props.t().employee}</option></select></label><label class="portal-checkbox"><input type="checkbox" required checked={accepted()} onChange={e=>setAccepted(e.currentTarget.checked)}/><span>{props.t().privacy} <a href={portalPublicPath('/datenschutz/',props.locale())} target="_blank" rel="noopener">{props.t().privacyLink} ↗</a></span></label><button type="submit" class="button button-dark">{props.busy()?props.t().saving:props.t().register} →</button></fieldset></form>;
+  return <form class="portal-form portal-registration" onSubmit={event=>{event.preventDefault();void props.submit({name:name().trim(),requestedRole:role(),privacyAccepted:accepted()});}}><span class="portal-kicker">KnaBa · {props.t().profileCaption}</span><h2>{props.t().registerTitle}</h2><p>{props.t().registerText}</p><fieldset disabled={props.busy()}><label>{props.t().name}<input autocomplete="name" required minLength={2} maxLength={80} value={name()} onInput={e=>setName(e.currentTarget.value)}/></label><label>{props.t().email}<input type="email" value={props.session.user?.email} readOnly/></label><label>{props.t().accessFor}<select value={role()} onChange={e=>setRole(e.currentTarget.value as 'client'|'worker'|'partner')}><option value="client">{props.t().customer}</option><option value="worker">{props.t().employee}</option><option value="partner">{props.t().partner}</option></select></label><label class="portal-checkbox"><input type="checkbox" required checked={accepted()} onChange={e=>setAccepted(e.currentTarget.checked)}/><span>{props.t().privacy} <a href={portalPublicPath('/datenschutz/',props.locale())} target="_blank" rel="noopener">{props.t().privacyLink} ↗</a></span></label><button type="submit" class="button button-dark">{props.busy()?props.t().saving:props.t().register} →</button></fieldset></form>;
 }
 function RequestForm(props:{locale:Accessor<PortalLocale>;t:Text;busy:Accessor<boolean>;submit:(body:CleaningRequestInput)=>Promise<boolean>}) {
   let form!:HTMLFormElement;

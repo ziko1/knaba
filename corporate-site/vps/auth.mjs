@@ -50,7 +50,13 @@ export function createLogin(db,{email,password,clientKey}){
   if(!state)return null;
   const row=db.prepare('SELECT id,email,salt,password_hash,disabled FROM vps_users WHERE email=?').get(address);
   if(!row || row.disabled || !validPassword(row,password))return null;
-  const token=randomBytes(32).toString('base64url');
+  return createSessionForUser(db,row.id);
+}
+/** Only the server may mint a session for an already-verified user ID. */
+export function createSessionForUser(db,userId){
+  const row=db.prepare('SELECT id,email,disabled FROM vps_users WHERE id=?').get(userId);
+  if(!row||row.disabled)throw Error('Inactive account');
+  const token=randomBytes(32).toString('base64url'),now=Math.floor(Date.now()/1000);
   db.prepare('INSERT INTO vps_sessions(token_hash,user_id,created_at,expires_at) VALUES (?,?,?,?)')
     .run(hash(token),row.id,now,now+maxAgeSeconds);
   return {token,user:{id:row.id,email:row.email}};

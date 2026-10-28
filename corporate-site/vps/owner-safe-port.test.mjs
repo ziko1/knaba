@@ -18,7 +18,7 @@ async function fixture(work) {
   try {
     const { db, migrations } = openLocalDatabase(path);
     try {
-      assert.equal(migrations.length, 9);
+      assert.equal(migrations.length, 10);
       assert.equal(migrations[5], '0005_public_reviews.sql');
       assert.equal(migrations[6], '0006_owner_invite.sql');
       assert.equal(migrations[7], '0007_account_invites.sql');
@@ -82,7 +82,7 @@ test('invitation CLI fails closed and stores the bearer URL only in a private 06
     const run = (origin,owner=ownerEmail) => spawnSync(process.execPath,
       [new URL('./manage.mjs',import.meta.url).pathname,'invite-owner'],
       {encoding:'utf8',timeout:15000,env:{...process.env,KNABA_DB_PATH:path,OWNER_EMAIL:owner,KNABA_PUBLIC_ORIGIN:origin}});
-    assert.notEqual(run('https://other.example').status,0);
+    assert.notEqual(run('http://other.example').status,0);
     assert.equal(statSync(path).isFile(),true);
     const valid = run('https://kneba.vsp.rest');
     assert.equal(valid.status,0,valid.stderr);
