@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {androidDistributionUrl,iosDistributionUrl,erpConsoleUrl} from './mobile-distribution';
+import {androidDistributionUrl,iosDistributionUrl,erpConsoleUrl} from '../src/lib/mobile-distribution';
 describe('mobile distribution is gated by explicit safe release endpoints',()=>{
  it('does not invent download endpoints',()=>{
   expect(androidDistributionUrl(undefined)).toBeNull();
