@@ -162,7 +162,7 @@ const jsGzip = assets
   .reduce((n, a) => n + a.gzip, 0);
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,130,'130 source-built pages: 122 retained pages plus four partner directories and four Bauhelfer guides');
+assert.equal(pages.length,134,'134 source-built pages: 130 existing public/private pages plus four localized KNABA Mobile entry pages');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
