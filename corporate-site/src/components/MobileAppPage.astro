@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {androidDistributionUrl, iosDistributionUrl, erpConsoleUrl} from '../lib/mobile-distribution';
+type Locale = 'de'|'en'|'uk'|'ru';
+interface Props { lang: Locale }
+const {lang} = Astro.props;
+const words = {
+  de: {title:'KnaBa auf Android & iPhone',subtitle:'Alle Zugänge an einem Ort',intro:'Anfragen stellen, Einsätze sehen und mit KnaBa zusammenarbeiten. Nach der Anmeldung bestimmt der Server Ihren freigegebenen Zugang.',open:'Mein KnaBa öffnen',order:'Service anfragen',contact:'Mit KnaBa sprechen',admin:'Verwaltung öffnen',erp:'ERP-Arbeitsbereich',roles:'Ein Zugang – passende Ansicht',client:'Kundinnen & Kunden',clientText:'Anfragen einreichen und den Bearbeitungsstand verfolgen.',worker:'Mitarbeitende',workerText:'Zugewiesene Einsätze und Arbeitsabläufe ansehen. Arbeitszeit/GPS nur nach gesonderter Freigabe.',partner:'Geschäftspartner',partnerText:'Eigenes Partnerprofil und Kontakt zu KnaBa, ohne Zugriff auf fremde Kundendaten.',manager:'Inhaber & Verwaltung',managerText:'Anfragen bearbeiten, Mitarbeitende zuweisen und berechtigte Bereiche verwalten.',install:'Auf dem Startbildschirm installieren',android:'Android',ios:'iPhone / iPad',available:'Geprüfte App öffnen',pending:'Signierter Download noch nicht freigegeben.',iosHint:'Auf iOS: Safari → Teilen → Zum Home-Bildschirm. TestFlight/App Store erst nach Freigabe.',note:'Die mobile Web-App benötigt für geschützte Funktionen Internet. Die nativen Zeit-/GPS-Funktionen sind separate, freizugebende Builds.',privacy:'Keine öffentliche Registrierung verschafft Administratorrechte. Freigaben und Rollen bleiben serverseitig.',server:'ERP-Zugang erscheint erst nach Konfiguration eines geprüften HTTPS-Servers.'},
+  en: {title:'KnaBa on Android & iPhone',subtitle:'Your work in one place',intro:'Request services, view assignments and work with KnaBa. Your approved role is selected by the server after sign-in.',open:'Open My KnaBa',order:'Request a service',contact:'Contact KnaBa',admin:'Open management',erp:'ERP workspace',roles:'One sign-in, the right view',client:'Customers',clientText:'Request services and follow updates.',worker:'Workers',workerText:'See assigned work. Time and location need separate, explicit authorization.',partner:'Company partners',partnerText:'Your own partner area, without access to other customers.',manager:'Owner & management',managerText:'Review requests, assign workers and manage permitted settings.',install:'Install to home screen',android:'Android',ios:'iPhone / iPad',available:'Open verified release',pending:'A signed download has not yet been approved.',iosHint:'On iOS: Safari → Share → Add to Home Screen. TestFlight/App Store requires approval.',note:'The mobile web app needs internet for private operations. Native time/GPS features are separate approved builds.',privacy:'Public registration cannot grant administrator rights. Roles are enforced by the server.',server:'ERP access appears after a verified HTTPS server is configured.'},
+  uk: {title:'KnaBa для Android та iPhone',subtitle:'Уся робота в одному місці',intro:'Замовляйте послуги, переглядайте призначення та співпрацюйте з KnaBa. Після входу сервер автоматично визначає підтверджену роль.',open:'Відкрити мій KnaBa',order:'Замовити послугу',contact:'Зв’язатися з KnaBa',admin:'Панель керування',erp:'Робоча ERP-система',roles:'Один вхід — відповідний кабінет',client:'Клієнти',clientText:'Створення заявок та відстеження їхнього стану.',worker:'Працівники',workerText:'Призначені роботи. Облік часу й GPS — лише після окремого дозволу.',partner:'Партнери компанії',partnerText:'Власний кабінет партнера без доступу до чужих клієнтських даних.',manager:'Власник і керівники',managerText:'Обробка заявок, призначення працівників та дозволені налаштування.',install:'Встановити на головний екран',android:'Android',ios:'iPhone / iPad',available:'Відкрити перевірений реліз',pending:'Підписаний файл ще не дозволено до завантаження.',iosHint:'На iOS: Safari → Поділитися → На початковий екран. TestFlight/App Store — після підтвердження.',note:'Для захищених функцій вебзастосунку потрібен інтернет. Нативні функції часу/GPS постачаються окремо.',privacy:'Публічна реєстрація не дає прав адміністратора. Ролі перевіряються сервером.',server:'ERP стане доступною після налаштування перевіреного HTTPS-сервера.'},
+  ru: {title:'KnaBa для Android и iPhone',subtitle:'Ваша работа в одном месте',intro:'Заказывайте услуги, просматривайте назначения и работайте с KnaBa. После входа сервер выбирает подтверждённую роль.',open:'Открыть мой KnaBa',order:'Заказать услугу',contact:'Связаться с KnaBa',admin:'Панель управления',erp:'Рабочая ERP-система',roles:'Один вход — нужный кабинет',client:'Клиенты',clientText:'Создание заявок и отслеживание их состояния.',worker:'Сотрудники',workerText:'Назначенные задания. Учёт времени и GPS — только с отдельным разрешением.',partner:'Партнёры компании',partnerText:'Свой кабинет партнёра без чужих клиентских данных.',manager:'Владелец и управление',managerText:'Обработка заявок, назначение работников и разрешённые настройки.',install:'Установить на главный экран',android:'Android',ios:'iPhone / iPad',available:'Открыть проверенный релиз',pending:'Подписанный файл ещё не разрешён для скачивания.',iosHint:'На iOS: Safari → Поделиться → На экран «Домой». TestFlight/App Store — после подтверждения.',note:'Для защищённых функций веб-приложения нужен интернет. Нативные функции времени/GPS выпускаются отдельно.',privacy:'Публичная регистрация не даёт прав администратора. Роли проверяет сервер.',server:'ERP станет доступной после настройки проверенного HTTPS-сервера.'}
+}[lang];
+const prefix = lang==='de'?'':'/'+lang;
+const android = androidDistributionUrl(import.meta.env.KNABA_ANDROID_APK_URL, import.meta.env.KNABA_MOBILE_DISTRIBUTION_HOST);
+const ios = iosDistributionUrl(import.meta.env.KNABA_IOS_INSTALL_URL);
+const erp = erpConsoleUrl(import.meta.env.KNABA_ERP_PUBLIC_ORIGIN);
+---
+<Layout lang={lang} title={words.title} description={words.intro} noindex={true} mobileApp={true}>
+  <section class="container knaba-app-page" aria-label={words.title}>
+    <div class="knaba-app-hero">
+      <p class="eyebrow">KNABA DE · MOBILE</p>
+      <h1>{words.title}</h1>
+      <h2>{words.subtitle}</h2>
+      <p>{words.intro}</p>
+      <div class="knaba-app-actions">
+        <a data-knaba-app-account class="button button-dark" href="/konto/">{words.open} ↗</a>
+        <a class="button knaba-app-secondary" href={prefix+'/planer/'}>{words.order}</a>
+        <a class="knaba-app-textlink" href={prefix+'/kontakt/'}>{words.contact} ↗</a>
+      </div>
+    </div>
+    <div class="knaba-app-panel" aria-label={words.roles}>
+      <h2>{words.roles}</h2>
+      <div class="knaba-role-grid">
+        <article><span aria-hidden="true">01</span><h3>{words.client}</h3><p>{words.clientText}</p></article>
+        <article><span aria-hidden="true">02</span><h3>{words.worker}</h3><p>{words.workerText}</p></article>
+        <article><span aria-hidden="true">03</span><h3>{words.partner}</h3><p>{words.partnerText}</p></article>
+        <article><span aria-hidden="true">04</span><h3>{words.manager}</h3><p>{words.managerText}</p></article>
+      </div>
+      <div class="knaba-app-actions">
+        <a href="/admin/" class="knaba-app-textlink">{words.admin} ↗</a>
+        {erp && <a href={erp} class="knaba-app-textlink" rel="noopener noreferrer" target="_blank">{words.erp} ↗</a>}
+      </div>
+      {!erp && <p class="knaba-app-small">{words.server}</p>}
+    </div>
+    <div class="knaba-downloads">
+      <article class="knaba-download-card"><div class="knaba-platform-icon" aria-hidden="true">A</div><h2>{words.android}</h2>
+        {android ? <a href={android} rel="noopener noreferrer" class="button button-dark">{words.available} ↗</a> : <p>{words.pending}</p>}
+      </article>
+      <article class="knaba-download-card"><div class="knaba-platform-icon" aria-hidden="true">iOS</div><h2>{words.ios}</h2>
+        {ios ? <a href={ios} target="_blank" rel="noopener noreferrer" class="button button-dark">{words.available} ↗</a> : <p>{words.pending}</p>}
+        <p class="knaba-app-small">{words.iosHint}</p>
+      </article>
+      <article class="knaba-download-card knaba-install-card"><div class="knaba-platform-icon" aria-hidden="true">↗</div>
+        <h2>KNABA Web App</h2><button type="button" data-knaba-install hidden class="button button-dark">{words.install}</button>
+        <p class="knaba-app-small">{words.note}</p>
+      </article>
+    </div>
+    <p class="knaba-app-policy">{words.privacy}</p>
+  </section>
+</Layout>
+<style is:inline>
+.knaba-app-page{padding-block:clamp(2rem,6vw,5rem) 5rem}.knaba-app-hero{background:linear-gradient(125deg,#112e32,#235f51 85%);border-radius:clamp(1rem,3vw,2.2rem);padding:clamp(1.5rem,5vw,4rem);color:#fff;position:relative;overflow:hidden}.knaba-app-hero:before{content:"";position:absolute;right:-5%;top:-35%;height:22rem;width:22rem;border:1px solid #ffffff32;border-radius:50%;pointer-events:none}.knaba-app-hero>*{position:relative}.knaba-app-hero .eyebrow{color:#c8e9dc;letter-spacing:.13em}.knaba-app-hero h1{max-width:52rem;font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.07;margin:.8rem 0}.knaba-app-hero h2{font-size:clamp(1.2rem,2.4vw,1.6rem);color:#c9e8d8;margin:0}.knaba-app-hero p{max-width:45rem;color:#ebf7f1;line-height:1.7;margin-block:1.3rem 1.8rem}.knaba-app-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.knaba-app-secondary{border:1px solid #ffffff87;background:#ffffff12;color:#fff}.knaba-app-textlink{color:inherit;text-underline-offset:.3em;font-weight:600}.knaba-app-panel{padding:2rem 0}.knaba-app-panel h2{font-size:clamp(1.3rem,3vw,2rem)}.knaba-role-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin:1.4rem 0}.knaba-role-grid article,.knaba-download-card{border:1px solid #d9e6de;border-radius:1.2rem;background:#fff;padding:1.35rem;min-width:0;box-shadow:0 12px 34px #132e3010}.knaba-role-grid article span{font-size:.8rem;color:#3a7764;font-weight:800}.knaba-role-grid article h3{margin:.6rem 0;font-size:1.05rem}.knaba-role-grid article p,.knaba-download-card p{line-height:1.5;color:#455b56;font-size:.92rem}.knaba-app-small{font-size:.85rem!important;color:#60736c!important}.knaba-downloads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.knaba-download-card{display:flex;flex-direction:column;align-items:flex-start;gap:.7rem}.knaba-download-card h2{font-size:1.2rem;margin:0}.knaba-platform-icon{display:grid;place-items:center;min-width:3rem;height:3rem;border-radius:.8rem;color:#fff;background:#214f45;font-weight:800}.knaba-download-card .button{margin-top:auto}.knaba-install-card{background:#f0f7f2}.knaba-app-policy{margin-top:1.5rem;border-left:3px solid #2f775d;padding:.8rem 1rem;color:#536b63;background:#f1f7f4}.knaba-app-page [hidden]{display:none!important}.knaba-app-page a:focus-visible,.knaba-app-page button:focus-visible{outline:3px solid #ffb94c;outline-offset:3px}
+@media(max-width:860px){.knaba-role-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.knaba-downloads{grid-template-columns:1fr 1fr}.knaba-install-card{grid-column:1/-1}}
+@media(max-width:580px){.knaba-role-grid,.knaba-downloads{grid-template-columns:1fr}.knaba-app-actions{align-items:stretch;flex-direction:column}.knaba-app-actions .button{justify-content:center;text-align:center}.knaba-app-hero:before{display:none}.knaba-app-hero{padding:1.6rem}.knaba-install-card{grid-column:auto}}
+@media(prefers-reduced-motion:reduce){.knaba-app-hero *{scroll-behavior:auto}}
+</style>
+<script>
+  function setupMobileApp(){
+    const account = document.querySelector<HTMLAnchorElement>('[data-knaba-app-account]');
+    if(account && account.dataset.bound !== 'yes'){
+      account.dataset.bound='yes';
+      account.addEventListener('click',async event=>{
+        event.preventDefault();
+        account.setAttribute('aria-busy','true');
+        try{
+          const response = await fetch('/api/portal/session',{credentials:'same-origin',cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(8000)});
+          const role = response.ok ? (await response.json() as {role?:string}).role : '';
+          location.assign(role==='owner'||role==='admin' ? '/admin/' : '/konto/');
+        }catch{location.assign('/konto/');}
+      });
+    }
+    const install = document.querySelector<HTMLButtonElement>('[data-knaba-install]');
+    if(install && install.dataset.bound !== 'yes'){
+      install.dataset.bound = 'yes';
+      window.addEventListener('beforeinstallprompt',event=>{
+        event.preventDefault();
+        const prompt = event as Event & {prompt:()=>Promise<void>};
+        install.hidden = false;
+        install.addEventListener('click',()=>{void prompt.prompt().finally(()=>{install.hidden=true;});},{once:true});
+      },{once:true});
+      if('serviceWorker' in navigator)void navigator.serviceWorker.register('/mobile-sw.js',{scope:'/'}).catch(()=>{});
+    }
+  }
+  setupMobileApp();
+  document.addEventListener('astro:page-load',setupMobileApp);
+</script>
