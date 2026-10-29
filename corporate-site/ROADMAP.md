@@ -366,3 +366,14 @@ Removed implicit deletion of expired access requests during a new submission. Ex
 ## 28.10.2026 — migration URL correction and isolated production SEO
 
 Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixture reproduced /ber 303 to an absent page. Added exact 308 company/career and observed canonical trailing-slash mappings for GET/HEAD; unknown URLs remain 404 and POST is rejected. Full relevant VPS suite 90/90 and root suite 25/25 PASS. Production HTML/SEO verified in an isolated official build: 130 HTML, 104 indexable including legal pages, 100 sitemap entries; no indexing submission or production deployment. Six domain literals require the official source catalogue to be extracted before verify; staging catalogue restored afterward. Detailed evidence is in docs/evidence/staging-release-20261028. Final runtime deployment and authenticated cloud acceptance are still required.
+
+## KN-CUSTOMER-ENV-20261028 — production/testing and account ownership
+
+- [x] SOURCE_QA: additive environment controller, immutable full-runtime attestation, independent DB/users/config/network, safe online backup, manual exact-artifact production promotion with both user/customer confirmations.
+- [x] SOURCE_QA: Access JWT testing gateway, fail-closed unconfigured state, noindex/private headers, preserve existing app auth. Python12 + gateway14 + root28 tests PASS; meaningful local security review findings corrected.
+- [ ] BLOCKED_EXTERNAL: restore active control of physical `knaba`; Free SentinelX slot is occupied by personal VPS. Do not disconnect or change unrelated projects to circumvent the limit.
+- [ ] BLOCKED_EXTERNAL: customer Cloudflare membership/accountID, customer GitHub owner/org, owner/developer/tester identities and customer-owned provider credentials. Current connector exposes developer account only.
+- [ ] PENDING: re-attest restored runtime/source, install isolated environments, genuine Docker/systemd restart, owner/developer browser workflows, private testing Access allow/deny and same-host restore. Source tests are not this acceptance.
+- [ ] PENDING_USER_DOMAIN_STEP: build/verify correct `knaba.de` metadata and future `testing.knaba.de` build origin; customer zone NS, complete DNS/mail export, DNSSEC coordination, then user-directed cutover. Never reuse developer-zone NS as if customer-owned.
+- [ ] PENDING: customer repository migration with preserved branch/history/PR evidence, narrowly delegated test development, off-site customer backup and revocation/recovery procedures.
+- [ ] CONTINUING RULE: future production deployment only after explicit user instruction plus customer approval tied to the exact artifact. No push-to-production automation.
