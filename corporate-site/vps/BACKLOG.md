@@ -111,3 +111,12 @@
 - [ ] Trusted-proxy IP/rate-limit contract, OG raster, owner/delivery/device/legal/offsite/field-performance acceptance remain OPEN. See ../docs/KNABA_CONTENT_CONTINUATION_2026-10-26_UK.md for final receipt.
 
 - Final forward candidate supersedes preparation counts: concurrent live56adc59 preserved (partner profiles + disclosed fictional review examples); no old-source cutover. Independent review PASS;252Vitest+68native+41VPS=361tests,130HTML,100Studio,28DEroutes/1001units. Client0e769665a337c4f83f2be87b460e2753bdea4ad86d3d8699bc37b782a81def73; CSS40949B/JS194007B gzip. Both locks and new56adc59CAS required. PR93; wider PR92 proxy/auth/migration work remains separate.
+
+## 28.10.2026 customer-owned physical host continuation
+
+- SOURCE_QA: `customer-environments/` provides prepared split deployment and private Access gateway; Python12/gateway14/root28 tests PASS. Not installed because physical host control became inactive under the one-active-host plan.
+- P0: reactivate authorized `knaba` management without changing personal VPS/project ownership; verify restored source/DB/artifact before bootstrap.
+- P0: connect customer Cloudflare account and GitHub destination. Keep customer production/testing resources, identities and provider keys outside personal accounts; no actual transfer yet.
+- P0: install, run genuine container/restart/backup/readiness and authenticated browser acceptance; distinguish a healthy process from a fully working owner/account/provider system.
+- P0: preserve original restored instance; verify official and testing build origins before later domain activation, keep full email DNS/DNSSEC procedure. Domain connection intentionally deferred by user.
+- Permanent release rule: testing can evolve independently; production requires user instruction and customer approval for each exact artifact. Root receipt records operator attestation, not a fabricated customer signature.

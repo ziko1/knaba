@@ -1,0 +1,13 @@
+{
+  "environment": "production",
+  "hostname": "knaba.de",
+  "artifact_sha256": "REPLACE_WITH_FULL_RUNTIME_MANIFEST_SHA256",
+  "expected_current_artifact": "REPLACE_WITH_CURRENT_PRODUCTION_ARTIFACT",
+  "configuration_sha256": "REPLACE_WITH_CONFIGURATION_DIGEST_FROM_STATUS",
+  "user_approved": false,
+  "customer_approved": false,
+  "user_approval_reference": "NOT_PROVIDED",
+  "customer_approval_reference": "NOT_PROVIDED",
+  "issued_at": "NOT_PROVIDED",
+  "expires_at": "NOT_PROVIDED"
+}
