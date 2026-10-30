@@ -487,3 +487,17 @@ Bounded integration on existing PR #114. Local tested runtime `eae6669c136490b1a
 - [ ] PENDING_USER_DOMAIN_STEP: build/verify correct `knaba.de` metadata and future `testing.knaba.de` build origin; customer zone NS, complete DNS/mail export, DNSSEC coordination, then user-directed cutover. Never reuse developer-zone NS as if customer-owned.
 - [ ] PENDING: customer repository migration with preserved branch/history/PR evidence, narrowly delegated test development, off-site customer backup and revocation/recovery procedures.
 - [ ] CONTINUING RULE: future production deployment only after explicit user instruction plus customer approval tied to the exact artifact. No push-to-production automation.
+
+## Working-source publication and remaining gates — 2026-10-30
+
+- [x] Початковий exact source tree опубліковано в робочій GitHub-гілці; draft PR118 відкритий. Це не main merge чи deployment.
+- [x] Включено завершені SEO, ArticleStudio й async slices зі збереженням актуальних shared contracts; unfinished ERP bridges позначено окремо.
+- [x] Завершити site repeat на `a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc`:466 Vitest/86 Node/137 VPS,check/build 160 сторінок/verify PASS; зберегти actual receipts.
+- [x] Підтвердити незмінені caps: CSS 40 958< 40 960 B; all-emitted client JS 222 112< 225 280 B.
+- [x] Початковий remote tree і чистий зведений source checkpoint звірено; актуальний PR118 HEAD і source-lineage/root-validation receipts; не вбудовувати self-hash документа в сам документ.
+- [ ] Відновити actual browser acceptance у дозволеному sandbox. Нинішній probe BLOCKED_ENV; journeys/device/company acceptance не прийняті.
+- [ ] Зберігати окремі provider/full ERP bridge/customer UAT/production gates; source authorization їх не закриває.
+
+[Повний scoped checkpoint](../docs/unified/GITHUB_RECONCILIATION_2026-10-30_UK.md).
+
+Пізня звірка також включила точний пакет PR117 `ops/sitepanel/` (13 файлів, source `3a873771bc69947b0db9444d72fb6876e4bf355e`): 34 Python + 18 simulated DOM/CLI PASS. SQLite ResourceWarning зафіксовано; install/account-policy scripts не виконувалися, live host/browser acceptance окрема. Додавання пакета не змінило перевірені site/ERP inputs.

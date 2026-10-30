@@ -6,7 +6,7 @@ describe('KNABA Studio owner-only knowledge editor',()=>{
     const studio=source('components/SiteStudio.tsx');
     expect(studio).toContain("import ArticleStudio from './ArticleStudio'");
     expect(studio).toContain('<Show when={!checking()&&authorized()}>');
-    expect(studio).toContain('<ArticleStudio language={language()} onDirtyChange={setArticleDirty} />');
+    expect(studio).toContain('<ArticleStudio language={language()} words={props.localeState.pack!.article} onDirtyChange={setArticleDirty} />');
   });
   it('exposes draft, explicit publication, inline preview and localized SEO fields',()=>{
     const article=source('components/ArticleStudio.tsx');

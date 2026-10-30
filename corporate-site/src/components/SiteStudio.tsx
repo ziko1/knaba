@@ -4,8 +4,10 @@ import {studioPages} from '../lib/studio-pages';
 import ArticleStudio from './ArticleStudio';
 import '../styles/site-studio.css';
 import ReviewsModeration from './ReviewsModeration';
+import {studioLocaleStore} from '../lib/studio-locale-data';
+import {createStudioLocaleSelection,initialStudioLocaleState,isStudioLocale,type StudioLocale,type StudioLocaleState} from '../lib/studio-locale-store';
 
-type Language='de'|'en'|'uk'|'ru';
+type Language=StudioLocale;
 type Revision={id:string;version:number;action:string;createdAt:string};
 type PageResponse={page:string;version:number;draft:StudioEntry[];published:StudioEntry[];publishedVersion:number;history:Revision[];updatedAt:string};
 type Selected={selector:string;tag:string;kind:StudioKind;value:string;href?:string;alt?:string;rich?:boolean};
@@ -13,18 +15,6 @@ type ApiError={error?:{message:string;code:string}};
 const pages=studioPages;
 const paddingPresets=['0','8','16','24','32','48','64'] as const;
 const fontSizes=['12','14','16','18','20','24','28','32','40','48','56','64','72'] as const;
-const modes={
-  de:{visual:'Visuell',manual:'Manuell · JSON',section:'Abschnitt gestalten',apply:'Geprüfte Änderungen in Vorschau übernehmen',reset:'JSON zurücksetzen',manualHint:'Nur validiertes JSON mit selector, kind und value. Kein freies HTML, CSS oder JavaScript. Änderungen zuerst übernehmen, dann separat speichern/veröffentlichen.',unsent:'Nicht übernommene JSON-Änderungen zuerst prüfen.',background:'Hintergrund',padding:'Innenabstand',fontSize:'Schriftgröße',media:'Medienbibliothek',aiReady:'AI-Vorschläge bereit (Freigabe und Budget bestätigt)',aiLocked:'AI-Vorschläge gesperrt: Anbieter, aktuelle Quote und Ausgabenlimit prüfen'},
-  en:{visual:'Visual',manual:'Manual · JSON',section:'Style section',apply:'Validate and apply to preview',reset:'Reset JSON',manualHint:'Structured JSON with selector, kind and value only. Arbitrary HTML/CSS/JS is not accepted. Apply to preview, then save and publish separately.',unsent:'Apply or reset your manual changes before leaving.',background:'Background',padding:'Padding',fontSize:'Font size',media:'Media library',aiReady:'AI suggestions available (approval and budget checked)',aiLocked:'AI suggestions locked: verify provider, fresh quota and spending cap'},
-  uk:{visual:'Візуальний',manual:'Ручний · JSON',section:'Налаштувати секцію',apply:'Перевірити й застосувати у перегляді',reset:'Скинути JSON',manualHint:'Лише структурований JSON з selector, kind та value. Довільний HTML/CSS/JS заборонений. Спершу застосуйте, потім окремо збережіть і опублікуйте.',unsent:'Спочатку застосуйте або скиньте ручні зміни.',background:'Фон',padding:'Відступ',fontSize:'Розмір шрифту',media:'Бібліотека зображень',aiReady:'AI-підказки доступні після перевірки дозволу та бюджету',aiLocked:'AI-підказки заблоковані: перевірте провайдера, свіжу квоту й бюджет'},
-  ru:{visual:'Визуальный',manual:'Ручной · JSON',section:'Настроить секцию',apply:'Проверить и применить в предпросмотре',reset:'Сбросить JSON',manualHint:'Только структурированный JSON с selector, kind и value. Произвольный HTML/CSS/JS запрещен. Сначала примените, затем отдельно сохраните и опубликуйте.',unsent:'Сначала примените или сбросьте ручные изменения.',background:'Фон',padding:'Отступ',fontSize:'Размер шрифта',media:'Библиотека изображений',aiReady:'AI-подсказки доступны после проверки прав и бюджета',aiLocked:'AI-подсказки заблокированы: проверьте провайдера, квоту и бюджет'}
-} as const;
-const copy={
-  de:{studio:'Site Studio',owner:'Inhaber-Konsole',loading:'Zugang wird geprüft…',denied:'Nur der verifizierte Inhaber hat Zugriff. Bitte melden Sie sich im KnaBa Portal an.',portal:'Zum Portal',page:'Seite',open:'Öffnen',preview:'Live-Vorschau',edit:'Element anklicken',properties:'Eigenschaften',select:'Klicken Sie auf einen Text oder ein Bild in der Vorschau.',text:'Inhalt',kind:'Feld',save:'Entwurf speichern',publish:'Veröffentlichen',confirm:'Zum Veröffentlichen PUBLISH eingeben',unsaved:'Nicht gespeicherte Änderungen',published:'Öffentliche Version',draft:'Entwurf',versions:'Versionen',restore:'Als neuen Entwurf wiederherstellen',undo:'Rückgängig',redo:'Wiederholen',reset:'Feld zurücksetzen',seo:'SEO der Seite',title:'Seitentitel',description:'Meta-Beschreibung',ai:'AI-Textvorschlag',instruction:'Was soll verbessert werden?',suggest:'Vorschlag erzeugen',use:'Vorschlag übernehmen',aiNote:'Eine externe AI wird nur mit bestätigter Freigabe, Guthaben und Budget verwendet. Niemals automatisch veröffentlichen. Keine Kundendaten in Prompts.',empty:'Noch keine veröffentlichten Änderungen.',okDraft:'Entwurf gespeichert.',okPublish:'Version veröffentlicht.',okRestore:'Version als Entwurf wiederhergestellt.',mobile:'Mobil',desktop:'Desktop',color:'Textfarbe',status:'Status',nav:'Editor-Navigation',hint:'Nur die öffentliche Seite wird bearbeitet. Formulare, Preise, Rollen und Kundendaten bleiben geschützt.'},
-  ru:{studio:'Редактор сайта',owner:'Панель владельца',loading:'Проверка доступа…',denied:'Доступ только владельцу. Войдите в портал KnaBa.',portal:'В портал',page:'Страница',open:'Открыть',preview:'Просмотр',edit:'Нажмите элемент',properties:'Свойства',select:'Выберите текст или изображение на странице.',text:'Содержимое',kind:'Поле',save:'Сохранить черновик',publish:'Опубликовать',confirm:'Для публикации введите PUBLISH',unsaved:'Изменения не сохранены',published:'Публичная версия',draft:'Черновик',versions:'История',restore:'Восстановить в черновик',undo:'Отменить',redo:'Повторить',reset:'Сбросить поле',seo:'SEO страницы',title:'Заголовок',description:'Мета-описание',ai:'AI-предложение',instruction:'Как изменить текст?',suggest:'Создать вариант',use:'Использовать',aiNote:'AI доступен только при подтвержденных ключе, квоте и бюджете. Публикация всегда вручную. Без данных клиентов.',empty:'Нет опубликованных правок.',okDraft:'Черновик сохранён.',okPublish:'Версия опубликована.',okRestore:'Версия восстановлена в черновик.',mobile:'Телефон',desktop:'ПК',color:'Цвет текста',status:'Статус',nav:'Навигация',hint:'Редактируется только публичный контент. Формы, цены, роли и персональные данные защищены.'},
-  en:{studio:'Site Studio',owner:'Owner workspace',loading:'Checking access…',denied:'Verified owner only. Please sign in through the KnaBa portal.',portal:'Portal',page:'Page',open:'Open',preview:'Live preview',edit:'Select an element',properties:'Properties',select:'Click text or an image in the preview.',text:'Content',kind:'Field',save:'Save draft',publish:'Publish',confirm:'Type PUBLISH to confirm publication',unsaved:'Unsaved changes',published:'Published',draft:'Draft',versions:'History',restore:'Restore to draft',undo:'Undo',redo:'Redo',reset:'Reset field',seo:'Page SEO',title:'Page title',description:'Meta description',ai:'AI suggestion',instruction:'What should change?',suggest:'Generate suggestion',use:'Apply suggestion',aiNote:'External AI requires verified approval, credits and budget. Never autopublishes. Do not include customer data.',empty:'No published changes.',okDraft:'Draft saved.',okPublish:'Version published.',okRestore:'Revision restored to draft.',mobile:'Mobile',desktop:'Desktop',color:'Text color',status:'Status',nav:'Navigation',hint:'Public copy only. Forms, prices, roles and customer data are excluded.'},
-  uk:{studio:'Редактор сайту',owner:'Панель власника',loading:'Перевірка доступу…',denied:'Доступ лише підтвердженому власнику. Увійдіть через портал KNABA.',portal:'До порталу',page:'Сторінка',open:'Відкрити',preview:'Попередній перегляд',edit:'Оберіть елемент',properties:'Властивості',select:'Натисніть на текст або зображення в перегляді.',text:'Вміст',kind:'Поле',save:'Зберегти чернетку',publish:'Опублікувати',confirm:'Для публікації введіть PUBLISH',unsaved:'Є незбережені зміни',published:'Опубліковано',draft:'Чернетка',versions:'Історія',restore:'Відновити як чернетку',undo:'Скасувати',redo:'Повторити',reset:'Скинути поле',seo:'SEO сторінки',title:'Назва сторінки',description:'Метаопис',ai:'AI-підказка',instruction:'Що змінити?',suggest:'Запропонувати текст',use:'Застосувати',aiNote:'Зовнішній AI потребує підтверджених ключа, квоти й бюджету. Публікація вручну. Без даних клієнтів.',empty:'Публічних змін поки немає.',okDraft:'Чернетку збережено.',okPublish:'Опубліковано.',okRestore:'Версію відновлено в чернетку.',mobile:'Телефон',desktop:'ПК',color:'Колір тексту',status:'Стан',nav:'Навігація',hint:'Лише публічний текст. Форми, ціни, ролі та дані клієнтів захищені.'}
-};
 async function requestJson<T>(path:string,body?:Record<string,unknown>):Promise<T>{
   const response=await fetch(path,{
     method:body?'POST':'GET',credentials:'same-origin',cache:'no-store',
@@ -35,10 +25,36 @@ async function requestJson<T>(path:string,body?:Record<string,unknown>):Promise<
   if(!response.ok)throw new Error(payload.error?.message||'HTTP '+response.status);
   return payload;
 }
+const localeGate={
+  de:{loading:'Editor wird geladen…',error:'Die Sprache konnte nicht geladen werden. Ihre Änderungen bleiben erhalten.',retry:'Erneut versuchen',language:'Sprache'},
+  en:{loading:'Loading editor…',error:'The language could not be loaded. Your edits have been kept.',retry:'Try again',language:'Language'},
+  uk:{loading:'Завантажуємо редактор…',error:'Не вдалося завантажити мову. Ваші зміни збережено у формі.',retry:'Спробувати ще',language:'Мова'},
+  ru:{loading:'Загружаем редактор…',error:'Не удалось загрузить язык. Ваши изменения сохранены в форме.',retry:'Повторить',language:'Язык'}
+} as const;
 export default function SiteStudio(){
-  const [language,setLanguage]=createSignal<Language>('de');
-  const t=()=>copy[language()];
-  const mt=()=>modes[language()];
+  const [localeState,setLocaleState]=createSignal(initialStudioLocaleState);
+  const selection=createStudioLocaleSelection(studioLocaleStore,setLocaleState);
+  const gate=()=>localeGate[localeState().requested];
+  onMount(()=>{const preferred=navigator.language.slice(0,2);void selection.select(isStudioLocale(preferred)?preferred:'de');});
+  onCleanup(selection.dispose);
+  // This condition stays true while switching languages: the editor and its
+  // unsaved forms remain mounted until the surrounding workspace is closed.
+  return <Show when={Boolean(localeState().pack)} fallback={<div class="knaba-studio" lang={localeState().requested}>
+    <div class="studio-gate" role={localeState().failed?'alert':'status'}>
+      <p>{localeState().failed?gate().error:gate().loading}</p>
+      <label>{gate().language}<select value={localeState().requested} onChange={event=>void selection.select(event.currentTarget.value as Language)}>
+        <option value="de">DE</option><option value="en">EN</option><option value="uk">UK</option><option value="ru">RU</option>
+      </select></label>
+      <Show when={localeState().failed}><button type="button" class="studio-btn" onClick={()=>void selection.retry()}>{gate().retry}</button></Show>
+    </div>
+  </div>}>
+    <SiteStudioEditor localeState={localeState()} selectLanguage={selection.select} retryLanguage={selection.retry}/>
+  </Show>;
+}
+function SiteStudioEditor(props:{localeState:StudioLocaleState;selectLanguage:(locale:Language)=>Promise<boolean>;retryLanguage:()=>Promise<boolean>}){
+  const language=()=>props.localeState.locale!;
+  const t=()=>props.localeState.pack!.studio;
+  const mt=()=>props.localeState.pack!.modes;
   const [authorized,setAuthorized]=createSignal(false);
   const [checking,setChecking]=createSignal(true);
   const [page,setPage]=createSignal('/');
@@ -200,8 +216,6 @@ export default function SiteStudio(){
     setKind(data.kind);setSuggestion('');setInstruction('');
   }
   onMount(()=>{
-    const preferred=navigator.language.slice(0,2) as Language;
-    if(preferred in copy)setLanguage(preferred);
     window.addEventListener('message',onFrameMessage);
     void requestJson<{role:string}>('/api/portal/session').then(async result=>{
       if(result.role==='owner'){
@@ -238,12 +252,14 @@ export default function SiteStudio(){
   return <div class="knaba-studio" lang={language()}>
     <header class="studio-top">
       <div class="studio-brand"><span class="studio-mark" aria-hidden="true">✳</span><div><strong>KNABA</strong><span>{t().studio} · {t().owner}</span></div></div>
-      <div class="studio-top-actions"><label class="studio-small-label" for="studio-language">Language</label><select id="studio-language" value={language()} onChange={event=>setLanguage(event.currentTarget.value as Language)}><option value="de">DE</option><option value="ru">RU</option><option value="en">EN</option><option value="uk">UK</option></select><a href="/crm/">CRM ↗</a><a href="/postfach/">✉</a><a href="/konto/">{t().portal} ↗</a></div>
+      <div class="studio-top-actions"><label class="studio-small-label" for="studio-language">Language</label><select id="studio-language" value={language()} disabled={props.localeState.loading} onChange={event=>{const next=event.currentTarget.value as Language;event.currentTarget.value=language();void props.selectLanguage(next);}}><option value="de">DE</option><option value="ru">RU</option><option value="en">EN</option><option value="uk">UK</option></select><a href="/crm/">CRM ↗</a><a href="/postfach/">✉</a><a href="/konto/">{t().portal} ↗</a></div>
     </header>
+    <Show when={props.localeState.loading}><p class="studio-muted" role="status">{localeGate[props.localeState.requested].loading}</p></Show>
+    <Show when={props.localeState.failed}><p class="studio-message studio-error" role="alert">{localeGate[props.localeState.requested].error} <button type="button" class="studio-btn" onClick={()=>void props.retryLanguage()}>{localeGate[props.localeState.requested].retry}</button></p></Show>
     <Show when={checking()}><div class="studio-gate" role="status">{t().loading}</div></Show>
     <Show when={!checking()&&!authorized()}><div class="studio-gate" role="alert"><h2>{t().denied}</h2><a class="button button-dark" href="/konto/">{t().portal} ↗</a></div></Show>
     <Show when={!checking()&&authorized()}>
-      <ArticleStudio language={language()} onDirtyChange={setArticleDirty} />
+      <ArticleStudio language={language()} words={props.localeState.pack!.article} onDirtyChange={setArticleDirty} />
       <div class="studio-toolbar" aria-label={t().nav}>
         <label>{t().page}<select value={pages.find(p=>p.path===pathInput())?.path||'custom'} onChange={event=>{if(event.currentTarget.value!=='custom')setPathInput(event.currentTarget.value);}}><For each={pages}>{option=><option value={option.path}>{option.title}</option>}</For><option value="custom">Eigener Pfad</option></select></label>
         <label class="studio-path-label"><span class="sr-only">Pfad</span><input aria-label="Pfad" value={pathInput()} onInput={event=>setPathInput(event.currentTarget.value)} spellcheck={false} /></label>
@@ -360,7 +376,7 @@ export default function SiteStudio(){
           </div>
         </aside>
       </div>
-      <ReviewsModeration locale={language()} />
+      <ReviewsModeration locale={language()} words={props.localeState.pack!.reviews} />
     </Show>
   </div>;
 }

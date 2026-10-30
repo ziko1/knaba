@@ -72,3 +72,21 @@ Source-based tested owner invitation revoke, own secret rotation, aggregate TCP-
 Наступні справжні задачі: structural Studio composer, controlled media upload/storage/rights/rollback,95 reviewed locales; D1→ERP Postgres scoped bridge і domain reconciliation; owner/role/Studio та physical-device UAT; реальний CAPTCHA/proxy two-client/backup-restore acceptance; provider/merchant/legal/media approvals; native signed app distribution/ERP SSO; production/handover за окремим дозволом. Окремий VSP private TEST v1 має14 HTTPS PASS, але browser owner gate не є product visual acceptance чи доказом KnaBa integration.
 
 Докази: `corporate-site/docs/evidence/requirements-followup-20261028/` і актуальна corporate requirements matrix. Закрито дозволену тестову публікацію вебсайта; решта названих gates не підміняється цим результатом.
+
+## Source reconciliation checkpoint — 2026-10-30
+
+Це уточнення source/QA scope, без масового закриття G4–G10 або whole-product acceptance.
+
+| Напрям | Поточний стан |
+|---|---|
+| Зведення завершених джерел | Робоча гілка і draft PR118; exact initial tree перевірений. Original local25 не заявляються як remote ancestry. |
+| ERP scoped QA | PASS: 2510/2510, 300 suites, typecheck/build; ERP tree `38c5257cfdd9495ece494e32ef26f714e6dd4dd1`. Native CPU 9 включені. |
+| Final site runtime a193ffd4 | PASS:466 Vitest/86 Node/137 VPS, check/build 160 сторінок/verify; CSS 40 958 B і all-emitted JS 222 112 B нижче незмінених strict caps. |
+| Browser journeys | BLOCKED_ENV через відсутність usable sandbox; actual journeys NOT_RUN. |
+| Site↔ERP bridge, provider/company/native-device acceptance | Залишаються відкритими у своїх початкових межах. |
+| Source identity / передача | Актуальний HEAD у PR118; exact readback і root clean verification — у source-lineage/root-validation receipts. |
+| Main/production/live changes | Окремі gates; source publication не є їхнім дозволом. |
+
+[Повний звіт звірки](GITHUB_RECONCILIATION_2026-10-30_UK.md).
+
+Пізня звірка також включила точний пакет PR117 `ops/sitepanel/` (13 файлів, source `3a873771bc69947b0db9444d72fb6876e4bf355e`): 34 Python + 18 simulated DOM/CLI PASS. SQLite ResourceWarning зафіксовано; install/account-policy scripts не виконувалися, live host/browser acceptance окрема. Додавання пакета не змінило перевірені site/ERP inputs.

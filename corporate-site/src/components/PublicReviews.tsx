@@ -1,10 +1,10 @@
 import {createSignal, For, onCleanup, onMount, Show} from 'solid-js';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
-import {reviewDate, reviewsCopy, type PublicReview, type ReviewLocale} from '../data/reviews';
+import {reviewDate, type reviewsCopy, type PublicReview, type ReviewLocale} from '../data/reviews';
 import {createRequestId} from '../lib/request-id';
 
-export default function PublicReviews(props: {locale: ReviewLocale}) {
-  const t=()=>reviewsCopy[props.locale];
+export default function PublicReviews(props: {locale: ReviewLocale; words: (typeof reviewsCopy)[ReviewLocale]}) {
+  const t=()=>props.words;
   const [reviews,setReviews]=createSignal<PublicReview[]>([]);
   const [total,setTotal]=createSignal(0);
   const [loading,setLoading]=createSignal(true);

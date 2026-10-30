@@ -2,7 +2,6 @@ import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid
 import { assistantGreeting, assistantLocale, type AssistantLocale } from '../lib/assistant-knowledge';
 import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../lib/assistant-recovery';
 import { createAssistantRequestState,sameAssistantTicket,type AssistantRequestScope } from '../lib/assistant-request-state';
-import '../styles/assistant.css';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
 
 type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string};

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_ENV",
+  "probe_status": "BLOCKED",
+  "scope": "Environment-only sandbox launch probe; no application fixture or owner session created.",
+  "source": "25460e7136639d8379f11924deafb361c757b266",
+  "image": "sha256:c28822481b78f5a917cb269bec78e43f62923117b35a53e32cc9dcf53a85fe75",
+  "node": "v24.21.0",
+  "started_at": "2026-10-30T01:33:28.594Z",
+  "finished_at": "2026-10-30T01:33:28.863Z",
+  "chromium_sandbox": true,
+  "network": "none",
+  "live": false,
+  "stage": "launch",
+  "reason": "Chromium sandboxing failed: No usable sandbox.",
+  "raw_probe_sha256": "18fb194cd84a5c6e3079511baf67b7b4f43c8ed70e53a045f78fc41528abd766",
+  "current_application_browser_journeys": "NOT_RUN",
+  "historical_browser_receipts": "Retained as historical evidence; not promoted to current acceptance.",
+  "environment_change_or_sandbox_bypass": false,
+  "physical_device_acceptance": "NOT_RUN"
+}

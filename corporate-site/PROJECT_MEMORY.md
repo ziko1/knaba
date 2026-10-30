@@ -515,3 +515,15 @@ Bounded integration on existing PR #114. Local tested runtime `eae6669c136490b1a
 - Cloudflare connector still exposes only the developer account. First external step: customer member invitation, accepted identity and appropriate account/domain roles plus allowed API access, followed by verifying the actual customer account ID in this connector. Real private identities stay outside the public repository. Customer domain nameservers, full mail DNS/DNSSEC and testing allow/deny remain pending; no public DNS or existing mail was changed.
 - New mail request is recorded, not implemented: preserve one.com MX/mail while establishing authorized mailbox addresses, receiving/sending path, provider limits/PTR/SPF/DKIM/DMARC/TLS, existing-message migration and backup. DNS/Tunnel configuration alone does not provision a mailbox.
 - Permanent production rule retained: future production changes require Ivan's explicit instruction AND customer approval tied to the exact artifact/configuration. Continue independently on protected testing; no push-to-production automation. Updated runbook: `vps/customer-environments/README_UK.md`.
+
+## GitHub working-source consolidation — 2026-10-30
+
+Завершені джерела зведено в `release/knaba-working-20261030`, [draft PR118](https://github.com/ziko1/knaba/pull/118), що визначає актуальний remote HEAD. Початковий GitHub `fb79ce4aba3e5645eeb8945ecd6849f33c46ccec` відтворює точне дерево локального `25460e7136639d8379f11924deafb361c757b266`; це source publication, не deployment. 25 початкових local commit збережені окремо; remote ancestry цих SHA не заявляється. Main перевірено незміненим.
+
+У site включено поточні локальні/PR114/116 зміни, scoped SEO5, ArticleStudio15 та async4. Збережені новіші roles/locale/proxy-origin контракти; незавершений ERP bridge не bulk-merged. Чотиримовний specialist/SEO scope не називається повною шестимовною локалізацією.
+
+Final runtime `a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc`: **check PASS (0 errors, 0 warnings, 9 hints, 419 files);466 Vitest/61files +86 Node +137 VPS; build 160 сторінок/verify PASS**. Studio selected-locale JSON, CSS і PublicReviews selected SSR copy перевірені, включно із сімома новими locale regressions. CSS 40 958< 40 960 B; all-emitted JS 222 112< 225 280 B. Static artifact SHA256 `c4d2803bc872d8c53900a7cd84bd030c67bac68c5c4905fa5fd77334c48f151a`.
+
+Початковий verifier EACCES при записі власного report і повторний PASS збережені; виправлено лише окремий report file, budgets/assertions не послаблено. Sandbox probe source 25460e7: **BLOCKED_ENV — No usable sandbox**; actual browser journeys NOT_RUN, unsafe retry не виконувався. Production зберігає окреме погодження користувачем/замовником точного артефакту. [Повний звіт і public evidence index](../docs/unified/GITHUB_RECONCILIATION_2026-10-30_UK.md).
+
+Пізня звірка також включила точний пакет PR117 `ops/sitepanel/` (13 файлів, source `3a873771bc69947b0db9444d72fb6876e4bf355e`): 34 Python + 18 simulated DOM/CLI PASS. SQLite ResourceWarning зафіксовано; install/account-policy scripts не виконувалися, live host/browser acceptance окрема. Додавання пакета не змінило перевірені site/ERP inputs.

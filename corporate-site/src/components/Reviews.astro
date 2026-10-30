@@ -12,7 +12,7 @@ const externalLabel={de:'KnaBa auf ProvenExpert ansehen',en:'View KnaBa on Prove
     <div><p class="reviews-kicker">{t.label}</p><h2 id="reviews-title">{t.title}</h2></div>
     <p>{t.intro}</p>
   </div>
-  <PublicReviews locale={locale} client:visible />
+  <PublicReviews locale={locale} words={t} client:visible />
   <p class="reviews-fine-print"><a href="https://www.google.com/maps?cid=6323808801410846096">Google Maps <span aria-hidden="true">↗</span></a> · <a href="https://www.provenexpert.com/knaba-dienstleistungen-bau-und-gebaeudereinigung/">{externalLabel} <span aria-hidden="true">↗</span></a></p>
   <noscript><p class="reviews-notice">{t.noScript} <a href={contact}>{t.contact} ↗</a></p></noscript>
 </section>

@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { parse } from 'parse5';
 import ts from 'typescript';
 
-// Only the retired pre-BauService template families are eligible. Their source
-// rules stay in global.css; active components, private UI and generic utility
+// Only retired template and review-example families are eligible. Their source
+// rules stay in their stylesheets; active components, private UI and generic utility
 // classes are never candidates. Reusing a name in runtime source restores it.
 export const legacyStyleCandidates = Object.freeze([
   'brand-mark', 'brand-type', 'hero-copy', 'hero-description', 'hero-actions',
@@ -20,6 +20,8 @@ export const legacyStyleCandidates = Object.freeze([
   'planner-footnote', 'plan-preview', 'plan-preview-top', 'plan-mini-logo',
   'plan-preview-dot', 'plan-preview-title', 'plan-preview-row', 'plan-check',
   'plan-step', 'preview-banner', 'preview-dot', 'preview-footer', 'preview-domain',
+  'reviews-example-heading', 'reviews-example-invitation', 'reviews-examples',
+  'review-example', 'review-example-badge',
 ]);
 
 const runtimeExtensions = new Set([

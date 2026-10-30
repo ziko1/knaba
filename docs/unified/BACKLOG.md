@@ -138,3 +138,17 @@ KN-ROLE-UX-20261028 source work and PR #114 are consolidated into this task, con
 - **DEVELOPER_INVITATION_PREPARED / USER_ACTIVATION_REQUIRED:** `READY_FOR_OWNER_HANDOFF` confirmed; two-hour one-use invitation historically expires 2026-10-28 13:08:08.382 UTC. Primary application data and preexisting invitations unchanged, accepted runtime verified and healthy; no primary developer account created, password generated or email sent. Recheck expiry before future handoff. User activation and authenticated live role/order/conversation UAT remain pending. Keep subsequent documentation/source-persistence receipts distinct from the deployed runtime SHA.
 
 No public push/main merge or owner-settings overlay change; previous automatic publication rejection remains respected. Full other-chat history is unavailable; use accessible source/memory/worktrees. ERP identity/bridge, real provider/OIDC delivery, physical-device/cross-browser/screen-reader and real-owner UAT remain separate open work; this continuation does not accept the integrated ERP or official production release.
+
+## Source consolidation follow-up — 2026-10-30
+
+У межах KN-U08 відновлено завершені accounting/chat/native-preparation slices із regression coverage; це не закриває всю domain/bridge reconciliation. Для KN-U14 зафіксовано ERP scoped PASS:2510/2510,300suites,typecheck/build; tree `38c5257cfdd9495ece494e32ef26f714e6dd4dd1`. Final site runtime `a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc` має466 Vitest/86 Node/137 VPS,check/build 160 сторінок/verify PASS; CSS 40 958< 40 960 B,JS 222 112< 225 280 B. Попередні невдалі QA attempts збережені окремо.
+
+- [x] Завершити site repeat та strict-budget перевірку на наведеному runtime source; зберегти actual input/artifact hashes.
+- [x] Початковий remote tree і чистий зведений source checkpoint звірено; актуальний HEAD PR118, remote tree, source-lineage і root-validation receipts; docs-only commit не ретегує runtime QA.
+- [ ] Виконати actual browser journeys у дозволеному середовищі з робочим sandbox. Нинішній результат BLOCKED_ENV, без unsafe override.
+- [ ] Розглядати незавершені `fa9ea67b…`/`d6ae0198…` bridges окремо: schema composition, current scoped authorization, durable transport та інтегрований QA.
+- [ ] Зберігати окремі gates для main/deployment/live-data, production та customer/device/provider acceptance.
+
+Нова пряма авторизація стосується source publication; старі no-push checkpoints є історичними. [Повна звірка](GITHUB_RECONCILIATION_2026-10-30_UK.md).
+
+Пізня звірка також включила точний пакет PR117 `ops/sitepanel/` (13 файлів, source `3a873771bc69947b0db9444d72fb6876e4bf355e`): 34 Python + 18 simulated DOM/CLI PASS. SQLite ResourceWarning зафіксовано; install/account-policy scripts не виконувалися, live host/browser acceptance окрема. Додавання пакета не змінило перевірені site/ERP inputs.

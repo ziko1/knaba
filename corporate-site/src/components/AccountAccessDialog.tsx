@@ -3,7 +3,6 @@ import { accountDestinations, accountRoles, type AccountRole, type AccessMode } 
 import { safeWorkspaceRedirect } from '../lib/workspace-navigation';
 import type { PortalLocale } from '../lib/portal-i18n';
 import type { PortalSession } from '../lib/portal-contract';
-import '../styles/account-access.css';
 
 import {plAccess,ltAccess} from '../lib/account-extra-locales';
 

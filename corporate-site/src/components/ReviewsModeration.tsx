@@ -1,9 +1,10 @@
 import {createSignal, For, onCleanup, onMount, Show} from 'solid-js';
-import {reviewDate, reviewsCopy, type ManagedReview, type ReviewLocale} from '../data/reviews';
+import {reviewDate, type ManagedReview, type ReviewLocale} from '../data/reviews';
 import '../styles/reviews.css';
+import type {ModerationWords} from '../lib/studio-locale-store';
 
-export default function ReviewsModeration(props:{locale:ReviewLocale}) {
-  const t=()=>reviewsCopy[props.locale];
+export default function ReviewsModeration(props:{locale:ReviewLocale;words:ModerationWords}) {
+  const t=()=>props.words;
   const [access,setAccess]=createSignal<'loading'|'owner'|'denied'|'error'>('loading');
   const [reviews,setReviews]=createSignal<ManagedReview[]>([]);
   const [loading,setLoading]=createSignal(false);

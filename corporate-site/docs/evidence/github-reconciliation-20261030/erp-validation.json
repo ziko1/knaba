@@ -1,0 +1,72 @@
+{
+  "source_sha": "d4890a5c4ec05a4743ddda9b668d9698be003103",
+  "erp_tree": "38c5257cfdd9495ece494e32ef26f714e6dd4dd1",
+  "head_after": "25460e7136639d8379f11924deafb361c757b266",
+  "erp_source_clean": true,
+  "records": [
+    {
+      "stage": "erp-final-typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "seconds": 9.97,
+      "log": "erp-final-typecheck.log",
+      "log_sha256": "d6d9a18dab70db1f15e04a22e1be0d1f6fd3bf51eaf0808e864f2d85669161d2"
+    },
+    {
+      "stage": "erp-final-tests",
+      "command": [
+        "npm",
+        "exec",
+        "--",
+        "vitest",
+        "run",
+        "--no-file-parallelism",
+        "--reporter=json",
+        "--outputFile=unit.json"
+      ],
+      "exit_code": 0,
+      "seconds": 71.92,
+      "log": "erp-final-tests.log",
+      "log_sha256": "c2ba5f647b9e07d4e4819109cedc271eab45c3ac11f0190ba9b6ea65e72d21a9"
+    },
+    {
+      "stage": "erp-final-build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 185.85,
+      "log": "erp-final-build.log",
+      "log_sha256": "784fa4b53ae6a271a4abd0bb520f08f8c66c62d40dcc3af9561deb4fbbf1619f"
+    }
+  ],
+  "unit_summary": {
+    "numTotalTestSuites": 300,
+    "numPassedTestSuites": 300,
+    "numFailedTestSuites": 0,
+    "numTotalTests": 2510,
+    "numPassedTests": 2510,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "success": true,
+    "failures": []
+  },
+  "status": "PASS",
+  "environment": "Node24.22.1; fresh PostgreSQL17.11 tmpfs; sequential Vitest; isolated openpyxl3.1.5/Pillow11.3.0/pdftotext26.01.0",
+  "schema_version": 1,
+  "scope": "Unchanged ERP source tree; isolated genuine PostgreSQL source validation, not deployed provider/device acceptance.",
+  "original_receipt_sha256": "76c024c7c9d87766cbdd3ee760d54a3e8488c1b18b70383135117b47004cb1a0",
+  "normalization": "Only private workspace prefixes in log names and JSON report argument omitted. Original log hashes are retained.",
+  "native_preparation_fixtures": {
+    "count": 9,
+    "included_in_total": true,
+    "scope": "CPU command-transport fixtures; not XCTest or physical-device tests."
+  },
+  "current_erp_tree_matches": true
+}

@@ -3,6 +3,8 @@ import { resolve, join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import {parse} from "parse5";
+import {reviewsCopy} from "../src/data/reviews.ts";
 import {studioPages} from '../src/lib/studio-pages.ts';
 import {localeAlternates} from '../src/lib/site-i18n.ts';
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes.ts';
@@ -35,6 +37,11 @@ for(const locale of ['en','pl','lt','ru','uk']){
   const pack=files.find(file=>new RegExp('^_astro/'+locale+'\\.[\\w-]+\\.json$').test(relative(root,file)));
   assert.ok(pack,locale+': content-addressed selected-language pack');
   assert.deepEqual(JSON.parse(await readFile(pack,'utf8')),JSON.parse(await readFile(resolve('src/data/portal-locales',locale+'.json'),'utf8')),locale+': packaged copy exactly matches source');
+}
+for(const locale of ['de','en','uk','ru']){
+  const pack=files.find(file=>new RegExp('^_astro/studio-'+locale+'\\.[\\w-]+\\.json$').test(relative(root,file)));
+  assert.ok(pack,locale+': content-addressed Studio text pack is emitted as JSON');
+  assert.deepEqual(JSON.parse(await readFile(pack,'utf8')),JSON.parse(await readFile(resolve('src/data/studio-locales','studio-'+locale+'.json'),'utf8')),locale+': Studio copy exactly matches source');
 }
 const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
@@ -263,6 +270,26 @@ assert.equal(homeIslands.length, 1, 'Only the functional reviews island hydrates
 assert.match(homeIslands[0], /component-url="[^"]*PublicReviews\./, 'Owner components never hydrate publicly');
 assert.match(homeIslands[0], /client="visible"/, 'Reviews hydrate only when visible');
 assert.match(homepage, /data-knaba-open/, 'Chat launcher is present without eager framework hydration');
+// The review island receives only its selected, unchanged copy through Astro's
+// existing prop serialization. Parse HTML to decode attributes without guessing
+// entity escaping, then compare the complete serialized object and every word.
+for(const locale of ['de','en','uk','ru']){
+  const source=await readFile(resolve(root,locale==='de'?'index.html':locale+'/index.html'),'utf8');
+  const nodes=[parse(source)],islands=[];
+  while(nodes.length){
+    const node=nodes.pop();
+    if(node.tagName==='astro-island'){
+      const attrs=Object.fromEntries(node.attrs.map(attr=>[attr.name,attr.value]));
+      if(/^\/_astro\/PublicReviews\.[\w-]+\.js$/.test(attrs['component-url']||''))islands.push(attrs);
+    }
+    nodes.push(...(node.childNodes||[]));
+  }
+  assert.equal(islands.length,1,locale+': one public review island');
+  assert.equal(islands[0].client,'visible',locale+': review hydration stays visibility-triggered');
+  const selectedWords=Object.fromEntries(Object.entries(reviewsCopy[locale]).map(([key,value])=>[key,[0,value]]));
+  assert.deepEqual(JSON.parse(islands[0].props),{locale:[0,locale],words:[0,selectedWords]},
+    locale+': island props contain exactly the selected locale and its complete original copy');
+}
 const workerConfig=JSON.parse(await readFile(resolve('dist/server/wrangler.json'),'utf8'));
 assert.equal(workerConfig.assets.run_worker_first, true,
   'Worker runs first for every API and static route so native response headers are always applied');

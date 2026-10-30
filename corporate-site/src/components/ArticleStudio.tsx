@@ -1,18 +1,13 @@
 import {createSignal,createEffect,For,Show,onMount,onCleanup} from 'solid-js';
 import {parseArticlePath,validateArticleContent,type ArticleContent} from '../lib/article-contract';
 import '../styles/article-studio.css';
+import type {ArticleWords} from '../lib/studio-locale-store';
 
 type Locale='de'|'en'|'uk'|'ru';
 type Revision={id:string;version:number;action:string;createdAt:string};
 type ArticleItem={path:string;version:number;publishedVersion:number;updatedAt:string};
 type ArticlePage={page:string;version:number;publishedVersion:number;draft:ArticleContent;published:ArticleContent|null;history:Revision[]};
 const blank=():ArticleContent=>({title:'',description:'',body:''});
-const dictionary={
-  de:{heading:'Wissensseiten erstellen',intro:'Eigene öffentlich auffindbare Ratgeber-Seiten mit überprüfter Freigabe, Titel, Beschreibung und Sitemap. Keine automatische Veröffentlichung.',slug:'URL-Slug',language:'Sprache',new:'Neue Seite öffnen',existing:'Entwürfe und veröffentlichte Seiten',empty:'Noch keine Wissensseiten angelegt.',title:'SEO-Titel',description:'Meta-Beschreibung',body:'Inhalt als Klartext (Absätze durch Leerzeile trennen, ## für Unterüberschriften)',save:'Entwurf speichern',publish:'Veröffentlichen',confirm:'PUBLISH zur Bestätigung eingeben',restore:'Als Entwurf wiederherstellen',preview:'Vorschau des Entwurfs',status:'Status',draft:'Entwurf',live:'Öffentlich',open:'Öffnen',notPublished:'Noch nicht öffentlich',hint:'Die Seite erscheint erst nach ausdrücklicher Freigabe im HTML, Ratgeber und in der Sitemap. Keine automatische Übersetzung oder Suchmaschinen-Garantie.',saved:'Entwurf gespeichert.',published:'Version veröffentlicht.',restored:'Version als Entwurf wiederhergestellt.',validate:'Für eine Veröffentlichung sind Titel (10+), Beschreibung (50+) und Inhalt (180+) erforderlich.',emptySlug:'Bitte einen gültigen URL-Namen mit 3–64 Zeichen (a–z, 0–9, Bindestrich) eingeben.'},
-  en:{heading:'Create knowledge pages',intro:'Publish real guide pages with reviewed SEO title, description and sitemap. Never auto-published.',slug:'URL slug',language:'Language',new:'Open new page',existing:'Drafts and published pages',empty:'No knowledge pages yet.',title:'SEO title',description:'Meta description',body:'Plain-text article (blank lines for paragraphs; ## for subheadings)',save:'Save draft',publish:'Publish',confirm:'Type PUBLISH to confirm',restore:'Restore as draft',preview:'Draft preview',status:'Status',draft:'Draft',live:'Public',open:'Open',notPublished:'Not published',hint:'Only published content appears in server HTML, guide links and sitemap. No automatic translation or ranking promises.',saved:'Draft saved.',published:'Published version saved.',restored:'Version restored to draft.',validate:'Publishing requires a title (10+), description (50+) and body (180+).',emptySlug:'Enter a valid 3–64-character slug (a–z, 0–9, hyphens).'},
-  uk:{heading:'Створення інформаційних сторінок',intro:'Публічні статті з перевіреними SEO-назвою, описом і sitemap. Без автоматичної публікації.',slug:'Назва URL',language:'Мова',new:'Відкрити нову сторінку',existing:'Чернетки та опубліковані',empty:'Статей поки немає.',title:'SEO-назва',description:'Метаопис',body:'Текст статті (порожній рядок — абзац; ## — підзаголовок)',save:'Зберегти чернетку',publish:'Опублікувати',confirm:'Для публікації введіть PUBLISH',restore:'Відновити як чернетку',preview:'Перегляд чернетки',status:'Стан',draft:'Чернетка',live:'Публічна',open:'Відкрити',notPublished:'Не опубліковано',hint:'Лише затверджений матеріал з’являється в HTML, порадах і sitemap. Автоперекладу та гарантій позицій немає.',saved:'Чернетку збережено.',published:'Версію опубліковано.',restored:'Версію відновлено як чернетку.',validate:'Потрібні назва (10+), опис (50+) і текст (180+).',emptySlug:'Введіть URL-назву 3–64 символи (a–z, 0–9, дефіс).'},
-  ru:{heading:'Создание информационных страниц',intro:'Публичные статьи с проверенными SEO-заголовком, описанием и sitemap. Без автопубликации.',slug:'Имя URL',language:'Язык',new:'Открыть новую страницу',existing:'Черновики и опубликованные',empty:'Статей ещё нет.',title:'SEO-заголовок',description:'Метаописание',body:'Текст статьи (пустая строка — абзац; ## — подзаголовок)',save:'Сохранить черновик',publish:'Опубликовать',confirm:'Для публикации введите PUBLISH',restore:'Восстановить как черновик',preview:'Предпросмотр черновика',status:'Статус',draft:'Черновик',live:'Публичная',open:'Открыть',notPublished:'Не опубликовано',hint:'Только одобренный материал появляется в HTML, статьях и sitemap. Без автоперевода и гарантий позиции.',saved:'Черновик сохранён.',published:'Версия опубликована.',restored:'Версия восстановлена в черновик.',validate:'Нужны заголовок (10+), описание (50+) и текст (180+).',emptySlug:'Введите имя URL на 3–64 символа (a–z, 0–9, дефис).'}
-} as const;
 async function api<T>(path:string,body?:Record<string,unknown>):Promise<T>{
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),15000);
@@ -26,8 +21,8 @@ async function api<T>(path:string,body?:Record<string,unknown>):Promise<T>{
     return value;
   } finally {clearTimeout(timer);}
 }
-export default function ArticleStudio(props:{language:Locale;onDirtyChange?:(dirty:boolean)=>void}){
-  const t=()=>dictionary[props.language];
+export default function ArticleStudio(props:{language:Locale;words:ArticleWords;onDirtyChange?:(dirty:boolean)=>void}){
+  const t=()=>props.words;
   const [items,setItems]=createSignal<ArticleItem[]>([]);
   const [slug,setSlug]=createSignal('');
   const [locale,setLocale]=createSignal<Locale>(props.language);
@@ -61,7 +56,7 @@ export default function ArticleStudio(props:{language:Locale;onDirtyChange?:(dir
     if(!disposed&&page()===path)setHistory(result.history);
   }
   async function open(path:string){
-    if(disposed||busy()||loading()||changed()){if(changed())setError(({de:'Ungespeicherte Änderungen zuerst speichern.',en:'Save your unsaved changes first.',uk:'Спочатку збережіть зміни.',ru:'Сначала сохраните изменения.'} as const)[props.language]);return;}
+    if(disposed||busy()||loading()||changed()){if(changed())setError(t().unsaved);return;}
     setLoading(true);setError('');setNotice('');
     try{
       const res=await api<ArticlePage>('/api/studio/article?page='+encodeURIComponent(path));
@@ -110,7 +105,7 @@ export default function ArticleStudio(props:{language:Locale;onDirtyChange?:(dir
       if(disposed||page()!==target)return;
       if(result.published!==false)throw new Error('Publication state was not confirmed');
       setPublishedVersion(0);setUnpublishCheck('');
-      setNotice(({de:'Der Artikel ist nicht mehr öffentlich.',en:'Article unpublished.',uk:'Статтю знято з публікації.',ru:'Статья снята с публикации.'} as const)[props.language]);
+      setNotice(t().unpublished);
       await Promise.all([refresh(),refreshHistory(target)]);
     }catch(problem){if(!disposed)setError(problem instanceof Error?problem.message:String(problem));}
     finally{if(!disposed)setBusy(false);}
@@ -168,13 +163,13 @@ export default function ArticleStudio(props:{language:Locale;onDirtyChange?:(dir
               </div>
               <Show when={publishedVersion()>0}>
                 <div class="studio-article-unpublish">
-                  <p>{({de:'Öffentliche Seite zurückziehen, ohne Entwurf oder Verlauf zu löschen.',en:'Take this page offline while retaining draft and history.',uk:'Зняти публікацію, зберігши чернетку та історію.',ru:'Снять публикацию, сохранив черновик и историю.'} as const)[props.language]}</p>
-                  <label>{({de:'UNPUBLISH zur Bestätigung',en:'Type UNPUBLISH to confirm',uk:'Введіть UNPUBLISH для підтвердження',ru:'Введите UNPUBLISH для подтверждения'} as const)[props.language]}
+                  <p>{t().unpublishHint}</p>
+                  <label>{t().unpublishConfirm}
                     <input autocomplete="off" spellcheck={false} value={unpublishCheck()}
                       placeholder="UNPUBLISH" onInput={e=>setUnpublishCheck(e.currentTarget.value)} />
                   </label>
                   <button type="button" disabled={busy()||loading()||changed()||unpublishCheck()!=='UNPUBLISH'}
-                    onClick={()=>void unpublish()}>{({de:'Veröffentlichung zurückziehen',en:'Unpublish article',uk:'Зняти з публікації',ru:'Снять с публикации'} as const)[props.language]}</button>
+                    onClick={()=>void unpublish()}>{t().unpublish}</button>
                 </div>
               </Show>
               <Show when={!canPublish()}><p class="studio-muted">{t().validate}</p></Show>

@@ -1,6 +1,10 @@
 ---
 import "../styles/global.css";
 import "../styles/public-vivid.css";
+// Both overlays are mounted by this layout. Keep their shared styles in the
+// existing cascade order, after the public skin, in one stylesheet request.
+import "../styles/assistant.css";
+import "../styles/account-access.css";
 import { company } from "../data/company";
 import { siteConfig } from "../data/site";
 import { resolveSocialImageOrigin } from "../lib/social-image-origin";

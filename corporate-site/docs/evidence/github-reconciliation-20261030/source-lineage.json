@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "scope": "KNABA source reconciliation; not deployment acceptance",
+  "repository": "ziko1/knaba",
+  "branch": "release/knaba-working-20261030",
+  "pull_request": "https://github.com/ziko1/knaba/pull/118",
+  "main_at_audit": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+  "original_server_source": "d97925dad646e08336e368571618dee49fc7971c",
+  "original_local_only_commits": [
+    {
+      "sha": "d90eff2213862c460155b119c716c661456ceabd",
+      "subject": "feat(site): add in-page role access and responsive workspaces"
+    },
+    {
+      "sha": "60a38d95a50ec2b130917b53569e3415b29b0fbb",
+      "subject": "fix(site): contain dialog focus and compact active workspaces"
+    },
+    {
+      "sha": "b2d443a07942598153ddaab83ed9d135bb0903d3",
+      "subject": "merge current staging form-origin and review fixes into role UX candidate"
+    },
+    {
+      "sha": "b49acd7b1121a90d460355fb06606925cf97ecc3",
+      "subject": "docs(knaba): record verified role UX acceptance and release blockers"
+    },
+    {
+      "sha": "798087ddf279cde1a277380087594dc3df36bcc4",
+      "subject": "Merge remote-tracking branch 'origin/feat/knaba-visual-polish-20261028' into feat/knaba-role-workspaces-20261028"
+    },
+    {
+      "sha": "f5d8f27130ff3d3c8f03afa273e859a81e2f5c6b",
+      "subject": "feat(site): preserve role workspaces, scoped conversations and isolated developer tests"
+    },
+    {
+      "sha": "966d7be9aa8a2ef7b3b6e6d61a1c942e749f0054",
+      "subject": "merge(knaba): preserve recovered role entry and Bauleiter in isolated workspaces"
+    },
+    {
+      "sha": "3f19589291b5ceda3d02b80f2e246c2db9a0327a",
+      "subject": "fix(knaba): retain workspace navigation and verify isolated release"
+    },
+    {
+      "sha": "76c0382451cac68121e2e30ff4ee3f768fb90058",
+      "subject": "fix(knaba): keep cabinet history independent from public router"
+    },
+    {
+      "sha": "76f96f6f83d22403a1aa255e8bf2b98311807985",
+      "subject": "test(knaba): distinguish request status from browser acceptance"
+    },
+    {
+      "sha": "f57f04f12e88b07a9ccc5a6bd8e6c76fc82373bc",
+      "subject": "docs(knaba): record accepted role workspace deployment and private access handoff"
+    },
+    {
+      "sha": "642cb9651222e3d4321ef6ad23da9d97a75e0358",
+      "subject": "feat(knaba): integrate current messenger operations and six-language release policy"
+    },
+    {
+      "sha": "9915541f3c177b8208d8c4ccdc6385fdbc271144",
+      "subject": "test(knaba): align consent fixtures and menu positions with current bot flows"
+    },
+    {
+      "sha": "45d113a65bb1318065cab5a850433f52314e38c0",
+      "subject": "fix(knaba): separate bot website origin and align explicit policy fixtures"
+    },
+    {
+      "sha": "b88766108684b6fd78a1cca81642ab512903bdeb",
+      "subject": "feat(knaba): prepare six-language apps and isolated customer deployment kit"
+    },
+    {
+      "sha": "19fddd270fed39a545dac0fc3b85f725ce631e4d",
+      "subject": "Package verified native prototype and self-contained customer deployment kit"
+    },
+    {
+      "sha": "060d196d73636c505b2462612eb380c99641bd03",
+      "subject": "fix: verify shared iOS preferences in recovered KNABA source"
+    },
+    {
+      "sha": "a2b0ae8345c798726ecc9be9210cec2624535f6e",
+      "subject": "build: prepare verified KNABA artifact for official origin"
+    },
+    {
+      "sha": "9ef455887ea339ab2c31f10ec7a407557489e42e",
+      "subject": "build: retain verified existing Android download artifact"
+    },
+    {
+      "sha": "c7b3679be99c798d1c3f852d3f360460cc50085a",
+      "subject": "docs: record KNABA physical testing acceptance and remaining gates"
+    },
+    {
+      "sha": "571823a5a04969f391dcc54babcffc2a416ae525",
+      "subject": "fix: preserve retired service redirects on customer domains"
+    },
+    {
+      "sha": "0cf80e3010d1a52c5147456bce3bf6db5c7ac06d",
+      "subject": "docs: record verified customer route deployment and remaining access gates"
+    },
+    {
+      "sha": "d57c342224c831307c36dec6da9a83463e31f10f",
+      "subject": "fix: keep client link validation on the configured KNABA origin"
+    },
+    {
+      "sha": "166e85f3643324bde9fc21713578672979861bb8",
+      "subject": "docs: record verified KNABA client domain migration candidate"
+    },
+    {
+      "sha": "d97925dad646e08336e368571618dee49fc7971c",
+      "subject": "fix: isolate visitor rate limits behind explicitly trusted proxies"
+    }
+  ],
+  "public_inputs": [
+    {
+      "pr": 114,
+      "sha": "3e47eec20febaf6fa3d4bb7ba48a600db90377c0",
+      "treatment": "merge; retain newer six-language and role/source work"
+    },
+    {
+      "pr": 116,
+      "sha": "ede2ea308dd918b4ade484d3830da6a744cdd8c8",
+      "treatment": "merge customer environment controller"
+    }
+  ],
+  "completed_forward_ports": [
+    {
+      "source": "08b03bfe13481d2526b39daba68d86483de2dd94",
+      "module": "localized business inquiry examples",
+      "files": 5,
+      "scope": "24 scenarios in DE/EN/RU/UK; preserve newer shared CSS"
+    },
+    {
+      "source": "50dd12a02b87aaad05c682b55f5937b280f16cd5",
+      "module": "ArticleStudio",
+      "files": 15,
+      "scope": "draft/edit/publish/unpublish/history/restore and SSR, using existing studio tables"
+    },
+    {
+      "source": "7de449b319f57f0d07d2f43b4b6a25e0219c1158",
+      "module": "site async view protections",
+      "files": 4,
+      "scope": "preserve stronger current assistant abort/request-state implementation"
+    },
+    {
+      "source": "c083a647d5c842ef71cdd42185b8bb3fc127fa75",
+      "module": "ERP accounting/chat/native preparation",
+      "files": 15,
+      "scope": "11 accounting/chat files, browser discovery config and3 native preparation files; no migration"
+    }
+  ],
+  "retained_unfinished": [
+    {
+      "source": "fa9ea67b888571657d9b27fb7c56bfb30ee15d73",
+      "module": "assistant-to-ERP bridge",
+      "status": "INTEGRATION_REQUIRED",
+      "reason": "migration0007 conflict and no current final integrated acceptance"
+    },
+    {
+      "source": "d6ae01984569c7d4ced586cca9741976b03ffb4b",
+      "module": "site intake-to-ERP bridge",
+      "status": "INTEGRATION_REQUIRED",
+      "reason": "migration0006 conflict and no current final integrated acceptance"
+    }
+  ],
+  "inventory": {
+    "public_branches_at_audit": 135,
+    "open_pull_requests_at_audit": 114,
+    "leaf_branches_reviewed": 58,
+    "missing_filename_occurrences": 199,
+    "unique_missing_filenames": 124,
+    "interpretation": "Discovery aid; renamed/superseded/historical filenames do not by themselves establish missing functionality."
+  },
+  "initial_publication": {
+    "local_source": "25460e7136639d8379f11924deafb361c757b266",
+    "github_commit": "fb79ce4aba3e5645eeb8945ecd6849f33c46ccec",
+    "tree": "9b2924cca836eb6bba13048e2d99adbb7de19b2e",
+    "git_fetch_verified_exact_tree": true,
+    "method": "authenticated Git Data API; source trees identical, commit identities differ; original local history preserved"
+  },
+  "authorization": "Current user explicitly requested GitHub audit and publication of completed work; supersedes historical source-publication holds only.",
+  "remaining_boundaries": [
+    "main merge",
+    "exact-artifact production approval",
+    "live data changes",
+    "provider activation",
+    "native distribution and physical-device acceptance",
+    "real owner UAT",
+    "whole-product acceptance"
+  ],
+  "final_tested_runtime_source": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc",
+  "runtime_completion_after_initial_publication": [
+    {
+      "sha": "1b5ce291039790ba64ed9e5bbf313ff65769e265",
+      "subject": "Load only selected Studio language data and keep private review copy out of public JS"
+    },
+    {
+      "sha": "a8cf5325499c0322cd61cd0a7d9d7dc98e3f9f3b",
+      "subject": "Combine always-co-loaded overlay styles and omit retired review-example rules"
+    },
+    {
+      "sha": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc",
+      "subject": "perf(site): serialize selected public review copy from SSR"
+    }
+  ],
+  "current_validation": {
+    "site": "site-validation.json",
+    "erp": "erp-validation.json",
+    "browser": "browser-policy.json",
+    "final_git_head": "Read the current PR118 head; final source publication additionally includes documentation/evidence and the generated source catalog.",
+    "root": "root-validation.json"
+  },
+  "late_public_input": {
+    "pr": 117,
+    "branch": "feat/scoped-sitepanel-20261030",
+    "sha": "3a873771bc69947b0db9444d72fb6876e4bf355e",
+    "files": 13,
+    "tree": "898315c76a1eb2a2751c91db5fd7b0354bb42780",
+    "treatment": "Additive exact-source merge after fresh final audit; current site and ERP trees unchanged.",
+    "validation": "34Python and18simulatedDOM/CLI PASS; sitepanel-validation.json; no live operational acceptance.",
+    "local_merge_commit": "b25251e50c482d125e659b39af1addd0862fb1e6"
+  },
+  "source_policy_checkpoint": "606e45044a83c83ce41274a71ec27220e8bfb4d0"
+}
