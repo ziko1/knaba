@@ -4,7 +4,7 @@ import { formatPortalDate, portalMessages, type PortalLocale } from '../lib/port
 import { createRequestId } from '../lib/request-id';
 import { workspaceHref } from '../lib/workspace-navigation';
 import { workspaceWords } from '../lib/workspace-i18n';
-import { cabinetWords } from '../lib/cabinet-words';
+import { cabinetWords } from '../lib/portal-locale-data';
 import '../styles/workspace.css';
 
 interface MessagePage { conversation: PortalConversation; messages: PortalMessage[]; nextBefore: number | null }

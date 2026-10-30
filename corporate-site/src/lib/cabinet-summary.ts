@@ -31,18 +31,14 @@ export function appendDashboardPage(previous: PortalDashboard, incoming: PortalD
   const current=completePage(previous),page=completePage(incoming);
   if (current.session.user?.id !== page.session.user?.id || current.session.role !== page.session.role)
     throw Error('Cabinet identity changed');
+  const cursor = collection === 'requests' ? 'nextRequestCursor' : 'nextProfileCursor';
+  const cursors = {...current.page, [cursor]: page.page[cursor]};
   return {
     ...current,
-    requests: collection === 'requests' ? unique([...current.requests, ...page.requests]) : current.requests,
-    profiles: collection === 'profiles' ? unique([...current.profiles, ...page.profiles]) : current.profiles,
+    [collection]: unique([...current[collection], ...page[collection]]),
     totals: page.totals,
-    page: {
-      nextRequestCursor: collection === 'requests' ? page.page.nextRequestCursor : current.page.nextRequestCursor,
-      nextProfileCursor: collection === 'profiles' ? page.page.nextProfileCursor : current.page.nextProfileCursor,
-    },
-    limited: Boolean(collection === 'requests'
-      ? page.page.nextRequestCursor || current.page.nextProfileCursor
-      : current.page.nextRequestCursor || page.page.nextProfileCursor),
+    page: cursors,
+    limited: Boolean(cursors.nextRequestCursor || cursors.nextProfileCursor),
   };
 }
 
