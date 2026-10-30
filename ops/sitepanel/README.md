@@ -56,10 +56,38 @@ The included unit grants write access to the existing customer backup root only;
 adapt and review it for another installation. Do not publish the live registry,
 password handoff files, private snapshots or server receipts in this repository.
 
-For tenant-focused Cockpit navigation, documented manifest overrides can hide the
-native system-wide account/services menus while preserving the normal-user
-terminal. Restrict Cockpit PAM login to the intended local account allowlist.
-Keep Cockpit on a private network; this package does not configure networking.
+For tenant-focused Cockpit navigation, install the four JSON files from
+`cockpit/tenant-overrides/` into each intended user's `~/.config/cockpit/`.
+The first-install account helper does this as that user, refusing symlinks and
+existing override files. Do not rerun that helper to update an existing host:
+it also changes account policy and a password. Save existing overrides before
+an administrator applies a separately reviewed update.
+
+The documented `path-not-exists: "/"` condition excludes the native
+`users`, `systemd` (package name `system`) and `metrics` packages completely.
+Accounts, host services/logs/metrics and the host terminal therefore have neither
+menu entries nor directly served package pages in a fresh session. The shell
+override removes privileged bridge choices. Shell, base1, static and sitepanel
+remain; the existing UID-authenticated broker is unchanged. Log out and back in
+to discard old package manifests and frames; verify the authenticated manifests
+and direct URLs in each new session.
+
+These are user preferences, not an OS security boundary: the account can change
+its own overrides, Cockpit's normal-user process API remains available, and Unix
+account/process/host metadata can still be visible over SSH. Existing filesystem,
+sudo, Polkit, socket and broker authorization controls remain essential. New
+Cockpit extensions must be reviewed for host-wide information before installation.
+The read-only verifier below rejects any unexpected package or navigation.
+
+Use SSH/SFTP for files in the account's assigned writable workspace. On the
+reviewed shared host these are `/srv/knaba/workspaces` and
+`/srv/vsp/workspaces`; confirm their ownership and permissions when provisioning.
+Production controller roots, including `/srv/knaba/customer`, secrets and backups
+remain administrator-managed. Own-site start/stop/restart/allowed backups and
+own-workspace files do not grant arbitrary host administration or access to the
+other account's files. Restrict Cockpit PAM login to the intended local account
+allowlist. Keep Cockpit on a private network; this package does not configure
+networking.
 
 ## Safe transition and rollback
 
@@ -87,6 +115,19 @@ or group database over unrelated concurrent account changes.
 python3 -m unittest discover -s tests -v
 node cockpit/.verification/check-ui.cjs
 ```
+
+On a host with Cockpit 360, run the read-only package check as each tenant.
+The optional candidate directory merges the proposed overrides in memory.
+
+```sh
+python3 -B verify_tenant_ui.py --candidate cockpit/tenant-overrides
+python3 -B verify_tenant_ui.py
+```
+
+The first command reports `candidate-in-memory`; the second verifies actual
+installed package selection. Neither authenticates a browser, changes packages
+or demonstrates OS metadata isolation. Official package/override documentation:
+https://docs.cockpit-project.org/cockpit-guide/360/guide/packages.html
 
 The Python tests use temporary ledgers and simulated runtime operations. The UI
 test is a DOM/CLI contract harness with a simulated Cockpit API. They do not prove

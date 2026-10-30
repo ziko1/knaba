@@ -12,6 +12,71 @@ import subprocess
 import tempfile
 
 
+TENANT_UI_WRITER = r"""
+import json, os, stat, sys
+overrides = json.loads(sys.argv[1])
+directory = os.open(os.environ['HOME'], os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+created = []
+try:
+    for component in ['.config', 'cockpit']:
+        try:
+            os.mkdir(component, 0o700, dir_fd=directory)
+        except FileExistsError:
+            pass
+        child = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+        os.close(directory)
+        directory = child
+        info = os.fstat(directory)
+        assert info.st_uid == os.getuid() and not info.st_mode & 0o022, 'Unsafe user config directory'
+    for name in overrides:
+        try:
+            os.stat(name, dir_fd=directory, follow_symlinks=False)
+        except FileNotFoundError:
+            continue
+        raise RuntimeError('Existing tenant override: inspect and back up before updating')
+    for name, data in overrides.items():
+        descriptor = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=directory)
+        created.append(name)
+        with os.fdopen(descriptor, 'w') as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+    os.fsync(directory)
+except BaseException:
+    for name in created:
+        os.unlink(name, dir_fd=directory)
+    raise
+finally:
+    os.close(directory)
+"""
+
+
+def configure_tenant_ui(stage, command, trusted):
+    """First install only; never write into tenant-owned homes as root."""
+    overrides = {}
+    for name in ['users', 'systemd', 'metrics', 'shell']:
+        source = stage / 'candidate/cockpit/tenant-overrides' / (name + '.override.json')
+        trusted(source)
+        data = source.read_text()
+        expected = {'bridges': []} if name == 'shell' else {'conditions': [{'path-not-exists': '/'}]}
+        assert json.loads(data) == expected, 'Unexpected tenant UI override'
+        overrides[source.name] = data
+    for user in ['knaba', 'vsp']:
+        command(['runuser', '-u', user, '--', 'python3', '-B', '-c',
+                 TENANT_UI_WRITER, json.dumps(overrides)])
+
+
+def valid_cockpit_login_response(status, data, cookie):
+    """Cockpit 360 returns a CSRF token, not an echoed account name."""
+    try:
+        body = json.loads(data)
+    except (TypeError, ValueError):
+        return False
+    return (status == 200 and isinstance(body, dict)
+            and isinstance(body.get('csrf-token'), str) and bool(body['csrf-token'].strip())
+            and isinstance(cookie, str) and '=' in cookie and bool(cookie.split('=', 1)[1]))
+
+
 def configure(password, stage, expected_machine, expected_certificate):
     assert os.getuid() == 0
     assert hashlib.sha256(Path('/etc/machine-id').read_bytes()).hexdigest() == expected_machine
@@ -57,6 +122,7 @@ def configure(password, stage, expected_machine, expected_certificate):
     write('/etc/pam.d/su', su.encode(), 0o644)
     command(['usermod', '-G', 'users,sitepanel', 'knaba'])
     command(['usermod', '-G', 'sitepanel', 'vsp'])
+    configure_tenant_ui(stage, command, trusted)
     # Preserve the KNABA owner's existing password; set only the authorized VSP password.
     current_vsp_shadow = next(line for line in Path('/etc/shadow').read_text().splitlines() if line.startswith('vsp:'))
     write(stage / 'vsp-shadow-before-password', (current_vsp_shadow + '\n').encode(), 0o600)
@@ -102,8 +168,10 @@ def configure(password, stage, expected_machine, expected_certificate):
     response = connection.getresponse()
     data = response.read()
     report['vsp_cockpit_login_http'] = response.status
-    report['vsp_cockpit_login'] = response.status == 200 and json.loads(data).get('user') == 'vsp'
     cookie = response.getheader('Set-Cookie', '').split(';', 1)[0]
+    # The immediately preceding password-authenticated SSH check proved the
+    # intended username. Cockpit's successful login returns a token and cookie.
+    report['vsp_cockpit_login'] = valid_cockpit_login_response(response.status, data, cookie)
     assert report['vsp_cockpit_login'], 'Cockpit authentication needs review'
     connection.request('GET', '/cockpit/@localhost/sitepanel/index.html', headers={'Cookie': cookie})
     page = connection.getresponse()

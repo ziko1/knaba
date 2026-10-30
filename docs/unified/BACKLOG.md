@@ -172,3 +172,14 @@ SP-R1–SP-R3 source hardening implemented and installed in the existing broker:
 Broker-only atomic update at 09:26:46–56 Berlin passed, with socket admission fencing, accepted-client drain, pending0, exact backup and rollback guards. Own catalogs and two own already-running-container starts passed; foreign unsupported actions denied. All11 containers and2 VSP app services retained runtime identities/start times;6HTTP probes200; ledger5/pending0. Independent live review at09:27:58 confirmed these facts. Offline restoration of the previously created backup passed exact bytes/logical data/integrity/FK/write-rollback; full application restore remains NOT_RUN.
 
 HTTPS remains BLOCKED_AUTH/CONFIG: current certificate covers localhost only; no active Tailscale admin session, no repeated certificate issuance or network/account changes. Password/PAM browser journeys, recovery login and actual host reboot remain OPEN. Standard root-managed systemd boot primitives/administrator TOCTOU, backup mapping generalization and shared resource isolation remain explicit boundaries. No site source/image/data, credentials, DNS or main merge changed. [Scoped evidence, commands and rollback](SITEPANEL_HARDENING_2026-10-30_UK.md).
+
+## 2026-10-30: separate tenant panel handoff
+
+- DONE: scoped Cockpit package selection for knaba/vsp, separate verified password logins and writable workspaces, authenticated native-URL exclusion, unchanged broker boundary; see latest PROJECT_MEMORY entry.
+- LIMITED: shared Linux metadata and user-reversible UI preferences are not VM isolation. No unrestricted root or arbitrary production-file editing was granted.
+- NOT RUN: visual browser rendering. External inventory records were not migrated or newly validated by this task.
+
+## 2026-10-30: explicit root-access request (supersedes isolated tenant privileges)
+
+- DONE: password-authenticated full sudo granted to knaba and vsp at the owner's explicit request; actual SSH + sudo login shell UID0 verified for both, fresh password requirement verified.
+- ACCESS MODEL: both are host administrators now. Retained scoped menus are presentation only; do not claim cross-user file isolation against root or automatically restore the previous !ALL policy.
