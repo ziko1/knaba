@@ -1,12 +1,15 @@
 import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
-import { portalHeader, type CleaningRequest, type PortalConversation, type PortalConversationRecipient, type PortalConversations as ConversationList, type PortalMessage, type PortalProfile, type PortalSession } from '../lib/portal-contract';
+import { portalHeader, type CleaningRequest, type PortalConversation, type PortalConversations as ConversationList, type PortalMessage, type PortalProfile, type PortalSession } from '../lib/portal-contract';
 import { formatPortalDate, portalMessages, type PortalLocale } from '../lib/portal-i18n';
 import { createRequestId } from '../lib/request-id';
 import { workspaceHref } from '../lib/workspace-navigation';
 import { workspaceWords } from '../lib/workspace-i18n';
+import { cabinetWords } from '../lib/portal-locale-data';
 import '../styles/workspace.css';
 
 interface MessagePage { conversation: PortalConversation; messages: PortalMessage[]; nextBefore: number | null }
+interface RecipientOption { id: string; name: string; role: 'client' | 'partner' | 'worker' }
+interface RecipientPage { recipients: RecipientOption[]; nextAfter: string | null }
 class ConversationError extends Error { constructor(public status: number) { super('Conversation request failed'); } }
 
 export default function PortalConversations(props: {
@@ -17,8 +20,13 @@ export default function PortalConversations(props: {
   const siteManager = () => props.session.role === 'bauleiter';
   const manager = () => props.session.role === 'owner' || props.session.role === 'admin' || siteManager();
   const [conversations, setConversations] = createSignal<PortalConversation[]>([]);
-  const [scopedRecipients, setScopedRecipients] = createSignal<PortalConversationRecipient[]>([]);
+  const [recipientRows, setRecipientRows] = createSignal<RecipientOption[]>([]);
+  const [recipientSearch, setRecipientSearch] = createSignal('');
+  const [recipientAfter, setRecipientAfter] = createSignal<string | null>(null);
+  const [recipientBusy, setRecipientBusy] = createSignal(false);
   const [limited, setLimited] = createSignal(false);
+  const [listCursor, setListCursor] = createSignal<string | null>(null);
+  const [nextListCursor, setNextListCursor] = createSignal<string | null>(null);
   const [selected, setSelected] = createSignal('');
   const [messages, setMessages] = createSignal<PortalMessage[]>([]);
   const [nextBefore, setNextBefore] = createSignal<number | null>(null);
@@ -37,16 +45,15 @@ export default function PortalConversations(props: {
   const activeThread = () => conversations().find(item => item.id === selected());
   const draft = () => drafts()[selected()] || '';
   const attempt = () => attempts()[selected()];
-  const recipients = () => siteManager()
-    ? scopedRecipients().filter(item => item.requestId === requestId()).map(item => ({ id: item.participantId, name: item.participantName, role: item.participantRole }))
-    : props.profiles.filter(item => item.status === 'approved' && ['client', 'partner', 'worker'].includes(item.role || ''));
-  const contexts = () => siteManager() ? props.requests.filter(item => scopedRecipients().some(recipient => recipient.requestId === item.id)) : props.requests;
-  const canStart = () => !manager() || (siteManager() ? scopedRecipients().length > 0 : recipients().length > 0);
+  const recipients = () => recipientRows();
+  const contexts = () => props.requests;
+  const canStart = () => !siteManager() || props.requests.length > 0;
   const dirty = () => Object.values(drafts()).some(value => value.trim().length > 0) || Object.keys(attempts()).length > 0;
   let disposed = false;
   let authEpoch = 0;
   let listController: AbortController | undefined;
   let messageController: AbortController | undefined;
+  let recipientController: AbortController | undefined;
   const controllers = new Set<AbortController>();
   const unavailableThreads = new Set<string>();
   let scroll: HTMLDivElement | undefined;
@@ -56,7 +63,7 @@ export default function PortalConversations(props: {
     authEpoch += 1;
     controllers.forEach(controller => controller.abort());
     listController = undefined; messageController = undefined;
-    setDenied(true); setConversations([]); setScopedRecipients([]); setParticipant(''); setRequestId(''); setMessages([]); setSelected(''); setDrafts({}); setAttempts({});
+    setDenied(true); setConversations([]); setListCursor(null); setNextListCursor(null); setRecipientRows([]); setRecipientAfter(null); setRecipientBusy(false); setParticipant(''); setRequestId(''); setMessages([]); setSelected(''); setDrafts({}); setAttempts({});
     setNextBefore(null); setPageBefore(null); setListing(false); setLoading(false); setCreating(false); setSending(''); setNotice('');
   }
   function accepts(epoch: number, thread?: string) {
@@ -98,18 +105,37 @@ export default function PortalConversations(props: {
       return await response.json() as T;
     } finally { clearTimeout(timer); controllers.delete(controller); }
   }
-  async function loadList() {
+  async function loadList(cursor: string | null = listCursor()) {
     if (!props.active || document.hidden || denied() || disposed) return;
     const epoch = authEpoch;
     listController?.abort();
     const controller = new AbortController(); listController = controller; setListing(true);
     try {
-      const data = await request<ConversationList>('/api/portal/conversations', 'GET', undefined, controller);
+      const data = await request<ConversationList>('/api/portal/conversations'+(cursor?'?'+new URLSearchParams({cursor}):''), 'GET', undefined, controller);
       if (!accepts(epoch) || listController !== controller) return;
-      setConversations(data.conversations.filter(item => !unavailableThreads.has(item.id))); setScopedRecipients(data.recipients ?? []); setLimited(data.limited); setError('');
+      setConversations(data.conversations.filter(item => !unavailableThreads.has(item.id))); setLimited(data.limited); setError('');
+      setListCursor(cursor);setNextListCursor(data.nextCursor??null);
     } catch (cause) {
       if (accepts(epoch) && listController === controller) setError(issue(cause));
     } finally { if (accepts(epoch) && listController === controller) { listController = undefined; setListing(false); } }
+  }
+  async function loadRecipients(after: string | null = null) {
+    if(!props.active || !manager() || denied() || disposed)return;
+    recipientController?.abort();
+    if(siteManager()&&!requestId()){setRecipientRows([]);setRecipientAfter(null);setRecipientBusy(false);return;}
+    const epoch=authEpoch,controller=new AbortController();recipientController=controller;setRecipientBusy(true);
+    const params=new URLSearchParams();
+    if(requestId())params.set('requestId',requestId());
+    if(recipientSearch().trim())params.set('q',recipientSearch().trim());
+    if(after)params.set('after',after);
+    try{
+      const data=await request<RecipientPage>('/api/portal/conversations/recipients?'+params,'GET',undefined,controller);
+      if(!accepts(epoch)||recipientController!==controller)return;
+      setRecipientRows(items=>after?[...items,...data.recipients.filter(item=>!items.some(existing=>existing.id===item.id))]:data.recipients);
+      setRecipientAfter(data.nextAfter);
+      if(!after&&!data.recipients.some(item=>item.id===participant()))setParticipant('');
+    }catch(cause){if(accepts(epoch)&&recipientController===controller)setError(issue(cause));}
+    finally{if(accepts(epoch)&&recipientController===controller){recipientController=undefined;setRecipientBusy(false);}}
   }
   async function loadMessages(before: number | null = null) {
     const thread = selected();
@@ -136,11 +162,12 @@ export default function PortalConversations(props: {
   function selectConversation(id: string, writeHistory = true) {
     if (denied() || disposed || id === selected() || unavailableThreads.has(id)) return;
     setSelected(id); setMessages([]); setNextBefore(null); setPageBefore(null); setError(''); setNotice('');
-    if (writeHistory) history.pushState(history.state, '', workspaceHref(location.href, { tab: 'conversations', conversation: id || null }));
+    if (writeHistory) history.pushState(history.state, '', workspaceHref(location.href, { tab: 'conversations', conversation: id || null, request: null }));
   }
   async function openConversation(event: SubmitEvent) {
     event.preventDefault(); if (creating() || denied()) return;
-    if (siteManager() && (!requestId() || !recipients().some(item => item.id === participant()))) return;
+    if (manager() && (recipientBusy() || !recipients().some(item => item.id === participant()))) return;
+    if (siteManager() && !requestId()) return;
     const epoch = authEpoch;
     setCreating(true); setError('');
     try {
@@ -188,7 +215,10 @@ export default function PortalConversations(props: {
   }
   onMount(() => {
     const fromUrl = () => {
-      const id = new URLSearchParams(location.search).get('conversation') || '';
+      const params=new URLSearchParams(location.search);
+      const context=params.get('request');
+      if(context&&props.requests.some(item=>item.id===context)){setRequestId(context);setParticipant('');setRecipientSearch('');}
+      const id = params.get('conversation') || '';
       selectConversation(id.length <= 200 ? id : '', false);
     };
     fromUrl(); window.addEventListener('knaba:workspace:navigate', fromUrl);
@@ -198,21 +228,40 @@ export default function PortalConversations(props: {
     onCleanup(() => { clearInterval(timer); window.removeEventListener('knaba:workspace:navigate', fromUrl); document.removeEventListener('visibilitychange', refresh); });
   });
   createEffect(() => { if (props.active) { void loadList(); if (selected()) void loadMessages(pageBefore()); } });
+  createEffect(() => {
+    // Each changed search/context cancels its predecessor; a stale reply cannot
+    // restore a recipient from another request or a revoked session.
+    const active=props.active,context=requestId(),query=recipientSearch();
+    void context;void query;
+    recipientController?.abort();recipientController=undefined;
+    setRecipientRows([]);setRecipientAfter(null);setParticipant('');
+    if(!active||!manager()||denied())return;
+    setRecipientBusy(true);
+    const timer=setTimeout(()=>void loadRecipients(),250);
+    onCleanup(()=>clearTimeout(timer));
+  });
   onCleanup(() => { disposed = true; authEpoch += 1; controllers.forEach(controller => controller.abort()); });
   return <section class="workspace-conversations" data-knaba-dirty={dirty() ? 'true' : undefined} aria-label={t().conversations}>
     <p class="portal-small">{siteManager() ? t().siteManagerIntro : manager() ? t().managerIntro : t().conversationIntro}</p>
-    <Show when={error()}><p class="portal-alert portal-alert-error" role="alert">{error()} <Show when={!denied()}><button type="button" class="portal-link-button" onClick={() => { void loadList(); if (selected()) void loadMessages(pageBefore()); }}>{t().retry}</button></Show></p></Show>
+    <Show when={error()}><p class="portal-alert portal-alert-error" role="alert">{error()} <Show when={!denied()}><button type="button" class="portal-link-button" onClick={() => { void loadList(); if(manager())void loadRecipients(); if (selected()) void loadMessages(pageBefore()); }}>{t().retry}</button></Show></p></Show>
     <Show when={!denied()}>
       <Show when={canStart()}><form class="workspace-start portal-form" onSubmit={openConversation}>
         <label>{t().context}<select required={siteManager()} value={requestId()} onChange={e => { setRequestId(e.currentTarget.value); if (siteManager()) setParticipant(''); }}><option value="">{siteManager() ? t().chooseRequest : t().general}</option>
           <For each={contexts()}>{item => <option value={item.id}>#{item.id.slice(-8).toUpperCase()} · {item.postcode}</option>}</For>
         </select></label>
-        <Show when={manager()}><label>{t().recipient}<select required value={participant()} onChange={e => setParticipant(e.currentTarget.value)}>
+        <Show when={manager()}><label>{cabinetWords[props.locale].findPerson}<input type="search" name="recipient-search" maxLength={160} value={recipientSearch()} onInput={e=>setRecipientSearch(e.currentTarget.value)}/></label>
+        <label>{t().recipient}<select required disabled={recipientBusy()} value={participant()} onChange={e => setParticipant(e.currentTarget.value)}>
           <option value="">{t().choosePerson}</option><For each={recipients()}>{person => <option value={person.id}>{person.name} · {p()[person.role!]}</option>}</For>
-        </select></label></Show>
-        <button type="submit" class="button button-outline" disabled={creating() || (manager() && !participant()) || (siteManager() && !requestId())}>{creating() ? p().loading : t().openConversation}</button>
+        </select></label><Show when={recipientBusy()}><p role="status" class="portal-small">{p().loading}</p></Show>
+        <Show when={!recipientBusy()&&!recipients().length&&(!siteManager()||requestId())}><p class="portal-small" role="status">{cabinetWords[props.locale].noPeople}</p></Show>
+        <Show when={recipientAfter()}><button type="button" class="portal-link-button" disabled={recipientBusy()} onClick={()=>void loadRecipients(recipientAfter())}>{cabinetWords[props.locale].morePeople}</button></Show></Show>
+        <button type="submit" class="button button-outline" disabled={creating() || (manager() && (!participant()||recipientBusy())) || (siteManager() && !requestId())}>{creating() ? p().loading : t().openConversation}</button>
       </form></Show>
       <Show when={limited()}><p class="portal-small">{p().limited}</p></Show>
+      <div class="portal-form-actions">
+        <Show when={listCursor()}><button type="button" class="portal-link-button" disabled={listing()} onClick={()=>void loadList(null)}>{cabinetWords[props.locale].latestConversations}</button></Show>
+        <Show when={nextListCursor()}><button type="button" class="portal-link-button" disabled={listing()} onClick={()=>void loadList(nextListCursor())}>{cabinetWords[props.locale].olderConversations}</button></Show>
+      </div>
       <div class="workspace-chat-layout">
         <nav class="workspace-threads" aria-label={t().conversations} aria-busy={listing()}>
           <Show when={!conversations().length}><p class="portal-small">{listing() ? t().loading : manager() ? t().noManagerConversations : t().noConversations}</p></Show>

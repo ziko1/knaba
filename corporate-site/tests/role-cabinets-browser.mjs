@@ -369,6 +369,123 @@ async function anonymousInquiryCase(owner,admin){
     {steps:3,endpoint:'/api/leads',httpStatus:201,accountCreated:false,managementVisibility:['owner','admin']});
 }
 
+
+async function completedCabinetCases(pages){
+  const worker=pages.worker;
+  await navigate(worker,'/konto/?lang=en');
+  const agenda=worker.getByRole('region',{name:'Upcoming jobs',exact:true});
+  await agenda.getByRole('button',{name:'Open request',exact:false}).first().waitFor();
+  const before=worker.context().pages().length;
+  await agenda.getByRole('button',{name:'Open request',exact:false}).first().click();
+  await worker.locator('.portal-panel:not([hidden]) .portal-request-card').first().waitFor();
+  assert.equal(new URL(worker.url()).searchParams.get('tab'),'requests');
+  assert.ok(new URL(worker.url()).searchParams.get('q'));
+  assert.equal(worker.context().pages().length,before);
+  record('worker agenda opens the selected assignment in the same cabinet');
+
+  const context=new URL(worker.url()).searchParams.get('q');
+  const conversationsBefore=fixture.db.prepare('SELECT COUNT(*) n FROM portal_conversations').get().n;
+  await worker.locator('.portal-request-card:visible').first().getByRole('button',{name:'Message about this request',exact:false}).click();
+  await worker.locator('.workspace-start').waitFor();
+  assert.equal(await worker.locator('.workspace-start select').first().inputValue(),context);
+  assert.equal(fixture.db.prepare('SELECT COUNT(*) n FROM portal_conversations').get().n,conversationsBefore,'context navigation must not create a conversation automatically');
+  await worker.locator('.workspace-start button[type=submit]').click();
+  await worker.locator('.workspace-composer textarea').fill('Synthetic worker coordination question.');
+  await worker.locator('.workspace-composer button[type=submit]').click();
+  await worker.locator('.workspace-message').filter({hasText:'Synthetic worker coordination question.'}).waitFor();
+  const ownerChat=pages.owner;
+  await navigate(ownerChat,'/konto/?lang=en&tab=conversations&request='+encodeURIComponent(context));
+  await ownerChat.locator('.workspace-start [name=recipient-search]').fill('QA worker');
+  const recipient=ownerChat.locator('.workspace-start select').nth(1);
+  await recipient.locator('option[value="'+fixture.identities.worker.id+'"]').waitFor({state:'attached'});
+  await ownerChat.waitForFunction(()=>!document.querySelectorAll('.workspace-start select')[1]?.disabled);
+  await recipient.selectOption(fixture.identities.worker.id);
+  await ownerChat.locator('.workspace-start button[type=submit]').click();
+  await ownerChat.locator('.workspace-message').filter({hasText:'Synthetic worker coordination question.'}).waitFor();
+  await ownerChat.locator('.workspace-composer textarea').fill('Synthetic owner coordination answer.');
+  await ownerChat.locator('.workspace-composer button[type=submit]').click();
+  await ownerChat.locator('.workspace-message').filter({hasText:'Synthetic owner coordination answer.'}).waitFor();
+  await worker.locator('.workspace-dialog-heading button').click();
+  await worker.locator('.workspace-message').filter({hasText:'Synthetic owner coordination answer.'}).waitFor();
+  record('request-context chat opens explicitly, owner finds the worker by name and both see persisted replies');
+
+
+  const partner=pages.partner;
+  await navigate(partner,'/konto/?lang=en&tab=newRequest');
+  const form=partner.locator('.portal-panel:not([hidden]) form');
+  await form.locator('[name=postcode]').fill('10315');await form.locator('[name=area]').fill('87');
+  const text='Synthetic delivery retry '+Date.now();
+  await form.locator('[name=message]').fill(text);await form.locator('input[type=checkbox]').check();
+  let persisted;
+  const loseResponse=async route=>{
+    const response=await route.fetch({timeout:15000});assert.equal(response.status(),201);
+    persisted=(await response.json()).request.id;
+    await route.abort('failed');
+  };
+  await partner.route('**/api/portal/requests',loseResponse);
+  try{
+    await form.locator('button[type=submit]').click();
+    await partner.waitForFunction(()=>{const button=document.querySelector('.portal-panel:not([hidden]) form button[type="submit"]');return button&&!button.disabled&&document.querySelector('.portal-panel:not([hidden]) form fieldset')?.disabled;});
+    assert.ok(persisted);
+    assert.equal(await form.locator('[name=message]').isDisabled(),true);
+    assert.equal(await form.locator('[name=message]').inputValue(),text);
+  }finally{await partner.unroute('**/api/portal/requests',loseResponse);}
+  const [replayed]=await Promise.all([
+    partner.waitForResponse(response=>new URL(response.url()).pathname==='/api/portal/requests'&&response.request().method()==='POST'),
+    form.locator('button[type=submit]').click()
+  ]);
+  assert.equal(replayed.status(),200);assert.equal((await replayed.json()).request.id,persisted);
+  assert.equal(fixture.db.prepare('SELECT COUNT(*) n FROM cleaning_requests WHERE message=?').get(text).n,1);
+  await partner.locator('.portal-request-card').filter({hasText:text}).waitFor();
+  record('lost response retries the original accepted request and persists exactly one row');
+
+  // Seed only this disposable fixture. No real accounts, roles or requests are read.
+  const sample=fixture.db.prepare('SELECT * FROM cleaning_requests WHERE id=?').get(fixture.requests.partner.id);
+  const columns=Object.keys(sample),quoted=columns.map(name=>'"'+name+'"');
+  const insert=fixture.db.prepare('INSERT INTO cleaning_requests ('+quoted.join(',')+') VALUES ('+columns.map(()=>'?').join(',')+')');
+  for(let i=0;i<205;i++){
+    const id='cabinet-page-request-'+String(i).padStart(4,'0');
+    const row={...sample,id,idempotency_key:id,message:'Synthetic page request '+i,updated_at:'2026-12-01T10:00:00.000Z'};
+    insert.run(...columns.map(name=>row[name]));
+  }
+  const owner=pages.owner;
+  await navigate(owner,'/konto/?lang=en&tab=requests');
+  await owner.locator('[data-cabinet-more="requests"]').waitFor();
+  assert.equal(await owner.locator('.portal-request-card').count(),200);
+  const first=owner.locator('.portal-request-card').first();
+  await first.getByRole('button',{name:/Plan job/}).click();
+  const note=first.locator('textarea');await note.fill('Unsaved draft survives loading more');
+  const expected=(await apiFromPage(owner,'/api/portal/dashboard')).body.totals.requests;
+  await owner.locator('[data-cabinet-more="requests"]').click();
+  await owner.waitForFunction(count=>document.querySelectorAll('.portal-request-list .portal-request-card').length===count,expected);
+  assert.equal(await note.inputValue(),'Unsaved draft survives loading more');
+  await first.getByRole('button',{name:'Cancel',exact:true}).click();
+  record('request continuation reaches every authorized record and preserves an open editor',{loaded:expected});
+
+  const profileInsert=fixture.db.prepare("INSERT INTO profiles(id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES(?,?,?,'worker','worker','approved','2026-10-28',?,?,1,?)");
+  for(let i=0;i<205;i++){
+    const id='cabinet-page-person-'+String(i).padStart(4,'0');
+    profileInsert.run(id,'QA continuation person '+i,id+'@example.invalid','2026-12-01T10:00:00.000Z','2026-12-01T10:00:00.000Z',id);
+  }
+  await navigate(owner,'/konto/?lang=en&tab=people');
+  await owner.locator('[data-cabinet-more="profiles"]').waitFor();
+  assert.equal(await owner.locator('.portal-profile-card').count(),200);
+  const person=owner.locator('.portal-profile-card').first();
+  const role=person.locator('select');await role.selectOption('partner');
+  const profiles=(await apiFromPage(owner,'/api/portal/dashboard')).body.totals.profiles;
+  await owner.locator('[data-cabinet-more="profiles"]').click();
+  await owner.waitForFunction(count=>document.querySelectorAll('.portal-profile-card').length===count,profiles);
+  assert.equal(await role.inputValue(),'partner');
+  await owner.locator('[name=people-search]').fill('no-such-person');
+  assert.equal(await owner.locator('.portal-profile-card:visible').count(),0);
+  await owner.locator('[name=people-search]').fill('');
+  assert.equal(await role.inputValue(),'partner','search must keep edited role controls mounted');
+  await owner.locator('[name=people-status]').selectOption('pending');
+  assert.equal(await owner.locator('.portal-profile-card:visible').count(),1);
+  await overflow(owner,'owner filtered people 390');
+  record('people continuation, search and approval filter preserve unsaved role edits',{loaded:profiles});
+}
+
 async function run(){
   await mkdir(output,{recursive:true});
   let drivers;
@@ -621,6 +738,7 @@ async function run(){
   assert.equal((await apiFromPage(client,'/api/portal/dashboard')).status,401);record('logout revokes protected access');
   // Run after all original role/count assertions and the authenticated journey.
   await anonymousInquiryCase(pages.owner,pages.admin);
+  await completedCabinetCases(pages);
   assert.deepEqual(receipt.errors,[],'browser JavaScript errors');
   receipt.status='PASS';
 }

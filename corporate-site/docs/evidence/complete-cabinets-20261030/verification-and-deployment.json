@@ -1,0 +1,196 @@
+{
+  "sourceSha": "2b4190591463d748533b073f2377d1716035bef8",
+  "sourceTree": "00eaeff360ac3030b5c9c0e0cb5287f5cb3cf856",
+  "artifactSha256": "198400c15ae399f2e28445c47e12be7534a15c2bfd3366ab66ffd034e3767af3",
+  "artifactFiles": 433,
+  "artifactBytes": 7556356,
+  "node": "v24.22.1",
+  "buildMode": "official",
+  "schemaUnchanged": true,
+  "build": {
+    "scope": "production-build-static-validation",
+    "pages": 160,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "OFFICIAL",
+    "externalImageScriptRequests": "NONE_IN_HTML",
+    "externalPartnerImagesInMarkup": 0,
+    "cssGzip": 40958,
+    "allEmittedJsGzip": 225192,
+    "artifactSha256": "811219b8e92ce9e3e41532afb3d9b8aa05883803fea6a205210bdedef3a25491",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "checks": [
+    {
+      "command": "check",
+      "exit": 0,
+      "logSha256": "32b3eb0ba07ddc44273ac75532db91671b5d610f15e8f2e9755d30fe37a5d2f5"
+    },
+    {
+      "command": "site-tests",
+      "exit": 0,
+      "logSha256": "66038505b76677f8eb3a9c5b90227e83892be32cc09c8f49ae80f89c51523302"
+    },
+    {
+      "command": "vps-tests",
+      "exit": 0,
+      "logSha256": "9948a405127d957729769e7fb59b3b557e9f6c055db68dda6a2cb55631d20187"
+    },
+    {
+      "command": "root-tests",
+      "exit": 0,
+      "logSha256": "544909a2998e63927dc26aba5f74194ef736ee4003f4311e3afc129545f813b3"
+    },
+    {
+      "command": "source",
+      "exit": 0,
+      "logSha256": "4af353ff71cbcd84bb63ad80d066c3ad44ce64d0451cc99ce672777e8ee8ec0b"
+    },
+    {
+      "command": "http",
+      "exit": 0,
+      "logSha256": "43231d98fe681a26bb35a67c329b5837ff9bb6cc2753746a45b2323b8bc141a7"
+    }
+  ],
+  "buildChecks": [
+    {
+      "command": "build",
+      "exit": 0
+    },
+    {
+      "command": "verify-build",
+      "exit": 0
+    }
+  ],
+  "testCounts": {
+    "vitest": [
+      "499"
+    ],
+    "siteNodeGroups": [
+      "33",
+      "35",
+      "10",
+      "8"
+    ],
+    "vps": 137,
+    "root": 28
+  },
+  "compiledHttpsAcceptance": {
+    "status": "PASS",
+    "at": "2026-10-30T21:06:16.571Z",
+    "environment": "isolated HTTPS / actual password auth / compiled Worker / real SQLite / synthetic data",
+    "workerSha256": "0f003a167913ecee44f86ad60b5d0168213f59a06a697bb16849a6e69ef58f8c",
+    "checks": [
+      {
+        "name": "Password login and server-selected destination for nine synthetic identities",
+        "status": "PASS"
+      },
+      {
+        "name": "Client request persists, replay deduplicates, another client cannot read it",
+        "status": "PASS"
+      },
+      {
+        "name": "Owner assigns Bauleiter; impossible appointment rejected; Bauleiter schedules worker",
+        "status": "PASS"
+      },
+      {
+        "name": "Administrator finds scoped client, exchanges persisted messages; worker cannot read client chat",
+        "status": "PASS"
+      },
+      {
+        "name": "Worker completes checklist; internal notes stay private; client feedback persists",
+        "status": "PASS"
+      },
+      {
+        "name": "Partner isolation and pending/suspended write denial",
+        "status": "PASS"
+      },
+      {
+        "name": "Synthetic database integrity and foreign keys",
+        "status": "PASS"
+      }
+    ]
+  },
+  "browser": {
+    "status": "BLOCKED",
+    "reason": "No usable authorized local browser; private QA awaits Cloudflare Access and testing operator onboarding",
+    "uiAssertions": "NOT_RUN"
+  },
+  "testing": {
+    "url": "https://testing.knaba.de",
+    "artifact": "198400c15ae399f2e28445c47e12be7534a15c2bfd3366ab66ffd034e3767af3",
+    "result": "ACTIVATED_CODE_ONLY",
+    "finishedAt": "2026-10-30T21:07:45.039339+00:00",
+    "previousArtifact": "0d544250e45917a78e9b2a981ed09b898aaad039d602144915c56c349c94c531",
+    "backup": {
+      "sha256": "08b62da8705b479b0aa9a778d8d33f3228e0f80bebc744303fd9123eb415086a",
+      "integrity": "ok",
+      "foreignKeyErrors": 0
+    },
+    "health": 200,
+    "readiness": 503,
+    "readinessReason": "No activated testing operator; pre-existing condition preserved",
+    "anonymousGatewayStatus": 401
+  },
+  "production": {
+    "updated": false,
+    "artifact": "71fd88c71f67e13f81ecacb5340b1b19eebcdb90bd35217efc75cc42bf20b383",
+    "configurationSha256": "b660fd7b8b7cc9df3ef6bb255cdec8d63de06a71c02a64cb565c58dbd7b2488e",
+    "health": 200,
+    "readiness": 200,
+    "promotion": "BLOCKED_PENDING_BROWSER_ACCEPTANCE_AND_CUSTOMER_CONFIRMATION"
+  },
+  "anonymousHttpProbes": [
+    {
+      "host": "knaba.de",
+      "path": "/healthz",
+      "status": 200
+    },
+    {
+      "host": "knaba.de",
+      "path": "/readyz",
+      "status": 200
+    },
+    {
+      "host": "knaba.de",
+      "path": "/api/portal/session",
+      "status": 200
+    },
+    {
+      "host": "knaba.de",
+      "path": "/api/portal/dashboard",
+      "status": 401
+    },
+    {
+      "host": "knaba.de",
+      "path": "/api/portal/conversations/recipients",
+      "status": 401
+    },
+    {
+      "host": "testing.knaba.de",
+      "path": "/healthz",
+      "status": 200
+    },
+    {
+      "host": "testing.knaba.de",
+      "path": "/readyz",
+      "status": 503
+    },
+    {
+      "host": "testing.knaba.de",
+      "path": "/api/portal/session",
+      "status": 200
+    },
+    {
+      "host": "testing.knaba.de",
+      "path": "/api/portal/dashboard",
+      "status": 401
+    },
+    {
+      "host": "testing.knaba.de",
+      "path": "/api/portal/conversations/recipients",
+      "status": 401
+    }
+  ]
+}

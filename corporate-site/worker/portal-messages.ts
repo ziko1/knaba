@@ -98,13 +98,46 @@ export async function handlePortalMessages(request: Request, env: WorkerEnv, s: 
   if (!env.DB) h.fail(503, 'unavailable', 'Nachrichten sind derzeit nicht verfügbar.');
   const db = env.DB!;
   const url = new URL(request.url), path = url.pathname.replace(/\/$/, '');
+  if (path === '/api/portal/conversations/recipients') {
+    if (request.method !== 'GET') return h.response({error:{code:'method',message:'Methode nicht erlaubt.'}},405);
+    if (!manager(s)) h.fail(403,'forbidden','Die Gesprächsauswahl ist nur für die Verwaltung verfügbar.');
+    const query=(url.searchParams.get('q')||'').trim(), after=url.searchParams.get('after');
+    if(query.length>160 || /[\u0000-\u001f\u007f]/.test(query))h.fail(422,'validation','Der Suchbegriff ist ungültig.');
+    if(after!==null)identifier(after,h);
+    const rawRequest=url.searchParams.get('requestId');
+    const requestId=rawRequest===null?null:identifier(rawRequest,h);
+    // A site manager never receives a company-wide contact directory.
+    if(scopedManager(s)&&!requestId)return h.response({recipients:[],nextAfter:null});
+    const actor=actorGuard(s),context=participantContext(s,requestId);
+    const pattern='%'+query.replace(/[\\%_]/g,'\\$&')+'%';
+    const rows=(await db.prepare(`SELECT member.id,member.name,member.role FROM profiles member
+      WHERE member.status='approved' AND member.role IN ('client','partner','worker') AND ${actor.sql}${context.sql}
+      ${query?" AND member.name LIKE ? ESCAPE '\\'":''}${after===null?'':' AND member.id>?'}
+      ORDER BY member.id ASC LIMIT 51`).bind(...actor.values,...context.values,...(query?[pattern]:[]),...(after===null?[]:[after])).all<Row>()).results||[];
+    const page=rows.slice(0,50);
+    return h.response({recipients:page.map(row=>({id:String(row.id),name:String(row.name),role:String(row.role)})),
+      nextAfter:rows.length>50?String(page[page.length-1].id):null});
+  }
   if (path === '/api/portal/conversations') {
     if (request.method === 'GET') {
       const guard = conversationGuard(s);
+      const rawCursor=url.searchParams.get('cursor');
+      let cursor: string[] | null=null;
+      if(rawCursor!==null){
+        try{
+          if(rawCursor.length>500)throw Error('cursor');
+          const value:unknown=JSON.parse(rawCursor);
+          if(!Array.isArray(value)||value.length!==2||typeof value[0]!=='string'||typeof value[1]!=='string'||
+            !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value[0])||!Number.isFinite(Date.parse(value[0]))||!recordPattern.test(value[1]))throw Error('cursor');
+          cursor=value;
+        }catch{h.fail(422,'cursor','Die Gesprächsposition ist ungültig.');}
+      }
       const rows = (await db.prepare(`SELECT ${conversationColumns} FROM ${fromConversations} WHERE ${guard.sql}
-        ORDER BY c.updated_at DESC,c.id DESC LIMIT 201`).bind(...guard.values).all<Row>()).results || [];
+        ${cursor?' AND (c.updated_at<? OR (c.updated_at=? AND c.id<?))':''}
+        ORDER BY c.updated_at DESC,c.id DESC LIMIT 201`).bind(...guard.values,...(cursor?[cursor[0],cursor[0],cursor[1]]:[])).all<Row>()).results || [];
       const choices = await scopedRecipients(db,s);
-      return h.response({conversations: rows.slice(0, 200).map(viewConversation), limited: rows.length > 200 || choices.limited, recipients:choices.recipients});
+      return h.response({conversations: rows.slice(0, 200).map(viewConversation), limited: rows.length > 200 || choices.limited, recipients:choices.recipients,
+        nextCursor:rows.length>200?JSON.stringify([rows[199].updated_at,rows[199].id]):null});
     }
     if (request.method !== 'POST') return h.response({error:{code:'method',message:'Methode nicht erlaubt.'}}, 405);
     const body = await h.readBody(request, 2048);

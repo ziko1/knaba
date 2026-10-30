@@ -24,6 +24,8 @@ describe('portal language data loading',()=>{
     expect(store.portalMessages.pl.portal).toBe(pl.portal.portal);
     expect(store.workspaceWords.pl.conversations).toBe(pl.workspace.conversations);
     expect(store.adminWords.pl.title).toBe(pl.admin.title);
+    expect(store.cabinetWords.pl.agenda).toBe(pl.cabinet.agenda);
+    expect(Object.keys(store.cabinetWords)).toEqual(['de','pl']);
     await store.ensure('pl');expect(load).toHaveBeenCalledTimes(1);
   });
   it('preserves existing copy and permits retry after network failure',async()=>{
@@ -36,11 +38,12 @@ describe('portal language data loading',()=>{
   });
   it('rejects wrong, incomplete and invalid data before publishing a locale',async()=>{
     const broken=structuredClone(pl);delete (broken.portal as Partial<typeof broken.portal>).loading;
-    for(const invalid of [en,broken,{...pl,workspace:{...pl.workspace,send:''}},{...pl,portal:[]},null]){
+    for(const invalid of [en,broken,{...pl,workspace:{...pl.workspace,send:''}},{...pl,cabinet:{...pl.cabinet,loaded:''}},{...pl,cabinet:null},{...pl,portal:[]},null]){
       const store=createPortalLocaleStore(baseline,async()=>invalid);
       await expect(store.ensure('pl')).rejects.toThrow();
       expect(Object.keys(store.portalMessages)).toEqual(['de']);
       expect(Object.keys(store.workspaceWords)).toEqual(['de']);
+      expect(Object.keys(store.cabinetWords)).toEqual(['de']);
     }
   });
 });

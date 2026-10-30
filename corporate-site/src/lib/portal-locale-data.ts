@@ -12,7 +12,7 @@ const store=createPortalLocaleStore(defaultPack as PortalLocalePack,async locale
     return await response.json();
   }finally{clearTimeout(timer);}
 });
-export const {portalMessages,workspaceWords,adminWords}=store;
+export const {portalMessages,workspaceWords,adminWords,cabinetWords}=store;
 export const ensurePortalLocale=store.ensure;
 
 if(import.meta.env?.SSR!==false){

@@ -70,6 +70,58 @@ async function job() {
 }
 
 describe('role-scoped portal messaging',()=>{
+  it('lets administrators find active client and partner recipients without exposing private profile fields',async()=>{
+    const result=await call('/api/portal/conversations/recipients?q=client','admin');
+    expect(result.status).toBe(200);
+    const body=await result.json();
+    expect(body.recipients.map((r:{id:string})=>r.id)).toEqual(['client','client2']);
+    expect(Object.keys(body.recipients[0]).sort()).toEqual(['id','name','role']);
+    expect(JSON.stringify(body)).not.toContain('example.test');
+    expect((await (await call('/api/portal/conversations/recipients?q=partner','admin')).json()).recipients[0].id).toBe('partner');
+    for(const person of ['client','worker','partner','pending'] as Person[])
+      expect((await call('/api/portal/conversations/recipients',person)).status).toBe(403);
+    expect((await call('/api/portal/conversations/recipients')).status).toBe(401);
+  });
+  it('scopes recipient lookup to the assigned request and current membership on every page',async()=>{
+    const requestId=await job();
+    const url='/api/portal/conversations/recipients?requestId='+requestId;
+    expect((await (await call(url,'admin')).json()).recipients.map((r:{id:string})=>r.id)).toEqual(['client','worker']);
+    expect((await (await call(url,'bauleiter')).json()).recipients.map((r:{id:string})=>r.id)).toEqual(['client','worker']);
+    expect((await (await call(url,'bauleiter2')).json()).recipients).toEqual([]);
+    expect((await (await call('/api/portal/conversations/recipients','bauleiter')).json()).recipients).toEqual([]);
+    db.sql.prepare("UPDATE profiles SET status='suspended' WHERE id='worker'").run();
+    expect((await (await call(url,'bauleiter')).json()).recipients.map((r:{id:string})=>r.id)).toEqual(['client']);
+    db.sql.prepare("UPDATE cleaning_requests SET assigned_bauleiter_id='bauleiter2' WHERE id=?").run(requestId);
+    expect((await (await call(url,'bauleiter')).json()).recipients).toEqual([]);
+  });
+  it('paginates recipients with bounded results and literal search characters',async()=>{
+    const insert=db.sql.prepare("INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES (?,?,?,'client','client','approved','2026-10-28','2026-10-28','2026-10-28',1,?)");
+    for(let n=0;n<55;n++){const id='directory-'+String(n).padStart(3,'0');insert.run(id,'Directory '+n,id+'@example.test',id);}
+    const first=await (await call('/api/portal/conversations/recipients?q=Directory','admin')).json();
+    expect(first.recipients).toHaveLength(50);expect(first.nextAfter).toBe('directory-049');
+    const last=await (await call('/api/portal/conversations/recipients?q=Directory&after='+first.nextAfter,'admin')).json();
+    expect(last.recipients).toHaveLength(5);expect(last.nextAfter).toBeNull();
+    expect(new Set([...first.recipients,...last.recipients].map(r=>r.id)).size).toBe(55);
+    expect((await (await call('/api/portal/conversations/recipients?q=%25','admin')).json()).recipients).toEqual([]);
+    expect((await call('/api/portal/conversations/recipients?q='+('x'.repeat(161)),'admin')).status).toBe(422);
+    expect((await call('/api/portal/conversations/recipients?after=bad%20cursor','admin')).status).toBe(422);
+  });
+  it('pages beyond 200 conversations without cross-participant disclosure or tied-key duplication',async()=>{
+    const time='2026-10-30T12:00:00.000Z';
+    const person=db.sql.prepare("INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES (?,?,?,'client','client','approved','2026-10-28',?,?,1,?)");
+    const thread=db.sql.prepare("INSERT INTO portal_conversations(id,participant_id,participant_role,request_id,scope_key,created_at,updated_at) VALUES (?,?,'client',NULL,'direct',?,?)");
+    for(let n=0;n<205;n++){const id='paged-'+String(n).padStart(3,'0');person.run(id,'Paged '+n,id+'@example.test',time,time,id);thread.run(id,id,time,time);}
+    const first=await (await call('/api/portal/conversations','admin')).json();
+    expect(first.conversations).toHaveLength(200);expect(first.nextCursor).toBeTruthy();
+    const path='/api/portal/conversations?'+new URLSearchParams({cursor:first.nextCursor});
+    const last=await (await call(path,'admin')).json();
+    expect(last.conversations).toHaveLength(5);expect(last.nextCursor).toBeNull();
+    expect(new Set([...first.conversations,...last.conversations].map(c=>c.id)).size).toBe(205);
+    expect((await (await call(path,'client')).json()).conversations).toEqual([]);
+    db.sql.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(last.conversations[0].participantId);
+    expect((await (await call(path,'admin')).json()).conversations).toHaveLength(4);
+    expect((await call('/api/portal/conversations?cursor=bad','admin')).status).toBe(422);
+  });
   it('allows a worker and manager to converse without an assigned job and persists both messages',async()=>{
     const conversation=await open('worker');
     const first=await send(conversation.id,'worker',text('When does the next shift start?'));
@@ -182,7 +234,7 @@ describe('role-scoped portal messaging',()=>{
 
   it('offers a Bauleiter only active participants of its assigned requests, without a global messaging directory',async()=>{
     const direct=await open('worker');await send(direct.id,'worker',text('Private general worker discussion'));
-    expect(await (await call('/api/portal/conversations','bauleiter')).json()).toEqual({conversations:[],limited:false,recipients:[]});
+    expect(await (await call('/api/portal/conversations','bauleiter')).json()).toEqual({conversations:[],limited:false,recipients:[],nextCursor:null});
     const requestId=await job();
     const otherRequest=await job();
     db.sql.prepare("UPDATE cleaning_requests SET assigned_bauleiter_id='bauleiter2',client_id='client2',assigned_worker_id='worker2' WHERE id=?").run(otherRequest);
@@ -237,7 +289,7 @@ describe('role-scoped portal messaging',()=>{
     const requestId=await job(),team=await open('bauleiter',{requestId,participantId:'worker'}),payload=text('Scoped message');
     await send(team.id,'bauleiter',payload);
     db.sql.prepare("UPDATE cleaning_requests SET assigned_bauleiter_id='bauleiter2' WHERE id=?").run(requestId);
-    expect(await (await call('/api/portal/conversations','bauleiter')).json()).toEqual({conversations:[],limited:false,recipients:[]});
+    expect(await (await call('/api/portal/conversations','bauleiter')).json()).toEqual({conversations:[],limited:false,recipients:[],nextCursor:null});
     expect((await call(messagePath(team.id),'bauleiter')).status).toBe(404);
     expect((await call(messagePath(team.id),'bauleiter','POST',payload)).status).toBe(404);
     expect((await (await call(messagePath(team.id),'bauleiter2')).json()).messages).toHaveLength(1);

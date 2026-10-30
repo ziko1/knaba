@@ -28,6 +28,10 @@ export interface PortalDashboard {
   /** Owner sees all profiles; administration sees approved assignees; assigned Bauleiter sees approved workers without email. */
   profiles: PortalProfile[]; audit: AuditEvent[];
   limited: boolean;
+  /** Independent opaque keyset cursors; omitted cursor starts that collection again. */
+  page?: { nextRequestCursor: string | null; nextProfileCursor: string | null };
+  /** Counts use the same authorization scope as the collections, before pagination. */
+  totals?: { requests: number; profiles: number };
 }
 export interface RegistrationInput { name: string; requestedRole: "client" | "worker" | "partner" | "bauleiter"; privacyAccepted: true }
 export interface CleaningRequestInput {
@@ -60,6 +64,7 @@ export interface PortalConversationRecipient {
 }
 export interface PortalConversations {
   conversations: PortalConversation[]; limited: boolean; recipients: PortalConversationRecipient[];
+  nextCursor?: string | null;
 }
 export interface PortalMessages {
   conversation: PortalConversation; messages: PortalMessage[]; nextBefore: number | null;

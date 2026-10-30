@@ -16,7 +16,6 @@
     "payloadChanged": "Ten identyfikator zgłoszenia dotyczy już zapisanych danych. Najpierw sprawdź zgłoszenia. Aby dodać kolejną sprawę, rozpocznij nowe zgłoszenie.",
     "cancelRequestNote": "Czy anulować to zgłoszenie? Anulowanego zgłoszenia nie można tutaj ponownie otworzyć.",
     "confirmCancel": "Potwierdź anulowanie zgłoszenia",
-    "retryKeep": "Przy ponowieniu nie zmieniaj danych. W razie wątpliwości najpierw sprawdź zapisane zgłoszenia.",
     "education": "Edukacja / opieka",
     "recurring": "Regularnie",
     "undecided": "Jeszcze nie ustalono",
@@ -172,7 +171,6 @@
     "unavailableError": "Panel jest chwilowo niedostępny. Spróbuj później.",
     "loginError": "Sesja wygasła. Zaloguj się ponownie.",
     "genericError": "Nie udało się wykonać działania. Spróbuj ponownie.",
-    "retryNotice": "Nie potwierdzono powodzenia. Spróbuj ponownie; powtórzenie nie utworzy duplikatu zgłoszenia.",
     "error": "Informacja",
     "required": "Pole wymagane",
     "roleChanged": "Dostęp został zaktualizowany.",
@@ -282,5 +280,25 @@
     "language": "Język",
     "refresh": "Sprawdź sesję",
     "unsaved": "W edytorze strony są niezapisane zmiany. Mimo to przejść dalej?"
+  },
+  "cabinet": {
+    "loaded": "Wczytane zgłoszenia",
+    "loadedProfiles": "Wczytane profile",
+    "of": "z",
+    "agenda": "Najbliższe zadania",
+    "agendaEmpty": "Brak zaplanowanych prac we wczytanych zgłoszeniach.",
+    "openRequest": "Otwórz zgłoszenie",
+    "allRequests": "Wszystkie zgłoszenia",
+    "loadedNote": "Liczby statusów i terminy dotyczą wczytanych zgłoszeń.",
+    "peopleSearch": "Szukaj we wczytanych profilach",
+    "moreRequests": "Wczytaj kolejne zgłoszenia",
+    "moreProfiles": "Wczytaj kolejne profile",
+    "retryFrozen": "Odbiór nie jest jeszcze potwierdzony. Ponów wysyła to samo zgłoszenie bez duplikatu. Pola pozostają zablokowane do potwierdzenia.",
+    "message": "Wiadomość o zgłoszeniu",
+    "noPeople": "Brak pasujących osób.",
+    "findPerson": "Szukaj osób",
+    "morePeople": "Wczytaj kolejne osoby",
+    "olderConversations": "Starsze rozmowy",
+    "latestConversations": "Najnowsze rozmowy"
   }
 }

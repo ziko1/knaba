@@ -15,7 +15,11 @@ test('partner is a first-class authenticated portal role with its own request co
 test('partner backend can only create and view own scoped requests, never worker notes',()=>{
   const src=readFileSync(new URL('../worker/api.ts',import.meta.url),'utf8');
   assert.match(src,/requireRole\(s,\['client','partner'\]\)/);
-  assert.match(src,/const filters=\(s.role==='client'\|\|s.role==='partner'\)\?' WHERE client_id=\?'/);
+  assert.match(src,/const filters=\(s.role==='client'\|\|s.role==='partner'\)\?'client_id=\?'/);
+  // Pagination and totals must both retain the partner filter and actor membership.
+  assert.match(src,/const where=`\$\{filters\} AND \$\{actor\}`/);
+  assert.match(src,/SELECT count\(\*\) AS count FROM cleaning_requests WHERE \$\{where\}/);
+  assert.match(src,/SELECT \* FROM cleaning_requests WHERE \$\{where\}\$\{after\}/);
   assert.match(src,/role !== 'client' && role !== 'partner'/);
   assert.match(src,/const scopeGuard=\(s.role==='client'\|\|s.role==='partner'\)\?' AND client_id=\?'/);
   assert.match(src,/role=\? AND status='approved'/);
