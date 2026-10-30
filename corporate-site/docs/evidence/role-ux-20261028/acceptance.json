@@ -1,0 +1,312 @@
+{
+  "task": "KN-ROLE-UX-20261028",
+  "status": "SOURCE_AND_ISOLATED_QA_PASS",
+  "releaseStatus": "NOT_DEPLOYED",
+  "preparedAt": "2026-10-28T09:36:11.711111+00:00",
+  "source": {
+    "repository": "https://github.com/ziko1/knaba.git",
+    "branch": "feat/knaba-role-entry-responsive-20261028",
+    "testedRuntimeCommit": "b2d443a07942598153ddaab83ed9d135bb0903d3",
+    "mergedUpstream": "e2ab9b1883bcac8559dd34939d75bb3e9676dd69",
+    "initialBase": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+    "subsequentEdits": "Documentation and evidence only; runtime, migrations, tests and ERP unchanged after testedRuntimeCommit."
+  },
+  "artifact": {
+    "artifactSha256": "3b414f64bdc5660387d9bc5b61324240c5c92b9b46aa349a12ecd9d4085b2962",
+    "files": 233,
+    "htmlPages": 130,
+    "runtimeArchiveSha256": "32f373ef446a35e8bab7247a4dea86be574b4920997901c1504aa5a6ad39c85f",
+    "cssGzip": 39332,
+    "allEmittedJsGzip": 207805,
+    "cssBudgetBytes": 40960,
+    "jsBudgetBytes": 225280,
+    "baselineCssGzip": 40949,
+    "baselineJsGzip": 195116,
+    "cssDeltaBytes": -1617,
+    "jsDeltaBytes": 12689,
+    "measurement": "Sum of all emitted gzip assets; not a page transfer, real-user timing or CWV measurement."
+  },
+  "environment": {
+    "localNode": "24.22.1",
+    "browserHostNode": "24.21.0",
+    "browser": "chromium",
+    "browserVersion": "155.0.8059.12",
+    "browserImageId": "sha256:690763cbb437ee7233f538a953bb5390bf03791eb5c965b471e59d17a6132fcb",
+    "isolation": "Existing browser container with network none; synthetic local HTTPS and SQLite; source/TLS read-only mounts; separate disposable test state."
+  },
+  "gates": [
+    {
+      "command": "npm run check",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "files": 309,
+      "errors": 0,
+      "warnings": 0,
+      "hints": 7,
+      "log": "final-check.log"
+    },
+    {
+      "command": "npm test",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "vitestTests": 289,
+      "vitestFiles": 42,
+      "additionalNativeTestFileInvocations": 9,
+      "note": "Native runner file invocations are not individual nested assertions. No artificial combined total is reported.",
+      "log": "final-site-tests.log"
+    },
+    {
+      "command": "KNABA_RELEASE_MODE=vsp npm run test:vps",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "tests": 103,
+      "failed": 0,
+      "log": "final-vps-tests.log"
+    },
+    {
+      "command": "npm test",
+      "cwd": ".",
+      "status": "PASS",
+      "nativeTestFileInvocations": 3,
+      "log": "root-tests.log"
+    },
+    {
+      "command": "KNABA_RELEASE_MODE=vsp npm run build",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "htmlPages": 130,
+      "log": "final-build.log"
+    },
+    {
+      "command": "npm run i18n:extract",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "germanRoutes": 28,
+      "units": 1056,
+      "digest": "1a55737bd76375963b53ce1f80539421744e472101890249f92828567538a96c",
+      "log": "final-i18n.log"
+    },
+    {
+      "command": "KNABA_RELEASE_MODE=vsp npm run verify:build",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "internalLinks": "PASS",
+      "metadata": "PASS",
+      "publishedLocales": [
+        "de",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "targetLocales": 99,
+      "unpublishedLocales": 95,
+      "log": "final-verify-build.log"
+    },
+    {
+      "command": "node tests/role-cabinets-browser.mjs (isolated existing Chromium container)",
+      "cwd": "corporate-site",
+      "status": "PASS",
+      "checks": 87,
+      "failed": 0,
+      "startedAt": "2026-10-28T09:28:44.726Z",
+      "finishedAt": "2026-10-28T09:29:47.898Z",
+      "viewports": [
+        320,
+        390,
+        768,
+        1024,
+        1440
+      ],
+      "shortLandscape": [
+        667,
+        320
+      ],
+      "locales": [
+        "de",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "approvedRoles": [
+        "client",
+        "worker",
+        "partner",
+        "bauleiter",
+        "admin",
+        "owner"
+      ],
+      "deniedStates": [
+        "pending",
+        "suspended"
+      ],
+      "migrations": 12,
+      "receipt": "browser-receipt.json"
+    }
+  ],
+  "homepagePreservation": {
+    "source": "corporate-site/src/components/ConstructionHome.astro",
+    "comparisonBase": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+    "beforeBytes": 12672,
+    "afterBytes": 12672,
+    "sameLineMultiset": true,
+    "sortedLinesSha256": "ef68375d81968fde5cda444ec97d2a7436477a5a08b7a14adfbe8459659edf59",
+    "byteIdenticalDirectSections": 5,
+    "embeddedSectionsRetainedOnce": [
+      "ProjectScopeGuide",
+      "WhyKnaBa",
+      "CompanyProfile",
+      "Partners",
+      "Reviews",
+      "HomeGuides",
+      "ConstructionFaq"
+    ],
+    "note": "This invariant covers our homepage reorder. Newer upstream review empty-state content is retained separately."
+  },
+  "acceptanceIds": {
+    "UX-01": "PASS_IN_ISOLATED_QA",
+    "UX-02": "PASS_IN_ISOLATED_QA",
+    "UX-03": "PASS_IN_ISOLATED_QA",
+    "UX-04": "PASS_IN_ISOLATED_QA",
+    "UX-05": "PASS_IN_ISOLATED_QA",
+    "UX-06": "PASS_IN_ISOLATED_QA",
+    "ROLE-01": "PASS_IN_ISOLATED_QA",
+    "ROLE-02": "PASS_IN_ISOLATED_QA",
+    "DATA-01": "PASS_IN_ISOLATED_QA",
+    "QA-01": "PASS_IN_ISOLATED_QA",
+    "QA-02": "PASS_IN_ISOLATED_QA",
+    "DOC-01": "PASS_IN_ISOLATED_QA"
+  },
+  "independentReview": {
+    "type": "Collaborating agent source reviews, not human certification",
+    "areas": [
+      "authorization and migration invariants",
+      "async modal session/focus lifecycle",
+      "responsive admin/portal and unused CSS preservation"
+    ],
+    "materialFindingsResolved": [
+      "native Tab boundary escape in real Chromium",
+      "portal SSR cleanup lifecycle",
+      "reopening/login-proof races",
+      "actual module focus/dirty navigation paths"
+    ]
+  },
+  "liveObservation": {
+    "checkedAt": "2026-10-28T09:22:55.977500+00:00",
+    "url": "https://kneba.vsp.rest/",
+    "release": "e2ab9b1883bcac8559dd34939d75bb3e9676dd69",
+    "candidateDeployed": false,
+    "availableBytes": 18031931392,
+    "totalBytes": 211271204864,
+    "usedPercent": 91.47,
+    "storageState": "warning",
+    "cutoverAllowed": false,
+    "requiredFreeBytes": 10737418240,
+    "requiredUsedPercentLessThan": 90
+  },
+  "publication": {
+    "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+    "operation": "git push -u origin feat/knaba-role-entry-responsive-20261028",
+    "reason": "Explicit user permission required before publishing this candidate to a public GitHub repository.",
+    "publicPushPerformed": false,
+    "publicPublicationWorkaroundUsed": false
+  },
+  "rollback": {
+    "liveMigrationCount": 10,
+    "candidateMigrationCount": 12,
+    "symlinkOnlyRollbackValid": false,
+    "requirements": [
+      "fresh verified SQLite online backup",
+      "restore and migration rehearsal on independent copy",
+      "both existing locks and fresh current-pointer CAS",
+      "runtime/database compatible rollback or forward fix",
+      "preserve and reconcile writes after cutover",
+      "do not remove migration ledger rows to bypass validation"
+    ]
+  },
+  "limits": [
+    "No candidate live deployment or real account/data modification",
+    "Physical device, Safari, Firefox and screen-reader acceptance not run",
+    "Synthetic Chromium checks do not certify full WCAG compliance",
+    "No field performance/CWV claim",
+    "No provider activation, email delivery or unified ERP identity acceptance",
+    "Official knaba.de and concurrent owner-settings worktree unchanged"
+  ],
+  "evidence": {
+    "IMPLEMENTATION_UK.md": {
+      "sha256": "bb61490f74d468c8e130a1f4a5b762898909dc60b984f74cf1702a970ea77e38",
+      "bytes": 20037
+    },
+    "admin-operations-390.png": {
+      "sha256": "3146939c818bf90d5a1d0b48c4d94d11041588775b181363add877418990a38d",
+      "bytes": 245787
+    },
+    "artifact-receipt.json": {
+      "sha256": "282b2476bc2394aa373ed08a395ef8232623d4a5560111801ccd88826e267b4c",
+      "bytes": 127
+    },
+    "bauleiter-390.png": {
+      "sha256": "9ba4997a80c33b3269b2c54c6263c9f9a5654df8f027fd183bf3fca2c9672850",
+      "bytes": 137679
+    },
+    "browser-image-id.txt": {
+      "sha256": "b5bb8ee9c19dd05cc9226f902d558b1960b8dae6cc6d0b0f22f3a63816a2476f",
+      "bytes": 72
+    },
+    "browser-initial-keyboard.json": {
+      "sha256": "fe2f95c35ca9c59dbcf2f9309d2784251dd92dcfd5704690b73d41a91593c0e7",
+      "bytes": 846
+    },
+    "browser-receipt.json": {
+      "sha256": "c7f10dcec366338aa01e90de970250e8c0c90b0df78a1e641e436a5d904a96bb",
+      "bytes": 11748
+    },
+    "css-removal.json": {
+      "sha256": "b1a03f152057f6d35f5ad50daf35221179ac439ecaa674cbcc1554b8b5ba50f4",
+      "bytes": 117085
+    },
+    "final-build.log": {
+      "sha256": "f09d938ccbe1986bcae99e3081b0e5c463d7c31140deaf662dc7d3dace2f6d26",
+      "bytes": 11869
+    },
+    "final-check.log": {
+      "sha256": "dcaafe25545c450dd0321694f543a050d35a7029828cf9171bf58e0480d14531",
+      "bytes": 1964
+    },
+    "final-css-proof.log": {
+      "sha256": "b921fe750843b640a570f171e32fca173f1896c118d002b26ddff7e67a07d5a9",
+      "bytes": 1024
+    },
+    "final-i18n.log": {
+      "sha256": "6aaa7192c970498cf92f35e146e8e6add6d41b3d09d2ed6116e00049708df24c",
+      "bytes": 345
+    },
+    "final-site-tests.log": {
+      "sha256": "4bcc2ccf424b32aa9c878eb63f1ad114caeea255e8596e6bbac90d0c5c8ff646",
+      "bytes": 1865
+    },
+    "final-verify-build.log": {
+      "sha256": "4211c586c0752daa3ec99039b7a56ae43c7858e14d0793f28d04525022ff8762",
+      "bytes": 7724
+    },
+    "final-vps-tests.log": {
+      "sha256": "c6d9579834dc32f543f2865f72109bf508b3ac17eda514af2674e4bfc8f8d65a",
+      "bytes": 10398
+    },
+    "homepage-content-preservation.json": {
+      "sha256": "f9465b7027f0110db93bca59cc13224538d87fe1c48cc2dac9c7da49912667f7",
+      "bytes": 635
+    },
+    "login-de-1440.png": {
+      "sha256": "6d6078edc4c16d9599b49e5430dfba38accd4b4e6c2e2b9c8bb0edf5be53dfc5",
+      "bytes": 123849
+    },
+    "login-uk-390.png": {
+      "sha256": "cd845650f2137f58be79d2764dbaf50acb1c03d6201f4630905d5e0ee6f8c9e1",
+      "bytes": 45355
+    },
+    "root-tests.log": {
+      "sha256": "d13dd72c0f4bb39068472b562adc5eb972f8259e8b81beb7efc6343ceb872ee7",
+      "bytes": 465
+    }
+  }
+}

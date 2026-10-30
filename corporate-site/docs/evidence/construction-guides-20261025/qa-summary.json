@@ -1,0 +1,36 @@
+{
+  "sourceSha": "5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c",
+  "node": "24.22.1",
+  "checks": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 4
+  },
+  "vitest": {
+    "passed": 152,
+    "files": 25
+  },
+  "inquiry": {
+    "passed": 8
+  },
+  "vps": {
+    "passed": 20
+  },
+  "previewSourceSha": "5c8b23bb90676662971183a3ff141bd40c66a3c4",
+  "previewNote": "BeforeonlyHomecontrastandcontentsnumberprefixchanges;finalVSPallgatesrerun.",
+  "compiledRendererLiveProbe": "PASS syntheticin-memoryrow;noDBwrites",
+  "publicGitHubPush": "NOT_RETRIED_PENDING_EXPLICIT_AUTHORIZATION",
+  "mainMerge": false,
+  "officialDomainDeploy": false,
+  "paidActivation": false,
+  "notVerified": [
+    "realowner UAT",
+    "real lead delivery",
+    "humanCAPTCHA",
+    "physicaldevices",
+    "screenreader",
+    "legalapproval",
+    "fieldCWV",
+    "offsite restore"
+  ]
+}

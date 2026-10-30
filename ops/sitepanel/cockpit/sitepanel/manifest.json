@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "requires": { "cockpit": "360" },
+  "menu": {
+    "index": {
+      "label": "Мої сайти",
+      "path": "index.html",
+      "order": 5,
+      "keywords": [{ "matches": ["sites", "websites", "сайти", "webseiten"] }]
+    }
+  }
+}

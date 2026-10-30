@@ -1,0 +1,35 @@
+✔ new invitation is additive, 256-bit, hash-only and never creates a user (94.386511ms)
+✔ only configured owner may issue limited, email-scoped client/worker invitations (183.197284ms)
+✔ registration rejects replay, mismatch, invalid consent/password and expiry atomically (192.457951ms)
+✔ worker enrollment is pending and credentials authenticate without privilege grant (359.417272ms)
+✔ invitation issuance is bounded, neither unlimited nor extendable by past used tokens (122.079935ms)
+✖ explicit owner revocation makes an issued invitation unusable before registration (1.105424ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1024.025259
+
+✖ failing tests:
+
+test at corporate-site/vps/account-invite.test.mjs:105:1
+✖ explicit owner revocation makes an issued invitation unusable before registration (1.105424ms)
+  AssertionError [ERR_ASSERTION]: missing owner revocation
+  + actual - expected
+
+  + 'undefined'
+  - 'function'
+
+      at TestContext.<anonymous> (file:///tmp/knaba-auth-hardening-20261026/corporate-site/vps/account-invite.test.mjs:107:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

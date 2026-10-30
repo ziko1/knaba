@@ -1,0 +1,9 @@
+---
+import Legacy from '../../../components/ConstructionLegacy.astro';
+import {services} from '../../../data/company.ts';
+export function getStaticPaths(){
+  return services.map(item=>({params:{slug:item.slug}}));
+}
+const {slug}=Astro.params;
+---
+<Legacy locale="ru" slug={slug!}/>

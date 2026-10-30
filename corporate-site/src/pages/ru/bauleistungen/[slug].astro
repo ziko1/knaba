@@ -1,0 +1,11 @@
+---
+import Detail from '../../../components/ConstructionDetail.astro';
+import {constructionOffers} from '../../../data/construction-offers.ts';
+import type {ConstructionOffer} from '../../../data/construction-offers.ts';
+export function getStaticPaths() {
+  return constructionOffers.map(offer => ({params:{slug:offer.slug},props:{offer}}));
+}
+interface Props {offer:ConstructionOffer}
+const {offer}=Astro.props;
+---
+<Detail locale="ru" offer={offer}/>

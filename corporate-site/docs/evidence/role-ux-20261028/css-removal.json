@@ -1,0 +1,4371 @@
+{
+  "scope": "Remove demonstrably unused legacy CSS selector branches only; no HTML, content, behavior or payload budget changes.",
+  "date": "2026-10-28",
+  "baseCommit": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "source": {
+    "path": "src/styles/global.css",
+    "beforeSha256": "a53a2abad3096de5bbc1b377035029c6173a0fa667098c16d725193ad60f7dc7",
+    "afterSha256": "a71ddf8345be9294afb03a9d23c8e1e4737ecf29f92427f0d58f620c1c6ec723",
+    "beforeBytes": 60646,
+    "afterBytes": 35395,
+    "beforeGzip9": 13341,
+    "afterGzip9": 8620,
+    "gzip9Savings": 4721,
+    "measurement": "Source stylesheet gzip, not emitted-build size or page transfer."
+  },
+  "verification": {
+    "parsedBaselineHtmlPages": 130,
+    "sourceFiles": 333,
+    "removedSelectorBranches": 343,
+    "absentClasses": 72,
+    "allRemovedClassesStillAbsentFromCurrentSourceTokens": true,
+    "retainedSelectorsDeclarationsCascadeOrderAndMediaConditionsIdentical": true,
+    "sourceInventorySha256": "2e249019189063cba546beb803fd584c72bf9173bba7e8b8314cfcb890972462",
+    "baselineHtmlInventorySha256": "473a1b72f36ad2330d4a358d1425c1f295e5dcca0973064b524d6c2a7e342f55"
+  },
+  "method": [
+    "Parse baseline HTML using parse5 and inventory actual class attributes from all 130 pages.",
+    "Lexically inventory full identifier tokens from Astro, Solid TSX, Vue, Svelte, TS/JS, server source, tests, runtime scripts and public SVG/JS; this conservatively retains classes mentioned even only by tests or inline CSS.",
+    "Remove only a selector with an absent directly required ClassSelector using CSS AST. A class inside :is(), :where(), :not() or other functional pseudo selectors is never considered required. Other selector branches, declarations, media contexts and cascade order are preserved.",
+    "Manually inspect dynamic class construction and Studio contract. Observed computed prefixes portal-status-, ka- and ki-from- are unrelated to removed classes; classList/conditional full tokens remain present. Studio accepts structural #main/tag/:nth-of-type selectors and bounded property editing, not arbitrary markup or class editing."
+  ],
+  "caveat": "Lexical tokens alone cannot prove absence of every possible runtime string concatenation. Dynamic class expressions were inspected in addition to the 130-page baseline; integrated browser tests and emitted-build budget measurement remain separate root gates. Do not reapply this removal blindly after adding new templates or class-generating code.",
+  "removedClasses": [
+    "approach-grid",
+    "art-caption",
+    "art-credit",
+    "art-round-link",
+    "art-tag",
+    "brand-type",
+    "card-arrow",
+    "check-list",
+    "coral",
+    "desktop-only",
+    "detail-service-art",
+    "error-text",
+    "faq-list",
+    "faq-section",
+    "guide-teaser",
+    "guide-teasers",
+    "hero-actions",
+    "hero-art",
+    "hero-copy",
+    "hero-description",
+    "hero-highlight",
+    "hero-notes",
+    "hero-pill",
+    "hero-spark",
+    "hero-visual",
+    "image-label",
+    "label-icon",
+    "lilac",
+    "locale-grid",
+    "locale-intro",
+    "locale-service-art",
+    "map-caption",
+    "map-center",
+    "map-grid",
+    "map-orbit",
+    "muted",
+    "office-art",
+    "orbit-two",
+    "photo-note",
+    "plan-check",
+    "plan-mini-logo",
+    "plan-preview",
+    "plan-preview-dot",
+    "plan-preview-row",
+    "plan-preview-title",
+    "plan-preview-top",
+    "plan-step",
+    "planner-banner",
+    "planner-copy",
+    "planner-footnote",
+    "preview-domain",
+    "preview-dot",
+    "preview-footer",
+    "principles",
+    "region-copy",
+    "region-graphic",
+    "region-section",
+    "related-links",
+    "section-dot",
+    "section-heading",
+    "sector-grid",
+    "seo-story",
+    "service-card-art",
+    "service-card-bottom",
+    "service-card-top",
+    "service-grid",
+    "service-icon",
+    "service-number",
+    "small-line",
+    "tiny-cross",
+    "trust-band",
+    "visual-corner"
+  ],
+  "removedSelectors": [
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 262
+    },
+    {
+      "selector": ".brand-type > span",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 268
+    },
+    {
+      "selector": ".hero-copy",
+      "absentRequiredClasses": [
+        "hero-copy"
+      ],
+      "line": 362
+    },
+    {
+      "selector": ".small-line",
+      "absentRequiredClasses": [
+        "small-line"
+      ],
+      "line": 377
+    },
+    {
+      "selector": ".hero-description",
+      "absentRequiredClasses": [
+        "hero-description"
+      ],
+      "line": 392
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 398
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 404
+    },
+    {
+      "selector": ".hero-notes span",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 411
+    },
+    {
+      "selector": ".hero-notes svg",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 416
+    },
+    {
+      "selector": ".hero-visual",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 419
+    },
+    {
+      "selector": ".hero-visual picture",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 427
+    },
+    {
+      "selector": ".hero-visual img",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 427
+    },
+    {
+      "selector": ".hero-visual:after",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 436
+    },
+    {
+      "selector": ".image-label",
+      "absentRequiredClasses": [
+        "image-label"
+      ],
+      "line": 443
+    },
+    {
+      "selector": ".label-icon",
+      "absentRequiredClasses": [
+        "label-icon"
+      ],
+      "line": 456
+    },
+    {
+      "selector": ".image-label strong",
+      "absentRequiredClasses": [
+        "image-label"
+      ],
+      "line": 464
+    },
+    {
+      "selector": ".image-label div > span",
+      "absentRequiredClasses": [
+        "image-label"
+      ],
+      "line": 469
+    },
+    {
+      "selector": ".photo-note",
+      "absentRequiredClasses": [
+        "photo-note"
+      ],
+      "line": 475
+    },
+    {
+      "selector": ".visual-corner",
+      "absentRequiredClasses": [
+        "visual-corner"
+      ],
+      "line": 487
+    },
+    {
+      "selector": ".visual-corner > span",
+      "absentRequiredClasses": [
+        "visual-corner"
+      ],
+      "line": 498
+    },
+    {
+      "selector": ".trust-band",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 505
+    },
+    {
+      "selector": ".trust-band > .container",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 510
+    },
+    {
+      "selector": ".trust-band span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 517
+    },
+    {
+      "selector": ".trust-band div > div",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 524
+    },
+    {
+      "selector": ".section-heading",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 533
+    },
+    {
+      "selector": ".section-heading h2",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 540
+    },
+    {
+      "selector": ".section-heading > div:nth-child(2)",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 543
+    },
+    {
+      "selector": ".section-heading > p",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 543
+    },
+    {
+      "selector": ".section-heading .eyebrow",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 549
+    },
+    {
+      "selector": ".section-heading p",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 552
+    },
+    {
+      "selector": ".service-grid",
+      "absentRequiredClasses": [
+        "service-grid"
+      ],
+      "line": 555
+    },
+    {
+      "selector": ".service-card-top",
+      "absentRequiredClasses": [
+        "service-card-top"
+      ],
+      "line": 574
+    },
+    {
+      "selector": ".service-icon",
+      "absentRequiredClasses": [
+        "service-icon"
+      ],
+      "line": 580
+    },
+    {
+      "selector": ".service-number",
+      "absentRequiredClasses": [
+        "service-number"
+      ],
+      "line": 583
+    },
+    {
+      "selector": ".service-card-bottom",
+      "absentRequiredClasses": [
+        "service-card-bottom"
+      ],
+      "line": 603
+    },
+    {
+      "selector": ".approach-grid",
+      "absentRequiredClasses": [
+        "approach-grid"
+      ],
+      "line": 618
+    },
+    {
+      "selector": ".principles > div",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 637
+    },
+    {
+      "selector": ".principles > div:first-child",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 643
+    },
+    {
+      "selector": ".principles > div:last-child",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 646
+    },
+    {
+      "selector": ".principles > div > span",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 650
+    },
+    {
+      "selector": ".principles h3",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 656
+    },
+    {
+      "selector": ".principles p",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 661
+    },
+    {
+      "selector": ".region-section",
+      "absentRequiredClasses": [
+        "region-section"
+      ],
+      "line": 688
+    },
+    {
+      "selector": ".region-graphic",
+      "absentRequiredClasses": [
+        "region-graphic"
+      ],
+      "line": 695
+    },
+    {
+      "selector": ".map-grid",
+      "absentRequiredClasses": [
+        "map-grid"
+      ],
+      "line": 703
+    },
+    {
+      "selector": ".map-orbit",
+      "absentRequiredClasses": [
+        "map-orbit"
+      ],
+      "line": 712
+    },
+    {
+      "selector": ".orbit-two",
+      "absentRequiredClasses": [
+        "orbit-two"
+      ],
+      "line": 719
+    },
+    {
+      "selector": ".map-center",
+      "absentRequiredClasses": [
+        "map-center"
+      ],
+      "line": 723
+    },
+    {
+      "selector": ".map-center > span",
+      "absentRequiredClasses": [
+        "map-center"
+      ],
+      "line": 729
+    },
+    {
+      "selector": ".map-center > strong",
+      "absentRequiredClasses": [
+        "map-center"
+      ],
+      "line": 741
+    },
+    {
+      "selector": ".map-center > small",
+      "absentRequiredClasses": [
+        "map-center"
+      ],
+      "line": 745
+    },
+    {
+      "selector": ".map-caption",
+      "absentRequiredClasses": [
+        "map-caption"
+      ],
+      "line": 751
+    },
+    {
+      "selector": ".region-copy",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 759
+    },
+    {
+      "selector": ".region-copy h2",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 762
+    },
+    {
+      "selector": ".region-copy p:not(.eyebrow)",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 765
+    },
+    {
+      "selector": ".faq-section",
+      "absentRequiredClasses": [
+        "faq-section"
+      ],
+      "line": 768
+    },
+    {
+      "selector": ".faq-list details",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 773
+    },
+    {
+      "selector": ".faq-list details:first-child",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 777
+    },
+    {
+      "selector": ".faq-list summary",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 780
+    },
+    {
+      "selector": ".faq-list summary::-webkit-details-marker",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 792
+    },
+    {
+      "selector": ".faq-list summary span",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 795
+    },
+    {
+      "selector": ".faq-list details[open] summary span",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 800
+    },
+    {
+      "selector": ".faq-list details p",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 803
+    },
+    {
+      "selector": ".check-list",
+      "absentRequiredClasses": [
+        "check-list"
+      ],
+      "line": 913
+    },
+    {
+      "selector": ".check-list li",
+      "absentRequiredClasses": [
+        "check-list"
+      ],
+      "line": 918
+    },
+    {
+      "selector": ".check-list svg",
+      "absentRequiredClasses": [
+        "check-list"
+      ],
+      "line": 926
+    },
+    {
+      "selector": ".muted",
+      "absentRequiredClasses": [
+        "muted"
+      ],
+      "line": 929
+    },
+    {
+      "selector": ".related-links",
+      "absentRequiredClasses": [
+        "related-links"
+      ],
+      "line": 948
+    },
+    {
+      "selector": ".related-links > a",
+      "absentRequiredClasses": [
+        "related-links"
+      ],
+      "line": 953
+    },
+    {
+      "selector": ".sector-grid",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 961
+    },
+    {
+      "selector": ".sector-grid > article",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 966
+    },
+    {
+      "selector": ".sector-grid h2",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 971
+    },
+    {
+      "selector": ".sector-grid p",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 975
+    },
+    {
+      "selector": ".error-text",
+      "absentRequiredClasses": [
+        "error-text"
+      ],
+      "line": 1170
+    },
+    {
+      "selector": ".hero-copy",
+      "absentRequiredClasses": [
+        "hero-copy"
+      ],
+      "line": 1187
+    },
+    {
+      "selector": ".hero-visual",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 1190
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1208
+    },
+    {
+      "selector": ".hero-actions .button",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1211
+    },
+    {
+      "selector": ".hero-visual",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 1214
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1217
+    },
+    {
+      "selector": ".approach-grid",
+      "absentRequiredClasses": [
+        "approach-grid"
+      ],
+      "line": 1221
+    },
+    {
+      "selector": ".trust-band div > div",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1224
+    },
+    {
+      "selector": ".hero-description",
+      "absentRequiredClasses": [
+        "hero-description"
+      ],
+      "line": 1287
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1290
+    },
+    {
+      "selector": ".service-grid",
+      "absentRequiredClasses": [
+        "service-grid"
+      ],
+      "line": 1294
+    },
+    {
+      "selector": ".section-heading",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1297
+    },
+    {
+      "selector": ".approach-grid",
+      "absentRequiredClasses": [
+        "approach-grid"
+      ],
+      "line": 1300
+    },
+    {
+      "selector": ".region-copy",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 1303
+    },
+    {
+      "selector": ".region-copy h2",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 1306
+    },
+    {
+      "selector": ".faq-section",
+      "absentRequiredClasses": [
+        "faq-section"
+      ],
+      "line": 1309
+    },
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 1350
+    },
+    {
+      "selector": ".brand-type > span",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 1353
+    },
+    {
+      "selector": ".hero-copy",
+      "absentRequiredClasses": [
+        "hero-copy"
+      ],
+      "line": 1385
+    },
+    {
+      "selector": ".hero-description",
+      "absentRequiredClasses": [
+        "hero-description"
+      ],
+      "line": 1396
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1400
+    },
+    {
+      "selector": ".hero-actions .text-link",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1405
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1408
+    },
+    {
+      "selector": ".hero-visual",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 1412
+    },
+    {
+      "selector": ".hero-visual img",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 1415
+    },
+    {
+      "selector": ".image-label",
+      "absentRequiredClasses": [
+        "image-label"
+      ],
+      "line": 1418
+    },
+    {
+      "selector": ".image-label strong",
+      "absentRequiredClasses": [
+        "image-label"
+      ],
+      "line": 1423
+    },
+    {
+      "selector": ".trust-band > .container",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1426
+    },
+    {
+      "selector": ".trust-band span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1434
+    },
+    {
+      "selector": ".trust-band div > div",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1440
+    },
+    {
+      "selector": ".section-heading",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1447
+    },
+    {
+      "selector": ".section-heading h2",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1451
+    },
+    {
+      "selector": ".section-heading > div:nth-child(2)",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1454
+    },
+    {
+      "selector": ".section-heading > p",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1454
+    },
+    {
+      "selector": ".section-heading .eyebrow",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1458
+    },
+    {
+      "selector": ".service-grid",
+      "absentRequiredClasses": [
+        "service-grid"
+      ],
+      "line": 1461
+    },
+    {
+      "selector": ".service-card-top",
+      "absentRequiredClasses": [
+        "service-card-top"
+      ],
+      "line": 1474
+    },
+    {
+      "selector": ".service-card-bottom",
+      "absentRequiredClasses": [
+        "service-card-bottom"
+      ],
+      "line": 1477
+    },
+    {
+      "selector": ".service-icon svg",
+      "absentRequiredClasses": [
+        "service-icon"
+      ],
+      "line": 1481
+    },
+    {
+      "selector": ".approach-grid",
+      "absentRequiredClasses": [
+        "approach-grid"
+      ],
+      "line": 1488
+    },
+    {
+      "selector": ".principles h3",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1498
+    },
+    {
+      "selector": ".principles > div",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1501
+    },
+    {
+      "selector": ".region-section",
+      "absentRequiredClasses": [
+        "region-section"
+      ],
+      "line": 1528
+    },
+    {
+      "selector": ".region-graphic",
+      "absentRequiredClasses": [
+        "region-graphic"
+      ],
+      "line": 1531
+    },
+    {
+      "selector": ".region-copy",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 1534
+    },
+    {
+      "selector": ".region-copy h2",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 1537
+    },
+    {
+      "selector": ".faq-section",
+      "absentRequiredClasses": [
+        "faq-section"
+      ],
+      "line": 1540
+    },
+    {
+      "selector": ".faq-section h2",
+      "absentRequiredClasses": [
+        "faq-section"
+      ],
+      "line": 1544
+    },
+    {
+      "selector": ".faq-list details",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 1547
+    },
+    {
+      "selector": ".faq-list summary",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 1550
+    },
+    {
+      "selector": ".related-links",
+      "absentRequiredClasses": [
+        "related-links"
+      ],
+      "line": 1608
+    },
+    {
+      "selector": ".sector-grid",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 1611
+    },
+    {
+      "selector": ".sector-grid > article",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 1615
+    },
+    {
+      "selector": ".desktop-only",
+      "absentRequiredClasses": [
+        "desktop-only"
+      ],
+      "line": 1656
+    },
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 1667
+    },
+    {
+      "selector": ".brand-type > span",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 1670
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1684
+    },
+    {
+      "selector": ".hero-actions .button",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1688
+    },
+    {
+      "selector": ".hero-actions .text-link",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1692
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1695
+    },
+    {
+      "selector": ".service-grid",
+      "absentRequiredClasses": [
+        "service-grid"
+      ],
+      "line": 1698
+    },
+    {
+      "selector": ".hero-visual",
+      "absentRequiredClasses": [
+        "hero-visual"
+      ],
+      "line": 1701
+    },
+    {
+      "selector": ".service-grid",
+      "absentRequiredClasses": [
+        "service-grid"
+      ],
+      "line": 1743
+    },
+    {
+      "selector": ".service-card-top",
+      "absentRequiredClasses": [
+        "service-card-top"
+      ],
+      "line": 1753
+    },
+    {
+      "selector": ".service-card-bottom",
+      "absentRequiredClasses": [
+        "service-card-bottom"
+      ],
+      "line": 1756
+    },
+    {
+      "selector": ".preview-dot",
+      "absentRequiredClasses": [
+        "preview-dot"
+      ],
+      "line": 1773
+    },
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 1782
+    },
+    {
+      "selector": ".hero-copy",
+      "absentRequiredClasses": [
+        "hero-copy"
+      ],
+      "line": 1791
+    },
+    {
+      "selector": ".hero-pill",
+      "absentRequiredClasses": [
+        "hero-pill"
+      ],
+      "line": 1793
+    },
+    {
+      "selector": ".hero-pill .dot",
+      "absentRequiredClasses": [
+        "hero-pill"
+      ],
+      "line": 1794
+    },
+    {
+      "selector": ".hero h1 .hero-highlight",
+      "absentRequiredClasses": [
+        "hero-highlight"
+      ],
+      "line": 1796
+    },
+    {
+      "selector": ".hero h1 .hero-spark",
+      "absentRequiredClasses": [
+        "hero-spark"
+      ],
+      "line": 1797
+    },
+    {
+      "selector": ".hero-description",
+      "absentRequiredClasses": [
+        "hero-description"
+      ],
+      "line": 1798
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1799
+    },
+    {
+      "selector": ".hero-actions .text-link",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1800
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1801
+    },
+    {
+      "selector": ".hero-notes svg",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1802
+    },
+    {
+      "selector": ".hero-art",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 1803
+    },
+    {
+      "selector": ".hero-art:before",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 1804
+    },
+    {
+      "selector": ".art-caption",
+      "absentRequiredClasses": [
+        "art-caption"
+      ],
+      "line": 1805
+    },
+    {
+      "selector": ".tiny-cross",
+      "absentRequiredClasses": [
+        "tiny-cross"
+      ],
+      "line": 1806
+    },
+    {
+      "selector": ".office-art",
+      "absentRequiredClasses": [
+        "office-art"
+      ],
+      "line": 1807
+    },
+    {
+      "selector": ".art-tag",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1808
+    },
+    {
+      "selector": ".art-tag strong",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1809
+    },
+    {
+      "selector": ".art-tag small",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1810
+    },
+    {
+      "selector": ".label-icon",
+      "absentRequiredClasses": [
+        "label-icon"
+      ],
+      "line": 1811
+    },
+    {
+      "selector": ".art-round-link",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 1812
+    },
+    {
+      "selector": ".art-round-link:hover",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 1813
+    },
+    {
+      "selector": ".art-credit",
+      "absentRequiredClasses": [
+        "art-credit"
+      ],
+      "line": 1814
+    },
+    {
+      "selector": ".trust-band",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1815
+    },
+    {
+      "selector": ".trust-band > .container",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1816
+    },
+    {
+      "selector": ".trust-band > .container > span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1817
+    },
+    {
+      "selector": ".trust-band a",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1818
+    },
+    {
+      "selector": ".trust-band a > span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1819
+    },
+    {
+      "selector": ".trust-band a:hover",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1820
+    },
+    {
+      "selector": ".section-dot",
+      "absentRequiredClasses": [
+        "section-dot"
+      ],
+      "line": 1823
+    },
+    {
+      "selector": ".section-dot.coral",
+      "absentRequiredClasses": [
+        "section-dot",
+        "coral"
+      ],
+      "line": 1824
+    },
+    {
+      "selector": ".section-heading",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1826
+    },
+    {
+      "selector": ".section-heading > div:nth-child(2)",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1827
+    },
+    {
+      "selector": ".section-heading > p",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1827
+    },
+    {
+      "selector": ".service-grid",
+      "absentRequiredClasses": [
+        "service-grid"
+      ],
+      "line": 1828
+    },
+    {
+      "selector": ".service-icon",
+      "absentRequiredClasses": [
+        "service-icon"
+      ],
+      "line": 1841
+    },
+    {
+      "selector": ".service-card-top",
+      "absentRequiredClasses": [
+        "service-card-top"
+      ],
+      "line": 1842
+    },
+    {
+      "selector": ".service-number",
+      "absentRequiredClasses": [
+        "service-number"
+      ],
+      "line": 1843
+    },
+    {
+      "selector": ".service-card-bottom",
+      "absentRequiredClasses": [
+        "service-card-bottom"
+      ],
+      "line": 1847
+    },
+    {
+      "selector": ".card-arrow",
+      "absentRequiredClasses": [
+        "card-arrow"
+      ],
+      "line": 1848
+    },
+    {
+      "selector": ".planner-banner",
+      "absentRequiredClasses": [
+        "planner-banner"
+      ],
+      "line": 1849
+    },
+    {
+      "selector": ".planner-copy h2",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 1850
+    },
+    {
+      "selector": ".planner-copy h2 > span",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 1851
+    },
+    {
+      "selector": ".planner-copy p:not(.eyebrow)",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 1852
+    },
+    {
+      "selector": ".planner-copy .eyebrow",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 1853
+    },
+    {
+      "selector": ".planner-footnote",
+      "absentRequiredClasses": [
+        "planner-footnote"
+      ],
+      "line": 1854
+    },
+    {
+      "selector": ".plan-preview",
+      "absentRequiredClasses": [
+        "plan-preview"
+      ],
+      "line": 1855
+    },
+    {
+      "selector": ".plan-preview-top",
+      "absentRequiredClasses": [
+        "plan-preview-top"
+      ],
+      "line": 1856
+    },
+    {
+      "selector": ".plan-mini-logo",
+      "absentRequiredClasses": [
+        "plan-mini-logo"
+      ],
+      "line": 1857
+    },
+    {
+      "selector": ".plan-preview-dot",
+      "absentRequiredClasses": [
+        "plan-preview-dot"
+      ],
+      "line": 1858
+    },
+    {
+      "selector": ".plan-preview-title",
+      "absentRequiredClasses": [
+        "plan-preview-title"
+      ],
+      "line": 1859
+    },
+    {
+      "selector": ".plan-preview-row",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 1860
+    },
+    {
+      "selector": ".plan-preview-row:last-child",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 1861
+    },
+    {
+      "selector": ".plan-check",
+      "absentRequiredClasses": [
+        "plan-check"
+      ],
+      "line": 1862
+    },
+    {
+      "selector": ".plan-check.lilac",
+      "absentRequiredClasses": [
+        "plan-check",
+        "lilac"
+      ],
+      "line": 1863
+    },
+    {
+      "selector": ".plan-check.coral",
+      "absentRequiredClasses": [
+        "plan-check",
+        "coral"
+      ],
+      "line": 1864
+    },
+    {
+      "selector": ".plan-preview-row strong",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 1865
+    },
+    {
+      "selector": ".plan-preview-row small",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 1866
+    },
+    {
+      "selector": ".plan-step",
+      "absentRequiredClasses": [
+        "plan-step"
+      ],
+      "line": 1867
+    },
+    {
+      "selector": ".principles",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1873
+    },
+    {
+      "selector": ".principles > div",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1874
+    },
+    {
+      "selector": ".principles > div > span",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1875
+    },
+    {
+      "selector": ".principles > div:nth-child(2) > span",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1876
+    },
+    {
+      "selector": ".principles > div:nth-child(3) > span",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1877
+    },
+    {
+      "selector": ".principles h3",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1878
+    },
+    {
+      "selector": ".principles p",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 1879
+    },
+    {
+      "selector": ".region-section",
+      "absentRequiredClasses": [
+        "region-section"
+      ],
+      "line": 1886
+    },
+    {
+      "selector": ".region-graphic",
+      "absentRequiredClasses": [
+        "region-graphic"
+      ],
+      "line": 1887
+    },
+    {
+      "selector": ".map-grid",
+      "absentRequiredClasses": [
+        "map-grid"
+      ],
+      "line": 1888
+    },
+    {
+      "selector": ".map-orbit",
+      "absentRequiredClasses": [
+        "map-orbit"
+      ],
+      "line": 1889
+    },
+    {
+      "selector": ".map-center > span",
+      "absentRequiredClasses": [
+        "map-center"
+      ],
+      "line": 1890
+    },
+    {
+      "selector": ".map-center > strong",
+      "absentRequiredClasses": [
+        "map-center"
+      ],
+      "line": 1891
+    },
+    {
+      "selector": ".map-caption",
+      "absentRequiredClasses": [
+        "map-caption"
+      ],
+      "line": 1892
+    },
+    {
+      "selector": ".faq-list details",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 1893
+    },
+    {
+      "selector": ".faq-list summary",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 1894
+    },
+    {
+      "selector": ".faq-list summary > span",
+      "absentRequiredClasses": [
+        "faq-list"
+      ],
+      "line": 1895
+    },
+    {
+      "selector": ".faq-section > div > p:not(.eyebrow)",
+      "absentRequiredClasses": [
+        "faq-section"
+      ],
+      "line": 1896
+    },
+    {
+      "selector": ".preview-footer",
+      "absentRequiredClasses": [
+        "preview-footer"
+      ],
+      "line": 1906
+    },
+    {
+      "selector": ".preview-footer .preview-dot",
+      "absentRequiredClasses": [
+        "preview-footer",
+        "preview-dot"
+      ],
+      "line": 1907
+    },
+    {
+      "selector": ".preview-footer p",
+      "absentRequiredClasses": [
+        "preview-footer"
+      ],
+      "line": 1908
+    },
+    {
+      "selector": ".preview-footer a",
+      "absentRequiredClasses": [
+        "preview-footer"
+      ],
+      "line": 1909
+    },
+    {
+      "selector": ".sector-grid > article:nth-child(4n+1)",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 1914
+    },
+    {
+      "selector": ".sector-grid > article:nth-child(4n+2)",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 1915
+    },
+    {
+      "selector": ".sector-grid > article:nth-child(4n+3)",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 1916
+    },
+    {
+      "selector": ".sector-grid > article:nth-child(4n+4)",
+      "absentRequiredClasses": [
+        "sector-grid"
+      ],
+      "line": 1917
+    },
+    {
+      "selector": ".related-links > a",
+      "absentRequiredClasses": [
+        "related-links"
+      ],
+      "line": 1918
+    },
+    {
+      "selector": ".related-links > a:nth-child(2n)",
+      "absentRequiredClasses": [
+        "related-links"
+      ],
+      "line": 1919
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1931
+    },
+    {
+      "selector": ".hero-art",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 1932
+    },
+    {
+      "selector": ".hero-description",
+      "absentRequiredClasses": [
+        "hero-description"
+      ],
+      "line": 1933
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1934
+    },
+    {
+      "selector": ".hero h1 .hero-spark",
+      "absentRequiredClasses": [
+        "hero-spark"
+      ],
+      "line": 1935
+    },
+    {
+      "selector": ".planner-banner",
+      "absentRequiredClasses": [
+        "planner-banner"
+      ],
+      "line": 1936
+    },
+    {
+      "selector": ".trust-band a",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1937
+    },
+    {
+      "selector": ".art-tag",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1938
+    },
+    {
+      "selector": ".art-tag strong",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1939
+    },
+    {
+      "selector": ".art-tag small",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1940
+    },
+    {
+      "selector": ".art-round-link",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 1941
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1945
+    },
+    {
+      "selector": ".hero-art",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 1946
+    },
+    {
+      "selector": ".office-art",
+      "absentRequiredClasses": [
+        "office-art"
+      ],
+      "line": 1947
+    },
+    {
+      "selector": ".art-caption",
+      "absentRequiredClasses": [
+        "art-caption"
+      ],
+      "line": 1948
+    },
+    {
+      "selector": ".art-round-link",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 1949
+    },
+    {
+      "selector": ".planner-banner",
+      "absentRequiredClasses": [
+        "planner-banner"
+      ],
+      "line": 1950
+    },
+    {
+      "selector": ".plan-preview",
+      "absentRequiredClasses": [
+        "plan-preview"
+      ],
+      "line": 1951
+    },
+    {
+      "selector": ".plan-preview-row",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 1952
+    },
+    {
+      "selector": ".planner-copy h2",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 1953
+    },
+    {
+      "selector": ".plan-preview-title",
+      "absentRequiredClasses": [
+        "plan-preview-title"
+      ],
+      "line": 1954
+    },
+    {
+      "selector": ".trust-band > .container",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1955
+    },
+    {
+      "selector": ".trust-band a",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1956
+    },
+    {
+      "selector": ".trust-band > .container > span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1957
+    },
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 1967
+    },
+    {
+      "selector": ".hero-copy",
+      "absentRequiredClasses": [
+        "hero-copy"
+      ],
+      "line": 1971
+    },
+    {
+      "selector": ".hero h1 .hero-spark",
+      "absentRequiredClasses": [
+        "hero-spark"
+      ],
+      "line": 1974
+    },
+    {
+      "selector": ".hero-description",
+      "absentRequiredClasses": [
+        "hero-description"
+      ],
+      "line": 1975
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1976
+    },
+    {
+      "selector": ".hero-actions .button",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1977
+    },
+    {
+      "selector": ".hero-actions .text-link",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 1978
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 1979
+    },
+    {
+      "selector": ".hero-art",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 1980
+    },
+    {
+      "selector": ".hero-art:before",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 1981
+    },
+    {
+      "selector": ".office-art",
+      "absentRequiredClasses": [
+        "office-art"
+      ],
+      "line": 1982
+    },
+    {
+      "selector": ".art-caption",
+      "absentRequiredClasses": [
+        "art-caption"
+      ],
+      "line": 1983
+    },
+    {
+      "selector": ".art-tag",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 1984
+    },
+    {
+      "selector": ".art-round-link",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 1985
+    },
+    {
+      "selector": ".art-credit",
+      "absentRequiredClasses": [
+        "art-credit"
+      ],
+      "line": 1986
+    },
+    {
+      "selector": ".trust-band > .container",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1987
+    },
+    {
+      "selector": ".trust-band > .container > span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1988
+    },
+    {
+      "selector": ".trust-band a",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1989
+    },
+    {
+      "selector": ".trust-band a > span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 1990
+    },
+    {
+      "selector": ".section-heading h2",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1992
+    },
+    {
+      "selector": ".section-heading",
+      "absentRequiredClasses": [
+        "section-heading"
+      ],
+      "line": 1993
+    },
+    {
+      "selector": ".service-card-top",
+      "absentRequiredClasses": [
+        "service-card-top"
+      ],
+      "line": 1997
+    },
+    {
+      "selector": ".planner-banner",
+      "absentRequiredClasses": [
+        "planner-banner"
+      ],
+      "line": 1998
+    },
+    {
+      "selector": ".planner-copy h2",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 1999
+    },
+    {
+      "selector": ".planner-copy p:not(.eyebrow)",
+      "absentRequiredClasses": [
+        "planner-copy"
+      ],
+      "line": 2000
+    },
+    {
+      "selector": ".plan-preview",
+      "absentRequiredClasses": [
+        "plan-preview"
+      ],
+      "line": 2001
+    },
+    {
+      "selector": ".plan-preview-top",
+      "absentRequiredClasses": [
+        "plan-preview-top"
+      ],
+      "line": 2002
+    },
+    {
+      "selector": ".plan-preview-title",
+      "absentRequiredClasses": [
+        "plan-preview-title"
+      ],
+      "line": 2003
+    },
+    {
+      "selector": ".plan-preview-row strong",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 2004
+    },
+    {
+      "selector": ".plan-preview-row small",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 2005
+    },
+    {
+      "selector": ".plan-preview-row",
+      "absentRequiredClasses": [
+        "plan-preview-row"
+      ],
+      "line": 2006
+    },
+    {
+      "selector": ".approach-grid",
+      "absentRequiredClasses": [
+        "approach-grid"
+      ],
+      "line": 2009
+    },
+    {
+      "selector": ".principles h3",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 2011
+    },
+    {
+      "selector": ".principles > div",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 2012
+    },
+    {
+      "selector": ".principles > div > span",
+      "absentRequiredClasses": [
+        "principles"
+      ],
+      "line": 2013
+    },
+    {
+      "selector": ".region-copy h2",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 2018
+    },
+    {
+      "selector": ".region-copy",
+      "absentRequiredClasses": [
+        "region-copy"
+      ],
+      "line": 2019
+    },
+    {
+      "selector": ".preview-footer",
+      "absentRequiredClasses": [
+        "preview-footer"
+      ],
+      "line": 2022
+    },
+    {
+      "selector": ".preview-footer p",
+      "absentRequiredClasses": [
+        "preview-footer"
+      ],
+      "line": 2023
+    },
+    {
+      "selector": ".preview-domain",
+      "absentRequiredClasses": [
+        "preview-domain"
+      ],
+      "line": 2029
+    },
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 2031
+    },
+    {
+      "selector": ".hero h1 .hero-spark",
+      "absentRequiredClasses": [
+        "hero-spark"
+      ],
+      "line": 2035
+    },
+    {
+      "selector": ".hero-actions",
+      "absentRequiredClasses": [
+        "hero-actions"
+      ],
+      "line": 2036
+    },
+    {
+      "selector": ".hero-notes",
+      "absentRequiredClasses": [
+        "hero-notes"
+      ],
+      "line": 2037
+    },
+    {
+      "selector": ".hero-art",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 2038
+    },
+    {
+      "selector": ".art-caption",
+      "absentRequiredClasses": [
+        "art-caption"
+      ],
+      "line": 2039
+    },
+    {
+      "selector": ".art-tag",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 2040
+    },
+    {
+      "selector": ".art-tag .label-icon",
+      "absentRequiredClasses": [
+        "art-tag",
+        "label-icon"
+      ],
+      "line": 2041
+    },
+    {
+      "selector": ".art-tag strong",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 2042
+    },
+    {
+      "selector": ".art-tag small",
+      "absentRequiredClasses": [
+        "art-tag"
+      ],
+      "line": 2043
+    },
+    {
+      "selector": ".art-round-link",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 2044
+    },
+    {
+      "selector": ".trust-band a",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 2045
+    },
+    {
+      "selector": ".trust-band a > span",
+      "absentRequiredClasses": [
+        "trust-band"
+      ],
+      "line": 2046
+    },
+    {
+      "selector": ".plan-preview",
+      "absentRequiredClasses": [
+        "plan-preview"
+      ],
+      "line": 2047
+    },
+    {
+      "selector": ".plan-step",
+      "absentRequiredClasses": [
+        "plan-step"
+      ],
+      "line": 2048
+    },
+    {
+      "selector": ".art-round-link:hover",
+      "absentRequiredClasses": [
+        "art-round-link"
+      ],
+      "line": 2051
+    },
+    {
+      "selector": ".seo-story",
+      "absentRequiredClasses": [
+        "seo-story"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".seo-story p",
+      "absentRequiredClasses": [
+        "seo-story"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".seo-story ul",
+      "absentRequiredClasses": [
+        "seo-story"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teasers",
+      "absentRequiredClasses": [
+        "guide-teasers"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teaser",
+      "absentRequiredClasses": [
+        "guide-teaser"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teaser:nth-child(2)",
+      "absentRequiredClasses": [
+        "guide-teaser"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teaser:nth-child(3)",
+      "absentRequiredClasses": [
+        "guide-teaser"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teaser h3",
+      "absentRequiredClasses": [
+        "guide-teaser"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teaser p",
+      "absentRequiredClasses": [
+        "guide-teaser"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".guide-teaser a",
+      "absentRequiredClasses": [
+        "guide-teaser"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".locale-intro",
+      "absentRequiredClasses": [
+        "locale-intro"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".locale-grid",
+      "absentRequiredClasses": [
+        "locale-grid"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".locale-grid article",
+      "absentRequiredClasses": [
+        "locale-grid"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".locale-grid h2",
+      "absentRequiredClasses": [
+        "locale-grid"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".locale-grid p",
+      "absentRequiredClasses": [
+        "locale-grid"
+      ],
+      "line": 2056
+    },
+    {
+      "selector": ".brand-type",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 2057
+    },
+    {
+      "selector": ".seo-story",
+      "absentRequiredClasses": [
+        "seo-story"
+      ],
+      "line": 2058
+    },
+    {
+      "selector": ".seo-story",
+      "absentRequiredClasses": [
+        "seo-story"
+      ],
+      "line": 2059
+    },
+    {
+      "selector": ".locale-grid",
+      "absentRequiredClasses": [
+        "locale-grid"
+      ],
+      "line": 2059
+    },
+    {
+      "selector": ".guide-teasers",
+      "absentRequiredClasses": [
+        "guide-teasers"
+      ],
+      "line": 2059
+    },
+    {
+      "selector": ".seo-story",
+      "absentRequiredClasses": [
+        "seo-story"
+      ],
+      "line": 2059
+    },
+    {
+      "selector": ".locale-intro h1",
+      "absentRequiredClasses": [
+        "locale-intro"
+      ],
+      "line": 2059
+    },
+    {
+      "selector": "html[lang=ru] .brand-type>span",
+      "absentRequiredClasses": [
+        "brand-type"
+      ],
+      "line": 2148
+    },
+    {
+      "selector": ".hero-art",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 2158
+    },
+    {
+      "selector": ".hero-art:before",
+      "absentRequiredClasses": [
+        "hero-art"
+      ],
+      "line": 2159
+    },
+    {
+      "selector": ".hero h1 .hero-highlight",
+      "absentRequiredClasses": [
+        "hero-highlight"
+      ],
+      "line": 2160
+    },
+    {
+      "selector": ".office-art",
+      "absentRequiredClasses": [
+        "office-art"
+      ],
+      "line": 2161
+    },
+    {
+      "selector": ".service-card-art",
+      "absentRequiredClasses": [
+        "service-card-art"
+      ],
+      "line": 2169
+    },
+    {
+      "selector": ".locale-service-art",
+      "absentRequiredClasses": [
+        "locale-service-art"
+      ],
+      "line": 2169
+    },
+    {
+      "selector": ".detail-service-art",
+      "absentRequiredClasses": [
+        "detail-service-art"
+      ],
+      "line": 2169
+    },
+    {
+      "selector": ".service-card-art",
+      "absentRequiredClasses": [
+        "service-card-art"
+      ],
+      "line": 2173
+    },
+    {
+      "selector": ".service-card:hover .service-card-art",
+      "absentRequiredClasses": [
+        "service-card-art"
+      ],
+      "line": 2174
+    },
+    {
+      "selector": ".detail-service-art",
+      "absentRequiredClasses": [
+        "detail-service-art"
+      ],
+      "line": 2175
+    },
+    {
+      "selector": ".locale-service-art",
+      "absentRequiredClasses": [
+        "locale-service-art"
+      ],
+      "line": 2176
+    },
+    {
+      "selector": ".service-card-art",
+      "absentRequiredClasses": [
+        "service-card-art"
+      ],
+      "line": 2178
+    },
+    {
+      "selector": ".service-card:hover .service-card-art",
+      "absentRequiredClasses": [
+        "service-card-art"
+      ],
+      "line": 2179
+    }
+  ],
+  "sourceInventory": [
+    {
+      "path": "public/favicon.svg",
+      "sha256": "4f2f6774d6301de68a5d0c79b7e8fe9db4ad68475d24a0ff614e61ea5719ae3a"
+    },
+    {
+      "path": "public/illustrations/baureinigung.svg",
+      "sha256": "e13e45b7e1446ce87f0bf12dc64b6afeae133bdb26039570d76e6d1f4c111183"
+    },
+    {
+      "path": "public/illustrations/bueroreinigung.svg",
+      "sha256": "fae930983373112a0b645f45f237e6ac8ec1254d0c7bf85fda3a7ab9fad37d68"
+    },
+    {
+      "path": "public/illustrations/glasreinigung.svg",
+      "sha256": "e0e758dd803d041d0f43650503c97762879005226034858542a91ca7fb07f2fa"
+    },
+    {
+      "path": "public/illustrations/grundreinigung.svg",
+      "sha256": "83b126288eec390a3ffea3c92355429be42a02335594958238973ae58cae49e9"
+    },
+    {
+      "path": "public/illustrations/hero-cleaning.svg",
+      "sha256": "4748a027e055e728ea51d7f53afb230373aee6e604bf3070e9626657dadc5ed6"
+    },
+    {
+      "path": "public/illustrations/treppenreinigung.svg",
+      "sha256": "8d084cc64fac6d52437a58664e052c4076262d6bc6e8401abb913315e27df6f1"
+    },
+    {
+      "path": "public/illustrations/unterhaltsreinigung.svg",
+      "sha256": "f63a9f23486655e65419642f1b2d5f52feb9d812e44bd892a42d135ee4e2382d"
+    },
+    {
+      "path": "public/images/knaba-3d-footer-en.svg",
+      "sha256": "480b6bd7ce78844ccbfbf21d65303d375e446fa38935637207bbee9842a7d376"
+    },
+    {
+      "path": "public/images/knaba-3d-footer-ru.svg",
+      "sha256": "5b13fee2288e4a57cc70b87dd85357b4ddb2ff298b1cea8899fb920fdd6b1016"
+    },
+    {
+      "path": "public/images/knaba-3d-footer-uk.svg",
+      "sha256": "d2fabd6e32c85aabc9fba35ca04798b3eeb0f830454ad5d68a4d8dc59917f31d"
+    },
+    {
+      "path": "public/images/knaba-3d-footer.svg",
+      "sha256": "907eb33e497b0bdeaa59a74690d41f199576ffb640673188ce2127df09a91323"
+    },
+    {
+      "path": "public/images/knaba-3d-header-en.svg",
+      "sha256": "77ce5c3c8de02f4678d387bcf9d82f9eabd893f7c4825a17bb6ae2bc5778edfa"
+    },
+    {
+      "path": "public/images/knaba-3d-header-ru.svg",
+      "sha256": "d1846b983ddf48b970a9d0df182993a7e6be8f7bb9b12d5a1e89dcfab25d0f78"
+    },
+    {
+      "path": "public/images/knaba-3d-header-uk.svg",
+      "sha256": "2d8ac32fa88de1700d8010e7d2162fc0a9559b1bb9943c71ce3cc0fb1c7f7d87"
+    },
+    {
+      "path": "public/images/knaba-3d-header.svg",
+      "sha256": "400f9ef8e635d7c5e274567f473783150439314a1c5dd487df7909c6d8accb49"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-footer-en.svg",
+      "sha256": "91adf90732be15994129f412a5030c19dc7f5a0795c8ae817e1a9d87ef463ac3"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-footer-ru.svg",
+      "sha256": "d93cd76faeba9ed3ffb3c144d3655c9cb95fd7a269fb71f6de30ba57da026369"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-footer-uk.svg",
+      "sha256": "08b0faf026a0c7971b80ca9d000735aca4b330d43814e207196bead3b5618779"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-footer.svg",
+      "sha256": "9406f7bef01c67250ea8daf82ff053e575719ff39e0f2a80aeca0b0a396cf508"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-header-en.svg",
+      "sha256": "fa86f7a1eebac4c84a5dbbdeec308c7ef92f1646b46fb2f44b364f923ad7d6da"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-header-ru.svg",
+      "sha256": "e3226988531bc0e2a0eb89e5ea37e55e2070a8abbdf31dfe99cfba2215d71a02"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-header-uk.svg",
+      "sha256": "a31f73e828a208fc1b0fc958269ef03bd68450cea698b55b00a7debf83883b9f"
+    },
+    {
+      "path": "public/images/knaba-3d-mobile-header.svg",
+      "sha256": "cb660f68f72f14b3b3fa3e4f9a735a8f68cd6dfd2e63da9d9ead05cae549e0e6"
+    },
+    {
+      "path": "public/images/knaba-construction-logo-footer.svg",
+      "sha256": "5447f27081cd5eb4dbaa274527116d246b4822a2df7fc5e93bec1ea3abb88c29"
+    },
+    {
+      "path": "public/images/knaba-construction-logo.svg",
+      "sha256": "69b38773ccdccb26e5891463532a0b501cf1ab18e10267287da1ad841a54fc2b"
+    },
+    {
+      "path": "public/images/knaba-construction-mark.svg",
+      "sha256": "4f2f6774d6301de68a5d0c79b7e8fe9db4ad68475d24a0ff614e61ea5719ae3a"
+    },
+    {
+      "path": "scripts/audit-i18n-output.mjs",
+      "sha256": "37064cee5ce01e6a4e397b846dfbf803a2eb95ca9fb41d917f383924dd16a488"
+    },
+    {
+      "path": "scripts/audit-release-routes.mjs",
+      "sha256": "91da6b8f9c971151922220ccb8fa49fcdfb5137d2ee1cc6da6300100a766592c"
+    },
+    {
+      "path": "scripts/check-knaba-3d-assets.mjs",
+      "sha256": "505c7319aaf232cb08c59b931b32d461a46374f9b3118b3e9706749bbf7442b5"
+    },
+    {
+      "path": "scripts/clean-build.mjs",
+      "sha256": "762c637fd0d122bb0e90081c2934b8b72706ff21ac0a0fefd9bc33da93d54407"
+    },
+    {
+      "path": "scripts/generate-knaba-3d-assets.mjs",
+      "sha256": "81ec9f162fe8ba61916b787fcc8e192c910a9db000438774a363bdfe1bdeeacb"
+    },
+    {
+      "path": "scripts/i18n-source-catalog.mjs",
+      "sha256": "020c39a29f5ccbbdb125829b5844b4ee2d481cd82031f1acf9c81d821d3044ce"
+    },
+    {
+      "path": "scripts/indexnow-submit.mjs",
+      "sha256": "11f4f4bf3641d626fd2743f35ea9ec7839af3c6cc8b1320c379e4e3fc512fd16"
+    },
+    {
+      "path": "scripts/preview-worker.mjs",
+      "sha256": "23e93c78e8de1768f9376619d1ed44e3e668659f69a42560990b0e97b5d53268"
+    },
+    {
+      "path": "scripts/security-headers.mjs",
+      "sha256": "c2552e1ed56e181ccb0df08193bdb074bac99eaacd40333036e9c10df558d1de"
+    },
+    {
+      "path": "scripts/verify-live-artifact.mjs",
+      "sha256": "f1bbee5c1c69c38fb18f3e53d8981f12de5bd9367276c412de8bdb1577dba2a9"
+    },
+    {
+      "path": "scripts/verify-public-live.mjs",
+      "sha256": "18d4822a8e40a4124a989f3eea9085311be25e0c91314be8628ab1669c6e2e83"
+    },
+    {
+      "path": "scripts/verify-sitemap-parity.mjs",
+      "sha256": "f3bac873f1ee54b6f52fa6d3e60e28d491b9d3d8b49ec80cae41ed626270acfb"
+    },
+    {
+      "path": "scripts/vite/sites-vite-plugin.ts",
+      "sha256": "07af20e7097d9ed1d76f7c446d02997550b8fc5ca89668b249e25eabd62c6834"
+    },
+    {
+      "path": "src/components/AccountAccess.astro",
+      "sha256": "22a5d55955d337e7751d667f5ba2cacd27408789552f87c61884ae4025ba0eaa"
+    },
+    {
+      "path": "src/components/AccountAccessDialog.tsx",
+      "sha256": "f2e0b2d4c151c3661da9ef0bab81e41caa2c118b9a50393b3c8066e345516c31"
+    },
+    {
+      "path": "src/components/AdminControlCenter.tsx",
+      "sha256": "83cc810836faf9801511ca1c525790c1ddfcc6c8c28c578606028076aef01fe7"
+    },
+    {
+      "path": "src/components/AdminModuleOutlet.tsx",
+      "sha256": "085fa7f517aab17578d0c41a832b68df94a4e39108ce061a08f173c05654f772"
+    },
+    {
+      "path": "src/components/AssistantCaptcha.tsx",
+      "sha256": "49a64d6e53b095c865694a33d4f1207024024954fc5ded142458d8deb669f25a"
+    },
+    {
+      "path": "src/components/AssistantInbox.tsx",
+      "sha256": "56366f14a79136f3b0e3477953fc4215211ddec76c3230b1be0d2cc80d063a47"
+    },
+    {
+      "path": "src/components/Catalogue.tsx",
+      "sha256": "16dc6fe5cea1a57145b28670966398f1dcd1666e6cdbd6e8bc1a211ddc842718"
+    },
+    {
+      "path": "src/components/CleaningChecklist.svelte",
+      "sha256": "a47d8892a5d8cf084260a8111669d1cc540efcb9de706d9039c035aed8f7bb1f"
+    },
+    {
+      "path": "src/components/CompanyProfile.astro",
+      "sha256": "11d905c1f312fa4caecdcf5245bdc9d128b484f21a2b562698eb2bc93944a0bd"
+    },
+    {
+      "path": "src/components/ConstructionCatalog.astro",
+      "sha256": "ad9b3f0d3e600a02fee6ded21214312769b8c96d09a71c129b52a4c6445642f1"
+    },
+    {
+      "path": "src/components/ConstructionContact.astro",
+      "sha256": "1b16ce46d33c3e6bb65cc6e51e974e8610300caaef25877e7c1aa4edc05fbb44"
+    },
+    {
+      "path": "src/components/ConstructionDetail.astro",
+      "sha256": "035393c4d0fa447ff81306e267099f101aea26190514aab84e22b76bcfd2291d"
+    },
+    {
+      "path": "src/components/ConstructionFaq.astro",
+      "sha256": "f804beb1d6f3b5e430a67cba7571699f7d083aa10fa303cedf4b7abeaf8ad29a"
+    },
+    {
+      "path": "src/components/ConstructionGallery.astro",
+      "sha256": "fe0c78e7c43f4c916d979e0c6de977c8cf4aa20de51a72aec7bfdc43d1f04e0d"
+    },
+    {
+      "path": "src/components/ConstructionGuide.astro",
+      "sha256": "25bc756280d11f41f9d5703cb27dbef7a71343bc198c26f2363272f7877cbd43"
+    },
+    {
+      "path": "src/components/ConstructionHome.astro",
+      "sha256": "13977b1fef9427ea86ef638be24600372179edc41f4e6d58c86df070dc1835b2"
+    },
+    {
+      "path": "src/components/ConstructionInfo.astro",
+      "sha256": "db524cb68d01eca5f243464c63aa57ce2b16d8507ff613f1026fefb901300b55"
+    },
+    {
+      "path": "src/components/ConstructionLegacy.astro",
+      "sha256": "499b426b5467cd09814bb72450ff16d3ee8325503fda185e74a576ec731043e6"
+    },
+    {
+      "path": "src/components/ConstructionPlanner.astro",
+      "sha256": "994cc20af0a670e75aa2c3d7a1c48aa96b7a944bb28286d60c95852f3f74f3e2"
+    },
+    {
+      "path": "src/components/ConstructionServiceIcon.astro",
+      "sha256": "2402acb59f22e434c11baccbc401d90daa51f0f06584a8e19d242eaecf3584f0"
+    },
+    {
+      "path": "src/components/CrmConsole.tsx",
+      "sha256": "547bbf09745a7fdbf437eeab4ba2be43fff86525031365d6c7d49e93248d598f"
+    },
+    {
+      "path": "src/components/HomeGuides.astro",
+      "sha256": "2f29a8ae5e5f4c493b2dd4ff025070110d011d056a57003df0a3f89f97d200cc"
+    },
+    {
+      "path": "src/components/Icon.astro",
+      "sha256": "65f5ae937de62d00034c12f9666cab4cadb501c5359596b01d1ce357618b48f3"
+    },
+    {
+      "path": "src/components/Inquiry.tsx",
+      "sha256": "feaf853796f45f2a781ff4d50ee5f63119f769a4b0d30b6b8b592aa38be5b544"
+    },
+    {
+      "path": "src/components/KnabaAssistant.tsx",
+      "sha256": "5b2a2de09c33b4d5003ca1646939d105b71299bdc541517ae8a0385b03247fa1"
+    },
+    {
+      "path": "src/components/LocaleCatalog.astro",
+      "sha256": "c7c4abf79369d5a929af5d5d8775a4e39af028e3862ca5e43020cf25d55e788b"
+    },
+    {
+      "path": "src/components/PartnerDirectory.astro",
+      "sha256": "c3c1f8af89d8cbeeb8675748b7d389a0d4c4e9366e0be5fd463e6f13d366a084"
+    },
+    {
+      "path": "src/components/Partners.astro",
+      "sha256": "748b26d8ab4fb22056c88059a695b7d9d533a98fbea8fb1c837d245851fc1f76"
+    },
+    {
+      "path": "src/components/Portal.tsx",
+      "sha256": "73774fafbe9ad0fe96a2bb4d8a94a29623cdcd50d1a0613bf0d4333ebb395d92"
+    },
+    {
+      "path": "src/components/ProjectScopeGuide.astro",
+      "sha256": "eec90bc2cf47fa04d6632a9e55f10f83076282c16c8f95ad96c1cfcb167c35d7"
+    },
+    {
+      "path": "src/components/PublicAssistant.tsx",
+      "sha256": "f786c4af2ffe93cc5d6e15c60041985bd09f3ff4dd837c48e2bef86a13159534"
+    },
+    {
+      "path": "src/components/PublicReviews.tsx",
+      "sha256": "b286d18a949338634ba4fe6b646492c93957e6ec0bc7140f86b360fc3cf20d73"
+    },
+    {
+      "path": "src/components/Reviews.astro",
+      "sha256": "ffe4d7639e5129300a99c0b228383d8fc9bbda6d6ca12cce75a1aa0d8f5a1408"
+    },
+    {
+      "path": "src/components/ReviewsModeration.tsx",
+      "sha256": "944aed7dd9e8cd570c2bf91f2615e7241945a690b953def0bb000676ffa7d30d"
+    },
+    {
+      "path": "src/components/ServiceCarousel.astro",
+      "sha256": "e00c9893c8edb623bc081b3d1dde5a4e7efa048456dbfe80f77203ced7d8098e"
+    },
+    {
+      "path": "src/components/ServiceFinder.vue",
+      "sha256": "f6e7c88c462ab0ca104f0001702e64ba23a8d46635d312685204f61613b0119c"
+    },
+    {
+      "path": "src/components/SiteStudio.tsx",
+      "sha256": "86cb47839016b31ba11858b161151a0a7792f7449d92ec083375be719cfd3255"
+    },
+    {
+      "path": "src/components/WhyKnaBa.astro",
+      "sha256": "0cf8047fbace6cbec342a9afb6ec97700cf86cb0bdf764e065dc344952abc6d4"
+    },
+    {
+      "path": "src/data/bauhilfe-guide.ts",
+      "sha256": "6e37a61e954064d4fb9983e9a13e8e8733f3c1c7b813165d8c4304d512a0bd52"
+    },
+    {
+      "path": "src/data/brand-messages.json",
+      "sha256": "dc9b3b79a8eda4c47c16b89449c31fa9969d22f49381bdb6bb09376d0742004c"
+    },
+    {
+      "path": "src/data/careers.ts",
+      "sha256": "9fcb6c285e58445a1c0fc259e331eb0d5aa90d35aa5aba0fcce06b35f48a9bb5"
+    },
+    {
+      "path": "src/data/company.ts",
+      "sha256": "0bea9a6d0f6fa55b8d5a700e5e668541e638f22949df44ddd2d726dddc880b21"
+    },
+    {
+      "path": "src/data/construction-faq.ts",
+      "sha256": "355d76bbe7fa84163bd4849f6a8eb46940411ee369e39e4739c62d21328fc783"
+    },
+    {
+      "path": "src/data/construction-grid.ts",
+      "sha256": "d4faef50fd0fbc65f4ec797a30090f82ac12bf9598201a9e1c551126a30eb842"
+    },
+    {
+      "path": "src/data/construction-guidance.ts",
+      "sha256": "3b5319224c12a50b04048385ea3e6903096397957598584f48be8209ff98e1e4"
+    },
+    {
+      "path": "src/data/construction-guide-routes.ts",
+      "sha256": "2566f0d95cbaa201bfc9d09e6ab290cac62bb920ee91377cc5eefb7327dee826"
+    },
+    {
+      "path": "src/data/construction-guides.ts",
+      "sha256": "df13e31bbf3cfe8fbcc077821db794d1396e5d4f0aa1803134a403c8a8eb5830"
+    },
+    {
+      "path": "src/data/construction-icon-paths.ts",
+      "sha256": "46823a9089b5bf7ce3757ac9c4dffbb282012ef95ee64072c24129c2fad09ee5"
+    },
+    {
+      "path": "src/data/construction-offers.ts",
+      "sha256": "fbab3a15cfd06f7b69062ec539964ee7463552f40f9efd1d8d60975404bd4eab"
+    },
+    {
+      "path": "src/data/construction-project-card.ts",
+      "sha256": "05398694e8dceaec097fe52cff2dc66b57a89795e60b0b2c2066dbad627e8e3a"
+    },
+    {
+      "path": "src/data/construction-service-content.ts",
+      "sha256": "e8f3737a28ef60d54e062592004c6c6372ddef22f68cc9a2f03f25072df7ba99"
+    },
+    {
+      "path": "src/data/construction-site-guidance.ts",
+      "sha256": "cf7cc6c8515d53c5fc56c1504258579e419a7009cc5f57f81c1192111d6436d4"
+    },
+    {
+      "path": "src/data/partners.ts",
+      "sha256": "adda0d9e6cc5e2bae22b2f2b72ef601df0d1a23acfe55c75fd071d41f5837e13"
+    },
+    {
+      "path": "src/data/reviews.ts",
+      "sha256": "23032b35e6ca9e9496640e9ab24611bc163800f78fd6087cd2f59977ab2b3ffb"
+    },
+    {
+      "path": "src/data/ru-content.ts",
+      "sha256": "99a39639f77baf47d6338dd62d472df1f7552e2f06dd420570ca8db3caa5b6ba"
+    },
+    {
+      "path": "src/data/ru-services.ts",
+      "sha256": "1e94918bc585775f67282c741bd108750019f81de8b06bc411bd48563f4f576e"
+    },
+    {
+      "path": "src/data/seo-content.ts",
+      "sha256": "53e4d53ce30633b8fb26c4873c9098818ade3a8e1f2ab5e620b7e701c8c33c95"
+    },
+    {
+      "path": "src/data/service-artwork.ts",
+      "sha256": "ba357a8e98cacaf93072f33c2f790c0084457171481de6dae800cd551c1cc5f2"
+    },
+    {
+      "path": "src/data/site.ts",
+      "sha256": "f292401863bfeccaf0081512da518c704dcc80456f67b9f4a6429a7f44af435d"
+    },
+    {
+      "path": "src/layouts/Layout.astro",
+      "sha256": "2c945a28bec5fd7576b7a25c13ea1ee65a1b895ef8f3a0cd5535b28970805dd4"
+    },
+    {
+      "path": "src/lib/account-access.ts",
+      "sha256": "7b07914c8e75cbceac44a0905270d722e28d9ccaeff6a4f8c1e16d98dc1ae92d"
+    },
+    {
+      "path": "src/lib/admin-access.ts",
+      "sha256": "33d067e364898130980ca551906567a1012db8962a784cb9988596edc042cdf2"
+    },
+    {
+      "path": "src/lib/admin-modules.ts",
+      "sha256": "5d2a5327004a5499f3c08508eadcc8469f07865d39eb3813c694cc81d8e285b0"
+    },
+    {
+      "path": "src/lib/assistant-knowledge.ts",
+      "sha256": "ca3c51839e3a5bee85dd8ea74783583e4b9c54fe52af83e7766a0375b4481b85"
+    },
+    {
+      "path": "src/lib/assistant-recovery.ts",
+      "sha256": "a9fc4fc042b629ecba3e35e24544c2d7daa432e1e03eb7bc779216be083b974b"
+    },
+    {
+      "path": "src/lib/assistant-request-state.ts",
+      "sha256": "6a68890c6ea9b96d2448c8a48b8fff0ae673969e4d5af3fcbf629137bc090fc7"
+    },
+    {
+      "path": "src/lib/construction-ui-translations.ts",
+      "sha256": "e6b2faf3e80cb3fa63ad28c0207c6f305f35a80a8393864080aafbe97836d2ee"
+    },
+    {
+      "path": "src/lib/corporate-navigation.ts",
+      "sha256": "27d31c3651139a80e7bc22292e7c944634919a1ab46d3e3e20edf898b9ddf652"
+    },
+    {
+      "path": "src/lib/inquiry-construction.ts",
+      "sha256": "44ff3dc8d4bd3d01bc0a2057465d835878836296674d57894e234f0145c3c0a2"
+    },
+    {
+      "path": "src/lib/inquiry-navigation.ts",
+      "sha256": "571d4f19ab3df64cc4a788634bff07c43c5bc64253816d8f31527bf9ffba033a"
+    },
+    {
+      "path": "src/lib/inquiry.ts",
+      "sha256": "8bf4515c6e7afdea4a8ac275296f49ef34d52c2224559481719b7d5ed6435603"
+    },
+    {
+      "path": "src/lib/locale-catalog.ts",
+      "sha256": "bb754a33c607dc2d7e3fc563126fa0598aeb277e780222b95ebb5c291aee867c"
+    },
+    {
+      "path": "src/lib/planner.ts",
+      "sha256": "e02748c030d44f0996b4b9496c968a04a5f32f51da8ead0592eab483abf00830"
+    },
+    {
+      "path": "src/lib/portal-contract.ts",
+      "sha256": "99ecc53dc16834609d80a13ca72e51d5575c45004dd559189b108f75b96d4fe7"
+    },
+    {
+      "path": "src/lib/portal-i18n.ts",
+      "sha256": "b9d7abe0c100a1ac32b30963c120642f5312ada5a0f52c92b4a8ef511707c278"
+    },
+    {
+      "path": "src/lib/public-i18n.ts",
+      "sha256": "791c86373d4ca45cd8824b185269650298b510260f0f03ee78ce7d3f42b032ba"
+    },
+    {
+      "path": "src/lib/request-id.ts",
+      "sha256": "fb5c434e12504fc451e7c44015efec8be88028397fb99861c0af7962ad56124d"
+    },
+    {
+      "path": "src/lib/service-carousel.ts",
+      "sha256": "5ddc7aa5776f569f5aae3427645bee54ca99897f4091777501816eede3d7186e"
+    },
+    {
+      "path": "src/lib/site-i18n.ts",
+      "sha256": "aef3c47e47d9803368f3895ed70ee75ffaec700c384811caef764dfca9f56fad"
+    },
+    {
+      "path": "src/lib/site-studio-contract.ts",
+      "sha256": "1e887a5c9bd4486c8b564864c93c38976e702fe89b6c335074f283e059d7463a"
+    },
+    {
+      "path": "src/lib/studio-media.ts",
+      "sha256": "3c61591dd5ea41cbc3f123a0e195087ba8a587a82b4889f07830f776cdca9f64"
+    },
+    {
+      "path": "src/lib/studio-pages.ts",
+      "sha256": "9e8a559cfb0e9d70e90abf8d506ca19c8cf07937ab758e5fce2ec86730990d42"
+    },
+    {
+      "path": "src/pages/404.astro",
+      "sha256": "c1e441f9f1535f7fd453127575f30c6b5ee2d2b7326cd244edb61650dc68d1c5"
+    },
+    {
+      "path": "src/pages/admin.astro",
+      "sha256": "ef0134dc63365b1a0c5d573b9edcd22bdbaa8c947e0f92e8f65c97e86ea83b85"
+    },
+    {
+      "path": "src/pages/api/catalogue.json.ts",
+      "sha256": "61a8d340ea4c65663e6f2ea16f186106dba668edb12fa7ffba70b8ef3fccc419"
+    },
+    {
+      "path": "src/pages/bauleistungen/[slug].astro",
+      "sha256": "d392ba8c62fc32c58d24d45e48336fb29ea21ff413b3232747cce6a844d7982c"
+    },
+    {
+      "path": "src/pages/berlin.astro",
+      "sha256": "c901ca3ea28d339904a787ab209b60e517f75e0847d91a0e7bef889b81f65d28"
+    },
+    {
+      "path": "src/pages/branchen.astro",
+      "sha256": "1262d51c794893a627e6bf01cf0c2082e1a24e8bd02dc67f59d42538c9f5bcfc"
+    },
+    {
+      "path": "src/pages/crm.astro",
+      "sha256": "0a1b3e69f2e73de4f0fc0ee24923992db49a0abbb21edb6c1d75e9515b6ffe81"
+    },
+    {
+      "path": "src/pages/datenschutz.astro",
+      "sha256": "6b464f70b1321122b135533c4ba17462af70361621858c4b4aac3077426a190c"
+    },
+    {
+      "path": "src/pages/en/bauleistungen/[slug].astro",
+      "sha256": "de1a495702400546f411d60a93cdde3f4fb20a3757d5e68c1e465c2e8bb9bf44"
+    },
+    {
+      "path": "src/pages/en/berlin.astro",
+      "sha256": "49f56e734db4e0509d47ccde22e26cae4a5bf3e7e144c150d51cce25514db82d"
+    },
+    {
+      "path": "src/pages/en/branchen.astro",
+      "sha256": "87d6b5a2343351f3941cd50089d83f4373c97450de0077c110beb7910fc1ac1b"
+    },
+    {
+      "path": "src/pages/en/faq.astro",
+      "sha256": "5f121123c9312f2da51cff616e55bd91cc83cbffc2b9028bbb6454a85f42b03e"
+    },
+    {
+      "path": "src/pages/en/galerie.astro",
+      "sha256": "d4b70bc8b3c720b1bd2c9e3b442166c32c06bba07aec6b75acf04e9aa7cb179f"
+    },
+    {
+      "path": "src/pages/en/index.astro",
+      "sha256": "7dfb468312435b15d4c68f83ac51571904786971dd55a83144b2f45d43d33f52"
+    },
+    {
+      "path": "src/pages/en/karriere.astro",
+      "sha256": "f1ca57646c0241ee89bb65f7b47e67271f4d087f62145b6ce256bdcf6755cbe0"
+    },
+    {
+      "path": "src/pages/en/kontakt.astro",
+      "sha256": "4038c9dbc6b8fc108911f3f4cd51dc44a124400c64c14fdb5ea2d255e115aa3f"
+    },
+    {
+      "path": "src/pages/en/leistungen/index.astro",
+      "sha256": "2db0591c2f03cb02dab47bdabe2487abd281a3e6c676113df790652b96a83240"
+    },
+    {
+      "path": "src/pages/en/partner.astro",
+      "sha256": "718613c4144375a50fcf2a0bf802a5363e3df297d906e1663e5f399083cfe6b8"
+    },
+    {
+      "path": "src/pages/en/planer.astro",
+      "sha256": "763cf042a939ded7539c57f9410e24a1d1241b21807cd867358856cd39029a70"
+    },
+    {
+      "path": "src/pages/en/ratgeber/[slug].astro",
+      "sha256": "32461b427b5d7e357d4d127d476852a50612be7f0928982142026573811f22a6"
+    },
+    {
+      "path": "src/pages/en/ratgeber/index.astro",
+      "sha256": "6b4703f7f428eb921ac9b3882ba1279c26cd0cc34b57e09d5cb44fbfc03b6a80"
+    },
+    {
+      "path": "src/pages/en/unternehmen.astro",
+      "sha256": "83f4f63f2933b9a1a12a86716c6a2a5dca6c590e442cd12932a0b114d45e9dc5"
+    },
+    {
+      "path": "src/pages/faq.astro",
+      "sha256": "fe50f6e727a2bd73ca2f277f638722b09436f8f6f5cd1ca431ae94f702280a4b"
+    },
+    {
+      "path": "src/pages/galerie.astro",
+      "sha256": "bdf9d8bba6cd868550bc1c086dc8a7f047d022350d1c31997202eaa08aa186aa"
+    },
+    {
+      "path": "src/pages/impressum.astro",
+      "sha256": "cf72dca54051921bf8c60bd41e30de9817d23b58f4749f356652512cb9cf36c7"
+    },
+    {
+      "path": "src/pages/index.astro",
+      "sha256": "79029800b094abf17681116c4420509f09b9c9d622a9d458445f9af3b1effbb1"
+    },
+    {
+      "path": "src/pages/karriere.astro",
+      "sha256": "7cc9f0a54b1e1f96a6b59c5f0075a2ce77a81c7bb0927185e4f96488b0a0bc2f"
+    },
+    {
+      "path": "src/pages/kontakt.astro",
+      "sha256": "eabd3ac9e602d1bbc1da86969a408aff0fe9e2edab8f9542f8370779a4b0c36d"
+    },
+    {
+      "path": "src/pages/konto.astro",
+      "sha256": "ecf2d235928882c9ebe501ee247dbd2e701559a3434f9a62221ce612fe100a5f"
+    },
+    {
+      "path": "src/pages/languages.json.ts",
+      "sha256": "d2cdf9f2eeec54cb5b14d34006d467370572260d36dea54526ec7bd83cfc6ec3"
+    },
+    {
+      "path": "src/pages/leistungen/[slug].astro",
+      "sha256": "ec2445347bdb3ecef5fddd571020e55a46273eaba6e9531e5c2f80d78ba9aa04"
+    },
+    {
+      "path": "src/pages/leistungen/index.astro",
+      "sha256": "d288d92863e453639598435e6b40f63bd5354d2b9eb6f37065fe738ca2a6608b"
+    },
+    {
+      "path": "src/pages/partner.astro",
+      "sha256": "f8a263393ab071112b5d7c80452f1c90efe6835142aadfe520849023f370af34"
+    },
+    {
+      "path": "src/pages/planer.astro",
+      "sha256": "3c2559181400fac6048d865711e641cbbea36a9176a1da57becead4b82dd602a"
+    },
+    {
+      "path": "src/pages/postfach.astro",
+      "sha256": "ca964d217940dc10090331c105e3e33dd55caee426fef8492eee8c78c96f93fd"
+    },
+    {
+      "path": "src/pages/ratgeber/[slug].astro",
+      "sha256": "32fc94c4cd4df3afc8bcc081eb8e373763cdae5e9436f80debb1d9c1ca1f2e8f"
+    },
+    {
+      "path": "src/pages/ratgeber/index.astro",
+      "sha256": "b584f229bfb4b14d4172cfc77ebdd0b4217d7d98945b5e9e5da8bc5aef773beb"
+    },
+    {
+      "path": "src/pages/robots.txt.ts",
+      "sha256": "3e984b719d4675b1b72381382bcfe8f63bfbdb69a1ef271a6ab1ced43b1dec79"
+    },
+    {
+      "path": "src/pages/ru/bauleistungen/[slug].astro",
+      "sha256": "ea72a6bd50284cb51e2ea9a0b056c4bd727fa36d09269e32ee355e7ed28a28f2"
+    },
+    {
+      "path": "src/pages/ru/berlin.astro",
+      "sha256": "fd1ab43a1fda9ca6231a2124ac268a83a3e54557f0e14f12bed5752002a09e84"
+    },
+    {
+      "path": "src/pages/ru/branchen.astro",
+      "sha256": "4d7a52ce21a97171e671e1ca8a91f7b9f5243252c11a538a3acf10a5293490a8"
+    },
+    {
+      "path": "src/pages/ru/datenschutz.astro",
+      "sha256": "a64d3298e2db18159906a73cf8ea57df5cb443a0527471e0275380c2bc415f4d"
+    },
+    {
+      "path": "src/pages/ru/faq.astro",
+      "sha256": "d6488529662dee5ef984c60de7fa9caa3af14c9c4196912c88a668389a315d29"
+    },
+    {
+      "path": "src/pages/ru/galerie.astro",
+      "sha256": "5ea127bbe274d5802ccfa0e1bd65abd6da8bb40498aea380e97047dab34d35b9"
+    },
+    {
+      "path": "src/pages/ru/impressum.astro",
+      "sha256": "0b68288d32862a465d80fc0b5edc360693c6ea29cb1982e9e6aa37ace9d9bd4a"
+    },
+    {
+      "path": "src/pages/ru/index.astro",
+      "sha256": "089ae2d3103501b3611cd7be2981afd2bcc8c8f6f0761025838d2c71364dcaa9"
+    },
+    {
+      "path": "src/pages/ru/karriere.astro",
+      "sha256": "62ef41f68a011e2cdc7fc5dec86646361a96c8e620f66d23ddd4da2733dcc508"
+    },
+    {
+      "path": "src/pages/ru/kontakt.astro",
+      "sha256": "ec90f086bd54b51c51ceaa6a93321e8e2f78830891695eeb48184e65653b847a"
+    },
+    {
+      "path": "src/pages/ru/konto.astro",
+      "sha256": "8cb2d07b39157ac9c83caca4952bd8b3a2fd36b1f466b9d8d732583139e00239"
+    },
+    {
+      "path": "src/pages/ru/leistungen/[slug].astro",
+      "sha256": "63a10d181aab78622e414de9221049e5bf8665f00cd4fac5d551b450feddb24e"
+    },
+    {
+      "path": "src/pages/ru/leistungen/index.astro",
+      "sha256": "589f76660daf8e4bf840c578ea37bdd9a93166230140973d00755a7cec193561"
+    },
+    {
+      "path": "src/pages/ru/partner.astro",
+      "sha256": "b33bbc3b9ae20d99e105f17685b9b1710f90d986a3596ba3efea254a9f508784"
+    },
+    {
+      "path": "src/pages/ru/planer.astro",
+      "sha256": "5cb3daf357f16c8f83113cbae3643a2b44fbea9cda1cc8a25e1802e504a4a471"
+    },
+    {
+      "path": "src/pages/ru/postfach.astro",
+      "sha256": "e1d57bacbe8b65732b9e088558413950a5387bfac9092335fd6a0bc7925680c5"
+    },
+    {
+      "path": "src/pages/ru/ratgeber/[slug].astro",
+      "sha256": "0fadb4f8b1f91c1d7613caeffa7b5fee276b8607d1a2e76b66e2855cc0e7be84"
+    },
+    {
+      "path": "src/pages/ru/ratgeber/index.astro",
+      "sha256": "e1d76f48850e01c1733ce1be53f848f9ca86708475d513ddbb198d712b15052b"
+    },
+    {
+      "path": "src/pages/ru/unternehmen.astro",
+      "sha256": "097042a9a82944178f75a40c3bbafa1ab69fa5ef85a7bdbdcc27779201eb9dbd"
+    },
+    {
+      "path": "src/pages/sitemap.xml.ts",
+      "sha256": "d54173551df4a4ec318914dcf5e931e732c43c8f871de696886fcfb5e5333ff9"
+    },
+    {
+      "path": "src/pages/studio-media.json.ts",
+      "sha256": "45eb2a4d37a8f8c8a72fe324628e6e12f1c943f90e1a6cb5cdaf6d8630a58810"
+    },
+    {
+      "path": "src/pages/studio.astro",
+      "sha256": "5f57c4988edbbf774cb5698c41e2a5ba68b3fe60fb97c9afbda1621d32a5d57f"
+    },
+    {
+      "path": "src/pages/uk/bauleistungen/[slug].astro",
+      "sha256": "5e20a7645dbac3738fa137f2d65d8c0ef6a2d47ae83f56247ebb192d89b8e13f"
+    },
+    {
+      "path": "src/pages/uk/berlin.astro",
+      "sha256": "7704b53db298ae41fccd20cf8ea4c9a3cadf92b56d0d5935f2a4e8c78f007f89"
+    },
+    {
+      "path": "src/pages/uk/branchen.astro",
+      "sha256": "4cbb236225efde5351fa0d0c9f1813006c4154ff7806f02812b515f594344709"
+    },
+    {
+      "path": "src/pages/uk/faq.astro",
+      "sha256": "2201a77e54e67b6352782828898f3fb2c4dc5f42928acb0ab503221e60190bd9"
+    },
+    {
+      "path": "src/pages/uk/galerie.astro",
+      "sha256": "6f7e02ef2c32c8e956d4524602facd7e15c63695271455e85c957b77764ad8ce"
+    },
+    {
+      "path": "src/pages/uk/index.astro",
+      "sha256": "bbc5d7f26de89c4a0927a16b817903453c2ab88b855f7514cb133ff985162019"
+    },
+    {
+      "path": "src/pages/uk/karriere.astro",
+      "sha256": "1cb34634cc6c49a4229a24decb751afad81b2184d007622327d8b3c55e28d06f"
+    },
+    {
+      "path": "src/pages/uk/kontakt.astro",
+      "sha256": "731ddc5ef1b6f44ec64917db19af98c4458ba450d4c8b197489de77b89914367"
+    },
+    {
+      "path": "src/pages/uk/leistungen/index.astro",
+      "sha256": "1a02931ab49fb43fd44dd554b2719fdd768621dab6e51e4b877fee9630befe83"
+    },
+    {
+      "path": "src/pages/uk/partner.astro",
+      "sha256": "5b666fd549e83c358bab1551cdc98b2c2e90b3e780a263901427631a5352c3f4"
+    },
+    {
+      "path": "src/pages/uk/planer.astro",
+      "sha256": "c33fe090713fe400e95cdcc369e22f624542371d6d03674c7fb985ae96f48f1a"
+    },
+    {
+      "path": "src/pages/uk/ratgeber/[slug].astro",
+      "sha256": "51c583b49c3925018f0f383422fb806bbcb7863b6a12180ea469504b37b5ddeb"
+    },
+    {
+      "path": "src/pages/uk/ratgeber/index.astro",
+      "sha256": "302931490e723e1605450b75f7bbc2f61ca4792189ce5a0e662b10029a1f9211"
+    },
+    {
+      "path": "src/pages/uk/unternehmen.astro",
+      "sha256": "12e6740a4d6c4b11bd456f9dc3ca0eff7283ee448edf29d003e9d4d0473b22a2"
+    },
+    {
+      "path": "src/pages/unternehmen.astro",
+      "sha256": "1a2175b3da4bddad82e5eb56bc3764e56bf2c6089759362cbc1b76507eda5544"
+    },
+    {
+      "path": "src/scripts/site-studio-live.ts",
+      "sha256": "e93b49baf3a07f82012cf8cbf3e3caec95eb85c2083114908082521a5e20ea25"
+    },
+    {
+      "path": "src/stores/finder.ts",
+      "sha256": "93a649a813055e71394ae1267ea1fec12acf19ae288a82e101cf0e1a3259c797"
+    },
+    {
+      "path": "src/stores/planner.ts",
+      "sha256": "f67755a7c0c65b32ff8c5a3e6a958a1cf80b842a04423d70c1d5c9e625e7c23c"
+    },
+    {
+      "path": "src/vue-app.ts",
+      "sha256": "81129e957a5fedb6986693467fbbf80622324203b191ded5d2ddb986b15206eb"
+    },
+    {
+      "path": "tests/accessibility-reflow-browser.cjs",
+      "sha256": "695e06afc9f1633a82eb9cfb3f7809e37be97fda26b2444d5184375f40fdc15d"
+    },
+    {
+      "path": "tests/account-access.test.ts",
+      "sha256": "3eb8854e03da08be1808fc4f65c773d38c6e9a9b2db7fb7629e58bf904f654d4"
+    },
+    {
+      "path": "tests/admin-access.test.ts",
+      "sha256": "d00e3db59544c9c86d2e08cc499dbd82ff01dbf5e0345d84bc99e9e9c75223c8"
+    },
+    {
+      "path": "tests/admin-modules.test.ts",
+      "sha256": "0f94d8cc00714ea9c8d77246580c68b0ccf215da49aa594dbc8a2bfae231394a"
+    },
+    {
+      "path": "tests/assistant-captcha-consent-browser.cjs",
+      "sha256": "ca2b1723cd6e5da48071223e9201407e6235d5571f9005e09975db0ad5e4870f"
+    },
+    {
+      "path": "tests/assistant-dialog.test.ts",
+      "sha256": "c839de2b1eb9077754ed3bfdbd50550242e0892c3da7be6f10169760b9d568f2"
+    },
+    {
+      "path": "tests/assistant-recovery.test.ts",
+      "sha256": "73840e0241827e15087305a211cbe24ebf35feb59610ad35e03080d5f1f9a377"
+    },
+    {
+      "path": "tests/assistant-request-state.test.ts",
+      "sha256": "b1f37cf6910e5bbc755b0e3504fdbca54c86673b55055b7d7db0020ef11ff914"
+    },
+    {
+      "path": "tests/assistant.test.ts",
+      "sha256": "64483b8690e8769ded6fb6b606f26772104a9276b86d3e4fcfc35c4e19d02dfd"
+    },
+    {
+      "path": "tests/brand-i18n.test.ts",
+      "sha256": "7a59fc82761b63a3bb4a16e22c31099c722289ecf207f764ba2575e41277683c"
+    },
+    {
+      "path": "tests/browser-policy-gate.cjs",
+      "sha256": "5b740e26a4832e7a38a813f673484a04a1353f5e82ceba52d8bcfc04910c75d0"
+    },
+    {
+      "path": "tests/browser-policy-gate.test.cjs",
+      "sha256": "8efad75a1e904b7a2c2e2eec6239b0da08c8d96b42c170b83c1d2b09212f7ff3"
+    },
+    {
+      "path": "tests/check-project-cta.mjs",
+      "sha256": "271b8aa0ca1dc298b892915d2830ad94288e307d28cace1b70e43a8e265fccae"
+    },
+    {
+      "path": "tests/construction-brand.test.ts",
+      "sha256": "948aac26364869e1fd3cdc22042b2573ee8220ae259f1e09cd19c1bb756fb399"
+    },
+    {
+      "path": "tests/construction-faq.test.ts",
+      "sha256": "6a0985428877ff1e72d69dbcd308615c801826677e33b80dd913a6e79ac58527"
+    },
+    {
+      "path": "tests/construction-guides-browser.cjs",
+      "sha256": "6dd32974e88324d878e04d588a1b9b9b1e9a380f922d16362a2720a7b0d7e269"
+    },
+    {
+      "path": "tests/construction-guides.test.ts",
+      "sha256": "632bae90540e384c118ccdcddc72957d8ae7f81147891f290621565385e9cece"
+    },
+    {
+      "path": "tests/construction-icons.test.ts",
+      "sha256": "3c85ec566886efaadc9674021c3f2a6e2f11717d2b1f5afa62c31d760695049b"
+    },
+    {
+      "path": "tests/contact-ui-dedup.test.mjs",
+      "sha256": "781fcb85a518884b3f95bc1f43fc4cfa323a9a95dff51a57866a647b46767acd"
+    },
+    {
+      "path": "tests/corporate-navigation.test.ts",
+      "sha256": "378101d8bc6b32bb6c49697357d9d6cd2d01e28998f2247a886bdfb8dc0f28a5"
+    },
+    {
+      "path": "tests/corporate-template-browser.cjs",
+      "sha256": "1b243b52326828604d8462e31f38bb43fd2fd0bc3b2f85ab60bf8431a7578f68"
+    },
+    {
+      "path": "tests/crm.test.ts",
+      "sha256": "2b508f28ef2252cd8951f2f7e8ed1cc13ea5b80ca01db6a81669e25bcd0848d0"
+    },
+    {
+      "path": "tests/customer-demo-home.test.ts",
+      "sha256": "1d2bb37075d2a5d028f40417f54f09416376cd15125b01c43e609a88d7a4d6b3"
+    },
+    {
+      "path": "tests/design-seo-browser.cjs",
+      "sha256": "8483426937a984c88d05f42b04a433e263d7dd836d18a80cf91953ac219535cf"
+    },
+    {
+      "path": "tests/faq-browser.cjs",
+      "sha256": "c7ed538ac5bd05d709edce687d9cca44a2ae8083c7d2063731a3405244b0ee30"
+    },
+    {
+      "path": "tests/faq-studio-edit.test.ts",
+      "sha256": "c0f753c3b37280880c4a29a91ef530cb2d7bdc4040ae8c096eccc83b605fc612"
+    },
+    {
+      "path": "tests/finder-guidance.test.ts",
+      "sha256": "74a6bca38ac810c1f136541322ef3c621bb6bd364225dc82e16f820dc4fed72c"
+    },
+    {
+      "path": "tests/fixtures/role-ux-server.mjs",
+      "sha256": "374560371b3012556218d5fb321f13990213a38942b58a0aa925bdd497c602e9"
+    },
+    {
+      "path": "tests/footer-localization-browser.cjs",
+      "sha256": "e96d5c6b0c242e204e0ebce0e7d27b7bd8ad3ff8f5de86ac6ca8aec2e1e3a10c"
+    },
+    {
+      "path": "tests/footer-logo.test.ts",
+      "sha256": "ff296391bf9ed26802ef021dff56a413fa6e0e333bda8720491902b597147925"
+    },
+    {
+      "path": "tests/gallery-workflow-content.test.mjs",
+      "sha256": "e5d5655d2b197c014896129383c30bfbeabb8ffaa84ff3eeec52ba5189e17268"
+    },
+    {
+      "path": "tests/i18n-source-catalog.test.mjs",
+      "sha256": "19a9b2732505b8c646671099ddd9592362b87aaf73db043d5f2ea0694e146017"
+    },
+    {
+      "path": "tests/indexnow-submit.test.mjs",
+      "sha256": "3c4ccae715040332f4a8ae8f25a03d007912aabd5e52f43adf44c8ddd2a753ff"
+    },
+    {
+      "path": "tests/inquiry-construction.test.ts",
+      "sha256": "5563d65efce2ffbe15bdb19d7de133d939e763087034dc61590cec1713fd8209"
+    },
+    {
+      "path": "tests/inquiry-navigation.test.ts",
+      "sha256": "5975435fbbb6adceca8b52fc18ee776f2af613874ed3b0a4461c4faeb22c14b4"
+    },
+    {
+      "path": "tests/inquiry.test.mjs",
+      "sha256": "b2d202c899ecfa0f0ebc6121c58494e0401fca149892a5686beef840455a6a34"
+    },
+    {
+      "path": "tests/knaba-gallery-parity.test.ts",
+      "sha256": "4bfdc85febb34e2000e455747e9c9a0e7c204a7325fb7f662e249a9a94313845"
+    },
+    {
+      "path": "tests/knaba-logo-browser.cjs",
+      "sha256": "dd0e296f7122fffa1fec5b282333f8fd790c10061889155917c81c99225110f1"
+    },
+    {
+      "path": "tests/legal-regression.test.mjs",
+      "sha256": "72a0ccfb9b02e18472e2386d411c27ff60aeee832f641b4fbb0c5745262dcfa8"
+    },
+    {
+      "path": "tests/locale-catalog-browser.cjs",
+      "sha256": "c06b9c079846d832b0ff41f02e10f0ef8dc8b151ede425da3c0358c1d2303432"
+    },
+    {
+      "path": "tests/locale-catalog.test.ts",
+      "sha256": "1285745be9743ad2b767117b7eef52e6d63ec4122ea32a29c8988d94027bf5dd"
+    },
+    {
+      "path": "tests/marketing-contrast.test.mjs",
+      "sha256": "81f3f5e8c00ed13b74615f428c0cba045426b04aabe2ca3ddf03dc05f5475606"
+    },
+    {
+      "path": "tests/mobile-footer-after-assistant.cjs",
+      "sha256": "1408ea01f1252772f2ac06e53876617299274d7e2af8c9cf66c1270609d69a20"
+    },
+    {
+      "path": "tests/mobile-footer-browser.cjs",
+      "sha256": "d1e4540a013fc749b3271b42b7c3516728eb4d01e5532e2d509d192d537ffed8"
+    },
+    {
+      "path": "tests/partner-portal-regression.test.mjs",
+      "sha256": "a247f69add585223de0f3a1cf3f449bbf6b4ca4b5a92952fb3ee490f7c819c9d"
+    },
+    {
+      "path": "tests/partners-official-source.test.ts",
+      "sha256": "0cde36a5d499a99c0897b7fb6ca69ac02634112e8c6e2d1aee20d89d0148147a"
+    },
+    {
+      "path": "tests/partners-section.test.ts",
+      "sha256": "bcb719cf4fefc5fe70b8b0dffdf15f93c79c9b72c168d58a32979612403a0d51"
+    },
+    {
+      "path": "tests/planner.test.ts",
+      "sha256": "0f4f1469620e1825d1c56454ac8feb1295b6c6d436da45bd0d2a9994fd7ee0f8"
+    },
+    {
+      "path": "tests/portal.test.ts",
+      "sha256": "cd2a1ecde4ed3e2b778eebd808dba2a0fbad27c01f1bce5b56be76d3ac771eb1"
+    },
+    {
+      "path": "tests/project-card.test.ts",
+      "sha256": "c32db5916105f1e5e80cb91a7075a89581bb2ffc2cbe583b6b286a6ee4a1c85d"
+    },
+    {
+      "path": "tests/public-construction-catalogue.test.ts",
+      "sha256": "041f5070fd3a40f724fb0dba8cca1969190a09a72a5fb330fec0ed1de4afc5be"
+    },
+    {
+      "path": "tests/request-id.test.ts",
+      "sha256": "e56234be3f61f3234407651db2c3859305ea5b92882aa1e51fcf17907ce2e19c"
+    },
+    {
+      "path": "tests/review-examples-browser.cjs",
+      "sha256": "957f6337ffe1ef4d474004907dee58160d3c78c3cf253cc6500f7d497c6a4ee2"
+    },
+    {
+      "path": "tests/reviews-api.test.ts",
+      "sha256": "4d16115e75967fdcec5a3315d6feaf971d8cba4ce29abc90642c28758b681b06"
+    },
+    {
+      "path": "tests/reviews-browser.mjs",
+      "sha256": "e404033a8293862b575271e86907ed864f40afca7b2e4236d4c64905fa6edbdd"
+    },
+    {
+      "path": "tests/role-cabinets-browser.mjs",
+      "sha256": "58f9b9ce0b26b027d17364e73805ba2809798dbb486719ca59d958eff28adfbd"
+    },
+    {
+      "path": "tests/ru-forms.test.ts",
+      "sha256": "aa57b325c75177496433ed09976d4cc344a733accb300822ef44e08dca7c4fce"
+    },
+    {
+      "path": "tests/ru-portal.test.ts",
+      "sha256": "bbb8b5995be6ab662e2449b9fc35ee4cb44bebbe486b2a5cc3c87a78999c19dd"
+    },
+    {
+      "path": "tests/service-carousel-browser.cjs",
+      "sha256": "8f25bb373772e4b654f4f6be46e027dcea2b023d667c94123203436c0d80e686"
+    },
+    {
+      "path": "tests/service-carousel.test.ts",
+      "sha256": "558c94dd8b3dbf477cfe2d765f9e9a04f73edf6927c7077d4fcfebf9d1fbe0d4"
+    },
+    {
+      "path": "tests/site-i18n.test.ts",
+      "sha256": "0214a8660aa240d26014180d0046b6da824cbe99fc4a57591a212110c1a14e75"
+    },
+    {
+      "path": "tests/site-studio-contract.test.ts",
+      "sha256": "b819c8c65f31d59804d471dc50806bcbde9cd0438d13233c065c176fe2bd98f6"
+    },
+    {
+      "path": "tests/sitemap-parity.test.mjs",
+      "sha256": "d4bf867faa2c924125466167a74694178c3b3b5117b8f8c6422895186fefa42d"
+    },
+    {
+      "path": "tests/staging-indexability.test.ts",
+      "sha256": "786b2f40840f7f364ed7ab0fd87a23a1027c64043a95abb73b61c1140b554851"
+    },
+    {
+      "path": "tests/studio-api.test.ts",
+      "sha256": "056c90eade58675d0896a04e241c458170c61535f3a0a102933ee915bfc0506f"
+    },
+    {
+      "path": "tests/studio-media.test.ts",
+      "sha256": "7402e34271405077e4c228e519b33b59e2dcfefbb316ece5e6c81c839763da45"
+    },
+    {
+      "path": "tests/studio-pages.test.ts",
+      "sha256": "64e15f21d573e844adc7741c053374a9ef2a4c2126c94898692ae6b985898d92"
+    },
+    {
+      "path": "tests/turnstile.test.ts",
+      "sha256": "78ed13747c44fcfce334591dd34da68186804daf159cd2ab7be29f5d13c88476"
+    },
+    {
+      "path": "tests/user-acceptance-browser.cjs",
+      "sha256": "bf7e9385c603468015fdfa18cc989f693771cc598dff32601b6ebb768db82cbc"
+    },
+    {
+      "path": "tests/verify-build.mjs",
+      "sha256": "01e8a35d1a3373b05f9026d685573985cd64dfb144ffa15838999ff7023df5be"
+    },
+    {
+      "path": "tests/verify-construction-icons.mjs",
+      "sha256": "30a46506a7a6167d9ed3e833732378dfa50831ab1ce2c75290c1f91d40d08c85"
+    },
+    {
+      "path": "tests/verify-live-artifact.test.mjs",
+      "sha256": "36664a06fbaed532ffae0fe79ec95f7418c441652adbb06af5828c8e0c6c27b7"
+    },
+    {
+      "path": "tests/verify-public-live.test.mjs",
+      "sha256": "9e5c2c7833508efd446053c85e9fcf2ceb870c23d9728d9c00d28e2669aea66a"
+    },
+    {
+      "path": "tests/visual-assets.test.ts",
+      "sha256": "e017e37a198b95901eb64d8af2ba223564ff79abc0b89b48a1e3b9ec1e2ba5bf"
+    },
+    {
+      "path": "tests/vps-browser-e2e.cjs",
+      "sha256": "e94ce4e024484d6ea37860e1612430c09adf85c5ba04dc27069c3d85e299e0f4"
+    },
+    {
+      "path": "tests/vps-seo.test.mjs",
+      "sha256": "67ab8874b9448dc19c660c1d8b675892558e5e438282432f5c3d38c3347b5bae"
+    },
+    {
+      "path": "tests/website-disclosure.test.ts",
+      "sha256": "5959e4cf417bdbb9cbd17fb06c5c1a0b3edb40e2d859d2b5613d48c0988d691f"
+    },
+    {
+      "path": "vps/access-audit.test.mjs",
+      "sha256": "72ac87e07b11b861a72d1f5b99133cce688b5608bb60d067aa27ee0f3e4a4624"
+    },
+    {
+      "path": "vps/access-requests.http.test.mjs",
+      "sha256": "fec57b8216f5b2cc824f1d2bfa55b240481ed10f65210e81a12466905c4b6d46"
+    },
+    {
+      "path": "vps/access-requests.mjs",
+      "sha256": "0d2ba01272c41ec8736ad39d8221d8f0cad522a5207defc9ee6e3c41397a1bec"
+    },
+    {
+      "path": "vps/access-retention-systemd.test.mjs",
+      "sha256": "05a92b6c4006ebe527f24d626ce575b6aa1b9973cb94a03a841e7e99d1c075ad"
+    },
+    {
+      "path": "vps/access-retention.mjs",
+      "sha256": "2c22dcb931ceb903d0ed3449a15f9b4b7d5f7a2b04528ffb321c4d58c2a8bc9c"
+    },
+    {
+      "path": "vps/access-retention.test.mjs",
+      "sha256": "67f7b14a508234ef651a02217e139511bb52166c40565346e753fa368cf6ef41"
+    },
+    {
+      "path": "vps/account-invite.http.test.mjs",
+      "sha256": "a776093918583d4ac3367c980e016ac6113fdac7944d939434ed73a087da24b6"
+    },
+    {
+      "path": "vps/account-invite.mjs",
+      "sha256": "33f58199cec55fe50879506c369bbdf97d87e7860477fea871a3bf7fc0846027"
+    },
+    {
+      "path": "vps/account-invite.test.mjs",
+      "sha256": "ed14e4637f80c35d2e567316d9b3cf3852e1f159dd7352353d57d943ab883f6b"
+    },
+    {
+      "path": "vps/admin-access.mjs",
+      "sha256": "207a73f8c3ab96373c742e49c5265394b9167e1c2bcf0395e76a7edb2b6e0676"
+    },
+    {
+      "path": "vps/auth-dialog.http.test.mjs",
+      "sha256": "95f65b411ab0f5627654c053f2818a2e2be912aabaf54dc7b707fd8c4c8ec126"
+    },
+    {
+      "path": "vps/auth-hardening.test.mjs",
+      "sha256": "e001a25d0d6ff1732c0f821496a0b5b2468dd61833a5e6684a1c55e0b6b93b2b"
+    },
+    {
+      "path": "vps/auth-locale.mjs",
+      "sha256": "30c1dc538eebc2ca6224a67c6106c3098d6e103f24ff43674121cf1c8b4d1fcf"
+    },
+    {
+      "path": "vps/auth-unified-ui.test.mjs",
+      "sha256": "5fd1e8cbd3470974362f56b9c71112d83f76bd55b4c0e7e5da1001f921876d96"
+    },
+    {
+      "path": "vps/auth.mjs",
+      "sha256": "f2eb266bb802a5f95cc48ca652b405a6758f74646b8d3bfd3e9202b713b85b88"
+    },
+    {
+      "path": "vps/bauleiter.http.test.mjs",
+      "sha256": "ad3626ecd02ebc83696b47ce2b36a627607a6956d9bdc70092d9b4ba1d13b02c"
+    },
+    {
+      "path": "vps/customer-operator.cli.test.mjs",
+      "sha256": "db891f30fd1b2ef5ac069739223ddb3e12aac2b6f117399489e24099e9c9ef0b"
+    },
+    {
+      "path": "vps/customer-release.http.test.mjs",
+      "sha256": "4637ea8c47f1ea236ef5c5624709f010f9942450838d9edfed769c0d6736234b"
+    },
+    {
+      "path": "vps/database.mjs",
+      "sha256": "daa7f855b4844e282ce9d0f3753e2e2ca7c8f049da93bb1b9a89249f0256544f"
+    },
+    {
+      "path": "vps/doctor.mjs",
+      "sha256": "a6924956aeacd778e6f39e4010a915d6e94edc098e63a8e2bda76a2b92d54268"
+    },
+    {
+      "path": "vps/faq-studio-editor.test.mjs",
+      "sha256": "5f5c5654e0d51fa5443f67dc26bd82127ab38f071ef6ce8d0110a649c16bb658"
+    },
+    {
+      "path": "vps/host-portability.test.mjs",
+      "sha256": "d8a724d9b732cfa656ec8db112f94f2a19e0daa7d4ee017b54371f995bbc4391"
+    },
+    {
+      "path": "vps/login-layout.test.mjs",
+      "sha256": "6089e568b89b88c33f0ecf5df84c97506516d2da872216ff6a667aa1aead525c"
+    },
+    {
+      "path": "vps/manage.mjs",
+      "sha256": "c36abfea39ed56f5f0c0f035796c2e86be932c7e30e8b11ec7c164f5cf105799"
+    },
+    {
+      "path": "vps/manage.test.mjs",
+      "sha256": "c33db1e0fa766f2aad3c4b41a9664b01a6a12096e5f9fb9d1db7b1f964a45657"
+    },
+    {
+      "path": "vps/migration-guard.mjs",
+      "sha256": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e"
+    },
+    {
+      "path": "vps/migration-guard.test.mjs",
+      "sha256": "c47da4ab1118d248d7b54e41651defc1eded7be7c1afabaa4263eb0c703a36ce"
+    },
+    {
+      "path": "vps/migration-upgrade.test.mjs",
+      "sha256": "5eceedb1482a834f6d2d7213d1b152ce8728c68308923c4d64b6939ae2353bb4"
+    },
+    {
+      "path": "vps/oidc.http.test.mjs",
+      "sha256": "d61e5886468a16d8fc0c685bc7d32e38839cfed074df90f9a44a8efd7dc0355c"
+    },
+    {
+      "path": "vps/oidc.mjs",
+      "sha256": "633e5ab8ae9f72b6fc4ecb660695bec1342cb0f638f6923c1db6b72d7fbd207e"
+    },
+    {
+      "path": "vps/oidc.test.mjs",
+      "sha256": "01f8e954e12400c1b8794c629f103ad872b85d8640c6c3463adad931b5373c99"
+    },
+    {
+      "path": "vps/owner-invite.mjs",
+      "sha256": "95d9f27bd1c6e56dd67a62091f2730125762b2f1b38aa31fdc72caf9adcbfa94"
+    },
+    {
+      "path": "vps/owner-onboarding.test.mjs",
+      "sha256": "2b73ed76974ea9784b06a420bb456b58cf14fd452c0d63898208800392339e42"
+    },
+    {
+      "path": "vps/owner-safe-port.test.mjs",
+      "sha256": "1b107854cca1fe407f163c3bc8de23ec024b6448c0f86ae3cf57240ebdff7474"
+    },
+    {
+      "path": "vps/partner-inquiry.http.test.mjs",
+      "sha256": "8ed9457640bedaf2e31b1c0f085089da1a4404a6908e5acee41ccc19ef8a92a4"
+    },
+    {
+      "path": "vps/render-article.test.mjs",
+      "sha256": "67c70c591e8b52f4bbfb2f7bf46fd7a5f8cf17d4a717cfe14eb128d16bcd2f20"
+    },
+    {
+      "path": "vps/render-page-design.test.mjs",
+      "sha256": "6678ba9b3a6471bc83cb11f7063d5f6aa344b3189a5d1ef0b3517d071382006c"
+    },
+    {
+      "path": "vps/render-page.mjs",
+      "sha256": "4a7f8a3a9a276bb8511f63fdca90447e9a466157c388a72c2a0e20ee15039c30"
+    },
+    {
+      "path": "vps/render-page.test.mjs",
+      "sha256": "0b5eba3edbf378c9c6ab0a89bd4edd45b1e4b7b6061eda88b3aa27e956eee01d"
+    },
+    {
+      "path": "vps/reviews.test.mjs",
+      "sha256": "d874ca6ee7a84e69e009f2288868d251aa56969d2333bac560c8f19ccd9ab5d4"
+    },
+    {
+      "path": "vps/seo.mjs",
+      "sha256": "c334dd4da16cce55b3d3d2e2ddb5f9821f8ce7d694d213d32ba94caa00dbb71e"
+    },
+    {
+      "path": "vps/seo.test.mjs",
+      "sha256": "07e77e5f9dcc532d97d33d7af4c863411e034d83d8b409e702dde0198245c713"
+    },
+    {
+      "path": "vps/server.mjs",
+      "sha256": "12d9609421c69933842c92786e60fbb9773399267cc4c1683e2a0f2f992144c7"
+    },
+    {
+      "path": "vps/server.test.mjs",
+      "sha256": "52c988c0bf39082fe5bdbaf095b456ac61c21fea18eaab975914d5333bccd29c"
+    },
+    {
+      "path": "vps/storage.mjs",
+      "sha256": "8667206bf32d9eff7a6a70ebb0661b833e0664c4e694bd2c61e83bf5f56f199e"
+    },
+    {
+      "path": "vps/storage.test.mjs",
+      "sha256": "0cbfe79a8afa504c53f2239c6159b3d41eafb35b08a1ebdc139400afe971756a"
+    },
+    {
+      "path": "worker/api.ts",
+      "sha256": "5bdd97ae4e3e28a1a1bcf4f853bd37a082a5a3f3f9b0dd1f65834396ce8b9437"
+    },
+    {
+      "path": "worker/assistant.ts",
+      "sha256": "8dc10ce4c14d1114f4d6397312ae93d0926aa2142e7fe6d4ea06b76ebd8dff69"
+    },
+    {
+      "path": "worker/crm.ts",
+      "sha256": "b681c912df19d910559173fd178109cda9674d50305213c38a6f6714fd2628f1"
+    },
+    {
+      "path": "worker/index.ts",
+      "sha256": "7b55d61da9e516276f016f93d6d25bff43608bf35eb52e8d906db22d275b1104"
+    },
+    {
+      "path": "worker/notifications.ts",
+      "sha256": "40b388a7daee7e89ed1ce0f33061a4902be99edd6e51b4dcf21ab33a7dc315b3"
+    },
+    {
+      "path": "worker/reviews.ts",
+      "sha256": "31e48a9e631b5be5d8962833560df4b4187ee8e2469d10779e20d3de94850090"
+    },
+    {
+      "path": "worker/studio.ts",
+      "sha256": "4e569c54d8acdaebdb57bfa1798ccd3d0b54365aa212ca7431ab564391eaa67c"
+    },
+    {
+      "path": "worker/turnstile.ts",
+      "sha256": "0b1f6275804e5389571236c98b6b96066696c65a4315d2494139b9cba0edce2d"
+    },
+    {
+      "path": "worker/types.ts",
+      "sha256": "114ceb07773845506fec026762a1243824d2072142ec325acc056a2a97201ab2"
+    }
+  ],
+  "baselineHtmlInventory": [
+    {
+      "path": "404.html",
+      "sha256": "e0221550791dd71ec6e7fff599ad0f11a21ced57effc83cfe0ed7a9dc3558830"
+    },
+    {
+      "path": "admin/index.html",
+      "sha256": "57f2cc599fda0c2729ccbe9fae6acd05335b2d12c2945e1c942f88c03df30b00"
+    },
+    {
+      "path": "bauleistungen/bauendreinigung/index.html",
+      "sha256": "e4fdf0d0da0e20c341cc17d9cd8d1f060e6cb0e61b5e4a3b30794d4b01c01da1"
+    },
+    {
+      "path": "bauleistungen/bauhilfe/index.html",
+      "sha256": "82f2cf6e8a8d7afe0fba39ea33a57c174688e922fc9d9cdf588ed200ebd96ace"
+    },
+    {
+      "path": "bauleistungen/baureinigung/index.html",
+      "sha256": "52d3a1c798ce6115fb31884ab30c7e95cfdac7ac96966326c969d6a30d9ea3b2"
+    },
+    {
+      "path": "bauleistungen/baustellenraeumung/index.html",
+      "sha256": "7f3d5253b2186d517d3c4e2fbcbea2cff7323c24887afe03a57d9eb03b166b48"
+    },
+    {
+      "path": "bauleistungen/bauzwischenreinigung/index.html",
+      "sha256": "dcc85aae01c21e36e7a5ff5ce441a63fef12356a14f52989fde06fdcfd478a2a"
+    },
+    {
+      "path": "bauleistungen/durchbrueche/index.html",
+      "sha256": "c0afd8ba2a666430096b8e6b6866c3bb6a4da5508d6f1adbe0af8e7a05c5c879"
+    },
+    {
+      "path": "bauleistungen/kernbohrungen/index.html",
+      "sha256": "7f4ff3a669ee766c885e243e9e27f8967e376826d0072e1aaa3a6e45ba53a43c"
+    },
+    {
+      "path": "bauleistungen/zusatzarbeiten/index.html",
+      "sha256": "bdabeb2ee3fa4bf555788a60e02d559e2a57296d555d41cf611944733cfe5c60"
+    },
+    {
+      "path": "berlin/index.html",
+      "sha256": "aae2d76e2818c4a8d059727265d6eb7eb7625da6b6775533d87a906567afa616"
+    },
+    {
+      "path": "branchen/index.html",
+      "sha256": "f75367a496d025517997c1491710e548de2e4e222bc76f61a9742e6b3eae52ab"
+    },
+    {
+      "path": "crm/index.html",
+      "sha256": "41645ea5626bf9bebe80bf17e1eebf7e07a6991e9fe0ffde6d678c9e83e4fe40"
+    },
+    {
+      "path": "datenschutz/index.html",
+      "sha256": "3e9fc6c7f40623e17773bed09e552ceea1c805651a9d21a3cb0a810570d9b675"
+    },
+    {
+      "path": "en/bauleistungen/bauendreinigung/index.html",
+      "sha256": "06337517a0cb051990d1ab5e0fe3259abb3c5d0e60f2e7373688d06a87c3e251"
+    },
+    {
+      "path": "en/bauleistungen/bauhilfe/index.html",
+      "sha256": "81b147dfd4cbf85c73ce20429556ca9b4ab8f38c34a507dba3418fe45c4c4ea4"
+    },
+    {
+      "path": "en/bauleistungen/baureinigung/index.html",
+      "sha256": "95a21d06029ea137568b39e089542af436389ef22100742a3d6f0861521eaca0"
+    },
+    {
+      "path": "en/bauleistungen/baustellenraeumung/index.html",
+      "sha256": "8ba027bdae46171adc9a35e7253463cb16eb0934e927eb0a30981663bfcce4e7"
+    },
+    {
+      "path": "en/bauleistungen/bauzwischenreinigung/index.html",
+      "sha256": "c2587e3714f30298708abbd45d6a264d8ff55618e8b7d94d6e23eabb93aab9c2"
+    },
+    {
+      "path": "en/bauleistungen/durchbrueche/index.html",
+      "sha256": "2631577ca8e94dd27eac9bac06823bd0812c76cd88555a83a1a9ef1f394d4bf0"
+    },
+    {
+      "path": "en/bauleistungen/kernbohrungen/index.html",
+      "sha256": "739e47a6c28d1c3eef5850701d731988f152311c9bfc763ea675349cbe7ae662"
+    },
+    {
+      "path": "en/bauleistungen/zusatzarbeiten/index.html",
+      "sha256": "366718feeba192e5017decd695758e5b60c419101b56f1b123ac0a15cea584c8"
+    },
+    {
+      "path": "en/berlin/index.html",
+      "sha256": "7ead6f3d39f46ca1f5e825ed9f5651e030fdc0232da40fac6e49238db023b415"
+    },
+    {
+      "path": "en/branchen/index.html",
+      "sha256": "5b6035c5dad77a98d4492e6eb95580c5fb0559cea1598391cb41e824082980a3"
+    },
+    {
+      "path": "en/faq/index.html",
+      "sha256": "202ab0676ed69e923d278d51da549264aa09dd542a5ef23a5e45fd1e2b421c15"
+    },
+    {
+      "path": "en/galerie/index.html",
+      "sha256": "4c49af765d2a94606a66c02ba501fe0dd66cf23a846c7431012cdc792af0b22f"
+    },
+    {
+      "path": "en/index.html",
+      "sha256": "77538b977e741fb4a629f24057a84cf3a61a0ed3eaf4e430366c276b498ad649"
+    },
+    {
+      "path": "en/karriere/index.html",
+      "sha256": "6fcc41fd1216b3e0319fb62c1368971437b5a4fefc993626ad775ad4136bbea9"
+    },
+    {
+      "path": "en/kontakt/index.html",
+      "sha256": "51bc7cf6046ca8d5bf93ca3a159ad1cb0e2666b2dec9a44b26769be6c8650414"
+    },
+    {
+      "path": "en/leistungen/index.html",
+      "sha256": "93dfb269325357c0efc88411e2ed158beb1575b6a960f56ce52b52caf775dc74"
+    },
+    {
+      "path": "en/partner/index.html",
+      "sha256": "36df1d7ebe848e6aab42c99c25c40da3e741509c2b2837b58bbfebf6b9bb385a"
+    },
+    {
+      "path": "en/planer/index.html",
+      "sha256": "a2b373d3cf2d8438df9dfb9b7cb6a795ca00061420bca1e955dff9413a260ec8"
+    },
+    {
+      "path": "en/ratgeber/bauendreinigung-vorbereiten/index.html",
+      "sha256": "54d67fc1da2671773a7fe58b6915e30abab0303ee28e5a1a6127d4325d19a738"
+    },
+    {
+      "path": "en/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "sha256": "f30db42553eec20bccc488ddd576cdf2808d7b449a6b2674c8e9c158c1d1e3a9"
+    },
+    {
+      "path": "en/ratgeber/baureinigung-kosten-planen/index.html",
+      "sha256": "6cf77ad2eb67aa3c532c4928fac99ca77afbdcb7853a017bb047a7f0b0a0b1e5"
+    },
+    {
+      "path": "en/ratgeber/baureinigung-phasen/index.html",
+      "sha256": "79116dbed56fd801406cfc3e3366e556cc65df218834b49276f7a135e40b267a"
+    },
+    {
+      "path": "en/ratgeber/bauuebergabe-checkliste/index.html",
+      "sha256": "408699fe0dcfc473c1827af86bf3bc130b43bd96ffc81b574f420eac99ca49e9"
+    },
+    {
+      "path": "en/ratgeber/index.html",
+      "sha256": "f7d32acd66438b0174abcf0df714b5a5ae529e315bd18cb3fb2f8f05343d63b5"
+    },
+    {
+      "path": "en/unternehmen/index.html",
+      "sha256": "6ed2bcb6b54daca0f5b4b8c4ffb24af619e3abc697219b84af48b460346d5bf3"
+    },
+    {
+      "path": "faq/index.html",
+      "sha256": "e96493c2d1c51259d13efeeff6933e49a5bef89834e9b52d92d6733f15402a5a"
+    },
+    {
+      "path": "galerie/index.html",
+      "sha256": "87933e5aa4ceb925acaaeb3c15047f9a7a7ebf0dc667ca19a44c3a184dc65c50"
+    },
+    {
+      "path": "impressum/index.html",
+      "sha256": "dfcbaecb8153ba4f6b1c162dcdfe4e2caa358ae153e9c3b991845b532b62e4e8"
+    },
+    {
+      "path": "index.html",
+      "sha256": "9037b423e5ba7cf746cc32a8d80c31cc553af973b628eaf3445390697d690b4d"
+    },
+    {
+      "path": "karriere/index.html",
+      "sha256": "4d2b8cb0bcfd61ed3d9b6334056f3f098e8d326d7000c2ac2085da4018d986b4"
+    },
+    {
+      "path": "kontakt/index.html",
+      "sha256": "45a368dd928ea4f4c5dc2a04aa5ac0183c2f3d1d9df262b8cd26675c364e4442"
+    },
+    {
+      "path": "konto/index.html",
+      "sha256": "cb21b671473ddca589d93807c18efe533990110dd8629ca95223ceb1097d85c9"
+    },
+    {
+      "path": "leistungen/baureinigung/index.html",
+      "sha256": "08e7efa015f5efdc6e3a1bdc54815c959fa91e772a080665368e861ee269396a"
+    },
+    {
+      "path": "leistungen/bueroreinigung/index.html",
+      "sha256": "fc1362a6d0b7e8e1fee62fe37d6e19284cd96dd5f6d57356ff5f5ce3aaf85c94"
+    },
+    {
+      "path": "leistungen/glasreinigung/index.html",
+      "sha256": "57e4102632f23c1fd4d6bd1c871bf24f585d44969059f69c124c35e4903e12cf"
+    },
+    {
+      "path": "leistungen/grundreinigung/index.html",
+      "sha256": "fe7b24c362e39a671030df8bf77f768c5cd96658bed0349c412493b3fa6a5030"
+    },
+    {
+      "path": "leistungen/index.html",
+      "sha256": "2dd8242823575ec369258eeca1e3ef2d1b99f4363f7d45ab2820588f7305c197"
+    },
+    {
+      "path": "leistungen/treppenreinigung/index.html",
+      "sha256": "1b4b36f4aef89b842efa7828db161d138b142092fa379be4492dc0b2e4364370"
+    },
+    {
+      "path": "leistungen/unterhaltsreinigung/index.html",
+      "sha256": "b095c48e66bb8a83b7afd48e66e31fcb1105642b243aa464f9bac343d65b7645"
+    },
+    {
+      "path": "partner/index.html",
+      "sha256": "699bc43ce70e723f6cb2e6356329b574356b91de2bea93ca3cdb0705a41baa06"
+    },
+    {
+      "path": "planer/index.html",
+      "sha256": "bda63f995ff0dedddeadf4c9dd919028f4ad19fc6958920a0c3e1f5cadf18598"
+    },
+    {
+      "path": "postfach/index.html",
+      "sha256": "525990dbac201b293bbcce6a0579059edd7c798df8b3359edc21ee9ee3a878d4"
+    },
+    {
+      "path": "ratgeber/bauendreinigung-vorbereiten/index.html",
+      "sha256": "00e9c65daaaa88fa1c01eaca8e3e757f23c7374e96fb79da5630f435faa61634"
+    },
+    {
+      "path": "ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "sha256": "581b67e6bdacce889042ca863df8a85d163b3fa8830daad109249e3afbe2ba45"
+    },
+    {
+      "path": "ratgeber/baureinigung-kosten-planen/index.html",
+      "sha256": "be33ae345bbd7abffb9ffeb98181231b3c8f5ed726f823036afb8bf710b3ce82"
+    },
+    {
+      "path": "ratgeber/baureinigung-phasen/index.html",
+      "sha256": "e217f3f0c2ab6d4fd97be8c99589ea8a37147deda3ceb98aee7704513397844f"
+    },
+    {
+      "path": "ratgeber/bauuebergabe-checkliste/index.html",
+      "sha256": "f5200b5578d89daeae160d9e96bab349b753f646be1fe7df17def05a381cf584"
+    },
+    {
+      "path": "ratgeber/bueroreinigung-checkliste/index.html",
+      "sha256": "479c3b9774adc088651bb06d753293d8597e88aeddcee9cf010915fbe1b40dc2"
+    },
+    {
+      "path": "ratgeber/index.html",
+      "sha256": "96118e55f494d5b4e81864de1fc99c964b197299733606839206f395c631bd40"
+    },
+    {
+      "path": "ratgeber/reinigungsleistungen-vergleichen/index.html",
+      "sha256": "69a37d33a838279afe6df5d9d781509ed5fb6d03583347d32b72e4e03a4a4e38"
+    },
+    {
+      "path": "ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+      "sha256": "cc5f2a84656db3020ab5f062c515d020a49be8aac7b4d4b203c2ebe35fed4af2"
+    },
+    {
+      "path": "ru/bauleistungen/bauendreinigung/index.html",
+      "sha256": "b9f403fd3901dcbdaa86d450ef80ef241b32644e386391c21c5ae5f83667cec9"
+    },
+    {
+      "path": "ru/bauleistungen/bauhilfe/index.html",
+      "sha256": "1e9d7f917b7c90bcb2016267b2c694a8e9c84b0fcbaa34d3a2d043d12fbf23ff"
+    },
+    {
+      "path": "ru/bauleistungen/baureinigung/index.html",
+      "sha256": "747df3c7f54082ab6a9384f7224faff3a525f0098ad59f70e11758fe52ef0162"
+    },
+    {
+      "path": "ru/bauleistungen/baustellenraeumung/index.html",
+      "sha256": "e4ec3ee0e7f78535ada28a35d19a1a54f0fc9af52eb39c705cfa3b2b18ca9fad"
+    },
+    {
+      "path": "ru/bauleistungen/bauzwischenreinigung/index.html",
+      "sha256": "ca28937060d90dbd1cbcd9408770727ecafaef96d23ef3435f682c7f775503a0"
+    },
+    {
+      "path": "ru/bauleistungen/durchbrueche/index.html",
+      "sha256": "bacb4b2ea27df17de14ff0ac54664557cae9231e260d88f00862256585dc3975"
+    },
+    {
+      "path": "ru/bauleistungen/kernbohrungen/index.html",
+      "sha256": "4f91aa2e7e73d98034af8a2d22b67f6e0a8b0d2fa0f4baa9255fa7191885a5f5"
+    },
+    {
+      "path": "ru/bauleistungen/zusatzarbeiten/index.html",
+      "sha256": "d20bc84eb7f7ad677e71b9beddaa4825e2408008d19d1b05cf7901e14a0f21a6"
+    },
+    {
+      "path": "ru/berlin/index.html",
+      "sha256": "790478947c83837a840b289ff570693725f223fa3465992c4a156e4845a09e3d"
+    },
+    {
+      "path": "ru/branchen/index.html",
+      "sha256": "9a55b26d50be5958a652c506d508bceb3c7708c5aa004a349b3395201b676335"
+    },
+    {
+      "path": "ru/datenschutz/index.html",
+      "sha256": "06b8f5533be3d375b4c0e2a850a883d0681b20b8dda48134692e1ee1e7641a5e"
+    },
+    {
+      "path": "ru/faq/index.html",
+      "sha256": "90af6e1c383a329fa05e47346109040b0491782dddfe5f9cb79967ab04d452f4"
+    },
+    {
+      "path": "ru/galerie/index.html",
+      "sha256": "ef382efa6f33d18dd35838b586e0543854eb3c577dca9fc1baf19d95a457bec4"
+    },
+    {
+      "path": "ru/impressum/index.html",
+      "sha256": "cef34fd741a1114eea856e625bd52cf7d6d10052b1eea10d74d7ca202723716f"
+    },
+    {
+      "path": "ru/index.html",
+      "sha256": "101830f9382c2b52cf8a34d0aafe058cba809e3b27e2d0de19a0f6de8c2617a8"
+    },
+    {
+      "path": "ru/karriere/index.html",
+      "sha256": "dfc86d1b4b06956f16b3cd1b694e848db9c456303135201037564ac8eb453347"
+    },
+    {
+      "path": "ru/kontakt/index.html",
+      "sha256": "539f8d88dea1b5b73640d76f03a0ffcc2576ff3c58d5892f3d2dec78f8f3ed09"
+    },
+    {
+      "path": "ru/konto/index.html",
+      "sha256": "e81dba54222c818f26feb1ab8dc303f22ed3be5b046b12aed728b6f7a6e5c439"
+    },
+    {
+      "path": "ru/leistungen/baureinigung/index.html",
+      "sha256": "00dd5cb86005be260b559e230e4254c156fc3c75ad0937d19384ca951a91b19b"
+    },
+    {
+      "path": "ru/leistungen/bueroreinigung/index.html",
+      "sha256": "214095dfac6075072187ed360139c3a613dbd1b63bd57fe4a9a17badea31c0e3"
+    },
+    {
+      "path": "ru/leistungen/glasreinigung/index.html",
+      "sha256": "ad215a280c87c6c5ad30cc1122bff3e0d31ed58658c35e65be58b058728b3506"
+    },
+    {
+      "path": "ru/leistungen/grundreinigung/index.html",
+      "sha256": "6f33c578f60f4b6392324a71508d09cc6ddd211addd39260a3302c43c7099df8"
+    },
+    {
+      "path": "ru/leistungen/index.html",
+      "sha256": "c7c59f195eef5ec8fae032c915106f4c6ba115e79043971b7a7dde81d0005c52"
+    },
+    {
+      "path": "ru/leistungen/treppenreinigung/index.html",
+      "sha256": "30970fc1b283ac8da0ff7b97893dce04752545cb417cab2fb1bebcd696e661a3"
+    },
+    {
+      "path": "ru/leistungen/unterhaltsreinigung/index.html",
+      "sha256": "6d99cda1c4e4f299f056aea6b0fcae0df2e93daf973417eed4053400f0e851bd"
+    },
+    {
+      "path": "ru/partner/index.html",
+      "sha256": "01a0e1ff1bd207ae2a285205cf52898a714bd234464d104d3a626f0d2a2b0b3d"
+    },
+    {
+      "path": "ru/planer/index.html",
+      "sha256": "f8c83e6b18b200ed40f9a5399f730d30a88deeac4cda2f3796ed92cf2e19f5e0"
+    },
+    {
+      "path": "ru/postfach/index.html",
+      "sha256": "84a6406952c7e20f81978831284d416acf238c936020becfb4fdee09ea0ceaf8"
+    },
+    {
+      "path": "ru/ratgeber/bauendreinigung-vorbereiten/index.html",
+      "sha256": "b1c2fc00018976ddb09d2462a5b89dd06b2259b762106f3a1d1ebd30dbbae05d"
+    },
+    {
+      "path": "ru/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "sha256": "05e6494d1a2b0720ed73a7c04ab32bc7e337ae44850ea5b0bb191fc9096b820c"
+    },
+    {
+      "path": "ru/ratgeber/baureinigung-kosten-planen/index.html",
+      "sha256": "533692559b625d6d1afedff8d75831d3227a5949556af76a8a93415b63ff8c8f"
+    },
+    {
+      "path": "ru/ratgeber/baureinigung-phasen/index.html",
+      "sha256": "881450a4b8dd74a996d3203c21a3f00710af2ed43e51b8a26d20afafb6757a30"
+    },
+    {
+      "path": "ru/ratgeber/bauuebergabe-checkliste/index.html",
+      "sha256": "4ca6e99b18b8b41f79315c08d39dfc70a0f472d035cd3f08fe0a29f34e92762b"
+    },
+    {
+      "path": "ru/ratgeber/bueroreinigung-checkliste/index.html",
+      "sha256": "6f789344ae21daee96f87cdd9bfc8ccbe19c5092f252b50b639c1e56d283edd6"
+    },
+    {
+      "path": "ru/ratgeber/index.html",
+      "sha256": "8ca311aeb1ac1a69e9721648b2c644859ea315903e29beac8afdb406c38f3804"
+    },
+    {
+      "path": "ru/ratgeber/reinigungsleistungen-vergleichen/index.html",
+      "sha256": "a79c667df4a674f8e8222eac1835115884060b186332945a6c1557d253a050fa"
+    },
+    {
+      "path": "ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+      "sha256": "aed56ba22d9a8cb59e3d9a00f579b0cefc6f25cb5bc378dc983b7402085e6a3f"
+    },
+    {
+      "path": "ru/unternehmen/index.html",
+      "sha256": "8bd2dd155bbf1cca33c9e003d131e28b24a4b5fd838c3dd6764aa4d3cdb1a123"
+    },
+    {
+      "path": "studio/index.html",
+      "sha256": "7a5eaddad690007a58d6ba5cb2e168cfa5e29734e969609aec8422c3b6b5b93f"
+    },
+    {
+      "path": "uk/bauleistungen/bauendreinigung/index.html",
+      "sha256": "94973023b70179d5a23b2712c5c9af1a1f39e043aa08eece02806348f961a06c"
+    },
+    {
+      "path": "uk/bauleistungen/bauhilfe/index.html",
+      "sha256": "9bd63a1dc12e90bb0982d0ca3647ef9a88ed47ce6f3d233a54d9436e03b32405"
+    },
+    {
+      "path": "uk/bauleistungen/baureinigung/index.html",
+      "sha256": "992d0e3c5c05d98290c782a3ac0b9af3c20ee13cd4f24a43c6408bad71b75ce8"
+    },
+    {
+      "path": "uk/bauleistungen/baustellenraeumung/index.html",
+      "sha256": "7c57575ba96b4b739db9bfc8cd6fd8d448a64a0e20ce47f1c5cdde8066262223"
+    },
+    {
+      "path": "uk/bauleistungen/bauzwischenreinigung/index.html",
+      "sha256": "8f85210dc524f44fffdce7ffad405a8f0527a6545712579692e0f19b56108ffb"
+    },
+    {
+      "path": "uk/bauleistungen/durchbrueche/index.html",
+      "sha256": "b8e3b474f2822d29d59c291ba6b0deb4863dd92d8aa46a2b06cb5688e7c8259e"
+    },
+    {
+      "path": "uk/bauleistungen/kernbohrungen/index.html",
+      "sha256": "5a634a1dcab6b788c0a43535647bd7294d221b97a14ec77804a34f26502db56b"
+    },
+    {
+      "path": "uk/bauleistungen/zusatzarbeiten/index.html",
+      "sha256": "cef0dea5cc0e4e41d9fa8df5bb1e498a1ddd40514542ad163de89d68ab6e8ec4"
+    },
+    {
+      "path": "uk/berlin/index.html",
+      "sha256": "e83a8a7a3ede8af4f9e50ef2398b7ff7c8a9ab99db66fd93d4714cf826bb6205"
+    },
+    {
+      "path": "uk/branchen/index.html",
+      "sha256": "96ec070dbf90f3942778c7990817ba75fe431b6b90d19b84e2d7c53ad47a9785"
+    },
+    {
+      "path": "uk/faq/index.html",
+      "sha256": "e998774991a0498388068e4df8d1cce797511ad4ad509b7222890aa74173923e"
+    },
+    {
+      "path": "uk/galerie/index.html",
+      "sha256": "6f1082ec105145067d19fdf0ad79ed688f0e12cdc2e87fb59f075f77efe64cb5"
+    },
+    {
+      "path": "uk/index.html",
+      "sha256": "fe964d263608ba1df1a4f093018e41ccc86191595897e5be2b802df9e296a630"
+    },
+    {
+      "path": "uk/karriere/index.html",
+      "sha256": "7bafe30948d9d9cc888ced2391dd33806cf0e43c7f9e61f5c90d6cd8a764a1b5"
+    },
+    {
+      "path": "uk/kontakt/index.html",
+      "sha256": "c5fa4fdd952c640b1feee2e6553d82af703121986129aabd10f4e21081fca3c3"
+    },
+    {
+      "path": "uk/leistungen/index.html",
+      "sha256": "cee41d4144d5fceb7401e06361818cfafc45cb5d2f38f275da175612e611c871"
+    },
+    {
+      "path": "uk/partner/index.html",
+      "sha256": "7258572735f22e09d5d1447b5a16fc46adf88a723feaa67d3d6db7f91f6b3929"
+    },
+    {
+      "path": "uk/planer/index.html",
+      "sha256": "6cd501f3bf5c90ee6d0df83c5e36b22da0babd6d34ca73eb88367b3b41abf5af"
+    },
+    {
+      "path": "uk/ratgeber/bauendreinigung-vorbereiten/index.html",
+      "sha256": "25500fe66f234447463a53dd37d55943fa3377f65a44f1bb14289b682b0a42c1"
+    },
+    {
+      "path": "uk/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "sha256": "4c42caa2a585ed96f7b25a14c5aabf5405111b7e5d39a769ae74d5f619e00a01"
+    },
+    {
+      "path": "uk/ratgeber/baureinigung-kosten-planen/index.html",
+      "sha256": "b6ec7bfcfcf0944a34e0c3a981529e11498e405de8783821118b596a3280659f"
+    },
+    {
+      "path": "uk/ratgeber/baureinigung-phasen/index.html",
+      "sha256": "6a49f9019055f14aee665ad520d94648a3465b13e33c8c841c299767e9530152"
+    },
+    {
+      "path": "uk/ratgeber/bauuebergabe-checkliste/index.html",
+      "sha256": "649add3c25c19dc3f1f1a685dd2f7a64d432eea5bb60fc6b849aaecd9d05ca54"
+    },
+    {
+      "path": "uk/ratgeber/index.html",
+      "sha256": "a55fc28c925d4264d53f991d8cdd998ef03ab90c5ca6aa488da4192c42a6fb54"
+    },
+    {
+      "path": "uk/unternehmen/index.html",
+      "sha256": "8a993eb5087857ce3c327dba3272bb761a19a92721767e357b581c0b811394af"
+    },
+    {
+      "path": "unternehmen/index.html",
+      "sha256": "1b1985654731441c02217fd36c3c7a8af90799e4fa03c3a49f8d6d192e5c48bc"
+    }
+  ]
+}

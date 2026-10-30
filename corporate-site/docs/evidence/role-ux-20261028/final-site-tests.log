@@ -1,0 +1,58 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 test
+> vitest run && node --test tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/gallery-workflow-content.test.mjs tests/verify-live-artifact.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs && node --test tests/legal-regression.test.mjs tests/partner-portal-regression.test.mjs
+
+
+ RUN  v5.0.5 /workspace/scratch/2c9c46ecc9f0/knaba/corporate-site
+
+
+ Test Files  42 passed (42)
+      Tests  289 passed (289)
+   Start at  10:25:47
+   Duration  2.14s (tests 42%, import 39%, transform 15%, worker 5%)
+
+    Isolate  42 workers spawned · ~161ms startup each (spawn + environment, per file)
+             at least ~807ms faster with isolate: false — reuses workers across files instead of one per file
+
+✔ tests/contact-ui-dedup.test.mjs (106.67078ms)
+✔ tests/gallery-workflow-content.test.mjs (92.835247ms)
+✔ tests/inquiry.test.mjs (156.841593ms)
+✔ tests/verify-live-artifact.test.mjs (216.360095ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 234.468602
+✔ scripts/check-knaba-3d-assets.mjs (91.699139ms)
+✔ tests/browser-policy-gate.test.cjs (93.455393ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106.4711
+✔ tests/i18n-source-catalog.test.mjs (189.042066ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 201.228019
+✔ tests/legal-regression.test.mjs (71.854408ms)
+✔ tests/partner-portal-regression.test.mjs (68.352668ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.672763

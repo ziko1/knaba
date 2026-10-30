@@ -1,0 +1,34 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 check
+> astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json
+
+09:11:18 [types] Generated 382ms
+09:11:18 [check] Getting diagnostics for Astro files in /workspace/scratch/50508bde3407/knaba/corporate-site...
+vps/server.mjs:120:25 - warning ts(6133): 'request' is declared but its value is never read.
+
+120     ASSETS:{fetch:async request=>{
+                            ~~~~~~~
+vps/server.mjs:4:1 - warning ts(6133): 'createHash' is declared but its value is never read.
+
+4 import { createHash } from 'node:crypto';
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vps/server.mjs:3:18 - warning ts(6133): 'relative' is declared but its value is never read.
+
+3 import { resolve,relative,sep,join,extname } from 'node:path';
+                   ~~~~~~~~
+
+vps/server.test.mjs:24:7 - warning ts(6133): 'restarted' is declared but its value is never read.
+
+24   let restarted=false;
+         ~~~~~~~~~
+
+Result (266 files): 
+- 0 errors
+- 0 warnings
+- 4 hints
+
+Loading svelte-check in workspace: /workspace/scratch/50508bde3407/knaba/corporate-site
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

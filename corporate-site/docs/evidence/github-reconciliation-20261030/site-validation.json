@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scope": "Current website source, complete local tests and generated static build; not deployed/browser acceptance.",
+  "source": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc",
+  "node": "v24.22.1",
+  "started_at": "2026-10-30T02:10:42.842183+00:00",
+  "finished_at": "2026-10-30T02:11:17.787555+00:00",
+  "input_manifest": "site-input-manifest.json",
+  "input_manifest_sha256": "7ee643b41e36d4c89b9c7f3d9a972aea0edbea2eb8b8df441b1ee4fd1d4ca94c",
+  "counts": {
+    "vitest": 466,
+    "vitest_files": 61,
+    "native_node": 86,
+    "native_node_groups": [
+      33,
+      35,
+      10,
+      8
+    ],
+    "vps_http": 137,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 9,
+    "astro_files": 419
+  },
+  "build": {
+    "pages": 160,
+    "css_gzip": 40958,
+    "all_emitted_js_gzip": 222112,
+    "css_strict_limit": 40960,
+    "js_strict_limit": 225280,
+    "limits_changed": false,
+    "artifact_sha256": "c4d2803bc872d8c53900a7cd84bd030c67bac68c5c4905fa5fd77334c48f151a",
+    "report": "build-static.json"
+  },
+  "stages": [
+    {
+      "name": "site-final-check",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "exit_code": 0,
+      "seconds": 11.78,
+      "log": "site-final-check.log",
+      "sha256": "b9685b55ddb871a24cc1616ea35cb221edab00dc99d6d4726df17e021c41dcd5"
+    },
+    {
+      "name": "site-final-build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 4.82,
+      "log": "site-final-build.log",
+      "sha256": "82a9bb6d5cc6817f41a671d1e120c5a5755d3f60246a3188f8c8059923bc5d5f"
+    },
+    {
+      "name": "site-final-catalog",
+      "command": [
+        "npm",
+        "run",
+        "i18n:extract"
+      ],
+      "exit_code": 0,
+      "seconds": 0.31,
+      "log": "site-final-catalog.log",
+      "sha256": "8c761907d017dfb26d41549d29f56d5bcde53235ca290b9a564a70fb37b34817"
+    },
+    {
+      "name": "site-final-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit_code": 0,
+      "seconds": 4.63,
+      "log": "site-final-tests.log",
+      "sha256": "749c2b75eb46dd5ded62ed18117c4470c54ae0337d441d3b77719c59434a8a2a"
+    },
+    {
+      "name": "site-final-vps",
+      "command": [
+        "npm",
+        "run",
+        "test:vps"
+      ],
+      "exit_code": 0,
+      "seconds": 12.34,
+      "log": "site-final-vps.log",
+      "sha256": "e363f767b78e583fdf29299d9056acebee182f51c71761f15115e1b5eee1ec1d"
+    },
+    {
+      "name": "site-final-verify",
+      "command": [
+        "npm",
+        "run",
+        "verify:build"
+      ],
+      "exit_code": 1,
+      "seconds": 1.02,
+      "log": "site-final-verify.log",
+      "sha256": "d043848872f75ba34beab234a8f1f79d9df0cea9049fffd1417966025eb64708"
+    }
+  ],
+  "verify_final": {
+    "source": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc",
+    "command": [
+      "npm",
+      "run",
+      "verify:build"
+    ],
+    "exit_code": 0,
+    "seconds": 1.62,
+    "log": "site-final-verify-r2.log",
+    "sha256": "0d147667157ecfb589fb6536450dbd85d6deadb810962d39bfa667802aa91c52",
+    "previous_attempt": "site-final-verification.json",
+    "remediation": "Pre-created only the dedicated QA report file owned by vsp; no application, verifier, budget or directory permission change."
+  },
+  "catalog": {
+    "source_digest": "9259d5dc3a33ae86e70d783d80182a903d186e6327b3da1148260dc19fc44005",
+    "routes": 28,
+    "units": 1087,
+    "scope": "STATIC_CONTENT_ONLY"
+  },
+  "static_checks": [
+    "Internal links and metadata",
+    "160 prerendered pages",
+    "Existing noindex/worker/security guards",
+    "Six-language output and social assets",
+    "Selected public review copy serialized unchanged for DE/EN/UK/RU",
+    "Four Studio locale JSON assets match all declared keys and texts",
+    "Construction CTA labels and52 localized icon placements"
+  ],
+  "limits": [
+    "Browser acceptance BLOCKED_ENV; field Web Vitals NOT_RUN; network transfer NOT_MEASURED.",
+    "The initial verify:build invocation failed writing its QA report due to EACCES. Only that report file ownership was corrected, then the unchanged full verifier passed. Other successful stages were not unnecessarily rerun.",
+    "Final documentation/evidence and generated source catalog are committed after the tested runtime source; exact runtime inputs are recorded by the manifest."
+  ]
+}

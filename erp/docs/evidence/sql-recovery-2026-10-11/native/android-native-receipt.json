@@ -1,0 +1,16 @@
+{
+  "sourceGitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "artifact": "app-debug.apk",
+  "sha256": "526ad668249928122dbc7f1c06ece149a38eab05024d02336c7f19a821d5398d",
+  "byteSize": 2594536,
+  "build": "Android debug APK; Gradle 8.13, AGP 8.13.0, Kotlin 2.2.20, Java 17.0.16, SDK 36",
+  "signing": "Ephemeral Android debug key only; production signing NOT_RUN",
+  "checks": [
+    "assembleDebug",
+    "lintDebug",
+    "apksigner verify",
+    "synthetic native geometry vectors"
+  ],
+  "physicalDeviceVerification": "NOT_RUN",
+  "realGPSAndBatteryAcceptance": "NOT_RUN"
+}

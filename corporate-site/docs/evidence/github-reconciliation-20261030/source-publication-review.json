@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "scope": "Targeted publication content review, not a general guarantee that all secrets are absent.",
+  "initial_source": "25460e7136639d8379f11924deafb361c757b266",
+  "initial_changed_entries": 385,
+  "initial_forbidden_path_candidates": [],
+  "initial_pattern_findings": [
+    {
+      "path": "corporate-site/docs/evidence/client-domain-origin-20261029/generated-asset-verification.json",
+      "kind": "credential_url",
+      "line": 47,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    },
+    {
+      "path": "corporate-site/tests/client-domain-origin.test.mjs",
+      "kind": "credential_url",
+      "line": 43,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    },
+    {
+      "path": "corporate-site/vps/public-release.test.mjs",
+      "kind": "credential_url",
+      "line": 26,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "kind": "credential_url",
+      "line": 29,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    },
+    {
+      "path": "erp/tests/telegram-preflight.test.ts",
+      "kind": "credential_url",
+      "line": 45,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    },
+    {
+      "path": "erp/tests/telegram-worker-config.test.ts",
+      "kind": "credential_url",
+      "line": 32,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    },
+    {
+      "path": "erp/tests/telegram-worker-config.test.ts",
+      "kind": "credential_url",
+      "line": 61,
+      "review": "Known synthetic credential-URL rejection fixture; no real credential."
+    }
+  ],
+  "binary_review": "Synthetic QA screenshots and six public social assets reviewed separately; no private credentials or customer records. See social-assets.json.",
+  "runtime_delta": {
+    "base_local": "25460e7136639d8379f11924deafb361c757b266",
+    "head": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc",
+    "paths": [
+      "corporate-site/scripts/legacy-css-budget.mjs",
+      "corporate-site/src/components/AccountAccessDialog.tsx",
+      "corporate-site/src/components/ArticleStudio.tsx",
+      "corporate-site/src/components/KnabaAssistant.tsx",
+      "corporate-site/src/components/PublicReviews.tsx",
+      "corporate-site/src/components/Reviews.astro",
+      "corporate-site/src/components/ReviewsModeration.tsx",
+      "corporate-site/src/components/SiteStudio.tsx",
+      "corporate-site/src/data/reviews.ts",
+      "corporate-site/src/data/studio-locales/studio-de.json",
+      "corporate-site/src/data/studio-locales/studio-en.json",
+      "corporate-site/src/data/studio-locales/studio-ru.json",
+      "corporate-site/src/data/studio-locales/studio-uk.json",
+      "corporate-site/src/layouts/Layout.astro",
+      "corporate-site/src/lib/studio-locale-data.ts",
+      "corporate-site/src/lib/studio-locale-store.ts",
+      "corporate-site/tests/article-studio-ui.test.ts",
+      "corporate-site/tests/studio-locales.test.ts",
+      "corporate-site/tests/verify-build.mjs",
+      "corporate-site/i18n/source-de.json"
+    ],
+    "findings": [],
+    "method": "Targeted secret-pattern and private file-path check, not a guarantee of no secrets."
+  },
+  "live_owner_credentials": "Excluded from source and evidence.",
+  "late_package": {
+    "source": "3a873771bc69947b0db9444d72fb6876e4bf355e",
+    "paths": 13,
+    "preserved_exact_public_source": true,
+    "tests": "34 Python +18 simulated DOM/CLI PASS",
+    "private_registry_credentials_receipts": "Not included",
+    "live_installer_execution": false
+  },
+  "final_delta_scan": {
+    "base_local": "25460e7136639d8379f11924deafb361c757b266",
+    "paths": 54,
+    "findings": [],
+    "scope": "Current source, operations, generated catalog and documentation delta; targeted patterns/private-path review only."
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "at": "2026-10-29T19:26:16.207295+00:00",
+  "source_sha": "d57c342224c831307c36dec6da9a83463e31f10f",
+  "exit": 0,
+  "result": {
+    "asset": "dist/client/_astro/site-studio-contract.Da-lKgbV.js",
+    "asset_sha256": "8e3f4119259cfaff49146c5e041a9d05a5dc9f3b544f2a6dce9d6d76b7130288",
+    "legacy_reference": false,
+    "results": [
+      {
+        "value": "/kontakt/",
+        "expected": true,
+        "accepted": true,
+        "pass": true
+      },
+      {
+        "value": "https://knaba.de/kontakt/",
+        "expected": true,
+        "accepted": true,
+        "pass": true
+      },
+      {
+        "value": "https://kneba.vsp.rest/kontakt/",
+        "expected": false,
+        "accepted": false,
+        "pass": true
+      },
+      {
+        "value": "https://example.com/",
+        "expected": false,
+        "accepted": false,
+        "pass": true
+      },
+      {
+        "value": "//example.com/",
+        "expected": false,
+        "accepted": false,
+        "pass": true
+      },
+      {
+        "value": "/\\\\example.com/",
+        "expected": false,
+        "accepted": false,
+        "pass": true
+      },
+      {
+        "value": "https://user:password@knaba.de/kontakt/",
+        "expected": false,
+        "accepted": false,
+        "pass": true
+      }
+    ]
+  },
+  "stderr": "",
+  "html_count": 160,
+  "legacy_html": [],
+  "test_summaries": [
+    " Test Files  49 passed (49)",
+    "      Tests  343 passed (343)",
+    "\u2139 tests 33",
+    "\u2139 pass 33",
+    "\u2139 fail 0",
+    "\u2139 tests 35",
+    "\u2139 pass 35",
+    "\u2139 fail 0",
+    "\u2139 tests 10",
+    "\u2139 pass 10",
+    "\u2139 fail 0",
+    "\u2139 tests 8",
+    "\u2139 pass 8",
+    "\u2139 fail 0"
+  ],
+  "native_tests": 86,
+  "git_status": " M corporate-site/docs/evidence/official-build-verification.json\n?? corporate-site/docs/evidence/client-domain-origin-20261029/\n?? corporate-site/node_modules\n",
+  "historical_staging_report_not_this_build": {
+    "scope": "production-build-static-validation",
+    "pages": 160,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "VSP_STAGING_NOINDEX",
+    "externalImageScriptRequests": "NONE_IN_HTML",
+    "externalPartnerImagesInMarkup": 0,
+    "cssGzip": 40197,
+    "allEmittedJsGzip": 222396,
+    "artifactSha256": "3578c1ae8193e5bcc3495d0f0b8e02ba159b920876ed0d3c2956519d68f272cd",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "official_build_report_summary": {
+    "scope": "production-build-static-validation",
+    "pages": 160,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "OFFICIAL",
+    "externalImageScriptRequests": "NONE_IN_HTML",
+    "externalPartnerImagesInMarkup": 0,
+    "cssGzip": 40197,
+    "allEmittedJsGzip": 222359,
+    "artifactSha256": "11c01f5db33356a4c7ec7ce196a21743e9ad4f3f270bc8cd864e5d54bf9d04ac",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "official_report_sha256": "95d994fff2da6d2fa5fc70dff3ee9b703ac7a2bbccb9394ad9e7b185b361fd12"
+}

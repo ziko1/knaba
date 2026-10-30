@@ -1,0 +1,63 @@
+{
+  "project": "KNABA",
+  "environment": "VSP development host, not knaba.de production",
+  "date": "2026-10-25",
+  "tested_executable_sha": "24dd7fc826ff50c3fab9273ce9e654fbee2095b6",
+  "prior_live_sha": "77c2a96a870d1ba0e5a0bf766dee1aca541ada8a",
+  "deployed_live_release": "/srv/knaba/vps/releases/24dd7fc826ff50c3fab9273ce9e654fbee2095b6",
+  "build_client_artifact_sha256": "80e1242106ebf75ab5dd608da099d896e363661c3fcef9aa1f243a2fa974b511",
+  "server_bundle_sha256": "9bb4c48e92056c02e6fd286de29e5532bb0d6323dc6fd2ff7b25286392a32085",
+  "ssr_bundle_sha256": "d1000f1cae7a78c35579b6c568d0ea040ad77a9473f97193d18941318e41ebeb",
+  "sqlite_backup": {
+    "path": "/var/lib/knaba/backups/knaba-2026-10-25T04-41-48-638Z.sqlite",
+    "sha256": "9cd3cb3288d2e9e7dba463d38267a325ed20377e150cc3915ad9ea2016d38ab0",
+    "bytes": 217088,
+    "migration_count": 5
+  },
+  "qa": {
+    "source_type_checks": "0 errors, 0 warnings",
+    "vitest": "137/137",
+    "inquiry_node": "8/8",
+    "vps_node": "16/16",
+    "generated_html_files": 99,
+    "index_routes": 98,
+    "error_page_files": 1,
+    "live_index_route_smoke": {
+      "http200": 96,
+      "http308": 2,
+      "unexpected": 0
+    },
+    "live_unknown_route_after_redirect": 404,
+    "live_studio": 200,
+    "live_crm": 200,
+    "live_portal": 200,
+    "live_inbox": 200,
+    "live_media_manifest": 200,
+    "live_languages_manifest": 200,
+    "live_healthz": 200,
+    "live_readyz": 503,
+    "anonymous_studio_api": 401,
+    "anonymous_ai_status": 401,
+    "container_healthy": true,
+    "ssl_verify_return_code": 0,
+    "certificate_expires": "2027-01-22",
+    "hsts_seconds": 604800,
+    "sqlite_integrity": "ok"
+  },
+  "release_limits": {
+    "official_knaba_de_untouched": true,
+    "dns_untouched": true,
+    "sqlite_migrations_untouched": true,
+    "other_containers_untouched": true,
+    "main_merge": false,
+    "paid_ai_dispatch": false,
+    "independent_review": "NOT_RUN",
+    "real_owner_enrolled": false,
+    "physical_device_uat": "NOT_RUN",
+    "disk_usage_approx_percent": 96,
+    "legacy_provider_import": "NOT_RUN",
+    "full_visual_editor": "NOT_IMPLEMENTED",
+    "full_ai_provider": "NOT_ENABLED"
+  },
+  "note": "Live deploy was explicitly user-requested for KNABA development host; this is not a fully accepted customer production release."
+}

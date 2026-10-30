@@ -1,0 +1,1621 @@
+{
+  "schemaVersion": 1,
+  "status": "prepared",
+  "source": {
+    "buildReport": "docs/build-verification.json",
+    "clientArtifactSha256": "fc2646afaf3748d46c41d96b6c5cf8518d3c59626703be2a5e7a7242c2475f5b",
+    "htmlPages": 134,
+    "applicationSha256": "94ba081c1c73e6734a95dbdf4a74c76b600d80c6d825baccca7ba6f834acc699"
+  },
+  "output": {
+    "worker": "dist/server/index.js",
+    "workerSha256": "3047d576f6a3795780ebfd37aa2f2569f7ec6cd747c157ab1b93aea793249c62",
+    "htmlRoot": ".sites-html/client"
+  },
+  "html": [
+    {
+      "file": "404.html",
+      "route": "/404.html",
+      "status": 404,
+      "bytes": 11952,
+      "sha256": "644405472e7d7bed1c62ef7c3d5ee3e497f3100bfc75d59f8572efc827c1f34b",
+      "etag": "\"644405472e7d7bed1c62ef7c3d5ee3e497f3100bfc75d59f8572efc827c1f34b\""
+    },
+    {
+      "file": "admin/index.html",
+      "route": "/admin/",
+      "status": 200,
+      "bytes": 22434,
+      "sha256": "beb925bbb4cfee958846c46fd9ad1a9c0cb687c4a1e3383c4b265c38cdf71f7b",
+      "etag": "\"beb925bbb4cfee958846c46fd9ad1a9c0cb687c4a1e3383c4b265c38cdf71f7b\""
+    },
+    {
+      "file": "app/index.html",
+      "route": "/app/",
+      "status": 200,
+      "bytes": 19176,
+      "sha256": "870b12e3c9ea3687f64fbf5cd8631b24fd0719bc8a1363be337c894d86c00aa7",
+      "etag": "\"870b12e3c9ea3687f64fbf5cd8631b24fd0719bc8a1363be337c894d86c00aa7\""
+    },
+    {
+      "file": "bauleistungen/bauendreinigung/index.html",
+      "route": "/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "bytes": 21358,
+      "sha256": "75f0afacf512b45c434c00f5a087b6259129dd29336b6dc5a0df8c254a369e5f",
+      "etag": "\"75f0afacf512b45c434c00f5a087b6259129dd29336b6dc5a0df8c254a369e5f\""
+    },
+    {
+      "file": "bauleistungen/bauhilfe/index.html",
+      "route": "/bauleistungen/bauhilfe/",
+      "status": 200,
+      "bytes": 21057,
+      "sha256": "9b713937ce09163a45da9f2a09ca95c96d33a114497aa648f779af4f4393bee1",
+      "etag": "\"9b713937ce09163a45da9f2a09ca95c96d33a114497aa648f779af4f4393bee1\""
+    },
+    {
+      "file": "bauleistungen/baureinigung/index.html",
+      "route": "/bauleistungen/baureinigung/",
+      "status": 200,
+      "bytes": 20974,
+      "sha256": "52975ad7da6ff330ee4c3777740145e209593f7934232ca0eaaef93accf08200",
+      "etag": "\"52975ad7da6ff330ee4c3777740145e209593f7934232ca0eaaef93accf08200\""
+    },
+    {
+      "file": "bauleistungen/baustellenraeumung/index.html",
+      "route": "/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "bytes": 20633,
+      "sha256": "aecaa00d3278c5d98ebb08b955817a44b3ec2a466fec0a7b8bbe26c8321e3128",
+      "etag": "\"aecaa00d3278c5d98ebb08b955817a44b3ec2a466fec0a7b8bbe26c8321e3128\""
+    },
+    {
+      "file": "bauleistungen/bauzwischenreinigung/index.html",
+      "route": "/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "bytes": 21014,
+      "sha256": "de554f4037775a5d0ab2e0e8dceaee956aad3fd4a6bc624237d8778b6fd4f682",
+      "etag": "\"de554f4037775a5d0ab2e0e8dceaee956aad3fd4a6bc624237d8778b6fd4f682\""
+    },
+    {
+      "file": "bauleistungen/durchbrueche/index.html",
+      "route": "/bauleistungen/durchbrueche/",
+      "status": 200,
+      "bytes": 21308,
+      "sha256": "6ebdf43702bc3df39435a91230d4c422c1ba6ed1dd1401db198851d35043771d",
+      "etag": "\"6ebdf43702bc3df39435a91230d4c422c1ba6ed1dd1401db198851d35043771d\""
+    },
+    {
+      "file": "bauleistungen/kernbohrungen/index.html",
+      "route": "/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "bytes": 21408,
+      "sha256": "426166abca22ec1387116371eb58408a868c5b9381f0ff0ef58ff0e04867204c",
+      "etag": "\"426166abca22ec1387116371eb58408a868c5b9381f0ff0ef58ff0e04867204c\""
+    },
+    {
+      "file": "bauleistungen/zusatzarbeiten/index.html",
+      "route": "/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "bytes": 21298,
+      "sha256": "1eddfed6738b9df9ff2202b2bd0d72c4dee98f5c1415399efe3ad1fe624bc218",
+      "etag": "\"1eddfed6738b9df9ff2202b2bd0d72c4dee98f5c1415399efe3ad1fe624bc218\""
+    },
+    {
+      "file": "berlin/index.html",
+      "route": "/berlin/",
+      "status": 200,
+      "bytes": 17541,
+      "sha256": "0f6d69204d97c83373a5edaa2ca9e3f36663b02e71ca95780ba06e5b690d867b",
+      "etag": "\"0f6d69204d97c83373a5edaa2ca9e3f36663b02e71ca95780ba06e5b690d867b\""
+    },
+    {
+      "file": "branchen/index.html",
+      "route": "/branchen/",
+      "status": 200,
+      "bytes": 18407,
+      "sha256": "677c3aa006225cadd7da846297ee6ae609d9ba6d48577fca6ef2d0e821b92129",
+      "etag": "\"677c3aa006225cadd7da846297ee6ae609d9ba6d48577fca6ef2d0e821b92129\""
+    },
+    {
+      "file": "crm/index.html",
+      "route": "/crm/",
+      "status": 200,
+      "bytes": 19296,
+      "sha256": "a84ecf6adfdb0df6b6e43f89e8bccd3305d214dd82df4943e4320e262783157f",
+      "etag": "\"a84ecf6adfdb0df6b6e43f89e8bccd3305d214dd82df4943e4320e262783157f\""
+    },
+    {
+      "file": "datenschutz/index.html",
+      "route": "/datenschutz/",
+      "status": 200,
+      "bytes": 41321,
+      "sha256": "0ffef26c6ae25ad23e77c59bfcf62f75548117eef650920c4c7c19c6ee9d5af9",
+      "etag": "\"0ffef26c6ae25ad23e77c59bfcf62f75548117eef650920c4c7c19c6ee9d5af9\""
+    },
+    {
+      "file": "en/app/index.html",
+      "route": "/en/app/",
+      "status": 200,
+      "bytes": 19067,
+      "sha256": "c250b0b94a882d04be0b9cfe8c96bc69d5f637d2387fc414bb54758b61d207a5",
+      "etag": "\"c250b0b94a882d04be0b9cfe8c96bc69d5f637d2387fc414bb54758b61d207a5\""
+    },
+    {
+      "file": "en/bauleistungen/bauendreinigung/index.html",
+      "route": "/en/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "bytes": 21085,
+      "sha256": "0047663eeb037d051c674ca00e18e1dc047987be6b33ee60f52711e8f254e660",
+      "etag": "\"0047663eeb037d051c674ca00e18e1dc047987be6b33ee60f52711e8f254e660\""
+    },
+    {
+      "file": "en/bauleistungen/bauhilfe/index.html",
+      "route": "/en/bauleistungen/bauhilfe/",
+      "status": 200,
+      "bytes": 20810,
+      "sha256": "1defb3321c210eff0a800815e4204741f48534f389901b2234bc7d68d39f4553",
+      "etag": "\"1defb3321c210eff0a800815e4204741f48534f389901b2234bc7d68d39f4553\""
+    },
+    {
+      "file": "en/bauleistungen/baureinigung/index.html",
+      "route": "/en/bauleistungen/baureinigung/",
+      "status": 200,
+      "bytes": 20793,
+      "sha256": "56ece471f043eaefdc84d03bfe82c1850d87915e30a0f001c66cff2f466bc96a",
+      "etag": "\"56ece471f043eaefdc84d03bfe82c1850d87915e30a0f001c66cff2f466bc96a\""
+    },
+    {
+      "file": "en/bauleistungen/baustellenraeumung/index.html",
+      "route": "/en/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "bytes": 20467,
+      "sha256": "2b2c322a49b1d9befadd1c149a2277dbe74e95e794cee3a9318b649ec8e8fb78",
+      "etag": "\"2b2c322a49b1d9befadd1c149a2277dbe74e95e794cee3a9318b649ec8e8fb78\""
+    },
+    {
+      "file": "en/bauleistungen/bauzwischenreinigung/index.html",
+      "route": "/en/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "bytes": 20830,
+      "sha256": "468d3ab7cc3e9008f85d6eec012085926ec933b96ace5cf6312a2f9026343e97",
+      "etag": "\"468d3ab7cc3e9008f85d6eec012085926ec933b96ace5cf6312a2f9026343e97\""
+    },
+    {
+      "file": "en/bauleistungen/durchbrueche/index.html",
+      "route": "/en/bauleistungen/durchbrueche/",
+      "status": 200,
+      "bytes": 20890,
+      "sha256": "c57fb6999cc26a160168588096313ed47cd85ab5ba1408c400fc0a1bfdba0ead",
+      "etag": "\"c57fb6999cc26a160168588096313ed47cd85ab5ba1408c400fc0a1bfdba0ead\""
+    },
+    {
+      "file": "en/bauleistungen/kernbohrungen/index.html",
+      "route": "/en/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "bytes": 21145,
+      "sha256": "621b8bdc38f56317e8530d3e48aa20a44024f03844a919609c984504f143349d",
+      "etag": "\"621b8bdc38f56317e8530d3e48aa20a44024f03844a919609c984504f143349d\""
+    },
+    {
+      "file": "en/bauleistungen/zusatzarbeiten/index.html",
+      "route": "/en/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "bytes": 21013,
+      "sha256": "554fec15fac50cd1b30b7b1bba0b0eb8cb0b5efd48869364c9c89b2567422b3e",
+      "etag": "\"554fec15fac50cd1b30b7b1bba0b0eb8cb0b5efd48869364c9c89b2567422b3e\""
+    },
+    {
+      "file": "en/berlin/index.html",
+      "route": "/en/berlin/",
+      "status": 200,
+      "bytes": 17264,
+      "sha256": "d02610b3425457e51c9363b835443c31702dd11accb2bba37e90c3d2b04caba8",
+      "etag": "\"d02610b3425457e51c9363b835443c31702dd11accb2bba37e90c3d2b04caba8\""
+    },
+    {
+      "file": "en/branchen/index.html",
+      "route": "/en/branchen/",
+      "status": 200,
+      "bytes": 18028,
+      "sha256": "7db23fa7237a845e3d171f2b618ebac3823a82f5fe123413f96394dfe3560933",
+      "etag": "\"7db23fa7237a845e3d171f2b618ebac3823a82f5fe123413f96394dfe3560933\""
+    },
+    {
+      "file": "en/faq/index.html",
+      "route": "/en/faq/",
+      "status": 200,
+      "bytes": 35281,
+      "sha256": "1c1af77b2e73a6247a14c99744d8e3afb84197a38122df08d74419d7b758dded",
+      "etag": "\"1c1af77b2e73a6247a14c99744d8e3afb84197a38122df08d74419d7b758dded\""
+    },
+    {
+      "file": "en/galerie/index.html",
+      "route": "/en/galerie/",
+      "status": 200,
+      "bytes": 20439,
+      "sha256": "57777faa851abe4695eab6235d46364cbda0b3e96eb8bcbc74a87ffef49a7032",
+      "etag": "\"57777faa851abe4695eab6235d46364cbda0b3e96eb8bcbc74a87ffef49a7032\""
+    },
+    {
+      "file": "en/index.html",
+      "route": "/en/",
+      "status": 200,
+      "bytes": 70401,
+      "sha256": "6d8335759b0324cbfe88699719abb7bb5bb15ea91896bb33595884fc73230662",
+      "etag": "\"6d8335759b0324cbfe88699719abb7bb5bb15ea91896bb33595884fc73230662\""
+    },
+    {
+      "file": "en/karriere/index.html",
+      "route": "/en/karriere/",
+      "status": 200,
+      "bytes": 17355,
+      "sha256": "bb7001464b5756a70b17b1b8f2ef80cdb8c77fdc6b433d2ed84e25aa6cf658cc",
+      "etag": "\"bb7001464b5756a70b17b1b8f2ef80cdb8c77fdc6b433d2ed84e25aa6cf658cc\""
+    },
+    {
+      "file": "en/kontakt/index.html",
+      "route": "/en/kontakt/",
+      "status": 200,
+      "bytes": 26380,
+      "sha256": "ada37538db2285087916baabb4be1e372e72369e18ca1d049ade91682644867f",
+      "etag": "\"ada37538db2285087916baabb4be1e372e72369e18ca1d049ade91682644867f\""
+    },
+    {
+      "file": "en/leistungen/index.html",
+      "route": "/en/leistungen/",
+      "status": 200,
+      "bytes": 25603,
+      "sha256": "55a35e57108e1384ffcb9a700bff590da7d58c361c93416deb49118e7b0b513a",
+      "etag": "\"55a35e57108e1384ffcb9a700bff590da7d58c361c93416deb49118e7b0b513a\""
+    },
+    {
+      "file": "en/partner/index.html",
+      "route": "/en/partner/",
+      "status": 200,
+      "bytes": 19282,
+      "sha256": "18b4ddc3fa8434a4c1147031112f96cb28f2691f615cc8503b734f3c98418eae",
+      "etag": "\"18b4ddc3fa8434a4c1147031112f96cb28f2691f615cc8503b734f3c98418eae\""
+    },
+    {
+      "file": "en/planer/index.html",
+      "route": "/en/planer/",
+      "status": 200,
+      "bytes": 30314,
+      "sha256": "7afce0a33863d494628cf6b779b337607ed79ea54f45fa9a40f34e93a1c36c45",
+      "etag": "\"7afce0a33863d494628cf6b779b337607ed79ea54f45fa9a40f34e93a1c36c45\""
+    },
+    {
+      "file": "en/ratgeber/bauendreinigung-vorbereiten/index.html",
+      "route": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "bytes": 25649,
+      "sha256": "035816010300510e3e6194c1c3c9f2fce91294d2fa90d5e2b4d06e10ae667357",
+      "etag": "\"035816010300510e3e6194c1c3c9f2fce91294d2fa90d5e2b4d06e10ae667357\""
+    },
+    {
+      "file": "en/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "route": "/en/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "status": 200,
+      "bytes": 25761,
+      "sha256": "1698ad468143995e59adfd2da110b1e99eee78c0856f4a3a22ebc04cea9677a1",
+      "etag": "\"1698ad468143995e59adfd2da110b1e99eee78c0856f4a3a22ebc04cea9677a1\""
+    },
+    {
+      "file": "en/ratgeber/baureinigung-kosten-planen/index.html",
+      "route": "/en/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "bytes": 25565,
+      "sha256": "74db149177465ae0c7b1596b5036cdcb929301a169bb53197d2fe10682acc2d3",
+      "etag": "\"74db149177465ae0c7b1596b5036cdcb929301a169bb53197d2fe10682acc2d3\""
+    },
+    {
+      "file": "en/ratgeber/baureinigung-phasen/index.html",
+      "route": "/en/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "bytes": 25441,
+      "sha256": "3d5f236ec3b7af089ae91dff447eb3eb99cbf5fccedf24a84c86ee6c949887f8",
+      "etag": "\"3d5f236ec3b7af089ae91dff447eb3eb99cbf5fccedf24a84c86ee6c949887f8\""
+    },
+    {
+      "file": "en/ratgeber/bauuebergabe-checkliste/index.html",
+      "route": "/en/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "bytes": 25611,
+      "sha256": "cd0929baaf1ec99be5057b599cb8424863c2c438b8df5808d189e546a4873495",
+      "etag": "\"cd0929baaf1ec99be5057b599cb8424863c2c438b8df5808d189e546a4873495\""
+    },
+    {
+      "file": "en/ratgeber/index.html",
+      "route": "/en/ratgeber/",
+      "status": 200,
+      "bytes": 23078,
+      "sha256": "32a608c19a52dadbe5538a1aed1ca316415d68eca5e92c890c77e40514964c6c",
+      "etag": "\"32a608c19a52dadbe5538a1aed1ca316415d68eca5e92c890c77e40514964c6c\""
+    },
+    {
+      "file": "en/unternehmen/index.html",
+      "route": "/en/unternehmen/",
+      "status": 200,
+      "bytes": 21019,
+      "sha256": "d968d49da0aff6508bdc3b4c6bd8db77c99bc4c6bdc47a5c63e143c977221fcf",
+      "etag": "\"d968d49da0aff6508bdc3b4c6bd8db77c99bc4c6bdc47a5c63e143c977221fcf\""
+    },
+    {
+      "file": "faq/index.html",
+      "route": "/faq/",
+      "status": 200,
+      "bytes": 36458,
+      "sha256": "f809a4ab11ac421e7702e5c998b784407b3871249f2b8a5225759174afa43df4",
+      "etag": "\"f809a4ab11ac421e7702e5c998b784407b3871249f2b8a5225759174afa43df4\""
+    },
+    {
+      "file": "galerie/index.html",
+      "route": "/galerie/",
+      "status": 200,
+      "bytes": 20459,
+      "sha256": "0b89bf85cbdfb12b8469731ea849ad3b37aa61bfddb9898bbd77248e71979fa8",
+      "etag": "\"0b89bf85cbdfb12b8469731ea849ad3b37aa61bfddb9898bbd77248e71979fa8\""
+    },
+    {
+      "file": "impressum/index.html",
+      "route": "/impressum/",
+      "status": 200,
+      "bytes": 18109,
+      "sha256": "99b503c2eb45c8d0b85a2f4016057766fa8882f2d098a0b6173074c6204ffb4e",
+      "etag": "\"99b503c2eb45c8d0b85a2f4016057766fa8882f2d098a0b6173074c6204ffb4e\""
+    },
+    {
+      "file": "index.html",
+      "route": "/",
+      "status": 200,
+      "bytes": 71178,
+      "sha256": "0ae820da2f240a8bfa57d9e048ceb96db6b2c0853a2ecd7e5035784b02e87314",
+      "etag": "\"0ae820da2f240a8bfa57d9e048ceb96db6b2c0853a2ecd7e5035784b02e87314\""
+    },
+    {
+      "file": "karriere/index.html",
+      "route": "/karriere/",
+      "status": 200,
+      "bytes": 17612,
+      "sha256": "c4b33bc56b42854bf0763a9f44c8fbf1e2f76bf0a902aa20f66d6823e913c52f",
+      "etag": "\"c4b33bc56b42854bf0763a9f44c8fbf1e2f76bf0a902aa20f66d6823e913c52f\""
+    },
+    {
+      "file": "kontakt/index.html",
+      "route": "/kontakt/",
+      "status": 200,
+      "bytes": 26671,
+      "sha256": "bb0155e0546e9220526124b8e47a0eeae410fb2d94e800ed76963887f48da9cc",
+      "etag": "\"bb0155e0546e9220526124b8e47a0eeae410fb2d94e800ed76963887f48da9cc\""
+    },
+    {
+      "file": "konto/index.html",
+      "route": "/konto/",
+      "status": 200,
+      "bytes": 22111,
+      "sha256": "3c258e9c78bae716fc7640631e992598561eee81b80d559386477e7f23115ab4",
+      "etag": "\"3c258e9c78bae716fc7640631e992598561eee81b80d559386477e7f23115ab4\""
+    },
+    {
+      "file": "leistungen/baureinigung/index.html",
+      "route": "/leistungen/baureinigung/",
+      "status": 200,
+      "bytes": 12682,
+      "sha256": "a725d95e46715977f71457d18f196e04be2ffbeb884a8a97ca8ed698cc197eed",
+      "etag": "\"a725d95e46715977f71457d18f196e04be2ffbeb884a8a97ca8ed698cc197eed\""
+    },
+    {
+      "file": "leistungen/bueroreinigung/index.html",
+      "route": "/leistungen/bueroreinigung/",
+      "status": 200,
+      "bytes": 12696,
+      "sha256": "57862ce3c205b1b1e4563cb6818ae4d298c19f737997179f8d5ba3c85b79b23b",
+      "etag": "\"57862ce3c205b1b1e4563cb6818ae4d298c19f737997179f8d5ba3c85b79b23b\""
+    },
+    {
+      "file": "leistungen/glasreinigung/index.html",
+      "route": "/leistungen/glasreinigung/",
+      "status": 200,
+      "bytes": 12689,
+      "sha256": "9d1ecf96238770f7c0a5d97f2312ed1d4280ff713a145c0c9a2c33949a3e485f",
+      "etag": "\"9d1ecf96238770f7c0a5d97f2312ed1d4280ff713a145c0c9a2c33949a3e485f\""
+    },
+    {
+      "file": "leistungen/grundreinigung/index.html",
+      "route": "/leistungen/grundreinigung/",
+      "status": 200,
+      "bytes": 12696,
+      "sha256": "07ab157622cd543d0f12ee912840338e089cd2873911b938916118510fcb72c4",
+      "etag": "\"07ab157622cd543d0f12ee912840338e089cd2873911b938916118510fcb72c4\""
+    },
+    {
+      "file": "leistungen/index.html",
+      "route": "/leistungen/",
+      "status": 200,
+      "bytes": 25678,
+      "sha256": "ef7eba2d8089d92804c8ddf7aa9b05abd8f9de2f4a1a3db7f617bd5042f8d5c3",
+      "etag": "\"ef7eba2d8089d92804c8ddf7aa9b05abd8f9de2f4a1a3db7f617bd5042f8d5c3\""
+    },
+    {
+      "file": "leistungen/treppenreinigung/index.html",
+      "route": "/leistungen/treppenreinigung/",
+      "status": 200,
+      "bytes": 12710,
+      "sha256": "44e959b8480e2be0824d5ef385691878073e75011711a0666a0c9ff0537cab67",
+      "etag": "\"44e959b8480e2be0824d5ef385691878073e75011711a0666a0c9ff0537cab67\""
+    },
+    {
+      "file": "leistungen/unterhaltsreinigung/index.html",
+      "route": "/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "bytes": 12731,
+      "sha256": "939e03b94ecd3b59d8030f91d5ab16118e892cbe47503fe5ad1e9ea760d6c237",
+      "etag": "\"939e03b94ecd3b59d8030f91d5ab16118e892cbe47503fe5ad1e9ea760d6c237\""
+    },
+    {
+      "file": "partner/index.html",
+      "route": "/partner/",
+      "status": 200,
+      "bytes": 19329,
+      "sha256": "ce2fcc9db21d4fd6bb1ae686d2eab95bb1e502fc3e1b4d8b84d1d977584b9030",
+      "etag": "\"ce2fcc9db21d4fd6bb1ae686d2eab95bb1e502fc3e1b4d8b84d1d977584b9030\""
+    },
+    {
+      "file": "planer/index.html",
+      "route": "/planer/",
+      "status": 200,
+      "bytes": 30587,
+      "sha256": "40cd6bc39a52f384b82c42bfae0246286e89abbe6eb6a893ba8a09d413dabd0c",
+      "etag": "\"40cd6bc39a52f384b82c42bfae0246286e89abbe6eb6a893ba8a09d413dabd0c\""
+    },
+    {
+      "file": "postfach/index.html",
+      "route": "/postfach/",
+      "status": 200,
+      "bytes": 21997,
+      "sha256": "672b1dba249f2341acacea48a76339788ccb8f8175dae3194cf3ffa8c496330a",
+      "etag": "\"672b1dba249f2341acacea48a76339788ccb8f8175dae3194cf3ffa8c496330a\""
+    },
+    {
+      "file": "ratgeber/bauendreinigung-vorbereiten/index.html",
+      "route": "/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "bytes": 25776,
+      "sha256": "193fc91b707a2b183806dbe0b183395df32ace84a0b8d65b8b4522760e5fb5c0",
+      "etag": "\"193fc91b707a2b183806dbe0b183395df32ace84a0b8d65b8b4522760e5fb5c0\""
+    },
+    {
+      "file": "ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "route": "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "status": 200,
+      "bytes": 26193,
+      "sha256": "9dd49a8483567bd7ab77236663e6ea2a6c9590e22a7e3c2b6e9265bd2d476541",
+      "etag": "\"9dd49a8483567bd7ab77236663e6ea2a6c9590e22a7e3c2b6e9265bd2d476541\""
+    },
+    {
+      "file": "ratgeber/baureinigung-kosten-planen/index.html",
+      "route": "/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "bytes": 25947,
+      "sha256": "18de26c6d572e66b094461798cc99a12a28a07067bef29de410515a854bc34c1",
+      "etag": "\"18de26c6d572e66b094461798cc99a12a28a07067bef29de410515a854bc34c1\""
+    },
+    {
+      "file": "ratgeber/baureinigung-phasen/index.html",
+      "route": "/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "bytes": 25702,
+      "sha256": "86b707f239f779dbce1aa15f279d0a9918231c309da89b97d94b79b4d4ecb3ae",
+      "etag": "\"86b707f239f779dbce1aa15f279d0a9918231c309da89b97d94b79b4d4ecb3ae\""
+    },
+    {
+      "file": "ratgeber/bauuebergabe-checkliste/index.html",
+      "route": "/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "bytes": 25931,
+      "sha256": "0c72f532795cded04f260bf7b4fbd606c6f0f0ad767bafb7dbe107e7e52045d3",
+      "etag": "\"0c72f532795cded04f260bf7b4fbd606c6f0f0ad767bafb7dbe107e7e52045d3\""
+    },
+    {
+      "file": "ratgeber/bueroreinigung-checkliste/index.html",
+      "route": "/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "bytes": 12828,
+      "sha256": "af86fe047e4328f7ea5750a2a8b6c70df068ba3919de7f4bbd3da3761c5355e9",
+      "etag": "\"af86fe047e4328f7ea5750a2a8b6c70df068ba3919de7f4bbd3da3761c5355e9\""
+    },
+    {
+      "file": "ratgeber/index.html",
+      "route": "/ratgeber/",
+      "status": 200,
+      "bytes": 23575,
+      "sha256": "d36c27753c6d6f55e4290ab6cae5b3340eaca914a14d8710a2ee402ecce7b4aa",
+      "etag": "\"d36c27753c6d6f55e4290ab6cae5b3340eaca914a14d8710a2ee402ecce7b4aa\""
+    },
+    {
+      "file": "ratgeber/reinigungsleistungen-vergleichen/index.html",
+      "route": "/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "bytes": 12877,
+      "sha256": "6777ca7d731426133b38d78b04d59d519d68603c76fc349f2f6ea3092bb66afa",
+      "etag": "\"6777ca7d731426133b38d78b04d59d519d68603c76fc349f2f6ea3092bb66afa\""
+    },
+    {
+      "file": "ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+      "route": "/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "bytes": 12940,
+      "sha256": "d82d92a305cff6a7d1e64b5ec809b85ca927c4ffa69dd40b477204deb55f6424",
+      "etag": "\"d82d92a305cff6a7d1e64b5ec809b85ca927c4ffa69dd40b477204deb55f6424\""
+    },
+    {
+      "file": "ru/app/index.html",
+      "route": "/ru/app/",
+      "status": 200,
+      "bytes": 21317,
+      "sha256": "f856e5db816fcee8972d6ecc5fe7e6b37496d77dbe707943ee6e7e65d8820462",
+      "etag": "\"f856e5db816fcee8972d6ecc5fe7e6b37496d77dbe707943ee6e7e65d8820462\""
+    },
+    {
+      "file": "ru/bauleistungen/bauendreinigung/index.html",
+      "route": "/ru/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "bytes": 24815,
+      "sha256": "006961ac565b5dbb61e83218ea31cd42affef544b9b610d89b709d15ba5d840d",
+      "etag": "\"006961ac565b5dbb61e83218ea31cd42affef544b9b610d89b709d15ba5d840d\""
+    },
+    {
+      "file": "ru/bauleistungen/bauhilfe/index.html",
+      "route": "/ru/bauleistungen/bauhilfe/",
+      "status": 200,
+      "bytes": 24455,
+      "sha256": "8f65ed0b1168fc992fbf66dbe38c11deb4d35472857caa6fe4217eb62ed6ddda",
+      "etag": "\"8f65ed0b1168fc992fbf66dbe38c11deb4d35472857caa6fe4217eb62ed6ddda\""
+    },
+    {
+      "file": "ru/bauleistungen/baureinigung/index.html",
+      "route": "/ru/bauleistungen/baureinigung/",
+      "status": 200,
+      "bytes": 24359,
+      "sha256": "d314c3c388c30fc7114da39f6f3e18ef633a0821102c4bb690473e27215852d4",
+      "etag": "\"d314c3c388c30fc7114da39f6f3e18ef633a0821102c4bb690473e27215852d4\""
+    },
+    {
+      "file": "ru/bauleistungen/baustellenraeumung/index.html",
+      "route": "/ru/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "bytes": 23862,
+      "sha256": "5471c8f68bebe84c6e64b1a517ba9ee65bbc86c4bb6561cc1bf1a43a84684c8e",
+      "etag": "\"5471c8f68bebe84c6e64b1a517ba9ee65bbc86c4bb6561cc1bf1a43a84684c8e\""
+    },
+    {
+      "file": "ru/bauleistungen/bauzwischenreinigung/index.html",
+      "route": "/ru/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "bytes": 24349,
+      "sha256": "603f019a420ff5aba5b4bfc84b8f6bb0bcbf249b72768953bd93f10185f95a7c",
+      "etag": "\"603f019a420ff5aba5b4bfc84b8f6bb0bcbf249b72768953bd93f10185f95a7c\""
+    },
+    {
+      "file": "ru/bauleistungen/durchbrueche/index.html",
+      "route": "/ru/bauleistungen/durchbrueche/",
+      "status": 200,
+      "bytes": 25051,
+      "sha256": "3f3588447a0f0027b71c48dd10fa302b736ac4b681ff9890bc2f742087793f71",
+      "etag": "\"3f3588447a0f0027b71c48dd10fa302b736ac4b681ff9890bc2f742087793f71\""
+    },
+    {
+      "file": "ru/bauleistungen/kernbohrungen/index.html",
+      "route": "/ru/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "bytes": 25375,
+      "sha256": "9dd8cb29ac0a9a5fd1e8dc40614f5b086f0130637822f06b2c9af3ac6d409a6e",
+      "etag": "\"9dd8cb29ac0a9a5fd1e8dc40614f5b086f0130637822f06b2c9af3ac6d409a6e\""
+    },
+    {
+      "file": "ru/bauleistungen/zusatzarbeiten/index.html",
+      "route": "/ru/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "bytes": 25174,
+      "sha256": "80ada028e46918e6e4d18336b3c2733ff89ddb150419aaf97ab0f8503273ce38",
+      "etag": "\"80ada028e46918e6e4d18336b3c2733ff89ddb150419aaf97ab0f8503273ce38\""
+    },
+    {
+      "file": "ru/berlin/index.html",
+      "route": "/ru/berlin/",
+      "status": 200,
+      "bytes": 20090,
+      "sha256": "6e51b23c156eaa4bac592539644ded70fd967a2d8229e04f0570f694b3279177",
+      "etag": "\"6e51b23c156eaa4bac592539644ded70fd967a2d8229e04f0570f694b3279177\""
+    },
+    {
+      "file": "ru/branchen/index.html",
+      "route": "/ru/branchen/",
+      "status": 200,
+      "bytes": 21018,
+      "sha256": "d1fe39c55a0a902b61228a7c74cdf0c24d598925d0d4644af838f3ef0c981b17",
+      "etag": "\"d1fe39c55a0a902b61228a7c74cdf0c24d598925d0d4644af838f3ef0c981b17\""
+    },
+    {
+      "file": "ru/datenschutz/index.html",
+      "route": "/ru/datenschutz/",
+      "status": 200,
+      "bytes": 53882,
+      "sha256": "c48d53d20b1e271254d80e2b4fd9b95a27fc987715a6c51d99a15b26757a02df",
+      "etag": "\"c48d53d20b1e271254d80e2b4fd9b95a27fc987715a6c51d99a15b26757a02df\""
+    },
+    {
+      "file": "ru/faq/index.html",
+      "route": "/ru/faq/",
+      "status": 200,
+      "bytes": 42429,
+      "sha256": "f42af7edc596383cbde7fdeac00cd3dd761da188ee02d0cc56538b104ee533b9",
+      "etag": "\"f42af7edc596383cbde7fdeac00cd3dd761da188ee02d0cc56538b104ee533b9\""
+    },
+    {
+      "file": "ru/galerie/index.html",
+      "route": "/ru/galerie/",
+      "status": 200,
+      "bytes": 22774,
+      "sha256": "5ce2e1f64e4d39838a11f637395b190c8f311aefa57942cd4f5b23752f5011dd",
+      "etag": "\"5ce2e1f64e4d39838a11f637395b190c8f311aefa57942cd4f5b23752f5011dd\""
+    },
+    {
+      "file": "ru/impressum/index.html",
+      "route": "/ru/impressum/",
+      "status": 200,
+      "bytes": 21959,
+      "sha256": "972878c8b5db8ffebd5d4dbd1108790a369b28f3d26c01e3c4fe4a5ac267d102",
+      "etag": "\"972878c8b5db8ffebd5d4dbd1108790a369b28f3d26c01e3c4fe4a5ac267d102\""
+    },
+    {
+      "file": "ru/index.html",
+      "route": "/ru/",
+      "status": 200,
+      "bytes": 79539,
+      "sha256": "09a0272ecb2637601bd824419247ad12c1baa347ae42a4c43b16ae5c75091fad",
+      "etag": "\"09a0272ecb2637601bd824419247ad12c1baa347ae42a4c43b16ae5c75091fad\""
+    },
+    {
+      "file": "ru/karriere/index.html",
+      "route": "/ru/karriere/",
+      "status": 200,
+      "bytes": 20362,
+      "sha256": "d1cfea3b1b5b7eb97fe7de8f912268c991f06b030ec25267112d71831f571476",
+      "etag": "\"d1cfea3b1b5b7eb97fe7de8f912268c991f06b030ec25267112d71831f571476\""
+    },
+    {
+      "file": "ru/kontakt/index.html",
+      "route": "/ru/kontakt/",
+      "status": 200,
+      "bytes": 29631,
+      "sha256": "6e288586e1066f9e32368e596ca76c2035b0f2e10de9208cb6fdfe0d897e4de9",
+      "etag": "\"6e288586e1066f9e32368e596ca76c2035b0f2e10de9208cb6fdfe0d897e4de9\""
+    },
+    {
+      "file": "ru/konto/index.html",
+      "route": "/ru/konto/",
+      "status": 200,
+      "bytes": 23953,
+      "sha256": "59e61942799317c88a63d97e043fab571422e3769b7dac8e10fea8bd16318b4e",
+      "etag": "\"59e61942799317c88a63d97e043fab571422e3769b7dac8e10fea8bd16318b4e\""
+    },
+    {
+      "file": "ru/leistungen/baureinigung/index.html",
+      "route": "/ru/leistungen/baureinigung/",
+      "status": 200,
+      "bytes": 14337,
+      "sha256": "dd561515448af7b03f1ba5a164a3c9c9c6c446236de6188ddc42c5c550ffdd84",
+      "etag": "\"dd561515448af7b03f1ba5a164a3c9c9c6c446236de6188ddc42c5c550ffdd84\""
+    },
+    {
+      "file": "ru/leistungen/bueroreinigung/index.html",
+      "route": "/ru/leistungen/bueroreinigung/",
+      "status": 200,
+      "bytes": 14351,
+      "sha256": "e8563051384d02973532773d80c10e47951a1b5ae12b783d43c3ad2f2a6c9103",
+      "etag": "\"e8563051384d02973532773d80c10e47951a1b5ae12b783d43c3ad2f2a6c9103\""
+    },
+    {
+      "file": "ru/leistungen/glasreinigung/index.html",
+      "route": "/ru/leistungen/glasreinigung/",
+      "status": 200,
+      "bytes": 14344,
+      "sha256": "ebf62fa9124247698d71ac6c0f4efb61d262b23a86ef12a498dd7fb26138a5ad",
+      "etag": "\"ebf62fa9124247698d71ac6c0f4efb61d262b23a86ef12a498dd7fb26138a5ad\""
+    },
+    {
+      "file": "ru/leistungen/grundreinigung/index.html",
+      "route": "/ru/leistungen/grundreinigung/",
+      "status": 200,
+      "bytes": 14351,
+      "sha256": "a8cba86ae7f6a6272aa4506942d8f79917f025e319ea47d04aabe7c386ae2e62",
+      "etag": "\"a8cba86ae7f6a6272aa4506942d8f79917f025e319ea47d04aabe7c386ae2e62\""
+    },
+    {
+      "file": "ru/leistungen/index.html",
+      "route": "/ru/leistungen/",
+      "status": 200,
+      "bytes": 28382,
+      "sha256": "ca681aa0c6ebddcf7de227c722dcb7e4065b41680a0f104f51739d74faaf014b",
+      "etag": "\"ca681aa0c6ebddcf7de227c722dcb7e4065b41680a0f104f51739d74faaf014b\""
+    },
+    {
+      "file": "ru/leistungen/treppenreinigung/index.html",
+      "route": "/ru/leistungen/treppenreinigung/",
+      "status": 200,
+      "bytes": 14365,
+      "sha256": "c820bd4e43a98a6af73480c1f01ef18887b7303c025a55838124c71299b76902",
+      "etag": "\"c820bd4e43a98a6af73480c1f01ef18887b7303c025a55838124c71299b76902\""
+    },
+    {
+      "file": "ru/leistungen/unterhaltsreinigung/index.html",
+      "route": "/ru/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "bytes": 14386,
+      "sha256": "36c02f6d03406eb5a72a55b58cd253adba60343aa3452e23a32ee2718ba1f7f1",
+      "etag": "\"36c02f6d03406eb5a72a55b58cd253adba60343aa3452e23a32ee2718ba1f7f1\""
+    },
+    {
+      "file": "ru/partner/index.html",
+      "route": "/ru/partner/",
+      "status": 200,
+      "bytes": 21561,
+      "sha256": "2d4c9bc349d11ccb3d1b58b5367b08d4e5cbf5af45f4fce98745a46a646d07fc",
+      "etag": "\"2d4c9bc349d11ccb3d1b58b5367b08d4e5cbf5af45f4fce98745a46a646d07fc\""
+    },
+    {
+      "file": "ru/planer/index.html",
+      "route": "/ru/planer/",
+      "status": 200,
+      "bytes": 34703,
+      "sha256": "6c91086e25a7b15169e7af7cc7256baab3b1c03c0c56d14cf86d0e8fbe95261b",
+      "etag": "\"6c91086e25a7b15169e7af7cc7256baab3b1c03c0c56d14cf86d0e8fbe95261b\""
+    },
+    {
+      "file": "ru/postfach/index.html",
+      "route": "/ru/postfach/",
+      "status": 200,
+      "bytes": 23618,
+      "sha256": "4ac8a03127919bd992a6b9582332e869708568f3d5f28df7c71a979e7e1f6f59",
+      "etag": "\"4ac8a03127919bd992a6b9582332e869708568f3d5f28df7c71a979e7e1f6f59\""
+    },
+    {
+      "file": "ru/ratgeber/bauendreinigung-vorbereiten/index.html",
+      "route": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "bytes": 31515,
+      "sha256": "2d5356e942b573491e5a8b2393f5c0523c2940a9fffa82071db54acdd81e7447",
+      "etag": "\"2d5356e942b573491e5a8b2393f5c0523c2940a9fffa82071db54acdd81e7447\""
+    },
+    {
+      "file": "ru/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "route": "/ru/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "status": 200,
+      "bytes": 31747,
+      "sha256": "cfcaa5fc1fda8cf9945e76d7f055475e5f41e5e4f5b3f60d4e71c87f932dffb0",
+      "etag": "\"cfcaa5fc1fda8cf9945e76d7f055475e5f41e5e4f5b3f60d4e71c87f932dffb0\""
+    },
+    {
+      "file": "ru/ratgeber/baureinigung-kosten-planen/index.html",
+      "route": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "bytes": 31596,
+      "sha256": "f56b7c85810848159b0d7f7b7c8f15b822eb688240ede15abb997e01d6f0adbc",
+      "etag": "\"f56b7c85810848159b0d7f7b7c8f15b822eb688240ede15abb997e01d6f0adbc\""
+    },
+    {
+      "file": "ru/ratgeber/baureinigung-phasen/index.html",
+      "route": "/ru/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "bytes": 31704,
+      "sha256": "08f2af4a550d0f35289d49af86b8253701b3760bdf287802bc7562aa0138d5f2",
+      "etag": "\"08f2af4a550d0f35289d49af86b8253701b3760bdf287802bc7562aa0138d5f2\""
+    },
+    {
+      "file": "ru/ratgeber/bauuebergabe-checkliste/index.html",
+      "route": "/ru/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "bytes": 31847,
+      "sha256": "225a3f371149ead3571940e2964e6b3a721c1b9afd13ef4f79cd19b0f3618625",
+      "etag": "\"225a3f371149ead3571940e2964e6b3a721c1b9afd13ef4f79cd19b0f3618625\""
+    },
+    {
+      "file": "ru/ratgeber/bueroreinigung-checkliste/index.html",
+      "route": "/ru/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "bytes": 14483,
+      "sha256": "0250d7d2477186eacd48fa601816a9ba7d52e295b9e9338167de240ad1b951be",
+      "etag": "\"0250d7d2477186eacd48fa601816a9ba7d52e295b9e9338167de240ad1b951be\""
+    },
+    {
+      "file": "ru/ratgeber/index.html",
+      "route": "/ru/ratgeber/",
+      "status": 200,
+      "bytes": 28324,
+      "sha256": "8cbc1713242554d0c78195f8e7c18ede9d2c3bc0a60341650b582cf4e4b96a12",
+      "etag": "\"8cbc1713242554d0c78195f8e7c18ede9d2c3bc0a60341650b582cf4e4b96a12\""
+    },
+    {
+      "file": "ru/ratgeber/reinigungsleistungen-vergleichen/index.html",
+      "route": "/ru/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "bytes": 14532,
+      "sha256": "641135cdd4def08b4d94e217c00ad18cbeba480a5daeb6125a404b365b4490d1",
+      "etag": "\"641135cdd4def08b4d94e217c00ad18cbeba480a5daeb6125a404b365b4490d1\""
+    },
+    {
+      "file": "ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+      "route": "/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "bytes": 14595,
+      "sha256": "98419b43ae6a166f2ac07a24d1b71e5a19365f29fb3ca4d6570513116adef886",
+      "etag": "\"98419b43ae6a166f2ac07a24d1b71e5a19365f29fb3ca4d6570513116adef886\""
+    },
+    {
+      "file": "ru/unternehmen/index.html",
+      "route": "/ru/unternehmen/",
+      "status": 200,
+      "bytes": 24086,
+      "sha256": "9f9fd27ac78998af47dd3a3eea1ad16a67ed6c16d447d60077f03e27c7cb27a0",
+      "etag": "\"9f9fd27ac78998af47dd3a3eea1ad16a67ed6c16d447d60077f03e27c7cb27a0\""
+    },
+    {
+      "file": "studio/index.html",
+      "route": "/studio/",
+      "status": 200,
+      "bytes": 18762,
+      "sha256": "abf2648e10ddb9b7699af67cbf07a45d43978f799db4b4a2bbbcd9153f1aaca0",
+      "etag": "\"abf2648e10ddb9b7699af67cbf07a45d43978f799db4b4a2bbbcd9153f1aaca0\""
+    },
+    {
+      "file": "uk/app/index.html",
+      "route": "/uk/app/",
+      "status": 200,
+      "bytes": 21370,
+      "sha256": "f559d2c3908f9ccbe53391b4805aad07156d49888721d6d1c44fa520f74b2f55",
+      "etag": "\"f559d2c3908f9ccbe53391b4805aad07156d49888721d6d1c44fa520f74b2f55\""
+    },
+    {
+      "file": "uk/bauleistungen/bauendreinigung/index.html",
+      "route": "/uk/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "bytes": 24782,
+      "sha256": "795efa7dd06cfea78af6f9b3e8f5379a563a621d30c397e40202d0c3b5faf495",
+      "etag": "\"795efa7dd06cfea78af6f9b3e8f5379a563a621d30c397e40202d0c3b5faf495\""
+    },
+    {
+      "file": "uk/bauleistungen/bauhilfe/index.html",
+      "route": "/uk/bauleistungen/bauhilfe/",
+      "status": 200,
+      "bytes": 24353,
+      "sha256": "a103563360fa1935fb27b74a8c408a2da5904665c2018aad13f6dbdeeea6efb1",
+      "etag": "\"a103563360fa1935fb27b74a8c408a2da5904665c2018aad13f6dbdeeea6efb1\""
+    },
+    {
+      "file": "uk/bauleistungen/baureinigung/index.html",
+      "route": "/uk/bauleistungen/baureinigung/",
+      "status": 200,
+      "bytes": 24252,
+      "sha256": "c55e47b53e9cb22859f907a1504edec5f4ca237b32a867c2aeefd7c9068be8a2",
+      "etag": "\"c55e47b53e9cb22859f907a1504edec5f4ca237b32a867c2aeefd7c9068be8a2\""
+    },
+    {
+      "file": "uk/bauleistungen/baustellenraeumung/index.html",
+      "route": "/uk/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "bytes": 23940,
+      "sha256": "8c2987ef9cd96c4a272cdd18cf7af0f2a14f3a958084ae3c4b7e002ec0e50346",
+      "etag": "\"8c2987ef9cd96c4a272cdd18cf7af0f2a14f3a958084ae3c4b7e002ec0e50346\""
+    },
+    {
+      "file": "uk/bauleistungen/bauzwischenreinigung/index.html",
+      "route": "/uk/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "bytes": 24234,
+      "sha256": "b4c11ed89ba7c821b2f0cbc724466684a857ae2ec6f1b667fb6180483362748d",
+      "etag": "\"b4c11ed89ba7c821b2f0cbc724466684a857ae2ec6f1b667fb6180483362748d\""
+    },
+    {
+      "file": "uk/bauleistungen/durchbrueche/index.html",
+      "route": "/uk/bauleistungen/durchbrueche/",
+      "status": 200,
+      "bytes": 24877,
+      "sha256": "7acdc1d4b896e972a2d5da8bbbe92bff1fb691dade0c5cccd7329f9440d7537c",
+      "etag": "\"7acdc1d4b896e972a2d5da8bbbe92bff1fb691dade0c5cccd7329f9440d7537c\""
+    },
+    {
+      "file": "uk/bauleistungen/kernbohrungen/index.html",
+      "route": "/uk/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "bytes": 25103,
+      "sha256": "3b277b9a5cf2f70ac624d0a5c4d89059acca51e4f10afa9b7bc1ef025ef8b06c",
+      "etag": "\"3b277b9a5cf2f70ac624d0a5c4d89059acca51e4f10afa9b7bc1ef025ef8b06c\""
+    },
+    {
+      "file": "uk/bauleistungen/zusatzarbeiten/index.html",
+      "route": "/uk/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "bytes": 24837,
+      "sha256": "863a4434bebdc1e64ceb7ce12da5f834ba12859646e5a1fcd26c1827d5570d1e",
+      "etag": "\"863a4434bebdc1e64ceb7ce12da5f834ba12859646e5a1fcd26c1827d5570d1e\""
+    },
+    {
+      "file": "uk/berlin/index.html",
+      "route": "/uk/berlin/",
+      "status": 200,
+      "bytes": 19989,
+      "sha256": "32e71ad99998d4472fbdd9c14a216337c2bb864ef47e4caba3385b80ee21bb02",
+      "etag": "\"32e71ad99998d4472fbdd9c14a216337c2bb864ef47e4caba3385b80ee21bb02\""
+    },
+    {
+      "file": "uk/branchen/index.html",
+      "route": "/uk/branchen/",
+      "status": 200,
+      "bytes": 20896,
+      "sha256": "2b22edf4c847f4bcc4be01c73345aa38d60dd4e32fd13cea06bf7322bb740534",
+      "etag": "\"2b22edf4c847f4bcc4be01c73345aa38d60dd4e32fd13cea06bf7322bb740534\""
+    },
+    {
+      "file": "uk/faq/index.html",
+      "route": "/uk/faq/",
+      "status": 200,
+      "bytes": 42352,
+      "sha256": "4820ece6638181d17c6d786444b231e81f101d07ed646961f7fe80646e8a7b7c",
+      "etag": "\"4820ece6638181d17c6d786444b231e81f101d07ed646961f7fe80646e8a7b7c\""
+    },
+    {
+      "file": "uk/galerie/index.html",
+      "route": "/uk/galerie/",
+      "status": 200,
+      "bytes": 22674,
+      "sha256": "358b49cc8fc77e48171a5fb78ff736fea3ca777e9ba9bc3036a4e39dfa94403c",
+      "etag": "\"358b49cc8fc77e48171a5fb78ff736fea3ca777e9ba9bc3036a4e39dfa94403c\""
+    },
+    {
+      "file": "uk/index.html",
+      "route": "/uk/",
+      "status": 200,
+      "bytes": 79344,
+      "sha256": "478431ad8bf8ddf4fa34edc8afcdef5daf2c5e830b770470943c361ef778f33b",
+      "etag": "\"478431ad8bf8ddf4fa34edc8afcdef5daf2c5e830b770470943c361ef778f33b\""
+    },
+    {
+      "file": "uk/karriere/index.html",
+      "route": "/uk/karriere/",
+      "status": 200,
+      "bytes": 20225,
+      "sha256": "02ce4a0a88c5596099780a52bd4cd5f2b774421cb2c726f9c636db650ab3a37d",
+      "etag": "\"02ce4a0a88c5596099780a52bd4cd5f2b774421cb2c726f9c636db650ab3a37d\""
+    },
+    {
+      "file": "uk/kontakt/index.html",
+      "route": "/uk/kontakt/",
+      "status": 200,
+      "bytes": 29335,
+      "sha256": "93163b036080a9c73cbbb73273fc1f85272f4ac73280429d248f64784b6e7d80",
+      "etag": "\"93163b036080a9c73cbbb73273fc1f85272f4ac73280429d248f64784b6e7d80\""
+    },
+    {
+      "file": "uk/leistungen/index.html",
+      "route": "/uk/leistungen/",
+      "status": 200,
+      "bytes": 28288,
+      "sha256": "26c884b0ec322855efd6d1adec0d6a64abfb2e9bb363938ee989ebc7e8fe5fed",
+      "etag": "\"26c884b0ec322855efd6d1adec0d6a64abfb2e9bb363938ee989ebc7e8fe5fed\""
+    },
+    {
+      "file": "uk/partner/index.html",
+      "route": "/uk/partner/",
+      "status": 200,
+      "bytes": 21473,
+      "sha256": "08489936d5c0087e8cd7fa958b11b701fef638cf6ae7f3f9657d14d2357465f8",
+      "etag": "\"08489936d5c0087e8cd7fa958b11b701fef638cf6ae7f3f9657d14d2357465f8\""
+    },
+    {
+      "file": "uk/planer/index.html",
+      "route": "/uk/planer/",
+      "status": 200,
+      "bytes": 33873,
+      "sha256": "e65ac6b4e85e293538047a9e64423be7db5d75d24c51b8d7f592ac2f29a150d6",
+      "etag": "\"e65ac6b4e85e293538047a9e64423be7db5d75d24c51b8d7f592ac2f29a150d6\""
+    },
+    {
+      "file": "uk/ratgeber/bauendreinigung-vorbereiten/index.html",
+      "route": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "bytes": 30973,
+      "sha256": "f5fc566894677bb4cdb5c1b18aa4dcad910ad69da6562364bc1e82c829248698",
+      "etag": "\"f5fc566894677bb4cdb5c1b18aa4dcad910ad69da6562364bc1e82c829248698\""
+    },
+    {
+      "file": "uk/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+      "route": "/uk/ratgeber/bauhelfer-einsatz-vorbereiten/",
+      "status": 200,
+      "bytes": 31265,
+      "sha256": "6f8250b49bf9ff2b608dfd71e607b560fee7e72725fd2c834643d2bde041bb96",
+      "etag": "\"6f8250b49bf9ff2b608dfd71e607b560fee7e72725fd2c834643d2bde041bb96\""
+    },
+    {
+      "file": "uk/ratgeber/baureinigung-kosten-planen/index.html",
+      "route": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "bytes": 30902,
+      "sha256": "a84e4aa7d80386008adeb8ae7e17fc40d4097264539f591cae19102298c8bdef",
+      "etag": "\"a84e4aa7d80386008adeb8ae7e17fc40d4097264539f591cae19102298c8bdef\""
+    },
+    {
+      "file": "uk/ratgeber/baureinigung-phasen/index.html",
+      "route": "/uk/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "bytes": 31065,
+      "sha256": "10895b67a5e61fc92b35bd80e0cb5d464e4b13281a013c6a171a4d27d36d8bca",
+      "etag": "\"10895b67a5e61fc92b35bd80e0cb5d464e4b13281a013c6a171a4d27d36d8bca\""
+    },
+    {
+      "file": "uk/ratgeber/bauuebergabe-checkliste/index.html",
+      "route": "/uk/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "bytes": 31405,
+      "sha256": "b24c886013ac00db0ca7f7140e67242afeced5d86f782ab2ad33e27903abb83a",
+      "etag": "\"b24c886013ac00db0ca7f7140e67242afeced5d86f782ab2ad33e27903abb83a\""
+    },
+    {
+      "file": "uk/ratgeber/index.html",
+      "route": "/uk/ratgeber/",
+      "status": 200,
+      "bytes": 28065,
+      "sha256": "701f4e6e61bb5b7bd188cb3d4061b264dfc5bb43ac48340cbf8e3d9417bed4d4",
+      "etag": "\"701f4e6e61bb5b7bd188cb3d4061b264dfc5bb43ac48340cbf8e3d9417bed4d4\""
+    },
+    {
+      "file": "uk/unternehmen/index.html",
+      "route": "/uk/unternehmen/",
+      "status": 200,
+      "bytes": 24075,
+      "sha256": "3872d1acd5674f0dbd84be7086ad1e321a7a218d9727f790b1b2d639d444ce66",
+      "etag": "\"3872d1acd5674f0dbd84be7086ad1e321a7a218d9727f790b1b2d639d444ce66\""
+    },
+    {
+      "file": "unternehmen/index.html",
+      "route": "/unternehmen/",
+      "status": 200,
+      "bytes": 21268,
+      "sha256": "ce382dbc78d80c69c7c9c68c471809b556449b80bc3df14d1eb0faa81ff1505e",
+      "etag": "\"ce382dbc78d80c69c7c9c68c471809b556449b80bc3df14d1eb0faa81ff1505e\""
+    }
+  ],
+  "static": [
+    {
+      "file": ".assetsignore",
+      "bytes": 24,
+      "sha256": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7"
+    },
+    {
+      "file": "_astro/AdminControlCenter.pHJ-MTgN.js",
+      "bytes": 15295,
+      "sha256": "4d319cb00bdd98e58b250509c01e09cf6f0a6337e452ee44bc354d5e918c3e39"
+    },
+    {
+      "file": "_astro/AssistantCaptcha.6JFtqcaw.js",
+      "bytes": 4593,
+      "sha256": "5cafa3b688f0f8b76eb0fe99f7ebd7cb886247a9f1256760a00010d5914deca0"
+    },
+    {
+      "file": "_astro/AssistantInbox.DEp6QQFZ.js",
+      "bytes": 9984,
+      "sha256": "624a0f565fb10ff3e7b963b30d8ef741008bc8b7dfcd30a394d6a82b5054db65"
+    },
+    {
+      "file": "_astro/Catalogue.Crju7cCp.js",
+      "bytes": 2569,
+      "sha256": "573a976fe3a13536753fa5b9b9213a083e640855d19b0685e4992636db64c623"
+    },
+    {
+      "file": "_astro/CleaningChecklist.DTxOthYo.js",
+      "bytes": 3524,
+      "sha256": "cc3d3a58e5093ca316032000caf1a4131e308c7d80cb790b9f63be759bf07283"
+    },
+    {
+      "file": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+      "bytes": 16365,
+      "sha256": "ca4a4f503f0dbc3e904781b0e5d543fca4fe46b1f8c81947572ade255d729a07"
+    },
+    {
+      "file": "_astro/ConstructionDetail.Dr5jo8LU.css",
+      "bytes": 5310,
+      "sha256": "a2850bd1bf461a33e512806239cfb074a7a82a7fa2466ab0b298f2b1dba47eec"
+    },
+    {
+      "file": "_astro/ConstructionFaq.B36A57JG.css",
+      "bytes": 7557,
+      "sha256": "56d96c357fedcd43f0ecac55fba9d8b25cbe1edcd0af5dbbac6cc9927ddfbab2"
+    },
+    {
+      "file": "_astro/ConstructionGuide.BwTvmGH_.css",
+      "bytes": 10027,
+      "sha256": "68bd3a9931fce6092c2f2fcf5746352ebeb7b7fb1334c195b124495445b8ebd3"
+    },
+    {
+      "file": "_astro/ConstructionHome.BiwcYlN_.css",
+      "bytes": 15830,
+      "sha256": "4fa89a47c68de5500897f32d151cace521db48b32d956b182f7b445014bdbecc"
+    },
+    {
+      "file": "_astro/ConstructionInfo.CEmfH-x0.css",
+      "bytes": 7179,
+      "sha256": "958be3b0b9b1e673ec8ae12dfb8e8a30066bf282691bee60cb72084405ca8201"
+    },
+    {
+      "file": "_astro/ConstructionPlanner.GsT2gue7.css",
+      "bytes": 5394,
+      "sha256": "83af635d12807102b4c658c0be2ea8145812a012353606abfd9e8e0b9ada5053"
+    },
+    {
+      "file": "_astro/CrmConsole.BTYlkLay.css",
+      "bytes": 4198,
+      "sha256": "b736aa31a6bd7d0546eb38045920075cd4ebdb268de385ab332cedb6c0f46b4a"
+    },
+    {
+      "file": "_astro/CrmConsole.Dm_TuNAg.js",
+      "bytes": 10138,
+      "sha256": "bb3ef5fbfbe77f397fff1644dfc9cfc0dc095044a0ed0e6620bae4cf3d530d43"
+    },
+    {
+      "file": "_astro/Inquiry.CdsAHFCO.js",
+      "bytes": 23192,
+      "sha256": "64faecb212da77133d6392fa15b202877027cf6f217cfd8bd86a8c2304649cd1"
+    },
+    {
+      "file": "_astro/KnabaAssistant.CDL77fMx.css",
+      "bytes": 6740,
+      "sha256": "f74e8b0ac7294a9596a8528e0c1207a6bc401b779338723a74f702d168004fee"
+    },
+    {
+      "file": "_astro/KnabaAssistant.Crr-QllV.js",
+      "bytes": 30622,
+      "sha256": "1ccf2d8ac453d2a4dbda85b3008f1678d975dfea60f9b84228f394db85d62909"
+    },
+    {
+      "file": "_astro/Layout.DwnFT3Ij.css",
+      "bytes": 54837,
+      "sha256": "6c3a87e6bab8aae3b51855a28e20bf9d60b939de5dd8f843f858777c530bcb30"
+    },
+    {
+      "file": "_astro/Layout.astro_astro_type_script_index_0_lang.8anyiHQt.js",
+      "bytes": 1155,
+      "sha256": "703a1a9d1167b7f6f7f679fd89cb0715b09e2d180d355d0904f925586580b6c3"
+    },
+    {
+      "file": "_astro/Layout.astro_astro_type_script_index_1_lang.BxPCQDlf.js",
+      "bytes": 5500,
+      "sha256": "4fbbfc511bf77eededc338a2a42b2003426f7c345d6ee69bef1df554ffa998df"
+    },
+    {
+      "file": "_astro/Layout.astro_astro_type_script_index_2_lang.DwkLSAzj.js",
+      "bytes": 699,
+      "sha256": "36adcfd0d942a240c92084b7e3a9e5157326f18a67c7b873fbaf842d95809568"
+    },
+    {
+      "file": "_astro/Partners.spIlufU2.css",
+      "bytes": 5457,
+      "sha256": "0125c7ad96aab431294e58ab60726554826067b6f95840497b7485c354e533af"
+    },
+    {
+      "file": "_astro/Portal.D0axyfIP.js",
+      "bytes": 74998,
+      "sha256": "a7627235443627c6086d28f7867e85f4279d2e7c88317a21263120e1a3c131f0"
+    },
+    {
+      "file": "_astro/Portal.D7rXCBWs.css",
+      "bytes": 15312,
+      "sha256": "9496cf61be3d27862db6374cac4e1fcf3694cdc991d5292901b2330ea866f47e"
+    },
+    {
+      "file": "_astro/PublicReviews.DpQeOvv1.js",
+      "bytes": 8667,
+      "sha256": "f30aeb7cc7c874b89a36016fd741b6f3362728354b276f14a3635b3de7d067f8"
+    },
+    {
+      "file": "_astro/ServiceFinder.rfKo1-F4.js",
+      "bytes": 11064,
+      "sha256": "e4e52b543cb81729d1cd4962d866bdc1abb8c72c24d906e3438d4897a68ca4f4"
+    },
+    {
+      "file": "_astro/SiteStudio.Cfi_LCuW.js",
+      "bytes": 38615,
+      "sha256": "30d348bc58466ad7cb1c0300be147a43f37a84c3b455b6d47625d8a21a511f29"
+    },
+    {
+      "file": "_astro/SiteStudio.CwM3dz5f.css",
+      "bytes": 9098,
+      "sha256": "172cd8d181b8984ff80b031b0554938827d2584c088c61a6d6a6ca2e6d9d9801"
+    },
+    {
+      "file": "_astro/admin.DZEqblwF.css",
+      "bytes": 7323,
+      "sha256": "5510880daba4b88a4773e8be45b5cd29fcfa4f996739a5e927100fc5bc3689d1"
+    },
+    {
+      "file": "_astro/client.BmCSL1aC.js",
+      "bytes": 1023,
+      "sha256": "8ab28022e10570a54d669947ab2a834143d9e85db8324eb3981336bfbd448f10"
+    },
+    {
+      "file": "_astro/client.BvmcPhtz.js",
+      "bytes": 36300,
+      "sha256": "1a71e705292c1b79fbd91dce55cd713a36de5149f8f2905114cce4ce0f48b74a"
+    },
+    {
+      "file": "_astro/client.CCWCjeKa.js",
+      "bytes": 7599,
+      "sha256": "6ee7a2bd286b27dc0090b530511a832dce050284e5ae4d44382bc0c73745812b"
+    },
+    {
+      "file": "_astro/client.svelte.B37ztSkl.js",
+      "bytes": 889,
+      "sha256": "5ff8a8ae348c28531ac99a5baccff1daa69d144bd08a6ec7ff54cb0e3b333b37"
+    },
+    {
+      "file": "_astro/construction-offers.Ckck60VF.js",
+      "bytes": 9942,
+      "sha256": "f04ef088ecbbe376138b3f4c0fe6ce1ce79f6806a27929231539de104405165d"
+    },
+    {
+      "file": "_astro/hosting-auth.xSfPUzhj.js",
+      "bytes": 46460,
+      "sha256": "fad01eaa347dc9a4e20eb05970cffc240aa4d1880eb54f9ee188735457afeae9"
+    },
+    {
+      "file": "_astro/inquiry-navigation.zQJP3-Dy.js",
+      "bytes": 338,
+      "sha256": "1f434626b599479a7682c542097106ca9abba0fab1dc66990bf95222c51b27a6"
+    },
+    {
+      "file": "_astro/planner.BdiWDzIp.js",
+      "bytes": 7145,
+      "sha256": "bdf54cca46a396c428341336f4a2103edefa3ec3b56deb001d52a711b45d2b0a"
+    },
+    {
+      "file": "_astro/portal-contract.CQB1yuo-.js",
+      "bytes": 250,
+      "sha256": "a69df7e45aaa464e81036f3a8e8847f71e4d4ab692c329708159a0af249b5e14"
+    },
+    {
+      "file": "_astro/preload-helper.DHhhL8Zf.js",
+      "bytes": 1665,
+      "sha256": "616967e76046f7a294c7ad1643f1ab9993561d942fd47c439a02f58b0569e70c"
+    },
+    {
+      "file": "_astro/public-i18n.028mNz-8.js",
+      "bytes": 42148,
+      "sha256": "3baf6b851e0fbe2732124e63cac06969f21ac57662e3a6bc5c944bf2e91e5bfc"
+    },
+    {
+      "file": "_astro/request-id.BT2U5kLe.js",
+      "bytes": 525,
+      "sha256": "0204881934d9d4dc1eebbcf0675680be12356e0615a92b301c2cdbf2a8994abe"
+    },
+    {
+      "file": "_astro/reviews.BK4RiOmH.js",
+      "bytes": 15119,
+      "sha256": "4ef84cab16aee00e299ca6c8bf87e4cef9fc6f88bfd99eec9138d277ef4b1189"
+    },
+    {
+      "file": "_astro/reviews.BkvJoBCK.css",
+      "bytes": 8221,
+      "sha256": "83f7838b3a7d7210dfbbedd45efd1fcec2532124001495fba0c17fc394de3f43"
+    },
+    {
+      "file": "_astro/rolldown-runtime.DK3Fl9T5.js",
+      "bytes": 158,
+      "sha256": "a526d1bb3288ef04d001028843220a24b0867a4edf8c685b69506d6525af36ff"
+    },
+    {
+      "file": "_astro/runtime-core.esm-bundler.IMDzd0U5.js",
+      "bytes": 67402,
+      "sha256": "69bfcdb3b7471358f9472fde2eb7597e2023b2002c1ffd4607e941e9e724f00e"
+    },
+    {
+      "file": "_astro/site-studio-contract.eFNOs0rL.js",
+      "bytes": 3836,
+      "sha256": "f8a0436afbc78ce63d168b996301146df025312a089dbddac6dc7950cbd52ee7"
+    },
+    {
+      "file": "_astro/store.DTuZ3aM8.js",
+      "bytes": 5128,
+      "sha256": "cffdd9df19d90cc68a0793a297afe55f83b977e52c3188cbf18baf56be36fed5"
+    },
+    {
+      "file": "_astro/vue-app.CbxmWjzb.js",
+      "bytes": 6092,
+      "sha256": "a94b28c966d4596ccb5cfd6ffa3b48573bc648e0a7a4848c6e5bb3d0a07f22d9"
+    },
+    {
+      "file": "_astro/web.Bis8Lcub.js",
+      "bytes": 34020,
+      "sha256": "b82e8a0d293c3c6d68d92bfe483af3677c0352f750ff6800c04b6f93f8239f13"
+    },
+    {
+      "file": "_headers",
+      "bytes": 960,
+      "sha256": "c31be8180bd137897f52919f3572f4c74b55b14147e1ae1f07e61fd1efcb2b1a"
+    },
+    {
+      "file": "api/catalogue.json",
+      "bytes": 322,
+      "sha256": "804b587a01727b05f03d3f75a68afd477183bd0bbefaa174cc8d1e86ab982d4e"
+    },
+    {
+      "file": "app-manifest.json",
+      "bytes": 734,
+      "sha256": "7bd3d1c1058e64bed6057455d126ee5162b98a42a15387c760d228570323fb4c"
+    },
+    {
+      "file": "favicon.svg",
+      "bytes": 1436,
+      "sha256": "4f2f6774d6301de68a5d0c79b7e8fe9db4ad68475d24a0ff614e61ea5719ae3a"
+    },
+    {
+      "file": "illustrations/baureinigung.svg",
+      "bytes": 3105,
+      "sha256": "e13e45b7e1446ce87f0bf12dc64b6afeae133bdb26039570d76e6d1f4c111183"
+    },
+    {
+      "file": "illustrations/bueroreinigung.svg",
+      "bytes": 3185,
+      "sha256": "fae930983373112a0b645f45f237e6ac8ec1254d0c7bf85fda3a7ab9fad37d68"
+    },
+    {
+      "file": "illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "sha256": "349e2e6243ec0bb85b5563caaadf1e8d3ea0a73df263eb2f7ba3780a0247a1a0"
+    },
+    {
+      "file": "illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "sha256": "a5dbd080b00a01b27f13fbc52f6a76e3f7d5fa522f69d500d2ef35a1941a00bd"
+    },
+    {
+      "file": "illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "sha256": "d2683e0ba8ffc8db10406c984ae8189a0c5b0e8f76dd9e1d74d2aec8a6958378"
+    },
+    {
+      "file": "illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "sha256": "cb0672246a007ae378626919378c99252b5f7ae1252cb604de130bad274efd0e"
+    },
+    {
+      "file": "illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "sha256": "1bb2d23df625a11bc2e29337ec4765234aebf8fd1accfc5020e580e90aeac5ff"
+    },
+    {
+      "file": "illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "sha256": "89b9b39bbaedb6a140bfb552f83e7b67dd6bb07e007c31ca131dc39b86eefcad"
+    },
+    {
+      "file": "illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "sha256": "632493bc430050a14f35b4e39dc59bb64362cdbf2055d094b58b2fab9f795c16"
+    },
+    {
+      "file": "illustrations/glasreinigung.svg",
+      "bytes": 3031,
+      "sha256": "e0e758dd803d041d0f43650503c97762879005226034858542a91ca7fb07f2fa"
+    },
+    {
+      "file": "illustrations/grundreinigung.svg",
+      "bytes": 3068,
+      "sha256": "83b126288eec390a3ffea3c92355429be42a02335594958238973ae58cae49e9"
+    },
+    {
+      "file": "illustrations/hero-cleaning.svg",
+      "bytes": 4399,
+      "sha256": "4748a027e055e728ea51d7f53afb230373aee6e604bf3070e9626657dadc5ed6"
+    },
+    {
+      "file": "illustrations/treppenreinigung.svg",
+      "bytes": 3027,
+      "sha256": "8d084cc64fac6d52437a58664e052c4076262d6bc6e8401abb913315e27df6f1"
+    },
+    {
+      "file": "illustrations/unterhaltsreinigung.svg",
+      "bytes": 3023,
+      "sha256": "f63a9f23486655e65419642f1b2d5f52feb9d812e44bd892a42d135ee4e2382d"
+    },
+    {
+      "file": "images/knaba-3d-footer-en.svg",
+      "bytes": 9459,
+      "sha256": "480b6bd7ce78844ccbfbf21d65303d375e446fa38935637207bbee9842a7d376"
+    },
+    {
+      "file": "images/knaba-3d-footer-ru.svg",
+      "bytes": 9586,
+      "sha256": "5b13fee2288e4a57cc70b87dd85357b4ddb2ff298b1cea8899fb920fdd6b1016"
+    },
+    {
+      "file": "images/knaba-3d-footer-uk.svg",
+      "bytes": 9588,
+      "sha256": "d2fabd6e32c85aabc9fba35ca04798b3eeb0f830454ad5d68a4d8dc59917f31d"
+    },
+    {
+      "file": "images/knaba-3d-footer.svg",
+      "bytes": 9469,
+      "sha256": "907eb33e497b0bdeaa59a74690d41f199576ffb640673188ce2127df09a91323"
+    },
+    {
+      "file": "images/knaba-3d-header-en.svg",
+      "bytes": 9459,
+      "sha256": "77ce5c3c8de02f4678d387bcf9d82f9eabd893f7c4825a17bb6ae2bc5778edfa"
+    },
+    {
+      "file": "images/knaba-3d-header-ru.svg",
+      "bytes": 9586,
+      "sha256": "d1846b983ddf48b970a9d0df182993a7e6be8f7bb9b12d5a1e89dcfab25d0f78"
+    },
+    {
+      "file": "images/knaba-3d-header-uk.svg",
+      "bytes": 9588,
+      "sha256": "2d8ac32fa88de1700d8010e7d2162fc0a9559b1bb9943c71ce3cc0fb1c7f7d87"
+    },
+    {
+      "file": "images/knaba-3d-header.svg",
+      "bytes": 9469,
+      "sha256": "400f9ef8e635d7c5e274567f473783150439314a1c5dd487df7909c6d8accb49"
+    },
+    {
+      "file": "images/knaba-3d-mobile-footer-en.svg",
+      "bytes": 9218,
+      "sha256": "91adf90732be15994129f412a5030c19dc7f5a0795c8ae817e1a9d87ef463ac3"
+    },
+    {
+      "file": "images/knaba-3d-mobile-footer-ru.svg",
+      "bytes": 9273,
+      "sha256": "d93cd76faeba9ed3ffb3c144d3655c9cb95fd7a269fb71f6de30ba57da026369"
+    },
+    {
+      "file": "images/knaba-3d-mobile-footer-uk.svg",
+      "bytes": 9271,
+      "sha256": "08b0faf026a0c7971b80ca9d000735aca4b330d43814e207196bead3b5618779"
+    },
+    {
+      "file": "images/knaba-3d-mobile-footer.svg",
+      "bytes": 9232,
+      "sha256": "9406f7bef01c67250ea8daf82ff053e575719ff39e0f2a80aeca0b0a396cf508"
+    },
+    {
+      "file": "images/knaba-3d-mobile-header-en.svg",
+      "bytes": 9218,
+      "sha256": "fa86f7a1eebac4c84a5dbbdeec308c7ef92f1646b46fb2f44b364f923ad7d6da"
+    },
+    {
+      "file": "images/knaba-3d-mobile-header-ru.svg",
+      "bytes": 9273,
+      "sha256": "e3226988531bc0e2a0eb89e5ea37e55e2070a8abbdf31dfe99cfba2215d71a02"
+    },
+    {
+      "file": "images/knaba-3d-mobile-header-uk.svg",
+      "bytes": 9271,
+      "sha256": "a31f73e828a208fc1b0fc958269ef03bd68450cea698b55b00a7debf83883b9f"
+    },
+    {
+      "file": "images/knaba-3d-mobile-header.svg",
+      "bytes": 9232,
+      "sha256": "cb660f68f72f14b3b3fa3e4f9a735a8f68cd6dfd2e63da9d9ead05cae549e0e6"
+    },
+    {
+      "file": "images/knaba-construction-logo-footer.svg",
+      "bytes": 1889,
+      "sha256": "5447f27081cd5eb4dbaa274527116d246b4822a2df7fc5e93bec1ea3abb88c29"
+    },
+    {
+      "file": "images/knaba-construction-logo.svg",
+      "bytes": 1956,
+      "sha256": "69b38773ccdccb26e5891463532a0b501cf1ab18e10267287da1ad841a54fc2b"
+    },
+    {
+      "file": "images/knaba-construction-mark.svg",
+      "bytes": 1436,
+      "sha256": "4f2f6774d6301de68a5d0c79b7e8fe9db4ad68475d24a0ff614e61ea5719ae3a"
+    },
+    {
+      "file": "images/knaba-mobile-192.png",
+      "bytes": 4886,
+      "sha256": "4d7c376de16fc7d37d5cdaadb29edc0e4f1e72507489d6bb650a943ce9fd5ce0"
+    },
+    {
+      "file": "images/knaba-mobile-512.png",
+      "bytes": 33366,
+      "sha256": "1ee645f867478464eaefec817313041a3bb945782f61bb46135311c8e00046ad"
+    },
+    {
+      "file": "images/knaba-social-de.png",
+      "bytes": 105717,
+      "sha256": "6104c790c590953e3bc90aedf32417d820293aa9161d7353b11383379a4be0c0"
+    },
+    {
+      "file": "images/knaba-social-en.png",
+      "bytes": 106057,
+      "sha256": "c528949545e24e30ebedc5d07cc5efa1cf2de96c733cc91d4439028d4c7b0da8"
+    },
+    {
+      "file": "images/knaba-social-ru.png",
+      "bytes": 105514,
+      "sha256": "0823b64f6810200a38f3c14a760009bf4c1f69698ec66a829887c11070c0867e"
+    },
+    {
+      "file": "images/knaba-social-uk.png",
+      "bytes": 105462,
+      "sha256": "b50dfcef72faab2c52cab1f9355db18e719f4f6de55154073d39094f0a6862d9"
+    },
+    {
+      "file": "images/knaba-social.png",
+      "bytes": 29274,
+      "sha256": "2718ec76b095300a3a9bafc5e89d76de0deacddc953189dfc3c3e1d6725f340b"
+    },
+    {
+      "file": "images/partners/bonava.jpeg",
+      "bytes": 6361,
+      "sha256": "21da7240c43452353d82df6d445ee84075775b0e4fd02c0ff9a3e76362e4266c"
+    },
+    {
+      "file": "images/partners/bonava.jpg",
+      "bytes": 6361,
+      "sha256": "21da7240c43452353d82df6d445ee84075775b0e4fd02c0ff9a3e76362e4266c"
+    },
+    {
+      "file": "images/partners/gewobag.png",
+      "bytes": 60879,
+      "sha256": "9fb74f5e0bd9a20740d5e833b6a93dd10cb830b355062fbe687c397d80e410cc"
+    },
+    {
+      "file": "images/partners/goldbeck.jpeg",
+      "bytes": 10585,
+      "sha256": "7c179d36d3bfa3168c462b74453e42565bba5fd854cd957260aa99d4dfd7fbc3"
+    },
+    {
+      "file": "images/partners/goldbeck.jpg",
+      "bytes": 10585,
+      "sha256": "7c179d36d3bfa3168c462b74453e42565bba5fd854cd957260aa99d4dfd7fbc3"
+    },
+    {
+      "file": "images/partners/hit.png",
+      "bytes": 7875,
+      "sha256": "8e644d3511f9a6d11a9e58a4cbd47bbd73da8a10ba24c6cf123b71548ad7c1f5"
+    },
+    {
+      "file": "images/partners/stromkreis.png",
+      "bytes": 28848,
+      "sha256": "87fa8ca2427ab77d57b57906efd52b725ee57a1bac9344661139328d47b2f8f9"
+    },
+    {
+      "file": "languages.json",
+      "bytes": 6952,
+      "sha256": "59eceec23730cd6f41ebc27fa035ced9a331a2d59197713d077807140c70d7b6"
+    },
+    {
+      "file": "mobile-sw.js",
+      "bytes": 276,
+      "sha256": "5df9df9a1a389bf3d1f31dd0f6423286e7bf65b37a92f0f36d727d7280d88882"
+    },
+    {
+      "file": "robots.txt",
+      "bytes": 260,
+      "sha256": "f14a07430567d8078d01b5e911f1b7f464f1a30e24b81e0651d9601cb8891dd3"
+    },
+    {
+      "file": "sitemap.xml",
+      "bytes": 152,
+      "sha256": "7e69c4eb1b1422173488cc277e2e65340c5b0cba0840f463020ed16c1832673d"
+    },
+    {
+      "file": "studio-media.json",
+      "bytes": 1181,
+      "sha256": "d3d4a731e53b873a6afc57b8f2bce6adaea3e7e5b87811b39eb934d902ce89b0"
+    }
+  ]
+}

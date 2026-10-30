@@ -1,0 +1,62 @@
+{
+  "project": "KNABA",
+  "work": "Studio Pro source candidate",
+  "date": "2026-10-25",
+  "live_base_sha": "77c2a96a870d1ba0e5a0bf766dee1aca541ada8a",
+  "source_sha": "24dd7fc826ff50c3fab9273ce9e654fbee2095b6",
+  "build_artifact_sha256": "80e1242106ebf75ab5dd608da099d896e363661c3fcef9aa1f243a2fa974b511",
+  "qa": {
+    "Node": "24.22.1",
+    "astro_vue_svelte_errors": 0,
+    "astro_vue_svelte_warnings": 0,
+    "vitest": {
+      "pass": 137,
+      "total": 137,
+      "files": 22
+    },
+    "inquiry": {
+      "pass": 8,
+      "total": 8
+    },
+    "vps": {
+      "pass": 16,
+      "total": 16
+    },
+    "astro_html_pages": 99,
+    "static_verification": "PASS",
+    "browser": {
+      "type": "Chromium",
+      "test_origin": "https://knaba.test:19443",
+      "DB": "synthetic temporary SQLite",
+      "network": "none",
+      "authenticated_owner": true,
+      "saved_and_published": true,
+      "undo": true,
+      "manual": true,
+      "SSR": true,
+      "icon_link_selection": true,
+      "js_errors": 0
+    }
+  },
+  "features": {
+    "published_layout_tokens": true,
+    "manual_safe_json": true,
+    "visual_selection": true,
+    "available_public_paths": 68,
+    "available_bundled_artwork": true,
+    "ai_status_only": true,
+    "arbitrary_html_editor": false,
+    "drag_drop_blocks": false,
+    "media_upload": false,
+    "paid_ai_enabled": false
+  },
+  "gates": {
+    "live_owner_UAT": "NOT_RUN",
+    "live_owner_readyz": 503,
+    "disk_usage_approx_percent": 96,
+    "independent_security_review": "NOT_RUN",
+    "physical_device_a11y": "NOT_RUN",
+    "production_approval": "BLOCKED",
+    "official_domain_changed": false
+  }
+}

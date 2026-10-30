@@ -1,0 +1,70 @@
+[
+  {
+    "locale": "de",
+    "badges": [
+      "Beispiel · frei erfunden",
+      "Beispiel · frei erfunden",
+      "Beispiel · frei erfunden"
+    ],
+    "disclosure": "Die folgenden Texte sind frei erfundene Beispiele. Sie stammen nicht von Kunden und belegen keine ausgeführten Aufträge.",
+    "partnerLinks": [
+      "/partner/#goldbeck",
+      "/partner/#bonava",
+      "/partner/#hit",
+      "/partner/#stromkreis",
+      "/partner/#gewobag"
+    ],
+    "title": "So könnte eine Rückmeldung aussehen"
+  },
+  {
+    "locale": "en",
+    "badges": [
+      "Example · fictional text",
+      "Example · fictional text",
+      "Example · fictional text"
+    ],
+    "disclosure": "The following texts are fictional examples. They are not customer reviews and do not document completed projects.",
+    "partnerLinks": [
+      "/en/partner/#goldbeck",
+      "/en/partner/#bonava",
+      "/en/partner/#hit",
+      "/en/partner/#stromkreis",
+      "/en/partner/#gewobag"
+    ],
+    "title": "What feedback could look like"
+  },
+  {
+    "locale": "uk",
+    "badges": [
+      "Приклад відгуку · вигаданий текст",
+      "Приклад відгуку · вигаданий текст",
+      "Приклад відгуку · вигаданий текст"
+    ],
+    "disclosure": "Нижче — вигадані приклади текстів. Це не відгуки клієнтів і не підтвердження виконаних замовлень.",
+    "partnerLinks": [
+      "/uk/partner/#goldbeck",
+      "/uk/partner/#bonava",
+      "/uk/partner/#hit",
+      "/uk/partner/#stromkreis",
+      "/uk/partner/#gewobag"
+    ],
+    "title": "Як може виглядати відгук"
+  },
+  {
+    "locale": "ru",
+    "badges": [
+      "Пример отзыва · вымышленный текст",
+      "Пример отзыва · вымышленный текст",
+      "Пример отзыва · вымышленный текст"
+    ],
+    "disclosure": "Ниже — вымышленные примеры текстов. Это не отзывы клиентов и не подтверждение выполненных заказов.",
+    "partnerLinks": [
+      "/ru/partner/#goldbeck",
+      "/ru/partner/#bonava",
+      "/ru/partner/#hit",
+      "/ru/partner/#stromkreis",
+      "/ru/partner/#gewobag"
+    ],
+    "title": "Как может выглядеть отзыв"
+  }
+]

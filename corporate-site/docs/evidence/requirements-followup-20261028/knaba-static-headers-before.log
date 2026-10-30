@@ -1,0 +1,183 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v5.0.5 /workspace/scratch/9edc85de5c65/knaba-current/corporate-site
+
+ ❯ tests/worker-static-headers.test.ts (31 tests | 24 failed) 57ms
+   ❯ native Worker static response headers (31)
+     × defaults to staging noindex for release mode undefined 27ms
+     × defaults to staging noindex for release mode  1ms
+     × defaults to staging noindex for release mode staging 1ms
+     × defaults to staging noindex for release mode OFFICIAL 1ms
+     × defaults to staging noindex for release mode unknown 1ms
+     × keeps private route /admin uncacheable in official mode 2ms
+     × keeps private route /admin/ uncacheable in official mode 1ms
+     × keeps private route /studio/ uncacheable in official mode 1ms
+     × keeps private route /crm/ uncacheable in official mode 1ms
+     × keeps private route /konto/ uncacheable in official mode 1ms
+     × keeps private route /ru/konto/ uncacheable in official mode 1ms
+     × keeps private route /en/konto/ uncacheable in official mode 1ms
+     × keeps private route /uk/konto/ uncacheable in official mode 1ms
+     × keeps private route /postfach/ uncacheable in official mode 1ms
+     × keeps private route /ru/postfach/ uncacheable in official mode 1ms
+     × keeps private route /login/ uncacheable in official mode 1ms
+     × keeps private route /logout/ uncacheable in official mode 1ms
+     × preserves public asset caching and applies the existing immutable _astro policy 1ms
+     × preserves a bodyless HEAD 200 response 1ms
+     × preserves a bodyless GET 304 response 0ms
+     × preserves a bodyless HEAD 304 response 0ms
+     × handles immutable redirect headers without changing the redirect 1ms
+     × preserves an asset 404 body and status 1ms
+     × adds static safety headers to the unavailable-assets fallback and respects HEAD 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 24 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > defaults to staging noindex for release mode undefined
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > defaults to staging noindex for release mode 
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > defaults to staging noindex for release mode staging
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > defaults to staging noindex for release mode OFFICIAL
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > defaults to staging noindex for release mode unknown
+AssertionError: expected null to be 'noindex, follow' // Object.is equality
+
+- Expected:
+"noindex, follow"
+
++ Received:
+null
+
+ ❯ tests/worker-static-headers.test.ts:20:50
+     18|     const response = await worker.fetch(req, env);
+     19|     expect(fetch).toHaveBeenCalledExactlyOnceWith(req);
+     20|     expect(response.headers.get('X-Robots-Tag')).toBe('noindex, follow…
+       |                                                  ^
+     21|     expect(response.headers.get('X-Content-Type-Options')).toBe('nosni…
+     22|     expect(response.headers.get('Referrer-Policy')).toBe('strict-origi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/24]⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /admin uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /admin/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /studio/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /crm/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /konto/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /ru/konto/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /en/konto/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /uk/konto/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /postfach/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /ru/postfach/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /login/ uncacheable in official mode
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > keeps private route /logout/ uncacheable in official mode
+AssertionError: expected 'public, max-age=3600' to be 'private, no-store' // Object.is equality
+
+Expected: "private, no-store"
+Received: "public, max-age=3600"
+
+ ❯ tests/worker-static-headers.test.ts:40:51
+     38|     const { env } = assets(new Response('private shell', { headers: { …
+     39|     const response = await worker.fetch(request(route), env);
+     40|     expect(response.headers.get('Cache-Control')).toBe('private, no-st…
+       |                                                   ^
+     41|     expect(response.headers.get('X-Robots-Tag')).toBe('noindex, nofoll…
+     42|     expect(await response.text()).toBe('private shell');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/24]⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > preserves public asset caching and applies the existing immutable _astro policy
+AssertionError: expected 'public, max-age=0' to be 'public, max-age=31536000, immutable' // Object.is equality
+
+Expected: "public, max-age=31536000, immutable"
+Received: "public, max-age=0"
+
+ ❯ tests/worker-static-headers.test.ts:50:51
+     48|     const hashed = assets(new Response('script', { headers: { 'Content…
+     49|     const response = await worker.fetch(request('/_astro/page.abc123.j…
+     50|     expect(response.headers.get('Cache-Control')).toBe('public, max-ag…
+       |                                                   ^
+     51|     expect(await response.text()).toBe('script');
+     52|     const similarPublicPath = assets(new Response('public', { headers:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/24]⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > preserves a bodyless HEAD 200 response
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > preserves a bodyless GET 304 response
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > preserves a bodyless HEAD 304 response
+AssertionError: expected null to be 'noindex, follow' // Object.is equality
+
+- Expected:
+"noindex, follow"
+
++ Received:
+null
+
+ ❯ tests/worker-static-headers.test.ts:83:50
+     81|     expect(response.headers.get('Content-Length')).toBe('1200');
+     82|     expect(response.headers.get('ETag')).toBe('"unchanged"');
+     83|     expect(response.headers.get('X-Robots-Tag')).toBe('noindex, follow…
+       |                                                  ^
+     84|   });
+     85|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/24]⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > handles immutable redirect headers without changing the redirect
+AssertionError: expected null to be 'private, no-store' // Object.is equality
+
+- Expected:
+"private, no-store"
+
++ Received:
+null
+
+ ❯ tests/worker-static-headers.test.ts:91:51
+     89|     expect(response.status).toBe(308);
+     90|     expect(response.headers.get('Location')).toBe(origin + '/konto/');
+     91|     expect(response.headers.get('Cache-Control')).toBe('private, no-st…
+       |                                                   ^
+     92|     expect(response.body).toBeNull();
+     93|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/24]⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > preserves an asset 404 body and status
+AssertionError: expected null to be 'noindex, follow' // Object.is equality
+
+- Expected:
+"noindex, follow"
+
++ Received:
+null
+
+ ❯ tests/worker-static-headers.test.ts:100:50
+     98|     expect(response.status).toBe(404);
+     99|     expect(response.statusText).toBe('Not Found');
+    100|     expect(response.headers.get('X-Robots-Tag')).toBe('noindex, follow…
+       |                                                  ^
+    101|     expect(await response.text()).toBe('not found page');
+    102|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/24]⎯
+
+ FAIL  tests/worker-static-headers.test.ts > native Worker static response headers > adds static safety headers to the unavailable-assets fallback and respects HEAD
+AssertionError: expected null to be 'noindex, follow' // Object.is equality
+
+- Expected:
+"noindex, follow"
+
++ Received:
+null
+
+ ❯ tests/worker-static-headers.test.ts:109:52
+    107|       expect(response.status).toBe(503);
+    108|       expect(response.headers.get('Cache-Control')).toBe('no-store');
+    109|       expect(response.headers.get('X-Robots-Tag')).toBe('noindex, foll…
+       |                                                    ^
+    110|       expect(await response.text()).toBe(method === 'HEAD' ? '' : 'Die…
+    111|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/24]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  24 failed | 7 passed (31)
+   Start at  15:02:30
+   Duration  293ms (transform 43%, tests 35%, import 19%, worker 3%)
+

@@ -1,0 +1,28 @@
+{
+  "base_sha": "fcce39ca316419417b2eb7d97605bf4006ab5652",
+  "state": "working-tree candidate",
+  "utc": "2026-10-28T06:56:00Z",
+  "scope": "privacy notice roles and newly stored acknowledgement version, no historic-data rewrite",
+  "red": "3 focused tests reproduced 2026-10-24 vs expected 2026-10-28",
+  "focused": {
+    "vitest": "35/35 PASS assistant.test.ts + portal.test.ts",
+    "node": "14/14 PASS with --test-isolation=none legal-regression + account-invite",
+    "sqlite": "new access request version correct; historical version preserved"
+  },
+  "full_verification": "verification-working-tree.json",
+  "sources": [
+    "https://www.gesetze-im-internet.de/ddg/__5.html",
+    "https://www.gesetze-im-internet.de/ttdsg/__25.html",
+    "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "https://www.gesetze-im-internet.de/vsbg/__36.html",
+    "https://www.gesetze-im-internet.de/bfsg/",
+    "https://www.gesetze-im-internet.de/a_g/__1b.html",
+    "https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act",
+    "https://eur-lex.europa.eu/eli/reg/2024/3228/oj"
+  ],
+  "limitations": [
+    "Initial default native subprocess focused test failed without diagnostic details; later standard full npm test and test:vps completed successfully in permitted execution environment.",
+    "No legal guarantee or owner factual approval",
+    "OIDC provider disclosure remains a prerequisite before activation"
+  ]
+}

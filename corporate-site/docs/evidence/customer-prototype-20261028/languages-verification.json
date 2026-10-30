@@ -1,0 +1,92 @@
+{
+  "scope": "six-language-customer-prototype",
+  "recordedAt": "2026-10-28T13:49:38.265Z",
+  "source": {
+    "status": "TESTED_WORKING_TREE_NOT_YET_COMMITTED",
+    "baseGitHead": "9915541f3c177b8208d8c4ccdc6385fdbc271144",
+    "manifest": "site-source-manifest.json",
+    "sha256": "532cd2a9d98db720262145d121725397ff7ce0cba033d2c29f1e43ff3548b474",
+    "fileCount": 371
+  },
+  "languages": {
+    "default": "de",
+    "order": [
+      "de",
+      "en",
+      "pl",
+      "lt",
+      "ru",
+      "uk"
+    ],
+    "publishedEntryLanguages": 6,
+    "pendingTargets": 0,
+    "scope": "Genuine six-language core routes; untranslated detail/legal routes visibly use German."
+  },
+  "checks": {
+    "typecheck": {
+      "status": "PASS",
+      "files": 380,
+      "errors": 0,
+      "warnings": 0,
+      "hints": 7
+    },
+    "vitest": {
+      "status": "PASS",
+      "files": 49,
+      "tests": 343
+    },
+    "nativeNode": {
+      "status": "PASS",
+      "fileInvocations": 9
+    },
+    "build": {
+      "status": "PASS",
+      "mode": "VSP_STAGING_NOINDEX",
+      "htmlPages": 160
+    },
+    "sourceCatalog": {
+      "status": "PASS",
+      "germanRoutes": 28,
+      "units": 1063,
+      "sha256": "d36fd17fc7a975dacb6dd4e754e771c9b309f3d6528f4a017525b696b28acfbd"
+    },
+    "staticBuildAndI18n": {
+      "status": "PASS",
+      "coreLocalePagesAudited": 36,
+      "svgAssetsAudited": 24
+    },
+    "vps": {
+      "status": "PASS",
+      "tests": 121,
+      "failed": 0,
+      "skipped": 0,
+      "data": "Synthetic isolated SQLite, local loopback HTTP"
+    }
+  },
+  "payload": {
+    "cssGzipBytes": 40197,
+    "cssLimitBytes": 40960,
+    "allClientJsGzipBytes": 222254,
+    "jsLimitBytes": 225280,
+    "limitsChanged": false,
+    "translationData": "Selected-language content-addressed JSON; exact packaged-source parity verified."
+  },
+  "artifact": {
+    "clientSha256": "5edbc520516650042994033fc8844111dc5fa131b999bb51339d095af0d0181b",
+    "report": "site-build-verification.json"
+  },
+  "remaining": {
+    "realBrowser": "DELEGATED_TO_ROOT_NOT_RUN_BY_LANGUAGE_AGENT",
+    "nativeLanguageReview": "NOT_RUN",
+    "physicalDevices": "NOT_RUN",
+    "customerOwnerAcceptance": "NOT_RUN",
+    "fieldWebVitals": "NOT_RUN",
+    "otherSpecialistEditorScreens": "EXISTING_LOCALIZATION_SCOPE_RETAINED"
+  },
+  "diagnostics": [
+    "Default sandbox blocked local listen with EPERM; VPS suite passed under scoped loopback automatic-review authorization.",
+    "Optional Wrangler runtime-log write returned EROFS; build exit code was 0 and independent artifact verification passed.",
+    "The later root browser acceptance harness is excluded from this runtime manifest and must receive its own execution receipt."
+  ],
+  "logCopyFormatting": "Trailing whitespace removed from versioned log copies; timestamps, commands, statuses and counts unchanged. Raw process logs retained separately during the release."
+}

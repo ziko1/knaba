@@ -1,0 +1,85 @@
+{
+  "status": "NATIVE_ACCEPTANCE_FAILED_ANDROID_VERIFIED_IOS_COMPILE_ONLY",
+  "verifiedAt": "2026-10-06T22:30:23.825747+00:00",
+  "runId": 37540400013,
+  "runURL": "https://github.com/ziko1/knaba/actions/runs/37540400013",
+  "sourceGitSha": "61a437e878bc72c958a9f3acab2c4016d979d831",
+  "sourceTree": "97f0b929b930d0431cd17c00bbbabf85ae0f90a2",
+  "providerRunConclusion": "failure",
+  "providerReceiptSha256": "3de5ea03f3c2f9de1ed83ffcd673f98186af67249eeed172e198799a762ce72c",
+  "android": {
+    "status": "PASSED_EXACT_SOURCE_ANDROID_ARTIFACT_VERIFICATION",
+    "runId": 37540400013,
+    "jobId": 112531727727,
+    "artifactId": 11447894641,
+    "sourceGitSha": "61a437e878bc72c958a9f3acab2c4016d979d831",
+    "checkedAt": "2026-10-06T22:27:38.774659+00:00",
+    "outerPath": "/workspace/attachments/0a22d64e-00b9-49c8-b398-d1e0305d287d/knaba-native-37540400013-android.zip",
+    "outerSha256": "7c0a8ba89f045ffef8c4197d6c3ab4ba35b2d85f28666957fc2d835734616986",
+    "outerBytes": 935814,
+    "crcEntriesChecked": 14,
+    "apkSha256": "73b3fb684db3f043cd1e3097583a46b853c5ae4c0c83d3abd06ca9ca8211a445",
+    "apkBytes": 940080,
+    "signature": {
+      "status": "PASSED_LOCAL_CRYPTOGRAPHIC_VERIFICATION",
+      "scheme": "APK_V2_RSA_PKCS1_SHA256",
+      "contentDigest": "673654061635f42c472aa3c6ef507e6031a95365058a480e19ba446e05c2dd63",
+      "certificateSha256": "eab8f990e0666f059944189c1df122ffb462a0f76ee15960e0ff1c1a6f3c9a9f",
+      "keyBits": 2048,
+      "signingScope": "EPHEMERAL_ANDROID_DEBUG_KEY"
+    },
+    "physicalReleaseGPS": "NOT_RUN",
+    "apkCRCEntriesChecked": 14,
+    "lint": {
+      "status": "PASSED_WITH_WARNINGS",
+      "errors": 0,
+      "warnings": 8,
+      "warningIds": [
+        "AndroidGradlePluginVersion",
+        "AppBundleLocaleChanges",
+        "DataExtractionRules",
+        "InlinedApi",
+        "MissingApplicationIcon",
+        "OldTargetApi",
+        "PluralsCandidate"
+      ]
+    },
+    "javaVectors": {
+      "geometry": 16,
+      "languageAndDisplayClock": 36,
+      "totalPassed": 52,
+      "scope": "ACTUAL_HOSTED_SYNTHETIC_JAVA_VECTORS"
+    },
+    "negativeActualContentTamper": {
+      "status": "REJECTED",
+      "originalBytes": "UNCHANGED"
+    }
+  },
+  "ios": {
+    "status": "FAILED_XCTEST_DESTINATION_UNAVAILABLE",
+    "jobId": 112531727459,
+    "artifactId": 11447474576,
+    "outerPath": "/workspace/attachments/aa7df602-7848-4bb3-a8aa-dbf50e92625f/knaba-native-37540400013-ios-failed.zip",
+    "outerBytes": 15288,
+    "outerSha256": "e446efd94f09f88edece683589104201b102d4ba95e40bb248af1241a343443e",
+    "outerEntriesCRCChecked": 17,
+    "unsignedSimulatorCompile": "ACTUAL_HOSTED_PASSED",
+    "xctestStage": "FAILED_BEFORE_TEST_EXECUTION",
+    "executedXCTestCasesObserved": 0,
+    "simulatorAppArchive": "NOT_CREATED_ARCHIVE_STEP_SKIPPED",
+    "appHashesOrExecutableSignature": "NOT_VERIFIABLE_NO_APP_ARCHIVE",
+    "failure": {
+      "exitCode": 70,
+      "at": "2026-10-06T22:28:11Z",
+      "reason": "No available concrete destination for platform iOS Simulator, OS18.5, iPhone16; only placeholder destinations shown.",
+      "runtimeAvailability": "NOT_DIAGNOSED_NO_SIMCTL_RUNTIME_LOG",
+      "SDK": "ACTUAL_IPHONESIMULATOR18_5_PRESENT"
+    },
+    "rawActualJobLogPath": "/workspace/knaba-de/.local/native-37540400013-ios-job.log",
+    "rawActualJobLogSha256": "939be39fbd6c08bf98fbee1ea595ae4e51ff98809896d4b5f68dfd95acd58dd1",
+    "physicalGPSReleaseIPA": "NOT_RUN"
+  },
+  "laterSourceAcceptance": "NOT_INFERRED",
+  "productionSigningPhysicalGPSBattery": "NOT_RUN",
+  "scope": "Actual downloaded exact61a artifacts and provider run/jobs; Android debug APK full independent cryptographic/content proof, Java/lint receipts; iOS actual compile success and destination failure preserved. No overall native acceptance PASS."
+}

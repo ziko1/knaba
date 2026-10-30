@@ -1,0 +1,35 @@
+---
+import {company} from '../data/company';
+import type {ConstructionLocale} from '../data/construction-offers';
+const {locale='de',compact=false}=Astro.props as {locale:ConstructionLocale;compact?:boolean};
+const prefix=locale==='de'?'':'/'+locale;
+const t={
+ de:{label:'DAS UNTERNEHMEN',title:'Ihr Bauprojekt hat einen direkten Ansprechpartner.',intro:'KnaBa aus Berlin verbindet Baureinigung und vereinbarte Bauhilfsarbeiten. Für eine konkrete Anfrage erreichen Sie das Unternehmen direkt.',more:'KnaBa kennenlernen',facts:'KnaBa auf einen Blick',legal:'Unternehmen',address:'Standort',region:'Projektregion nach Abstimmung',regionValue:'Berlin & Brandenburg',vat:'Umsatzsteuer-ID',contact:'Direkter Kontakt',phone:'Anrufen',email:'E-Mail schreiben',imprint:'Vollständiges Impressum',focus:'Baureinigung · Baustellenvorbereitung · Bauhilfsarbeiten',note:'Projektumfang, Einsatzort und Verfügbarkeit werden vor der Beauftragung persönlich abgestimmt.'},
+ en:{label:'THE COMPANY',title:'A direct contact for your construction project.',intro:'Based in Berlin, KnaBa combines construction cleaning with agreed site support. Contact the company directly to discuss a specific project.',more:'Meet KnaBa',facts:'KnaBa at a glance',legal:'Business',address:'Location',region:'Project region by agreement',regionValue:'Berlin & Brandenburg',vat:'VAT ID',contact:'Direct contact',phone:'Call KnaBa',email:'Write an email',imprint:'Full legal notice (DE)',focus:'Construction cleaning · Site preparation · Auxiliary work',note:'Scope, project location and availability are agreed personally before commissioning.'},
+ uk:{label:'ПРО КОМПАНІЮ',title:'Прямий контакт для вашого будівельного проєкту.',intro:'KnaBa з Берліна поєднує будівельний клінінг і погоджені допоміжні роботи. Зверніться до компанії, щоб обговорити конкретний об’єкт.',more:'Дізнатися про KnaBa',facts:'Коротко про KnaBa',legal:'Підприємство',address:'Адреса',region:'Регіон робіт за домовленістю',regionValue:'Берлін і Бранденбург',vat:'Номер платника ПДВ',contact:'Прямий зв’язок',phone:'Зателефонувати',email:'Написати листа',imprint:'Юридична інформація (DE)',focus:'Будівельний клінінг · Підготовка майданчика · Допоміжні роботи',note:'Обсяг, місце робіт і доступність особисто узгоджуються до замовлення.'},
+ ru:{label:'О КОМПАНИИ',title:'Прямой контакт для вашего строительного проекта.',intro:'KnaBa из Берлина объединяет строительный клининг и согласованные подсобные работы. Свяжитесь с компанией, чтобы обсудить конкретный объект.',more:'Узнать о KnaBa',facts:'Коротко о KnaBa',legal:'Предприятие',address:'Адрес',region:'Регион работ по договорённости',regionValue:'Берлин и Бранденбург',vat:'Номер плательщика НДС',contact:'Прямая связь',phone:'Позвонить',email:'Написать письмо',imprint:'Юридическая информация',focus:'Строительный клининг · Подготовка площадки · Подсобные работы',note:'Объём, место работ и доступность лично согласуются до заказа.'},
+}[locale];
+const imprint=locale==='ru'?'/ru/impressum/':'/impressum/';
+---
+<section class:list={['container','company-profile',{'company-profile-compact':compact}]} aria-labelledby="company-profile-title">
+  <div class="company-profile-intro">
+    <p class="eyebrow">{t.label}</p><h2 id="company-profile-title">{compact?t.title:t.facts}</h2>
+    <p>{t.intro}</p><p class="company-profile-focus">{t.focus}</p>
+    {compact?<a class="text-link" href={prefix+'/unternehmen/'}>{t.more} <span aria-hidden="true">↗</span></a>:<p class="company-profile-note">{t.note}</p>}
+  </div>
+  <div class="company-profile-card">
+    {compact?<><h3>{t.contact}</h3><p class="company-profile-name">{company.name}</p><p>{company.street}<br/>{company.city}</p></>:<dl>
+      <div><dt>{t.legal}</dt><dd>{company.legalName}</dd></div>
+      <div><dt>{t.address}</dt><dd>{company.street}, {company.city}</dd></div>
+      <div><dt>{t.region}</dt><dd>{t.regionValue}</dd></div>
+      <div><dt>{t.vat}</dt><dd>{company.vatId}</dd></div>
+    </dl>}
+    <div class="company-profile-contact"><a href={company.phoneHref}><span>{t.phone}</span>{company.phone}</a><a href={'mailto:'+company.email}><span>{t.email}</span>{company.email}</a></div>
+    {!compact&&<a class="text-link" href={imprint}>{t.imprint} <span aria-hidden="true">↗</span></a>}
+  </div>
+</section>
+<style>
+.company-profile{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center;padding-block:clamp(36px,6vw,80px)}
+.company-profile-intro,.company-profile-card{min-width:0;overflow-wrap:anywhere}.company-profile h2{font-size:clamp(30px,3.7vw,48px);line-height:1.15;letter-spacing:-.045em;color:#0b313b;margin:14px 0 22px;text-wrap:balance}.company-profile p{line-height:1.75;color:#405f58}.company-profile .company-profile-focus{font-weight:700;color:#17585a;margin:24px 0}.company-profile-note{font-size:14px}.company-profile-card{padding:clamp(22px,3vw,38px);background:linear-gradient(140deg,#e3f1eb,#f2f5df);border:1px solid #bdd7c9;border-radius:24px}.company-profile-card h3{font-size:17px;color:#255b55;margin:0 0 12px}.company-profile-card .company-profile-name{font-size:32px;letter-spacing:-.04em;font-weight:850;color:#103b41;margin:0}.company-profile dl{margin:0}.company-profile dl>div{padding:14px 0;border-bottom:1px solid #c7dbd0}.company-profile dl>div:first-child{padding-top:0}.company-profile dt{font-size:13px;color:#48645b;margin-bottom:6px}.company-profile dd{margin:0;font-weight:700;line-height:1.6;color:#153c42}.company-profile-contact{display:grid;gap:12px;margin:24px 0}.company-profile-contact>a{display:flex;flex-direction:column;gap:4px;min-height:48px;color:#075e66;font-weight:750;text-underline-offset:4px}.company-profile-contact>a>span{font-size:12px;font-weight:500;color:#405f58}.company-profile a:focus-visible{outline:3px solid #08777b;outline-offset:4px;border-radius:3px}.company-profile a:hover{color:#103b41}.company-profile .text-link{display:inline-flex;align-items:center;gap:12px;min-height:44px;line-height:1.5}
+@media(max-width:760px){.company-profile{grid-template-columns:1fr;gap:24px}.company-profile h2{max-width:24ch}}
+</style>

@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-28",
+  "scope": "KnaBa visual presentation source candidate; no deployment",
+  "baseSourceSha": "9127b1d3424517ea061df2eea2ecc820a6bcfbde",
+  "sourceState": "Committed visual candidate 8e6846b91064649841adf2078fd1ba5c5273f6ee plus the final entrance-opacity removal; owning release task records the follow-up commit.",
+  "runtime": "Node v24.22.1",
+  "sourceFiles": {
+    "src/layouts/Layout.astro": "66326c20d40dbbaf310924e158ff250b72fe2bbae06f1a87c047d97282b2cd32",
+    "src/styles/global.css": "27261a5be479debccbc4691ee900c8e1646d16a267b7031fca0d64673f8e0250",
+    "src/styles/visual-polish.css": "58e4b6102a0ff03ea85dc4535ac59b062d9809e80c502ba32ca804f9b7fdbe5f",
+    "src/scripts/visual-motion.ts": "e3c4c9a7baf2edd887cbe05337a56e5af1dd91587e26b4e44fd274ed4848ce6e"
+  },
+  "checks": {
+    "rootNpmTest": {
+      "status": "PASS",
+      "exitCode": 0,
+      "nativeAssertions": 25
+    },
+    "moduleCheck": {
+      "status": "PASS",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "existingAstroHints": 6
+    },
+    "moduleNpmTest": {
+      "status": "PASS",
+      "exitCode": 0,
+      "vitestTests": 263,
+      "vitestFiles": 41,
+      "nativeAssertions": 77
+    },
+    "nativeCountVerification": {
+      "status": "PASS",
+      "method": "Same native Node test files rerun with --test-isolation=none --test-reporter=tap to expose assertion counts"
+    },
+    "build": {
+      "status": "PASS",
+      "pages": 130,
+      "artifactSha256": "9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d"
+    },
+    "buildVerifier": {
+      "status": "PASS",
+      "internalLinks": "PASS",
+      "metadata": "PASS",
+      "mode": "VSP_STAGING_NOINDEX",
+      "cssGzip": 39767,
+      "cssBudgetBytes": 40960,
+      "clientJsGzip": 193024,
+      "clientJsBudgetBytes": 225280,
+      "publishedLocales": 4,
+      "plannedLocales": 95,
+      "i18nRoutes": 28,
+      "i18nUnits": 1053
+    },
+    "originalContentContract": {
+      "status": "PASS",
+      "pages": 130,
+      "textFragments": 15184,
+      "links": 6098,
+      "controls": 938,
+      "artifactSha256": "9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d"
+    },
+    "browser": {
+      "status": "BLOCKED",
+      "reason": "Managed terminal.local preview returned ERR_HTTP_RESPONSE_CODE_FAILURE; following error URL was rejected by browser policy. No retry/bypass or visual/mobile/device PASS claimed."
+    },
+    "vpsTests": {
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 90,
+      "failures": 0,
+      "durationMs": 9971.700041,
+      "ordering": "Rerun on the completed final build after entrance-opacity removal, using the already authorized local fixture/loopback gate; 90/90 PASS."
+    },
+    "deployment": {
+      "status": "NOT_RUN"
+    },
+    "fieldCoreWebVitals": {
+      "status": "NOT_RUN"
+    },
+    "networkTransfer": {
+      "status": "NOT_MEASURED"
+    },
+    "restrictedVpsAttempt": {
+      "status": "BLOCKED",
+      "scope": "Restricted local fixture process/loopback execution",
+      "supersededBy": "Completed authorized 90/90 VPS regression run, exit0",
+      "log": "knaba-vps-motion-final.log"
+    }
+  },
+  "independentReviewFixes": [
+    "Carousel active-dot highlight targets ::before, preserving the 44px button hit target without a large colored block.",
+    "FAQ even-group background changed to #e9f9fa to retain small-heading contrast with existing #197b77 text.",
+    "Carousel slide accents 2/6/7 darkened to #075d7b/#055f58/#813c29; hero decorative pseudo-element bounded by inset:0.",
+    "Final motion keeps only a 14px translate entrance; removed opacity fading so existing text contrast is not reduced during motion."
+  ],
+  "executionOrdering": "Managed preview stopped before final standalone build; previous simultaneous preview/build writers generated a duplicate Layout stylesheet. Final build artifact is the sole validated result.",
+  "pruning": "Applied only the zero-reference legacy-selector pruning. No duplicate-declaration optimization applied. Live content, routes, controls and behavior retained.",
+  "logsSHA256": {
+    "knaba-root-tests-motion-final.log": "44ef03743c55fa49ef4df8335c0773cccd3344936cc71fe7c31baa52d73ac15f",
+    "knaba-check-motion-final.log": "e0aa5fe7f8558557c7c5d2a5ff53666b5aee8140ec1a5fd04cd3a3b6c2d31759",
+    "knaba-tests-motion-final.log": "821d0156eb8952def3ba0f79e292d3dd0753229e74ead033952b2c3c8ff486ca",
+    "knaba-root-native-motion-final.tap": "ab3426613e14e00b10653b2505aec155d45cf4d8e2d18b2ae56ce81dc2849b07",
+    "knaba-native-motion-final.tap": "eb5485701d8e98bb9d5a4ed6069218565e93284dc28bb26b2c509f3cd9adf1ce",
+    "knaba-vps-tests-authorized.log": "d18b91321dc2b112d4d230d42d6a3cb0afbadaff4ab413de319671568a3d90c3",
+    "knaba-build.log": "6b209002e550d400f3b0a0f6608981523b636cff3ef24a4473bedd6b83b18fdd",
+    "knaba-verify-build.log": "4a04c5f708e93e1414f84052a6e87fc5b4123c8bba0f3bc7fd8432319611df71"
+  },
+  "remaining": [
+    "Browser visual and interaction acceptance",
+    "Mobile viewport/keyboard/device/zoom/screen-reader acceptance",
+    "Authenticated owner/provider flows",
+    "Field performance",
+    "Separate authorized staging publication and live readback",
+    "Official-domain/customer-production release gates"
+  ],
+  "reviewedCandidateSha": "8e6846b91064649841adf2078fd1ba5c5273f6ee",
+  "finalMotionReview": {
+    "date": "2026-10-28",
+    "reason": "Keep original text contrast throughout entrances, consistent with VSP independent review.",
+    "preserved": "440ms one-shot translate; focus skip; reduced motion; Astro navigation cleanup; all original HTML content.",
+    "rechecked": [
+      "root npm test",
+      "corporate npm run check",
+      "corporate npm test",
+      "native assertion counts",
+      "build and existing build verification gates",
+      "original HTML preservation contract",
+      "authorized VPS suite"
+    ]
+  }
+}

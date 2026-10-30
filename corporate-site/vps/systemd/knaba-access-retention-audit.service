@@ -1,0 +1,16 @@
+[Unit]
+Description=KNABA staging daily access-request retention review (read only)
+Documentation=https://github.com/ziko1/knaba
+After=docker.service
+Wants=docker.service
+ConditionPathExists=/srv/knaba/vps/current/vps/access-retention.mjs
+
+[Service]
+Type=oneshot
+# Only aggregate reports are generated; destructive cleanup is never scheduled.
+ExecStart=/usr/bin/docker exec knaba-vps-internal node /app/vps/manage.mjs access-retention
+TimeoutStartSec=90s
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Мої сайти</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="../base1/cockpit.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#site-list" data-text="skip">До списку сайтів</a>
+  <main class="workspace" id="workspace" aria-busy="true">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-text="brand">Керування сайтами</span></div>
+      <label class="language-control"><span class="sr-only" data-text="language">Мова</span><select id="language" aria-label="Мова"><option value="uk">Українська</option><option value="de">Deutsch</option><option value="en">English</option></select></label>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow" data-text="workspace">Особистий простір</p>
+        <h1 id="page-title" data-text="title">Мої сайти</h1>
+        <p class="hero-description" data-text="description">Керуйте сайтами свого облікового запису.</p>
+      </div>
+      <div class="account-badge" id="account-badge" hidden><span class="account-avatar" id="account-avatar" aria-hidden="true"></span><div><span class="account-label" data-text="account">Обліковий запис</span><strong id="account-name"></strong></div></div>
+    </section>
+
+    <section class="overview" id="overview" aria-label="Огляд сайтів" hidden>
+      <div class="metric"><span data-text="totalSites">Усього сайтів</span><strong id="total-sites">0</strong></div>
+      <div class="metric"><span data-text="localSites">На цьому сервері</span><strong id="local-sites">0</strong></div>
+      <div class="metric"><span data-text="externalSites">Зовнішні сайти</span><strong id="external-sites">0</strong></div>
+    </section>
+
+    <section class="sites-section" aria-labelledby="sites-title">
+      <div class="section-heading"><div><h2 id="sites-title" data-text="sites">Сайти</h2><p id="checked-label" class="checked-label"></p></div><button class="button button-secondary" type="button" id="refresh"><span class="refresh-symbol" aria-hidden="true">↻</span><span data-text="refresh">Оновити</span></button></div>
+
+      <div class="notice" id="notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+      <div class="error-panel" id="error-panel" role="alert" hidden><span class="error-icon" aria-hidden="true">!</span><div><h3 id="error-title"></h3><p id="error-description"></p><button class="button button-primary" type="button" id="retry" data-text="retry">Спробувати знову</button></div></div>
+      <div class="loading-panel" id="loading-panel" role="status"><span class="spinner" aria-hidden="true"></span><span data-text="loading">Завантажуємо ваші сайти…</span></div>
+      <div class="empty-panel" id="empty-panel" hidden><span class="empty-icon" aria-hidden="true">↗</span><h3 data-text="emptyTitle">Тут будуть ваші сайти</h3><p data-text="emptyDescription">До цього облікового запису ще не додано жодного сайту.</p></div>
+      <div class="site-list" id="site-list" tabindex="-1"></div>
+    </section>
+
+    <footer class="workspace-footer" id="workspace-footer" hidden><span class="privacy-mark" aria-hidden="true">●</span><span data-text="scope">Сайти вашого облікового запису</span><span class="footer-user" id="footer-user"></span></footer>
+  </main>
+
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+    <form id="confirm-form" method="dialog">
+      <span class="dialog-eyebrow" data-text="confirmEyebrow">Підтвердження дії</span>
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-description"></p>
+      <div class="dialog-site" id="confirm-site"></div>
+      <div class="dialog-actions"><button class="button button-secondary" type="button" id="confirm-cancel" data-text="cancel">Скасувати</button><button class="button button-primary" type="submit" id="confirm-submit"></button></div>
+    </form>
+  </dialog>
+
+  <noscript><p class="noscript-message">Для роботи панелі потрібен JavaScript. / JavaScript ist für diese Oberfläche erforderlich. / This panel requires JavaScript.</p></noscript>
+</body>
+</html>

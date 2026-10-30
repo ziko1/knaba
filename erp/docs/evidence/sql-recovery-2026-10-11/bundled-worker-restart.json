@@ -1,0 +1,29 @@
+{
+  "status": "PASSED",
+  "gitSha": "3f4370c3b3ba66941a42f6840db0f25ae57fca65",
+  "verifiedAt": "2026-10-11T00:28:53.801Z",
+  "workerSha256": "f4379b4b83636fcea8c5d35db4c7befa9d5d285e313155ee4592fa840c297b64",
+  "database": "ISOLATED_RESTORED_SYNTHETIC_COPY",
+  "phases": [
+    {
+      "phase": 1,
+      "pid": 11750,
+      "heartbeatAt": "2026-10-11T00:28:53.315Z",
+      "gracefulExitCode": 0,
+      "probeId": "f7f2fa67-4e8f-40f1-a86e-16827afd7c36",
+      "status": "SUCCEEDED",
+      "attempts": 1
+    },
+    {
+      "phase": 2,
+      "pid": 11767,
+      "heartbeatAt": "2026-10-11T00:28:53.741Z",
+      "gracefulExitCode": 0,
+      "probeId": "c6be27b6-8de1-47d9-b70a-9bd3b8ba973d",
+      "status": "SUCCEEDED",
+      "attempts": 1
+    }
+  ],
+  "temporaryWorkersStopped": true,
+  "scope": "Actual bundled processes complete a durable synthetic no-op once, write successful-tick heartbeat, stop gracefully, restart, and leave completed work unreplayed. Real financial side-effect fencing is covered separately by the PostgreSQL suite."
+}

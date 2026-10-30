@@ -1,0 +1,339 @@
+{
+  "timeUtc": "2026-10-25T13:01:41.035Z",
+  "sourceSha": "5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c",
+  "environment": "LIVE HTTPS; cached isolated VPS Chromium with strict TLS; readonly filesystem; all POST blocked",
+  "flows": [
+    {
+      "width": 320,
+      "lang": "de",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "de",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "de",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "de",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 320,
+      "lang": "en",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "en",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/en/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "en",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "en",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/en/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Construction service: Fine and final cleaning\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 320,
+      "lang": "uk",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "uk",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/uk/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "uk",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "uk",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/uk/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Будівельна послуга: Тонке та фінальне прибирання\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 320,
+      "lang": "ru",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "ru",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/ru/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "ru",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "ru",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/ru/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Строительная услуга: Тонкая и финальная уборка\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "lang": "de",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "de",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "de",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "de",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "en",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/en/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "en",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "en",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/en/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Construction service: Fine and final cleaning\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "lang": "uk",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "uk",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/uk/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "uk",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "uk",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/uk/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Будівельна послуга: Тонке та фінальне прибирання\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "lang": "ru",
+      "home": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "ru",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "card": {
+        "cards": 6,
+        "bg": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+        "color": "rgb(65, 92, 85)",
+        "href": "/ru/planer/"
+      },
+      "index": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "ru",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "article": {
+        "status": 200,
+        "overflow": 0,
+        "h1": 1,
+        "lang": "ru",
+        "robots": "index, follow, max-image-preview:large"
+      },
+      "contact": {
+        "href": "/ru/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+        "message": "Строительная услуга: Тонкая и финальная уборка\n",
+        "overflow": 0
+      },
+      "errors": [],
+      "status": "PASS"
+    }
+  ],
+  "languageSwitches": [
+    {
+      "from": "de",
+      "to": "en",
+      "href": "/en/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    },
+    {
+      "from": "en",
+      "to": "uk",
+      "href": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    },
+    {
+      "from": "uk",
+      "to": "ru",
+      "href": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    },
+    {
+      "from": "ru",
+      "to": "de",
+      "href": "/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "postAttempts": 0
+}

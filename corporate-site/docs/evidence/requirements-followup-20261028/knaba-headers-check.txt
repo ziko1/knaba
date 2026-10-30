@@ -1,0 +1,49 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 check
+> astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json
+
+15:06:47 [types] Generated 99ms
+15:06:47 [check] Getting diagnostics for Astro files in /workspace/scratch/9edc85de5c65/knaba-current/corporate-site...
+[96msrc/lib/inquiry-draft.ts[0m:[93m76[0m:[93m34[0m - [93mwarning[0m[90m ts(6385): [0m'returnValue' is deprecated.
+
+[7m76[0m     (event as BeforeUnloadEvent).returnValue='';
+[7m  [0m [93m                                 ~~~~~~~~~~~[0m
+
+[96mvps/oidc.mjs[0m:[93m5[0m:[93m46[0m - [93mwarning[0m[90m ts(6133): [0m'createSessionForUser' is declared but its value is never read.
+
+[7m5[0m import {normalizeEmail,createCredentialsUser,createSessionForUser} from './auth.mjs';
+[7m [0m [93m                                             ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mvps/oidc.test.mjs[0m:[93m149[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'original' is declared but its value is never read.
+
+[7m149[0m   const original=createOwner(db,owner,'synthetic-owner-password-2026');
+[7m   [0m [93m        ~~~~~~~~[0m
+
+[96mvps/server.mjs[0m:[93m323[0m:[93m25[0m - [93mwarning[0m[90m ts(6133): [0m'request' is declared but its value is never read.
+
+[7m323[0m     ASSETS:{fetch:async request=>{
+[7m   [0m [93m                        ~~~~~~~[0m
+[96mvps/server.mjs[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'createHash' is declared but its value is never read.
+
+[7m4[0m import { createHash } from 'node:crypto';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mvps/server.mjs[0m:[93m3[0m:[93m18[0m - [93mwarning[0m[90m ts(6133): [0m'relative' is declared but its value is never read.
+
+[7m3[0m import { resolve,relative,sep,join,extname } from 'node:path';
+[7m [0m [93m                 ~~~~~~~~[0m
+
+[96mvps/server.test.mjs[0m:[93m45[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'restarted' is declared but its value is never read.
+
+[7m45[0m   let restarted=false;
+[7m  [0m [93m      ~~~~~~~~~[0m
+
+Result (318 files): 
+- 0 errors
+- 0 warnings
+- 7 hints
+
+Loading svelte-check in workspace: /workspace/scratch/9edc85de5c65/knaba-current/corporate-site
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

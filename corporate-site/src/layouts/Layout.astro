@@ -1,0 +1,314 @@
+---
+import "../styles/global.css";
+import "../styles/public-vivid.css";
+// Both overlays are mounted by this layout. Keep their shared styles in the
+// existing cascade order, after the public skin, in one stylesheet request.
+import "../styles/assistant.css";
+import "../styles/account-access.css";
+import { company } from "../data/company";
+import { siteConfig } from "../data/site";
+import { resolveSocialImageOrigin } from "../lib/social-image-origin";
+import brandMessages from "../data/brand-messages.json";
+import Icon from "../components/Icon.astro";
+import AccountAccess from '../components/AccountAccess.astro';
+
+import { languageLinks, localeAlternates, localizedPublicPath, type SiteLocale } from "../lib/site-i18n";
+import {PUBLISHED_SITE_LOCALES, LANGUAGE_NAMES} from '../lib/locale-catalog';
+import LocaleCatalog from "../components/LocaleCatalog.astro";
+import {corporateBreadcrumbs,navigationCurrent} from '../lib/corporate-navigation';
+import { ClientRouter } from "astro:transitions";
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  omitCanonical?: boolean;
+  mobileApp?: boolean;
+  hasInlinePhone?: boolean;
+  hasInlineEmail?: boolean;
+  lang?: SiteLocale;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumbs?: {name:string;url:string}[];
+  alternates?: {lang:string;url:string}[];
+}
+const { title, description, noindex = false, lang = 'de', schema = [], breadcrumbs: suppliedBreadcrumbs = [], alternates = [], hasInlinePhone = false, hasInlineEmail = false, omitCanonical = false, mobileApp = false } = Astro.props;
+const isNoindex = !siteConfig.indexable || noindex;
+function validWebmasterProof(value: unknown): string | undefined {
+  if(typeof value!=='string')return undefined;
+  const token=value.trim();
+  return /^[A-Za-z0-9_.:-]{10,180}$/.test(token)?token:undefined;
+}
+const googleProof=siteConfig.indexable?validWebmasterProof(import.meta.env.KNABA_GOOGLE_SITE_VERIFICATION):undefined;
+const bingProof=siteConfig.indexable?validWebmasterProof(import.meta.env.KNABA_BING_SITE_VERIFICATION):undefined;
+const translated = {
+  de: {skip:'Zum Inhalt springen', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum'},
+  en: {skip:'Skip to content',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)'},
+  pl: {skip:'Przejdź do treści',region:'Sprzątanie budowlane i wsparcie budowy · Berlin',quote:'Zapytaj o wycenę',account:'Moje KnaBa',menu:'Menu',discover:'Odkryj',contact:'Kontakt',next:'Twój następny krok',nextText:'Opowiedz o swoim obiekcie. Omówimy Twoje potrzeby.',tagline:'Czysta budowa. Gotowa do odbioru.',privacy:'Prywatność (DE)',imprint:'Informacje prawne (DE)'},
+  lt: {skip:'Pereiti prie turinio',region:'Statybų valymas ir pagalba statybvietėje · Berlynas',quote:'Prašyti pasiūlymo',account:'Mano KnaBa',menu:'Meniu',discover:'Sužinokite',contact:'Kontaktai',next:'Kitas jūsų žingsnis',nextText:'Papasakokite apie savo objektą. Aptarsime jūsų poreikius.',tagline:'Švari statybvietė. Paruošta perduoti.',privacy:'Privatumas (DE)',imprint:'Teisinė informacija (DE)'},
+  uk: {skip:'Перейти до вмісту',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)'},
+  ru: {skip:'Перейти к содержимому',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация'},
+}[lang];
+const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],pl:['Planowanie projektu','Usługi budowlane','Twoja branża (DE)','Poradniki (DE)','Berlin i okolice (DE)','O KnaBa','Praca (DE)'],lt:['Projekto planavimas','Statybų paslaugos','Jūsų sektorius (DE)','Patarimai (DE)','Berlynas ir apylinkės (DE)','Apie KnaBa','Karjera (DE)'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
+const path = Astro.url.pathname;
+// Cabinets own their history and keep draft-bearing modules mounted. Loading
+// Astro's page router here would let its earlier popstate listener reload them.
+const ownsWorkspaceNavigation = ['/admin/', '/konto/', '/ru/konto/'].includes(path);
+// Public decoration excludes authenticated tools and the standalone app pages.
+const publicSection = path.replace(/^\/(?:en|pl|lt|ru|uk)(?=\/|$)/, '').split('/')[1] ?? '';
+const publicDesign = ['', 'leistungen', 'bauleistungen', 'planer', 'kontakt', 'branchen',
+  'unternehmen', 'galerie', 'ratgeber', 'partner', 'faq', 'berlin', 'karriere',
+  'impressum', 'datenschutz'].includes(publicSection);
+const breadcrumbs = suppliedBreadcrumbs.length ? suppliedBreadcrumbs : corporateBreadcrumbs(path, lang);
+const localPath = (url: string) => localizedPublicPath(url,lang);
+const isContactPage = path === localPath('/kontakt/');
+const brand = brandMessages[lang];
+const brandAlt = brand.descriptor;
+const logoLocale = lang==='de'?'':'-'+lang;
+const logoVersion='?v=i18n-20261026';
+const socialImage='/images/knaba-social-'+lang+'.png';
+const socialOrigin=resolveSocialImageOrigin(siteConfig,import.meta.env.PUBLIC_KNABA_AUTH_MODE,import.meta.env.PUBLIC_KNABA_ASSET_ORIGIN);
+const logoAssets={
+  header:'/images/knaba-3d-header'+logoLocale+'.svg'+logoVersion,
+  footer:'/images/knaba-3d-footer'+logoLocale+'.svg'+logoVersion,
+  mobileHeader:'/images/knaba-3d-mobile-header'+logoLocale+'.svg'+logoVersion,
+  mobileFooter:'/images/knaba-3d-mobile-footer'+logoLocale+'.svg'+logoVersion,
+};
+const homePath = lang === 'de' ? '/' : `/${lang}/`;
+const languages = languageLinks(path);
+const pageAlternates = localeAlternates(path, alternates);
+const languageLabel = {de:'Sprache',en:'Language',pl:'Język',lt:'Kalba',ru:'Язык',uk:'Мова'}[lang];
+const languageNames: Record<string,string> = LANGUAGE_NAMES;
+const translatedNav = {pl:['Usługi','Planowanie projektu','Branże B2B (DE)','O nas','Przebieg prac (DE)','Poradniki (DE)'],lt:['Paslaugos','Projekto planavimas','B2B sektoriai (DE)','Apie mus','Darbų eiga (DE)','Patarimai (DE)'],en:['Services','Project planner','B2B sectors','About','How we work','Construction guides'],uk:['Послуги','Планувальник','Галузі B2B','Про нас','Як ми працюємо','Поради'],ru:['Услуги','Планировщик','Отрасли B2B','О нас','Как мы работаем','Советы']};
+const nav = [
+  ["/leistungen/", "Bauleistungen"],
+  ["/planer/", "Bauprojekt planen"],
+  ["/branchen/", "Baupartner"],
+  ["/unternehmen/", "Über KnaBa"],
+  ["/galerie/", "Arbeitsabläufe"],
+  ["/ratgeber/", "Bauratgeber"],
+].map(([url,label],index)=>[localPath(url),lang==='de'?label:translatedNav[lang][index]]);
+const canonical = new URL(path, siteConfig.origin);
+const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
+const pageSchemas = Array.isArray(schema) ? schema : [schema];
+const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url:siteConfig.origin+'/',name:'KnaBa',inLanguage:PUBLISHED_SITE_LOCALES};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": siteConfig.origin + "/#business",
+  name: "KnaBa Baureinigung & BauService",
+  url: siteConfig.origin,
+  telephone: company.phoneHref.slice(4),
+  email: company.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: company.street,
+    postalCode: "10315",
+    addressLocality: "Berlin",
+    addressCountry: "DE",
+  },
+  areaServed: ["Berlin", "Brandenburg"],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102d34" />
+    <meta name="description" content={description} />
+    {googleProof && <meta name="google-site-verification" content={googleProof} />}
+    {bingProof && <meta name="msvalidate.01" content={bingProof} />}
+    <meta name="robots" content={isNoindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
+    {!omitCanonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {mobileApp && <link rel="manifest" href="/app-manifest.json" />}
+    {mobileApp && <link rel="apple-touch-icon" href="/images/knaba-mobile-192.png" />}
+    {mobileApp && <meta name="apple-mobile-web-app-capable" content="yes" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KnaBa" />
+    <meta property="og:locale" content={{de:"de_DE",en:"en_GB",pl:"pl_PL",lt:"lt_LT",ru:"ru_RU",uk:"uk_UA"}[lang]} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!omitCanonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={new URL(socialImage,socialOrigin)} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={brandAlt + ' · ' + brand.slogan} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL(socialImage,socialOrigin)} />
+    <meta name="twitter:image:alt" content={brandAlt + ' · ' + brand.slogan} />
+    {pageAlternates.map(item => <link rel="alternate" hreflang={item.lang} href={new URL(item.url,siteConfig.origin)} />)}
+    <title>{title}</title>
+    {!ownsWorkspaceNavigation && <ClientRouter />}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
+    />
+  </head>
+  <body data-public-design={publicDesign ? 'vivid' : undefined}>
+    <a href="#main" class="skip-link">{translated.skip}</a>
+    <div class="topline">
+      <div class="container">
+        <span><span class="dot"></span> {translated.region}</span>
+      </div>
+    </div>
+    <header class="header">
+      <div class="container nav-wrap">
+        <a href={homePath} class="brand construction-brand" aria-label={brandAlt}>
+          <picture class="knaba-3d-media">
+            <source type="image/svg+xml" media="(max-width: 700px)" srcset={logoAssets.mobileHeader} />
+            <img src={logoAssets.header} width="1140" height="350" alt={brandAlt} decoding="async" fetchpriority="high" />
+          </picture>
+        </a>
+        <nav class="desktop-nav" aria-label={{de:'Hauptnavigation',en:'Main navigation',pl:'Menu główne',lt:'Pagrindinis meniu',ru:'Главная навигация',uk:'Головна навігація'}[lang]}>
+          {
+            nav.map(([href, text]) => (
+              <a
+                href={href}
+                aria-current={navigationCurrent(path, href)}
+              >
+                {text}
+              </a>
+            ))
+          }
+        </nav>
+        {!isContactPage && <a class="button button-dark nav-cta" href={localPath("/kontakt/")}>{translated.quote} <Icon size={17} /></a>}
+        <a class="account-link" data-account-access="login" href={localPath("/konto/")}>{translated.account} ↗</a>
+        <details class="site-language-switcher">
+          <summary aria-label={`${languageLabel}: ${languageNames[lang]}`}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3c2.6 2.7 4.1 5.8 4.1 9S14.6 18.3 12 21M12 3C9.4 5.7 7.9 8.9 7.9 12S9.4 18.3 12 21" />
+            </svg>
+            <span class="language-trigger-code">{lang.toUpperCase()}</span>
+            <span class="language-chevron" aria-hidden="true"></span>
+          </summary>
+          <nav class="site-language-options" aria-label={languageLabel}>
+            {languages.map(item => <a data-language-switch href={item.url} lang={item.lang} hreflang={item.lang} aria-current={lang===item.lang?'page':undefined}>
+              <span>{languageNames[item.lang]}</span><span class="site-language-code" aria-hidden="true">{item.lang.toUpperCase()}</span>
+            </a>)}
+            <LocaleCatalog locale={lang} />
+          </nav>
+        </details>
+        <details class="mobile-nav">
+          <summary aria-label={translated.menu}
+            ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
+          ><nav aria-label={lang === 'pl' ? 'Menu mobilne' : lang === 'lt' ? 'Mobilusis meniu' : lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
+            {nav.map(([href, text]) => <a href={href} aria-current={navigationCurrent(path, href)}>{text}</a>)}
+            {!isContactPage && <a href={localPath("/kontakt/")}>{translated.quote} →</a>}
+            <a data-account-access="login" href={localPath("/konto/")}>{translated.account}</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">{breadcrumbs.length > 0 && <nav class="container breadcrumbs" aria-label={lang === 'pl' ? 'Ścieżka strony' : lang === 'lt' ? 'Puslapio kelias' : lang === 'de' ? 'Brotkrümelnavigation' : lang === 'ru' ? 'Путь к странице' : lang === 'uk' ? 'Шлях до сторінки' : 'Breadcrumb'}><ol>{breadcrumbs.map((item,index)=><li>{index === breadcrumbs.length-1 ? <span aria-current="page">{item.name}</span> : <a href={item.url}>{item.name}</a>}</li>)}</ol></nav>}<slot /></main>
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand construction-brand" href={homePath} aria-label={brandAlt}><picture class="knaba-3d-media">
+              <source type="image/svg+xml" media="(max-width: 700px)" srcset={logoAssets.mobileFooter} />
+              <img src={logoAssets.footer} width="1140" height="350" alt={brandAlt} loading="lazy" decoding="async" />
+            </picture></a>
+          <p>{translated.tagline}</p><span
+            class="footer-region">{{de:'Berlin & Brandenburg',en:'Berlin & Brandenburg',pl:'Berlin i Brandenburgia',lt:'Berlynas ir Brandenburgas',ru:'Берлин и Бранденбург',uk:'Берлін і Бранденбург'}[lang]}</span>
+        </div>
+        <div>
+          <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
+            href={localPath("/branchen/")}>{footerLabels[2]}</a
+          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",pl:"Pytania i odpowiedzi",lt:"Klausimai ir atsakymai",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",pl:"Przebieg prac (DE)",lt:"Darbų eiga (DE)",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a data-account-access="login" href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/app/")}>{{de:"Mobile App",en:"Mobile app",pl:"Aplikacja mobilna",lt:"Mobilioji programėlė",uk:"Мобільний застосунок",ru:"Мобильное приложение"}[lang]}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
+            >{footerLabels[6]}</a>
+        </div>
+        <div>
+          <h2>{translated.contact}</h2>{!hasInlinePhone && <a href={company.phoneHref}>{company.phone}</a>}{!hasInlineEmail && <a
+            href={`mailto:${company.email}`}>{company.email}</a>}
+          <p>{company.street}<br />{company.city}</p>
+        </div>
+        <div>
+          <h2>{translated.next}</h2><p>
+            {translated.nextText}
+          </p><a href={isContactPage ? localPath("/planer/") : localPath("/kontakt/")} class="text-link light"
+            >{isContactPage ? footerLabels[0] : translated.quote} <Icon size={18} /></a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© {new Date().getFullYear()} KnaBa</span><div>
+          <a href={localPath("/impressum/")}>{translated.imprint}</a><a href={localPath("/datenschutz/")}
+            >{translated.privacy}</a>
+        </div>
+      </div>
+    </footer>
+    <AccountAccess locale={lang} />
+    <div class="knaba-widget-root" data-knaba-widget data-locale={lang}>
+      <button type="button" data-knaba-open aria-label={lang==='pl'?'Otwórz asystenta KnaBa':lang==='lt'?'Atidaryti KnaBa asistentą':lang==='de'?'KnaBa Assistent öffnen':lang==='en'?'Open KnaBa assistant':lang==='uk'?'Відкрити помічника KnaBa':'Открыть помощника KnaBa'}><span aria-hidden="true">✳</span> KNABA Assistant</button>
+    </div>
+    <script>
+      async function mountAssistant(button: HTMLButtonElement) {
+        const root=button.closest<HTMLElement>('[data-knaba-widget]');
+        if(!root || root.dataset.pending==='true')return;
+        root.dataset.pending='true';button.disabled=true;
+        try {
+          const [{render},{default:KnabaAssistant}]=await Promise.all([
+            import('solid-js/web'),
+            import('../components/KnabaAssistant.tsx')
+          ]);
+          const language=root.dataset.locale as 'de'|'en'|'pl'|'lt'|'ru'|'uk';
+          root.replaceChildren();
+          const dispose=render(()=>KnabaAssistant({locale:language,initialOpen:true}),root);
+          document.addEventListener('astro:before-swap',()=>dispose(),{once:true});
+        }catch{
+          button.disabled=false;root.dataset.pending='false';
+          const locale=document.documentElement.lang;
+          window.location.href=(['en','pl','lt','ru','uk'].includes(locale)?'/'+locale:'')+'/kontakt/';
+        }
+      }
+      function bindLauncher(){
+        document.querySelectorAll<HTMLButtonElement>('[data-knaba-open]').forEach(button=>{
+          if(button.dataset.bound==='true')return;
+          button.dataset.bound='true';
+          button.addEventListener('click',()=>void mountAssistant(button));
+        });
+      }
+      bindLauncher();
+      document.addEventListener('astro:page-load',bindLauncher);
+    </script>
+    <script>
+      import { initializePublicMotion } from '../scripts/public-motion';
+      initializePublicMotion();
+      import { initializeSiteStudioLive } from "../scripts/site-studio-live";
+      initializeSiteStudioLive();
+    </script>
+    <script>
+      import { inquirySelectionQuery } from '../lib/inquiry-navigation';
+      function preserveServiceSelection() {
+        const selected = inquirySelectionQuery(location.search);
+        if (!selected) return;
+        document.querySelectorAll<HTMLAnchorElement>('a[data-language-switch]').forEach(link => {
+          const target = new URL(link.href);
+          if (target.origin === location.origin && /^\/(?:(?:en|pl|lt|ru|uk)\/)?kontakt\/$/.test(target.pathname)) {
+            target.search = selected;
+            link.href = target.href;
+          }
+        });
+      }
+      preserveServiceSelection();
+      document.addEventListener('astro:page-load', preserveServiceSelection);
+
+      const disclosures = ".mobile-nav, .site-language-switcher";
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        document.querySelectorAll<HTMLDetailsElement>(disclosures).forEach((menu) => {
+          if (!menu.open) return;
+          menu.open = false;
+          menu.querySelector("summary")?.focus();
+        });
+      });
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        document.querySelectorAll<HTMLDetailsElement>(disclosures).forEach((menu) => {
+          if (menu.open && !menu.contains(target)) menu.open = false;
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "source": "b05b112bf907188db49e904b42c67ee1bdd6c322",
+  "environment": "isolated local official build; NOT DEPLOYED",
+  "initial_failure": "domain-specific source catalogue had six staging-host literals; reproduced and compared; no content or release guard changed",
+  "runs": [
+    {
+      "command": "npm run i18n:extract",
+      "start": "2026-10-28T08:20:09.200916+00:00",
+      "end": "2026-10-28T08:20:09.568737+00:00",
+      "exit_code": 0,
+      "log": "official-catalog.log"
+    },
+    {
+      "command": "npm run verify:build",
+      "start": "2026-10-28T08:20:09.568782+00:00",
+      "end": "2026-10-28T08:20:11.002183+00:00",
+      "exit_code": 0,
+      "log": "official-verify-final.log"
+    },
+    {
+      "command": "node scripts/audit-release-routes.mjs --mode official",
+      "start": "2026-10-28T08:20:11.002260+00:00",
+      "end": "2026-10-28T08:20:11.316336+00:00",
+      "exit_code": 0,
+      "log": "official-route-inventory.log"
+    }
+  ],
+  "staging_artifact_and_catalog_restored": true,
+  "index_submission": "NOT_PERFORMED"
+}

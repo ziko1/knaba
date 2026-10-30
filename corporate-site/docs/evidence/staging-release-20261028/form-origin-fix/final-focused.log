@@ -1,0 +1,13 @@
+✔ public access request needs consent; no role elevation; owner-only review (526.415504ms)
+✔ VPS HTTP: secure owner invite -> pending worker -> owner approval -> scoped portal (564.664327ms)
+✔ Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partner and one-use callback (243.985473ms)
+✔ private activation GET is no-store, noindex, origin-bound and does not expose owner email (122.929429ms)
+✔ wrong-origin, invalid, replayed and expired activations fail without creating privileged users (301.444738ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 678.658859

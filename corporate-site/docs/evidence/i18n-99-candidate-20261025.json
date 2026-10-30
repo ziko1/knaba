@@ -1,0 +1,78 @@
+{
+  "project": "KNABA",
+  "feature": "I18N-99 candidate",
+  "date": "2026-10-25",
+  "repository": "ziko1/knaba",
+  "base_runtime_sha": "fe78624f4263d5f410b9fa29a2329c8ac19a6a74",
+  "tested_executable_sha": "b1ef6e9a51b6ee6163fe12fd058d90cb5da5f65e",
+  "test_only_followup_sha": "8a7d5c926d435ea69fcde5ba6b657fed1a41c587",
+  "artifact_sha256": "f7d49a5df28494fa06a6917ff6452120e97b7fe7ca4c14342ad92856622eb69d",
+  "languages": {
+    "target": 99,
+    "published": 4,
+    "pending": 95,
+    "translated_95": false
+  },
+  "qa": {
+    "node": "24.22.1",
+    "astroVueSvelte": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "vitest": {
+      "pass": 121,
+      "total": 121
+    },
+    "inquiryNode": {
+      "pass": 8,
+      "total": 8
+    },
+    "vpsNode": {
+      "pass": 14,
+      "total": 14
+    },
+    "followupVps": {
+      "pass": 2,
+      "total": 2
+    },
+    "astroBuiltHtmlPages": 99,
+    "staticVerifier": "PASS",
+    "liveOwnerUAT": "NOT_RUN",
+    "humanNativeReviews": "NOT_RUN",
+    "realMobileBrowser": "NOT_RUN",
+    "fieldWebVitals": "NOT_MEASURED"
+  },
+  "htmlBytes": {
+    "baseline": {
+      "raw": 33975,
+      "gzipLevel9": 6297
+    },
+    "initialEager": {
+      "raw": 63783,
+      "gzipLevel9": 10299
+    },
+    "finalLazy": {
+      "raw": 37644,
+      "gzipLevel9": 7786
+    }
+  },
+  "live": {
+    "healthz": 200,
+    "readyz": 503,
+    "diskUsagePercentApprox": 95,
+    "changedByBranch": false,
+    "ownerEnrolled": false
+  },
+  "release": {
+    "status": "CODE_CANDIDATE_NOT_DEPLOYED",
+    "paidProvidersActivated": false,
+    "mainMerged": false,
+    "dbChanged": false
+  },
+  "notClaims": [
+    "99 languages fully translated",
+    "live admin sign-in ready",
+    "native-language sign-off",
+    "production-approved indexing"
+  ]
+}

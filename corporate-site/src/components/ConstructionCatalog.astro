@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type {ConstructionLocale} from '../data/construction-offers';
+import {constructionOffers,constructionBusinessCopy as copy,localeValue} from '../data/construction-offers';
+import {projectCard} from '../data/construction-project-card';
+import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
+import projectIntents from '../data/project-intents.json';
+import {constructionGridCards,constructionGridOrdinal} from '../data/construction-grid';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const t=copy[locale];const prefix=locale==='de'?'':'/'+locale;
+const additional=constructionOffers.filter(item=>!item.core);
+const project=projectCard[locale];
+const intents=projectIntents[locale];
+const seo={
+  de:{title:'Baureinigung & Bauhelfer in Berlin | KnaBa',description:'Bauzwischenreinigung, Baufein- und Bauendreinigung, Baustellenberäumung und Bauhilfe in Berlin & Brandenburg. Leistungen und Anfrage bei KnaBa.'},
+  en:{title:'Construction Cleaning & Site Support Berlin | KnaBa',description:'Construction cleaning, interim and final site cleaning, clearance and support in Berlin & Brandenburg. Compare services and prepare a KnaBa project enquiry.'},
+  uk:{title:'Будівельний клінінг і помічники в Берліні | KnaBa',description:'Міжетапне, тонке й фінальне прибирання, розчищення майданчика та будівельні помічники в Берліні й Бранденбурзі. Порівняйте послуги KnaBa.'},
+  ru:{title:'Строительный клининг и помощь в Берлине | KnaBa',description:'Промежуточная, тонкая и финальная уборка, расчистка стройплощадки и строительные помощники в Берлине и Бранденбурге. Услуги KnaBa.'}
+}[locale];
+---
+<Layout lang={locale} title={seo.title} description={seo.description}>
+<section class="container page-intro"><p class="eyebrow">KnaBa / BAUSERVICE</p><h1>{t.catalogTitle}</h1><p>{t.catalogIntro}</p></section>
+<section class="container section section-tight"><h2>{t.standard}</h2><div class="bau-offer-grid">
+{constructionGridCards.map((card,i) => card.kind === 'project' ? (
+  <a href={prefix+'/planer/'} class="bau-offer bau-offer-request">
+    <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name="project" size={30} /></span><span class="bau-ordinal">{constructionGridOrdinal(i)}</span></div>
+    <h3>{project.title}</h3><p>{project.description}</p>
+    <span class="bau-offer-action">{project.action} <span aria-hidden="true">↗︎</span></span>
+  </a>
+) : (
+  <a href={prefix+'/bauleistungen/'+card.offer.slug+'/'} class="bau-offer">
+    <div class="bau-offer-top"><span class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name={card.offer.slug} size={30} /></span><span class="bau-ordinal">{constructionGridOrdinal(i)}</span></div>
+    <h3>{localeValue(card.offer.name,locale)}</h3><p>{localeValue(card.offer.description,locale)}</p>
+    <span class="bau-offer-action">{t.details} <span aria-hidden="true">→</span></span>
+  </a>
+))}
+</div></section>
+<section class="container section section-tight" id="zusatzarbeiten"><p class="eyebrow">B2B / TECHNISCH</p><h2>{t.optional}</h2><p class="bau-disclaimer">{t.contractIntro}</p>
+<div class="bau-offer-grid">{additional.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'} class="bau-offer special"><div class="bau-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} size={30} /></div><h3>{localeValue(item.name,locale)}</h3><p>{localeValue(item.description,locale)}</p><span>{t.request} →</span></a>)}</div>
+<p class="bau-disclaimer">{t.note}</p></section>
+<section class="container section section-tight" aria-labelledby="project-intents-heading">
+  <p class="eyebrow">{intents.eyebrow}</p>
+  <h2 id="project-intents-heading">{intents.title}</h2>
+  <p class="bau-disclaimer">{intents.intro}</p>
+  <div class="bau-offer-grid project-intents-grid">
+    {intents.cases.map((item,i)=><article class="bau-offer">
+      <span class="bau-ordinal" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
+      <h3>{item.situation}</h3>
+      <p>{item.explanation}</p>
+      <p><strong>{intents.request}:</strong> {item.request}</p>
+      <a class="bau-offer-action" href={prefix+'/bauleistungen/'+item.slug+'/'}>{intents.link} →</a>
+    </article>)}
+  </div>
+  <p class="bau-disclaimer">{intents.note}</p>
+</section>
+<section class="container cta-banner"><div><h2>{t.ready}</h2></div><a class="button button-dark" href={prefix+'/kontakt/'}>{t.cta} →</a></section>
+</Layout>
+<style>
+.bau-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
+.bau-offer{padding:28px;min-height:260px;background:#e9f5ed;border-radius:20px;display:flex;flex-direction:column;border:1px solid #d8e9df;text-decoration:none;color:#12353e}
+.bau-offer:nth-child(3n + 1){background:linear-gradient(130deg,#e5f3ed,#f5faf7)}
+.bau-offer:nth-child(3n + 2){background:linear-gradient(130deg,#e5f2f8,#f6fbfd)}
+.bau-offer:nth-child(3n){background:linear-gradient(130deg,#f1ebff,#faf7ff)}
+.bau-offer.special:nth-child(odd){background:linear-gradient(130deg,#f7eee1,#fff8ed)}
+.bau-offer.special:nth-child(even){background:linear-gradient(130deg,#e7f4e1,#f7f9ed)}
+.bau-offer.bau-offer-request{background:linear-gradient(140deg,#ddf1e8 0%,#e8f5ef 58%,#f1f4dc 100%);border:1px solid #9bcbbb;color:#12343c;box-shadow:inset 0 1px #ffffffc9}
+.bau-offer.bau-offer-request p{color:#415c55}.bau-offer.bau-offer-request>span{color:#07646c}.bau-offer.bau-offer-request .bau-ordinal{color:#45635b}
+.bau-offer:focus-visible{outline:3px solid #f5cb52;outline-offset:4px}
+.bau-offer-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-offer .bau-ordinal{color:#6c9187;font-size:13px;letter-spacing:.08em;white-space:nowrap}.bau-offer-action{display:flex;justify-content:space-between;align-items:center;gap:12px}.bau-offer-action>span{font-family:Arial,sans-serif;font-size:19px;font-weight:700;line-height:1}
+.bau-offer h3{font-size:23px;line-height:1.18;margin:22px 0 12px;letter-spacing:-.03em;overflow-wrap:anywhere}
+.bau-offer p{font-size:14px;color:#546f67;line-height:1.7;flex:1}.bau-offer>span{margin-top:18px;font-weight:800;color:#09676f;font-size:14px}
+.bau-icon{display:inline-grid;place-items:center;width:44px;height:44px;border:1px solid #ffffffc9;border-radius:14px;background:#ffffffb8;color:#076e77;box-shadow:0 4px 12px #103d3d10}.bau-disclaimer{max-width:850px;color:#59736c;line-height:1.75}
+@media(max-width:850px){.bau-offer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.bau-offer-grid{grid-template-columns:1fr}.bau-offer{min-height:210px}}
+</style>

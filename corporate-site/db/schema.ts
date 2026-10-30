@@ -1,0 +1,178 @@
+import { sql } from "drizzle-orm";
+import { integer, sqliteTable, text, uniqueIndex, index, primaryKey, check } from "drizzle-orm/sqlite-core";
+
+export const profiles = sqliteTable("profiles", {
+  id: text("id").primaryKey(), name: text("name").notNull(), email: text("email").notNull(),
+  requestedRole: text("requested_role").notNull(), role: text("role"), status: text("status").notNull().default("pending"),
+  privacyVersion: text("privacy_version").notNull(), createdAt: text("created_at").notNull(), updatedAt: text("updated_at").notNull(),
+  version: integer("version").notNull().default(1), lastMutation: text("last_mutation").notNull(),
+});
+export const requests = sqliteTable("cleaning_requests", {
+  id: text("id").primaryKey(), clientId: text("client_id").references(() => profiles.id),
+  service: text("service").notNull(), objectType: text("object_type").notNull(), postcode: text("postcode").notNull(),
+  area: text("area").notNull(), frequency: text("frequency").notNull(), message: text("message").notNull(),
+  contactName: text("contact_name").notNull(), email: text("email").notNull(), phone: text("phone").notNull(), address: text("address").notNull(),
+  status: text("status").notNull().default("new"), assignedWorkerId: text("assigned_worker_id").references(() => profiles.id),
+  assignedBauleiterId: text("assigned_bauleiter_id").references(() => profiles.id),
+  scheduledAt: text("scheduled_at"), checklist: text("checklist").notNull().default("[]"), workerNote: text("worker_note").notNull().default(""),
+  customerFeedback: text("customer_feedback").notNull().default(""), adminReply: text("admin_reply").notNull().default(""),
+  dedupeScope: text("dedupe_scope").notNull(), idempotencyKey: text("idempotency_key").notNull(), payloadHash: text("payload_hash").notNull(),
+  privacyVersion: text("privacy_version").notNull(), createdAt: text("created_at").notNull(), updatedAt: text("updated_at").notNull(),
+  version: integer("version").notNull().default(1), lastMutation: text("last_mutation").notNull(),
+}, (t) => [uniqueIndex("request_idempotency").on(t.dedupeScope,t.idempotencyKey), index("request_client").on(t.clientId), index("request_worker").on(t.assignedWorkerId), index("request_bauleiter").on(t.assignedBauleiterId)]);
+export const audit = sqliteTable("portal_audit", {
+  id: text("id").primaryKey(), actorId: text("actor_id").notNull(), action: text("action").notNull(), entityId: text("entity_id").notNull(), createdAt: text("created_at").notNull(),
+});
+export const rateLimits = sqliteTable("portal_rate_limits", {
+  key: text("key").primaryKey(), count: integer("count").notNull(), expiresAt: integer("expires_at").notNull(),
+});
+
+/** Each conversation has one approved customer/partner/worker and the management team. */
+export const portalConversations = sqliteTable('portal_conversations', {
+  id: text('id').primaryKey(),
+  participantId: text('participant_id').notNull().references(() => profiles.id),
+  participantRole: text('participant_role', {enum:['client','partner','worker']}).notNull(),
+  requestId: text('request_id').references(() => requests.id),
+  scopeKey: text('scope_key').notNull(),
+  createdAt: text('created_at').notNull(), updatedAt: text('updated_at').notNull(),
+}, t => [
+  uniqueIndex('portal_conversation_scope').on(t.participantId,t.participantRole,t.scopeKey),
+  index('portal_conversation_updated').on(t.updatedAt,t.id),
+  check('portal_conversation_role',sql`${t.participantRole} IN ('client','partner','worker')`),
+  check('portal_conversation_scope_key',sql`(${t.requestId} IS NULL AND ${t.scopeKey}='direct') OR (${t.requestId} IS NOT NULL AND ${t.scopeKey}='request:' || ${t.requestId})`),
+]);
+export const portalMessages = sqliteTable('portal_messages', {
+  sequence: integer('sequence').primaryKey({autoIncrement:true}),
+  id: text('id').notNull(),
+  conversationId: text('conversation_id').notNull().references(() => portalConversations.id),
+  authorId: text('author_id').notNull(), authorName: text('author_name').notNull(),
+  authorRole: text('author_role', {enum:['client','partner','worker','bauleiter','admin','owner']}).notNull(),
+  body: text('body').notNull(), idempotencyKey: text('idempotency_key').notNull(),
+  payloadHash: text('payload_hash').notNull(), createdAt: text('created_at').notNull(),
+}, t => [
+  uniqueIndex('portal_message_id').on(t.id),
+  uniqueIndex('portal_message_retry').on(t.conversationId,t.authorId,t.idempotencyKey),
+  index('portal_message_thread').on(t.conversationId,t.sequence),
+  check('portal_message_role',sql`${t.authorRole} IN ('client','partner','worker','bauleiter','admin','owner')`),
+  check('portal_message_length',sql`length(${t.body}) BETWEEN 1 AND 2000`),
+]);
+
+/** A visitor owns only conversations for which they hold a high-entropy secret. */
+export const assistantConversations = sqliteTable("assistant_conversations", {
+  id: text("id").primaryKey(),
+  tokenHash: text("token_hash").notNull(),
+  locale: text("locale").notNull(),
+  status: text("status").notNull().default("assistant"),
+  contactName: text("contact_name").notNull().default(""),
+  contactEmail: text("contact_email").notNull().default(""),
+  contactPhone: text("contact_phone").notNull().default(""),
+  privacyVersion: text("privacy_version").notNull(),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+}, t => [index("assistant_conversations_updated").on(t.updatedAt)]);
+export const assistantMessages = sqliteTable("assistant_messages", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
+  sender: text("sender").notNull(),
+  kind: text("kind").notNull().default("text"),
+  content: text("content").notNull(),
+  requestKey: text("request_key").notNull(),
+  createdAt: text("created_at").notNull(),
+}, t => [uniqueIndex("assistant_message_retry").on(t.conversationId,t.requestKey),index("assistant_messages_thread").on(t.conversationId,t.createdAt)]);
+export const assistantOffers = sqliteTable("assistant_offers", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
+  content: text("content").notNull(),
+  state: text("state").notNull().default("pending"),
+  requestKey: text("request_key").notNull(),
+  createdAt: text("created_at").notNull(),
+  decidedAt: text("decided_at"),
+}, t => [uniqueIndex("assistant_offer_retry").on(t.conversationId,t.requestKey),index("assistant_offers_thread").on(t.conversationId,t.createdAt)]);
+
+/** Minimal event metadata only; never copy message text or contact PII to the outbox. */
+export const assistantNotifications = sqliteTable("assistant_notifications", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
+  eventKey: text("event_key").notNull(),
+  kind: text("kind").notNull(),
+  status: text("status").notNull().default("pending"),
+  attempts: integer("attempts").notNull().default(0),
+  nextAttemptAt: integer("next_attempt_at").notNull().default(0),
+  lastError: text("last_error").notNull().default(""),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+  sentAt: text("sent_at"),
+}, t => [uniqueIndex("assistant_notification_event").on(t.eventKey),index("assistant_notification_due").on(t.status,t.nextAttemptAt)]);
+
+
+/** Published website copy is separate from CRM/ERP records and never stores credentials. */
+export const studioPages = sqliteTable('studio_pages', {
+  pagePath: text('page_path').primaryKey(),
+  draftJson: text('draft_json').notNull().default('[]'),
+  draftVersion: integer('draft_version').notNull().default(0),
+  publishedJson: text('published_json').notNull().default('[]'),
+  publishedVersion: integer('published_version').notNull().default(0),
+  updatedAt: text('updated_at').notNull(),
+  updatedBy: text('updated_by').notNull(),
+});
+export const studioRevisions = sqliteTable('studio_revisions', {
+  id: text('id').primaryKey(),
+  pagePath: text('page_path').notNull().references(()=>studioPages.pagePath),
+  version: integer('version').notNull(),
+  action: text('action').notNull(),
+  snapshotJson: text('snapshot_json').notNull(),
+  actorId: text('actor_id').notNull(),
+  createdAt: text('created_at').notNull(),
+}, t=>[index('studio_revision_history').on(t.pagePath,t.createdAt)]);
+/** Conservative maximum-cost reservations; never bill without fresh approval and caps. */
+export const studioAiBudget = sqliteTable('studio_ai_budget',{
+  day: text('day').notNull(),
+  scope: text('scope').notNull(),
+  reservedCents: integer('reserved_cents').notNull().default(0),
+  requestCount: integer('request_count').notNull().default(0),
+}, t=>[primaryKey({columns:[t.day,t.scope]})]);
+
+
+/** Sales pipeline metadata lives in the corporate D1-style store; orders remain in the ERP. */
+export const crmContactState = sqliteTable('crm_contact_state', {
+  contactKey:text('contact_key').primaryKey(),
+  stage:text('stage').notNull().default('new'),
+  tagsJson:text('tags_json').notNull().default('[]'),
+  version:integer('version').notNull().default(1),
+  updatedBy:text('updated_by').notNull(),
+  updatedAt:text('updated_at').notNull(),
+  lastMutation:text('last_mutation').notNull(),
+});
+export const crmContactNotes = sqliteTable('crm_contact_notes',{
+  id:text('id').primaryKey(),
+  contactKey:text('contact_key').notNull(),
+  body:text('body').notNull(),
+  actorId:text('actor_id').notNull(),
+  idempotencyKey:text('idempotency_key').notNull(),
+  createdAt:text('created_at').notNull(),
+},t=>[uniqueIndex('crm_note_idempotency').on(t.contactKey,t.actorId,t.idempotencyKey),
+  index('crm_note_contact_recent').on(t.contactKey,t.createdAt)]);
+
+/** Public testimonials require separate explicit consent; private order feedback is never copied. */
+export const publicReviews = sqliteTable('public_reviews', {
+  id: text('id').primaryKey(),
+  displayName: text('display_name').notNull(),
+  email: text('email').notNull(),
+  company: text('company').notNull().default(''),
+  relationship: text('relationship', {enum:['client','partner']}).notNull(),
+  reviewText: text('review_text').notNull(),
+  status: text('status', {enum:['pending','published','hidden']}).notNull().default('pending'),
+  consentAt: text('consent_at').notNull(),
+  consentVersion: text('consent_version').notNull(),
+  dedupeScope: text('dedupe_scope').notNull(),
+  idempotencyKey: text('idempotency_key').notNull(),
+  payloadHash: text('payload_hash').notNull(),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+  publishedAt: text('published_at'),
+  version: integer('version').notNull().default(1),
+  lastMutation: text('last_mutation').notNull(),
+}, t => [uniqueIndex('public_review_idempotency').on(t.dedupeScope,t.idempotencyKey),
+  index('public_review_listing').on(t.status,t.publishedAt,t.id),
+  check('public_review_relationship',sql`${t.relationship} IN ('client','partner')`),
+  check('public_review_status',sql`${t.status} IN ('pending','published','hidden')`)]);

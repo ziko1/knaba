@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AssistantInbox from "../components/AssistantInbox.tsx";
+---
+<Layout title="KNABA Assistant | Inhaber-Postfach" description="Geschütztes Inhaber-Postfach für Rückfragen und Kundenangebote." noindex={true}>
+  <section class="container" style="padding-top:clamp(2rem,5vw,4rem)">
+    <p class="eyebrow">KNABA ASSISTANT · INHABER</p>
+    <h1 style="font-size:clamp(2.25rem,5vw,3.75rem)">Kundengespräche.</h1>
+    <p>Antworten Sie hier direkt auf die Anfragen Ihrer Website-Besucher und senden Sie Angebote zur Abstimmung.</p>
+    <p><a href="/admin/?view=messages">← KNABA Control Center</a></p>
+    <AssistantInbox client:load />
+  </section>
+</Layout>

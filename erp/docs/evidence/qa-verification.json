@@ -1,0 +1,122 @@
+{
+  "generatedAt": "2026-10-06T18:29:17.231046+00:00",
+  "gitCommitAtVerification": "a0dcc4425a9486e36307a10fd5870aaab2215375",
+  "workingTreeChanged": true,
+  "releaseShaVerified": false,
+  "enginePolicy": {
+    "status": "PASSED",
+    "passed": 23,
+    "failed": 0,
+    "evidence": "engine-policy-offline-result.json",
+    "scope": "Actual Engine methods and canonical synthetic business seed using an in-memory transaction fixture; SQL durability and live HTTP are not covered."
+  },
+  "postgresSuite": {
+    "status": "NOT_RUN",
+    "cases": 25,
+    "reason": "Current sandbox cannot create local TCP sockets. Earlier parent-run integration evidence is separate and predates latest test additions."
+  },
+  "browserSuite": {
+    "status": "BLOCKED_EXTERNAL",
+    "casesAuthored": 13,
+    "applicationCasesExecuted": 0,
+    "attemptedCases": 1,
+    "reason": "Chromium crashes before browser launch: setsockopt Operation not permitted. Additional network access tool call hung and was aborted by user. No escalation duplicated while parent permission request pending.",
+    "evidence": "browser-result.json",
+    "pendingAdditionalScenario": "Structure import: malformed CSV; XLSX and CSV preview without writes; explicit confirmed UG=-1 hierarchy persistence; 360px overflow."
+  },
+  "seedWorkflow": {
+    "status": "PASSED",
+    "scope": "Actual command workflow evaluated in memory. 100 m\u00b2 accepted task; 21600 seconds approved/allocated work; 24000 net +4560 synthetic tax =28560 gross; private original/reencoded approved image; separate report author and reviewer; repeat seed does not duplicate report or shift; no legal approval generated. Original demonstration task also completes start, worklog, submit and separate quality acceptance."
+  },
+  "fullAcceptanceScenarios": {
+    "T-ADMIN-01": {
+      "status": "NOT_RUN",
+      "verifiedComponents": [
+        "Engine BOT_ADMIN denial of authored foreign payroll payout"
+      ],
+      "unverifiedComponents": [
+        "AI-mediated live access test"
+      ]
+    },
+    "T-CHAT-04": {
+      "status": "NOT_RUN",
+      "verifiedComponents": [
+        "Current channel membership and cached receipt revocation; stale actor site scope denial"
+      ],
+      "unverifiedComponents": [
+        "Live HTTP media/search/export revocation"
+      ]
+    },
+    "T-REPORT-01": {
+      "status": "NOT_RUN",
+      "verifiedComponents": [
+        "Customer site scopes, confidential media, reviewed synthetic report projection"
+      ],
+      "unverifiedComponents": [
+        "Live rendered portal and download authorization"
+      ]
+    },
+    "T-REPORT-02": {
+      "status": "NOT_RUN",
+      "verifiedComponents": [
+        "Synthetic published snapshot numbers and idempotent reviewed publication"
+      ],
+      "unverifiedComponents": [
+        "Live browser/API PDF CSV XLSX exports"
+      ]
+    },
+    "T-OPS-04": {
+      "status": "NOT_RUN",
+      "verifiedComponents": [],
+      "unverifiedComponents": [
+        "Browser login roles shift task chat file report mobile width on final running artifact",
+        "Physical GPS test"
+      ]
+    }
+  },
+  "sourceSha256": {
+    "apps/api/engine.ts": "bc14bb740deef1e18f1b0b494624aada666d53963b3be7279a0fee120177b89c",
+    "infra/seed.ts": "8b61e605bbe3a3df83fe27f183dbb80bb9bb67ecf807e6f9e2a6f09cf74f55ce",
+    "tests/engine.integration.test.ts": "7b73d7b2270135dfcf1b428afc93daa8a2741e9110d6979326b614879b056cbd",
+    "tests/browser.spec.ts": "0ce4620cebaf4a7ae18f80051f0b4c4bac23c9319d15b918a16ddd06c7d8416a",
+    "playwright.config.ts": "294ec84a242de2b9e02b1ef7e46eb4f23dfb8456a1ddc827c96165546cbe2475",
+    "scripts/create-live-databases.mts": "a62ae7908467c891da3b5dd97c31abf21f476360ebd2a55ec73ec5732e9a5948",
+    "scripts/live-isolated-check.sh": "649c7e6947b83a32c212bb31e8607044e327a64a27fb79c0c6622a66ffe33e5a",
+    "docs/evidence/run-live-qa.sh": "7c44ff5662095963764a3756f0f9b84b7b10c8b2df281029e8d1501184d3b03a",
+    "packages/domain/governance.ts": "758e91e79de9d89b9eb53c8ef27b299f763b57543abc8ddda65d043e74289687"
+  },
+  "verifiedRegressionCases": [
+    "warehouse and employee custody",
+    "stock origin/destination custody",
+    "transfer and asset custody references",
+    "finance subject differs from author",
+    "confidential payslip scope",
+    "own employee profile",
+    "location revision snapshot scope",
+    "nested task template/occurrence scope",
+    "client site-channel membership",
+    "revoked customer membership",
+    "cached message membership revoke",
+    "cached stale actor site revoke",
+    "cached membership VIEW/site changes",
+    "automatic expiry with second membership same customer",
+    "employee cannot start another employee shift",
+    "actual synthetic seed command workflow and rerun",
+    "fresh read/search excludes edited or deleted stale payloads",
+    "read idempotency input conflict retained",
+    "delegated task.read never expands inventory.read",
+    "OWNER missing inventory base right receives only granted scope",
+    "delegation revoke and expiry deny cached authority",
+    "same-site employee and device administrator cannot read other employee time"
+  ],
+  "liveVerificationRunner": {
+    "status": "NOT_RUN",
+    "scripts": [
+      "scripts/create-live-databases.mts",
+      "scripts/live-isolated-check.sh",
+      "docs/evidence/run-live-qa.sh"
+    ],
+    "syntaxCheck": "PASSED",
+    "scope": "Fresh isolated QA/delivery/empty restore PostgreSQL databases, clean final release SHA, default local Docker context with localhost-only Postgres binding, local port3100 API, full SQL suite, 13 rendered browser scenarios, authenticated encryption tamper rejection, exact restored private blobs and actual bundled worker heartbeat/graceful stop/restart probes."
+  }
+}

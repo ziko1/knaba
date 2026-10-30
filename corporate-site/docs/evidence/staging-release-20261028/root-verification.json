@@ -1,0 +1,16 @@
+[
+  {
+    "command": "node --test scripts/verify-snapshot.test.mjs scripts/release-readiness.test.mjs scripts/verify-module-manifest.test.mjs",
+    "started_at": "2026-10-28T08:21:57.082633+00:00",
+    "finished_at": "2026-10-28T08:21:58.659000+00:00",
+    "exit_code": 0,
+    "log": "root-tests.log"
+  },
+  {
+    "command": "node scripts/verify-snapshot.mjs",
+    "started_at": "2026-10-28T08:21:58.659311+00:00",
+    "finished_at": "2026-10-28T08:21:58.773079+00:00",
+    "exit_code": 1,
+    "log": "snapshot.log"
+  }
+]

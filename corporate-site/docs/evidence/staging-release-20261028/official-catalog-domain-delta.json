@@ -1,0 +1,22 @@
+{
+  "routes_equal": true,
+  "unit_count": 1053,
+  "staging_digest": "d3e043bbb88f61734b9e16c2a6b7999ad91609d4b50166e6dd914c9848479b54",
+  "official_digest": "5b8b4af6f24f392c5c2d7bf4db0e1c664335c5f0a6d659572cbb0695eda3837f",
+  "removed": [
+    "Quelle: https://kneba.vsp.rest/ratgeber/bauhelfer-einsatz-vorbereiten/",
+    "Quelle: https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
+    "Quelle: https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/",
+    "Quelle: https://kneba.vsp.rest/ratgeber/baureinigung-phasen/",
+    "kneba.vsp.rest",
+    "Quelle: https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+  ],
+  "added": [
+    "Quelle: https://knaba.de/ratgeber/bauuebergabe-checkliste/",
+    "Quelle: https://knaba.de/ratgeber/bauendreinigung-vorbereiten/",
+    "knaba.de",
+    "Quelle: https://knaba.de/ratgeber/baureinigung-kosten-planen/",
+    "Quelle: https://knaba.de/ratgeber/baureinigung-phasen/",
+    "Quelle: https://knaba.de/ratgeber/bauhelfer-einsatz-vorbereiten/"
+  ]
+}

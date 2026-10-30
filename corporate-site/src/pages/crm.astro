@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CrmConsole from '../components/CrmConsole.tsx';
+---
+<Layout title="KNABA Studio | CRM" description="Geschütztes KnaBa CRM für Geschäftsanfragen." noindex={true}>
+  <section class="container" style="padding-block:2rem">
+    <h1>KNABA Studio · CRM</h1>
+    <p>Kontakte, Aufträge und interne Notizen — bestehende Portalrechte bleiben gültig.</p>
+    <nav aria-label="KNABA Verwaltung"><a href="/admin/?view=crm">← KNABA Control Center</a></nav>
+    <CrmConsole client:load />
+  </section>
+</Layout>

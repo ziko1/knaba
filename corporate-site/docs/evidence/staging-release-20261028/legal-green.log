@@ -1,0 +1,14 @@
+✔ de: privacy navigation targets exist and disclose current services (1.387841ms)
+✔ de: legal notice is truthful about inquiries and published company data (0.411706ms)
+✔ ru: privacy navigation targets exist and disclose current services (0.541828ms)
+✔ ru: legal notice is truthful about inquiries and published company data (0.190651ms)
+✔ legal source never represents a generic privacy acknowledgement as marketing consent (0.669284ms)
+✔ assistant transparency is shown in all four public languages before a message is sent (0.263428ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 95.481031

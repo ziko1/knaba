@@ -1,0 +1,28 @@
+---
+import {officialPartnerLogos,partnerCopy,partnerProfilePath} from '../data/partners';
+import type {ConstructionLocale} from '../data/construction-offers';
+import '../styles/partners.css';
+const {locale='de',id='knaba-partners'}=Astro.props as {locale?:ConstructionLocale;id?:string};
+const t=partnerCopy[locale];
+---
+<section class="container knaba-partners" id="partner" aria-labelledby={id+'-title'}>
+  <header class="knaba-partners-heading">
+    <p class="knaba-partners-eyebrow">{t.eyebrow}</p>
+    <h2 id={id+'-title'}>{t.title}</h2>
+    <p>{t.description}</p>
+  </header>
+  <ul class="knaba-partners-grid" role="list">
+    {officialPartnerLogos.map(partner => (
+      <li class="knaba-partner-card" data-partner-id={partner.id}>
+        <a class="knaba-partner-profile-link" href={partnerProfilePath(locale,partner.slug)} aria-label={t.profile + ': ' + partner.name}>
+        <div class="knaba-partner-image">
+          <img src={partner.src} alt={t.logo + ' ' + partner.name}
+            width={partner.width} height={partner.height} loading="lazy" decoding="async" />
+        </div>
+        <p class="knaba-partner-name">{partner.name}</p>
+        <span class="knaba-partner-action">{t.profile} <span aria-hidden="true">↗</span></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,376 @@
+{
+  "status": "BLOCKED_PROVIDER_DASHBOARD_TWO_FACTOR",
+  "observedAt": "2026-10-06T23:20:36.164Z",
+  "project": {
+    "id": "5701136e-0b7c-48e8-a0c6-5c5a01c4330b",
+    "name": "knaba-de-staging"
+  },
+  "environment": {
+    "id": "8ce0753b-b0b6-45f4-b655-6a9f9299ced2",
+    "name": "staging"
+  },
+  "patch": {
+    "patchId": "6aa92092-b449-4e17-8161-b0b4bc8c47eb",
+    "status": "STAGED",
+    "changeCount": 37,
+    "message": null,
+    "createdAt": "2026-10-06T20:57:30.916Z",
+    "updatedAt": "2026-10-06T23:18:28.205Z"
+  },
+  "destructive": false,
+  "testedGitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "testedGitTree": "8144d5bc90fcefe9bcdb26255d55287e96f2a170",
+  "sourcePins": {
+    "API": {
+      "repo": "ziko1/knaba",
+      "branch": "knaba-staging",
+      "commitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+      "image": null
+    },
+    "Worker": {
+      "repo": "ziko1/knaba",
+      "image": null,
+      "branch": "knaba-staging",
+      "commitSha": "ca9ed79ff4c0429223eb60754289ee1132088361"
+    },
+    "sharedGIT_SHA": "STAGED_EXACT_TESTED_SHA"
+  },
+  "resources": [
+    {
+      "kind": "service",
+      "id": "003f1015-f5f6-43ca-b7e1-db72c6bafb7e",
+      "name": "API",
+      "action": "update",
+      "changes": [
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.source.branch",
+          "displayName": "Branch",
+          "type": "updated",
+          "from": "knaba-staging",
+          "to": "knaba-staging",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.source.commitSha",
+          "displayName": "Commit Sha",
+          "type": "updated",
+          "from": "3c85adc228ddd5c6078e7bbc05e4d5570625c978",
+          "to": "ca9ed79ff4c0429223eb60754289ee1132088361",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.source.image",
+          "displayName": "Image",
+          "type": "removed",
+          "from": "",
+          "to": "",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.source.repo",
+          "displayName": "Repo",
+          "type": "updated",
+          "from": "ziko1/knaba",
+          "to": "ziko1/knaba",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.build.dockerfilePath",
+          "displayName": "Dockerfile Path",
+          "type": "updated",
+          "from": "infra/Dockerfile",
+          "to": "infra/Dockerfile.railway",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.deploy.preDeployCommand",
+          "displayName": "Pre Deploy Command",
+          "type": "updated",
+          "from": "[\"node scripts/environment-check.mjs && npm run migrate && npm run seed\"]",
+          "to": "[\"sh -ec 'case ${KNABA_STAGING_STOP_EPOCH-} in \\\"\\\"|*[!0-9]*) exit 78;; esac; remaining=$((KNABA_STAGING_STOP_EPOCH-$(date +%s))); if [ \\\"$remaining\\\" -le 0 ]; then echo \\\"KNABA DE staging window expired\\\"; exit 78; fi; if [ \\\"$remaining\\\" -gt 300 ]; then remaining=300; fi; exec timeout --signal=TERM --kill-after=15s \\\"$remaining\\\" \\\"$@\\\"' knaba-predeploy sh -ec 'node scripts/environment-check.mjs && npm run migrate && npm run seed'\"]",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.deploy.preDeployTimeoutSeconds",
+          "displayName": "Pre Deploy Timeout Seconds",
+          "type": "updated",
+          "from": "300",
+          "to": "300",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.AI_SYNTHETIC_ONLY.encryptedValue",
+          "displayName": "AI_SYNTHETIC_ONLY",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.APP_MODE.encryptedValue",
+          "displayName": "APP_MODE",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.AUTH_ENCRYPTION_KEY.encryptedValue",
+          "displayName": "AUTH_ENCRYPTION_KEY",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.COMPANY_ID.encryptedValue",
+          "displayName": "COMPANY_ID",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.DATABASE_URL.encryptedValue",
+          "displayName": "DATABASE_URL",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.GIT_SHA.encryptedValue",
+          "displayName": "GIT_SHA",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.KNABA_STAGING_STOP_EPOCH.encryptedValue",
+          "displayName": "KNABA_STAGING_STOP_EPOCH",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.LIVE_SEND_ALLOWED.encryptedValue",
+          "displayName": "LIVE_SEND_ALLOWED",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.NODE_ENV.encryptedValue",
+          "displayName": "NODE_ENV",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.PUBLIC_ORIGIN.encryptedValue",
+          "displayName": "PUBLIC_ORIGIN",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.003f1015-f5f6-43ca-b7e1-db72c6bafb7e.variables.WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED.encryptedValue",
+          "displayName": "WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        }
+      ]
+    },
+    {
+      "kind": "service",
+      "id": "5c3c6e92-eefe-49f1-a81b-733c66f526cd",
+      "name": "Worker",
+      "action": "update",
+      "changes": [
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.source.branch",
+          "displayName": "Branch",
+          "type": "added",
+          "from": "",
+          "to": "knaba-staging",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.source.commitSha",
+          "displayName": "Commit Sha",
+          "type": "added",
+          "from": "",
+          "to": "ca9ed79ff4c0429223eb60754289ee1132088361",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.source.image",
+          "displayName": "Image",
+          "type": "removed",
+          "from": "",
+          "to": "",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.source.repo",
+          "displayName": "Repo",
+          "type": "added",
+          "from": "",
+          "to": "ziko1/knaba",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.build.dockerfilePath",
+          "displayName": "Dockerfile Path",
+          "type": "updated",
+          "from": "infra/Dockerfile",
+          "to": "infra/Dockerfile.railway",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.deploy.startCommand",
+          "displayName": "Start Command",
+          "type": "updated",
+          "from": "sh -ec 'case ${KNABA_STAGING_STOP_EPOCH-} in \"\"|*[!0-9]*) exit 78;; esac; remaining=$((KNABA_STAGING_STOP_EPOCH-$(date +%s))); if [ \"$remaining\" -le 0 ]; then echo \"KNABA DE staging window expired\"; exit 0; fi; exec timeout --signal=TERM --kill-after=60s \"$remaining\" \"$@\"' knaba-window node dist/worker.mjs",
+          "to": "sh -ec 'case ${KNABA_STAGING_STOP_EPOCH-} in \"\"|*[!0-9]*) exit 78;; esac; remaining=$((KNABA_STAGING_STOP_EPOCH-$(date +%s))); if [ \"$remaining\" -le 0 ]; then echo \"KNABA DE staging window expired\"; exit 0; fi; exec timeout --signal=TERM --kill-after=60s \"$remaining\" \"$@\"' knaba-window node scripts/railway-worker-start.mjs",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.AI_SYNTHETIC_ONLY.encryptedValue",
+          "displayName": "AI_SYNTHETIC_ONLY",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.APP_MODE.encryptedValue",
+          "displayName": "APP_MODE",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.AUTH_ENCRYPTION_KEY.encryptedValue",
+          "displayName": "AUTH_ENCRYPTION_KEY",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.COMPANY_ID.encryptedValue",
+          "displayName": "COMPANY_ID",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.DATABASE_URL.encryptedValue",
+          "displayName": "DATABASE_URL",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.GIT_SHA.encryptedValue",
+          "displayName": "GIT_SHA",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.KNABA_STAGING_STOP_EPOCH.encryptedValue",
+          "displayName": "KNABA_STAGING_STOP_EPOCH",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.LIVE_SEND_ALLOWED.encryptedValue",
+          "displayName": "LIVE_SEND_ALLOWED",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.NODE_ENV.encryptedValue",
+          "displayName": "NODE_ENV",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.PUBLIC_ORIGIN.encryptedValue",
+          "displayName": "PUBLIC_ORIGIN",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        },
+        {
+          "path": "services.5c3c6e92-eefe-49f1-a81b-733c66f526cd.variables.WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED.encryptedValue",
+          "displayName": "WHATSAPP_ACCOUNT_CAPABILITIES_VERIFIED",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        }
+      ]
+    },
+    {
+      "kind": "service",
+      "id": "9157c2ec-e786-4afc-a5f5-792d8dd84571",
+      "name": "Postgres",
+      "action": "update",
+      "changes": [
+        {
+          "path": "services.9157c2ec-e786-4afc-a5f5-792d8dd84571.variables.KNABA_STAGING_STOP_EPOCH.encryptedValue",
+          "displayName": "KNABA_STAGING_STOP_EPOCH",
+          "type": "added",
+          "from": "",
+          "to": "<redacted>",
+          "destructive": false
+        }
+      ]
+    }
+  ],
+  "sharedVariables": [
+    {
+      "path": "sharedVariables.GIT_SHA.encryptedValue",
+      "displayName": "GIT_SHA",
+      "type": "added",
+      "from": "",
+      "to": "<redacted>",
+      "destructive": false
+    }
+  ],
+  "budget": {
+    "authorizedEurPerMonth": 10,
+    "stopEpoch": 1791403912,
+    "stopAt": "2026-10-07T20:11:52Z",
+    "trialWindowExtended": false,
+    "permanentMonthlyCostVerified": false
+  },
+  "providerRequirement": "These staged changes require two-factor verification, which isn't available over an API/MCP token. Apply them from the Railway dashboard.",
+  "dashboardApplicationQuestionAsked": true,
+  "applied": false,
+  "allocatedUrl": "https://api-staging-a476.up.railway.app",
+  "verifiedApplicationUrl": null,
+  "liveScenarioStatus": "NOT_RUN",
+  "automaticApprovalReviewRejection": false
+}

@@ -1,0 +1,14 @@
+---
+import type {PublishedSiteLocale} from '../lib/locale-catalog';
+const {locale='de'}=Astro.props as {locale?:PublishedSiteLocale};
+const note={
+  de:'Deutsch ist die Standardsprache. Noch nicht übersetzte Fach- und Rechtstexte sind mit DE gekennzeichnet.',
+  en:'German is the default. Specialist and legal pages without a translation are marked DE.',
+  pl:'Domyślnym językiem jest niemiecki. Nieprzetłumaczone artykuły i dokumenty prawne oznaczamy DE.',
+  lt:'Numatytoji kalba – vokiečių. Neišversti straipsniai ir teisiniai dokumentai pažymėti DE.',
+  ru:'Основной язык — немецкий. Непереведённые статьи и юридические документы отмечены DE.',
+  uk:'Основна мова — німецька. Неперекладені статті та юридичні документи позначені DE.',
+}[locale];
+---
+<p class="locale-catalog-note">{note}</p>
+<style>.locale-catalog-note{border-top:1px solid #d7e4da;margin:4px 0 0;padding:12px 8px 5px;font-size:.73rem;line-height:1.5;color:#45655b}</style>

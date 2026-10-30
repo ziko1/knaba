@@ -1,0 +1,35 @@
+{
+  "source": "working-tree atop 5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "reason": "Remove fictional testimonial examples from empty public review state while retaining real moderated reviews and submission.",
+  "runs": [
+    {
+      "command": "npm run check",
+      "start": "2026-10-28T08:46:01.834161+00:00",
+      "finish": "2026-10-28T08:46:12.772123+00:00",
+      "exit_code": 0,
+      "log": "review-content-check.log"
+    },
+    {
+      "command": "npm test",
+      "start": "2026-10-28T08:46:12.772176+00:00",
+      "finish": "2026-10-28T08:46:15.341687+00:00",
+      "exit_code": 0,
+      "log": "review-content-tests.log"
+    },
+    {
+      "command": "npm run build",
+      "start": "2026-10-28T08:46:15.341762+00:00",
+      "finish": "2026-10-28T08:46:20.126297+00:00",
+      "exit_code": 0,
+      "log": "review-content-build.log"
+    },
+    {
+      "command": "npm run verify:build",
+      "start": "2026-10-28T08:46:20.126378+00:00",
+      "finish": "2026-10-28T08:46:21.369825+00:00",
+      "exit_code": 0,
+      "log": "review-content-verify.log"
+    }
+  ],
+  "browser_test_scripts": "updated assertions; standalone local Playwright scripts NOT_RUN; final cloud verification required"
+}

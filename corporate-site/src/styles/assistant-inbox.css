@@ -1,0 +1,38 @@
+.ki-shell{max-width:1200px;margin:0 auto;padding:24px 0 70px;min-width:0;color:#143e3f}
+.ki-shell h2{font-size:clamp(22px,3vw,30px);margin-bottom:20px}
+.ki-toolbar{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:14px;font-size:12px;color:#597167}
+.ki-toolbar button,.ki-thread-head button{border:1px solid #bed0c5;background:#fff;color:#143e3f;padding:9px 12px;border-radius:11px;font-size:13px}
+.ki-grid{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:0;min-height:620px;border:1px solid #cdded4;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 12px 40px -35px #102f38}
+.ki-list{background:#f2f6ef;border-right:1px solid #d9e4d9;overflow-y:auto;max-height:760px}
+.ki-list-entry{position:relative;border:0;border-bottom:1px solid #dfe8da;padding:18px;text-align:left;width:100%;display:flex;flex-direction:column;gap:7px;background:transparent;color:#173c3f}
+.ki-list-entry:hover,.ki-list-entry.is-selected{background:#deefc9}
+.ki-list-entry strong{font-size:14px;overflow-wrap:anywhere}
+.ki-list-entry span{font-size:12px;line-height:1.4;color:#4d6b61;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ki-list-entry small{font-size:11px;color:#647c69}
+.ki-list-entry em{position:absolute;top:12px;right:12px;font-style:normal;color:#457b63}
+.ki-body{padding:20px;min-width:0;max-height:900px;overflow:auto}
+.ki-empty{padding:30px;color:#587166;font-size:14px}
+.ki-empty a{text-decoration:underline}
+.ki-thread-head{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #e5e9e1;padding-bottom:13px;align-items:flex-start}
+.ki-thread-head strong{display:block;overflow-wrap:anywhere}
+.ki-thread-head small{display:block;margin-top:6px;font-size:12px;color:#587166;overflow-wrap:anywhere}
+.ki-messages{display:flex;flex-direction:column;gap:10px;margin:20px 0;max-height:400px;overflow:auto;scrollbar-width:thin}
+.ki-message{width:fit-content;max-width:90%;border:1px solid #d7e4de;border-radius:13px;padding:11px;background:#f7faf5;white-space:pre-wrap;overflow-wrap:anywhere}
+.ki-from-owner{margin-left:auto;background:#e2f3be}
+.ki-from-assistant{background:#e5ebf9}
+.ki-message small{font-size:11px;color:#526d62}
+.ki-message p{font-size:13px;color:#173d40;margin:5px 0 0;line-height:1.6}
+.ki-form{padding:15px;margin:15px 0;border:1px solid #dce8dc;border-radius:14px;background:#fcfdfb;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.ki-form label{width:100%;font-size:13px;font-weight:700}
+.ki-form textarea{display:block;width:100%;margin-top:7px;padding:10px 12px;border:1px solid #bfcfc5;border-radius:9px;resize:vertical;font:inherit;font-size:13px;color:#123d43;min-height:74px}
+.ki-form button{border:0;border-radius:11px;padding:11px 17px;background:#143e40;color:white;font-weight:730;font-size:12px}
+.ki-form button:disabled{opacity:.5}
+.ki-offer{white-space:pre-wrap;overflow-wrap:anywhere;padding:15px;border:1px solid #cde0c6;background:#f4f9ed;border-radius:12px;margin-bottom:10px}
+.ki-offer p{font-size:13px;color:#173c3f}.ki-offer small{color:#54735f}
+.ki-info{font-size:12px;color:#60776d;margin-top:13px}
+.ki-error{background:#fff1ec;border:1px solid #f1c7bb;color:#773c2c;padding:13px;border-radius:11px}
+@media(max-width:700px){.ki-grid{grid-template-columns:1fr}.ki-list{border-right:0;border-bottom:1px solid #d8e6d8;max-height:220px}.ki-list-entry{padding:11px 15px}.ki-body{padding:12px}.ki-thread-head{flex-wrap:wrap}.ki-shell{padding-bottom:48px}}
+
+.ki-toolbar { flex-wrap:wrap; }
+.ki-notification-status { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:6px 10px; background:#eef5eb; border-radius:10px; color:#365b4b; font-size:12px; }
+.ki-notification-status button { font-size:12px; min-height:34px; }

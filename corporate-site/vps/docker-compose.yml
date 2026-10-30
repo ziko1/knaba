@@ -1,0 +1,69 @@
+name: knaba-vps
+services:
+  web:
+    image: node:24-bookworm-slim
+    pull_policy: never
+    container_name: knaba-vps-internal
+    user: "${KNABA_RUNTIME_UID:?Set KNABA_RUNTIME_UID}:${KNABA_RUNTIME_GID:?Set KNABA_RUNTIME_GID}"
+    init: true
+    read_only: true
+    working_dir: /app
+    command: ["node", "/app/vps/server.mjs"]
+    restart: unless-stopped
+    pids_limit: 96
+    mem_limit: 512m
+    cpus: 1.0
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    volumes:
+      - ./current/dist:/app/dist:ro
+      - ./current/vps:/app/vps:ro
+      - ./current/drizzle:/app/drizzle:ro
+      - ./current/package.json:/app/package.json:ro
+      - ./state:/var/lib/knaba:rw
+    env_file:
+      - ./config/site.env
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      KNABA_PUBLIC_ORIGIN: "${KNABA_PUBLIC_ORIGIN:?Set KNABA_PUBLIC_ORIGIN}"
+      KNABA_PUBLIC_HOST: "${KNABA_PUBLIC_HOST:?Set KNABA_PUBLIC_HOST}"
+      KNABA_DB_PATH: "/var/lib/knaba/site.sqlite"
+      KNABA_BACKUP_DIR: "/var/lib/knaba/backups"
+      KNABA_LOCAL_TEST: "0"
+    ports:
+      - "127.0.0.1:19110:8080"
+    networks:
+      - default
+      - coolify
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "${KNABA_PROXY_NETWORK:-coolify}"
+      traefik.http.routers.knaba-vps-http.rule: "Host(`${KNABA_PUBLIC_HOST:?Set KNABA_PUBLIC_HOST}`)"
+      traefik.http.routers.knaba-vps-http.entrypoints: "http"
+      traefik.http.routers.knaba-vps-http.middlewares: "knaba-vps-redirect"
+      traefik.http.routers.knaba-vps-http.service: "knaba-vps"
+      traefik.http.middlewares.knaba-vps-redirect.redirectscheme.scheme: "https"
+      traefik.http.middlewares.knaba-vps-redirect.redirectscheme.permanent: "true"
+      traefik.http.routers.knaba-vps-public.rule: "Host(`${KNABA_PUBLIC_HOST:?Set KNABA_PUBLIC_HOST}`)"
+      traefik.http.routers.knaba-vps-public.entrypoints: "https"
+      traefik.http.routers.knaba-vps-public.tls: "true"
+      traefik.http.routers.knaba-vps-public.tls.certresolver: "letsencrypt"
+      traefik.http.routers.knaba-vps-public.service: "knaba-vps"
+      traefik.http.routers.knaba-vps-public.middlewares: "knaba-vps-secure-headers"
+      traefik.http.middlewares.knaba-vps-secure-headers.headers.stsSeconds: "604800"
+      traefik.http.services.knaba-vps.loadbalancer.server.port: "8080"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get({hostname:'127.0.0.1',port:8080,path:'/healthz',headers:{Host:process.env.KNABA_PUBLIC_HOST}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    stop_grace_period: 10s
+
+networks:
+  coolify:
+    external: true
+    name: "${KNABA_PROXY_NETWORK:-coolify}"

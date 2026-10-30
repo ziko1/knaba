@@ -1,0 +1,33 @@
+✔ missing, incomplete and malformed receipts fail closed (1.222948ms)
+✔ blocked or omitted acceptance remains blocked (0.581816ms)
+✔ approval, exact SHA and artifact digest are mandatory (1.349983ms)
+✔ reject duplicate, forged and traversal evidence locations (0.272552ms)
+✔ complete structurally valid receipt passes syntax policy only (1.435863ms)
+✔ manifest includes existing CMS/CRM/portal/inbox and a separate, disabled ERP (7.453712ms)
+✔ fails closed on a fabricated running ERP module (0.692619ms)
+✔ fails closed when mandatory backup/cutover gates disappear (0.599222ms)
+✔ rejects duplicate or unknown module instead of dynamically loading code (0.33765ms)
+✔ rejects invalid source paths and missing checkout (0.31583ms)
+✔ original imported trees and clean source are independently verified (142.347797ms)
+✔ committed ERP and site evolution does not corrupt historical import proof (117.298211ms)
+✔ unstaged ERP edit fails exact-source integrity (149.334293ms)
+✔ unstaged site edit fails exact-source integrity (100.064403ms)
+✔ staged change fails exact-source integrity (89.060799ms)
+✔ untracked root source fails exact-source integrity (89.103968ms)
+✔ dirty root metadata fails exact-source integrity (83.324514ms)
+✔ committed deletion of a canonical file fails (77.873977ms)
+✔ canonical file symlink cannot substitute for tracked regular file (87.770957ms)
+✔ missing historical anchor fails closed without fetching (55.669087ms)
+✔ an unrelated root history cannot claim imported ancestry (73.288394ms)
+✔ historical tree mismatch is never relabeled as feature change (64.032848ms)
+✔ invalid committed root metadata fails: {not json (88.144446ms)
+✔ invalid committed root metadata fails: {"name":"another-project","private":true} (79.38608ms)
+✔ invalid committed root metadata fails: {"name":"knaba-unified-integration","private":false} (79.277054ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1515.019072

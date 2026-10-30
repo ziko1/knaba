@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "scope": "Historical discovery inventory of58 public leaf branches at audit. Missing filename lists describe initial discovery; they do not mean functionality remains missing after integration.",
+  "decision_record": "source-lineage.json",
+  "branches": [
+    {
+      "ref": "origin/codex/knaba-assistant-language-dropdown-20261024",
+      "sha": "bad5b3e9742486d224b756efdd720240d06e8d6e",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/codex/knaba-corporate-astro-20261024",
+      "sha": "4a8902b39cf08bfbdc25b7af40980cf554e11195",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/scripts/stable-artifact.mjs",
+        "corporate-site/tests/portal-headers.test.ts",
+        "corporate-site/tests/stable-artifact.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-erp-stabilization-20261024",
+      "sha": "8a22c7c1e66f0765cf2288b5b47df9f16e54c668",
+      "prefix": "erp/",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/codex/knaba-language-dropdown-20261024",
+      "sha": "58796ec86c751a77311193f01a8491eef55f6cde",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/lib/public-assistant.ts",
+        "corporate-site/src/pages/assistent.astro",
+        "corporate-site/src/pages/portal.astro",
+        "corporate-site/src/pages/ru/assistent.astro",
+        "corporate-site/src/pages/ru/portal.astro",
+        "corporate-site/src/styles/public-assistant.css",
+        "corporate-site/tests/public-assistant.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-notification-outbox-20261025",
+      "sha": "b35ecd62b2ecbfc477ee65f0055f90730eb07ded",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/drizzle/0001_wet_nick_fury.sql",
+        "corporate-site/drizzle/0002_lively_scrambler.sql",
+        "corporate-site/drizzle/0003_uneven_doctor_strange.sql",
+        "corporate-site/src/components/OwnerConversation.tsx",
+        "corporate-site/src/lib/assistant-conversation.ts",
+        "corporate-site/src/lib/editor-contract.ts",
+        "corporate-site/src/lib/public-assistant.ts",
+        "corporate-site/src/pages/assistent.astro",
+        "corporate-site/src/pages/editor.astro",
+        "corporate-site/src/pages/portal.astro",
+        "corporate-site/src/pages/ru/assistent.astro",
+        "corporate-site/src/pages/ru/portal.astro",
+        "corporate-site/src/styles/editor.css",
+        "corporate-site/src/styles/floating-assistant.css",
+        "corporate-site/src/styles/owner-conversation.css",
+        "corporate-site/src/styles/public-assistant.css",
+        "corporate-site/tests/assistant-client.test.ts",
+        "corporate-site/tests/assistant-threads.test.ts",
+        "corporate-site/tests/editor.test.ts",
+        "corporate-site/tests/public-assistant.test.ts",
+        "corporate-site/tests/verify-build-report.test.mjs",
+        "corporate-site/worker/assistant-threads.ts",
+        "corporate-site/worker/editor.ts",
+        "corporate-site/worker/owner-notifications.ts"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-release-site-candidate-20261024",
+      "sha": "b68771ed3fdb567bc39bc6aed64c0ccba848edbb",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/drizzle/0001_wet_nick_fury.sql",
+        "corporate-site/src/components/OwnerConversation.tsx",
+        "corporate-site/src/lib/assistant-conversation.ts",
+        "corporate-site/src/lib/public-assistant.ts",
+        "corporate-site/src/pages/assistent.astro",
+        "corporate-site/src/pages/portal.astro",
+        "corporate-site/src/pages/ru/assistent.astro",
+        "corporate-site/src/pages/ru/portal.astro",
+        "corporate-site/src/styles/floating-assistant.css",
+        "corporate-site/src/styles/owner-conversation.css",
+        "corporate-site/src/styles/public-assistant.css",
+        "corporate-site/tests/assistant-client.test.ts",
+        "corporate-site/tests/assistant-threads.test.ts",
+        "corporate-site/tests/public-assistant.test.ts",
+        "corporate-site/tests/verify-build-report.test.mjs",
+        "corporate-site/worker/assistant-threads.ts"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-responsive-20261009",
+      "sha": "c083a647d5c842ef71cdd42185b8bb3fc127fa75",
+      "prefix": "erp/",
+      "missingSourcePaths": [
+        "erp/apps/web/src/chatRequestGeneration.test.ts",
+        "erp/apps/web/src/chatRequestGeneration.ts",
+        "erp/packages/domain/report-export.ts",
+        "erp/packages/integrations/accounting-export.ts",
+        "erp/tests/accounting-export.integration.test.ts",
+        "erp/tests/accounting-export.test.ts",
+        "erp/tests/native-ios-simulator.test.ts",
+        "erp/tests/native_ios_simulator_test.py",
+        "erp/tests/web-session-races.spec.ts"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-ux-i18n-live-20261025",
+      "sha": "85ab987bed557d2917fc2b37f8d100a53807e272",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/tests/i18n-99-browser-check.cjs"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-vibrant-cleaning-illustrations-20261024",
+      "sha": "457e58c3e81c45dc328923c9787b722c5d0e7368",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/lib/public-assistant.ts",
+        "corporate-site/src/pages/assistent.astro",
+        "corporate-site/src/pages/portal.astro",
+        "corporate-site/src/pages/ru/assistent.astro",
+        "corporate-site/src/pages/ru/portal.astro",
+        "corporate-site/src/styles/public-assistant.css",
+        "corporate-site/tests/public-assistant.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/codex/knaba-vps-integrated-20261025",
+      "sha": "fe87d8bd6ae34bf3bf7144627e5f7626e27049c1",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/vps/compose-security.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/docs/pvux-adoption-20261015",
+      "sha": "db314e0224b119dce8108a9d9a89b2330924941c",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/docs/ups100-adoption-20261015",
+      "sha": "5f3e39db8b2a2ef024ce025e605feeaea9b2e712",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-android-ios-workspace-20261028",
+      "sha": "5910753cfad2b485e2a0f5acf5a2b8d3a48dab59",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-baureinigung-20261025",
+      "sha": "c732f2c87dc67e56df9ed09b8395f203b13191b7",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/components/LocalizedPortalPage.astro",
+        "corporate-site/src/lib/construction-inquiry.ts",
+        "corporate-site/src/pages/en/konto.astro",
+        "corporate-site/src/pages/uk/konto.astro",
+        "corporate-site/tests/construction-inquiry.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-color-seo-20261025",
+      "sha": "024883b16dcfe423dcb9cdd454c3dbaa30a567bd",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/tests/i18n-99-browser-check.cjs"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-customer-environments-20261028",
+      "sha": "ede2ea308dd918b4ade484d3830da6a744cdd8c8",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/vps/customer-environments/.gitignore",
+        "corporate-site/vps/customer-environments/approval.example.json",
+        "corporate-site/vps/customer-environments/cloudflared-knaba-customer@.service",
+        "corporate-site/vps/customer-environments/knabactl.py",
+        "corporate-site/vps/customer-environments/preview-gateway.mjs",
+        "corporate-site/vps/customer-environments/preview-gateway.test.mjs",
+        "corporate-site/vps/customer-environments/test_knabactl.py",
+        "corporate-site/vps/customer-environments/verification.json"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-customer-ready-acceptance-20261026",
+      "sha": "092368216d834b686676e613bb06c27f5ca3ce96",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/data/external-rating.ts",
+        "corporate-site/tests/customer-language-picker.test.ts",
+        "corporate-site/tests/official-source-evidence.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-erp-lead-bridge-forward-20261026",
+      "sha": "fa9ea67b888571657d9b27fb7c56bfb30ee15d73",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/drizzle/0007_assistant_erp_bridge.sql",
+        "corporate-site/src/components/AssistantLead.tsx",
+        "corporate-site/src/lib/assistant-erp-contract.ts",
+        "corporate-site/src/lib/assistant-lead-ui.ts",
+        "corporate-site/src/styles/assistant-lead.css",
+        "corporate-site/tests/assistant-erp-api.test.ts",
+        "corporate-site/tests/assistant-erp-dispatch.test.ts",
+        "corporate-site/tests/assistant-erp.test.ts",
+        "corporate-site/tests/assistant-lead-ui.test.ts",
+        "corporate-site/tests/helpers/assistant-erp-fixture.ts",
+        "corporate-site/vps/assistant-erp-forward.test.mjs",
+        "corporate-site/vps/assistant-erp.test.mjs",
+        "corporate-site/worker/assistant-erp-dispatch.ts",
+        "corporate-site/worker/assistant-erp.ts"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-faq-editor-artifact-integrated-20261025",
+      "sha": "b32d3edf47c9bf57da8f5697de04475abaf3a4b7",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-first-visit-conversion-20261026",
+      "sha": "362e196e5918e65234734e3e2fc7abc7b8522caf",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/components/MarketingStories.astro",
+        "corporate-site/src/data/marketing-stories.ts",
+        "corporate-site/src/lib/admin-module-registry.ts",
+        "corporate-site/tests/admin-module-registry.test.ts",
+        "corporate-site/tests/marketing-trust.test.ts",
+        "corporate-site/tests/project-scope-design.test.ts",
+        "corporate-site/vps/setup_owner.py"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-google-oidc-pending-20261025",
+      "sha": "b4cc060c9390724bb007e87460ecfc710452b146",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/data/construction-service-insights.ts",
+        "corporate-site/tests/construction-card-browser.cjs",
+        "corporate-site/tests/construction-service-insights.test.ts",
+        "corporate-site/vps/google-oidc-server.test.mjs",
+        "corporate-site/vps/google-oidc.mjs",
+        "corporate-site/vps/google-oidc.sql",
+        "corporate-site/vps/google-oidc.test.mjs",
+        "corporate-site/vps/seo-standalone.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-i18n99-pr42-integration-20261025",
+      "sha": "645bba7bf5b03f85519119c9e87501eab0ba2a19",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-legal-gdpr-review-20261028",
+      "sha": "d98f435b6933e9bea0c17124e388f745978c0c89",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-omnichannel-bot-commands-20261026",
+      "sha": "6cee74de5dcbd6a5719e06f1ef3bc69b70ff246e",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-organic-b2b-intent-content-20261026",
+      "sha": "00d3701137d4b7855c48510e517e4a14a20d21c3",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/data/project-intents.json",
+        "corporate-site/src/lib/admin-module-registry.ts",
+        "corporate-site/src/styles/legacy-inactive-marketing.css",
+        "corporate-site/tests/admin-module-registry.test.ts",
+        "corporate-site/tests/project-intents-browser.cjs",
+        "corporate-site/tests/project-intents.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-pr53-inline-login-studio-20261025",
+      "sha": "3f5d12b40d75eaf45ba92272671e9cdec9c4d32d",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-preview-invite-register-20261026",
+      "sha": "af36b4732dae5910d9e2c73715cee7d835fbcba5",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/vps/owner-invite.test.mjs",
+        "corporate-site/vps/preview-registration.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-review-examples-20261026",
+      "sha": "af31fcdf10a78fe08281b23be15c2e99797cf09f",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-seo-forward-20261026",
+      "sha": "08b03bfe13481d2526b39daba68d86483de2dd94",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/data/project-intents.json",
+        "corporate-site/src/styles/legacy-inactive-marketing.css",
+        "corporate-site/tests/project-intents-browser.cjs",
+        "corporate-site/tests/project-intents.test.ts"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-seo-marketing-20261026",
+      "sha": "76dba8f2a6fa934349fbfd6dd0d258ee48993fa1",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/scripts/generate-social-cards.mjs"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-service-carousel-20261025",
+      "sha": "2c325176221d5257236db66c001002e8607e5eb6",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-site-erp-intake-bridge-20261025",
+      "sha": "d6ae01984569c7d4ced586cca9741976b03ffb4b",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/drizzle/0006_knaba_erp_lead_outbox.sql",
+        "corporate-site/vps/erp-bridge.mjs",
+        "corporate-site/vps/erp-bridge.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-studio-articles-seo-20261025",
+      "sha": "50dd12a02b87aaad05c682b55f5937b280f16cd5",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/components/ArticleStudio.tsx",
+        "corporate-site/src/lib/article-contract.ts",
+        "corporate-site/src/styles/article-studio.css",
+        "corporate-site/tests/article-studio-ui.test.ts",
+        "corporate-site/tests/studio-article-browser.cjs",
+        "corporate-site/tests/studio-articles.test.ts",
+        "corporate-site/vps/article.test.mjs",
+        "corporate-site/vps/articles.mjs",
+        "corporate-site/worker/articles.ts"
+      ]
+    },
+    {
+      "ref": "origin/feat/knaba-studio-pro-20261025",
+      "sha": "b056747cb38749a84b8f235b61e929e06a0e1467",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-visual-faq-audit-integrated-20261025",
+      "sha": "3ef40aea4f25144398105da6ae4f444a7b1df620",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-visual-polish-20261028",
+      "sha": "3e47eec20febaf6fa3d4bb7ba48a600db90377c0",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/feat/knaba-vivid-ux-20261028",
+      "sha": "7ab3ba152d9eaa268ce1c68cafbd834d1a135022",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-all-five-partners-local-assets-20261026",
+      "sha": "e502147418ec6c8d890a31262cb1f58d2a70d8ea",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/components/ConstructionPartners.astro"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-card-ordinal-labels-20261026",
+      "sha": "07a34bb8e66b415dec5b9adb27c646f359af0a42",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/components/PartnersSection.astro"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-client-ux-acceptance-20261026",
+      "sha": "0865fb6cd1bdfbe310a7da999153a695fefd7a72",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/scripts/image-alt-gate.mjs",
+        "corporate-site/src/components/PartnersSection.astro",
+        "corporate-site/tests/image-alt-gate.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-contact-phone-link-dedup-20261026",
+      "sha": "4b990440b5ef3c9a0200a89cac44b16267526f9b",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/components/PartnersSection.astro"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-faq-studio-leaf-edit-20261025",
+      "sha": "8233fa0c53bc735345fcccc146ff7b38b7112ae8",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-footer-assistant-clearance-20261025",
+      "sha": "a1a08ba388404ff0d0433a18e217f9c2c5276486",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-footer-brand-final-20261025",
+      "sha": "45d64bdf17d9fb49ee92dece75e029c3986de2f6",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-footer-contrast-20261025",
+      "sha": "3d4384566ea5dba019e41e45af4f70a448d1282b",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-hero-secondary-cta-20261026",
+      "sha": "3077a1fb2ea7a3df5de7059c84971027dcdb845b",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/scripts/audit-public-links.mjs",
+        "corporate-site/src/components/PartnersSection.astro",
+        "corporate-site/tests/audit-public-links.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-https-hsts-20261025",
+      "sha": "f96ee199356387b5a7fb212d63f17e53e80ac763",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-login-min8-20261026",
+      "sha": "d02457f41411bb40290b2f31a43051b3cb32e5cd",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-migration-composition-20261026",
+      "sha": "87321bb9a1eadb2914ff8c7bc250f056c27200de",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/drizzle/0005_assistant_erp_bridge.sql",
+        "corporate-site/src/components/AssistantLead.tsx",
+        "corporate-site/src/lib/assistant-erp-contract.ts",
+        "corporate-site/src/lib/assistant-lead-ui.ts",
+        "corporate-site/src/styles/assistant-lead.css",
+        "corporate-site/tests/assistant-erp-api.test.ts",
+        "corporate-site/tests/assistant-erp-browser.mjs",
+        "corporate-site/tests/assistant-erp-dispatch.test.ts",
+        "corporate-site/tests/assistant-erp.test.ts",
+        "corporate-site/tests/assistant-lead-ui.test.ts",
+        "corporate-site/tests/erp-contract-qa/bridge-http.pg.qa.ts.fixture",
+        "corporate-site/tests/erp-contract-qa/bridge-website.pg.qa.ts.fixture",
+        "corporate-site/tests/helpers/assistant-erp-fixture.ts",
+        "corporate-site/tests/owner-activation-browser.cjs",
+        "corporate-site/vps/assistant-erp.test.mjs",
+        "corporate-site/vps/owner-invite.test.mjs",
+        "corporate-site/worker/assistant-erp-dispatch.ts",
+        "corporate-site/worker/assistant-erp.ts"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-mobile-catalogue-dedup-20261026",
+      "sha": "33c0c32d395770569e171c73eb760bdb7f4e37bb",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/scripts/image-alt-gate.mjs",
+        "corporate-site/src/components/PartnersSection.astro",
+        "corporate-site/tests/image-alt-gate.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-pinned-artifact-audit-20261025",
+      "sha": "4626ba265bb1cd2e7cc15260fba2cf4a438f88fc",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-pr46-mobile-200pct-accessibility-20261025",
+      "sha": "af9a9187c0e2ace24a61a39affd4dcd4060a7af6",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/fix/knaba-release-gap-audit-20261026",
+      "sha": "e628243dfbd996b3a7854e1f761d52b68d8ceaf8",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/src/lib/async-view-scope.ts",
+        "corporate-site/tests/assistant-async-state.test.ts",
+        "corporate-site/vps/client-address.mjs",
+        "corporate-site/vps/client-address.test.mjs",
+        "corporate-site/vps/proxy-rate-limit.test.mjs"
+      ]
+    },
+    {
+      "ref": "origin/fix/knaba-restore-home-blocks-20261026",
+      "sha": "e788f6a0f6056c4bbd17be7dde3f9833d1c2df0c",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/integration/knaba-source-qa-20261026",
+      "sha": "a287cf32ec5f9345af357c68cd2ebe3c3020537d",
+      "prefix": "",
+      "missingSourcePaths": [
+        "corporate-site/drizzle/0005_assistant_erp_bridge.sql",
+        "corporate-site/src/components/AssistantLead.tsx",
+        "corporate-site/src/components/PartnersSection.astro",
+        "corporate-site/src/lib/assistant-erp-contract.ts",
+        "corporate-site/src/lib/assistant-lead-ui.ts",
+        "corporate-site/src/styles/assistant-lead.css",
+        "corporate-site/tests/assistant-erp-api.test.ts",
+        "corporate-site/tests/assistant-erp-browser.mjs",
+        "corporate-site/tests/assistant-erp-dispatch.test.ts",
+        "corporate-site/tests/assistant-erp.test.ts",
+        "corporate-site/tests/assistant-lead-ui.test.ts",
+        "corporate-site/tests/erp-contract-qa/bridge-http.pg.qa.ts.fixture",
+        "corporate-site/tests/erp-contract-qa/bridge-website.pg.qa.ts.fixture",
+        "corporate-site/tests/helpers/assistant-erp-fixture.ts",
+        "corporate-site/tests/migration-sequence.test.mjs",
+        "corporate-site/tests/owner-activation-browser.cjs",
+        "corporate-site/tests/static-header-rules.mjs",
+        "corporate-site/tests/static-header-rules.test.mjs",
+        "corporate-site/vps/assistant-erp.test.mjs",
+        "corporate-site/vps/owner-invite.test.mjs",
+        "corporate-site/worker/assistant-erp-dispatch.ts",
+        "corporate-site/worker/assistant-erp.ts"
+      ]
+    },
+    {
+      "ref": "origin/ops/termux-ssh-download-20261029",
+      "sha": "d3b84247241f76cd39a285a9c403a02f474ad275",
+      "prefix": "",
+      "missingSourcePaths": [
+        "scripts/termux-knaba-vsp-ssh.sh"
+      ]
+    },
+    {
+      "ref": "origin/recovery/knaba-auth-nav-unpushed-20261026",
+      "sha": "47169b1ffbe9cac9f7a25cc93345ec7e7b07b4be",
+      "prefix": "",
+      "missingSourcePaths": []
+    },
+    {
+      "ref": "origin/ssh-setup",
+      "sha": "46183466400c81e50eb09420adebbffcb72d28d8",
+      "prefix": "",
+      "missingSourcePaths": [
+        "ssh-setup/tests/test_setup.py",
+        "ssh.sh"
+      ]
+    }
+  ]
+}

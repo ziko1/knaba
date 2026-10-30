@@ -1,0 +1,183 @@
+
+> knaba-corporate-site@0.3.0 test
+> vitest run && node --test tests/client-domain-origin.test.mjs tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/gallery-workflow-content.test.mjs tests/verify-live-artifact.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs && node --test tests/legal-regression.test.mjs tests/partner-portal-regression.test.mjs
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.5 [39m[90m/srv/vsp/workspaces/knaba-domain-routefix-20261029/corporate-site[39m
+
+ [32m✓[39m tests/customer-demo-home.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/turnstile.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/service-carousel.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/site-i18n.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m tests/inquiry-construction.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+ [32m✓[39m tests/construction-faq.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m tests/planner.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 70[2mms[22m[39m
+ [32m✓[39m tests/site-studio-contract.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+ [32m✓[39m tests/portal-locale-loading.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+ [32m✓[39m tests/ru-portal.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+ [32m✓[39m tests/faq-studio-edit.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m tests/studio-pages.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 51[2mms[22m[39m
+ [32m✓[39m tests/studio-api.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 235[2mms[22m[39m
+ [32m✓[39m tests/crm.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 272[2mms[22m[39m
+ [32m✓[39m tests/finder-guidance.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 50[2mms[22m[39m
+ [32m✓[39m tests/public-construction-catalogue.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 107[2mms[22m[39m
+ [32m✓[39m tests/six-language-workflows.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 121[2mms[22m[39m
+ [32m✓[39m tests/account-access.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/visual-assets.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/assistant-request-state.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 88[2mms[22m[39m
+ [32m✓[39m tests/assistant.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 459[2mms[22m[39m
+ [32m✓[39m tests/reviews-api.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 555[2mms[22m[39m
+ [32m✓[39m tests/construction-brand.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/partners-section.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32m✓[39m tests/construction-guides.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [32m✓[39m tests/brand-i18n.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/assistant-release-languages.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/portal-messages.test.ts [2m([22m[2m21 tests[22m[2m)[22m[33m 750[2mms[22m[39m
+ [32m✓[39m tests/footer-logo.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/admin-modules.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/website-disclosure.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/locale-catalog.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/portal.test.ts [2m([22m[2m29 tests[22m[2m)[22m[33m 805[2mms[22m[39m
+ [32m✓[39m tests/knaba-gallery-parity.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/ru-forms.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/messenger-links.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/admin-access.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/corporate-navigation.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/studio-media.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32m✓[39m tests/project-card.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/mobile-distribution.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/partners-official-source.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/staging-indexability.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/construction-icons.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/assistant-recovery.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/workspace-navigation.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/request-id.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/inquiry-navigation.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/assistant-dialog.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m49 passed[39m[22m[90m (49)[39m
+[2m      Tests [22m [1m[32m343 passed[39m[22m[90m (343)[39m
+[2m   Start at [22m 19:24:02
+[2m   Duration [22m 2.01s[2m (transform 49%, tests 27%, import 21%, worker 3%)[22m
+
+[2m    Isolate [22m [33m49 workers spawned[39m[2m · ~208ms startup each (spawn + environment, per file)[22m
+[2m            [22m [2mat least ~471ms faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+
+✔ the built browser contract follows the configured official or preview origin (765.406177ms)
+✔ the shared frame exposes only one default telephone link (2.661365ms)
+✔ contextual telephone pages suppress the fallback, across localized routes (0.865233ms)
+✔ home closing conversion panel does not repeat the global telephone (0.292586ms)
+✔ information cards do not repeat the same contact link for each card (0.379782ms)
+✔ no-JavaScript portal help does not add a second telephone link (0.292345ms)
+✔ informational pages use shared contact details rather than an extra contact strip (0.359562ms)
+✔ profile and contextual contacts suppress shared footer email duplicates (1.655404ms)
+✔ no-JavaScript fallbacks use contextual mail without duplicating link (0.426901ms)
+✔ current contact page avoids redundant header, mobile and footer self-CTAs (0.370774ms)
+✔ homepage has one prominent catalogue CTA and a distinct extra-works deep link (0.629907ms)
+✔ service details have two focused contact CTAs without removing pricing and phone (0.276836ms)
+✔ contact no-JavaScript guidance reuses visible contacts without repeating their values (0.303336ms)
+✔ KNABA gallery route is honestly presented as a work-process guide in all four locales (1.215739ms)
+✔ schematic artwork remains labelled, never sold as a completed customer reference (0.291193ms)
+✔ each work process links to one distinct canonical existing service, not four duplicate contact CTAs (1.127292ms)
+✔ shared header, mobile navigation and footer use honest translated work-process name (0.323564ms)
+✔ empty inquiry requires service, object, location, frequency and contact identity (1.75267ms)
+✔ valid inquiry allows unknown area and optional phone/message without pricing (0.711681ms)
+✔ invalid service is rejected instead of accepted from an untrusted query (0.474321ms)
+✔ postcode preserves leading zero and rejects incomplete or nonnumeric inputs (0.260475ms)
+✔ area is optional but if provided is a positive bounded integer (0.24751ms)
+✔ message query punctuation cannot inject recipients or additional mailto parameters (0.256487ms)
+✔ email/header-like control characters and oversized fields are rejected (0.175634ms)
+✔ maximum unicode inputs produce a bounded, round-trip-safe mailto (0.232071ms)
+✔ pins an immutable release and proves all file bytes using build-verifier ordering (14.989192ms)
+✔ reports a genuine artifact mismatch, without accepting approximate asset sizes (6.674788ms)
+✔ fails closed on a switched release rather than reading a moving current symlink (4.353279ms)
+✔ detects an ABA release switch even if current returns to its original SHA (4.444813ms)
+✔ does not read a newer release if current already differs from expected source (2.826289ms)
+✔ rejects mutation of pinned release files during the audit (4.293826ms)
+✔ rejects symlink inside release contents to prevent reading outside of the release (3.696001ms)
+✔ rejects malformed expected source or missing artifact hash (3.836768ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 978.971405
+✔ reproducible localized transparent knaba-3d-header.svg (1.77905ms)
+✔ reproducible localized transparent knaba-3d-footer.svg (0.314347ms)
+✔ reproducible localized transparent knaba-3d-mobile-header.svg (0.278399ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer.svg (1.061476ms)
+✔ reproducible localized transparent knaba-3d-header-en.svg (0.246848ms)
+✔ reproducible localized transparent knaba-3d-footer-en.svg (0.204438ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-en.svg (0.1951ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-en.svg (0.191604ms)
+✔ reproducible localized transparent knaba-3d-header-pl.svg (0.350045ms)
+✔ reproducible localized transparent knaba-3d-footer-pl.svg (0.325108ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-pl.svg (0.23141ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-pl.svg (0.188658ms)
+✔ reproducible localized transparent knaba-3d-header-lt.svg (0.21075ms)
+✔ reproducible localized transparent knaba-3d-footer-lt.svg (0.216732ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-lt.svg (0.22115ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-lt.svg (0.225428ms)
+✔ reproducible localized transparent knaba-3d-header-ru.svg (0.241689ms)
+✔ reproducible localized transparent knaba-3d-footer-ru.svg (0.257149ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-ru.svg (0.250496ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-ru.svg (0.341549ms)
+✔ reproducible localized transparent knaba-3d-header-uk.svg (0.246589ms)
+✔ reproducible localized transparent knaba-3d-footer-uk.svg (0.244093ms)
+✔ reproducible localized transparent knaba-3d-mobile-header-uk.svg (0.229405ms)
+✔ reproducible localized transparent knaba-3d-mobile-footer-uk.svg (0.218715ms)
+✔ approved locale registry is exact and free of filler (0.873539ms)
+✔ dark slogan is readable on site paper token (0.248121ms)
+✔ light slogan is readable on current footer token (0.099719ms)
+✔ admin-blocked Chromium falls back once to WebKit, no duplicate Chrome launch (2.120739ms)
+✔ all policy-blocked browsers remain BLOCKED, not PASS (0.381575ms)
+✔ unavailable Chrome executable falls back to WebKit (1.045045ms)
+✔ site response 503 is FAIL, never fallback to conceal site outage (0.245376ms)
+✔ suite assertion failure is FAIL, never hidden by another browser (0.428113ms)
+✔ reject public websites and unsafe preview paths (0.414979ms)
+✔ verified Chromium policy block can be skipped in repeated same-environment QA (0.323845ms)
+✔ Chromium QA launch must not explicitly disable the browser sandbox (0.344684ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 75.399709
+✔ empty staging sitemap still verifies the source registry, without retired or private pages (14.05172ms)
+✔ extracts public HTML headings, metadata, ARIA, placeholders, not code or URLs (1.349323ms)
+✔ deduplicates repeated labels but changes digest for new source copy (1.975162ms)
+✔ reads only first-party published German sitemap paths; no external or private locations (0.336379ms)
+✔ a draft is incomplete and never becomes a published language (1.653862ms)
+✔ 100% static translation remains blocked on dynamic, legal, real reviewer and device gates (0.898757ms)
+✔ stale source rejects even all translations; never silently accepts old packs (0.616992ms)
+✔ rejects unsupported locales and malformed or unknown strings, XSS, changed placeholders (0.627051ms)
+✔ never uses translated business contacts or unsafe browser markup as a replacement payload (0.618876ms)
+✔ adds legally required public routes and the account entry without mixing private admin (1.570052ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.022352
+✔ de: privacy navigation targets exist and disclose current services (2.191843ms)
+✔ de: legal notice is truthful about inquiries and published company data (0.372578ms)
+✔ ru: privacy navigation targets exist and disclose current services (0.518956ms)
+✔ ru: legal notice is truthful about inquiries and published company data (0.199609ms)
+✔ legal source never represents a generic privacy acknowledgement as marketing consent (0.630487ms)
+✔ assistant transparency is shown in all four public languages before a message is sent (0.304589ms)
+✔ partner is a first-class authenticated portal role with its own request controls (1.783628ms)
+✔ partner backend can only create and view own scoped requests, never worker notes (3.608855ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.556453

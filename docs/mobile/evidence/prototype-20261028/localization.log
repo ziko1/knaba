@@ -1,0 +1,2 @@
+PASSED actual Android XML: six locales, 144 complete strings each, format parity, privacy/action/notification translations and resource references; no Android runtime claim
+PASSED native language and display-clock Java vectors=39; no Android runtime, payroll or GPS authorization claim

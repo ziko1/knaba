@@ -1,0 +1,19 @@
+{
+  "recordedAtUtc": "2026-10-28T20:10:09.833254+00:00",
+  "repository": "ziko1/knaba",
+  "branch": "feat/knaba-visual-polish-20261028",
+  "pr": 114,
+  "baseline114": "89e979963bedffb720016577984a3da3f4ea942f",
+  "input115": "7ab3ba152d9eaa268ce1c68cafbd834d1a135022",
+  "mergeBase": "75c599b0c89bbb0c800e04839af5de6a323d62f3",
+  "localTestedRuntimeSha": "eae6669c136490b1a94594e493b65c46f1f7f403",
+  "githubRuntimeSha": "5d182161aeb53281693f324b3c583c2c7d09fc4d",
+  "identicalRuntimeTree": "9eb293e0d8b07e9a3400932ba203ac3374871383",
+  "nativeBaselineSource": "ca2d68e19b659603e253462466359b827f8bb8fb",
+  "canonicalNativeRuntimeFilesCompared": 420,
+  "runtimeDifferences": [],
+  "ci": "No workflow_runs returned for GitHub runtime SHA; local tests are separate evidence.",
+  "finalNativeSource": "05534fd88e9c53ffc03a933d3c688284cdb48ea3",
+  "finalCanonicalNativeFilesCompared": 419,
+  "finalRuntimeDifferences": []
+}

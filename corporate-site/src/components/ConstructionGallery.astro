@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type { ConstructionLocale } from '../data/construction-offers';
+const {locale='de'} = Astro.props as {locale:ConstructionLocale};
+const prefix = locale === 'de' ? '' : '/' + locale;
+const copy = {
+  de: {label:'KNABA / ARBEITSABLAUF',title:'So arbeitet KnaBa',intro:'Vier Arbeitsbereiche rund um Baustellenvorbereitung, Reinigung und Übergabe. Wählen Sie die passende Leistung für Ihr Bauvorhaben.',notice:'Schematische Illustrationen zur Orientierung – keine Fotos konkreter Kundenaufträge.',alt:'Symbolische Illustration',action:'Projekt anfragen',detail:'Leistung ansehen',items:[
+    ['Baureinigung nach Bauabschnitt','Grob-, Zwischen- und Endreinigung werden passend zum Baufortschritt abgestimmt.'],
+    ['Baustellenvorbereitung','Arbeitsbereiche, sichere Zugänge und Abläufe vor Beginn klären.'],
+    ['Zwischenreinigung von Staub und Oberflächen','Staub und erreichbare Oberflächen zwischen den Gewerken reinigen.'],
+    ['Saubere Objektübergabe','Abnahmebereiche und Nachkontrollen gemeinsam festlegen.']
+  ]},
+  en: {label:'KNABA / HOW WE WORK',title:'How KnaBa works',intro:'Four areas of work covering site preparation, cleaning and handover. Find the service that fits your project.',notice:'Original illustrations of typical workflows, not photographs of specific client work.',alt:'Illustrative graphic',action:'Enquire about a project',detail:'View the service',items:[
+    ['Cleaning throughout construction','Agree rough, interim and final cleaning for each phase.'],
+    ['Preparing the site','Review safe access, work areas and site procedures.'],
+    ['Dust and surface cleaning between phases','Remove dust and clean accessible surfaces between trades.'],
+    ['Preparing for handover','Define inspection zones and final checks.']
+  ]},
+  uk: {label:'KNABA / РОБОЧІ ПРОЦЕСИ',title:'Як працює KnaBa',intro:'Чотири напрями робіт: підготовка майданчика, прибирання та здача об’єкта. Перегляньте послугу для свого проєкту.',notice:'Схематичні ілюстрації типових процесів, не фото виконаних замовлень.',alt:'Схематична ілюстрація',action:'Надіслати запит',detail:'Переглянути послугу',items:[
+    ['Прибирання за етапами','Узгодження грубого, проміжного та фінального прибирання.'],
+    ['Підготовка майданчика','Погодження доступу, робочих зон і правил безпеки.'],
+    ['Міжетапне очищення пилу й поверхонь','Прибирання пилу та доступних поверхонь між роботами підрядників.'],
+    ['Підготовка до здачі','Узгодження зон приймання та фінального контролю.']
+  ]},
+  ru: {label:'KNABA / РАБОЧИЕ ПРОЦЕССЫ',title:'Как работает KnaBa',intro:'Четыре направления работ: подготовка площадки, уборка и сдача объекта. Найдите подходящую услугу для проекта.',notice:'Схематичные иллюстрации рабочих процессов, не фотографии выполненных заказов.',alt:'Схематическая иллюстрация',action:'Отправить запрос',detail:'Подробнее об услуге',items:[
+    ['Уборка по этапам','Согласование черновой, промежуточной и финальной уборки.'],
+    ['Подготовка площадки','Согласование доступа, рабочих зон и безопасности.'],
+    ['Промежуточная уборка пыли и поверхностей','Удаление пыли с доступных поверхностей между работами подрядчиков.'],
+    ['Подготовка к сдаче','Согласование зон приёмки и финального контроля.']
+  ]}
+} as const;
+const t=copy[locale];
+// Link each illustrated step to its already-published, contract-qualified service.
+// Do not present these illustrations as completed customer projects or references.
+const serviceSlugs=['baureinigung','bauhilfe','bauzwischenreinigung','bauendreinigung'] as const;
+const images=['/illustrations/baureinigung.svg','/illustrations/hero-cleaning.svg','/illustrations/glasreinigung.svg','/illustrations/treppenreinigung.svg'] as const;
+---
+<Layout lang={locale} title={t.title + ' | KnaBa Berlin'} description={t.intro} schema={{'@type':'CollectionPage',name:t.title,inLanguage:locale}}>
+  <section class="container knaba-gallery" aria-labelledby="knaba-gallery-title">
+    <header class="knaba-gallery-header">
+      <p class="knaba-gallery-eyebrow">{t.label}</p>
+      <h1 id="knaba-gallery-title">{t.title}</h1>
+      <p class="knaba-gallery-intro">{t.intro}</p>
+      <p class="knaba-gallery-notice">{t.notice}</p>
+    </header>
+    <ul class="knaba-gallery-grid" role="list">
+      {t.items.map(([title,description],index) => (
+        <li class="knaba-gallery-card">
+          <figure>
+            <img src={images[index]} alt={t.alt + ': ' + title} width="960" height="640" loading="lazy" decoding="async" />
+            <figcaption>
+              <span class="knaba-gallery-number">{String(index+1).padStart(2,'0')}</span>
+              <h2>{title}</h2>
+              <p>{description}</p>
+              <a class="knaba-workflow-detail-link" href={prefix+'/bauleistungen/'+serviceSlugs[index]+'/'} aria-label={t.detail + ': ' + title}>
+                {t.detail} <span aria-hidden="true">↗</span>
+              </a>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+    <a class="button button-dark knaba-gallery-cta" href={prefix+'/kontakt/'}>{t.action} <span aria-hidden="true">↗</span></a>
+  </section>
+</Layout>
+<style>
+.knaba-gallery{padding-block:clamp(36px,6vw,92px);min-width:0}
+.knaba-gallery-header{max-width:850px;margin-bottom:clamp(28px,4vw,48px)}
+.knaba-gallery-eyebrow{color:#087e86;font-size:13px;font-weight:850;letter-spacing:.13em}
+.knaba-gallery h1{font-size:clamp(34px,5vw,66px);line-height:1.12;letter-spacing:-.055em;color:#0b313b;overflow-wrap:anywhere;margin:15px 0}
+.knaba-gallery-intro{color:#405f58;font-size:clamp(17px,2vw,21px);line-height:1.6}
+.knaba-gallery-notice{padding:14px 18px;background:#eff6f0;border-left:3px solid #0b8686;color:#345a57;line-height:1.5;font-size:14px;border-radius:8px}
+.knaba-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,24px);padding:0;margin:0 0 30px;list-style:none}
+.knaba-gallery-card{overflow:hidden;border:1px solid #cce0d8;border-radius:24px;background:#eef8f3;min-width:0}
+.knaba-gallery-card:nth-child(2){background:#eef2fa}.knaba-gallery-card:nth-child(3){background:#f7f0e8}.knaba-gallery-card:nth-child(4){background:#f1edf9}
+.knaba-gallery-card figure{margin:0;display:grid;grid-template-columns:minmax(128px,.72fr) minmax(0,1.48fr);height:100%}
+.knaba-gallery-card img{display:block;align-self:center;width:100%;height:auto;max-height:210px;aspect-ratio:4/3;object-fit:contain;padding:clamp(12px,2vw,20px);box-sizing:border-box}
+.knaba-gallery-card figcaption{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;padding:clamp(18px,2vw,26px);background:#ffffffdb}
+.knaba-gallery-number{font-size:12px;color:#087f85;font-weight:850;letter-spacing:.08em}
+.knaba-gallery-card h2{font-size:clamp(19px,2vw,25px);line-height:1.2;margin:10px 0;color:#14343b;letter-spacing:-.03em;overflow-wrap:anywhere}
+.knaba-gallery-card p{font-size:15px;line-height:1.65;color:#405d57;margin:0}
+.knaba-workflow-detail-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:16px;font-size:15px;line-height:1.4;font-weight:800;color:#076a71;text-decoration:underline;text-underline-offset:4px}
+.knaba-workflow-detail-link:hover{color:#064b53;text-decoration-thickness:2px}
+.knaba-workflow-detail-link:focus-visible{outline:3px solid #087e86;outline-offset:4px;border-radius:4px}
+.knaba-gallery-cta{margin-top:8px}.knaba-gallery-cta:focus-visible{outline:3px solid #087e86;outline-offset:4px}
+@media(max-width:680px){.knaba-gallery-grid{grid-template-columns:1fr}.knaba-gallery-card img{max-height:190px}}
+@media(max-width:420px){.knaba-gallery-card figure{grid-template-columns:1fr}.knaba-gallery-card img{max-height:140px}.knaba-gallery-card figcaption{padding:18px 20px}}
+</style>

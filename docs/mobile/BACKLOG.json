@@ -1,0 +1,74 @@
+{
+  "project": "KNABA_MOBILE",
+  "moduleOf": "KNABA_DE",
+  "branch": "release/knaba-customer-prototype-20261028",
+  "items": [
+    {
+      "id": "MOBILE-001",
+      "description": "Mobile website entry, secure release links and app install metadata",
+      "acceptance": "Four locales, no misleading download, source/build QA",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "MOBILE-002",
+      "description": "Native Android/iOS secure browser handoff and portable URLs",
+      "acceptance": "Six native locales, reject unsafe origins, no token reuse, native compile/device verification",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "MOBILE-003",
+      "description": "Website/ERP identity integration with audited server-side scoped claims",
+      "acceptance": "Working verified login/logout/PCKE/OIDC, site-ERP bridge, tenant isolation, revocation",
+      "status": "BLOCKED_INTEGRATION"
+    },
+    {
+      "id": "MOBILE-004",
+      "description": "Customer orders and verified owner-client conversations",
+      "acceptance": "End-to-end persistence, consent, receipts, no cross-customer reads",
+      "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-005",
+      "description": "Owner dispatch, worker assignments and review",
+      "acceptance": "RBAC, status, eligible worker checks, audit, real integration UAT",
+      "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-006",
+      "description": "Partner lifecycle and company-scoped operations",
+      "acceptance": "Partner-vs-customer isolation and approved scoped data",
+      "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-007",
+      "description": "Real Android/iOS signing and store distribution",
+      "acceptance": "Exact SHA/artifact, signed verified APK/IPA, hardware QA, customer acceptance",
+      "status": "BLOCKED_EXTERNAL"
+    },
+    {
+      "id": "MOBILE-008",
+      "description": "0.3.0 build3 native locales/default German, iOS ERP translations and reproducible distribution",
+      "acceptance": "DE/EN/PL/LT/RU/UK, preserved saved choices, real compile and artifact signature/hash, device install/update verification",
+      "status": "ANDROID_DEBUG_BUILD_VERIFIED_IOS_BLOCKED_EXTERNAL",
+      "localEvidence": {
+        "androidStringsPerLocale": 144,
+        "androidJavaLocaleClockAuthCases": 39,
+        "androidJavaGeofenceCases": 30,
+        "iosCompanionKeys": 95,
+        "iosERPKeys": 76,
+        "swiftCompilation": "BLOCKED_EXTERNAL",
+        "deviceInstallAndDataRetention": "NOT_RUN"
+      },
+      "artifactEvidence": {
+        "sourceGitSha": "b88766108684b6fd78a1cca81642ab512903bdeb",
+        "apkSha256": "3e62935cafed829430f8f5384f24ac9ea964d2d4b4b680de283de7e7e9a37564",
+        "signing": "DEBUG_EVALUATION_ONLY",
+        "signatureV2": "PASS",
+        "sourceInputFilesMatched": 33,
+        "lintErrors": 0,
+        "lintWarnings": 18,
+        "evidence": "evidence/prototype-20261028/independent-binding.json"
+      }
+    }
+  ]
+}

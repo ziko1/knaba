@@ -1,0 +1,341 @@
+{
+  "config": {
+    "configFile": "/workspace/knaba-de/playwright.config.ts",
+    "rootDir": "/workspace/knaba-de/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/evidence/browser-result.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "docs/evidence/browser-report",
+          "open": "never"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/knaba-de/docs/evidence/browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/knaba-de/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "browser.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "browser.spec.ts",
+      "file": "browser.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "public entry supports all six languages at 360 px without document overflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-6fdd6ad7bee08563b57e",
+          "file": "browser.spec.ts",
+          "line": 77,
+          "column": 1
+        },
+        {
+          "title": "rendered demo login and canonical role landings are usable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-cabeb2c455296833c193",
+          "file": "browser.spec.ts",
+          "line": 96,
+          "column": 1
+        },
+        {
+          "title": "real credentials authenticate and logout revokes the cookie session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-1242e48ef2bbbd2f0630",
+          "file": "browser.spec.ts",
+          "line": 130,
+          "column": 1
+        },
+        {
+          "title": "manual shift start, private break, resume and end persist after page reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-af8372084e702c5542a7",
+          "file": "browser.spec.ts",
+          "line": 150,
+          "column": 1
+        },
+        {
+          "title": "task form creates a persisted task and mobile modal fits 360 px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-79592b60db7df0459967",
+          "file": "browser.spec.ts",
+          "line": 200,
+          "column": 1
+        },
+        {
+          "title": "team chat sends original text and reads the persisted message after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-4a18b7024ed941f7ace7",
+          "file": "browser.spec.ts",
+          "line": 231,
+          "column": 1
+        },
+        {
+          "title": "private photo upload validates bytes, registers site context and permits file retrieval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-36d1d3b4e0750166063b",
+          "file": "browser.spec.ts",
+          "line": 261,
+          "column": 1
+        },
+        {
+          "title": "public contact and guest chat persist privately with honest manual fallback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-551818851032eb02a9c3",
+          "file": "browser.spec.ts",
+          "line": 301,
+          "column": 1
+        },
+        {
+          "title": "mutations reject missing CSRF and CLIENT cannot read internal chat or payroll",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-227f9cc66cb5c599ce20",
+          "file": "browser.spec.ts",
+          "line": 354,
+          "column": 1
+        },
+        {
+          "title": "published report PDF CSV XLSX match immutable snapshot and client access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ed5a7e7c9709f2e89a54",
+          "file": "browser.spec.ts",
+          "line": 370,
+          "column": 1
+        },
+        {
+          "title": "manual inventory SKU lookup works without camera and shows approved unit conversion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d8b71e866fffaf569357",
+          "file": "browser.spec.ts",
+          "line": 401,
+          "column": 1
+        },
+        {
+          "title": "client issue form references approved photo, persists original text and opens a review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-33477a266e2647a2842f",
+          "file": "browser.spec.ts",
+          "line": 422,
+          "column": 1
+        },
+        {
+          "title": "structure import rejects malformed files, previews CSV and XLSX without writes, and commits reviewed hierarchy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-b6dee6b4ed9ea728f9d1",
+          "file": "browser.spec.ts",
+          "line": 458,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-06T18:29:03.335Z",
+    "duration": 246.82799999999997,
+    "expected": 0,
+    "skipped": 13,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

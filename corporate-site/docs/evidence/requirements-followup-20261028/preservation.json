@@ -1,0 +1,743 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T14:32:03.535816+00:00",
+  "scope": "Read-only comparison of final canonical VPS and native Sites static builds against the original 130-page HTML contract. No source edits, rebuild, browser/server execution, or network checks.",
+  "baseline": {
+    "path": "/workspace/scratch/9edc85de5c65/qa/knaba-before-contract.json",
+    "sha256": "94807429db76323205309920b86e8d4014689c2392fb72a130eae2c9e3de5d8d",
+    "pages": 130,
+    "parser": "HTMLParser; ignore script/style text; collapse whitespace per data fragment; compare ordered anchor href/aria-label/target/rel; compare form/button/input/select/textarea/img attributes except class/style/src/data-astro-*."
+  },
+  "normalization": "Exclude only the observed localized footer app link and HomeMobilePromo section. Disclose all two-page privacy replacements separately. Normalize only the four form data-hk changes s000020 to s000030. No other text, link, image attributes, form fields or controls are exempted.",
+  "variants": {
+    "vps": {
+      "build_root": "/workspace/scratch/9edc85de5c65/knaba-current/corporate-site/dist/client",
+      "build_artifact_sha256": "dff87bd49bdac74eb6f2260619306b4031b9953f4f99318654b88af28973f5a5",
+      "pages": 134,
+      "baseline_routes": 130,
+      "missing_baseline_routes": [],
+      "new_routes": [
+        "app/index.html",
+        "en/app/index.html",
+        "ru/app/index.html",
+        "uk/app/index.html"
+      ],
+      "preserved_routes": [
+        "404.html",
+        "admin/index.html",
+        "bauleistungen/bauendreinigung/index.html",
+        "bauleistungen/bauhilfe/index.html",
+        "bauleistungen/baureinigung/index.html",
+        "bauleistungen/baustellenraeumung/index.html",
+        "bauleistungen/bauzwischenreinigung/index.html",
+        "bauleistungen/durchbrueche/index.html",
+        "bauleistungen/kernbohrungen/index.html",
+        "bauleistungen/zusatzarbeiten/index.html",
+        "berlin/index.html",
+        "branchen/index.html",
+        "crm/index.html",
+        "datenschutz/index.html",
+        "en/bauleistungen/bauendreinigung/index.html",
+        "en/bauleistungen/bauhilfe/index.html",
+        "en/bauleistungen/baureinigung/index.html",
+        "en/bauleistungen/baustellenraeumung/index.html",
+        "en/bauleistungen/bauzwischenreinigung/index.html",
+        "en/bauleistungen/durchbrueche/index.html",
+        "en/bauleistungen/kernbohrungen/index.html",
+        "en/bauleistungen/zusatzarbeiten/index.html",
+        "en/berlin/index.html",
+        "en/branchen/index.html",
+        "en/faq/index.html",
+        "en/galerie/index.html",
+        "en/index.html",
+        "en/karriere/index.html",
+        "en/kontakt/index.html",
+        "en/leistungen/index.html",
+        "en/partner/index.html",
+        "en/planer/index.html",
+        "en/ratgeber/bauendreinigung-vorbereiten/index.html",
+        "en/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "en/ratgeber/baureinigung-kosten-planen/index.html",
+        "en/ratgeber/baureinigung-phasen/index.html",
+        "en/ratgeber/bauuebergabe-checkliste/index.html",
+        "en/ratgeber/index.html",
+        "en/unternehmen/index.html",
+        "faq/index.html",
+        "galerie/index.html",
+        "impressum/index.html",
+        "index.html",
+        "karriere/index.html",
+        "kontakt/index.html",
+        "konto/index.html",
+        "leistungen/baureinigung/index.html",
+        "leistungen/bueroreinigung/index.html",
+        "leistungen/glasreinigung/index.html",
+        "leistungen/grundreinigung/index.html",
+        "leistungen/index.html",
+        "leistungen/treppenreinigung/index.html",
+        "leistungen/unterhaltsreinigung/index.html",
+        "partner/index.html",
+        "planer/index.html",
+        "postfach/index.html",
+        "ratgeber/bauendreinigung-vorbereiten/index.html",
+        "ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "ratgeber/baureinigung-kosten-planen/index.html",
+        "ratgeber/baureinigung-phasen/index.html",
+        "ratgeber/bauuebergabe-checkliste/index.html",
+        "ratgeber/bueroreinigung-checkliste/index.html",
+        "ratgeber/index.html",
+        "ratgeber/reinigungsleistungen-vergleichen/index.html",
+        "ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+        "ru/bauleistungen/bauendreinigung/index.html",
+        "ru/bauleistungen/bauhilfe/index.html",
+        "ru/bauleistungen/baureinigung/index.html",
+        "ru/bauleistungen/baustellenraeumung/index.html",
+        "ru/bauleistungen/bauzwischenreinigung/index.html",
+        "ru/bauleistungen/durchbrueche/index.html",
+        "ru/bauleistungen/kernbohrungen/index.html",
+        "ru/bauleistungen/zusatzarbeiten/index.html",
+        "ru/berlin/index.html",
+        "ru/branchen/index.html",
+        "ru/datenschutz/index.html",
+        "ru/faq/index.html",
+        "ru/galerie/index.html",
+        "ru/impressum/index.html",
+        "ru/index.html",
+        "ru/karriere/index.html",
+        "ru/kontakt/index.html",
+        "ru/konto/index.html",
+        "ru/leistungen/baureinigung/index.html",
+        "ru/leistungen/bueroreinigung/index.html",
+        "ru/leistungen/glasreinigung/index.html",
+        "ru/leistungen/grundreinigung/index.html",
+        "ru/leistungen/index.html",
+        "ru/leistungen/treppenreinigung/index.html",
+        "ru/leistungen/unterhaltsreinigung/index.html",
+        "ru/partner/index.html",
+        "ru/planer/index.html",
+        "ru/postfach/index.html",
+        "ru/ratgeber/bauendreinigung-vorbereiten/index.html",
+        "ru/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "ru/ratgeber/baureinigung-kosten-planen/index.html",
+        "ru/ratgeber/baureinigung-phasen/index.html",
+        "ru/ratgeber/bauuebergabe-checkliste/index.html",
+        "ru/ratgeber/bueroreinigung-checkliste/index.html",
+        "ru/ratgeber/index.html",
+        "ru/ratgeber/reinigungsleistungen-vergleichen/index.html",
+        "ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+        "ru/unternehmen/index.html",
+        "studio/index.html",
+        "uk/bauleistungen/bauendreinigung/index.html",
+        "uk/bauleistungen/bauhilfe/index.html",
+        "uk/bauleistungen/baureinigung/index.html",
+        "uk/bauleistungen/baustellenraeumung/index.html",
+        "uk/bauleistungen/bauzwischenreinigung/index.html",
+        "uk/bauleistungen/durchbrueche/index.html",
+        "uk/bauleistungen/kernbohrungen/index.html",
+        "uk/bauleistungen/zusatzarbeiten/index.html",
+        "uk/berlin/index.html",
+        "uk/branchen/index.html",
+        "uk/faq/index.html",
+        "uk/galerie/index.html",
+        "uk/index.html",
+        "uk/karriere/index.html",
+        "uk/kontakt/index.html",
+        "uk/leistungen/index.html",
+        "uk/partner/index.html",
+        "uk/planer/index.html",
+        "uk/ratgeber/bauendreinigung-vorbereiten/index.html",
+        "uk/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "uk/ratgeber/baureinigung-kosten-planen/index.html",
+        "uk/ratgeber/baureinigung-phasen/index.html",
+        "uk/ratgeber/bauuebergabe-checkliste/index.html",
+        "uk/ratgeber/index.html",
+        "uk/unternehmen/index.html",
+        "unternehmen/index.html"
+      ],
+      "baseline_contract_totals": {
+        "text": 15184,
+        "links": 6098,
+        "controls": 938
+      },
+      "original_routes_final_contract_totals": {
+        "text": 15374,
+        "links": 6232,
+        "controls": 938
+      },
+      "text_and_link_exact_after_mobile_additions_excluding_two_disclosed_privacy_pages": 128,
+      "all_original_controls_preserved_after_four_generated_form_hydration_ids": 130,
+      "mobile_footer_additions": {
+        "routes": 130,
+        "texts": 130,
+        "links": 130
+      },
+      "home_mobile_promo_additions": {
+        "routes": 4,
+        "text_fragments": 60,
+        "links": 4
+      },
+      "hydration_attribute_changes": [
+        {
+          "route": "en/kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        },
+        {
+          "route": "kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        },
+        {
+          "route": "ru/kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        },
+        {
+          "route": "uk/kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        }
+      ],
+      "privacy_changes": {
+        "datenschutz/index.html": {
+          "text": [
+            {
+              "operation": "replace",
+              "old": [
+                "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der lokalen Server-Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
+                "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der lokalen Server-Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet."
+              ],
+              "new": [
+                "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der serverseitigen Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
+                "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der serverseitigen Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet."
+              ]
+            }
+          ]
+        },
+        "ru/datenschutz/index.html": {
+          "text": [
+            {
+              "operation": "replace",
+              "old": [
+                "При добровольном использовании в локальной базе данных сохраняются сообщения, язык, идентификатор диалога, сообщённые вами контакты и предложения владельца, которые посетитель принимает либо отклоняет. Обработка служит ответам на запросы и подготовке индивидуального соглашения (статья 6, пункт 1, подпункты b и f GDPR). Подтверждение текста не создаёт автоматически договор, заказ или платёж."
+              ],
+              "new": [
+                "При добровольном использовании в серверной базе данных сохраняются сообщения, язык, идентификатор диалога, сообщённые вами контакты и предложения владельца, которые посетитель принимает либо отклоняет. Обработка служит ответам на запросы и подготовке индивидуального соглашения (статья 6, пункт 1, подпункты b и f GDPR). Подтверждение текста не создаёт автоматически договор, заказ или платёж."
+              ]
+            }
+          ]
+        }
+      },
+      "initial_contact_draft_notice": [
+        {
+          "route": "en/kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        },
+        {
+          "route": "kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        },
+        {
+          "route": "ru/kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        },
+        {
+          "route": "uk/kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        }
+      ],
+      "unexpected_contract_changes": [],
+      "static_checks": {
+        "html_anchor_references_checked": 6404,
+        "local_resource_references_checked": 1772,
+        "image_elements": 376,
+        "missing_local_resources": [],
+        "external_resource_references": [],
+        "missing_internal_static_targets": [],
+        "missing_static_fragment_targets": [],
+        "runtime_endpoint_references_not_http_verified": {},
+        "external_hyperlinks_distinct_not_http_verified": 4,
+        "metadata_pages_checked": 134,
+        "metadata_errors": [],
+        "image_errors": [],
+        "social_assets": [
+          {
+            "locale": "de",
+            "path": "images/knaba-social-de.png",
+            "bytes": 105717,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "6104c790c590953e3bc90aedf32417d820293aa9161d7353b11383379a4be0c0",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          },
+          {
+            "locale": "en",
+            "path": "images/knaba-social-en.png",
+            "bytes": 106057,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "c528949545e24e30ebedc5d07cc5efa1cf2de96c733cc91d4439028d4c7b0da8",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          },
+          {
+            "locale": "uk",
+            "path": "images/knaba-social-uk.png",
+            "bytes": 105462,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "b50dfcef72faab2c52cab1f9355db18e719f4f6de55154073d39094f0a6862d9",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          },
+          {
+            "locale": "ru",
+            "path": "images/knaba-social-ru.png",
+            "bytes": 105514,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "0823b64f6810200a38f3c14a760009bf4c1f69698ec66a829887c11070c0867e",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          }
+        ]
+      },
+      "css_gzip_bytes": 39824,
+      "emitted_js_gzip_bytes": 195314,
+      "status": "PASS"
+    },
+    "sites": {
+      "build_root": "/workspace/scratch/9edc85de5c65/knaba/dist/client",
+      "build_artifact_sha256": "fc2646afaf3748d46c41d96b6c5cf8518d3c59626703be2a5e7a7242c2475f5b",
+      "pages": 134,
+      "baseline_routes": 130,
+      "missing_baseline_routes": [],
+      "new_routes": [
+        "app/index.html",
+        "en/app/index.html",
+        "ru/app/index.html",
+        "uk/app/index.html"
+      ],
+      "preserved_routes": [
+        "404.html",
+        "admin/index.html",
+        "bauleistungen/bauendreinigung/index.html",
+        "bauleistungen/bauhilfe/index.html",
+        "bauleistungen/baureinigung/index.html",
+        "bauleistungen/baustellenraeumung/index.html",
+        "bauleistungen/bauzwischenreinigung/index.html",
+        "bauleistungen/durchbrueche/index.html",
+        "bauleistungen/kernbohrungen/index.html",
+        "bauleistungen/zusatzarbeiten/index.html",
+        "berlin/index.html",
+        "branchen/index.html",
+        "crm/index.html",
+        "datenschutz/index.html",
+        "en/bauleistungen/bauendreinigung/index.html",
+        "en/bauleistungen/bauhilfe/index.html",
+        "en/bauleistungen/baureinigung/index.html",
+        "en/bauleistungen/baustellenraeumung/index.html",
+        "en/bauleistungen/bauzwischenreinigung/index.html",
+        "en/bauleistungen/durchbrueche/index.html",
+        "en/bauleistungen/kernbohrungen/index.html",
+        "en/bauleistungen/zusatzarbeiten/index.html",
+        "en/berlin/index.html",
+        "en/branchen/index.html",
+        "en/faq/index.html",
+        "en/galerie/index.html",
+        "en/index.html",
+        "en/karriere/index.html",
+        "en/kontakt/index.html",
+        "en/leistungen/index.html",
+        "en/partner/index.html",
+        "en/planer/index.html",
+        "en/ratgeber/bauendreinigung-vorbereiten/index.html",
+        "en/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "en/ratgeber/baureinigung-kosten-planen/index.html",
+        "en/ratgeber/baureinigung-phasen/index.html",
+        "en/ratgeber/bauuebergabe-checkliste/index.html",
+        "en/ratgeber/index.html",
+        "en/unternehmen/index.html",
+        "faq/index.html",
+        "galerie/index.html",
+        "impressum/index.html",
+        "index.html",
+        "karriere/index.html",
+        "kontakt/index.html",
+        "konto/index.html",
+        "leistungen/baureinigung/index.html",
+        "leistungen/bueroreinigung/index.html",
+        "leistungen/glasreinigung/index.html",
+        "leistungen/grundreinigung/index.html",
+        "leistungen/index.html",
+        "leistungen/treppenreinigung/index.html",
+        "leistungen/unterhaltsreinigung/index.html",
+        "partner/index.html",
+        "planer/index.html",
+        "postfach/index.html",
+        "ratgeber/bauendreinigung-vorbereiten/index.html",
+        "ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "ratgeber/baureinigung-kosten-planen/index.html",
+        "ratgeber/baureinigung-phasen/index.html",
+        "ratgeber/bauuebergabe-checkliste/index.html",
+        "ratgeber/bueroreinigung-checkliste/index.html",
+        "ratgeber/index.html",
+        "ratgeber/reinigungsleistungen-vergleichen/index.html",
+        "ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+        "ru/bauleistungen/bauendreinigung/index.html",
+        "ru/bauleistungen/bauhilfe/index.html",
+        "ru/bauleistungen/baureinigung/index.html",
+        "ru/bauleistungen/baustellenraeumung/index.html",
+        "ru/bauleistungen/bauzwischenreinigung/index.html",
+        "ru/bauleistungen/durchbrueche/index.html",
+        "ru/bauleistungen/kernbohrungen/index.html",
+        "ru/bauleistungen/zusatzarbeiten/index.html",
+        "ru/berlin/index.html",
+        "ru/branchen/index.html",
+        "ru/datenschutz/index.html",
+        "ru/faq/index.html",
+        "ru/galerie/index.html",
+        "ru/impressum/index.html",
+        "ru/index.html",
+        "ru/karriere/index.html",
+        "ru/kontakt/index.html",
+        "ru/konto/index.html",
+        "ru/leistungen/baureinigung/index.html",
+        "ru/leistungen/bueroreinigung/index.html",
+        "ru/leistungen/glasreinigung/index.html",
+        "ru/leistungen/grundreinigung/index.html",
+        "ru/leistungen/index.html",
+        "ru/leistungen/treppenreinigung/index.html",
+        "ru/leistungen/unterhaltsreinigung/index.html",
+        "ru/partner/index.html",
+        "ru/planer/index.html",
+        "ru/postfach/index.html",
+        "ru/ratgeber/bauendreinigung-vorbereiten/index.html",
+        "ru/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "ru/ratgeber/baureinigung-kosten-planen/index.html",
+        "ru/ratgeber/baureinigung-phasen/index.html",
+        "ru/ratgeber/bauuebergabe-checkliste/index.html",
+        "ru/ratgeber/bueroreinigung-checkliste/index.html",
+        "ru/ratgeber/index.html",
+        "ru/ratgeber/reinigungsleistungen-vergleichen/index.html",
+        "ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/index.html",
+        "ru/unternehmen/index.html",
+        "studio/index.html",
+        "uk/bauleistungen/bauendreinigung/index.html",
+        "uk/bauleistungen/bauhilfe/index.html",
+        "uk/bauleistungen/baureinigung/index.html",
+        "uk/bauleistungen/baustellenraeumung/index.html",
+        "uk/bauleistungen/bauzwischenreinigung/index.html",
+        "uk/bauleistungen/durchbrueche/index.html",
+        "uk/bauleistungen/kernbohrungen/index.html",
+        "uk/bauleistungen/zusatzarbeiten/index.html",
+        "uk/berlin/index.html",
+        "uk/branchen/index.html",
+        "uk/faq/index.html",
+        "uk/galerie/index.html",
+        "uk/index.html",
+        "uk/karriere/index.html",
+        "uk/kontakt/index.html",
+        "uk/leistungen/index.html",
+        "uk/partner/index.html",
+        "uk/planer/index.html",
+        "uk/ratgeber/bauendreinigung-vorbereiten/index.html",
+        "uk/ratgeber/bauhelfer-einsatz-vorbereiten/index.html",
+        "uk/ratgeber/baureinigung-kosten-planen/index.html",
+        "uk/ratgeber/baureinigung-phasen/index.html",
+        "uk/ratgeber/bauuebergabe-checkliste/index.html",
+        "uk/ratgeber/index.html",
+        "uk/unternehmen/index.html",
+        "unternehmen/index.html"
+      ],
+      "baseline_contract_totals": {
+        "text": 15184,
+        "links": 6098,
+        "controls": 938
+      },
+      "original_routes_final_contract_totals": {
+        "text": 15374,
+        "links": 6234,
+        "controls": 938
+      },
+      "text_and_link_exact_after_mobile_additions_excluding_two_disclosed_privacy_pages": 128,
+      "all_original_controls_preserved_after_four_generated_form_hydration_ids": 130,
+      "mobile_footer_additions": {
+        "routes": 130,
+        "texts": 130,
+        "links": 130
+      },
+      "home_mobile_promo_additions": {
+        "routes": 4,
+        "text_fragments": 60,
+        "links": 4
+      },
+      "hydration_attribute_changes": [
+        {
+          "route": "en/kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        },
+        {
+          "route": "kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        },
+        {
+          "route": "ru/kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        },
+        {
+          "route": "uk/kontakt/index.html",
+          "tag": "form",
+          "attribute": "data-hk",
+          "before": "s000020",
+          "after": "s000030"
+        }
+      ],
+      "privacy_changes": {
+        "datenschutz/index.html": {
+          "text": [
+            {
+              "operation": "replace",
+              "old": [
+                "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der lokalen Server-Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
+                "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der lokalen Server-Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet."
+              ],
+              "new": [
+                "Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der serverseitigen Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.",
+                "Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der serverseitigen Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen, darunter ein gegebenenfalls gesondert freigeschalteter Entwickler mit einem eigenen, widerrufbaren Zugang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet."
+              ]
+            },
+            {
+              "operation": "replace",
+              "old": [
+                "Freigeschaltete Nutzer melden sich direkt auf dem KnaBa-Server mit E-Mail-Adresse und Passwort an. Statt des Klartextpassworts speichern wir einen gesalzenen, mit scrypt abgeleiteten Prüfwert. Sitzungstoken werden auf dem Server nur als SHA-256-Prüfwerte gespeichert; der Browser erhält dafür ein technisch notwendiges Secure-, HttpOnly- und SameSite-Cookie. Die zuständige Administration entscheidet über die Freigabe eines Zugangs.",
+                "Über das öffentliche Formular für einen Zugangswunsch verarbeiten wir Ihren Namen, Ihre E-Mail-Adresse, die gewünschte Rolle (Kunde, Mitarbeitende oder Geschäftspartner), den Bearbeitungsstatus, Zeitpunkte sowie technische Prüf- und Auditdaten. Das Absenden dieses Formulars erstellt noch kein Benutzerkonto und erteilt keine Zugriffsrechte. Berechtigte Personen prüfen den Zugangswunsch und entscheiden über eine persönliche Einladung.",
+                "Ein neuer Kunden-, Mitarbeitenden- oder Partnerzugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des Inhabers oder eines gesondert freigeschalteten Entwicklers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle, die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch eine berechtigte Person ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.",
+                "Eine freie öffentliche Selbstregistrierung, eine automatische Rechtefreigabe und eine Anmeldung über Google oder andere soziale Netzwerke sind in diesem geprüften Stand nicht aktiviert. Falls externe Identitätsanbieter hinzukommen, müssen deren konkrete Datenflüsse, Empfänger und etwaige Drittlandübermittlungen vor der Aktivierung ergänzt werden."
+              ],
+              "new": [
+                "Diese Testversion verwendet die Anmeldung mit ChatGPT über OpenAI Sites. Nach erfolgreicher Anmeldung erhält die Website eine auf diesen Site beschränkte Benutzerkennung, die verifizierte E-Mail-Adresse und gegebenenfalls den Anzeigenamen. Das ChatGPT-Passwort wird nicht an KnaBa weitergegeben.",
+                "Im Portal können angemeldete Personen ihren Namen und den gewünschten Zugang als Kunde, Mitarbeitende oder Geschäftspartner zur Prüfung einreichen. Die Anmeldung selbst gibt keine Fachrechte frei; die passende Rolle erteilt der Website-Inhaber. Die Passwort- und Einladungsfunktionen des getrennten VPS-Betriebs sind in dieser Testversion nicht verfügbar."
+              ]
+            },
+            {
+              "operation": "replace",
+              "old": [
+                "Diese Website wird auf einem eigenen angemieteten VPS über einen HTTPS-Reverse-Proxy betrieben. Portal-, Anfrage- und Chatdaten werden in einer lokalen SQLite-Datenbank des KnaBa-Dienstes gespeichert; getrennte Sicherungskopien dienen der Wiederherstellung. Externe generative KI, automatisierte E-Mail- und WhatsApp-Versanddienste sind derzeit nicht aktiviert. Zugang erhalten nur entsprechend berechtigte Personen.",
+                "Für die Namensauflösung und gegebenenfalls den Schutz des HTTPS-Zugangs kann Cloudflare eingesetzt werden. Informationen zur dortigen Datenverarbeitung finden Sie in der"
+              ],
+              "new": [
+                "Diese Testversion wird mit OpenAI Sites auf Cloudflare Workers bereitgestellt. Portal-, Anfrage-, Chat-, Bearbeitungs- und Auditdaten werden in der zu diesem Site gehörenden Cloudflare-D1-Datenbank gespeichert. Die Datenbank des getrennten KnaBa-VPS wird hier nicht verwendet. Externe generative KI sowie automatisierter E-Mail- und WhatsApp-Versand sind nicht aktiviert.",
+                "Für die Anmeldung verarbeitet OpenAI die Zugangsdaten; die Website erhält die oben beschriebenen Identitätsangaben. Informationen der Anbieter finden Sie in den",
+                "Datenschutzhinweisen von OpenAI",
+                "und der"
+              ]
+            },
+            {
+              "operation": "replace",
+              "old": [
+                ". Weitere für den VPS-Betrieb eingesetzte Auftragsverarbeiter und mögliche Übermittlungen können beim oben genannten Verantwortlichen erfragt werden."
+              ],
+              "new": [
+                ". Eine abgeschlossene vertragliche oder rechtliche Prüfung wird durch diese technischen Hinweise nicht behauptet."
+              ]
+            }
+          ],
+          "links": [
+            {
+              "operation": "insert",
+              "old": [],
+              "new": [
+                {
+                  "href": "https://openai.com/policies/privacy-policy/"
+                }
+              ]
+            }
+          ]
+        },
+        "ru/datenschutz/index.html": {
+          "text": [
+            {
+              "operation": "replace",
+              "old": [
+                "При добровольном использовании в локальной базе данных сохраняются сообщения, язык, идентификатор диалога, сообщённые вами контакты и предложения владельца, которые посетитель принимает либо отклоняет. Обработка служит ответам на запросы и подготовке индивидуального соглашения (статья 6, пункт 1, подпункты b и f GDPR). Подтверждение текста не создаёт автоматически договор, заказ или платёж."
+              ],
+              "new": [
+                "При добровольном использовании в серверной базе данных сохраняются сообщения, язык, идентификатор диалога, сообщённые вами контакты и предложения владельца, которые посетитель принимает либо отклоняет. Обработка служит ответам на запросы и подготовке индивидуального соглашения (статья 6, пункт 1, подпункты b и f GDPR). Подтверждение текста не создаёт автоматически договор, заказ или платёж."
+              ]
+            },
+            {
+              "operation": "replace",
+              "old": [
+                "Утверждённые пользователи входят непосредственно на сервере KnaBa с адресом электронной почты и паролем. Пароль в открытом виде не хранится: сохраняется проверочное значение, полученное с солью и алгоритмом scrypt. Сервер хранит только SHA-256-проверку токена сессии, а браузер использует технически необходимый файл cookie с защитой Secure, HttpOnly и SameSite. Доступ к ролям утверждает уполномоченный администратор.",
+                "Через общедоступную форму запроса доступа мы обрабатываем ваше имя, электронную почту, желаемую роль (клиент, сотрудник или деловой партнёр), статус рассмотрения, временные метки и технические данные проверки и аудита. Отправка этой формы ещё не создаёт аккаунт и не предоставляет права доступа. Уполномоченные лица рассматривают запрос и принимают решение о личном приглашении.",
+                "В проверенной версии новый аккаунт клиента, сотрудника или партнёра создаётся только по личному одноразовому приглашению с ограниченным сроком действия, выданному владельцем или отдельно допущенным разработчиком. Для приглашения обрабатываются назначенная роль, соответствующая электронная почта, срок и технические данные проверки; сам токен не сохраняется открытым текстом. При регистрации указываются имя, электронная почта и пароль. Роль берётся из действительного приглашения, а не выбирается пользователем. Рабочие права предоставляются только после проверки уполномоченным лицом. Сохраняются необходимые статусы, временные метки и записи аудита.",
+                "Свободная публичная саморегистрация, автоматическая выдача прав и вход через Google или другие социальные сети в проверенной версии не включены. При подключении внешних провайдеров сведения об их обработке данных и возможных передачах за пределы ЕЭЗ будут внесены до запуска."
+              ],
+              "new": [
+                "Эта тестовая версия использует вход через ChatGPT в OpenAI Sites. После входа сайт получает идентификатор пользователя, действующий в пределах этого сайта, подтверждённый адрес электронной почты и при наличии отображаемое имя. Пароль ChatGPT не передаётся KnaBa.",
+                "После входа пользователь может подать имя и желаемый доступ клиента, сотрудника или партнёра на проверку. Сам вход не предоставляет рабочих полномочий; соответствующую роль одобряет владелец сайта. Функции паролей и приглашений отдельного VPS в этой тестовой версии недоступны."
+              ]
+            },
+            {
+              "operation": "replace",
+              "old": [
+                "Сайт работает на собственном арендованном VPS за HTTPS-прокси. Данные портала, заявок и чатов сохраняются в локальной базе SQLite сервиса KnaBa, отдельные резервные копии используются для восстановления. Внешний генеративный ИИ, автоматическая рассылка по электронной почте и WhatsApp сейчас не подключены. Доступ к данным ограничен полномочиями пользователей.",
+                "Для DNS и при необходимости защиты HTTPS-соединения может использоваться Cloudflare. Сведения об обработке данных приведены в"
+              ],
+              "new": [
+                "Эта тестовая версия размещена в OpenAI Sites на Cloudflare Workers. Данные портала, заявок, чатов, редактирования и аудита сохраняются в базе Cloudflare D1 этого сайта. База отдельного VPS KnaBa здесь не используется. Внешний генеративный ИИ, автоматическая отправка e-mail и WhatsApp не включены.",
+                "При входе OpenAI обрабатывает данные авторизации, а сайт получает описанные выше сведения об идентичности. Информация поставщиков приведена в",
+                "политике конфиденциальности OpenAI",
+                "и"
+              ]
+            },
+            {
+              "operation": "replace",
+              "old": [
+                ". Информацию о других обработчиках данных и возможной трансграничной передаче можно запросить у указанного выше ответственного лица."
+              ],
+              "new": [
+                ". Эти технические сведения не означают завершённой договорной или юридической проверки."
+              ]
+            }
+          ],
+          "links": [
+            {
+              "operation": "insert",
+              "old": [],
+              "new": [
+                {
+                  "href": "https://openai.com/policies/privacy-policy/"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "initial_contact_draft_notice": [
+        {
+          "route": "en/kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        },
+        {
+          "route": "kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        },
+        {
+          "route": "ru/kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        },
+        {
+          "route": "uk/kontakt/index.html",
+          "initial_visible_inquiry_draft_status_paragraphs": 0
+        }
+      ],
+      "unexpected_contract_changes": [],
+      "static_checks": {
+        "html_anchor_references_checked": 6406,
+        "local_resource_references_checked": 1772,
+        "image_elements": 376,
+        "missing_local_resources": [],
+        "external_resource_references": [],
+        "missing_internal_static_targets": [],
+        "missing_static_fragment_targets": [],
+        "runtime_endpoint_references_not_http_verified": {},
+        "external_hyperlinks_distinct_not_http_verified": 5,
+        "metadata_pages_checked": 134,
+        "metadata_errors": [],
+        "image_errors": [],
+        "social_assets": [
+          {
+            "locale": "de",
+            "path": "images/knaba-social-de.png",
+            "bytes": 105717,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "6104c790c590953e3bc90aedf32417d820293aa9161d7353b11383379a4be0c0",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          },
+          {
+            "locale": "en",
+            "path": "images/knaba-social-en.png",
+            "bytes": 106057,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "c528949545e24e30ebedc5d07cc5efa1cf2de96c733cc91d4439028d4c7b0da8",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          },
+          {
+            "locale": "uk",
+            "path": "images/knaba-social-uk.png",
+            "bytes": 105462,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "b50dfcef72faab2c52cab1f9355db18e719f4f6de55154073d39094f0a6862d9",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          },
+          {
+            "locale": "ru",
+            "path": "images/knaba-social-ru.png",
+            "bytes": 105514,
+            "dimensions": [
+              1200,
+              630
+            ],
+            "sha256": "0823b64f6810200a38f3c14a760009bf4c1f69698ec66a829887c11070c0867e",
+            "matches_approved_asset": true,
+            "png_signature_valid": true
+          }
+        ]
+      },
+      "css_gzip_bytes": 39824,
+      "emitted_js_gzip_bytes": 195315,
+      "status": "PASS"
+    }
+  },
+  "limits": [
+    "Static asset existence and metadata are checked, not browser rendering, interaction, accessibility, network delivery, external-link reachability or social-platform preview caching.",
+    "Baseline contract omits image src and head metadata, so their final validity is checked independently rather than described as byte-preserved.",
+    "Runtime authentication/API routes require hosted verification and are not judged by static filesystem presence.",
+    "Privacy wording differences are documented technical hosting adaptations, not a legal approval."
+  ],
+  "cross_variant_contract_differences": [
+    "datenschutz/index.html",
+    "ru/datenschutz/index.html"
+  ],
+  "status": "PASS"
+}

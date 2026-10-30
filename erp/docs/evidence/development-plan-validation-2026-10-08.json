@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-08T20:04:43.030091+00:00",
+  "status": "PASSED_INDEPENDENT_DEVELOPMENT_PLAN_DOCUMENT_AUDIT",
+  "scope": "Read-only local Git, files, exact source-bound receipts and document-consistency audit of the 28-task plan, preserved V3 scope and separate unapproved V4 reference. No independent remote polling, new application/SQL/browser/native/provider/physical execution, canonical file edits, Git or Railway mutation. Only this ignored QA receipt written. The single declared future public validation receipt must be created and rechecked by root before delivery.",
+  "testedCodeGitSha": "ca9ed79ff4c0429223eb60754289ee1132088361",
+  "priorDocumentationGitSha": "e18f293ac1527fff0910a86cd3049bef8bd4a03f",
+  "currentLocalHead": "5747670b4046bbcb365c3e3ab4644b163f07ca42",
+  "checks": [
+    {
+      "check": "EXACT_28_TASK_IDS",
+      "status": "PASSED",
+      "count": 28
+    },
+    {
+      "check": "CANONICAL_34_432_475_EXACT_PARTITIONS",
+      "status": "PASSED",
+      "modules": 34,
+      "requirements": 432,
+      "criteria": 475
+    },
+    {
+      "check": "PRIMARY_MODULE_PARTITIONS_AND_BIDIRECTIONAL_TASK_REFS",
+      "status": "PASSED",
+      "mismatches": []
+    },
+    {
+      "check": "OWNERS_ACTIONS_EXIT_FIELDS_AND_ALL_REFERENCES",
+      "status": "PASSED",
+      "mismatches": []
+    },
+    {
+      "check": "HARD_AND_COMBINED_DEPENDENCY_DAGS_ACYCLIC",
+      "status": "PASSED",
+      "hard_topological_order": [
+        "PLAN-01",
+        "PLAN-28",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-04",
+        "PLAN-05",
+        "PLAN-06",
+        "PLAN-07",
+        "PLAN-08",
+        "PLAN-09",
+        "PLAN-10",
+        "PLAN-11",
+        "PLAN-12",
+        "PLAN-13",
+        "PLAN-14",
+        "PLAN-15",
+        "PLAN-16",
+        "PLAN-17",
+        "PLAN-18",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-22",
+        "PLAN-19",
+        "PLAN-23",
+        "PLAN-25",
+        "PLAN-27",
+        "PLAN-24",
+        "PLAN-26"
+      ],
+      "combined_topological_order": [
+        "PLAN-01",
+        "PLAN-28",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-04",
+        "PLAN-05",
+        "PLAN-06",
+        "PLAN-07",
+        "PLAN-08",
+        "PLAN-09",
+        "PLAN-10",
+        "PLAN-11",
+        "PLAN-12",
+        "PLAN-13",
+        "PLAN-14",
+        "PLAN-15",
+        "PLAN-16",
+        "PLAN-17",
+        "PLAN-18",
+        "PLAN-20",
+        "PLAN-21",
+        "PLAN-22",
+        "PLAN-19",
+        "PLAN-23",
+        "PLAN-25",
+        "PLAN-27",
+        "PLAN-24",
+        "PLAN-26"
+      ]
+    },
+    {
+      "check": "ONLY_NARROW_BASELINE_COMPLETED_NO_NEW_EXECUTION",
+      "status": "PASSED",
+      "status_counts": {
+        "COMPLETED_SCOPED": 1,
+        "PENDING": 10,
+        "BLOCKED_EXTERNAL": 13,
+        "CONDITIONAL_NOT_STARTED": 4
+      }
+    },
+    {
+      "check": "FUTURE_EVIDENCE_UNCREATED_AND_PLAN28_DRAFT_DISTINCT",
+      "status": "PASSED",
+      "proposed_future_paths": 51,
+      "mismatches": []
+    },
+    {
+      "check": "ALL_EXISTING_EVIDENCE_CATALOG_HASHES",
+      "status": "PASSED",
+      "count": 13,
+      "mismatches": []
+    },
+    {
+      "check": "SIX_ACTUAL_DELIVERED_ARTIFACT_BYTES_HASHES_AND_NATIVE_REF",
+      "status": "PASSED",
+      "count": 6,
+      "mismatches": []
+    },
+    {
+      "check": "BASELINE_SHA_AND_ACTUAL_TEST_CLASS_COUNTS",
+      "status": "PASSED",
+      "unit": 1513,
+      "cpu_or_explicit_double": 1307,
+      "real_postgres": 206,
+      "browser_actual": 23,
+      "browser_fixture": 1,
+      "java": 52,
+      "xctest_simulator": 15
+    },
+    {
+      "check": "EXECUTABLE_TEST_CONFIG_NATIVE_UNCHANGED_FROM_CA9_AND_CANONICAL_DOCS_UNCHANGED_FROM_E18F",
+      "status": "PASSED",
+      "changed_protected_paths": [],
+      "baselineDistinction": "Executable/test/native/config bytes compared to tested local4132; canonical requirement documents compared to prior documentation local5747. Existing ca9-to-e18f documentation-only changes are preserved."
+    },
+    {
+      "check": "HISTORICAL_CANONICAL_BYTES_AND_STATUSES_PRESERVED",
+      "status": "PASSED",
+      "mismatches": [],
+      "historical_criterion_statuses": {
+        "NOT_RUN": 465,
+        "PASSED": 10
+      }
+    },
+    {
+      "check": "SINGLE_22_EXT_IDS_PRESERVED_ONLY03_21_INTENTIONAL_UPDATE",
+      "status": "PASSED",
+      "mismatches": []
+    },
+    {
+      "check": "EXPIRED_WINDOW_PUBLIC_NOTREADY_PROVIDER2FA_PRESERVED",
+      "status": "PASSED",
+      "live_acceptance": "NOT_RUN",
+      "staged_change_count": 37,
+      "cutoff": "EXPIRED_NOT_EXTENDED"
+    },
+    {
+      "check": "SPEC30_9_MEASUREMENTS_PLANNED_WITH_NO_FABRICATED_THRESHOLD_OR_PASS",
+      "status": "PASSED",
+      "metrics": 9
+    },
+    {
+      "check": "PRODUCTION_UAT_PHYSICAL_DR_OWNER_GATES_AND_CONDITIONAL_DECISIONS",
+      "status": "PASSED"
+    },
+    {
+      "check": "FOUR_V4_REFERENCE_BYTES_SHA256_GITBLOBS",
+      "status": "PASSED",
+      "count": 4,
+      "mismatches": []
+    },
+    {
+      "check": "V4_72_DISTINCT_REFERENCE_IDS_TEXT_REFS_STATUS_EXACT",
+      "status": "PASSED",
+      "criteria": 72,
+      "new_whole_criteria_passed": 0
+    },
+    {
+      "check": "V4_NO_APPLICATION_PROOF_FIELDS_OR_MASTER_AUTHORITY_APPROVAL",
+      "status": "PASSED"
+    },
+    {
+      "check": "ALL_V4_SOURCE_PATHS_IDS_ASSERTION_IDENTITIES_AND_POINTERS",
+      "status": "PASSED",
+      "selected_assertion_references": 334,
+      "unique_prior_assertions": 251,
+      "implementation_paths": 55,
+      "mismatches": []
+    },
+    {
+      "check": "24_V4_GROUPS_22_UNAPPROVED_SOURCE_DELTAS_LINE_REFS",
+      "status": "PASSED",
+      "deltas": 22,
+      "mismatches": []
+    },
+    {
+      "check": "BINARY_PDF_ZIP_UNVERIFIED_SCOPE_HONEST",
+      "status": "PASSED",
+      "new_verified_binary_artifacts": 0
+    },
+    {
+      "check": "LOCAL_MD_LINKS_WITH_ONLY_ONE_DECLARED_PENDING_VALIDATION_RECEIPT",
+      "status": "PASSED",
+      "local_links": 151,
+      "pending_expected_future_receipt": [
+        "docs/evidence/development-plan-validation-2026-10-08.json"
+      ],
+      "missing": []
+    },
+    {
+      "check": "MARKDOWN_TABLE_COLUMN_STRUCTURE",
+      "status": "PASSED",
+      "invalid_rows": []
+    },
+    {
+      "check": "HUMAN_TABLE_28_TASK_34_MODULE_72_AC_22_DELTA_COVERAGE",
+      "status": "PASSED",
+      "tasks": 28,
+      "modules": 34,
+      "v4_criteria": 72,
+      "deltas": 22
+    },
+    {
+      "check": "HISTORICAL_LAUNCH_INSTRUCTIONS_CLEARLY_LABELLED",
+      "status": "PASSED"
+    },
+    {
+      "check": "DOCUMENT_DIFF_WHITESPACE_CHECK",
+      "status": "PASSED"
+    },
+    {
+      "check": "NO_PUBLIC_IGNORED_PRIVATE_PATH_REFERENCES",
+      "status": "PASSED",
+      "invalid_paths": []
+    },
+    {
+      "check": "FINAL_DERIVED_HUMAN_PROSE_READABLE_WITH_EXACT_CSV_ASSERTION_FIELDS_PRESERVED",
+      "status": "PASSED",
+      "reviewedExamples": {
+        "AC-40": "Виконати фізичні випробування на Android та iPhone: по 20 переходів, щонайменше 18 виявлених до 5 хв і жодної хибної паузи за 2 год. Окремо записати lock screen, denial, battery saver, reboot, OS stop та 30 хв offline.",
+        "AC-63": "Узгодити named REST, HTTP error codes, cursor із default 50/max 100 та batch 1 MiB з поточним command API. Повторити реальні PostgreSQL перевірки idempotency, version і schemas.",
+        "AC-67": "Виміряти 100 працівників, 20 об’єктів, 100 sessions і 10 команд/с протягом 15 хв на 100 000 TimeSegments. Перевірити p95/p99, errors, queue lag, збереження всіх acknowledged commands і 3 паралельні PDF jobs до 60 с.",
+        "AC-68": "Поточне відновлення 17 таблиць і 10 приватних blobs пройшло. Налаштовані PITR/offsite, RPO 15 хв для БД / 24 год для медіа, RTO 4 год і replay outbox без повторних payouts/stock/tasks ще не прийняті."
+      },
+      "selectedPriorAssertionReferences": 334,
+      "uniquePriorAssertions": 251,
+      "newApplicationExecution": "NOT_RUN"
+    }
+  ],
+  "issues": [],
+  "fileHashes": {
+    "AGENTS.md": {
+      "bytes": 7146,
+      "sha256": "366b2d9177c09fb2296915f3ec83140a1d23ddb6fa99485ebddb39fadfb59427"
+    },
+    "FULL_PRODUCT_DEVELOPMENT_PLAN_UK.md": {
+      "bytes": 38437,
+      "sha256": "6b16d1258aff49ee5eacf3419ec292c0a0d8ce8adeb049e8287fb20ed5ba8ea3"
+    },
+    "MASTER_ROADMAP.md": {
+      "bytes": 13385,
+      "sha256": "b4ec13ffe18e1e555e037d5150ee041dad325a3a3499c970098ea8d4d32b9c41"
+    },
+    "PROJECT_MEMORY.md": {
+      "bytes": 36929,
+      "sha256": "01af78b32fd1d4859e5eda4e2f88b8775860555dffa6e300057f3e7361740cc5"
+    },
+    "README.md": {
+      "bytes": 7897,
+      "sha256": "22b11d23b372730072bda8e84975f953aa74859d72f49fc6a5aee7fa17a383bf"
+    },
+    "ROADMAP.md": {
+      "bytes": 2454,
+      "sha256": "d34efdc490b5308597958fe43f6a5561be9781b9063c3a96859b78d27c2b77a8"
+    },
+    "docs/EXTERNAL_PREREQUISITES.md": {
+      "bytes": 12555,
+      "sha256": "2de374c5f22512a5f22c4e7475ed9e485caef516e77694287b98212da3f7a084"
+    },
+    "docs/HANDOVER.md": {
+      "bytes": 20633,
+      "sha256": "720db283cec59024d98e9a0fdfd68a085dee040030ee6066f5c62cb35e0bcff4"
+    },
+    "docs/RAILWAY_STAGING.md": {
+      "bytes": 13514,
+      "sha256": "29d9d4f7add07b8fb4320bc198f5af9404a2bdf0af0e2ff9f11e231b48584288"
+    },
+    "docs/TEST_EVIDENCE.md": {
+      "bytes": 22770,
+      "sha256": "9f7629bfc05970dff6f89f13e87ac33d91dc659656a9f9b5147c275a3f7052a6"
+    },
+    "docs/evidence/railway-resume-2026-10-08.json": {
+      "bytes": 2237,
+      "sha256": "45225b88113eee3cf80aa73611ef2d17b1c475e9812c61b7a1a390ece781551e"
+    },
+    "docs/evidence/v4-document-binary-read-2026-10-08.json": {
+      "bytes": 3486,
+      "sha256": "fe6fc01ec240dac77cc1f29346095901f4094efd8bf768119af53cf69b7b2396"
+    },
+    "docs/planning/DEVELOPMENT_BACKLOG.json": {
+      "bytes": 173758,
+      "sha256": "06eb51349fa9d4b5fd9c994428896996b2c85c1d9cda79d4389c1fc33e2f5323"
+    },
+    "docs/planning/V3_V4_RECONCILIATION.json": {
+      "bytes": 432335,
+      "sha256": "07a7dce37a8f63956db783e706c74611619c1904d05d08e6035e1ffcd52c199c"
+    },
+    "docs/planning/V3_V4_RECONCILIATION_UK.md": {
+      "bytes": 36001,
+      "sha256": "033f971983e3dc7829dcfe2e335387041d9a90d7b9ef99ea54b23389e0511b35"
+    },
+    "docs/specification-v4-reference/DOCUMENT_VALIDATION.json": {
+      "bytes": 502,
+      "sha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570"
+    },
+    "docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv": {
+      "bytes": 19451,
+      "sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d"
+    },
+    "docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md": {
+      "bytes": 115264,
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833"
+    },
+    "docs/specification-v4-reference/REFERENCE_PROVENANCE.json": {
+      "bytes": 3256,
+      "sha256": "d0165e1dc6b2bc2e901a09dae902d835559f8f2e1d47f10fe2788453b3739b94"
+    },
+    "docs/specification-v4-reference/SHA256SUMS.txt": {
+      "bytes": 554,
+      "sha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952"
+    }
+  },
+  "checkCount": 29,
+  "passedChecks": 29,
+  "remainingExternalReadiness": "PUBLIC_NOT_READY;EXPIRED_WINDOW_NOT_EXTENDED;V4_AUTHORITY_NOT_APPROVED;PROVIDER_COMPANY_LEGAL_SIGNING_PHYSICAL_ACCEPTANCE_SEPARATE",
+  "independentReceiptSha256": "29121f13b1355f684f03d9ad9485aeef6f7d822cf1c1751b8248bd0b3926f259",
+  "documentSnapshotWasWorkingTreeAtIndependentReview": true,
+  "identityNote": "currentLocalHead is the prior documentation parent at review; testedCodeGitSha remains the genuine runtime/native source. Later publication is documentation only.",
+  "rootFinalReceiptLinkCheck": {
+    "status": "PASSED",
+    "localMarkdownLinks": 151,
+    "missing": [],
+    "publicReceiptExists": true,
+    "scope": "Document links only; no application test/deployment."
+  }
+}

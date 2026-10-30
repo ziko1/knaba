@@ -1,0 +1,172 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { company } from "../data/company";
+import { siteConfig } from '../data/site';
+const nativeHosting = import.meta.env.PUBLIC_KNABA_AUTH_MODE === 'sites';
+const sections = [
+  ["verantwortlicher", "Verantwortlicher"],
+  ["website", "Besuch der Website"],
+  ["kontakt", "Anfragen & Kontakt"],
+  ["bewerbung", "Bewerbungen"],
+  ["assistent", "Assistent & Sprache"],
+  ["konto", "Anmeldung & Benutzerkonto"],
+  ["rollen", "Rollen & Auftragsdaten"],
+  ["bewertungen", "Öffentliche Rückmeldungen"],
+  ["werbung", "Nachrichten & Werbung"],
+  ["dienstleister", "Technische Dienstleister"],
+  ["drittland", "Übermittlungen"],
+  ["speicherung", "Speicherdauer"],
+  ["rechte", "Ihre Rechte"],
+] as const;
+---
+
+<Layout hasInlinePhone hasInlineEmail title="Datenschutzerklärung | KnaBa Baureinigung & BauService Berlin" description="So verarbeitet KnaBa Daten beim Website-Besuch, bei Reinigungsanfragen und im Kunden- und Mitarbeiterportal. Datenschutzkontakt und Ihre Rechte.">
+  <article class="container legal">
+    <p class="eyebrow">IHRE DATEN IM BLICK</p>
+    <h1>Datenschutzerklärung</h1>
+    <p class="legal-intro">Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.</p>
+    <p class="notice">Diese Erklärung gilt für die Website <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 28. Oktober 2026.</p>
+
+    <nav class="privacy-contents" aria-label="Inhalt der Datenschutzerklärung">
+      {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+    </nav>
+
+    <section aria-labelledby="verantwortlicher">
+      <h2 id="verantwortlicher">1. Verantwortlicher und Kontakt</h2>
+      <p>Alexander Knaus · KNABA Bauhelfer<br />{company.street}<br />{company.city}, Deutschland</p>
+      <p>E-Mail: <a href={`mailto:${company.email}`}>{company.email}</a><br />Telefon: <a href={company.phoneHref}>{company.phone}</a></p>
+      <p>Nutzen Sie diese Kontaktdaten auch für Auskunfts-, Berichtigungs- oder Löschungsanliegen. Bitte teilen Sie uns nur die Angaben mit, die wir zur Zuordnung und Bearbeitung Ihres Anliegens benötigen.</p>
+    </section>
+
+    <section aria-labelledby="website">
+      <h2 id="website">2. Besuch der Website und Gerätespeicher</h2>
+      <p>Beim Abruf übermittelt Ihr Browser technische Verbindungsdaten, insbesondere die IP-Adresse, die aufgerufene Adresse, den Zeitpunkt und Browserinformationen. Die Hosting-Infrastruktur benötigt diese Daten zur Übertragung der Inhalte und zum Schutz des Angebots vor Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. f DSGVO; unser Interesse ist ein sicherer und erreichbarer Webdienst.</p>
+      <p>Der aktuell geprüfte Website-Quellstand setzt selbst keine Werbe- oder Analyse-Cookies und keine Werbepixel ein. Eigene Schriftarten, Illustrationen, Styles und die eingebundenen Partnerlogos werden von dieser Website ausgeliefert. Technisch notwendige Cookies oder vergleichbare Speicherzugriffe für Sitzungen und Sicherheit werden unten erläutert. Für künftig hinzukommende, nicht unbedingt erforderliche Dienste wird vor deren Einsatz eine gesonderte, freiwillige Einwilligung eingeholt, soweit § 25 TDDDG dies verlangt. Die Unternehmenszeichen gehören ihren jeweiligen Rechteinhabern. Externe Karten und Videos sind nicht eingebettet.</p>
+      <p>Die Anmeldung kann technisch notwendige Cookies oder vergleichbare Sitzungstechniken des Anmeldedienstes verwenden. Soweit ein Zugriff auf Ihr Gerät für den ausdrücklich gewünschten Anmeldevorgang unbedingt erforderlich ist, richtet sich dieser nach § 25 Abs. 2 Nr. 2 TDDDG. Für die Verarbeitung personenbezogener Daten gilt zusätzlich die jeweilige Rechtsgrundlage der DSGVO. Optionale Analyse- oder Werbefunktionen sind damit nicht freigegeben.</p>
+      <p>Der Reinigungsplaner und noch nicht gesendete Anfrageentwürfe halten Eingaben im aktuellen Browserfenster. Diese Entwürfe werden nicht als personenbezogene Datensätze im Local Storage gespeichert. Ein Neuladen oder Schließen des Fensters kann den Entwurf verwerfen. Erst mit dem Absenden wird eine Anfrage serverseitig gespeichert.</p>
+      <p>Wenn Sie die Sprache im Benutzerbereich auswählen, speichert Ihr Browser den gewählten Sprachcode im Local Storage unter „knaba-portal-language“, damit diese Auswahl beim nächsten Öffnen berücksichtigt wird. Dieser Eintrag enthält keine Kontaktdaten oder Anfrageinhalte. Sie können ihn durch Löschen der Website-Daten in Ihrem Browser entfernen.</p>
+    </section>
+
+    <section aria-labelledby="kontakt">
+      <h2 id="kontakt">3. Reinigungsanfragen und Kontakt</h2>
+      <p>Wenn Sie uns kontaktieren, verarbeiten wir Ihre Kontaktdaten sowie die von Ihnen mitgeteilten Angaben zum Objekt, zur gewünschten Reinigung und zum Termin. Wir verwenden sie, um Ihre Anfrage zu beantworten, den Bedarf zu klären und gegebenenfalls ein Angebot oder einen Auftrag vorzubereiten. Bei einer vertragsbezogenen Anfrage beruht dies auf Art. 6 Abs. 1 Buchst. b DSGVO; bei sonstiger geschäftlicher Kommunikation auf unserem berechtigten Interesse an ihrer Bearbeitung nach Art. 6 Abs. 1 Buchst. f DSGVO.</p>
+      <p>Mit „Anfrage senden“ im öffentlichen Anfrage-Assistenten übermitteln Sie die geprüften Angaben an KnaBa. Sie werden in der angebundenen Datenbank als Anfrage gespeichert und für berechtigte Personen zur Bearbeitung angezeigt. Die Eingangsbestätigung enthält eine Vorgangsnummer; eine automatische Bestätigungs-E-Mail wird nicht versendet. Eine Anmeldung ist für diesen Weg nicht erforderlich.</p>
+      <p>Im freigeschalteten Kundenbereich wird eine gesendete Anfrage zusätzlich Ihrem Benutzerkonto zugeordnet. Öffentlich abgesendete Anfragen werden einem später registrierten Konto nicht automatisch zugeordnet. Wir speichern auch den Stand der zur Kenntnis genommenen Datenschutzhinweise, den Zeitpunkt und technische Kennungen, um wiederholte Übertragungen derselben Anfrage zu erkennen. Die Bestätigung, dass Sie diese Hinweise gelesen haben, ist keine Einwilligung in Werbung.</p>
+      <p>Alternativ übergibt „Im E-Mail-Programm öffnen“ den vorbereiteten Text an Ihr E-Mail-Programm; Sie entscheiden dort selbst über den Versand. Die Kopierfunktion schreibt den Text erst auf Ihren Wunsch in die Zwischenablage. Die Website versendet keine automatischen Werbe-E-Mails.</p>
+      <p>Zum Schutz vor automatisierten oder übermäßigen Anfragen verwenden wir technische Prüffelder und Anfragezähler. Für öffentliche Anfragen wird dafür eine aus E-Mail-Adresse und Datum berechnete Prüfkennung gespeichert. Soweit die Infrastruktur eine IP-Adresse für diese Prüfung bereitstellt, wird ergänzend eine Prüfkennung aus IP-Adresse und Datum verwendet; die rohe IP-Adresse wird dafür nicht in der Portal-Datenbank gespeichert. Bei angemeldeten Konten wird eine Prüfkennung aus der Benutzerkennung verwendet. Diese Kennungen sind nicht als verlässlich anonym anzusehen. Die Verarbeitung dient der Missbrauchsabwehr nach Art. 6 Abs. 1 Buchst. f DSGVO; abgelaufene Zähler werden bei weiteren Prüfungen bereinigt.</p>
+      <p>Bitte tragen Sie in Freitextfeldern keine Passwörter, Tür- oder Alarmcodes, Gesundheitsdaten oder andere Angaben ein, die für die Reinigungsanfrage nicht erforderlich sind.</p>
+    </section>
+
+    <section aria-labelledby="bewerbung">
+      <h2 id="bewerbung">Bewerbungen und personenbezogene Angaben Beschäftigter</h2>
+      <p>Bei einer Bewerbung per E-Mail oder auf anderem vereinbartem Kontaktweg verarbeitet KnaBa nur die mitgeteilten Kontaktdaten, Qualifikationen und Bewerbungsunterlagen, soweit dies für die Entscheidung über ein Beschäftigungsverhältnis erforderlich ist (Art. 6 Abs. 1 Buchst. b DSGVO, in Verbindung mit den einschlägigen beschäftigungsdatenschutzrechtlichen Vorschriften, insbesondere § 26 BDSG, soweit anwendbar). Es findet über diese Website keine automatisierte Bewerberauswahl statt.</p>
+      <p>Bitte senden Sie keine Ausweiskopien, Gesundheitsangaben, Sozialversicherungsnummern oder sonstigen besonders sensiblen Daten, solange KnaBa sie nicht auf einer gesondert geprüften Rechtsgrundlage ausdrücklich benötigt. Bewerbung und Einstellung werden nicht allein durch die Nutzung dieser Website begründet. Die Aufbewahrungsdauer nach einer Absage oder Einstellung muss der Verantwortliche für den tatsächlichen Bewerbungsprozess gesondert festlegen und mitteilen; eine automatische Löschung ist für diesen Kontaktweg hier nicht nachgewiesen.</p>
+    </section>
+
+    <section aria-labelledby="assistent">
+      <h2 id="assistent">KNABA Assistant, automatische Antworten und Sprache</h2>
+      <p><strong>Transparenzhinweis:</strong> KNABA Assistant ist ein automatisierter digitaler Assistent und kein menschlicher Mitarbeiter. Er kann Informationen liefern und Nachrichten an berechtigte Personen weiterreichen; seine Antworten sind keine verbindlichen Angebote, Zusagen oder rechtlichen Auskünfte. Für eine persönliche Klärung stehen Telefon und E-Mail zur Verfügung. Eine gegebenenfalls später aktivierte generative KI ist vor der ersten Interaktion klar als KI zu kennzeichnen (Art. 50 EU AI Act).</p>
+      <p>Bei freiwilliger Nutzung werden Chatnachrichten, Sprache, Gesprächskennung, eventuell angegebene Kontaktdaten und die vom Inhaber vorgeschlagenen oder von Ihnen bestätigten oder abgelehnten Abstimmungstexte in der serverseitigen Datenbank gespeichert. Die Daten dienen der Bearbeitung Ihrer Anfrage und möglicher Vertragsvorbereitung gemäß Art. 6 Abs. 1 Buchst. b bzw. f DSGVO. Eine Inhaltsbestätigung erzeugt weder automatisch einen Auftrag noch eine Zahlung.</p>
+      <p>Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der serverseitigen Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen. Ein gesondert freigeschalteter Entwickler verwendet einen eigenen, isolierten Testbereich mit synthetischen Gesprächen und erhält keinen Zugriff auf den tatsächlichen Kundenposteingang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.</p>
+      <p>Vor der Neuanlage eines Chats wird eine Sicherheitsprüfung mit <strong>Cloudflare Turnstile</strong> durchgeführt. Das Prüfelement wird erst geladen, nachdem Sie die Datenschutzhinweise zur Kenntnis genommen und dies bestätigt haben. Beim Laden können technische Browser-, Geräte- und Verbindungsdaten an Cloudflare übertragen werden; der erzeugte Prüftoken wird mit Cloudflare serverseitig auf Gültigkeit geprüft. Ohne gültige Prüfung ist die Einrichtung eines neuen Chats nicht möglich. Sie erreichen uns weiterhin telefonisch und per E-Mail. Weitere Informationen finden Sie in der <a href="https://www.cloudflare.com/de-de/privacypolicy/">Datenschutzerklärung von Cloudflare</a>. Die genaue rechtliche Einordnung und die Verträge mit Dienstleistern bedürfen vor der offiziellen Veröffentlichung einer Prüfung durch den Anbieter.</p>
+      <p>Die freiwillige Spracheingabe kann nach Aktivierung einer Browser-Spracherkennungsfunktion Audio an den Anbieter Ihres Browsers übertragen; KnaBa speichert nach dem gegenwärtigen Funktionsstand nur den abgesendeten erkannten Text, keine Tonaufnahmen von Telefongesprächen. Eine KI-Telefonie, WhatsApp-Sprachvermittlung oder automatische Aufzeichnung von Gesprächen ist für diesen Stand nicht als aktiviert dokumentiert. Vor dem Einsatz solcher Funktionen sind Anbieter, Empfänger, Rechtsgrundlagen, Speicherdauern und gegebenenfalls Einwilligungen gesondert mitzuteilen; nicht öffentliche Gespräche dürfen nicht unbefugt aufgezeichnet werden (§ 201 StGB). Eine Erklärung zur Datenverarbeitung ersetzt keine gegebenenfalls notwendige Einwilligung zur Aufnahme.</p>
+      <p>Speichern Sie keine Passwörter, Gesundheitsdaten oder Zugangscodes im Chat. Die Löschfrist für Chats wurde noch nicht automatisiert und muss vor dem offiziellen Betrieb festgelegt werden; Auskunft und Löschung können beim oben genannten Verantwortlichen angefragt werden.</p>
+    </section>
+    <section aria-labelledby="konto">
+      <h2 id="konto">4. Anmeldung und Registrierung</h2>
+      {nativeHosting ? <>
+      <p>Diese Testversion verwendet die Anmeldung mit ChatGPT über OpenAI Sites. Nach erfolgreicher Anmeldung erhält die Website eine auf diesen Site beschränkte Benutzerkennung, die verifizierte E-Mail-Adresse und gegebenenfalls den Anzeigenamen. Das ChatGPT-Passwort wird nicht an KnaBa weitergegeben.</p>
+      <p>Im Portal können angemeldete Personen ihren Namen und den gewünschten Zugang als Kunde, Mitarbeitende oder Geschäftspartner zur Prüfung einreichen. Die Anmeldung selbst gibt keine Fachrechte frei; die passende Rolle erteilt der Website-Inhaber. Die Passwort- und Einladungsfunktionen des getrennten VPS-Betriebs sind in dieser Testversion nicht verfügbar.</p>
+      </> : <>
+      <p>Freigeschaltete Nutzer melden sich direkt auf dem KnaBa-Server mit E-Mail-Adresse und Passwort an. Statt des Klartextpassworts speichern wir einen gesalzenen, mit scrypt abgeleiteten Prüfwert. Sitzungstoken werden auf dem Server nur als SHA-256-Prüfwerte gespeichert; der Browser erhält dafür ein technisch notwendiges Secure-, HttpOnly- und SameSite-Cookie. Die zuständige Administration entscheidet über die Freigabe eines Zugangs.</p>
+      <p>Über das öffentliche Formular für einen Zugangswunsch verarbeiten wir Ihren Namen, Ihre E-Mail-Adresse, die gewünschte Rolle (Kunde, Mitarbeitende, Geschäftspartner oder Bauleitung), den Bearbeitungsstatus, Zeitpunkte sowie technische Prüf- und Auditdaten. Das Absenden dieses Formulars erstellt noch kein Benutzerkonto und erteilt keine Zugriffsrechte. Berechtigte Personen prüfen den Zugangswunsch und entscheiden über eine persönliche Einladung.</p>
+      <p>Ein neuer Kunden-, Mitarbeitenden-, Partner- oder Bauleitungszugang kann im gegenwärtigen Stand nur über eine persönliche, zeitlich begrenzte Einmal-Einladung des Inhabers eingerichtet werden. Für eine Einladung werden die vorgesehene Rolle, die zugehörige E-Mail-Adresse, ein Ablaufzeitpunkt und technische Prüfdaten verarbeitet; ein Einladungsnachweis wird nicht im Klartext in der Datenbank gespeichert. Im Registrierungsprozess werden Name, E-Mail-Adresse und ein Passwort eingegeben. Die Rolle wird aus der gültigen Einladung übernommen, nicht von der sich registrierenden Person frei gewählt. Der neue Zugang bleibt bis zur Prüfung durch eine berechtigte Person ohne freigegebene Fachrechte. Es werden außerdem Status-, Erstellungs-, Änderungs- und notwendige Prüf- bzw. Auditinformationen verarbeitet.</p>
+      <p>Eine freie öffentliche Selbstregistrierung, eine automatische Rechtefreigabe und eine Anmeldung über Google oder andere soziale Netzwerke sind in diesem geprüften Stand nicht aktiviert. Falls externe Identitätsanbieter hinzukommen, müssen deren konkrete Datenflüsse, Empfänger und etwaige Drittlandübermittlungen vor der Aktivierung ergänzt werden.</p>
+      </>}
+      <p>Wir verarbeiten die für den gewünschten Kundenbereich erforderlichen Daten zur Bereitstellung des angefragten Dienstes nach Art. 6 Abs. 1 Buchst. b DSGVO. Die Prüfung und Beschränkung von Zugriffsrechten schützt Kunden- und Unternehmensdaten und beruht auf Art. 6 Abs. 1 Buchst. f DSGVO. Pflichtangaben sind für die Zuordnung des Profils erforderlich; ohne diese Angaben kann kein Portalzugang eingerichtet werden. Sie können KnaBa weiterhin telefonisch oder per E-Mail kontaktieren.</p>
+    </section>
+
+    <section aria-labelledby="rollen">
+      <h2 id="rollen">5. Geschützte Bereiche und Zugriffsrechte</h2>
+      <ul class="privacy-list">
+        <li><strong>Kundinnen und Kunden:</strong> eigene Reinigungsanfragen, Bearbeitungsstand, zugehörige Termine und eigene Rückmeldungen.</li>
+        <li><strong>Geschäftspartner:</strong> eigene Projektanfragen, deren Bearbeitungsstand und eigene Rückmeldungen; kein Zugriff auf fremde Kunden- oder Partneranfragen.</li>
+        <li><strong>Mitarbeitende:</strong> ihnen zugewiesene Einsätze und die dafür erforderlichen Objekt- und Arbeitsangaben, Checklisten sowie Statusmeldungen.</li>
+        <li><strong>Bauleitung:</strong> ausschließlich ausdrücklich zugewiesene Aufträge, deren Termine, Arbeitsstand und interne Einsatznotizen sowie die für die Einsatzplanung erforderlichen Namen freigegebener Mitarbeitender. Kein Zugriff auf fremde Aufträge, Kontofreigaben oder die Datenfelder für Kunden-E-Mail-Adressen und Telefonnummern.</li>
+        <li><strong>Administratoren:</strong> die Anfragen und Aufträge sowie das Verzeichnis freigegebener Mitarbeitender und Bauleitungen, soweit dies für Bearbeitung, Planung und Zuweisung erforderlich ist.</li>
+        <li><strong>Website-Inhaber:</strong> Rollenfreigaben, Rechteverwaltung und das Benutzerverzeichnis. Registrierungen, Änderungen an Berechtigungen und Änderungen an Anfragen werden mit handelnder Benutzerkennung, Vorgangskennung, Aktion und Zeitpunkt zur Nachvollziehbarkeit protokolliert.</li>
+        <li><strong>Gesondert freigeschalteter Entwickler:</strong> ein eigener, isolierter Testbereich mit synthetischen Profilen, Anfragen und Gesprächen. Der Wechsel zwischen Testrollen betrifft ausschließlich die eigenen Testdaten; echte Kundendaten und der tatsächliche Kundenposteingang sind nicht zugänglich. Der Entwickler kann keine Einladungen für echte Benutzer ausstellen. Dieser Zugang verwendet ein eigenes Konto, wird ausdrücklich erteilt und kann widerrufen werden; Registrierung oder E-Mail-Adresse allein gewähren ihn nicht.</li>
+      </ul>
+      <p>Bei Unterhaltungen im angemeldeten Portal speichern wir Nachrichtentext, Benutzerkennung, Namen und Rolle der verfassenden Person, Zeitpunkt, Gesprächskennung und gegebenenfalls den Bezug zu einer Anfrage. Die jeweilige Unterhaltung ist für die beteiligte Person und die berechtigte Verwaltung sichtbar. Eine Bauleitung kann nur Unterhaltungen mit den zugehörigen Kunden, Partnern oder Mitarbeitenden zu ihren aktuell zugewiesenen Aufträgen öffnen. Kunden- und Mitarbeiterunterhaltungen bleiben getrennt. Portalnachrichten lösen keine automatischen externen Benachrichtigungen aus.</p>
+      <p>Die Auftragsbearbeitung erfolgt im Rahmen der Anbahnung oder Erfüllung des Vertrags. Soweit Daten von Beschäftigten für das Beschäftigungsverhältnis erforderlich sind, ist § 26 Abs. 1 BDSG maßgeblich. Sicherheits- und Berechtigungsprotokolle dienen der Kontrolle erlaubter Zugriffe und der Aufklärung von Fehlbedienung oder Missbrauch.</p>
+      <p>Der Website-Code erstellt keine Werbeprofile und bewertet keine Arbeitsleistung automatisch. Das System prüft technische Zugriffsberechtigungen; über die Freigabe einer beantragten Rolle entscheidet eine ausdrücklich berechtigte Person. Eine Eingangsbestätigung für eine Anfrage ist keine automatische Vertragsannahme. Private Rückmeldungen aus dem Auftragsportal und Profildaten sind nicht öffentlich sichtbar. Mitarbeitende erhalten zu zugewiesenen Aufträgen keine E-Mail-Adressen, Telefonnummern oder Kundenkontokennungen aus den jeweiligen Datenfeldern. Interne Einsatznotizen werden im Kundenbereich nicht angezeigt.</p>
+    </section>
+
+    <section aria-labelledby="bewertungen">
+      <h2 id="bewertungen">Öffentliche Rückmeldungen von Kunden und Partnern</h2>
+      <p>Über das Rückmeldungsformular auf der Startseite können Sie einen eigenen Erfahrungsbericht einreichen. Mit Ihrer ausdrücklichen Einwilligung dürfen Ihr Anzeigename, eine freiwillig angegebene Firma, Ihre angegebene Beziehung zu KnaBa und der Text nach Prüfung durch den Inhaber auf dieser Website erscheinen. Bitte nennen Sie keine vertraulichen Projektinformationen oder personenbezogenen Daten anderer Personen.</p>
+      <p>Ihre E-Mail-Adresse bleibt im geschützten Bereich und dient der Zuordnung und gegebenenfalls der Klärung Ihrer Rückmeldung. Gespeichert werden außerdem der Zeitpunkt und die Fassung Ihrer Einwilligung, der Bearbeitungsstatus und die Veröffentlichungsschritte. Die Einreichung führt nicht automatisch zur Veröffentlichung. Eine angegebene Kunden- oder Partnerbeziehung wird durch das Formular nicht automatisch bestätigt. Private Rückmeldungen aus dem Auftragsportal werden nicht in diesen Bereich übernommen.</p>
+      <p>Die Sicherheitsprüfung verwendet Cloudflare Turnstile. Technische Informationen können dafür an Cloudflare übermittelt werden. Zur Begrenzung wiederholter Einsendungen verarbeitet der Dienst zeitlich begrenzte Hashwerte von Netzwerk- und E-Mail-Angaben. Es werden keine Rückmeldungen automatisch an externe Bewertungsplattformen oder KI-Anbieter weitergegeben.</p>
+      <p>Sie können Ihre Einwilligung für die Zukunft widerrufen und die Entfernung Ihrer Rückmeldung über <a href={`mailto:${company.email}`}>{company.email}</a> anfordern. Der Inhaber kann die Veröffentlichung zurücknehmen. Eine automatische Löschfrist oder Selbstbedienung zur vollständigen Löschung ist derzeit nicht eingerichtet; Löschanliegen werden über diesen Kontakt bearbeitet.</p>
+    </section>
+
+    <section aria-labelledby="werbung">
+      <h2 id="werbung">Servicekommunikation, Benachrichtigungen und Werbung</h2>
+      <p>Auf eine Anfrage bezogene Rückfragen oder notwendige Vertragsnachrichten sind von Werbung zu unterscheiden. Die Kenntnisnahme dieser Datenschutzhinweise, eine Kontaktanfrage, die Portalregistrierung und die Nutzung des Assistenten stellen keine Einwilligung in Newsletter, Werbeanrufe oder Werbenachrichten dar. Der aktuelle Stand enthält keinen aktivierten automatischen Newsletter- oder WhatsApp-Marketingversand. Eine spätere werbliche Ansprache erfolgt nur auf einer hierfür zulässigen Grundlage unter Beachtung von § 7 UWG; ein Widerspruch gegen Direktwerbung ist jederzeit möglich (Art. 21 Abs. 2 DSGVO).</p>
+    </section>
+
+    <section aria-labelledby="dienstleister">
+      <h2 id="dienstleister">6. Hosting, Anmeldung und Empfänger</h2>
+      {nativeHosting ? <>
+      <p>Diese Testversion wird mit OpenAI Sites auf Cloudflare Workers bereitgestellt. Portal-, Anfrage-, Chat-, Bearbeitungs- und Auditdaten werden in der zu diesem Site gehörenden Cloudflare-D1-Datenbank gespeichert. Die Datenbank des getrennten KnaBa-VPS wird hier nicht verwendet. Externe generative KI sowie automatisierter E-Mail- und WhatsApp-Versand sind nicht aktiviert.</p>
+      <p>Für die Anmeldung verarbeitet OpenAI die Zugangsdaten; die Website erhält die oben beschriebenen Identitätsangaben. Informationen der Anbieter finden Sie in den <a href="https://openai.com/policies/privacy-policy/">Datenschutzhinweisen von OpenAI</a> und der <a href="https://www.cloudflare.com/de-de/privacypolicy/">Datenschutzerklärung von Cloudflare</a>. Eine abgeschlossene vertragliche oder rechtliche Prüfung wird durch diese technischen Hinweise nicht behauptet.</p>
+      </> : <>
+      <p>Diese Website wird auf einem eigenen angemieteten VPS über einen HTTPS-Reverse-Proxy betrieben. Portal-, Anfrage- und Chatdaten werden in einer lokalen SQLite-Datenbank des KnaBa-Dienstes gespeichert; getrennte Sicherungskopien dienen der Wiederherstellung. Externe generative KI, automatisierte E-Mail- und WhatsApp-Versanddienste sind derzeit nicht aktiviert. Zugang erhalten nur entsprechend berechtigte Personen.</p>
+      <p>Für die Namensauflösung und gegebenenfalls den Schutz des HTTPS-Zugangs kann Cloudflare eingesetzt werden. Informationen zur dortigen Datenverarbeitung finden Sie in der <a href="https://www.cloudflare.com/de-de/privacypolicy/">Datenschutzerklärung von Cloudflare</a>. Weitere für den VPS-Betrieb eingesetzte Auftragsverarbeiter und mögliche Übermittlungen können beim oben genannten Verantwortlichen erfragt werden.</p>
+      </>}
+      <p>Die genannten Anbieter beschreiben auch Verarbeitung außerhalb des Europäischen Wirtschaftsraums. Eine ausschließliche Speicherung in Deutschland oder der EU wird für diese Vorschau nicht zugesichert. Informationen zu den für dieses Angebot konkret anwendbaren Empfängern und Übermittlungsgarantien können Sie beim oben genannten Verantwortlichen anfordern.</p>
+      <p>Die vertragliche Zuordnung der Hosting-Dienstleister, Auftragsverarbeitungsvereinbarungen und Übermittlungsgarantien für den endgültigen Unternehmensbetrieb müssen vor der Umstellung auf die offizielle Domain abschließend dokumentiert werden. Die allgemeinen Anbieterinformationen ersetzen diese Prüfung nicht.</p>
+    </section>
+
+    <section aria-labelledby="drittland">
+      <h2 id="drittland">Empfänger, Auftragsverarbeitung und Übermittlungen außerhalb des EWR</h2>
+      <p>Je nach tatsächlicher Konfiguration erhalten Hosting- und Infrastrukturbetreiber, technische Sicherheitsdienstleister sowie im Rahmen der Auftragsbearbeitung berechtigte Mitarbeitende und erforderliche Auftragspartner nur die jeweils notwendigen Daten. Der Einsatz eines eigenen VPS bedeutet nicht, dass keine externen Auftragsverarbeiter tätig sind. Die Auswahl von Hosting, Sicherung, DNS/CDN, Turnstile und gegebenenfalls Nachrichten- oder Anmeldediensten muss vor dem endgültigen Betrieb in einem aktuellen Verzeichnis der Empfänger und Auftragsverarbeiter dokumentiert sein.</p>
+      <p>Bei einer Übermittlung in Staaten außerhalb des EWR muss der Verantwortliche die jeweils einschlägige Grundlage nach Kapitel V DSGVO (beispielsweise einen Angemessenheitsbeschluss oder geeignete Garantien nach Art. 46 DSGVO) prüfen und darüber informieren. Allgemeine Datenschutzlinks eines Anbieters belegen weder eine konkrete Datenübermittlung noch einen gültigen Auftragsverarbeitungsvertrag. Bei einem Server- oder Providerwechsel werden diese Angaben vor Umschaltung anhand des tatsächlichen Datenflusses angepasst.</p>
+    </section>
+
+    <section aria-labelledby="speicherung">
+      <h2 id="speicherung">7. Speicherdauer und Löschung</h2>
+      <p>Die Dauer richtet sich nach dem jeweiligen Zweck: Profildaten werden für den freigegebenen Zugang benötigt; Anfrage- und Auftragsdaten für Bearbeitung, Durchführung und nachvollziehbare Abwicklung. Entfällt der Zweck, sind die betroffenen Daten zu löschen, sofern keine gesetzliche Aufbewahrungspflicht oder erforderliche Aufbewahrung zur Geltendmachung oder Abwehr von Ansprüchen entgegensteht. In einem solchen Fall ist die weitere Nutzung auf diesen Zweck zu beschränken.</p>
+      <p>Eine feste automatische Löschfrist für Profile, Anfragen, Aufträge und das Änderungsprotokoll ist in dieser Vorschau nicht eingerichtet. Für Auskunft, Datenübertragung, Berichtigung und Löschung gibt es derzeit keine Selbstbedienungsfunktion im Portal; diese Anliegen werden über den Datenschutzkontakt bearbeitet. Das Abmelden beendet die Sitzung, löscht aber nicht automatisch Ihr Profil oder Ihre Aufträge. Die Entfernung der temporären Internetadresse allein löscht ebenfalls keine gespeicherten Portal-Daten.</p>
+      <p>Die Gültigkeit einer Zugangsanfrage begrenzt ihre Bearbeitung und bedeutet keine automatische Löschung. Neue Zugangsanfragen löschen keine früheren Anfragen. Die gesonderte Löschroutine setzt eine vom Betreiber freigegebene Regel, eine Sicherungskopie und deren Prüfung voraus; sie ersetzt keine vollständige Lösch- und Backup-Richtlinie.</p>
+      <p>Die Aufbewahrung technischer Betriebs- und Anmeldedaten richtet sich zusätzlich nach den tatsächlich eingesetzten Diensten. Für geschäftliche Unterlagen können gesetzliche Aufbewahrungspflichten, insbesondere nach § 147 AO und § 257 HGB, gelten; sie rechtfertigen nicht pauschal das unbegrenzte Speichern sämtlicher Chat-, Profil- oder Logdaten. Der Betreiber muss eine dokumentierte Lösch- und Backup-Routine mit überprüfbaren Fristen je Datenkategorie einrichten. Ein Umzug oder eine Stilllegung der Vorschau erfordert deshalb auch eine gesonderte Prüfung der gespeicherten Daten und Sicherungskopien.</p>
+    </section>
+
+    <section aria-labelledby="rechte">
+      <h2 id="rechte">8. Ihre Rechte</h2>
+      <p>Nach den gesetzlichen Voraussetzungen können Sie Auskunft, Berichtigung, Löschung oder Einschränkung der Verarbeitung sowie Datenübertragbarkeit verlangen. Bei einer Verarbeitung aufgrund berechtigter Interessen können Sie aus Gründen Ihrer besonderen Situation widersprechen. Soweit eine Verarbeitung auf Einwilligung beruht, können Sie diese jederzeit für die Zukunft widerrufen.</p>
+      <p>Wenden Sie sich dafür an <a href={`mailto:${company.email}`}>{company.email}</a>. Anfragen werden unverzüglich und grundsätzlich spätestens innerhalb eines Monats beantwortet; eine gesetzlich zulässige Verlängerung wird begründet mitgeteilt (Art. 12 Abs. 3 DSGVO). Zur Bearbeitung kann eine angemessene Prüfung Ihrer Identität erforderlich sein. Senden Sie uns hierfür nicht unaufgefordert Ausweiskopien oder andere sensible Unterlagen.</p>
+      <p>Es findet nach dem derzeit geprüften Funktionsstand keine ausschließlich automatisierte Entscheidung statt, die Ihnen gegenüber rechtliche Wirkung entfaltet oder Sie in ähnlicher Weise erheblich beeinträchtigt (Art. 22 DSGVO). Die Freigabe von Rollen erfolgt durch berechtigte Menschen. Ihre gesetzlichen Rechte und mögliche gerichtliche Rechtsbehelfe bleiben unberührt.</p>
+      <p>Sie können sich bei einer Datenschutzaufsichtsbehörde beschweren. Für in Berlin ansässige Unternehmen ist insbesondere die <a href="https://www.datenschutz-berlin.de/buergerinnen-und-buerger/beschwerde/">Berliner Beauftragte für Datenschutz und Informationsfreiheit</a> erreichbar: Alt-Moabit 59–61, 10555 Berlin; <a href="mailto:mailbox@datenschutz-berlin.de">mailbox@datenschutz-berlin.de</a>.</p>
+    </section>
+
+    <section aria-labelledby="aenderungen">
+      <h2 id="aenderungen">9. Änderungen dieser Hinweise</h2>
+      <p>Ändern sich Funktionen, Dienstleister oder Verarbeitungszwecke – insbesondere durch Umzug auf den Unternehmensserver, neue Login-Anbieter, KI-Dienste oder Telefonie –, werden die Datenschutzinformationen vor dem entsprechenden Einsatz aktualisiert. Diese Hinweise begründen keine Einwilligung und schalten keine neue Werbung, Analyse oder Gesprächsaufzeichnung frei.</p>
+      <p class="legal-version">Stand: 28. Oktober 2026 · <a href="/impressum/">Anbieterangaben im Impressum</a></p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .legal-intro { color: #52666a; max-width: 66ch; }
+  .privacy-contents { display: flex; gap: 9px; flex-wrap: wrap; padding: 24px 0 8px; }
+  .privacy-contents a { padding: 8px 13px; border: 1px solid #ccdeda; border-radius: 100px; background: #f0f6ed; color: #183d40; font-size: 13px; text-decoration: none; }
+  .privacy-contents a:hover { background: #dbe8cc; }
+  .privacy-contents a:focus-visible { outline: 3px solid #173d41; outline-offset: 3px; }
+  .privacy-list { padding-left: 22px; }
+  .privacy-list li + li { margin-top: 10px; }
+  .legal section { scroll-margin-top: 115px; }
+  .legal a { overflow-wrap: anywhere; text-underline-offset: 3px; }
+  .legal-version { color: #5d6a70; margin-top: 30px; }
+</style>

@@ -1,0 +1,40 @@
+✔ the shared frame exposes only one default telephone link (1.840061ms)
+✔ contextual telephone pages suppress the fallback, across localized routes (0.883401ms)
+✔ home closing conversion panel does not repeat the global telephone (0.330737ms)
+✔ information cards do not repeat the same contact link for each card (0.366991ms)
+✔ no-JavaScript portal help does not add a second telephone link (0.280724ms)
+✔ informational pages use shared contact details rather than an extra contact strip (0.346261ms)
+✔ profile and contextual contacts suppress shared footer email duplicates (1.839861ms)
+✔ no-JavaScript fallbacks use contextual mail without duplicating link (0.46176ms)
+✔ current contact page avoids redundant header, mobile and footer self-CTAs (0.340542ms)
+✔ homepage has one prominent catalogue CTA and a distinct extra-works deep link (0.650969ms)
+✔ service details have two focused contact CTAs without removing pricing and phone (0.271149ms)
+✔ contact no-JavaScript guidance reuses visible contacts without repeating their values (0.316056ms)
+✔ KNABA gallery route is honestly presented as a work-process guide in all four locales (1.161651ms)
+✔ schematic artwork remains labelled, never sold as a completed customer reference (0.267144ms)
+✔ each work process links to one distinct canonical existing service, not four duplicate contact CTAs (1.398731ms)
+✔ shared header, mobile navigation and footer use honest translated work-process name (0.327393ms)
+✔ empty inquiry requires service, object, location, frequency and contact identity (1.58089ms)
+✔ valid inquiry allows unknown area and optional phone/message without pricing (0.641035ms)
+✔ invalid service is rejected instead of accepted from an untrusted query (0.532915ms)
+✔ postcode preserves leading zero and rejects incomplete or nonnumeric inputs (0.338729ms)
+✔ area is optional but if provided is a positive bounded integer (0.286472ms)
+✔ message query punctuation cannot inject recipients or additional mailto parameters (0.249368ms)
+✔ email/header-like control characters and oversized fields are rejected (0.253233ms)
+✔ maximum unicode inputs produce a bounded, round-trip-safe mailto (0.322605ms)
+✔ pins an immutable release and proves all file bytes using build-verifier ordering (44.519497ms)
+✔ reports a genuine artifact mismatch, without accepting approximate asset sizes (8.021291ms)
+✔ fails closed on a switched release rather than reading a moving current symlink (11.344922ms)
+✔ detects an ABA release switch even if current returns to its original SHA (7.742625ms)
+✔ does not read a newer release if current already differs from expected source (6.032594ms)
+✔ rejects mutation of pinned release files during the audit (7.43723ms)
+✔ rejects symlink inside release contents to prevent reading outside of the release (5.244468ms)
+✔ rejects malformed expected source or missing artifact hash (8.346941ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 224.246924

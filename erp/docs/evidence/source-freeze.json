@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-10-06T19:00:10.238178+00:00",
+  "status": "PASSED_CPU_SOURCE_FREEZE",
+  "counts": {
+    "passed": 367,
+    "failed": 0,
+    "realPostgresSkipped": 37,
+    "total": 404
+  },
+  "fullTypecheck": "PASSED",
+  "actualPgBrowserRestore": "NOT_RUN",
+  "priorExecutionAttempt": "CANCELLED_NOT_EXECUTED",
+  "socketProbe": {
+    "status": "BLOCKED_ENVIRONMENT",
+    "code": "EPERM",
+    "verifiedAt": "2026-10-06T18:50:54.509Z"
+  },
+  "history": "Earlier4f8 build superseded; exact finalcodeSHA mapped by RELEASE_MANIFEST after committed build.",
+  "sqlCleanupAudit": "Null-limit rejected; legal hold decision clock captured after company lock. New realSQL regression cases authored NOT_RUN."
+}

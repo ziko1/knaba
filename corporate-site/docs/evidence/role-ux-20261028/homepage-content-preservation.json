@@ -1,0 +1,19 @@
+{
+  "source": "corporate-site/src/components/ConstructionHome.astro",
+  "comparisonBase": "5cf1f9734c4b140344aa02e584a634a86e310b71",
+  "beforeBytes": 12672,
+  "afterBytes": 12672,
+  "sameLineMultiset": true,
+  "sortedLinesSha256": "ef68375d81968fde5cda444ec97d2a7436477a5a08b7a14adfbe8459659edf59",
+  "byteIdenticalDirectSections": 5,
+  "embeddedSectionsRetainedOnce": [
+    "ProjectScopeGuide",
+    "WhyKnaBa",
+    "CompanyProfile",
+    "Partners",
+    "Reviews",
+    "HomeGuides",
+    "ConstructionFaq"
+  ],
+  "note": "This invariant covers our homepage reorder. Newer upstream review empty-state content is retained separately."
+}

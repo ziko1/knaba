@@ -1,0 +1,12 @@
+{
+  "mode": "production",
+  "siteDomain": "your-company.de",
+  "erpDomain": "erp.your-company.de",
+  "ownerEmail": "owner@your-company.de",
+  "developerEmail": "developer@your-company.de",
+  "companyId": "verified-company-id",
+  "proxyMode": "external",
+  "sitePort": 19110,
+  "erpPort": 19111,
+  "releaseConfig": {}
+}

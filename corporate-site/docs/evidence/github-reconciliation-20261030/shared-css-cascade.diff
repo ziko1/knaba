@@ -1,0 +1,22 @@
+--- original-three-stylesheets
+
++++ combined-layout
+
+@@ -1368,8 +1368,4 @@
+
+ border:1px solid canvastext}
+ }
+-.locale-catalog-note[data-astro-cid-sdgewonh]{
+-color:#45655b;border-top:1px solid #d7e4da;margin:4px 0 0;padding:12px 8px 5px;font-size:.73rem;line-height:1.5}
+-.astro-route-announcer{
+-clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;width:1px;height:1px;position:absolute;top:0;left:0;overflow:hidden}
+ .ka-wrap{
+ right:clamp(10px,2.5vw,30px);bottom:max(15px,env(safe-area-inset-bottom));z-index:90;color:#173b3f;font:14px/1.5 Helvetica Neue,Arial,sans-serif;position:fixed}
+@@ -1608,2 +1604,6 @@
+
+ backdrop-filter:none}
+ }
++.locale-catalog-note[data-astro-cid-sdgewonh]{
++color:#45655b;border-top:1px solid #d7e4da;margin:4px 0 0;padding:12px 8px 5px;font-size:.73rem;line-height:1.5}
++.astro-route-announcer{
++clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;width:1px;height:1px;position:absolute;top:0;left:0;overflow:hidden}

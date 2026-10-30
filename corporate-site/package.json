@@ -1,0 +1,62 @@
+{
+  "name": "knaba-corporate-site",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "node scripts/preview-worker.mjs",
+    "build": "node scripts/clean-build.mjs && astro build && node scripts/security-headers.mjs && vite build --config vite.worker.config.ts && esbuild vps/render-page.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/render-page.mjs && esbuild vps/articles.mjs --bundle --platform=node --target=node24 --format=esm --minify --outfile=dist/vps/articles.mjs",
+    "check": "astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json",
+    "test": "vitest run && node --test tests/client-domain-origin.test.mjs tests/inquiry.test.mjs tests/contact-ui-dedup.test.mjs tests/gallery-workflow-content.test.mjs tests/verify-live-artifact.test.mjs && node --test tests/browser-policy-gate.test.cjs scripts/check-knaba-3d-assets.mjs && node --test tests/i18n-source-catalog.test.mjs && node --test tests/legal-regression.test.mjs tests/partner-portal-regression.test.mjs",
+    "verify:build": "node tests/verify-build.mjs && node scripts/i18n-source-catalog.mjs verify-source && node scripts/audit-i18n-output.mjs && node tests/check-project-cta.mjs && node tests/verify-construction-icons.mjs",
+    "prepare:sites-html": "node scripts/prepare-sites-html.mjs",
+    "test:sites-html": "node --test tests/prepare-sites-html.test.mjs",
+    "preview": "astro preview --host 0.0.0.0",
+    "db:generate": "drizzle-kit generate",
+    "dev:content": "astro dev",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local --config dist/server/wrangler.json --persist-to .wrangler/state",
+    "test:artifact": "node --test tests/verify-live-artifact.test.mjs",
+    "test:logo:browser": "node tests/knaba-logo-browser.cjs",
+    "test:roles:browser": "node tests/role-cabinets-browser.mjs",
+    "test:articles:browser": "node tests/studio-article-browser.cjs",
+    "i18n:extract": "node scripts/i18n-source-catalog.mjs extract",
+    "i18n:draft": "node scripts/i18n-source-catalog.mjs draft",
+    "i18n:report": "node scripts/i18n-source-catalog.mjs report",
+    "i18n:verify": "node scripts/i18n-source-catalog.mjs verify-source",
+    "test:vps": "node --test vps/*.test.mjs",
+    "verify:live": "node scripts/verify-public-live.mjs"
+  },
+  "dependencies": {
+    "@astrojs/solid-js": "7.1.1",
+    "@astrojs/svelte": "9.1.1",
+    "@astrojs/vue": "7.1.2",
+    "@tanstack/solid-query": "5.104.5",
+    "astro": "7.4.2",
+    "drizzle-orm": "0.45.2",
+    "pinia": "4.1.0",
+    "solid-js": "1.9.17",
+    "svelte": "5.57.2",
+    "vue": "3.5.44",
+    "zustand": "5.0.16",
+    "parse5": "7.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@cloudflare/vite-plugin": "1.37.1",
+    "@cloudflare/workers-types": "4.20260515.1",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "22.19.19",
+    "drizzle-kit": "0.31.10",
+    "svelte-check": "4.7.7",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vite": "8.3.5",
+    "vitest": "5.0.5",
+    "vue-tsc": "3.3.13",
+    "wrangler": "4.92.0",
+    "esbuild": "0.28.2"
+  }
+}

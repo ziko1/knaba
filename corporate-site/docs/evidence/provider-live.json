@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "path": "/planer/",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "path": "/api/catalogue.json",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "path": "/robots.txt",
+    "error": "HTTP Error 403: Forbidden"
+  }
+]

@@ -1,0 +1,14 @@
+✔ new invitation is additive, 256-bit, hash-only and never creates a user (96.520145ms)
+✔ only configured owner may issue limited, email-scoped client/worker invitations (186.469566ms)
+✔ registration rejects replay, mismatch, invalid consent/password and expiry atomically (189.485768ms)
+✔ worker enrollment is pending and credentials authenticate without privilege grant (382.45345ms)
+✔ invitation issuance is bounded, neither unlimited nor extendable by past used tokens (118.022876ms)
+✔ explicit owner revocation makes an issued invitation unusable before registration (181.009023ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1220.935937

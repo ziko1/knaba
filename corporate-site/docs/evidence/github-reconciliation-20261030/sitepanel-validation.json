@@ -1,0 +1,140 @@
+{
+  "source": "3a873771bc69947b0db9444d72fb6876e4bf355e",
+  "source_tree": "898315c76a1eb2a2751c91db5fd7b0354bb42780",
+  "scope": "Unprivileged source-only Python fixtures and simulated DOM/CLI harness; no installation/account/PAM/provider/live operation.",
+  "files": [
+    {
+      "path": "ops/sitepanel/00-sitepanel-tenants.rules",
+      "mode": "100644",
+      "sha": "1f2d6159f72020e8abb935a884545dbfd1a83aae",
+      "sha256": "298986d6fd4b729f39b710a5373c01ff09d65e7644758b94f0c003cdc7c04c8c",
+      "bytes": 233
+    },
+    {
+      "path": "ops/sitepanel/README.md",
+      "mode": "100644",
+      "sha": "8e534b02d4745791aa1bfbf318a723869fa53d66",
+      "sha256": "8c4a7df076ba50cb70d78b75bdd40e5a7ae7245fd45fb6604c1c95a846790109",
+      "bytes": 5526
+    },
+    {
+      "path": "ops/sitepanel/cockpit/.verification/check-ui.cjs",
+      "mode": "100644",
+      "sha": "9c387cd5616eae8c651897382544050a1d6c065e",
+      "sha256": "d04f0d41a10a16942bf328b4d91d54b425e55c24c002ae9c3f20abe183d5f53a",
+      "bytes": 11553
+    },
+    {
+      "path": "ops/sitepanel/cockpit/sitepanel/app.js",
+      "mode": "100644",
+      "sha": "345981efcee224f947cb2d94118edc7ffaa6b754",
+      "sha256": "229a506bc951d9b55ca11426c886c94a2f6958efc4fc25b4d4dede703eda6e48",
+      "bytes": 25657
+    },
+    {
+      "path": "ops/sitepanel/cockpit/sitepanel/index.html",
+      "mode": "100644",
+      "sha": "a72eb1b3a9629e2c123710dbab0d2b681cdf697e",
+      "sha256": "35dd57741735ee10b22dd1201bd6b0b37203b69d1425e23766895249547c1930",
+      "bytes": 4755
+    },
+    {
+      "path": "ops/sitepanel/cockpit/sitepanel/manifest.json",
+      "mode": "100644",
+      "sha": "79b806d4059985ff2e55cb380e28173251241789",
+      "sha256": "be1c5f2d8c10de051237bc651383aadfa3be585c6782bf287512c5bd6d9e2bfb",
+      "bytes": 259
+    },
+    {
+      "path": "ops/sitepanel/cockpit/sitepanel/style.css",
+      "mode": "100644",
+      "sha": "fe1e723a60596162e4c634234bd10304e344f678",
+      "sha256": "85beb67f246849772dc1e3dc93a1e82709f301c670f096621053d7a02f07ba16",
+      "bytes": 11310
+    },
+    {
+      "path": "ops/sitepanel/configure_accounts.py",
+      "mode": "100644",
+      "sha": "9ad78b92a3edd32b1489aa48c14632c28ae489ab",
+      "sha256": "922e304057afb6fc4a1f86b4eae5d517de220fa34cf341b6e16f6cad22d14700",
+      "bytes": 7391
+    },
+    {
+      "path": "ops/sitepanel/install_stage.py",
+      "mode": "100644",
+      "sha": "c03ea4944f875a77eedeb6b4faac36cfaad01755",
+      "sha256": "548c80d0d28fba1bd90d6afc554f0ca7ac84850312a6e428b3e6f7171751d187",
+      "bytes": 8784
+    },
+    {
+      "path": "ops/sitepanel/sitepanel",
+      "mode": "100755",
+      "sha": "0db4c877ef67ea3b921bc6f751dad143b5944667",
+      "sha256": "e18b1cbe5ebc3106a0dd6869e36e6c8431a3532bbb1f9513e354eb9cbc60ac07",
+      "bytes": 82
+    },
+    {
+      "path": "ops/sitepanel/sitepanel.py",
+      "mode": "100644",
+      "sha": "63b0a037f93dd2e67c8717a2b6d36ccef5209394",
+      "sha256": "00235ea31da5dddbddcb78d27486962d1dbec7d17479c87d2d283798ce0eed79",
+      "bytes": 21212
+    },
+    {
+      "path": "ops/sitepanel/sitepanel.service",
+      "mode": "100644",
+      "sha": "784a3537b2449b7fcb1758c4eae86aba13cb03bc",
+      "sha256": "d3d4fb270faa6494ec0125212b2c08d02c49836c9d662599d3ef34a7f69b248a",
+      "bytes": 836
+    },
+    {
+      "path": "ops/sitepanel/tests/test_sitepanel.py",
+      "mode": "100644",
+      "sha": "4f50311c59c8739be962f76fdbf667c19a6c6b9c",
+      "sha256": "09931c82b6d63adc7e5c6015f06db79b12c41f20f6224be37679a114506ffd76",
+      "bytes": 24470
+    }
+  ],
+  "syntax": "PASS allPython AST",
+  "pinned_installer_hash": "PASS",
+  "stages": [
+    {
+      "name": "sitepanel-unit",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 0.16,
+      "log": "sitepanel-unit.log",
+      "sha256": "b5f24dae20866392b7180388504382e99f59cf1d9b44bca359ca0dceeb3ddadf"
+    },
+    {
+      "name": "sitepanel-ui",
+      "command": [
+        "node",
+        "cockpit/.verification/check-ui.cjs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.52,
+      "log": "sitepanel-ui.log",
+      "sha256": "e0265d97e9dcdf0bc17981bbd4e1b9c0e042f296f73758de7e1e07082705223d"
+    }
+  ],
+  "status": "PASS",
+  "counts": {
+    "python": 34,
+    "simulated_dom_cli": 18
+  },
+  "warnings": [
+    "Python3.14 emitted nonfatal ResourceWarning notices for unclosed SQLite connections in the existing temporary-ledger tests. The run passed; zero warnings is not claimed."
+  ],
+  "deployment_scripts": "Preserved exactly; not executed by this reconciliation. Host-specific operations require their separate authorization.",
+  "public_source": "https://github.com/ziko1/knaba/pull/117",
+  "integrated_local_commit": "b25251e50c482d125e659b39af1addd0862fb1e6"
+}

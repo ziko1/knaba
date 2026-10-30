@@ -1,0 +1,134 @@
+{
+  "base_sha": "fcce39ca316419417b2eb7d97605bf4006ab5652",
+  "state": "working-tree candidate",
+  "results": [
+    {
+      "step": "site-check",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "start_utc": "2026-10-28T06:57:15.947060+00:00",
+      "exit": 0,
+      "log": "docs/evidence/staging-release-20261028/site-check.log",
+      "tail": [
+        "Result (300 files): ",
+        "- 0 errors",
+        "- 0 warnings",
+        "- 6 hints",
+        "",
+        "Loading svelte-check in workspace: /workspace/scratch/23db9ae4168f/knaba/corporate-site",
+        "Getting Svelte diagnostics...",
+        "",
+        "svelte-check found 0 errors and 0 warnings"
+      ]
+    },
+    {
+      "step": "site-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "start_utc": "2026-10-28T06:57:27.619171+00:00",
+      "exit": 0,
+      "log": "docs/evidence/staging-release-20261028/site-tests.log",
+      "tail": [
+        "✔ partner backend can only create and view own scoped requests, never worker notes (1.363226ms)",
+        "ℹ tests 8",
+        "ℹ suites 0",
+        "ℹ pass 8",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 72.274084"
+      ]
+    },
+    {
+      "step": "staging-build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "start_utc": "2026-10-28T06:57:30.396410+00:00",
+      "exit": 0,
+      "log": "docs/evidence/staging-release-20261028/staging-build.log",
+      "tail": [
+        "computing gzip size...",
+        "dist/client/.assetsignore                  0.02 kB",
+        "dist/client/__cloudflare_fallback_entry__  0.00 kB │ gzip: 0.02 kB",
+        "",
+        "✓ built in 39ms",
+        "",
+        "  dist/vps/render-page.mjs  183.1kb",
+        "",
+        "⚡ Done in 12ms"
+      ]
+    },
+    {
+      "step": "i18n-extract",
+      "command": [
+        "npm",
+        "run",
+        "i18n:extract"
+      ],
+      "start_utc": "2026-10-28T06:57:35.177404+00:00",
+      "exit": 0,
+      "log": "docs/evidence/staging-release-20261028/i18n-extract.log",
+      "tail": [
+        "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.",
+        "",
+        "> knaba-corporate-site@0.3.0 i18n:extract",
+        "> node scripts/i18n-source-catalog.mjs extract",
+        "",
+        "{\"status\":\"PASS\",\"sourceDigest\":\"ea69254846c87ca7c7fb9ee71eb3f6eaad84e7601b022eb6edf729c2648cf509\",\"routes\":28,\"units\":1052,\"limit\":\"STATIC_CONTENT_ONLY\"}"
+      ]
+    },
+    {
+      "step": "staging-verify",
+      "command": [
+        "npm",
+        "run",
+        "verify:build"
+      ],
+      "start_utc": "2026-10-28T06:57:35.508636+00:00",
+      "exit": 0,
+      "log": "docs/evidence/staging-release-20261028/staging-verify.log",
+      "tail": [
+        "  ],",
+        "  \"artifactSha256\": \"7306560cb740f3cfb84e9c05252ea1d08f49a481fb93c5b67c3054a69d445bf1\",",
+        "  \"fieldWebVitals\": \"NOT_RUN\",",
+        "  \"networkTransfer\": \"NOT_MEASURED\"",
+        "}",
+        "{\"status\":\"PASS\",\"digest\":\"ea69254846c87ca7c7fb9ee71eb3f6eaad84e7601b022eb6edf729c2648cf509\",\"routes\":28,\"units\":1052}",
+        "{\"status\":\"PASS\",\"targetLanguages\":99,\"published\":4,\"pending\":95,\"checkedPages\":24,\"checkedSvgAssets\":16}",
+        "PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and exact 01–06 labels",
+        "PASS: 52 localized SVG icon placements/sections (DE,EN,UK,RU; 8 details per locale), static/a11y"
+      ]
+    },
+    {
+      "step": "vps-tests",
+      "command": [
+        "npm",
+        "run",
+        "test:vps"
+      ],
+      "start_utc": "2026-10-28T06:57:36.838267+00:00",
+      "exit": 0,
+      "log": "docs/evidence/staging-release-20261028/vps-tests.log",
+      "tail": [
+        "✔ unknown/impossible measurements fail closed (0.376073ms)",
+        "ℹ tests 88",
+        "ℹ suites 0",
+        "ℹ pass 88",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 10282.16636"
+      ]
+    }
+  ]
+}

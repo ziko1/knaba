@@ -1,0 +1,305 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 verify:build
+> node tests/verify-build.mjs && node scripts/i18n-source-catalog.mjs verify-source && node scripts/audit-i18n-output.mjs && node tests/check-project-cta.mjs && node tests/verify-construction-icons.mjs
+
+{
+  "scope": "production-build-static-validation",
+  "pages": 130,
+  "internalLinks": "PASS",
+  "metadata": "PASS",
+  "indexMode": "VSP_STAGING_NOINDEX",
+  "externalImageScriptRequests": "NONE_IN_HTML",
+  "externalPartnerImagesInMarkup": 0,
+  "cssGzip": 40949,
+  "allEmittedJsGzip": 195116,
+  "assets": [
+    {
+      "name": "_astro/AdminControlCenter.CxZYoEad.js",
+      "bytes": 15228,
+      "gzip": 5893
+    },
+    {
+      "name": "_astro/AssistantCaptcha.6JFtqcaw.js",
+      "bytes": 4593,
+      "gzip": 2151
+    },
+    {
+      "name": "_astro/AssistantInbox.DEp6QQFZ.js",
+      "bytes": 9984,
+      "gzip": 3918
+    },
+    {
+      "name": "_astro/Catalogue.Crju7cCp.js",
+      "bytes": 2569,
+      "gzip": 1300
+    },
+    {
+      "name": "_astro/CleaningChecklist.DTxOthYo.js",
+      "bytes": 3524,
+      "gzip": 1802
+    },
+    {
+      "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+      "bytes": 16365,
+      "gzip": 5575
+    },
+    {
+      "name": "_astro/ConstructionDetail.Dr5jo8LU.css",
+      "bytes": 5310,
+      "gzip": 1126
+    },
+    {
+      "name": "_astro/ConstructionFaq.B36A57JG.css",
+      "bytes": 7557,
+      "gzip": 1534
+    },
+    {
+      "name": "_astro/ConstructionGuide.BwTvmGH_.css",
+      "bytes": 10027,
+      "gzip": 1987
+    },
+    {
+      "name": "_astro/ConstructionHome.BiwcYlN_.css",
+      "bytes": 15830,
+      "gzip": 3520
+    },
+    {
+      "name": "_astro/ConstructionInfo.CEmfH-x0.css",
+      "bytes": 7179,
+      "gzip": 1425
+    },
+    {
+      "name": "_astro/ConstructionPlanner.GsT2gue7.css",
+      "bytes": 5394,
+      "gzip": 1435
+    },
+    {
+      "name": "_astro/CrmConsole.BTYlkLay.css",
+      "bytes": 4198,
+      "gzip": 1364
+    },
+    {
+      "name": "_astro/CrmConsole.Dm_TuNAg.js",
+      "bytes": 10138,
+      "gzip": 3858
+    },
+    {
+      "name": "_astro/Inquiry.qvUkc1f3.js",
+      "bytes": 20428,
+      "gzip": 7301
+    },
+    {
+      "name": "_astro/KnabaAssistant.CDL77fMx.css",
+      "bytes": 6740,
+      "gzip": 2115
+    },
+    {
+      "name": "_astro/KnabaAssistant.Crr-QllV.js",
+      "bytes": 30622,
+      "gzip": 11220
+    },
+    {
+      "name": "_astro/Layout.DTHz471I.css",
+      "bytes": 60637,
+      "gzip": 13944
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.8anyiHQt.js",
+      "bytes": 1155,
+      "gzip": 648
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.bqXGCNWh.js",
+      "bytes": 4534,
+      "gzip": 1855
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_2_lang.DwkLSAzj.js",
+      "bytes": 699,
+      "gzip": 402
+    },
+    {
+      "name": "_astro/Partners.spIlufU2.css",
+      "bytes": 5457,
+      "gzip": 1457
+    },
+    {
+      "name": "_astro/Portal.CI03bPCj.js",
+      "bytes": 74651,
+      "gzip": 20751
+    },
+    {
+      "name": "_astro/Portal.D7rXCBWs.css",
+      "bytes": 15312,
+      "gzip": 3780
+    },
+    {
+      "name": "_astro/PublicReviews.BkXhlKme.js",
+      "bytes": 9331,
+      "gzip": 3483
+    },
+    {
+      "name": "_astro/ServiceFinder.rfKo1-F4.js",
+      "bytes": 11064,
+      "gzip": 4866
+    },
+    {
+      "name": "_astro/SiteStudio.C7hESLX_.js",
+      "bytes": 38615,
+      "gzip": 12768
+    },
+    {
+      "name": "_astro/SiteStudio.CwM3dz5f.css",
+      "bytes": 9098,
+      "gzip": 2701
+    },
+    {
+      "name": "_astro/admin.DZEqblwF.css",
+      "bytes": 7323,
+      "gzip": 2346
+    },
+    {
+      "name": "_astro/client.BmCSL1aC.js",
+      "bytes": 1023,
+      "gzip": 618
+    },
+    {
+      "name": "_astro/client.BvmcPhtz.js",
+      "bytes": 36300,
+      "gzip": 14158
+    },
+    {
+      "name": "_astro/client.CCWCjeKa.js",
+      "bytes": 7599,
+      "gzip": 3497
+    },
+    {
+      "name": "_astro/client.svelte.B37ztSkl.js",
+      "bytes": 889,
+      "gzip": 496
+    },
+    {
+      "name": "_astro/construction-offers.Ckck60VF.js",
+      "bytes": 9942,
+      "gzip": 3861
+    },
+    {
+      "name": "_astro/inquiry-navigation.zQJP3-Dy.js",
+      "bytes": 338,
+      "gzip": 237
+    },
+    {
+      "name": "_astro/planner.BdiWDzIp.js",
+      "bytes": 7145,
+      "gzip": 2949
+    },
+    {
+      "name": "_astro/portal-contract.CQB1yuo-.js",
+      "bytes": 250,
+      "gzip": 198
+    },
+    {
+      "name": "_astro/portal-i18n.9blhSj87.js",
+      "bytes": 44341,
+      "gzip": 14118
+    },
+    {
+      "name": "_astro/preload-helper.DHhhL8Zf.js",
+      "bytes": 1665,
+      "gzip": 852
+    },
+    {
+      "name": "_astro/public-i18n.028mNz-8.js",
+      "bytes": 42148,
+      "gzip": 12360
+    },
+    {
+      "name": "_astro/request-id.BT2U5kLe.js",
+      "bytes": 525,
+      "gzip": 350
+    },
+    {
+      "name": "_astro/reviews.BkvJoBCK.css",
+      "bytes": 8221,
+      "gzip": 2215
+    },
+    {
+      "name": "_astro/reviews.DPXMaZl-.js",
+      "bytes": 20859,
+      "gzip": 7801
+    },
+    {
+      "name": "_astro/rolldown-runtime.DK3Fl9T5.js",
+      "bytes": 158,
+      "gzip": 154
+    },
+    {
+      "name": "_astro/runtime-core.esm-bundler.IMDzd0U5.js",
+      "bytes": 67402,
+      "gzip": 25909
+    },
+    {
+      "name": "_astro/site-studio-contract.eFNOs0rL.js",
+      "bytes": 3836,
+      "gzip": 1826
+    },
+    {
+      "name": "_astro/store.DTuZ3aM8.js",
+      "bytes": 5128,
+      "gzip": 2046
+    },
+    {
+      "name": "_astro/vue-app.CbxmWjzb.js",
+      "bytes": 6092,
+      "gzip": 2886
+    },
+    {
+      "name": "_astro/web.Bis8Lcub.js",
+      "bytes": 34020,
+      "gzip": 13009
+    },
+    {
+      "name": "illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "gzip": 52158
+    },
+    {
+      "name": "illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "gzip": 70105
+    },
+    {
+      "name": "illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "gzip": 80215
+    },
+    {
+      "name": "illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "gzip": 36885
+    },
+    {
+      "name": "illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "gzip": 61222
+    },
+    {
+      "name": "illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "gzip": 64216
+    },
+    {
+      "name": "illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "gzip": 56898
+    }
+  ],
+  "artifactSha256": "8c3ec91063fb1238d58506e524ceb0c97770d2f812960f72f81c0886bcc81d9a",
+  "fieldWebVitals": "NOT_RUN",
+  "networkTransfer": "NOT_MEASURED"
+}
+{"status":"PASS","digest":"aa24d91c6590bd9dad5ba491e27edb4e27bbedf9c059bb5cf85cb66fe7f35b30","routes":28,"units":1048}
+{"status":"PASS","targetLanguages":99,"published":4,"pending":95,"checkedPages":24,"checkedSvgAssets":16}
+PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and exact 01–06 labels
+PASS: 52 localized SVG icon placements/sections (DE,EN,UK,RU; 8 details per locale), static/a11y

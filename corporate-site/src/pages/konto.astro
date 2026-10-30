@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Portal from '../components/Portal.tsx';
+---
+<Layout title="Mein KnaBa | Kunden- und Mitarbeiterportal" description="Ihr KnaBa Portal für Reinigungsanfragen, geplante Einsätze und die Zusammenarbeit mit unserem Team. Persönlicher Zugang mit Freigabe durch den Inhaber." noindex={true}>
+  <section class="container portal-page">
+    <Portal client:load />
+    <noscript><p class="notice">Das Kundenportal benötigt JavaScript. Für Anfragen finden Sie unsere Kontaktdaten im Seitenfuß.</p></noscript>
+  </section>
+</Layout>
+<style>
+  .portal-page{padding-top:1.25rem}
+</style>

@@ -1,0 +1,28 @@
+---
+import {constructionIconPaths, type ConstructionIconName} from '../data/construction-icon-paths';
+
+interface Props {
+  name: ConstructionIconName;
+  size?: number;
+}
+const {name,size=28}=Astro.props;
+const path=constructionIconPaths[name];
+if (!path) throw new Error('Unknown construction service icon');
+if (!Number.isFinite(size) || size < 16 || size > 120) throw new Error('Invalid icon size');
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  class="knaba-service-symbol"
+  data-construction-icon={name}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.65"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false">
+  <path d={path} />
+</svg>

@@ -1,0 +1,35 @@
+{
+  "sourceSha": "7e774c32863ad6b9f90a95288b5bd3495d941a51",
+  "nodeVersion": "24.22.1",
+  "checks": {
+    "astroVueSvelte": {
+      "errors": 0,
+      "warnings": 0,
+      "existingHints": 4
+    },
+    "vitest": {
+      "passed": 148,
+      "files": 24
+    },
+    "nodeInquiry": {
+      "passed": 8
+    },
+    "nodeVps": {
+      "passed": 16
+    }
+  },
+  "artifactSha256": "2a7121f731d2d24f59bb34af124f3b57a2346485dc3292f21c8cef211e3a71cf",
+  "previewAttribution": "Preview-mode build and16 VPS tests ran before final DE-label-only amendment; final VSP checks on exact source above.",
+  "browserAttribution": "Full102-route candidate and24 reflow cases predate final DE-label-only amendment; exact source has targeted inquiry and LIVE four-locale smoke.",
+  "notRun": [
+    "physical devices",
+    "screen reader",
+    "genuine owner acceptance",
+    "real enquiry delivery",
+    "human Turnstile",
+    "field Web Vitals",
+    "independent security penetration test",
+    "offsite restore rehearsal"
+  ],
+  "publicSourcePush": "BLOCKED_BY_AUTO_REVIEW_REQUIRES_EXPLICIT_PUBLIC_PUSH_AUTHORIZATION"
+}

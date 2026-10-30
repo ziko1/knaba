@@ -1,0 +1,2815 @@
+{
+  "timeUtc": "2026-10-25T12:55:26.322Z",
+  "sourceSha": "5b5261e56ad4ae5122495cf3e9b0f87ea7f2d70c",
+  "environment": "Local immutable static candidate Chromium; POST blocked",
+  "pages": [
+    {
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "de",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/#article",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/",
+          "headline": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe",
+          "description": "Bauendreinigung vorbereiten: fertige Flächen, empfindliche Materialien, Restarbeiten und Zugang klären. Mit einer Checkliste für Ihre Projektanfrage.",
+          "inLanguage": "de",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Bauratgeber",
+              "item": "https://kneba.vsp.rest/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Bauendreinigung vorbereiten: vom Bauzustand zur sauberen Übergabe",
+              "item": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#bauzustand",
+          "exists": true
+        },
+        {
+          "href": "#materialien",
+          "exists": true
+        },
+        {
+          "href": "#zugang",
+          "exists": true
+        },
+        {
+          "href": "#ergebnis",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "de",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/#article",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/",
+          "headline": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen",
+          "description": "Welche Reinigungsphase passt zum Baufortschritt? Grobreinigung, Zwischenreinigung und Endreinigung abgrenzen und mit den Gewerken abstimmen.",
+          "inLanguage": "de",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Bauratgeber",
+              "item": "https://kneba.vsp.rest/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Baugrob-, Bauzwischen- und Bauendreinigung richtig einplanen",
+              "item": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grob",
+          "exists": true
+        },
+        {
+          "href": "#zwischen",
+          "exists": true
+        },
+        {
+          "href": "#fein",
+          "exists": true
+        },
+        {
+          "href": "#ablauf",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "de",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/#article",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/",
+          "headline": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen",
+          "description": "Welche Angaben machen Angebote zur Baureinigung vergleichbar? Fläche, Bauzustand, Materialien, Zugang und Zusatzarbeiten strukturiert vorbereiten.",
+          "inLanguage": "de",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Bauratgeber",
+              "item": "https://kneba.vsp.rest/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Baureinigung kalkulieren: Angebote über den Leistungsumfang vergleichen",
+              "item": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grundlage",
+          "exists": true
+        },
+        {
+          "href": "#aufwand",
+          "exists": true
+        },
+        {
+          "href": "#vergleich",
+          "exists": true
+        },
+        {
+          "href": "#aenderungen",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "de",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/#article",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/",
+          "headline": "Saubere Bauübergabe: die Checkliste nach der Endreinigung",
+          "description": "Gereinigte Flächen gemeinsam prüfen: Leistungsumfang, Restpunkte, Vorschäden und neue Verschmutzung bei der Übergabe nachvollziehbar festhalten.",
+          "inLanguage": "de",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Bauratgeber",
+              "item": "https://kneba.vsp.rest/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Saubere Bauübergabe: die Checkliste nach der Endreinigung",
+              "item": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#vorbereiten",
+          "exists": true
+        },
+        {
+          "href": "#rundgang",
+          "exists": true
+        },
+        {
+          "href": "#restpunkte",
+          "exists": true
+        },
+        {
+          "href": "#abschluss",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ratgeber/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "de",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ratgeber/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#guide-section-1",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-2",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-3",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-4",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-5",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "en",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/#article",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/",
+          "headline": "Prepare for final construction cleaning: from site condition to handover",
+          "description": "Prepare final construction cleaning by defining finished areas, sensitive materials, outstanding work and access. Includes an enquiry checklist.",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/en/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Construction guides",
+              "item": "https://kneba.vsp.rest/en/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Prepare for final construction cleaning: from site condition to handover",
+              "item": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#bauzustand",
+          "exists": true
+        },
+        {
+          "href": "#materialien",
+          "exists": true
+        },
+        {
+          "href": "#zugang",
+          "exists": true
+        },
+        {
+          "href": "#ergebnis",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/en/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "en",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/#article",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/",
+          "headline": "Plan rough, interim and final construction cleaning",
+          "description": "Match rough, interim and final cleaning to construction progress. Define each stage and coordinate cleaning with the trades working on site.",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/en/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Construction guides",
+              "item": "https://kneba.vsp.rest/en/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Plan rough, interim and final construction cleaning",
+              "item": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grob",
+          "exists": true
+        },
+        {
+          "href": "#zwischen",
+          "exists": true
+        },
+        {
+          "href": "#fein",
+          "exists": true
+        },
+        {
+          "href": "#ablauf",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/en/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "en",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/#article",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/",
+          "headline": "Plan construction cleaning costs by comparing the scope of work",
+          "description": "Make construction cleaning quotes comparable: prepare consistent information about areas, site condition, materials, access and additional tasks.",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/en/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Construction guides",
+              "item": "https://kneba.vsp.rest/en/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Plan construction cleaning costs by comparing the scope of work",
+              "item": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grundlage",
+          "exists": true
+        },
+        {
+          "href": "#aufwand",
+          "exists": true
+        },
+        {
+          "href": "#vergleich",
+          "exists": true
+        },
+        {
+          "href": "#aenderungen",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/en/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "en",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/#article",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/",
+          "headline": "Clean construction handover: a checklist after final cleaning",
+          "description": "Inspect cleaned areas together and record the agreed scope, outstanding items, existing damage and new dirt clearly at handover.",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/en/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Construction guides",
+              "item": "https://kneba.vsp.rest/en/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Clean construction handover: a checklist after final cleaning",
+              "item": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#vorbereiten",
+          "exists": true
+        },
+        {
+          "href": "#rundgang",
+          "exists": true
+        },
+        {
+          "href": "#restpunkte",
+          "exists": true
+        },
+        {
+          "href": "#abschluss",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/en/ratgeber/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "en",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/en/ratgeber/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#guide-section-1",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-2",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-3",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-4",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-5",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "uk",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/#article",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/",
+          "headline": "Підготовка до фінального клінінгу: від стану об’єкта до здачі",
+          "description": "Як підготувати фінальне прибирання: готові площі, делікатні матеріали, залишкові роботи та доступ. Чекліст для запиту щодо об’єкта.",
+          "inLanguage": "uk",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/uk/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Поради з будівельного клінінгу",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Підготовка до фінального клінінгу: від стану об’єкта до здачі",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#bauzustand",
+          "exists": true
+        },
+        {
+          "href": "#materialien",
+          "exists": true
+        },
+        {
+          "href": "#zugang",
+          "exists": true
+        },
+        {
+          "href": "#ergebnis",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "uk",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/#article",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/",
+          "headline": "Як спланувати грубе, міжетапне й фінальне прибирання",
+          "description": "Яке прибирання відповідає етапу будівництва? Розмежуйте грубе, міжетапне та фінальне очищення й узгодьте його з підрядниками.",
+          "inLanguage": "uk",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/uk/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Поради з будівельного клінінгу",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Як спланувати грубе, міжетапне й фінальне прибирання",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grob",
+          "exists": true
+        },
+        {
+          "href": "#zwischen",
+          "exists": true
+        },
+        {
+          "href": "#fein",
+          "exists": true
+        },
+        {
+          "href": "#ablauf",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "uk",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/#article",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/",
+          "headline": "Планування вартості клінінгу: порівнюйте обсяг робіт",
+          "description": "Як порівняти пропозиції будівельного клінінгу: підготуйте однакові дані про площі, стан об’єкта, матеріали, доступ і додаткові роботи.",
+          "inLanguage": "uk",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/uk/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Поради з будівельного клінінгу",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Планування вартості клінінгу: порівнюйте обсяг робіт",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grundlage",
+          "exists": true
+        },
+        {
+          "href": "#aufwand",
+          "exists": true
+        },
+        {
+          "href": "#vergleich",
+          "exists": true
+        },
+        {
+          "href": "#aenderungen",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "uk",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/#article",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/",
+          "headline": "Чиста здача об’єкта: чекліст після фінального прибирання",
+          "description": "Спільно огляньте прибрані площі та зафіксуйте погоджений обсяг, відкриті питання, наявні дефекти й нове забруднення під час здачі.",
+          "inLanguage": "uk",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/uk/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Поради з будівельного клінінгу",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Чиста здача об’єкта: чекліст після фінального прибирання",
+              "item": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#vorbereiten",
+          "exists": true
+        },
+        {
+          "href": "#rundgang",
+          "exists": true
+        },
+        {
+          "href": "#restpunkte",
+          "exists": true
+        },
+        {
+          "href": "#abschluss",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/uk/ratgeber/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "uk",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/uk/ratgeber/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#guide-section-1",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-2",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-3",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-4",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-5",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "ru",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauendreinigung-vorbereiten/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/#article",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/",
+          "headline": "Подготовка к финальному клинингу: от состояния объекта до сдачи",
+          "description": "Как подготовить финальную уборку: готовые площади, чувствительные материалы, оставшиеся работы и доступ. Чеклист для запроса по объекту.",
+          "inLanguage": "ru",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/ru/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Советы по строительному клинингу",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Подготовка к финальному клинингу: от состояния объекта до сдачи",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/bauendreinigung-vorbereiten/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#bauzustand",
+          "exists": true
+        },
+        {
+          "href": "#materialien",
+          "exists": true
+        },
+        {
+          "href": "#zugang",
+          "exists": true
+        },
+        {
+          "href": "#ergebnis",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "ru",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-phasen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/#article",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/",
+          "headline": "Как спланировать черновую, промежуточную и финальную уборку",
+          "description": "Какая уборка соответствует этапу строительства? Разграничьте черновую, промежуточную и финальную очистку и согласуйте её с подрядчиками.",
+          "inLanguage": "ru",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/ru/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Советы по строительному клинингу",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Как спланировать черновую, промежуточную и финальную уборку",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-phasen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grob",
+          "exists": true
+        },
+        {
+          "href": "#zwischen",
+          "exists": true
+        },
+        {
+          "href": "#fein",
+          "exists": true
+        },
+        {
+          "href": "#ablauf",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "ru",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/baureinigung-kosten-planen/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/#article",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/",
+          "headline": "Планирование стоимости клининга: сравнивайте объём работ",
+          "description": "Как сравнить предложения строительного клининга: подготовьте одинаковые данные о площадях, состоянии объекта, материалах, доступе и дополнительных работах.",
+          "inLanguage": "ru",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/ru/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Советы по строительному клинингу",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Планирование стоимости клининга: сравнивайте объём работ",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/baureinigung-kosten-planen/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#grundlage",
+          "exists": true
+        },
+        {
+          "href": "#aufwand",
+          "exists": true
+        },
+        {
+          "href": "#vergleich",
+          "exists": true
+        },
+        {
+          "href": "#aenderungen",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "ru",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/bauuebergabe-checkliste/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/#article",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/",
+          "mainEntityOfPage": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/",
+          "headline": "Чистая сдача объекта: чеклист после финальной уборки",
+          "description": "Совместно осмотрите убранные площади и зафиксируйте согласованный объём, открытые вопросы, имеющиеся дефекты и новое загрязнение при сдаче.",
+          "inLanguage": "ru",
+          "publisher": {
+            "@id": "https://knaba.de/#business"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "KnaBa",
+              "item": "https://kneba.vsp.rest/ru/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Советы по строительному клинингу",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Чистая сдача объекта: чеклист после финальной уборки",
+              "item": "https://kneba.vsp.rest/ru/ratgeber/bauuebergabe-checkliste/"
+            }
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#vorbereiten",
+          "exists": true
+        },
+        {
+          "href": "#rundgang",
+          "exists": true
+        },
+        {
+          "href": "#restpunkte",
+          "exists": true
+        },
+        {
+          "href": "#abschluss",
+          "exists": true
+        },
+        {
+          "href": "#project-checklist",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    },
+    {
+      "path": "/ru/ratgeber/",
+      "status": 200,
+      "h1": 1,
+      "overflow": 0,
+      "lang": "ru",
+      "robots": "index, follow, max-image-preview:large",
+      "canonical": "https://kneba.vsp.rest/ru/ratgeber/",
+      "alts": [
+        {
+          "lang": "de",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        },
+        {
+          "lang": "en",
+          "url": "https://kneba.vsp.rest/en/ratgeber/"
+        },
+        {
+          "lang": "uk",
+          "url": "https://kneba.vsp.rest/uk/ratgeber/"
+        },
+        {
+          "lang": "ru",
+          "url": "https://kneba.vsp.rest/ru/ratgeber/"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://kneba.vsp.rest/ratgeber/"
+        }
+      ],
+      "graphs": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://knaba.de/#business",
+          "name": "KnaBa Baureinigung & BauService",
+          "url": "https://knaba.de",
+          "telephone": "+493067933054",
+          "email": "kontakt@knaba.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Im Achterkastell 39",
+            "postalCode": "10315",
+            "addressLocality": "Berlin",
+            "addressCountry": "DE"
+          },
+          "areaServed": [
+            "Berlin",
+            "Brandenburg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kneba.vsp.rest/#website",
+          "url": "https://kneba.vsp.rest/",
+          "name": "KnaBa",
+          "inLanguage": [
+            "de",
+            "en",
+            "uk",
+            "ru"
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "href": "#guide-section-1",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-2",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-3",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-4",
+          "exists": true
+        },
+        {
+          "href": "#guide-section-5",
+          "exists": true
+        }
+      ],
+      "broken": [],
+      "errors": []
+    }
+  ],
+  "flows": [
+    {
+      "lang": "de",
+      "href": "/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+      "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "href": "/en/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+      "message": "Construction service: Fine and final cleaning\n",
+      "status": "PASS"
+    },
+    {
+      "lang": "uk",
+      "href": "/uk/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+      "message": "Будівельна послуга: Тонке та фінальне прибирання\n",
+      "status": "PASS"
+    },
+    {
+      "lang": "ru",
+      "href": "/ru/kontakt/?leistung=baureinigung&anliegen=bauendreinigung",
+      "message": "Строительная услуга: Тонкая и финальная уборка\n",
+      "status": "PASS"
+    }
+  ],
+  "languageSwitches": [
+    {
+      "from": "de",
+      "to": "en",
+      "href": "/en/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    },
+    {
+      "from": "en",
+      "to": "uk",
+      "href": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    },
+    {
+      "from": "uk",
+      "to": "ru",
+      "href": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    },
+    {
+      "from": "ru",
+      "to": "de",
+      "href": "/ratgeber/baureinigung-kosten-planen/",
+      "status": "PASS"
+    }
+  ],
+  "keyboard": [
+    {
+      "lang": "de",
+      "href": "#vorbereiten",
+      "focus": {
+        "focused": true,
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "href": "#vorbereiten",
+      "focus": {
+        "focused": true,
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "status": "PASS"
+    },
+    {
+      "lang": "uk",
+      "href": "#vorbereiten",
+      "focus": {
+        "focused": true,
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "status": "PASS"
+    },
+    {
+      "lang": "ru",
+      "href": "#vorbereiten",
+      "focus": {
+        "focused": true,
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "status": "PASS"
+    }
+  ],
+  "layout": [
+    {
+      "width": 320,
+      "lang": "de",
+      "path": "/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "de",
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "en",
+      "path": "/en/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "en",
+      "path": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "uk",
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "uk",
+      "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "ru",
+      "path": "/ru/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "ru",
+      "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "de",
+      "path": "/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "de",
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "path": "/en/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "path": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "uk",
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "uk",
+      "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "ru",
+      "path": "/ru/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "lang": "ru",
+      "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "de",
+      "path": "/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "de",
+      "path": "/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "path": "/en/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "path": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "uk",
+      "path": "/uk/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "uk",
+      "path": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "ru",
+      "path": "/ru/ratgeber/",
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "lang": "ru",
+      "path": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "de",
+      "textSize": "200%",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "en",
+      "textSize": "200%",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "uk",
+      "textSize": "200%",
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "ru",
+      "textSize": "200%",
+      "overflow": 0
+    }
+  ],
+  "home": [
+    {
+      "width": 320,
+      "lang": "de",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/planer/",
+      "errors": []
+    },
+    {
+      "width": 320,
+      "lang": "en",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/en/planer/",
+      "errors": []
+    },
+    {
+      "width": 320,
+      "lang": "uk",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/uk/planer/",
+      "errors": []
+    },
+    {
+      "width": 320,
+      "lang": "ru",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/ru/planer/",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "lang": "de",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/planer/",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/en/planer/",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "lang": "uk",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/uk/planer/",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "lang": "ru",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/ru/planer/",
+      "errors": []
+    },
+    {
+      "width": 768,
+      "lang": "de",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/planer/",
+      "errors": []
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/en/planer/",
+      "errors": []
+    },
+    {
+      "width": 768,
+      "lang": "uk",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/uk/planer/",
+      "errors": []
+    },
+    {
+      "width": 768,
+      "lang": "ru",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/ru/planer/",
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "lang": "de",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/planer/",
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "lang": "en",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/en/planer/",
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "lang": "uk",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/uk/planer/",
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "lang": "ru",
+      "status": 200,
+      "overflow": 0,
+      "h1": 1,
+      "cards": 6,
+      "backgroundImage": "linear-gradient(140deg, rgb(221, 241, 232) 0%, rgb(232, 245, 239) 58%, rgb(241, 244, 220) 100%)",
+      "paragraphColor": "rgb(65, 92, 85)",
+      "href": "/ru/planer/",
+      "errors": []
+    }
+  ],
+  "failures": [],
+  "blockedPostCount": 0,
+  "artifactBefore": {
+    "sha256": "855a7c938166f9e4c1507641ad9c59392b81ebe4552680e80c451f81518ef95d",
+    "fileCount": 177
+  },
+  "artifactAfter": {
+    "sha256": "855a7c938166f9e4c1507641ad9c59392b81ebe4552680e80c451f81518ef95d",
+    "fileCount": 177
+  }
+}

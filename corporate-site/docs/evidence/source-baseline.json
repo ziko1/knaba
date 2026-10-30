@@ -1,0 +1,16 @@
+{
+  "source": "https://knaba.de/",
+  "observedAt": "2026-10-24T03:59:35.101375+00:00",
+  "status": 200,
+  "htmlBytes": 66956,
+  "h1Count": 0,
+  "externalScriptTags": 28,
+  "uniqueScriptUrls": 27,
+  "stylesheetLinks": 7,
+  "images": 9,
+  "imagesWithoutAlt": 7,
+  "description": null,
+  "generator": "One.com Web Editor",
+  "method": "HTTP response HTML parser, not rendered network/CWV",
+  "webVitals": "NOT_MEASURED"
+}

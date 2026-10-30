@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-10-30T02:16:26.733040+00:00",
+  "origin_refs_before": 136,
+  "origin_refs_after": 138,
+  "remote_changes_since_last_fetch": [
+    {
+      "ref": "refs/remotes/origin/HEAD",
+      "before": null,
+      "after": "ff748a2e5731e973883344ed28f3e82cf8a3bc06"
+    },
+    {
+      "ref": "refs/remotes/origin/feat/scoped-sitepanel-20261030",
+      "before": null,
+      "after": "3a873771bc69947b0db9444d72fb6876e4bf355e"
+    }
+  ],
+  "main": "ff748a2e5731e973883344ed28f3e82cf8a3bc06",
+  "published_branch": "fb79ce4aba3e5645eeb8945ecd6849f33c46ccec",
+  "original_preserved_source": "d97925dad646e08336e368571618dee49fc7971c",
+  "original_status": "",
+  "integration_head": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc"
+}

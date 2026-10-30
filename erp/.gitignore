@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+playwright-report/
+test-results/
+*.log
+.local/
+artifacts/
+
+docs/evidence/browser-artifacts/
+docs/evidence/browser-report/
+
+__pycache__/
+*.py[cod]

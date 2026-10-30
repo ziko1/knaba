@@ -1,0 +1,145 @@
+{
+  "timeUtc": "2026-10-25T11:47:48.076Z",
+  "findings": [
+    {
+      "lang": "de",
+      "type": "planner",
+      "url": "https://kneba.vsp.rest/planer/",
+      "overflow": 0,
+      "preparation": "Diese Angaben können Sie vorbereiten\nBauphase und aktuellen Objektzustand beschreiben\nUngefähre Fläche und betroffene Räume notieren\nGeplanten Übergabe- oder Bezugstermin nennen\nZugang, Wasser und Strom vor Ort klären",
+      "progress": "0 von 4 Punkten vorbereitet",
+      "cta": "/kontakt/?leistung=baureinigung",
+      "choices": [
+        "Gewerbebau & Sanierung",
+        "Wohnbau & Modernisierung",
+        "Neubau & Baustelle",
+        "Technik & Leitungen",
+        "Bauzwischenreinigung",
+        "Baufeinreinigung",
+        "Baustellenberäumung",
+        "Bauendreinigung"
+      ],
+      "recommendation": "Baureinigung",
+      "recommendationAfter": "Baureinigung"
+    },
+    {
+      "lang": "de",
+      "type": "inquiry-step3",
+      "url": "https://kneba.vsp.rest/kontakt/?anliegen=bauendreinigung",
+      "overflow": 0,
+      "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+      "privacy": [
+        {
+          "text": "Datenschutz",
+          "href": "/datenschutz/"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lang": "en",
+      "type": "planner",
+      "url": "https://kneba.vsp.rest/en/planer/",
+      "overflow": 0,
+      "preparation": "What to prepare\nBauphase und aktuellen Objektzustand beschreiben\nUngefähre Fläche und betroffene Räume notieren\nGeplanten Übergabe- oder Bezugstermin nennen\nZugang, Wasser und Strom vor Ort klären",
+      "progress": "0 von 4 Punkten vorbereitet",
+      "cta": "/kontakt/?leistung=baureinigung",
+      "choices": [
+        "Commercial renovation",
+        "Residential renovation",
+        "New build / site",
+        "Technical installations",
+        "Interim construction cleaning",
+        "Fine construction cleaning",
+        "Site clearance",
+        "Final construction cleaning"
+      ],
+      "recommendation": "Construction cleaning",
+      "recommendationAfter": "Construction cleaning"
+    },
+    {
+      "lang": "en",
+      "type": "inquiry-step3",
+      "url": "https://kneba.vsp.rest/en/kontakt/?anliegen=bauendreinigung",
+      "overflow": 0,
+      "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+      "privacy": [
+        {
+          "text": "Privacy policy",
+          "href": "/en/datenschutz/"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lang": "uk",
+      "type": "planner",
+      "url": "https://kneba.vsp.rest/uk/planer/",
+      "overflow": 0,
+      "preparation": "Що підготувати\nBauphase und aktuellen Objektzustand beschreiben\nUngefähre Fläche und betroffene Räume notieren\nGeplanten Übergabe- oder Bezugstermin nennen\nZugang, Wasser und Strom vor Ort klären",
+      "progress": "0 von 4 Punkten vorbereitet",
+      "cta": "/kontakt/?leistung=baureinigung",
+      "choices": [
+        "Комерційне будівництво й ремонт",
+        "Житлове будівництво й модернізація",
+        "Новобудова й майданчик",
+        "Технічні комунікації",
+        "Міжетапне прибирання",
+        "Тонке прибирання",
+        "Прибирання будмайданчика",
+        "Фінальне прибирання"
+      ],
+      "recommendation": "Будівельний клінінг",
+      "recommendationAfter": "Будівельний клінінг"
+    },
+    {
+      "lang": "uk",
+      "type": "inquiry-step3",
+      "url": "https://kneba.vsp.rest/uk/kontakt/?anliegen=bauendreinigung",
+      "overflow": 0,
+      "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+      "privacy": [
+        {
+          "text": "Захист даних",
+          "href": "/uk/datenschutz/"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lang": "ru",
+      "type": "planner",
+      "url": "https://kneba.vsp.rest/ru/planer/",
+      "overflow": 0,
+      "preparation": "Подготовьте следующие сведения\nОпишите этап строительства и текущее состояние объекта\nУкажите приблизительную площадь и помещения\nУкажите планируемую дату передачи или заселения\nУточните доступ, наличие воды и электричества на объекте",
+      "progress": "Подготовлено: 0 из 4",
+      "cta": "/ru/kontakt/?leistung=baureinigung",
+      "choices": [
+        "Gewerbebau & Sanierung",
+        "Wohnbau & Modernisierung",
+        "Neubau & Baustelle",
+        "Technik & Leitungen",
+        "Bauzwischenreinigung",
+        "Baufeinreinigung",
+        "Baustellenberäumung",
+        "Bauendreinigung"
+      ],
+      "recommendation": "Строительный клининг",
+      "recommendationAfter": "Строительный клининг"
+    },
+    {
+      "lang": "ru",
+      "type": "inquiry-step3",
+      "url": "https://kneba.vsp.rest/ru/kontakt/?anliegen=bauendreinigung",
+      "overflow": 0,
+      "message": "Bauleistung: Baufein- & Bauendreinigung\n",
+      "privacy": [
+        {
+          "text": "Защита данных",
+          "href": "/ru/datenschutz/"
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

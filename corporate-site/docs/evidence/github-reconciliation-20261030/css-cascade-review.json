@@ -1,0 +1,56 @@
+{
+  "status": "PASS_SCOPED_CASCADE_REVIEW",
+  "scope": "Only the two unchanged rules moved past assistant and account-access styles by stylesheet consolidation.",
+  "parent_reported_build_sha": "a8cf5325499c0322cd61cd0a7d9d7dc98e3f9f3b",
+  "inputs": {
+    "layout": {
+      "path": "corporate-site/src/layouts/Layout.astro",
+      "sha256": "f708334716e1add1e8cf16ec15cbe6ecde4b782403713879b4f17c69984b8fb1"
+    },
+    "assistant_css": {
+      "path": "corporate-site/src/styles/assistant.css",
+      "sha256": "29546a9e9f611855cdc28d2f47c14618b709105c7b3672a633fbe65219de64bc"
+    },
+    "account_access_css": {
+      "path": "corporate-site/src/styles/account-access.css",
+      "sha256": "90409a92fb0f37cbd6bca23146d88c491828b13051eb2dfd4308798136574cbb"
+    },
+    "locale_catalog": {
+      "path": "corporate-site/src/components/LocaleCatalog.astro",
+      "sha256": "7db000ab78f7d2618e7945f2e8a7da0c00414dbe8f99592549be1eef464708f1"
+    },
+    "astro_announcer_runtime_excerpt": {
+      "path": "astro-announcer-snippet.txt",
+      "sha256": "9d184082e205a7ba4b57fbd80243f3aaa8bec5930e61d5c97ccf6820c9546759"
+    }
+  },
+  "selector_scan": {
+    "assistant_arms": 70,
+    "account_access_arms": 49,
+    "unscoped_arms": 0,
+    "detail": "overlay-selector-scope.json"
+  },
+  "findings": [
+    {
+      "selector": ".locale-catalog-note[data-astro-cid-sdgewonh]",
+      "node": "p with only class locale-catalog-note; Astro supplies its scope attribute",
+      "placement": "Layout header > .nav-wrap > details.site-language-switcher > nav.site-language-options > LocaleCatalog",
+      "overlay_selector_match": false,
+      "reason": "The note and its ancestors have no ka-* or knaba-access-* class. Assistant and account-dialog roots are separate children mounted after the footer."
+    },
+    {
+      "selector": ".astro-route-announcer",
+      "node": "div with only class astro-route-announcer; aria-live=assertive and aria-atomic=true",
+      "placement": "The installed Astro runtime appends the div directly to document.body.",
+      "overlay_selector_match": false,
+      "reason": "Neither this div nor body/html carries an overlay namespace class. Overlay descendant, universal, focus, media and backdrop selectors cannot match this node."
+    }
+  ],
+  "conclusion": "No intersecting selector match exists on either moved-rule target; moving these two rules across the scoped overlay rules has no material cascade effect. The moved selectors also do not match overlay nodes.",
+  "changes_made": "Evidence JSON only; no source changes.",
+  "limits": [
+    "Static review of exported source and CSS. The two-rule normalized build diff was supplied by root, not recomputed here.",
+    "Does not certify browser rendering or final whole-build budgets; root performs final build verification and browser acceptance remains separate."
+  ],
+  "original_reviewer_receipt_sha256": "2409e02a6795184433fd508a076106575fd1b72105141aafb42782c5733efaa1"
+}

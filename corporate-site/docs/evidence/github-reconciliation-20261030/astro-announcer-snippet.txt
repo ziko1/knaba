@@ -1,0 +1,9 @@
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-15-const announce = () => {
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-16-	let div = document.createElement("div");
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-17-	div.setAttribute("aria-live", "assertive");
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-18-	div.setAttribute("aria-atomic", "true");
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js:19:	div.className = "astro-route-announcer";
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-20-	document.body.append(div);
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-21-	setTimeout(
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-22-		() => {
+/srv/vsp/workspaces/knaba-working-integration-20261030/corporate-site/node_modules/astro/dist/transitions/router.js-23-			let title = document.title || document.querySelector("h1")?.textContent || location.pathname;

@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 i18n:extract
+> node scripts/i18n-source-catalog.mjs extract
+
+{"status":"PASS","sourceDigest":"d3e043bbb88f61734b9e16c2a6b7999ad91609d4b50166e6dd914c9848479b54","routes":28,"units":1053,"limit":"STATIC_CONTENT_ONLY"}

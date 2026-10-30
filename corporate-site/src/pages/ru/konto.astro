@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Portal from '../../components/Portal.tsx';
+---
+<Layout lang="ru" title="Мой KnaBa | Кабинет клиентов и сотрудников" description="Кабинет KnaBa для заявок на уборку, запланированных работ и взаимодействия с командой. Личный доступ после одобрения владельцем." noindex={true}>
+  <section class="container portal-page">
+    <Portal locale="ru" client:load />
+    <noscript><p class="notice">Для кабинета нужен JavaScript. Чтобы оставить заявку, используйте контакты внизу страницы.</p></noscript>
+  </section>
+</Layout>
+<style>
+  .portal-page{padding-top:1.25rem}
+</style>

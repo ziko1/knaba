@@ -1,0 +1,12 @@
+# Native PostgreSQL tools run on the private KNABA network; no DB host port needed.
+ARG KNABA_IMAGE
+FROM node:24.22.1-bookworm-slim AS node
+FROM ${KNABA_IMAGE} AS application
+FROM postgres:17.11-bookworm
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=application --chown=1000:1000 /app /app
+RUN mkdir -p /backups && chown 1000:1000 /backups && chmod 700 /backups
+WORKDIR /app
+ENV KNABA_PG_TRANSPORT=native BACKUP_DIR=/backups
+USER 1000:1000
+ENTRYPOINT ["bash", "infra/backup.sh"]

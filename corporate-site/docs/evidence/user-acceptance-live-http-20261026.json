@@ -1,0 +1,900 @@
+{
+  "sourceSha": "cecb321ac41106c7a4f6da2d4a98308508852b38",
+  "time": "2026-10-26T14:27:39.253584+00:00",
+  "scope": "LIVE_HTTPS_READ_ONLY",
+  "checks": [
+    {
+      "route": "/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/unternehmen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/planer/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/impressum/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/branchen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/crm/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/datenschutz/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/kontakt/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/galerie/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/admin/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/konto/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/studio/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/postfach/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/faq/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/karriere/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/leistungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/berlin/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/unternehmen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/planer/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/ratgeber/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/branchen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/kontakt/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/galerie/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/faq/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/karriere/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/leistungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/berlin/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/durchbrueche/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/baureinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/bauhilfe/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/uk/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/unternehmen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/planer/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/ratgeber/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/branchen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/kontakt/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/galerie/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/faq/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/karriere/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/leistungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/berlin/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/durchbrueche/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/baureinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/bauhilfe/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/en/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/durchbrueche/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/baureinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/bauhilfe/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/unternehmen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/planer/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/impressum/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/branchen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/datenschutz/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/kontakt/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/galerie/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/konto/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/postfach/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/faq/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/karriere/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/leistungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/berlin/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/reinigungsleistungen-vergleichen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/bueroreinigung-checkliste/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/baureinigung-phasen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/baureinigung-kosten-planen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/bauuebergabe-checkliste/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/treppenhausreinigung-leistungsverzeichnis/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/ratgeber/bauendreinigung-vorbereiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/bauzwischenreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/durchbrueche/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/baustellenraeumung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/zusatzarbeiten/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/bauendreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/baureinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/bauhilfe/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/bauleistungen/kernbohrungen/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/leistungen/treppenreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/leistungen/bueroreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": true
+    },
+    {
+      "route": "/ru/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/leistungen/glasreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/leistungen/baureinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/ru/leistungen/grundreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/leistungen/treppenreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/leistungen/bueroreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": true
+    },
+    {
+      "route": "/leistungen/unterhaltsreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/leistungen/glasreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/leistungen/baureinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/leistungen/grundreinigung/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/404.html",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false,
+      "note": "Direct static error document: noindex, no canonical; missing URLs separately return 404."
+    },
+    {
+      "route": "/__knaba_user_qa_missing_20261026__/",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/healthz",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/readyz",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/api/crm/contacts",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "redirected": false
+    },
+    {
+      "route": "/api/studio/page?page=%2F",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "redirected": false
+    }
+  ],
+  "passed": 127,
+  "total": 127,
+  "failed": []
+}

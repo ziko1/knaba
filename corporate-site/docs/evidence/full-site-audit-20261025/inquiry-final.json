@@ -1,0 +1,30 @@
+{
+  "timeUtc": "2026-10-25T11:54:51.287Z",
+  "sourceSha": "7e774c32863ad6b9f90a95288b5bd3495d941a51",
+  "artifactSha256": "cf76a1bca04b7f2027e4d48c8c924ccc1361382434a136a25a75a67736caa914",
+  "files": 162,
+  "results": [
+    {
+      "lang": "en",
+      "step3": "Privacy policy (DE)",
+      "review": "privacy notice (DE)",
+      "portalLabel": "Go to customer portal → (DE)",
+      "privacy": "/datenschutz/",
+      "portal": "/konto/",
+      "receipt": "SYNTHETIC_LOCAL_ONLY",
+      "overflow": 0
+    },
+    {
+      "lang": "uk",
+      "step3": "Захист даних (DE)",
+      "review": "умовами захисту даних (DE)",
+      "portalLabel": "До кабінету клієнта → (DE)",
+      "privacy": "/datenschutz/",
+      "portal": "/konto/",
+      "receipt": "SYNTHETIC_LOCAL_ONLY",
+      "overflow": 0
+    }
+  ],
+  "canonicalArtifactSha256": "2a7121f731d2d24f59bb34af124f3b57a2346485dc3292f21c8cef211e3a71cf",
+  "artifactDifference": "Browser served final HTML and Inquiry.Cuppk_6w.js correctly. Candidate directory additionally contained stale unreferenced _astro/Inquiry.B3nbx90w.js. Excluding only this file reproduces canonical 161-file artifact digest; removal owned by coordinator."
+}

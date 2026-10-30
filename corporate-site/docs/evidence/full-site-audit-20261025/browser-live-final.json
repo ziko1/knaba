@@ -1,0 +1,154 @@
+{
+  "timeUtc": "2026-10-25T12:00:19.352Z",
+  "sourceSha": "7e774c32863ad6b9f90a95288b5bd3495d941a51",
+  "environment": "LIVE HTTPS; cached isolated VPS Chromium; all POST blocked; no submissions",
+  "flows": [
+    {
+      "lang": "de",
+      "width": 320,
+      "href": "/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Bauleistung: Bauzwischenreinigung\n",
+      "legalHref": "/datenschutz/",
+      "legalLabel": "Datenschutz",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "de",
+      "width": 390,
+      "href": "/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Bauleistung: Bauzwischenreinigung\n",
+      "legalHref": "/datenschutz/",
+      "legalLabel": "Datenschutz",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "href": "/en/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Construction service: Cleaning between construction phases\n",
+      "legalHref": "/datenschutz/",
+      "legalLabel": "Privacy policy (DE)",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "href": "/en/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Construction service: Cleaning between construction phases\n",
+      "legalHref": "/datenschutz/",
+      "legalLabel": "Privacy policy (DE)",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "uk",
+      "width": 320,
+      "href": "/uk/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Будівельна послуга: Міжетапне прибирання\n",
+      "legalHref": "/datenschutz/",
+      "legalLabel": "Захист даних (DE)",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "href": "/uk/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Будівельна послуга: Міжетапне прибирання\n",
+      "legalHref": "/datenschutz/",
+      "legalLabel": "Захист даних (DE)",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "ru",
+      "width": 320,
+      "href": "/ru/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Строительная услуга: Промежуточная уборка\n",
+      "legalHref": "/ru/datenschutz/",
+      "legalLabel": "Защита данных",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    },
+    {
+      "lang": "ru",
+      "width": 390,
+      "href": "/ru/kontakt/?leistung=baureinigung&anliegen=bauzwischenreinigung",
+      "topic": "Строительная услуга: Промежуточная уборка\n",
+      "legalHref": "/ru/datenschutz/",
+      "legalLabel": "Защита данных",
+      "plannerOverflow": 0,
+      "contactOverflow": 0,
+      "blockedPosts": 0,
+      "errors": []
+    }
+  ],
+  "content": [
+    {
+      "lang": "de",
+      "serviceCards": 2,
+      "serviceItems": 6,
+      "guideSections": 5,
+      "guideLinks": 5,
+      "serviceOverflow": 0,
+      "guideOverflow": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "errors": []
+    },
+    {
+      "lang": "en",
+      "serviceCards": 2,
+      "serviceItems": 6,
+      "guideSections": 5,
+      "guideLinks": 5,
+      "serviceOverflow": 0,
+      "guideOverflow": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "errors": []
+    },
+    {
+      "lang": "uk",
+      "serviceCards": 2,
+      "serviceItems": 6,
+      "guideSections": 5,
+      "guideLinks": 5,
+      "serviceOverflow": 0,
+      "guideOverflow": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "errors": []
+    },
+    {
+      "lang": "ru",
+      "serviceCards": 2,
+      "serviceItems": 6,
+      "guideSections": 5,
+      "guideLinks": 5,
+      "serviceOverflow": 0,
+      "guideOverflow": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "errors": []
+    }
+  ],
+  "languageSwitch": {
+    "url": "https://kneba.vsp.rest/uk/kontakt/?anliegen=bauzwischenreinigung&leistung=baureinigung",
+    "topic": "Будівельна послуга: Міжетапне прибирання\n",
+    "status": "PASS"
+  }
+}

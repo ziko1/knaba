@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Inquiry from './Inquiry';
+import {company} from '../data/company';
+import {constructionBusinessCopy as c} from '../data/construction-offers';
+import type {ConstructionLocale} from '../data/construction-offers';
+import {contactGuidance,guidanceCopy} from '../data/construction-guidance';
+const {locale='de'}=Astro.props as {locale:ConstructionLocale};
+const t=c[locale];
+const prefix=locale==='de'?'':'/'+locale;
+const translated={
+ de:{k:'KONTAKT / BAU',title:'Ihr Bauprojekt. Unser nächstes Gespräch.',intro:'Erzählen Sie von der Baustelle und dem Bauabschnitt. Wir prüfen die passende Baureinigung oder Zusatzleistung und klären die Konditionen persönlich.',contact:'Direkter Kontakt',phone:'Telefon',email:'E-Mail',address:'Adresse',disclaimer:'Spezielle Bauarbeiten sind kein automatisches Angebot; Qualifikation, Statik, Schutzmaßnahmen und Vertrag werden separat geprüft.',script:'Beschreiben Sie die Zusatzarbeiten im Nachrichtenfeld der Anfrage.',noScript:'Das Formular benötigt JavaScript. Sie erreichen uns über die oben angegebenen Kontaktdaten.'},
+ en:{k:'CONTACT / CONSTRUCTION',title:'Your project. Our next conversation.',intro:'Tell us about your site and stage. We can discuss construction cleaning and assess any special requests individually.',contact:'Get in touch',phone:'Phone',email:'Email',address:'Address',disclaimer:'Special construction works require technical evaluation, qualified contractors, approvals and a separate agreement.',script:'Describe special tasks in the message field.',noScript:'This form requires JavaScript. You can contact us using the details shown above.'},
+ uk:{k:'КОНТАКТИ / БУДІВНИЦТВО',title:'Ваш об’єкт. Наші наступні домовленості.',intro:'Розкажіть про майданчик та етап робіт. Обговоримо клінінг і перевіримо можливість додаткових послуг.',contact:'Зв’язатися напряму',phone:'Телефон',email:'Пошта',address:'Адреса',disclaimer:'Спеціальні роботи потребують технічної оцінки, кваліфікованих виконавців, дозволів та окремого договору.',script:'Опишіть додаткові завдання в полі повідомлення.',noScript:'Для форми потрібен JavaScript. Зв’яжіться з нами за контактами, зазначеними вище.'},
+ ru:{k:'КОНТАКТЫ / СТРОИТЕЛЬСТВО',title:'Ваш объект. Наши следующие договорённости.',intro:'Расскажите о площадке и этапе работ. Обсудим клининг и проверим возможность дополнительных услуг.',contact:'Связаться напрямую',phone:'Телефон',email:'Почта',address:'Адрес',disclaimer:'Специальные работы требуют технической оценки, квалифицированных исполнителей, разрешений и отдельного договора.',script:'Опишите дополнительные задачи в поле сообщения.',noScript:'Для формы нужен JavaScript. Свяжитесь с нами по контактам, указанным выше.'}
+}[locale];
+---
+<Layout hasInlinePhone hasInlineEmail lang={locale} title={translated.title+' | KnaBa'} description={translated.intro}>
+<section class="container page-intro"><p class="eyebrow">{translated.k}</p><h1>{translated.title}</h1><p>{translated.intro}</p></section>
+<section class="container contact-layout">
+<div class="contact-details"><h2>{translated.contact}</h2>
+<div class="contact-item"><div><small>{translated.phone}</small><a href={company.phoneHref}>{company.phone}</a></div></div>
+<div class="contact-item"><div><small>{translated.email}</small><a href={'mailto:'+company.email}>{company.email}</a></div></div>
+<div class="contact-item"><div><small>{translated.address}</small><p>{company.street}, {company.city}</p></div></div>
+<p class="notice">{translated.disclaimer}</p><p>{translated.script}</p>
+</div>
+<div><Inquiry locale={locale} client:load/><noscript><div class="aside-card"><h2>{t.cta}</h2><p>{translated.noScript}</p></div></noscript></div>
+</section>
+<section class="container section contact-preparation" aria-labelledby="contact-preparation-title">
+  <div class="contact-preparation-main">
+    <h2 id="contact-preparation-title">{contactGuidance.title[locale]}</h2>
+    <p>{contactGuidance.intro[locale]}</p>
+    <ul>{contactGuidance.checklist.map(item=><li>{item[locale]}</li>)}</ul>
+    <nav class="contact-preparation-links" aria-label={guidanceCopy.related[locale]}>
+      {contactGuidance.links.map(link=><a href={prefix+link.path}>{link.label[locale]} <span aria-hidden="true">↗</span></a>)}
+    </nav>
+  </div>
+  <aside class="contact-next-steps" aria-labelledby="contact-next-title">
+    <h2 id="contact-next-title">{contactGuidance.nextTitle[locale]}</h2>
+    <ol>{contactGuidance.nextSteps.map(item=><li>{item[locale]}</li>)}</ol>
+    <p class="contact-data-note">{contactGuidance.privacy[locale]}</p>
+  </aside>
+</section>
+</Layout>
+<style>
+.contact-preparation{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,56px);align-items:start}.contact-preparation-main,.contact-next-steps{min-width:0}.contact-preparation h2{font-size:clamp(25px,3vw,36px);line-height:1.2;letter-spacing:-.03em;overflow-wrap:anywhere;margin:0 0 20px}.contact-preparation p,.contact-preparation li{font-size:15px;line-height:1.75;color:#405f58;overflow-wrap:anywhere}.contact-preparation ul,.contact-preparation ol{display:grid;gap:14px;padding-left:23px}.contact-preparation li{padding-left:4px}.contact-preparation li::marker{color:#147a74;font-weight:800}.contact-next-steps{padding:clamp(22px,3vw,34px);background:#eaf4ef;border:1px solid #cee2d7;border-radius:22px}.contact-next-steps h2{font-size:25px}.contact-data-note{border-top:1px solid #c5dbcf;padding-top:20px;margin:24px 0 0}.contact-preparation-links{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:22px}.contact-preparation-links a{display:inline-flex;gap:8px;align-items:center;min-height:44px;color:#106d70;font-weight:750;text-underline-offset:5px;overflow-wrap:anywhere}.contact-preparation-links a:focus-visible{outline:3px solid #117b7a;outline-offset:4px;border-radius:4px}
+@media(max-width:800px){.contact-preparation{grid-template-columns:1fr}}
+</style>

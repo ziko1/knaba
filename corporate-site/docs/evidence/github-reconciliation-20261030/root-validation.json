@@ -1,0 +1,56 @@
+{
+  "source": "606e45044a83c83ce41274a71ec27220e8bfb4d0",
+  "historical_import_anchor": "66b07fb46d23c7110473c51fc23ce58d3c40a1b1",
+  "site_runtime_source": "a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc",
+  "site_input_manifest_sha256": "7ee643b41e36d4c89b9c7f3d9a972aea0edbea2eb8b8df441b1ee4fd1d4ca94c",
+  "site_inputs_match": true,
+  "erp_tree": "38c5257cfdd9495ece494e32ef26f714e6dd4dd1",
+  "ops_tree": "898315c76a1eb2a2751c91db5fd7b0354bb42780",
+  "stages": [
+    {
+      "name": "root-final-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit_code": 0,
+      "seconds": 1.02,
+      "log": "root-final-tests.log",
+      "sha256": "050fa8920d2cdb0f917a21a6f756ea9af00078c386596bf8b0d5d789676ab03e"
+    },
+    {
+      "name": "root-final-source",
+      "command": [
+        "npm",
+        "run",
+        "audit:source"
+      ],
+      "exit_code": 0,
+      "seconds": 0.21,
+      "log": "root-final-source.log",
+      "sha256": "daa9bff8aee71a0a51d33853d54efa4e86b75b53447121f64305deb014cf047c"
+    },
+    {
+      "name": "root-final-modules",
+      "command": [
+        "npm",
+        "run",
+        "verify:modules"
+      ],
+      "exit_code": 0,
+      "seconds": 0.16,
+      "log": "root-final-modules.log",
+      "sha256": "065901031472e63dca50d9002548f88c61abbf303b240215de8f3a887c02d39a"
+    }
+  ],
+  "status": "PASS",
+  "clean_after": true,
+  "schema_version": 1,
+  "tests": 28,
+  "failed": 0,
+  "skipped": 0,
+  "root_scripts_tree": "ab75b76479cc310096001018b6912ad30e8701e4",
+  "scope": "Clean committed integration source at the recorded checkpoint. A later receipt/documentation-only commit does not replace the website/ERP tested input identities.",
+  "module_result": "4 existing website modules; ERP remains source-only and disabled in the preview manifest.",
+  "full_product_acceptance": "NOT_RUN"
+}

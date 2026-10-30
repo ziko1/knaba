@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "ERP_POSTGRES_SYNTHETIC_NO_PROVIDER_SENDS",
+  "sourceSha": "45d113a65bb1318065cab5a850433f52314e38c0",
+  "testFiles": 104,
+  "tests": 2452,
+  "typecheck": "PASS",
+  "migration": "PASS",
+  "serverWorkerWebBuild": "PASS",
+  "buildWarning": "One web JS chunk over500kB (uncompressed)",
+  "logSha256": {
+    "typecheck.log": "b11b6017b14e45707a4a78a1c3c2af8c4ea2c623773a24ebb61800ad4e798c22",
+    "migrate.log": "772c0b43e47737480610a46511ba5fe00f4faf958827205ab98a73f7bb582d83",
+    "test.log": "ee144c4216bed96e2d881534c017b73e3e30f0802b14ce386c194bd42831c61a",
+    "build.log": "12f5dc4e57fb97faa5d006f7613bee831586ac9daa14402cc7cf506d2cc1822b",
+    "bot-selfcheck.log": "a34ccf33148534aac68c0587db08294afd168b05895a50278458e6822a9e3277"
+  },
+  "recordedAt": "2026-10-28T14:12:21.796670+00:00"
+}
