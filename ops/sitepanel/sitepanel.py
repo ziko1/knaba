@@ -32,6 +32,23 @@ MAX_REQUEST = 4096
 MAX_RESPONSE = 512 * 1024
 IDENT = re.compile(r"^[a-z][a-z0-9_-]{0,63}$")
 TARGET = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9_.@-]{0,127}$")
+# Only the ordinary boot/mount edges used by these independent services are
+# accepted. Unknown targets may lead transitively to another tenant's service;
+# do not infer safety merely from a .target/.mount suffix or from file ownership.
+SERVICE_EDGES = {
+    "Requires": {"sysinit.target", "system.slice", "-.mount", "tmp.mount"},
+    "Wants": {"network-online.target", "-.mount", "tmp.mount"},
+    "Conflicts": {"shutdown.target"},
+    "WantedBy": {"multi-user.target"},
+    **{key: set() for key in (
+        "Requisite", "BindsTo", "PartOf", "ConflictedBy", "RequiredBy",
+        "RequisiteOf", "BoundBy", "ConsistsOf", "Upholds", "UpheldBy",
+        "PropagatesStopTo", "StopPropagatedFrom", "PropagatesReloadTo",
+        "ReloadPropagatedFrom", "OnFailure", "OnSuccess", "Triggers",
+        "TriggeredBy", "JoinsNamespaceOf",
+    )},
+}
+SERVICE_ACTIONS = ("FailureAction", "SuccessAction", "StartLimitAction", "JobTimeoutAction")
 
 
 class Refused(Exception):
@@ -82,6 +99,7 @@ def validate_config(config: dict):
             probe = site.get("probe")
             if probe and (not 1024 <= probe["port"] <= 65535 or not probe["path"].startswith("/")):
                 raise ValueError("Invalid fixed probe")
+    targets = set()
     for name, resource in config["resources"].items():
         if not IDENT.fullmatch(name) or not TARGET.fullmatch(resource["target"]):
             raise ValueError("Invalid resource target")
@@ -89,6 +107,11 @@ def validate_config(config: dict):
             raise ValueError("Unknown resource owner")
         if resource["kind"] not in {"docker", "systemd"}:
             raise ValueError("Unsupported resource kind")
+        identity = (resource["kind"], resource["target"])
+        if identity in targets:
+            # Duplicates within one owner also break resource locks/receipts.
+            raise ValueError("Duplicate resource target")
+        targets.add(identity)
         if resource["kind"] == "systemd":
             if not resource["target"].endswith(".service"):
                 raise ValueError("Only fixed services are supported")
@@ -99,6 +122,17 @@ def validate_config(config: dict):
 
 
 class Runtime:
+    def __init__(self, resources=()):
+        self.resources = tuple(resources)
+
+    def unique_identity(self, resource, aliases, container_id=None):
+        for other in self.resources:
+            if other["kind"] != resource["kind"] or other["target"] == resource["target"]:
+                continue
+            target = other["target"]
+            if target in aliases or (container_id and container_id.startswith(target)):
+                raise Refused("unsafe_resource", "The resource needs administrator review.")
+
     def command(self, argv, timeout=8):
         env = {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LC_ALL": "C", "HOME": "/root"}
         proc = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -124,9 +158,17 @@ class Runtime:
         raw = self.command(["/usr/bin/docker", "--host", "unix:///run/docker.sock", "inspect", "--type", "container", resource["target"]], 4)
         info = json.loads(raw)[0]
         host = info["HostConfig"]
-        if (host.get("Privileged") or host.get("PidMode") == "host" or
-                host.get("NetworkMode") == "host" or host.get("Devices") or host.get("CapAdd")):
+        network = host.get("NetworkMode", "")
+        namespace_modes = {"PidMode": {"", "private"}, "IpcMode": {"", "private", "none"},
+                           "UTSMode": {"", "private"}, "UsernsMode": {""},
+                           "CgroupnsMode": {"", "private"}}
+        if (host.get("Privileged") or network == "host" or network.startswith("container:") or
+                any(host.get(key, "") not in allowed for key, allowed in namespace_modes.items()) or
+                host.get("Devices") or host.get("CapAdd")):
             raise Refused("unsafe_resource", "The resource needs administrator review.")
+        if not re.fullmatch(r"[0-9a-f]{64}", info["Id"]) or not info["Name"].startswith("/"):
+            raise Refused("unsafe_resource", "The resource needs administrator review.")
+        self.unique_identity(resource, {info["Name"][1:], info["Id"]}, info["Id"])
         roots = [Path(x).resolve(strict=True) for x in resource.get("mount_roots", [])]
         for mount in info.get("Mounts", []):
             if mount["Type"] != "bind":
@@ -141,10 +183,24 @@ class Runtime:
         return info
 
     def service_info(self, resource):
-        raw = self.command(["/usr/bin/systemctl", "show", resource["target"],
-                            "-p", "ActiveState", "-p", "User", "-p", "FragmentPath", "-p", "DropInPaths"], 4)
+        properties = ["Id", "Names", "ActiveState", "User", "FragmentPath", "DropInPaths",
+                      *SERVICE_EDGES, *SERVICE_ACTIONS]
+        raw = self.command(["/usr/bin/systemctl", "show", "--all", resource["target"],
+                            *[item for key in properties for item in ("-p", key)]], 4)
         info = dict(line.split("=", 1) for line in raw.splitlines() if "=" in line)
-        if info.get("User") != resource["user"]:
+        if (set(properties) - info.keys() or info.get("User") != resource["user"] or
+                not TARGET.fullmatch(info.get("Id", "")) or not info["Id"].endswith(".service")):
+            raise Refused("unsafe_resource", "The resource needs administrator review.")
+        aliases = set(info["Names"].split())
+        if info["Id"] not in aliases or resource["target"] not in aliases:
+            raise Refused("unsafe_resource", "The resource needs administrator review.")
+        self.unique_identity(resource, aliases)
+        for key, allowed in SERVICE_EDGES.items():
+            if not set(info[key].split()) <= allowed:
+                raise Refused("unsafe_resource", "The resource needs administrator review.")
+        # These manager actions execute with host authority even when User= is
+        # unprivileged. A tenant must not reboot the host by stopping a service.
+        if any(info[key] != "none" for key in SERVICE_ACTIONS):
             raise Refused("unsafe_resource", "The resource needs administrator review.")
         trusted_file(info["FragmentPath"])
         paths = [info["FragmentPath"], *info.get("DropInPaths", "").split()]
@@ -198,8 +254,8 @@ class Runtime:
             # Act on the inspected immutable ID, never a client supplied target.
             self.command(command + [info["Id"]], 30)
         else:
-            self.service_info(resource)
-            self.command(["/usr/bin/systemctl", action, resource["target"]], 30)
+            info = self.service_info(resource)
+            self.command(["/usr/bin/systemctl", action, info["Id"]], 30)
         return {"state": "completed", "message": "Operation completed. Refresh the site status."}
 
 
@@ -207,7 +263,9 @@ class API:
     def __init__(self, config, ledger, runtime=None, clock=time.time):
         self.config = validate_config(config)
         self.ledger = str(ledger)
-        self.runtime = runtime or Runtime()
+        self.runtime = runtime or Runtime(config["resources"].values())
+        if isinstance(self.runtime, Runtime):
+            self.runtime.resources = tuple(config["resources"].values())
         self.clock = clock
         self.resource_locks = {name: threading.Lock() for name in config["resources"]}
         with self.db() as db:

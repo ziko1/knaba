@@ -429,7 +429,10 @@ class RuntimeGuardTests(unittest.TestCase):
         unit = self.root / "knaba-web.service"
         resource = {"kind": "systemd", "target": unit.name,
                     "owner_uid": KNABA, "user": "knaba"}
-        show = "ActiveState=active\nUser=knaba\nFragmentPath=" + str(unit) + "\nDropInPaths=\n"
+        show = ("Id=knaba-web.service\nNames=knaba-web.service\nActiveState=active\n"
+                "User=knaba\nFragmentPath=" + str(unit) + "\nDropInPaths=\n" +
+                "".join(key + "=\n" for key in sitepanel.SERVICE_EDGES) +
+                "".join(key + "=none\n" for key in sitepanel.SERVICE_ACTIONS))
         cases = (
             ("ordinary service", "PermissionsStartOnly = no\nExecStartPre=/usr/bin/true\n", False),
             ("spaced privileged setting", "  PermissionsStartOnly = yes  \n", True),
