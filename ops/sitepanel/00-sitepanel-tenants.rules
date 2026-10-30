@@ -1,0 +1,6 @@
+/* Shared-host tenants use the UID-authenticated site broker for allowed actions. */
+polkit.addRule(function(action, subject) {
+    if (subject.user === "knaba" || subject.user === "vsp") {
+        return polkit.Result.NO;
+    }
+});
