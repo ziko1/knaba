@@ -25,3 +25,18 @@ Production before this task: `71fd88c71f67e13f81ecacb5340b1b19eebcdb90bd35217efc
 The authorized server controller `/srv/knaba/customer/ops/knabactl.py` (SHA256 `0c08f9e3a426adb15fd8fce9504d8128ffa7cbaec29ef9e10260f074672c7202`) requires a genuine user AND customer confirmation bound to candidate/current/configuration before production activation. The user's current deployment request supplies user authorization, but no fresh candidate-specific customer confirmation was supplied. Do not fabricate approval or reuse an expired receipt.
 
 Stage an immutable artifact; testing activation uses a verified online backup and schema equality check. Controller failure rollback switches code back without restoring/deleting state. A later rollback is a separate controller activation of the preserved previous artifact; production still requires its matching approval. New browser acceptance and customer confirmation remain required before production promotion.
+
+
+## Final executed result — 2026-10-30T21:07:45.039339+00:00
+
+**TESTING_DEPLOYED / PRODUCTION_NOT_UPDATED.** Exact reviewed source: `2b4190591463d748533b073f2377d1716035bef8`; Git tree `00eaeff360ac3030b5c9c0e0cb5287f5cb3cf856`. The official public-source catalog was regenerated for `knaba.de`; the only catalog content changes are the official hostname and guide source URLs. Source code is in [draft PR119](https://github.com/ziko1/knaba/pull/119).
+
+Final physical-server verification on Node24.22.1: check PASS (0 errors, 9 existing hints), 499 Vitest +86 site Node +137 VPS +28 root tests PASS (**750 total**), source provenance/clean tree PASS, official build and all build/i18n gates PASS. Seven compiled HTTPS/SQLite scenario groups covering nine identities PASS. Full receipt: [verification-and-deployment.json](verification-and-deployment.json). Browser/mobile/keyboard acceptance stays BLOCKED/NOT_RUN, never inferred from these tests.
+
+Public assets: 160 pages, JS gzip225192 B <225280, CSS gzip40958 B <40960. Budgets were not raised. The earlier local intermediate-output issue did not reproduce on the physical server; final artifact contains no public `.prerender` directory. No packaging hook was introduced.
+
+Immutable full runtime artifact: `198400c15ae399f2e28445c47e12be7534a15c2bfd3366ab66ffd034e3767af3`, 433 files/7556356 B. This is the controller artifact identity, distinct from the static-client hash in the build receipt. It was staged and activated only in testing through the installed controller. Schema equality verified; pre-activation SQLite online backup integrity `ok`, foreign-key errors0. Previous testing artifact `0d544250e45917a78e9b2a981ed09b898aaad039d602144915c56c349c94c531` remains available for code rollback; activation preserves the testing database.
+
+After activation: testing health200, readiness503 because a testing operator has not yet been activated (unchanged from before deployment), anonymous gateway401/noindex. Protected dashboard/recipient APIs deny anonymous access401. Production artifact/configuration stayed unchanged; production health/readiness200. No production approval receipt was fabricated, no live customer records were used for tests, no main merge or paid provider activation occurred.
+
+Next steps for completion: authenticate the private testing environment, activate its separately verified operator and execute the role/mobile/keyboard browser cases; obtain genuine customer confirmation for artifact `198400c15ae399f2e28445c47e12be7534a15c2bfd3366ab66ffd034e3767af3` and the current production/configuration identified above, then use normal production activation and final live acceptance. The user's instruction already supplies user authorization. This candidate is not represented as fully accepted production.

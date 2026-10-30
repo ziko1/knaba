@@ -72,12 +72,14 @@
 
 | ID | Критерій | Виконавець | Стан |
 |---|---|---|---|
-| RW-09 | Кожна роль бачить свої заявки/людей за межами перших200; пагінація зберігає серверний scope та редаговані форми | cabinet_backend + cabinet_frontend | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
-| RW-10 | Адміністратор знаходить дозволених клієнтів/партнерів/працівників для нової розмови; Bauleiter бачить тільки свій об'єкт; приватні email не видаються | root | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
-| RW-11 | Огляд показує найближчі роботи й дії; пошук/фільтр людей; перехід із заявки до її розмови в тому самому вікні | cabinet_frontend + root | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
-| RW-12 | Невідома відповідь створення заявки повторює той самий payload/key, без дубля; явну помилку можна виправити | cabinet_frontend | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
-| RW-13 | Неможливі календарні дати відхиляються; конкурентна зміна identity не дозволяє запису заявки/аудиту | cabinet_backend | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
-| RW-14 | Exact-source Node24/site/VPS/build/security, справжні HTTPS/SQLite рольові сценарії та доступний browser/mobile QA, незалежний review | root + cabinet_release_audit | PENDING |
-| RW-15 | Незмінний артефакт staged на сервері; backup/restore, штатна активація та live business smoke за чинними gates | root + cabinet_release_audit | PENDING |
+| RW-09 | Кожна роль бачить свої заявки/людей за межами перших200; пагінація зберігає серверний scope та редаговані форми | cabinet_backend + cabinet_frontend | IMPLEMENTED / AUTOMATED_QA_PASS / BROWSER_PENDING |
+| RW-10 | Адміністратор знаходить дозволених клієнтів/партнерів/працівників для нової розмови; Bauleiter бачить тільки свій об'єкт; приватні email не видаються | root | IMPLEMENTED / AUTOMATED_QA_PASS / BROWSER_PENDING |
+| RW-11 | Огляд показує найближчі роботи й дії; пошук/фільтр людей; перехід із заявки до її розмови в тому самому вікні | cabinet_frontend + root | IMPLEMENTED / AUTOMATED_QA_PASS / BROWSER_PENDING |
+| RW-12 | Невідома відповідь створення заявки повторює той самий payload/key, без дубля; явну помилку можна виправити | cabinet_frontend | IMPLEMENTED / AUTOMATED_QA_PASS / BROWSER_PENDING |
+| RW-13 | Неможливі календарні дати відхиляються; конкурентна зміна identity не дозволяє запису заявки/аудиту | cabinet_backend | IMPLEMENTED / AUTOMATED_QA_PASS / BROWSER_PENDING |
+| RW-14 | Exact-source Node24/site/VPS/build/security, справжні HTTPS/SQLite рольові сценарії та доступний browser/mobile QA, незалежний review | root + cabinet_release_audit | AUTOMATED_QA_PASS / BROWSER_BLOCKED |
+| RW-15 | Незмінний артефакт staged на сервері; backup/restore, штатна активація та live business smoke за чинними gates | root + cabinet_release_audit | TESTING_DEPLOYED / PRODUCTION_APPROVAL_PENDING |
 
 Зовнішні платні витрати: EUR0, нові провайдери не активуються. Фактичні результати додаються після виконання; попередні PASS не переносяться на цей кандидат.
+
+Фінальний runtime `198400c15ae399f2e28445c47e12be7534a15c2bfd3366ab66ffd034e3767af3` із source `2b4190591463d748533b073f2377d1716035bef8` активовано тільки у testing з перевіреним backup. 750 автотестів, HTTPS role acceptance, official build/i18n/size gates PASS. Testing operator onboarding (readiness503), browser acceptance і customer confirmation лишаються відкритими; production не оновлено. Детальні receipts: `corporate-site/docs/evidence/complete-cabinets-20261030/`.
