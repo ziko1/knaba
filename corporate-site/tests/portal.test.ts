@@ -61,6 +61,95 @@ async function patch(requestId:string,person:Person,payload:unknown) {
 beforeEach(()=>{db=new SqliteD1();env={DB:db,OWNER_EMAIL:'owner@example.test'};});
 afterEach(()=>db.sql.close());
 
+function seedRequests(templateId:string,count:number,overrides:Record<string,unknown>={}) {
+  const template=db.sql.prepare('SELECT * FROM cleaning_requests WHERE id=?').get(templateId)!;
+  const columns=Object.keys(template);
+  const insert=db.sql.prepare(`INSERT INTO cleaning_requests (${columns.join(',')}) VALUES (${columns.map(()=>'?').join(',')})`);
+  for(let i=0;i<count;i++){
+    const row={...template,...overrides,id:`page-request-${String(i).padStart(4,'0')}`,idempotency_key:`page-idempotency-${i}`};
+    insert.run(...columns.map(key=>row[key as keyof typeof row]) as never[]);
+  }
+}
+function seedProfiles(count:number,role='worker') {
+  const insert=db.sql.prepare("INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES (?,?,?,?,?,'approved','2026-10-28',?,?,1,?)");
+  for(let i=0;i<count;i++){
+    const id=`page-person-${String(i).padStart(4,'0')}`,time='2026-10-28T10:00:00.000Z';
+    insert.run(id,'Однакове ім’я',`${id}@example.test`,'worker',role,time,time,id);
+  }
+}
+
+describe('bounded dashboard pagination',()=>{
+  it('paginates equal-timestamp requests without duplicates and preserves client scope',async()=>{
+    await approve('client','client');await approve('client2','client');const r=await create();await create('client2');
+    seedRequests(r.id,205);
+    const first=await (await call('/api/portal/dashboard','client')).json() as PortalDashboard;
+    expect(first.requests).toHaveLength(200);expect(first.totals?.requests).toBe(206);expect(first.limited).toBe(true);
+    expect(first.page?.nextRequestCursor).toBeTruthy();
+    const suffix='?requestCursor='+encodeURIComponent(first.page!.nextRequestCursor!);
+    const second=await (await call('/api/portal/dashboard'+suffix,'client')).json() as PortalDashboard;
+    expect(second.requests).toHaveLength(6);expect(second.page?.nextRequestCursor).toBeNull();expect(second.limited).toBe(false);
+    const ids=[...first.requests,...second.requests].map(item=>item.id);
+    expect(new Set(ids).size).toBe(206);
+    expect(ids).toEqual([...ids].sort((a,b)=>b.localeCompare(a)));
+    const other=await (await call('/api/portal/dashboard'+suffix,'client2')).json() as PortalDashboard;
+    expect(other.requests.every(item=>item.clientId===identities.client2[0])).toBe(true);
+    expect(other.totals?.requests).toBe(1);
+  });
+  it('paginates owner profiles and admin assignees independently with Unicode name ties',async()=>{
+    await approve('admin','admin');seedProfiles(205);
+    const owner=await (await call('/api/portal/dashboard','owner')).json() as PortalDashboard;
+    expect(owner.profiles).toHaveLength(200);expect(owner.totals?.profiles).toBe(206);
+    const tail=await (await call('/api/portal/dashboard?profileCursor='+encodeURIComponent(owner.page!.nextProfileCursor!),'owner')).json() as PortalDashboard;
+    expect(tail.profiles).toHaveLength(6);expect(tail.page?.nextProfileCursor).toBeNull();
+    expect(new Set([...owner.profiles,...tail.profiles].map(item=>item.id)).size).toBe(206);
+    const admin=await (await call('/api/portal/dashboard','admin')).json() as PortalDashboard;
+    expect(admin.profiles).toHaveLength(200);expect(admin.totals?.profiles).toBe(205);
+    const adminTail=await (await call('/api/portal/dashboard?profileCursor='+encodeURIComponent(admin.page!.nextProfileCursor!),'admin')).json() as PortalDashboard;
+    expect(adminTail.profiles).toHaveLength(5);
+    expect(new Set([...admin.profiles,...adminTail.profiles].map(item=>item.id)).size).toBe(205);
+    expect([...admin.profiles,...adminTail.profiles].every(item=>item.email===''&&item.createdAt==='')).toBe(true);
+  });
+  it('rejects malformed, repeated and cross-collection cursors without leaking data',async()=>{
+    await approve('client','client');const r=await create();seedRequests(r.id,200);
+    for(const query of ['requestCursor=bad','profileCursor=%7B%7D','requestCursor=','requestCursor=a&requestCursor=b']) {
+      expect((await call('/api/portal/dashboard?'+query,'client')).status,query).toBe(422);
+    }
+    const first=await (await call('/api/portal/dashboard','client')).json() as PortalDashboard;
+    expect((await call('/api/portal/dashboard?profileCursor='+encodeURIComponent(first.page!.nextRequestCursor!),'owner')).status).toBe(422);
+    expect((await call('/api/portal/dashboard?requestCursor=bad')).status).toBe(401);
+  });
+  it('keeps Bauleiter directory scope independent of the current request page',async()=>{
+    await approve('client','client');await approve('bauleiter','bauleiter');await approve('worker','worker');await approve('worker2','worker');
+    let r=await create();r=await patch(r.id,'owner',{version:r.version,assignedBauleiterId:identities.bauleiter[0]});
+    seedRequests(r.id,205,{status:'completed',assigned_worker_id:identities.worker[0],updated_at:'2030-01-01T00:00:00.000Z'});
+    const first=await (await call('/api/portal/dashboard','bauleiter')).json() as PortalDashboard;
+    expect(first.requests.every(item=>item.status==='completed')).toBe(true);
+    expect(first.profiles.map(item=>item.id)).toContain(identities.worker2[0]);
+    db.sql.prepare("UPDATE cleaning_requests SET status='cancelled' WHERE id=?").run(r.id);
+    const historical=await (await call('/api/portal/dashboard','bauleiter')).json() as PortalDashboard;
+    expect(historical.profiles.map(item=>item.id)).toEqual([identities.worker[0]]);
+    const unrelated=await (await call('/api/portal/dashboard','client')).json() as PortalDashboard;
+    expect(unrelated.profiles).toEqual([]);expect(unrelated.totals?.profiles).toBe(0);
+  });
+  it('rechecks assignment and approval on every worker and Bauleiter page',async()=>{
+    await approve('client','client');await approve('worker','worker');await approve('worker2','worker');
+    await approve('bauleiter','bauleiter');await approve('bauleiter2','bauleiter');const r=await create();
+    seedRequests(r.id,205,{status:'scheduled',assigned_worker_id:identities.worker[0],assigned_bauleiter_id:identities.bauleiter[0]});
+    for(const person of ['worker','bauleiter'] as Person[]) {
+      const first=await (await call('/api/portal/dashboard',person)).json() as PortalDashboard;
+      expect(first.requests).toHaveLength(200);expect(first.totals?.requests).toBe(205);
+      const path='/api/portal/dashboard?requestCursor='+encodeURIComponent(first.page!.nextRequestCursor!);
+      const second=await (await call(path,person)).json() as PortalDashboard;
+      expect(second.requests).toHaveLength(5);expect(second.totals?.requests).toBe(205);
+      const other=await (await call(path,person==='worker'?'worker2':'bauleiter2')).json() as PortalDashboard;
+      expect(other.requests).toEqual([]);expect(other.totals?.requests).toBe(0);
+      db.sql.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(identities[person][0]);
+      const revoked=await (await call(path,person)).json() as PortalDashboard;
+      expect(revoked.requests).toEqual([]);expect(revoked.page?.nextRequestCursor).toBeNull();expect(revoked.totals?.requests).toBe(0);
+    }
+  });
+});
+
 describe('portal identity and approval',()=>{
   it('anonymous session is safe and protected data/mutations require sign-in',async()=>{
     const r=await call('/api/portal/session');expect(await r.json()).toEqual({user:null,profile:null,role:'anonymous'});
@@ -113,6 +202,33 @@ describe('portal identity and approval',()=>{
 });
 
 describe('real request persistence, isolation and job workflow',()=>{
+  it('rejects impossible calendar dates instead of silently changing appointments',async()=>{
+    await approve('client','client');await approve('worker','worker');
+    let r=await create();r=await patch(r.id,'owner',{version:r.version,status:'reviewing'});
+    for(const scheduledAt of ['2026-02-30T09:00:00Z','2026-02-29T09:00:00Z','2026-04-31T09:00:00+02:00','2026-11-01T24:00:00Z','2026-11-01T09:00:00+14:01']) {
+      expect((await call(`/api/portal/requests/${r.id}`,'owner','PATCH',{version:r.version,scheduledAt})).status,scheduledAt).toBe(422);
+    }
+    r=await patch(r.id,'owner',{version:r.version,scheduledAt:'2028-02-29T09:00:00+01:00'});
+    expect(r.scheduledAt).toBe('2028-02-29T08:00:00.000Z');
+    r=await patch(r.id,'owner',{version:r.version,scheduledAt:'2026-11-01T09:00:00.125-05:30'});
+    expect(r.scheduledAt).toBe('2026-11-01T14:30:00.125Z');
+  });
+  it('fences an identity email change during request creation without a false audit',async()=>{
+    await approve('client','client');
+    const before=Number(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n);
+    db.beforeBatch=()=>{db.sql.prepare('UPDATE profiles SET email=? WHERE id=?').run('changed@example.test',identities.client[0]);};
+    expect((await call('/api/portal/requests','client','POST',input())).status).toBe(403);
+    expect(db.sql.prepare('SELECT count(*) AS n FROM cleaning_requests').get()?.n).toBe(0);
+    expect(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n).toBe(before);
+  });
+  it('fences an identity email change during request update without a false audit',async()=>{
+    await approve('client','client');await approve('admin','admin');const r=await create();
+    const before=Number(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n);
+    db.beforeBatch=()=>{db.sql.prepare('UPDATE profiles SET email=? WHERE id=?').run('changed@example.test',identities.admin[0]);};
+    expect((await call(`/api/portal/requests/${r.id}`,'admin','PATCH',{version:r.version,status:'reviewing'})).status).toBe(409);
+    expect(db.sql.prepare('SELECT status FROM cleaning_requests WHERE id=?').get(r.id)?.status).toBe('new');
+    expect(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n).toBe(before);
+  });
   it('customer sees only own requests; another customer cannot alter one',async()=>{
     await approve('client','client');await approve('client2','client');const r=await create();
     const d=await (await call('/api/portal/dashboard','client2')).json();expect(d.requests).toEqual([]);

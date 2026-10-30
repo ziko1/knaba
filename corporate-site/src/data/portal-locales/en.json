@@ -16,7 +16,6 @@
     "payloadChanged": "This request identifier belongs to details that are already saved. Check your requests first. Start a new request for another job.",
     "cancelRequestNote": "Do you want to cancel this request? A cancelled request cannot be reopened here.",
     "confirmCancel": "Confirm request cancellation",
-    "retryKeep": "Keep the details unchanged when retrying. If uncertain, check your saved requests first.",
     "education": "Education / care",
     "recurring": "Regularly",
     "undecided": "Not sure yet",
@@ -172,7 +171,6 @@
     "unavailableError": "The portal is temporarily unavailable. Please try again later.",
     "loginError": "Your sign-in has expired. Please sign in again.",
     "genericError": "The action could not be completed. Please try again.",
-    "retryNotice": "Success was not confirmed. Please try again; retrying will not create a duplicate request.",
     "error": "Notice",
     "required": "Required",
     "roleChanged": "Access has been updated.",
@@ -282,5 +280,25 @@
     "language": "Language",
     "refresh": "Verify session",
     "unsaved": "There are unsaved website edits. Leave this section anyway?"
+  },
+  "cabinet": {
+    "loaded": "Loaded requests",
+    "loadedProfiles": "Loaded profiles",
+    "of": "of",
+    "agenda": "Upcoming jobs",
+    "agendaEmpty": "No jobs are scheduled in the loaded requests.",
+    "openRequest": "Open request",
+    "allRequests": "All requests",
+    "loadedNote": "Status counts and appointments refer to loaded requests.",
+    "peopleSearch": "Search loaded profiles",
+    "moreRequests": "Load more requests",
+    "moreProfiles": "Load more profiles",
+    "retryFrozen": "Receipt is not confirmed yet. Retry sends the same request without a duplicate. Fields stay locked until confirmation.",
+    "message": "Message about this request",
+    "noPeople": "No matching people.",
+    "findPerson": "Search people",
+    "morePeople": "Load more people",
+    "olderConversations": "Older conversations",
+    "latestConversations": "Latest conversations"
   }
 }

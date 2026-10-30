@@ -16,7 +16,6 @@
     "payloadChanged": "Šis užklausos identifikatorius priklauso jau išsaugotiems duomenims. Pirmiausia patikrinkite užklausas. Kitam darbui pradėkite naują užklausą.",
     "cancelRequestNote": "Ar atšaukti šią užklausą? Atšauktos užklausos čia atkurti negalima.",
     "confirmCancel": "Patvirtinti užklausos atšaukimą",
-    "retryKeep": "Bandydami dar kartą nekeiskite duomenų. Jei abejojate, pirmiausia patikrinkite išsaugotas užklausas.",
     "education": "Švietimas / priežiūra",
     "recurring": "Reguliariai",
     "undecided": "Dar nenuspręsta",
@@ -172,7 +171,6 @@
     "unavailableError": "Portalas laikinai nepasiekiamas. Bandykite vėliau.",
     "loginError": "Jūsų sesija baigėsi. Prisijunkite iš naujo.",
     "genericError": "Veiksmo užbaigti nepavyko. Bandykite dar kartą.",
-    "retryNotice": "Sėkmė nepatvirtinta. Bandykite dar kartą; pakartojimas nesukurs užklausos dublikato.",
     "error": "Pranešimas",
     "required": "Privaloma",
     "roleChanged": "Prieiga atnaujinta.",
@@ -282,5 +280,25 @@
     "language": "Kalba",
     "refresh": "Patikrinti sesiją",
     "unsaved": "Svetainės redaktoriuje yra neišsaugotų pakeitimų. Vis tiek pereiti kitur?"
+  },
+  "cabinet": {
+    "loaded": "Įkeltos užklausos",
+    "loadedProfiles": "Įkelti profiliai",
+    "of": "iš",
+    "agenda": "Artimiausi darbai",
+    "agendaEmpty": "Įkeltose užklausose dar nėra suplanuotų darbų.",
+    "openRequest": "Atidaryti užklausą",
+    "allRequests": "Visos užklausos",
+    "loadedNote": "Būsenų skaičiai ir datos taikomi įkeltoms užklausoms.",
+    "peopleSearch": "Ieškoti įkeltuose profiliuose",
+    "moreRequests": "Įkelti daugiau užklausų",
+    "moreProfiles": "Įkelti daugiau profilių",
+    "retryFrozen": "Gavimas dar nepatvirtintas. Kartojant siunčiama ta pati užklausa be dublikato. Laukai lieka užrakinti iki patvirtinimo.",
+    "message": "Žinutė apie užklausą",
+    "noPeople": "Nėra atitinkančių žmonių.",
+    "findPerson": "Ieškoti žmonių",
+    "morePeople": "Įkelti daugiau žmonių",
+    "olderConversations": "Ankstesni pokalbiai",
+    "latestConversations": "Naujausi pokalbiai"
   }
 }

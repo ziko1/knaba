@@ -62,3 +62,22 @@
 **Developer invitation: PREPARED / USER_ACTIVATION_REQUIRED.** Підтверджений receipt `READY_FOR_OWNER_HANDOFF` від **2026-10-28 11:08:08 UTC**: одноразове запрошення для синтетичного тестового доступу підготовлене на runtime76f, TTL **7,200,000 ms**, історичний строк дії — **2026-10-28 13:08:08.382 UTC**. Це обмежене в часі запрошення, не постійно чинний доступ; перед майбутньою передачею перевірити строк і стан. `primaryApplicationDataUnchanged=true`, `preexistingInvitationsUnchanged=true`, `acceptedRuntimeVerified=true`; після конфігурації той самий runtime/image/UID healthy. `primaryDeveloperAccountCreated=false`, `passwordGenerated=false`, `emailSent=false`, `activationRequired=true`. Токен і URL активації не зберігаються в канонічних документах; користувач сам задає пароль під час активації.
 
 **Залишилось: USER_ACTIVATION_PENDING / AUTHENTICATED_LIVE_UAT_PENDING.** Підготовлене запрошення не є активованим акаунтом; live замовлення/перемикання ролей/розмову під справжньою активованою тестовою сесією ще не прийнято. ERP bridge, реальна provider delivery/OIDC, фізичні пристрої, інші браузери, screen reader та реальний owner UAT залишаються окремими непідтвердженими сценаріями. Повного доступу до інших чатів немає; continuity спирається на доступні source, memory та worktrees.
+
+## Продовження 30.10.2026 — повноцінні кабінети на фізичному KNABA
+
+Пряме доручення користувача: «зроби повноцини кабинети и залий на серве повнисттю повноцини».
+Продовжується чинний web scope RW-01–08: клієнт, партнер, працівник, Bauleiter, owner/admin та ізольований developer workspace. Окремі ERP, payroll/GPS, нативні застосунки й платні зовнішні канали не підміняються кабінетами сайту.
+
+База GitHub `045fc00e6e9b5a069416285f619e5cdc202778d8`, кандидат `feat/knaba-complete-cabinets-20261030`. Фактичний production до змін: artifact `71fd88c71f67e13f81ecacb5340b1b19eebcdb90bd35217efc75cc42bf20b383`; його дані не використовуються у синтетичних тестах. Чинне доручення дозволяє user-directed server deployment; окремий customer approval controller, QA і відновлення не підробляються.
+
+| ID | Критерій | Виконавець | Стан |
+|---|---|---|---|
+| RW-09 | Кожна роль бачить свої заявки/людей за межами перших200; пагінація зберігає серверний scope та редаговані форми | cabinet_backend + cabinet_frontend | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
+| RW-10 | Адміністратор знаходить дозволених клієнтів/партнерів/працівників для нової розмови; Bauleiter бачить тільки свій об'єкт; приватні email не видаються | root | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
+| RW-11 | Огляд показує найближчі роботи й дії; пошук/фільтр людей; перехід із заявки до її розмови в тому самому вікні | cabinet_frontend + root | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
+| RW-12 | Невідома відповідь створення заявки повторює той самий payload/key, без дубля; явну помилку можна виправити | cabinet_frontend | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
+| RW-13 | Неможливі календарні дати відхиляються; конкурентна зміна identity не дозволяє запису заявки/аудиту | cabinet_backend | IMPLEMENTED / FINAL_VERIFICATION_PENDING |
+| RW-14 | Exact-source Node24/site/VPS/build/security, справжні HTTPS/SQLite рольові сценарії та доступний browser/mobile QA, незалежний review | root + cabinet_release_audit | PENDING |
+| RW-15 | Незмінний артефакт staged на сервері; backup/restore, штатна активація та live business smoke за чинними gates | root + cabinet_release_audit | PENDING |
+
+Зовнішні платні витрати: EUR0, нові провайдери не активуються. Фактичні результати додаються після виконання; попередні PASS не переносяться на цей кандидат.

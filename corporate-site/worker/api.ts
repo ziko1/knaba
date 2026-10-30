@@ -102,6 +102,42 @@ function allowedStatus(from: RequestStatus,to: RequestStatus): boolean {
   const transitions: Record<RequestStatus,RequestStatus[]>={new:['reviewing','cancelled'],reviewing:['scheduled','cancelled'],scheduled:['in_progress','cancelled'],in_progress:['completed','cancelled'],completed:[],cancelled:[]};
   return from===to || transitions[from]?.includes(to);
 }
+type PageCursor = { key: string; id: string };
+type CursorKind = 'requests' | 'owner-profiles' | 'assignees';
+function readCursor(url: URL,parameter: string,kind: CursorKind): PageCursor | null {
+  const value=url.searchParams.get(parameter);
+  if(value===null)return null;
+  try {
+    if(url.searchParams.getAll(parameter).length!==1 || value.length>1024 || !/^[A-Za-z0-9_-]+$/.test(value))throw Error('cursor');
+    const raw=atob(value.replace(/-/g,'+').replace(/_/g,'/'));
+    const parsed:unknown=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(raw,char=>char.charCodeAt(0))));
+    if(!parsed || typeof parsed!=='object' || Array.isArray(parsed))throw Error('cursor');
+    const row=parsed as Row;
+    if(Object.keys(row).sort().join(',')!=='id,key,kind' || row.kind!==kind || typeof row.key!=='string' || !row.key || row.key.length>160 ||
+      typeof row.id!=='string' || !row.id || row.id.length>200 || /[\u0000-\u001f\u007f]/.test(row.key+row.id))throw Error('cursor');
+    if(kind!=='assignees' && !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(row.key))throw Error('cursor');
+    return {key:row.key,id:row.id};
+  }catch{ return fail(422,'cursor','Die Seitenposition ist ungültig. Bitte aktualisieren Sie die Ansicht.'); }
+}
+function nextCursor(rows: Row[],kind: CursorKind,key: string): string | null {
+  if(rows.length<=MAX_ROWS)return null;
+  const row=rows[MAX_ROWS-1];
+  const bytes=new TextEncoder().encode(JSON.stringify({kind,key:str(row[key]),id:str(row.id)}));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+/** A calendar date must survive validation unchanged, not JavaScript's date rollover. */
+function scheduleDate(value: unknown): string {
+  const text=str(value),m=text.match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d{1,3}))?)?(Z|([+-])(\d\d):(\d\d))$/);
+  if(!m) return fail(422,'date','Bitte geben Sie einen gültigen Termin mit Zeitzone an.');
+  const [year,month,day,hour,minute,second]=[m[1],m[2],m[3],m[4],m[5],m[6]||'0'].map(Number);
+  const leap=year%4===0&&(year%100!==0||year%400===0);
+  const days=[31,leap?29:28,31,30,31,30,31,31,30,31,30,31];
+  const offsetHour=Number(m[10]||0),offsetMinute=Number(m[11]||0);
+  if(year<1 || month<1 || month>12 || day<1 || day>days[month-1] || hour>23 || minute>59 || second>59 ||
+    offsetHour>14 || offsetMinute>59 || (offsetHour===14&&offsetMinute!==0) || !Number.isFinite(Date.parse(text)))
+    return fail(422,'date','Bitte geben Sie einen gültigen Termin mit Zeitzone an.');
+  return new Date(text).toISOString();
+}
 async function register(request: Request,env: WorkerEnv,s: PortalSession) {
   const user=signed(s), db=dbFor(env),body=await readBody(request);
   allowedKeys(body,['name','requestedRole','privacyAccepted']);privacy(body);
@@ -117,32 +153,52 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
   const p=await db.prepare('SELECT * FROM profiles WHERE id=?').bind(user.id).first<Row>();
   return response({profile:profile(p!)},201);
 }
-async function dashboard(env: WorkerEnv,s: PortalSession) {
+async function dashboard(request: Request,env: WorkerEnv,s: PortalSession) {
   signed(s);const db=dbFor(env);
-  const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false};
+  const url=new URL(request.url),requestCursor=readCursor(url,'requestCursor','requests');
+  const profileKind=s.role==='owner'?'owner-profiles':'assignees';
+  const profileCursor=readCursor(url,'profileCursor',profileKind);
+  const page={nextRequestCursor:null as string|null,nextProfileCursor:null as string|null};
+  const totals={requests:0,profiles:0};
+  const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false,page,totals};
   // Partner is a distinct approved identity without cross-client/ERP read permissions.
   if(['pending','suspended'].includes(s.role)) return response(data);
   requireRole(s,['client','partner','worker','bauleiter','admin','owner']);
-  const filters=(s.role==='client'||s.role==='partner')?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":s.role==='bauleiter'?' WHERE assigned_bauleiter_id=?':'';
-  const bind=filters?[s.user!.id]:[];
-  const rows=(await db.prepare(`SELECT * FROM cleaning_requests${filters} ORDER BY updated_at DESC,id DESC LIMIT ?`).bind(...bind,MAX_ROWS+1).all<Row>()).results||[];
-  data.limited=rows.length>MAX_ROWS;data.requests=rows.slice(0,MAX_ROWS).map(row=>requestView(row,s.role));
+  // Scope is repeated in every page and count; a cursor never grants access.
+  const actor=s.role==='owner'?'1=1':"EXISTS (SELECT 1 FROM profiles actor WHERE actor.id=? AND lower(actor.email)=? AND actor.role=? AND actor.status='approved')";
+  const actorValues=s.role==='owner'?[]:[s.user!.id,normalizeEmail(s.user!.email),s.role];
+  const filters=(s.role==='client'||s.role==='partner')?'client_id=?':s.role==='worker'?"assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":s.role==='bauleiter'?'assigned_bauleiter_id=?':'1=1';
+  const bind=[...(filters==='1=1'?[]:[s.user!.id]),...actorValues];
+  const where=`${filters} AND ${actor}`;
+  totals.requests=Number((await db.prepare(`SELECT count(*) AS count FROM cleaning_requests WHERE ${where}`).bind(...bind).first<Row>())?.count||0);
+  const after=requestCursor?' AND (updated_at<? OR (updated_at=? AND id<?))':'';
+  const rows=(await db.prepare(`SELECT * FROM cleaning_requests WHERE ${where}${after} ORDER BY updated_at DESC,id DESC LIMIT ?`)
+    .bind(...bind,...(requestCursor?[requestCursor.key,requestCursor.key,requestCursor.id]:[]),MAX_ROWS+1).all<Row>()).results||[];
+  page.nextRequestCursor=nextCursor(rows,'requests','updated_at');
+  data.requests=rows.slice(0,MAX_ROWS).map(row=>requestView(row,s.role));
   if(s.role==='owner') {
-    const profiles=(await db.prepare('SELECT * FROM profiles ORDER BY created_at DESC,id LIMIT ?').bind(MAX_ROWS+1).all<Row>()).results||[];
-    data.limited ||= profiles.length>MAX_ROWS;data.profiles=profiles.slice(0,MAX_ROWS).map(profile);
+    totals.profiles=Number((await db.prepare('SELECT count(*) AS count FROM profiles').first<Row>())?.count||0);
+    const after=profileCursor?' WHERE (created_at<? OR (created_at=? AND id<?))':'';
+    const profiles=(await db.prepare(`SELECT * FROM profiles${after} ORDER BY created_at DESC,id DESC LIMIT ?`)
+      .bind(...(profileCursor?[profileCursor.key,profileCursor.key,profileCursor.id]:[]),MAX_ROWS+1).all<Row>()).results||[];
+    page.nextProfileCursor=nextCursor(profiles,'owner-profiles','created_at');data.profiles=profiles.slice(0,MAX_ROWS).map(profile);
     data.audit=((await db.prepare('SELECT id,actor_id,action,entity_id,created_at FROM portal_audit ORDER BY created_at DESC,id DESC LIMIT 100').all<Row>()).results||[]).map(r=>({id:str(r.id),actorId:str(r.actor_id),action:str(r.action),entityId:str(r.entity_id),createdAt:str(r.created_at)}));
-  } else if(s.role==='admin' || (s.role==='bauleiter' && data.requests.length>0)) {
+  } else if(s.role==='admin' || (s.role==='bauleiter' && totals.requests>0)) {
     // Coordination needs approved assignee names only, never pending profiles or emails.
     // A Bauleiter without assigned work receives no staff directory.
     const directoryRoles=s.role==='admin'?"('worker','bauleiter')":"('worker')";
-    const activeCoordination=s.role==='admin'||data.requests.some(r=>!['completed','cancelled'].includes(r.status));
-    const historicalWorkers=[...new Set(data.requests.map(r=>r.assignedWorkerId).filter((value):value is string=>typeof value==='string'))];
-    // After all work ends, retain names needed for the displayed history only.
-    // A historical assignment does not expose today's complete worker directory.
-    const historyScope=activeCoordination?'':historicalWorkers.length?` AND id IN (${historicalWorkers.map(()=>'?').join(',')})`:' AND 0';
-    const bindings=activeCoordination?[]:historicalWorkers;
-    data.profiles=((await db.prepare(`SELECT * FROM profiles WHERE role IN ${directoryRoles} AND status='approved'${historyScope} ORDER BY name,id LIMIT ?`).bind(...bindings,MAX_ROWS).all<Row>()).results||[]).map(r=>({...profile(r),email:'',createdAt:'',updatedAt:''}));
+    // Scope all assigned jobs, not just the currently displayed request page.
+    const historyScope=s.role==='admin'?'':" AND (EXISTS (SELECT 1 FROM cleaning_requests job WHERE job.assigned_bauleiter_id=? AND job.status NOT IN ('completed','cancelled')) OR profiles.id IN (SELECT job.assigned_worker_id FROM cleaning_requests job WHERE job.assigned_bauleiter_id=?))";
+    const bindings=[...actorValues,...(s.role==='admin'?[]:[s.user!.id,s.user!.id])];
+    const directoryWhere=`role IN ${directoryRoles} AND status='approved' AND ${actor}${historyScope}`;
+    totals.profiles=Number((await db.prepare(`SELECT count(*) AS count FROM profiles WHERE ${directoryWhere}`).bind(...bindings).first<Row>())?.count||0);
+    const after=profileCursor?' AND (name>? OR (name=? AND id>?))':'';
+    const profiles=(await db.prepare(`SELECT * FROM profiles WHERE ${directoryWhere}${after} ORDER BY name,id LIMIT ?`)
+      .bind(...bindings,...(profileCursor?[profileCursor.key,profileCursor.key,profileCursor.id]:[]),MAX_ROWS+1).all<Row>()).results||[];
+    page.nextProfileCursor=nextCursor(profiles,'assignees','name');
+    data.profiles=profiles.slice(0,MAX_ROWS).map(r=>({...profile(r),email:'',createdAt:'',updatedAt:''}));
   }
+  data.limited=Boolean(page.nextRequestCursor||page.nextProfileCursor);
   return response(data);
 }
 function cleanInput(body: Row,s: PortalSession|null): InquiryData {
@@ -173,8 +229,8 @@ async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|nu
   }
   const requestId=id(),time=iso(),mutation=id();
   const values=[requestId,s?.user!.id||null,data.service,data.objectType,data.postcode,data.area,data.frequency,data.message,data.name,data.email,data.phone,address,scope,key,payloadHash,PRIVACY_VERSION,time,time,mutation];
-  const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND role=? AND status='approved')":'';
-  const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id,s.role]:[]));
+  const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND lower(email)=? AND role=? AND status='approved')":'';
+  const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id,normalizeEmail(s.user!.email),s.role]:[]));
   await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time)]);
   const result=await db.prepare('SELECT * FROM cleaning_requests WHERE dedupe_scope=? AND idempotency_key=?').bind(scope,key).first<Row>();
   if(!result)fail(403,'forbidden','Die Freigabe wurde geändert. Bitte laden Sie die Seite erneut.');
@@ -244,7 +300,7 @@ async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,req
   if(body.scheduledAt!==undefined){
     if(['completed','cancelled'].includes(from))fail(409,'state','Abgeschlossene Aufträge können nicht neu terminiert werden.');
     if(body.scheduledAt===null)next.scheduledAt=null;
-    else {const value=str(body.scheduledAt);if(!/^\d{4}-\d\d-\d\dT\d\d:\d\d(?::\d\d(?:\.\d{1,3})?)?(?:Z|[+-]\d\d:\d\d)$/.test(value)||!Number.isFinite(Date.parse(value)))fail(422,'date','Bitte geben Sie einen gültigen Termin mit Zeitzone an.');next.scheduledAt=new Date(value).toISOString();}
+    else next.scheduledAt=scheduleDate(body.scheduledAt);
   }
   if(next.assignedWorkerId!==current.assigned_worker_id){
     if(['completed','cancelled'].includes(next.status))fail(409,'assignment','Ein Auftrag kann nicht gleichzeitig abgeschlossen und neu zugeteilt werden.');
@@ -258,12 +314,12 @@ async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,req
   }
   if((s.role==='admin'||s.role==='owner'||s.role==='bauleiter')&&next.status==='completed'&&JSON.parse(next.checklist).length!==checklistItems.length)fail(422,'checklist','Vor dem Abschluss muss die Arbeitskraft die vier Prüfpunkte abschließen.');
   const time=iso(),mutation=id();
-  const roleGuard=s.role==='owner'?'':" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role=? AND status='approved')";
+  const roleGuard=s.role==='owner'?'':" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND lower(email)=? AND role=? AND status='approved')";
   const scopeGuard=(s.role==='client'||s.role==='partner')?' AND client_id=?':s.role==='worker'?' AND assigned_worker_id=?':s.role==='bauleiter'?' AND assigned_bauleiter_id=?':'';
   const workerGuard=needsActiveWorker?" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='worker' AND status='approved')":'';
   const needsActiveBauleiter=body.assignedBauleiterId!==undefined && next.assignedBauleiterId!==null;
   const bauleiterGuard=needsActiveBauleiter?" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='bauleiter' AND status='approved')":'';
-  const bindings=[next.status,next.assignedBauleiterId,next.assignedWorkerId,next.scheduledAt,next.checklist,next.workerNote,next.customerFeedback,next.adminReply,time,mutation,requestId,version,...(s.role==='owner'?[]:[s.user!.id,s.role]),...(scopeGuard?[s.user!.id]:[]),...(needsActiveWorker?[next.assignedWorkerId]:[]),...(needsActiveBauleiter?[next.assignedBauleiterId]:[])];
+  const bindings=[next.status,next.assignedBauleiterId,next.assignedWorkerId,next.scheduledAt,next.checklist,next.workerNote,next.customerFeedback,next.adminReply,time,mutation,requestId,version,...(s.role==='owner'?[]:[s.user!.id,normalizeEmail(s.user!.email),s.role]),...(scopeGuard?[s.user!.id]:[]),...(needsActiveWorker?[next.assignedWorkerId]:[]),...(needsActiveBauleiter?[next.assignedBauleiterId]:[])];
   const result=await db.batch([
     db.prepare(`UPDATE cleaning_requests SET status=?,assigned_bauleiter_id=?,assigned_worker_id=?,scheduled_at=?,checklist=?,worker_note=?,customer_feedback=?,admin_reply=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?${roleGuard}${scopeGuard}${workerGuard}${bauleiterGuard}`).bind(...bindings),
     auditStatement(db,s.user!.id,'request.updated',requestId,mutation,'cleaning_requests',time),
@@ -290,7 +346,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path==='/api/portal/conversations'||path.startsWith('/api/portal/conversations/'))
       return await handlePortalMessages(request,env,s,{fail,response,readBody,rateLimit,sha});
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);
-    if(path==='/api/portal/dashboard'&&request.method==='GET')return await dashboard(env,s);
+    if(path==='/api/portal/dashboard'&&request.method==='GET')return await dashboard(request,env,s);
     if(path==='/api/portal/requests'&&request.method==='POST')return await createRequest(request,env,s);
     if(path==='/api/portal/roles'&&request.method==='POST')return await setRole(request,env,s);
     const match=path.match(/^\/api\/portal\/requests\/([a-zA-Z0-9_-]{1,100})$/);

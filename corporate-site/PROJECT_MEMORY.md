@@ -527,3 +527,12 @@ Final runtime `a193ffd4f031727ca7f3b9e67f72fbf0bab66fbc`: **check PASS (0 errors
 Початковий verifier EACCES при записі власного report і повторний PASS збережені; виправлено лише окремий report file, budgets/assertions не послаблено. Sandbox probe source 25460e7: **BLOCKED_ENV — No usable sandbox**; actual browser journeys NOT_RUN, unsafe retry не виконувався. Production зберігає окреме погодження користувачем/замовником точного артефакту. [Повний звіт і public evidence index](../docs/unified/GITHUB_RECONCILIATION_2026-10-30_UK.md).
 
 Пізня звірка також включила точний пакет PR117 `ops/sitepanel/` (13 файлів, source `3a873771bc69947b0db9444d72fb6876e4bf355e`): 34 Python + 18 simulated DOM/CLI PASS. SQLite ResourceWarning зафіксовано; install/account-policy scripts не виконувалися, live host/browser acceptance окрема. Додавання пакета не змінило перевірені site/ERP inputs.
+
+
+## Cabinet completion — 30 October 2026
+
+User explicitly requests complete existing web cabinets and deployment to the physical KNABA server. Candidate `feat/knaba-complete-cabinets-20261030` starts from GitHub `045fc00e6e9b5a069416285f619e5cdc202778d8`; existing server worktrees and production data remain preserved. Scope and acceptance: `docs/unified/ROLE_WORKSPACES_2026-10-28_UK.md` RW-09–15.
+
+Implementation adds scoped request/profile/conversation pagination, actionable overview/agenda, people search, recipient lookup for administrator-initiated conversations, request-to-chat navigation, loss-safe request retries, strict calendar validation and transactional identity checks. Selected-language packs retain DE/EN/UK/RU/PL/LT without raising the existing JavaScript/CSS budgets. No migration, dependency or external-provider activation. ERP integration and native applications remain separate.
+
+Source verification, final artifact identity and actual deployment outcomes are recorded separately in `docs/evidence/complete-cabinets-20261030/acceptance.md`; never reuse historical browser receipts. Current browser route is BLOCKED: local engines absent, existing server Chromium lacks a usable sandbox, and private web QA requires Cloudflare Access login. Do not disable sandbox or Access. The controller also requires a genuine fresh customer confirmation tied to the exact artifact/current/configuration before production activation; the user's deployment instruction is already authorized.

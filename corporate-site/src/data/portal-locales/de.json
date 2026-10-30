@@ -16,7 +16,6 @@
     "payloadChanged": "Diese Anfragekennung gehört zu bereits gespeicherten Angaben. Prüfen Sie zuerst Ihre Anfragen. Starten Sie für einen weiteren Vorgang eine neue Anfrage.",
     "cancelRequestNote": "Möchten Sie diese Anfrage absagen? Eine abgesagte Anfrage lässt sich hier nicht wieder öffnen.",
     "confirmCancel": "Anfrage verbindlich absagen",
-    "retryKeep": "Bitte lassen Sie die Angaben für die Wiederholung unverändert. Prüfen Sie bei Unsicherheit zuerst Ihre gespeicherten Anfragen.",
     "education": "Bildung / Betreuung",
     "recurring": "Regelmäßig",
     "undecided": "Noch offen",
@@ -172,7 +171,6 @@
     "unavailableError": "Das Portal ist vorübergehend nicht erreichbar. Bitte versuchen Sie es später erneut.",
     "loginError": "Ihre Anmeldung ist abgelaufen. Bitte melden Sie sich erneut an.",
     "genericError": "Die Aktion konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
-    "retryNotice": "Die Anfrage wurde nicht als erfolgreich bestätigt. Bitte erneut versuchen; ein wiederholter Versuch legt keinen doppelten Vorgang an.",
     "error": "Hinweis",
     "required": "Pflichtfeld",
     "roleChanged": "Der Zugang wurde aktualisiert.",
@@ -282,5 +280,25 @@
     "language": "Sprache",
     "refresh": "Sitzung prüfen",
     "unsaved": "Im Website-Editor gibt es ungespeicherte Änderungen. Trotzdem wechseln?"
+  },
+  "cabinet": {
+    "loaded": "Geladene Anfragen",
+    "loadedProfiles": "Geladene Profile",
+    "of": "von",
+    "agenda": "Nächste Einsätze",
+    "agendaEmpty": "In den geladenen Anfragen sind noch keine Einsätze geplant.",
+    "openRequest": "Anfrage öffnen",
+    "allRequests": "Alle Anfragen",
+    "loadedNote": "Statuszahlen und Termine beziehen sich auf die geladenen Anfragen.",
+    "peopleSearch": "Geladene Profile durchsuchen",
+    "moreRequests": "Weitere Anfragen laden",
+    "moreProfiles": "Weitere Profile laden",
+    "retryFrozen": "Der Empfang ist noch nicht bestätigt. Wiederholen sendet dieselbe Anfrage ohne Duplikat. Die Felder bleiben bis zur Bestätigung gesperrt.",
+    "message": "Nachricht zur Anfrage",
+    "noPeople": "Keine passenden Personen.",
+    "findPerson": "Personen suchen",
+    "morePeople": "Weitere Personen laden",
+    "olderConversations": "Ältere Gespräche",
+    "latestConversations": "Neueste Gespräche"
   }
 }

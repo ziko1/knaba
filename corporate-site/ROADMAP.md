@@ -501,3 +501,8 @@ Bounded integration on existing PR #114. Local tested runtime `eae6669c136490b1a
 [Повний scoped checkpoint](../docs/unified/GITHUB_RECONCILIATION_2026-10-30_UK.md).
 
 Пізня звірка також включила точний пакет PR117 `ops/sitepanel/` (13 файлів, source `3a873771bc69947b0db9444d72fb6876e4bf355e`): 34 Python + 18 simulated DOM/CLI PASS. SQLite ResourceWarning зафіксовано; install/account-policy scripts не виконувалися, live host/browser acceptance окрема. Додавання пакета не змінило перевірені site/ERP inputs.
+
+
+## Complete web cabinets — 30 October 2026
+
+Canonical scope: `docs/unified/ROLE_WORKSPACES_2026-10-28_UK.md` RW-09–15. Pagination, actionable overview, searchable people/recipients, request-linked chat, safe retries and date/identity hardening are implemented on `feat/knaba-complete-cabinets-20261030`. Final exact-source verification and server staging/promotion receipts belong in `docs/evidence/complete-cabinets-20261030/acceptance.md`. Browser/mobile acceptance remains BLOCKED until an authorized usable browser is available. Production remains gated by exact-artifact customer confirmation; user authorization to deploy is already present. This entry does not certify the broader ERP/native/provider roadmap.
