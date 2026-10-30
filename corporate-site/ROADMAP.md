@@ -382,6 +382,84 @@ Observed official /ber and /jobs lacked equivalent new routes; a real HTTP fixtu
 
 Final contrast follow-up: removed entrance opacity fading while retaining bounded translation. Rebuilt artifact `9e494d11e30c4e800a0fccb0f70dc7f5837ac9e5e640491b05b91003e36c5d2d`; CSS39,767 and clientJS193,024 gzip. Fresh root25, module263 Vitest/41 files +77 native, check0 errors/0 warnings/6 hints, preservation130 pages and authorized VPS90/90 PASS. Browser acceptance remains BLOCKED; no deployment. This supersedes the earlier visual artifact/JS totals only.
 
+## KN-ROLE-UX-20261028 — current user-directed continuation
+
+- [x] UX-01: homepage narrative order, every previous section retained inDE/EN/UK/RU; reorder content invariant passes. Latest upstream honest-review change preserved.
+- [x] UX-02–04: lazy in-page account dialog, all role entries, server-derived cabinet, verified keyboard/focus and failure handling, including stale async completion.
+- [x] ROLE-01/02 +DATA-01: assignment-scoped Bauleiter, preserved existing role boundaries and verified12-migration upgrade/retention.
+- [x] UX-05/06: responsive portal plus admin control centre, 320–1440px and short landscape in Chromium155.
+- [x] QA-01/02 +DOC-01:87 isolated real SQLite/HTTPS browser checks,289Vitest+9native-file invocations,103VPS,3root; build/check/i18n/unchanged budgets; independent reviews and complete prompt/evidence.
+- [ ] RELEASE-01: explicit permission to publish candidate to public GitHub after automatic approval rejection; current disk91.47% blocks cutover. No live deployment claimed.
+- [ ] LIVE-UAT: fresh backup/restore+locks+CAS, migrated staging readback, physical devices, Safari/Firefox, screen reader and real owner acceptance remain separate.
+
+Canonical execution plan: ../docs/plans/2026-10-28-knaba-homepage-role-cabinets-uk.md. Runtime source b2d443a07942598153ddaab83ed9d135bb0903d3 includes upstream e2ab9b1; artifact3b414f64bdc5660387d9bc5b61324240c5c92b9b46aa349a12ecd9d4085b2962. Evidence:docs/evidence/role-ux-20261028/acceptance.json. Scope is existing website cabinets; full ERP/provider/customer-production gates retain their prior state.
+
+## KN-ROLE-WORKSPACES-20261028 — SCOPED_DEPLOYMENT_COMPLETED / USER_ACTIVATION_REQUIRED
+
+- [x] Consolidate recovered KN-ROLE-UX source and PR #114 into the active workspace task; preserve the concurrent owner-settings worktree. Do not repeat the earlier implementation or transfer its browser PASS to the new artifact.
+- [x] Full Node24 source suites: 319 Vitest + 77 native website assertions, 108 VPS tests and four root file wrappers PASS; logs `/tmp/knaba-role-final-{site,vps,root}-tests.log`. Earlier 332-file check had zero errors/warnings; 134-page four-language build and unchanged payload budgets passed.
+- [x] Reversibly archive seven inactive KNABA QA dependency caches after complete byte/mode/symlink verification; retain private archive SHA256/size/restore receipts. Storage checkpoint 89.9024104%, 21,333,299,200 B available passes the unchanged <90% / 10 GiB gates.
+- [x] Complete the Astro/Solid navigation and Back correction, final rebuild and fresh Chromium155 browser acceptance: role 98/98, developer 36/36 PASS, zero JS errors; developer primary-data fingerprints unchanged. Prior candidate `03eb582` was superseded, not accepted as final.
+- [x] Deploy exact runtime `76f96f6f83d22403a1aa255e8bf2b98311807985`, client SHA256 `8dccc07f54aa2ebd789567409053895f2c11d3ba055165319c03363b1a139ac0`, to kneba.vsp.rest with locks/CAS/storage gates, verified backup, full restored-copy preservation and old-runtime/current-schema rollback rehearsal. Healthy UID1000 container, 360 matching runtime hashes, 13 migrations, live 13-route smoke/integrity/business-count checks PASS.
+- [x] Developer invitation PREPARED / USER_ACTIVATION_REQUIRED, confirmed by `READY_FOR_OWNER_HANDOFF`: two-hour one-use invitation, primary application data and preexisting invitations unchanged, exact accepted runtime healthy. No active primary developer account, generated password or sent email. Historical expiry: 2026-10-28 13:08:08.382 UTC; recheck before future handoff.
+- [ ] User activation and authenticated live role/order/conversation UAT. A prepared invitation is not an activated account or completed live user acceptance.
+- [x] Preserve final docs/evidence in a separate Git commit and private `knaba-role-workspaces-final.bundle`; exact documentation HEAD and bundle SHA256 are recorded in `/srv/knaba/ops/knaba-role-workspaces-20261028-76f96f6/source-preservation-receipt.json`. Deployed executable code remains runtime76f.
+
+Canonical status: `../docs/unified/ROLE_WORKSPACES_2026-10-28_UK.md`; release evidence: `docs/evidence/role-workspaces-20261028/acceptance-report.md` and `deployment-receipt.json`. No public push/main merge or owner-settings overlay change; previous publication rejection remains respected. Other-chat history is not fully accessible. ERP bridge, real provider/OIDC flows, physical devices, other browsers/screen reader, real-owner UAT and official-domain release retain their separate gates.
+
+## KN-SIX-LANGUAGES-20261028 — current customer-prototype scope
+
+This current user instruction supersedes the earlier I18N-99 expansion plan; its historical receipts remain historical.
+
+- [x] Exact language order DE, EN, PL, LT, RU, UK; German default; remove old public language-count claims.
+- [x] Genuine PL/LT core public pages and interactive forms/planner; localized shared branding, access, portal, conversations and administration shell; preserve the existing four detailed trees.
+- [x] Six-language app and separate WhatsApp/Telegram entries integrated with root's release-channel work. Detailed/legal content without a translation remains visibly marked DE; no invented equivalent URLs.
+- [x] Selected-language portal JSON packs, complete-copy validation, failure/retry behavior and unchanged CSS/JS budget gates; generated Astro intermediates excluded from public output.
+- [x] Actual working-tree check, 343 Vitest/9 native file invocations, build160 pages, source extraction/verification, locale/static/icon/CTA checks and121 VPS tests PASS. Source/artifact hashes and logs: `docs/evidence/customer-prototype-20261028/`.
+- [ ] Root integration commit and fresh browser/role acceptance on the final source and artifact; no transfer of old browser receipts.
+- [ ] Independent native-language/legal review, customer owner acceptance, physical-device/cross-browser/screen-reader and field-performance checks retain separate status. Existing specialist CRM/Studio/assistant-inbox editor screens are not claimed as fully six-language localized.
+
+
+## 2026-10-29 — physical customer candidate accepted in private testing
+
+This supersedes the pending build/testing status above. Final runtime artifact8a5a93b212ae78807797c153806a72b14c294e7daf8b67d43c428e5e3500a8d6 (411 files including retained APK), source9ef455887ea339ab2c31f10ec7a407557489e42e, was activated through knabactl in testing at16:07UTC after verified SQLite backup. All24 schema files and13migration entries unchanged; production remainsd1ff8e64f38f4d55bbf936b6d070d9578200e233d7f1d86a157b8a1ea4fd3b21. Isolated official-origin production-clone rehearsal14HTTP outcomes passed; six locale pages return200, canonicalknaba.de, anonymousCRM401, Host/TLS421,www308. Testinghealth200/readiness503 (test owner not enrolled) is explicitly not full readiness.
+
+Fresh Chromium155 role suite98/98 forDE/EN/RU/UK and logo suite24/24 for6locales×4widths passed with0JS errors. QA image required OpenSSL3.0.22; after an initial resource-related browser crash at256PIDs, final bounded768PID run measured peak380PIDs/1403363328bytes, zeroOOM/max events. Earlier failures remain recorded; the previous crash cause cannot be proved retrospectively. Source checks:root28,Vitest343+Node85,VPS121,check0errors0warnings,official160HTML/links/metadata/catalog gates passed. npm audit:3low via build-tool deepmerge chain;0moderate/high/critical; no unsafe major downgrade applied.
+
+Independent reviewer /root/source_review accepted exact source/package/private deployment/synthetic browser scope. /root/runtime_review confirmed existing VSPStudio,DomainFree andAVENQOpublic localHTTP200; AVENQO API remains deferred (media/worker startup constraints). Public release HOLD pending customer-ownedCloudflare/Turnstile/Access, testingowner enrollment, realowner/provider UAT and existing production approval receipts. DNS andmail unchanged; no publicpush/mainmerge. Full evidence:/srv/knaba/customer/receipts/dependencies-20261029. Next:customer account configuration andUAT, then exactproduction promotion, DNS last.
+
+
+## 2026-10-29 — scoped route completion on the physical customer server
+
+- [x] Reproduce and fix retired-office redirect portability; preserve locale, duplicate query and GET/HEAD-only behavior.
+- [x] Source571823a; finalVPS121/121, committedfocused1/1, reused unaffectedroot28; independent technicalreview accepted.
+- [x] Stage and activate testing artifact21c88a4148b2191d56d5b3ad9e9cc6929730535f33850cca87d3b74b652d9e23 via unchangedcontroller, with verifiedbackup and unchanged24schemafiles.
+- [x] Post-deploy160HTMLpaths,126assets,213linkedpaths,16legacy routes and Host/TLS/privateAPI boundaries PASS. Evidence:docs/evidence/route-migration-20261029/acceptance.json.
+- [ ] Customer USER API token entry through installed securetokenmanager; then inventory and configure customer-owned Tunnel/Access/Turnstile.
+- [ ] Real testingowner enrollment and customer/provider UAT; configured gateway and captcha remain blocked.
+- [ ] Exact final production artifact/config approval and web cutover, external all-route/SEO checks; keep mail unchanged. Publicdomain still oldOne.com at17:32:16UTC.
+
+
+## 2026-10-29 — official client-origin regression
+
+- [x] Reproduce real client build choosing old preview origin and rejecting official absolute URLs.
+- [x] One Astro/Vite release constant; preserve strict URL validation and preview behavior; no new dependencies.
+- [x] Source d57c342224c831307c36dec6da9a83463e31f10f: red-before/green-after14case regression; full160page officialbuild, source checks,343Vitest+86native+121VPS+28root; actual generated asset7/7; independent review ACCEPT. Evidence: docs/evidence/client-domain-origin-20261029/.
+- [ ] Integrate verified candidate11c01f5db33356a4c7ec7ce196a21743e9ad4f3f270bc8cd864e5d54bf9d04ac into the existing customer release; preserve runtime data and retained artifacts.
+- [ ] Real browser editor journey, official production activation, owner tunnel/DNS cutover and external route smoke; mail/private VSP preserved. Source/build verification does not close these live gates.
+
+
+## 2026-10-29 — P1 trusted proxy visitor quotas
+
+- [x] Reproduce shared visitor bucket on the current physical-customer source; retain all current quota values.
+- [x] Implement explicit default-deny proxy IP/CIDR configuration and single validated CF-Connecting-IP resolution for login and Worker; preserve canonical IPv4/mappedIPv6 identity and conservative fallback.
+- [x] Focused12, fullVPS133 and root28 tests PASS on Node24.22.1 with disposable production-mode HTTP/SQLite fixtures; unchanged compiled Worker and production CAPTCHA behavior.
+- [ ] Independent source review, exact immutable artifact and literal-peer configuration review; verify real Cloudflare ingress strips client spoofing and preserves authenticated client address.
+- [ ] Activate only after coordinator acceptance and record final source/artifact/config hashes. P1 is source-fixed, NOT live-closed. Existing owner/provider/production gates remain separate.
+
+
+P1 integration checkpoint: preserve concurrent official-origin source166e85f/runtime d57c342 and artifact0d544. Earlier proxy-only staged4965 is superseded and must not activate. Fresh integrated focused12/12, VPS133/133 and root28/28 PASS; both source histories retained. Final package/independent clone smoke/ingress acceptance remain open.
+
 
 ## 28.10.2026 — recorded requirements and public-flow follow-up
 
@@ -398,3 +476,14 @@ V6 static HTTP noindex was actually missing despite134 meta noindex tags. Bounde
 ## 28.10.2026 — reconcile TEST v8 / PR #114 and #115
 
 Bounded integration on existing PR #114. Local tested runtime `eae6669c136490b1a94594e493b65c46f1f7f403`, identical GitHub tree at `5d182161aeb53281693f324b3c583c2c7d09fc4d`. Reused public-vivid/public-motion/carousel/optimizer from #115, preserved #114 form/auth/privacy/HTML security fixes and no-opacity contrast. Old styling/motion entrypoints removed. 357 Vitest +77 Node +90 VPS +9 HTML +28 root PASS; 134 pages, unchanged content/control contract, 20 responsive iframe layouts plus scoped browser interaction PASS. TEST v10 published 2026-10-28 20:17:03 UTC from native source 05534fd88e9c53ffc03a933d3c688284cdb48ea3. Final HTTPS: 134/134 exact HTML with meta+HTTP noindex/security, 9 resources, 3 index/config, 13 API and 5 protocol checks PASS. Scoped live browser flows repeated successfully. Version9 was rejected before deployment by archive preflight; v8 retained for rollback. GitHub CI remains UNKNOWN; physical device/authenticated owner/provider/whole-product gates remain open. Exact matrix, commands/logs, source and rollback: [integration report](docs/evidence/integration-114-115-20261028/REPORT_UK.md).
+
+## KN-CUSTOMER-ENV-20261028 — production/testing and account ownership
+
+- [x] SOURCE_QA: additive environment controller, immutable full-runtime attestation, independent DB/users/config/network, safe online backup, manual exact-artifact production promotion with both user/customer confirmations.
+- [x] SOURCE_QA: Access JWT testing gateway, fail-closed unconfigured state, noindex/private headers, preserve existing app auth. Python12 + gateway14 + root28 tests PASS; meaningful local security review findings corrected.
+- [ ] BLOCKED_EXTERNAL: restore active control of physical `knaba`; Free SentinelX slot is occupied by personal VPS. Do not disconnect or change unrelated projects to circumvent the limit.
+- [ ] BLOCKED_EXTERNAL: customer Cloudflare membership/accountID, customer GitHub owner/org, owner/developer/tester identities and customer-owned provider credentials. Current connector exposes developer account only.
+- [ ] PENDING: re-attest restored runtime/source, install isolated environments, genuine Docker/systemd restart, owner/developer browser workflows, private testing Access allow/deny and same-host restore. Source tests are not this acceptance.
+- [ ] PENDING_USER_DOMAIN_STEP: build/verify correct `knaba.de` metadata and future `testing.knaba.de` build origin; customer zone NS, complete DNS/mail export, DNSSEC coordination, then user-directed cutover. Never reuse developer-zone NS as if customer-owned.
+- [ ] PENDING: customer repository migration with preserved branch/history/PR evidence, narrowly delegated test development, off-site customer backup and revocation/recovery procedures.
+- [ ] CONTINUING RULE: future production deployment only after explicit user instruction plus customer approval tied to the exact artifact. No push-to-production automation.

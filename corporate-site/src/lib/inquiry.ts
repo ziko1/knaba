@@ -1,6 +1,6 @@
 import { offerBySlug } from "../data/construction-offers.ts";
 import { company, services } from "../data/company.ts";
-import { publicText, localizedService, type PublicLocale } from "./public-i18n.ts";
+import { publicOfferName, publicText, localizedService, type PublicLocale } from "./public-i18n.ts";
 
 export const objectTypes = [
   "Büro / Gewerbe",
@@ -104,7 +104,7 @@ export function buildInquiry(data: InquiryData, locale: PublicLocale = "de", con
   const service = localizedService(services.find((service) => service.slug === data.service)!, locale);
   const offer = constructionTopic ? offerBySlug(constructionTopic) : undefined;
   if (constructionTopic && !offer) throw new Error("Unknown construction topic");
-  const serviceName = offer?.name[locale] ?? service.name;
+  const serviceName = offer ? publicOfferName(offer,locale) : service.name;
   const subject = `${t(offer ? "Projektanfrage:" : "Reinigungsanfrage:")} ${serviceName}`;
   const body = [
     t("Guten Tag KnaBa,"),

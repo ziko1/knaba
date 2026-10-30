@@ -4,7 +4,7 @@ import { objectChoices, needChoices, recommendConstructionTopic } from "../lib/p
 import {offerBySlug} from '../data/construction-offers';
 import { useFinderStore } from "../stores/finder";
 import { plannerStore } from "../stores/planner";
-import { publicText, type PublicLocale } from "../lib/public-i18n";
+import { publicOfferName, publicOfferDescription, publicText, type PublicLocale } from "../lib/public-i18n";
 import {getFinderGuidance} from '../data/construction-site-guidance';
 
 const props = withDefaults(defineProps<{ locale?: PublicLocale }>(), { locale: "de" });
@@ -42,9 +42,9 @@ function choose() { plannerStore.getState().selectTopic(suggestion.value.slug); 
     </fieldset>
     <div class="recommendation" aria-live="polite" aria-atomic="true">
       <span class="recommendation-label">{{ t("UNSERE ORIENTIERUNGSHILFE") }}</span>
-      <h3>{{ suggestion.name[props.locale] }}</h3>
+      <h3>{{ publicOfferName(suggestion,props.locale) }}</h3>
       <p>{{ t(objectChoices.find(option => option.value === finder.object)!.label) }} · {{ t(needChoices.find(option => option.value === finder.need)!.label) }}</p>
-      <p>{{ suggestion.description[props.locale] }}</p>
+      <p>{{ publicOfferDescription(suggestion,props.locale) }}</p>
       <div class="object-guidance">
         <h4>{{ guidance.heading }}</h4>
         <ul><li v-for="item in guidance.items" :key="item">{{ item }}</li></ul>
@@ -52,7 +52,7 @@ function choose() { plannerStore.getState().selectTopic(suggestion.value.slug); 
         <a v-if="guidance.related" :href="guidance.related.path">{{ guidance.related.label }} ↗</a>
       </div>
       <button class="button button-dark" type="button" @click="choose">{{ selected === suggestion.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →") }}</button>
-      <a :href="`${props.locale === 'de' ? '' : '/'+props.locale}/bauleistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
+      <a :href="`${['de','pl','lt'].includes(props.locale) ? '' : '/'+props.locale}/bauleistungen/${suggestion.slug}/`">{{ t("Leistung im Detail ansehen ↗") }}</a>
     </div>
     <p class="note">{{ t("Nur eine Orientierungshilfe. Keine automatische Buchung und keine Preiszusage.") }}</p>
   </section>

@@ -75,7 +75,7 @@ test('Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partn
   const completed=await at('/auth/oidc/google/callback/?code=synthetic-code&state='+state,{headers:{Cookie:cookie}});
   assert.equal(completed.status,303,await completed.clone().text());
   assert.equal(completed.headers.get('referrer-policy'),'no-referrer','callback redirect must not expose code or state');
-  assert.equal(completed.headers.get('location'),'/konto/');
+  assert.equal(completed.headers.get('location'),'/konto/?lang=de');
   assert.equal(received,2);
   const sessionToken=completed.headers.get('set-cookie').match(/__Host-knaba-session=([A-Za-z0-9_-]{43})/)?.[1];
   assert.ok(sessionToken);

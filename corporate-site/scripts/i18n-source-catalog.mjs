@@ -1,5 +1,5 @@
 /**
- * KNABA I18N-99 source extraction and translation-review tooling.
+ * KNABA six-language source extraction and translation-review tooling.
  * Only PUBLIC, existing static German HTML. No network, customer records,
  * model dispatch, publication, routes or billing. Human/native/legal/browser
  * review is always mandatory before any new public locale is enabled.
@@ -15,7 +15,7 @@ export const SOURCE_LOCALE='de';
 const EXCLUDED=new Set(['script','style','svg','template','iframe','code','pre']);
 const ATTRS=new Set(['alt','title','aria-label','placeholder']);
 const PRIVATE=/^\/(?:admin|studio|crm|postfach|login|logout|api)(?:\/|$)/;
-const OTHER_LANG=/^\/(?:en|uk|ru)(?:\/|$)/;
+const OTHER_LANG=/^\/(?:en|pl|lt|ru|uk)(?:\/|$)/;
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const normalize=s=>s.replace(/\s+/gu,' ').trim();
 const textContent=s=>/\p{L}/u.test(s)&&
@@ -82,7 +82,7 @@ export function validatePack(c,pack,targetCodes){
  const errors=[];
  if(!pack||typeof pack!=='object'||Array.isArray(pack))
   return {status:'INVALID',published:false,coveragePercent:0,missingCount:c.unitCount,errors:['INVALID_PACK'],blockers:[]};
- if(!Array.isArray(targetCodes)||!targetCodes.includes(pack.locale)||['de','en','uk','ru'].includes(pack.locale))errors.push('INVALID_TARGET_LOCALE');
+ if(!Array.isArray(targetCodes)||!targetCodes.includes(pack.locale)||['de','en','pl','lt','ru','uk'].includes(pack.locale))errors.push('INVALID_TARGET_LOCALE');
  if(pack.schemaVersion!==CATALOG_VERSION)errors.push('INVALID_PACK_VERSION');
  if(pack.sourceDigest!==c.sourceDigest)errors.push('SOURCE_DIGEST_MISMATCH');
  if(!pack.translations||typeof pack.translations!=='object'||Array.isArray(pack.translations))errors.push('INVALID_TRANSLATIONS');

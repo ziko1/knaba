@@ -1,8 +1,9 @@
 import {offerBySlug} from '../data/construction-offers';
 import type {PublicLocale} from './public-i18n';
 
-/** Legal and portal pages currently exist in DE/RU only. */
+/** Legal documents retain their real DE/RU routes; portal UI keeps the selected language. */
 export function inquirySupportPath(path: '/datenschutz/' | '/konto/', locale: PublicLocale): string {
+  if(path==='/konto/')return locale==='ru'?'/ru/konto/':path+'?lang='+locale;
   return locale === 'ru' ? '/ru' + path : path;
 }
 

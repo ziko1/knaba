@@ -1,8 +1,9 @@
+import {extraGuidance} from './construction-guidance-extra';
 import type {NeedChoice, ObjectChoice} from '../lib/planner';
 import type {PublicLocale} from '../lib/public-i18n';
 
 type Text = Readonly<Record<PublicLocale, string>>;
-const T = (de:string,en:string,uk:string,ru:string):Text => ({de,en,uk,ru});
+const T = (de:string,en:string,uk:string,ru:string):Text => ({de,en,pl:extraGuidance[en][0],lt:extraGuidance[en][1],ru,uk});
 
 // Enquiry preparation, not a specification or a promise of technical execution.
 const objectPreparation:Readonly<Record<ObjectChoice, readonly Text[]>> = {

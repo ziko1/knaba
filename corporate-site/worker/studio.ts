@@ -1,5 +1,7 @@
 import type { D1Database, WorkerEnv } from './types';
 import { StudioInputError, normalizeStudioPage, validateStudioEntries, type StudioEntry } from '../src/lib/site-studio-contract';
+import {parseArticlePath} from '../src/lib/article-contract';
+import {handleStudioArticles} from './articles';
 
 export class StudioFault extends Error {
   constructor(readonly status: number, readonly code: string, message: string) { super(message); }
@@ -25,7 +27,10 @@ function ownerOnly(actor: StudioActor) {
 }
 function pageFromRequest(request:Request) {
   const page=new URL(request.url).searchParams.get('page');
-  try {return normalizeStudioPage(page);} catch { return fail(422,'page','Bitte eine gültige öffentliche Seite wählen.'); }
+  let normalized:string;
+  try {normalized=normalizeStudioPage(page);} catch { return fail(422,'page','Bitte eine gültige öffentliche Seite wählen.'); }
+  if(parseArticlePath(normalized))return fail(422,'article_route','Artikel über den Artikel-Editor bearbeiten.');
+  return normalized;
 }
 function parseEntries(value:unknown): StudioEntry[] {
   try {return validateStudioEntries(value);} catch(error){
@@ -43,7 +48,10 @@ function version(value:unknown):number {
   return Number(value);
 }
 function bodyPage(value:unknown) {
-  try {return normalizeStudioPage(value);} catch { return fail(422,'page','Ungültige öffentliche Seite.'); }
+  let normalized:string;
+  try {normalized=normalizeStudioPage(value);} catch { return fail(422,'page','Ungültige öffentliche Seite.'); }
+  if(parseArticlePath(normalized))return fail(422,'article_route','Artikel über den Artikel-Editor bearbeiten.');
+  return normalized;
 }
 function keys(body:Row, allowed:string[]){
   if(Object.keys(body).some(k=>!allowed.includes(k))) fail(422,'unexpected_field','Die Anfrage enthält unbekannte Felder.');
@@ -165,6 +173,8 @@ export async function handleStudio(request:Request,env:WorkerEnv,actor:StudioAct
     return published(database(env),pageFromRequest(request));
   ownerOnly(actor);
   const db=database(env);
+  if(path==='/api/studio/articles'||path==='/api/studio/article'||path.startsWith('/api/studio/article/'))
+    return handleStudioArticles(request,db,actor.id!,readJson);
   if(path==='/api/studio/page' && request.method==='GET') return studioPage(db,pageFromRequest(request));
   if(path==='/api/studio/ai-status' && request.method==='GET'){
     const {ready,approved,quotaFresh,budgetConfigured}=aiReadiness(env);

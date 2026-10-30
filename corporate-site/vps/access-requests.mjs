@@ -38,7 +38,7 @@ function limit(db,key,expiresAt,max){
 }
 export function submitAccessRequest(db,{name,email,intent,consented,peer,ownerEmail='',now=Date.now()}){
   timeMs(now);
-  if(consented!==true || !['client','worker','partner'].includes(intent))
+  if(consented!==true || !['client','worker','partner','bauleiter'].includes(intent))
     throw new AccessRequestError('Consent and valid request type required');
   if(typeof name!=='string'||name.trim().length<2||name.trim().length>160||
      /[<>\u0000-\u001f\u007f]/.test(name))

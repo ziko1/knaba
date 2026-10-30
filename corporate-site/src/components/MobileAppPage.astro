@@ -1,18 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import {androidDistributionUrl, iosDistributionUrl, erpConsoleUrl} from '../lib/mobile-distribution';
-type Locale = 'de'|'en'|'uk'|'ru';
+import ReleaseChannels from './ReleaseChannels.astro';
+import {erpConsoleUrl} from '../lib/mobile-distribution';
+type Locale = 'de'|'en'|'pl'|'lt'|'ru'|'uk';
 interface Props { lang: Locale }
 const {lang} = Astro.props;
 const words = {
   de: {title:'KnaBa auf Android & iPhone',subtitle:'Alle Zugänge an einem Ort',intro:'Anfragen stellen, Einsätze sehen und mit KnaBa zusammenarbeiten. Nach der Anmeldung bestimmt der Server Ihren freigegebenen Zugang.',open:'Mein KnaBa öffnen',order:'Service anfragen',contact:'Mit KnaBa sprechen',admin:'Verwaltung öffnen',erp:'ERP-Arbeitsbereich',roles:'Geprüfte Rollen und sichere Zugänge',client:'Kundinnen & Kunden',clientText:'Anfragen einreichen und den Bearbeitungsstand verfolgen.',worker:'Mitarbeitende',workerText:'Zugewiesene Einsätze und Arbeitsabläufe ansehen. Arbeitszeit/GPS nur nach gesonderter Freigabe.',partner:'Geschäftspartner',partnerText:'Eigenes Partnerprofil und Kontakt zu KnaBa, ohne Zugriff auf fremde Kundendaten.',manager:'Inhaber & Verwaltung',managerText:'Anfragen bearbeiten, Mitarbeitende zuweisen und berechtigte Bereiche verwalten.',install:'Auf dem Startbildschirm installieren',android:'Android',ios:'iPhone / iPad',available:'Geprüfte App öffnen',pending:'Signierter Download noch nicht freigegeben.',iosHint:'Auf iOS: Safari → Teilen → Zum Home-Bildschirm. TestFlight/App Store erst nach Freigabe.',note:'Die mobile Web-App benötigt für geschützte Funktionen Internet. Die nativen Zeit-/GPS-Funktionen sind separate, freizugebende Builds.',privacy:'Keine öffentliche Registrierung verschafft Administratorrechte. Freigaben und Rollen bleiben serverseitig.',server:'Der ERP-Bereich nutzt derzeit ein separates Konto und erscheint erst nach Konfiguration eines geprüften HTTPS-Servers.'},
   en: {title:'KnaBa on Android & iPhone',subtitle:'Your work in one place',intro:'Request services, view assignments and work with KnaBa. Your approved role is selected by the server after sign-in.',open:'Open My KnaBa',order:'Request a service',contact:'Contact KnaBa',admin:'Open management',erp:'ERP workspace',roles:'Approved access for your role',client:'Customers',clientText:'Request services and follow updates.',worker:'Workers',workerText:'See assigned work. Time and location need separate, explicit authorization.',partner:'Company partners',partnerText:'Your own partner area, without access to other customers.',manager:'Owner & management',managerText:'Review requests, assign workers and manage permitted settings.',install:'Install to home screen',android:'Android',ios:'iPhone / iPad',available:'Open verified release',pending:'A signed download has not yet been approved.',iosHint:'On iOS: Safari → Share → Add to Home Screen. TestFlight/App Store requires approval.',note:'The mobile web app needs internet for private operations. Native time/GPS features are separate approved builds.',privacy:'Public registration cannot grant administrator rights. Roles are enforced by the server.',server:'ERP currently requires a separate account and appears only after a verified HTTPS server is configured.'},
+  pl: {"title": "KnaBa na Android i iPhone", "subtitle": "Twoja praca w jednym miejscu", "intro": "Zamawiaj usługi, sprawdzaj przydzielone zadania i współpracuj z KnaBa. Po zalogowaniu serwer określa zatwierdzony dostęp.", "open": "Otwórz moje KnaBa", "order": "Zamów usługę", "contact": "Skontaktuj się z KnaBa", "admin": "Otwórz administrację", "erp": "Przestrzeń ERP", "roles": "Zweryfikowane role i bezpieczny dostęp", "client": "Klienci", "clientText": "Składaj zapytania i śledź ich realizację.", "worker": "Pracownicy", "workerText": "Przeglądaj przydzielone zadania. Czas pracy i GPS wymagają osobnej zgody.", "partner": "Partnerzy biznesowi", "partnerText": "Własny obszar partnera bez dostępu do danych innych klientów.", "manager": "Właściciel i administracja", "managerText": "Obsługa zapytań, przydzielanie pracowników i zarządzanie dozwolonymi ustawieniami.", "install": "Dodaj do ekranu głównego", "android": "Android", "ios": "iPhone / iPad", "available": "Otwórz zweryfikowane wydanie", "pending": "Podpisany plik nie jest jeszcze udostępniony.", "iosHint": "iOS: Safari → Udostępnij → Do ekranu początkowego. TestFlight lub App Store po zatwierdzeniu.", "note": "Chronione funkcje aplikacji internetowej wymagają połączenia z internetem. Natywne funkcje czasu i GPS są udostępniane osobno.", "privacy": "Publiczna rejestracja nie nadaje praw administratora. Role i dostęp sprawdza serwer.", "server": "ERP korzysta obecnie z osobnego konta i pojawi się po skonfigurowaniu zweryfikowanego serwera HTTPS."},
+  lt: {"title": "KnaBa Android ir iPhone", "subtitle": "Visas darbas vienoje vietoje", "intro": "Užsakykite paslaugas, peržiūrėkite paskirtus darbus ir bendradarbiaukite su KnaBa. Prisijungus serveris nustato patvirtintą prieigą.", "open": "Atidaryti mano KnaBa", "order": "Užsakyti paslaugą", "contact": "Susisiekti su KnaBa", "admin": "Atidaryti valdymą", "erp": "ERP darbo sritis", "roles": "Patvirtinti vaidmenys ir saugi prieiga", "client": "Klientai", "clientText": "Pateikite užklausas ir sekite jų būseną.", "worker": "Darbuotojai", "workerText": "Peržiūrėkite paskirtus darbus. Darbo laikui ir GPS reikia atskiro leidimo.", "partner": "Verslo partneriai", "partnerText": "Nuosava partnerio sritis be prieigos prie kitų klientų duomenų.", "manager": "Savininkas ir administracija", "managerText": "Tvarkykite užklausas, skirkite darbuotojus ir valdykite leidžiamus nustatymus.", "install": "Pridėti prie pradžios ekrano", "android": "Android", "ios": "iPhone / iPad", "available": "Atidaryti patikrintą leidimą", "pending": "Pasirašytas failas dar nepaskelbtas.", "iosHint": "iOS: Safari → Bendrinti → Į pradžios ekraną. TestFlight arba App Store po patvirtinimo.", "note": "Apsaugotoms žiniatinklio programėlės funkcijoms reikia interneto. Vietinės laiko ir GPS funkcijos pateikiamos atskirai.", "privacy": "Vieša registracija nesuteikia administratoriaus teisių. Vaidmenis ir prieigą tikrina serveris.", "server": "ERP šiuo metu naudoja atskirą paskyrą ir bus prieinama sukonfigūravus patikrintą HTTPS serverį."},
   uk: {title:'KnaBa для Android та iPhone',subtitle:'Уся робота в одному місці',intro:'Замовляйте послуги, переглядайте призначення та співпрацюйте з KnaBa. Після входу сервер автоматично визначає підтверджену роль.',open:'Відкрити мій KnaBa',order:'Замовити послугу',contact:'Зв’язатися з KnaBa',admin:'Панель керування',erp:'Робоча ERP-система',roles:'Доступ за підтвердженою роллю',client:'Клієнти',clientText:'Створення заявок та відстеження їхнього стану.',worker:'Працівники',workerText:'Призначені роботи. Облік часу й GPS — лише після окремого дозволу.',partner:'Партнери компанії',partnerText:'Власний кабінет партнера без доступу до чужих клієнтських даних.',manager:'Власник і керівники',managerText:'Обробка заявок, призначення працівників та дозволені налаштування.',install:'Встановити на головний екран',android:'Android',ios:'iPhone / iPad',available:'Відкрити перевірений реліз',pending:'Підписаний файл ще не дозволено до завантаження.',iosHint:'На iOS: Safari → Поділитися → На початковий екран. TestFlight/App Store — після підтвердження.',note:'Для захищених функцій вебзастосунку потрібен інтернет. Нативні функції часу/GPS постачаються окремо.',privacy:'Публічна реєстрація не дає прав адміністратора. Ролі перевіряються сервером.',server:'ERP зараз використовує окремий обліковий запис і стане доступною після налаштування перевіреного HTTPS-сервера.'},
   ru: {title:'KnaBa для Android и iPhone',subtitle:'Ваша работа в одном месте',intro:'Заказывайте услуги, просматривайте назначения и работайте с KnaBa. После входа сервер выбирает подтверждённую роль.',open:'Открыть мой KnaBa',order:'Заказать услугу',contact:'Связаться с KnaBa',admin:'Панель управления',erp:'Рабочая ERP-система',roles:'Доступ по подтверждённой роли',client:'Клиенты',clientText:'Создание заявок и отслеживание их состояния.',worker:'Сотрудники',workerText:'Назначенные задания. Учёт времени и GPS — только с отдельным разрешением.',partner:'Партнёры компании',partnerText:'Свой кабинет партнёра без чужих клиентских данных.',manager:'Владелец и управление',managerText:'Обработка заявок, назначение работников и разрешённые настройки.',install:'Установить на главный экран',android:'Android',ios:'iPhone / iPad',available:'Открыть проверенный релиз',pending:'Подписанный файл ещё не разрешён для скачивания.',iosHint:'На iOS: Safari → Поделиться → На экран «Домой». TestFlight/App Store — после подтверждения.',note:'Для защищённых функций веб-приложения нужен интернет. Нативные функции времени/GPS выпускаются отдельно.',privacy:'Публичная регистрация не даёт прав администратора. Роли проверяет сервер.',server:'ERP сейчас использует отдельную учётную запись и станет доступной после настройки проверенного HTTPS-сервера.'}
 }[lang];
 const prefix = lang==='de'?'':'/'+lang;
-const android = androidDistributionUrl(import.meta.env.KNABA_ANDROID_APK_URL, import.meta.env.KNABA_MOBILE_DISTRIBUTION_HOST);
-const ios = iosDistributionUrl(import.meta.env.KNABA_IOS_INSTALL_URL);
 const erp = erpConsoleUrl(import.meta.env.KNABA_ERP_PUBLIC_ORIGIN);
 ---
 <Layout lang={lang} title={words.title} description={words.intro} noindex={true} mobileApp={true}>
@@ -23,7 +24,7 @@ const erp = erpConsoleUrl(import.meta.env.KNABA_ERP_PUBLIC_ORIGIN);
       <h2>{words.subtitle}</h2>
       <p>{words.intro}</p>
       <div class="knaba-app-actions">
-        <a data-knaba-app-account class="button button-dark" href="/konto/">{words.open} ↗</a>
+        <a data-knaba-app-account class="button button-dark" href={"/konto/?lang="+lang}>{words.open} ↗</a>
         <a class="button knaba-app-secondary" href={prefix+'/planer/'}>{words.order}</a>
         <a class="knaba-app-textlink" href={prefix+'/kontakt/'}>{words.contact} ↗</a>
       </div>
@@ -37,24 +38,13 @@ const erp = erpConsoleUrl(import.meta.env.KNABA_ERP_PUBLIC_ORIGIN);
         <article><span aria-hidden="true">04</span><h3>{words.manager}</h3><p>{words.managerText}</p></article>
       </div>
       <div class="knaba-app-actions">
-        <a href="/admin/" class="knaba-app-textlink">{words.admin} ↗</a>
+        <a href={"/admin/?lang="+lang} class="knaba-app-textlink">{words.admin} ↗</a>
         {erp && <a href={erp} class="knaba-app-textlink" rel="noopener noreferrer" target="_blank">{words.erp} ↗</a>}
       </div>
       {!erp && <p class="knaba-app-small">{words.server}</p>}
     </div>
-    <div class="knaba-downloads">
-      <article class="knaba-download-card"><div class="knaba-platform-icon" aria-hidden="true">A</div><h2>{words.android}</h2>
-        {android ? <a href={android} rel="noopener noreferrer" class="button button-dark">{words.available} ↗</a> : <p>{words.pending}</p>}
-      </article>
-      <article class="knaba-download-card"><div class="knaba-platform-icon" aria-hidden="true">iOS</div><h2>{words.ios}</h2>
-        {ios ? <a href={ios} target="_blank" rel="noopener noreferrer" class="button button-dark">{words.available} ↗</a> : <p>{words.pending}</p>}
-        <p class="knaba-app-small">{words.iosHint}</p>
-      </article>
-      <article class="knaba-download-card knaba-install-card"><div class="knaba-platform-icon" aria-hidden="true">↗</div>
-        <h2>KNABA Web App</h2><button type="button" data-knaba-install hidden class="button button-dark">{words.install}</button>
-        <p class="knaba-app-small">{words.note}</p>
-      </article>
-    </div>
+    <ReleaseChannels lang={lang}/>
+    <div class="knaba-app-actions"><button type="button" data-knaba-install hidden class="button button-dark">{words.install}</button><p>{words.iosHint}</p></div>
     <p class="knaba-app-policy">{words.privacy}</p>
   </section>
 </Layout>

@@ -1,6 +1,8 @@
 import {internalAssistantCopy} from './internalAssistantCopy';
 export type Language='DE'|'UK'|'RU'|'PL'|'LT'|'EN';
-export const languages:Language[]=['DE','UK','RU','PL','LT','EN'];
+// Presentation order is independent from the established translation column order.
+export const languages:Language[]=['DE','EN','PL','LT','RU','UK'];
+const translationColumns:Language[]=['DE','UK','RU','PL','LT','EN'];
 export const languageNames:Record<Language,string>={DE:'Deutsch',UK:'Українська',RU:'Русский',PL:'Polski',LT:'Lietuvių',EN:'English'};
 const rows:Record<string,string[]>={
 ...internalAssistantCopy,
@@ -361,6 +363,7 @@ redactionCheck:['Ich habe Gesichter, private Bereiche und personenbezogene Angab
 openFile:['Datei öffnen','Відкрити файл','Открыть файл','Otwórz plik','Atverti failą','Open file'],
 downloadPdf:['PDF herunterladen','Завантажити PDF','Скачать PDF','Pobierz PDF','Atsisiųsti PDF','Download PDF'],
 downloadCsv:['CSV herunterladen','Завантажити CSV','Скачать CSV','Pobierz CSV','Atsisiųsti CSV','Download CSV'],
+downloadAccountingJson:['Buchhaltungsdaten herunterladen','Завантажити дані для бухгалтера','Скачать данные для бухгалтера','Pobierz dane dla księgowości','Atsisiųsti apskaitos duomenis','Download accounting data'],
 add:['Zeile hinzufügen','Додати рядок','Добавить строку','Dodaj wiersz','Pridėti eilutę','Add row'],
 include:['Diesen Abschnitt verwenden','Використати цей розділ','Использовать этот раздел','Użyj tej sekcji','Naudoti šį skyrių','Include this section'],
 siteTime:['Arbeitszeit am Objekt','Робочий час на об’єкті','Рабочее время на объекте','Czas pracy na obiekcie','Darbo laikas objekte','Work time at site'],
@@ -736,6 +739,6 @@ attention:['Benötigt Ihre Aufmerksamkeit','Потребує уваги','Тре
 runbook:['Dokumentation','Документація','Документация','Dokumentacja','Dokumentacija','Documentation'],
 view:['Ansicht','Вигляд','Вид','Widok','Vaizdas','View']
 };
-export function translator(language:Language){return (key:string)=>rows[key]?.[languages.indexOf(language)]||key;}
+export function translator(language:Language){return (key:string)=>rows[key]?.[translationColumns.indexOf(language)]||key;}
 export function label(key:string,t:(key:string)=>string){const trimmed=key.replace(/_([a-z])/g,(_,s)=>s.toUpperCase());const translated=t(trimmed);return translated===trimmed?key.replace(/([a-z])([A-Z])/g,'$1 $2').replaceAll('_',' '):translated;}
 export function statusLabel(value:string,t:(key:string)=>string){const map:Record<string,string>={PROPOSED:'proposed',DECLINED:'declined',EXPIRED:'expired',DRAFT:'draft',OPEN:'pending',PENDING:'pending',ACTIVE:'active',WORKING:'working',ACCEPT:'accept',REJECT:'rejected',APPROVE:'approve',DISPUTE:'dispute',AWAY_PENDING_REASON:'attention',SERVICE_TASK:'service',WAITING_WORK:'waiting',IN_PROGRESS:'working',ON_BREAK:'break',PRIVATE_BREAK:'break',APPROVED:'approved',ACCEPTED:'approved',COMPLETED:'completed',CLOSED:'completed',ENDED:'completed',DONE:'completed',SUBMITTED:'review',QUALITY_REVIEW:'review',REVIEW:'review',REJECTED:'rejected',RETURNED:'rejected',READY:'plan',PLANNED:'plan',PAID:'completed',AWAITING_DELIVERY:'awaitingDelivery',DEAD_LETTER:'deadLetter',UNKNOWN:'unknown',PENDING_APPROVAL:'pendingApproval',RECONCILED:'reconciled',LOCKED:'locked',QUARANTINED:'quarantined',RETRY_SCHEDULED:'retryScheduled',QUEUED:'queued',DEFERRED:'deferred',SENDING:'sending',RUNNING:'working',FAILED:'failed',BLOCKED:'blockedState',CANCELLED:'cancelled',RECORDED:'recorded',REVERSED:'reversed',PRELIMINARY:'preliminary',ACCOUNTANT_VERIFIED:'accountantVerified',CALCULATED:'calculated',UNCONFIRMED:'unconfirmed',API_ACCEPTED:'providerAccepted',ACCEPTED_BY_PROVIDER:'providerAccepted',SENT:'sent',DELIVERED:'delivered',READ:'read',DISPUTED:'disputed',FULL:'fullyAcknowledged',PARTIAL:'partiallyAcknowledged',MATCHED:'matched',DISCREPANCY_RECORDED:'discrepancyRecorded',TRANSFER_EVIDENCE_CONFIRMED:'transferEvidenceConfirmed',WEB_AVAILABLE:'webAvailable',AI_ACTIVE:'aiConsultation',HANDOFF_PENDING:'humanQueued',HUMAN_QUEUED:'humanQueued',HUMAN_ACTIVE:'humanActive',RESOLVED:'resolved',NO_APPROVED_CALENDAR:'noApprovedCalendar',NOT_APPLICABLE:'notApplicable'};return t(map[value]||value);}

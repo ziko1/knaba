@@ -4,8 +4,8 @@ import {normalizeStudioPage} from '../src/lib/site-studio-contract';
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes';
 
 describe('Studio editable site route inventory',()=>{
-  it('offers all 100 multilingual core, partner, FAQ, service and construction guide pages',()=>{
-    expect(studioPages).toHaveLength(100);
+  it('offers all 112 multilingual core, partner, FAQ, service and construction guide pages',()=>{
+    expect(studioPages).toHaveLength(112);
     expect(new Set(studioPages.map(x=>x.path)).size).toBe(studioPages.length);
     for(const item of studioPages){
       expect(normalizeStudioPage(item.path)).toBe(item.path);

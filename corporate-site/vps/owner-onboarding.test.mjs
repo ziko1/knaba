@@ -70,7 +70,7 @@ test('wrong-origin, invalid, replayed and expired activations fail without creat
     assert.equal((await call('/activate-owner/','POST',valid)).status,401);
     const logged=await call('/login/','POST',new URLSearchParams({email,password:passphrase,return_to:'/studio/'}));
     assert.equal(logged.status,303);
-    assert.equal(logged.headers.get('location'),'/studio/');
+    assert.equal(logged.headers.get('location'),'/admin/?lang=de&view=studio');
     assert.match(logged.headers.get('set-cookie'),/HttpOnly/);
   }finally{if(app)await app.close();await rm(dir,{recursive:true,force:true});}
 });

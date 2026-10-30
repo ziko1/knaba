@@ -30,8 +30,8 @@ describe('hosting authentication destinations', () => {
       }
     }
   });
-  it('provides native sign-in and role-approval guidance in all four published languages', () => {
-    expect(Object.keys(nativeSignInCopy).sort()).toEqual(['de', 'en', 'ru', 'uk']);
+  it('provides native sign-in and role-approval guidance in all six published languages', () => {
+    expect(Object.keys(nativeSignInCopy).sort()).toEqual(['de', 'en', 'lt', 'pl', 'ru', 'uk']);
     for (const copy of Object.values(nativeSignInCopy)) {
       expect(copy.button).toContain('ChatGPT');
       expect(copy.text.length).toBeGreaterThan(40);

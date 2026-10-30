@@ -1,5 +1,5 @@
 import { For, Show, createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { publicText, publicApiError, type PublicLocale } from "../lib/public-i18n";
+import { publicText, publicApiError, publicOfferName, type PublicLocale } from "../lib/public-i18n";
 import { createRequestId } from "../lib/request-id";
 import { portalHeader } from "../lib/portal-contract";
 import { company } from "../data/company";
@@ -19,7 +19,7 @@ import type { InquiryData } from "../lib/inquiry";
 export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   const locale = () => props.locale ?? "de";
   const t = (text: string) => publicText(text, locale());
-  const supportLabel = (text: string) => t(text) + (["en", "uk"].includes(locale()) ? " (DE)" : "");
+  const supportLabel = (text: string) => t(text) + (["en", "pl", "lt", "uk"].includes(locale()) ? " (DE)" : "");
   const path = (value: '/datenschutz/' | '/konto/') => inquirySupportPath(value, locale());
   const [topic, setTopic] = createSignal("");
   const requestData = () => constructionInquiryData(data(), topic(), locale());
@@ -45,7 +45,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   >(null);
   let heading: HTMLHeadingElement | undefined;
   let summary: HTMLTextAreaElement | undefined;
-  const labels = [t("Leistung"), t("Objekt"), t("Kontakt")];
+  const labels = () => [t("Leistung"), t("Objekt"), t("Kontakt")];
   const fieldSteps: Record<keyof InquiryData, number> = {
     service: 0,
     objectType: 1,
@@ -251,9 +251,9 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
   }
 
   return (
-    <section class="wizard" aria-label={t("Projektanfrage")} aria-busy={sending()}>
+    <section class="wizard" aria-label={t("Projektanfrage")} aria-busy={sending()} data-knaba-dirty={!receipt() && Object.values(data()).some(value => value.trim()) ? 'true' : undefined}>
       <ol class="wizard-progress" aria-label={t("Schritte der Anfrage")}>
-        <For each={labels}>
+        <For each={labels()}>
           {(label, index) => (
             <li
               aria-current={
@@ -301,7 +301,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               {t(". Alternativ können Sie Ihre Anfrage telefonisch oder per E-Mail besprechen.")}
             </p>
             <Show when={!receipt()}>
-              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} target="_blank" rel="noopener">{supportLabel("Datenschutzhinweise")}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
+              <label class="privacy-check"><input type="checkbox" checked={privacy()} onChange={event => setPrivacy(event.currentTarget.checked)} /> <span>{t("Ich habe die")} <a href={path("/datenschutz/")} data-astro-reload>{supportLabel("Datenschutzhinweise")}</a> {t("gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert.")}</span></label>
             </Show>
             <p class="form-status" role="alert">{error()}</p>
             <div class="wizard-actions">
@@ -317,7 +317,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
               >
                 {t("Angaben bearbeiten")}
               </button></Show>
-              <Show when={receipt()}><a class="button button-dark" href={path("/konto/")}>{supportLabel("Zum Kundenportal →")}</a></Show>
+              <Show when={receipt()}><a class="button button-dark" href={path("/konto/")}>{t("Zum Kundenportal →")}</a></Show>
               <a class="button button-dark" href={review()?.href}>
                 {t("Im E-Mail-Programm öffnen ↗")}
               </a>
@@ -337,7 +337,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       >
         <form onSubmit={submit} noValidate>
           <fieldset disabled={!ready()}>
-            <legend class="sr-only">{labels[step()]}</legend>
+            <legend class="sr-only">{labels()[step()]}</legend>
             <div class="honey-field" aria-hidden="true"><label for="inquiry-website">Website<input id="inquiry-website" name="website" tabindex="-1" autocomplete="off" value={website()} onInput={event=>setWebsite(event.currentTarget.value)} /></label></div>
             <Show when={step() === 0}>
               <div class="field field-full">
@@ -358,7 +358,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
                   <option value="">{t("Bitte auswählen")}</option>
                   <For each={constructionOffers}>
                     {(service) => (
-                      <option value={service.slug}>{service.name[locale()]}</option>
+                      <option value={service.slug}>{publicOfferName(service,locale())}</option>
                     )}
                   </For>
                 </select>

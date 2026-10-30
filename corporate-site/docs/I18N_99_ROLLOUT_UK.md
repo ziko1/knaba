@@ -1,5 +1,7 @@
 # KNABA I18N-99 — status and staged release plan · 2026-10-25
 
+> Historical plan. The user superseded this target inventory on 2026-10-28 with exactly German, English, Polish, Lithuanian, Russian and Ukrainian, in that order; German remains default. The current route-specific contract is in `i18n/README.md` and `src/lib/locale-catalog.ts`. Historical test receipts below are retained as evidence of their original source only.
+
 ## Clarification
 The previously reported 99 means **99 built HTML pages**, not 99 localized languages. At the start of this work KNABA had **4 published locales**: DE, EN, UK, RU. Some detailed/legal content within these still needs native review.
 

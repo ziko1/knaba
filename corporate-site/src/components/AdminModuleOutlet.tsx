@@ -13,11 +13,13 @@ export default function AdminModuleOutlet(props: {
   id: AdminModuleId;
   role: string | null | undefined;
   locale: PortalLocale;
+  active?: boolean;
+  testing?: boolean;
 }) {
   // Defense-in-depth for the UI only; all API checks are server-authoritative.
   return <Show when={canAccessAdminModule(props.role, props.id)}>
     <Switch>
-      <Match when={props.id === 'operations'}><Portal locale={props.locale} /></Match>
+      <Match when={props.id === 'operations'}><Portal locale={props.locale} embedded active={props.active} testing={props.testing} /></Match>
       <Match when={props.id === 'crm'}><CrmConsole /></Match>
       <Match when={props.id === 'messages'}><AssistantInbox locale={props.locale === 'ru' ? 'ru' : 'de'} /></Match>
       <Match when={props.id === 'studio'}><SiteStudio /></Match>

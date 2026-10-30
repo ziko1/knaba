@@ -9,14 +9,24 @@
     "slogan": "Our goal is to create value for you.",
     "svgDescription": "Three geometric buildings, KNABA with a lime-accented A"
   },
-  "uk": {
-    "descriptor": "KNABA – будівельний клінінг і будівельні послуги",
-    "slogan": "Наша мета — створювати цінність для вас.",
-    "svgDescription": "Три геометричні будівлі, KNABA з лаймовим акцентом на літері A"
+  "pl": {
+    "descriptor": "KNABA – sprzątanie budowlane i usługi na budowie",
+    "slogan": "Naszym celem jest tworzenie wartości dla Ciebie.",
+    "svgDescription": "Trzy geometryczne budynki i KNABA z limonkowym akcentem na literze A"
+  },
+  "lt": {
+    "descriptor": "KNABA – statybų valymas ir statybvietės paslaugos",
+    "slogan": "Mūsų tikslas – kurti vertę jums.",
+    "svgDescription": "Trys geometriniai pastatai ir KNABA su žaliai paryškinta raide A"
   },
   "ru": {
     "descriptor": "KNABA – строительный клининг и строительные услуги",
     "slogan": "Наша цель — создавать ценность для вас.",
     "svgDescription": "Три геометрических здания, KNABA с лаймовым акцентом на букве A"
+  },
+  "uk": {
+    "descriptor": "KNABA – будівельний клінінг і будівельні послуги",
+    "slogan": "Наша мета — створювати цінність для вас.",
+    "svgDescription": "Три геометричні будівлі, KNABA з лаймовим акцентом на літері A"
   }
 }

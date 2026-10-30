@@ -2,6 +2,27 @@ import XCTest
 @testable import KNABADE
 
 final class ERPConsoleTests: XCTestCase {
+    func testEveryERPLabelHasSixCompleteTranslationsInTheDisplayOrder() {
+        XCTAssertEqual(Set(ERPStrings.rows.keys), Set(ERPText.allCases))
+        for key in ERPText.allCases {
+            let row = ERPStrings.rows[key]!
+            XCTAssertEqual(row.count, NativeLanguage.allCases.count, key.rawValue)
+            XCTAssertTrue(row.allSatisfy { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }, key.rawValue)
+            XCTAssertEqual(Set(row.map { $0.components(separatedBy: "%@").count }).count, 1, key.rawValue)
+        }
+        XCTAssertEqual(ERPStrings.text(.signIn, .de), "Sicher anmelden")
+        XCTAssertEqual(ERPStrings.text(.authorizedCount, .en, "4"), "Authorized records: 4")
+        XCTAssertEqual(ERPStrings.text(.authorizedCount, .uk, "4"), "Доступні записи: 4")
+    }
+    func testERPErrorLocalizationDoesNotExposeRawServerMessage() {
+        let failure = ERPFailure.http(403, "PRIVATE_SERVER_DETAIL")
+        for language in NativeLanguage.allCases {
+            let rendered = ERPStrings.error(failure, language)
+            XCTAssertTrue(rendered.contains("403"))
+            XCTAssertFalse(rendered.contains("PRIVATE_SERVER_DETAIL"))
+        }
+        XCTAssertNotEqual(ERPStrings.error(ERPFailure.expired, .de), ERPStrings.error(ERPFailure.expired, .lt))
+    }
     func testPortableServerOriginRejectsUnsafeRedirectAndCredentials() {
         XCTAssertEqual(ERPOrigin.validate("https://new-owner.example")?.absoluteString, "https://new-owner.example")
         XCTAssertEqual(ERPOrigin.validate("https://erp.knaba.de/")?.absoluteString, "https://erp.knaba.de")

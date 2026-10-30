@@ -10,7 +10,7 @@ import {SUPPORTED_LOCALES,render3dLogo} from './generate-knaba-3d-assets.mjs';
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const root=new URL('../',import.meta.url);
 const receipt={
-  scope:'Existing approved four-language SVG branding exported as opaque raster social cards',
+  scope:'Existing approved six-language SVG branding exported as opaque raster social cards',
   width:1200,height:630,type:'image/png',background:'#FBFCF7',
   renderer:{sharp:sharp.versions.sharp,vips:sharp.versions.vips},locales:[],
 };
@@ -28,7 +28,7 @@ for(const locale of SUPPORTED_LOCALES){
   await writeFile(new URL(imagePath,root),image);
   receipt.locales.push({locale,sourcePath,imagePath,sourceSha256:digest(source),imageSha256:digest(image),bytes:image.length});
 }
-const evidence=new URL('docs/evidence/requirements-followup-20261028/',root);
+const evidence=new URL('docs/evidence/github-reconciliation-20261030/',root);
 await mkdir(evidence,{recursive:true});
 await writeFile(new URL('social-assets.json',evidence),JSON.stringify(receipt,null,2)+'\n');
 console.log(JSON.stringify({locales:receipt.locales.length,width:receipt.width,height:receipt.height,bytes:receipt.locales.reduce((total,item)=>total+item.bytes,0)}));

@@ -12,6 +12,7 @@ import os
 import pathlib
 import platform
 import re
+import shutil
 import signal
 import subprocess
 import sys
@@ -20,6 +21,14 @@ import uuid
 OS_VERSION = "18.5"
 RUNTIME_PREFIX = "com.apple.CoreSimulator.SimRuntime.iOS-"
 DEVICE_TYPE = "com.apple.CoreSimulator.SimDeviceType.iPhone-16"
+
+
+class CommandTimeout(RuntimeError):
+    """Only a terminated command deadline may trigger an inventory retry."""
+    def __init__(self, timeout_seconds, log_path):
+        self.timeout_seconds = timeout_seconds
+        self.log_path = log_path
+        super().__init__(f"Command exceeded {timeout_seconds}s; see {log_path.name}")
 
 
 def choose_runtime(inventory):
@@ -65,7 +74,7 @@ def run_command(command, timeout_seconds, log_path):
             except subprocess.TimeoutExpired:
                 os.killpg(process.pid, signal.SIGKILL)
                 process.wait(timeout=10)
-            raise RuntimeError(f"Command exceeded {timeout_seconds}s; see {log_path.name}")
+            raise CommandTimeout(timeout_seconds, log_path)
     if return_code != 0:
         raise RuntimeError(f"Command exited {return_code}; see {log_path.name}")
     if log_path.stat().st_size > 4 * 1024 * 1024:
@@ -84,13 +93,47 @@ def prepare(evidence_dir, source_sha, runner=run_command, architecture=None):
     receipt = {"sourceGitSha": source_sha, "requestedOS": OS_VERSION,
                "requestedDevice": "iPhone 16", "hostArchitecture": architecture,
                "runtimeDownload": "NOT_NEEDED", "status": "PREPARING",
-               "xctestExecution": "NOT_RUN", "physicalDeviceVerification": "NOT_RUN"}
+               "xctestExecution": "NOT_RUN", "physicalDeviceVerification": "NOT_RUN",
+               "inventoryAttempts": []}
 
     def command(arguments, name, timeout=60):
         return runner(arguments, timeout, evidence_dir / name)
 
     def inventory(kind, name):
-        return json.loads(command(["xcrun", "simctl", "list", kind, "--json"], name))
+        # Hosted CoreSimulator can stall even after bootstatus succeeds. Retry
+        # only this read-only command, once, with the same deadline. Never retry
+        # device creation, runtime installation or boot, or a semantic failure.
+        canonical = evidence_dir / name
+        for number in (1, 2):
+            attempted_log = canonical.with_name(
+                f"{canonical.stem}.attempt-{number}{canonical.suffix}")
+            attempt = {"kind": kind, "canonicalLog": name, "attempt": number,
+                       "log": attempted_log.name, "timeoutSeconds": 60,
+                       "outcome": "STARTED"}
+            receipt["inventoryAttempts"].append(attempt)
+            try:
+                raw = runner(["xcrun", "simctl", "list", kind, "--json"],
+                             60, attempted_log)
+            except CommandTimeout as error:
+                attempt.update({"outcome": "TIMED_OUT", "error": str(error)})
+                if number == 2:
+                    raise
+                continue
+            except (RuntimeError, OSError) as error:
+                attempt.update({"outcome": "COMMAND_FAILED", "error": str(error)})
+                raise
+            try:
+                result = json.loads(raw)
+                if not isinstance(result, dict):
+                    raise ValueError("simctl inventory JSON must be an object")
+            except (ValueError, TypeError) as error:
+                attempt.update({"outcome": "INVALID_JSON", "error": str(error)})
+                raise
+            # Keep each attempted output, including the first timeout, and the
+            # canonical successful inventory used by existing evidence readers.
+            shutil.copyfile(attempted_log, canonical)
+            attempt["outcome"] = "SUCCEEDED"
+            return result
 
     try:
         version = command(["xcodebuild", "-version"], "simulator-xcode-version.txt")

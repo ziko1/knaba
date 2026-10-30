@@ -1,58 +1,39 @@
-import { describe, expect, it } from 'vitest';
-import { languageLinks, localeAlternates, russianPublicPaths } from '../src/lib/site-i18n';
+import {describe,it,expect} from 'vitest';
+import {languageLinks,localeAlternates,russianPublicPaths,coreTranslatedPaths,localizedPublicPath} from '../src/lib/site-i18n';
+import {PUBLISHED_SITE_LOCALES} from '../src/lib/locale-catalog';
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes';
 
-describe('public language navigation', () => {
-  it('keeps partner profiles in the selected language and includes reciprocal alternates', () => {
-    const expected=['de','en','uk','ru'].map(lang=>({lang,url:(lang==='de'?'':'/'+lang)+'/partner/'}));
-    for(const {url} of expected){
-      expect(languageLinks(url)).toEqual(expected);
-      expect(localeAlternates(url)).toEqual([...expected,{lang:'x-default',url:'/partner/'}]);
-    }
-  });
-  it('preserves every published construction article across all four languages', () => {
-    for (const {slug} of constructionGuideRoutes) {
-      const route='/ratgeber/'+slug+'/';
-      const expected=[{lang:'de',url:route},{lang:'en',url:'/en'+route},{lang:'uk',url:'/uk'+route},{lang:'ru',url:'/ru'+route}];
-      for (const prefix of ['','/en','/uk','/ru']) {
-        expect(languageLinks(prefix+route)).toEqual(expected);
-        expect(localeAlternates(prefix+route)).toEqual([...expected,{lang:'x-default',url:route}]);
-      }
-    }
-  });
-  it('preserves a service page when switching between DE and RU', () => {
-    expect(languageLinks('/ru/leistungen/bueroreinigung/')).toEqual([
-      {lang:'de',url:'/leistungen/bueroreinigung/'},
-      {lang:'en',url:'/en/'}, {lang:'uk',url:'/uk/'},
-      {lang:'ru',url:'/ru/leistungen/bueroreinigung/'},
-    ]);
-  });
-  it('does not advertise nonexistent article translations', () => {
-    const alternates = localeAlternates('/leistungen/glasreinigung/');
-    expect(alternates).toContainEqual({lang:'ru',url:'/ru/leistungen/glasreinigung/'});
-    expect(alternates.some(item => item.lang === 'en' || item.lang === 'uk')).toBe(false);
-    expect(localeAlternates('/ru/leistungen/glasreinigung/')).toEqual(alternates);
-  });
-  it('uses four reciprocal home alternates and omits private portal from sitemap', () => {
-    expect(localeAlternates('/uk/').map(item => item.lang)).toEqual(['de','en','uk','ru','x-default']);
-    expect(localeAlternates('/ru/konto/')).toEqual([]);
-    expect(russianPublicPaths).toContain('/ru/kontakt/');
-    expect(russianPublicPaths).not.toContain('/ru/konto/');
-    expect(new Set(russianPublicPaths).size).toBe(russianPublicPaths.length);
-  });
-  it('provides reciprocal alternates for every actual translated guide',()=>{
-    for(const {slug} of constructionGuideRoutes){
-      const original='/ratgeber/'+slug+'/';
-      expect(languageLinks('/uk'+original)).toEqual(['de','en','uk','ru'].map(lang=>({lang,url:lang==='de'?original:'/'+lang+original})));
-      expect(localeAlternates(original).map(x=>x.lang)).toEqual(['de','en','uk','ru','x-default']);
-    }
-  });
-  it('preserves the first-party gallery in four real localizations',()=>{
-    expect(languageLinks('/ru/galerie/')).toEqual(['de','en','uk','ru'].map(lang=>({lang,url:lang==='de'?'/galerie/':'/'+lang+'/galerie/'})));
-    expect(localeAlternates('/galerie/').map(x=>x.lang)).toEqual(['de','en','uk','ru','x-default']);
-  });
-  it('does not invent translated error routes', () => {
-    expect(languageLinks('/404.html').at(-1)?.url).toBe('/ru/');
-    expect(localeAlternates('/404.html')).toEqual([]);
-  });
+const expected=(route:string,translated:readonly string[])=>PUBLISHED_SITE_LOCALES.map(lang=>({lang,url:(lang==='de'?'':'/'+lang)+(translated.includes(lang)?route:'/')}));
+describe('route-aware public language navigation',()=>{
+ it('preserves every genuine six-language core route and reciprocal alternate',()=>{
+  for(const route of coreTranslatedPaths){
+   const links=expected(route,PUBLISHED_SITE_LOCALES);
+   for(const item of links){expect(languageLinks(item.url)).toEqual(links);expect(localeAlternates(item.url)).toEqual([...links,{lang:'x-default',url:route}]);}
+  }
+ });
+ it('preserves full existing partner/gallery/article translations with truthful PL/LT entry links',()=>{
+  for(const route of ['/partner/','/galerie/',...constructionGuideRoutes.map(({slug})=>'/ratgeber/'+slug+'/')]){
+   const links=expected(route,['de','en','ru','uk']);
+   for(const lang of ['de','en','ru','uk']){
+    const path=(lang==='de'?'':'/'+lang)+route;
+    expect(languageLinks(path)).toEqual(links);
+    expect(localeAlternates(path)).toEqual([...links.filter(item=>!['pl','lt'].includes(item.lang)),{lang:'x-default',url:route}]);
+   }
+  }
+ });
+ it('keeps historical DE/RU service pages and does not invent more translations',()=>{
+  const route='/leistungen/bueroreinigung/';expect(languageLinks('/ru'+route)).toEqual(expected(route,['de','ru']));
+  expect(localeAlternates(route)).toEqual([{lang:'de',url:route},{lang:'ru',url:'/ru'+route},{lang:'x-default',url:route}]);
+ });
+ it('uses genuine German destinations for untranslated legal/detail pages',()=>{
+  expect(localizedPublicPath('/datenschutz/','pl')).toBe('/datenschutz/');
+  expect(localizedPublicPath('/ratgeber/','lt')).toBe('/ratgeber/');
+  expect(localizedPublicPath('/kontakt/','lt')).toBe('/lt/kontakt/');
+  expect(localizedPublicPath('/konto/','ru')).toBe('/ru/konto/');
+ });
+ it('omits private and error pages from public alternates',()=>{
+  expect(localeAlternates('/ru/konto/')).toEqual([]);expect(localeAlternates('/admin/')).toEqual([]);
+  expect(localeAlternates('/404.html')).toEqual([]);expect(languageLinks('/404.html')).toEqual(expected('/',PUBLISHED_SITE_LOCALES));
+  expect(russianPublicPaths).toContain('/ru/kontakt/');expect(russianPublicPaths).not.toContain('/ru/konto/');expect(new Set(russianPublicPaths).size).toBe(russianPublicPaths.length);
+ });
 });

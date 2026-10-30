@@ -5,10 +5,10 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             TabView {
-                ERPConsoleView()
+                ERPConsoleView(preferences: model)
                     .tabItem { Label("KNABA ERP", systemImage: "square.grid.2x2") }
                 CompanionView(model: model)
-                    .tabItem { Label("My shift", systemImage: "clock.arrow.circlepath") }
+                    .tabItem { Label(model.text(.myShift), systemImage: "clock.arrow.circlepath") }
             }
         }
     }
@@ -22,8 +22,8 @@ import SwiftUI
             Form {
                 Section(model.text(.language)) {
                     Picker(model.text(.language), selection: $model.localeSelection) {
-                        Text(model.text(.deviceLanguage)).tag("system")
                         ForEach(NativeLanguage.allCases) { language in Text(language.name).tag(language.rawValue) }
+                        Text(model.text(.deviceLanguage)).tag("system")
                     }.accessibilityIdentifier("languageSelector")
                 }
                 TimelineView(.periodic(from: Date(), by: 1)) { timeline in

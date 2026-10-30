@@ -45,6 +45,8 @@ const preparation: Record<ServiceSlug, readonly string[]> = {
   treppenreinigung: ["Aufgänge und Etagen zählen", "Eingangsbereiche und Gemeinschaftsflächen notieren", "Gewünschte Reinigungsintervalle überlegen", "Zugang und Ansprechpartner für das Haus klären"],
 };
 const constructionPreparation = {
+ pl:['Opisz etap budowy i aktualny stan obiektu','Podaj przybliżoną powierzchnię i pomieszczenia','Podaj planowany termin odbioru lub wprowadzenia','Sprawdź dostęp, wodę i prąd na obiekcie'],
+ lt:['Aprašykite statybų etapą ir esamą objekto būklę','Nurodykite apytikslį plotą ir patalpas','Nurodykite planuojamą perdavimo ar įsikėlimo datą','Patikrinkite patekimą, vandenį ir elektrą objekte'],
   en: ['Describe the construction stage and current condition', 'Note approximate floor area and affected rooms', 'Give the planned handover or occupancy date', 'Confirm site access, water and electricity'],
   uk: ['Опишіть етап будівництва та стан об’єкта', 'Укажіть приблизну площу й приміщення', 'Назвіть заплановану дату здачі або заселення', 'Уточніть доступ, воду та електрику на об’єкті'],
 } as const;
@@ -58,7 +60,7 @@ const preparationRu: Record<ServiceSlug, readonly string[]> = {
 };
 export function getPreparation(slug: string, locale: PublicLocale = "de"): readonly string[] {
   const selected = isServiceSlug(slug) ? slug : defaultService;
-  if (selected === 'baureinigung' && (locale === 'en' || locale === 'uk')) return constructionPreparation[locale];
+  if (selected === 'baureinigung' && (locale === 'en' || locale === 'pl' || locale === 'lt' || locale === 'uk')) return constructionPreparation[locale];
   return (locale === "ru" ? preparationRu : preparation)[selected];
 }
 
@@ -107,6 +109,8 @@ export function getTopicPreparation(topic: string, service: string, locale: Publ
   const items = {
     de: [topic === 'bauhilfe' ? 'Aufgaben und benötigte Unterstützung beschreiben' : 'Materialarten, Mengen und freizuräumende Bereiche nennen', 'Zeitraum, Arbeitszeiten und Ansprechpartner vor Ort klären', 'Zugang, Transportwege und Schutzmaßnahmen abstimmen', 'Leistungsgrenzen und gegebenenfalls Entsorgung separat vereinbaren'],
     en: [topic === 'bauhilfe' ? 'Describe the tasks and support needed' : 'List material types, quantities and areas to clear', 'Confirm dates, working hours and the site contact', 'Agree access, transport routes and safety measures', 'Agree scope limits and any waste disposal separately'],
+    pl: [topic === 'bauhilfe' ? 'Opisz zadania i potrzebną pomoc' : 'Podaj rodzaje materiałów, ilości i obszary do uprzątnięcia','Uzgodnij terminy, godziny pracy i osobę kontaktową','Uzgodnij dostęp, trasy transportu i środki ochrony','Osobno uzgodnij granice prac i ewentualny wywóz odpadów'],
+    lt: [topic === 'bauhilfe' ? 'Aprašykite užduotis ir reikalingą pagalbą' : 'Nurodykite medžiagų tipus, kiekius ir tvarkomas zonas','Suderinkite datas, darbo valandas ir kontaktinį asmenį','Suderinkite patekimą, transporto kelius ir apsaugos priemones','Atskirai sutarkite darbų ribas ir galimą atliekų išvežimą'],
     uk: [topic === 'bauhilfe' ? 'Опишіть завдання та потрібну допомогу' : 'Укажіть матеріали, обсяги й ділянки для звільнення', 'Уточніть строки, робочі години та відповідального на об’єкті', 'Узгодьте доступ, маршрути перевезення й заходи безпеки', 'Окремо погодьте межі робіт і можливе вивезення відходів'],
     ru: [topic === 'bauhilfe' ? 'Опишите задачи и необходимую помощь' : 'Укажите материалы, объёмы и участки для освобождения', 'Уточните сроки, рабочие часы и ответственного на объекте', 'Согласуйте доступ, пути перевозки и меры безопасности', 'Отдельно согласуйте границы работ и возможный вывоз отходов'],
   };

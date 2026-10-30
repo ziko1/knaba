@@ -33,7 +33,7 @@ for (const [locale, surface, compact, file] of variants) {
   });
 }
 test('approved locale registry is exact and free of filler',()=>{
- assert.deepEqual(SUPPORTED_LOCALES,['de','en','uk','ru']);
+ assert.deepEqual(SUPPORTED_LOCALES,['de','en','pl','lt','ru','uk']);
  for(const l of SUPPORTED_LOCALES){
    assert.ok(SLOGANS[l].length > 18);
    assert.ok(BRAND_DESCRIPTIONS[l].length > 20);

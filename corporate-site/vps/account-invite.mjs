@@ -36,7 +36,7 @@ function ownerIdentity(db,issuerId,ownerEmail,developerEmail=''){
 }
 export function issueAccountInvite(db,{issuerId,ownerEmail,developerEmail='',email,role,identityVerified=false,now=Date.now()}){
   validateTime(now);
-  if(!['client','worker','partner'].includes(role))throw new AccountInviteError('Unsupported account role');
+  if(!['client','worker','partner','bauleiter'].includes(role))throw new AccountInviteError('Unsupported account role');
   if(identityVerified!==true)throw new AccountInviteError('Owner identity verification attestation required');
   const address=validEmail(email);
   const expected=validEmail(ownerEmail);
@@ -81,7 +81,7 @@ export function acceptAccountInvite(db,{token,email,name,password,confirmed,priv
     if(!invite||invite.used_at!==null||invite.expires_at<=now||invite.email!==address)
       throw new AccountInviteError('Invalid or expired invitation');
     ownerIdentity(db,invite.issued_by,expected,developerEmail);
-    if(!['client','worker','partner'].includes(invite.requested_role))
+    if(!['client','worker','partner','bauleiter'].includes(invite.requested_role))
       throw new AccountInviteError('Invalid account role');
     if(db.prepare('SELECT 1 FROM vps_users WHERE email=?').get(address))
       throw new AccountInviteError('Account already exists');

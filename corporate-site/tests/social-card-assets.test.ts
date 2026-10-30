@@ -7,9 +7,9 @@ const root=new URL('../',import.meta.url);
 const digest=(bytes:Buffer)=>createHash('sha256').update(bytes).digest('hex');
 
 describe('localized raster share cards preserve the existing approved brand',()=>{
-  it('ships four distinct valid 1200×630 PNGs with recorded SVG source identity',async()=>{
+  it('ships six distinct valid 1200×630 PNGs with recorded SVG source identity',async()=>{
     const {default:sharp}=await import('sharp');
-    const receipt=JSON.parse(readFileSync(new URL('docs/evidence/requirements-followup-20261028/social-assets.json',root),'utf8'));
+    const receipt=JSON.parse(readFileSync(new URL('docs/evidence/github-reconciliation-20261030/social-assets.json',root),'utf8'));
     expect(receipt.locales.map((entry:{locale:string})=>entry.locale)).toEqual([...PUBLISHED_SITE_LOCALES]);
     const outputs=new Set<string>();
     for(const locale of PUBLISHED_SITE_LOCALES){

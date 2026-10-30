@@ -6,8 +6,10 @@ import { siteConfig } from "../data/site";
 import { resolveSocialImageOrigin } from "../lib/social-image-origin";
 import brandMessages from "../data/brand-messages.json";
 import Icon from "../components/Icon.astro";
+import AccountAccess from '../components/AccountAccess.astro';
 
-import { languageLinks, localeAlternates } from "../lib/site-i18n";
+import { languageLinks, localeAlternates, localizedPublicPath, type SiteLocale } from "../lib/site-i18n";
+import {PUBLISHED_SITE_LOCALES, LANGUAGE_NAMES} from '../lib/locale-catalog';
 import LocaleCatalog from "../components/LocaleCatalog.astro";
 import {corporateBreadcrumbs,navigationCurrent} from '../lib/corporate-navigation';
 import { ClientRouter } from "astro:transitions";
@@ -19,7 +21,7 @@ interface Props {
   mobileApp?: boolean;
   hasInlinePhone?: boolean;
   hasInlineEmail?: boolean;
-  lang?: 'de' | 'en' | 'uk' | 'ru';
+  lang?: SiteLocale;
   schema?: Record<string, unknown> | Record<string, unknown>[];
   breadcrumbs?: {name:string;url:string}[];
   alternates?: {lang:string;url:string}[];
@@ -36,22 +38,23 @@ const bingProof=siteConfig.indexable?validWebmasterProof(import.meta.env.KNABA_B
 const translated = {
   de: {skip:'Zum Inhalt springen', region:'Baureinigung & BauService · Berlin & Brandenburg', quote:'Angebot anfragen', account:'Mein KnaBa',menu:'Menü', discover:'Entdecken', contact:'Kontakt', next:'Ihr nächster Schritt', nextText:'Erzählen Sie uns von Ihrem Objekt. Wir besprechen Ihren Bedarf.', tagline:'Bauprojekte. Saubere Übergabe.', privacy:'Datenschutz', imprint:'Impressum'},
   en: {skip:'Skip to content',region:'Construction cleaning & site support · Berlin',quote:'Request a construction quote',account:'My KnaBa',menu:'Menu',discover:'Explore',contact:'Contact',next:'Your next step',nextText:'Tell us about your property. We will discuss your requirements.',tagline:'Construction sites ready for handover.',privacy:'Privacy (DE)',imprint:'Legal notice (DE)'},
+  pl: {skip:'Przejdź do treści',region:'Sprzątanie budowlane i wsparcie budowy · Berlin',quote:'Zapytaj o wycenę',account:'Moje KnaBa',menu:'Menu',discover:'Odkryj',contact:'Kontakt',next:'Twój następny krok',nextText:'Opowiedz o swoim obiekcie. Omówimy Twoje potrzeby.',tagline:'Czysta budowa. Gotowa do odbioru.',privacy:'Prywatność (DE)',imprint:'Informacje prawne (DE)'},
+  lt: {skip:'Pereiti prie turinio',region:'Statybų valymas ir pagalba statybvietėje · Berlynas',quote:'Prašyti pasiūlymo',account:'Mano KnaBa',menu:'Meniu',discover:'Sužinokite',contact:'Kontaktai',next:'Kitas jūsų žingsnis',nextText:'Papasakokite apie savo objektą. Aptarsime jūsų poreikius.',tagline:'Švari statybvietė. Paruošta perduoti.',privacy:'Privatumas (DE)',imprint:'Teisinė informacija (DE)'},
   uk: {skip:'Перейти до вмісту',region:'Будівельний клінінг та BauService · Берлін',quote:'Запитати про будівництво',account:'Мій KnaBa',menu:'Меню',discover:'Дізнатися більше',contact:'Контакти',next:'Ваш наступний крок',nextText:'Розкажіть про свій об’єкт. Ми обговоримо ваші потреби.',tagline:'Чистий об’єкт. Готовий до здачі.',privacy:'Конфіденційність (DE)',imprint:'Юридична інформація (DE)'},
   ru: {skip:'Перейти к содержимому',region:'Строительный клининг и BauService · Берлин',quote:'Заказать строительный клининг',account:'Мой KnaBa',menu:'Меню',discover:'Узнать больше',contact:'Контакты',next:'Ваш следующий шаг',nextText:'Расскажите о своём объекте. Мы обсудим ваши пожелания.',tagline:'Чистый объект. Готов к сдаче.',privacy:'Конфиденциальность',imprint:'Юридическая информация'},
 }[lang];
-const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
+const footerLabels = {de:['Bauprojekt planen','Bauleistungen','Ihre Branche','Ratgeber','Berlin & Umgebung','Über KnaBa','Karriere'],en:['Project planner','Construction services','Your sector','Guides','Berlin & surroundings','About KnaBa','Careers'],pl:['Planowanie projektu','Usługi budowlane','Twoja branża (DE)','Poradniki (DE)','Berlin i okolice (DE)','O KnaBa','Praca (DE)'],lt:['Projekto planavimas','Statybų paslaugos','Jūsų sektorius (DE)','Patarimai (DE)','Berlynas ir apylinkės (DE)','Apie KnaBa','Karjera (DE)'],uk:['Планувальник будівництва','Будівельні послуги','Ваша галузь','Поради','Берлін та околиці','Про KnaBa','Робота'],ru:['План строительного клининга','Строительные услуги','Ваша отрасль','Советы','Берлин и окрестности','О KnaBa','Вакансии']}[lang];
 const path = Astro.url.pathname;
+// Cabinets own their history and keep draft-bearing modules mounted. Loading
+// Astro's page router here would let its earlier popstate listener reload them.
+const ownsWorkspaceNavigation = ['/admin/', '/konto/', '/ru/konto/'].includes(path);
 // Public decoration excludes authenticated tools and the standalone app pages.
-const publicSection = path.replace(/^\/(?:en|uk|ru)(?=\/|$)/, '').split('/')[1] ?? '';
+const publicSection = path.replace(/^\/(?:en|pl|lt|ru|uk)(?=\/|$)/, '').split('/')[1] ?? '';
 const publicDesign = ['', 'leistungen', 'bauleistungen', 'planer', 'kontakt', 'branchen',
   'unternehmen', 'galerie', 'ratgeber', 'partner', 'faq', 'berlin', 'karriere',
   'impressum', 'datenschutz'].includes(publicSection);
 const breadcrumbs = suppliedBreadcrumbs.length ? suppliedBreadcrumbs : corporateBreadcrumbs(path, lang);
-const localPath = (url: string) => {
-  if(lang === 'de') return url;
-  if((lang==='en'||lang==='uk') && ['/impressum/','/datenschutz/','/konto/'].includes(url)) return url;
-  return '/'+lang+url;
-};
+const localPath = (url: string) => localizedPublicPath(url,lang);
 const isContactPage = path === localPath('/kontakt/');
 const brand = brandMessages[lang];
 const brandAlt = brand.descriptor;
@@ -68,9 +71,9 @@ const logoAssets={
 const homePath = lang === 'de' ? '/' : `/${lang}/`;
 const languages = languageLinks(path);
 const pageAlternates = localeAlternates(path, alternates);
-const languageLabel = {de:'Sprache',en:'Language',uk:'Мова',ru:'Язык'}[lang];
-const languageNames: Record<string,string> = {de:'Deutsch',en:'English',uk:'Українська',ru:'Русский'};
-const translatedNav = {en:['Services','Project planner','B2B sectors','About','How we work','Construction guides'],uk:['Послуги','Планувальник','Галузі B2B','Про нас','Як ми працюємо','Поради'],ru:['Услуги','Планировщик','Отрасли B2B','О нас','Как мы работаем','Советы']};
+const languageLabel = {de:'Sprache',en:'Language',pl:'Język',lt:'Kalba',ru:'Язык',uk:'Мова'}[lang];
+const languageNames: Record<string,string> = LANGUAGE_NAMES;
+const translatedNav = {pl:['Usługi','Planowanie projektu','Branże B2B (DE)','O nas','Przebieg prac (DE)','Poradniki (DE)'],lt:['Paslaugos','Projekto planavimas','B2B sektoriai (DE)','Apie mus','Darbų eiga (DE)','Patarimai (DE)'],en:['Services','Project planner','B2B sectors','About','How we work','Construction guides'],uk:['Послуги','Планувальник','Галузі B2B','Про нас','Як ми працюємо','Поради'],ru:['Услуги','Планировщик','Отрасли B2B','О нас','Как мы работаем','Советы']};
 const nav = [
   ["/leistungen/", "Bauleistungen"],
   ["/planer/", "Bauprojekt planen"],
@@ -82,7 +85,7 @@ const nav = [
 const canonical = new URL(path, siteConfig.origin);
 const breadcrumbSchema = breadcrumbs.length ? { '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item, index) => ({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.url,siteConfig.origin).href})) } : null;
 const pageSchemas = Array.isArray(schema) ? schema : [schema];
-const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url:siteConfig.origin+'/',name:'KnaBa',inLanguage:['de','en','uk','ru']};
+const websiteSchema = {'@type':'WebSite','@id':siteConfig.origin+'/#website',url:siteConfig.origin+'/',name:'KnaBa',inLanguage:PUBLISHED_SITE_LOCALES};
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -119,7 +122,7 @@ const structuredData = {
     {mobileApp && <meta name="apple-mobile-web-app-capable" content="yes" />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="KnaBa" />
-    <meta property="og:locale" content={{de:"de_DE",en:"en_GB",uk:"uk_UA",ru:"ru_RU"}[lang]} />
+    <meta property="og:locale" content={{de:"de_DE",en:"en_GB",pl:"pl_PL",lt:"lt_LT",ru:"ru_RU",uk:"uk_UA"}[lang]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {!omitCanonical && <meta property="og:url" content={canonical} />}
@@ -132,7 +135,7 @@ const structuredData = {
     <meta name="twitter:image:alt" content={brandAlt + ' · ' + brand.slogan} />
     {pageAlternates.map(item => <link rel="alternate" hreflang={item.lang} href={new URL(item.url,siteConfig.origin)} />)}
     <title>{title}</title>
-    <ClientRouter />
+    {!ownsWorkspaceNavigation && <ClientRouter />}
     <script
       type="application/ld+json"
       set:html={JSON.stringify({"@context":"https://schema.org","@graph":[structuredData, websiteSchema, ...pageSchemas, ...(breadcrumbSchema ? [breadcrumbSchema] : [])]}).replace(/</g, "\\u003c")}
@@ -153,7 +156,7 @@ const structuredData = {
             <img src={logoAssets.header} width="1140" height="350" alt={brandAlt} decoding="async" fetchpriority="high" />
           </picture>
         </a>
-        <nav class="desktop-nav" aria-label={lang === 'de' ? 'Hauptnavigation' : lang === 'uk' ? 'Головна навігація' : lang === 'ru' ? 'Главная навигация' : 'Main navigation'}>
+        <nav class="desktop-nav" aria-label={{de:'Hauptnavigation',en:'Main navigation',pl:'Menu główne',lt:'Pagrindinis meniu',ru:'Главная навигация',uk:'Головна навігація'}[lang]}>
           {
             nav.map(([href, text]) => (
               <a
@@ -166,7 +169,7 @@ const structuredData = {
           }
         </nav>
         {!isContactPage && <a class="button button-dark nav-cta" href={localPath("/kontakt/")}>{translated.quote} <Icon size={17} /></a>}
-        <a class="account-link" href={localPath("/konto/")}>{translated.account} ↗</a>
+        <a class="account-link" data-account-access="login" href={localPath("/konto/")}>{translated.account} ↗</a>
         <details class="site-language-switcher">
           <summary aria-label={`${languageLabel}: ${languageNames[lang]}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
@@ -186,15 +189,15 @@ const structuredData = {
         <details class="mobile-nav">
           <summary aria-label={translated.menu}
             ><span>{translated.menu}</span><span class="menu-lines">☰</span></summary
-          ><nav aria-label={lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
+          ><nav aria-label={lang === 'pl' ? 'Menu mobilne' : lang === 'lt' ? 'Mobilusis meniu' : lang === 'de' ? 'Mobile Hauptnavigation' : lang === 'uk' ? 'Мобільна навігація' : lang === 'ru' ? 'Мобильная навигация' : 'Mobile navigation'}>
             {nav.map(([href, text]) => <a href={href} aria-current={navigationCurrent(path, href)}>{text}</a>)}
             {!isContactPage && <a href={localPath("/kontakt/")}>{translated.quote} →</a>}
-            <a href={localPath("/konto/")}>{translated.account}</a>
+            <a data-account-access="login" href={localPath("/konto/")}>{translated.account}</a>
           </nav>
         </details>
       </div>
     </header>
-    <main id="main" tabindex="-1">{breadcrumbs.length > 0 && <nav class="container breadcrumbs" aria-label={lang === 'de' ? 'Brotkrümelnavigation' : lang === 'ru' ? 'Путь к странице' : lang === 'uk' ? 'Шлях до сторінки' : 'Breadcrumb'}><ol>{breadcrumbs.map((item,index)=><li>{index === breadcrumbs.length-1 ? <span aria-current="page">{item.name}</span> : <a href={item.url}>{item.name}</a>}</li>)}</ol></nav>}<slot /></main>
+    <main id="main" tabindex="-1">{breadcrumbs.length > 0 && <nav class="container breadcrumbs" aria-label={lang === 'pl' ? 'Ścieżka strony' : lang === 'lt' ? 'Puslapio kelias' : lang === 'de' ? 'Brotkrümelnavigation' : lang === 'ru' ? 'Путь к странице' : lang === 'uk' ? 'Шлях до сторінки' : 'Breadcrumb'}><ol>{breadcrumbs.map((item,index)=><li>{index === breadcrumbs.length-1 ? <span aria-current="page">{item.name}</span> : <a href={item.url}>{item.name}</a>}</li>)}</ol></nav>}<slot /></main>
     <footer class="footer">
       <div class="container footer-grid">
         <div>
@@ -203,12 +206,12 @@ const structuredData = {
               <img src={logoAssets.footer} width="1140" height="350" alt={brandAlt} loading="lazy" decoding="async" />
             </picture></a>
           <p>{translated.tagline}</p><span
-            class="footer-region">{lang === 'ru' ? 'Берлин и Бранденбург' : 'Berlin & Brandenburg'}</span>
+            class="footer-region">{{de:'Berlin & Brandenburg',en:'Berlin & Brandenburg',pl:'Berlin i Brandenburgia',lt:'Berlynas ir Brandenburgas',ru:'Берлин и Бранденбург',uk:'Берлін і Бранденбург'}[lang]}</span>
         </div>
         <div>
           <h2>{translated.discover}</h2><a href={localPath("/planer/")}>{footerLabels[0]}</a><a href={localPath("/leistungen/")}>{footerLabels[1]}</a><a
             href={localPath("/branchen/")}>{footerLabels[2]}</a
-          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/app/")}>{{de:"Mobile App",en:"Mobile app",uk:"Мобільний застосунок",ru:"Мобильное приложение"}[lang]}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
+          ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",pl:"Pytania i odpowiedzi",lt:"Klausimai ir atsakymai",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",pl:"Przebieg prac (DE)",lt:"Darbų eiga (DE)",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a data-account-access="login" href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/app/")}>{{de:"Mobile App",en:"Mobile app",pl:"Aplikacja mobilna",lt:"Mobilioji programėlė",uk:"Мобільний застосунок",ru:"Мобильное приложение"}[lang]}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
             >{footerLabels[6]}</a>
         </div>
         <div>
@@ -230,8 +233,9 @@ const structuredData = {
         </div>
       </div>
     </footer>
+    <AccountAccess locale={lang} />
     <div class="knaba-widget-root" data-knaba-widget data-locale={lang}>
-      <button type="button" data-knaba-open aria-label={lang==='de'?'KnaBa Assistent öffnen':lang==='en'?'Open KnaBa assistant':lang==='uk'?'Відкрити помічника KnaBa':'Открыть помощника KnaBa'}><span aria-hidden="true">✳</span> KNABA Assistant</button>
+      <button type="button" data-knaba-open aria-label={lang==='pl'?'Otwórz asystenta KnaBa':lang==='lt'?'Atidaryti KnaBa asistentą':lang==='de'?'KnaBa Assistent öffnen':lang==='en'?'Open KnaBa assistant':lang==='uk'?'Відкрити помічника KnaBa':'Открыть помощника KnaBa'}><span aria-hidden="true">✳</span> KNABA Assistant</button>
     </div>
     <script>
       async function mountAssistant(button: HTMLButtonElement) {
@@ -243,14 +247,14 @@ const structuredData = {
             import('solid-js/web'),
             import('../components/KnabaAssistant.tsx')
           ]);
-          const language=root.dataset.locale as 'de'|'en'|'uk'|'ru';
+          const language=root.dataset.locale as 'de'|'en'|'pl'|'lt'|'ru'|'uk';
           root.replaceChildren();
           const dispose=render(()=>KnabaAssistant({locale:language,initialOpen:true}),root);
           document.addEventListener('astro:before-swap',()=>dispose(),{once:true});
         }catch{
           button.disabled=false;root.dataset.pending='false';
           const locale=document.documentElement.lang;
-          window.location.href=(['en','uk','ru'].includes(locale)?'/'+locale:'')+'/kontakt/';
+          window.location.href=(['en','pl','lt','ru','uk'].includes(locale)?'/'+locale:'')+'/kontakt/';
         }
       }
       function bindLauncher(){
@@ -276,7 +280,7 @@ const structuredData = {
         if (!selected) return;
         document.querySelectorAll<HTMLAnchorElement>('a[data-language-switch]').forEach(link => {
           const target = new URL(link.href);
-          if (target.origin === location.origin && /^\/(?:(?:ru|en|uk)\/)?kontakt\/$/.test(target.pathname)) {
+          if (target.origin === location.origin && /^\/(?:(?:en|pl|lt|ru|uk)\/)?kontakt\/$/.test(target.pathname)) {
             target.search = selected;
             link.href = target.href;
           }

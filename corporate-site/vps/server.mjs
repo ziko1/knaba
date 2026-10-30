@@ -1,10 +1,16 @@
 import { createServer as createHttpServer } from 'node:http';
-import { readFile,stat } from 'node:fs/promises';
+import { readFile,stat,realpath } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
+import {createClientIpResolver} from './client-ip.mjs';
+import { createReadStream } from 'node:fs';
+import {publicRelease} from './public-release.mjs';
 import { openLocalDatabase } from './database.mjs';
 import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
+import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
+import {createDeveloperWorkspaceRegistry,developerRoles,isDeveloperIdentity,isGrantedDeveloper,
+  readDeveloperRole,developerRoleCookie,clearDeveloperRoleCookie} from './developer-workspace.mjs';
 import {createSessionForUser} from './auth.mjs';
 import {oidcProviders,beginOidc,completeOidc,oidcStateCookie,clearOidcStateCookie,OidcError} from './oidc.mjs';
 import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
@@ -13,6 +19,7 @@ import {authLanguage,authWords,accessWords} from './auth-locale.mjs';
 import {submitAccessRequest,listAccessRequests,markAccessRequestReviewed,AccessRequestError} from './access-requests.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
 import { renderPublishedPage } from '../dist/vps/render-page.mjs';
+import { parseArticlePath,publishedArticle,renderArticleDocument,listPublishedArticles,addPublishedGuideLinks,expandPublishedSitemap } from '../dist/vps/articles.mjs';
 
 const mime={
   '.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8',
@@ -53,7 +60,34 @@ async function readBody(req,limit){
   }
   return Buffer.concat(chunks);
 }
-async function sendStatic(root,req,res,path,db){
+async function serveArticle(root,req,res,path,db,{isolated=false}={}){
+  const location=parseArticlePath(path);
+  if(!location)return false;
+  const record=db.prepare('SELECT published_version,published_json FROM studio_pages WHERE page_path=?').get(path);
+  const article=publishedArticle(record);
+  if(!article)return false;
+  // Keep the existing Astro shell, CSP and locale navigation. The caller has
+  // already selected either the company database or this developer's workspace.
+  const template=join(root,location.locale==='de'?'ratgeber/index.html':location.locale+'/ratgeber/index.html');
+  const source=await readFile(template,'utf8').catch(()=>null);
+  if(!source)return false;
+  const html=renderArticleDocument(source,{...location,...article},listPublishedArticles(db));
+  if(!html)return false;
+  const bytes=Buffer.from(html,'utf8');
+  res.statusCode=200;
+  res.setHeader('Content-Type','text/html; charset=utf-8');
+  res.setHeader('Cache-Control',isolated?'private, no-store':'no-cache');
+  res.setHeader('Vary','Cookie');
+  if(isolated){
+    res.setHeader('X-Robots-Tag','noindex, nofollow');
+  }else if(process.env.KNABA_RELEASE_MODE!=='official'||req.headers.host?.split(':')[0]==='kneba.vsp.rest'||html.includes('<meta name="robots" content="noindex')){
+    res.setHeader('X-Robots-Tag','noindex, follow');
+  }
+  res.setHeader('Content-Length',bytes.length);
+  res.end(req.method==='HEAD'?undefined:bytes);
+  return true;
+}
+async function sendStatic(root,req,res,path,db,{isolated=false,origin=''}={}){
   let decoded;
   try{decoded=decodeURIComponent(path);}catch{return send(res,400,'Bad path');}
   if(decoded.includes('\0')||decoded.includes('\\')||/\/\./.test(decoded))return send(res,404,'Not found');
@@ -73,7 +107,23 @@ async function sendStatic(root,req,res,path,db){
     stats=await stat(file).catch(()=>null);
     if(!stats?.isFile())return send(res,404,'Not found');
   }
-  if(stats.size>10*1024*1024)return send(res,413,'Asset too large');
+  const download=/^\/downloads\/[A-Za-z0-9._-]+\.(?:apk|aab|sha256)$/.test(decoded);
+  if(download && res.statusCode===404)return send(res,404,'Not found');
+  if(download){
+    const [realRoot,realDownloads,realFile]=await Promise.all([realpath(root),realpath(join(root,'downloads')),realpath(file)]).catch(()=>[]);
+    if(!realRoot||!realDownloads?.startsWith(realRoot+sep)||!realFile?.startsWith(realDownloads+sep))return send(res,404,'Not found');
+    file=realFile;
+  }
+  if(stats.size>(download?256:10)*1024*1024)return send(res,413,'Asset too large');
+  if(download){
+    res.setHeader('Content-Type',decoded.endsWith('.apk')?'application/vnd.android.package-archive':'application/octet-stream');
+    res.setHeader('Content-Disposition','attachment; filename="'+decoded.split('/').at(-1)+'"');
+    res.setHeader('Content-Length',stats.size);
+    res.setHeader('Cache-Control','public, max-age=300');
+    if(req.method==='HEAD'){res.end();return;}
+    createReadStream(file).on('error',()=>res.destroy()).pipe(res);
+    return;
+  }
   const ext=extname(file).toLowerCase();
   let bytes=await readFile(file);
   // Only published SEO fields appear in the HTTP HTML returned to crawlers.
@@ -85,11 +135,21 @@ async function sendStatic(root,req,res,path,db){
       bytes=Buffer.from(transformed,'utf8');
     }
   }
+  // Public guide links and sitemap use the same selected database as Studio.
+  if(ext==='.html' && res.statusCode!==404 && /^\/(?:(?:en|uk|ru)\/)?ratgeber\/$/.test(decoded)){
+    const loc=/^\/(en|uk|ru)\//.exec(decoded);
+    bytes=Buffer.from(addPublishedGuideLinks(bytes.toString('utf8'),loc?loc[1]:'de',listPublishedArticles(db)),'utf8');
+  }
+  const dynamicSitemap=ext==='.xml' && decoded==='/sitemap.xml' && res.statusCode!==404;
+  if(dynamicSitemap&&!isolated){
+    bytes=Buffer.from(expandPublishedSitemap(bytes.toString('utf8'),origin,listPublishedArticles(db)),'utf8');
+  }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|uk|ru)\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|pl|lt|ru|uk)\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
-  res.setHeader('Cache-Control',privatePath?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'?'no-cache':'public, max-age=300');
-  if(privatePath||res.statusCode===404){
+  res.setHeader('Cache-Control',privatePath||isolated?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'||dynamicSitemap?'no-cache':'public, max-age=300');
+  if(ext==='.html'||dynamicSitemap||isolated)res.setHeader('Vary','Cookie');
+  if(privatePath||isolated||res.statusCode===404){
     res.setHeader('X-Robots-Tag','noindex, nofollow');
   }else if(process.env.KNABA_RELEASE_MODE!=='official' || req.headers.host?.split(':')[0]==='kneba.vsp.rest' || (ext==='.html' && bytes.includes('<meta name="robots" content="noindex, follow"'))){
     // The Node VPS runtime does not apply Cloudflare Pages _headers rules.
@@ -99,7 +159,7 @@ async function sendStatic(root,req,res,path,db){
   res.setHeader('Content-Length',bytes.length);
   res.end(req.method==='HEAD'?undefined:bytes);
 }
-const languageCodes=['de','uk','en','ru'];
+const languageCodes=['de','en','pl','lt','ru','uk'];
 function authLangNavigation(section,lang,returnTo='/konto/'){
   const word=authWords(lang);
   const links=languageCodes.map(code=>{
@@ -168,7 +228,8 @@ function accessRequestPage(lang='de',received=false){
     '<label>'+escapeHTML(w.kind)+'<select name="intent" required>'+
     '<option value="client">'+escapeHTML(w.client)+'</option>'+
     '<option value="worker">'+escapeHTML(w.worker)+'</option>'+
-    '<option value="partner">'+escapeHTML(w.partner)+'</option></select></label>'+
+    '<option value="partner">'+escapeHTML(w.partner)+'</option>'+
+    '<option value="bauleiter">'+escapeHTML(w.bauleiter)+'</option></select></label>'+
     '<div style="display:none" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>'+
     '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
     escapeHTML(w.privacy)+' <a href="/datenschutz/">Datenschutz</a></span></label>'+
@@ -187,7 +248,7 @@ function forgottenPasswordPage(lang='de'){
 function reviewRequestsPage(requests){
   const records=requests.map(record=>
     '<li class="access-review-item"><strong>'+escapeHTML(record.name)+'</strong> '+
-    '<span>'+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':'Mitarbeiter')+'</span>'+
+    '<span>'+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':record.intent==='bauleiter'?'Bauleiter':'Mitarbeiter')+'</span>'+
     '<p>'+escapeHTML(record.email)+'</p>'+
     '<p><small>'+escapeHTML(new Date(record.created_at).toISOString())+'</small></p>'+
     '<p><small>Gültig bis: '+escapeHTML(new Date(record.expires_at).toISOString().slice(0,10))+' (UTC)</small></p>'+
@@ -196,7 +257,7 @@ function reviewRequestsPage(requests){
     '<input type="hidden" name="role" value="'+escapeHTML(record.intent)+'">'+
     '<label class="auth-checkbox"><input type="checkbox" name="identity_verified" value="on" required>'+
     '<span>Ich habe die Identität über einen unabhängigen Kontaktweg geprüft.</span></label>'+
-    '<button type="submit">Einladung als '+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':'Mitarbeiter')+' erstellen</button></form>'+
+    '<button type="submit">Einladung als '+escapeHTML(record.intent==='client'?'Kunde':record.intent==='partner'?'Partner':record.intent==='bauleiter'?'Bauleiter':'Mitarbeiter')+' erstellen</button></form>'+
     '<form method="post" action="/access-requests/resolve/">'+
     '<input type="hidden" name="id" value="'+escapeHTML(record.id)+'">'+
     '<label class="auth-checkbox"><input type="checkbox" name="reviewed" value="on" required>'+
@@ -278,7 +339,7 @@ function invitationPage(invite=null,origin='',notice=''){
     '<p>Nur berechtigte Administratoren dürfen Kunden, Partner oder Mitarbeitende einladen. Die ausgewählte Rolle ist lediglich eine Anfrage und muss danach im Portal freigegeben werden.</p>'+
     '<form method="post" action="/invite-user/">'+
     '<label>E-Mail des Empfängers<input type="email" name="email" maxlength="320" required></label>'+
-    '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="partner">Geschäftspartner/in</option><option value="worker">Mitarbeiter/in</option></select></label>'+
+    '<label>Zugangstyp<select name="role" required><option value="client">Kunde</option><option value="partner">Geschäftspartner/in</option><option value="worker">Mitarbeiter/in</option><option value="bauleiter">Bauleiter/in</option></select></label>'+
     '<label class="auth-checkbox"><input type="checkbox" name="identity_verified" value="on" required>'+
     '<span>Ich habe die Person über einen unabhängigen Kontaktweg überprüft. Eine E-Mail-Adresse allein genügt nicht.</span></label>'+
     '<button type="submit">Einladung generieren</button></form>'+result+
@@ -307,13 +368,15 @@ function logoutPage(returnTo){
 }
 export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
-  origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch
+  origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
+  trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??''
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(developerEmail && (!ownerEmail || developerEmail.trim().toLowerCase()===ownerEmail.trim().toLowerCase()))throw Error('Developer requires a distinct owner identity.');
   const base=new URL(origin);
   if(base.protocol!=='https:'&&!localTest)throw Error('Production HTTPS origin required.');
   const publicHost=base.host.toLowerCase();
+  const resolveClientIp=createClientIpResolver(trustedProxyIps);
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
@@ -324,14 +387,24 @@ export async function createKnabaVpsServer({
       return new Response('Static assets are served at the VPS edge.',{status:404});
     }}};
   const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}));
+  const testWorkspaces=createDeveloperWorkspaceRegistry(dbPath);
+  const destination=(user,target,lang)=>roleDestination(
+    authenticatedRole(db,user,{ownerEmail,developerEmail}),target,lang);
+  const signedCookies=result=>{
+    const cookie=sessionCookie(result.token,{secure:!localTest});
+    return isGrantedDeveloper(db,result.user,ownerEmail,developerEmail)
+      ?[cookie,developerRoleCookie('owner',{...result.user,token:result.token},{secure:!localTest})]
+      :[cookie,clearDeveloperRoleCookie({secure:!localTest})];
+  };
   const social=Object.keys(oidcConfig).filter(p=>['google','microsoft'].includes(p));
   const server=createHttpServer(async(req,res)=>{
+    const clientIp=resolveClientIp(req);
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
     if(!localTest && req.headers['x-forwarded-proto']==='https')
       res.setHeader('Strict-Transport-Security','max-age=604800');
     res.setHeader('X-Frame-Options','SAMEORIGIN');
-    res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
+    res.setHeader('Permissions-Policy','camera=(), microphone=(self), geolocation=()');
     const challengeOrigin=turnstileSiteKey && turnstileSecretKey ? ' https://challenges.cloudflare.com' : '';
     res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'"+challengeOrigin+"; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'"+challengeOrigin+"; frame-src 'self'"+challengeOrigin+"; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
     const rawHost=String(req.headers.host||'').toLowerCase();
@@ -350,9 +423,52 @@ export async function createKnabaVpsServer({
     const effectiveOrigin=localTest&&rawHost.startsWith('127.0.0.1')?origin:(base.protocol+'//'+rawHost);
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
+    const accountUser=readSession(db,req.headers.cookie);
+    const testIdentity=isDeveloperIdentity(accountUser,developerEmail);
+    const testGranted=isGrantedDeveloper(db,accountUser,ownerEmail,developerEmail);
+    const testCookiePresent=String(req.headers.cookie||'').split(';').some(value=>value.trim().startsWith('__Host-knaba-workspace='));
+    const jsonReply=(status,body,headers={})=>send(res,status,JSON.stringify(body),{
+      'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store',
+      'Vary':'Cookie','X-Robots-Tag':'noindex, nofollow',...headers
+    });
+    if(testCookiePresent&&!accountUser&&!['GET','HEAD'].includes(req.method)&&!/^\/(?:login|logout)\/?$/.test(url.pathname)){
+      return jsonReply(401,{error:{code:'unauthenticated',message:'Sign in again before continuing your test.'}});
+    }
+    if(url.pathname==='/api/developer/workspace'){
+      if(!accountUser)return jsonReply(testCookiePresent?401:404,{error:{code:testCookiePresent?'unauthenticated':'not_found'}});
+      if(!testIdentity)return jsonReply(404,{error:{code:'not_found'}});
+      if(!testGranted)return jsonReply(403,{error:{code:'forbidden'}});
+      if(req.method==='POST'){
+        if(!csrfOK(req,rawHost,effectiveOrigin)||req.headers['x-knaba-request']!=='portal-v1')return jsonReply(403,{error:{code:'origin'}});
+        if(!String(req.headers['content-type']||'').toLowerCase().startsWith('application/json'))return jsonReply(415,{error:{code:'content_type'}});
+        try{
+          const body=JSON.parse((await readBody(req,1024)).toString('utf8'));
+          if(!body||typeof body!=='object'||Array.isArray(body)||Object.keys(body).length!==1||!developerRoles.includes(body.role))
+            return jsonReply(422,{error:{code:'validation'}});
+          testWorkspaces.get(accountUser);
+          return jsonReply(200,{isolated:true,role:body.role,redirect:roleDestination(body.role,'',workspaceLocale(url.searchParams.get('lang')))},
+            {'Set-Cookie':developerRoleCookie(body.role,accountUser,{secure:!localTest})});
+        }catch(error){return jsonReply(error?.code==='too_large'?413:error instanceof SyntaxError?400:503,{error:{code:'workspace_unavailable'}});}
+      }
+      if(req.method!=='GET')return jsonReply(405,{error:{code:'method_not_allowed'}},{Allow:'GET, POST'});
+      try{
+        const role=readDeveloperRole(req.headers.cookie,accountUser);
+        testWorkspaces.get(accountUser);
+        return jsonReply(200,{enabled:true,isolated:true,role,roles:developerRoles,label:'KNABA test workspace'});
+      }catch{return jsonReply(403,{error:{code:'workspace_session',message:'Sign in again to open your test workspace.'}});}
+    }
+    // A developer's application data is always synthetic. Native account
+    // administration must never fall through to real owner/customer records.
+    if(testIdentity&&/^\/(?:join|register|access-requests|invite-user|activate-owner|activate-developer|auth\/oidc)(?:\/|$)/.test(url.pathname)){
+      return send(res,403,'This is your isolated test workspace. Account invitations are managed by the company owner.',{'X-Robots-Tag':'noindex, nofollow'});
+    }
     // URLs observed on the existing official site (2026-10-28). Preserve their
     // meaning when the approved release eventually moves to the official host.
     // This also makes the exact mapping reviewable on staging before cutover.
+    if(url.pathname==='/api/public/release'){
+      if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
+      return send(res,200,req.method==='HEAD'?'':JSON.stringify(publicRelease(releaseEnvironment,origin)),{'Content-Type':'application/json; charset=utf-8','X-Robots-Tag':'noindex, nofollow'});
+    }
     const legacyPublicRoutes={
       '/ber':'/unternehmen/','/ber/':'/unternehmen/',
       '/jobs':'/karriere/','/jobs/':'/karriere/',
@@ -366,10 +482,10 @@ export async function createKnabaVpsServer({
     // Public rebrand: stop serving the discontinued office-cleaning marketing URL.
     // Historical CRM service IDs are intentionally left intact.
     const legacyOffice=url.pathname.match(/^\/(?:(ru|en|uk)\/)?leistungen\/bueroreinigung\/?$/);
-    if(publicHost==='kneba.vsp.rest' && legacyOffice){
+    if(legacyOffice){
       if(req.method!=='GET' && req.method!=='HEAD')return send(res,405,'Method not allowed',{Allow:'GET, HEAD'});
       const destination='/'+(legacyOffice[1]?legacyOffice[1]+'/':'')+'leistungen/';
-      return send(res,308,'Service catalogue moved',{Location:destination});
+      return send(res,308,'Service catalogue moved',{Location:destination+url.search});
     }
     if(url.pathname==='/join/'||url.pathname==='/join'){
       const lang=authLanguage(url.searchParams.get('lang'));
@@ -624,7 +740,7 @@ export async function createKnabaVpsServer({
             cookie:req.headers.cookie,fetchImpl:oidcFetch
           });
           const signed=createSessionForUser(db,result.userId);
-          return redirect(res,'/konto/',{'Set-Cookie':[cleared,sessionCookie(signed.token,{secure:!localTest})],
+          return redirect(res,destination(signed.user,'',authLanguage(url.searchParams.get('lang'))),{'Set-Cookie':[cleared,...signedCookies(signed)],
             'Referrer-Policy':'no-referrer'});
         }catch(error){
           const status=error instanceof OidcError && error.code==='provider_unavailable'?503:401;
@@ -635,7 +751,17 @@ export async function createKnabaVpsServer({
     }
     if(url.pathname==='/login/'||url.pathname==='/login'){
       const rt=returnPath(url.searchParams.get('return_to'));
-      if(req.method==='GET')return send(res,200,loginPage(rt,false,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET' && String(req.headers.accept||'').split(',').some(value=>value.trim().split(';')[0]==='application/json'))return send(res,200,JSON.stringify({providers:social}),{'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','Vary':'Accept, Cookie','X-Robots-Tag':'noindex,nofollow'});
+      if(req.method==='GET'){
+        if(accountUser&&(!testIdentity||testGranted)){
+          try{
+            const next=testIdentity?roleDestination(readDeveloperRole(req.headers.cookie,accountUser),rt,authLanguage(url.searchParams.get('lang')))
+              :destination(accountUser,rt,authLanguage(url.searchParams.get('lang')));
+            return redirect(res,next);
+          }catch{/* A new login replaces a stale or invalid test-role cookie. */}
+        }
+        return send(res,200,loginPage(rt,false,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8','Vary':'Accept, Cookie','X-Robots-Tag':'noindex,nofollow'});
+      }
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
@@ -648,9 +774,17 @@ export async function createKnabaVpsServer({
         const target=returnPath(params.get('return_to'));
         if(password.length>256 || email.length>320)return send(res,422,'Invalid form');
         let result=null;
-        try{result=createLogin(db,{email,password,clientKey:req.socket.remoteAddress||'local'});}catch{/* Uniform response */}
-        if(!result)return send(res,401,loginPage(target,true,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8'});
-        return redirect(res,target,{'Set-Cookie':sessionCookie(result.token,{secure:!localTest})});
+        try{result=createLogin(db,{email,password,clientKey:clientIp});}catch{/* Uniform response */}
+        const wantsJSON=String(req.headers.accept||'').split(',').some(value=>value.trim().split(';')[0]==='application/json');
+        if(!result)return wantsJSON
+          ?send(res,401,JSON.stringify({error:{code:'invalid_credentials'}}),{'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','Vary':'Accept'})
+          :send(res,401,loginPage(target,true,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8','Vary':'Accept'});
+        if(isDeveloperIdentity(result.user,developerEmail)&&!isGrantedDeveloper(db,result.user,ownerEmail,developerEmail)){
+          destroySession(db,sessionCookie(result.token,{secure:!localTest}));
+          return send(res,403,'Developer access requires an active grant.');
+        }
+        if(wantsJSON)return send(res,200,JSON.stringify({authenticated:true,returnTo:destination(result.user,target,authLanguage(url.searchParams.get('lang')))}),{'Content-Type':'application/json; charset=utf-8','Set-Cookie':signedCookies(result),'Cache-Control':'private, no-store','Vary':'Accept'});
+        return redirect(res,destination(result.user,target,authLanguage(url.searchParams.get('lang'))),{'Set-Cookie':signedCookies(result)});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
     }
     if(url.pathname==='/account/password/'||url.pathname==='/account/password'){
@@ -675,7 +809,7 @@ export async function createKnabaVpsServer({
         });
         if(!changed)return send(res,422,credentialPage(true),headers);
         return redirect(res,'/login/?return_to=%2Fkonto%2F',{
-          'Set-Cookie':expiredCookie({secure:!localTest}),'Referrer-Policy':'no-referrer'
+          'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})],'Referrer-Policy':'no-referrer'
         });
       }catch(error){
         if(error?.code==='too_large')return send(res,413,'Invalid form');
@@ -691,7 +825,7 @@ export async function createKnabaVpsServer({
         const raw=await readBody(req,1024);
         const target=returnPath(new URLSearchParams(raw.toString()).get('return_to'));
         destroySession(db,req.headers.cookie);
-        return redirect(res,target,{'Set-Cookie':expiredCookie({secure:!localTest})});
+        return redirect(res,target,{'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
       }catch{return send(res,400,'Invalid request');}
     }
     if(url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/catalogue')){
@@ -700,7 +834,14 @@ export async function createKnabaVpsServer({
       let body;
       try{body=['GET','HEAD'].includes(req.method)?undefined:await readBody(req,64*1024);}
       catch(e){return send(res,e?.code==='too_large'?413:400,'Invalid request');}
-      const user=readSession(db,req.headers.cookie);
+      if(!accountUser&&testCookiePresent)return jsonReply(401,{error:{code:'unauthenticated'}});
+      if(testIdentity&&!testGranted)return jsonReply(403,{error:{code:'forbidden'}});
+      let workspace=null,testRole=null;
+      if(testIdentity){
+        try{testRole=readDeveloperRole(req.headers.cookie,accountUser);workspace=testWorkspaces.get(accountUser);}
+        catch{return jsonReply(403,{error:{code:'workspace_session'}});}
+      }
+      const user=workspace?workspace.people[testRole]:accountUser;
       const headers=new Headers();
       for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization','idempotency-key']){
         if(req.headers[name]!==undefined&&name!=='content-length')headers.set(name,String(req.headers[name]));
@@ -709,22 +850,35 @@ export async function createKnabaVpsServer({
       if(user){
         headers.set('oai-authenticated-user-id',user.id);
         headers.set('oai-authenticated-user-email',user.email);
+        if(workspace){
+          headers.set('oai-authenticated-user-full-name',encodeURIComponent(user.name));
+          headers.set('oai-authenticated-user-full-name-encoding','percent-encoded-utf-8');
+        }
       }
-      // Never forward incoming cf-connecting-ip or forged oai-* headers.
-      headers.set('cf-connecting-ip',String(req.socket.remoteAddress||'127.0.0.1'));
+      // Only the validated peer/header resolution may supply the Worker IP.
+      headers.set('cf-connecting-ip',clientIp);
       const urlForWorker=effectiveOrigin+url.pathname+url.search;
       let reply;
       try{
         const workRequest=new Request(urlForWorker,{method:req.method,headers,body,signal:AbortSignal.timeout(16_000)});
-        const scopedEnv=operator(user)&&user.email.toLowerCase()!==ownerEmail.toLowerCase()
-          ?{...env,DELEGATED_OWNER_ID:user.id}:env;
+        const scopedEnv=workspace?{
+          DB:workspace.d1,OWNER_EMAIL:workspace.people.owner.email,DEVELOPER_EMAIL:'',
+          TURNSTILE_REQUIRED:'0',ASSETS:env.ASSETS,ASSISTANT_NOTIFICATIONS_ENABLED:'0',
+          STUDIO_AI_ENABLED:'0',STUDIO_AI_APPROVED:'0'
+        }:env;
         reply=await worker.fetch(workRequest,scopedEnv,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
       }catch{return send(res,503,'Service temporarily unavailable');}
       res.writeHead(reply.status,Object.fromEntries(reply.headers.entries()));
       return res.end(Buffer.from(await reply.arrayBuffer()));
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed');
-    try{return await sendStatic(root,req,res,url.pathname,db);}catch{return send(res,503,'Service temporarily unavailable');}
+    try{
+      if(testIdentity&&!testGranted)return send(res,403,'Developer access is no longer active.');
+      const pageDb=testIdentity?testWorkspaces.get(accountUser).db:db;
+      // Test Studio publication is visible only to this granted developer.
+      if(parseArticlePath(url.pathname)&&await serveArticle(root,req,res,url.pathname,pageDb,{isolated:testIdentity}))return;
+      return await sendStatic(root,req,res,url.pathname,pageDb,{isolated:testIdentity,origin:base.origin});
+    }catch{return send(res,503,'Service temporarily unavailable');}
   });
   server.requestTimeout=20_000;
   server.headersTimeout=15_000;
@@ -732,7 +886,7 @@ export async function createKnabaVpsServer({
   server.maxRequestsPerSocket=100;
   server.listen(port,host);
   await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
-  return {server,db,migrations,port:server.address().port,close:()=>new Promise(resolve=>server.close(()=>{db.close();resolve();}))};
+  return {server,db,migrations,port:server.address().port,close:()=>new Promise(resolve=>server.close(()=>{testWorkspaces.close();db.close();resolve();}))};
 }
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){
   const port=Number(process.env.PORT||8080);

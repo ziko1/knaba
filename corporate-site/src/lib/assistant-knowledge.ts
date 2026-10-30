@@ -1,6 +1,6 @@
 /** Public, verified-site only responses. No model calls, prices or appointment promises. */
-export type AssistantLocale = 'de' | 'en' | 'uk' | 'ru';
-export const supportedAssistantLocales: readonly AssistantLocale[] = ['de','en','uk','ru'];
+export type AssistantLocale = 'de' | 'en' | 'pl' | 'lt' | 'ru' | 'uk';
+export const supportedAssistantLocales: readonly AssistantLocale[] = ['de','en','pl','lt','ru','uk'];
 
 export function assistantLocale(input: unknown): AssistantLocale {
   return typeof input === 'string' && supportedAssistantLocales.includes(input as AssistantLocale) ? input as AssistantLocale : 'de';
@@ -24,6 +24,8 @@ const dictionary = {
     timing: 'Dates and frequency are agreed personally. I cannot confirm a booking. Should I pass your preferred time to KnaBa?',
     fallback: 'I can help. What kind of property and cleaning service do you need? For a firm agreement, I can connect you to KnaBa.',
   },
+  pl: {"welcome": "Dzień dobry! Pomogę w pytaniach o sprzątanie budowlane i prace pomocnicze w Berlinie i Brandenburgii. Cenę i termin potwierdza osobiście KnaBa.", "handoff": "Prośba o kontakt z człowiekiem została zapisana. KnaBa może odpowiedzieć w tej rozmowie. Zachowaj kod dostępu lub skorzystaj z telefonu albo poczty elektronicznej.", "price": "Cena zależy od etapu budowy, powierzchni, dostępu i zakresu prac. Wiążącą ofertę potwierdza właściciel. Przekazać mu zapytanie?", "region": "KnaBa przyjmuje zapytania dotyczące sprzątania budowlanego w Berlinie i Brandenburgii. Dostępność konkretnej usługi potwierdzamy indywidualnie.", "services": "Oferujemy sprzątanie na różnych etapach budowy, przygotowanie terenu i prace pomocnicze. Wiercenie rdzeniowe i przejścia wymagają oceny technicznej i osobnej umowy. Na jakim etapie jest projekt?", "timing": "Termin i częstotliwość ustalamy osobiście. Nie mogę automatycznie potwierdzić rezerwacji. Przekazać preferowany termin właścicielowi?", "fallback": "Jaki rodzaj obiektu i usługi Cię interesuje? W sprawie konkretnych warunków mogę poprosić właściciela KnaBa o kontakt."},
+  lt: {"welcome": "Sveiki! Padėsiu klausimais apie statybinį valymą ir pagalbinius darbus Berlyne bei Brandenburge. Kainą ir laiką asmeniškai patvirtina KnaBa.", "handoff": "Jūsų prašymas susisiekti su žmogumi užregistruotas. KnaBa gali atsakyti šiame pokalbyje. Išsaugokite prieigos kodą arba susisiekite telefonu ar el. paštu.", "price": "Kaina priklauso nuo statybos etapo, ploto, prieigos ir darbų apimties. Galutinį pasiūlymą patvirtina savininkas. Perduoti jam užklausą?", "region": "KnaBa priima statybinio valymo užklausas Berlyne ir Brandenburge. Konkrečias galimybes patvirtiname individualiai.", "services": "Konsultuojame dėl valymo skirtingais statybos etapais, aikštelės paruošimo ir pagalbinių darbų. Gręžimui ir angoms reikia techninio įvertinimo ir atskiros sutarties. Koks jūsų projekto etapas?", "timing": "Datą ir grafiką deriname asmeniškai. Negaliu automatiškai patvirtinti užsakymo. Perduoti pageidaujamą laiką savininkui?", "fallback": "Kokio tipo objektas ir valymo paslauga domina? Dėl konkrečių sąlygų galiu pakviesti KnaBa savininką."},
   uk: {
     welcome: 'Вітаю! Допоможу з питаннями щодо будівельного клінінгу та допоміжних робіт у Берліні та Бранденбурзі. Для узгодження ціни й термінів можу з’єднати з KnaBa.',
     handoff: 'Запит на розмову з власником збережено. KnaBa може відповісти тут у чаті. Збережіть розмову на цьому пристрої або скористайтеся телефоном чи email.',
@@ -48,15 +50,15 @@ export function assistantGreeting(locale: AssistantLocale): string { return dict
 export function assistantAnswer(message: string, locale: AssistantLocale): {text:string; handoff:boolean} {
   const lower = message.toLowerCase();
   const text = dictionary[locale];
-  if (/(?:\b(?:human|person|operator|manager|owner|mitarbeiter|chef|inhaber|mensch|besitzer|call|telefon)\b|людин|власник|оператор|менеджер|владел|человек|позвон|зв'яз|связат)/iu.test(lower))
+  if (/(?:\b(?:human|person|operator|manager|owner|mitarbeiter|chef|inhaber|mensch|besitzer|call|telefon)\b|людин|власник|оператор|менеджер|владел|человек|paskamb|savinink|žmog|właściciel|człowiek|operator|позвон|зв'яз|связат)/iu.test(lower))
     return {text:text.handoff,handoff:true};
-  if (/(?:preis|kosten|angebot|quote|price|cost|€|eur|ціна|вартість|скільки|цен[аы]|стоимост|сколько)/iu.test(lower))
+  if (/(?:preis|kosten|angebot|quote|price|cost|€|eur|ціна|вартість|скільки|цен[аы]|стоимост|сколько|cena|koszt|oferta|kaina|kainos)/iu.test(lower))
     return {text:text.price,handoff:false};
-  if (/(?:berlin|brandenburg|region|where|area|берлін|берлин|бранденбург)/iu.test(lower))
+  if (/(?:berlin|brandenburg|region|where|area|берлін|берлин|бранденбург|berlynas|brandenburgas|gdzie|kur)/iu.test(lower))
     return {text:text.region,handoff:false};
-  if (/(?:termin|wann|zeit|date|time|schedule|коли|час|дата|срок|когда|время)/iu.test(lower))
+  if (/(?:termin|wann|zeit|date|time|schedule|коли|час|дата|срок|когда|время|kiedy|terminas|kada|laikas)/iu.test(lower))
     return {text:text.timing,handoff:false};
-  if (/(?:reinigung|cleaning|büro|fenster|treppen|bau|office|window|уборк|прибиран|клин|офіс|офис|окн|вікн|під'їзд)/iu.test(lower))
+  if (/(?:reinigung|cleaning|büro|fenster|treppen|bau|office|window|уборк|прибиран|клин|офіс|офис|окн|вікн|під'їзд|sprząta|czyszc|budow|valym|statyb)/iu.test(lower))
     return {text:text.services,handoff:false};
   return {text:text.fallback,handoff:false};
 }

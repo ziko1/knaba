@@ -25,7 +25,7 @@ export function createInquiryDraftMemory(){
     if(!anchor||anchor.hasAttribute('data-language-switch')||!transition?.to)return;
     const destination=transition.to;
     if(transition.from&&destination.origin!==transition.from.origin)return;
-    if(!/^\/(?:(?:en|uk|ru)\/)?kontakt\/$/.test(destination.pathname))return;
+    if(!/^\/(?:(?:en|pl|lt|ru|uk)\/)?kontakt\/$/.test(destination.pathname))return;
     const params=destination.searchParams;
     navigationTopic=offerBySlug(params.get('anliegen')||'')?.slug
       ?? (params.get('leistung')==='baureinigung'?'baureinigung':null);
@@ -56,6 +56,8 @@ export const inquiryDraftMemory=createInquiryDraftMemory();
 export const inquiryDraftCopy={
   de:{restored:'Ihre Angaben wurden in diesem Tab wiederhergestellt. Bitte prüfen Sie sie vor dem Senden.'},
   en:{restored:'Your answers have been restored in this tab. Please review them before sending.'},
+  pl:{restored:'Twoje odpowiedzi zostały przywrócone w tej karcie. Sprawdź je przed wysłaniem.'},
+  lt:{restored:'Jūsų atsakymai atkurti šiame skirtuke. Prieš siųsdami juos patikrinkite.'},
   uk:{restored:'Відповіді відновлено в цій вкладці. Перевірте їх перед надсиланням.'},
   ru:{restored:'Ответы восстановлены в этой вкладке. Проверьте их перед отправкой.'},
 } as const;

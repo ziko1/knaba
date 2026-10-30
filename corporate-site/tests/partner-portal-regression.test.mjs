@@ -5,9 +5,10 @@ import {readFileSync} from 'node:fs';
 test('partner is a first-class authenticated portal role with its own request controls',()=>{
   const src=readFileSync(new URL('../src/components/Portal.tsx',import.meta.url),'utf8');
   assert.match(src,/const canRequest = \(\) => role\(\) === 'client' \|\| role\(\) === 'partner'/);
-  assert.match(src,/const authorized = \(\) => \['owner','admin','worker','client','partner'\]/);
+  assert.match(src,/const authorized = \(\) => \['owner','admin','worker','client','partner','bauleiter'\]/);
   assert.match(src,/data-knaba-role=\{role\(\)\}/);
-  assert.match(src,/currentTab\(\)==='newRequest' && canRequest\(\)/);
+  // Approved clients and partners keep their request draft mounted between tabs.
+  assert.match(src,/<Show when=\{canRequest\(\)\}><div class="portal-panel" hidden=\{currentTab\(\)!=='newRequest'\}><RequestForm/);
   assert.doesNotMatch(src,/<Match when=\{role\(\)==='partner'\}>/);
   assert.match(src,/role\(\)==='owner'\?\['people','activity'\]/);
 });

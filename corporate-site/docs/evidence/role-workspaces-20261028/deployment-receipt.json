@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "result": "PASS_AUTHORIZED_KNEBA_VSP_RELEASE",
+  "environment": "https://kneba.vsp.rest",
+  "deployedAt": "2026-10-28T11:02:43.921815+00:00",
+  "source": "76f96f6f83d22403a1aa255e8bf2b98311807985",
+  "clientArtifactSha256": "8dccc07f54aa2ebd789567409053895f2c11d3ba055165319c03363b1a139ac0",
+  "image": "sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205",
+  "runtimeUser": "1000:1000",
+  "runningArtifact": {
+    "image": "sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205",
+    "user": "1000:1000",
+    "exactRuntimeFiles": true,
+    "clientArtifactSha256": "8dccc07f54aa2ebd789567409053895f2c11d3ba055165319c03363b1a139ac0",
+    "filesVerified": 360
+  },
+  "previousSource": "e2ab9b1883bcac8559dd34939d75bb3e9676dd69",
+  "browserAcceptance": {
+    "evidence-role/browser-receipt.json": {
+      "sha256": "762a8d3e7f1857c96dbb63563767676847adffb3a6f4cc9877fd2dea8ed535ae",
+      "checks": 98,
+      "browser": "155.0.8059.12"
+    },
+    "evidence-developer/developer-browser-receipt.json": {
+      "sha256": "e4ddc4e8bd4f1a96211af8124ae13770cd78ca8e9f45238141151e7d1eda4b49",
+      "checks": 36,
+      "browser": "155.0.8059.12"
+    }
+  },
+  "migration": {
+    "count": 13,
+    "previousMigrationBytesPreserved": true,
+    "existingRowsPreservedOnRestoredBackup": true,
+    "restoredBackupIntegrity": "ok",
+    "restoredBackupForeignKeyErrors": 0,
+    "restoredRuntime": "PASS",
+    "previousRuntimeWithCurrentSchema": "PASS",
+    "liveMigrationApplied": true
+  },
+  "liveDataChecks": {
+    "integrity": "ok",
+    "preexistingBusinessTableCountsRetained": true,
+    "volatileTableCountExclusions": [
+      "portal_rate_limits",
+      "vps_login_limits",
+      "vps_oidc_states",
+      "vps_sessions"
+    ],
+    "fullExistingRowPreservation": "verified on isolated migrated backup; live concurrent writes remain possible"
+  },
+  "publicSmoke": [
+    {
+      "path": "/readyz",
+      "status": 200,
+      "bytes": 5
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 71228
+    },
+    {
+      "path": "/uk/",
+      "status": 200,
+      "bytes": 79310
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "bytes": 70439
+    },
+    {
+      "path": "/ru/",
+      "status": 200,
+      "bytes": 79502
+    },
+    {
+      "path": "/konto/?lang=uk",
+      "status": 200,
+      "bytes": 25545
+    },
+    {
+      "path": "/admin/?lang=uk",
+      "status": 200,
+      "bytes": 26353
+    },
+    {
+      "path": "/login/",
+      "status": 200,
+      "bytes": 3481
+    },
+    {
+      "path": "/api/portal/dashboard",
+      "status": 401,
+      "bytes": 74
+    },
+    {
+      "path": "/api/portal/conversations",
+      "status": 401,
+      "bytes": 74
+    },
+    {
+      "path": "/api/developer/workspace",
+      "status": 404,
+      "bytes": 30
+    },
+    {
+      "path": "/state/site.sqlite",
+      "status": 404,
+      "bytes": 12003
+    },
+    {
+      "path": "/.env",
+      "status": 404,
+      "bytes": 9
+    }
+  ],
+  "storageGateAtCutover": {
+    "availableBytes": 21264896000,
+    "totalBytes": 211271204864,
+    "usedPercent": 89.93,
+    "cutoverAllowed": true
+  },
+  "developerAccess": {
+    "result": "READY_FOR_OWNER_HANDOFF",
+    "source": "76f96f6f83d22403a1aa255e8bf2b98311807985",
+    "environment": "https://kneba.vsp.rest",
+    "testLogin": "developer-test@workspace.knaba.invalid",
+    "startedAt": "2026-10-28T11:08:01.128091+00:00",
+    "finishedAt": "2026-10-28T11:08:08.400861+00:00",
+    "activationRequired": true,
+    "emailSent": false,
+    "passwordGenerated": false,
+    "expiresAt": "2026-10-28T13:08:08.382Z",
+    "primaryApplicationDataUnchanged": true,
+    "preexistingInvitationsUnchanged": true,
+    "invitationLifetimeMs": 7200000,
+    "acceptedRuntimeVerified": true,
+    "http": [
+      {
+        "path": "/readyz",
+        "status": 200
+      },
+      {
+        "path": "/activate-developer/",
+        "status": 200
+      },
+      {
+        "path": "/login/?lang=uk",
+        "status": 200
+      }
+    ],
+    "liveRuntime": {
+      "current": "76f96f6f83d22403a1aa255e8bf2b98311807985",
+      "image": "sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205",
+      "runtimeUser": "1000:1000",
+      "running": true,
+      "health": "healthy"
+    },
+    "primaryDeveloperAccountCreated": false,
+    "login": "developer-test@workspace.knaba.invalid",
+    "status": "READY_FOR_OWNER_HANDOFF",
+    "realUserLoginPerformed": false,
+    "activationSecretIncluded": false
+  },
+  "boundaries": {
+    "publishedDomain": "kneba.vsp.rest",
+    "productionKnabaDeChanged": false,
+    "publicGitHubPush": false,
+    "mainMerge": false,
+    "otherOwnerSettingsWorktreeUntouched": true,
+    "realCustomerTestWrites": false,
+    "publicSearchIndexingEnabled": false,
+    "physicalDeviceUat": false,
+    "firefoxSafariUat": false,
+    "erpEndToEndAcceptance": false
+  },
+  "provenance": {
+    "releaseReceipt": "private VPS receipt; explicit safe-field export",
+    "browserEvidence": "local JSON files match accepted receipt SHA-256",
+    "activationSecretIncluded": false,
+    "privateConfigurationIncluded": false,
+    "customerDataIncluded": false
+  },
+  "operationsNotes": {
+    "privateReleaseReceiptMode": "0600",
+    "privateConfigurationMode": "0600",
+    "preflightFailuresPreserved": true,
+    "scope": "Only new private evidence and root-owned site.env permissions tightened; runtime/data unchanged by permission changes."
+  }
+}

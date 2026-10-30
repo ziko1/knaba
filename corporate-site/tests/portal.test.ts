@@ -32,7 +32,7 @@ class SqliteD1 implements D1Database {
   }
 }
 const origin='https://kneba.vsp.rest';
-const identities={owner:['owner-user','owner@example.test'],client:['client-user','client@example.test'],client2:['client-2','other@example.test'],worker:['worker-user','worker@example.test'],worker2:['worker-2','worker2@example.test'],admin:['admin-user','admin@example.test']} as const;
+const identities={owner:['owner-user','owner@example.test'],client:['client-user','client@example.test'],client2:['client-2','other@example.test'],worker:['worker-user','worker@example.test'],worker2:['worker-2','worker2@example.test'],admin:['admin-user','admin@example.test'],bauleiter:['bauleiter-user','bauleiter@example.test'],bauleiter2:['bauleiter-2','bauleiter2@example.test']} as const;
 type Person=keyof typeof identities;
 const headers=(person?:Person) => ({'Content-Type':'application/json',Origin:origin,'X-KnaBa-Request':'portal-v1','CF-Connecting-IP':'192.0.2.20',...(person?{'oai-authenticated-user-id':identities[person][0],'oai-authenticated-user-email':identities[person][1]}:{})});
 const input=()=>({service:'bueroreinigung',objectType:'Büro / Gewerbe',postcode:'10315',area:'200',frequency:'Regelmäßig',message:'Bitte außerhalb der Bürozeiten.',address:'Teststraße 1',privacyAccepted:true,idempotencyKey:crypto.randomUUID()});
@@ -41,12 +41,12 @@ let db:SqliteD1,env:WorkerEnv;
 async function call(path:string,person?:Person,method='GET',body?:unknown,extra?:Record<string,string>) {
   return handleApi(new Request(origin+path,{method,headers:{...headers(person),...extra},...(body===undefined?{}:{body:JSON.stringify(body)})}),env);
 }
-async function register(person:Person,requestedRole:'client'|'worker'='client') {
+async function register(person:Person,requestedRole:'client'|'worker'|'bauleiter'='client') {
   const response=await call('/api/portal/register',person,'POST',{name:`Test ${person}`,requestedRole,privacyAccepted:true});
   expect(response.status,db.errors.join('\n')).toBe(201);return (await response.json()).profile;
 }
-async function approve(person:Person,role:'client'|'worker'|'admin') {
-  const p=await register(person,role==='worker'?'worker':'client');
+async function approve(person:Person,role:'client'|'worker'|'admin'|'bauleiter') {
+  const p=await register(person,role==='worker'?'worker':role==='bauleiter'?'bauleiter':'client');
   const response=await call('/api/portal/roles','owner','POST',{userId:p.id,role,status:'approved',version:p.version});
   expect(response.status,db.errors.join('\n')).toBe(200);return (await response.json()).profile;
 }
@@ -214,5 +214,80 @@ describe('public lead intake and request boundaries',()=>{
     const r=await handleApi(new Request(origin+'/api/portal/dashboard',{headers:headers('owner')}),{});expect(r.status).toBe(503);expect(await r.text()).not.toContain('owner@example.test');
     const health=await handleApi(new Request(origin+'/api/portal/health'),{DB:db});expect(health.status).toBe(503);
     expect((await call('/api/portal/health')).status).toBe(200);
+  });
+});
+
+
+describe('Bauleiter assignment scope and coordination',()=>{
+  it('requested Bauleiter remains pending until owner approval and has no admin rights',async()=>{
+    const profile=await register('bauleiter','bauleiter');
+    const pending=await (await call('/api/portal/dashboard','bauleiter')).json();
+    expect(pending.session.role).toBe('pending');expect(pending.requests).toEqual([]);
+    expect((await call('/api/portal/roles','bauleiter','POST',{userId:profile.id,role:'bauleiter',status:'approved',version:profile.version})).status).toBe(403);
+    expect((await call('/api/portal/roles','owner','POST',{userId:profile.id,role:'bauleiter',status:'approved',version:profile.version})).status).toBe(200);
+    const data=await (await call('/api/portal/dashboard','bauleiter')).json();
+    expect(data.session.role).toBe('bauleiter');expect(data.requests).toEqual([]);expect(data.profiles).toEqual([]);expect(data.audit).toEqual([]);
+    expect((await call('/api/crm/contacts','bauleiter')).status).toBe(403);
+    expect((await call('/api/studio/pages','bauleiter')).status).toBe(403);
+    expect((await call('/api/portal/requests','bauleiter','POST',input())).status).toBe(403);
+  });
+  it('only assigned work is visible and another Bauleiter cannot read or edit it',async()=>{
+    await approve('client','client');await approve('bauleiter','bauleiter');await approve('bauleiter2','bauleiter');await approve('worker','worker');await register('client2');
+    let assigned=await create();const other=await create();
+    assigned=await patch(assigned.id,'owner',{version:assigned.version,assignedBauleiterId:identities.bauleiter[0]});
+    const data=await (await call('/api/portal/dashboard','bauleiter')).json();
+    expect(data.requests.map((r:{id:string})=>r.id)).toEqual([assigned.id]);expect(data.audit).toEqual([]);
+    expect(data.profiles.map((p:{id:string})=>p.id)).toEqual([identities.worker[0]]);
+    expect(data.profiles.every((p:{email:string})=>p.email==='')).toBe(true);
+    expect(data.requests[0].email).toBeUndefined();expect(data.requests[0].phone).toBeUndefined();expect(data.requests[0].clientId).toBeNull();
+    expect((await (await call('/api/portal/dashboard','bauleiter2')).json()).requests).toEqual([]);
+    expect((await call(`/api/portal/requests/${assigned.id}`,'bauleiter2','PATCH',{version:assigned.version,status:'reviewing'})).status).toBe(404);
+    expect((await call(`/api/portal/requests/${other.id}`,'bauleiter','PATCH',{version:other.version,status:'reviewing'})).status).toBe(404);
+    expect((await call(`/api/portal/requests/${assigned.id}`,'bauleiter','PATCH',{version:assigned.version,assignedBauleiterId:identities.bauleiter2[0]})).status).toBe(422);
+  });
+  it('assigned Bauleiter schedules an approved worker and tracks completion without bypassing checklist',async()=>{
+    await approve('client','client');await approve('bauleiter','bauleiter');await approve('worker','worker');await approve('worker2','worker');
+    let r=await create();r=await patch(r.id,'owner',{version:r.version,assignedBauleiterId:identities.bauleiter[0]});
+    r=await patch(r.id,'bauleiter',{version:r.version,status:'reviewing'});
+    r=await patch(r.id,'bauleiter',{version:r.version,status:'scheduled',assignedWorkerId:identities.worker[0],scheduledAt:'2026-11-01T08:00:00Z',adminReply:'Termin vereinbart'});
+    r=await patch(r.id,'worker',{version:r.version,status:'in_progress'});
+    expect((await call(`/api/portal/requests/${r.id}`,'bauleiter','PATCH',{version:r.version,status:'completed'})).status).toBe(422);
+    r=await patch(r.id,'worker',{version:r.version,checklist:['access_checked','surfaces_cleaned','quality_checked','reported'],workerNote:'Intern geprüft'});
+    r=await patch(r.id,'bauleiter',{version:r.version,status:'completed'});expect(r.status).toBe('completed');expect(r.workerNote).toBe('Intern geprüft');
+    const historical=await (await call('/api/portal/dashboard','bauleiter')).json();expect(historical.profiles.map((p:{id:string})=>p.id)).toEqual([identities.worker[0]]);
+    const customer=await (await call('/api/portal/dashboard','client')).json();
+    expect(customer.requests[0].assignedBauleiterId).toBeUndefined();expect(customer.requests[0].workerNote).toBeUndefined();
+    const worker=await (await call('/api/portal/dashboard','worker')).json();expect(worker.requests[0].assignedBauleiterId).toBeUndefined();
+  });
+  it('owner/admin assigns or removes Bauleiter while clients/workers cannot inject assignment',async()=>{
+    await approve('client','client');await approve('worker','worker');await approve('bauleiter','bauleiter');await approve('admin','admin');
+    let r=await create();
+    for(const person of ['client','worker'] as Person[])expect((await call(`/api/portal/requests/${r.id}`,person,'PATCH',{version:r.version,assignedBauleiterId:identities.bauleiter[0]})).status).toBe(422);
+    r=await patch(r.id,'admin',{version:r.version,assignedBauleiterId:identities.bauleiter[0]});
+    expect(r.assignedBauleiterId).toBe(identities.bauleiter[0]);
+    const directory=await (await call('/api/portal/dashboard','admin')).json();expect(directory.profiles.map((p:{id:string})=>p.id)).toContain(identities.bauleiter[0]);
+    r=await patch(r.id,'admin',{version:r.version,assignedBauleiterId:null});
+    expect((await (await call('/api/portal/dashboard','bauleiter')).json()).requests).toEqual([]);
+    expect((await call(`/api/portal/requests/${r.id}`,'bauleiter','PATCH',{version:r.version,status:'reviewing'})).status).toBe(404);
+  });
+  it('rejects pending or wrong-role supervisors and fences concurrent supervisor suspension',async()=>{
+    await approve('client','client');await register('bauleiter','bauleiter');await approve('worker','worker');let r=await create();
+    for(const assignee of [identities.bauleiter[0],identities.worker[0]])expect((await call(`/api/portal/requests/${r.id}`,'owner','PATCH',{version:r.version,assignedBauleiterId:assignee})).status).toBe(422);
+    await call('/api/portal/roles','owner','POST',{userId:identities.bauleiter[0],role:'bauleiter',status:'approved',version:1});
+    db.beforeBatch=()=>{db.sql.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(identities.bauleiter[0]);};
+    expect((await call(`/api/portal/requests/${r.id}`,'owner','PATCH',{version:r.version,assignedBauleiterId:identities.bauleiter[0]})).status).toBe(409);
+    expect(db.sql.prepare('SELECT assigned_bauleiter_id FROM cleaning_requests WHERE id=?').get(r.id)?.assigned_bauleiter_id).toBeNull();
+  });
+  it('fences concurrent reassignment and role revocation without writing data or audit',async()=>{
+    await approve('client','client');await approve('bauleiter','bauleiter');await approve('bauleiter2','bauleiter');
+    let r=await create();r=await patch(r.id,'owner',{version:r.version,assignedBauleiterId:identities.bauleiter[0]});
+    const before=Number(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n);
+    db.beforeBatch=()=>{db.sql.prepare('UPDATE cleaning_requests SET assigned_bauleiter_id=? WHERE id=?').run(identities.bauleiter2[0],r.id);};
+    expect((await call(`/api/portal/requests/${r.id}`,'bauleiter','PATCH',{version:r.version,status:'reviewing'})).status).toBe(409);
+    expect(db.sql.prepare('SELECT status FROM cleaning_requests WHERE id=?').get(r.id)?.status).toBe('new');
+    expect(Number(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n)).toBe(before);
+    db.beforeBatch=()=>{db.sql.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(identities.bauleiter2[0]);};
+    expect((await call(`/api/portal/requests/${r.id}`,'bauleiter2','PATCH',{version:r.version,status:'reviewing'})).status).toBe(409);
+    expect(Number(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n)).toBe(before);
   });
 });

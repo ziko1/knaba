@@ -1,0 +1,35 @@
+[Unit]
+Description=KNABA customer %i outbound Cloudflare Tunnel
+Wants=network-online.target
+After=network-online.target docker.service
+ConditionPathExists=/etc/knaba-customer/%i.token
+StartLimitIntervalSec=0
+
+[Service]
+Type=notify
+TimeoutStartSec=0
+DynamicUser=yes
+EnvironmentFile=/etc/knaba-customer/%i.env
+LoadCredential=tunnel-token:/etc/knaba-customer/%i.token
+ExecStart=/usr/bin/cloudflared tunnel --no-autoupdate --loglevel info --metrics ${KNABA_METRICS} --edge-ip-version 4 run --token-file %d/tunnel-token
+Restart=always
+RestartSec=5s
+TimeoutStopSec=30s
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

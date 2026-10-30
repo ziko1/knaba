@@ -1,0 +1,59 @@
+---
+import type { PortalLocale } from '../lib/portal-i18n';
+const {locale = 'de'} = Astro.props as {locale?: PortalLocale};
+---
+<div data-account-host data-locale={locale}></div>
+<script>
+  import {accountLocale, accountRole, type AccessMode} from '../lib/account-access';
+  let dispose: (() => void) | undefined;
+  let mounting = false;
+  let sequence = 0;
+  function closeAccount() { sequence++; dispose?.(); dispose = undefined; mounting = false; }
+  async function openAccount(trigger: HTMLElement, url: URL, mode: AccessMode) {
+    if (dispose || mounting) return;
+    const host = document.querySelector<HTMLElement>('[data-account-host]');
+    if (!host) return;
+    const attempt = ++sequence;
+    mounting = true; trigger.setAttribute('aria-busy', 'true');
+    const locale = accountLocale(url.searchParams.get('lang'), new URLSearchParams(location.search).get('lang'), host.dataset.locale);
+    const role = accountRole(trigger.dataset.accountRole ?? url.searchParams.get('cabinet'));
+    // Invitation secrets only come from the fragment and are posted in the form body.
+    const token = mode === 'invite' ? new URLSearchParams(url.hash.slice(1)).get('token') ?? undefined : undefined;
+    try {
+      const [{render}, {createComponent}, {default: AccountAccessDialog}] = await Promise.all([
+        import('solid-js/web'), import('solid-js'), import('./AccountAccessDialog')
+      ]);
+      if (attempt !== sequence || !host.isConnected) return;
+      const returnFocus = trigger.closest<HTMLDetailsElement>('details.mobile-nav')?.querySelector<HTMLElement>('summary') ?? trigger;
+      document.querySelectorAll<HTMLDetailsElement>('details.mobile-nav[open],details.site-language-switcher[open]').forEach(element => element.open = false);
+      dispose = render(() => createComponent(AccountAccessDialog, {locale,mode,initialRole:role,returnTo:url.searchParams.get('return_to') ?? location.pathname + location.search,token,trigger:returnFocus,onClose:closeAccount}), host);
+    } catch {
+      if (attempt !== sequence || !host.isConnected) return;
+      const message = document.createElement('p');
+      message.setAttribute('role', 'alert');
+      message.textContent = {de:'Die Anmeldung konnte nicht geladen werden. ',en:'Sign-in could not load. ',pl:'Nie udało się załadować logowania. ',lt:'Nepavyko įkelti prisijungimo. ',uk:'Не вдалося завантажити вхід. ',ru:'Не удалось загрузить вход. '}[locale];
+      const fallback = document.createElement('a');
+      const fallbackURL = new URL(mode === 'request' ? '/join/' : mode === 'invite' ? '/register/' : mode === 'forgot' ? '/forgot-password/' : '/login/', location.origin);
+      fallbackURL.searchParams.set('lang',locale);
+      if (mode === 'login') fallbackURL.searchParams.set('return_to',url.searchParams.get('return_to') ?? '/konto/');
+      if (mode === 'invite') fallbackURL.hash = url.hash;
+      fallback.href = fallbackURL.href; fallback.dataset.accountFallback = 'true';
+      fallback.textContent = {de:'Anmeldeseite öffnen',en:'Open sign-in page',pl:'Otwórz stronę logowania',lt:'Atidaryti prisijungimo puslapį',uk:'Відкрити сторінку входу',ru:'Открыть страницу входа'}[locale];
+      message.append(fallback); host.replaceChildren(message); fallback.focus();
+    } finally { if (attempt === sequence) mounting = false; trigger.removeAttribute('aria-busy'); }
+  }
+  document.addEventListener('click', event => {
+    if (!(event instanceof MouseEvent) || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
+    const trigger = (event.target as Element | null)?.closest<HTMLElement>('a[href],button[data-account-access]');
+    if (!trigger || trigger.dataset.accountFallback || trigger.hasAttribute('download')) return;
+    if (trigger instanceof HTMLAnchorElement && trigger.target && !['_self','_top'].includes(trigger.target)) return;
+    const url = new URL(trigger.getAttribute('href') ?? '/login/', location.origin);
+    if (url.origin !== location.origin) return;
+    const routes: Record<string, AccessMode> = {'/login/':'login','/login':'login','/register/':'invite','/register':'invite','/join/':'request','/join':'request','/forgot-password/':'forgot','/forgot-password':'forgot'};
+    const requested = trigger.dataset.accountAccess;
+    const mode = ['login','request','invite','forgot'].includes(requested ?? '') ? requested as AccessMode : routes[url.pathname];
+    if (!mode || typeof HTMLDialogElement === 'undefined' || !('showModal' in HTMLDialogElement.prototype)) return;
+    event.preventDefault(); void openAccount(trigger, url, mode);
+  }, {capture:true});
+  document.addEventListener('astro:before-swap', closeAccount);
+</script>

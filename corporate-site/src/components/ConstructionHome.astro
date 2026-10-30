@@ -57,17 +57,17 @@ schema={{'@type':'WebPage',name:t.title,inLanguage:locale}}>
   <div><p class="bau-kicker">{t.optional}</p><h2 id="bau-contract-heading">{t.contract}</h2><p>{t.contractIntro}</p><a href={catalog+'#zusatzarbeiten'} class="button button-dark">{t.extrasCta} <span aria-hidden="true">→</span></a></div>
   <div class="bau-extra-list">{extras.map(item=><a href={prefix+'/bauleistungen/'+item.slug+'/'}><span class="bau-service-icon" aria-hidden="true"><ConstructionServiceIcon name={item.slug} /></span><span>{localeValue(item.name,locale)}</span><span aria-hidden="true">↗</span></a>)}</div>
 </div></section>
+<ProjectScopeGuide locale={locale} />
 <section class="container bau-section" aria-labelledby="bau-process-title"><div class="bau-heading"><p class="bau-kicker">{{de:"PLANUNG / ABLAUF",en:"PLANNING / PROCESS",uk:"ПЛАНУВАННЯ / ЕТАПИ",ru:"ПЛАНИРОВАНИЕ / ЭТАПЫ"}[locale]}</p><h2 id="bau-process-title">{t.phases}</h2></div>
 <div class="bau-steps">{t.steps.map((label,i)=><div><span class="bau-step-counter">0{i+1}</span><h3>{label}</h3></div>)}</div>
 <div class="bau-planner-cta"><p>{t.note}</p><a class="bau-inline" href={planner}>{locale==='de'?'Anfrage vorbereiten':locale==='en'?'Prepare your enquiry':locale==='uk'?'Підготувати запит':'Подготовить запрос'} →</a></div>
 </section>
 
-<HomeGuides locale={locale} />
-<CompanyProfile locale={locale} compact />
 <WhyKnaBa locale={locale} />
+<CompanyProfile locale={locale} compact />
 <Partners locale={locale} />
 <Reviews locale={locale} />
-<ProjectScopeGuide locale={locale} />
+<HomeGuides locale={locale} />
 <HomeMobilePromo locale={locale} />
 <ConstructionFaq locale={locale} />
 <section class="container bau-end-cta" aria-labelledby="bau-final-contact-title"><div><p class="bau-kicker">{t.region}</p><h2 id="bau-final-contact-title">{t.ready}</h2></div><a class="button button-dark" href={contact}>{t.cta} <span aria-hidden="true">↗</span></a></section>

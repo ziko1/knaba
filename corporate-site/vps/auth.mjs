@@ -34,10 +34,8 @@ export function createLogin(db,{email,password,clientKey}){
   const bucket=Math.floor(now/900);
   const remote=String(clientKey).slice(0,100);
   // Stop rotating email addresses around the per-identity five-attempt cap.
-  // The key comes from req.socket.remoteAddress, never a proxy/client header.
-  // Behind a shared Traefik peer this is an aggregate ceiling, not a unique
-  // visitor limiter: leave enough headroom for legitimate company logins.
-  // A trusted-proxy identity contract must be verified before per-user IP limits.
+  // The server supplies its validated client-IP resolution. An untrusted peer
+  // or invalid proxy header falls back to the socket address; limits stay on.
   const sourceKey=hash('source|'+remote+'|'+bucket);
   const sourceState=db.prepare(
     'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<60 RETURNING attempts'

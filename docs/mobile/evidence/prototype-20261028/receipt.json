@@ -1,0 +1,151 @@
+{
+  "sourceGitSha": null,
+  "sourceWorkingTree": "unavailable",
+  "sourceFiles": [
+    {
+      "path": "README.md",
+      "sha256": "b50d6b630416a0c0607770c33979c5d356efa8256ab24efd93aac46d1057c443"
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "sha256": "717342d6bca1c343515a26519123e8478c402f3761631f853a3290c56f0c5a26"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "sha256": "354f7d032140c8dad4b2321da81e5cb7e8a4a99a310c36d6a8a87f45779e8a2d"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ApiClient.kt",
+      "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+      "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "4779eb6e5360480ae7d5748c510e5c3bc8c37a526126b834a5f9552b61d3846f"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "4a34ae8423da09d9716d5b4b4e94567b01c93c010a9902053b423991a85a3af7"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+      "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/GenerationFence.java",
+      "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+      "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+      "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+      "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/NativeText.kt",
+      "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+      "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "541dfd31dee6201186cf2b5e952e75be6ca526073ad358cdaf2c10293cc466ef"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ShiftClock.java",
+      "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/TrackingService.kt",
+      "sha256": "66a811fd570624684664ad2bba267abe111c1f8bc5ba344d7af1800963fbec0f"
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "sha256": "23e27d50eedba3bc3e4e8c154baabd50273bd724513589f9b5eb3336699daf02"
+    },
+    {
+      "path": "app/src/main/res/values-en/strings.xml",
+      "sha256": "315e756f6fe3b2319e83ea9d8216683ac8946d0edf047b21f512c3abdb8a89eb"
+    },
+    {
+      "path": "app/src/main/res/values-lt/strings.xml",
+      "sha256": "722b264394ef54ad3f3ce9cca05c41b00bd9508e2add2d1c07b2757882a48bab"
+    },
+    {
+      "path": "app/src/main/res/values-pl/strings.xml",
+      "sha256": "e8cb1867d223ff9e72d6f660ba626646f8ebd815a258f02b8f2f82c5beffe267"
+    },
+    {
+      "path": "app/src/main/res/values-ru/strings.xml",
+      "sha256": "f6ec6a856f32d805e11d5a8dabf9f98103e3dea57e11a33c77b78433144b9a53"
+    },
+    {
+      "path": "app/src/main/res/values-uk/strings.xml",
+      "sha256": "04ac5419553238e9d0e1429810b9afdd653dd11106bb96d0ba5802d0e3a2fb2e"
+    },
+    {
+      "path": "build.gradle.kts",
+      "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab"
+    },
+    {
+      "path": "gradle.properties",
+      "sha256": "88fb04ed3398915dac053efc1e1f97473aa293733ad3cdfb65717c376c769e69"
+    },
+    {
+      "path": "gradlew",
+      "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650"
+    },
+    {
+      "path": "gradlew.bat",
+      "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78"
+    },
+    {
+      "path": "scripts/package.sh",
+      "sha256": "88aa41bc493cb3c5421bedaf889a13e7c805334eefa8748a28b609275edba858"
+    },
+    {
+      "path": "scripts/test-localization.sh",
+      "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096"
+    },
+    {
+      "path": "scripts/test-vectors.sh",
+      "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34"
+    }
+  ],
+  "builtAt": "2026-10-28T14:04:37.572832+00:00",
+  "artifact": "knaba-android-0.3.0-prototype.apk",
+  "sha256": "3e62935cafed829430f8f5384f24ac9ea964d2d4b4b680de283de7e7e9a37564",
+  "bytes": 2658684,
+  "package": "de.knaba.mobile",
+  "versionCode": 3,
+  "versionName": "0.3.0",
+  "certificateSha256": "d722a33a214628af4dedab7d9251dca0695fb513885246bc581bd06702cac532",
+  "signing": "DEBUG_EVALUATION_ONLY",
+  "v2Signature": "PASS",
+  "physicalDeviceInstall": "NOT_RUN",
+  "upgradeAndDataRetention": "NOT_RUN",
+  "customerAcceptance": "NOT_RUN"
+}

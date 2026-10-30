@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7
-FROM node:24.19.0-bookworm-slim AS build
+FROM node:24.22.1-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 # The optional PEM is a BuildKit secret; TLS verification is never disabled.
@@ -17,7 +17,7 @@ ARG GIT_SHA
 ENV GIT_SHA=$GIT_SHA KNABA_BUILD_CONTEXT=PINNED_SOURCE
 RUN node -e "if(!/^[a-f0-9]{40}$/.test(process.env.GIT_SHA||'')||/^0{40}$/.test(process.env.GIT_SHA))throw new Error('EXACT_RELEASE_SHA_REQUIRED')" && npm run build
 
-FROM node:24.19.0-bookworm-slim AS runtime
+FROM node:24.22.1-bookworm-slim AS runtime
 WORKDIR /app
 ENV NODE_ENV=production PORT=3000
 ARG GIT_SHA

@@ -9,7 +9,7 @@ import Combine
     @Published var enrollmentCode = ""
     @Published var siteId = ""
     @Published var destinationId = ""
-    @Published var localeSelection = UserDefaults.standard.string(forKey: "knaba-ui-language") ?? "system" {
+    @Published var localeSelection = UserDefaults.standard.string(forKey: "knaba-ui-language") ?? "de" {
         didSet { UserDefaults.standard.set(localeSelection, forKey: "knaba-ui-language"); tracker.language = language }
     }
     @Published private var statusKey: NativeText = .notEnrolled

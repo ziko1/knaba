@@ -50,7 +50,7 @@
 - PWA service worker **не кешує** приватні API, cookies, відповіді кабінету, PII. Анонімний/install shell не називати повноцінним offline ERP.
 
 ## 6. UX/UI та міжнародність
-Мобільний premium SaaS: навігація 320–1440 px; keyboard, screen reader, accessibility 44 pt targets, safe areas, dark/light readability, loading/empty/offline/error/retry/pending/forbidden states; AA contrast; перевірені DE/EN/RU/UK. Нативні employee screens уже мають DE/UK/RU/PL/LT/EN і повинні зберегти всі 6 локалізацій. У кожному кабінеті: overview, швидка дія, статуси, список задач/замовлень, контакт і власний профіль. Не показувати кнопки без працюючого backend. PDF/file attachments — лише через авторизовані short-lived scoped download URLs.
+Мобільний premium SaaS: навігація 320–1440 px; keyboard, screen reader, accessibility 44 pt targets, safe areas, dark/light readability, loading/empty/offline/error/retry/pending/forbidden states; AA contrast; перевірені DE/EN/RU/UK. Нативні employee screens уже мають DE/EN/PL/LT/RU/UK і повинні зберегти всі 6 локалізацій. У кожному кабінеті: overview, швидка дія, статуси, список задач/замовлень, контакт і власний профіль. Не показувати кнопки без працюючого backend. PDF/file attachments — лише через авторизовані short-lived scoped download URLs.
 
 ## 7. Порядок реалізації (одна завершувана листова задача за раз)
 **Фаза A — candidate цього PR:** перевірити source й acceptance; додати KNABA \`/app/\` PWA entry, HTTPS-safe distribution UI, сайту в footer; native Android/iOS browser entry із налаштовуваним origin; мобільні translations; тести й ручну інструкцію. \`app\` може бути встановлений як вебсайт; signed APK/IPA/TestFlight **не вигадувати**.

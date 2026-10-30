@@ -39,8 +39,8 @@ describe('construction branding and protected historic contracts',()=>{
   });
   it('provides reciprocal localized deep paths',()=>{
     const path='/bauleistungen/kernbohrungen/';
-    expect(languageLinks('/uk'+path)).toEqual(['de','en','uk','ru'].map(lang=>({lang,url:lang==='de'?path:'/'+lang+path})));
-    expect(localeAlternates(path).map(v=>v.lang)).toEqual(['de','en','uk','ru','x-default']);
+    expect(languageLinks('/uk'+path)).toEqual(['de','en','pl','lt','ru','uk'].map(lang=>({lang,url:(lang==='de'?'':'/'+lang)+(['pl','lt'].includes(lang)?'/':path)})));
+    expect(localeAlternates(path).map(v=>v.lang)).toEqual(['de','en','ru','uk','x-default']);
     expect(localeAlternates('/konto/')).toEqual([]);
   });
 });

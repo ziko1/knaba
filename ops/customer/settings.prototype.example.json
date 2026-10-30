@@ -1,0 +1,12 @@
+{
+  "mode": "prototype",
+  "siteDomain": "preview.your-company.de",
+  "erpDomain": "erp-preview.your-company.de",
+  "ownerEmail": "owner@your-company.de",
+  "developerEmail": "developer@your-company.de",
+  "companyId": "knaba-prototype-customer",
+  "proxyMode": "standalone",
+  "sitePort": 19110,
+  "erpPort": 19111,
+  "releaseConfig": {}
+}

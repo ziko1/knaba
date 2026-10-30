@@ -1,0 +1,552 @@
+{
+  "startedAt": "2026-10-28T10:57:21.307Z",
+  "environment": "isolated HTTPS / real SQLite / developer-owned synthetic workspace",
+  "checks": [
+    {
+      "name": "developer login automatically opens only its synthetic management workspace in the same tab",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "owner overview",
+      "width": 320
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "owner overview",
+      "width": 390
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "owner overview",
+      "width": 768
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "owner overview",
+      "width": 1440
+    },
+    {
+      "name": "server-authorized test role switch",
+      "status": "PASS",
+      "role": "client"
+    },
+    {
+      "name": "request draft and form fields survive section navigation and browser Back",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "client request form",
+      "width": 320
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "client request form",
+      "width": 390
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "client request form",
+      "width": 768
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "client request form",
+      "width": 1440
+    },
+    {
+      "name": "client creates a real persisted request exclusively in its developer workspace",
+      "status": "PASS"
+    },
+    {
+      "name": "server-authorized test role switch",
+      "status": "PASS",
+      "role": "admin"
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "admin assigned request",
+      "width": 320
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "admin assigned request",
+      "width": 390
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "admin assigned request",
+      "width": 768
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "admin assigned request",
+      "width": 1440
+    },
+    {
+      "name": "administration reviews, assigns and schedules the client request through the real UI",
+      "status": "PASS"
+    },
+    {
+      "name": "server-authorized test role switch",
+      "status": "PASS",
+      "role": "worker"
+    },
+    {
+      "name": "worker conversation draft survives section navigation and browser Back",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "worker conversation",
+      "width": 320
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "worker conversation",
+      "width": 390
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "worker conversation",
+      "width": 768
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "worker conversation",
+      "width": 1440
+    },
+    {
+      "name": "assigned worker updates its job and sends a persistent scoped message",
+      "status": "PASS"
+    },
+    {
+      "name": "server-authorized test role switch",
+      "status": "PASS",
+      "role": "admin"
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "manager reply",
+      "width": 320
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "manager reply",
+      "width": 390
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "manager reply",
+      "width": 768
+    },
+    {
+      "name": "responsive developer workspace",
+      "status": "PASS",
+      "stage": "manager reply",
+      "width": 1440
+    },
+    {
+      "name": "management sees the worker message and replies in the same workspace",
+      "status": "PASS"
+    },
+    {
+      "name": "server-authorized test role switch",
+      "status": "PASS",
+      "role": "worker"
+    },
+    {
+      "name": "worker receives the actual persisted management reply",
+      "status": "PASS"
+    },
+    {
+      "name": "server-authorized test role switch",
+      "status": "PASS",
+      "role": "client"
+    },
+    {
+      "name": "client tracks its request while worker-management messages stay inaccessible",
+      "status": "PASS"
+    },
+    {
+      "name": "all primary data, identities and grants remain byte-equivalent at the row level",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "engines": [],
+  "browser": "chromium",
+  "browserVersion": "155.0.8059.12",
+  "draftNavigation": {
+    "stages": [
+      {
+        "stage": "filled",
+        "type": "snapshot",
+        "path": "/konto/",
+        "tab": "newRequest",
+        "lang": "en",
+        "sameDocument": true,
+        "samePortal": true,
+        "sameForm": true,
+        "originalFormConnected": true,
+        "sameMessage": true,
+        "dirty": "true",
+        "fields": [
+          {
+            "name": "postcode",
+            "value": "10315",
+            "defaultValue": ""
+          },
+          {
+            "name": "area",
+            "value": "260",
+            "defaultValue": ""
+          },
+          {
+            "name": "message",
+            "value": "Synthetic developer browser project: prepare the site and coordinate access without using company records.",
+            "defaultValue": ""
+          },
+          {
+            "name": "checkbox",
+            "value": "on",
+            "defaultValue": "",
+            "checked": true,
+            "defaultChecked": false
+          }
+        ],
+        "events": []
+      },
+      {
+        "stage": "requests-tab",
+        "type": "snapshot",
+        "path": "/konto/",
+        "tab": "requests",
+        "lang": "en",
+        "sameDocument": true,
+        "samePortal": true,
+        "sameForm": true,
+        "originalFormConnected": true,
+        "sameMessage": true,
+        "dirty": "true",
+        "fields": [
+          {
+            "name": "postcode",
+            "value": "10315",
+            "defaultValue": ""
+          },
+          {
+            "name": "area",
+            "value": "260",
+            "defaultValue": ""
+          },
+          {
+            "name": "message",
+            "value": "Synthetic developer browser project: prepare the site and coordinate access without using company records.",
+            "defaultValue": ""
+          },
+          {
+            "name": "checkbox",
+            "value": "on",
+            "defaultValue": "",
+            "checked": true,
+            "defaultChecked": false
+          }
+        ],
+        "events": []
+      },
+      {
+        "stage": "browser-back",
+        "type": "snapshot",
+        "path": "/konto/",
+        "tab": "newRequest",
+        "lang": "en",
+        "sameDocument": true,
+        "samePortal": true,
+        "sameForm": true,
+        "originalFormConnected": true,
+        "sameMessage": true,
+        "dirty": "true",
+        "fields": [
+          {
+            "name": "postcode",
+            "value": "10315",
+            "defaultValue": ""
+          },
+          {
+            "name": "area",
+            "value": "260",
+            "defaultValue": ""
+          },
+          {
+            "name": "message",
+            "value": "Synthetic developer browser project: prepare the site and coordinate access without using company records.",
+            "defaultValue": ""
+          },
+          {
+            "name": "checkbox",
+            "value": "on",
+            "defaultValue": "",
+            "checked": true,
+            "defaultChecked": false
+          }
+        ],
+        "events": [
+          {
+            "type": "workspace:navigate",
+            "path": "/konto/",
+            "tab": "newRequest",
+            "lang": "en",
+            "sameDocument": true,
+            "samePortal": true,
+            "sameForm": true,
+            "originalFormConnected": true,
+            "sameMessage": true,
+            "dirty": "true",
+            "fields": [
+              {
+                "name": "postcode",
+                "value": "10315",
+                "defaultValue": ""
+              },
+              {
+                "name": "area",
+                "value": "260",
+                "defaultValue": ""
+              },
+              {
+                "name": "message",
+                "value": "Synthetic developer browser project: prepare the site and coordinate access without using company records.",
+                "defaultValue": ""
+              },
+              {
+                "name": "checkbox",
+                "value": "on",
+                "defaultValue": "",
+                "checked": true,
+                "defaultChecked": false
+              }
+            ]
+          },
+          {
+            "type": "workspace:navigate:next-task",
+            "path": "/konto/",
+            "tab": "newRequest",
+            "lang": "en",
+            "sameDocument": true,
+            "samePortal": true,
+            "sameForm": true,
+            "originalFormConnected": true,
+            "sameMessage": true,
+            "dirty": "true",
+            "fields": [
+              {
+                "name": "postcode",
+                "value": "10315",
+                "defaultValue": ""
+              },
+              {
+                "name": "area",
+                "value": "260",
+                "defaultValue": ""
+              },
+              {
+                "name": "message",
+                "value": "Synthetic developer browser project: prepare the site and coordinate access without using company records.",
+                "defaultValue": ""
+              },
+              {
+                "name": "checkbox",
+                "value": "on",
+                "defaultValue": "",
+                "checked": true,
+                "defaultChecked": false
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "path": "/admin/",
+        "type": "document",
+        "navigation": true
+      },
+      {
+        "path": "/konto/",
+        "type": "document",
+        "navigation": true
+      },
+      {
+        "path": "/admin/",
+        "type": "document",
+        "navigation": true
+      },
+      {
+        "path": "/konto/",
+        "type": "document",
+        "navigation": true
+      },
+      {
+        "path": "/konto/",
+        "type": "document",
+        "navigation": true
+      }
+    ]
+  },
+  "screenshots": [
+    {
+      "file": "developer-client-request-390.png",
+      "stage": "client submitted request",
+      "width": 390,
+      "path": "/konto/",
+      "data": "synthetic fixture only"
+    },
+    {
+      "file": "developer-admin-assignment-1440.png",
+      "stage": "administration assigned and scheduled request",
+      "width": 1440,
+      "path": "/admin/",
+      "data": "synthetic fixture only"
+    },
+    {
+      "file": "developer-worker-reply-390.png",
+      "stage": "worker received management reply",
+      "width": 390,
+      "path": "/konto/",
+      "data": "synthetic fixture only"
+    }
+  ],
+  "primaryData": {
+    "unchanged": true,
+    "excludedAuthenticationTables": [
+      "vps_sessions",
+      "vps_login_limits"
+    ],
+    "tables": {
+      "assistant_conversations": {
+        "rows": 1,
+        "sha256": "2fb94b4c18d6f842b2ae0943cf34aa2c98fe59d10fff0102b92e3cbc0e944a19"
+      },
+      "assistant_messages": {
+        "rows": 1,
+        "sha256": "87638f6f00dd89c9a4e4c354ced299f7b669016054fc0c93647f7c1daa88999e"
+      },
+      "assistant_notifications": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "assistant_offers": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "cleaning_requests": {
+        "rows": 3,
+        "sha256": "63afa2fea22e80e9f2d9c16e97e7609f473aaceb55f8c14faa75093980f91504"
+      },
+      "crm_contact_notes": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "crm_contact_state": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "portal_audit": {
+        "rows": 5,
+        "sha256": "5a8c8729975dbffe76be8f5d2876b6bcfd85a9dc6bf65b09bebfcf03317dae79"
+      },
+      "portal_conversations": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "portal_messages": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "portal_rate_limits": {
+        "rows": 3,
+        "sha256": "93cbfcb6d5d77c97bb4e341cfe594c14294801ee97e49dda6d0e67cc5d5af67a"
+      },
+      "profiles": {
+        "rows": 8,
+        "sha256": "5a25da6cab95c1d4a96e7a53f5ad7536facf3b3351011ad17d175a439eef099c"
+      },
+      "public_reviews": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "studio_ai_budget": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "studio_pages": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "studio_revisions": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_access_requests": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_account_invites": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_oidc_links": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_oidc_states": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_owner_details": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_owner_invites": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "vps_schema_migrations": {
+        "rows": 13,
+        "sha256": "571c93861e489acc030c5fd787be6baae8b9f455cc2ddf24b419b602dda4a069"
+      },
+      "vps_staff_grants": {
+        "rows": 1,
+        "sha256": "aa778182340851925a12a8dcedb8c8b80344c85fb7f7c6fb314798bd21e3aeb1"
+      },
+      "vps_users": {
+        "rows": 10,
+        "sha256": "9ceeafa9bc55afe23f79887dd3d4d8441e54253e7f6f698502b4f815295d6838"
+      }
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-28T10:57:28.815Z"
+}

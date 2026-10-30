@@ -1,6 +1,6 @@
 # Native PostgreSQL tools run on the private KNABA network; no DB host port needed.
 ARG KNABA_IMAGE
-FROM node:24.19.0-bookworm-slim AS node
+FROM node:24.22.1-bookworm-slim AS node
 FROM ${KNABA_IMAGE} AS application
 FROM postgres:17.11-bookworm
 COPY --from=node /usr/local/bin/node /usr/local/bin/node

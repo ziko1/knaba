@@ -1,0 +1,26 @@
+{
+  "startedAt": "2026-10-28T09:08:04.049Z",
+  "environment": "isolated HTTPS / real SQLite / synthetic accounts",
+  "checks": [],
+  "errors": [],
+  "engines": [],
+  "browser": "chromium",
+  "browserVersion": "155.0.8059.12",
+  "migrations": 12,
+  "status": "FAIL",
+  "failure": {
+    "message": "focus must wrap inside dialog in both directions\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: focus must wrap inside dialog in both directions\n\nfalse !== true\n\n    at run (file:///app/knaba/tests/role-cabinets-browser.mjs:271:16)\n    at async file:///app/knaba/tests/role-cabinets-browser.mjs:474:5"
+  },
+  "failureScreenshots": [
+    {
+      "file": "failure-page-01.png",
+      "path": "/",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      }
+    }
+  ],
+  "finishedAt": "2026-10-28T09:08:06.728Z"
+}

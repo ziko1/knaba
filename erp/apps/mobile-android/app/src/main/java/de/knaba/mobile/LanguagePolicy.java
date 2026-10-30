@@ -7,7 +7,7 @@ import java.util.Collections;
 
 /** Locale choice contains no actor, device token or tracking authorization. */
 public final class LanguagePolicy {
-    public static final List<String> SUPPORTED = Collections.unmodifiableList(Arrays.asList("de", "uk", "ru", "pl", "lt", "en"));
+    public static final List<String> SUPPORTED = Collections.unmodifiableList(Arrays.asList("de", "en", "pl", "lt", "ru", "uk"));
     private LanguagePolicy() {}
     public static String supportedTag(String tag) {
         if (tag == null) return null;
@@ -17,6 +17,8 @@ public final class LanguagePolicy {
     public static String resolve(String selected, List<String> deviceLanguages) {
         String explicit = supportedTag(selected);
         if (explicit != null) return explicit;
+        // A new/invalid preference starts in German. Device matching is an explicit choice.
+        if (selected == null || !(selected.isEmpty() || selected.equals("system"))) return "de";
         if (deviceLanguages != null) for (String tag : deviceLanguages) {
             String supported = supportedTag(tag);
             if (supported != null) return supported;

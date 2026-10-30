@@ -5,11 +5,11 @@ import {PUBLISHED_SITE_LOCALES,TARGET_LOCALE_CODES} from '../src/lib/locale-cata
 import {SLOGANS,BRAND_DESCRIPTIONS,render3dLogo,SUPPORTED_LOCALES} from '../scripts/generate-knaba-3d-assets.mjs';
 
 const layout=readFileSync(new URL('../src/layouts/Layout.astro',import.meta.url),'utf8');
-describe('one approved KNABA brand catalog for the 99-locale release pipeline',()=>{
+describe('one approved KNABA brand catalog for the six-language release pipeline',()=>{
   it('never publishes a language without branded and reviewed copy',()=>{
     expect(SUPPORTED_LOCALES).toEqual([...PUBLISHED_SITE_LOCALES]);
     expect(Object.keys(copy)).toEqual([...PUBLISHED_SITE_LOCALES]);
-    expect(TARGET_LOCALE_CODES).toHaveLength(99);
+    expect(TARGET_LOCALE_CODES).toHaveLength(6);
     for(const code of TARGET_LOCALE_CODES){
       expect(Object.hasOwn(copy,code)).toBe(PUBLISHED_SITE_LOCALES.includes(code as typeof PUBLISHED_SITE_LOCALES[number]));
     }

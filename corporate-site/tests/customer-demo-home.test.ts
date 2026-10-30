@@ -7,25 +7,39 @@ const guides=read('../src/components/HomeGuides.astro');
 const scope=read('../src/components/ProjectScopeGuide.astro');
 const guideData=read('../src/data/construction-guides.ts');
 describe('KNABA customer demo: preserve existing homepage and approved blocks',()=>{
-  it('adds each reusable block once after process and before FAQ',()=>{
+  it('orders the complete homepage from service scope to process, trust and next steps',()=>{
     const order=[
       '<ServiceCarousel locale={locale} />',
       'id="bau-services"',
       'class="bau-contract"',
+      '<ProjectScopeGuide locale={locale} />',
       'id="bau-process-title"',
-      '<HomeGuides locale={locale} />',
-      '<CompanyProfile locale={locale} compact />',
       '<WhyKnaBa locale={locale} />',
+      '<CompanyProfile locale={locale} compact />',
       '<Partners locale={locale} />',
       '<Reviews locale={locale} />',
-      '<ProjectScopeGuide locale={locale} />',
+      '<HomeGuides locale={locale} />',
       '<ConstructionFaq locale={locale} />',
       'class="container bau-end-cta"'
     ];
     const offsets=order.map(s=>home.indexOf(s));
     expect(offsets.every(n=>n>=0)).toBe(true);
     expect(offsets).toEqual([...offsets].sort((a,b)=>a-b));
-    for(const element of order.filter(e=>e.includes('locale={locale}')))expect(home.split(element)).toHaveLength(2);
+    for(const element of order)expect(home.split(element)).toHaveLength(2);
+  });
+  it('retains every direct section and existing conversion and contact contracts',()=>{
+    const sections=[...home.matchAll(/<section\b[\s\S]*?<\/section>/g)].map(match=>match[0]);
+    expect(sections).toHaveLength(5);
+    expect(sections.map(section=>section.match(/aria-labelledby="([^"]+)"/)?.[1])).toEqual([
+      'bau-hero-title','bau-services-title','bau-contract-heading','bau-process-title','bau-final-contact-title'
+    ]);
+    expect(home).toContain('<Layout hasInlinePhone hasInlineEmail');
+    expect(home.match(/href=\{contact\}/g)).toHaveLength(2);
+    expect(home.match(/href=\{catalog\}/g)).toHaveLength(1);
+    expect(home).toContain("href={catalog+'#zusatzarbeiten'}");
+    expect(home).toContain('constructionGridCards.map(');
+    expect(home).toContain('extras.map(');
+    expect(home).toContain('t.steps.map(');
   });
   it('uses four translations, no invented reviews, no binding price or office-service rebrand',()=>{
     for(const lang of ['de:','en:','uk:','ru:']) {

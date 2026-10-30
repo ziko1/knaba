@@ -1,0 +1,512 @@
+{
+  "startedAt": "2026-10-28T09:28:44.726Z",
+  "environment": "isolated HTTPS / real SQLite / synthetic accounts",
+  "checks": [
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "de",
+      "width": 320
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "de",
+      "width": 390
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "de",
+      "width": 768
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "de",
+      "width": 1024
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "de",
+      "width": 1440
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "en",
+      "width": 320
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "en",
+      "width": 390
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "en",
+      "width": 768
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "en",
+      "width": 1024
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "en",
+      "width": 1440
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "uk",
+      "width": 320
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "uk",
+      "width": 390
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "uk",
+      "width": 768
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "uk",
+      "width": 1024
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "uk",
+      "width": 1440
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "ru",
+      "width": 320
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "ru",
+      "width": 390
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "ru",
+      "width": 768
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "ru",
+      "width": 1024
+    },
+    {
+      "name": "public modal, keyboard and no reload",
+      "status": "PASS",
+      "locale": "ru",
+      "width": 1440
+    },
+    {
+      "name": "short landscape modal",
+      "status": "PASS",
+      "width": 667,
+      "height": 320
+    },
+    {
+      "name": "mobile account menu returns focus to its visible summary",
+      "status": "PASS",
+      "width": 390
+    },
+    {
+      "name": "request-mode entry rediscovers the existing server role when returning to sign-in",
+      "status": "PASS"
+    },
+    {
+      "name": "closing during deferred login proof refreshes the portal; late proof stays closed and reopening shows the actual role",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid credentials and network failure retain in-page form",
+      "status": "PASS"
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "client",
+      "width": 320
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "client",
+      "width": 390
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "client",
+      "width": 768
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "client",
+      "width": 1024
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "client",
+      "width": 1440
+    },
+    {
+      "name": "authenticated refresh retains session",
+      "status": "PASS",
+      "role": "client"
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "worker",
+      "width": 320
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "worker",
+      "width": 390
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "worker",
+      "width": 768
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "worker",
+      "width": 1024
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "worker",
+      "width": 1440
+    },
+    {
+      "name": "authenticated refresh retains session",
+      "status": "PASS",
+      "role": "worker"
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "partner",
+      "width": 320
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "partner",
+      "width": 390
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "partner",
+      "width": 768
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "partner",
+      "width": 1024
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "partner",
+      "width": 1440
+    },
+    {
+      "name": "authenticated refresh retains session",
+      "status": "PASS",
+      "role": "partner"
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "bauleiter",
+      "width": 320
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "bauleiter",
+      "width": 390
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "bauleiter",
+      "width": 768
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "bauleiter",
+      "width": 1024
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "bauleiter",
+      "width": 1440
+    },
+    {
+      "name": "authenticated refresh retains session",
+      "status": "PASS",
+      "role": "bauleiter"
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "admin",
+      "width": 320
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "admin",
+      "width": 390
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "admin",
+      "width": 768
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "admin",
+      "width": 1024
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "admin",
+      "width": 1440
+    },
+    {
+      "name": "authenticated refresh retains session",
+      "status": "PASS",
+      "role": "admin"
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "owner",
+      "width": 320
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "owner",
+      "width": 390
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "owner",
+      "width": 768
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "owner",
+      "width": 1024
+    },
+    {
+      "name": "authenticated role layout and navigation",
+      "status": "PASS",
+      "role": "owner",
+      "width": 1440
+    },
+    {
+      "name": "authenticated refresh retains session",
+      "status": "PASS",
+      "role": "owner"
+    },
+    {
+      "name": "an administrator role hint cannot grant a client administrator access",
+      "status": "PASS"
+    },
+    {
+      "name": "unapproved access shows its actual state and cannot load private jobs",
+      "status": "PASS",
+      "role": "pending"
+    },
+    {
+      "name": "unapproved access shows its actual state and cannot load private jobs",
+      "status": "PASS",
+      "role": "suspended"
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "operations",
+      "width": 320
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "crm",
+      "width": 320
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "messages",
+      "width": 320
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "studio",
+      "width": 320
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "operations",
+      "width": 390
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "crm",
+      "width": 390
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "messages",
+      "width": 390
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "studio",
+      "width": 390
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "operations",
+      "width": 768
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "crm",
+      "width": 768
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "messages",
+      "width": 768
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "studio",
+      "width": 768
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "operations",
+      "width": 1024
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "crm",
+      "width": 1024
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "messages",
+      "width": 1024
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "studio",
+      "width": 1024
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "operations",
+      "width": 1440
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "crm",
+      "width": 1440
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "messages",
+      "width": 1440
+    },
+    {
+      "name": "management module layout",
+      "status": "PASS",
+      "view": "studio",
+      "width": 1440
+    },
+    {
+      "name": "dirty Studio preserves edits on cancelled section and header navigation; accepted exits work with heading focus",
+      "status": "PASS"
+    },
+    {
+      "name": "full customer → admin → Bauleiter → worker → customer workflow persisted",
+      "status": "PASS"
+    },
+    {
+      "name": "logout revokes protected access",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "engines": [],
+  "browser": "chromium",
+  "browserVersion": "155.0.8059.12",
+  "migrations": 12,
+  "status": "PASS",
+  "finishedAt": "2026-10-28T09:29:47.898Z"
+}

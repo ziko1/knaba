@@ -1,0 +1,61 @@
+{
+  "scope": "Existing approved six-language SVG branding exported as opaque raster social cards",
+  "width": 1200,
+  "height": 630,
+  "type": "image/png",
+  "background": "#FBFCF7",
+  "renderer": {
+    "sharp": "0.35.5",
+    "vips": "8.18.7"
+  },
+  "locales": [
+    {
+      "locale": "de",
+      "sourcePath": "public/images/knaba-3d-header.svg",
+      "imagePath": "public/images/knaba-social-de.png",
+      "sourceSha256": "400f9ef8e635d7c5e274567f473783150439314a1c5dd487df7909c6d8accb49",
+      "imageSha256": "14364557e5ba4c95db3dbc5a4157b2ab526f8e9efc8bbac18d17f5056104488a",
+      "bytes": 106371
+    },
+    {
+      "locale": "en",
+      "sourcePath": "public/images/knaba-3d-header-en.svg",
+      "imagePath": "public/images/knaba-social-en.png",
+      "sourceSha256": "77ce5c3c8de02f4678d387bcf9d82f9eabd893f7c4825a17bb6ae2bc5778edfa",
+      "imageSha256": "7a76756b024088c0ac1b332aa18954a4062afbf4e107430c24b0cb1e2a00d203",
+      "bytes": 106880
+    },
+    {
+      "locale": "pl",
+      "sourcePath": "public/images/knaba-3d-header-pl.svg",
+      "imagePath": "public/images/knaba-social-pl.png",
+      "sourceSha256": "c9fc3d7acf11f90f48b8e4f157d84a7dd709a8bf7049a575b9680ee351579784",
+      "imageSha256": "8cefb546b09ffb5f6c8129c2e67ae877abd3e32a2aba02148166c40b6b96830f",
+      "bytes": 110645
+    },
+    {
+      "locale": "lt",
+      "sourcePath": "public/images/knaba-3d-header-lt.svg",
+      "imagePath": "public/images/knaba-social-lt.png",
+      "sourceSha256": "08a0049602c68f8f0620c489248057d24c0da7451986bbd688bffd3f97c3fdff",
+      "imageSha256": "4ab7a243c1eb42704a3a6f7eb91c0696079f145458fadac1bdde34592a0bb251",
+      "bytes": 105048
+    },
+    {
+      "locale": "ru",
+      "sourcePath": "public/images/knaba-3d-header-ru.svg",
+      "imagePath": "public/images/knaba-social-ru.png",
+      "sourceSha256": "d1846b983ddf48b970a9d0df182993a7e6be8f7bb9b12d5a1e89dcfab25d0f78",
+      "imageSha256": "4248be259c3cd161759c06737e8ca1a7b85128b25f05ef422a93faaaddb36268",
+      "bytes": 106402
+    },
+    {
+      "locale": "uk",
+      "sourcePath": "public/images/knaba-3d-header-uk.svg",
+      "imagePath": "public/images/knaba-social-uk.png",
+      "sourceSha256": "2d8ac32fa88de1700d8010e7d2162fc0a9559b1bb9943c71ce3cc0fb1c7f7d87",
+      "imageSha256": "0f2ae1c987ebc803f09000faa3493dea784fb5fe47c4168836f60a535794c25c",
+      "bytes": 106501
+    }
+  ]
+}

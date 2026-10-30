@@ -4,8 +4,10 @@ import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
 import type { D1Database, D1Statement, WorkerEnv, WorkerContext } from './types';
 import { handleAssistant } from './assistant';
 import { handleStudio, StudioFault } from './studio';
+import {ArticleFault} from './articles';
 import { handleCrmApi } from './crm';
 import { handleReviews, ReviewFault } from './reviews';
+import { handlePortalMessages } from './portal-messages';
 
 type Row = Record<string, unknown>;
 const PRIVACY_VERSION = '2026-10-28';
@@ -34,11 +36,13 @@ async function sha(value: string): Promise<string> {
 function profile(row: Row): PortalProfile {
   const role=approvedRoles.includes(row.role as ApprovedRole)?row.role as ApprovedRole:null;
   const status=['pending','approved','suspended'].includes(str(row.status))?row.status as PortalProfile['status']:'suspended';
-  return {id:str(row.id),name:str(row.name),email:str(row.email),requestedRole:row.requested_role==='worker'?'worker':row.requested_role==='partner'?'partner':'client',role,status,createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
+  return {id:str(row.id),name:str(row.name),email:str(row.email),requestedRole:row.requested_role==='bauleiter'?'bauleiter':row.requested_role==='worker'?'worker':row.requested_role==='partner'?'partner':'client',role,status,createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
 }
 function requestView(row: Row,role: PortalRole): CleaningRequest {
   const result: CleaningRequest = {id:str(row.id),clientId:row.client_id as string|null,service:str(row.service),objectType:str(row.object_type),postcode:str(row.postcode),area:str(row.area),frequency:str(row.frequency),message:str(row.message),contactName:str(row.contact_name),address:str(row.address),status:row.status as RequestStatus,assignedWorkerId:row.assigned_worker_id as string|null,scheduledAt:row.scheduled_at as string|null,checklist:JSON.parse(str(row.checklist)||'[]') as ChecklistItem[],customerFeedback:str(row.customer_feedback),adminReply:str(row.admin_reply),createdAt:str(row.created_at),updatedAt:str(row.updated_at),version:Number(row.version)};
   if (role === 'owner' || role === 'admin' || role === 'client' || role === 'partner') { result.email=str(row.email); result.phone=str(row.phone); }
+  if (role === 'owner' || role === 'admin' || role === 'bauleiter') result.assignedBauleiterId=row.assigned_bauleiter_id as string|null;
+  if (role === 'bauleiter') result.clientId=null;
   if (role !== 'client' && role !== 'partner') result.workerNote=str(row.worker_note);
   if (role === 'worker') { result.customerFeedback=''; result.adminReply=''; result.clientId=null; }
   return result;
@@ -102,7 +106,7 @@ async function register(request: Request,env: WorkerEnv,s: PortalSession) {
   const user=signed(s), db=dbFor(env),body=await readBody(request);
   allowedKeys(body,['name','requestedRole','privacyAccepted']);privacy(body);
   const name=textField(body.name,'Name',80,true);
-  if(!['client','worker','partner'].includes(String(body.requestedRole))) fail(422,'validation','Bitte wählen Sie Kunde, Partner oder Mitarbeitende.');
+  if(!['client','worker','partner','bauleiter'].includes(String(body.requestedRole))) fail(422,'validation','Bitte wählen Sie Kunde, Partner, Mitarbeitende oder Bauleitung.');
   if(s.profile) return response({profile:s.profile});
   await rateLimit(db,`register:${await sha(user.id)}`,10);
   const time=iso(),mutation=id();
@@ -118,8 +122,8 @@ async function dashboard(env: WorkerEnv,s: PortalSession) {
   const data: PortalDashboard={session:s,requests:[],profiles:[],audit:[],limited:false};
   // Partner is a distinct approved identity without cross-client/ERP read permissions.
   if(['pending','suspended'].includes(s.role)) return response(data);
-  requireRole(s,['client','partner','worker','admin','owner']);
-  const filters=(s.role==='client'||s.role==='partner')?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":'';
+  requireRole(s,['client','partner','worker','bauleiter','admin','owner']);
+  const filters=(s.role==='client'||s.role==='partner')?' WHERE client_id=?':s.role==='worker'?" WHERE assigned_worker_id=? AND status IN ('scheduled','in_progress','completed')":s.role==='bauleiter'?' WHERE assigned_bauleiter_id=?':'';
   const bind=filters?[s.user!.id]:[];
   const rows=(await db.prepare(`SELECT * FROM cleaning_requests${filters} ORDER BY updated_at DESC,id DESC LIMIT ?`).bind(...bind,MAX_ROWS+1).all<Row>()).results||[];
   data.limited=rows.length>MAX_ROWS;data.requests=rows.slice(0,MAX_ROWS).map(row=>requestView(row,s.role));
@@ -127,9 +131,17 @@ async function dashboard(env: WorkerEnv,s: PortalSession) {
     const profiles=(await db.prepare('SELECT * FROM profiles ORDER BY created_at DESC,id LIMIT ?').bind(MAX_ROWS+1).all<Row>()).results||[];
     data.limited ||= profiles.length>MAX_ROWS;data.profiles=profiles.slice(0,MAX_ROWS).map(profile);
     data.audit=((await db.prepare('SELECT id,actor_id,action,entity_id,created_at FROM portal_audit ORDER BY created_at DESC,id DESC LIMIT 100').all<Row>()).results||[]).map(r=>({id:str(r.id),actorId:str(r.actor_id),action:str(r.action),entityId:str(r.entity_id),createdAt:str(r.created_at)}));
-  } else if(s.role==='admin') {
-    // Only the assignment directory is visible to admins, not pending accounts.
-    data.profiles=((await db.prepare("SELECT * FROM profiles WHERE role='worker' AND status='approved' ORDER BY name LIMIT ?").bind(MAX_ROWS).all<Row>()).results||[]).map(r=>({...profile(r),email:''}));
+  } else if(s.role==='admin' || (s.role==='bauleiter' && data.requests.length>0)) {
+    // Coordination needs approved assignee names only, never pending profiles or emails.
+    // A Bauleiter without assigned work receives no staff directory.
+    const directoryRoles=s.role==='admin'?"('worker','bauleiter')":"('worker')";
+    const activeCoordination=s.role==='admin'||data.requests.some(r=>!['completed','cancelled'].includes(r.status));
+    const historicalWorkers=[...new Set(data.requests.map(r=>r.assignedWorkerId).filter((value):value is string=>typeof value==='string'))];
+    // After all work ends, retain names needed for the displayed history only.
+    // A historical assignment does not expose today's complete worker directory.
+    const historyScope=activeCoordination?'':historicalWorkers.length?` AND id IN (${historicalWorkers.map(()=>'?').join(',')})`:' AND 0';
+    const bindings=activeCoordination?[]:historicalWorkers;
+    data.profiles=((await db.prepare(`SELECT * FROM profiles WHERE role IN ${directoryRoles} AND status='approved'${historyScope} ORDER BY name,id LIMIT ?`).bind(...bindings,MAX_ROWS).all<Row>()).results||[]).map(r=>({...profile(r),email:'',createdAt:'',updatedAt:''}));
   }
   return response(data);
 }
@@ -189,15 +201,15 @@ async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
   return response({profile:profile((await db.prepare('SELECT * FROM profiles WHERE id=?').bind(targetId).first<Row>())!)});
 }
 async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,requestId: string) {
-  requireRole(s,['client','partner','worker','admin','owner']);const db=dbFor(env),body=await readBody(request),version=validVersion(body.version);
-  const permissions=(s.role==='client'||s.role==='partner')?['status','customerFeedback']:s.role==='worker'?['status','checklist','workerNote']:['status','assignedWorkerId','scheduledAt','adminReply'];
+  requireRole(s,['client','partner','worker','bauleiter','admin','owner']);const db=dbFor(env),body=await readBody(request),version=validVersion(body.version);
+  const permissions=(s.role==='client'||s.role==='partner')?['status','customerFeedback']:s.role==='worker'?['status','checklist','workerNote']:s.role==='bauleiter'?['status','assignedWorkerId','scheduledAt','adminReply']:['status','assignedWorkerId','assignedBauleiterId','scheduledAt','adminReply'];
   allowedKeys(body,['version',...permissions]);
   if(Object.keys(body).length<2)fail(422,'validation','Bitte wählen Sie eine Änderung.');
   const row=await db.prepare('SELECT * FROM cleaning_requests WHERE id=?').bind(requestId).first<Row>();
-  if(!row||((s.role==='client'||s.role==='partner')&&row.client_id!==s.user!.id)||(s.role==='worker'&&row.assigned_worker_id!==s.user!.id))fail(404,'not_found','Der Auftrag wurde nicht gefunden.');
+  if(!row||((s.role==='client'||s.role==='partner')&&row.client_id!==s.user!.id)||(s.role==='worker'&&row.assigned_worker_id!==s.user!.id)||(s.role==='bauleiter'&&row.assigned_bauleiter_id!==s.user!.id))fail(404,'not_found','Der Auftrag wurde nicht gefunden.');
   const current=row!;const from=current.status as RequestStatus;
   if(s.role==='worker'&&!['scheduled','in_progress'].includes(from))fail(409,'state','Dieser Auftrag kann nicht mehr bearbeitet werden.');
-  const next={status:from,assignedWorkerId:current.assigned_worker_id,scheduledAt:current.scheduled_at,checklist:str(current.checklist),workerNote:str(current.worker_note),customerFeedback:str(current.customer_feedback),adminReply:str(current.admin_reply)};
+  const next={status:from,assignedBauleiterId:current.assigned_bauleiter_id,assignedWorkerId:current.assigned_worker_id,scheduledAt:current.scheduled_at,checklist:str(current.checklist),workerNote:str(current.worker_note),customerFeedback:str(current.customer_feedback),adminReply:str(current.admin_reply)};
   if(body.status!==undefined){
     if(!requestStatuses.includes(body.status as RequestStatus))fail(422,'validation','Der Status ist ungültig.');
     const to=body.status as RequestStatus;
@@ -220,6 +232,15 @@ async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,req
       next.assignedWorkerId=workerId;
     } else next.assignedWorkerId=null;
   }
+  if(body.assignedBauleiterId!==undefined){
+    if(['completed','cancelled'].includes(from))fail(409,'state','Abgeschlossene Aufträge können nicht neu zugeteilt werden.');
+    if(body.assignedBauleiterId!==null){
+      const bauleiterId=textField(body.assignedBauleiterId,'Bauleiterkennung',200,true);
+      const bauleiter=await db.prepare("SELECT id FROM profiles WHERE id=? AND role='bauleiter' AND status='approved'").bind(bauleiterId).first<Row>();
+      if(!bauleiter)fail(422,'bauleiter','Bitte wählen Sie eine freigegebene Bauleitung.');
+      next.assignedBauleiterId=bauleiterId;
+    }else next.assignedBauleiterId=null;
+  }
   if(body.scheduledAt!==undefined){
     if(['completed','cancelled'].includes(from))fail(409,'state','Abgeschlossene Aufträge können nicht neu terminiert werden.');
     if(body.scheduledAt===null)next.scheduledAt=null;
@@ -235,14 +256,16 @@ async function patchRequest(request: Request,env: WorkerEnv,s: PortalSession,req
     const activeWorker=await db.prepare("SELECT id FROM profiles WHERE id=? AND role='worker' AND status='approved'").bind(next.assignedWorkerId).first<Row>();
     if(!activeWorker)fail(422,'worker','Die zugeteilte Arbeitskraft ist nicht mehr freigegeben. Bitte teilen Sie den Auftrag neu zu.');
   }
-  if((s.role==='admin'||s.role==='owner')&&next.status==='completed'&&JSON.parse(next.checklist).length!==checklistItems.length)fail(422,'checklist','Vor dem Abschluss muss die Arbeitskraft die vier Prüfpunkte abschließen.');
+  if((s.role==='admin'||s.role==='owner'||s.role==='bauleiter')&&next.status==='completed'&&JSON.parse(next.checklist).length!==checklistItems.length)fail(422,'checklist','Vor dem Abschluss muss die Arbeitskraft die vier Prüfpunkte abschließen.');
   const time=iso(),mutation=id();
   const roleGuard=s.role==='owner'?'':" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role=? AND status='approved')";
-  const scopeGuard=(s.role==='client'||s.role==='partner')?' AND client_id=?':s.role==='worker'?' AND assigned_worker_id=?':'';
+  const scopeGuard=(s.role==='client'||s.role==='partner')?' AND client_id=?':s.role==='worker'?' AND assigned_worker_id=?':s.role==='bauleiter'?' AND assigned_bauleiter_id=?':'';
   const workerGuard=needsActiveWorker?" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='worker' AND status='approved')":'';
-  const bindings=[next.status,next.assignedWorkerId,next.scheduledAt,next.checklist,next.workerNote,next.customerFeedback,next.adminReply,time,mutation,requestId,version,...(s.role==='owner'?[]:[s.user!.id,s.role]),...(scopeGuard?[s.user!.id]:[]),...(needsActiveWorker?[next.assignedWorkerId]:[])];
+  const needsActiveBauleiter=body.assignedBauleiterId!==undefined && next.assignedBauleiterId!==null;
+  const bauleiterGuard=needsActiveBauleiter?" AND EXISTS (SELECT 1 FROM profiles WHERE id=? AND role='bauleiter' AND status='approved')":'';
+  const bindings=[next.status,next.assignedBauleiterId,next.assignedWorkerId,next.scheduledAt,next.checklist,next.workerNote,next.customerFeedback,next.adminReply,time,mutation,requestId,version,...(s.role==='owner'?[]:[s.user!.id,s.role]),...(scopeGuard?[s.user!.id]:[]),...(needsActiveWorker?[next.assignedWorkerId]:[]),...(needsActiveBauleiter?[next.assignedBauleiterId]:[])];
   const result=await db.batch([
-    db.prepare(`UPDATE cleaning_requests SET status=?,assigned_worker_id=?,scheduled_at=?,checklist=?,worker_note=?,customer_feedback=?,admin_reply=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?${roleGuard}${scopeGuard}${workerGuard}`).bind(...bindings),
+    db.prepare(`UPDATE cleaning_requests SET status=?,assigned_bauleiter_id=?,assigned_worker_id=?,scheduled_at=?,checklist=?,worker_note=?,customer_feedback=?,admin_reply=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?${roleGuard}${scopeGuard}${workerGuard}${bauleiterGuard}`).bind(...bindings),
     auditStatement(db,s.user!.id,'request.updated',requestId,mutation,'cleaning_requests',time),
   ]);
   if(!result[0]?.meta?.changes)fail(409,'conflict','Der Auftrag oder Ihre Freigabe wurde inzwischen geändert. Bitte aktualisieren Sie die Ansicht.');
@@ -264,6 +287,8 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
     if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null},ctx);
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
+    if(path==='/api/portal/conversations'||path.startsWith('/api/portal/conversations/'))
+      return await handlePortalMessages(request,env,s,{fail,response,readBody,rateLimit,sha});
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);
     if(path==='/api/portal/dashboard'&&request.method==='GET')return await dashboard(env,s);
     if(path==='/api/portal/requests'&&request.method==='POST')return await createRequest(request,env,s);
@@ -273,7 +298,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     return response({error:{code:'not_found',message:'Dieser Endpunkt ist nicht verfügbar.'}},404);
   } catch(error) {
     if(error instanceof ReviewFault)return response({error:{code:error.code,message:error.message}},error.status);
-    if(error instanceof StudioFault)return response({error:{code:error.code,message:error.message}},error.status);
+    if(error instanceof StudioFault||error instanceof ArticleFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof ApiFault)return response({error:{code:error.code,message:error.message,...(error.fields?{fields:error.fields}:{})}},error.status);
     // Never expose database errors, identities, SQL or raw payloads in responses/logs.
     return response({error:{code:'unavailable',message:'Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.'}},503);

@@ -107,8 +107,8 @@ class MainActivity : Activity() {
         if (store.read().has("deviceToken")) refresh()
     }
     private fun chooseLanguage() {
-        val tags = listOf("") + LanguagePolicy.SUPPORTED
-        val names = arrayOf(getString(R.string.language_device), "Deutsch", "Українська", "Русский", "Polski", "Lietuvių", "English")
+        val tags = LanguagePolicy.SUPPORTED + listOf("")
+        val names = arrayOf("Deutsch", "English", "Polski", "Lietuvių", "Русский", "Українська", getString(R.string.language_device))
         val selected = tags.indexOf(NativeLocale.selected(this)).coerceAtLeast(0)
         AlertDialog.Builder(this).setTitle(R.string.language_label).setSingleChoiceItems(names, selected) { dialog, index ->
             NativeLocale.choose(this, tags[index]); sendBroadcast(Intent(NativeLocale.CHANGED).setPackage(packageName)); dialog.dismiss(); recreate()

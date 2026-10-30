@@ -20,7 +20,7 @@ const json=(fields,cookie='')=>({
  method:'POST',headers:{...headers,Origin:origin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1',
  'Content-Type':'application/json',Cookie:cookie},body:JSON.stringify(fields)
 });
-test('customer host: separate real owner/developer grants, partner pending, owner review, scoped access, developer revocation',async()=>{
+test('customer host: owner handles real onboarding, developer has isolated test data, partner scope and grant revocation',async()=>{
  const dir=await mkdtemp(join(tmpdir(),'knaba-dual-admin-http-'));
  let service;
  try{
@@ -46,7 +46,7 @@ test('customer host: separate real owner/developer grants, partner pending, owne
   for(const c of [ownerCookie,developerCookie]){
    const who=await (await at('/api/portal/session',{headers:{Cookie:c}})).json();
    assert.equal(who.role,'owner');
-   assert.equal((await at('/access-requests/',{headers:{Cookie:c}})).status,200);
+   assert.equal((await at('/access-requests/',{headers:{Cookie:c}})).status,c===ownerCookie?200:403);
    assert.equal((await at('/api/crm/contacts',{headers:{Cookie:c}})).status,200);
   }
   const bad=await at('/join/',form({name:'Synthetic Partner',email:'partner@example.test',
@@ -55,7 +55,8 @@ test('customer host: separate real owner/developer grants, partner pending, owne
   const queue=await (await at('/access-requests/',{headers:{Cookie:ownerCookie}})).text();
   assert.match(queue,/partner@example\.test/);
   assert.match(queue,/value="partner"/);
-  const invited=await at('/invite-user/',form({email:'partner@example.test',role:'partner',identity_verified:'on'},developerCookie));
+  assert.equal((await at('/invite-user/',form({email:'partner@example.test',role:'partner',identity_verified:'on'},developerCookie))).status,403);
+  const invited=await at('/invite-user/',form({email:'partner@example.test',role:'partner',identity_verified:'on'},ownerCookie));
   assert.equal(invited.status,200);
   const token=(await invited.text()).match(/register\/#token=([A-Za-z0-9_-]{43})/)?.[1];
   assert.ok(token);
@@ -85,7 +86,7 @@ test('customer host: separate real owner/developer grants, partner pending, owne
   service.db.prepare('UPDATE vps_staff_grants SET active=0 WHERE user_id=?').run(enrolled.id);
   assert.equal(hasOwnerAuthority(service.db,{userId:enrolled.id,ownerEmail:owner,developerEmail:developer}),false);
   assert.equal((await at('/invite-user/',{headers:{Cookie:developerCookie}})).status,403);
-  assert.equal((await (await at('/api/portal/session',{headers:{Cookie:developerCookie}})).json()).role,'pending');
+  assert.equal((await at('/api/portal/session',{headers:{Cookie:developerCookie}})).status,403);
   assert.equal((await at('/api/crm/contacts',{headers:{Cookie:developerCookie}})).status,403);
   assert.equal((await at('/readyz')).status,200);
  }finally{if(service)await service.close();await rm(dir,{recursive:true,force:true});}

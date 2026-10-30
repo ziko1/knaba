@@ -7,7 +7,7 @@ describe('KNABA unified admin section permission contract', () => {
     expect(allowedAdminSections('admin')).toEqual(['overview', 'operations', 'crm']);
   });
   it('never exposes admin navigation to customers, workers or pending accounts', () => {
-    for (const role of ['client', 'worker', 'pending', 'suspended', 'anonymous', '', 'OWNER']) {
+    for (const role of ['client', 'worker', 'partner', 'bauleiter', 'pending', 'suspended', 'anonymous', '', 'OWNER']) {
       expect(allowedAdminSections(role)).toEqual([]);
     }
     expect(allowedAdminSections(null)).toEqual([]);

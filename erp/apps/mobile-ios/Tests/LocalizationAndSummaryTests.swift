@@ -5,6 +5,7 @@ final class LocalizationAndSummaryTests: XCTestCase {
     func testEverySupportedLanguageCoversAllUIPrivacyStatusAndErrorKeys() {
         XCTAssertEqual(Set(NativeStrings.rows.keys), Set(NativeText.allCases))
         XCTAssertEqual(NativeLanguage.allCases.count, 6)
+        XCTAssertEqual(NativeLanguage.allCases.map(\.rawValue), ["de", "en", "pl", "lt", "ru", "uk"])
         for key in NativeText.allCases {
             let row = NativeStrings.rows[key]!
             XCTAssertEqual(row.count, 6, key.rawValue)
@@ -22,6 +23,8 @@ final class LocalizationAndSummaryTests: XCTestCase {
         XCTAssertEqual(NativeLanguage.device(["ja-JP"]), .de)
         XCTAssertEqual(NativeLanguage.selected("ru", preferred: ["de-DE"]), .ru)
         XCTAssertEqual(NativeLanguage.selected("system", preferred: ["pl-PL"]), .pl)
+        XCTAssertEqual(NativeLanguage.selected("", preferred: ["ru-RU"]), .de)
+        XCTAssertEqual(NativeLanguage.selected("invalid", preferred: ["en-GB"]), .de)
     }
     func testErrorsPrivacyStatesAndFormattedCountersChangeLanguageWithoutChangingCanonicalState() {
         XCTAssertEqual(NativeStrings.code("PRIVATE_BREAK", .en), "Private break · GPS OFF")

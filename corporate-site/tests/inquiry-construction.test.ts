@@ -1,3 +1,4 @@
+import {publicOfferName} from '../src/lib/public-i18n';
 import { describe, expect, it } from 'vitest';
 import { constructionOffers } from '../src/data/construction-offers';
 import { buildInquiry, validateInquiry } from '../src/lib/inquiry';
@@ -8,17 +9,17 @@ import type { PublicLocale } from '../src/lib/public-i18n';
 const draft = { service: 'baureinigung', objectType: 'Baustelle', postcode: '10315', area: '', frequency: 'Einmalig', name: 'QA Example', email: 'qa@example.com', phone: '', message: 'Access after 08:00.' };
 
 describe('precise construction enquiries with the existing CRM contract', () => {
-  for (const locale of ['de', 'en', 'uk', 'ru'] as PublicLocale[]) {
+  for (const locale of ['de', 'en', 'pl', 'lt', 'ru', 'uk'] as PublicLocale[]) {
     it(`carries every advertised topic into the saved payload and summary (${locale})`, () => {
       for (const offer of constructionOffers) {
         const payload = constructionInquiryData(draft, offer.slug, locale);
         expect(payload.service).toBe('baureinigung');
-        expect(payload.message).toContain(offer.name[locale]);
+        expect(payload.message).toContain(publicOfferName(offer,locale));
         expect(payload.message).toContain(draft.message);
         expect(validateInquiry(payload, locale)).toEqual({});
         const summary = buildInquiry(payload, locale, offer.slug);
-        expect(summary.subject).toContain(offer.name[locale]);
-        expect(summary.body).toContain(offer.name[locale]);
+        expect(summary.subject).toContain(publicOfferName(offer,locale));
+        expect(summary.body).toContain(publicOfferName(offer,locale));
       }
     });
     it(`reserves message room without dropping text (${locale})`, () => {

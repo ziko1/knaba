@@ -3,6 +3,8 @@ import { resolve, join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import {studioPages} from '../src/lib/studio-pages.ts';
+import {localeAlternates} from '../src/lib/site-i18n.ts';
 import {constructionGuideRoutes} from '../src/data/construction-guide-routes.ts';
 
 import {assertNoPrunedClassesInHtml,findUnusedLegacyStyleSymbols} from '../scripts/legacy-css-budget.mjs';
@@ -14,8 +16,9 @@ const vsp = releaseMode === "vsp";
 const indexingApproved = official;
 const origin = official ? "https://knaba.de" : "https://kneba.vsp.rest";
 const publishedGuideSlugs = new Set(constructionGuideRoutes.map(guide=>guide.slug));
-// Four locales * (12 shared public routes including gallery/partners + 8 offers + guides).
-const expectedPublicRoutes = 4 * (12 + 8 + constructionGuideRoutes.length);
+const workspaceDocuments = new Set(['admin/index.html', 'konto/index.html', 'ru/konto/index.html']);
+// The original four complete public trees plus genuinely translated PL/LT core routes.
+const expectedPublicRoutes = studioPages.length;
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const lists = await Promise.all(
@@ -28,6 +31,11 @@ async function walk(dir) {
 const files = await walk(root);
 assert.ok(!files.some(file => relative(root,file).split(/[\\/]/).includes('.prerender')),
   'Astro prerender server intermediates must never be published as client assets');
+for(const locale of ['en','pl','lt','ru','uk']){
+  const pack=files.find(file=>new RegExp('^_astro/'+locale+'\\.[\\w-]+\\.json$').test(relative(root,file)));
+  assert.ok(pack,locale+': content-addressed selected-language pack');
+  assert.deepEqual(JSON.parse(await readFile(pack,'utf8')),JSON.parse(await readFile(resolve('src/data/portal-locales',locale+'.json'),'utf8')),locale+': packaged copy exactly matches source');
+}
 const pages = files.filter((f) => f.endsWith(".html"));
 const hash = createHash("sha256");
 const assets = [];
@@ -50,14 +58,14 @@ for (const file of pages) {
   const guideSlug = file.match(/\/ratgeber\/([^/]+)\/index\.html$/)?.[1];
   const publishedGuide = !!guideSlug && publishedGuideSlugs.has(guideSlug);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one h1`);
-  assert.match(html, /<html lang="(de|en|uk|ru)"/);
+  assert.match(html, /<html lang="(de|en|pl|lt|ru|uk)"/);
   // One accessible locale disclosure in the header, not a full-width strip.
-  const locale = html.match(/<html lang="(de|en|uk|ru)"/)?.[1];
+  const locale = html.match(/<html lang="(de|en|pl|lt|ru|uk)"/)?.[1];
   const languageMenu = html.match(/<details class="site-language-switcher">([\s\S]*?)<\/details>/);
   assert.ok(languageMenu, `${file}: language dropdown must exist`);
   assert.match(languageMenu[1], /<summary\b[^>]*aria-label="[^"]+"/);
-  const localeLinks = [...languageMenu[1].matchAll(/<a\b[^>]*data-language-switch[^>]*\slang="(de|en|uk|ru)"[^>]*>/g)];
-  assert.deepEqual(localeLinks.map(link => link[1]), ['de','en','uk','ru'], `${file}: four locale targets`);
+  const localeLinks = [...languageMenu[1].matchAll(/<a\b[^>]*data-language-switch[^>]*\slang="(de|en|pl|lt|ru|uk)"[^>]*>/g)];
+  assert.deepEqual(localeLinks.map(link => link[1]), ['de','en','pl','lt','ru','uk'], `${file}: six ordered locale targets`);
   const currentLinks = localeLinks.filter(link => link[0].includes('aria-current="page"'));
   assert.equal(currentLinks.length, 1, `${file}: exactly one selected language`);
   assert.equal(currentLinks[0][1], locale, `${file}: selected language matches document`);
@@ -71,7 +79,7 @@ for (const file of pages) {
   assert.ok(html.includes(`rel="canonical" href="${origin}`));
   }
   assert.match(html, /<meta name="description" content="[^"]{30,}/);
-  if (!indexingApproved || /admin|konto|postfach|studio|crm|404|\/app\//.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
+  if (!indexingApproved || /admin|konto|postfach|studio|crm|404|\/app\/|\/bots\//.test(file) || /\/leistungen\/(?:unterhaltsreinigung|bueroreinigung|glasreinigung|baureinigung|grundreinigung|treppenreinigung)\//.test(file) || (guideSlug && !publishedGuide)) assert.match(html, /<meta name="robots" content="noindex, follow"/);
   else assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"/);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `${file}: unique title`);
@@ -91,7 +99,8 @@ for (const file of pages) {
   assert.doesNotMatch(html, /<a\b[^>]*\bhref=["']https?:\/\/(?:www\.)?knaba\.de(?:[\/"'])/i, `${file}: no outbound link to original company site`);
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
     const path = url.split("?")[0].split("#")[0];
-    if (["/login/", "/logout/"].includes(path)) continue;
+    // These forms are served by the VPS runtime and covered by HTTP tests.
+    if (["/login/", "/logout/", "/join/"].includes(path)) continue;
     const target = resolve(
       root,
       `.${path.endsWith("/") ? path + "index.html" : path}`,
@@ -109,15 +118,15 @@ for (const file of pages) {
   assert.ok(business, `${file}: LocalBusiness present`);
   const phoneLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](tel:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
   assert.deepEqual(phoneLinks, [`tel:${business.telephone}`], `${file}: exactly one canonical telephone link`);
-  if (/(?:^|\/)(?:en\/|uk\/|ru\/)?kontakt\/index\.html$/.test(file)) {
+  if (/(?:^|\/)(?:en\/|pl\/|lt\/|ru\/|uk\/)?kontakt\/index\.html$/.test(file)) {
     assert.doesNotMatch(html, /class="button button-dark nav-cta"/, `${file}: no header CTA to itself`);
-    assert.match(html, /<footer\b[\s\S]*?href="\/(?:en\/|uk\/|ru\/)?planer\/"/, `${file}: footer directs visitors to planner instead`);
+    assert.match(html, /<footer\b[\s\S]*?href="\/(?:en\/|pl\/|lt\/|ru\/|uk\/)?planer\/"/, `${file}: footer directs visitors to planner instead`);
   }
   const emailLinks = [...html.matchAll(/<a\b[^>]*\bhref=["'](mailto:[^"'<>]+)["'][^>]*>/gi)].map(link => link[1]);
   const privacy = /(?:^|\/)datenschutz\/index\.html$/.test(file);
   assert.equal(emailLinks.length, privacy ? 4 : 1, `${file}: no redundant mail link outside mandated privacy context`);
   for (const card of html.matchAll(/<article\s+class=["']bau-info-card["'][^>]*>([\s\S]*?)<\/article>/g)) {
-    assert.doesNotMatch(card[1], /<a\b[^>]*\bhref=["']\/(?:en\/|uk\/|ru\/)?kontakt\/["']/i, `${file}: no repeated contact link inside an information card`);
+    assert.doesNotMatch(card[1], /<a\b[^>]*\bhref=["']\/(?:en\/|pl\/|lt\/|ru\/|uk\/)?kontakt\/["']/i, `${file}: no repeated contact link inside an information card`);
   }
   assert.equal(business['@id'], origin+'/#business', `${file}: business @id uses the current host`);
   assert.equal(business.url, origin, `${file}: business URL uses the current host`);
@@ -135,7 +144,8 @@ for (const file of pages) {
     assert.equal(article.url, origin+'/'+relative(root,file).replace(/index\.html$/,''), `${file}: article canonical URL`);
     assert.ok(article.headline && article.description, `${file}: meaningful article metadata`);
   }
-  assert.match(html,/name="astro-view-transitions-enabled"/);
+  if (workspaceDocuments.has(relative(root, file))) assert.doesNotMatch(html, /name="astro-view-transitions-enabled"/);
+  else assert.match(html, /name="astro-view-transitions-enabled"/);
   const carouselSlugs = ['bauzwischenreinigung','bauendreinigung','baustellenraeumung',
     'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
   const carouselPaths = carouselSlugs.map(slug => '/illustrations/carousel/' + slug + '.webp');
@@ -166,9 +176,21 @@ const cssGzip = assets
 const jsGzip = assets
   .filter((a) => a.name.endsWith(".js"))
   .reduce((n, a) => n + a.gzip, 0);
+const pageRouter = assets.find(asset => /^_astro\/ClientRouter\..+\.js$/.test(asset.name));
+assert.ok(pageRouter, 'public pages retain the Astro page router');
+for (const route of ['admin/', 'konto/', 'ru/konto/']) {
+  const html = await readFile(resolve(root, route + 'index.html'), 'utf8');
+  assert.doesNotMatch(html, /name="astro-view-transitions-enabled"/, route + 'uses cabinet history');
+  assert.ok(!html.includes(pageRouter.name), route + 'must not load a competing page router');
+}
+for (const route of ['', 'en/', 'uk/', 'ru/']) {
+  const html = await readFile(resolve(root, route + 'index.html'), 'utf8');
+  assert.match(html, /name="astro-view-transitions-enabled"/, route + 'public navigation remains enabled');
+  assert.ok(html.includes(pageRouter.name), route + 'loads its public page router');
+}
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,134,'134 source-built pages: 130 existing public/private pages plus four localized KNABA Mobile entry pages');
+assert.equal(pages.length,160,'160 source-built pages: 134 preserved pages, 14 Polish/Lithuanian core+app pages and 12 messenger pages');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
@@ -246,8 +268,8 @@ assert.equal(workerConfig.assets.run_worker_first, true,
   'Worker runs first for every API and static route so native response headers are always applied');
 const russianPages = pages.filter(file => relative(root, file).startsWith('ru/'));
 const russianPublicPages = russianPages.filter(file => !relative(root,file).startsWith('ru/postfach/'));
-assert.equal(russianPublicPages.length, 38, 'Russian tree includes partners, gallery, construction guides and mobile entry');
-assert.equal(russianPages.length, 39, 'Russian private inbox remains an additional noindex page');
+assert.equal(russianPublicPages.length, 40, 'Russian tree includes partners, gallery, construction guides and mobile entry');
+assert.equal(russianPages.length, 41, 'Russian private inbox remains an additional noindex page');
 const russianInbox = await readFile(resolve(root,'ru/postfach/index.html'),'utf8');
 assert.match(russianInbox, /<html lang="ru"/);
 assert.match(russianInbox, /name="robots" content="noindex, follow"/);
@@ -277,7 +299,8 @@ const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((sitemap.match(/<loc>/g)||[]).length,indexingApproved?expectedPublicRoutes:0);
 if(indexingApproved) {
   assert.ok(robots.includes("Sitemap: "+origin+"/sitemap.xml"));
-  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,expectedPublicRoutes*5,'Published routes require reciprocal DE/EN/UK/RU/x-default alternates');
+  const expectedAlternateCount=studioPages.reduce((total,page)=>total+localeAlternates(page.path).length,0);
+  assert.equal((sitemap.match(/<xhtml:link /g)||[]).length,expectedAlternateCount,'Published routes require only their genuinely translated reciprocal alternates');
   for(const privatePart of ['/admin/','/konto/','/studio/','/crm/','/postfach/'])
     assert.ok(!sitemap.includes('<loc>'+origin+privatePart), 'Private sitemap URL '+privatePart);
 } else assert.doesNotMatch(robots,/Sitemap:/);

@@ -45,10 +45,12 @@ describe('KNABA localized construction FAQ',()=>{
     expect(languageLinks('/uk/faq/')).toEqual([
       {lang:'de',url:'/faq/'},
       {lang:'en',url:'/en/faq/'},
-      {lang:'uk',url:'/uk/faq/'},
+      {lang:'pl',url:'/pl/faq/'},
+      {lang:'lt',url:'/lt/faq/'},
       {lang:'ru',url:'/ru/faq/'},
+      {lang:'uk',url:'/uk/faq/'},
     ]);
-    expect(localeAlternates('/faq/').map(item=>item.lang)).toEqual(['de','en','uk','ru','x-default']);
+    expect(localeAlternates('/faq/').map(item=>item.lang)).toEqual(['de','en','pl','lt','ru','uk','x-default']);
   });
   it('renders native accordions and client-router-safe search enhancement',()=>{
     const component=site('components/ConstructionFaq.astro');

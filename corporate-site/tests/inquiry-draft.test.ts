@@ -6,6 +6,7 @@ import {bindInquiryNavigation,createInquiryDraftMemory,inquiryDraftCopy} from '.
 import {emptyInquiry,buildInquiry} from '../src/lib/inquiry';
 import {constructionInquiryData,constructionMessageLimit,validateConstructionInquiry} from '../src/lib/inquiry-construction';
 import {offerBySlug} from '../src/data/construction-offers';
+import {publicOfferName} from '../src/lib/public-i18n';
 
 const answers={...emptyInquiry(),service:'baureinigung',objectType:'Baustelle',postcode:'10315',frequency:'Einmalig',name:'Synthetic visitor',email:'draft@example.test',message:'Мій власний текст <unchanged>'};
 function navigationTo(path:string,language=false){
@@ -28,13 +29,23 @@ function mount(memory:ReturnType<typeof createInquiryDraftMemory>,locale='en',se
   const page=new EventTarget(),tab=Object.assign(new EventTarget(),{location:{search}});
   const exports={} as {Inquiry:(props:unknown)=>{data:()=>typeof answers;topic:()=>string;step:()=>number;review:()=>unknown;receipt:()=>string;sending:()=>boolean;privacy:()=>boolean;setPrivacy:(value:boolean)=>void;selectTopic:(value:string)=>void;update:(field:string,value:string)=>void;sendRequest:()=>Promise<void>}};
   const fetcher=vi.fn(),createId=vi.fn(()=>`synthetic-${locale}-request-key`);
-  runInNewContext(output,{exports,createSignal:(initial:unknown)=>{let value=initial;return[()=>value,(next:unknown)=>{value=typeof next==='function'?next(value):next;}];},onMount:(callback:()=>void)=>mounted.push(callback),onCleanup:(callback:()=>void)=>cleanups.push(callback),createEffect:(callback:()=>void)=>effects.push(callback),publicText:(text:string)=>text,publicApiError:()=>'',inquirySupportPath:(path:string)=>path,inquiryDraftMemory:memory,inquiryDraftCopy,bindInquiryNavigation,emptyInquiry,constructionInquiryData,constructionMessageLimit,validateConstructionInquiry,buildInquiry,offerBySlug,window:tab,document:page,URLSearchParams,queueMicrotask,setTimeout,clearTimeout,AbortController,createRequestId:createId,portalHeader:{},fetch:fetcher,console});
+  runInNewContext(output,{exports,createSignal:(initial:unknown)=>{let value=initial;return[()=>value,(next:unknown)=>{value=typeof next==='function'?next(value):next;}];},onMount:(callback:()=>void)=>mounted.push(callback),onCleanup:(callback:()=>void)=>cleanups.push(callback),createEffect:(callback:()=>void)=>effects.push(callback),publicText:(text:string)=>text,publicApiError:()=>'',publicOfferName,inquirySupportPath:(path:string)=>path,inquiryDraftMemory:memory,inquiryDraftCopy,bindInquiryNavigation,emptyInquiry,constructionInquiryData,constructionMessageLimit,validateConstructionInquiry,buildInquiry,offerBySlug,window:tab,document:page,URLSearchParams,queueMicrotask,setTimeout,clearTimeout,AbortController,createRequestId:createId,portalHeader:{},fetch:fetcher,console});
   const view=exports.Inquiry({locale});mounted.forEach(callback=>callback());
   const flush=()=>effects.forEach(callback=>callback());flush();
   return {view,page,tab,flush,fetcher,createId,cleanup:()=>cleanups.forEach(callback=>callback())};
 }
 
 describe('transient inquiry draft across Astro navigation',()=>{
+  it.each(['pl','lt'])('retains private answers and honors an explicit service choice in %s',locale=>{
+    const memory=createInquiryDraftMemory();
+    memory.save({data:answers,topic:'bauhilfe',step:2,reviewing:false,entryTopic:'bauhilfe'});
+    const first=mount(memory,'en','?anliegen=bauhilfe');
+    first.page.dispatchEvent(navigationTo('/'+locale+'/kontakt/?anliegen=kernbohrungen'));first.cleanup();
+    const next=mount(memory,locale,'?anliegen=kernbohrungen');
+    expect(next.view.topic()).toBe('kernbohrungen');
+    expect(next.view.data().email).toBe(answers.email);
+    expect(next.view.step()).toBe(0);next.cleanup();
+  });
   it('restores user answers verbatim on a locale change and keeps the current step',()=>{
     const memory=createInquiryDraftMemory();
     memory.save({data:answers,topic:'bauhilfe',step:2,reviewing:false});

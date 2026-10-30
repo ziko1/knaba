@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ReleaseChannels from './ReleaseChannels.astro';
+type Locale='de'|'en'|'pl'|'lt'|'ru'|'uk';
+interface Props{lang:Locale;channel:'whatsapp'|'telegram'}
+const {lang,channel}=Astro.props;
+const name=channel==='whatsapp'?'WhatsApp':'Telegram';
+const words={de:{title:'KnaBa kontaktieren',intro:'Fragen zu Leistungen, Anfragen und persönlicher Beratung. Die Verbindung führt ausschließlich zum bestätigten Firmenkonto.',back:'Alle Apps und Kontaktwege'},en:{title:'Contact KnaBa',intro:'Ask about services, enquiries and personal advice. The connection opens only the confirmed company account.',back:'All apps and contact options'},pl:{title:'Skontaktuj się z KnaBa',intro:'Pytania o usługi, zgłoszenia i konsultacje. Łącze prowadzi wyłącznie do potwierdzonego konta firmy.',back:'Wszystkie aplikacje i kontakty'},lt:{title:'Susisiekite su KnaBa',intro:'Klausimai apie paslaugas, užklausas ir konsultacijas. Nuoroda atidaro tik patvirtintą įmonės paskyrą.',back:'Visos programėlės ir kontaktai'},ru:{title:'Связаться с KnaBa',intro:'Вопросы об услугах, заявки и консультации. Ссылка ведёт только к подтверждённому аккаунту компании.',back:'Все приложения и контакты'},uk:{title:'Зв’язатися з KnaBa',intro:'Питання про послуги, заявки й консультації. Посилання веде лише до підтвердженого облікового запису компанії.',back:'Усі застосунки та контакти'}}[lang];
+---
+<Layout lang={lang} title={name+' · '+words.title} description={words.intro} noindex={true}>
+ <section class="container messenger-page"><p class="eyebrow">KNABA · {name}</p><h1>{name} · {words.title}</h1><p>{words.intro}</p><ReleaseChannels lang={lang} channel={channel}/><a href={(lang==='de'?'':'/'+lang)+'/app/'}>{words.back} ↗</a></section>
+</Layout>
+<style>.messenger-page{padding-block:3rem 5rem;max-width:60rem}.messenger-page>p{line-height:1.7;max-width:50rem}.messenger-page h1{font-size:clamp(2rem,5vw,3.4rem)}</style>

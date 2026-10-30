@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "verification": {
+    "parsedBaselineHtmlPages": 130,
+    "sourceFiles": 333,
+    "removedSelectorBranches": 343,
+    "absentClasses": 72,
+    "allRemovedClassesStillAbsentFromCurrentSourceTokens": true,
+    "retainedSelectorsDeclarationsCascadeOrderAndMediaConditionsIdentical": true,
+    "sourceInventorySha256": "2e249019189063cba546beb803fd584c72bf9173bba7e8b8314cfcb890972462",
+    "baselineHtmlInventorySha256": "473a1b72f36ad2330d4a358d1425c1f295e5dcca0973064b524d6c2a7e342f55"
+  },
+  "source": {
+    "path": "src/styles/global.css",
+    "beforeSha256": "a53a2abad3096de5bbc1b377035029c6173a0fa667098c16d725193ad60f7dc7",
+    "afterSha256": "a71ddf8345be9294afb03a9d23c8e1e4737ecf29f92427f0d58f620c1c6ec723",
+    "beforeBytes": 60646,
+    "afterBytes": 35395,
+    "beforeGzip9": 13341,
+    "afterGzip9": 8620,
+    "gzip9Savings": 4721,
+    "measurement": "Source stylesheet gzip, not emitted-build size or page transfer."
+  },
+  "evidence": "docs/evidence/role-ux-20261028/css-removal.json"
+}

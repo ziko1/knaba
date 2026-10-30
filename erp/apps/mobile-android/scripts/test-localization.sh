@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 from xml.etree import ElementTree as ET
 root=Path('app/src/main')
-folders=['values','values-uk','values-ru','values-pl','values-lt','values-en']
+folders=['values','values-en','values-pl','values-lt','values-ru','values-uk']
 tables={folder:{s.attrib['name']:''.join(s.itertext()) for s in ET.parse(root/'res'/folder/'strings.xml').getroot().findall('string')} for folder in folders}
 base=tables['values'];assert len(base)>=80
 for folder,table in tables.items():
@@ -54,7 +54,10 @@ public final class NativeLocaleVectors {
             check(tag.equals(LanguagePolicy.resolve("",Arrays.asList("fr-FR",tag.toUpperCase()+"_XX"))),"device fallback "+tag);
         }
         check("uk".equals(LanguagePolicy.resolve("uk-UA",Collections.singletonList("en-US"))),"explicit language priority");
-        check("pl".equals(LanguagePolicy.resolve("invalid",Arrays.asList("es-ES","pl-PL","en-GB"))),"first supported device locale");
+        check(LanguagePolicy.SUPPORTED.equals(Arrays.asList("de","en","pl","lt","ru","uk")),"requested display order");
+        check("pl".equals(LanguagePolicy.resolve("system",Arrays.asList("es-ES","pl-PL","en-GB"))),"explicit device language");
+        check("de".equals(LanguagePolicy.resolve("invalid",Arrays.asList("es-ES","pl-PL","en-GB"))),"invalid preference uses German");
+        check("de".equals(LanguagePolicy.resolve(null,Arrays.asList("ru-RU","en-GB"))),"first run uses German on any device");
         check("de".equals(LanguagePolicy.resolve("",Arrays.asList("fr-FR","es-ES"))),"German unsupported fallback");
         check("de".equals(LanguagePolicy.resolve(null,null)),"null device fallback");
         check(LanguagePolicy.supportedTag("<ru>")==null,"malformed language");

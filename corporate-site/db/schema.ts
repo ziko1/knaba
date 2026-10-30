@@ -13,18 +13,49 @@ export const requests = sqliteTable("cleaning_requests", {
   area: text("area").notNull(), frequency: text("frequency").notNull(), message: text("message").notNull(),
   contactName: text("contact_name").notNull(), email: text("email").notNull(), phone: text("phone").notNull(), address: text("address").notNull(),
   status: text("status").notNull().default("new"), assignedWorkerId: text("assigned_worker_id").references(() => profiles.id),
+  assignedBauleiterId: text("assigned_bauleiter_id").references(() => profiles.id),
   scheduledAt: text("scheduled_at"), checklist: text("checklist").notNull().default("[]"), workerNote: text("worker_note").notNull().default(""),
   customerFeedback: text("customer_feedback").notNull().default(""), adminReply: text("admin_reply").notNull().default(""),
   dedupeScope: text("dedupe_scope").notNull(), idempotencyKey: text("idempotency_key").notNull(), payloadHash: text("payload_hash").notNull(),
   privacyVersion: text("privacy_version").notNull(), createdAt: text("created_at").notNull(), updatedAt: text("updated_at").notNull(),
   version: integer("version").notNull().default(1), lastMutation: text("last_mutation").notNull(),
-}, (t) => [uniqueIndex("request_idempotency").on(t.dedupeScope,t.idempotencyKey), index("request_client").on(t.clientId), index("request_worker").on(t.assignedWorkerId)]);
+}, (t) => [uniqueIndex("request_idempotency").on(t.dedupeScope,t.idempotencyKey), index("request_client").on(t.clientId), index("request_worker").on(t.assignedWorkerId), index("request_bauleiter").on(t.assignedBauleiterId)]);
 export const audit = sqliteTable("portal_audit", {
   id: text("id").primaryKey(), actorId: text("actor_id").notNull(), action: text("action").notNull(), entityId: text("entity_id").notNull(), createdAt: text("created_at").notNull(),
 });
 export const rateLimits = sqliteTable("portal_rate_limits", {
   key: text("key").primaryKey(), count: integer("count").notNull(), expiresAt: integer("expires_at").notNull(),
 });
+
+/** Each conversation has one approved customer/partner/worker and the management team. */
+export const portalConversations = sqliteTable('portal_conversations', {
+  id: text('id').primaryKey(),
+  participantId: text('participant_id').notNull().references(() => profiles.id),
+  participantRole: text('participant_role', {enum:['client','partner','worker']}).notNull(),
+  requestId: text('request_id').references(() => requests.id),
+  scopeKey: text('scope_key').notNull(),
+  createdAt: text('created_at').notNull(), updatedAt: text('updated_at').notNull(),
+}, t => [
+  uniqueIndex('portal_conversation_scope').on(t.participantId,t.participantRole,t.scopeKey),
+  index('portal_conversation_updated').on(t.updatedAt,t.id),
+  check('portal_conversation_role',sql`${t.participantRole} IN ('client','partner','worker')`),
+  check('portal_conversation_scope_key',sql`(${t.requestId} IS NULL AND ${t.scopeKey}='direct') OR (${t.requestId} IS NOT NULL AND ${t.scopeKey}='request:' || ${t.requestId})`),
+]);
+export const portalMessages = sqliteTable('portal_messages', {
+  sequence: integer('sequence').primaryKey({autoIncrement:true}),
+  id: text('id').notNull(),
+  conversationId: text('conversation_id').notNull().references(() => portalConversations.id),
+  authorId: text('author_id').notNull(), authorName: text('author_name').notNull(),
+  authorRole: text('author_role', {enum:['client','partner','worker','bauleiter','admin','owner']}).notNull(),
+  body: text('body').notNull(), idempotencyKey: text('idempotency_key').notNull(),
+  payloadHash: text('payload_hash').notNull(), createdAt: text('created_at').notNull(),
+}, t => [
+  uniqueIndex('portal_message_id').on(t.id),
+  uniqueIndex('portal_message_retry').on(t.conversationId,t.authorId,t.idempotencyKey),
+  index('portal_message_thread').on(t.conversationId,t.sequence),
+  check('portal_message_role',sql`${t.authorRole} IN ('client','partner','worker','bauleiter','admin','owner')`),
+  check('portal_message_length',sql`length(${t.body}) BETWEEN 1 AND 2000`),
+]);
 
 /** A visitor owns only conversations for which they hold a high-entropy secret. */
 export const assistantConversations = sqliteTable("assistant_conversations", {

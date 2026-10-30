@@ -18,8 +18,9 @@ const published=Object.keys(brand);
 const target=new Set(manifest.locales?.map(x=>x.code));
 const fail=(msg)=>{throw new Error('KNABA I18N release gate: '+msg);};
 const assert=(ok,msg)=>{if(!ok)fail(msg);};
-assert(manifest.targets===99 && manifest.locales?.length===99 && target.size===99,'invalid 99-target manifest');
-assert(published.length===manifest.published && manifest.pending===99-published.length,'readiness count drift');
+assert(manifest.targets===6 && manifest.locales?.length===6 && target.size===6,'invalid six-language manifest');
+assert(published.join(',')==='de,en,pl,lt,ru,uk','product language order drift');
+assert(published.length===manifest.published && manifest.pending===6-published.length,'readiness count drift');
 assert(manifest.locales.filter(x=>x.status==='published').map(x=>x.code).join(',')===published.join(','),'published locale mismatch');
 
 const getAttr=(node,key)=>node.attrs?.find(a=>a.name===key)?.value;
@@ -54,6 +55,7 @@ for(const code of published){
     const alternates=links.filter(x=>getAttr(x,'rel')==='alternate').map(x=>getAttr(x,'hreflang'));
     for(const locale of published)assert(alternates.includes(locale),code+page+' missing reciprocal '+locale);
     assert(alternates.length===published.length+1,code+page+' unreviewed locale in hreflang');
+    assert(!/99 (?:Zielsprachen|target languages|цільових мов|целевых языков)/.test(readFileSync(file,'utf8')),code+page+' stale language claim');
     checkedPages++;
   }
   for(const surface of ['header','footer','mobile-header','mobile-footer']){
@@ -76,4 +78,4 @@ for(const entry of manifest.locales.filter(x=>x.status==='pending')){
   assert(!Object.hasOwn(brand,entry.code),entry.code+' has unapproved brand');
   assert(!existsSync(join(root,entry.code,'index.html')),entry.code+' falsely published');
 }
-console.log(JSON.stringify({status:'PASS',targetLanguages:99,published:published.length,pending:manifest.pending,checkedPages,checkedSvgAssets:checkedAssets,checkedSocialAssets}));
+console.log(JSON.stringify({status:'PASS',targetLanguages:6,published:published.length,pending:manifest.pending,checkedPages,checkedSvgAssets:checkedAssets,checkedSocialAssets}));

@@ -1,0 +1,96 @@
+{
+  "at": "2026-10-29T17:34:34.044593+00:00",
+  "status": "ACCEPT_SCOPED_TESTING_ROUTES",
+  "source_sha": "571823a5a04969f391dcc54babcffc2a416ae525",
+  "source_branch": "feat/knaba-physical-customer-20261029",
+  "artifact": "21c88a4148b2191d56d5b3ad9e9cc6929730535f33850cca87d3b74b652d9e23",
+  "previous_artifact": "8a5a93b212ae78807797c153806a72b14c294e7daf8b67d43c428e5e3500a8d6",
+  "artifact_files": 411,
+  "changed_files": {
+    "vps/server.mjs": {
+      "sha256": "b667b5f3b1c5a54f0fa4695d0ed1dc196413e06a291c218f1d1ede28c988f189",
+      "bytes": 60926
+    },
+    "vps/server.test.mjs": {
+      "sha256": "04a48c9cac0fce3f5a50dfb20aad0c2ffc871e96cba40ee5a5965bd6a801c494",
+      "bytes": 15544
+    }
+  },
+  "unchanged_files": 409,
+  "schema_files_unchanged": 24,
+  "tests": {
+    "vps_final": {
+      "passed": 121,
+      "failed": 0,
+      "log_sha256": "4642e26d8fcba4902584a5d3ff66c9073275026cc05ac03dbc633d83be0353b9"
+    },
+    "committed_focused": {
+      "passed": 1,
+      "failed": 0
+    },
+    "root": {
+      "passed": 28,
+      "failed": 0,
+      "scope": "prior run on unaffected root inputs, not rerun after test-only refinement"
+    }
+  },
+  "http": {
+    "at": "2026-10-29T17:31:20.089561+00:00",
+    "html_paths": 160,
+    "html_exact": 158,
+    "intentional_html_redirects": 2,
+    "html_pass": 160,
+    "assets": 126,
+    "asset_pass": 126,
+    "linked_paths": 213,
+    "linked_pass": 213,
+    "legacy_routes": 16,
+    "legacy_pass": 16,
+    "request_count": 364,
+    "errors": []
+  },
+  "after_deploy_sha256": "ea3c3efca72e0138b3cf115ae890938a893984ccc3656b7aef60a0d4c5421a50",
+  "backup": {
+    "path": "/srv/knaba/customer/backups/testing/20261029T173006.610635Z-pre-activate.sqlite",
+    "sha256": "d7de9b34119a0c37095fca9bba4bd9ca354d0b3a756ebaf47e48dd87b1cab407",
+    "bytes": 364544,
+    "integrity": "ok",
+    "foreign_key_errors": 0
+  },
+  "controller_sha256": "0c08f9e3a426adb15fd8fce9504d8128ffa7cbaec29ef9e10260f074672c7202",
+  "review": {
+    "at": "2026-10-29T17:34:34.044593+00:00",
+    "reviewer": "/root/knaba_source_audit",
+    "kind": "automated independent technical review, not customer approval",
+    "result": "ACCEPT_SCOPED_TESTING_ROUTES",
+    "source_sha": "571823a5a04969f391dcc54babcffc2a416ae525",
+    "artifact": "21c88a4148b2191d56d5b3ad9e9cc6929730535f33850cca87d3b74b652d9e23",
+    "basis": "Reviewed actual two-line runtime diff, final regression/source hashes, manifest delta, root-provided HTTP/controller receipts. Reviewer did not repeat server tests.",
+    "production": "HOLD_EXTERNAL_GATES"
+  },
+  "public_observation": {
+    "at": "2026-10-29T17:32:16Z",
+    "observer": "/root/cloudflare_access_review",
+    "knaba.de": "200 old One.com content",
+    "www.knaba.de": "200 same old content, no apex redirect",
+    "kneba.vsp.rest": "302 Cloudflare Access login",
+    "nameservers": [
+      "ed.ns.cloudflare.com",
+      "gloria.ns.cloudflare.com"
+    ]
+  },
+  "open_gates": [
+    "Customer USER API token missing; installed knaba-cloudflare status AUTH_REQUIRED",
+    "Testing owner enrollment and real-user acceptance",
+    "Customer Access configuration; testing gateway remains503",
+    "Customer Turnstile; affected captcha endpoints unavailable",
+    "Existing production controller requires genuine customer approval bound to exact artifact and final configuration"
+  ],
+  "scope_limits": [
+    "Loopback testing HTTP; no live customer business writes",
+    "No new UI build/browser run: dist, worker, renderer/assets byte-identical to prior accepted artifact",
+    "Production artifact/config unchanged; no public DNS/mail writes",
+    "No public GitHub push/merge; private source retained on physical server"
+  ],
+  "private_receipts_directory": "/srv/knaba/customer/receipts/routes-20261029"
+}

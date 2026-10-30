@@ -1,0 +1,1864 @@
+{
+  "status": "TESTED_WORKING_TREE_RUNTIME",
+  "recordedAt": "2026-10-28T13:49:38.263Z",
+  "baseGitHead": "9915541f3c177b8208d8c4ccdc6385fdbc271144",
+  "scope": "Corporate-site runtime sources, public assets, configuration and build scripts; excludes tests, docs, generated dist and dependencies.",
+  "sha256": "532cd2a9d98db720262145d121725397ff7ce0cba033d2c29f1e43ff3548b474",
+  "files": [
+    {
+      "path": "corporate-site/astro.config.mjs",
+      "bytes": 608,
+      "sha256": "1184356d4ab4a89e10dbbdb091ce9eb2c02c6354471fe316b7cc2e2983d273a8"
+    },
+    {
+      "path": "corporate-site/drizzle.config.ts",
+      "bytes": 133,
+      "sha256": "71ad2a2627b98a282bb9f2ef4368ebbf8b7cbbef500ac0355cb1a6f0232a77a4"
+    },
+    {
+      "path": "corporate-site/drizzle/0000_needy_war_machine.sql",
+      "bytes": 2132,
+      "sha256": "443dfc2d55807c5ec5649758ca926ceca0de9be81292c9da09988b586debc230"
+    },
+    {
+      "path": "corporate-site/drizzle/0001_lazy_angel.sql",
+      "bytes": 1794,
+      "sha256": "fbb8d471e6061933e5c4af39f4e0eda4c5718a1677010d4613e6279f3052c881"
+    },
+    {
+      "path": "corporate-site/drizzle/0002_tense_mother_askani.sql",
+      "bytes": 767,
+      "sha256": "22741475744dcc916c216cb343bedb0c616d1517ab16dc5a9b90648eb27ad3b0"
+    },
+    {
+      "path": "corporate-site/drizzle/0003_absurd_bedlam.sql",
+      "bytes": 1024,
+      "sha256": "8f21e073faa31f0cd86f0d1616828c9cd89e16b25f0a30295d7476af67e306fe"
+    },
+    {
+      "path": "corporate-site/drizzle/0004_dusty_hiroim.sql",
+      "bytes": 777,
+      "sha256": "c24b6689439fa8347f866da23264b2acb25d71c29600d80f89984698a0d457f6"
+    },
+    {
+      "path": "corporate-site/drizzle/0005_public_reviews.sql",
+      "bytes": 1024,
+      "sha256": "f97b805b4a628ece1ddf8bf35c8987f48942e81b43d39b555cc55dbb0c30994b"
+    },
+    {
+      "path": "corporate-site/drizzle/0006_owner_invite.sql",
+      "bytes": 465,
+      "sha256": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148"
+    },
+    {
+      "path": "corporate-site/drizzle/0007_account_invites.sql",
+      "bytes": 989,
+      "sha256": "1bd5496f410e46c7a31c39ee98d1d9762320adebbe699af1de42651cb2173fb2"
+    },
+    {
+      "path": "corporate-site/drizzle/0008_access_requests.sql",
+      "bytes": 1095,
+      "sha256": "263f28745f30c2cbb0e02e3384d694aa36fe8c937eab08807184eecb2c339b95"
+    },
+    {
+      "path": "corporate-site/drizzle/0009_partner_access.sql",
+      "bytes": 2267,
+      "sha256": "824eb00ec092b7229513e615107eb457d08ba09f01ad5ca3296b7e6aaf567aab"
+    },
+    {
+      "path": "corporate-site/drizzle/0010_owner_details.sql",
+      "bytes": 553,
+      "sha256": "7055eac88d992b92218f6b64e83fddd75d48f42551bb78e84c68d112a03f2b1a"
+    },
+    {
+      "path": "corporate-site/drizzle/0011_bauleiter_access.sql",
+      "bytes": 2689,
+      "sha256": "48be4656f908f2819b08e850ff7e5ab5fe8f21ca67780d212a294d92ec1c62ed"
+    },
+    {
+      "path": "corporate-site/drizzle/0012_portal_messages.sql",
+      "bytes": 1917,
+      "sha256": "3f12e7761759e8b30d0e8886bd6b8d414dead264e83b1faaf5d357fea3a353e4"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0000_snapshot.json",
+      "bytes": 11185,
+      "sha256": "fa7f918edddfac060682c009ee1eb0bfef79124cd0314c54a83a6c45596fbf61"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0001_snapshot.json",
+      "bytes": 18443,
+      "sha256": "3f78940654d991e9cc1422428a75adb511700654568dada0f3999975ee1cb8fe"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0002_snapshot.json",
+      "bytes": 21696,
+      "sha256": "d98c506ed2692e19f3634ddeb0e7ca5d64c1942f1b2be6bc653b8f6e899dcb4b"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0003_snapshot.json",
+      "bytes": 26685,
+      "sha256": "7d9f1c8626f81ba7d858b8885d987545483887d1827b2475bfa9ad37b6e621bf"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0004_snapshot.json",
+      "bytes": 30049,
+      "sha256": "ad29064292404a10c0a21f46c73292aaaf068dd6e15d51925fa9466851b3c80d"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0005_snapshot.json",
+      "bytes": 34301,
+      "sha256": "78f115d4c8b6ceeb97301548b143b305dac22d52a4dd8d215dfc8c8b8fd1d28b"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0006_snapshot.json",
+      "bytes": 34302,
+      "sha256": "d71a5017f33f52e0cdda2e5de5c32b4477297cca69f3eaf66a4bfb06a85a4f43"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0007_snapshot.json",
+      "bytes": 34302,
+      "sha256": "a9931e58ae1a2e284a463a6e5cb140979118576a645dd1ac5a9c05a07cca402b"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0008_snapshot.json",
+      "bytes": 37137,
+      "sha256": "0dff856ffa0da6d667e87e564696a3aaf1241ed894caba34731362132d13cabc"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0012_snapshot.json",
+      "bytes": 47124,
+      "sha256": "36bcdbeb6411e3e84bbcf73a4c82e3def7a8309ab848fb27ed3307d35a85d172"
+    },
+    {
+      "path": "corporate-site/drizzle/meta/_journal.json",
+      "bytes": 1915,
+      "sha256": "748260771b1ddc49150eaa3d0b7e9d064f269c104fcd51267167f1c8e9004cf3"
+    },
+    {
+      "path": "corporate-site/package-lock.json",
+      "bytes": 371929,
+      "sha256": "698db197e722f7106773083b576c60f8b43d987f54d15a7bdb4bfa6dc9ae475e"
+    },
+    {
+      "path": "corporate-site/package.json",
+      "bytes": 2841,
+      "sha256": "aa10f05cbd1cdce0acd510aeb9eaff1121a72a57d1cf950f3e6f2e0d595e3bbc"
+    },
+    {
+      "path": "corporate-site/public/app-manifest.json",
+      "bytes": 734,
+      "sha256": "7bd3d1c1058e64bed6057455d126ee5162b98a42a15387c760d228570323fb4c"
+    },
+    {
+      "path": "corporate-site/public/favicon.svg",
+      "bytes": 1436,
+      "sha256": "4f2f6774d6301de68a5d0c79b7e8fe9db4ad68475d24a0ff614e61ea5719ae3a"
+    },
+    {
+      "path": "corporate-site/public/illustrations/baureinigung.svg",
+      "bytes": 3105,
+      "sha256": "e13e45b7e1446ce87f0bf12dc64b6afeae133bdb26039570d76e6d1f4c111183"
+    },
+    {
+      "path": "corporate-site/public/illustrations/bueroreinigung.svg",
+      "bytes": 3185,
+      "sha256": "fae930983373112a0b645f45f237e6ac8ec1254d0c7bf85fda3a7ab9fad37d68"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "sha256": "349e2e6243ec0bb85b5563caaadf1e8d3ea0a73df263eb2f7ba3780a0247a1a0"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "sha256": "a5dbd080b00a01b27f13fbc52f6a76e3f7d5fa522f69d500d2ef35a1941a00bd"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "sha256": "d2683e0ba8ffc8db10406c984ae8189a0c5b0e8f76dd9e1d74d2aec8a6958378"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "sha256": "cb0672246a007ae378626919378c99252b5f7ae1252cb604de130bad274efd0e"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "sha256": "1bb2d23df625a11bc2e29337ec4765234aebf8fd1accfc5020e580e90aeac5ff"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "sha256": "89b9b39bbaedb6a140bfb552f83e7b67dd6bb07e007c31ca131dc39b86eefcad"
+    },
+    {
+      "path": "corporate-site/public/illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "sha256": "632493bc430050a14f35b4e39dc59bb64362cdbf2055d094b58b2fab9f795c16"
+    },
+    {
+      "path": "corporate-site/public/illustrations/glasreinigung.svg",
+      "bytes": 3031,
+      "sha256": "e0e758dd803d041d0f43650503c97762879005226034858542a91ca7fb07f2fa"
+    },
+    {
+      "path": "corporate-site/public/illustrations/grundreinigung.svg",
+      "bytes": 3068,
+      "sha256": "83b126288eec390a3ffea3c92355429be42a02335594958238973ae58cae49e9"
+    },
+    {
+      "path": "corporate-site/public/illustrations/hero-cleaning.svg",
+      "bytes": 4399,
+      "sha256": "4748a027e055e728ea51d7f53afb230373aee6e604bf3070e9626657dadc5ed6"
+    },
+    {
+      "path": "corporate-site/public/illustrations/treppenreinigung.svg",
+      "bytes": 3027,
+      "sha256": "8d084cc64fac6d52437a58664e052c4076262d6bc6e8401abb913315e27df6f1"
+    },
+    {
+      "path": "corporate-site/public/illustrations/unterhaltsreinigung.svg",
+      "bytes": 3023,
+      "sha256": "f63a9f23486655e65419642f1b2d5f52feb9d812e44bd892a42d135ee4e2382d"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-footer-en.svg",
+      "bytes": 9459,
+      "sha256": "480b6bd7ce78844ccbfbf21d65303d375e446fa38935637207bbee9842a7d376"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-footer-lt.svg",
+      "bytes": 9472,
+      "sha256": "1a0510d3168e79be85094fb6f536c241892440082cb0b9671329d52aa6d6f943"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-footer-pl.svg",
+      "bytes": 9498,
+      "sha256": "55e62db7972114a2aaa6d726d2c69987bc6ac34d948846b62d16a89ba90b361a"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-footer-ru.svg",
+      "bytes": 9586,
+      "sha256": "5b13fee2288e4a57cc70b87dd85357b4ddb2ff298b1cea8899fb920fdd6b1016"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-footer-uk.svg",
+      "bytes": 9588,
+      "sha256": "d2fabd6e32c85aabc9fba35ca04798b3eeb0f830454ad5d68a4d8dc59917f31d"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-footer.svg",
+      "bytes": 9469,
+      "sha256": "907eb33e497b0bdeaa59a74690d41f199576ffb640673188ce2127df09a91323"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-header-en.svg",
+      "bytes": 9459,
+      "sha256": "77ce5c3c8de02f4678d387bcf9d82f9eabd893f7c4825a17bb6ae2bc5778edfa"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-header-lt.svg",
+      "bytes": 9472,
+      "sha256": "08a0049602c68f8f0620c489248057d24c0da7451986bbd688bffd3f97c3fdff"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-header-pl.svg",
+      "bytes": 9498,
+      "sha256": "c9fc3d7acf11f90f48b8e4f157d84a7dd709a8bf7049a575b9680ee351579784"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-header-ru.svg",
+      "bytes": 9586,
+      "sha256": "d1846b983ddf48b970a9d0df182993a7e6be8f7bb9b12d5a1e89dcfab25d0f78"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-header-uk.svg",
+      "bytes": 9588,
+      "sha256": "2d8ac32fa88de1700d8010e7d2162fc0a9559b1bb9943c71ce3cc0fb1c7f7d87"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-header.svg",
+      "bytes": 9469,
+      "sha256": "400f9ef8e635d7c5e274567f473783150439314a1c5dd487df7909c6d8accb49"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-footer-en.svg",
+      "bytes": 9218,
+      "sha256": "91adf90732be15994129f412a5030c19dc7f5a0795c8ae817e1a9d87ef463ac3"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-footer-lt.svg",
+      "bytes": 9229,
+      "sha256": "ac6bf6601bbc9079c6a4e0fb15c81b7e9003c8bc668157bc3afd639a8bee4920"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-footer-pl.svg",
+      "bytes": 9231,
+      "sha256": "9356d3aa6b4f57828fe2b9402ff39bc2abde2107e292ac9dd8993c1b80aeafa6"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-footer-ru.svg",
+      "bytes": 9273,
+      "sha256": "d93cd76faeba9ed3ffb3c144d3655c9cb95fd7a269fb71f6de30ba57da026369"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-footer-uk.svg",
+      "bytes": 9271,
+      "sha256": "08b0faf026a0c7971b80ca9d000735aca4b330d43814e207196bead3b5618779"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-footer.svg",
+      "bytes": 9232,
+      "sha256": "9406f7bef01c67250ea8daf82ff053e575719ff39e0f2a80aeca0b0a396cf508"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header-en.svg",
+      "bytes": 9218,
+      "sha256": "fa86f7a1eebac4c84a5dbbdeec308c7ef92f1646b46fb2f44b364f923ad7d6da"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header-lt.svg",
+      "bytes": 9229,
+      "sha256": "36924948b5c54bc31882c11630ff08cd2bba8e3f5f7ec5c2114200bbdc3e1b85"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header-pl.svg",
+      "bytes": 9231,
+      "sha256": "cc2c5d889d6341dd6f8bf91013146d438ba636baa38c4de2d7272e6f526f5e5c"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header-ru.svg",
+      "bytes": 9273,
+      "sha256": "e3226988531bc0e2a0eb89e5ea37e55e2070a8abbdf31dfe99cfba2215d71a02"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header-uk.svg",
+      "bytes": 9271,
+      "sha256": "a31f73e828a208fc1b0fc958269ef03bd68450cea698b55b00a7debf83883b9f"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header.svg",
+      "bytes": 9232,
+      "sha256": "cb660f68f72f14b3b3fa3e4f9a735a8f68cd6dfd2e63da9d9ead05cae549e0e6"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-construction-logo-footer.svg",
+      "bytes": 1889,
+      "sha256": "5447f27081cd5eb4dbaa274527116d246b4822a2df7fc5e93bec1ea3abb88c29"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-construction-logo.svg",
+      "bytes": 1956,
+      "sha256": "69b38773ccdccb26e5891463532a0b501cf1ab18e10267287da1ad841a54fc2b"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-construction-mark.svg",
+      "bytes": 1436,
+      "sha256": "4f2f6774d6301de68a5d0c79b7e8fe9db4ad68475d24a0ff614e61ea5719ae3a"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-mobile-192.png",
+      "bytes": 4886,
+      "sha256": "4d7c376de16fc7d37d5cdaadb29edc0e4f1e72507489d6bb650a943ce9fd5ce0"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-mobile-512.png",
+      "bytes": 33366,
+      "sha256": "1ee645f867478464eaefec817313041a3bb945782f61bb46135311c8e00046ad"
+    },
+    {
+      "path": "corporate-site/public/images/knaba-social.png",
+      "bytes": 29274,
+      "sha256": "2718ec76b095300a3a9bafc5e89d76de0deacddc953189dfc3c3e1d6725f340b"
+    },
+    {
+      "path": "corporate-site/public/images/partners/bonava.jpeg",
+      "bytes": 6361,
+      "sha256": "21da7240c43452353d82df6d445ee84075775b0e4fd02c0ff9a3e76362e4266c"
+    },
+    {
+      "path": "corporate-site/public/images/partners/bonava.jpg",
+      "bytes": 6361,
+      "sha256": "21da7240c43452353d82df6d445ee84075775b0e4fd02c0ff9a3e76362e4266c"
+    },
+    {
+      "path": "corporate-site/public/images/partners/gewobag.png",
+      "bytes": 60879,
+      "sha256": "9fb74f5e0bd9a20740d5e833b6a93dd10cb830b355062fbe687c397d80e410cc"
+    },
+    {
+      "path": "corporate-site/public/images/partners/goldbeck.jpeg",
+      "bytes": 10585,
+      "sha256": "7c179d36d3bfa3168c462b74453e42565bba5fd854cd957260aa99d4dfd7fbc3"
+    },
+    {
+      "path": "corporate-site/public/images/partners/goldbeck.jpg",
+      "bytes": 10585,
+      "sha256": "7c179d36d3bfa3168c462b74453e42565bba5fd854cd957260aa99d4dfd7fbc3"
+    },
+    {
+      "path": "corporate-site/public/images/partners/hit.png",
+      "bytes": 7875,
+      "sha256": "8e644d3511f9a6d11a9e58a4cbd47bbd73da8a10ba24c6cf123b71548ad7c1f5"
+    },
+    {
+      "path": "corporate-site/public/images/partners/stromkreis.png",
+      "bytes": 28848,
+      "sha256": "87fa8ca2427ab77d57b57906efd52b725ee57a1bac9344661139328d47b2f8f9"
+    },
+    {
+      "path": "corporate-site/public/mobile-sw.js",
+      "bytes": 276,
+      "sha256": "5df9df9a1a389bf3d1f31dd0f6423286e7bf65b37a92f0f36d727d7280d88882"
+    },
+    {
+      "path": "corporate-site/scripts/audit-i18n-output.mjs",
+      "bytes": 4578,
+      "sha256": "e80e2c44bc57c899725533c914357bde991a1b35addfdf5c5166b7764e504fd5"
+    },
+    {
+      "path": "corporate-site/scripts/audit-release-routes.mjs",
+      "bytes": 6324,
+      "sha256": "91da6b8f9c971151922220ccb8fa49fcdfb5137d2ee1cc6da6300100a766592c"
+    },
+    {
+      "path": "corporate-site/scripts/check-knaba-3d-assets.mjs",
+      "bytes": 2957,
+      "sha256": "d8b7323705a05d6f238f792ea004c82950e0813bb98da9a8dc0f5dd725ff3308"
+    },
+    {
+      "path": "corporate-site/scripts/clean-build.mjs",
+      "bytes": 398,
+      "sha256": "762c637fd0d122bb0e90081c2934b8b72706ff21ac0a0fefd9bc33da93d54407"
+    },
+    {
+      "path": "corporate-site/scripts/generate-knaba-3d-assets.mjs",
+      "bytes": 5114,
+      "sha256": "81ec9f162fe8ba61916b787fcc8e192c910a9db000438774a363bdfe1bdeeacb"
+    },
+    {
+      "path": "corporate-site/scripts/i18n-source-catalog.mjs",
+      "bytes": 10487,
+      "sha256": "1b378241e6ea1a503b2cb4e3c117f7e28b76bc1564bbb08b75df8065045c5a36"
+    },
+    {
+      "path": "corporate-site/scripts/indexnow-submit.mjs",
+      "bytes": 3776,
+      "sha256": "11f4f4bf3641d626fd2743f35ea9ec7839af3c6cc8b1320c379e4e3fc512fd16"
+    },
+    {
+      "path": "corporate-site/scripts/preview-worker.mjs",
+      "bytes": 1143,
+      "sha256": "23e93c78e8de1768f9376619d1ed44e3e668659f69a42560990b0e97b5d53268"
+    },
+    {
+      "path": "corporate-site/scripts/security-headers.mjs",
+      "bytes": 1390,
+      "sha256": "9bc0eb7099b222479cd6b45d71a144f820e64d477c95a2f5d2eaa1bfcd0b0d9e"
+    },
+    {
+      "path": "corporate-site/scripts/verify-live-artifact.mjs",
+      "bytes": 5795,
+      "sha256": "f1bbee5c1c69c38fb18f3e53d8981f12de5bd9367276c412de8bdb1577dba2a9"
+    },
+    {
+      "path": "corporate-site/scripts/verify-public-live.mjs",
+      "bytes": 9956,
+      "sha256": "18d4822a8e40a4124a989f3eea9085311be25e0c91314be8628ab1669c6e2e83"
+    },
+    {
+      "path": "corporate-site/scripts/verify-sitemap-parity.mjs",
+      "bytes": 4830,
+      "sha256": "f3bac873f1ee54b6f52fa6d3e60e28d491b9d3d8b49ec80cae41ed626270acfb"
+    },
+    {
+      "path": "corporate-site/scripts/vite/sites-vite-plugin.LICENSE",
+      "bytes": 1063,
+      "sha256": "7de1e115d165f176e68f962acdb809b5ab8d8ae78d3981e0701392b2ac50c713"
+    },
+    {
+      "path": "corporate-site/scripts/vite/sites-vite-plugin.ts",
+      "bytes": 7185,
+      "sha256": "07af20e7097d9ed1d76f7c446d02997550b8fc5ca89668b249e25eabd62c6834"
+    },
+    {
+      "path": "corporate-site/src/components/AccountAccess.astro",
+      "bytes": 4806,
+      "sha256": "8551174dc4e8dc4fd25984da20d58e21abbbe5fc812edcbc7decc8c835a94c50"
+    },
+    {
+      "path": "corporate-site/src/components/AccountAccessDialog.tsx",
+      "bytes": 26971,
+      "sha256": "8b2c6cc687da29959684507a0a216ff47635cd78e850d199a5cc86d32f6ea647"
+    },
+    {
+      "path": "corporate-site/src/components/AdminControlCenter.tsx",
+      "bytes": 14842,
+      "sha256": "b49b49d3d6433b02d178a854ef8186c129b3dc2144c360d25ae775e4cab2afa5"
+    },
+    {
+      "path": "corporate-site/src/components/AdminModuleOutlet.tsx",
+      "bytes": 1300,
+      "sha256": "fb8133f6039cff1021224e24cbb852e2574072d4ee8e235a1dda55d81f86bb6a"
+    },
+    {
+      "path": "corporate-site/src/components/AssistantCaptcha.tsx",
+      "bytes": 6678,
+      "sha256": "9afe7713638502f868f6b13de456eb7396b9466b05f423210a813a8eaeb1c48c"
+    },
+    {
+      "path": "corporate-site/src/components/AssistantInbox.tsx",
+      "bytes": 10386,
+      "sha256": "56366f14a79136f3b0e3477953fc4215211ddec76c3230b1be0d2cc80d063a47"
+    },
+    {
+      "path": "corporate-site/src/components/Catalogue.tsx",
+      "bytes": 2931,
+      "sha256": "d46ad211269fe3074879f82e7034ef7b275e45d572c7d210ef823d395e891510"
+    },
+    {
+      "path": "corporate-site/src/components/CleaningChecklist.svelte",
+      "bytes": 5444,
+      "sha256": "8787fca8b04cddfc6a62a9036821ba2bb8f59991c10917d3e1bab2f39775bd98"
+    },
+    {
+      "path": "corporate-site/src/components/CompanyProfile.astro",
+      "bytes": 6968,
+      "sha256": "11d905c1f312fa4caecdcf5245bdc9d128b484f21a2b562698eb2bc93944a0bd"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionCatalog.astro",
+      "bytes": 4896,
+      "sha256": "ad9b3f0d3e600a02fee6ded21214312769b8c96d09a71c129b52a4c6445642f1"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionContact.astro",
+      "bytes": 6670,
+      "sha256": "1b16ce46d33c3e6bb65cc6e51e974e8610300caaef25877e7c1aa4edc05fbb44"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionDetail.astro",
+      "bytes": 7891,
+      "sha256": "035393c4d0fa447ff81306e267099f101aea26190514aab84e22b76bcfd2291d"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionFaq.astro",
+      "bytes": 9622,
+      "sha256": "f804beb1d6f3b5e430a67cba7571699f7d083aa10fa303cedf4b7abeaf8ad29a"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionGallery.astro",
+      "bytes": 8819,
+      "sha256": "fe0c78e7c43f4c916d979e0c6de977c8cf4aa20de51a72aec7bfdc43d1f04e0d"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionGuide.astro",
+      "bytes": 16479,
+      "sha256": "25bc756280d11f41f9d5703cb27dbef7a71343bc198c26f2363272f7877cbd43"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionHome.astro",
+      "bytes": 12763,
+      "sha256": "1ea880075895e6f8f420faecf3e825d78a23bf386410f1e18f768b18d4f402c1"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionInfo.astro",
+      "bytes": 22610,
+      "sha256": "db524cb68d01eca5f243464c63aa57ce2b16d8507ff613f1026fefb901300b55"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionLegacy.astro",
+      "bytes": 2009,
+      "sha256": "499b426b5467cd09814bb72450ff16d3ee8325503fda185e74a576ec731043e6"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionPlanner.astro",
+      "bytes": 2651,
+      "sha256": "994cc20af0a670e75aa2c3d7a1c48aa96b7a944bb28286d60c95852f3f74f3e2"
+    },
+    {
+      "path": "corporate-site/src/components/ConstructionServiceIcon.astro",
+      "bytes": 744,
+      "sha256": "2402acb59f22e434c11baccbc401d90daa51f0f06584a8e19d242eaecf3584f0"
+    },
+    {
+      "path": "corporate-site/src/components/CrmConsole.tsx",
+      "bytes": 11091,
+      "sha256": "547bbf09745a7fdbf437eeab4ba2be43fff86525031365d6c7d49e93248d598f"
+    },
+    {
+      "path": "corporate-site/src/components/DeveloperWorkspaceBar.tsx",
+      "bytes": 3770,
+      "sha256": "7105253d8b667cf28e85c62b7b72be854d4be8be4bdbe759fab8e288b4fce574"
+    },
+    {
+      "path": "corporate-site/src/components/HomeGuides.astro",
+      "bytes": 5830,
+      "sha256": "2f29a8ae5e5f4c493b2dd4ff025070110d011d056a57003df0a3f89f97d200cc"
+    },
+    {
+      "path": "corporate-site/src/components/HomeMobilePromo.astro",
+      "bytes": 5657,
+      "sha256": "b3ed84a4553e8ee96c7fbb4c648dd393a76095cd09de40402027bb8a1003590d"
+    },
+    {
+      "path": "corporate-site/src/components/Icon.astro",
+      "bytes": 1104,
+      "sha256": "65f5ae937de62d00034c12f9666cab4cadb501c5359596b01d1ce357618b48f3"
+    },
+    {
+      "path": "corporate-site/src/components/Inquiry.tsx",
+      "bytes": 22131,
+      "sha256": "a64d38b97dd1d72f26c7e4a6617cc98468c585e4260c58ce81b79d13914a5385"
+    },
+    {
+      "path": "corporate-site/src/components/KnabaAssistant.tsx",
+      "bytes": 30899,
+      "sha256": "2350191fc605337dfb655c494d6ed3cf360540a71b7f1e5780a3d9f7ec0dbdae"
+    },
+    {
+      "path": "corporate-site/src/components/LocaleCatalog.astro",
+      "bytes": 1095,
+      "sha256": "7db000ab78f7d2618e7945f2e8a7da0c00414dbe8f99592549be1eef464708f1"
+    },
+    {
+      "path": "corporate-site/src/components/MessengerPage.astro",
+      "bytes": 2212,
+      "sha256": "23267ee75e946b717eb95b7714b9a878858e3bbc8246a056c7de5e27c424a762"
+    },
+    {
+      "path": "corporate-site/src/components/MobileAppPage.astro",
+      "bytes": 17209,
+      "sha256": "1782d3274f003c6786ef0936eb406bfaaf9974813c5894dcaa106d2ebe6849bf"
+    },
+    {
+      "path": "corporate-site/src/components/PartnerDirectory.astro",
+      "bytes": 3486,
+      "sha256": "c3c1f8af89d8cbeeb8675748b7d389a0d4c4e9366e0be5fd463e6f13d366a084"
+    },
+    {
+      "path": "corporate-site/src/components/Partners.astro",
+      "bytes": 1302,
+      "sha256": "748b26d8ab4fb22056c88059a695b7d9d533a98fbea8fb1c837d245851fc1f76"
+    },
+    {
+      "path": "corporate-site/src/components/Portal.tsx",
+      "bytes": 45805,
+      "sha256": "b853ce0fdc9edb183b7ff9e5a9b93f4e942229fd19d9a35dd2d6e734eab31f0d"
+    },
+    {
+      "path": "corporate-site/src/components/PortalConversations.tsx",
+      "bytes": 18426,
+      "sha256": "dc22c7caa3eb494a18cec19cb35873ec745989dc5a63163cd28d784ab9216385"
+    },
+    {
+      "path": "corporate-site/src/components/ProjectScopeGuide.astro",
+      "bytes": 4487,
+      "sha256": "eec90bc2cf47fa04d6632a9e55f10f83076282c16c8f95ad96c1cfcb167c35d7"
+    },
+    {
+      "path": "corporate-site/src/components/PublicAssistant.tsx",
+      "bytes": 214,
+      "sha256": "f786c4af2ffe93cc5d6e15c60041985bd09f3ff4dd837c48e2bef86a13159534"
+    },
+    {
+      "path": "corporate-site/src/components/PublicReviews.tsx",
+      "bytes": 8848,
+      "sha256": "b286d18a949338634ba4fe6b646492c93957e6ec0bc7140f86b360fc3cf20d73"
+    },
+    {
+      "path": "corporate-site/src/components/RegionalPublicPage.astro",
+      "bytes": 7108,
+      "sha256": "0f4588ac33e13591891acb2804d024a2de5f40c20e6ddb3b915feb445733c911"
+    },
+    {
+      "path": "corporate-site/src/components/ReleaseChannels.astro",
+      "bytes": 12062,
+      "sha256": "4c1b69474393c266f877d92151b9700c01adfb5eb20944f759b26a5a0b9308e7"
+    },
+    {
+      "path": "corporate-site/src/components/Reviews.astro",
+      "bytes": 1202,
+      "sha256": "ffe4d7639e5129300a99c0b228383d8fc9bbda6d6ca12cce75a1aa0d8f5a1408"
+    },
+    {
+      "path": "corporate-site/src/components/ReviewsModeration.tsx",
+      "bytes": 6664,
+      "sha256": "944aed7dd9e8cd570c2bf91f2615e7241945a690b953def0bb000676ffa7d30d"
+    },
+    {
+      "path": "corporate-site/src/components/ServiceCarousel.astro",
+      "bytes": 13893,
+      "sha256": "e00c9893c8edb623bc081b3d1dde5a4e7efa048456dbfe80f77203ced7d8098e"
+    },
+    {
+      "path": "corporate-site/src/components/ServiceFinder.vue",
+      "bytes": 5582,
+      "sha256": "211f540c8d9218c0e66db6b5b3ac00217e9b9d3e08729f764bb0c1b5b00c350f"
+    },
+    {
+      "path": "corporate-site/src/components/SiteStudio.tsx",
+      "bytes": 33247,
+      "sha256": "86cb47839016b31ba11858b161151a0a7792f7449d92ec083375be719cfd3255"
+    },
+    {
+      "path": "corporate-site/src/components/WhyKnaBa.astro",
+      "bytes": 7579,
+      "sha256": "0cf8047fbace6cbec342a9afb6ec97700cf86cb0bdf764e065dc344952abc6d4"
+    },
+    {
+      "path": "corporate-site/src/data/bauhilfe-guide.ts",
+      "bytes": 18857,
+      "sha256": "6e37a61e954064d4fb9983e9a13e8e8733f3c1c7b813165d8c4304d512a0bd52"
+    },
+    {
+      "path": "corporate-site/src/data/brand-messages.json",
+      "bytes": 1628,
+      "sha256": "d642de715123ae2c3a567a46466064336eb624c33b2a3160586afe75a21bcc8f"
+    },
+    {
+      "path": "corporate-site/src/data/careers.ts",
+      "bytes": 2589,
+      "sha256": "9fcb6c285e58445a1c0fc259e331eb0d5aa90d35aa5aba0fcce06b35f48a9bb5"
+    },
+    {
+      "path": "corporate-site/src/data/company.ts",
+      "bytes": 4893,
+      "sha256": "0bea9a6d0f6fa55b8d5a700e5e668541e638f22949df44ddd2d726dddc880b21"
+    },
+    {
+      "path": "corporate-site/src/data/construction-faq.ts",
+      "bytes": 54953,
+      "sha256": "355d76bbe7fa84163bd4849f6a8eb46940411ee369e39e4739c62d21328fc783"
+    },
+    {
+      "path": "corporate-site/src/data/construction-grid.ts",
+      "bytes": 1081,
+      "sha256": "d4faef50fd0fbc65f4ec797a30090f82ac12bf9598201a9e1c551126a30eb842"
+    },
+    {
+      "path": "corporate-site/src/data/construction-guidance-extra.ts",
+      "bytes": 4050,
+      "sha256": "5a8b12d6c3596d031894d9d329677fd3ba2c1f7c9024b3edd193dce7421d25ab"
+    },
+    {
+      "path": "corporate-site/src/data/construction-guidance.ts",
+      "bytes": 50746,
+      "sha256": "3b5319224c12a50b04048385ea3e6903096397957598584f48be8209ff98e1e4"
+    },
+    {
+      "path": "corporate-site/src/data/construction-guide-routes.ts",
+      "bytes": 520,
+      "sha256": "2566f0d95cbaa201bfc9d09e6ab290cac62bb920ee91377cc5eefb7327dee826"
+    },
+    {
+      "path": "corporate-site/src/data/construction-guides.ts",
+      "bytes": 77668,
+      "sha256": "df13e31bbf3cfe8fbcc077821db794d1396e5d4f0aa1803134a403c8a8eb5830"
+    },
+    {
+      "path": "corporate-site/src/data/construction-icon-paths.ts",
+      "bytes": 1425,
+      "sha256": "46823a9089b5bf7ce3757ac9c4dffbb282012ef95ee64072c24129c2fad09ee5"
+    },
+    {
+      "path": "corporate-site/src/data/construction-offers.ts",
+      "bytes": 20833,
+      "sha256": "fbab3a15cfd06f7b69062ec539964ee7463552f40f9efd1d8d60975404bd4eab"
+    },
+    {
+      "path": "corporate-site/src/data/construction-project-card.ts",
+      "bytes": 1253,
+      "sha256": "05398694e8dceaec097fe52cff2dc66b57a89795e60b0b2c2066dbad627e8e3a"
+    },
+    {
+      "path": "corporate-site/src/data/construction-service-content.ts",
+      "bytes": 55968,
+      "sha256": "e8f3737a28ef60d54e062592004c6c6372ddef22f68cc9a2f03f25072df7ba99"
+    },
+    {
+      "path": "corporate-site/src/data/construction-site-guidance.ts",
+      "bytes": 8546,
+      "sha256": "90b1cc80a1d0fc80ba8369ceb464bb58bd5447fc41f126842f1b60904eedf624"
+    },
+    {
+      "path": "corporate-site/src/data/partners.ts",
+      "bytes": 8234,
+      "sha256": "adda0d9e6cc5e2bae22b2f2b72ef601df0d1a23acfe55c75fd071d41f5837e13"
+    },
+    {
+      "path": "corporate-site/src/data/portal-locales/de.json",
+      "bytes": 16120,
+      "sha256": "0e6eefc7c6c10a20988d2225e76c0e33f9a879d873ce8c0d2c1063331e7de31c"
+    },
+    {
+      "path": "corporate-site/src/data/portal-locales/en.json",
+      "bytes": 14300,
+      "sha256": "99382b7103283a7c7527c67fa060e7a1695634ac1d73e6b4b1ad4781c2dfcd8b"
+    },
+    {
+      "path": "corporate-site/src/data/portal-locales/lt.json",
+      "bytes": 15113,
+      "sha256": "e3a8699df3100919a4df61462650b169c1f7a1bf07dc99fee748ca8ff4eff573"
+    },
+    {
+      "path": "corporate-site/src/data/portal-locales/pl.json",
+      "bytes": 15240,
+      "sha256": "8b4d5dd3121d70f4630975efa6f17afbf2c7c2f311e1474c7241cfdb140c3ecc"
+    },
+    {
+      "path": "corporate-site/src/data/portal-locales/ru.json",
+      "bytes": 22351,
+      "sha256": "060a864a7e9232bc537f4d3728bb9b3b02855428bd4f7059eae3f3c3f8ca32ad"
+    },
+    {
+      "path": "corporate-site/src/data/portal-locales/uk.json",
+      "bytes": 21691,
+      "sha256": "f885a0af09248380c6cf908ce7c6bcc3874ecdd951bdd27adc23ad2cc6c7017a"
+    },
+    {
+      "path": "corporate-site/src/data/regional-public-copy.ts",
+      "bytes": 9492,
+      "sha256": "f271d65bbc75dd845365a3c1ec8003046a92a5a097d65827484dda931d1482ab"
+    },
+    {
+      "path": "corporate-site/src/data/reviews.ts",
+      "bytes": 22781,
+      "sha256": "23032b35e6ca9e9496640e9ab24611bc163800f78fd6087cd2f59977ab2b3ffb"
+    },
+    {
+      "path": "corporate-site/src/data/ru-content.ts",
+      "bytes": 51953,
+      "sha256": "99a39639f77baf47d6338dd62d472df1f7552e2f06dd420570ca8db3caa5b6ba"
+    },
+    {
+      "path": "corporate-site/src/data/ru-services.ts",
+      "bytes": 3287,
+      "sha256": "1e94918bc585775f67282c741bd108750019f81de8b06bc411bd48563f4f576e"
+    },
+    {
+      "path": "corporate-site/src/data/seo-content.ts",
+      "bytes": 35028,
+      "sha256": "53e4d53ce30633b8fb26c4873c9098818ade3a8e1f2ab5e620b7e701c8c33c95"
+    },
+    {
+      "path": "corporate-site/src/data/service-artwork.ts",
+      "bytes": 2020,
+      "sha256": "ba357a8e98cacaf93072f33c2f790c0084457171481de6dae800cd551c1cc5f2"
+    },
+    {
+      "path": "corporate-site/src/data/site.ts",
+      "bytes": 581,
+      "sha256": "f292401863bfeccaf0081512da518c704dcc80456f67b9f4a6429a7f44af435d"
+    },
+    {
+      "path": "corporate-site/src/layouts/Layout.astro",
+      "bytes": 21162,
+      "sha256": "2f8e0fbea32bca554b84ca9245a6f0403ebd7f0aae0c2d44c8654f8c930b8a06"
+    },
+    {
+      "path": "corporate-site/src/lib/account-access.ts",
+      "bytes": 1966,
+      "sha256": "3de46c99b61357c8591f6ed8f53d69cf1322b2eb770218449548e536b1e8a1d7"
+    },
+    {
+      "path": "corporate-site/src/lib/account-extra-locales.ts",
+      "bytes": 4173,
+      "sha256": "ae02b89f3950db5701fff9b27d6ba1432babee5ab231ab87ed63e1997b90c65e"
+    },
+    {
+      "path": "corporate-site/src/lib/admin-access.ts",
+      "bytes": 458,
+      "sha256": "33d067e364898130980ca551906567a1012db8962a784cb9988596edc042cdf2"
+    },
+    {
+      "path": "corporate-site/src/lib/admin-modules.ts",
+      "bytes": 2569,
+      "sha256": "5d2a5327004a5499f3c08508eadcc8469f07865d39eb3813c694cc81d8e285b0"
+    },
+    {
+      "path": "corporate-site/src/lib/assistant-knowledge.ts",
+      "bytes": 10673,
+      "sha256": "90318437162b8535cce87ab51d773017c73becd14a934cd326fc82383dcb1de5"
+    },
+    {
+      "path": "corporate-site/src/lib/assistant-recovery.ts",
+      "bytes": 716,
+      "sha256": "a9fc4fc042b629ecba3e35e24544c2d7daa432e1e03eb7bc779216be083b974b"
+    },
+    {
+      "path": "corporate-site/src/lib/assistant-request-state.ts",
+      "bytes": 2448,
+      "sha256": "6a68890c6ea9b96d2448c8a48b8fff0ae673969e4d5af3fcbf629137bc090fc7"
+    },
+    {
+      "path": "corporate-site/src/lib/construction-ui-translations.ts",
+      "bytes": 20126,
+      "sha256": "e6b2faf3e80cb3fa63ad28c0207c6f305f35a80a8393864080aafbe97836d2ee"
+    },
+    {
+      "path": "corporate-site/src/lib/corporate-navigation.ts",
+      "bytes": 2683,
+      "sha256": "5acd6fd489f40a737a2f3671cb3782f99d0db90d1ebee4140795bce53c79f0b9"
+    },
+    {
+      "path": "corporate-site/src/lib/inquiry-construction.ts",
+      "bytes": 2090,
+      "sha256": "193e207ec4f225046113008882f1780fdf13fd0eab2340287fed9f5815dbe47a"
+    },
+    {
+      "path": "corporate-site/src/lib/inquiry-navigation.ts",
+      "bytes": 937,
+      "sha256": "4a9128f26ad6b64dbcd056550cedeb8094bad04a079ac393fd00b23759061b20"
+    },
+    {
+      "path": "corporate-site/src/lib/inquiry.ts",
+      "bytes": 4990,
+      "sha256": "c15ffc6619be3ad5ccfe90694f20dd1519f4695330d6f2338fc5b8fc4c52e50d"
+    },
+    {
+      "path": "corporate-site/src/lib/locale-catalog.ts",
+      "bytes": 1715,
+      "sha256": "6264acc1f38b802c8d6bada067bc10b322946b44fb855d9f9085042f9fb70f16"
+    },
+    {
+      "path": "corporate-site/src/lib/messenger-links.ts",
+      "bytes": 1526,
+      "sha256": "a99ebe506bd14849387ccb8f6d249a62745c4c1e2d45b70c9c6ed82702785321"
+    },
+    {
+      "path": "corporate-site/src/lib/mobile-distribution.ts",
+      "bytes": 1734,
+      "sha256": "0f54a075c3799f918c51663c7fdaea1d8c086bc4f43196e26d498cee736c9a52"
+    },
+    {
+      "path": "corporate-site/src/lib/planner.ts",
+      "bytes": 11277,
+      "sha256": "ef04e5e150c0193b6b02eb29eb16a45f74ac1f1ff4a248544b8144bcc9f13fb7"
+    },
+    {
+      "path": "corporate-site/src/lib/portal-contract.ts",
+      "bytes": 4913,
+      "sha256": "6777cc76d56cf1901caa12aac34154480afd0d58ed6ad99921c4da89064eac2b"
+    },
+    {
+      "path": "corporate-site/src/lib/portal-i18n.ts",
+      "bytes": 1867,
+      "sha256": "ad901ed86780cc58760a4a046bdf4d484a4df0da9c1fe6e49ef16dce52516c9c"
+    },
+    {
+      "path": "corporate-site/src/lib/portal-locale-data.ts",
+      "bytes": 1356,
+      "sha256": "702ba54a60eb7b27b339bfce6d19a70ea92b49d79e34d28c149b08325c028c8e"
+    },
+    {
+      "path": "corporate-site/src/lib/portal-locale-store.ts",
+      "bytes": 2620,
+      "sha256": "cc3884af414cc95647fd0a95e01231f5d2025469de88ae7fa35e53e9c711a085"
+    },
+    {
+      "path": "corporate-site/src/lib/portal-locale-urls.ts",
+      "bytes": 400,
+      "sha256": "623398b9d379557df432ce6f6277aa56e72fd40bb7bc2454cacbb8f31c84ab37"
+    },
+    {
+      "path": "corporate-site/src/lib/portal-locales-server.ts",
+      "bytes": 471,
+      "sha256": "6d1d5938030f8d833211cbe175b154b6925a3df87dce61ec64680cd0b5ba440a"
+    },
+    {
+      "path": "corporate-site/src/lib/public-extra-locales.ts",
+      "bytes": 17890,
+      "sha256": "e258c0868ed1c10e7bb32ce584790cae653c0448c6637ef41e13fba0ea090f53"
+    },
+    {
+      "path": "corporate-site/src/lib/public-i18n.ts",
+      "bytes": 19222,
+      "sha256": "ee6cb85be884111a67dabe577687df900af1ae2178e7e91ba3e1a8be910e6961"
+    },
+    {
+      "path": "corporate-site/src/lib/request-id.ts",
+      "bytes": 852,
+      "sha256": "fb5c434e12504fc451e7c44015efec8be88028397fb99861c0af7962ad56124d"
+    },
+    {
+      "path": "corporate-site/src/lib/service-carousel.ts",
+      "bytes": 690,
+      "sha256": "5ddc7aa5776f569f5aae3427645bee54ca99897f4091777501816eede3d7186e"
+    },
+    {
+      "path": "corporate-site/src/lib/site-i18n.ts",
+      "bytes": 3113,
+      "sha256": "7bb7e7702eac187687acfdc0470dbbb9c37b4a5b133cd115f9103a5dee73c570"
+    },
+    {
+      "path": "corporate-site/src/lib/site-studio-contract.ts",
+      "bytes": 5774,
+      "sha256": "1e887a5c9bd4486c8b564864c93c38976e702fe89b6c335074f283e059d7463a"
+    },
+    {
+      "path": "corporate-site/src/lib/studio-media.ts",
+      "bytes": 694,
+      "sha256": "3c61591dd5ea41cbc3f123a0e195087ba8a587a82b4889f07830f776cdca9f64"
+    },
+    {
+      "path": "corporate-site/src/lib/studio-pages.ts",
+      "bytes": 1633,
+      "sha256": "1189cc57c90257ecb161bc6a32533e4b8633c24a6bfe5393b87df94b24242069"
+    },
+    {
+      "path": "corporate-site/src/lib/workspace-i18n.ts",
+      "bytes": 117,
+      "sha256": "5d1deed40944184af618ce4c3d49894c093114b5a26b49b9a613ca8fb7ebe570"
+    },
+    {
+      "path": "corporate-site/src/lib/workspace-navigation.ts",
+      "bytes": 2932,
+      "sha256": "22950218d0f05321f9e502eb15e08577be7343ec38d9a55ca624f20d6568a622"
+    },
+    {
+      "path": "corporate-site/src/pages/404.astro",
+      "bytes": 623,
+      "sha256": "c1e441f9f1535f7fd453127575f30c6b5ee2d2b7326cd244edb61650dc68d1c5"
+    },
+    {
+      "path": "corporate-site/src/pages/admin.astro",
+      "bytes": 842,
+      "sha256": "ef0134dc63365b1a0c5d573b9edcd22bdbaa8c947e0f92e8f65c97e86ea83b85"
+    },
+    {
+      "path": "corporate-site/src/pages/api/catalogue.json.ts",
+      "bytes": 586,
+      "sha256": "61a8d340ea4c65663e6f2ea16f186106dba668edb12fa7ffba70b8ef3fccc419"
+    },
+    {
+      "path": "corporate-site/src/pages/app.astro",
+      "bytes": 99,
+      "sha256": "13f79a1f4eeb98317eaba3d4964b8bb1efabd0bc48e47d65c74a54c668949187"
+    },
+    {
+      "path": "corporate-site/src/pages/bauleistungen/[slug].astro",
+      "bytes": 444,
+      "sha256": "d392ba8c62fc32c58d24d45e48336fb29ea21ff413b3232747cce6a844d7982c"
+    },
+    {
+      "path": "corporate-site/src/pages/berlin.astro",
+      "bytes": 113,
+      "sha256": "c901ca3ea28d339904a787ab209b60e517f75e0847d91a0e7bef889b81f65d28"
+    },
+    {
+      "path": "corporate-site/src/pages/bots/telegram.astro",
+      "bytes": 120,
+      "sha256": "03c55542bfef83ead0676168b9c94258b0d28f248c5db75ed4236ba5575d2d24"
+    },
+    {
+      "path": "corporate-site/src/pages/bots/whatsapp.astro",
+      "bytes": 120,
+      "sha256": "1b489dfb74f3744b45878b71f99577a5aa7e746acd9742bb5c2d3f5dcd54f479"
+    },
+    {
+      "path": "corporate-site/src/pages/branchen.astro",
+      "bytes": 115,
+      "sha256": "1262d51c794893a627e6bf01cf0c2082e1a24e8bd02dc67f59d42538c9f5bcfc"
+    },
+    {
+      "path": "corporate-site/src/pages/crm.astro",
+      "bytes": 563,
+      "sha256": "0a1b3e69f2e73de4f0fc0ee24923992db49a0abbb21edb6c1d75e9515b6ffe81"
+    },
+    {
+      "path": "corporate-site/src/pages/datenschutz.astro",
+      "bytes": 29736,
+      "sha256": "9794a092622801542614e2a8b561f5f62de8ae4347702623c00369cbdb9b5a3e"
+    },
+    {
+      "path": "corporate-site/src/pages/en/app.astro",
+      "bytes": 102,
+      "sha256": "e8cd09a2c1b1ed22c4091c0ae0acfc66ad6a1103374d594dd8ad5ade2af71760"
+    },
+    {
+      "path": "corporate-site/src/pages/en/bauleistungen/[slug].astro",
+      "bytes": 453,
+      "sha256": "de1a495702400546f411d60a93cdde3f4fb20a3757d5e68c1e465c2e8bb9bf44"
+    },
+    {
+      "path": "corporate-site/src/pages/en/berlin.astro",
+      "bytes": 116,
+      "sha256": "49f56e734db4e0509d47ccde22e26cae4a5bf3e7e144c150d51cce25514db82d"
+    },
+    {
+      "path": "corporate-site/src/pages/en/bots/telegram.astro",
+      "bytes": 123,
+      "sha256": "e7874de5335420a2f879f8a78f21b5189b0c70b7149d4b2b5b9fd7d91efd9093"
+    },
+    {
+      "path": "corporate-site/src/pages/en/bots/whatsapp.astro",
+      "bytes": 123,
+      "sha256": "a4de36bfa9b17125799316d6375eb33aeba69f8caeb391440e15c5806372c089"
+    },
+    {
+      "path": "corporate-site/src/pages/en/branchen.astro",
+      "bytes": 118,
+      "sha256": "87d6b5a2343351f3941cd50089d83f4373c97450de0077c110beb7910fc1ac1b"
+    },
+    {
+      "path": "corporate-site/src/pages/en/faq.astro",
+      "bytes": 357,
+      "sha256": "5f121123c9312f2da51cff616e55bd91cc83cbffc2b9028bbb6454a85f42b03e"
+    },
+    {
+      "path": "corporate-site/src/pages/en/galerie.astro",
+      "bytes": 102,
+      "sha256": "d4b70bc8b3c720b1bd2c9e3b442166c32c06bba07aec6b75acf04e9aa7cb179f"
+    },
+    {
+      "path": "corporate-site/src/pages/en/index.astro",
+      "bytes": 99,
+      "sha256": "7dfb468312435b15d4c68f83ac51571904786971dd55a83144b2f45d43d33f52"
+    },
+    {
+      "path": "corporate-site/src/pages/en/karriere.astro",
+      "bytes": 118,
+      "sha256": "f1ca57646c0241ee89bb65f7b47e67271f4d087f62145b6ce256bdcf6755cbe0"
+    },
+    {
+      "path": "corporate-site/src/pages/en/kontakt.astro",
+      "bytes": 102,
+      "sha256": "4038c9dbc6b8fc108911f3f4cd51dc44a124400c64c14fdb5ea2d255e115aa3f"
+    },
+    {
+      "path": "corporate-site/src/pages/en/leistungen/index.astro",
+      "bytes": 105,
+      "sha256": "2db0591c2f03cb02dab47bdabe2487abd281a3e6c676113df790652b96a83240"
+    },
+    {
+      "path": "corporate-site/src/pages/en/partner.astro",
+      "bytes": 99,
+      "sha256": "718613c4144375a50fcf2a0bf802a5363e3df297d906e1663e5f399083cfe6b8"
+    },
+    {
+      "path": "corporate-site/src/pages/en/planer.astro",
+      "bytes": 102,
+      "sha256": "763cf042a939ded7539c57f9410e24a1d1241b21807cd867358856cd39029a70"
+    },
+    {
+      "path": "corporate-site/src/pages/en/ratgeber/[slug].astro",
+      "bytes": 349,
+      "sha256": "32461b427b5d7e357d4d127d476852a50612be7f0928982142026573811f22a6"
+    },
+    {
+      "path": "corporate-site/src/pages/en/ratgeber/index.astro",
+      "bytes": 121,
+      "sha256": "6b4703f7f428eb921ac9b3882ba1279c26cd0cc34b57e09d5cb44fbfc03b6a80"
+    },
+    {
+      "path": "corporate-site/src/pages/en/unternehmen.astro",
+      "bytes": 121,
+      "sha256": "83f4f63f2933b9a1a12a86716c6a2a5dca6c590e442cd12932a0b114d45e9dc5"
+    },
+    {
+      "path": "corporate-site/src/pages/faq.astro",
+      "bytes": 348,
+      "sha256": "fe50f6e727a2bd73ca2f277f638722b09436f8f6f5cd1ca431ae94f702280a4b"
+    },
+    {
+      "path": "corporate-site/src/pages/galerie.astro",
+      "bytes": 99,
+      "sha256": "bdf9d8bba6cd868550bc1c086dc8a7f047d022350d1c31997202eaa08aa186aa"
+    },
+    {
+      "path": "corporate-site/src/pages/impressum.astro",
+      "bytes": 5547,
+      "sha256": "cf72dca54051921bf8c60bd41e30de9817d23b58f4749f356652512cb9cf36c7"
+    },
+    {
+      "path": "corporate-site/src/pages/index.astro",
+      "bytes": 96,
+      "sha256": "79029800b094abf17681116c4420509f09b9c9d622a9d458445f9af3b1effbb1"
+    },
+    {
+      "path": "corporate-site/src/pages/karriere.astro",
+      "bytes": 115,
+      "sha256": "7cc9f0a54b1e1f96a6b59c5f0075a2ce77a81c7bb0927185e4f96488b0a0bc2f"
+    },
+    {
+      "path": "corporate-site/src/pages/kontakt.astro",
+      "bytes": 99,
+      "sha256": "eabd3ac9e602d1bbc1da86969a408aff0fe9e2edab8f9542f8370779a4b0c36d"
+    },
+    {
+      "path": "corporate-site/src/pages/konto.astro",
+      "bytes": 636,
+      "sha256": "300eb2d89adcbff75bf711b61636b4746fad4f123595b8c3e92aa16c81e36473"
+    },
+    {
+      "path": "corporate-site/src/pages/languages.json.ts",
+      "bytes": 765,
+      "sha256": "1a03a1186db255d4dc9a8096b20ed8665acef367000d64fa6c022fd65140d01c"
+    },
+    {
+      "path": "corporate-site/src/pages/leistungen/[slug].astro",
+      "bytes": 276,
+      "sha256": "ec2445347bdb3ecef5fddd571020e55a46273eaba6e9531e5c2f80d78ba9aa04"
+    },
+    {
+      "path": "corporate-site/src/pages/leistungen/index.astro",
+      "bytes": 102,
+      "sha256": "d288d92863e453639598435e6b40f63bd5354d2b9eb6f37065fe738ca2a6608b"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/app.astro",
+      "bytes": 102,
+      "sha256": "f17bcee6630dd8a4fb7a6bd9acaf6b962329faf9fdc9b9acef96ed72d56f3830"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/bots/telegram.astro",
+      "bytes": 123,
+      "sha256": "b4e1323f6267e611e0b4190a0a93616dbba9bee333665545159c191de1befb33"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/bots/whatsapp.astro",
+      "bytes": 123,
+      "sha256": "23c8525bed7af428f9737fa6bbec9a6a448d4121d4462b6760fd638622e9d171"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/faq.astro",
+      "bytes": 129,
+      "sha256": "3ef74c05ac53b96553d71f59cf628b4be341e8ddfccf60a8d7820a3d39ffc67d"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/index.astro",
+      "bytes": 130,
+      "sha256": "611034bcd1fce6c3f2222212d12d0e3aaa3f8c45c214f300e63c30402d68e7ec"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/kontakt.astro",
+      "bytes": 133,
+      "sha256": "e502dd80d4f4fb748a1207531dba95f2e26667c5523f181a2a30c33b14286a27"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/leistungen.astro",
+      "bytes": 134,
+      "sha256": "1857fb80d1401cde4df0afdd4129eb118bbba9ff0b8b09a6db60f6fc30512950"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/planer.astro",
+      "bytes": 133,
+      "sha256": "c1f1cf7186e0cc1f6dd21f06a3371c028c2c6e45b61717832c99c75a7ec5d616"
+    },
+    {
+      "path": "corporate-site/src/pages/lt/unternehmen.astro",
+      "bytes": 133,
+      "sha256": "0e0ea0436a884080c00d2df85e82a42576c9bf7dc076f517639937e6696a1d86"
+    },
+    {
+      "path": "corporate-site/src/pages/partner.astro",
+      "bytes": 96,
+      "sha256": "f8a263393ab071112b5d7c80452f1c90efe6835142aadfe520849023f370af34"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/app.astro",
+      "bytes": 102,
+      "sha256": "6740f3e9c4437038191e2f9e9130b3552cd11b5123ba59267e2e84b4af9216e7"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/bots/telegram.astro",
+      "bytes": 123,
+      "sha256": "68a14374fa5af4a16891b8488b175ce6ddba26f1465214a3e002a854e36b66e9"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/bots/whatsapp.astro",
+      "bytes": 123,
+      "sha256": "9980239824abd490d59cc061098223d90e291f1d5c964a2db8a2a338bbd509ea"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/faq.astro",
+      "bytes": 129,
+      "sha256": "e824202c700bb9b9170e9f23811dd834f0df397f648ca77545e7222e90a32f73"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/index.astro",
+      "bytes": 130,
+      "sha256": "d82f4db2a97ed0788b060219c4fdb10e8c7617432c5d6540dd96a5beb02d7899"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/kontakt.astro",
+      "bytes": 133,
+      "sha256": "9d8dced2b7b25b2fb2ec8382656ea83878df8768360e39ca10e56a50a50fee0a"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/leistungen.astro",
+      "bytes": 134,
+      "sha256": "65f41e5f3cc9bc83f65cb934add24332e1d63e7ec5f123914101399d4b8cd684"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/planer.astro",
+      "bytes": 133,
+      "sha256": "00da96ae78eae071eab8925114b0c268743463d1d33e7b442af978eb10ad77b8"
+    },
+    {
+      "path": "corporate-site/src/pages/pl/unternehmen.astro",
+      "bytes": 133,
+      "sha256": "7b475b6d9b594d2d5492224ab3e2e7499f84aa5f57aa822aa65646c8ed4a33f8"
+    },
+    {
+      "path": "corporate-site/src/pages/planer.astro",
+      "bytes": 99,
+      "sha256": "3c2559181400fac6048d865711e641cbbea36a9176a1da57becead4b82dd602a"
+    },
+    {
+      "path": "corporate-site/src/pages/postfach.astro",
+      "bytes": 713,
+      "sha256": "ca964d217940dc10090331c105e3e33dd55caee426fef8492eee8c78c96f93fd"
+    },
+    {
+      "path": "corporate-site/src/pages/ratgeber/[slug].astro",
+      "bytes": 631,
+      "sha256": "32fc94c4cd4df3afc8bcc081eb8e373763cdae5e9436f80debb1d9c1ca1f2e8f"
+    },
+    {
+      "path": "corporate-site/src/pages/ratgeber/index.astro",
+      "bytes": 118,
+      "sha256": "b584f229bfb4b14d4172cfc77ebdd0b4217d7d98945b5e9e5da8bc5aef773beb"
+    },
+    {
+      "path": "corporate-site/src/pages/robots.txt.ts",
+      "bytes": 697,
+      "sha256": "3e984b719d4675b1b72381382bcfe8f63bfbdb69a1ef271a6ab1ced43b1dec79"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/app.astro",
+      "bytes": 102,
+      "sha256": "f46627591018fb920c42b0b2e9d4125887bf698da566ec1ed3283011574f5cba"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/bauleistungen/[slug].astro",
+      "bytes": 453,
+      "sha256": "ea72a6bd50284cb51e2ea9a0b056c4bd727fa36d09269e32ee355e7ed28a28f2"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/berlin.astro",
+      "bytes": 116,
+      "sha256": "fd1ab43a1fda9ca6231a2124ac268a83a3e54557f0e14f12bed5752002a09e84"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/bots/telegram.astro",
+      "bytes": 123,
+      "sha256": "35e69083eb8aa4a0a6711d0c2147a96f0309d0e8cf41a49982918df326e485bf"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/bots/whatsapp.astro",
+      "bytes": 123,
+      "sha256": "da5a63be2384f35ffb7f63f825b30d502ade85dd552073295f554760cb26d7cc"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/branchen.astro",
+      "bytes": 118,
+      "sha256": "4d7a52ce21a97171e671e1ca8a91f7b9f5243252c11a538a3acf10a5293490a8"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/datenschutz.astro",
+      "bytes": 42394,
+      "sha256": "1e7f070e1ea4f1f403030c688dca2436782e1803f18904cc450dce0ef6ffe54a"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/faq.astro",
+      "bytes": 357,
+      "sha256": "d6488529662dee5ef984c60de7fa9caa3af14c9c4196912c88a668389a315d29"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/galerie.astro",
+      "bytes": 102,
+      "sha256": "5ea127bbe274d5802ccfa0e1bd65abd6da8bb40498aea380e97047dab34d35b9"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/impressum.astro",
+      "bytes": 7867,
+      "sha256": "0b68288d32862a465d80fc0b5edc360693c6ea29cb1982e9e6aa37ace9d9bd4a"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/index.astro",
+      "bytes": 99,
+      "sha256": "089ae2d3103501b3611cd7be2981afd2bcc8c8f6f0761025838d2c71364dcaa9"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/karriere.astro",
+      "bytes": 118,
+      "sha256": "62ef41f68a011e2cdc7fc5dec86646361a96c8e620f66d23ddd4da2733dcc508"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/kontakt.astro",
+      "bytes": 102,
+      "sha256": "ec90f086bd54b51c51ceaa6a93321e8e2f78830891695eeb48184e65653b847a"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/konto.astro",
+      "bytes": 831,
+      "sha256": "03c605bb741d034fc27127b965f47aaf18f64e129171c2cdfc91806d4422fa34"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/leistungen/[slug].astro",
+      "bytes": 282,
+      "sha256": "63a10d181aab78622e414de9221049e5bf8665f00cd4fac5d551b450feddb24e"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/leistungen/index.astro",
+      "bytes": 105,
+      "sha256": "589f76660daf8e4bf840c578ea37bdd9a93166230140973d00755a7cec193561"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/partner.astro",
+      "bytes": 99,
+      "sha256": "b33bbc3b9ae20d99e105f17685b9b1710f90d986a3596ba3efea254a9f508784"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/planer.astro",
+      "bytes": 102,
+      "sha256": "5cb3daf357f16c8f83113cbae3643a2b44fbea9cda1cc8a25e1802e504a4a471"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/postfach.astro",
+      "bytes": 822,
+      "sha256": "e1d57bacbe8b65732b9e088558413950a5387bfac9092335fd6a0bc7925680c5"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/ratgeber/[slug].astro",
+      "bytes": 643,
+      "sha256": "0fadb4f8b1f91c1d7613caeffa7b5fee276b8607d1a2e76b66e2855cc0e7be84"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/ratgeber/index.astro",
+      "bytes": 121,
+      "sha256": "e1d76f48850e01c1733ce1be53f848f9ca86708475d513ddbb198d712b15052b"
+    },
+    {
+      "path": "corporate-site/src/pages/ru/unternehmen.astro",
+      "bytes": 121,
+      "sha256": "097042a9a82944178f75a40c3bbafa1ab69fa5ef85a7bdbdcc27779201eb9dbd"
+    },
+    {
+      "path": "corporate-site/src/pages/sitemap.xml.ts",
+      "bytes": 1036,
+      "sha256": "d54173551df4a4ec318914dcf5e931e732c43c8f871de696886fcfb5e5333ff9"
+    },
+    {
+      "path": "corporate-site/src/pages/studio-media.json.ts",
+      "bytes": 521,
+      "sha256": "45eb2a4d37a8f8c8a72fe324628e6e12f1c943f90e1a6cb5cdaf6d8630a58810"
+    },
+    {
+      "path": "corporate-site/src/pages/studio.astro",
+      "bytes": 610,
+      "sha256": "5f57c4988edbbf774cb5698c41e2a5ba68b3fe60fb97c9afbda1621d32a5d57f"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/app.astro",
+      "bytes": 102,
+      "sha256": "a8527f94b27194397216437a8650852c50f73ff5f47f3c6265c592b72dd04b3c"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/bauleistungen/[slug].astro",
+      "bytes": 453,
+      "sha256": "5e20a7645dbac3738fa137f2d65d8c0ef6a2d47ae83f56247ebb192d89b8e13f"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/berlin.astro",
+      "bytes": 116,
+      "sha256": "7704b53db298ae41fccd20cf8ea4c9a3cadf92b56d0d5935f2a4e8c78f007f89"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/bots/telegram.astro",
+      "bytes": 123,
+      "sha256": "32cb94c3a1a840d21b59a346e0f0ad023ada8bd083759843c4219d1892ad7b8d"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/bots/whatsapp.astro",
+      "bytes": 123,
+      "sha256": "ca3862ab60dfa592668aee8f104e5fee923a9cfbdef2feddfce18a074d8c07fc"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/branchen.astro",
+      "bytes": 118,
+      "sha256": "4cbb236225efde5351fa0d0c9f1813006c4154ff7806f02812b515f594344709"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/faq.astro",
+      "bytes": 357,
+      "sha256": "2201a77e54e67b6352782828898f3fb2c4dc5f42928acb0ab503221e60190bd9"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/galerie.astro",
+      "bytes": 102,
+      "sha256": "6f7e02ef2c32c8e956d4524602facd7e15c63695271455e85c957b77764ad8ce"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/index.astro",
+      "bytes": 99,
+      "sha256": "bbc5d7f26de89c4a0927a16b817903453c2ab88b855f7514cb133ff985162019"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/karriere.astro",
+      "bytes": 118,
+      "sha256": "1cb34634cc6c49a4229a24decb751afad81b2184d007622327d8b3c55e28d06f"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/kontakt.astro",
+      "bytes": 102,
+      "sha256": "731ddc5ef1b6f44ec64917db19af98c4458ba450d4c8b197489de77b89914367"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/leistungen/index.astro",
+      "bytes": 105,
+      "sha256": "1a02931ab49fb43fd44dd554b2719fdd768621dab6e51e4b877fee9630befe83"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/partner.astro",
+      "bytes": 99,
+      "sha256": "5b666fd549e83c358bab1551cdc98b2c2e90b3e780a263901427631a5352c3f4"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/planer.astro",
+      "bytes": 102,
+      "sha256": "c33fe090713fe400e95cdcc369e22f624542371d6d03674c7fb985ae96f48f1a"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/ratgeber/[slug].astro",
+      "bytes": 349,
+      "sha256": "51c583b49c3925018f0f383422fb806bbcb7863b6a12180ea469504b37b5ddeb"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/ratgeber/index.astro",
+      "bytes": 121,
+      "sha256": "302931490e723e1605450b75f7bbc2f61ca4792189ce5a0e662b10029a1f9211"
+    },
+    {
+      "path": "corporate-site/src/pages/uk/unternehmen.astro",
+      "bytes": 121,
+      "sha256": "12e6740a4d6c4b11bd456f9dc3ca0eff7283ee448edf29d003e9d4d0473b22a2"
+    },
+    {
+      "path": "corporate-site/src/pages/unternehmen.astro",
+      "bytes": 118,
+      "sha256": "1a2175b3da4bddad82e5eb56bc3764e56bf2c6089759362cbc1b76507eda5544"
+    },
+    {
+      "path": "corporate-site/src/scripts/site-studio-live.ts",
+      "bytes": 7944,
+      "sha256": "e93b49baf3a07f82012cf8cbf3e3caec95eb85c2083114908082521a5e20ea25"
+    },
+    {
+      "path": "corporate-site/src/scripts/visual-motion.ts",
+      "bytes": 1679,
+      "sha256": "e3c4c9a7baf2edd887cbe05337a56e5af1dd91587e26b4e44fd274ed4848ce6e"
+    },
+    {
+      "path": "corporate-site/src/stores/finder.ts",
+      "bytes": 517,
+      "sha256": "93a649a813055e71394ae1267ea1fec12acf19ae288a82e101cf0e1a3259c797"
+    },
+    {
+      "path": "corporate-site/src/stores/planner.ts",
+      "bytes": 1027,
+      "sha256": "f67755a7c0c65b32ff8c5a3e6a958a1cf80b842a04423d70c1d5c9e625e7c23c"
+    },
+    {
+      "path": "corporate-site/src/styles/account-access.css",
+      "bytes": 4714,
+      "sha256": "90409a92fb0f37cbd6bca23146d88c491828b13051eb2dfd4308798136574cbb"
+    },
+    {
+      "path": "corporate-site/src/styles/admin-center.css",
+      "bytes": 10719,
+      "sha256": "c1d1cd2d6fc821006b80004c4124bfa38d3e745eda69e7d5b89930addc8e3b1a"
+    },
+    {
+      "path": "corporate-site/src/styles/assistant-inbox.css",
+      "bytes": 3812,
+      "sha256": "a41b22ffe103abdf3135f86906cb42d0c2b7c6c2edd599a01b85367dd9bb0055"
+    },
+    {
+      "path": "corporate-site/src/styles/assistant.css",
+      "bytes": 7684,
+      "sha256": "29546a9e9f611855cdc28d2f47c14618b709105c7b3672a633fbe65219de64bc"
+    },
+    {
+      "path": "corporate-site/src/styles/crm.css",
+      "bytes": 4289,
+      "sha256": "4ba737462a7931500c1f1da7ec71f644c7e59ccacfcaefc20195abdec3c322fc"
+    },
+    {
+      "path": "corporate-site/src/styles/global.css",
+      "bytes": 35391,
+      "sha256": "821340a74ae5fdd8d57fcb9610e5142a9c9ad4c28aa16a6c1d0bf419c617c015"
+    },
+    {
+      "path": "corporate-site/src/styles/partners.css",
+      "bytes": 2617,
+      "sha256": "96c83655a4bdbaf85b739666b06b0703f46a9ef9249854385b8196ac92470333"
+    },
+    {
+      "path": "corporate-site/src/styles/portal.css",
+      "bytes": 17803,
+      "sha256": "f6a54bc76b0be43037ae92661cf2bbf290aa1542486f16f04516d667c6ce4eb5"
+    },
+    {
+      "path": "corporate-site/src/styles/reviews.css",
+      "bytes": 8317,
+      "sha256": "4676939234cd5e7f8bdaffabbabc63137122e4980b4eb285ca72ebb7228b5dda"
+    },
+    {
+      "path": "corporate-site/src/styles/site-studio.css",
+      "bytes": 9439,
+      "sha256": "e7c5b12a2c027ad1ead218ba6d0782a8cc770bea0e490fa66bf2076ddd2cdc4d"
+    },
+    {
+      "path": "corporate-site/src/styles/visual-polish.css",
+      "bytes": 6177,
+      "sha256": "58e4b6102a0ff03ea85dc4535ac59b062d9809e80c502ba32ca804f9b7fdbe5f"
+    },
+    {
+      "path": "corporate-site/src/styles/workspace.css",
+      "bytes": 4081,
+      "sha256": "c99236d6e163c2474d6e8bdedf804455bf5d051f30f6f9104b1b6946302ea94f"
+    },
+    {
+      "path": "corporate-site/src/vue-app.ts",
+      "bytes": 224,
+      "sha256": "81129e957a5fedb6986693467fbbf80622324203b191ded5d2ddb986b15206eb"
+    },
+    {
+      "path": "corporate-site/tsconfig.json",
+      "bytes": 184,
+      "sha256": "62d44269c0c9025d78b50d448f742642062d5807fde52a46a5d55ac9cb1662ae"
+    },
+    {
+      "path": "corporate-site/tsconfig.svelte.json",
+      "bytes": 231,
+      "sha256": "f302a5d07001a9c9ca87145a27e37ac5251752075f74cc608fb6ea8417e62fef"
+    },
+    {
+      "path": "corporate-site/tsconfig.vue.json",
+      "bytes": 283,
+      "sha256": "4e4683e675729f68f4e6f5b8b8704ecfb83d0389b17b443f6f2baad7dd550edb"
+    },
+    {
+      "path": "corporate-site/vite.worker.config.ts",
+      "bytes": 917,
+      "sha256": "b9d15d68e35486508ecf05c72e51e8269d2ee773b63d47f6a37e6ed66518ba7e"
+    },
+    {
+      "path": "corporate-site/vps/BACKLOG.md",
+      "bytes": 10989,
+      "sha256": "a093271a81f13bde1797b0277ec5d2bb7c3d842921de104f06c362400057f054"
+    },
+    {
+      "path": "corporate-site/vps/BUDGET.md",
+      "bytes": 4230,
+      "sha256": "6162f49bb8ad699f97faa98b3347a05360e0da4e7f712f35a8f828d105c72c7f"
+    },
+    {
+      "path": "corporate-site/vps/CUSTOMER_HANDOVER_2026-10-28_UK.md",
+      "bytes": 18641,
+      "sha256": "9b7c0b074ea22bd51dd31b8f5cbaf55e5eddc3fb41d46172294ba7024a6678dd"
+    },
+    {
+      "path": "corporate-site/vps/KNABA_BAUSERVICE_VSP_CODE_RELEASE_2026-10-25_UK.md",
+      "bytes": 6539,
+      "sha256": "118df0db64f1bdfd86100e05300241e7b9f628b69dd979903c19f5570195aa2c"
+    },
+    {
+      "path": "corporate-site/vps/KNABA_PUBLIC_VPS_CUTOVER_2026-10-25.md",
+      "bytes": 4633,
+      "sha256": "7d2fba3d14b3304350ab94e980d1a872e6f119f5d7757b0ab3d7494f2c5ddc50"
+    },
+    {
+      "path": "corporate-site/vps/KNABA_STUDIO_SSR_LIVE_QA_2026-10-25.md",
+      "bytes": 5704,
+      "sha256": "b726cdf21482e29e0025c9918cc796c2f9ace94a0ec0807e14e6bd8741600062"
+    },
+    {
+      "path": "corporate-site/vps/RELEASE_AND_CUTOVER_UK.md",
+      "bytes": 5795,
+      "sha256": "f689c79ba87619c7fcb2300e83d9029b73ff1d4daeec089ed75ffec152918a15"
+    },
+    {
+      "path": "corporate-site/vps/access-requests.mjs",
+      "bytes": 5288,
+      "sha256": "0d2ba01272c41ec8736ad39d8221d8f0cad522a5207defc9ee6e3c41397a1bec"
+    },
+    {
+      "path": "corporate-site/vps/access-retention.mjs",
+      "bytes": 6155,
+      "sha256": "2c22dcb931ceb903d0ed3449a15f9b4b7d5f7a2b04528ffb321c4d58c2a8bc9c"
+    },
+    {
+      "path": "corporate-site/vps/account-invite.mjs",
+      "bytes": 7253,
+      "sha256": "33f58199cec55fe50879506c369bbdf97d87e7860477fea871a3bf7fc0846027"
+    },
+    {
+      "path": "corporate-site/vps/admin-access.mjs",
+      "bytes": 1103,
+      "sha256": "207a73f8c3ab96373c742e49c5265394b9167e1c2bcf0395e76a7edb2b6e0676"
+    },
+    {
+      "path": "corporate-site/vps/auth-locale.mjs",
+      "bytes": 17342,
+      "sha256": "749e489b866792152bca67a05deb8262973d78cc477dcf32b83e3e78a399897b"
+    },
+    {
+      "path": "corporate-site/vps/auth.mjs",
+      "bytes": 6557,
+      "sha256": "f2eb266bb802a5f95cc48ca652b405a6758f74646b8d3bfd3e9202b713b85b88"
+    },
+    {
+      "path": "corporate-site/vps/database.mjs",
+      "bytes": 6182,
+      "sha256": "daa7f855b4844e282ce9d0f3753e2e2ca7c8f049da93bb1b9a89249f0256544f"
+    },
+    {
+      "path": "corporate-site/vps/developer-workspace.mjs",
+      "bytes": 5877,
+      "sha256": "b89647e2fe98b62fdbcd9acf9283bf0ee83e84a0d2d36125b15297f6f97d0980"
+    },
+    {
+      "path": "corporate-site/vps/docker-compose.yml",
+      "bytes": 2808,
+      "sha256": "0fffb4b589d2b2e8903f4078ffbd7d9bdc12a6a4bf79f65e077653178f1bdaae"
+    },
+    {
+      "path": "corporate-site/vps/doctor.mjs",
+      "bytes": 509,
+      "sha256": "a6924956aeacd778e6f39e4010a915d6e94edc098e63a8e2bda76a2b92d54268"
+    },
+    {
+      "path": "corporate-site/vps/evidence/INTERNAL_DEPLOYMENT_2026-10-24.json",
+      "bytes": 2818,
+      "sha256": "38c3ee5224902d8ae1a4c6d75d7e85031dec1f265e4b2d596b6b2b6c3e80197d"
+    },
+    {
+      "path": "corporate-site/vps/manage.mjs",
+      "bytes": 10994,
+      "sha256": "82054a2352f3b90d15d4bf41e7c781bf42bcc6434ad9dc050d51a1d36ec4d75b"
+    },
+    {
+      "path": "corporate-site/vps/migration-guard.mjs",
+      "bytes": 1992,
+      "sha256": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e"
+    },
+    {
+      "path": "corporate-site/vps/oidc.mjs",
+      "bytes": 11026,
+      "sha256": "633e5ab8ae9f72b6fc4ecb660695bec1342cb0f638f6923c1db6b72d7fbd207e"
+    },
+    {
+      "path": "corporate-site/vps/owner-invite.mjs",
+      "bytes": 3727,
+      "sha256": "95d9f27bd1c6e56dd67a62091f2730125762b2f1b38aa31fdc72caf9adcbfa94"
+    },
+    {
+      "path": "corporate-site/vps/owner-maintenance.mjs",
+      "bytes": 2812,
+      "sha256": "c85041c0e337958710f5374e4394ab11ee51213b12a0cc1672d188451ef47a3a"
+    },
+    {
+      "path": "corporate-site/vps/owner-server-setup.sh",
+      "bytes": 7550,
+      "sha256": "2221f628504325c8091b41b56445a512cd84a21571f9fd45ca2c93660bb62d5f"
+    },
+    {
+      "path": "corporate-site/vps/public-release.mjs",
+      "bytes": 2745,
+      "sha256": "8efce22cb25268b5ac8dd6a556ab0ed6b76613f39c8cff2f809231f25f5b918f"
+    },
+    {
+      "path": "corporate-site/vps/render-page.mjs",
+      "bytes": 7554,
+      "sha256": "4a7f8a3a9a276bb8511f63fdca90447e9a466157c388a72c2a0e20ee15039c30"
+    },
+    {
+      "path": "corporate-site/vps/role-destination.mjs",
+      "bytes": 3219,
+      "sha256": "4aae89b83e45887d295e3c0be3bf2a9a7e3bab9ad73d7afc782655acf6d07743"
+    },
+    {
+      "path": "corporate-site/vps/seo.mjs",
+      "bytes": 3462,
+      "sha256": "c334dd4da16cce55b3d3d2e2ddb5f9821f8ce7d694d213d32ba94caa00dbb71e"
+    },
+    {
+      "path": "corporate-site/vps/server.mjs",
+      "bytes": 60948,
+      "sha256": "b1f18af7e219dd543a741d7bda6470e7fc528c59e001b1046d416990d897d827"
+    },
+    {
+      "path": "corporate-site/vps/storage.mjs",
+      "bytes": 971,
+      "sha256": "8667206bf32d9eff7a6a70ebb0661b833e0664c4e694bd2c61e83bf5f56f199e"
+    },
+    {
+      "path": "corporate-site/vps/systemd/knaba-access-retention-audit.service",
+      "bytes": 536,
+      "sha256": "c691a34a84cec80b345f5a89124695234451815bd8cd979c2e34d7fbd9e566b1"
+    },
+    {
+      "path": "corporate-site/vps/systemd/knaba-access-retention-audit.timer",
+      "bytes": 258,
+      "sha256": "a17691dc81f799f6a68e63673906961a299509182ab0891e0b5fbaa78ee771d1"
+    },
+    {
+      "path": "corporate-site/worker/api.ts",
+      "bytes": 30645,
+      "sha256": "982f9d30fe31ffdbd9feaaea8566421bb50f07d2590a8bd9c869004d5631748b"
+    },
+    {
+      "path": "corporate-site/worker/assistant.ts",
+      "bytes": 20598,
+      "sha256": "8dc10ce4c14d1114f4d6397312ae93d0926aa2142e7fe6d4ea06b76ebd8dff69"
+    },
+    {
+      "path": "corporate-site/worker/crm.ts",
+      "bytes": 12693,
+      "sha256": "b681c912df19d910559173fd178109cda9674d50305213c38a6f6714fd2628f1"
+    },
+    {
+      "path": "corporate-site/worker/index.ts",
+      "bytes": 978,
+      "sha256": "7b55d61da9e516276f016f93d6d25bff43608bf35eb52e8d906db22d275b1104"
+    },
+    {
+      "path": "corporate-site/worker/notifications.ts",
+      "bytes": 6408,
+      "sha256": "40b388a7daee7e89ed1ce0f33061a4902be99edd6e51b4dcf21ab33a7dc315b3"
+    },
+    {
+      "path": "corporate-site/worker/portal-messages.ts",
+      "bytes": 14127,
+      "sha256": "7e954eb82a1cc032fa552b950d650c0069ef45b3f7e4cccfd728411b53375498"
+    },
+    {
+      "path": "corporate-site/worker/reviews.ts",
+      "bytes": 13557,
+      "sha256": "31e48a9e631b5be5d8962833560df4b4187ee8e2469d10779e20d3de94850090"
+    },
+    {
+      "path": "corporate-site/worker/studio.ts",
+      "bytes": 13211,
+      "sha256": "4e569c54d8acdaebdb57bfa1798ccd3d0b54365aa212ca7431ab564391eaa67c"
+    },
+    {
+      "path": "corporate-site/worker/turnstile.ts",
+      "bytes": 1929,
+      "sha256": "0b1f6275804e5389571236c98b6b96066696c65a4315d2494139b9cba0edce2d"
+    },
+    {
+      "path": "corporate-site/worker/types.ts",
+      "bytes": 1647,
+      "sha256": "114ceb07773845506fec026762a1243824d2072142ec325acc056a2a97201ab2"
+    }
+  ]
+}

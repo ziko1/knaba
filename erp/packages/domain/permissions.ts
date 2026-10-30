@@ -18,11 +18,12 @@ export const ROLE_PERMISSIONS:Record<string,string[]>={
 };
 export function hasPermission(actor:Actor,p:string){return actor.permissions.includes(p);}
 export function enforcePermission(actor:Actor,p:string){if(!hasPermission(actor,p))throw new DomainError('ACCESS_DENIED');}
-export const sensitiveKinds=new Set(['user','employee','contact_identity','role_assignment','session','device','tracking_policy','location_sample','geopoint','payroll_calculation','rate_history','official_payslip','payout','payout_allocation','receipt','media_upload','knowledge','assistant_config']);
+export const sensitiveKinds=new Set(['user','employee','contact_identity','role_assignment','session','device','tracking_policy','location_sample','geopoint','payroll_calculation','rate_history','official_payslip','payout','payout_allocation','receipt','media_upload','knowledge','assistant_config','worker_registration_interest','partner_registration_interest']);
 export function publicEntity(e:Entity):Entity{const data={...e.data};for(const key of ['passwordHash','password_hash','totpSecret','totp_secret','tokenHash','token_hash','codeHash','code_hash','csrf_hash','accessToken','apiKey','secret','privateKey'])delete data[key];return {...e,data};}
 // Command permissions are canonical; roles receive no implicit wildcard or finance/GPS bypass.
 const add=(role:string,rights:string[])=>ROLE_PERMISSIONS[role]=[...new Set([...(ROLE_PERMISSIONS[role]??[]),...rights])];
-add('OWNER',['scope.company','finance.payroll.approve']);
+// Source-only draft permission. Automation activation still requires separate automation.approve and owner security gate.
+add('OWNER',['scope.company','finance.payroll.approve','automation.manage']);
 add('DIRECTOR',['finance.payroll.approve']);
 add('DIRECTOR',['commerce.manage','commerce.read','commerce.approve','lead.create','lead.manage','lead.handoff','quote.create','quote.approve','quote.send','quote.manage','dispatch.manage','dispatch.read','customer.read','assistant.manage','assistant.approve','automation.manage','automation.approve','report.approve','report.deliver','trip.approve','media.read','media.upload','inventory.approve','inventory.read']);
 add('OPERATIONS_MANAGER',['commerce.manage','commerce.read','lead.manage','lead.handoff','quote.create','dispatch.manage','dispatch.read','customer.read','report.approve','report.deliver','trip.approve','media.read','media.upload']);
@@ -47,7 +48,7 @@ for(const role of ['CLIENT','EXTERNAL_BAULEITER'])add(role,['issue.create','issu
 for(const role of ['OWNER','DIRECTOR','OPERATIONS_MANAGER','INTERNAL_BAULEITER','QUALITY_CONTROL'])add(role,['issue.read']);
 
 // GPS authority is an explicit recorded grant; no role activates tracking automatically.
-export const EXPLICIT_PRIVILEGED_PERMISSIONS=new Set(['location.policy.manage','location.history.read']);
+export const EXPLICIT_PRIVILEGED_PERMISSIONS=new Set(['location.policy.manage','location.history.read','bot.settings.manage']);
 
 // Privacy review is explicit governance authority; self access is identity.self.
 add('OWNER',['privacy.review','privacy.manage']);

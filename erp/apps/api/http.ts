@@ -22,6 +22,7 @@ import {privacyExportBytes} from '../../packages/domain/governance.ts';
 import {scanPdf} from '../../packages/integrations/media-scanner.ts';
 import {createPrivateBlobStore,type PrivateBlobStore,type BlobReceipt,type BlobSql} from '../../packages/storage/index.ts';
 import {archiveReportArtifact,type ReportArtifactFormat} from './exporters.ts';
+import {renderAccountingExport} from '../../packages/integrations/accounting-export.ts';
 import { assert,DomainError,isManager,type Actor,type Data,type Entity } from '../../packages/domain/core.js';
 import { activateInvitation,permits } from '../../packages/domain/identity.js';
 import { AuthService,RateLimiter,hashToken,opaqueToken,sameOrigin,type DatabaseLike,type EngineLike,type AuthOptions } from './auth.js';
@@ -210,6 +211,20 @@ export class ApiController {
  @Post('integrations/:source/events')async integrationEvent(@Req()req:Request,@Param('source')source:string){return acceptIntegrationEvent(this.runtime.db as any,this.runtime.integrationCredentials??[],source,(req as any).rawBody,{keyId:req.get('x-knaba-key-id'),timestamp:req.get('x-knaba-timestamp'),signature:req.get('x-knaba-signature')});}
  @Post('*path')async v4Command(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:unknown){const {actor}=await this.actor(req,true);const host={registry:this.runtime.engine.registry,execute:this.runtime.engine.execute.bind(this.runtime.engine),asynchronousResult:async(current:Actor,command:string,result:any)=>{if(command!=='translation.request'||result?.status!=='PENDING'||typeof result.request_id!=='string')return undefined;return this.runtime.db.transaction(current.companyId,current.userId,async tx=>{assert(this.runtime.engine.actorIn&&this.runtime.engine.visible,'MISSING_CONFIGURATION');const fresh=await this.runtime.engine.actorIn(tx,current.userId),row=await tx.get('translation_request',result.request_id);assert(await this.runtime.engine.visible(tx,fresh,row),'NOT_FOUND_SAFE');return {operation_id:row.id,status:row.data.status};});}};const result=await executeV4Rest(host,actor,{method:req.method,path:req.originalUrl.split('?')[0]!,body,idempotencyKey:req.get('Idempotency-Key')});res.status(result.status);return result.body;}
 
+
+ @Get('reports/:id/accounting-json')async reportAccountingJson(@Req()req:Request,@Res()res:Response,@Param('id')id:string){
+  const {actor}=await this.actor(req);assert(this.runtime.engine.authorizeEntity&&this.runtime.engine.scope,'MISSING_CONFIGURATION');
+  const result=await this.runtime.db.transaction(actor.companyId,actor.userId,async tx=>{
+   let authorized:{actor:Actor;entity:Entity};
+   try{authorized=await this.runtime.engine.authorizeEntity!(tx,actor.userId,'report_version',id);}
+   catch(error){if(!(error instanceof DomainError)||error.code!=='NOT_FOUND_SAFE')throw error;const report=await this.runtime.engine.authorizeEntity!(tx,actor.userId,'report',id);assert(report.entity.data.currentVersionId,'NOT_FOUND_SAFE');authorized=await this.runtime.engine.authorizeEntity!(tx,actor.userId,'report_version',report.entity.data.currentVersionId);}
+   assert(!authorized.actor.roles.some(role=>['CLIENT','CUSTOMER','EXTERNAL_BAULEITER','GUEST','SERVICE_ACCOUNT'].includes(role)),'ACCESS_DENIED');
+   const exportActor=this.runtime.engine.scope!(authorized.actor,'report.export');
+   assert(permits(exportActor.permissions,'report.export')&&(exportActor.permissions.includes('scope.company')||exportActor.siteIds.includes(authorized.entity.data.siteId)),'ACCESS_DENIED');
+   return renderAccountingExport(authorized.entity);
+  });
+  res.set({'Content-Type':result.mimeType,'Content-Disposition':`attachment; filename="KNABA-DE-accounting-${result.reportVersionId.replace(/[^A-Za-z0-9_-]/g,'')}.json"`,'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"sandbox; default-src 'none'",'ETag':`"${result.sha256}"`,'X-KNABA-Source-SHA256':result.sourceSha256});res.send(result.bytes);
+ }
 
 }
 @Module({controllers:[ApiController]})

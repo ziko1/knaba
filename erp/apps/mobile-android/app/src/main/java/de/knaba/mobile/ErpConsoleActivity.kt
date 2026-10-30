@@ -107,6 +107,7 @@ class ErpConsoleActivity : Activity() {
     }
     private fun showLogin() {
         heading(getString(R.string.erp_title), getString(R.string.erp_login_intro))
+        row(getString(R.string.language_label)) { chooseLanguage() }
         val server = field(getString(R.string.erp_server), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         server.setText(getPreferences(Context.MODE_PRIVATE).getString("erp-origin", ""))
         val email = field(getString(R.string.erp_email), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
@@ -131,6 +132,17 @@ class ErpConsoleActivity : Activity() {
             }
         }
         label(getString(R.string.erp_privacy))
+    }
+    private fun chooseLanguage() {
+        val tags = LanguagePolicy.SUPPORTED + listOf("")
+        val names = arrayOf("Deutsch", "English", "Polski", "Lietuvių", "Русский", "Українська", getString(R.string.language_device))
+        val selected = tags.indexOf(NativeLocale.selected(this)).coerceAtLeast(0)
+        AlertDialog.Builder(this).setTitle(R.string.language_label).setSingleChoiceItems(names, selected) { dialog, index ->
+            NativeLocale.choose(this, tags[index])
+            sendBroadcast(Intent(NativeLocale.CHANGED).setPackage(packageName))
+            dialog.dismiss()
+            recreate()
+        }.show()
     }
     private fun permitted(permission: String): Boolean {
         val user = actor ?: return false

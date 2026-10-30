@@ -1,0 +1,54 @@
+---
+type Locale='de'|'en'|'pl'|'lt'|'ru'|'uk';
+interface Props{lang:Locale;channel?:'whatsapp'|'telegram'}
+const {lang,channel}=Astro.props;
+const words={
+ de:{title:'Apps & Assistent',prototype:'Prototyp · Bereitstellung auf dem Kundenserver ausstehend',production:'Arbeitsversion',moved:'Arbeitsversion öffnen',pending:'Die Verbindung wird nach Bestätigung des offiziellen Kontos freigeschaltet.',open:'Öffnen',android:'Android-App herunterladen',test:'Android-Prototyp herunterladen',testNote:'Test-Build für die Erprobung. Noch keine freigegebene Store-Version.',iosPending:'Die iPhone-App wird nach Apple-Signierung über TestFlight oder den App Store bereitgestellt.',apkPending:'Die aktuelle Android-Datei wird nach Prüfung hier bereitgestellt.',assistant:'Web-Assistent',web:'Web-App öffnen',voice:'Textberatung, Diktieren und Vorlesen im unterstützten Browser. Ein Telefonanruf benötigt einen eingerichteten Telefonieanbieter.',checksum:'SHA-256 der Datei',details:'Informationen zum Kanal',configured:'Offizieller Kontakt konfiguriert. Verfügbarkeit wird im Messenger angezeigt.',unavailable:'Der aktuelle Verbindungsstatus konnte nicht geladen werden.'},
+ en:{title:'Apps & assistant',prototype:'Prototype · Customer server deployment pending',production:'Working version',moved:'Open working version',pending:'This connection opens after the official account has been confirmed.',open:'Open',android:'Download Android app',test:'Download Android prototype',testNote:'Evaluation build. Not yet an approved store release.',iosPending:'The iPhone app will be available through TestFlight or the App Store after Apple signing.',apkPending:'The current Android file will appear here after verification.',assistant:'Web assistant',web:'Open web app',voice:'Text guidance, dictation and read-aloud in supported browsers. Phone calls require a configured calling provider.',checksum:'File SHA-256',details:'Channel information',configured:'Official contact configured. The messenger shows availability.',unavailable:'The current connection status could not be loaded.'},
+ pl:{title:'Aplikacje i asystent',prototype:'Prototyp · Oczekuje na wdrożenie na serwerze klienta',production:'Wersja robocza',moved:'Otwórz wersję roboczą',pending:'Połączenie będzie dostępne po potwierdzeniu oficjalnego konta.',open:'Otwórz',android:'Pobierz aplikację Android',test:'Pobierz prototyp Android',testNote:'Wersja do testów. Nie jest jeszcze zatwierdzonym wydaniem sklepowym.',iosPending:'Aplikacja iPhone będzie dostępna w TestFlight lub App Store po podpisaniu przez Apple.',apkPending:'Aktualny plik Android pojawi się tutaj po weryfikacji.',assistant:'Asystent internetowy',web:'Otwórz aplikację internetową',voice:'Porady tekstowe, dyktowanie i odczyt w obsługiwanych przeglądarkach. Rozmowy telefoniczne wymagają skonfigurowanego dostawcy.',checksum:'SHA-256 pliku',details:'Informacje o kanale',configured:'Oficjalny kontakt skonfigurowany. Dostępność pokazuje komunikator.',unavailable:'Nie udało się wczytać aktualnego stanu połączenia.'},
+ lt:{title:'Programėlės ir asistentas',prototype:'Prototipas · Laukiama diegimo kliento serveryje',production:'Darbinė versija',moved:'Atidaryti darbinę versiją',pending:'Ryšys bus įjungtas patvirtinus oficialią paskyrą.',open:'Atidaryti',android:'Atsisiųsti Android programėlę',test:'Atsisiųsti Android prototipą',testNote:'Bandomoji versija. Dar nėra patvirtinto leidimo parduotuvėje.',iosPending:'iPhone programėlė bus pateikta per TestFlight arba App Store po Apple pasirašymo.',apkPending:'Patikrintas Android failas bus pateiktas čia.',assistant:'Žiniatinklio asistentas',web:'Atidaryti žiniatinklio programėlę',voice:'Tekstinės konsultacijos, diktavimas ir skaitymas palaikomose naršyklėse. Skambučiams reikia sukonfigūruoto ryšio teikėjo.',checksum:'Failo SHA-256',details:'Kanalo informacija',configured:'Oficialus kontaktas sukonfigūruotas. Pasiekiamumą rodo žinučių programa.',unavailable:'Nepavyko įkelti dabartinės ryšio būsenos.'},
+ ru:{title:'Приложения и ассистент',prototype:'Прототип · Перенос на сервер заказчика ожидается',production:'Рабочая версия',moved:'Открыть рабочую версию',pending:'Ссылка станет доступна после подтверждения официального аккаунта.',open:'Открыть',android:'Скачать приложение Android',test:'Скачать прототип Android',testNote:'Сборка для проверки. Это ещё не утверждённый релиз магазина.',iosPending:'Приложение iPhone появится в TestFlight или App Store после подписи Apple.',apkPending:'Актуальный файл Android появится здесь после проверки.',assistant:'Веб-ассистент',web:'Открыть веб-приложение',voice:'Текстовые консультации, диктовка и озвучивание в поддерживаемом браузере. Телефонные звонки требуют подключения провайдера.',checksum:'SHA-256 файла',details:'Информация о канале',configured:'Официальный контакт настроен. Доступность показывает мессенджер.',unavailable:'Не удалось загрузить актуальный статус подключения.'},
+ uk:{title:'Застосунки й асистент',prototype:'Прототип · Перенесення на сервер замовника очікується',production:'Робоча версія',moved:'Відкрити робочу версію',pending:'Посилання стане доступним після підтвердження офіційного облікового запису.',open:'Відкрити',android:'Завантажити застосунок Android',test:'Завантажити прототип Android',testNote:'Збірка для перевірки. Це ще не затверджений реліз магазину.',iosPending:'Застосунок iPhone з’явиться в TestFlight або App Store після підпису Apple.',apkPending:'Актуальний файл Android з’явиться тут після перевірки.',assistant:'Вебасистент',web:'Відкрити вебзастосунок',voice:'Текстові консультації, диктування й озвучення в підтримуваному браузері. Телефонні дзвінки потребують підключення провайдера.',checksum:'SHA-256 файлу',details:'Інформація про канал',configured:'Офіційний контакт налаштовано. Доступність показує месенджер.',unavailable:'Не вдалося завантажити актуальний стан підключення.'}
+}[lang];
+const prefix=lang==='de'?'':'/'+lang;
+---
+<section class="release-channels" data-knaba-release data-production={words.production} data-prototype={words.prototype} data-test={words.test} data-download={words.android} data-configured={words.configured} data-unavailable={words.unavailable} aria-label={words.title}>
+ <header><h2>{words.title}</h2><p data-release-stage role="status">{words.prototype}</p><a data-working-version hidden class="button button-dark">{words.moved} ↗</a></header>
+ <div class="release-grid">
+  {!channel&&<>
+   <article><h3>Android</h3><p data-android-pending>{words.apkPending}</p><a data-android-download hidden class="button button-dark">{words.android}</a><p data-android-prototype hidden>{words.testNote}</p><p data-android-hash hidden><span>{words.checksum}</span><code></code></p></article>
+   <article><h3>iPhone / iPad</h3><p data-ios-pending>{words.iosPending}</p><a data-ios-download hidden class="button button-dark" target="_blank" rel="noopener noreferrer">TestFlight / App Store ↗</a><a href={'/konto/?lang='+lang}>{words.web} ↗</a></article>
+  </>}
+  {(['whatsapp','telegram'] as const).filter(name=>!channel||name===channel).map(name=><article data-channel={name}><h3>{name==='whatsapp'?'WhatsApp':'Telegram'}</h3><p data-channel-status>{words.pending}</p><a data-channel-open hidden class="button button-dark" rel="noopener noreferrer" target="_blank">{name==='whatsapp'?'WhatsApp':'Telegram'} · {words.open} ↗</a>{!channel&&<a href={prefix+'/bots/'+name+'/'}>{words.details} ↗</a>}</article>)}
+ </div>
+ {!channel&&<p class="release-voice"><strong>{words.assistant}.</strong> {words.voice}</p>}
+</section>
+<script>
+ function setupReleaseChannels(){
+  const sections=[...document.querySelectorAll<HTMLElement>('[data-knaba-release]')].filter(s=>!s.dataset.loaded);
+  if(!sections.length)return;
+  sections.forEach(s=>s.dataset.loaded='true');
+  fetch('/api/public/release',{credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(8000)}).then(r=>{if(!r.ok)throw Error('release');return r.json();}).then(data=>{
+   if(data.schemaVersion!==1)throw Error('schema');
+   for(const section of sections){
+    const link=(selector:string,url:unknown)=>{const a=section.querySelector<HTMLAnchorElement>(selector);if(!a||typeof url!=='string')return false;try{const u=new URL(url);if(u.protocol!=='https:'||u.username||u.password)return false;a.href=u.href;a.hidden=false;return true;}catch{return false;}};
+    const stage=section.querySelector('[data-release-stage]');if(stage)stage.textContent=(data.stage==='production'?section.dataset.production:section.dataset.prototype)??'';
+    if(data.migration?.workingOrigin)link('[data-working-version]',data.migration.workingOrigin+'/app/');
+    if(link('[data-android-download]',data.android?.url)){
+     const pending=section.querySelector<HTMLElement>('[data-android-pending]');if(pending)pending.hidden=true;
+     const a=section.querySelector<HTMLAnchorElement>('[data-android-download]');if(a)a.textContent=(data.android.distribution==='prototype'?section.dataset.test:section.dataset.download)??'Android';
+     const note=section.querySelector<HTMLElement>('[data-android-prototype]');if(note)note.hidden=data.android.distribution!=='prototype';
+     const hash=section.querySelector<HTMLElement>('[data-android-hash]');if(hash&&typeof data.android.sha256==='string'&&/^[a-f0-9]{64}$/.test(data.android.sha256)){hash.hidden=false;hash.querySelector('code')!.textContent=data.android.sha256;}
+    }
+    if(link('[data-ios-download]',data.ios?.url)){const p=section.querySelector<HTMLElement>('[data-ios-pending]');if(p)p.hidden=true;}
+    for(const name of ['whatsapp','telegram'])if(link('[data-channel="'+name+'"] [data-channel-open]',data.channels?.[name]?.url)){
+     const p=section.querySelector('[data-channel="'+name+'"] [data-channel-status]');if(p)p.textContent=section.dataset.configured??'';
+    }
+   }
+  }).catch(()=>{for(const s of sections){const p=s.querySelector('[data-release-stage]');if(p)p.textContent=s.dataset.unavailable??'';}});
+ }
+ setupReleaseChannels();document.addEventListener('astro:page-load',setupReleaseChannels);
+</script>
+<style>
+ .release-channels{margin-block:2rem}.release-channels header{margin-bottom:1rem}.release-channels h2{font-size:clamp(1.5rem,3vw,2rem)}.release-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.release-grid article{display:flex;flex-direction:column;align-items:flex-start;gap:.75rem;padding:1.4rem;border:1px solid #c9ddd4;border-radius:1rem;background:#fff}.release-grid h3,.release-grid p{margin:0}.release-grid p{line-height:1.6}.release-grid code{display:block;overflow-wrap:anywhere;font-size:.75rem;margin-top:.4rem}.release-channels [hidden]{display:none!important}.release-voice{line-height:1.7;color:#364e45}@media(max-width:600px){.release-grid{grid-template-columns:1fr}.release-grid article{padding:1rem}}
+</style>

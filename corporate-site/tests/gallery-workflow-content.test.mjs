@@ -42,7 +42,7 @@ test('shared header, mobile navigation and footer use honest translated work-pro
   assert.match(layout,/en:\[[^\]]*'How we work'/);
   assert.match(layout,/uk:\[[^\]]*'Як ми працюємо'/);
   assert.match(layout,/ru:\[[^\]]*'Как мы работаем'/);
-  assert.match(layout,/de:"Arbeitsabläufe",en:"How we work",uk:"Як ми працюємо",ru:"Как мы работаем"/);
+  assert.match(layout,/de:"Arbeitsabläufe",en:"How we work",pl:"Przebieg prac \(DE\)",lt:"Darbų eiga \(DE\)",uk:"Як ми працюємо",ru:"Как мы работаем"/);
   for (const val of ['Arbeitsabläufe','How we work','Як ми працюємо','Как мы работаем']) {
     assert.ok(nav.includes(val),'breadcrumb not localized: '+val);
   }

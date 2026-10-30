@@ -14,19 +14,37 @@ const password='synthetic-only-not-a-real-password-2026';
 test('legacy migration preserves observed company and recruitment URLs without a home-page fallback',async()=>{
   const dir=await mkdtemp(join(tmpdir(),'knaba-legacy-urls-'));
   try{
-    for(const host of ['knaba.de','kneba.vsp.rest']){
+    for(const host of ['knaba.de','testing.knaba.de','kneba.vsp.rest','owner-server.example']){
       const app=await createKnabaVpsServer({dbPath:join(dir,host+'.sqlite'),ownerEmail:'',origin:'https://'+host,localTest:true,
         staticRoot:new URL('../dist/client/',import.meta.url).pathname,workerPath:new URL('../dist/server/index.js',import.meta.url).href,host:'127.0.0.1',port:0});
       try{
         const read=(path,method='GET')=>fetch('http://127.0.0.1:'+app.port+path,{method,redirect:'manual',headers:{Host:host}});
         for(const [old,target] of [['/ber','/unternehmen/'],['/ber/','/unternehmen/'],['/jobs','/karriere/'],['/jobs/','/karriere/'],['/leistungen','/leistungen/'],['/galerie','/galerie/'],['/kontakt','/kontakt/'],['/impressum','/impressum/']]){
-          const response=await read(old+'?utm_source=migration-check');
+          const response=await read(old+'?utm_source=migration-check&x=1&x=2');
           assert.equal(response.status,308,old);
-          assert.equal(response.headers.get('location'),target+'?utm_source=migration-check');
+          assert.equal(response.headers.get('location'),target+'?utm_source=migration-check&x=1&x=2');
           assert.equal((await read(target)).status,200,target);
           assert.equal((await read(old,'HEAD')).status,308,old+' HEAD');
           assert.equal((await read(old,'POST')).status,405,old+' POST must not replay a mutation');
         }
+        // Retired office-cleaning URLs must keep their locale when the same
+        // release moves from development to the customer-controlled hostname.
+        for(const lang of ['', 'ru/', 'en/', 'uk/']){
+          const target=`/${lang}leistungen/`;
+          for(const suffix of ['', '/']){
+            const old=`/${lang}leistungen/bueroreinigung${suffix}`;
+            const response=await read(old+'?utm_source=migration-check&x=1&x=2');
+            assert.equal(response.status,308,host+' '+old);
+            assert.equal(response.headers.get('location'),target+'?utm_source=migration-check&x=1&x=2');
+            assert.equal((await read(old,'HEAD')).status,308,host+' '+old+' HEAD');
+            const post=await read(old,'POST');
+            assert.equal(post.status,405,host+' '+old+' POST');
+            assert.equal(post.headers.get('allow'),'GET, HEAD');
+          }
+          assert.equal((await read(target)).status,200,host+' '+target);
+        }
+        assert.equal((await read('/leistungen/bueroreinigung-extra/')).status,404);
+        assert.equal((await read('/leistungen/bueroreinigung/other/')).status,404);
         assert.equal((await read('/unknown-old-service/')).status,404);
       }finally{await app.close();}
     }
@@ -48,24 +66,27 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
   });
   const bodyHeaders={Origin:origin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1','Content-Type':'application/json'};
   try{
-    assert.deepEqual(app.migrations.length,10);
+    assert.deepEqual(app.migrations.length,13);
     assert.equal((await fetchAt('/readyz')).status,503);
     createOwner(app.db,owner,password);
     assert.equal((await fetchAt('/readyz')).status,200);
     const site=await fetchAt('/');
     assert.equal(site.status,200);
     const staticHtml=await site.text();
-    // A translated-route claim requires reviewed content. Pending languages are
-    // metadata-only, never injected into every HTML page or published as links.
-    assert.match(staticHtml,/data-locale-catalog/);
+    // Six published entry languages are ordered explicitly. The manifest lists
+    // only actual translated routes; detailed/legal fallback stays German.
+    assert.match(staticHtml,/class="locale-catalog-note"/);
     assert.doesNotMatch(staticHtml,/<li[^>]*data-locale-item/);
     const languageResponse=await fetchAt('/languages.json');
     assert.equal(languageResponse.status,200);
     const manifest=await languageResponse.json();
-    assert.equal(manifest.targets,99);
-    assert.equal(manifest.published,4);
-    assert.equal(manifest.pending,95);
-    assert.equal(manifest.locales.filter(item=>item.status==='pending').length,95);
+    assert.equal(manifest.targets,6);
+    assert.equal(manifest.published,6);
+    assert.equal(manifest.pending,0);
+    assert.deepEqual(manifest.locales.map(item=>item.code),['de','en','pl','lt','ru','uk']);
+    assert.equal(manifest.locales.filter(item=>item.status==='pending').length,0);
+    assert.ok(manifest.locales.find(item=>item.code==='pl').paths.includes('/pl/'));
+    assert.ok(!manifest.locales.find(item=>item.code==='pl').paths.includes('/pl/datenschutz/'));
     assert.match(staticHtml,/knaba.de/);
     const expectedCanonical=staticHtml.match(/<link rel="canonical" href="[^"]+"\/?>/)?.[0];
     assert.ok(expectedCanonical);
@@ -105,7 +126,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal(failed.status,401);
     const signed=await fetchAt('/login/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:form});
     assert.equal(signed.status,303);
-    assert.equal(signed.headers.get('location'),'/studio/');
+    assert.equal(signed.headers.get('location'),'/admin/?lang=de&view=studio');
     const cookie=signed.headers.get('set-cookie').split(';')[0];
     assert.match(cookie,/__Host-knaba-session=/);
     assert.match(signed.headers.get('set-cookie'),/HttpOnly/);

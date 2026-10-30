@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getService, getTopicPreparation } from "../lib/planner";
   import { plannerStore } from "../stores/planner";
-  import { publicText, type PublicLocale } from "../lib/public-i18n";
+  import { publicOfferName, publicText, type PublicLocale } from "../lib/public-i18n";
   import {offerBySlug} from '../data/construction-offers';
 
   let { locale = "de" }: { locale?: PublicLocale } = $props();
@@ -31,11 +31,11 @@
 
 <section class="checklist" aria-labelledby="checklist-heading">
   <div class="tool-kicker"><span>02</span> {t("GUT VORBEREITET ANFRAGEN")}</div>
-  <h2 id="checklist-heading">{{de:"Ihr Projektplan.",en:"Your project plan.",uk:"Ваш план проєкту.",ru:"Ваш план проекта."}[locale]}</h2>
+  <h2 id="checklist-heading">{{de:"Ihr Projektplan.",en:"Your project plan.",pl:"Twój plan projektu.",lt:"Jūsų projekto planas.",uk:"Ваш план проєкту.",ru:"Ваш план проекта."}[locale]}</h2>
   <p class="intro">{t("Eine kleine Merkliste für das erste Gespräch.")}</p>
   <div class="selected-service" aria-live="polite" aria-atomic="true">
     <span>{t("AUSGEWÄHLTE LEISTUNG")}</span>
-    <h3>{offer ? offer.name[locale] : service.name}</h3>
+    <h3>{offer ? publicOfferName(offer,locale) : service.name}</h3>
   </div>
   <fieldset>
     <legend>{t("Diese Angaben können Sie vorbereiten")}</legend>
@@ -47,7 +47,7 @@
     {/each}
   </fieldset>
   <div class="progress-line">
-    <p role="status">{{de:`${completed} von ${preparation.length} Punkten vorbereitet`,en:`${completed} of ${preparation.length} items prepared`,uk:`Підготовлено: ${completed} із ${preparation.length}`,ru:`Подготовлено: ${completed} из ${preparation.length}`}[locale]}</p>
+    <p role="status">{{de:`${completed} von ${preparation.length} Punkten vorbereitet`,en:`${completed} of ${preparation.length} items prepared`,pl:`Przygotowano ${completed} z ${preparation.length} punktów`,lt:`Paruošta ${completed} iš ${preparation.length} punktų`,uk:`Підготовлено: ${completed} із ${preparation.length}`,ru:`Подготовлено: ${completed} из ${preparation.length}`}[locale]}</p>
     <button type="button" onclick={resetChecklist} disabled={completed === 0}>{t("Zurücksetzen")}</button>
   </div>
   <progress max={preparation.length} value={completed} aria-label={t("Vorbereitete Angaben")}></progress>

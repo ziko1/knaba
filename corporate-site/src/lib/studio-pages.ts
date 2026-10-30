@@ -17,11 +17,13 @@ const common=[
   {path:'/ratgeber/',title:'Ratgeber'},
   {path:'/faq/',title:'FAQ · Baureinigung'},
 ] as const;
-const locales=[{prefix:'',name:'DE'},{prefix:'/en',name:'EN'},{prefix:'/uk',name:'UK'},{prefix:'/ru',name:'RU'}] as const;
+const locales=[{prefix:'',name:'DE'},{prefix:'/en',name:'EN'},{prefix:'/ru',name:'RU'},{prefix:'/uk',name:'UK'}] as const;
 export const studioPages: readonly StudioPageOption[] = Object.freeze(
-  locales.flatMap(({prefix,name})=>[
+  [...locales.flatMap(({prefix,name})=>[
     ...common.map(item=>({path:prefix+item.path,title:name+' · '+item.title})),
     ...constructionOffers.map(item=>({path:prefix+'/bauleistungen/'+item.slug+'/',title:name+' · '+item.name.de})),
     ...constructionGuideRoutes.map(item=>({path:prefix+'/ratgeber/'+item.slug+'/',title:name+' · '+item.title}))
-  ])
+  ]),
+  ...[{prefix:'/pl',name:'PL'},{prefix:'/lt',name:'LT'}].flatMap(({prefix,name})=>common.filter(item=>['/','/leistungen/','/kontakt/','/planer/','/faq/','/unternehmen/'].includes(item.path)).map(item=>({path:prefix+item.path,title:name+' · '+item.title})))
+  ]
 );

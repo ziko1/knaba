@@ -2,11 +2,13 @@ import {describe, it, expect} from 'vitest';
 import {inquirySelectionQuery, inquirySupportPath} from '../src/lib/inquiry-navigation';
 
 describe('localized construction inquiry navigation', () => {
-  it('uses existing DE/RU legal and portal destinations for all published languages', () => {
-    for (const path of ['/datenschutz/', '/konto/'] as const) {
-      for (const locale of ['de', 'en', 'uk'] as const) expect(inquirySupportPath(path, locale)).toBe(path);
-      expect(inquirySupportPath(path, 'ru')).toBe('/ru' + path);
+  it('keeps legal pages genuine and preserves the selected portal language',()=>{
+    for(const locale of ['de','en','pl','lt','uk'] as const){
+      expect(inquirySupportPath('/datenschutz/',locale)).toBe('/datenschutz/');
+      expect(inquirySupportPath('/konto/',locale)).toBe('/konto/?lang='+locale);
     }
+    expect(inquirySupportPath('/datenschutz/','ru')).toBe('/ru/datenschutz/');
+    expect(inquirySupportPath('/konto/','ru')).toBe('/ru/konto/');
   });
   it('retains an explicit construction topic while discarding personal and arbitrary query values', () => {
     expect(inquirySelectionQuery('?anliegen=bauendreinigung&email=person%40example.com')).toBe('?anliegen=bauendreinigung');

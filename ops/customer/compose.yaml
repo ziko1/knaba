@@ -1,0 +1,137 @@
+# One isolated customer install. No database ports or Docker socket are exposed.
+name: ${COMPOSE_PROJECT_NAME:?Set the installation project name}
+x-erp: &erp
+  image: knaba-customer-api:${GIT_SHA:?Exact source SHA required}
+  build:
+    context: ${KNABA_RELEASE_DIR:?Set immutable release directory}/erp
+    dockerfile: infra/Dockerfile
+    args:
+      GIT_SHA: ${GIT_SHA:?Exact source SHA required}
+  env_file:
+    - ${KNABA_ROOT:?Set installation root}/config/erp.env
+  init: true
+  security_opt: [no-new-privileges:true]
+  cap_drop: [ALL]
+  logging:
+    driver: json-file
+    options: {max-size: 10m, max-file: '3'}
+services:
+  site:
+    image: node:24.22.1-bookworm-slim
+    user: '${KNABA_RUNTIME_UID:?Set runtime UID}:${KNABA_RUNTIME_GID:?Set runtime GID}'
+    read_only: true
+    init: true
+    working_dir: /app
+    command: [node, /app/vps/server.mjs]
+    restart: unless-stopped
+    env_file:
+      - ${KNABA_ROOT}/config/site.env
+    volumes:
+      - ${KNABA_RELEASE_DIR}/corporate-site/dist:/app/dist:ro
+      - ${KNABA_RELEASE_DIR}/corporate-site/vps:/app/vps:ro
+      - ${KNABA_RELEASE_DIR}/corporate-site/drizzle:/app/drizzle:ro
+      - ${KNABA_RELEASE_DIR}/corporate-site/package.json:/app/package.json:ro
+      - ${KNABA_ROOT}/state/site:/var/lib/knaba:rw
+    ports: ['127.0.0.1:${KNABA_SITE_PORT:-19110}:8080']
+    tmpfs: ['/tmp:size=32m,mode=1777']
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    pids_limit: 128
+    mem_limit: 768m
+    cpus: 1.0
+    healthcheck:
+      test: [CMD, node, '-e', "require('http').get({hostname:'127.0.0.1',port:8080,path:'/healthz',headers:{Host:process.env.KNABA_PUBLIC_HOST}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 6
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+  postgres:
+    image: postgres:17.11-bookworm
+    restart: unless-stopped
+    env_file:
+      - ${KNABA_ROOT}/config/postgres.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U knaba -d knaba']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    stop_grace_period: 60s
+    mem_limit: 768m
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+  migrate:
+    <<: *erp
+    restart: 'no'
+    command: [sh, '-ec', 'node scripts/environment-check.mjs && npm run migrate']
+    healthcheck: {disable: true}
+    depends_on:
+      postgres: {condition: service_healthy}
+    profiles: [erp]
+  api:
+    <<: *erp
+    restart: unless-stopped
+    command: [node, dist/server.mjs]
+    ports: ['127.0.0.1:${KNABA_ERP_PORT:-19111}:3000']
+    volumes:
+      - ${KNABA_ROOT}/state/erp-private:/app/private:rw
+    depends_on:
+      postgres: {condition: service_healthy}
+    mem_limit: 768m
+    profiles: [erp]
+  worker:
+    <<: *erp
+    restart: unless-stopped
+    command: [node, dist/worker.mjs]
+    environment:
+      WORKER_HEARTBEAT_FILE: /tmp/knaba-worker-heartbeat
+    volumes:
+      - ${KNABA_ROOT}/state/erp-private:/app/private:rw
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, node, '-e', "try{if(Date.now()-require('node:fs').statSync('/tmp/knaba-worker-heartbeat').mtimeMs>30000)process.exit(1)}catch{process.exit(1)}"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 6
+    mem_limit: 512m
+    profiles: [erp]
+  backup:
+    image: knaba-customer-backup:${GIT_SHA:?Exact source SHA required}
+    build:
+      context: ${KNABA_RELEASE_DIR}/erp
+      dockerfile: infra/Dockerfile.backup
+      args:
+        KNABA_IMAGE: knaba-customer-api:${GIT_SHA:?Exact source SHA required}
+    env_file:
+      - ${KNABA_ROOT}/config/erp.env
+      - ${KNABA_ROOT}/config/backup.env
+    volumes:
+      - ${KNABA_ROOT}/backups:/backups:rw
+      - ${KNABA_ROOT}/state/erp-private:/app/private:ro
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    profiles: [erp]
+  proxy:
+    image: caddy:2.10.2-alpine
+    restart: unless-stopped
+    ports: ['80:80', '443:443', '443:443/udp']
+    volumes:
+      - ${KNABA_ROOT}/config/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    security_opt: [no-new-privileges:true]
+    profiles: [standalone-tls]
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

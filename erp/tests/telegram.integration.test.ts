@@ -42,12 +42,21 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    const channel=(await f.list('channel'))[0]!;
    await f.execute('handoff.take',{channel_id:channel.id},channel.version);
    const guest=(await f.list('user')).find(u=>u.data.guest)!;
-   await db.transaction(f.company,'SYNTHETIC_TELEGRAM_CONSENT',tx=>tx.add('notification_setting',{
-     user_id:guest.id,language:'DE',telegram_consent:true,telegram_opted_out:false,
-     telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY'
-   }));
+   await recordSyntheticConsent(f.company,guest.id);
    const reply=await f.execute('message.send',{channel_id:channel.id,text:'Ihre Anfrage wird bearbeitet.',language:'DE'});
    return {channel,guest,reply};
+ }
+ async function recordSyntheticConsent(company:string,userId:string){
+   await db.transaction(company,'SYNTHETIC_TELEGRAM_CONSENT',async tx=>{
+     const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===userId);
+     // Ingress now creates the German company default with outbound opted out.
+     // Consent changes that one existing preference; it must not insert a second
+     // record, which correctly makes the delivery authorization ambiguous.
+     expect(settings).toHaveLength(1);
+     expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
+     await tx.save(settings[0]!,{...settings[0]!.data,language:'DE',telegram_consent:true,
+       telegram_opted_out:false,telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY'});
+   });
  }
  function mockAdapter(request:typeof fetch){
    return new TelegramBotAdapter({token:'123456:ABCDEFghijk1234567890_ABCDEFghijk',enabled:true,
@@ -114,7 +123,7 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
      expect(inbox.items).toContainEqual(expect.objectContaining({channel_id:channel.id}));
      await f.execute('handoff.take',{channel_id:channel.id},channel.version);
      const guest=(await f.list('user')).find(u=>u.data.guest)!;
-     await db.transaction(f.company,'QA_CONSENT',tx=>tx.add('notification_setting',{user_id:guest.id,telegram_consent:true,telegram_opted_out:false,telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY',language:'DE'}));
+     await recordSyntheticConsent(f.company,guest.id);
      const m=await f.execute('message.send',{channel_id:channel.id,text:'Wir melden uns wegen der Baureinigung.',language:'DE'});
      await f.drain();
      const deliveries=(await f.list('telegram_delivery')).filter(d=>d.data.message_id===m.id);
@@ -165,6 +174,21 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    }
  });
 
+ it('duplicate consent records remain ambiguous and never authorize a Telegram delivery',async()=>{
+   const f=await setup();const {reply,guest}=await operatorReply(f,215);
+   await db.transaction(f.company,'SYNTHETIC_AMBIGUOUS_CONSENT',tx=>tx.add('notification_setting',{
+     user_id:guest.id,language:'DE',telegram_consent:true,telegram_opted_out:false,
+     telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY'
+   }));
+   let calls=0;
+   f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+   f.runner.options.telegram=mockAdapter((async()=>{calls++;throw Error('PROVIDER_MUST_NOT_BE_CALLED');}) as typeof fetch);
+   await f.drain();
+   const result=(await f.list('telegram_delivery')).find(d=>d.data.message_id===reply.id)!;
+   expect(result.data).toMatchObject({status:'BLOCKED',error:'CHANNEL_CONSENT_REQUIRED'});
+   expect(calls).toBe(0);
+ });
+
  it('STOP on a new private Telegram thread records a durable channel opt-out without sending a chat message',async()=>{
    const f=await setup();
    await f.submit(301,'STOP');await f.drain();
@@ -184,10 +208,7 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    const f=await setup();
    await f.submit(302,'Bitte ein Angebot');await f.drain();
    const guest=(await f.list('user')).find(u=>u.data.guest)!;
-   await db.transaction(f.company,'SYNTHETIC_PRECONSENT',tx=>tx.add('notification_setting',{
-     user_id:guest.id,telegram_consent:true,telegram_opted_out:false,
-     telegram_consent_version:'SYNTHETIC_QA_NOTICE_ONLY',language:'DE'
-   }));
+   await recordSyntheticConsent(f.company,guest.id);
    await f.submit(303,'/stop');await f.drain();
    let settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
    expect(settings).toHaveLength(1);
@@ -234,6 +255,61 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    expect(calls).toBe(1);
    await stageTelegramReply(db,engine,f.company,reply.id,1);
    await f.drain();expect(calls).toBe(1);
+ });
+
+ it('bot /register records one revocable guest worker interest, no direct employee enrollment',async()=>{
+   const f=await setup();
+   await f.submit(801,'/register');await f.drain();
+   await f.submit(802,'/register');await f.drain();
+   const rows=await f.list('worker_registration_interest');
+   expect(rows).toHaveLength(1);
+   expect(rows[0]!.data).toMatchObject({
+     source_provider:'TELEGRAM',state:'REQUESTED',requires_owner_review:true,
+     roles_granted:[],employee_created:false
+   });
+   const guest=(await f.list('user')).find(u=>u.data.guest===true)!;
+   expect(guest.data.roles).toEqual(['GUEST']);
+   expect(await f.list('user_invitation')).toHaveLength(0);
+ });
+
+ it('a versioned consenting guest receives one deterministic Russian menu via the existing delivery queue',async()=>{
+   const f=await setup();
+   expect(await f.execute('bot.channel.preferences.read',{channel:'TELEGRAM'}))
+     .toMatchObject({replyMode:'HUMAN_FIRST',providerReady:false,version:0});
+   await f.submit(810,'/start');await f.drain();
+   const guest=(await f.list('user')).find(u=>u.data.guest===true)!;
+   await recordSyntheticConsent(f.company,guest.id);
+   const sent:string[]=[];
+   f.runner.options.publicOrigin='https://kneba.vsp.rest/';
+   f.runner.options.telegramApprovedConsentVersion='SYNTHETIC_QA_NOTICE_ONLY';
+   f.runner.options.telegram=mockAdapter((async (_url,options)=>{
+     const body=JSON.parse(String(options?.body));sent.push(body.text);
+     return new Response(JSON.stringify({ok:true,result:{message_id:828,chat:{id:187650211}}}),
+       {status:200,headers:{'content-type':'application/json'}});
+   }) as typeof fetch);
+   await f.submit(811,'/lang ru');await f.drain();
+   const settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
+   expect(settings).toHaveLength(1);
+   expect(settings[0]!.data).toMatchObject({language:'RU',telegram_consent:true,
+     telegram_opted_out:false,language_source:'EXPLICIT'});
+   // Consent and a configured test adapter do not override the default human-first policy.
+   expect(sent).toHaveLength(0);
+   expect((await f.list('telegram_delivery')).filter(d=>d.data.purpose==='PUBLIC_NAVIGATION')).toHaveLength(0);
+   const operator=await engine.getActor('operator',f.company);
+   operator.mfaVerified=true;operator.mfaVerifiedAt=now().toISOString(); // Explicit synthetic reauthentication.
+   const approved=await engine.execute(operator,'bot.channel.preferences.configure',{
+     input:{channel:'TELEGRAM',defaultLanguage:'DE',workerRequestsEnabled:true,
+       partnerRequestsEnabled:true,humanEscalationEnabled:true,replyMode:'RULE_BASED'},
+     idempotency_key:'synthetic-policy-'+randomUUID()
+   });
+   expect(approved).toMatchObject({replyMode:'RULE_BASED',providerReady:false,version:1});
+   await f.submit(812,'/start');await f.drain();
+   expect(sent).toHaveLength(1);
+   expect(sent[0]).toContain('Услуги');
+   const receipts=(await f.list('telegram_delivery')).filter(d=>d.data.purpose==='PUBLIC_NAVIGATION');
+   expect(receipts).toHaveLength(1);
+   expect(receipts[0]!.data).toMatchObject({status:'API_ACCEPTED',public_intent:'MENU'});
+   expect((await f.list('user')).find(u=>u.id===guest.id)!.data.roles).toEqual(['GUEST']);
  });
 
 });

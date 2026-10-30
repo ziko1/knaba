@@ -1,0 +1,61 @@
+{
+  "scope": "KNABA client origin source fix for owner-domain migration",
+  "status": "SOURCE_AND_BUILD_VERIFIED_NOT_DEPLOYED",
+  "source_sha": "d57c342224c831307c36dec6da9a83463e31f10f",
+  "base_sha": "0cf80e3010d1a52c5147456bce3bf6db5c7ac06d",
+  "client_artifact_sha256": "11c01f5db33356a4c7ec7ce196a21743e9ad4f3f270bc8cd864e5d54bf9d04ac",
+  "generated_contract_sha256": "8e3f4119259cfaff49146c5e041a9d05a5dc9f3b544f2a6dce9d6d76b7130288",
+  "requirements": [
+    {
+      "id": "ORIGIN-01",
+      "criterion": "Official browser contract accepts knaba.de URLs and relative links",
+      "status": "PASS",
+      "evidence": "generated-asset-verification.json"
+    },
+    {
+      "id": "ORIGIN-02",
+      "criterion": "Preview origin behavior remains distinct",
+      "status": "PASS",
+      "evidence": "after-regression.log",
+      "assertions": 14,
+      "modes": 2
+    },
+    {
+      "id": "ORIGIN-03",
+      "criterion": "Foreign, protocol-relative, backslash and userinfo inputs remain rejected",
+      "status": "PASS",
+      "evidence": "generated-asset-verification.json"
+    },
+    {
+      "id": "ORIGIN-04",
+      "criterion": "Actual official build, static routing and required source suites",
+      "status": "PASS",
+      "evidence": "checks.json"
+    },
+    {
+      "id": "ORIGIN-05",
+      "criterion": "Independent actual code/test review",
+      "status": "ACCEPT",
+      "reviewer": "/root/cloudflare_migration_review"
+    },
+    {
+      "id": "MIGRATION-LIVE",
+      "criterion": "Owner-account tunnel, production activation, DNS and external end-to-end smoke",
+      "status": "NOT_RUN_BY_THIS_WORKSTREAM",
+      "owner": "existing customer deployment writer"
+    }
+  ],
+  "suites": {
+    "vitest": 343,
+    "native_site": 86,
+    "vps": 121,
+    "root": 28,
+    "generated_asset_checks": 7,
+    "html_pages": 160
+  },
+  "browser_editor_journey": "NOT_RUN",
+  "public_deployment": "NOT_PERFORMED",
+  "new_dependencies": 0,
+  "persistence": "private physical-server Git candidate; no origin remote or public push",
+  "rollback": "No live rollback required: live pointers unchanged. Candidate configuration can be reverted in an isolated branch if rejected."
+}

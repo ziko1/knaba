@@ -8,7 +8,7 @@ object NativeLocale {
     const val CHANGED = "de.knaba.mobile.LANGUAGE_CHANGED"
     private const val FILE = "knaba-language-v1"
     private const val KEY = "language"
-    fun selected(context: Context): String = context.getSharedPreferences(FILE, Context.MODE_PRIVATE).getString(KEY, "") ?: ""
+    fun selected(context: Context): String = context.getSharedPreferences(FILE, Context.MODE_PRIVATE).getString(KEY, "de") ?: "de"
     fun choose(context: Context, language: String) {
         require(language.isEmpty() || LanguagePolicy.SUPPORTED.contains(language))
         context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit().putString(KEY, language).apply()

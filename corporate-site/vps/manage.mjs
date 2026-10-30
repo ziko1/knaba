@@ -9,6 +9,7 @@ import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
 import {ACCESS_REQUEST_TTL_DAYS} from './access-requests.mjs';
 import {manageAccessRetention} from './access-retention.mjs';
+import {updateExistingOwner} from './owner-maintenance.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
 if(['backup','migrate'].includes(command)){
@@ -17,8 +18,8 @@ if(['backup','migrate'].includes(command)){
   if(usage.state==='warning')process.stderr.write('Storage warning: public cutover blocked until space is available.\n');
 }
 
-if(!['init-owner','invite-owner','invite-developer','revoke-developer','backup','audit','access-audit','access-retention','migrate'].includes(command||'')){
-  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|revoke-developer|backup|audit|access-audit|access-retention|migrate\n');
+if(!['init-owner','invite-owner','invite-developer','update-owner','revoke-developer','backup','audit','access-audit','access-retention','migrate'].includes(command||'')){
+  process.stderr.write('Usage: node vps/manage.mjs init-owner|invite-owner|invite-developer|update-owner|revoke-developer|backup|audit|access-audit|access-retention|migrate\n');
   process.exit(2);
 }
 if(command==='access-audit'){
@@ -94,13 +95,26 @@ if(command==='migrate'){
     process.stdout.write('Pre-migration backup verified sha256='+digest+' path='+target+'\n');
   }
 }
-if(command==='invite-owner'||command==='invite-developer'){
+if(command==='invite-owner'||command==='invite-developer'||command==='update-owner'){
   // Invitation never bootstraps or migrates the user's database by accident.
   const existing=await stat(dbPath).catch(()=>null);
   if(!existing?.isFile())throw Error('An existing migrated KNABA database is required for owner invitation.');
 }
 const {db,migrations}=openLocalDatabase(dbPath,{allowMigrations:command==='migrate'});
 try {
+  if(command==='update-owner'){
+    if(process.argv.length!==3||process.stdin.isTTY)
+      throw Error('Use private bounded JSON stdin after stopping the site and taking a verified backup.');
+    let content='';
+    for await(const chunk of process.stdin){
+      content+=chunk.toString('utf8');
+      if(Buffer.byteLength(content)>4096)throw Error('Owner maintenance input exceeds the limit.');
+    }
+    const result=updateExistingOwner(db,JSON.parse(content),{
+      ownerEmail:process.env.OWNER_EMAIL,developerEmail:process.env.KNABA_DEVELOPER_EMAIL
+    });
+    process.stdout.write(JSON.stringify(result)+'\n');
+  }
   if(command==='init-owner'){
     if(!process.env.OWNER_EMAIL)throw Error('OWNER_EMAIL must be provisioned via protected server environment.');
     if(process.stdin.isTTY)throw Error('Passphrase must be passed through private stdin (never a command argument).');

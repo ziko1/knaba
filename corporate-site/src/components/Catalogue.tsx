@@ -1,7 +1,7 @@
 import { createSignal, For, onCleanup, onMount } from "solid-js";
-import { constructionOffers, localeValue } from "../data/construction-offers";
+import { constructionOffers } from "../data/construction-offers";
 import { plannerStore } from "../stores/planner";
-import { publicText, type PublicLocale } from "../lib/public-i18n";
+import { publicOfferName, publicOfferDescription, publicText, type PublicLocale } from "../lib/public-i18n";
 
 export default function Catalogue(props: { locale?: PublicLocale }) {
   const t = (text: string) => publicText(text, props.locale);
@@ -26,8 +26,8 @@ export default function Catalogue(props: { locale?: PublicLocale }) {
           <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <For each={constructionOffers.filter(offer => offer.core)}>{(service) => (
               <button type="button" disabled={!ready()} data-planner-topic={service.slug} aria-pressed={selected() === service.slug} onClick={() => plannerStore.getState().selectTopic(service.slug)} class="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-left transition-colors hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-700 aria-pressed:border-emerald-800 aria-pressed:bg-emerald-50">
-                <span class="block text-base font-bold leading-snug text-emerald-950 [overflow-wrap:anywhere]">{localeValue(service.name, props.locale ?? "de")}</span>
-                <span class="mt-2 block text-sm leading-relaxed text-slate-600">{localeValue(service.description, props.locale ?? "de")}</span>
+                <span class="block text-base font-bold leading-snug text-emerald-950 [overflow-wrap:anywhere]">{publicOfferName(service, props.locale ?? "de")}</span>
+                <span class="mt-2 block text-sm leading-relaxed text-slate-600">{publicOfferDescription(service, props.locale ?? "de")}</span>
                 <span class="mt-4 block text-xs font-bold text-emerald-900">{selected() === service.slug ? t("Im Plan ausgewählt ✓") : t("Für meinen Plan auswählen →")}</span>
               </button>
             )}</For>

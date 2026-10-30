@@ -3,31 +3,34 @@ import SwiftUI
 struct ERPModule: Identifiable {
     let id: String
     let icon: String
-    let title: String
+    let title: ERPText
     let permission: String
     var kind: String { id }
 }
 
 /// All navigation is native SwiftUI. These are server-visible entities, not simulated records.
 private let erpModules: [ERPModule] = [
-    .init(id: "decision", icon: "checkmark.seal", title: "Decisions", permission: "decisions.read"),
-    .init(id: "site", icon: "building.2", title: "Sites", permission: "site.read"),
-    .init(id: "order", icon: "doc.plaintext", title: "Orders", permission: "order.manage"),
-    .init(id: "lead", icon: "person.crop.square", title: "Requests", permission: "lead.read"),
-    .init(id: "task", icon: "checklist", title: "Tasks", permission: "task.read"),
-    .init(id: "crew_assignment", icon: "person.3.sequence", title: "Crew", permission: "crew.assign"),
-    .init(id: "employee", icon: "person.2", title: "Employees", permission: "operations.read"),
-    .init(id: "shift", icon: "clock", title: "Shifts", permission: "shift.manage"),
-    .init(id: "presence", icon: "location.circle", title: "Presence status", permission: "location.presence.read"),
-    .init(id: "customer", icon: "person.2.crop.square.stack", title: "Customers", permission: "customer.manage"),
-    .init(id: "channel", icon: "bubble.left.and.bubble.right", title: "Chats", permission: "chat.read"),
-    .init(id: "report", icon: "doc.text.image", title: "Reports", permission: "report.read"),
-    .init(id: "notification", icon: "bell", title: "Notifications", permission: "notifications.manage"),
-    .init(id: "user", icon: "person.crop.circle.badge.checkmark", title: "Users & roles", permission: "identity.manage"),
-    .init(id: "bot_config", icon: "gearshape.2", title: "Automation", permission: "bot.manage")
+    .init(id: "decision", icon: "checkmark.seal", title: .decisions, permission: "decisions.read"),
+    .init(id: "site", icon: "building.2", title: .sites, permission: "site.read"),
+    .init(id: "order", icon: "doc.plaintext", title: .orders, permission: "order.manage"),
+    .init(id: "lead", icon: "person.crop.square", title: .requests, permission: "lead.read"),
+    .init(id: "task", icon: "checklist", title: .tasks, permission: "task.read"),
+    .init(id: "crew_assignment", icon: "person.3.sequence", title: .crew, permission: "crew.assign"),
+    .init(id: "employee", icon: "person.2", title: .employees, permission: "operations.read"),
+    .init(id: "shift", icon: "clock", title: .shifts, permission: "shift.manage"),
+    .init(id: "presence", icon: "location.circle", title: .presence, permission: "location.presence.read"),
+    .init(id: "customer", icon: "person.2.crop.square.stack", title: .customers, permission: "customer.manage"),
+    .init(id: "channel", icon: "bubble.left.and.bubble.right", title: .messages, permission: "chat.read"),
+    .init(id: "report", icon: "doc.text.image", title: .reports, permission: "report.read"),
+    .init(id: "notification", icon: "bell", title: .notifications, permission: "notifications.manage"),
+    .init(id: "user", icon: "person.crop.circle.badge.checkmark", title: .users, permission: "identity.manage"),
+    .init(id: "bot_config", icon: "gearshape.2", title: .automation, permission: "bot.manage")
 ]
 
 @MainActor final class ERPConsoleModel: ObservableObject {
+    @Published var language: NativeLanguage = .de
+    func text(_ key: ERPText) -> String { ERPStrings.text(key, language) }
+    private func describe(_ error: Error) -> String { ERPStrings.error(error, language) }
     @Published var origin = UserDefaults.standard.string(forKey: "knaba-erp-origin") ?? ""
     @Published var email = ""
     @Published var password = ""
@@ -73,12 +76,12 @@ private let erpModules: [ERPModule] = [
             identity = result
             password = ""; otp = ""
             UserDefaults.standard.set(storedOrigin, forKey: "knaba-erp-origin")
-            notice = "Connected to your KNABA account"
+            notice = text(.connected)
             busy = false
             await loadOverview()
         } catch {
             guard ticket == epoch else { return }
-            problem = error.localizedDescription; identity = nil; busy = false
+            problem = describe(error); identity = nil; busy = false
         }
     }
     func reloadSession() async {
@@ -87,7 +90,7 @@ private let erpModules: [ERPModule] = [
             let next = try await client.refresh()
             guard storedOrigin == origin.trimmingCharacters(in: .whitespacesAndNewlines) else { await signOut(); return }
             identity = next
-        } catch { await signOut(); problem = error.localizedDescription }
+        } catch { await signOut(); problem = describe(error) }
     }
     func signOut() async {
         epoch += 1
@@ -107,7 +110,7 @@ private let erpModules: [ERPModule] = [
             dashboard = value; commands = catalog
         } catch {
             guard epoch == ticket else { return }
-            problem = error.localizedDescription
+            problem = describe(error)
         }
         if epoch == ticket { busy = false }
     }
@@ -121,7 +124,7 @@ private let erpModules: [ERPModule] = [
             items = value
         } catch {
             guard epoch == ticket else { return }
-            items = []; problem = error.localizedDescription
+            items = []; problem = describe(error)
         }
         if epoch == ticket { busy = false }
     }
@@ -134,7 +137,7 @@ private let erpModules: [ERPModule] = [
             guard epoch == ticket else { return }
             channels = list
             if !list.contains(where: { $0.id == selectedChannel }) { selectedChannel = list.first?.id ?? "" }
-        } catch { if epoch == ticket { channels = []; messages = []; problem = error.localizedDescription } }
+        } catch { if epoch == ticket { channels = []; messages = []; problem = describe(error) } }
         if epoch == ticket { busy = false; if !selectedChannel.isEmpty { await loadMessages() } }
     }
     func loadMessages() async {
@@ -143,16 +146,16 @@ private let erpModules: [ERPModule] = [
         do {
             let rows = try await client.messages(channel)
             if ticket == epoch && selectedChannel == channel { messages = rows }
-        } catch { if ticket == epoch { problem = error.localizedDescription } }
+        } catch { if ticket == epoch { problem = describe(error) } }
     }
     func sendMessage() async {
         guard !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         busy = true; problem = ""; let ticket = epoch
         do {
-            try await client.sendMessage(channelId: selectedChannel, text: messageText, language: "DE")
-            if ticket == epoch { messageText = ""; notice = "Message sent" }
+            try await client.sendMessage(channelId: selectedChannel, text: messageText, language: language.rawValue.uppercased())
+            if ticket == epoch { messageText = ""; notice = text(.sent) }
             if ticket == epoch { await loadMessages() }
-        } catch { if ticket == epoch { problem = error.localizedDescription } }
+        } catch { if ticket == epoch { problem = describe(error) } }
         if ticket == epoch { busy = false }
     }
     func submit(_ command: ERPCommand, fields: [String: String], version: Int?) async {
@@ -181,13 +184,14 @@ private let erpModules: [ERPModule] = [
             }
             let data = try JSONSerialization.data(withJSONObject: payload)
             _ = try await client.execute(command, input: data, expectedVersion: version)
-            if epoch == ticket { notice = "Saved by KNABA server"; await loadOverview() }
-        } catch { if epoch == ticket { problem = error.localizedDescription } }
+            if epoch == ticket { notice = text(.saved); await loadOverview() }
+        } catch { if epoch == ticket { problem = describe(error) } }
         if epoch == ticket { busy = false }
     }
 }
 
 struct ERPConsoleView: View {
+    @ObservedObject var preferences: AppModel
     @StateObject private var model = ERPConsoleModel()
     @State private var selectedTab = 0
     @Environment(\.scenePhase) private var scenePhase
@@ -197,14 +201,24 @@ struct ERPConsoleView: View {
                 if model.identity == nil { login }
                 else { console }
             }
-            .navigationTitle(model.identity == nil ? "KNABA DE" : "KNABA Control")
+            .navigationTitle(model.identity == nil ? "KNABA DE" : model.text(.title))
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Picker(preferences.text(.language), selection: $preferences.localeSelection) {
+                        ForEach(NativeLanguage.allCases) { language in Text(language.name).tag(language.rawValue) }
+                        Text(preferences.text(.deviceLanguage)).tag("system")
+                    }.accessibilityIdentifier("erpLanguageSelector")
+                }
                 if model.identity != nil {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Sign out", systemImage: "rectangle.portrait.and.arrow.right") { Task { await model.signOut() } }
+                        Button(model.text(.signOut), systemImage: "rectangle.portrait.and.arrow.right") { Task { await model.signOut() } }
                     }
                 }
             }
+        }
+        .onChange(of: preferences.localeSelection, initial: true) { _, _ in
+            model.language = preferences.language
+            model.problem = ""; model.notice = ""
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active && model.identity != nil { Task { await model.reloadSession() } }
@@ -213,42 +227,42 @@ struct ERPConsoleView: View {
     private var login: some View {
         Form {
             Section {
-                Label("Owner · Team · Client · Partner", systemImage: "building.2.crop.circle")
+                Label(model.text(.roleHeading), systemImage: "building.2.crop.circle")
                     .font(.headline)
-                Text("Native access to the KNABA ERP. No web browser or WebView. Your rights come from the server.")
+                Text(model.text(.loginIntro))
                     .font(.footnote).foregroundStyle(.secondary)
             }
-            Section("Server") {
+            Section(model.text(.server)) {
                 TextField("https://erp.example.de", text: $model.origin)
                     .textContentType(.URL).textInputAutocapitalization(.never)
                     .keyboardType(.URL).autocorrectionDisabled()
             }
-            Section("Your account") {
-                TextField("E-mail", text: $model.email).keyboardType(.emailAddress)
+            Section(model.text(.account)) {
+                TextField(model.text(.email), text: $model.email).keyboardType(.emailAddress)
                     .textContentType(.username).textInputAutocapitalization(.never).autocorrectionDisabled()
-                SecureField("Password", text: $model.password).textContentType(.password)
-                TextField("2FA code, if required", text: $model.otp).keyboardType(.numberPad)
+                SecureField(model.text(.password), text: $model.password).textContentType(.password)
+                TextField(model.text(.otp), text: $model.otp).keyboardType(.numberPad)
                     .textContentType(.oneTimeCode)
                 Button { Task { await model.signIn() } } label: {
-                    Label("Sign in securely", systemImage: "lock.shield")
+                    Label(model.text(.signIn), systemImage: "lock.shield")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(model.busy || model.email.isEmpty || model.password.isEmpty || ERPOrigin.validate(model.origin) == nil)
             }
             if !model.problem.isEmpty { Section { Text(model.problem).foregroundStyle(.red) } }
-            Section { Text("Employees may use the separate native shift and voluntary location tools. GPS is never activated by signing in.").font(.caption).foregroundStyle(.secondary) }
+            Section { Text(model.text(.shiftNotice)).font(.caption).foregroundStyle(.secondary) }
         }
     }
     private var console: some View {
         VStack(spacing: 0) {
             if !model.problem.isEmpty { Text(model.problem).font(.callout).foregroundStyle(.red).padding(10) }
             if !model.notice.isEmpty { Text(model.notice).font(.caption).foregroundStyle(.secondary).padding(.horizontal, 10) }
-            Picker("Module", selection: $selectedTab) {
-                Label("Overview", systemImage: "square.grid.2x2").tag(0)
-                Label("Records", systemImage: "list.bullet.rectangle").tag(1)
-                Label("Messages", systemImage: "bubble.left.and.bubble.right").tag(2)
-                Label("Actions", systemImage: "slider.horizontal.3").tag(3)
+            Picker(model.text(.module), selection: $selectedTab) {
+                Label(model.text(.overview), systemImage: "square.grid.2x2").tag(0)
+                Label(model.text(.records), systemImage: "list.bullet.rectangle").tag(1)
+                Label(model.text(.messages), systemImage: "bubble.left.and.bubble.right").tag(2)
+                Label(model.text(.actions), systemImage: "slider.horizontal.3").tag(3)
             }
             .pickerStyle(.segmented).padding(.horizontal)
             Group {
@@ -264,29 +278,29 @@ struct ERPConsoleView: View {
     }
     private var overview: some View {
         List {
-            Section("Account & permissions") {
-                LabeledContent("Signed in", value: model.identity?.user.name ?? model.identity?.user.email ?? "KNABA")
-                LabeledContent("Roles", value: model.roleLabel)
-                LabeledContent("Company", value: model.identity?.actor.companyId ?? "—")
+            Section(model.text(.permissions)) {
+                LabeledContent(model.text(.signedIn), value: model.identity?.user.name ?? model.identity?.user.email ?? "KNABA")
+                LabeledContent(model.text(.roles), value: model.roleLabel)
+                LabeledContent(model.text(.company), value: model.identity?.actor.companyId ?? "—")
             }
-            Section("Live overview") {
+            Section(model.text(.liveOverview)) {
                 if let stats = model.dashboard {
                     ForEach(stats.counts.keys.sorted(), id: \.self) { key in
                         LabeledContent(key.replacingOccurrences(of: "_", with: " ").capitalized, value: String(stats.counts[key] ?? 0))
                     }
-                    LabeledContent("Active shifts", value: String(stats.activeShifts ?? 0))
-                } else { ContentUnavailableView("Server data unavailable", systemImage: "wifi.slash") }
-                Button("Refresh") { Task { await model.loadOverview() } }
+                    LabeledContent(model.text(.activeShifts), value: String(stats.activeShifts ?? 0))
+                } else { ContentUnavailableView(model.text(.unavailable), systemImage: "wifi.slash") }
+                Button(model.text(.refresh)) { Task { await model.loadOverview() } }
             }
-            Section("Available areas") {
+            Section(model.text(.areas)) {
                 ForEach(model.modules) { module in
                     Button { selectedTab = 1; Task { await model.loadKind(module.kind) } } label: {
-                        Label(module.title, systemImage: module.icon)
+                        Label(model.text(module.title), systemImage: module.icon)
                     }
                 }
             }
             Section {
-                Text("Position is shown only if a server-authorized active work session and an explicit location policy exist. Offline or missing location does not mean an employee is absent.")
+                Text(model.text(.presenceNotice))
                     .font(.footnote).foregroundStyle(.secondary)
             }
         }
@@ -294,22 +308,22 @@ struct ERPConsoleView: View {
     }
     private var records: some View {
         List {
-            Section("Module") {
-                Picker("Records", selection: $model.selection) {
-                    ForEach(model.modules) { module in Text(module.title).tag(module.kind) }
+            Section(model.text(.module)) {
+                Picker(model.text(.records), selection: $model.selection) {
+                    ForEach(model.modules) { module in Text(model.text(module.title)).tag(module.kind) }
                 }
                 .onChange(of: model.selection) { _, kind in Task { await model.loadKind(kind) } }
-                Button("Reload \(model.selection)") { Task { await model.loadKind(model.selection) } }
+                Button(model.text(.refresh)) { Task { await model.loadKind(model.selection) } }
             }
-            Section("Authorized records · \(model.items.count)") {
-                if model.items.isEmpty { ContentUnavailableView("No accessible records", systemImage: "tray") }
+            Section(ERPStrings.text(.authorizedCount, model.language, String(model.items.count))) {
+                if model.items.isEmpty { ContentUnavailableView(model.text(.empty), systemImage: "tray") }
                 ForEach(model.items) { item in
                     NavigationLink {
                         List {
-                            Section(item.kind) { LabeledContent("ID", value: item.id); LabeledContent("Version", value: String(item.version)) }
-                            Section("Server fields") {
+                            Section(item.kind) { LabeledContent("ID", value: item.id); LabeledContent(model.text(.version), value: String(item.version)) }
+                            Section(model.text(.fields)) {
                                 ForEach(item.data.keys.sorted(), id: \.self) { key in
-                                    LabeledContent(key, value: item.data[key]?.string ?? (item.data[key]?.dictionary != nil ? "Object" : item.data[key]?.list != nil ? "List" : "—"))
+                                    LabeledContent(key, value: item.data[key]?.string ?? (item.data[key]?.dictionary != nil ? model.text(.object) : item.data[key]?.list != nil ? model.text(.list) : "—"))
                                 }
                             }
                         }.navigationTitle(item.title)
@@ -327,15 +341,15 @@ struct ERPConsoleView: View {
     }
     private var messages: some View {
         List {
-            Section("Company conversation") {
-                Picker("Channel", selection: $model.selectedChannel) {
+            Section(model.text(.conversation)) {
+                Picker(model.text(.channel), selection: $model.selectedChannel) {
                     ForEach(model.channels) { item in Text(item.title).tag(item.id) }
                 }
                 .onChange(of: model.selectedChannel) { _, _ in Task { await model.loadMessages() } }
-                Button("Refresh conversation") { Task { await model.loadChannels() } }
+                Button(model.text(.refresh)) { Task { await model.loadChannels() } }
             }
-            Section("Messages") {
-                if model.messages.isEmpty { ContentUnavailableView("No messages", systemImage: "bubble.left") }
+            Section(model.text(.messages)) {
+                if model.messages.isEmpty { ContentUnavailableView(model.text(.noMessages), systemImage: "bubble.left") }
                 ForEach(model.messages) { item in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(item.data["text"]?.string ?? item.title).font(.body)
@@ -343,9 +357,9 @@ struct ERPConsoleView: View {
                     }
                 }
             }
-            Section("Reply") {
-                TextField("Message", text: $model.messageText, axis: .vertical).lineLimit(2...5)
-                Button("Send") { Task { await model.sendMessage() } }
+            Section(model.text(.reply)) {
+                TextField(model.text(.message), text: $model.messageText, axis: .vertical).lineLimit(2...5)
+                Button(model.text(.send)) { Task { await model.sendMessage() } }
                     .disabled(model.busy || model.selectedChannel.isEmpty || model.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
         }
@@ -355,7 +369,7 @@ struct ERPConsoleView: View {
     private var actions: some View {
         List {
             Section {
-                Text("Only actions authorized by the server are shown. Sensitive changes require a second confirmation and may require 2FA.")
+                Text(model.text(.actionsIntro))
                     .font(.footnote).foregroundStyle(.secondary)
             }
             ForEach(model.commands) { command in
@@ -399,28 +413,28 @@ private struct ERPCommandForm: View {
                     let type = definition.dictionary?["type"]?.string ?? "string"
                     VStack(alignment: .leading) {
                         Text(key + (isRequired ? " *" : "")).font(.caption.weight(.semibold))
-                        TextField(type == "array" ? "JSON array e.g. [\"id\"]" : type == "object" ? "JSON object" : type,
+                        TextField(type == "array" ? model.text(.jsonArray) : type == "object" ? model.text(.jsonObject) : type,
                                   text: Binding(get: { draft[key] ?? "" }, set: { draft[key] = $0 }), axis: .vertical)
                             .textInputAutocapitalization(.never).autocorrectionDisabled()
-                        if type == "boolean" { Text("Enter true or false").font(.caption).foregroundStyle(.secondary) }
+                        if type == "boolean" { Text(model.text(.booleanHint)).font(.caption).foregroundStyle(.secondary) }
                     }
                     }
                 }
-                TextField("Expected entity version (optional)", text: $expectedVersion).keyboardType(.numberPad)
+                TextField(model.text(.expectedVersion), text: $expectedVersion).keyboardType(.numberPad)
             }
             Section {
-                Button("Submit to KNABA") {
+                Button(model.text(.submit)) {
                     if command.highRisk == true { confirmation = true }
                     else { Task { await model.submit(command, fields: draft, version: Int(expectedVersion)) } }
                 }
                 .buttonStyle(.borderedProminent).disabled(model.busy)
             }
         }
-        .navigationTitle("KNABA action")
-        .confirmationDialog("Confirm sensitive operation", isPresented: $confirmation) {
-            Button("Confirm \(command.name)", role: .destructive) {
+        .navigationTitle(model.text(.actionTitle))
+        .confirmationDialog(model.text(.confirmSensitive), isPresented: $confirmation) {
+            Button(model.text(.confirm) + " · " + command.name, role: .destructive) {
                 Task { await model.submit(command, fields: draft, version: Int(expectedVersion)) }
             }
-        } message: { Text("This operation changes real company records. Check details and server rights before approving.") }
+        } message: { Text(model.text(.confirmNotice)) }
     }
 }

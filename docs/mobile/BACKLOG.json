@@ -1,7 +1,7 @@
 {
   "project": "KNABA_MOBILE",
   "moduleOf": "KNABA_DE",
-  "branch": "feat/knaba-android-ios-workspace-20261028",
+  "branch": "release/knaba-customer-prototype-20261028",
   "items": [
     {
       "id": "MOBILE-001",
@@ -44,6 +44,31 @@
       "description": "Real Android/iOS signing and store distribution",
       "acceptance": "Exact SHA/artifact, signed verified APK/IPA, hardware QA, customer acceptance",
       "status": "BLOCKED_EXTERNAL"
+    },
+    {
+      "id": "MOBILE-008",
+      "description": "0.3.0 build3 native locales/default German, iOS ERP translations and reproducible distribution",
+      "acceptance": "DE/EN/PL/LT/RU/UK, preserved saved choices, real compile and artifact signature/hash, device install/update verification",
+      "status": "ANDROID_DEBUG_BUILD_VERIFIED_IOS_BLOCKED_EXTERNAL",
+      "localEvidence": {
+        "androidStringsPerLocale": 144,
+        "androidJavaLocaleClockAuthCases": 39,
+        "androidJavaGeofenceCases": 30,
+        "iosCompanionKeys": 95,
+        "iosERPKeys": 76,
+        "swiftCompilation": "BLOCKED_EXTERNAL",
+        "deviceInstallAndDataRetention": "NOT_RUN"
+      },
+      "artifactEvidence": {
+        "sourceGitSha": "b88766108684b6fd78a1cca81642ab512903bdeb",
+        "apkSha256": "3e62935cafed829430f8f5384f24ac9ea964d2d4b4b680de283de7e7e9a37564",
+        "signing": "DEBUG_EVALUATION_ONLY",
+        "signatureV2": "PASS",
+        "sourceInputFilesMatched": 33,
+        "lintErrors": 0,
+        "lintWarnings": 18,
+        "evidence": "evidence/prototype-20261028/independent-binding.json"
+      }
     }
   ]
 }

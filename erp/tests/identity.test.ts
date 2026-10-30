@@ -67,3 +67,58 @@ describe('eight-character minimum on distinct ERP authentication contract',()=>{
   expect((await db.get('user',enrolled.userId)).data.roles).toEqual(['EMPLOYEE']);
  });
 });
+
+describe('owner-reviewed messenger worker interest (source-only, no invitation issued)',()=>{
+ async function fixture(){
+  const db=new FixtureDb();
+  await db.add('user',{name:'Telegram applicant',active:true,guest:true,roles:['GUEST'],
+    siteIds:[],customerIds:[],warehouseIds:[]},'applicant');
+  const interest=await db.add('worker_registration_interest',{
+    source_provider:'TELEGRAM',guest_user_id:'applicant',state:'REQUESTED',
+    requires_verified_portal_identity:true,requires_owner_review:true,
+    employee_created:false,roles_granted:[]
+  },'pending-worker');
+  const def=identityCommands['worker_registration_interest.review']!;
+  const runReview=(decision:'REVIEW'|'REJECT',actor=owner,version=interest.version)=>
+    db.transaction(actor.companyId,actor.userId,tx=>def.handler({
+      ...ctx(db,actor),tx,expectedVersion:version
+    },def.schema.parse({id:interest.id,decision,reason:'Synthetic owner workflow test'})));
+  return {db,interest,runReview,def};
+ }
+ it('transitions a guest request to identity-verification queue without becoming an employee',async()=>{
+  const f=await fixture();
+  expect(f.def.highRisk).toBe(true);
+  const receipt=await f.runReview('REVIEW');
+  expect(receipt).toMatchObject({state:'AWAITING_IDENTITY_PROOF',employee_created:false,
+    owner_verified:true,portal_identity_still_required:true});
+  expect((await f.db.get('user','applicant')).data.roles).toEqual(['GUEST']);
+  expect(await f.db.list('user_invitation')).toHaveLength(0);
+  expect(f.db.events).toContainEqual(expect.objectContaining({
+    type:'worker.registration_reviewed',request_id:'pending-worker',state:'AWAITING_IDENTITY_PROOF'
+  }));
+ });
+ it('rejection is terminal for this request, and stale versions cannot overwrite a review',async()=>{
+  const f=await fixture();
+  await f.runReview('REJECT');
+  const row=await f.db.get('worker_registration_interest','pending-worker');
+  expect(row.data.state).toBe('REJECTED');
+  await expect(f.runReview('REVIEW')).rejects.toMatchObject({code:'INVALID_STATE'});
+  expect(await f.db.list('user_invitation')).toHaveLength(0);
+ });
+ it('requires the actual human high-risk role and reauthentication, never a guest or bot',async()=>{
+  const f=await fixture();
+  for(const actor of [
+    {...owner,mfaVerified:false},
+    {...owner,userId:'applicant',roles:['GUEST'],permissions:['identity.manage'],mfaVerified:true},
+    {...owner,userId:'bot',roles:['SERVICE_ACCOUNT'],permissions:['identity.manage'],mfaVerified:true}
+  ])await expect(f.runReview('REVIEW',actor)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  expect((await f.db.get('worker_registration_interest','pending-worker')).data.state).toBe('REQUESTED');
+ });
+ it('a changed request version cannot be approved using stale signed preview',async()=>{
+  const f=await fixture();
+  const row=await f.db.get('worker_registration_interest','pending-worker');
+  await f.db.save(row,{...row.data,remark:'New information from applicant'});
+  await expect(f.runReview('REVIEW')).rejects.toMatchObject({code:'VERSION_CONFLICT'});
+  expect(await f.db.list('user_invitation')).toHaveLength(0);
+ });
+});

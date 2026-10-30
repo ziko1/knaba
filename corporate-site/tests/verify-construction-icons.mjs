@@ -53,10 +53,18 @@ for(const prefix of ['','en/','uk/','ru/']){
     assert.equal(attr(image,'height'),'550');
   }
   const catalog=parse(readFileSync(urlPath('leistungen/'),'utf8'));
-  const sections=byClass(catalog,'bau-offer-grid');
-  assert.equal(sections.length,2,prefix+'catalogue both sections');
+  const sections=byClass(catalog,'bau-offer-grid').filter(section=>!cls(section,'project-intents-grid'));
+  assert.equal(sections.length,2,prefix+'catalogue original core and extra sections');
   check(sections[0],core,prefix+'catalogue primary');
   check(sections[1],extras,prefix+'catalogue extras');
+  const intentSections=byClass(catalog,'project-intents-grid');
+  assert.equal(intentSections.length,1,prefix+'one buyer guidance section');
+  const intentCards=byClass(intentSections[0],'bau-offer');
+  assert.equal(intentCards.length,6,prefix+'six distinct buyer cases');
+  assert.equal(symbols(intentSections[0]).length,0,prefix+'text-only buyer cases do not duplicate pictograms');
+  const expectedIntents=['baureinigung','bauzwischenreinigung','bauendreinigung','baustellenraeumung','bauhilfe','kernbohrungen'];
+  const anchors=all(intentSections[0],node=>node.tagName==='a');
+  assert.deepEqual(anchors.map(node=>attr(node,'href')),expectedIntents.map(slug=>'/'+prefix+'bauleistungen/'+slug+'/'),prefix+'buyer guide links to active service pages');
   for(const slug of offers){
     const doc=parse(readFileSync(urlPath('bauleistungen/'+slug+'/'),'utf8'));
     const label=byClass(doc,'service-type-label');

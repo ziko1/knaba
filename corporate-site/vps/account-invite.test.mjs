@@ -6,6 +6,7 @@ import {tmpdir} from 'node:os';
 import {openLocalDatabase} from './database.mjs';
 import {createOwner,createLogin,readSession} from './auth.mjs';
 import {issueAccountInvite,acceptAccountInvite,AccountInviteError} from './account-invite.mjs';
+import {submitAccessRequest} from './access-requests.mjs';
 
 const ownerEmail='owner@example.test';
 const ownerPassword='owner-2026-synthetic-strong-passphrase';
@@ -28,7 +29,7 @@ function register(db,token,opts={}){
 
 test('new invitation is additive, 256-bit, hash-only and never creates a user',()=>{
   fixture(({db,owner,migrations})=>{
-    assert.equal(migrations[7],'0007_account_invites.sql');assert.equal(migrations.at(-1),'0009_partner_access.sql');
+    assert.equal(migrations[7],'0007_account_invites.sql');assert.equal(migrations[9],'0009_partner_access.sql');assert.equal(migrations.at(-1),'0012_portal_messages.sql');
     const invite=issue(db,owner,{now:1800000000000});
     assert.match(invite.token,/^[A-Za-z0-9_-]{43}$/);
     const stored=db.prepare('SELECT * FROM vps_account_invites').get();
@@ -155,4 +156,30 @@ test('eight-character invited registration remains pending for every non-operato
       assert.equal(profile.status,'pending');
     }
   });
+});
+
+
+test('owner-issued Bauleiter invitation stays pending, one-use and cannot self-grant management',()=>{
+ fixture(({db,owner})=>{
+  const invite=issue(db,owner,{role:'bauleiter'});
+  const user=register(db,invite.token);
+  assert.equal(user.role,'bauleiter');assert.equal(user.status,'pending');
+  assert.deepEqual({...db.prepare('SELECT requested_role,role,status FROM profiles WHERE id=?').get(user.id)},
+   {requested_role:'bauleiter',role:null,status:'pending'});
+  assert.throws(()=>register(db,invite.token),AccountInviteError);
+  assert.equal(db.prepare('SELECT count(*) AS n FROM vps_sessions').get().n,0);
+ });
+});
+
+
+test('public Bauleiter access request creates an enquiry without credentials, session or approved role',()=>{
+ fixture(({db})=>{
+  const users=db.prepare('SELECT count(*) AS n FROM vps_users').get().n;
+  const result=submitAccessRequest(db,{name:'Synthetic Site Manager',email:'site-request@example.test',intent:'bauleiter',consented:true,peer:'synthetic',ownerEmail});
+  assert.equal(result.accepted,true);
+  assert.deepEqual({...db.prepare('SELECT intent,status FROM vps_access_requests WHERE email=?').get('site-request@example.test')},{intent:'bauleiter',status:'pending'});
+  assert.equal(db.prepare('SELECT count(*) AS n FROM vps_users').get().n,users);
+  assert.equal(db.prepare('SELECT count(*) AS n FROM vps_sessions').get().n,0);
+  assert.equal(db.prepare('SELECT count(*) AS n FROM profiles').get().n,0);
+ });
 });

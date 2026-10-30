@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-28T22:20:47.887089+00:00",
+  "base_source_sha": "75c599b0c89bbb0c800e04839af5de6a323d62f3",
+  "branch": "feat/knaba-customer-environments-20261028",
+  "scope": "Additive KNABA customer environment tooling; no application runtime deployment",
+  "files_sha256": {
+    "knabactl.py": "0c08f9e3a426adb15fd8fce9504d8128ffa7cbaec29ef9e10260f074672c7202",
+    "preview-gateway.mjs": "c97c56a261a7c65f88145b0aa9c8f45877a773aeba5b884760aa444580f747f6",
+    "test_knabactl.py": "e6f4f9daef6d474e08a6ad685611e9600cc60bc0262b2921596dc12c7dcedc4e",
+    "preview-gateway.test.mjs": "b8f2fda48f3232a7fc22d382d99ed96bdd63a4a9169f5fc35d86f2327ed57149",
+    "cloudflared-knaba-customer@.service": "85fc53d1af54857faa869cb2be5a07e1735f08b5a0c206f7c9e588ea74e70ba6",
+    "approval.example.json": "de92d52c5d6946788cc01198d84bec1c3c73d80611659e446ee7e0e06b7ef0fd"
+  },
+  "checks": [
+    {
+      "command": "python3 -m unittest discover -s corporate-site/vps/customer-environments -p 'test_*.py' -v",
+      "status": "PASS",
+      "tests": 12,
+      "notes": "Includes real SQLite online snapshot of a live WAL database; synthetic data only."
+    },
+    {
+      "command": "node --test --test-reporter=tap corporate-site/vps/customer-environments/preview-gateway.test.mjs",
+      "status": "PASS",
+      "tests": 14,
+      "runtime": "Node24.22.1",
+      "notes": "Real loopback HTTP, synthetic RSA keys; no external network or customer tokens."
+    },
+    {
+      "command": "node --test --test-isolation=none --test-reporter=tap scripts/*.test.mjs",
+      "status": "PASS",
+      "tests": 28,
+      "runtime": "Node24.22.1",
+      "notes": "Existing repository policy/source tests; explicit in-process runner exposes all cases."
+    }
+  ],
+  "review": {
+    "reviewer": "runtime_isolation_audit",
+    "mode": "independent automated source review",
+    "findings_fixed": [
+      "Required login/locale smoke and preserved readiness",
+      "Read-only release mounts with no overriding mount; intended source command",
+      "Ops directory traversal for unprivileged gateway",
+      "Explicit SQLite connection close; installation receipt after timer setup"
+    ],
+    "not_claimed": [
+      "independent human review",
+      "actual server runtime audit",
+      "customer acceptance"
+    ]
+  },
+  "server_installation": "BLOCKED_EXTERNAL_SENTINELX_ONE_ACTIVE_HOST_LIMIT",
+  "customer_cloudflare_account": "NOT_ACCESSIBLE_IN_CURRENT_ACCOUNT_LIST",
+  "customer_github_destination": "NOT_PROVIDED",
+  "public_dns_changed": false,
+  "production_updated": false,
+  "other_projects_modified": false,
+  "account_ownership_transferred": false,
+  "remaining": [
+    "Restore active knaba management access",
+    "Reverify exact restored runtime, source provenance, DB and configuration",
+    "Install prepared infrastructure and verify Docker/systemd behavior",
+    "Customer Cloudflare/GitHub identities and delegated access",
+    "Real customer Access/JWT and owner/developer form/role/browser acceptance",
+    "Official/testing build-origin and SEO verification",
+    "Customer provider credentials/Turnstile/form tests",
+    "Off-site backup and restore rehearsal",
+    "User-directed later domain/DNSSEC/mail-preserving cutover"
+  ]
+}
