@@ -1,0 +1,103 @@
+{
+  "formatVersion": 1,
+  "project": "KNABA_DE_ANDROID",
+  "recordedAt": "2026-11-07T22:58:30.783267+00:00",
+  "reviewer": {
+    "id": "/root/android_qa",
+    "role": "Independent Android QA reviewer",
+    "independentOf": "Production implementation, APK build and publication; reviewer authored UI regression tests"
+  },
+  "result": "PASS_SOURCE_AND_ARTIFACT_BINDING_FOR_TEST_CANDIDATE",
+  "sourceSha": "21cb141a7cca0c9c1e88ba2582d87dc83655770e",
+  "sourceTree": "28ce1c0aeb1ecec07d14cd7754f23870af5c5bad",
+  "source": {
+    "manifest": "source-files.json",
+    "manifestSha256": "1d29ffe155a0dc0a74cc0f9cc65a64df98e74d39d64308f860f64498c028d28f",
+    "listedFiles": 43,
+    "matchedGitCommitFiles": 43,
+    "matchedCurrentFiles": 43,
+    "mismatches": [],
+    "headEqualToSourceSha": true,
+    "worktreeCleanBeforeWritingBinding": true,
+    "method": "For each unique manifest path, SHA-256 of git show sourceSha:path and current file bytes independently matched the recorded digest.",
+    "buildProvenance": "APK was built from the recorded working tree before publication. This audit proves equality of the 43 recorded source inputs to this commit; it does not claim a rebuild from that commit or a hermetic reproducible build."
+  },
+  "artifact": {
+    "name": "KNABA-0.4.0-test.apk",
+    "sha256": "e04b10272b755e21599448edfb4f9b29c5734a25a3ad1fb6d47752f9c56b9f19",
+    "bytes": 2765991,
+    "buildOutput": "erp/apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk",
+    "deliveryEqualsBuildOutputBytes": true,
+    "matchesVerificationReceipt": true,
+    "package": "de.knaba.mobile.test",
+    "versionCode": 4,
+    "versionName": "0.4.0-test",
+    "minSdk": 31,
+    "targetSdk": 36,
+    "signature": {
+      "independentlyReverified": true,
+      "command": "apksigner verify --verbose --print-certs KNABA-0.4.0-test.apk",
+      "v2": true,
+      "signers": 1,
+      "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+      "type": "ANDROID_DEBUG_EVALUATION_ONLY"
+    },
+    "alignment": {
+      "independentlyReverified": true,
+      "command": "zipalign -c -P 16 4 KNABA-0.4.0-test.apk",
+      "exitCode": 0
+    }
+  },
+  "corroboratedChecks": {
+    "gradle": {
+      "status": "PASS_RECORDED_BUILD",
+      "evidence": "build.log",
+      "rerunByThisBindingAudit": false
+    },
+    "androidUi": {
+      "status": "PASS_FRAMEWORK_SIMULATION",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "trackedEvidenceMatchesCurrentResultCountsAndTestNames": true,
+      "evidence": "ui-tests.xml"
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 15,
+      "trackedSummaryMatchesCurrentReport": true,
+      "evidence": "lint.txt"
+    },
+    "rootSource": {
+      "passed": 28,
+      "failed": 0,
+      "evidence": "root-tests.log",
+      "rerunByThisBindingAudit": false
+    },
+    "receiptAndEvidenceMatchSourceCommit": true
+  },
+  "evidenceFilesSha256": {
+    "source-files.json": "1d29ffe155a0dc0a74cc0f9cc65a64df98e74d39d64308f860f64498c028d28f",
+    "verification.json": "13cd8feafb34d8ec72ac65bae7d5f1f790ee62e2cc773fa1fd4147137bab43a3",
+    "ui-tests.xml": "2a30c137692269221ac37f295927ce312752276c70c27ab24b5a24a0f86e180a",
+    "lint.txt": "b858cb2fc079be3d9d03b6572c8ab86d64dd581eb707362e9238443e07fb17c7",
+    "build.log": "90187f24b2f1471503fb0e43ad5996947d7cee23b0fe3b0b7ea81f4c8b169078",
+    "root-tests.log": "fd426cdcadfab7558e1b77bb7a140c311d39e7995d7d895700086c8b530ac576",
+    "signature.txt": "7e8209f033f2031aac2ecdc0d53a90cd80e6aec5045cef82dfda1ba667581a31"
+  },
+  "scope": "Separate Android debug test candidate; no whole-product or production acceptance.",
+  "physicalDeviceValidated": false,
+  "liveErpValidated": false,
+  "reproducibleRebuildPerformed": false,
+  "openGates": [
+    "Physical device installation and update/data retention",
+    "Live ERP authentication, tenant/role UAT and customer acceptance",
+    "Android16 physical back gesture",
+    "GPS/OEM/battery/privacy field tests",
+    "Console uncertain mutation recovery after process death",
+    "Stable owner signing and store release",
+    "iOS build/signing",
+    "Remaining canonical whole-product roadmap"
+  ]
+}

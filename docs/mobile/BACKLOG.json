@@ -69,6 +69,50 @@
         "lintWarnings": 18,
         "evidence": "evidence/prototype-20261028/independent-binding.json"
       }
+    },
+    {
+      "id": "MOBILE-009",
+      "description": "User request 2026-11-07: logically complete KNABA application and test artifact. Android continuation, no production deployment.",
+      "source": "зроби логично закинчене приложение для кнаба де и дай для теста",
+      "status": "TEST_CANDIDATE_VERIFIED_FULL_PRODUCT_OPEN",
+      "baseSha": "87fdba936bb8ed7d9b8c7493c49895c48395250b",
+      "acceptance": [
+        {
+          "id": "M9-UI",
+          "expected": "Coherent native login/dashboard/records/chat/actions, six locales, navigation and delayed callbacks guarded",
+          "owner": "/root/android_ui",
+          "status": "PASS_LIMITED_TEST_SCOPE",
+          "evidence": "evidence/android-test-20261107/verification.json"
+        },
+        {
+          "id": "M9-TRANSPORT",
+          "expected": "Real API contracts preserved; session revocation and explicit-key retry regressions verified",
+          "owner": "/root/android_transport",
+          "status": "PASS_LIMITED_TEST_SCOPE",
+          "evidence": "evidence/android-test-20261107/verification.json"
+        },
+        {
+          "id": "M9-DEMO",
+          "expected": "Explicit offline synthetic demo with stateful task/chat test journey; reset and isolation",
+          "owner": "/root/android_demo",
+          "status": "PASS_LIMITED_TEST_SCOPE",
+          "evidence": "evidence/android-test-20261107/verification.json"
+        },
+        {
+          "id": "M9-APK",
+          "expected": "Separate installable debug APK, exact source/hash/signature, UI runtime tests and test instructions",
+          "owner": "/root",
+          "status": "PASS_LIMITED_TEST_SCOPE",
+          "evidence": "evidence/android-test-20261107/verification.json"
+        },
+        {
+          "id": "M9-FULL",
+          "expected": "Full existing product roadmap and real backend/company/device acceptance retained, never inferred from demo or build",
+          "status": "OPEN_EXTERNAL_AND_EXISTING_BACKLOG"
+        }
+      ],
+      "budget": "no_new_paid_spend",
+      "next": "Hand over test APK; physical Android UAT and approved test ERP/accounts required for live gates; full scope remains open."
     }
   ]
 }

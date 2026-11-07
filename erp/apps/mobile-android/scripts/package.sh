@@ -23,7 +23,7 @@ export KNABA_ANDROID_OUTPUT KNABA_ANDROID_MODE
 python3 - <<'PY'
 import hashlib,json,os,pathlib,subprocess
 root=pathlib.Path('.').resolve()
-files=[p for p in root.rglob('*') if p.is_file() and not any(x in {'build','.gradle','.git','local.properties'} for x in p.relative_to(root).parts)]
+files=[p for p in root.rglob('*') if p.is_file() and not any(x in {'build','.gradle','.kotlin','.git','local.properties'} for x in p.relative_to(root).parts)]
 rows=[{'path':str(p.relative_to(root)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(files)]
 r=subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True)
 sha=r.stdout.strip() if r.returncode==0 else os.getenv('NATIVE_SOURCE_SHA')
@@ -34,13 +34,13 @@ PY
 bash scripts/test-vectors.sh | tee "$KNABA_ANDROID_OUTPUT/java-vectors.log"
 bash scripts/test-localization.sh | tee "$KNABA_ANDROID_OUTPUT/localization.log"
 if [[ "$KNABA_ANDROID_MODE" == prototype ]]; then
-  bash ./gradlew --no-daemon :app:assembleDebug :app:lintDebug | tee "$KNABA_ANDROID_OUTPUT/build.log"
-  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.3.0-prototype.apk"
+  bash ./gradlew --no-daemon :app:assembleDebug :app:lintDebug :app:testDebugUnitTest | tee "$KNABA_ANDROID_OUTPUT/build.log"
+  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.4.0-test.apk"
   cp app/build/outputs/apk/debug/app-debug.apk "$KNABA_ANDROID_APK"
 else
   bash ./gradlew --no-daemon :app:assembleRelease :app:lintRelease | tee "$KNABA_ANDROID_OUTPUT/build.log"
   "$KNABA_ANDROID_BUILD_TOOLS/zipalign" -p -f 4 app/build/outputs/apk/release/app-release-unsigned.apk "$KNABA_ANDROID_OUTPUT/aligned.apk"
-  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.3.0.apk"
+  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.4.0.apk"
   "$KNABA_ANDROID_BUILD_TOOLS/apksigner" sign --ks "$KNABA_ANDROID_KEYSTORE" --ks-key-alias "$KNABA_ANDROID_KEY_ALIAS" --ks-pass env:KNABA_ANDROID_STORE_PASSWORD --key-pass env:KNABA_ANDROID_KEY_PASSWORD --out "$KNABA_ANDROID_APK" "$KNABA_ANDROID_OUTPUT/aligned.apk"
   rm "$KNABA_ANDROID_OUTPUT/aligned.apk"
 fi
@@ -52,7 +52,8 @@ import datetime,hashlib,json,os,pathlib,re
 out=pathlib.Path(os.environ['KNABA_ANDROID_OUTPUT']);apk=pathlib.Path(os.environ['KNABA_ANDROID_APK'])
 metadata=(out/'package.txt').read_text();signature=(out/'signature.txt').read_text()
 match=re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'",metadata)
-assert match and match.groups()==('de.knaba.mobile','3','0.3.0'),'Unexpected APK identity or version'
+expected=('de.knaba.mobile.test','4','0.4.0-test') if os.environ['KNABA_ANDROID_MODE']=='prototype' else ('de.knaba.mobile','4','0.4.0')
+assert match and match.groups()==expected,'Unexpected APK identity or version'
 assert 'Verified using v2 scheme (APK Signature Scheme v2): true' in signature,'Missing verified v2 signature'
 cert=re.search(r'Signer #1 certificate SHA-256 digest: ([0-9a-fA-F]+)',signature);assert cert,'Missing signing fingerprint'
 sha=hashlib.sha256(apk.read_bytes()).hexdigest();source=json.loads((out/'source.json').read_text())

@@ -1,5 +1,9 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-07 — native Android test continuation
+
+Candidate based on `87fdba936bb8ed7d9b8c7493c49895c48395250b`; branch `feat/knaba-android-test-20261107`. Android0.4.0-test improves native task/chat workflows and introduces a clearly labelled memory-only demo plus isolated package identity. Site and ERP identities remain separate. No production, database, domain, provider or merge action. Canonical mobile scope/evidence: `../mobile/BACKLOG.json`, `../mobile/evidence/android-test-20261107/verification.json`; full product gates retained.
+
 **Проєкт:** KnaBa Gebäudereinigung, окремий від AVENQO. **Репозиторій:** https://github.com/ziko1/knaba. **Дата фактичної перевірки:** 2026-10-24.
 **Статус:** INTEGRATION_PLANNED / DELIVERY_NOT_READY. Є перевірені окремі модулі та історичні runtime receipts; спільний release SHA/artifact і клієнтський UAT відсутні.
 

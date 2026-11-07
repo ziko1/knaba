@@ -8,7 +8,9 @@ test('KNABA Mobile ships genuine role-based native views without embedded browse
  const manifest=read('erp/apps/mobile-android/app/src/main/AndroidManifest.xml');
  const root=read('erp/apps/mobile-ios/Sources/KNABADEApp.swift');
  assert.match(iOS,/struct ERPConsoleView: View/);assert.match(iOS,/ERPCommandForm/);
- assert.match(android,/class ErpConsoleActivity : Activity/);assert.match(android,/api\.command/);
+ assert.match(android,/class ErpConsoleActivity : Activity/);
+ // Pending requests capture the session transport so a later login cannot redirect a mutation.
+ assert.match(android,/val transport = api/);assert.match(android,/transport\.command/);
  assert.match(manifest,/android:name=".ErpConsoleActivity" android:exported="true"/);
  assert.match(root,/ERPConsoleView\(preferences:\s*model\)/);
  assert.match(iOS,/@ObservedObject\s+var preferences:\s*AppModel/);

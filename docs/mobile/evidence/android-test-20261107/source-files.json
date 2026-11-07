@@ -1,0 +1,178 @@
+{
+  "baseGitSha": "87fdba936bb8ed7d9b8c7493c49895c48395250b",
+  "sourceWorkingTree": "DIRTY_CANDIDATE_VALIDATION",
+  "files": [
+    {
+      "path": "erp/apps/mobile-android/.gitignore",
+      "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042"
+    },
+    {
+      "path": "erp/apps/mobile-android/README.md",
+      "sha256": "276018638071a7f7e7767af737b3155cdac0a8f3ee0d22b0fed13c692401b102"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/build.gradle.kts",
+      "sha256": "975d492445f2a0626fb97f3cecdcee4ed78c76a53e7693b8b43adf0107ee1447"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+      "sha256": "d8edcb194aef38def0d9c033b179c02b68db2ed66da2a37aab57c73330675760"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ApiClient.kt",
+      "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+      "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+      "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+      "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "c7962bdf238fc5dff4270f5062dccdc28bc74985585f4e5fa2a3d30b48c232ec"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "56b615183f620374ba8b3a539c72615a3bf739b7627d83a0adc981f0870f2f26"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+      "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GenerationFence.java",
+      "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+      "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+      "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+      "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeText.kt",
+      "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+      "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "541dfd31dee6201186cf2b5e952e75be6ca526073ad358cdaf2c10293cc466ef"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ShiftClock.java",
+      "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/TrackingService.kt",
+      "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba.xml",
+      "sha256": "7b5e245785c4aa007946f6701068b7164c8ee2a5802dec88b4c204680bfc38bf"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "sha256": "a0c4c780d69a39074ef89baa97b9aedb3a90e4290f3ea3e5f078a6f99ddd0b5f"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "sha256": "5500b066c78e4970ce11889354edf0a3ace5d11232afe39512f14cc35b05093a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "sha256": "e0fe6932276ad7f946679cf51b7aa115685a7d811afe3fb198a6a3d8f633c2be"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "sha256": "0fc382a554f6f0768a09b4133ecd55c412b864c19b9c5165f14ed0b80f0e76da"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "sha256": "a3df691c7a50fdc174fa6835dc98d5d66b18a7af03f77a9ddf7eb9f1cc0edcdf"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "sha256": "7db7ac643c2db34b288882ecd03c220769792076be8380f0e14b44665693321b"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/xml/data_extraction_rules.xml",
+      "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "e5810c3142205e64fbc090e8c048c1c15c8aeafd78566e2af39b36159eefbda6"
+    },
+    {
+      "path": "erp/apps/mobile-android/build.gradle.kts",
+      "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradle.properties",
+      "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradlew",
+      "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradlew.bat",
+      "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/fixtures/DemoConsoleTransportVectors.java",
+      "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/package.sh",
+      "sha256": "7f9e53cd380a6c0f76816784a954831d2f6b1be7969788f08d7698f288daf126"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "sha256": "d8fb31f7cf3c62b349416557e6d1995dffe0b6bdfe2e835f76c528cd7a79e540"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-localization.sh",
+      "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "sha256": "12021d183c37815be08ca183f127c79d7bdc71c90836be5eba5e43ae5fb2963a"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-vectors.sh",
+      "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+      "sha256": "e7b3b33b742e56f1a8695ac1ed253cceb07b07e2ca0d46d053b95414a24a53ef"
+    },
+    {
+      "path": "erp/apps/mobile-android/settings.gradle.kts",
+      "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34"
+    }
+  ]
+}

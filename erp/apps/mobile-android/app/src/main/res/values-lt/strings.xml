@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="erp_title">KNABA · Valdymas</string>
-    <string name="erp_login_intro">Prisijunkite su patvirtinta ERP paskyra. Be integruotos naršyklės.</string>
+    <string name="erp_login_intro">Prisijunkite su patvirtinta ERP paskyra.</string>
     <string name="erp_server">ERP serverio HTTPS adresas</string>
     <string name="erp_email">El. paštas</string>
     <string name="erp_password">Slaptažodis</string>
@@ -145,4 +145,65 @@
     <string name="reason_retention">Pasibaigusio saugojimo vietiniai vietos įvykiai pašalinti.</string>
     <string name="notification_permission_denied">GPS reikia matomo vietos pranešimo. Leiskite pranešimus arba naudokite rankinius pamainos veiksmus.</string>
     <string name="error_enrollment_change">Prieš iš naujo susiedami įrenginį atsijunkite ir ištrinkite vietinius paskyros duomenis.</string>
+
+    <string name="erp_demo_banner">DEMO · Tik bandomieji duomenys šiame įrenginyje</string>
+    <string name="erp_try_demo">Išbandyti be serverio</string>
+    <string name="erp_demo_intro">Išbandykite užduotis ir žinutes su išgalvotais duomenimis. Pakeitimai galioja tik iki demonstracijos uždarymo.</string>
+    <string name="erp_exit_demo">Baigti demonstraciją</string>
+    <string name="erp_home">Mano darbo sritis</string>
+    <string name="erp_workspace_intro">Užduotys, objektai ir žinutės vienoje vietoje.</string>
+    <string name="erp_active_sites">Aktyvūs objektai: %1$d</string>
+    <string name="erp_open_decisions">Nepriimti sprendimai: %1$d</string>
+    <string name="erp_search">Ieškoti</string>
+    <string name="erp_view_details">Peržiūrėti išsamiau</string>
+    <string name="erp_more">Rodyti daugiau</string>
+    <string name="erp_record_id">Įrašo ID</string>
+    <string name="erp_record_version">Versija: %1$d</string>
+    <string name="erp_nested_data">Papildomi struktūriniai duomenys</string>
+    <string name="erp_yes">Taip</string>
+    <string name="erp_no">Ne</string>
+    <string name="erp_sent">Žinutė išsaugota</string>
+    <string name="erp_you">Jūs</string>
+    <string name="erp_conversation">Pokalbis</string>
+    <string name="erp_choose">Pasirinkite</string>
+    <string name="erp_json_hint">Įveskite struktūrinius duomenis JSON formatu.</string>
+    <string name="erp_field_name">Pavadinimas</string>
+    <string name="erp_field_description">Aprašymas</string>
+    <string name="erp_field_status">Būsena</string>
+    <string name="erp_field_phone">Telefonas</string>
+    <string name="erp_field_address">Adresas</string>
+    <string name="erp_session_expired">Sesija baigėsi. Prisijunkite dar kartą.</string>
+    <string name="erp_access_denied">Neturite leidimo šiam veiksmui.</string>
+    <string name="erp_rate_limit">Per daug užklausų. Truputį palaukite ir bandykite dar kartą.</string>
+    <string name="erp_connection_error">Ryšys nepatvirtintas. Patikrinkite ryšį ir bandykite dar kartą.</string>
+    <string name="erp_request_failed">Užklausa nepatvirtinta. Bandykite dar kartą.</string>
+    <string name="erp_unknown_result">Rezultatas nežinomas. Pakartotinis siuntimas kartoja tą pačią užklausą. Laukai užrakinti, kol rezultatas bus išaiškintas.</string>
+    <string name="erp_wait">Užklausa vykdoma. Palaukite patvirtinimo.</string>
+    <string name="erp_unknown_title">Rezultatas vis dar nežinomas</string>
+    <string name="erp_unknown_leave">Serveris galėjo jau atlikti veiksmą. Patikrinkite istoriją prieš kurdami tą patį veiksmą dar kartą.</string>
+    <string name="erp_logout_question">Atsijungti nuo šios darbo srities?</string>
+
+    <string name="erp_task_id">Užduoties ID</string>
+    <string name="erp_quantity_milli">Kiekis tūkstantosiomis dalimis (1000 = 1)</string>
+    <string name="erp_start_task">Pradėti užduotį</string>
+    <string name="erp_log_work">Užregistruoti darbą</string>
+    <string name="erp_submit_task">Pateikti peržiūrai</string>
+
+    <string name="erp_review_pending">Peržiūrėti nepatvirtintą veiksmą</string>
+    <string name="erp_retry_pending">Pakartoti būtent šią užklausą</string>
+
+    <string name="erp_state_assigned">Paskirta</string>
+    <string name="erp_state_progress">Vykdoma</string>
+    <string name="erp_state_review">Pateikta peržiūrai</string>
+    <string name="erp_state_accepted">Priimta</string>
+    <string name="erp_state_rejected">Atmesta</string>
+    <string name="erp_state_cancelled">Atšaukta</string>
+    <string name="erp_state_active">Aktyvu</string>
+    <string name="erp_state_open">Atvira</string>
+    <string name="erp_role_employee">Darbuotojas</string>
+
+    <string name="erp_quantity">Kiekis</string>
+    <string name="erp_planned_quantity">Planuotas kiekis</string>
+    <string name="erp_reported_quantity">Užregistruotas kiekis</string>
+    <string name="erp_accepted_quantity">Priimtas kiekis</string>
 </resources>
