@@ -1,0 +1,73 @@
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "C".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory /qa-pg/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default "max_connections" ... 100
+selecting default "shared_buffers" ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+sh: locale: not found
+2026-11-07 23:28:11.763 UTC [18] WARNING:  no usable system locales were found
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+2026-11-07 23:28:12.139 UTC [1] LOG:  starting PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-11-07 23:28:12.139 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-11-07 23:28:12.139 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-11-07 23:28:12.139 UTC [1] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2026-11-07 23:28:12.140 UTC [22] LOG:  database system was shut down at 2026-11-07 23:28:12 UTC
+2026-11-07 23:28:12.144 UTC [1] LOG:  database system is ready to accept connections
+2026-11-07 23:28:12.503 UTC [32] FATAL:  database "knaba_test" does not exist
+2026-11-07 23:28:29.719 UTC [46] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:30.110 UTC [47] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:31.083 UTC [48] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:32.115 UTC [49] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:32.583 UTC [50] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:35.099 UTC [51] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:35.770 UTC [52] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:36.295 UTC [53] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:36.530 UTC [54] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:37.986 UTC [55] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:38.345 UTC [56] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:40.386 UTC [57] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:41.144 UTC [58] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:41.499 UTC [59] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:41.881 UTC [60] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:42.255 UTC [61] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:42.608 UTC [62] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:43.210 UTC [63] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:43.593 UTC [64] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:44.432 UTC [65] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:44.989 UTC [66] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:45.363 UTC [67] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:47.528 UTC [68] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:48.045 UTC [69] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:48.611 UTC [70] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:51.651 UTC [71] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:53.633 UTC [72] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:54.159 UTC [73] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:54.507 UTC [74] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:55.051 UTC [75] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:55.717 UTC [76] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:56.845 UTC [77] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:57.788 UTC [78] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:58.304 UTC [79] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:59.631 UTC [80] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:28:59.804 UTC [81] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:00.170 UTC [82] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:01.097 UTC [83] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:01.565 UTC [84] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.039 UTC [85] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.512 UTC [86] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.520 UTC [87] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.522 UTC [88] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.525 UTC [89] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.527 UTC [90] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption
+2026-11-07 23:29:02.530 UTC [91] FATAL:  no pg_hba.conf entry for host "172.26.0.3", user "knaba_test", database "knaba_qa", no encryption

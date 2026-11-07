@@ -1,0 +1,183 @@
+{
+  "source_sha": "79b4ea3fd53dfca112616b697d2865b69a681c65",
+  "source_tree": "a7a77a7c8e8eff028fdf1db1e69f3215d3db87b9",
+  "bundle_sha256": null,
+  "results_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b",
+  "node_version": "24.22.1",
+  "postgres_version": "17.11",
+  "qa_image": "sha256:c28822481b78f5a917cb269bec78e43f62923117b35a53e32cc9dcf53a85fe75",
+  "postgres_image": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+  "excluded_remote_files": [
+    "tests/resources.test.ts",
+    "tests/native-ios-simulator.test.ts"
+  ],
+  "network": "knaba-qa-72f14be9287a",
+  "postgres_container": "knaba-qa-pg-72f14be9287a",
+  "application_container": "knaba-qa-app-72f14be9287a",
+  "synthetic_only": true,
+  "published_ports": [],
+  "test_file_filters": [
+    "tests/operations-digest.integration.test.ts"
+  ],
+  "isolated_network_subnet": "172.26.0.0/16",
+  "typecheck_exit_code": null,
+  "typecheck_not_rerun": true,
+  "vitest_exit_code": 0,
+  "test_counts": {
+    "numTotalTestSuites": 2,
+    "numPassedTestSuites": 2,
+    "numFailedTestSuites": 0,
+    "numPendingTestSuites": 0,
+    "numTotalTests": 17,
+    "numPassedTests": 17,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "numTodoTests": 0,
+    "success": true
+  },
+  "vitest_json_sha256": "90c51d074556b2aee7a6d398d4cdc806166d38ac413559840155e751f879e546",
+  "test_files": [
+    {
+      "name": "tests/operations-digest.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "failures": [],
+  "suite_failures": [],
+  "source_clean_after_tests": true,
+  "records": [
+    {
+      "step": "fetch",
+      "exit_code": 0,
+      "duration_seconds": 0.576,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/fetch.log",
+      "log_sha256": "fa00f5ca08d2eaefe17dc3a3b3bd0b89a9d66e0a5f92d99ba24f39a58fa7a027"
+    },
+    {
+      "step": "checkout",
+      "exit_code": 0,
+      "duration_seconds": 0.007,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/checkout.log",
+      "log_sha256": "ecb40b229ad02a4fad89597c5d91ae9fcacd7325c5db6eb614647d1679ed3714"
+    },
+    {
+      "step": "head",
+      "exit_code": 0,
+      "duration_seconds": 0.001,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/head.log",
+      "log_sha256": "1f4b77760156770b3100da4cd02c03c33ce749390aa5d94715615acc4e114690"
+    },
+    {
+      "step": "tree",
+      "exit_code": 0,
+      "duration_seconds": 0.001,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/tree.log",
+      "log_sha256": "cbbc6f0fa4014f5ade78efdc53b5435318b49f76b4b49e90ce58c556b16bdd11"
+    },
+    {
+      "step": "initial-status",
+      "exit_code": 0,
+      "duration_seconds": 0.007,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/initial-status.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "network-create",
+      "exit_code": 0,
+      "duration_seconds": 0.056,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/network-create.log",
+      "log_sha256": "618ace7f44c1e56b2a999b774f7884f72aeaa9ad1262175d164527402e516389"
+    },
+    {
+      "step": "network-subnet",
+      "exit_code": 0,
+      "duration_seconds": 0.023,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/network-subnet.log",
+      "log_sha256": "dacbf68ac9700e174545e05e6300f3d06dcb8c725f5d51a92b07f7f0edf99f54"
+    },
+    {
+      "step": "postgres-start",
+      "exit_code": 0,
+      "duration_seconds": 0.265,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/postgres-start.log",
+      "log_sha256": "3e36598015cd632b85989ff36fd7ca5701030d65e42793650a12804a445463df"
+    },
+    {
+      "step": "create-synthetic-database",
+      "exit_code": 0,
+      "duration_seconds": 0.092,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/create-synthetic-database.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "postgres-version",
+      "exit_code": 0,
+      "duration_seconds": 0.062,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/postgres-version.log",
+      "log_sha256": "016ef00235d07eb1664b764dc7e7ab4f76986ae460d5c159a0fe682598286606"
+    },
+    {
+      "step": "node-version",
+      "exit_code": 0,
+      "duration_seconds": 0.385,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/node-version.log",
+      "log_sha256": "249baf635bb43877fcb9422efa1a4904b702d0ddf14d3949b7cd0950d5229c81"
+    },
+    {
+      "step": "postgres-app-preflight",
+      "exit_code": 0,
+      "duration_seconds": 0.454,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/postgres-app-preflight.log",
+      "log_sha256": "a91f8ef6005eeb5848aa133e0f5fe8adc84d4af23de4ede94f75595177df1e72"
+    },
+    {
+      "step": "vitest",
+      "exit_code": 0,
+      "duration_seconds": 4.511,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/vitest.log",
+      "log_sha256": "c2f5c674413719cf1ba539c0ccf0992521ad7eb9914151da6a6f4e64227b1944"
+    },
+    {
+      "step": "final-status",
+      "exit_code": 0,
+      "duration_seconds": 0.009,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/final-status.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "postgres",
+      "exit_code": 0,
+      "duration_seconds": 0.024,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/postgres.log",
+      "log_sha256": "370cbc47260a77ab18340da50f8f026b763c0f3404bd8cb4011fcc9fd6ac74f6"
+    },
+    {
+      "step": "cleanup-application",
+      "exit_code": 0,
+      "duration_seconds": 0.021,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/cleanup-application.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "cleanup-postgres",
+      "exit_code": 0,
+      "duration_seconds": 0.18,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/cleanup-postgres.log",
+      "log_sha256": "2714a54d79201be9a24ca5dee9b79cb0bf74da426a1bce244906c46bedfffc34"
+    },
+    {
+      "step": "cleanup-network",
+      "exit_code": 0,
+      "duration_seconds": 0.11,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-79b4ea3fd53d-02fd1b/cleanup-network.log",
+      "log_sha256": "0d02aaed2e67a8bb61e507411cb62f6c190f167faf7bb6b59fb1797c26af48e2"
+    }
+  ]
+}

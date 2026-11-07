@@ -1,0 +1,94 @@
+{
+  "reviewer": "/root/mobile_audit",
+  "author": "/root/web_audit",
+  "recordedAt": "2026-11-07T23:20:34.006902+00:00",
+  "base": "557838e23356cb463f273803099ab6321e675019",
+  "scope": "Studio whole-draft structural compatibility, bounded static assets and VPS publication transaction authority",
+  "sourceState": "WORKING_TREE_CANDIDATE",
+  "result": "NO_OUTSTANDING_P0_P1_IN_REVIEWED_SCOPE",
+  "tests": {
+    "vitestFiles": 3,
+    "vitestTests": 29,
+    "vpsTransactionGuardTests": 2,
+    "exitCode": 0,
+    "log": "/workspace/scratch/fe1b7c871eec/web-independent-review-final.log"
+  },
+  "findings": [
+    {
+      "id": "STUDIO-CONCURRENT-HISTORY",
+      "severity": "P1",
+      "status": "FIXED_AND_TESTED",
+      "description": "Concurrent publishers at same draft version inserted duplicate history even though losing response returned409; fixed revision claim first and exact-rid-bound update in one transaction."
+    },
+    {
+      "id": "STUDIO-CANCEL-BOUND",
+      "severity": "P2",
+      "status": "FIXED_SOURCE_REVIEWED",
+      "description": "Oversize declared ContentLength cancellation no longer awaits potentially unbounded cancel promise."
+    }
+  ],
+  "checks": [
+    "All accepted patch entries validated before rendering; incompatible draft preserves previous public bytes",
+    "Trusted static raw HTML only, bounded bytes/time; no arbitrary remote request source",
+    "Authenticated actor rechecked inside SQLite publication transaction; isolated workspace holds primary authority lock",
+    "Same-version race returns conflict without phantom publication history",
+    "No client-provided authorization function or actor identity accepted",
+    "Reviewed parsed-tree reuse: renderer supplies exact same trusted HTML parse tree; standalone API validation still parses independently"
+  ],
+  "limits": [
+    "Not a full template package system: stable content IDs, ZIP import, catalog and activation/rollback remain open",
+    "No browser/live publication or customer UAT performed by reviewer",
+    "Cloudflare external authenticated-header/session contract unchanged; scoped transactional revocation safeguard is VPS-specific",
+    "Structural selectors cannot detect same-tag semantic reordering; explicit prerequisite documented"
+  ],
+  "files": [
+    {
+      "path": "corporate-site/worker/studio.ts",
+      "sha256": "c0099fa0873ab52e0ad8e0164c0d51baed773c80aeeca77b421673049656e38a"
+    },
+    {
+      "path": "corporate-site/worker/types.ts",
+      "sha256": "9999ff544e10987c0159636b6c30ad088510cfa741e84d7c3bcf5fb5cb470ceb"
+    },
+    {
+      "path": "corporate-site/vps/database.mjs",
+      "sha256": "1f493bf1dc242e5b8a65b803934531c232877270c584dc528c3dbd7aa546b05c"
+    },
+    {
+      "path": "corporate-site/vps/server.mjs",
+      "sha256": "581257d2124c91897558c5719932f2b5278d7f949962c2e0c6746492ab2efbec"
+    },
+    {
+      "path": "corporate-site/vps/render-page.mjs",
+      "sha256": "8d7b01a57d18abf53569b2a6be026d36e3fab38ad52c11e50c677c9496ae9173"
+    },
+    {
+      "path": "corporate-site/src/lib/site-studio-mapping.ts",
+      "sha256": "62d2aa41c0f75d29d5e93554319addf1e2394cf1e08f27ca41b1946743cecb3e"
+    },
+    {
+      "path": "corporate-site/src/scripts/site-studio-live.ts",
+      "sha256": "638aee2a9679eb103d38384eaa506e6f1dab02205b114c54d0b59f541a97f9a1"
+    },
+    {
+      "path": "corporate-site/src/components/SiteStudio.tsx",
+      "sha256": "52ef40abf87b74394d3b2d90a344749043d13d673428c2adfea206c718ebf434"
+    },
+    {
+      "path": "corporate-site/tests/studio-api.test.ts",
+      "sha256": "9afa60871c57752f993355b40333d7e6a490d2e09e8d2c4ea596e2683a117d2a"
+    },
+    {
+      "path": "corporate-site/tests/studio-mapping.test.ts",
+      "sha256": "2de9fceb5419a4f974992068a3b4404ae7399fc659f1b8d910b29c8b66f8b173"
+    },
+    {
+      "path": "corporate-site/tests/studio-preview-mapping.test.ts",
+      "sha256": "5a4bc6e1564d92c3d4f3373dd1f0eb42ed20dc97e39950037c38634fcdb45e5d"
+    },
+    {
+      "path": "corporate-site/vps/studio-publication-guard.test.mjs",
+      "sha256": "5bfe58f090998cefeb35c88473e777805001eed0cfdc88b2ae82b15cfe2c2691"
+    }
+  ]
+}

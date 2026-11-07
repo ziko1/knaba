@@ -1,0 +1,1365 @@
+{
+  "source_sha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+  "source_tree": "050d9097083a73dc6e5adfe4eb2509319d94de06",
+  "bundle_sha256": null,
+  "results_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2",
+  "node_version": "24.22.1",
+  "postgres_version": "17.11",
+  "qa_image": "sha256:c28822481b78f5a917cb269bec78e43f62923117b35a53e32cc9dcf53a85fe75",
+  "postgres_image": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+  "excluded_remote_files": [
+    "tests/resources.test.ts",
+    "tests/native-ios-simulator.test.ts"
+  ],
+  "network": "knaba-qa-16ac0501d36d",
+  "postgres_container": "knaba-qa-pg-16ac0501d36d",
+  "application_container": "knaba-qa-app-16ac0501d36d",
+  "synthetic_only": true,
+  "published_ports": [],
+  "isolated_network_subnet": "172.26.0.0/16",
+  "typecheck_exit_code": null,
+  "typecheck_not_rerun": true,
+  "vitest_exit_code": 1,
+  "test_counts": {
+    "numTotalTestSuites": 290,
+    "numPassedTestSuites": 288,
+    "numFailedTestSuites": 2,
+    "numPendingTestSuites": 0,
+    "numTotalTests": 2444,
+    "numPassedTests": 2443,
+    "numFailedTests": 1,
+    "numPendingTests": 0,
+    "numTodoTests": 0,
+    "success": false
+  },
+  "vitest_json_sha256": "46e2335d9c8f1f942b61155714be9f2634670b846c1bff62e45e1f351d90e8c7",
+  "test_files": [
+    {
+      "name": "tests/accounting-export.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 18,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/accounting-export.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 27,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/activity-center.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/assistant-answer-authority.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 29,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/assistant-answer-replay.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 13,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/assistant-governance.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/assistant-governance.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 42,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/assistant-runtime.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 46,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/assistant-tools.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 82,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/authority-fingerprint.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/authority-fingerprint.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 32,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/automation-authority.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 5,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/automation-authority.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 33,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/automation-schedule.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 59,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/automation-worker.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 24,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/backup-target.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 30,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/bot-channel-policy.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/bot-channel-selfcheck.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 2,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/bot-module-catalog.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/client-redaction.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 9,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/client-redaction.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 35,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/command-form-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/commerce-v4-projection.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 19,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/commerce-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 10,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/commerce.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 71,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/communications.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 77,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/device-batch-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 8,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/device-events-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/device-gps-privacy-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/device-gps-privacy-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 30,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/engine-preconditions.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/engine.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 52,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/governance.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 58,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/gps-retention.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 15,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/handoff-calendar.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/handoff-calendar.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 30,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/handoff.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 13,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/identity.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 26,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/imports.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 20,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/integration-events.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 50,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/integration-webhook-runtime.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 66,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/integrations.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 79,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/internal-assistant-provider.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 37,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/internal-assistant-visibility.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 14,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/internal-assistant-visibility.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 16,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/internal-assistant.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 11,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/internal-assistant.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 35,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/material-request-batches-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 11,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/material-request-batches-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 20,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/media-ingest.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/media-scanner.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/media-upload-idempotency.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 11,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/media-upload-idempotency.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 18,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/message-pagination-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 5,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/message-pagination-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/messenger-worker-interest.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 11,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/messenger-worker-visibility.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 10,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/mobile-shift-summary.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/mobile-shift-summary.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 32,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/notification-policy.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 14,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/notification-policy.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 20,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/operations-digest.integration.test.ts",
+      "status": "failed",
+      "counts": {
+        "passed": 16,
+        "failed": 1,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/operations-digest.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 32,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/operations-period-progress.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/operations.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 45,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/order-lifecycle-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/order-lifecycle-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 77,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/partner-registration-review.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/payroll-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/payroll-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 24,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/presence-visibility.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/privacy-erasure.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 28,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/privacy-erasure.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 110,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/production-readiness-v4.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 22,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/production-retention-v4.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/railway-worker-gate.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 14,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/release-languages.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 9,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/route-map-model.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/seed-mode.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/site-intake-bridge.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/task-calendar.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 27,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/telegram-preflight.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/telegram-public-navigation.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 33,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/telegram-public-reply.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 8,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/telegram-worker-config.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 22,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/telegram.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 13,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-core-contracts.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 10,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-core-contracts.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 11,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-crew-visibility.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 19,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-geofence.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-http-runtime-contracts.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 12,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-load-metrics.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 37,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-load-seed.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-rest.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/v4-rest.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 29,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/whatsapp-ingress-service.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/whatsapp-router.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 72,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/work-notifications.integration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 15,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/work-notifications.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 48,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/worker-retention.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 34,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "tests/working-time-advisory.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 34,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/BotOperationsPanel.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 2,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/api.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 2,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/chatRequestGeneration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/internalAssistantModel.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 7,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/offlineQueue.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 20,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/privateReadGeneration.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 9,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "apps/web/src/redactionGeometry.test.ts",
+      "status": "passed",
+      "counts": {
+        "passed": 4,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "failures": [
+    {
+      "file": "tests/operations-digest.integration.test.ts",
+      "test": "operations digest: actual PostgreSQL configure/preview/leased worker/privacy two real worker instances across the repeated Berlin autumn 02:30 slot schedule only one job and readonly preview exposes the correct 25-hour plan day",
+      "messages": [
+        "Error: VALIDATION_ERROR\n    at assert (/source/erp/packages/domain/core.ts:16:111)\n    at Object.handler (/source/erp/apps/api/operations-digest.ts:21:278)\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at Database.transaction (/source/erp/apps/api/database.ts:50:18)\n    at /source/erp/tests/operations-digest.integration.test.ts:175:52\n    at file:///source/erp/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    }
+  ],
+  "suite_failures": [],
+  "source_clean_after_tests": true,
+  "records": [
+    {
+      "step": "fetch",
+      "exit_code": 0,
+      "duration_seconds": 0.43,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/fetch.log",
+      "log_sha256": "52313788655175b8a7d04811002b835f0b81d66a21aa452a0fc7829d29e30276"
+    },
+    {
+      "step": "checkout",
+      "exit_code": 0,
+      "duration_seconds": 0.007,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/checkout.log",
+      "log_sha256": "84d60274802074942518a1c96f4dcbbc786df91554a9667d5f7472df51c209ff"
+    },
+    {
+      "step": "head",
+      "exit_code": 0,
+      "duration_seconds": 0.002,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/head.log",
+      "log_sha256": "2635345c066ec6cde10f036d38bffd2f8f7fc80cf6128b8d06c090da263c1c7b"
+    },
+    {
+      "step": "tree",
+      "exit_code": 0,
+      "duration_seconds": 0.002,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/tree.log",
+      "log_sha256": "8fcdc520d219cb783e42da9a57cd7e617a808c035a7c315cff3649672b0d320c"
+    },
+    {
+      "step": "initial-status",
+      "exit_code": 0,
+      "duration_seconds": 0.006,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/initial-status.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "network-create",
+      "exit_code": 0,
+      "duration_seconds": 0.054,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/network-create.log",
+      "log_sha256": "fa25d044f66abb866189b16dac967ca0ee9b4b0e4061b327ac10ddfd9511e9e5"
+    },
+    {
+      "step": "network-subnet",
+      "exit_code": 0,
+      "duration_seconds": 0.024,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/network-subnet.log",
+      "log_sha256": "dacbf68ac9700e174545e05e6300f3d06dcb8c725f5d51a92b07f7f0edf99f54"
+    },
+    {
+      "step": "postgres-start",
+      "exit_code": 0,
+      "duration_seconds": 0.262,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/postgres-start.log",
+      "log_sha256": "cd92a9c07591a05efa73035bf780707f7cef6dfcd8f5990585dde4f671efbcbc"
+    },
+    {
+      "step": "create-synthetic-database",
+      "exit_code": 0,
+      "duration_seconds": 0.092,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/create-synthetic-database.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "postgres-version",
+      "exit_code": 0,
+      "duration_seconds": 0.062,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/postgres-version.log",
+      "log_sha256": "016ef00235d07eb1664b764dc7e7ab4f76986ae460d5c159a0fe682598286606"
+    },
+    {
+      "step": "node-version",
+      "exit_code": 0,
+      "duration_seconds": 0.395,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/node-version.log",
+      "log_sha256": "249baf635bb43877fcb9422efa1a4904b702d0ddf14d3949b7cd0950d5229c81"
+    },
+    {
+      "step": "postgres-app-preflight",
+      "exit_code": 0,
+      "duration_seconds": 0.462,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/postgres-app-preflight.log",
+      "log_sha256": "a91f8ef6005eeb5848aa133e0f5fe8adc84d4af23de4ede94f75595177df1e72"
+    },
+    {
+      "step": "vitest",
+      "exit_code": 1,
+      "duration_seconds": 79.891,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/vitest.log",
+      "log_sha256": "c2f5c674413719cf1ba539c0ccf0992521ad7eb9914151da6a6f4e64227b1944"
+    },
+    {
+      "step": "final-status",
+      "exit_code": 0,
+      "duration_seconds": 0.006,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/final-status.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "postgres",
+      "exit_code": 0,
+      "duration_seconds": 0.024,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/postgres.log",
+      "log_sha256": "d57f08b7b340a26177c3311e68b321cf0c0a3425c4e7a8737535e308a9ff566c"
+    },
+    {
+      "step": "cleanup-application",
+      "exit_code": 0,
+      "duration_seconds": 0.022,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/cleanup-application.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "cleanup-postgres",
+      "exit_code": 0,
+      "duration_seconds": 0.211,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/cleanup-postgres.log",
+      "log_sha256": "6bfcc191f3911557ce1484f0cd86c5cdb66ea30aa9c6b92c3ba1c2975e88a402"
+    },
+    {
+      "step": "cleanup-network",
+      "exit_code": 0,
+      "duration_seconds": 0.112,
+      "log_path": "/tmp/knaba-completion-qa-20261108-vqwmfqou/results-b9532f041c36-40aae2/cleanup-network.log",
+      "log_sha256": "bca1fb9839c171e8bfb93e4774477b9a1c1ffcc6a3ed5549595d5333bdbbc0e8"
+    }
+  ]
+}

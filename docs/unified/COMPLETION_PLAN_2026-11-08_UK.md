@@ -10,6 +10,23 @@ KNABA вже має значний робочий код: корпоративн
 
 Цей запуск продовжує реалізацію: безпечне тестове наповнення ERP; цілісна публікація Studio; надійне відновлення Android-команди; відновлення актуальних контактів/favicon; інтеграція нових заявок до ERP через чергу. Повні результати й точний кандидат — у [verification.json](evidence/completion-20261108/verification.json).
 
+## Свіжі перевірки завершеного інкременту
+
+Код кандидата: `bc0ffd1c6f7a3098d5420074de8f349524c7dcae`. Подальша публікація evidence/documents не змінює перевірений runtime.
+
+| Перевірка | Фактичний результат | Межа доказу |
+|---|---|---|
+| Сайт | 525 Vitest +86 Node +163 VPS HTTP/SQLite: PASS | Локальний синтетичний backend; browser/device UAT не виконано |
+| Статична збірка |160 сторінок; metadata/links/i18n/icons: PASS | Artifact `a5808bbd52f82ca5497f2f7e24afe60d0b71b6cc569b5c71f8f8d42eb3ad8594`, не production deployment |
+| CSS/JS |40 930 /225 182 байти gzip; обидва чинні ліміти збережено | Це сумарні build bytes, не польові Web Vitals. JS після дедуплікації ключів перекладів зменшено на952 байти |
+| ERP |Сукупно2 521 випадок підтверджено | Реальний PG:2443 PASS +1 застарілий fixture FAIL; після виправлення лише тесту17/17 PASS; ще77 helper cases локально. Це кілька запусків, а не один повністю зелений запуск нового SHA |
+| Новий міст |4/4 SQLite→PostgreSQL regression PASS | Injected transport, а не live HTTPS; source credentials/ACTIVE config і дозвіл на передачу ще потрібні |
+| Android0.4.1 |Збірка/підпис,21 Robolectric +74 transport assertions: PASS | Debug evaluation package; фізичний пристрій/live ERP/підпис власника не підтверджено |
+| Сумісність БД |13 попередніх site SQL міграцій байт-ідентичні;0013 additive | Старий runtime не відкриє новий ledger; потрібен forward fix або окремо погоджений restore/reconciliation |
+| Release gate |BLOCKED очікувано | Єдина identity, template manager, legal/provider/device/browser/restore/customer gates не закриті |
+
+Android тестовий файл передано власнику в чаті; [інструкція](../mobile/TEST_ANDROID_0.4.1_UK.md). Для відтворення перевірок — [verification.json](evidence/completion-20261108/verification.json), журнали, source manifests, незалежні reviews і SHA256SUMS поруч. Усі72 нормативні AC та18 TPL не перепозначені як прийняті частковими перевірками.
+
 ## 2. Які джерела зіставлено
 
 | Джерело | Перевірений стан | Значення |
@@ -136,6 +153,7 @@ WhatsApp/Telegram/email/voice: перевірені customer-owned акаунт�
 ## 6. Облік доказів і відновлення роботи
 
 - Поточний evidence index: [verification.json](evidence/completion-20261108/verification.json); exact source та remote publication записуються окремо.
+- Збережена вихідна V3 деталізація: `erp/docs/requirements/requirements.json` —432 вимоги/475 критеріїв; вона залишається чинною поряд із V4, її acceptance не замінено новим підсумком.
 - Матриця114 рядків: [REQUIREMENTS_TRACEABILITY.csv](REQUIREMENTS_TRACEABILITY.csv). Усі72 AC збережені дослівно; жоден повний сценарій не закрито лише частковими тестами.
 - Канонічні roadmap/memory/backlog доповнюються новим checkpoint. Старі датовані receipts зберігаються; актуальний підсумок має пріоритет над старим текстом «pending» або «PASS».
 - Команда цього запуску: `/root` — інтеграція/джерела/план; `/root/erp_audit` — ERP/bridge; `/root/web_audit` — Studio; `/root/mobile_audit` — native/operations; `/root/qa_runtime` — окреме SQL QA та review джерел. Це фактично запущені агенти поточного сеансу, не фоновий сервіс.

@@ -1,0 +1,16 @@
+{
+  "reviewer": "/root/mobile_audit",
+  "author": "/root/web_audit",
+  "scope": "Final59-declaration CSS pruning only",
+  "status": "SOURCE_CASCADE_REVIEW_ACCEPTED",
+  "atRules": "BYTE_IDENTICAL",
+  "removedCount": 59,
+  "finalDeclarationMap": "IDENTICAL",
+  "remainingDeclarations": "ORDER_PRESERVING_SUBSEQUENCE",
+  "replacementValues": "Reviewed basic supported colors/lengths/grid/clamp/variables; no removed newer-CSS fallback identified",
+  "sha256": "57996a27bdd2b632d42d340562a5f12f913e1daccaf3e25ce5ad797b9e986fd8",
+  "limitations": [
+    "Final Astro bundle/gzip budget and rendered browser comparison remain root gates",
+    "This review covers final-prune input2d323d3d..., not every historical CSS edit"
+  ]
+}

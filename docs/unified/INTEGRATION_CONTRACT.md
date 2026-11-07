@@ -6,7 +6,7 @@
 
 Сайтова заявка, audit і reference-only outbox0013 записуються транзакційно. Вимкнений за замовчуванням ручний publisher має lease, незмінні payload/destination digests, bounded retries, receipt validation і UNKNOWN для невизначеного результату. Повний [операторський контракт і rollback](SITE_ERP_BRIDGE_2026-11-08_UK.md). Реальні джерела: `corporate-site/worker/api.ts`, `corporate-site/vps/erp-bridge.mjs`, `erp/packages/domain/integrations.ts`.
 
-Двосторонні owner/guest conversations уже реалізовані в `corporate-site/worker/assistant-threads.ts`; історичне «не двосторонній chat» стосується старого PublicAssistant checkpoint. Єдина site/ERP identity, assistant→ERP bridge та зовнішні delivery providers не прийняті. Source tests не замінюють actual HTTPS/edge, owner і privacy/UAT acceptance.
+Двосторонні owner/guest conversations уже реалізовані в `corporate-site/worker/assistant.ts` та `assistant-threads.ts`; історичне «не двосторонній chat» стосується старого PublicAssistant checkpoint. Єдина site/ERP identity, assistant→ERP bridge та зовнішні delivery providers не прийняті. Source tests не замінюють actual HTTPS/edge, owner і privacy/UAT acceptance.
 
 ## Історична пропозиція — 24.10.2026
 
