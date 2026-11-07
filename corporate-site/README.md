@@ -18,8 +18,8 @@ Node22.23.4+ is required; integration tests use the actual `node:sqlite` engine.
 npm ci
 npm run check
 npm test
-npm run build
-npm run verify:build
+ASTRO_TELEMETRY_DISABLED=1 KNABA_RELEASE_MODE=official npm run build
+KNABA_RELEASE_MODE=official npm run verify:build
 npm run dev
 ```
 

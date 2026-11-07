@@ -28,7 +28,7 @@ ERP отримує окремий ephemeral PostgreSQL **17.6-bookworm** з heal
 
 Повний ERP suite запускається з `DATABASE_URL`, двома Vitest workers і JSON reporter. Наступний крок вимагає `success=true`, ненульової кількості тестів, `passed=total`, `failed=pending=todo=0`. Якщо PostgreSQL відсутній або suite має SKIP, CI не може помилково прийняти CPU-only результат як SQL PASS.
 
-Сайт збирається в режимі `KNABA_RELEASE_MODE=vsp` з наявною політикою noindex. Це локальна production-компіляція у CI; сайт нікуди не публікується.
+Сайт збирається в режимі `KNABA_RELEASE_MODE=official`, що відповідає збереженому `i18n/source-de.json`: тексти Impressum/Datenschutz містять hostname knaba.de. Це лише production-компіляція у CI; сайт нікуди не публікується. Перший hosted run на68b910b з режимом vsp завершився SOURCE_CATALOG_STALE_RUN_EXTRACT через staging hostname; виправлено конфігурацію, gate не вимкнено й каталог не перегенеровано для приховування різниці.
 
 ## Межі доступу та витрат
 
