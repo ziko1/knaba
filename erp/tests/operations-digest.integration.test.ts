@@ -172,8 +172,18 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   const firstWorker=new WorkerRunner(db,engine,{...worker.options,now:()=>new Date('2025-10-26T00:30:00.000Z')}),repeatedWorker=new WorkerRunner(db,engine,{...worker.options,now:()=>new Date('2025-10-26T01:30:00.000Z')});
   await firstWorker.scheduled();await repeatedWorker.scheduled();
   const requested=(await db.query("SELECT id FROM outbox WHERE company_id=$1 AND type='digest.requested' AND data->>'policyId'=$2",[company,policy.id])).rows;
-  expect(requested).toHaveLength(1);const snapshot=await preview(policy,'2025-10-26T00:30:00.000Z');
+  expect(requested).toHaveLength(1);
+  // Keep this historical DST scenario independent of the CI calendar without
+  // relaxing the live API's 370-day bound or faking PostgreSQL lease clocks.
+  // Cookie/CSRF preview transport is covered by the other cases in this suite.
+  const before=await fingerprint(),definition=engine.registry['digest.preview']!;
+  const snapshot=await db.transaction(company,'owner',async tx=>{
+   expect((await tx.query('SHOW transaction_read_only')).rows[0].transaction_read_only).toBe('on');
+   const fresh=await engine.actorIn(tx,'owner'),actor=engine.scope(fresh,definition.permission);
+   return definition.handler(engine.context(tx,actor,randomUUID(),undefined,'2025-10-26T01:30:00.000Z',[],definition.permission),definition.schema.parse({policyId:policy.id,at:'2025-10-26T00:30:00.000Z'}));
+  },10000,true);
   expect(snapshot.slotKey).toBe('2025-10-26:02:30');expect((Date.parse(snapshot.plannedEnd)-Date.parse(snapshot.plannedStart))/3600000).toBe(25);
+  expect(await fingerprint()).toEqual(before);
   expect(await rows('operations_digest')).toHaveLength(0);
  });
 

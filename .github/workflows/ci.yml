@@ -123,7 +123,9 @@ jobs:
           console.log('Build source verified:',actual);
           JS
       - name: Run CPU and real PostgreSQL tests
-        run: npm test -- --maxWorkers=2 --reporter=default --reporter=json --outputFile.json="$RUNNER_TEMP/erp-vitest.json"
+        # Each SQL file reapplies DDL to the same database in beforeAll.
+        # Serialize files; explicit concurrent transactions inside tests still run.
+        run: npm test -- --no-file-parallelism --reporter=default --reporter=json --outputFile.json="$RUNNER_TEMP/erp-vitest.json"
       - name: Reject skipped or incomplete ERP tests
         run: |
           node --input-type=module <<'JS'

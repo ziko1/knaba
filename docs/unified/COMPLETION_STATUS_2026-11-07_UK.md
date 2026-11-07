@@ -1,5 +1,8 @@
 # KNABA — фактичний стан завершення, 2026-11-07
 
+**Останній зафіксований GitHub CI: ROOT/SITE PASS; ERP FAIL**, [run 42426001415](https://github.com/ziko1/knaba/actions/runs/42426001415), SHA `957e3cc3e24a42d12f5c1c89b88a5d943cc809f2`. Виправлення ізоляції SQL test files ще потребує нового hosted приймання.
+Новіші source-bound результати й перевірювані GitHub run links відстежуються в [Draft PR #121](https://github.com/ziko1/knaba/pull/121); цей failed checkpoint залишається історичним, а не автоматично змінюється на PASS.
+
 **Загальний статус: NOT READY FOR CLIENT DELIVERY.** Репозиторій містить окремі модулі та перевірений локально кандидат керування шаблонами; це не доказ приймання єдиного site↔ERP продукту. Оцінка спирається на код, поточні локальні перевірки та збережені source-bound звіти, а не на кількість старих TODO або суму тестів.
 
 База аудиту: `87fdba936bb8ed7d9b8c7493c49895c48395250b`; незмінений ERP subtree: `38c5257cfdd9495ece494e32ef26f714e6dd4dd1`. Результати нижче не присвоюють майбутній Git SHA незакоміченим змінам сайту/CI. Публікація candidate source не означає merge чи deployment.
@@ -12,7 +15,7 @@
 | ERP compile/build | `npm run typecheck` і `npm run build` — **PASS**, exit 0. Побудовані web/API/worker; `release.json` має наведений базовий SHA, `source_dirty=false`, `GIT_WORKTREE`. |
 | ERP поточний локальний suite | **2050 PASS, 460 SQL SKIP, 0 FAIL/TODO**, 2510 тестових випадків у 108 файлах. Відсутня локальна QA PostgreSQL; пропущені cases — **NOT_RUN** у цьому прогоні. |
 | Збережена історична ERP перевірка | [Звірка 30.10](GITHUB_RECONCILIATION_2026-10-30_UK.md) фіксує 2510/2510 і справжній SQL на тому самому ERP subtree. Її source scope збережено; це не новий SQL-прогін або acceptance нового інтегрованого runtime. |
-| GitHub CI | Додано кореневий workflow для root/site/ERP, PostgreSQL service та fail-closed gate проти SKIP. YAML/команди/inline syntax і фактичне відхилення skipped report перевірені. **REMOTE_CI_NOT_RUN**. [Деталі й первинні джерела](CI_SETUP_2026-11-07_UK.md). |
+| GitHub CI | Кореневий workflow реально виконався на `957e3cc3…`: ROOT/SITE PASS; ERP FAIL — 7 suite hooks у migration, 6 failed cases, 2465 PASS / 58 SKIP із 2529. Кандидат `--no-file-parallelism` ізолює shared-schema test files, зберігаючи внутрішню concurrency і zero-skip gate; його hosted acceptance ще відкрите. [Деталі](CI_SETUP_2026-11-07_UK.md). |
 | Шаблони сайту | Поточний source scope: каталог, вибір/preview, завантаження ZIP, зберігання та застосування через Studio. На момент цього baseline-запису зміни ще не були фінальним зафіксованим artifact; їх окремі тести/review не підміняються ERP baseline. |
 | Android/iOS | Джерела існують у `erp/apps/mobile-android` та `erp/apps/mobile-ios`. Цей аудит їх не змінював і не запускав Gradle/Xcode/device/signing. Окрему паралельну Android-роботу збережено без втручання; її результат потребує власного SHA, review і доказів. |
 
@@ -33,7 +36,7 @@ ERP Vite повідомив JS **667.57 kB**, gzip **212.48 kB**, CSS **93.08 kB
 
 Це окремі умови; їхня відсутність не доводить дефект коду, а наявність локального PASS не закриває їх:
 
-- **QA environment:** новий hosted workflow ще має виконатися на точному опублікованому commit; інтегровані PostgreSQL/D1/SQLite, browser journeys, міграції, worker restart і restore потребують актуального artifact та ізольованого середовища.
+- **QA environment:** hosted run фактично виконався, але ERP залишився FAILED; потрібен повтор після виправлення shared-schema test isolation та причин решти failures. Інтегровані PostgreSQL/D1/SQLite, browser journeys, міграції, worker restart і restore потребують актуального artifact та ізольованого середовища.
 - **Native/device:** актуальні Android/iOS збірки, signing, встановлення, permissions, offline/online і фізичні пристрої не прийняті цим аудитом. Debug або Simulator не замінює release/device evidence.
 - **Identity/providers:** реальний owner enrollment, дозволені test recipients, email ownership/recovery, sender/OIDC, Telegram/WhatsApp delivery і фактичні quotas/consent залишаються окремими gates. Відсутність credentials не усувається заглушкою успіху.
 - **Security/legal/UAT:** незалежний review усього інтегрованого scope, GDPR/AVV/retention, customer acceptance, screen reader/cross-browser і чинні company approvals не засвідчені цим записом.
