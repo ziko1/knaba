@@ -4,6 +4,7 @@ import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
 import type { D1Database, D1Statement, WorkerEnv, WorkerContext } from './types';
 import { handleAssistant } from './assistant';
 import { handleStudio, StudioFault } from './studio';
+import { handleSiteTemplates, TemplateFault } from './site-templates';
 import {ArticleFault} from './articles';
 import { handleCrmApi } from './crm';
 import { handleReviews, ReviewFault } from './reviews';
@@ -338,6 +339,14 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path==='/api/reviews'||path==='/api/reviews/captcha')return await handleReviews(request,env,{owner:false,id:null});
     if(path==='/api/studio/published' && request.method==='GET') return await handleStudio(request,env,{owner:false,id:null},req=>readBody(req,32768));
     const s=await session(request,env);
+    if(path==='/api/studio/templates'||path.startsWith('/api/studio/templates/')){
+      requireRole(s,['owner']);
+      return await handleSiteTemplates(request,env,s.user!.id,req=>readBody(req,path.endsWith('/upload')?90_000:4096),async()=>{
+        const fresh=await session(request,env);requireRole(fresh,['owner']);
+        if(fresh.user?.id!==s.user?.id)fail(403,'forbidden','Die Sitzung wurde geändert.');
+        if(env.VERIFY_STUDIO_SESSION&&!env.VERIFY_STUDIO_SESSION())fail(403,'forbidden','Die Sitzung wurde widerrufen.');
+      });
+    }
     if(path.startsWith('/api/reviews/'))return await handleReviews(request,env,{owner:s.role==='owner',id:s.user?.id||null});
     if(path.startsWith('/api/crm/'))return await handleCrmApi(request,env,s,{readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit)});
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
@@ -353,6 +362,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(match&&request.method==='PATCH')return await patchRequest(request,env,s,match[1]);
     return response({error:{code:'not_found',message:'Dieser Endpunkt ist nicht verfügbar.'}},404);
   } catch(error) {
+    if(error instanceof TemplateFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof ReviewFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof StudioFault||error instanceof ArticleFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof ApiFault)return response({error:{code:error.code,message:error.message,...(error.fields?{fields:error.fields}:{})}},error.status);

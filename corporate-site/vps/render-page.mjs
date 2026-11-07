@@ -1,6 +1,7 @@
 import {parse} from 'parse5';
 import {validateStudioEntries} from '../src/lib/site-studio-contract.ts';
 import {escapeHtml,renderPublishedSeo} from './seo.mjs';
+export {applyActiveTemplate} from '../worker/site-template-read.ts';
 
 /**
  * Surgical parse5 source-location based edits. No reserialization of Astro

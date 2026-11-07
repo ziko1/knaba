@@ -547,3 +547,8 @@ The renewed user instruction authorizes deployment; do not ask for user approval
 Production health/readiness200 and public login rendering verified; TEST health200/readiness503 still requires owner enrollment. Cloud browser again reaches Cloudflare Access email-code login. Customer confirmation is not present in the checked PR119 email thread or in an unused matching server receipt. Production activation and role/mobile/keyboard browser acceptance are NOT_RUN/BLOCKED, not PASS. Complete the existing operator/Access onboarding, browser acceptance and genuine exact-artifact customer confirmation before normal activation. No production code/configuration/account/DNS changes or provider activation. Full fresh packet: `docs/evidence/complete-cabinets-20261030/release-continuation-20261031.md`.
 
 Cloudflare Access browserAuth request was rejected by automatic approval review before any user prompt/code request because a specific email-account sign-in grant was not established. No workaround attempted. The next browser action requires user approval for tracker.gigamax@gmail.com; this is distinct from the already authorized deployment and from separate customer release confirmation.
+
+
+## 2026-11-07 — site templates candidate
+
+У `/studio/templates/` реалізовано owner-only каталог, завантаження bounded KNABA ZIP v1, preview, чернетку, atomic publication та design-only rollback. Три нові таблиці в0013; контент/кабінети не переміщуються. Формат і operational rollback: [SITE_TEMPLATES_UK](docs/SITE_TEMPLATES_UK.md). Новий код не розгорнуто; browser/device/live gates не підміняються SQLite/unit/build. Підсумковий source-bound checkpoint і GitHub CI фіксуються окремо.

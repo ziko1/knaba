@@ -15,6 +15,7 @@ import {verifyWhatsAppSignature,verifyWhatsAppChallenge,parseWhatsAppWebhook} fr
 import {acceptTelegramWebhook} from './telegram-ingress.ts';
 import {TelegramBoundaryError} from '../../packages/integrations/telegram.ts';
 import {createHash} from 'node:crypto';
+import {validationInputBudgetMiddleware} from './validation-budget.ts';
 const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']).default('DEMO'),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
 if(env.APP_MODE==='PRODUCTION'&&(!env.AUTH_ENCRYPTION_KEY||!env.PUBLIC_ORIGIN||!env.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
 const db=new Database();
@@ -31,6 +32,7 @@ app.use(['/api/v1/mobile/events','/api/v1/device-events/batch'],express.json({li
 app.use('/api/v1/integrations',express.json({limit:'256kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
 app.use(['/webhooks/telegram','/api/v1/webhooks/telegram'],express.json({limit:'64kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
 app.use(express.json({limit:'8mb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
+app.use(validationInputBudgetMiddleware);
 app.use((err:any,_req:any,res:any,next:any)=>{if(err?.type==='entity.too.large'||err instanceof SyntaxError){res.status(400).json({code:'VALIDATION_ERROR',details:{reason:'INVALID_JSON_OR_BODY_TOO_LARGE'}});return;}next(err);});
 app.use((req:any,res:any,next:any)=>{if(req.path.startsWith('/api/')||req.path.startsWith('/webhooks/'))res.setHeader('Cache-Control','private, no-store');next();});
 server.get('/health',(_req:any,res:any)=>res.json({ok:true,application:'KNABA DE',mode:env.APP_MODE}));

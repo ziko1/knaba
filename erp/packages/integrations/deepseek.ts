@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { assert, DomainError } from '../domain/core.ts';
 import { ASSISTANT_TOOL_NAMES, ASSISTANT_TOOL_SCHEMAS, type AssistantToolName } from './assistant-tools.ts';
 import {zodToJsonSchema} from 'zod-to-json-schema';
+import {assertValidationInputBudget} from '../validation/input-budget.ts';
+import {readBoundedProviderJson,ProviderJsonLimitError} from './bounded-json.ts';
 import {internalAssistantKind,internalAssistantProviderContextSchema,internalDraftProposalSchema,internalJson,parseInternalDraftProposal,type InternalAssistantProviderInput,type InternalAssistantProviderResult} from './internal-assistant-provider.ts';
 
 export type SupportedLanguage='DE'|'UK'|'RU'|'PL'|'LT'|'EN';
@@ -62,11 +64,12 @@ export class DeepSeekAdapter {
     try{
       const response=await this.request(`${this.config.baseUrl.replace(/\/$/,'')}/chat/completions`,{method:'POST',headers:{Authorization:`Bearer ${this.config.apiKey}`,'Content-Type':'application/json'},body:JSON.stringify({model:policy?.model??this.config.model,messages:[{role:'system',content:system},{role:'user',content:user}],response_format:{type:'json_object'},temperature:0,max_tokens:this.config.maxOutputTokens,stream:false}),signal:AbortSignal.timeout(policy?.timeoutMs??this.config.timeoutMs)});
       if(!response.ok)throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'AI',status:response.status,retryable:response.status===429||response.status>=500});
-      const data=completion.parse(await response.json());assert(data.choices[0]!.finish_reason==='stop','AI_TRUNCATED_RESPONSE');
+      const data=completion.parse(await readBoundedProviderJson(response));assert(data.choices[0]!.finish_reason==='stop','AI_TRUNCATED_RESPONSE');
       let json:unknown;try{json=JSON.parse(data.choices[0]!.message.content);}catch{throw new DomainError('AI_INVALID_JSON');}
+      assertValidationInputBudget(json,'AI_INVALID_JSON');
       const usage=data.usage?{input_tokens:data.usage.prompt_tokens,output_tokens:data.usage.completion_tokens,cost_cents:Math.ceil((data.usage.prompt_tokens*this.config.inputPricePerMillionCents+data.usage.completion_tokens*this.config.outputPricePerMillionCents)/1000000)}:undefined;
       return {json,usage,provider:'deepseek-compatible',model:policy?.model??this.config.model};
-    }catch(error){if(error instanceof DomainError)throw error;throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'AI'});}
+    }catch(error){if(error instanceof ProviderJsonLimitError)throw new DomainError('AI_INVALID_JSON',{reason:error.reason});if(error instanceof DomainError)throw error;throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'AI'});}
   }
   async translate(input:{text:string;sourceLanguage:SupportedLanguage;targetLanguage:SupportedLanguage;glossary?:{source:string;target:string;source_language:string;target_language:string}[];canonicalFacts?:FactAnchor[];synthetic:boolean;budgetRemainingCents:number}) {
     assert(input.text.length>0&&input.text.length<=12000,'VALIDATION_ERROR');const anchors=extractFactAnchors(input.text,input.canonicalFacts);

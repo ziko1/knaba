@@ -1,0 +1,74 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import words from '../../data/template-locales/template-de.json';
+import '../../styles/studio-editor.css';
+---
+<Layout title="KnaBa | Website-Vorlagen" description="Geschützte Auswahl und Verwaltung von KnaBa Website-Vorlagen." noindex={true}>
+  <section class="studio-page" aria-label="KnaBa Website-Vorlagen">
+    <div id="template-manager" class="knaba-studio" lang="de" data-copy={JSON.stringify(words)}>
+      <header class="studio-top">
+        <h1 class="sr-only" data-word="title">{words.title}</h1>
+        <div class="studio-brand"><div><strong>KnaBa Studio</strong><span data-word="title">{words.title}</span></div></div>
+        <div class="studio-top-actions">
+          <a href="/studio/" data-word="back" data-astro-reload>{words.back}</a>
+          <label><span class="sr-only" data-word="language">{words.language}</span><select data-language aria-label={words.language}>
+            {['de','en','pl','lt','ru','uk'].map(locale=><option value={locale}>{locale.toUpperCase()}</option>)}
+          </select></label>
+        </div>
+      </header>
+      <p class="studio-message" data-status role="status" aria-live="polite">{words.loading}</p>
+      <p class="studio-message studio-error" data-error role="alert" hidden></p>
+      <div class="studio-toolbar">
+        <button class="studio-btn" data-refresh type="button" data-word="refresh">{words.refresh}</button>
+        <button class="studio-btn" data-retry type="button" data-word="retry" hidden>{words.retry}</button>
+        <a href="/login/?return_to=%2Fstudio%2Ftemplates%2F" data-login data-word="login" hidden data-astro-reload>{words.login}</a>
+        <span class="studio-version" data-current></span>
+      </div>
+      <div class="studio-workspace">
+        <div class="studio-canvas">
+          <div class="studio-toolbar">
+            <label><span data-word="previewLanguage">{words.previewLanguage}</span><select data-preview-language>
+              {['de','en','pl','lt','ru','uk'].map(locale=><option value={locale}>{locale.toUpperCase()}</option>)}
+            </select></label>
+            <label><span data-word="width">{words.width}</span><select data-width><option value="360">360 px</option><option value="768">768 px</option><option value="full" data-word="full">{words.full}</option></select></label>
+          </div>
+          <p class="studio-muted" data-word="previewNote">{words.previewNote}</p>
+          <div class="studio-preview-wrap"><iframe data-preview title={words.preview} sandbox="" referrerpolicy="no-referrer" loading="lazy"></iframe></div>
+        </div>
+        <aside class="studio-inspector">
+          <section class="studio-section">
+            <h2 data-word="catalogue">{words.catalogue}</h2>
+            <label><span data-word="choose">{words.choose}</span><select data-catalogue disabled><option>{words.loading}</option></select></label>
+            <p class="studio-muted" data-details></p>
+            <p class="studio-code" data-digest></p>
+            <button type="button" class="studio-save" data-save data-mutate data-word="save" disabled>{words.save}</button>
+          </section>
+          <section class="studio-section">
+            <h2 data-word="upload">{words.upload}</h2>
+            <p class="studio-muted" data-word="format">{words.format}</p>
+            <label><span data-word="file">{words.file}</span><input data-file type="file" accept=".zip,application/zip" disabled /></label>
+            <button class="studio-btn" data-upload data-mutate type="button" data-word="validate" disabled>{words.validate}</button>
+            <p><a href="/api/studio/templates/example" data-example data-word="example" download data-astro-reload>{words.example}</a></p>
+          </section>
+          <section class="studio-section">
+            <h2 data-word="history">{words.history}</h2>
+            <label><span data-word="revision">{words.revision}</span><select data-history disabled></select></label>
+            <p class="studio-muted" data-word="rollbackNote">{words.rollbackNote}</p>
+          </section>
+          <div class="studio-toolbar">
+            <label><input data-confirm type="checkbox" disabled /><span data-word="confirm">{words.confirm}</span></label>
+          </div>
+          <section class="studio-publish">
+            <button class="studio-publish-button" data-activate data-mutate type="button" data-word="activate" disabled>{words.activate}</button>
+            <button class="studio-save" data-rollback data-mutate type="button" data-word="rollback" disabled>{words.rollback}</button>
+            <p data-word="draftNote">{words.draftNote}</p>
+          </section>
+        </aside>
+      </div>
+      <noscript><p class="studio-message">Für die geschützte Vorlagenverwaltung ist JavaScript erforderlich.</p></noscript>
+    </div>
+  </section>
+</Layout>
+<script>
+  import '../../scripts/site-templates';
+</script>

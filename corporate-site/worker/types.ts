@@ -20,6 +20,8 @@ export interface WorkerEnv {
   /** Native static responses default to staging; only this explicit runtime value permits public indexing. */
   KNABA_RELEASE_MODE?: string;
   ASSETS?: { fetch(request: Request): Promise<Response> };
+  /** In-process VPS capability only; never a browser claim or environment string. */
+  VERIFY_STUDIO_SESSION?: () => boolean;
   /** All notification credentials and approval flags are server-only runtime bindings. */
   ASSISTANT_NOTIFICATIONS_ENABLED?: string;
   ASSISTANT_NOTIFY_FROM?: string;

@@ -1,6 +1,21 @@
 import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text, uniqueIndex, index, primaryKey, check } from "drizzle-orm/sqlite-core";
 
+/** Immutable presentation packages; per-site database is the authorization boundary. */
+export const siteTemplates = sqliteTable('studio_templates', {
+  digest:text('digest').primaryKey(), manifestJson:text('manifest_json').notNull(),
+  createdBy:text('created_by').notNull(), createdAt:text('created_at').notNull(),
+});
+export const siteTemplateState = sqliteTable('studio_template_state', {
+  id:integer('id').primaryKey(), activeDigest:text('active_digest'), draftDigest:text('draft_digest'),
+  version:integer('version').notNull().default(0), lastMutation:text('last_mutation').notNull().default(''),
+},t=>[check('studio_template_singleton',sql`${t.id}=1`)]);
+export const siteTemplateHistory = sqliteTable('studio_template_history', {
+  revision:integer('revision').primaryKey(),digest:text('digest'),action:text('action').notNull(),
+  actorId:text('actor_id').notNull(),createdAt:text('created_at').notNull(),
+  mutationKey:text('mutation_key').notNull(),requestHash:text('request_hash').notNull(),
+},t=>[uniqueIndex('studio_template_mutation').on(t.mutationKey),check('studio_template_action',sql`${t.action} IN ('select','activate','rollback')`)]);
+
 export const profiles = sqliteTable("profiles", {
   id: text("id").primaryKey(), name: text("name").notNull(), email: text("email").notNull(),
   requestedRole: text("requested_role").notNull(), role: text("role"), status: text("status").notNull().default("pending"),

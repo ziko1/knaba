@@ -1,0 +1,171 @@
+name: KNABA repository verification
+
+on:
+  pull_request:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: knaba-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: 'true'
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  root:
+    name: Source integrity and policy tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - run: npm run audit:source
+      - run: npm run verify:modules
+      - run: npm test
+
+  site:
+    name: Corporate site checks and production build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: corporate-site
+    env:
+      KNABA_RELEASE_MODE: official
+      ASTRO_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - run: npm ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - run: npm run verify:build
+      - run: npm run test:vps
+
+  erp:
+    name: ERP checks, build and PostgreSQL tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: erp
+    services:
+      postgres:
+        image: postgres:17.6-bookworm
+        env:
+          POSTGRES_DB: knaba_ci
+          POSTGRES_USER: knaba_test
+          POSTGRES_PASSWORD: synthetic-ci-only
+        ports:
+          - '127.0.0.1:5432:5432'
+        options: >-
+          --health-cmd "pg_isready -U knaba_test -d knaba_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      APP_MODE: TEST
+      COMPANY_ID: knaba-demo
+      DATABASE_URL: postgresql://knaba_test:synthetic-ci-only@127.0.0.1:5432/knaba_ci
+      GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - name: Install independent document readers
+        run: |
+          python3 -m pip install --disable-pip-version-check openpyxl==3.1.5 Pillow==11.3.0
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdftotext -v
+      - run: node scripts/database-check.mjs
+      - run: npm run migrate
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Check built source identity
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync} from 'node:fs';
+          import {execFileSync} from 'node:child_process';
+          const release=JSON.parse(readFileSync('dist/release.json','utf8'));
+          const actual=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          if(actual!==process.env.SOURCE_SHA || release.code_sha!==actual || release.source_dirty!==false || release.source_provenance!=='GIT_WORKTREE') {
+            throw new Error('EXACT_CLEAN_BUILD_SOURCE_REQUIRED');
+          }
+          console.log('Build source verified:',actual);
+          JS
+      - name: Run CPU and real PostgreSQL tests
+        # Each SQL file reapplies DDL to the same database in beforeAll.
+        # Serialize files; explicit concurrent transactions inside tests still run.
+        run: npm test -- --no-file-parallelism --reporter=default --reporter=json --outputFile.json="$RUNNER_TEMP/erp-vitest.json"
+      - name: Reject skipped or incomplete ERP tests
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync} from 'node:fs';
+          const report=JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/erp-vitest.json`,'utf8'));
+          if(report.success!==true || report.numTotalTests<1 || report.numPassedTests!==report.numTotalTests || report.numFailedTests!==0 || report.numPendingTests!==0 || report.numTodoTests!==0) {
+            throw new Error('ALL_DISCOVERED_ERP_TESTS_MUST_PASS_WITHOUT_SKIPS');
+          }
+          console.log('Passed ERP assertions:',report.numPassedTests);
+          JS
+
+  failure-summary:
+    name: Sanitized failure summary
+    needs: [root, site, erp]
+    if: ${{ failure() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Write only source identity and job outcomes
+        env:
+          ROOT_RESULT: ${{ needs.root.result }}
+          SITE_RESULT: ${{ needs.site.result }}
+          ERP_RESULT: ${{ needs.erp.result }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, re
+          sha = os.environ['SOURCE_SHA']
+          if not re.fullmatch(r'[0-9a-f]{40}', sha):
+              raise SystemExit('INVALID_SOURCE_SHA')
+          allowed = {'success', 'failure', 'cancelled', 'skipped'}
+          results = {name: os.environ[key] for name, key in [('root', 'ROOT_RESULT'), ('site', 'SITE_RESULT'), ('erp', 'ERP_RESULT')]}
+          if not all(value in allowed for value in results.values()):
+              raise SystemExit('INVALID_JOB_RESULT')
+          report = {'source_sha': sha, 'jobs': results, 'scope': 'CI only; no deployment or client-delivery acceptance'}
+          target = pathlib.Path(os.environ['RUNNER_TEMP']) / 'knaba-ci-failure.json'
+          target.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: knaba-ci-failure-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knaba-ci-failure.json
+          if-no-files-found: error
+          retention-days: 1
