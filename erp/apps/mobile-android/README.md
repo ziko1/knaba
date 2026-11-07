@@ -1,3 +1,7 @@
+## Current Android test candidate — 0.4.0
+
+The test build installs as **KNABA Test** (`de.knaba.mobile.test`) beside the production package. It includes an explicitly marked, memory-only demo with task and chat journeys, and retains the separate HTTPS ERP login. German default; six UI languages. See [Ukrainian testing guide](../../../docs/mobile/TEST_ANDROID_0.4.0_UK.md) and the [current evidence](../../../docs/mobile/evidence/android-test-20261107/verification.json). Whole-product/live/device acceptance is separate. Historical 0.3.0 notes below are retained as history.
+
 # KNABA DE Android
 
 Actual Kotlin application, package `de.knaba.mobile`, min API 31 / compile and target API 36. Java 17, Gradle 8.13, Android Gradle Plugin 8.13.0, Kotlin 2.2.20 are pinned. No boot receiver, no sticky hidden GPS restart, no background-location permission. Location foreground service starts only from a visible activity after explicit activation. Android Keystore AES-GCM protects device credentials and the ordered durable offline queue.

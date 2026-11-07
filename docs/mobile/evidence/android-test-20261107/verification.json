@@ -1,0 +1,129 @@
+{
+  "formatVersion": 1,
+  "project": "KNABA_DE_ANDROID",
+  "recordedAt": "2026-11-07T22:54:36.442689+00:00",
+  "scope": "SEPARATE_ANDROID_DEBUG_TEST_CANDIDATE_ONLY",
+  "source": {
+    "buildGitSha": null,
+    "baseGitSha": "87fdba936bb8ed7d9b8c7493c49895c48395250b",
+    "builtFrom": "working tree; do not attribute changed code to base SHA",
+    "manifest": "source-files.json",
+    "manifestSha256": "1d29ffe155a0dc0a74cc0f9cc65a64df98e74d39d64308f860f64498c028d28f",
+    "inputFiles": 43,
+    "verifiedCommitBinding": "commit-binding.json"
+  },
+  "artifact": {
+    "name": "KNABA-0.4.0-test.apk",
+    "bytes": 2765991,
+    "sha256": "e04b10272b755e21599448edfb4f9b29c5734a25a3ad1fb6d47752f9c56b9f19",
+    "package": "de.knaba.mobile.test",
+    "versionCode": 4,
+    "versionName": "0.4.0-test",
+    "minSdk": 31,
+    "targetSdk": 36,
+    "signing": "DEBUG_EVALUATION_ONLY",
+    "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+    "v2Signature": "PASS"
+  },
+  "toolchain": {
+    "gradle": "8.13",
+    "androidGradlePlugin": "8.13.0",
+    "kotlin": "2.2.20",
+    "jdk": "Temurin17.0.21+9",
+    "compileSdk": 36,
+    "buildTools": "35.0.0",
+    "robolectric": "4.16.1"
+  },
+  "checks": {
+    "gradle": {
+      "command": "./gradlew --no-daemon --max-workers=3 --no-watch-fs :app:assembleDebug :app:lintDebug :app:testDebugUnitTest",
+      "status": "PASS",
+      "log": "build.log"
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 15,
+      "log": "lint.txt",
+      "warningKinds": [
+        "PluralsCandidate",
+        "UnusedAttribute",
+        "UnusedResources"
+      ]
+    },
+    "androidUi": {
+      "status": "PASS_FRAMEWORK_SIMULATION",
+      "tests": 15,
+      "failures": 0,
+      "skipped": 0,
+      "runtimeSdks": [
+        32,
+        35
+      ],
+      "realDevice": false,
+      "evidence": "ui-tests.xml"
+    },
+    "rootSource": {
+      "passed": 28,
+      "failed": 0,
+      "log": "root-tests.log"
+    },
+    "moduleManifest": {
+      "status": "PASS_SOURCE_INVENTORY_ONLY",
+      "log": "module-manifest.log"
+    },
+    "transport": {
+      "passedAssertions": 39,
+      "scope": "EXPLICIT_HTTP_DOUBLES",
+      "log": "transport.log"
+    },
+    "demo": {
+      "passedChecks": 38,
+      "scope": "SYNTHETIC_MEMORY_ONLY_NETWORK_FORBIDDEN",
+      "log": "demo.log"
+    },
+    "localization": {
+      "locales": [
+        "de",
+        "en",
+        "pl",
+        "lt",
+        "ru",
+        "uk"
+      ],
+      "stringsPerLocale": 200,
+      "javaVectors": 39,
+      "log": "localization.log"
+    },
+    "geofence": {
+      "javaVectors": 30,
+      "scope": "SYNTHETIC_GEOMETRY_NO_DEVICE_GPS",
+      "log": "geofence.log"
+    },
+    "sourceReview": {
+      "reviewer": "/root/android_qa",
+      "status": "NO_ADDITIONAL_BLOCKER_IN_TEST_INCREMENT",
+      "evidence": "review.md"
+    },
+    "visualReview": {
+      "images": 5,
+      "scope": "ROBOLECTRIC_PHONE_TABLET_RENDERING_NOT_DEVICE",
+      "result": "readable wrapping and usable touch targets"
+    },
+    "diffAndShellSyntax": "PASS",
+    "zipAlignment": "PASS_4_BYTE_PAGE_ALIGNED"
+  },
+  "notAccepted": [
+    "Physical device installation and update/data retention",
+    "Live ERP authentication, tenant/role UAT and customer acceptance",
+    "Android16 physical back gesture",
+    "GPS/OEM/battery/privacy field tests",
+    "Console uncertain mutation recovery after process death",
+    "Stable owner signing and store release",
+    "iOS build/signing",
+    "Remaining canonical whole-product roadmap"
+  ],
+  "productionChanges": "NONE",
+  "newPaidServices": "NONE",
+  "history": "attempts.md",
+  "redactions": "Workspace paths/proxy configuration omitted from copied logs; hostname omitted from UI XML. Copied text logs have trailing whitespace normalized."
+}

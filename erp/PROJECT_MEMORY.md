@@ -1,5 +1,9 @@
 # KNABA DE project memory
 
+## Android test continuation — 2026-11-07
+
+Separate Android0.4.0-test candidate: native dashboard/search/contextual tasks/chat, six-language UI, memory-only explicit demo, session generation and idempotent retry safeguards. Package `de.knaba.mobile.test` preserves existing installed package. No API/schema/production change. Source/artifact/test evidence is `../docs/mobile/evidence/android-test-20261107/verification.json`; instructions `../docs/mobile/TEST_ANDROID_0.4.0_UK.md`. Full V4/V3, website-ERP identity bridge, real backend/customer/physical-device/iOS and durable process-death ERP retry gates stay open.
+
 ## Customer prototype verification — 2026-10-28
 
 Actual isolated PostgreSQL run at ERP input source `45d113a65bb1318065cab5a850433f52314e38c0`: **2,452/2,452 tests PASS in 104 files**, TypeScript, migrations, web/server/worker build and bot-channel self-check PASS. Run completed 2026-10-28T14:11:20Z on Node 24.22.1 with a fresh synthetic database. Provider HTTP doubles are explicit; no real WhatsApp/Telegram send, paid AI call or customer-data mutation occurred. The web build retains a nonfatal 665.98 kB uncompressed JS chunk warning. [Verification receipt](docs/evidence/customer-prototype-20261028/verification.json) binds raw log hashes; [source binding](docs/evidence/customer-prototype-20261028/source-binding.json) records exact tested input hashes and the separately updated backup-container Node pin.

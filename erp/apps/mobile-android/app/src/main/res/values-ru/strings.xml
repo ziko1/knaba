@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="erp_title">KNABA · Управление</string>
-    <string name="erp_login_intro">Войдите в подтверждённый аккаунт ERP. Без встроенного браузера.</string>
+    <string name="erp_login_intro">Войдите в подтверждённый аккаунт ERP.</string>
     <string name="erp_server">HTTPS-адрес сервера ERP</string>
     <string name="erp_email">Эл. почта</string>
     <string name="erp_password">Пароль</string>
@@ -145,4 +145,65 @@
     <string name="reason_retention">Просроченные локальные геособытия удалены.</string>
     <string name="notification_permission_denied">Для GPS нужно видимое уведомление геолокации. Разрешите уведомления или используйте ручные действия со сменой.</string>
     <string name="error_enrollment_change">Перед новой привязкой устройства выйдите и удалите локальные данные учётной записи.</string>
+
+    <string name="erp_demo_banner">ДЕМО · Только тестовые данные на устройстве</string>
+    <string name="erp_try_demo">Тест без сервера</string>
+    <string name="erp_demo_intro">Проверьте задания и сообщения на вымышленных данных. Изменения сохраняются только до выхода из демо.</string>
+    <string name="erp_exit_demo">Выйти из демо</string>
+    <string name="erp_home">Мой рабочий кабинет</string>
+    <string name="erp_workspace_intro">Задания, объекты и сообщения в одном месте.</string>
+    <string name="erp_active_sites">Активные объекты: %1$d</string>
+    <string name="erp_open_decisions">Открытые решения: %1$d</string>
+    <string name="erp_search">Поиск</string>
+    <string name="erp_view_details">Открыть сведения</string>
+    <string name="erp_more">Показать ещё</string>
+    <string name="erp_record_id">ID записи</string>
+    <string name="erp_record_version">Версия: %1$d</string>
+    <string name="erp_nested_data">Дополнительные структурированные данные</string>
+    <string name="erp_yes">Да</string>
+    <string name="erp_no">Нет</string>
+    <string name="erp_sent">Сообщение сохранено</string>
+    <string name="erp_you">Вы</string>
+    <string name="erp_conversation">Переписка</string>
+    <string name="erp_choose">Выберите</string>
+    <string name="erp_json_hint">Введите структурированные данные в формате JSON.</string>
+    <string name="erp_field_name">Название</string>
+    <string name="erp_field_description">Описание</string>
+    <string name="erp_field_status">Статус</string>
+    <string name="erp_field_phone">Телефон</string>
+    <string name="erp_field_address">Адрес</string>
+    <string name="erp_session_expired">Сеанс завершён. Войдите снова.</string>
+    <string name="erp_access_denied">У вас нет разрешения на это действие.</string>
+    <string name="erp_rate_limit">Слишком много запросов. Подождите немного и повторите.</string>
+    <string name="erp_connection_error">Соединение не подтверждено. Проверьте подключение и повторите.</string>
+    <string name="erp_request_failed">Запрос не подтверждён. Повторите попытку.</string>
+    <string name="erp_unknown_result">Результат неизвестен. Повторная отправка повторит тот же запрос. Поля заблокированы до выяснения результата.</string>
+    <string name="erp_wait">Запрос выполняется. Дождитесь подтверждения.</string>
+    <string name="erp_unknown_title">Результат ещё неизвестен</string>
+    <string name="erp_unknown_leave">Сервер мог уже выполнить действие. Проверьте историю, прежде чем создавать такое же действие снова.</string>
+    <string name="erp_logout_question">Выйти из этого рабочего кабинета?</string>
+
+    <string name="erp_task_id">ID задания</string>
+    <string name="erp_quantity_milli">Количество в тысячных долях (1000 = 1)</string>
+    <string name="erp_start_task">Начать задание</string>
+    <string name="erp_log_work">Записать выполненную работу</string>
+    <string name="erp_submit_task">Передать на проверку</string>
+
+    <string name="erp_review_pending">Проверить неподтверждённое действие</string>
+    <string name="erp_retry_pending">Повторить тот же запрос</string>
+
+    <string name="erp_state_assigned">Назначено</string>
+    <string name="erp_state_progress">В работе</string>
+    <string name="erp_state_review">Передано на проверку</string>
+    <string name="erp_state_accepted">Принято</string>
+    <string name="erp_state_rejected">Отклонено</string>
+    <string name="erp_state_cancelled">Отменено</string>
+    <string name="erp_state_active">Активно</string>
+    <string name="erp_state_open">Открыто</string>
+    <string name="erp_role_employee">Работник</string>
+
+    <string name="erp_quantity">Количество</string>
+    <string name="erp_planned_quantity">Плановое количество</string>
+    <string name="erp_reported_quantity">Выполненное количество</string>
+    <string name="erp_accepted_quantity">Принятое количество</string>
 </resources>
