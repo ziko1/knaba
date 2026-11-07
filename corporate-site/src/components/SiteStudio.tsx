@@ -2,7 +2,7 @@ import { createSignal, createEffect, For, Show, onMount, onCleanup } from 'solid
 import { normalizeStudioPage, validateStudioEntries, type StudioEntry, type StudioKind } from '../lib/site-studio-contract';
 import {studioPages} from '../lib/studio-pages';
 import ArticleStudio from './ArticleStudio';
-import '../styles/site-studio.css';
+import '../styles/studio-editor.css';
 import ReviewsModeration from './ReviewsModeration';
 import {studioLocaleStore} from '../lib/studio-locale-data';
 import {createStudioLocaleSelection,initialStudioLocaleState,isStudioLocale,type StudioLocale,type StudioLocaleState} from '../lib/studio-locale-store';

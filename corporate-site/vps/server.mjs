@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import {createClientIpResolver} from './client-ip.mjs';
 import { createReadStream } from 'node:fs';
 import {publicRelease} from './public-release.mjs';
-import { openLocalDatabase } from './database.mjs';
+import { openLocalDatabase, LocalD1 } from './database.mjs';
 import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
 import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
@@ -18,7 +18,7 @@ import { issueAccountInvite, acceptAccountInvite, revokeAccountInvite, AccountIn
 import {authLanguage,authWords,accessWords} from './auth-locale.mjs';
 import {submitAccessRequest,listAccessRequests,markAccessRequestReviewed,AccessRequestError} from './access-requests.mjs';
 import { editablePublicHtmlPath } from './seo.mjs';
-import { renderPublishedPage } from '../dist/vps/render-page.mjs';
+import { renderPublishedPage, applyActiveTemplate } from '../dist/vps/render-page.mjs';
 import { parseArticlePath,publishedArticle,renderArticleDocument,listPublishedArticles,addPublishedGuideLinks,expandPublishedSitemap } from '../dist/vps/articles.mjs';
 
 const mime={
@@ -71,8 +71,9 @@ async function serveArticle(root,req,res,path,db,{isolated=false}={}){
   const template=join(root,location.locale==='de'?'ratgeber/index.html':location.locale+'/ratgeber/index.html');
   const source=await readFile(template,'utf8').catch(()=>null);
   if(!source)return false;
-  const html=renderArticleDocument(source,{...location,...article},listPublishedArticles(db));
+  let html=renderArticleDocument(source,{...location,...article},listPublishedArticles(db));
   if(!html)return false;
+  html=await applyActiveTemplate(html,new LocalD1(db));
   const bytes=Buffer.from(html,'utf8');
   res.statusCode=200;
   res.setHeader('Content-Type','text/html; charset=utf-8');
@@ -134,6 +135,7 @@ async function sendStatic(root,req,res,path,db,{isolated=false,origin=''}={}){
       const transformed=renderPublishedPage(bytes.toString('utf8'),row);
       bytes=Buffer.from(transformed,'utf8');
     }
+    bytes=Buffer.from(await applyActiveTemplate(bytes.toString('utf8'),new LocalD1(db)),'utf8');
   }
   // Public guide links and sitemap use the same selected database as Studio.
   if(ext==='.html' && res.statusCode!==404 && /^\/(?:(?:en|uk|ru)\/)?ratgeber\/$/.test(decoded)){
@@ -384,7 +386,13 @@ export async function createKnabaVpsServer({
   const env={DB:d1,OWNER_EMAIL:ownerEmail,DEVELOPER_EMAIL:developerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
     TURNSTILE_REQUIRED:localTest?'0':'1',
     ASSETS:{fetch:async request=>{
-      return new Response('Static assets are served at the VPS edge.',{status:404});
+      const path=new URL(request.url).pathname;
+      if(!editablePublicHtmlPath(path)||path.includes('%')||path.includes('\\')||path.includes('..'))return new Response('Not found',{status:404});
+      const file=resolve(root,'.'+path,'index.html');
+      if(!file.startsWith(root+sep))return new Response('Not found',{status:404});
+      const canonical=await realpath(file).catch(()=>null),size=canonical?await stat(canonical).catch(()=>null):null;
+      if(!canonical?.startsWith(root+sep)||!size?.isFile()||size.size>400_000)return new Response('Not found',{status:404});
+      return new Response(await readFile(canonical,'utf8'),{headers:{'Content-Type':'text/html; charset=utf-8'}});
     }}};
   const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}));
   const testWorkspaces=createDeveloperWorkspaceRegistry(dbPath);
@@ -832,7 +840,7 @@ export async function createKnabaVpsServer({
       const valid=['GET','HEAD','POST','PUT','PATCH','DELETE'];
       if(!valid.includes(req.method))return send(res,405,'Method not allowed');
       let body;
-      try{body=['GET','HEAD'].includes(req.method)?undefined:await readBody(req,64*1024);}
+      try{body=['GET','HEAD'].includes(req.method)?undefined:await readBody(req,url.pathname==='/api/studio/templates/upload'?90_000:64*1024);}
       catch(e){return send(res,e?.code==='too_large'?413:400,'Invalid request');}
       if(!accountUser&&testCookiePresent)return jsonReply(401,{error:{code:'unauthenticated'}});
       if(testIdentity&&!testGranted)return jsonReply(403,{error:{code:'forbidden'}});
@@ -861,11 +869,19 @@ export async function createKnabaVpsServer({
       let reply;
       try{
         const workRequest=new Request(urlForWorker,{method:req.method,headers,body,signal:AbortSignal.timeout(16_000)});
-        const scopedEnv=workspace?{
+        let scopedEnv=workspace?{
           DB:workspace.d1,OWNER_EMAIL:workspace.people.owner.email,DEVELOPER_EMAIL:'',
           TURNSTILE_REQUIRED:'0',ASSETS:env.ASSETS,ASSISTANT_NOTIFICATIONS_ENABLED:'0',
           STUDIO_AI_ENABLED:'0',STUDIO_AI_APPROVED:'0'
         }:env;
+        if(url.pathname==='/api/studio/templates'||url.pathname.startsWith('/api/studio/templates/')){
+          scopedEnv={...scopedEnv,VERIFY_STUDIO_SESSION:()=>{
+            const current=readSession(db,req.headers.cookie);
+            if(!current||current.id!==accountUser?.id)return false;
+            if(workspace)return isGrantedDeveloper(db,current,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,current)==='owner';
+            return operator(current);
+          }};
+        }
         reply=await worker.fetch(workRequest,scopedEnv,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
       }catch{return send(res,503,'Service temporarily unavailable');}
       res.writeHead(reply.status,Object.fromEntries(reply.headers.entries()));

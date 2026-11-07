@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { z } from 'zod';
+import {readBoundedProviderJson} from './bounded-json.ts';
 import { assert, DomainError } from '../domain/core.ts';
 
 export function verifyWhatsAppChallenge(query:Record<string,unknown>,verifyToken:string) {
@@ -50,11 +51,11 @@ export class WhatsAppCloudAdapter {
     assert(policy.kind==='TEXT'||message.kind==='TEMPLATE'&&message.name===policy.template,'WHATSAPP_WINDOW_CLOSED');
     const body=JSON.stringify(renderWhatsAppMessage(to,message));
     try {const response=await this.request(`${this.origin}/${this.config.apiVersion}/${this.config.phoneNumberId}/messages`,{method:'POST',headers:{Authorization:`Bearer ${this.config.accessToken}`,'Content-Type':'application/json'},body,signal:AbortSignal.timeout(this.config.timeoutMs??15000)});
-      const data=await response.json();
+      const data=await readBoundedProviderJson(response);
       if(!response.ok){
         // A timeout, proxy page or malformed error does not establish that Meta rejected the send.
         const rejection=z.object({error:z.object({code:z.number().int(),message:z.string().min(1),is_transient:z.boolean().optional()})}).safeParse(data);
-        const confirmed=rejection.success&&!('messages' in data),transient=confirmed&&(rejection.data.error.is_transient??(response.status===429||response.status>=500));
+        const confirmed=rejection.success&&!(data!==null&&typeof data==='object'&&'messages' in data),transient=confirmed&&(rejection.data.error.is_transient??(response.status===429||response.status>=500));
         throw new DomainError('PROVIDER_UNAVAILABLE',{provider:'META',status:response.status,retryable:transient,failure_class:confirmed?(transient?'CONFIRMED_TRANSIENT':'DEFINITIVE'):'UNKNOWN',...rejection.success?{provider_error_code:rejection.data.error.code}:{}});
       }
       const accepted=z.object({messages:z.array(z.object({id:z.string().min(1)})).min(1)}).parse(data);return {provider_message_id:accepted.messages[0]!.id,status:'API_ACCEPTED' as const};
@@ -64,7 +65,7 @@ export class WhatsAppCloudAdapter {
   async media(mediaId:string,maxBytes=20*1024*1024) {
     assert(this.config.accountCapabilitiesVerified&&/^[A-Za-z0-9_-]{1,200}$/.test(mediaId),'NEEDS_APPROVAL');
     const metadataResponse=await this.request(`${this.origin}/${this.config.apiVersion}/${mediaId}`,{headers:{Authorization:`Bearer ${this.config.accessToken}`},signal:AbortSignal.timeout(15000)});assert(metadataResponse.ok,'PROVIDER_UNAVAILABLE');
-    const metadata=z.object({url:z.string().url(),mime_type:z.string(),sha256:z.string(),file_size:z.number().int().nonnegative()}).parse(await metadataResponse.json());assert(metadata.file_size<=maxBytes,'MEDIA_TOO_LARGE');
+    const metadata=z.object({url:z.string().url(),mime_type:z.string(),sha256:z.string(),file_size:z.number().int().nonnegative()}).parse(await readBoundedProviderJson(metadataResponse));assert(metadata.file_size<=maxBytes,'MEDIA_TOO_LARGE');
     const url=new URL(metadata.url);assert(url.protocol==='https:'&&(url.hostname==='lookaside.fbsbx.com'||url.hostname.endsWith('.facebook.com')||url.hostname.endsWith('.fbcdn.net')),'ACCESS_DENIED');
     const response=await this.request(url,{headers:{Authorization:`Bearer ${this.config.accessToken}`},redirect:'error',signal:AbortSignal.timeout(15000)});assert(response.ok,'PROVIDER_UNAVAILABLE');
     const stream=response.body?.getReader();assert(stream,'PROVIDER_UNAVAILABLE');const chunks:Uint8Array[]=[];let total=0;

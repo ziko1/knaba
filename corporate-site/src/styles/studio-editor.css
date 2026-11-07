@@ -1,0 +1,3 @@
+/* Keep the private editors in one cached stylesheet instead of splitting their shared rules. */
+@import './article-studio.css';
+@import './site-studio.css';

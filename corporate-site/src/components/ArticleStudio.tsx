@@ -1,6 +1,5 @@
 import {createSignal,createEffect,For,Show,onMount,onCleanup} from 'solid-js';
 import {parseArticlePath,validateArticleContent,type ArticleContent} from '../lib/article-contract';
-import '../styles/article-studio.css';
 import type {ArticleWords} from '../lib/studio-locale-store';
 
 type Locale='de'|'en'|'uk'|'ru';

@@ -1,4 +1,5 @@
 import {crewOffers,personalCrewResponse} from '../../packages/domain/crew-offers.ts';
+import {assertValidationInputBudget} from '../../packages/validation/input-budget.ts';
 import {materialRequestBatchView} from '../../packages/domain/material-request-batches.ts';
 import {handoffReminderReadable} from '../../packages/domain/handoff-calendar.ts';
 import {freshMfa} from './auth.ts';
@@ -102,7 +103,7 @@ export class Engine{
   assert(typeof shiftId==='string','ACCESS_DENIED');const shift=await tx.get('shift',shiftId);
   assert(shift.companyId===actor.companyId&&shift.data.employeeId===actor.userId&&shift.data.deviceId===device.id,'ACCESS_DENIED');
  }
- async execute(actor:Actor,name:string,envelope:{input?:any;expected_version?:number;idempotency_key?:string;preconditions?:CommandPrecondition[];worker_lease?:{id:string;token:string};native_device?:{id:string;token_hash:string}}):Promise<any>{const def=this.registry[name];assert(def,'NOT_FOUND_SAFE');assert(typeof envelope.idempotency_key==='string'&&envelope.idempotency_key.length>=8&&envelope.idempotency_key.length<=200,'VALIDATION_ERROR',{field:'idempotency_key'});const input=def.schema.parse(envelope.input??{});const guards=envelope.preconditions;assert(guards===undefined||Array.isArray(guards)&&guards.length<=20&&guards.every(g=>g&&typeof g.kind==='string'&&g.kind.length>0&&g.kind.length<=100&&typeof g.id==='string'&&g.id.length>0&&g.id.length<=200&&Number.isInteger(g.version)&&g.version>0),'VALIDATION_ERROR');const hash=commandHash(name,input,envelope.expected_version,guards);
+ async execute(actor:Actor,name:string,envelope:{input?:any;expected_version?:number;idempotency_key?:string;preconditions?:CommandPrecondition[];worker_lease?:{id:string;token:string};native_device?:{id:string;token_hash:string}}):Promise<any>{const def=this.registry[name];assert(def,'NOT_FOUND_SAFE');assert(typeof envelope.idempotency_key==='string'&&envelope.idempotency_key.length>=8&&envelope.idempotency_key.length<=200,'VALIDATION_ERROR',{field:'idempotency_key'});assertValidationInputBudget(envelope);const input=def.schema.parse(envelope.input??{});const guards=envelope.preconditions;assert(guards===undefined||Array.isArray(guards)&&guards.length<=20&&guards.every(g=>g&&typeof g.kind==='string'&&g.kind.length>0&&g.kind.length<=100&&typeof g.id==='string'&&g.id.length>0&&g.id.length<=200&&Number.isInteger(g.version)&&g.version>0),'VALIDATION_ERROR');const hash=commandHash(name,input,envelope.expected_version,guards);
  if(readOnlyCommands.has(name)){
   assert(envelope.preconditions===undefined&&envelope.worker_lease===undefined&&envelope.native_device===undefined,'VALIDATION_ERROR');
   if(envelope.expected_version!==undefined)assert(Number.isInteger(envelope.expected_version)&&envelope.expected_version>0,'VALIDATION_ERROR');

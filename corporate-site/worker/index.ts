@@ -1,6 +1,8 @@
 import { handleApi } from './api';
 import type { WorkerEnv, WorkerContext } from './types';
 import { drainOwnerNotifications } from './notifications';
+import { applyActiveTemplate, readBoundedHtml } from './site-template-read';
+import { studioPages } from '../src/lib/studio-pages';
 
 function staticHeaders(request: Request, env: WorkerEnv, response: Response): Response {
   // Native asset bindings do not necessarily apply the generated _headers file.
@@ -33,8 +35,22 @@ export default {
   async fetch(request: Request,env: WorkerEnv,ctx?: WorkerContext): Promise<Response> {
     const path=new URL(request.url).pathname;
     if(path.startsWith('/api/portal/') || path.startsWith('/api/assistant/') || path.startsWith('/api/studio/') || path.startsWith('/api/crm/') || path==='/api/reviews' || path.startsWith('/api/reviews/') || path==='/api/leads' || path==='/api/leads/') return handleApi(request,env,ctx);
-    const response = env.ASSETS ? await env.ASSETS.fetch(request) :
+    const dynamic=Boolean(env.DB&&['GET','HEAD'].includes(request.method)&&studioPages.some(page=>page.path===path));
+    const assetHeaders=new Headers(request.headers);
+    if(dynamic)for(const key of ['if-none-match','if-modified-since','range','if-range'])assetHeaders.delete(key);
+    const assetRequest=dynamic?new Request(request,{method:'GET',headers:assetHeaders}):request;
+    let response = env.ASSETS ? await env.ASSETS.fetch(assetRequest) :
       new Response(request.method === 'HEAD' ? null : 'Dienst derzeit nicht verfügbar.', { status:503, headers:{'Cache-Control':'no-store','Content-Type':'text/plain;charset=UTF-8'} });
+    if(env.DB&&dynamic&&response.ok&&response.headers.get('Content-Type')?.includes('text/html')){
+      try{
+        const html=await applyActiveTemplate(await readBoundedHtml(response),env.DB);
+        const headers=new Headers(response.headers);
+        for(const key of ['Content-Length','Content-Encoding','ETag','Last-Modified'])headers.delete(key);
+        headers.set('Cache-Control','no-cache');
+        headers.set('Content-Length',String(new TextEncoder().encode(html).byteLength));
+        response=new Response(request.method==='HEAD'?null:html,{status:response.status,headers});
+      }catch{return staticHeaders(request,env,new Response(request.method==='HEAD'?null:'Darstellung vorübergehend nicht verfügbar.',{status:503,headers:{'Cache-Control':'no-store','Content-Type':'text/plain;charset=UTF-8'}}));}
+    }
     return staticHeaders(request, env, response);
   },
   scheduled(_event:unknown,env:WorkerEnv,ctx:WorkerContext):void {

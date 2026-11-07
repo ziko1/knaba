@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-07T23:30:02.709661+00:00",
+  "scope": "ERP validation boundaries; no database migration, dependency upgrade, external provider call or deployment",
+  "status": "APPLICATION_BOUNDARY_MITIGATION_DEPENDENCY_ADVISORY_OPEN",
+  "advisory": {
+    "id": "GHSA-mrhx-c7xc-m3w5",
+    "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+    "status": "OPEN",
+    "installed_zod": "3.25.76",
+    "installed_zod_to_json_schema": "3.24.6",
+    "audit_input_sha256": "44304b91df4f5a2428b45147276d24047f34a1ff2ff3f5838a580d2ff80d34c0"
+  },
+  "source": {
+    "git_head_at_check": "87fdba936bb8ed7d9b8c7493c49895c48395250b",
+    "meaning": "Base commit only; changed source bound by file SHA256 values, not accepted as a clean release commit",
+    "files": [
+      {
+        "path": "apps/api/engine.ts",
+        "sha256": "d301557a26c17d2972f3e8e30fe3fce6f5ad24f7b2b85d9fda0d4d6186c611a5"
+      },
+      {
+        "path": "apps/api/main.ts",
+        "sha256": "c50a8caa05584208fe9832bbb3f26dade404856ce5b06d8514c59df4bbf8a890"
+      },
+      {
+        "path": "apps/api/validation-budget.ts",
+        "sha256": "a9449782da77458558ab3b4cea517f335c28cdd830b94b22215e468ee526a57b"
+      },
+      {
+        "path": "packages/validation/input-budget.ts",
+        "sha256": "a7f0f519a5ac192f0b84ba03850a4417cbeeef48c533aee2c1de5b99e46587b1"
+      },
+      {
+        "path": "packages/integrations/bounded-json.ts",
+        "sha256": "7b29b935a5bf9957b019317c148d7481f290aad507b1b220cf5dc20bd78e7db6"
+      },
+      {
+        "path": "packages/integrations/deepseek.ts",
+        "sha256": "66d24a9cbeabae719ccf43e8754c982364457a0863e822a6283c13ddc6f3f979"
+      },
+      {
+        "path": "packages/integrations/maps.ts",
+        "sha256": "03a96712ef3bb28b7ecb55cc1ca6adb8e6e3cf835829ee936eeefe9dabcf2228"
+      },
+      {
+        "path": "packages/integrations/whatsapp.ts",
+        "sha256": "8f3061ec561f55abf5f3fdd1910a371c477ca6a299c41e3d5416d10bac6d1416"
+      },
+      {
+        "path": "tests/validation-budget.test.ts",
+        "sha256": "131f03271b8618389f541db72949ce370d1a89fc3f86704f20949b679e790921"
+      },
+      {
+        "path": "package.json",
+        "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3"
+      }
+    ]
+  },
+  "limits": {
+    "collection_entries": 1000,
+    "nodes": 20000,
+    "depth": 20,
+    "provider_json_bytes": 262144
+  },
+  "proof": {
+    "bounded_vulnerable_parse": {
+      "input_elements": 1001,
+      "declared_array_maximum": 10,
+      "allocated_issues": 1002
+    },
+    "tdd_initial_red": {
+      "tests": 3,
+      "failed": 3
+    },
+    "typecheck": "PASS",
+    "focused_final": {
+      "status": "PASS_WITH_SQL_NOT_RUN",
+      "files": 5,
+      "total": 206,
+      "passed": 204,
+      "failed": 0,
+      "skipped": 2,
+      "todo": 0,
+      "json_report_sha256": "24042bc76980d533d1a05a3c5fbe2fe2fb0865cc3ea9f354d543bf3fbbe64db5",
+      "command_exit_code": 0
+    },
+    "full_final": {
+      "status": "PASS_WITH_SQL_NOT_RUN",
+      "files": 109,
+      "total": 2529,
+      "passed": 2069,
+      "failed": 0,
+      "skipped": 460,
+      "todo": 0,
+      "json_report_sha256": "86e89a11ee41c0c806ace3a3a136c767cdecb11670b8cbb0052e5c076d4303ac",
+      "command_exit_code": 0
+    },
+    "build": {
+      "status": "PASS_CANDIDATE_NOT_CLEAN_RELEASE",
+      "command": "npm run build",
+      "exit_code": 0,
+      "vite_seconds": 324,
+      "release": {
+        "code_sha": "87fdba936bb8ed7d9b8c7493c49895c48395250b",
+        "source_dirty": true,
+        "source_provenance": "GIT_WORKTREE",
+        "version": "0.1.0",
+        "builtAt": "2026-11-07T23:27:51.507Z"
+      },
+      "source_map_content_verified_against_current_runtime_files": [
+        "apps/api/engine.ts",
+        "apps/api/main.ts",
+        "apps/api/validation-budget.ts",
+        "packages/integrations/bounded-json.ts",
+        "packages/integrations/deepseek.ts",
+        "packages/integrations/maps.ts",
+        "packages/integrations/whatsapp.ts",
+        "packages/validation/input-budget.ts"
+      ],
+      "artifacts": [
+        {
+          "path": "dist/server.mjs",
+          "bytes": 3182475,
+          "sha256": "c1c457571cb09eb34dc3245eb8cc2f078dbfb93651f1de23b1bfc3dbc5eabce2"
+        },
+        {
+          "path": "dist/worker.mjs",
+          "bytes": 1284077,
+          "sha256": "8c8bef1df29647986a9a9dc1326295a92c7a98c3b449044a977c67dbf32bc95a"
+        },
+        {
+          "path": "dist/web/assets/index-BTCFjyGZ.js",
+          "bytes": 667565,
+          "sha256": "88851f2bc6fd8d2c9d6ec6ba30da9feebd5b4599dff6dfaaca55c7b764db50da"
+        },
+        {
+          "path": "dist/web/assets/index-DX37Ba6k.css",
+          "bytes": 93077,
+          "sha256": "200698f476a26cd26ddfd504176f7f21ff09ce6dd519506105717aa70580cd38"
+        }
+      ],
+      "warning": "Existing web JS chunk exceeds 500 kB; unchanged bytes from prior baseline"
+    },
+    "independent_review": {
+      "status": "ACCEPTED_SCOPED_MITIGATION",
+      "reviewer_task": "template_review",
+      "blocking_findings": 0,
+      "verified_source_sha256": {
+        "packages/integrations/bounded-json.ts": "7b29b935a5bf9957b019317c148d7481f290aad507b1b220cf5dc20bd78e7db6",
+        "tests/validation-budget.test.ts": "131f03271b8618389f541db72949ce370d1a89fc3f86704f20949b679e790921"
+      },
+      "scope": "HTTP/Engine resource guard; shared provider reader; DeepSeek/Maps/WhatsApp outcome semantics; read actual focused/full test reports",
+      "upstream_advisory": "OPEN_WITH_MITIGATION"
+    }
+  },
+  "not_run": [
+    "PostgreSQL 460 assertions in this run",
+    "hosted CI on final commit",
+    "external provider acceptance",
+    "physical devices",
+    "production deployment"
+  ],
+  "rollback": "Revert scoped runtime/test changes; no persisted data or database schema changed. This restores the earlier validation resource risk."
+}

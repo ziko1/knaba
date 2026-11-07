@@ -107,7 +107,7 @@ for (const file of pages) {
   for (const [, url] of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
     const path = url.split("?")[0].split("#")[0];
     // These forms are served by the VPS runtime and covered by HTTP tests.
-    if (["/login/", "/logout/", "/join/"].includes(path)) continue;
+    if (["/login/", "/logout/", "/join/", "/api/studio/templates/example"].includes(path)) continue;
     const target = resolve(
       root,
       `.${path.endsWith("/") ? path + "index.html" : path}`,
@@ -197,7 +197,8 @@ for (const route of ['', 'en/', 'uk/', 'ru/']) {
 }
 assert.ok(cssGzip < 40 * 1024, "R3 CSS budget 40KiB gzip");
 assert.ok(jsGzip < 220 * 1024, "R3 all emitted client JS budget 220KiB gzip");
-assert.equal(pages.length,160,'160 source-built pages: 134 preserved pages, 14 Polish/Lithuanian core+app pages and 12 messenger pages');
+assert.equal(pages.length,161,'160 preserved source-built pages and one protected template manager');
+assert.ok(pages.some(page=>relative(root,page)==='studio/templates/index.html'),'template manager is built');
 for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
