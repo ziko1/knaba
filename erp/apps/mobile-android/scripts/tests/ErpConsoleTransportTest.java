@@ -49,6 +49,25 @@ public final class ErpConsoleTransportTest {
         }
         @Override public synchronized HttpURLConnection open(URL url) { urls.add(url); if (queue.isEmpty()) throw new AssertionError("unexpected network call " + url.getPath()); return queue.remove(0); }
     }
+    static final class Journal implements ErpConsoleTransport.Journal {
+        final Map<String, String> records = new HashMap<>();
+        boolean failWrite, failRemove;
+        public String read(String scope) { return records.get(scope); }
+        public void write(String scope, String envelope) throws Exception {
+            if (failWrite) throw new IOException("PRIVATE_STORAGE_DIAGNOSTIC");
+            records.put(scope, envelope);
+        }
+        public void remove(String scope, String key) throws Exception {
+            if (failRemove) throw new IOException("PRIVATE_STORAGE_DIAGNOSTIC");
+            String value = records.get(scope);
+            if (value != null && new JSONObject(value).getJSONObject("body").getString("idempotency_key").equals(key)) records.remove(scope);
+        }
+    }
+    private static ErpConsoleTransport signed(Queue q, Journal journal, String origin, String user, String company) throws Exception {
+        Fake login = q.login();
+        login.response = new JSONObject(login.response).put("actor", new JSONObject().put("userId", user).put("companyId", company)).toString();
+        ErpConsoleTransport api = new ErpConsoleTransport(q, journal); api.configure(origin); api.login("worker@example.invalid", "fixture-password", ""); return api;
+    }
     private static ErpConsoleTransport signed(Queue q) throws Exception {
         q.login(); ErpConsoleTransport api = new ErpConsoleTransport(q); api.configure("https://erp.example.invalid/"); api.login("worker@example.invalid", "fixture-password", ""); return api;
     }
@@ -56,7 +75,7 @@ public final class ErpConsoleTransportTest {
     public static void main(String[] args) throws Exception {
         Queue q = new Queue(); ErpConsoleTransport api = signed(q);
         check(api.isSignedIn(), "login accepts session cookie among multiple headers");
-        Fake me = q.add("{\"actor\":{},\"csrfToken\":\"" + CSRF + "\"}"); api.me();
+        Fake me = q.add("{\"actor\":{\"userId\":\"user-1\",\"companyId\":\"company-1\"},\"csrfToken\":\"" + CSRF + "\"}"); api.me();
         check(("knaba_session=" + TOKEN).equals(me.getRequestProperty("Cookie")), "isolated cookie sent");
         check(!me.getInstanceFollowRedirects() && me.getConnectTimeout() == 15000 && me.getReadTimeout() == 15000 && me.disconnected, "timeouts redirect block and cleanup");
         Fake denied = q.add("{\"code\":\"ACCESS_DENIED\"}"); denied.status = 403;
@@ -114,6 +133,27 @@ public final class ErpConsoleTransportTest {
         check(fails("INVALID_RESPONSE", () -> commandApi.command("task.create", input("Bad response"), null, "malformed-key")).outcomeUnknown, "malformed success preserves pending mutation");
         commands.add("{}"); commandApi.command("task.create", input("Bad response"), null, "malformed-key");
 
+        Queue identityQueue = new Queue(); ErpConsoleTransport identityApi = signed(identityQueue);
+        identityQueue.add("{\"actor\":{\"userId\":\"user-1\",\"companyId\":\"another-company\"},\"csrfToken\":\""+CSRF+"\"}");
+        fails("ACCESS_CHANGED", identityApi::me);
+        check(!identityApi.isSignedIn(), "identity drift in me cannot rebind a journal to another tenant");
+
+        Queue missingActorQueue = new Queue(); ErpConsoleTransport missingActor = signed(missingActorQueue);
+        missingActorQueue.add("{\"actor\":{},\"csrfToken\":\""+CSRF+"\"}");
+        fails("ACCESS_CHANGED", missingActor::me); check(!missingActor.isSignedIn(), "malformed me cannot retain authenticated journal access");
+        for (Object badId : Arrays.asList(42, new JSONObject().put("nested","id"))) {
+            Queue invalidIdQueue = new Queue(); ErpConsoleTransport invalidIdApi = signed(invalidIdQueue);
+            invalidIdQueue.add(new JSONObject().put("actor",new JSONObject().put("userId",badId).put("companyId","company-1")).toString());
+            fails("ACCESS_CHANGED", invalidIdApi::me); check(!invalidIdApi.isSignedIn(), "non-string identity fails closed instead of retaining signed-in state");
+        }
+        Queue delayedMeQueue = new Queue(); ErpConsoleTransport delayedMeApi = signed(delayedMeQueue);
+        Fake delayedMe = delayedMeQueue.add("{\"actor\":{\"userId\":\"other-user\",\"companyId\":\"other-company\"}}");
+        delayedMe.entered = new CountDownLatch(1); delayedMe.release = new CountDownLatch(1); AtomicReference<Throwable> meFailure = new AtomicReference<>();
+        Thread meThread = new Thread(() -> { try { delayedMeApi.me(); meFailure.set(new AssertionError("old identity accepted")); } catch(Throwable error) { meFailure.set(error); } });
+        meThread.start(); check(delayedMe.entered.await(2,TimeUnit.SECONDS), "old me request paused before new login");
+        delayedMeQueue.login(); delayedMeApi.login("new@example.invalid","fixture",""); delayedMe.release.countDown(); meThread.join(2000);
+        check(!meThread.isAlive() && meFailure.get() instanceof ErpConsoleTransport.Failure && delayedMeApi.isSignedIn(), "stale me cannot clear newly authenticated session");
+
         Queue pages = new Queue(); ErpConsoleTransport paged = signed(pages);
         pages.add("{\"items\":[{\"id\":\"first\"}],\"has_more\":true,\"next_cursor\":\"a+b/c=\"}");
         pages.add("{\"items\":[{\"id\":\"second\"}],\"has_more\":false}");
@@ -123,6 +163,53 @@ public final class ErpConsoleTransportTest {
         fails("BAD_CURSOR", () -> paged.entities("task"));
         pages.add("{\"items\":[],\"has_more\":\"false\"}");
         fails("INVALID_RESPONSE", () -> paged.entities("task"));
-        System.out.println("PASS ERP transport assertions=" + cases + "; explicit HTTP doubles; live ERP, Android device and process-death recovery NOT_RUN");
+        Journal journal = new Journal(); Queue initial = new Queue();
+        ErpConsoleTransport beforeRestart = signed(initial, journal, "https://erp.example.invalid", "user-1", "company-1");
+        Fake lost = initial.add("{}"); lost.failRead = true;
+        fails("NETWORK_ERROR", () -> beforeRestart.command("task.worklog", input("Durable original"), 2, "durable-original-key"));
+        check(journal.records.size() == 1, "unresolved command persisted before process exit");
+        String stored = journal.records.values().iterator().next();
+        check(!stored.contains(TOKEN) && !stored.contains(CSRF) && !stored.contains("fixture-password"), "journal contains no login/session credentials");
+        beforeRestart.clear();
+        check(journal.records.size() == 1 && beforeRestart.pendingCommand() == null, "logout hides but does not discard unresolved command");
+        Queue otherQueue = new Queue();
+        ErpConsoleTransport otherActor = signed(otherQueue, journal, "https://erp.example.invalid", "user-2", "company-1");
+        check(!otherActor.hasPendingCommand() && otherActor.pendingCommand() == null, "other authenticated user cannot discover pending payload");
+        ErpConsoleTransport otherCompany = signed(new Queue(), journal, "https://erp.example.invalid", "user-1", "company-2");
+        check(!otherCompany.hasPendingCommand(), "same user on another company cannot replay pending command");
+        ErpConsoleTransport otherOrigin = signed(new Queue(), journal, "https://other.example.invalid", "user-1", "company-1");
+        check(!otherOrigin.hasPendingCommand(), "origin-scoped recovery cannot leak command to another HTTPS server");
+        Queue restartedQueue = new Queue();
+        ErpConsoleTransport restarted = signed(restartedQueue, journal, "https://erp.example.invalid", "user-1", "company-1");
+        check(restarted.hasPendingCommand() && restarted.pendingCommand().getString("name").equals("task.worklog"), "fresh transport restores after same actor login");
+        JSONObject recovered = restarted.pendingCommand(); recovered.getJSONObject("input").put("title", "Tampered caller copy");
+        check(restarted.pendingCommand().getJSONObject("input").getString("title").equals("Durable original"), "pending envelope is defensive copy");
+        fails("PENDING_COMMAND_REQUIRES_RETRY", () -> restarted.command("task.create", input("New mutation"), null, "new-after-restart"));
+        Fake permissionLost = restartedQueue.add("{\"code\":\"ACCESS_DENIED\"}"); permissionLost.status = 403;
+        check(fails("ACCESS_DENIED", () -> restarted.command("task.worklog", input("Durable original"), 2, "ignored-new-key")).outcomeUnknown && journal.records.size() == 1,
+            "denied retry never erases an earlier ambiguous result");
+        Fake exactRetry = restartedQueue.add("{\"id\":\"committed-once\"}");
+        restarted.command("task.worklog", input("Durable original"), 2, "ignored-new-key");
+        check(lost.body().toString().equals(exactRetry.body().toString()), "restart retry preserves exact original body version and idempotency key");
+        check(journal.records.isEmpty() && !restarted.hasPendingCommand(), "confirmed response clears durable and RAM state");
+        journal.failWrite = true; int writesBefore = restartedQueue.urls.size();
+        check(!fails("RECOVERY_STORAGE_UNAVAILABLE", () -> restarted.command("task.create", input("Never sent"), null, "storage-error-key")).outcomeUnknown,
+            "journal write failure is a definite no-send result");
+        check(writesBefore == restartedQueue.urls.size() && !restarted.hasPendingCommand(), "storage failure prevents network mutation");
+        journal.failWrite = false; journal.failRemove = true; restartedQueue.add("{}");
+        check(fails("RECOVERY_STORAGE_UNAVAILABLE", () -> restarted.command("task.create", input("Committed"), null, "remove-error-key")).outcomeUnknown && restarted.hasPendingCommand(),
+            "failed durable cleanup retains exact retry instead of forgetting committed command");
+        journal.failRemove = false; restartedQueue.add("{}"); restarted.command("task.create", input("Committed"), null, "different-key");
+        check(journal.records.isEmpty(), "durable cleanup recovers on explicit same-key retry");
+        Fake definitelyRejected = restartedQueue.add("{\"code\":\"VALIDATION_ERROR\"}"); definitelyRejected.status = 422;
+        fails("VALIDATION_ERROR", () -> restarted.command("task.create", input("Invalid"), null, "definite-error-key"));
+        check(journal.records.isEmpty(), "first-attempt definite rejection clears journal");
+        Fake futurePending = restartedQueue.add("{}"); futurePending.failRead = true;
+        fails("NETWORK_ERROR", () -> restarted.command("task.create", input("Retained"), null, "corrupt-state-key"));
+        String scopeKey = journal.records.keySet().iterator().next(); journal.records.put(scopeKey, "corrupt");
+        Queue corruptQueue = new Queue(); corruptQueue.login(); ErpConsoleTransport corrupt = new ErpConsoleTransport(corruptQueue, journal); corrupt.configure("https://erp.example.invalid");
+        fails("RECOVERY_STORAGE_INVALID", () -> corrupt.login("worker@example.invalid", "fixture", ""));
+        check(!corrupt.isSignedIn() && journal.records.get(scopeKey).equals("corrupt"), "corrupt journal fails closed and preserves evidence");
+        System.out.println("PASS ERP transport assertions=" + cases + "; explicit HTTP/journal doubles and fresh-instance recovery; live ERP, Android OS process death NOT_RUN");
     }
 }

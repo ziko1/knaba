@@ -1,7 +1,7 @@
 {
   "project": "KNABA_MOBILE",
   "moduleOf": "KNABA_DE",
-  "branch": "release/knaba-customer-prototype-20261028",
+  "branch": "feat/knaba-completion-audit-20261108",
   "items": [
     {
       "id": "MOBILE-001",
@@ -113,6 +113,19 @@
       ],
       "budget": "no_new_paid_spend",
       "next": "Hand over test APK; physical Android UAT and approved test ERP/accounts required for live gates; full scope remains open."
+    },
+    {
+      "id": "MOBILE-010",
+      "description": "Encrypted durable Android ERP pending-command recovery and actor/session fences",
+      "acceptance": "Original command/version/key survives restart; same-actor fresh auth only, no auto replay, bounded/corrupt storage and AtomicFile recovery; physical device+live API acceptance separately",
+      "status": "IMPLEMENTED_TEST_CANDIDATE",
+      "evidence": "evidence/android-recovery-20261108/verification.json"
+    },
+    {
+      "id": "MOBILE-011",
+      "description": "iOS unknown-write retries preserve idempotency and logout fences stale session responses",
+      "acceptance": "Native XCTest and actual iPhone interrupted write/relogin/retry create one effect only",
+      "status": "PENDING"
     }
   ]
 }

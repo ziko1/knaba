@@ -1,5 +1,11 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — completion candidate
+
+New source checkpoint: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`; evidence `../docs/unified/evidence/completion-20261108/verification.json`. Restored owner contacts/footer/favicon from verified server Git history; removed only overwritten unconditional CSS declarations to preserve the existing40KiB gzip ceiling. Studio validates the entire draft against trusted bounded raw HTML before publication, rechecks current VPS session/authority inside its transaction, and atomically claims publication history. SSR reuses its parsed tree; partial mapping is rejected, not silently applied. Stable IDs/template packaging remain future work.
+
+Additive migration0013 creates reference-only intake outbox in the same request transaction. VPS manual dispatcher uses existing ERP signed integration contract, immutable event/destination fingerprint, bounded retries and honest UNKNOWN. Owner CRM counts do not imply automatic delivery. Current site privacy version is2026-10-28; matching this value is not legal approval. Prior migrations unchanged. Production, external recipients and providers unchanged. Browser/live/company UAT is not asserted by source tests.
+
 - User request: audit current cleaning-company website, offer modern fast stack choices, write detailed plan/prompt and implement the corporate website.
 - The user explicitly confirmed `knaba.de` / KnaBa after initial `kneba.de` typo.
 - Repository `ziko1/knaba`; isolated candidate branch `codex/knaba-corporate-astro-20261024`, base `ff748a2e5731e973883344ed28f3e82cf8a3bc06` (`main`, specification-only).

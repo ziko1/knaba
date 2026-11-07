@@ -1,5 +1,11 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## Актуальний порядок — 08.11.2026
+
+Детальні залежності й acceptance: [COMPLETION_PLAN_2026-11-08_UK.md](COMPLETION_PLAN_2026-11-08_UK.md). Поточний інкремент: source reconciliation → seed/Studio/Android correctness → сайтова черга та ERP idempotency → exact-source QA. G4 тепер **IMPLEMENTED_CANDIDATE / LIVE_NOT_ACTIVATED**, обмежений новими form leads; історичний рядок NOT_IMPLEMENTED нижче збережено як checkpoint. G5 domain audit виконано на рівні source/tests, повний UI/UAT не закрито.
+
+Далі: stable identity і assistant→ERP, stable content IDs і18 template вимог,72 V4 сценарії плюс збережена V3 матриця, native devices/канали, навантаження/restore/клієнтська передача. Жодна фаза не стає ACCEPTED лише за кількістю unit tests.
+
 **Стратегія:** поетапна композиція вже реалізованого, жодних руйнівних переписувань. Послідовність — після acceptance попереднього gate; паралельно можливі лише незалежні документи/UI/тести з неперетинними файлами.
 
 | Фаза | Результат, критерій виходу | Залежність | Статус |

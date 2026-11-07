@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.knaba.mobile.ConsoleRecoveryJournalTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-07T23:20:43.404Z" hostname="08766be39cd5" time="10.178">
+  <properties/>
+  <testcase name="interruptedLegacyAtomicWriteRecoversBackupWhenBaseIsMissing" classname="de.knaba.mobile.ConsoleRecoveryJournalTest" time="9.859"/>
+  <testcase name="tamperedCiphertextFailsClosedWithoutDeletingRecord" classname="de.knaba.mobile.ConsoleRecoveryJournalTest" time="0.067"/>
+  <testcase name="sizeAndScopeLimitsFailBeforeOverwritingExistingRecords" classname="de.knaba.mobile.ConsoleRecoveryJournalTest" time="0.12"/>
+  <testcase name="encryptedRecordSurvivesNewStoreAndDoesNotShareGpsState" classname="de.knaba.mobile.ConsoleRecoveryJournalTest" time="0.057"/>
+  <testcase name="conflictingWriteAndStaleCompletionPreserveOriginal" classname="de.knaba.mobile.ConsoleRecoveryJournalTest" time="0.07"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+]]></system-err>
+</testsuite>

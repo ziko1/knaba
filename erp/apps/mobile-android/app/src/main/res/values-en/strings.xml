@@ -180,7 +180,7 @@
     <string name="erp_unknown_result">The outcome is unknown. Send again retries the exact same request. Inputs stay locked until the result is resolved.</string>
     <string name="erp_wait">The request is running. Please wait for confirmation.</string>
     <string name="erp_unknown_title">Outcome still unknown</string>
-    <string name="erp_unknown_leave">The server may already have completed the action. Check the history before creating the same action again.</string>
+    <string name="erp_unknown_leave">The unresolved request stays encrypted on this device. Sign in to the same server and account to review and retry this exact request. Do not create it as a new action.</string>
     <string name="erp_logout_question">Sign out of this workspace?</string>
 
     <string name="erp_task_id">Task ID</string>

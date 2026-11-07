@@ -1,5 +1,9 @@
 # KnaBa — окремий бюджет і квоти
 
+## Фактичний інкремент — 08.11.2026
+
+Нові платні сервіси/AI/канали не активовано, зовнішній дозволений бюджет0 EUR. Використано існуюче середовище Work, локальний Node24/Android toolchain і наявний фізичний сервер із cached QA image та PostgreSQL17.11. QA: isolated internal network, no published ports, synthetic tmpfs DB,CPU2/RAM3GiB/PIDs512; cleanup лише власних тимчасових ресурсів. Реальні ChatGPT кредити, provider quotas і загальна вартість hosting невідомі; число0 не є заявою про безкоштовність чинних ресурсів. Немає нових CI/paid runners або зовнішніх модельних викликів.
+
 Дата 2026-10-24; бюджет тільки KnaBa, не AVENQO / ShiftLedger / ai-team.
 
 | Категорія | Авторизовано цим етапом | Виміряно | Правило |

@@ -384,7 +384,18 @@ export async function createKnabaVpsServer({
   const env={DB:d1,OWNER_EMAIL:ownerEmail,DEVELOPER_EMAIL:developerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
     TURNSTILE_REQUIRED:localTest?'0':'1',
     ASSETS:{fetch:async request=>{
-      return new Response('Static assets are served at the VPS edge.',{status:404});
+      // Trusted raw build HTML only: never call public HTTP or render another
+      // user's draft while validating a Studio publication.
+      const assetUrl=new URL(request.url),path=assetUrl.pathname;
+      if(request.method!=='GET'||assetUrl.search||assetUrl.hash||!/^\/(?:[a-z0-9-]+\/){0,4}$/.test(path)||!editablePublicHtmlPath(path))
+        return new Response('Not found',{status:404});
+      const [realRoot,file]=await Promise.all([realpath(root),realpath(join(root,path,'index.html'))]).catch(()=>[]);
+      if(!realRoot||!file?.startsWith(realRoot+sep))return new Response('Not found',{status:404});
+      const info=await stat(file).catch(()=>null);
+      if(!info?.isFile()||info.size>400_000)return new Response('Unavailable page',{status:409});
+      const bytes=await readFile(file);
+      if(bytes.length>400_000)return new Response('Unavailable page',{status:409});
+      return new Response(bytes,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     }}};
   const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}));
   const testWorkspaces=createDeveloperWorkspaceRegistry(dbPath);
@@ -843,7 +854,7 @@ export async function createKnabaVpsServer({
       }
       const user=workspace?workspace.people[testRole]:accountUser;
       const headers=new Headers();
-      for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization','idempotency-key']){
+      for(const name of ['origin','referer','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization','idempotency-key']){
         if(req.headers[name]!==undefined&&name!=='content-length')headers.set(name,String(req.headers[name]));
       }
       // Only server-side verified sessions can supply these Cloudflare Sites legacy identity headers.
@@ -865,7 +876,15 @@ export async function createKnabaVpsServer({
           DB:workspace.d1,OWNER_EMAIL:workspace.people.owner.email,DEVELOPER_EMAIL:'',
           TURNSTILE_REQUIRED:'0',ASSETS:env.ASSETS,ASSISTANT_NOTIFICATIONS_ENABLED:'0',
           STUDIO_AI_ENABLED:'0',STUDIO_AI_APPROVED:'0'
-        }:env;
+        }:{...env};
+        // Page inspection is asynchronous. Re-read the actual VPS session and
+        // current authority at the commit boundary; never trust its old snapshot.
+        scopedEnv.STUDIO_PUBLICATION_BATCH=statements=>(workspace?.d1||d1).authorizedBatch(statements,()=>{
+          const current=readSession(db,req.headers.cookie);
+          if(!current||current.id!==accountUser?.id)return false;
+          if(workspace)return testRole==='owner'&&isGrantedDeveloper(db,current,ownerEmail,developerEmail);
+          return hasOwnerAuthority(db,{userId:current.id,ownerEmail,developerEmail});
+        },db);
         reply=await worker.fetch(workRequest,scopedEnv,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
       }catch{return send(res,503,'Service temporarily unavailable');}
       res.writeHead(reply.status,Object.fromEntries(reply.headers.entries()));

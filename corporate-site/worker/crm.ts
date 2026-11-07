@@ -88,6 +88,14 @@ async function requireLead(db:D1Database,contactKey:string,contactEmail:string):
 function decodeTags(value: unknown):string[] {
   try { return tags(JSON.parse(String(value||'[]'))); } catch {return [];}
 }
+/** Local transfer counters only; no private lead body or provider response is exposed. */
+async function bridgeStatus(db:D1Database):Promise<Response>{
+  const counts={PENDING:0,LEASED:0,APPLIED:0,REVIEW:0,BLOCKED:0,UNKNOWN:0};
+  const rows=(await db.prepare('SELECT status,COUNT(*) AS n FROM site_erp_outbox GROUP BY status').all<Row>()).results||[];
+  for(const row of rows)if(Object.hasOwn(counts,String(row.status))&&Number.isSafeInteger(Number(row.n))&&Number(row.n)>=0)
+    counts[row.status as keyof typeof counts]=Number(row.n);
+  return response({scope:'SITE_OUTBOX_ONLY',automaticDelivery:false,counts});
+}
 async function listContacts(request:Request,db:D1Database):Promise<Response> {
   const query=new URL(request.url).searchParams.get('q')??'';
   if(query.length>70) fail(422,'search');
@@ -182,6 +190,10 @@ export async function handleCrmApi(request:Request,env:WorkerEnv,s:PortalSession
     await deps.rateLimit('crm:'+s.user!.id+':'+(request.method==='GET'?'read':'write'),
       request.method==='GET'?500:120);
     const path=new URL(request.url).pathname.replace(/\/$/,'');
+    if(path==='/api/crm/bridge-status'&&request.method==='GET'){
+      if(s.role!=='owner')fail(403,'forbidden');
+      return await bridgeStatus(db);
+    }
     if(path==='/api/crm/contacts'&&request.method==='GET')return await listContacts(request,db);
     const match=/^\/api\/crm\/contacts\/([a-f0-9]{64})(?:\/(notes))?$/.exec(path);
     if(!match)return response({error:{code:'not_found'}},404);

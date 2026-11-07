@@ -180,7 +180,7 @@
     <string name="erp_unknown_result">Rezultatas nežinomas. Pakartotinis siuntimas kartoja tą pačią užklausą. Laukai užrakinti, kol rezultatas bus išaiškintas.</string>
     <string name="erp_wait">Užklausa vykdoma. Palaukite patvirtinimo.</string>
     <string name="erp_unknown_title">Rezultatas vis dar nežinomas</string>
-    <string name="erp_unknown_leave">Serveris galėjo jau atlikti veiksmą. Patikrinkite istoriją prieš kurdami tą patį veiksmą dar kartą.</string>
+    <string name="erp_unknown_leave">Neišspręsta užklausa lieka užšifruota šiame įrenginyje. Prisijunkite prie to paties serverio ir paskyros, kad peržiūrėtumėte ir pakartotumėte būtent šią užklausą. Nekurkite naujo veiksmo.</string>
     <string name="erp_logout_question">Atsijungti nuo šios darbo srities?</string>
 
     <string name="erp_task_id">Užduoties ID</string>

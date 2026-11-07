@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "c919149063667ff48a4745a757ec3f502506f01b075ae448b647066385d8f392",
+  "sourceDigest": "8c75730410a53ee3b9eb719fbadb84956f06c7b1676c13fd31bd8e51e6b2d026",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1087,
+  "unitCount": 1091,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -380,7 +380,33 @@
       "kind": "text",
       "source": "Alexander Knaus · KNABA Bauhelfer",
       "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
         "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
         "/unternehmen/"
       ]
     },
@@ -4436,6 +4462,40 @@
         "/"
       ]
     },
+    "720a38f6c8378814236bef4d": {
+      "kind": "text",
+      "source": "WhatsApp ↗",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
     "7243261d6d51d028ca743a3e": {
       "kind": "attr:aria-label",
       "source": "Sprache",
@@ -4928,6 +4988,40 @@
         "/ratgeber/baureinigung-kosten-planen/"
       ]
     },
+    "824213cd5a96356a88d14ff9": {
+      "kind": "attr:aria-label",
+      "source": "KnaBa online",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
     "82781205c7471cb08212e574": {
       "kind": "text",
       "source": "Abgestimmte Bauphasen",
@@ -5361,6 +5455,40 @@
       "source": "Ihr Bauprojekt. Unser nächstes Gespräch. | KnaBa",
       "routes": [
         "/kontakt/"
+      ]
+    },
+    "8acc20f4575fc3d6d3993982": {
+      "kind": "text",
+      "source": "USt-IdNr.: DE263654022",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "8ae026518603a5c5b4ca099b": {
@@ -5901,7 +6029,34 @@
       "kind": "text",
       "source": "Deutschland",
       "routes": [
-        "/impressum/"
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "96931cca6d723d931aca735e": {
@@ -5931,17 +6086,6 @@
       "source": "Baugrob-, Baufein- und Bauendreinigung – von der laufenden Baustelle bis zur Objektübergabe.",
       "routes": [
         "/bauleistungen/baureinigung/"
-      ]
-    },
-    "97764c818e21e6fee76e408d": {
-      "kind": "text",
-      "source": "KnaBa · +49 (30) 679 330 54 · kontakt@knaba.de",
-      "routes": [
-        "/ratgeber/bauendreinigung-vorbereiten/",
-        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
-        "/ratgeber/baureinigung-kosten-planen/",
-        "/ratgeber/baureinigung-phasen/",
-        "/ratgeber/bauuebergabe-checkliste/"
       ]
     },
     "9789dd9d4791ba15fdacf7c7": {
@@ -6657,6 +6801,40 @@
       "source": "Gewünschten Zeitraum und verbindliche Übergabetermine getrennt nennen. Verfügbarkeit und mögliche Zeitfenster werden erst nach Prüfung bestätigt.",
       "routes": [
         "/berlin/"
+      ]
+    },
+    "af496685e15ec6c85d4a469a": {
+      "kind": "text",
+      "source": "Facebook ↗",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/konto/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "afa77f4062e9fb4275b9281b": {
@@ -8986,6 +9164,17 @@
       "source": "5 / 8: Bauhelfer & Baustellenvorbereitung",
       "routes": [
         "/"
+      ]
+    },
+    "f22f6b357a6dcc0ea7b587d3": {
+      "kind": "text",
+      "source": "KnaBa · +49 176 82180368 · kontakt@knaba.de",
+      "routes": [
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/"
       ]
     },
     "f24041ce980cbb5ae1b7c4fc": {

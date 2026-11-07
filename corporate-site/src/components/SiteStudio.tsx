@@ -26,10 +26,10 @@ async function requestJson<T>(path:string,body?:Record<string,unknown>):Promise<
   return payload;
 }
 const localeGate={
-  de:{loading:'Editor wird geladen…',error:'Die Sprache konnte nicht geladen werden. Ihre Änderungen bleiben erhalten.',retry:'Erneut versuchen',language:'Sprache'},
-  en:{loading:'Loading editor…',error:'The language could not be loaded. Your edits have been kept.',retry:'Try again',language:'Language'},
-  uk:{loading:'Завантажуємо редактор…',error:'Не вдалося завантажити мову. Ваші зміни збережено у формі.',retry:'Спробувати ще',language:'Мова'},
-  ru:{loading:'Загружаем редактор…',error:'Не удалось загрузить язык. Ваши изменения сохранены в форме.',retry:'Повторить',language:'Язык'}
+  de:{loading:'Editor wird geladen…',error:'Die Sprache konnte nicht geladen werden. Ihre Änderungen bleiben erhalten.',retry:'Erneut versuchen',language:'Sprache',mapping:'Die Seitenstruktur passt nicht zu allen Änderungen. Bitte die Vorschau neu laden und den Entwurf prüfen.'},
+  en:{loading:'Loading editor…',error:'The language could not be loaded. Your edits have been kept.',retry:'Try again',language:'Language',mapping:'Some edits no longer match this page. Reload the preview and check the draft.'},
+  uk:{loading:'Завантажуємо редактор…',error:'Не вдалося завантажити мову. Ваші зміни збережено у формі.',retry:'Спробувати ще',language:'Мова',mapping:'Частина змін не відповідає структурі сторінки. Перезавантажте перегляд і перевірте чернетку.'},
+  ru:{loading:'Загружаем редактор…',error:'Не удалось загрузить язык. Ваши изменения сохранены в форме.',retry:'Повторить',language:'Язык',mapping:'Часть изменений не соответствует структуре страницы. Перезагрузите просмотр и проверьте черновик.'}
 } as const;
 export default function SiteStudio(){
   const [localeState,setLocaleState]=createSignal(initialStudioLocaleState);
@@ -205,9 +205,10 @@ function SiteStudioEditor(props:{localeState:StudioLocaleState;selectLanguage:(l
   }
   function onFrameMessage(event:MessageEvent){
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
-    const data=event.data as {type?:string;page?:string;selector?:string;kind?:StudioKind;tag?:string;value?:string;href?:string;alt?:string;rich?:boolean};
+    const data=event.data as {type?:string;page?:string;selector?:string;kind?:StudioKind;tag?:string;value?:string;href?:string;alt?:string;rich?:boolean;compatible?:boolean};
     if(!data||data.page!==page())return;
     if(data.type==='knaba:studio:ready') {transmit();return;}
+    if(data.type==='knaba:studio:compatibility'){if(data.compatible===false)setError(localeGate[language()].mapping);return;}
     if(data.type!=='knaba:studio:select'||!data.selector||!data.kind||!data.tag)return;
     const candidate={selector:data.selector,kind:data.kind,value:data.value||''};
     try{validateStudioEntries([candidate]);}

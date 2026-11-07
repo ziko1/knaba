@@ -1,5 +1,11 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — Android0.4.1 recovery candidate
+
+Encrypted actor-scoped ERP pending-command journal, persisted before request; process/activity recreation recovers original version/payload/idempotency key. Reauthentication must resolve the same origin/company/user; no automatic replay and no GPS namespace collision. AtomicFile backup recovery, bounded storage and delayed/malformed /me session checks covered by targeted regressions. Exact artifact/build/tests: `evidence/android-recovery-20261108/verification.json`; instructions `TEST_ANDROID_0.4.1_UK.md`. Separate package `de.knaba.mobile.test`, versionCode5, same debug certificate as0.4.0; not owner-signed production.
+
+Android physical install/update, hardware Keystore/reboot/GPS and actual ERP UAT remain NOT_RUN. iOS source review identified unresolved fresh retry key after unknown write and logout/session race; no claim of iOS readiness. All older receipts below remain historical.
+
 Project: KNABA DE (separate from AVENQO). Mobile module inside `ziko1/knaba`, not a new standalone business domain. Candidate based on `feat/knaba-customer-release-20261028`; work in `feat/knaba-android-ios-workspace-20261028` one stacked Draft PR. Read canonical repo rules first.
 
 Existing Android `de.knaba.mobile` and iOS `de.knaba.mobile` native apps implement employee device enrollment, work-time/GPS/offline sync, **not full native role parity**. Existing Astro role portal `/konto/` and owner Control Center `/admin/` provide login/role views via browser; ERP `/console` separate login. PR #110 contains pending user/partner/owner grant and OIDC changes, not customer-live. New `/app/` acts as role-aware installable mobile web entry and native system-browser handoff. No backend unification or website-to-ERP SSO.
