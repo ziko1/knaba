@@ -1,5 +1,6 @@
 import {parse} from 'parse5';
 import {validateStudioEntries} from '../src/lib/site-studio-contract.ts';
+import {studioMappingCompatible} from '../src/lib/site-studio-mapping.ts';
 import {escapeHtml,renderPublishedSeo} from './seo.mjs';
 
 /**
@@ -119,11 +120,13 @@ export function renderPublishedPage(html,row){
     row.published_version<1 || typeof row.published_json!=='string' || row.published_json.length>64000)return html;
   let edits;
   try{edits=validateStudioEntries(JSON.parse(row.published_json));}catch{return html;}
+  if(!edits.length)return html;
+  let document;
+  try{document=parse(html,{sourceCodeLocationInfo:true});}catch{return html;}
+  if(!studioMappingCompatible(html,edits,document))return html;
   const bodyEdits=edits.filter(e=>e.selector.startsWith('#main > '));
   let result=html;
   if(bodyEdits.length){
-    let document;
-    try{document=parse(html,{sourceCodeLocationInfo:true});}catch{return html;}
     const main=findMain(document);
     if(!main)return html;
     const patches=[];

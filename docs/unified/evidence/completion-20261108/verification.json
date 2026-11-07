@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-07T23:43:56.544069+00:00",
+  "status": "CANDIDATE_VERIFIED_NOT_RELEASE_READY",
+  "project": "ziko1/knaba",
+  "candidateSourceSha": "bc0ffd1c6f7a3098d5420074de8f349524c7dcae",
+  "candidateTree": "b93234e92b17412cf9fd9b95a14175153e2a0770",
+  "baseSha": "557838e23356cb463f273803099ab6321e675019",
+  "productionApproval": false,
+  "productionModified": false,
+  "implemented": [
+    "Durable encrypted Android ERP unknown-command recovery and actor/session fences",
+    "Whole-draft Studio structural validation with current VPS authority checked in transaction and atomic history",
+    "Reference-only transactional website lead outbox, explicit opt-in signed publisher to existing ERP endpoint",
+    "Explicit seed APP_MODE before DB access",
+    "Recovered owner contact/footer/favicon from server Git history",
+    "Translation key dedup preserving values/fallbacks and existing payload budgets"
+  ],
+  "checks": [
+    {
+      "id": "root-policy-tests",
+      "status": "PASS",
+      "cases": 28,
+      "evidence": "root-final-tests.log"
+    },
+    {
+      "id": "source-provenance",
+      "status": "PASS_AT_B953",
+      "evidence": "source-final-snapshot.log",
+      "finalDocumentationCommitCheck": "Recorded separately after publishing final evidence"
+    },
+    {
+      "id": "module-manifest",
+      "status": "PASS",
+      "evidence": "root-module-verification.log",
+      "scope": "manifest only, not live release"
+    },
+    {
+      "id": "site-tests",
+      "status": "PASS",
+      "vitestCases": 525,
+      "vitestFiles": 65,
+      "nodeCases": 86,
+      "sourceSha": "bc0ffd1c6f7a3098d5420074de8f349524c7dcae",
+      "evidence": "site-completion-tests.log"
+    },
+    {
+      "id": "site-typechecks",
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "hints": 9,
+      "sourceSha": "bc0ffd1c6f7a3098d5420074de8f349524c7dcae",
+      "evidence": "translation-budget-check.log"
+    },
+    {
+      "id": "site-build-and-static-gates",
+      "status": "PASS",
+      "sourceSha": "bc0ffd1c6f7a3098d5420074de8f349524c7dcae",
+      "pages": 160,
+      "cssGzip": 40930,
+      "cssLimitExclusive": 40960,
+      "allEmittedJsGzip": 225182,
+      "jsLimitExclusive": 225280,
+      "artifactSha256": "a5808bbd52f82ca5497f2f7e24afe60d0b71b6cc569b5c71f8f8d42eb3ad8594",
+      "evidence": "site-final-build-report.json",
+      "inputBinding": "site-build-inputs.json",
+      "fieldWebVitals": "NOT_RUN"
+    },
+    {
+      "id": "site-built-worker-vps",
+      "status": "PASS",
+      "cases": 163,
+      "sourceSha": "bc0ffd1c6f7a3098d5420074de8f349524c7dcae",
+      "evidence": "site-completion-vps.log",
+      "scope": "Actual local HTTP/SQLite with synthetic accounts; explicit provider doubles; no browser or production"
+    },
+    {
+      "id": "erp-regression",
+      "status": "PASS_COMPOSITE",
+      "uniqueCases": 2521,
+      "localExcludedHelperCases": 77,
+      "fullRunSha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+      "correctedFixtureSha": "79b4ea3fd53dfca112616b697d2865b69a681c65",
+      "initialFullRun": {
+        "pass": 2443,
+        "fail": 1,
+        "skip": 0
+      },
+      "affectedFileRerun": {
+        "pass": 17,
+        "fail": 0,
+        "skip": 0
+      },
+      "fullGreenSingleInvocation": false,
+      "evidence": "postgresql/QA_REPORT.md",
+      "candidateBinding": "Only historical test file differs in erp from full-run source; application runtime/package/lock unchanged",
+      "remoteSuiteCases": 2444,
+      "remoteSuiteDatabase": "PostgreSQL17.11",
+      "localHelperEvidence": "erp-excluded-local.json"
+    },
+    {
+      "id": "site-erp-bridge-pg",
+      "status": "PASS",
+      "cases": 4,
+      "evidence": "postgresql/attempt-2/vitest.json.gz",
+      "scope": "Real SQLite/PostgreSQL, injected in-process HTTP transport; no external TLS acceptance"
+    },
+    {
+      "id": "erp-build-typecheck",
+      "status": "PASS",
+      "sourceSha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+      "evidence": "erp-final-build.log",
+      "artifactManifest": "erp-build-artifacts.json",
+      "warning": "Web JS chunk667.57kB uncompressed; load/field metrics not measured"
+    },
+    {
+      "id": "android-build",
+      "status": "PASS",
+      "version": "0.4.1-test",
+      "package": "de.knaba.mobile.test",
+      "robolectricCases": 21,
+      "transportAssertions": 74,
+      "demoChecks": 38,
+      "localeClockGenerationVectors": 39,
+      "syntheticGeofenceVectors": 30,
+      "lintErrors": 0,
+      "lintWarnings": 15,
+      "artifactSha256": "d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b",
+      "evidence": "../../../mobile/evidence/android-recovery-20261108/verification.json",
+      "physicalDevice": "NOT_RUN",
+      "signing": "DEBUG_EVALUATION_ONLY"
+    },
+    {
+      "id": "old-migration-preservation",
+      "status": "PASS",
+      "unchangedFiles": 13,
+      "evidence": "migration-preservation.json"
+    },
+    {
+      "id": "release-policy",
+      "status": "BLOCKED_EXPECTED",
+      "exitCode": 1,
+      "evidence": "root-release-gate.log",
+      "reason": "No accepted whole-product identity/browser/device/legal/provider/restore/customer gates or production approval"
+    }
+  ],
+  "performance": {
+    "scope": "Build bytes and isolated CPU probes only",
+    "jsBeforeDedup": 226134,
+    "jsAfterDedup": 225182,
+    "jsActualSavings": 952,
+    "thresholdsChanged": false,
+    "dictionaryProbe": "translation-budget-parity.json",
+    "studioProbe": "SSR parsed once instead of duplicated parse; local fixture not server p95",
+    "apiP95": "NOT_MEASURED",
+    "fieldCWV": "NOT_MEASURED"
+  },
+  "independentReviews": [
+    "web-independent-review.json",
+    "android-brand-independent-review.json",
+    "css-independent-review.json",
+    "translation-independent-review.json",
+    "root-review.json",
+    "qa-runtime-review.md"
+  ],
+  "resolvedValidationFailures": [
+    "Absent seed mode reached DB: now rejected before access",
+    "Stale Studio selectors and current-session/concurrent publication defects: covered by regression tests",
+    "Android process recovery, backup-only AtomicFile and malformed/stale identity responses: covered by regressions",
+    "Old VPS fixture referenced removed hero element: fixture corrected, public HTML assertion added",
+    "Historical2025 DST preview exceeded370-day limit: test clock explicit, production rule unchanged",
+    "JS budget exceeded by854 bytes: translation keys deduplicated, current225182 under225280"
+  ],
+  "environmentNotes": [
+    "Synced working directory builds observed stale generated chunks and .rsync-tmp race; only a fresh isolated /tmp checkout with copied exact dependencies was accepted",
+    "An external node_modules symlink caused Astro virtual-module cache mismatch; real copy resolved test setup",
+    "Alternative esbuild minifier probe increased bytes and was discarded; default source minifier unchanged",
+    "Initial isolated PostgreSQL connection rule excluded app container; runner preflight/rule corrected, synthetic network only"
+  ],
+  "notVerified": [
+    "Fresh deployed candidate SHA/artifact onknaba.de",
+    "Unified website/ERP stable identity and complete cross-role business journey",
+    "Full18-template catalog/upload/preview/activation/rollback requirements",
+    "Physical Android/iPhone/GPS/OEM/reboot/update/hardware Keystore",
+    "Current Xcode/signed iOS build and iOS unknown-write/logout fixes",
+    "Real email/OIDC/WhatsApp/Telegram/voice delivery and provider quotas",
+    "Browser accessibility/responsive/owner session acceptance",
+    "Load p95/p99/SLO, offhost restore/RPO/RTO and migration rollback rehearsal",
+    "Company legal/privacy/rates and final customer acceptance"
+  ],
+  "wholeAcceptanceCriteriaPromoted": 0,
+  "requirementsMatrix": "../../REQUIREMENTS_TRACEABILITY.csv",
+  "plan": "../../COMPLETION_PLAN_2026-11-08_UK.md",
+  "finalEvidenceReview": {
+    "reviewer": "/root/qa_runtime",
+    "status": "ACCEPTED",
+    "verified": [
+      "2521 composite count and raw source bindings",
+      "1013 exact site build input hashes atbc0",
+      "525+86+163 web counts",
+      "Relative evidence paths",
+      "No release/template/device overclaim"
+    ],
+    "clarificationApplied": "Remote suite includes both CPU and SQL cases, not2444 SQL-specific tests"
+  }
+}

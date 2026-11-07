@@ -1,5 +1,15 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-08 — актуальний аудит і продовження
+
+**NOT_READY_FOR_CLIENT_DELIVERY.** База `557838e23356cb463f273803099ab6321e675019` (PR120, містить PR119/118), окрема гілка `feat/knaba-completion-audit-20261108`. Актуальний повний [план](COMPLETION_PLAN_2026-11-08_UK.md), [114 рядків вимог](REQUIREMENTS_TRACEABILITY.csv), [докази](evidence/completion-20261108/verification.json). Попередні записи нижче датовані й не є статусом цього кандидата.
+
+Реалізація: additive outbox0013 та explicit dispatcher до існуючого ERP HMAC endpoint; цілісна Studio publication з перевіркою актуальної VPS-сесії всередині транзакції; Android0.4.1 durable encrypted pending command і actor/epoch fences; seed лише з явним APP_MODE; відновлені server-only owner contacts/favicon, незмінний CSS budget. Старі міграції й нормативні специфікації не переписані. Site→ERP auto-delivery не увімкнено.
+
+У source вже є D07 decline/expire, order.link_site і ReportRemainingScope; застарілий backlog не означає їх відсутність. Повний template catalog/upload/activation/rollback, спільна identity, assistant bridge, iOS recovery, зовнішні канали та людський UAT лишаються відкритими. Зовнішній release endpoint відповідає `stage=prototype`, `erpOrigin=null`, канали pending; це не proof поточного candidate.
+
+Фактично працювали root і4 окремі агенти (ERP, web, mobile, QA). Перевірка SQL — ізольована синтетична PostgreSQL на чинному сервері, без production ports/data. Немає merge, production migration/deploy, реальних повідомлень або активації paid providers. Нові external spending authorization:0 EUR; фактичні hosting/model quotas UNKNOWN.
+
 ## 2026-11-07 — native Android test continuation
 
 Candidate based on `87fdba936bb8ed7d9b8c7493c49895c48395250b`; branch `feat/knaba-android-test-20261107`. Android0.4.0-test improves native task/chat workflows and introduces a clearly labelled memory-only demo plus isolated package identity. Site and ERP identities remain separate. No production, database, domain, provider or merge action. Canonical mobile scope/evidence: `../mobile/BACKLOG.json`, `../mobile/evidence/android-test-20261107/verification.json`; full product gates retained.

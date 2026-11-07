@@ -1,0 +1,78 @@
+{
+  "recordedAt": "2026-11-07T23:22:56.117605+00:00",
+  "source": {
+    "baseGitSha": "557838e23356cb463f273803099ab6321e675019",
+    "state": "WORKING_TREE_CANDIDATE",
+    "manifest": "source-files.json",
+    "manifestSha256": "e6a658880cd5bfe5419c1fe03637e1af58f3eea76351d6d9baae7537c7b613a6",
+    "inputFiles": 45
+  },
+  "artifact": {
+    "name": "KNABA-0.4.1-test.apk",
+    "bytes": 3005715,
+    "sha256": "d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b",
+    "package": "de.knaba.mobile.test",
+    "versionCode": 5,
+    "versionName": "0.4.1-test",
+    "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+    "v2Signature": "PASS",
+    "sameSignerAs0_4_0": true,
+    "signing": "DEBUG_EVALUATION_ONLY"
+  },
+  "build": {
+    "command": "gradle --offline --no-daemon --max-workers=2 --no-watch-fs :app:assembleDebug :app:testDebugUnitTest :app:lintDebug",
+    "exitCode": 0,
+    "log": "build.log",
+    "lintErrors": 0,
+    "lintWarnings": 15
+  },
+  "tests": [
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "file": "TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml"
+    },
+    {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "file": "TEST-de.knaba.mobile.ErpConsoleActivityTest.xml"
+    }
+  ],
+  "transportAssertions": 74,
+  "demoChecks": 38,
+  "localeClockGenerationVectors": 39,
+  "syntheticGeofenceVectors": 30,
+  "limitations": [
+    "HTTP and journal doubles for transport; actual AES-GCM/AtomicFile with explicit test Keystore provider for storage",
+    "Robolectric framework simulation, not actual Android OS process death/hardware Keystore",
+    "Live ERP/physical install/update/GPS/owner UAT NOT_RUN",
+    "iOS unchanged, Mac/Xcode/owner signing unavailable"
+  ],
+  "review": {
+    "reviewer": "/root/web_audit",
+    "status": "SOURCE_REVIEW_ACCEPTED",
+    "scope": "Durable pending recovery; scoped identity; malformed/me race fence; AtomicFile backup recovery",
+    "independentTransportAssertions": 74,
+    "physicalDevice": "NOT_RUN"
+  },
+  "failureHistory": [
+    {
+      "check": "Legacy AtomicFile backup restoration",
+      "result": "RED:1 failing regression before guard fix; final5 storage tests passed",
+      "log": "backup-recovery-red.log"
+    },
+    {
+      "check": "Original RAM-only pending mutation after restart",
+      "result": "REPRODUCED on baseline557838e; fresh transport submits same action with different idempotency key",
+      "log": "baseline-repro.log"
+    }
+  ],
+  "documentationOnlyChangesAfterBuild": [
+    "erp/apps/mobile-android/README.md",
+    "docs/mobile/TEST_ANDROID_0.4.1_UK.md"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "reviewer": "/root",
+  "sourceSha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+  "scope": "Website/ERP bridge, migration boundaries and cross-module review",
+  "status": "SOURCE_REVIEW_ACCEPTED_WITH_RECORDED_RELEASE_GATES",
+  "resolved": [
+    "Same-key secret rotation is pinned before any uncertain resend",
+    "4xx after unknown result remains UNKNOWN",
+    "VPS forwards same-origin Referer to preserve locales/attribution",
+    "VPS Studio rechecks session/authority in write transaction",
+    "Concurrent Studio revisions cannot create phantom history",
+    "Source copy restored only selected server brand/contact files, not stale branch wholesale",
+    "Rollback docs explicitly state pre0013 runtime cannot open14-entry migration ledger",
+    "ERP credentials and ACTIVE integration config are operator prerequisites"
+  ],
+  "limits": [
+    "Manual dispatcher remains disabled",
+    "Real TLS/operator/company acceptance not executed",
+    "Imported template engine not implemented",
+    "Same-shape positional Studio reorder not detectable",
+    "Remote PG initially exposed an expired test fixture, tracked separately"
+  ],
+  "noProductionMutation": true
+}

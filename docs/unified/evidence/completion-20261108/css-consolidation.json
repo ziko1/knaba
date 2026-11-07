@@ -1,0 +1,113 @@
+{
+  "method": "Removed earlier root declarations overridden by a later identical selector/property; all at-rules untouched; final declaration map equal",
+  "removed": [
+    {
+      "selector": ".footer h2",
+      "property": "font-size",
+      "value": "11px",
+      "line": 484
+    },
+    {
+      "selector": ".footer p",
+      "property": "color",
+      "value": "#bacbc0",
+      "line": 476
+    },
+    {
+      "selector": ".footer-grid",
+      "property": "padding-bottom",
+      "value": "46px",
+      "line": 469
+    },
+    {
+      "selector": ".footer",
+      "property": "background",
+      "value": "#10372f",
+      "line": 461
+    },
+    {
+      "selector": ".cta-banner h2",
+      "property": "font-size",
+      "value": "35px",
+      "line": 454
+    },
+    {
+      "selector": ".cta-banner",
+      "property": "border-radius",
+      "value": "var(--radius)",
+      "line": 450
+    },
+    {
+      "selector": ".cta-banner",
+      "property": "padding",
+      "value": "50px 54px",
+      "line": 445
+    },
+    {
+      "selector": ".steps h3",
+      "property": "font-size",
+      "value": "21px",
+      "line": 436
+    },
+    {
+      "selector": ".steps > div > span",
+      "property": "margin-bottom",
+      "value": "25px",
+      "line": 433
+    },
+    {
+      "selector": ".steps > div > span",
+      "property": "color",
+      "value": "#5f784e",
+      "line": 430
+    },
+    {
+      "selector": ".steps > div > span",
+      "property": "display",
+      "value": "block",
+      "line": 427
+    },
+    {
+      "selector": ".steps",
+      "property": "gap",
+      "value": "50px",
+      "line": 423
+    },
+    {
+      "selector": ".approach p",
+      "property": "font-size",
+      "value": "13px",
+      "line": 414
+    },
+    {
+      "selector": ".approach p",
+      "property": "color",
+      "value": "#c1cec4",
+      "line": 413
+    },
+    {
+      "selector": ".approach h2 > span",
+      "property": "color",
+      "value": "#c4dda9",
+      "line": 410
+    },
+    {
+      "selector": ".approach .eyebrow",
+      "property": "color",
+      "value": "#c5d9b6",
+      "line": 407
+    },
+    {
+      "selector": ".approach",
+      "property": "padding",
+      "value": "86px 0",
+      "line": 404
+    },
+    {
+      "selector": ".approach",
+      "property": "background",
+      "value": "var(--green)",
+      "line": 402
+    }
+  ]
+}

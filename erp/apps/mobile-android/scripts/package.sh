@@ -35,12 +35,12 @@ bash scripts/test-vectors.sh | tee "$KNABA_ANDROID_OUTPUT/java-vectors.log"
 bash scripts/test-localization.sh | tee "$KNABA_ANDROID_OUTPUT/localization.log"
 if [[ "$KNABA_ANDROID_MODE" == prototype ]]; then
   bash ./gradlew --no-daemon :app:assembleDebug :app:lintDebug :app:testDebugUnitTest | tee "$KNABA_ANDROID_OUTPUT/build.log"
-  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.4.0-test.apk"
+  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.4.1-test.apk"
   cp app/build/outputs/apk/debug/app-debug.apk "$KNABA_ANDROID_APK"
 else
   bash ./gradlew --no-daemon :app:assembleRelease :app:lintRelease | tee "$KNABA_ANDROID_OUTPUT/build.log"
   "$KNABA_ANDROID_BUILD_TOOLS/zipalign" -p -f 4 app/build/outputs/apk/release/app-release-unsigned.apk "$KNABA_ANDROID_OUTPUT/aligned.apk"
-  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.4.0.apk"
+  KNABA_ANDROID_APK="$KNABA_ANDROID_OUTPUT/knaba-android-0.4.1.apk"
   "$KNABA_ANDROID_BUILD_TOOLS/apksigner" sign --ks "$KNABA_ANDROID_KEYSTORE" --ks-key-alias "$KNABA_ANDROID_KEY_ALIAS" --ks-pass env:KNABA_ANDROID_STORE_PASSWORD --key-pass env:KNABA_ANDROID_KEY_PASSWORD --out "$KNABA_ANDROID_APK" "$KNABA_ANDROID_OUTPUT/aligned.apk"
   rm "$KNABA_ANDROID_OUTPUT/aligned.apk"
 fi
@@ -52,7 +52,7 @@ import datetime,hashlib,json,os,pathlib,re
 out=pathlib.Path(os.environ['KNABA_ANDROID_OUTPUT']);apk=pathlib.Path(os.environ['KNABA_ANDROID_APK'])
 metadata=(out/'package.txt').read_text();signature=(out/'signature.txt').read_text()
 match=re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'",metadata)
-expected=('de.knaba.mobile.test','4','0.4.0-test') if os.environ['KNABA_ANDROID_MODE']=='prototype' else ('de.knaba.mobile','4','0.4.0')
+expected=('de.knaba.mobile.test','5','0.4.1-test') if os.environ['KNABA_ANDROID_MODE']=='prototype' else ('de.knaba.mobile','5','0.4.1')
 assert match and match.groups()==expected,'Unexpected APK identity or version'
 assert 'Verified using v2 scheme (APK Signature Scheme v2): true' in signature,'Missing verified v2 signature'
 cert=re.search(r'Signer #1 certificate SHA-256 digest: ([0-9a-fA-F]+)',signature);assert cert,'Missing signing fingerprint'

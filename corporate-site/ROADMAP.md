@@ -1,5 +1,11 @@
 # KnaBa corporate-site roadmap
 
+## 08.11.2026 continuation
+
+Implemented candidate: source recovery, fail-closed/atomic Studio publish, new-lead outbox with opt-in manual ERP publisher. Current evidence: `../docs/unified/evidence/completion-20261108/verification.json`.
+
+Next: stable subject/company authorization; assistant bridge and capability lifecycle; stable editable IDs; full declarative template catalog/upload/quarantine/preview/activation/rollback (TPL01–18); approved six-locale legal/copy, actual browser/accessibility, load and restore, owner acceptance. Do not equate local CRM counters with live ERP delivery.
+
 This scope is the new corporate marketing surface. Existing KNABA V4 roadmap and acceptance history on application branches remain unchanged.
 
 | ID | Acceptance | State |

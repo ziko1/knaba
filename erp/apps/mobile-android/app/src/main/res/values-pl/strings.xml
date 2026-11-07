@@ -180,7 +180,7 @@
     <string name="erp_unknown_result">Wynik jest nieznany. Ponowne wysłanie powtarza dokładnie to samo żądanie. Pola pozostają zablokowane do wyjaśnienia wyniku.</string>
     <string name="erp_wait">Żądanie jest wykonywane. Poczekaj na potwierdzenie.</string>
     <string name="erp_unknown_title">Wynik nadal nieznany</string>
-    <string name="erp_unknown_leave">Serwer mógł już wykonać czynność. Sprawdź historię przed ponownym utworzeniem tej samej czynności.</string>
+    <string name="erp_unknown_leave">Niewyjaśnione żądanie pozostaje zaszyfrowane na tym urządzeniu. Zaloguj się na ten sam serwer i konto, aby sprawdzić i powtórzyć dokładnie to żądanie. Nie twórz nowej czynności.</string>
     <string name="erp_logout_question">Wylogować się z tego obszaru pracy?</string>
 
     <string name="erp_task_id">ID zadania</string>

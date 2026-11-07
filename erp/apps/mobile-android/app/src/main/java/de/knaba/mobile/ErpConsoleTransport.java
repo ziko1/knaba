@@ -28,13 +28,28 @@ class ErpConsoleTransport {
     private String csrf = "";
     private long epoch;
     private PendingCommand pending;
+    private String actorScope = "";
     private final ConnectionFactory connections;
+    private final Journal journal;
 
     interface ConnectionFactory { HttpURLConnection open(URL url) throws IOException; }
 
-    /** Injectable connections are used only by the CPU transport regression harness. */
-    ErpConsoleTransport(ConnectionFactory connections) { this.connections = connections; }
-    ErpConsoleTransport() { this(url -> (HttpURLConnection) url.openConnection()); }
+    /** Journal contains command inputs, never authentication credentials. Production uses device-bound encryption. */
+    interface Journal {
+        String read(String scope) throws Exception;
+        void write(String scope, String envelope) throws Exception;
+        void remove(String scope, String idempotencyKey) throws Exception;
+    }
+    private static final Journal VOLATILE = new Journal() {
+        public String read(String scope) { return null; }
+        public void write(String scope, String envelope) { }
+        public void remove(String scope, String idempotencyKey) { }
+    };
+    /** Injectable connections and journal allow explicit transport/restart regression tests. */
+    ErpConsoleTransport(ConnectionFactory connections, Journal journal) { this.connections = connections; this.journal = journal; }
+    ErpConsoleTransport(ConnectionFactory connections) { this(connections, VOLATILE); }
+    ErpConsoleTransport(Journal journal) { this(url -> (HttpURLConnection) url.openConnection(), journal); }
+    ErpConsoleTransport() { this(url -> (HttpURLConnection) url.openConnection(), VOLATILE); }
 
     /** UI-safe errors contain codes only; response bodies and URLs are never displayed. */
     static final class Failure extends Exception {
@@ -56,9 +71,10 @@ class ErpConsoleTransport {
     private static final class PendingCommand {
         final String fingerprint, name, body;
         final Session session;
-        boolean inFlight;
-        PendingCommand(String fingerprint, String name, String body, Session session) {
-            this.fingerprint = fingerprint; this.name = name; this.body = body; this.session = session;
+        final String scope;
+        boolean inFlight, uncertain;
+        PendingCommand(String fingerprint, String name, String body, Session session, String scope) {
+            this.fingerprint = fingerprint; this.name = name; this.body = body; this.session = session; this.scope = scope;
         }
     }
 
@@ -67,10 +83,48 @@ class ErpConsoleTransport {
         if (!next.equals(origin)) clear();
         origin = next;
     }
-    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; }
+    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; actorScope = ""; }
     synchronized boolean isSignedIn() { return !cookie.isEmpty() && !csrf.isEmpty(); }
     synchronized String origin() { return origin; }
     synchronized boolean hasPendingCommand() { return pending != null; }
+    /** Available only after authenticated same-actor restoration; callers receive a defensive copy. */
+    synchronized JSONObject pendingCommand() throws Exception {
+        if (pending == null || !isSignedIn()) return null;
+        return new JSONObject(pending.body).put("name", pending.name);
+    }
+    private String scope(JSONObject actor) throws Exception {
+        String binding = new JSONArray().put(origin).put(actor.getString("companyId")).put(actor.getString("userId")).toString();
+        byte[] hash = java.security.MessageDigest.getInstance("SHA-256").digest(binding.getBytes(StandardCharsets.UTF_8));
+        StringBuilder value = new StringBuilder(); for (byte b : hash) value.append(String.format(Locale.ROOT, "%02x", b & 255));
+        return value.toString();
+    }
+    private void restorePending() throws Exception {
+        String saved;
+        try { saved = journal.read(actorScope); }
+        catch (Exception error) { throw new Failure(0, "RECOVERY_STORAGE_UNAVAILABLE", false); }
+        if (saved == null) return;
+        try {
+            if (saved.getBytes(StandardCharsets.UTF_8).length > 70000) throw new IllegalArgumentException();
+            JSONObject record = new JSONObject(saved), body = record.getJSONObject("body");
+            String name = record.getString("name"), key = body.getString("idempotency_key");
+            if (!name.matches("[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+") || !key.matches("[A-Za-z0-9_-]{8,200}") ||
+                    record.getInt("version") != 1 || !actorScope.equals(record.getString("scope")) ||
+                    body.getJSONObject("input") == null || body.has("expected_version") && (!(body.get("expected_version") instanceof Number) || body.getInt("expected_version") < 1)) throw new IllegalArgumentException();
+            JSONObject fingerprintBody = new JSONObject(body.toString()); fingerprintBody.remove("idempotency_key");
+            pending = new PendingCommand(name + ":" + canonical(fingerprintBody), name, body.toString(), capture(), actorScope);
+            pending.uncertain = true; // Crash may have happened after the server committed.
+        } catch (Exception error) { throw new Failure(0, "RECOVERY_STORAGE_INVALID", false); }
+    }
+    private void persist(PendingCommand attempt) throws Exception {
+        JSONObject record = new JSONObject().put("version", 1).put("scope", attempt.scope).put("name", attempt.name).put("body", new JSONObject(attempt.body));
+        try { journal.write(attempt.scope, record.toString()); }
+        catch (Exception error) { throw new Failure(0, "RECOVERY_STORAGE_UNAVAILABLE", false); }
+    }
+    private void resolve(PendingCommand attempt) throws Exception {
+        try { journal.remove(attempt.scope, new JSONObject(attempt.body).getString("idempotency_key")); }
+        catch (Exception error) { attempt.uncertain = true; throw new Failure(0, "RECOVERY_STORAGE_UNAVAILABLE", true); }
+        if (pending == attempt) pending = null;
+    }
     private synchronized Session capture() { return new Session(origin, cookie, csrf, epoch); }
     private synchronized void requireCurrent(Session session) throws Failure {
         if (epoch != session.epoch || !origin.equals(session.origin)) throw new Failure(0, "ACCESS_CHANGED", false);
@@ -142,6 +196,8 @@ class ErpConsoleTransport {
                     if (nextCookie == null || !proof.matches("[A-Za-z0-9_-]{30,100}") || actor == null || actor.optString("userId").isEmpty() || actor.optString("companyId").isEmpty())
                         throw new Failure(status, "LOGIN_RESPONSE_INVALID", false);
                     cookie = nextCookie; csrf = proof;
+                    try { actorScope = scope(actor); restorePending(); }
+                    catch (Exception error) { clear(); throw error; }
                 } else if (authenticated && result.has("csrfToken")) {
                     String proof = result.optString("csrfToken");
                     if (!proof.matches("[A-Za-z0-9_-]{30,100}")) throw new Failure(status, "INVALID_RESPONSE", mutation && submitted);
@@ -180,7 +236,18 @@ class ErpConsoleTransport {
         // Never hold the session monitor over network I/O: logout must invalidate immediately.
         return call("/api/v1/auth/login", body, false, true, session, false);
     }
-    JSONObject me() throws Exception { return call("/api/v1/me", null, true, false); }
+    JSONObject me() throws Exception {
+        Session session = capture();
+        JSONObject result = call("/api/v1/me", null, true, false, session, false);
+        synchronized (this) {
+            requireCurrent(session);
+            JSONObject actor = result.optJSONObject("actor");
+            if (actor == null || !(actor.opt("userId") instanceof String) || !(actor.opt("companyId") instanceof String) || actor.optString("userId").isEmpty() || actor.optString("companyId").isEmpty() || !actorScope.equals(scope(actor))) {
+                clear(); throw new Failure(0, "ACCESS_CHANGED", false);
+            }
+        }
+        return result;
+    }
     JSONObject dashboard() throws Exception { return call("/api/v1/dashboard", null, true, false); }
     JSONArray catalog() throws Exception { return call("/api/v1/commands", null, true, false).getJSONArray("items"); }
     JSONArray entities(String kind) throws Exception {
@@ -222,18 +289,24 @@ class ErpConsoleTransport {
         synchronized (this) {
             if (!isSignedIn()) throw new Failure(0, "NEEDS_REAUTH", false);
             if (pending != null && !pending.fingerprint.equals(fingerprint)) throw new Failure(0, "PENDING_COMMAND_REQUIRES_RETRY", true);
-            if (pending == null) pending = new PendingCommand(fingerprint, name, body.toString(), capture());
+            if (pending == null) {
+                PendingCommand next = new PendingCommand(fingerprint, name, body.toString(), capture(), actorScope);
+                // Persist before opening a connection: failure must never submit a write without recovery.
+                persist(next); pending = next;
+            }
             if (pending.inFlight) throw new Failure(0, "COMMAND_IN_PROGRESS", true);
             attempt = pending; attempt.inFlight = true;
         }
         try {
             JSONObject result = call("/api/v1/commands/" + attempt.name, new JSONObject(attempt.body), true, false, attempt.session, false);
-            synchronized (this) { if (pending == attempt) pending = null; }
+            synchronized (this) { resolve(attempt); }
             return result;
         } catch (Failure failure) {
             synchronized (this) {
-                if (pending == attempt && !failure.outcomeUnknown && !"IDEMPOTENCY_CONFLICT".equals(failure.code)) pending = null;
+                if (failure.outcomeUnknown || "IDEMPOTENCY_CONFLICT".equals(failure.code)) attempt.uncertain = true;
+                if (pending == attempt && !attempt.uncertain) resolve(attempt);
             }
+            if (attempt.uncertain && !failure.outcomeUnknown) throw new Failure(failure.status, failure.code, true);
             throw failure;
         } finally { synchronized (this) { attempt.inFlight = false; } }
     }

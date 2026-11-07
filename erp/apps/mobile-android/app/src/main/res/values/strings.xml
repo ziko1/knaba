@@ -180,7 +180,7 @@
     <string name="erp_unknown_result">Das Ergebnis ist unklar. Erneut senden wiederholt genau dieselbe Anfrage. Eingaben bleiben gesperrt, bis das Ergebnis geklärt ist.</string>
     <string name="erp_wait">Die Anfrage läuft. Bitte auf die Bestätigung warten.</string>
     <string name="erp_unknown_title">Ergebnis noch unklar</string>
-    <string name="erp_unknown_leave">Der Server könnte die Aktion bereits ausgeführt haben. Prüfen Sie den Verlauf, bevor Sie dieselbe Aktion neu anlegen.</string>
+    <string name="erp_unknown_leave">Die unklare Anfrage bleibt verschlüsselt auf diesem Gerät gespeichert. Melden Sie sich am selben Server mit demselben Konto an, um genau diese Anfrage zu prüfen und zu wiederholen. Nicht als neue Aktion anlegen.</string>
     <string name="erp_logout_question">Möchten Sie sich von diesem Arbeitsbereich abmelden?</string>
 
     <string name="erp_task_id">Aufgaben-ID</string>

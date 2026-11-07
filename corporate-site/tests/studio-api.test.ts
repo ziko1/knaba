@@ -7,6 +7,7 @@ import type { D1Database, D1Result, D1Statement, WorkerEnv } from '../worker/typ
 const uri='https://kneba.vsp.rest';
 const editorSelector='#main > section:nth-of-type(1) > p:nth-of-type(1)';
 const initial=[{selector:editorSelector,kind:'text',value:'Saubere Räume'}];
+const pageHtml='<!doctype html><html><head><title>KnaBa</title><meta name="description" content="Original"><meta property="og:title" content="KnaBa"><meta property="og:description" content="Original"></head><body><main id="main"><section><p>Original</p></section></main></body></html>';
 let sqlite:DatabaseSync;
 let env:WorkerEnv;
 function bridge(database:DatabaseSync):D1Database{
@@ -56,11 +57,60 @@ beforeEach(()=>{
     const sql=readFileSync(new URL('../drizzle/'+file+'.sql',import.meta.url),'utf8');
     sqlite.exec(sql.replaceAll('--> statement-breakpoint','\n'));
   }
-  env={DB:bridge(sqlite),OWNER_EMAIL:'owner@example.test'};
+  env={DB:bridge(sqlite),OWNER_EMAIL:'owner@example.test',ASSETS:{fetch:async()=>new Response(pageHtml,{headers:{'Content-Type':'text/html'}})}};
   sqlite.prepare("INSERT INTO profiles (id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES ('admin-id','Admin','admin@example.test','worker','admin','approved','test','test','test',1,'test')").run();
 });
 afterEach(()=>sqlite.close());
 describe('KNABA Studio owner isolation + atomic draft/release',()=>{
+  it('rejects an incompatible selector without partially publishing valid edits or SEO',async()=>{
+    await invoke('POST','/api/studio/draft',{page:'/',version:0,entries:initial});
+    await invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'});
+    const invalid=[{...initial[0],value:'Must remain a draft'},
+      {selector:'@title',kind:'text',value:'Must remain private'},
+      {selector:'#main > section:nth-of-type(2) > p:nth-of-type(1)',kind:'text',value:'Missing'}];
+    await invoke('POST','/api/studio/draft',{page:'/',version:1,entries:invalid});
+    const rejected=await invoke('POST','/api/studio/publish',{page:'/',version:2,confirm:'PUBLISH'});
+    expect(rejected.status).toBe(409);
+    expect(rejected.body.error.code).toBe('incompatible_page');
+    const actual=sqlite.prepare('SELECT published_json,published_version,draft_version FROM studio_pages WHERE page_path=?').get('/');
+    expect(actual).toEqual({published_json:JSON.stringify(initial),published_version:1,draft_version:2});
+    expect(sqlite.prepare("SELECT count(*) AS n FROM studio_revisions WHERE action='published'").get()).toEqual({n:1});
+  });
+  it('rejects a target that became rich text and unavailable or oversized trusted assets',async()=>{
+    await invoke('POST','/api/studio/draft',{page:'/',version:0,entries:initial});
+    env.ASSETS={fetch:async()=>new Response(pageHtml.replace('<p>Original</p>','<p>Original <strong>markup</strong></p>'),{headers:{'Content-Type':'text/html'}})};
+    expect((await invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'})).status).toBe(409);
+    env.ASSETS={fetch:async()=>new Response('missing',{status:404})};
+    expect((await invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'})).status).toBe(409);
+    env.ASSETS={fetch:async()=>new Response(pageHtml+' '.repeat(400_001),{headers:{'Content-Type':'text/html'}})};
+    expect((await invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'})).status).toBe(409);
+    delete env.ASSETS;
+    expect((await invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'})).status).toBe(503);
+    expect(sqlite.prepare('SELECT published_version FROM studio_pages').get()).toEqual({published_version:0});
+  });
+  it('rejects authority revoked during asynchronous page validation without publishing',async()=>{
+    await invoke('POST','/api/studio/draft',{page:'/',version:0,entries:initial});
+    let authorized=true;
+    env.ASSETS={fetch:async()=>{authorized=false;return new Response(pageHtml,{headers:{'Content-Type':'text/html'}});}};
+    env.STUDIO_PUBLICATION_BATCH=async statements=>authorized?env.DB!.batch(statements):null;
+    const result=await invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'});
+    expect(result.status).toBe(403);expect(result.body.error.code).toBe('forbidden');
+    expect(sqlite.prepare('SELECT published_version FROM studio_pages').get()).toEqual({published_version:0});
+    expect(sqlite.prepare("SELECT count(*) AS n FROM studio_revisions WHERE action='published'").get()).toEqual({n:0});
+  });
+  it('concurrent publication has one committed revision and one conflict after asset validation',async()=>{
+    await invoke('POST','/api/studio/draft',{page:'/',version:0,entries:initial});
+    const waiting:Array<()=>void>=[];
+    env.ASSETS={fetch:()=>new Promise(resolve=>waiting.push(()=>resolve(new Response(pageHtml,{headers:{'Content-Type':'text/html'}}))))};
+    const first=invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'});
+    const second=invoke('POST','/api/studio/publish',{page:'/',version:1,confirm:'PUBLISH'});
+    for(let i=0;i<50&&waiting.length<2;i++)await Promise.resolve();
+    expect(waiting).toHaveLength(2);
+    waiting[0]();expect((await first).status).toBe(200);
+    waiting[1]();expect((await second).status).toBe(409);
+    expect(sqlite.prepare("SELECT count(*) AS n FROM studio_revisions WHERE action='published'").get()).toEqual({n:1});
+    expect(sqlite.prepare('SELECT published_version FROM studio_pages').get()).toEqual({published_version:1});
+  });
   it('denies anonymous access, approved administrator and unauthenticated mutations',async()=>{
     expect((await invoke('GET','/api/studio/page?page=%2F',undefined,'anonymous')).status).toBe(401);
     expect((await invoke('GET','/api/studio/page?page=%2F',undefined,'admin')).status).toBe(403);

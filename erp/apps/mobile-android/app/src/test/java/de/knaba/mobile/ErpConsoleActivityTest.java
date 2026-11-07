@@ -313,6 +313,33 @@ public class ErpConsoleActivityTest {
         @Override Runnable detachSessionForLogout() { return demo.detachSessionForLogout(); }
     }
 
+    @Test public void reauthenticationShowsRestoredCommandAndRetriesOriginalEnvelope() throws Exception {
+        launch();
+        ControlledTransport recovered = new ControlledTransport() {
+            boolean loggedIn, unresolved = true;
+            @Override JSONObject login(String email, String password, String otp) throws Exception { loggedIn = true; return super.login(email,password,otp); }
+            @Override boolean hasPendingCommand() { return loggedIn && unresolved; }
+            @Override JSONObject pendingCommand() throws Exception {
+                return hasPendingCommand() ? new JSONObject().put("name","task.worklog").put("input",new JSONObject().put("task_id","synthetic-task").put("note","Recovered private note"))
+                    .put("expected_version",7).put("idempotency_key","original-before-restart") : null;
+            }
+            @Override JSONObject command(String name, JSONObject input, Integer version, String key) throws Exception {
+                assertEquals("task.worklog",name); assertEquals("Recovered private note",input.getString("note"));
+                assertEquals(Integer.valueOf(7),version); assertEquals("original-before-restart",key); unresolved = false; return new JSONObject();
+            }
+        };
+        inject(recovered);
+        assertFalse("Private pending payload must not appear before authentication",text().contains("Recovered private note"));
+        edit(R.string.erp_server).setText("https://fixture.invalid");
+        edit(R.string.erp_email).setText("synthetic@example.invalid"); edit(R.string.erp_password).setText("synthetic-only");
+        click(R.string.erp_sign_in); await(() -> hasButton(R.string.erp_retry_pending) && !busy());
+        assertTrue(text().contains("Recovered private note"));
+        assertFalse("Recovery must not immediately submit a mutation",hasButton(R.string.erp_logout));
+        click(R.string.erp_retry_pending); await(() -> hasButton(R.string.erp_logout) && !busy());
+        assertFalse(hasButton(R.string.erp_review_pending));
+        assertFalse(text().contains("Recovered private note"));
+    }
+
     @Test public void recreationRetainsDemoSessionButNeverEnablesGps() throws Exception {
         launch(); demo(); openChat();
         edit(R.string.erp_message).setText("survives orientation"); click(R.string.erp_send); settled();

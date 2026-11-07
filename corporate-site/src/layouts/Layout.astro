@@ -61,6 +61,14 @@ const breadcrumbs = suppliedBreadcrumbs.length ? suppliedBreadcrumbs : corporate
 const localPath = (url: string) => localizedPublicPath(url,lang);
 const isContactPage = path === localPath('/kontakt/');
 const brand = brandMessages[lang];
+const contactLabels = {
+  de: {country:'Deutschland',vat:'USt-IdNr.',social:'KnaBa online'},
+  en: {country:'Germany',vat:'VAT ID',social:'KnaBa online'},
+  pl: {country:'Niemcy',vat:'Numer VAT UE',social:'KnaBa online'},
+  lt: {country:'Vokietija',vat:'PVM kodas',social:'KnaBa internete'},
+  ru: {country:'Германия',vat:'Номер НДС',social:'KnaBa в сети'},
+  uk: {country:'Німеччина',vat:'Номер ПДВ',social:'KnaBa у соцмережах'},
+}[lang];
 const brandAlt = brand.descriptor;
 const logoLocale = lang==='de'?'':'-'+lang;
 const logoVersion='?v=i18n-20261026';
@@ -95,6 +103,9 @@ const structuredData = {
   "@type": "LocalBusiness",
   "@id": siteConfig.origin + "/#business",
   name: "KnaBa Baureinigung & BauService",
+  legalName: company.legalName,
+  vatID: company.vatId,
+  sameAs: [company.facebook],
   url: siteConfig.origin,
   telephone: company.phoneHref.slice(4),
   email: company.email,
@@ -120,7 +131,9 @@ const structuredData = {
     {bingProof && <meta name="msvalidate.01" content={bingProof} />}
     <meta name="robots" content={isNoindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
     {!omitCanonical && <link rel="canonical" href={canonical} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
     {mobileApp && <link rel="manifest" href="/app-manifest.json" />}
     {mobileApp && <link rel="apple-touch-icon" href="/images/knaba-mobile-192.png" />}
     {mobileApp && <meta name="apple-mobile-web-app-capable" content="yes" />}
@@ -218,10 +231,20 @@ const structuredData = {
           ><a href={localPath("/ratgeber/")}>{footerLabels[3]}</a><a href={localPath("/faq/")}>{{de:"Fragen & Antworten",en:"Questions & answers",pl:"Pytania i odpowiedzi",lt:"Klausimai ir atsakymai",uk:"Запитання й відповіді",ru:"Вопросы и ответы"}[lang]}</a><a href={localPath("/galerie/")}>{{de:"Arbeitsabläufe",en:"How we work",pl:"Przebieg prac (DE)",lt:"Darbų eiga (DE)",uk:"Як ми працюємо",ru:"Как мы работаем"}[lang]}</a><a href={localPath("/berlin/")}>{footerLabels[4]}</a><a data-account-access="login" href={localPath("/konto/")}>{translated.account}</a><a href={localPath("/app/")}>{{de:"Mobile App",en:"Mobile app",pl:"Aplikacja mobilna",lt:"Mobilioji programėlė",uk:"Мобільний застосунок",ru:"Мобильное приложение"}[lang]}</a><a href={localPath("/unternehmen/")}>{footerLabels[5]}</a><a href={localPath("/karriere/")}
             >{footerLabels[6]}</a>
         </div>
-        <div>
-          <h2>{translated.contact}</h2>{!hasInlinePhone && <a href={company.phoneHref}>{company.phone}</a>}{!hasInlineEmail && <a
+        <div class="footer-contact">
+          <h2>{translated.contact}</h2>
+          <p class="footer-company">{company.legalName}</p>
+          <address>{company.street}<br />{company.city}<br />{contactLabels.country}</address>
+          {!hasInlinePhone && <a href={company.phoneHref}>{company.phone}</a>}
+          {hasInlinePhone && <p class="footer-contact-value">{company.phone}</p>}
+          {!hasInlineEmail && <a
             href={`mailto:${company.email}`}>{company.email}</a>}
-          <p>{company.street}<br />{company.city}</p>
+          {hasInlineEmail && <p class="footer-contact-value">{company.email}</p>}
+          <p class="footer-vat">{contactLabels.vat}: {company.vatId}</p>
+          <nav class="footer-social" aria-label={contactLabels.social}>
+            <a href={company.whatsapp} rel="noopener noreferrer" data-astro-reload>WhatsApp ↗</a>
+            <a href={company.facebook} rel="noopener noreferrer" data-astro-reload>Facebook ↗</a>
+          </nav>
         </div>
         <div>
           <h2>{translated.next}</h2><p>

@@ -1,0 +1,60 @@
+{
+  "unchangedOldMigrations": 13,
+  "files": [
+    {
+      "path": "corporate-site/drizzle/0000_needy_war_machine.sql",
+      "sha256": "443dfc2d55807c5ec5649758ca926ceca0de9be81292c9da09988b586debc230"
+    },
+    {
+      "path": "corporate-site/drizzle/0001_lazy_angel.sql",
+      "sha256": "fbb8d471e6061933e5c4af39f4e0eda4c5718a1677010d4613e6279f3052c881"
+    },
+    {
+      "path": "corporate-site/drizzle/0002_tense_mother_askani.sql",
+      "sha256": "22741475744dcc916c216cb343bedb0c616d1517ab16dc5a9b90648eb27ad3b0"
+    },
+    {
+      "path": "corporate-site/drizzle/0003_absurd_bedlam.sql",
+      "sha256": "8f21e073faa31f0cd86f0d1616828c9cd89e16b25f0a30295d7476af67e306fe"
+    },
+    {
+      "path": "corporate-site/drizzle/0004_dusty_hiroim.sql",
+      "sha256": "c24b6689439fa8347f866da23264b2acb25d71c29600d80f89984698a0d457f6"
+    },
+    {
+      "path": "corporate-site/drizzle/0005_public_reviews.sql",
+      "sha256": "f97b805b4a628ece1ddf8bf35c8987f48942e81b43d39b555cc55dbb0c30994b"
+    },
+    {
+      "path": "corporate-site/drizzle/0006_owner_invite.sql",
+      "sha256": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148"
+    },
+    {
+      "path": "corporate-site/drizzle/0007_account_invites.sql",
+      "sha256": "1bd5496f410e46c7a31c39ee98d1d9762320adebbe699af1de42651cb2173fb2"
+    },
+    {
+      "path": "corporate-site/drizzle/0008_access_requests.sql",
+      "sha256": "263f28745f30c2cbb0e02e3384d694aa36fe8c937eab08807184eecb2c339b95"
+    },
+    {
+      "path": "corporate-site/drizzle/0009_partner_access.sql",
+      "sha256": "824eb00ec092b7229513e615107eb457d08ba09f01ad5ca3296b7e6aaf567aab"
+    },
+    {
+      "path": "corporate-site/drizzle/0010_owner_details.sql",
+      "sha256": "7055eac88d992b92218f6b64e83fddd75d48f42551bb78e84c68d112a03f2b1a"
+    },
+    {
+      "path": "corporate-site/drizzle/0011_bauleiter_access.sql",
+      "sha256": "48be4656f908f2819b08e850ff7e5ab5fe8f21ca67780d212a294d92ec1c62ed"
+    },
+    {
+      "path": "corporate-site/drizzle/0012_portal_messages.sql",
+      "sha256": "3f12e7761759e8b30d0e8886bd6b8d414dead264e83b1faaf5d357fea3a353e4"
+    }
+  ],
+  "newMigration": "corporate-site/drizzle/0013_site_erp_outbox.sql",
+  "productionApplied": false,
+  "rollback": "disable dispatcher; old runtime refuses new migration ledger, so reviewed forward fix or separately reconciled backup restoration required"
+}

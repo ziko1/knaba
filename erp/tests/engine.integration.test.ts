@@ -333,6 +333,8 @@ describe('Engine runtime policy regressions (in-memory, SQL not covered)',()=>{
   await expect(engine.execute(employee,'shift.start',{input:{employeeId:'other-worker',siteId:'site-a'},idempotency_key:'offline-other-shift'})).rejects.toMatchObject({code:'ACCESS_DENIED'});
  });
  it('canonical synthetic seed produces a reviewed report, photo bytes and client access without legal approval',async()=>{
+  vi.stubEnv('APP_MODE','TEST');
+  try{
   const fixture=new PolicyFixture();const db=fixture as unknown as Database;await seed(db,fixture.companyId);
   const company=await fixture.get('company',fixture.companyId),version=await fixture.get('report_version',company.data.seedReportVersionId);
   expect(version.data.snapshot).toMatchObject({totalSeconds:21600,totalNetCents:24000,totalTaxCents:4560,totalGrossCents:28560,totalHoursDisplay:'6.00'});expect(version.data.snapshot.taskRows).toHaveLength(1);expect(version.data.snapshot.mediaRows).toHaveLength(1);expect(fixture.blobs.size).toBe(2);
@@ -340,5 +342,6 @@ describe('Engine runtime policy regressions (in-memory, SQL not covered)',()=>{
   const before=(await fixture.list('report_version')).length;await seed(db,fixture.companyId);expect(await fixture.list('report_version')).toHaveLength(before);expect(await fixture.list('time_segment')).toHaveLength(1);
   const run=async(id:string,name:string,input:unknown)=>e.execute(await e.getActor(id,fixture.companyId),name,{input,idempotency_key:randomUUID()});
   await run('demo-employee','task.start',{taskId:'task-windows'});await run('demo-employee','task.worklog',{taskId:'task-windows',quantityMilli:100000,description:'Synthetic original seed task workflow'});await run('demo-employee','task.submit',{taskId:'task-windows'});await run('demo-foreman','task.review',{taskId:'task-windows',decision:'ACCEPT',reason:'Separate synthetic quality review'});expect((await fixture.get('task','task-windows')).data.state).toBe('ACCEPTED');
+  }finally{vi.unstubAllEnvs();}
  });
 });

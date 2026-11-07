@@ -2,7 +2,7 @@ plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
 android {
     namespace = "de.knaba.mobile"
     compileSdk = 36
-    defaultConfig { applicationId = "de.knaba.mobile"; minSdk = 31; targetSdk = 36; versionCode = 4; versionName = "0.4.0" }
+    defaultConfig { applicationId = "de.knaba.mobile"; minSdk = 31; targetSdk = 36; versionCode = 5; versionName = "0.4.1" }
     buildFeatures { buildConfig = true }
     bundle { language { enableSplit = false } }
     buildTypes {

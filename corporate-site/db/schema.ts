@@ -23,6 +23,25 @@ export const requests = sqliteTable("cleaning_requests", {
 export const audit = sqliteTable("portal_audit", {
   id: text("id").primaryKey(), actorId: text("actor_id").notNull(), action: text("action").notNull(), entityId: text("entity_id").notNull(), createdAt: text("created_at").notNull(),
 });
+/** Reference-only intake queue. Delivery is an explicit operator action, never a form side effect. */
+export const siteErpOutbox = sqliteTable('site_erp_outbox', {
+  id:text('id').primaryKey(),requestId:text('request_id').notNull().references(()=>requests.id,{onDelete:'cascade'}),
+  kind:text('kind').notNull().default('lead.upsert'),status:text('status').notNull().default('PENDING'),
+  locale:text('locale').notNull().default('DE'),sourceJson:text('source_json').notNull().default('{}'),
+  attempts:integer('attempts').notNull().default(0),nextAttemptAt:integer('next_attempt_at').notNull().default(0),
+  leaseUntil:integer('lease_until').notNull().default(0),leaseToken:text('lease_token'),
+  envelopeSha256:text('envelope_sha256'),deliveryScopeSha256:text('delivery_scope_sha256'),
+  lastError:text('last_error').notNull().default(''),lastHttpStatus:integer('last_http_status'),erpEffectId:text('erp_effect_id'),
+  createdAt:text('created_at').notNull(),updatedAt:text('updated_at').notNull(),completedAt:text('completed_at'),
+},t=>[
+  uniqueIndex('site_erp_request').on(t.requestId),index('site_erp_outbox_due').on(t.status,t.nextAttemptAt,t.leaseUntil),
+  check('site_erp_kind',sql`${t.kind}='lead.upsert'`),
+  check('site_erp_status',sql`${t.status} IN ('PENDING','LEASED','APPLIED','REVIEW','BLOCKED','UNKNOWN')`),
+  check('site_erp_locale',sql`${t.locale} IN ('DE','EN','PL','LT','RU','UK')`),
+  check('site_erp_attempts',sql`${t.attempts} BETWEEN 0 AND 5`),
+  check('site_erp_digest',sql`${t.envelopeSha256} IS NULL OR (length(${t.envelopeSha256})=64 AND ${t.envelopeSha256} NOT GLOB '*[^0-9a-f]*')`),
+  check('site_erp_delivery_scope',sql`${t.deliveryScopeSha256} IS NULL OR (length(${t.deliveryScopeSha256})=64 AND ${t.deliveryScopeSha256} NOT GLOB '*[^0-9a-f]*')`),
+]);
 export const rateLimits = sqliteTable("portal_rate_limits", {
   key: text("key").primaryKey(), count: integer("count").notNull(), expiresAt: integer("expires_at").notNull(),
 });

@@ -70,6 +70,7 @@ class ErpConsoleActivity : Activity() {
     override fun attachBaseContext(newBase: Context) { super.attachBaseContext(NativeLocale.wrap(newBase)) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        api = newTransport()
         content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(22), dp(20), dp(28))
@@ -94,6 +95,14 @@ class ErpConsoleActivity : Activity() {
             if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard() }
             else showLogin()
         } else showLogin()
+    }
+    private fun newTransport() = ErpConsoleTransport(ConsoleRecoveryJournal(applicationContext))
+    private fun recoverPending() {
+        pendingRecovery = api.pendingCommand()?.let { envelope ->
+            PendingMutation(commandTitle(envelope.getString("name")), envelope.getString("name"),
+                envelope.getJSONObject("input").toString(), if (envelope.has("expected_version")) envelope.getInt("expected_version") else null,
+                envelope.getString("idempotency_key"))
+        }
     }
     private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
     private fun shape(color: Int, border: Int? = null): GradientDrawable = GradientDrawable().apply {
@@ -215,7 +224,7 @@ class ErpConsoleActivity : Activity() {
         })
     }
     private fun showLogin() {
-        actor = null
+        actor = null; pendingRecovery = null
         heading(getString(R.string.erp_title), getString(R.string.erp_login_intro))
         if (BuildConfig.DEBUG) {
             button(getString(R.string.erp_try_demo), primary = true) { enterDemo() }
@@ -235,7 +244,8 @@ class ErpConsoleActivity : Activity() {
             run({ transport.configure(url); transport.login(address, secret, otp) }, failed = { password.setText(""); code.setText("") }) { response ->
                 actor = response.optJSONObject("actor")
                 getPreferences(Context.MODE_PRIVATE).edit().putString("erp-origin", transport.origin()).apply()
-                password.setText(""); code.setText(""); showDashboard()
+                password.setText(""); code.setText(""); recoverPending()
+                if (pendingRecovery != null) showPendingRecovery() else showDashboard()
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
@@ -600,7 +610,7 @@ class ErpConsoleActivity : Activity() {
             return
         }
         val logout = api.detachSessionForLogout()
-        screen++; actor = null; demoMode = false; pendingRecovery = null; api = ErpConsoleTransport(); worker.execute(logout); showLogin()
+        screen++; actor = null; demoMode = false; pendingRecovery = null; api = newTransport(); worker.execute(logout); showLogin()
     }
     private fun goBack() {
         if (mutation && busy) { status(getString(R.string.erp_wait)); return }

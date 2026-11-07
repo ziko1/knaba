@@ -1,6 +1,25 @@
 # KNABA DE
 
-Standalone KNABA DE repository. The verified application source is being transferred from the isolated development repository; this initialization commit is not a deployed release.
+KNABA DE — сайт, кабінети компанії, CRM/ERP і нативні мобільні застосунки для організації будівельного прибирання. Ця гілка містить зведений кандидат продукту. **Повна передача клієнту ще не готова**; `main` залишається історичною публікацією специфікації, а робота над застосунками збережена в окремих незлитих PR.
+
+## Актуальний стан — 08.11.2026
+
+- [Детальний аудит, реалізовані функції та план завершення](docs/unified/COMPLETION_PLAN_2026-11-08_UK.md).
+- [Матриця 24 блоків, 72 критеріїв V4 і 18 вимог до шаблонів](docs/unified/REQUIREMENTS_TRACEABILITY.csv). Статус вимоги не виводиться із загальної кількості тестів.
+- [Перевірки поточного кандидата та їхні межі](docs/unified/evidence/completion-20261108/verification.json).
+- [Чинний контракт інтеграції заявок](docs/unified/INTEGRATION_CONTRACT.md) і [керування чергою передачі](docs/unified/SITE_ERP_BRIDGE_2026-11-08_UK.md).
+- [Android 0.4.1: тестування та обмеження](docs/mobile/TEST_ANDROID_0.4.1_UK.md).
+
+| Частина | Розташування | Призначення |
+|---|---|---|
+| Сайт і кабінети | `corporate-site/` | Astro, Worker, VPS/SQLite; заявки, переписка, Studio, ролі |
+| ERP | `erp/` | Node 24, PostgreSQL; бізнес-команди, замовлення, час, склад, кошториси, аудит |
+| Android / iOS | `erp/apps/mobile-android/`, `erp/apps/mobile-ios/` | Нативні джерела; тестовий Android APK, iOS потребує актуальної збірки й перевірки |
+| Експлуатація | `ops/` | Конфігурації, перевірки, backup/release/sitepanel; наявність скрипта не доводить перевірене відновлення |
+
+Встановлення залежностей: `npm ci` окремо в `corporate-site/` і `erp/`. Перевірки: `npm test`, `npm run check:site`, `npm run test:site`, `npm run check:erp`, `npm run test:erp`. ERP SQL-тести потребують **окремої синтетичної PostgreSQL**, інакше частина тестів пропускається. `npm run audit:release` навмисно блокує реліз до виконання всіх gate. Не запускайте seed, міграції або dispatcher на клієнтських даних без погодженого плану випуску.
+
+Поточний кандидат додає надійне відновлення Android-команд, захищену публікацію Studio, вимкнену за замовчуванням передачу нових заявок до ERP і відновлені з серверної історії контакти/favicon. Єдина авторизація, повний template manager, живі зовнішні канали, device/browser UAT і підтверджена передача замовнику залишаються відкритими.
 
 ## Технічне завдання V4 — 08.10.2026
 
@@ -13,4 +32,4 @@ Standalone KNABA DE repository. The verified application source is being transfe
 
 Канонічна специфікація в репозиторії — `KNABA_DE_MASTER_SPEC.md`; у ZIP її первинна назва — `KNABA_DE_Technical_Spec_V4_UK.md`.
 
-Це публікація документації. Контрольні розрахунки та комплектність ТЗ перевірено; тести продукту в CSV мають статус `NOT_RUN`. Цей коміт не підтверджує реалізацію, розгортання чи готовність застосунку.
+Історичний комплект ТЗ збережено без зміни контрольних сум. Приймальні критерії не закриваються автоматично локальною збіркою чи модульними тестами; актуальні докази й залишок робіт наведено вище.

@@ -1,0 +1,25 @@
+{
+  "source_sha": "79b4ea3fd53dfca112616b697d2865b69a681c65",
+  "source_tree": "a7a77a7c8e8eff028fdf1db1e69f3215d3db87b9",
+  "previous_source_sha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+  "changed_files_from_full_run": [
+    "erp/tests/operations-digest.integration.test.ts"
+  ],
+  "all_recorded_runtime_bindings_identical": true,
+  "git_object_bindings": {
+    "erp/apps/api": "d00144a097572d01934680e59fbac36b7c8fa569",
+    "erp/apps/worker": "3b5900139b927992767aad1444639765fe08aa18",
+    "erp/packages": "b7c14b02cb13520bc3ae67826b4b0c73c1f2b9d3",
+    "erp/infra": "da7db2a7ec2280dcd3f67a64f384039a072e1ed4",
+    "erp/package.json": "5f258f8ad5ee597a209c09919e1c2d43b3a5c74c",
+    "erp/package-lock.json": "5c2dacdd262606ee8cca769bf152b046b18ea348",
+    "erp/vitest.config.ts": "fe74d22d2baf452a58ece2077c4e33cd3afccf22",
+    "erp/tests/site-intake-bridge.integration.test.ts": "43993101d76d5cb65e16d3c798423f5dcf412b16",
+    "erp/tests/operations-digest.integration.test.ts": "e634e5e4cda11bf10b400f9b1de007dfa93cf46c",
+    "corporate-site/vps/erp-bridge.mjs": "18628b5ac151ec1cff072c81d743701d4be14e72",
+    "corporate-site/vps/database.mjs": "d145bab8456e6b2eb3276f3e40f238088df29835",
+    "corporate-site/drizzle": "762f369222c39bbb97a2d4bafea8b9169ec74616",
+    "corporate-site/worker/api.ts": "8e96bf0c7217d56ce0e99b37f78528de7f301d2b",
+    "corporate-site/worker/crm.ts": "45619ca8ce49b1e4a05a433f308664c5ab9d9e8c"
+  }
+}

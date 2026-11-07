@@ -79,6 +79,17 @@ async function list(env:WorkerEnv,person:Person='owner'){
     stage:string;tags:string[];version:number}>;limited:boolean};
 }
 describe('KNABA CRM shared leads, role isolation, versioning',()=>{
+  it('exposes only aggregate ERP transfer states to the owner and never sends a request',async()=>{
+    const {db,env}=setup();
+    try{
+      db.db.prepare("INSERT INTO site_erp_outbox(id,request_id,status,last_error,erp_effect_id,created_at,updated_at) VALUES('event','lead-1','UNKNOWN','SYNTHETIC_PRIVATE_DETAIL','private-effect','2026-11-08','2026-11-08')").run();
+      expect((await handleApi(req('/api/crm/bridge-status'),env)).status).toBe(401);
+      for(const person of ['admin','client'] as const)expect((await handleApi(req('/api/crm/bridge-status',person),env)).status).toBe(403);
+      const result=await handleApi(req('/api/crm/bridge-status','owner'),env);expect(result.status).toBe(200);
+      expect(await result.json()).toEqual({scope:'SITE_OUTBOX_ONLY',automaticDelivery:false,counts:{PENDING:0,LEASED:0,APPLIED:0,REVIEW:0,BLOCKED:0,UNKNOWN:1}});
+      expect(db.db.prepare("SELECT status,attempts FROM site_erp_outbox WHERE id='event'").get()).toMatchObject({status:'UNKNOWN',attempts:0});
+    }finally{db.db.close();}
+  });
   it('creates additive CRM tables without changing request/assistant schema',()=>{
     const {db}=setup();
     try{
