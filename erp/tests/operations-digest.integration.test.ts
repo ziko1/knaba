@@ -172,7 +172,11 @@ postgres('operations digest: actual PostgreSQL configure/preview/leased worker/p
   const firstWorker=new WorkerRunner(db,engine,{...worker.options,now:()=>new Date('2025-10-26T00:30:00.000Z')}),repeatedWorker=new WorkerRunner(db,engine,{...worker.options,now:()=>new Date('2025-10-26T01:30:00.000Z')});
   await firstWorker.scheduled();await repeatedWorker.scheduled();
   const requested=(await db.query("SELECT id FROM outbox WHERE company_id=$1 AND type='digest.requested' AND data->>'policyId'=$2",[company,policy.id])).rows;
-  expect(requested).toHaveLength(1);const snapshot=await preview(policy,'2025-10-26T00:30:00.000Z');
+  expect(requested).toHaveLength(1);
+  // Observe the historical DST fixture the next day. Date-only faking keeps
+  // PostgreSQL/authentication and async timers real without weakening the bound.
+  let snapshot:Data;vi.useFakeTimers({toFake:['Date']});vi.setSystemTime(new Date('2025-10-27T00:00:00.000Z'));
+  try{snapshot=await preview(policy,'2025-10-26T00:30:00.000Z');}finally{vi.useRealTimers();}
   expect(snapshot.slotKey).toBe('2025-10-26:02:30');expect((Date.parse(snapshot.plannedEnd)-Date.parse(snapshot.plannedStart))/3600000).toBe(25);
   expect(await rows('operations_digest')).toHaveLength(0);
  });
