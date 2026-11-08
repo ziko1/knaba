@@ -1,6 +1,8 @@
 {
   "locale": "de",
   "portal": {
+    "linkAccounts": "Konten verbinden",
+    "accountSettings": "Kontoeinstellungen",
     "bauleiter": "Bauleiter",
     "bauleiterGuide": "Koordinieren Sie Ihre zugewiesenen Einsätze: Termin vereinbaren, freigegebene Arbeitskraft zuweisen und Fortschritt prüfen.",
     "bauleiterAssignment": "Zuständige Bauleitung",

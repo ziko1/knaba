@@ -101,6 +101,7 @@ indirect enum ERPAny: Codable, Sendable {
 enum ERPFailure: Error, LocalizedError, Equatable {
     case invalidOrigin, invalidPath, expired, invalidResponse, http(Int, String), tooLarge, accessChanged, invalidPayload, confirmationRequired
     case pendingExists, pendingUnknown, pendingDifferentActor, pendingStorage, pendingChanged
+    case sensitiveCommand, credentialReauthenticationRequired, credentialOutcomeUnknown
     var errorDescription: String? {
         switch self {
         case .invalidOrigin: return "Use the KNABA ERP HTTPS server address (without a path)."
@@ -117,6 +118,9 @@ enum ERPFailure: Error, LocalizedError, Equatable {
         case .pendingDifferentActor: return "A saved request belongs to another account or server."
         case .pendingStorage: return "The saved request cannot be read or safely stored. Do not create it again."
         case .pendingChanged: return "The saved request has changed. Reload its current state."
+        case .sensitiveCommand: return "This credential action is not available through durable mobile commands."
+        case .credentialReauthenticationRequired: return "Sign in again to check your credential change."
+        case .credentialOutcomeUnknown: return "The credential change may have been applied. Sign in again to check it; it will not be retried."
         }
     }
 }
@@ -172,6 +176,7 @@ actor ERPConsoleClient {
     private var csrf: String?
     private var generation = 0
     private var activeWrite: UUID?
+    private var identityAuthority: Data?
     private(set) var identity: ERPIdentity?
 
     struct Authority: Sendable {
@@ -191,7 +196,7 @@ actor ERPConsoleClient {
         if next != origin { reset() }
         origin = next
     }
-    private func reset() { generation += 1; identity = nil; cookie = nil; csrf = nil }
+    private func reset() { generation += 1; identity = nil; cookie = nil; csrf = nil; identityAuthority = nil }
     func forget() { reset(); origin = nil }
     private func validatedIdentity(_ value: ERPIdentity) throws -> ERPIdentity {
         guard !value.actor.companyId.isEmpty, value.actor.companyId.count <= 200,
@@ -280,12 +285,16 @@ actor ERPConsoleClient {
     private func readCurrentIdentity(matching expected: ERPActor, epoch: Int) async throws -> ERPIdentity {
         let (data, _) = try await send("/api/v1/me")
         guard epoch == generation else { throw ERPFailure.accessChanged }
-        let result: ERPIdentity
-        do { result = try validatedIdentity(JSONDecoder().decode(ERPIdentity.self, from: data)) }
+        let result: ERPIdentity, snapshot: Data
+        do {
+            result = try validatedIdentity(JSONDecoder().decode(ERPIdentity.self, from: data))
+            snapshot = try ERPCredentialPolicy.authoritySnapshot(data)
+        }
         catch { if epoch == generation { reset() }; throw ERPFailure.accessChanged }
         guard result.actor.companyId == expected.companyId, result.actor.userId == expected.userId else {
             if epoch == generation { reset() }; throw ERPFailure.accessChanged
         }
+        identityAuthority = snapshot
         return result
     }
     func refresh() async throws -> ERPIdentity {
@@ -346,13 +355,23 @@ actor ERPConsoleClient {
         guard ERPCommandName.isValid(command.name), !command.permission.isEmpty, input.count <= 65536,
               expectedVersion == nil || expectedVersion! > 0 else { throw ERPFailure.invalidPayload }
         let raw = try JSONSerialization.jsonObject(with: input)
-        guard raw is [String: Any] else { throw ERPFailure.invalidPayload }
-        guard try pendingStore.load() == nil else { throw ERPFailure.pendingExists }
+        guard let object = raw as? [String: Any] else { throw ERPFailure.invalidPayload }
+        let oneShot = ERPCredentialPolicy.isOneShot(command.name)
+        if oneShot {
+            guard command.permission == "identity.self" else { throw ERPFailure.invalidPayload }
+            try ERPCredentialPolicy.validateOneShot(command.name, input: object)
+        } else if try ERPCredentialPolicy.containsSecret(object) { throw ERPFailure.sensitiveCommand }
+        guard try validatedPending() == nil else { throw ERPFailure.pendingExists }
         let key = UUID().uuidString
         var body: [String: Any] = ["input": raw, "idempotency_key": key]
         if let expectedVersion { body["expected_version"] = expectedVersion }
         let data = try JSONSerialization.data(withJSONObject: body, options: .sortedKeys)
         guard data.count <= ERPPendingCommand.maximumBodyBytes else { throw ERPFailure.invalidPayload }
+        if oneShot {
+            let operation = UUID(); activeWrite = operation
+            defer { if activeWrite == operation { activeWrite = nil } }
+            return try await executeCredential(command.name, body: data, authority: current)
+        }
         let pending = ERPPendingCommand(schemaVersion: 1, origin: current.origin.absoluteString,
                                         companyId: current.companyId, userId: current.userId, command: command.name,
                                         idempotencyKey: key, expectedVersion: expectedVersion, body: data, createdAt: Date())
@@ -363,9 +382,48 @@ actor ERPConsoleClient {
         return try await transmit(pending, authority: current, previousOutcomeUnknown: false)
     }
 
+    private func validatedPending() throws -> ERPPendingCommand? {
+        guard let pending = try pendingStore.load() else { return nil }
+        try pending.validate()
+        return pending
+    }
+
+    private func executeCredential(_ name: String, body: Data, authority current: Authority) async throws -> ERPField {
+        guard let expectedAuthority = identityAuthority else { throw ERPFailure.expired }
+        var dispatched = false
+        defer {
+            // An old completion must never clear a newer login or origin.
+            if dispatched && current.generation == generation && current.origin == origin { reset() }
+        }
+        do {
+            _ = try await refresh()
+            try require(current)
+            guard identityAuthority == expectedAuthority else { reset(); throw ERPFailure.accessChanged }
+            guard try validatedPending() == nil else { throw ERPFailure.pendingExists }
+            try Task.checkCancellation()
+            dispatched = true
+            let (data, response) = try await send("/api/v1/commands/\(name)", method: "POST", body: body)
+            try require(current)
+            guard response.statusCode == 200 || response.statusCode == 201 else { throw ERPFailure.invalidResponse }
+            let result = try JSONDecoder().decode(ERPField.self, from: data)
+            guard result.dictionary?["ok"]?.bool == true,
+                  result.dictionary?["reauthenticationRequired"]?.bool == true else { throw ERPFailure.invalidResponse }
+            return result
+        } catch {
+            guard dispatched else { throw error }
+            if let failure = error as? ERPFailure, failure == .accessChanged { throw failure }
+            if definitiveRejection(error) { throw ERPFailure.credentialReauthenticationRequired }
+            if case .http(let status, _)? = error as? ERPFailure, status == 401 {
+                throw ERPFailure.credentialReauthenticationRequired
+            }
+            // No envelope or key is retained for replay, including a timeout or cancellation.
+            throw ERPFailure.credentialOutcomeUnknown
+        }
+    }
+
     func pendingCommand() throws -> ERPPendingCommand? {
         let current = try authority()
-        guard let pending = try pendingStore.load() else { return nil }
+        guard let pending = try validatedPending() else { return nil }
         guard let identity, pending.belongs(to: identity, origin: current.origin) else { throw ERPFailure.pendingDifferentActor }
         return pending
     }
@@ -379,7 +437,7 @@ actor ERPConsoleClient {
         // Every explicit recovery rechecks /me. Login, process recreation and resume never replay.
         _ = try await refresh()
         try require(current)
-        guard try pendingStore.load() == pending else { throw ERPFailure.pendingChanged }
+        guard try validatedPending() == pending else { throw ERPFailure.pendingChanged }
         return try await transmit(pending, authority: current, previousOutcomeUnknown: true)
     }
 

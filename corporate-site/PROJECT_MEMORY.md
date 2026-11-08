@@ -1,5 +1,9 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
+
+Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../docs/unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.
+
 ## 08.11.2026 — F2 site/ERP dual-consent candidate
 
 У Draft PR128 від `a670ff0be70abd1bb8f07065e237b5e3de8a7a84` додано neutral linking page, same-origin CSRF/preview consent, signed backchannel inspect/redeem і immutable SQLite grants з окремим checksum migration receipt. Current original session/profile/config перевіряються в SQLite transaction; email не створює binding або роль. Standalone protocol/UI distribution та [повний F2 contract](../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md) зберігають ERP/VPS packaging. Local SQLite/HTTP/source/build checks PASS; actual PostgreSQL integrated flow і rendered browser/device ще не прийняті. F3–F5/SSO/whole product NOT_READY; production federation вимкнена, live migration/config/deploy не виконано.

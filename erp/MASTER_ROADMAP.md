@@ -1,5 +1,9 @@
 # KNABA DE master roadmap
 
+## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
+
+Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../docs/unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.
+
 ## 08.11.2026 — C08-C прийнято; F4-C1 identity privacy export
 
 C08-C прийнято на `4e6ac0990ddd73bed142ab05b5f7579d8ed3048a` / [PR136](https://github.com/ziko1/knaba/pull/136), [CI42491574791](https://github.com/ziko1/knaba/actions/runs/42491574791), attempt1: ERP3144/126 файлів, notification-policy PostgreSQL21 включно з7 новими cases, template-origin19; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0, independent source/raw-log ACCEPT. [Receipt](../docs/unified/evidence/template-origin-20261108/accepted-4e6ac0.json). Duplicate push42491540824 SUCCESS; correction не знадобилась.

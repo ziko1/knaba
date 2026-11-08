@@ -1,10 +1,11 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {verifyPublicLive} from '../scripts/verify-public-live.mjs';
 
 const langs=['de','en','uk','ru'];
-const ids=['official-01','official-02','hit','stromkreis','gewobag'];
-const images=['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png'];
+const ids=['official-01','official-02','hit','stromkreis','gewobag','tm-ausbau','brueninghoff'];
+const images=['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png','/images/partners/tm-ausbau.svg','/images/partners/brueninghoff-group.svg'];
 const carouselPaths=['bauzwischenreinigung','bauendreinigung','baustellenraeumung',
   'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten']
   .map(name=>'/illustrations/carousel/'+name+'.webp');
@@ -21,16 +22,21 @@ function markup(lang,gallery=false,{cards=ids,legacy=false,missingAlt=false,unsa
     +(legacy?'<a href="https://knaba.de/">old</a>':'')+'<footer>Footer</footer></body></html>';
 }
 function mock({cards=ids,ready=200,gallery=200,legacy=false,missingAlt=false,fail=null,large=false,media=206,badMime=false,badMagic=false,unsafeMedia=false,noImage=false,noArt=false,seen=[]}={}) {
-  return async url=>{
+  return async (url,options)=>{
     seen.push(url);
     const mediaPath=new URL(url).pathname;
     if(images.includes(mediaPath)||carouselPaths.includes(mediaPath)){
-      const isArt=carouselPaths.includes(mediaPath);
+      const isArt=carouselPaths.includes(mediaPath),isSvg=mediaPath.endsWith('.svg');
+      if(isSvg){
+        assert.equal(options.headers.range,undefined,'SVG validation must request the complete document');
+        assert.ok(options.headers.accept.includes('image/svg+xml'));
+      }
       const signature=badMagic?new Uint8Array([1,2,3,4,5,6,7,8,9,10,11,12])
         :isArt?new TextEncoder().encode('RIFF1234WEBP')
+        :isSvg?readFileSync(new URL('../public'+mediaPath,import.meta.url))
         :new Uint8Array([137,80,78,71,13,10,26,10,0]);
       return new Response(signature,{status:media,
-        headers:{'content-type':badMime?'text/html':isArt?'image/webp':'image/png'}});
+        headers:{'content-type':badMime?'text/html':isArt?'image/webp':isSvg?'image/svg+xml':'image/png'}});
     }
     const path=new URL(url).pathname;
     if(path===fail) throw Error('network');
@@ -47,13 +53,13 @@ function mock({cards=ids,ready=200,gallery=200,legacy=false,missingAlt=false,fai
 const issues=r=>r.checks.flatMap(c=>c.errors);
 test('synthetic public HTTP PASS remains distinct from customer readiness',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock()});
-  assert.equal(r.outcome,'PASS_HTTP');assert.equal(r.checks.length,22);
+  assert.equal(r.outcome,'PASS_HTTP');assert.equal(r.checks.length,24);
   assert.equal(r.customerReady,false);assert.equal(r.releaseSha,null);
 });
-test('only three logos: four language homes fail closed',async()=>{
-  const r=await verifyPublicLive({fetchImpl:mock({cards:ids.slice(2)})});
+test('only the original five logos: four language homes fail closed',async()=>{
+  const r=await verifyPublicLive({fetchImpl:mock({cards:ids.slice(0,5)})});
   assert.equal(r.outcome,'FAIL');
-  assert.equal(issues(r).filter(x=>x==='PARTNERS_NOT_FIVE_IN_ORDER').length,4);
+  assert.equal(issues(r).filter(x=>x==='PARTNERS_NOT_SEVEN_IN_ORDER').length,4);
 });
 test('/readyz 503 fails even if /healthz 200',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock({ready:503})});
@@ -83,13 +89,13 @@ test('invalid mode and unbounded timeout never fetch',async()=>{
 test('broken local asset HTTP500 rejects otherwise healthy web release',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock({media:500})});
   assert.equal(r.outcome,'FAIL');
-  assert.equal(issues(r).filter(e=>e==='HTTP_500').length,12);
+  assert.equal(issues(r).filter(e=>e==='HTTP_500').length,14);
 });
 test('bad image MIME or signature is not a logo PASS',async()=>{
   const a=await verifyPublicLive({fetchImpl:mock({badMime:true})});
   const b=await verifyPublicLive({fetchImpl:mock({badMagic:true})});
-  assert.equal(issues(a).filter(e=>e==='BAD_PARTNER_IMAGE').length,5);
-  assert.equal(issues(b).filter(e=>e==='BAD_PARTNER_IMAGE').length,5);
+  assert.equal(issues(a).filter(e=>e==='BAD_PARTNER_IMAGE').length,7);
+  assert.equal(issues(b).filter(e=>e==='BAD_PARTNER_IMAGE').length,7);
   assert.equal(issues(a).filter(e=>e==='BAD_CAROUSEL_IMAGE').length,7);
   assert.equal(issues(b).filter(e=>e==='BAD_CAROUSEL_IMAGE').length,7);
 });
@@ -99,7 +105,7 @@ test('untrusted image origin is refused without contacting it',async()=>{
   assert.ok(issues(r).includes('UNSAFE_OR_MISSING_PARTNER_ASSET'));
   assert.equal(seen.filter(x=>x.startsWith('https://attacker.invalid')).length,0);
 });
-test('missing images in all five valid cards blocks release',async()=>{
+test('missing images in all seven valid cards blocks release',async()=>{
   const r=await verifyPublicLive({fetchImpl:mock({noImage:true})});
   assert.equal(r.outcome,'FAIL');
   assert.ok(issues(r).includes('PARTNER_IMAGES_MISSING'));

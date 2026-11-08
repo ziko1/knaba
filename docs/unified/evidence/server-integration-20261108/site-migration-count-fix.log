@@ -1,0 +1,29 @@
+✔ review migration remains ordinal 0005 and owner invite is a unique forward-only 0006 (3.694115ms)
+✔ fresh actual SQLite contains public reviews and passes integrity (80.164923ms)
+✔ actual baseline 1 upgrades once and retains prior receipts/data (73.296607ms)
+✔ actual baseline 5 upgrades once and retains prior receipts/data (85.222738ms)
+✔ actual baseline 7 upgrades once and retains prior receipts/data (119.379689ms)
+✔ actual baseline 8 upgrades once and retains prior receipts/data (75.894351ms)
+✔ actual baseline 10 upgrades once and retains prior receipts/data (78.945685ms)
+✔ actual baseline 11 upgrades once and retains prior receipts/data (62.05082ms)
+✔ actual baseline 12 upgrades once and retains prior receipts/data (65.649975ms)
+✔ actual baseline 13 upgrades once and retains prior receipts/data (58.378909ms)
+✔ actual baseline 14 upgrades once and retains prior receipts/data (61.592611ms)
+✔ actual baseline 15 upgrades once and retains prior receipts/data (81.362252ms)
+✔ unknown historical ledger fails closed before creating pending public reviews (72.537264ms)
+✔ all applied checksums are checked before any earlier pending SQL runs (46.570828ms)
+✔ pending migration is refused when allowMigrations=false (48.649865ms)
+✔ duplicate source ordinal is rejected before creating SQLite or parent directory (2.923917ms)
+✔ journal cannot silently reverse the SQL application order (3.13043ms)
+✔ journal timestamps must be finite and strictly increasing (3.898048ms)
+✔ online synthetic SQLite backup restores the complete migration ledger and preserved data (175.664901ms)
+✔ Bauleiter upgrade preserves existing requests, access enquiries and invite tokens byte for byte (90.379761ms)
+✔ 0012 adds private conversations without rewriting historical data or migration receipts (232.195588ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1561.02307

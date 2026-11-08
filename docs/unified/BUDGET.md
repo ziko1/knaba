@@ -1,5 +1,9 @@
 # KnaBa — окремий бюджет і квоти
 
+## 08.11.2026 — резерв спільного server integration checkpoint
+
+Один спільний source checkpoint і максимум один corrective checkpoint лише за конкретним failure/finding: до4 automatic repository runs (push+PR) та2 native PR runs, без manual rerun незмінного source. Чинні standard Ubuntu/macOS timeouts збережено (native30+50 хв на attempt); native artifact retention1day. Репозиторій повторно перевірено public з push permission; офіційні GitHub billing/runner docs повторно прочитані08.11.2026: standard hosted compute у public repository безкоштовний (https://docs.github.com/en/actions/concepts/billing-and-usage). Фактична availability встановлюється job results; model balance, private quota і storage balance UNKNOWN. Нові paid providers/runners/browser downloads не активуються. Тестові дані синтетичні. Серверна доставка авторизована поточним запитом; привілейованого activation доступу немає. Невдалі запуски нових reviewer agents через context limit не зараховані як виконане review.
+
 ## 08.11.2026 — F4-C1 reserved source verification; C08-C reconciled
 
 C08-C завершено одним source checkpoint4e6ac099: PR42491574791 та duplicate push42491540824 SUCCESS attempt1,0 native runs,0 reruns/corrections. Обидва automatic runs збережено як окремі спостереження; вони не додають case counts одного source.

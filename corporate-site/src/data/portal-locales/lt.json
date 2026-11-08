@@ -1,6 +1,8 @@
 {
   "locale": "lt",
   "portal": {
+    "linkAccounts": "Susieti paskyras",
+    "accountSettings": "Paskyros nustatymai",
     "bauleiter": "Statybos vadovas",
     "bauleiterGuide": "Koordinuokite priskirtus darbus: suderinkite datą, paskirkite patvirtintą darbuotoją ir peržiūrėkite eigą.",
     "bauleiterAssignment": "Priskirtas statybos vadovas",

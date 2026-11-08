@@ -1,0 +1,14 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run --run tests/validation-budget.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/3b8559d3e692/knaba/erp
+
+ ✓ tests/validation-budget.test.ts (19 tests) 78ms
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  17:09:14
+   Duration  5.35s (transform 3.09s, setup 0ms, import 4.15s, tests 78ms, environment 0ms)

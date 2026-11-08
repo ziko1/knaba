@@ -5,19 +5,25 @@ import {officialPartnerLogos,partnerCopy,partnerDirectoryCopy,partnerProfilePath
 const load=(p:string)=>readFileSync(new URL(p,import.meta.url),'utf8');
 
 describe('KNABA official partner parity',()=>{
-  it('uses five verified local JPEG/PNG asset bytes in official order',()=>{
-    expect(officialPartnerLogos.map(p=>p.id)).toEqual(['official-01','official-02','hit','stromkreis','gewobag']);
+  it('preserves five original partners and appends two confirmed partners with local logo assets',()=>{
+    expect(officialPartnerLogos.map(p=>p.id)).toEqual(['official-01','official-02','hit','stromkreis','gewobag','tm-ausbau','brueninghoff']);
     expect(officialPartnerLogos.map(p=>p.name)).toEqual([
-      'GOLDBECK','BONAVA','HIT · Hanseatische Immobilien Treuhand','Stromkreis','Gewobag'
+      'GOLDBECK','BONAVA','HIT · Hanseatische Immobilien Treuhand','Stromkreis','Gewobag','TM Ausbau','Brüninghoff Group'
     ]);
-    expect(new Set(officialPartnerLogos.map(p=>p.src)).size).toBe(5);
+    expect(new Set(officialPartnerLogos.map(p=>p.src)).size).toBe(7);
     for(const p of officialPartnerLogos){
       expect(p.src.startsWith('/images/partners/')).toBe(true);
-      expect(p.src.endsWith('.jpg') || p.src.endsWith('.png')).toBe(true);
+      expect(/\.(jpg|png|svg)$/.test(p.src)).toBe(true);
       const image=readFileSync(new URL('../public'+p.src,import.meta.url));
       expect(image.byteLength).toBeGreaterThan(1000);
       if(p.src.endsWith('.jpg')) expect([...image.subarray(0,3)]).toEqual([255,216,255]);
-      else expect([...image.subarray(0,8)]).toEqual([137,80,78,71,13,10,26,10]);
+      else if(p.src.endsWith('.png')) expect([...image.subarray(0,8)]).toEqual([137,80,78,71,13,10,26,10]);
+      else {
+        const svg=image.toString('utf8');
+        expect(svg).toMatch(/<svg\b[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+        expect(svg).toMatch(/<\/svg>\s*$/);
+        expect(svg).not.toMatch(/<script|<foreignObject|\son\w+\s*=|(?:href|src)\s*=/i);
+      }
       expect(p.width).toBeGreaterThan(0);
       expect(p.height).toBeGreaterThan(0);
     }
@@ -40,7 +46,7 @@ describe('KNABA official partner parity',()=>{
     expect(section).not.toMatch(/<a[^>]+href=["']https?:\/\/(?:www\.)?knaba\.de/);
   });
   it('routes every partner to an existing localized directory and a unique profile anchor',()=>{
-    expect(new Set(officialPartnerLogos.map(partner=>partner.slug)).size).toBe(5);
+    expect(new Set(officialPartnerLogos.map(partner=>partner.slug)).size).toBe(7);
     for(const locale of ['de','en','uk','ru'] as const){
       const prefix=locale==='de'?'':locale+'/';
       expect(load('../src/pages/'+prefix+'partner.astro')).toContain('locale="'+locale+'"');
@@ -58,5 +64,7 @@ describe('KNABA official partner parity',()=>{
     expect(directory).toContain('id={partner.slug}');
     expect(directory).toContain('partner.description[locale]');
     expect(directory).not.toContain('partner.source');
+    expect(directory).toContain('href={partner.website}');
+    expect(officialPartnerLogos.filter(p=>'website' in p).map(p=>p.website)).toEqual(['https://www.tm-ausbau.eu/','https://www.brueninghoff.de/']);
   });
 });

@@ -1,0 +1,57 @@
+{
+  "task": "KN-REVIEW-ASSISTANT-01",
+  "status": "ACCEPT_SCOPED_SOURCE",
+  "reviewed_at": "2026-11-08T16:09:34.820569+00:00",
+  "base": "3b009e1f697d1b3cfd831d4aaba9e5124732fd39",
+  "commit": "7e9c946c0078171e747965d8cae2cdb43e5d3141",
+  "tree": "7fd65881a2d6b1145a1fe9ec61293f005d6a947b",
+  "source_hashes": {
+    "corporate-site/db/schema.ts": "a69951b2cd3e38bffe9aead8cc99f64b7e584576472351a371cad1bbcd32a77b",
+    "corporate-site/drizzle/0015_assistant_access.sql": "8acaa07b692d0830e5e635816be8a834dcfa9251b98f51753be08ae3b4eb78fb",
+    "corporate-site/drizzle/meta/0015_snapshot.json": "72080a849e61702793b5b03b1d9af9ce88820594d67dae9bc1fc1094952c3503",
+    "corporate-site/drizzle/meta/_journal.json": "6f638fac97f5aad075e4dad3d15b20a1ff58276140152016304b60691818cbd6",
+    "corporate-site/tests/assistant-capability.test.ts": "ef50c62efc21551ebf493e3b58dc514fd51af67f7a03e26f05936668efb7f225",
+    "corporate-site/vps/assistant-access-migration.test.mjs": "a8555a9698d1f3312dcd296f5bdad3fc891d636411d87e9bc15ba673125f913c",
+    "corporate-site/vps/assistant-access.http.test.mjs": "34e70d7e8dd942b1a7205f66eccb80cf2543b59d9cd415bb45d145e876d52915",
+    "corporate-site/vps/server.mjs": "ba5f945fa6d2d332d92869c5fc2d51793c767d70aa20e8e03239171ffc410985",
+    "corporate-site/worker/api.ts": "dcb9b7bd078662dc8f4238924f93e6b7342d64a5706cae65141057e6f82aeb9e",
+    "corporate-site/worker/assistant.ts": "20c0e3529d8d1fb27e3e2f820e391578d92084b94dae1b9457d2af72bead3789",
+    "corporate-site/worker/types.ts": "23fcd677bcacc3a453a12e9e03dbbd586025eb7125c937399ba420f8a6d81ee4"
+  },
+  "findings": [],
+  "independent_results": [
+    {
+      "command": "./node_modules/.bin/vitest run tests/assistant.test.ts tests/assistant-capability.test.ts",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/knaba-independent-assistant-unit.log"
+    },
+    {
+      "command": "node --test vps/assistant-access-migration.test.mjs vps/assistant-access.http.test.mjs",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/knaba-independent-assistant-http-migration.log"
+    }
+  ],
+  "verified": [
+    "7-day fixed guest capability expiry, canonical migration backfill and fail-closed missing/invalid legacy expiry",
+    "Concealed missing/expired/revoked capability responses on guest data paths",
+    "SQL read/write access predicates and recheck before assembled thread response",
+    "Owner revoke plus single audit in one atomic transaction; rollback on audit failure; irreversible revocation",
+    "Fresh VPS account/owner binding under LocalD1 authority locks and before HTTP response",
+    "Existing history/account/F2 receipts and immutable lifecycle triggers preserved across actual SQLite backup/restore"
+  ],
+  "limitations": [
+    "VPS/local SQLite source acceptance only; no production changes or deployment evidence",
+    "No actual external notification/provider delivery; disabled or injected in tests",
+    "No browser/device acceptance",
+    "Lifecycle only; no display/request/federation UI",
+    "Schema migration requires separate reviewed operational plan; routine activation/rollback refuses drift"
+  ],
+  "logs_sha256": {
+    "/tmp/knaba-independent-assistant-unit.log": "e792ae44395267d5d9222404a7377e962d518d20e6495dc77ec08c87012ae7bf",
+    "/tmp/knaba-independent-assistant-http-migration.log": "e4a5a8ecded8d469723d37e67cacfd899abd5008d550fcaed9ff646965b0b8a1"
+  }
+}

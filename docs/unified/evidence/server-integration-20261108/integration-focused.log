@@ -1,0 +1,20 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run --run tests/lead-agent.test.ts tests/lead-agent-sources.test.ts apps/web/src/LeadAgentPanel.test.ts tests/vehicle-trips.test.ts tests/vehicle-trip-engine-authority.test.ts tests/media-file-access.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/3b8559d3e692/knaba/erp
+
+ ✓ tests/lead-agent-sources.test.ts (17 tests) 111ms
+ ✓ apps/web/src/LeadAgentPanel.test.ts (6 tests) 41ms
+ ✓ tests/vehicle-trips.test.ts (14 tests) 78ms
+ ✓ tests/lead-agent.test.ts (20 tests) 59ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts (13 tests) 73ms
+ ✓ tests/media-file-access.test.ts (13 tests) 1489ms
+     ✓ preserves an internal scoped reader’s original and explicit client-copy choices  461ms
+
+ Test Files  6 passed (6)
+      Tests  83 passed (83)
+   Start at  16:38:20
+   Duration  11.58s (transform 10.89s, setup 0ms, import 17.79s, tests 1.85s, environment 1ms)

@@ -1,0 +1,44 @@
+✔ native catalog gate reports each current source version without claiming device acceptance (103.608585ms)
+✔ native catalog gate rejects iOS version drift (132.656235ms)
+✔ native catalog gate rejects Android build drift (77.55784ms)
+✔ native catalog gate rejects non-monotonic release build (123.33373ms)
+✔ native catalog gate rejects missing translated value (165.576263ms)
+✔ native catalog gate rejects localized placeholder mismatch (113.18563ms)
+✔ KNABA Mobile ships genuine role-based native views without embedded browser (5.268887ms)
+✔ Native accounts use existing ERP authenticated server commands and do not bypass access or location gate (7.329604ms)
+✔ Homepage contains one mobile work section in correct process-to-FAQ flow and no fake downloads (1.206107ms)
+✔ missing, incomplete and malformed receipts fail closed (1.616308ms)
+✔ blocked or omitted acceptance remains blocked (0.714873ms)
+✔ approval, exact SHA and artifact digest are mandatory (0.372205ms)
+✔ reject duplicate, forged and traversal evidence locations (0.321368ms)
+✔ complete structurally valid receipt passes syntax policy only (1.815162ms)
+✔ ERP standalone and VPS identity protocol/UI distribution bytes stay identical (24.518073ms)
+✔ neutral landing page has external same-origin script and no transfer secret in markup (1.493193ms)
+✔ manifest includes existing CMS/CRM/portal/inbox and a separate, disabled ERP (3.731615ms)
+✔ fails closed on a fabricated running ERP module (19.228341ms)
+✔ fails closed when mandatory backup/cutover gates disappear (0.669481ms)
+✔ rejects duplicate or unknown module instead of dynamically loading code (0.615427ms)
+✔ rejects invalid source paths and missing checkout (0.762959ms)
+✔ original imported trees and clean source are independently verified (217.434152ms)
+✔ committed ERP and site evolution does not corrupt historical import proof (341.519075ms)
+✔ unstaged ERP edit fails exact-source integrity (197.370421ms)
+✔ unstaged site edit fails exact-source integrity (260.066891ms)
+✔ staged change fails exact-source integrity (344.022354ms)
+✔ untracked root source fails exact-source integrity (324.568497ms)
+✔ dirty root metadata fails exact-source integrity (205.432847ms)
+✔ committed deletion of a canonical file fails (307.569358ms)
+✔ canonical file symlink cannot substitute for tracked regular file (413.495421ms)
+✔ missing historical anchor fails closed without fetching (172.837529ms)
+✔ an unrelated root history cannot claim imported ancestry (126.187847ms)
+✔ historical tree mismatch is never relabeled as feature change (211.999155ms)
+✔ invalid committed root metadata fails: {not json (449.918806ms)
+✔ invalid committed root metadata fails: {"name":"another-project","private":true} (318.804356ms)
+✔ invalid committed root metadata fails: {"name":"knaba-unified-integration","private":false} (274.359974ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4974.344675

@@ -1,5 +1,9 @@
 # KNABA DE — фактичний стан і план завершення
 
+## 08.11.2026 — звірка із server integration candidate
+
+Акаунт/password/session settings, guest capability expiry/revoke/current-owner fence, vehicle trips і Lead Agent перенесено на чинну F2/F4 базу. [Scope, докази та невиконані gates](SERVER_INTEGRATION_2026-11-08_UK.md). Нижчі попередні оцінки лишаються історичними; inbox pagination/display/request conversion, F3, повний template engine і live/device/provider acceptance не завершені.
+
 Дата: 08.11.2026, Europe/Berlin. Проєкт: `ziko1/knaba`. Загальний статус: **NOT_READY_FOR_CLIENT_DELIVERY**. Це актуальне доповнення до `MASTER_ROADMAP.md`, а не заміна специфікації чи історичних доказів.
 
 ## 1. Висновок аудиту

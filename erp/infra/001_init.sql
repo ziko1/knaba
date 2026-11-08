@@ -1,6 +1,9 @@
 CREATE TABLE IF NOT EXISTS schema_migrations (version text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS aggregates (company_id text NOT NULL, kind text NOT NULL, id text NOT NULL, version integer NOT NULL DEFAULT 1 CHECK(version>0), data jsonb NOT NULL CHECK(jsonb_typeof(data)='object'), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(company_id,kind,id));
 CREATE INDEX IF NOT EXISTS aggregates_company_kind ON aggregates(company_id,kind);
+-- Lead discovery uses newest-first microsecond-stable cursors, separate from existing millisecond cursors.
+CREATE INDEX IF NOT EXISTS aggregates_lead_agent_newest ON aggregates(company_id,kind,created_at DESC,id COLLATE "C" DESC) WHERE kind IN ('lead_agent_profile','lead_agent_run','lead_agent_opportunity','lead_agent_draft');
+CREATE INDEX IF NOT EXISTS aggregates_lead_agent_profile_runs ON aggregates(company_id,(data->>'profileId'),created_at DESC) WHERE kind='lead_agent_run';
 CREATE INDEX IF NOT EXISTS aggregates_v4_cursor ON aggregates(company_id,kind,(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),id COLLATE "C");
 CREATE INDEX IF NOT EXISTS aggregates_v4_message_cursor ON aggregates(company_id,kind,(data->>'channel_id'),(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),id COLLATE "C") WHERE kind='message';
 CREATE INDEX IF NOT EXISTS aggregates_scope ON aggregates(company_id,(data->>'siteId'));
@@ -11,6 +14,7 @@ CREATE TABLE IF NOT EXISTS audit_log (id bigserial PRIMARY KEY, company_id text 
 CREATE INDEX IF NOT EXISTS audit_company ON audit_log(company_id,id);
 CREATE TABLE IF NOT EXISTS outbox (id text PRIMARY KEY,company_id text NOT NULL,type text NOT NULL,data jsonb NOT NULL,status text NOT NULL DEFAULT 'PENDING' CHECK(status IN('PENDING','RUNNING','SUCCEEDED','RETRY_SCHEDULED','FAILED','CANCELLED')),attempts integer NOT NULL DEFAULT 0,available_at timestamptz NOT NULL DEFAULT now(),leased_until timestamptz,last_error text,created_at timestamptz NOT NULL DEFAULT now(),finished_at timestamptz);
 CREATE INDEX IF NOT EXISTS outbox_pending ON outbox(status,available_at);
+CREATE INDEX IF NOT EXISTS outbox_lead_agent_run ON outbox(company_id,(data->>'runId'),created_at DESC) WHERE type='lead_agent.search_requested';
 CREATE TABLE IF NOT EXISTS webhook_inbox (provider text NOT NULL,event_id text NOT NULL,company_id text NOT NULL,payload jsonb NOT NULL,received_at timestamptz NOT NULL DEFAULT now(),PRIMARY KEY(provider,event_id));
 CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY,company_id text NOT NULL,user_id text NOT NULL,mfa_verified boolean NOT NULL,csrf_hash text NOT NULL,expires_at timestamptz NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS sessions_user ON sessions(company_id,user_id);

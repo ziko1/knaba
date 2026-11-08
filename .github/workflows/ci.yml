@@ -39,6 +39,11 @@ jobs:
       - run: npm run verify:modules
       - run: npm test
 
+      - name: Verify isolated deployment and schema rollback boundaries
+        run: python3 -m unittest discover -s corporate-site/vps/customer-environments -p test_knabactl.py
+      - name: Verify source and server package boundaries
+        run: python3 -m unittest discover -s scripts -p test_package_server_candidate.py -v
+
   site:
     name: Corporate site checks and production build
     runs-on: ubuntu-24.04
@@ -194,9 +199,92 @@ jobs:
           console.log('Passed bridge cases:',counts.pass,'source:',process.env.SOURCE_SHA);
           JS
 
+  browser:
+    name: Account HTTPS and lead-agent rendered UI
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      KNABA_RELEASE_MODE: official
+      ASTRO_TELEMETRY_DISABLED: '1'
+      APP_MODE: TEST
+      COMPANY_ID: knaba-demo
+      GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - name: Require an already installed browser
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -z "$browser_path" ]; then
+            echo 'BLOCKED: no installed authorized browser; downloads and sandbox bypass are forbidden.'
+            exit 2
+          fi
+          echo "KNABA_CHROME_PATH=$browser_path" >> "$GITHUB_ENV"
+          "$browser_path" --version
+      - run: npm --prefix corporate-site ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - run: npm --prefix erp ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - run: npm --prefix corporate-site run build
+      - run: npm --prefix erp run build
+      - name: Real HTTPS forms, SQLite, six languages and fragment scripts
+        env:
+          KNABA_PLAYWRIGHT_MODULE: ${{ github.workspace }}/erp/node_modules/playwright
+          KNABA_ACCOUNT_QA_DIR: ${{ runner.temp }}/knaba-account-browser
+          KNABA_QA_SOURCE_SHA: ${{ env.SOURCE_SHA }}
+        run: node corporate-site/tests/account-settings-browser.mjs
+      - name: Render lead-agent UI with explicitly synthetic HTTP replies
+        env:
+          E2E_BASE_URL: http://127.0.0.1:4381
+          PLAYWRIGHT_JSON_OUTPUT_FILE: ${{ runner.temp }}/knaba-lead-ui.json
+        run: |
+          erp/node_modules/.bin/vite preview --config erp/apps/web/vite.config.ts --host 127.0.0.1 --port 4381 --strictPort > "$RUNNER_TEMP/knaba-lead-preview.log" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          export KNABA_PREVIEW_PID="$preview_pid"
+          node --input-type=module <<'JS'
+          let ready=false;
+          for(let i=0;i<80;i++) {
+            process.kill(Number(process.env.KNABA_PREVIEW_PID),0);
+            try { if((await fetch(process.env.E2E_BASE_URL,{signal:AbortSignal.timeout(1000)})).status===200) {ready=true;break;} } catch {}
+            await new Promise(resolve=>setTimeout(resolve,250));
+          }
+          if(!ready)throw Error('OWNED_LOOPBACK_PREVIEW_UNAVAILABLE');
+          process.kill(Number(process.env.KNABA_PREVIEW_PID),0);
+          JS
+          export PLAYWRIGHT_CHROMIUM_EXECUTABLE="$KNABA_CHROME_PATH"
+          cd erp
+          npm run test:e2e -- tests/lead-agent-ui.spec.ts --reporter=line,json --output="$RUNNER_TEMP/knaba-lead-ui"
+          kill -0 "$preview_pid"
+      - name: Reject incomplete browser acceptance
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync} from 'node:fs';
+          const account=JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/knaba-account-browser/account-settings-browser-receipt.json`,'utf8'));
+          const expected=['account.profile.persisted','account.validation.focus','account.sessions.revoke-others','account.password.rotate','account.mail.disabled','account.reset.fragment','account.reset.replay','account.email.confirm','account.layout.keyboard'];
+          if(account.status!=='PASS'||account.sourceSha!==process.env.SOURCE_SHA||account.checks.length!==expected.length||expected.some(id=>account.checks.filter(c=>c.caseId===id&&c.status==='PASS').length!==1))throw Error('EXACT_ACCOUNT_BROWSER_ACCEPTANCE_REQUIRED');
+          const lead=JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/knaba-lead-ui.json`,'utf8'));
+          if(lead.stats.expected!==4||lead.stats.unexpected!==0||lead.stats.skipped!==0||lead.stats.flaky!==0||lead.errors.length!==0)throw Error('ALL_FOUR_LEAD_RENDERED_UI_CASES_MUST_PASS');
+          console.log('Account HTTPS/SQLite browser cases: 9; lead rendered HTTP-fixture cases: 4; source:',process.env.SOURCE_SHA);
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-browser-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/knaba-account-browser
+            ${{ runner.temp }}/knaba-lead-ui.json
+            ${{ runner.temp }}/knaba-lead-preview.log
+            ${{ runner.temp }}/knaba-lead-ui
+          if-no-files-found: error
+          retention-days: 1
+
   failure-summary:
     name: Sanitized failure summary
-    needs: [root, site, erp, bridge]
+    needs: [root, site, erp, bridge, browser]
     if: ${{ failure() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -207,6 +295,7 @@ jobs:
           SITE_RESULT: ${{ needs.site.result }}
           ERP_RESULT: ${{ needs.erp.result }}
           BRIDGE_RESULT: ${{ needs.bridge.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
         run: |
           python3 - <<'PY'
           import json, os, pathlib, re
@@ -214,7 +303,7 @@ jobs:
           if not re.fullmatch(r'[0-9a-f]{40}', sha):
               raise SystemExit('INVALID_SOURCE_SHA')
           allowed = {'success', 'failure', 'cancelled', 'skipped'}
-          results = {name: os.environ[key] for name, key in [('root', 'ROOT_RESULT'), ('site', 'SITE_RESULT'), ('erp', 'ERP_RESULT'), ('bridge', 'BRIDGE_RESULT')]}
+          results = {name: os.environ[key] for name, key in [('root', 'ROOT_RESULT'), ('site', 'SITE_RESULT'), ('erp', 'ERP_RESULT'), ('bridge', 'BRIDGE_RESULT'), ('browser', 'BROWSER_RESULT')]}
           if not all(value in allowed for value in results.values()):
               raise SystemExit('INVALID_JOB_RESULT')
           report = {'source_sha': sha, 'jobs': results, 'scope': 'CI only; no deployment or client-delivery acceptance'}

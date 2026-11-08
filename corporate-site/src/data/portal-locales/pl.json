@@ -1,6 +1,8 @@
 {
   "locale": "pl",
   "portal": {
+    "linkAccounts": "Połącz konta",
+    "accountSettings": "Ustawienia konta",
     "bauleiter": "Kierownik budowy",
     "bauleiterGuide": "Koordynuj przydzielone prace: uzgodnij termin, przypisz zatwierdzonego pracownika i sprawdź postęp.",
     "bauleiterAssignment": "Przypisany kierownik budowy",

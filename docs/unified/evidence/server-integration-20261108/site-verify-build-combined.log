@@ -1,0 +1,360 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 verify:build
+> node tests/verify-build.mjs && node scripts/i18n-source-catalog.mjs verify-source && node scripts/audit-i18n-output.mjs && node tests/check-project-cta.mjs && node tests/verify-construction-icons.mjs
+
+{
+  "scope": "production-build-static-validation",
+  "pages": 161,
+  "internalLinks": "PASS",
+  "metadata": "PASS",
+  "indexMode": "OFFICIAL",
+  "externalImageScriptRequests": "NONE_IN_HTML",
+  "externalPartnerImagesInMarkup": 0,
+  "cssGzip": 40930,
+  "allEmittedJsGzip": 225210,
+  "assets": [
+    {
+      "name": "_astro/AccountAccess.astro_astro_type_script_index_0_lang.DHBaJ5sp.js",
+      "bytes": 3532,
+      "gzip": 1767
+    },
+    {
+      "name": "_astro/AccountAccessDialog.BgOuFzfj.js",
+      "bytes": 29296,
+      "gzip": 10441
+    },
+    {
+      "name": "_astro/AdminControlCenter.CA7Y6Gft.js",
+      "bytes": 13672,
+      "gzip": 4820
+    },
+    {
+      "name": "_astro/AssistantCaptcha.D6rlqxdx.js",
+      "bytes": 5215,
+      "gzip": 2442
+    },
+    {
+      "name": "_astro/AssistantInbox.koAoVhjB.js",
+      "bytes": 11280,
+      "gzip": 4446
+    },
+    {
+      "name": "_astro/Catalogue.BdilRkmI.js",
+      "bytes": 2534,
+      "gzip": 1289
+    },
+    {
+      "name": "_astro/Catalogue.CSYljddQ.css",
+      "bytes": 4781,
+      "gzip": 1310
+    },
+    {
+      "name": "_astro/CleaningChecklist.BNj6sjUO.js",
+      "bytes": 3654,
+      "gzip": 1862
+    },
+    {
+      "name": "_astro/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js",
+      "bytes": 16365,
+      "gzip": 5575
+    },
+    {
+      "name": "_astro/ConstructionDetail.Dr5jo8LU.css",
+      "bytes": 5310,
+      "gzip": 1126
+    },
+    {
+      "name": "_astro/ConstructionFaq.B36A57JG.css",
+      "bytes": 7557,
+      "gzip": 1534
+    },
+    {
+      "name": "_astro/ConstructionGuide.BwTvmGH_.css",
+      "bytes": 10027,
+      "gzip": 1987
+    },
+    {
+      "name": "_astro/ConstructionHome.CgZrnpLX.css",
+      "bytes": 16615,
+      "gzip": 3668
+    },
+    {
+      "name": "_astro/ConstructionInfo.CEmfH-x0.css",
+      "bytes": 7179,
+      "gzip": 1425
+    },
+    {
+      "name": "_astro/CrmConsole.BTYlkLay.css",
+      "bytes": 4198,
+      "gzip": 1364
+    },
+    {
+      "name": "_astro/CrmConsole.C-VV2QJZ.js",
+      "bytes": 11914,
+      "gzip": 4471
+    },
+    {
+      "name": "_astro/Inquiry.D6Vcp_cf.js",
+      "bytes": 23705,
+      "gzip": 8753
+    },
+    {
+      "name": "_astro/KnabaAssistant.DEYT6UuD.js",
+      "bytes": 37017,
+      "gzip": 14018
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_0_lang.DDAydC1u.js",
+      "bytes": 1108,
+      "gzip": 632
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_1_lang.CXIspQyP.js",
+      "bytes": 7576,
+      "gzip": 2812
+    },
+    {
+      "name": "_astro/Layout.astro_astro_type_script_index_2_lang.U2lKDhXb.js",
+      "bytes": 705,
+      "gzip": 406
+    },
+    {
+      "name": "_astro/Layout.eHEwC7jG.css",
+      "bytes": 62024,
+      "gzip": 14148
+    },
+    {
+      "name": "_astro/Partners.spIlufU2.css",
+      "bytes": 5457,
+      "gzip": 1457
+    },
+    {
+      "name": "_astro/Portal.4jXgy4en.js",
+      "bytes": 96790,
+      "gzip": 26591
+    },
+    {
+      "name": "_astro/Portal.ICdors6s.css",
+      "bytes": 17510,
+      "gzip": 4177
+    },
+    {
+      "name": "_astro/PortalConversations.D4WDLQyS.js",
+      "bytes": 15380,
+      "gzip": 5040
+    },
+    {
+      "name": "_astro/PublicReviews.D5UQsOGV.js",
+      "bytes": 8681,
+      "gzip": 3331
+    },
+    {
+      "name": "_astro/ServiceFinder.Uu-UihBX.js",
+      "bytes": 14992,
+      "gzip": 6300
+    },
+    {
+      "name": "_astro/SiteStudio.DiCmCi19.js",
+      "bytes": 48232,
+      "gzip": 14397
+    },
+    {
+      "name": "_astro/account-access.dysZwgzv.js",
+      "bytes": 846,
+      "gzip": 542
+    },
+    {
+      "name": "_astro/admin-access.BIfAG6ZG.js",
+      "bytes": 728,
+      "gzip": 343
+    },
+    {
+      "name": "_astro/admin.CNj9HiBX.css",
+      "bytes": 10672,
+      "gzip": 3033
+    },
+    {
+      "name": "_astro/client.BvmcPhtz.js",
+      "bytes": 36300,
+      "gzip": 14158
+    },
+    {
+      "name": "_astro/client.COQtfz6_.js",
+      "bytes": 1321,
+      "gzip": 770
+    },
+    {
+      "name": "_astro/client.EirLTNeH.js",
+      "bytes": 1035,
+      "gzip": 625
+    },
+    {
+      "name": "_astro/client.svelte.B37ztSkl.js",
+      "bytes": 889,
+      "gzip": 496
+    },
+    {
+      "name": "_astro/company.CRFSqUEk.js",
+      "bytes": 3704,
+      "gzip": 1666
+    },
+    {
+      "name": "_astro/hosting-auth.PlyJc9A-.js",
+      "bytes": 5410,
+      "gzip": 2690
+    },
+    {
+      "name": "_astro/inquiry-navigation.zIJB1LK1.js",
+      "bytes": 385,
+      "gzip": 259
+    },
+    {
+      "name": "_astro/planner.s0PTWIkp.js",
+      "bytes": 8168,
+      "gzip": 3548
+    },
+    {
+      "name": "_astro/portal-contract.DhE2Npih.js",
+      "bytes": 262,
+      "gzip": 204
+    },
+    {
+      "name": "_astro/portal-locale-urls.ocRvByEI.js",
+      "bytes": 188,
+      "gzip": 150
+    },
+    {
+      "name": "_astro/preload-helper.DHhhL8Zf.js",
+      "bytes": 1665,
+      "gzip": 852
+    },
+    {
+      "name": "_astro/public-offer-copy.BgvdhP92.js",
+      "bytes": 58491,
+      "gzip": 19857
+    },
+    {
+      "name": "_astro/request-id.BT2U5kLe.js",
+      "bytes": 525,
+      "gzip": 350
+    },
+    {
+      "name": "_astro/reviews.C0wDCNp3.js",
+      "bytes": 171,
+      "gzip": 159
+    },
+    {
+      "name": "_astro/reviews.xxXWI8wx.css",
+      "bytes": 7738,
+      "gzip": 2111
+    },
+    {
+      "name": "_astro/site-studio-contract.Da-lKgbV.js",
+      "bytes": 3773,
+      "gzip": 1787
+    },
+    {
+      "name": "_astro/solid-runtime.BnjQgTMM.js",
+      "bytes": 37556,
+      "gzip": 14302
+    },
+    {
+      "name": "_astro/solid.CrNhEQOT.js",
+      "bytes": 971,
+      "gzip": 488
+    },
+    {
+      "name": "_astro/store.DRu8T-UL.js",
+      "bytes": 5143,
+      "gzip": 2059
+    },
+    {
+      "name": "_astro/studio-editor.B52lIgdk.css",
+      "bytes": 13777,
+      "gzip": 3590
+    },
+    {
+      "name": "_astro/templates.astro_astro_type_script_index_0_lang.3J7S5Hle.js",
+      "bytes": 7213,
+      "gzip": 2943
+    },
+    {
+      "name": "_astro/vue-app.BC6lV8Ox.js",
+      "bytes": 81,
+      "gzip": 97
+    },
+    {
+      "name": "_astro/vue-app.BH0ysOrw.js",
+      "bytes": 48,
+      "gzip": 68
+    },
+    {
+      "name": "_astro/vue-runtime.v22inNgz.js",
+      "bytes": 74680,
+      "gzip": 29002
+    },
+    {
+      "name": "_astro/web.jP3Fu_Ff.js",
+      "bytes": 1264,
+      "gzip": 585
+    },
+    {
+      "name": "_astro/workspace-navigation.CAAaQqJX.js",
+      "bytes": 1366,
+      "gzip": 666
+    },
+    {
+      "name": "_astro/workspace.Ctrp6Qps.js",
+      "bytes": 17536,
+      "gzip": 6961
+    },
+    {
+      "name": "illustrations/carousel/bauendreinigung.webp",
+      "bytes": 52120,
+      "gzip": 52158
+    },
+    {
+      "name": "illustrations/carousel/bauhilfe.webp",
+      "bytes": 70062,
+      "gzip": 70105
+    },
+    {
+      "name": "illustrations/carousel/baustellenraeumung.webp",
+      "bytes": 80172,
+      "gzip": 80215
+    },
+    {
+      "name": "illustrations/carousel/bauzwischenreinigung.webp",
+      "bytes": 36852,
+      "gzip": 36885
+    },
+    {
+      "name": "illustrations/carousel/durchbrueche.webp",
+      "bytes": 61184,
+      "gzip": 61222
+    },
+    {
+      "name": "illustrations/carousel/kernbohrungen.webp",
+      "bytes": 64178,
+      "gzip": 64216
+    },
+    {
+      "name": "illustrations/carousel/zusatzarbeiten.webp",
+      "bytes": 56860,
+      "gzip": 56898
+    },
+    {
+      "name": "mobile-sw.js",
+      "bytes": 276,
+      "gzip": 190
+    }
+  ],
+  "artifactSha256": "8e9934e880f3fd489f40c1f3900bd72e4ec009c944fa828495bbe8eb0aa4f2f7",
+  "fieldWebVitals": "NOT_RUN",
+  "networkTransfer": "NOT_MEASURED"
+}
+{"status":"PASS","digest":"97faf07ebc8be050a4b6ee80846904be933e63452044426da7a52d0d97b83230","routes":28,"units":1102}
+{"status":"PASS","targetLanguages":6,"published":6,"pending":0,"checkedPages":36,"checkedSvgAssets":24,"checkedSocialAssets":6}
+PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and exact 01–06 labels
+PASS: 52 localized SVG icon placements/sections (DE,EN,UK,RU; 8 details per locale), static/a11y

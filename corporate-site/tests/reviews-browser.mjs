@@ -51,13 +51,13 @@ try{
       for(const suffix of ['/','/unternehmen/']){
         await page.goto(base+(locale==='de'?'':'/'+locale)+suffix,{waitUntil:'networkidle'});
         const partners=page.locator('.knaba-partners');await partners.scrollIntoViewIfNeeded();
-        assert.equal(await partners.locator('img').count(),5);
+        assert.equal(await partners.locator('img').count(),7);
         for(const img of await partners.locator('img').all()){
           await img.scrollIntoViewIfNeeded();
           await page.waitForFunction(el=>el.complete&&el.naturalWidth>0,await img.elementHandle());
           assert.ok((await img.getAttribute('alt')).trim());
         }
-        assert.equal(await partners.locator('a').count(),5);
+        assert.equal(await partners.locator('a').count(),7);
         for(const link of await partners.locator('a').all())assert.ok((await link.getAttribute('href')).startsWith((locale==='de'?'':'/'+locale)+'/partner/#'));
         await overflow();
       }

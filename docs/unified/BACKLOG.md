@@ -1,5 +1,9 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
+
+Зведено акаунт/пароль/сесії з auth migration002, guest expiry/revoke з Drizzle0015, Lead Agent, vehicle trips, native0.6.0 build10, партнерів та private backup guards на базі131e582 без заміни чинних F2/F4/C08. Виявлено й виправлено routine deploy guard для VPS SQL. [Обсяг, міграція, фактичні обмеження і відкрита черга](SERVER_INTEGRATION_2026-11-08_UK.md); [source/independent/server evidence](evidence/server-integration-20261108/). Exact combined CI і upload receipts записуються після виконання. Серверний upload дозволено користувачем; activation блокується доступом до /srv/knaba. Whole product NOT_READY; первинні V3/V4 критерії не перепозначено.
+
 ## 08.11.2026 — C08-C прийнято; F4-C1 identity privacy export
 
 C08-C прийнято на `4e6ac0990ddd73bed142ab05b5f7579d8ed3048a` / [PR136](https://github.com/ziko1/knaba/pull/136), [CI42491574791](https://github.com/ziko1/knaba/actions/runs/42491574791), attempt1: ERP3144/126 файлів, notification-policy PostgreSQL21 включно з7 новими cases, template-origin19; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0, independent source/raw-log ACCEPT. [Receipt](evidence/template-origin-20261108/accepted-4e6ac0.json). Duplicate push42491540824 SUCCESS; correction не знадобилась.

@@ -3,9 +3,9 @@ import {officialPartnerLogos,partnerCopy} from '../src/data/partners';
 import {readFileSync} from 'node:fs';
 
 describe('KnaBa official partner references and first-party image URLs',()=>{
- it('keeps five official logo slots in the source order without falsely claiming ownership',()=>{
+ it('keeps original partner order and the two user-confirmed official company names',()=>{
   expect(officialPartnerLogos.map(p=>p.name)).toEqual([
-   'GOLDBECK','BONAVA','HIT · Hanseatische Immobilien Treuhand','Stromkreis','Gewobag'
+   'GOLDBECK','BONAVA','HIT · Hanseatische Immobilien Treuhand','Stromkreis','Gewobag','TM Ausbau','Brüninghoff Group'
   ]);
   expect(Object.keys(partnerCopy).sort()).toEqual(['de','en','ru','uk']);
  });

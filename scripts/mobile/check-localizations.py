@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 import plistlib
 import re
-import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 LANGUAGES = ['de', 'en', 'pl', 'lt', 'ru', 'uk']
@@ -36,11 +35,29 @@ assert info['CFBundleDevelopmentRegion'] == 'de'
 assert info['NSAppTransportSecurity']['NSAllowsArbitraryLoads'] is False
 for language in LANGUAGES:
     assert (IOS / 'Resources' / (language + '.lproj') / 'InfoPlist.strings').is_file()
-config = (IOS / 'project.yml').read_text()
-assert 'MARKETING_VERSION: "0.3.0"' in config and 'CURRENT_PROJECT_VERSION: "3"' in config
-config = (ANDROID / 'app/build.gradle.kts').read_text()
-assert 'versionCode = 3' in config and 'versionName = "0.3.0"' in config
+versions = json.loads((ROOT / 'docs/mobile/RELEASE_VERSIONS.json').read_text())
+assert versions['schemaVersion'] == 1, 'unsupported release version contract'
+patterns = {
+    'ios': (IOS / 'project.yml', r'^\s*MARKETING_VERSION:\s*"([^"\n]+)"\s*$',
+            r'^\s*CURRENT_PROJECT_VERSION:\s*"(\d+)"\s*$'),
+    'android': (ANDROID / 'app/build.gradle.kts', r'\bversionName\s*=\s*"([^"\n]+)"',
+                r'\bversionCode\s*=\s*(\d+)\b'),
+}
+declared_versions = {}
+for platform, (path, version_pattern, build_pattern) in patterns.items():
+    expected = versions[platform]
+    assert re.fullmatch(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)', expected['version']), platform + ': invalid version'
+    assert type(expected['build']) is int and type(expected['previouslyObservedBuild']) is int, platform + ': invalid build'
+    assert 0 <= expected['previouslyObservedBuild'] < expected['build'] <= 2100000000, platform + ': non-monotonic build'
+    config = path.read_text()
+    version_matches = re.findall(version_pattern, config, re.M)
+    build_matches = re.findall(build_pattern, config, re.M)
+    assert version_matches == [expected['version']], platform + ': version differs from release contract'
+    assert build_matches == [str(expected['build'])], platform + ': build differs from release contract'
+    declared_versions[platform] = {'version': expected['version'], 'build': expected['build']}
+assert info['CFBundleShortVersionString'] == '$(MARKETING_VERSION)'
+assert info['CFBundleVersion'] == '$(CURRENT_PROJECT_VERSION)'
 assert '?? "de"' in (IOS / 'Sources/AppModel.swift').read_text()
 assert 'getString(KEY, "de")' in (ANDROID / 'app/src/main/java/de/knaba/mobile/NativeLocale.kt').read_text()
 assert 'language: language.rawValue.uppercased()' in (IOS / 'Sources/ERPConsoleView.swift').read_text()
-print(json.dumps({'status': 'PASS_STATIC_ONLY', 'languages': LANGUAGES, 'default': 'de', 'iosCompanionKeys': len(native), 'iosERPKeys': len(erp), 'version': '0.3.0', 'build': 3, 'swiftCompilation': 'NOT_RUN', 'nativeDeviceVerification': 'NOT_RUN'}, indent=2))
+print(json.dumps({'status': 'PASS_STATIC_ONLY', 'languages': LANGUAGES, 'default': 'de', 'iosCompanionKeys': len(native), 'iosERPKeys': len(erp), 'versions': declared_versions, 'swiftCompilation': 'NOT_RUN', 'nativeDeviceVerification': 'NOT_RUN'}, indent=2))

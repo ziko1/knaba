@@ -1,0 +1,67 @@
+{
+  "task": "KN-REVIEW-INT-01",
+  "observedAt": "2026-11-08T15:48:45.283669+00:00",
+  "repository": "/workspace/scratch/3b8559d3e692/knaba",
+  "baseGitSha": "131e582f1ffa50a89a5898742cf7f22b5b43efa7",
+  "status": "ACCEPT_SOURCE_REVIEW_WITH_RUNTIME_LIMITS",
+  "sourceSha256": {
+    "erp/apps/api/engine.ts": "17f2ed691ab5cd39c262a729197b8182fc42588257f9dad93b3daad2b72ea290",
+    "erp/apps/api/main.ts": "6f73c800576d9a9fe239b00a036b9aff456eb5e5d85878f55d079295a2df3e5e",
+    "erp/apps/api/registry.ts": "2363f735af4dd85495559e45eb8f76f955518d1b24e3730e01c6a2c3da1d5e5c",
+    "erp/apps/web/src/App.tsx": "638e0ff0cf3539a25eed058485b442016150acc4d8a242257ddd0ea5bbb72ff3",
+    "erp/apps/web/src/LeadAgentPanel.tsx": "5064e8c791a68552dee1cb6b5748005ee654c9ef804c66779e8d85460b0f6c1f",
+    "erp/apps/web/src/LeadAgentPanel.test.ts": "c78a9802da40d6a936ac3888f1ba22d6e21d9a8f0199028f80be602b58008c10",
+    "erp/apps/worker/main.ts": "4d9913c5772f7e03d797c291cf715be849f3f71a8b1bcd06199838d65b3dc99c",
+    "erp/apps/worker/runner.ts": "512d22aed20443d10329525b02f3858a27635735cc2c2a739b9f62ddd5107fc2",
+    "erp/apps/worker/lead-agent.ts": "2759c2b272ef4c6a8a85704aecb2ef25f859ca82cf135629ca67ccd40320d74b",
+    "erp/packages/domain/lead-agent.ts": "fa93f140fc098be0dc87d5d2305b750d423e93c58fb6c621a97e17dee3109e19",
+    "erp/packages/domain/lead-agent-model.ts": "c45f54b0521320db39ab2416083076d038b49293207eb084c584657e7be15ae9",
+    "erp/packages/domain/lead-agent-catalog.ts": "3f9615b32d7aaa64a7b3d09b9cf28f7bed29fa19c4495768a52b588dce2c9cb0",
+    "erp/packages/domain/vehicle-trips.ts": "14d1a7703a7103b1262df88d054bf78de3d7c026311bf0b8e82944c97fd064df",
+    "erp/packages/integrations/lead-agent-sources.ts": "a1e9ce34414f5c9b513c338116026f302e4caf5fe759707b7f07ea60cdde8977",
+    "erp/playwright.config.ts": "028d40dfc597a3f47cc16261fb984635a986ee3c441c43ae45ad227c6744fe2a",
+    "corporate-site/vps/private-backup.mjs": "58911625c8427dd5f19a8854ddbcf8bc958af2ea9ac9656d3458a943e72e4aa3",
+    "corporate-site/vps/manage.mjs": "f381b5e1668149b113e59a75b8e32464ebc6d4e94d4fd5735c2bd1585fcbdf7b",
+    "corporate-site/vps/manage-backup.test.mjs": "daae4279e483cd5fd858d5b3562b433853a1f3ee52556e31daebde1b5f46b8f9",
+    ".github/workflows/native.yml": "1c0d7e9f6a6c020a06489209d2d43fca6d9638cb92840ad7da0cc1b71d04626e"
+  },
+  "changedDuringReview": [],
+  "findings": [],
+  "observations": {
+    "leadAgentPanelRemount": "Console identity+CSRF key remounts; accessBlocked short-circuits private subtree after revokeAccess; LeadAgentWorkspace has own identity key; no demonstrated missing-privateEpoch vulnerability.",
+    "leadGraft": "Imported lead domain, source adapter and worker files are byte-identical to 6d76404. App/worker/engine modifications preserve prior request authority/runtime logic.",
+    "backup": "Private CLI helper reserves mode0600 inode O_EXCL|O_NOFOLLOW in verified0700 owned non-symlink dir, validates inode/FK/integrity/hash and preserves existing targets. Ancestor ownership remains documented operator precondition.",
+    "nativeWorkflow": "Source review of combined135+137 only, no CI/Gradle/Xcode/device execution."
+  },
+  "testRuns": [
+    {
+      "command": "env -u DATABASE_URL npm test -- --run tests/lead-agent.test.ts tests/lead-agent-sources.test.ts apps/web/src/LeadAgentPanel.test.ts tests/vehicle-trips.test.ts tests/vehicle-trip-engine-authority.test.ts tests/request-authority.test.ts tests/authority-fingerprint.test.ts tests/runtime-config.test.ts tests/telegram-worker-config.test.ts",
+      "cwd": "erp",
+      "exitCode": 0,
+      "files": 9,
+      "passed": 204,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node --test vps/manage-backup.test.mjs",
+      "cwd": "corporate-site",
+      "exitCode": 0,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "logs": {
+    "/tmp/knaba-independent-integration-tests.log": "be9b0fca9094083140d39d0deb4eff2ba011d7e0b711e57ee0e4d3bd3db97e7c",
+    "/tmp/knaba-independent-backup-tests.log": "dd8bb345973d5d1792e1212e9f9d1382ff3d54e876b63df25682909bd9956e51"
+  },
+  "notRun": [
+    "Actual PostgreSQL integration/concurrency/migration tests at this review timestamp; parent checking separate local QA runtime",
+    "Browser execution",
+    "External provider feeds",
+    "Any external messaging",
+    "Production activation",
+    "Native compile/sign/device/upgrade acceptance"
+  ]
+}

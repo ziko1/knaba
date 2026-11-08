@@ -1,0 +1,139 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 check
+> astro check && vue-tsc --noEmit -p tsconfig.vue.json && svelte-check --tsconfig ./tsconfig.svelte.json
+
+17:20:39 [types] Generated 255ms
+17:20:39 [check] Getting diagnostics for Astro files in /workspace/scratch/3b8559d3e692/knaba/corporate-site...
+[96msrc/components/ArticleStudio.tsx[0m:[93m127[0m:[93m95[0m - [93mwarning[0m[90m ts(6385): [0m'returnValue' is deprecated.
+
+[7m127[0m     const protectDraft=(event:BeforeUnloadEvent)=>{if(changed()){event.preventDefault();event.returnValue='';}};
+[7m   [0m [93m                                                                                              ~~~~~~~~~~~[0m
+
+[96msrc/lib/inquiry-draft.ts[0m:[93m78[0m:[93m34[0m - [93mwarning[0m[90m ts(6385): [0m'returnValue' is deprecated.
+
+[7m78[0m     (event as BeforeUnloadEvent).returnValue='';
+[7m  [0m [93m                                 ~~~~~~~~~~~[0m
+
+[96mtests/role-cabinets-browser.mjs[0m:[93m767[0m:[93m14[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m767[0m   if(fixture)await fixture.close().catch(()=>{});
+[7m   [0m [93m             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mvps/oidc.test.mjs[0m:[93m239[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'original' is declared but its value is never read.
+
+[7m239[0m   const original=createOwner(db,owner,'synthetic-owner-password-2026');
+[7m   [0m [93m        ~~~~~~~~[0m
+
+[96mvps/server.mjs[0m:[93m3[0m:[93m18[0m - [93mwarning[0m[90m ts(6133): [0m'relative' is declared but its value is never read.
+
+[7m3[0m import { resolve,relative,sep,join,extname } from 'node:path';
+[7m [0m [93m                 ~~~~~~~~[0m
+
+[96mvps/server.test.mjs[0m:[93m84[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'restarted' is declared but its value is never read.
+
+[7m84[0m   let restarted=false;
+[7m  [0m [93m      ~~~~~~~~~[0m
+
+[96mvps/site-identity-http.test.mjs[0m:[93m332[0m:[93m26[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m332[0m   const response=await f.call('/auth/site-identity/session',{headers:{Cookie:user.cookie}});
+[7m   [0m [93m                         ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m322[0m:[93m61[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m322[0m   const user=f.user(),challenge=f.challenge(),shown=await f.preview(user,challenge);
+[7m   [0m [93m                                                            ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m316[0m:[93m25[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m316[0m   assert.equal((await f.call('/account/erp/')).status,200,'neutral landing remains available');
+[7m   [0m [93m                        ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m314[0m:[93m20[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m314[0m   response=await f.call('/auth/site-identity/session',{headers:{Cookie:user.cookie}});
+[7m   [0m [93m                   ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m298[0m:[93m21[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m298[0m   const bad=await f.call(path,{method:'POST',body:bytes,headers:{'content-type':'application/json',...proofHeaders(signed),'x-knaba-federation-signature':'A'.repeat(43)}});
+[7m   [0m [93m                    ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m289[0m:[93m28[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m289[0m     const response=await f.call('/auth/site-identity/session',{headers:{Cookie:cookie}});
+[7m   [0m [93m                           ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m262[0m:[93m80[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m262[0m   const f=await fixture(t),user=f.user(),challenge=f.challenge(),shown=await f.preview(user,challenge);
+[7m   [0m [93m                                                                               ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m251[0m:[93m80[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m251[0m   const f=await fixture(t),user=f.user(),challenge=f.challenge(),shown=await f.preview(user,challenge);
+[7m   [0m [93m                                                                               ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m246[0m:[93m28[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m246[0m   const freshOther=await f.preview(b,first),denied=await f.consent(b,first,freshOther);
+[7m   [0m [93m                           ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m238[0m:[93m104[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m238[0m   const f=await fixture(t),a=f.user(),b=f.user(),first=f.challenge(),other=f.challenge(),shown=await f.preview(a,first);
+[7m   [0m [93m                                                                                                       ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m233[0m:[93m25[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m233[0m   assert.equal((await f.call('/auth/site-identity/session?challenge=forbidden',{headers:{Cookie:user.cookie}})).status,400);
+[7m   [0m [93m                        ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m230[0m:[93m25[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m230[0m   assert.equal((await f.call('/auth/site-identity/preview',{headers:{Cookie:user.cookie}})).status,403);
+[7m   [0m [93m                        ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m209[0m:[93m80[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m209[0m   const f=await fixture(t),user=f.user(),challenge=f.challenge(),shown=await f.preview(user,challenge);
+[7m   [0m [93m                                                                               ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m205[0m:[93m25[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m205[0m   assert.equal((await f.call('/account/erp/',{method:'POST'})).status,405);
+[7m   [0m [93m                        ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m200[0m:[93m26[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m200[0m   const response=await f.call('/auth/site-identity-ui.js'),script=await response.text();
+[7m   [0m [93m                         ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m194[0m:[93m28[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m194[0m     const response=await f.call('/account/erp/',{headers}),html=await response.text();
+[7m   [0m [93m                           ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m159[0m:[93m20[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m159[0m   const send=()=>f.call(sessionPath,{method:'POST',headers,body:bytes});
+[7m   [0m [93m                   ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m141[0m:[93m26[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m141[0m   const unsigned=await f.call(sessionPath,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(input)});
+[7m   [0m [93m                         ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m113[0m:[93m18[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m113[0m     return state.call(path,{method:'POST',headers:{'content-type':'application/json',...proofHeaders(signed),...headers},body:bytes});
+[7m   [0m [93m                 ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m97[0m:[93m9[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'preview' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'previews'?
+
+[7m97[0m   state.preview=async(user,challenge)=>{
+[7m  [0m [93m        ~~~~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m95[0m:[93m18[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m95[0m     return state.call(path,{method:'POST',headers,body:JSON.stringify(body)});
+[7m  [0m [93m                 ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m88[0m:[93m32[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m88[0m     const response=await state.call('/auth/site-identity/session',{headers:{Cookie:user.cookie}});
+[7m  [0m [93m                               ~~~~[0m
+[96mvps/site-identity-http.test.mjs[0m:[93m70[0m:[93m9[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'call' may not exist on type '{ peer: null; calls: number; previews: Map<any, any>; override: null; onInspect: null; badSignature: boolean; sessionsEnabled: boolean; onBodyRead: null; }'. Did you mean 'calls'?
+
+[7m70[0m   state.call=(path,options={})=>fetch(state.origin+path,{redirect:'manual',signal:AbortSignal.timeout(5000),...options,
+[7m  [0m [93m        ~~~~[0m
+
+Result (484 files):
+- 0 errors
+- 0 warnings
+- 29 hints
+
+Loading svelte-check in workspace: /workspace/scratch/3b8559d3e692/knaba/corporate-site
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

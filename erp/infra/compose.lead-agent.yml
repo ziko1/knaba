@@ -1,0 +1,24 @@
+# Isolated customer TEST module on the existing KNABA host.
+# Use together with compose.yml and a root-private environment file.
+name: knaba-lead-agent-test
+services:
+  postgres:
+    image: ${LEAD_AGENT_POSTGRES_IMAGE:?Set the verified postgres 17.6 image digest}
+    # The module database is reachable only inside its own Compose network.
+    ports: !reset []
+    mem_limit: 512m
+    cpus: 0.5
+  bootstrap:
+    # NEVER run the generic DEMO/TEST seed for this public test deployment.
+    # Provision the initial operator once with bootstrap-lead-agent-test.mts.
+    command: ["sh", "-ec", "node scripts/environment-check.mjs && npm run migrate"]
+    mem_limit: 512m
+    cpus: 1.0
+  api:
+    ports: !override
+      - "127.0.0.1:19180:3000"
+    mem_limit: 768m
+    cpus: 1.0
+  worker:
+    mem_limit: 512m
+    cpus: 1.0

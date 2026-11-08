@@ -79,13 +79,34 @@ test('verified Chromium policy block can be skipped in repeated same-environment
   assert.equal(result.engine,'webkit');
   assert.deepEqual(result.skipped.map(s=>s.reason),['SKIPPED_BY_OPERATOR']);
 });
-test('Chromium QA launch must not explicitly disable the browser sandbox',async()=>{
+test('Chromium QA launch explicitly enables the browser sandbox',async()=>{
   const standard=newEngine();
   const original=standard.launch.bind(standard);
   standard.launch=async(options)=>{
+    assert.equal(options.chromiumSandbox,true,'Playwright must keep the Chromium sandbox enabled');
     assert.ok(!options.args?.includes('--no-sandbox'),'must not add --no-sandbox');
     return original();
   };
   const result=await runBrowserGate({origin,engines:{chromium:standard},suite:async()=>1});
   assert.equal(result.status,'PASS');
+});
+
+test('unavailable Chromium sandbox remains blocked and uses only the existing fallback',async()=>{
+  let launches=0;
+  const result=await runBrowserGate({origin,engines:{
+    chromium:{async launch(){launches++;throw Error('No usable sandbox');}},
+    webkit:newEngine(),
+  },suite:async()=>1});
+  assert.equal(launches,1);assert.equal(result.status,'PASS');assert.equal(result.engine,'webkit');
+  assert.deepEqual(result.skipped,[{engine:'chromium',reason:'POLICY_BLOCKED'}]);
+});
+
+test('all runners share launch-only sandbox and general administrator policy classification',()=>{
+  const {browserFailureReason}=require('./browser-policy-gate.cjs');
+  for(const message of ['No usable sandbox','Chromium sandboxing failed','Failed to move to new namespace','Running as root without --no-sandbox']){
+    assert.equal(browserFailureReason(Error(message),'launch'),'POLICY_BLOCKED');
+    assert.equal(browserFailureReason(Error(message),'suite'),null);
+  }
+  assert.equal(browserFailureReason(Error('net::ERR_BLOCKED_BY_ADMINISTRATOR'),'suite'),'POLICY_BLOCKED');
+  assert.equal(browserFailureReason(Error("Executable doesn't exist"),'launch'),'BROWSER_UNAVAILABLE');
 });

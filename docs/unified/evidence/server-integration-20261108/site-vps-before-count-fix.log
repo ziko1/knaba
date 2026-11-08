@@ -1,0 +1,686 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-corporate-site@0.3.0 test:vps
+> node --test vps/*.test.mjs
+
+✔ a public access request never deletes expired enquiries or bypasses approved retention (852.093387ms)
+✔ read-only access request audit reports aggregate counts without applicant data (945.720295ms)
+✔ read-only access request audit refuses unknown flags and missing database (221.965368ms)
+✔ public access request needs consent; no role elevation; owner-only review (1328.426195ms)
+✔ daily access retention timer calls audited read-only existing CLI, never deletes (2.377195ms)
+✔ access retention is dry-run by default and emits aggregate counts with no personal data (594.829213ms)
+✔ no retention changes without explicit legal/owner approval or with unsupported arguments (2661.538085ms)
+✔ retention apply makes verified private online backup before deleting expired only and is idempotent (1152.803093ms)
+✔ retention refuses missing database without materializing one (1171.030255ms)
+✔ backup destination cannot escape state through an external path or a symlink (600.121364ms)
+✔ symlinked backup directory is refused before any deletion (595.122271ms)
+✔ retention backup creation tightens umask before SQLite backup starts (0.658282ms)
+✔ VPS HTTP: secure owner invite -> pending worker -> owner approval -> scoped portal (1250.314344ms)
+✔ new invitation is additive, 256-bit, hash-only and never creates a user (244.891057ms)
+✔ only configured owner may issue limited, email-scoped client/worker invitations (372.959047ms)
+✔ registration rejects replay, mismatch, invalid consent/password and expiry atomically (973.932754ms)
+✔ worker enrollment is pending and credentials authenticate without privilege grant (2820.396326ms)
+✔ invitation issuance is bounded, neither unlimited nor extendable by past used tokens (654.765807ms)
+✔ explicit owner revocation makes an issued invitation unusable before registration (1280.143714ms)
+✔ owner identity attestation is required before a one-use invitation and produces audit without plaintext token (337.201453ms)
+✔ eight-character invited registration remains pending for every non-operator role (816.243419ms)
+✔ owner-issued Bauleiter invitation stays pending, one-use and cannot self-grant management (336.565759ms)
+✔ public Bauleiter access request creates an enquiry without credentials, session or approved role (217.165311ms)
+✔ account mail defaults disabled and requires explicit approval, sender, budget, secret and trusted HTTPS origin (6.03441ms)
+✔ mail uses pinned endpoint, no redirects, bounded deadline and idempotency header; capability remains in fragment (24.00942ms)
+✔ all six account locales produce localized bounded plain-text email (27.014201ms)
+✔ invalid recipient, token, kind, locale or idempotency key never reaches the provider (24.209247ms)
+✔ provider success requires a valid small receipt; unknown outcomes are never retried (111.411486ms)
+✔ oversized receipt is cancelled before parsing and is an unknown outcome (35.880662ms)
+✔ a stalled provider has a hard five-second bound and aborts without retry (24.65013ms)
+✔ only four provider operations may be in flight and overflow does not start another call (46.104544ms)
+✔ recovery scheduling is bounded and deferred; close prevents new jobs and drains accepted tasks (224.65491ms)
+✔ turning delivery off is honored for later attempts on the same mailer instance (1.145995ms)
+✔ account migration 002 follows consent 001 without changing existing receipts, users or sessions (706.78657ms)
+✔ account receipt drift, unknown migration, missing predecessor and missing objects fail closed before writes (1739.892821ms)
+✔ unrecorded account schema from another branch is not adopted by applying a new receipt (41.383815ms)
+✔ SQLite backup restores migrated settings and latest credentials without resurrecting revoked sessions (1445.526035ms)
+✔ account pages are complete, localized and semantically labelled: de (112.485342ms)
+✔ account pages are complete, localized and semantically labelled: en (29.666903ms)
+✔ account pages are complete, localized and semantically labelled: pl (18.570172ms)
+✔ account pages are complete, localized and semantically labelled: lt (16.910668ms)
+✔ account pages are complete, localized and semantically labelled: ru (14.172482ms)
+✔ account pages are complete, localized and semantically labelled: uk (8.414298ms)
+✔ all six dictionaries cover the same complete public contract and are immutable (3.825422ms)
+✔ profile form edits only allowed personal fields and preserves optimistic version (8.21636ms)
+✔ account settings keep the existing localized F2 link route without exposing a second federation UI (88.219725ms)
+✔ email and password changes expose exact POST contracts with no secret defaults (33.754544ms)
+✔ protected and OIDC addresses cannot be offered a self-service email form (111.993041ms)
+✔ recovery states are uniform and never announce delivery with email disabled (20.327779ms)
+✔ settings render user data as escaped text, not HTML or authority (11.526703ms)
+✔ session UI uses scoped opaque handles, local time and explicit revocation scope (26.1819ms)
+✔ capability pages support manual no-JS POST without echoing a token or target email (3.964934ms)
+✔ fragment enhancement clears history, fills one hidden POST field and offers manual replacement (16.280019ms)
+✔ ambiguous, malformed and absent fragments remain manual and never become hidden capabilities (32.665362ms)
+✔ native password confirmation blocks a typo without losing the fragment capability (12.279989ms)
+✔ responsive source has flexible columns, touch targets, keyboard focus and no fixed mobile minimum (2.06668ms)
+✔ profile HTTP saves only the actor, preserves approval and returns localized private pages (931.818271ms)
+✔ owner profile settings do not create membership and the portal receives the saved name (934.985799ms)
+✔ the saved language is used on future visits and login, with an explicit supported language taking priority (2754.20996ms)
+✔ account forms reject unauthenticated writes, privilege fields, duplicates, CSRF and oversized input (657.957204ms)
+✔ role-approved users edit only personal details and pending access is never promoted (582.489812ms)
+✔ a session revoked during body upload cannot save a profile (464.873865ms)
+✔ validation errors allow only the renderer focus script under the account CSP (860.367338ms)
+✔ own session handles cannot revoke another user and logout-all clears secure cookies (679.999476ms)
+✔ password change keeps the existing endpoint, all six locales and real credential rotation (1144.25288ms)
+✔ recovery uses generic responses and one-use fragment tokens, preserves roles and never auto-signs-in (1131.825583ms)
+✔ disabled mail has an honest recovery state and never claims delivery (500.232397ms)
+✔ email proof changes both credential and profile atomically, preserving stable role and revoking sessions (814.511953ms)
+✔ reserved and OIDC identities cannot be reassigned through email settings (598.858162ms)
+✔ revoking the initiating session cancels an email-change link without changing data (882.144499ms)
+✔ account entry links preserve local-hosting boundaries and a safe localized return after login (3.478215ms)
+✔ settings defaults are read-only and do not invent a portal role or profile (661.56567ms)
+✔ profile settings persist after reopening SQLite and preserve authority, stable ID and all other users (902.880867ms)
+✔ profile input rejects extra identity fields, invalid timezones, oversized data and control characters without writes (519.361012ms)
+✔ two stale forms cannot overwrite each other and current settings can be updated (160.304252ms)
+✔ revoked, expired, disabled and suspended sessions cannot read or mutate settings (886.626653ms)
+✔ session handles disclose no cookie/hash and cannot revoke another user session (338.413901ms)
+✔ sign out other sessions preserves current, and sign out all only revokes the acting account (501.185309ms)
+✔ recovery returns before provider I/O and has identical public responses for absent and inactive accounts (560.688321ms)
+✔ recovery stores only hashed capability and redemption changes password once, revokes all sessions and preserves roles (2142.715679ms)
+✔ expired, wrong-kind and unacknowledged capabilities never change credentials (471.278219ms)
+✔ disabled/re-enabled and suspended/re-approved accounts cannot revive a recovery link (347.56788ms)
+✔ password rotation invalidates recovery links and its HTTP session fence rejects revoked sessions (618.828603ms)
+✔ mail capability is invalidated when authority changes before dispatch or during provider I/O (140.520138ms)
+✔ capped source cannot exhaust everyone else global request budget (200.52222ms)
+✔ per-address and daily delivery limits persist and never disclose whether an account exists (270.501483ms)
+✔ email change waits for mailbox proof and preserves user ID, role and all unrelated records (457.201131ms)
+✔ owner/developer addresses, OIDC identities and existing login addresses are not self-service email targets (734.438593ms)
+✔ revoking initiating email-change session before confirmation invalidates link despite another login session (266.140773ms)
+✔ email delivery rechecks the exact session after provider I/O and refuses a newly claimed target (476.80976ms)
+✔ audit failure rolls back both profile edits and full password-reset transaction (553.897672ms)
+✔ existing database refuses missing account-auth migration before writing and upgrade preserves users/ledger (548.630633ms)
+✔ personal preferences keep current authority; a profile rename invalidates its prior fingerprint (2001.789717ms)
+✔ session revocations immediately invalidate only the affected existing F4 proofs (622.084649ms)
+✔ current-password rotation invalidates all old proofs and fresh login cannot rebind an old digest (1177.003701ms)
+✔ mailbox-proven password reset and email change invalidate prior F4 session authority (3457.96848ms)
+✔ an account transaction rejected by audit leaves the existing authority unchanged (532.280928ms)
+✔ deleting and recreating the same profile cannot resurrect a delivered recovery capability (385.743989ms)
+✔ article renderer escapes reviewed content, retains crawler policy and links only published translations (3.019447ms)
+✔ article renderer rejects unsafe content and ambiguous or incomplete shell markup (0.733302ms)
+✔ article sitemap preserves an empty preview sitemap and expands only the matching canonical base (0.353078ms)
+✔ published owner Studio knowledge pages retain runtime crawler policy, guide links and sitemap visibility (1309.417543ms)
+✔ 0015 upgrades legacy capabilities once, preserves history and rejects malformed timestamps (363.764502ms)
+✔ 0015 preserves non-ORM tables in the Drizzle snapshot and adds only lifecycle columns (4.957928ms)
+✔ SQLite restore retains capability expiry, irreversible revocation and account/F2 migration receipts (500.832069ms)
+✔ actual VPS owner revoke preserves owner history and denies the guest code (1219.319969ms)
+✔ VPS owner inbox denies an active request after logout after-identity (622.86399ms)
+✔ VPS owner inbox denies an active request after logout after-private-read (265.138406ms)
+✔ VPS current-owner callback is rechecked after private reads while the cookie remains valid (292.617334ms)
+✔ VPS messages refuses withdrawn owner authority after identity lookup (386.603878ms)
+✔ VPS offers refuses withdrawn owner authority after identity lookup (383.141068ms)
+✔ VPS status refuses withdrawn owner authority after identity lookup (408.195009ms)
+✔ VPS access/revoke refuses withdrawn owner authority after identity lookup (622.498731ms)
+✔ VPS current owner is required for /api/assistant/owner/notifications (567.892928ms)
+✔ VPS current owner is required for /api/assistant/owner/notifications/dispatch (372.737126ms)
+✔ VPS SQL lock rejects revoke and its audit when the original owner logs out before the batch (471.910929ms)
+✔ VPS guest messages cannot commit after capability revocation at the write boundary (956.593167ms)
+✔ VPS guest handoff cannot commit after capability revocation at the write boundary (523.630268ms)
+✔ VPS expired reads and mutations have the same concealed response as a missing capability (476.218272ms)
+✔ VPS audit failure atomically rolls back revocation and keeps the original guest access (365.891749ms)
+✔ JSON login returns navigation only and keeps the session exclusively in a secure HttpOnly cookie (1281.346778ms)
+✔ JSON negotiation does not bypass same-origin checks, the proxy boundary or the exact login form (261.158105ms)
+✔ unknown, wrong-password, disabled and rate-limited JSON logins share a generic failure without sessions (1706.199076ms)
+✔ JSON return destinations reject external, protocol-relative and control-character paths (1323.539388ms)
+✔ the existing HTML login and no-JavaScript redirect remain compatible (588.823453ms)
+✔ JSON discovery exposes only configured provider names and never credentials or account state (231.20213ms)
+✔ a cabinet URL cannot grant pending or suspended users access to privileged APIs (743.887184ms)
+✔ shared client IP stops credential validation after 60 attempts across distinct addresses (25796.603893ms)
+✔ self-service credential rotation invalidates all former sessions atomically (744.404113ms)
+✔ credential rotation rejects incorrect existing secret without losing valid sessions (325.921591ms)
+✔ eight-character account password and rotation keep session revocation (836.026585ms)
+✔ all six account-entry languages have full server-rendered labels (21.616241ms)
+✔ language choice never grants a management role or changes redirect safety (2.199821ms)
+✔ KNABA shared auth entrypoint: localized sign-in, invite onboarding and no role elevation (375.352872ms)
+✔ real VPS cookie sessions preserve pending approval and assigned Bauleiter scope through the full gateway (5673.853046ms)
+✔ trusted peer gives independent durable lead buckets at the unchanged 20/hour limit (1340.879708ms)
+✔ trusted peer separates chat buckets without bypassing production CAPTCHA (553.899948ms)
+✔ login uses the same trusted visitor IP and preserves five-attempt limit (1138.483465ms)
+✔ direct untrusted clients cannot rotate headers to evade lead or login limits (1428.95564ms)
+✔ trusted malformed and multiple IP headers keep one fallback bucket (377.641833ms)
+✔ invalid proxy configuration is rejected before a database is created (6.570547ms)
+✔ default and untrusted peers ignore all spoofed forwarding headers (54.150495ms)
+✔ trusted exact peer resolves separate visitors and ignores alternate headers (0.662616ms)
+✔ IPv4, IPv4-mapped and canonical IPv6 share one address identity (0.439612ms)
+✔ explicit IPv4/IPv6 CIDRs include only their declared peer ranges (1.008346ms)
+✔ malformed, multiple, missing and oversized client headers fall back to socket (0.562193ms)
+✔ invalid and unlimited trust configuration fails closed (1.847982ms)
+✔ owner server: private developer enrollment and revocation survive separate CLI processes (1616.050296ms)
+✔ customer host: owner handles real onboarding, developer has isolated test data, partner scope and grant revocation (2236.421573ms)
+✔ developer role workspaces persist separately and cannot read or change company records (2353.560321ms)
+✔ bridge disabled by default: no queue claim, no HTTP or credentials fallback (128.985538ms)
+✔ approved pinned integration signs exact canonical HMAC and confirms only applied event (154.027996ms)
+✔ wrong privacy version, unknown service and forged endpoint cannot disclose contact (493.491565ms)
+✔ ambiguous provider outcome can retry safely with identical event bytes and a new timestamp (75.296421ms)
+✔ outbox marks valid ERP quarantine for human REVIEW, never APPLIED (103.599488ms)
+✔ changed service mapping after ambiguous outcome is blocked before another send (150.913675ms)
+✔ deleting an unsent source request cascades the outbox reference for privacy erasure (71.551597ms)
+✔ expired crash lease is recovered using one stable event identity (67.692581ms)
+✔ forged or mismatched HTTP acknowledgement can never mark ERP receipt as applied (62.258047ms)
+✔ two workers racing to claim the same source event execute exactly one network send (98.819296ms)
+✔ a permanent ERP rejection stays BLOCKED with no blind automatic retry (49.654101ms)
+✔ a rejection on retry cannot erase an earlier possibly committed delivery (77.768308ms)
+✔ a late receipt from a lost lease cannot overwrite a newer completed claim (116.359143ms)
+✔ the default CLI clock advances and cannot settle a receipt after its lease expires (75.972404ms)
+✔ unknown provider outcome is capped by the deterministic retry budget (101.984389ms)
+✔ a final expired lease becomes UNKNOWN without another network attempt (61.75873ms)
+✔ changing the target after an uncertain response cannot duplicate the lead in another ERP (123.344088ms)
+✔ approved key rotation retains the signed company and exact event bytes after uncertainty (208.436356ms)
+✔ changing the signed company after uncertainty cannot disclose a lead to another tenant (79.389622ms)
+✔ all six intake languages and actual referral metadata reach the canonical payload (1063.79119ms)
+✔ cancel before dispatch blocks, cancel while sending records an uncertain result and retains receipt (217.355081ms)
+✔ malformed and oversized acknowledgments never claim delivery (198.423115ms)
+✔ actual owner cookie is rechecked after queue metadata reads: /api/portal/erp-intake (630.295863ms)
+✔ actual owner cookie is rechecked after queue metadata reads: /api/portal/erp-intake/ (311.301451ms)
+✔ ERP scheduler keeps local maintenance running with current bindings while the core network gate stays disabled (5.524308ms)
+✔ ERP scheduler does not overlap batches, never enables email, and drains before shutdown (7.936342ms)
+✔ ERP scheduler reports only a static failure signal and recovers on its next tick (1.491347ms)
+✔ published FAQ question/answer leaf edits preserve accordion, second item and HTML escaping (25.680843ms)
+✔ untrusted FAQ rich text fails closed instead of changing HTML (0.391413ms)
+✔ KNABA Compose healthcheck and proxy follow the configured owner domain, not the old preview hostname (2.178406ms)
+✔ release checksum is generated with a relative filename so it verifies after moving to another server (0.854421ms)
+✔ sign-in card includes padding inside viewport width for 320px devices (2.412264ms)
+✔ backup refuses an existing 0755 backup directory without changing it or source data (386.022666ms)
+✔ backup refuses a symlinked backup directory without following it (304.285326ms)
+✔ backup refuses a symlinked parent before creating a new backup directory (268.042648ms)
+✔ backup refuses an independently copied database with broken foreign keys (565.200917ms)
+✔ backup reserves a private inode before SQLite copying and returns a verified backup (244.527563ms)
+✔ backup refuses a file collision at destination reservation without overwriting (209.490782ms)
+✔ backup refuses a symlink collision at destination reservation without overwriting (300.646625ms)
+✔ migrate refuses an existing 0755 backup directory without changing it or source data (118.888815ms)
+✔ migrate refuses a symlinked backup directory without following it (122.519707ms)
+✔ migrate refuses a symlinked parent before creating a new backup directory (103.126013ms)
+✔ migrate refuses an independently copied database with broken foreign keys (186.415738ms)
+✔ migrate reserves a private inode before SQLite copying and returns a verified backup (242.474781ms)
+✔ migrate refuses a file collision at destination reservation without overwriting (180.773693ms)
+✔ migrate refuses a symlink collision at destination reservation without overwriting (163.564015ms)
+✔ audit never bootstraps missing customer database (398.111766ms)
+✔ audit is genuinely read-only, migration count and integrity verified (786.394766ms)
+✔ verified unique SQL filenames match Drizzle journal without changing DB (4.908908ms)
+✔ parallel owner invite and ERP both numbered 0005 are rejected before migration (3.324026ms)
+✔ new SQL absent from journal is blocked rather than silently skipped on D1 (1.466805ms)
+✔ journal entries without corresponding SQL and malformed journal fail closed (1.969254ms)
+✔ duplicate journal order cannot imply two applied steps (1.833895ms)
+✔ symlinked SQL is not followed during preflight (1.685683ms)
+✖ review migration remains ordinal 0005 and owner invite is a unique forward-only 0006 (35.732378ms)
+✖ fresh actual SQLite contains public reviews and passes integrity (185.044645ms)
+✖ actual baseline 1 upgrades once and retains prior receipts/data (347.314042ms)
+✖ actual baseline 5 upgrades once and retains prior receipts/data (323.03942ms)
+✖ actual baseline 7 upgrades once and retains prior receipts/data (157.414576ms)
+✖ actual baseline 8 upgrades once and retains prior receipts/data (115.803049ms)
+✖ actual baseline 10 upgrades once and retains prior receipts/data (75.171585ms)
+✖ actual baseline 11 upgrades once and retains prior receipts/data (75.05445ms)
+✖ actual baseline 12 upgrades once and retains prior receipts/data (69.511736ms)
+✖ actual baseline 13 upgrades once and retains prior receipts/data (145.141812ms)
+✖ actual baseline 14 upgrades once and retains prior receipts/data (179.201652ms)
+✔ unknown historical ledger fails closed before creating pending public reviews (148.181272ms)
+✔ all applied checksums are checked before any earlier pending SQL runs (81.633847ms)
+✔ pending migration is refused when allowMigrations=false (98.09639ms)
+✔ duplicate source ordinal is rejected before creating SQLite or parent directory (8.478515ms)
+✔ journal cannot silently reverse the SQL application order (4.40855ms)
+✔ journal timestamps must be finite and strictly increasing (4.805092ms)
+✔ online synthetic SQLite backup restores the complete migration ledger and preserved data (222.829286ms)
+✔ Bauleiter upgrade preserves existing requests, access enquiries and invite tokens byte for byte (179.52926ms)
+✔ legacy VPS OIDC schema requires explicit migration and preserves state, sessions and Drizzle receipts (352.612461ms)
+✔ Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partner and one-use callback (862.278726ms)
+▶ HTTP OIDC protects owner bootstrap and binds explicit linking to its original session
+  ✔ verified equal owner email cannot create a first owner through public signup (223.64121ms)
+  ✔ link callback works without a cross-site Strict cookie and persists only the original token hash (21.186739ms)
+  ✔ logout of the initiating session rejects callback before provider calls (37.984509ms)
+  ✔ another login cannot resume a link revoked during token exchange (42.902513ms)
+✔ HTTP OIDC protects owner bootstrap and binds explicit linking to its original session (793.423142ms)
+✔ providers stay disabled without operator-owned OAuth credentials (3.080561ms)
+✔ OIDC verified partner registration stays pending; replay, state theft and duplicate email fail closed (596.710212ms)
+✔ issuer, audience, nonce, signature, expiry and verified email are enforced before persistence (8.154979ms)
+✔ matching email never silently links an owner; signed-in owner can explicitly link and sign in (591.582208ms)
+✔ linking requires the actual original live session, not merely a user id (586.258437ms)
+✔ OIDC link fails after logout before exchange (231.853477ms)
+✔ OIDC link fails after password before exchange (877.518697ms)
+✔ OIDC link fails after disabled before exchange (235.425469ms)
+✔ OIDC link fails after expiry before exchange (279.679865ms)
+✔ OIDC link rechecks the original session inside commit after provider I/O (217.889172ms)
+✔ session expiry is evaluated at commit time after provider latency (172.21248ms)
+✔ session issuance cannot revive a link whose original session ended after link commit (206.90163ms)
+✔ legacy unbound link states fail closed (159.621992ms)
+✔ protected addresses cannot self-provision owner or developer through OIDC (172.51087ms)
+✔ developer owner-equivalent rights require server-configured address AND recorded active grant (1452.836867ms)
+✔ developer enrollment via one-use offline invitation, never a public profile role (371.532984ms)
+✔ offline owner update retains identity and password, revokes sessions and updates authority only with new server config (504.794297ms)
+✔ owner maintenance refuses another account, developer address, mismatched owner and absent attestation without mutations (904.50476ms)
+✔ disabled or missing configured owner cannot be reassigned (406.428811ms)
+✔ private activation GET is no-store, noindex, origin-bound and does not expose owner email (215.967026ms)
+✔ wrong-origin, invalid, replayed and expired activations fail without creating privileged users (410.166597ms)
+✔ current review migration is preserved and owner invite migration is forward-only ordinal 0006 (3.155486ms)
+✔ owner invitation exists as a separate, non-public VPS module (0.316909ms)
+✔ one-use activation requires verified email scope, strong password, attestation and valid expiry (1167.820264ms)
+✔ a newer invitation invalidates an older one without changing any current user (144.59939ms)
+✔ invitation CLI fails closed and stores the bearer URL only in a private 0600 file (991.446529ms)
+✔ owner and developer one-use activation accept eight-character secrets, not seven (1187.015712ms)
+✔ approved partner creates and tracks ONLY own project inquiries; never worker notes or CRM (2747.326571ms)
+✖ 0012 adds private conversations without rewriting historical data or migration receipts (92.821269ms)
+✔ owner role mutation rejects logout after Worker captured identity (1215.15222ms)
+✔ owner role mutation rejects disable after Worker captured identity (461.344823ms)
+✔ client logout during request processing cannot create a request, audit or ERP outbox (499.949877ms)
+✔ owner logout during dashboard read returns no private records (688.090395ms)
+✔ logout while HTTP request body is incomplete fences the subsequently completed mutation (719.129598ms)
+✔ password while HTTP request body is incomplete fences the subsequently completed mutation (763.254855ms)
+✔ VPS keeps owner privilege pinned when another subject later uses the same address (703.718119ms)
+✔ public release endpoint keeps six ordered languages, separates channels, excludes secrets and writes no customer data (292.330972ms)
+✔ release metadata and downloads remain behind exact Host and HTTPS proxy checks (129.65875ms)
+✔ APK GET streams an exact file larger than normal static limit and HEAD returns size without a body (1801.041507ms)
+✔ missing, escaped, outside-symlink and oversized download paths never masquerade as available APKs (562.530664ms)
+✔ release defaults remain German, six ordered languages, unconfigured destinations (25.625149ms)
+✔ separate verified public bot destinations never imply delivery acceptance (0.609789ms)
+✔ Android prototype is explicitly identified and requires a hash and approved hosting path (0.480302ms)
+✔ iOS only links Apple distribution; migration is explicit and validated (0.818415ms)
+✔ published article edits keep JSON-LD aligned with rendered H1 and description (178.932624ms)
+✔ article sync does not publish drafts, accept invalid HTML edits or rewrite malformed JSON-LD (15.272216ms)
+✔ a search title edit preserves visible article headline and unrelated structured data (15.61092ms)
+✔ only the canonical article is synchronized and ambiguous headings fail closed (89.703919ms)
+✔ owner published section background+padding and headline font size combine safely (22.632071ms)
+✔ unsafe design tokens fail closed, preserving original HTML (0.55855ms)
+✔ published leaf text and existing link/image attributes are rendered in actual HTML, without removing SVG icon (176.120311ms)
+✔ content edits in draft, invalid tokens and paths are never sent in HTML (0.664225ms)
+✔ missing/outdated selectors cannot corrupt HTML or remove scripts (58.908457ms)
+✔ Server-side published color and SEO are escaped and stable (29.969637ms)
+✔ real VPS review flow preserves idempotency, trusted owner moderation, privacy and restart durability (1051.54295ms)
+✔ role homes and legacy workspace links stay in one authorized window (3.151202ms)
+✔ untrusted redirects never choose a foreign origin, API, auth loop or higher role (0.522905ms)
+✔ published title and description update server HTML head, OG while preserving canonical/robots (5.488632ms)
+✔ no drafts/empty/corrupt published or duplicate SEO entries are rendered (0.764871ms)
+✔ untrusted content never creates script, attributes, or second tags (1.04356ms)
+✔ title metadata updates do not change the body or head for non SEO edits (0.413814ms)
+✔ VPS proxy preserves same-origin intake language and safe attribution through the built Worker (197.524996ms)
+✔ legacy migration preserves observed company and recruitment URLs without a home-page fallback (1147.547303ms)
+✔ official VPS: trusted auth, unchanged public site, scoped CRM, publish, restart and backup (1317.250304ms)
+✔ vsp HTTPS canonical Host verification and narrowly scoped HSTS (289.741932ms)
+✔ current-session guard fences reads, direct writes, RETURNING and batches at execution (7.048172ms)
+✔ isolated workspace session guard holds both authority and destination transactions (1.058975ms)
+✔ session introspection defaults off independently of active F2 and returns only exact authority fields when enabled (170.977849ms)
+✔ introspection rejects missing/extra fields, raw credentials and malformed snapshot values (47.911617ms)
+✔ introspection cannot substitute another user/session or rebind an old digest after logout and fresh login (120.792213ms)
+✔ current session introspection denies account disabled (91.071786ms)
+✔ current session introspection denies profile suspended (84.134267ms)
+✔ current session introspection denies profile pending (92.478714ms)
+✔ current session introspection denies profile removed (93.135912ms)
+✔ current session introspection denies profile version changed (75.75939ms)
+✔ current session introspection denies profile fields changed (72.183336ms)
+✔ current session introspection denies developer grant retained (77.609628ms)
+✔ current session introspection denies session expired (62.22862ms)
+✔ credential rotation revokes original introspection even when a replacement site session exists (873.848172ms)
+✔ introspection retains exact owner pin and developer-email exclusions, including profile version zero (129.987344ms)
+✔ introspection caps expiry and rechecks independent flag/config/session before its synchronous transaction commits (100.404143ms)
+✔ current and consent bind the actual approved site ID/session; inspect does not consume (136.730147ms)
+✔ consent and redeem are durable exact replays across database connections with one audit per transition (88.783945ms)
+✔ same challenge cannot be adopted by another user or another session of the same user (117.995418ms)
+✔ preview requires the exact company/issuer/audience/trust and all bounded challenge fields (87.993732ms)
+✔ inspect and redeem bind every request field and reject cookie or issuer claims in the backchannel body (86.548755ms)
+✔ original session logout denies unconsumed proof despite a new login (75.491778ms)
+✔ original session logout denies redeemed replay despite a new login (102.360655ms)
+✔ actual credential rotation revokes the original consent session (848.401765ms)
+✔ current authority is rechecked after redemption: disabled (55.924882ms)
+✔ current authority is rechecked after redemption: suspended (117.12062ms)
+✔ current authority is rechecked after redemption: pending (293.427085ms)
+✔ current authority is rechecked after redemption: version (120.663782ms)
+✔ current authority is rechecked after redemption: role (53.107097ms)
+✔ current authority is rechecked after redemption: profile-data (68.203592ms)
+✔ current authority is rechecked after redemption: email (96.843668ms)
+✔ current authority is rechecked after redemption: missing-profile (56.97346ms)
+✔ only approved allowed roles enter federation; an owner requires the exact immutable pin (122.806524ms)
+✔ configured developer email and retained developer grants never become operational identities (70.683123ms)
+✔ owner profile creation and late developer enrollment invalidate previously granted evidence (63.237047ms)
+✔ session and peer expiry cap the grant and the exact expiry instant denies every replay (61.40318ms)
+✔ a later shortened original session and backwards clock cannot extend an existing grant (50.152528ms)
+✔ trust/transport change invalidates redeemed evidence: active (52.575218ms)
+✔ trust/transport change invalidates redeemed evidence: version (55.335596ms)
+✔ trust/transport change invalidates redeemed evidence: companyId (47.47011ms)
+✔ trust/transport change invalidates redeemed evidence: issuer (50.227174ms)
+✔ trust/transport change invalidates redeemed evidence: audience (42.711753ms)
+✔ trust/transport change invalidates redeemed evidence: keyId (53.758303ms)
+✔ trust/transport change invalidates redeemed evidence: secret (47.057513ms)
+✔ trust/transport change invalidates redeemed evidence: siteOrigin (61.27225ms)
+✔ trust/transport change invalidates redeemed evidence: erpOrigin (53.121514ms)
+✔ trust/transport change invalidates redeemed evidence: ownerUserId (64.895859ms)
+✔ missing or expired peer denies current identity, and final peer drift rolls the consent back (58.326494ms)
+✔ expiry or authority loss at the final check rolls back grant, consumption and audit (54.452813ms)
+✔ expiry at the final redeem check rolls back consumption and its audit (65.531589ms)
+✔ transport rotation during redeem rolls back consumption before any receipt is returned (49.218352ms)
+✔ a failed consent audit rolls back the insert; a failed redeem audit rolls back consumption (53.57909ms)
+✔ SQL guards reject changing immutable authority, nullable redemption and terminal updates (49.549321ms)
+✔ ambiguous/malformed cookies and non-exact request objects are denied without grants (43.814517ms)
+✔ signed introspection is independently disabled by default while normal F2 remains available (270.970784ms)
+✔ introspection HTTP rejects unsigned, wrong-purpose, stale, malformed and substituted requests (192.783885ms)
+✔ replayed signed introspection rereads current SQLite and cannot retain an allow after logout (98.815699ms)
+✔ introspection denies flag disabled during the actual HTTP body await (103.410371ms)
+✔ introspection denies peer key changed during the actual HTTP body await (97.756325ms)
+✔ introspection denies original profile changed during the actual HTTP body await (85.230171ms)
+✔ introspection denies original session logged out during the actual HTTP body await (87.211225ms)
+✔ authenticated introspection bursts use a separate bounded per-session bucket without consuming F2 quota (2405.5144ms)
+✔ neutral GET and the client asset expose no identity, mutation or referrer-bearing transfer URL (59.783425ms)
+✔ actual VPS HTTP previews both accounts, requires explicit consent and retries the same grant (175.449953ms)
+✔ CSRF, origin, method and exact browser body checks stop requests before contacting ERP (210.349316ms)
+✔ preview proof cannot substitute the site user, original session or ERP challenge (469.80667ms)
+✔ HTTP consent rejects a changed authority after its preview: version (133.016419ms)
+✔ HTTP consent rejects a changed authority after its preview: name (89.694706ms)
+✔ HTTP consent rejects a changed authority after its preview: suspended (59.926969ms)
+✔ HTTP consent rejects a changed authority after its preview: disabled (52.694563ms)
+✔ HTTP consent rejects a changed authority after its preview: logout (76.930355ms)
+✔ controlled actual HTTP barrier fences logout during peer I/O (68.930813ms)
+✔ controlled actual HTTP barrier fences profile during peer I/O (59.534298ms)
+✔ controlled actual HTTP barrier fences key during peer I/O (55.447824ms)
+✔ signed but wrong-scope or expired ERP previews are rejected before showing a consent proof (73.590386ms)
+✔ developer identity, retained staff grant and workspace emulation cannot enter the browser flow (51.843441ms)
+✔ actual signed backchannel inspect/redeem is one-use, current-session checked and separate from browser CSRF (131.502377ms)
+✔ disabled configuration and invalid ERP response MAC fail closed without creating a grant (302.65458ms)
+✔ the displayed confirmation deadline includes the configured authority expiry (237.409921ms)
+✔ production-mode VPS checks the exact configured site origin behind the synthetic TLS proxy (123.36511ms)
+✔ VPS auth migration requires approval, preserves accounts and records a checked receipt (137.436091ms)
+✔ a drifted auth receipt or missing immutable runtime guard is refused on reopen (251.896539ms)
+✔ F2 SQLite auth upgrade requires reviewed migrations before any startup write (66.365461ms)
+✔ F2 upgrade is additive and idempotent, preserving historical Drizzle receipts and account IDs (219.129927ms)
+✔ changed auth receipt, unknown migration or missing trigger fails closed (277.684805ms)
+✔ an unrecorded preexisting consent table is never silently adopted or overwritten (80.204602ms)
+✔ SQLite backup restores auth migration receipt and guard alongside existing accounts (190.176746ms)
+✔ actual loopback request/response binds exact bytes and issues a fresh request nonce (388.379705ms)
+✔ session authority requires its own exact explicit operator flag (3.733196ms)
+✔ introspection uses a distinct signed path and a fresh response nonce on actual loopback HTTP (396.077743ms)
+✔ actual HTTP peer rejects wrong body/path/MAC/config and expired signed requests (216.510383ms)
+✔ actual HTTP client rejects altered or reflected response authentication and old request receipts (96.533096ms)
+✔ redirects never forward a signed request to another actual HTTP server (9.448108ms)
+✔ request/path/timeout budgets reject before sending, and oversized actual responses are bounded (27.202053ms)
+✔ actual network deadline aborts timeout-headers (118.805295ms)
+✔ actual network deadline aborts timeout-body (126.042241ms)
+✔ configuration is disabled by default; production origins and independent identity keys are explicit (2.072863ms)
+✔ VPS server rejects a malformed session-authority environment flag before creating its database (21.358397ms)
+✔ VPS server refuses a non-boolean session-authority callback before any database write (5.757426ms)
+✔ enabled session authority refuses missing peer before SQLite opens (1.320178ms)
+✔ enabled session authority refuses inactive peer before SQLite opens (1.813425ms)
+✔ enabled session authority refuses expired peer before SQLite opens (8.94572ms)
+✔ real owner HTTP session uploads, previews, publishes, restarts and rolls back design without changing content (2302.456213ms)
+✔ storage safety: normal, low-free, high-usage and critical profiles (2.011483ms)
+✔ unknown/impossible measurements fail closed (1.040473ms)
+✔ Studio VPS rejects disable during page inspection before any publication (809.067532ms)
+✔ Studio VPS rejects logout during page inspection before any publication (707.703804ms)
+✔ Studio authorization is checked inside write transaction and rejected atomically (7.271649ms)
+✔ isolated Studio workspace holds primary authority lock and rolls back rejected/errors (3.493906ms)
+ℹ tests 404
+ℹ suites 0
+ℹ pass 392
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 36133.9842
+
+✖ failing tests:
+
+test at vps/migration-upgrade.test.mjs:26:1
+✖ review migration remains ordinal 0005 and owner invite is a unique forward-only 0006 (35.732378ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:28:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:37:1
+✖ fresh actual SQLite contains public reviews and passes integrity (185.044645ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:40:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:37:77)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 1 upgrades once and retains prior receipts/data (347.314042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 5 upgrades once and retains prior receipts/data (323.03942ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 7 upgrades once and retains prior receipts/data (157.414576ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 8 upgrades once and retains prior receipts/data (115.803049ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 10 upgrades once and retains prior receipts/data (75.171585ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 11 upgrades once and retains prior receipts/data (75.05445ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 12 upgrades once and retains prior receipts/data (69.511736ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 13 upgrades once and retains prior receipts/data (145.141812ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/migration-upgrade.test.mjs:47:45
+✖ actual baseline 14 upgrades once and retains prior receipts/data (179.201652ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:53:10
+      at fixture (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:23:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/migration-upgrade.test.mjs:47:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at vps/portal-messages-migration.test.mjs:10:1
+✖ 0012 adds private conversations without rewriting historical data or migration receipts (92.821269ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  16 !== 15
+
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/portal-messages-migration.test.mjs:43:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 15,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
