@@ -35,6 +35,20 @@ public class RoleWorkspaceRoutingTest {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of("DIRECTOR"), List.of("chat.read")));
     }
+    @Test public void duplicateAliasesNeverCreateDuplicateWorkspace() {
+        assertEquals(new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.CLIENT),
+            RoleWorkspaceRouting.INSTANCE.route(List.of("CLIENT", "CUSTOMER"), List.of("customer.portal")));
+    }
+    @Test public void wildcardPermissionStillNeedsRecognizedRole() {
+        assertEquals(new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.WORKER),
+            RoleWorkspaceRouting.INSTANCE.route(List.of("EMPLOYEE"), List.of("task.*")));
+    }
+    @Test public void removedGrantCannotReusePreviousSelection() {
+        var initial = RoleWorkspaceRouting.INSTANCE.route(List.of("WORKER"), List.of("task.read"));
+        assertEquals(new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.WORKER), initial);
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("WORKER"), List.of("chat.read")));
+    }
     @Test public void revokedPermissionRemovesWorkspace() {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of("BAULEITER"), List.of("task.read")));
