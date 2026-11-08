@@ -8,6 +8,7 @@ import { workspaceWords } from '../lib/workspace-i18n';
 import {adminWords} from '../lib/portal-locale-data';
 import { listenWorkspaceNavigation, workspaceHref } from '../lib/workspace-navigation';
 import { hostingAuthentication } from '../lib/hosting-auth';
+import {accountSettingsLinks} from '../lib/account-settings-links';
 import '../styles/admin-center.css';
 const hostingAuth = hostingAuthentication();
 
@@ -221,6 +222,7 @@ export default function AdminControlCenter() {
                     <option value="de">DE</option><option value="en">EN</option><option value="pl">PL</option><option value="lt">LT</option><option value="ru">RU</option><option value="uk">UK</option>
                   </select></label>
                 <button type="button" class="kncc-tool" onClick={() => void verifySession()}>{t().refresh}</button>
+                <Show when={hostingAuth.passwordAccounts}><a class="kncc-tool" data-astro-reload target="_top" href={'/account/settings/?lang='+language()}>{accountSettingsLinks[language()].settings}</a></Show>
                 <a class="kncc-tool" data-astro-reload target="_top" href={hostingAuth.signOut(publicHome())}>{t().signOut}</a>
               </div>
             </div>

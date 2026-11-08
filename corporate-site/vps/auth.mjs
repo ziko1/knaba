@@ -25,9 +25,12 @@ export function createOwner(db,email,password){
   return createCredentialsUser(db,email,password);
 }
 function validPassword(row,password){
+  if(typeof password!=='string'||password.length>256||
+     !/^[a-f0-9]{32}$/.test(row?.salt??'')||!/^[a-f0-9]{128}$/.test(row?.password_hash??''))return false;
   const attempt=scryptSync(password,Buffer.from(row.salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024});
   return timingSafeEqual(attempt,Buffer.from(row.password_hash,'hex'));
 }
+export {validPassword as verifyCredentialPassword};
 export function createLogin(db,{email,password,clientKey}){
   const address=normalizeEmail(email);
   const now=Math.floor(Date.now()/1000);
@@ -81,7 +84,7 @@ export function expiredCookie({secure=true}={}){
 }
 
 /** Rotate only a logged-in user's own secret; revoke every prior session. */
-export function rotateCredentials(db,{userId,currentPassword,newPassword,confirmed}){
+export function rotateCredentials(db,{userId,currentPassword,newPassword,confirmed,cookieHeader}){
   if(typeof userId!=='string'||!userId||
      typeof currentPassword!=='string'||currentPassword.length>256||
      typeof newPassword!=='string'||newPassword.length<8||newPassword.length>256||
@@ -92,17 +95,24 @@ export function rotateCredentials(db,{userId,currentPassword,newPassword,confirm
     'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<5 RETURNING attempts'
   ).get(key,(bucket+1)*900);
   if(!limit)return false;
-  const row=db.prepare('SELECT salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
+  const row=db.prepare('SELECT email,salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
   if(!row||row.disabled||!validPassword(row,currentPassword))return false;
   const salt=randomBytes(16).toString('hex');
   const next=scryptSync(newPassword,Buffer.from(salt,'hex'),64,
     {N:32768,r:8,p:1,maxmem:64*1024*1024}).toString('hex');
   db.exec('BEGIN IMMEDIATE');
   try{
+    if(cookieHeader!==undefined){
+      const current=readSession(db,cookieHeader);
+      if(!current||current.id!==userId||current.email!==row.email){db.exec('ROLLBACK');return false;}
+    }
+    const profile=db.prepare('SELECT email,status FROM profiles WHERE id=?').get(userId);
+    if(profile&&(profile.email.toLowerCase()!==row.email||!['pending','approved'].includes(profile.status))){db.exec('ROLLBACK');return false;}
     const saved=db.prepare(
       'UPDATE vps_users SET salt=?,password_hash=? WHERE id=? AND disabled=0 AND salt=? AND password_hash=?'
     ).run(salt,next,userId,row.salt,row.password_hash);
     if(saved.changes!==1){db.exec('ROLLBACK');return false;}
+    db.prepare('DELETE FROM vps_account_tokens WHERE user_id=?').run(userId);
     db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(userId);
     db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
       .run(randomBytes(18).toString('base64url'),userId,'credential.rotated',
