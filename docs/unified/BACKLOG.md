@@ -1,5 +1,18 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 2026-11-08 — F2 technical dependency satisfied
+
+Exact `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5` / tree
+`7dd5cf0868b6774e80712324cf692c1f18a24342`: main42485949823 має4 required
+SUCCESS; ERP3127,24 F2 PG,7 actual F2 pair та9 rendered HTTP-fixture cases PASS.
+Незалежне artifact/source review — `ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`.
+F3 contract design тепер дозволений; його session issuance і dependent F4,
+privacy/native/provider/device/operational acceptance залишаються відкритими.
+Native media source розробляється окремо; старі native artifacts не доводять
+нові inputs. Whole product NOT_READY, усі compound AC без підвищення.
+Деталі й межі: [поточне покриття](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md)
+та `evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
 ## Поточний кандидат — 08.11.2026, PR129
 
 Опублікований remote: `5d6eeae0862e52cc693c1766f0c6fba964b12aa5`,

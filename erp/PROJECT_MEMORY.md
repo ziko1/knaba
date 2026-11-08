@@ -1,5 +1,16 @@
 # KNABA DE project memory
 
+## 2026-11-08 — F2 password-based linking: actual aggregate evidence
+
+Source `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5`, main CI42485949823:
+4 required jobs SUCCESS;24 F2 PostgreSQL,7 actual VPS/SQLite↔ERP/HTTP/PG,
+9 rendered fixture cases PASS. Незалежно звірено source/artifact/case inventory;
+`ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`. Це добровільне зв’язування
+наявних акаунтів і source revocation fences. F3 session issuance/F4 derived
+authority/OIDC-only proof/privacy та зовнішнє приймання ще відкриті.
+Whole product NOT_READY; історичні записи нижче не переписані.
+Єдиний актуальний доказ: `../docs/unified/evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
 ## 2026-11-08 — PR123 identity authority checkpoint
 
 Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.
