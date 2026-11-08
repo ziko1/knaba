@@ -412,8 +412,21 @@ class ErpConsoleActivity : Activity() {
         }
     }
     private fun routeWorkspace() {
-        // Keep the existing permission-scoped ERP navigation for specialist roles.
-        // Role-based workspace selection is an optional presentation layer.
+        // Server grants remain authoritative; workspace choice only changes navigation.
+        selectedWorkspace = null
+        if (!demoMode) {
+            val current = actor
+            val roles = current?.optJSONArray("roles") ?: JSONArray()
+            val grants = current?.optJSONArray("permissions") ?: JSONArray()
+            val result = RoleWorkspaceRouting.route(
+                (0 until roles.length()).map { roles.optString(it) },
+                (0 until grants.length()).map { grants.optString(it) }
+            )
+            if (result is RoleWorkspaceRouting.Destination.Open) {
+                selectedWorkspace = result.workspace
+            }
+        }
+        // Legacy specialist roles retain the existing permission-scoped ERP dashboard.
         showDashboard()
     }
     private fun showDashboard() {
