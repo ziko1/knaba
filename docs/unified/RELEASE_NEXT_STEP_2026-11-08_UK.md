@@ -59,3 +59,13 @@ Read-only TEST health/ready/version повернули 200, TEST, database CONNE
 6. Після доказів і незалежного review оновити лише відповідні matrix rows. Повний handoff і production рішення залишаються окремими gates.
 
 Source rollback цього supplement — revert лише чотирьох backend файлів і трьох harness/package файлів без DB migration; повернення старого SHA guard відновлює відому слабкість. Попередня SQLite002 recovery migration лишається несумісною зі старим PR133 code-only rollback: потрібен compatible forward fix або погоджене узгоджене code+DB restore. Жодних production, signing, store/provider або client-message дій цим checkpoint не виконано.
+
+## Додатковий checkpoint: c238 CI та окремий hosted browser
+
+Новий source `c2383e233ff03849a215a9d364e8204b718feb66` / tree `f91b285dda28f1d566cbc64a16926fffb66b8b9b` пройшов repository CI42502806429, parallel push42502801262 і native42502806316. Фактичні counts: root36; site732 Vitest +90 Node +345VPS; ERP3154; real SQLite→HTTP→PostgreSQL bridge84; Android33 JUnit/Robolectric; iOS69 XCTest. Продуктових failures/skips немає. Ці totals не додаються до локальних subsets або попереднього55b CI.
+
+Нові automatic native outputs мають власні hashes/signers, але ті самі98 native/build inputs. Android signer `05063820060da62661c31d119e3cf0871c85ab03b10d5c21c998ba02b8e5ab5c` відрізняється від55b; update/data preservation не перевірені. Frozen handoff не переписано.
+
+Official installed-software manifest actual GitHub runner image20261101.360.1 містить Chrome/Chromium/Firefox: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md . Наступна одна bounded спроба browser acceptance виконується у цьому окремому standard hosted середовищі після exact source checkout/build. Installed executable і runtime metadata перевіряються фактично; sandbox availability до запуску невідома. Не встановлювати browser binaries, не змінювати permissions або sandbox flags. Sentinel Chromium більше не запускається.
+
+Окремий workflow має15min ceiling, read-only repository token, loopback fixture зі synthetic data та captured mail transport, always-persisted JSON receipt на1day; final handoff не містить нових browser PNG. PASS можливий лише за виконаними assertions; exit1 FAIL і exit2 BLOCKED зберігаються. Навіть автоматизований browser PASS не закриває physical devices, manual screenreader, actual email delivery або повні parent criteria. Результати й exact нового HEAD будуть у final handoff annex/PR137; цей абзац фіксує план до виконання.

@@ -337,3 +337,9 @@ Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із р�
 ## 2026-11-08 — next-step evidence after frozen mobile release
 
 [Наступний checkpoint](RELEASE_NEXT_STEP_2026-11-08_UK.md) зберігає повний scope, frozen 55b native artifacts і всі існуючі статуси. Backend release-identity guard локально перевірено й незалежно прийнято; actual browser recovery gate BLOCKED після двох збережених setup attempts. На доступному host немає підключених Android devices; emulator/KVM blocked; Apple owner access/physical iPhone не підтверджені. TEST API health/ready/version відповідають іншому актуальному source `89366d0a440fe1507bef65806da2364027d6edc1`; це не mobile/company UAT. Draft PR137 залишається єдиним publication target, без main merge/production/provider actions. Повний продукт HOLD.
+
+## 2026-11-08 — c238 CI прийнято, окремий hosted browser gate
+
+Source `c2383e233ff03849a215a9d364e8204b718feb66`, tree `f91b285dda28f1d566cbc64a16926fffb66b8b9b`: repository42502806429/parallel42502801262 і native42502806316 SUCCESS. Root36, site732+90+345, ERP3154 на actual PostgreSQL17.6, bridge84, Android33JUnit/Robolectric, iOS69XCTest; 0 product failures/skips. Independent native review підтвердив98 unchanged inputs від55b, exact artifacts і новий відмінний debug signer; physical/live/signing acceptance не додано.
+
+Наступний workflow-only gate використовує окремий standard GitHub runner із installed Chrome для actual recovery browser scenarios. Його результат на цьому pre-publication checkpoint PENDING; v1 Sentinel FAIL/BLOCKED та V2 source-only receipts збережені. Ніякого послаблення sandbox, provider send чи перенесення native artifact identity. Повний scope та рішення HOLD незмінні.

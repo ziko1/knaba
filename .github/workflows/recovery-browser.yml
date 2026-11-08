@@ -1,0 +1,183 @@
+name: KNABA recovery browser acceptance
+
+'on':
+  pull_request:
+    paths:
+      - '.github/workflows/recovery-browser.yml'
+      - 'corporate-site/tests/password-recovery-browser.mjs'
+      - 'corporate-site/tests/fixtures/password-recovery-server.mjs'
+      - 'corporate-site/vps/**'
+      - 'corporate-site/drizzle/**'
+      - 'corporate-site/src/**'
+      - 'corporate-site/public/**'
+      - 'corporate-site/scripts/**'
+      - 'corporate-site/astro.config.*'
+      - 'corporate-site/vite.worker.config.ts'
+      - 'corporate-site/tsconfig*.json'
+      - 'corporate-site/package*.json'
+      - 'erp/package*.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: knaba-recovery-browser-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  recovery-browser:
+    name: Real HTML recovery on installed Chrome
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+      SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+      KNABA_QA_SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+      KNABA_RECOVERY_QA_DIR: ${{ runner.temp }}/knaba-recovery-browser-evidence
+      KNABA_PLAYWRIGHT_MODULE: ${{ github.workspace }}/erp/node_modules/playwright
+      KNABA_BROWSER_SKIP: webkit,firefox
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      KNABA_RELEASE_MODE: official
+      ASTRO_TELEMETRY_DISABLED: '1'
+      TZ: UTC
+    steps:
+      - uses: actions/checkout@v4
+        id: checkout
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        id: node
+        with:
+          node-version: '24.22.1'
+      - name: Require exact source and already-installed Chrome
+        id: capability
+        timeout-minutes: 1
+        run: |
+          python3 - <<'PY'
+          import datetime, json, os, pathlib, re, shutil, subprocess, sys
+          output = pathlib.Path(os.environ['KNABA_RECOVERY_QA_DIR'])
+          output.mkdir(parents=True, exist_ok=True)
+          sha = os.environ['SOURCE_SHA']
+          actual = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          if not re.fullmatch(r'[a-f0-9]{40}', sha) or sha == '0'*40 or sha != actual:
+              raise SystemExit('EXACT_SOURCE_SHA_REQUIRED')
+          chrome = shutil.which('google-chrome') or shutil.which('google-chrome-stable')
+          metadata = {
+              'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'sourceSha': actual, 'imageOS': os.environ.get('ImageOS'),
+              'imageVersion': os.environ.get('ImageVersion'),
+              'runnerOS': os.environ.get('RUNNER_OS'), 'runnerArch': os.environ.get('RUNNER_ARCH'),
+              'uid': os.getuid(), 'gid': os.getgid(), 'chromeExecutable': chrome,
+              'nodeVersion': subprocess.check_output(['node', '--version'], text=True).strip(),
+              'chromiumSandboxRequired': True, 'browserDownloadsAllowed': False,
+              'screenshotFilesUploaded': False,
+              'scope': 'Installed Chrome; loopback HTTPS; synthetic SQLite accounts; captured email only'
+          }
+          reason = 'NON_ROOT_RUNNER_REQUIRED' if os.getuid() == 0 else None
+          if not chrome or not os.access(chrome, os.X_OK):
+              reason = 'ALREADY_INSTALLED_CHROME_UNAVAILABLE'
+          if reason is None:
+              metadata['chromeVersion'] = subprocess.check_output([chrome, '--version'], text=True, timeout=10).strip()
+              with open(os.environ['GITHUB_ENV'], 'a') as env:
+                  env.write('KNABA_CHROME_PATH=' + chrome + '\n')
+          (output / 'runtime-metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
+          if reason:
+              (output / 'receipt.json').write_text(json.dumps({
+                  'status': 'BLOCKED', 'reason': reason, 'sourceSha': actual,
+                  'completedChecks': 0, 'checks': [], 'screenshots': [],
+                  'browserAcceptance': 'NOT_RUN'
+              }, indent=2) + '\n')
+              sys.exit(2)
+          PY
+      - name: Install only locked application and driver dependencies
+        id: dependencies
+        timeout-minutes: 4
+        run: |
+          npm --prefix corporate-site ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+          npm --prefix erp ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - name: Build actual site inputs
+        id: build
+        timeout-minutes: 4
+        run: npm --prefix corporate-site run build
+      - name: Run isolated recovery with Chromium sandbox required
+        id: browser
+        timeout-minutes: 5
+        working-directory: corporate-site
+        # The harness sets chromiumSandbox:true and passes only loopback traffic.
+        # Exit 0/1/2 remains the real step result; no continue-on-error or retry.
+        run: |
+          node tests/password-recovery-browser.mjs
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const r=JSON.parse(readFileSync(`${process.env.KNABA_RECOVERY_QA_DIR}/receipt.json`,'utf8'));
+          assert.equal(r.status,'PASS');
+          assert.equal(r.source.checkoutHead,process.env.SOURCE_SHA);
+          assert.equal(r.source.operatorDeclaredSourceSha,process.env.SOURCE_SHA);
+          assert.equal(r.source.workingTreeDirty,false);
+          assert.equal(r.browser,'chromium');
+          assert.equal(typeof r.browserVersion,'string');
+          assert.equal(r.completedChecks,64);
+          assert.equal(r.checks.length,64);
+          assert.ok(r.checks.every(c=>c.status==='PASS'));
+          assert.equal(r.errors.length,0);
+          assert.equal(r.externalRequests.length,0);
+          assert.equal(r.browserResponsesMocked,false);
+          assert.equal(r.realProviderDelivery,'NOT_RUN');
+          assert.equal(r.physicalDeviceAcceptance,'NOT_RUN');
+          JS
+      - name: Preserve honest outcome and safe runtime metadata
+        if: always()
+        env:
+          CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
+          NODE_OUTCOME: ${{ steps.node.outcome }}
+          CAPABILITY_OUTCOME: ${{ steps.capability.outcome }}
+          DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          BROWSER_OUTCOME: ${{ steps.browser.outcome }}
+        run: |
+          python3 - <<'PY'
+          import datetime, json, os, pathlib
+          output = pathlib.Path(os.environ['KNABA_RECOVERY_QA_DIR'])
+          output.mkdir(parents=True, exist_ok=True)
+          path = output / 'runtime-metadata.json'
+          metadata = json.loads(path.read_text()) if path.exists() else {
+              'sourceSha': os.environ['SOURCE_SHA'], 'imageOS': os.environ.get('ImageOS'),
+              'imageVersion': os.environ.get('ImageVersion'), 'screenshotFilesUploaded': False
+          }
+          metadata['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+          metadata['stepOutcomes'] = {name.lower(): os.environ.get(name + '_OUTCOME')
+              for name in ['CHECKOUT', 'NODE', 'CAPABILITY', 'DEPENDENCIES', 'BUILD', 'BROWSER']}
+          receipt = output / 'receipt.json'
+          if not receipt.exists():
+              receipt.write_text(json.dumps({
+                  'status': 'BLOCKED', 'reason': 'PREREQUISITE_FAILED_OR_BROWSER_NOT_COMPLETED',
+                  'sourceSha': os.environ['SOURCE_SHA'], 'completedChecks': 0,
+                  'checks': [], 'screenshots': [], 'browserAcceptance': 'NOT_RUN',
+                  'stepOutcomes': metadata['stepOutcomes']
+              }, indent=2) + '\n')
+          raw = json.loads(receipt.read_text())
+          metadata['rawReceiptStatus'] = raw.get('status')
+          metadata['gateStatus'] = ('PASS' if raw.get('status') == 'PASS' and
+              metadata['stepOutcomes']['browser'] == 'success' else
+              'FAIL' if raw.get('status') == 'FAIL' or raw.get('status') == 'PASS' else 'BLOCKED')
+          driver = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / 'erp/node_modules/playwright/package.json'
+          metadata['playwrightVersion'] = json.loads(driver.read_text()).get('version') if driver.exists() else None
+          path.write_text(json.dumps(metadata, indent=2) + '\n')
+          # Never rewrite actual PASS/FAIL/BLOCKED (or interrupted RUNNING) receipts.
+          PY
+      - name: Upload JSON evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knaba-recovery-browser-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/knaba-recovery-browser-evidence/receipt.json
+            ${{ runner.temp }}/knaba-recovery-browser-evidence/runtime-metadata.json
+          if-no-files-found: error
+          retention-days: 1
