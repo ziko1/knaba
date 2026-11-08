@@ -1,0 +1,14 @@
+{
+  "name": "recovery-site-build",
+  "command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "cwd": "/workspace/scratch/b0593ca57e65/knaba-next/corporate-site",
+  "started_at": "2026-11-08T14:37:56.881389+00:00",
+  "completed_at": "2026-11-08T14:38:13.994705+00:00",
+  "exit_code": 0,
+  "log": "/workspace/scratch/b0593ca57e65/continuation-work/scope-current/recovery-site-build.log",
+  "log_sha256": "f59d03c5efbef1e082d7338b4701f0fd7c255f7fe42814ada6ed9672682012df"
+}

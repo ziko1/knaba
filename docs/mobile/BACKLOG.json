@@ -83,44 +83,174 @@
           "expected": "Coherent native login/dashboard/records/chat/actions, six locales, navigation and delayed callbacks guarded",
           "owner": "/root/android_ui",
           "status": "PASS_LIMITED_TEST_SCOPE",
-          "evidence": "evidence/android-test-20261107/verification.json"
+          "evidence": "evidence/android-test-20261107/verification.json",
+          "currentCandidate": {
+            "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+            "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+            "version": "0.5.2",
+            "build": 9,
+            "repositoryRun": 42494336968,
+            "nativeRun": 42494336965,
+            "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+            "observedAt": "2026-11-08T15:46:11.654854+00:00",
+            "physicalDevices": "NOT_RUN",
+            "liveERP": "NOT_RUN",
+            "status": "PASS_LIMITED_TEST_SCOPE",
+            "scope": "33 JUnit/Robolectric cases include native login/navigation/task/chat and the new six-locale role rendering regression; no physical-device or live-company UI acceptance.",
+            "checks": [
+              "ANDROID-UNIT",
+              "NATIVE-ROLE-LABELS"
+            ]
+          }
         },
         {
           "id": "M9-TRANSPORT",
           "expected": "Real API contracts preserved; session revocation and explicit-key retry regressions verified",
           "owner": "/root/android_transport",
           "status": "PASS_LIMITED_TEST_SCOPE",
-          "evidence": "evidence/android-test-20261107/verification.json"
+          "evidence": "evidence/android-test-20261107/verification.json",
+          "currentCandidate": {
+            "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+            "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+            "version": "0.5.2",
+            "build": 9,
+            "repositoryRun": 42494336968,
+            "nativeRun": 42494336965,
+            "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+            "observedAt": "2026-11-08T15:46:11.654854+00:00",
+            "physicalDevices": "NOT_RUN",
+            "liveERP": "NOT_RUN",
+            "status": "PASS_LIMITED_TEST_SCOPE",
+            "scope": "74 explicit HTTP/journal-double assertions verify API contract, session fences and same-key retry; live ERP and OS process-death remain untested.",
+            "checks": [
+              "ANDROID-TRANSPORT"
+            ]
+          }
         },
         {
           "id": "M9-DEMO",
           "expected": "Explicit offline synthetic demo with stateful task/chat test journey; reset and isolation",
           "owner": "/root/android_demo",
           "status": "PASS_LIMITED_TEST_SCOPE",
-          "evidence": "evidence/android-test-20261107/verification.json"
+          "evidence": "evidence/android-test-20261107/verification.json",
+          "currentCandidate": {
+            "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+            "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+            "version": "0.5.2",
+            "build": 9,
+            "repositoryRun": 42494336968,
+            "nativeRun": 42494336965,
+            "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+            "observedAt": "2026-11-08T15:46:11.654854+00:00",
+            "physicalDevices": "NOT_RUN",
+            "liveERP": "NOT_RUN",
+            "status": "PASS_LIMITED_TEST_SCOPE",
+            "scope": "38 JVM demo checks plus existing Robolectric task/chat/reset behavior; local synthetic data only.",
+            "checks": [
+              "ANDROID-DEMO"
+            ]
+          }
         },
         {
           "id": "M9-APK",
           "expected": "Separate installable debug APK, exact source/hash/signature, UI runtime tests and test instructions",
           "owner": "/root",
           "status": "PASS_LIMITED_TEST_SCOPE",
-          "evidence": "evidence/android-test-20261107/verification.json"
+          "evidence": "evidence/android-test-20261107/verification.json",
+          "currentCandidate": {
+            "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+            "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+            "version": "0.5.2",
+            "build": 9,
+            "repositoryRun": 42494336968,
+            "nativeRun": 42494336965,
+            "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+            "observedAt": "2026-11-08T15:46:11.654854+00:00",
+            "physicalDevices": "NOT_RUN",
+            "liveERP": "NOT_RUN",
+            "status": "PASS_LIMITED_TEST_SCOPE",
+            "scope": "Exact-source debug APK/AAB build, identity, hashes, APK v2 signature and matching AAB signer verified; physical installation/upgrade remain BLOCKED.",
+            "checks": [
+              "ANDROID-BUILD",
+              "ANDROID-PACKAGE",
+              "ANDROID-UNIT"
+            ],
+            "apkSha256": "d3531a18e920121be6994c9898a2531ea26016a202d7fb31adbd0274a6bf3b3e",
+            "aabSha256": "82c72675f4b77d35251741ff92aec0de7fab03d4f48c748715c45f3263d11230"
+          }
         },
         {
           "id": "M9-FULL",
           "expected": "Full existing product roadmap and real backend/company/device acceptance retained, never inferred from demo or build",
-          "status": "OPEN_EXTERNAL_AND_EXISTING_BACKLOG"
+          "status": "OPEN_EXTERNAL_AND_EXISTING_BACKLOG",
+          "currentCandidate": {
+            "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+            "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+            "version": "0.5.2",
+            "build": 9,
+            "repositoryRun": 42494336968,
+            "nativeRun": 42494336965,
+            "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+            "observedAt": "2026-11-08T15:46:11.654854+00:00",
+            "physicalDevices": "NOT_RUN",
+            "liveERP": "NOT_RUN",
+            "status": "BLOCKED",
+            "fullAcceptance": "BLOCKED",
+            "reason": "Complete V4/V3/site/mobile roadmap plus actual backend/company/device acceptance remain open; demo/build/CI cannot close this parent criterion."
+          }
         }
       ],
       "budget": "no_new_paid_spend",
-      "next": "Hand over test APK; physical Android UAT and approved test ERP/accounts required for live gates; full scope remains open."
+      "next": "Hand over test APK; physical Android UAT and approved test ERP/accounts required for live gates; full scope remains open.",
+      "currentCandidate": {
+        "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+        "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+        "version": "0.5.2",
+        "build": 9,
+        "repositoryRun": 42494336968,
+        "nativeRun": 42494336965,
+        "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+        "observedAt": "2026-11-08T15:46:11.654854+00:00",
+        "physicalDevices": "NOT_RUN",
+        "liveERP": "NOT_RUN",
+        "status": "BLOCKED",
+        "fullAcceptance": "BLOCKED",
+        "boundedSubcriteriaPassed": [
+          "M9-UI",
+          "M9-TRANSPORT",
+          "M9-DEMO",
+          "M9-APK"
+        ],
+        "reason": "M9-FULL is open. Historical TEST_CANDIDATE_VERIFIED_FULL_PRODUCT_OPEN remains unchanged."
+      }
     },
     {
       "id": "MOBILE-010",
       "description": "Encrypted durable Android ERP pending-command recovery and actor/session fences",
       "acceptance": "Original command/version/key survives restart; same-actor fresh auth only, no auto replay, bounded/corrupt storage and AtomicFile recovery; physical device+live API acceptance separately",
       "status": "IMPLEMENTED_TEST_CANDIDATE",
-      "evidence": "evidence/android-recovery-20261108/verification.json"
+      "evidence": "evidence/android-recovery-20261108/verification.json",
+      "currentCandidate": {
+        "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+        "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+        "version": "0.5.2",
+        "build": 9,
+        "repositoryRun": 42494336968,
+        "nativeRun": 42494336965,
+        "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+        "observedAt": "2026-11-08T15:46:11.654854+00:00",
+        "physicalDevices": "NOT_RUN",
+        "liveERP": "NOT_RUN",
+        "status": "PASS_LIMITED_TEST_SCOPE",
+        "fullDeviceAndLiveAcceptance": "BLOCKED",
+        "scope": "Encrypted pending-command journal and actor/session fences verified by host transport assertions and 5 journal JUnit cases within 33 total; actual OS kill, hardware Keystore and live API recovery remain open.",
+        "checks": [
+          "ANDROID-TRANSPORT",
+          "ANDROID-UNIT",
+          "ANDROID-PACKAGE"
+        ],
+        "apkSha256": "d3531a18e920121be6994c9898a2531ea26016a202d7fb31adbd0274a6bf3b3e"
+      }
     },
     {
       "id": "MOBILE-011",
@@ -129,7 +259,26 @@
       "status": "SOURCE_AND_NATIVE_CI_VERIFIED_DEVICE_ACCEPTANCE_OPEN",
       "scope": "Encrypted immutable pending write; same-origin/company/user recovery; explicit same-key retry; logout and response generation fences; six-language UI. Native XCTest and device acceptance remain separate.",
       "evidence": "evidence/native-candidate-20261108/verification.json",
-      "sourceGitSha": "fb4be719fc6f777138cb93837fc41729f9104c09"
+      "sourceGitSha": "fb4be719fc6f777138cb93837fc41729f9104c09",
+      "currentCandidate": {
+        "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+        "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+        "version": "0.5.2",
+        "build": 9,
+        "repositoryRun": 42494336968,
+        "nativeRun": 42494336965,
+        "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+        "observedAt": "2026-11-08T15:46:11.654854+00:00",
+        "physicalDevices": "NOT_RUN",
+        "liveERP": "NOT_RUN",
+        "status": "BLOCKED",
+        "fullAcceptance": "BLOCKED",
+        "nativeEvidence": "PASS_BOUNDED",
+        "nativeXctestPassed": 69,
+        "iosSimulatorSha256": "1b60a7bfc95589ca0aec4361a7b6b5051f6438c1dd7cb5da22e8b734a123dd6e",
+        "scope": "Actual simulator XCTest confirms immutable retry, journal recreation, logout/generation fences; HTTP/journal/key-store doubles remain explicit.",
+        "reason": "Signed IPA and actual iPhone interrupted-write/relogin/retry against live TEST ERP remain unverified."
+      }
     },
     {
       "id": "MOBILE-012",
@@ -149,6 +298,33 @@
         "nativeRun": 42467913707,
         "iosJob": 128691606881,
         "currentConsolidatedAcceptance": "NOT_RUN"
+      },
+      "currentCandidate": {
+        "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+        "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+        "version": "0.5.2",
+        "build": 9,
+        "repositoryRun": 42494336968,
+        "nativeRun": 42494336965,
+        "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+        "observedAt": "2026-11-08T15:46:11.654854+00:00",
+        "physicalDevices": "NOT_RUN",
+        "liveERP": "NOT_RUN",
+        "status": "BLOCKED",
+        "fullAcceptance": "BLOCKED",
+        "nativeEvidence": "PASS_BOUNDED",
+        "androidJunitPassed": 33,
+        "iosXctestPassed": 69,
+        "apkSha256": "d3531a18e920121be6994c9898a2531ea26016a202d7fb31adbd0274a6bf3b3e",
+        "aabSha256": "82c72675f4b77d35251741ff92aec0de7fab03d4f48c748715c45f3263d11230",
+        "iosSimulatorSha256": "1b60a7bfc95589ca0aec4361a7b6b5051f6438c1dd7cb5da22e8b734a123dd6e",
+        "roleLabels": {
+          "canonical": 18,
+          "aliases": 3,
+          "locales": 6
+        },
+        "scope": "Permission-based native navigation, role-display regression and exact APK/AAB/simulator packaging independently verified.",
+        "reason": "Complete role/device/live journeys and company acceptance remain unverified."
       }
     }
   ],
@@ -161,5 +337,214 @@
     "productStatus": "NOT_READY",
     "physicalDevices": "NOT_RUN",
     "originalCriteriaPromoted": false
+  },
+  "releaseContinuation20261108": {
+    "branch": "feat/knaba-release-continuation-20261108",
+    "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "version": "0.5.2",
+    "build": 9,
+    "status": "BOUNDED_EXACT_SOURCE_CI_VERIFIED_FULL_HANDOFF_BLOCKED",
+    "productStatus": "NOT_READY",
+    "physicalDevices": "NOT_RUN",
+    "originalCriteriaPromoted": false,
+    "newPaidSpendAuthorized": false,
+    "contract": "../unified/RELEASE_CONTINUATION_2026-11-08_UK.md",
+    "historicalPreCiCheckpoint": {
+      "branch": "feat/knaba-release-continuation-20261108",
+      "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+      "version": "0.5.2",
+      "build": 9,
+      "status": "SOURCE_IMPLEMENTED_LOCAL_VERIFIED_HOSTED_PENDING",
+      "runtimeChecks": {
+        "passed": 293,
+        "sqlSkipped": 2,
+        "compiledEntrypointCases": 49,
+        "typecheck": "PASS",
+        "baselineDefectCases": 4
+      },
+      "recoveryChecks": {
+        "localSQLiteHttpCompatibility": 109,
+        "failed": 0,
+        "skipped": 0,
+        "postgresBridge": "NOT_RUN"
+      },
+      "nativeChecks": {
+        "catalogMutationCases": 6,
+        "rootTests": 36,
+        "newNativeBuilds": "NOT_RUN"
+      },
+      "productStatus": "NOT_READY",
+      "physicalDevices": "NOT_RUN",
+      "originalCriteriaPromoted": false,
+      "newPaidSpendAuthorized": false,
+      "contract": "../unified/RELEASE_CONTINUATION_2026-11-08_UK.md"
+    },
+    "releaseDecision": "HOLD",
+    "verifiedCandidate": {
+      "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+      "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+      "version": "0.5.2",
+      "build": 9,
+      "repositoryRun": 42494336968,
+      "nativeRun": 42494336965,
+      "requiredJobsPassed": 6,
+      "status": "PASS_BOUNDED_TECHNICAL_SCOPE",
+      "tests": {
+        "root": {
+          "passed": 36,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "source/module/policy/localization checks"
+        },
+        "site_vitest": {
+          "passed": 732,
+          "failed": 0,
+          "skipped": 0
+        },
+        "site_node": {
+          "passed": 90,
+          "failed": 0,
+          "skipped": 0,
+          "groups": [
+            37,
+            35,
+            10,
+            8
+          ]
+        },
+        "site_vps": {
+          "passed": 345,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "temporary SQLite, synthetic accounts, injected provider transport"
+        },
+        "erp": {
+          "passed": 3108,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "ERP suite including genuine isolated PostgreSQL 17.6 tests; not every test is a SQL case"
+        },
+        "site_erp_bridge": {
+          "passed": 84,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "actual isolated SQLite to HTTP to PostgreSQL 17.6 acceptance"
+        },
+        "android_junit": {
+          "passed": 33,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "Robolectric/JVM; 28 Activity and 5 recovery-journal cases"
+        },
+        "ios_xctest": {
+          "passed": 69,
+          "failed": 0,
+          "skipped": 0,
+          "expected_failures": 0,
+          "scope": "iPhone 16 Simulator, iOS 18.5, arm64; unit/model tests"
+        }
+      },
+      "artifacts": {
+        "android_apk": {
+          "location": "handoff_package",
+          "path": "artifacts/android/KNABA-DE-0.5.2-build9-test.apk",
+          "sha256": "d3531a18e920121be6994c9898a2531ea26016a202d7fb31adbd0274a6bf3b3e",
+          "size_bytes": 2961666,
+          "platform": "android",
+          "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+          "version": "0.5.2",
+          "build": 9,
+          "application_id": "de.knaba.mobile.test",
+          "version_name": "0.5.2-test",
+          "min_sdk": 31,
+          "target_sdk": 36,
+          "signing": "DEBUG_EVALUATION_ONLY",
+          "certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+          "signature_v2": "PASS",
+          "device_install": "NOT_RUN",
+          "upgrade": "NOT_RUN"
+        },
+        "android_aab": {
+          "location": "handoff_package",
+          "path": "artifacts/android/KNABA-DE-0.5.2-build9-test.aab",
+          "sha256": "82c72675f4b77d35251741ff92aec0de7fab03d4f48c748715c45f3263d11230",
+          "size_bytes": 1038955,
+          "platform": "android",
+          "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+          "version": "0.5.2",
+          "build": 9,
+          "signing": "DEBUG_EVALUATION_ONLY",
+          "certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+          "signed_payload_entries": 22,
+          "apk_signer_matches": true,
+          "play_upload": "NOT_RUN",
+          "direct_apk_installable": false
+        },
+        "ios_simulator": {
+          "location": "handoff_package",
+          "path": "artifacts/ios/KNABA-DE-iOS-0.5.2-build9-simulator.app.zip",
+          "sha256": "1b60a7bfc95589ca0aec4361a7b6b5051f6438c1dd7cb5da22e8b734a123dd6e",
+          "size_bytes": 6641319,
+          "platform": "ios",
+          "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+          "version": "0.5.2",
+          "build": 9,
+          "bundle_id": "de.knaba.mobile",
+          "platform_name": "iPhoneSimulator",
+          "architecture": "arm64",
+          "minimum_os": "17.0",
+          "sdk": "18.5",
+          "signing": "CODE_SIGNING_ALLOWED=NO; simulator only",
+          "signed_ipa": false,
+          "physical_device": "NOT_RUN"
+        }
+      },
+      "evidence": "../unified/evidence/release-continuation-20261108/final-verification.json",
+      "sourceAndNativeReview": "PASS_BOUNDED",
+      "clientHandoffAcceptance": "BLOCKED",
+      "releaseDecision": "HOLD",
+      "physicalDevices": "NOT_RUN",
+      "liveERP": "NOT_RUN",
+      "realMailDelivery": "NOT_RUN",
+      "ownerSignedIpa": "UNAVAILABLE",
+      "documentationHeadIsSeparateFromTestedSource": true,
+      "countRule": "Preserved pre-CI subsets overlap these final suites and are not added again."
+    }
+  },
+  "releaseNextStep20261108": {
+    "baselineGitSha": "e57be50eb833bbb6c86d0ed4809d0756e793073a",
+    "branch": "feat/knaba-release-continuation-20261108",
+    "status": "LOCAL_SCOPED_SOURCE_VERIFIED_BROWSER_AND_DEVICE_ACCEPTANCE_BLOCKED",
+    "productStatus": "NOT_READY",
+    "releaseDecision": "HOLD",
+    "frozenNativeSourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+    "nativeVersion": "0.5.2",
+    "nativeBuild": 9,
+    "newNativeArtifacts": false,
+    "releaseShaGuard": {
+      "localFocusedPassed": 262,
+      "failed": 0,
+      "skipped": 0,
+      "independentReview": "PASS_SCOPED",
+      "sourcePatchSha256": "21105df7660d5af90f02af98f0f6700898f6bf9a6caea2c1cc910bc81da36f93"
+    },
+    "browser": {
+      "attempt1": "FAIL_SETUP",
+      "attempt2": "BLOCKED_POLICY_OR_SANDBOX",
+      "completedChecks": 0,
+      "screenshots": 0,
+      "v2BrowserExecution": "NOT_RUN",
+      "furtherChromiumAttemptsInObservedEnvironment": 0
+    },
+    "physicalAndroid": "BLOCKED_NO_CONNECTED_DEVICE",
+    "androidEmulator": "BLOCKED_KVM_PERMISSION",
+    "stableAndroidSigner": "BLOCKED_UNPROVEN_CONTINUITY",
+    "physicalIOS": "BLOCKED_OWNER_SIGNING_AND_DEVICE",
+    "testCompanyAcceptance": "BLOCKED_UNVERIFIED_IDENTITY_VERSION_PAIR",
+    "originalCriteriaPromoted": false,
+    "newPaidServicesActivated": false,
+    "ciAtThisCheckpoint": "PENDING_POST_PUBLICATION; record exact source/results in PR137 and final handoff annex",
+    "contract": "../unified/RELEASE_NEXT_STEP_2026-11-08_UK.md",
+    "automaticNativeCi": "POSSIBLE_CUMULATIVE_PR_TRIGGER; one existing 30+50min run and 1day artifacts reserved, separately recorded"
   }
 }

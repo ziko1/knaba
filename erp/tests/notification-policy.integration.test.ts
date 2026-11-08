@@ -48,6 +48,28 @@ postgres('V4 notification policies: genuine PostgreSQL and leased workers',()=>{
  });
  afterAll(async()=>{await db?.close();});
 
+ it.each([undefined,'https://site.example.test/'])('template delivery requires its real configured origin before SENDING: %s',async publicOrigin=>{
+  const {n,delivery}=await linked();
+  await db.transaction(company,'SYNTHETIC_TEMPLATE_ORIGIN_FIXTURE',tx=>tx.add('whatsapp_template',{name:'synthetic_notice',status:'APPROVED'}));
+  await patch('delivery',delivery.id,{approved_template:'synthetic_notice'});
+  await patch('notification_setting','employee-settings',{last_inbound_at:new Date(Date.now()-48*3600000).toISOString()});
+  const templateWorker=new WorkerRunner(db,engine,{...worker.options,publicOrigin});
+  await templateWorker.process(await take('delivery.requested'));
+  const actual=(await row('delivery',delivery.id)).data;
+  if(publicOrigin===undefined){
+   expect(actual).toMatchObject({status:'FAILED',error:'TEMPLATE_PUBLIC_ORIGIN_REQUIRED',failure_class:'DEFINITIVE'});
+   expect(actual.attempts??0).toBe(0);expect(actual.sending_started_at).toBeUndefined();
+   expect((await row('notification',n.id)).data.status).toBe('FAILED');
+   expect(fetcher).not.toHaveBeenCalled();
+  }else{
+   expect(actual).toMatchObject({status:'API_ACCEPTED',attempts:1});
+   expect(fetcher).toHaveBeenCalledTimes(1);
+   const body=JSON.parse(String(fetcher.mock.calls[0]![1]?.body));
+   expect(body.template).toMatchObject({name:'synthetic_notice',components:[{type:'body',parameters:[{type:'text',text:publicOrigin}]}]});
+   expect(JSON.stringify(body)).not.toContain('example.invalid');
+  }
+ });
+
  it('one logical notification links one delivery; actual leased provider worker projects accepted status and restart never sends twice',async()=>{const {n,delivery}=await linked();const job=await take('delivery.requested');await worker.process(job);expect(fetcher).toHaveBeenCalledTimes(1);expect((await row('delivery',delivery.id)).data).toMatchObject({status:'API_ACCEPTED',attempts:1,provider_message_id:'synthetic-accepted-id'});expect((await row('notification',n.id)).data).toMatchObject({status:'SUCCEEDED',attempts:1,delivery_id:delivery.id});await db.transaction(company,'SYNTHETIC_RESTART_EVENT',tx=>tx.event('delivery.requested',{delivery_id:delivery.id}));const restarted=new WorkerRunner(db,engine,worker.options);await restarted.process(await take('delivery.requested'));expect(fetcher).toHaveBeenCalledTimes(1);expect((await rows('notification')).filter(e=>e.id===n.id)).toHaveLength(1);});
  it('explicit transient rejection schedules1/5/15minutes only, then one dead-letter decision without notification scheduler duplication',async()=>{fetcher.mockImplementation(async()=>new Response(JSON.stringify({error:{code:130429,message:'Synthetic rate limit'}}),{status:429}));const {n,delivery}=await linked();for(let attempt=1;attempt<=4;attempt++){if(attempt>1)await patch('delivery',delivery.id,{scheduled_at:new Date(Date.now()-1000).toISOString()});const start=Date.now();await worker.process(await take('delivery.requested'));const current=await row('delivery',delivery.id);expect(current.data.attempts).toBe(attempt);if(attempt<4){expect(current.data.status).toBe('RETRY_SCHEDULED');expect(Date.parse(current.data.scheduled_at)-start).toBeGreaterThanOrEqual([60_000,300_000,900_000][attempt-1]!);expect(Date.parse(current.data.scheduled_at)-start).toBeLessThan([60_000,300_000,900_000][attempt-1]!+5000);}else expect(current.data.status).toBe('DEAD_LETTER');}expect(fetcher).toHaveBeenCalledTimes(4);expect((await row('notification',n.id)).data).toMatchObject({status:'DEAD_LETTER',attempts:4});expect(await rows('decision')).toHaveLength(1);expect((await db.query("SELECT count(*)::int n FROM outbox WHERE company_id=$1 AND type='notification.scheduled'",[company])).rows[0].n).toBe(1);});
  it('network uncertainty isUNKNOWN with no retry, and a genuinely leased duplicate cannot reissue the send',async()=>{fetcher.mockImplementation(async()=>{throw new Error('Synthetic ambiguous provider timeout');});const {n,delivery}=await linked();await worker.process(await take('delivery.requested'));expect((await row('delivery',delivery.id)).data).toMatchObject({status:'UNKNOWN',failure_class:'UNKNOWN',attempts:1});expect((await row('notification',n.id)).data.status).toBe('UNKNOWN');await db.transaction(company,'SYNTHETIC_RESTART_EVENT',tx=>tx.event('delivery.requested',{delivery_id:delivery.id}));await worker.process(await take('delivery.requested'));expect(fetcher).toHaveBeenCalledTimes(1);expect(await rows('decision')).toHaveLength(1);});

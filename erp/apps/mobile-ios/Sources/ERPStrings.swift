@@ -5,6 +5,10 @@ enum ERPText: String, CaseIterable {
     case acceptedQuantity, actionAccept, actionApprove, actionArrive, actionCancel, actionClassify, actionClose, actionConfirm, actionCorrect, actionCorrectBulk, actionDecline, actionDelivery, actionDestination, actionEnd, actionExpire, actionLink, actionLock, actionOrder, actionPublish, actionReceipt, actionReceiptAmend, actionReceive, actionReconcile, actionRecordPayment, actionRefresh, actionReopen, actionReschedule, actionResolve, actionResume, actionReverse, actionReview, actionRevise, actionSend, actionStart, actionStatus, actionStop, actionSubmit, choose, fieldAddress, fieldDescription, fieldName, fieldPhone, fieldStatus, logWork, no, plannedQuantity, quantity, recordId, reportedQuantity, search, startTask, submitTask, taskId, yes
     case title, server, email, password, otp, signIn, refresh
     case roles, activeShifts, decisions, sites, requests, orders, tasks
+    case roleOwner, roleDirector, roleOperationsManager, roleDispatcher, roleInternalBauleiter, roleTeamLeader
+    case roleEmployee, roleStorekeeper, roleProcurement, roleAccountant, roleClient, roleExternalBauleiter
+    case roleBotAdmin, roleQualityControl, roleAuditor, roleDeveloperSupport, roleGuest, roleServiceAccount
+    case roleUnknown
     case crew, employees, shifts, presence, customers, messages, notifications
     case users, automation, actions, signOut, presenceNotice, empty, message
     case send, actionsIntro, expectedVersion, submit, confirmSensitive, cancel, confirm
@@ -24,6 +28,25 @@ enum ERPText: String, CaseIterable {
 
 enum ERPStrings {
     static let rows: [ERPText: [String]] = [
+        .roleOwner: ["Inhaber", "Owner", "Właściciel", "Savininkas", "Владелец", "Власник"],
+        .roleDirector: ["Geschäftsleitung", "Director", "Dyrektor", "Direktorius", "Директор", "Директор"],
+        .roleOperationsManager: ["Betriebsleitung", "Operations manager", "Kierownik operacyjny", "Veiklos vadovas", "Операционный руководитель", "Операційний керівник"],
+        .roleDispatcher: ["Disposition", "Dispatcher", "Dyspozytor", "Dispečeris", "Диспетчер", "Диспетчер"],
+        .roleInternalBauleiter: ["Interne Bauleitung", "Internal site supervisor", "Wewnętrzny kierownik budowy", "Vidaus statybos vadovas", "Внутренний руководитель объекта", "Внутрішній керівник об’єкта"],
+        .roleTeamLeader: ["Teamleitung", "Team leader", "Lider zespołu", "Komandos vadovas", "Руководитель бригады", "Керівник бригади"],
+        .roleEmployee: ["Mitarbeiter", "Employee", "Pracownik", "Darbuotojas", "Работник", "Працівник"],
+        .roleStorekeeper: ["Lagerverwaltung", "Storekeeper", "Magazynier", "Sandėlininkas", "Кладовщик", "Комірник"],
+        .roleProcurement: ["Einkauf", "Procurement", "Zaopatrzenie", "Pirkimai", "Снабжение", "Закупівлі"],
+        .roleAccountant: ["Buchhaltung", "Accountant", "Księgowy", "Buhalteris", "Бухгалтер", "Бухгалтер"],
+        .roleClient: ["Kunde", "Client", "Klient", "Klientas", "Клиент", "Клієнт"],
+        .roleExternalBauleiter: ["Externe Bauleitung", "External site supervisor", "Zewnętrzny kierownik budowy", "Išorinis statybos vadovas", "Внешний руководитель объекта", "Зовнішній керівник об’єкта"],
+        .roleBotAdmin: ["Bot-Administration", "Bot administrator", "Administrator bota", "Boto administratorius", "Администратор бота", "Адміністратор бота"],
+        .roleQualityControl: ["Qualitätskontrolle", "Quality control", "Kontrola jakości", "Kokybės kontrolė", "Контроль качества", "Контроль якості"],
+        .roleAuditor: ["Prüfung", "Auditor", "Audytor", "Auditorius", "Аудитор", "Аудитор"],
+        .roleDeveloperSupport: ["Technischer Support", "Technical support", "Wsparcie techniczne", "Techninė pagalba", "Техническая поддержка", "Технічна підтримка"],
+        .roleGuest: ["Gast", "Guest", "Gość", "Svečias", "Гость", "Гість"],
+        .roleServiceAccount: ["Dienstkonto", "Service account", "Konto usługi", "Paslaugos paskyra", "Сервисная учётная запись", "Службовий обліковий запис"],
+        .roleUnknown: ["Unbekannte Rolle", "Unknown role", "Nieznana rola", "Nežinomas vaidmuo", "Неизвестная роль", "Невідома роль"],
         .acceptedQuantity: ["Abgenommene Menge", "Accepted quantity", "Przyjęta ilość", "Priimtas kiekis", "Принятое количество", "Прийнята кількість"],
         .actionAccept: ["Annehmen", "Accept", "Zaakceptuj", "Priimti", "Принять", "Прийняти"],
         .actionApprove: ["Freigeben", "Approve", "Zatwierdź", "Patvirtinti", "Одобрить", "Схвалити"],
@@ -190,6 +213,32 @@ enum ERPStrings {
     static func text(_ key: ERPText, _ language: NativeLanguage, _ arguments: String...) -> String {
         let format = rows[key]![NativeLanguage.allCases.firstIndex(of: language)!]
         return arguments.isEmpty ? format : String(format: format, locale: Locale(identifier: language.rawValue), arguments: arguments.map { $0 as CVarArg })
+    }
+    /// Display-only mapping: canonical roles and permissions remain unchanged.
+    static func role(_ identifier: String, _ language: NativeLanguage) -> String {
+        let key: ERPText
+        switch identifier {
+        case "OWNER": key = .roleOwner
+        case "DIRECTOR": key = .roleDirector
+        case "OPERATIONS_MANAGER": key = .roleOperationsManager
+        case "DISPATCHER": key = .roleDispatcher
+        case "INTERNAL_BAULEITER", "FOREMAN": key = .roleInternalBauleiter
+        case "TEAM_LEADER", "TEAM_LEAD": key = .roleTeamLeader
+        case "EMPLOYEE": key = .roleEmployee
+        case "STOREKEEPER", "WAREHOUSE": key = .roleStorekeeper
+        case "PROCUREMENT": key = .roleProcurement
+        case "ACCOUNTANT": key = .roleAccountant
+        case "CLIENT": key = .roleClient
+        case "EXTERNAL_BAULEITER": key = .roleExternalBauleiter
+        case "BOT_ADMIN": key = .roleBotAdmin
+        case "QUALITY_CONTROL": key = .roleQualityControl
+        case "AUDITOR": key = .roleAuditor
+        case "DEVELOPER_SUPPORT": key = .roleDeveloperSupport
+        case "GUEST": key = .roleGuest
+        case "SERVICE_ACCOUNT": key = .roleServiceAccount
+        default: key = .roleUnknown
+        }
+        return text(key, language)
     }
     static func error(_ error: Error, _ language: NativeLanguage) -> String {
         guard let failure = error as? ERPFailure else { return text(.errorNetwork, language) }

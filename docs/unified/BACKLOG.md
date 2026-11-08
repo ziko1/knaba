@@ -58,7 +58,7 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |
 | KN-C08 | P1 | ACCEPT на e747fd94… / CI42483792274: явний APP_MODE і injected worker/Engine guards. Whole product не закрито. [Evidence](evidence/explicit-runtime-mode-20261108/verification.json) |
-| KN-C08-B | P1 | OPEN: production COMPANY_ID та PUBLIC_ORIGIN boundary validation; [read-only audit](PRODUCTION_CONFIGURATION_AUDIT_2026-11-08_UK.md), реалізація ще NOT_RUN |
+| KN-C08-B | P1 | PASS_BOUNDED_RUNTIME_CONFIGURATION_CHECKS на `55b4231c870c2f302548381294967edfbe380db7` / [CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968): company/origin validation до DB/provider startup та template-origin refusal до send attempt; compiled-entrypoint і actual isolated PostgreSQL regressions пройдено. [Final evidence](evidence/release-continuation-20261108/final-verification.json). Production/live acceptance не виконано; whole product HOLD. |
 | KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
 | KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
 | KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |

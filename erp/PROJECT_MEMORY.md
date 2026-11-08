@@ -1,5 +1,11 @@
 # KNABA DE project memory
 
+## 08.11.2026 — KN-C08-B і реліз0.5.2 source checkpoint
+
+API/worker перевіряють COMPANY_ID та PUBLIC_ORIGIN до запуску; production demo IDs/HTTP/credentials/path/query відхиляються, API canonical origin узгоджено зidentity peer, worker raw origin збережено дляTelegram. Missing template origin завершує delivery доSENDING/provider; text jobs не потребують штучного URL. [Контракт, межі й докази](../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
+293 focused PASS/2SQLskipped, TypeScript та36 root PASS;4 targeted failures відтворено напопередньомуbb223. Нові2 leased PostgreSQL template checks та2 site/ERP recovery bridge checks потребують hostedCI. Whole product NOT_READY; існуючі F3/business/restore/load/UAT вимоги не закриті.
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.
@@ -240,3 +246,20 @@ Final local typecheck and candidate build PASS; focused 204 PASS / 2 SQL SKIP; f
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Tested source: `55b4231c870c2f302548381294967edfbe380db7`; tree: `f0ed7b37b735ab0d697df85ebf6038900840559b`; [draft PR137](https://github.com/ziko1/knaba/pull/137). [Repository CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968) і [native CI42494336965](https://github.com/ziko1/knaba/actions/runs/42494336965) — усі 6 required jobs SUCCESS. Незалежне source/native review — PASS лише у зафіксованих межах. [Єдиний final verification record](../docs/unified/evidence/release-continuation-20261108/final-verification.json).
+
+Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із реальною isolated PostgreSQL 17.6); SQLite→HTTP→PostgreSQL bridge 84; Android 33 JUnit/Robolectric; iOS 69 XCTest на iPhone 16 Simulator / iOS 18.5 — PASS, без продуктових FAIL/skips. Local 293 runtime / 2 SQL skips / 49 compiled-entrypoint та 109 recovery лишаються історичними subsets і повторно до totals не додаються.
+
+Матриці збережені окремо: technical 43 = 31 PASS / 0 FAIL / 12 BLOCKED; primary 143 = 5 / 0 / 138; V3 requirements 432 = 0 / 0 / 432; V3 acceptance 475 = 0 / 0 / 475; quality 55 = 2 / 0 / 53 (49 release, 6 post_release). Шари перетинаються, глобального відсотка готовності немає.
+
+Загальний результат — **HOLD / NOT_READY**. Фізичні Android/iPhone, install/upgrade/data retention, approved TEST ERP/company journeys, фактична recovery email доставка, signed iOS IPA, hardware GPS/battery та повне retained V4/V3 приймання залишаються BLOCKED. Debug signer змінився; не обходити mismatch видаленням старого застосунку/даних. SQLite `002_account_recovery` несумісна зі старим PR133 code-only rollback: потрібні compatible forward fix або погоджене відновлення узгодженого коду й перевіреної копії БД. Live/production migration та provider activation не виконувалися.
+
+Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.
+
+## 2026-11-08 — release SHA startup guard, local verified checkpoint
+
+На baseline `e57be50eb833bbb6c86d0ed4809d0756e793073a` додано exact nonzero lowercase40 SHA validation і рівність explicit env/compiled SHA до `new Database()`. PRODUCTION і надалі вимагає explicit env SHA; DEMO/TEST zero fallback лише коли обидва inputs відсутні, і не є release attestation. Company/origin guards, worker, SQL та bundler збережені. Дві baseline regressions реально досягли PG constructor trap; після патча 262 focused cases /0fail/0skip, TypeScript PASS, independent root review PASS. Trap-based local entrypoint перевірки не є PostgreSQL або live startup acceptance. Required exact-source CI запускається окремо після публікації. [Контракт і межі](../docs/unified/RELEASE_NEXT_STEP_2026-11-08_UK.md).

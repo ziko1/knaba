@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-11-08T14:53:38.889303+00:00",
+  "sourceState": "UNCOMMITTED_VERIFIED_INPUT_SNAPSHOTS",
+  "checks": [
+    {
+      "log": "continuation-runtime-tests.log",
+      "scope": "runtime293PASS2SQLskipped",
+      "exit_code": 0,
+      "bytes": 5232,
+      "sha256": "4b0d5a497539845c457d96eb1518bcf002352d28fa6b63885f37cb97f3226a8f",
+      "storage": "raw local log retained for final handoff packet"
+    },
+    {
+      "log": "runtime-typecheck-final.log",
+      "scope": "TypeScript",
+      "exit_code": 0,
+      "bytes": 143,
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665",
+      "storage": "raw local log retained for final handoff packet"
+    },
+    {
+      "log": "root-tests.log",
+      "scope": "root36PASS",
+      "exit_code": 0,
+      "bytes": 3212,
+      "sha256": "2ccab1069267706216ea1b64a5b6721abbf740a2caa92a79bfedd682bd96ebb8",
+      "storage": "raw local log retained for final handoff packet"
+    },
+    {
+      "log": "module-manifest.log",
+      "scope": "moduleinventory",
+      "exit_code": 0,
+      "bytes": 127,
+      "sha256": "2a3f45ff44be291812f1348851ba47594bc7925803fc85a21dbad8e7764f05d4",
+      "storage": "raw local log retained for final handoff packet"
+    },
+    {
+      "log": "config-baseline-reproduction.log",
+      "scope": "historical4failurecontrolnotfinalcandidate",
+      "exit_code": 1,
+      "bytes": 12046,
+      "sha256": "068f7211d34a3d259fd9a7185ab79eec54ca7f9b9b5a00196ff06f456050b075",
+      "storage": "raw local log retained for final handoff packet"
+    }
+  ]
+}

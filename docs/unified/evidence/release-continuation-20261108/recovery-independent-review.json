@@ -1,0 +1,29 @@
+{
+  "reviewer": "/root",
+  "author": "/root/scope_matrix",
+  "reviewedAt": "2026-11-08T14:47:56.094318+00:00",
+  "status": "ACCEPT_SOURCE_AND_LOCAL_HARNESS",
+  "subjectFile": "recovery-subject.json",
+  "subjectFileSha256": "d3c853b4bbd2fe70981d6f0f78d7b93732517079bd60ca47d8a6842e92275797",
+  "filesVerified": 17,
+  "findings": [],
+  "reviewedBoundaries": [
+    "256-bit capability, hashed-only persistence, expiry and credential/profile binding",
+    "one-use consumption, all own site sessions revoked, atomic credential/token/audit transaction",
+    "uniform enabled-mail responses, source/address/global/daily quotas, disabled-by-default provider, bounded no-retry send",
+    "existing001 auth migration preserved; additive002 and refusal on missing/tampered objects; coordinated rollback documented",
+    "same-origin form requests, strict field/body budgets, private no-store/strict-origin referrer/CSP and fragment clearing",
+    "F2/F4 regression cases preserve current identity/session readers; no wholesale129 auth/federation replacement"
+  ],
+  "evidence": [
+    "recovery-final-focused.json",
+    "recovery-final-focused.log",
+    "recovery-site-build.json"
+  ],
+  "pending": [
+    "actual isolated PostgreSQL bridge on final source",
+    "browser and real phone flows",
+    "live approved mail delivery and customer UAT"
+  ],
+  "scopeWarning": "Independent source/local evidence review only. The two new bridge cases are not accepted until genuine PostgreSQL CI executes."
+}

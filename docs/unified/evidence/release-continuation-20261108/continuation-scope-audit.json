@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "reviewer": "/root/scope_matrix",
+  "observed_at": "2026-11-08T14:51:09.499461+00:00",
+  "scope": "PINNED_BRANCH_SOURCE_RECONCILIATION_AND_BOUNDED_PORT",
+  "product_status": "HOLD / NOT_READY",
+  "provenance": {
+    "pr133": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "pr129": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "common_ancestor": "9ff77d7b0161a4dde84314f2df327e4594e0eb0c",
+    "branch_comparison": "branch-comparison.json",
+    "github_observation": "github-pr-heads.json",
+    "pr133_unique_commits": 10,
+    "pr129_unique_commits": 5,
+    "direct_diff_files": 488,
+    "direct_diff_insertions": 40514,
+    "direct_diff_deletions": 11866,
+    "caveat": "Pins observed for this continuation; no claim that moving remote branches remain unchanged forever."
+  },
+  "canonical_scope": {
+    "v4_acceptance": 72,
+    "v3_requirements": 432,
+    "v3_acceptance": 475,
+    "historical_primary_matrix": 142,
+    "historical_matrix_unchanged": true,
+    "new_explicit_row": "MOBILE-012",
+    "rule": "Append new requirement IDs; keep canonical and historical rows. No bulk PASS from code, build or CI."
+  },
+  "prior_unique_failures": [
+    {
+      "id": "IOS-SRC-001 / IOS-RETRY",
+      "original_status": "FAIL",
+      "pr133_source": "FIXED",
+      "pr129_source": "ALTERNATIVE_FIX",
+      "evidence": [
+        "erp/apps/mobile-ios/Sources/ERPPendingCommand.swift",
+        "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift:342-405"
+      ],
+      "acceptance": "Native simulator evidence exists on bb223; specific physical-device/unknown-outcome end-to-end acceptance remains BLOCKED until its own evidence."
+    },
+    {
+      "id": "IOS-SRC-002 / IOS-LOGOUT",
+      "original_status": "FAIL",
+      "pr133_source": "FIXED",
+      "pr129_source": "ALTERNATIVE_FIX",
+      "evidence": [
+        "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift:300-315",
+        "erp/apps/mobile-ios/Sources/ERPConsoleView.swift:81-89"
+      ],
+      "acceptance": "Local reset/UI epoch precede awaited logout; physical-device/real-server race acceptance remains separate."
+    },
+    {
+      "id": "IOS-SRC-003 / IOS-REDIRECT",
+      "original_status": "FAIL",
+      "pr133_source": "FIXED",
+      "pr129_source": "FIXED",
+      "evidence": [
+        "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift:138-140"
+      ],
+      "acceptance": "URLSessionTask delegate signature corrected; no historical exploit or compile failure was claimed."
+    },
+    {
+      "id": "LOCALIZATION-GATE",
+      "original_status": "FAIL",
+      "pr133_source": "STILL_STALE_AT_PIN",
+      "pr129_source": "STILL_STALE_AT_PIN",
+      "current_worktree": "FIXED_BY_ROOT",
+      "evidence": [
+        "scripts/mobile/check-localizations.py",
+        "docs/mobile/RELEASE_VERSIONS.json",
+        "scripts/mobile-localizations.test.mjs"
+      ],
+      "acceptance": "Static source contract only; new native artifacts await exact-source CI."
+    },
+    {
+      "id": "WEB-SRC-001 / REQ-20261108-RESET",
+      "original_status": "FAIL",
+      "pr133_source": "MISSING_AT_PIN",
+      "pr129_source": "IMPLEMENTED_WITH_INCOMPATIBLE_FEDERATION_WRAPPER",
+      "current_worktree": "BOUNDED_LOCAL_RECOVERY_PORT_IMPLEMENTED",
+      "evidence": [
+        "recovery-subject.json",
+        "recovery-final-focused.json"
+      ],
+      "acceptance": "109focused local checks PASS; full recovery criterion remains BLOCKED by real channel/approved live/browser/native acceptance and exact-source PostgreSQL regressions."
+    }
+  ],
+  "integration_decision": {
+    "base": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "action": "Keep133security architecture and port independent leaves from129 only.",
+    "why": [
+      "129changes F2 binding generation/predecessor/challenge and F4 site-session semantics rather than being a compatible append.",
+      "133protected-by-default transaction/response authority fences and worker explicit-mode/engine equality checks must remain.",
+      "Whole129merge would replace the independently developed federation schema/protocol rather than simply adding profile/recovery UI."
+    ],
+    "completed_bounded_ports": [
+      "Password recovery core/token schema/UI/mail adapter only; no full settings or email-change handlers.",
+      "Root company/origin bootstrap guards and missing template-origin rejection.",
+      "Native version monotonicity and stale localization gate correction."
+    ],
+    "not_silently_imported": [
+      "Full alternative federation coordinator/tables/protocol",
+      "Full account profile/email/session settings",
+      "Assistant capability UI and request-to-ERP/guest conversation transfer",
+      "Additional business trip/vehicle/accounting/SSO work from129"
+    ]
+  },
+  "version_provenance": {
+    "pr133": {
+      "android": {
+        "version": "0.5.0",
+        "code": 6
+      },
+      "ios": {
+        "version": "0.5.1",
+        "build": 7
+      }
+    },
+    "pr129": {
+      "android": {
+        "version": "0.5.0",
+        "code": 8
+      },
+      "ios": {
+        "version": "0.5.0",
+        "build": 8
+      }
+    },
+    "prepared_worktree": {
+      "android": "0.5.2/code9",
+      "ios": "0.5.2/build9"
+    },
+    "artifact_boundary": "Existing retrieved bb223 artifacts remain0.5.0Android/0.5.1iOS; no relabeling as0.5.2. Matching signer and device upgrade remain separate."
+  },
+  "next_steps": [
+    "Root review frozen recovery-subject digest; commit only the mutually reviewed source.",
+    "Run exact-source hosted repository/realSQL and native jobs; retrieve/verify artifacts and counts.",
+    "Append MOBILE-012 and granular new technical evidence to complete matrices while keeping product HOLD until every applicable acceptance has its own evidence.",
+    "Keep external delivery OFF; owner-specific signing/company/provider inputs are separate authorized activation steps."
+  ]
+}

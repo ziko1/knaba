@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "decision": "ACCEPT_SOURCE_PENDING_HOSTED_NATIVE_EXECUTION",
+  "reviewer": "/root/native_artifact_review",
+  "observed_at": "2026-11-08T15:16:47.299545+00:00",
+  "source_base_sha": "2eb6a777704ceecd211eecd8b3854080772d152a",
+  "subject_sha256": "9e87375cec582d5b4878d41977dfa72e534600abec79b4745af52fbad7729af9",
+  "subject_digest_algorithm": "SHA256 canonical JSON of files, sorted keys, UTF8, compact separators",
+  "subject_file_sha256": "a8ca9f5d08e0212239864e506cb816b6266121de28f5765d0e88b39a9447afc0",
+  "scope": "8 Android source/resource/test files only; independent source review of corrective role localization",
+  "files": [
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "8b5b8b1fab3ba56ea13b20be14a71ce4a1f80dbd2851cacc4ee26f4847da1a23",
+      "bytes": 47094
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "sha256": "54d9ff01a8e7635d2a6f4524d8aaa76045521067fc7e9f65dce6d59d51583b1b",
+      "bytes": 18923
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "sha256": "189952036503880e228b816bccdc5a6b6efe9c6826b116ca05bf154961febbfb",
+      "bytes": 20066
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "sha256": "b39bd4f205fde811d1c1245cd0f10f5e12d277b98576778dcf4245e7b3d00a83",
+      "bytes": 19910
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "sha256": "25c77a5c1fe64b460f22dceb7e657d442987303de0bb05c2c8e343f0d18e2f29",
+      "bytes": 25675
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "sha256": "a89d2c6713c2903ed6f46608470a69fa237a4f49c80d44e1e6f3eea05195117c",
+      "bytes": 25263
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "sha256": "38b483f6e53a5eb47419b5a6602f6a8749b8520675571ae3214f57ba5a9419f2",
+      "bytes": 19919
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "2ccea91086264fbfac2cea9647c5f643c4f949d01f5d8177ce490fe003d184d9",
+      "bytes": 40736
+    }
+  ],
+  "findings": [],
+  "verified": {
+    "frozen_file_hashes_and_sizes": 8,
+    "canonical_roles_from_domain_identity": 18,
+    "documented_demo_aliases": 3,
+    "locales": 6,
+    "role_labels_per_locale_including_unknown": 19,
+    "total_resource_strings_per_locale": 279,
+    "existing_resource_values_preserved": true,
+    "activity_runtime_diff_limited_to_role_display_call_and_pure_role_label_mapping": true,
+    "existing_tests_unchanged": true,
+    "new_rendered_test_covers_six_languages_operations_manager_alias_unknown": true,
+    "new_test_compares_actual_activity_actor_roles_and_permissions": true,
+    "new_test_denies_finance_gps_admin_without_permissions": true
+  },
+  "reviewed_test": "roleLabelsFollowSelectedLanguageWithoutChangingAuthority",
+  "test_execution": {
+    "android_robolectric": "NOT_RUN_BY_REVIEWER; required in final hosted CI",
+    "device": "NOT_RUN"
+  },
+  "resolved_review_note": "Initial test compared only transport fixture; corrected test also compares Activity actual actor roles/permissions.",
+  "limitations": [
+    "This is source and resource review, not a UI/device execution result.",
+    "Native speaker customer UAT and physical device journey remain open.",
+    "Unknown server role displays localized Unknown role without interpreting it as a grant; canonical server identities/permissions remain unchanged."
+  ]
+}

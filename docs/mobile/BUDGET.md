@@ -1,5 +1,11 @@
 # KNABA Mobile — budget fence
 
+## 2026-11-08 release continuation 0.5.2 reservation
+
+User authorized continuation of the proposed fixes and test builds. Fresh GitHub metadata confirms `ziko1/knaba` is public and the connected actor has push permission; existing workflows contain verification only. Official public-runner entitlement was rechecked at https://docs.github.com/en/actions/concepts/billing-and-usage and https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job . Standard `ubuntu-24.04` and `macos-15` runs remain eligible for free public-repository usage. Reserve one final source checkpoint plus at most one corrective checkpoint for a concrete failure: maximum two native runs /160 runner-minutes and four existing repository runs. Existing job deadlines and one-day artifact retention stay in force. No unchanged manual reruns, larger runners, new paid service activation, external model API, store upload or live provider calls. Account/model credits remain UNKNOWN; this is a bounded EUR0 reservation for eligible standard public runners only.
+
+The two available workers are `/root` and `/root/scope_matrix`; attempted iOS/native evidence workers returned context-limit errors and produced no current acceptance output. Root obtained and hash-verified the existing bb223 native artifacts directly. Those 0.5.0/0.5.1 results remain historical; new0.5.2 artifacts require their own exact-source proof.
+
 ## 2026-11-08 native/backend consolidation reservation
 
 C08 PR run 42483792274 and duplicate push 42483788861 are SUCCESS and independently accepted at e747fd94e219e09faffea96c2f9f84be15a6def1. Historical iOS 0.5.1 job in run 42467913707 accepted 67 XCTest; its Android peer failed before compilation on dependency HTTP504 and remains recorded as such. No unchanged manual rerun is requested.
@@ -19,3 +25,28 @@ Status: amount/credits **UNKNOWN**, no new paid vendor activation authorized. Ex
 ## 2026-11-07 test-candidate execution
 
 Current isolated workspace: 8 GiB RAM limit, 8 CPU quota, about 59 GiB initially free disk. Reused connected GitHub reads and existing workspace runtime; downloaded pinned Android SDK36, build-tools35.0.0, Gradle8.13, Temurin17 and test dependencies from their official distribution sources. No new cloud provider, CI runner, paid API, store or production service activated. Monetary runtime balance remains UNKNOWN; no external monetary reservation/spend claimed.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Виконано рівно **2 native candidate runs**: initial `42492663468` на `2eb6a777…` і один corrective `42494336965` на `55b4231c870c2f302548381294967edfbe380db7` після незалежно виявленого дефекту локалізації ролей. Штатні push + pull_request triggers дали **4 repository executions**: `42492594669`, `42492663676`, `42494332783`, `42494336968`. Незмінених manual reruns не було; чинні standard `ubuntu-24.04` / `macos-15`, deadlines та one-day artifact retention збережені.
+
+Нова paid service activation, larger runner, store upload або live provider send не виконувалися. Actual billing/account/model credit balances і фактичне списання **UNKNOWN / не перевірені**; ці факти не підміняються сумою резерву для standard public runners. У цьому завершенні працювали `/root`, `/root/scope_matrix` та `/root/native_artifact_review`; попередні невдалі worker attempts залишають свою історію.
+
+[Єдиний final verification record](../unified/evidence/release-continuation-20261108/final-verification.json) містить exact source/artifact/CI bindings і розмежування тестів. Full client-handoff — HOLD; paid/provider/device/distribution gates цим бюджетним checkpoint не відкриваються. Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.
+
+## 2026-11-08 — наступний крок після frozen 0.5.2/build9
+
+Працювали `/root`, `/root/scope_matrix`, `/root/native_artifact_review`; три нові worker attempts завершилися context-limit до виконання. Виконано 2 ізольовані browser attempts на вже встановленому QA image, CPU2/RAM2GiB, network none, source read-only, без послаблення sandbox; після policy block майбутній резерв запусків тут — 0. Нових платних сервісів, моделей, browser downloads чи store uploads не було.
+
+Для одного сукупного source checkpoint у чинному draft PR137 зарезервовано два автоматичні existing `ci.yml` runs (push + PR), standard ubuntu-24.04, normal job ceiling90 runner-minutes на run. Публічність repo та право push перевірено; правила standard public runners перевірено за https://docs.github.com/en/actions/concepts/billing-and-usage і https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job . Actual balances/storage quota/spend UNKNOWN. Native application inputs незмінні, проте pull_request paths оцінюються за сукупним three-dot diff PR. Тому додатково зарезервовано один можливий автоматичний native.yml run: ubuntu-24.04/30min + macos-15/50min, 2 existing artifact uploads із retention1day; жодного manual native rerun. Нові CI outputs, якщо створяться, отримують окремий source/hash receipt і не замінюють frozen55b artifacts. Trigger rule: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#git-diff-comparisons . Фактичні нові CI IDs/outcomes фіксуються після публікації у PR137 та додатку handoff, а цей запис є pre-publication reservation. [Контракт](../unified/RELEASE_NEXT_STEP_2026-11-08_UK.md).
+
+## 2026-11-08 — окремий hosted browser gate після c238
+
+На c238 завершилися SUCCESS обидва repository runs 42502801262/42502806429 і native42502806316. Для розблокування recovery browser перевіряється інше вже дозволене середовище: standard GitHub ubuntu-24.04. Actual runner log указує image20261101.360.1; його official included-software manifest містить Chrome/Chromium/Firefox. Справність sandbox невідома до actual launch; на Sentinel повторів Chromium не буде.
+
+До публікації наступного source checkpoint резерв: 2 automatic repository runs (90 normal runner-minutes кожен), 1 cumulative-PR native run (30+50min), 1 окремий browser run (15min). Existing standard public-runner entitlement перевірено; actual balances/storage quota/spend UNKNOWN. Browser використовує тільки already-installed Chrome та locked Playwright dependency, loopback synthetic fixture, sandbox true; без browser download, permission changes, live provider чи deployment. One-day artifacts міститимуть JSON evidence/runtime metadata; нові browser PNG не входять до фінального handoff. Manual rerun не зарезервовано; повтор можливий лише для конкретного нового дефекту після evidence/review і окремого резерву.
+
+### Hosted browser workflow: один corrective checkpoint
+
+Перший новий workflow на1df4cb5997b0033269c3451a87db77b92d2eb498 завершився validation failure до jobs (run42504692953,0jobs,0browser checks). Source review виявив недозволений runner context на job.env; official availability дозволяє його на steps.env. До corrective publication резервуються ще2 automatic repository runs +1 cumulative native run +1 browser run, попередні ceilings90/80/15min і retention1day збережені. Жодного manual rerun. Новий commit може автоматично скасувати незавершені1df runs за чинними concurrency rules; їх результати зберігаються окремо, успішнийc238 не ретегується. Sandbox, permission, provider та network boundaries не змінюються; balance/spend UNKNOWN.

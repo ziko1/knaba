@@ -1,0 +1,45 @@
+{
+  "checkpoint": "PRE_PUBLICATION_LOCAL_EVIDENCE",
+  "baselineGitSha": "e57be50eb833bbb6c86d0ed4809d0756e793073a",
+  "frozenNativeSource": "55b4231c870c2f302548381294967edfbe380db7",
+  "productDecision": "HOLD",
+  "sourceChanges": 7,
+  "backend": {
+    "patchSha256": "21105df7660d5af90f02af98f0f6700898f6bf9a6caea2c1cc910bc81da36f93",
+    "focusedPassed": 262,
+    "failed": 0,
+    "skipped": 0,
+    "independentRootReview": "PASS_SCOPED"
+  },
+  "browser": {
+    "v1HarnessSha256": "5ec4c56f712dd498e02f77235f27afbbff7c74d58b42ea8a92bdf5f33359b6d0",
+    "v2HarnessSha256": "83d34241cca7b1188c6a95a1c89f35eef67e50421a6cdc5fe1192aaf9e6d70d3",
+    "v2Execution": "NOT_RUN",
+    "actualAttempts": [
+      {
+        "attempt": 1,
+        "status": "FAIL",
+        "exit": 1,
+        "checks": 0,
+        "receiptSha256": "1ce9f250d2d19b56323c592414f295b361c1447445878c040ff5b46566acb9e3"
+      },
+      {
+        "attempt": 2,
+        "status": "BLOCKED",
+        "exit": 2,
+        "checks": 0,
+        "receiptSha256": "c7329611822c485135e8426027505d31efe673c151e470e0fa80778be4e5e403"
+      }
+    ],
+    "independentEvidenceReview": "PASS_CONSISTENCY_ONLY",
+    "acceptance": "BLOCKED"
+  },
+  "newCI": "PENDING_POST_PUBLICATION",
+  "newNativeBuilds": false,
+  "frozenCriteriaPromoted": false,
+  "backendReviewSha256": "885e64d815318289fd9685b2e4b471a1e57661e2c0388e61ffefde9d119b4ec0",
+  "browserSourceReviewSha256": "a6fc0131c0cb81856b66c2e2b6cb547c63da2fe96ba779df85d0262fd76fd87f",
+  "browserV2ReviewSha256": "218e33c4f5f5b0c8f47d1f110c5648643b7e8d4accba417f8610737c1c99e145",
+  "browserEvidenceReviewSha256": "d75ba3e849779ec5fe63e9d94a8ab14761221af430a1d9bddfa2f86e10567095",
+  "automaticNativeCi": "POSSIBLE_CUMULATIVE_PR_TRIGGER; separately reserved and recorded after publication"
+}

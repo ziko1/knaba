@@ -1,5 +1,11 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — bounded password recovery continuation
+
+На актуальнійPR133/F2/F4 базі додано GET/POST forgot/reset password із одноразовим hashed capability, expiry/current-credential/profile fences, atomic password/token/session/audit update. Чинні authority readers не заміненоPR129 federation stack. Additive002 auth migration зберігає001/guards та відмовляє звичайномуstartup до explicit migration. [Операційний контракт і rollback](docs/PASSWORD_RECOVERY_OPERATIONS_UK.md).
+
+109 targeted SQLite/real localHTTP/compatibility tests іsitebuild PASS; двановіPostgreSQL bridge scenarios ще pending hostedCI. Independent root source review приймає лише цейlocal scope. MaildefaultOFF, liveemail/browser/device/owneracceptance не заявлені. Повнийреліз NOT_READY; [зведення](../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
 ## 08.11.2026 — F2 site/ERP dual-consent candidate
 
 У Draft PR128 від `a670ff0be70abd1bb8f07065e237b5e3de8a7a84` додано neutral linking page, same-origin CSRF/preview consent, signed backchannel inspect/redeem і immutable SQLite grants з окремим checksum migration receipt. Current original session/profile/config перевіряються в SQLite transaction; email не створює binding або роль. Standalone protocol/UI distribution та [повний F2 contract](../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md) зберігають ERP/VPS packaging. Local SQLite/HTTP/source/build checks PASS; actual PostgreSQL integrated flow і rendered browser/device ще не прийняті. F3–F5/SSO/whole product NOT_READY; production federation вимкнена, live migration/config/deploy не виконано.
@@ -572,3 +578,20 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Tested source: `55b4231c870c2f302548381294967edfbe380db7`; tree: `f0ed7b37b735ab0d697df85ebf6038900840559b`; [draft PR137](https://github.com/ziko1/knaba/pull/137). [Repository CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968) і [native CI42494336965](https://github.com/ziko1/knaba/actions/runs/42494336965) — усі 6 required jobs SUCCESS. Незалежне source/native review — PASS лише у зафіксованих межах. [Єдиний final verification record](../docs/unified/evidence/release-continuation-20261108/final-verification.json).
+
+Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із реальною isolated PostgreSQL 17.6); SQLite→HTTP→PostgreSQL bridge 84; Android 33 JUnit/Robolectric; iOS 69 XCTest на iPhone 16 Simulator / iOS 18.5 — PASS, без продуктових FAIL/skips. Local 293 runtime / 2 SQL skips / 49 compiled-entrypoint та 109 recovery лишаються історичними subsets і повторно до totals не додаються.
+
+Матриці збережені окремо: technical 43 = 31 PASS / 0 FAIL / 12 BLOCKED; primary 143 = 5 / 0 / 138; V3 requirements 432 = 0 / 0 / 432; V3 acceptance 475 = 0 / 0 / 475; quality 55 = 2 / 0 / 53 (49 release, 6 post_release). Шари перетинаються, глобального відсотка готовності немає.
+
+Загальний результат — **HOLD / NOT_READY**. Фізичні Android/iPhone, install/upgrade/data retention, approved TEST ERP/company journeys, фактична recovery email доставка, signed iOS IPA, hardware GPS/battery та повне retained V4/V3 приймання залишаються BLOCKED. Debug signer змінився; не обходити mismatch видаленням старого застосунку/даних. SQLite `002_account_recovery` несумісна зі старим PR133 code-only rollback: потрібні compatible forward fix або погоджене відновлення узгодженого коду й перевіреної копії БД. Live/production migration та provider activation не виконувалися.
+
+Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.
+
+## 2026-11-08 — recovery browser harness and actual environment block
+
+Додано opt-in `npm run test:recovery:browser` та isolated real VPS/SQLite fixture, loopback only, synthetic accounts і captured mail transport. Reviewed v1 фактично запущено двічі: initial container-user setup FAIL; після виправлення user/home — POLICY_OR_SANDBOX_BLOCKED, WebKit/Firefox executable unavailable. В обох 0 completed checks, 0 screenshots, 0 HTTP browser requests, 0 messages. Повний browser/accessibility/real-mail acceptance BLOCKED. V2 змінює лише strict source-SHA declaration і safe full-error/stage logging; syntax/source review PASS, browser execution NOT_RUN. Source/site build PASS не підміняє browser gate. [Контракт та exact hashes](../docs/unified/RELEASE_NEXT_STEP_2026-11-08_UK.md).

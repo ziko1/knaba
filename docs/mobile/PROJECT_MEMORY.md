@@ -1,5 +1,11 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — 0.5.2/build9 release continuation
+
+Підготовлено наступний native candidate наPR133/bb223af: ті самі role/context/recovery implementations, виправлений штатний localization gate, version contract0.5.2/build9, actual XCTest-summary/compiled Info.plist binding уCI receipt.6 mutation/process checks і36 root PASS. [Інструкція тестування](TEST_CANDIDATE_0.5.2_UK.md), [повний контракт](../unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
+Отримано та hash-verified попередніbb223 APK0.5.0 іiOS0.5.1 simulator/67XCTest. Нові0.5.2 hosted artifacts ще pending; старібайти/результати не ретегуються. Code9 усуває відомуversion regression щодоPR129/code8, але не доводить signer/update compatibility. Physical Android/iPhone, owner signing/IPA, TEST ERP/company UAT та повнаM1–M4 parity відкриті.
+
 ## 08.11.2026 — iOS 0.5.1 accepted; consolidation with current backend pending
 
 Accepted iOS source `65f341e76749a03fc62997da5a77e17b84caf8ba`: CI42467913707, iOS job128691606881, 67/67 actual XCTest, iPhone 16 / iOS 18.5 Simulator / Xcode 16.4. Parallel Android dependency HTTP504 occurred before compilation; Android retains its separate accepted fb4be719 artifact proof. Native receipt and actual XCTest summary are preserved under `evidence/ios-context-actions-20261108/`.
@@ -57,3 +63,20 @@ Native console now has readable dashboard/records, search, contextual task Start
 Agents: `/root/android_ui` UI/locales; `/root/android_transport` API/retry; `/root/android_demo` synthetic adapter; `/root/android_qa` independent UI tests/review; `/root` integration/toolchain/distribution. No external paid model or service activated. Required test results/source and artifact binding are recorded in `evidence/android-test-20261107/verification.json`; pending results are not PASS.
 
 Open: real ERP origin/accounts and live tenant/role UAT, process-death recovery of ambiguous ERP writes, stable owner signing, physical install/update/GPS/battery, iOS signing and whole-product requirements. Both known domain probes returned Cloudflare403/1010 from this workspace; this is an access observation, not proof that public sites are down. No merge/production deploy. Current verification: build+lint PASS (0 errors, 15 retained non-blocking warnings); 15 Robolectric UI cases PASS on API32/35 simulation, root 28 PASS, transport39 HTTP-double assertions, demo38 JVM checks, locale200×6 plus39 vectors, geofence30 synthetic vectors. Actual APK/hash/signature are in the receipt. Next: physical test installation and approved test ERP/account UAT; deliver the candidate and `TEST_ANDROID_0.4.0_UK.md`.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Tested source: `55b4231c870c2f302548381294967edfbe380db7`; tree: `f0ed7b37b735ab0d697df85ebf6038900840559b`; [draft PR137](https://github.com/ziko1/knaba/pull/137). [Repository CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968) і [native CI42494336965](https://github.com/ziko1/knaba/actions/runs/42494336965) — усі 6 required jobs SUCCESS. Незалежне source/native review — PASS лише у зафіксованих межах. [Єдиний final verification record](../unified/evidence/release-continuation-20261108/final-verification.json).
+
+Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із реальною isolated PostgreSQL 17.6); SQLite→HTTP→PostgreSQL bridge 84; Android 33 JUnit/Robolectric; iOS 69 XCTest на iPhone 16 Simulator / iOS 18.5 — PASS, без продуктових FAIL/skips. Local 293 runtime / 2 SQL skips / 49 compiled-entrypoint та 109 recovery лишаються історичними subsets і повторно до totals не додаються.
+
+Матриці збережені окремо: technical 43 = 31 PASS / 0 FAIL / 12 BLOCKED; primary 143 = 5 / 0 / 138; V3 requirements 432 = 0 / 0 / 432; V3 acceptance 475 = 0 / 0 / 475; quality 55 = 2 / 0 / 53 (49 release, 6 post_release). Шари перетинаються, глобального відсотка готовності немає.
+
+Загальний результат — **HOLD / NOT_READY**. Фізичні Android/iPhone, install/upgrade/data retention, approved TEST ERP/company journeys, фактична recovery email доставка, signed iOS IPA, hardware GPS/battery та повне retained V4/V3 приймання залишаються BLOCKED. Debug signer змінився; не обходити mismatch видаленням старого застосунку/даних. SQLite `002_account_recovery` несумісна зі старим PR133 code-only rollback: потрібні compatible forward fix або погоджене відновлення узгодженого коду й перевіреної копії БД. Live/production migration та provider activation не виконувалися.
+
+Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.
+
+## 2026-11-08 — наступний крок після frozen 0.5.2/build9
+
+Native source/artifacts залишаються `55b4231c870c2f302548381294967edfbe380db7` / 0.5.2 build9. Наступний патч на `e57be50eb833bbb6c86d0ed4809d0756e793073a` додає backend SHA guard і окремий browser harness; він не створює нових APK/IPA. Фактичний `adb devices -l` не знайшов пристроїв; `emulator -accel-check` повернув exit11/KVM permission denied. Доступний локальний debug certificate відрізняється від APK signer. Підтвердженого owner Mac/signing access немає. Physical install/upgrade, signed IPA та TEST company/role acceptance залишаються BLOCKED. [Факти, незалежні reviews та наступні передумови](../unified/RELEASE_NEXT_STEP_2026-11-08_UK.md).

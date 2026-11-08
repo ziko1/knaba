@@ -1,5 +1,11 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — release continuation 0.5.2, source checkpoint
+
+ВідPR133/bb223af збережено поточні native/F2/F4 contracts; bounded password recovery перенесено без заміни129 federation/database. Додано KN-C08-B company/origin guard до startup, template-origin refusal доSENDING та0.5.2/build9 з чинним localization/receipt gate. [Єдиний контракт](RELEASE_CONTINUATION_2026-11-08_UK.md).
+
+Локально293 focused PASS/2SQLskipped,36 root PASS, TypeScript PASS; before-control відтворив4 configuration failures наbb223. Recovery109 focused SQLite/HTTP/compatibility tests PASS, source cross-review recorded; PostgreSQL bridge іfresh native CI ще pending. Full V4/V3/mobile/site acceptance HOLD, physical/provider/company gates відкриті. Пізніший evidence checkpoint має зберегти exact tested source.
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.
@@ -314,3 +320,30 @@ The first1988090 run had six stale14-migration fixture failures; correction veri
 Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
 
 Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Tested source: `55b4231c870c2f302548381294967edfbe380db7`; tree: `f0ed7b37b735ab0d697df85ebf6038900840559b`; [draft PR137](https://github.com/ziko1/knaba/pull/137). [Repository CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968) і [native CI42494336965](https://github.com/ziko1/knaba/actions/runs/42494336965) — усі 6 required jobs SUCCESS. Незалежне source/native review — PASS лише у зафіксованих межах. [Єдиний final verification record](evidence/release-continuation-20261108/final-verification.json).
+
+Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із реальною isolated PostgreSQL 17.6); SQLite→HTTP→PostgreSQL bridge 84; Android 33 JUnit/Robolectric; iOS 69 XCTest на iPhone 16 Simulator / iOS 18.5 — PASS, без продуктових FAIL/skips. Local 293 runtime / 2 SQL skips / 49 compiled-entrypoint та 109 recovery лишаються історичними subsets і повторно до totals не додаються.
+
+Матриці збережені окремо: technical 43 = 31 PASS / 0 FAIL / 12 BLOCKED; primary 143 = 5 / 0 / 138; V3 requirements 432 = 0 / 0 / 432; V3 acceptance 475 = 0 / 0 / 475; quality 55 = 2 / 0 / 53 (49 release, 6 post_release). Шари перетинаються, глобального відсотка готовності немає.
+
+Загальний результат — **HOLD / NOT_READY**. Фізичні Android/iPhone, install/upgrade/data retention, approved TEST ERP/company journeys, фактична recovery email доставка, signed iOS IPA, hardware GPS/battery та повне retained V4/V3 приймання залишаються BLOCKED. Debug signer змінився; не обходити mismatch видаленням старого застосунку/даних. SQLite `002_account_recovery` несумісна зі старим PR133 code-only rollback: потрібні compatible forward fix або погоджене відновлення узгодженого коду й перевіреної копії БД. Live/production migration та provider activation не виконувалися.
+
+Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.
+
+## 2026-11-08 — next-step evidence after frozen mobile release
+
+[Наступний checkpoint](RELEASE_NEXT_STEP_2026-11-08_UK.md) зберігає повний scope, frozen 55b native artifacts і всі існуючі статуси. Backend release-identity guard локально перевірено й незалежно прийнято; actual browser recovery gate BLOCKED після двох збережених setup attempts. На доступному host немає підключених Android devices; emulator/KVM blocked; Apple owner access/physical iPhone не підтверджені. TEST API health/ready/version відповідають іншому актуальному source `89366d0a440fe1507bef65806da2364027d6edc1`; це не mobile/company UAT. Draft PR137 залишається єдиним publication target, без main merge/production/provider actions. Повний продукт HOLD.
+
+## 2026-11-08 — c238 CI прийнято, окремий hosted browser gate
+
+Source `c2383e233ff03849a215a9d364e8204b718feb66`, tree `f91b285dda28f1d566cbc64a16926fffb66b8b9b`: repository42502806429/parallel42502801262 і native42502806316 SUCCESS. Root36, site732+90+345, ERP3154 на actual PostgreSQL17.6, bridge84, Android33JUnit/Robolectric, iOS69XCTest; 0 product failures/skips. Independent native review підтвердив98 unchanged inputs від55b, exact artifacts і новий відмінний debug signer; physical/live/signing acceptance не додано.
+
+Наступний workflow-only gate використовує окремий standard GitHub runner із installed Chrome для actual recovery browser scenarios. Його результат на цьому pre-publication checkpoint PENDING; v1 Sentinel FAIL/BLOCKED та V2 source-only receipts збережені. Ніякого послаблення sandbox, provider send чи перенесення native artifact identity. Повний scope та рішення HOLD незмінні.
+
+## 2026-11-08 — actual browser failure preserved; recovery navigation correction
+
+Source c5d90a90448be95cf75b98349dace2823458a7b2: repository42505213827/42505209772 та native42505213890 SUCCESS; browser42505213829 FAIL після4 actual layout checks на installed sandboxed Chrome156.0.8078.79. Raw artifact і конфігураційний failure попереднього1df збережені. Виявлено помилкове HTTP очікування для hash-only navigation та відсутній product hashchange handler; focused UI/HTTP22PASS після correction, new-case baseline1PASS/3FAIL→4PASS. Новий browser run77 checks ще PENDING на цьому pre-publication checkpoint. Completed POST page використовує інший уже існуючий GET path, без reload/POST replay. Див. актуальний append у [next-step checkpoint](RELEASE_NEXT_STEP_2026-11-08_UK.md). Native inputs не змінено; повний scope, frozen55b, physical/live/provider/signing blockers і HOLD збережені.

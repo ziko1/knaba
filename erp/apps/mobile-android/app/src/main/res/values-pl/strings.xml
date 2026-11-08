@@ -267,4 +267,22 @@
     <string name="erp_action_resume">Wznów przejazd</string>
     <string name="erp_action_arrive">Potwierdź przybycie</string>
     <string name="erp_action_end">Zakończ przejazd</string>
+    <string name="erp_role_owner">Właściciel</string>
+    <string name="erp_role_director">Dyrektor</string>
+    <string name="erp_role_operations_manager">Kierownik operacyjny</string>
+    <string name="erp_role_dispatcher">Dyspozytor</string>
+    <string name="erp_role_internal_bauleiter">Wewnętrzny kierownik budowy</string>
+    <string name="erp_role_team_leader">Lider zespołu</string>
+    <string name="erp_role_storekeeper">Magazynier</string>
+    <string name="erp_role_procurement">Zaopatrzenie</string>
+    <string name="erp_role_accountant">Księgowy</string>
+    <string name="erp_role_client">Klient</string>
+    <string name="erp_role_external_bauleiter">Zewnętrzny kierownik budowy</string>
+    <string name="erp_role_bot_admin">Administrator bota</string>
+    <string name="erp_role_quality_control">Kontrola jakości</string>
+    <string name="erp_role_auditor">Audytor</string>
+    <string name="erp_role_developer_support">Wsparcie techniczne</string>
+    <string name="erp_role_guest">Gość</string>
+    <string name="erp_role_service_account">Konto usługi</string>
+    <string name="erp_role_unknown">Nieznana rola</string>
 </resources>

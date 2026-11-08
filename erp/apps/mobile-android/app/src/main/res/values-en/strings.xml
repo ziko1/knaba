@@ -267,4 +267,22 @@
     <string name="erp_action_resume">Resume trip</string>
     <string name="erp_action_arrive">Confirm arrival</string>
     <string name="erp_action_end">End trip</string>
+    <string name="erp_role_owner">Owner</string>
+    <string name="erp_role_director">Director</string>
+    <string name="erp_role_operations_manager">Operations manager</string>
+    <string name="erp_role_dispatcher">Dispatcher</string>
+    <string name="erp_role_internal_bauleiter">Internal site supervisor</string>
+    <string name="erp_role_team_leader">Team leader</string>
+    <string name="erp_role_storekeeper">Storekeeper</string>
+    <string name="erp_role_procurement">Procurement</string>
+    <string name="erp_role_accountant">Accountant</string>
+    <string name="erp_role_client">Client</string>
+    <string name="erp_role_external_bauleiter">External site supervisor</string>
+    <string name="erp_role_bot_admin">Bot administrator</string>
+    <string name="erp_role_quality_control">Quality control</string>
+    <string name="erp_role_auditor">Auditor</string>
+    <string name="erp_role_developer_support">Technical support</string>
+    <string name="erp_role_guest">Guest</string>
+    <string name="erp_role_service_account">Service account</string>
+    <string name="erp_role_unknown">Unknown role</string>
 </resources>

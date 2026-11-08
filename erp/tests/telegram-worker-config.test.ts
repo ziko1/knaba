@@ -6,7 +6,7 @@ import {TelegramBotAdapter} from '../packages/integrations/telegram.ts';
 const token='123456:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 const chat='187650211';
 const enabled:NodeJS.ProcessEnv={
-  APP_MODE:'TEST',LIVE_SEND_ALLOWED:'true',TELEGRAM_LIVE_SEND_ALLOWED:'true',
+  APP_MODE:'TEST',COMPANY_ID:'synthetic-telegram-company',LIVE_SEND_ALLOWED:'true',TELEGRAM_LIVE_SEND_ALLOWED:'true',
   TELEGRAM_BOT_TOKEN:token,TELEGRAM_ALLOWED_CHAT_IDS:chat,
   TELEGRAM_APPROVED_CONSENT_VERSION:'TEST_ONLY_NOTICE_2026',
   PUBLIC_ORIGIN:'https://kneba.vsp.rest/'
@@ -58,11 +58,14 @@ describe('Telegram worker runtime wiring (no real provider calls)',()=>{
     ['duplicate recipient',{TELEGRAM_ALLOWED_CHAT_IDS:'187650211,187650211'}],
     ['origin',{PUBLIC_ORIGIN:undefined}],
     ['non-TLS origin',{PUBLIC_ORIGIN:'http://kneba.vsp.rest/'}],
-    ['URL credentials',{PUBLIC_ORIGIN:'https://test:secret@kneba.vsp.rest/'}],
-    ['invalid host',{PUBLIC_ORIGIN:'https://knaba.example.invalid/'}],
-    ['unexpected path',{PUBLIC_ORIGIN:'https://kneba.vsp.rest/admin/'}]
+    ['invalid host',{PUBLIC_ORIGIN:'https://knaba.example.invalid/'}]
   ] as const)('fails closed when %s is missing or invalid',(_name,override)=>{
     expect(()=>configure(override)).toThrow('TELEGRAM_OUTBOUND_CONFIGURATION_MISSING');
+  });
+
+  it.each(['https://test:secret@kneba.vsp.rest/','https://kneba.vsp.rest/admin/'])
+  ('rejects an invalid authority origin before any provider configuration',PUBLIC_ORIGIN=>{
+    expect(()=>configure({PUBLIC_ORIGIN})).toThrow('PUBLIC_ORIGIN_INVALID');
   });
 
   it('wires an explicitly allowed recipient and versioned consent without sending on boot',async()=>{

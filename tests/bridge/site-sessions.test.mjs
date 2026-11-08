@@ -20,6 +20,7 @@ import {quoteCustomerProjection} from '../../erp/packages/domain/commerce.ts';
 import {PostgresPrivateBlobStore} from '../../erp/packages/storage/index.ts';
 import {createKnabaVpsServer} from '../../corporate-site/vps/server.mjs';
 import {createCredentialsUser,createSessionForUser,destroySession,rotateCredentials} from '../../corporate-site/vps/auth.mjs';
+import {requestPasswordReset,consumePasswordReset} from '../../corporate-site/vps/account-recovery.mjs';
 import {createSiteConsentAuthority} from '../../corporate-site/vps/site-identity-consent.mjs';
 import {parsePeerConfig,digest,trustFingerprint,transportFingerprint} from '../../corporate-site/vps/site-identity-protocol.mjs';
 import {peerRequest} from '../../erp/packages/integrations/site-identity-protocol.mjs';
@@ -209,6 +210,13 @@ check('foreign-company cookies, another ERP target and another site session cann
 for(const [label,mutate] of [
  ['logout',async f=>{destroySession(f.site.db,f.siteCookie);createSessionForUser(f.site.db,f.siteUser.id);}],
  ['password rotation',async f=>{assert.equal(rotateCredentials(f.site.db,{userId:f.siteUser.id,currentPassword:sitePassword,newPassword:'Synthetic-F4B-new-site-password',confirmed:'Synthetic-F4B-new-site-password'}),true);}],
+ ['password recovery',async f=>{
+  let token;const jobs=[];
+  const mail={enabled:true,dailyLimit:10,schedule:work=>{jobs.push(work);return true;},send:async message=>{token=message.token;return {status:'accepted'};}};
+  assert.deepEqual(await requestPasswordReset(f.site.db,{email:f.siteUser.email,clientKey:'synthetic-f4b-recovery',mail}),{accepted:true});
+  assert.equal(jobs.length,1);await jobs[0]();assert.match(token,/^[A-Za-z0-9_-]{43}$/);
+  assert.deepEqual(consumePasswordReset(f.site.db,{token,newPassword:'Synthetic-F4B-recovered-site-password',confirmed:'Synthetic-F4B-recovered-site-password'}),{changed:true});
+ }],
  ['disabled account',async f=>{f.site.db.prepare('UPDATE vps_users SET disabled=1 WHERE id=?').run(f.siteUser.id);}],
  ['profile version change',async f=>{f.site.db.prepare('UPDATE profiles SET version=version+1,last_mutation=? WHERE id=?').run('synthetic-profile-change',f.siteUser.id);}],
  ['suspended profile',async f=>{f.site.db.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(f.siteUser.id);}],

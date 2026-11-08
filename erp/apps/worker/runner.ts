@@ -196,17 +196,18 @@ export class WorkerRunner {
       if(delivery.data.channel==='WHATSAPP'&&isQuietHour(this.now().toISOString(),settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END))throw new DeferredJob(nextQuietWindowEnd(this.now().toISOString(),settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END));
       const identities=(await tx.list('contact_identity')).filter(c=>c.data.userId===delivery.data.recipient_id&&c.data.verified&&c.data.active!==false&&['WHATSAPP','PHONE'].includes(c.data.type));
       const phones=[...new Set(identities.map(c=>String(c.data.value).replace(/[^\d]/g,'')))],phone=phones.length===1?phones[0]:undefined;
+      const publicOrigin=this.options.publicOrigin;
       if(delivery.data.channel==='WHATSAPP'){
-        const error=!this.options.whatsapp?'PROVIDER_DISABLED':!phone?'RECIPIENT_UNVERIFIED':this.options.appMode!=='PRODUCTION'&&!this.options.testRecipients?.includes(phone)?'TEST_RECIPIENT_NOT_ALLOWED':undefined;
+        const error=!this.options.whatsapp?'PROVIDER_DISABLED':!phone?'RECIPIENT_UNVERIFIED':this.options.appMode!=='PRODUCTION'&&!this.options.testRecipients?.includes(phone)?'TEST_RECIPIENT_NOT_ALLOWED':policy.kind==='TEMPLATE'&&!publicOrigin?'TEMPLATE_PUBLIC_ORIGIN_REQUIRED':undefined;
         if(error){const failed=await tx.save(delivery,{...delivery.data,status:'FAILED',error,failure_class:'DEFINITIVE'});await projectDeliveryNotifications(tx,failed,this.now().toISOString());await checkLease();return;}
         // Claim in the same leased transaction as fresh source/recipient/window checks.
         const claimed:Entity=await tx.save(delivery,{...delivery.data,status:'SENDING',provider_account_id:this.options.whatsapp!.phoneNumberId,provider_recipient_phone:phone,attempts:(delivery.data.attempts??0)+1,sending_started_at:this.now().toISOString(),sending_job_id:job.id,sending_lease_hash:createHash('sha256').update(job.lease_token??'').digest('hex')});await projectDeliveryNotifications(tx,claimed,this.now().toISOString());await checkLease();
-        return {delivery:claimed,message,policy,phone,language:settings?.data.language??'DE'};
+        return {delivery:claimed,message,policy,phone,publicOrigin,language:settings?.data.language??'DE'};
       }
-      return {delivery,message,policy,phone,language:settings?.data.language??'DE'};
+      return {delivery,message,policy,phone,publicOrigin,language:settings?.data.language??'DE'};
     });
     if(!snapshot)return;if('unknown' in snapshot)return this.command(job,'delivery.status',{delivery_id:snapshot.unknown,status:'UNKNOWN',error:'PROVIDER_OUTCOME_UNKNOWN',failure_class:'UNKNOWN'});if(snapshot.delivery.data.channel==='WEB')return this.command(job,'delivery.status',{delivery_id:entity.id,status:'DELIVERED'});
-    const output:WhatsAppOutput=snapshot.policy.kind==='TEMPLATE'?{kind:'TEMPLATE',name:snapshot.policy.template!,language:snapshot.language.toLowerCase()==='uk'?'uk':snapshot.language.toLowerCase(),approved:true,parameters:[this.options.publicOrigin??'https://knaba.example.invalid']}:{kind:'TEXT',text:`${job.data.notice==='CORRECTION'?'Korrektur · ':''}${snapshot.message.data.text}`.slice(0,4096)};
+    const output:WhatsAppOutput=snapshot.policy.kind==='TEMPLATE'?{kind:'TEMPLATE',name:snapshot.policy.template!,language:snapshot.language.toLowerCase()==='uk'?'uk':snapshot.language.toLowerCase(),approved:true,parameters:[snapshot.publicOrigin!]}:{kind:'TEXT',text:`${job.data.notice==='CORRECTION'?'Korrektur · ':''}${snapshot.message.data.text}`.slice(0,4096)};
     let providerStarted=false;
     try{await this.activeJob(job);providerStarted=true;const result=await this.options.whatsapp!.send(snapshot.phone!,output,{kind:snapshot.policy.kind as 'TEXT'|'TEMPLATE',template:snapshot.policy.template});await this.command(job,'delivery.status',{delivery_id:entity.id,...result});}
     catch(error){

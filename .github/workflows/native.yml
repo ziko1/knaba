@@ -7,6 +7,8 @@ on:
       - 'erp/tests/native-vectors.json'
       - 'corporate-site/public/favicon.svg'
       - 'scripts/mobile/generate-brand-assets.mjs'
+      - 'scripts/mobile/check-localizations.py'
+      - 'docs/mobile/RELEASE_VERSIONS.json'
       - 'erp/scripts/native-ios-simulator.py'
       - '.github/workflows/native.yml'
   workflow_dispatch:
@@ -26,6 +28,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.NATIVE_SOURCE_SHA }}
+      - name: Verify localization and declared release versions
+        run: python3 scripts/mobile/check-localizations.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -85,6 +89,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.NATIVE_SOURCE_SHA }}
+      - name: Verify localization and declared release versions
+        run: python3 scripts/mobile/check-localizations.py
       - name: Check out exact XcodeGen 2.43.0 source
         uses: actions/checkout@v4
         with:
@@ -136,17 +142,28 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Debug-iphonesimulator/KNABADE.app build/KNABADE-simulator.app.zip
           shasum -a 256 build/KNABADE-simulator.app.zip > build/evidence/SHA256SUMS
           python3 - <<'PY'
-          import hashlib, json, os, pathlib
+          import hashlib, json, os, pathlib, plistlib
           artifact = pathlib.Path('build/KNABADE-simulator.app.zip')
           bundle = pathlib.Path('build/Build/Products/Debug-iphonesimulator/KNABADE.app')
+          summary_path = pathlib.Path('build/evidence/xctest-summary.json')
+          summary = json.loads(summary_path.read_text())
+          count = summary.get('totalTestCount')
+          if type(count) is not int or count <= 0 or summary.get('result') != 'Passed' or summary.get('passedTests') != count or any(summary.get(key) != 0 for key in ['failedTests', 'skippedTests', 'expectedFailures']):
+              raise SystemExit('ALL_NATIVE_XCTESTS_MUST_PASS_WITHOUT_SKIPS')
+          info = plistlib.loads((bundle / 'Info.plist').read_bytes())
           receipt = {
               'sourceGitSha': os.environ['NATIVE_SOURCE_SHA'],
               'artifact': artifact.name,
               'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest(),
               'byteSize': artifact.stat().st_size,
+              'bundleIdentifier': info['CFBundleIdentifier'],
+              'versionName': info['CFBundleShortVersionString'],
+              'buildNumber': info['CFBundleVersion'],
+              'supportedPlatforms': info['CFBundleSupportedPlatforms'],
               'build': 'iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode',
               'xcodegenSourceSha': '7193eb447a6f60061f069e07bc1efd32d73c0e19',
               'simulator': json.loads(pathlib.Path('build/evidence/simulator-preparation.json').read_text()),
+              'xctest': {'status': 'PASS', 'totalTests': count, 'passedTests': summary['passedTests'], 'failedTests': summary['failedTests'], 'skippedTests': summary['skippedTests'], 'summaryPath': 'evidence/xctest-summary.json', 'summarySha256': hashlib.sha256(summary_path.read_bytes()).hexdigest(), 'startTime': summary['startTime'], 'finishTime': summary['finishTime']},
               'signing': 'CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA',
               'checks': ['xcodebuild simulator build', 'native XCTest including ERP recovery, identity fences, role navigation and GPS vectors', 'plist validation'],
               'bundleFiles': [{'path': str(p.relative_to(bundle)), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(bundle.rglob('*')) if p.is_file()],

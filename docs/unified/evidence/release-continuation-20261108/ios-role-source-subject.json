@@ -1,0 +1,75 @@
+{
+  "created_at": "2026-11-08T15:16:13.231015+00:00",
+  "author": "/root/scope_matrix",
+  "base_sha": "2eb6a777704ceecd211eecd8b3854080772d152a",
+  "status": "READY_FOR_INDEPENDENT_SOURCE_REVIEW_NATIVE_XCTEST_PENDING",
+  "owned_files": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "0cde53b075ee4d251a16c6bac77caae7e30ea6f4c3bc63e90006408875ace5d6",
+      "bytes": 42474
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "3761f2b4d16f124279c6814b08515d59056d306db2155d7a95773734309a4ea6",
+      "bytes": 30719
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "sha256": "1649b9bccf76fa72eb733739e9d2feed1de70533c76e56067b0289cdb27fa54e",
+      "bytes": 9124
+    }
+  ],
+  "subject_digest_sha256": "e761435116d13f719f0772c70d3d5a4d0c6323556b02143a30388ba8195d1191",
+  "subject_digest_algorithm": "SHA256 of sorted(path + NUL + sha256 + LF) UTF-8",
+  "reference": {
+    "path": "/workspace/scratch/b0593ca57e65/continuation-work/role-labels.json",
+    "sha256": "891f8aeaf1870efb731879d1fe4cb908f2ff271dae6620298fbe08bb4ce76928"
+  },
+  "display_contract": {
+    "canonical_roles": 18,
+    "aliases": {
+      "FOREMAN": "INTERNAL_BAULEITER",
+      "TEAM_LEAD": "TEAM_LEADER",
+      "WAREHOUSE": "STOREKEEPER"
+    },
+    "languages": [
+      "de",
+      "en",
+      "pl",
+      "lt",
+      "ru",
+      "uk"
+    ],
+    "unknown_role": "localized generic fallback; canonical IDs never normalized into authority",
+    "authorization_changes": false
+  },
+  "local_verification": {
+    "canonical_role_ids_match_domain_identity": true,
+    "translation_reference_values_compared": 132,
+    "translation_reference_result": "PASS_STATIC_ONLY",
+    "only_model_display_property_changed": true,
+    "existing_localization_gate": {
+      "command": "python scripts/mobile/check-localizations.py",
+      "exit_code": 0,
+      "status": "PASS_STATIC_ONLY",
+      "iosCompanionKeys": 95,
+      "iosERPKeys": 181,
+      "both_platform_version": "0.5.2",
+      "both_platform_build": 9
+    },
+    "diff_check": "PASS"
+  },
+  "native_regressions_added": [
+    "testDashboardRoleLabelsFollowSixLanguagesWithoutChangingAuthority",
+    "testDashboardRoleAliasesAndUnknownValuesUseSafeLocalizedLabels"
+  ],
+  "native_xctest": "NOT_RUN_LOCAL",
+  "toolchain": {
+    "swift": null,
+    "xcodebuild": null
+  },
+  "native_execution_required": "Final GitHub macOS XCTest run on corrective commit; raw summary zero failures/skips and source/artifact hashes; no physical-device acceptance implied.",
+  "independent_review": "PENDING_ROOT_REVIEW_OF_THIS_AUTHORED_PATCH",
+  "product_readiness": "HOLD"
+}
