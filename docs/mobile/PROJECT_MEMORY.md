@@ -1,5 +1,9 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — iOS 0.5.1 contextual record actions, source continuation
+
+PR127 continues from d9cb200 with 61 existing command bindings for 15 record types, immutable record/quote/crew snapshot fields, same-session form authority, current catalog/permissions and sensitive confirmation. Adds six-language action labels and exact decimal quantity conversion; 162 ERP translation rows. Local126 executable registry contract tests and TypeScript pass. Independent source review accepted the corrected snapshot. Actual macOS XCTest is a separate pending gate for this new source, never borrowed from 0.5.0. [Scope and acceptance](IOS_CONTEXT_ACTIONS_0.5.1_UK.md). Android0.5.0 inputs/artifacts remain unchanged. Full product NOT_READY; physical devices/signing and unfinished SSO/specialist workflows stay open.
+
 ## 08.11.2026 — exact-source native and SQL CI completed
 
 Runtime/test source `fb4be719fc6f777138cb93837fc41729f9104c09`, tree `00f1af8f6dc3c8dcf19154ac163c7e8c5a7c9a68`, Draft PR127. Native run 42463090142: Android 32 tests and iOS 49 actual XCTest PASS; simulator build PASS. Repository run 42463090119: all 4 mandatory jobs PASS, ERP 2739 with PostgreSQL 17.6, bridge 9, site 732 + 90 + 197, root 28; 0 fail/skip in acceptance tests. Local APK/AAB and iOS source archives independently bound to 53 + 1 and 40 exact Git inputs. Evidence: `evidence/native-candidate-20261108/verification.json`. Physical devices, owner signing/UAT, full shared identity and specialist journeys remain open; full product NOT_READY.

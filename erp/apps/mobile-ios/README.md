@@ -1,4 +1,8 @@
-## Current iOS candidate — 0.5.0 / build 6
+## Current iOS candidate — 0.5.1 / build 7
+
+Adds 61 contextual record actions for 15 existing ERP record types. Forms bind the selected record ID and exact version, retain quote/assignment snapshot fields, refresh current identity and server catalog before writing, and cannot move to a later login session. Sensitive commands require explicit confirmation. Boolean/enum controls, action search, six-language action labels and exact decimal-to-integer quantity conversion use the existing ERP contracts. A confirmed write remains successful when the following list refresh fails; an uncertain write retains its original encrypted recovery envelope.
+
+This continuation has its own source/contract and native XCTest gates. Do not attribute the earlier 0.5.0 simulator artifact or its 49 XCTest results to 0.5.1. See [contextual action scope and verification](../../../docs/mobile/IOS_CONTEXT_ACTIONS_0.5.1_UK.md). Android remains 0.5.0; specialist media/partner/provider journeys, full shared SSO, actual device acceptance and owner signing remain separate open requirements.
 
 The ERP console now has a separate device-encrypted unresolved-command journal, explicit same-key recovery, fresh same-actor `/me` validation, logout/session fences and 39 permission-based modules. See [recovery contract and test boundaries](README_RECOVERY_UK.md) and the [current delivery guide](../../../docs/mobile/TEST_CANDIDATE_0.5.0_UK.md).
 
