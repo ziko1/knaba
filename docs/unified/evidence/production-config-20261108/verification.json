@@ -3,12 +3,12 @@
   "project": "KNABA DE",
   "date": "2026-11-08",
   "scope": "KN-C08-B explicit production company and clean API/worker/BOT origins",
-  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "status": "ACCEPT_PRODUCTION_CONFIGURATION_ACTUAL_CI",
   "product_status": "NOT_READY",
   "branch": "feat/knaba-production-config-guards-20261108",
   "base_source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
   "base_tree_sha": "54de236e29601fdc5fe6315e42a8c8b5e67d2617",
-  "commit_binding": "Candidate inputs were executed locally as an uncommitted source snapshot. The eventual immutable commit/tree and its own hosted acceptance are recorded separately. Native bb223af artifacts and historical CI are not retagged.",
+  "commit_binding": "Historical accepted inputs and hosted results belong to d76bb939c83103fcbf4ed4374a48f4ea85b920d2. Later worker/runtime or documentation changes do not retag these proofs. Verify inputs against that exact Git commit.",
   "inputs": {
     ".github/workflows/ci.yml": {
       "bytes": 9263,
@@ -118,7 +118,7 @@
     "changed_test_files": 6,
     "blocking_findings": 0,
     "resolved_finding": "BOT URL normalization inconsistent between workerOptions and startWorker; strict shared grammar now applied before provider reads and in preflight",
-    "final_staged_tree_review": "PENDING"
+    "final_staged_tree_review": "ACCEPT exact tree a5d250054194eb9ac70aa12c77c79942ed05de13, later committed-source and four-log acceptance independently confirmed"
   },
   "local": {
     "node": "v24.22.1",
@@ -243,14 +243,14 @@
     "boundary_scope": "Actual API/worker entrypoints compiled with pinned esbuild, plain Node and child-only PG/network/interval traps. Canonical peer comparison permits only an explicit GPS query double then stops at identity schema access. Not real PostgreSQL, successful application startup, live acceptance or a release artifact."
   },
   "hosted": {
-    "status": "NOT_RUN_FOR_THIS_SOURCE",
-    "required": [
-      "All four mandatory repository jobs on exact clean commit",
-      "Built source identity",
-      "Skip-free actual PostgreSQL/SQLite/HTTP acceptance",
-      "Independent source/log review"
-    ],
-    "native": "Not requested: native input trees and native workflow paths unchanged; bb223af retains separate accepted artifacts"
+    "status": "ACCEPT",
+    "source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
+    "run_id": 42489218942,
+    "duplicate_push_run": 42489215508,
+    "all_required_jobs": "SUCCESS",
+    "acceptance_skips": 0,
+    "receipt": "accepted-d76bb9.json",
+    "independent_review": "ACCEPT"
   },
   "historical_native": {
     "source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
@@ -293,5 +293,7 @@
     "paid_services": false,
     "native_source_changes": false,
     "original_criteria_promoted": false
-  }
+  },
+  "accepted_source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
+  "accepted_tree_sha": "a5d250054194eb9ac70aa12c77c79942ed05de13"
 }

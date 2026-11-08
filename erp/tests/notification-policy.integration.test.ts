@@ -2,7 +2,7 @@ import {afterAll,beforeAll,beforeEach,describe,expect,it,vi} from 'vitest';
 import {randomUUID} from 'node:crypto';
 import {Database} from '../apps/api/database.ts';
 import {Engine} from '../apps/api/engine.ts';
-import {WorkerRunner,leaseOutbox,type OutboxJob} from '../apps/worker/runner.ts';
+import {WorkerRunner,leaseOutbox,serviceId,type OutboxJob} from '../apps/worker/runner.ts';
 import {WhatsAppCloudAdapter} from '../packages/integrations/whatsapp.ts';
 import {cancelPendingAbsenceNotices} from '../packages/domain/notification-policy.ts';
 import type {Actor,Data,Entity} from '../packages/domain/core.ts';
@@ -22,12 +22,20 @@ postgres('V4 notification policies: genuine PostgreSQL and leased workers',()=>{
   await db.query("UPDATE outbox SET available_at=now()-interval '1 second',data=jsonb_set(data,'{not_before}',to_jsonb((now()-interval '1 second')::text)) WHERE company_id=$1 AND id=$2",[company,selected!.id]);
   const jobs=await leaseOutbox(db,100,120000,company),job=jobs.find(j=>j.id===selected!.id);expect(job).toBeDefined();return job!;
  }
- async function notice(){
+ async function notice(template?:string){
   const channel=await execute(manager,'channel.create',{type:'SITE_INTERNAL',name:'Synthetic notification thread',site_id:'site',member_ids:['employee']});
   const message=await execute(manager,'message.send',{channel_id:channel.id,text:'Synthetic notification contract',language:'DE'});
-  return execute(manager,'notifications.schedule',{recipient_id:'employee',event:'CHAT',category:'CHAT',channel:'WHATSAPP',message_id:message.id,scheduled_at:new Date().toISOString(),dedup_key:randomUUID()});
+  return execute(manager,'notifications.schedule',{recipient_id:'employee',event:'CHAT',category:'CHAT',channel:'WHATSAPP',message_id:message.id,scheduled_at:new Date().toISOString(),dedup_key:randomUUID(),...(template?{template,template_status:'APPROVED'}:{})});
  }
- async function linked(){const n=await notice();await worker.process(await take('notification.scheduled'));expect((await row('notification',n.id)).data.status).toBe('AWAITING_DELIVERY');const delivery=(await rows('delivery')).find(d=>d.data.channel==='WHATSAPP')!;expect(delivery).toBeDefined();return {n,delivery};}
+ async function linked(template?:string){const n=await notice(template);await worker.process(await take('notification.scheduled'));expect((await row('notification',n.id)).data.status).toBe('AWAITING_DELIVERY');const delivery=(await rows('delivery')).find(d=>d.data.channel==='WHATSAPP')!;expect(delivery).toBeDefined();return {n,delivery};}
+ async function linkedTemplate(){
+  await patch('notification_setting','employee-settings',{last_inbound_at:new Date(Date.now()-25*60*60*1000).toISOString()});
+  await db.transaction(company,'SYNTHETIC_APPROVED_TEMPLATE_FIXTURE',tx=>tx.add('whatsapp_template',{name:'synthetic_notice',status:'APPROVED',synthetic:true}));
+  const linkedNotice=await linked('synthetic_notice');
+  expect(linkedNotice.delivery.data).toMatchObject({status:'PENDING',attempts:0,policy:{allowed:true,kind:'TEMPLATE',template:'synthetic_notice'}});
+  return linkedNotice;
+ }
+ const deliveryRevisions=async(id:string)=>(await db.query("SELECT version,data FROM aggregate_revisions WHERE company_id=$1 AND kind='delivery' AND id=$2 ORDER BY version",[company,id])).rows;
  async function routerReply(){return db.transaction(company,'SYNTHETIC_ROUTER_SOURCE_FIXTURE',async tx=>{const session=await tx.add('whatsapp_router_session',{user_id:'employee',sender:'49123456789',generation:1,language:'UK'});const response=await tx.add('whatsapp_router_response',{user_id:'employee',recipient_id:'employee',sender:'49123456789',session_id:session.id,session_generation:1,language:'UK',output:{kind:'TEXT',text:'Synthetic personal router response'},internal:true,required_permissions:['chat.read'],access_refs:[],status:'PENDING',expires_at:new Date(Date.now()+900000).toISOString()});await tx.event('whatsapp.router_response',{response_id:response.id});return response;});}
  async function fingerprint(){const result:Data={};for(const table of ['aggregates','aggregate_revisions','audit_log','outbox','command_receipts'])result[table]=(await db.query(`SELECT count(*)::int n,md5(coalesce(string_agg(to_jsonb(r)::text,E'\n' ORDER BY to_jsonb(r)::text),'')) hash FROM ${table} r WHERE company_id=$1`,[company])).rows[0];return result;}
  beforeAll(async()=>{db=new Database();await db.migrate();});
@@ -47,6 +55,64 @@ postgres('V4 notification policies: genuine PostgreSQL and leased workers',()=>{
   worker=new WorkerRunner(db,engine,{companyId:company,appMode:'TEST',whatsapp:adapter,testRecipients:['49123456789']});await worker.initialize();
  });
  afterAll(async()=>{await db?.close();});
+
+ it.each([
+  ['missing',undefined],
+  ['empty',''],
+  ['normalizing path','https://erp.example.test/a/..'],
+  ['credentials','https://user:SYNTHETIC_PRIVATE_VALUE@erp.example.test/'],
+ ] as const)('TEMPLATE with %s origin fails definitively in its real lease before any SENDING revision or provider attempt',async(_label,origin)=>{
+  const {n,delivery}=await linkedTemplate();
+  worker.options.publicOrigin=origin;
+  const before=await deliveryRevisions(delivery.id),job=await take('delivery.requested');
+  await worker.process(job);
+  const current=await row('delivery',delivery.id),history=await deliveryRevisions(delivery.id);
+  expect(current.version).toBe(delivery.version+1);
+  expect(current.data).toMatchObject({status:'FAILED',failure_class:'DEFINITIVE',error:'PUBLIC_ORIGIN_REQUIRED_OR_INVALID',attempts:0});
+  for(const field of ['provider_account_id','provider_recipient_phone','provider_message_id','sending_started_at','sending_job_id','sending_lease_hash'])expect(current.data).not.toHaveProperty(field);
+  expect(history).toHaveLength(before.length+1);
+  expect(history.every(revision=>revision.data.status!=='SENDING'&&revision.data.attempts===0)).toBe(true);
+  expect(JSON.stringify(history)).not.toContain('SYNTHETIC_PRIVATE_VALUE');
+  expect((await row('notification',n.id)).data).toMatchObject({status:'FAILED',channel:'WHATSAPP',delivery_id:delivery.id,delivery_status:'FAILED',attempts:0,error:'PUBLIC_ORIGIN_REQUIRED_OR_INVALID',failure_class:'DEFINITIVE',provider_message_id:null});
+  expect((await db.query('SELECT status FROM outbox WHERE company_id=$1 AND id=$2',[company,job.id])).rows[0].status).toBe('SUCCEEDED');
+  expect(fetcher).not.toHaveBeenCalled();
+ });
+ it('TEMPLATE sends the exact validated raw origin through the real adapter and projects the synthetic provider receipt',async()=>{
+  const {n,delivery}=await linkedTemplate(),raw='HTTPS://ERP.example.test:443/';
+  worker.options.publicOrigin=raw;
+  await worker.process(await take('delivery.requested'));
+  expect(fetcher).toHaveBeenCalledTimes(1);
+  expect(fetcher.mock.calls[0]![0]).toBe('https://graph.facebook.com/v24.0/123456/messages');
+  const request=fetcher.mock.calls[0]![1] as RequestInit;
+  expect(request.method).toBe('POST');
+  expect(JSON.parse(String(request.body))).toEqual({messaging_product:'whatsapp',recipient_type:'individual',to:'49123456789',type:'template',template:{name:'synthetic_notice',language:{code:'uk'},components:[{type:'body',parameters:[{type:'text',text:raw}]}]}});
+  expect((await row('delivery',delivery.id)).data).toMatchObject({status:'API_ACCEPTED',attempts:1,provider_message_id:'synthetic-accepted-id'});
+  expect((await row('notification',n.id)).data).toMatchObject({status:'SUCCEEDED',attempts:1,delivery_id:delivery.id,delivery_status:'API_ACCEPTED',provider_message_id:'synthetic-accepted-id'});
+ });
+ it('a freshly leased duplicate after definitive TEMPLATE configuration failure cannot resend after configuration is repaired and the worker restarts',async()=>{
+  const {n,delivery}=await linkedTemplate();
+  expect(worker.options.publicOrigin).toBeUndefined();
+  await worker.process(await take('delivery.requested'));
+  const failedDelivery=await row('delivery',delivery.id),failedNotice=await row('notification',n.id),history=await deliveryRevisions(delivery.id);
+  expect(failedDelivery.data).toMatchObject({status:'FAILED',attempts:0,failure_class:'DEFINITIVE',error:'PUBLIC_ORIGIN_REQUIRED_OR_INVALID'});
+  await db.transaction(company,'SYNTHETIC_RESTART_EVENT',tx=>tx.event('delivery.requested',{delivery_id:delivery.id}));
+  const restarted=new WorkerRunner(db,engine,{...worker.options,publicOrigin:'https://erp.example.test/'}),job=await take('delivery.requested');
+  await restarted.process(job);
+  expect(await row('delivery',delivery.id)).toEqual(failedDelivery);
+  expect(await row('notification',n.id)).toEqual(failedNotice);
+  expect(await deliveryRevisions(delivery.id)).toEqual(history);
+  expect((await db.query('SELECT status FROM outbox WHERE company_id=$1 AND id=$2',[company,job.id])).rows[0].status).toBe('SUCCEEDED');
+  expect(fetcher).not.toHaveBeenCalled();
+ });
+ it('a canonical WEB delivery still completes through a fresh lease without a public origin or provider attempt',async()=>{
+  const n=await notice(),service=await engine.getActor(serviceId,company);
+  const delivery=await execute(service,'delivery.prepare',{message_id:n.data.message_id,recipient_id:'employee',channel:'WEB'});
+  expect(worker.options.publicOrigin).toBeUndefined();
+  await worker.process(await take('delivery.requested'));
+  expect((await row('delivery',delivery.id)).data).toMatchObject({status:'DELIVERED',attempts:0,policy:{allowed:true,channel:'WEB'}});
+  expect((await deliveryRevisions(delivery.id)).every(revision=>revision.data.status!=='SENDING'&&revision.data.attempts===0)).toBe(true);
+  expect(fetcher).not.toHaveBeenCalled();
+ });
 
  it('one logical notification links one delivery; actual leased provider worker projects accepted status and restart never sends twice',async()=>{const {n,delivery}=await linked();const job=await take('delivery.requested');await worker.process(job);expect(fetcher).toHaveBeenCalledTimes(1);expect((await row('delivery',delivery.id)).data).toMatchObject({status:'API_ACCEPTED',attempts:1,provider_message_id:'synthetic-accepted-id'});expect((await row('notification',n.id)).data).toMatchObject({status:'SUCCEEDED',attempts:1,delivery_id:delivery.id});await db.transaction(company,'SYNTHETIC_RESTART_EVENT',tx=>tx.event('delivery.requested',{delivery_id:delivery.id}));const restarted=new WorkerRunner(db,engine,worker.options);await restarted.process(await take('delivery.requested'));expect(fetcher).toHaveBeenCalledTimes(1);expect((await rows('notification')).filter(e=>e.id===n.id)).toHaveLength(1);});
  it('explicit transient rejection schedules1/5/15minutes only, then one dead-letter decision without notification scheduler duplication',async()=>{fetcher.mockImplementation(async()=>new Response(JSON.stringify({error:{code:130429,message:'Synthetic rate limit'}}),{status:429}));const {n,delivery}=await linked();for(let attempt=1;attempt<=4;attempt++){if(attempt>1)await patch('delivery',delivery.id,{scheduled_at:new Date(Date.now()-1000).toISOString()});const start=Date.now();await worker.process(await take('delivery.requested'));const current=await row('delivery',delivery.id);expect(current.data.attempts).toBe(attempt);if(attempt<4){expect(current.data.status).toBe('RETRY_SCHEDULED');expect(Date.parse(current.data.scheduled_at)-start).toBeGreaterThanOrEqual([60_000,300_000,900_000][attempt-1]!);expect(Date.parse(current.data.scheduled_at)-start).toBeLessThan([60_000,300_000,900_000][attempt-1]!+5000);}else expect(current.data.status).toBe('DEAD_LETTER');}expect(fetcher).toHaveBeenCalledTimes(4);expect((await row('notification',n.id)).data).toMatchObject({status:'DEAD_LETTER',attempts:4});expect(await rows('decision')).toHaveLength(1);expect((await db.query("SELECT count(*)::int n FROM outbox WHERE company_id=$1 AND type='notification.scheduled'",[company])).rows[0].n).toBe(1);});

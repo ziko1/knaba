@@ -1,5 +1,11 @@
 # KnaBa — окремий бюджет і квоти
 
+## 08.11.2026 — C08-B reconciliation; KN-C08-C reservation
+
+C08-B source d76bb939c83103fcbf4ed4374a48f4ea85b920d2: automatic push42489215508 і PR42489218942 SUCCESS, all4 mandatory jobs і independent review ACCEPT. Використано один source checkpoint/two repository runs, без native або unchanged manual reruns.
+
+C08-C: один source checkpoint і максимум один correction для конкретного failure; максимум4 automatic existing public standard Ubuntu repository runs, без нових native runs і зміни timeouts. Consumer/tests працюють лише з synthetic SQL/HTTP fixtures; жодного реального Meta/provider call. Public eligibility і official standard-runner tariff перевірені08.11.2026. New paid activation EUR0; фактичні model/account balances/quotas UNKNOWN. Production/DNS/live data, signing/stores та платні сервіси не активуються.
+
 ## 08.11.2026 — native reconciliation і KN-C08-B reservation
 
 Consolidation прийнято на bb223af67af9eae5f11e7ca225f89ddf97a8e4e2: repository push42486323278 і PR42486326925 SUCCESS; native PR42486326902, Android та iOS SUCCESS. Використано один source checkpoint, два automatic repository runs та один native run; unchanged manual rerun не проводився. Фактичні Android lint warnings20 збережено.

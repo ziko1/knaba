@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "KN-C08-C template origin consumer before send claim",
+  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-template-origin-guard-20261108",
+  "base_source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
+  "base_tree_sha": "a5d250054194eb9ac70aa12c77c79942ed05de13",
+  "commit_binding": "Local evidence describes the candidate file hashes, not a release commit. Immutable commit/tree and actual hosted acceptance are recorded separately after publication. Historical C08-B and native results keep their own exact source identities.",
+  "inputs": {
+    ".github/workflows/ci.yml": {
+      "bytes": 9263,
+      "sha256": "f581ba87e0006916e540685bd48feac7a3215dc925a306b810b2721f284bde20"
+    },
+    ".github/workflows/native.yml": {
+      "bytes": 8762,
+      "sha256": "c8f24fb82e9b3a5a6783e14a9ec2146a2109c1af11e9b9d7db52c46b8d9a03db"
+    },
+    "erp/apps/api/database.ts": {
+      "bytes": 10345,
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c"
+    },
+    "erp/apps/api/engine.ts": {
+      "bytes": 52754,
+      "sha256": "b90a849ae4b909c565378a7d3fb5ccf05d622baad3804571a1db12980892719b"
+    },
+    "erp/apps/runtime-config.d.mts": {
+      "bytes": 330,
+      "sha256": "e72ec016e721fb532c681a4788f9caa1addca9f3239cb91988c426e81316995f"
+    },
+    "erp/apps/runtime-config.mjs": {
+      "bytes": 1765,
+      "sha256": "d1e11e3d763b6dfea7543497ba478f91c1ae7eb44a384c0a5756513a98526e97"
+    },
+    "erp/apps/worker/runner.ts": {
+      "bytes": 87077,
+      "sha256": "b0dba9bf45756655faae4f59eac28e4cc6972fd7c23bb071aaae17d96df45d17"
+    },
+    "erp/infra/001_init.sql": {
+      "bytes": 37293,
+      "sha256": "b2f73af9a40672a2f756af013a57992aeb8ab0895fea0821bc1f65d0f8d2c7f5"
+    },
+    "erp/package-lock.json": {
+      "bytes": 192043,
+      "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3"
+    },
+    "erp/package.json": {
+      "bytes": 1208,
+      "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58"
+    },
+    "erp/packages/domain/communications.ts": {
+      "bytes": 57702,
+      "sha256": "ed6824fe1ab8a4a7583bd5af09b85171286799740bb9d9926d3ed74efc7832a1"
+    },
+    "erp/packages/domain/notification-policy.ts": {
+      "bytes": 5138,
+      "sha256": "768ded62afc6e3512aad0fc3bdb3fcfbe716f3906d20d1c6df6724c41045e2fc"
+    },
+    "erp/packages/integrations/whatsapp.ts": {
+      "bytes": 12012,
+      "sha256": "8f3061ec561f55abf5f3fdd1910a371c477ca6a299c41e3d5416d10bac6d1416"
+    },
+    "erp/tests/notification-policy.integration.test.ts": {
+      "bytes": 24624,
+      "sha256": "9592ec2d9cfd8fe07e751cc2b9a49d6fce922c717f5fead31f219c2b95a56a48"
+    },
+    "erp/tests/template-origin.test.ts": {
+      "bytes": 9569,
+      "sha256": "3070b90d3b8fbb79633dfca2295f088c550e8edcbc8cf03fa1d13593d4a1e205"
+    },
+    "erp/tsconfig.json": {
+      "bytes": 459,
+      "sha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb"
+    },
+    "erp/vitest.config.ts": {
+      "bytes": 237,
+      "sha256": "be12dd7419a8543ba401b9d3344dea96acc287c165d757ca7802e47a39ce7078"
+    }
+  },
+  "inherited_subtrees": {
+    "erp/apps/api": "78d9729017a6b907b8d25eaf4f5020e1033900a3",
+    "erp/apps/mobile-android": "f103ef647cbc4f88566270b3d641b9867e8d5c7b",
+    "erp/apps/mobile-ios": "3791f12c9acf7720265ec53aa010fd5e2a0e617d",
+    "erp/apps/web": "5465ec595e5b7ff4e52f170f7b7e74ae6c860340",
+    "erp/packages": "9ea7c2f5f8d1f3490fb756f784d53a99b980b106",
+    "corporate-site": "ffd12bcd54ebf8352574e9e4997ea3a8e52d8e97",
+    "scripts/mobile": "efd75579e19286942c9c0c604f962547c5417084"
+  },
+  "review": {
+    "status": "ACCEPT_LOCAL_RUNTIME_AND_TEST_SOURCE",
+    "runtime_and_cpu_reviewer": "/root/knaba_prompt_review",
+    "sql_test_reviewer": "/root",
+    "changed_runtime_files": 1,
+    "changed_test_files": 2,
+    "blocking_findings": 0,
+    "sql_case_source": "7 new cases in notification-policy.integration.test.ts authored independently; locally NOT_RUN",
+    "final_staged_tree_review": "PENDING"
+  },
+  "local": {
+    "node": "v24.22.1",
+    "regression_red": {
+      "exit_code": 1,
+      "failed": 1,
+      "scope": "Actual WorkerRunner.handle with explicit SQL/actor/provider doubles on pre-fix d76 runtime; missing origin reached SENDING with attempts1 rather than failing before claim",
+      "log": {
+        "file": "template-origin-red.log",
+        "bytes": 1494,
+        "sha256": "1c42a5f6228f57ae13fe62defff04395e2d4baf004d9764947f938385db6eb0f"
+      }
+    },
+    "focused": {
+      "exit_code": 0,
+      "passed": 237,
+      "failed": 0,
+      "skipped": 0,
+      "files": 5,
+      "breakdown": {
+        "new_template_consumer": 19,
+        "worker": 70,
+        "shared_runtime_contract": 47,
+        "communications": 81,
+        "notification_policy": 20
+      },
+      "command": "node node_modules/vitest/vitest.mjs run tests/template-origin.test.ts tests/runtime-config.test.ts tests/runtime-mode.test.ts tests/communications.test.ts tests/notification-policy.test.ts --maxWorkers=1",
+      "cwd": "erp",
+      "log": {
+        "file": "template-origin-focused.log",
+        "bytes": 502,
+        "sha256": "32b3ad4803f589ce8af3fa5decbbc19cde32ee5004de69efafbaf40898eb2cc0"
+      }
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "cwd": "erp",
+      "scope": "Final source including the independently authored SQL integration file",
+      "log": {
+        "file": "template-origin-typecheck-final.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "root": {
+      "exit_code": 0,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "command": "npm test",
+      "cwd": ".",
+      "log": {
+        "file": "template-origin-root.log",
+        "bytes": 2749,
+        "sha256": "c68a5fc14d7111783d4e4b9b5265fe42909716aff2038854ff769df4efc338c0"
+      }
+    },
+    "diff_check": "PASS",
+    "new_postgresql_cases": {
+      "status": "NOT_RUN_LOCALLY",
+      "new_cases": 7,
+      "suite_cases": 21,
+      "scope": "Real Database/Engine/lease/revisions/notification projection with explicit synthetic provider HTTP; not actual Meta delivery"
+    },
+    "provider_requests": "NO_REAL_PROVIDER_REQUESTS"
+  },
+  "hosted": {
+    "status": "NOT_RUN_FOR_THIS_SOURCE",
+    "required": [
+      "All four mandatory repository jobs on exact clean source",
+      "Build identity and all ERP cases without skips",
+      "21 notification-policy PostgreSQL cases including 7 new cases",
+      "Independent source and raw-log review"
+    ],
+    "native": "No trigger paths or native source changes; retain bb223af artifacts"
+  },
+  "historical_configuration": {
+    "source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
+    "run_id": 42489218942,
+    "status": "ACCEPT",
+    "receipt": "../production-config-20261108/accepted-d76bb9.json"
+  },
+  "coverage": [
+    "Missing/invalid TEMPLATE origin fails in fresh leased transaction before SENDING, attempts and provider pins",
+    "Notification receives fixed definitive failure without credentials-bearing URL",
+    "Validated raw origin captured in transaction survives later options mutation",
+    "TEXT inside allowed window and WEB retain missing-origin compatibility",
+    "Corrected configuration and duplicate/restarted worker do not automatically resend terminal failure",
+    "Existing consent/recipient/provider/lease/quiet/UNKNOWN/retry gates preserved"
+  ],
+  "budget": {
+    "max_source_checkpoints": 2,
+    "max_automatic_repository_runs": 4,
+    "planned_native_runs": 0,
+    "new_paid_activation_eur": 0,
+    "model_balance": "UNKNOWN"
+  },
+  "rollback": "No schema migration. A reviewed rollback to d76 restores the historical placeholder consumer; keep a verified public origin or disable template delivery before any such operational rollback. No production action is authorized.",
+  "open": [
+    "F3 browser-bound issuance and remaining F4 policy/privacy",
+    "Template catalog and full specialist UI/API/company acceptance",
+    "GIT_SHA adjacent API/preflight audit",
+    "Physical devices, owner signing/stores, provider/legal/load/restore acceptance"
+  ],
+  "activation": {
+    "main_merge": false,
+    "production": false,
+    "live_data": false,
+    "providers": false,
+    "paid_services": false,
+    "native_source_changes": false,
+    "original_criteria_promoted": false
+  }
+}
