@@ -1,5 +1,9 @@
 # KNABA Mobile — roadmap
 
+## 2026-11-08 — AVD location follow-up
+
+On b9bacbcc actual Android60/60, iOS91/91 with clean Simulator launch, and all four repository jobs passed. Android installation did not start: emulator37.2.13 could not discover the AVD created by avdmanager. Scope the two tools to the same temporary paths and verify AVD visibility before boot; keep product code and install/hash assertions unchanged. Then verify exact downloaded artifacts and produce the customer kit, retaining missing signed iPhone IPA, public ERP configuration and physical/full-product acceptance as explicit blockers.
+
 ## 2026-11-08 — final fixture correction gate
 
 a632 repository/source/site/ERP/PostgreSQL/HTTP bridge checks passed. Native Android still needs the60-case rerun after a test-only latch-shadow correction, then ordinary APK installation/launch and exact binary review. iOS job128773630570 actually passed91 XCTest, attachment export and clean simulator install/launch on sourcea632; later artifacts retain their own source identities. Final delivery must identify Android APK versus iOS Simulator/source and retain missing owner-signed IPA, public ERP configuration, physical/live UAT and full-system coverage as open requirements.

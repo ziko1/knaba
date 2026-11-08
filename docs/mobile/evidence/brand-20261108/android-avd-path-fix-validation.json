@@ -1,0 +1,28 @@
+{
+  "status": "LOCAL_STATIC_VALIDATION_PASS_CI_NOT_RUN",
+  "beforeSha256": "a53471d25f109f99de909ab2b850bea1c640761a3cbae9fbd694ab137a5e704a",
+  "afterSha256": "956bbb5515ff1dc22e30c16ba2935265d09ea8243d4c8929948d532d01fab476",
+  "patch": "/workspace/scratch/a3c43ba31037/android-avd-path-fix.patch",
+  "patchSha256": "f9ac7304efea1566d540b8b5a61072153ef273501bfcd3372b8904b2f5ea0284",
+  "yamlParsed": true,
+  "bashScriptsParsed": 12,
+  "embeddedPythonScriptsParsed": 5,
+  "onlyAndroidEmulatorRunScriptChanged": true,
+  "allPythonSubprocessesUseScopedEnvironment": [
+    "run",
+    "Popen",
+    "check_output"
+  ],
+  "homeUnchanged": true,
+  "jobTimeoutMinutes": 30,
+  "stepTimeoutMinutes": 10,
+  "ordinaryInstallUnchanged": true,
+  "gitDiffCheckExitCode": 0,
+  "localAvdmanagerHelp": {
+    "receipt": "/workspace/scratch/a3c43ba31037/android-avd-path-local-help/receipt.json",
+    "sha256": "0fcd1c59f3c653a0015fb315af69fd3442ed3e782ef6c9640f1f02a5250dbe04",
+    "exitCode": 1,
+    "supportedPathFlagObserved": true,
+    "avdCreationAndBoot": "NOT_RUN"
+  }
+}

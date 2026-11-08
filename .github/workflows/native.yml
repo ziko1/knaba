@@ -93,6 +93,13 @@ jobs:
           python3 - <<'PY'
           import datetime, hashlib, json, os, pathlib, re, struct, subprocess, time
           evidence = pathlib.Path('build/evidence/android-emulator')
+          # Give every Android tool the same task-scoped preferences and AVD paths.
+          # https://developer.android.com/tools/variables/
+          android_prefs = (pathlib.Path(os.environ['RUNNER_TEMP']) / 'knaba-android-emulator' / 'prefs').resolve()
+          avd_home = android_prefs / 'avd'
+          avd_home.mkdir(parents=True, exist_ok=True)
+          android_environment = os.environ.copy()
+          android_environment.update({'ANDROID_USER_HOME': str(android_prefs), 'ANDROID_EMULATOR_HOME': str(android_prefs), 'ANDROID_AVD_HOME': str(avd_home)})
           distribution = pathlib.Path('build/distribution/prototype')
           packaged = json.loads((distribution / 'receipt.json').read_text())
           assert pathlib.Path(packaged['artifact']).name == packaged['artifact'], 'Invalid packaged APK path'
@@ -100,7 +107,7 @@ jobs:
           digest = hashlib.sha256(apk.read_bytes()).hexdigest()
           assert digest == packaged['sha256'] and apk.stat().st_size == packaged['bytes'], 'APK differs from packaging receipt'
           assert packaged['sourceGitSha'] == os.environ['NATIVE_SOURCE_SHA'], 'Unexpected APK source'
-          assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip() == packaged['sourceGitSha'], 'Unexpected checkout'
+          assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True, env=android_environment).strip() == packaged['sourceGitSha'], 'Unexpected checkout'
           package = packaged['package']
           assert package == 'de.knaba.mobile.test', 'Only the separate debug test package is allowed'
           sdk = pathlib.Path(os.environ['ANDROID_HOME'])
@@ -109,13 +116,15 @@ jobs:
           emulator = sdk / 'emulator/emulator'
           adb = sdk / 'platform-tools/adb'
           image = 'system-images;android-35;google_apis;x86_64'
+          avd_name = 'knaba-api35'
+          avd_path = avd_home / (avd_name + '.avd')
           serial = 'emulator-5554'
           commands = []
           stage = 'sdk-and-avd'
           process = None
           def run(*command, timeout=30, input=None, check=True, binary=False):
               try:
-                  result = subprocess.run([str(part) for part in command], input=input, capture_output=True, text=not binary, timeout=timeout)
+                  result = subprocess.run([str(part) for part in command], input=input, capture_output=True, text=not binary, timeout=timeout, env=android_environment)
               except subprocess.TimeoutExpired:
                   commands.append({'command': [str(part) for part in command], 'exitCode': None, 'timedOutSeconds': timeout})
                   (evidence / 'commands.json').write_text(json.dumps(commands, indent=2) + '\n')
@@ -138,15 +147,28 @@ jobs:
               run(emulator, '-accel-check')
               devices = run(avdmanager, 'list', 'device').stdout
               assert '"pixel_6"' in devices, 'Expected Pixel 6 hardware profile is unavailable'
-              run(avdmanager, 'create', 'avd', '--force', '--name', 'knaba-api35', '--package', image, '--device', 'pixel_6', input='no\n', timeout=60)
+              run(avdmanager, 'create', 'avd', '--force', '--name', avd_name, '--package', image, '--device', 'pixel_6', '--path', avd_path, input='no\n', timeout=60)
               for name, path in [('emulator-source.properties', sdk / 'emulator/source.properties'), ('system-image-source.properties', sdk / 'system-images/android-35/google_apis/x86_64/source.properties')]:
                   (evidence / name).write_bytes(path.read_bytes())
+              stage = 'avd-inventory'
+              listed = run(emulator, '-list-avds', check=False)
+              avd_definition = avd_home / (avd_name + '.ini')
+              inventory = {
+                  'expectedAvd': avd_name, 'listedAvds': [name.strip() for name in listed.stdout.splitlines() if name.strip()],
+                  'listingExitCode': listed.returncode,
+                  'environment': {key: android_environment[key] for key in ['ANDROID_USER_HOME', 'ANDROID_EMULATOR_HOME', 'ANDROID_AVD_HOME']},
+                  'avdDataPath': str(avd_path), 'avdDefinitionPath': str(avd_definition),
+                  'avdDataDirectoryExists': avd_path.is_dir(), 'avdDefinitionExists': avd_definition.is_file()
+              }
+              (evidence / 'avd-inventory.json').write_text(json.dumps(inventory, indent=2) + '\n')
+              assert listed.returncode == 0 and avd_name in inventory['listedAvds'], 'Created AVD is not discoverable by the emulator'
+              assert inventory['avdDataDirectoryExists'] and inventory['avdDefinitionExists'], 'Created AVD files are missing from the explicit task directory'
               run(adb, 'start-server')
-              launch = [str(emulator), '-avd', 'knaba-api35', '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot', '-no-metrics', '-gpu', 'software', '-accel', 'on', '-memory', '2048', '-cores', '2', '-camera-front', 'none', '-camera-back', 'none']
+              launch = [str(emulator), '-avd', avd_name, '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot', '-no-metrics', '-gpu', 'software', '-accel', 'on', '-memory', '2048', '-cores', '2', '-camera-front', 'none', '-camera-back', 'none']
               (evidence / 'emulator-command.json').write_text(json.dumps(launch, indent=2) + '\n')
               stage = 'boot'
               with (evidence / 'emulator.log').open('w') as log:
-                  process = subprocess.Popen(launch, stdout=log, stderr=subprocess.STDOUT)
+                  process = subprocess.Popen(launch, stdout=log, stderr=subprocess.STDOUT, env=android_environment)
               deadline = time.monotonic() + 240
               booted = False
               while time.monotonic() < deadline:

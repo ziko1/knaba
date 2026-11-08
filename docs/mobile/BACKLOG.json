@@ -156,9 +156,9 @@
       "description": "Native iOS and Android0.6.0 matching current KNABA website, with two customer-installable test files",
       "source": "User08.11.2026; retain both installable platforms, not simulator substitution",
       "acceptanceDocument": "MOBILE_BRAND_0.6.0_UK.md",
-      "status": "REPO_CI_PASSED_ANDROID_FIXTURE_CORRECTED_NATIVE_RERUN_PENDING_IPA_AND_PUBLIC_ERP_BLOCKED",
+      "status": "ANDROID60_PASSED_AVD_LOOKUP_WORKFLOW_CORRECTION_PENDING_IPA_AND_PUBLIC_ERP_BLOCKED",
       "baseSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
-      "next": "Fresh exact-source native CI after captured-latch fixture correction; APK ordinary install and artifact review; owner Apple signing/profile/registered device; approved ERP public configuration; physical/customer/full-product UAT",
+      "next": "Run exact-source native installation after task-scoped AVD correction; verify downloaded APK/source/signature/installed bytes and iOS Simulator; owner Apple signing and approved ERP plus real customer devices remain required",
       "budget": "no_new_paid_services"
     }
   ],

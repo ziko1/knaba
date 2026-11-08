@@ -1,5 +1,11 @@
 # KNABA Mobile — budget fence
 
+## 2026-11-08 concrete AVD lookup correction
+
+On b9bacbccfd358dbea0fddfde2e9a688fa2717380 all60 Android framework tests and APK/AAB packaging passed, including the corrected regression. libpulse0 installation also passed. The next actual emulator failure is precise: avdmanager creation exited0, KVM was usable, but emulator37.2.13 could not find knaba-api35.ini in its lookup directories. This is not an application install failure: installation never started. Reconcile the two Android tools with a single task-scoped temporary AVD/preferences location, explicit creation path and a mandatory visible-AVD preflight; keep HOME, product inputs, assertions and installation gates unchanged.
+
+Reserve one changed-workflow checkpoint with the existing Android30/iOS50 limits: at most80 additional native runner-minutes, making the website-style ceiling four checkpoints /320 runner-minutes. Existing repository checks may trigger automatically. Standard public-runner compute remains the verified eligible EUR0 category; account/model balances remain UNKNOWN. No unchanged blind rerun, paid activation, larger runner, owner-signing purchase or production change is authorized by this reservation. Final historical failures remain evidence; no APK is labelled installed until a matching installed-byte receipt exists.
+
 ## 2026-11-08 concrete Android fixture correction
 
 Source a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6 passed all four required repository jobs (30 root, 1119 site, 3000 ERP/PostgreSQL, 82 HTTP bridge checks). Its native Android run executed60 framework cases:59 passed and one new regression fixture failed because inherited latch fields shadowed same-named captured locals. The exact Java lookup was reproduced locally; only those fixture identifiers are corrected, with no production or assertion relaxation. Native iOS evidence remains separately bound to its actual source and completion.

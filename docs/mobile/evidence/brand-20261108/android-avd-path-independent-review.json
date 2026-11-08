@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-08T15:53:44+00:00",
+  "reviewer": "/root/brand_design_audit",
+  "author": "/root/release_capabilities",
+  "independent": true,
+  "scope": "Only Android AVD directory discovery correction within .github/workflows/native.yml; no product/source or iOS changes",
+  "baselineCommit": "b9bacbccfd358dbea0fddfde2e9a688fa2717380",
+  "baselineSha256": "a53471d25f109f99de909ab2b850bea1c640761a3cbae9fbd694ab137a5e704a",
+  "reviewedFile": ".github/workflows/native.yml",
+  "reviewedFileSha256": "956bbb5515ff1dc22e30c16ba2935265d09ea8243d4c8929948d532d01fab476",
+  "patchSha256": "f9ac7304efea1566d540b8b5a61072153ef273501bfcd3372b8904b2f5ea0284",
+  "verdict": "ACCEPT_SCOPED_SOURCE_RUNTIME_PENDING",
+  "findings": [],
+  "checks": {
+    "yaml_structure": "PASS",
+    "only_changed_step": "Install and launch the delivered APK on an isolated Android 35 emulator",
+    "bash_syntax_scripts": 12,
+    "embedded_python_syntax_blocks": 5,
+    "subprocess_environment_calls": 3,
+    "explicit_task_paths_and_fail_closed_inventory": "PASS",
+    "all_existing_timeout_arguments_unchanged": "PASS",
+    "job_and_step_timeout_unchanged": "PASS",
+    "boot_install_hash_launch_receipt_and_cleanup_tail_byte_identical": "PASS",
+    "product_roots_no_tracked_or_untracked_changes_vs_b9": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "reasoning": [
+    "ANDROID_USER_HOME and ANDROID_EMULATOR_HOME share an isolated RUNNER_TEMP prefs directory; ANDROID_AVD_HOME is its avd child, eliminating inherited manager/emulator location disagreement. HOME and SDK installation root are not overwritten.",
+    "Every subprocess.run, subprocess.check_output and subprocess.Popen call uses the same copied environment. Only the three task-specific Android path variables are overridden.",
+    "avdmanager create receives an explicit --path. Emulator listing exit status, exact AVD name membership, .ini file and AVD data directory are checked before launch. check=False only permits diagnostic capture; assertions retain failure behavior.",
+    "Inventory records only the three non-secret path values, not the whole inherited process environment. Existing APK/source/signer identity, installed byte comparison, activity/PID checks, cleanup and timeouts are preserved."
+  ],
+  "officialReferences": [
+    {
+      "url": "https://developer.android.com/tools/variables/",
+      "checked": "ANDROID_USER_HOME, ANDROID_EMULATOR_HOME, ANDROID_AVD_HOME and emulator search order"
+    },
+    {
+      "url": "https://developer.android.com/tools/avdmanager",
+      "checked": "Explicit AVD content path via create avd -p; long --path alias additionally confirmed in recorded local help output"
+    },
+    {
+      "url": "https://developer.android.com/studio/run/emulator-commandline",
+      "checked": "emulator -list-avds enumerates discoverable AVD names"
+    }
+  ],
+  "runtimeStatus": "NOT_RUN; no local emulator boot or API35 image claim. Next exact-source hosted native run must prove AVD discovery, boot, installation and launch.",
+  "exclusions": [
+    "Earlier b9 native failure is not marked resolved by source review alone",
+    "No signed release/customer physical install or live backend acceptance",
+    "No source changes or CI reruns performed by reviewer"
+  ],
+  "supplementalAuthorEvidenceReviewed": {
+    "helpOutput": "/workspace/scratch/a3c43ba31037/android-avd-path-local-help/avdmanager-help.txt",
+    "helpSha256": "6633769ab21aa2e09862a547e920a12809965c2f4006a3e1eec2162c5c58c3f7",
+    "receipt": "/workspace/scratch/a3c43ba31037/android-avd-path-local-help/receipt.json",
+    "receiptSha256": "0fcd1c59f3c653a0015fb315af69fd3442ed3e782ef6c9640f1f02a5250dbe04",
+    "observedFlags": [
+      "--path",
+      "--name"
+    ],
+    "exitCode": 1,
+    "scope": "Read and hash-verified author-run usage output; not a successful create/boot or independent rerun"
+  }
+}
