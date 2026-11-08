@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "erp_session_fence",
+  "reviewedAtUtc": "2026-11-08T18:59:06.920652+00:00",
+  "verdict": "ACCEPT_DOCUMENTATION_AND_EVIDENCE_SUBSET_SCOPED",
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "workflowRunId": 42507639872,
+  "findings": [],
+  "method": "Read-only source/receipt comparison; independently hashed all copied receipts and package members; Git blob and append-only verification. No new runtime or CI execution.",
+  "checks": {
+    "unchangedReceiptSubset": {
+      "files": 14,
+      "inventoryAndReadmeAdditionalFiles": 2,
+      "exactBytesAgainstIndependentAcquisition": true,
+      "unexpectedFiles": []
+    },
+    "canonicalAppendOnly": [
+      {
+        "path": "docs/unified/PROJECT_MEMORY.md",
+        "baseSha256": "ae96078c824f7b5d63c232e83d51a373c37acc49f2d8ccb6657e28ad546ddefb",
+        "appendLines": 7,
+        "appendSha256": "9febc28e9464cce4346488ca8fbfd7f29ec23ba02e6b7d2a73332f8b1c05e44a",
+        "priorBytesUnchanged": true
+      },
+      {
+        "path": "docs/unified/MASTER_ROADMAP.md",
+        "baseSha256": "8cb5bce23047c08be1c064eae30effce646697995b592fd8c71501643e7e2a56",
+        "appendLines": 7,
+        "appendSha256": "72e28f0ef51068f520f2a0b7a6aafb7353852a4e0fc02d2a08c3f0c84a3e33ac",
+        "priorBytesUnchanged": true
+      },
+      {
+        "path": "docs/unified/BACKLOG.md",
+        "baseSha256": "bf20a79f41593986d465dd767dbc30376b857320daa363e814afbce886430359",
+        "appendLines": 7,
+        "appendSha256": "d5beed13a13e7508b72c3c0538279069eb033e4469b0bece021e46a82db5c796",
+        "priorBytesUnchanged": true
+      },
+      {
+        "path": "docs/unified/BUDGET.md",
+        "baseSha256": "3e50ca704706ce6d682b643e2ccfc113126169f449497d744b0ba51a81c1d7f6",
+        "appendLines": 7,
+        "appendSha256": "81862ddcb9277783762be47d8dd0fd7e38cca5adba7a354e5d5c7491582a9a13",
+        "priorBytesUnchanged": true
+      }
+    ],
+    "normativeCoverageAndTraceFilesByteUnchanged": true,
+    "exactCandidateTreeAndThreeGitSourceInputs": [
+      {
+        "name": "federationProtocol",
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14764,
+        "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+        "exactCandidateGitBlob": true
+      },
+      {
+        "name": "federationLoginProtocol",
+        "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+        "bytes": 10977,
+        "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+        "exactCandidateGitBlob": true
+      },
+      {
+        "name": "federationEntry",
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 1136,
+        "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+        "exactCandidateGitBlob": true
+      }
+    ],
+    "scopeAndCounts": {
+      "root": 29,
+      "siteVitest": 900,
+      "siteNode": 92,
+      "siteVps": 354,
+      "erpAssertions": 3264,
+      "erpFiles": 148,
+      "erpReporterSuites": 389,
+      "requiredF2PostgreSQL": 24,
+      "requiredF3PostgreSQL": 18,
+      "nodeHttpsHelperSubset": 4,
+      "pairedTotal": 26,
+      "pairedF2Subset": 7,
+      "pairedF3Subset": 8,
+      "renderedTotal": 19,
+      "renderedF3Subset": 10,
+      "siteRoleChecks": 111,
+      "siteLanguageChecks": 32,
+      "publicViewportCases": 24,
+      "failed": 0,
+      "skippedRequiredCases": 0,
+      "renderedRetries": 0,
+      "renderedFlaky": 0
+    },
+    "counting": "All ERP/paired/rendered subsets remain inside their respective totals; repeated peer review and native metadata are not extra test cases.",
+    "renderedBoundary": "19 actual rendered tests with explicit synthetic HTTP fixtures; first WEB case uses real 303/loopback HTTPS reception and browser cookies. This does not turn its fixture data into an actual database pair.",
+    "runtimePairBoundary": "26 actual VPS SQLite/signed ERP HTTP/PostgreSQL cases; 8 F3 and 7 F2 are subsets.",
+    "buildArtifactBoundary": "Clean exact-SHA CI manifest checked before/after by existing wrapper. Three committed protocol/entry blobs independently matched. Four complete dist groups are not in downloaded archives and were not locally rehashed.",
+    "nativeBoundary": {
+      "currentAndroidRun": 42507639781,
+      "currentAndroidConclusion": "SUCCESS",
+      "currentIosRun": 42507639722,
+      "currentIosConclusion": "SKIPPED",
+      "uniqueUnchangedInputs": 121,
+      "priorArtifactSource": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "priorAndroidCases": 72,
+      "priorXCTestCases": 145,
+      "priorSimulatorInstallLaunch": "PASS",
+      "newNativeArchivesDownloaded": false
+    },
+    "historicalFailures": "af6 dispatcher, a202 locator/same-site, 77b64956 redirect DNS remain FAILED retrospective checkpoints; canonical prior bytes and failure-package evidence preserved.",
+    "budget": {
+      "transportReservation": "USED",
+      "nextCombinedSourceReservations": 1,
+      "newPaidActivationCeiling": "EUR0",
+      "accountBalancesQuotasAndExistingCosts": "UNKNOWN",
+      "newWorkflowJobsOrManualDispatchApproved": false
+    },
+    "package": {
+      "path": "/workspace/scratch/c56161c95e04/deliverables/KNABA-DE-F3-verified-6a395bb.zip",
+      "bytes": 305645,
+      "sha256": "351b124d75214ec1cffad45efc20242e8dd3e7da7e57f52203e4b3a240af7436",
+      "entries": 33,
+      "zipCrc": "PASS",
+      "memberHashesVerified": 33,
+      "checksumEntriesVerified": 32,
+      "libraryUrlMatchesStoredDeliveryReceipt": true
+    },
+    "wholeProduct": "NOT_READY",
+    "newNativePrivacySourceAcceptance": "PENDING_OWN_EXACT_CANDIDATE_CHECKPOINT"
+  },
+  "limitations": [
+    "No new CI/build/test/browser/PostgreSQL/native/device/provider execution or downloads.",
+    "No independent local rehash of omitted full dist groups.",
+    "Stored Library delivery metadata was checked; no fresh network availability assertion.",
+    "No new legal/privacy classification, production TLS, app-link/signing/store, load/restore/company UAT or whole compound acceptance."
+  ],
+  "reviewHarnessCorrection": "First verification attempt stopped before reading snapshots due to two assumed normative filenames. Actual dated coverage markdown and CSV paths were used on rerun; initial traceback is preserved in checks-initial-path-error.log. This was not a product test failure.",
+  "inputsBefore": [
+    {
+      "path": "knaba/docs/unified/PROJECT_MEMORY.md",
+      "bytes": 95132,
+      "sha256": "4c3f564c4dc27880d4bc53a084738642baa69cd2d3764086dfcc35dbe73443eb"
+    },
+    {
+      "path": "knaba/docs/unified/MASTER_ROADMAP.md",
+      "bytes": 39950,
+      "sha256": "efceb1bc7d3d2103ff95f3db8c6944e0d124960b26eb51874845acc326c222b7"
+    },
+    {
+      "path": "knaba/docs/unified/BACKLOG.md",
+      "bytes": 49524,
+      "sha256": "621ad2e736c71f99de1670afa73863f507ccb1bd0b7014b44bbbb779ea508fce"
+    },
+    {
+      "path": "knaba/docs/unified/BUDGET.md",
+      "bytes": 23853,
+      "sha256": "b8300f9ed6898689fff4e745a84901b3d59cdbfe981a16f5e0270b11fc077d49"
+    },
+    {
+      "path": "knaba/docs/unified/F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md",
+      "bytes": 6912,
+      "sha256": "ad02b7388dde129063ff9c2806e46afa88a2e8689a85a219d62e4373175cb5bb"
+    },
+    {
+      "path": "knaba/docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "bytes": 36960,
+      "sha256": "529ee6d0666a129501570f2485f4a0fa8fbc95f8122f67051e1d8bfb20246db5"
+    },
+    {
+      "path": "knaba/docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "bytes": 110565,
+      "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/independent-acceptance.json",
+      "bytes": 9214,
+      "sha256": "a80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/erp-scoped-review.json",
+      "bytes": 3560,
+      "sha256": "9f758b9daaa51171f16aafbb8ade7d0e6fe8c5084f559617fe8b8c2b55f87f6e"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-pair-scoped-review.json",
+      "bytes": 7630,
+      "sha256": "d4e5d1f62def151e5daddaaf6e9372f6038784e585955207b79c7597cdb1fcc8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/root-site-scoped-review.json",
+      "bytes": 1014,
+      "sha256": "8737269589385d83afcc59db5b735be0aa446f15776a5b3d5c1c41bf35c273c6"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-case-results.json",
+      "bytes": 7104,
+      "sha256": "bc85f900f57a2ee0e7af2ce2f13c79e2e7c365e490386c2588b98cee086da78e"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/paired-case-results.json",
+      "bytes": 4462,
+      "sha256": "b549a6e9c67fb4eb679efe1866a3cf4308722d53ce415b8d7601b0e684e3e185"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/jobs-final.json",
+      "bytes": 11130,
+      "sha256": "b87fd6dbf295ff0535d0383d934c430d25b81f9bf5ecd1823995e3f6747d94bc"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/pr-runs-final.json",
+      "bytes": 1191,
+      "sha256": "59a97cb91fa33798eca0398fe8e095b414b47b9dea3bb502c5941c89ee7ecb5c"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/native-input-equivalence.json",
+      "bytes": 236,
+      "sha256": "190f85cd6167130a61256dd9c0bcf61476865000e35d863d4dd0c1a6d91a2f40"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/artifacts-api.json",
+      "bytes": 1723,
+      "sha256": "120e6f9dfd422525ee4831ccd6ec9a644d7ac5f0831c7078d32d20a442877d9d"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 3689,
+      "sha256": "e51aa0aec33f9e0afaf1fe30a1312922e7931402a80d280d7d1b4bbb963a3d83"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/inventory.json",
+      "bytes": 2362,
+      "sha256": "104361b0bd161d4a6a1e03cf5c16a234eb09c343c2ae35b007473ef86666a454"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/README.md",
+      "bytes": 832,
+      "sha256": "75049f708ec92d9e7b8c88020ac25bdb01fae22c3c54a3eba2bbbf0848d66a98"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/independent-acceptance.json",
+      "bytes": 9214,
+      "sha256": "a80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/erp-scoped-review.json",
+      "bytes": 3560,
+      "sha256": "9f758b9daaa51171f16aafbb8ade7d0e6fe8c5084f559617fe8b8c2b55f87f6e"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-pair-scoped-review.json",
+      "bytes": 7630,
+      "sha256": "d4e5d1f62def151e5daddaaf6e9372f6038784e585955207b79c7597cdb1fcc8"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/root-site-scoped-review.json",
+      "bytes": 1014,
+      "sha256": "8737269589385d83afcc59db5b735be0aa446f15776a5b3d5c1c41bf35c273c6"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-case-results.json",
+      "bytes": 7104,
+      "sha256": "bc85f900f57a2ee0e7af2ce2f13c79e2e7c365e490386c2588b98cee086da78e"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/paired-case-results.json",
+      "bytes": 4462,
+      "sha256": "b549a6e9c67fb4eb679efe1866a3cf4308722d53ce415b8d7601b0e684e3e185"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/jobs-final.json",
+      "bytes": 11130,
+      "sha256": "b87fd6dbf295ff0535d0383d934c430d25b81f9bf5ecd1823995e3f6747d94bc"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/pr-runs-final.json",
+      "bytes": 1191,
+      "sha256": "59a97cb91fa33798eca0398fe8e095b414b47b9dea3bb502c5941c89ee7ecb5c"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/native-input-equivalence.json",
+      "bytes": 236,
+      "sha256": "190f85cd6167130a61256dd9c0bcf61476865000e35d863d4dd0c1a6d91a2f40"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/artifacts-api.json",
+      "bytes": 1723,
+      "sha256": "120e6f9dfd422525ee4831ccd6ec9a644d7ac5f0831c7078d32d20a442877d9d"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 3689,
+      "sha256": "e51aa0aec33f9e0afaf1fe30a1312922e7931402a80d280d7d1b4bbb963a3d83"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/bundle-build-receipt.json",
+      "bytes": 6384,
+      "sha256": "96326fe1ebbdd16b282f27c47566d18d6a87d3646e4162f95556345b13d1f646"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/bundle-library.json",
+      "bytes": 687,
+      "sha256": "50d8c62276b0a3fae64dcdecb7fc7aec783a4def9bc811a84a1b9ef2cfb21fec"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/validation.json",
+      "bytes": 2408,
+      "sha256": "1f8b67f453b0924796b5dd0910ec80e46c212159da5f611043f8a3cabc8beab7"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/prior-failures.json",
+      "bytes": 2500,
+      "sha256": "6ac13ab190bfab8a505d34b913ac6235f54ed8e63a3d83b70255e9348d4a8b2c"
+    },
+    {
+      "path": "deliverables/KNABA-DE-F3-verified-6a395bb.zip",
+      "bytes": 305645,
+      "sha256": "351b124d75214ec1cffad45efc20242e8dd3e7da7e57f52203e4b3a240af7436"
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/android-independent-review.json",
+      "bytes": 33801,
+      "sha256": "9ed4d56bd8374159c8ac826f62fdd59155427ab84e392cb6621ab42433b1db81"
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/ios-independent-review.json",
+      "bytes": 47082,
+      "sha256": "eedb6bb44afa5a5ae9452e0c58ee86c5104058924e1cc7b665c82ae4615ec44f"
+    }
+  ],
+  "inputsAfter": [
+    {
+      "path": "knaba/docs/unified/PROJECT_MEMORY.md",
+      "bytes": 95132,
+      "sha256": "4c3f564c4dc27880d4bc53a084738642baa69cd2d3764086dfcc35dbe73443eb"
+    },
+    {
+      "path": "knaba/docs/unified/MASTER_ROADMAP.md",
+      "bytes": 39950,
+      "sha256": "efceb1bc7d3d2103ff95f3db8c6944e0d124960b26eb51874845acc326c222b7"
+    },
+    {
+      "path": "knaba/docs/unified/BACKLOG.md",
+      "bytes": 49524,
+      "sha256": "621ad2e736c71f99de1670afa73863f507ccb1bd0b7014b44bbbb779ea508fce"
+    },
+    {
+      "path": "knaba/docs/unified/BUDGET.md",
+      "bytes": 23853,
+      "sha256": "b8300f9ed6898689fff4e745a84901b3d59cdbfe981a16f5e0270b11fc077d49"
+    },
+    {
+      "path": "knaba/docs/unified/F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md",
+      "bytes": 6912,
+      "sha256": "ad02b7388dde129063ff9c2806e46afa88a2e8689a85a219d62e4373175cb5bb"
+    },
+    {
+      "path": "knaba/docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "bytes": 36960,
+      "sha256": "529ee6d0666a129501570f2485f4a0fa8fbc95f8122f67051e1d8bfb20246db5"
+    },
+    {
+      "path": "knaba/docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "bytes": 110565,
+      "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/independent-acceptance.json",
+      "bytes": 9214,
+      "sha256": "a80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/erp-scoped-review.json",
+      "bytes": 3560,
+      "sha256": "9f758b9daaa51171f16aafbb8ade7d0e6fe8c5084f559617fe8b8c2b55f87f6e"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-pair-scoped-review.json",
+      "bytes": 7630,
+      "sha256": "d4e5d1f62def151e5daddaaf6e9372f6038784e585955207b79c7597cdb1fcc8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/root-site-scoped-review.json",
+      "bytes": 1014,
+      "sha256": "8737269589385d83afcc59db5b735be0aa446f15776a5b3d5c1c41bf35c273c6"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-case-results.json",
+      "bytes": 7104,
+      "sha256": "bc85f900f57a2ee0e7af2ce2f13c79e2e7c365e490386c2588b98cee086da78e"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/paired-case-results.json",
+      "bytes": 4462,
+      "sha256": "b549a6e9c67fb4eb679efe1866a3cf4308722d53ce415b8d7601b0e684e3e185"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/jobs-final.json",
+      "bytes": 11130,
+      "sha256": "b87fd6dbf295ff0535d0383d934c430d25b81f9bf5ecd1823995e3f6747d94bc"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/pr-runs-final.json",
+      "bytes": 1191,
+      "sha256": "59a97cb91fa33798eca0398fe8e095b414b47b9dea3bb502c5941c89ee7ecb5c"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/native-input-equivalence.json",
+      "bytes": 236,
+      "sha256": "190f85cd6167130a61256dd9c0bcf61476865000e35d863d4dd0c1a6d91a2f40"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/artifacts-api.json",
+      "bytes": 1723,
+      "sha256": "120e6f9dfd422525ee4831ccd6ec9a644d7ac5f0831c7078d32d20a442877d9d"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 3689,
+      "sha256": "e51aa0aec33f9e0afaf1fe30a1312922e7931402a80d280d7d1b4bbb963a3d83"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/inventory.json",
+      "bytes": 2362,
+      "sha256": "104361b0bd161d4a6a1e03cf5c16a234eb09c343c2ae35b007473ef86666a454"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-f3/actual-6a395bb/README.md",
+      "bytes": 832,
+      "sha256": "75049f708ec92d9e7b8c88020ac25bdb01fae22c3c54a3eba2bbbf0848d66a98"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/independent-acceptance.json",
+      "bytes": 9214,
+      "sha256": "a80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/erp-scoped-review.json",
+      "bytes": 3560,
+      "sha256": "9f758b9daaa51171f16aafbb8ade7d0e6fe8c5084f559617fe8b8c2b55f87f6e"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-pair-scoped-review.json",
+      "bytes": 7630,
+      "sha256": "d4e5d1f62def151e5daddaaf6e9372f6038784e585955207b79c7597cdb1fcc8"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/root-site-scoped-review.json",
+      "bytes": 1014,
+      "sha256": "8737269589385d83afcc59db5b735be0aa446f15776a5b3d5c1c41bf35c273c6"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-case-results.json",
+      "bytes": 7104,
+      "sha256": "bc85f900f57a2ee0e7af2ce2f13c79e2e7c365e490386c2588b98cee086da78e"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/paired-case-results.json",
+      "bytes": 4462,
+      "sha256": "b549a6e9c67fb4eb679efe1866a3cf4308722d53ce415b8d7601b0e684e3e185"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/jobs-final.json",
+      "bytes": 11130,
+      "sha256": "b87fd6dbf295ff0535d0383d934c430d25b81f9bf5ecd1823995e3f6747d94bc"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/pr-runs-final.json",
+      "bytes": 1191,
+      "sha256": "59a97cb91fa33798eca0398fe8e095b414b47b9dea3bb502c5941c89ee7ecb5c"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/native-input-equivalence.json",
+      "bytes": 236,
+      "sha256": "190f85cd6167130a61256dd9c0bcf61476865000e35d863d4dd0c1a6d91a2f40"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/artifacts-api.json",
+      "bytes": 1723,
+      "sha256": "120e6f9dfd422525ee4831ccd6ec9a644d7ac5f0831c7078d32d20a442877d9d"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-actual/browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 3689,
+      "sha256": "e51aa0aec33f9e0afaf1fe30a1312922e7931402a80d280d7d1b4bbb963a3d83"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/bundle-build-receipt.json",
+      "bytes": 6384,
+      "sha256": "96326fe1ebbdd16b282f27c47566d18d6a87d3646e4162f95556345b13d1f646"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/bundle-library.json",
+      "bytes": 687,
+      "sha256": "50d8c62276b0a3fae64dcdecb7fc7aec783a4def9bc811a84a1b9ef2cfb21fec"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/validation.json",
+      "bytes": 2408,
+      "sha256": "1f8b67f453b0924796b5dd0910ec80e46c212159da5f611043f8a3cabc8beab7"
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-delivery-prep/prior-failures.json",
+      "bytes": 2500,
+      "sha256": "6ac13ab190bfab8a505d34b913ac6235f54ed8e63a3d83b70255e9348d4a8b2c"
+    },
+    {
+      "path": "deliverables/KNABA-DE-F3-verified-6a395bb.zip",
+      "bytes": 305645,
+      "sha256": "351b124d75214ec1cffad45efc20242e8dd3e7da7e57f52203e4b3a240af7436"
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/android-independent-review.json",
+      "bytes": 33801,
+      "sha256": "9ed4d56bd8374159c8ac826f62fdd59155427ab84e392cb6621ab42433b1db81"
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/ios-independent-review.json",
+      "bytes": 47082,
+      "sha256": "eedb6bb44afa5a5ae9452e0c58ee86c5104058924e1cc7b665c82ae4615ec44f"
+    }
+  ],
+  "inputsUnchanged": true,
+  "repositoryEdits": false
+}

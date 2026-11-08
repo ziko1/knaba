@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "reviewedAtUtc": "2026-11-08T18:10:10.238547+00:00",
+  "verdict": "ACCEPT_F3_TECHNICAL_AGGREGATE_SCOPED",
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "workflowRunId": 42507639872,
+  "workflowUrl": "https://github.com/ziko1/knaba/actions/runs/42507639872",
+  "method": "Independent read-only acquisition of completed GitHub jobs, original artifact ZIPs and reports. No rerun, dispatch, rebuild, browser launch, source edit or provider/deployment operation.",
+  "requiredJobs": [
+    {
+      "id": 128813648519,
+      "name": "Corporate site checks and production build",
+      "conclusion": "success"
+    },
+    {
+      "id": 128813648707,
+      "name": "Source integrity and policy tests",
+      "conclusion": "success"
+    },
+    {
+      "id": 128813648827,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "conclusion": "success"
+    },
+    {
+      "id": 128813648982,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "conclusion": "success"
+    }
+  ],
+  "failureSummary": {
+    "jobId": 128815492525,
+    "conclusion": "skipped",
+    "reason": "Failure-only reporting job; all four mandatory jobs succeeded."
+  },
+  "acceptedScope": "Current F3 server/web technical password-based federation contract, including real signed SQLite VPS to ERP HTTP/PostgreSQL pair, required PostgreSQL cases, and separate actual rendered browser HTTP-fixture acceptance. This gate permits the next separately reviewed dependent source work; it does not close broader project acceptance.",
+  "counts": {
+    "root": 29,
+    "siteVitest": 900,
+    "siteNode": 92,
+    "siteVps": 354,
+    "erpAssertions": 3264,
+    "erpFiles": 148,
+    "erpReporterSuites": 389,
+    "requiredF2PostgreSQL": 24,
+    "requiredF3PostgreSQL": 18,
+    "nodeHttpsHelperSubset": 4,
+    "pairedTotal": 26,
+    "pairedF2Subset": 7,
+    "pairedF3Subset": 8,
+    "renderedTotal": 19,
+    "renderedF3Subset": 10,
+    "siteRoleChecks": 111,
+    "siteLanguageChecks": 32,
+    "publicViewportCases": 24,
+    "failed": 0,
+    "skippedRequiredCases": 0,
+    "renderedRetries": 0,
+    "renderedFlaky": 0
+  },
+  "counting": "Counts are reported by suite, without adding overlapping subsets or repeated peer reviews. Native counts are not reattributed to this commit.",
+  "buildBudgets": {
+    "allEmittedJsGzipBytes": 222640,
+    "jsLimitBytes": 225280,
+    "cssGzipBytes": 40832,
+    "cssLimitBytes": 40960,
+    "htmlPages": 161,
+    "fieldWebVitals": "NOT_RUN"
+  },
+  "native": {
+    "androidRunId": 42507639781,
+    "androidWorkflowConclusion": "success",
+    "iosPullRequestRunId": 42507639722,
+    "iosPullRequestConclusion": "skipped",
+    "equivalence": {
+      "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+      "priorArtifactCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "androidInputs": 68,
+      "iosInputs": 54,
+      "uniqueInputs": 121,
+      "gitDiffExit": 0,
+      "changes": []
+    },
+    "newNativeArchivesDownloaded": false,
+    "limits": "Metadata/equivalence review only. Prior accepted af6 artifact evidence remains pinned to af6. Current APK/AAB/IPA signer, physical device, upgrade compatibility, native SSO adapter and store readiness are not inferred."
+  },
+  "sourceArtifactBinding": {
+    "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+    "sourceTree": "e81d6947e96038174d9ec8e2741250713b804396",
+    "sourceCleanInCIManifest": true,
+    "manifest": {
+      "path": "browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    "manifestCopiesByteIdentical": true,
+    "inputsUnchangedBeforeAfterInCI": true,
+    "ciBuiltArtifactGroups": {
+      "siteClient": {
+        "path": "corporate-site/dist/client",
+        "files": 310,
+        "bytes": 6893044,
+        "sha256": "62d5f4cf0f5cafdf898c36ae1b706e3bd034ff72a1ef4845b1c16eb7de1cecf6"
+      },
+      "siteWorker": {
+        "path": "corporate-site/dist/server",
+        "files": 3,
+        "bytes": 551955,
+        "sha256": "400a16653b06db0aee53278f58d9964f8b17554f6525b8d38a127c23749bd655"
+      },
+      "siteVps": {
+        "path": "corporate-site/dist/vps",
+        "files": 4,
+        "bytes": 288696,
+        "sha256": "7834ce3a5bbf41d126f921fa8311eb279a0fe9d878e91732c5ca33fac0396943"
+      },
+      "erpDist": {
+        "path": "erp/dist",
+        "files": 12,
+        "bytes": 11193076,
+        "sha256": "f6a44b68076f7a861ad8ac9af049128b2504f396eb28279e3f805e4a273157f0"
+      }
+    },
+    "explicitSourceInputsVerifiedAgainstGitBlobs": {
+      "federationProtocol": {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14764,
+        "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e"
+      },
+      "federationLoginProtocol": {
+        "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+        "bytes": 10977,
+        "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+      },
+      "federationEntry": {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 1136,
+        "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc"
+      }
+    },
+    "committedInventoryInputsVerified": 15,
+    "independentDistRehash": "NOT_PERFORMED: the four build directories are not included in the downloaded archive; their digests are produced and checked before/after by the exact committed CI wrapper.",
+    "playwrightMetadata": {
+      "checkedOutGitCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+      "ciEventCommitHash": "7f6a1d4cd0076ee15e377ac467b18d2d72ed1ac2",
+      "note": "GitHub PR-event merge metadata differs from the explicitly checked-out source. Git commit metadata, SOURCE_SHA logs, clean build manifest and API artifact head_sha bind this review to SOURCE."
+    }
+  },
+  "archives": [
+    {
+      "path": "erp-6a395bb.zip",
+      "bytes": 156409,
+      "sha256": "77a70191dd1dfd5f70f811a72d7a99966b0c559af846060dedd14d124590a5f5",
+      "artifactId": 13628710919,
+      "apiDigestMatched": true,
+      "apiSourceMatched": true,
+      "entryCount": 1,
+      "acquisitionChecks": [
+        "CRC valid",
+        "unique safe non-symlink paths",
+        "bounded extraction"
+      ]
+    },
+    {
+      "path": "browser-6a395bb.zip",
+      "bytes": 6497770,
+      "sha256": "cc46bcaa9a2a1c441196a51bebc9ad91cf7a73a9a115c6d0294bcf20ed73196c",
+      "artifactId": 13628586440,
+      "apiDigestMatched": true,
+      "apiSourceMatched": true,
+      "entryCount": 19,
+      "acquisitionChecks": [
+        "CRC valid",
+        "unique safe non-symlink paths",
+        "bounded extraction"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "path": "jobs-final.json",
+      "bytes": 11130,
+      "sha256": "b87fd6dbf295ff0535d0383d934c430d25b81f9bf5ecd1823995e3f6747d94bc"
+    },
+    {
+      "path": "pr-runs-final.json",
+      "bytes": 1191,
+      "sha256": "59a97cb91fa33798eca0398fe8e095b414b47b9dea3bb502c5941c89ee7ecb5c"
+    },
+    {
+      "path": "artifacts-api.json",
+      "bytes": 1723,
+      "sha256": "120e6f9dfd422525ee4831ccd6ec9a644d7ac5f0831c7078d32d20a442877d9d"
+    },
+    {
+      "path": "root-site-scoped-review.json",
+      "bytes": 1014,
+      "sha256": "8737269589385d83afcc59db5b735be0aa446f15776a5b3d5c1c41bf35c273c6"
+    },
+    {
+      "path": "erp-scoped-review.json",
+      "bytes": 3560,
+      "sha256": "9f758b9daaa51171f16aafbb8ade7d0e6fe8c5084f559617fe8b8c2b55f87f6e"
+    },
+    {
+      "path": "browser-pair-scoped-review.json",
+      "bytes": 7630,
+      "sha256": "d4e5d1f62def151e5daddaaf6e9372f6038784e585955207b79c7597cdb1fcc8"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "native-input-equivalence.json",
+      "bytes": 236,
+      "sha256": "190f85cd6167130a61256dd9c0bcf61476865000e35d863d4dd0c1a6d91a2f40"
+    },
+    {
+      "path": "site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "verify-acquired-evidence.py",
+      "bytes": 16678,
+      "sha256": "a6d04935303cb9462d331c3d700122af29497a67f368f7444282a93241aec6fd"
+    }
+  ],
+  "remainingOpen": [
+    "F3 native client browser/PKCE/session adoption implementation and its independent native acceptance.",
+    "F4 remaining feature-specific consumers and native remote push implementation where required.",
+    "Identity privacy export/retention/erase, F5 and broader legal/privacy acceptance.",
+    "Provider, live environment, real customer accounts, physical device/update/store and production release acceptance.",
+    "All canonical whole-AC statuses and broader project readiness remain unchanged by this scoped gate."
+  ],
+  "deliveryRule": "Original browser ZIP is retained locally for QA. Future text-only delivery excludes browser images, traces, HTML and native binaries; include bounded logs/JSON/receipts and safe ERP report archive only."
+}

@@ -21,12 +21,15 @@ import java.util.regex.Pattern;
 
 /** Separate in-memory ERP actor session; never reuses an employee GPS token. */
 class ErpConsoleTransport {
-    private static final Pattern COOKIE = Pattern.compile("(?:^|[,;]\\s*)knaba_session=([A-Za-z0-9_-]{30,100})(?=[;,]|$)");
+    private static final Pattern COOKIE = Pattern.compile("(?:^|[,;]\\s*)knaba_session=(KF3\\.[A-Za-z0-9_-]{43}|[A-Za-z0-9_-]{30,100})(?=[;,]|$)");
     private static final int MAX_RESPONSE_BYTES = 2 * 1024 * 1024;
     private String origin = "";
     private String cookie = "";
     private String csrf = "";
     private long epoch;
+    private long authorityRevision;
+    private ErpFederationLogin federationAttempt;
+    private boolean retired;
     private PendingCommand pending;
     private String blockedNativeMediaKey = "";
     private String actorScope = "";
@@ -93,16 +96,69 @@ class ErpConsoleTransport {
     }
 
     synchronized void configure(String value) {
+        if(retired) throw new IllegalStateException("SESSION_RETIRED");
         String next = ErpOriginPolicy.origin(value);
         if (!next.equals(origin)) clear();
         origin = next;
     }
-    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; blockedNativeMediaKey=""; actorScope = ""; actorAuthority = ""; sensitiveFlight = false; }
+    synchronized void clear() {
+        if (federationAttempt != null) federationAttempt.cancel();
+        federationAttempt=null;
+        epoch++; authorityRevision++; cookie = ""; csrf = ""; pending = null; blockedNativeMediaKey=""; actorScope = ""; actorAuthority = ""; sensitiveFlight = false;
+    }
     synchronized boolean isSignedIn() { return !cookie.isEmpty() && !csrf.isEmpty(); }
     synchronized String origin() { return origin; }
     synchronized boolean hasPendingCommand() { return pending != null || !blockedNativeMediaKey.isEmpty(); }
     synchronized boolean hasNativeMediaPending() { return !blockedNativeMediaKey.isEmpty() || pending!=null&&pending.nativeMedia; }
     synchronized long sessionRevision() { return epoch; }
+    /** Includes same-user observations/credential refresh, independent of command/media session epochs. */
+    static final class FederationBinding {
+        final String origin;
+        String cookie, csrf, scope, authority;
+        final long epoch, revision;
+        FederationBinding(ErpConsoleTransport owner) {
+            origin=owner.origin; cookie=owner.cookie; csrf=owner.csrf; scope=owner.actorScope;
+            authority=owner.actorAuthority; epoch=owner.epoch; revision=owner.authorityRevision;
+        }
+        void forget() { cookie=""; csrf=""; scope=""; authority=""; }
+    }
+    synchronized ErpFederationLogin federationLogin(boolean testBuild) {
+        return federationLogin(testBuild, ErpFederationLogin.SYSTEM_CLOCK);
+    }
+    synchronized ErpFederationLogin federationLogin(boolean testBuild, ErpFederationLogin.Clock clock) {
+        if(retired) throw new IllegalStateException("SESSION_RETIRED");
+        if (federationAttempt != null) federationAttempt.cancel();
+        federationAttempt = new ErpFederationLogin(this, connections, new FederationBinding(this), testBuild, clock);
+        return federationAttempt;
+    }
+    synchronized void requireFederation(ErpFederationLogin attempt, FederationBinding binding) throws Failure {
+        if (retired || federationAttempt != attempt || binding.epoch != epoch || binding.revision != authorityRevision ||
+            !binding.origin.equals(origin) || !binding.cookie.equals(cookie) || !binding.csrf.equals(csrf) ||
+            !binding.scope.equals(actorScope) || !binding.authority.equals(actorAuthority) || sensitiveFlight)
+            throw new Failure(0, "FEDERATION_SUPERSEDED", false);
+    }
+    /** Prepare encrypted recovery reads before changing any current account field; no journal writes. */
+    synchronized ErpConsoleTransport adoptFederation(ErpFederationLogin attempt, FederationBinding binding, String candidate, JSONObject profile) throws Exception {
+        requireFederation(attempt, binding);
+        ErpFederationLogin.validateProfile(profile);
+        if (!candidate.matches("KF3\\.[A-Za-z0-9_-]{43}") || candidate.equals(binding.cookie))
+            throw new Failure(0,"FEDERATION_COOKIE_INVALID",false);
+        ErpConsoleTransport prepared = new ErpConsoleTransport(connections,journal,mediaJournal);
+        prepared.origin=origin; prepared.epoch=epoch+1; prepared.authorityRevision=authorityRevision+1;
+        prepared.cookie=candidate; prepared.csrf=profile.getString("csrfToken");
+        prepared.actorScope=prepared.scope(profile.getJSONObject("actor"));
+        prepared.actorAuthority=prepared.authority(profile.getJSONObject("actor"));
+        prepared.restorePending(true);
+        requireFederation(attempt,binding);
+        attempt.requireAdoption();
+        // Old closures keep this instance. It must never inherit or regain the replacement credentials.
+        retired=true; epoch++; authorityRevision++; cookie=""; csrf=""; actorScope=""; actorAuthority="";
+        pending=null; blockedNativeMediaKey=""; sensitiveFlight=false; federationAttempt=null;
+        return prepared;
+    }
+    synchronized long federationAuthorityRevision() { return authorityRevision; }
+    synchronized boolean federationAdoptionCurrent(long revision) { return !retired && authorityRevision == revision && isSignedIn(); }
+    synchronized void forgetFederation(ErpFederationLogin attempt) { if(federationAttempt==attempt) federationAttempt=null; }
     static final class MediaTicket {
         private final ErpConsoleTransport owner;
         private final Session session;
@@ -313,7 +369,29 @@ class ErpConsoleTransport {
         }
         return canonical(normalized);
     }
-    private void restorePending() throws Exception {
+    private void restorePending() throws Exception { restorePending(false); }
+    private void restorePending(boolean strictAdoption) throws Exception {
+        List<ErpMedia.Record> candidateMedia = null;
+        if(strictAdoption) {
+            // A failed encrypted-media read is not an empty account. Validate before retiring the old transport.
+            List<ErpMedia.Record> savedMedia;
+            try { savedMedia=mediaJournal.read(actorScope); }
+            catch(Exception error) {
+                boolean invalid=error instanceof org.json.JSONException || error instanceof IllegalArgumentException ||
+                    error instanceof Failure && ((Failure)error).code.equals("MEDIA_RECOVERY_INVALID");
+                throw new Failure(0,invalid?"RECOVERY_STORAGE_INVALID":"RECOVERY_STORAGE_UNAVAILABLE",false);
+            }
+            try {
+                if(savedMedia==null || savedMedia.size()>ErpMedia.QUEUE_LIMIT)throw new IllegalArgumentException();
+                candidateMedia=new ArrayList<>();
+                java.util.Set<String> uploads=new java.util.HashSet<>(), registrations=new java.util.HashSet<>();
+                for(ErpMedia.Record stored:savedMedia) {
+                    ErpMedia.Record record=new ErpMedia.Record(stored.json());
+                    if(!actorScope.equals(record.scope()) || !uploads.add(record.key()) || !registrations.add(record.registerKey()))throw new IllegalArgumentException();
+                    candidateMedia.add(record);
+                }
+            } catch(Exception error) { throw new Failure(0,"RECOVERY_STORAGE_INVALID",false); }
+        }
         String saved;
         try { saved = journal.read(actorScope); }
         catch (Exception error) { throw new Failure(0, "RECOVERY_STORAGE_UNAVAILABLE", false); }
@@ -331,11 +409,16 @@ class ErpConsoleTransport {
             if(nativeMedia) {
                 if(!name.equals("media.register"))throw new IllegalArgumentException();
                 ErpMedia.Record linked=null;
-                try { for(ErpMedia.Record media:mediaJournal.read(actorScope))if(media.registerKey().equals(key))linked=media; }
-                catch(Exception invalid) { blockedNativeMediaKey=key; return; }
+                try { for(ErpMedia.Record media:strictAdoption?candidateMedia:mediaJournal.read(actorScope))if(media.registerKey().equals(key))linked=media; }
+                catch(Exception invalid) { if(strictAdoption)throw new IllegalArgumentException(); blockedNativeMediaKey=key; return; }
                 String currentAuthority=ErpMedia.hash(actorAuthority.getBytes(StandardCharsets.UTF_8));
-                if(linked==null || !linked.authority().equals(currentAuthority) || linked.uploadId().isEmpty() ||
-                    !ErpMedia.canonical(linked.registerInput()).equals(ErpMedia.canonical(body.getJSONObject("input")))) { blockedNativeMediaKey=key; return; }
+                if(linked==null || linked.uploadId().isEmpty() ||
+                    !ErpMedia.canonical(linked.registerInput()).equals(ErpMedia.canonical(body.getJSONObject("input")))) {
+                    if(strictAdoption)throw new IllegalArgumentException();
+                    blockedNativeMediaKey=key; return;
+                }
+                // A structurally valid old-authority receipt is historical recovery, not corrupt storage.
+                if(!linked.authority().equals(currentAuthority)) { blockedNativeMediaKey=key; return; }
             }
             JSONObject fingerprintBody = new JSONObject(body.toString()); fingerprintBody.remove("idempotency_key");
             pending = new PendingCommand(name + ":" + canonical(fingerprintBody), name, body.toString(), capture(), actorScope,nativeMedia);
@@ -439,12 +522,13 @@ class ErpConsoleTransport {
                     JSONObject actor = result.optJSONObject("actor");
                     if (nextCookie == null || !proof.matches("[A-Za-z0-9_-]{30,100}") || actor == null || actor.optString("userId").isEmpty() || actor.optString("companyId").isEmpty())
                         throw new Failure(status, "LOGIN_RESPONSE_INVALID", false);
-                    cookie = nextCookie; csrf = proof;
+                    cookie = nextCookie; csrf = proof; authorityRevision++;
                     try { actorScope = scope(actor); actorAuthority = authority(actor); restorePending(); }
                     catch (Exception error) { clear(); throw error; }
                 } else if (authenticated && result.has("csrfToken")) {
                     String proof = result.optString("csrfToken");
                     if (!proof.matches("[A-Za-z0-9_-]{30,100}")) throw new Failure(status, "INVALID_RESPONSE", mutation && submitted);
+                    if (!csrf.equals(proof)) authorityRevision++;
                     csrf = proof;
                 }
             }
@@ -479,7 +563,7 @@ class ErpConsoleTransport {
         JSONObject body = new JSONObject().put("email", email.trim()).put("password", password);
         if (otp != null && !otp.isEmpty()) body.put("otp", otp);
         final Session session;
-        synchronized (this) { clear(); session = capture(); }
+        synchronized (this) { if(retired) throw new Failure(0,"SESSION_RETIRED",false); clear(); session = capture(); }
         // Never hold the session monitor over network I/O: logout must invalidate immediately.
         return call("/api/v1/auth/login", body, false, true, session, false);
     }
@@ -499,6 +583,8 @@ class ErpConsoleTransport {
             if (!valid) {
                 clear(); throw new Failure(0, "ACCESS_CHANGED", false);
             }
+            // Even an otherwise identical current-actor refresh supersedes a pending browser adoption.
+            authorityRevision++;
         }
         return result;
     }

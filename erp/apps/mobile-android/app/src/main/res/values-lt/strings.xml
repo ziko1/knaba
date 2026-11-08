@@ -355,4 +355,21 @@
     <string name="erp_media_stage_unknown">Etapas nepatvirtintas</string>
     <string name="erp_media_status_unknown">Atnaujinkite dabartinę būseną</string>
     <string name="erp_media_io_busy">Failų apdorojimas užimtas. Palaukite, kol baigsis ankstesnė operacija, tada bandykite dar kartą.</string>
+
+  <!-- TEST-only system browser sign-in; no credentials or device grants. -->
+  <string name="erp_federation_title">Prisijungti per svetainę</string>
+  <string name="erp_federation_intro">Prisijungimas bus atidarytas sistemos naršyklėje. Dabartinė programėlės paskyra išliks, kol bus patvirtintas naujas prisijungimas.</string>
+  <string name="erp_federation_test">Tik aiškiai sukonfigūruotai TEST aplinkai. Įrenginys neregistruojamas ir GPS neįjungiamas.</string>
+  <string name="erp_federation_source">Pasirinkite svetainę</string>
+  <string name="erp_federation_continue">Tęsti per %1$s</string>
+  <string name="erp_federation_wait">Užbaikite prisijungimą naršyklėje ir grįžkite į programėlę.</string>
+  <string name="erp_federation_unknown">Naujas prisijungimas dar nepatvirtintas. Patikrinkite tik šį bandymą; dabartinė paskyra nepakeista.</string>
+  <string name="erp_federation_check">Patikrinti naują prisijungimą</string>
+  <string name="erp_federation_unavailable">Šis prisijungimas neįjungtas dabartinei programėlei ir serveriui.</string>
+  <string name="erp_federation_expired">Šis prisijungimo bandymas baigė galioti. Pradėkite iš naujo.</string>
+  <string name="erp_federation_browser_missing">Tinkama sistemos naršyklė nepasiekiama.</string>
+  <string name="erp_federation_failed">Naujas prisijungimas nepritaikytas. Šis bandymas nepakeitė ankstesnės programėlės paskyros.</string>
+  <string name="erp_federation_restart">Pradėti prisijungimą iš naujo</string>
+  <string name="erp_federation_cancel">Atšaukti prisijungimą per svetainę</string>
+  <string name="erp_federation_device_proof">Įrenginiui registruoti reikia atskiro vietinio ERP prisijungimo. Prisijungimas per svetainę neįjungia darbo laiko apskaitos ar GPS.</string>
 </resources>

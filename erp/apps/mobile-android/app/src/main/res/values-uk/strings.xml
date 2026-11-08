@@ -355,4 +355,21 @@
     <string name="erp_media_stage_unknown">Етап не підтверджено</string>
     <string name="erp_media_status_unknown">Оновіть поточний стан</string>
     <string name="erp_media_io_busy">Обробка файлів зайнята. Дочекайтеся завершення попередньої операції та повторіть дію вручну.</string>
+
+  <!-- TEST-only system browser sign-in; no credentials or device grants. -->
+  <string name="erp_federation_title">Увійти через сайт</string>
+  <string name="erp_federation_intro">Вхід відкриється в системному браузері. Поточний обліковий запис у застосунку збережеться до підтвердження нового входу.</string>
+  <string name="erp_federation_test">Лише для явно налаштованого середовища TEST. Це не реєструє пристрій і не активує GPS.</string>
+  <string name="erp_federation_source">Виберіть сайт</string>
+  <string name="erp_federation_continue">Продовжити через %1$s</string>
+  <string name="erp_federation_wait">Завершіть вхід у браузері та поверніться до застосунку.</string>
+  <string name="erp_federation_unknown">Новий вхід ще не підтверджено. Перевірте лише цю спробу; поточний обліковий запис не змінено.</string>
+  <string name="erp_federation_check">Перевірити новий вхід</string>
+  <string name="erp_federation_unavailable">Цей спосіб входу не ввімкнено для поточного застосунку й сервера.</string>
+  <string name="erp_federation_expired">Термін цієї спроби входу минув. Почніть новий вхід.</string>
+  <string name="erp_federation_browser_missing">Немає доступного системного браузера.</string>
+  <string name="erp_federation_failed">Новий вхід не застосовано. Ця спроба не змінила попередній обліковий запис у застосунку.</string>
+  <string name="erp_federation_restart">Почати вхід знову</string>
+  <string name="erp_federation_cancel">Скасувати вхід через сайт</string>
+  <string name="erp_federation_device_proof">Для реєстрації пристрою потрібен окремий локальний вхід у ERP. Вхід через сайт не активує облік часу чи GPS.</string>
 </resources>

@@ -1,0 +1,766 @@
+{
+  "preparedAtUtc": "2026-11-08T19:39:22.883883+00:00",
+  "status": "INTEGRATED_REVIEWED_SOURCE_PREPARATION_ACTUAL_NEW_CI_PENDING",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "baseTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "newCandidateCommit": null,
+  "sourceWorkingTree": "DIRTY_UNCOMMITTED",
+  "sourceDigestAlgorithm": "SHA256 of sorted UTF-8 '<path>\\t<sha256>\\n' lines",
+  "sourceDigest": "8cb9bc8d43f72f848cb73e0a1c10aae00418b3386c9d9830cb1aa09f5338d0fa",
+  "sourceInputs": [
+    {
+      "component": "privacy-ui",
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "bytes": 15045,
+      "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "bytes": 7360,
+      "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/apps/api/engine.ts",
+      "bytes": 54256,
+      "sha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/apps/api/privacy-federation.ts",
+      "bytes": 6846,
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/FEDERATION_LOGIN_UK.md",
+      "bytes": 9250,
+      "sha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "bytes": 731,
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "bytes": 1494,
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "bytes": 67829,
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "bytes": 48991,
+      "sha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "bytes": 879,
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "bytes": 27101,
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "bytes": 27280,
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "bytes": 29012,
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "bytes": 28749,
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "bytes": 37377,
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "bytes": 36988,
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "bytes": 29096,
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "bytes": 21961,
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "bytes": 1007,
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/test-federation-policy.py",
+      "bytes": 2733,
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/test-federation.sh",
+      "bytes": 1336,
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "bytes": 3075,
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationCookieTest.java",
+      "bytes": 1222,
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationHttpTest.java",
+      "bytes": 10248,
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971"
+    },
+    {
+      "component": "android",
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationLoginTest.java",
+      "bytes": 36635,
+      "sha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18697,
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 25385,
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3619,
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "component": "ios",
+      "path": "erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/apps/web/src/App.tsx",
+      "bytes": 82273,
+      "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "bytes": 25721,
+      "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/apps/web/src/PrivacyPage.tsx",
+      "bytes": 18772,
+      "sha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+      "bytes": 13380,
+      "sha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/apps/web/src/privacyProjectionModel.ts",
+      "bytes": 9855,
+      "sha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/apps/web/src/style.css",
+      "bytes": 60305,
+      "sha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/packages/domain/governance.ts",
+      "bytes": 28347,
+      "sha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/packages/domain/privacy-federation.ts",
+      "bytes": 8892,
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/packages/i18n/index.ts",
+      "bytes": 175344,
+      "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+      "bytes": 10312,
+      "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/playwright.config.ts",
+      "bytes": 1000,
+      "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/tests/governance.test.ts",
+      "bytes": 44418,
+      "sha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "bytes": 22543,
+      "sha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d"
+    },
+    {
+      "component": "privacy-backend",
+      "path": "erp/tests/privacy-federation.test.ts",
+      "bytes": 15393,
+      "sha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1"
+    },
+    {
+      "component": "privacy-ui",
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "bytes": 22687,
+      "sha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c"
+    }
+  ],
+  "componentManifests": [
+    {
+      "component": "privacy-backend",
+      "path": "verification/privacy-v2/backend/source-manifest.json",
+      "sha256": "d4c5e0ae18e5e87e7b555e45ce06e87522fef33e83c4177ece6b5e5538381d0e",
+      "sourceDigest": "bf881ddb1fab39e738814b52d1197f2056b9cd790f82300291c150cb467cc92a",
+      "paths": 7
+    },
+    {
+      "component": "privacy-ui",
+      "path": "verification/privacy-v2/ui-checks/source-manifest.json",
+      "sha256": "621f818ecddd0cf9c44a5ee45ac626a1950c8edcd36418dad140ef6555e70bba",
+      "sourceDigest": "f8fd589f43ce0d25a982892d2a6a391988f354eba1c0c2a6da2b247a2b433e64",
+      "paths": 12
+    },
+    {
+      "component": "android",
+      "path": "verification/android-federation/source-manifest.json",
+      "sha256": "1de788d5105f1d5bf4881894c49d3f03dedd4c25f47c6addd6cf35315c756601",
+      "sourceDigest": "722b90abf6c5e2ee56df3dfd2dae7008f4b1fc7741c8bfaf690adba7e368fa18",
+      "paths": 21
+    },
+    {
+      "component": "ios",
+      "path": "verification/ios-federation-implementation/source-manifest.json",
+      "sha256": "789db639d2da0d7e71cd5fe24327ead4383425b1ef6503afbcf27d2e02fccd68",
+      "sourceDigest": "6584e25aa050469584673dd6ed51bc667e33a3fbd640ceaad7a65dc3b4b345c4",
+      "paths": 19
+    }
+  ],
+  "independentReviews": [
+    {
+      "path": "verification/privacy-v2/backend-independent-review/review-receipt.json",
+      "sha256": "39745407fd2cd29c8ba1aaf9011ed98706d0712b8573337170eb7489d852df40"
+    },
+    {
+      "path": "verification/privacy-v2/ui-independent-review/corrected-review.json",
+      "sha256": "ec4778e243ea8110d37727058258531704cea7b3151c0eb2b097dcc8eb7bc383"
+    },
+    {
+      "path": "verification/privacy-v2/checkpoint-doc-review/privacy-source-review.json",
+      "sha256": "9ae90f2f1f71bca5c34ad1270617ee3f43591163c646e0778cafc531b5ead263"
+    },
+    {
+      "path": "verification/ios-federation-independent-review/review.json",
+      "sha256": "bf1c47c8bf28914a988ecb0bb32d543ebdabc38e11de68fe1e66779642fc5c0d"
+    },
+    {
+      "path": "verification/android-federation-independent-review/corrected-review.json",
+      "sha256": "2cddbc1206ace9df146eaacb05b977e308e9445d1c34808d1302b86f25cdb9b0"
+    },
+    {
+      "path": "verification/android-federation-independent-review/ui-race-review.json",
+      "sha256": "696f7deef26d809788602d1c1c386d4887b719b115d0c5b530b6cceaa92fa0d6"
+    }
+  ],
+  "nativeCuratedFiles": [
+    {
+      "source": "verification/ios-federation-implementation/source-manifest.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/source-manifest.json",
+      "bytes": 8143,
+      "sha256": "789db639d2da0d7e71cd5fe24327ead4383425b1ef6503afbcf27d2e02fccd68"
+    },
+    {
+      "source": "verification/ios-federation-implementation/frozen-v1/evidence/source-manifest.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/initial-source-manifest.json",
+      "bytes": 7340,
+      "sha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff"
+    },
+    {
+      "source": "verification/ios-federation-implementation/corrective-v2.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/corrective-v2.json",
+      "bytes": 3185,
+      "sha256": "16c7f3a015e5b79666800a1d0e136d80d9f78744f30132c698c74f62eb0a9e72"
+    },
+    {
+      "source": "verification/ios-federation-implementation/local-source-checks.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/local-source-checks.json",
+      "bytes": 2484,
+      "sha256": "f6705bb3ee2a60a76dd0b2f280b1b615f628471030fb1c6bcde4e2fc8ec1861f"
+    },
+    {
+      "source": "verification/ios-federation-implementation/portable-config-tests-v2.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/portable-config-tests-v2.log",
+      "bytes": 106,
+      "sha256": "75ff54e727b57e4bd7b88956ed0c92c4b9a416e6f0976707e8fb54aa385ac0bd"
+    },
+    {
+      "source": "verification/ios-federation-implementation/source-config.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/source-config.json",
+      "bytes": 903,
+      "sha256": "f9e8d414cf1956dbb0b8559a941374c55cb387435f9724dd99e2e67c26382bea"
+    },
+    {
+      "source": "verification/ios-federation-implementation/xctest-inventory.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/xctest-inventory.json",
+      "bytes": 6501,
+      "sha256": "3920733fbbffc40987bd8768a8cdb8318c4c91e40530e45ec8b83b106bd421a1"
+    },
+    {
+      "source": "verification/ios-federation-implementation/scope-preservation.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/scope-preservation.json",
+      "bytes": 9153,
+      "sha256": "0806dfb379a3b06c6caff4ec2bdc1b43acd07db20fdbdfcdfa701d9cac5bcf42"
+    },
+    {
+      "source": "verification/ios-federation-implementation/preimages-final.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/preimages-final.json",
+      "bytes": 1681,
+      "sha256": "e4bed3535b9160aa4a52b1f12768732487a5cc9285b019d1e57ddfec19eaf2c3"
+    },
+    {
+      "source": "verification/ios-federation-independent-review/initial-review.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/independent-initial-review.json",
+      "bytes": 1860,
+      "sha256": "fecf2e3d698f80dbcc27aca917d400c6bbbf180663d66e7e19bcc7d4f5225d34"
+    },
+    {
+      "source": "verification/ios-federation-independent-review/review.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/independent-review.json",
+      "bytes": 27967,
+      "sha256": "bf1c47c8bf28914a988ecb0bb32d543ebdabc38e11de68fe1e66779642fc5c0d"
+    },
+    {
+      "source": "verification/native-privacy-checkpoint/ios-integration.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/ios/integration.json",
+      "bytes": 5549,
+      "sha256": "0dcb22a9792b6a5109afff9a17e4dc0c76d3a0b1b8ec7ea269041eb37f88fcb0"
+    },
+    {
+      "source": "verification/android-federation/source-manifest.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/source-manifest.json",
+      "bytes": 13225,
+      "sha256": "1de788d5105f1d5bf4881894c49d3f03dedd4c25f47c6addd6cf35315c756601"
+    },
+    {
+      "source": "verification/android-federation/verification-summary.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/verification-summary.json",
+      "bytes": 5328,
+      "sha256": "3f9a76e86b06607060bb75c6e7510704be1e7d1ddd4903c1c34648d560a392eb"
+    },
+    {
+      "source": "verification/android-federation/preservation-check.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/preservation-check.json",
+      "bytes": 13027,
+      "sha256": "19a9ebe57ee3ad23e99279bd3787a9e2a5d148206551066040a4c171cb393759"
+    },
+    {
+      "source": "verification/android-federation/final-run-inputs.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/final-run-inputs.json",
+      "bytes": 4302,
+      "sha256": "3ff888a3980520a57c58c1a50d56de5fbcee82514a05582e94f7b29b829a5406"
+    },
+    {
+      "source": "verification/android-federation/preimages.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/preimages.json",
+      "bytes": 13598,
+      "sha256": "756066cdcb74f5fef94b28bb6b4a0379ce360a98ed3c4ab2c968f4b4cbcab2d3"
+    },
+    {
+      "source": "verification/android-federation/corrected-run-inputs.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/corrected-run-inputs.json",
+      "bytes": 4302,
+      "sha256": "15c76749246a2acae2f21fe1c8b8af4cb35fd6492e8f5273bdd8e70d09d123fc"
+    },
+    {
+      "source": "verification/android-federation/android-corrected-green.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/android-corrected-green.log",
+      "bytes": 2859,
+      "sha256": "6d67ba92d25e6252c7f86ae47b164aa91ec2c2507b5c616af5d07a00d59827fd"
+    },
+    {
+      "source": "verification/android-federation/transport-corrected-green.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/transport-corrected-green.log",
+      "bytes": 946,
+      "sha256": "44aa01c2c5b02238c1e324b9fae735fae9d9f3afae1c8b3bc26b4ca616b8c7a9"
+    },
+    {
+      "source": "verification/android-federation/manifest-policy-corrected-green.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/manifest-policy-corrected-green.log",
+      "bytes": 175,
+      "sha256": "000e2020797ba69c73c69dd15a5f629259462e4377fa62058cd46302e6aaf3ed"
+    },
+    {
+      "source": "verification/android-federation/demo-frozen-green.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/demo-frozen-green.log",
+      "bytes": 90,
+      "sha256": "1f47accf26011f7096f971e78e50fc236d2abacaea0b615cf0555f5d0597d772"
+    },
+    {
+      "source": "verification/android-federation/localization-final-green.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/localization-final-green.log",
+      "bytes": 286,
+      "sha256": "374c2523ea9fca5618a3859c8de757c86d17c94326094e622c09f77f50856f57"
+    },
+    {
+      "source": "verification/android-federation/strict-media-adoption-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/strict-media-adoption-red.log",
+      "bytes": 482,
+      "sha256": "65118803d087e1a968e1f276afcb530579547b69883f3e7c82fa2f573400b25f"
+    },
+    {
+      "source": "verification/android-federation/strict-media-adoption-green.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/strict-media-adoption-green.log",
+      "bytes": 350,
+      "sha256": "2830dbba39dcfa237ebb45c177cce564233212712cb71aa50c5be216098d0b47"
+    },
+    {
+      "source": "verification/android-federation/delayed-dialog-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/delayed-dialog-red.log",
+      "bytes": 2695,
+      "sha256": "9a2da3ceae256e996616836e29bd9b14382799e8c7cd1ca130488c5e81381831"
+    },
+    {
+      "source": "verification/android-federation/delayed-dialog-red.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/delayed-dialog-red.xml",
+      "bytes": 3697,
+      "sha256": "7e25cea3e5c89e346b4b5c21950723f32dc9fa9cb725a1fb08b74027356bd52c"
+    },
+    {
+      "source": "verification/android-federation/paused-main-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/paused-main-red.log",
+      "bytes": 2698,
+      "sha256": "0af50fa18d4ac227e5ca004bb64a1516bdade1ab2808786c78129ba76e5da8f1"
+    },
+    {
+      "source": "verification/android-federation/paused-main-red.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/paused-main-red.xml",
+      "bytes": 3735,
+      "sha256": "fa68c58f93372bc9162bcce6154af6497f1fa7fb1203e8dd5db2c28add06acd0"
+    },
+    {
+      "source": "verification/android-federation/retired-transport-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/retired-transport-red.log",
+      "bytes": 495,
+      "sha256": "9c78c7a36d88361099dc9f4b6ab9f70c2a64a28a260000a1116783099730499e"
+    },
+    {
+      "source": "verification/android-federation/candidate-identity-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/candidate-identity-red.log",
+      "bytes": 417,
+      "sha256": "b88de546210b8a3fc7e666d36bc0d1666d4bdc0d1c52c21cb0afc8bb5c1f05f0"
+    },
+    {
+      "source": "verification/android-federation/config-schema-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/config-schema-red.log",
+      "bytes": 629,
+      "sha256": "ec033cf34aaf2cce38f41329745b0b3db94448d3c31c26aad1cc4803ca8aa40b"
+    },
+    {
+      "source": "verification/android-federation/cookie-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/cookie-red.log",
+      "bytes": 194,
+      "sha256": "569aa59ba915977eebd321964938efe6ed3336861bf1c8ae64476cd83054dbb0"
+    },
+    {
+      "source": "verification/android-federation/render-transport-guard-red/android-red.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/render-transport-guard-red/android-red.log",
+      "bytes": 8657,
+      "sha256": "8efa6ed5ef0f9c924b5dde44f9ba433ecf3f5f78f08a148af0353ce8558b6c5e"
+    },
+    {
+      "source": "verification/android-federation/pre-strict-adoption-correction/receipt.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/pre-strict-adoption-correction/receipt.json",
+      "bytes": 1002,
+      "sha256": "b84e31caafcc492bb9b6fff6fdaff06481c6bb51d5eae1ebcae930f39631817a"
+    },
+    {
+      "source": "verification/android-federation/delayed-dialog-fixture-type-error.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/delayed-dialog-fixture-type-error.log",
+      "bytes": 2745,
+      "sha256": "c6c5f83ff6c50308bfb58354697cedfd6445183a1a1bcc6651168051a2046c62"
+    },
+    {
+      "source": "verification/android-federation/delayed-dialog-before-main-drain.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/delayed-dialog-before-main-drain.log",
+      "bytes": 2413,
+      "sha256": "1cf0eee0cbd45ee38226798eaee8398283aa63f23820a8fdb3ef42f9a393ba3f"
+    },
+    {
+      "source": "verification/android-federation/toolchain-restart-exit69.log",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/toolchain-restart-exit69.log",
+      "bytes": 191,
+      "sha256": "aed4d1998c47e0874e57b312d21890773866bd80d92d57d4730f4b52af522e1a"
+    },
+    {
+      "source": "verification/android-federation/toolchain-restoration.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/toolchain-restoration.json",
+      "bytes": 868,
+      "sha256": "ca77fadabbc4f207b8e2d0ffa3d84ed98562964fedd84b1cdcacd44531c791e0"
+    },
+    {
+      "source": "verification/android-federation/frozen-results/TEST-de.knaba.mobile.ConsoleMediaScreenTest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/frozen-results/TEST-de.knaba.mobile.ConsoleMediaScreenTest.xml",
+      "bytes": 2225,
+      "sha256": "e914e929d2f6adb8085188e87bd8f863ca3b4793c5f8a2b4414964007c032e48"
+    },
+    {
+      "source": "verification/android-federation/frozen-results/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/frozen-results/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+      "bytes": 1665,
+      "sha256": "2d3d2ffbd5ae8ce376a4c0405600c3cdbf664314bf1f8491b7681fbc4ba890c5"
+    },
+    {
+      "source": "verification/android-federation/frozen-results/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/frozen-results/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+      "bytes": 7201,
+      "sha256": "1c892daa24cb1ae0f98f5d5c100fbaead4401b02d8739caf09566de5a2b9c476"
+    },
+    {
+      "source": "verification/android-federation/frozen-results/TEST-de.knaba.mobile.ErpFederationActivityTest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/frozen-results/TEST-de.knaba.mobile.ErpFederationActivityTest.xml",
+      "bytes": 1817,
+      "sha256": "8149438a5e369e4dc356a3af87ad00751b3996936b54d9218a5b221fbf6dc807"
+    },
+    {
+      "source": "verification/android-federation/frozen-results/TEST-de.knaba.mobile.LauncherIconTest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/frozen-results/TEST-de.knaba.mobile.LauncherIconTest.xml",
+      "bytes": 456,
+      "sha256": "6acd3a681d3ec162013d2b5ecd0ad2eaac04444f5f53352d3995cae7f993a67a"
+    },
+    {
+      "source": "verification/android-federation/frozen-results/lint-results-debug.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/frozen-results/lint-results-debug.xml",
+      "bytes": 27212,
+      "sha256": "ac417f610b06e72c8334f597416ddc202289b383b5dba47ff8733f6580c1e187"
+    },
+    {
+      "source": "knaba-android-f3/erp/apps/mobile-android/app/build/intermediates/merged_manifest/debug/processDebugMainManifest/AndroidManifest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/merged-debug-manifest.xml",
+      "bytes": 3033,
+      "sha256": "3b04bef0b16576b9164c1ef39643cdbecdf012fc63c91cb2e6961e14947e1002"
+    },
+    {
+      "source": "knaba-android-f3/erp/apps/mobile-android/app/build/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/merged-release-manifest.xml",
+      "bytes": 2234,
+      "sha256": "ec9066e03857bce64eedc952ab81fee594bbc7fa45914b34e3a50c32ff431a64"
+    },
+    {
+      "source": "verification/android-federation-independent-review/initial-review.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/independent-initial-review.json",
+      "bytes": 10989,
+      "sha256": "812390f6ffb6aef6abbf8604b9cc0f31dc8cb4cc6aaa23390dfcb885c697d235"
+    },
+    {
+      "source": "verification/android-federation-independent-review/corrected-review.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/independent-corrected-review.json",
+      "bytes": 20350,
+      "sha256": "2cddbc1206ace9df146eaacb05b977e308e9445d1c34808d1302b86f25cdb9b0"
+    },
+    {
+      "source": "verification/android-federation-independent-review/ui-race-review.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/independent-ui-review.json",
+      "bytes": 7665,
+      "sha256": "696f7deef26d809788602d1c1c386d4887b719b115d0c5b530b6cceaa92fa0d6"
+    },
+    {
+      "source": "verification/native-privacy-checkpoint/android-integration.json",
+      "path": "docs/unified/evidence/full-completion-20261108/native-f3/source-preparation/android/integration.json",
+      "bytes": 6513,
+      "sha256": "27adce8497423c471e8f745c0bcf96af8ef7a176a13a24172de61d65d794d674"
+    }
+  ],
+  "actualAuthorLocalAndroid": {
+    "tests": 81,
+    "newFederation": 9,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "lintErrors": 0,
+    "lintWarnings": 20,
+    "protocolAssertions": 901,
+    "httpAssertions": 74,
+    "loopbackScenarios": 4
+  },
+  "ios": {
+    "portableConfigTestsPass": 8,
+    "newXCTestAuthored": 65,
+    "totalXCTestAuthored": 210,
+    "swiftCompilation": "NOT_RUN",
+    "xctestExecution": "NOT_RUN"
+  },
+  "privacy": {
+    "backendCpuAuthorPass": 204,
+    "independentBackendPassOverlap": 27,
+    "finalUiModelIndependentPass": 30,
+    "actualPostgresHttp15": "NOT_RUN",
+    "renderedPrivacy11Within30": "NOT_RUN",
+    "dirtyTreeIntegratedBuildExitCode": 0,
+    "existingCommandContractChange": "Optional explicit projectionVersion extends existing command DTOs while preserving absent-only legacy v1"
+  },
+  "unchanged": [
+    "Canonical V3/V4 specifications and whole-criterion coverage statuses",
+    "CI workflow definitions, timeouts, runner tiers and artifact retention",
+    "Native identifiers/versions/signing settings/minimum OS and separate employee GPS transport",
+    "No database schema/index migration, new server RPC/HTTP endpoints, or retention/erasure-policy changes"
+  ],
+  "wholeProduct": "NOT_READY",
+  "permissions": "No main merge, production/DNS/live-data/provider activation/store/customer handover performed"
+}

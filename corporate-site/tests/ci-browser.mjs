@@ -70,6 +70,7 @@ export const erpFixtureSuites=Object.freeze([
   {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
   {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
   {file:'federation-login-ui.spec.ts',cases:10,name:'ERP federation login and browser cookie policy'},
+  {file:'privacy-projection-ui.spec.ts',cases:11,name:'ERP versioned privacy projection and private acknowledgement fences'},
 ]);
 export function assertErpUiReport(report){
   const tests=[],ids=new Set(),counts=Object.fromEntries(erpFixtureSuites.map(suite=>[suite.file,0]));
@@ -104,7 +105,7 @@ export async function startPreview(command,args,{url,marker,signal,...options}){
 export async function main(){
   const output=process.env.KNABA_BROWSER_QA_DIR||join(process.env.RUNNER_TEMP||'/tmp','knaba-browser-'+process.pid);
   mkdirSync(output,{recursive:true});
-  const receipt={startedAt:new Date().toISOString(),scope:'Actual rendered browsers; loopback synthetic data and intercepted synthetic HTTPS origins for cookie-policy checks. ERP transfer, identity-link and login suites use explicit HTTP fixtures, not provider/PostgreSQL/TLS/device acceptance.',stages:[]};
+  const receipt={startedAt:new Date().toISOString(),scope:'Actual rendered browsers; loopback synthetic data and intercepted synthetic HTTPS origins for cookie-policy checks. ERP transfer, identity-link, login and privacy projection suites use explicit HTTP fixtures, not provider/PostgreSQL/TLS/device/privacy-law acceptance.',stages:[]};
   const previews=[],abort=new AbortController();
   const cancel=()=>abort.abort();process.once('SIGINT',cancel);process.once('SIGTERM',cancel);
   let manifestPath,manifestBytes,manifest,inputsVerified=false,completed=false;

@@ -1,0 +1,35 @@
+{
+  "base": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+      "bytes": 42573,
+      "copy": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/preimages/erp/apps/mobile-ios/Sources/ERPConsoleCore.swift"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+      "bytes": 41354,
+      "copy": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/preimages/erp/apps/mobile-ios/Sources/ERPConsoleView.swift"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b",
+      "bytes": 43551,
+      "copy": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/preimages/erp/apps/mobile-ios/Sources/ERPStrings.swift"
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "sha256": "f3d033184787e0d68bfb1e46bec5337825a5dd7c4d5b3887e2d5514384187c2d",
+      "bytes": 1320,
+      "copy": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/preimages/erp/apps/mobile-ios/project.yml"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "sha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb",
+      "bytes": 1679,
+      "copy": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/preimages/erp/apps/mobile-ios/scripts/build.sh"
+    }
+  ]
+}

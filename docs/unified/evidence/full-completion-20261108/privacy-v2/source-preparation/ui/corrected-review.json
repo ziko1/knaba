@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/erp_session_fence",
+  "reviewedAtUtc": "2026-11-08T18:51:55.590609+00:00",
+  "verdict": "ACCEPT_SOURCE_AND_TEST_PLAN_SCOPED_ACTUAL_BROWSER_PG_PENDING",
+  "sourceManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-checks/source-manifest.json",
+    "bytes": 3485,
+    "sha256": "621f818ecddd0cf9c44a5ee45ac626a1950c8edcd36418dad140ef6555e70bba"
+  },
+  "sourceDigest": "f8fd589f43ce0d25a982892d2a6a391988f354eba1c0c2a6da2b247a2b433e64",
+  "all12FrozenHashesMatch": true,
+  "files": [
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "bytes": 82273,
+      "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "bytes": 25721,
+      "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "erp/apps/web/src/PrivacyPage.tsx",
+      "bytes": 18772,
+      "sha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.ts",
+      "bytes": 9855,
+      "sha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0",
+      "matchesFrozen": true
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+      "bytes": 13380,
+      "sha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724",
+      "matchesFrozen": true
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "bytes": 60305,
+      "sha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "bytes": 175344,
+      "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+      "bytes": 10312,
+      "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b",
+      "matchesFrozen": true
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "bytes": 22687,
+      "sha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "matchesFrozen": true
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "bytes": 1000,
+      "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "bytes": 15045,
+      "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "bytes": 7360,
+      "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca",
+      "matchesFrozen": true,
+      "baselinePreimageMatches": true
+    }
+  ],
+  "initialReviewPreserved": {
+    "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/review.json",
+    "bytes": 9361,
+    "sha256": "396de231332dd17e16ca43b28b2fa2060ba146897e6bca62c913af0389a6cb70"
+  },
+  "initialSevenPathsChangedByAuthor": [
+    "erp/apps/web/src/PrivacyPage.tsx",
+    "erp/apps/web/src/privacyProjectionModel.ts",
+    "erp/apps/web/src/privacyProjectionModel.test.ts"
+  ],
+  "resolvedFindings": [
+    {
+      "id": "PRIVACY-UI-01",
+      "resolution": "Trim before immutable preview/input; normalized length validation. Actual frozen backend schema/handler accepts both v1 and v2 UI input; preexisting normalized input digest semantics are unchanged."
+    },
+    {
+      "id": "PRIVACY-UI-02",
+      "resolution": "Optional-present company guard covers request/entity data, created/status/prepared/saved entry points. Explicit foreign/null/undefined rejects; absent legacy fields and explicit current company remain valid. Private own/reviewer rows filter known foreign company before rendering text."
+    }
+  ],
+  "correctionReview": {
+    "css": "New privacy-projection-scope overrides flex with block, 12px type and wrapping paragraphs, without changing other boundary layouts. Rendering remains required.",
+    "unchangedContracts": [
+      "Absent legacy v1 input/ACK behavior and explicit v2 ACK requirements",
+      "Immutable request scope/version and readonly reviewer display",
+      "Fresh catalog checks and no silent v2 downgrade",
+      "Identical reviewed input/key for unknown ACK retry",
+      "Complete actor/CSRF Console remount and PrivateReadGeneration fences",
+      "Current secured download endpoint and server-side artifact integrity authority",
+      "Six canonical translation columns and no full legal fulfillment/deletion claim"
+    ]
+  },
+  "checks": {
+    "correctedModel": {
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/model-corrected-tests.log",
+        "bytes": 5548,
+        "sha256": "cc9a48231797c6e45112cfb2ed3f8264e54a81d36475861055026e95fcbfce9e"
+      }
+    },
+    "actualModelAndBackendContractProbes": {
+      "passedAssertions": 51,
+      "exitCode": 0,
+      "scope": "Actual frontend model and frozen backend governance schema/handler with memory transaction; no HTTP, PG or browser",
+      "source": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes-corrected.ts",
+        "bytes": 4826,
+        "sha256": "176c61370aa214861734df8bc7574d9cd44067667b8438b33bb1b091985c0c0a"
+      },
+      "result": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes-corrected.json",
+        "bytes": 588,
+        "sha256": "a3e782971cc306d064bf47bb6835ecf0d032d5ac39bc468411c273e46efaa9f5"
+      },
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes-corrected.log",
+        "bytes": 535,
+        "sha256": "ed85817534815ebef67f0811ca6576c0ee737f8017d25c8751ba75ca123bb48c"
+      }
+    },
+    "browserInventoryGuard": {
+      "passed": 11,
+      "exitCode": 0,
+      "scope": "Actual pure CI guard with synthetic report JSON",
+      "source": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/browser-inventory-probes.mjs",
+        "bytes": 2013,
+        "sha256": "a56849df3bb6493986759cbd08783e7ea7b2f9a71575557405994c00f8d29f9f"
+      },
+      "result": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/browser-inventory-probes.json",
+        "bytes": 422,
+        "sha256": "ba464aa46f9648cf1aaaaaf238bcb8f4498f5587c0e0726977592f45e5e655b5"
+      },
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/browser-inventory-probes.log",
+        "bytes": 351,
+        "sha256": "d0a28df4e6bb4a633dc85c9442195a4629a715b25d0b705847bb68b6f435907e"
+      }
+    },
+    "browserCollection": {
+      "exitCode": 0,
+      "total": 30,
+      "files": 4,
+      "counts": {
+        "conversation-transfer-ui.spec.ts": 4,
+        "federation-login-ui.spec.ts": 10,
+        "privacy-projection-ui.spec.ts": 11,
+        "site-identity-link-ui.spec.ts": 5
+      },
+      "command": "npx playwright test tests/conversation-transfer-ui.spec.ts tests/site-identity-link-ui.spec.ts tests/federation-login-ui.spec.ts tests/privacy-projection-ui.spec.ts --list --reporter=list",
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/required-browser-collection.log",
+        "bytes": 4411,
+        "sha256": "75bcc585c3994540651e8945df561cdb7d76983dfa8605a8400b1c09edf56a17"
+      },
+      "actualBrowserExecution": false
+    },
+    "diffCheck": {
+      "exitCode": 0,
+      "scope": "12 reviewed paths"
+    }
+  },
+  "browserFixtureReview": {
+    "filesUnchangedFromIndependentFirstRead": [
+      {
+        "path": "erp/tests/privacy-projection-ui.spec.ts",
+        "sha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+        "bytes": 22687
+      },
+      {
+        "path": "erp/playwright.config.ts",
+        "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+        "bytes": 1000
+      },
+      {
+        "path": "corporate-site/tests/ci-browser.mjs",
+        "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+        "bytes": 15045
+      },
+      {
+        "path": "corporate-site/tests/ci-browser.test.mjs",
+        "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca",
+        "bytes": 7360
+      }
+    ],
+    "previous19CaseSourcesUnchanged": [
+      {
+        "path": "/workspace/scratch/c56161c95e04/knaba/erp/tests/conversation-transfer-ui.spec.ts",
+        "bytes": 9942,
+        "sha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548"
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/knaba/erp/tests/site-identity-link-ui.spec.ts",
+        "bytes": 10866,
+        "sha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c"
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/knaba/erp/tests/federation-login-ui.spec.ts",
+        "bytes": 23003,
+        "sha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4"
+      }
+    ],
+    "verdict": "ACCEPT_TEST_PLAN_AND_CI_WIRING_SCOPED",
+    "findings": [],
+    "observations": [
+      "The existing single Playwright invocation receives all four explicit suite paths from erpFixtureSuites; per-suite exact 4/5/10/11 count and unique ID guards require 30, zero skips/retries/failures.",
+      "No workflow job, retry allowance, timeout, dependency, download or sandbox policy change; chromiumSandbox remains true.",
+      "Privacy suite uses current built ERP assets and explicit synthetic origin/method/path routing; unhandled requests abort and are asserted, service workers are blocked. No download/provider/actual SQL success is claimed.",
+      "Eleven cases cover extended/legacy/erasure versions, trim normalization, unknown request/export ACK, catalog downgrade, mismatched saved/prepared scope, delayed stale ACK, auth rejection, reviewer version conflict and six-language narrow layout.",
+      "Current privacy.review reference inputs and preview/confirm selectors match the existing rendered CommandForm source. No custom password/cookie/role mint transport is introduced.",
+      "The existing report/artifact paths and per-suite receipt stages include the new privacy suite; old 19 source cases remain byte-identical."
+    ]
+  },
+  "notRun": [
+    "actual browser execution",
+    "actual PostgreSQL",
+    "production/live",
+    "broad test suite",
+    "independent full typecheck/build (root owns exact build)"
+  ],
+  "sourceEditedByReviewer": false,
+  "remainingGates": [
+    "Root exact build/typecheck result",
+    "Actual 30-case rendered CI",
+    "Actual backend 15-case PG/HTTP gate",
+    "External metadata retention/legal classification remains open"
+  ]
+}

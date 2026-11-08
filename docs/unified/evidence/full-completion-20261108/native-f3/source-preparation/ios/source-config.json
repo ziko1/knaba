@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "scope": "TEST/Release configuration isolation; not browser/device or release acceptance",
+  "plistParity": "PASS",
+  "resolvedBuildSettings": "NOT_RUN",
+  "compiledDebugPlist": "NOT_RUN",
+  "releaseCompilation": "NOT_RUN",
+  "configurations": [],
+  "inputs": [
+    {
+      "path": "project.yml",
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f",
+      "bytes": 1601
+    },
+    {
+      "path": "Info.plist",
+      "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014",
+      "bytes": 1790
+    },
+    {
+      "path": "Info.Debug.plist",
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703",
+      "bytes": 2089
+    },
+    {
+      "path": "Sources/ERPFederationLogin.swift",
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7",
+      "bytes": 18697
+    }
+  ]
+}

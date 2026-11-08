@@ -1,0 +1,14 @@
+{
+  "scope": "actual corrected UI model + frozen privacy-v2 governance schema/handler with memory transaction; no HTTP/PG/browser",
+  "passedAssertions": 51,
+  "findingsResolved": [
+    "PRIVACY-UI-01",
+    "PRIVACY-UI-02"
+  ],
+  "cases": [
+    "knaba-dsar-v1 normalized actual handler success and parsed-input identity",
+    "knaba-dsar-v1 foreign/null/undefined company denied; same-company/absence retained",
+    "knaba-dsar-v2 normalized actual handler success and parsed-input identity",
+    "knaba-dsar-v2 foreign/null/undefined company denied; same-company/absence retained"
+  ]
+}

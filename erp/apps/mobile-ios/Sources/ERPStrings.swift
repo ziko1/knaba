@@ -232,6 +232,7 @@ enum ERPStrings {
         case .noPendingCommand: return text(.noPending, language)
         case .sensitiveCommand: return text(.errorSensitive, language)
         case .http(let status, let code):
+            if code == "LOCAL_ERP_REAUTH_REQUIRED" { return ERPFederationStrings.text(.localPassword, language) }
             if code == "VERSION_CONFLICT" { return text(.errorConflict, language) }
             if code == "NEEDS_REAUTH" { return text(.reauthRequired, language) }
             return text(.errorHTTP, language, String(status))

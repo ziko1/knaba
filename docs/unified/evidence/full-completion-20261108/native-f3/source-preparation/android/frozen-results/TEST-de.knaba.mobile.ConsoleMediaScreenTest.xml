@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.knaba.mobile.ConsoleMediaScreenTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-08T19:32:57.158Z" hostname="08766be39cd5" time="20.618">
+  <properties/>
+  <testcase name="api32UsesSystemDocumentFallbackWithoutStoragePermission" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="5.894"/>
+  <testcase name="pickerReturnAcrossForegroundDoesNotUploadAndCancellationHasNoMutation" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.178"/>
+  <testcase name="explicitSaveRechecksCurrentAssetAndUsesOnlyClientCopy" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="3.437"/>
+  <testcase name="activityRecreationDrainsOldProviderReadBeforeNewMediaWork" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="2.647"/>
+  <testcase name="stalePickerResultAfterExitCannotRestoreSelectionOrReadTheProvider" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.342"/>
+  <testcase name="unknownRegistrationRetriesSameRequestWithoutUploadingAgainAndKeepsAckOnReadFailure" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.014"/>
+  <testcase name="savePickerReturnedAfterLogoutCannotWriteOrDownload" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.916"/>
+  <testcase name="twoPhotosAreExplicitlySentSequentiallyWithIndependentReceipts" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.895"/>
+  <testcase name="removedTaskBeforeSendPreventsAnyUploadAndClearsPrivateScreen" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.476"/>
+  <testcase name="fullMediaIoQueueShowsBusyAndRequiresAnExplicitReadRetry" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.423"/>
+  <testcase name="combinedFileJobKeepsUnknownUploadDescriptorForManualExactRetry" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.083"/>
+  <testcase name="pausedMainTwoPreparedScreensNeverCarryOriginalBytesBetweenJobs" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.895"/>
+  <testcase name="restoredAcknowledgedReceiptOffersOnlyLocalCleanup" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.38"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

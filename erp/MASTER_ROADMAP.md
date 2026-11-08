@@ -142,3 +142,19 @@ Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: ro
 ## 08.11.2026 — F3 і native media, source checkpoint до actual CI
 
 F2 actual dependency на e03d2be прийнято. F3 server/web source реалізовано; обов'язкові18PG/8pair/10browser і current native CI лишаються наступним gate. Після незалежного actual acceptance — native F3 adapters, versioned identity privacy export/inventory та ширші F4/subscription/background gates. [Поточний checkpoint](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md); whole compound AC NOT_RUN не змінюється.
+
+
+## 08.11.2026 — actual F3 dependency and versioned privacy source
+
+F3 server/web technical gate прийнято на `6a395bb73501455371a0e281debf81a6c18c6329`: run42507639872, ERP3264/3264 включно з18 F3/24 F2 PostgreSQL, actual runtime pair26/26 включно з8 F3 та rendered19/19 включно з10 F3. [Точні докази й межі](../docs/unified/F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md). Native evidence попереднього af6 не переноситься на нові adapters.
+
+Versioned privacy v2 backend/UI має незалежні source reviews, legacy v1 input/ACK/bytes compatibility, explicit ACCESS/PROFILE/legal/tenant scope, bounded own metadata projection і current-session secured download. Local build exit0, backend204 CPU, final independent UI model30; actual15 privacy PG/HTTP та11 нових rendered cases у30-case inventory залишаються наступним exact-source CI gate. [Контракт, виправлені findings, докази та rollback](../docs/unified/PRIVACY_V2_SOURCE_CHECKPOINT_2026-11-08_UK.md). TEST-only native F3 source перевіряється окремо в тому самому наступному checkpoint; native push залишається source gap.
+
+Whole product NOT_READY;72 V4/475 V3 whole criteria та historical evidence не bulk-accepted. Metadata retention/повний DSAR, фізичні пристрої, provider/company acceptance, load/restore і deployment gates окремі. Expired cutoff, budget, provider MFA, main/production permissions і Zod OPEN_WITH_MITIGATION не змінені.
+
+
+## 08.11.2026 — native/privacy integration preparation
+
+Native F3 TEST adapters і privacy v2 прийняті source-scoped та інтегровані. Next acceptance gate — новий clean committed aggregate: actual PG15 privacy, rendered30, Android81/package та iOS210 XCTest/simulator. Local source/portable checks не закривають цей gate. [Exact preparation evidence](../docs/unified/NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
+
+Після gate: default-off push foundation/actual native lifecycle і scoped Zod remediation; full compound AC, physical device, provider/legal/UAT/load/restore/production acceptance залишаються окремими вимогами.

@@ -1,0 +1,8 @@
+PASS source TEST-only callback boundary; Release registry has no callback component
+PASS exact KF3 ERP cookie parser
+Exception in thread "main" de.knaba.mobile.ErpConsoleTransport$Failure: FEDERATION_INVALID_CONFIG
+	at de.knaba.mobile.ErpFederationLogin.problem(ErpFederationLogin.java:127)
+	at de.knaba.mobile.ErpFederationLogin.need(ErpFederationLogin.java:128)
+	at de.knaba.mobile.ErpFederationLogin.parseConfiguration(ErpFederationLogin.java:155)
+	at de.knaba.mobile.ErpFederationLoginTest.exactDiscoverySchema(ErpFederationLoginTest.java:270)
+	at de.knaba.mobile.ErpFederationLoginTest.main(ErpFederationLoginTest.java:297)

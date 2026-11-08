@@ -318,3 +318,17 @@ a202 actual ERP3260 and pair26 PASS include all18/8 required F3 cases. Rendered 
 ## 08.11.2026 — F3 cross-site return delivery
 
 77b64956 actual ERP3260 and pair26 PASS include all18/8 F3 runtime cases. Required rendered aggregate18/19 still fails one F3 case after source303: browser-observed return has the correct Lax/Strict cookie boundary but cannot resolve the synthetic ERP host. Three-path loopback HTTPS fixture correction passed4 focused Node tests, typecheck, exact19-case collection and independent source/downstream review before the bounded next run. [Evidence and next gate](F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md). Actual corrected browser is NOT_RUN; native F3/privacy/push ordering and compound AC statuses remain unchanged.
+
+
+## 08.11.2026 — F3 technical gate closed at6a395bb; dependent source in progress
+
+Main42507639872 completed all required jobs: F3PG18 and real runtime-pair8 passed within ERP3264/pair26, and all10 F3 rendered cases passed within19 with zero skip/retry/flake. Independent review accepted the exact6a395bb source/tree and artifact receipts. [Evidence and boundaries](F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md). The previous77b64956 DNS fixture failure remains historical evidence.
+
+Native F3 TEST adapters and privacy v2 implementation are IN_PROGRESS under separate frozen-source reviews. Acceptance requires the new current native pipelines,15 actual privacy PG/HTTP cases,11 new rendered privacy cases within the preserved30-case fixture inventory, and no regression to the prior F3/F2 checks. Collection and CPU doubles are not actual browser/SQL acceptance. Native remote push is the next known source gap; no arbitrary retention TTL/deletion, external-provider call or compound AC status change is implied.
+
+
+## 08.11.2026 — native F3/privacy ready for exact-candidate CI
+
+Native F3 TEST і privacy v2 source implementation/review завершено в scoped межах;59 frozen inputs інтегровано. New exact committed runtime/SQL/browser/native acceptance — PENDING. [Evidence and acceptance inventory](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md). Whole AC statuses не змінено.
+
+Наступний known source gap — remote push: default-off registry/lineage/outbox, чотири WEB availability transitions, consent/revoke/account-switch та actual APNs/FCM adapters; жодна read-only proposal не є реалізованим API. Zod OPEN_WITH_MITIGATION перевіряється окремо. Physical devices, signing/distribution, provider/restore/load/legal/company UAT і production — окремі незакриті gates.

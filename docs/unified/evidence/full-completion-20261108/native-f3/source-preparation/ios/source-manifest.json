@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "status": "FROZEN_SOURCE_READY_FOR_INDEPENDENT_REVIEW_NOT_COMPILED",
+  "base": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "baseTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "branch": "feat/knaba-ios-f3-20261108",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-ios-f3",
+  "sourceDigestAlgorithm": "SHA-256 of UTF-8 lines '<repo-relative-path>\\t<sha256>\\n', sorted by path",
+  "sourceDigest": "6584e25aa050469584673dd6ed51bc667e33a3fbd640ceaad7a65dc3b4b345c4",
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50",
+      "change": "modified",
+      "baseSha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d",
+      "change": "modified",
+      "baseSha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18697,
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718",
+      "change": "modified",
+      "baseSha256": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 25385,
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3619,
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f",
+      "change": "modified",
+      "baseSha256": "f3d033184787e0d68bfb1e46bec5337825a5dd7c4d5b3887e2d5514384187c2d"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931",
+      "change": "modified",
+      "baseSha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9",
+      "change": "added",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b",
+      "change": "added",
+      "baseSha256": null
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/local-source-checks.json",
+      "sha256": "f6705bb3ee2a60a76dd0b2f280b1b615f628471030fb1c6bcde4e2fc8ec1861f",
+      "bytes": 2484
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-config.json",
+      "sha256": "f9e8d414cf1956dbb0b8559a941374c55cb387435f9724dd99e2e67c26382bea",
+      "bytes": 903
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/xctest-inventory.json",
+      "sha256": "3920733fbbffc40987bd8768a8cdb8318c4c91e40530e45ec8b83b106bd421a1",
+      "bytes": 6501
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/scope-preservation.json",
+      "sha256": "0806dfb379a3b06c6caff4ec2bdc1b43acd07db20fdbdfcdfa701d9cac5bcf42",
+      "bytes": 9153
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/preimages-final.json",
+      "sha256": "e4bed3535b9160aa4a52b1f12768732487a5cc9285b019d1e57ddfec19eaf2c3",
+      "bytes": 1681
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-dependencies.json",
+      "sha256": "1145167195ef91eae949f7c42197d08f58cb584c4d47349a974f701ec60853b0",
+      "bytes": 1762
+    }
+  ],
+  "limitations": [
+    "No Swift compiler/Xcode in this environment.",
+    "65 new XCTest declarations are authored, not executed; total expected authored inventory 210 including 145 unchanged.",
+    "No ASWebAuthenticationSession system integration, real browser, physical device, signed distribution or live-server acceptance.",
+    "Debug source plist/config guards are checked locally; actual resolved Debug/Release build settings and compiled Debug Info.plist await existing macOS CI.",
+    "Release compilation not performed.",
+    "No shared/API/workflow or external service changes."
+  ],
+  "revision": 2,
+  "supersedes": {
+    "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/frozen-v1/evidence/source-manifest.json",
+    "sha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff"
+  },
+  "correctiveDelta": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "beforeSha256": "31c57ba5406df214382ae35a77618377976eb7641b04ec6780ec63123064b7b1",
+      "afterSha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "beforeSha256": "36e916d2a50274ec7e2f9925b798d94677bb9f2ac0bee5fa281db4642bfa71b1",
+      "afterSha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "cases": [
+    {
+      "status": "ok",
+      "number": 1,
+      "name": "F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage"
+    },
+    {
+      "status": "ok",
+      "number": 2,
+      "name": "F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption"
+    },
+    {
+      "status": "ok",
+      "number": 3,
+      "name": "F3 actual lost approval ACK recovers one durable intent before any ERP session is issued"
+    },
+    {
+      "status": "ok",
+      "number": 4,
+      "name": "F3 actual source logout rejects an already computed issue proof before the ERP session commit"
+    },
+    {
+      "status": "ok",
+      "number": 5,
+      "name": "F3 actual source outage fails closed while local logout completes without source RPC"
+    },
+    {
+      "status": "ok",
+      "number": 6,
+      "name": "F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session"
+    },
+    {
+      "status": "ok",
+      "number": 7,
+      "name": "F3 actual source restart fences old derived sessions while a local ERP password session remains valid"
+    },
+    {
+      "status": "ok",
+      "number": 8,
+      "name": "F3 actual two-company native code cannot be redeemed by the other configured authority"
+    },
+    {
+      "status": "ok",
+      "number": 9,
+      "name": "F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink"
+    },
+    {
+      "status": "ok",
+      "number": 10,
+      "name": "F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit"
+    },
+    {
+      "status": "ok",
+      "number": 11,
+      "name": "F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit"
+    },
+    {
+      "status": "ok",
+      "number": 12,
+      "name": "F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce"
+    },
+    {
+      "status": "ok",
+      "number": 13,
+      "name": "F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery"
+    },
+    {
+      "status": "ok",
+      "number": 14,
+      "name": "F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session"
+    },
+    {
+      "status": "ok",
+      "number": 15,
+      "name": "F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys"
+    },
+    {
+      "status": "ok",
+      "number": 16,
+      "name": "explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves its scoped origin after restart"
+    },
+    {
+      "status": "ok",
+      "number": 17,
+      "name": "assistant withdrawal is capability-scoped and prevents a not-yet-sent real ERP effect"
+    },
+    {
+      "status": "ok",
+      "number": 18,
+      "name": "actual HTTP intake applies only the trusted mapping and creates no identity or privilege"
+    },
+    {
+      "status": "ok",
+      "number": 19,
+      "name": "concurrent intake and drainers produce one durable ERP effect; identical replay returns its receipt"
+    },
+    {
+      "status": "ok",
+      "number": 20,
+      "name": "response loss after real ERP commit survives site restart and retries the exact event once"
+    },
+    {
+      "status": "ok",
+      "number": 21,
+      "name": "a conflicting authenticated event produces real ERP quarantine and never overwrites the first lead"
+    },
+    {
+      "status": "ok",
+      "number": 22,
+      "name": "current ERP actor revocation quarantines queued intake without a business or identity effect"
+    },
+    {
+      "status": "ok",
+      "number": 23,
+      "name": "unmapped service and changed site mapping fail closed before any ERP HTTP request"
+    },
+    {
+      "status": "ok",
+      "number": 24,
+      "name": "SQLite queue failure rolls back intake and audit; retry commits one complete bridge transaction"
+    },
+    {
+      "status": "ok",
+      "number": 25,
+      "name": "expired lease recovery fences stale settlement while two real deliveries create one ERP lead"
+    },
+    {
+      "status": "ok",
+      "number": 26,
+      "name": "same-company credential rotation preserves replay; different-company credentials cannot redirect queued intake"
+    }
+  ]
+}

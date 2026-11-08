@@ -1,0 +1,517 @@
+{
+  "reviewedAtUtc": "2026-11-08T19:37:12.258043+00:00",
+  "verdict": "ACCEPT_ANDROID_F3_SOURCE_AND_LOCAL_EVIDENCE_SCOPED_CI_DEVICE_PENDING",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "manifestSha256": "1de788d5105f1d5bf4881894c49d3f03dedd4c25f47c6addd6cf35315c756601",
+  "sourceDigest": "722b90abf6c5e2ee56df3dfd2dae7008f4b1fc7741c8bfaf690adba7e368fa18",
+  "initialReviewSha256": "812390f6ffb6aef6abbf8604b9cc0f31dc8cb4cc6aaa23390dfcb885c697d235",
+  "independentUiReviewSha256": "696f7deef26d809788602d1c1c386d4887b719b115d0c5b530b6cceaa92fa0d6",
+  "resolvedFindings": [
+    "ANDROID-F3-R1: strict candidate command/media journal preflight, error before retirement; historical authority retains blocked recovery without writes",
+    "ANDROID-F3-R2: all three delayed dialog positives capture screen/client/full authority revision; superseded callbacks ignored"
+  ],
+  "sourcePaths": [
+    {
+      "path": "erp/apps/mobile-android/FEDERATION_LOGIN_UK.md",
+      "bytes": 9250,
+      "sha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "bytes": 731,
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "bytes": 1494,
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "bytes": 67829,
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5",
+      "mode": "0o644",
+      "baseSha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "bytes": 48991,
+      "sha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0",
+      "mode": "0o644",
+      "baseSha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "bytes": 879,
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "bytes": 27101,
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "bytes": 27280,
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6",
+      "mode": "0o644",
+      "baseSha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "bytes": 29012,
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6",
+      "mode": "0o644",
+      "baseSha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "bytes": 28749,
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f",
+      "mode": "0o644",
+      "baseSha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "bytes": 37377,
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198",
+      "mode": "0o644",
+      "baseSha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "bytes": 36988,
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42",
+      "mode": "0o644",
+      "baseSha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "bytes": 29096,
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4",
+      "mode": "0o644",
+      "baseSha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "bytes": 21961,
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "bytes": 1007,
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94",
+      "mode": "0o644",
+      "baseSha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation-policy.py",
+      "bytes": 2733,
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97",
+      "mode": "0o755",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation.sh",
+      "bytes": 1336,
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f",
+      "mode": "0o755",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "bytes": 3075,
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba",
+      "mode": "0o755",
+      "baseSha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationCookieTest.java",
+      "bytes": 1222,
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationHttpTest.java",
+      "bytes": 10248,
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationLoginTest.java",
+      "bytes": 36635,
+      "sha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176",
+      "mode": "0o644",
+      "baseSha256": null
+    }
+  ],
+  "verifiedEvidence": {
+    "actualAuthorLocalGradleTests": 81,
+    "newFederationTests": 9,
+    "preservedBaselineTests": 72,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "lint": {
+      "Warning": 20
+    },
+    "protocolAssertions": 901,
+    "loopbackHttpAssertions": 74,
+    "loopbackHttpScenarios": 4,
+    "mergedDebugCallback": "PRESENT_TEST_PACKAGE",
+    "mergedReleaseCallback": "ABSENT",
+    "unchangedAndroidInputs": 57,
+    "canonicalV3V4": "UNCHANGED",
+    "manifestEvidenceFilesRehashed": 23,
+    "testCases": [
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "api32UsesSystemDocumentFallbackWithoutStoragePermission"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "pickerReturnAcrossForegroundDoesNotUploadAndCancellationHasNoMutation"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "explicitSaveRechecksCurrentAssetAndUsesOnlyClientCopy"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "activityRecreationDrainsOldProviderReadBeforeNewMediaWork"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "stalePickerResultAfterExitCannotRestoreSelectionOrReadTheProvider"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "unknownRegistrationRetriesSameRequestWithoutUploadingAgainAndKeepsAckOnReadFailure"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "savePickerReturnedAfterLogoutCannotWriteOrDownload"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "twoPhotosAreExplicitlySentSequentiallyWithIndependentReceipts"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "removedTaskBeforeSendPreventsAnyUploadAndClearsPrivateScreen"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "fullMediaIoQueueShowsBusyAndRequiresAnExplicitReadRetry"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "combinedFileJobKeepsUnknownUploadDescriptorForManualExactRetry"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "pausedMainTwoPreparedScreensNeverCarryOriginalBytesBetweenJobs"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "name": "restoredAcknowledgedReceiptOffersOnlyLocalCleanup"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "interruptedLegacyAtomicWriteRecoversBackupWhenBaseIsMissing"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "tamperedCiphertextFailsClosedWithoutDeletingRecord"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "sizeAndScopeLimitsFailBeforeOverwritingExistingRecords"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "authenticatedMalformedMediaScopeCannotBeSilentlyReplaced"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "mediaJournalNeverDiscardsUnconfirmedWorkOrChangesAnAcknowledgedVersion"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "encryptedRecordSurvivesNewStoreAndDoesNotShareGpsState"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "mediaMetadataIsEncryptedAndIsolatedFromGpsAndCommandRecovery"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "conflictingWriteAndStaleCompletionPreserveOriginal"
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "name": "mediaBackupRecoversButMissingVaultWithExistingKeyCannotBecomeAnEmptyQueue"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "demoMessagePersistsOnRefreshAndResetsOnExit"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "foregroundRefreshStopsWhileHiddenAndResumesAutomatically"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "selectedUkrainianSurvivesNewActivity"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "demoTaskStartWorklogSubmitUsesOrdinaryQuantitiesAndNoInternalIds"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "customerCanOpenPublishedCommerceAndReportsWithoutInternalModules"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "serverConfigurationIsAutomaticAndNoAddressInputIsExposed"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "delayedLoginAfterStopDefersAuthenticatedReadsUntilForeground"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "credentialFormMasksAndClearsInputsThenRequiresANewLogin"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "readPermissionDoesNotExposeWriteEvenIfCatalogListsIt"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "changedSiteScopeRequiresReauthenticationBeforeAnotherDataRead"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "repeatedSendWhilePendingCreatesOnlyOneMessage"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "leavingReadScreenDiscardsLateTaskResults"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "uncertainMessageIsNeverAutomaticallyRepeatedOrOverwritten"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "recreationRetainsDemoSessionButNeverEnablesGps"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "connectionLossRetainsReadDataAndRecoversWithBoundedBackoff"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "serverDiscoveryWaitsForFirstStartAndResumesWithoutSubmittingCredentials"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "serverRetryAfterIsHonoredAcrossForegroundAndManualRefresh"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "siteSupervisorCanDiscoverOrdersThroughExistingSiteReadAuthority"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "aSlowRefreshNeverOverlapsAnotherDataRequest"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "incompatibleCommandSchemaCannotBindAnotherEntityId"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "reauthenticationShowsRestoredCommandAndRetriesOriginalEnvelope"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "revokedReadAccessRemovesPrivateRecordsImmediately"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "commandFormDoesNotRefreshOrSubmitItself"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "accountantCanReadPayrollAndReportsWithoutWarehouseOrLocationNavigation"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "recordDetailsRefreshTheirServerVersionAndTitle"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "emptyLoginIsRejectedAndDoesNotStartGps"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "pendingServerIsRetriedAutomaticallyWithoutSubmittingTypedCredentials"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "unconfiguredServerNeverSubmitsCredentialsOrFallsBackToDemo"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "recreatedSessionLoadsDashboardImmediatelyOnFirstStart"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "latePublicConfigurationDoesNotReplaceAnExplicitDemoSession"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "phoneScreensRenderWithAccessibleTouchTargets"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "materialRequestActionBindsOpenedRecordAndVersionWithoutManualIds"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "warehouseAndProcurementModulesUseGrantedCapabilitiesAndFreshRevocation"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "quoteAcceptancePinsPublishedVersionAndRequiresSensitiveConfirmation"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "resumedReadRevalidatesCurrentAuthorityBeforeFetchingPrivateRecords"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "ownCrewResponseUsesProjectedEmployeeIdentityAndScheduleVersion"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "unknownCredentialOutcomeCannotLeaveARecoveryOrRepeatAfterResume"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "serverQuantityDefaultIsDisplayedInOrdinaryUnits"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "demoSearchDetailBackAndEmptyResultsAreUsable"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "automaticTaskRefreshPreservesSearchAndShowsNewServerData"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "expiredSessionReturnsToLoginWithoutPrivateRecords"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "platformBackNavigatesAndUnregistersOnDestroy"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "tabletAndLongUkrainianTextRender"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "vehicleTripReadNavigationUsesExistingGenericContractWithoutInventedActions"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "automaticAndManualMessageRefreshPreserveDraftWithoutSending"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "roleNameAloneDoesNotExposeFinanceGpsOrIdentityModules"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "employeeCanFindOwnCrewAndPaymentRecordsWithoutManagerGrant"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "languagePickerHasSixLanguagesAndSystemChoice"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "name": "legacyBackKeyReturnsThroughDetailListAndDashboard"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "unknownTokenUiChecksOnlyNewCandidateAndKeepsOldAccountOn401"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "successfulCallbackAdoptsActorTogetherWithNewCookieAndLeavesTimeToolsSeparate"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "pausedMainCannotSwitchAccountBeforeLocalAdoptionOrAfterCancel"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "coldAndMalformedCallbacksCannotForwardCallerIntents"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "cancellationAndSameUserRefreshRejectOldCallbackWithoutClearingSession"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "delayedLeaveConfirmationCannotActAfterFederationAdoption"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "verifiedCandidateStaysPrivateInBackgroundUntilForegroundCommit"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "debugCallbackIsExportedOnlyAsAnEphemeralBrowserReceiver"
+      },
+      {
+        "suite": "de.knaba.mobile.ErpFederationActivityTest",
+        "name": "systemBrowserWaitSurvivesStopAndRotationWithoutReopeningOrSavingSecrets"
+      },
+      {
+        "suite": "de.knaba.mobile.LauncherIconTest",
+        "name": "packagedLauncherAndRoundIconsInflateAndRenderCompanyMark"
+      }
+    ]
+  },
+  "scope": "Independent full protocol/transport/corrective source inspection and raw evidence validation; the reviewer did not repeat author suites. This is hashed dirty-worktree preparation, not clean candidate CI acceptance.",
+  "remainingGates": [
+    "Exact committed aggregate CI and Android artifact packaging",
+    "Actual iOS compiler and210 XCTest",
+    "Actual privacy15 PostgreSQL and11 new rendered cases within30",
+    "Physical Android/iOS system browser, device install/upgrade and production app-link/signing ownership",
+    "Full compound requirements, providers, legal and owner acceptance"
+  ],
+  "sourceEditedByReviewer": false,
+  "wholeProduct": "NOT_READY"
+}

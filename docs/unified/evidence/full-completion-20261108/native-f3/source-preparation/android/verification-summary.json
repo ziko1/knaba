@@ -1,0 +1,137 @@
+{
+  "status": "PASS_LOCAL_SOURCE_CHECKS_PENDING_INDEPENDENT_REVIEW",
+  "sourceInputsSha256": "15c76749246a2acae2f21fe1c8b8af4cb35fd6492e8f5273bdd8e70d09d123fc",
+  "android": {
+    "total": 81,
+    "existing": 72,
+    "newFederation": 9,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": [
+      {
+        "name": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/android-federation/frozen-results/TEST-de.knaba.mobile.ConsoleMediaScreenTest.xml",
+          "bytes": 2225,
+          "sha256": "e914e929d2f6adb8085188e87bd8f863ca3b4793c5f8a2b4414964007c032e48"
+        }
+      },
+      {
+        "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/android-federation/frozen-results/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+          "bytes": 1665,
+          "sha256": "2d3d2ffbd5ae8ce376a4c0405600c3cdbf664314bf1f8491b7681fbc4ba890c5"
+        }
+      },
+      {
+        "name": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 49,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/android-federation/frozen-results/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+          "bytes": 7201,
+          "sha256": "1c892daa24cb1ae0f98f5d5c100fbaead4401b02d8739caf09566de5a2b9c476"
+        }
+      },
+      {
+        "name": "de.knaba.mobile.ErpFederationActivityTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/android-federation/frozen-results/TEST-de.knaba.mobile.ErpFederationActivityTest.xml",
+          "bytes": 1817,
+          "sha256": "8149438a5e369e4dc356a3af87ad00751b3996936b54d9218a5b221fbf6dc807"
+        }
+      },
+      {
+        "name": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/android-federation/frozen-results/TEST-de.knaba.mobile.LauncherIconTest.xml",
+          "bytes": 456,
+          "sha256": "6acd3a681d3ec162013d2b5ecd0ad2eaac04444f5f53352d3995cae7f993a67a"
+        }
+      }
+    ]
+  },
+  "lint": {
+    "countsBySeverity": {
+      "Warning": 20
+    },
+    "report": {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/frozen-results/lint-results-debug.xml",
+      "bytes": 27212,
+      "sha256": "ac417f610b06e72c8334f597416ddc202289b383b5dba47ff8733f6580c1e187"
+    }
+  },
+  "host": {
+    "transportAssertions": 76,
+    "mediaAssertions": 71,
+    "mediaIOAssertions": 17,
+    "credentialTests": 10,
+    "credentialAssertions": 30,
+    "discoveryAssertions": 109,
+    "federationAssertions": 901,
+    "httpAssertions": 74,
+    "actualLoopbackHttpScenarios": 4,
+    "maximumMediaPdfBytes": 20971520,
+    "streamedJsonBytes": 27962122,
+    "maximumTestHeapMiB": 96,
+    "note": "Counts are distinct test categories; assertions are not independent test cases. Connection/journal doubles and loopback origin remapping are explicit."
+  },
+  "actualMergedManifests": {
+    "debug": {
+      "path": "/workspace/scratch/c56161c95e04/knaba-android-f3/erp/apps/mobile-android/app/build/intermediates/merged_manifest/debug/processDebugMainManifest/AndroidManifest.xml",
+      "bytes": 3033,
+      "sha256": "3b04bef0b16576b9164c1ef39643cdbecdf012fc63c91cb2e6961e14947e1002"
+    },
+    "release": {
+      "path": "/workspace/scratch/c56161c95e04/knaba-android-f3/erp/apps/mobile-android/app/build/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml",
+      "bytes": 2234,
+      "sha256": "ec9066e03857bce64eedc952ab81fee594bbc7fa45914b34e3a50c32ff431a64"
+    },
+    "policy": {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/manifest-policy-corrected-green.log",
+      "bytes": 175,
+      "sha256": "000e2020797ba69c73c69dd15a5f629259462e4377fa62058cd46302e6aaf3ed"
+    }
+  },
+  "redToGreen": [
+    "Exact KF3 parser",
+    "Token actor vs candidate /me identity",
+    "Paused main loop must not adopt credentials",
+    "Old transport must not inherit or regain new credentials",
+    "Exact configuration DTO with leading underscore IDs",
+    "Unavailable/invalid linked or standalone media recovery must abort adoption",
+    "Delayed old dialog confirmation must not navigate a new account"
+  ],
+  "fixtureIterationsNotAcceptance": [
+    "delayed-dialog-fixture-type-error.log: corrected Integer to actual Long screen type",
+    "delayed-dialog-before-main-drain.log: positive button message had not been drained; not used as behavioral proof"
+  ],
+  "notRun": [
+    "New CI against frozen candidate",
+    "APK/AAB package or device install",
+    "Physical Android system-browser routing and real device lifecycle",
+    "Real ERP/browser end-to-end native flow",
+    "Production App Links/domain/signing ownership",
+    "Store/live acceptance"
+  ]
+}

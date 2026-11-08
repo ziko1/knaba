@@ -60,12 +60,12 @@ test('a fallback PASS containing an engine block stops the wrapper before anothe
   assert.throws(()=>assertSuiteReceipt(base,{requiredChecks:['assistant.display.visible']}),/MISSING_REQUIRED/);
   assertSuiteReceipt({status:'PASS',checks:[{status:'PASS',caseId:'assistant.display.visible'}]},{requiredChecks:['assistant.display.visible']});
 });
-test('ERP report requires all three named fixture suites, all nineteen distinct cases and no skip, retry or failure',()=>{
-  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',10]].map(([file,count])=>({file,
+test('ERP report requires all four named fixture suites, all thirty distinct cases and no skip, retry or failure',()=>{
+  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',10],['privacy-projection-ui.spec.ts',11]].map(([file,count])=>({file,
     specs:Array.from({length:count},(_,i)=>({file,id:file+':'+i,title:'synthetic case '+i,tests:[{status:'expected',results:[{status:'passed'}]}]})),
   }));
-  const report={stats:{expected:19,unexpected:0,skipped:0,flaky:0},errors:[],suites};
-  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':10});
+  const report={stats:{expected:30,unexpected:0,skipped:0,flaky:0},errors:[],suites};
+  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':10,'privacy-projection-ui.spec.ts':11});
   for(const patch of [{skipped:1},{unexpected:1},{flaky:1},{expected:0}])assert.throws(()=>assertErpUiReport({...report,stats:{...report.stats,...patch}}));
   const missing=structuredClone(report);missing.suites.pop();missing.stats.expected=4;assert.throws(()=>assertErpUiReport(missing));
   const wrong=structuredClone(report);wrong.suites[1].specs.forEach(spec=>{spec.file='conversation-transfer-ui.spec.ts';});assert.throws(()=>assertErpUiReport(wrong));

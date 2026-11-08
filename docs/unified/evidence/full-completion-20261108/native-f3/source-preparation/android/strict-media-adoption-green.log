@@ -1,0 +1,4 @@
+PASS source TEST-only callback boundary; Release registry has no callback component
+PASS exact KF3 ERP cookie parser
+PASS federation protocol/state/transport: 901 assertions; explicit connection doubles, no device/browser claim
+PASS federation actual loopback HTTP: 74 assertions, 4 scenarios; origin mapping is injected, no ERP/browser/device claim

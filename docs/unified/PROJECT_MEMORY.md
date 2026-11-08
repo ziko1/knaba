@@ -638,3 +638,17 @@ a202ddc8d527f90dc7c13a923a11336410623173/main42502394292: ERP3260/3260 (F3PG18 i
 ## 08.11.2026 — 77b64956 browser return transport gap
 
 Exact77b64956/main42504597503 preserves ERP3260/3260, actual pair26/26, root/site and other browser stages PASS; required rendered fixtures18/19, F3=9/10. Previous password-input and cross-site corrections passed. Source303 produced a browser return request with Lax flow cookie and without the older Strict ERP cookie, but synthetic ERP DNS failed before account/MFA completion. Three-path HTTPS receiver fixture preserves303/cookies/current built HTML; focused4 Node HTTPS cases, typecheck, exact19-case collection and independent source/downstream review passed. Actual corrected browser execution is NOT_RUN. [Facts, scope and dependency](F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md). Android42504597544 SUCCESS; iOS42504597458 SKIPPED,121 native inputs unchanged. F3 and whole product NOT_READY; native F3/privacy source remains queued. One bounded checkpoint reserved; no merge/deploy/provider activation.
+
+
+## 08.11.2026 — F3 technical aggregate accepted at 6a395bb
+
+Exact source6a395bb73501455371a0e281debf81a6c18c6329/tree e81d6947e96038174d9ec8e2741250713b804396, main42507639872 SUCCESS: four required jobs, ERP3264/3264 including18 F3/24 F2 PostgreSQL, actual runtime pair26/26 including8 F3, rendered19/19 including10 F3 with zero skip/retry/flake; root29, site900+92+354, roles111/languages32/public24 passed. Independent acceptance SHAa80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8 permits dependent native F3/privacy source work. The first WEB browser case now receives the real303 return over bounded loopback HTTPS and completes explicit MFA/new-session/console; its API responses are still HTTP fixtures. [Exact scope, artifacts and history](F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md).
+
+Android42507639781 SUCCESS; iOS42507639722 SKIPPED. All121 native inputs unchanged from af6f84d, so native artifact/device/signing acceptance is not reattributed to6a. Native F3 adapters and versioned privacy projection are now active separately reviewed source work, requiring a new committed aggregate/native checkpoint. Native push remains a known source gap. Whole product NOT_READY; canonical compound AC and historical failures unchanged. No main merge, production/DNS/live-data mutation, paid provider activation or physical-device acceptance.
+
+
+## 08.11.2026 — reviewed native F3/privacy source integrated; new CI pending
+
+На base6a395bb інтегровано 59 exact reviewed inputs: Android21/iOS19/privacy backend7/UI12. Android local81 PASS, lint0 errors/20 warnings, Debug-only merged callback; iOS8 portable PASS та65 нових authored XCTest (210 total), actual Swift/XCTest NOT_RUN. Privacy final model30 і corrected dirty-tree build0 підтверджені; actual privacy PG15/rendered11 pending. Independent source reviews і failure history збережені. [Спільний checkpoint](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
+
+Наступний gate — один clean committed candidate і чинні repository/native workflows, включно з rendered30 та iOS210. Старий6a acceptance не приймає новий source. Whole product NOT_READY; whole AC/trace statuses, expired cutoff, provider/signing/device/production permissions незмінні. Native push і Zod remediation залишаються наступними окремими source scopes.

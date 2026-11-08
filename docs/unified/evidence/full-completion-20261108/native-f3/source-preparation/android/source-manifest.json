@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "status": "FROZEN_FOR_INDEPENDENT_SOURCE_REVIEW",
+  "frozenAtUtc": "2026-11-08T19:34:57.396278+00:00",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-android-f3",
+  "pathCount": 21,
+  "paths": [
+    {
+      "path": "erp/apps/mobile-android/FEDERATION_LOGIN_UK.md",
+      "bytes": 9250,
+      "sha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "bytes": 731,
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "bytes": 1494,
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "bytes": 67829,
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5",
+      "mode": "0o644",
+      "baseSha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "bytes": 48991,
+      "sha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0",
+      "mode": "0o644",
+      "baseSha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "bytes": 879,
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "bytes": 27101,
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "bytes": 27280,
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6",
+      "mode": "0o644",
+      "baseSha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "bytes": 29012,
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6",
+      "mode": "0o644",
+      "baseSha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "bytes": 28749,
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f",
+      "mode": "0o644",
+      "baseSha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "bytes": 37377,
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198",
+      "mode": "0o644",
+      "baseSha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "bytes": 36988,
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42",
+      "mode": "0o644",
+      "baseSha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "bytes": 29096,
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4",
+      "mode": "0o644",
+      "baseSha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "bytes": 21961,
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "bytes": 1007,
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94",
+      "mode": "0o644",
+      "baseSha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation-policy.py",
+      "bytes": 2733,
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97",
+      "mode": "0o755",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation.sh",
+      "bytes": 1336,
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f",
+      "mode": "0o755",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "bytes": 3075,
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba",
+      "mode": "0o755",
+      "baseSha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationCookieTest.java",
+      "bytes": 1222,
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationHttpTest.java",
+      "bytes": 10248,
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971",
+      "mode": "0o644",
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationLoginTest.java",
+      "bytes": 36635,
+      "sha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176",
+      "mode": "0o644",
+      "baseSha256": null
+    }
+  ],
+  "sourceDigestAlgorithm": "SHA256 of UTF-8 JSON(paths) with sorted keys, compact separators and ensure_ascii=false",
+  "sourceDigest": "722b90abf6c5e2ee56df3dfd2dae7008f4b1fc7741c8bfaf690adba7e368fa18",
+  "readonlyContractDependencies": [
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "bytes": 10977,
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+    },
+    {
+      "path": "erp/apps/api/site-federation-login.ts",
+      "bytes": 29044,
+      "sha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3"
+    },
+    {
+      "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      "bytes": 82572,
+      "sha256": "89096a9c824d9fd9ac8a4885b86f9d6cd11346d8873faed0a9e7a7e6b8127beb"
+    }
+  ],
+  "acceptedDependencyGate": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/browser-transport-actual/independent-acceptance.json",
+    "bytes": 9214,
+    "sha256": "a80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8"
+  },
+  "preservation": {
+    "path": "/workspace/scratch/c56161c95e04/verification/android-federation/preservation-check.json",
+    "bytes": 13027,
+    "sha256": "19a9ebe57ee3ad23e99279bd3787a9e2a5d148206551066040a4c171cb393759"
+  },
+  "verificationSummary": {
+    "path": "/workspace/scratch/c56161c95e04/verification/android-federation/verification-summary.json",
+    "bytes": 5328,
+    "sha256": "3f9a76e86b06607060bb75c6e7510704be1e7d1ddd4903c1c34648d560a392eb"
+  },
+  "patch": {
+    "path": "/workspace/scratch/c56161c95e04/verification/android-federation/source-diff.patch",
+    "bytes": 175766,
+    "sha256": "ed124b2eb60f2a670d5afbf1a61173ee8fce4c628e977e7f9ce5e99203b57f5b"
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/preimages.json",
+      "bytes": 13598,
+      "sha256": "756066cdcb74f5fef94b28bb6b4a0379ce360a98ed3c4ab2c968f4b4cbcab2d3"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/corrected-run-inputs.json",
+      "bytes": 4302,
+      "sha256": "15c76749246a2acae2f21fe1c8b8af4cb35fd6492e8f5273bdd8e70d09d123fc"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/android-corrected-green.log",
+      "bytes": 2859,
+      "sha256": "6d67ba92d25e6252c7f86ae47b164aa91ec2c2507b5c616af5d07a00d59827fd"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/transport-corrected-green.log",
+      "bytes": 946,
+      "sha256": "44aa01c2c5b02238c1e324b9fae735fae9d9f3afae1c8b3bc26b4ca616b8c7a9"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/manifest-policy-corrected-green.log",
+      "bytes": 175,
+      "sha256": "000e2020797ba69c73c69dd15a5f629259462e4377fa62058cd46302e6aaf3ed"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/demo-frozen-green.log",
+      "bytes": 90,
+      "sha256": "1f47accf26011f7096f971e78e50fc236d2abacaea0b615cf0555f5d0597d772"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/localization-final-green.log",
+      "bytes": 286,
+      "sha256": "374c2523ea9fca5618a3859c8de757c86d17c94326094e622c09f77f50856f57"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/strict-media-adoption-red.log",
+      "bytes": 482,
+      "sha256": "65118803d087e1a968e1f276afcb530579547b69883f3e7c82fa2f573400b25f"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/strict-media-adoption-green.log",
+      "bytes": 350,
+      "sha256": "2830dbba39dcfa237ebb45c177cce564233212712cb71aa50c5be216098d0b47"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/delayed-dialog-red.log",
+      "bytes": 2695,
+      "sha256": "9a2da3ceae256e996616836e29bd9b14382799e8c7cd1ca130488c5e81381831"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/delayed-dialog-red.xml",
+      "bytes": 3697,
+      "sha256": "7e25cea3e5c89e346b4b5c21950723f32dc9fa9cb725a1fb08b74027356bd52c"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/paused-main-red.log",
+      "bytes": 2698,
+      "sha256": "0af50fa18d4ac227e5ca004bb64a1516bdade1ab2808786c78129ba76e5da8f1"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/paused-main-red.xml",
+      "bytes": 3735,
+      "sha256": "fa68c58f93372bc9162bcce6154af6497f1fa7fb1203e8dd5db2c28add06acd0"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/retired-transport-red.log",
+      "bytes": 495,
+      "sha256": "9c78c7a36d88361099dc9f4b6ab9f70c2a64a28a260000a1116783099730499e"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/candidate-identity-red.log",
+      "bytes": 417,
+      "sha256": "b88de546210b8a3fc7e666d36bc0d1666d4bdc0d1c52c21cb0afc8bb5c1f05f0"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/config-schema-red.log",
+      "bytes": 629,
+      "sha256": "ec033cf34aaf2cce38f41329745b0b3db94448d3c31c26aad1cc4803ca8aa40b"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/cookie-red.log",
+      "bytes": 194,
+      "sha256": "569aa59ba915977eebd321964938efe6ed3336861bf1c8ae64476cd83054dbb0"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/render-transport-guard-red/android-red.log",
+      "bytes": 8657,
+      "sha256": "8efa6ed5ef0f9c924b5dde44f9ba433ecf3f5f78f08a148af0353ce8558b6c5e"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/pre-strict-adoption-correction/receipt.json",
+      "bytes": 1002,
+      "sha256": "b84e31caafcc492bb9b6fff6fdaff06481c6bb51d5eae1ebcae930f39631817a"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/delayed-dialog-fixture-type-error.log",
+      "bytes": 2745,
+      "sha256": "c6c5f83ff6c50308bfb58354697cedfd6445183a1a1bcc6651168051a2046c62"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/delayed-dialog-before-main-drain.log",
+      "bytes": 2413,
+      "sha256": "1cf0eee0cbd45ee38226798eaee8398283aa63f23820a8fdb3ef42f9a393ba3f"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/toolchain-restart-exit69.log",
+      "bytes": 191,
+      "sha256": "aed4d1998c47e0874e57b312d21890773866bd80d92d57d4730f4b52af522e1a"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/toolchain-restoration.json",
+      "bytes": 868,
+      "sha256": "ca77fadabbc4f207b8e2d0ffa3d84ed98562964fedd84b1cdcacd44531c791e0"
+    }
+  ],
+  "sourceMutation": "No commit/push/deploy. No API, workflow, Swift, lockfile, signing or GPS changes."
+}

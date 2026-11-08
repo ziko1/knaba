@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.knaba.mobile.ErpConsoleActivityTest" tests="49" skipped="0" failures="0" errors="0" timestamp="2026-11-08T19:33:18.554Z" hostname="08766be39cd5" time="34.544">
+  <properties/>
+  <testcase name="demoMessagePersistsOnRefreshAndResetsOnExit" classname="de.knaba.mobile.ErpConsoleActivityTest" time="8.543"/>
+  <testcase name="foregroundRefreshStopsWhileHiddenAndResumesAutomatically" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.541"/>
+  <testcase name="selectedUkrainianSurvivesNewActivity" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.206"/>
+  <testcase name="demoTaskStartWorklogSubmitUsesOrdinaryQuantitiesAndNoInternalIds" classname="de.knaba.mobile.ErpConsoleActivityTest" time="1.874"/>
+  <testcase name="customerCanOpenPublishedCommerceAndReportsWithoutInternalModules" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.38"/>
+  <testcase name="serverConfigurationIsAutomaticAndNoAddressInputIsExposed" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.256"/>
+  <testcase name="delayedLoginAfterStopDefersAuthenticatedReadsUntilForeground" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.323"/>
+  <testcase name="credentialFormMasksAndClearsInputsThenRequiresANewLogin" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.622"/>
+  <testcase name="readPermissionDoesNotExposeWriteEvenIfCatalogListsIt" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.332"/>
+  <testcase name="changedSiteScopeRequiresReauthenticationBeforeAnotherDataRead" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.377"/>
+  <testcase name="repeatedSendWhilePendingCreatesOnlyOneMessage" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.409"/>
+  <testcase name="leavingReadScreenDiscardsLateTaskResults" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.253"/>
+  <testcase name="uncertainMessageIsNeverAutomaticallyRepeatedOrOverwritten" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.234"/>
+  <testcase name="recreationRetainsDemoSessionButNeverEnablesGps" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.383"/>
+  <testcase name="connectionLossRetainsReadDataAndRecoversWithBoundedBackoff" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.228"/>
+  <testcase name="serverDiscoveryWaitsForFirstStartAndResumesWithoutSubmittingCredentials" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.292"/>
+  <testcase name="serverRetryAfterIsHonoredAcrossForegroundAndManualRefresh" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.281"/>
+  <testcase name="siteSupervisorCanDiscoverOrdersThroughExistingSiteReadAuthority" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.428"/>
+  <testcase name="aSlowRefreshNeverOverlapsAnotherDataRequest" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.42"/>
+  <testcase name="incompatibleCommandSchemaCannotBindAnotherEntityId" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.549"/>
+  <testcase name="reauthenticationShowsRestoredCommandAndRetriesOriginalEnvelope" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.323"/>
+  <testcase name="revokedReadAccessRemovesPrivateRecordsImmediately" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.242"/>
+  <testcase name="commandFormDoesNotRefreshOrSubmitItself" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.284"/>
+  <testcase name="accountantCanReadPayrollAndReportsWithoutWarehouseOrLocationNavigation" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.221"/>
+  <testcase name="recordDetailsRefreshTheirServerVersionAndTitle" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.409"/>
+  <testcase name="emptyLoginIsRejectedAndDoesNotStartGps" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.182"/>
+  <testcase name="pendingServerIsRetriedAutomaticallyWithoutSubmittingTypedCredentials" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.215"/>
+  <testcase name="unconfiguredServerNeverSubmitsCredentialsOrFallsBackToDemo" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.309"/>
+  <testcase name="recreatedSessionLoadsDashboardImmediatelyOnFirstStart" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.437"/>
+  <testcase name="latePublicConfigurationDoesNotReplaceAnExplicitDemoSession" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.19"/>
+  <testcase name="phoneScreensRenderWithAccessibleTouchTargets" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.255"/>
+  <testcase name="materialRequestActionBindsOpenedRecordAndVersionWithoutManualIds" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.225"/>
+  <testcase name="warehouseAndProcurementModulesUseGrantedCapabilitiesAndFreshRevocation" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.328"/>
+  <testcase name="quoteAcceptancePinsPublishedVersionAndRequiresSensitiveConfirmation" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.901"/>
+  <testcase name="resumedReadRevalidatesCurrentAuthorityBeforeFetchingPrivateRecords" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.556"/>
+  <testcase name="ownCrewResponseUsesProjectedEmployeeIdentityAndScheduleVersion" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.222"/>
+  <testcase name="unknownCredentialOutcomeCannotLeaveARecoveryOrRepeatAfterResume" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.274"/>
+  <testcase name="serverQuantityDefaultIsDisplayedInOrdinaryUnits" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.286"/>
+  <testcase name="demoSearchDetailBackAndEmptyResultsAreUsable" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.51"/>
+  <testcase name="automaticTaskRefreshPreservesSearchAndShowsNewServerData" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.265"/>
+  <testcase name="expiredSessionReturnsToLoginWithoutPrivateRecords" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.217"/>
+  <testcase name="platformBackNavigatesAndUnregistersOnDestroy" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.526"/>
+  <testcase name="tabletAndLongUkrainianTextRender" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.533"/>
+  <testcase name="vehicleTripReadNavigationUsesExistingGenericContractWithoutInventedActions" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.409"/>
+  <testcase name="automaticAndManualMessageRefreshPreserveDraftWithoutSending" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.315"/>
+  <testcase name="roleNameAloneDoesNotExposeFinanceGpsOrIdentityModules" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.319"/>
+  <testcase name="employeeCanFindOwnCrewAndPaymentRecordsWithoutManagerGrant" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.182"/>
+  <testcase name="languagePickerHasSixLanguagesAndSystemChoice" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.185"/>
+  <testcase name="legacyBackKeyReturnsThroughDetailListAndDashboard" classname="de.knaba.mobile.ErpConsoleActivityTest" time="8.216"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

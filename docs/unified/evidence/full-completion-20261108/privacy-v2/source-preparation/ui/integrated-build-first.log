@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 build
+> tsc --noEmit && vite build --config apps/web/vite.config.ts && node scripts/bundle.mjs
+
+apps/web/src/privacyProjectionModel.test.ts(72,44): error TS2353: Object literal may only specify known properties, and 'companyId' does not exist in type 'Entity'.

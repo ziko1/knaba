@@ -355,4 +355,21 @@
     <string name="erp_media_stage_unknown">Phase nicht bestätigt</string>
     <string name="erp_media_status_unknown">Status erneut prüfen</string>
     <string name="erp_media_io_busy">Die Dateiverarbeitung ist ausgelastet. Vorherigen Vorgang abschließen lassen und ausdrücklich erneut versuchen.</string>
+
+  <!-- TEST-only system browser sign-in; no credentials or device grants. -->
+  <string name="erp_federation_title">Mit Website anmelden</string>
+  <string name="erp_federation_intro">Die Anmeldung erfolgt im Systembrowser. Das bisherige App-Konto bleibt bis zur bestätigten neuen Anmeldung erhalten.</string>
+  <string name="erp_federation_test">Nur für die ausdrücklich konfigurierte TEST-Umgebung. Keine Gerätefreigabe oder GPS-Aktivierung.</string>
+  <string name="erp_federation_source">Website auswählen</string>
+  <string name="erp_federation_continue">Weiter mit %1$s</string>
+  <string name="erp_federation_wait">Schließen Sie die Anmeldung im Browser ab und kehren Sie zur App zurück.</string>
+  <string name="erp_federation_unknown">Die neue Anmeldung ist noch nicht bestätigt. Prüfen Sie nur diesen Anmeldeversuch; das bisherige Konto bleibt unverändert.</string>
+  <string name="erp_federation_check">Neue Anmeldung prüfen</string>
+  <string name="erp_federation_unavailable">Diese Anmeldung ist für die aktuelle App und den Server nicht freigeschaltet.</string>
+  <string name="erp_federation_expired">Der Anmeldeversuch ist abgelaufen. Starten Sie eine neue Anmeldung.</string>
+  <string name="erp_federation_browser_missing">Kein geeigneter Systembrowser verfügbar.</string>
+  <string name="erp_federation_failed">Die neue Anmeldung wurde nicht übernommen. Ihr bisheriges App-Konto wurde dadurch nicht geändert.</string>
+  <string name="erp_federation_restart">Anmeldung neu starten</string>
+  <string name="erp_federation_cancel">Website-Anmeldung abbrechen</string>
+  <string name="erp_federation_device_proof">Die Gerätefreigabe benötigt eine gesonderte lokale ERP-Anmeldung. Die Website-Anmeldung aktiviert weder Zeiterfassung noch GPS.</string>
 </resources>

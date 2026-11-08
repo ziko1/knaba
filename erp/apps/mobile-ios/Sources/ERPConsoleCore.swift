@@ -142,12 +142,17 @@ enum ERPOrigin {
 protocol ERPConsoleTransport: Sendable {
     func data(for request: URLRequest) async throws -> (Data, HTTPURLResponse)
     func mediaData(for request: URLRequest) async throws -> (Data, HTTPURLResponse)
+    func federationData(for request: URLRequest) async throws -> ERPFederationHTTPResult
 }
 
 extension ERPConsoleTransport {
     // Existing deterministic transports remain usable. The client also verifies
     // the media bound; production enforces it while streaming, before allocation.
     func mediaData(for request: URLRequest) async throws -> (Data, HTTPURLResponse) { try await data(for: request) }
+    func federationData(for request: URLRequest) async throws -> ERPFederationHTTPResult {
+        let (data, response) = try await data(for: request)
+        return ERPFederationHTTPResult(response: response, body: data, headersReceivedAt: Date())
+    }
 }
 
 final class ERPNoRedirect: NSObject, URLSessionTaskDelegate, @unchecked Sendable {
@@ -177,6 +182,25 @@ final class ERPURLSessionTransport: ERPConsoleTransport, @unchecked Sendable {
     }
     func mediaData(for request: URLRequest) async throws -> (Data, HTTPURLResponse) {
         try await boundedData(for: request, maximum: ERPMediaLimits.download, binary: true)
+    }
+    func federationData(for request: URLRequest) async throws -> ERPFederationHTTPResult {
+        let (bytes, raw) = try await session.bytes(for: request, delegate: redirects)
+        defer { bytes.task.cancel() }
+        guard let response = raw as? HTTPURLResponse else { throw ERPFailure.invalidResponse }
+        let received = Date(), receivedUptime = ProcessInfo.processInfo.systemUptime
+        do {
+            guard response.expectedContentLength <= Int64(ERPFederationPolicy.maximumJSON) else { throw ERPFailure.tooLarge }
+            var data = Data()
+            for try await byte in bytes {
+                guard data.count < ERPFederationPolicy.maximumJSON else { throw ERPFailure.tooLarge }
+                data.append(byte)
+            }
+            return ERPFederationHTTPResult(response: response, body: data, headersReceivedAt: received, headersReceivedUptime: receivedUptime)
+        } catch {
+            // Do not discard a fresh response's headers when its body/ACK is lost.
+            // The typed client must still validate exact 200, origin and cookie.
+            return ERPFederationHTTPResult(response: response, body: nil, headersReceivedAt: received, headersReceivedUptime: receivedUptime)
+        }
     }
     private func boundedData(for request: URLRequest, maximum: Int, binary: Bool = false) async throws -> (Data, HTTPURLResponse) {
         let (bytes, raw) = try await session.bytes(for: request, delegate: redirects)
@@ -208,11 +232,36 @@ actor ERPConsoleClient {
         let generation: Int
         let scope: String?
     }
+    private final class FederationAttempt {
+        let ticket: ERPFederationTicket
+        let session: Session
+        let registry: ERPFederationRegistry
+        let verifier: String
+        let state: String
+        let startKey = UUID().uuidString
+        let deadline: Date
+        let uptimeDeadline: TimeInterval
+        var configuration: ERPFederationConfiguration?
+        var startBody: Data?
+        var start: ERPFederationStart?
+        var candidate: ERPFederationCandidate?
+        var expectedIdentity: ERPIdentity?
+        var flight = false
+        var tokenSubmitted = false
+        var verified = false
+        init(ticket: ERPFederationTicket, session: Session, registry: ERPFederationRegistry, now: Date, uptime: TimeInterval) throws {
+            self.ticket = ticket; self.session = session; self.registry = registry
+            verifier = try ERPFederationPolicy.randomSecret(); state = try ERPFederationPolicy.randomSecret()
+            deadline = now.addingTimeInterval(ERPFederationPolicy.pendingSeconds)
+            uptimeDeadline = uptime + ERPFederationPolicy.pendingSeconds
+        }
+    }
     private let transport: any ERPConsoleTransport
     private let journal: any ERPCommandJournal
     private let mediaJournal: any ERPMediaJournal
     private let mediaClientID = UUID()
-    private let mediaSessionFence = ERPMediaSessionFence()
+    private let lifetime = ERPFederationClientLifetime()
+    private var mediaSessionFence: ERPMediaSessionFence { lifetime.mediaFence }
     private var mediaPending: ERPMediaPending?
     private var mediaFlight: UUID?
     private var origin: URL?
@@ -223,36 +272,57 @@ actor ERPConsoleClient {
     private var actorScope: String?
     private var pending: ERPPendingCommand?
     private var commandFlight: UUID?
-    private(set) var identity: ERPIdentity?
+    private var federation: FederationAttempt?
+    private let federationNow: @Sendable () -> Date
+    private let federationUptime: @Sendable () -> TimeInterval
+    private var storedIdentity: ERPIdentity?
+    var identity: ERPIdentity? { lifetime.active ? storedIdentity : nil }
 
     init(transport: any ERPConsoleTransport = ERPURLSessionTransport(),
          journal: any ERPCommandJournal = ERPEncryptedCommandJournal(),
-         mediaJournal: any ERPMediaJournal = ERPEncryptedMediaJournal()) {
+         mediaJournal: any ERPMediaJournal = ERPEncryptedMediaJournal(),
+         federationNow: @escaping @Sendable () -> Date = { Date() },
+         federationUptime: @escaping @Sendable () -> TimeInterval = { ProcessInfo.processInfo.systemUptime }) {
         self.transport = transport
         self.journal = journal
         self.mediaJournal = mediaJournal
+        self.federationNow = federationNow
+        self.federationUptime = federationUptime
+    }
+    private init(transport: any ERPConsoleTransport, journal: any ERPCommandJournal,
+                 mediaJournal: any ERPMediaJournal, federationNow: @escaping @Sendable () -> Date,
+                 federationUptime: @escaping @Sendable () -> TimeInterval,
+                 origin: URL, cookie: String, identity: ERPIdentity, authority: Data, scope: String, revision: Int) {
+        self.transport = transport; self.journal = journal; self.mediaJournal = mediaJournal
+        self.federationNow = federationNow; self.federationUptime = federationUptime
+        self.origin = origin; self.cookie = cookie; self.storedIdentity = identity; self.csrf = identity.csrfToken
+        self.authority = authority; self.actorScope = scope; self.generation = revision
+        lifetime.advance(to: revision)
     }
     func configure(_ raw: String) throws {
+        guard lifetime.active else { throw ERPFailure.accessChanged }
         guard let next = ERPOrigin.validate(raw) else { throw ERPFailure.invalidOrigin }
         if next != origin { reset() }
         origin = next
     }
     private func reset() {
+        federation?.ticket.cancel(); federation = nil
         generation += 1
-        mediaSessionFence.advance(to: generation)
-        identity = nil; cookie = nil; csrf = nil; authority = nil; actorScope = nil
+        lifetime.advance(to: generation)
+        storedIdentity = nil; cookie = nil; csrf = nil; authority = nil; actorScope = nil
         pending = nil; commandFlight = nil; mediaPending = nil; mediaFlight = nil
     }
     func forget() { reset(); origin = nil }
-    func hasSession() -> Bool { identity != nil && cookie != nil && csrf != nil && actorScope != nil }
+    func hasSession() -> Bool { lifetime.active && identity != nil && cookie != nil && csrf != nil && actorScope != nil }
     func authorityState() -> (revision: Int, identity: ERPIdentity?) { (generation, identity) }
     private func capture(authenticated: Bool = true) throws -> Session {
+        guard lifetime.active else { throw ERPFailure.accessChanged }
         guard let origin else { throw ERPFailure.invalidOrigin }
         if authenticated && !hasSession() { throw ERPFailure.expired }
         return Session(origin: origin, cookie: cookie, csrf: csrf, generation: generation, scope: actorScope)
     }
     private func requireCurrent(_ session: Session) throws {
-        guard session.generation == generation, session.origin == origin else { throw ERPFailure.accessChanged }
+        guard lifetime.active, session.generation == generation, session.origin == origin else { throw ERPFailure.accessChanged }
     }
     private func request(_ path: String, method: String, body: Data?, authenticated: Bool, session: Session,
                          bodyLimit: Int = ERPPendingCommand.maximumBodyBytes) throws -> URLRequest {
@@ -348,7 +418,7 @@ actor ERPConsoleClient {
             let (decoded, nextAuthority) = try Self.identityResponse(data)
             let nextCookie = try Self.sessionCookie(response)
             let nextScope = try ERPPendingCommand.scope(origin: session.origin, companyId: decoded.actor.companyId, userId: decoded.actor.userId)
-            cookie = nextCookie; csrf = decoded.csrfToken; identity = decoded; authority = nextAuthority
+            cookie = nextCookie; csrf = decoded.csrfToken; storedIdentity = decoded; authority = nextAuthority
             actorScope = nextScope; pending = nil
             // Recovery is checked lazily by pendingCommand(), including before
             // every mutation. A missing/corrupt/locked journal must not prevent
@@ -368,10 +438,12 @@ actor ERPConsoleClient {
             guard result.actor.companyId == identity?.actor.companyId, result.actor.userId == identity?.actor.userId else {
                 throw ERPFailure.accessChanged
             }
-            if authority != nextAuthority {
-                generation += 1; mediaSessionFence.advance(to: generation); mediaPending = nil
+            if authority != nextAuthority || csrf != result.csrfToken {
+                federation?.ticket.cancel(); federation = nil
+                try requireCurrent(session)
+                generation += 1; lifetime.advance(to: generation); mediaPending = nil
             }
-            csrf = result.csrfToken; identity = result; authority = nextAuthority
+            csrf = result.csrfToken; storedIdentity = result; authority = nextAuthority
             return result
         } catch {
             reset()
@@ -518,6 +590,192 @@ actor ERPConsoleClient {
         let result = try JSONDecoder().decode(ERPField.self, from: data)
         guard result.dictionary?["ok"]?.bool == true, result.dictionary?["reauthenticationRequired"]?.bool == true else { throw ERPFailure.invalidResponse }
         return result
+    }
+
+    // MARK: First-party TEST browser sign-in. Never calls password login/reset.
+    private func currentFederation(_ attempt: FederationAttempt) throws {
+        try attempt.ticket.check()
+        guard lifetime.active, federation === attempt, attempt.session.generation == generation, attempt.session.origin == origin else {
+            throw ERPFederationFailure.changed
+        }
+        guard min(attempt.deadline, attempt.start?.deadline ?? attempt.deadline) > federationNow(),
+              attempt.uptimeDeadline > federationUptime() else {
+            throw ERPFederationFailure.expired
+        }
+    }
+    private func federationAttempt(_ ticket: ERPFederationTicket) throws -> FederationAttempt {
+        guard let attempt = federation, attempt.ticket === ticket else { throw ERPFederationFailure.changed }
+        try currentFederation(attempt); return attempt
+    }
+    func cancelFederation(_ ticket: ERPFederationTicket) {
+        ticket.cancel()
+        if federation?.ticket === ticket { federation = nil }
+    }
+    func federationDeadline(_ ticket: ERPFederationTicket) throws -> Date {
+        let attempt = try federationAttempt(ticket)
+        return attempt.candidate?.deadline ?? attempt.start?.deadline ?? attempt.deadline
+    }
+    private func federationHTTP(_ attempt: FederationAttempt, path: String, method: String = "GET", body: Data? = nil,
+                                key: String? = nil, candidateCookie: String? = nil) async throws -> ERPFederationHTTPResult {
+        try currentFederation(attempt); try Task.checkCancellation()
+        var outgoing = try request(path, method: method, body: body, authenticated: false, session: attempt.session)
+        if let key { outgoing.setValue(key, forHTTPHeaderField: "Idempotency-Key") }
+        if let candidateCookie { outgoing.setValue("knaba_session=" + candidateCookie, forHTTPHeaderField: "Cookie") }
+        let value: ERPFederationHTTPResult
+        do { value = try await transport.federationData(for: outgoing) }
+        catch { try currentFederation(attempt); throw error }
+        try currentFederation(attempt); try Task.checkCancellation()
+        guard value.response.url == outgoing.url, (value.body?.count ?? 0) <= ERPFederationPolicy.maximumJSON else {
+            throw ERPFederationFailure.invalidResponse
+        }
+        return value
+    }
+    private func federationJSON(_ value: ERPFederationHTTPResult) throws -> Data {
+        guard value.response.statusCode == 200 else { throw ERPFailure.http(value.response.statusCode, Self.errorCode(value.body ?? Data())) }
+        guard value.response.mimeType?.lowercased() == "application/json", let data = value.body else { throw ERPFederationFailure.invalidResponse }
+        return data
+    }
+    func prepareFederation(_ ticket: ERPFederationTicket) async throws -> ERPFederationConfiguration {
+        guard let registry = ERPFederationRegistry.compiled else { throw ERPFederationFailure.disabled }
+        try ticket.check()
+        federation?.ticket.cancel()
+        let attempt = try FederationAttempt(ticket: ticket, session: capture(authenticated: false), registry: registry,
+                                            now: federationNow(), uptime: federationUptime())
+        federation = attempt
+        do {
+            let health = try await federationHTTP(attempt, path: "/api/v1/health")
+            try ERPFederationPolicy.health(federationJSON(health))
+            try currentFederation(attempt)
+            let result = try await federationHTTP(attempt, path: "/api/v1/auth/federation/config")
+            let config = try ERPFederationPolicy.configuration(federationJSON(result), origin: attempt.session.origin, registry: registry)
+            try currentFederation(attempt); attempt.configuration = config; return config
+        } catch {
+            if federation === attempt { ticket.cancel(); federation = nil }
+            throw error
+        }
+    }
+    func startFederation(_ ticket: ERPFederationTicket, authorityID: String) async throws -> ERPFederationStart {
+        let attempt = try federationAttempt(ticket)
+        guard !attempt.flight, !attempt.tokenSubmitted, let config = attempt.configuration,
+              config.authorities.contains(where: { $0.id == authorityID }) else { throw ERPFederationFailure.changed }
+        if let start = attempt.start { return start }
+        let body = try JSONSerialization.data(withJSONObject: ["authorityId": authorityID, "clientId": attempt.registry.clientID,
+            "redirectUri": attempt.registry.redirectURI, "state": attempt.state,
+            "codeChallenge": try ERPFederationPolicy.challenge(attempt.verifier), "codeChallengeMethod": "S256"], options: [.sortedKeys])
+        guard attempt.startBody == nil || attempt.startBody == body else { throw ERPFederationFailure.changed }
+        attempt.startBody = body; attempt.flight = true
+        defer { attempt.flight = false }
+        let result: ERPFederationHTTPResult
+        do { result = try await federationHTTP(attempt, path: "/api/v1/auth/federation/start", method: "POST", body: body, key: attempt.startKey) }
+        catch {
+            try currentFederation(attempt); try Task.checkCancellation()
+            throw ERPFederationFailure.startUnknown
+        }
+        if result.response.statusCode >= 500 || result.body == nil { throw ERPFederationFailure.startUnknown }
+        let start = try ERPFederationPolicy.start(federationJSON(result), origin: attempt.session.origin,
+                                                now: federationNow(), attemptDeadline: attempt.deadline)
+        try currentFederation(attempt); attempt.start = start; return start
+    }
+    func redeemFederation(_ ticket: ERPFederationTicket, callback: URL) async throws -> ERPFederationVerified {
+        let attempt = try federationAttempt(ticket)
+        guard !attempt.flight, !attempt.tokenSubmitted, attempt.start != nil, let config = attempt.configuration else {
+            throw ERPFederationFailure.restartRequired
+        }
+        let code = try ERPFederationPolicy.callback(callback, state: attempt.state, issuer: config.issuer, registry: attempt.registry)
+        let body = try JSONSerialization.data(withJSONObject: ["grantType": "authorization_code", "clientId": attempt.registry.clientID,
+            "redirectUri": attempt.registry.redirectURI, "code": code, "codeVerifier": attempt.verifier], options: [.sortedKeys])
+        attempt.flight = true; attempt.tokenSubmitted = true
+        defer { attempt.flight = false }
+        let result: ERPFederationHTTPResult
+        do { result = try await federationHTTP(attempt, path: "/api/v1/auth/federation/token", method: "POST", body: body) }
+        catch {
+            try currentFederation(attempt); try Task.checkCancellation()
+            // Code consumption is uncertain. No fresh response candidate means
+            // restart, never replay token or inspect the old app cookie's /me.
+            throw ERPFederationFailure.restartRequired
+        }
+        let tokenURL = attempt.session.origin.appendingPathComponent("api/v1/auth/federation/token")
+        var candidate = try ERPFederationPolicy.candidate(result, tokenURL: tokenURL, previousCookie: attempt.session.cookie,
+                                                         now: federationNow(), attemptDeadline: attempt.start!.deadline)
+        attempt.candidate = candidate
+        guard let body = result.body else { throw ERPFederationFailure.sessionUnknown }
+        do {
+            let (profile, expiry) = try ERPFederationPolicy.profile(body, tokenResponse: true)
+            guard let expiry, expiry > federationNow() else { throw ERPFederationFailure.expired }
+            candidate.deadline = min(candidate.deadline, expiry)
+            attempt.candidate = candidate; attempt.expectedIdentity = profile
+        } catch { attempt.candidate = nil; throw error }
+        return try await readAndVerifyFederation(attempt)
+    }
+    func recoverFederation(_ ticket: ERPFederationTicket) async throws -> ERPFederationVerified {
+        let attempt = try federationAttempt(ticket)
+        guard !attempt.flight, !attempt.verified, attempt.tokenSubmitted, attempt.candidate != nil else { throw ERPFederationFailure.restartRequired }
+        attempt.flight = true; defer { attempt.flight = false }
+        return try await readAndVerifyFederation(attempt)
+    }
+    private func readAndVerifyFederation(_ attempt: FederationAttempt) async throws -> ERPFederationVerified {
+        try currentFederation(attempt)
+        guard let candidate = attempt.candidate, candidate.deadline > federationNow(), candidate.uptimeDeadline > federationUptime() else {
+            attempt.candidate = nil; throw ERPFederationFailure.expired
+        }
+        let result: ERPFederationHTTPResult
+        do { result = try await federationHTTP(attempt, path: "/api/v1/me", candidateCookie: candidate.cookie) }
+        catch {
+            try currentFederation(attempt); try Task.checkCancellation()
+            throw ERPFederationFailure.sessionUnknown
+        }
+        if result.response.statusCode >= 500 || result.body == nil { throw ERPFederationFailure.sessionUnknown }
+        let current: ERPIdentity, nextAuthority: Data
+        do {
+            guard result.response.value(forHTTPHeaderField: "Set-Cookie") == nil else { throw ERPFederationFailure.restartRequired }
+            let body = try federationJSON(result)
+            let (parsed, _) = try ERPFederationPolicy.profile(body, tokenResponse: false)
+            let (_, fingerprint) = try Self.identityResponse(body)
+            current = parsed; nextAuthority = fingerprint
+            if let expected = attempt.expectedIdentity {
+                guard current.actor.userId == expected.actor.userId, current.actor.companyId == expected.actor.companyId,
+                      current.csrfToken == expected.csrfToken else { throw ERPFederationFailure.restartRequired }
+            }
+        } catch { attempt.candidate = nil; throw error }
+        let nextScope = try ERPPendingCommand.scope(origin: attempt.session.origin, companyId: current.actor.companyId, userId: current.actor.userId)
+        try currentFederation(attempt)
+        guard candidate.deadline > federationNow(), candidate.uptimeDeadline > federationUptime() else {
+            attempt.candidate = nil; throw ERPFederationFailure.expired
+        }
+        let nextRevision = generation + 1
+        let prepared = ERPConsoleClient(transport: transport, journal: journal, mediaJournal: mediaJournal,
+                                        federationNow: federationNow, federationUptime: federationUptime,
+                                        origin: attempt.session.origin, cookie: candidate.cookie, identity: current,
+                                        authority: nextAuthority, scope: nextScope, revision: nextRevision)
+        // A valid pending record is retained. A failed/corrupt journal read is a
+        // failed preparation, so it must preserve the original active account.
+        let nextPending: ERPPendingCommand?
+        do { nextPending = try await prepared.pendingCommand() }
+        catch { try currentFederation(attempt); throw error }
+        let nextMedia: ERPMediaPending?
+        do {
+            if nextPending?.nativeMedia == true { nextMedia = try await prepared.pendingMedia() }
+            else { nextMedia = nil }
+        }
+        catch { try currentFederation(attempt); throw error }
+        try currentFederation(attempt); try Task.checkCancellation()
+        attempt.verified = true
+        let commandStore = journal, mediaStore = mediaJournal
+        return ERPFederationVerified(client: prepared,
+            adoption: ERPFederationAdoption(identity: current, revision: nextRevision, pending: nextPending),
+            ticket: attempt.ticket, previousLifetime: lifetime,
+            deadline: min(candidate.deadline, attempt.deadline, attempt.start?.deadline ?? attempt.deadline),
+            uptimeDeadline: min(candidate.uptimeDeadline, attempt.uptimeDeadline), now: federationNow, uptime: federationUptime,
+            checkRecovery: {
+                let latest = try commandStore.read(scope: nextScope)
+                try latest?.validate(expectedScope: nextScope)
+                guard latest == nextPending else { throw ERPFailure.recoveryInvalid }
+                if nextPending?.nativeMedia == true {
+                    let media = try mediaStore.read(scope: nextScope)
+                    try media?.validate(scope: nextScope)
+                    guard media == nextMedia else { throw ERPMediaFailure.recoveryMismatch }
+                }
+            })
     }
 
     // MARK: Typed native media. Ordinary command and JSON limits stay unchanged.

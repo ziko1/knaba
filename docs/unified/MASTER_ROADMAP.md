@@ -260,3 +260,17 @@ a202ddc8 closes the actual18 F3 PostgreSQL and8 runtime-pair checks within3260/2
 ## 08.11.2026 — F3 actual redirect and pending HTTPS fixture correction
 
 77b64956 repeats actual18 F3 PostgreSQL and8 paired-runtime PASS inside3260/26 successful cases. Rendered F3 remains9/10 because the source303 redirects beyond the synthetic route handler into DNS. Correct input/cross-site cookie behavior is observed; account/MFA/new-session completion is pending. [Bounded HTTPS return fixture and exact evidence](F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md). Full F3 dependency remains unaccepted until required actual aggregate plus independent review. Native source and normative AC unchanged; the reviewed three-path fixture passed focused4 Node tests/typecheck/exact19-case collection and is ready for the single reserved source checkpoint.
+
+
+## 08.11.2026 — F3 dependency satisfied, native/privacy verification next
+
+The F3 server/web technical dependency is SATISFIED at6a395bb/main42507639872: mandatory ERP3264 including18 F3 PG, real runtime pair26 including8 F3, and rendered19 including10 F3 all passed. Independent exact-source/artifact review accepted only this stated scope. [Acceptance and retained failures](F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md).
+
+Next ordered work: separately reviewed TEST-only Android/iOS F3 session adoption plus versioned own-data privacy projection, then actual new PostgreSQL/browser/native CI on their combined source; afterward remaining source gaps including native remote push. No whole compound AC promotion follows from the dependency gate. Physical devices, update/distribution signing, production app links, providers, full restore/load/legal/company UAT remain separate acceptance work.
+
+
+## 08.11.2026 — native F3/privacy source review gate
+
+TEST-only Android/iOS F3 adapters та versioned privacy v2 backend/UI інтегровано після незалежного source review. Android local81/0skip і lint0 errors; iOS portable8 PASS,65 нових XCTest лише authored. [Exact source/evidence scope](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
+
+Actual new candidate gate: required repository jobs, privacy PG15, rendered30 (privacy11 + preserved19), Android package/tests, iOS210 XCTest/simulator. До цього не підвищувати runtime, device, production або whole-compound acceptance. Далі — reviewed default-off native push та окреме рішення щодо Zod; зовнішні gates залишаються відкритими.

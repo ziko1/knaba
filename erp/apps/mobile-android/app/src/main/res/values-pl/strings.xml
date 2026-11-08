@@ -355,4 +355,21 @@
     <string name="erp_media_stage_unknown">Etap niepotwierdzony</string>
     <string name="erp_media_status_unknown">Odśwież bieżący status</string>
     <string name="erp_media_io_busy">Przetwarzanie plików jest zajęte. Poczekaj na zakończenie poprzedniej operacji, a potem spróbuj ponownie.</string>
+
+  <!-- TEST-only system browser sign-in; no credentials or device grants. -->
+  <string name="erp_federation_title">Zaloguj przez stronę</string>
+  <string name="erp_federation_intro">Logowanie otworzy się w przeglądarce systemowej. Obecne konto aplikacji pozostanie aktywne do potwierdzenia nowego logowania.</string>
+  <string name="erp_federation_test">Tylko dla jawnie skonfigurowanego środowiska TEST. Nie rejestruje urządzenia ani nie włącza GPS.</string>
+  <string name="erp_federation_source">Wybierz stronę</string>
+  <string name="erp_federation_continue">Kontynuuj przez %1$s</string>
+  <string name="erp_federation_wait">Dokończ logowanie w przeglądarce i wróć do aplikacji.</string>
+  <string name="erp_federation_unknown">Nowe logowanie nie jest jeszcze potwierdzone. Sprawdź tylko tę próbę; obecne konto pozostaje bez zmian.</string>
+  <string name="erp_federation_check">Sprawdź nowe logowanie</string>
+  <string name="erp_federation_unavailable">Ta metoda logowania nie jest włączona dla bieżącej aplikacji i serwera.</string>
+  <string name="erp_federation_expired">Ta próba logowania wygasła. Rozpocznij nowe logowanie.</string>
+  <string name="erp_federation_browser_missing">Brak dostępnej przeglądarki systemowej.</string>
+  <string name="erp_federation_failed">Nowe logowanie nie zostało zastosowane. Ta próba nie zmieniła poprzedniego konta aplikacji.</string>
+  <string name="erp_federation_restart">Rozpocznij logowanie ponownie</string>
+  <string name="erp_federation_cancel">Anuluj logowanie przez stronę</string>
+  <string name="erp_federation_device_proof">Rejestracja urządzenia wymaga osobnego lokalnego logowania do ERP. Logowanie przez stronę nie włącza ewidencji czasu ani GPS.</string>
 </resources>

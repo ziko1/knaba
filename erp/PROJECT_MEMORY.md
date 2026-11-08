@@ -236,3 +236,19 @@ Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: ro
 ## 08.11.2026 — F3 і native media, source checkpoint до actual CI
 
 ERP F3 source26 прийнято незалежним review; mandatory source lineage, source/credential/current-policy fences, WEB fresh-session proof, native S256 one-use endpoint і local logout реалізовано default-off.18 actual PostgreSQL cases authored/NOT_RUN locally; exact aggregate CI потрібен. CUSTOMER media ACL13 і integrated native/source contract147 локально PASS з явними doubles. [Точні scopes і evidence](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Попередні source SHA/test receipts не переносяться на новий artifact.
+
+
+## 08.11.2026 — actual F3 dependency and versioned privacy source
+
+F3 server/web technical gate прийнято на `6a395bb73501455371a0e281debf81a6c18c6329`: run42507639872, ERP3264/3264 включно з18 F3/24 F2 PostgreSQL, actual runtime pair26/26 включно з8 F3 та rendered19/19 включно з10 F3. [Точні докази й межі](../docs/unified/F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md). Native evidence попереднього af6 не переноситься на нові adapters.
+
+Versioned privacy v2 backend/UI має незалежні source reviews, legacy v1 input/ACK/bytes compatibility, explicit ACCESS/PROFILE/legal/tenant scope, bounded own metadata projection і current-session secured download. Local build exit0, backend204 CPU, final independent UI model30; actual15 privacy PG/HTTP та11 нових rendered cases у30-case inventory залишаються наступним exact-source CI gate. [Контракт, виправлені findings, докази та rollback](../docs/unified/PRIVACY_V2_SOURCE_CHECKPOINT_2026-11-08_UK.md). TEST-only native F3 source перевіряється окремо в тому самому наступному checkpoint; native push залишається source gap.
+
+Whole product NOT_READY;72 V4/475 V3 whole criteria та historical evidence не bulk-accepted. Metadata retention/повний DSAR, фізичні пристрої, provider/company acceptance, load/restore і deployment gates окремі. Expired cutoff, budget, provider MFA, main/production permissions і Zod OPEN_WITH_MITIGATION не змінені.
+
+
+## 08.11.2026 — integrated native F3 TEST/source checkpoint
+
+Exact reviewed Android21 та iOS19 paths інтегровано поряд із privacy v2. Fresh-cookie candidate, explicit recovery, atomic UI adoption, permanent old-client retirement, strict journal preflight та stale-intent/cancellation fences перевірені source review. Android local81 PASS/0skip, lint0 errors/20 warnings; iOS8 portable PASS,210 XCTest authored (65 new), actual Xcode NOT_RUN. Деталі: [unified checkpoint](../docs/unified/NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
+
+Новий clean candidate CI ще потрібен: privacy PG15/rendered11 within30, Android artifact і iOS210 execution. Device/GPS/version/signing inputs збережено; whole V4/V3 NOT_READY, cutoff і external approvals незмінні.

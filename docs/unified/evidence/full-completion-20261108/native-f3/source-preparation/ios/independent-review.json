@@ -1,0 +1,566 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "erp_session_fence",
+  "reviewedAtUtc": "2026-11-08T19:30:15.177821+00:00",
+  "verdict": "ACCEPT_IOS_F3_SOURCE_SCOPED_XCODE_PENDING",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "baseTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "sourceManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-manifest.json",
+    "sha256": "789db639d2da0d7e71cd5fe24327ead4383425b1ef6503afbcf27d2e02fccd68",
+    "sourceDigest": "6584e25aa050469584673dd6ed51bc667e33a3fbd640ceaad7a65dc3b4b345c4",
+    "files": 19
+  },
+  "initialReview": {
+    "path": "verification/ios-federation-independent-review/initial-review.json",
+    "bytes": 1860,
+    "sha256": "fecf2e3d698f80dbcc27aca917d400c6bbbf180663d66e7e19bcc7d4f5225d34"
+  },
+  "resolvedFindings": [
+    {
+      "id": "IOS-F3-01",
+      "severity": "MEDIUM",
+      "status": "CORRECTED_SOURCE_XCTEST_PENDING",
+      "title": "Swift Task cancellation after VERIFIED was not checked at the MainActor commit boundary",
+      "v1SourceManifestSha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff",
+      "paths": [
+        "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+        "erp/apps/mobile-ios/Sources/ERPConsoleView.swift"
+      ],
+      "sourceTrace": "After the last client Task.checkCancellation and actor hop, adoptWebsite calls verified.commit; v1 checked only the ticket. The browser task-cancellation handler had already ended. Task.cancel alone therefore did not cancel the active ticket before retirement/installation.",
+      "reproducer": "Pause openWebsiteSignIn with the existing beforeCommit gate after VERIFIED; cancel that Swift Task without explicit UI/ticket cancellation; release the gate. v1 source reaches previousLifetime.retire/install. This source trace was not executed locally.",
+      "correction": "Three Task.checkCancellation guards before ticket commit and before/after the bounded journal read; one paused-VERIFIED model regression added. The other 17 frozen paths are unchanged.",
+      "newRegression": "ERPFederationModelTests.testTaskCancellationAtVerifiedMainHandoffPreservesOldAccountWithoutExplicitUICancel",
+      "actualRedGreen": "NOT_RUN_SWIFT_XCODE_UNAVAILABLE"
+    }
+  ],
+  "blockingFindings": [],
+  "method": "Independent read-only protocol/runtime/UI/config/test source review plus exact hashes, Git preimages/preservation and authored declaration inventory. Existing author portable logs verified; no repeated portable tests or Swift/Xcode invocation.",
+  "checks": {
+    "mainActorAdoption": "Candidate is private until verified current /me; final synchronous commit checks ticket, Swift Task cancellation, previous lifetime, wall/monotonic deadlines and bounded journal state before permanent old-client retirement and new client+actor+CSRF/UI installation. No await/network between retirement and install.",
+    "originalAuthority": "Old client actor generation/origin and full canonical server actor fields plus CSRF fence the attempt. Same-user role/permission/warehouse/future scope refresh cancels ticket. mfaVerifiedAt timestamp alone is omitted; actual mfaVerified boolean remains part of the fingerprint.",
+    "intentAndRetirement": "UI callbacks capture client/epoch/revision/origin at tap. Network methods retain the captured client across await. Explicit logout cancels/clears synchronously and captures old client for later reduction. Retired lifetime cannot be reopened by reset/configure/login; old media fence is permanently invalid.",
+    "candidateAndUnknownOutcome": "Only exact token HTTP200, same endpoint, one fresh KF3 cookie distinct from captured old cookie, host-only Secure/HttpOnly/Strict/path and valid expiry metadata. Start/token have no old cookie; explicit recovery reads only the captured candidate, never repeats token or uses old /me. Complete token identity user/company/CSRF must match current candidate /me.",
+    "errorsAndRecovery": "Candidate parse/auth/outage failure uses independent federation error path and preserves old account. Missing candidate requires restart. Same start key/body are retained only for explicit start retry. Corrupt/unavailable/changed required journal aborts commit; valid pending records remain retained/read-only. No journal deletion or auth-secret persistence added.",
+    "expiry": "Server/local pending deadline and token/cookie caps combine with120s candidate recovery; monotonic uptime prevents wall-clock rollback extension. /me supplies no invented expiry. Final commit rechecks deadline and cancellation around synchronous journal work.",
+    "browserAndLifecycle": "Single ASWebAuthenticationSession uses the actual control window; no fallback fabricated window, custom Cookie/header injection or general arbitrary deeplink. Exact callback base/state/code/ERP issuer/three query keys and no fragment. Background cancellation preserves old account; modal inactivity alone does not log out.",
+    "testAndRelease": "Compiled registry requires DEBUG and KNABA_FEDERATION_TEST and exact TEST tuple. Fresh health and profiles require TEST. Source Debug plist parity/Release-empty registry guards preserve bundle/version/minimum/signing/location keys. Generated settings and built Debug plist are checked by the existing future macOS build path; Release compile remains separate.",
+    "sourceAndEvidence": {
+      "all19FrozenHashesAndPreimagesVerified": true,
+      "correctiveChangedPaths": [
+        "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+        "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift"
+      ],
+      "otherOwnedPathsUnchanged": 17,
+      "otherTrackedIOSInputsByteUnchanged": 48,
+      "existingBaselineDeclarationsUnchanged": 145,
+      "newAuthoredXCTest": 65,
+      "totalAuthoredXCTest": 210,
+      "authorPortableConfigurationTests": 8,
+      "authorPortableLogsHashVerified": true,
+      "reviewerRepeatedPortableTests": false
+    },
+    "transportBoundary": "New header-preserving bounded federation transport does not relax ordinary2MiB or media limits; URLSession cookie/cache/credential stores remain disabled and redirects rejected. URLProtocol and injectable-browser tests are explicit doubles, authored only.",
+    "localization": "23 state/guidance keys with6 values; LOCAL_ERP_REAUTH_REQUIRED explains separate local ERP proof. No device/time/GPS grant or provider activation."
+  },
+  "requiredNextGate": [
+    "Exact committed macOS compile and all65 new plus145 existing XCTest with no skips; source declarations are not executed evidence.",
+    "Actual generated Debug/Release settings and built Debug Info.plist receipt, preserving deployment target/signing/version.",
+    "Review real compiler/SDK availability/concurrency/deprecation diagnostics and URLSession AsyncBytes fixture execution.",
+    "System ASWebAuthenticationSession callback behavior, production callback ownership, physical devices, upgrade/signing/store/live acceptance remain separate."
+  ],
+  "notRun": [
+    "Swift compilation",
+    "XCTest",
+    "Xcode generated settings or Release compilation",
+    "Actual system browser/simulator/physical device",
+    "Provider/live server/production",
+    "New CI or network requests"
+  ],
+  "inputsBefore": [
+    {
+      "path": "verification/ios-federation-implementation/source-manifest.json",
+      "bytes": 8143,
+      "sha256": "789db639d2da0d7e71cd5fe24327ead4383425b1ef6503afbcf27d2e02fccd68"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/evidence/source-manifest.json",
+      "bytes": 7340,
+      "sha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff"
+    },
+    {
+      "path": "verification/ios-federation-implementation/corrective-v2.json",
+      "bytes": 3185,
+      "sha256": "16c7f3a015e5b79666800a1d0e136d80d9f78744f30132c698c74f62eb0a9e72"
+    },
+    {
+      "path": "verification/ios-federation-implementation/review-request.md",
+      "bytes": 7248,
+      "sha256": "d15387df3d9db71985c3ad99f1350b75d0acf57c0ae057517c26e2375d90d80e"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18697,
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 25385,
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3619,
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18578,
+      "sha256": "31c57ba5406df214382ae35a77618377976eb7641b04ec6780ec63123064b7b1"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 24041,
+      "sha256": "36e916d2a50274ec7e2f9925b798d94677bb9f2ac0bee5fa281db4642bfa71b1"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3619,
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "path": "verification/ios-federation-implementation/local-source-checks.json",
+      "bytes": 2484,
+      "sha256": "f6705bb3ee2a60a76dd0b2f280b1b615f628471030fb1c6bcde4e2fc8ec1861f"
+    },
+    {
+      "path": "verification/ios-federation-implementation/source-config.json",
+      "bytes": 903,
+      "sha256": "f9e8d414cf1956dbb0b8559a941374c55cb387435f9724dd99e2e67c26382bea"
+    },
+    {
+      "path": "verification/ios-federation-implementation/xctest-inventory.json",
+      "bytes": 6501,
+      "sha256": "3920733fbbffc40987bd8768a8cdb8318c4c91e40530e45ec8b83b106bd421a1"
+    },
+    {
+      "path": "verification/ios-federation-implementation/scope-preservation.json",
+      "bytes": 9153,
+      "sha256": "0806dfb379a3b06c6caff4ec2bdc1b43acd07db20fdbdfcdfa701d9cac5bcf42"
+    },
+    {
+      "path": "verification/ios-federation-implementation/preimages-final.json",
+      "bytes": 1681,
+      "sha256": "e4bed3535b9160aa4a52b1f12768732487a5cc9285b019d1e57ddfec19eaf2c3"
+    },
+    {
+      "path": "verification/ios-federation-implementation/source-dependencies.json",
+      "bytes": 1762,
+      "sha256": "1145167195ef91eae949f7c42197d08f58cb584c4d47349a974f701ec60853b0"
+    }
+  ],
+  "inputsAfter": [
+    {
+      "path": "verification/ios-federation-implementation/source-manifest.json",
+      "bytes": 8143,
+      "sha256": "789db639d2da0d7e71cd5fe24327ead4383425b1ef6503afbcf27d2e02fccd68"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/evidence/source-manifest.json",
+      "bytes": 7340,
+      "sha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff"
+    },
+    {
+      "path": "verification/ios-federation-implementation/corrective-v2.json",
+      "bytes": 3185,
+      "sha256": "16c7f3a015e5b79666800a1d0e136d80d9f78744f30132c698c74f62eb0a9e72"
+    },
+    {
+      "path": "verification/ios-federation-implementation/review-request.md",
+      "bytes": 7248,
+      "sha256": "d15387df3d9db71985c3ad99f1350b75d0acf57c0ae057517c26e2375d90d80e"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18697,
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 25385,
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3619,
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "path": "knaba-ios-f3/erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18578,
+      "sha256": "31c57ba5406df214382ae35a77618377976eb7641b04ec6780ec63123064b7b1"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 24041,
+      "sha256": "36e916d2a50274ec7e2f9925b798d94677bb9f2ac0bee5fa281db4642bfa71b1"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3619,
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "path": "verification/ios-federation-implementation/frozen-v1/erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "path": "verification/ios-federation-implementation/local-source-checks.json",
+      "bytes": 2484,
+      "sha256": "f6705bb3ee2a60a76dd0b2f280b1b615f628471030fb1c6bcde4e2fc8ec1861f"
+    },
+    {
+      "path": "verification/ios-federation-implementation/source-config.json",
+      "bytes": 903,
+      "sha256": "f9e8d414cf1956dbb0b8559a941374c55cb387435f9724dd99e2e67c26382bea"
+    },
+    {
+      "path": "verification/ios-federation-implementation/xctest-inventory.json",
+      "bytes": 6501,
+      "sha256": "3920733fbbffc40987bd8768a8cdb8318c4c91e40530e45ec8b83b106bd421a1"
+    },
+    {
+      "path": "verification/ios-federation-implementation/scope-preservation.json",
+      "bytes": 9153,
+      "sha256": "0806dfb379a3b06c6caff4ec2bdc1b43acd07db20fdbdfcdfa701d9cac5bcf42"
+    },
+    {
+      "path": "verification/ios-federation-implementation/preimages-final.json",
+      "bytes": 1681,
+      "sha256": "e4bed3535b9160aa4a52b1f12768732487a5cc9285b019d1e57ddfec19eaf2c3"
+    },
+    {
+      "path": "verification/ios-federation-implementation/source-dependencies.json",
+      "bytes": 1762,
+      "sha256": "1145167195ef91eae949f7c42197d08f58cb584c4d47349a974f701ec60853b0"
+    }
+  ],
+  "inputsUnchanged": true,
+  "sourceEditedByReviewer": false
+}

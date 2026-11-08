@@ -355,4 +355,21 @@
     <string name="erp_media_stage_unknown">Stage not confirmed</string>
     <string name="erp_media_status_unknown">Refresh current status</string>
     <string name="erp_media_io_busy">File processing is busy. Let the previous operation finish, then explicitly try again.</string>
+
+  <!-- TEST-only system browser sign-in; no credentials or device grants. -->
+  <string name="erp_federation_title">Sign in with website</string>
+  <string name="erp_federation_intro">Sign-in opens in the system browser. Your current app account stays in place until the new sign-in is verified.</string>
+  <string name="erp_federation_test">Only for an explicitly configured TEST environment. This does not enroll a device or activate GPS.</string>
+  <string name="erp_federation_source">Choose a website</string>
+  <string name="erp_federation_continue">Continue with %1$s</string>
+  <string name="erp_federation_wait">Complete sign-in in the browser, then return to the app.</string>
+  <string name="erp_federation_unknown">The new sign-in is not yet confirmed. Check only this attempt; your current account stays unchanged.</string>
+  <string name="erp_federation_check">Check new sign-in</string>
+  <string name="erp_federation_unavailable">This sign-in is not enabled for the current app and server.</string>
+  <string name="erp_federation_expired">This sign-in attempt expired. Start a new sign-in.</string>
+  <string name="erp_federation_browser_missing">No suitable system browser is available.</string>
+  <string name="erp_federation_failed">The new sign-in was not adopted. Your previous app account was not changed by this attempt.</string>
+  <string name="erp_federation_restart">Restart sign-in</string>
+  <string name="erp_federation_cancel">Cancel website sign-in</string>
+  <string name="erp_federation_device_proof">Device enrollment requires a separate local ERP sign-in. Website sign-in does not activate time tracking or GPS.</string>
 </resources>

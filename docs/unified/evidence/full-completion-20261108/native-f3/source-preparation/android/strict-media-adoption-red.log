@@ -1,0 +1,6 @@
+PASS source TEST-only callback boundary; Release registry has no callback component
+PASS exact KF3 ERP cookie parser
+Exception in thread "main" java.lang.AssertionError: Expected safe failure RECOVERY_STORAGE_UNAVAILABLE
+	at de.knaba.mobile.ErpFederationLoginTest.fails(ErpFederationLoginTest.java:20)
+	at de.knaba.mobile.ErpFederationLoginTest.strictMediaPreparation(ErpFederationLoginTest.java:248)
+	at de.knaba.mobile.ErpFederationLoginTest.main(ErpFederationLoginTest.java:354)

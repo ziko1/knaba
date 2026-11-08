@@ -1,0 +1,2 @@
+PASS source TEST-only callback boundary; Release registry has no callback component
+PASS actual AGP Debug/Release manifest exposure and package isolation; no APK/device claim

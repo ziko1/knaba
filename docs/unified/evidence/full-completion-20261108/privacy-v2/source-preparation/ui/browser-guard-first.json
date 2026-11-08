@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "corporate-site/tests/ci-browser.test.mjs"
+  ],
+  "exitCode": 0,
+  "logSha256": "aa860d40adb2b0d5d47dc3dbe9d115c4905b5d9878f2ddfb76b73493c76c91e0"
+}

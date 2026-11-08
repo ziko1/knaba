@@ -1,0 +1,5 @@
+PASS exact KF3 ERP cookie parser
+Exception in thread "main" java.lang.AssertionError: Expected safe failure FEDERATION_INVALID_PROFILE
+	at de.knaba.mobile.ErpFederationLoginTest.fails(ErpFederationLoginTest.java:20)
+	at de.knaba.mobile.ErpFederationLoginTest.knownTokenIdentityMustMatchCurrentCandidate(ErpFederationLoginTest.java:219)
+	at de.knaba.mobile.ErpFederationLoginTest.main(ErpFederationLoginTest.java:223)

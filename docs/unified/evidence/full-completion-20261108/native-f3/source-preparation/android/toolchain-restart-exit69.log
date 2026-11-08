@@ -1,0 +1,1 @@
+BLOCKED_EXTERNAL: no cached Gradle 8.13 or canonical wrapper JAR. Provision Gradle 8.13 and SDK 36; run gradle wrapper --gradle-version 8.13 to generate the official wrapper before building.

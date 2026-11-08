@@ -56,7 +56,10 @@ class ErpConsoleActivity : Activity() {
     private var backAction: (() -> Unit)? = null
     private var removePlatformBackCallback: (() -> Unit)? = null
     private data class PendingMutation(val title: String, val name: String, val input: String, val version: Int?, val key: String)
-    private data class RetainedSession(val transport: ErpConsoleTransport, val discovery: ErpServerDiscovery, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
+    private data class RetainedSession(val transport: ErpConsoleTransport, val discovery: ErpServerDiscovery, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?, val federation: ErpFederationLogin?)
+    private var federation: ErpFederationLogin? = null
+    private var federationRendered = ""
+    private val federationTick = Runnable { updateFederation() }
     private var pendingRecovery: PendingMutation? = null
     private var mediaScreen: ConsoleMediaScreen? = null
     private val controls = mutableListOf<View>()
@@ -92,7 +95,9 @@ class ErpConsoleActivity : Activity() {
         val retained = lastNonConfigurationInstance as? RetainedSession
         if (retained != null) {
             api = retained.transport; discovery = retained.discovery; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
-            if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard() }
+            federation = retained.federation
+            if (federation != null) updateFederation()
+            else if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard() }
             else showLogin()
         } else showLogin()
     }
@@ -108,7 +113,8 @@ class ErpConsoleActivity : Activity() {
     private fun shape(color: Int, border: Int? = null): GradientDrawable = GradientDrawable().apply {
         setColor(color); cornerRadius = dp(16).toFloat(); if (border != null) setStroke(dp(1), border)
     }
-    private fun heading(title: String, subtitle: String = "", back: (() -> Unit)? = null, showPending: Boolean = true) {
+    private fun heading(title: String, subtitle: String = "", back: (() -> Unit)? = null, showPending: Boolean = true, keepFederation: Boolean = false) {
+        if (!keepFederation) stopFederation()
         mediaScreen?.close(); mediaScreen = null
         screen++
         main.removeCallbacks(refreshTick); refreshRead = null; refreshFailures = 0; discoveryBusy = false
@@ -147,13 +153,14 @@ class ErpConsoleActivity : Activity() {
         parent.addView(this, LinearLayout.LayoutParams(-1, -2))
     }
     private fun button(text: String, primary: Boolean = false, navigation: Boolean = false, parent: LinearLayout = content, action: () -> Unit): Button = Button(this).apply {
+        val actionScreen = screen
         this.text = text; isAllCaps = false; textSize = 15f; minHeight = dp(50)
         setTextColor(if (primary) Color.WHITE else teal)
         background = shape(if (primary) teal else Color.WHITE, if (primary) null else Color.rgb(213, 228, 223))
         setPadding(dp(14), dp(8), dp(14), dp(8))
         parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(9); bottomMargin = dp(3) })
         if (!navigation) { controls.add(this); isEnabled = !busy }
-        setOnClickListener { if (!busy || navigation) action() }
+        setOnClickListener { if (screen == actionScreen && !isDestroyed && (!busy || navigation)) action() }
     }
     private fun field(title: String, input: Int = InputType.TYPE_CLASS_TEXT, multiline: Boolean = false, parent: LinearLayout = content): EditText {
         val caption = label(title, 13f, muted, parent)
@@ -186,22 +193,23 @@ class ErpConsoleActivity : Activity() {
         busy = value; progress.visibility = if (value) View.VISIBLE else View.GONE
         controls.forEach { if (!(value && preserveInputs && it is EditText)) it.isEnabled = !value }
     }
-    private fun run(operation: () -> JSONObject, changing: Boolean = false, refreshing: Boolean = false, failed: ((Exception) -> Unit)? = null, done: (JSONObject) -> Unit) {
-        if (busy) return
+    private fun run(operation: () -> JSONObject, changing: Boolean = false, refreshing: Boolean = false, failed: ((Exception) -> Unit)? = null, expectedTransport: ErpConsoleTransport = api, done: (JSONObject) -> Unit) {
+        if (busy || api !== expectedTransport) return
         val ticket = screen
         mutation = changing; loading(true, preserveInputs = refreshing)
         if (!refreshing) status(getString(R.string.erp_loading))
         worker.execute {
+            if (api !== expectedTransport) return@execute
             try {
                 val result = operation()
                 main.post {
-                    if (ticket == screen && !isDestroyed) {
+                    if (ticket == screen && api === expectedTransport && !isDestroyed) {
                         loading(false); mutation = false; uncertain = false; status(""); done(result)
                     }
                 }
             } catch (error: Exception) {
                 main.post {
-                    if (ticket == screen && !isDestroyed) {
+                    if (ticket == screen && api === expectedTransport && !isDestroyed) {
                         loading(false); mutation = false
                         val failure = error as? ErpConsoleTransport.Failure
                         uncertain = changing && (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT")
@@ -223,6 +231,7 @@ class ErpConsoleActivity : Activity() {
             code == "INVALID_ORIGIN" -> R.string.error_origin
             code == "INVALID_LOGIN_INPUT" || code == "INVALID_MESSAGE" -> R.string.error_validation
             code == "SENSITIVE_COMMAND" -> R.string.erp_sensitive_command
+            code == "LOCAL_ERP_REAUTH_REQUIRED" -> R.string.erp_federation_device_proof
             failure?.status == 403 -> R.string.erp_access_denied
             failure?.status == 409 -> R.string.error_conflict
             failure?.status == 429 -> R.string.erp_rate_limit
@@ -264,7 +273,7 @@ class ErpConsoleActivity : Activity() {
                 val current = transport.me().getJSONObject("actor")
                 if (authority(current) != expectedAuthority) throw ErpConsoleTransport.Failure(401, "ACCESS_CHANGED", false)
                 operation().put("_actor", current)
-            }, refreshing = true, failed = { error ->
+            }, refreshing = true, expectedTransport = transport, failed = { error ->
                 val failure = error as? ErpConsoleTransport.Failure
                 val retryable = failure?.code == "NETWORK_ERROR" || error is java.io.IOException || failure?.status == 429 || (failure?.status ?: 0) >= 500
                 syncNotice.text = if (lastUpdated == null) getString(R.string.erp_sync_waiting) else getString(R.string.erp_sync_stale, lastUpdated)
@@ -351,11 +360,18 @@ class ErpConsoleActivity : Activity() {
             if (address.isBlank() || secret.isBlank()) { status(getString(R.string.erp_fields_required)); return@button }
             if (url.isBlank() || discoveryBusy) { status(getString(R.string.erp_server_wait)); refreshRead?.invoke(); return@button }
             val transport = api
-            run({ transport.configure(url); transport.login(address, secret, otp) }, failed = { password.setText(""); code.setText("") }) { response ->
+            run({ transport.configure(url); transport.login(address, secret, otp) }, expectedTransport = transport, failed = { password.setText(""); code.setText("") }) { response ->
                 actor = response.optJSONObject("actor")
                 readRetryAt = 0
                 password.setText(""); code.setText(""); recoverPending()
                 if (pendingRecovery != null) showPendingRecovery() else showDashboard()
+            }
+        }
+        if (BuildConfig.DEBUG && BuildConfig.APPLICATION_ID == "de.knaba.mobile.test") {
+            button(getString(R.string.erp_federation_title)) {
+                if (resolvedOrigin.isBlank() || discoveryBusy) { status(getString(R.string.erp_server_wait)); return@button }
+                password.setText(""); code.setText("")
+                openFederation(resolvedOrigin)
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
@@ -369,7 +385,7 @@ class ErpConsoleActivity : Activity() {
         if (!BuildConfig.DEBUG) return
         api.clear(); api = DemoConsoleTransport(); demoMode = true
         val transport = api
-        run({ transport.login("", "", "") }) { result -> actor = result.getJSONObject("actor"); showDashboard() }
+        run({ transport.login("", "", "") }, expectedTransport = transport) { result -> actor = result.getJSONObject("actor"); showDashboard() }
     }
     private fun chooseLanguage() {
         val tags = LanguagePolicy.SUPPORTED + listOf("")
@@ -395,6 +411,8 @@ class ErpConsoleActivity : Activity() {
         val destinations = panel()
         renderModules(destinations, null)
         button(getString(R.string.erp_actions)) { showActions() }
+        if (!demoMode && BuildConfig.DEBUG && BuildConfig.APPLICATION_ID == "de.knaba.mobile.test")
+            button(getString(R.string.erp_federation_title)) { openFederation(api.origin()) }
         if (!demoMode) button(getString(R.string.erp_time_tools)) { startActivity(Intent(this, MainActivity::class.java)) }
         button(getString(if (demoMode) R.string.erp_exit_demo else R.string.erp_logout)) { signOut() }
         label(getString(if (demoMode) R.string.erp_demo_intro else R.string.erp_presence_notice), 13f, muted)
@@ -572,7 +590,7 @@ class ErpConsoleActivity : Activity() {
             pendingText = text
             val language = resources.configuration.locales[0].language.uppercase(Locale.ROOT)
             pendingRecovery = PendingMutation(title, "message.send", JSONObject().put("channel_id", channel).put("text", text).put("language", language).toString(), null, key)
-            run({ transport.sendMessage(channel, text, language, key) }, changing = true, failed = { error ->
+            run({ transport.sendMessage(channel, text, language, key) }, changing = true, expectedTransport = transport, failed = { error ->
                 val failure = error as? ErpConsoleTransport.Failure
                 if (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT") composer.isEnabled = false
                 else { pendingText = null; pendingRecovery = null; key = UUID.randomUUID().toString() }
@@ -697,6 +715,7 @@ class ErpConsoleActivity : Activity() {
         val version = if (contextItem == null && !oneShot) field(getString(R.string.erp_expected_version), InputType.TYPE_CLASS_NUMBER) else null
         var pending: JSONObject? = null; var pendingVersion: Int? = null; var key = UUID.randomUUID().toString()
         val transport = api
+        val formScreen = screen; val formRevision = transport.sessionRevision()
         button(getString(R.string.erp_submit), primary = true) {
             if (api.hasPendingCommand() && pending == null && pendingRecovery != null) { showPendingRecovery(); return@button }
             if (pending == null) {
@@ -715,19 +734,20 @@ class ErpConsoleActivity : Activity() {
                 } catch (_: Exception) { status(getString(R.string.error_validation)); return@button }
             }
             val payload = pending!!
-            val submit = {
+            val submit = submit@{
+                if (api !== transport || screen != formScreen || transport.sessionRevision() != formRevision || isDestroyed) return@submit
                 if (oneShot) {
                     val requestVersion = pendingVersion
                     controls.filterIsInstance<EditText>().forEach { it.setText("") }
                     pending = null; pendingVersion = null; pendingRecovery = null
-                    run({ transport.command(name, payload, requestVersion, key) }, changing = true, failed = { error ->
+                    run({ transport.command(name, payload, requestVersion, key) }, changing = true, expectedTransport = transport, failed = { error ->
                         api.clear(); actor = null; showLogin()
                         val unknown = (error as? ErpConsoleTransport.Failure)?.outcomeUnknown == true
                         status((if (unknown) getString(R.string.erp_unknown_result) + " " else "") + getString(R.string.erp_account_change_reauth))
                     }) { api.clear(); actor = null; showLogin(); status(getString(R.string.erp_account_change_reauth), true) }
                 } else {
                     pendingRecovery = PendingMutation(commandTitle(name), name, payload.toString(), pendingVersion, key)
-                    run({ transport.command(name, payload, pendingVersion, key) }, changing = true, failed = { error ->
+                    run({ transport.command(name, payload, pendingVersion, key) }, changing = true, expectedTransport = transport, failed = { error ->
                         val failure = error as? ErpConsoleTransport.Failure
                         if (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT") controls.filterNot { it is Button }.forEach { it.isEnabled = false }
                         else { pending = null; pendingVersion = null; pendingRecovery = null; key = UUID.randomUUID().toString() }
@@ -750,7 +770,7 @@ class ErpConsoleActivity : Activity() {
         showValues(JSONObject(pending.input), panel())
         val transport = api
         button(getString(R.string.erp_retry_pending), primary = true) {
-            run({ transport.command(pending.name, JSONObject(pending.input), pending.version, pending.key) }, changing = true, failed = { error ->
+            run({ transport.command(pending.name, JSONObject(pending.input), pending.version, pending.key) }, changing = true, expectedTransport = transport, failed = { error ->
                 val failure = error as? ErpConsoleTransport.Failure
                 if (failure?.outcomeUnknown != true && failure?.code != "IDEMPOTENCY_CONFLICT") pendingRecovery = null
             }) { pendingRecovery = null; showDashboard(); status(getString(R.string.erp_saved), true) }
@@ -854,22 +874,138 @@ class ErpConsoleActivity : Activity() {
     private fun signOut(confirmed: Boolean = false) {
         if (mutation && busy) { status(getString(R.string.erp_wait)); return }
         if (!confirmed && api.hasPendingCommand()) {
+            val dialogScreen = screen; val dialogTransport = api; val dialogRevision = api.federationAuthorityRevision()
             AlertDialog.Builder(this).setTitle(R.string.erp_unknown_title).setMessage(R.string.erp_unknown_leave)
-                .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_logout) { _, _ -> signOut(true) }.show()
+                .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_logout) { _, _ ->
+                    if (!isDestroyed && screen == dialogScreen && api === dialogTransport && dialogTransport.federationAuthorityRevision() == dialogRevision) signOut(true)
+                }.show()
             return
         }
         val logout = api.detachSessionForLogout()
         screen++; actor = null; demoMode = false; pendingRecovery = null; api = newTransport(); worker.execute(logout); showLogin()
     }
+    private fun stopFederation() {
+        main.removeCallbacks(federationTick)
+        federation?.let { it.cancel(); ErpFederationBrowser.forget(it) }
+        federation = null; federationRendered = ""
+    }
+    private fun leaveFederation() {
+        stopFederation()
+        if (api.isSignedIn && actor != null) {
+            if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard()
+        } else showLogin()
+    }
+    private fun openFederation(origin: String) {
+        if (!BuildConfig.DEBUG || BuildConfig.APPLICATION_ID != "de.knaba.mobile.test" || demoMode) return
+        stopFederation(); api.configure(origin)
+        val flow = api.federationLogin(true)
+        federation = flow; federationRendered = ""
+        updateFederation()
+        federationWork(flow) { flow.discover() }
+    }
+    /** Separate from run(): a candidate 401/403 must never clear the existing account. */
+    private fun federationWork(flow: ErpFederationLogin, operation: () -> Unit) {
+        if (!flow.reserveWork()) return
+        loading(true)
+        worker.execute {
+            try { operation() } catch (_: Exception) { /* The typed attempt exposes only a safe code/state. */ }
+            finally { flow.finishWork() }
+            main.post { if (federation === flow && !isDestroyed) updateFederation() }
+        }
+        main.removeCallbacks(federationTick)
+        if (foreground) main.postDelayed(federationTick, 200)
+    }
+    private fun updateFederation() {
+        val flow = federation ?: return
+        if (isDestroyed) return
+        val phase = flow.phase()
+        if (phase == ErpFederationLogin.Phase.VERIFIED && foreground) {
+            try {
+                val adopted = flow.adopt()
+                val profile = adopted.profile
+                api = adopted.transport
+                actor = profile.getJSONObject("actor"); demoMode = false; readRetryAt = 0
+                recoverPending()
+                if (pendingRecovery != null) showPendingRecovery() else showDashboard()
+            } catch (_: Exception) { federationRendered = ""; updateFederation() }
+            return
+        }
+        if (phase == ErpFederationLogin.Phase.ADOPTED) {
+            val profile = flow.adoptedProfile()
+            if (profile != null) {
+                actor = profile.getJSONObject("actor"); demoMode = false; readRetryAt = 0
+                recoverPending()
+                if (pendingRecovery != null) showPendingRecovery() else showDashboard()
+                return
+            }
+            leaveFederation(); return
+        }
+        val state = phase.name + ":" + flow.errorCode()
+        if (state != federationRendered) {
+            heading(getString(R.string.erp_federation_title), getString(R.string.erp_federation_intro),
+                back = { leaveFederation() }, showPending = false, keepFederation = true)
+            federationRendered = state
+            label(getString(R.string.erp_federation_test), 13f, muted)
+            when (phase) {
+                ErpFederationLogin.Phase.READY -> {
+                    label(getString(R.string.erp_federation_source), 16f)
+                    flow.authorities().forEach { source ->
+                        label(source.siteOrigin, 13f, muted)
+                        button(getString(R.string.erp_federation_continue, source.label), primary = true) {
+                            federationWork(flow) { flow.start(source.id) }
+                        }
+                    }
+                }
+                ErpFederationLogin.Phase.BROWSER -> label(getString(R.string.erp_federation_wait), 16f)
+                ErpFederationLogin.Phase.RECOVERABLE -> {
+                    status(getString(R.string.erp_federation_unknown))
+                    button(getString(R.string.erp_federation_check), primary = true) { federationWork(flow) { flow.recover() } }
+                }
+                ErpFederationLogin.Phase.UNAVAILABLE -> status(getString(R.string.erp_federation_unavailable))
+                ErpFederationLogin.Phase.RESTART_REQUIRED, ErpFederationLogin.Phase.CANCELLED -> {
+                    status(getString(when (flow.errorCode()) {
+                        "FEDERATION_EXPIRED" -> R.string.erp_federation_expired
+                        "FEDERATION_BROWSER_UNAVAILABLE" -> R.string.erp_federation_browser_missing
+                        "FEDERATION_UNAVAILABLE", "FEDERATION_INVALID_CONFIG" -> R.string.erp_federation_unavailable
+                        else -> R.string.erp_federation_failed
+                    }))
+                    button(getString(R.string.erp_federation_restart)) { openFederation(api.origin()) }
+                }
+                else -> { label(getString(R.string.erp_loading), 16f); progress.visibility = View.VISIBLE }
+            }
+            // Cancellation remains available during network I/O; it invalidates adoption immediately.
+            button(getString(R.string.erp_federation_cancel), navigation = true) { leaveFederation() }
+        }
+        loading(flow.workPending())
+        if (!foreground) return
+        if (phase == ErpFederationLogin.Phase.BROWSER) {
+            try {
+                flow.takeBrowserLaunch()?.let { address ->
+                    ErpFederationBrowser.arm(flow)
+                    startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(address)).addCategory(Intent.CATEGORY_BROWSABLE))
+                }
+            } catch (_: android.content.ActivityNotFoundException) { flow.browserUnavailable(); federationRendered = ""; updateFederation(); return }
+            catch (_: SecurityException) { flow.browserUnavailable(); federationRendered = ""; updateFederation(); return }
+            catch (_: Exception) { federationRendered = ""; updateFederation(); return }
+        }
+        if (phase == ErpFederationLogin.Phase.CALLBACK && flow.takeCallback()) federationWork(flow) { flow.redeem() }
+        main.removeCallbacks(federationTick)
+        if (phase in setOf(ErpFederationLogin.Phase.NEW, ErpFederationLogin.Phase.DISCOVERING, ErpFederationLogin.Phase.STARTING,
+                ErpFederationLogin.Phase.BROWSER, ErpFederationLogin.Phase.CALLBACK, ErpFederationLogin.Phase.REDEEMING,
+                ErpFederationLogin.Phase.CHECKING, ErpFederationLogin.Phase.RECOVERABLE))
+            main.postDelayed(federationTick, if (phase == ErpFederationLogin.Phase.BROWSER || phase == ErpFederationLogin.Phase.RECOVERABLE) 5_000 else 250)
+    }
     private fun goBack() {
         if (mutation && busy) { status(getString(R.string.erp_wait)); return }
         val action = backAction
+        val dialogScreen = screen; val dialogTransport = api; val dialogRevision = api.federationAuthorityRevision()
+        val current = { !isDestroyed && screen == dialogScreen && api === dialogTransport && dialogTransport.federationAuthorityRevision() == dialogRevision }
         if (uncertain || api.hasPendingCommand()) {
             AlertDialog.Builder(this).setTitle(R.string.erp_unknown_title).setMessage(R.string.erp_unknown_leave)
-                .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_confirm) { _, _ -> uncertain = false; if (action == null) signOut(true) else action() }.show()
+                .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_confirm) { _, _ -> if (current()) { uncertain = false; if (action == null) signOut(true) else action() } }.show()
         } else if (action != null) action() else if (actor != null) {
             AlertDialog.Builder(this).setTitle(R.string.erp_logout).setMessage(R.string.erp_logout_question)
-                .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_logout) { _, _ -> signOut() }.show()
+                .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_logout) { _, _ -> if (current()) signOut() }.show()
         } else finish()
     }
     // API 33+ is handled by the registered platform OnBackInvokedCallback above.
@@ -880,24 +1016,30 @@ class ErpConsoleActivity : Activity() {
     override fun onBackPressed() { goBack() }
     override fun onStart() {
         super.onStart(); foreground = true
+        if (federation != null) { updateFederation(); return }
         mediaScreen?.onForeground()
         // Start deferred initial work or resume an idle screen only while visible.
         if (!busy && !discoveryBusy) scheduleRefresh(if (startedOnce) 0 else nextRefreshDelay)
         startedOnce = true
     }
     override fun onStop() {
-        foreground = false; mediaScreen?.onBackground(); main.removeCallbacks(refreshTick); super.onStop()
+        foreground = false; mediaScreen?.onBackground(); main.removeCallbacks(refreshTick); main.removeCallbacks(federationTick); super.onStop()
+    }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(Intent()) // The callback's only input is the process-owned, validated attempt.
+        if (foreground && federation != null) updateFederation()
     }
     @Suppress("DEPRECATION")
     @Deprecated("Platform Activity picker callback; this application does not depend on AndroidX Activity")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (mediaScreen?.result(requestCode, resultCode, data) != true) super.onActivityResult(requestCode, resultCode, data)
     }
-    override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, discovery, actor, demoMode, pendingRecovery)
+    override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, discovery, actor, demoMode, pendingRecovery, federation)
     override fun onDestroy() {
         mediaScreen?.close(); mediaScreen = null
         removePlatformBackCallback?.invoke(); removePlatformBackCallback = null
-        screen++; if (!isChangingConfigurations) api.clear()
+        screen++; if (!isChangingConfigurations) { stopFederation(); api.clear() }
         foreground = false; refreshRead = null
         main.removeCallbacksAndMessages(null); worker.shutdown(); configWorker.shutdownNow(); super.onDestroy()
     }

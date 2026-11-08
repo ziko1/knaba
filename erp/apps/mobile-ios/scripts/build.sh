@@ -17,7 +17,14 @@ if 'KNABADE' not in project.get('project',{}).get('schemes',[]):
 PY
 mkdir -p build/evidence
 mv build-project-list.json build/evidence/project-list.json
+# Inspect both generated configurations; do not publish raw build settings.
+federation_settings_dir=$(mktemp -d "${TMPDIR:-/tmp}/knaba-ios-federation.XXXXXX")
+trap 'rm -rf "$federation_settings_dir"' EXIT
+xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator -showBuildSettings -json CODE_SIGNING_ALLOWED=NO > "$federation_settings_dir/debug.json"
+xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Release -sdk iphonesimulator -showBuildSettings -json CODE_SIGNING_ALLOWED=NO > "$federation_settings_dir/release.json"
+python3 scripts/verify-federation-config.py --debug-settings "$federation_settings_dir/debug.json" --release-settings "$federation_settings_dir/release.json" --output build/evidence/federation-config.json
 xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+python3 scripts/verify-federation-config.py --debug-settings "$federation_settings_dir/debug.json" --release-settings "$federation_settings_dir/release.json" --debug-product build/Build/Products/Debug-iphonesimulator/KNABADE.app/Info.plist --output build/evidence/federation-config.json
 if [[ -n "${KNABA_IOS_TEST_DESTINATION:-}" ]]; then
   [[ ! -e build/NativeTests.xcresult ]] || { echo 'Existing NativeTests.xcresult: choose a fresh build checkout.' >&2; exit 65; }
   xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator -destination "$KNABA_IOS_TEST_DESTINATION" -destination-timeout 120 -derivedDataPath build -resultBundlePath build/NativeTests.xcresult -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO test
