@@ -11,7 +11,12 @@ export function assertLocalContainerTarget(connectionString,ports){const url=new
 export async function transport(){if(process.env.KNABA_PG_TRANSPORT)return process.env.KNABA_PG_TRANSPORT;if(await version('pg_dump')>=17)return 'native';return process.env.KNABA_PG_CONTAINER?'container':'compose';}
 export async function pgCommand(binary,args,connectionString,{outputFile,inputFile}={}) {
   const env=clientEnvironment(connectionString),mode=await transport();let command=binary,commandArgs=args;
-  if(mode==='native'){if(await version(binary)<17)fail('POSTGRES_17_CLIENT_REQUIRED');}
+  if(mode==='native'){
+   if(await version(binary)<17)fail('POSTGRES_17_CLIENT_REQUIRED');
+   // pg_restore needs an explicit destination to select direct restore mode;
+   // PGDATABASE alone is insufficient. Credentials remain only in the environment.
+   if(binary==='pg_restore')commandArgs=[`--dbname=${env.PGDATABASE}`,...args];
+  }
   else if(mode==='compose'||mode==='container'){
    if(env.DOCKER_HOST||env.DOCKER_CONTEXT&&env.DOCKER_CONTEXT!=='default'||await dockerMetadata(['context','show'],env)!=='default')fail('LOCAL_DEFAULT_DOCKER_CONTEXT_REQUIRED');
    const target=mode==='container'?process.env.KNABA_PG_CONTAINER:await dockerMetadata(['compose','-f',`${repository}infra/compose.yml`,'ps','-q','postgres'],env);

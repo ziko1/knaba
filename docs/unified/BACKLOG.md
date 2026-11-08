@@ -307,3 +307,9 @@ Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-
 - LA13: authorized scoped bot.knaba.de deployment on existing server; new isolated TEST company/PG/connector, private credentials, seed-free bootstrap, backup/restore and rollback gates. No existing service/data replacement.
 - LA14–LA20: external/platform account permission, LLM budget/credentials, outbound consent/spend reconciliation, verified production company, live session SSO and measured scale/retention remain open.
 - Scope/evidence plan: [LEAD_AGENT_2026-11-08_UK.md](LEAD_AGENT_2026-11-08_UK.md). No blanket acceptance of KNABA V4/V3 or fake platform capabilities.
+
+### KN-LA observed runtime checkpoint
+
+- Exact2af0e96 CI42494982104 and loopback session/public-feed acceptance passed, independently reviewed. Public release remains pending.
+- Native backup/restore: encrypted snapshot and independent privacy ledger verified; actual restore blocked by missing explicit pg_restore --dbname. Narrow source correction plus focused regression and exact CI/build reserved; retain existing test volume/credentials, require a real successful restore and owned cleanup before bot.knaba.de publication.
+- Keep LA14–LA20 external gates open. Catalog14, broad246 candidates and template drafts do not mean14 working platform adapters, acquired clients or LLM negotiation.
