@@ -3,12 +3,12 @@
   "project": "KNABA DE",
   "date": "2026-11-08",
   "scope": "F4-B separate federated session reader/current authority/revocation; no browser issuer",
-  "status": "SOURCE_REVIEW_ACCEPTED_HOSTED_ACCEPTANCE_PENDING",
+  "status": "ACCEPT_ACTUAL_HTTP_POSTGRESQL_SQLITE_FEDERATED_AUTHORITY",
   "product_status": "NOT_READY",
   "branch": "feat/knaba-federated-session-guards-20261108",
   "base_source_sha": "5133519984b6b50676393a7c4c4e541677d2cefa",
   "base_tree_sha": "4f0115028e6677a788b1579a18507f045e2c0070",
-  "commit_binding": "The candidate commit containing this manifest is not self-referenced. Hosted acceptance must independently pin its exact head/tree and these inputs.",
+  "commit_binding": "Historical accepted inputs belong to e740ef969e2a6a261f0e7ba613b741ed889ec0fe. Later documentation or implementation commits do not retag these proofs.",
   "inputs": {
     "corporate-site/vps/server.mjs": {
       "sha256": "db0c5b51c053c92fbd62dbf4da464e18e51536633718daafb8dad3f3492da31e",
@@ -159,15 +159,88 @@
     }
   },
   "hosted": {
-    "status": "CORRECTIVE_CHECKPOINT_PENDING",
-    "new_actual_bridge_cases": 51,
-    "required_jobs": [
-      "Source integrity and policy tests",
-      "Corporate site checks and production build",
-      "ERP checks, build and PostgreSQL tests",
-      "Site SQLite to ERP PostgreSQL HTTP acceptance"
-    ],
-    "acceptance_skips_allowed": 0
+    "status": "ACCEPT_ACTUAL_HTTP_POSTGRESQL_SQLITE_FEDERATED_AUTHORITY",
+    "independent_review": "ACCEPT",
+    "source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+    "tree_sha": "7df9516f9efa51482489f1c39dcf44c77e8fcc9b",
+    "pr": 131,
+    "run_id": 42481614075,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42481614075",
+    "duplicate_push_run": 42481611087,
+    "duplicate_push_status": "SUCCESS",
+    "all_required_jobs": "SUCCESS",
+    "conditional_failure_summary": "SKIPPED_AS_EXPECTED",
+    "logs": {
+      "erp": {
+        "job_id": 128734575877,
+        "file": "f4b-42481614075-erp.log",
+        "bytes": 105595,
+        "sha256": "ea5de6982d48cb4a0455217f94dc90aec623d57ae7f73529e2135950d0befd5d",
+        "status": "SUCCESS"
+      },
+      "site": {
+        "job_id": 128734575679,
+        "file": "f4b-42481614075-site.log",
+        "bytes": 141974,
+        "sha256": "aaeb9761f8c06b4f86cfce6c9aedac450ea284129c72702ed1fcd6483a3fa222",
+        "status": "SUCCESS"
+      },
+      "bridge": {
+        "job_id": 128734575746,
+        "file": "f4b-42481614075-bridge.log",
+        "bytes": 105637,
+        "sha256": "76058c15e8c92c60ea89e88a42440538e787187dd6aa185bad08b5cfb3353c5e",
+        "status": "SUCCESS"
+      },
+      "root": {
+        "job_id": 128734575587,
+        "file": "f4b-42481614075-root.log",
+        "bytes": 40955,
+        "sha256": "33d7b909bea806362c683fad6ad3e7fd317ac346a83bddbdcd12fb77552ac226",
+        "status": "SUCCESS"
+      }
+    },
+    "results": {
+      "erp": {
+        "tests": 2832,
+        "files": 122,
+        "actual_request_authority_tests": 22,
+        "cpu_guard_tests": 27
+      },
+      "bridge": {
+        "tests": 82,
+        "new_f4b_tests": 51,
+        "self_dispatch_tests": 17,
+        "upgrade_case": 65
+      },
+      "site": {
+        "vitest": 732,
+        "node_other": [
+          37,
+          35,
+          10,
+          8
+        ],
+        "vps": 297
+      },
+      "root": {
+        "tests": 30
+      }
+    },
+    "acceptance_skips": 0,
+    "original_attempt": {
+      "sha": "ef1242d1426e592f0d7fc2fc703cb9cf6f8a60cb",
+      "run": 42480841055,
+      "bridge": "81/82, one fixture type-decoding failure before upgrade",
+      "correction": "One test expression uses explicit text[]; runtime and migration unchanged"
+    },
+    "scope": "Default-off federated store/reader, signed current site authority, revocation, self-dispatch compatibility; synthetic sessions provisioned by tests",
+    "excluded": [
+      "F3 browser session issuer/exchange",
+      "Remaining F4 privacy/retention/background-policy integration",
+      "Production activation and current live configuration",
+      "Physical devices, signing/stores, company UAT and full V4/V3 acceptance"
+    ]
   },
   "coverage": [
     "Default-off configuration with enabled peer startup preflight; additive separate token namespace and exact frozen old-reader denial",
@@ -267,6 +340,8 @@
     "parent_sha": "ef1242d1426e592f0d7fc2fc703cb9cf6f8a60cb",
     "scope": "One test SQL expression casts current_schemas(false) to text[]; exact own-schema/pg_catalog assertion retained. No runtime/schema change.",
     "source_review": "ACCEPT by independent reviewer and root; exact pg 8.16.3 name[]/text[] parsers reproduced",
-    "actual_corrected_upgrade": "NOT_RUN until corrected exact-source CI"
-  }
+    "actual_corrected_upgrade": "PASS: case65 in exact-source CI42481614075; all82 bridge cases and all4 mandatory jobs accepted independently."
+  },
+  "accepted_source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+  "accepted_tree_sha": "7df9516f9efa51482489f1c39dcf44c77e8fcc9b"
 }

@@ -21,7 +21,7 @@ describe('Telegram worker runtime wiring (no real provider calls)',()=>{
     const options=configure(origins);
     expect(options.publicOrigin).toBe(origins.BOT_WEBSITE_ORIGIN);
     expect(options.telegram).toBeInstanceOf(TelegramBotAdapter);
-    expect(workerOptions({...origins,LIVE_SEND_ALLOWED:'false'}).publicOrigin).toBe(origins.BOT_WEBSITE_ORIGIN);
+    expect(workerOptions({APP_MODE:'TEST',...origins,LIVE_SEND_ALLOWED:'false'}).publicOrigin).toBe(origins.BOT_WEBSITE_ORIGIN);
     expect(configure({BOT_WEBSITE_ORIGIN:undefined}).publicOrigin).toBe(enabled.PUBLIC_ORIGIN);
     expect(configure({BOT_WEBSITE_ORIGIN:''}).publicOrigin).toBe(enabled.PUBLIC_ORIGIN);
     expect(()=>configure({...origins,PUBLIC_ORIGIN:'http://erp.example.test/'})).toThrow('TELEGRAM_OUTBOUND_CONFIGURATION_MISSING');
@@ -34,14 +34,14 @@ describe('Telegram worker runtime wiring (no real provider calls)',()=>{
     'https://site.example.test/#fragment','https://site.example.invalid/','not-a-url'])
   ('rejects an invalid website origin without activating or calling a provider: %s',origin=>{
     const request=vi.fn();vi.stubGlobal('fetch',request);
-    expect(()=>workerOptions({BOT_WEBSITE_ORIGIN:origin})).toThrow('BOT_WEBSITE_ORIGIN_INVALID');
+    expect(()=>workerOptions({APP_MODE:'TEST',BOT_WEBSITE_ORIGIN:origin})).toThrow('BOT_WEBSITE_ORIGIN_INVALID');
     expect(request).not.toHaveBeenCalled();
   });
 
   it('never enables Telegram outbound from a token or WhatsApp global flag alone',()=>{
     const request=vi.fn();
     vi.stubGlobal('fetch',request);
-    expect(workerOptions({TELEGRAM_BOT_TOKEN:token}).telegram).toBeUndefined();
+    expect(workerOptions({APP_MODE:'TEST',TELEGRAM_BOT_TOKEN:token}).telegram).toBeUndefined();
     expect(configure({LIVE_SEND_ALLOWED:'false'}).telegram).toBeUndefined();
     expect(configure({TELEGRAM_LIVE_SEND_ALLOWED:'false'}).telegram).toBeUndefined();
     expect(configure({TELEGRAM_LIVE_SEND_ALLOWED:undefined}).telegram).toBeUndefined();

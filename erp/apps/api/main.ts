@@ -20,7 +20,7 @@ import {validationInputBudgetMiddleware} from './validation-budget.ts';
 import {SiteIdentityFlow} from './site-identity-flow.ts';
 import {parsePeerConfig,parseSessionAuthorityEnabled} from '../../packages/integrations/site-identity-protocol.mjs';
 import {installSiteIdentityPages} from './site-identity-pages.ts';
-const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']).default('DEMO'),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
+const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
 if(env.APP_MODE==='PRODUCTION'&&(!env.AUTH_ENCRYPTION_KEY||!env.PUBLIC_ORIGIN||!env.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
 const db=new Database();
 await assertGpsStorageSafe(db,env.COMPANY_ID);

@@ -22,6 +22,22 @@ const telegramOnly:NodeJS.ProcessEnv={
   TELEGRAM_APPROVED_CONSENT_VERSION:'TEST_ONLY_NOTICE_2026'
 };
 
+describe('runtime preflight requires an explicit process mode without starting services',()=>{
+  it.each([undefined,'',' ','test',' TEST ','STAGING'])('rejects APP_MODE=%s',APP_MODE=>{
+    const run=verify({APP_MODE});
+    expect(run.error).toBeUndefined();expect(run.signal).toBeNull();
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain('APP_MODE must be DEMO, TEST or PRODUCTION');
+    expect(run.stdout).not.toContain('PASSED:');
+  });
+  it.each(['DEMO','TEST','PRODUCTION'])('preserves explicitly configured %s preflight',APP_MODE=>{
+    const run=verify({APP_MODE});
+    expect(run.error).toBeUndefined();expect(run.signal).toBeNull();
+    expect(run.status).toBe(0);
+    expect(run.stdout).toContain(`PASSED: ${APP_MODE} runtime configuration`);
+  });
+});
+
 describe('preflight accepts explicit Telegram-only mode and denies broken channel setups',()=>{
   it('keeps all outbound disabled by default',()=>{
     const run=verify();

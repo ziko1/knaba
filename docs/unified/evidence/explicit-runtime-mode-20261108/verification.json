@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "KN-C08 explicit API/worker/preflight/staging runtime mode",
+  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-explicit-runtime-mode-20261108",
+  "base_source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+  "base_tree_sha": "7df9516f9efa51482489f1c39dcf44c77e8fcc9b",
+  "commit_binding": "Inputs bind the reviewed candidate bytes. The eventual immutable commit/tree and hosted results are recorded in its PR receipt; historical proofs are never retagged by a later documentation commit.",
+  "inputs": {
+    "erp/apps/api/main.ts": {
+      "bytes": 9650,
+      "sha256": "e0c0e98335dc4c91f507a8db1fb30cce4f9ec22e0393c42aa8a48c7d39c6138f"
+    },
+    "erp/apps/worker/main.ts": {
+      "bytes": 5848,
+      "sha256": "dbbc66fcae9c9f67aa071fb13be1a6f6747a581e3cae584c6b808d2c7f48c52c"
+    },
+    "erp/scripts/environment-check.mjs": {
+      "bytes": 4909,
+      "sha256": "61fae51e7c3140f3eb5c7da7a945a9016efb4a71501a4cb368e868dfb53f3c5e"
+    },
+    "erp/scripts/railway-worker-start.mjs": {
+      "bytes": 3134,
+      "sha256": "9e940441840d10992db1d9563e89cbf2b215c6915dc67cfc994285aebfdbb07e"
+    },
+    "erp/scripts/railway-worker-start.d.mts": {
+      "bytes": 652,
+      "sha256": "1d988427cd3dd42640c279b290fe946d7ddc5ca66ac05198541f071eff8e13e0"
+    },
+    "erp/tests/runtime-mode.test.ts": {
+      "bytes": 5569,
+      "sha256": "541c8970f8a906f1acc736a64352596fa40e2e36482110814123f837bc7d5751"
+    },
+    "erp/tests/runtime-mode-entrypoints.test.ts": {
+      "bytes": 4566,
+      "sha256": "7e39e2f59ef612076ee7f17ee36792a9e82c8576dae89bd73294463f8bbd1ebe"
+    },
+    "erp/tests/fixtures/runtime-mode-traps.cjs": {
+      "bytes": 1113,
+      "sha256": "9701d253da7efd13bb4ab5759bfd030b10134547f931b7a29a0a9601d9786c8e"
+    },
+    "erp/tests/telegram-worker-config.test.ts": {
+      "bytes": 5405,
+      "sha256": "9726224d49db70a2872dd1c71751dc9b2f5bead1989e2c38a772fc8a4918fe8f"
+    },
+    "erp/tests/integrations.test.ts": {
+      "bytes": 35183,
+      "sha256": "46ea0615c997a1f04c68ce3d7adc155787e2da5dbb3ec22bee4dd235b715e228"
+    },
+    "erp/tests/railway-worker-gate.test.ts": {
+      "bytes": 3470,
+      "sha256": "6706ca7b410dc6fe97962bf3cb50364afa0923e3d1e1a04f8f1ce214f6b18a6a"
+    },
+    "erp/tests/telegram-preflight.test.ts": {
+      "bytes": 4391,
+      "sha256": "e8ce83e9cb35e173d28ac64a443cf7e0476289e52cd52aaf31b913dbcde8add0"
+    },
+    "erp/tests/seed-mode.test.ts": {
+      "bytes": 1169,
+      "sha256": "1593944fbc24dd8bad037cbd95dc6e309b48a576bfa7ac598973920ab70e5a93"
+    },
+    "erp/package.json": {
+      "bytes": 1208,
+      "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58"
+    },
+    "erp/package-lock.json": {
+      "bytes": 192043,
+      "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3"
+    },
+    "erp/tsconfig.json": {
+      "bytes": 459,
+      "sha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb"
+    },
+    "erp/scripts/bundle.mjs": {
+      "bytes": 2552,
+      "sha256": "a4e6ac8a341124880184618a9893e7a244c23a89a652357024aa06132c6fd093"
+    }
+  },
+  "review": {
+    "status": "ACCEPT_LOCAL_SOURCE",
+    "runtime_reviewer": "/root/knaba_prompt_review",
+    "test_reviewer": "/root",
+    "runtime_files": 5,
+    "authored_test_files": 7,
+    "blocking_findings": 0,
+    "scope": "Guard order, exact enums, injected consistency, production prerequisites, staging-only contract; independent review of actual entrypoint fixture/traps and negative/positive controls"
+  },
+  "local": {
+    "runtime": {
+      "node": "v24.22.1",
+      "vitest": "4.1.11",
+      "esbuild": "0.25.10"
+    },
+    "focused": {
+      "command": "node node_modules/vitest/vitest.mjs run tests/runtime-mode.test.ts tests/runtime-mode-entrypoints.test.ts tests/telegram-worker-config.test.ts tests/railway-worker-gate.test.ts tests/telegram-preflight.test.ts tests/seed-mode.test.ts --maxWorkers=2",
+      "cwd": "erp",
+      "exit_code": 0,
+      "passed": 123,
+      "files": 6,
+      "failed": 0,
+      "skipped": 0,
+      "breakdown": {
+        "worker_runtime": 38,
+        "compiled_entrypoints": 19,
+        "telegram_worker": 22,
+        "railway_gate": 21,
+        "preflight": 16,
+        "seed": 7
+      },
+      "log": {
+        "file": "c08-focused-final.log",
+        "bytes": 2337,
+        "sha256": "0f0a4e7842d7549fe7e0de98407cf4c2d9071debf07dfca076d86269d57df50f"
+      }
+    },
+    "targeted_integration_fixture": {
+      "command": "env -u DATABASE_URL node node_modules/vitest/vitest.mjs run tests/integrations.test.ts -t 'does not instantiate outbound provider' --maxWorkers=1",
+      "cwd": "erp",
+      "exit_code": 0,
+      "passed": 1,
+      "deselected": 78,
+      "scope": "One changed provider configuration fixture; remaining integration cases NOT_RUN locally, not passed/skipped acceptance",
+      "log": {
+        "file": "c08-integration-config-target.log",
+        "bytes": 311,
+        "sha256": "bb4b7beda70adcd4462f830e4382a0ae10aab9baaff3adb53c3804d0739377d2"
+      }
+    },
+    "typecheck": {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "cwd": "erp",
+      "exit_code": 0,
+      "scope": "Silent successful typecheck after required mode declaration",
+      "log": {
+        "file": "c08-tests-typecheck-final.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "root": {
+      "command": "npm test",
+      "cwd": ".",
+      "exit_code": 0,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "log": {
+        "file": "c08-root-tests.log",
+        "bytes": 2744,
+        "sha256": "a93ec204e9a34d472735d01b1d053a8e6cac0899f9e6a6df3d30f86c8a2364a0"
+      }
+    },
+    "separate_seed_regression": {
+      "passed": 7,
+      "exit_code": 0,
+      "overlaps": "Included in final focused 123; never add again",
+      "log": {
+        "file": "c08-seed-regression.log",
+        "bytes": 523,
+        "sha256": "1643043d37a71a13f5f7a7d6ab6ce6dc78c8d90f221b24e07ace8b2e4afb8aff"
+      }
+    },
+    "diff_check": "PASS",
+    "boundary_scope": "Actual API/worker main compiled with pinned esbuild entrypoints, Node24 target, external packages and createRequire banner, then run by plain Node. Child-only PG Pool/network/interval traps; no SQL connections or providers. This is a candidate entrypoint fixture bundle without release metadata/assets banner, not a production artifact or successful full startup."
+  },
+  "first_attempt": {
+    "status": "FAILED_TEST_HARNESS",
+    "passed": 104,
+    "failed": 19,
+    "source": "Superseded uncommitted tsx-loader entrypoint harness",
+    "reason": "Pinned tsx loader made two local IPC Socket.connect attempts before main; active network trap correctly recorded them. Runtime mode guards were not relaxed. Fixture switched to compilation of real entrypoints and plain Node with all traps retained.",
+    "log": {
+      "file": "c08-focused-first.log",
+      "bytes": 7691,
+      "sha256": "242e65faa683edc0c7f27ce6694ab87c594a11f710e251e80eb5dd234094152d"
+    },
+    "corrective_entrypoints": {
+      "passed": 19,
+      "failed": 0,
+      "exit_code": 0,
+      "log": {
+        "file": "c08-entrypoints-corrected.log",
+        "bytes": 1802,
+        "sha256": "eb31c30986ed78d0d516f0751f5e34abf58c2d79d5dc79a5b15d05a1cd03a48f"
+      },
+      "overlaps": "Included in final 123-case focused run"
+    }
+  },
+  "hosted": {
+    "status": "NOT_RUN",
+    "required": [
+      "Exact clean source audit",
+      "ERP typecheck/build/full CPU and genuine PostgreSQL tests without skips",
+      "Actual site SQLite to ERP PostgreSQL HTTP bridge",
+      "Site production build and full tests",
+      "Root release/source policy tests",
+      "Independent exact-source and raw-log review"
+    ]
+  },
+  "coverage": [
+    "Missing/empty/whitespace/lowercase/unknown process modes fail before DB/network/interval boundaries",
+    "workerOptions rejects null/non-string/padded values before reading other configuration",
+    "Injected worker options and every inconsistent Engine mode fail before initialization",
+    "DEMO/TEST/PRODUCTION reach positive constructor boundary; API production credential prerequisites remain enforced",
+    "Railway helper requires explicit DEMO/TEST before HTTP or waits; declaration matches runtime",
+    "Provider opt-in and seed mode regression preserved"
+  ],
+  "historical_f4b": {
+    "source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+    "ci": 42481614075,
+    "status": "ACCEPT",
+    "evidence": "../federated-session-authority-20261108/verification.json",
+    "scope": "Historical accepted source only; does not accept this new runtime-mode candidate"
+  },
+  "open": [
+    "COMPANY_ID fallback and production-origin enforcement alignment remain separate contracts",
+    "F3 browser session issuer/exchange and remaining F4 privacy/retention/background policy",
+    "Physical devices, owner signing/stores, browser/company/provider UAT",
+    "Full V4/V3 acceptance, restore and required load targets"
+  ],
+  "rollback": "No database migration. A source rollback to accepted base requires preserving an explicitly verified APP_MODE in the deployment configuration; reverting code does not authorize production operations or silently restore a DEMO default.",
+  "activation": {
+    "merge": false,
+    "production": false,
+    "live_data": false,
+    "providers": false,
+    "paid_services": false,
+    "native_changes": false,
+    "original_criteria_promoted": false
+  }
+}
