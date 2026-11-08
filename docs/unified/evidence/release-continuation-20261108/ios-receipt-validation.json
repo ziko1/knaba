@@ -1,0 +1,28 @@
+{
+  "scope": "SYNTHETIC_RECEIPT_VALIDATION_ONLY_NOT_NATIVE_APP_EXECUTION",
+  "workflow_sha256": "28308fa02e7f70809b1d3766f0f0c904a5450139d64fabb3a607d6e3392365e7",
+  "cases": [
+    {
+      "case": "positive",
+      "expected": "PASS",
+      "actual": "PASS"
+    },
+    {
+      "case": "zero",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "case": "skip",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "case": "failed",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    }
+  ],
+  "status": "PASS",
+  "product_xctest_count_added": 0
+}

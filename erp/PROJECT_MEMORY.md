@@ -1,5 +1,11 @@
 # KNABA DE project memory
 
+## 08.11.2026 — KN-C08-B і реліз0.5.2 source checkpoint
+
+API/worker перевіряють COMPANY_ID та PUBLIC_ORIGIN до запуску; production demo IDs/HTTP/credentials/path/query відхиляються, API canonical origin узгоджено зidentity peer, worker raw origin збережено дляTelegram. Missing template origin завершує delivery доSENDING/provider; text jobs не потребують штучного URL. [Контракт, межі й докази](../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
+293 focused PASS/2SQLskipped, TypeScript та36 root PASS;4 targeted failures відтворено напопередньомуbb223. Нові2 leased PostgreSQL template checks та2 site/ERP recovery bridge checks потребують hostedCI. Whole product NOT_READY; існуючі F3/business/restore/load/UAT вимоги не закриті.
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.

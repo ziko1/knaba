@@ -6,14 +6,14 @@ if(Number(process.versions.node.split('.')[0])!==24)failures.push('Node 24 is re
 if(process.env.NODE_TLS_REJECT_UNAUTHORIZED==='0'||/^(false|0)$/i.test(process.env.NPM_CONFIG_STRICT_SSL||'')||/^(false|0)$/i.test(process.env.npm_config_strict_ssl||''))failures.push('TLS certificate verification must remain enabled');
 const database=requireValue('DATABASE_URL');
 if(database){try{const url=new URL(database);if(!['postgres:','postgresql:'].includes(url.protocol)||!url.hostname||!url.pathname||url.pathname==='/')failures.push('DATABASE_URL must identify a PostgreSQL host/database');}catch{failures.push('DATABASE_URL is invalid');}}
-const company=process.env.COMPANY_ID||'knaba-demo';
-if(!/^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$/.test(company))failures.push('COMPANY_ID must be a bounded stable identifier');
+const company=process.env.COMPANY_ID??'knaba-demo';
+if(company!==company.trim()||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$/.test(company))failures.push('COMPANY_ID must be a bounded stable identifier');
 const key=requireValue('AUTH_ENCRYPTION_KEY');
 if(key&&key.length<32)failures.push('AUTH_ENCRYPTION_KEY must contain at least 32 characters');
 const sha=requireValue('GIT_SHA');
 if(sha&&(!/^[a-f0-9]{40}$/.test(sha)||/^0{40}$/.test(sha)))failures.push('GIT_SHA must be the exact non-placeholder 40-character release SHA');
 const origin=requireValue('PUBLIC_ORIGIN');
-if(origin){try{const url=new URL(origin);if(!['http:','https:'].includes(url.protocol)||url.username||url.password||url.search||url.hash||url.pathname!=='/')failures.push('PUBLIC_ORIGIN must be an HTTP(S) origin without credentials/path/query');if(mode==='PRODUCTION'&&url.protocol!=='https:')failures.push('PRODUCTION requires HTTPS PUBLIC_ORIGIN');}catch{failures.push('PUBLIC_ORIGIN is invalid');}}
+if(origin){try{const url=new URL(origin);if(origin!==origin.trim()||!/^https?:\/\/[^\s/?#\\]+\/?$/i.test(origin)||!['http:','https:'].includes(url.protocol)||url.username||url.password||url.search||url.hash||url.pathname!=='/')failures.push('PUBLIC_ORIGIN must be an HTTP(S) origin without credentials/path/query');if(mode==='PRODUCTION'&&url.protocol!=='https:')failures.push('PRODUCTION requires HTTPS PUBLIC_ORIGIN');}catch{failures.push('PUBLIC_ORIGIN is invalid');}}
 const websiteOrigin=process.env.BOT_WEBSITE_ORIGIN;
 if(websiteOrigin){try{const url=new URL(websiteOrigin);if(url.protocol!=='https:'||!url.hostname||url.username||url.password||url.search||url.hash||url.pathname!=='/'||url.hostname.endsWith('.invalid'))failures.push('BOT_WEBSITE_ORIGIN must be an HTTPS website origin without credentials/path/query');}catch{failures.push('BOT_WEBSITE_ORIGIN is invalid');}}
 if(mode==='PRODUCTION'){if(!process.env.COMPANY_ID||company==='knaba-demo'||company==='knaba-de-demo')failures.push('PRODUCTION requires the explicitly verified COMPANY_ID');if(process.env.AI_SYNTHETIC_ONLY==='true')console.log('NOT_RUN: real AI transfer remains disabled by AI_SYNTHETIC_ONLY.');}

@@ -1,5 +1,11 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — bounded password recovery continuation
+
+На актуальнійPR133/F2/F4 базі додано GET/POST forgot/reset password із одноразовим hashed capability, expiry/current-credential/profile fences, atomic password/token/session/audit update. Чинні authority readers не заміненоPR129 federation stack. Additive002 auth migration зберігає001/guards та відмовляє звичайномуstartup до explicit migration. [Операційний контракт і rollback](docs/PASSWORD_RECOVERY_OPERATIONS_UK.md).
+
+109 targeted SQLite/real localHTTP/compatibility tests іsitebuild PASS; двановіPostgreSQL bridge scenarios ще pending hostedCI. Independent root source review приймає лише цейlocal scope. MaildefaultOFF, liveemail/browser/device/owneracceptance не заявлені. Повнийреліз NOT_READY; [зведення](../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
 ## 08.11.2026 — F2 site/ERP dual-consent candidate
 
 У Draft PR128 від `a670ff0be70abd1bb8f07065e237b5e3de8a7a84` додано neutral linking page, same-origin CSRF/preview consent, signed backchannel inspect/redeem і immutable SQLite grants з окремим checksum migration receipt. Current original session/profile/config перевіряються в SQLite transaction; email не створює binding або роль. Standalone protocol/UI distribution та [повний F2 contract](../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md) зберігають ERP/VPS packaging. Local SQLite/HTTP/source/build checks PASS; actual PostgreSQL integrated flow і rendered browser/device ще не прийняті. F3–F5/SSO/whole product NOT_READY; production federation вимкнена, live migration/config/deploy не виконано.

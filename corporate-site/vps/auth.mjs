@@ -25,9 +25,12 @@ export function createOwner(db,email,password){
   return createCredentialsUser(db,email,password);
 }
 function validPassword(row,password){
+  if(typeof password!=='string'||password.length>256||
+     !/^[a-f0-9]{32}$/.test(row?.salt??'')||!/^[a-f0-9]{128}$/.test(row?.password_hash??''))return false;
   const attempt=scryptSync(password,Buffer.from(row.salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024});
   return timingSafeEqual(attempt,Buffer.from(row.password_hash,'hex'));
 }
+export {validPassword as verifyCredentialPassword};
 export function createLogin(db,{email,password,clientKey}){
   const address=normalizeEmail(email);
   const now=Math.floor(Date.now()/1000);

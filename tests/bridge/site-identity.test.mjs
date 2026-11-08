@@ -18,6 +18,7 @@ import {hashPassword,hashToken,csrfFor,sealSecret} from '../../erp/apps/api/auth
 import {identityCommands} from '../../erp/packages/domain/identity.ts';
 import {createKnabaVpsServer} from '../../corporate-site/vps/server.mjs';
 import {createCredentialsUser,createSessionForUser,destroySession} from '../../corporate-site/vps/auth.mjs';
+import {requestPasswordReset,consumePasswordReset} from '../../corporate-site/vps/account-recovery.mjs';
 import {parsePeerConfig,digest} from '../../corporate-site/vps/site-identity-protocol.mjs';
 import {peerRequest} from '../../erp/packages/integrations/site-identity-protocol.mjs';
 
@@ -168,6 +169,21 @@ check('site logout before redemption denies the binding and leaves ERP challenge
  const f=await fixture(t),pending=await f.prepared();destroySession(f.site.db,'__Host-knaba-session='+f.siteSession.token);
  denied(await pending.confirm(),503,'DEPENDENCY_UNAVAILABLE');assert.equal((await f.bindings()).length,0);
  assert.equal((await db.query('SELECT status FROM site_identity_challenges WHERE company_id=$1',[f.company])).rows[0].status,'PREVIEWED');
+});
+
+check('site password recovery invalidates an issued consent without consuming the ERP challenge or replacing identity',async t=>{
+ const f=await fixture(t),pending=await f.prepared(),credential=await f.currentCredential();
+ const profile=f.site.db.prepare('SELECT * FROM profiles WHERE id=?').get(f.siteUser.id);
+ let token;const jobs=[];
+ const mail={enabled:true,dailyLimit:10,schedule:work=>{jobs.push(work);return true;},send:async message=>{token=message.token;return {status:'accepted'};}};
+ assert.deepEqual(await requestPasswordReset(f.site.db,{email:f.siteUser.email,clientKey:'synthetic-f2-recovery',mail}),{accepted:true});
+ assert.equal(jobs.length,1);await jobs[0]();assert.match(token,/^[A-Za-z0-9_-]{43}$/);
+ assert.deepEqual(consumePasswordReset(f.site.db,{token,newPassword:'Synthetic-F2-recovered-site-password',confirmed:'Synthetic-F2-recovered-site-password'}),{changed:true});
+ denied(await pending.confirm(),503,'DEPENDENCY_UNAVAILABLE');assert.equal((await f.bindings()).length,0);
+ assert.equal((await db.query('SELECT status FROM site_identity_challenges WHERE company_id=$1',[f.company])).rows[0].status,'PREVIEWED');
+ assert.deepEqual(await f.currentCredential(),credential);
+ assert.deepEqual(f.site.db.prepare('SELECT * FROM profiles WHERE id=?').get(f.siteUser.id),profile);
+ assert.equal(f.siteAudits('credential.reset'),1);
 });
 
 check('profile suspension or changed profile revision between preview and confirmation is denied',async t=>{

@@ -1,5 +1,11 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — 0.5.2/build9 release continuation
+
+Підготовлено наступний native candidate наPR133/bb223af: ті самі role/context/recovery implementations, виправлений штатний localization gate, version contract0.5.2/build9, actual XCTest-summary/compiled Info.plist binding уCI receipt.6 mutation/process checks і36 root PASS. [Інструкція тестування](TEST_CANDIDATE_0.5.2_UK.md), [повний контракт](../unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
+Отримано та hash-verified попередніbb223 APK0.5.0 іiOS0.5.1 simulator/67XCTest. Нові0.5.2 hosted artifacts ще pending; старібайти/результати не ретегуються. Code9 усуває відомуversion regression щодоPR129/code8, але не доводить signer/update compatibility. Physical Android/iPhone, owner signing/IPA, TEST ERP/company UAT та повнаM1–M4 parity відкриті.
+
 ## 08.11.2026 — iOS 0.5.1 accepted; consolidation with current backend pending
 
 Accepted iOS source `65f341e76749a03fc62997da5a77e17b84caf8ba`: CI42467913707, iOS job128691606881, 67/67 actual XCTest, iPhone 16 / iOS 18.5 Simulator / Xcode 16.4. Parallel Android dependency HTTP504 occurred before compilation; Android retains its separate accepted fb4be719 artifact proof. Native receipt and actual XCTest summary are preserved under `evidence/ios-context-actions-20261108/`.

@@ -1,0 +1,52 @@
+{
+  "project": "KNABA_DE",
+  "existingProject": true,
+  "branch": "feat/knaba-release-continuation-20261108",
+  "baseSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "scope": "Continue user-authorized release fixes, real Android/iOS test artifacts and full client handoff evidence",
+  "currentPhase": "IMPLEMENTATION_AND_CROSS_REVIEW",
+  "updatedAt": "2026-11-08T14:43:19.027635+00:00",
+  "actualTeam": [
+    {
+      "agent": "/root",
+      "ownership": "native version/catalog and receipt gates; API/worker authority config; template guard; cross review of recovery; exact-source CI/package"
+    },
+    {
+      "agent": "/root/scope_matrix",
+      "ownership": "PR133/129 scope comparison; minimal recovery port; later cross review root changes and matrix"
+    }
+  ],
+  "unavailableWorkers": [
+    {
+      "agent": "/root/ios_release",
+      "result": "ERROR_CONTEXT_LIMIT_NO_CURRENT_OUTPUT"
+    },
+    {
+      "agent": "/root/native_evidence",
+      "result": "ERROR_CONTEXT_LIMIT_NO_CURRENT_OUTPUT"
+    }
+  ],
+  "budget": {
+    "repoVisibility": "public",
+    "authenticatedRepoPushPermission": true,
+    "officialBillingSource": "https://docs.github.com/en/actions/concepts/billing-and-usage",
+    "verifiedAt": "2026-11-08",
+    "maxNativeAttempts": 2,
+    "maxNativeRunnerMinutes": 160,
+    "maxExistingRepositoryRuns": 4,
+    "eligibleStandardPublicRunnerEuro": 0,
+    "largerRunnerAllowed": false,
+    "newPaidActivationAllowed": false,
+    "providerLiveCallsAllowed": false,
+    "accountModelCredits": "UNKNOWN"
+  },
+  "permissions": {
+    "localReversibleCodeAndTests": true,
+    "isolatedBranchAndDraftPR": true,
+    "mainMerge": false,
+    "productionDeploy": false,
+    "storeUpload": false,
+    "clientMessages": false
+  },
+  "acceptance": "Full scope retained; device/live/provider/UAT gates do not inherit source or CI PASS."
+}

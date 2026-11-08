@@ -1,0 +1,12 @@
+{
+  "observed_at": "2026-11-08T14:37:27.407592+00:00",
+  "baseline_source": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "test_source": "working-tree runtime-mode-entrypoints.test.ts",
+  "test_sha256": "453370823c7995edddc0bd50d1d9fa61a3c6b0b5d51da5654d3bc1dfd9a84ec2",
+  "command": "npm test -- --no-file-parallelism tests/runtime-mode-entrypoints.test.ts --testNamePattern='rejects production.*(undefined|http://erp)'",
+  "exit_code": 1,
+  "expected": "4 targeted failures on the vulnerable baseline; remaining tests deliberately excluded",
+  "observed": "4 targeted failures, 45 excluded tests; invalid company/http origin reached the deliberately trapped PG_POOL",
+  "proof_scope": "BEFORE_FIX_CONTROL_ONLY; not final-candidate failures",
+  "log_sha256": "068f7211d34a3d259fd9a7185ab79eec54ca7f9b9b5a00196ff06f456050b075"
+}

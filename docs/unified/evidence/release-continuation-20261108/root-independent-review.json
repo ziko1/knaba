@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/scope_matrix",
+  "author_under_review": "/root",
+  "reviewed_at": "2026-11-08T14:51:09.499461+00:00",
+  "decision": "PASS",
+  "scope": "INDEPENDENT_SOURCE_AND_EVIDENCE_REVIEW_ONLY",
+  "product_readiness": "HOLD / NOT_READY",
+  "source": {
+    "base_git_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "state": "UNCOMMITTED_WORKING_TREE",
+    "subject_files": [
+      {
+        "path": ".github/workflows/native.yml",
+        "bytes": 10286,
+        "sha256": "28308fa02e7f70809b1d3766f0f0c904a5450139d64fabb3a607d6e3392365e7"
+      },
+      {
+        "path": "docs/mobile/RELEASE_VERSIONS.json",
+        "bytes": 402,
+        "sha256": "cad39ec8f57fd13f4fa613cb0faa14a37cb304f7c30961ee35c35d90d539a99e"
+      },
+      {
+        "path": "docs/mobile/TEST_CANDIDATE_0.5.2_UK.md",
+        "bytes": 5045,
+        "sha256": "5d0fccb65b6a8b8f15443512152cca92730846b19b055caaa922d6a988d0d4a0"
+      },
+      {
+        "path": "erp/apps/api/main.ts",
+        "bytes": 9909,
+        "sha256": "a9894b5c9e4362fd1e786f345b51f6eb474fbebffe560505c16117ae14d45b13"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/build.gradle.kts",
+        "bytes": 1172,
+        "sha256": "a4a1913c047391523c78a78b67d6f14ed8cd50a0284ff908fc3e12bc0a447163"
+      },
+      {
+        "path": "erp/apps/mobile-ios/project.yml",
+        "bytes": 1320,
+        "sha256": "3b12dd51da6f7cc667743e3a5d5b2a028443e42224c163cb3f0985099f5448bf"
+      },
+      {
+        "path": "erp/apps/runtime-configuration.ts",
+        "bytes": 1512,
+        "sha256": "bf4d8f04bebefc474e6848c220de31e2e713890db84ec891032ae6da2d277939"
+      },
+      {
+        "path": "erp/apps/worker/main.ts",
+        "bytes": 6113,
+        "sha256": "c09dbf401be14da786a0dc6e60ca04e1d4df09aa196eab0257257f41858fb9fa"
+      },
+      {
+        "path": "erp/apps/worker/runner.ts",
+        "bytes": 86597,
+        "sha256": "48a757afc7f65bd06391efb546e17f60854c5271650629bea92325b0d104ddd8"
+      },
+      {
+        "path": "erp/scripts/environment-check.mjs",
+        "bytes": 5005,
+        "sha256": "dd3eb586f3e46ffe5f7be80c96280ab9226348116c69e9a98a7e917545885151"
+      },
+      {
+        "path": "erp/tests/notification-policy.integration.test.ts",
+        "bytes": 20376,
+        "sha256": "e1c3235dcef5b675a5af7f80f74e819312dc9aaf94735c516ee06b83c217cef4"
+      },
+      {
+        "path": "erp/tests/runtime-configuration.test.ts",
+        "bytes": 8083,
+        "sha256": "57e01d31861a0a8d4ed406460c6e16bfc4d2e780a48f3e591485c7ce934eee61"
+      },
+      {
+        "path": "erp/tests/runtime-mode-entrypoints.test.ts",
+        "bytes": 6179,
+        "sha256": "453370823c7995edddc0bd50d1d9fa61a3c6b0b5d51da5654d3bc1dfd9a84ec2"
+      },
+      {
+        "path": "erp/tests/runtime-mode.test.ts",
+        "bytes": 5605,
+        "sha256": "88221c83db98d88645c29c5071491c94b976a5054a983fdc798931df22c1b3cc"
+      },
+      {
+        "path": "erp/tests/telegram-worker-config.test.ts",
+        "bytes": 5552,
+        "sha256": "062e6aef9591690db15236c2a5c533566ada9c6317f80c248fbd99d9f385504c"
+      },
+      {
+        "path": "scripts/mobile-localizations.test.mjs",
+        "bytes": 3241,
+        "sha256": "f3d219258a3abad1fbf1e353bb2718bed2b259e0f8332770a73d595b2b7ce5fe"
+      },
+      {
+        "path": "scripts/mobile/check-localizations.py",
+        "bytes": 3933,
+        "sha256": "a4efd77b178b716bf2ebca4f884786733302c675a76629250de4f0dea6b6b5af"
+      },
+      {
+        "path": "scripts/mobile/package-ios-source.py",
+        "bytes": 3438,
+        "sha256": "7961854f6bf2ded49694538628d9f30d34e9c0c71493525a8f076a8cebcf67f3"
+      }
+    ],
+    "file_count": 18,
+    "subject_digest_sha256": "cb3e4cf0d0bd61c93b8731b1ab417b07aa7b02d96c0bf54300adddf590742de5",
+    "digest_algorithm": "SHA256 of UTF-8 concatenated sorted sha256 + two spaces + relative path + LF"
+  },
+  "independence": {
+    "root_owned_source_authored_by_reviewer": false,
+    "recovery_port_authored_by_reviewer": true,
+    "recovery_port_excluded_from_this_approval": true,
+    "same_workspace": true,
+    "suites_rerun_by_reviewer": false,
+    "limitations": "Independent agent review of actual source and existing primary evidence in the same workspace; not an external security audit and not full release acceptance."
+  },
+  "material_findings": [],
+  "checks": [
+    {
+      "id": "ROOT-COMPANY",
+      "status": "PASS",
+      "kind": "SOURCE_AND_EXISTING_HOST_EVIDENCE",
+      "conclusion": "API/worker production reject absent/invalid/demo company before startup effects; TEST/DEMO retain only explicit permitted environment fallback; injected options retain no fallback."
+    },
+    {
+      "id": "ROOT-ORIGIN",
+      "status": "PASS",
+      "kind": "SOURCE_AND_EXISTING_HOST_EVIDENCE",
+      "conclusion": "API compares canonical clean HTTP(S) authority with production HTTPS required; configured origins reject credentials/path/query/fragment without echoing input. Worker raw origin remains unchanged for exact Telegram binding; optional origin preserved for jobs without links."
+    },
+    {
+      "id": "ROOT-TEMPLATE",
+      "status": "PASS",
+      "kind": "SOURCE_REVIEW_ONLY",
+      "acceptance_status": "BLOCKED",
+      "conclusion": "Missing template publicOrigin fails definitively before SENDING/provider claim; validated origin is captured in the same leased snapshot. Two real PostgreSQL test cases are present but not executed by this review."
+    },
+    {
+      "id": "ROOT-VERSIONS",
+      "status": "PASS",
+      "kind": "SOURCE_AND_EXISTING_HOST_EVIDENCE",
+      "conclusion": "Both native source configs are0.5.2/build9, greater than observed PR129 build8. Version contract and localization checks are invoked before both native jobs; no device or signing acceptance implied."
+    },
+    {
+      "id": "ROOT-IOS-RECEIPT",
+      "status": "PASS",
+      "kind": "SOURCE_AND_EXISTING_PRIMARY_ARTIFACT_SCHEMA",
+      "conclusion": "Receipt derives bundle/version/platform from built Info.plist and binds XCTest summary SHA256; zero/failed/skipped/expected failures are refused. Historical67/67 summary schema matches the parser; that old result remains attributed only to bb223, not the new0.5.2 candidate."
+    },
+    {
+      "id": "ROOT-SOURCE-PACKAGE",
+      "status": "PASS",
+      "kind": "SOURCE_REVIEW_ONLY",
+      "conclusion": "Xcode source packager includes new version contract/doc, retains input snapshot verification, dirty-worktree marking and XCODE_SOURCE_ONLY_NOT_IPA type."
+    },
+    {
+      "id": "ROOT-F2F4-PRESERVED",
+      "status": "PASS",
+      "kind": "BYTE_COMPARISON",
+      "conclusion": "Protected-by-default request authority, database/session fences and site F2/F4 sources remain byte-identical to133 outside intended bootstrap inputs. No129 alternative federation model imported."
+    }
+  ],
+  "protected_sources": [
+    {
+      "path": "erp/apps/api/request-authority.ts",
+      "sha256": "a46fdc6eccfa3427de5edaade0603edab7817b9c0a29ad01e747ac485b9c8189",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "erp/apps/api/database.ts",
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "erp/apps/api/auth.ts",
+      "sha256": "401369d52363e0e71cae964b0588065e439c5de99dc21834bcebda402cf28b0c",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "erp/apps/api/site-session-authority.ts",
+      "sha256": "79a00d8377fbb3947b5c2c7c58ac65f5efd88deda3c5c43deb874865e8b01d45",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "erp/apps/api/site-identity-flow.ts",
+      "sha256": "6a20ca05a60b4cbb3af3551480822ddb339abab744c81f4d1a57899f9062c2e8",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "corporate-site/vps/site-identity-consent.mjs",
+      "sha256": "8454566a82ef0687b048c6a4c6b11497382bd97256742fe486eaeef161e3137f",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "corporate-site/vps/site-identity-protocol.mjs",
+      "sha256": "15ce563492dd2a3d4a372b50f7b56c7f4a7e15e5fef0171af30154013edc3d5b",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    },
+    {
+      "path": "corporate-site/vps/site-identity-consents.sql",
+      "sha256": "53948ae13decf85c3f0aa12c43ab2f1e451a1d457446d8654801c25ba3ee1820",
+      "comparison": "BYTE_IDENTICAL_TO_PR133"
+    }
+  ],
+  "existing_evidence": [
+    {
+      "path": "/workspace/scratch/b0593ca57e65/continuation-work/local/continuation-runtime-tests.log",
+      "sha256": "4b0d5a497539845c457d96eb1518bcf002352d28fa6b63885f37cb97f3226a8f",
+      "counts": {
+        "passed": 293,
+        "skipped": 2,
+        "total": 295
+      },
+      "scope": "Existing root focused host run; skips are not passes."
+    },
+    {
+      "path": "/workspace/scratch/b0593ca57e65/continuation-work/local/ios-receipt-validation.json",
+      "sha256": "fea7622fdcfd587fe6a6365bad52398e904fbdac881856d4d74238686b100ce1",
+      "scope": "Four synthetic receipt validation cases only;0native execution cases added."
+    },
+    {
+      "path": "/workspace/scratch/b0593ca57e65/continuation-work/native-evidence/ios/evidence/xctest-summary.json",
+      "sha256": "6ce4d461a54da0f37d47687ac1316cbfd05374b2d2bf83d24f100a07f6291c36",
+      "source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+      "counts": {
+        "total": 67,
+        "passed": 67,
+        "failed": 0,
+        "skipped": 0
+      },
+      "scope": "Historical bb223 iOS simulator run; schema validation only in this review."
+    }
+  ],
+  "release_gates_remaining": [
+    "Root independent review of the separately authored recovery port.",
+    "Exact committed-source repository CI with real PostgreSQL including two new recovery bridge cases and template consumer cases.",
+    "Fresh exact-source native CI artifacts and receipt/hash readback for0.5.2/build9.",
+    "Physical device/browser UAT, stable Android signer/upgrade, owner Apple signing, actual authorized TEST ERP, provider/operational/company acceptance and remaining canonical business scope."
+  ]
+}

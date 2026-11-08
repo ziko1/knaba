@@ -1,5 +1,11 @@
 # KNABA Mobile — budget fence
 
+## 2026-11-08 release continuation 0.5.2 reservation
+
+User authorized continuation of the proposed fixes and test builds. Fresh GitHub metadata confirms `ziko1/knaba` is public and the connected actor has push permission; existing workflows contain verification only. Official public-runner entitlement was rechecked at https://docs.github.com/en/actions/concepts/billing-and-usage and https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job . Standard `ubuntu-24.04` and `macos-15` runs remain eligible for free public-repository usage. Reserve one final source checkpoint plus at most one corrective checkpoint for a concrete failure: maximum two native runs /160 runner-minutes and four existing repository runs. Existing job deadlines and one-day artifact retention stay in force. No unchanged manual reruns, larger runners, new paid service activation, external model API, store upload or live provider calls. Account/model credits remain UNKNOWN; this is a bounded EUR0 reservation for eligible standard public runners only.
+
+The two available workers are `/root` and `/root/scope_matrix`; attempted iOS/native evidence workers returned context-limit errors and produced no current acceptance output. Root obtained and hash-verified the existing bb223 native artifacts directly. Those 0.5.0/0.5.1 results remain historical; new0.5.2 artifacts require their own exact-source proof.
+
 ## 2026-11-08 native/backend consolidation reservation
 
 C08 PR run 42483792274 and duplicate push 42483788861 are SUCCESS and independently accepted at e747fd94e219e09faffea96c2f9f84be15a6def1. Historical iOS 0.5.1 job in run 42467913707 accepted 67 XCTest; its Android peer failed before compilation on dependency HTTP504 and remains recorded as such. No unchanged manual rerun is requested.

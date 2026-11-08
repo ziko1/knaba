@@ -1,5 +1,9 @@
 # KNABA DE master roadmap
 
+## 2026-11-08 — release continuation0.5.2
+
+KN-C08-B company/origin guard, missing-template-origin refusal and bounded site password recovery implemented for isolated candidate verification. Local source/harness gates passed; actual PostgreSQL/native acceptance awaits current source CI. [Scope](../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md). Shared SSO F3, complete role lifecycles, physical devices, approved providers, restore/load and companyUAT remain open; original criteria are not bulk-promoted.
+
 ## 2026-11-08 — актуальна authorisation reconciliation
 
 KN-C04 / KN-U09: чинні proofs/devices, customer scope і session issuance посилено в Draft PR123; єдиний current-membership predicate захищає API/domain/stream/delivery projections. [Докази](../docs/unified/evidence/identity-20261108/verification.json) і [детальний контракт](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md) відокремлюють local doubles, actual SQL і зовнішнє приймання.

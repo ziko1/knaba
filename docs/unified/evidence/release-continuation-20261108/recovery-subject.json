@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "author": "/root/scope_matrix",
+  "recorded_at": "2026-11-08T14:46:23.847274+00:00",
+  "base_git_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "status": "UNCOMMITTED_WORKING_TREE",
+  "files": [
+    {
+      "path": "corporate-site/docs/PASSWORD_RECOVERY_OPERATIONS_UK.md",
+      "bytes": 8577,
+      "sha256": "0706510fd00188cac1d69d46fc6455d164e826c71a5fe3e12a0054cb51f962a6",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-mail.mjs",
+      "bytes": 8322,
+      "sha256": "b78e0c54871a03520f68a63a1938163ae4cdc08a5879d1e4716ffe9d00de4425",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-mail.test.mjs",
+      "bytes": 8128,
+      "sha256": "5b33bff701d25c8639bad63d62322401bcaa7dae297ad36c316d68e3cdea1cc2",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery-migration.test.mjs",
+      "bytes": 6072,
+      "sha256": "adb06e589ea8b6986025de97690220a17f0511a86f4f61eb2e9a12842120eb36",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery-ui.mjs",
+      "bytes": 27645,
+      "sha256": "98ed4d0baaf08603a3720aa1c0bde650cbd175fdb7dedc095db5911a4c697ea7",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery-ui.test.mjs",
+      "bytes": 10552,
+      "sha256": "a989e9584a1c965073a99f8eefaee85b5b72da218269e3f1341dd96bb6a1dcab",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery.http.test.mjs",
+      "bytes": 10566,
+      "sha256": "4a83f3d7d475ec0662579ba2028b9289558d92263927f42d3f90cb67189cc1f7",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery.mjs",
+      "bytes": 8672,
+      "sha256": "84755cedbe8169a08cea327976cc06cacfdb5721205a26ff1c06bafe208e8b3a",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery.sql",
+      "bytes": 1835,
+      "sha256": "1189695b828194bbd45360734e2ecf5e08865a8af57d355bf14239d980a22297",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/account-recovery.test.mjs",
+      "bytes": 17011,
+      "sha256": "1acc568648e60f5bddce8e469873487cd6e74e3f0138468b3246d7d0290ff2f0",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/auth.mjs",
+      "bytes": 6614,
+      "sha256": "1fc672b0eb7adae82e4d63ee72b1e637421f1bb6951614dba6f251017abd92a6",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/database.mjs",
+      "bytes": 13689,
+      "sha256": "2ff427a23354ef29e67eb975c884f4e61ecb804cfbe30dea0ae167e6ab035fcc",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/server.mjs",
+      "bytes": 74432,
+      "sha256": "9d340c14fa5679d8b0805f37bca7c8ca34b438d0ff015bd3434650bd1006b289",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/site-identity-http.test.mjs",
+      "bytes": 28015,
+      "sha256": "de9456100db4a66836c398ede93a06a002aa49d6e3dfc681b8bd20a6925df4a9",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "corporate-site/vps/site-identity-migration.test.mjs",
+      "bytes": 4567,
+      "sha256": "f77369c4a45027cdda0977837258759e0dc472b37edc84cc4f4a34dcbc478a32",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "tests/bridge/site-identity.test.mjs",
+      "bytes": 28278,
+      "sha256": "6d3c7396b82cd6ce36286555ea000069cc1ac387198672e11b4a8e41cc76c35f",
+      "last_modified_before_final_run": true
+    },
+    {
+      "path": "tests/bridge/site-sessions.test.mjs",
+      "bytes": 52934,
+      "sha256": "e22b45e0a0c24fb01a9a5b30a8f3a7cd739a56476342df28b0dc84e9d057e224",
+      "last_modified_before_final_run": true
+    }
+  ],
+  "file_count": 17,
+  "subject_digest_sha256": "284d60e2f2734e8ed7c8cb758d79b884219cd4b904791941bfa2a1b3392d5b5c",
+  "digest_algorithm": "SHA256 of UTF-8 concatenated sorted sha256 + two spaces + relative path + LF",
+  "verification": {
+    "focused_site_tests": {
+      "status": "PASS",
+      "tests": 109,
+      "passed": 109,
+      "failed": 0,
+      "skipped": 0,
+      "receipt": "recovery-final-focused.json",
+      "log_sha256": "1298249fa58f05a861656fd38d614a6f046a902631503e0ff60a6ee951b89427"
+    },
+    "site_build": {
+      "status": "PASS",
+      "receipt": "recovery-site-build.json",
+      "scope": "Astro/worker/render prerequisites; VPS source HTTP tested separately"
+    },
+    "bridge_new_cases": {
+      "status": "BLOCKED",
+      "count": 2,
+      "reason": "Real PostgreSQL harness not run in this subtask; targeted cases await exact-source hosted CI"
+    },
+    "device": {
+      "status": "BLOCKED",
+      "reason": "No physical/browser device run in this recovery work"
+    },
+    "external_mail": {
+      "status": "BLOCKED",
+      "reason": "Provider OFF; synthetic injected transports only"
+    }
+  },
+  "checks": [
+    {
+      "command": [
+        "node",
+        "--check",
+        "tests/bridge/site-identity.test.mjs"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "tests/bridge/site-sessions.test.mjs"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "corporate-site/docs/PASSWORD_RECOVERY_OPERATIONS_UK.md",
+        "corporate-site/vps/account-mail.mjs",
+        "corporate-site/vps/account-mail.test.mjs",
+        "corporate-site/vps/account-recovery-migration.test.mjs",
+        "corporate-site/vps/account-recovery-ui.mjs",
+        "corporate-site/vps/account-recovery-ui.test.mjs",
+        "corporate-site/vps/account-recovery.http.test.mjs",
+        "corporate-site/vps/account-recovery.mjs",
+        "corporate-site/vps/account-recovery.sql",
+        "corporate-site/vps/account-recovery.test.mjs",
+        "corporate-site/vps/auth.mjs",
+        "corporate-site/vps/database.mjs",
+        "corporate-site/vps/server.mjs",
+        "corporate-site/vps/site-identity-http.test.mjs",
+        "corporate-site/vps/site-identity-migration.test.mjs",
+        "tests/bridge/site-identity.test.mjs",
+        "tests/bridge/site-sessions.test.mjs"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

@@ -10,6 +10,9 @@ import { createReadStream } from 'node:fs';
 import {publicRelease} from './public-release.mjs';
 import { openLocalDatabase, LocalD1 } from './database.mjs';
 import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
+import {createAccountMailer} from './account-mail.mjs';
+import {AccountRecoveryError,requestPasswordReset,consumePasswordReset} from './account-recovery.mjs';
+import {accountWords,accountRecoveryPage,accountResetPage} from './account-recovery-ui.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
 import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
 import {createDeveloperWorkspaceRegistry,developerRoles,isDeveloperIdentity,isGrantedDeveloper,
@@ -149,7 +152,7 @@ async function sendStatic(root,req,res,path,db,{isolated=false,origin=''}={}){
     bytes=Buffer.from(expandPublishedSitemap(bytes.toString('utf8'),origin,listPublishedArticles(db)),'utf8');
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|pl|lt|ru|uk)\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|reset-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|pl|lt|ru|uk)\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',privatePath||isolated?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'||dynamicSitemap?'no-cache':'public, max-age=300');
   if(ext==='.html'||dynamicSitemap||isolated)res.setHeader('Vary','Cookie');
@@ -218,6 +221,14 @@ const privateAccountHeaders={
   'X-Frame-Options':'DENY',
   'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
 };
+function accountReply(res,status,body,headers={}){
+  // Authorize only the exact inline scripts rendered by our server. Recovery
+  // has no external scripts, asset requests, analytics or inline JS wildcard.
+  const scripts=[...body.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .map(match=>"'sha256-"+createHash('sha256').update(match[1]).digest('base64')+"'");
+  const csp=privateAccountHeaders['Content-Security-Policy']+(scripts.length?'; script-src '+scripts.join(' '):'');
+  return send(res,status,body,{...privateAccountHeaders,'Content-Security-Policy':csp,...headers});
+}
 function accessRequestPage(lang='de',received=false){
   lang=authLanguage(lang);
   const w=accessWords(lang);
@@ -238,15 +249,6 @@ function accessRequestPage(lang='de',received=false){
     '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
     escapeHTML(w.privacy)+' <a href="/datenschutz/">Datenschutz</a></span></label>'+
     '<button type="submit">'+escapeHTML(w.submit)+'</button></form>'+
-    '<p><a href="/login/?lang='+lang+'">'+escapeHTML(w.back)+'</a></p>',lang);
-}
-function forgottenPasswordPage(lang='de'){
-  lang=authLanguage(lang);
-  const w=accessWords(lang);
-  return html('KnaBa | '+w.lostTitle,
-    '<h1>'+escapeHTML(w.lostTitle)+'</h1><p>'+escapeHTML(w.lostIntro)+'</p>'+
-    '<p><a href="/kontakt/">'+escapeHTML(w.contact)+'</a></p>'+
-    '<p><a href="/account/password/">'+escapeHTML(w.passwordChange)+'</a></p>'+
     '<p><a href="/login/?lang='+lang+'">'+escapeHTML(w.back)+'</a></p>',lang);
 }
 function reviewRequestsPage(requests){
@@ -374,7 +376,8 @@ export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',ownerUserId,developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
   trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
-  erpIntakeSchedulerFactory=createErpIntakeScheduler,siteIdentityConfig,siteIdentityTransport,siteIdentitySessionsEnabled
+  erpIntakeSchedulerFactory=createErpIntakeScheduler,siteIdentityConfig,siteIdentityTransport,siteIdentitySessionsEnabled,
+  accountEmailEnvironment=process.env,accountMailerFactory=createAccountMailer
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(ownerUserId!==undefined&&(typeof ownerUserId!=='string'||ownerUserId.length>200||/[\u0000-\u001f\u007f]/.test(ownerUserId)))
@@ -439,6 +442,9 @@ export async function createKnabaVpsServer({
       :[cookie,clearDeveloperRoleCookie({secure:!localTest})];
   };
   const social=Object.keys(oidcConfig).filter(p=>['google','microsoft'].includes(p));
+  // Trusted in-process test seam. Real delivery stays off without explicit,
+  // complete server-owned account-email approval and configuration.
+  const accountMailer=accountMailerFactory({environment:accountEmailEnvironment,origin:base.origin});
   const server=createHttpServer(async(req,res)=>{
     const clientIp=resolveClientIp(req);
     res.setHeader('X-Content-Type-Options','nosniff');
@@ -452,6 +458,13 @@ export async function createKnabaVpsServer({
     const rawHost=String(req.headers.host||'').toLowerCase();
     const allowed=rawHost===publicHost || (localTest && /^127\.0\.0\.1(?::\d+)?$/.test(rawHost));
     const url=new URL(req.url||'/',origin);
+    if(/^\/(?:forgot-password|reset-password)\/?$/.test(url.pathname)){
+      for(const [name,value] of Object.entries(privateAccountHeaders))res.setHeader(name,value);
+      // Reject query capabilities before canonical redirects can copy them into
+      // Location. The actual recovery link carries its secret only in a fragment.
+      const keys=[...url.searchParams.keys()];
+      if(keys.some(key=>key!=='lang')||keys.length>1)return send(res,400,'Invalid recovery URL');
+    }
     if(url.pathname==='/healthz' || url.pathname==='/readyz'){
       if(!allowed && !localTest)return send(res,421,'Wrong host');
       const ready=Boolean(ownerPrincipal()&&hasOwnerAuthority(db,{userId:ownerPrincipal(),ownerEmail,ownerUserId:ownerPrincipal()}));
@@ -572,8 +585,45 @@ export async function createKnabaVpsServer({
       }
     }
     if(url.pathname==='/forgot-password/'||url.pathname==='/forgot-password'){
-      if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
-      return send(res,200,forgottenPasswordPage(authLanguage(url.searchParams.get('lang'))),privateAccountHeaders);
+      const lang=authLanguage(url.searchParams.get('lang')),w=accountWords(lang);
+      const page=(options={})=>accountRecoveryPage({lang,mailEnabled:accountMailer.enabled,...options});
+      if(req.method==='GET')return accountReply(res,200,page());
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').toLowerCase().startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      if(!accountMailer.enabled)return accountReply(res,503,page());
+      try{
+        const params=new URLSearchParams((await readRequestBody(1024)).toString('utf8'));
+        if([...params.keys()].length!==1||!params.has('email'))return accountReply(res,422,page({error:w.validation}));
+        await requestPasswordReset(db,{email:params.get('email'),clientKey:clientIp,locale:lang,mail:accountMailer});
+        return accountReply(res,202,page({sent:true}));
+      }catch(error){
+        if(error?.code==='too_large')return accountReply(res,413,page({error:w.validation}));
+        return accountReply(res,error instanceof AccountRecoveryError&&error.code==='validation'?422:503,
+          page({error:error instanceof AccountRecoveryError&&error.code==='validation'?w.validation:w.unavailable}));
+      }
+    }
+    if(url.pathname==='/reset-password/'||url.pathname==='/reset-password'){
+      const lang=authLanguage(url.searchParams.get('lang')),w=accountWords(lang);
+      const page=(options={})=>accountResetPage({lang,...options});
+      if(req.method==='GET')return accountReply(res,200,page());
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').toLowerCase().startsWith('application/x-www-form-urlencoded'))
+        return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readRequestBody(4096)).toString('utf8'));
+        const keys=[...params.keys()];
+        if(keys.length!==3||new Set(keys).size!==3||keys.some(key=>!['token','new','confirm'].includes(key)))
+          return accountReply(res,422,page({error:w.validation}));
+        consumePasswordReset(db,{token:params.get('token'),newPassword:params.get('new'),confirmed:params.get('confirm')});
+        return accountReply(res,200,page({done:true}),{'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
+      }catch(error){
+        if(error?.code==='too_large')return accountReply(res,413,page({error:w.validation}));
+        return accountReply(res,error instanceof AccountRecoveryError?422:503,
+          page({error:error instanceof AccountRecoveryError?w.invalidToken:w.unavailable}));
+      }
     }
     if(url.pathname==='/access-requests/resolve/'||url.pathname==='/access-requests/resolve'){
       const user=readSession(db,req.headers.cookie);
@@ -974,7 +1024,7 @@ export async function createKnabaVpsServer({
   let closing;
   return {server,db,migrations,port:server.address().port,close:()=>closing??=(async()=>{
     const stopped=new Promise(resolve=>server.close(resolve));
-    await Promise.all([stopped,erpIntake.stop()]);testWorkspaces.close();db.close();
+    await Promise.all([stopped,erpIntake.stop()]);await accountMailer.close();testWorkspaces.close();db.close();
   })()};
 }
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){

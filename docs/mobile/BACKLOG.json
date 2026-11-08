@@ -161,5 +161,35 @@
     "productStatus": "NOT_READY",
     "physicalDevices": "NOT_RUN",
     "originalCriteriaPromoted": false
+  },
+  "releaseContinuation20261108": {
+    "branch": "feat/knaba-release-continuation-20261108",
+    "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "version": "0.5.2",
+    "build": 9,
+    "status": "SOURCE_IMPLEMENTED_LOCAL_VERIFIED_HOSTED_PENDING",
+    "runtimeChecks": {
+      "passed": 293,
+      "sqlSkipped": 2,
+      "compiledEntrypointCases": 49,
+      "typecheck": "PASS",
+      "baselineDefectCases": 4
+    },
+    "recoveryChecks": {
+      "localSQLiteHttpCompatibility": 109,
+      "failed": 0,
+      "skipped": 0,
+      "postgresBridge": "NOT_RUN"
+    },
+    "nativeChecks": {
+      "catalogMutationCases": 6,
+      "rootTests": 36,
+      "newNativeBuilds": "NOT_RUN"
+    },
+    "productStatus": "NOT_READY",
+    "physicalDevices": "NOT_RUN",
+    "originalCriteriaPromoted": false,
+    "newPaidSpendAuthorized": false,
+    "contract": "../unified/RELEASE_CONTINUATION_2026-11-08_UK.md"
   }
 }

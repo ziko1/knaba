@@ -74,6 +74,33 @@ describe.each(entrypoints)('$name actual compiled entrypoint with explicit side-
     expect(events).toEqual(['PG_POOL']);
     expect(output).not.toContain('APP_MODE_REQUIRED_OR_INVALID');
   });
+
+  it.each([undefined,'','knaba-demo','knaba-de-demo','other/tenant','company\n'])
+  ('rejects production COMPANY_ID=%j before any startup effects',COMPANY_ID=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{COMPANY_ID});
+    expect(child.status,output).toBe(1);expect(output).toContain('COMPANY_ID_REQUIRED_OR_INVALID');
+    expect(events).toEqual([]);
+  });
+
+  it.each(['http://erp.example.test','https://user:SECRET@erp.example.test',
+    'https://erp.example.test/path','https://erp.example.test?token=SECRET','https://erp.example.test/#'])
+  ('rejects production PUBLIC_ORIGIN=%j before database or provider effects',PUBLIC_ORIGIN=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{PUBLIC_ORIGIN});
+    expect(child.status,output).toBe(1);expect(output).toContain('PUBLIC_ORIGIN_INVALID');
+    expect(output).not.toContain('SECRET');expect(events).toEqual([]);
+  });
+
+  it.each(['DEMO','TEST'])('preserves explicit %s with absent company/origin until PG_POOL',mode=>{
+    const {child,output,events}=launch(entry,mode,{COMPANY_ID:undefined,PUBLIC_ORIGIN:undefined});
+    expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+    expect(events).toEqual(['PG_POOL']);
+  });
+
+  it.each(['https://erp.example.test','https://erp.example.test/'])('accepts production root authority %s until PG_POOL',PUBLIC_ORIGIN=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{PUBLIC_ORIGIN});
+    expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+    expect(events).toEqual(['PG_POOL']);
+  });
 });
 
 describe('API production prerequisites remain in force before the database',()=>{

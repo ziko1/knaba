@@ -1,5 +1,11 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — release continuation 0.5.2, source checkpoint
+
+ВідPR133/bb223af збережено поточні native/F2/F4 contracts; bounded password recovery перенесено без заміни129 federation/database. Додано KN-C08-B company/origin guard до startup, template-origin refusal доSENDING та0.5.2/build9 з чинним localization/receipt gate. [Єдиний контракт](RELEASE_CONTINUATION_2026-11-08_UK.md).
+
+Локально293 focused PASS/2SQLskipped,36 root PASS, TypeScript PASS; before-control відтворив4 configuration failures наbb223. Recovery109 focused SQLite/HTTP/compatibility tests PASS, source cross-review recorded; PostgreSQL bridge іfresh native CI ще pending. Full V4/V3/mobile/site acceptance HOLD, physical/provider/company gates відкриті. Пізніший evidence checkpoint має зберегти exact tested source.
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.

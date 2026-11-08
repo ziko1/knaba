@@ -7,6 +7,7 @@ import { Engine } from '../api/engine.ts';
 import { DeepSeekAdapter, WhatsAppCloudAdapter } from '../../packages/integrations/index.ts';
 import { TelegramBotAdapter } from '../../packages/integrations/telegram.ts';
 import { WorkerRunner, type WorkerOptions } from './runner.ts';
+import { requireCompanyId, parsePublicOrigin } from '../runtime-configuration.ts';
 
 /** Process mode is an explicit security input. Validate before constructors,
  * connections, initialization or provider configuration can have an effect. */
@@ -14,7 +15,9 @@ function requireRuntimeMode(value:unknown):asserts value is 'DEMO'|'TEST'|'PRODU
   if(value!=='DEMO'&&value!=='TEST'&&value!=='PRODUCTION')throw new Error('APP_MODE_REQUIRED_OR_INVALID');
 }
 export function workerOptions(env:NodeJS.ProcessEnv=process.env):WorkerOptions {
-  const appMode=env.APP_MODE;requireRuntimeMode(appMode);const companyId=env.COMPANY_ID??'knaba-demo';
+  const appMode=env.APP_MODE;requireRuntimeMode(appMode);
+  const companyId=requireCompanyId(env.COMPANY_ID,appMode,true);
+  parsePublicOrigin(env.PUBLIC_ORIGIN,appMode);
   // Public menu links belong to the website; API/webhook origin stays separate.
   // Empty preserves legacy single-origin setups without enabling any provider.
   const websiteOrigin=env.BOT_WEBSITE_ORIGIN||undefined;
@@ -56,6 +59,8 @@ export function workerOptions(env:NodeJS.ProcessEnv=process.env):WorkerOptions {
 }
 export async function startWorker(database?:Database,engine?:Engine,options=workerOptions()) {
   requireRuntimeMode(options?.appMode);
+  requireCompanyId(options.companyId,options.appMode);
+  parsePublicOrigin(options.publicOrigin,options.appMode);
   if(engine&&engine.mode!==options.appMode)throw new Error('WORKER_ENGINE_MODE_MISMATCH');
   const ownDatabase=!database;const db=database??new Database();const runtime=engine??new Engine(db,options.appMode);const runner=new WorkerRunner(db,runtime,options);await runner.initialize();let stopping=false;let loop:Promise<unknown>|undefined;
   const tick=()=>{if(stopping||loop)return;loop=runner.tick().then(async()=>{await writeFile(process.env.WORKER_HEARTBEAT_FILE??'/tmp/knaba-worker-heartbeat',String(Date.now()),{mode:0o600});}).catch(()=>{process.stderr.write('KNABA DE worker cycle failed\n');}).finally(()=>{loop=undefined;});};tick();const timer=setInterval(tick,1000);const stop=async()=>{if(stopping)return;stopping=true;clearInterval(timer);runner.stop();await loop;if(ownDatabase)await db.close();};return {runner,stop};

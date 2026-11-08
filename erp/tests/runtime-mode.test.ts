@@ -49,7 +49,7 @@ describe('worker explicit runtime mode before configuration or bootstrap',()=>{
   });
 
   it.each(modes)('preserves explicit %s configuration and disabled provider defaults',APP_MODE=>{
-    const configured=workerOptions({APP_MODE});
+    const configured=workerOptions({APP_MODE,COMPANY_ID:'synthetic-mode-company'});
     expect(configured.appMode).toBe(APP_MODE);
     expect(configured.ai).toBeUndefined();expect(configured.whatsapp).toBeUndefined();
     expect(configured.telegram).toBeUndefined();expect(configured.integrationWebhook).toBeUndefined();

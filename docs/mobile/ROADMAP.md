@@ -1,5 +1,9 @@
 # KNABA Mobile — roadmap
 
+## 2026-11-08 — release continuation 0.5.2
+
+Current isolated continuation preserves PR133 recovery/actions/session authority, adds version/catalog gates and monotonic0.5.2/build9. Fresh hosted artifacts are pending; previous bb223 artifacts retain their own provenance. MOBILE-011/012 physical/live/company acceptance and M1–M4 remain open. [Scope and evidence boundaries](../unified/RELEASE_CONTINUATION_2026-11-08_UK.md).
+
 ## 08.11.2026 — native completion execution
 
 MOBILE-004/011/012 now have active implementation: 39 permission-based modules, Android contextual record actions, iOS durable recovery/session fencing, canonical icons and verified packaging. Current candidate 0.5.0 / build6 is awaiting exact-source native CI and owner/device gates. M1 shared identity, all specialist M2/M3 lifecycle journeys, partner integration and M4 signing/handover are still open; this increment does not replace the full system scope.

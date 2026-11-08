@@ -1,0 +1,25 @@
+{
+  "name": "recovery-final-focused",
+  "command": [
+    "node",
+    "--test",
+    "--test-concurrency=1",
+    "--test-reporter=tap",
+    "vps/account-recovery.test.mjs",
+    "vps/account-recovery-migration.test.mjs",
+    "vps/account-recovery-ui.test.mjs",
+    "vps/account-recovery.http.test.mjs",
+    "vps/account-mail.test.mjs",
+    "vps/site-identity-migration.test.mjs",
+    "vps/site-identity-http.test.mjs",
+    "vps/site-identity-sessions-server.test.mjs",
+    "vps/auth-hardening.test.mjs",
+    "vps/migration-upgrade.test.mjs"
+  ],
+  "cwd": "/workspace/scratch/b0593ca57e65/knaba-next/corporate-site",
+  "started_at": "2026-11-08T14:44:22.379653+00:00",
+  "completed_at": "2026-11-08T14:44:53.673163+00:00",
+  "exit_code": 0,
+  "log": "/workspace/scratch/b0593ca57e65/continuation-work/scope-current/recovery-final-focused.log",
+  "log_sha256": "1298249fa58f05a861656fd38d614a6f046a902631503e0ff60a6ee951b89427"
+}
