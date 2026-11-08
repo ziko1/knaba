@@ -19,7 +19,7 @@ enum ERPText: String, CaseIterable {
     case pendingTitle, pendingNotice, errorRecovery, retryOriginal, recovered, errorPending, errorInFlight
     case noPending, errorSensitive, serverNotice, search, choose, yes, no
     case result, quantityHint, previewLimit, quantity, remainingQuantity, description, problems
-    case delayReason, currentPassword, newPassword, errorConflict
+    case delayReason, currentPassword, newPassword, errorConflict, clearValue
 }
 
 enum ERPStrings {
@@ -62,7 +62,7 @@ enum ERPStrings {
         .saved: ["Gespeichert", "Saved", "Zapisano", "Išsaugota", "Сохранено", "Збережено"],
         .loading: ["Laden…", "Loading…", "Ładowanie…", "Įkeliama…", "Загрузка…", "Завантаження…"],
         .loginIntro: ["Melden Sie sich mit Ihrem freigegebenen KNABA-Konto an. Ihre Berechtigungen werden vom Server geprüft.", "Sign in with your approved KNABA account. The server verifies your permissions.", "Zaloguj się na zatwierdzone konto KNABA. Serwer sprawdza Twoje uprawnienia.", "Prisijunkite prie patvirtintos KNABA paskyros. Serveris tikrina jūsų teises.", "Войдите в подтверждённую учётную запись KNABA. Права доступа проверяет сервер.", "Увійдіть у підтверджений обліковий запис KNABA. Права доступу перевіряє сервер."],
-        .roleHeading: ["Inhaber · Team · Kunde · Partner", "Owner · Team · Client · Partner", "Właściciel · Zespół · Klient · Partner", "Savininkas · Komanda · Klientas · Partneris", "Владелец · Команда · Клиент · Партнёр", "Власник · Команда · Клієнт · Партнер"],
+        .roleHeading: ["Ihr KNABA-Arbeitsbereich", "Your KNABA workspace", "Twoja przestrzeń pracy KNABA", "Jūsų KNABA darbo sritis", "Ваше рабочее пространство KNABA", "Ваш робочий простір KNABA"],
         .account: ["Ihr Konto", "Your account", "Twoje konto", "Jūsų paskyra", "Ваша учётная запись", "Ваш обліковий запис"],
         .connected: ["Mit Ihrem KNABA-Konto verbunden", "Connected to your KNABA account", "Połączono z kontem KNABA", "Prisijungta prie jūsų KNABA paskyros", "Подключено к вашей учётной записи KNABA", "Підключено до вашого облікового запису KNABA"],
         .sent: ["Nachricht gesendet", "Message sent", "Wiadomość wysłana", "Žinutė išsiųsta", "Сообщение отправлено", "Повідомлення надіслано"],
@@ -126,6 +126,7 @@ enum ERPStrings {
         .serverNotice: ["Die freigegebene ERP-Adresse erhalten Sie von KNABA. Website und ERP können getrennte Anmeldungen verwenden.", "Use the ERP address approved by KNABA. Website and ERP may use separate sign-ins.", "Użyj adresu ERP zatwierdzonego przez KNABA. Strona i ERP mogą mieć oddzielne logowanie.", "Naudokite KNABA patvirtintą ERP adresą. Svetainės ir ERP prisijungimai gali skirtis.", "Используйте подтверждённый KNABA адрес ERP. Сайт и ERP могут иметь отдельный вход.", "Використовуйте підтверджену KNABA адресу ERP. Сайт і ERP можуть мати окремий вхід."],
         .search: ["Einträge suchen", "Search records", "Szukaj wpisów", "Ieškoti įrašų", "Поиск записей", "Пошук записів"],
         .choose: ["Auswählen", "Choose", "Wybierz", "Pasirinkti", "Выберите", "Виберіть"],
+        .clearValue: ["Wert löschen", "Clear value", "Wyczyść wartość", "Išvalyti reikšmę", "Очистить значение", "Очистити значення"],
         .yes: ["Ja", "Yes", "Tak", "Taip", "Да", "Так"],
         .no: ["Nein", "No", "Nie", "Ne", "Нет", "Ні"],
         .result: ["Serverergebnis", "Server result", "Wynik serwera", "Serverio rezultatas", "Результат сервера", "Результат сервера"],

@@ -25,6 +25,12 @@ private final class ModelJournal: ERPCommandJournal, @unchecked Sendable {
     }
 }
 
+private struct UnavailableModelJournal: ERPCommandJournal {
+    func read(scope: String) throws -> ERPPendingCommand? { throw ERPFailure.recoveryInvalid }
+    func persist(_ command: ERPPendingCommand) throws { throw ERPFailure.recoveryInvalid }
+    func remove(scope: String, idempotencyKey: String) throws { throw ERPFailure.recoveryInvalid }
+}
+
 private actor ModelTransport: ERPConsoleTransport {
     var roles = ["EMPLOYEE"]
     var permissions = ["site.read", "task.read", "chat.read", "chat.write", "identity.self"]
@@ -72,14 +78,29 @@ private actor ModelTransport: ERPConsoleTransport {
 }
 
 @MainActor final class ERPConsoleModelTests: XCTestCase {
-    private func login(_ transport: ModelTransport) async -> ERPConsoleModel {
+    private func login(_ transport: ModelTransport, journal: any ERPCommandJournal = ModelJournal()) async -> ERPConsoleModel {
         let defaults = UserDefaults(suiteName: "KNABA.ModelTests." + UUID().uuidString)!
-        let client = ERPConsoleClient(transport: transport, journal: ModelJournal())
+        let client = ERPConsoleClient(transport: transport, journal: journal)
         let model = ERPConsoleModel(client: client, preferences: defaults)
         model.origin = "https://knaba.example"; model.email = "synthetic@example.test"; model.password = " exact synthetic password "
         await model.signIn()
         XCTAssertNotNil(model.identity)
         return model
+    }
+    func testRecoveryFailureKeepsAuthenticatedReadViewsAndBlocksWrites() async throws {
+        let model = await login(ModelTransport(), journal: UnavailableModelJournal())
+        XCTAssertNotNil(model.identity)
+        XCTAssertTrue(model.recoveryBlocked)
+        XCTAssertFalse(model.canWrite)
+        XCTAssertFalse(model.problem.isEmpty)
+        XCTAssertEqual(model.dashboard?.counts["task"], 1)
+        await model.loadKind("task")
+        XCTAssertEqual(model.items.first?.id, "record-a")
+        XCTAssertTrue(model.recoveryBlocked)
+        let command = try XCTUnwrap(model.commands.first)
+        let submitted = await model.submit(command, fields: ["taskId": "record-a"], versionText: "2")
+        XCTAssertFalse(submitted)
+        XCTAssertTrue(model.recoveryBlocked)
     }
     func testSignInPreservesPasswordAndNormalizesAvailableSelection() async {
         let transport = ModelTransport()

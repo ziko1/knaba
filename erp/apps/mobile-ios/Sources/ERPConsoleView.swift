@@ -202,13 +202,13 @@ import SwiftUI
             if ticket == epoch, channel == selectedChannel { await loadMessages() }
         } catch { await failed(error, ticket: ticket) }
     }
-    @discardableResult func submit(_ command: ERPCommand, fields: [String: String], versionText: String) async -> Bool {
+    @discardableResult func submit(_ command: ERPCommand, fields: [String: String], versionText: String, nullFields: Set<String> = []) async -> Bool {
         guard canWrite, commands.contains(where: { $0.name == command.name }) else { return false }
         let ticket = epoch, operation = begin()
         defer { finish(operation) }
         problem = ""; notice = ""; commandResult = nil
         do {
-            let data = try ERPCommandInput.payload(command: command, fields: fields)
+            let data = try ERPCommandInput.payload(command: command, fields: fields, nullFields: nullFields)
             let version = try ERPCommandInput.version(versionText)
             let result = try await client.execute(command, input: data, expectedVersion: version)
             guard epoch == ticket else { return false }
@@ -488,6 +488,7 @@ private struct ERPCommandForm: View {
     let record: ERPItem?
     @State private var draft: [String: String]
     @State private var expectedVersion: String
+    @State private var nullFields = Set<String>()
     @State private var confirmation = false
     @Environment(\.dismiss) private var dismiss
     init(command: ERPCommand, model: ERPConsoleModel, record: ERPItem? = nil) {
@@ -499,19 +500,30 @@ private struct ERPCommandForm: View {
         (command.schema?.dictionary?["properties"]?.dictionary ?? [:]).sorted { $0.key < $1.key }
     }
     private var required: Set<String> { Set(command.schema?.dictionary?["required"]?.list?.compactMap { $0.string } ?? []) }
+    private var hasUnsupportedFields: Bool {
+        properties.contains { _, field in
+            guard let definition = field.dictionary else { return true }
+            return (try? ERPCommandInput.fieldSchema(definition)) == nil
+        }
+    }
     private func binding(_ key: String) -> Binding<String> { Binding(get: { draft[key] ?? "" }, set: { draft[key] = $0 }) }
+    private func nullBinding(_ key: String) -> Binding<Bool> {
+        Binding(get: { nullFields.contains(key) }, set: { clear in
+            if clear { nullFields.insert(key) } else { nullFields.remove(key) }
+        })
+    }
     private func submit() async {
         var fields = draft
         if command.name == "task.worklog" {
             do {
                 for key in ["quantityMilli", "remainingQuantityMilli"] {
-                    if let raw = fields[key], !raw.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    if !nullFields.contains(key), let raw = fields[key], !raw.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         fields[key] = try ERPCommandInput.milliQuantity(raw)
                     }
                 }
             } catch { model.problem = model.text(.errorInput); return }
         }
-        let success = await model.submit(command, fields: fields, versionText: expectedVersion)
+        let success = await model.submit(command, fields: fields, versionText: expectedVersion, nullFields: nullFields)
         // Credentials stay in the form only until the one explicit attempt; never survive navigation.
         draft = draft.filter { !ERPWorkspacePolicy.sensitiveField($0.key) }
         if success && record != nil { dismiss() }
@@ -532,7 +544,7 @@ private struct ERPCommandForm: View {
                 Button(model.text(.submit)) {
                     if command.highRisk == true { confirmation = true }
                     else { Task { await submit() } }
-                }.buttonStyle(.borderedProminent).disabled(!model.canWrite)
+                }.buttonStyle(.borderedProminent).disabled(!model.canWrite || hasUnsupportedFields)
             }
             if let result = model.commandResult, model.resultTitle == ERPWorkspacePolicy.commandTitle(command.name, language: model.language) {
                 Section(model.text(.result)) { ERPResultView(value: result, model: model) }
@@ -546,11 +558,26 @@ private struct ERPCommandForm: View {
             } message: { Text(model.text(.confirmNotice)) }
     }
     @ViewBuilder private func field(_ key: String, definition: [String: ERPField]) -> some View {
+        if let schema = try? ERPCommandInput.fieldSchema(definition) {
+            VStack(alignment: .leading, spacing: 8) {
+                editor(key, schema: schema).disabled(nullFields.contains(key))
+                if schema.allowsNull && !(record != nil && key == "taskId") {
+                    Toggle(model.text(.clearValue), isOn: nullBinding(key))
+                        .accessibilityLabel(key + " · " + model.text(.clearValue))
+                        .accessibilityIdentifier("erpClearValue_" + key)
+                }
+            }
+        } else {
+            LabeledContent(key, value: model.text(.unavailable)).foregroundStyle(.secondary)
+        }
+    }
+    @ViewBuilder private func editor(_ key: String, schema: ERPCommandInput.FieldSchema) -> some View {
         let fieldNames: [String: ERPText] = ["quantityMilli": .quantity, "remainingQuantityMilli": .remainingQuantity,
             "description": .description, "problems": .problems, "delayReason": .delayReason,
             "currentPassword": .currentPassword, "newPassword": .newPassword]
         let label = (fieldNames[key].map { model.text($0) } ?? key) + (required.contains(key) ? " *" : "")
-        let type = definition["type"]?.string ?? "string"
+        let definition = schema.definition
+        let type = schema.type
         if record != nil && key == "taskId" {
             LabeledContent(label, value: record!.id).textSelection(.enabled)
         } else if ERPWorkspacePolicy.sensitiveField(key) {

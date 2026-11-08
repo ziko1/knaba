@@ -75,6 +75,15 @@ private final class ERPTestJournal: ERPCommandJournal, @unchecked Sendable {
     }
 }
 
+private struct ERPExistingTestKey: ERPRecoveryKeyStore {
+    let unavailable: Bool
+    func read() throws -> Data? {
+        if unavailable { throw ERPFailure.recoveryUnavailable }
+        return Data(repeating: 42, count: 32)
+    }
+    func create(_ value: Data) throws { throw ERPFailure.recoveryUnavailable }
+}
+
 @MainActor
 final class ERPConsoleTransportTests: XCTestCase {
     private let origin = "https://erp.example.test"
@@ -143,6 +152,47 @@ final class ERPConsoleTransportTests: XCTestCase {
         let count = await transport.requests().count
         XCTAssertEqual(count, 1)
         XCTAssertTrue(journal.all().isEmpty)
+    }
+
+    func testMissingCorruptOrLockedRecoveryAllowsAuthenticatedReadsButBlocksEveryMutation() async throws {
+        for mode in ["missing", "corrupt", "locked"] {
+            let directory = FileManager.default.temporaryDirectory.appendingPathComponent("knaba-read-only-\(UUID().uuidString)", isDirectory: true)
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            defer { try? FileManager.default.removeItem(at: directory) }
+            let file = directory.appendingPathComponent("erp-command-recovery-v1.aesgcm")
+            let corrupt = Data("unreadable synthetic ciphertext".utf8)
+            if mode == "corrupt" { try corrupt.write(to: file) }
+            let journal = ERPEncryptedCommandJournal(directory: directory, keys: ERPExistingTestKey(unavailable: mode == "locked"))
+            let transport = ERPStubTransport([login(), .json(#"{"counts":{"task":2}}"#), .json(#"{"items":[]}"#), .json(#"{"items":[],"has_more":false}"#)])
+            let client = ERPConsoleClient(transport: transport, journal: journal)
+            try await signIn(client)
+            let state = await client.authorityState()
+            XCTAssertEqual(state.identity?.actor.userId, "user-a")
+            let overview = try await client.dashboard(); XCTAssertEqual(overview.counts["task"], 2)
+            let catalog = try await client.catalog(); XCTAssertTrue(catalog.isEmpty)
+            let records = try await client.entities("task"); XCTAssertTrue(records.isEmpty)
+            let failure: ERPFailure = mode == "locked" ? .recoveryUnavailable : .recoveryInvalid
+            await assertFailure(failure) { try await client.pendingCommand() }
+            await assertFailure(failure) { try await client.execute(self.command, input: self.input) }
+            await assertFailure(failure) { try await client.retryPending() }
+            await assertFailure(failure) {
+                try await client.sendMessage(channelId: "529ddcd3-4355-44c6-92cc-fcd592b1e0e2", text: "Synthetic message", language: "UK")
+            }
+            let password = ERPCommand(name: "user.password.rotate", permission: "identity.self", highRisk: true, schema: nil)
+            await assertFailure(failure) {
+                try await client.execute(password, input: Data(#"{"currentPassword":"old password","newPassword":"new password"}"#.utf8))
+            }
+            let mfa = ERPCommand(name: "user.mfa.configure", permission: "identity.self", highRisk: true, schema: nil)
+            await assertFailure(failure) {
+                try await client.execute(mfa, input: Data(#"{"currentPassword":"Synthetic password","secret":"ABCDEFGHIJKLMNOP","otp":"123456"}"#.utf8))
+            }
+            let requests = await transport.requests()
+            XCTAssertEqual(requests.count, 4, "Only login and the three authenticated reads may reach the network")
+            XCTAssertEqual(requests.filter { $0.httpMethod == "POST" }.map { $0.url!.path }, ["/api/v1/auth/login"])
+            let authenticated = await client.hasSession(); XCTAssertTrue(authenticated)
+            if mode == "corrupt" { XCTAssertEqual(try Data(contentsOf: file), corrupt) }
+            else { XCTAssertFalse(FileManager.default.fileExists(atPath: file.path)) }
+        }
     }
 
     func testAnotherUserCompanyOrOriginCannotSeeOrReplaySavedCommand() async throws {

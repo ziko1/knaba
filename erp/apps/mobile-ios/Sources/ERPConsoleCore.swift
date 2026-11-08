@@ -310,10 +310,11 @@ actor ERPConsoleClient {
             let (decoded, nextAuthority) = try Self.identityResponse(data)
             let nextCookie = try Self.sessionCookie(response)
             let nextScope = try ERPPendingCommand.scope(origin: session.origin, companyId: decoded.actor.companyId, userId: decoded.actor.userId)
-            let restored = try journal.read(scope: nextScope)
-            try restored?.validate(expectedScope: nextScope)
             cookie = nextCookie; csrf = decoded.csrfToken; identity = decoded; authority = nextAuthority
-            actorScope = nextScope; pending = restored
+            actorScope = nextScope; pending = nil
+            // Recovery is checked lazily by pendingCommand(), including before
+            // every mutation. A missing/corrupt/locked journal must not prevent
+            // authenticated read-only access or become permission for a new write.
             return decoded
         } catch {
             reset()

@@ -77,6 +77,59 @@ enum ERPWorkspacePolicy {
 
 /// Preserve exact password bytes. Reject an invalid version instead of silently omitting concurrency control.
 enum ERPCommandInput {
+    struct FieldSchema {
+        let type: String
+        let definition: [String: ERPField]
+        let allowsNull: Bool
+    }
+    private static let fieldTypes: Set<String> = ["string", "integer", "number", "boolean", "array", "object"]
+    private static let compositeKeys: Set<String> = ["anyOf", "oneOf", "allOf", "not", "if", "then", "else", "$ref", "$dynamicRef"]
+    private static let annotationKeys: Set<String> = ["title", "description", "default", "examples", "$schema", "readOnly", "writeOnly"]
+
+    /// Support the actual nullable shapes emitted by the server, without guessing
+    /// an editor for arbitrary unions or treating a typed string "null" as nil.
+    static func fieldSchema(_ definition: [String: ERPField]) throws -> FieldSchema {
+        guard compositeKeys.subtracting(["anyOf"]).isDisjoint(with: definition.keys) else { throw ERPFailure.invalidPayload }
+        if let union = definition["anyOf"] {
+            guard Set(definition.keys).isSubset(of: annotationKeys.union(["anyOf"])),
+                  let branches = union.list, branches.count == 2 else { throw ERPFailure.invalidPayload }
+            var nonNull: FieldSchema?
+            var hasNull = false
+            for branch in branches {
+                guard let schema = branch.dictionary, compositeKeys.isDisjoint(with: schema.keys),
+                      let type = schema["type"]?.string else { throw ERPFailure.invalidPayload }
+                if type == "null" {
+                    guard !hasNull, Set(schema.keys).isSubset(of: annotationKeys.union(["type", "enum", "const"])),
+                          permitsNull(schema) else { throw ERPFailure.invalidPayload }
+                    hasNull = true
+                } else {
+                    guard nonNull == nil, fieldTypes.contains(type) else { throw ERPFailure.invalidPayload }
+                    nonNull = FieldSchema(type: type, definition: schema, allowsNull: false)
+                }
+            }
+            guard hasNull, let nonNull else { throw ERPFailure.invalidPayload }
+            return FieldSchema(type: nonNull.type, definition: nonNull.definition, allowsNull: true)
+        }
+        if let types = definition["type"]?.list {
+            let names = types.compactMap { $0.string }
+            guard types.count == 2, names.count == 2, Set(names).count == 2, names.contains("null"),
+                  let type = names.first(where: { $0 != "null" }), fieldTypes.contains(type) else { throw ERPFailure.invalidPayload }
+            return FieldSchema(type: type, definition: definition, allowsNull: permitsNull(definition))
+        }
+        guard let type = definition["type"]?.string, fieldTypes.contains(type) else { throw ERPFailure.invalidPayload }
+        return FieldSchema(type: type, definition: definition, allowsNull: false)
+    }
+    private static func permitsNull(_ definition: [String: ERPField]) -> Bool {
+        if let constant = definition["const"] {
+            guard case .null = constant.value else { return false }
+        }
+        if let enumeration = definition["enum"] {
+            guard let choices = enumeration.list else { return false }
+            return choices.contains { if case .null = $0.value { return true }; return false }
+        }
+        return true
+    }
+
     static func milliQuantity(_ raw: String) throws -> String {
         let normalized = raw.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: ",", with: ".")
         guard normalized.range(of: "^[0-9]+(?:\\.[0-9]{1,3})?$", options: .regularExpression) != nil else { throw ERPFailure.invalidPayload }
@@ -96,17 +149,25 @@ enum ERPCommandInput {
         return number
     }
 
-    static func payload(command: ERPCommand, fields: [String: String]) throws -> Data {
+    static func payload(command: ERPCommand, fields: [String: String], nullFields: Set<String> = []) throws -> Data {
         guard let schema = command.schema?.dictionary, schema["type"]?.string == "object",
-              let properties = schema["properties"]?.dictionary else { throw ERPFailure.invalidPayload }
+              let properties = schema["properties"]?.dictionary,
+              nullFields.isSubset(of: Set(properties.keys)) else { throw ERPFailure.invalidPayload }
         let required = Set(schema["required"]?.list?.compactMap { $0.string } ?? [])
         var output: [String: Any] = [:]
         for (key, property) in properties {
+            guard let rawDefinition = property.dictionary else { throw ERPFailure.invalidPayload }
+            let resolved = try fieldSchema(rawDefinition)
+            let definition = resolved.definition
+            if nullFields.contains(key) {
+                guard resolved.allowsNull else { throw ERPFailure.invalidPayload }
+                output[key] = NSNull()
+                continue
+            }
             let raw = fields[key] ?? ""
             let value = ERPWorkspacePolicy.sensitiveField(key) ? raw : raw.trimmingCharacters(in: .whitespacesAndNewlines)
             if value.isEmpty { if required.contains(key) { throw ERPFailure.invalidPayload }; continue }
-            guard let definition = property.dictionary else { throw ERPFailure.invalidPayload }
-            let type = definition["type"]?.string ?? "string"
+            let type = resolved.type
             switch type {
             case "integer":
                 guard value.range(of: "^-?[0-9]+$", options: .regularExpression) != nil,

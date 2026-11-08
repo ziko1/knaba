@@ -42,6 +42,87 @@ final class ERPConsoleWorkflowTests: XCTestCase {
         XCTAssertEqual(body["currentPassword"], " pass with spaces ")
         XCTAssertEqual(body["newPassword"], " 1234567890 ")
     }
+    func testNullableTypeUnionDistinguishesOmissionExplicitNullAndTheStringNull() throws {
+        let cmd = try command(#"{"type":"object","properties":{"value":{"type":["string","null"],"enum":["null","keep",null],"default":null}}}"#)
+        let omitted = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: [:])) as! [String: Any]
+        XCTAssertNil(omitted["value"], "An optional field stays omitted; schema default null is not an instruction to clear it")
+        let text = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: ["value": "null"])) as! [String: Any]
+        XCTAssertEqual(text["value"] as? String, "null")
+        let cleared = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: ["value": "keep"], nullFields: ["value"])) as! [String: Any]
+        XCTAssertTrue(cleared["value"] is NSNull, "Only the explicit clear control overrides a draft with JSON null")
+    }
+    func testActualRequiredNullableSiteResponsibilitiesCanBeClearedExplicitly() throws {
+        let cmd = try command(#"{"type":"object","properties":{"siteId":{"type":"string","minLength":1},"geoResponsibleUserId":{"type":["string","null"],"minLength":1},"onCallUserId":{"type":["null","string"],"minLength":1}},"required":["siteId","geoResponsibleUserId","onCallUserId"]}"#, name: "site.geo_responsible.set")
+        let fields = ["siteId": "site-a", "onCallUserId": "user-b"]
+        XCTAssertThrowsError(try ERPCommandInput.payload(command: cmd, fields: fields))
+        let body = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: fields, nullFields: ["geoResponsibleUserId"])) as! [String: Any]
+        XCTAssertEqual(body["siteId"] as? String, "site-a")
+        XCTAssertEqual(body["onCallUserId"] as? String, "user-b")
+        XCTAssertTrue(body["geoResponsibleUserId"] is NSNull)
+        let both = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: ["siteId": "site-a"], nullFields: ["geoResponsibleUserId", "onCallUserId"])) as! [String: Any]
+        XCTAssertTrue(both["geoResponsibleUserId"] is NSNull)
+        XCTAssertTrue(both["onCallUserId"] is NSNull)
+    }
+    func testNullableAnyOfUsesTheNonNullEditorAndPreservesTypedNestedInput() throws {
+        let cmd = try command(#"{"type":"object","properties":{"state":{"anyOf":[{"type":"string","enum":["ACCEPT","REJECT"]},{"type":"null"}]},"count":{"anyOf":[{"type":"null"},{"type":"integer","minimum":0,"maximum":3}]},"details":{"anyOf":[{"type":"object","additionalProperties":true},{"type":"null"}]},"entries":{"type":["array","null"]},"checked":{"type":["boolean","null"]},"amount":{"type":["number","null"]}}}"#)
+        let properties = try XCTUnwrap(cmd.schema?.dictionary?["properties"]?.dictionary)
+        let state = try ERPCommandInput.fieldSchema(XCTUnwrap(properties["state"]?.dictionary))
+        XCTAssertEqual(state.type, "string"); XCTAssertTrue(state.allowsNull)
+        XCTAssertEqual(state.definition["enum"]?.list?.compactMap { $0.string }, ["ACCEPT", "REJECT"])
+        let count = try ERPCommandInput.fieldSchema(XCTUnwrap(properties["count"]?.dictionary))
+        XCTAssertEqual(count.type, "integer")
+        let fields = ["state": "ACCEPT", "count": "2", "details": #"{"note":"null","nested":null}"#, "entries": #"["null",null]"#, "checked": "false", "amount": "1.5"]
+        let body = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: fields)) as! [String: Any]
+        XCTAssertEqual(body["state"] as? String, "ACCEPT"); XCTAssertEqual(body["count"] as? Int, 2)
+        XCTAssertEqual(body["checked"] as? Bool, false); XCTAssertEqual(body["amount"] as? Double, 1.5)
+        let details = try XCTUnwrap(body["details"] as? [String: Any])
+        XCTAssertEqual(details["note"] as? String, "null"); XCTAssertTrue(details["nested"] is NSNull)
+        let entries = try XCTUnwrap(body["entries"] as? [Any])
+        XCTAssertEqual(entries.first as? String, "null"); XCTAssertTrue(entries.last is NSNull)
+        XCTAssertThrowsError(try ERPCommandInput.payload(command: cmd, fields: ["count": "4"]))
+        XCTAssertThrowsError(try ERPCommandInput.payload(command: cmd, fields: ["state": "OTHER"]))
+        let cleared = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: [:], nullFields: Set(properties.keys))) as! [String: Any]
+        XCTAssertEqual(cleared.count, properties.count); XCTAssertTrue(cleared.values.allSatisfy { $0 is NSNull })
+    }
+    func testClearRejectsUnknownNonNullableAndNullExcludedByEnumOrConst() throws {
+        let cmd = try command(#"{"type":"object","properties":{"plain":{"type":"string"},"choice":{"type":["string","null"],"enum":["keep"]},"fixed":{"type":["string","null"],"const":"keep"}}}"#)
+        for field in ["missing", "plain", "choice", "fixed"] {
+            XCTAssertThrowsError(try ERPCommandInput.payload(command: cmd, fields: [:], nullFields: [field]), field) {
+                XCTAssertEqual($0 as? ERPFailure, .invalidPayload)
+            }
+        }
+    }
+    func testUnsupportedUnionsFailClosedEvenWhenOptionalOrExplicitlyCleared() throws {
+        let definitions = [
+            #"{"type":["string","integer"]}"#,
+            #"{"type":["string","null","null"]}"#,
+            #"{"type":["string",null,"null"]}"#,
+            #"{"type":["null"]}"#,
+            #"{"anyOf":[{"type":"string"},{"type":"number"},{"type":"null"}]}"#,
+            #"{"anyOf":[{"type":"string"},{"type":"integer"}]}"#,
+            #"{"anyOf":[{"type":"null"},{"type":"null"}]}"#,
+            #"{"anyOf":[{"type":["string","null"]},{"type":"null"}]}"#,
+            #"{"anyOf":[{"type":"string"},{"type":"null","enum":["null"]}]}"#,
+            #"{"oneOf":[{"type":"string"},{"type":"null"}]}"#,
+            #"{"type":"string","allOf":[{"type":"string"}]}"#,
+            #"{"anyOf":[{"type":"string"},{"type":"null"}],"minLength":1}"#
+        ]
+        for definition in definitions {
+            let cmd = try command("{\"type\":\"object\",\"properties\":{\"value\":\(definition)}}")
+            for fields in [[:], ["value": "test"]] as [[String: String]] {
+                XCTAssertThrowsError(try ERPCommandInput.payload(command: cmd, fields: fields), definition) {
+                    XCTAssertEqual($0 as? ERPFailure, .invalidPayload)
+                }
+            }
+            XCTAssertThrowsError(try ERPCommandInput.payload(command: cmd, fields: [:], nullFields: ["value"]), definition)
+        }
+    }
+    func testClearingAnotherFieldDoesNotTrimPasswordWhitespace() throws {
+        let cmd = try command(#"{"type":"object","properties":{"currentPassword":{"type":"string"},"note":{"type":["string","null"]}},"required":["currentPassword"]}"#)
+        let body = try JSONSerialization.jsonObject(with: ERPCommandInput.payload(command: cmd, fields: ["currentPassword": " exact password "], nullFields: ["note"])) as! [String: Any]
+        XCTAssertEqual(body["currentPassword"] as? String, " exact password ")
+        XCTAssertTrue(body["note"] is NSNull)
+    }
     func testFormRejectsInvalidTypeBoundsEnumsAndUnsafeInteger() throws {
         let cmd = try command(#"{"type":"object","properties":{"quantityMilli":{"type":"integer","minimum":0,"maximum":5000},"state":{"type":"string","enum":["ACCEPT","REJECT"]},"checked":{"type":"boolean"}},"required":["quantityMilli","state"]}"#)
         let valid = try ERPCommandInput.payload(command: cmd, fields: ["quantityMilli": "2500", "state": "ACCEPT", "checked": "false"])

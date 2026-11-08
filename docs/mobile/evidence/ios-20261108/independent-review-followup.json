@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA DE",
+  "recordedAt": "2026-11-08T08:31:03.908907+00:00",
+  "baseCommit": "fec4609f90643330a50104eaf9514a786f3d31f4",
+  "status": "ACCEPTED_STATIC_REVIEW",
+  "nativeExecution": "PENDING_ON_NEW_SOURCE",
+  "reviewers": {
+    "/root": "Independent review of ios_transport read-only recovery implementation and ios_delivery_audit nullable serializer/form implementation; unchanged mutation guards and all error boundaries read.",
+    "/root/ios_transport": "Independent review accepted root model read-only regression and nullable Workflow/View/Strings/WorkflowTests delta. Explicit null, omission, literal null, required nullable, password preservation and unsupported unions checked; no blocker. Recommended model XCTUnwrap applied."
+  },
+  "sha256": {
+    "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift": "f2a8ea44a8c440457bd8bbacc04854c2ccd496b2823d1129d2f6815ce5736354",
+    "erp/apps/mobile-ios/Sources/ERPConsoleView.swift": "d07a10b590ce9de99ff1122a1b7237e95ffa712e84e09ab69450f1d71c70cae2",
+    "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift": "bf9b73661177e7fa01d5866c3d1cc844912780d5a34927ab1ddd3414e34c1998",
+    "erp/apps/mobile-ios/Sources/ERPStrings.swift": "6e87dc30d3c09a07f9024c21425bd6b775a976da852817db28aed04b73ae22ba",
+    "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift": "8c1f31f00b5f92cd8d148fd0af2fd52662c1f4040d4b21f3991da84ca4b3a6b5",
+    "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659",
+    "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift": "d702a68754059710d38bf63e4479cec0a55c6b160761a951e11937f237182148"
+  },
+  "changes": [
+    "Authenticated read access survives missing/corrupt/locked recovery storage; journal is still read and validated before every mutation and retry. No unknown command, key or file is discarded.",
+    "Required nullable values require explicit selection. Optional omission and literal string null remain distinct. Supported type/null and single non-null anyOf keep original non-null schema bounds and enum; arbitrary unions and references fail closed.",
+    "Generic nullable form uses a six-language explicit Clear value control and preserves the disabled draft. Login heading no longer implies an implemented ERP Partner role."
+  ],
+  "testSourceReview": [
+    "One transport regression exercises three real encrypted-store failure modes and proves no command, retry, message or credential network request occurs.",
+    "One model regression proves login/dashboard/entity reads remain available while mutation controls stay blocked.",
+    "Six workflow regressions cover nullable required/optional fields, anyOf typed input, enum/const null exclusion, unsupported unions and password whitespace."
+  ],
+  "remainingLimitations": [
+    "No safe reconciliation/repair endpoint established for a lost or permanently rejected unknown operation; writes remain blocked pending server review.",
+    "Native one-time invitation/enrollment token handoff is still open. Generic sanitized results are not full onboarding.",
+    "Full specialized native parity, site/ERP SSO, ERP Partner role, live ERP role UAT, Apple signing and physical iPhone acceptance remain open."
+  ],
+  "supersedes": "Initial independent-review.json remains valid for its exact initial hashes. IOS-NULLABLE-SCHEMA source limitation is addressed here; IOS-MISSING-JOURNAL-RECOVERY login availability is addressed but repair/reconciliation remains open."
+}
