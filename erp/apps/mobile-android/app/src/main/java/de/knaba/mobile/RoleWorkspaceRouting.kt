@@ -14,10 +14,11 @@ internal object RoleWorkspaceRouting {
 
     private val roleNames = mapOf(
         "CLIENT" to Workspace.CLIENT, "CUSTOMER" to Workspace.CLIENT,
-        "WORKER" to Workspace.WORKER, "EMPLOYEE" to Workspace.WORKER,
+        "WORKER" to Workspace.WORKER, "EMPLOYEE" to Workspace.WORKER, "TEAM_LEADER" to Workspace.WORKER,
         "PARTNER" to Workspace.PARTNER,
         "BAULEITER" to Workspace.BAULEITER, "SITE_MANAGER" to Workspace.BAULEITER,
-        "OWNER" to Workspace.OWNER
+        "INTERNAL_BAULEITER" to Workspace.BAULEITER, "EXTERNAL_BAULEITER" to Workspace.BAULEITER,
+        "OWNER" to Workspace.OWNER, "DIRECTOR" to Workspace.OWNER
     )
     private val required = mapOf(
         Workspace.CLIENT to listOf("customer.portal"),
