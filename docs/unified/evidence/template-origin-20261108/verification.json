@@ -3,12 +3,12 @@
   "project": "KNABA DE",
   "date": "2026-11-08",
   "scope": "KN-C08-C template origin consumer before send claim",
-  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "status": "ACCEPT_EXACT_SOURCE_ACTUAL_CI",
   "product_status": "NOT_READY",
   "branch": "feat/knaba-template-origin-guard-20261108",
   "base_source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
   "base_tree_sha": "a5d250054194eb9ac70aa12c77c79942ed05de13",
-  "commit_binding": "Local evidence describes the candidate file hashes, not a release commit. Immutable commit/tree and actual hosted acceptance are recorded separately after publication. Historical C08-B and native results keep their own exact source identities.",
+  "commit_binding": "Historical inputs and inherited subtrees bind to exact Git commit4e6ac0990ddd73bed142ab05b5f7579d8ed3048a, not the later worktree. The original prepublication manifest hash is recorded by accepted-4e6ac0.json; later source changes are not accepted by this receipt.",
   "inputs": {
     ".github/workflows/ci.yml": {
       "bytes": 9263,
@@ -96,7 +96,7 @@
     "changed_test_files": 2,
     "blocking_findings": 0,
     "sql_case_source": "7 new cases in notification-policy.integration.test.ts authored independently; locally NOT_RUN",
-    "final_staged_tree_review": "PENDING"
+    "final_staged_tree_review": "ACCEPT_TREE_3d7f7615ac4cf21b9dd2a6f5cfa12c1cf958105c"
   },
   "local": {
     "node": "v24.22.1",
@@ -167,14 +167,19 @@
     "provider_requests": "NO_REAL_PROVIDER_REQUESTS"
   },
   "hosted": {
-    "status": "NOT_RUN_FOR_THIS_SOURCE",
-    "required": [
-      "All four mandatory repository jobs on exact clean source",
-      "Build identity and all ERP cases without skips",
-      "21 notification-policy PostgreSQL cases including 7 new cases",
-      "Independent source and raw-log review"
-    ],
-    "native": "No trigger paths or native source changes; retain bb223af artifacts"
+    "status": "ACCEPT",
+    "source_sha": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+    "tree_sha": "3d7f7615ac4cf21b9dd2a6f5cfa12c1cf958105c",
+    "run_id": 42491574791,
+    "attempt": 1,
+    "receipt": "accepted-4e6ac0.json",
+    "receipt_sha256": "d680d0fdb35d6ecac8fe3da2f00faaeb1cec05a8f41c007b41e4236c1f6fddab",
+    "required_jobs": "ALL_4_SUCCESS",
+    "acceptance_skips": 0,
+    "independent_review": "ACCEPT",
+    "duplicate_push_run": 42491540824,
+    "duplicate_push_status": "SUCCESS",
+    "native": "No new native run; historical bb223af accepted artifacts and parallel PR135 keep separate source identities"
   },
   "historical_configuration": {
     "source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
@@ -212,5 +217,17 @@
     "paid_services": false,
     "native_source_changes": false,
     "original_criteria_promoted": false
+  },
+  "source_sha": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+  "tree_sha": "3d7f7615ac4cf21b9dd2a6f5cfa12c1cf958105c",
+  "prepublication_hosted": {
+    "status": "NOT_RUN_FOR_THIS_SOURCE",
+    "required": [
+      "All four mandatory repository jobs on exact clean source",
+      "Build identity and all ERP cases without skips",
+      "21 notification-policy PostgreSQL cases including 7 new cases",
+      "Independent source and raw-log review"
+    ],
+    "native": "No trigger paths or native source changes; retain bb223af artifacts"
   }
 }
