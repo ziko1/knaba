@@ -260,7 +260,7 @@ class ErpConsoleActivity : Activity() {
     private fun showDashboard() {
         heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
         val roles = actor?.optJSONArray("roles") ?: JSONArray()
-        label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { human(roles.optString(it)) }, 13f, muted)
+        label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { roleLabel(roles.optString(it)) }, 13f, muted)
         val summary = panel()
         label(getString(R.string.erp_loading), 15f, muted, summary)
         button(getString(R.string.erp_refresh)) { showDashboard() }
@@ -657,6 +657,28 @@ class ErpConsoleActivity : Activity() {
       val module = modules.firstOrNull { it.kind == kind } ?: return title
       return getString(module.title) + " · " + title
     }
+    // Display labels never alter the canonical roles or permission checks.
+    private fun roleLabel(value: String): String = getString(when (value) {
+        "OWNER" -> R.string.erp_role_owner
+        "DIRECTOR" -> R.string.erp_role_director
+        "OPERATIONS_MANAGER" -> R.string.erp_role_operations_manager
+        "DISPATCHER" -> R.string.erp_role_dispatcher
+        "INTERNAL_BAULEITER", "FOREMAN" -> R.string.erp_role_internal_bauleiter
+        "TEAM_LEADER", "TEAM_LEAD" -> R.string.erp_role_team_leader
+        "EMPLOYEE" -> R.string.erp_role_employee
+        "STOREKEEPER", "WAREHOUSE" -> R.string.erp_role_storekeeper
+        "PROCUREMENT" -> R.string.erp_role_procurement
+        "ACCOUNTANT" -> R.string.erp_role_accountant
+        "CLIENT" -> R.string.erp_role_client
+        "EXTERNAL_BAULEITER" -> R.string.erp_role_external_bauleiter
+        "BOT_ADMIN" -> R.string.erp_role_bot_admin
+        "QUALITY_CONTROL" -> R.string.erp_role_quality_control
+        "AUDITOR" -> R.string.erp_role_auditor
+        "DEVELOPER_SUPPORT" -> R.string.erp_role_developer_support
+        "GUEST" -> R.string.erp_role_guest
+        "SERVICE_ACCOUNT" -> R.string.erp_role_service_account
+        else -> R.string.erp_role_unknown
+    })
     private fun human(value: String): String = when (value) {
         "ASSIGNED" -> getString(R.string.erp_state_assigned)
         "IN_PROGRESS" -> getString(R.string.erp_state_progress)

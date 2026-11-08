@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "decision": "ACCEPT_SOURCE_PENDING_HOSTED_NATIVE_EXECUTION",
+  "reviewer": "/root/native_artifact_review",
+  "observed_at": "2026-11-08T15:19:07.705994+00:00",
+  "source_base_sha": "2eb6a777704ceecd211eecd8b3854080772d152a",
+  "subject_sha256": "e761435116d13f719f0772c70d3d5a4d0c6323556b02143a30388ba8195d1191",
+  "subject_digest_algorithm": "SHA256 of sorted(path + NUL + sha256 + LF) UTF-8",
+  "subject_file_sha256": "fb2c5b084742e54d5c2a4acb6b38f18faf49345375f659550efa734cf276ff5a",
+  "scope": "3 iOS files: display-only known-role localization and new model-level XCTest regressions",
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "0cde53b075ee4d251a16c6bac77caae7e30ea6f4c3bc63e90006408875ace5d6",
+      "bytes": 42474
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "3761f2b4d16f124279c6814b08515d59056d306db2155d7a95773734309a4ea6",
+      "bytes": 30719
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "sha256": "1649b9bccf76fa72eb733739e9d2feed1de70533c76e56067b0289cdb27fa54e",
+      "bytes": 9124
+    }
+  ],
+  "findings": [],
+  "verified": {
+    "frozen_file_hashes_and_sizes": 3,
+    "canonical_roles_from_domain_identity": 18,
+    "documented_demo_aliases": 3,
+    "locales": 6,
+    "localized_rows_including_unknown": 19,
+    "existing_strings_error_handling_and_previous_tests_preserved": true,
+    "only_model_runtime_change": "roleLabel maps roles to selected-language display names; no identity or permission mutation",
+    "tests_read_actual_model_identity": true,
+    "tests_assert_module_visibility_and_isOperator_unchanged": true,
+    "nil_empty_alias_unknown_role_cases": true
+  },
+  "new_tests": [
+    "testDashboardRoleLabelsFollowSixLanguagesWithoutChangingAuthority",
+    "testDashboardRoleAliasesAndUnknownValuesUseSafeLocalizedLabels"
+  ],
+  "test_execution": {
+    "native_xctest": "NOT_RUN_BY_REVIEWER; final hosted run required",
+    "rendered_iPhone_UI": "NOT_RUN",
+    "physical_device": "NOT_RUN"
+  },
+  "limitations": [
+    "Source review and exact translation table comparison are not Swift compilation or XCTest execution.",
+    "The new tests exercise the actual ObservableObject display property, not rendered SwiftUI pixel layout.",
+    "No physical iPhone, real Keychain restart, live ERP or UAT acceptance is claimed."
+  ]
+}

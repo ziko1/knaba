@@ -29,3 +29,9 @@ Account recovery002 — додаткова checksumed VPS auth migration; ledger
 Після source freeze потрібні актуальні repository CI з реальними PostgreSQL/SQLite bridge та native CI. Далі — перевірка отриманих bytes/метаданих і повна PASS/FAIL/BLOCKED matrix. Фізичні Android/iPhone, стабільний Android signer/upgrade, signed IPA/TestFlight, реальний TEST ERP, providers/правові параметри, restore/load/company UAT та незавершені F3/business сценарії лишаються окремими gates. Історичні24 V4 блоки/72 AC,18 template criteria,432 V3 requirements і475 V3 acceptance не отримують bulk PASS. MOBILE-012 додається до повної матриці, а не губиться через старий denominator142.
 
 Поточні квота/ліміти: [BUDGET](../mobile/BUDGET.md). Нові платні послуги, production, DNS, store uploads і повідомлення замовнику не виконуються.
+
+## Коригування після незалежного огляду native UI
+
+Перший кандидат `2eb6a777704ceecd211eecd8b3854080772d152a` пройшов repository CI (run42492663676) і native CI (run42492663468): 3108 ERP, 84 bridge, 32 Android JUnit, 67 iOS XCTest без пропусків. Огляд Android Robolectric-скриншотів виявив англійську назву Operations manager у DE/UK; у iOS source роль відображалася технічним ідентифікатором. Цей кандидат збережено як історичний і замінюється до передачі.
+
+Коригування змінює лише підписи 18 канонічних ролей та 3 DEMO aliases у шести мовах і додає локалізовану назву невідомої ролі. Canonical roles, permissions та рішення авторизації не змінено. Нові Android UI та iOS model тести перевіряють фактичне відображення й незмінність actor identity. Обидва набори source-файлів незалежно прийняті `/root/native_artifact_review`; точні hashes записані в evidence. Коригувальний native/SQL CI на новому source є обов’язковим наступним доказом. Версія 0.5.2/build9 ще не передавалася користувачу чи store.

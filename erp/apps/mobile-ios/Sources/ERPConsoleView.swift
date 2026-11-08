@@ -43,7 +43,7 @@ import SwiftUI
     var isOperator: Bool {
         ERPModuleCatalog.permits(identity?.actor.permissions ?? [], anyOf: ["decision.manage", "dispatch.manage", "crew.assign", "operations.read"])
     }
-    var roleLabel: String { identity?.actor.roles.joined(separator: " · ") ?? "" }
+    var roleLabel: String { identity?.actor.roles.map { ERPStrings.role($0, language) }.joined(separator: " · ") ?? "" }
     func signIn() async {
         guard !busy else { return }
         busy = true; problem = ""; notice = ""; epoch += 1

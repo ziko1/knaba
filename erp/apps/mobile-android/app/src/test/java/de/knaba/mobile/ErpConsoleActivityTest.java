@@ -174,6 +174,39 @@ public class ErpConsoleActivityTest {
         assertTrue(button(R.string.erp_try_demo).isEnabled());
     }
 
+    @Test public void roleLabelsFollowSelectedLanguageWithoutChangingAuthority() throws Exception {
+        String[][] labels = {
+                {"de", "Betriebsleitung", "Teamleitung", "Unbekannte Rolle"},
+                {"en", "Operations manager", "Team leader", "Unknown role"},
+                {"pl", "Kierownik operacyjny", "Lider zespołu", "Nieznana rola"},
+                {"lt", "Veiklos vadovas", "Komandos vadovas", "Nežinomas vaidmuo"},
+                {"ru", "Операционный руководитель", "Руководитель бригады", "Неизвестная роль"},
+                {"uk", "Операційний керівник", "Керівник бригади", "Невідома роль"}
+        };
+        for (String[] expected : labels) {
+            NativeLocale.INSTANCE.choose(RuntimeEnvironment.getApplication(), expected[0]);
+            launch();
+            RoleTransport transport = new RoleTransport("OPERATIONS_MANAGER", "identity.self");
+            JSONArray originalRoles = transport.identity.getJSONObject("actor").getJSONArray("roles");
+            originalRoles.put("TEAM_LEAD").put("UNRECOGNIZED_SERVER_ROLE");
+            String authorityBefore = transport.identity.toString();
+            signInFixture(transport);
+            String roleLine = activity.getString(R.string.erp_role) + ": " + expected[1] + ", " + expected[2] + ", " + expected[3];
+            assertTrue("Localized role line for " + expected[0] + " missing in " + text(), text().contains(roleLine));
+            assertFalse(text().contains("OPERATIONS_MANAGER"));
+            assertFalse(text().contains("TEAM_LEAD"));
+            assertFalse(text().contains("UNRECOGNIZED_SERVER_ROLE"));
+            assertEquals("Display must not modify identity or permissions", authorityBefore, transport.identity.toString());
+            JSONObject displayedActor = ReflectionHelpers.getField(activity, "actor");
+            assertEquals("Display must preserve the actual actor roles", originalRoles.toString(), displayedActor.getJSONArray("roles").toString());
+            assertEquals("Display must preserve the actual actor permissions", transport.identity.getJSONObject("actor").getJSONArray("permissions").toString(), displayedActor.getJSONArray("permissions").toString());
+            assertFalse("A translated role cannot grant finance", hasButton(R.string.erp_payroll));
+            assertFalse("A translated role cannot grant GPS", hasButton(R.string.erp_presence));
+            assertFalse("A translated role cannot grant administration", hasButton(R.string.erp_users));
+            controller.pause().stop().destroy(); controller = null; activity = null;
+        }
+    }
+
     @Test public void demoSearchDetailBackAndEmptyResultsAreUsable() throws Exception {
         launch(); demo(); openTasks();
         assertTrue(text().contains("DEMO · Fenster reinigen"));

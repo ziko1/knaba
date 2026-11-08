@@ -267,4 +267,22 @@
     <string name="erp_action_resume">Tęsti kelionę</string>
     <string name="erp_action_arrive">Patvirtinti atvykimą</string>
     <string name="erp_action_end">Baigti kelionę</string>
+    <string name="erp_role_owner">Savininkas</string>
+    <string name="erp_role_director">Direktorius</string>
+    <string name="erp_role_operations_manager">Veiklos vadovas</string>
+    <string name="erp_role_dispatcher">Dispečeris</string>
+    <string name="erp_role_internal_bauleiter">Vidaus statybos vadovas</string>
+    <string name="erp_role_team_leader">Komandos vadovas</string>
+    <string name="erp_role_storekeeper">Sandėlininkas</string>
+    <string name="erp_role_procurement">Pirkimai</string>
+    <string name="erp_role_accountant">Buhalteris</string>
+    <string name="erp_role_client">Klientas</string>
+    <string name="erp_role_external_bauleiter">Išorinis statybos vadovas</string>
+    <string name="erp_role_bot_admin">Boto administratorius</string>
+    <string name="erp_role_quality_control">Kokybės kontrolė</string>
+    <string name="erp_role_auditor">Auditorius</string>
+    <string name="erp_role_developer_support">Techninė pagalba</string>
+    <string name="erp_role_guest">Svečias</string>
+    <string name="erp_role_service_account">Paslaugos paskyra</string>
+    <string name="erp_role_unknown">Nežinomas vaidmuo</string>
 </resources>
