@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.knaba.mobile.ConsoleMediaScreenTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-08T15:42:28.334Z" hostname="08766be39cd5" time="56.419">
+  <properties/>
+  <testcase name="api32UsesSystemDocumentFallbackWithoutStoragePermission" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="15.531"/>
+  <testcase name="pickerReturnAcrossForegroundDoesNotUploadAndCancellationHasNoMutation" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="19.056"/>
+  <testcase name="explicitSaveRechecksCurrentAssetAndUsesOnlyClientCopy" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="6.245"/>
+  <testcase name="activityRecreationDrainsOldProviderReadBeforeNewMediaWork" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="3.231"/>
+  <testcase name="stalePickerResultAfterExitCannotRestoreSelectionOrReadTheProvider" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.925"/>
+  <testcase name="unknownRegistrationRetriesSameRequestWithoutUploadingAgainAndKeepsAckOnReadFailure" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.915"/>
+  <testcase name="savePickerReturnedAfterLogoutCannotWriteOrDownload" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.634"/>
+  <testcase name="twoPhotosAreExplicitlySentSequentiallyWithIndependentReceipts" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.515"/>
+  <testcase name="removedTaskBeforeSendPreventsAnyUploadAndClearsPrivateScreen" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.682"/>
+  <testcase name="fullMediaIoQueueShowsBusyAndRequiresAnExplicitReadRetry" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.714"/>
+  <testcase name="combinedFileJobKeepsUnknownUploadDescriptorForManualExactRetry" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.908"/>
+  <testcase name="pausedMainTwoPreparedScreensNeverCarryOriginalBytesBetweenJobs" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="1.804"/>
+  <testcase name="restoredAcknowledgedReceiptOffersOnlyLocalCleanup" classname="de.knaba.mobile.ConsoleMediaScreenTest" time="0.663"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+]]></system-err>
+</testsuite>

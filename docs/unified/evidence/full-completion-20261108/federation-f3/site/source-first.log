@@ -1,0 +1,24 @@
+✔ F3 source policy is explicitly disabled by default even when F2 is active (571.660204ms)
+✔ source approval requires password, exact current session and explicit confirmation; never grants a role (605.66175ms)
+✔ durable approval contains hashes and immutable intent but no password, site cookie or ERP credential (437.680971ms)
+✔ online proof echoes every exact request, source and policy field and fails closed on substitution (428.627132ms)
+✔ nonce replay cannot reuse a valid source proof (398.651858ms)
+✔ SESSION_USE requires the original active source session but not repeated five-minute password prompts (420.702404ms)
+✔ source P immediately suppresses a new proof while the global session fence is awaiting its ACK (432.034835ms)
+✔ a lost approval ACK retries the exact operation with a new nonce, then reads current owned status (419.389644ms)
+✔ a missing approval effect is recovered only by explicit same-intent retry within the original window (399.179355ms)
+✔ historical successful approval receipt never overrides a current cancellation during recovery (400.888614ms)
+✔ wrong password consumes no approval and cannot be replaced by a previous source login proof (557.441676ms)
+✔ another account cannot read or retry a durable request after an unknown ACK (377.93694ms)
+✔ a delayed approval response cannot restore source authority after logout (412.276154ms)
+✔ source login policy cannot be rebound in a running generation (396.003036ms)
+✔ restart establishes a new ledger generation and old source approvals remain unusable (400.931937ms)
+✔ F3 schema installation is explicitly gated and canonical SQL history stays unchanged (354.720357ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7336.54463

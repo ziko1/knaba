@@ -1,5 +1,42 @@
 # KNABA — актуальне зіставлення повного scope
 
+## Поточний candidate: F3 + native media, aggregate CI PENDING
+
+Source-scoped implementation/review завершено; [чинний checkpoint](F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md) містить точні manifests, локальні результати й відкриті actual gates. Останній прийнятий aggregate runtime нижче лишається F2 e03d2be. Це доповнення не змінює114 trace rows/42 IN_PROGRESS/72 AC NOT_RUN та не переносить старі artifacts на новий source.
+
+## 2026-11-08 — F2 actual CI та незалежне приймання технічного контракту
+
+Опублікований source `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5`, tree
+`7dd5cf0868b6774e80712324cf692c1f18a24342`, [draft PR129](https://github.com/ziko1/knaba/pull/129).
+[Main run 42485949823](https://github.com/ziko1/knaba/actions/runs/42485949823):
+усі чотири required jobs SUCCESS. ERP **3127/3127**, 139 файлів, 0 skip;
+обидва F2 PostgreSQL набори **12 + 12 PASS**. Реальний VPS/SQLite ↔ зібраний
+ERP/HTTP ↔ PostgreSQL pair: **7 нових F2 / 18 загалом PASS**. Rendered Chromium
+HTTP-fixture сценарії: **5 F2 + 4 transfer PASS**, без retry/skip/flaky.
+Role111, language32, public24viewport, site900Vitest+92Node+330VPS також PASS.
+Public build161HTML, JS222640B/CSS40832B gzip у незмінених бюджетах.
+
+Незалежний reviewer звірив 93 source hashes, actual case inventories, чотири
+job conclusions, ZIP SHA/CRC, усі extracted bytes і before/after build binding.
+Повні dist trees не входять до ZIP: їхні digests є вимірюваннями CI runner,
+а не повторним локальним хешуванням. Verdict —
+`ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`; залежність F2 перед F3 виконано.
+Історичні failures і попередні local-only receipts збережені без переписування.
+
+Android42485949838 SUCCESS; iOS PR42485949819 SKIPPED, нового iOS push немає.
+Скасований42485946401 — repository push concurrency, не iOS evidence.
+Попередні93XCTest і локально підписані APK/AAB зберігають свої source/artifact pins.
+F3/F4, OIDC-only proof, privacy metadata, native media/push та F5/device/provider/
+owner/restore/load залишаються відкритими; whole product **NOT_READY** і жоден
+compound AC не підвищено. Native media — окрема поточна реалізація; нові native
+inputs потребуватимуть власних build/test доказів.
+
+Докази: `evidence/full-completion-20261108/federation-aggregate-ci.json` та
+`federation-ci-independent-review.json`. Чинний BUDGET reconciles цей run set;
+наступний source checkpoint допускається після незалежного review, без
+окремого docs-only CI push. Main merge, production/DNS/live-data, paid activation,
+customer messages і store/TestFlight дій не виконано.
+
 ## 2026-11-08 — F2 інтегровано; локальні перевірки пройшли, aggregate CI відкритий
 
 Виконуваний код зв’язування акаунтів інтегровано в `20fbbb55cbdfb34c17a6eab98fc8e805159bab21`.

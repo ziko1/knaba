@@ -8,6 +8,7 @@ trap 'rm -rf "$KNABA_DEMO_CLASSES"' EXIT
 javac -source 17 -target 17 -cp "$KNABA_DEMO_JSON_JAR" -d "$KNABA_DEMO_CLASSES" \
   app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java \
   app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java \
+  app/src/main/java/de/knaba/mobile/ErpMedia.java \
   app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java \
   app/src/main/java/de/knaba/mobile/ErpReadRetry.java \
   app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java \

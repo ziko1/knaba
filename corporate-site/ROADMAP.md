@@ -561,3 +561,7 @@ Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: ro
 - [ ] RELEASE: exact-artifact staging/owner acceptance і release confirmation; production не змінено.
 
 Точні source/test hashes і результати — [KN-US01–US08](../docs/unified/USER_SETTINGS_2026-11-08_UK.md).
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+F3 source/server/web підготовлено після actual F2 e03d2be. Наступний gate — спільна точна збірка,8 new runtime-pair cases і10 rendered login cases; source/default-off не є live SSO acceptance. [Checkpoint](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Native adapters, privacy inventory/export, broader revocation і target/company/provider acceptance лишаються відкритими.

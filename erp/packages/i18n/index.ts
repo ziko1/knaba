@@ -6,6 +6,8 @@ export const languages:Language[]=['DE','EN','PL','LT','RU','UK'];
 const translationColumns:Language[]=['DE','UK','RU','PL','LT','EN'];
 export const languageNames:Record<Language,string>={DE:'Deutsch',UK:'Українська',RU:'Русский',PL:'Polski',LT:'Lietuvių',EN:'English'};
 const rows:Record<string,string[]>={
+localErpPasswordSignIn:['Mit ERP-Passwort anmelden','Увійти з паролем ERP','Войти с паролем ERP','Zaloguj się hasłem ERP','Prisijungti ERP slaptažodžiu','Sign in with an ERP password'],
+localErpReauthRequired:['Melden Sie sich zur Registrierung dieses Geräts mit Ihrem ERP-Passwort und gegebenenfalls Ihrem Authentifikator-Code an.','Для реєстрації цього пристрою увійдіть з паролем ERP та кодом автентифікатора, якщо його ввімкнено.','Для регистрации этого устройства войдите с паролем ERP и кодом аутентификатора, если он включён.','Aby zarejestrować to urządzenie, zaloguj się hasłem ERP i kodem uwierzytelniającym, jeśli jest włączony.','Norėdami užregistruoti šį įrenginį, prisijunkite ERP slaptažodžiu ir autentifikavimo kodu, jei jis įjungtas.','To register this device, sign in with your ERP password and authenticator code if enabled.'],
 ...internalAssistantCopy,
 ...vehicleTripCopy,
 crewOffers:['Persönliche Einsatzangebote','Особисті пропозиції роботи','Личные предложения работы','Osobiste propozycje pracy','Asmeniniai darbo pasiūlymai','Personal work offers'],

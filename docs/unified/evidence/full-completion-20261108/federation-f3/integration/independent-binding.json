@@ -1,0 +1,1629 @@
+{
+  "schemaVersion": 1,
+  "status": "ACCEPT_EXACT_SOURCE_BINDING",
+  "startedAtUtc": "2026-11-08T16:10:41.958111+00:00",
+  "completedAtUtc": "2026-11-08T16:10:47.367890+00:00",
+  "reviewer": "mobile_actual_readiness independent of F3 authors/integrator",
+  "target": "/workspace/scratch/c56161c95e04/knaba",
+  "head": "44f1539ced6b36da009341f199dc8d780c7af656",
+  "headTree": "3905eb666676ac80f91dc55cbc1cb929f46d1544",
+  "sourceWorktree": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "sourceBase": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "rootReceipt": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/integration/source-integration.json",
+    "sha256": "56e6813558c9f82a04ded77e3ea543cb0427088a7f52f63d82114c77258b85b2"
+  },
+  "summary": {
+    "f3Owned": 55,
+    "f3Total": 57,
+    "androidAndSharedAccepted": 22,
+    "iosAccepted": 15,
+    "protectedNativeInputs": 123,
+    "historicalSpecificationFiles": 12,
+    "mismatches": 0
+  },
+  "inputManifests": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/source-manifest-review.json",
+      "sha256": "d078795f6b2218436b696b48c565388d7fd689f9b0e532c2e5495ad88945889f",
+      "fileCount": 13,
+      "files": [
+        {
+          "path": "corporate-site/vps/database.mjs",
+          "expectedSha256": "cb5cee6bec21dea7f0d7609bf668dd37889853950274e360ff7f0e2239f4a4f1",
+          "targetSha256": "cb5cee6bec21dea7f0d7609bf668dd37889853950274e360ff7f0e2239f4a4f1",
+          "sourceSha256": "cb5cee6bec21dea7f0d7609bf668dd37889853950274e360ff7f0e2239f4a4f1"
+        },
+        {
+          "path": "corporate-site/vps/federation-entry.mjs",
+          "expectedSha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+          "targetSha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+          "sourceSha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc"
+        },
+        {
+          "path": "corporate-site/vps/federation-loader.mjs",
+          "expectedSha256": "26079b3426d1b88c3576c7472cef4c008c7d207e299d11eb2b23bb86057e407b",
+          "targetSha256": "26079b3426d1b88c3576c7472cef4c008c7d207e299d11eb2b23bb86057e407b",
+          "sourceSha256": "26079b3426d1b88c3576c7472cef4c008c7d207e299d11eb2b23bb86057e407b"
+        },
+        {
+          "path": "corporate-site/vps/federation-login-schema.mjs",
+          "expectedSha256": "c279b53ef0a4ddb594e58048778df7013d114a258a83a9378859a554ef3de2db",
+          "targetSha256": "c279b53ef0a4ddb594e58048778df7013d114a258a83a9378859a554ef3de2db",
+          "sourceSha256": "c279b53ef0a4ddb594e58048778df7013d114a258a83a9378859a554ef3de2db"
+        },
+        {
+          "path": "corporate-site/vps/federation-login-test-fixture.mjs",
+          "expectedSha256": "52d12327c110577474a35bd7a9fcc8376b64ff3edb08e4d4cfb7c7d6b9bbb135",
+          "targetSha256": "52d12327c110577474a35bd7a9fcc8376b64ff3edb08e4d4cfb7c7d6b9bbb135",
+          "sourceSha256": "52d12327c110577474a35bd7a9fcc8376b64ff3edb08e4d4cfb7c7d6b9bbb135"
+        },
+        {
+          "path": "corporate-site/vps/federation-login-ui.mjs",
+          "expectedSha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f",
+          "targetSha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f",
+          "sourceSha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f"
+        },
+        {
+          "path": "corporate-site/vps/federation-login.http.test.mjs",
+          "expectedSha256": "85f296d569e07b99cd630d0272677a1e60e90ae7d24e2907055ddf8e80d1a12f",
+          "targetSha256": "85f296d569e07b99cd630d0272677a1e60e90ae7d24e2907055ddf8e80d1a12f",
+          "sourceSha256": "85f296d569e07b99cd630d0272677a1e60e90ae7d24e2907055ddf8e80d1a12f"
+        },
+        {
+          "path": "corporate-site/vps/federation-login.mjs",
+          "expectedSha256": "761e40258acb7793544e52e808a733ab863a25419643581ef958d2e5b3d10b45",
+          "targetSha256": "761e40258acb7793544e52e808a733ab863a25419643581ef958d2e5b3d10b45",
+          "sourceSha256": "761e40258acb7793544e52e808a733ab863a25419643581ef958d2e5b3d10b45"
+        },
+        {
+          "path": "corporate-site/vps/federation-login.test.mjs",
+          "expectedSha256": "d6336f76e41079e502493c64b5c4d5d73659fb98b2341a7c5f1134bb8ed00914",
+          "targetSha256": "d6336f76e41079e502493c64b5c4d5d73659fb98b2341a7c5f1134bb8ed00914",
+          "sourceSha256": "d6336f76e41079e502493c64b5c4d5d73659fb98b2341a7c5f1134bb8ed00914"
+        },
+        {
+          "path": "corporate-site/vps/federation-source.mjs",
+          "expectedSha256": "fecaf85fc4c7e43e8a5cb2081d6222f78ef75ebefc00cf62b0c7adb0abc5ad8d",
+          "targetSha256": "fecaf85fc4c7e43e8a5cb2081d6222f78ef75ebefc00cf62b0c7adb0abc5ad8d",
+          "sourceSha256": "fecaf85fc4c7e43e8a5cb2081d6222f78ef75ebefc00cf62b0c7adb0abc5ad8d"
+        },
+        {
+          "path": "corporate-site/vps/federation-test-authority.mjs",
+          "expectedSha256": "7f4ba71a591c4c6ae291e9c605927ed6dae28b4a03411bd43c6b80cde8eab9bf",
+          "targetSha256": "7f4ba71a591c4c6ae291e9c605927ed6dae28b4a03411bd43c6b80cde8eab9bf",
+          "sourceSha256": "7f4ba71a591c4c6ae291e9c605927ed6dae28b4a03411bd43c6b80cde8eab9bf"
+        },
+        {
+          "path": "corporate-site/vps/role-destination.mjs",
+          "expectedSha256": "f2203883d4dbb0d119ae40767a80e3a3481a838c352f09b01a044cf1f0e2acda",
+          "targetSha256": "f2203883d4dbb0d119ae40767a80e3a3481a838c352f09b01a044cf1f0e2acda",
+          "sourceSha256": "f2203883d4dbb0d119ae40767a80e3a3481a838c352f09b01a044cf1f0e2acda"
+        },
+        {
+          "path": "corporate-site/vps/server.mjs",
+          "expectedSha256": "b7a8edf27159c9bd1b5a87ec8134cc94e59e29d38e2a3ad2c8b3b46efd8bf80a",
+          "targetSha256": "b7a8edf27159c9bd1b5a87ec8134cc94e59e29d38e2a3ad2c8b3b46efd8bf80a",
+          "sourceSha256": "b7a8edf27159c9bd1b5a87ec8134cc94e59e29d38e2a3ad2c8b3b46efd8bf80a"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/source-manifest.json",
+      "sha256": "84161d679b80b4aaab99291f829657de20824f66ab958c03aa456777104f66d9",
+      "fileCount": 26,
+      "files": [
+        {
+          "path": "erp/apps/api/auth.ts",
+          "expectedSha256": "9bb2d82634d396d2864547e2443518ef7bfcbc2d4ebcb4a42f06bd828a8a3425",
+          "targetSha256": "9bb2d82634d396d2864547e2443518ef7bfcbc2d4ebcb4a42f06bd828a8a3425",
+          "sourceSha256": "9bb2d82634d396d2864547e2443518ef7bfcbc2d4ebcb4a42f06bd828a8a3425"
+        },
+        {
+          "path": "erp/apps/api/engine.ts",
+          "expectedSha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+          "targetSha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+          "sourceSha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380"
+        },
+        {
+          "path": "erp/apps/api/http.ts",
+          "expectedSha256": "7b11aa44f9cd30c59573b679f8a400da830c3928463327ca8e631c164138e82b",
+          "targetSha256": "7b11aa44f9cd30c59573b679f8a400da830c3928463327ca8e631c164138e82b",
+          "sourceSha256": "7b11aa44f9cd30c59573b679f8a400da830c3928463327ca8e631c164138e82b"
+        },
+        {
+          "path": "erp/apps/api/main.ts",
+          "expectedSha256": "d5739260796c27c9a43988e5640910b421b7d0094ce58d9f24a5ab95ce78380b",
+          "targetSha256": "d5739260796c27c9a43988e5640910b421b7d0094ce58d9f24a5ab95ce78380b",
+          "sourceSha256": "d5739260796c27c9a43988e5640910b421b7d0094ce58d9f24a5ab95ce78380b"
+        },
+        {
+          "path": "erp/apps/api/request-authority-interceptor.ts",
+          "expectedSha256": "b69a5214161e083d388e42e3b18d4208a8b98cd3454c7369d1b040f74dd99959",
+          "targetSha256": "b69a5214161e083d388e42e3b18d4208a8b98cd3454c7369d1b040f74dd99959",
+          "sourceSha256": "b69a5214161e083d388e42e3b18d4208a8b98cd3454c7369d1b040f74dd99959"
+        },
+        {
+          "path": "erp/apps/api/request-authority.ts",
+          "expectedSha256": "23e815920b6b6813b7349eca0347502f5f8c278cd485a43819ceb2db731a5efc",
+          "targetSha256": "23e815920b6b6813b7349eca0347502f5f8c278cd485a43819ceb2db731a5efc",
+          "sourceSha256": "23e815920b6b6813b7349eca0347502f5f8c278cd485a43819ceb2db731a5efc"
+        },
+        {
+          "path": "erp/apps/api/site-federated-sessions.ts",
+          "expectedSha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00",
+          "targetSha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00",
+          "sourceSha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00"
+        },
+        {
+          "path": "erp/apps/api/site-federation-ledger.ts",
+          "expectedSha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45",
+          "targetSha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45",
+          "sourceSha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45"
+        },
+        {
+          "path": "erp/apps/api/site-federation-login-config.ts",
+          "expectedSha256": "9e0bbe93c51bfab124223ddc4f25b2634615fc3ad3bf88d9073cc3700c19e687",
+          "targetSha256": "9e0bbe93c51bfab124223ddc4f25b2634615fc3ad3bf88d9073cc3700c19e687",
+          "sourceSha256": "9e0bbe93c51bfab124223ddc4f25b2634615fc3ad3bf88d9073cc3700c19e687"
+        },
+        {
+          "path": "erp/apps/api/site-federation-login-model.ts",
+          "expectedSha256": "3e320b048a3e7df6caf60eb2fc327f672de8dd6ab7c6fbef5bfd416863faaf9d",
+          "targetSha256": "3e320b048a3e7df6caf60eb2fc327f672de8dd6ab7c6fbef5bfd416863faaf9d",
+          "sourceSha256": "3e320b048a3e7df6caf60eb2fc327f672de8dd6ab7c6fbef5bfd416863faaf9d"
+        },
+        {
+          "path": "erp/apps/api/site-federation-login.ts",
+          "expectedSha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3",
+          "targetSha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3",
+          "sourceSha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3"
+        },
+        {
+          "path": "erp/apps/api/site-identity-bindings.ts",
+          "expectedSha256": "316cdf839b3c32b7aafc2ebbba11b6a24fc0b034d19f9b0fc20d70e7510552af",
+          "targetSha256": "316cdf839b3c32b7aafc2ebbba11b6a24fc0b034d19f9b0fc20d70e7510552af",
+          "sourceSha256": "316cdf839b3c32b7aafc2ebbba11b6a24fc0b034d19f9b0fc20d70e7510552af"
+        },
+        {
+          "path": "erp/apps/api/v4-rest.ts",
+          "expectedSha256": "7f5db4d91afb2367c91063b23a05bdfe49e323a6d033b5e4179a8226a6de3189",
+          "targetSha256": "7f5db4d91afb2367c91063b23a05bdfe49e323a6d033b5e4179a8226a6de3189",
+          "sourceSha256": "7f5db4d91afb2367c91063b23a05bdfe49e323a6d033b5e4179a8226a6de3189"
+        },
+        {
+          "path": "erp/infra/001_init.sql",
+          "expectedSha256": "05012eeea53c8489f7f133ebd4ff23d26adfccac21187b1d2d25c16270f84417",
+          "targetSha256": "05012eeea53c8489f7f133ebd4ff23d26adfccac21187b1d2d25c16270f84417",
+          "sourceSha256": "05012eeea53c8489f7f133ebd4ff23d26adfccac21187b1d2d25c16270f84417"
+        },
+        {
+          "path": "erp/packages/integrations/site-federation-login-protocol.d.mts",
+          "expectedSha256": "e23eb606e0d93583642dea0a1782444dac4d0a2eca3ccc66c4b261dd10e9f04e",
+          "targetSha256": "e23eb606e0d93583642dea0a1782444dac4d0a2eca3ccc66c4b261dd10e9f04e",
+          "sourceSha256": "e23eb606e0d93583642dea0a1782444dac4d0a2eca3ccc66c4b261dd10e9f04e"
+        },
+        {
+          "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+          "expectedSha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+          "targetSha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+          "sourceSha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+        },
+        {
+          "path": "erp/packages/integrations/site-federation-protocol.d.mts",
+          "expectedSha256": "671b0de9d0e419766e0e8639cb59ac30c277e3a61e069333e9d3cd701ba836d4",
+          "targetSha256": "671b0de9d0e419766e0e8639cb59ac30c277e3a61e069333e9d3cd701ba836d4",
+          "sourceSha256": "671b0de9d0e419766e0e8639cb59ac30c277e3a61e069333e9d3cd701ba836d4"
+        },
+        {
+          "path": "erp/packages/integrations/site-federation-protocol.mjs",
+          "expectedSha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+          "targetSha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+          "sourceSha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e"
+        },
+        {
+          "path": "erp/tests/fixtures/pre-f3-authenticate.json",
+          "expectedSha256": "75ec2439fad9cd40687110669eb5252707adde8b2c629ad32fe487f4f6c4997d",
+          "targetSha256": "75ec2439fad9cd40687110669eb5252707adde8b2c629ad32fe487f4f6c4997d",
+          "sourceSha256": "75ec2439fad9cd40687110669eb5252707adde8b2c629ad32fe487f4f6c4997d"
+        },
+        {
+          "path": "erp/tests/fixtures/site-federated-session.ts",
+          "expectedSha256": "46c04e01e3c3480be74389e7bcb3626c74e40dfed81ffe6b6569d3f1916f1642",
+          "targetSha256": "46c04e01e3c3480be74389e7bcb3626c74e40dfed81ffe6b6569d3f1916f1642",
+          "sourceSha256": "46c04e01e3c3480be74389e7bcb3626c74e40dfed81ffe6b6569d3f1916f1642"
+        },
+        {
+          "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+          "expectedSha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1",
+          "targetSha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1",
+          "sourceSha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1"
+        },
+        {
+          "path": "erp/tests/site-federated-session.test.ts",
+          "expectedSha256": "712b5c6adaf09d49d0c90da5ba8a8f0b1600a384686b64b4bf16534b64a9977d",
+          "targetSha256": "712b5c6adaf09d49d0c90da5ba8a8f0b1600a384686b64b4bf16534b64a9977d",
+          "sourceSha256": "712b5c6adaf09d49d0c90da5ba8a8f0b1600a384686b64b4bf16534b64a9977d"
+        },
+        {
+          "path": "erp/tests/site-federation-login-flow.test.ts",
+          "expectedSha256": "6d83ac41efd69c713382c97be1c180568865564a4c8375b66ef65e43e058f110",
+          "targetSha256": "6d83ac41efd69c713382c97be1c180568865564a4c8375b66ef65e43e058f110",
+          "sourceSha256": "6d83ac41efd69c713382c97be1c180568865564a4c8375b66ef65e43e058f110"
+        },
+        {
+          "path": "erp/tests/site-federation-login-http.test.ts",
+          "expectedSha256": "93215494e7021df857cd3c78f5329f87f192793c042e7253bc1590911db869c1",
+          "targetSha256": "93215494e7021df857cd3c78f5329f87f192793c042e7253bc1590911db869c1",
+          "sourceSha256": "93215494e7021df857cd3c78f5329f87f192793c042e7253bc1590911db869c1"
+        },
+        {
+          "path": "erp/tests/site-federation-login-protocol.test.ts",
+          "expectedSha256": "2a8af4cf12a55e72dc21397a1deab344bbb21a4709197d9eda1ab924bd1ab2d2",
+          "targetSha256": "2a8af4cf12a55e72dc21397a1deab344bbb21a4709197d9eda1ab924bd1ab2d2",
+          "sourceSha256": "2a8af4cf12a55e72dc21397a1deab344bbb21a4709197d9eda1ab924bd1ab2d2"
+        },
+        {
+          "path": "erp/tests/site-federation-login.integration.test.ts",
+          "expectedSha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+          "targetSha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+          "sourceSha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/source-manifest-review.json",
+      "sha256": "e590b4eef00cce479b28c09a982900390a4329ac6777231bc1a1abecb55a5a9e",
+      "fileCount": 16,
+      "files": [
+        {
+          "path": "corporate-site/tests/ci-artifacts.mjs",
+          "expectedSha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+          "targetSha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+          "sourceSha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685"
+        },
+        {
+          "path": "corporate-site/tests/ci-browser.mjs",
+          "expectedSha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+          "targetSha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+          "sourceSha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d"
+        },
+        {
+          "path": "corporate-site/tests/ci-browser.test.mjs",
+          "expectedSha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+          "targetSha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+          "sourceSha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f"
+        },
+        {
+          "path": "erp/apps/web/src/App.tsx",
+          "expectedSha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+          "targetSha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+          "sourceSha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc"
+        },
+        {
+          "path": "erp/apps/web/src/CommandForm.tsx",
+          "expectedSha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+          "targetSha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+          "sourceSha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af"
+        },
+        {
+          "path": "erp/apps/web/src/FederationLogin.tsx",
+          "expectedSha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070",
+          "targetSha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070",
+          "sourceSha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070"
+        },
+        {
+          "path": "erp/apps/web/src/federationLoginModel.test.ts",
+          "expectedSha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c",
+          "targetSha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c",
+          "sourceSha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c"
+        },
+        {
+          "path": "erp/apps/web/src/federationLoginModel.ts",
+          "expectedSha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2",
+          "targetSha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2",
+          "sourceSha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2"
+        },
+        {
+          "path": "erp/apps/web/src/style.css",
+          "expectedSha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+          "targetSha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+          "sourceSha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62"
+        },
+        {
+          "path": "erp/packages/i18n/index.ts",
+          "expectedSha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+          "targetSha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+          "sourceSha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878"
+        },
+        {
+          "path": "erp/playwright.config.ts",
+          "expectedSha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+          "targetSha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+          "sourceSha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919"
+        },
+        {
+          "path": "erp/tests/conversation-transfer-ui.spec.ts",
+          "expectedSha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+          "targetSha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+          "sourceSha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548"
+        },
+        {
+          "path": "erp/tests/federation-login-ui.spec.ts",
+          "expectedSha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4",
+          "targetSha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4",
+          "sourceSha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4"
+        },
+        {
+          "path": "erp/tests/site-identity-link-ui.spec.ts",
+          "expectedSha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+          "targetSha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+          "sourceSha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c"
+        },
+        {
+          "path": "tests/bridge/federation-harness.mjs",
+          "expectedSha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+          "targetSha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+          "sourceSha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291"
+        },
+        {
+          "path": "tests/bridge/federation-login.test.mjs",
+          "expectedSha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+          "targetSha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+          "sourceSha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689"
+        }
+      ]
+    }
+  ],
+  "f3Bindings": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "bytes": 14081,
+      "targetBeforeSha256": "f7f4b1f6e910785a945fd1c9c41490128cf5560fd5e173111ee7af5c06ab453b",
+      "sourceBaseSha256": "f7f4b1f6e910785a945fd1c9c41490128cf5560fd5e173111ee7af5c06ab453b"
+    },
+    {
+      "path": "corporate-site/tests/ci-artifacts.mjs",
+      "sha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+      "bytes": 6469,
+      "targetBeforeSha256": "f9f201c1eddd0b5c775ebec09eabe4f5a670f27bbc891d04e0fd40435320acfd",
+      "sourceBaseSha256": "f9f201c1eddd0b5c775ebec09eabe4f5a670f27bbc891d04e0fd40435320acfd"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "sha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+      "bytes": 14887,
+      "targetBeforeSha256": "93f34570786f8e69c7b58ebc76d58469ad507ed374cafd4f0fb7b130f59d797b",
+      "sourceBaseSha256": "93f34570786f8e69c7b58ebc76d58469ad507ed374cafd4f0fb7b130f59d797b"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "sha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+      "bytes": 7291,
+      "targetBeforeSha256": "00ed84fd01b82de2db901a9f387abccc27c8dc9728e219c84320ba9daafe7864",
+      "sourceBaseSha256": "00ed84fd01b82de2db901a9f387abccc27c8dc9728e219c84320ba9daafe7864"
+    },
+    {
+      "path": "corporate-site/vps/database.mjs",
+      "sha256": "cb5cee6bec21dea7f0d7609bf668dd37889853950274e360ff7f0e2239f4a4f1",
+      "bytes": 13567,
+      "targetBeforeSha256": "0125d2fa9bd741ef2f6e827a0f770f6ea893ed2941e53aac0164bb5cd609b45d",
+      "sourceBaseSha256": "0125d2fa9bd741ef2f6e827a0f770f6ea893ed2941e53aac0164bb5cd609b45d"
+    },
+    {
+      "path": "corporate-site/vps/federation-entry.mjs",
+      "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+      "bytes": 1136,
+      "targetBeforeSha256": "97fea874ab437d8a1f1b9df238dc5685ecaf40791831b6355cc25e92813f6244",
+      "sourceBaseSha256": "97fea874ab437d8a1f1b9df238dc5685ecaf40791831b6355cc25e92813f6244"
+    },
+    {
+      "path": "corporate-site/vps/federation-loader.mjs",
+      "sha256": "26079b3426d1b88c3576c7472cef4c008c7d207e299d11eb2b23bb86057e407b",
+      "bytes": 1245,
+      "targetBeforeSha256": "7d7836e6926a8e3e34657bc229b07bcc033bf2b324e3276dfbbf7c11d21df8ae",
+      "sourceBaseSha256": "7d7836e6926a8e3e34657bc229b07bcc033bf2b324e3276dfbbf7c11d21df8ae"
+    },
+    {
+      "path": "corporate-site/vps/federation-login-schema.mjs",
+      "sha256": "c279b53ef0a4ddb594e58048778df7013d114a258a83a9378859a554ef3de2db",
+      "bytes": 2934,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login-test-fixture.mjs",
+      "sha256": "52d12327c110577474a35bd7a9fcc8376b64ff3edb08e4d4cfb7c7d6b9bbb135",
+      "bytes": 6356,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login-ui.mjs",
+      "sha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f",
+      "bytes": 8641,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login.http.test.mjs",
+      "sha256": "85f296d569e07b99cd630d0272677a1e60e90ae7d24e2907055ddf8e80d1a12f",
+      "bytes": 10429,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login.mjs",
+      "sha256": "761e40258acb7793544e52e808a733ab863a25419643581ef958d2e5b3d10b45",
+      "bytes": 14757,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login.test.mjs",
+      "sha256": "d6336f76e41079e502493c64b5c4d5d73659fb98b2341a7c5f1134bb8ed00914",
+      "bytes": 11171,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-source.mjs",
+      "sha256": "fecaf85fc4c7e43e8a5cb2081d6222f78ef75ebefc00cf62b0c7adb0abc5ad8d",
+      "bytes": 48899,
+      "targetBeforeSha256": "dd3d0d59d4122ee8be954b2b98e9bd8b7e057afc3e9f52872022f4417162dcb6",
+      "sourceBaseSha256": "dd3d0d59d4122ee8be954b2b98e9bd8b7e057afc3e9f52872022f4417162dcb6"
+    },
+    {
+      "path": "corporate-site/vps/federation-test-authority.mjs",
+      "sha256": "7f4ba71a591c4c6ae291e9c605927ed6dae28b4a03411bd43c6b80cde8eab9bf",
+      "bytes": 8979,
+      "targetBeforeSha256": "a80f0aa0c634ba17cdc4d627929446b014845d1b51207fe822c8c84ee23ba335",
+      "sourceBaseSha256": "a80f0aa0c634ba17cdc4d627929446b014845d1b51207fe822c8c84ee23ba335"
+    },
+    {
+      "path": "corporate-site/vps/role-destination.mjs",
+      "sha256": "f2203883d4dbb0d119ae40767a80e3a3481a838c352f09b01a044cf1f0e2acda",
+      "bytes": 3911,
+      "targetBeforeSha256": "c2a0547b5aee1f249d632031de540393646caa5f6fb1bd06d237d9f39d831742",
+      "sourceBaseSha256": "c2a0547b5aee1f249d632031de540393646caa5f6fb1bd06d237d9f39d831742"
+    },
+    {
+      "path": "corporate-site/vps/server.mjs",
+      "sha256": "b7a8edf27159c9bd1b5a87ec8134cc94e59e29d38e2a3ad2c8b3b46efd8bf80a",
+      "bytes": 88953,
+      "targetBeforeSha256": "5e46202409b75433bbf4bbd9297e46aeffa8e215908462dce0966d9bdabb5f3c",
+      "sourceBaseSha256": "5e46202409b75433bbf4bbd9297e46aeffa8e215908462dce0966d9bdabb5f3c"
+    },
+    {
+      "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      "sha256": "89096a9c824d9fd9ac8a4885b86f9d6cd11346d8873faed0a9e7a7e6b8127beb",
+      "bytes": 82572,
+      "targetBeforeSha256": "d7bd485a5b058cee4a2662bcc94ea11ab8809fbc846a0f3506ab97d9e08ada38",
+      "sourceBaseSha256": "d7bd485a5b058cee4a2662bcc94ea11ab8809fbc846a0f3506ab97d9e08ada38"
+    },
+    {
+      "path": "erp/apps/api/auth.ts",
+      "sha256": "9bb2d82634d396d2864547e2443518ef7bfcbc2d4ebcb4a42f06bd828a8a3425",
+      "bytes": 18544,
+      "targetBeforeSha256": "e390bd5eac73ceffdfe8cdaea76e421ec986aab34c211af49c108210ae3e3895",
+      "sourceBaseSha256": "e390bd5eac73ceffdfe8cdaea76e421ec986aab34c211af49c108210ae3e3895"
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "sha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+      "bytes": 54146,
+      "targetBeforeSha256": "f5674ccb03320c48026a49307c092af0d9c1b1a2fbc247990c61ff1d38f1eef8",
+      "sourceBaseSha256": "f5674ccb03320c48026a49307c092af0d9c1b1a2fbc247990c61ff1d38f1eef8"
+    },
+    {
+      "path": "erp/apps/api/http.ts",
+      "sha256": "7b11aa44f9cd30c59573b679f8a400da830c3928463327ca8e631c164138e82b",
+      "bytes": 51270,
+      "targetBeforeSha256": "a14f46dbef0537b8d75780e0a2f108547e199b5a6afead80e313a75c5c367462",
+      "sourceBaseSha256": "a14f46dbef0537b8d75780e0a2f108547e199b5a6afead80e313a75c5c367462"
+    },
+    {
+      "path": "erp/apps/api/main.ts",
+      "sha256": "d5739260796c27c9a43988e5640910b421b7d0094ce58d9f24a5ab95ce78380b",
+      "bytes": 8369,
+      "targetBeforeSha256": "2604cc7a10bec147782236a4f2a5318c18282530a53e84e109f20bac3e87a01a",
+      "sourceBaseSha256": "2604cc7a10bec147782236a4f2a5318c18282530a53e84e109f20bac3e87a01a"
+    },
+    {
+      "path": "erp/apps/api/request-authority-interceptor.ts",
+      "sha256": "b69a5214161e083d388e42e3b18d4208a8b98cd3454c7369d1b040f74dd99959",
+      "bytes": 1300,
+      "targetBeforeSha256": "6ea2f61ccb63c270403da54b965c3ace3dffc8b5c7d64711ea781277615cdd52",
+      "sourceBaseSha256": "6ea2f61ccb63c270403da54b965c3ace3dffc8b5c7d64711ea781277615cdd52"
+    },
+    {
+      "path": "erp/apps/api/request-authority.ts",
+      "sha256": "23e815920b6b6813b7349eca0347502f5f8c278cd485a43819ceb2db731a5efc",
+      "bytes": 11248,
+      "targetBeforeSha256": "f3dc83c583c835eb86527fae9c2b6dc1f49cfeaee737e2442664c03307c4bba5",
+      "sourceBaseSha256": "f3dc83c583c835eb86527fae9c2b6dc1f49cfeaee737e2442664c03307c4bba5"
+    },
+    {
+      "path": "erp/apps/api/site-federated-sessions.ts",
+      "sha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00",
+      "bytes": 15202,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-federation-ledger.ts",
+      "sha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45",
+      "bytes": 18703,
+      "targetBeforeSha256": "991029d022fe86f926d383f8043e9eccb03cd4aea5d00baa7755126a3f2a2bb5",
+      "sourceBaseSha256": "991029d022fe86f926d383f8043e9eccb03cd4aea5d00baa7755126a3f2a2bb5"
+    },
+    {
+      "path": "erp/apps/api/site-federation-login-config.ts",
+      "sha256": "9e0bbe93c51bfab124223ddc4f25b2634615fc3ad3bf88d9073cc3700c19e687",
+      "bytes": 1208,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-federation-login-model.ts",
+      "sha256": "3e320b048a3e7df6caf60eb2fc327f672de8dd6ab7c6fbef5bfd416863faaf9d",
+      "bytes": 2858,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-federation-login.ts",
+      "sha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3",
+      "bytes": 29044,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-identity-bindings.ts",
+      "sha256": "316cdf839b3c32b7aafc2ebbba11b6a24fc0b034d19f9b0fc20d70e7510552af",
+      "bytes": 11558,
+      "targetBeforeSha256": "e584c4885908fd910b33d5829d9c6de87977e2d2e860c8a493d6f3e2102131d7",
+      "sourceBaseSha256": "e584c4885908fd910b33d5829d9c6de87977e2d2e860c8a493d6f3e2102131d7"
+    },
+    {
+      "path": "erp/apps/api/v4-rest.ts",
+      "sha256": "7f5db4d91afb2367c91063b23a05bdfe49e323a6d033b5e4179a8226a6de3189",
+      "bytes": 23597,
+      "targetBeforeSha256": "c2c66eca671bb4a40ac5855fd2cdc92ab5839e4ba43fe98c5f4704bf6b7ce963",
+      "sourceBaseSha256": "c2c66eca671bb4a40ac5855fd2cdc92ab5839e4ba43fe98c5f4704bf6b7ce963"
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "sha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+      "bytes": 82243,
+      "targetBeforeSha256": "20017b49933e050cc785c43aa84ae1c8400048caa11439e441a03922e92784b6",
+      "sourceBaseSha256": "20017b49933e050cc785c43aa84ae1c8400048caa11439e441a03922e92784b6"
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "sha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+      "bytes": 25575,
+      "targetBeforeSha256": "5b7e33121e531844561b80c3f33b7a135aac4c86684198050080c906cd6d8d65",
+      "sourceBaseSha256": "5b7e33121e531844561b80c3f33b7a135aac4c86684198050080c906cd6d8d65"
+    },
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "sha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070",
+      "bytes": 20738,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.test.ts",
+      "sha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c",
+      "bytes": 10303,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.ts",
+      "sha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2",
+      "bytes": 10420,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "sha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+      "bytes": 60128,
+      "targetBeforeSha256": "bf1e254458ef7abc21cda6f73f025f34c25ff40dd99eb468f86561f583378e33",
+      "sourceBaseSha256": "bf1e254458ef7abc21cda6f73f025f34c25ff40dd99eb468f86561f583378e33"
+    },
+    {
+      "path": "erp/infra/001_init.sql",
+      "sha256": "05012eeea53c8489f7f133ebd4ff23d26adfccac21187b1d2d25c16270f84417",
+      "bytes": 43561,
+      "targetBeforeSha256": "014d90b37c8308f7858db4655bb6379ea4d19c2e8adbe027e48004f23bc4866e",
+      "sourceBaseSha256": "014d90b37c8308f7858db4655bb6379ea4d19c2e8adbe027e48004f23bc4866e"
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "sha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+      "bytes": 175255,
+      "targetBeforeSha256": "4a118d484cfa91283396595e24bbd51bb534362e018aa8380736eeb102d7d638",
+      "sourceBaseSha256": "4a118d484cfa91283396595e24bbd51bb534362e018aa8380736eeb102d7d638"
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.d.mts",
+      "sha256": "e23eb606e0d93583642dea0a1782444dac4d0a2eca3ccc66c4b261dd10e9f04e",
+      "bytes": 3726,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+      "bytes": 10977,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.d.mts",
+      "sha256": "671b0de9d0e419766e0e8639cb59ac30c277e3a61e069333e9d3cd701ba836d4",
+      "bytes": 3530,
+      "targetBeforeSha256": "cc69e15d3f70670b5a2be65d0c5c0c529142a86db6eb02338c536d9d579fdc7b",
+      "sourceBaseSha256": "cc69e15d3f70670b5a2be65d0c5c0c529142a86db6eb02338c536d9d579fdc7b"
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.mjs",
+      "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+      "bytes": 14764,
+      "targetBeforeSha256": "d666bc62039f60aadd6b4a6feb97385cdb195315ec38b43c6aad8e6d389dc56c",
+      "sourceBaseSha256": "d666bc62039f60aadd6b4a6feb97385cdb195315ec38b43c6aad8e6d389dc56c"
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "sha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+      "bytes": 968,
+      "targetBeforeSha256": "45dd4544a7828e16054549ebf0887dd52e2302f8bea243d4da7b31b33a7d49dc",
+      "sourceBaseSha256": "45dd4544a7828e16054549ebf0887dd52e2302f8bea243d4da7b31b33a7d49dc"
+    },
+    {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "sha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "bytes": 9942,
+      "targetBeforeSha256": "cdc2a042e5d0d7879fadf527c9efdfecf7bf23cd42859250d76eb5e7d81176b1",
+      "sourceBaseSha256": "cdc2a042e5d0d7879fadf527c9efdfecf7bf23cd42859250d76eb5e7d81176b1"
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4",
+      "bytes": 21419,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/fixtures/pre-f3-authenticate.json",
+      "sha256": "75ec2439fad9cd40687110669eb5252707adde8b2c629ad32fe487f4f6c4997d",
+      "bytes": 2229,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/fixtures/site-federated-session.ts",
+      "sha256": "46c04e01e3c3480be74389e7bcb3626c74e40dfed81ffe6b6569d3f1916f1642",
+      "bytes": 15581,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+      "sha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1",
+      "bytes": 11970,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/site-federated-session.test.ts",
+      "sha256": "712b5c6adaf09d49d0c90da5ba8a8f0b1600a384686b64b4bf16534b64a9977d",
+      "bytes": 11117,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login-flow.test.ts",
+      "sha256": "6d83ac41efd69c713382c97be1c180568865564a4c8375b66ef65e43e058f110",
+      "bytes": 10256,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login-http.test.ts",
+      "sha256": "93215494e7021df857cd3c78f5329f87f192793c042e7253bc1590911db869c1",
+      "bytes": 7703,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login-protocol.test.ts",
+      "sha256": "2a8af4cf12a55e72dc21397a1deab344bbb21a4709197d9eda1ab924bd1ab2d2",
+      "bytes": 9338,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "sha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+      "bytes": 17852,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    },
+    {
+      "path": "erp/tests/site-identity-link-ui.spec.ts",
+      "sha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "bytes": 10866,
+      "targetBeforeSha256": "dfac5fbee3a7f7e5f1f0cf9b0afa61ab9c3a1b02b65b97d919242e24a897808a",
+      "sourceBaseSha256": "dfac5fbee3a7f7e5f1f0cf9b0afa61ab9c3a1b02b65b97d919242e24a897808a"
+    },
+    {
+      "path": "tests/bridge/federation-harness.mjs",
+      "sha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+      "bytes": 19733,
+      "targetBeforeSha256": "d2fa39a0069336f07fc44d030833c1b51625bf05ae1cc3650f55a1f66df9e85a",
+      "sourceBaseSha256": "d2fa39a0069336f07fc44d030833c1b51625bf05ae1cc3650f55a1f66df9e85a"
+    },
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "sha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+      "bytes": 14196,
+      "targetBeforeSha256": null,
+      "sourceBaseSha256": null
+    }
+  ],
+  "nativeAcceptedBindings": [
+    {
+      "manifest": "/workspace/scratch/c56161c95e04/verification/native-media/android-source-manifest.json",
+      "sha256": "cc296f7fea9312d956629240c11c835ec42013e422675a097b4911c163004921",
+      "fileCount": 22,
+      "files": [
+        {
+          "path": "erp/apps/mobile-android/MEDIA_UK.md",
+          "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952",
+          "committedSha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+          "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47",
+          "committedSha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+          "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52",
+          "committedSha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+          "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407",
+          "committedSha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+          "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0",
+          "committedSha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+          "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46",
+          "committedSha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+          "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+          "committedSha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+          "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7",
+          "committedSha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+          "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a",
+          "committedSha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+          "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28",
+          "committedSha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+          "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3",
+          "committedSha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+          "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0",
+          "committedSha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+          "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c",
+          "committedSha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+          "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27",
+          "committedSha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+          "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33",
+          "committedSha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+          "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55",
+          "committedSha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+          "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed",
+          "committedSha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+          "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237",
+          "committedSha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+          "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+          "committedSha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+          "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b",
+          "committedSha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+          "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe",
+          "committedSha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe"
+        },
+        {
+          "path": "erp/tests/native-console-contract.test.ts",
+          "sha256": "de14a465d95322e89f68d6616fee0f169236459c8dffd1f16da7915abb88dee2",
+          "committedSha256": "de14a465d95322e89f68d6616fee0f169236459c8dffd1f16da7915abb88dee2"
+        }
+      ]
+    },
+    {
+      "manifest": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-manifest.json",
+      "sha256": "fd44edb1a669f1f533527b0e96f6b113b34eb141ae0af676fe71b117d0072656",
+      "fileCount": 15,
+      "files": [
+        {
+          "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+          "sha256": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384",
+          "committedSha256": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+          "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+          "committedSha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+          "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+          "committedSha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+          "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+          "committedSha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+          "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21",
+          "committedSha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+          "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+          "committedSha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+          "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+          "committedSha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+          "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8",
+          "committedSha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+          "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969",
+          "committedSha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+          "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+          "committedSha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+          "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c",
+          "committedSha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+          "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+          "committedSha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+          "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+          "committedSha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+          "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+          "committedSha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+          "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+          "committedSha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "identityContract": {
+      "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      "appendOnly": true,
+      "beforeBytes": 53395,
+      "afterBytes": 82572,
+      "appendedBytes": 29177,
+      "sha256": "89096a9c824d9fd9ac8a4885b86f9d6cd11346d8873faed0a9e7a7e6b8127beb"
+    },
+    "workflow": {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "reviewedDependencySha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "semanticWorkflowExecution": "NOT_RUN"
+    },
+    "nativeProtectedInputs": {
+      "count": 123,
+      "baselineCommit": "44f1539ced6b36da009341f199dc8d780c7af656",
+      "scope": "Every tracked Android/iOS file, both native workflows and shared native vectors; includes signing/package/version/GPS inputs. No private signing material read and no artifact identity revalidated.",
+      "sourceDigest": "0aa094174e258d60360a6f125d97d5b317314cc550a14707e6c30b23219c9489",
+      "files": [
+        {
+          "path": ".github/workflows/ios.yml",
+          "sha256": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a"
+        },
+        {
+          "path": ".github/workflows/native.yml",
+          "sha256": "6cfbfd0db47f4db8a94e26aa4a7ffebee0fa0a88e5ea833de227c6e4a631dc81"
+        },
+        {
+          "path": "erp/apps/mobile-android/.gitignore",
+          "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042"
+        },
+        {
+          "path": "erp/apps/mobile-android/MEDIA_UK.md",
+          "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952"
+        },
+        {
+          "path": "erp/apps/mobile-android/README.md",
+          "sha256": "c0284f5dde20e488412add15e5f5355586faa2a57a61c0d1459fc571d4e3a48f"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/build.gradle.kts",
+          "sha256": "81cce0701e972fc365b5342079322c09a3652085f1ca938d416e375013ba5b83"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+          "sha256": "da810639b116ac88db73c740e2d2798f72d4f386c85c60edc73ce4b7bdcf158c"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ApiClient.kt",
+          "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+          "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+          "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+          "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleModules.kt",
+          "sha256": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+          "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt",
+          "sha256": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+          "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+          "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+          "sha256": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+          "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+          "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+          "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+          "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+          "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpReadRetry.java",
+          "sha256": "050f3ea5bff0c21a9f3a21d27184a368df9123fc2a460b2fe59dcaed152e0635"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java",
+          "sha256": "d0c45b22eb3f527895997700ef238204ee2e4bc6d232e23e409cf3e44362c400"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GenerationFence.java",
+          "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+          "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+          "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+          "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+          "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeText.kt",
+          "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+          "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+          "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ShiftClock.java",
+          "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/TrackingService.kt",
+          "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/ic_knaba_brand.png",
+          "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba.xml",
+          "sha256": "cd623da01ca07e7df07ad9b6dcac6d1d1efb2a05893a9b2616a5d1d7f0cd1c60"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba.xml",
+          "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba_round.xml",
+          "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+          "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+          "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+          "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+          "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+          "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+          "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/xml/data_extraction_rules.xml",
+          "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+          "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+          "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+          "sha256": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be"
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+          "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e"
+        },
+        {
+          "path": "erp/apps/mobile-android/build.gradle.kts",
+          "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6"
+        },
+        {
+          "path": "erp/apps/mobile-android/gradle.properties",
+          "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31"
+        },
+        {
+          "path": "erp/apps/mobile-android/gradle/wrapper/gradle-wrapper.properties",
+          "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab"
+        },
+        {
+          "path": "erp/apps/mobile-android/gradlew",
+          "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650"
+        },
+        {
+          "path": "erp/apps/mobile-android/gradlew.bat",
+          "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/VerifyAppBundle.java",
+          "sha256": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/fixtures/DemoConsoleTransportVectors.java",
+          "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/package.sh",
+          "sha256": "9e36d3de356c73279d06ebe68aeddda7e32409c26e7b5b1ca5e1c7f9cc990a34"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-app-bundle.py",
+          "sha256": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+          "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-localization.sh",
+          "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+          "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-vectors.sh",
+          "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+          "sha256": "8a74f3065a07290bb6572ea5168ec56847dd457faafb3c343dd35f065f39fdcc"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpCredentialSafetyTest.java",
+          "sha256": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+          "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+          "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+          "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe"
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpServerDiscoveryTest.java",
+          "sha256": "4b5a4e2939d3c8c4642e3516a8d75a9ee2bd011e7097c0ed8f1231c7c64d37d4"
+        },
+        {
+          "path": "erp/apps/mobile-android/settings.gradle.kts",
+          "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Info.plist",
+          "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014"
+        },
+        {
+          "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+          "sha256": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384"
+        },
+        {
+          "path": "erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+          "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104"
+        },
+        {
+          "path": "erp/apps/mobile-ios/README.md",
+          "sha256": "fb62e8741a8e644e55f1818f61310e2a8a7c7e50f81c3b05e0ee394510c78404"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+          "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+          "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+          "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+          "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+          "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+          "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+          "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+          "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+          "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/AppModel.swift",
+          "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPActionLabels.swift",
+          "sha256": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+          "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+          "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+          "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+          "sha256": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+          "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+          "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+          "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+          "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+          "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+          "sha256": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+          "sha256": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+          "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift",
+          "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/Models.swift",
+          "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/NativeAPI.swift",
+          "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+          "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+          "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/SecureStore.swift",
+          "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+          "sha256": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+          "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+          "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+          "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+          "sha256": "f41ea53b4e6f2cce803aa3e44787791601b6dddd1a3b17c164ef2f9861a62652"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+          "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+          "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+          "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+          "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+          "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+          "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+          "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift",
+          "sha256": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+          "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c"
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/NativeTests.swift",
+          "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c"
+        },
+        {
+          "path": "erp/apps/mobile-ios/project.yml",
+          "sha256": "f3d033184787e0d68bfb1e46bec5337825a5dd7c4d5b3887e2d5514384187c2d"
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/archive-release.sh",
+          "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8"
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/build.sh",
+          "sha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb"
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/distribution.py",
+          "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8"
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+          "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3"
+        },
+        {
+          "path": "erp/tests/native-vectors.json",
+          "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a"
+        }
+      ]
+    },
+    "historicalSpecifications": {
+      "files": [
+        {
+          "path": "erp/KNABA_DE_MASTER_SPEC.md",
+          "role": "preserved original V3",
+          "sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+          "recordedExpectedSha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+          "headSha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+          "sourceBaseSha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683"
+        },
+        {
+          "path": "erp/docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md",
+          "role": "preserved V4 reference",
+          "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+          "recordedExpectedSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+          "headSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+          "sourceBaseSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833"
+        },
+        {
+          "path": "erp/docs/specification-v4-reference/KNABA_DE_Acceptance_V4.csv",
+          "role": "preserved V4 reference",
+          "sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+          "recordedExpectedSha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+          "headSha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+          "sourceBaseSha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d"
+        },
+        {
+          "path": "erp/docs/specification-v4-reference/DOCUMENT_VALIDATION.json",
+          "role": "preserved V4 reference",
+          "sha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+          "recordedExpectedSha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+          "headSha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+          "sourceBaseSha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570"
+        },
+        {
+          "path": "erp/docs/specification-v4-reference/SHA256SUMS.txt",
+          "role": "preserved V4 reference",
+          "sha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952",
+          "recordedExpectedSha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952",
+          "headSha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952",
+          "sourceBaseSha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952"
+        },
+        {
+          "path": "docs/specification/KNABA_DE_Acceptance_V4.csv",
+          "role": "original V4 delivered artifact",
+          "sha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+          "recordedExpectedSha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+          "headSha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d",
+          "sourceBaseSha256": "57a0503fdb285fc709b006d4434a220e575eb0d00f8977fac94dd4ba633ad87d"
+        },
+        {
+          "path": "docs/specification/KNABA_DE_Developer_Brief_V4_UK.pdf",
+          "role": "original V4 delivered artifact",
+          "sha256": "832809377478973df831a0d92c28e683bdefc3df1b2d3f33e4013200597f1f16",
+          "recordedExpectedSha256": "832809377478973df831a0d92c28e683bdefc3df1b2d3f33e4013200597f1f16",
+          "headSha256": "832809377478973df831a0d92c28e683bdefc3df1b2d3f33e4013200597f1f16",
+          "sourceBaseSha256": "832809377478973df831a0d92c28e683bdefc3df1b2d3f33e4013200597f1f16"
+        },
+        {
+          "path": "docs/specification/KNABA_DE_Developer_Package_V4_UK.zip",
+          "role": "original V4 delivered artifact",
+          "sha256": "22dce2e1e72f14a0cb7834c73c9b2f00f77136049c9378d09d55df65f701649b",
+          "recordedExpectedSha256": "22dce2e1e72f14a0cb7834c73c9b2f00f77136049c9378d09d55df65f701649b",
+          "headSha256": "22dce2e1e72f14a0cb7834c73c9b2f00f77136049c9378d09d55df65f701649b",
+          "sourceBaseSha256": "22dce2e1e72f14a0cb7834c73c9b2f00f77136049c9378d09d55df65f701649b"
+        },
+        {
+          "path": "docs/specification/DOCUMENT_VALIDATION.json",
+          "role": "original V4 delivered artifact",
+          "sha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+          "recordedExpectedSha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+          "headSha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570",
+          "sourceBaseSha256": "c1c42eef552384747312c3aad9b8ecfac91420f7de8a76756e44c4e83411c570"
+        },
+        {
+          "path": "docs/specification/SHA256SUMS.txt",
+          "role": "unchanged original V4 checksum ledger",
+          "sha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952",
+          "recordedExpectedSha256": null,
+          "headSha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952",
+          "sourceBaseSha256": "dac7dca7d977d8aa9d535ccb38edce1841849492bf942e26c71f5780c7c9f952"
+        },
+        {
+          "path": "erp/docs/specification-v4-reference/REFERENCE_PROVENANCE.json",
+          "role": "unchanged provenance",
+          "sha256": "6024d505db08784532306a2896265605045cdad2da7744de7249f91ec8bdb184",
+          "recordedExpectedSha256": null,
+          "headSha256": "6024d505db08784532306a2896265605045cdad2da7744de7249f91ec8bdb184",
+          "sourceBaseSha256": "6024d505db08784532306a2896265605045cdad2da7744de7249f91ec8bdb184"
+        },
+        {
+          "path": "erp/KNABA_DE_TARGET_SPEC.md",
+          "role": "authoritative V4 target preserved against both integration baselines",
+          "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+          "recordedExpectedSha256": null,
+          "headSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+          "sourceBaseSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833"
+        }
+      ],
+      "checksumPathMapping": "Historical package checksum KNABA_DE_MASTER_SPEC.md maps to erp/docs/specification-v4-reference/KNABA_DE_MASTER_SPEC_V4_REFERENCE.md; original V3 retains its separate provenance SHA.",
+      "allRecordedHashesMatch": true
+    },
+    "versions": {
+      "androidVersionCode": 8,
+      "androidVersionName": "0.5.0",
+      "iosMarketingVersion": "0.5.0",
+      "iosBuild": "8",
+      "validation": "unchanged bytes versus committed native37; no signing/identity mutation or new package build"
+    }
+  },
+  "otherDirtyPathsObservedOutsideBindingScope": [
+    "corporate-site/PROJECT_MEMORY.md",
+    "corporate-site/ROADMAP.md",
+    "docs/mobile/PROJECT_MEMORY.md",
+    "docs/mobile/ROADMAP.md",
+    "docs/unified/AC_EVIDENCE_MAP_2026-11-08_UK.md",
+    "docs/unified/BACKLOG.md",
+    "docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+    "docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md",
+    "docs/unified/MASTER_ROADMAP.md",
+    "docs/unified/PROJECT_MEMORY.md",
+    "erp/MASTER_ROADMAP.md",
+    "erp/PROJECT_MEMORY.md",
+    "erp/docs/planning/DEVELOPMENT_BACKLOG.json"
+  ],
+  "errors": [],
+  "acceptanceBoundary": "Exact source/preimage preservation only. Does not execute or accept runtime, PostgreSQL, browser, iOS compilation/XCTest, Android package/device, production, signing ownership or F3 native adapters.",
+  "sourceFilesEditedByReviewer": false,
+  "notRun": [
+    "F3 aggregate PostgreSQL/pair/browser",
+    "New native builds/physical devices",
+    "Native F3 implementation",
+    "Production or signing changes"
+  ]
+}

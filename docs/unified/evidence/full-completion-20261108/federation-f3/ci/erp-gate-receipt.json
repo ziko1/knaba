@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PASS_INFRASTRUCTURE_GUARD_ONLY",
+  "createdAt": "2026-11-08T15:35:42.917374+00:00",
+  "workflowSha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+  "tests": 19,
+  "actualPostgreSql": "NOT_RUN",
+  "paths": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/check-erp-gate.mjs",
+      "sha256": "384850645bec7cbe388992f2b1f94ecf0b8e6c042b17b4dc8d7657b2590668d5"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-under-test.mjs",
+      "sha256": "e3bdda450c87eb604941ddb9ef677cbad1eaf64dbfc730fc9cedd0505c84515d"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate.log",
+      "sha256": "4398a7f88fd4fbcb50acac200093fa08cf252c4920d6bf32eb6a76677e6ae429"
+    }
+  ]
+}

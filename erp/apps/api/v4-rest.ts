@@ -119,7 +119,7 @@ export async function executeV4Rest(host:V4CommandHost,actor:Actor,request:{meth
 
 export function v4HttpStatus(code:string):number{
  if(code==='NEEDS_REAUTH')return 401;
- if(code==='ACCESS_DENIED')return 403;
+ if(code==='ACCESS_DENIED'||code==='LOCAL_ERP_REAUTH_REQUIRED')return 403;
  if(code==='NOT_FOUND_SAFE')return 404;
  if(['INVALID_STATE','VERSION_CONFLICT','IDEMPOTENCY_CONFLICT','FEDERATION_CONFLICT','FEDERATION_GENERATION','FEDERATION_RECONCILING'].includes(code))return 409;
  if(['MISSING_CONFIGURATION','NEEDS_APPROVAL'].includes(code))return 422;

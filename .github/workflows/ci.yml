@@ -140,10 +140,15 @@ jobs:
           if(report.success!==true || report.numTotalTests<1 || report.numPassedTests!==report.numTotalTests || report.numFailedTests!==0 || report.numPendingTests!==0 || report.numTodoTests!==0) {
             throw new Error('ALL_DISCOVERED_ERP_TESTS_MUST_PASS_WITHOUT_SKIPS');
           }
-          for(const file of ['site-federation-ledger.integration.test.ts','site-identity-link.integration.test.ts']) {
+          const requiredFederationPostgres={
+            'site-federation-ledger.integration.test.ts':12,
+            'site-identity-link.integration.test.ts':12,
+            'site-federation-login.integration.test.ts':18,
+          };
+          for(const [file,count] of Object.entries(requiredFederationPostgres)) {
             const suites=report.testResults?.filter(suite=>suite.name.endsWith('/tests/'+file));
-            if(suites?.length!==1 || suites[0].assertionResults?.length!==12 || suites[0].assertionResults.some(test=>test.status!=='passed')) {
-              throw new Error('REQUIRED_F2_POSTGRESQL_INVENTORY_MISSING: '+file);
+            if(suites?.length!==1 || suites[0].assertionResults?.length!==count || suites[0].assertionResults.some(test=>test.status!=='passed')) {
+              throw new Error('REQUIRED_FEDERATION_POSTGRESQL_INVENTORY_MISSING: '+file);
             }
           }
           console.log('Passed ERP assertions:',report.numPassedTests);
@@ -224,6 +229,20 @@ jobs:
           const passed=[...tap.matchAll(/^ok \d+ - (F2 [^\n]+)$/gm)].map(match=>match[1]);
           if(passed.length!==required.length || required.some(name=>passed.filter(value=>value===name).length!==1)) {
             throw new Error('ALL_SEVEN_F2_RUNTIME_PAIR_CASES_REQUIRED');
+          }
+          const requiredLogin=[
+            'F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage',
+            'F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption',
+            'F3 actual lost approval ACK recovers one durable intent before any ERP session is issued',
+            'F3 actual source logout rejects an already computed issue proof before the ERP session commit',
+            'F3 actual source outage fails closed while local logout completes without source RPC',
+            'F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session',
+            'F3 actual source restart fences old derived sessions while a local ERP password session remains valid',
+            'F3 actual two-company native code cannot be redeemed by the other configured authority',
+          ];
+          const passedLogin=[...tap.matchAll(/^ok \d+ - (F3 [^\n]+)$/gm)].map(match=>match[1]);
+          if(passedLogin.length!==requiredLogin.length || requiredLogin.some(name=>passedLogin.filter(value=>value===name).length!==1)) {
+            throw new Error('ALL_EIGHT_F3_RUNTIME_PAIR_CASES_REQUIRED');
           }
           console.log('Passed bridge cases:',counts.pass,'source:',process.env.SOURCE_SHA);
           JS

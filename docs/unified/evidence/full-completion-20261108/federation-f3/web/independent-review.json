@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "createdAt": "2026-11-08T16:08:06.907589+00:00",
+  "status": "ACCEPT_SOURCE_SCOPED",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "baseCommit": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "sourceManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/source-manifest-review.json",
+    "sha256": "e590b4eef00cce479b28c09a982900390a4329ac6777231bc1a1abecb55a5a9e"
+  },
+  "sourceDigest": "1cb96ec7d3a8cc2220421b2e778e791022242971d6c621d5cc1b6bba84bc6cc0",
+  "sourceDigestAlgorithmVerified": "SHA256 of sorted sha256 + two spaces + path + newline",
+  "hashVerification": {
+    "ownedFiles": 16,
+    "allMatchedBeforeFinalChecks": true,
+    "allMatchedAfterFinalChecks": true,
+    "workflowMatched": true,
+    "allAuthorEvidenceHashesMatched": true
+  },
+  "workflowDependency": {
+    "path": ".github/workflows/ci.yml",
+    "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+    "guardReceipt": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-receipt.json"
+  },
+  "readonlyDependencies": [
+    {
+      "path": "erp/apps/web/src/api.ts",
+      "sha256": "8e962547d7b21d61b700c69d0225b7921abe9f89d797cc511da4315c9f6d33c6"
+    },
+    {
+      "path": "erp/apps/web/src/api.test.ts",
+      "sha256": "c45c5afd879710a09130023cda1899bba7650fcdbaafab329f53b487ba67816e"
+    },
+    {
+      "path": "corporate-site/tests/ci-artifacts.test.mjs",
+      "sha256": "c4526b86d37b480ef64a190ffe13adcffa7fe79ff802722c0a987cc72a54fc96"
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+    },
+    {
+      "path": "corporate-site/vps/federation-login-ui.mjs",
+      "sha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f"
+    }
+  ],
+  "priorCheckpoints": [
+    {
+      "manifestSha256": "424743ea5ee07e0eb8473accdb30824c65a6a75cbfbc9a9335c9f82b44494dcb",
+      "all16MatchedBeforeInitialReview": true,
+      "preservedAt": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/review-v1"
+    },
+    {
+      "manifestSha256": "cb2104cbe9f5e23651e0c030e6c785757ed7777223655bef6fbe2eb784ce155b",
+      "all16MatchedBeforeSessionBindingFix": true,
+      "preservedAt": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/review-v2"
+    }
+  ],
+  "findings": [
+    {
+      "id": "WEB-RECOVERY-01",
+      "status": "RESOLVED_SOURCE",
+      "finding": "Unknown WEB confirm body after response cookies changed had no concrete new-flow/current-account path; expired text also lacked restart navigation.",
+      "resolution": "Six-locale restart link /login and separate WEB-unknown current-account link /console. Unknown flow does not claim completion; status failure retains recovery. No server parent-pin or raw-flow-cookie relaxation."
+    },
+    {
+      "id": "WEB-SESSION-01",
+      "status": "RESOLVED_WITH_INDEPENDENT_RED_GREEN",
+      "finding": "Successful confirm accepted fresh /me for another same-user/company session because only actor IDs were compared.",
+      "resolution": "Fresh /me must match token-derived csrfToken from confirm as well as actor user/company. Missing/different proof yields intentional FEDERATION_CONFLICT/409 and unknown-result recovery; no onComplete.",
+      "red": {
+        "sourceSha256": "04827c8f90fc5ccbace74ebe5ea075831b304bd8667849fe4c77028405108063",
+        "probe": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.mjs",
+          "sha256": "a43ddf393f266a3f71b275e75a3e357e6fcd560271868d947d7736080e6e58e9"
+        },
+        "log": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-source-probe.log",
+          "sha256": "6cfb0249c3a374a16275648289cd94c3307d5889e6b2fe167ac0f23d61e7a306"
+        },
+        "exitCode": 1,
+        "failure": "Expected no completion for old same-user session; actual onComplete."
+      },
+      "green": {
+        "sourceSha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070",
+        "probe": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.test.mjs",
+          "sha256": "c8c0b709520e5dffd24ce76d7835e9381c628ff868850890495de4def767dbce"
+        },
+        "log": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-green.log",
+          "sha256": "5a731038ea67b3d59d8213808efe53fd778930d9f840559ea8fc638b69cab248"
+        },
+        "cases": 3,
+        "passed": 3,
+        "failed": 0,
+        "scope": "Actual source-extracted production handler + actual response parser, network doubles. Explicit expected recovery state/error assertions exclude missing-stub false PASS; positive exact-proof case also completes."
+      }
+    },
+    {
+      "id": "F3-FIXTURE-METHODS-01",
+      "status": "RESOLVED_SOURCE",
+      "finding": "Read-only route fixtures used !POST and therefore also accepted PUT/PATCH/DELETE.",
+      "resolution": "Exact GET checks for reads, exact POST checks for mutations, unexpected traffic aborts and is asserted."
+    },
+    {
+      "id": "F3-FIXTURE-WORKERS-01",
+      "status": "RESOLVED_SOURCE",
+      "finding": "App registers a service worker; worker-owned static traffic could bypass page.route and its unexpected-request inventory. No actual escaped traffic was observed.",
+      "resolution": "File-local test.use({serviceWorkers:\"block\"}) for routed F3 fixtures; service-worker behavior explicitly outside these cases."
+    },
+    {
+      "id": "CI-GUARD-STARTUP-01",
+      "status": "RESOLVED_WITH_INDEPENDENT_CORRECTIVE_RUN",
+      "finding": "Existing 800ms deadline test required stdout PID before startup and failed independently on a busy runner.",
+      "firstRun": {
+        "log": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-browser-guards.log",
+          "sha256": "4f5196b9e11ec9508980c372560065eaa993f6c67a18fd564ef10cf3e9b2a562"
+        },
+        "passed": 17,
+        "failed": 1,
+        "scope": "Infrastructure unit tests only"
+      },
+      "resolution": "Separate 50ms runProcess deadline without stdout assumption from bounded READY<=5s ownProcess cleanup. The ready TERM-ignoring child requires SIGKILL, awaited close and ESRCH. Product wrapper deadlines unchanged.",
+      "correctiveRun": {
+        "log": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-browser-guards-corrected.log",
+          "sha256": "9235157e45df9d8d527dff9d52bda558bac54f1c08d35776892baaa901851ee7"
+        },
+        "passed": 18,
+        "failed": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "blockingFindings": [],
+  "reviewedBoundaries": [
+    "Default-off bounded discovery; exact issuer, authority, request, registered client and native callback/state validation; no external flow fetch or automatic confirm/retry.",
+    "Distinct flow CSRF and ERP CSRF; same-origin/no-store/redirect-error bounded flow transport; strict account confirmation and fresh ERP session binding.",
+    "Operation abort/generation on unmount, offline or hidden document; late private status cannot restore active confirmation; in-memory OTP/code only.",
+    "Native code issued only through explicit top-level exact callback; unknown ACK reads status without reproducing a code. Actual app ownership/callback execution not tested here.",
+    "Six-locale recovery and account-review labels; accessible controls and authored mobile-width browser coverage. Rendered accessibility is NOT_RUN.",
+    "Paired fixtures use actual packaged VPS SQLite and built ERP HTTP/PostgreSQL through a raw signed transport relay; fault injection delays/drops actual responses. No synthetic authority response substitutes for the pair. Execution remains NOT_RUN.",
+    "Reviewed paired corrections: exact 409 concurrency/foreign-code boundaries, retained revoked parent/child rows, raw secret suffix checks, explicit intentional outage diagnostic and no source RPC during local logout.",
+    "CI requires clean exact SOURCE_SHA, source protocol and all four artifact-group digests before/after; rejects symlinks, skips/failures/flaky/retries. Existing installed-browser-only, sandbox and one-policy-block-stop behavior preserved.",
+    "CI exact inventories retain 12+12 F2 PG and add 18 F3 PG; required runtime pair names retain 7 F2 and add 8 F3; rendered HTTP-fixture inventory is 4+5+10=19. Infrastructure predicates are not those acceptance runs."
+  ],
+  "independentCommands": [
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/web/src/federationLoginModel.test.ts apps/web/src/api.test.ts",
+      "cwd": "/workspace/scratch/c56161c95e04/knaba-federation-login/erp",
+      "exitCode": 0,
+      "passed": 24,
+      "failed": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-model.log",
+        "sha256": "25e6bd9ed624512882b3b83ca7066aff7787cefcbc5a131737dfab6e5545fce4"
+      },
+      "scope": "Model/API CPU tests; source inputs unchanged through final manifest."
+    },
+    {
+      "command": "node --import ./erp/node_modules/tsx/dist/loader.mjs /workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.test.mjs",
+      "cwd": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+      "exitCode": 0,
+      "passed": 3,
+      "failed": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-green.log",
+        "sha256": "5a731038ea67b3d59d8213808efe53fd778930d9f840559ea8fc638b69cab248"
+      },
+      "scope": "Source-extracted behavior, not mounted React/browser."
+    },
+    {
+      "command": "node --test corporate-site/tests/ci-artifacts.test.mjs corporate-site/tests/ci-browser.test.mjs",
+      "cwd": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+      "exitCode": 0,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-browser-guards-corrected.log",
+        "sha256": "9235157e45df9d8d527dff9d52bda558bac54f1c08d35776892baaa901851ee7"
+      },
+      "scope": "Corrective infrastructure run; prior 17/18 failure retained."
+    },
+    {
+      "command": "node /workspace/scratch/c56161c95e04/verification/federation-f3/ci/check-erp-gate.mjs /workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-under-test.mjs",
+      "note": "Extracted block independently matched the current workflow byte-for-byte after indentation normalization.",
+      "exitCode": 0,
+      "syntheticChecks": 19,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-workflow-guard.log",
+        "sha256": "4398a7f88fd4fbcb50acac200093fa08cf252c4920d6bf32eb6a76677e6ae429"
+      },
+      "scope": "Explicit synthetic report validation only; no PostgreSQL execution.",
+      "cwd": "/workspace/scratch/c56161c95e04/knaba-federation-login"
+    },
+    {
+      "command": "node --check tests/bridge/federation-login.test.mjs",
+      "cwd": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-pair-syntax.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "scope": "Syntax only; no pair tests executed."
+    }
+  ],
+  "initialEnvironmentAttempt": {
+    "log": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-cli-environment.log",
+      "sha256": "ee3529c16cc6e7e2d7a57e92ded21a73463d0eaf342b26141ae6cf22893d6fc6"
+    },
+    "scope": "tsx CLI failed on its optional IPC socket before executing the probe. Direct installed loader executed the same source probe without that CLI IPC; no downloads or browser policy bypass."
+  },
+  "authorEvidenceScope": {
+    "fullTypecheck": "Final full ERP tsc exit0 per hash-verified author receipt/log; not independently repeated.",
+    "collection": {
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-final.log",
+        "sha256": "5b368b1a9f746f946106654e08fea9985907c96e10fb88dcd8a30a0d3464d105"
+      },
+      "cases": 19,
+      "files": 3,
+      "inventory": {
+        "conversation-transfer-ui.spec.ts": 4,
+        "federation-login-ui.spec.ts": 10,
+        "site-identity-link-ui.spec.ts": 5
+      },
+      "status": "COLLECTED_NOT_EXECUTED"
+    },
+    "priorAllBrowserCollection": "48 tests across five files is a separate all-config collection, not the 19 required fixture subset.",
+    "build": "Earlier WIP Vite build is preserved as historical evidence; it is not clean final candidate artifact acceptance."
+  },
+  "primaryDocumentation": [
+    {
+      "url": "https://playwright.dev/docs/api/class-page#page-route",
+      "relevance": "page.route does not capture requests intercepted by service workers; routed fixture uses serviceWorkers block."
+    },
+    {
+      "url": "https://playwright.dev/docs/service-workers",
+      "relevance": "Blocking workers is a fixture scope choice and does not prove production service-worker behavior."
+    }
+  ],
+  "notRun": [
+    "Actual ten new F3 rendered browser cases and full required19 rendered subset",
+    "Actual eight new full runtime pair cases",
+    "Actual eighteen new F3 PostgreSQL cases",
+    "Native application/system browser callbacks and link ownership",
+    "Service-worker behavior for this F3 fixture",
+    "Clean committed aggregate CI and final built-artifact binding",
+    "Live/provider/deployment acceptance"
+  ],
+  "acceptanceLimits": [
+    "Only the reviewed F3 web/fixture/CI source contract is accepted. ERP runtime26 and VPS13 have separate reviews.",
+    "This receipt does not close F3 aggregate, F4, privacy retention/erasure, native readiness or whole acceptance criteria.",
+    "Independent and author counts overlap and must not be summed as distinct coverage."
+  ],
+  "productSourceEditedByReviewer": false,
+  "commitPushDeployOrBrowserLaunch": false
+}

@@ -1,0 +1,1202 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "recordedAt": "2026-11-08T14:04:16.124882+00:00",
+  "verdict": "ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT",
+  "scope": "F2 dual-current-session password-based account linking/unlinking and source security-mutation fences; exact committed candidate and required actual aggregate gates. This is not complete SSO or whole-product acceptance.",
+  "source": {
+    "sha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "tree": "7dd5cf0868b6774e80712324cf692c1f18a24342",
+    "sourceManifest": {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-source-review.json",
+      "sha256": "c1853b9c1d89758d97091de8a89977759342130425ba9d9ba9fbf65483543eae",
+      "bytes": 183077
+    },
+    "verifiedUniqueSourceFiles": 93,
+    "sourceFiles": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "sha256": "f7f4b1f6e910785a945fd1c9c41490128cf5560fd5e173111ee7af5c06ab453b"
+      },
+      {
+        "path": "corporate-site/db/schema.ts",
+        "sha256": "b992b7c0cf40167ab5540770440841eda21f59501d27265fa58436f9e3a2a4e1"
+      },
+      {
+        "path": "corporate-site/drizzle/0017_assistant_requests.sql",
+        "sha256": "f53ffbe734356646abb4a372256a3120a06976ee72a87e158ff8caa701d95e8c"
+      },
+      {
+        "path": "corporate-site/drizzle/0018_federation_runtime_barrier.sql",
+        "sha256": "161a7d6d275a17d37d59ba6589ff0326d900d60a9befa128b0cb3a150cea3bd6"
+      },
+      {
+        "path": "corporate-site/drizzle/meta/0017_snapshot.json",
+        "sha256": "c2060c0b5b6bb25d3dca2546ce27c49f35bc1f4638d65238a9b42a660d1af39b"
+      },
+      {
+        "path": "corporate-site/drizzle/meta/0018_snapshot.json",
+        "sha256": "1edaa72dffdadcfc057b379d013bd12f9a38262a43ea5ed448bb85a38834f8db"
+      },
+      {
+        "path": "corporate-site/drizzle/meta/_journal.json",
+        "sha256": "60cb17c2a34ce2d31d426115ab8f8b81a7bedd04680e584cba93b3547a66fd3e"
+      },
+      {
+        "path": "corporate-site/package.json",
+        "sha256": "5a32a62f9080d7fe08ee15c4aaf52efe69307623eb6da55a53e24b82e19bc4cc"
+      },
+      {
+        "path": "corporate-site/tests/ci-artifacts.mjs",
+        "sha256": "f9f201c1eddd0b5c775ebec09eabe4f5a670f27bbc891d04e0fd40435320acfd"
+      },
+      {
+        "path": "corporate-site/tests/ci-artifacts.test.mjs",
+        "sha256": "c4526b86d37b480ef64a190ffe13adcffa7fe79ff802722c0a987cc72a54fc96"
+      },
+      {
+        "path": "corporate-site/tests/ci-browser.mjs",
+        "sha256": "93f34570786f8e69c7b58ebc76d58469ad507ed374cafd4f0fb7b130f59d797b"
+      },
+      {
+        "path": "corporate-site/tests/ci-browser.test.mjs",
+        "sha256": "00ed84fd01b82de2db901a9f387abccc27c8dc9728e219c84320ba9daafe7864"
+      },
+      {
+        "path": "corporate-site/vps/FEDERATION.md",
+        "sha256": "2c1baf9e5e97f7dad682e62bc3f95c72608f6c9267560b69351bfc423cb230b5"
+      },
+      {
+        "path": "corporate-site/vps/account-settings-ui.mjs",
+        "sha256": "e4e61d52180ff9805c85632a13186b1b57d4cca32a67d667b0153807e0207e45"
+      },
+      {
+        "path": "corporate-site/vps/account-settings.mjs",
+        "sha256": "981cc5ca2ff1f2198f4b5b13bc0666f8a25fb21071b36e27c363f4f1da9993c7"
+      },
+      {
+        "path": "corporate-site/vps/assistant-access.http.test.mjs",
+        "sha256": "b1d656cf5bcf7cbd0d9fa90f5897dd56d8950a40cd5c2dae8d7b71ad352b5e7d"
+      },
+      {
+        "path": "corporate-site/vps/assistant-display-migration.test.mjs",
+        "sha256": "64c65df6be7b168e377c080d46f82d414e686b595d385ab6c58ddb81bbd8fdaa"
+      },
+      {
+        "path": "corporate-site/vps/auth.mjs",
+        "sha256": "af6bcf816948ffb062ebb40248dc8f726719735d84e45d7eaeb0a349249cfd74"
+      },
+      {
+        "path": "corporate-site/vps/database.mjs",
+        "sha256": "0125d2fa9bd741ef2f6e827a0f770f6ea893ed2941e53aac0164bb5cd609b45d"
+      },
+      {
+        "path": "corporate-site/vps/federation-config.mjs",
+        "sha256": "12c1574870d5888f06d0364dd79b945f678fb3c68b76334118923b11b0d3a3d7"
+      },
+      {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "sha256": "97fea874ab437d8a1f1b9df238dc5685ecaf40791831b6355cc25e92813f6244"
+      },
+      {
+        "path": "corporate-site/vps/federation-guards.test.mjs",
+        "sha256": "17d2ac1b8e0613e0c2d4c2883fe0cd37770f5bd1eece467e7d019d7a87a4700f"
+      },
+      {
+        "path": "corporate-site/vps/federation-loader.mjs",
+        "sha256": "7d7836e6926a8e3e34657bc229b07bcc033bf2b324e3276dfbbf7c11d21df8ae"
+      },
+      {
+        "path": "corporate-site/vps/federation-profile.mjs",
+        "sha256": "3683b7279501307cbc1a69957709b92757a970c6471c473da9171127cdeb4996"
+      },
+      {
+        "path": "corporate-site/vps/federation-rollback.test.mjs",
+        "sha256": "4e6cced712fa4d910f149d80769387695232c175e9fe0ac10af684a0873609cf"
+      },
+      {
+        "path": "corporate-site/vps/federation-schema.mjs",
+        "sha256": "5f8a1a5eba0b49dcc356e08941cf3a4b00b5a7516f4ad61e0cf6e80c299329c1"
+      },
+      {
+        "path": "corporate-site/vps/federation-snapshot.mjs",
+        "sha256": "b1061cbcced932925bc6286b01fdd23bddb9edd35cc8213a30d5b23b34a536f1"
+      },
+      {
+        "path": "corporate-site/vps/federation-source.mjs",
+        "sha256": "dd3d0d59d4122ee8be954b2b98e9bd8b7e057afc3e9f52872022f4417162dcb6"
+      },
+      {
+        "path": "corporate-site/vps/federation-source.test.mjs",
+        "sha256": "b14c1687d6584024494a03196ea02f85cc428d7faf9f44602fd94d564475eb76"
+      },
+      {
+        "path": "corporate-site/vps/federation-state.mjs",
+        "sha256": "fba9ce3446f731e7bc5edff6c9ba52f4635168957b1211cdadc62e61fd34df4a"
+      },
+      {
+        "path": "corporate-site/vps/federation-test-authority.mjs",
+        "sha256": "a80f0aa0c634ba17cdc4d627929446b014845d1b51207fe822c8c84ee23ba335"
+      },
+      {
+        "path": "corporate-site/vps/federation-ui.mjs",
+        "sha256": "6f591c5b17c014c21a34828b0d430e9f08559e62f309d049b33f1f002051c005"
+      },
+      {
+        "path": "corporate-site/vps/federation.http.test.mjs",
+        "sha256": "d571ae55769c4652fa8263e7beb29ab1bbd6f39da7d2c4e7b69598041b0df621"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0000_needy_war_machine.sql",
+        "sha256": "443dfc2d55807c5ec5649758ca926ceca0de9be81292c9da09988b586debc230"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0001_lazy_angel.sql",
+        "sha256": "fbb8d471e6061933e5c4af39f4e0eda4c5718a1677010d4613e6279f3052c881"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0002_tense_mother_askani.sql",
+        "sha256": "22741475744dcc916c216cb343bedb0c616d1517ab16dc5a9b90648eb27ad3b0"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0003_absurd_bedlam.sql",
+        "sha256": "8f21e073faa31f0cd86f0d1616828c9cd89e16b25f0a30295d7476af67e306fe"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0004_dusty_hiroim.sql",
+        "sha256": "c24b6689439fa8347f866da23264b2acb25d71c29600d80f89984698a0d457f6"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0005_public_reviews.sql",
+        "sha256": "f97b805b4a628ece1ddf8bf35c8987f48942e81b43d39b555cc55dbb0c30994b"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0006_owner_invite.sql",
+        "sha256": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0007_account_invites.sql",
+        "sha256": "1bd5496f410e46c7a31c39ee98d1d9762320adebbe699af1de42651cb2173fb2"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0008_access_requests.sql",
+        "sha256": "263f28745f30c2cbb0e02e3384d694aa36fe8c937eab08807184eecb2c339b95"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0009_partner_access.sql",
+        "sha256": "824eb00ec092b7229513e615107eb457d08ba09f01ad5ca3296b7e6aaf567aab"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0010_owner_details.sql",
+        "sha256": "7055eac88d992b92218f6b64e83fddd75d48f42551bb78e84c68d112a03f2b1a"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0011_bauleiter_access.sql",
+        "sha256": "48be4656f908f2819b08e850ff7e5ab5fe8f21ca67780d212a294d92ec1c62ed"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0012_portal_messages.sql",
+        "sha256": "3f12e7761759e8b30d0e8886bd6b8d414dead264e83b1faaf5d357fea3a353e4"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0013_site_templates.sql",
+        "sha256": "cb9936d478feae1f88131f792723f4dc18eb75923614dcf0e9bc1c856d48783e"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0014_site_erp_outbox.sql",
+        "sha256": "73d56389eceb7a63f4cf7d6eea4f56e80cb0d5bb180abce9db12c69ec5f36d49"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0015_assistant_access.sql",
+        "sha256": "8acaa07b692d0830e5e635816be8a834dcfa9251b98f51753be08ae3b4eb78fb"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0016_assistant_display_receipts.sql",
+        "sha256": "84f3d294c0cc52772965ff11e7d4c34d7b04a5d950f90ebbe21c7a2d43e16f57"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/0017_assistant_requests.sql",
+        "sha256": "f53ffbe734356646abb4a372256a3120a06976ee72a87e158ff8caa701d95e8c"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/drizzle/meta/_journal.json",
+        "sha256": "5c625b0089ffaa49da582c5ef253d716e06bbc9b061ecd71c717140479b2d3a3"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/manifest.json",
+        "sha256": "8c737bbba329ee115bb335b79124ee2c209249628d61478490488f0718f55106"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/vps/auth.mjs",
+        "sha256": "07165f2b1e27d349aa8051e057856916a6c0756d419e6edf212a3eb05632f7e8"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/vps/database.mjs",
+        "sha256": "ffca3d9ee54959e96f13d7da194fa9070903470e3ec4f9cd8f99d5f4143c47c9"
+      },
+      {
+        "path": "corporate-site/vps/fixtures/federation-legacy-dc54/vps/migration-guard.mjs",
+        "sha256": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e"
+      },
+      {
+        "path": "corporate-site/vps/migration-upgrade.test.mjs",
+        "sha256": "b02af245f198f1f23a942a68b2a4768c10437f50de76547bd724f5efbc9ec53f"
+      },
+      {
+        "path": "corporate-site/vps/oidc.mjs",
+        "sha256": "dc865c015660abd900c461cebc694dcf9d5c4d2abf058f8ca5ddfa05469fe774"
+      },
+      {
+        "path": "corporate-site/vps/portal-session-revocation.http.test.mjs",
+        "sha256": "d5e9a9afbf6e81a26e9e12cf9fef95cd2183b2ceae64bf5311236f4219349b01"
+      },
+      {
+        "path": "corporate-site/vps/role-destination.mjs",
+        "sha256": "c2a0547b5aee1f249d632031de540393646caa5f6fb1bd06d237d9f39d831742"
+      },
+      {
+        "path": "corporate-site/vps/server.mjs",
+        "sha256": "5e46202409b75433bbf4bbd9297e46aeffa8e215908462dce0966d9bdabb5f3c"
+      },
+      {
+        "path": "corporate-site/vps/studio-publication-auth.http.test.mjs",
+        "sha256": "a8c656500f97799d7e5b3fc319459f3d56a3f302d843f20936a3687414e73d05"
+      },
+      {
+        "path": "corporate-site/worker/api.ts",
+        "sha256": "69b437d6dbfe7f96c4791ae5d897c000a9899818126c381595df5f3efb226d8f"
+      },
+      {
+        "path": "corporate-site/worker/types.ts",
+        "sha256": "8b77d4a03c24de946325b55f150f42041fe8c50020daade2c141f28f6c3d0c56"
+      },
+      {
+        "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+        "sha256": "d7bd485a5b058cee4a2662bcc94ea11ab8809fbc846a0f3506ab97d9e08ada38"
+      },
+      {
+        "path": "erp/apps/api/http.ts",
+        "sha256": "28689500db4177a24172db5783960fef9710624817d7411f0d5a6fe0735dd596"
+      },
+      {
+        "path": "erp/apps/api/main.ts",
+        "sha256": "2604cc7a10bec147782236a4f2a5318c18282530a53e84e109f20bac3e87a01a"
+      },
+      {
+        "path": "erp/apps/api/site-federation-config.ts",
+        "sha256": "bc7d06225e4e1bc6ce60d222b8f2af51662194d433a65cba0633964138f13981"
+      },
+      {
+        "path": "erp/apps/api/site-federation-ingress.ts",
+        "sha256": "2fd8ce6d7d537b96a63c21eea24782b9451292b5819b398a9ff33c6610b76973"
+      },
+      {
+        "path": "erp/apps/api/site-federation-ledger.ts",
+        "sha256": "991029d022fe86f926d383f8043e9eccb03cd4aea5d00baa7755126a3f2a2bb5"
+      },
+      {
+        "path": "erp/apps/api/site-identity-link.ts",
+        "sha256": "76f315f6b8adf283bec269e4c130af68ab771eae0783759843c2ac09abd36545"
+      },
+      {
+        "path": "erp/apps/api/site-link-reauth.ts",
+        "sha256": "ca773c586a54f9201e071ea20abdcef80b21929b2fc4e5dfdfc8919bd7f92250"
+      },
+      {
+        "path": "erp/apps/api/v4-rest.ts",
+        "sha256": "c2c66eca671bb4a40ac5855fd2cdc92ab5839e4ba43fe98c5f4704bf6b7ce963"
+      },
+      {
+        "path": "erp/apps/web/src/App.tsx",
+        "sha256": "20017b49933e050cc785c43aa84ae1c8400048caa11439e441a03922e92784b6"
+      },
+      {
+        "path": "erp/apps/web/src/SiteIdentityLink.tsx",
+        "sha256": "355ddbd1c9d06aa14a0327706bd6dc22bb6092fe476c351359d06a1b1ec1a1f3"
+      },
+      {
+        "path": "erp/infra/001_init.sql",
+        "sha256": "014d90b37c8308f7858db4655bb6379ea4d19c2e8adbe027e48004f23bc4866e"
+      },
+      {
+        "path": "erp/packages/domain/site-federation-ledger.ts",
+        "sha256": "7ee32e1a4dbf683086263eeb9d9c12fa87868a3e77b153e83ae25b52926ea3ba"
+      },
+      {
+        "path": "erp/packages/integrations/site-federation-protocol.d.mts",
+        "sha256": "cc69e15d3f70670b5a2be65d0c5c0c529142a86db6eb02338c536d9d579fdc7b"
+      },
+      {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "sha256": "d666bc62039f60aadd6b4a6feb97385cdb195315ec38b43c6aad8e6d389dc56c"
+      },
+      {
+        "path": "erp/playwright.config.ts",
+        "sha256": "45dd4544a7828e16054549ebf0887dd52e2302f8bea243d4da7b31b33a7d49dc"
+      },
+      {
+        "path": "erp/tests/fixtures/site-federation.ts",
+        "sha256": "02b0d68c2e858436d6e4446e867579f7bf196637e515a29a94e789b9be3405b2"
+      },
+      {
+        "path": "erp/tests/site-federation-http.test.ts",
+        "sha256": "77cb360f56ee043e0673d26a11c1671b0a6d3e57ed3a7fa632a9377940a50cde"
+      },
+      {
+        "path": "erp/tests/site-federation-ledger.integration.test.ts",
+        "sha256": "b9c3e4f45d79273042aa8310cb91aed77cf6086ce8c07a79ad1cd369b7913d95"
+      },
+      {
+        "path": "erp/tests/site-federation-ledger.test.ts",
+        "sha256": "6ca27afbbecbecd944a5d583bdebccf5df55e409066126a0f6126dc6e8567a3c"
+      },
+      {
+        "path": "erp/tests/site-federation-protocol.test.ts",
+        "sha256": "425acf980f0f20e38b7fbf6ccc9f7f0a3968450f661a024a428d38cbcbc7ce9a"
+      },
+      {
+        "path": "erp/tests/site-identity-link-ui-contract.test.ts",
+        "sha256": "3fa1d496b5620ea7733702e90946170517f39b937046d20eff564b6b921396b9"
+      },
+      {
+        "path": "erp/tests/site-identity-link-ui.spec.ts",
+        "sha256": "dfac5fbee3a7f7e5f1f0cf9b0afa61ab9c3a1b02b65b97d919242e24a897808a"
+      },
+      {
+        "path": "erp/tests/site-identity-link.integration.test.ts",
+        "sha256": "8dadaa387aa08a6143879b7bfa04862c58ccc88602ec6bbb426412765b26f999"
+      },
+      {
+        "path": "erp/tests/site-link-reauth.test.ts",
+        "sha256": "f3ff83a058dc63417fec09f45f47d161de5db294c3169bd5053cdf5ddc4cd4cd"
+      },
+      {
+        "path": "tests/bridge/README.md",
+        "sha256": "4793573ee6ae72a73e24adadea7f4e5236baafc3d287902ab06dceec03a7f5d9"
+      },
+      {
+        "path": "tests/bridge/federation-fetch-preload.mjs",
+        "sha256": "af31fe64afb2eddbc0f3d5f4f366ca173bddfaf10e8df78badd2ce1fb8fb2dbf"
+      },
+      {
+        "path": "tests/bridge/federation-harness.mjs",
+        "sha256": "d2fa39a0069336f07fc44d030833c1b51625bf05ae1cc3650f55a1f66df9e85a"
+      },
+      {
+        "path": "tests/bridge/federation.test.mjs",
+        "sha256": "8474f91042ffb31b3dcec858b374aa2e5c0e7262f9bc821eea0ade4cc0609119"
+      }
+    ],
+    "workingSourceMatchesCommit": true
+  },
+  "run": {
+    "id": 42485949823,
+    "name": "KNABA repository verification",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485949823"
+  },
+  "requiredJobs": {
+    "state": "VERIFIED_FOUR_REQUIRED_SUCCESS",
+    "jobs": [
+      {
+        "id": 128747735733,
+        "name": "Corporate site checks and production build",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 42485949823,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --strict-ssl=true --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run npm run check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run npm test",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run npm run build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run npm run verify:build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run npm run test:vps",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          }
+        ]
+      },
+      {
+        "id": 128747735961,
+        "name": "ERP checks, build and PostgreSQL tests",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 42485949823,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Initialize containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --strict-ssl=true --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Install independent document readers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Build shared intake adapter for PostgreSQL regression tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run node scripts/database-check.mjs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run npm run migrate",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Run npm run typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Run npm run build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Check built source identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Run CPU and real PostgreSQL tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Reject skipped or incomplete ERP tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          },
+          {
+            "name": "Stop containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 32
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 33
+          }
+        ]
+      },
+      {
+        "id": 128747736010,
+        "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 42485949823,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Initialize containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run npm --prefix corporate-site ci --ignore-scripts --strict-ssl=true --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run npm --prefix erp ci --ignore-scripts --strict-ssl=true --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Check browser runner guards without launching browsers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run node scripts/database-check.mjs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run npm --prefix corporate-site run build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run npm --prefix erp run build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Bind fresh site and ERP artifacts to the clean candidate",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Run actual intake, federation, signed HTTP and PostgreSQL acceptance",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Reject skipped or incomplete bridge tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Actual installed-browser role and responsive acceptance",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Stop containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          }
+        ]
+      },
+      {
+        "id": 128747736041,
+        "name": "Source integrity and policy tests",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 42485949823,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run npm run audit:source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run npm run verify:modules",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run npm test",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          }
+        ]
+      }
+    ],
+    "failureSummary": {
+      "id": 128749443348,
+      "name": "Sanitized failure summary",
+      "status": "completed",
+      "conclusion": "skipped",
+      "run_id": 42485949823,
+      "logs_url": null,
+      "steps": null
+    },
+    "evidence": {
+      "path": "verification/federation-ci/jobs.json",
+      "sha256": "5449a544b2fbb5e3ea54f517c90d6e4a343799122fe7e80f49ca01f54390929b",
+      "bytes": 11130
+    },
+    "scope": "Cached job-level metadata bound to run42485949823; no new GitHub run or test execution."
+  },
+  "archives": [
+    {
+      "path": "verification/federation-ci/erp.zip",
+      "sha256": "448e965b4ae83dc76af1a94190ebcbad28a8ca65d591106fc627ad194466ae12",
+      "bytes": 150191,
+      "entries": 1,
+      "crc": "PASS",
+      "extractedBytesMatchArchive": "PASS"
+    },
+    {
+      "path": "verification/federation-ci/browser.zip",
+      "sha256": "93dcd2114e20c69a656a1c3669b78a09ed0f3fe1068c2e18d6194e1581fba564",
+      "bytes": 6487307,
+      "entries": 19,
+      "crc": "PASS",
+      "extractedBytesMatchArchive": "PASS"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "verification/federation-ci/runs.json",
+      "sha256": "e4d4438b15d0b344510e10f042835b4b8313b9dae06026c8b2dff188d3c17414",
+      "bytes": 1357
+    },
+    {
+      "path": "verification/federation-ci/erp-vitest.json",
+      "sha256": "6f92daa71916d9ab1a2394b79ab68ca417a840219687d1f995958ac73a523809",
+      "bytes": 1369603
+    },
+    {
+      "path": "verification/federation-ci/erp.log",
+      "sha256": "4b389911bca5d2f9c300d44672ae2ea279a672f11297b05f0c0cc09e5cfb4d8e",
+      "bytes": 115202
+    },
+    {
+      "path": "verification/federation-ci/bridge.log",
+      "sha256": "94bbe9d502c93ae35f5f4a1adbe8f0095f03c24717de1b3027af5634dc1ce0f2",
+      "bytes": 183517
+    },
+    {
+      "path": "verification/federation-ci/site.log",
+      "sha256": "7f76bd283e7a424c336d1d537dfad0bb40d828a65fff9397f48e1c6c68b81d72",
+      "bytes": 135192
+    },
+    {
+      "path": "verification/federation-ci/browser/bridge-tap.txt",
+      "sha256": "4d2a7b784a8a64654066af4e3c0fa158b092b81f4c3e3de4dbbd338772e3291d",
+      "bytes": 5000
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/build-manifest.json",
+      "sha256": "140deb4ef0af833d13e53664b8a69e0be22a1b004d4eecb9478df29f38f8ee3a",
+      "bytes": 1511
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/integration-receipt.json",
+      "sha256": "57cca9b771352a22e33510595cf3dd39fb86c1aca3673888a8c18339f8bbac5e",
+      "bytes": 3050
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/erp-fixtures/result.json",
+      "sha256": "50563574d04a348f71d6faca1692c51b7d7e783d11411549512aa3487933d313",
+      "bytes": 15416
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/roles/browser-receipt.json",
+      "sha256": "7434ea51cbebb0e3b4657d17aea7ed3e22e5a08dbacf813e1c542fcf9601973e",
+      "bytes": 16668
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/languages/portal-languages-browser-receipt.json",
+      "sha256": "3318e937dd14e82b5b30caee3a20ffed1d321b650072420275181f2654c916a7",
+      "bytes": 6525
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/knaba-logo-browser.cjs.log",
+      "sha256": "1e968583aa95987420de282976c2f45fa98c3b65c715544d864558d7342d2c8c",
+      "bytes": 84
+    },
+    {
+      "path": "verification/federation-ci/jobs.json",
+      "sha256": "5449a544b2fbb5e3ea54f517c90d6e4a343799122fe7e80f49ca01f54390929b",
+      "bytes": 11130
+    }
+  ],
+  "erp": {
+    "totalTests": 3127,
+    "passed": 3127,
+    "failed": 0,
+    "pending": 0,
+    "todo": 0,
+    "testFiles": 139,
+    "requiredPostgresql": [
+      {
+        "path": "erp/tests/site-federation-ledger.integration.test.ts",
+        "count": 12,
+        "status": "PASS",
+        "titles": [
+          "requires complete snapshot reconciliation before activation and creates no ERP sessions or users",
+          "persists an unknown-session fence before late register and across a new bootstrap",
+          "fences an authenticated snapshot and never activates the next epoch merely from FENCE",
+          "rejects nonce replay but resumes an uncertain operation using stable digest and fresh nonce",
+          "checks actual SQL time after waiting for the company lock, not just when the MAC was verified",
+          "returns historical receipts separately from a later generation and cannot replay an activation as authority",
+          "forces a stable 50-record snapshot restart if a fence changes the revision between pages",
+          "keeps lookup bounded/current and principal-null explicitly distinct from absent dependencies",
+          "serializes concurrent register and revoke into a terminal denied result",
+          "preserves immutable revocation storage on migration rerun and rejects direct downgrade/retarget/delete",
+          "rejects a stale configuration after key rotation and retains terminal refs",
+          "isolates equal source subjects and refs by company, and rejects a mismatched transaction scope"
+        ]
+      },
+      {
+        "path": "erp/tests/site-identity-link.integration.test.ts",
+        "count": 12,
+        "status": "PASS",
+        "titles": [
+          "requires both current sessions and final ERP confirmation, stores only hashes and never grants sessions or roles",
+          "requires the original ERP cookie, not another current session for the same user",
+          "denies a source fence committed after fresh online introspection but before binding commit",
+          "denies original ERP logout committed during online source I/O without issuing private success",
+          "denies credential/profile changes or disabled trust after claim even when the session row stays valid",
+          "fails closed for source pending denial and never treats a claim as permission",
+          "consumes the one-use proof once under concurrent confirms and never creates duplicate audit effects",
+          "self-unlinks with fresh ERP proof while source/trust is unavailable and preserves F1 terminal unlink",
+          "bounds inspection attempts and challenge issuance without retaining raw code in durable receipts",
+          "does not resolve or claim another company challenge even with the same issuer, user labels and signed key",
+          "rolls back binding, proof consumption and audit if the real SQL deadline expires after the F1 write",
+          "protects original challenge ownership and the claimed source principal against direct retarget or deletion"
+        ]
+      }
+    ],
+    "classification": "Actual PostgreSQL 17.6 isolated synthetic data. Ledger tests invoke real SQL authority; link tests include signed HTTP with a synthetic source peer. These are not themselves the full runtime pair."
+  },
+  "runtimePair": {
+    "status": "PASS",
+    "totalBridgeCounts": {
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "requiredF2Count": 7,
+    "requiredF2Titles": [
+      "F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink",
+      "F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit",
+      "F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit",
+      "F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce",
+      "F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery",
+      "F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session",
+      "F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys"
+    ],
+    "classification": "Actual VPS/SQLite + built ERP HTTP server + actual PostgreSQL, isolated synthetic accounts, signed protocol bytes. Controlled transport relay delays/drops real responses; no provider or production data.",
+    "sourceReview": "Reviewed prepareDatabase no-skip local PostgreSQL/version/build-source gates and federationPair actual server construction; full pair closes the former F2-AGG-01 interoperability evidence gap."
+  },
+  "rendered": {
+    "status": "PASS",
+    "cases": [
+      {
+        "file": "conversation-transfer-ui.spec.ts",
+        "title": "HTTP fixture: guest reviews the verified number and gives explicit consent before one CSRF-bound confirmation",
+        "specId": "5edfa997013c6e054f86-03bc83b4088b71f0f338",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "conversation-transfer-ui.spec.ts",
+        "title": "HTTP fixture: original-session rejection clears the number, link and confirmation controls",
+        "specId": "5edfa997013c6e054f86-82a5ba74e94a8670da57",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "conversation-transfer-ui.spec.ts",
+        "title": "HTTP fixture: a delayed older status cannot restore confirmation after the transfer completes",
+        "specId": "5edfa997013c6e054f86-e3d7ad98f9bc3fc9f4a4",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "conversation-transfer-ui.spec.ts",
+        "title": "HTTP fixture: an unknown issuance outcome is checked after reconnect without replaying or recovering its secret",
+        "specId": "5edfa997013c6e054f86-c36995d9bdeb441499b7",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "site-identity-link-ui.spec.ts",
+        "title": "HTTP fixture: fresh ERP password, memory-only code and explicit exact website account confirmation",
+        "specId": "8b2714e44fe0f3e119ad-36b6cccda5f4bf18ff18",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "site-identity-link-ui.spec.ts",
+        "title": "HTTP fixture: original-session rejection removes all account proof fields and closes the private panel",
+        "specId": "8b2714e44fe0f3e119ad-ef65de5f89a26fb229aa",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "site-identity-link-ui.spec.ts",
+        "title": "HTTP fixture: an older status response cannot restore confirmation after a recorded link",
+        "specId": "8b2714e44fe0f3e119ad-de832ec2fd40d281e9a1",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "site-identity-link-ui.spec.ts",
+        "title": "HTTP fixture: self-unlink remains available with disabled federation and requires its own explicit fresh proof",
+        "specId": "8b2714e44fe0f3e119ad-0ae19f96ad786687f154",
+        "status": "PASS",
+        "retry": 0
+      },
+      {
+        "file": "site-identity-link-ui.spec.ts",
+        "title": "HTTP fixture: reconnect checks an unknown issuance outcome without replaying credentials or recovering its code",
+        "specId": "8b2714e44fe0f3e119ad-1d30fa04bfc5438cbf4e",
+        "status": "PASS",
+        "retry": 0
+      }
+    ],
+    "counts": {
+      "total": 9,
+      "conversationTransfer": 4,
+      "siteIdentityLink": 5,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0,
+      "retries": 0
+    },
+    "classification": "Actual Chromium rendering of ERP UI with explicit route-fulfilled HTTP fixtures; distinct from real SQL/runtime-pair results.",
+    "browser": "Google Chrome 156.0.8078.79",
+    "playwright": "1.55.1",
+    "actualGitCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "githubPullRequestMergeMetadata": "4dc50ec8e1571210ab9924c04e26127e36484a36",
+    "metadataInterpretation": "GitHub CI merge-ref metadata differs from the checked-out source. Actual Playwright gitCommit, clean build manifest and job checkout logs all bind e03d2be.",
+    "adjacentSiteChecks": {
+      "roles": 111,
+      "sixLanguage": 32,
+      "publicViewport": 24,
+      "rolesAndLanguagesScope": "Actual built website and actual SQLite over isolated HTTP; synthetic accounts.",
+      "publicScope": "Actual static-page rendering; not field Web Vitals."
+    }
+  },
+  "artifactBinding": {
+    "buildManifest": {
+      "path": "verification/federation-ci/browser/knaba-browser/build-manifest.json",
+      "sha256": "140deb4ef0af833d13e53664b8a69e0be22a1b004d4eecb9478df29f38f8ee3a",
+      "bytes": 1511
+    },
+    "artifacts": {
+      "siteClient": {
+        "path": "corporate-site/dist/client",
+        "files": 310,
+        "bytes": 6893044,
+        "sha256": "62d5f4cf0f5cafdf898c36ae1b706e3bd034ff72a1ef4845b1c16eb7de1cecf6"
+      },
+      "siteWorker": {
+        "path": "corporate-site/dist/server",
+        "files": 3,
+        "bytes": 551955,
+        "sha256": "400a16653b06db0aee53278f58d9964f8b17554f6525b8d38a127c23749bd655"
+      },
+      "siteVps": {
+        "path": "corporate-site/dist/vps",
+        "files": 4,
+        "bytes": 274744,
+        "sha256": "d7386e59270cd48060afd51aa6ef6bf1fe9a22b3e70930146398da7a81854d73"
+      },
+      "erpDist": {
+        "path": "erp/dist",
+        "files": 12,
+        "bytes": 10937447,
+        "sha256": "a1d4e65177f058254db710e961342fa404eeb89bf293c315d8b1dbfe2bb4f318"
+      }
+    },
+    "sourceInputs": {
+      "federationProtocol": {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14717,
+        "sha256": "d666bc62039f60aadd6b4a6feb97385cdb195315ec38b43c6aad8e6d389dc56c"
+      },
+      "federationEntry": {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 760,
+        "sha256": "97fea874ab437d8a1f1b9df238dc5685ecaf40791831b6355cc25e92813f6244"
+      }
+    },
+    "rawJobManifestExact": true,
+    "rawJobIntegrationReceiptExact": true,
+    "inputsUnchangedAfterSuite": true,
+    "verificationLimit": "Downloaded ZIP members were independently rehashed and compared with extraction. Full four runtime dist trees are not included in these evidence ZIPs; their digests are runner-measured, bound to clean source, corroborated by raw job log and checked before/after by reviewed runner code."
+  },
+  "gateDecision": {
+    "required24Postgresql": "PASS",
+    "required7ActualRuntimePair": "PASS",
+    "required9RenderedHttpFixtures": "PASS",
+    "requiredBeforeF3TechnicalGate": "SATISFIED",
+    "F3Implementation": "NOT_STARTED_BY_THIS_REVIEW"
+  },
+  "remainingOpen": [
+    "F3 session exchange and shared login",
+    "F4 federation-derived ERP/native session and delivery revocation",
+    "OIDC-only account-linking extension",
+    "Privacy classification/export/retention/erasure for new metadata",
+    "Native media, push and browser-to-native auth work",
+    "F5/operational deployment, production restore, providers, physical-device and owner UAT",
+    "Whole 72 V4 acceptance and retained V3 criteria; no criterion promoted here"
+  ],
+  "nativeMetadata": {
+    "android": {
+      "id": 42485949838,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485949838"
+    },
+    "iosPr": {
+      "id": 42485949819,
+      "name": "KNABA iOS simulator verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485949819"
+    },
+    "cancelledRepositoryPush": {
+      "id": 42485946401,
+      "name": "KNABA repository verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485946401"
+    },
+    "interpretation": "No current iOS success is asserted; 42485946401 is the repository push run per metadata, not an iOS PASS."
+  },
+  "actions": {
+    "testsRerun": false,
+    "ciRerun": false,
+    "browserLaunched": false,
+    "runtimeEdited": false,
+    "providerCalls": false,
+    "productionChanges": false
+  },
+  "findings": [],
+  "metadataDelta": {
+    "supersedesReceipt": {
+      "path": "verification/federation-ci/independent-acceptance.before-jobs.json",
+      "sha256": "cdf524d5eea5247d81877938691272bcf0db3451f2cda8b016ffbdc902e34f0a",
+      "bytes": 32802
+    },
+    "change": "Replaced parent-reported root-job boundary with independent verification of all four completed successful required jobs; historical skipped failure-summary is expected. No F2 test results changed."
+  },
+  "aggregateDraftReview": {
+    "path": "knaba/docs/unified/evidence/full-completion-20261108/federation-aggregate-ci.json",
+    "sha256": "1e4f75160ab1f0710fdd2f3cc0e4bc2e9d02898333d7c853782ceb8c79ad88f7",
+    "verdict": "ACCEPT_EVIDENCE_SCOPED",
+    "findings": [],
+    "checked": [
+      "Exact source/tree and local equivalent tree",
+      "Four required job identities and conclusions",
+      "All download/log/report hashes and sizes",
+      "Exact PostgreSQL/pair/browser inventories and artifact linkage",
+      "Synthetic HTTP fixtures versus actual PostgreSQL/runtime pair classification",
+      "No native/live/provider/whole-AC promotion; historical failures retained",
+      "Current iOS PR skipped; historical iOS folder unchanged since395993f without asserting new execution"
+    ],
+    "pendingEditorialFinalization": "Root may update the draft independent-review pending states and attach this final receipt; no report edits were made by this reviewer."
+  }
+}

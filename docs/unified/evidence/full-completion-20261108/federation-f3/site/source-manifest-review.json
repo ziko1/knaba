@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "base": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "scope": "F3 VPS source and focused tests, PostgreSQL is separately NOT_RUN",
+  "files": [
+    {
+      "path": "corporate-site/vps/database.mjs",
+      "sha256": "cb5cee6bec21dea7f0d7609bf668dd37889853950274e360ff7f0e2239f4a4f1"
+    },
+    {
+      "path": "corporate-site/vps/federation-entry.mjs",
+      "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc"
+    },
+    {
+      "path": "corporate-site/vps/federation-loader.mjs",
+      "sha256": "26079b3426d1b88c3576c7472cef4c008c7d207e299d11eb2b23bb86057e407b"
+    },
+    {
+      "path": "corporate-site/vps/federation-login-schema.mjs",
+      "sha256": "c279b53ef0a4ddb594e58048778df7013d114a258a83a9378859a554ef3de2db"
+    },
+    {
+      "path": "corporate-site/vps/federation-login-test-fixture.mjs",
+      "sha256": "52d12327c110577474a35bd7a9fcc8376b64ff3edb08e4d4cfb7c7d6b9bbb135"
+    },
+    {
+      "path": "corporate-site/vps/federation-login-ui.mjs",
+      "sha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f"
+    },
+    {
+      "path": "corporate-site/vps/federation-login.http.test.mjs",
+      "sha256": "85f296d569e07b99cd630d0272677a1e60e90ae7d24e2907055ddf8e80d1a12f"
+    },
+    {
+      "path": "corporate-site/vps/federation-login.mjs",
+      "sha256": "761e40258acb7793544e52e808a733ab863a25419643581ef958d2e5b3d10b45"
+    },
+    {
+      "path": "corporate-site/vps/federation-login.test.mjs",
+      "sha256": "d6336f76e41079e502493c64b5c4d5d73659fb98b2341a7c5f1134bb8ed00914"
+    },
+    {
+      "path": "corporate-site/vps/federation-source.mjs",
+      "sha256": "fecaf85fc4c7e43e8a5cb2081d6222f78ef75ebefc00cf62b0c7adb0abc5ad8d"
+    },
+    {
+      "path": "corporate-site/vps/federation-test-authority.mjs",
+      "sha256": "7f4ba71a591c4c6ae291e9c605927ed6dae28b4a03411bd43c6b80cde8eab9bf"
+    },
+    {
+      "path": "corporate-site/vps/role-destination.mjs",
+      "sha256": "f2203883d4dbb0d119ae40767a80e3a3481a838c352f09b01a044cf1f0e2acda"
+    },
+    {
+      "path": "corporate-site/vps/server.mjs",
+      "sha256": "b7a8edf27159c9bd1b5a87ec8134cc94e59e29d38e2a3ad2c8b3b46efd8bf80a"
+    }
+  ],
+  "sourceDigest": "34f666eb84ad2c7cdec0e8da02b97766a8a1042385312a5fb4a2a42dbc517bbc"
+}

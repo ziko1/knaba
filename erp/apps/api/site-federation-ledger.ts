@@ -53,6 +53,8 @@ export class SiteFederationLedger {
    if(nonce.rows.length!==1)return failure('FEDERATION_REPLAY');
    const operation=(await sql(tx,'SELECT * FROM site_federation_operations WHERE company_id=$1 AND authority_id=$2 AND operation_id=$3',[config.companyId,config.authorityId,request.operationId])).rows[0];
    if(operation&&operation.digest!==request.operationDigest)return failure('FEDERATION_CONFLICT');
+   // New login status/inspection reads must never authorize from a historical receipt.
+   if(operation?.committed_at&&['LOGIN_INSPECT','LOGIN_STATUS'].includes(request.envelope.action))return failure('FEDERATION_REPLAY');
    if(operation?.committed_at){if(!before||before.config_fingerprint!==authorityFingerprint(config))return failure('FEDERATION_CONFLICT');this.configCurrent(config);return {ok:true,receipt:{operationId:request.operationId,action:operation.action,generation:operation.generation,revision:Number(operation.revision),result:operation.result},current:current(before)};}
    if(!operation)await sql(tx,'INSERT INTO site_federation_operations(company_id,authority_id,operation_id,digest,action) VALUES($1,$2,$3,$4,$5)',[config.companyId,config.authorityId,request.operationId,request.operationDigest,request.envelope.action]);
    await sql(tx,'SAVEPOINT federation_effect');
@@ -61,7 +63,7 @@ export class SiteFederationLedger {
     this.configCurrent(config);
     const after=await this.authorityIn(tx,config);assert(after,'INVALID_STATE');
     await sql(tx,`UPDATE site_federation_operations SET generation=$4,revision=$5,result=$6,committed_at=clock_timestamp() WHERE company_id=$1 AND authority_id=$2 AND operation_id=$3`,[config.companyId,config.authorityId,request.operationId,after.generation,after.revision,JSON.stringify(result)]);
-    if(!['RECONCILE_PAGE','LOOKUP_PRINCIPAL','INSPECT_CHALLENGE','LINK_STATUS'].includes(request.envelope.action))await sql(tx,`INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail) VALUES($1,'SITE_FEDERATION',$2,'site_federation_authority',$3,$4)`,[config.companyId,'FEDERATION_'+request.envelope.action,config.authorityId,JSON.stringify({operationId:request.operationId,generation:after.generation,revision:Number(after.revision)})]);
+    if(!['RECONCILE_PAGE','LOOKUP_PRINCIPAL','INSPECT_CHALLENGE','LINK_STATUS','LOGIN_INSPECT','LOGIN_STATUS'].includes(request.envelope.action))await sql(tx,`INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail) VALUES($1,'SITE_FEDERATION',$2,'site_federation_authority',$3,$4)`,[config.companyId,'FEDERATION_'+request.envelope.action,config.authorityId,JSON.stringify({operationId:request.operationId,generation:after.generation,revision:Number(after.revision)})]);
     await sql(tx,'RELEASE SAVEPOINT federation_effect');
     return {ok:true,receipt:{operationId:request.operationId,action:request.envelope.action,generation:after.generation,revision:Number(after.revision),result},current:current(after)};
    }catch(error){

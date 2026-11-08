@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-login-protocol.test.ts (16 tests) 56ms
+ ✓ tests/site-federation-protocol.test.ts (22 tests) 794ms
+ ✓ tests/site-federation-http.test.ts (11 tests) 248ms
+ ✓ tests/request-authority.test.ts (39 tests) 246ms
+ ✓ tests/identity.test.ts (29 tests) 4377ms
+     ✓ a legacy invitation remains single-use immediately before its 24-hour cap  344ms
+     ✓ scrypt uses unique salts and verifies only the exact password  791ms
+     ✓ privileged production login needs configured MFA and rejects a replayed OTP  709ms
+     ✓ offline bootstrap closes after one owner and creates no wildcard or unapproved financial rights  475ms
+     ✓ hashes eight-character passwords and rejects seven  397ms
+     ✓ rotates password and activates a scoped invitation with eight characters  1457ms
+ ✓ tests/site-link-reauth.test.ts (11 tests) 1915ms
+     ✓ requires the actual password and returns only a digest-bound bounded witness  400ms
+     ✓ rejects a credential replacement while scrypt is outside the company transaction  301ms
+     ✓ requires current MFA and consumes its counter instead of trusting a prior session mfa flag  526ms
+
+ Test Files  6 passed (6)
+      Tests  128 passed (128)
+   Start at  16:05:51
+   Duration  6.48s (transform 6.19s, setup 0ms, import 12.45s, tests 7.63s, environment 1ms)
+

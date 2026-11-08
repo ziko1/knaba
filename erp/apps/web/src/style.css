@@ -72,3 +72,6 @@
 /* V4 touch targets apply at every supported viewport. */
 .button,.icon-button,.language-select select{min-height:44px}.icon-button,.topbar-actions .icon-button{width:44px;height:44px;min-width:44px}.topbar .language-select select{min-height:44px}.array-entry-heading>.button{min-height:44px}
 button,select,[role=tab]{min-height:44px}button{min-width:44px}.field>input[type=checkbox]{width:20px;height:20px}.field:has(>input[type=checkbox]){min-height:44px;align-items:center}
+
+/* The federation ceremony reuses the existing authentication design system. */
+.federation-sign-in{margin-top:1.25rem}.federation-sign-in:empty{display:none}.federation-layout{display:flex;justify-content:center}.federation-layout .login-box{width:min(100%,38rem);margin:1.5rem auto}.federation-account-summary{margin:1.5rem 0;display:grid;grid-template-columns:minmax(7rem,1fr) minmax(0,2fr);gap:.6rem 1rem}.federation-account-summary dt{font-size:.875rem;color:var(--muted,#64748b)}.federation-account-summary dd{margin:0;overflow-wrap:anywhere;font-weight:600}.federation-layout .form-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}.federation-layout .checkbox-field{margin:1rem 0;align-items:flex-start}.federation-layout .text-link{margin-top:1rem}

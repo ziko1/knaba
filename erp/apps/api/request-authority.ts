@@ -2,7 +2,9 @@ import {assert,DomainError,type Actor,type Data,type Entity} from '../../package
 import type {DatabaseLike,EngineLike,SqlTransaction} from './auth.ts';
 import {authorityFingerprint} from './authority-fingerprint.ts';
 
-type Proof = Readonly<{companyId:string;userId:string;tokenHash:string} & ({kind:'session'}|{kind:'device';deviceId:string})>;
+type LocalProof = Readonly<{companyId:string;userId:string;tokenHash:string} & ({kind:'session'}|{kind:'device';deviceId:string})>;
+type Proof = LocalProof|Readonly<{companyId:string;userId:string;tokenHash:string;kind:'federated';sessionId:string}>;
+export interface FederatedAuthorityFence {refresh:()=>Promise<void>;currentIn:(tx:SqlTransaction)=>Promise<void>}
 const binding = Symbol('request authority');
 type BoundActor = Actor & {[binding]?:object};
 // Only the empty handle is copied by actor spreads. Neither JSON nor inspection of
@@ -11,6 +13,15 @@ const proofs = new WeakMap<object,Proof>();
 const requests = new WeakMap<object,{actor:Actor;db:DatabaseLike}>();
 const acknowledgements = new WeakMap<object,object>();
 const responseFences = new WeakMap<object,{fingerprint:string;engine:EngineLike;inconsistent:boolean}>();
+const federatedFences = new WeakMap<object,FederatedAuthorityFence>();
+const responseChecks = new WeakMap<object,()=>Promise<void>>();
+const responseHeaders = new WeakMap<object,()=>void>();
+
+/** Login ceremonies have no Actor yet, but private results still need an egress fence. */
+export function setResponseAuthorityCheck(req:object,check:()=>Promise<void>):void {assert(!responseChecks.has(req),'INVALID_STATE');responseChecks.set(req,check);}
+export function deferAuthorityResponseHeaders(req:object,write:()=>void):void {assert(!responseHeaders.has(req),'INVALID_STATE');responseHeaders.set(req,write);}
+export function commitAuthorityResponseHeaders(req:object):void {const write=responseHeaders.get(req);responseHeaders.delete(req);write?.();}
+export function discardAuthorityResponseHeaders(req:object):void {responseHeaders.delete(req);}
 
 function proofFor(actor:Actor):Proof|undefined {
  const handle=(actor as BoundActor)[binding];
@@ -22,11 +33,29 @@ function proofFor(actor:Actor):Proof|undefined {
 
 export function assertRequestBinding(actor:Actor):void {proofFor(actor);}
 
-export function bindRequestAuthority<T extends Actor>(actor:T,proof:Proof):T {
+export function bindRequestAuthority<T extends Actor>(actor:T,proof:LocalProof):T {
  assert(actor.companyId===proof.companyId&&actor.userId===proof.userId,'NEEDS_REAUTH');
  const handle=Object.freeze({});proofs.set(handle,Object.freeze({...proof}));
  Object.defineProperty(actor,binding,{value:handle,enumerable:true});
  return actor;
+}
+
+/** Server-only capability; callers cannot opt a prefixed session into local auth. */
+export function bindFederatedRequestAuthority<T extends Actor>(actor:T,proof:{companyId:string;userId:string;tokenHash:string;sessionId:string},fence:FederatedAuthorityFence):T {
+ assert(actor.companyId===proof.companyId&&actor.userId===proof.userId&&typeof fence.refresh==='function'&&typeof fence.currentIn==='function','NEEDS_REAUTH');
+ const handle=Object.freeze({});proofs.set(handle,Object.freeze({...proof,kind:'federated'}));federatedFences.set(handle,fence);
+ Object.defineProperty(actor,binding,{value:handle,enumerable:true});return actor;
+}
+
+/** Must be called before acquiring any SQL transaction/lock. Never caches across requests. */
+export async function refreshRequestAuthority(actor:Actor):Promise<void> {
+ const proof=proofFor(actor);if(proof?.kind!=='federated')return;
+ const fence=federatedFences.get((actor as BoundActor)[binding]!);assert(fence,'NEEDS_REAUTH');await fence.refresh();
+}
+
+export function assertIndependentDeviceAuthority(actor:Actor,name:string,input:Data):void {
+ const proof=proofFor(actor);
+ if(proof?.kind==='federated'&&(name==='device.bind'||name==='device.enroll'&&input.employeeId===actor.userId))throw new DomainError('LOCAL_ERP_REAUTH_REQUIRED');
 }
 
 export function carryRequestAuthority<T extends Actor>(source:Actor,target:T):T {
@@ -49,11 +78,12 @@ export function currentDevice(device:Entity,proof:{companyId:string;userId:strin
 export async function assertRequestAuthority(tx:SqlTransaction,actor:Actor):Promise<void> {
  const proof=proofFor(actor);if(!proof)return;
  if('companyId'in tx)assert(tx.companyId===proof.companyId,'NEEDS_REAUTH');
- if(proof.kind==='session'){
+ if(proof.kind==='session'||proof.kind==='federated'){
   assert(tx.query,'MISSING_CONFIGURATION');
   // now() is fixed at transaction start. Long operations must use the actual clock.
   const row=(await tx.query('SELECT user_id,company_id FROM auth_sessions WHERE token_hash=$1 AND company_id=$2 AND user_id=$3 AND revoked_at IS NULL AND expires_at>clock_timestamp()',[proof.tokenHash,proof.companyId,proof.userId])).rows[0];
   assert(row?.user_id===proof.userId&&row?.company_id===proof.companyId,'NEEDS_REAUTH');
+  if(proof.kind==='federated'){const fence=federatedFences.get((actor as BoundActor)[binding]!);assert(fence,'NEEDS_REAUTH');await fence.currentIn(tx);}
  }else{
   let device:Entity;try{device=await tx.get('device',proof.deviceId);}catch(error){if(error instanceof DomainError&&error.code==='NOT_FOUND_SAFE')throw new DomainError('NEEDS_REAUTH');throw error;}
   assert(currentDevice(device,proof),'NEEDS_REAUTH');
@@ -84,6 +114,7 @@ export function recordResponseAuthority(actor:Actor,engine:EngineLike,fingerprin
 /** Internal actors remain supported; callers cannot opt a bound actor out. */
 export async function authorityTransaction<T>(db:DatabaseLike,actor:Actor,fn:(tx:SqlTransaction)=>Promise<T>,timeoutMs?:number,readOnly=false,engine?:EngineLike):Promise<T> {
  assertRequestBinding(actor);
+ await refreshRequestAuthority(actor);
  const committed=await db.transaction(actor.companyId,actor.userId,async tx=>{
   await assertRequestAuthority(tx,actor);const before=readOnly&&engine?await responseAuthorityFingerprint(tx,actor,engine):undefined;
   const result=await fn(tx),fingerprint=engine?await responseAuthorityFingerprint(tx,actor,engine):undefined;
@@ -100,7 +131,8 @@ export function rememberRequestAuthority<T extends Actor>(req:object,db:Database
  if(existing){
   const original=proofFor(existing.actor)!;
   assert(original.kind===proof.kind&&original.companyId===proof.companyId&&original.userId===proof.userId&&original.tokenHash===proof.tokenHash&&
-   (original.kind!=='device'||proof.kind==='device'&&original.deviceId===proof.deviceId),'NEEDS_REAUTH');
+   (original.kind!=='device'||proof.kind==='device'&&original.deviceId===proof.deviceId)&&
+   (original.kind!=='federated'||proof.kind==='federated'&&original.sessionId===proof.sessionId),'NEEDS_REAUTH');
   // Re-authentication within one HTTP request retains its original fence/ACK
   // handle while refreshing ordinary actor fields such as roles and MFA age.
   const canonical={...actor};Object.defineProperty(canonical,binding,{value:(existing.actor as BoundActor)[binding],enumerable:true,writable:false,configurable:false});
@@ -116,6 +148,11 @@ export function revocationAcknowledgement(actor:Actor,reauthenticationRequired=t
  return result;
 }
 
+/** A local, committed logout can acknowledge reduction without renewing its source grant. */
+export function requestRevocationAcknowledgement(req:object):{ok:true} {
+ const current=requests.get(req);return current?revocationAcknowledgement(current.actor,false):Object.freeze({ok:true as const});
+}
+
 export function revokesRequestAuthority(actor:Actor,name:string,input:Data):boolean {
  const proof=proofFor(actor);if(!proof)return false;
  return ['user.password.rotate','user.mfa.configure'].includes(name)||
@@ -123,8 +160,10 @@ export function revokesRequestAuthority(actor:Actor,name:string,input:Data):bool
 }
 
 export async function assertResponseAuthority(req:object,result?:unknown):Promise<void> {
- const current=requests.get(req);if(!current)return;
- if(result&&typeof result==='object'&&acknowledgements.get(result)===(current.actor as BoundActor)[binding])return;
+ const current=requests.get(req);
+ if(current&&result&&typeof result==='object'&&acknowledgements.get(result)===(current.actor as BoundActor)[binding])return;
+ const additional=responseChecks.get(req);if(additional)await additional();
+ if(!current)return;
  await authorityTransaction(current.db,current.actor,async tx=>{
   const expected=responseFences.get((current.actor as BoundActor)[binding]!);
   if(expected){

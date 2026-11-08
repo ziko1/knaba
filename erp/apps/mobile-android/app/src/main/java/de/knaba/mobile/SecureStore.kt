@@ -16,7 +16,8 @@ import java.time.Instant
 
 /** AES-GCM ciphertext only; key never leaves Android Keystore. No backup/cleartext fallback. */
 class SecureStore(context: Context, namespace: String = "") {
-    init { require(namespace in setOf("", "console-recovery")) { "INVALID_STORAGE_NAMESPACE" } }
+    init { require(namespace in setOf("", "console-recovery", "console-media-recovery")) { "INVALID_STORAGE_NAMESPACE" } }
+    private val mediaRecovery = namespace == "console-media-recovery"
     companion object { private val storageLock = Any(); private val authGeneration = GenerationFence(); val bootSessionId: String = java.util.UUID.randomUUID().toString() }
     private val file = AtomicFile(File(context.filesDir, if (namespace.isEmpty()) "knaba-secure-v1.bin" else "knaba-$namespace-v1.bin"))
     private val keyAlias = "de.knaba.mobile.storage.v1" + if (namespace.isEmpty()) "" else ".$namespace"
@@ -32,8 +33,13 @@ class SecureStore(context: Context, namespace: String = "") {
     fun read(): JSONObject = synchronized(storageLock) {
         // AtomicFile.openRead restores a legacy .bak left by an interrupted write.
         // A missing base alone must not be interpreted as an empty recovery queue.
-        if (!file.baseFile.exists() && !File(file.baseFile.path + ".bak").exists())
+        if (!file.baseFile.exists() && !File(file.baseFile.path + ".bak").exists()) {
+            if (mediaRecovery) {
+                val keys = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+                require(!keys.containsAlias(keyAlias)) { "MEDIA_RECOVERY_MISSING" }
+            }
             return@synchronized JSONObject().put("sequence", 0).put("queue", JSONArray())
+        }
         val bytes = file.openRead().use { input ->
             val limit = 4 * 1024 * 1024 + 29
             val result = java.io.ByteArrayOutputStream()
@@ -49,7 +55,9 @@ class SecureStore(context: Context, namespace: String = "") {
         require(bytes.size >= 29 && bytes[0].toInt() == 1) { "SECURE_STORAGE_INVALID" }
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, bytes.copyOfRange(1, 13)))
-        JSONObject(String(cipher.doFinal(bytes.copyOfRange(13, bytes.size)), Charsets.UTF_8))
+        JSONObject(String(cipher.doFinal(bytes.copyOfRange(13, bytes.size)), Charsets.UTF_8)).also {
+            if (mediaRecovery) require(it.opt("media") is JSONObject) { "MEDIA_RECOVERY_INVALID" }
+        }
     }
     fun update(transform: (JSONObject) -> Unit) = synchronized(storageLock) {
         val value = read(); transform(value)

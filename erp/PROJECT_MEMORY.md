@@ -1,5 +1,16 @@
 # KNABA DE project memory
 
+## 2026-11-08 — F2 password-based linking: actual aggregate evidence
+
+Source `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5`, main CI42485949823:
+4 required jobs SUCCESS;24 F2 PostgreSQL,7 actual VPS/SQLite↔ERP/HTTP/PG,
+9 rendered fixture cases PASS. Незалежно звірено source/artifact/case inventory;
+`ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`. Це добровільне зв’язування
+наявних акаунтів і source revocation fences. F3 session issuance/F4 derived
+authority/OIDC-only proof/privacy та зовнішнє приймання ще відкриті.
+Whole product NOT_READY; історичні записи нижче не переписані.
+Єдиний актуальний доказ: `../docs/unified/evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
 ## 2026-11-08 — PR123 identity authority checkpoint
 
 Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.
@@ -221,3 +232,7 @@ Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: ro
 Запит користувача про автоматичне завантаження з сервера продовжує існуючий KNABA Android; канонічний пункт `docs/mobile/BACKLOG.json` → MOBILE-013. Виправлення: fixed official release discovery, HTTPS company host + ERP readiness, foreground authenticated reads, збереження пошуку/чернетки/прокрутки, scope revocation, без автоматичних мутацій. План/межі/операторський контракт: `docs/mobile/AUTOMATIC_SYNC_2026-11-08_UK.md` від кореня репозиторію. На 08:00 UTC публічний endpoint HTTP200 повернув `erpOrigin: null`; live connection BLOCKED_SERVER_CONFIGURATION, не замінювати це вигаданою адресою.
 
 Застосовано ai-team-orchestrator, Android coding workflow, coding-autopilot, verify-repository-readiness, ECC click-path audit та Kotlin integration resilience без зміни стека чи нових залежностей. Shared code writer — root; readonly dispatch `server_config_review`/`foreground_sync_review` не відбувся через context-window capacity, independent review NOT_RUN. Поточний remote PR123 HEAD9ff77d7b0161a4dde84314f2df327e4594e0eb0c звірено; Android contract не змінився, server auth updates не оголошено протестованими цією мобільною задачею. Source/build acceptance фіксується окремим receipt після збірки. Production/DNS/merge/paid calls не виконувались; попередня заборона автоматичного GitHub push не обійдена.
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+ERP F3 source26 прийнято незалежним review; mandatory source lineage, source/credential/current-policy fences, WEB fresh-session proof, native S256 one-use endpoint і local logout реалізовано default-off.18 actual PostgreSQL cases authored/NOT_RUN locally; exact aggregate CI потрібен. CUSTOMER media ACL13 і integrated native/source contract147 локально PASS з явними doubles. [Точні scopes і evidence](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Попередні source SHA/test receipts не переносяться на новий artifact.

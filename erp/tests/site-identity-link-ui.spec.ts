@@ -15,6 +15,7 @@ async function fixture(page:Page){
  await page.route('**/*',async route=>{const request=route.request(),url=new URL(request.url()),staticPath=['/','/account/site-links','/login','/console','/index.html','/icon.svg','/icon-maskable.svg','/manifest.webmanifest','/sw.js','/favicon.ico'].includes(url.pathname)||url.pathname.startsWith('/assets/');if(url.origin===origin&&staticPath&&request.method()==='GET'){await route.continue();return;}blocked.push(`${request.method()} ${url.origin}${url.pathname}`);await route.abort('blockedbyclient');});
  await page.addInitScript(()=>localStorage.setItem('knaba-language','EN'));
  await page.route('**/api/v1/me',route=>route.fulfill({json:{actor:{companyId:'browser-company',userId:'erp-user',roles:['EMPLOYEE'],permissions:['identity.self'],siteIds:[],warehouseIds:[],customerIds:[]},user:{id:'erp-user',name:'Synthetic ERP user'},csrfToken:csrf,mode:'TEST'}}));
+ await page.route('**/api/v1/auth/federation/config',route=>route.fulfill({json:{enabled:false}}));
  await page.route('**/api/v1/public/config',route=>route.fulfill({json:{mode:'TEST',services:[],legal:{}}}));
  await page.route('**/api/v1/commands',route=>route.fulfill({json:{items:[]}}));
  await page.route('**/api/v1/entities/**',route=>route.fulfill({json:{items:[],has_more:false,next_cursor:null}}));

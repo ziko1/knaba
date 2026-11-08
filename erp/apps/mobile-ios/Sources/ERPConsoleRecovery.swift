@@ -16,10 +16,13 @@ struct ERPPendingCommand: Codable, Sendable, Equatable, Identifiable {
     let createdAt: Date
     let input: Data
     let body: Data
+    /// Local recovery routing only; never included in the command wire envelope.
+    /// Nil preserves legacy generic command journals.
+    let nativeMedia: Bool?
     var id: String { idempotencyKey }
 
     init(scope: String, name: String, input: Data, expectedVersion: Int? = nil,
-         idempotencyKey: String = UUID().uuidString, createdAt: Date = Date()) throws {
+         idempotencyKey: String = UUID().uuidString, createdAt: Date = Date(), nativeMedia: Bool? = nil) throws {
         let payload = try Self.validatedInput(name: name, input: input, expectedVersion: expectedVersion)
         guard !ERPCommandSecrets.containsSecret(payload), !ERPCommandSecrets.oneShotNames.contains(name) else {
             throw ERPFailure.sensitiveCommand
@@ -30,6 +33,7 @@ struct ERPPendingCommand: Codable, Sendable, Equatable, Identifiable {
         self.idempotencyKey = idempotencyKey
         self.expectedVersion = expectedVersion
         self.createdAt = createdAt
+        self.nativeMedia = nativeMedia
         self.input = try JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys])
         self.body = try Self.requestBody(input: self.input, expectedVersion: expectedVersion, idempotencyKey: idempotencyKey)
         try validate(expectedScope: scope)
@@ -80,6 +84,9 @@ struct ERPPendingCommand: Codable, Sendable, Equatable, Identifiable {
                   scope.range(of: "^[a-f0-9]{64}$", options: .regularExpression) != nil,
                   UUID(uuidString: idempotencyKey) != nil, createdAt.timeIntervalSince1970.isFinite,
                   body.count <= Self.maximumBodyBytes else { throw ERPFailure.recoveryInvalid }
+            guard nativeMedia == nil || (nativeMedia == true && name == "media.register" && expectedVersion == nil) else {
+                throw ERPFailure.recoveryInvalid
+            }
             let payload = try Self.validatedInput(name: name, input: input, expectedVersion: expectedVersion)
             guard !ERPCommandSecrets.containsSecret(payload), !ERPCommandSecrets.oneShotNames.contains(name),
                   let envelope = try JSONSerialization.jsonObject(with: body) as? [String: Any],

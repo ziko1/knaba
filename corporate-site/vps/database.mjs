@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import {federationSchemaPending,installFederationSchema} from './federation-schema.mjs';
+import {federationLoginSchemaPending,installFederationLoginSchema} from './federation-login-schema.mjs';
 import {installFederationGuard} from './federation-state.mjs';
 
 /** A synchronous durable D1 subset; batches never yield across BEGIN and COMMIT. */
@@ -105,6 +106,9 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     const pendingFederation=federationSchemaPending(db);
     if(pendingFederation&&!allowMigrations)
       throw Error('Pending VPS auth migration federation; run reviewed migrate CLI after backup.');
+    const pendingFederationLogin=federationLoginSchemaPending(db);
+    if(pendingFederationLogin&&!allowMigrations)
+      throw Error('Pending VPS auth migration federation-login; run reviewed migrate CLI after backup.');
     const hasLedger=db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='vps_schema_migrations'").get();
     const applied=hasLedger?db.prepare('SELECT filename,sha256 FROM vps_schema_migrations ORDER BY filename').all():[];
     const installed=new Set();
@@ -185,6 +189,11 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     if(pendingFederation){
       db.exec('BEGIN IMMEDIATE');
       try{installFederationSchema(db);db.exec('COMMIT');}
+      catch(error){db.exec('ROLLBACK');throw error;}
+    }
+    if(pendingFederationLogin){
+      db.exec('BEGIN IMMEDIATE');
+      try{installFederationLoginSchema(db);db.exec('COMMIT');}
       catch(error){db.exec('ROLLBACK');throw error;}
     }
     return {db,d1:new LocalD1(db),migrations:names};

@@ -120,7 +120,7 @@ async function transportRelay(config){
   };
 }
 
-async function startBuiltErp(config,relay){
+async function startBuiltErp(config,relay,loginPolicy){
   const port=await unusedPort();
   const sourceSha=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
   const child=spawn(process.execPath,['--import',fileURLToPath(new URL('./federation-fetch-preload.mjs',import.meta.url)),'dist/server.mjs'],{
@@ -128,6 +128,7 @@ async function startBuiltErp(config,relay){
       PATH:process.env.PATH??'',LANG:'C.UTF-8',TZ:'UTC',APP_MODE:'TEST',DATABASE_URL:process.env.DATABASE_URL,
       COMPANY_ID:config.companyId,PORT:String(port),GIT_SHA:sourceSha,PUBLIC_ORIGIN:config.erpOrigin,
       SITE_FEDERATION_AUTHORITIES_JSON:JSON.stringify([config]),
+      ...(loginPolicy?{SITE_FEDERATION_LOGIN_JSON:JSON.stringify(loginPolicy)}:{}),
       KNABA_BRIDGE_TEST_SITE_ORIGIN:config.siteOrigin,KNABA_BRIDGE_TEST_RELAY_ORIGIN:relay.origin,
     },
   });
@@ -153,7 +154,7 @@ async function startBuiltErp(config,relay){
   }catch(error){await close();throw error;}
 }
 
-export async function federationPair(t,db,{subjectId}={}){
+export async function federationPair(t,db,{subjectId,federationLogin=false,permissions=['identity.self']}={}){
   const directory=await mkdtemp(join(tmpdir(),'knaba-federation-pair-'));
   let dbPath=join(directory,'source.sqlite'),app,erp,relay;
   t.after(async()=>{
@@ -164,10 +165,13 @@ export async function federationPair(t,db,{subjectId}={}){
   const config=normalizeAuthority({authorityId:'synthetic-pair',companyId:company,issuer:'https://site.federation.invalid/identity',
     siteOrigin:'https://site.federation.invalid',erpOrigin:'https://erp.federation.invalid',erpAudience:'synthetic-erp-pair',siteAudience:'synthetic-site-pair',policyVersion:1,
     siteToErp:{kid:'synthetic-site',secret:Buffer.alloc(32,31).toString('base64url')},erpToSite:{kid:'synthetic-erp',secret:Buffer.alloc(32,32).toString('base64url')}});
+  const loginPolicy=federationLogin?{enabled:true,policyVersion:1,authorizationIssuer:config.erpOrigin+'/auth/federation',authorityIds:[config.authorityId],clients:[
+    {clientId:'knaba-web-v1',kind:'WEB',platform:'WEB',label:'KNABA Web',returnPath:'/console'},
+    {clientId:'knaba-android-v1',kind:'NATIVE',platform:'ANDROID',label:'KNABA Android',redirectUri:'https://app.federation.invalid/auth/knaba/android'}]}:null;
   const erpEmail='same-label@example.invalid',passwordHash=await hashPassword(erpPassword);
   await db.transaction(company,'SYNTHETIC_FEDERATION_SETUP',async tx=>{
     await tx.add('company',{name:'Synthetic paired company'},company);
-    await tx.add('user',{active:true,name:'Synthetic ERP user',email:erpEmail,roles:['EMPLOYEE'],permissions:['identity.self'],siteIds:[],warehouseIds:[],customerIds:[],synthetic:true},erpUser);
+    await tx.add('user',{active:true,name:'Synthetic ERP user',email:erpEmail,roles:['EMPLOYEE'],permissions,siteIds:[],warehouseIds:[],customerIds:[],synthetic:true},erpUser);
     await tx.query('INSERT INTO auth_credentials(company_id,user_id,password_hash) VALUES($1,$2,$3)',[company,erpUser,passwordHash]);
   });
   const seed=openLocalDatabase(dbPath),owner=createCredentialsUser(seed.db,'owner@example.invalid',sitePassword);
@@ -186,12 +190,13 @@ export async function federationPair(t,db,{subjectId}={}){
   const backup=join(directory,'before-enrollment.sqlite');
   assert.equal(seed.db.prepare('SELECT count(*) n FROM vps_federation_authorities').get().n,0);
   seed.db.prepare('VACUUM INTO ?').run(backup);seed.db.close();
-  relay=await transportRelay(config);erp=await startBuiltErp(config,relay);relay.targets.erp=erp.port;
+  relay=await transportRelay(config);erp=await startBuiltErp(config,relay,loginPolicy);relay.targets.erp=erp.port;
   const startSite=async()=>{
     app=await createKnabaVpsServer({dbPath,origin:config.siteOrigin,ownerEmail:owner.email,ownerUserId:owner.id,host:'127.0.0.1',port:0,localTest:false,
       staticRoot:join(siteRoot,'dist/client'),workerPath:new URL('../../corporate-site/dist/server/index.js',import.meta.url).href,
       oidcConfig:{},accountEmailEnvironment:{},erpIntakeEnvironment:{},releaseEnvironment:{},
-      federationEnvironment:{KNABA_FEDERATION_ENABLED:'approved',KNABA_FEDERATION_AUTHORITIES:JSON.stringify([config])},
+      federationEnvironment:{KNABA_FEDERATION_ENABLED:'approved',KNABA_FEDERATION_AUTHORITIES:JSON.stringify([config]),
+        ...(loginPolicy?{KNABA_FEDERATION_LOGIN_JSON:JSON.stringify({enabled:true,policyVersion:1,authorityIds:[config.authorityId]})}:{})},
       federationFetch:relay.sourceFetch});
     relay.targets.site=app.port;
   };
@@ -199,6 +204,12 @@ export async function federationPair(t,db,{subjectId}={}){
   const login=await fetch('http://127.0.0.1:'+erp.port+'/api/v1/auth/login',{method:'POST',headers:{Origin:config.erpOrigin,'Content-Type':'application/json'},body:JSON.stringify({email:erpEmail,password:erpPassword}),redirect:'manual'});
   assert.equal(login.status,201,'SYNTHETIC_ERP_LOGIN_MUST_SUCCEED');const loginBody=await login.json();
   const erpCookie=login.headers.getSetCookie().find(value=>value.startsWith('knaba_session='))?.split(';')[0];assert.ok(erpCookie);
+  const erpAt=(path,{body,cookie=erpCookie,csrf=loginBody.csrfToken,headers={}}={})=>{
+    assert.ok(path.startsWith('/api/v1/')&&!path.includes('://'),'SYNTHETIC_ERP_LOCAL_API_PATH');
+    return fetch('http://127.0.0.1:'+erp.port+path,{method:body===undefined?'GET':'POST',redirect:'manual',
+      headers:{Origin:config.erpOrigin,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{}),...(csrf?{'x-csrf-token':csrf}:{}),...headers},
+      ...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(15000)});
+  };
   const erpWeb=(path='',body)=>fetch('http://127.0.0.1:'+erp.port+'/api/v1/account/site-links'+path,{
     method:body===undefined?'GET':'POST',redirect:'manual',headers:{Origin:config.erpOrigin,'Content-Type':'application/json',Cookie:erpCookie,'x-csrf-token':loginBody.csrfToken},
     ...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(15000),
@@ -209,7 +220,7 @@ export async function federationPair(t,db,{subjectId}={}){
   };
   const sitePost=(path,values,headers={})=>siteAt(path,{method:'POST',headers:{Origin:config.siteOrigin,'Sec-Fetch-Site':'same-origin','Content-Type':'application/x-www-form-urlencoded',...headers},body:new URLSearchParams(values).toString()});
   const row=async(table,where='',parameters=[])=>{
-    assert.ok(['site_federation_authorities','site_federation_principals','site_federation_sessions','site_federation_operations','site_identity_link_challenges','site_identity_bindings','auth_sessions','audit_log','aggregates'].includes(table));
+    assert.ok(['site_federation_authorities','site_federation_principals','site_federation_sessions','site_federation_operations','site_identity_link_challenges','site_identity_bindings','site_federation_login_requests','site_federation_session_authorities','auth_sessions','audit_log','aggregates'].includes(table));
     return (await db.query(`SELECT * FROM ${table} WHERE company_id=$1 ${where}`,[company,...parameters])).rows;
   };
   const issue=async()=>{const response=await erpWeb('/challenge',{authorityId:config.authorityId,password:erpPassword});assert.equal(response.status,201);return response.json();};
@@ -222,7 +233,7 @@ export async function federationPair(t,db,{subjectId}={}){
   const pending=async()=>{const response=await erpWeb();assert.equal(response.status,200);return (await response.json()).challenge;};
   const claimCurrent=async()=>{const issued=await issue(),inspectionId=await inspect(issued.code),response=await claim(inspectionId);assert.equal(response.status,200);return {issued,pending:await pending()};};
   const ref=sessionReference(config.issuer,user.id,siteTokenHash);
-  return {company,config,erpUser,user,owner,siteCookie,siteTokenHash,ref,relay,erpWeb,siteAt,sitePost,row,issue,inspect,claim,pending,claimCurrent,
+  return {company,config,loginPolicy,erpUser,user,owner,siteCookie,siteTokenHash,ref,relay,erpCookie,erpAt,erpWeb,siteAt,sitePost,row,issue,inspect,claim,pending,claimCurrent,
     get site(){return app;},get coordinator(){return federationCoordinator(app.db);},
     currentSiteUser(){return readSession(app.db,siteCookie);},
     confirm:pending=>erpWeb('/challenges/'+pending.id+'/confirm',{expectedVersion:pending.version,subject:pending.subject}),

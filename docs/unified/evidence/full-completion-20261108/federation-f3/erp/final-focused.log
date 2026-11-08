@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-protocol.test.ts (22 tests) 61ms
+ ✓ tests/site-federation-http.test.ts (11 tests) 455ms
+ ✓ tests/identity.test.ts (29 tests) 46201ms
+     ✓ a legacy invitation remains single-use immediately before its 24-hour cap  1004ms
+     ✓ scrypt uses unique salts and verifies only the exact password  1306ms
+     ✓ privileged production login needs configured MFA and rejects a replayed OTP  25946ms
+     ✓ one-time invitation creates a verified bounded identity and no password aggregate  3102ms
+     ✓ offline bootstrap closes after one owner and creates no wildcard or unapproved financial rights  4134ms
+     ✓ hashes eight-character passwords and rejects seven  2687ms
+     ✓ rotates password and activates a scoped invitation with eight characters  5075ms
+     ✓ transitions a guest request to identity-verification queue without becoming an employee  1267ms
+     ✓ requires the actual human high-risk role and reauthentication, never a guest or bot  348ms
+ ✓ tests/site-federation-login-protocol.test.ts (16 tests) 106ms
+ ✓ tests/site-federated-session.test.ts (32 tests) 23835ms
+     ✓ authenticates a mandatory child through the real signed source protocol outside SQL  462ms
+     ✓ keeps the exact archived pre-F3 authenticator unable to accept the new credential  14590ms
+     ✓ denies current credentials revocation before calling the source  5059ms
+     ✓ fails closed for source inactive without a cached allow  1351ms
+     ✓ blocks self-derived enrollment before a receipt can replay an independent device secret  579ms
+ ✓ tests/site-federation-login-flow.test.ts (10 tests) 23933ms
+     ✓ starts idempotently, binds once and rejects another browser  505ms
+     ✓ shows the current human company name, explicit boolean MFA and canonical source URL  896ms
+     ✓ completes WEB with a mandatory child, strict cookie and no durable raw credentials  13388ms
+     ✓ issues a JSON callback then a separate one-use native PKCE session  6991ms
+     ✓ rejects late native code before any source call or new session  360ms
+     ✓ requires actual current TOTP, consumes its counter and keeps the true verification time  1633ms
+ ↓ tests/site-federation-login.integration.test.ts (18 tests | 18 skipped)
+ ✓ tests/site-link-reauth.test.ts (11 tests) 31316ms
+     ✓ requires the actual password and returns only a digest-bound bounded witness  20956ms
+     ✓ rejects a credential replacement while scrypt is outside the company transaction  1930ms
+     ✓ rejects the original session revoked while scrypt completes, regardless of successful password verification  1208ms
+     ✓ requires current MFA and consumes its counter instead of trusting a prior session mfa flag  1285ms
+     ✓ expires the witness by the transaction clock and rejects changed current roles  4074ms
+ ✓ tests/request-authority.test.ts (39 tests) 4656ms
+     ✓ guards every automatic JSON response after the handler finishes, using the original credential  499ms
+     ✓ replaces detailed handler errors with opaque reauthentication after revocation  554ms
+     ✓ suppresses a committed private read after role authority is revoked while its session remains active  2414ms
+ ✓ tests/site-federation-login-http.test.ts (8 tests) 4917ms
+     ✓ is default-off even when an F2 authority exists  844ms
+     ✓ requires an exact same-origin browser start and non-whitespace key before opening SQL  3561ms
+
+ Test Files  9 passed | 1 skipped (10)
+      Tests  178 passed | 18 skipped (196)
+   Start at  16:33:00
+   Duration  73.14s (transform 114.58s, setup 0ms, import 320.64s, tests 135.48s, environment 2ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/erp/final-focused.json

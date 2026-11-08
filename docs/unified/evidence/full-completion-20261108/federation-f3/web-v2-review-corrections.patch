@@ -1,0 +1,126 @@
+--- a/corporate-site/tests/ci-browser.mjs
++++ b/corporate-site/tests/ci-browser.mjs
+@@ -69,7 +69,7 @@
+ export const erpFixtureSuites=Object.freeze([
+   {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
+   {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
+-  {file:'federation-login-ui.spec.ts',cases:9,name:'ERP federation login and browser cookie policy'},
++  {file:'federation-login-ui.spec.ts',cases:10,name:'ERP federation login and browser cookie policy'},
+ ]);
+ export function assertErpUiReport(report){
+   const tests=[],ids=new Set(),counts=Object.fromEntries(erpFixtureSuites.map(suite=>[suite.file,0]));
+--- a/corporate-site/tests/ci-browser.test.mjs
++++ b/corporate-site/tests/ci-browser.test.mjs
+@@ -25,12 +25,23 @@
+   const result=await runProcess(node,['-e',script],{timeoutMs:3000,tee:false});
+   assert.equal(result.stdout,'LATE_RESULT\n');assert.equal(result.code,0);
+ });
+-test('a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored',async()=>{
+-  let pid;
+-  await assert.rejects(()=>runProcess(node,['-e',"process.on('SIGTERM',()=>{});console.log(process.pid);setInterval(()=>{},1000)"],{
+-    timeoutMs:800,killGraceMs:50,tee:false,onStdout:text=>{pid=Number(text.trim());},
++test('a deadline closes its child and a ready TERM-ignoring child is killed before cleanup resolves',async()=>{
++  // Deadline enforcement must also work before a busy runner schedules Node.
++  await assert.rejects(()=>runProcess(node,['-e','setInterval(()=>{},1000)'],{
++    timeoutMs:50,killGraceMs:500,tee:false,
+   }),/CHILD_PROCESS_TIMEOUT/);
+-  assert.ok(pid>0);assert.throws(()=>process.kill(pid,0),error=>error.code==='ESRCH');
++  let announce,output='',timer;
++  const ready=new Promise(resolve=>{announce=resolve;});
++  const owned=ownProcess(node,['-e',"process.on('SIGTERM',()=>{});console.log('READY '+process.pid);setInterval(()=>{},1000)"],{
++    killGraceMs:500,tee:false,onStdout:text=>{output+=text;const match=/^READY ([0-9]+)\n/m.exec(output);if(match)announce(Number(match[1]));},
++  });
++  try{
++    const pid=await Promise.race([ready,owned.closed.then(()=>{throw Error('CHILD_EXITED_BEFORE_READY');}),
++      new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('CHILD_STARTUP_TIMEOUT')),5000);})]);
++    assert.equal(pid,owned.child.pid);
++    const result=await owned.stop();assert.equal(result.signal,'SIGKILL');
++    assert.throws(()=>process.kill(pid,0),error=>error.code==='ESRCH');
++  }finally{clearTimeout(timer);await owned.stop();}
+ });
+ test('an already completed child has idempotent bounded cleanup',async()=>{
+   const child=ownProcess(node,['-e','process.stdout.write("done")'],{tee:false});
+@@ -49,12 +60,12 @@
+   assert.throws(()=>assertSuiteReceipt(base,{requiredChecks:['assistant.display.visible']}),/MISSING_REQUIRED/);
+   assertSuiteReceipt({status:'PASS',checks:[{status:'PASS',caseId:'assistant.display.visible'}]},{requiredChecks:['assistant.display.visible']});
+ });
+-test('ERP report requires all three named fixture suites, all eighteen distinct cases and no skip, retry or failure',()=>{
+-  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',9]].map(([file,count])=>({file,
++test('ERP report requires all three named fixture suites, all nineteen distinct cases and no skip, retry or failure',()=>{
++  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',10]].map(([file,count])=>({file,
+     specs:Array.from({length:count},(_,i)=>({file,id:file+':'+i,title:'synthetic case '+i,tests:[{status:'expected',results:[{status:'passed'}]}]})),
+   }));
+-  const report={stats:{expected:18,unexpected:0,skipped:0,flaky:0},errors:[],suites};
+-  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':9});
++  const report={stats:{expected:19,unexpected:0,skipped:0,flaky:0},errors:[],suites};
++  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':10});
+   for(const patch of [{skipped:1},{unexpected:1},{flaky:1},{expected:0}])assert.throws(()=>assertErpUiReport({...report,stats:{...report.stats,...patch}}));
+   const missing=structuredClone(report);missing.suites.pop();missing.stats.expected=4;assert.throws(()=>assertErpUiReport(missing));
+   const wrong=structuredClone(report);wrong.suites[1].specs.forEach(spec=>{spec.file='conversation-transfer-ui.spec.ts';});assert.throws(()=>assertErpUiReport(wrong));
+--- a/erp/apps/web/src/FederationLogin.tsx
++++ b/erp/apps/web/src/FederationLogin.tsx
+@@ -103,7 +103,9 @@
+         const result=webAuthorizationResponse(value);clearSession();
+         const session=await api<Session>('/api/v1/me',{signal:generation.controller.signal});
+         if(!current(generation))return;
+-        if(session.actor.userId!==result.session.actor.userId||session.actor.companyId!==result.session.actor.companyId)throw new ApiError('FEDERATION_CONFLICT',409);
++        // Token-derived CSRF binds this check to the newly issued cookie even
++        // when an older browser session belongs to the same ERP account.
++        if(session.actor.userId!==result.session.actor.userId||session.actor.companyId!==result.session.actor.companyId||session.csrfToken!==result.session.csrfToken)throw new ApiError('FEDERATION_CONFLICT',409);
+         onComplete(session,result.returnPath);
+       }
+     }catch(value){if(current(generation)){setError(value);setUnknown(true);setUnknownWeb(pinned.client.kind==='WEB');setRequest(null);setConfirmed(false);}}
+--- a/erp/tests/federation-login-ui.spec.ts
++++ b/erp/tests/federation-login-ui.spec.ts
+@@ -2,6 +2,10 @@
+ import {readFile} from 'node:fs/promises';
+ import {resolve,extname} from 'node:path';
+ import {pathToFileURL} from 'node:url';
++
++// Worker-owned traffic bypasses page.route; this fixture covers HTTP flows,
++// while service-worker behavior belongs to a separate browser acceptance scope.
++test.use({serviceWorkers:'block'});
+ 
+ // Current ERP build + current VPS HTML, served at intercepted synthetic HTTPS
+ // origins. Chrome supplies real Strict/Lax cookie behavior. This is not a TLS,
+@@ -13,7 +17,7 @@
+ const blocked=new WeakMap<Page,string[]>();
+ const defer=()=>{let resolve!:()=>void;const promise=new Promise<void>(done=>{resolve=done;});return {promise,resolve};};
+ test.afterEach(async({page})=>{expect(blocked.get(page)??[],'Unexpected requests cannot leave the explicit synthetic fixture.').toEqual([]);});
+-async function fixture(page:Page,context:BrowserContext,{native=false,approved=false,loginPage=false,corruptIssuer=false,dropConfirm=false,dropStart=false,dropWebBody=false}={}){
++async function fixture(page:Page,context:BrowserContext,{native=false,approved=false,loginPage=false,corruptIssuer=false,dropConfirm=false,dropStart=false,dropWebBody=false,dropWebCookie=false}={}){
+   const failures:string[]=[],unexpected:string[]=[],calls:Array<{path:string;method:string;cookie:string;origin:string;body:any;csrf:string;key:string}>=[];
+   blocked.set(page,unexpected);page.on('pageerror',error=>failures.push(error.message));
+   const sourceUi=await import(pathToFileURL(resolve(process.cwd(),'../corporate-site/vps/federation-login-ui.mjs')).href);
+@@ -59,7 +63,7 @@
+     if(address.origin===erpOrigin&&path.startsWith('/api/')){
+       const post=request.method()==='POST',get=request.method()==='GET';if(post){expect(call.origin).toBe(erpOrigin);call.body=request.postDataJSON();}
+       if(path==='/api/v1/public/config'&&get){await route.fulfill({json:{mode:'TEST',services:[],legal:{}}});return;}
+-      if(path==='/api/v1/me'&&get){await route.fulfill(authenticated?{json:session}:{status:401,json:{code:'NEEDS_REAUTH'}});return;}
++      if(path==='/api/v1/me'&&get){await route.fulfill(authenticated?{json:{...session,csrfToken:call.cookie.includes('knaba_session='+newCookie)?session.csrfToken:'synthetic-old-erp-csrf'}}:{status:401,json:{code:'NEEDS_REAUTH'}});return;}
+       if(path==='/api/v1/auth/federation/config'&&get){await route.fulfill({json:config});return;}
+       if(path==='/api/v1/auth/federation/start'&&post){
+         expect(call.body).toEqual({authorityId:'site',clientId:client.clientId});expect(call.key).toMatch(/^[!-~]{8,200}$/);
+@@ -89,7 +93,7 @@
+           dropWebBody=false;await context.clearCookies({name:'__Host-knaba-federation-flow'});
+           await route.fulfill({contentType:'application/json',body:'{',headers:sessionHeaders});return;
+         }
+-        await route.fulfill({json:{...session,returnPath:'/console'},headers:sessionHeaders});return;
++        await route.fulfill({json:{...session,returnPath:'/console'},headers:dropWebCookie?{}:sessionHeaders});return;
+       }
+       if(path==='/api/v1/auth/federation/requests/'+id+'/cancel'&&post){
+         expect(call.csrf).toBe(csrf);phase='CANCELLED';version++;await route.fulfill({json:{requestId:id,state:phase,version}});return;
+@@ -190,3 +194,13 @@
+   await expect.poll(()=>f.calls.filter(row=>row.path.endsWith('/api/v1/me')).length).toBeGreaterThan(checked);
+   expect(f.calls.filter(row=>row.path.endsWith('/confirm'))).toHaveLength(1);expect(f.calls.some(row=>row.path.endsWith('/logout'))).toBe(false);expect(f.failures).toEqual([]);
+ });
++test('F3 HTTP fixture: a same-user older ERP cookie cannot complete the new WEB session',async({page,context})=>{
++  const f=await fixture(page,context,{approved:true,dropWebCookie:true});await confirm(page);
++  await expect(page.getByRole('alert')).toContainText('The response is missing.');
++  expect(page.url()).toBe(erpOrigin+'/auth/federation/return?request_id='+id);
++  expect((await context.cookies(erpOrigin)).find(value=>value.name==='knaba_session')?.value).toBe(oldCookie);
++  const current=f.calls.filter(row=>row.path===erpOrigin+'/api/v1/me');expect(current).toHaveLength(1);expect(current[0].cookie).toContain('knaba_session='+oldCookie);
++  await expect(page.getByText('The request has completed. Open your workspace.',{exact:true})).toHaveCount(0);
++  await expect(page.getByRole('link',{name:'Check the current account',exact:true})).toHaveAttribute('href','/console');
++  expect(f.calls.filter(row=>row.path.endsWith('/confirm'))).toHaveLength(1);expect(f.calls.some(row=>row.path.endsWith('/logout'))).toBe(false);expect(f.failures).toEqual([]);
++});

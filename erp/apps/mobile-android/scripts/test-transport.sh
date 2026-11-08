@@ -18,12 +18,20 @@ fi
 "${KNABA_TRANSPORT_JAVAC[@]}" -source 17 -target 17 -cp "$KNABA_TRANSPORT_JSON" -d "$KNABA_TRANSPORT_TEST_DIR" \
   app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java \
   app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java \
+  app/src/main/java/de/knaba/mobile/ErpMedia.java \
+  app/src/main/java/de/knaba/mobile/ErpMediaIo.java \
   app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java \
   app/src/main/java/de/knaba/mobile/ErpReadRetry.java \
   app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java \
   scripts/tests/ErpConsoleTransportTest.java \
+  scripts/tests/ErpMediaTransportTest.java \
+  scripts/tests/ErpMediaMemoryTest.java \
+  scripts/tests/ErpMediaIoTest.java \
   scripts/tests/ErpCredentialSafetyTest.java \
   scripts/tests/ErpServerDiscoveryTest.java
 java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpConsoleTransportTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpMediaTransportTest
+java -Xmx96m -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpMediaMemoryTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpMediaIoTest
 java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpCredentialSafetyTest
 java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpServerDiscoveryTest

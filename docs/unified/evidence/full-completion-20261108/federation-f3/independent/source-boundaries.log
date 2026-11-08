@@ -1,0 +1,16 @@
+✔ independent: immutable request deadline caps issue proof, not the original active-session use proof (630.453401ms)
+✔ independent: source-session end clamps use proof and denies exactly at expiry (434.167989ms)
+✔ independent: expired inspection produces no durable approval or approval RPC (244.007087ms)
+✔ independent: lost ACK cannot replay or renew an expired CLAIMING operation (360.003611ms)
+✔ independent: same-user replacement session cannot reuse approval or revive a revoked original session (428.607893ms)
+✔ independent: late authenticated pre-cancellation status cannot overwrite a newer terminal local deny (409.992933ms)
+✔ independent: unauthenticated raw body and authenticated wrong action consume no proof nonce or effect (363.207423ms)
+✔ independent: exact prior F2 binary opens additive schema but rejects both F3 proof purposes (381.079366ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3473.87693

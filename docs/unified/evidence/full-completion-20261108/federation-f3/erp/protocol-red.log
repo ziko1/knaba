@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ❯ tests/site-federation-login-protocol.test.ts (4 tests | 3 failed) 40ms
+     × carries LOGIN_INSPECT through the existing signed transport 12ms
+     × carries LOGIN_APPROVE through the existing signed transport 1ms
+     × carries LOGIN_STATUS through the existing signed transport 0ms
+     ✓ does not accept an unspecified login grant action 24ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/site-federation-login-protocol.test.ts > federation login signed transport extension > carries LOGIN_INSPECT through the existing signed transport
+ FAIL  tests/site-federation-login-protocol.test.ts > federation login signed transport extension > carries LOGIN_APPROVE through the existing signed transport
+ FAIL  tests/site-federation-login-protocol.test.ts > federation login signed transport extension > carries LOGIN_STATUS through the existing signed transport
+FederationProtocolError: FEDERATION_AUTH_FAILED
+ ❯ fail packages/integrations/site-federation-protocol.mjs:15:25
+     13|   constructor(code='FEDERATION_INVALID'){super(code);this.name='Federa…
+     14| }
+     15| const fail=code=>{throw new FederationProtocolError(code);};
+       |                         ^
+     16| const requireValue=(condition,code)=>{if(!condition)fail(code);};
+     17| const plain=value=>value!==null&&typeof value==='object'&&!Array.isArr…
+ ❯ requireValue packages/integrations/site-federation-protocol.mjs:16:53
+ ❯ envelope packages/integrations/site-federation-protocol.mjs:89:3
+ ❯ makeFederationRequest packages/integrations/site-federation-protocol.mjs:94:15
+ ❯ tests/site-federation-login-protocol.test.ts:7:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 1 passed (4)
+   Start at  15:41:28
+   Duration  1.05s (transform 123ms, setup 0ms, import 295ms, tests 40ms, environment 2ms)
+

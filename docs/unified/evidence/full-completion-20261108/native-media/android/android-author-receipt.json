@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "AUTHOR_FREEZE_READY_FOR_PEER_REVIEW",
+  "manifest": "/workspace/scratch/c56161c95e04/verification/native-media/android-source-manifest.json",
+  "manifestSha256": "cc296f7fea9312d956629240c11c835ec42013e422675a097b4911c163004921",
+  "sourceDigest": "ed80ccc61c4cff74c4a3fa92f3a77cb91cc0e60511e0d1ac8e953bede628e466",
+  "fileCount": 22,
+  "latestUiExecution": {
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "correctiveReviewRequest": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-drain-review-request.json",
+  "correctiveReviewRequestSha256": "f8ddc720875e1457b2b45884861bd2aef9f5c9cf06b3ac52e34c0d23c595c4b2",
+  "independentReview": "PENDING_ROOT_AND_COVERAGE_DELTA",
+  "newArtifact": "NOT_BUILT"
+}

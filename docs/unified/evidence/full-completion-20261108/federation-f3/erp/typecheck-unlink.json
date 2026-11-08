@@ -1,0 +1,5 @@
+{
+  "command": "tsc --noEmit",
+  "exitCode": 0,
+  "durationSeconds": 29.96
+}

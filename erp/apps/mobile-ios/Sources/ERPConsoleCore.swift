@@ -26,8 +26,10 @@ struct ERPIdentity: Decodable, Sendable, Equatable {
 }
 struct ERPItem: Decodable, Identifiable, Sendable {
     let id: String
+    let companyId: String?
     let kind: String
     let version: Int
+    let createdAt: String?
     let data: [String: ERPField]
     var title: String {
         for key in ["name", "title", "code", "subject", "email", "description", "status", "state"] {
@@ -139,6 +141,13 @@ enum ERPOrigin {
 /// Injectable network boundary; production rejects redirects and bounds the response while streaming.
 protocol ERPConsoleTransport: Sendable {
     func data(for request: URLRequest) async throws -> (Data, HTTPURLResponse)
+    func mediaData(for request: URLRequest) async throws -> (Data, HTTPURLResponse)
+}
+
+extension ERPConsoleTransport {
+    // Existing deterministic transports remain usable. The client also verifies
+    // the media bound; production enforces it while streaming, before allocation.
+    func mediaData(for request: URLRequest) async throws -> (Data, HTTPURLResponse) { try await data(for: request) }
 }
 
 final class ERPNoRedirect: NSObject, URLSessionTaskDelegate, @unchecked Sendable {
@@ -164,14 +173,25 @@ final class ERPURLSessionTransport: ERPConsoleTransport, @unchecked Sendable {
     }
     deinit { session.invalidateAndCancel() }
     func data(for request: URLRequest) async throws -> (Data, HTTPURLResponse) {
+        try await boundedData(for: request, maximum: Self.maximumResponseBytes)
+    }
+    func mediaData(for request: URLRequest) async throws -> (Data, HTTPURLResponse) {
+        try await boundedData(for: request, maximum: ERPMediaLimits.download, binary: true)
+    }
+    private func boundedData(for request: URLRequest, maximum: Int, binary: Bool = false) async throws -> (Data, HTTPURLResponse) {
         let (bytes, raw) = try await session.bytes(for: request, delegate: redirects)
         defer { bytes.task.cancel() }
         guard let response = raw as? HTTPURLResponse else { throw ERPFailure.invalidResponse }
-        guard response.expectedContentLength <= Int64(Self.maximumResponseBytes) else { throw ERPFailure.tooLarge }
+        let success = (200..<300).contains(response.statusCode)
+        if binary && success {
+            guard ["image/jpeg", "application/pdf"].contains(response.mimeType?.lowercased() ?? "") else { throw ERPMediaFailure.unsupportedType }
+        }
+        let bound = success ? maximum : min(maximum, Self.maximumResponseBytes)
+        guard response.expectedContentLength <= Int64(bound) else { throw ERPFailure.tooLarge }
         var data = Data()
-        data.reserveCapacity(min(max(Int(response.expectedContentLength), 0), Self.maximumResponseBytes))
+        data.reserveCapacity(min(max(Int(response.expectedContentLength), 0), bound))
         for try await byte in bytes {
-            guard data.count < Self.maximumResponseBytes else { throw ERPFailure.tooLarge }
+            guard data.count < bound else { throw ERPFailure.tooLarge }
             data.append(byte)
         }
         return (data, response)
@@ -190,6 +210,11 @@ actor ERPConsoleClient {
     }
     private let transport: any ERPConsoleTransport
     private let journal: any ERPCommandJournal
+    private let mediaJournal: any ERPMediaJournal
+    private let mediaClientID = UUID()
+    private let mediaSessionFence = ERPMediaSessionFence()
+    private var mediaPending: ERPMediaPending?
+    private var mediaFlight: UUID?
     private var origin: URL?
     private var cookie: String?
     private var csrf: String?
@@ -201,9 +226,11 @@ actor ERPConsoleClient {
     private(set) var identity: ERPIdentity?
 
     init(transport: any ERPConsoleTransport = ERPURLSessionTransport(),
-         journal: any ERPCommandJournal = ERPEncryptedCommandJournal()) {
+         journal: any ERPCommandJournal = ERPEncryptedCommandJournal(),
+         mediaJournal: any ERPMediaJournal = ERPEncryptedMediaJournal()) {
         self.transport = transport
         self.journal = journal
+        self.mediaJournal = mediaJournal
     }
     func configure(_ raw: String) throws {
         guard let next = ERPOrigin.validate(raw) else { throw ERPFailure.invalidOrigin }
@@ -212,8 +239,9 @@ actor ERPConsoleClient {
     }
     private func reset() {
         generation += 1
+        mediaSessionFence.advance(to: generation)
         identity = nil; cookie = nil; csrf = nil; authority = nil; actorScope = nil
-        pending = nil; commandFlight = nil
+        pending = nil; commandFlight = nil; mediaPending = nil; mediaFlight = nil
     }
     func forget() { reset(); origin = nil }
     func hasSession() -> Bool { identity != nil && cookie != nil && csrf != nil && actorScope != nil }
@@ -226,13 +254,14 @@ actor ERPConsoleClient {
     private func requireCurrent(_ session: Session) throws {
         guard session.generation == generation, session.origin == origin else { throw ERPFailure.accessChanged }
     }
-    private func request(_ path: String, method: String, body: Data?, authenticated: Bool, session: Session) throws -> URLRequest {
+    private func request(_ path: String, method: String, body: Data?, authenticated: Bool, session: Session,
+                         bodyLimit: Int = ERPPendingCommand.maximumBodyBytes) throws -> URLRequest {
         guard path.hasPrefix("/api/v1/"), !path.contains(".."), !path.contains("//"), !path.contains("#"),
               let url = URL(string: session.origin.absoluteString + path), url.host == session.origin.host,
               url.scheme == "https", url.port == session.origin.port, url.user == nil, url.password == nil else {
             throw ERPFailure.invalidPath
         }
-        guard (body?.count ?? 0) <= ERPPendingCommand.maximumBodyBytes else { throw ERPFailure.invalidPayload }
+        guard (body?.count ?? 0) <= bodyLimit else { throw ERPFailure.invalidPayload }
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.cachePolicy = .reloadIgnoringLocalCacheData
@@ -250,15 +279,23 @@ actor ERPConsoleClient {
         return request
     }
     private func send(_ path: String, method: String = "GET", body: Data? = nil,
-                      authenticated: Bool = true, session: Session) async throws -> (Data, HTTPURLResponse) {
+                      authenticated: Bool = true, session: Session,
+                      mediaUploadKey: String? = nil, mediaTicket: ERPMediaTicket? = nil) async throws -> (Data, HTTPURLResponse) {
         try requireCurrent(session)
         try Task.checkCancellation()
-        let outgoing = try request(path, method: method, body: body, authenticated: authenticated, session: session)
+        var outgoing = try request(path, method: method, body: body, authenticated: authenticated, session: session,
+                                   bodyLimit: mediaUploadKey == nil ? ERPPendingCommand.maximumBodyBytes : ERPMediaLimits.uploadBody)
+        if let mediaUploadKey {
+            guard path == "/api/v1/media/uploads", method == "POST", UUID(uuidString: mediaUploadKey) != nil else { throw ERPFailure.invalidPayload }
+            outgoing.setValue(mediaUploadKey, forHTTPHeaderField: "Idempotency-Key")
+        }
+        if let mediaTicket { try checkMedia(mediaTicket) }
         let received: (Data, HTTPURLResponse)
         do { received = try await transport.data(for: outgoing) }
         catch { try requireCurrent(session); throw error }
         let (data, response) = received
         try requireCurrent(session)
+        if let mediaTicket { try checkMedia(mediaTicket) }
         guard response.url == outgoing.url else { throw ERPFailure.invalidResponse }
         guard data.count <= ERPURLSessionTransport.maximumResponseBytes else { throw ERPFailure.tooLarge }
         guard (200..<300).contains(response.statusCode) else {
@@ -331,7 +368,9 @@ actor ERPConsoleClient {
             guard result.actor.companyId == identity?.actor.companyId, result.actor.userId == identity?.actor.userId else {
                 throw ERPFailure.accessChanged
             }
-            if authority != nextAuthority { generation += 1 }
+            if authority != nextAuthority {
+                generation += 1; mediaSessionFence.advance(to: generation); mediaPending = nil
+            }
             csrf = result.csrfToken; identity = result; authority = nextAuthority
             return result
         } catch {
@@ -357,7 +396,7 @@ actor ERPConsoleClient {
         let (data, _) = try await send("/api/v1/commands", session: session)
         return try JSONDecoder().decode(ERPCommands.self, from: data).items
     }
-    func entities(_ kind: String, channelId: String? = nil) async throws -> [ERPItem] {
+    func entities(_ kind: String, channelId: String? = nil, mediaTicket: ERPMediaTicket? = nil) async throws -> [ERPItem] {
         guard kind.range(of: "^[a-z][a-z0-9_]{0,48}$", options: .regularExpression) != nil else { throw ERPFailure.invalidPath }
         if let channelId, UUID(uuidString: channelId) == nil { throw ERPFailure.invalidPath }
         let path = channelId.map { "/api/v1/channels/\($0)/messages" } ?? "/api/v1/entities/\(kind)"
@@ -369,7 +408,7 @@ actor ERPConsoleClient {
             url.queryItems = [URLQueryItem(name: "limit", value: "100")]
             if let cursor { url.queryItems?.append(URLQueryItem(name: "cursor", value: cursor)) }
             guard let resource = url.string else { throw ERPFailure.invalidPath }
-            let (data, _) = try await send(resource, session: session)
+            let (data, _) = try await send(resource, session: session, mediaTicket: mediaTicket)
             let page = try JSONDecoder().decode(ERPPage.self, from: data)
             guard page.items.count <= 100 else { throw ERPFailure.invalidResponse }
             results.append(contentsOf: page.items)
@@ -383,6 +422,12 @@ actor ERPConsoleClient {
         guard hasSession(), let scope = actorScope else { return nil }
         let saved = try journal.read(scope: scope)
         try saved?.validate(expectedScope: scope)
+        if let saved, saved.nativeMedia == true {
+            guard let descriptor = try pendingMedia(), let uploadId = descriptor.uploadId else { throw ERPMediaFailure.recoveryMismatch }
+            let expected = try ERPPendingCommand(scope: scope, name: "media.register", input: descriptor.input.data(uploadId: uploadId),
+                                                 expectedVersion: nil, idempotencyKey: descriptor.registerKey, nativeMedia: true)
+            guard sameMediaCommand(saved, expected) else { throw ERPMediaFailure.recoveryMismatch }
+        }
         pending = saved
         return saved
     }
@@ -391,11 +436,15 @@ actor ERPConsoleClient {
         // or network suspension, including a session change after model preflight.
         if let expected, expected != generation { throw ERPFailure.accessChanged }
         guard !command.permission.isEmpty else { throw ERPFailure.invalidPayload }
-        guard commandFlight == nil else { throw ERPFailure.commandInFlight }
+        guard commandFlight == nil, mediaFlight == nil else { throw ERPFailure.commandInFlight }
         let session = try capture()
         guard try pendingCommand() == nil else { throw ERPFailure.pendingCommand }
         guard let scope = session.scope else { throw ERPFailure.expired }
         let payload = try ERPPendingCommand.validatedInput(name: command.name, input: input, expectedVersion: expectedVersion)
+        if command.name == "media.register", let descriptor = try pendingMedia(),
+           payload["uploadId"] as? String == descriptor.uploadId {
+            throw ERPMediaFailure.pendingMedia
+        }
         if ERPCommandSecrets.oneShotNames.contains(command.name) {
             try ERPCommandSecrets.validateOneShot(name: command.name, payload: payload)
             return try await executeSensitive(command.name, input: input, expectedVersion: expectedVersion, session: session)
@@ -407,9 +456,10 @@ actor ERPConsoleClient {
         return try await perform(next, session: session, firstAttempt: true)
     }
     func retryPending() async throws -> ERPField {
-        guard commandFlight == nil else { throw ERPFailure.commandInFlight }
+        guard commandFlight == nil, mediaFlight == nil else { throw ERPFailure.commandInFlight }
         let session = try capture()
         guard let command = try pendingCommand() else { throw ERPFailure.noPendingCommand }
+        guard command.nativeMedia != true else { throw ERPMediaFailure.pendingMedia }
         // Hold the flight guard across /me, then use a fresh CSRF value only if the
         // exact same session/authority still exists. No login or automatic replay.
         let flight = UUID(); commandFlight = flight
@@ -468,6 +518,191 @@ actor ERPConsoleClient {
         let result = try JSONDecoder().decode(ERPField.self, from: data)
         guard result.dictionary?["ok"]?.bool == true, result.dictionary?["reauthenticationRequired"]?.bool == true else { throw ERPFailure.invalidResponse }
         return result
+    }
+
+    // MARK: Typed native media. Ordinary command and JSON limits stay unchanged.
+    func mediaAuthority() throws -> ERPMediaAuthority {
+        let session = try capture()
+        guard let identity, let authority, let scope = session.scope else { throw ERPFailure.expired }
+        return ERPMediaAuthority(clientID: mediaClientID, fence: mediaSessionFence, origin: session.origin.absoluteString,
+                                 companyId: identity.actor.companyId, userId: identity.actor.userId,
+                                 scope: scope, fingerprint: ERPMediaPolicy.hash(authority), revision: generation,
+                                 external: identity.actor.roles.contains { ERPMediaPolicy.externalRoles.contains($0) })
+    }
+    func mediaSession() async throws -> ERPMediaAuthority {
+        _ = try await refresh()
+        return try mediaAuthority()
+    }
+    func checkMedia(_ ticket: ERPMediaTicket) throws {
+        try ticket.check()
+        guard try mediaAuthority() == ticket.authority else { throw ERPFailure.accessChanged }
+    }
+    func mediaCapability(_ ticket: ERPMediaTicket) async throws {
+        try checkMedia(ticket)
+        let commands = try await catalog()
+        try checkMedia(ticket)
+        guard let actor = identity?.actor else { throw ERPFailure.expired }
+        _ = try ERPMediaPolicy.command(commands, actor: actor)
+    }
+    func mediaContexts(kind: String, ticket: ERPMediaTicket) async throws -> [ERPMediaContext] {
+        guard ["site", "task"].contains(kind), !ticket.authority.external || kind == "site" else { throw ERPMediaFailure.noUploadPermission }
+        try checkMedia(ticket)
+        _ = try await refresh(); try checkMedia(ticket)
+        try await mediaCapability(ticket)
+        let records = try await entities(kind, mediaTicket: ticket)
+        try checkMedia(ticket)
+        return try records.map {
+            guard $0.companyId == ticket.authority.companyId else { throw ERPMediaFailure.contextChanged }
+            return try ERPMediaContext(record: $0)
+        }
+    }
+    private func freshMediaContext(_ ticket: ERPMediaTicket) async throws {
+        guard let context = ticket.context else { throw ERPMediaFailure.contextChanged }
+        let choices = try await mediaContexts(kind: context.kind, ticket: ticket)
+        guard choices.contains(where: { $0.kind == context.kind && $0.recordId == context.recordId && $0.siteId == context.siteId }) else {
+            throw ERPMediaFailure.contextChanged
+        }
+        try checkMedia(ticket)
+    }
+    func pendingMedia() throws -> ERPMediaPending? {
+        let current = try mediaAuthority()
+        let saved = try mediaJournal.read(scope: current.scope)
+        try saved?.validate(scope: current.scope)
+        if let saved, !saved.matches(current) { throw ERPMediaFailure.recoveryMismatch }
+        if let memory = mediaPending, memory.matches(current) {
+            if let saved {
+                guard memory.sameMutation(as: saved), saved.uploadId == nil || memory.uploadId == nil || saved.uploadId == memory.uploadId,
+                      saved.assetId == nil || memory.assetId == nil || saved.assetId == memory.assetId,
+                      saved.assetVersion == nil || memory.assetVersion == nil || saved.assetVersion == memory.assetVersion else { throw ERPFailure.recoveryInvalid }
+                if memory.phase.order >= saved.phase.order { return memory }
+            } else if memory.phase == .registered { return memory }
+        }
+        mediaPending = saved
+        return saved
+    }
+    private func validateMedia(_ value: ERPMediaPending, ticket: ERPMediaTicket) throws {
+        try checkMedia(ticket); try value.validate(scope: ticket.authority.scope)
+        guard value.matches(ticket.authority), let context = ticket.context else { throw ERPMediaFailure.recoveryMismatch }
+        try ERPMediaPolicy.validate(value.input, context: context, authority: ticket.authority, mimeType: value.mimeType)
+        if let old = try pendingMedia() {
+            guard old.sameMutation(as: value), value.phase.order >= old.phase.order,
+                  old.uploadId == nil || old.uploadId == value.uploadId else { throw ERPMediaFailure.pendingMedia }
+        }
+    }
+    func uploadMedia(_ file: ERPMediaFile, pending value: ERPMediaPending, ticket: ERPMediaTicket) async throws -> ERPMediaUploadResult {
+        guard mediaFlight == nil, commandFlight == nil else { throw ERPFailure.commandInFlight }
+        try validateMedia(value, ticket: ticket)
+        guard value.phase == .uploadPending else { throw ERPMediaFailure.pendingMedia }
+        let flight = UUID(); mediaFlight = flight
+        defer { if mediaFlight == flight { mediaFlight = nil } }
+        try await freshMediaContext(ticket)
+        guard try pendingCommand() == nil else { throw ERPFailure.pendingCommand }
+        let body = try value.uploadBody(file: file)
+        try checkMedia(ticket)
+        try mediaJournal.persist(value) // Fail closed before the first mutation.
+        mediaPending = value
+        let session = try capture()
+        let (data, _) = try await send("/api/v1/media/uploads", method: "POST", body: body, session: session,
+                                       mediaUploadKey: value.uploadKey, mediaTicket: ticket)
+        let receipt = try JSONDecoder().decode(ERPMediaUploadReceipt.self, from: data)
+        try receipt.validate(value); try checkMedia(ticket)
+        var next = value; next.phase = .uploaded; next.uploadId = receipt.uploadId
+        mediaPending = next // A known ACK is never reclassified as unknown by a disk error.
+        var warning = false
+        do { try mediaJournal.persist(next) } catch { warning = true }
+        return ERPMediaUploadResult(pending: next, receipt: receipt, recoveryWarning: warning)
+    }
+    private func sameMediaCommand(_ command: ERPPendingCommand, _ expected: ERPPendingCommand) -> Bool {
+        command.scope == expected.scope && command.name == "media.register" && command.expectedVersion == nil && command.nativeMedia == true && expected.nativeMedia == true &&
+        command.idempotencyKey == expected.idempotencyKey && command.input == expected.input && command.body == expected.body
+    }
+    private func finishMediaReceipt(_ value: ERPMediaPending) -> Bool {
+        do {
+            try mediaJournal.persist(value)
+            if let command = try journal.read(scope: value.scope) {
+                guard let uploadId = value.uploadId else { throw ERPMediaFailure.receiptInvalid }
+                let expected = try ERPPendingCommand(scope: value.scope, name: "media.register", input: value.input.data(uploadId: uploadId),
+                                                     expectedVersion: nil, idempotencyKey: value.registerKey, nativeMedia: true)
+                guard sameMediaCommand(command, expected) else { throw ERPFailure.pendingCommand }
+                try journal.remove(scope: value.scope, idempotencyKey: value.registerKey)
+                if pending?.idempotencyKey == value.registerKey { pending = nil }
+            }
+            try mediaJournal.remove(scope: value.scope, uploadKey: value.uploadKey)
+            mediaPending = nil
+            return false
+        } catch { return true }
+    }
+    func registerMedia(_ value: ERPMediaPending, ticket: ERPMediaTicket) async throws -> ERPMediaRegistrationResult {
+        guard mediaFlight == nil, commandFlight == nil else { throw ERPFailure.commandInFlight }
+        try validateMedia(value, ticket: ticket)
+        guard let uploadId = value.uploadId, value.phase != .uploadPending else { throw ERPMediaFailure.missingSelection }
+        let flight = UUID(); mediaFlight = flight
+        defer { if mediaFlight == flight { mediaFlight = nil } }
+        try await freshMediaContext(ticket)
+        if value.phase == .registered {
+            // Only local cleanup remains. Never replay a known successful registration.
+            return ERPMediaRegistrationResult(pending: value, asset: nil, recoveryWarning: finishMediaReceipt(value))
+        }
+        let expected = try ERPPendingCommand(scope: value.scope, name: "media.register", input: value.input.data(uploadId: uploadId),
+                                             expectedVersion: nil, idempotencyKey: value.registerKey, nativeMedia: true)
+        let old = try pendingCommand()
+        if let old, !sameMediaCommand(old, expected) { throw ERPFailure.pendingCommand }
+        var next = value; next.phase = .registerPending
+        try checkMedia(ticket)
+        try mediaJournal.persist(next)
+        if old == nil { try journal.persist(expected) }
+        pending = old ?? expected; mediaPending = next
+        let session = try capture()
+        let (data, _) = try await send("/api/v1/commands/media.register", method: "POST", body: expected.body, session: session, mediaTicket: ticket)
+        let asset = try JSONDecoder().decode(ERPItem.self, from: data)
+        try checkMedia(ticket)
+        guard asset.kind == "media_asset", asset.companyId == value.companyId, ERPMediaPolicy.validID(asset.id), asset.version > 0,
+              asset.data["uploadId"]?.string == uploadId, asset.data["siteId"]?.string == value.input.siteId,
+              asset.data["taskId"]?.string == value.input.taskId, asset.data["stage"]?.string == value.input.stage,
+              asset.data["visibility"]?.string == value.input.visibility else { throw ERPMediaFailure.receiptInvalid }
+        next.phase = .registered; next.assetId = asset.id; next.assetVersion = asset.version
+        mediaPending = next
+        let warning = finishMediaReceipt(next)
+        return ERPMediaRegistrationResult(pending: next, asset: asset, recoveryWarning: warning)
+    }
+    func mediaGallery(_ ticket: ERPMediaTicket) async throws -> [ERPItem] {
+        try checkMedia(ticket)
+        _ = try await refresh(); try checkMedia(ticket)
+        let records = try await entities("media_asset", mediaTicket: ticket)
+        try checkMedia(ticket)
+        guard records.allSatisfy({ $0.kind == "media_asset" && $0.companyId == ticket.authority.companyId && ERPMediaPolicy.validID($0.id) }) else {
+            throw ERPMediaFailure.receiptInvalid
+        }
+        return records
+    }
+    func downloadMedia(_ asset: ERPItem, ticket: ERPMediaTicket) async throws -> ERPMediaDownload {
+        guard asset.kind == "media_asset", asset.companyId == ticket.authority.companyId else { throw ERPMediaFailure.contextChanged }
+        if let context = ticket.context {
+            guard asset.data["siteId"]?.string == context.siteId,
+                  context.taskId == nil || asset.data["taskId"]?.string == context.taskId else { throw ERPMediaFailure.contextChanged }
+        }
+        let current = try await mediaGallery(ticket)
+        guard current.contains(where: { $0.id == asset.id && $0.version == asset.version &&
+            $0.data["siteId"]?.string == asset.data["siteId"]?.string && $0.data["taskId"]?.string == asset.data["taskId"]?.string }) else {
+            throw ERPMediaFailure.contextChanged
+        }
+        let path = "/api/v1/media/\(try ERPMediaPolicy.component(asset.id))/file?copy=client"
+        let session = try capture()
+        var outgoing = try request(path, method: "GET", body: nil, authenticated: true, session: session)
+        outgoing.setValue("image/jpeg, application/pdf", forHTTPHeaderField: "Accept")
+        try checkMedia(ticket)
+        let (data, response) = try await transport.mediaData(for: outgoing)
+        try requireCurrent(session); try checkMedia(ticket)
+        guard response.url == outgoing.url else { throw ERPFailure.invalidResponse }
+        guard data.count <= ERPMediaLimits.download, response.expectedContentLength <= Int64(ERPMediaLimits.download) else { throw ERPFailure.tooLarge }
+        guard (200..<300).contains(response.statusCode) else {
+            if response.statusCode == 401 { reset() }
+            let code = data.count <= ERPURLSessionTransport.maximumResponseBytes ? Self.errorCode(data) : "HTTP_ERROR"
+            throw ERPFailure.http(response.statusCode, code)
+        }
+        guard let mime = response.mimeType?.lowercased(), ["image/jpeg", "application/pdf"].contains(mime),
+              try ERPMediaPolicy.mime(data) == mime else { throw ERPMediaFailure.unsupportedType }
+        return ERPMediaDownload(assetId: asset.id, bytes: data, mimeType: mime)
     }
     func messages(_ channelId: String) async throws -> [ERPItem] {
         guard UUID(uuidString: channelId) != nil else { throw ERPFailure.invalidPath }

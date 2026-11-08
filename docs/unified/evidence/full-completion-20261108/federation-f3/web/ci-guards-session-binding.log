@@ -1,0 +1,26 @@
+✔ source binding requires the exact clean committed SHA (2.239214ms)
+✔ all four artifact groups are deterministic and any changed worker bytes invalidate the build manifest (258.204193ms)
+✔ rejects missing groups and empty output instead of attesting a partial build (14.583189ms)
+✔ a nonempty VPS output without the federation bundle cannot be attested (15.733265ms)
+✔ shared protocol and VPS entry bytes are required and any changed source invalidates the manifest (34.642498ms)
+✔ bound source rejects a symlink to an unreviewed protocol (8.869944ms)
+✔ rejects symlink files and symlink ancestors without following them into an artifact (13.967421ms)
+✔ rejects malformed manifests and source mismatches (10.061875ms)
+✔ build manifest must be outside the checkout at an explicit absolute path (0.875434ms)
+✔ owned preview readiness uses a bodyless HEAD and waits for its own listener (379.450517ms)
+✔ an owned preview HTTP failure is not accepted as ready (427.417358ms)
+✔ waits for close and captures inherited stdout even after the direct child exits (352.988495ms)
+✔ a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored (905.601297ms)
+✔ an already completed child has idempotent bounded cleanup (436.346783ms)
+✔ spawn failure and abort reject without accepting a successful suite (27.050376ms)
+✔ a fallback PASS containing an engine block stops the wrapper before another browser launch (1.625269ms)
+✔ ERP report requires all three named fixture suites, all nineteen distinct cases and no skip, retry or failure (19.771684ms)
+✔ fixture isolates provider environments and runner uses only local owned previews and temp reporters (8.288064ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2996.467011

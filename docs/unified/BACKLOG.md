@@ -1,5 +1,18 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 2026-11-08 — F2 technical dependency satisfied
+
+Exact `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5` / tree
+`7dd5cf0868b6774e80712324cf692c1f18a24342`: main42485949823 має4 required
+SUCCESS; ERP3127,24 F2 PG,7 actual F2 pair та9 rendered HTTP-fixture cases PASS.
+Незалежне artifact/source review — `ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`.
+F3 contract design тепер дозволений; його session issuance і dependent F4,
+privacy/native/provider/device/operational acceptance залишаються відкритими.
+Native media source розробляється окремо; старі native artifacts не доводять
+нові inputs. Whole product NOT_READY, усі compound AC без підвищення.
+Деталі й межі: [поточне покриття](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md)
+та `evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
 ## Поточний кандидат — 08.11.2026, PR129
 
 Опублікований remote: `5d6eeae0862e52cc693c1766f0c6fba964b12aa5`,
@@ -286,3 +299,9 @@ The first1988090 run had six stale14-migration fixture failures; correction veri
 Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
 
 Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+F1/F2 technical dependency закрито actual CI на e03d2be; F3 server/web і native media реалізовано та прийнято source-scoped. Наступний gate — exact committed aggregate CI:18 F3 PostgreSQL,8 actual pair,10 rendered F3 cases, current Android/iOS pipelines. Повні72 AC не підвищені. [Докладний checkpoint](F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md).
+
+Після цього gate: Android/iOS F3 adapters зі staged fresh-cookie adoption; versioned own-user identity metadata export через existing legal review; решта F4/background/push та actual device/provider/restore/load/company acceptance. Privacy TTL і destructive metadata purge не призначаються довільно.

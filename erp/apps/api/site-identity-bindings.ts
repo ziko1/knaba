@@ -139,8 +139,13 @@ export class SiteIdentityBindings {
 
   /** Identity lookup only. The result is not an Actor, session or cached grant. */
   async resolve(identity: SitePrincipal): Promise<SiteIdentityBinding> {
+    return this.db.transaction(this.companyId,'SITE_IDENTITY_LOOKUP',tx => this.resolveIn(tx,identity),10000,true);
+  }
+
+  /** Current lookup under the caller's company lock; never a session grant. */
+  async resolveIn(tx: PgTransaction,identity: SitePrincipal): Promise<SiteIdentityBinding> {
+    this.scope(tx);
     const p = principal(identity);
-    return this.db.transaction(this.companyId,'SITE_IDENTITY_LOOKUP',async tx => {
       const now = await this.clock(tx), trust = this.trustedAuthorities().require(this.companyId,p,now);
       const result = await tx.query(`SELECT * FROM site_identity_bindings WHERE company_id=$1 AND issuer=$2 AND subject=$3
         AND audience=$4 AND status='ACTIVE' AND (expires_at IS NULL OR expires_at>clock_timestamp())`,[this.companyId,p.issuer,p.subject,p.audience]);
@@ -151,7 +156,6 @@ export class SiteIdentityBindings {
       if (this.trustedAuthorities().require(this.companyId,p,finishedAt).fingerprint !== trust.fingerprint ||
           row.expires_at && new Date(row.expires_at).getTime() <= finishedAt.getTime()) return deny();
       return binding(row);
-    },10000,true);
   }
 
   /** Internal unlink storage step. Revocation is terminal in F1. Even expired or

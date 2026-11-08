@@ -1141,3 +1141,7 @@
 - Повний baseline source-audit SHA256 до wrapper note: `8e7c09ebdc2cf0864d7f7cea6f1d4d70221c9a83448090ebb2d38856d59f9342`.
 - Declaration index створено через TypeScript AST з наявних test sources; literal case titles звірено з поточними файлами під час генерації. Це search aid, не виконання тестів. Динамічні nonliteral назви не означають відсутність відповідних тестів.
 - Цей документ не змінює canonical CSV, runtime, build outputs, legal/provider gates або GitHub acceptance. Повний source review наступних паралельних bridge/identity змін належить окремим receipts.
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+KN-C04/KN-U09 отримали F3 server/web source-scoped evidence, а media scope — native implementation/recovery та CUSTOMER ACL. [Checkpoint](F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md) зберігає точні докази й окремі actual gates. Це не whole-criterion acceptance; усі72 canonical AC statuses залишаються NOT_RUN.

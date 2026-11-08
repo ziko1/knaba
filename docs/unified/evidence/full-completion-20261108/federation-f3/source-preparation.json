@@ -1,0 +1,681 @@
+{
+  "schemaVersion": 1,
+  "createdAtUtc": "2026-11-08T16:11:48.549849+00:00",
+  "status": "ACCEPT_SOURCE_SCOPED_AGGREGATE_CI_PENDING",
+  "wholeProduct": "NOT_READY",
+  "targetBeforeIntegration": "44f1539ced6b36da009341f199dc8d780c7af656",
+  "lastAcceptedF2Dependency": {
+    "source": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "run": 42485949823,
+    "independentScope": "F2 technical password-based contract"
+  },
+  "components": [
+    {
+      "scope": "VPS13",
+      "manifest": "site/source-manifest-review.json",
+      "manifestSha256": "d078795f6b2218436b696b48c565388d7fd689f9b0e532c2e5495ad88945889f",
+      "sourceFiles": 13,
+      "independentReview": "independent/source-review.json",
+      "reviewSha256": "a20bd7c553f99da527923db3351d6f0858be9f0ebadade6e79b0b3501b75cc9e"
+    },
+    {
+      "scope": "ERP26",
+      "manifest": "erp/source-manifest.json",
+      "manifestSha256": "84161d679b80b4aaab99291f829657de20824f66ab958c03aa456777104f66d9",
+      "sourceFiles": 26,
+      "independentReview": "independent/erp-source-review.json",
+      "reviewSha256": "1978e478cd4d6581cac58388fb07d32ea5c22ad42de6123e161d95e01715a30d"
+    },
+    {
+      "scope": "WEB_BRIDGE16",
+      "manifest": "web/source-manifest-review.json",
+      "manifestSha256": "e590b4eef00cce479b28c09a982900390a4329ac6777231bc1a1abecb55a5a9e",
+      "sourceFiles": 16,
+      "independentReview": "web/independent-review.json",
+      "reviewSha256": "2221bb4005860a2d50ad55424f62aae0cca89e943e8fac2e3a09e3a1ab0e870c"
+    }
+  ],
+  "integration": {
+    "files": 57,
+    "receipt": "integration/source-integration.json",
+    "independentReview": "integration/independent-binding.json",
+    "reviewSha256": "f7ac2afe2c787fea893dbfdf870d8d8e0b6a4ff44ef96d8ca58cb927ba10838d"
+  },
+  "nativeMedia": {
+    "files": 37,
+    "evidence": "../native-media/source-preparation.json",
+    "sha256": "23cc5bfa64a77bc87d0ce42137f654dbd3ddc144660a9cb2c6537cce4c3b8c59",
+    "scope": "Accepted Android22/shared and iOS15 source; current native CI still required"
+  },
+  "locallyExecuted": {
+    "currentVps": {
+      "passed": 354,
+      "failed": 0,
+      "skipped": 0,
+      "receipt": "site/full-vps-current-receipt.json",
+      "scope": "Actual SQLite and synthetic ERP HTTP; refreshed current federation bundle"
+    },
+    "erp": {
+      "initialCpuPassed": 178,
+      "postCorrectionCpuPassed": 41,
+      "distinctCpuAcrossRuns": 179,
+      "note": "Overlapping runs and frozen inputs are explicit; not one179-case run; SQL doubles except HTTP boundary"
+    },
+    "webModels": {
+      "passed": 24,
+      "scope": "CPU model/API tests"
+    },
+    "newSessionIndependentProbe": {
+      "redThenGreen": true,
+      "passedAfterCorrection": 3,
+      "scope": "Source-extracted handler; not browser"
+    },
+    "finalTypecheck": "web/typecheck-final.json",
+    "guardUnits": {
+      "root": 18,
+      "independent": 18,
+      "priorIndependentFailed": 1,
+      "scope": "Infrastructure guards; final READY handshake test correction"
+    },
+    "workflowGate": {
+      "syntheticCases": 19,
+      "receipt": "ci/erp-gate-receipt.json"
+    },
+    "nativeIntegrated": {
+      "passed": 147,
+      "scope": "134 shared/native contract+13 API cases; SQL/blob doubles"
+    }
+  },
+  "authoredActualNotRun": {
+    "f3Postgresql": 18,
+    "f3PairedRuntime": 8,
+    "f3RenderedBrowser": 10,
+    "totalRequiredFixtureBrowser": 19,
+    "nativeF3Callbacks": "NOT_IMPLEMENTED",
+    "newIosMediaXCTest": 52,
+    "cleanCommittedAggregateCi": "PENDING"
+  },
+  "coverage": {
+    "traceRows": 114,
+    "statuses": {
+      "IN_PROGRESS": 42,
+      "NOT_RUN": 72
+    },
+    "path": "../../../REQUIREMENTS_TRACEABILITY.csv",
+    "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712",
+    "originalCompoundCriteriaPromoted": false
+  },
+  "boundaries": [
+    "Source-scoped reviews do not certify aggregate runtime, production, physical devices, app-link ownership, providers or company acceptance.",
+    "Historical failures remain evidence. Browser --list is discovery only.",
+    "F3 service-worker blocking isolates HTTP fixtures; service-worker runtime is outside their scope.",
+    "ERP and native inputs preserve current authorization, scopes, release version, signing and GPS contracts.",
+    "One previously reserved standard GitHub source checkpoint; no new paid service, manual dispatch or larger runner."
+  ],
+  "evidenceFiles": [
+    {
+      "path": "ci/check-erp-gate.mjs",
+      "sha256": "384850645bec7cbe388992f2b1f94ecf0b8e6c042b17b4dc8d7657b2590668d5",
+      "bytes": 1693,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/check-erp-gate.mjs"
+    },
+    {
+      "path": "ci/erp-gate-receipt.json",
+      "sha256": "ead389ee0a0019a76e96037db71d69b5c8a8a071c9a0a34f1e10f36881e25a11",
+      "bytes": 849,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-receipt.json"
+    },
+    {
+      "path": "ci/erp-gate-under-test.mjs",
+      "sha256": "e3bdda450c87eb604941ddb9ef677cbad1eaf64dbfc730fc9cedd0505c84515d",
+      "bytes": 1021,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-under-test.mjs"
+    },
+    {
+      "path": "ci/erp-gate.log",
+      "sha256": "4398a7f88fd4fbcb50acac200093fa08cf252c4920d6bf32eb6a76677e6ae429",
+      "bytes": 156,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate.log"
+    },
+    {
+      "path": "contract-acceptance.json",
+      "sha256": "5c83dc3a7bbdbdffee0793d4b378555a426aedd34edeb1f787d1f080709aa279",
+      "bytes": 2833,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/contract-acceptance.json"
+    },
+    {
+      "path": "erp-review-corrections.patch",
+      "sha256": "c9aa727b1390da0bbca608e5062c65f3a7533ad288bb17fe93e1ea2511376a97",
+      "bytes": 5546,
+      "scope": "Reconstructable delta from preserved reviewed manifest to final accepted source"
+    },
+    {
+      "path": "erp/compatibility-first.log",
+      "sha256": "28230eb72edcea5cc85932c3f33be91787e4ccb7b17e28262bad20a0440deff9",
+      "bytes": 1412,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/compatibility-first.log"
+    },
+    {
+      "path": "erp/final-focused.json",
+      "sha256": "e1f625f06b2ed7de93062703cfd7dd9a6eb55349fa4b42d84b2cb9b3347a7a22",
+      "bytes": 77480,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/final-focused.json"
+    },
+    {
+      "path": "erp/final-focused.log",
+      "sha256": "be130c44c81088a894b7bbd5368a1885d76d09d794eba384e83b0b3dbd28936d",
+      "bytes": 3847,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/final-focused.log"
+    },
+    {
+      "path": "erp/flow-first.log",
+      "sha256": "f45a6a0aec214136bce640a27fd6a40f4beb23de31f173a6a2235f762463f8e4",
+      "bytes": 4866,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/flow-first.log"
+    },
+    {
+      "path": "erp/flow-green.log",
+      "sha256": "f86f2f9ca616efc5790c2383c148af408ba4ec56965ca96231485040e860af01",
+      "bytes": 308,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/flow-green.log"
+    },
+    {
+      "path": "erp/frozen-v1/source-manifest.json",
+      "sha256": "2b2b7c30126c06f239d9660fc750bdb192767a36e362fdd3a0c49f48e6b1069a",
+      "bytes": 9557,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/frozen-v1/source-manifest.json"
+    },
+    {
+      "path": "erp/http-first.log",
+      "sha256": "c8f6f880445b814bd7b3d7c5ddfd72b885ad8d6303a183a4d661e6e63cc6524c",
+      "bytes": 305,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-first.log"
+    },
+    {
+      "path": "erp/http-freeze-exit.json",
+      "sha256": "cac1f745c99a82c4b5a213aa3c6c1c43a2621b902a33bf4d319177950e863ee8",
+      "bytes": 315,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze-exit.json"
+    },
+    {
+      "path": "erp/http-freeze.json",
+      "sha256": "72e14f71ca37fbba5f14b18a360f6e014113c7fb776bab677d06cacff9776e91",
+      "bytes": 3479,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze.json"
+    },
+    {
+      "path": "erp/http-freeze.log",
+      "sha256": "3f9901d4f339ccf0696a2d47d48fd74d26838fd1e0dc746925d700e2e33a5d02",
+      "bytes": 474,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze.log"
+    },
+    {
+      "path": "erp/paired-contract-review.json",
+      "sha256": "0b4b14c9aeb14732b561826db9a976f2c982688f76cb6e93fcf02733c76e47cc",
+      "bytes": 4333,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/paired-contract-review.json"
+    },
+    {
+      "path": "erp/protocol-green.log",
+      "sha256": "0d8350eb0bec18aba267e7234dc901a4bb705fb9796d6e896f25f25c534e1900",
+      "bytes": 312,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/protocol-green.log"
+    },
+    {
+      "path": "erp/protocol-red.log",
+      "sha256": "768e0cf6b0dbd89435d800fa366d7ef1fc5fa6f6541f20904c648ce91320376b",
+      "bytes": 1988,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/protocol-red.log"
+    },
+    {
+      "path": "erp/session-first.log",
+      "sha256": "66678a6412d7880d2a8f24ad81472dc195e176102f108f5aee06a60984676aa1",
+      "bytes": 3950,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/session-first.log"
+    },
+    {
+      "path": "erp/session-green.log",
+      "sha256": "0bc9c33d403a9dc701d159b794c6f1fed3b4c7287c12c2795bac730695cab487",
+      "bytes": 370,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/session-green.log"
+    },
+    {
+      "path": "erp/source-manifest.json",
+      "sha256": "84161d679b80b4aaab99291f829657de20824f66ab958c03aa456777104f66d9",
+      "bytes": 11838,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/source-manifest.json"
+    },
+    {
+      "path": "erp/source-review-request.md",
+      "sha256": "a55fd2eb8020dc2fe13f1b895a6504d1aa8f6bdb465c2bdd0c98dd6657debe13",
+      "bytes": 7396,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/source-review-request.md"
+    },
+    {
+      "path": "erp/test-inventory.json",
+      "sha256": "5cdd18995ab50189d7f679bbc880b865dbd8ac4deecc3e6db56ad69208f39877",
+      "bytes": 33360,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/test-inventory.json"
+    },
+    {
+      "path": "erp/typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-final.log"
+    },
+    {
+      "path": "erp/typecheck-first.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-first.log"
+    },
+    {
+      "path": "erp/typecheck-freeze.json",
+      "sha256": "ef599c873a31b360ea8b67793951acd7d9c3eeec5855ad459fe9c7fbf022ffd4",
+      "bytes": 77,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-freeze.json"
+    },
+    {
+      "path": "erp/typecheck-freeze.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-freeze.log"
+    },
+    {
+      "path": "erp/typecheck-pg.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-pg.log"
+    },
+    {
+      "path": "erp/typecheck-unlink.json",
+      "sha256": "5ed6ea834d46d19581895ee9871d9860b20c056f61fa8b2cd9d000e71a6162f4",
+      "bytes": 77,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-unlink.json"
+    },
+    {
+      "path": "erp/typecheck-unlink.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-unlink.log"
+    },
+    {
+      "path": "erp/unlink-status-green-exit.json",
+      "sha256": "2963aebf1883b68175da31a990e3bf2ba71418267b0e807023c7e13dc71f7f53",
+      "bytes": 366,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green-exit.json"
+    },
+    {
+      "path": "erp/unlink-status-green.json",
+      "sha256": "267d62ac97aa70c3569ab219797dc395b213323bde4314cbcd125c85d5135424",
+      "bytes": 16735,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green.json"
+    },
+    {
+      "path": "erp/unlink-status-green.log",
+      "sha256": "8033144895177749b5bd38031ff9b8de821f4a9f862c7a5f080413e685cbb136",
+      "bytes": 477,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green.log"
+    },
+    {
+      "path": "erp/unlink-status-red-exit.json",
+      "sha256": "958524274cc4717a35192ea97a18f922b4c533140b86359bca3f1c4a77878f5e",
+      "bytes": 371,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red-exit.json"
+    },
+    {
+      "path": "erp/unlink-status-red.json",
+      "sha256": "3a9e10263add4b0c61c853d524bf64fad322c7a38e884134900d8684780e98b8",
+      "bytes": 4049,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red.json"
+    },
+    {
+      "path": "erp/unlink-status-red.log",
+      "sha256": "a456dc6b31a11b1a556b4e31823e01cdba7656666fa76808f29215a86a06c8e6",
+      "bytes": 2076,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red.log"
+    },
+    {
+      "path": "independent/dependencies-before.json",
+      "sha256": "3fcaae1ee29d69337fb1e0756dbee494cd6503a0df1c52052163a2bcc699585b",
+      "bytes": 1434,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/dependencies-before.json"
+    },
+    {
+      "path": "independent/erp-cpu-review.json",
+      "sha256": "d5fb7f21a82d52099f4962cd5b726e1be53dad4563e4c9350e7ef4456191d073",
+      "bytes": 26651,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-cpu-review.json"
+    },
+    {
+      "path": "independent/erp-cpu-review.log",
+      "sha256": "dbf6e867f1589dc6d439cc2ce166c5d8d489268d3cce98eb7f18bd98f1c179fc",
+      "bytes": 771,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-cpu-review.log"
+    },
+    {
+      "path": "independent/erp-http-v2-review.json",
+      "sha256": "5c120e48af4c7d03e5e9fdee9a0ff72280b6dae1e7292358de7a20ff8da321ee",
+      "bytes": 3911,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-http-v2-review.json"
+    },
+    {
+      "path": "independent/erp-http-v2-review.log",
+      "sha256": "2206d84b82e6bce090f076bc0f92153d41101b6ae085f1cbae46829982c2f8a7",
+      "bytes": 549,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-http-v2-review.log"
+    },
+    {
+      "path": "independent/erp-source-review.json",
+      "sha256": "1978e478cd4d6581cac58388fb07d32ea5c22ad42de6123e161d95e01715a30d",
+      "bytes": 4411,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-source-review.json"
+    },
+    {
+      "path": "independent/source-boundaries.log",
+      "sha256": "749633425d877e664072720a27218d856fd51a7f6f1954f6fe458b896270403e",
+      "bytes": 994,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/source-boundaries.log"
+    },
+    {
+      "path": "independent/source-boundaries.test.mjs",
+      "sha256": "ed128e5186f59ca9de4110b3b1c56de27737d93e00447aad4d4bc906e902c97c",
+      "bytes": 9884,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/source-boundaries.test.mjs"
+    },
+    {
+      "path": "independent/source-review.json",
+      "sha256": "a20bd7c553f99da527923db3351d6f0858be9f0ebadade6e79b0b3501b75cc9e",
+      "bytes": 10115,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/source-review.json"
+    },
+    {
+      "path": "independent/source-review.md",
+      "sha256": "5701b94514cae32fd7922d338b455f3da5c3bdb06dda9f0b5e424360831262ff",
+      "bytes": 5064,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/source-review.md"
+    },
+    {
+      "path": "integration/independent-binding.json",
+      "sha256": "f7ac2afe2c787fea893dbfdf870d8d8e0b6a4ff44ef96d8ca58cb927ba10838d",
+      "bytes": 82514,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/integration/independent-binding.json"
+    },
+    {
+      "path": "integration/source-integration.json",
+      "sha256": "56e6813558c9f82a04ded77e3ea543cb0427088a7f52f63d82114c77258b85b2",
+      "bytes": 13494,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/integration/source-integration.json"
+    },
+    {
+      "path": "site/build-first.log",
+      "sha256": "64e31df9425f46ef550b89227ea7841aeb3f1395d5a6589dd4b78b50a249bc6e",
+      "bytes": 13216,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/build-first.log"
+    },
+    {
+      "path": "site/bundle-current.json",
+      "sha256": "c713411a7dc655b7700a00dc59735290a410e8c2cd7c14888c7b65c51a5d16b6",
+      "bytes": 337,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/bundle-current.json"
+    },
+    {
+      "path": "site/bundle-current.log",
+      "sha256": "b13a5309d8c31639526608ece1728bdade5bf744d2b83e610b79b642cc5da834",
+      "bytes": 90,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/bundle-current.log"
+    },
+    {
+      "path": "site/combined-first.log",
+      "sha256": "7cb281dee68a427a87fe1d4c6a0974b6c83adc1ddc4ac16de54570b0187f1792",
+      "bytes": 8245,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/combined-first.log"
+    },
+    {
+      "path": "site/full-vps-current-bundle.log",
+      "sha256": "8674c83af9ff20921aa5a45f8ed844c8dea7fbe96722819b0e77b9b5ea9ecc4c",
+      "bytes": 36269,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/full-vps-current-bundle.log"
+    },
+    {
+      "path": "site/full-vps-current-receipt.json",
+      "sha256": "8a6415472db1447808080742733eeeefdfc8e8fb7f03ded31e7e94efb588c200",
+      "bytes": 1402,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/full-vps-current-receipt.json"
+    },
+    {
+      "path": "site/full-vps-first.log",
+      "sha256": "3f1cb6e0e3f11eb63d49ab36ce617e7d7aa7c4f5945d8cb2d2cd7d3c5bfdeee9",
+      "bytes": 36241,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/full-vps-first.log"
+    },
+    {
+      "path": "site/source-first.log",
+      "sha256": "cb005ede5616e76b2a81ee0dca4bd67de545c7d962be19161f873dcfb3554422",
+      "bytes": 1806,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/source-first.log"
+    },
+    {
+      "path": "site/source-manifest-review.json",
+      "sha256": "d078795f6b2218436b696b48c565388d7fd689f9b0e532c2e5495ad88945889f",
+      "bytes": 2282,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/source-manifest-review.json"
+    },
+    {
+      "path": "web-v1-review-corrections.patch",
+      "sha256": "c479a8fc71ed5c413ae4cd466f26d3535ec6923b6aefd505d5a9b6e2aee6a0ec",
+      "bytes": 27776,
+      "scope": "Reconstructable delta from preserved reviewed manifest to final accepted source"
+    },
+    {
+      "path": "web-v2-review-corrections.patch",
+      "sha256": "a9610d46089d2c6f76ba871256df3401f3578d6f5151aa29822c427477697caa",
+      "bytes": 10504,
+      "scope": "Reconstructable delta from preserved reviewed manifest to final accepted source"
+    },
+    {
+      "path": "web/browser-inventory-final.log",
+      "sha256": "5b368b1a9f746f946106654e08fea9985907c96e10fb88dcd8a30a0d3464d105",
+      "bytes": 2778,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-final.log"
+    },
+    {
+      "path": "web/browser-inventory-review-corrections.log",
+      "sha256": "26ba413aa6763cbd7a11250404403dd8abbc6da43e42514ccf5714c226f0a102",
+      "bytes": 1343,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-review-corrections.log"
+    },
+    {
+      "path": "web/browser-inventory-session-binding.log",
+      "sha256": "f91e37cbff3bba36d0d1b9f519a746c7f9e0f678c93a40c9a518a059bffef767",
+      "bytes": 6482,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-session-binding.log"
+    },
+    {
+      "path": "web/browser-inventory.log",
+      "sha256": "f74bd769914e55e0cdd3e8000e26250a4479e7769bf0318fc2a9944d810124d9",
+      "bytes": 1189,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory.log"
+    },
+    {
+      "path": "web/build-first.log",
+      "sha256": "00a0916b1f71e81d3c7780eb6c52a2a071d9fbb2406d617edcaef8ed314369ec",
+      "bytes": 714,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/build-first.log"
+    },
+    {
+      "path": "web/ci-guards-final.log",
+      "sha256": "0f3a772b4d777fe1f259e0ef13fd2c2cb4a639c1b819462f2de0d3c0be8be662",
+      "bytes": 1836,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-final.log"
+    },
+    {
+      "path": "web/ci-guards-first.log",
+      "sha256": "ad5f376b013fcfdb2e511c0f817ffd79817684f0f451f5ac765eb3162c33a360",
+      "bytes": 1842,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-first.log"
+    },
+    {
+      "path": "web/ci-guards-review-corrections.log",
+      "sha256": "c49764ef1b4a9ff0bb2ede40ed24830855b87125ca1a47b822b22380ee118e00",
+      "bytes": 1841,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-review-corrections.log"
+    },
+    {
+      "path": "web/ci-guards-session-binding.log",
+      "sha256": "dc8a2ba24c87db9aa214ef1752e874eac5ee127e74ef683fd91d4a46c4717829",
+      "bytes": 1844,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-session-binding.log"
+    },
+    {
+      "path": "web/full-types-first.log",
+      "sha256": "ee8d71975402d8de160bf69bf180fb33a18ca3ba4e07f2917646105efb3fff7e",
+      "bytes": 576,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/full-types-first.log"
+    },
+    {
+      "path": "web/full-types-second.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/full-types-second.log"
+    },
+    {
+      "path": "web/independent-browser-guards-corrected.log",
+      "sha256": "9235157e45df9d8d527dff9d52bda558bac54f1c08d35776892baaa901851ee7",
+      "bytes": 1833,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-browser-guards-corrected.log"
+    },
+    {
+      "path": "web/independent-browser-guards.log",
+      "sha256": "4f5196b9e11ec9508980c372560065eaa993f6c67a18fd564ef10cf3e9b2a562",
+      "bytes": 2661,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-browser-guards.log"
+    },
+    {
+      "path": "web/independent-model.log",
+      "sha256": "25e6bd9ed624512882b3b83ca7066aff7787cefcbc5a131737dfab6e5545fce4",
+      "bytes": 354,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-model.log"
+    },
+    {
+      "path": "web/independent-pair-syntax.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-pair-syntax.log"
+    },
+    {
+      "path": "web/independent-review.json",
+      "sha256": "2221bb4005860a2d50ad55424f62aae0cca89e943e8fac2e3a09e3a1ab0e870c",
+      "bytes": 14462,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-review.json"
+    },
+    {
+      "path": "web/independent-web-manifest-before-csrf.json",
+      "sha256": "cb2104cbe9f5e23651e0c030e6c785757ed7777223655bef6fbe2eb784ce155b",
+      "bytes": 8431,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-manifest-before-csrf.json"
+    },
+    {
+      "path": "web/independent-web-session-binding-cli-environment.log",
+      "sha256": "ee3529c16cc6e7e2d7a57e92ded21a73463d0eaf342b26141ae6cf22893d6fc6",
+      "bytes": 782,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-cli-environment.log"
+    },
+    {
+      "path": "web/independent-web-session-binding-green.log",
+      "sha256": "5a731038ea67b3d59d8213808efe53fd778930d9f840559ea8fc638b69cab248",
+      "bytes": 594,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-green.log"
+    },
+    {
+      "path": "web/independent-web-session-binding-red.log",
+      "sha256": "ee3529c16cc6e7e2d7a57e92ded21a73463d0eaf342b26141ae6cf22893d6fc6",
+      "bytes": 782,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-red.log"
+    },
+    {
+      "path": "web/independent-web-session-binding-source-probe.log",
+      "sha256": "6cfb0249c3a374a16275648289cd94c3307d5889e6b2fe167ac0f23d61e7a306",
+      "bytes": 728,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-source-probe.log"
+    },
+    {
+      "path": "web/independent-web-session-binding.mjs",
+      "sha256": "a43ddf393f266a3f71b275e75a3e357e6fcd560271868d947d7736080e6e58e9",
+      "bytes": 2733,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.mjs"
+    },
+    {
+      "path": "web/independent-web-session-binding.test.mjs",
+      "sha256": "c8c0b709520e5dffd24ce76d7835e9381c628ff868850890495de4def767dbce",
+      "bytes": 3940,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.test.mjs"
+    },
+    {
+      "path": "web/independent-workflow-guard.log",
+      "sha256": "4398a7f88fd4fbcb50acac200093fa08cf252c4920d6bf32eb6a76677e6ae429",
+      "bytes": 156,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-workflow-guard.log"
+    },
+    {
+      "path": "web/model-first.log",
+      "sha256": "1fb6afacfca373ab925bb15099427a80bb5d08d61a44563836dbbc4f46752d3f",
+      "bytes": 353,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/model-first.log"
+    },
+    {
+      "path": "web/review-v1/source-manifest-review.json",
+      "sha256": "424743ea5ee07e0eb8473accdb30824c65a6a75cbfbc9a9335c9f82b44494dcb",
+      "bytes": 5601,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/review-v1/source-manifest-review.json"
+    },
+    {
+      "path": "web/review-v2/source-manifest-review.json",
+      "sha256": "cb2104cbe9f5e23651e0c030e6c785757ed7777223655bef6fbe2eb784ce155b",
+      "bytes": 8431,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/review-v2/source-manifest-review.json"
+    },
+    {
+      "path": "web/source-manifest-review.json",
+      "sha256": "e590b4eef00cce479b28c09a982900390a4329ac6777231bc1a1abecb55a5a9e",
+      "bytes": 11583,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/source-manifest-review.json"
+    },
+    {
+      "path": "web/typecheck-final.json",
+      "sha256": "0e7bac9d24b87d01411d93b9b018e6f82b2ee9bf233c4fa4845d32a6c5b1f8e8",
+      "bytes": 332,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-final.json"
+    },
+    {
+      "path": "web/typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-final.log"
+    },
+    {
+      "path": "web/typecheck-first.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-first.log"
+    },
+    {
+      "path": "web/typecheck-session-binding.json",
+      "sha256": "48662746818d953c2b54d67de1e9cb458da1cad2f68172227ee6c52ece4d0be5",
+      "bytes": 319,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-session-binding.json"
+    },
+    {
+      "path": "web/typecheck-session-binding.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-session-binding.log"
+    },
+    {
+      "path": "wire-contract-v1-reviewed.md",
+      "sha256": "ff4ac2b4c226a612f9830a4b2d5b157702c81d9c338e315917ab851bf5aba1e4",
+      "bytes": 26169,
+      "originalPath": "/workspace/scratch/c56161c95e04/verification/federation-f3/wire-contract-v1-reviewed.md"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ async function fixture(page:Page){
  await page.route('**/*',async route=>{const request=route.request(),address=new URL(request.url()),staticPath=['/','/index.html','/icon.svg','/icon-maskable.svg','/manifest.webmanifest','/sw.js','/favicon.ico'].includes(address.pathname)||address.pathname.startsWith('/assets/');if(address.origin===origin&&staticPath&&request.method()==='GET'){await route.continue();return;}unexpected.push(`${request.method()} ${address.origin}${address.pathname}`);await route.abort('blockedbyclient');});
  await page.addInitScript(()=>localStorage.setItem('knaba-language','EN'));
  await page.route('**/api/v1/me',route=>route.fulfill({status:401,json:{code:'NEEDS_REAUTH'}}));
+ await page.route('**/api/v1/auth/federation/config',route=>route.fulfill({json:{enabled:false}}));
  await page.route('**/api/v1/public/config',route=>route.fulfill({json:{mode:'TEST',services:[],legal:{}}}));
  await page.route('**/api/v1/public/chat',route=>route.fulfill({status:201,json:{channelId:'guest-channel',status:'MANUAL_FALLBACK',csrfToken:csrf}}));
  await page.route('**/api/v1/public/chat/*/messages',route=>route.fulfill({json:{items:[],pendingDrafts:[]}}));

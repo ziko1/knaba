@@ -1,0 +1,11 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ apps/web/src/api.test.ts (2 tests) 116ms
+ ✓ apps/web/src/federationLoginModel.test.ts (22 tests) 61ms
+
+ Test Files  2 passed (2)
+      Tests  24 passed (24)
+   Start at  16:55:55
+   Duration  1.17s (transform 380ms, setup 0ms, import 552ms, tests 176ms, environment 0ms)
+

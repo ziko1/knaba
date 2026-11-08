@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:52:09.208620+00:00",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "baseCommit": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "status": "FROZEN_ROOT_WEB_AND_BRIDGE_FOR_INDEPENDENT_REVIEW",
+  "files": [
+    {
+      "path": "corporate-site/tests/ci-artifacts.mjs",
+      "sha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+      "bytes": 6469
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "sha256": "633fa17f1bb92876aa300ba68a487bc68bc6af0ecdf0ee3369c67d8f3cc67450",
+      "bytes": 14886
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "sha256": "8dd93ef7d59a30bdb22f2d3c05cff97c4c410d7850b3829ac23570ffad919b41",
+      "bytes": 6585
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "sha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+      "bytes": 82243
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "sha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+      "bytes": 25575
+    },
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "sha256": "04827c8f90fc5ccbace74ebe5ea075831b304bd8667849fe4c77028405108063",
+      "bytes": 20539
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.test.ts",
+      "sha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c",
+      "bytes": 10303
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.ts",
+      "sha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2",
+      "bytes": 10420
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "sha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+      "bytes": 60128
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "sha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+      "bytes": 175255
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "sha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+      "bytes": 968
+    },
+    {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "sha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "bytes": 9942
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "b1625539873e091e35bbc4b9ca6b9a74727ab9cd320b7a6659a4fa4e601e86b5",
+      "bytes": 20018
+    },
+    {
+      "path": "erp/tests/site-identity-link-ui.spec.ts",
+      "sha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "bytes": 10866
+    },
+    {
+      "path": "tests/bridge/federation-harness.mjs",
+      "sha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+      "bytes": 19733
+    },
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "sha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+      "bytes": 14196
+    }
+  ],
+  "sourceDigestAlgorithm": "SHA256 of sorted sha256 + two spaces + path + newline",
+  "sourceDigest": "11fab80b025dd8694c534cabd7fd6f71e9868263b8279310c4312a0f93cd70ec",
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/model-first.log",
+      "sha256": "1fb6afacfca373ab925bb15099427a80bb5d08d61a44563836dbbc4f46752d3f",
+      "claim": "24 model/api CPU tests passed"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/full-types-first.log",
+      "sha256": "ee8d71975402d8de160bf69bf180fb33a18ca3ba4e07f2917646105efb3fff7e",
+      "claim": "Historical first full tsc failed on six then-WIP API fixture TS18048 diagnostics"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/full-types-second.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim": "Full ERP TypeScript exit0 after fixture correction"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/build-first.log",
+      "sha256": "00a0916b1f71e81d3c7780eb6c52a2a071d9fbb2406d617edcaef8ed314369ec",
+      "claim": "ERP web Vite build completed; WIP source build, not clean committed artifact acceptance"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory.log",
+      "sha256": "f74bd769914e55e0cdd3e8000e26250a4479e7769bf0318fc2a9944d810124d9",
+      "claim": "Playwright discovery/list only; eight authored F3 browser tests, NOT_RUN"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-first.log",
+      "sha256": "ad5f376b013fcfdb2e511c0f817ffd79817684f0f451f5ac765eb3162c33a360",
+      "claim": "18 browser/manifest inventory guard unit tests passed"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-review-corrections.log",
+      "sha256": "c49764ef1b4a9ff0bb2ede40ed24830855b87125ca1a47b822b22380ee118e00",
+      "claim": "18 browser/manifest infrastructure unit tests passed after inventory18 update"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-review-corrections.log",
+      "sha256": "26ba413aa6763cbd7a11250404403dd8abbc6da43e42514ccf5714c226f0a102",
+      "claim": "Nine authored browser cases discovered with reporter=list; NOT execution"
+    }
+  ],
+  "notRun": [
+    "Actual nine new rendered F3 browser cases",
+    "Actual eight new VPS/ERP/PostgreSQL pair cases",
+    "Actual native application callbacks",
+    "Clean committed aggregate CI"
+  ],
+  "notes": [
+    ".github/workflows/ci.yml inventory awaits final ERP actual-PG names before freeze; no runner, job, timeout, retry or paid activation change.",
+    "VPS source has a separate frozen accepted13-input manifest.",
+    "ERP runtime and protocol helper ownership remains with erp_session_fence; latest dependency hashes require aggregate review.",
+    "Playwright --list generated a report; original tracked browser-result.json was restored byte-for-byte from HEAD. Separate browser-inventory-only.json is not execution evidence.",
+    "Review correction: explicit WEB unknown-ACK recovery links do not assert completion or reuse old /me as proof; every read fixture method now requires GET.",
+    "Paired expectation corrections retain real revocation rows, use exact conflict409, inspect raw secret suffixes and isolate the one deliberate source-outage relay diagnostic.",
+    "CI browser inventory is now4 transfer+5 F2+9 F3=18.",
+    "Prior Vite build demonstrates the pre-review UI; latest recovery links require a fresh exact-source aggregate build."
+  ],
+  "supersedes": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/review-v1/source-manifest-review.json",
+    "sha256": "424743ea5ee07e0eb8473accdb30824c65a6a75cbfbc9a9335c9f82b44494dcb"
+  },
+  "reviewCorrectionDelta": [
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "before": "261f9bc0d473b6d9aab6ac0d07f187fd0fcdfa40968d8fe580a72f277a4929a8",
+      "after": "633fa17f1bb92876aa300ba68a487bc68bc6af0ecdf0ee3369c67d8f3cc67450"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "before": "4dfbd5420afecbacf69752473fe89433666959c0bc44663669cbcc95f54d770a",
+      "after": "8dd93ef7d59a30bdb22f2d3c05cff97c4c410d7850b3829ac23570ffad919b41"
+    },
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "before": "04763a7c6eb2ec6315cfdc23bb8493a7182838dfee353eb5adbe8c2690024c14",
+      "after": "04827c8f90fc5ccbace74ebe5ea075831b304bd8667849fe4c77028405108063"
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "before": "91019fcb7ecef26872d73377d4c34a2a947aa7bc270f98a2cd316de6f35747e8",
+      "after": "b1625539873e091e35bbc4b9ca6b9a74727ab9cd320b7a6659a4fa4e601e86b5"
+    },
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "before": "378cc48b3ae3324dab2a79c0c12e38652c1c89d0423478e1138add38d704c85a",
+      "after": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689"
+    }
+  ],
+  "workflowDependency": {
+    "path": ".github/workflows/ci.yml",
+    "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+    "guardReceipt": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-receipt.json"
+  }
+}

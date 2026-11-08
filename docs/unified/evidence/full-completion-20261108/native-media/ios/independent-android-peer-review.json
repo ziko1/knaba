@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:07:28.318301+00:00",
+  "reviewer": "mobile_actual_readiness",
+  "verdict": "ACCEPT_SOURCE_SCOPED",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-native-media",
+  "baseCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "authorManifest": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-manifest.json",
+  "authorManifestSha256": "d667046dcdfa3ff2b0f9728800f37dd2f8c010344b08a67ff83cf2e96f4f82eb",
+  "authorSourceDigest": "67e3b9ec6c8e4c2766f4e17ca1e2ca78852bd4197ccb0a09ad0714700bd2004e",
+  "allManifestFilesHashMatched": 15,
+  "inputFiles": [
+    {
+      "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+      "sha256": "c7e5e9907384593261c594cb042331c548cc6648fdbc4b64ae1846ec7ff3469b",
+      "bytes": 11508
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+      "bytes": 42573
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "bytes": 16188
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+      "bytes": 41354
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "sha256": "1d0d782461099904a8583c9cf0a018a3644aaa71b46436302b86f04211ae12c3",
+      "bytes": 16982
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+      "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+      "bytes": 7660
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+      "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+      "bytes": 14355
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "sha256": "2f5e271d1dd88ebbfc407b384600123a9990e59ae4e1952a12426c754d52ed07",
+      "bytes": 28327
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "sha256": "4847f0e67949ce5244139507198832b810724e59482eec5b5b5426ff5bd8d114",
+      "bytes": 21143
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+      "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+      "bytes": 7627
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "sha256": "9195ef9fc3c96aed4700795c3454453eca9a8c5953b38c5d2d5dce941d44ae50",
+      "bytes": 8518
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+      "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+      "bytes": 8242
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+      "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+      "bytes": 5199
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+      "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+      "bytes": 11360
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+      "bytes": 20024
+    }
+  ],
+  "readOnlyReviewScope": [
+    "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+    "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+    "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+    "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+    "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+    "erp/apps/mobile-ios/Sources/ERPMediaView.swift"
+  ],
+  "findings": [],
+  "acceptedInvariants": [
+    "Exact media.upload permission and actual media.register schema; two stable separate mutation keys, no invented attach command or expected_version.",
+    "Full current authority/session/origin generation checked before each typed mutation and after async response; local encrypted nativeMedia marker never enters API body.",
+    "Marked pending command requires matching encrypted descriptor and exact key/input/body/full authority; missing descriptor and authority drift fail closed; generic fresh-key registration for linked upload is denied.",
+    "Known upload/registration ACK survives local persistence/cleanup failure; REGISTERED recovery only performs fresh reads and local cleanup, not POST; subsequent gallery read failure is independent.",
+    "Separate device-bound Keychain namespace and authenticated encrypted metadata; no bytes/URL/cookie persisted; missing key/file and malformed state fail closed; immutable receipt/version/CAS checks.",
+    "Dedicated fixed-origin percent-encoded client-copy download, no redirects/shared cookie store/cache, bounded25MiB streamed body; generic2MiB response/64KiB command limits retained.",
+    "Presentation-specific picker/export ticket/request identifiers; cancelled owned tasks and late callback fences; synchronous FileDocument fence checks before exposing bytes."
+  ],
+  "executableContractEvidence": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-media/shared-contract-current.log",
+    "sha256": "5cf7380cd51b602ece33758b7772f5c0faf78ba7baba14db92611fcdbe37306f",
+    "result": "134 PASS (128 existing +6 media cross-schema tests)",
+    "boundary": "TypeScript server-schema/native-source parity, not Swift execution"
+  },
+  "swiftTests": {
+    "newMethodsAuthored": 49,
+    "execution": "NOT_RUN"
+  },
+  "notRun": [
+    "Swift compilation",
+    "XCTest",
+    "iOS simulator",
+    "physical iPhone/iPad",
+    "actual Photos/Files/export callbacks",
+    "live ERP upload/download/scanner",
+    "device memory/performance"
+  ],
+  "sourceEditsByReviewer": false
+}

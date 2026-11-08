@@ -4,6 +4,7 @@ import {authorityFingerprint,canonicalJson,sessionReference,sendFederation,
 import {bindFederationCoordinator,FederationSourceError,securityTransaction,federationSessionAllowed} from './federation-state.mjs';
 import {sourceFingerprint,sourceMutationWitness,sourceEligible,sourceLabel} from './federation-snapshot.mjs';
 import {verifyCredentialPassword} from './auth.mjs';
+import {parseFederationLoginIntrospection} from '../../erp/packages/integrations/site-federation-login-protocol.mjs';
 
 const digest=value=>createHash('sha256').update(value).digest('hex');
 const fail=(code,id)=>{throw new FederationSourceError(code,id);};
@@ -30,7 +31,7 @@ export class SourceFederationCoordinator{
     this.transaction=(work,options)=>stateApi.securityTransaction(db,work,options);
     this.sessionAllowed=(subject,tokenHash)=>stateApi.federationSessionAllowed(db,subject,tokenHash);
   }
-  close(){clearInterval(this.maintenance);this.maintenance=null;this.closed=true;this.ready=false;this.inspections.clear();this.permits.close();}
+  close(){clearInterval(this.maintenance);this.maintenance=null;this.closed=true;this.ready=false;this.inspections.clear();this.login?.close();this.permits.close();}
   async stop(){clearInterval(this.maintenance);this.maintenance=null;await this.maintenanceRun;this.close();}
   connectionCurrent(){
     return this.ready&&!this.closed&&[...this.authorities.keys()].every(id=>{const state=this.state(id);return state?.instance_id===this.instanceId&&state.phase==='ACTIVE';});
@@ -39,7 +40,7 @@ export class SourceFederationCoordinator{
     requireValue(!this.closed,'FEDERATION_COORDINATOR_REQUIRED');
     if(this.instanceId)requireValue([...this.authorities.keys()].every(id=>this.state(id)?.instance_id===this.instanceId),'FEDERATION_RECONCILING');
     let current;
-    try{current=this.configuration();}
+    try{current=this.configuration();this.login?.assertConfiguration();}
     catch{
       this.db.prepare("UPDATE vps_federation_authorities SET phase='RECONCILING'").run();this.ready=false;
       fail('FEDERATION_CONFIGURATION');
@@ -209,6 +210,7 @@ export class SourceFederationCoordinator{
         VALUES(?,?,?,?,?,?,?,?,?,'PENDING_DENY',?,?)`).run(operationId,plan.subject,plan.kind,plan.scope,JSON.stringify(sessionHashes),plan.excludedHash??null,intentHash,JSON.stringify(witness),plan.pureRevocation?1:0,createdAt,Math.min(plan.authorizationExpiresAt??createdAt+300_000,createdAt+300_000));
     });
     for(const [key,value] of this.inspections)if(value.subject===plan.subject&&(plan.scope==='PRINCIPAL'||sessionHashes.includes(value.tokenHash)))this.inspections.delete(key);
+    this.login?.invalidate(plan.subject,sessionHashes,plan.scope==='PRINCIPAL');
     this.activeOperations.add(operationId);
     try{return await this.finish(operationId,plan);}finally{this.activeOperations.delete(operationId);}
   }
@@ -521,12 +523,16 @@ export class SourceFederationCoordinator{
     this.configCurrent();const id=headers instanceof Headers?headers.get('x-knaba-federation-authority'):headers['x-knaba-federation-authority'];
     const c=this.authority(id),wire=verifyFederationRequest(c,'ERP_TO_SITE',headers,body);
     const input=wire.envelope.payload;
+    let loginInput=null;
+    if(input?.purpose==='SESSION_ISSUE'||input?.purpose==='SESSION_USE'){
+      try{loginInput=parseFederationLoginIntrospection(input);}catch{/* Signed invalid input uses the same bounded failure below. */}
+    }
     const keys=['subject','sessionRef','epoch','securityFingerprint','sourcePolicyVersion','challengeId','purpose'];
     // Valid authentication establishes the response signing context even when
     // the application payload is invalid. Return only a bounded public code.
-    if(!(wire.envelope.action==='INTROSPECT'&&record(input)&&Object.keys(input).length===keys.length&&keys.every(k=>Object.hasOwn(input,k))&&
+    if(!(wire.envelope.action==='INTROSPECT'&&(loginInput||(record(input)&&Object.keys(input).length===keys.length&&keys.every(k=>Object.hasOwn(input,k))&&
       typeof input.subject==='string'&&input.subject.length>=1&&input.subject.length<=128&&Buffer.byteLength(input.subject,'utf8')<=128&&!/[\u0000-\u0020\u007f]/.test(input.subject)&&
-      refPattern.test(input.sessionRef)&&integer(input.epoch)&&input.epoch>0&&input.epoch<=2_147_483_647&&hashPattern.test(input.securityFingerprint)&&input.sourcePolicyVersion===c.policyVersion&&uuidPattern.test(input.challengeId)&&input.purpose==='LINK_CONFIRM'))
+      refPattern.test(input.sessionRef)&&integer(input.epoch)&&input.epoch>0&&input.epoch<=2_147_483_647&&hashPattern.test(input.securityFingerprint)&&input.sourcePolicyVersion===c.policyVersion&&uuidPattern.test(input.challengeId)&&input.purpose==='LINK_CONFIRM'))))
       return makeFederationResponse(c,wire,{ok:false,error:{code:'VALIDATION_ERROR'}},400);
     let value={active:false};
     try{this.transaction(()=>{
@@ -540,6 +546,7 @@ export class SourceFederationCoordinator{
       requireValue(!prior||prior.digest===wire.operationDigest,'FEDERATION_CONFLICT');
       this.db.prepare('INSERT INTO vps_federation_nonces(authority_id,nonce_hash,expires_at) VALUES(?,?,?)').run(c.authorityId,wire.nonceHash,this.now()+120_000);
       this.db.prepare('INSERT INTO vps_federation_inbound_operations(authority_id,operation_id,digest) VALUES(?,?,?) ON CONFLICT DO NOTHING').run(c.authorityId,wire.operationId,wire.operationDigest);
+      if(loginInput){value=this.login?.introspect(c,wire,loginInput)??{active:false};return;}
       const state=this.state(c.authorityId),claim=this.db.prepare('SELECT * FROM vps_federation_claims WHERE authority_id=? AND challenge_id=?').get(c.authorityId,input.challengeId);
       const tokenHash=this.tokenHash(c,input.subject,input.sessionRef),session=tokenHash&&this.localSession(input.subject,tokenHash),reauth=tokenHash&&this.freshReauth(input.subject,tokenHash);
       const p=this.db.prepare('SELECT * FROM vps_federation_principals WHERE authority_id=? AND subject=?').get(c.authorityId,input.subject);

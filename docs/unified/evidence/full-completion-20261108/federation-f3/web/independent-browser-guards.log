@@ -1,0 +1,46 @@
+✔ source binding requires the exact clean committed SHA (14.672172ms)
+✔ all four artifact groups are deterministic and any changed worker bytes invalidate the build manifest (335.101424ms)
+✔ rejects missing groups and empty output instead of attesting a partial build (100.927693ms)
+✔ a nonempty VPS output without the federation bundle cannot be attested (103.242255ms)
+✔ shared protocol and VPS entry bytes are required and any changed source invalidates the manifest (87.852735ms)
+✔ bound source rejects a symlink to an unreviewed protocol (28.281284ms)
+✔ rejects symlink files and symlink ancestors without following them into an artifact (31.118522ms)
+✔ rejects malformed manifests and source mismatches (50.992885ms)
+✔ build manifest must be outside the checkout at an explicit absolute path (1.455196ms)
+✔ owned preview readiness uses a bodyless HEAD and waits for its own listener (1272.769001ms)
+✔ an owned preview HTTP failure is not accepted as ready (2293.743963ms)
+✔ waits for close and captures inherited stdout even after the direct child exits (1116.786557ms)
+✖ a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored (1003.967805ms)
+✔ an already completed child has idempotent bounded cleanup (491.225748ms)
+✔ spawn failure and abort reject without accepting a successful suite (15.656708ms)
+✔ a fallback PASS containing an engine block stops the wrapper before another browser launch (3.368486ms)
+✔ ERP report requires all three named fixture suites, all nineteen distinct cases and no skip, retry or failure (6.77591ms)
+✔ fixture isolates provider environments and runner uses only local owned previews and temp reporters (5.330419ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 17
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6891.172614
+
+✖ failing tests:
+
+test at corporate-site/tests/ci-browser.test.mjs:28:1
+✖ a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored (1003.967805ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(pid>0)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/c56161c95e04/knaba-federation-login/corporate-site/tests/ci-browser.test.mjs:33:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

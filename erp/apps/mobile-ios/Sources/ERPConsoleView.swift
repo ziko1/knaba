@@ -27,6 +27,7 @@ import SwiftUI
     @Published private(set) var resultCommandName = ""
     @Published private(set) var sessionRevision = 0
     private let client: ERPConsoleClient
+    var mediaClient: ERPConsoleClient { client }
     private let preferences: UserDefaults
     private var epoch = 0
     private var authorityRevision: Int?
@@ -45,6 +46,15 @@ import SwiftUI
     var roleLabel: String { identity?.actor.roles.joined(separator: " · ") ?? "" }
     var canWrite: Bool { identity != nil && !busy && pending == nil && !recoveryBlocked }
     var canMessage: Bool { commands.contains { $0.name == "message.send" } }
+    var canUploadMedia: Bool {
+        guard let actor = identity?.actor else { return false }
+        return (try? ERPMediaPolicy.command(commands, actor: actor)) != nil
+    }
+    func canUploadMedia(to record: ERPItem) -> Bool {
+        guard canUploadMedia, ["site", "task"].contains(record.kind) else { return false }
+        let external = identity?.actor.roles.contains { ERPMediaPolicy.externalRoles.contains($0) } == true
+        return (!external || record.kind == "site") && (try? ERPMediaContext(record: record)) != nil
+    }
     func fieldLabel(_ name: String) -> String { ERPActionLabels.field(name, language: language) }
     func recordActions(_ record: ERPItem) -> [ERPCommand] {
         guard let actor = identity?.actor else { return [] }
@@ -80,7 +90,7 @@ import SwiftUI
             pending = value; recoveryBlocked = false
         } catch {
             guard epoch == ticket else { return }
-            recoveryBlocked = true; problem = describe(error)
+            pending = nil; recoveryBlocked = true; problem = describe(error)
         }
     }
     private func failed(_ error: Error, ticket: Int) async {
@@ -379,15 +389,22 @@ struct ERPConsoleView: View {
             Text(model.text(model.recoveryBlocked ? .errorRecovery : .pendingNotice)).font(.caption)
             if let pending = model.pending {
                 Text(ERPWorkspacePolicy.commandTitle(pending.name, language: model.language)).font(.caption.monospaced())
-                DisclosureGroup(model.text(.pendingDetails)) {
-                    Text(pending.createdAt.formatted(date: .abbreviated, time: .shortened)).font(.caption)
-                    if let version = pending.expectedVersion { LabeledContent(model.text(.version), value: String(version)) }
-                    if let input = try? JSONDecoder().decode(ERPField.self, from: pending.input) {
-                        ScrollView { ERPResultView(value: input, model: model) }.frame(maxHeight: 180)
+                if pending.nativeMedia != true {
+                    DisclosureGroup(model.text(.pendingDetails)) {
+                        Text(pending.createdAt.formatted(date: .abbreviated, time: .shortened)).font(.caption)
+                        if let version = pending.expectedVersion { LabeledContent(model.text(.version), value: String(version)) }
+                        if let input = try? JSONDecoder().decode(ERPField.self, from: pending.input) {
+                            ScrollView { ERPResultView(value: input, model: model) }.frame(maxHeight: 180)
+                        }
                     }
                 }
-                Button(model.text(.retryOriginal)) { confirmRetry = true }
-                    .disabled(model.busy || model.recoveryBlocked).accessibilityIdentifier("erpRetryOriginal")
+                if pending.nativeMedia == true {
+                    NavigationLink(ERPMediaStrings.text(.recovery, model.language)) { ERPMediaView(console: model) }
+                        .accessibilityIdentifier("erpMediaRecovery")
+                } else {
+                    Button(model.text(.retryOriginal)) { confirmRetry = true }
+                        .disabled(model.busy || model.recoveryBlocked).accessibilityIdentifier("erpRetryOriginal")
+                }
             }
         }.padding(12).frame(maxWidth: .infinity, alignment: .leading)
             .background(.orange.opacity(0.12))
@@ -431,6 +448,10 @@ struct ERPConsoleView: View {
                     ForEach(model.modules) { module in Text(model.text(module.title)).tag(module.kind) }
                 }.onChange(of: model.selection) { _, kind in search = ""; Task { await model.loadKind(kind) } }
                 Button(model.text(.refresh)) { Task { await model.loadKind(model.selection) } }
+                if model.selection == "media_asset" {
+                    NavigationLink(ERPMediaStrings.text(.title, model.language)) { ERPMediaView(console: model) }
+                        .accessibilityIdentifier("erpMediaGallery")
+                }
             }
             Section(ERPStrings.text(.authorizedCount, model.language, String(filteredItems.count))) {
                 if filteredItems.isEmpty && !model.busy { ContentUnavailableView(model.text(.empty), systemImage: "tray") }
@@ -481,7 +502,10 @@ struct ERPConsoleView: View {
         List {
             Section { Text(model.text(.actionsIntro)).font(.footnote).foregroundStyle(.secondary) }
             ForEach(model.commands) { command in
-                NavigationLink { ERPCommandForm(command: command, model: model) } label: {
+                NavigationLink {
+                    if command.name == "media.register" { ERPMediaView(console: model) }
+                    else { ERPCommandForm(command: command, model: model) }
+                } label: {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(ERPActionLabels.title(command.name, language: model.language, includeModule: true)).font(.body.weight(.medium))
@@ -507,6 +531,13 @@ private struct ERPRecordView: View {
                 LabeledContent(model.text(.version), value: String(item.version))
             }
             Section(model.text(.actions)) {
+                if model.canUploadMedia(to: item) {
+                    NavigationLink(ERPMediaStrings.text(.title, model.language)) { ERPMediaView(console: model, initialRecord: item) }
+                        .accessibilityIdentifier("erpRecordMedia")
+                }
+                if item.kind == "media_asset" {
+                    NavigationLink(ERPMediaStrings.text(.title, model.language)) { ERPMediaView(console: model) }
+                }
                 ForEach(model.recordActions(item)) { command in
                     if let actor = model.identity?.actor,
                        let context = ERPRecordActions.context(for: item, command: command, actor: actor) {

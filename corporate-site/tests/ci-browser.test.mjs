@@ -25,12 +25,23 @@ test('waits for close and captures inherited stdout even after the direct child 
   const result=await runProcess(node,['-e',script],{timeoutMs:3000,tee:false});
   assert.equal(result.stdout,'LATE_RESULT\n');assert.equal(result.code,0);
 });
-test('a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored',async()=>{
-  let pid;
-  await assert.rejects(()=>runProcess(node,['-e',"process.on('SIGTERM',()=>{});console.log(process.pid);setInterval(()=>{},1000)"],{
-    timeoutMs:800,killGraceMs:50,tee:false,onStdout:text=>{pid=Number(text.trim());},
+test('a deadline closes its child and a ready TERM-ignoring child is killed before cleanup resolves',async()=>{
+  // Deadline enforcement must also work before a busy runner schedules Node.
+  await assert.rejects(()=>runProcess(node,['-e','setInterval(()=>{},1000)'],{
+    timeoutMs:50,killGraceMs:500,tee:false,
   }),/CHILD_PROCESS_TIMEOUT/);
-  assert.ok(pid>0);assert.throws(()=>process.kill(pid,0),error=>error.code==='ESRCH');
+  let announce,output='',timer;
+  const ready=new Promise(resolve=>{announce=resolve;});
+  const owned=ownProcess(node,['-e',"process.on('SIGTERM',()=>{});console.log('READY '+process.pid);setInterval(()=>{},1000)"],{
+    killGraceMs:500,tee:false,onStdout:text=>{output+=text;const match=/^READY ([0-9]+)\n/m.exec(output);if(match)announce(Number(match[1]));},
+  });
+  try{
+    const pid=await Promise.race([ready,owned.closed.then(()=>{throw Error('CHILD_EXITED_BEFORE_READY');}),
+      new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('CHILD_STARTUP_TIMEOUT')),5000);})]);
+    assert.equal(pid,owned.child.pid);
+    const result=await owned.stop();assert.equal(result.signal,'SIGKILL');
+    assert.throws(()=>process.kill(pid,0),error=>error.code==='ESRCH');
+  }finally{clearTimeout(timer);await owned.stop();}
 });
 test('an already completed child has idempotent bounded cleanup',async()=>{
   const child=ownProcess(node,['-e','process.stdout.write("done")'],{tee:false});
@@ -49,12 +60,12 @@ test('a fallback PASS containing an engine block stops the wrapper before anothe
   assert.throws(()=>assertSuiteReceipt(base,{requiredChecks:['assistant.display.visible']}),/MISSING_REQUIRED/);
   assertSuiteReceipt({status:'PASS',checks:[{status:'PASS',caseId:'assistant.display.visible'}]},{requiredChecks:['assistant.display.visible']});
 });
-test('ERP report requires both named fixture suites, all nine distinct cases and no skip, retry or failure',()=>{
-  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5]].map(([file,count])=>({file,
+test('ERP report requires all three named fixture suites, all nineteen distinct cases and no skip, retry or failure',()=>{
+  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',10]].map(([file,count])=>({file,
     specs:Array.from({length:count},(_,i)=>({file,id:file+':'+i,title:'synthetic case '+i,tests:[{status:'expected',results:[{status:'passed'}]}]})),
   }));
-  const report={stats:{expected:9,unexpected:0,skipped:0,flaky:0},errors:[],suites};
-  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5});
+  const report={stats:{expected:19,unexpected:0,skipped:0,flaky:0},errors:[],suites};
+  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':10});
   for(const patch of [{skipped:1},{unexpected:1},{flaky:1},{expected:0}])assert.throws(()=>assertErpUiReport({...report,stats:{...report.stats,...patch}}));
   const missing=structuredClone(report);missing.suites.pop();missing.stats.expected=4;assert.throws(()=>assertErpUiReport(missing));
   const wrong=structuredClone(report);wrong.suites[1].specs.forEach(spec=>{spec.file='conversation-transfer-ui.spec.ts';});assert.throws(()=>assertErpUiReport(wrong));

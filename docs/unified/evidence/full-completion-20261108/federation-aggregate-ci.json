@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-08T13:58:13.185244+00:00",
+  "state": "ACTUAL_REQUIRED_GATES_PASS_INDEPENDENT_REVIEW_ACCEPTED",
+  "source": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "tree": "7dd5cf0868b6774e80712324cf692c1f18a24342",
+  "localEquivalentCheckpoint": "d6df4404f867a5777ef598b172e6d953937c34bf",
+  "draftPullRequest": 129,
+  "mainRun": {
+    "id": 42485949823,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42485949823",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "requiredJobs": [
+      {
+        "id": 128747736041,
+        "name": "Source integrity and policy tests",
+        "conclusion": "success"
+      },
+      {
+        "id": 128747735733,
+        "name": "Corporate site checks and production build",
+        "conclusion": "success"
+      },
+      {
+        "id": 128747735961,
+        "name": "ERP checks, build and PostgreSQL tests",
+        "conclusion": "success"
+      },
+      {
+        "id": 128747736010,
+        "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "runSet": [
+    {
+      "id": 42485949838,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485949838"
+    },
+    {
+      "id": 42485949819,
+      "name": "KNABA iOS simulator verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485949819"
+    },
+    {
+      "id": 42485949823,
+      "name": "KNABA repository verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485949823"
+    },
+    {
+      "id": 42485946401,
+      "name": "KNABA repository verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "headSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "htmlUrl": "https://github.com/ziko1/knaba/actions/runs/42485946401"
+    }
+  ],
+  "site": {
+    "vitest": 900,
+    "vitestFiles": 83,
+    "node": 92,
+    "vps": 330,
+    "check": {
+      "files": 516,
+      "errors": 0,
+      "warnings": 0,
+      "hints": 7
+    },
+    "build": "PASS",
+    "verify": "PASS",
+    "pages": 161,
+    "jsGzipBytes": 222640,
+    "cssGzipBytes": 40832,
+    "budgetsUnchanged": true
+  },
+  "erp": {
+    "tests": 3127,
+    "passed": 3127,
+    "files": 139,
+    "failed": 0,
+    "skipped": 0,
+    "database": "Actual isolated PostgreSQL17.6",
+    "releaseSourceVerified": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "requiredF2Tests": [
+      {
+        "file": "erp/tests/site-federation-ledger.integration.test.ts",
+        "tests": [
+          {
+            "title": "F2 PostgreSQL authoritative source ledger requires complete snapshot reconciliation before activation and creates no ERP sessions or users",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger persists an unknown-session fence before late register and across a new bootstrap",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger fences an authenticated snapshot and never activates the next epoch merely from FENCE",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger rejects nonce replay but resumes an uncertain operation using stable digest and fresh nonce",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger checks actual SQL time after waiting for the company lock, not just when the MAC was verified",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger returns historical receipts separately from a later generation and cannot replay an activation as authority",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger forces a stable 50-record snapshot restart if a fence changes the revision between pages",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger keeps lookup bounded/current and principal-null explicitly distinct from absent dependencies",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger serializes concurrent register and revoke into a terminal denied result",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger preserves immutable revocation storage on migration rerun and rejects direct downgrade/retarget/delete",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger rejects a stale configuration after key rotation and retains terminal refs",
+            "status": "passed"
+          },
+          {
+            "title": "F2 PostgreSQL authoritative source ledger isolates equal source subjects and refs by company, and rejects a mismatched transaction scope",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "erp/tests/site-identity-link.integration.test.ts",
+        "tests": [
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL requires both current sessions and final ERP confirmation, stores only hashes and never grants sessions or roles",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL requires the original ERP cookie, not another current session for the same user",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL denies a source fence committed after fresh online introspection but before binding commit",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL denies original ERP logout committed during online source I/O without issuing private success",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL denies credential/profile changes or disabled trust after claim even when the session row stays valid",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL fails closed for source pending denial and never treats a claim as permission",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL consumes the one-use proof once under concurrent confirms and never creates duplicate audit effects",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL self-unlinks with fresh ERP proof while source/trust is unavailable and preserves F1 terminal unlink",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL bounds inspection attempts and challenge issuance without retaining raw code in durable receipts",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL does not resolve or claim another company challenge even with the same issuer, user labels and signed key",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL rolls back binding, proof consumption and audit if the real SQL deadline expires after the F1 write",
+            "status": "passed"
+          },
+          {
+            "title": "F2 dual-session link through real signed HTTP and PostgreSQL protects original challenge ownership and the claimed source principal against direct retarget or deletion",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  },
+  "runtimePair": {
+    "scope": "Actual built ERP process/HTTP/PostgreSQL and actual VPS/SQLite packaged runtime; exact HTTPS test origins mapped to owned loopback HTTP, no ledger/handler doubles.",
+    "counts": {
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "requiredF2Cases": [
+      "F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink",
+      "F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit",
+      "F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit",
+      "F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce",
+      "F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery",
+      "F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session",
+      "F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys"
+    ],
+    "otherIntakeCases": 11,
+    "realTlsOrProviderAcceptance": false
+  },
+  "browser": {
+    "scope": "Actual installed Chrome on isolated loopback previews. ERP transfer and identity-link cases use explicit HTTP fixtures; role/language cases use actual site SQLite/HTTP.",
+    "chromeVersion": "Google Chrome 156.0.8078.79",
+    "playwrightVersion": "1.55.1",
+    "stages": [
+      {
+        "name": "site roles and display receipts",
+        "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+        "checks": 111,
+        "engine": "chromium",
+        "browserVersion": "156.0.8078.79",
+        "status": "PASS"
+      },
+      {
+        "name": "site six-language navigation",
+        "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+        "checks": 32,
+        "engine": "chromium",
+        "browserVersion": "156.0.8078.79",
+        "status": "PASS"
+      },
+      {
+        "name": "six public locales by four viewports",
+        "kind": "ACTUAL_RENDERED_STATIC_BROWSER",
+        "cases": 24,
+        "engine": "chromium",
+        "status": "PASS"
+      },
+      {
+        "name": "ERP conversation transfer",
+        "file": "conversation-transfer-ui.spec.ts",
+        "kind": "RENDERED_UI_WITH_HTTP_FIXTURES",
+        "cases": 4,
+        "engine": "chromium",
+        "status": "PASS",
+        "scope": "Route-fulfilled UI cases; separate from signed real HTTP/PostgreSQL tests"
+      },
+      {
+        "name": "ERP site identity link",
+        "file": "site-identity-link-ui.spec.ts",
+        "kind": "RENDERED_UI_WITH_HTTP_FIXTURES",
+        "cases": 5,
+        "engine": "chromium",
+        "status": "PASS",
+        "scope": "Route-fulfilled UI cases; separate from signed real HTTP/PostgreSQL tests"
+      }
+    ],
+    "erpFixtureCases": [
+      {
+        "file": "erp/tests/conversation-transfer-ui.spec.ts",
+        "id": "5edfa997013c6e054f86-03bc83b4088b71f0f338",
+        "title": "HTTP fixture: guest reviews the verified number and gives explicit consent before one CSRF-bound confirmation",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/conversation-transfer-ui.spec.ts",
+        "id": "5edfa997013c6e054f86-82a5ba74e94a8670da57",
+        "title": "HTTP fixture: original-session rejection clears the number, link and confirmation controls",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/conversation-transfer-ui.spec.ts",
+        "id": "5edfa997013c6e054f86-e3d7ad98f9bc3fc9f4a4",
+        "title": "HTTP fixture: a delayed older status cannot restore confirmation after the transfer completes",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/conversation-transfer-ui.spec.ts",
+        "id": "5edfa997013c6e054f86-c36995d9bdeb441499b7",
+        "title": "HTTP fixture: an unknown issuance outcome is checked after reconnect without replaying or recovering its secret",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/site-identity-link-ui.spec.ts",
+        "id": "8b2714e44fe0f3e119ad-36b6cccda5f4bf18ff18",
+        "title": "HTTP fixture: fresh ERP password, memory-only code and explicit exact website account confirmation",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/site-identity-link-ui.spec.ts",
+        "id": "8b2714e44fe0f3e119ad-ef65de5f89a26fb229aa",
+        "title": "HTTP fixture: original-session rejection removes all account proof fields and closes the private panel",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/site-identity-link-ui.spec.ts",
+        "id": "8b2714e44fe0f3e119ad-de832ec2fd40d281e9a1",
+        "title": "HTTP fixture: an older status response cannot restore confirmation after a recorded link",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/site-identity-link-ui.spec.ts",
+        "id": "8b2714e44fe0f3e119ad-0ae19f96ad786687f154",
+        "title": "HTTP fixture: self-unlink remains available with disabled federation and requires its own explicit fresh proof",
+        "status": "PASS"
+      },
+      {
+        "file": "erp/tests/site-identity-link-ui.spec.ts",
+        "id": "8b2714e44fe0f3e119ad-1d30fa04bfc5438cbf4e",
+        "title": "HTTP fixture: reconnect checks an unknown issuance outcome without replaying credentials or recovering its code",
+        "status": "PASS"
+      }
+    ],
+    "stats": {
+      "startTime": "2026-11-08T13:45:38.709Z",
+      "duration": 15558.482,
+      "expected": 9,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "inputsUnchanged": true,
+    "manifestSchema": 2,
+    "buildManifestSha256": "140deb4ef0af833d13e53664b8a69e0be22a1b004d4eecb9478df29f38f8ee3a",
+    "sourceInputs": {
+      "federationProtocol": {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14717,
+        "sha256": "d666bc62039f60aadd6b4a6feb97385cdb195315ec38b43c6aad8e6d389dc56c"
+      },
+      "federationEntry": {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 760,
+        "sha256": "97fea874ab437d8a1f1b9df238dc5685ecaf40791831b6355cc25e92813f6244"
+      }
+    },
+    "artifacts": {
+      "siteClient": {
+        "path": "corporate-site/dist/client",
+        "files": 310,
+        "bytes": 6893044,
+        "sha256": "62d5f4cf0f5cafdf898c36ae1b706e3bd034ff72a1ef4845b1c16eb7de1cecf6"
+      },
+      "siteWorker": {
+        "path": "corporate-site/dist/server",
+        "files": 3,
+        "bytes": 551955,
+        "sha256": "400a16653b06db0aee53278f58d9964f8b17554f6525b8d38a127c23749bd655"
+      },
+      "siteVps": {
+        "path": "corporate-site/dist/vps",
+        "files": 4,
+        "bytes": 274744,
+        "sha256": "d7386e59270cd48060afd51aa6ef6bf1fe9a22b3e70930146398da7a81854d73"
+      },
+      "erpDist": {
+        "path": "erp/dist",
+        "files": 12,
+        "bytes": 10937447,
+        "sha256": "a1d4e65177f058254db710e961342fa404eeb89bf293c315d8b1dbfe2bb4f318"
+      }
+    }
+  },
+  "artifactDownloads": [
+    {
+      "id": 13619956023,
+      "path": "verification/federation-ci/erp.zip",
+      "sha256": "448e965b4ae83dc76af1a94190ebcbad28a8ca65d591106fc627ad194466ae12",
+      "bytes": 150191,
+      "crcVerified": true
+    },
+    {
+      "id": 13619742074,
+      "path": "verification/federation-ci/browser.zip",
+      "sha256": "93dcd2114e20c69a656a1c3669b78a09ed0f3fe1068c2e18d6194e1581fba564",
+      "bytes": 6487307,
+      "crcVerified": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "verification/federation-ci/site.log",
+      "sha256": "7f76bd283e7a424c336d1d537dfad0bb40d828a65fff9397f48e1c6c68b81d72",
+      "bytes": 135192
+    },
+    {
+      "path": "verification/federation-ci/erp.log",
+      "sha256": "4b389911bca5d2f9c300d44672ae2ea279a672f11297b05f0c0cc09e5cfb4d8e",
+      "bytes": 115202
+    },
+    {
+      "path": "verification/federation-ci/bridge.log",
+      "sha256": "94bbe9d502c93ae35f5f4a1adbe8f0095f03c24717de1b3027af5634dc1ce0f2",
+      "bytes": 183517
+    },
+    {
+      "path": "verification/federation-ci/erp-vitest.json",
+      "sha256": "6f92daa71916d9ab1a2394b79ab68ca417a840219687d1f995958ac73a523809",
+      "bytes": 1369603
+    },
+    {
+      "path": "verification/federation-ci/browser/bridge-tap.txt",
+      "sha256": "4d2a7b784a8a64654066af4e3c0fa158b092b81f4c3e3de4dbbd338772e3291d",
+      "bytes": 5000
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-build-artifacts.json",
+      "sha256": "140deb4ef0af833d13e53664b8a69e0be22a1b004d4eecb9478df29f38f8ee3a",
+      "bytes": 1511
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/integration-receipt.json",
+      "sha256": "57cca9b771352a22e33510595cf3dd39fb86c1aca3673888a8c18339f8bbac5e",
+      "bytes": 3050
+    },
+    {
+      "path": "verification/federation-ci/browser/knaba-browser/erp-fixtures/result.json",
+      "sha256": "50563574d04a348f71d6faca1692c51b7d7e783d11411549512aa3487933d313",
+      "bytes": 15416
+    },
+    {
+      "path": "verification/federation-ci/jobs.json",
+      "sha256": "5449a544b2fbb5e3ea54f517c90d6e4a343799122fe7e80f49ca01f54390929b",
+      "bytes": 11130
+    }
+  ],
+  "historicalFailuresPreserved": [
+    "dc54 main42481181297 failed2 transfer fixture cases; current corrected4/4 PASS does not rewrite historical FAIL.",
+    "Initial local20fbbb full VPS322/328 with6 fixture failures remains in federation-local-verification.json; final local330/330 and hosted330/330 passed."
+  ],
+  "nativeScope": "Current Android run42485949838 succeeded. Current iOS PR42485949819 was skipped, no new iOS push run; old395993f93XCTest evidence retains its own source and unchanged native inputs. Runner Android signing does not replace the delivered local update chain.",
+  "f2Gate": {
+    "state": "ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT",
+    "requiredNewPostgreSQL": 24,
+    "requiredActualRuntimePair": 7,
+    "requiredRenderedNew": 5,
+    "correctedRenderedTransfer": 4,
+    "contract": "Password-based dual-session link/unlink and source mutation fence protocol only; no issued ERP/native sessions or F3 rights.",
+    "requiredBeforeF3TechnicalGate": "SATISFIED"
+  },
+  "limits": [
+    "Whole product NOT_READY;114 trace rows and72 compound AC statuses are not bulk-promoted.",
+    "F3 session exchange,dependent F4 federated session/delivery,OIDC-only link,privacy adapters,native media/push and F5 live/device/provider/UAT/operational restore remain separate work.",
+    "No main merge,deployment,DNS/live data,paid provider activation,customer messages or store upload."
+  ],
+  "budget": "One reserved combined F2 source checkpoint used; existing standard public workflows/timeouts/retention only. Four actual run records reconciled, no manual rerun.",
+  "independentReview": {
+    "path": "docs/unified/evidence/full-completion-20261108/federation-ci-independent-review.json",
+    "sha256": "2b0ba76eeb82642d6af3a2c7de0a7f4cf2ed8aa0eeabe6fb663e90c1150ee8d5",
+    "reviewer": "/root/coverage_matrix",
+    "recordedAt": "2026-11-08T14:04:16.124882+00:00",
+    "verdict": "ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT",
+    "requiredJobs": "VERIFIED_FOUR_REQUIRED_SUCCESS",
+    "scope": "F2 dual-current-session password-based account linking/unlinking and source security-mutation fences; exact committed candidate and required actual aggregate gates. This is not complete SSO or whole-product acceptance.",
+    "artifactBoundary": "Downloaded archives and extracted evidence independently rehashed; complete dist trees are not in ZIPs. Four artifact-group digests are CI-runner measurements tied to exact clean source and before/after verification."
+  }
+}

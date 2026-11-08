@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-11-08T15:26:35.921619+00:00",
+  "status": "SOURCE_FROZEN_PENDING_INDEPENDENT_REVIEW_AND_XCODE",
+  "finding": "Cancelled provider import could outlive a discarded view task and overlap a new read",
+  "beforeManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-manifest-before-import-drain.json",
+    "sha256": "d667046dcdfa3ff2b0f9728800f37dd2f8c010344b08a67ff83cf2e96f4f82eb"
+  },
+  "afterManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-manifest.json",
+    "sha256": "fd44edb1a669f1f533527b0e96f6b113b34eb141ae0af676fe71b117d0072656",
+    "sourceDigest": "47f8e76950b31c6c886b9f29864a84bfb8793677004d8fa3bb4bc41c59ecde10"
+  },
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+      "before": "c7e5e9907384593261c594cb042331c548cc6648fdbc4b64ae1846ec7ff3469b",
+      "after": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "before": "1d0d782461099904a8583c9cf0a018a3644aaa71b46436302b86f04211ae12c3",
+      "after": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "before": "2f5e271d1dd88ebbfc407b384600123a9990e59ae4e1952a12426c754d52ed07",
+      "after": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "before": "4847f0e67949ce5244139507198832b810724e59482eec5b5b5426ff5bd8d114",
+      "after": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "before": "9195ef9fc3c96aed4700795c3454453eca9a8c5953b38c5d2d5dce941d44ae50",
+      "after": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c"
+    }
+  ],
+  "sourceAudit": {
+    "path": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-audit.json",
+    "sha256": "9b9c039ac6489c0b667fce7e9806545d5359fee0bcf98bba3d0cbd93e7152776"
+  },
+  "boundedQueue": {
+    "maximumActive": 1,
+    "maximumWaiting": 1,
+    "overflow": "explicit importBusy in all six languages; no read popped from the view queue before admission",
+    "cancellation": "view ticket invalidated and waiter canceled; private worker retained until provider finishes and stale result is discarded",
+    "viewReplacement": "all ERPMediaView instances use the same process-scoped queue",
+    "synchronousFileIO": "detached workers; main actor only controls queue and UI tickets"
+  },
+  "checksActuallyRun": [
+    "15 source hashes collected; 5 changed, 10 unchanged from prior freeze",
+    "38 protected preexisting iOS inputs unchanged",
+    "71 keys x 6 locale values complete; original70 rows exact previous hash/value equivalence",
+    "Info.plist and PrivacyInfo.xcprivacy parsed",
+    "git diff --check for iOS exit0; all15 current files have final newline/no trailing whitespace"
+  ],
+  "authoredTestsAdded": [
+    "testCancelThenReselectDrainsProviderBeforeReadingAnotherOriginal",
+    "testReplacementMediaScreenSharesImportDrainAfterOldWaiterIsDiscarded",
+    "testImportQueueBoundsCancelledWaitersAndReportsBusyUntilProviderDrains"
+  ],
+  "testsNotRun": [
+    "52 XCTest methods including3 new regressions",
+    "Swift/Xcode compilation",
+    "Real system PhotosPicker/fileImporter/export interaction",
+    "Physical-device memory/latency",
+    "Live ERP/provider acceptance"
+  ],
+  "noNewDependencies": true,
+  "noSourceOutsideIOS": true
+}

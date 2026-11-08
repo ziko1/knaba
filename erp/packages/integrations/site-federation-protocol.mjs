@@ -3,7 +3,7 @@ import {createHash,createHmac,randomBytes,randomUUID,timingSafeEqual} from 'node
 export const FEDERATION_ERP_PATH='/api/v1/federation/authority';
 export const FEDERATION_SITE_PATH='/api/federation/introspect';
 export const FEDERATION_MAX_BYTES=32768;
-export const FEDERATION_ACTIONS=Object.freeze(['BOOTSTRAP_AUTHORITY','RECONCILE_PAGE','ACTIVATE_AUTHORITY','LOOKUP_PRINCIPAL','REGISTER_SESSION','FENCE','ACTIVATE_EPOCH','INSPECT_CHALLENGE','CLAIM','LINK_STATUS','INTROSPECT']);
+export const FEDERATION_ACTIONS=Object.freeze(['BOOTSTRAP_AUTHORITY','RECONCILE_PAGE','ACTIVATE_AUTHORITY','LOOKUP_PRINCIPAL','REGISTER_SESSION','FENCE','ACTIVATE_EPOCH','INSPECT_CHALLENGE','CLAIM','LINK_STATUS','LOGIN_INSPECT','LOGIN_APPROVE','LOGIN_STATUS','INTROSPECT']);
 const verifiedRequests=new WeakSet();
 const headerPrefix='x-knaba-federation-';
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;

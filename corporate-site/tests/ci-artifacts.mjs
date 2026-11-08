@@ -12,6 +12,7 @@ export const artifactRoots=Object.freeze({
 const requiredArtifactFiles=Object.freeze({siteVps:['federation.mjs']});
 export const boundSourcePaths=Object.freeze({
   federationProtocol:'erp/packages/integrations/site-federation-protocol.mjs',
+  federationLoginProtocol:'erp/packages/integrations/site-federation-login-protocol.mjs',
   federationEntry:'corporate-site/vps/federation-entry.mjs',
 });
 export function validateSource(expected,actual,dirty){

@@ -4565,5 +4565,37 @@
     "verified_source_commit": "fddd1601d989af3054099706589e1e8ab91ecf40",
     "verified_ci_run": 42455220007,
     "verified_ci_status": "FOUR_REQUIRED_JOBS_SUCCESS_SCOPED_PRODUCT_NOT_READY"
+  },
+  "f3_native_source_checkpoint_20261108": {
+    "status": "SOURCE_REVIEWED_AGGREGATE_CI_PENDING_PRODUCT_NOT_READY",
+    "supersedes_current_status_of": "identity_reconciliation_20261108; prior receipt retained as history",
+    "last_accepted_dependency": {
+      "source": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "ciRun": 42485949823,
+      "scope": "F2 technical password-based contract"
+    },
+    "checkpoint": "../../../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md",
+    "evidence": "../../../docs/unified/evidence/full-completion-20261108/federation-f3/source-preparation.json",
+    "implemented": [
+      "F3 default-off ERP and VPS session exchange with mandatory source lineage",
+      "F3 WEB explicit account/MFA confirmation and newly issued session proof",
+      "Server native S256 one-use exact-callback endpoint",
+      "Native Android/iOS media recovery and bounded provider imports",
+      "CUSTOMER external-media ACL classification"
+    ],
+    "required_actual_gates": [
+      "18 F3 PostgreSQL cases",
+      "8 F3 actual VPS/ERP/PostgreSQL pair cases",
+      "10 F3 rendered browser cases;19 required fixture total",
+      "Current native Android/iOS CI and independent aggregate acceptance"
+    ],
+    "next": [
+      "Native F3 adapters after actual aggregate acceptance",
+      "Versioned own-user identity privacy export/inventory with explicit legal scope",
+      "Remaining F4 background/subscription/push enforcement",
+      "Physical-device/provider/restore/load/legal/company acceptance"
+    ],
+    "original_criteria_promoted": false,
+    "production_changed": false
   }
 }

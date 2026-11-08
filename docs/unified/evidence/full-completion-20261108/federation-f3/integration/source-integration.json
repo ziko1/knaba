@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "atUtc": "2026-11-08T16:05:49.734353+00:00",
+  "sourceWorktree": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "sourceBase": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "target": "/workspace/scratch/c56161c95e04/knaba",
+  "targetBefore": "44f1539ced6b36da009341f199dc8d780c7af656",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "beforeSha256": "f7f4b1f6e910785a945fd1c9c41490128cf5560fd5e173111ee7af5c06ab453b"
+    },
+    {
+      "path": "corporate-site/tests/ci-artifacts.mjs",
+      "sha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+      "beforeSha256": "f9f201c1eddd0b5c775ebec09eabe4f5a670f27bbc891d04e0fd40435320acfd"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "sha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+      "beforeSha256": "93f34570786f8e69c7b58ebc76d58469ad507ed374cafd4f0fb7b130f59d797b"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "sha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+      "beforeSha256": "00ed84fd01b82de2db901a9f387abccc27c8dc9728e219c84320ba9daafe7864"
+    },
+    {
+      "path": "corporate-site/vps/database.mjs",
+      "sha256": "cb5cee6bec21dea7f0d7609bf668dd37889853950274e360ff7f0e2239f4a4f1",
+      "beforeSha256": "0125d2fa9bd741ef2f6e827a0f770f6ea893ed2941e53aac0164bb5cd609b45d"
+    },
+    {
+      "path": "corporate-site/vps/federation-entry.mjs",
+      "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+      "beforeSha256": "97fea874ab437d8a1f1b9df238dc5685ecaf40791831b6355cc25e92813f6244"
+    },
+    {
+      "path": "corporate-site/vps/federation-loader.mjs",
+      "sha256": "26079b3426d1b88c3576c7472cef4c008c7d207e299d11eb2b23bb86057e407b",
+      "beforeSha256": "7d7836e6926a8e3e34657bc229b07bcc033bf2b324e3276dfbbf7c11d21df8ae"
+    },
+    {
+      "path": "corporate-site/vps/federation-login-schema.mjs",
+      "sha256": "c279b53ef0a4ddb594e58048778df7013d114a258a83a9378859a554ef3de2db",
+      "beforeSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login-test-fixture.mjs",
+      "sha256": "52d12327c110577474a35bd7a9fcc8376b64ff3edb08e4d4cfb7c7d6b9bbb135",
+      "beforeSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login-ui.mjs",
+      "sha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f",
+      "beforeSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login.http.test.mjs",
+      "sha256": "85f296d569e07b99cd630d0272677a1e60e90ae7d24e2907055ddf8e80d1a12f",
+      "beforeSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login.mjs",
+      "sha256": "761e40258acb7793544e52e808a733ab863a25419643581ef958d2e5b3d10b45",
+      "beforeSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-login.test.mjs",
+      "sha256": "d6336f76e41079e502493c64b5c4d5d73659fb98b2341a7c5f1134bb8ed00914",
+      "beforeSha256": null
+    },
+    {
+      "path": "corporate-site/vps/federation-source.mjs",
+      "sha256": "fecaf85fc4c7e43e8a5cb2081d6222f78ef75ebefc00cf62b0c7adb0abc5ad8d",
+      "beforeSha256": "dd3d0d59d4122ee8be954b2b98e9bd8b7e057afc3e9f52872022f4417162dcb6"
+    },
+    {
+      "path": "corporate-site/vps/federation-test-authority.mjs",
+      "sha256": "7f4ba71a591c4c6ae291e9c605927ed6dae28b4a03411bd43c6b80cde8eab9bf",
+      "beforeSha256": "a80f0aa0c634ba17cdc4d627929446b014845d1b51207fe822c8c84ee23ba335"
+    },
+    {
+      "path": "corporate-site/vps/role-destination.mjs",
+      "sha256": "f2203883d4dbb0d119ae40767a80e3a3481a838c352f09b01a044cf1f0e2acda",
+      "beforeSha256": "c2a0547b5aee1f249d632031de540393646caa5f6fb1bd06d237d9f39d831742"
+    },
+    {
+      "path": "corporate-site/vps/server.mjs",
+      "sha256": "b7a8edf27159c9bd1b5a87ec8134cc94e59e29d38e2a3ad2c8b3b46efd8bf80a",
+      "beforeSha256": "5e46202409b75433bbf4bbd9297e46aeffa8e215908462dce0966d9bdabb5f3c"
+    },
+    {
+      "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      "sha256": "89096a9c824d9fd9ac8a4885b86f9d6cd11346d8873faed0a9e7a7e6b8127beb",
+      "beforeSha256": "d7bd485a5b058cee4a2662bcc94ea11ab8809fbc846a0f3506ab97d9e08ada38"
+    },
+    {
+      "path": "erp/apps/api/auth.ts",
+      "sha256": "9bb2d82634d396d2864547e2443518ef7bfcbc2d4ebcb4a42f06bd828a8a3425",
+      "beforeSha256": "e390bd5eac73ceffdfe8cdaea76e421ec986aab34c211af49c108210ae3e3895"
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "sha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+      "beforeSha256": "f5674ccb03320c48026a49307c092af0d9c1b1a2fbc247990c61ff1d38f1eef8"
+    },
+    {
+      "path": "erp/apps/api/http.ts",
+      "sha256": "7b11aa44f9cd30c59573b679f8a400da830c3928463327ca8e631c164138e82b",
+      "beforeSha256": "a14f46dbef0537b8d75780e0a2f108547e199b5a6afead80e313a75c5c367462"
+    },
+    {
+      "path": "erp/apps/api/main.ts",
+      "sha256": "d5739260796c27c9a43988e5640910b421b7d0094ce58d9f24a5ab95ce78380b",
+      "beforeSha256": "2604cc7a10bec147782236a4f2a5318c18282530a53e84e109f20bac3e87a01a"
+    },
+    {
+      "path": "erp/apps/api/request-authority-interceptor.ts",
+      "sha256": "b69a5214161e083d388e42e3b18d4208a8b98cd3454c7369d1b040f74dd99959",
+      "beforeSha256": "6ea2f61ccb63c270403da54b965c3ace3dffc8b5c7d64711ea781277615cdd52"
+    },
+    {
+      "path": "erp/apps/api/request-authority.ts",
+      "sha256": "23e815920b6b6813b7349eca0347502f5f8c278cd485a43819ceb2db731a5efc",
+      "beforeSha256": "f3dc83c583c835eb86527fae9c2b6dc1f49cfeaee737e2442664c03307c4bba5"
+    },
+    {
+      "path": "erp/apps/api/site-federated-sessions.ts",
+      "sha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-federation-ledger.ts",
+      "sha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45",
+      "beforeSha256": "991029d022fe86f926d383f8043e9eccb03cd4aea5d00baa7755126a3f2a2bb5"
+    },
+    {
+      "path": "erp/apps/api/site-federation-login-config.ts",
+      "sha256": "9e0bbe93c51bfab124223ddc4f25b2634615fc3ad3bf88d9073cc3700c19e687",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-federation-login-model.ts",
+      "sha256": "3e320b048a3e7df6caf60eb2fc327f672de8dd6ab7c6fbef5bfd416863faaf9d",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-federation-login.ts",
+      "sha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/api/site-identity-bindings.ts",
+      "sha256": "316cdf839b3c32b7aafc2ebbba11b6a24fc0b034d19f9b0fc20d70e7510552af",
+      "beforeSha256": "e584c4885908fd910b33d5829d9c6de87977e2d2e860c8a493d6f3e2102131d7"
+    },
+    {
+      "path": "erp/apps/api/v4-rest.ts",
+      "sha256": "7f5db4d91afb2367c91063b23a05bdfe49e323a6d033b5e4179a8226a6de3189",
+      "beforeSha256": "c2c66eca671bb4a40ac5855fd2cdc92ab5839e4ba43fe98c5f4704bf6b7ce963"
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "sha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+      "beforeSha256": "20017b49933e050cc785c43aa84ae1c8400048caa11439e441a03922e92784b6"
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "sha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+      "beforeSha256": "5b7e33121e531844561b80c3f33b7a135aac4c86684198050080c906cd6d8d65"
+    },
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "sha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.test.ts",
+      "sha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.ts",
+      "sha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "sha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+      "beforeSha256": "bf1e254458ef7abc21cda6f73f025f34c25ff40dd99eb468f86561f583378e33"
+    },
+    {
+      "path": "erp/infra/001_init.sql",
+      "sha256": "05012eeea53c8489f7f133ebd4ff23d26adfccac21187b1d2d25c16270f84417",
+      "beforeSha256": "014d90b37c8308f7858db4655bb6379ea4d19c2e8adbe027e48004f23bc4866e"
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "sha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+      "beforeSha256": "4a118d484cfa91283396595e24bbd51bb534362e018aa8380736eeb102d7d638"
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.d.mts",
+      "sha256": "e23eb606e0d93583642dea0a1782444dac4d0a2eca3ccc66c4b261dd10e9f04e",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.d.mts",
+      "sha256": "671b0de9d0e419766e0e8639cb59ac30c277e3a61e069333e9d3cd701ba836d4",
+      "beforeSha256": "cc69e15d3f70670b5a2be65d0c5c0c529142a86db6eb02338c536d9d579fdc7b"
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.mjs",
+      "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+      "beforeSha256": "d666bc62039f60aadd6b4a6feb97385cdb195315ec38b43c6aad8e6d389dc56c"
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "sha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+      "beforeSha256": "45dd4544a7828e16054549ebf0887dd52e2302f8bea243d4da7b31b33a7d49dc"
+    },
+    {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "sha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "beforeSha256": "cdc2a042e5d0d7879fadf527c9efdfecf7bf23cd42859250d76eb5e7d81176b1"
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/fixtures/pre-f3-authenticate.json",
+      "sha256": "75ec2439fad9cd40687110669eb5252707adde8b2c629ad32fe487f4f6c4997d",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/fixtures/site-federated-session.ts",
+      "sha256": "46c04e01e3c3480be74389e7bcb3626c74e40dfed81ffe6b6569d3f1916f1642",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+      "sha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/site-federated-session.test.ts",
+      "sha256": "712b5c6adaf09d49d0c90da5ba8a8f0b1600a384686b64b4bf16534b64a9977d",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login-flow.test.ts",
+      "sha256": "6d83ac41efd69c713382c97be1c180568865564a4c8375b66ef65e43e058f110",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login-http.test.ts",
+      "sha256": "93215494e7021df857cd3c78f5329f87f192793c042e7253bc1590911db869c1",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login-protocol.test.ts",
+      "sha256": "2a8af4cf12a55e72dc21397a1deab344bbb21a4709197d9eda1ab924bd1ab2d2",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "sha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+      "beforeSha256": null
+    },
+    {
+      "path": "erp/tests/site-identity-link-ui.spec.ts",
+      "sha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "beforeSha256": "dfac5fbee3a7f7e5f1f0cf9b0afa61ab9c3a1b02b65b97d919242e24a897808a"
+    },
+    {
+      "path": "tests/bridge/federation-harness.mjs",
+      "sha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+      "beforeSha256": "d2fa39a0069336f07fc44d030833c1b51625bf05ae1cc3650f55a1f66df9e85a"
+    },
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "sha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+      "beforeSha256": null
+    }
+  ],
+  "inputManifests": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/source-manifest-review.json",
+      "sha256": "d078795f6b2218436b696b48c565388d7fd689f9b0e532c2e5495ad88945889f"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/source-manifest.json",
+      "sha256": "84161d679b80b4aaab99291f829657de20824f66ab958c03aa456777104f66d9"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/source-manifest-review.json",
+      "sha256": "e590b4eef00cce479b28c09a982900390a4329ac6777231bc1a1abecb55a5a9e"
+    }
+  ],
+  "status": "EXACT_BYTE_INTEGRATION",
+  "note": "Fifty-five owned source files plus workflow and append-only identity contract; all target preimages matched source base. Independent final web review and aggregate CI remain separate."
+}

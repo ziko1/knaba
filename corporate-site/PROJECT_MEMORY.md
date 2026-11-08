@@ -1,5 +1,16 @@
 # KnaBa corporate-site memory
 
+## 2026-11-08 — F2 password-based linking: actual aggregate evidence
+
+Source `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5`, main CI42485949823:
+4 required jobs SUCCESS;24 F2 PostgreSQL,7 actual VPS/SQLite↔ERP/HTTP/PG,
+9 rendered fixture cases PASS. Незалежно звірено source/artifact/case inventory;
+`ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`. Це добровільне зв’язування
+наявних акаунтів і source revocation fences. F3 session issuance/F4 derived
+authority/OIDC-only proof/privacy та зовнішнє приймання ще відкриті.
+Whole product NOT_READY; історичні записи нижче не переписані.
+Єдиний актуальний доказ: `../docs/unified/evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
 ## 08.11.2026 — PR123 identity/revocation checkpoint
 
 Від d03e72b додано original-session hash binding для OIDC linking, повторні current-session fences біля body/SQL/private API response та stable owner subject pin через `OWNER_USER_ID`. Same-email linking не створює owner/admin. Additive VPS auth column мігрує лише за чинним migration gate; Drizzle/intake SQL незмінні. Legacy unbound linking states fail closed.
@@ -590,3 +601,7 @@ check0/0/6, official build/verify/i18n PASS; independent ACCEPT. JS225252B і
 CSS40930B gzip за чинних220KiB/40KiB. Browser, реальна доставка, target restore
 і deploy окремі та не прийняті. [Повний scoped запис](../docs/unified/USER_SETTINGS_2026-11-08_UK.md),
 [експлуатація й міграція](docs/ACCOUNT_SETTINGS_OPERATIONS_UK.md).
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+VPS F3 approval/continue/status, durable unknown-ACK reconciliation і strict signed SESSION_ISSUE/USE реалізовано default-off. Незалежний review прийняв13 source inputs; current rebuilt federation bundle пройшов354 VPS tests,0fail/skip. Actual ERP PostgreSQL pair/browser acceptance цього source ще PENDING. [Повний scoped запис](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Auth state schemas additive; terminal receipts/generation/pending fences не видаляються.

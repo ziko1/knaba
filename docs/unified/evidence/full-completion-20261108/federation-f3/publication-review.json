@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "status": "ACCEPT_REPORT_AND_SOURCE_BINDING_SCOPED",
+  "sourcePreparation": {
+    "path": "source-preparation.json",
+    "sha256": "7a3653a6a213bd926adb60bf1fbdc5b62e009860901dd3cf57f505d2eba44771"
+  },
+  "checkpoint": {
+    "path": "../../../F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md",
+    "sha256": "e12f7a98215c5d098b16f2fe5d24fe7ae86b3059084184651c341bd0b074f1a7"
+  },
+  "additionalReviewEvidence": [
+    {
+      "path": "integration/report-independent-review.json",
+      "sha256": "288acc9cb5b4ad28d702a767bf14c3d699e4106f0b4802cc3f5620d7b9faa5d6",
+      "bytes": 4796
+    },
+    {
+      "path": "integration/whitespace-review.json",
+      "sha256": "4aec1c28637b9dd25ff6bb70cb3e9409e7cda840a9e8d47498c5c325b6ad8e77",
+      "bytes": 1724
+    },
+    {
+      "path": "integration/raw-evidence-whitespace.log",
+      "sha256": "997d8711e7131a3f32a8a6d9a9149bd622ce3f38d696d2969902531d28a2b24a",
+      "bytes": 29747
+    }
+  ],
+  "note": "The immutable preparation index inventories94 original evidence files. These three subsequent read-only audit receipts/diagnostics close the review without rewriting its reviewed index. Raw log/patch whitespace is retained byte-for-byte; authored source/documentation diff check0. Aggregate CI is still pending."
+}

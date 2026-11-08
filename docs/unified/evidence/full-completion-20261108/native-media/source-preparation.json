@@ -1,0 +1,330 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:51:43.878341+00:00",
+  "status": "ACCEPTED_NATIVE_SOURCE_PREPARATION_AGGREGATE_CI_PENDING",
+  "baseCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "files": [
+    {
+      "path": "erp/apps/mobile-android/MEDIA_UK.md",
+      "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+      "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+      "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+      "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+      "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+      "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+      "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+      "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+      "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe"
+    },
+    {
+      "path": "erp/tests/native-console-contract.test.ts",
+      "sha256": "de14a465d95322e89f68d6616fee0f169236459c8dffd1f16da7915abb88dee2"
+    },
+    {
+      "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+      "sha256": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+      "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+      "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+      "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+      "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+      "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+      "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e"
+    }
+  ],
+  "proofs": [
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-source-manifest.json",
+      "sha256": "cc296f7fea9312d956629240c11c835ec42013e422675a097b4911c163004921"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-author-receipt.json",
+      "sha256": "43bb1b78bd8dc3baf03b4025b727d2a33a92aa7d658a8555b779754d458dc245"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-source-manifest-before-payload-drain.json",
+      "sha256": "f6b9637d42747707ef37ef87d6edfcd3af7f309947b27d44aaa89acb47ed9325"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-payload-drain-review-request.json",
+      "sha256": "f8ddc720875e1457b2b45884861bd2aef9f5c9cf06b3ac52e34c0d23c595c4b2"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/independent-ios-peer-review.initial.json",
+      "sha256": "194ecc3dbb7893ff69630388630c942b8157e9fb51dc502b9d863cb7b2f7aeed"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/independent-ios-peer-review.json",
+      "sha256": "61319d0d5b6c1d6da4df61734de240d9be36f97b9e03f05d96a860db6cb71b26"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-payload-lane-red.log",
+      "sha256": "864ba159695e52326889f752e7bd6c10f8587fe6f32d7bf72b14443dfd2bee38"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-payload-lane-green.log",
+      "sha256": "938d66b52c46a6c10a181880c6df070d040c0b0dc1886ca05f6f93c025f3d311"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-transport-payload-drain.log",
+      "sha256": "42a692c0de98e37d3890eed0078418b7b08be703d0c3afdcb9900a1e0d1ecf14"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-localization-final.log",
+      "sha256": "d1ef7e16c8e89789f71adce1be524e63df3b61d4acf73549b7a609646594dc6d"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-provider-drain-red.log",
+      "sha256": "b4625b27793bb05786836d5b104f037721fb1a968ec6da9e6b08d08eede8144c"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-provider-drain-green.log",
+      "sha256": "6595c5b56b39adcc3708fd3e8dc7f19879330c12d96964835ed65b9a768503a0"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-media-ack-cleanup-red.log",
+      "sha256": "3bc35ced9b2e20630acf1c836951965131b9184411f172fb20015444ee6402d1"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-media-boundary-red.log",
+      "sha256": "2873f1fb49f053cf332bdd9257fc14c9e33ac043aba47b726c9d299071802116"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-picker-cleanup-red.log",
+      "sha256": "66e16a2717b4c23ecf4ca19a3bb8a0e05207ce58400a7355a4fb830afbb45782"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-io-busy-ui-red.log",
+      "sha256": "99c9c62411e808fac4b3a466c09daace82e66c2534c28b5f0ca1ceefca148566"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-picker-sdk31-unavailable.log",
+      "sha256": "81a60078e760cc57f1aa7bb850c3df3b2e6d68b0132048682b3ece55f7d02e83"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-framework-final.log",
+      "sha256": "78a0680780828dcf8cacae9e0a3cb7a3d99a59e96bfab1dde94f546a4731570d"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-demo-final.log",
+      "sha256": "1f47accf26011f7096f971e78e50fc236d2abacaea0b615cf0555f5d0597d772"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/shared-contract-current.log",
+      "sha256": "5cf7380cd51b602ece33758b7772f5c0faf78ba7baba14db92611fcdbe37306f"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/shared-typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/source-manifest.json",
+      "sha256": "fd44edb1a669f1f533527b0e96f6b113b34eb141ae0af676fe71b117d0072656"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/source-manifest-before-import-drain.json",
+      "sha256": "d667046dcdfa3ff2b0f9728800f37dd2f8c010344b08a67ff83cf2e96f4f82eb"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/source-audit.json",
+      "sha256": "9b9c039ac6489c0b667fce7e9806545d5359fee0bcf98bba3d0cbd93e7152776"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/source-audit-before-import-drain.json",
+      "sha256": "0e7affb156f52b40fad26706ec82cdce7983b056907a086e8db9e5ee3e2cb244"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/independent-android-peer-review.json",
+      "sha256": "691e337de04650f5aaa4ec4155ce0440faa535b57d2c99ab6adfa4e3b3d3860b"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/import-drain-review-request.json",
+      "sha256": "aac90c675d1b921f95974123b9361b470716a2e0dcce67e49f99aa748b60cffb"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/independent-import-drain-review.json",
+      "sha256": "1e3343df4f02e950da4789a1ce9d57d96f02ae86f6be12e35b0b0ba6e84b5816"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/ios/diff-check-import-drain.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-payload-lane-green.xml",
+      "sha256": "f051f21985944357658937fceb4315042445ddeda3327cb1963f6f141a6a8ae4"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/android/android-payload-lane-red.xml",
+      "sha256": "f63f1fb9571b4a97c9d85c200b26b67c1870c36c824a7b49f79fcff4302cd8f7"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/integrated-contracts.json",
+      "sha256": "29c6272dea1a1459d49e856d4a39b5eb4f81350dc104db5ae7cf5cba1488f934"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/native-media/integrated-contracts.log",
+      "sha256": "fc6b5ddd83c47fe02ee412a22850de24cc338c9e631367dbe91f37eeee85f765"
+    }
+  ],
+  "android": {
+    "sourceManifestSha256": "cc296f7fea9312d956629240c11c835ec42013e422675a097b4911c163004921",
+    "reviewSha256": "61319d0d5b6c1d6da4df61734de240d9be36f97b9e03f05d96a860db6cb71b26",
+    "latestTargetedRobolectric": {
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typedMediaAssertions": 71,
+    "processIoAssertions": 17,
+    "boundedMemory": "20MiB PDF original streamed with -Xmx96m to actual synthetic HTTP sink; not physical-device RSS",
+    "newApkAab": "NOT_BUILT"
+  },
+  "ios": {
+    "sourceManifestSha256": "fd44edb1a669f1f533527b0e96f6b113b34eb141ae0af676fe71b117d0072656",
+    "correctiveReviewSha256": "1e3343df4f02e950da4789a1ce9d57d96f02ae86f6be12e35b0b0ba6e84b5816",
+    "xctestAuthored": 52,
+    "swiftCompile": "NOT_RUN",
+    "xctest": "NOT_RUN",
+    "sourceAudit": "71 rows x 6 locales;38 protected inputs unchanged; plist parsing and diff checks passed"
+  },
+  "boundaries": [
+    "Only 37 explicitly frozen native/shared-test paths copied; accepted API CUSTOMER correction was already present in parent e18a658.",
+    "Android has separate actual RED→GREEN evidence for ACK journal recovery, Activity replacement and paused-main original-buffer retention; overlapping assertions are not summed.",
+    "Prior iOS source-only peer review is supplemented by the independently accepted process-wide import-drain correction; no Swift execution is inferred.",
+    "Default release version/signing identities, time/GPS code and permissions were preserved.",
+    "Actual provider pickers, physical installs, real ERP/scanner, full mobile/KN-C06 acceptance, native F3/push/annotations/camera and store distribution remain separate open gates."
+  ],
+  "notRun": [
+    "Exact committed aggregate CI",
+    "New signed APK/AAB",
+    "Xcode compile and current simulator artifact",
+    "Physical-device or live-provider acceptance"
+  ],
+  "rootIntegrationChecks": {
+    "passed": 147,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "134 shared native/source schema cases plus13 media API authorization cases with SQL/blob doubles. Not PostgreSQL, provider or device execution."
+  }
+}

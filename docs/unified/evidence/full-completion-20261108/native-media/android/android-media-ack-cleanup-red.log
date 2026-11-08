@@ -1,0 +1,6 @@
+PASS ERP transport assertions=76; explicit HTTP/journal doubles and fresh-instance recovery; live ERP, Android OS process death NOT_RUN
+Exception in thread "main" de.knaba.mobile.ErpConsoleTransport$Failure: RECOVERY_STORAGE_UNAVAILABLE
+	at de.knaba.mobile.ErpConsoleTransport.resolve(ErpConsoleTransport.java:352)
+	at de.knaba.mobile.ErpConsoleTransport.command(ErpConsoleTransport.java:578)
+	at de.knaba.mobile.ErpConsoleTransport.registerMedia(ErpConsoleTransport.java:212)
+	at de.knaba.mobile.ErpMediaTransportTest.main(ErpMediaTransportTest.java:132)

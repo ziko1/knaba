@@ -57,6 +57,12 @@ export function roleDestination(role,requested='',language='de'){
   if(path==='/account/password')return '/account/password/';
   if(path==='/account/settings')return '/account/settings/?lang='+lang;
   if(path==='/account/erp-link'||path==='/account/erp-link/reauth')return path+'/?lang='+lang;
+  if(path==='/account/erp-login'){
+    const authority=target.searchParams.get('authority_id'),request=target.searchParams.get('request_id');
+    if(/^[A-Za-z0-9_-]{1,64}$/.test(authority??'')&&/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(request??'')&&
+      target.searchParams.getAll('authority_id').length===1&&target.searchParams.getAll('request_id').length===1)
+      return '/account/erp-login/?authority_id='+authority+'&request_id='+request+'&lang='+lang;
+  }
   // Public links are safe to resume, but account/API paths never become a
   // fallback that takes a newly signed-in user to another role's workspace.
   if(/^\/(?:en\/|pl\/|lt\/|ru\/|uk\/)?(?:$|kontakt\/?$|leistungen(?:\/[^/?]+)?\/?$|galerie\/?$|unternehmen\/?$|karriere\/?$|datenschutz\/?$|impressum\/?$)/.test(target.pathname)){

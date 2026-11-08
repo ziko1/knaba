@@ -1,0 +1,6 @@
+PASS ERP transport assertions=76; explicit HTTP/journal doubles and fresh-instance recovery; live ERP, Android OS process death NOT_RUN
+PASS media transport/recovery: 71 assertions; explicit HTTP doubles, no live service
+PASS maximum20MiB PDF: exact 27962122 JSON bytes streamed under96MiB JVM heap; partial-header image bound enforced
+PASS media IO coordinator: 17 assertions; one active plus seven waiting, cancellation purges queued jobs
+Credential safety: 10 tests, 30 assertions, 0 failures (synthetic HTTP/journal doubles)
+PASS 109 server discovery assertions; synthetic HTTP fixtures only

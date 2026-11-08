@@ -58,6 +58,7 @@ class ErpConsoleActivity : Activity() {
     private data class PendingMutation(val title: String, val name: String, val input: String, val version: Int?, val key: String)
     private data class RetainedSession(val transport: ErpConsoleTransport, val discovery: ErpServerDiscovery, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
     private var pendingRecovery: PendingMutation? = null
+    private var mediaScreen: ConsoleMediaScreen? = null
     private val controls = mutableListOf<View>()
     private val ink = Color.rgb(24, 52, 52)
     private val teal = Color.rgb(0, 105, 94)
@@ -95,7 +96,7 @@ class ErpConsoleActivity : Activity() {
             else showLogin()
         } else showLogin()
     }
-    private fun newTransport() = ErpConsoleTransport(ConsoleRecoveryJournal(applicationContext))
+    private fun newTransport() = ErpConsoleTransport(ConsoleRecoveryJournal(applicationContext), ConsoleMediaJournal(applicationContext))
     private fun recoverPending() {
         pendingRecovery = api.pendingCommand()?.let { envelope ->
             PendingMutation(commandTitle(envelope.getString("name")), envelope.getString("name"),
@@ -108,6 +109,7 @@ class ErpConsoleActivity : Activity() {
         setColor(color); cornerRadius = dp(16).toFloat(); if (border != null) setStroke(dp(1), border)
     }
     private fun heading(title: String, subtitle: String = "", back: (() -> Unit)? = null, showPending: Boolean = true) {
+        mediaScreen?.close(); mediaScreen = null
         screen++
         main.removeCallbacks(refreshTick); refreshRead = null; refreshFailures = 0; discoveryBusy = false
         busy = false; mutation = false; uncertain = false; controls.clear(); backAction = back
@@ -127,7 +129,10 @@ class ErpConsoleActivity : Activity() {
             accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE; visibility = View.GONE
         }
         syncNotice = label("", 12f, muted).apply { visibility = View.GONE }
-        if (showPending && pendingRecovery != null && api.hasPendingCommand()) {
+        if (showPending && api.hasNativeMediaPending()) {
+            status(getString(R.string.erp_media_register_unknown))
+            button(getString(R.string.erp_review_pending)) { showMedia() }
+        } else if (showPending && pendingRecovery != null && api.hasPendingCommand()) {
             status(getString(R.string.erp_unknown_result))
             button(getString(R.string.erp_review_pending)) { showPendingRecovery() }
         }
@@ -249,7 +254,7 @@ class ErpConsoleActivity : Activity() {
             if (!foreground || ticket != screen || isDestroyed) return@refresh
             main.removeCallbacks(refreshTick)
             if (busy) { scheduleRefresh(1_000); return@refresh }
-            if (uncertain || transport.hasPendingCommand()) { scheduleRefresh(interval); return@refresh }
+            if (uncertain || transport.hasPendingCommand() && !transport.hasNativeMediaPending()) { scheduleRefresh(interval); return@refresh }
             val wait = readRetryAt - android.os.SystemClock.elapsedRealtime()
             if (wait > 0) { status(getString(R.string.erp_rate_limit)); scheduleRefresh(wait); return@refresh }
             syncNotice.visibility = View.VISIBLE
@@ -410,7 +415,22 @@ class ErpConsoleActivity : Activity() {
             }
         }
     }
+    private fun showMedia(initial: JSONObject? = null) {
+        heading(getString(R.string.erp_files), getString(R.string.erp_server_scope), ::showDashboard, showPending = false)
+        val transport = api; val token = screen
+        val panel = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        val view = ConsoleMediaScreen(this, transport, panel,
+            { api === transport && screen == token && !isDestroyed },
+            { _ ->
+                if (api === transport && screen == token && !isDestroyed) {
+                    transport.clear(); actor = null; demoMode = false; showLogin(); status(getString(R.string.erp_session_expired))
+                }
+            },
+            { item -> showDetail(item, getString(R.string.erp_files)) { showMedia() } })
+        mediaScreen = view; view.open(initial)
+    }
     private fun showRecords(kind: String, title: String) {
+        if (kind == "media_asset" && !demoMode) { showMedia(); return }
         heading(title, getString(R.string.erp_server_scope), ::showDashboard)
         button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
         val search = field(getString(R.string.erp_search))
@@ -464,7 +484,7 @@ class ErpConsoleActivity : Activity() {
             val rows = transport.entities(kind)
             val fresh = (0 until rows.length()).mapNotNull { rows.optJSONObject(it) }.firstOrNull { it.optString("id") == id }
                 ?: throw ErpConsoleTransport.Failure(403, "ACCESS_CHANGED", false)
-            JSONObject().put("item", fresh).put("catalog", if (ConsoleRecordActions.supports(kind) && fresh.optInt("version") > 0) transport.catalog() else JSONArray())
+            JSONObject().put("item", fresh).put("catalog", if ((ConsoleRecordActions.supports(kind) || kind in setOf("site", "task")) && fresh.optInt("version") > 0) transport.catalog() else JSONArray())
         }) { result ->
             val fresh = result.getJSONObject("item")
             val data = fresh.optJSONObject("data") ?: JSONObject()
@@ -480,6 +500,11 @@ class ErpConsoleActivity : Activity() {
                 else -> emptySet()
             }
             val catalog = result.getJSONArray("catalog")
+            if (!demoMode && kind in setOf("site", "task") && permitted("media.upload") &&
+                (kind != "task" || actor?.let { !ErpMedia.external(it) } == true) &&
+                (0 until catalog.length()).any { catalog.optJSONObject(it)?.optString("name") == "media.register" }) {
+                button(getString(R.string.erp_media_add), primary = true, parent = actions) { showMedia(JSONObject(fresh.toString())) }
+            }
             for (i in 0 until catalog.length()) {
                 val command = catalog.optJSONObject(i) ?: continue
                 val name = command.optString("name")
@@ -718,6 +743,7 @@ class ErpConsoleActivity : Activity() {
         }
     }
     private fun showPendingRecovery() {
+        if (api.hasNativeMediaPending()) { showMedia(); return }
         val pending = pendingRecovery ?: return showDashboard()
         heading(getString(R.string.erp_unknown_title), getString(R.string.erp_unknown_result), ::showDashboard, showPending = false)
         label(pending.title, 20f)
@@ -854,15 +880,22 @@ class ErpConsoleActivity : Activity() {
     override fun onBackPressed() { goBack() }
     override fun onStart() {
         super.onStart(); foreground = true
+        mediaScreen?.onForeground()
         // Start deferred initial work or resume an idle screen only while visible.
         if (!busy && !discoveryBusy) scheduleRefresh(if (startedOnce) 0 else nextRefreshDelay)
         startedOnce = true
     }
     override fun onStop() {
-        foreground = false; main.removeCallbacks(refreshTick); super.onStop()
+        foreground = false; mediaScreen?.onBackground(); main.removeCallbacks(refreshTick); super.onStop()
+    }
+    @Suppress("DEPRECATION")
+    @Deprecated("Platform Activity picker callback; this application does not depend on AndroidX Activity")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (mediaScreen?.result(requestCode, resultCode, data) != true) super.onActivityResult(requestCode, resultCode, data)
     }
     override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, discovery, actor, demoMode, pendingRecovery)
     override fun onDestroy() {
+        mediaScreen?.close(); mediaScreen = null
         removePlatformBackCallback?.invoke(); removePlatformBackCallback = null
         screen++; if (!isChangingConfigurations) api.clear()
         foreground = false; refreshRead = null

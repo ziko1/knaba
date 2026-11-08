@@ -14,6 +14,7 @@ import {createAccountMailer} from './account-mail.mjs';
 import {accountSettingsPage,accountRecoveryPage,accountTokenPage,accountPasswordPage,accountWords} from './account-settings-ui.mjs';
 import {loadSourceFederation} from './federation-loader.mjs';
 import {federationPage,federationWords,federationErrorText} from './federation-ui.mjs';
+import {federationLoginPage} from './federation-login-ui.mjs';
 import {changeFederatedProfileAccess} from './federation-profile.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
 import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
@@ -574,6 +575,55 @@ export async function createKnabaVpsServer({
         if(error instanceof AccessRequestError)
           return send(res,error.code==='limited'?429:422,'Invalid access request');
         return send(res,409,'Access service temporarily unavailable');
+      }
+    }
+    if(/^\/account\/erp-login(?:\/(?:continue|approve|status))?\/?$/.test(url.pathname)){
+      const lang=preferredAccountLanguage(accountUser,url.searchParams.get('lang')),route=url.pathname.replace(/\/$/,'');
+      const login=federation?.login,enabled=Boolean(login?.enabled);
+      let context={authorityId:url.searchParams.get('authority_id')??'',requestId:url.searchParams.get('request_id')??''};
+      const page=(status,options={})=>accountReply(res,status,federationLoginPage({lang,enabled,...context,siteLabel:sameAccountSession()?accountUser.email:'',...options}));
+      const queryKeys=[...url.searchParams.keys()],allowedQuery=req.method==='GET'&&route==='/account/erp-login'?['lang','authority_id','request_id']:['lang'];
+      if(new Set(queryKeys).size!==queryKeys.length||queryKeys.some(key=>!allowedQuery.includes(key)))return page(400,{errorCode:'FEDERATION_INVALID',authorityId:'',requestId:''});
+      if(!enabled)return page(503);
+      const validContext=value=>/^[A-Za-z0-9_-]{1,64}$/.test(value.authorityId)&&/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(value.requestId)&&login.policy.authorityIds.includes(value.authorityId);
+      const subject=accountUser?.id,tokenHash=accountUser?createHash('sha256').update(accountUser.token).digest('hex'):null;
+      if(req.method==='GET'&&route==='/account/erp-login'){
+        if(!validContext(context))return page(400,{errorCode:'FEDERATION_INVALID',authorityId:'',requestId:''});
+        // The first cross-site navigation may omit the Strict site cookie.
+        // This landing has no authority; its same-origin form resumes the flow.
+        return page(200,{recovery:Boolean(accountUser&&login.ownsRequest(subject,tokenHash,context.authorityId,context.requestId))});
+      }
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:route==='/account/erp-login'?'GET':'POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return page(403,{errorCode:'NEEDS_REAUTH'});
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readRequestBody(4096)).toString('utf8'));
+        const expected=route.endsWith('/approve')?['inspectionId','current','confirmed']:route.endsWith('/continue')||route.endsWith('/status')?['authorityId','requestId']:[];
+        const keys=[...params.keys()];
+        if(!expected.length||keys.length!==expected.length||new Set(keys).size!==keys.length||keys.some(key=>!expected.includes(key)))return page(422,{errorCode:'FEDERATION_INVALID'});
+        if(!route.endsWith('/approve')){
+          context={authorityId:params.get('authorityId'),requestId:params.get('requestId')};
+          if(!validContext(context))return page(422,{errorCode:'FEDERATION_INVALID',authorityId:'',requestId:''});
+        }
+        if(!accountUser)return page(401,{needsLogin:true});
+        if(route.endsWith('/continue')){
+          const inspection=await login.inspect({subject,tokenHash,...context});
+          if(!sameAccountSession())return page(401,{needsLogin:true,siteLabel:''});
+          return page(200,{inspection});
+        }
+        let result;
+        if(route.endsWith('/approve')){
+          context=login.inspectionContext(subject,tokenHash,params.get('inspectionId'))??{authorityId:'',requestId:''};
+          result=await login.approve({subject,tokenHash,inspectionId:params.get('inspectionId'),password:params.get('current'),confirmed:params.get('confirmed')==='yes'});
+        }else result=await login.status({subject,tokenHash,...context});
+        if(!sameAccountSession())return page(401,{needsLogin:true,siteLabel:''});
+        if(['SOURCE_APPROVED','CODE_ISSUED','COMPLETE'].includes(result.state))return redirect(res,result.returnUrl);
+        return page(409,{closed:true});
+      }catch(error){
+        const code=error?.code==='session_revoked'?'NEEDS_REAUTH':error?.code;
+        const recovery=Boolean(accountUser&&sameAccountSession()&&login.ownsRequest(subject,tokenHash,context.authorityId,context.requestId));
+        return page(code==='NEEDS_REAUTH'?403:code==='FEDERATION_CONFLICT'?409:code==='RATE_LIMITED'?429:code==='too_large'?413:503,
+          {errorCode:code||'FEDERATION_UNAVAILABLE',recovery,siteLabel:sameAccountSession()?accountUser.email:''});
       }
     }
     if(/^\/account\/erp-link(?:\/(?:inspect|claim|reauth))?\/?$/.test(url.pathname)){

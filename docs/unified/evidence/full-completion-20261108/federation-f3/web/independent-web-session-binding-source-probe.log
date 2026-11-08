@@ -1,0 +1,19 @@
+{"scope":"Actual source-extracted WEB handler plus actual response parser; explicit network doubles, no browser","sourceSha256":"04827c8f90fc5ccbace74ebe5ea075831b304bd8667849fe4c77028405108063","effects":["clearSession","completed-with-old-session"]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: A fresh /me for another same-user session must not complete this issued flow
+
+true !== false
+
+    at <anonymous> (/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.mjs:37:8) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "createdAt": "2026-11-08T16:14:54.737813+00:00",
+  "verdict": "ACCEPT_REPORT_SCOPED",
+  "repository": "/workspace/scratch/c56161c95e04/knaba",
+  "headAtReview": "44f1539ced6b36da009341f199dc8d780c7af656",
+  "reviewedDocuments": [
+    {
+      "path": "docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md",
+      "sha256": "e12f7a98215c5d098b16f2fe5d24fe7ae86b3059084184651c341bd0b074f1a7"
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "fe40be61405a2958decf888f5704f5d23c05300602c20320b84351c62488dd64"
+    },
+    {
+      "path": "docs/unified/BACKLOG.md",
+      "sha256": "136e1c85b9a703b0713ed9d5b2b64854e31653988dac7607f7b3f918c7d3b51c"
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "sha256": "3e3cc276f325f601205702a90fde25d9223f6ff9ecd001177da497e02c0650b4"
+    },
+    {
+      "path": "docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "sha256": "529ee6d0666a129501570f2485f4a0fa8fbc95f8122f67051e1d8bfb20246db5"
+    },
+    {
+      "path": "docs/unified/AC_EVIDENCE_MAP_2026-11-08_UK.md",
+      "sha256": "6949a5046ebc24eec83e32f46f055233d777535544c5e7bff4ed4e9bb5b6f811"
+    },
+    {
+      "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      "sha256": "89096a9c824d9fd9ac8a4885b86f9d6cd11346d8873faed0a9e7a7e6b8127beb"
+    }
+  ],
+  "resolvedFinding": {
+    "id": "REPORT-MEDIA-HTTP-SCOPE",
+    "before": "13 controller/ACL CPU cases were labelled HTTP/ACL scenarios.",
+    "after": "Exact controller/ACL CPU scope with SQL/blob doubles and explicit statement that HTTP listener/transport was not executed.",
+    "runtimeEdited": false
+  },
+  "traceability": {
+    "path": "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+    "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712",
+    "rows": 114,
+    "uniqueRequirementIds": 114,
+    "statuses": {
+      "IN_PROGRESS": 42,
+      "NOT_RUN": 72
+    },
+    "byteIdenticalToHead": true,
+    "changedRows": 0,
+    "normativeFieldsUnchanged": true
+  },
+  "normativeSpecifications": [
+    {
+      "path": "KNABA_DE_MASTER_SPEC.md",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "byteIdenticalToHead": true
+    },
+    {
+      "path": "erp/KNABA_DE_TARGET_SPEC.md",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "byteIdenticalToHead": true
+    },
+    {
+      "path": "erp/KNABA_DE_MASTER_SPEC.md",
+      "sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+      "byteIdenticalToHead": true
+    }
+  ],
+  "identityAppendixEqualsPreviouslyReviewedWorktree": true,
+  "evidenceArchive": {
+    "sourcePreparation": "/workspace/scratch/c56161c95e04/knaba/docs/unified/evidence/full-completion-20261108/federation-f3/source-preparation.json",
+    "sha256": "7a3653a6a213bd926adb60bf1fbdc5b62e009860901dd3cf57f505d2eba44771",
+    "indexedFiles": 94,
+    "allIndexedBytesAndHashesMatch": true,
+    "filesIncludingIndex": 95,
+    "allThreeComponentManifestAndIndependentReviewHashesMatch": true
+  },
+  "countsAndScopesReviewed": {
+    "vps": {
+      "passed": 354,
+      "scope": "Current rebuilt bundle, local SQLite/synthetic ERP HTTP; not PG"
+    },
+    "erp": {
+      "initialCpu": 178,
+      "postCorrectionCpu": 41,
+      "distinctAcrossRuns": 179,
+      "separateIndependentRuns": [
+        66,
+        9
+      ],
+      "overlapExplicit": true
+    },
+    "webModelCpu": 24,
+    "sourceExtractedSessionProbe": 3,
+    "correctedGuardUnits": 18,
+    "priorIndependentGuardResult": {
+      "passed": 17,
+      "failed": 1,
+      "preserved": true
+    },
+    "workflowSyntheticReportChecks": 19,
+    "renderedCollectionOnly": {
+      "total": 19,
+      "transfer": 4,
+      "f2": 5,
+      "f3": 10
+    },
+    "integratedMediaContractAndApiDoubles": 147,
+    "android": {
+      "robolectric": 13,
+      "mediaAssertions": 71,
+      "ioAssertions": 17,
+      "physicalDeviceAcceptance": false
+    },
+    "ios": {
+      "authoredXCTest": 52,
+      "execution": "NOT_RUN"
+    }
+  },
+  "openGatesPreserved": {
+    "f3ActualPostgresqlCases": 18,
+    "f3ActualRuntimePairCases": 8,
+    "f3ActualRenderedBrowserCases": 10,
+    "nativeF3Adapters": "NOT_IMPLEMENTED",
+    "nativeCallbacksDeviceSigningProviderLive": "NOT_RUN",
+    "cleanCommittedAggregateCi": "PENDING",
+    "wholeProduct": "NOT_READY",
+    "compoundAcPromotion": false
+  },
+  "historicalEvidenceBoundary": "F2 e03d2be/run42485949823 remains historical accepted dependency. Native source commit44f1539 is not a new packaging/device result. No source review or collection promoted to aggregate acceptance.",
+  "blockingFindings": [],
+  "newRuntimeTestOrCiRuns": false,
+  "docsOrSourceEditedByReviewer": false
+}

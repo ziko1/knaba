@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "createdAt": "2026-11-08T15:36:22.945359+00:00",
+  "status": "BLOCKED_PENDING_CORRECTIVE_DELTA",
+  "sourceManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-source-manifest-reviewed-initial.json",
+    "sha256": "f6b9637d42747707ef37ef87d6edfcd3af7f309947b27d44aaa89acb47ed9325"
+  },
+  "all22InputHashesMatchedBeforeReview": true,
+  "sourceDigestVerifiedUsingDeclaredAlgorithm": true,
+  "readonlyDependenciesMatched": true,
+  "blockingFindings": [
+    {
+      "id": "ANDROID-MEDIA-IO-02",
+      "files": [
+        "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt"
+      ],
+      "finding": "resume sends Pair<Record,FileData> from process IO lane to a deferred main.post callback, allowing another already-prepared screen to read before the old callback discards bytes. The active-provider drain test covers recreate/open, not this pending-main-response boundary.",
+      "evidence": "Read-only source analysis; independently confirmed by author and root. No independent reproduction was run. Root authorized author to add a failing regression and make the callback metadata-only by keeping read/prepare/upload in one IO job.",
+      "state": "AUTHOR_CORRECTION_IN_PROGRESS"
+    }
+  ],
+  "reviewedOtherBoundaries": [
+    "Fresh /me, canonical media.register catalog, allowed site/task/company context at each typed step",
+    "Stable distinct upload/register keys; immutable hash/metadata; known uploadId no-reupload",
+    "Full authority + exact client/session generation; metadata-only encrypted descriptors and nativeMedia command-envelope marker; generic retry bypass denied",
+    "Known registration ACK retained across checkpoint/cleanup failure; restored REGISTERED uses local cleanup only",
+    "Own-origin copy=client download; percent-encoded opaque ID, current entity/version/company, no redirects, MIME/cumulative limits, ticket checks while writing explicit system copy",
+    "Six locale XML catalogs,347 keys each, unique/nonempty values and positional-placeholder parity"
+  ],
+  "independentRuntime": {
+    "scope": "Only actual bounded Java IO executor; not provider/UI/HTTP/PG/device",
+    "commandCompile": "java --module jdk.compiler/com.sun.tools.javac.Main -source 17 -target 17 -d verification/native-media/independent-io-classes <ErpMediaIo.java> <ErpMediaIoTest.java>",
+    "commandRun": "java -cp verification/native-media/independent-io-classes de.knaba.mobile.ErpMediaIoTest",
+    "java": "OpenJDK17.0.20",
+    "compileExitCode": 0,
+    "testExitCode": 0,
+    "assertions": 17,
+    "sourceInputs": [
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+        "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+        "bytes": 2173
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+        "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+        "bytes": 3409
+      }
+    ],
+    "logs": [
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/independent-io-compile-module.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/independent-io-test-module.log",
+        "sha256": "6b65fa2387c9ef44dec099e092f1a975ff33bec2c2fb13e92552801974e0ef47"
+      }
+    ],
+    "initialToolchainAttempt": "javac executable absent; no code compiled in that attempt. Reused installed JDK compiler module, no download/install."
+  },
+  "primaryDocs": [
+    "https://developer.android.com/training/data-storage/shared/photo-picker",
+    "https://developer.android.com/training/data-storage/shared/documents-files"
+  ],
+  "notRun": [
+    "Independent Robolectric/full transport suites",
+    "Actual system picker/document provider",
+    "Physical Android or iOS device",
+    "New APK/AAB packaging/signing/install",
+    "Live ERP/scanner/provider/PostgreSQL acceptance",
+    "Device RSS/performance"
+  ],
+  "sourceEdits": false
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-11-08T15:50:25.055625+00:00",
+  "reviewer": "erp_session_fence",
+  "verdict": "ACCEPT_SOURCE_CONTRACT_TEST_PLAN",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "erpRuntimeManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/source-manifest.json",
+    "sha256": "84161d679b80b4aaab99291f829657de20824f66ab958c03aa456777104f66d9"
+  },
+  "files": [
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "sha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689"
+    },
+    {
+      "path": "tests/bridge/federation-harness.mjs",
+      "sha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291"
+    },
+    {
+      "path": "tests/bridge/federation-fetch-preload.mjs",
+      "sha256": "af31fe64afb2eddbc0f3d5f4f366ca173bddfaf10e8df78badd2ce1fb8fb2dbf"
+    },
+    {
+      "path": "tests/bridge/harness.mjs",
+      "sha256": "3382c50c66cbd4a65834c243d1861b59e956f8c453b7d66ba89556da6da4ecd6"
+    }
+  ],
+  "testCount": 8,
+  "testTitles": [
+    "F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage",
+    "F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption",
+    "F3 actual lost approval ACK recovers one durable intent before any ERP session is issued",
+    "F3 actual source logout rejects an already computed issue proof before the ERP session commit",
+    "F3 actual source outage fails closed while local logout completes without source RPC",
+    "F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session",
+    "F3 actual source restart fences old derived sessions while a local ERP password session remains valid",
+    "F3 actual two-company native code cannot be redeemed by the other configured authority"
+  ],
+  "resolvedFindings": [
+    {
+      "issue": "Logout test incorrectly expected auth_sessions deletion",
+      "resolution": "Exact retained parent revoked_at + child REVOKED/revoked_at, cleared cookie, subsequent401, no additional source RPC."
+    },
+    {
+      "issue": "Native concurrent/foreign-code error status mismatch",
+      "resolution": "Concurrent loser and foreign-company code409; wrong verifier401. No runtime weakening."
+    },
+    {
+      "issue": "Outage fixture deliberately recorded relay failure but expected empty diagnostics",
+      "resolution": "Exact synthetic target-not-started diagnostic is asserted; logout cannot add diagnostics or calls."
+    },
+    {
+      "issue": "Secret absence checked only prefixed code/token",
+      "resolution": "Both full prefixed value and bare43 suffix checked in existing ERP/source tables."
+    },
+    {
+      "issue": "Terminal F1 unlink initially produced403 for a derived credential",
+      "resolution": "Separately authorized runtime-only currentIn normalization to401, actual HTTP RED→GREEN. Shared F1/ceremony/business403 and source503 unchanged."
+    }
+  ],
+  "observations": [
+    "Actual built ERP process and packaged VPS runtime use real PostgreSQL/SQLite; no SQL/ledger/auth handlers replaced.",
+    "Relay can only map exact configured canonical HTTPS authority/introspection to bounded local HTTP, delay actual response bytes or drop an ACK.",
+    "Existing isolated loopback database and current source/built artifact gate retained; F3 is explicit opt-in and F2 default harness behavior preserved.",
+    "WEB parent-cookie and flow-cookie ceremony, native exact redirect/S256/issuer/state, stable approval op digest/fresh nonce, child lineage and F1 reduction checks align with final ERP runtime.",
+    "No synthetic source permissions/roles are copied; setup permissions are explicit and independently password-authenticated enrollment remains valid."
+  ],
+  "execution": {
+    "readOnlySourceReview": "COMPLETE",
+    "postgresqlPair": "NOT_RUN_LOCALLY",
+    "postgresqlIntegration": "NOT_RUN_LOCALLY",
+    "browser": "NOT_RUN",
+    "providerOrProduction": "NOT_RUN"
+  },
+  "limitations": [
+    "Source/test-plan acceptance is not proof that the eight actual runtime pairs pass; their CI execution remains required.",
+    "This review does not certify verified native app/universal-link ownership, signing, devices or production config."
+  ]
+}

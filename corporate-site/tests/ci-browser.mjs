@@ -69,6 +69,7 @@ export function assertSuiteReceipt(value,{publicCases,requiredChecks=[]}={}){
 export const erpFixtureSuites=Object.freeze([
   {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
   {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
+  {file:'federation-login-ui.spec.ts',cases:10,name:'ERP federation login and browser cookie policy'},
 ]);
 export function assertErpUiReport(report){
   const tests=[],ids=new Set(),counts=Object.fromEntries(erpFixtureSuites.map(suite=>[suite.file,0]));
@@ -81,7 +82,7 @@ export function assertErpUiReport(report){
   const expected=erpFixtureSuites.reduce((total,suite)=>total+suite.cases,0);
   if(report?.stats?.expected!==expected||report.stats.unexpected!==0||report.stats.skipped!==0||report.stats.flaky!==0||
     report.errors?.length||tests.length!==expected||erpFixtureSuites.some(suite=>counts[suite.file]!==suite.cases)||
-    tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('ALL_NINE_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
+    tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('ALL_REQUIRED_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
   return counts;
 }
 export async function startPreview(command,args,{url,marker,signal,...options}){
@@ -103,7 +104,7 @@ export async function startPreview(command,args,{url,marker,signal,...options}){
 export async function main(){
   const output=process.env.KNABA_BROWSER_QA_DIR||join(process.env.RUNNER_TEMP||'/tmp','knaba-browser-'+process.pid);
   mkdirSync(output,{recursive:true});
-  const receipt={startedAt:new Date().toISOString(),scope:'Actual rendered browsers; loopback synthetic data. ERP transfer and identity-link suites use explicit HTTP fixtures, not provider/PostgreSQL acceptance.',stages:[]};
+  const receipt={startedAt:new Date().toISOString(),scope:'Actual rendered browsers; loopback synthetic data and intercepted synthetic HTTPS origins for cookie-policy checks. ERP transfer, identity-link and login suites use explicit HTTP fixtures, not provider/PostgreSQL/TLS/device acceptance.',stages:[]};
   const previews=[],abort=new AbortController();
   const cancel=()=>abort.abort();process.once('SIGINT',cancel);process.once('SIGTERM',cancel);
   let manifestPath,manifestBytes,manifest,inputsVerified=false,completed=false;

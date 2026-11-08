@@ -1,5 +1,5 @@
 export type FederationDirection='SITE_TO_ERP'|'ERP_TO_SITE';
-export type FederationAction='BOOTSTRAP_AUTHORITY'|'RECONCILE_PAGE'|'ACTIVATE_AUTHORITY'|'LOOKUP_PRINCIPAL'|'REGISTER_SESSION'|'FENCE'|'ACTIVATE_EPOCH'|'INSPECT_CHALLENGE'|'CLAIM'|'LINK_STATUS'|'INTROSPECT';
+export type FederationAction='BOOTSTRAP_AUTHORITY'|'RECONCILE_PAGE'|'ACTIVATE_AUTHORITY'|'REGISTER_SESSION'|'LOOKUP_PRINCIPAL'|'FENCE'|'ACTIVATE_EPOCH'|'INSPECT_CHALLENGE'|'CLAIM'|'LINK_STATUS'|'LOGIN_INSPECT'|'LOGIN_APPROVE'|'LOGIN_STATUS'|'INTROSPECT';
 export interface FederationAuthority {readonly authorityId:string;readonly companyId:string;readonly issuer:string;readonly siteOrigin:string;readonly erpOrigin:string;readonly erpAudience:string;readonly siteAudience:string;readonly policyVersion:number;readonly siteToErp:Readonly<{kid:string;secret:string}>;readonly erpToSite:Readonly<{kid:string;secret:string}>;readonly testLoopback?:boolean}
 export interface FederationEnvelope {readonly v:1;readonly companyId:string;readonly issuer:string;readonly audience:string;readonly operationId:string;readonly action:FederationAction;readonly payload:Readonly<Record<string,unknown>>}
 export interface FederationContext {readonly direction:FederationDirection;readonly generation:number;readonly nonce:string;readonly issuedAt:number;readonly operationId:string;readonly configFingerprint:string}

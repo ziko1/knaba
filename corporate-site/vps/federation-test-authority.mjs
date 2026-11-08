@@ -75,7 +75,8 @@ export async function testAuthority(t,{authorityId='synthetic',companyId='compan
             value={challengeId:challenge.challengeId,state:'CLAIMED',expiresAt:challenge.expiresAt};
           }else if(action==='LINK_STATUS'){
             value={bindings:[],challenges:[...ledger.challenges.values()].filter(x=>x.subject===p.subject&&x.sessionRef===p.sessionRef).map(({challengeId,state,expiresAt})=>({challengeId,state,expiresAt}))};
-          }else reject('VALIDATION_ERROR');
+          }else if(ledger.action)value=await ledger.action(wire);
+          else reject('VALIDATION_ERROR');
         }
         receipt={operationId:wire.operationId,action,generation:ledger.generation,revision:ledger.revision,result:value};
         ledger.receipts.set(wire.operationId,{digest:wire.operationDigest,receipt:structuredClone(receipt)});
