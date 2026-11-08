@@ -45,6 +45,9 @@ private actor ERPFixtureTransport: ERPTransport {
     private var company = "company-a"
     private var meOverride: Data?
     private var responseOrigin: URL?
+    private var permissions = ["task.work", "chat.write"]
+    private var catalogData = Data(#"{"items":[]}"#.utf8)
+    private var failEntityReads = false
     private var entityPages: [Data] = []
     private var outcomes: [ERPFixtureOutcome] = []
     private var gates: [String: ERPRaceGate] = [:]
@@ -56,6 +59,9 @@ private actor ERPFixtureTransport: ERPTransport {
     func setActor(user: String = "user-a", company: String = "company-a") { self.user = user; self.company = company }
     func setMe(_ data: Data?) { meOverride = data }
     func setResponseOrigin(_ url: URL?) { responseOrigin = url }
+    func setPermissions(_ permissions: [String]) { self.permissions = permissions }
+    func setCatalog(_ data: Data) { catalogData = data }
+    func setEntityReadFailure(_ value: Bool) { failEntityReads = value }
     func setPages(_ values: [Data]) { entityPages = values }
     func setOutcomes(_ values: [ERPFixtureOutcome]) { outcomes = values }
     func hold(_ path: String, at gate: ERPRaceGate) { gates[path] = gate }
@@ -65,7 +71,7 @@ private actor ERPFixtureTransport: ERPTransport {
     func persistenceChecks() -> [Bool] { storedBeforeWrite }
     func identityData() -> Data {
         try! JSONSerialization.data(withJSONObject: [
-            "actor": ["userId": user, "companyId": company, "roles": ["EMPLOYEE"], "permissions": ["task.work", "chat.write"]],
+            "actor": ["userId": user, "companyId": company, "roles": ["EMPLOYEE"], "permissions": permissions],
             "user": ["id": user, "name": "Synthetic worker"], "csrfToken": "csrf_" + user, "mode": "TEST"
         ])
     }
@@ -109,9 +115,10 @@ private actor ERPFixtureTransport: ERPTransport {
         } else if path.hasSuffix("/dashboard") {
             body = Data(#"{"counts":{},"activeShifts":0}"#.utf8)
         } else if path.hasSuffix("/commands") {
-            body = Data(#"{"items":[]}"#.utf8)
+            body = catalogData
         } else if path.contains("/entities/") {
             body = entityPages.isEmpty ? Data(#"{"items":[],"has_more":false}"#.utf8) : entityPages.removeFirst()
+            if failEntityReads { status = 503; body = Data(#"{"code":"DEPENDENCY_UNAVAILABLE"}"#.utf8) }
         }
         if let gate { await gate.hold() }
         if timeout { throw URLError(.timedOut) }
@@ -439,5 +446,140 @@ final class ERPCommandRecoveryTests: XCTestCase {
             let identity = await client.identity
             XCTAssertEqual(identity?.actor.userId, "user-b")
         }
+    }
+
+    private func quoteAction(_ highRisk: Bool = false) throws -> ERPCommand {
+        let schema = try JSONDecoder().decode(ERPField.self, from: Data(#"{"type":"object","required":["id","quoteVersion"],"properties":{"id":{"type":"string"},"quoteVersion":{"type":"integer"},"acceptanceEvidence":{"type":"string"}}}"#.utf8))
+        return ERPCommand(name: "quote.accept", permission: "quote.accept", highRisk: highRisk, schema: schema)
+    }
+    private func quoteRecord() throws -> ERPItem {
+        try JSONDecoder().decode(ERPItem.self, from: Data(#"{"id":"quote-a","kind":"quote","version":7,"data":{"title":"Synthetic quote","quoteVersion":3}}"#.utf8))
+    }
+    private func quoteCatalog(_ highRisk: Bool = false) -> Data {
+        Data((#"{"items":[{"name":"quote.accept","permission":"quote.accept","highRisk":HIGH_RISK,"schema":{"type":"object","required":["id","quoteVersion"],"properties":{"id":{"type":"string"},"quoteVersion":{"type":"integer"},"acceptanceEvidence":{"type":"string"}}}}]}"#).replacingOccurrences(of: "HIGH_RISK", with: highRisk ? "true" : "false").utf8)
+    }
+    @MainActor private func quoteModel(_ server: ERPFixtureTransport, journal: ERPMemoryJournal) async -> ERPConsoleModel {
+        await server.setPermissions(["quote.accept"])
+        await server.setCatalog(quoteCatalog())
+        let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+        model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+        await model.signIn()
+        return model
+    }
+
+    @MainActor func testRecordSubmitPinsSnapshotAndAcknowledgedWriteSurvivesRefreshFailure() async throws {
+        let journal = ERPMemoryJournal()
+        // Use one journal for both the real client and transport observation.
+        let transport = ERPFixtureTransport(journal: journal)
+        let model = await quoteModel(transport, journal: journal)
+        let action = try quoteAction()
+        let context = try XCTUnwrap(ERPRecordActions.context(for: quoteRecord(), command: action, actor: XCTUnwrap(model.identity).actor))
+        await transport.setEntityReadFailure(true)
+        let applied = await model.submit(action, fields: ["id": "foreign-quote", "quoteVersion": "99", "acceptanceEvidence": "Explicit approval"],
+                                         versionText: "999", expectedSession: model.sessionGeneration, context: context, confirmed: true)
+        XCTAssertTrue(applied, "A later read failure must not invite a duplicate business command")
+        XCTAssertEqual(model.selection, "quote", "Return to the original record kind, not the command result kind")
+        let writes = await transport.writes()
+        XCTAssertEqual(writes.count, 1)
+        let envelope = try XCTUnwrap(JSONSerialization.jsonObject(with: XCTUnwrap(writes.first?.httpBody)) as? [String: Any])
+        let input = try XCTUnwrap(envelope["input"] as? [String: Any])
+        XCTAssertEqual(input["id"] as? String, "quote-a")
+        XCTAssertEqual(input["quoteVersion"] as? Int, 3)
+        XCTAssertEqual(envelope["expected_version"] as? Int, 7)
+        XCTAssertNil(try journal.load())
+    }
+
+    @MainActor func testCurrentSensitiveFlagRequiresConfirmationEvenIfOldCatalogDidNot() async throws {
+        let journal = ERPMemoryJournal()
+        let transport = ERPFixtureTransport(journal: journal)
+        let model = await quoteModel(transport, journal: journal)
+        let old = try quoteAction(false)
+        // Deliberately elevate only this HTTP double to exercise a server catalog change.
+        await transport.setCatalog(quoteCatalog(true))
+        let rejected = await model.submit(old, fields: ["id": "quote-a", "quoteVersion": "3"], versionText: "7", expectedSession: model.sessionGeneration)
+        XCTAssertFalse(rejected)
+        let before = await transport.writes()
+        XCTAssertTrue(before.isEmpty); XCTAssertNil(try journal.load())
+        let accepted = await model.submit(old, fields: ["id": "quote-a", "quoteVersion": "3"], versionText: "7", expectedSession: model.sessionGeneration, confirmed: true)
+        XCTAssertTrue(accepted)
+        let after = await transport.writes()
+        XCTAssertEqual(after.count, 1)
+    }
+
+    @MainActor func testCurrentPermissionAndOldFormSessionAreCheckedBeforeWrite() async throws {
+        let journal = ERPMemoryJournal()
+        let transport = ERPFixtureTransport(journal: journal)
+        let model = await quoteModel(transport, journal: journal)
+        let oldGeneration = model.sessionGeneration
+        await model.signOut(); model.password = "test"; await model.signIn()
+        let stale = await model.submit(try quoteAction(), fields: ["id": "quote-a", "quoteVersion": "3"], versionText: "7", expectedSession: oldGeneration, confirmed: true)
+        XCTAssertFalse(stale)
+        await transport.setPermissions([])
+        let revoked = await model.submit(try quoteAction(), fields: ["id": "quote-a", "quoteVersion": "3"], versionText: "7", expectedSession: model.sessionGeneration, confirmed: true)
+        XCTAssertFalse(revoked)
+        let writes = await transport.writes()
+        XCTAssertTrue(writes.isEmpty); XCTAssertNil(try journal.load())
+    }
+
+    @MainActor func testMalformedManualVersionIsNotSilentlyConvertedToUnversionedWrite() async throws {
+        let journal = ERPMemoryJournal()
+        let transport = ERPFixtureTransport(journal: journal)
+        let model = await quoteModel(transport, journal: journal)
+        for raw in ["invalid", "0", "-1", "1.5", "999999999999999999999"] {
+            let applied = await model.submit(try quoteAction(), fields: ["id": "quote-a", "quoteVersion": "3"], versionText: raw, expectedSession: model.sessionGeneration, confirmed: true)
+            XCTAssertFalse(applied, raw)
+        }
+        let writes = await transport.writes()
+        XCTAssertTrue(writes.isEmpty); XCTAssertNil(try journal.load())
+    }
+
+    @MainActor func testUncertainContextualWriteUsesExistingExactJournalRecovery() async throws {
+        let journal = ERPMemoryJournal()
+        let transport = ERPFixtureTransport(journal: journal)
+        let model = await quoteModel(transport, journal: journal)
+        let action = try quoteAction()
+        let context = try XCTUnwrap(ERPRecordActions.context(for: quoteRecord(), command: action, actor: XCTUnwrap(model.identity).actor))
+        await transport.setOutcomes([.committedThenTimeout])
+        let applied = await model.submit(action, fields: [:], versionText: "", expectedSession: model.sessionGeneration, context: context, confirmed: true)
+        XCTAssertFalse(applied); XCTAssertTrue(model.hasPending)
+        let saved = try XCTUnwrap(journal.load())
+        XCTAssertEqual(saved.expectedVersion, 7)
+        await model.retryPending()
+        let writes = await transport.writes(), effects = await transport.effectCount()
+        XCTAssertEqual(effects, 1); XCTAssertEqual(writes.count, 2)
+        XCTAssertEqual(writes[0].httpBody, saved.body); XCTAssertEqual(writes[1].httpBody, saved.body)
+        XCTAssertNil(try journal.load()); XCTAssertFalse(model.hasPending)
+    }
+
+    @MainActor func testDelayedActionCatalogCannotSubmitUnderNewLogin() async throws {
+        let journal = ERPMemoryJournal()
+        let transport = ERPFixtureTransport(journal: journal)
+        let model = await quoteModel(transport, journal: journal)
+        let reached = expectation(description: "old form waits for current catalog")
+        let gate = ERPRaceGate(reached)
+        await transport.hold("/api/v1/commands", at: gate)
+        let action = try quoteAction(), generation = model.sessionGeneration
+        let old = Task { await model.submit(action, fields: ["id": "quote-a", "quoteVersion": "3"], versionText: "7", expectedSession: generation, confirmed: true) }
+        await fulfillment(of: [reached], timeout: 2)
+        await model.signOut()
+        await transport.setActor(user: "user-b")
+        model.password = "new-test"; await model.signIn()
+        await gate.release()
+        let applied = await old.value
+        XCTAssertFalse(applied); XCTAssertEqual(model.identity?.actor.userId, "user-b")
+        let writes = await transport.writes()
+        XCTAssertTrue(writes.isEmpty); XCTAssertNil(try journal.load())
+    }
+
+    func testCapturedCommandAuthorityRejectsAnotherSessionEvenForSameUser() async throws {
+        let journal = ERPMemoryJournal()
+        let transport = ERPFixtureTransport(journal: journal)
+        let client = ERPConsoleClient(transport: transport, pendingStore: journal)
+        try await signIn(client)
+        let authority = try await client.commandAuthority()
+        await client.logout(); try await signIn(client)
+        await expect(.accessChanged) { _ = try await client.execute(self.command, input: self.input, authority: authority) }
+        let writes = await transport.writes()
+        XCTAssertTrue(writes.isEmpty); XCTAssertNil(try journal.load())
     }
 }

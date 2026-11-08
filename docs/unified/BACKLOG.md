@@ -1,5 +1,11 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — C08 accepted; current native/backend source consolidation
+
+C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.
+
+Ізольоване зведення переносить прийняті iOS 0.5.1 source changes з `65f341e…` до цієї backend-бази. Android, API/worker та сайт збережені. Локально 126 native registry contracts, TypeScript і 30 root checks PASS; combined exact-source/native CI ще NOT_RUN. [Контракт зведення](NATIVE_CONSOLIDATION_2026-11-08_UK.md). COMPANY_ID/origin audit стоїть окремо в черзі. Whole product NOT_READY; original V4/V3 criteria не перепозначені.
+
 ## 08.11.2026 — F4-B accepted; KN-C08 explicit runtime mode
 
 F4-B прийнято на e740ef969e2a6a261f0e7ba613b741ed889ec0fe / [PR131](https://github.com/ziko1/knaba/pull/131) / [CI42481614075](https://github.com/ziko1/knaba/actions/runs/42481614075): ERP — 2832 тести у 122 файлах; bridge — 82 (усі 51 F4-B, upgrade та 17 self-dispatch); site — 732+90+297; root — 30; усі 4 jobs SUCCESS без acceptance skips, незалежний review ACCEPT. Початковий fixture FAIL збережено в [evidence](evidence/federated-session-authority-20261108/verification.json).
@@ -51,7 +57,8 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |
-| KN-C08 | P1 | Явний APP_MODE і узгодженість injected worker/Engine реалізовано в ізольованому candidate; 123/123 focused checks і незалежний source review ACCEPT; exact-source hosted acceptance PENDING. [Контракт](EXPLICIT_RUNTIME_MODE_2026-11-08_UK.md) |
+| KN-C08 | P1 | ACCEPT на e747fd94… / CI42483792274: явний APP_MODE і injected worker/Engine guards. Whole product не закрито. [Evidence](evidence/explicit-runtime-mode-20261108/verification.json) |
+| KN-C08-B | P1 | OPEN: production COMPANY_ID та PUBLIC_ORIGIN boundary validation; [read-only audit](PRODUCTION_CONFIGURATION_AUDIT_2026-11-08_UK.md), реалізація ще NOT_RUN |
 | KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
 | KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
 | KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |

@@ -1,5 +1,11 @@
 # KnaBa — окремий бюджет і квоти
 
+## 2026-11-08 native/backend consolidation reservation
+
+C08 PR run 42483792274 and duplicate push 42483788861 are SUCCESS and independently accepted at e747fd94e219e09faffea96c2f9f84be15a6def1. Historical iOS 0.5.1 job in run 42467913707 accepted 67 XCTest; its Android peer failed before compilation on dependency HTTP504 and remains recorded as such. No unchanged manual rerun is requested.
+
+Repository visibility was freshly verified public with write access. GitHub's official billing page was read again on 2026-11-08: standard hosted runners for public repositories are free (https://docs.github.com/en/actions/concepts/billing-and-usage). Reserve one consolidation source checkpoint and at most one corrective source checkpoint for a concrete failure: at most four automatic existing repository runs and two native PR runs. Native runner ceiling remains 160 runner-minutes total (per attempt Ubuntu 30 + macOS 50); existing timeouts and one-day artifact retention remain unchanged. Eligible standard public-runner charge reserved: EUR 0. No larger runners, paid activation, external model calls, signing/store upload or production action. Availability is established by actual job results; model/account balances remain UNKNOWN.
+
 ## KN-C08 explicit runtime mode reservation — 08.11.2026
 
 F4-B implementation push/PR42480802391/42480841055 retained the one upgrade-fixture failure; corrective push/PR42481611087/42481614075 both SUCCESS, all four mandatory jobs accepted at e740ef969e2a6a261f0e7ba613b741ed889ec0fe. That reservation is reconciled. Reserve one KN-C08 source checkpoint and at most one corrective checkpoint, at most four automatically triggered existing standard public Ubuntu repository runs within unchanged timeouts. Scope: explicit API/worker/preflight/staging-wrapper mode, injected worker-engine consistency, focused tests and current evidence. Native files, providers, production activation, new infrastructure and paid services are excluded. New paid activation EUR0; actual model/account balances and quotas UNKNOWN.

@@ -1,0 +1,638 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "Consolidate accepted native 0.5.1 source with current accepted backend",
+  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-native-backend-consolidation-20261108",
+  "base_source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+  "base_tree_sha": "80d27a93057f368908b9e267f241ba02ed4d1b07",
+  "native_source_sha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+  "native_tree_sha": "397a069a87df7f33eb4889942d93b825a502fb1b",
+  "common_ancestor": "fb4be719fc6f777138cb93837fc41729f9104c09",
+  "commit_binding": "Candidate input hashes only. The eventual immutable commit/tree and its own repository/native CI are recorded separately; historical source/artifact proofs are never retagged.",
+  "inputs": {
+    "docs/mobile/BRAND_ASSETS.json": {
+      "bytes": 1829,
+      "sha256": "3e0deda11b68b76c0219dd50c2f73e0c252ca105f6724132fcbb74b1ac15899c",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "docs/mobile/DISTRIBUTION_2026-10-28_UK.md": {
+      "bytes": 12840,
+      "sha256": "55adf25fd77e1028cf2d3f9d44340f41977afb388f31f66771b1267ea82e377a",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "docs/mobile/IOS_CONTEXT_ACTIONS_0.5.1_UK.md": {
+      "bytes": 6089,
+      "sha256": "da64dd18c81087e2905dc12e0848e0052321f4926e63d7c9197e0272d3ff358a",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "docs/mobile/TEST_CANDIDATE_0.5.0_UK.md": {
+      "bytes": 10757,
+      "sha256": "d6ac2dbbebf0064af8b1b43222e5b54c20d89c044f730ffbe36f529c10c6c7bd",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Info.plist": {
+      "bytes": 1790,
+      "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/PrivacyInfo.xcprivacy": {
+      "bytes": 1393,
+      "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/README.md": {
+      "bytes": 8365,
+      "sha256": "ae24e6bff486d6d1e2c5ed4a7c8eea4d9249b045676c6ae9062efb3e9411e4f3",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/README_RECOVERY_UK.md": {
+      "bytes": 6190,
+      "sha256": "af0d7414926b8fe328f8b3f13d5607b58b87315ac8cbbba891735fa8072b45d7",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png": {
+      "bytes": 179006,
+      "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+      "bytes": 203,
+      "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json": {
+      "bytes": 60,
+      "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings": {
+      "bytes": 846,
+      "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings": {
+      "bytes": 821,
+      "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings": {
+      "bytes": 865,
+      "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings": {
+      "bytes": 920,
+      "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings": {
+      "bytes": 1478,
+      "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings": {
+      "bytes": 1381,
+      "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/AppModel.swift": {
+      "bytes": 8546,
+      "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPActionLabels.swift": {
+      "bytes": 4101,
+      "sha256": "b0d456f4fda683f8228659f7fc1c51487d2a8277bed04ed458be109905927a68",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift": {
+      "bytes": 23389,
+      "sha256": "e21814bb06b8a6b8ebea7dd9d3531c5048d7808bad0dca9bbf8aeec5e03fcd23",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPConsoleView.swift": {
+      "bytes": 30681,
+      "sha256": "424584b2c4c80d0727d8b5bf584041677f3e0f8edbe3b536162a9f21a310fc48",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPModuleCatalog.swift": {
+      "bytes": 6521,
+      "sha256": "08da9e6c7d1ace041cb353ac54d83d877c9ef118a1f3835fc26333915d94a73d",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPPendingCommand.swift": {
+      "bytes": 7398,
+      "sha256": "ed74532d2acd9a66b83d8005e540296babc840eb1f2824b8d6e152fead58d773",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPRecordActions.swift": {
+      "bytes": 11776,
+      "sha256": "e5059193a5be45142f60288b92cd9196cef622c000286a484ba8ce6fe8073799",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/ERPStrings.swift": {
+      "bytes": 37839,
+      "sha256": "d87c28736af7551ce628ff6b17abf0a6b658611a96507cfe1ec5881142071874",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/KNABADEApp.swift": {
+      "bytes": 8159,
+      "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/LocationTracker.swift": {
+      "bytes": 12689,
+      "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/Models.swift": {
+      "bytes": 8671,
+      "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/NativeAPI.swift": {
+      "bytes": 5838,
+      "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/NativeLocalization.swift": {
+      "bytes": 35926,
+      "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift": {
+      "bytes": 3013,
+      "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Sources/SecureStore.swift": {
+      "bytes": 9238,
+      "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/ERPCommandRecoveryTests.swift": {
+      "bytes": 34244,
+      "sha256": "9b8aa2fac201755e3132583d8cd6ceacae82edc989a69d9f9cd268aa6fdfa966",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift": {
+      "bytes": 2753,
+      "sha256": "2a935fef3d41f8e439d9d6f0748fb1daa04a075c7dac7a4b1bb84c061dd0c5e8",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/ERPModuleCatalogTests.swift": {
+      "bytes": 4482,
+      "sha256": "6fa825ed6ae4f5cdb8e1da9e0549b63e262645cb2bd5ce5189fbdc84834261c5",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/ERPPendingStorageTests.swift": {
+      "bytes": 6141,
+      "sha256": "20295c9216dc4f425fe80e96cba937e5974b41d2175d5f1271df70e3f45764dd",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift": {
+      "bytes": 10782,
+      "sha256": "b50276c67ebb932ef159095c94c406171840361df75316800e705c79c53b084f",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift": {
+      "bytes": 9703,
+      "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/Tests/NativeTests.swift": {
+      "bytes": 7834,
+      "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/project.yml": {
+      "bytes": 1320,
+      "sha256": "9526c8fd9d0583b6e343b8a6ac37952cf33dc4c29d6fdd888db1e806d0efa13f",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/scripts/archive-release.sh": {
+      "bytes": 9047,
+      "sha256": "12b4dbab0b93d9e6c3f3ab542737e8acb96de387827f4315922282e7d166026b",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/mobile-ios/scripts/build.sh": {
+      "bytes": 742,
+      "sha256": "94ddbc2fcb03e081b6af72015e300f9ff8f08ca70093a5a0736303fa4f7ba435",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/scripts/native-ios-simulator.py": {
+      "bytes": 9802,
+      "sha256": "4b980ddeadb321c8ff2b8bc817d0b0774a534e8b88ecd123288cf4156225260f",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/tests/native-vectors.json": {
+      "bytes": 4538,
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/apps/api/main.ts": {
+      "bytes": 9650,
+      "sha256": "e0c0e98335dc4c91f507a8db1fb30cce4f9ec22e0393c42aa8a48c7d39c6138f",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/apps/worker/main.ts": {
+      "bytes": 5848,
+      "sha256": "dbbc66fcae9c9f67aa071fb13be1a6f6747a581e3cae584c6b808d2c7f48c52c",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/scripts/environment-check.mjs": {
+      "bytes": 4909,
+      "sha256": "61fae51e7c3140f3eb5c7da7a945a9016efb4a71501a4cb368e868dfb53f3c5e",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/scripts/railway-worker-start.mjs": {
+      "bytes": 3134,
+      "sha256": "9e940441840d10992db1d9563e89cbf2b215c6915dc67cfc994285aebfdbb07e",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/scripts/railway-worker-start.d.mts": {
+      "bytes": 652,
+      "sha256": "1d988427cd3dd42640c279b290fe946d7ddc5ca66ac05198541f071eff8e13e0",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/runtime-mode.test.ts": {
+      "bytes": 5569,
+      "sha256": "541c8970f8a906f1acc736a64352596fa40e2e36482110814123f837bc7d5751",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/runtime-mode-entrypoints.test.ts": {
+      "bytes": 4566,
+      "sha256": "7e39e2f59ef612076ee7f17ee36792a9e82c8576dae89bd73294463f8bbd1ebe",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/fixtures/runtime-mode-traps.cjs": {
+      "bytes": 1113,
+      "sha256": "9701d253da7efd13bb4ab5759bfd030b10134547f931b7a29a0a9601d9786c8e",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/telegram-worker-config.test.ts": {
+      "bytes": 5405,
+      "sha256": "9726224d49db70a2872dd1c71751dc9b2f5bead1989e2c38a772fc8a4918fe8f",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/integrations.test.ts": {
+      "bytes": 35183,
+      "sha256": "46ea0615c997a1f04c68ce3d7adc155787e2da5dbb3ec22bee4dd235b715e228",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/railway-worker-gate.test.ts": {
+      "bytes": 3470,
+      "sha256": "6706ca7b410dc6fe97962bf3cb50364afa0923e3d1e1a04f8f1ce214f6b18a6a",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/telegram-preflight.test.ts": {
+      "bytes": 4391,
+      "sha256": "e8ce83e9cb35e173d28ac64a443cf7e0476289e52cd52aaf31b913dbcde8add0",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tests/seed-mode.test.ts": {
+      "bytes": 1169,
+      "sha256": "1593944fbc24dd8bad037cbd95dc6e309b48a576bfa7ac598973920ab70e5a93",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/package.json": {
+      "bytes": 1208,
+      "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/package-lock.json": {
+      "bytes": 192043,
+      "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/tsconfig.json": {
+      "bytes": 459,
+      "sha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    "erp/scripts/bundle.mjs": {
+      "bytes": 2552,
+      "sha256": "a4e6ac8a341124880184618a9893e7a244c23a89a652357024aa06132c6fd093",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1"
+    },
+    ".github/workflows/native.yml": {
+      "bytes": 8762,
+      "sha256": "c8f24fb82e9b3a5a6783e14a9ec2146a2109c1af11e9b9d7db52c46b8d9a03db",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "erp/tests/native-console-contract.test.ts": {
+      "bytes": 3815,
+      "sha256": "ee2a3e4e8765240cc6120bce2fc9f0087f72f5b36e249aa5e7b3c025550f2504",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "scripts/mobile/package-ios-source.py": {
+      "bytes": 3335,
+      "sha256": "5760bbfe588ff0a6608c3b59841542acd981c188b8e101f9c3aae08d7f1a7660",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    },
+    "scripts/mobile/generate-brand-assets.mjs": {
+      "bytes": 4799,
+      "sha256": "c6b6972dd83eeea241e37220293edac60388c42c0f10dc37527eb5d1ebef9f6a",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba"
+    }
+  },
+  "inherited_subtrees": {
+    "erp/apps/mobile-ios": {
+      "tree_sha": "3791f12c9acf7720265ec53aa010fd5e2a0e617d",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+      "current_worktree_diff": "EMPTY"
+    },
+    "erp/apps/mobile-android": {
+      "tree_sha": "f103ef647cbc4f88566270b3d641b9867e8d5c7b",
+      "inherited_source": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+      "current_worktree_diff": "EMPTY"
+    },
+    "erp/apps/api": {
+      "tree_sha": "65b353b54992aeb9bd727fa97033b12ef79f2332",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+      "current_worktree_diff": "EMPTY"
+    },
+    "erp/apps/worker": {
+      "tree_sha": "6298c47447298312b3f85ee0af3c5948aa85008f",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+      "current_worktree_diff": "EMPTY"
+    },
+    "erp/packages": {
+      "tree_sha": "9ea7c2f5f8d1f3490fb756f784d53a99b980b106",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+      "current_worktree_diff": "EMPTY"
+    },
+    "corporate-site": {
+      "tree_sha": "ffd12bcd54ebf8352574e9e4997ea3a8e52d8e97",
+      "inherited_source": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+      "current_worktree_diff": "EMPTY"
+    }
+  },
+  "import": {
+    "ios_commit_files": 15,
+    "documentation_conflicts_resolved": [
+      "docs/mobile/BACKLOG.json",
+      "docs/mobile/PROJECT_MEMORY.md"
+    ],
+    "conflict_resolution": "Preserved fuller native checkpoint history; no executable conflict or rewrite",
+    "missing_historical_evidence_files_imported": 7,
+    "runtime_delta_from_native_source": "NONE in Android/iOS, native registry contract test and source packager",
+    "runtime_delta_from_backend_source": "NONE in API, worker, domain/integration packages and corporate site"
+  },
+  "local": {
+    "node": "v24.22.1",
+    "native_registry_contract": {
+      "command": "node node_modules/vitest/vitest.mjs run tests/native-console-contract.test.ts --maxWorkers=2",
+      "cwd": "erp",
+      "exit_code": 0,
+      "passed": 126,
+      "failed": 0,
+      "files": 1,
+      "scope": "Executable ERP registry compatibility and native source contracts; not Swift compilation or actual mobile device behavior",
+      "log": {
+        "file": "native-consolidation-contract.log",
+        "bytes": 309,
+        "sha256": "fc73a640f88981a7d7ac0b05be536d696dbd282adfe2f86c1c8747c82703a2de"
+      }
+    },
+    "typecheck": {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "cwd": "erp",
+      "exit_code": 0,
+      "log": {
+        "file": "native-consolidation-typecheck.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "root": {
+      "command": "npm test",
+      "cwd": ".",
+      "exit_code": 0,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "log": {
+        "file": "native-consolidation-root.log",
+        "bytes": 2753,
+        "sha256": "bfa4c28990915f95f3fb446340b3d47e3a7b15a426d394629e3d70880f8f2b84"
+      }
+    },
+    "portable_ios_source": {
+      "source_sha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+      "entries": 44,
+      "git_and_worktree_hashes": "ALL_MATCH",
+      "archive": {
+        "file": "knaba-ios-0.5.1-source.tar.gz",
+        "bytes": 281469,
+        "sha256": "5c9328181f34a5dac4ada029abab9aaa1b52192c2f6102cb4b960463a44d0a5a"
+      },
+      "scope": "44 source files, distinct from the 48 compiled app bundle files",
+      "manifest_sha256": "198cecef70e16835db18bc0b62134f8de61a21ea206f7332b4a010dd2b4cc644"
+    }
+  },
+  "historical": {
+    "c08": {
+      "status": "ACCEPT_EXPLICIT_RUNTIME_MODE_ACTUAL_CI",
+      "source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+      "tree_sha": "80d27a93057f368908b9e267f241ba02ed4d1b07",
+      "parent_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+      "pr": 132,
+      "run_id": 42483792274,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42483792274",
+      "duplicate_push_run": 42483788861,
+      "duplicate_push_status": "SUCCESS",
+      "all_required_jobs": "SUCCESS",
+      "conditional_failure_summary": "SKIPPED_AS_EXPECTED",
+      "logs": {
+        "erp": {
+          "job_id": 128741163270,
+          "file": "c08-42483792274-erp.log",
+          "bytes": 108358,
+          "sha256": "60fc531f0dd86cd0141079fe6d2a3d083c43ef8e219500653425cb9ce677c181",
+          "status": "SUCCESS"
+        },
+        "bridge": {
+          "job_id": 128741163486,
+          "file": "c08-42483792274-bridge.log",
+          "bytes": 105674,
+          "sha256": "773a67735ed76df82affc8d0632d011ddd23b809cacf88f4ccbb3943f964aabb",
+          "status": "SUCCESS"
+        },
+        "site": {
+          "job_id": 128741163482,
+          "file": "c08-42483792274-site.log",
+          "bytes": 141655,
+          "sha256": "c3c362b520164d9c043fae5b9c961bd3748e8aafef4e332360c1631d91f72694",
+          "status": "SUCCESS"
+        },
+        "root": {
+          "job_id": 128741163564,
+          "file": "c08-42483792274-root.log",
+          "bytes": 41101,
+          "sha256": "2cec581f1214554177823a8314c0b255ba6568a0a8b4e06343e9705351c32174",
+          "status": "SUCCESS"
+        }
+      },
+      "results": {
+        "erp": {
+          "tests": 2905,
+          "files": 124,
+          "new_worker_runtime_tests": 38,
+          "new_compiled_entrypoint_tests": 19,
+          "runtime_configuration_focused": 123
+        },
+        "bridge": {
+          "tests": 82,
+          "f4b_cases": 51,
+          "self_dispatch_cases": 17
+        },
+        "site": {
+          "vitest": 732,
+          "node_other": [
+            37,
+            35,
+            10,
+            8
+          ],
+          "vps": 297
+        },
+        "root": {
+          "tests": 30
+        }
+      },
+      "acceptance_skips": 0,
+      "source_input_count": 17,
+      "scope": "Explicit API/worker/preflight/staging mode, injected worker/Engine consistency, existing production and provider gates preserved",
+      "excluded": [
+        "Full product V4/V3 acceptance",
+        "F3 session issuance and remaining F4 privacy/background policy",
+        "COMPANY_ID fallback and production-origin alignment",
+        "Physical devices, signing/stores, browser/company/provider UAT",
+        "Production activation, merge or live data changes"
+      ],
+      "independent_review": "ACCEPT",
+      "independent_reviewer": "/root/knaba_prompt_review",
+      "review_scope": "Exact clean source/tree, all 17 input hashes and sizes, four raw logs, counts and skip-free actual mandatory acceptance"
+    },
+    "android": {
+      "source_sha": "fb4be719fc6f777138cb93837fc41729f9104c09",
+      "run_id": 42463090142,
+      "tests": 32,
+      "transport_assertions": 74,
+      "transport_scope": "Explicit HTTP/journal doubles",
+      "lint_errors": 0,
+      "lint_warnings": 17,
+      "apk": {
+        "file": "knaba-android-0.5.0-test.apk",
+        "bytes": 2953722,
+        "sha256": "9613f416317fea2c157b4bef6f1a83cefe7120ceaeda974d6e67015e098a1453"
+      },
+      "aab": {
+        "file": "knaba-android-0.5.0-test.aab",
+        "bytes": 1035992,
+        "sha256": "f0c813e31aca6ebdcc94c3c03d32615728843540b5020d1bf0e12b35560a61d6"
+      },
+      "signing": "Debug evaluation package only"
+    },
+    "ios": {
+      "source_sha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+      "run_id": 42467913707,
+      "ios_job_id": 128691606881,
+      "ios_job_status": "SUCCESS",
+      "xctest_passed": 67,
+      "xctest_failed": 0,
+      "xctest_skipped": 0,
+      "device": "iPhone 16 / iOS 18.5 arm64 Simulator",
+      "xcode": "16.4",
+      "simulator_artifact": {
+        "file": "knaba-ios-0.5.1-simulator.app.zip",
+        "bytes": 6620402,
+        "sha256": "9f8b0d201138cb389bc6a93389dd504f55e29b16dab38a6a2218a97f4af66d7e"
+      },
+      "compiled_bundle_entries": 48,
+      "native_receipt": {
+        "file": "../ios-context-actions-20261108/native-receipt.json",
+        "bytes": 9641,
+        "sha256": "ed6bec29cd6e14fb374309b9927eca9effbae2332867e6564abd8ab21fcdf9c0"
+      },
+      "xctest_summary": {
+        "file": "../ios-context-actions-20261108/xctest-summary.json",
+        "bytes": 977,
+        "sha256": "b3f47decb7c0f9868f005c2cf4891777938a815b4d12ba7f3f9ae11f8b11ab88"
+      },
+      "preparation_scope": "Historical preparation NOT_RUN is preserved; actual 67 XCTest proved by separate summary and completed log",
+      "raw_logs": {
+        "ios": {
+          "file": "ios-context-ios-hosted-ci.log",
+          "bytes": 279049,
+          "sha256": "fa9006769617d06c2fa104b09aca78c67a0305343150dba59bb99ad343692dec"
+        },
+        "android": {
+          "file": "ios-context-android-hosted-ci.log",
+          "bytes": 35979,
+          "sha256": "de8b475e96fbf5120adba7f693dd7ff7311845741d1a73129d023fd64fe7f602"
+        },
+        "erp": {
+          "file": "ios-context-erp-hosted-ci.log",
+          "bytes": 96839,
+          "sha256": "a18c91845e32c3920d6d1e5f152fce0c6cd8c5b9f4c846f719ee0d732d3015d9"
+        }
+      },
+      "same_run_android": "FAILED_BEFORE_COMPILATION_DEPENDENCY_HTTP504; not a successful whole native run",
+      "signed_ipa": "NOT_RUN",
+      "compiled_bundle_verification": "48/48 exact hashes independently verified against the historical simulator ZIP; not new source acceptance"
+    }
+  },
+  "review": {
+    "status": "ACCEPT_SOURCE_INTEGRATION",
+    "reviewer": "/root/knaba_prompt_review",
+    "ios_repository_files": 38,
+    "android_repository_files": 53,
+    "portable_source_entries": 44,
+    "historical_compiled_bundle_entries": 48,
+    "scope": "Exact native source and archive inputs, preserved backend/site/infra/workflows, historical bundle hashes, local logs and source-bound evidence",
+    "final_documentation_tree_review": "Required before publication; frozen tree decision recorded in the PR receipt"
+  },
+  "hosted": {
+    "status": "NOT_RUN_FOR_CONSOLIDATED_SOURCE",
+    "required": [
+      "Four mandatory repository jobs on exact clean commit",
+      "Android debug build/lint/regression and APK/AAB integrity",
+      "iOS simulator build and actual XCTest",
+      "Independent exact source/artifact/raw-log review"
+    ]
+  },
+  "log_location": "Raw log basenames refer to preserved handoff evidence and original GitHub jobs; they are not claimed to be repository files.",
+  "budget": {
+    "repository_visibility": "PUBLIC_FRESHLY_VERIFIED",
+    "standard_public_runner_price_verified": "https://docs.github.com/en/actions/concepts/billing-and-usage",
+    "new_paid_activation_eur": 0,
+    "max_source_checkpoints": 2,
+    "max_native_runs": 2,
+    "max_automatic_repository_runs": 4,
+    "max_native_runner_minutes": 160,
+    "model_balances": "UNKNOWN"
+  },
+  "open": [
+    "F3 session issuance and remaining F4 privacy/retention/background policy",
+    "Queued COMPANY_ID/PUBLIC_ORIGIN configuration contract",
+    "Full V4/V3 and specialist UI/company acceptance",
+    "Physical devices, owner signing/stores, load/restore, legal/provider acceptance"
+  ],
+  "activation": {
+    "main_merge": false,
+    "production": false,
+    "live_data": false,
+    "providers": false,
+    "paid_services": false,
+    "owner_signing": false,
+    "store_upload": false,
+    "original_criteria_promoted": false
+  }
+}

@@ -3,12 +3,12 @@
   "project": "KNABA DE",
   "date": "2026-11-08",
   "scope": "KN-C08 explicit API/worker/preflight/staging runtime mode",
-  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "status": "ACCEPT_EXPLICIT_RUNTIME_MODE_ACTUAL_CI",
   "product_status": "NOT_READY",
   "branch": "feat/knaba-explicit-runtime-mode-20261108",
   "base_source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
   "base_tree_sha": "7df9516f9efa51482489f1c39dcf44c77e8fcc9b",
-  "commit_binding": "Inputs bind the reviewed candidate bytes. The eventual immutable commit/tree and hosted results are recorded in its PR receipt; historical proofs are never retagged by a later documentation commit.",
+  "commit_binding": "Historical accepted inputs and results belong to e747fd94e219e09faffea96c2f9f84be15a6def1. Later mobile consolidation or documentation commits do not retag these proofs.",
   "inputs": {
     "erp/apps/api/main.ts": {
       "bytes": 9650,
@@ -192,15 +192,87 @@
     }
   },
   "hosted": {
-    "status": "NOT_RUN",
-    "required": [
-      "Exact clean source audit",
-      "ERP typecheck/build/full CPU and genuine PostgreSQL tests without skips",
-      "Actual site SQLite to ERP PostgreSQL HTTP bridge",
-      "Site production build and full tests",
-      "Root release/source policy tests",
-      "Independent exact-source and raw-log review"
-    ]
+    "status": "ACCEPT_EXPLICIT_RUNTIME_MODE_ACTUAL_CI",
+    "source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+    "tree_sha": "80d27a93057f368908b9e267f241ba02ed4d1b07",
+    "parent_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+    "pr": 132,
+    "run_id": 42483792274,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42483792274",
+    "duplicate_push_run": 42483788861,
+    "duplicate_push_status": "SUCCESS",
+    "all_required_jobs": "SUCCESS",
+    "conditional_failure_summary": "SKIPPED_AS_EXPECTED",
+    "logs": {
+      "erp": {
+        "job_id": 128741163270,
+        "file": "c08-42483792274-erp.log",
+        "bytes": 108358,
+        "sha256": "60fc531f0dd86cd0141079fe6d2a3d083c43ef8e219500653425cb9ce677c181",
+        "status": "SUCCESS"
+      },
+      "bridge": {
+        "job_id": 128741163486,
+        "file": "c08-42483792274-bridge.log",
+        "bytes": 105674,
+        "sha256": "773a67735ed76df82affc8d0632d011ddd23b809cacf88f4ccbb3943f964aabb",
+        "status": "SUCCESS"
+      },
+      "site": {
+        "job_id": 128741163482,
+        "file": "c08-42483792274-site.log",
+        "bytes": 141655,
+        "sha256": "c3c362b520164d9c043fae5b9c961bd3748e8aafef4e332360c1631d91f72694",
+        "status": "SUCCESS"
+      },
+      "root": {
+        "job_id": 128741163564,
+        "file": "c08-42483792274-root.log",
+        "bytes": 41101,
+        "sha256": "2cec581f1214554177823a8314c0b255ba6568a0a8b4e06343e9705351c32174",
+        "status": "SUCCESS"
+      }
+    },
+    "results": {
+      "erp": {
+        "tests": 2905,
+        "files": 124,
+        "new_worker_runtime_tests": 38,
+        "new_compiled_entrypoint_tests": 19,
+        "runtime_configuration_focused": 123
+      },
+      "bridge": {
+        "tests": 82,
+        "f4b_cases": 51,
+        "self_dispatch_cases": 17
+      },
+      "site": {
+        "vitest": 732,
+        "node_other": [
+          37,
+          35,
+          10,
+          8
+        ],
+        "vps": 297
+      },
+      "root": {
+        "tests": 30
+      }
+    },
+    "acceptance_skips": 0,
+    "source_input_count": 17,
+    "scope": "Explicit API/worker/preflight/staging mode, injected worker/Engine consistency, existing production and provider gates preserved",
+    "excluded": [
+      "Full product V4/V3 acceptance",
+      "F3 session issuance and remaining F4 privacy/background policy",
+      "COMPANY_ID fallback and production-origin alignment",
+      "Physical devices, signing/stores, browser/company/provider UAT",
+      "Production activation, merge or live data changes"
+    ],
+    "independent_review": "ACCEPT",
+    "independent_reviewer": "/root/knaba_prompt_review",
+    "review_scope": "Exact clean source/tree, all 17 input hashes and sizes, four raw logs, counts and skip-free actual mandatory acceptance"
   },
   "coverage": [
     "Missing/empty/whitespace/lowercase/unknown process modes fail before DB/network/interval boundaries",
@@ -232,5 +304,7 @@
     "paid_services": false,
     "native_changes": false,
     "original_criteria_promoted": false
-  }
+  },
+  "accepted_source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+  "accepted_tree_sha": "80d27a93057f368908b9e267f241ba02ed4d1b07"
 }
