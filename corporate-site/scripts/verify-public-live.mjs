@@ -4,7 +4,7 @@ import {pathToFileURL} from 'node:url';
 // Read-only live HTTP gate. Complements (never replaces) immutable artifact QA.
 const origins = Object.freeze({vsp:'https://kneba.vsp.rest', official:'https://knaba.de'});
 const locales = Object.freeze([{lang:'de',p:''},{lang:'en',p:'/en'},{lang:'uk',p:'/uk'},{lang:'ru',p:'/ru'}]);
-const partnerIds = ['official-01','official-02','hit','stromkreis','gewobag'];
+const partnerIds = ['official-01','official-02','hit','stromkreis','gewobag','tm-ausbau','brueninghoff'];
 const carouselSlugs = ['bauzwischenreinigung','bauendreinigung','baustellenraeumung',
   'bauhilfe','kernbohrungen','durchbrueche','zusatzarbeiten'];
 const carouselAssets = Object.freeze(carouselSlugs.map(slug => '/illustrations/carousel/' + slug + '.webp'));
@@ -26,7 +26,7 @@ async function readBounded(response) {
 }
 
 
-const partnerAssets=Object.freeze(['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png']);
+const partnerAssets=Object.freeze(['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png','/images/partners/tm-ausbau.svg','/images/partners/brueninghoff-group.svg']);
 
 function partnerMediaSources(html) {
   const cards=[...html.matchAll(/<li\b[^>]*\bdata-partner-id=["']([^"']+)["'][^>]*>([\s\S]*?)<\/li>/gi)];
@@ -64,8 +64,11 @@ function validImageSignature(bytes,contentType,kind='partner'){
   const jpeg=bytes.length>=3&&bytes[0]===0xff&&bytes[1]===0xd8&&bytes[2]===0xff;
   const png=bytes.length>=8&&bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
   const webp=bytes.length>=12&&bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WEBP';
+  const svgText=type==='image/svg+xml'?bytes.toString('utf8'):'';
+  const svg=/^\s*(?:<\?xml[^>]*\?>\s*)?<svg\b[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/.test(svgText)
+    && /<\/svg>\s*$/.test(svgText) && !/<script|<foreignObject|\son\w+\s*=|(?:href|src)\s*=/i.test(svgText);
   return kind==='carousel' ? type==='image/webp'&&webp :
-    (type==='image/jpeg'&&jpeg)||(type==='image/png'&&png);
+    (type==='image/jpeg'&&jpeg)||(type==='image/png'&&png)||(type==='image/svg+xml'&&svg);
 }
 
 function inspect(html,lang,kind) {
@@ -80,7 +83,7 @@ function inspect(html,lang,kind) {
   if(!/<footer\b/i.test(html)) errors.push('FOOTER_MISSING');
   if(kind==='home') {
     const found=[...html.matchAll(/<li\b[^>]*\bdata-partner-id=["']([^"']+)["']/gi)].map(x=>x[1]);
-    if(JSON.stringify(found)!==JSON.stringify(partnerIds)) errors.push('PARTNERS_NOT_FIVE_IN_ORDER');
+    if(JSON.stringify(found)!==JSON.stringify(partnerIds)) errors.push('PARTNERS_NOT_SEVEN_IN_ORDER');
     if(JSON.stringify(carouselMediaSources(html))!==JSON.stringify(carouselAssets))
       errors.push('CAROUSEL_MEDIA_NOT_SEVEN_IN_ORDER');
     const dest=(lang==='de'?'':'/'+lang)+'/galerie/';
@@ -116,7 +119,7 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
         if(pageKind==='home'&&lang==='de'){
           partnerMedia=partnerMediaSources(html);
           carouselMedia=carouselMediaSources(html);
-          if(partnerMedia.length!==5||partnerMedia.some(x=>!x)) errors.push('PARTNER_IMAGES_MISSING');
+          if(partnerMedia.length!==7||partnerMedia.some(x=>!x)) errors.push('PARTNER_IMAGES_MISSING');
         }
       } else if(status===503&&kind==='ready') {
         const note=(await readBounded(response)).trim();
@@ -136,7 +139,10 @@ export async function verifyPublicLive({mode='vsp',fetchImpl=globalThis.fetch,ti
     else try {
       const response=await fetchImpl(checkedUrl,{
         method:'GET',redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(timeoutMs),
-        headers:{accept:'image/jpeg,image/png',range:'bytes=0-127','user-agent':'KNABA-release-verifier/1.0'},
+        // SVG validation needs the complete, size-bounded document; raster
+        // signatures still use a small byte range.
+        headers:{accept:'image/jpeg,image/png,image/svg+xml',
+          ...(checkedPath.endsWith('.svg')?{}:{range:'bytes=0-127'}),'user-agent':'KNABA-release-verifier/1.0'},
       });
       status=response.status;
       if(status!==200&&status!==206) {

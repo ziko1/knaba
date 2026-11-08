@@ -1,5 +1,11 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — TM Ausbau / Brüninghoff Group
+
+Task `KNABA-PARTNERS-20261108`, base `d03e72b8c5030390c635f3aac9133d977078dedf`, branch `fix/knaba-partners-20261108`. Two user-confirmed partners appended to the existing five; original official local SVGs, four-language factual descriptions and official links in the existing directory. Original IDs, logo bytes and partner copy preserved. No new section/component, CSS, dependency, migration or ERP change.
+
+Evidence: `docs/evidence/partners-20261108/`. Source/build checks: 730 Vitest +90 Node site tests, 12 HTTP-verifier tests, 172 VPS tests, 28 root tests; type checks/build/static checks PASS; 12 partner-bearing pages inspected. Independent source review ACCEPT. Browser BLOCKED (no installed Chromium/WebKit/Firefox); no live/device/field-CWV acceptance. Final commit/tree is recorded by the draft PR; production, DNS and live data unchanged. Rollback: revert content candidate.
+
 ## 08.11.2026 — completion candidate
 
 New source checkpoint: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`; evidence `../docs/unified/evidence/completion-20261108/verification.json`. Restored owner contacts/footer/favicon from verified server Git history; removed only overwritten unconditional CSS declarations to preserve the existing40KiB gzip ceiling. Studio validates the entire draft against trusted bounded raw HTML before publication, rechecks current VPS session/authority inside its transaction, and atomically claims publication history. SSR reuses its parsed tree; partial mapping is rejected, not silently applied. Stable IDs/template packaging remain future work.

@@ -1,0 +1,14 @@
+{
+  "corporate-site/i18n/source-de.json": "73f4da361dea30fbf99d067d0673304cea260626031487e49f388f8defdc7b3a",
+  "corporate-site/public/images/partners/brueninghoff-group.svg": "2f399486d61b23eb57a843d359ddf78c324197d7be4f7f84192cf61f104cc373",
+  "corporate-site/public/images/partners/tm-ausbau.svg": "1465198b3f9af38ed0838f539274fd824ec122bc564c72a0642f5f8e55d1195d",
+  "corporate-site/scripts/verify-public-live.mjs": "5b239b8cd513ca1913550e17424b3659abc5c93cc8d577ce26ba287e7f62c01d",
+  "corporate-site/src/components/PartnerDirectory.astro": "a45987c945dd227ba7315974a966e8a3a359f4dc299e07c0063cd1a6e2ee7d8d",
+  "corporate-site/src/data/partners.ts": "f8780affd404edc064722ec71514cc8c03a6f403acd643707bbeb5933948a422",
+  "corporate-site/tests/design-seo-browser.cjs": "1c0ee341173834fa9f2181fa0fb2b3f750a5461fe1ba46419737ef0646161e62",
+  "corporate-site/tests/partners-official-source.test.ts": "a35267e4b32a446e786b043614d6d0dc748ff8d4bb93d65e8240dace3dabba93",
+  "corporate-site/tests/partners-section.test.ts": "f3b118e51ea77c7e4f1538f6004143c51cf492e808b1bda71166e1fd5b7a2ca1",
+  "corporate-site/tests/reviews-browser.mjs": "e3b6c1c3c618f6272caf0a232fc2fc55d538ae9047712907313c769badba6ac9",
+  "corporate-site/tests/verify-build.mjs": "1bfc88b2430631cfa48eabee8cc6c86410af176718b9a7a48a0c8b3f40eb559b",
+  "corporate-site/tests/verify-public-live.test.mjs": "647159b909896cc9fed87197a4d78fa4e3ce56d4e213c8220687c7f0721a024a"
+}

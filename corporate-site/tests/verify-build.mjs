@@ -98,8 +98,8 @@ for (const file of pages) {
   const partnerImageSources = partnerItems.map(match => match[0].match(/<img\b[^>]*\bsrc="([^"]+)"/i)?.[1]);
   assert.deepEqual(externalImageSources, [], file + ': all images must be first-party');
   if(partnerItems.length) {
-    assert.deepEqual(partnerItems.map(match=>match[1]), ['official-01','official-02','hit','stromkreis','gewobag'],file+': partner order');
-    assert.deepEqual(partnerImageSources, ['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png'],file+': exact local partner assets');
+    assert.deepEqual(partnerItems.map(match=>match[1]), ['official-01','official-02','hit','stromkreis','gewobag','tm-ausbau','brueninghoff'],file+': partner order');
+    assert.deepEqual(partnerImageSources, ['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png','/images/partners/tm-ausbau.svg','/images/partners/brueninghoff-group.svg'],file+': exact local partner assets');
   }
   externalPartnerImagesInMarkup += externalImageSources.length;
   assert.doesNotMatch(html, /(?:Переглянути партнерів на knaba\.de|Джерело перевірено \d{2}\.\d{2}\.\d{4}|Stand des Quellenabgleichs|Дата сверки с источником)/i, file + ': internal research notices on customer pages');
@@ -203,7 +203,7 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
-  assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  assert.equal((source.match(/data-partner-id="/g)||[]).length, 7, prefix+'homepage all seven confirmed partner logos');
   const sectionIds = ['bau-hero-title', 'bau-services-title', 'bau-contract-heading', 'bau-process-title', 'company-profile-title', 'knaba-partners-title', 'reviews-title', 'knaba-faq-preview-title', 'bau-final-contact-title'];
   const positions = sectionIds.map(id => source.indexOf('id="' + id + '"'));
   assert.ok(positions.every(position => position >= 0), prefix + 'all homepage sections retained');
