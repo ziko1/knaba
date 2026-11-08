@@ -26,8 +26,9 @@ import {renderAccountingExport} from '../../packages/integrations/accounting-exp
 import { assert,DomainError,isManager,type Actor,type Data,type Entity } from '../../packages/domain/core.js';
 import { activateInvitation,permits } from '../../packages/domain/identity.js';
 import { AuthService,RateLimiter,hashToken,opaqueToken,sameOrigin,type DatabaseLike,type EngineLike,type AuthOptions } from './auth.js';
+import {SiteIdentityFlow,siteIdentityHttpError} from './site-identity-flow.ts';
 
-export interface ApiRuntime extends AuthOptions {db:DatabaseLike;engine:EngineLike;buildSha:string;version?:string;integrationStatus?:Record<string,string>;storage?:PrivateBlobStore;integrationCredentials?:IntegrationCredential[]}
+export interface ApiRuntime extends AuthOptions {db:DatabaseLike;engine:EngineLike;buildSha:string;version?:string;integrationStatus?:Record<string,string>;storage?:PrivateBlobStore;integrationCredentials?:IntegrationCredential[];siteIdentity?:SiteIdentityFlow}
 export const API_RUNTIME='KNABA_API_RUNTIME';
 @Catch()
 export class ApiExceptionFilter implements ExceptionFilter {
@@ -53,6 +54,14 @@ export class ApiController {
  @Post('auth/login')login(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:unknown){return this.auth.login(req,res,body);}
  @Post('auth/demo')demo(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:unknown){return this.auth.demo(req,res,body);}
  @Post('auth/logout')logout(@Req()req:Request,@Res({passthrough:true})res:Response){return this.auth.logout(req,res);}
+ private async siteIdentity<T>(operation:(flow:SiteIdentityFlow)=>Promise<T>){try{assert(this.runtime.siteIdentity,'MISSING_CONFIGURATION');return await operation(this.runtime.siteIdentity);}catch(error){siteIdentityHttpError(error);}}
+ @Get('auth/site-links')siteLinks(@Req()req:Request){return this.siteIdentity(flow=>flow.state(req));}
+ @Post('auth/site-links/challenges')beginSiteLink(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.begin(req,body));}
+ @Post('auth/site-links/preview')previewSiteLink(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.preview(req,body));}
+ @Post('auth/site-links/confirm')confirmSiteLink(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.confirm(req,body));}
+ @Post('auth/site-links/status')siteLinkStatus(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.status(req,body));}
+ @Post('auth/site-links/unlink')unlinkSite(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.unlink(req,body));}
+ @Post('auth/site-links/inspect-challenge')inspectSiteChallenge(@Req()req:Request,@Res()res:Response){return this.siteIdentity(async flow=>{const raw=(req as Request&{rawBody?:Buffer}).rawBody;assert(Buffer.isBuffer(raw),'VALIDATION_ERROR');const result=await flow.inspectChallenge(req,raw);res.status(200).set({'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','x-knaba-federation-response':result.signature}).send(result.bytes);});}
  @Get('me')async me(@Req()req:Request){const a=await this.actor(req);return {actor:a.actor,user:await this.auth.profile(a.actor),csrfToken:a.csrfToken,mode:this.runtime.appMode,version:this.runtime.buildSha};}
  @Post('auth/activate')async activate(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:any){sameOrigin(req,this.runtime.publicOrigin);this.publicLimiter.check(hashToken(`invite:${req.ip??'unknown'}`));const result=await this.runtime.db.transaction(this.runtime.companyId,'INVITATION_ACTIVATION',tx=>activateInvitation(tx,this.runtime.companyId,body,new Date().toISOString(),this.runtime.encryptionKey));const mfa=Boolean(body.totpSecret&&body.otp);const session=await this.auth.createSession(result.userId,false,mfa);this.auth.cookie(res,session.token);const actor=await this.runtime.engine.getActor(result.userId,this.runtime.companyId);return {actor:{...actor,mfaVerified:mfa},user:await this.auth.profile(actor),csrfToken:session.csrfToken,mode:this.runtime.appMode,reauthenticationRequired:false};}
  @Get('commands')async commands(@Req()req:Request){const {actor}=await this.actor(req);return {items:Object.entries(this.runtime.engine.registry).filter(([,def])=>permits(actor.permissions,def.permission)).map(([name,def])=>({name,permission:def.permission,highRisk:!!def.highRisk,schema:zodToJsonSchema(def.schema,{$refStrategy:'none'})}))};}

@@ -280,3 +280,127 @@ DROP TRIGGER IF EXISTS site_identity_immutable ON site_identity_bindings;
 CREATE TRIGGER site_identity_immutable BEFORE UPDATE OR DELETE ON site_identity_bindings
  FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_binding();
 INSERT INTO schema_migrations(version) VALUES('003_site_identity_foundation') ON CONFLICT(version) DO NOTHING;
+
+-- F2: original-session-bound, one-use consent challenges; no SSO sessions are issued.
+CREATE TABLE IF NOT EXISTS site_identity_challenges (
+ company_id text NOT NULL,
+ id uuid NOT NULL,
+ user_id text NOT NULL,
+ session_hash text NOT NULL CHECK(session_hash ~ '^[a-f0-9]{64}$'),
+ security_fingerprint text NOT NULL CHECK(security_fingerprint ~ '^[a-f0-9]{64}$'),
+ mfa_verified boolean NOT NULL,
+ secret_hash text NOT NULL CHECK(secret_hash ~ '^[a-f0-9]{64}$'),
+ challenge_digest text NOT NULL CHECK(challenge_digest ~ '^[a-f0-9]{64}$'),
+ nonce_digest text NOT NULL CHECK(nonce_digest ~ '^[a-f0-9]{64}$'),
+ issuer text COLLATE "C" NOT NULL,
+ audience text COLLATE "C" NOT NULL,
+ trust_fingerprint text NOT NULL CHECK(trust_fingerprint ~ '^[a-f0-9]{64}$'),
+ transport_fingerprint text NOT NULL CHECK(transport_fingerprint ~ '^[a-f0-9]{64}$'),
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ expires_at timestamptz NOT NULL,
+ status text NOT NULL DEFAULT 'OPEN' CHECK(status IN ('OPEN','PREVIEWED','CONSUMED','CANCELLED')),
+ grant_digest text,
+ site_subject text,
+ site_session_digest text,
+ site_profile_version integer,
+ site_profile_fingerprint text,
+ site_display_name text,
+ site_email text,
+ site_expires_at timestamptz,
+ proof_reference text,
+ binding_id uuid,
+ completed_at timestamptz,
+ PRIMARY KEY(company_id,id),
+ FOREIGN KEY(company_id,user_id) REFERENCES auth_credentials(company_id,user_id),
+ CHECK(expires_at>created_at AND expires_at<=created_at+interval '5 minutes'),
+ CHECK((status IN ('OPEN','CANCELLED') AND binding_id IS NULL) OR
+       (status IN ('PREVIEWED','CONSUMED') AND grant_digest IS NOT NULL AND grant_digest ~ '^[a-f0-9]{64}$' AND
+        site_subject IS NOT NULL AND octet_length(site_subject) BETWEEN 1 AND 256 AND
+        site_session_digest IS NOT NULL AND site_session_digest ~ '^[a-f0-9]{64}$' AND
+        site_profile_version IS NOT NULL AND site_profile_version>=0 AND
+        site_profile_fingerprint IS NOT NULL AND site_profile_fingerprint ~ '^[a-f0-9]{64}$' AND
+        site_display_name IS NOT NULL AND site_email IS NOT NULL AND site_expires_at IS NOT NULL AND site_expires_at<=expires_at)),
+ CHECK((status='CONSUMED' AND binding_id IS NOT NULL AND proof_reference IS NOT NULL AND proof_reference ~ '^[a-f0-9]{64}$'
+         AND completed_at IS NOT NULL AND completed_at>=created_at AND completed_at<expires_at AND completed_at<site_expires_at) OR
+       (status<>'CONSUMED' AND binding_id IS NULL AND completed_at IS NULL AND proof_reference IS NULL))
+);
+CREATE INDEX IF NOT EXISTS site_identity_challenges_owner ON site_identity_challenges(company_id,user_id,created_at);
+CREATE OR REPLACE FUNCTION knaba_guard_site_identity_challenge() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF ROW(NEW.company_id,NEW.id,NEW.user_id,NEW.session_hash,NEW.security_fingerprint,NEW.mfa_verified,NEW.secret_hash,
+        NEW.challenge_digest,NEW.nonce_digest,NEW.issuer,NEW.audience,NEW.trust_fingerprint,NEW.transport_fingerprint,NEW.created_at,NEW.expires_at)
+ IS DISTINCT FROM ROW(OLD.company_id,OLD.id,OLD.user_id,OLD.session_hash,OLD.security_fingerprint,OLD.mfa_verified,OLD.secret_hash,
+        OLD.challenge_digest,OLD.nonce_digest,OLD.issuer,OLD.audience,OLD.trust_fingerprint,OLD.transport_fingerprint,OLD.created_at,OLD.expires_at)
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_CHALLENGE_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF NOT ((OLD.status='OPEN' AND NEW.status IN ('PREVIEWED','CANCELLED')) OR
+         (OLD.status='PREVIEWED' AND NEW.status IN ('CONSUMED','CANCELLED')))
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_CHALLENGE_TERMINAL' USING ERRCODE='23514'; END IF;
+ IF OLD.status='PREVIEWED' AND ROW(NEW.grant_digest,NEW.site_subject,NEW.site_session_digest,NEW.site_profile_version,
+       NEW.site_profile_fingerprint,NEW.site_display_name,NEW.site_email,NEW.site_expires_at)
+ IS DISTINCT FROM ROW(OLD.grant_digest,OLD.site_subject,OLD.site_session_digest,OLD.site_profile_version,
+       OLD.site_profile_fingerprint,OLD.site_display_name,OLD.site_email,OLD.site_expires_at)
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_CONSENT_SNAPSHOT_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_identity_challenge_immutable ON site_identity_challenges;
+CREATE TRIGGER site_identity_challenge_immutable BEFORE UPDATE ON site_identity_challenges
+ FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_challenge();
+
+-- A later same-user link appends a new generation. Prior rows remain terminal tombstones.
+ALTER TABLE site_identity_bindings ADD COLUMN IF NOT EXISTS generation integer NOT NULL DEFAULT 1 CHECK(generation>0);
+ALTER TABLE site_identity_bindings ADD COLUMN IF NOT EXISTS predecessor_id uuid;
+ALTER TABLE site_identity_bindings ADD COLUMN IF NOT EXISTS f2_challenge_id uuid;
+CREATE UNIQUE INDEX IF NOT EXISTS site_identity_binding_generation ON site_identity_bindings(company_id,issuer,subject,generation);
+CREATE UNIQUE INDEX IF NOT EXISTS site_identity_binding_active ON site_identity_bindings(company_id,issuer,subject) WHERE status='ACTIVE';
+ALTER TABLE site_identity_bindings DROP CONSTRAINT IF EXISTS site_identity_bindings_company_id_issuer_subject_key;
+-- A pre-F2 rollback may re-create the original F1 guard. This independent guard
+-- retains receipt/generation immutability even when that old SQL is replayed.
+CREATE OR REPLACE FUNCTION knaba_guard_site_identity_f2_receipt() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF ROW(NEW.generation,NEW.predecessor_id,NEW.f2_challenge_id)
+ IS DISTINCT FROM ROW(OLD.generation,OLD.predecessor_id,OLD.f2_challenge_id)
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_F2_RECEIPT_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_identity_binding_f2_receipt_immutable ON site_identity_bindings;
+CREATE TRIGGER site_identity_binding_f2_receipt_immutable BEFORE UPDATE ON site_identity_bindings
+ FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_f2_receipt();
+CREATE OR REPLACE FUNCTION knaba_guard_site_identity_binding() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'SITE_IDENTITY_TOMBSTONE_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.id,NEW.issuer,NEW.audience,NEW.subject,NEW.site_user_id,NEW.user_kind,NEW.user_id,
+        NEW.trust_version,NEW.trust_fingerprint,NEW.proof_reference,NEW.created_by,NEW.created_at,NEW.expires_at,NEW.generation,NEW.predecessor_id,NEW.f2_challenge_id)
+    IS DISTINCT FROM
+    ROW(OLD.company_id,OLD.id,OLD.issuer,OLD.audience,OLD.subject,OLD.site_user_id,OLD.user_kind,OLD.user_id,
+        OLD.trust_version,OLD.trust_fingerprint,OLD.proof_reference,OLD.created_by,OLD.created_at,OLD.expires_at,OLD.generation,OLD.predecessor_id,OLD.f2_challenge_id)
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_PRINCIPAL_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF OLD.status<>'ACTIVE' OR NEW.status<>'REVOKED' OR NEW.version<>OLD.version+1
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_REVOCATION_TERMINAL' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+CREATE OR REPLACE FUNCTION knaba_guard_site_identity_successor() RETURNS trigger LANGUAGE plpgsql AS $$
+DECLARE prior site_identity_bindings%ROWTYPE; challenge site_identity_challenges%ROWTYPE;
+BEGIN
+ IF NEW.generation=1 AND NEW.predecessor_id IS NOT NULL THEN
+  RAISE EXCEPTION 'SITE_IDENTITY_PREDECESSOR_INVALID' USING ERRCODE='23514';
+ END IF;
+ IF NEW.generation>1 THEN
+  SELECT * INTO prior FROM site_identity_bindings WHERE company_id=NEW.company_id AND id=NEW.predecessor_id;
+  IF NOT FOUND OR prior.status<>'REVOKED' OR prior.generation<>NEW.generation-1 OR
+     ROW(prior.company_id,prior.issuer,prior.audience,prior.subject,prior.user_id)
+     IS DISTINCT FROM ROW(NEW.company_id,NEW.issuer,NEW.audience,NEW.subject,NEW.user_id) OR NEW.f2_challenge_id IS NULL
+  THEN RAISE EXCEPTION 'SITE_IDENTITY_SUCCESSOR_REQUIRES_SAME_USER_DUAL_PROOF' USING ERRCODE='23514'; END IF;
+ END IF;
+ IF NEW.f2_challenge_id IS NOT NULL THEN
+  SELECT * INTO challenge FROM site_identity_challenges WHERE company_id=NEW.company_id AND id=NEW.f2_challenge_id;
+  IF NOT FOUND OR challenge.status<>'CONSUMED' OR challenge.expires_at<=clock_timestamp() OR challenge.site_expires_at<=clock_timestamp() OR
+     ROW(challenge.user_id,challenge.site_subject,challenge.issuer,challenge.audience,challenge.trust_fingerprint,challenge.binding_id,challenge.proof_reference)
+     IS DISTINCT FROM ROW(NEW.user_id,NEW.subject,NEW.issuer,NEW.audience,NEW.trust_fingerprint,NEW.id,NEW.proof_reference)
+  THEN RAISE EXCEPTION 'SITE_IDENTITY_CONSUMED_DUAL_PROOF_REQUIRED' USING ERRCODE='23514'; END IF;
+ END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_identity_successor_guard ON site_identity_bindings;
+CREATE TRIGGER site_identity_successor_guard BEFORE INSERT ON site_identity_bindings
+ FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_successor();
+INSERT INTO schema_migrations(version) VALUES('004_site_identity_dual_consent') ON CONFLICT(version) DO NOTHING;

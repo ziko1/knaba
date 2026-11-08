@@ -1,5 +1,13 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — F2 dual-consent candidate; PostgreSQL acceptance pending
+
+У чинному Draft PR128 від `a670ff0be70abd1bb8f07065e237b5e3de8a7a84` реалізовано явну прив’язку двох акаунтів: повторний ERP password/MFA, первинні сесії обох сторін, signed online exchange, показ exact account/company перед згодою, атомарні ERP binding/challenge/audit, recovery після втрати відповіді, unlink без доступного peer і same-user relink наступним поколінням. Ролі, memberships і нові federated sessions не видаються. [Контракт, міграція та межі](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md); [source/input evidence](evidence/site-identity-dual-consent-20261108/verification.json).
+
+Локально: ERP TypeScript/build і 114 цільових CPU tests; site check/build/official verify:build; consent SQLite38, protocol HTTP8, site-handler HTTP20, migration SQLite5; root30. Повний VPS267 пройдено перед останнім HTTP expiry regression; ці overlapping runs не підсумовуються. Додано22 actual PostgreSQL/Nest/VPS bridge cases; локально PostgreSQL NOT_RUN, потрібен exact-source CI. Незалежний source review не підміняє browser/device/SQL acceptance. F1 acceptance на `0fede54f` збережено окремо; F3–F5 та продукт NOT_READY. Production config/migration, merge і deployment не виконано.
+
+Окремий native checkpoint у PR127: iOS0.5.1/build7, source `65f341e76749a03fc62997da5a77e17b84caf8ba`, [native run42467913707](https://github.com/ziko1/knaba/actions/runs/42467913707), iOS job128691606881 — 67/67 actual XCTest; усі48 bundle hashes і simulator archive незалежно перевірено. Android job128691606643 цього run впав до compilation на dependency HTTP504; попередній Android0.5.0 на `fb4be719` має власний успішний run/artifact. PR128 поки не містить iOS0.5.1 changes; це різні джерела й докази, не єдиний accepted artifact. Device/signing/store/UAT залишаються відкритими.
+
 ## 08.11.2026 — F1 actual PostgreSQL acceptance
 
 Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 42464719363](https://github.com/ziko1/knaba/actions/runs/42464719363): all 4 mandatory jobs PASS; ERP 2782 tests in 120 files, including 16 new real PostgreSQL 17.6 cases and 27 CPU trust cases; bridge 9; no failed/skipped acceptance tests. Synthetic previous-schema upgrade, repeated migration and old-runtime rollback preserve users, bindings and audit. Independent source review accepted the exact inputs. [Evidence](evidence/site-identity-foundation-20261108/verification.json). F1 storage is verified; F2–F5 and shared SSO remain unimplemented/open, full product NOT_READY. No production migration or deployment.

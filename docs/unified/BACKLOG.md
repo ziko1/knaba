@@ -1,5 +1,9 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — F2 implementation candidate
+
+KN-C04 / KN-U09: F1 storage має окреме actual PostgreSQL acceptance. F2 dual-session linking/unlinking, current authority checks, recovery, same-user generations та UI реалізовано; local checks/source review пройдено, нові22 PostgreSQL bridge cases очікують CI на точному committed source. [Контракт і межі](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md), [evidence](evidence/site-identity-dual-consent-20261108/verification.json). F3 session exchange, F4 shared revocation/retention, F5 browser/device/provider/company acceptance — OPEN. Ці кроки не закривають весь KN-C04/KN-U09 або original V3/V4 criteria; SSO NOT_IMPLEMENTED, продукт NOT_READY.
+
 ## 08.11.2026 — F1 actual PostgreSQL acceptance
 
 Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 42464719363](https://github.com/ziko1/knaba/actions/runs/42464719363): all 4 mandatory jobs PASS; ERP 2782 tests in 120 files, including 16 new real PostgreSQL 17.6 cases and 27 CPU trust cases; bridge 9; no failed/skipped acceptance tests. Synthetic previous-schema upgrade, repeated migration and old-runtime rollback preserve users, bindings and audit. Independent source review accepted the exact inputs. [Evidence](evidence/site-identity-foundation-20261108/verification.json). F1 storage is verified; F2–F5 and shared SSO remain unimplemented/open, full product NOT_READY. No production migration or deployment.
@@ -20,7 +24,7 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
 | KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | Підтверджені local identity/revocation gaps виправлено в PR123; [контракт та F1–F5](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [evidence](evidence/identity-20261108/verification.json). Stable cross-system binding/SSO і спільне revocation ще OPEN |
+| KN-C04 / KN-U09 | P0 | PR123 authority fixes та F1 storage verified; F2 dual-consent source implemented, actual PostgreSQL CI pending; [контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). F3–F5 session exchange, shared revocation і acceptance OPEN |
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |

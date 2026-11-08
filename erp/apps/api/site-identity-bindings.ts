@@ -2,10 +2,10 @@ import { createHash, randomUUID } from 'node:crypto';
 import { Database, PgTransaction } from './database.ts';
 import { DomainError } from '../../packages/domain/core.ts';
 
-/** F1 storage only. No HTTP route, session issuer or proof verifier uses this module yet.
- * A future F2 caller MUST validate both current sessions and consume the link proof
- * in the same transaction before calling recordVerifiedLinkIn(). A stored ACTIVE
- * row alone is never an authentication proof or an authorization grant.
+/** Identity storage, integrated by SiteIdentityFlow's F2 dual-session proof.
+ * The caller validates both current sessions and consumes the link proof in the
+ * same transaction before calling recordVerifiedLinkIn(). A stored ACTIVE row
+ * alone is never an authentication proof or an authorization grant.
  */
 export interface SitePrincipal { issuer: string; audience: string; subject: string }
 export interface SiteAuthority {
@@ -81,13 +81,15 @@ export interface SiteIdentityBinding {
   siteUserId: string; userId: string; status: 'ACTIVE' | 'REVOKED'; version: number;
   trustVersion: number; trustFingerprint: string; expiresAt: string | null;
   createdAt: string; revokedAt: string | null;
+  generation: number;
 }
 function binding(row: any): SiteIdentityBinding {
   return { id: row.id, companyId: row.company_id, issuer: row.issuer, audience: row.audience,
     subject: row.subject, siteUserId: row.site_user_id, userId: row.user_id, status: row.status,
     version: row.version, trustVersion: row.trust_version, trustFingerprint: row.trust_fingerprint,
     expiresAt: row.expires_at ? new Date(row.expires_at).toISOString() : null,
-    createdAt: new Date(row.created_at).toISOString(), revokedAt: row.revoked_at ? new Date(row.revoked_at).toISOString() : null };
+    createdAt: new Date(row.created_at).toISOString(), revokedAt: row.revoked_at ? new Date(row.revoked_at).toISOString() : null,
+    generation: row.generation ?? 1 };
 }
 
 export class SiteIdentityBindings {
@@ -112,17 +114,22 @@ export class SiteIdentityBindings {
    * tx.actorId must be the existing ERP target. This method neither validates a
    * network proof nor opens/commits its own transaction, so F2 can be atomic.
    */
-  async recordVerifiedLinkIn(tx: PgTransaction, identity: SitePrincipal, proofReference: string, expiresAt?: string): Promise<SiteIdentityBinding> {
+  async recordVerifiedLinkIn(tx: PgTransaction, identity: SitePrincipal, proofReference: string, expiresAt?: string,
+    receipt?: { bindingId: string; challengeId: string; generation: number; predecessorId: string | null }): Promise<SiteIdentityBinding> {
     this.scope(tx); const p = principal(identity); const now = await this.clock(tx);
     if (!/^[a-f0-9]{64}$/.test(proofReference) || expiresAt !== undefined && (!instant(expiresAt) || Date.parse(expiresAt) <= now.getTime())) return invalid();
     const trust = this.trustedAuthorities().require(this.companyId, p, now);
     await this.activeUser(tx, tx.actorId);
-    const id = randomUUID();
+    if (receipt && (!Number.isInteger(receipt.generation) || receipt.generation < 1 ||
+        ![receipt.bindingId,receipt.challengeId,...(receipt.predecessorId ? [receipt.predecessorId] : [])].every(value =>
+          /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(value)))) return invalid();
+    const id = receipt?.bindingId ?? randomUUID();
     try {
       const result = await tx.query(`INSERT INTO site_identity_bindings
-        (company_id,id,issuer,audience,subject,site_user_id,user_id,trust_version,trust_fingerprint,proof_reference,created_by,expires_at)
-        VALUES($1,$2,$3,$4,$5,$5,$6,$7,$8,$9,$6,$10) RETURNING *`,
-        [this.companyId,id,p.issuer,p.audience,p.subject,tx.actorId,trust.version,trust.fingerprint,proofReference,expiresAt ?? null]);
+        (company_id,id,issuer,audience,subject,site_user_id,user_id,trust_version,trust_fingerprint,proof_reference,created_by,expires_at,generation,predecessor_id,f2_challenge_id)
+        VALUES($1,$2,$3,$4,$5,$5,$6,$7,$8,$9,$6,$10,$11,$12,$13) RETURNING *`,
+        [this.companyId,id,p.issuer,p.audience,p.subject,tx.actorId,trust.version,trust.fingerprint,proofReference,expiresAt ?? null,
+          receipt?.generation ?? 1,receipt?.predecessorId ?? null,receipt?.challengeId ?? null]);
       await tx.query(`INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail)
         VALUES($1,$2,'SITE_IDENTITY_LINK_RECORDED','site_identity_binding',$3,$4)`,
         [this.companyId,tx.actorId,id,JSON.stringify({ version: 1, trustVersion: trust.version, trustFingerprint: trust.fingerprint, proofReference, expiresAt: expiresAt ?? null })]);

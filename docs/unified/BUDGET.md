@@ -1,5 +1,9 @@
 # KnaBa — окремий бюджет і квоти
 
+## F2 dual-session source continuation — 08.11.2026
+
+F1 executable run42464719363 and documentation run42465549463 completed all four mandatory jobs. Reserve one F2 implementation checkpoint and at most one corrective checkpoint on the existing isolated identity branch: standard public Ubuntu repository jobs only, at most four automatic push/PR runs, existing timeouts unchanged. Local HTTP, SQLite and synthetic PostgreSQL fixtures use no real accounts or providers. New external paid activation remains EUR0; actual model credits/balances unknown. Browser policy, expired staging window, production/merge, signing and real recipient gates remain unchanged. No production federation configuration or credential is created by synthetic development.
+
 ## Фактичний інкремент — 08.11.2026
 
 Нові платні сервіси/AI/канали не активовано, зовнішній дозволений бюджет0 EUR. Використано існуюче середовище Work, локальний Node24/Android toolchain і наявний фізичний сервер із cached QA image та PostgreSQL17.11. QA: isolated internal network, no published ports, synthetic tmpfs DB,CPU2/RAM3GiB/PIDs512; cleanup лише власних тимчасових ресурсів. Реальні ChatGPT кредити, provider quotas і загальна вартість hosting невідомі; число0 не є заявою про безкоштовність чинних ресурсів. Немає нових CI/paid runners або зовнішніх модельних викликів.

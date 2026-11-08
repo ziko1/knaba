@@ -1,5 +1,9 @@
 # KNABA DE project memory
 
+## 2026-11-08 — F2 site identity binding candidate
+
+Продовження KN-C04 / KN-U09 у Draft PR128, база `a670ff0be70abd1bb8f07065e237b5e3de8a7a84`: fresh password/MFA, первинна ERP cookie session, exact site subject, signed peer redemption, атомарні binding/challenge/audit, lost-ACK recovery, disabled-peer unlink та immutable relink generations. Адитивний SQL і rollback guards описано у [F2 contract](../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). ERP typecheck/build і114 focused CPU PASS; нові22 real PostgreSQL bridge cases ще NOT_RUN до exact-source CI. F1 має власний accepted source `0fede54f`; F2 source review не є SQL acceptance. F3–F5/SSO/whole product NOT_READY, без production migration/merge/deploy.
+
 ## 2026-11-08 — PR123 identity authority checkpoint
 
 Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.

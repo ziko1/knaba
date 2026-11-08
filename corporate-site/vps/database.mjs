@@ -96,6 +96,8 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     const sql=readFileSync(join(location,name),'utf8');
     return [name,{sql,digest:createHash('sha256').update(sql).digest('hex')}];
   }));
+  const consentSql=readFileSync(new URL('./site-identity-consents.sql',import.meta.url),'utf8');
+  const consentDigest=createHash('sha256').update(consentSql).digest('hex');
   mkdirSync(dirname(path),{recursive:true,mode:0o700});
   const db=new DatabaseSync(path);
   try {
@@ -115,6 +117,16 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     const pendingOidcBinding=oidcColumns.length>0&&!oidcColumns.some(column=>column.name==='link_session_hash');
     if(pendingOidcBinding&&!allowMigrations)
       throw Error('Pending VPS auth migration oidc-link-session; run reviewed migrate CLI after backup.');
+    const hasAuthLedger=db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='vps_auth_migrations'").get();
+    const authApplied=hasAuthLedger?db.prepare('SELECT name,sha256 FROM vps_auth_migrations ORDER BY name').all():[];
+    for(const row of authApplied){
+      if(row.name!=='001_site_identity_consents')throw Error('Unrecognized VPS auth migration; reviewed reconciliation required.');
+      if(row.sha256!==consentDigest)throw Error('VPS auth migration checksum changed: '+row.name);
+    }
+    if(!authApplied.length&&db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='vps_site_identity_consents'").get())
+      throw Error('Unrecorded VPS site identity schema; reviewed reconciliation required.');
+    if(!authApplied.length&&!allowMigrations)
+      throw Error('Pending VPS auth migration site-identity-consents; run reviewed migrate CLI after backup.');
     db.exec('PRAGMA foreign_keys=ON;PRAGMA journal_mode=WAL;PRAGMA synchronous=FULL;PRAGMA busy_timeout=5000;');
     db.exec('CREATE TABLE IF NOT EXISTS vps_schema_migrations (filename TEXT PRIMARY KEY NOT NULL, sha256 TEXT NOT NULL, installed_at TEXT NOT NULL)');
     for(const name of pending){
@@ -153,6 +165,22 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
         db.exec('COMMIT');
       }catch(error){db.exec('ROLLBACK');throw error;}
     }
+    db.exec('BEGIN IMMEDIATE');
+    try{
+      db.exec('CREATE TABLE IF NOT EXISTS vps_auth_migrations (name TEXT PRIMARY KEY NOT NULL,sha256 TEXT NOT NULL,installed_at TEXT NOT NULL)');
+      const prior=db.prepare('SELECT sha256 FROM vps_auth_migrations WHERE name=?').get('001_site_identity_consents');
+      if(prior){if(prior.sha256!==consentDigest)throw Error('VPS auth migration checksum changed: 001_site_identity_consents');}
+      else{
+        db.exec(consentSql);
+        db.prepare('INSERT INTO vps_auth_migrations VALUES (?,?,?)').run('001_site_identity_consents',consentDigest,new Date().toISOString());
+      }
+      // A receipt without its runtime objects is corruption, not permission to
+      // silently re-create a possibly dropped identity ledger at service startup.
+      db.prepare('SELECT id,grant_hash,session_hash,redeemed_fingerprint FROM vps_site_identity_consents LIMIT 0').all();
+      if(!db.prepare("SELECT 1 FROM sqlite_master WHERE type='trigger' AND name='vps_site_identity_consents_update_guard'").get())
+        throw Error('Missing VPS site identity consent guard; reviewed recovery required.');
+      db.exec('COMMIT');
+    }catch(error){db.exec('ROLLBACK');throw error;}
     return {db,d1:new LocalD1(db),migrations:names};
   }catch(error){
     db.close();
