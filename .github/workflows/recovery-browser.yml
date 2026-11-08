@@ -37,7 +37,6 @@ jobs:
       CI: 'true'
       SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
       KNABA_QA_SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
-      KNABA_RECOVERY_QA_DIR: ${{ runner.temp }}/knaba-recovery-browser-evidence
       KNABA_PLAYWRIGHT_MODULE: ${{ github.workspace }}/erp/node_modules/playwright
       KNABA_BROWSER_SKIP: webkit,firefox
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
@@ -57,6 +56,8 @@ jobs:
       - name: Require exact source and already-installed Chrome
         id: capability
         timeout-minutes: 1
+        env:
+          KNABA_RECOVERY_QA_DIR: ${{ runner.temp }}/knaba-recovery-browser-evidence
         run: |
           python3 - <<'PY'
           import datetime, json, os, pathlib, re, shutil, subprocess, sys
@@ -108,6 +109,8 @@ jobs:
         id: browser
         timeout-minutes: 5
         working-directory: corporate-site
+        env:
+          KNABA_RECOVERY_QA_DIR: ${{ runner.temp }}/knaba-recovery-browser-evidence
         # The harness sets chromiumSandbox:true and passes only loopback traffic.
         # Exit 0/1/2 remains the real step result; no continue-on-error or retry.
         run: |
@@ -134,6 +137,7 @@ jobs:
       - name: Preserve honest outcome and safe runtime metadata
         if: always()
         env:
+          KNABA_RECOVERY_QA_DIR: ${{ runner.temp }}/knaba-recovery-browser-evidence
           CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
           NODE_OUTCOME: ${{ steps.node.outcome }}
           CAPABILITY_OUTCOME: ${{ steps.capability.outcome }}
