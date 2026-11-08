@@ -73,7 +73,9 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         guard let actor = identity?.actor else { return [] }
         // A visible tab is not an authorization grant: ERP always performs its own scope validation.
         let permitted = ERPModuleCatalog.visible(to: actor)
-        guard let workspace = selectedWorkspace else { return [] }
+        // The chooser prevents navigation without selection. Keep the existing
+        // catalog projection available to isolated presentation tests and legacy callers.
+        guard let workspace = selectedWorkspace else { return permitted }
         // Presentation-only subsets. ERP still validates every read/write on the server.
         let kinds: Set<String>
         switch workspace {
