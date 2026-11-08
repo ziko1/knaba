@@ -27,7 +27,7 @@ test('0016 preserves legacy history and records only an immutable first owner-me
     assert.throws(()=>openLocalDatabase(file,{allowMigrations:false}),/Pending schema migration 0016_assistant_display_receipts.sql/);
     current=openLocalDatabase(file);
     assert.deepEqual(current.db.prepare('SELECT filename,sha256 FROM vps_schema_migrations ORDER BY filename LIMIT 16').all(),priorReceipts);
-    assert.deepEqual(current.db.prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name").all(),tables);
+    assert.deepEqual(current.db.prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name").all().map(row=>row.name),[...tables.map(row=>row.name),'assistant_request_links'].sort());
     const rows=current.db.prepare('SELECT * FROM assistant_messages').all();assert.equal(rows.length,4);
     assert.ok(rows.every(row=>row.content==='Historical message'&&row.guest_displayed_at===null));
     const first='2026-11-08T10:00:00.123Z';

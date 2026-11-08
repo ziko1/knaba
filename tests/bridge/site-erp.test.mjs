@@ -17,6 +17,53 @@ async function accepted(f,input=form()){
   return {body,input};
 }
 
+async function assistantTicket(f){
+  const response=await f.assistant('/api/assistant/conversations',{body:{locale:'uk',privacyAccepted:true,website:''}});
+  assert.equal(response.status,201);const ticket=await response.json();assert.equal(typeof ticket.token,'string');return ticket;
+}
+function assistantForm(){const {address,...input}=form();return {...input,transferAccepted:true};}
+
+check('explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves its scoped origin after restart',async t=>{
+  const f=await fixture(t,db),ticket=await assistantTicket(f),path=`/api/assistant/conversations/${ticket.id}/requests`,input=assistantForm();
+  const denied=await f.assistant(path,{body:{...input,transferAccepted:false},ticket});assert.equal(denied.status,422);assert.equal(f.queue().length,0);
+  const responses=await Promise.all(Array.from({length:5},()=>f.assistant(path,{body:input,ticket})));
+  for(const response of responses)assert.ok([200,201].includes(response.status),await response.clone().text());
+  const receipts=await Promise.all(responses.map(response=>response.json()));assert.equal(new Set(receipts.map(receipt=>receipt.id)).size,1);
+  const id=receipts[0].id;assert.equal(receipts[0].request.erpTransfer.status,'PENDING');assert.equal(f.queue().length,1);
+  const link=f.site.db.prepare('SELECT * FROM assistant_request_links').get();assert.equal(link.request_id,id);assert.equal(link.conversation_id,ticket.id);
+  const wire=await f.envelope(f.queue()[0]),payload=JSON.parse(wire).payload;
+  assert.equal(payload.language,'UK');assert.deepEqual(payload.source,{});
+  assert.equal(payload.facts.address,input.postcode);
+  for(const value of [ticket.id,ticket.token,input.message,'conversationId','transferAccepted'])assert.ok(!wire.includes(value));
+  assert.equal((await f.dispatch()).applied,1);assert.equal(f.wire.length,1);
+  const leads=await f.rows('lead');assert.equal(leads.length,1);assert.equal(leads[0].id,f.queue()[0].erp_effect_id);assert.equal(leads[0].company_id,f.company);
+  assert.deepEqual(leads[0].data.createdSource,{channel:'WEB',integrationSource:f.source,externalId:id});
+  assert.equal((await f.rows('user')).length,1);assert.equal((await f.rows('employee')).length,0);
+  assert.equal(f.site.db.prepare('SELECT count(*) AS n FROM profiles').get().n,0);assert.equal(f.site.db.prepare('SELECT count(*) AS n FROM vps_users').get().n,0);
+  await f.restart();
+  const context=await f.assistant(`/api/assistant/conversations/${ticket.id}/request-context`,{ticket});assert.equal(context.status,200);
+  const body=await context.json();assert.deepEqual(body.requests.map(row=>({id:row.id,status:row.erpTransfer.status})),[{id,status:'APPLIED'}]);
+  assert.ok(!JSON.stringify(body).includes(input.message));assert.ok(!JSON.stringify(body).includes(leads[0].id));
+  const retry=await f.assistant(path,{body:input,ticket});assert.equal(retry.status,200);assert.equal((await retry.json()).id,id);
+  assert.equal((await f.rows('integration_event')).length,1);assert.equal((await f.outbox('lead.created')).length,1);
+  assert.equal(f.site.db.prepare('SELECT count(*) AS n FROM assistant_request_links').get().n,1);
+});
+
+check('assistant withdrawal is capability-scoped and prevents a not-yet-sent real ERP effect',async t=>{
+  const f=await fixture(t,db),ticket=await assistantTicket(f),foreign=await assistantTicket(f);
+  const response=await f.assistant(`/api/assistant/conversations/${ticket.id}/requests`,{ticket,body:assistantForm()});
+  assert.equal(response.status,201);const created=await response.json(),path=`/api/assistant/conversations/${ticket.id}/requests/${created.id}/cancel`;
+  assert.equal((await f.assistant(path,{ticket:foreign,body:{version:1}})).status,404);
+  assert.equal((await f.assistant(`/api/assistant/conversations/${ticket.id}/request-context`,{ticket:foreign})).status,404);
+  const cancelled=await f.assistant(path,{ticket,body:{version:1}});assert.equal(cancelled.status,200);assert.equal((await cancelled.json()).request.status,'cancelled');
+  assert.equal((await f.dispatch()).blocked,1);assert.equal(f.queue()[0].status,'BLOCKED');assert.equal(f.wire.length,0);
+  assert.equal((await f.rows('lead')).length,0);assert.equal((await f.rows('integration_event')).length,0);
+  await f.restart();
+  const context=await (await f.assistant(`/api/assistant/conversations/${ticket.id}/request-context`,{ticket})).json();
+  assert.equal(context.requests[0].status,'cancelled');assert.equal(context.requests[0].erpTransfer.status,'BLOCKED');
+  assert.equal(f.site.db.prepare('SELECT count(*) AS n FROM portal_audit').get().n,2);
+});
+
 check('actual HTTP intake applies only the trusted mapping and creates no identity or privilege',async t=>{
   const f=await fixture(t,db,{scheduled:true});
   const denied=await f.post(form({tenantId:'foreign-company',userId:f.owner,roles:['OWNER'],serviceIds:['foreign-service']}));

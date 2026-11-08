@@ -3,11 +3,12 @@ import type { PortalSession } from '../lib/portal-contract';
 import '../styles/private-workspace.css';
 import {createAsyncViewScope} from '../lib/async-view-scope';
 import {INBOX_LOCALES,INBOX_LOCALE_NAMES,INBOX_DATE_LOCALES,assistantInboxLocale,createInboxLocaleStore,fetchInboxLabels,type InboxLocale,type InboxLabels} from '../lib/assistant-inbox-i18n';
+import {mergeAssistantRequests,type AssistantRequestSummary,type AssistantRequestPage,type AssistantRequestContext} from '../lib/assistant-request-contract';
 
 type ThreadItem={id:string;locale:string;status:string;contactName:string;contactEmail:string;contactPhone:string;createdAt:string;updatedAt:string;preview:string|null;expiresAt:string|null;revokedAt:string|null};
 type Message={id:string;sender:'assistant'|'customer'|'owner';content:string;createdAt:string;guestDisplayedAt?:string|null};
 type Offer={id:string;content:string;state:string;createdAt:string;decidedAt:string|null};
-type Thread={conversation:ThreadItem;messages:Message[];offers:Offer[]};
+type Thread={conversation:ThreadItem;messages:Message[];offers:Offer[];requests?:AssistantRequestSummary[];requestPage?:AssistantRequestPage};
 type InboxPage={conversations:ThreadItem[];limited:boolean;nextCursor?:string|null};
 type NotificationStatus={enabled:boolean;counts:Record<string,number>};
 class InboxHttpError extends Error {
@@ -31,9 +32,10 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
   const [busy,setBusy]=createSignal(false),[fault,setFault]=createSignal(''),[updated,setUpdated]=createSignal(false);
   const [notifications,setNotifications]=createSignal<NotificationStatus|null>(null);
   const [nextCursor,setNextCursor]=createSignal<string|null>(null),[loadingMore,setLoadingMore]=createSignal(false),[refreshing,setRefreshing]=createSignal(false);
+  const [requestLoading,setRequestLoading]=createSignal(false);
   const reads=createAsyncViewScope(),threads=createAsyncViewScope();
   const drafts=new Map<string,{answer:string;proposal:string;answerKey:string;offerKey:string}>();
-  let disposed=false,loadedPages=1,languageAttempt=0;
+  let disposed=false,loadedPages=1,languageAttempt=0,requestPages=1;
   onCleanup(()=>{disposed=true;languageAttempt++;reads.dispose();threads.dispose();});
   const label=labels;
   async function changeLocale(value:string,persist=true){
@@ -75,11 +77,12 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
     languageAttempt++;setLanguageBusy(false);setLanguageFault(false);setRequestedLocale(locale());
     setRole('guest');setList([]);setActive('');setThread(null);setNotifications(null);
     setNextCursor(null);setLoadingMore(false);loadedPages=1;
+    requestPages=1;setRequestLoading(false);
     setAnswer('');setProposal('');setAnswerKey('');setOfferKey('');setUpdated(false);setBusy(false);setFault('');
     return true;
   }
   async function refresh(silent=false){
-    if(busy()||disposed||refreshing()||loadingMore()||role()!=='owner')return;
+    if(busy()||disposed||refreshing()||loadingMore()||requestLoading()||role()!=='owner')return;
     setRefreshing(true);
     const latest=reads.begin();
     try{
@@ -111,7 +114,7 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
   }
   async function loadMore(){
     const cursor=nextCursor();
-    if(!cursor||busy()||disposed||loadingMore()||refreshing()||role()!=='owner')return;
+    if(!cursor||busy()||disposed||loadingMore()||refreshing()||requestLoading()||role()!=='owner')return;
     const latest=reads.begin();setLoadingMore(true);setFault('');
     try{
       const result=await call<InboxPage>('/api/assistant/owner/conversations?cursor='+encodeURIComponent(cursor));
@@ -121,7 +124,7 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
     finally{setLoadingMore(false);}
   }
   async function retryNotifications(){
-    if(busy()||disposed||!notifications()?.enabled)return;
+    if(busy()||requestLoading()||disposed||!notifications()?.enabled)return;
     reads.invalidate();threads.invalidate();
     setBusy(true);setFault('');
     try {
@@ -133,6 +136,7 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
     if(busy()||disposed)return;
     const latest=threads.begin();
     if(!silent){
+      requestPages=1;setRequestLoading(false);
       if(id!==active()){
         if(active())drafts.set(active(),{answer:answer(),proposal:proposal(),answerKey:answerKey(),offerKey:offerKey()});
         const saved=drafts.get(id);
@@ -140,11 +144,33 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
       }
       setActive(id);setThread(null);setFault('');
     }
-    try{const data=await call<Thread>(`/api/assistant/owner/conversations/${id}`);if(latest()&&active()===id)setThread(data);}
+    try{
+      let data=await call<Thread>(`/api/assistant/owner/conversations/${id}`),pages=1;
+      if(!latest()||active()!==id)return;
+      while(pages<requestPages&&data.requestPage?.nextCursor){
+        const next=await call<AssistantRequestContext>(`/api/assistant/owner/conversations/${id}/request-context?requestCursor=`+encodeURIComponent(data.requestPage.nextCursor));
+        if(!latest()||active()!==id)return;
+        if(next.conversation.id!==id)throw Error('Unexpected request conversation');
+        data={...data,requests:mergeAssistantRequests([...(data.requests??[]),...next.requests]),requestPage:next.requestPage};pages++;
+      }
+      if(latest()&&active()===id){requestPages=pages;setThread(data);}
+    }
     catch(problem){if(latest()&&active()===id&&!expireAccess(problem)&&!silent)setFault(label().loadError);}
   }
+  async function loadMoreRequests(){
+    const id=active(),cursor=thread()?.requestPage?.nextCursor;
+    if(!id||!cursor||busy()||requestLoading()||refreshing()||loadingMore()||disposed||role()!=='owner')return;
+    const latest=threads.begin();reads.invalidate();setRequestLoading(true);setFault('');
+    try{
+      const page=await call<AssistantRequestContext>(`/api/assistant/owner/conversations/${id}/request-context?requestCursor=`+encodeURIComponent(cursor));
+      if(!latest()||active()!==id||thread()?.conversation.id!==id)return;
+      if(page.conversation.id!==id)throw Error('Unexpected request conversation');
+      setThread(value=>value?{...value,requests:mergeAssistantRequests([...(value.requests??[]),...page.requests]),requestPage:page.requestPage}:value);requestPages++;
+    }catch(problem){if(latest()&&active()===id&&!expireAccess(problem))setFault(label().loadError);}
+    finally{if(latest())setRequestLoading(false);}
+  }
   async function send(kind:'messages'|'offers',text:string){
-    const id=active();if(!id||busy()||disposed||!text.trim())return;
+    const id=active();if(!id||busy()||requestLoading()||disposed||!text.trim())return;
     const latest=threads.begin();reads.invalidate();
     setBusy(true);setFault('');
     const selectedKey=kind==='messages'?answerKey():offerKey(),key=selectedKey||crypto.randomUUID();
@@ -163,7 +189,7 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
     if(latest())await refresh(true);
   }
   async function setStatus(status:'human'|'closed'){
-    const id=active();if(!id||busy()||disposed)return;
+    const id=active();if(!id||busy()||requestLoading()||disposed)return;
     const latest=threads.begin();reads.invalidate();setBusy(true);setFault('');
     try{const result=await call<Thread>(`/api/assistant/owner/conversations/${id}/status`,'POST',{status});if(latest()&&active()===id)setThread(result);}
     catch(problem){if(latest()&&active()===id&&!expireAccess(problem))setFault(label().loadError);}finally{if(latest())setBusy(false);}
@@ -171,7 +197,7 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
   }
   async function revokeAccess(){
     const id=active();
-    if(!id||busy()||disposed||thread()?.conversation.revokedAt||!window.confirm(label().confirmRevoke))return;
+    if(!id||busy()||requestLoading()||disposed||thread()?.conversation.revokedAt||!window.confirm(label().confirmRevoke))return;
     const latest=threads.begin();reads.invalidate();setBusy(true);setFault('');
     try{
       const result=await call<Thread>(`/api/assistant/owner/conversations/${id}/access/revoke`,'POST',{});
@@ -187,21 +213,31 @@ export default function AssistantInbox(props:{locale?:InboxLocale;initialLocale?
     <label class="ki-language">{label().language} <select value={requestedLocale()} aria-busy={languageBusy()} onChange={event=>void changeLocale(event.currentTarget.value)}><For each={INBOX_LOCALES}>{value=><option value={value}>{INBOX_LOCALE_NAMES[value]}</option>}</For></select></label>
     <Show when={languageFault()}><p role="alert" class="ki-error">{label().loadError}</p></Show>
     <Show when={role()==='owner'} fallback={<div class="ki-empty">{label().need} <a href={loginPath()}>{label().login} ↗</a></div>}>
-      <div class="ki-toolbar"><button type="button" disabled={busy()||refreshing()||loadingMore()} onClick={()=>void refresh()}>{label().update} ↻</button><Show when={notifications()}>{status=><div class="ki-notification-status" aria-live="polite"><span>{status().enabled?label().notificationOn:label().notificationOff} · {label().pendingNotice}: {status().counts.pending??0}</span><Show when={status().enabled && (status().counts.pending??0)>0}><button type="button" disabled={busy()} onClick={()=>void retryNotifications()}>{label().retry}</button></Show></div>}</Show><Show when={updated()}><span>{label().limit}</span></Show></div>
+      <div class="ki-toolbar"><button type="button" disabled={busy()||refreshing()||loadingMore()||requestLoading()} onClick={()=>void refresh()}>{label().update} ↻</button><Show when={notifications()}>{status=><div class="ki-notification-status" aria-live="polite"><span>{status().enabled?label().notificationOn:label().notificationOff} · {label().pendingNotice}: {status().counts.pending??0}</span><Show when={status().enabled && (status().counts.pending??0)>0}><button type="button" disabled={busy()||requestLoading()} onClick={()=>void retryNotifications()}>{label().retry}</button></Show></div>}</Show><Show when={updated()}><span>{label().limit}</span></Show></div>
       <div class="ki-grid">
-        <aside class="ki-list"><Show when={list().length} fallback={<p>{label().none}</p>}><For each={list()}>{item=><button type="button" classList={{'ki-list-entry':true,'is-selected':active()===item.id}} disabled={busy()} onClick={()=>void openConversation(item.id)}><strong>{item.contactName||item.contactEmail||label().visitor}</strong><span>{item.preview||statusLabel(item.status)}</span><small>{date(item.updatedAt)}</small><em>{item.status==='human'?'●':item.status==='closed'?'○':'✳'}</em></button>}</For></Show><Show when={nextCursor()}><button type="button" class="ki-load-more" disabled={busy()||loadingMore()||refreshing()} aria-busy={loadingMore()} onClick={()=>void loadMore()}>{loadingMore()?label().loadingMore:label().loadMore}</button></Show></aside>
+        <aside class="ki-list"><Show when={list().length} fallback={<p>{label().none}</p>}><For each={list()}>{item=><button type="button" classList={{'ki-list-entry':true,'is-selected':active()===item.id}} disabled={busy()} onClick={()=>void openConversation(item.id)}><strong>{item.contactName||item.contactEmail||label().visitor}</strong><span>{item.preview||statusLabel(item.status)}</span><small>{date(item.updatedAt)}</small><em>{item.status==='human'?'●':item.status==='closed'?'○':'✳'}</em></button>}</For></Show><Show when={nextCursor()}><button type="button" class="ki-load-more" disabled={busy()||loadingMore()||refreshing()||requestLoading()} aria-busy={loadingMore()} onClick={()=>void loadMore()}>{loadingMore()?label().loadingMore:label().loadMore}</button></Show></aside>
         <div class="ki-body">
           <Show when={thread()} fallback={<p class="ki-empty">{label().selectConversation}</p>}>
-            <header class="ki-thread-head"><div><strong>{thread()!.conversation.contactName||label().visitor}</strong><small>{thread()!.conversation.contactEmail} {thread()!.conversation.contactPhone}</small></div><button type="button" disabled={busy()} onClick={()=>void setStatus(thread()!.conversation.status==='closed'?'human':'closed')}>{thread()!.conversation.status==='closed'?label().reopen:label().closed}</button></header>
+            <header class="ki-thread-head"><div><strong>{thread()!.conversation.contactName||label().visitor}</strong><small>{thread()!.conversation.contactEmail} {thread()!.conversation.contactPhone}</small></div><button type="button" disabled={busy()||requestLoading()} onClick={()=>void setStatus(thread()!.conversation.status==='closed'?'human':'closed')}>{thread()!.conversation.status==='closed'?label().reopen:label().closed}</button></header>
             <div class="ki-toolbar">
               <p role="status">{thread()!.conversation.revokedAt?label().accessRevoked:!thread()!.conversation.expiresAt||Date.parse(thread()!.conversation.expiresAt!)<=Date.now()?label().accessExpired:`${label().accessExpires}: ${date(thread()!.conversation.expiresAt!)}`}</p>
-              <button type="button" disabled={busy()||Boolean(thread()!.conversation.revokedAt)} onClick={()=>void revokeAccess()}>{label().revoke}</button>
+              <button type="button" disabled={busy()||requestLoading()||Boolean(thread()!.conversation.revokedAt)} onClick={()=>void revokeAccess()}>{label().revoke}</button>
             </div>
+            <Show when={thread()!.requestPage}><section aria-label={label().requestHeading} aria-busy={requestLoading()}>
+              <h3>{label().requestHeading}</h3><p class="ki-info">{label().requestSource}</p>
+              <For each={thread()!.requests??[]}>{request=><article class="ki-offer" data-assistant-request={request.id}>
+                <strong><code>{request.id}</code></strong><small>{date(request.createdAt)}</small>
+                <p>{label().requestSiteStatus}: {label()[`request_${request.status}`]}</p>
+                <p>{label().requestERPStatus}: {label()[`transfer_${request.erpTransfer.status}`]}</p>
+              </article>}</For>
+              <p class="ki-info">{label().requestCount.replace('{loaded}',String(thread()!.requests?.length??0)).replace('{total}',String(thread()!.requestPage!.total))}</p>
+              <Show when={thread()!.requestPage?.nextCursor}><button type="button" class="ki-load-more" disabled={busy()||requestLoading()||refreshing()||loadingMore()} onClick={()=>void loadMoreRequests()}>{label().requestMore}</button></Show>
+            </section></Show>
             <div class="ki-messages"><For each={thread()!.messages}>{m=><article class={`ki-message ki-from-${m.sender}`}><small>{m.sender==='owner'?'KnaBa':m.sender==='assistant'?'KNABA Assistant':label().customer} · {date(m.createdAt)}</small><p>{m.content}</p><Show when={m.sender==='owner'}><small>{m.guestDisplayedAt?`${label().displayed} · ${date(m.guestDisplayedAt)}`:label().displayUnconfirmed}</small></Show></article>}</For></div>
             <Show when={thread()!.offers?.length}><h3>{label().offer}</h3><For each={thread()!.offers}>{o=><div class="ki-offer"><p>{o.content}</p><small>{o.state==='accepted'?label().accepted:o.state==='declined'?label().declined:label().pending}</small></div>}</For></Show>
             <Show when={thread()!.conversation.status!=='closed'}>
-              <form class="ki-form" onSubmit={e=>{e.preventDefault();void send('messages',answer());}}><label>{label().reply}<textarea value={answer()} onInput={e=>{setAnswer(e.currentTarget.value);setAnswerKey('');}} rows={3} maxLength={1200}/></label><button disabled={busy()||!answer().trim()}>{label().submit}</button></form>
-              <Show when={!thread()!.offers.some(o=>o.state==='pending')}><form class="ki-form" onSubmit={e=>{e.preventDefault();void send('offers',proposal());}}><label>{label().offer}<textarea value={proposal()} onInput={e=>{setProposal(e.currentTarget.value);setOfferKey('');}} rows={4} maxLength={1400}/></label><button disabled={busy()||!proposal().trim()}>{label().propose}</button></form></Show>
+              <form class="ki-form" onSubmit={e=>{e.preventDefault();void send('messages',answer());}}><label>{label().reply}<textarea value={answer()} onInput={e=>{setAnswer(e.currentTarget.value);setAnswerKey('');}} rows={3} maxLength={1200}/></label><button disabled={busy()||requestLoading()||!answer().trim()}>{label().submit}</button></form>
+              <Show when={!thread()!.offers.some(o=>o.state==='pending')}><form class="ki-form" onSubmit={e=>{e.preventDefault();void send('offers',proposal());}}><label>{label().offer}<textarea value={proposal()} onInput={e=>{setProposal(e.currentTarget.value);setOfferKey('');}} rows={4} maxLength={1400}/></label><button disabled={busy()||requestLoading()||!proposal().trim()}>{label().propose}</button></form></Show>
             </Show>
             <p class="ki-info">{label().info}</p>
           </Show>

@@ -1,6 +1,41 @@
 # KNABA — актуальне зіставлення повного scope
 
-Дата: 2026-11-08. Поточний опублікований source:
+## 2026-11-08 — Assistant→заявка: інтегрований source та локальні перевірки
+
+Локальний кандидат `6708578bc4c326f727bcde3e84389775b00541fe`, tree
+`64dd56f01ec85b98eb9f1bc83ae52e534a8cdd49`, об'єднує reviewed conversion
+і дві корекції попереднього CI. Усі52 feature files збігаються з незалежно
+перевіреними manifests. UI/root та backend/coverage reviews ACCEPT у source
+і зазначеному SQLite обсязі; compound AC не підвищено.
+
+Після явної дії у віджеті гість заповнює структуровану форму й окремо
+погоджує передавання зазначених полів. Origin/consent/request/audit/existing
+outbox атомарні; retry після втрати відповіді зберігає body/key. Owner бачить
+зв'язок із діалогом. Скасування не стирає вже переданий ERP результат.
+Історія чату, capability і вільний текст не передаються в ERP envelope;
+assistant street address відхиляється, чинний public/portal контракт збережено.
+
+Точний local source: root29, site900Vitest+92Node, VPS281 PASS; check499files,
+0errors/0warnings/6existing hints. Чиста official збірка в окремому Git
+checkout:161pages, JS222640B/CSS40832B gzip, незмінені бюджети225280/40960,
+verify/source catalogue/i18n PASS. Перша workspace збірка мала зайві старі
+hashed chunks і FAIL бюджету; їхній producer не встановлено. Окрема чиста
+збірка з власними кешами — конкретний перевірений результат, не заява про
+усунення невідомої причини. Shared caches/config/budgets не змінено.
+
+Нові2 actualPG bridge cases (11total) та rendered assistant scenario написано,
+але локально NOT_RUN; потрібен зарезервований об'єднаний CI checkpoint.
+Попередній remote `395993f` з native/ERP proofs зафіксований окремо нижче.
+F2 federation залишається ізольованим source; F3 не розпочато. NOT_READY,
+merge/production/providers/physical-device acceptance не виконано.
+
+Докази: `evidence/full-completion-20261108/assistant-request-source-review.json`
+і `assistant-request-local-build.json`. Traceability KNB-06/21 оновлено тільки
+paths/evidence/next action; усі нормативні критерії та статуси збережено.
+
+### Історія першого інтегрованого кандидата
+
+Дата історичного checkpoint: 2026-11-08. Тодішній опублікований source:
 **`5d6eeae0862e52cc693c1766f0c6fba964b12aa5`**, [PR129](https://github.com/ziko1/knaba/pull/129).
 Його tree **`7de0c8019ae5ab6959930225996a0c978859deba`** точно дорівнює tree
 локально перевіреного `4b1e3538e3b2c39b7bfdd0ed028cf598e6f9cb26`. Поточний
@@ -10,7 +45,7 @@ checkout прийняв remote `5d6eeae`; подальший local fixture-only 
 Цей документ є індексом поточного коду, прогалин і наступних доказів; він не
 замінює специфікацій та не переносить історичні PASS на новий реліз.
 
-### Поточний CI checkpoint і межі доказу
+### Історичний CI checkpoint 5d6eeae і межі доказу
 
 [Application CI 42472254239](https://github.com/ziko1/knaba/actions/runs/42472254239)
 на опублікованому `5d6eeae`: root job **SUCCESS**; site job **FAILED** —

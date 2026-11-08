@@ -7,6 +7,9 @@ import {createAssistantRequestState,sameAssistantTicket} from '../src/lib/assist
 import {createAssistantDisplayReceipts,visibleOwnerMessageIds} from '../src/lib/assistant-display-receipts';
 import {INBOX_LOCALES,INBOX_LOCALE_NAMES,INBOX_DATE_LOCALES,assistantInboxLocale,createInboxLocaleStore,type InboxLocale} from '../src/lib/assistant-inbox-i18n';
 import {inboxPacks} from './helpers/assistant-inbox-packs';
+import {ASSISTANT_TICKET_STORAGE,createAssistantTicketStore} from '../src/lib/assistant-ticket';
+import {mergeAssistantRequests} from '../src/lib/assistant-request-contract';
+import widgetPacks from '../src/data/assistant-widget-locales';
 
 // Execute the actual component event handlers, with only rendering and network
 // replaced. Deliberately reorder HTTP completions to reproduce lost updates.
@@ -16,7 +19,7 @@ function fixture(component:'KnabaAssistant'|'AssistantInbox',locale='en',manualL
   const render=entry.body!.statements.find(node=>ts.isReturnStatement(node))!;
   const exposed=component==='KnabaAssistant'
     ? 'load,send,handoff,decide,reset,ticket,setTicket,thread,setThread,open,setOpen,receipts,setLog:(element:HTMLDivElement)=>log=element,setAccepted,setDraft,draft,error,busy,contactPath,contactLabel'
-    : 'openConversation,send,setStatus,revokeAccess,refresh,loadMore,nextCursor,loadingMore,changeLocale,locale,label,requestedLocale,languageBusy,languageFault,loginPath,statusLabel,retryNotifications,notifications,setNotifications,role,setRole,list,setList,active,thread,answer,setAnswer,proposal,setProposal,fault,busy';
+    : 'openConversation,send,setStatus,revokeAccess,refresh,loadMore,nextCursor,loadingMore,loadMoreRequests,requestLoading,changeLocale,locale,label,requestedLocale,languageBusy,languageFault,loginPath,statusLabel,retryNotifications,notifications,setNotifications,role,setRole,list,setList,active,thread,answer,setAnswer,proposal,setProposal,fault,busy';
   const body=entry.getText(source).slice(0,render.getStart(source)-entry.getStart(source))+'return {'+exposed+'};}';
   const input=source.statements.filter(node=>!ts.isImportDeclaration(node)&&node!==entry).map(node=>node.getText(source)).join('\n')+'\n'+body;
   const output=ts.transpileModule(input,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
@@ -27,11 +30,13 @@ function fixture(component:'KnabaAssistant'|'AssistantInbox',locale='en',manualL
   const localeRequests:Array<{locale:InboxLocale;resolve:(value:unknown)=>void;reject:(reason:unknown)=>void}>=[];
   const fetchInboxLabels=vi.fn((locale:InboxLocale)=>manualLocaleLoads?new Promise((resolve,reject)=>localeRequests.push({locale,resolve,reject})):Promise.resolve(inboxPacks[locale]));
   const exports:Record<string,any>={};
-  const storage={removeItem:vi.fn(),setItem:vi.fn()};
+  const values=new Map<string,string>();
+  const storage={getItem:(key:string)=>values.get(key)??null,removeItem:vi.fn((key:string)=>values.delete(key)),setItem:vi.fn((key:string,value:string)=>values.set(key,value))};
+  const assistantTickets=createAssistantTicketStore(()=>storage);
   const confirm=vi.fn(()=>true);
   const fetch=vi.fn((path:string,options:Request['options'])=>new Promise((resolve,reject)=>requests.push({path,options,resolve:value=>resolve({ok:true,json:async()=>value}),respond:status=>resolve({ok:false,status}),reject})));
   runInNewContext(output,{
-    exports,fetch,createAsyncViewScope,createAssistantRequestState,sameAssistantTicket,createAssistantDisplayReceipts,visibleOwnerMessageIds,INBOX_LOCALES,INBOX_LOCALE_NAMES,INBOX_DATE_LOCALES,assistantInboxLocale,createInboxLocaleStore,fetchInboxLabels,
+    exports,fetch,assistantTickets,mergeAssistantRequests,createAsyncViewScope,createAssistantRequestState,sameAssistantTicket,createAssistantDisplayReceipts,visibleOwnerMessageIds,INBOX_LOCALES,INBOX_LOCALE_NAMES,INBOX_DATE_LOCALES,assistantInboxLocale,createInboxLocaleStore,fetchInboxLabels,
     createSignal:(initial:unknown)=>{let value=initial;return [()=>value,(next:unknown)=>value=typeof next==='function'?next(value):next];},
     createEffect:()=>{},onMount:()=>{},onCleanup:(fn:()=>void)=>cleanup.push(fn),
     assistantLocale:(locale:string)=>locale??'de',
@@ -39,14 +44,47 @@ function fixture(component:'KnabaAssistant'|'AssistantInbox',locale='en',manualL
     requestAnimationFrame:(callback:()=>void)=>{frames.set(++frameId,callback);return frameId;},cancelAnimationFrame:(id:number)=>frames.delete(id),
     setTimeout:()=>1,clearTimeout:()=>{},queueMicrotask,AbortController,crypto:{randomUUID:()=> 'test-request'},
   });
-  const view=exports.default(component==='AssistantInbox'?{locale,initialLabels:inboxPacks[assistantInboxLocale(locale)]}:{locale});
+  const view=exports.default(component==='AssistantInbox'?{locale,initialLabels:inboxPacks[assistantInboxLocale(locale)]}:{locale,initialLabels:widgetPacks[assistantInboxLocale(locale)]});
   if(component==='AssistantInbox')view.setRole('owner');
+  else {const setTicket=view.setTicket;view.setTicket=(value:unknown)=>{if(value)values.set(ASSISTANT_TICKET_STORAGE,JSON.stringify(value));else values.delete(ASSISTANT_TICKET_STORAGE);setTicket(value);};}
   return {view,requests,localeRequests,fetchInboxLabels,fetch,storage,confirm,document,frame:()=>{const callbacks=[...frames.values()];frames.clear();callbacks.forEach(callback=>callback());},dispose:()=>cleanup.forEach(fn=>fn())};
 }
 const ticket={id:'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',token:'a'.repeat(64)};
 const thread=(id:string,content:string)=>({conversation:{id,status:'assistant'},messages:[{id:content,content,sender:'owner'}],offers:[]});
 const event={preventDefault:()=>{}};
 const flush=()=>new Promise<void>(resolve=>setImmediate(resolve));
+
+describe('owner structured request pages',()=>{
+  const receipt=(id:string,version=1)=>({id,version,status:'new',createdAt:'2026-11-08T12:00:00.000Z',erpTransfer:{status:'PENDING'}});
+  const first=()=>({...thread('A','history'),requests:[receipt('request-1')],requestPage:{limit:20,total:21,nextCursor:'requests-page-2'}});
+  const next=()=>({conversation:{id:'A'},requests:[receipt('request-2')],requestPage:{limit:20,total:21,nextCursor:null}});
+  it('loads with owner authority, excludes concurrent mutations and preserves the loaded window during polling',async()=>{
+    const f=fixture('AssistantInbox'),v=f.view,opened=v.openConversation('A');f.requests[0].resolve(first());await opened;
+    const page=v.loadMoreRequests();await v.loadMoreRequests();await v.refresh(true);await v.send('messages','do not overlap');await v.setStatus('closed');await v.revokeAccess();
+    expect(f.requests).toHaveLength(2);expect(f.requests[1].path).toBe('/api/assistant/owner/conversations/A/request-context?requestCursor=requests-page-2');
+    expect(f.requests[1].options.headers).not.toHaveProperty('X-KnaBa-Conversation');
+    f.requests[1].resolve(next());await page;expect(v.thread().requests.map((r:{id:string})=>r.id)).toEqual(['request-1','request-2']);
+    const refresh=v.refresh(true);f.requests[2].resolve({conversations:[{id:'A'}],limited:false});await flush();f.requests[3].resolve({enabled:false,counts:{}});await flush();
+    f.requests[4].resolve(first());await flush();expect(f.requests[5].path).toContain('requestCursor=requests-page-2');f.requests[5].resolve(next());await refresh;
+    expect(v.thread().requests.map((r:{id:string})=>r.id)).toEqual(['request-1','request-2']);expect(v.requestLoading()).toBe(false);f.dispose();
+  });
+  it('does not install another conversation’s late request page',async()=>{
+    const f=fixture('AssistantInbox'),v=f.view,opened=v.openConversation('A');f.requests[0].resolve(first());await opened;
+    const page=v.loadMoreRequests(),other=v.openConversation('B');f.requests[2].resolve({...thread('B','other history'),requests:[receipt('request-B')],requestPage:{limit:20,total:1,nextCursor:null}});await other;
+    f.requests[1].resolve(next());await page;expect(v.thread().conversation.id).toBe('B');expect(v.thread().requests.map((r:{id:string})=>r.id)).toEqual(['request-B']);expect(v.requestLoading()).toBe(false);f.dispose();
+  });
+  it('clears the private request list when current owner authority is rejected',async()=>{
+    const f=fixture('AssistantInbox'),v=f.view,opened=v.openConversation('A');f.requests[0].resolve(first());await opened;v.setAnswer('Private reply');
+    const page=v.loadMoreRequests();f.requests[1].respond(403);await page;expect(v.role()).toBe('guest');expect(v.thread()).toBeNull();expect(v.answer()).toBe('');expect(v.requestLoading()).toBe(false);
+    await v.loadMoreRequests();expect(f.requests).toHaveLength(2);f.dispose();
+  });
+  it('keeps failed pages retryable and never downgrades an overlapping newer request version',async()=>{
+    const f=fixture('AssistantInbox'),v=f.view,opened=v.openConversation('A');f.requests[0].resolve({...first(),requests:[receipt('request-1',3)]});await opened;
+    const failed=v.loadMoreRequests();f.requests[1].respond(503);await failed;expect(v.thread().requestPage.nextCursor).toBe('requests-page-2');
+    const retry=v.loadMoreRequests();f.requests[2].resolve({...next(),requests:[receipt('request-1',1),receipt('request-2')]});await retry;
+    expect(v.thread().requests).toHaveLength(2);expect(v.thread().requests[0].version).toBe(3);f.dispose();
+  });
+});
 
 function displayedGuest(){
   const f=fixture('KnabaAssistant'),v=f.view;
@@ -87,7 +125,7 @@ describe('public Assistant asynchronous state',()=>{
   it('clears the current revoked capability on receipt 404 while preserving the typed draft',async()=>{
     const f=displayedGuest(),v=f.view;v.receipts.schedule();f.paint();f.requests[0].respond(404);await flush();
     expect(v.ticket()).toBeNull();expect(v.thread()).toBeNull();expect(v.draft()).toBe('unsent visitor draft');
-    expect(v.error()).toBe('Invalid or expired access code.');expect(f.storage.removeItem).toHaveBeenCalledOnce();
+    expect(v.error()).toBe('Invalid or expired access code.');expect(f.storage.removeItem).toHaveBeenCalledTimes(2);expect(f.storage.removeItem).toHaveBeenCalledWith(ASSISTANT_TICKET_STORAGE);
     v.receipts.schedule();f.paint();expect(f.requests).toHaveLength(1);
   });
 
@@ -116,7 +154,7 @@ describe('public Assistant asynchronous state',()=>{
     await flush();f.requests[1].respond(404);await request;
     expect(v.ticket()).toBeNull();expect(v.thread()).toBeNull();expect(v.busy()).toBe(false);
     expect(v.draft()).toBe('unsent visitor draft');expect(v.error()).toBe('Invalid or expired access code.');
-    expect(f.storage.removeItem).toHaveBeenCalledOnce();
+    expect(f.storage.removeItem).toHaveBeenCalledTimes(2);expect(f.storage.removeItem).toHaveBeenCalledWith(ASSISTANT_TICKET_STORAGE);
     await v.load(ticket);expect(f.requests).toHaveLength(2);
   });
   it.each([500,503])('keeps a recoverable conversation and draft after HTTP %s',async(status)=>{

@@ -38,14 +38,14 @@ function adminMessagesMount(role='owner'){
 
 describe('Assistant inbox locale payload boundary',()=>{
   it('keeps all six dictionaries out of the client locale bundle',async()=>{
-    const result=await build({entryPoints:['src/lib/assistant-inbox-i18n.ts'],bundle:true,write:false,format:'esm',platform:'browser',minify:true,charset:'utf8',logLevel:'silent',plugins:[{
+    const result=await build({entryPoints:['src/lib/assistant-inbox-i18n.ts','src/lib/assistant-request-copy.ts'],outdir:'unused-test-output',bundle:true,write:false,format:'esm',platform:'browser',minify:true,charset:'utf8',logLevel:'silent',plugins:[{
       name:'static-asset-urls',setup(plugin){
         plugin.onResolve({filter:/\?url&no-inline$/},args=>({path:args.path,namespace:'asset-url'}));
         plugin.onLoad({filter:/.*/,namespace:'asset-url'},args=>({contents:'export default '+JSON.stringify('/_astro/'+basename(args.path.split('?')[0])),loader:'js'}));
       },
     }]});
-    const code=result.outputFiles[0].text;
-    for(const pack of Object.values(inboxPacks))expect(code).not.toContain(pack.confirmRevoke);
+    const code=result.outputFiles.map(file=>file.text).join('\n');
+    for(const pack of Object.values(inboxPacks)){expect(code).not.toContain(pack.confirmRevoke);expect(code).not.toContain(pack.requestTransferConsent);}
     expect(code).not.toContain('data:application/json');
   });
 

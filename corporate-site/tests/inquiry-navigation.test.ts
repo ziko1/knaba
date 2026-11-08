@@ -15,4 +15,8 @@ describe('localized construction inquiry navigation', () => {
     expect(inquirySelectionQuery('?leistung=baureinigung&anliegen=kernbohrungen')).toBe('?anliegen=kernbohrungen&leistung=baureinigung');
     expect(inquirySelectionQuery('?anliegen=%3Cscript%3E&leistung=bueroreinigung&message=private')).toBe('');
   });
+  it('retains only the explicit assistant intent across languages, without bearer or conversation data',()=>{
+    expect(inquirySelectionQuery('?intent=assistant&id=private&token=secret&email=private%40example.test')).toBe('?intent=assistant');
+    expect(inquirySelectionQuery('?intent=owner&conversation=private')).toBe('');
+  });
 });

@@ -61,6 +61,7 @@ export default {fetch(request,env,ctx){
   }finally{if(app)await app.close();await rm(directory,{recursive:true,force:true});}
 }
 const post=(cookie,body)=>({method:'POST',headers:{Cookie:cookie,Origin:origin,'X-KnaBa-Request':'portal-v1','Content-Type':'application/json'},body:JSON.stringify(body)});
+const enquiry=()=>({service:'baureinigung',objectType:'Baustelle',postcode:'10115',area:'100',frequency:'Einmalig',message:'Synthetic request text',name:'Synthetic guest',email:'guest@example.test',phone:'',website:'',privacyAccepted:true,transferAccepted:true,idempotencyKey:randomUUID()});
 function seedInbox(app,count){
   const created=new Date().toISOString(),expires=new Date(Date.now()+7*86400000).toISOString();
   const insert=app.db.prepare("INSERT INTO assistant_conversations(id,token_hash,token_expires_at,locale,status,contact_name,privacy_version,created_at,updated_at) VALUES(?,?,?,'uk','human','Private page contact','test',?,?)");
@@ -84,6 +85,37 @@ test('actual VPS owner revoke preserves owner history and denies the guest code'
   assert.equal(history.status,200);assert.match(await history.text(),/Private history/);
   assert.equal(app.db.prepare("SELECT COUNT(*) AS n FROM portal_audit WHERE action='assistant.access.revoke'").get().n,1);
 }));
+
+test('actual VPS creates and withdraws an explicit assistant request through the scoped HTTP route',async()=>fixture(async({app,at,cookie})=>{
+  const started=await at('/api/assistant/conversations',post('',{locale:'uk',privacyAccepted:true,website:''}));assert.equal(started.status,201);
+  const ticket=await started.json(),input=enquiry(),path=`/api/assistant/conversations/${ticket.id}/requests`;
+  assert.equal((await at(path,post(cookie,input))).status,404);
+  const options=post(cookie,input);options.headers['X-KnaBa-Conversation']=ticket.token;
+  const response=await at(path,options);assert.equal(response.status,201);const created=await response.json();
+  assert.equal(created.conversationId,ticket.id);assert.equal(created.received,true);
+  assert.equal(app.db.prepare('SELECT client_id FROM cleaning_requests WHERE id=?').get(created.id).client_id,null);
+  assert.equal(app.db.prepare('SELECT conversation_id FROM assistant_request_links WHERE request_id=?').get(created.id).conversation_id,ticket.id);
+  const context=await at(`/api/assistant/conversations/${ticket.id}/request-context`,{headers:{'X-KnaBa-Conversation':ticket.token}});
+  assert.equal(context.status,200);assert.equal((await context.json()).requests[0].id,created.id);
+  const cancel=post('',{version:1});cancel.headers['X-KnaBa-Conversation']=ticket.token;
+  const withdrawn=await at(`${path}/${created.id}/cancel`,cancel);assert.equal(withdrawn.status,200);assert.equal((await withdrawn.json()).request.status,'cancelled');
+  const ownerThread=await at(`/api/assistant/owner/conversations/${ticket.id}`,{headers:{Cookie:cookie}});
+  assert.equal(ownerThread.status,200);assert.equal((await ownerThread.json()).requests[0].status,'cancelled');
+  assert.equal(app.db.prepare('SELECT count(*) AS n FROM cleaning_requests').get().n,1);
+}));
+
+test('actual VPS assistant request batch refuses a guest capability revoked after its preflight',async()=>{
+  const target='aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaab';
+  await fixture(async({app,at})=>{
+    const created=new Date().toISOString(),expires=new Date(Date.now()+86400000).toISOString(),token='f'.repeat(64);
+    app.db.prepare("INSERT INTO assistant_conversations(id,token_hash,token_expires_at,locale,status,privacy_version,created_at,updated_at) VALUES(?,?,?,'uk','human','test',?,?)")
+      .run(target,createHash('sha256').update(token).digest('hex'),expires,created,created);
+    const options=post('',enquiry());options.headers['X-KnaBa-Conversation']=token;
+    const response=await at(`/api/assistant/conversations/${target}/requests`,options);assert.equal(response.status,404);
+    for(const table of ['cleaning_requests','assistant_request_links','site_erp_outbox'])assert.equal(app.db.prepare('SELECT count(*) AS n FROM '+table).get().n,0);
+    assert.equal(app.db.prepare("SELECT count(*) AS n FROM portal_audit WHERE action='request.created'").get().n,0);
+  },{boundary:'before-write',target:`/api/assistant/conversations/${target}/requests`,guestId:target});
+});
 
 for(const boundary of ['after-identity','after-private-read'])test(`VPS owner inbox rejects revocation ${boundary}`,async()=>fixture(async({at,cookie})=>{
   const response=await at('/api/assistant/owner/conversations',{headers:{Cookie:cookie}});

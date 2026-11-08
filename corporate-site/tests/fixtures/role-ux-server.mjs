@@ -69,7 +69,10 @@ export async function createRoleUxFixture({releaseEnvironment={},localTest=false
       staticRoot:fileURLToPath(new URL('../../dist/client/',import.meta.url)),
       workerPath:new URL('../../dist/server/index.js',import.meta.url).href,
       host:'127.0.0.1',port:0,origin,ownerEmail:identities.owner.email,developerEmail:identities.developer.email,
-      localTest,oidcConfig:{},releaseEnvironment,erpIntakeEnvironment:{},accountEmailEnvironment:{},trustedProxyIps:''});
+      localTest,oidcConfig:{},releaseEnvironment,erpIntakeEnvironment:{},accountEmailEnvironment:{},trustedProxyIps:'',
+      // Rendered-role tests inspect the real initial queue state. Keep background
+      // maintenance deterministic; scheduled intake/dispatch has separate bridge tests.
+      erpIntakeSchedulerFactory:()=>({stop(){}})});
     const cookies={};
     for(const [role,user] of Object.entries(identities)){
       cookies[role]=sessionCookie(createSessionForUser(app.db,user.id).token).split(';')[0];

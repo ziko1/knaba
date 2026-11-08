@@ -14,7 +14,7 @@
 erp/node_modules/.bin/tsx --tsconfig erp/tsconfig.json --test --test-concurrency=1 --test-reporter=tap tests/bridge/*.test.mjs
 ```
 
-Дев'ять сценаріїв охоплюють:
+Одинадцять сценаріїв охоплюють:
 
 1. Анонімний HTTP intake, persisted owner cookie після restart та його revocation, відхилення підроблених authority fields, server-owned service/company mapping, реальний VPS scheduler → Worker → ERP; атомарні lead/inbox/audit/outbox, відсутність створених identities.
 2. П'ять паралельних однакових заявок, два drainers, один ERP effect; однаковий replay і конфлікт локального idempotency key.
@@ -25,6 +25,8 @@ erp/node_modules/.bin/tsx --tsconfig erp/tsconfig.json --test --test-concurrency
 7. SQLite trigger навмисно відхиляє outbox insert: intake та audit відкочуються разом, повторна спроба створює один повний результат.
 8. Відновлення простроченої lease після actual ERP commit і fencing старого settlement; два реальні delivery → один ERP effect.
 9. Ротація credential у тій самій company зберігає duplicate receipt; credential іншої company не перенаправляє підписаний `target_company_id` і не створює записів у чужому tenant.
+10. Явно погоджена заявка з assistant conversation через actual VPS і п'ять паралельних HTTP повторів створює один запис/consent/origin/outbox та один PostgreSQL lead. Після restart зберігається точний зв'язок; ERP отримує тільки погоджений чинний envelope без chat text/token/conversation ID. Нових identities немає.
+11. Чужа capability не читає й не скасовує заявку; власне скасування до першої відправки переживає restart і блокує реальний ERP effect.
 
 Trusted test dependency переводить лише точний налаштований `https://erp.example.com/api/v1/integrations/<source>/events` на ephemeral loopback HTTP, зберігаючи точні bytes, headers, signature та signal. У scheduler cases process-only fetch fence забороняє всі інші nonloopback адреси. Це **не** тест зовнішнього DNS/TLS, Cloudflare D1 deployment, реального провайдера або production egress. Єдина `site_erp_outbox` зберігає references/fingerprints без копії PII body; термінальні рядки також очищають attribution. Затвердження загальної privacy/retention політики для вихідної заявки лишається окремим release gate.
 

@@ -4,6 +4,7 @@ import {createRequire} from 'node:module';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {assistantDisplayBrowserCase} from './assistant-display-browser-case.mjs';
+import {assistantRequestBrowserCase} from './assistant-request-browser-case.mjs';
 
 const require=createRequire(import.meta.url);
 const output=resolve(process.env.KNABA_ROLE_QA_DIR||'/tmp/knaba-role-browser-evidence');
@@ -756,6 +757,7 @@ async function run(){
   await anonymousInquiryCase(pages.owner,pages.admin);
   await completedCabinetCases(pages);
   await assistantDisplayBrowserCase({browser,fixture,owner:pages.owner,record});
+  await assistantRequestBrowserCase({browser,fixture,owner:pages.owner,record,output});
   assert.deepEqual(receipt.errors,[],'browser JavaScript errors');
   receipt.status='PASS';
 }

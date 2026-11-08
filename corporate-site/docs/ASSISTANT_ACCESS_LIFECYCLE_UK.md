@@ -101,3 +101,100 @@ expiry, може знову відкрити прострочену історі
   review, фінальна збірка та повторні інтеграційні gates на зафіксованому SHA.
 - Цей документ не підтверджує live/provider/browser/device готовність,
   ERP bridge діалогу, WhatsApp transfer, пагінацію inbox чи весь V3/V4 scope.
+
+## 08.11.2026 — явне створення заявки з поточного діалогу
+
+Джерело обсягу: KNB-06/KNB-21 і пункт11 доручення про повне завершення KNABA.
+Ця зміна додає зв'язок web Assistant→наявна заявка→чинна ERP intake queue.
+Вона не надає ERP identity, роль, cookie чи доступ за збігом email.
+
+Користувач явно обирає створення заявки в поточному діалозі. Перехід веде на
+локалізований `/kontakt/?intent=assistant`: у page URL немає ticket, token,
+контактів або chat text. Один лише параметр intent не захоплює поточний ticket.
+Форма використовує збережений при явному переході точний ticket/generation;
+reset, зміна ticket чи його відкликання не можуть підставити інший діалог.
+Загальна публічна чернетка й чернетка цього діалогу розділені.
+
+Форма дозволяє перевірити та змінити власні контактні дані й параметри робіт.
+Вона не вигадує ім'я, адресу чи послугу з тексту бота. Підтвердження передавання
+спочатку не позначене; зміна контексту/мови скидає згоду. Мова ERP envelope береться
+зі збереженої conversation, показується у review і не приймається з довільного
+поля браузера. Конкретний будівельний offer/topic лишається в локальному тексті
+заявки; поточний ERP контракт отримує налаштовану групу послуг `baureinigung`.
+
+### Серверний контракт
+
+| Endpoint | Дія й повноваження |
+|---|---|
+| GET `/api/assistant/conversations/:id/request-context` | Поточна guest capability; контакти свого діалогу й до20safe request summaries, keyset cursor |
+| POST `/api/assistant/conversations/:id/requests` | Поточна writable guest capability, `privacyAccepted:true`, `transferAccepted:true`, валідні поля чинної Inquiry та idempotency key |
+| POST `/api/assistant/conversations/:id/requests/:requestId/cancel` | Та сама guest capability та поточна version; лише власна `new`/`reviewing` заявка |
+| GET `/api/assistant/owner/conversations/:id/request-context` | Чинна серверна owner authority, повторно перевірена перед відповіддю |
+
+Гостьовий заголовок `X-Knaba-Conversation` обов'язковий і не замінюється owner
+cookie. Закритий чат дозволяє читання/скасування раніше створеної заявки за
+живою capability, але не нове створення. Expired/revoked/foreign capability
+повертає404 без приватних даних. Зміна version/state дає409; UI оновлює стан
+перед новим явним рішенням. Після відмови assistant endpoint форма не переходить
+непомітно на public `/api/leads` і не створює другу заявку.
+
+Один SQLite/D1 batch зберігає capability-fenced origin+consent, заявку,
+audit та чинний outbox. Deferred FK не дозволяє залишити origin без заявки.
+UNIQUE `(conversation_id,request_key)` і чинний request idempotency constraint
+не допускають дублювання при паралельних повторах; інший payload з тим самим
+ключем дає409. Перевірки доступу діють у SQL і перед видачею результату.
+
+Consent version `assistant-request-v1/2026-11-08` фіксує перелік полів чинного
+envelope: contact name/email/optional phone, mapped service IDs, мову, тип
+об'єкта, optional площу, індекс у `facts.address` та відому періодичність.
+Окреме поле street address відсутнє у цій формі/DTO і відхиляється assistant API;
+чинний public/portal address контракт збережено. Chat history,
+локальний вільний текст, conversation ID/token і campaign attribution в ERP
+не передаються. `source` для цієї конверсії порожній. Налаштування company,
+service mapping, ключі й увімкнення bridge залишаються виключно серверними.
+
+### Стани, скасування й відновлення
+
+`received:true` означає збереження на сайті. Лише `APPLIED` означає прийнятий
+ERP effect у чинному bridge; `PENDING/LEASED/REVIEW/BLOCKED/UNKNOWN` показуються
+окремо. За вимкненого bridge початковий локальний стан — PENDING без pinned
+mapping; черговий maintenance переводить його в BLOCKED/MAPPING_NOT_PINNED
+без мережевої доставки. Це не обіцянка доставки або дозволена активація сервісу.
+Safe summary містить тільки site request ID, status, version,
+createdAt і transfer status, без ERP effect ID, контактів або error payload.
+
+Скасування локальної заявки не є видаленням уже переданого ERP запису.
+До першої спроби чинний dispatcher блокує відправку; коли відправка вже
+почалася, він зберігає UNKNOWN/можливу доставку для звірки. Уже APPLIED
+receipt зберігається. Закриття або reset діалогу самі по собі не скасовують
+попередню явну згоду на створену заявку; для цього є окрема дія скасування.
+Immutable origin лишається після очищення outbox attribution і restart.
+
+Міграція0017 додає тільки `assistant_request_links`,2indexes і immutable
+trigger; старі заявки не приєднуються до діалогів за email або іншою евристикою.
+Усі22 попередні metadata definitions збережено. Нова definition отримана з
+встановленого Drizzle generator в ізольованому каталозі; чинні VPS-only tables
+не видаляються через відому відмінність ORM і повного історичного snapshot.
+
+Після0017 старий runtime з коротшим migration ledger відмовляє в запуску.
+Звичайний відкат бінарника тому не заявляється працездатним. Для інциденту
+зупинити новий intake/dispatch і виконати reviewed forward fix зі збереженням
+схеми/даних. Передміграційний backup відновлює тільки стан до cutover; він
+не містить наступні заявки. Заміна live DB таким backup без окремого плану
+звірки нових записів не дозволена. Локальний synthetic restore перевіряє
+обидва snapshots у різних файлах, не змінюючи production.
+
+### Межі доказів цього доповнення
+
+Локальний API/SQLite набір до двох review-regressions:36PASS (25conversion+11existing assistant).
+Міграції:26PASS у targeted suite та окремий portal-history restore1PASS.
+Охоплено п'ять паралельних повторів, конфлікт payload, expiry/revoke, відмову
+outbox із повним rollback, CAS, paging та зміну повноважень перед відповіддю.
+Це результати робочого snapshot, а не незмінного release SHA. Source review,
+остаточна збірка й інтегрований CI мають окремий evidence receipt.
+
+Додано2actual VPS→signedHTTP→PostgreSQL cases до чинного bridge suite
+(11загалом); нові cases тут NOT_RUN через відсутність локального PostgreSQL.
+Browser case та6мовний UI також потребують actual browser run. Live provider,
+цільовий сервер, physical devices, privacy/retention approval і весь compound
+KNB-06/21 acceptance цим доповненням не закрито.

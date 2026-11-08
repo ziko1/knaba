@@ -1,5 +1,70 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-08 — Assistant→заявка: інтегрований source та локальні перевірки
+
+Локальний кандидат `6708578bc4c326f727bcde3e84389775b00541fe`, tree
+`64dd56f01ec85b98eb9f1bc83ae52e534a8cdd49`, об'єднує reviewed conversion
+і дві корекції попереднього CI. Усі52 feature files збігаються з незалежно
+перевіреними manifests. UI/root та backend/coverage reviews ACCEPT у source
+і зазначеному SQLite обсязі; compound AC не підвищено.
+
+Після явної дії у віджеті гість заповнює структуровану форму й окремо
+погоджує передавання зазначених полів. Origin/consent/request/audit/existing
+outbox атомарні; retry після втрати відповіді зберігає body/key. Owner бачить
+зв'язок із діалогом. Скасування не стирає вже переданий ERP результат.
+Історія чату, capability і вільний текст не передаються в ERP envelope;
+assistant street address відхиляється, чинний public/portal контракт збережено.
+
+Точний local source: root29, site900Vitest+92Node, VPS281 PASS; check499files,
+0errors/0warnings/6existing hints. Чиста official збірка в окремому Git
+checkout:161pages, JS222640B/CSS40832B gzip, незмінені бюджети225280/40960,
+verify/source catalogue/i18n PASS. Перша workspace збірка мала зайві старі
+hashed chunks і FAIL бюджету; їхній producer не встановлено. Окрема чиста
+збірка з власними кешами — конкретний перевірений результат, не заява про
+усунення невідомої причини. Shared caches/config/budgets не змінено.
+
+Нові2 actualPG bridge cases (11total) та rendered assistant scenario написано,
+але локально NOT_RUN; потрібен зарезервований об'єднаний CI checkpoint.
+Попередній remote `395993f` з native/ERP proofs зафіксований окремо нижче.
+F2 federation залишається ізольованим source; F3 не розпочато. NOT_READY,
+merge/production/providers/physical-device acceptance не виконано.
+
+Докази: `evidence/full-completion-20261108/assistant-request-source-review.json`
+і `assistant-request-local-build.json`. Traceability KNB-06/21 оновлено тільки
+paths/evidence/next action; усі нормативні критерії та статуси збережено.
+
+## 2026-11-08 — третій фактичний checkpoint PR129: native PASS, дві відкриті web перевірки
+
+Remote source `395993f9f6f38141507b5f7e4fd470e953b5c99c`, tree
+`bee1e6d7f47d72dc5afaec51f701603aa23cb9ab`. ERP3029/3029 і root PASS.
+Site834Vitest+92Node, check/build/verify PASS; VPS275/276, один FAIL у
+історичному тесті з hardcoded16migration receipts за фактичних17. Корекція
+порівнює весь упорядкований canonical ledger у live/reopened/restore; окремий
+actualSQLite test PASS, попередні data/history/integrity assertions збережено.
+
+Actual bridge9/9, role browser107, language32, public6locales×4viewports24 PASS.
+Усі4 ERP transfer UI cases FAIL до основної дії: локальний порядок copy
+DE/UK/RU/PL/LT/EN помилково індексувався глобальним DE/EN/PL/LT/RU/UK.
+Actual screenshot показує українські controls на англійській сторінці.
+Виправлення використовує власний typed mapping; actual component SSR
+RED5FAIL/1PASS→GREEN6/6, independent root6PASS. Browser assertions/backend
+незмінні; corrected rendered browser ще NOT_RUN.
+
+iOS actual Xcode26.6/iOS26.5/iPhone17 simulator: **93/93XCTest PASS**,
+install/launch PASS, справжній simulator `.app.zip` SHA256
+`12850604901076e59bf048f4359b58314862c3400321294e5460ee0db705639a`.
+Незалежно звірено43source inputs, ZIP, Info.plist, Mach-O arm64/platform7;
+окремий reviewer прийняв інструкцію передачі. Це не IPA/physical iPhone/liveERP
+acceptance. Android CI SUCCESS; локальний перевірений APK з попереднім debug
+signer збережено окремо від іншого runner signer.
+
+Докази: `second-corrective-aggregate-ci.json`,
+`ci-transfer-locale-and-migration-correction.json`,
+`ios-simulator-artifact-review.json` у `evidence/full-completion-20261108/`.
+Наступний checkpoint об'єднує reviewed Assistant→request із двома виправленнями;
+F2 federation залишається ізольованим. Повний продукт **NOT_READY**, compound
+72AC не підвищено. Production, merge, physical devices і providers не виконані.
+
 ## 2026-11-08 — другий фактичний CI кандидата PR129
 
 Перевірений remote source `adfa64b45179fcb2b59cd723351695a57d35652a`, tree

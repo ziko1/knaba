@@ -1,11 +1,13 @@
 import {useCallback,useEffect,useId,useRef,useState} from 'react';
 import {Button} from '../../../packages/ui/index';
-import {languages,type Language} from '../../../packages/i18n/index';
+import type {Language} from '../../../packages/i18n/index';
 import {api,ApiError} from './api';
 
 type TransferState='ISSUED'|'CLAIMED'|'CONFIRMED'|'CANCELLED'|'EXPIRED'|'CONFLICT';
 interface TransferStatus {id:string;channelId:string;state:TransferState;version:number;expiresAt:string;sender?:string}
-const copy:Record<string,string[]>={
+// Copy has its own declared order; the language selector has a different order.
+const copyIndex:Record<Language,number>={DE:0,UK:1,RU:2,PL:3,LT:4,EN:5};
+const copy:Record<string,[string,string,string,string,string,string]>={
  title:['Auf WhatsApp fortsetzen','Продовжити у WhatsApp','Продолжить в WhatsApp','Kontynuuj w WhatsApp','Tęsti per WhatsApp','Continue in WhatsApp'],
  intro:['Dieser private Chat bleibt derselbe. Senden Sie den einmaligen Code in WhatsApp und bestätigen Sie danach hier Ihre Nummer.','Ця приватна розмова залишиться тією самою. Надішліть одноразовий код у WhatsApp, а потім підтвердьте тут свій номер.','Это останется тем же личным чатом. Отправьте одноразовый код в WhatsApp, затем подтвердите здесь свой номер.','To pozostanie ten sam prywatny czat. Wyślij jednorazowy kod w WhatsApp, a następnie potwierdź tutaj swój numer.','Tai liks tas pats privatus pokalbis. Išsiųskite vienkartinį kodą per WhatsApp, tada čia patvirtinkite savo numerį.','This stays the same private conversation. Send the one-time code in WhatsApp, then confirm your number here.'],
  start:['Übergang vorbereiten','Підготувати перехід','Подготовить переход','Przygotuj przejście','Paruošti perėjimą','Prepare transfer'],
@@ -44,7 +46,7 @@ function checkedLink(value:unknown,status:TransferStatus):string {
 export default function GuestConversationTransfer({channelId,language,online}:{channelId:string;language:Language;online:boolean}){
  const headingId=useId(),sequence=useRef(0),working=useRef(false),current=useRef<TransferStatus|undefined>(undefined);
  const [status,setStatus]=useState<TransferStatus>(),[link,setLink]=useState<string>(),[available,setAvailable]=useState<boolean>(),[busy,setBusy]=useState(false),[consent,setConsent]=useState(false),[error,setError]=useState<string>(),[now,setNow]=useState(Date.now());
- const text=(key:string)=>copy[key]?.[languages.indexOf(language)]??copy[key]?.[5]??key;
+ const text=(key:string)=>copy[key]?.[copyIndex[language]]??copy[key]?.[copyIndex.EN]??key;
  const accept=useCallback((next:TransferStatus|undefined)=>{const before=current.current;if(before?.id!==next?.id||before?.version!==next?.version||before?.sender!==next?.sender)setConsent(false);if(before?.id!==next?.id||next?.state!=='ISSUED')setLink(undefined);current.current=next;setStatus(next);setNow(Date.now());},[]);
  const failure=useCallback((reason:unknown)=>{const code=reason instanceof ApiError?reason.code:'';if(['NEEDS_REAUTH','ACCESS_DENIED','NOT_FOUND_SAFE'].includes(code)){accept(undefined);setLink(undefined);setAvailable(false);setError('denied');}else{setError(code==='RATE_LIMITED'?'limit':code==='VERSION_CONFLICT'?'changed':'error');setConsent(false);}},[accept]);
  const refresh=useCallback(async()=>{if(!online||working.current)return;const generation=++sequence.current;try{const result=await api<{available:boolean;transfer:unknown}>(`/api/v1/public/chat/${encodeURIComponent(channelId)}/transfer`,{cache:'no-store'});if(generation!==sequence.current)return;setAvailable(result.available===true);accept(result.transfer===null?undefined:checkedStatus(result.transfer,channelId));setError(undefined);}catch(reason){if(generation===sequence.current)failure(reason);}},[channelId,online,accept,failure]);

@@ -2,6 +2,7 @@ import { assistantAnswer, assistantLocale } from '../src/lib/assistant-knowledge
 import type { WorkerEnv, D1Database, D1Statement, WorkerContext } from './types';
 import { drainOwnerNotifications,notificationDeliveryEnabled, type NoticeKind } from './notifications';
 import { captchaConfig, verifyCaptcha } from './turnstile';
+import {AssistantRequestFault,assistantRequestPage,cancelAssistantRequest,type AssistantRequestAuthority} from './assistant-requests';
 
 /** Scoped public conversations + owner inbox. Never trust client-provided identity or role. */
 type Row = Record<string, unknown>;
@@ -17,6 +18,7 @@ const newId = () => crypto.randomUUID();
 class Fault extends Error {
   constructor(readonly status: number, readonly code: string, message: string) { super(message); }
 }
+export {Fault as AssistantFault};
 function fail(status: number, code: string, message: string): never { throw new Fault(status,code,message); }
 function reply(body: unknown, status=200): Response {
   return new Response(JSON.stringify(body),{status,headers:{
@@ -128,6 +130,31 @@ async function requireConversation(db:D1Database,id:string,request:Request,owner
   if(!token || !/^[0-9a-f]{64}$/.test(token))fail(404,'not_found','Gespräch nicht gefunden.');
   return {db,id,tokenHash:await digest(token)};
 }
+function requestAuthority(access:ConversationAccess):AssistantRequestAuthority {
+  return Object.freeze({db:access.db,id:access.id,
+    async assert(writable=false){
+      const row=await readConversation(access,writable);
+      if(!['assistant','human','closed'].includes(String(row.status)))fail(503,'unavailable','Der Gesprächsstatus ist derzeit nicht verfügbar.');
+      return row;
+    },
+    fence(writable=false){
+      const fence=accessExists(access,writable);
+      if(writable)fence.sql+=` AND EXISTS (SELECT 1 FROM assistant_conversations cap_state WHERE cap_state.id=? AND cap_state.status IN ('assistant','human'))`;
+      if(writable)fence.values.push(access.id);
+      return fence;
+    },
+  });
+}
+/** An authenticated site/owner cookie never substitutes for this guest proof. */
+export async function guestRequestAuthority(request:Request,env:WorkerEnv,id:string):Promise<AssistantRequestAuthority> {
+  const access=await requireConversation(database(env),id,request,{isOwner:false,id:null});
+  const authority=requestAuthority(access);await authority.assert(true);return authority;
+}
+async function requestContext(request:Request,access:ConversationAccess):Promise<Response> {
+  const authority=requestAuthority(access),page=await assistantRequestPage(authority,new URL(request.url).searchParams.get('requestCursor'));
+  const row=await authority.assert();
+  return reply({conversation:{id:row.id,locale:row.locale,status:row.status,contactName:row.contact_name,contactEmail:row.contact_email,contactPhone:row.contact_phone},...page});
+}
 function conversationView(row:Row) {
   return {id:row.id,locale:row.locale,status:row.status,contactName:row.contact_name,contactEmail:row.contact_email,contactPhone:row.contact_phone,createdAt:row.created_at,updatedAt:row.updated_at,expiresAt:row.token_expires_at,revokedAt:row.token_revoked_at};
 }
@@ -137,9 +164,10 @@ async function thread(access:ConversationAccess):Promise<Response> {
   const messages=(await access.db.prepare(`SELECT id,sender,kind,content,created_at AS createdAt,guest_displayed_at AS guestDisplayedAt FROM assistant_messages WHERE conversation_id=? AND ${fence.sql} ORDER BY created_at ASC,rowid ASC LIMIT ?`).bind(access.id,...fence.values,MAX_HISTORY).all<Row>()).results||[];
   fence=accessExists(access);
   const offers=(await access.db.prepare(`SELECT id,content,state,created_at AS createdAt,decided_at AS decidedAt FROM assistant_offers WHERE conversation_id=? AND ${fence.sql} ORDER BY created_at DESC,rowid DESC LIMIT 20`).bind(access.id,...fence.values).all<Row>()).results||[];
+  const requests=await assistantRequestPage(requestAuthority(access));
   // A revocation between reads must not release the already assembled private payload.
   const row=await readConversation(access);
-  return reply({conversation:conversationView(row),messages,offers});
+  return reply({conversation:conversationView(row),messages,offers,...requests});
 }
 async function guestDisplayed(request:Request,env:WorkerEnv,id:string,owner:Owner):Promise<Response>{
   // An owner cookie never substitutes for this conversation's current guest capability.
@@ -414,6 +442,8 @@ export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,
       return reply({...delivery,enabled:notificationDeliveryEnabled(env)});
     }
     if(path==='/api/assistant/owner/conversations'&&request.method==='GET')return await inbox(request,env,owner);
+    const ownerRequestContext=path.match(/^\/api\/assistant\/owner\/conversations\/([0-9a-f-]{36})\/request-context$/i);
+    if(ownerRequestContext&&request.method==='GET')return await requestContext(request,await requireConversation(database(env),ownerRequestContext[1],request,owner,true));
     const ownerThread=path.match(/^\/api\/assistant\/owner\/conversations\/([0-9a-f-]{36})$/i);
     if(ownerThread&&request.method==='GET'){
       const db=database(env);return await thread(await requireConversation(db,ownerThread[1],request,owner,true));
@@ -429,6 +459,14 @@ export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,
     if(threadMatch&&request.method==='GET'){
       const db=database(env);return await thread(await requireConversation(db,threadMatch[1],request,owner));
     }
+    const guestRequestContext=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/request-context$/i);
+    if(guestRequestContext&&request.method==='GET')return await requestContext(request,await requireConversation(database(env),guestRequestContext[1],request,owner));
+    const cancelRequest=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/requests\/([0-9a-f-]{36})\/cancel$/i);
+    if(cancelRequest&&request.method==='POST'){
+      const authority=requestAuthority(await requireConversation(database(env),cancelRequest[1],request,owner));
+      await authority.assert();const body=await bodyOf(request);fields(body,['version']);
+      return reply({conversationId:authority.id,request:await cancelAssistantRequest(authority,cancelRequest[2],body.version)});
+    }
     const messageMatch=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/(messages|handoff)$/i);
     if(messageMatch&&request.method==='POST')return await flushAfter(messageMatch[2]==='messages'?guestMessage(request,env,messageMatch[1],owner):handoff(request,env,messageMatch[1],owner),env,ctx);
     const displayedMatch=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/displayed$/i);
@@ -437,7 +475,7 @@ export async function handleAssistant(request:Request,env:WorkerEnv,owner:Owner,
     if(decisionMatch&&request.method==='POST')return await flushAfter(decide(request,env,decisionMatch[1],decisionMatch[2],owner),env,ctx);
     return reply({error:{code:'not_found',message:'Nicht verfügbar.'}},404);
   } catch(error) {
-    if(error instanceof Fault)return reply({error:{code:error.code,message:error.message}},error.status);
+    if(error instanceof Fault||error instanceof AssistantRequestFault)return reply({error:{code:error.code,message:error.message}},error.status);
     if(error && typeof error==='object' && 'code' in error && error.code==='session_revoked')
       return reply({error:{code:'forbidden',message:'Nur der Inhaber kann diese Daten sehen.'}},403);
     return reply({error:{code:'unavailable',message:'Der Dienst ist derzeit nicht verfügbar.'}},503);
