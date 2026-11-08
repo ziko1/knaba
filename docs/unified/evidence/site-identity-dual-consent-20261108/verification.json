@@ -310,6 +310,51 @@
       "log_sha256": "a80472fb73c5bab1903601c21d1ee9062442a80038cb17a3aba9c4f2f62caf6c"
     },
     "review": "SOURCE_ACCEPTED_BY_INDEPENDENT_REVIEWER",
-    "hosted": "PENDING_EXACT_SOURCE"
+    "hosted": "PASS_AT_1a6e837"
+  },
+  "acceptance": {
+    "status": "PASS_SYNTHETIC_HTTP_POSTGRESQL_SCOPE",
+    "source": "1a6e837de7a351a67bf4bef3bda00961aed19d83",
+    "tree": "0bf71d43846899fd288c01b95a5f52f8a55d7977",
+    "run": 42472941316,
+    "required_jobs": "ALL_FOUR_SUCCESS",
+    "bridge": {
+      "tests": 31,
+      "pass": 31,
+      "fail": 0,
+      "skip": 0,
+      "f2_cases": 22
+    },
+    "erp": {
+      "tests": 2782,
+      "files": 120,
+      "postgresql": "17.6_ACTUAL"
+    },
+    "site": {
+      "vitest": 732,
+      "node": 90,
+      "vps": 268
+    },
+    "root": {
+      "tests": 30
+    },
+    "logs": {
+      "identity-f2-42472941316-site.log": {
+        "bytes": 135535,
+        "sha256": "79b40edf98746250b5d640f95d0aa7bd61c06c9e214974f222b4593306cacb57"
+      },
+      "identity-f2-42472941316-bridge.log": {
+        "bytes": 79946,
+        "sha256": "eca2937b0b618fb2be596072b3abefff416adc6239da0a874ac2a6d0cda848a7"
+      },
+      "identity-f2-42472941316-root.log": {
+        "bytes": 40684,
+        "sha256": "9d7a83221b1d0dcf531335d174fb9e7393e48139b85351dc9fb408b353ed37db"
+      },
+      "identity-f2-42472941316-erp.log": {
+        "bytes": 102762,
+        "sha256": "b891af2e5b0ed17d1c57a240a57851b3444d5ebabf72781880d87b3335079e76"
+      }
+    }
   }
 }

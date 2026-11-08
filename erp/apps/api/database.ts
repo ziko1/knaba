@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { DomainError, Entity, Transaction, Data } from '../../packages/domain/core.ts';
 import {gpsCoordinates,gpsMetadata} from '../../packages/domain/gps.ts';
+import {beginRequestAuthority,finishRequestAuthority,committedRequestAuthority} from './request-authority.ts';
 const migrationPath=new URL('../../infra/001_init.sql',import.meta.url);
 export async function assertGpsStorageSafe(runner:{query:(sql:string,params?:any[])=>Promise<any>},companyId?:string){await runner.query('SELECT knaba_assert_gps_storage_safe($1::text)',[companyId??null]);}
 export class PgTransaction implements Transaction {
@@ -47,9 +48,12 @@ export class Database{
     if(deadline!==undefined){const remaining=deadline-Date.now();if(remaining<=0)throw new DomainError('TRANSACTION_TIMEOUT');await c.query("SELECT set_config('statement_timeout',$1,true),set_config('lock_timeout',$1,true)",[String(remaining)+'ms']);}
     await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',[companyId]);
     await c.query('SELECT pg_advisory_unlock(hashtext($1))',[companyId]);sessionLocked=false;
-    const result=await fn(new PgTransaction(c,companyId,actorId));
+    const tx=new PgTransaction(c,companyId,actorId);
+    const authority=await beginRequestAuthority(tx,actorId);
+    const result=await fn(tx);
+    await finishRequestAuthority(authority,result);
     if(deadline!==undefined&&Date.now()>=deadline)throw new DomainError('TRANSACTION_TIMEOUT');
-    await c.query('COMMIT');return result;
+    await c.query('COMMIT');committedRequestAuthority(authority);return result;
    }catch(e:any){try{await c.query('ROLLBACK');}catch{destroy=true;}if((e.code==='40001'||e.code==='40P01')&&attempt<2)continue;throw e;
    }finally{try{if(sessionLocked)await c.query('SELECT pg_advisory_unlock(hashtext($1))',[companyId]);await c.query("RESET statement_timeout");await c.query("RESET lock_timeout");}catch{destroy=true;}c.release(destroy);}
   }

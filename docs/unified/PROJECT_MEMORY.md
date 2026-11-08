@@ -1,5 +1,15 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — F4-A local session/device authority candidate
+
+Ізольована гілка `feat/knaba-session-authority-20261108` від accepted F2 `1a6e837de7a351a67bf4bef3bda00961aed19d83`: обов’язковий HTTP request context, перевірки original cookie/device до та після business transaction і перед відповіддю; logout під company lock; exact committed ACK для власного logout/password/MFA/device retirement. Виправлено final media-copy selection і SSE slot cleanup. Поведінка idempotent recovery зі свіжим входом того самого користувача збережена. [Контракт](REQUEST_AUTHORITY_2026-11-08_UK.md), [input/test evidence](evidence/request-authority-20261108/verification.json).
+
+Локально16 guard CPU +45 operations +114 existing focused tests PASS; фактичний Nest HTTP smoke використовує явні SQL/Engine doubles. Незалежно підготовлено22 actual PostgreSQL/HTTP cases; до hosted exact-source запуску вони NOT_RUN. Runtime/schema/production activation для F3 не додано. F3, повний F4 cross-system revocation/policy/retention/background і F5 browser/device/company acceptance залишаються OPEN; whole product NOT_READY.
+
+## 08.11.2026 — F2 actual SQL/HTTP acceptance
+
+Source `1a6e837de7a351a67bf4bef3bda00961aed19d83`, tree `0bf71d43846899fd288c01b95a5f52f8a55d7977`: [CI42472941316](https://github.com/ziko1/knaba/actions/runs/42472941316), усі4 required jobs PASS; bridge31 (22 F2 +9 intake), ERP2782/120 files, site732+90+268, root30, без failed/skipped acceptance. Перший fixture failure40e31ac збережено, production runtime/schema при корекції не змінено. [Evidence](evidence/site-identity-dual-consent-20261108/verification.json). F3–F5 та whole product NOT_READY; F4 local-session fence є наступним independent code slice, спільних sessions ще немає.
+
 ## 08.11.2026 — F2 dual-consent candidate; PostgreSQL acceptance pending
 
 У чинному Draft PR128 від `a670ff0be70abd1bb8f07065e237b5e3de8a7a84` реалізовано явну прив’язку двох акаунтів: повторний ERP password/MFA, первинні сесії обох сторін, signed online exchange, показ exact account/company перед згодою, атомарні ERP binding/challenge/audit, recovery після втрати відповіді, unlink без доступного peer і same-user relink наступним поколінням. Ролі, memberships і нові federated sessions не видаються. [Контракт, міграція та межі](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md); [source/input evidence](evidence/site-identity-dual-consent-20261108/verification.json).
