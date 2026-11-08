@@ -21,6 +21,7 @@
     "test:artifact": "node --test tests/verify-live-artifact.test.mjs",
     "test:logo:browser": "node tests/knaba-logo-browser.cjs",
     "test:roles:browser": "node tests/role-cabinets-browser.mjs",
+    "test:recovery:browser": "node tests/password-recovery-browser.mjs",
     "test:articles:browser": "node tests/studio-article-browser.cjs",
     "i18n:extract": "node scripts/i18n-source-catalog.mjs extract",
     "i18n:draft": "node scripts/i18n-source-catalog.mjs draft",

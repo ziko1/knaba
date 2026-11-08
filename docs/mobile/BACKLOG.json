@@ -510,5 +510,41 @@
       "documentationHeadIsSeparateFromTestedSource": true,
       "countRule": "Preserved pre-CI subsets overlap these final suites and are not added again."
     }
+  },
+  "releaseNextStep20261108": {
+    "baselineGitSha": "e57be50eb833bbb6c86d0ed4809d0756e793073a",
+    "branch": "feat/knaba-release-continuation-20261108",
+    "status": "LOCAL_SCOPED_SOURCE_VERIFIED_BROWSER_AND_DEVICE_ACCEPTANCE_BLOCKED",
+    "productStatus": "NOT_READY",
+    "releaseDecision": "HOLD",
+    "frozenNativeSourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+    "nativeVersion": "0.5.2",
+    "nativeBuild": 9,
+    "newNativeArtifacts": false,
+    "releaseShaGuard": {
+      "localFocusedPassed": 262,
+      "failed": 0,
+      "skipped": 0,
+      "independentReview": "PASS_SCOPED",
+      "sourcePatchSha256": "21105df7660d5af90f02af98f0f6700898f6bf9a6caea2c1cc910bc81da36f93"
+    },
+    "browser": {
+      "attempt1": "FAIL_SETUP",
+      "attempt2": "BLOCKED_POLICY_OR_SANDBOX",
+      "completedChecks": 0,
+      "screenshots": 0,
+      "v2BrowserExecution": "NOT_RUN",
+      "furtherChromiumAttemptsInObservedEnvironment": 0
+    },
+    "physicalAndroid": "BLOCKED_NO_CONNECTED_DEVICE",
+    "androidEmulator": "BLOCKED_KVM_PERMISSION",
+    "stableAndroidSigner": "BLOCKED_UNPROVEN_CONTINUITY",
+    "physicalIOS": "BLOCKED_OWNER_SIGNING_AND_DEVICE",
+    "testCompanyAcceptance": "BLOCKED_UNVERIFIED_IDENTITY_VERSION_PAIR",
+    "originalCriteriaPromoted": false,
+    "newPaidServicesActivated": false,
+    "ciAtThisCheckpoint": "PENDING_POST_PUBLICATION; record exact source/results in PR137 and final handoff annex",
+    "contract": "../unified/RELEASE_NEXT_STEP_2026-11-08_UK.md",
+    "automaticNativeCi": "POSSIBLE_CUMULATIVE_PR_TRIGGER; one existing 30+50min run and 1day artifacts reserved, separately recorded"
   }
 }
