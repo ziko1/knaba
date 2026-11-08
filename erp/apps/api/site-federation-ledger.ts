@@ -2,6 +2,7 @@ import {z} from 'zod';
 import {assert,DomainError} from '../../packages/domain/core.ts';
 import {activateEpochSchema,activateSourceEpoch,assertCurrentSourceSession,federationEpoch,federationRef,federationSubject,federationUuid,fenceSchema,fenceSourcePrincipal,fenceSourceSession,registerSourceSession,sourceReferenceSchema,sourceSessionSchema,type FederationPrincipal,type FederationSourceSession,type SourceReference} from '../../packages/domain/site-federation-ledger.ts';
 import {authorityFingerprint,isVerifiedFederationRequest,type FederationAuthority,type VerifiedFederationRequest} from '../../packages/integrations/site-federation-protocol.mjs';
+import {FEDERATION_LOGIN_ACTIONS} from '../../packages/integrations/site-federation-login-protocol.mjs';
 import {sql,type DatabaseLike,type SqlTransaction} from './auth.ts';
 import {FederationAuthorities} from './site-federation-config.ts';
 
@@ -112,7 +113,7 @@ export class SiteFederationLedger {
    const input=activateEpochSchema.parse(payload),p=await this.principalIn(tx,c,input.subject),next=activateSourceEpoch(p,input,c.policyVersion);
    await this.savePrincipal(tx,c,next,p);await this.bump(tx,c);return {subject:input.subject,epoch:input.epoch,principalVersion:next.version};
   }
-  assert(other&&['INSPECT_CHALLENGE','CLAIM','LINK_STATUS'].includes(action),'VALIDATION_ERROR');return other(tx,r,c,current(row));
+  assert(other&&['INSPECT_CHALLENGE','CLAIM','LINK_STATUS',...FEDERATION_LOGIN_ACTIONS].includes(action),'VALIDATION_ERROR');return other(tx,r,c,current(row));
  }
  private async fenceIn(tx:SqlTransaction,c:FederationAuthority,r:VerifiedFederationRequest){
   const input=fenceSchema.parse(r.envelope.payload);

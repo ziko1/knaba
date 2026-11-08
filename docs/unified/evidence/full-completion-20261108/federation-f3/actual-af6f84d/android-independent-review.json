@@ -1,0 +1,775 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "createdAt": "2026-11-08T16:44:28.808556+00:00",
+  "verdict": "ACCEPT_ANDROID_CI_ARTIFACT_SCOPED",
+  "scope": "Actual downloaded Android CI build/test/package evidence and independent static cryptographic package verification only; no device, upgrade or release readiness.",
+  "sourceSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "sourceTree": "e49cb0d12a47b1f2aa43ae9966b3c8ef26aeda0f",
+  "ciOrigin": {
+    "run": {
+      "id": 42499230893,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42499230893",
+      "runAttempt": 1,
+      "createdAt": "2026-11-08T16:18:41Z",
+      "updatedAt": "2026-11-08T16:21:46Z"
+    },
+    "jobId": 128788133075,
+    "jobIdEvidence": "Independently inspected cached GitHub job metadata: job/run/source identity and all12 successful steps. No reviewer network request.",
+    "artifactId": 13624532586,
+    "runMetadata": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/run-set.json",
+      "sha256": "daf22a2dbced959e13f2f6f1d1e25ab9cfb08ea983615765998bfe37423fbdb4",
+      "bytes": 1967
+    },
+    "downloadMetadata": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/downloaded-archives.json",
+      "sha256": "d288e8c06177717bb81c7de12b78f09757da28ff0834252e95e0c26b6de427dc",
+      "bytes": 3116
+    },
+    "workflow": {
+      "path": ".github/workflows/native.yml",
+      "sha256": "6cfbfd0db47f4db8a94e26aa4a7ffebee0fa0a88e5ea833de227c6e4a631dc81",
+      "matchesExactCommit": true
+    },
+    "jobMetadata": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-github-jobs.json",
+      "sha256": "009ae1605ef4d803e2ff6f73a61a2a9766a06220df555af064148cda1be27106",
+      "bytes": 2376
+    },
+    "job": {
+      "id": 128788133075,
+      "name": "Android debug APK, lint and regression tests",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 42499230893,
+      "logs_url": null
+    },
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Verify source and SDK 36 toolchain",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Resolve the pinned JVM fixture dependency",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test and package APK and App Bundle",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "all12StepsSuccessful": true
+  },
+  "archive": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-af6f84d.zip",
+    "sha256": "06cc924608fd3ff06aad2cea81f3850b9aeed919038eeed5799d4c552c225fa6",
+    "bytes": 2495338,
+    "zipCrc": "PASS",
+    "entries": 38,
+    "uniqueSafeNames": true,
+    "symlinks": false,
+    "allExtractedBytesMatch": true
+  },
+  "existingProvenance": {
+    "receipt": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/receipt.json",
+      "sha256": "9e59f6b73f04597381dd13f7c34f73db896dacfd0ec4bd16e1fbe67ca5a45976",
+      "bytes": 11957
+    },
+    "source": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/source.json",
+      "sha256": "ac9e4dbe1251d89029fdfad407e63906bbc34915f34a80e4cb7ec0540d255573",
+      "bytes": 10716
+    },
+    "sourceAndReceiptFieldsMatch": true,
+    "capturedSourceWorkingTree": false,
+    "captureScope": "Android module subtree, not an assertion about all repository working files.",
+    "trackedAndroidInputs": 67,
+    "verificationInputs": 1,
+    "all68MatchExactGitBlobs": true,
+    "allTrackedAndroidFilesCovered": true,
+    "inputs": [
+      {
+        "path": "erp/apps/mobile-android/.gitignore",
+        "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/MEDIA_UK.md",
+        "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/README.md",
+        "sha256": "c0284f5dde20e488412add15e5f5355586faa2a57a61c0d1459fc571d4e3a48f",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/build.gradle.kts",
+        "sha256": "81cce0701e972fc365b5342079322c09a3652085f1ca938d416e375013ba5b83",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+        "sha256": "da810639b116ac88db73c740e2d2798f72d4f386c85c60edc73ce4b7bdcf158c",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ApiClient.kt",
+        "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+        "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+        "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+        "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleModules.kt",
+        "sha256": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+        "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt",
+        "sha256": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+        "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+        "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+        "sha256": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+        "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+        "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+        "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+        "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+        "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpReadRetry.java",
+        "sha256": "050f3ea5bff0c21a9f3a21d27184a368df9123fc2a460b2fe59dcaed152e0635",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java",
+        "sha256": "d0c45b22eb3f527895997700ef238204ee2e4bc6d232e23e409cf3e44362c400",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GenerationFence.java",
+        "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+        "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+        "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+        "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+        "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeText.kt",
+        "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+        "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+        "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ShiftClock.java",
+        "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/TrackingService.kt",
+        "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba.xml",
+        "sha256": "cd623da01ca07e7df07ad9b6dcac6d1d1efb2a05893a9b2616a5d1d7f0cd1c60",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/ic_knaba_brand.png",
+        "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba.xml",
+        "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba_round.xml",
+        "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+        "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+        "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+        "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+        "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+        "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+        "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/xml/data_extraction_rules.xml",
+        "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+        "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+        "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+        "sha256": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+        "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/build.gradle.kts",
+        "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/gradle/wrapper/gradle-wrapper.properties",
+        "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/gradle.properties",
+        "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/gradlew",
+        "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/gradlew.bat",
+        "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/VerifyAppBundle.java",
+        "sha256": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/fixtures/DemoConsoleTransportVectors.java",
+        "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/package.sh",
+        "sha256": "9e36d3de356c73279d06ebe68aeddda7e32409c26e7b5b1ca5e1c7f9cc990a34",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/test-app-bundle.py",
+        "sha256": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+        "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/test-localization.sh",
+        "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+        "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/test-vectors.sh",
+        "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+        "sha256": "8a74f3065a07290bb6572ea5168ec56847dd457faafb3c343dd35f065f39fdcc",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpCredentialSafetyTest.java",
+        "sha256": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+        "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+        "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+        "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpServerDiscoveryTest.java",
+        "sha256": "4b5a4e2939d3c8c4642e3516a8d75a9ee2bd011e7097c0ed8f1231c7c64d37d4",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/apps/mobile-android/settings.gradle.kts",
+        "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34",
+        "category": "sourceFiles"
+      },
+      {
+        "path": "erp/tests/native-vectors.json",
+        "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+        "category": "verificationInputs"
+      }
+    ],
+    "sha256Sums": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/SHA256SUMS",
+      "sha256": "2362e9274b0ff082c6c44e6f4cc892e1a1d7e465d3cf0dacbfbd2cea9be802bb",
+      "bothArtifactEntriesMatch": true
+    }
+  },
+  "artifacts": {
+    "apk": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.apk",
+      "sha256": "314f674ecc87488321b8bf593e6a6d1ff0741533660f0206c991a3f7cd16a715",
+      "bytes": 3043538,
+      "package": "de.knaba.mobile.test",
+      "versionName": "0.5.0-test",
+      "versionCode": 8,
+      "minSdk": 31,
+      "targetSdk": 36,
+      "variant": "debug/prototype",
+      "launcher": "de.knaba.mobile.ErpConsoleActivity",
+      "standalone": true,
+      "testOnly": false,
+      "nativeLibraries": [],
+      "zipCrc": "PASS",
+      "v2Signature": "PASS",
+      "alignment4Bytes": "PASS",
+      "staticInstallerChecks": "PASS_NOT_DEVICE_INSTALL"
+    },
+    "aab": {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.aab",
+      "sha256": "4ad591fc3f033fd1a8b10e64039877225455c71333da878de5714b3b1d3253e2",
+      "bytes": 1014958,
+      "signature": "PASS",
+      "signerMatchesApk": true,
+      "signedPayloadEntries": 21,
+      "baseModulePresent": true,
+      "zipCrc": "PASS",
+      "directAndroidInstallerArtifact": false,
+      "playUpload": "NOT_RUN"
+    }
+  },
+  "signing": {
+    "classification": "EPHEMERAL_CI_DEBUG_EVALUATION_ONLY",
+    "certificateSha256": "534be1abf24e67a8abc2bd1978529085c236664685964c78602c8bfed9e4922c",
+    "preservedLocalCertificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+    "sameAsPreservedLocalCertificate": false,
+    "expectedCertificatePinInCi": "NOT_REQUESTED",
+    "apkSignatureSchemes": {
+      "v1": false,
+      "v2": true,
+      "v3": false,
+      "v3_1": false,
+      "v4": false
+    },
+    "upgradeConclusion": "No install or upgrade test was performed. This differing CI certificate is not evidence of update compatibility with the preserved local-signer installation; do not present it as that update artifact.",
+    "productionOrStoreSigning": false
+  },
+  "ciExecutionEvidence": {
+    "build": {
+      "result": "BUILD SUCCESSFUL",
+      "tasksExecuted": 65,
+      "scope": ":app:assembleDebug :app:bundleDebug :app:lintDebug :app:testDebugUnitTest",
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/build.log",
+        "sha256": "1759485fb00fea0cb008aee6c7cb635fc52541340cfe12909284d9e1ca070e56",
+        "bytes": 5012
+      }
+    },
+    "frameworkAndJvmSuites": [
+      {
+        "suite": "de.knaba.mobile.ConsoleMediaScreenTest",
+        "tests": 13,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "timestamp": "2026-11-08T16:21:11.409Z",
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleMediaScreenTest.xml",
+          "sha256": "a1c308dbf4d95c811d9f790157df5a530d8f202ec5cf0ecfcc437a18dd994691",
+          "bytes": 2353
+        }
+      },
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 9,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "timestamp": "2026-11-08T16:21:23.602Z",
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+          "sha256": "cc37d5cd7a551f0cfe7564982b6a7afa45aa02904398f72df9a02e34fa1d99f9",
+          "bytes": 1666
+        }
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 49,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "timestamp": "2026-11-08T16:21:23.960Z",
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+          "sha256": "9ddecad89c7c5a0dee4ce38f51d8f681a1d0c9adf85f2e62e00819a07fbc2c4b",
+          "bytes": 7202
+        }
+      },
+      {
+        "suite": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "timestamp": "2026-11-08T16:21:36.992Z",
+        "evidence": {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.LauncherIconTest.xml",
+          "sha256": "b3ec71eb692be1986856d1e2f81a16c9de535f8a7b8173e9720c28ff3d8f1cb2",
+          "bytes": 457
+        }
+      }
+    ],
+    "testTotals": {
+      "suites": 4,
+      "tests": 72,
+      "passed": 72,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "duplicateCaseIdentities": 0
+    },
+    "testScope": "Local JVM/Android framework tests including Robolectric with declared doubles; not emulator/device execution.",
+    "lint": {
+      "errors": 0,
+      "warnings": 24,
+      "issueIds": {
+        "OldTargetApi": 1,
+        "UnusedAttribute": 2,
+        "QueryPermissionsNeeded": 1,
+        "AndroidGradlePluginVersion": 1,
+        "NewerVersionAvailable": 1,
+        "PluralsCandidate": 4,
+        "ObsoleteSdkInt": 1,
+        "UnusedResources": 11,
+        "MonochromeLauncherIcon": 2
+      },
+      "xml": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/app/build/reports/lint-results-debug.xml",
+        "sha256": "a9e338ac6f7b11d1ff194e3d9f98f5d83a684f8010c1d338d2960561d3044631",
+        "bytes": 32476
+      },
+      "text": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/app/build/reports/lint-results-debug.txt",
+        "sha256": "dfdecb660efef5b241116dca060ccf48e00f9aa673dc7785a948d847768df376",
+        "bytes": 15798
+      }
+    },
+    "hostChecks": {
+      "transportAssertions": 76,
+      "mediaAssertions": 71,
+      "ioAssertions": 17,
+      "credentialTests": 10,
+      "credentialAssertions": 30,
+      "discoveryAssertions": 109,
+      "demoChecks": 38,
+      "geofenceVectors": 30,
+      "localeClockVectors": 39,
+      "localeStrings": 347,
+      "locales": 6,
+      "pdfMemoryProbe": "20MiB original;27962122 JSON bytes;96MiB JVM heap. Host streaming sink only, not device RSS.",
+      "logs": [
+        {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/transport.log",
+          "sha256": "42a692c0de98e37d3890eed0078418b7b08be703d0c3afdcb9900a1e0d1ecf14",
+          "bytes": 596
+        },
+        {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/demo.log",
+          "sha256": "1f47accf26011f7096f971e78e50fc236d2abacaea0b615cf0555f5d0597d772",
+          "bytes": 90
+        },
+        {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/java-vectors.log",
+          "sha256": "741bf5a05f56e818bb62170e1707977d0cc873d8fd0a1c4259c4742e02b2e53c",
+          "bytes": 109
+        },
+        {
+          "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/localization.log",
+          "sha256": "d1ef7e16c8e89789f71adce1be524e63df3b61d4acf73549b7a609646594dc6d",
+          "bytes": 286
+        }
+      ]
+    },
+    "aabIntegrityCases": {
+      "count": 5,
+      "evidence": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/bundle-integrity-tests.json",
+        "sha256": "1f5a2e9506cec48d93ad427ae5c5b40c996f3e4a50aad6576f2087bd355cd240",
+        "bytes": 182
+      },
+      "scope": "CI executed original-signature/wrong-signer/tampered-dex/unsigned-extra/missing-manifest cases; not independently rerun."
+    },
+    "toolchainEvidence": [
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/evidence/java-version.txt",
+        "sha256": "aa8b8c37cfb8295d241a736330151318fe156c8937b464a27b2c21d638db1862",
+        "bytes": 183
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/evidence/gradle-version.txt",
+        "sha256": "802ca8b194247ef7013aa0d516f1273959db4e3c80e01dcd84f51a2e0fb54578",
+        "bytes": 816
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/evidence/sdk-build-tools.txt",
+        "sha256": "084847d70abc41284feee7ea717e7c92eab0d1be05f048c27445a359cfe109d8",
+        "bytes": 63
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/evidence/sdk-platform.txt",
+        "sha256": "72291ff6611dbfc46fdfb6de2821c4a62c87befa5200713847eda426e3a501c2",
+        "bytes": 257
+      }
+    ]
+  },
+  "independentChecks": [
+    {
+      "command": "/workspace/scratch/4686fcc1b388/toolchain/jdk-17.0.21+9/bin/java -jar /workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/lib/apksigner.jar verify --verbose --print-certs /workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.apk",
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-independent-signature.log",
+        "sha256": "46275a9723b37b88e36e641c893eb33180e1c3e8efba0a4b3ea615fe1fd2283d",
+        "bytes": 955
+      }
+    },
+    {
+      "command": "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/zipalign -c -v 4 /workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.apk",
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-independent-alignment.log",
+        "sha256": "7c5d39f3daf18ca0f887ec8a4b49499ca8f2afd88b6c1c7ac465f62aa02e8436",
+        "bytes": 1282
+      }
+    },
+    {
+      "command": "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/aapt dump badging /workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.apk",
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-independent-package.log",
+        "sha256": "acd91505b0486ec917837d87dce5b6c3cef69f2ddc4d0162b4ecb474dc972f2f",
+        "bytes": 1846
+      }
+    },
+    {
+      "command": "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/aapt dump xmltree /workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.apk AndroidManifest.xml",
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-independent-manifest.log",
+        "sha256": "a11b0f97183f1eb92743d7ed821789eebabfa7caff96d7fceae8707aea7097de",
+        "bytes": 3803
+      }
+    },
+    {
+      "command": "java /workspace/scratch/c56161c95e04/knaba/erp/apps/mobile-android/scripts/VerifyAppBundle.java /workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.aab 534be1abf24e67a8abc2bd1978529085c236664685964c78602c8bfed9e4922c",
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-independent-aab.log",
+        "sha256": "757c58cb5e713e20d9c7133debe71d3ac714396e00ba6a8b8fa5a79b40f20db5",
+        "bytes": 161
+      },
+      "verifierSourceMatchesExactGitBlob": true,
+      "localJava": {
+        "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual/android-independent-java.txt",
+        "sha256": "bc035065e1316ef11781a4b1e36dc4aa58d003abc47094dc55b4f7620f15f7c8",
+        "bytes": 177
+      }
+    }
+  ],
+  "manualManifestConsistency": "Existing repository provenance schema was checked directly against Git/ZIP/XML/platform-tool outputs. No synthetic release manifest was created and no generic release-gate readiness result is claimed.",
+  "limitations": [
+    "No local rebuild or test-suite rerun.",
+    "No physical device, standard installer, launch, upgrade/data-retention or live ERP/provider journey.",
+    "No release keystore, store upload, generated Play splits, Play signing or customer acceptance.",
+    "Lint has24 warnings; CI success is not a zero-warning or whole-product result.",
+    "Other CI jobs and F3 aggregate acceptance are outside this Android artifact verdict.",
+    "Independent package checks and CI suite counts are different scopes and must not be summed."
+  ],
+  "newNetworkCalls": false,
+  "sourceEdits": false,
+  "artifactBytesChanged": false
+}

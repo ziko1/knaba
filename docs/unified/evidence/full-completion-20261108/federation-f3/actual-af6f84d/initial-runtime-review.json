@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 1,
+  "verdict": "ACCEPT_EVIDENCE_OF_FAILED_INITIAL_AGGREGATE",
+  "reviewer": "/root/erp_session_fence",
+  "createdAt": "2026-11-08T16:47:16.841561+00:00",
+  "sourceSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "repositoryRun": {
+    "id": 42499230900,
+    "attempt": 1,
+    "conclusion": "FAILURE",
+    "url": "https://github.com/ziko1/knaba/actions/runs/42499230900"
+  },
+  "aggregateStatus": "FAILED",
+  "evidenceRoot": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci-actual",
+  "evidence": [
+    {
+      "path": "erp-vitest-failed.json",
+      "bytes": 1428321,
+      "sha256": "adfcec09a39542dd63af66992617b7b10c49ec5a61c72932453fb9c9f9cd0926"
+    },
+    {
+      "path": "erp-job.log",
+      "bytes": 140107,
+      "sha256": "579a61523a0d9913e6c846097203b255b1a0b6a047dbd2b8e4c94b535196997f"
+    },
+    {
+      "path": "bridge-artifact/bridge-tap.txt",
+      "bytes": 13824,
+      "sha256": "90087bf80eb4685122dd4ee53195e9997e00c193b035832c09de687f03ef04c7"
+    },
+    {
+      "path": "bridge-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "1a0c6021b12a78cc79d3b36fccc42f530adf7e01ec6398e97b980d55a0289ea1"
+    },
+    {
+      "path": "bridge-job.log",
+      "bytes": 95182,
+      "sha256": "7443c765e78baa784041d5c31b7b608c6767287819c5dea559ce1d767a7026db"
+    },
+    {
+      "path": "bridge-af6f84d.zip",
+      "bytes": 3305,
+      "sha256": "ebce32951726d3b19d212e5a7c2f5149abbeb6fdb2240635aa173feb41154250"
+    },
+    {
+      "path": "run-set.json",
+      "bytes": 1967,
+      "sha256": "daf22a2dbced959e13f2f6f1d1e25ab9cfb08ea983615765998bfe37423fbdb4"
+    },
+    {
+      "path": "failure-artifact/knaba-ci-failure.json",
+      "bytes": 239,
+      "sha256": "bb99d0cdc44f93cfc4fb91cb655a8dff6060978e63108823d61e06f11e70ece0"
+    },
+    {
+      "path": "erp-failed-af6f84d.zip",
+      "bytes": 156492,
+      "sha256": "5998a9b494b42bbe514bff5fb4d35ae562dc1980e6ddb981c3dbbee35f113e2d"
+    }
+  ],
+  "erp": {
+    "status": "FAILED",
+    "reporterSuiteTotals": {
+      "total": 385,
+      "passed": 383,
+      "failed": 2,
+      "pending": 0
+    },
+    "fileResults": {
+      "total": 146,
+      "passed": 145,
+      "failed": 1
+    },
+    "caseTotals": {
+      "total": 3253,
+      "passed": 3235,
+      "failed": 18,
+      "pending": 0,
+      "todo": 0
+    },
+    "countDistinction": "Vitest reporter suite counters are not file counts: 385 suite entries versus 146 file results.",
+    "f2Postgresql": {
+      "status": "PASS_SCOPE_ONLY",
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "suites": [
+        {
+          "path": "erp/tests/site-federation-ledger.integration.test.ts",
+          "cases": 12,
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "sourceSha256": "b9c3e4f45d79273042aa8310cb91aed77cf6086ce8c07a79ad1cd369b7913d95",
+          "caseNamesSha256": "4bee3e8c27179e98ae940ef0576247ce9d4c1c6de8c2b6a30c326148450021f8",
+          "databaseContract": "Actual Database with migrate; suite skips only without DATABASE_URL; all 12 cases passed in this CI artifact."
+        },
+        {
+          "path": "erp/tests/site-identity-link.integration.test.ts",
+          "cases": 12,
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "sourceSha256": "8dadaa387aa08a6143879b7bfa04862c58ccc88602ec6bbb426412765b26f999",
+          "caseNamesSha256": "efb93170b3c8ce9f42fbf69a1bae9447155b52d0aed45d0922f3e0d15a1fbc1b",
+          "databaseContract": "Actual Database with migrate; suite skips only without DATABASE_URL; all 12 cases passed in this CI artifact."
+        }
+      ]
+    },
+    "f3Postgresql": {
+      "status": "FAILED",
+      "total": 18,
+      "passed": 0,
+      "failed": 18,
+      "failureStage": "All cases fail at signed LOGIN_INSPECT inside prepare/approve, before LOGIN_APPROVE and downstream issuance/current-authority/race assertions.",
+      "fixtureSourceSha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1",
+      "failures": [
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL creates one current company-scoped WEB child, stores hashes and grants no device or roles",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL uses S256, exact callback state/ERP issuer/client/platform and one concurrent native redemption",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL pins the WEB parent cookie while NATIVE ignores an unrelated system-browser ERP cookie",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL requires the actual ERP TOTP and consumes its counter before code/session issuance",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL denies the production privileged branch when no ERP MFA factor is configured",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL serializes a real source FENCE after online proof and before the issuing transaction",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL suppresses a freshly committed cookie if source revocation wins before egress",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL rejects terminal F1 unlink committed between proof and mint",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL checks current ERP login policy again after asynchronous source I/O",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL uses the PostgreSQL clock after company-lock wait and rejects an expired witness",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL does not redeem a native code after the pinned ERP credential changes",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL keeps local ERP logout available during a source/config outage",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL requires the mandatory child and the issuing company even with an ordinary session row",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL enforces immutable child/request identity and terminal session revocation in SQL",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL blocks self enrollment receipt replay while preserving independent ERP password enrollment",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL fences actual private blob bytes after asynchronous I/O and before file headers",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL closes an active SSE subscription after a genuine source-session fence within sixty seconds",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        },
+        {
+          "name": "F3 login through actual signed HTTP and PostgreSQL separates stable approval receipts from owned fresh status and rejects read-operation replay",
+          "status": "FAIL",
+          "observedHttpStatus": 400,
+          "expectedHttpStatus": 200,
+          "firstFailureFrame": "erp/tests/fixtures/site-federation-login-pg.ts:75:100"
+        }
+      ]
+    },
+    "archiveCheck": {
+      "entries": [
+        "erp-vitest.json"
+      ],
+      "jsonMember": "erp-vitest.json",
+      "extractedJsonByteEqual": true,
+      "exactSourceShaPresentInJobLog": true
+    }
+  },
+  "bridge": {
+    "status": "FAILED",
+    "tapTotals": {
+      "tests": 26,
+      "suites": 0,
+      "pass": 18,
+      "fail": 8,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "passedF2Cases": 7,
+    "passedOtherExistingCases": 11,
+    "f3FailedCases": 8,
+    "failureStage": "All eight F3 cases stop at source Continue HTTP503 (which requests LOGIN_INSPECT), before source approval and each downstream F3 acceptance path.",
+    "fixtureSourceSha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+    "failures": [
+      {
+        "name": "F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual lost approval ACK recovers one durable intent before any ERP session is issued",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual source logout rejects an already computed issue proof before the ERP session commit",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual source outage fails closed while local logout completes without source RPC",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual source restart fences old derived sessions while a local ERP password session remains valid",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      },
+      {
+        "name": "F3 actual two-company native code cannot be redeemed by the other configured authority",
+        "status": "FAIL",
+        "observedHttpStatus": 503,
+        "expectedHttpStatus": 200,
+        "firstFailureFrame": "tests/bridge/federation-login.test.mjs:35:128"
+      }
+    ]
+  },
+  "browser": {
+    "status": "NOT_RUN",
+    "executionStepObserved": false,
+    "evidence": [
+      "Actual bridge TAP step failed with exit 1.",
+      "Pinned workflow places installed-browser acceptance after the failed bridge step with the default success condition.",
+      "Complete bridge job log has no execution group for node corporate-site/tests/ci-browser.mjs.",
+      "Uploaded bridge archive contains only build manifest and bridge TAP; no browser execution artifacts."
+    ],
+    "runnerUnitTestsAreNotBrowserExecution": true,
+    "archiveEntries": [
+      "knaba-build-artifacts.json",
+      "bridge-tap.txt"
+    ],
+    "workflowSha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f"
+  },
+  "sourceInputs": {
+    "status": "ALL_MATCH_EXACT_GIT_OBJECTS",
+    "checkedCount": 3,
+    "checks": [
+      {
+        "name": "federationProtocol",
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "manifestBytes": 14764,
+        "gitObjectBytes": 14764,
+        "manifestSha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+        "gitObjectSha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+        "status": "MATCH"
+      },
+      {
+        "name": "federationLoginProtocol",
+        "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+        "manifestBytes": 10977,
+        "gitObjectBytes": 10977,
+        "manifestSha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+        "gitObjectSha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+        "status": "MATCH"
+      },
+      {
+        "name": "federationEntry",
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "manifestBytes": 1136,
+        "gitObjectBytes": 1136,
+        "manifestSha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+        "gitObjectSha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+        "status": "MATCH"
+      }
+    ]
+  },
+  "limits": [
+    "Read-only analysis of preserved artifacts and exact af6f84d Git objects; no build, test, database, browser, provider or CI rerun.",
+    "Corrected-source PostgreSQL and actual runtime-pair acceptance is NOT_RUN in this review.",
+    "F2 PASS is restricted to the named 24 PG cases and seven F2 pair cases; it does not change FAILED enclosing jobs or aggregate.",
+    "Eighteen F3 PG and eight F3 pair failures share a preparation boundary; downstream F3 requirements are not accepted.",
+    "The three manifest sourceInputs are independently verified. Built artifact group digests are recorded by the original build manifest, not rehashed here because distribution bytes are not contained in the supplied archive.",
+    "Android and iOS evidence is outside this ERP/bridge/browser execution audit."
+  ]
+}

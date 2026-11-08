@@ -1,0 +1,105 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run --maxWorkers=1 tests/site-federation-login-dispatch.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-f3-corrective/erp
+
+ ❯ tests/site-federation-login-dispatch.test.ts (7 tests | 4 failed) 552ms
+     × LOGIN_INSPECT passes actual signed HTTP dispatch with valid preconditions 220ms
+     × LOGIN_APPROVE passes actual signed HTTP dispatch with valid preconditions 91ms
+     × LOGIN_STATUS passes actual signed HTTP dispatch with valid preconditions 81ms
+     × inspects, approves and reads current status while preserving nonce/read replay denial and stable approval receipts 55ms
+     ✓ keeps the current generation gate before the login callback 40ms
+     ✓ keeps the current phase gate before the login callback 29ms
+     ✓ keeps the current configuration gate before the login callback 34ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/site-federation-login-dispatch.test.ts > F3 accepted signed actions reach the real ledger callback > LOGIN_INSPECT passes actual signed HTTP dispatch with valid preconditions
+AssertionError: LOGIN_INSPECT: HTTP 400, signed error VALIDATION_ERROR: expected 400 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 400
+
+ ❯ success tests/site-federation-login-dispatch.test.ts:23:54
+     21| }
+     22| function success(action:FederationLoginAction,response:Received){
+     23|  expect(response.status,diagnostic(action,response)).toBe(200);
+       |                                                      ^
+     24|  if(!response.body.ok)throw new Error(diagnostic(action,response));
+     25|  expect(response.body.receipt.action).toBe(action);
+ ❯ tests/site-federation-login-dispatch.test.ts:60:51
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/site-federation-login-dispatch.test.ts > F3 accepted signed actions reach the real ledger callback > LOGIN_APPROVE passes actual signed HTTP dispatch with valid preconditions
+AssertionError: LOGIN_APPROVE: HTTP 400, signed error VALIDATION_ERROR: expected 400 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 400
+
+ ❯ success tests/site-federation-login-dispatch.test.ts:23:54
+     21| }
+     22| function success(action:FederationLoginAction,response:Received){
+     23|  expect(response.status,diagnostic(action,response)).toBe(200);
+       |                                                      ^
+     24|  if(!response.body.ok)throw new Error(diagnostic(action,response));
+     25|  expect(response.body.receipt.action).toBe(action);
+ ❯ tests/site-federation-login-dispatch.test.ts:60:51
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/site-federation-login-dispatch.test.ts > F3 accepted signed actions reach the real ledger callback > LOGIN_STATUS passes actual signed HTTP dispatch with valid preconditions
+AssertionError: LOGIN_STATUS: HTTP 400, signed error VALIDATION_ERROR: expected 400 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 400
+
+ ❯ success tests/site-federation-login-dispatch.test.ts:23:54
+     21| }
+     22| function success(action:FederationLoginAction,response:Received){
+     23|  expect(response.status,diagnostic(action,response)).toBe(200);
+       |                                                      ^
+     24|  if(!response.body.ok)throw new Error(diagnostic(action,response));
+     25|  expect(response.body.receipt.action).toBe(action);
+ ❯ tests/site-federation-login-dispatch.test.ts:60:51
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/site-federation-login-dispatch.test.ts > F3 accepted signed actions reach the real ledger callback > inspects, approves and reads current status while preserving nonce/read replay denial and stable approval receipts
+AssertionError: LOGIN_INSPECT: HTTP 400, signed error VALIDATION_ERROR: expected 400 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 400
+
+ ❯ success tests/site-federation-login-dispatch.test.ts:23:54
+     21| }
+     22| function success(action:FederationLoginAction,response:Received){
+     23|  expect(response.status,diagnostic(action,response)).toBe(200);
+       |                                                      ^
+     24|  if(!response.body.ok)throw new Error(diagnostic(action,response));
+     25|  expect(response.body.receipt.action).toBe(action);
+ ❯ tests/site-federation-login-dispatch.test.ts:72:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 passed (7)
+   Start at  17:34:22
+   Duration  7.62s (transform 2.94s, setup 0ms, import 6.48s, tests 552ms, environment 0ms)
+

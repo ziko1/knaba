@@ -16,6 +16,7 @@ import {federationAuthorityFixture} from './site-federation.ts';
 export class FederatedSessionMemory implements DatabaseLike,SqlTransaction {
  companyId='f3-memory';actorId='erp-user';inTransaction=false;clockOffset=0;queries=0;receiptReads=0;effects=0;
  entities=new Map<string,Entity>();authSessions=new Map<string,Data>();children=new Map<string,Data>();requests=new Map<string,Data>();receipts=new Map<string,Data>();credentials=new Map<string,Data>();
+ federationNonces=new Map<string,number>();federationOperations=new Map<string,Data>();private federationSavepoint:object|undefined;
  binding!:Data;authority!:Data;principal!:Data;sourceSession!:Data;events:Data[]=[];audits:Data[]=[];
  now(){return Date.now()+this.clockOffset;}
  put(kind:string,id:string,data:Data){const row:Entity={companyId:this.companyId,kind,id,version:1,data:structuredClone(data),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};this.entities.set(kind+':'+id,row);return row;}
@@ -25,15 +26,24 @@ export class FederatedSessionMemory implements DatabaseLike,SqlTransaction {
  async add<T extends Data=Data>(kind:string,data:T,id=randomUUID()):Promise<Entity<T>>{this.effects++;return this.put(kind,id,data) as Entity<T>;}
  async save<T extends Data=Data>(e:Entity,data:T):Promise<Entity<T>>{const next={...e,version:e.version+1,data:structuredClone(data)};this.entities.set(e.kind+':'+e.id,next);return next as Entity<T>;}
  async event(type:string,data:Data){this.events.push({type,data});}
+ private snapshot(){return structuredClone({entities:this.entities,authSessions:this.authSessions,children:this.children,requests:this.requests,receipts:this.receipts,credentials:this.credentials,binding:this.binding,authority:this.authority,principal:this.principal,sourceSession:this.sourceSession,events:this.events,audits:this.audits,effects:this.effects,federationNonces:this.federationNonces,federationOperations:this.federationOperations});}
  async transaction<T>(companyId:string,actorId:string,fn:(tx:SqlTransaction)=>Promise<T>):Promise<T>{
   expect(companyId).toBe(this.companyId);assert(!this.inTransaction,'INVALID_STATE');
-  const saved=structuredClone({entities:this.entities,authSessions:this.authSessions,children:this.children,requests:this.requests,receipts:this.receipts,credentials:this.credentials,binding:this.binding,authority:this.authority,principal:this.principal,sourceSession:this.sourceSession,events:this.events,audits:this.audits,effects:this.effects});
+  const saved=this.snapshot();
   this.inTransaction=true;const previous=this.actorId;this.actorId=actorId;
-  try{return await fn(this);}catch(error){Object.assign(this,saved);throw error;}finally{this.inTransaction=false;this.actorId=previous;}
+  try{return await fn(this);}catch(error){Object.assign(this,saved);throw error;}finally{this.inTransaction=false;this.actorId=previous;this.federationSavepoint=undefined;}
  }
  async query(statement:string,p:any[]=[]):Promise<{rows:any[]}>{
   this.queries++;const result=(rows:any[])=>({rows:structuredClone(rows)});
   if(statement==='SELECT clock_timestamp() AS now')return result([{now:new Date(this.now()).toISOString()}]);
+  if(statement==='SAVEPOINT federation_effect'){assert(!this.federationSavepoint,'INVALID_STATE');this.federationSavepoint=this.snapshot();return result([]);}
+  if(statement==='ROLLBACK TO SAVEPOINT federation_effect'){assert(this.federationSavepoint,'INVALID_STATE');Object.assign(this,structuredClone(this.federationSavepoint));return result([]);}
+  if(statement==='RELEASE SAVEPOINT federation_effect'){assert(this.federationSavepoint,'INVALID_STATE');this.federationSavepoint=undefined;return result([]);}
+  if(statement.startsWith('DELETE FROM site_federation_nonces')){for(const [key,expires] of this.federationNonces)if(expires<this.now()&&key.startsWith(JSON.stringify(p).slice(0,-1)+','))this.federationNonces.delete(key);return result([]);}
+  if(statement.startsWith('INSERT INTO site_federation_nonces')){const key=JSON.stringify(p);if(this.federationNonces.has(key))return result([]);this.federationNonces.set(key,this.now()+120000);return result([{nonce_hash:p[2]}]);}
+  if(statement.startsWith('SELECT * FROM site_federation_operations')){const row=this.federationOperations.get(JSON.stringify(p));return result(row?[row]:[]);}
+  if(statement.startsWith('INSERT INTO site_federation_operations')){this.federationOperations.set(JSON.stringify(p.slice(0,3)),{company_id:p[0],authority_id:p[1],operation_id:p[2],digest:p[3],action:p[4],committed_at:null});return result([]);}
+  if(statement.startsWith('UPDATE site_federation_operations')){const row=this.federationOperations.get(JSON.stringify(p.slice(0,3)));assert(row,'INVALID_STATE');Object.assign(row,{generation:p[3],revision:p[4],result:JSON.parse(p[5]),committed_at:new Date(this.now()).toISOString()});return result([]);}
   if(statement.startsWith('SELECT * FROM site_federation_login_requests')){
    const row=statement.includes('code_hash=$2')?[...this.requests.values()].find(r=>r.company_id===p[0]&&r.code_hash===p[1]):statement.includes('start_key_hash=$2')?[...this.requests.values()].find(r=>r.company_id===p[0]&&r.start_key_hash===p[1]):this.requests.get(p[1]);return result(row&&row.company_id===p[0]?[row]:[]);
   }

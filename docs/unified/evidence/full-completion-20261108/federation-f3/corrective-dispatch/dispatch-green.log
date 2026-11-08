@@ -1,0 +1,21 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run --maxWorkers=1 tests/site-federation-login-dispatch.test.ts tests/site-federation-login-http.test.ts tests/site-federation-login-flow.test.ts tests/site-federated-session.test.ts tests/site-federation-http.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-f3-corrective/erp
+
+ ✓ tests/site-federation-login-dispatch.test.ts (7 tests) 1473ms
+     ✓ LOGIN_INSPECT passes actual signed HTTP dispatch with valid preconditions  458ms
+ ✓ tests/site-federation-login-http.test.ts (9 tests) 1752ms
+     ✓ is default-off even when an F2 authority exists  1138ms
+ ✓ tests/site-federation-login-flow.test.ts (10 tests) 172ms
+ ✓ tests/site-federation-http.test.ts (11 tests) 256ms
+ ✓ tests/site-federated-session.test.ts (32 tests) 375ms
+
+ Test Files  5 passed (5)
+      Tests  69 passed (69)
+   Start at  17:35:07
+   Duration  17.80s (transform 5.03s, setup 0ms, import 10.95s, tests 4.03s, environment 1ms)
+

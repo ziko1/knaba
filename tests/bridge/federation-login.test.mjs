@@ -13,6 +13,15 @@ const check=(name,run)=>test(name,{timeout:60000},run);
 const cookie=(response,name)=>response.headers.getSetCookie().find(value=>value.startsWith(name+'='))?.split(';')[0];
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const accepted=async(response,status=200)=>{assert.equal(response.status,status,await response.clone().text());return response.json();};
+// Diagnostics retain only status/action/error codes, never source HTML,
+// signed frames, cookies, credentials, operation IDs or private response data.
+const sourceErrorCodes=new Set(['VALIDATION_ERROR','FEDERATION_INVALID','FEDERATION_AUTH_FAILED','FEDERATION_GENERATION',
+  'FEDERATION_CONFLICT','FEDERATION_RECONCILING','FEDERATION_REPLAY','VERSION_CONFLICT','RATE_LIMITED','NEEDS_REAUTH','ACCESS_DENIED','FEDERATION_UNAVAILABLE']);
+function sourceFailure(f,actions,status){
+  const row=f.relay.wire.findLast(item=>item.direction==='SITE_TO_ERP'&&actions.includes(item.action));
+  return JSON.stringify({siteHttpStatus:status,action:row?.action??null,signedErpHttpStatus:row?.status??null,
+    errorCode:sourceErrorCodes.has(row?.errorCode)?row.errorCode:null});
+}
 async function linked(t,options={}){
   const f=await federationPair(t,db,{federationLogin:true,...options}),{pending}=await f.claimCurrent();
   const link=await accepted(await f.confirm(pending),201);return Object.assign(f,{binding:link.binding});
@@ -32,13 +41,13 @@ async function start(f,{native=false,browserCookie=f.erpCookie}={}){
   return {id:started.requestId,client,native,verifier,state,cookie:combined,status};
 }
 async function approve(f,flow){
-  const inspected=await f.sitePost('/account/erp-login/continue/',{authorityId:f.config.authorityId,requestId:flow.id});assert.equal(inspected.status,200);
+  const inspected=await f.sitePost('/account/erp-login/continue/',{authorityId:f.config.authorityId,requestId:flow.id});assert.equal(inspected.status,200,sourceFailure(f,['LOGIN_INSPECT'],inspected.status));
   const html=await inspected.text(),inspectionId=html.match(/name="inspectionId" value="([a-f0-9-]{36})"/)?.[1];assert.ok(inspectionId);
   const approved=await f.sitePost('/account/erp-login/approve/',{inspectionId,current:sitePassword,confirmed:'yes'});
   return approved;
 }
 async function ready(f,flow){
-  const approval=await approve(f,flow);assert.equal(approval.status,303);assert.equal(approval.headers.get('location'),f.config.erpOrigin+'/auth/federation/return?request_id='+flow.id);
+  const approval=await approve(f,flow);assert.equal(approval.status,303,sourceFailure(f,['LOGIN_APPROVE','LOGIN_STATUS'],approval.status));assert.equal(approval.headers.get('location'),f.config.erpOrigin+'/auth/federation/return?request_id='+flow.id);
   const current=await flow.status();assert.equal(current.state,'SOURCE_APPROVED');assert.equal(current.erpUserLabel,'Synthetic ERP user');return current;
 }
 const confirm=(f,flow,current)=>f.erpAt('/api/v1/auth/federation/requests/'+flow.id+'/confirm',{cookie:flow.cookie,csrf:current.csrfToken,body:{expectedVersion:current.version,confirmed:true}});

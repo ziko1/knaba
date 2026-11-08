@@ -1,0 +1,12 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-f3-corrective/erp
+
+ ✓ tests/site-federation-login-dispatch.test.ts (7 tests) 889ms
+     ✓ LOGIN_INSPECT passes actual signed HTTP dispatch with valid preconditions  340ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  17:37:56
+   Duration  5.62s (transform 3.02s, setup 0ms, import 4.34s, tests 889ms, environment 0ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/corrective-erp/independent-dispatch.json

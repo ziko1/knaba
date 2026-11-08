@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-08T16:48:13.608143+00:00",
+  "scope": "Actual initial F3/native-media CI on exact committed source; later correction not covered",
+  "sourceCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "sourceTree": "e49cb0d12a47b1f2aa43ae9966b3c8ef26aeda0f",
+  "sourceClean": true,
+  "aggregate": "FAILED",
+  "wholeProduct": "NOT_READY",
+  "runs": [
+    {
+      "id": 42499231007,
+      "name": "KNABA iOS simulator verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42499231007",
+      "runAttempt": 1,
+      "createdAt": "2026-11-08T16:18:41Z",
+      "updatedAt": "2026-11-08T16:18:42Z"
+    },
+    {
+      "id": 42499230900,
+      "name": "KNABA repository verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42499230900",
+      "runAttempt": 1,
+      "createdAt": "2026-11-08T16:18:41Z",
+      "updatedAt": "2026-11-08T16:24:55Z"
+    },
+    {
+      "id": 42499230893,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42499230893",
+      "runAttempt": 1,
+      "createdAt": "2026-11-08T16:18:41Z",
+      "updatedAt": "2026-11-08T16:21:46Z"
+    },
+    {
+      "id": 42499225479,
+      "name": "KNABA repository verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42499225479",
+      "runAttempt": 1,
+      "createdAt": "2026-11-08T16:18:37Z",
+      "updatedAt": "2026-11-08T16:18:46Z"
+    },
+    {
+      "id": 42499225525,
+      "name": "KNABA iOS simulator verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42499225525",
+      "runAttempt": 1,
+      "createdAt": "2026-11-08T16:18:37Z",
+      "updatedAt": "2026-11-08T16:26:08Z"
+    }
+  ],
+  "root": {
+    "jobId": 128788150756,
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  "erp": {
+    "jobId": 128788150964,
+    "postgresVersion": "17.6",
+    "total": 3253,
+    "passed": 3235,
+    "failed": 18,
+    "skipped": 0,
+    "files": 146,
+    "failureScope": "All18 F3 integration cases stop at LOGIN_INSPECT400 before downstream assertions",
+    "f2PostgresPassed": 24
+  },
+  "bridge": {
+    "jobId": 128788150634,
+    "total": 26,
+    "passed": 18,
+    "failed": 8,
+    "skipped": 0,
+    "failureScope": "All8 F3 actual-pair cases stop at website Continue503 after signed ERP LOGIN_INSPECT400",
+    "existingF2Passed": 7,
+    "existingIntakePassed": 11
+  },
+  "renderedBrowser": {
+    "status": "NOT_RUN",
+    "reason": "Required preceding bridge step failed",
+    "artifactContents": [
+      "build manifest",
+      "bridge TAP"
+    ],
+    "browserExecutionEvidence": false
+  },
+  "site": {
+    "jobId": 128788150766,
+    "status": "PASS",
+    "vitestPassed": 900,
+    "nodePassed": 92,
+    "vpsPassed": 354,
+    "checkErrors": 0,
+    "checkWarnings": 0,
+    "checkHints": 7,
+    "htmlPages": 161,
+    "cssGzipBytes": 40832,
+    "cssBudgetBytes": 40960,
+    "allEmittedJsGzipBytes": 222640,
+    "jsBudgetBytes": 225280,
+    "fieldWebVitals": "NOT_MEASURED"
+  },
+  "android": {
+    "status": "ACCEPT_ARTIFACT_SCOPED",
+    "jobId": 128788133075,
+    "gradleTestPassed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "lintErrors": 0,
+    "lintWarnings": 24,
+    "staticInstallerChecks": "PASS_NOT_DEVICE_INSTALL",
+    "ciSignerMatchesPreservedLocalSigner": false,
+    "physicalDeviceUpgrade": "NOT_RUN",
+    "review": {
+      "path": "android-independent-review.json",
+      "sha256": "9ed4d56bd8374159c8ac826f62fdd59155427ab84e392cb6621ab42433b1db81",
+      "bytes": 33801,
+      "verdict": "ACCEPT_ANDROID_CI_ARTIFACT_SCOPED"
+    }
+  },
+  "ios": {
+    "status": "ACCEPT_SIMULATOR_SCOPED",
+    "jobId": 128788117502,
+    "xctestPassed": 145,
+    "newMediaPassed": 52,
+    "previousPassed": 93,
+    "failed": 0,
+    "skipped": 0,
+    "simulatorInstallLaunch": "PASS",
+    "runtime": "iPhone17 / iOS26.5 / Xcode26.6",
+    "developerDistributionSigning": "ABSENT_LINKER_ADHOC_CODEDIRECTORY_PRESENT",
+    "warningOccurrences": 7,
+    "physicalIPhone": "NOT_RUN",
+    "minimumIOS17Runtime": "NOT_RUN",
+    "review": {
+      "path": "ios-independent-review.json",
+      "sha256": "eedb6bb44afa5a5ae9452e0c58ee86c5104058924e1cc7b665c82ae4615ec44f",
+      "bytes": 47082,
+      "verdict": "ACCEPT_ACTUAL_SIMULATOR_ARTIFACT_SCOPED"
+    }
+  },
+  "runtimeReview": {
+    "path": "initial-runtime-review.json",
+    "sha256": "3277497a3b789d43126915b93dd4d694a8338b2f313c4fd0406f14e515229228",
+    "bytes": 16692,
+    "verdict": "ACCEPT_EVIDENCE_OF_FAILED_INITIAL_AGGREGATE"
+  },
+  "archives": [
+    {
+      "path": "erp-failed-af6f84d.zip",
+      "artifactId": 13623829889,
+      "bytes": 156492,
+      "sha256": "5998a9b494b42bbe514bff5fb4d35ae562dc1980e6ddb981c3dbbee35f113e2d"
+    },
+    {
+      "path": "bridge-af6f84d.zip",
+      "artifactId": 13625340736,
+      "bytes": 3305,
+      "sha256": "ebce32951726d3b19d212e5a7c2f5149abbeb6fdb2240635aa173feb41154250"
+    },
+    {
+      "path": "failure-af6f84d.zip",
+      "artifactId": 13625425657,
+      "bytes": 321,
+      "sha256": "49c8a4742a13e896f33440227cfb2a22d4c6c235c199d4dcf329793f1673434d"
+    },
+    {
+      "path": "android-af6f84d.zip",
+      "artifactId": 13624532586,
+      "bytes": 2495338,
+      "sha256": "06cc924608fd3ff06aad2cea81f3850b9aeed919038eeed5799d4c552c225fa6"
+    },
+    {
+      "path": "ios-af6f84d.zip",
+      "artifactId": 13624772143,
+      "bytes": 9019381,
+      "sha256": "5ebf4dbe7ea12003040e14f9ff2d7ef7f981581da68d2cce9dbc6ccc0949f2ec"
+    }
+  ],
+  "diagnosedCause": "Ledger callback allowlist rejects the already recognized three F3 login actions before login handler dispatch",
+  "correction": {
+    "status": "SOURCE_REVIEWED_LOCAL_REGRESSION_PASS",
+    "actualPostgresPairBrowser": "NOT_RUN",
+    "sourceManifest": "../corrective-dispatch/source-manifest.json"
+  },
+  "noActions": [
+    "main merge",
+    "production deploy",
+    "DNS or live-data mutation",
+    "paid-provider activation",
+    "physical-device or store publication"
+  ]
+}

@@ -305,3 +305,7 @@ Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-
 F1/F2 technical dependency закрито actual CI на e03d2be; F3 server/web і native media реалізовано та прийнято source-scoped. Наступний gate — exact committed aggregate CI:18 F3 PostgreSQL,8 actual pair,10 rendered F3 cases, current Android/iOS pipelines. Повні72 AC не підвищені. [Докладний checkpoint](F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md).
 
 Після цього gate: Android/iOS F3 adapters зі staged fresh-cookie adoption; versioned own-user identity metadata export через existing legal review; решта F4/background/push та actual device/provider/restore/load/company acceptance. Privacy TTL і destructive metadata purge не призначаються довільно.
+
+## 08.11.2026 — actual F3 blocker and reviewed correction
+
+af6f84d main42499230900 FAILED at the ledger dispatcher:18 F3 PG and8 F3 pair cases failed before downstream assertions; rendered browser NOT_RUN. Native artifact reviews accepted Android72 test cases and iOS145 XCTest within their simulator/static scope. Dispatcher correction, in-memory nonce/operation/savepoint fixture support, and diagnostic-only PG fixture/bridge changes have independent source review and69 focused local PASS (including7 independently rerun cases). Next gate remains actual corrected PG18/pair8/browser10 and required aggregate jobs. [Current evidence](F3_ACTUAL_CI_AND_DISPATCH_FIX_2026-11-08_UK.md). Native F3/privacy/push implementation remains queued behind this gate; compound AC unchanged.

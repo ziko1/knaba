@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-11-08T16:52:55.964950+00:00",
+  "scope": "Read-only inventory of existing local Android debug keystore; private key bytes never exported",
+  "privateKeyEntryPresent": true,
+  "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+  "matchesEarlierIssuedLocalArtifact": true,
+  "keystoreReplaced": false,
+  "signingOperationPerformed": false,
+  "physicalUpgradeAcceptance": "NOT_RUN",
+  "pathDisclosure": "Private keystore path intentionally excluded from public receipt"
+}

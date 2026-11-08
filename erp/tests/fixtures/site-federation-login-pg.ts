@@ -57,6 +57,11 @@ export async function createFederationLoginPgFixture(db:Database,passwordHash:st
   const wire=makeFederationRequest(config,'SITE_TO_ERP',action,payload,{operationId,generation:gen});const response=await fetch(base+FEDERATION_ERP_PATH,{method:'POST',headers:wire.headers,body:wire.body}),bytes=Buffer.from(await response.arrayBuffer());
   const body=verifyFederationResponse(config,wire.context,response.status,response.headers,bytes) as any;if(body.current){generation=body.current.generation;revision=body.current.revision;}return {status:response.status,body};
  };
+ const safeCodes=new Set(['VALIDATION_ERROR','FEDERATION_INVALID','FEDERATION_AUTH_FAILED','FEDERATION_GENERATION','FEDERATION_CONFLICT','FEDERATION_RECONCILING','FEDERATION_REPLAY','VERSION_CONFLICT','RATE_LIMITED','NEEDS_REAUTH','ACCESS_DENIED','FEDERATION_UNAVAILABLE']);
+ const expectAuthorityOk=(action:FederationAction,response:Awaited<ReturnType<typeof authority>>)=>{
+  const received=response.body?.error?.code,code=typeof received==='string'&&safeCodes.has(received)?received:'UNKNOWN_OR_NONE';
+  expect(response.status,`${action}: HTTP ${response.status}, signed error ${code}`).toBe(200);
+ };
  expect((await authority('BOOTSTRAP_AUTHORITY',{instanceId:randomUUID()})).status).toBe(200);expect((await authority('RECONCILE_PAGE',{cursor:null,snapshotRevision:null})).status).toBe(200);expect((await authority('ACTIVATE_AUTHORITY',{snapshotRevision:revision})).status).toBe(200);
  expect((await authority('REGISTER_SESSION',{subject:source.subject,sessionRef:source.sessionRef,epoch:source.epoch,securityFingerprint:source.securityFingerprint,sessionExpiresAt:source.sessionExpiresAt,sourcePolicyVersion:source.sourcePolicyVersion})).status).toBe(200);
  const bindings=new SiteIdentityBindings(db,company,()=>authorities.bindingTrust());
@@ -72,10 +77,10 @@ export async function createFederationLoginPgFixture(db:Database,passwordHash:st
   return {id:initial.requestId,flow,cookie:(parentCookie?parentCookie+'; ':'')+'__Host-knaba-federation-flow='+flow,csrf:csrfFor(flow),verifier,state,kind,key,input,initial};
  };
  const approve=async(pending:Awaited<ReturnType<typeof start>>,operationId:string=randomUUID())=>{
-  const inspected=await authority('LOGIN_INSPECT',{requestId:pending.id});expect(inspected.status).toBe(200);const inspection=inspected.body.receipt.result;
+  const inspected=await authority('LOGIN_INSPECT',{requestId:pending.id});expectAuthorityOk('LOGIN_INSPECT',inspected);const inspection=inspected.body.receipt.result;
   const payload={requestId:pending.id,requestBinding:inspection.requestBinding,expectedVersion:inspection.version,...sourceRef(),reauthAt:source.reauthAt,sessionExpiresAt:source.sessionExpiresAt,siteLabel:source.siteLabel,
    loginPolicyVersion:inspection.loginPolicyVersion,loginPolicyFingerprint:inspection.loginPolicyFingerprint,sourceLoginPolicyFingerprint:source.sourceLoginPolicyFingerprint};
-  const approved=await authority('LOGIN_APPROVE',payload,operationId);expect(approved.status).toBe(200);source.approved.set(pending.id,{requestBinding:inspection.requestBinding});return {payload,operationId,...approved.body.receipt.result};
+  const approved=await authority('LOGIN_APPROVE',payload,operationId);expectAuthorityOk('LOGIN_APPROVE',approved);source.approved.set(pending.id,{requestBinding:inspection.requestBinding});return {payload,operationId,...approved.body.receipt.result};
  };
  const status=async(pending:Awaited<ReturnType<typeof start>>)=>{const response=await web('/api/v1/auth/federation/requests/'+pending.id,undefined,pending.cookie);expect(response.status).toBe(200);return response.json();};
  const prepare=async(kind:'WEB'|'NATIVE'='WEB',cookie='')=>{const pending=await start(kind,cookie),approved=await approve(pending),state=await status(pending);return {...pending,approved,version:state.version};};

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "status": "ACCEPT_SOURCE_DIAGNOSTIC_DELTA_SCOPED",
+  "reviewer": "/root/erp_session_fence",
+  "author": "/root",
+  "createdAt": "2026-11-08T16:40:14.436152+00:00",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-f3-corrective",
+  "baseCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "path": "tests/bridge/federation-login.test.mjs",
+  "sourceSha256": "3b54d76d3c328d8c13328c814b29f7caf432da83e699805132d89ab90e97bf48",
+  "baselineSourceSha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+  "checks": {
+    "nodeSyntax": {
+      "command": "node --check tests/bridge/federation-login.test.mjs",
+      "exitCode": 0
+    },
+    "reconstructedBaselineByteEqual": true,
+    "reconstruction": "Remove only added fixed-code sourceFailure helper/comment/constants and the two added third diagnostic arguments; remaining bytes exactly equal HEAD file.",
+    "existingCaseCount": 8,
+    "caseNamesUnchanged": true,
+    "allExistingAssertionArgumentsAndOrderRetained": true,
+    "sourceHashStable": true,
+    "erpFourFileFreezeUnchanged": true
+  },
+  "diagnosticReview": {
+    "fields": [
+      "siteHttpStatus",
+      "action",
+      "signedErpHttpStatus",
+      "errorCode"
+    ],
+    "actionConstraint": "findLast only accepts SITE_TO_ERP actions in literal caller sets LOGIN_INSPECT or LOGIN_APPROVE/LOGIN_STATUS",
+    "statusConstraint": "Callers pass Response.status; relay status is null until the actual HTTP response, then Response.status.",
+    "errorConstraint": "Only 12 fixed allowlisted error-code strings survive; missing or arbitrary data becomes null.",
+    "secretBoundary": "The added helper never reads/serializes HTML, response bytes, headers, passwords, cookies, request/operation/user IDs, signed frames, nonce, proof fields or arbitrary error messages."
+  },
+  "limitations": [
+    "Read-only source delta and Node syntax verification only.",
+    "Actual PostgreSQL and eight runtime-pair cases after correction NOT_RUN; no CI or live acceptance claim.",
+    "Redaction conclusion covers the newly added helper and two diagnostic messages, not an unrelated audit of every historical failure formatter.",
+    "No repository source was edited."
+  ],
+  "caseNames": [
+    "F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage",
+    "F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption",
+    "F3 actual lost approval ACK recovers one durable intent before any ERP session is issued",
+    "F3 actual source logout rejects an already computed issue proof before the ERP session commit",
+    "F3 actual source outage fails closed while local logout completes without source RPC",
+    "F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session",
+    "F3 actual source restart fences old derived sessions while a local ERP password session remains valid",
+    "F3 actual two-company native code cannot be redeemed by the other configured authority"
+  ]
+}

@@ -247,3 +247,7 @@ Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-
 ## 08.11.2026 — F3 і native media, source checkpoint до actual CI
 
 Чинний технічний baseline — actual F2 e03d2be/run42485949823. Наступний спільний candidate додає source-reviewed F3 server/web і native media; actual aggregate acceptance PENDING. [Checkpoint і залежності](F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Native F3 implementation починається лише після actual PostgreSQL/pair/browser PASS та independent acceptance. Product NOT_READY; normative V4/V3 scope й compound AC збережені.
+
+## 08.11.2026 — F3 actual failure and corrective checkpoint
+
+The first F3 source af6f84d has FAILED aggregate acceptance despite successful current native jobs. A missing ledger callback action allowlist entry explains18 PG/8 pair failures;5-path correction independently reviewed and locally verified. [Actual results, exact sources and next gate](F3_ACTUAL_CI_AND_DISPATCH_FIX_2026-11-08_UK.md). Corrected PostgreSQL/pair/rendered-browser acceptance remains pending. Native F3 adapters, versioned identity privacy and native push keep their existing dependency order; no compound criterion is promoted by a partial pass.

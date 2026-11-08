@@ -1,0 +1,1709 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-11-08T16:53:02.734Z",
+  "reviewer": "/root/coverage_matrix",
+  "verdict": "ACCEPT_PUBLICATION_REPORT_SCOPED",
+  "scope": "Read-only independent claim, source-integration and artifact-input review before corrective source publication. This is not corrected F3 runtime/aggregate acceptance.",
+  "baseCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "baseTree": "e49cb0d12a47b1f2aa43ae9966b3c8ef26aeda0f",
+  "reviewHead": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "wholeProduct": "NOT_READY",
+  "reviewedDocuments": [
+    {
+      "path": "docs/unified/F3_ACTUAL_CI_AND_DISPATCH_FIX_2026-11-08_UK.md",
+      "sha256": "a4189f8ca01ac388d54e9ce66049ff6523135d04105d067e52669f63506283a3",
+      "bytes": 7447
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "b1db2fc7ef37e4bd69a46196eaf237b9486844ff89503b17eaa4fdb2522f37d7",
+      "bytes": 91938,
+      "appendOnly": true,
+      "appendedBytes": 980
+    },
+    {
+      "path": "docs/unified/BACKLOG.md",
+      "sha256": "baed97b345221cc9ed19b913f6407f87d61b41fe537f1eae30f6791c8aa84d0a",
+      "bytes": 47207,
+      "appendOnly": true,
+      "appendedBytes": 783
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "sha256": "31c7d98021f28a71a92f69a4ca1bf0b3d3235477327b7fcb422c87f7955e361b",
+      "bytes": 37786,
+      "appendOnly": true,
+      "appendedBytes": 626
+    },
+    {
+      "path": "docs/unified/BUDGET.md",
+      "sha256": "51f28aff732a2f6b5b038459e4818f28d2955e9418e01d495843b163a14a9c19",
+      "bytes": 19004,
+      "appendOnly": true,
+      "appendedBytes": 1531
+    }
+  ],
+  "sourceIntegration": {
+    "fileCount": 5,
+    "changedPathsExactlyManifest": true,
+    "files": [
+      {
+        "path": "erp/apps/api/site-federation-ledger.ts",
+        "sha256": "f0fbb4bd4b8bbd1741b0620e610cc7c9bb0b89771e631ef96fd5db6f3d7306d8",
+        "bytes": 18836,
+        "manifestMatches": true,
+        "preimageMatches": true
+      },
+      {
+        "path": "erp/tests/fixtures/site-federated-session.ts",
+        "sha256": "d51b24d5ae6075b2bc53e11bfef97fac3af7ee67252d991e207e17059ee76bf9",
+        "bytes": 17572,
+        "manifestMatches": true,
+        "preimageMatches": true
+      },
+      {
+        "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+        "sha256": "0a7e1e8b7929cf67c09d97bcfe800c5b843eb8cf4eb6561c504ef9d104642246",
+        "bytes": 12595,
+        "manifestMatches": true,
+        "preimageMatches": true
+      },
+      {
+        "path": "erp/tests/site-federation-login-dispatch.test.ts",
+        "sha256": "7dcbbf397dbcc4433c37ad694c7b40a162892d6c71e1183e18d10fff62f700e8",
+        "bytes": 8357,
+        "manifestMatches": true,
+        "preimageMatches": true
+      },
+      {
+        "path": "tests/bridge/federation-login.test.mjs",
+        "sha256": "3b54d76d3c328d8c13328c814b29f7caf432da83e699805132d89ab90e97bf48",
+        "bytes": 15083,
+        "manifestMatches": true,
+        "preimageMatches": true
+      }
+    ],
+    "runtimeChange": "One existing login-action allowlist import and dispatcher inclusion; remaining four paths are regression/fixture/diagnostic support.",
+    "correctiveManifest": "verification/federation-f3/corrective-erp/source-manifest.json",
+    "correctiveManifestSha256": "14127247996dde03c9ed152dfa028618a457eebbb4fd5bcedd32ac8642e59369",
+    "bridgeManifest": "verification/federation-f3/corrective-erp/bridge-diagnostic-freeze.json"
+  },
+  "nativeInputs": {
+    "androidActualArtifactInputs": {
+      "count": 68,
+      "includesModuleSourceFiles": 67,
+      "includesVerificationInputFiles": 1,
+      "files": [
+        {
+          "path": "erp/apps/mobile-android/.gitignore",
+          "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042",
+          "bytes": 70,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/MEDIA_UK.md",
+          "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952",
+          "bytes": 15144,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/README.md",
+          "sha256": "c0284f5dde20e488412add15e5f5355586faa2a57a61c0d1459fc571d4e3a48f",
+          "bytes": 12709,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/build.gradle.kts",
+          "sha256": "81cce0701e972fc365b5342079322c09a3652085f1ca938d416e375013ba5b83",
+          "bytes": 1172,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+          "sha256": "da810639b116ac88db73c740e2d2798f72d4f386c85c60edc73ce4b7bdcf158c",
+          "bytes": 1631,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ApiClient.kt",
+          "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346",
+          "bytes": 7819,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+          "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42",
+          "bytes": 2207,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+          "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47",
+          "bytes": 2979,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+          "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52",
+          "bytes": 34029,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleModules.kt",
+          "sha256": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b",
+          "bytes": 4813,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+          "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4",
+          "bytes": 816,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt",
+          "sha256": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c",
+          "bytes": 2684,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+          "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40",
+          "bytes": 1766,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+          "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8",
+          "bytes": 18589,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+          "sha256": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62",
+          "bytes": 2929,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+          "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407",
+          "bytes": 58606,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+          "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0",
+          "bytes": 42986,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+          "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46",
+          "bytes": 19490,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+          "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+          "bytes": 2173,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+          "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae",
+          "bytes": 1094,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpReadRetry.java",
+          "sha256": "050f3ea5bff0c21a9f3a21d27184a368df9123fc2a460b2fe59dcaed152e0635",
+          "bytes": 1020,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java",
+          "sha256": "d0c45b22eb3f527895997700ef238204ee2e4bc6d232e23e409cf3e44362c400",
+          "bytes": 4386,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GenerationFence.java",
+          "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761",
+          "bytes": 613,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+          "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a",
+          "bytes": 588,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+          "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0",
+          "bytes": 1250,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+          "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a",
+          "bytes": 16839,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+          "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37",
+          "bytes": 1124,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeText.kt",
+          "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43",
+          "bytes": 3609,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+          "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c",
+          "bytes": 929,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+          "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7",
+          "bytes": 9045,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ShiftClock.java",
+          "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4",
+          "bytes": 1127,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/TrackingService.kt",
+          "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe",
+          "bytes": 13423,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba.xml",
+          "sha256": "cd623da01ca07e7df07ad9b6dcac6d1d1efb2a05893a9b2616a5d1d7f0cd1c60",
+          "bytes": 659,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/ic_knaba_brand.png",
+          "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1",
+          "bytes": 22549,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba.xml",
+          "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434",
+          "bytes": 247,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba_round.xml",
+          "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434",
+          "bytes": 247,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+          "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27",
+          "bytes": 27312,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+          "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a",
+          "bytes": 25623,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+          "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28",
+          "bytes": 27215,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+          "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3",
+          "bytes": 26993,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+          "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0",
+          "bytes": 35061,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+          "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c",
+          "bytes": 34662,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/xml/data_extraction_rules.xml",
+          "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28",
+          "bytes": 1141,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+          "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33",
+          "bytes": 31281,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+          "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55",
+          "bytes": 13150,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+          "sha256": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be",
+          "bytes": 59796,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+          "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e",
+          "bytes": 4917,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/build.gradle.kts",
+          "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6",
+          "bytes": 143,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/gradle/wrapper/gradle-wrapper.properties",
+          "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab",
+          "bytes": 251,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/gradle.properties",
+          "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31",
+          "bytes": 183,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/gradlew",
+          "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650",
+          "bytes": 869,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/gradlew.bat",
+          "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78",
+          "bytes": 425,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/VerifyAppBundle.java",
+          "sha256": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70",
+          "bytes": 2879,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/fixtures/DemoConsoleTransportVectors.java",
+          "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3",
+          "bytes": 6937,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/package.sh",
+          "sha256": "9e36d3de356c73279d06ebe68aeddda7e32409c26e7b5b1ca5e1c7f9cc990a34",
+          "bytes": 11217,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-app-bundle.py",
+          "sha256": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610",
+          "bytes": 2274,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+          "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed",
+          "bytes": 945,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-localization.sh",
+          "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096",
+          "bytes": 8563,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+          "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237",
+          "bytes": 2432,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-vectors.sh",
+          "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777",
+          "bytes": 4113,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+          "sha256": "8a74f3065a07290bb6572ea5168ec56847dd457faafb3c343dd35f065f39fdcc",
+          "bytes": 21363,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpCredentialSafetyTest.java",
+          "sha256": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62",
+          "bytes": 13108,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+          "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+          "bytes": 3409,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+          "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b",
+          "bytes": 4027,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+          "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe",
+          "bytes": 24875,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpServerDiscoveryTest.java",
+          "sha256": "4b5a4e2939d3c8c4642e3516a8d75a9ee2bd011e7097c0ed8f1231c7c64d37d4",
+          "bytes": 6788,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/settings.gradle.kts",
+          "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34",
+          "bytes": 269,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/tests/native-vectors.json",
+          "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+          "bytes": 4538,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        }
+      ]
+    },
+    "iosActualArtifactInputs": {
+      "count": 54,
+      "files": [
+        {
+          "path": ".github/workflows/ios.yml",
+          "sha256": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a",
+          "bytes": 5859,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Info.plist",
+          "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014",
+          "bytes": 1790,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+          "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104",
+          "bytes": 1393,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+          "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad",
+          "bytes": 179006,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+          "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53",
+          "bytes": 203,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+          "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb",
+          "bytes": 60,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+          "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21",
+          "bytes": 846,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+          "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042",
+          "bytes": 821,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+          "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c",
+          "bytes": 865,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+          "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b",
+          "bytes": 920,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+          "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1",
+          "bytes": 1478,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+          "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553",
+          "bytes": 1381,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/AppModel.swift",
+          "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868",
+          "bytes": 8546,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPActionLabels.swift",
+          "sha256": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283",
+          "bytes": 4622,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+          "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+          "bytes": 42573,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+          "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+          "bytes": 16188,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+          "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+          "bytes": 41354,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+          "sha256": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374",
+          "bytes": 17582,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+          "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21",
+          "bytes": 18370,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+          "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+          "bytes": 7660,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+          "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+          "bytes": 14355,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+          "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8",
+          "bytes": 29049,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+          "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969",
+          "bytes": 21883,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+          "sha256": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0",
+          "bytes": 6411,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+          "sha256": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b",
+          "bytes": 43551,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+          "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a",
+          "bytes": 8159,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift",
+          "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61",
+          "bytes": 12689,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/Models.swift",
+          "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9",
+          "bytes": 8671,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/NativeAPI.swift",
+          "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc",
+          "bytes": 5838,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+          "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16",
+          "bytes": 35926,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+          "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0",
+          "bytes": 3013,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/SecureStore.swift",
+          "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07",
+          "bytes": 9238,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+          "sha256": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c",
+          "bytes": 10296,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+          "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662",
+          "bytes": 11002,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+          "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55",
+          "bytes": 3847,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+          "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659",
+          "bytes": 27478,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+          "sha256": "f41ea53b4e6f2cce803aa3e44787791601b6dddd1a3b17c164ef2f9861a62652",
+          "bytes": 14292,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+          "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+          "bytes": 7627,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+          "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c",
+          "bytes": 13500,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+          "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+          "bytes": 8242,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+          "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+          "bytes": 5199,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+          "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+          "bytes": 11360,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+          "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+          "bytes": 20024,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+          "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f",
+          "bytes": 16919,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift",
+          "sha256": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8",
+          "bytes": 9841,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+          "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c",
+          "bytes": 9703,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/NativeTests.swift",
+          "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c",
+          "bytes": 7834,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/project.yml",
+          "sha256": "f3d033184787e0d68bfb1e46bec5337825a5dd7c4d5b3887e2d5514384187c2d",
+          "bytes": 1320,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/archive-release.sh",
+          "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8",
+          "bytes": 3682,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/build.sh",
+          "sha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb",
+          "bytes": 1679,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/distribution.py",
+          "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8",
+          "bytes": 20641,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+          "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3",
+          "bytes": 8223,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/tests/native-vectors.json",
+          "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+          "bytes": 4538,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "scripts/mobile/package-ios-source.py",
+          "sha256": "1c8ad6edc56228e7a37ee613ccf9ccdc4a9fef6cd0784c02a9817c620cf6b377",
+          "bytes": 5547,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        }
+      ]
+    },
+    "priorNativeSourceManifests": {
+      "count": 37,
+      "allHashesMatch": true,
+      "files": [
+        {
+          "path": "erp/apps/mobile-android/MEDIA_UK.md",
+          "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952",
+          "bytes": 15144,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+          "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47",
+          "bytes": 2979,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+          "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52",
+          "bytes": 34029,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+          "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407",
+          "bytes": 58606,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+          "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0",
+          "bytes": 42986,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+          "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46",
+          "bytes": 19490,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+          "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+          "bytes": 2173,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+          "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7",
+          "bytes": 9045,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+          "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a",
+          "bytes": 25623,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+          "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28",
+          "bytes": 27215,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+          "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3",
+          "bytes": 26993,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+          "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0",
+          "bytes": 35061,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+          "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c",
+          "bytes": 34662,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+          "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27",
+          "bytes": 27312,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+          "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33",
+          "bytes": 31281,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+          "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55",
+          "bytes": 13150,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+          "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed",
+          "bytes": 945,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+          "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237",
+          "bytes": 2432,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+          "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+          "bytes": 3409,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+          "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b",
+          "bytes": 4027,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+          "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe",
+          "bytes": 24875,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/tests/native-console-contract.test.ts",
+          "sha256": "de14a465d95322e89f68d6616fee0f169236459c8dffd1f16da7915abb88dee2",
+          "bytes": 8599,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+          "sha256": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384",
+          "bytes": 13733,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+          "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+          "bytes": 42573,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+          "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+          "bytes": 16188,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+          "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+          "bytes": 41354,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+          "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21",
+          "bytes": 18370,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+          "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+          "bytes": 7660,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+          "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+          "bytes": 14355,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+          "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8",
+          "bytes": 29049,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+          "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969",
+          "bytes": 21883,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+          "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+          "bytes": 7627,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+          "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c",
+          "bytes": 13500,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+          "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+          "bytes": 8242,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+          "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+          "bytes": 5199,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+          "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+          "bytes": 11360,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        },
+        {
+          "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+          "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+          "bytes": 20024,
+          "unchangedFromAf6": true,
+          "manifestHashMatches": true
+        }
+      ]
+    },
+    "readonlyContractDependenciesUnchangedFromAf6": [
+      {
+        "path": "erp/apps/api/media-upload.ts",
+        "sha256": "7364b91238daebebd7e8c292ec34ac4407d8bbe5449e35953f71e65226439480",
+        "bytes": 7143,
+        "unchangedFromAf6": true
+      },
+      {
+        "path": "erp/packages/domain/resources.ts",
+        "sha256": "43ed2e1e334155e574c53ea6da4a927645c7adcc2cc554bce8edb090e3a5e91f",
+        "bytes": 113304,
+        "unchangedFromAf6": true
+      },
+      {
+        "path": "erp/packages/storage/media-limits.ts",
+        "sha256": "9ff17bc43ca354b0bd652cd4e4c8e0f618a8633ad8a4a8c1fd6b4eb0dbad3229",
+        "bytes": 688,
+        "unchangedFromAf6": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+        "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21",
+        "bytes": 18370,
+        "unchangedFromAf6": true
+      }
+    ],
+    "note": "These input inventories overlap. Counts describe file checks, not tests or additional acceptance runs."
+  },
+  "normativeAndWorkflowInputs": [
+    {
+      "path": "KNABA_DE_MASTER_SPEC.md",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "bytes": 115264,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": "erp/KNABA_DE_TARGET_SPEC.md",
+      "sha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "bytes": 115264,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": "erp/KNABA_DE_MASTER_SPEC.md",
+      "sha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+      "bytes": 244546,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": "erp/docs/requirements/requirements.json",
+      "sha256": "fce7eccb47f85dfc0ac1932a19dc5b21b02bd0b6efd594fe89e06891c434a72a",
+      "bytes": 7488699,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712",
+      "bytes": 110565,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      "sha256": "89096a9c824d9fd9ac8a4885b86f9d6cd11346d8873faed0a9e7a7e6b8127beb",
+      "bytes": 82572,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "bytes": 14081,
+      "unchangedFromAf6": true
+    },
+    {
+      "path": ".github/workflows/ios.yml",
+      "sha256": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a",
+      "bytes": 5859,
+      "unchangedFromAf6": true
+    }
+  ],
+  "traceability": {
+    "rows": 114,
+    "uniqueIds": 114,
+    "statuses": {
+      "IN_PROGRESS": 42,
+      "NOT_RUN": 72
+    }
+  },
+  "allNonDocumentationChanges": [
+    "erp/apps/api/site-federation-ledger.ts",
+    "erp/tests/fixtures/site-federated-session.ts",
+    "erp/tests/fixtures/site-federation-login-pg.ts",
+    "tests/bridge/federation-login.test.mjs",
+    "erp/tests/site-federation-login-dispatch.test.ts"
+  ],
+  "claimChecks": {
+    "aggregate": {
+      "source": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "run": 42499230900,
+      "result": "FAILURE",
+      "erp": {
+        "total": 3253,
+        "passed": 3235,
+        "failed": 18,
+        "skipped": 0,
+        "f3FailureStage": "All 18 stop at initial signed LOGIN_INSPECT HTTP400 before approval/downstream acceptance.",
+        "currentF2PostgresScopedPass": 24
+      },
+      "pair": {
+        "total": 26,
+        "passed": 18,
+        "failed": 8,
+        "skipped": 0,
+        "f3FailureStage": "All 8 stop at source Continue HTTP503 after ERP HTTP400; downstream assertions not reached.",
+        "passedExistingF2": 7,
+        "passedOtherExisting": 11
+      },
+      "renderedBrowser": "NOT_RUN; failed preceding bridge step; browser-labelled archive contains only manifest and TAP."
+    },
+    "rootAndSite": {
+      "rootPassed": 29,
+      "siteVitestPassed": 900,
+      "siteNodePassed": 92,
+      "siteNodeDisjointGroups": [
+        37,
+        37,
+        10,
+        8
+      ],
+      "vpsPassed": 354,
+      "siteCheckErrors": 0,
+      "siteCheckWarnings": 0,
+      "siteCheckHints": 7,
+      "buildVerify": "PASS",
+      "pages": 161,
+      "cssGzipBytes": 40832,
+      "cssBudgetBytes": 40960,
+      "allEmittedJsGzipBytes": 222640,
+      "jsBudgetBytes": 225280,
+      "fieldWebVitals": "NOT_MEASURED",
+      "evidence": "Existing raw root/site logs plus original static build report; no reviewer rebuild."
+    },
+    "correction": {
+      "red": {
+        "passed": 3,
+        "failed": 4
+      },
+      "authorFocused": {
+        "files": 5,
+        "passed": 69,
+        "failed": 0,
+        "skipped": 0
+      },
+      "independentRepeat": {
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0
+      },
+      "countsOverlap": true,
+      "scope": "Seven new regressions use real Nest HTTP ingress, MAC verification and production ledger/login handlers with explicit SQL/clock doubles. Memory fixture adds nonce/operation/savepoint behavior. Only PG fixture and bridge deltas are diagnostic-only.",
+      "typecheck": "PASS in existing author receipt",
+      "actualCorrectedPostgres18": "NOT_RUN",
+      "actualCorrectedPair8": "NOT_RUN",
+      "actualCorrectedRenderedF3Browser10": "NOT_RUN"
+    },
+    "android": {
+      "run": 42499230893,
+      "job": 128788133075,
+      "result": "SUCCESS",
+      "gradleCases": 72,
+      "suites": {
+        "media": 13,
+        "journal": 9,
+        "activity": 49,
+        "icon": 1
+      },
+      "lint": {
+        "errors": 0,
+        "warnings": 24
+      },
+      "review": "ACCEPT_ANDROID_CI_ARTIFACT_SCOPED",
+      "apkSha256": "314f674ecc87488321b8bf593e6a6d1ff0741533660f0206c991a3f7cd16a715",
+      "ciSignerSha256": "534be1abf24e67a8abc2bd1978529085c236664685964c78602c8bfed9e4922c",
+      "previousLocalSignerSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+      "signersDiffer": true,
+      "staticInstallerChecks": "PASS_NOT_DEVICE_INSTALL",
+      "physicalInstallOrUpgrade": "NOT_RUN",
+      "preservedPrivateKeyInventory": {
+        "evidence": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/preserved-signer-inventory.json",
+        "sha256": "b2278d8b26256569f7a70399d88401b9e86479ec36ac2b47be898c2f51758c20",
+        "measurementOwner": "/root",
+        "method": "Fresh read-only keytool -list inventory",
+        "privateKeyEntryPresent": true,
+        "certificateMatchesPreviousLocalSigner": true,
+        "reviewerIndependentlyReadReceipt": true,
+        "reviewerReadOrUsedPrivateKey": false
+      }
+    },
+    "ios": {
+      "run": 42499225525,
+      "job": 128788117502,
+      "result": "SUCCESS",
+      "xctest": 145,
+      "newMedia": 52,
+      "existing": 93,
+      "simulatorInstallLaunch": "PASS",
+      "xcode": "26.6",
+      "runtime": "iOS26.5 / iPhone17",
+      "deploymentMinimum": "17.0 metadata only; runtime iOS17 NOT_RUN",
+      "appZipSha256": "46079462a072c4c481ebb24257b14b9582d044299cd8fa5bf36c471738d352a8",
+      "signing": "CODE_SIGNING_ALLOWED=NO with linker ad-hoc CodeDirectory; no developer/distribution or provisioning proof.",
+      "warningOccurrences": 7,
+      "warningGroups": {
+        "existingLocationTrackerConcurrency": 4,
+        "AppIntents": 3
+      },
+      "physicalDeviceOrStore": "NOT_RUN",
+      "review": "ACCEPT_ACTUAL_SIMULATOR_ARTIFACT_SCOPED"
+    },
+    "runAccounting": {
+      "iosPr42499231007": "SKIPPED_BY_EXISTING_POLICY",
+      "repositoryPush42499225479": "CANCELLED_BY_CONCURRENCY",
+      "skippedAndCancelledCountedAsAcceptance": false
+    },
+    "budgetAndDependencies": {
+      "priorReservation": "USED and exact failed/success/skipped/cancelled outcomes reconciled",
+      "nextReservation": "One bounded corrective source publication; existing workflow/timeouts/one-day artifact retention unchanged",
+      "newPaidActivationCeiling": "EUR0",
+      "balancesAndRemainingProviderQuotas": "UNKNOWN",
+      "nativeF3PrivacyPush": "Implementation remains queued behind actual corrected aggregate; not described as external-only.",
+      "wholeAcPromoted": false
+    }
+  },
+  "copiedEvidence": [
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/aggregate-ci.json",
+      "sha256": "7bddb7acdd6c1d752590c7b2a060d65b6d5182968b7c472c7aa787c035855cc8",
+      "bytes": 6721,
+      "copiedFrom": "verification/federation-f3/ci-actual/aggregate-ci.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/android-github-jobs.json",
+      "sha256": "009ae1605ef4d803e2ff6f73a61a2a9766a06220df555af064148cda1be27106",
+      "bytes": 2376,
+      "copiedFrom": "verification/federation-f3/ci-actual/android-github-jobs.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/android-independent-review.json",
+      "sha256": "9ed4d56bd8374159c8ac826f62fdd59155427ab84e392cb6621ab42433b1db81",
+      "bytes": 33801,
+      "copiedFrom": "verification/federation-f3/ci-actual/android-independent-review.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/archive-hashes.json",
+      "sha256": "c49e2c341485519ff6feb31757e545317eadc1ec9b83f145ef20dc8cb8f20410",
+      "bytes": 1025,
+      "copiedFrom": "verification/federation-f3/ci-actual/archive-hashes.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/bridge-artifact/bridge-tap.txt",
+      "sha256": "90087bf80eb4685122dd4ee53195e9997e00c193b035832c09de687f03ef04c7",
+      "bytes": 13824,
+      "copiedFrom": "verification/federation-f3/ci-actual/bridge-artifact/bridge-tap.txt",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/bridge-artifact/knaba-build-artifacts.json",
+      "sha256": "1a0c6021b12a78cc79d3b36fccc42f530adf7e01ec6398e97b980d55a0289ea1",
+      "bytes": 1735,
+      "copiedFrom": "verification/federation-f3/ci-actual/bridge-artifact/knaba-build-artifacts.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/evidence-bundle.json",
+      "sha256": "39f72d55ea890ec5c8daccd51117ea41fdeea21562b490e784d47b54e8a237ea",
+      "bytes": 369,
+      "review": "New persistent bundle metadata; owner-only URL was not fetched by reviewer"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/failure-artifact/knaba-ci-failure.json",
+      "sha256": "bb99d0cdc44f93cfc4fb91cb655a8dff6060978e63108823d61e06f11e70ece0",
+      "bytes": 239,
+      "copiedFrom": "verification/federation-f3/ci-actual/failure-artifact/knaba-ci-failure.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/initial-runtime-review.json",
+      "sha256": "3277497a3b789d43126915b93dd4d694a8338b2f313c4fd0406f14e515229228",
+      "bytes": 16692,
+      "copiedFrom": "verification/federation-f3/ci-actual/initial-runtime-review.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/ios-github-review-evidence.json",
+      "sha256": "54a9020f632529b82bbddf799dc2893ef458a7e6da068e4efa1bd60cfe0d1575",
+      "bytes": 3648,
+      "copiedFrom": "verification/federation-f3/ci-actual/ios-github-review-evidence.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/ios-independent-review.json",
+      "sha256": "eedb6bb44afa5a5ae9452e0c58ee86c5104058924e1cc7b665c82ae4615ec44f",
+      "bytes": 47082,
+      "copiedFrom": "verification/federation-f3/ci-actual/ios-independent-review.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/run-set.json",
+      "sha256": "daf22a2dbced959e13f2f6f1d1e25ab9cfb08ea983615765998bfe37423fbdb4",
+      "bytes": 1967,
+      "copiedFrom": "verification/federation-f3/ci-actual/run-set.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/actual-af6f84d/site-build-report.json",
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7",
+      "bytes": 7232,
+      "copiedFrom": "verification/federation-f3/ci-actual/site-build-report.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/bridge-diagnostic-freeze.json",
+      "sha256": "ece014e516bfd453d39b8a41c1ef6d0538fb9567448f3c24eb549b3f9897b596",
+      "bytes": 294,
+      "copiedFrom": "verification/federation-f3/corrective-erp/bridge-diagnostic-freeze.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/bridge-independent-review.json",
+      "sha256": "53290638d581e9c6c86d6169a3bec17e9c7bf0c9a7dfcbac75f0c00dd9802b22",
+      "bytes": 3054,
+      "copiedFrom": "verification/federation-f3/corrective-erp/bridge-independent-review.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/dispatch-green.log",
+      "sha256": "3835c632b1df912c8fc819f0793cd779058b63fd578c9e7bf00d436c0f4c5fd1",
+      "bytes": 1058,
+      "copiedFrom": "verification/federation-f3/corrective-erp/dispatch-green.log",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/dispatch-red.json",
+      "sha256": "915802be352fc7b7fda301637fe363781dbf53934c586874302cccd336f09979",
+      "bytes": 1122,
+      "copiedFrom": "verification/federation-f3/corrective-erp/dispatch-red.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/dispatch-red.log",
+      "sha256": "7b484edef4045fdede2a3bba1206632af1071d47fa09f24c2ecd8ccb79067aaa",
+      "bytes": 4857,
+      "copiedFrom": "verification/federation-f3/corrective-erp/dispatch-red.log",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/independent-dispatch.json",
+      "sha256": "fc91dbf08a4c8ed6edc0c2fd09b172558c298917d5d367f022f4701977bc5d85",
+      "bytes": 3470,
+      "copiedFrom": "verification/federation-f3/corrective-erp/independent-dispatch.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/independent-dispatch.log",
+      "sha256": "80ec2022f3f5f458ec1054a961bb05832ae14cda24f23c24b3cfd1e4305862e1",
+      "bytes": 519,
+      "copiedFrom": "verification/federation-f3/corrective-erp/independent-dispatch.log",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/independent-review.json",
+      "sha256": "9a537b22fabe8205af2bd414d3b17a19bba3102b5fa418c2ae1ae3b55728791c",
+      "bytes": 1748,
+      "copiedFrom": "verification/federation-f3/corrective-erp/independent-review.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/source-integration.json",
+      "sha256": "011fc39227ec8851e4adf81a0a1aa864e461c6f7e9371602c0235bb64701117e",
+      "bytes": 1700,
+      "copiedFrom": "verification/federation-f3/corrective-integration/source-integration.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/source-manifest.json",
+      "sha256": "14127247996dde03c9ed152dfa028618a457eebbb4fd5bcedd32ac8642e59369",
+      "bytes": 3256,
+      "copiedFrom": "verification/federation-f3/corrective-erp/source-manifest.json",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/typecheck.log",
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665",
+      "bytes": 143,
+      "copiedFrom": "verification/federation-f3/corrective-erp/typecheck.log",
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/corrective-dispatch/preserved-signer-inventory.json",
+      "sha256": "b2278d8b26256569f7a70399d88401b9e86479ec36ac2b47be898c2f51758c20",
+      "bytes": 552,
+      "copiedFrom": "verification/federation-f3/corrective-integration/preserved-signer-inventory.json",
+      "byteIdentical": true
+    }
+  ],
+  "reviewEvidence": [
+    {
+      "path": "verification/federation-f3/ci-actual/root-job.log",
+      "sha256": "4da249927611329a2cab5606598dd4c2869847f25aa5b4d4a9f5c84d299f7f3b",
+      "bytes": 42242
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/site-job.log",
+      "sha256": "eed26e066e171f857f2dbf8a60c1267f1a7a1f4fadbb24be454d9996d9827f83",
+      "bytes": 138014
+    },
+    {
+      "path": "verification/federation-f3/corrective-erp/source-manifest.json",
+      "sha256": "14127247996dde03c9ed152dfa028618a457eebbb4fd5bcedd32ac8642e59369",
+      "bytes": 3256
+    },
+    {
+      "path": "verification/federation-f3/corrective-erp/independent-review.json",
+      "sha256": "9a537b22fabe8205af2bd414d3b17a19bba3102b5fa418c2ae1ae3b55728791c",
+      "bytes": 1748
+    },
+    {
+      "path": "verification/federation-f3/corrective-erp/bridge-independent-review.json",
+      "sha256": "53290638d581e9c6c86d6169a3bec17e9c7bf0c9a7dfcbac75f0c00dd9802b22",
+      "bytes": 3054
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/android-independent-review.json",
+      "sha256": "9ed4d56bd8374159c8ac826f62fdd59155427ab84e392cb6621ab42433b1db81",
+      "bytes": 33801
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/ios-independent-review.json",
+      "sha256": "eedb6bb44afa5a5ae9452e0c58ee86c5104058924e1cc7b665c82ae4615ec44f",
+      "bytes": 47082
+    },
+    {
+      "path": "verification/federation-f3/ci-actual/initial-runtime-review.json",
+      "sha256": "3277497a3b789d43126915b93dd4d694a8338b2f313c4fd0406f14e515229228",
+      "bytes": 16692
+    }
+  ],
+  "persistentBundle": {
+    "bytes": 11856910,
+    "sha256": "179e5b8821510995cd8395b318faf4b69ae4a60420b131f024a304fe76ceda47",
+    "localHashIndependentlyMatched": true,
+    "ownerOnlyPointerFetchedByReviewer": false
+  },
+  "resolvedFinding": {
+    "id": "F3-PUBLICATION-01",
+    "finding": "Broad fixture-is-diagnostic-only wording also covered in-memory nonce/operation/savepoint support.",
+    "resolution": "Author narrowed diagnostic-only claim to PG fixture/bridge and separately described memory SQL fixture support.",
+    "reportSha256": "a4189f8ca01ac388d54e9ce66049ff6523135d04105d067e52669f63506283a3",
+    "backlogSha256": "baed97b345221cc9ed19b913f6407f87d61b41fe537f1eae30f6791c8aa84d0a"
+  },
+  "independentActions": [
+    "Read exact base Git blobs and compared current source bytes/hashes with frozen corrective manifests.",
+    "Compared all actual Android/iOS artifact manifest inputs and prior 37 native source files to af6 and current main.",
+    "Verified append-only canonical notes, unchanged normative sources and exact 114-row traceability statuses.",
+    "Compared 24 copied evidence files byte-for-byte with original verification records; checked new bundle metadata against existing local archive hash.",
+    "Read preserved raw root/site test-count lines, PostgreSQL version log, corrective RED/GREEN/typecheck logs, and scoped independent artifact/runtime reviews."
+  ],
+  "testsRerunByReviewer": 0,
+  "productSourceOrDocsEditedByReviewer": false,
+  "blockingFindings": [],
+  "limitations": [
+    "Acceptance covers publication accuracy and source integration only; enclosing af6 F3 aggregate remains FAILED.",
+    "Corrected real PostgreSQL, full runtime-pair and rendered-browser acceptance remain NOT_RUN. No new test, build, CI, browser, provider, deploy or network request was performed.",
+    "Native source-input identity does not prove native F3 adapters, device compatibility, upgrade compatibility, production signing or store readiness.",
+    "iOS artifact behavior is from the separate independent Android-peer review and actual Xcode artifact; this reviewer did not rerun Xcode or act as independent reviewer of their own iOS implementation.",
+    "Persistent evidence pointer is owner-restricted and was not fetched in this review. Local archive bytes/hash were checked; no public-access claim.",
+    "The old local PrivateKeyEntry preservation statement is supported by the coordinator's fresh read-only keytool inventory receipt; this reviewer did not access, export or use private key material."
+  ],
+  "finalizedAt": "2026-11-08T16:53:56.823Z",
+  "sourceStableAcrossReview": {
+    "uniqueFilesRechecked": 167,
+    "mismatches": [],
+    "allBeforeAfterHashesMatch": true
+  }
+}
