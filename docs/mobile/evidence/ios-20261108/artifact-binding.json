@@ -1,0 +1,34 @@
+{
+  "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+  "inputSha256": "1565f2e8c9e83ea5945e39d6f3d47dcdbf5fa05b64dab89505a0b2363c94801c",
+  "buildInputFilesMatchedToGit": 36,
+  "outerArtifactSha256": "3cc9e7847746a8695d31a7f75c7eda39502522905bacca7072fde6bad6e609e3",
+  "nativeTests": {
+    "total": 74,
+    "passed": 74,
+    "failed": 0,
+    "skipped": 0,
+    "expectedFailures": 0
+  },
+  "simulatorInstallLaunch": "PASS",
+  "bundleId": "de.knaba.mobile",
+  "version": "0.4.0",
+  "build": "4",
+  "platforms": [
+    "iPhoneSimulator"
+  ],
+  "minimumOS": "17.0",
+  "executableArchitecture": "arm64",
+  "artifacts": [
+    {
+      "path": "KNABADE-simulator.app.zip",
+      "bytes": 7185734,
+      "sha256": "89a3edd679540086ced2117ca2c9260b2273266908294caa4a652d9c4a8b8df9"
+    },
+    {
+      "path": "NativeTests.xcresult.zip",
+      "bytes": 210075,
+      "sha256": "518e7ab1515d622976c041a381b5f43b6dac5d5f4aa11323d48006e760997c39"
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 # KNABA DE project memory
 
+## 08.11.2026 — iOS 0.4.0/build 4: simulator verified, phone handoff open
+
+User requested a working iOS file with all KNABA system functions. Exact native source `134d208bb1908b7ba6470b48928759ed865d2616`, input SHA-256 `1565f2e8c9e83ea5945e39d6f3d47dcdbf5fa05b64dab89505a0b2363c94801c`, Draft PR126 on integrated PR123. Actual Xcode26.6/iPhone17 Simulator iOS26.5: 74/74 XCTest, zero failures/skips, install and launch PASS. All36 build-input files matched to Git; downloaded binary hashes verified. Root29 tests and21 embedded Python packaging cases PASS; four repository CI gates including real PostgreSQL and site-to-ERP HTTP acceptance PASS. Evidence: `docs/mobile/evidence/ios-20261108/verification.json`; native run42463393159; repository run42463393097. Later documentation commits must not retag these artifact bytes as newly built.
+
+Encrypted actor-bound original-command recovery, immediate logout/session/authority fencing, RAM-only password/MFA, scoped native portal/task/results, explicit nullable clearing and read-only access during recovery failure are verified in the stated simulator/unit scope. Independent review accepted exact source hashes. Source and arm64 Simulator packages are candidates; neither is an installable iPhone IPA. Owner Apple signing/channel, physical install/update/GPS/Keychain and live ERP UAT remain blocked/open, along with full canonical V3/V4 parity, site/ERP SSO, ERP Partner role, one-time onboarding handoff and operator reconciliation of unknown writes. Guide: `docs/mobile/TEST_IOS_0.4.0_UK.md`.
+
+Existing project instructions and historical receipts remain unchanged. Team: root integration/UI; ios_transport; ios_build_pipeline; ios_delivery_audit (initial review and nullable implementation with independent root/transport review). Skills: ai-team-orchestrator, app-release, coding-autopilot, ecc-frontend-mobile, verify-repository-readiness. Budget policy: no_new_paid_spend; standard public GitHub CI, no paid-provider activation. Next: owner-authorized signing and actual iPhone/ERP acceptance; full handoff is not marked complete.
+
 ## 2026-11-08 — PR123 identity authority checkpoint
 
 Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.

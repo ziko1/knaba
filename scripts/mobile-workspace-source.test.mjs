@@ -19,15 +19,17 @@ test('KNABA Mobile ships genuine role-based native views without embedded browse
 });
 test('Native accounts use existing ERP authenticated server commands and do not bypass access or location gate',()=>{
  const swift=read('erp/apps/mobile-ios/Sources/ERPConsoleCore.swift');
+ const recovery=read('erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift');
  const java=read('erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java');
  const auth=read('erp/apps/api/auth.ts');
  const api=read('erp/apps/api/http.ts');
  assert.match(swift,/\/api\/v1\/auth\/login/); assert.match(java,/\/api\/v1\/auth\/login/);
  assert.match(swift,/X-CSRF-Token/);assert.match(java,/X-CSRF-Token/);
- assert.match(swift,/idempotency_key/);assert.match(java,/idempotency_key/);
+ // iOS serializes the exact envelope once in the durable command boundary.
+ assert.match(recovery,/idempotency_key/);assert.match(swift,/command\.body/);assert.match(java,/idempotency_key/);
  assert.match(swift,/\/api\/v1\/commands/); assert.match(java,/\/api\/v1\/commands/);
  assert.match(auth,/SESSION_COOKIE='knaba_session'/);assert.match(api,/@Get\('entities\/:kind'\)/);
- assert.doesNotMatch(swift,/deviceToken/);assert.doesNotMatch(java,/deviceToken/);
+ assert.doesNotMatch(swift+recovery,/deviceToken/);assert.doesNotMatch(java,/deviceToken/);
 });
 test('Homepage contains one mobile work section in correct process-to-FAQ flow and no fake downloads',()=>{
  const home=read('corporate-site/src/components/ConstructionHome.astro');

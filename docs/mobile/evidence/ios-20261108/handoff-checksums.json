@@ -1,0 +1,10 @@
+{
+  "artifact": "KNABA-DE-iOS-0.4.0-simulator-and-source.zip",
+  "bytes": 7779805,
+  "sha256": "20f289e3fd1f5ed7bca87c9f1922aa34441942b2c46220365491ba78a4f0d415",
+  "type": "IOS_SIMULATOR_AND_XCODE_SOURCE_NOT_IPA",
+  "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+  "nativeInputSha256": "1565f2e8c9e83ea5945e39d6f3d47dcdbf5fa05b64dab89505a0b2363c94801c",
+  "phoneInstallable": false,
+  "includedFiles": 22
+}
