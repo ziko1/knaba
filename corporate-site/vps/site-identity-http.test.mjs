@@ -340,12 +340,12 @@ test('VPS auth migration requires approval, preserves accounts and records a che
   db.prepare('INSERT INTO vps_users(id,email,salt,password_hash,created_at) VALUES (?,?,?,?,?)').run('retained-user','retained@example.test','unused','unused',new Date().toISOString());
   const session=createSessionForUser(db,'retained-user');
   const prior=db.prepare('SELECT * FROM vps_schema_migrations ORDER BY filename').all();
-  db.exec('DROP TABLE vps_site_identity_consents; DROP TABLE vps_auth_migrations;');db.close();
+  db.exec('DROP TRIGGER vps_account_tokens_user_revoke; DROP TRIGGER vps_account_tokens_profile_revoke; DROP TRIGGER vps_account_tokens_profile_delete; DROP TABLE vps_account_tokens; DROP TABLE vps_account_settings; DROP TABLE vps_site_identity_consents; DROP TABLE vps_auth_migrations;');db.close();
   const before=readFileSync(path);
   assert.throws(()=>openLocalDatabase(path,{allowMigrations:false}),/Pending VPS auth migration site-identity-consents/);
   assert.deepEqual(readFileSync(path),before);
   ({db}=openLocalDatabase(path));
-  const receipt=db.prepare('SELECT * FROM vps_auth_migrations').all();assert.equal(receipt.length,1);
+  const receipt=db.prepare('SELECT * FROM vps_auth_migrations ORDER BY name').all();assert.equal(receipt.length,2);
   assert.equal(receipt[0].sha256,digest(readFileSync(new URL('./site-identity-consents.sql',import.meta.url))));
   assert.deepEqual(db.prepare('SELECT * FROM vps_schema_migrations ORDER BY filename').all(),prior);
   assert.ok(db.prepare('SELECT 1 FROM vps_sessions WHERE token_hash=?').get(digest(session.token)));

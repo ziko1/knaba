@@ -1,0 +1,36 @@
+{
+  "task": "KN-CI-BROWSER-REVIEW",
+  "status": "ACCEPT_SCOPED_AFTER_P2_FIX",
+  "workflowSha256": "f775cd74131592c9986368ba27674698709a1a899f5dbaddb9aec53e02f2faa3",
+  "fixedFinding": {
+    "severity": "P2",
+    "file": ".github/workflows/ci.yml",
+    "issue": "Vite fallback port could let readiness target a different preview",
+    "before": {
+      "requestedOccupiedPort": 38055,
+      "actualPreviewPort": 38056,
+      "wrongPreviewReadinessStatus": 200
+    },
+    "after": {
+      "requestedOccupiedPort": 41337,
+      "exitCode": 1,
+      "pidCheck": "ESRCH",
+      "noFallback": true
+    }
+  },
+  "browserPolicyTests": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0
+  },
+  "actualBrowserJourneys": "NOT_RUN; CI requires exact nine account plus four rendered lead cases",
+  "harnessMatchesSource": "c6d112ab",
+  "sourceFilesSha256": {
+    "corporate-site/tests/account-settings-browser.mjs": "36c284a39d6bc53c7c5cf947a929f010c3592918bcdee146be4bdb64610ff801",
+    "corporate-site/tests/fixtures/role-ux-server.mjs": "d76bec41b0f2b090952ea52a3233371e3517116aa96516eaf2e42f809ed3e700",
+    "corporate-site/tests/browser-policy-gate.cjs": "7aacf050f01dd36ac19f811c9a4feee4e24d2a83b738c12d0555e50b274ce2b7",
+    "corporate-site/tests/browser-policy-gate.test.cjs": "aa932d0ba7f47b2f7097269d1a7d0787f927856bd6e74a27a5333ceb43e8313e",
+    "erp/tests/lead-agent-ui.spec.ts": "938699442bdd987efe16210e5f06318591c253a46ccc65142fe6c412847ba295",
+    "erp/playwright.config.ts": "028d40dfc597a3f47cc16261fb984635a986ee3c441c43ae45ad227c6744fe2a"
+  }
+}

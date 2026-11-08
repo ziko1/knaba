@@ -1,0 +1,14 @@
+✔ native catalog gate reports each current source version without claiming device acceptance (368.474315ms)
+✔ native catalog gate rejects iOS version drift (100.783779ms)
+✔ native catalog gate rejects Android build drift (441.01072ms)
+✔ native catalog gate rejects non-monotonic release build (183.942747ms)
+✔ native catalog gate rejects missing translated value (347.272045ms)
+✔ native catalog gate rejects localized placeholder mismatch (512.985012ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2789.946724

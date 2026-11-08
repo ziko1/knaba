@@ -1,0 +1,23 @@
+{
+  "task": "KN-CONTROLLER-SCHEMA-REVIEW",
+  "status": "ACCEPT_SCOPED",
+  "controllerSha256": "8809dcc5f81a4ec74c35751ca8002d2f0e0123cf43e98792cba2d3b60a56d2fa",
+  "testsSha256": "2a6e813cebcc23949eb50414f62f2458629c54a2ad9838d9fa43267facea2955",
+  "ciSha256": "ff0b6281635a062885d0cbe53dc0afd60e8cc89cdf7da0fc3184e793cd0c809c",
+  "checks": {
+    "addVpsSqlDetected": true,
+    "deleteVpsSqlDetected": true,
+    "changeVpsSqlDetected": true,
+    "jsOnlyDoesNotChangeSchema": true,
+    "jsOnlyChangesArtifact": true,
+    "nestedVpsSqlDetected": true
+  },
+  "unitTests": {
+    "command": "python3 -m unittest discover -s corporate-site/vps/customer-environments -p test_knabactl.py",
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0
+  },
+  "liveInstalledController": "UNKNOWN; source review does not establish installed bytes",
+  "productionActivation": "NOT_RUN"
+}

@@ -1,0 +1,27 @@
+F
+======================================================================
+FAIL: test_shared_environment_overrides_conflicting_tool_defaults (scripts.test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_shared_environment_overrides_conflicting_tool_defaults)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3b8559d3e692/knaba-android-bootstrap-fix/scripts/test_android_emulator_bootstrap.py", line 164, in test_shared_environment_overrides_conflicting_tool_defaults
+    self.exercise()
+  File "/workspace/scratch/3b8559d3e692/knaba-android-bootstrap-fix/scripts/test_android_emulator_bootstrap.py", line 149, in exercise
+    exec(emulator_program(), {'__name__': '__main__'})
+  File "/tmp/knaba-native-avd-before.yml:android-emulator-block", line 56, in <module>
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/3b8559d3e692/knaba-android-bootstrap-fix/scripts/test_android_emulator_bootstrap.py", line 116, in launch_emulator
+    self.assertIsNotNone(env, 'AVD creation and launch lack a shared explicit environment')
+AssertionError: unexpectedly None : AVD creation and launch lack a shared explicit environment
+
+----------------------------------------------------------------------
+Ran 1 test in 0.025s
+
+FAILED (failures=1)

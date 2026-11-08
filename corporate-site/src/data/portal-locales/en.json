@@ -1,6 +1,8 @@
 {
   "locale": "en",
   "portal": {
+    "linkAccounts": "Link accounts",
+    "accountSettings": "Account settings",
     "bauleiter": "Site manager",
     "bauleiterGuide": "Coordinate your assigned jobs: agree the date, assign an approved worker and review progress.",
     "bauleiterAssignment": "Assigned site manager",

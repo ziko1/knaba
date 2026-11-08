@@ -134,6 +134,7 @@ enum ERPCommandInput {
     static func defaultFields(_ command: ERPCommand) -> [String: String] {
         var fields: [String: String] = [:]
         for (key, definition) in command.schema?.dictionary?["properties"]?.dictionary ?? [:] {
+            guard !ERPCredentialPolicy.sensitiveKey(key) else { continue }
             guard let value = definition.dictionary?["default"] else { continue }
             if quantityFields.contains(key), case .number(let number) = value.value,
                abs(number) <= 9_007_199_254_740_991, let milli = Int(exactly: number) { fields[key] = quantityText(milli) }
@@ -151,7 +152,8 @@ enum ERPCommandInput {
         }
         var payload: [String: Any] = [:]
         for (key, definition) in properties {
-            let raw = (fixed[key] ?? fields[key] ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            let value = fixed[key] ?? fields[key] ?? ""
+            let raw = ERPCredentialPolicy.sensitiveKey(key) ? value : value.trimmingCharacters(in: .whitespacesAndNewlines)
             if raw.isEmpty { if required.contains(key) { throw ERPFailure.invalidPayload }; continue }
             let type = definition.dictionary?["type"]?.string ?? "string"
             if let choices = definition.dictionary?["enum"]?.list {
@@ -180,6 +182,9 @@ enum ERPCommandInput {
             default: throw ERPFailure.invalidPayload
             }
         }
+        if ERPCredentialPolicy.isOneShot(command.name) {
+            try ERPCredentialPolicy.validateOneShot(command.name, input: payload)
+        } else if try ERPCredentialPolicy.containsSecret(payload) { throw ERPFailure.sensitiveCommand }
         let bytes = try JSONSerialization.data(withJSONObject: payload, options: .sortedKeys)
         guard bytes.count <= 65_536 else { throw ERPFailure.invalidPayload }
         return bytes

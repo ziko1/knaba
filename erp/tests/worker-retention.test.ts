@@ -37,7 +37,13 @@ function workerBoundary() {
       users.push(entity);
       return entity;
     },
-    query: async (_sql: string, params: unknown[]) => {
+    query: async (sql: string, params: unknown[]) => {
+      if (sql.startsWith('SELECT r.id,o.status AS job_status')) {
+        expect(params).toEqual([company, fixedTime.toISOString()]);
+        trace.push({ operation: 'scheduled-lead-cleanup-read', companyId: String(params[0]), params });
+        return { rows: [] };
+      }
+      expect(sql).toMatch(/^INSERT INTO outbox\(/);
       trace.push({ operation: 'scheduled-business-event', companyId: String(params[1]), params });
       return { rows: [] };
     },
@@ -121,6 +127,8 @@ describe('worker privacy gate orchestration (CPU boundary doubles)', () => {
     expect(boundary.points.map(p => p.id)).toContain('foreign-point');
     const operations = boundary.trace.map(t => t.operation);
     expect(operations.indexOf('scheduled-business-event')).toBeGreaterThan(operations.indexOf('purge'));
+    expect(operations.indexOf('scheduled-lead-cleanup-read')).toBeGreaterThan(operations.indexOf('purge'));
+    expect(operations.indexOf('claim-outbox')).toBeGreaterThan(operations.indexOf('scheduled-lead-cleanup-read'));
     expect(operations.indexOf('claim-outbox')).toBeGreaterThan(operations.indexOf('scheduled-business-event'));
     expect(boundary.trace.find(t => t.operation === 'finish-outbox')!.params?.[0]).toBe('SUCCEEDED');
   });
@@ -133,6 +141,7 @@ describe('worker privacy gate orchestration (CPU boundary doubles)', () => {
     boundary.purgeFails(false);
     await expect(boundary.runner.tick()).resolves.toEqual({ processed: 1 });
     expect(boundary.trace.filter(t => t.operation === 'scheduled-business-event')).toHaveLength(1);
+    expect(boundary.trace.filter(t => t.operation === 'scheduled-lead-cleanup-read')).toHaveLength(1);
     expect(boundary.trace.filter(t => t.operation === 'claim-outbox')).toHaveLength(1);
     expect(boundary.trace.filter(t => t.operation === 'finish-outbox')).toHaveLength(1);
   });

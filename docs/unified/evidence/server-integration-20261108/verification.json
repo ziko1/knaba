@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA_DE",
+  "baseGitSha": "131e582f1ffa50a89a5898742cf7f22b5b43efa7",
+  "phase": "IMPLEMENTED_REVIEWED_CANDIDATE_COMBINED_CI_PENDING",
+  "sourceClaim": "Review receipts bind their listed file hashes, not an uncommitted Git SHA. Final combined acceptance remains pending.",
+  "team": {
+    "root": "integration/review/package",
+    "requirements_audit": "account and assistant lifecycle implementation",
+    "ops_audit": "independent code/test review and server read-only audit",
+    "failedAgentsNotCredited": [
+      "native_merge",
+      "mobile_integration",
+      "native_integrator",
+      "account_review"
+    ]
+  },
+  "completedLocalChecks": {
+    "rootPolicy": 36,
+    "siteVitest": 745,
+    "siteNodeGroups": [
+      37,
+      37,
+      10,
+      8
+    ],
+    "siteVpsBeforeAssistantLifecycle": 386,
+    "erpFocused": 83,
+    "independentErpFocused": 204,
+    "privateBackup": 14,
+    "controllerPython": 13,
+    "mobileReleaseVersionGate": 6,
+    "browserPolicy": 10,
+    "siteVpsCombined": 405,
+    "migrationUpgrade": 21,
+    "packageGate": 9,
+    "validationBudget": 19
+  },
+  "countsNote": "Overlapping runs are not added. Full combined SQL/browser/native hosted results are separate.",
+  "browser": "NOT_RUN_LOCALLY_NO_INSTALLED_BROWSER",
+  "postgres": "NOT_RUN_LOCALLY_NO_POSTGRES",
+  "serverActivation": "BLOCKED_ACCESS",
+  "retentionReviewDelta": "native.yml artifact retention14->1 day; test gates unchanged; ops_audit acknowledged",
+  "receipts": {
+    "backup-after.log": {
+      "sha256": "d4d275fe9810abef17fc9f9e4dea8070540f09beca3f7e6b0b7181c2e7a87513",
+      "bytes": 1475,
+      "rawSha256": "d4d275fe9810abef17fc9f9e4dea8070540f09beca3f7e6b0b7181c2e7a87513",
+      "rawBytes": 1475
+    },
+    "backup-before.log": {
+      "sha256": "5d93ae6b3f20fb64ae8ac37a25d96b7f1bebb10af8442e3951ad7b82da7b3a03",
+      "bytes": 10872,
+      "rawSha256": "5d93ae6b3f20fb64ae8ac37a25d96b7f1bebb10af8442e3951ad7b82da7b3a03",
+      "rawBytes": 10872
+    },
+    "browser-policy.log": {
+      "sha256": "420adb80618e54c70ca9fce15e60db07776cbf24f8026672c277b6f63847b5a0",
+      "bytes": 949,
+      "rawSha256": "420adb80618e54c70ca9fce15e60db07776cbf24f8026672c277b6f63847b5a0",
+      "rawBytes": 949
+    },
+    "controller-schema-after.log": {
+      "sha256": "3f8a4f20163dad94a2ce92fbf1fabf92a8e068d47a1589a661bf8aa307ed9ba9",
+      "bytes": 112,
+      "rawSha256": "3f8a4f20163dad94a2ce92fbf1fabf92a8e068d47a1589a661bf8aa307ed9ba9",
+      "rawBytes": 112
+    },
+    "controller-schema-before.log": {
+      "sha256": "0859252ba249d54721b542a0899261abf192f055761100356ee95fbc1e844a67",
+      "bytes": 3378,
+      "rawSha256": "0859252ba249d54721b542a0899261abf192f055761100356ee95fbc1e844a67",
+      "rawBytes": 3378
+    },
+    "erp-build-precommit.log": {
+      "sha256": "7fffa084890e3e00d25508223f80a98094afcc5b0caf9daa7fa6021a3b0f8db1",
+      "bytes": 1003,
+      "rawSha256": "7fffa084890e3e00d25508223f80a98094afcc5b0caf9daa7fa6021a3b0f8db1",
+      "rawBytes": 1003
+    },
+    "erp-dependency-audit.json": {
+      "sha256": "77c7aa85a0c2c91c2e5f454a16186144bface898212a3884d5f4ceaa1b60f0ef",
+      "bytes": 1653
+    },
+    "independent-account-review.json": {
+      "sha256": "0d2a74bad3a77b2a0627c076ee3d1a49df971d1937f6df2500092086aac3f68f",
+      "bytes": 5309
+    },
+    "independent-assistant-review.json": {
+      "sha256": "ca9b55a0c6113f822b3ab206581b596cd6dd43006d39533d3c1cf0098dfee18b",
+      "bytes": 3435
+    },
+    "independent-ci-browser-review.json": {
+      "sha256": "210c9cfbe5a52e9921b9f7194f79cab0ac5b51a3e63acf562237d8766c050e89",
+      "bytes": 1555
+    },
+    "independent-controller-review.json": {
+      "sha256": "99c2fe05e79c578a5812964487f38d36bd60559b152f4f6964b3acfdde708e32",
+      "bytes": 867
+    },
+    "independent-integration-review.json": {
+      "sha256": "3c50783cc010b6eea08342747b0026bb5dde7be10a908e1ee0c4f75186e7fba8",
+      "bytes": 4410
+    },
+    "independent-package-review.json": {
+      "sha256": "30b11e3e711ecc5aa2ce0bc404db92d4c5bfdc479e46bbdc3ce7a64eefd25726",
+      "bytes": 2752
+    },
+    "independent-package-unittest.log": {
+      "sha256": "cc74fd86798ef2cc516c8e5d719073fc37c730d9511d970f8c218c2b3d792d90",
+      "bytes": 1265,
+      "rawSha256": "cc74fd86798ef2cc516c8e5d719073fc37c730d9511d970f8c218c2b3d792d90",
+      "rawBytes": 1265
+    },
+    "integration-focused.log": {
+      "sha256": "0a3597e1995c135cce3c3fb1bc240e2352d6503878b0d4e9d2ed1c6e561e3a6f",
+      "bytes": 994,
+      "rawSha256": "9d4f2792b63a52fdd00d2f8234973661aecc60433835825f01c7017a6d6a94c5",
+      "rawBytes": 995
+    },
+    "ios-ignored-input-before.json": {
+      "sha256": "92da02b84db4d0ff826e88608c7be8a16c5d0f1d5cf57c7e4e71f0cc47f71c41",
+      "bytes": 361
+    },
+    "native-source-verification.json": {
+      "sha256": "4f8035d48d0934074c8ecb4189e7001ea2115c0dce6a416fa27151eaeab4f7a2",
+      "bytes": 20593
+    },
+    "native-transport-root.log": {
+      "sha256": "5c8dde10ad7f6b45843be9a2f0a75f13fa318ccda6a45195c5454616c209c9a3",
+      "bytes": 291,
+      "rawSha256": "5c8dde10ad7f6b45843be9a2f0a75f13fa318ccda6a45195c5454616c209c9a3",
+      "rawBytes": 291
+    },
+    "native-version-gate.log": {
+      "sha256": "1e6e8376223815eb8a2fa076482a393612c8acb4ccdd5902b4d5bc41f131721b",
+      "bytes": 582,
+      "rawSha256": "1e6e8376223815eb8a2fa076482a393612c8acb4ccdd5902b4d5bc41f131721b",
+      "rawBytes": 582
+    },
+    "package-gates-root.log": {
+      "sha256": "082784c900fe81a85ab29e358d0d80292782053964100ee8c76af99018f7b8ce",
+      "bytes": 1454,
+      "rawSha256": "082784c900fe81a85ab29e358d0d80292782053964100ee8c76af99018f7b8ce",
+      "rawBytes": 1454
+    },
+    "root-test-final-inputs.log": {
+      "sha256": "bd56d8d519b61b3ae46e5eebe7b6adc2514b6f82fd7e821d6c8d8ae0c144085a",
+      "bytes": 3032,
+      "rawSha256": "bd56d8d519b61b3ae46e5eebe7b6adc2514b6f82fd7e821d6c8d8ae0c144085a",
+      "rawBytes": 3032
+    },
+    "root-test-precommit.log": {
+      "sha256": "93be927d803229f2790404df78d76b9a2d3fc52df06c195e310553ecc8622291",
+      "bytes": 3211,
+      "rawSha256": "93be927d803229f2790404df78d76b9a2d3fc52df06c195e310553ecc8622291",
+      "rawBytes": 3211
+    },
+    "server-readonly-audit.json": {
+      "sha256": "9f8786ab61c3eb8568a14c49ec17f25ff3dec714183f6551fead5ba4d2efac83",
+      "bytes": 4220
+    },
+    "site-build-combined.log": {
+      "sha256": "5e1726170d8bf9170059b1d5fa29e1555814a2877f954741af80ca5826603126",
+      "bytes": 12855,
+      "rawSha256": "f9cb8e72a8527796dfdc163717b2bae45fc20eedb8751a6e8299fd7b3c40694f",
+      "rawBytes": 13022
+    },
+    "site-check-combined.log": {
+      "sha256": "6cb747702d76d027d47ac03b3d07d26908c37b7352cae967242d0c7374f482cc",
+      "bytes": 13747,
+      "rawSha256": "d23deec9825e0fdc3b9e3aad89b3bd99618c77bc6eac488b79662d1ccac2d876",
+      "rawBytes": 13748
+    },
+    "site-check.log": {
+      "sha256": "ef0577b6ffdbbe5efcc668629f0602b2b28800604f042d138d422bdc09705cfe",
+      "bytes": 13822,
+      "rawSha256": "a94215de91b0f01d9c3648b0becb40dd7522807b8223b9a10d25dded34a31973",
+      "rawBytes": 13823
+    },
+    "site-dependency-audit.json": {
+      "sha256": "d602da5564bb4c0bbc8816d7a0a9a6d6b175138d26f027fbf08a3f589b5088ce",
+      "bytes": 2213
+    },
+    "site-migration-count-fix.log": {
+      "sha256": "d27e9a027d1f25e22b58c8e723edeb389fe89ddb545088ecec0ad1f97961d01a",
+      "bytes": 1961,
+      "rawSha256": "d27e9a027d1f25e22b58c8e723edeb389fe89ddb545088ecec0ad1f97961d01a",
+      "rawBytes": 1961
+    },
+    "site-test-combined.log": {
+      "sha256": "67d644ad10c6d95c5ae7613bc5d3f5987d8268a978aa5dfbb66a25c52f25cd5a",
+      "bytes": 9549,
+      "rawSha256": "67d644ad10c6d95c5ae7613bc5d3f5987d8268a978aa5dfbb66a25c52f25cd5a",
+      "rawBytes": 9549
+    },
+    "site-test.log": {
+      "sha256": "65f21b5badd47abbd7a2504670183da984d377f6b1a2ab69891caf6fae65fb87",
+      "bytes": 9362,
+      "rawSha256": "65f21b5badd47abbd7a2504670183da984d377f6b1a2ab69891caf6fae65fb87",
+      "rawBytes": 9362
+    },
+    "site-verify-build-combined.log": {
+      "sha256": "c3ddbc5113736d019435e2123dce754f0f710e6ebbba131daf72761ba10e7eb0",
+      "bytes": 8321,
+      "rawSha256": "c3ddbc5113736d019435e2123dce754f0f710e6ebbba131daf72761ba10e7eb0",
+      "rawBytes": 8321
+    },
+    "site-verify-build-precommit.log": {
+      "sha256": "c3ddbc5113736d019435e2123dce754f0f710e6ebbba131daf72761ba10e7eb0",
+      "bytes": 8321,
+      "rawSha256": "c3ddbc5113736d019435e2123dce754f0f710e6ebbba131daf72761ba10e7eb0",
+      "rawBytes": 8321
+    },
+    "site-vps-before-count-fix.log": {
+      "sha256": "d7311f99f5e4323cbf6ccc6c3da2086c2f47bc2ee5e51808931a45d36f956bde",
+      "bytes": 52784,
+      "rawSha256": "e317620dae37dbb7634b55634ae56b231c88295924ba02d8ff0e8b4117561fe7",
+      "rawBytes": 52832
+    },
+    "site-vps-combined.log": {
+      "sha256": "43c7bf61804513712d5e115247f5ab59be4259c39411baf5f52e5e84a93fc25d",
+      "bytes": 40356,
+      "rawSha256": "43c7bf61804513712d5e115247f5ab59be4259c39411baf5f52e5e84a93fc25d",
+      "rawBytes": 40356
+    },
+    "site-vps-precommit.log": {
+      "sha256": "552f410e037b2406584af5df4d975c4629d624a90a4cfb8c71a5aa267136e9f1",
+      "bytes": 38478,
+      "rawSha256": "552f410e037b2406584af5df4d975c4629d624a90a4cfb8c71a5aa267136e9f1",
+      "rawBytes": 38478
+    },
+    "validation-budget.log": {
+      "sha256": "5861e32b1d127cb838fc77b46a7a593ccf2ff802451d02539f3d76d226a64327",
+      "bytes": 453,
+      "rawSha256": "a7aa76659fd59962e9465a5d484edf93c4247da8261709c6bbe6406d5312f014",
+      "rawBytes": 454
+    }
+  },
+  "integrationCorrections": [
+    "Native0.6.0 build10 resolves observed135/137 build9 collision",
+    "Account labels in selected locale packs preserve JS budget",
+    "VPS auth SQL now participates in deploy schema guard",
+    "Assistant migration0015 upgrades preserve prior receipts; counters16 and baseline15 verified",
+    "CI preview strict port and owned PID checks",
+    "Packager rebuilds full runtimes and verifies copies",
+    "iOS source archive excludes ignored inputs and symlink paths"
+  ],
+  "dependencyAudit": {
+    "erp": {
+      "high": 2,
+      "critical": 0,
+      "underlyingAdvisories": [
+        "GHSA-mrhx-c7xc-m3w5"
+      ],
+      "status": "OPEN_WITH_APPLICATION_BOUNDARY_MITIGATION"
+    },
+    "site": {
+      "low": 3,
+      "high": 0,
+      "critical": 0,
+      "underlyingAdvisories": [
+        "GHSA-gcqx-w48m-w2h4"
+      ],
+      "status": "OPEN_BUILD_DEPENDENCY_CHAIN"
+    }
+  },
+  "localBuild": {
+    "sitePages": 161,
+    "siteAllEmittedJsGzip": 225210,
+    "siteJsBudgetExclusive": 225280,
+    "siteCssGzip": 40930,
+    "erpModules": 1732,
+    "erpBuildDuration": "7m56s",
+    "erpJsBytesReportedDecimalKB": 779.35,
+    "erpJsGzipReportedDecimalKB": 244.17,
+    "erpWarning": "chunk exceeds500KB; field performance NOT_RUN",
+    "sourceStatus": "UNCOMMITTED_INPUT_PROOFS; final clean runtimes rebuilt by packager"
+  },
+  "logStorage": "Whitespace-normalized readable copies; result lines are unchanged. Original raw log hashes and byte counts are recorded separately."
+}

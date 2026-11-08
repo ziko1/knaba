@@ -2,9 +2,14 @@ import Foundation
 
 /// Six explicit translations in DE, EN, PL, LT, RU, UK order; server identifiers stay canonical.
 enum ERPText: String, CaseIterable {
+    case currentPassword, newPassword, mfaSecret, credentialOtp, changePassword, configureMFA, credentialOnce, credentialReauth, credentialUnknown, errorSensitiveCommand
     case acceptedQuantity, actionAccept, actionApprove, actionArrive, actionCancel, actionClassify, actionClose, actionConfirm, actionCorrect, actionCorrectBulk, actionDecline, actionDelivery, actionDestination, actionEnd, actionExpire, actionLink, actionLock, actionOrder, actionPublish, actionReceipt, actionReceiptAmend, actionReceive, actionReconcile, actionRecordPayment, actionRefresh, actionReopen, actionReschedule, actionResolve, actionResume, actionReverse, actionReview, actionRevise, actionSend, actionStart, actionStatus, actionStop, actionSubmit, choose, fieldAddress, fieldDescription, fieldName, fieldPhone, fieldStatus, logWork, no, plannedQuantity, quantity, recordId, reportedQuantity, search, startTask, submitTask, taskId, yes
     case title, server, email, password, otp, signIn, refresh
     case roles, activeShifts, decisions, sites, requests, orders, tasks
+    case roleOwner, roleDirector, roleOperationsManager, roleDispatcher, roleInternalBauleiter, roleTeamLeader
+    case roleEmployee, roleStorekeeper, roleProcurement, roleAccountant, roleClient, roleExternalBauleiter
+    case roleBotAdmin, roleQualityControl, roleAuditor, roleDeveloperSupport, roleGuest, roleServiceAccount
+    case roleUnknown
     case crew, employees, shifts, presence, customers, messages, notifications
     case users, automation, actions, signOut, presenceNotice, empty, message
     case send, actionsIntro, expectedVersion, submit, confirmSensitive, cancel, confirm
@@ -14,7 +19,7 @@ enum ERPText: String, CaseIterable {
     case list, conversation, channel, noMessages, reply, reports, jsonArray
     case jsonObject, booleanHint, actionTitle, confirmNotice, errorOrigin, errorPath, errorExpired
     case errorResponse, errorSize, errorAccess, errorInput, errorHTTP, errorNetwork
-    case quotes, changes, timesheets, trips, defects, worklogs
+    case quotes, changes, timesheets, trips, vehicleTrips, defects, worklogs
     case materials, materialRequests, requestBatches, stockLocations, stockReservations, stockMovements
     case suppliers, purchaseRequests, purchaseOrders, goodsReceipts, payroll, payslips
     case payouts, receipts, reportVersions, issues, files, knowledge
@@ -24,6 +29,35 @@ enum ERPText: String, CaseIterable {
 
 enum ERPStrings {
     static let rows: [ERPText: [String]] = [
+        .currentPassword: ["Aktuelles Passwort", "Current password", "Obecne hasło", "Dabartinis slaptažodis", "Текущий пароль", "Поточний пароль"],
+        .newPassword: ["Neues Passwort", "New password", "Nowe hasło", "Naujas slaptažodis", "Новый пароль", "Новий пароль"],
+        .mfaSecret: ["Einrichtungsschlüssel der Authenticator-App", "Authenticator setup key", "Klucz konfiguracji aplikacji uwierzytelniającej", "Autentifikavimo programėlės nustatymo raktas", "Ключ настройки приложения-аутентификатора", "Ключ налаштування застосунку-автентифікатора"],
+        .credentialOtp: ["Authenticator-Code", "Authenticator code", "Kod uwierzytelniający", "Autentifikavimo kodas", "Код аутентификатора", "Код автентифікатора"],
+        .changePassword: ["Passwort ändern", "Change password", "Zmień hasło", "Keisti slaptažodį", "Изменить пароль", "Змінити пароль"],
+        .configureMFA: ["Zwei-Faktor-Anmeldung einrichten", "Set up two-factor sign-in", "Skonfiguruj logowanie dwuetapowe", "Nustatyti dviejų veiksnių prisijungimą", "Настроить двухфакторный вход", "Налаштувати двофакторний вхід"],
+        .credentialOnce: ["Diese Zugangsdaten werden einmal gesendet und nicht für eine Wiederholung gespeichert. Melden Sie sich danach erneut an.", "These credentials are sent once and are not saved for retry. Sign in again afterward.", "Te dane logowania są wysyłane jeden raz i nie są zapisywane do ponowienia. Następnie zaloguj się ponownie.", "Šie prisijungimo duomenys siunčiami vieną kartą ir nesaugomi kartoti. Po to prisijunkite iš naujo.", "Эти данные отправляются один раз и не сохраняются для повтора. После этого войдите снова.", "Ці дані надсилаються один раз і не зберігаються для повтору. Після цього увійдіть знову."],
+        .credentialReauth: ["Melden Sie sich erneut an, um die Änderung Ihrer Zugangsdaten zu prüfen.", "Sign in again to check your credential change.", "Zaloguj się ponownie, aby sprawdzić zmianę danych logowania.", "Prisijunkite iš naujo ir patikrinkite prisijungimo duomenų pakeitimą.", "Войдите снова, чтобы проверить изменение данных входа.", "Увійдіть знову, щоб перевірити зміну даних входу."],
+        .credentialUnknown: ["Die Zugangsdaten könnten bereits geändert sein. Melden Sie sich erneut an, um dies zu prüfen. Die Anfrage wird nicht wiederholt.", "The credentials may already have changed. Sign in again to check. The request will not be retried.", "Dane logowania mogły już zostać zmienione. Zaloguj się ponownie, aby to sprawdzić. Żądanie nie zostanie ponowione.", "Prisijungimo duomenys galėjo būti pakeisti. Prisijunkite iš naujo ir patikrinkite. Užklausa nebus kartojama.", "Данные входа могли уже измениться. Войдите снова и проверьте. Запрос не будет повторён.", "Дані входу могли вже змінитися. Увійдіть знову та перевірте. Запит не буде повторено."],
+        .errorSensitiveCommand: ["Diese Aktion mit Zugangsdaten ist in der mobilen App nicht verfügbar. Verwenden Sie die sicheren Kontoeinstellungen von KNABA.", "This credential action is not available in the mobile app. Use KNABA’s secure account settings.", "To działanie dotyczące danych logowania nie jest dostępne w aplikacji. Użyj bezpiecznych ustawień konta KNABA.", "Šis prisijungimo duomenų veiksmas programėlėje negalimas. Naudokite saugius KNABA paskyros nustatymus.", "Это действие с данными входа недоступно в приложении. Используйте безопасные настройки аккаунта KNABA.", "Ця дія з даними входу недоступна в застосунку. Скористайтеся захищеними налаштуваннями облікового запису KNABA."],
+        .roleOwner: ["Inhaber", "Owner", "Właściciel", "Savininkas", "Владелец", "Власник"],
+        .roleDirector: ["Geschäftsleitung", "Director", "Dyrektor", "Direktorius", "Директор", "Директор"],
+        .roleOperationsManager: ["Betriebsleitung", "Operations manager", "Kierownik operacyjny", "Veiklos vadovas", "Операционный руководитель", "Операційний керівник"],
+        .roleDispatcher: ["Disposition", "Dispatcher", "Dyspozytor", "Dispečeris", "Диспетчер", "Диспетчер"],
+        .roleInternalBauleiter: ["Interne Bauleitung", "Internal site supervisor", "Wewnętrzny kierownik budowy", "Vidaus statybos vadovas", "Внутренний руководитель объекта", "Внутрішній керівник об’єкта"],
+        .roleTeamLeader: ["Teamleitung", "Team leader", "Lider zespołu", "Komandos vadovas", "Руководитель бригады", "Керівник бригади"],
+        .roleEmployee: ["Mitarbeiter", "Employee", "Pracownik", "Darbuotojas", "Работник", "Працівник"],
+        .roleStorekeeper: ["Lagerverwaltung", "Storekeeper", "Magazynier", "Sandėlininkas", "Кладовщик", "Комірник"],
+        .roleProcurement: ["Einkauf", "Procurement", "Zaopatrzenie", "Pirkimai", "Снабжение", "Закупівлі"],
+        .roleAccountant: ["Buchhaltung", "Accountant", "Księgowy", "Buhalteris", "Бухгалтер", "Бухгалтер"],
+        .roleClient: ["Kunde", "Client", "Klient", "Klientas", "Клиент", "Клієнт"],
+        .roleExternalBauleiter: ["Externe Bauleitung", "External site supervisor", "Zewnętrzny kierownik budowy", "Išorinis statybos vadovas", "Внешний руководитель объекта", "Зовнішній керівник об’єкта"],
+        .roleBotAdmin: ["Bot-Administration", "Bot administrator", "Administrator bota", "Boto administratorius", "Администратор бота", "Адміністратор бота"],
+        .roleQualityControl: ["Qualitätskontrolle", "Quality control", "Kontrola jakości", "Kokybės kontrolė", "Контроль качества", "Контроль якості"],
+        .roleAuditor: ["Prüfung", "Auditor", "Audytor", "Auditorius", "Аудитор", "Аудитор"],
+        .roleDeveloperSupport: ["Technischer Support", "Technical support", "Wsparcie techniczne", "Techninė pagalba", "Техническая поддержка", "Технічна підтримка"],
+        .roleGuest: ["Gast", "Guest", "Gość", "Svečias", "Гость", "Гість"],
+        .roleServiceAccount: ["Dienstkonto", "Service account", "Konto usługi", "Paslaugos paskyra", "Сервисная учётная запись", "Службовий обліковий запис"],
+        .roleUnknown: ["Unbekannte Rolle", "Unknown role", "Nieznana rola", "Nežinomas vaidmuo", "Неизвестная роль", "Невідома роль"],
         .acceptedQuantity: ["Abgenommene Menge", "Accepted quantity", "Przyjęta ilość", "Priimtas kiekis", "Принятое количество", "Прийнята кількість"],
         .actionAccept: ["Annehmen", "Accept", "Zaakceptuj", "Priimti", "Принять", "Прийняти"],
         .actionApprove: ["Freigeben", "Approve", "Zatwierdź", "Patvirtinti", "Одобрить", "Схвалити"],
@@ -82,6 +116,7 @@ enum ERPStrings {
         .changes: ["Nachträge", "Change orders", "Zlecenia dodatkowe", "Papildomi užsakymai", "Дополнительные заказы", "Додаткові замовлення"],
         .timesheets: ["Stundenzettel", "Timesheets", "Ewidencja czasu", "Darbo laiko apskaita", "Табели", "Табелі"],
         .trips: ["Dienstfahrten", "Business trips", "Przejazdy służbowe", "Darbo kelionės", "Рабочие поездки", "Робочі поїздки"],
+        .vehicleTrips: ["Gemeinsame Fahrten", "Shared vehicle trips", "Wspólne przejazdy", "Bendros kelionės", "Совместные поездки", "Спільні поїздки"],
         .defects: ["Mängel und Nacharbeit", "Defects and rework", "Usterki i poprawki", "Defektai ir taisymas", "Дефекты и доработка", "Дефекти й доопрацювання"],
         .worklogs: ["Arbeitsnachweise", "Work logs", "Wykonane prace", "Atlikti darbai", "Выполненные работы", "Виконані роботи"],
         .materials: ["Materialien", "Materials", "Materiały", "Medžiagos", "Материалы", "Матеріали"],
@@ -148,7 +183,7 @@ enum ERPStrings {
         .saved: ["Gespeichert", "Saved", "Zapisano", "Išsaugota", "Сохранено", "Збережено"],
         .loading: ["Laden…", "Loading…", "Ładowanie…", "Įkeliama…", "Загрузка…", "Завантаження…"],
         .loginIntro: ["Melden Sie sich mit Ihrem freigegebenen KNABA-Konto an. Ihre Berechtigungen werden vom Server geprüft.", "Sign in with your approved KNABA account. The server verifies your permissions.", "Zaloguj się na zatwierdzone konto KNABA. Serwer sprawdza Twoje uprawnienia.", "Prisijunkite prie patvirtintos KNABA paskyros. Serveris tikrina jūsų teises.", "Войдите в подтверждённую учётную запись KNABA. Права доступа проверяет сервер.", "Увійдіть у підтверджений обліковий запис KNABA. Права доступу перевіряє сервер."],
-        .roleHeading: ["Inhaber · Team · Kunde · Partner", "Owner · Team · Client · Partner", "Właściciel · Zespół · Klient · Partner", "Savininkas · Komanda · Klientas · Partneris", "Владелец · Команда · Клиент · Партнёр", "Власник · Команда · Клієнт · Партнер"],
+        .roleHeading: ["Ihr KNABA-Arbeitsbereich", "Your KNABA workspace", "Twoje centrum KNABA", "Jūsų KNABA darbo vieta", "Ваше рабочее пространство KNABA", "Ваш робочий простір KNABA"],
         .account: ["Ihr Konto", "Your account", "Twoje konto", "Jūsų paskyra", "Ваша учётная запись", "Ваш обліковий запис"],
         .connected: ["Mit Ihrem KNABA-Konto verbunden", "Connected to your KNABA account", "Połączono z kontem KNABA", "Prisijungta prie jūsų KNABA paskyros", "Подключено к вашей учётной записи KNABA", "Підключено до вашого облікового запису KNABA"],
         .sent: ["Nachricht gesendet", "Message sent", "Wiadomość wysłana", "Žinutė išsiųsta", "Сообщение отправлено", "Повідомлення надіслано"],
@@ -191,6 +226,32 @@ enum ERPStrings {
         let format = rows[key]![NativeLanguage.allCases.firstIndex(of: language)!]
         return arguments.isEmpty ? format : String(format: format, locale: Locale(identifier: language.rawValue), arguments: arguments.map { $0 as CVarArg })
     }
+    /// Display-only mapping: canonical roles and permissions remain unchanged.
+    static func role(_ identifier: String, _ language: NativeLanguage) -> String {
+        let key: ERPText
+        switch identifier {
+        case "OWNER": key = .roleOwner
+        case "DIRECTOR": key = .roleDirector
+        case "OPERATIONS_MANAGER": key = .roleOperationsManager
+        case "DISPATCHER": key = .roleDispatcher
+        case "INTERNAL_BAULEITER", "FOREMAN": key = .roleInternalBauleiter
+        case "TEAM_LEADER", "TEAM_LEAD": key = .roleTeamLeader
+        case "EMPLOYEE": key = .roleEmployee
+        case "STOREKEEPER", "WAREHOUSE": key = .roleStorekeeper
+        case "PROCUREMENT": key = .roleProcurement
+        case "ACCOUNTANT": key = .roleAccountant
+        case "CLIENT": key = .roleClient
+        case "EXTERNAL_BAULEITER": key = .roleExternalBauleiter
+        case "BOT_ADMIN": key = .roleBotAdmin
+        case "QUALITY_CONTROL": key = .roleQualityControl
+        case "AUDITOR": key = .roleAuditor
+        case "DEVELOPER_SUPPORT": key = .roleDeveloperSupport
+        case "GUEST": key = .roleGuest
+        case "SERVICE_ACCOUNT": key = .roleServiceAccount
+        default: key = .roleUnknown
+        }
+        return text(key, language)
+    }
     static func error(_ error: Error, _ language: NativeLanguage) -> String {
         guard let failure = error as? ERPFailure else { return text(.errorNetwork, language) }
         switch failure {
@@ -208,6 +269,9 @@ enum ERPStrings {
         case .pendingDifferentActor: return text(.errorPendingActor, language)
         case .pendingStorage: return text(.errorPendingStorage, language)
         case .pendingChanged: return text(.errorPendingChanged, language)
+        case .sensitiveCommand: return text(.errorSensitiveCommand, language)
+        case .credentialReauthenticationRequired: return text(.credentialReauth, language)
+        case .credentialOutcomeUnknown: return text(.credentialUnknown, language)
         }
     }
 }

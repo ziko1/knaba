@@ -1,6 +1,8 @@
 {
   "canonicalSource": "corporate-site/public/favicon.svg",
   "canonicalSha256": "82ee65781ea7835747a4eb3613fa2415c459097aa3e7ce1d91b7d081a9afd0b8",
+  "wordmarkSource": "corporate-site/public/images/knaba-3d-mobile-header.svg",
+  "wordmarkSourceSha256": "cb660f68f72f14b3b3fa3e4f9a735a8f68cd6dfd2e63da9d9ead05cae549e0e6",
   "renderer": {
     "sharp": "0.35.5",
     "librsvg": "2.63.2"
@@ -34,6 +36,18 @@
     {
       "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml",
       "sha256": "74fed8ab56ea6012cf40e5c72ae1042f7a594647f3c33d24d394bd1e6778e926"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_wordmark.png",
+      "sha256": "8602009147e219088d6ee8f7f3a174d9d9a98084e384f5a88888ac0932411c1d"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/BrandWordmark.imageset/BrandWordmark.png",
+      "sha256": "8602009147e219088d6ee8f7f3a174d9d9a98084e384f5a88888ac0932411c1d"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/BrandWordmark.imageset/Contents.json",
+      "sha256": "4164eb1cf1625714c3f3f73f121cf18d715313cb9177ed7a0e42b1dcdc1d323c"
     },
     {
       "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",

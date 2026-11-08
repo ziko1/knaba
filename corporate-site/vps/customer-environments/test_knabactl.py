@@ -4,11 +4,13 @@ No Docker daemon, host mutation, network, real credentials, or customer data.
 SQLite backup tests use an actual live WAL database, not mocked database calls.
 """
 import copy
+import contextlib
 import datetime as dt
 import importlib.util
 import json
 from pathlib import Path
 import sqlite3
+import shutil
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -80,6 +82,48 @@ class EnvironmentsTest(unittest.TestCase):
         after = ctl.manifest(path)
         self.assertNotEqual(ctl.artifact_id(before), ctl.artifact_id(after))
         self.assertEqual(before['dist/client/index.html'], after['dist/client/index.html'])
+
+    def test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback(self):
+        # Real file manifests and active pointers, synthetic bytes only. Neither
+        # direction may reach backup, Docker, a network probe or pointer changes.
+        source = self.release()
+        (source / 'vps/site-identity-consents.sql').write_text('synthetic consent migration 001')
+        old_files = ctl.manifest(source)
+        old_id = ctl.artifact_id(old_files)
+        (self.root / 'releases').mkdir()
+        old = self.root / 'releases' / old_id
+        source.rename(old)
+        source = self.root / 'candidate'
+        shutil.copytree(old, source)
+        (source / 'vps/account-settings.sql').write_text('synthetic account migration 002')
+        new_files = ctl.manifest(source)
+        new_id = ctl.artifact_id(new_files)
+        new = self.root / 'releases' / new_id
+        source.rename(new)
+        (self.root / 'manifests').mkdir()
+        for digest, files in ((old_id, old_files), (new_id, new_files)):
+            (self.root / 'manifests' / (digest + '.json')).write_text(json.dumps(files))
+        (self.root / 'testing').mkdir()
+        pointer = self.root / 'testing/current'
+        for current, target in ((old, new), (new, old)):
+            with self.subTest(direction=current.name + ' to ' + target.name):
+                if pointer.is_symlink():
+                    pointer.unlink()
+                pointer.symlink_to(current)
+                with patch.object(ctl, 'ROOT', self.root), \
+                     patch.object(ctl, 'host_guard'), \
+                     patch.object(ctl, 'locked', return_value=contextlib.nullcontext()), \
+                     patch.object(ctl, 'private_backup', side_effect=AssertionError('backup before schema refusal')) as backup, \
+                     patch.object(ctl, 'switch', side_effect=AssertionError('pointer mutation before schema refusal')) as switch, \
+                     patch.object(ctl, 'probe', side_effect=AssertionError('network before schema refusal')) as probe, \
+                     patch.object(ctl, 'compose', side_effect=AssertionError('Docker before schema refusal')) as compose:
+                    with self.assertRaisesRegex(ctl.Refused, 'Schema change requires separately reviewed migration and rollback'):
+                        ctl.activate('testing', target.name)
+                    for operation in (backup, switch, probe, compose):
+                        operation.assert_not_called()
+                self.assertEqual(pointer.resolve(), current)
+                self.assertEqual(ctl.manifest(old), old_files)
+                self.assertEqual(ctl.manifest(new), new_files)
 
     def test_release_with_state_or_symlinks_is_rejected(self):
         path = self.release()

@@ -15,11 +15,15 @@ args = parser.parse_args()
 root = Path(__file__).resolve().parents[2]
 paths = []
 mobile = root / 'erp/apps/mobile-ios'
+tracked = set(subprocess.check_output(['git', '-C', str(root), 'ls-files', '-z'], text=True).split('\0'))
 for name in ['Sources', 'Resources', 'Tests', 'scripts']:
-    paths.extend(p for p in (mobile / name).rglob('*') if p.is_file() and not p.is_symlink())
+    prefix = str((mobile / name).relative_to(root)) + '/'
+    paths.extend(root / item for item in tracked if item.startswith(prefix))
 paths.extend(mobile / name for name in ['project.yml', 'Info.plist', 'PrivacyInfo.xcprivacy', 'README.md', 'README_RECOVERY_UK.md'])
-paths += [root / 'erp/tests/native-vectors.json', root / 'erp/scripts/native-ios-simulator.py', root / 'docs/mobile/DISTRIBUTION_2026-10-28_UK.md', root / 'docs/mobile/TEST_CANDIDATE_0.5.0_UK.md', root / 'docs/mobile/IOS_CONTEXT_ACTIONS_0.5.1_UK.md', root / 'docs/mobile/BRAND_ASSETS.json']
-assert all(p.is_file() for p in paths)
+paths += [root / 'erp/tests/native-vectors.json', root / 'erp/scripts/native-ios-simulator.py', root / 'docs/mobile/DISTRIBUTION_2026-10-28_UK.md', root / 'docs/mobile/TEST_CANDIDATE_0.5.0_UK.md', root / 'docs/mobile/IOS_CONTEXT_ACTIONS_0.5.1_UK.md', root / 'docs/mobile/BRAND_ASSETS.json', root / 'docs/mobile/MOBILE_BRAND_0.6.0_UK.md']
+paths += [root / 'docs/mobile/RELEASE_VERSIONS.json']
+assert all(str(p.relative_to(root)) in tracked for p in paths), 'Only versioned inputs may enter a source archive'
+assert all(p.is_file() and not any(part.is_symlink() for part in (p, *p.parents)) for p in paths), 'Regular source files without symlink ancestors are required'
 snapshots = {p: p.read_bytes() for p in sorted(paths)}
 sha = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
 dirty = bool(subprocess.check_output(['git', '-C', str(root), 'status', '--porcelain', '--', 'erp/apps/mobile-ios', 'scripts/mobile', 'docs/mobile', 'erp/tests/native-vectors.json', 'erp/scripts/native-ios-simulator.py'], text=True).strip())

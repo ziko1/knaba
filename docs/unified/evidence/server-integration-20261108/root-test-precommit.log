@@ -1,0 +1,49 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-unified-integration@0.0.0-integration test
+> node --test scripts/*.test.mjs
+
+✔ native catalog gate reports each current source version without claiming device acceptance (277.863281ms)
+✔ native catalog gate rejects iOS version drift (96.967077ms)
+✔ native catalog gate rejects Android build drift (113.475107ms)
+✔ native catalog gate rejects non-monotonic release build (62.328495ms)
+✔ native catalog gate rejects missing translated value (78.524783ms)
+✔ native catalog gate rejects localized placeholder mismatch (96.955101ms)
+✔ KNABA Mobile ships genuine role-based native views without embedded browser (5.661999ms)
+✔ Native accounts use existing ERP authenticated server commands and do not bypass access or location gate (4.319501ms)
+✔ Homepage contains one mobile work section in correct process-to-FAQ flow and no fake downloads (2.477049ms)
+✔ missing, incomplete and malformed receipts fail closed (1.807285ms)
+✔ blocked or omitted acceptance remains blocked (0.504761ms)
+✔ approval, exact SHA and artifact digest are mandatory (0.46454ms)
+✔ reject duplicate, forged and traversal evidence locations (0.280633ms)
+✔ complete structurally valid receipt passes syntax policy only (0.824959ms)
+✔ ERP standalone and VPS identity protocol/UI distribution bytes stay identical (25.061364ms)
+✔ neutral landing page has external same-origin script and no transfer secret in markup (20.619137ms)
+✔ manifest includes existing CMS/CRM/portal/inbox and a separate, disabled ERP (3.897485ms)
+✔ fails closed on a fabricated running ERP module (0.844386ms)
+✔ fails closed when mandatory backup/cutover gates disappear (0.672391ms)
+✔ rejects duplicate or unknown module instead of dynamically loading code (0.350567ms)
+✔ rejects invalid source paths and missing checkout (0.308065ms)
+✔ original imported trees and clean source are independently verified (154.12321ms)
+✔ committed ERP and site evolution does not corrupt historical import proof (143.226365ms)
+✔ unstaged ERP edit fails exact-source integrity (129.2329ms)
+✔ unstaged site edit fails exact-source integrity (120.036841ms)
+✔ staged change fails exact-source integrity (104.645406ms)
+✔ untracked root source fails exact-source integrity (124.20624ms)
+✔ dirty root metadata fails exact-source integrity (123.373482ms)
+✔ committed deletion of a canonical file fails (114.599244ms)
+✔ canonical file symlink cannot substitute for tracked regular file (128.825581ms)
+✔ missing historical anchor fails closed without fetching (80.692662ms)
+✔ an unrelated root history cannot claim imported ancestry (125.677373ms)
+✔ historical tree mismatch is never relabeled as feature change (118.312204ms)
+✔ invalid committed root metadata fails: {not json (132.569919ms)
+✔ invalid committed root metadata fails: {"name":"another-project","private":true} (121.378047ms)
+✔ invalid committed root metadata fails: {"name":"knaba-unified-integration","private":false} (319.889179ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2763.538779

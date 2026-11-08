@@ -5,10 +5,14 @@ private final class ERPMemoryJournal: ERPPendingCommandStoring, @unchecked Senda
     private let lock = NSLock()
     private var command: ERPPendingCommand?
     private var insertFailure = false
+    private var inserts = 0
     func failInsert() { lock.lock(); defer { lock.unlock() }; insertFailure = true }
+    func insertCount() -> Int { lock.lock(); defer { lock.unlock() }; return inserts }
+    func installLegacy(_ next: ERPPendingCommand) { lock.lock(); defer { lock.unlock() }; command = next }
     func load() throws -> ERPPendingCommand? { lock.lock(); defer { lock.unlock() }; return command }
     func insert(_ next: ERPPendingCommand) throws {
         lock.lock(); defer { lock.unlock() }
+        inserts += 1
         if insertFailure { throw ERPFailure.pendingStorage }
         guard command == nil else { throw ERPFailure.pendingExists }
         try next.validate(); command = next
@@ -108,6 +112,9 @@ private actor ERPFixtureTransport: ERPTransport {
                 } else {
                     effects[key] = bytes
                     status = 201; body = Data(#"{"id":"saved-record","version":8}"#.utf8)
+                    if path.hasSuffix("/user.password.rotate") || path.hasSuffix("/user.mfa.configure") {
+                        status = 200; body = Data(#"{"ok":true,"reauthenticationRequired":true}"#.utf8)
+                    }
                     if case .committedThenTimeout = outcome { timeout = true }
                     if case .committedMalformedReceipt = outcome { body = Data("not-json".utf8) }
                 }
@@ -581,5 +588,194 @@ final class ERPCommandRecoveryTests: XCTestCase {
         await expect(.accessChanged) { _ = try await client.execute(self.command, input: self.input, authority: authority) }
         let writes = await transport.writes()
         XCTAssertTrue(writes.isEmpty); XCTAssertNil(try journal.load())
+    }
+
+    private func credentialDefinition(_ name: String = "user.password.rotate") -> [String: Any] {
+        let fields = name == "user.password.rotate" ? ["currentPassword", "newPassword"] : ["currentPassword", "secret", "otp"]
+        return ["name": name, "permission": "identity.self", "highRisk": true,
+                "schema": ["type": "object", "required": fields,
+                           "properties": Dictionary(uniqueKeysWithValues: fields.map { ($0, ["type": "string"]) })]]
+    }
+    private func credentialCommand(_ name: String = "user.password.rotate") throws -> ERPCommand {
+        try JSONDecoder().decode(ERPCommand.self, from: JSONSerialization.data(withJSONObject: credentialDefinition(name)))
+    }
+    private func credentialFields(_ name: String = "user.password.rotate") -> [String: String] {
+        name == "user.password.rotate" ? ["currentPassword": " current-password ", "newPassword": " new-password "] :
+            ["currentPassword": " current-password ", "secret": "JBSWY3DPEHPK3PXP", "otp": "123456"]
+    }
+
+    func testCredentialSuccessUsesFreshIdentityWithoutAnyJournalOrReplay() async throws {
+        for name in ["user.password.rotate", "user.mfa.configure"] {
+            let journal = ERPMemoryJournal(); journal.failInsert()
+            let server = ERPFixtureTransport(journal: journal)
+            await server.setPermissions(["identity.self"])
+            let client = ERPConsoleClient(transport: server, pendingStore: journal)
+            try await signIn(client)
+            let before = await server.requests("/me").count
+            let result = try await client.execute(credentialCommand(name), input: JSONSerialization.data(withJSONObject: credentialFields(name)))
+            XCTAssertEqual(result.dictionary?["reauthenticationRequired"]?.bool, true)
+            let identity = await client.identity, writes = await server.writes(), checks = await server.persistenceChecks()
+            let reads = await server.requests("/me")
+            XCTAssertNil(identity); XCTAssertNil(try journal.load()); XCTAssertEqual(journal.insertCount(), 0)
+            XCTAssertEqual(reads.count, before + 1); XCTAssertEqual(writes.count, 1); XCTAssertEqual(checks, [false])
+            let request = try XCTUnwrap(writes.first)
+            XCTAssertEqual(request.value(forHTTPHeaderField: "X-CSRF-Token"), "csrf_user-a")
+            XCTAssertTrue(request.value(forHTTPHeaderField: "Cookie")?.hasPrefix("knaba_session=") == true)
+            let envelope = try XCTUnwrap(JSONSerialization.jsonObject(with: XCTUnwrap(request.httpBody)) as? [String: Any])
+            XCTAssertEqual(envelope["input"] as? [String: String], credentialFields(name), "Credential whitespace is significant")
+            let restarted = ERPConsoleClient(transport: server, pendingStore: journal)
+            try await signIn(restarted)
+            let pending = try await restarted.pendingCommand()
+            XCTAssertNil(pending)
+            await expect(.pendingChanged) { _ = try await restarted.retryPendingCommand() }
+            let afterRestart = await server.writes()
+            XCTAssertEqual(afterRestart.count, 1, "Neither login nor explicit recovery can replay a credential")
+        }
+    }
+
+    func testEveryDispatchedCredentialFailureClearsSessionWithoutPersistenceOrRetry() async throws {
+        let outcomes: [(ERPFixtureOutcome, ERPFailure)] = [
+            (.committedThenTimeout, .credentialOutcomeUnknown),
+            (.committedMalformedReceipt, .credentialOutcomeUnknown),
+            (.reject(503, "synthetic-sensitive-server-error"), .credentialOutcomeUnknown),
+            (.reject(400, "VALIDATION_ERROR"), .credentialReauthenticationRequired),
+            (.reject(401, "ACCESS_DENIED"), .credentialReauthenticationRequired)
+        ]
+        for (outcome, expected) in outcomes {
+            let journal = ERPMemoryJournal(), action = try credentialCommand()
+            let server = ERPFixtureTransport(journal: journal)
+            await server.setPermissions(["identity.self"]); await server.setOutcomes([outcome])
+            let client = ERPConsoleClient(transport: server, pendingStore: journal)
+            try await signIn(client)
+            let payload = try JSONSerialization.data(withJSONObject: credentialFields())
+            await expect(expected) { _ = try await client.execute(action, input: payload) }
+            let identity = await client.identity
+            XCTAssertNil(identity); XCTAssertNil(try journal.load()); XCTAssertEqual(journal.insertCount(), 0)
+            try await signIn(client)
+            let pending = try await client.pendingCommand()
+            XCTAssertNil(pending)
+            await expect(.pendingChanged) { _ = try await client.retryPendingCommand() }
+            let writes = await server.writes(), checks = await server.persistenceChecks()
+            XCTAssertEqual(writes.count, 1); XCTAssertEqual(checks, [false])
+            XCTAssertFalse(expected.localizedDescription.contains("synthetic-sensitive-server-error"))
+        }
+    }
+
+    func testLateCredentialSuccessTimeoutAndUnauthorizedResponseCannotClearNewLogin() async throws {
+        for outcome in [ERPFixtureOutcome.applied, .committedThenTimeout, .reject(401, "ACCESS_DENIED")] {
+            let journal = ERPMemoryJournal(), action = try credentialCommand()
+            let server = ERPFixtureTransport(journal: journal)
+            await server.setPermissions(["identity.self"]); await server.setOutcomes([outcome])
+            let client = ERPConsoleClient(transport: server, pendingStore: journal)
+            try await signIn(client)
+            let reached = expectation(description: "credential POST dispatched")
+            let barrier = ERPRaceGate(reached)
+            await server.hold("/api/v1/commands/user.password.rotate", at: barrier)
+            let payload = try JSONSerialization.data(withJSONObject: credentialFields())
+            let old = Task { try await client.execute(action, input: payload) }
+            await fulfillment(of: [reached], timeout: 2)
+            await client.logout(); await server.setActor(user: "user-b"); try await signIn(client)
+            await barrier.release()
+            await expect(.accessChanged) { _ = try await old.value }
+            let identity = await client.identity
+            XCTAssertEqual(identity?.actor.userId, "user-b")
+            XCTAssertNil(try journal.load()); XCTAssertEqual(journal.insertCount(), 0)
+        }
+    }
+
+    func testCredentialFreshAuthorityChangesBlockBeforePostIncludingUnknownFutureScopes() async throws {
+        let changes: [(String, Any)] = [("warehouseIds", ["warehouse-b"]), ("permissions", [] as [String]),
+                                      ("mfaVerified", false), ("delegatedScope", ["region": "changed"])]
+        for (key, value) in changes {
+            let journal = ERPMemoryJournal(), action = try credentialCommand()
+            let server = ERPFixtureTransport(journal: journal)
+            await server.setPermissions(["identity.self"])
+            let client = ERPConsoleClient(transport: server, pendingStore: journal)
+            try await signIn(client)
+            let identityData = await server.identityData()
+            var document = try XCTUnwrap(JSONSerialization.jsonObject(with: identityData) as? [String: Any])
+            var actor = try XCTUnwrap(document["actor"] as? [String: Any]); actor[key] = value; document["actor"] = actor
+            await server.setMe(try JSONSerialization.data(withJSONObject: document))
+            let payload = try JSONSerialization.data(withJSONObject: credentialFields())
+            await expect(.accessChanged) { _ = try await client.execute(action, input: payload) }
+            let writes = await server.writes(), identity = await client.identity
+            XCTAssertTrue(writes.isEmpty, key); XCTAssertNil(identity); XCTAssertEqual(journal.insertCount(), 0)
+        }
+    }
+
+    func testSecretShapedOrdinaryInputAndUnsafeLegacyJournalCannotBeSent() async throws {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        let client = ERPConsoleClient(transport: server, pendingStore: journal)
+        try await signIn(client)
+        let unsafeInput = Data(#"{"taskId":"task-a","attachments":[{"nested":{"Access-Token":"synthetic-secret"}}]}"#.utf8)
+        await expect(.sensitiveCommand) { _ = try await client.execute(self.command, input: unsafeInput) }
+        XCTAssertNil(try journal.load()); XCTAssertEqual(journal.insertCount(), 0)
+        let key = UUID().uuidString
+        let legacy = ERPPendingCommand(schemaVersion: 1, origin: origin, companyId: "company-a", userId: "user-a",
+                                       command: "user.password.rotate", idempotencyKey: key, expectedVersion: nil,
+                                       body: try JSONSerialization.data(withJSONObject: ["idempotency_key": key, "input": credentialFields()]), createdAt: Date())
+        journal.installLegacy(legacy)
+        await expect(.pendingStorage) { _ = try await client.pendingCommand() }
+        await expect(.pendingStorage) { _ = try await client.retryPendingCommand() }
+        await expect(.pendingStorage) { _ = try await client.execute(self.command, input: self.input) }
+        XCTAssertEqual(try journal.load(), legacy, "Unsafe legacy data is blocked, never silently discarded or replaced")
+        let writes = await server.writes(); XCTAssertTrue(writes.isEmpty)
+    }
+
+    func testUnrelatedUnknownDurableWriteBlocksCredentialWithoutOverwritingJournal() async throws {
+        let journal = ERPMemoryJournal(), action = try credentialCommand()
+        let server = ERPFixtureTransport(journal: journal)
+        await server.setPermissions(["task.work", "identity.self"])
+        let client = ERPConsoleClient(transport: server, pendingStore: journal)
+        try await signIn(client); await server.setOutcomes([.committedThenTimeout])
+        await expect(.pendingUnknown) { _ = try await client.execute(self.command, input: self.input) }
+        let saved = try XCTUnwrap(journal.load()), payload = try JSONSerialization.data(withJSONObject: credentialFields())
+        await expect(.pendingExists) { _ = try await client.execute(action, input: payload) }
+        XCTAssertEqual(try journal.load(), saved); XCTAssertEqual(journal.insertCount(), 1)
+        XCTAssertNil(saved.body.range(of: Data("current-password".utf8)))
+        let writes = await server.writes(); XCTAssertEqual(writes.count, 1)
+    }
+
+    @MainActor func testCredentialModelSuccessAndUnknownOutcomeRequireReauthenticationWithoutPendingUI() async throws {
+        for (outcome, expectedSuccess) in [(ERPFixtureOutcome.applied, true), (.committedThenTimeout, false)] {
+            let journal = ERPMemoryJournal(), action = try credentialCommand()
+            let server = ERPFixtureTransport(journal: journal)
+            await server.setPermissions(["identity.self"])
+            await server.setCatalog(try JSONSerialization.data(withJSONObject: ["items": [credentialDefinition()]]))
+            await server.setOutcomes([outcome])
+            let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+            model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+            await model.signIn()
+            let applied = await model.submit(action, fields: credentialFields(), versionText: "",
+                                             expectedSession: model.sessionGeneration, confirmed: true)
+            XCTAssertEqual(applied, expectedSuccess); XCTAssertNil(model.identity); XCTAssertFalse(model.hasPending)
+            XCTAssertFalse(model.busy); XCTAssertTrue(model.commands.isEmpty); XCTAssertTrue(model.password.isEmpty)
+            XCTAssertEqual(expectedSuccess ? model.notice : model.problem, model.text(expectedSuccess ? .credentialReauth : .credentialUnknown))
+            XCTAssertNil(try journal.load()); XCTAssertEqual(journal.insertCount(), 0)
+        }
+    }
+
+    @MainActor func testLateCredentialModelCompletionCannotClearNewAccountPresentation() async throws {
+        let journal = ERPMemoryJournal(), action = try credentialCommand()
+        let server = ERPFixtureTransport(journal: journal)
+        await server.setPermissions(["identity.self"])
+        await server.setCatalog(try JSONSerialization.data(withJSONObject: ["items": [credentialDefinition()]]))
+        let client = ERPConsoleClient(transport: server, pendingStore: journal)
+        let model = ERPConsoleModel(client: client)
+        model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+        await model.signIn()
+        let reached = expectation(description: "model credential POST dispatched")
+        let barrier = ERPRaceGate(reached)
+        await server.hold("/api/v1/commands/user.password.rotate", at: barrier)
+        let session = model.sessionGeneration, fields = credentialFields()
+        let old = Task { await model.submit(action, fields: fields, versionText: "", expectedSession: session, confirmed: true) }
+        await fulfillment(of: [reached], timeout: 2)
+        await model.signOut(); await server.setActor(user: "user-b")
+        model.password = "new-test"; await model.signIn()
+        await barrier.release(); let applied = await old.value
+        XCTAssertFalse(applied); XCTAssertEqual(model.identity?.actor.userId, "user-b")
+        let identity = await client.identity; XCTAssertEqual(identity?.actor.userId, "user-b")
+        XCTAssertNil(try journal.load()); XCTAssertEqual(journal.insertCount(), 0)
     }
 }

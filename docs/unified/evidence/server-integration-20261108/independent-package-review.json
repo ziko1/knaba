@@ -1,0 +1,47 @@
+{
+  "task": "KN-REVIEW-PACKAGE-01",
+  "status": "ACCEPT_SCOPED_SOURCE_AFTER_TWO_P2_FIXES",
+  "reviewed_at": "2026-11-08T16:19:14.854520+00:00",
+  "source_sha256": {
+    "scripts/package-server-candidate.py": "59ca98caec8c736695644ced66d465ec2d50a3cf428738954434ff648b546e43",
+    "scripts/mobile/package-ios-source.py": "21138c048914da6567f614be67dc63cec535b948844b3eb5d58bfef8b8f4eb8a",
+    "corporate-site/vps/customer-environments/knabactl.py": "8809dcc5f81a4ec74c35751ca8002d2f0e0123cf43e98792cba2d3b60a56d2fa"
+  },
+  "resolved_findings": [
+    {
+      "severity": "P2",
+      "description": "Static client receipt did not attest corporate Worker/SSR bundles; ERP provenance metadata did not ensure complete fresh bundles",
+      "resolution": "Packager rebuilds corporate and ERP from clean exact SHA, clears ERP dist, requires outputs, hashes full copied runtime before/after",
+      "evidence": "Initial defect established by actual source coverage inspection; final actual packager tested with synthetic clean Git/build fixtures"
+    },
+    {
+      "severity": "P2",
+      "description": "iOS source helper included ignored local Resources/.env with sourceWorkingTree=false",
+      "before_receipt": "/tmp/knaba-ios-package-ignored-input-before.json",
+      "resolution": "Tracked-only regular files with symlink ancestor refusal; ignored synthetic .env excluded by actual helper"
+    }
+  ],
+  "remaining_findings": [],
+  "independent_test": {
+    "command": "KNABA_PACKAGE_SOURCE_ROOT=/workspace/scratch/3b8559d3e692/knaba python3 /tmp/test_package_server_candidate.py -v",
+    "file": "/tmp/test_package_server_candidate.py",
+    "sha256": "e59106a8e3222c28e74e1759314de1bd23b98a6a47c94711ab6ba2fd858412e1",
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "log": "/tmp/knaba-independent-package-unittest.log",
+    "log_sha256": "cc74fd86798ef2cc516c8e5d719073fc37c730d9511d970f8c218c2b3d792d90"
+  },
+  "operator_notes": [
+    "Testing migration explicitly binds KNABA_DB_PATH and KNABA_BACKUP_DIR, requires restored testing DB and correct UID/private mode",
+    "Routine activation/rollback must refuse Drizzle and VPS SQL drift; no bypass proposed",
+    "Installed controller/config/ledgers remain unknown and require supported operator access",
+    "Artifact manifest hash is distinct from archive SHA; upload requires independent remote hash receipt"
+  ],
+  "limitations": [
+    "Tests execute actual packager, actual iOS helper and actual controller, with synthetic npm builders/static verifier in isolated temporary Git repositories",
+    "No real final application package/build/CI result implied",
+    "No production upload/activation performed by this review",
+    "No signed IPA/device or provider delivery acceptance"
+  ]
+}

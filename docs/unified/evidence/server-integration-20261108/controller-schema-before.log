@@ -1,0 +1,43 @@
+............FF
+======================================================================
+FAIL: test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback (test_knabactl.EnvironmentsTest.test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback) (direction='0c77dc215e6fa5d64385d78773ce971aed9a7f96bdde603a70b8dbc2f166884f to a1f462374d00381ab364a90081d76f0ea719ee5522059b80faa3bcdd80f4e410')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/customer-environments/test_knabactl.py", line 121, in test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback
+    ctl.activate('testing', target.name)
+  File "/workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/customer-environments/knabactl.py", line 510, in activate
+    backup = private_backup(environment, 'pre-activate')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: backup before schema refusal
+
+======================================================================
+FAIL: test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback (test_knabactl.EnvironmentsTest.test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback) (direction='a1f462374d00381ab364a90081d76f0ea719ee5522059b80faa3bcdd80f4e410 to 0c77dc215e6fa5d64385d78773ce971aed9a7f96bdde603a70b8dbc2f166884f')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/customer-environments/test_knabactl.py", line 121, in test_vps_auth_schema_change_refuses_activation_and_old_runtime_rollback
+    ctl.activate('testing', target.name)
+  File "/workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/customer-environments/knabactl.py", line 510, in activate
+    backup = private_backup(environment, 'pre-activate')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: backup before schema refusal
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.043s
+
+FAILED (failures=2)

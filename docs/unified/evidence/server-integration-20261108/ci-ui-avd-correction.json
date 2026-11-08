@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-11-08T17:06:58.803741+00:00",
+  "sourceUnderReview": "f0ed2209fdcb830436282ba8d1e4ff7d780848dd",
+  "runs": {
+    "repository": 42501598381,
+    "native": 42501598360
+  },
+  "passedAtThatSource": {
+    "root": 36,
+    "controller": 13,
+    "portable_packager": 9,
+    "site_vitest": 745,
+    "site_node_groups": [
+      37,
+      37,
+      10,
+      8
+    ],
+    "site_vps": 406,
+    "sqlite_postgres_bridge": 82,
+    "erp_real_postgres_and_cpu": 3292,
+    "erp_test_files": 136,
+    "account_https_browser": 9,
+    "android_junit": 61,
+    "ios_xctest": 93,
+    "ios_simulator_install_launch": "PASS"
+  },
+  "failedAtThatSource": {
+    "lead_ui": "3 passed, 1 failed: strict label selector includes nested textarea text",
+    "android_emulator": "AVD discovery failed before boot; no emulator/device acceptance"
+  },
+  "corrections": {
+    "lead_ui": "Exact textbox role and accessible name; additionally assert initial value. All four cases and version/save/review/no-send assertions preserved.",
+    "android_avd": "Fresh task-owned Android preference and AVD paths shared by SDK tools and emulator; explicit --path; index/config/exact discovery guards before launch. HOME, SDK, permissions, iOS job and install/hash/launch gates preserved."
+  },
+  "runtimeSourceChanged": false,
+  "portableAvdVerification": {
+    "before": "1 failed",
+    "after": "7 passed, including 6 negative cases",
+    "scope": "Actual inline workflow with synthetic SDK replies; stops before device work. No SDK or emulator acceptance claimed."
+  },
+  "authorAvdCommit": "24f550ea2042ab62350a5789ae7a93973e387f51",
+  "independentReceiptHashes": {
+    "hosted-ci-final-f0ed220-review.json": {
+      "sha256": "4211d54de1ad7fc5252d33dc82592dda92eb0d266023329a86606e07a8d26224",
+      "bytes": 30474
+    },
+    "lead-ui-locator-independent-review.json": {
+      "sha256": "3e3cc980dafe85b477791d471b9de9d019b83e65d6e4c143e7ac0252b3ec2a5e",
+      "bytes": 3301
+    },
+    "android-avd-bootstrap-fix.json": {
+      "sha256": "9b7e82c6c91df65613893d08fe6aed58c71fd0097724f8e103fb0da28fec78b0",
+      "bytes": 3015
+    }
+  },
+  "proofs": {
+    "android_avd_red": {
+      "file": "docs/unified/evidence/server-integration-20261108/android-avd-before.log",
+      "original_sha256": "8e036740bfc5460958b89c63c0e29070b4c73ba5fbeb4dc51ae80219ef13e23a",
+      "original_bytes": 1962,
+      "stored_sha256": "8e036740bfc5460958b89c63c0e29070b4c73ba5fbeb4dc51ae80219ef13e23a",
+      "stored_bytes": 1962,
+      "normalization": "trailing whitespace and final blank lines only"
+    },
+    "android_avd_green": {
+      "file": "docs/unified/evidence/server-integration-20261108/android-avd-after.log",
+      "original_sha256": "e9c202b3685d8ecd9d0046f76bedf0b893223e10d302e31624040b2e6ae2a6fe",
+      "original_bytes": 1195,
+      "stored_sha256": "e9c202b3685d8ecd9d0046f76bedf0b893223e10d302e31624040b2e6ae2a6fe",
+      "stored_bytes": 1195,
+      "normalization": "trailing whitespace and final blank lines only"
+    }
+  },
+  "budgetReservation": {
+    "checkpoint": "one additional source checkpoint to verify two observed causes",
+    "publicRepositoryRechecked": true,
+    "maximumAutomaticRepositoryRuns": 2,
+    "maximumNativeRuns": 1,
+    "runners": "existing standard Ubuntu/macOS workflow runners",
+    "artifactRetentionDays": 1,
+    "paidProviderCalls": 0,
+    "billingOrPaidServiceActivation": false,
+    "accountBillingBalance": "UNKNOWN_NOT_CLAIMED",
+    "localBrowserOrSdkDownload": false
+  },
+  "acceptance": "Hosted browser and emulator results after these corrections remain pending until actual exact-source CI completes."
+}

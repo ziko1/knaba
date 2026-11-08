@@ -112,7 +112,11 @@ def artifact_id(files):
 
 
 def schema_manifest(files):
-    return {k: v for k, v in files.items() if k.startswith('drizzle/')}
+    # VPS authorization has its own checksummed migration ledger. Treat its
+    # SQL as durable schema too: a routine code promotion or rollback must not
+    # introduce 002 or return to a reader that rejects its installed receipt.
+    return {k: v for k, v in files.items()
+            if k.startswith('drizzle/') or (k.startswith('vps/') and k.endswith('.sql'))}
 
 
 def read_env_identity(path):

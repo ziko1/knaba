@@ -1,0 +1,17 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run tests/worker-retention.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/3b8559d3e692/knaba/erp
+
+ ✓ tests/worker-retention.test.ts (34 tests) 6758ms
+     ✓ production ledger 'RESTORE_ERASURE_LEDGER_CHECKSUM_MISMA…' is rejected before restoring any data  351ms
+     ✓ verifies original row/blob integrity before migration, drains bounded batches, then commits and reports success  506ms
+     ✓ original backup corruption 'RESTORED_PRIVATE_BLOB_CHECKSUM_MISMAT…' prevents migration and safety-phase commit  734ms
+
+ Test Files  1 passed (1)
+      Tests  34 passed (34)
+   Start at  17:40:26
+   Duration  10.03s (transform 2.31s, setup 0ms, import 3.02s, tests 6.76s, environment 0ms)

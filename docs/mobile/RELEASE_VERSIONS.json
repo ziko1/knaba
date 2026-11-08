@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "android": {
+    "version": "0.6.0",
+    "build": 10,
+    "previouslyObservedBuild": 9
+  },
+  "ios": {
+    "version": "0.6.0",
+    "build": 10,
+    "previouslyObservedBuild": 9
+  },
+  "previousBuildSource": "55b4231c870c2f302548381294967edfbe380db7",
+  "scope": "Declared source versions only; upgrade additionally requires matching signing identity and device verification."
+}

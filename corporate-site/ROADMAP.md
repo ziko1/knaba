@@ -1,5 +1,9 @@
 # KnaBa corporate-site roadmap
 
+## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
+
+Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../docs/unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.
+
 ## 08.11.2026 — актуальний identity slice у Draft PR123
 
 OIDC original-session proof, owner subject binding і current-session API/SQL fences реалізовано та перевірено в ізольованому VPS/SQLite scope. [Evidence](../docs/unified/evidence/identity-20261108/verification.json), [контракт federation](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md).

@@ -1,0 +1,14 @@
+test_erp_symlink_output_is_refused (__main__.PackageServerCandidateTests.test_erp_symlink_output_is_refused) ... ok
+test_failed_build_cannot_reuse_stale_bundles (__main__.PackageServerCandidateTests.test_failed_build_cannot_reuse_stale_bundles) ... ok
+test_fresh_exact_source_is_packaged_without_ignored_inputs (__main__.PackageServerCandidateTests.test_fresh_exact_source_is_packaged_without_ignored_inputs) ... ok
+test_missing_new_worker_cannot_reuse_old_output (__main__.PackageServerCandidateTests.test_missing_new_worker_cannot_reuse_old_output) ... ok
+test_site_symlink_output_is_refused (__main__.PackageServerCandidateTests.test_site_symlink_output_is_refused) ... ok
+test_source_changed_during_build_is_refused (__main__.PackageServerCandidateTests.test_source_changed_during_build_is_refused) ... ok
+test_static_receipt_mismatch_is_refused (__main__.PackageServerCandidateTests.test_static_receipt_mismatch_is_refused) ... ok
+test_tracked_ios_symlink_is_refused (__main__.PackageServerCandidateTests.test_tracked_ios_symlink_is_refused) ... ok
+test_wrong_source_sha_is_refused (__main__.PackageServerCandidateTests.test_wrong_source_sha_is_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 20.038s
+
+OK

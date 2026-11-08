@@ -25,6 +25,7 @@ enum ERPModuleCatalog {
         .init(id: "shift", icon: "clock", title: .shifts, permissions: ["shift.read", "shift.manage", "timesheet.approve", "finance.accountant"]),
         .init(id: "timesheet", icon: "calendar", title: .timesheets, permissions: ["timesheet.read", "timesheet.approve", "finance.payroll", "finance.accountant"]),
         .init(id: "trip", icon: "car", title: .trips, permissions: ["trip.read", "trip.manage", "trip.approve"]),
+        .init(id: "vehicle_trip", icon: "car.2", title: .vehicleTrips, permissions: ["trip.read", "dispatch.manage", "trip.approve"]),
         .init(id: "presence", icon: "location.circle", title: .presence, permissions: ["location.presence.read"]),
         .init(id: "defect", icon: "exclamationmark.circle", title: .defects, permissions: ["task.read", "task.review"]),
         .init(id: "worklog", icon: "list.clipboard", title: .worklogs, permissions: ["task.read", "operations.read"]),

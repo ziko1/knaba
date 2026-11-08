@@ -221,6 +221,7 @@ export default function AdminControlCenter() {
                     <option value="de">DE</option><option value="en">EN</option><option value="pl">PL</option><option value="lt">LT</option><option value="ru">RU</option><option value="uk">UK</option>
                   </select></label>
                 <button type="button" class="kncc-tool" onClick={() => void verifySession()}>{t().refresh}</button>
+                <Show when={hostingAuth.passwordAccounts}><a class="kncc-tool" data-astro-reload target="_top" href={'/account/settings/?lang='+language()}>{portalMessages[language()].accountSettings}</a></Show>
                 <a class="kncc-tool" data-astro-reload target="_top" href={hostingAuth.signOut(publicHome())}>{t().signOut}</a>
               </div>
             </div>

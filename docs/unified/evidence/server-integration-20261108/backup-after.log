@@ -1,0 +1,22 @@
+✔ backup refuses an existing 0755 backup directory without changing it or source data (2192.724628ms)
+✔ backup refuses a symlinked backup directory without following it (2282.449107ms)
+✔ backup refuses a symlinked parent before creating a new backup directory (715.605506ms)
+✔ backup refuses an independently copied database with broken foreign keys (4693.786754ms)
+✔ backup reserves a private inode before SQLite copying and returns a verified backup (286.278605ms)
+✔ backup refuses a file collision at destination reservation without overwriting (438.471702ms)
+✔ backup refuses a symlink collision at destination reservation without overwriting (775.461896ms)
+✔ migrate refuses an existing 0755 backup directory without changing it or source data (248.715675ms)
+✔ migrate refuses a symlinked backup directory without following it (220.257518ms)
+✔ migrate refuses a symlinked parent before creating a new backup directory (237.555564ms)
+✔ migrate refuses an independently copied database with broken foreign keys (413.748754ms)
+✔ migrate reserves a private inode before SQLite copying and returns a verified backup (662.990814ms)
+✔ migrate refuses a file collision at destination reservation without overwriting (353.201482ms)
+✔ migrate refuses a symlink collision at destination reservation without overwriting (382.037613ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15215.459805

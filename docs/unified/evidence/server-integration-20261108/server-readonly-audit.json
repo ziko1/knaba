@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "task_id": "KN-SRV-01",
+  "project": "ziko1/knaba",
+  "scope": "read-only operational audit; no server mutation or access-control bypass",
+  "observed_state_time_utc": "2026-11-08T15:28:38.259509+00:00",
+  "host": {
+    "id": "host_007b016d01b5066b",
+    "hostname": "knaba",
+    "agent_version": "0.23.34",
+    "operational": true
+  },
+  "retired_host": {
+    "id": "host_cffe53b3b000e4ad",
+    "label": "avenqo-sferahost",
+    "status": "disabled_by_user",
+    "disabled_at": "2026-10-29T00:40:12+00:00"
+  },
+  "capabilities": {
+    "exec_mode": "allowlist",
+    "declared_services": [
+      "nginx",
+      "docker",
+      "sentinelx-cloud-core"
+    ],
+    "writable_file_ops_paths": [],
+    "upload_base": "/var/lib/sentinelx/uploads",
+    "knaba_deploy_helper_declared": false
+  },
+  "identity_probe": {
+    "ok": true,
+    "output": "uid=999(sentinelx) gid=983(sentinelx) groups=983(sentinelx)",
+    "duration": 0.03,
+    "returncode": 0
+  },
+  "target_directory_probe": {
+    "ok": true,
+    "output": "drwxr-x--- 7 root knaba 4096 Nov  8 15:18 /srv/knaba\nls: cannot open file '/srv/knaba/customer': Permission denied\nls: cannot open file '/srv/knaba/customer/test': Permission denied\nls: cannot open file '/srv/knaba/customer/prod': Permission denied\nls: cannot open file '/srv/knaba/ops': Permission denied\nls: cannot open file '/srv/knaba/repos': Permission denied",
+    "duration": 0.05,
+    "returncode": 2
+  },
+  "public_http_probe": {
+    "ok": true,
+    "output": "{\"url\": \"https://knaba.de/healthz\", \"status\": 200, \"content_type\": \"text/plain; charset=utf-8\", \"bytes_read\": 7, \"x_robots_tag\": null, \"location_host\": null, \"body\": \"healthy\"}\n{\"url\": \"https://knaba.de/readyz\", \"status\": 200, \"content_type\": \"text/plain; charset=utf-8\", \"bytes_read\": 5, \"x_robots_tag\": null, \"location_host\": null, \"body\": \"ready\"}\n{\"url\": \"https://knaba.de/api/public/release\", \"status\": 200, \"content_type\": \"application/json; charset=utf-8\", \"bytes_read\": 404, \"x_robots_tag\": \"noindex, nofollow\", \"location_host\": null, \"body\": \"{\\\"schemaVersion\\\":1,\\\"defaultLanguage\\\":\\\"de\\\",\\\"languages\\\":[\\\"de\\\",\\\"en\\\",\\\"pl\\\",\\\"lt\\\",\\\"ru\\\",\\\"uk\\\"],\\\"stage\\\":\\\"prototype\\\",\\\"migration\\\":{\\\"state\\\":\\\"pending\\\",\\\"workingOrigin\\\":null},\\\"android\\\":{\\\"status\\\":\\\"pending\\\",\\\"url\\\":null,\\\"sha256\\\":null,\\\"distribution\\\":null,\\\"version\\\":null},\\\"ios\\\":{\\\"status\\\":\\\"pending\\\",\\\"url\\\":null},\\\"channels\\\":{\\\"whatsapp\\\":{\\\"status\\\":\\\"pending\\\",\\\"url\\\":null},\\\"telegram\\\":{\\\"status\\\":\\\"pending\\\",\\\"url\\\":null}},\\\"erpOrigin\\\":null}\"}\n{\"url\": \"https://testing.knaba.de/healthz\", \"status\": 302, \"content_type\": \"text/html; charset=UTF-8\", \"bytes_read\": 143, \"x_robots_tag\": null, \"location_host\": \"knaba-de-aee72.cloudflareaccess.com\"}",
+    "duration": 0.31,
+    "returncode": 0
+  },
+  "source_inspected": {
+    "commit": "131e582f1ffa50a89a5898742cf7f22b5b43efa7",
+    "controller": "corporate-site/vps/customer-environments/knabactl.py",
+    "docs": "corporate-site/vps/customer-environments/README_UK.md",
+    "runtime_artifact_id": "SHA256 of canonical per-file hash manifest; not archive SHA256 or Git SHA",
+    "parts": [
+      "dist",
+      "vps",
+      "drizzle",
+      "package.json"
+    ],
+    "activation_schema_guard": true
+  },
+  "backup_timer": {
+    "last_trigger_utc": "2026-11-08T03:15:14Z",
+    "next_trigger_observed_utc": "2026-11-09T03:16:17Z",
+    "active_state": "active",
+    "service_last_result": "success",
+    "service_exec_main_status": 0,
+    "artifact_integrity": "NOT_VERIFIED_CURRENT_ACCESS",
+    "restore": "NOT_RUN"
+  },
+  "conclusions": {
+    "source_or_artifact_identity": "UNKNOWN_PRIVATE_TARGET_INACCESSIBLE",
+    "deploy_through_current_unprivileged_identity": "BLOCKED_ACCESS",
+    "user_deployment_authorization": "PRESENT_IN_CURRENT_REQUEST",
+    "upload_support": "DISCOVERED_NOT_EXECUTED",
+    "testing_acceptance": "BLOCKED_ACCESS_CLOUDFLARE_LOGIN",
+    "public_health": "PASS",
+    "whole_product_readiness": "NOT_ESTABLISHED"
+  }
+}

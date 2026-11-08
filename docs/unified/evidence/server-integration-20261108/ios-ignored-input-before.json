@@ -1,0 +1,9 @@
+{
+  "source_sha": "2269dfcda97fbc0b141bbd1a46824372cbe2e21f",
+  "source_clean": true,
+  "script_sha256": "3c5d615cd99832b4762a330cd1296600e520d71f773b00b1d801708905e514ca",
+  "accepted_ignored_env_file": true,
+  "manifest_source_dirty": false,
+  "fixture_archive": "/tmp/knaba-package-review-oq4oi47e/ios-ignored-input-repro.tar.gz",
+  "synthetic_only": true
+}

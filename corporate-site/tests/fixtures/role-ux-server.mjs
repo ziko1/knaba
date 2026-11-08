@@ -11,7 +11,8 @@ import {openLocalDatabase} from '../../vps/database.mjs';
 import {createCredentialsUser,createSessionForUser,sessionCookie} from '../../vps/auth.mjs';
 import {createKnabaVpsServer} from '../../vps/server.mjs';
 
-export async function createRoleUxFixture({releaseEnvironment={},localTest=false}={}){
+export async function createRoleUxFixture({releaseEnvironment={},localTest=false,
+  accountEmailEnvironment={},accountMailerFactory}={}){
   const directory=await mkdtemp(join(tmpdir(),'knaba-role-ux-'));
   const database=join(directory,'synthetic.sqlite');
   const password='Synthetic-browser-only-2026';
@@ -48,9 +49,10 @@ export async function createRoleUxFixture({releaseEnvironment={},localTest=false
             status==='pending'?null:approvedRole,status,'2026-10-28',now,now,'fixture-'+role);
       }
       // A real, nonempty inbox layout without invoking AI, providers or messaging.
-      initial.db.prepare('INSERT INTO assistant_conversations(id,token_hash,locale,status,contact_name,contact_email,contact_phone,privacy_version,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?)')
+      initial.db.prepare('INSERT INTO assistant_conversations(id,token_hash,locale,status,contact_name,contact_email,contact_phone,privacy_version,created_at,updated_at,token_expires_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)')
         .run(conversationId,createHash('sha256').update(randomUUID()).digest('hex'),'en','human',
-          'QA synthetic coordination contact with a deliberately long layout label','inbox@example.test','','2026-10-28',now,now);
+          'QA synthetic coordination contact with a deliberately long layout label','inbox@example.test','','2026-10-28',now,now,
+          new Date(Date.parse(now)+7*86400000).toISOString());
       initial.db.prepare('INSERT INTO assistant_messages(id,conversation_id,sender,kind,content,request_key,created_at) VALUES(?,?,?,?,?,?,?)')
         .run(randomUUID(),conversationId,'customer','text','Synthetic browser fixture: please coordinate the agreed site work and access.','fixture-message',now);
     }finally{initial.db.close();}
@@ -69,7 +71,11 @@ export async function createRoleUxFixture({releaseEnvironment={},localTest=false
       staticRoot:fileURLToPath(new URL('../../dist/client/',import.meta.url)),
       workerPath:new URL('../../dist/server/index.js',import.meta.url).href,
       host:'127.0.0.1',port:0,origin,ownerEmail:identities.owner.email,developerEmail:identities.developer.email,
-      localTest,oidcConfig:{},releaseEnvironment});
+      // Only isolated, server-owned synthetic transports are injected by QA.
+      localTest,oidcConfig:{},releaseEnvironment,erpIntakeEnvironment:{},
+      accountEmailEnvironment,accountMailerFactory,trustedProxyIps:'',
+      siteIdentityConfig:()=>null,siteIdentitySessionsEnabled:()=>false,
+      erpIntakeSchedulerFactory:()=>({stop(){}})});
     const cookies={};
     for(const [role,user] of Object.entries(identities)){
       cookies[role]=sessionCookie(createSessionForUser(app.db,user.id).token).split(';')[0];

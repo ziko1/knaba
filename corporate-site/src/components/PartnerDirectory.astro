@@ -24,7 +24,11 @@ const alternates=(['de','en','uk','ru'] as const).map(lang=>({lang,url:(lang==='
       {officialPartnerLogos.map(partner=>(
         <article id={partner.slug} class="partner-directory-profile" aria-labelledby={partner.slug+'-title'} tabindex="-1">
           <div class="partner-directory-logo"><img src={partner.src} alt={partnerCopy[locale].logo+' '+partner.name} width={partner.width} height={partner.height} loading="lazy" decoding="async" /></div>
-          <div><h2 id={partner.slug+'-title'}>{partner.name}</h2><p>{partner.description[locale]}</p></div>
+          <div>
+            <h2 id={partner.slug+'-title'}>{partner.name}</h2>
+            <p>{partner.description[locale]}</p>
+            {'website' in partner && <p><a class="button button-outline" href={partner.website} rel="external noopener noreferrer" aria-label={t.website+': '+partner.name}>{t.website} <span aria-hidden="true">↗</span></a></p>}
+          </div>
         </article>
       ))}
     </div>

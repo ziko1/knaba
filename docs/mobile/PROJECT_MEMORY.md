@@ -1,5 +1,9 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
+
+Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.
+
 ## 08.11.2026 — спільний source і native CI прийнято
 
 Source `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2`, [PR133](https://github.com/ziko1/knaba/pull/133). Native run [42486326902](https://github.com/ziko1/knaba/actions/runs/42486326902): Android 0.5.0-test/code6 — 32 JUnit PASS, lint 0 errors/20 warnings, hosted signature/AAB integrity; iOS 0.5.1/build7 — 67 actual XCTest PASS на iPhone 16/iOS 18.5/arm64, Xcode 16.4. Repository run [42486326925](https://github.com/ziko1/knaba/actions/runs/42486326925): ERP2969, bridge82, site732+90+297, root30; усі required jobs SUCCESS без acceptance skips.

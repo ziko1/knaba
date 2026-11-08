@@ -1,0 +1,220 @@
+✖ backup refuses an existing 0755 backup directory without changing it or source data (359.640917ms)
+✖ backup refuses a symlinked backup directory without following it (478.562331ms)
+✖ backup refuses a symlinked parent before creating a new backup directory (267.002296ms)
+✖ backup refuses an independently copied database with broken foreign keys (486.821983ms)
+✖ backup reserves a private inode before SQLite copying and returns a verified backup (487.160425ms)
+✖ backup refuses a file collision at destination reservation without overwriting (369.801917ms)
+✖ backup refuses a symlink collision at destination reservation without overwriting (557.631832ms)
+✖ migrate refuses an existing 0755 backup directory without changing it or source data (818.562575ms)
+✖ migrate refuses a symlinked backup directory without following it (233.75201ms)
+✖ migrate refuses a symlinked parent before creating a new backup directory (231.916562ms)
+✖ migrate refuses an independently copied database with broken foreign keys (246.751412ms)
+✖ migrate reserves a private inode before SQLite copying and returns a verified backup (366.890222ms)
+✖ migrate refuses a file collision at destination reservation without overwriting (442.675627ms)
+✖ migrate refuses a symlink collision at destination reservation without overwriting (234.59062ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 0
+ℹ fail 14
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5862.938777
+
+✖ failing tests:
+
+test at corporate-site/vps/manage-backup.test.mjs:43:3
+✖ backup refuses an existing 0755 backup directory without changing it or source data (359.640917ms)
+  AssertionError [ERR_ASSERTION]: an existing non-private directory must be refused
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:51:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:59:3
+✖ backup refuses a symlinked backup directory without following it (478.562331ms)
+  AssertionError [ERR_ASSERTION]: a symlink destination must be refused
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:67:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:74:3
+✖ backup refuses a symlinked parent before creating a new backup directory (267.002296ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 0
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:82:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:89:3
+✖ backup refuses an independently copied database with broken foreign keys (486.821983ms)
+  AssertionError [ERR_ASSERTION]: a checksum alone does not verify database consistency
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:95:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:101:3
+✖ backup reserves a private inode before SQLite copying and returns a verified backup (487.160425ms)
+  Error: ENOENT: no such file or directory, open '/tmp/knaba-manage-backup-P9vdx6/observation.json'
+      at async open (node:internal/fs/promises:1345:25)
+      at async readFile (node:internal/fs/promises:2003:14)
+      at async TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:129:33)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/tmp/knaba-manage-backup-P9vdx6/observation.json'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:163:5
+✖ backup refuses a file collision at destination reservation without overwriting (369.801917ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 0
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:189:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:163:5
+✖ backup refuses a symlink collision at destination reservation without overwriting (557.631832ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 0
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:189:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:43:3
+✖ migrate refuses an existing 0755 backup directory without changing it or source data (818.562575ms)
+  AssertionError [ERR_ASSERTION]: an existing non-private directory must be refused
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:51:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:59:3
+✖ migrate refuses a symlinked backup directory without following it (233.75201ms)
+  AssertionError [ERR_ASSERTION]: a symlink destination must be refused
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:67:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:74:3
+✖ migrate refuses a symlinked parent before creating a new backup directory (231.916562ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 0
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:82:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:89:3
+✖ migrate refuses an independently copied database with broken foreign keys (246.751412ms)
+  AssertionError [ERR_ASSERTION]: a checksum alone does not verify database consistency
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:95:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:101:3
+✖ migrate reserves a private inode before SQLite copying and returns a verified backup (366.890222ms)
+  Error: ENOENT: no such file or directory, open '/tmp/knaba-manage-backup-2EWBTf/observation.json'
+      at async open (node:internal/fs/promises:1345:25)
+      at async readFile (node:internal/fs/promises:2003:14)
+      at async TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:129:33)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/tmp/knaba-manage-backup-2EWBTf/observation.json'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:163:5
+✖ migrate refuses a file collision at destination reservation without overwriting (442.675627ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 0
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:189:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at corporate-site/vps/manage-backup.test.mjs:163:5
+✖ migrate refuses a symlink collision at destination reservation without overwriting (234.59062ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 0
+      at TestContext.<anonymous> (file:///workspace/scratch/3b8559d3e692/knaba/corporate-site/vps/manage-backup.test.mjs:189:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

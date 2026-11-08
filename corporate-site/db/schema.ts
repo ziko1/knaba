@@ -95,6 +95,9 @@ export const portalMessages = sqliteTable('portal_messages', {
 export const assistantConversations = sqliteTable("assistant_conversations", {
   id: text("id").primaryKey(),
   tokenHash: text("token_hash").notNull(),
+  /** Fixed at creation; legacy invalid timestamps intentionally remain inaccessible. */
+  tokenExpiresAt: text("token_expires_at"),
+  tokenRevokedAt: text("token_revoked_at"),
   locale: text("locale").notNull(),
   status: text("status").notNull().default("assistant"),
   contactName: text("contact_name").notNull().default(""),
