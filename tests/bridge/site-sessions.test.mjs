@@ -356,7 +356,7 @@ check('actual old-schema to current-schema upgrade preserves local credentials, 
   // absent, so the already migrated bridge database cannot satisfy a lookup or
   // receive a table, function, trigger, seed row or migration receipt here.
   await client.query(`SET LOCAL search_path TO "${schema}", pg_catalog`);
-  assert.deepEqual((await client.query('SELECT current_schemas(false) AS names')).rows[0].names,[schema,'pg_catalog']);
+  assert.deepEqual((await client.query('SELECT current_schemas(false)::text[] AS names')).rows[0].names,[schema,'pg_catalog']);
   await client.query(old);
   assert.equal((await client.query("SELECT to_regclass('site_auth_sessions') AS table_id")).rows[0].table_id,null);
   assert.equal((await client.query("SELECT count(*)::int AS n FROM schema_migrations WHERE version='005_site_session_authority'")).rows[0].n,0);

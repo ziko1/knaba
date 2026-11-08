@@ -111,8 +111,8 @@
       "bytes": 18305
     },
     "tests/bridge/site-sessions.test.mjs": {
-      "sha256": "21fc3d44ced06cbf053ad7fe97ac9f211bf85245c3f50252726b760ed62f8ba2",
-      "bytes": 52190
+      "sha256": "39f61a9d20568e026a0472ec40aa87feb899401ba60d142bce00432abba83da6",
+      "bytes": 52198
     }
   },
   "review": {
@@ -159,7 +159,7 @@
     }
   },
   "hosted": {
-    "status": "NOT_RUN",
+    "status": "CORRECTIVE_CHECKPOINT_PENDING",
     "new_actual_bridge_cases": 51,
     "required_jobs": [
       "Source integrity and policy tests",
@@ -198,5 +198,75 @@
     "paid_services_activated": false,
     "merged": false,
     "deployed": false
+  },
+  "first_attempt": {
+    "source_sha": "ef1242d1426e592f0d7fc2fc703cb9cf6f8a60cb",
+    "tree_sha": "a37ed068f3e5523fb068a8a96088a2e95cacb2e5",
+    "pr": 131,
+    "pr_run": 42480841055,
+    "push_run": 42480802391,
+    "status": "FAILED_TEST_FIXTURE",
+    "results": {
+      "erp": {
+        "status": "PASS",
+        "tests": 2832,
+        "files": 122,
+        "postgresql": "17.6"
+      },
+      "site": {
+        "status": "PASS",
+        "vitest": 732,
+        "node_other": 90,
+        "vps": 297
+      },
+      "root": {
+        "status": "PASS",
+        "tests": 30
+      },
+      "bridge": {
+        "status": "FAIL",
+        "total": 82,
+        "pass": 81,
+        "fail": 1,
+        "skipped": 0,
+        "existing_pass": 31,
+        "new_f4b_pass": 50,
+        "new_f4b_total": 51,
+        "self_dispatch_pass": 17
+      }
+    },
+    "failure": "Upgrade case65 stopped at current_schemas(false) name[] driver decoding: raw PostgreSQL array string was compared to JavaScript array; actual upgrade not reached in that attempt.",
+    "raw_logs": {
+      "erp": {
+        "path": "f4b-42480841055-erp.log",
+        "sha256": "4fa55ba9ec37f5ddd73f42c4654dea1648685bc7845430dd80bd2de2264efd8b",
+        "bytes": 104984
+      },
+      "site": {
+        "path": "f4b-42480841055-site.log",
+        "sha256": "3c3e441923a4fb33990e26eab2f2cb6886880ba32b24837f6db2dea5406031b3",
+        "bytes": 141955
+      },
+      "root": {
+        "path": "f4b-42480841055-root.log",
+        "sha256": "69cc1c27b92d06fcfd03d0f28f125ed85f21ff38c9e0b7098d41bed9b35f9855",
+        "bytes": 40952
+      },
+      "bridge": {
+        "path": "f4b-42480841055-bridge-failed.log",
+        "sha256": "6f0cd8f7ccc54285a33904ac4a4665653e04a63f08307e64c9c7c3265acc4360",
+        "bytes": 105319
+      }
+    },
+    "original_bridge_input": {
+      "sha256": "21fc3d44ced06cbf053ad7fe97ac9f211bf85245c3f50252726b760ed62f8ba2",
+      "bytes": 52190
+    }
+  },
+  "correction": {
+    "parent_sha": "ef1242d1426e592f0d7fc2fc703cb9cf6f8a60cb",
+    "scope": "One test SQL expression casts current_schemas(false) to text[]; exact own-schema/pg_catalog assertion retained. No runtime/schema change.",
+    "source_review": "ACCEPT by independent reviewer and root; exact pg 8.16.3 name[]/text[] parsers reproduced",
+    "actual_corrected_upgrade": "NOT_RUN until corrected exact-source CI"
   }
 }

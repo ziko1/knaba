@@ -2,6 +2,8 @@
 
 ## F4-B federated session authority reservation — 08.11.2026
 
+Implementation ef1242d triggered push42480802391 / PR42480841055. PR mandatory ERP2832, site732+90+297 and root30 PASS; bridge81/82 FAIL only because new upgrade fixture compared undecoded name[] to a JS array. Use the already reserved single correction for explicit text[] decoding; no runtime/schema change, no unchanged manual rerun, no additional provider activation. Corrected source still requires all mandatory CI jobs.
+
 F4-A PR run42475824054 at513351 completed all4 mandatory jobs; push42475797237 is still running at reservation time and requires reconciliation, no manual rerun. Reserve one F4-B source checkpoint and at most one corrective checkpoint, at most four automatically triggered existing public standard Ubuntu repository runs within unchanged timeouts. Scope: default-off federated session reader/storage, current site introspection and revocation, synthetic HTTP/PostgreSQL/SQLite acceptance. Browser issuance, real configuration, native files, production and paid services are outside this checkpoint. New paid activation EUR0; actual model/account balances and provider quotas UNKNOWN.
 
 Reconciliation before F4-B publication: push42475797237 completed CANCELLED; ERP job128716766886 cancelled, other3 mandatory jobs SUCCESS. The accepted PR run42475824054 remains the complete four-job source-pinned acceptance. No manual rerun/cancel or paid runner was requested.
