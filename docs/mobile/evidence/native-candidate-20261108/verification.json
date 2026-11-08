@@ -1,0 +1,129 @@
+{
+  "project": "KNABA_DE",
+  "scope": "Native candidate 0.5.0/build6; not whole-product acceptance",
+  "sourceGitSha": "fb4be719fc6f777138cb93837fc41729f9104c09",
+  "sourceTree": "00f1af8f6dc3c8dcf19154ac163c7e8c5a7c9a68",
+  "pullRequest": "https://github.com/ziko1/knaba/pull/127",
+  "overall": "NATIVE_TEST_CANDIDATE_VERIFIED_FULL_PRODUCT_NOT_READY",
+  "nativeRun": {
+    "id": 42463090142,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42463090142",
+    "androidJob": 128676421577,
+    "iosJob": 128676421751,
+    "status": "SUCCESS"
+  },
+  "repositoryRun": {
+    "id": 42463090119,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42463090119",
+    "mandatoryJobs": 4,
+    "status": "SUCCESS",
+    "rootTests": 28,
+    "siteVitestTests": 732,
+    "siteNodeTests": 90,
+    "siteVpsTests": 197,
+    "erpTests": 2739,
+    "erpFiles": 118,
+    "postgresVersion": "17.6",
+    "bridgeTests": 9,
+    "failedTests": 0,
+    "skippedAcceptanceTests": 0,
+    "conditionalFailureSummaryJob": "SKIPPED_EXPECTED_NO_FAILURE"
+  },
+  "android": {
+    "localTests": 32,
+    "hostedTests": 32,
+    "uiTests": 27,
+    "storageTests": 5,
+    "lintErrors": 0,
+    "lintWarnings": 17,
+    "transportAssertions": 74,
+    "bundleIntegrityCases": 5,
+    "localArtifact": "knaba-android-0.5.0-test.apk",
+    "localSha256": "9613f416317fea2c157b4bef6f1a83cefe7120ceaeda974d6e67015e098a1453",
+    "localAabSha256": "f0c813e31aca6ebdcc94c3c03d32615728843540b5020d1bf0e12b35560a61d6",
+    "hostedApkSha256": "c9d12732e1bff2fafa30995a84eb4283cc9302bae4e72c5d1475e8840a2ee6cf",
+    "hostedAabSha256": "d854eda9d0b807d18c61d2e7b5a646ced3deb895f802b7e285da4686fce7b59b",
+    "signature": "DEBUG_EVALUATION_ONLY",
+    "differentDebugKeys": "Local and hosted builds have separate debug signing keys; equal source is not byte identity or guaranteed upgrade compatibility"
+  },
+  "ios": {
+    "totalXCTest": 49,
+    "newRecoveryAndNavigationTests": 26,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "xcode": "16.4",
+    "sdk": "18.5",
+    "simulator": "iPhone 16, iOS 18.5, arm64",
+    "appZipSha256": "710e1cf6f354c3b3d26866d01fe7b2a96b411cb57976137c14173605135bc58c",
+    "appZipBytes": 6435809,
+    "type": "UNSIGNED_SIMULATOR_APP_NOT_IPA",
+    "sourceArchiveSha256": "a67f09eebf25e49312948693a4074d5c486bc80684de15deebf37b0fee79f3e5",
+    "sourceArchiveFiles": 40,
+    "simulatorPreparationNote": "One read-only inventory attempt timed out; the single bounded retry succeeded. Preparation receipt is a pre-test snapshot; final 49-test result is separate."
+  },
+  "independentReview": {
+    "reviewer": "/root/knaba_prompt_review",
+    "androidSourceAndPackaging": "ACCEPT",
+    "iosSourceImplementation": "Reviewed by /root independently of implementing agent",
+    "artifactBinding": "ACCEPT",
+    "androidSourceFiles": 53,
+    "sharedInputs": 1,
+    "iosSourceFiles": 40,
+    "iosXCTestSummaryAndAppHash": "ACCEPT"
+  },
+  "knownIntermediateFailures": [
+    "Android shared Gradle-cache lock contention; used task-private cache",
+    "Duplicate generated R DEX after cache relocation; clean isolated build passed"
+  ],
+  "notAccepted": [
+    "Full site/ERP identity F1-F4 and shared login",
+    "All specialist native business journeys and partner lifecycle",
+    "Owner Android keystore / Apple team signing",
+    "Physical Android/iPhone install, update, retention, real GPS/battery",
+    "Current-store submission and minimum/current OS device matrix",
+    "Approved live ERP/company accounts, provider setup and owner UAT",
+    "Full-system load, restore and all V4/V3 acceptance"
+  ],
+  "logs": [
+    {
+      "file": "android-final-package.log",
+      "sha256": "9c0ebf2142d424c300aa6c9e195c8b4e715c774706baee0efcb168bc5aa30bef",
+      "bytes": 6061
+    },
+    {
+      "file": "android-hosted-ci.log",
+      "sha256": "6c2c4c93742bca6906102dfb5a122ea07e6801f650b01c0422710d71ad753076",
+      "bytes": 39726
+    },
+    {
+      "file": "ios-hosted-ci.log",
+      "sha256": "86f5e1edb4ca908749ced34521f3493886859024889445a17a55415c6a451077",
+      "bytes": 270388
+    },
+    {
+      "file": "root-hosted-ci.log",
+      "sha256": "52bce710d46db48cf7a83be6fb9c97d72929521eebd7c72442afa6fd0d767e67",
+      "bytes": 40160
+    },
+    {
+      "file": "site-hosted-ci.log",
+      "sha256": "4c2d4a2de5f5620817aa9817c8c21913add77a2f8a4b13494a72241b75cfd2d5",
+      "bytes": 115939
+    },
+    {
+      "file": "erp-hosted-ci.log",
+      "sha256": "2c0e7a4dc1de5ab36cb7af64ff4b3ea96abd435c20c97ae44eb32ce3dc48d6c4",
+      "bytes": 94401
+    },
+    {
+      "file": "bridge-hosted-ci.log",
+      "sha256": "9b870819130597f92ac0a00c639f431de0b0e17314f87d9040b953be0b77e6e7",
+      "bytes": 67894
+    },
+    {
+      "file": "source-audit-candidate.log",
+      "sha256": "02813163a1e5bd5dd8a2533476e0ce39261ac14fef2076aaf185ce3ad1ece9b0",
+      "bytes": 604
+    }
+  ]
+}
