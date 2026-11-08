@@ -1,0 +1,789 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/release_capabilities",
+  "observedAt": "2026-11-08T16:07:10.422Z",
+  "sourceGitSha": "2a9038e14d5dba47ba636556e905ae36144c266e",
+  "sourceTree": "303585bf7cec5e381a5908a20407c2cce4f067af",
+  "runId": 42497195566,
+  "jobId": 128781977879,
+  "overall": "ACCEPT_SCOPED_TEST_ARTIFACT_WITH_EXPLICIT_RUNTIME_VISUAL_LIMITATION",
+  "authorship": {
+    "authoredByReviewer": [
+      "Android emulator evidence workflow and AVD-path correction",
+      "Small Android busy-discovery reschedule",
+      "Its narrow latch-based regression and identifier correction"
+    ],
+    "notAuthoredByReviewer": [
+      "Android branded presentation, worker presentation and broader transport/discovery integration"
+    ],
+    "excludedFromIndependentSourceApproval": [
+      "Own workflow implementation",
+      "Own small Activity/test changes"
+    ],
+    "scope": "Independent inspection of downloaded bytes, XML and all PNGs; independent visual assessment of presentation authored by other agents. This report does not self-approve the reviewer's workflow or code."
+  },
+  "statuses": {
+    "exactSourceReceiptAndDownloadedApkHash": "PASS",
+    "actualJUnit": "PASS_60_TESTS_0_FAILURES_ERRORS_SKIPS",
+    "avdVisibilityAndBootEvidence": "PASS",
+    "ordinaryEmulatorInstall": "PASS",
+    "installedApkByteEqualityReceipt": "PASS_MATCHES_INDEPENDENTLY_HASHED_DOWNLOADED_APK",
+    "knabaProcessAndResumedActivity": "PASS",
+    "robolectricPresentation": "PASS_LIMITED_TO_14_SYNTHETIC_RENDERS_AND_VISIBLE_VIEWPORTS",
+    "unobstructedRuntimeVisualAcceptance": "BLOCKED_BY_PIXEL_LAUNCHER_ANR_OVERLAY",
+    "physicalDeviceAndCustomerDownloadInstallJourney": "NOT_RUN",
+    "upgradeAndDataRetention": "NOT_RUN",
+    "liveErpJourney": "NOT_RUN_PUBLIC_ERP_ORIGIN_NOT_CONFIGURED"
+  },
+  "visualReview": {
+    "method": "Personally opened all 15 original PNG files via view_image; no edits, cropping, generated replacements or UI interaction.",
+    "images": [
+      {
+        "path": "build/evidence/android-emulator/login-android35.png",
+        "provenance": "ACTUAL_ANDROID35_EMULATOR_CAPTURE",
+        "status": "LIMITED_SYSTEM_OVERLAY_BLOCKS_CLEAN_PRESENTATION",
+        "observation": "KNABA login is rendered behind a dimmed system dialog reading Pixel Launcher isn't responding. The dialog blocks the login presentation; preserve the original image unchanged.",
+        "sha256": "ce5d60478000c157ef6b1c4384359a94a9584f781f6c4feca144fd491e63b0e8",
+        "bytes": 192101,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "path": "app/build/qa/phone-login.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Synthetic server-ready login: consistent KNABA wordmark, teal hero, labeled credentials, readable spacing and visible vertical scroll. Does not prove a live server is configured.",
+        "sha256": "cdade568bd27e12ffe50cbec1f24c6555237be3626ace77274f03472ce5c37dd",
+        "bytes": 64753,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-login-server-pending.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Synthetic pending-server login: explanatory state and retry control are readable; labels are retained. The lower form extends below the viewport.",
+        "sha256": "478e5fc45c08e688fb08d3b9087d6e7847b06a766af9b96aba795708e387abd6",
+        "bytes": 64645,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-dashboard.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Explicit demo dashboard: consistent cards, aligned equal-height metrics, search and module controls; no visible overlap in the viewport.",
+        "sha256": "13dae1579d6f21529fd3c7cd9ba146f6d45502fb669bc979c0f145908789669a",
+        "bytes": 66672,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-tasks.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Explicit demo tasks: readable title, state labels, search and detail actions; lower records continue below the viewport.",
+        "sha256": "9d4fb12b3714c1fde90876e0e74446024e7ae636b35838ccaa2753ff455eef84",
+        "bytes": 60390,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-shift.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Empty worker shift: GPS/OFF state and pairing labels are clear; the long device-code hint truncates while its persistent label remains visible.",
+        "sha256": "064dc3f59d7803d0cbccbebfd4192a01763cc63c3fc867de4edfc6fb6adc6e0c",
+        "bytes": 79437,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/tablet-dashboard-uk.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Ukrainian tablet demo: coherent two-column module layout and metrics. Operationsmanager remains visible as untranslated demo role text.",
+        "sha256": "baf289b7a22abc11e88234cd2cc3f2e9ba6051a43e31165a64d0416fb1ecae79",
+        "bytes": 90978,
+        "width": 800,
+        "height": 1280
+      },
+      {
+        "path": "app/build/qa/tablet-chat-uk.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Ukrainian tablet chat controls are legible; synthetic German message content is retained and demo labeling is explicit.",
+        "sha256": "bebf5a736f1d5ca606d5e81f2cf4559d889d5c2ec8cb9148088d2f3965466b2c",
+        "bytes": 65097,
+        "width": 800,
+        "height": 1280
+      },
+      {
+        "path": "app/build/qa/narrow-login-uk-font2.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "320px double-font synthetic login: header and language control wrap without visible horizontal clipping. Form continuation is below this fixed-height image.",
+        "sha256": "853b190a1d708803c47da975573ac850519129cf07a9e68418e2eb505b1bcae4",
+        "bytes": 58516,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-dashboard-uk-font2.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "320px double-font demo dashboard: header and banner wrap cleanly; lower metrics/modules are outside this viewport.",
+        "sha256": "06cff899c7896931d614e1ca61b63de81bdeb034991fd8c5479dbecd9adcc515",
+        "bytes": 67538,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-tasks-uk-font2.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "320px double-font demo tasks: readable back control, wrapped heading and refresh control. This image does not show all records.",
+        "sha256": "ccb8c8caeb6c75f141c102871ca35f0d4f58161c4c358f36632877816b498bf0",
+        "bytes": 56428,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-chat-uk-font2.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "320px double-font demo chat: readable wrapped heading and demo label; message body and composer continue below the viewport.",
+        "sha256": "ff39242c7658d01c1ab95ba1140557c43b68f3d6b43b24bd09260951c598a9a1",
+        "bytes": 53084,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-shift-uk-font2.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "320px double-font worker screen: text wraps without overlap and the no-GPS explanation remains legible; status continuation is below the viewport.",
+        "sha256": "9df5c192bc4eef861625347323697e3707f0ad35405ccc0e6df52ec4817e6223",
+        "bytes": 68723,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/launcher-icon-robolectric.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Adaptive launcher artwork is fully visible with a crisp teal building and lime baseline.",
+        "sha256": "71440a251a0d0e8ae772972218fdd33407aeafff82e692232452b8b8fd5c93a0",
+        "bytes": 26161,
+        "width": 216,
+        "height": 216
+      },
+      {
+        "path": "app/build/qa/launcher-icon-round-robolectric.png",
+        "provenance": "ROBOLECTRIC_SYNTHETIC_RENDER",
+        "status": "PASS_VISIBLE_PRESENTATION_SCOPE",
+        "observation": "Alternate launcher resource renders the same coherent building mark without artwork clipping.",
+        "sha256": "71440a251a0d0e8ae772972218fdd33407aeafff82e692232452b8b8fd5c93a0",
+        "bytes": 26161,
+        "width": 216,
+        "height": 216
+      }
+    ],
+    "blockingObservation": {
+      "scope": "Unobstructed emulator visual acceptance only",
+      "image": "build/evidence/android-emulator/login-android35.png",
+      "visibleText": "Pixel Launcher isn't responding",
+      "interpretation": "The dialog names the emulator launcher. This screenshot does not establish a KNABA ANR. Ordinary install, installed-byte equality, KNABA PID and resumed-activity evidence remain separately verified.",
+      "disposition": "Preserve original PNG and disclose limitation. Parent directed no further edits or reruns."
+    },
+    "nonblockingObservations": [
+      "At 320px with doubled font, content continues below fixed-height captures; those captures alone do not prove keyboard, scroll, TalkBack or full form interaction.",
+      "Long worker pairing hints can truncate while persistent labels remain readable.",
+      "Some synthetic demo role/message text remains German in the Ukrainian renders; localized screen controls remain readable."
+    ],
+    "notClaimed": [
+      "Clean unobstructed runtime login screenshot",
+      "Actual login submission or authenticated customer workflow",
+      "Physical-device responsiveness/performance",
+      "Measured accessibility contrast or assistive-technology acceptance"
+    ]
+  },
+  "limits": [
+    "Android APK is debug-signed for evaluation, with a separate test package; owner release-signing continuity and upgrades were not demonstrated.",
+    "Robolectric presentation data is synthetic. In particular the ready-server screenshots are fixtures, not live configuration evidence.",
+    "The CI installed the APK through ordinary adb install without -t; Android's download-and-open customer installer flow was not exercised.",
+    "Installed base APK bytes were pulled and hashed in CI; the retained receipt matches the independently hashed downloaded APK. The pulled base file itself is not part of the uploaded artifact.",
+    "No credentials were entered, no location permission granted, and no GPS activation or live backend journey is claimed."
+  ],
+  "outerArtifact": {
+    "id": 13623802379,
+    "bytes": 3411670,
+    "sha256": "ff22cf527eeb136841ad7157c1b1c23bfd56dbf9d3734296a55a59a3124c26ab",
+    "entries": 52,
+    "verificationAttribution": "Outer archive verified by root; this reviewer independently hashes all 52 extracted files."
+  },
+  "sourceSelfApproval": false,
+  "artifactAudit": {
+    "sourceGitSha": "2a9038e14d5dba47ba636556e905ae36144c266e",
+    "artifactRoot": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/android",
+    "apk": {
+      "artifact": "knaba-android-0.6.0-test.apk",
+      "sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+      "bytes": 3113733,
+      "package": "de.knaba.mobile.test",
+      "versionName": "0.6.0-test",
+      "versionCode": 9,
+      "minSdk": 31,
+      "targetSdk": 36,
+      "certificateSha256": "6f1973f8a072d24616397d4df6b15554e7a1fd228b67dfcc19a2913c31940c37",
+      "signing": "DEBUG_EVALUATION_ONLY",
+      "testOnly": false
+    },
+    "sourceMetadataKeys": [
+      "sourceGitSha",
+      "sourceWorkingTree",
+      "sourceFiles",
+      "verificationInputs"
+    ],
+    "sourceFileCountInReceipt": 69,
+    "junit": {
+      "counts": {
+        "tests": 60,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "testcaseElements": 60
+      },
+      "suites": [
+        {
+          "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+          "sha256": "24fe5eb823bbd8774208d2db6cc20369a321772abc488f78e1b63489ef57bb00",
+          "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "testcaseElements": 5
+        },
+        {
+          "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+          "sha256": "30f7591f7991be0d2d9ce46434d32c9d227db482363095113cb70a5a35f43dd4",
+          "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+          "tests": 54,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "testcaseElements": 54
+        },
+        {
+          "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.LauncherIconTest.xml",
+          "sha256": "e539a0ce2bcbb7c7be18f62868593d86204988258d0b67e20d20816827ca4d74",
+          "suite": "de.knaba.mobile.LauncherIconTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "testcaseElements": 1
+        }
+      ],
+      "uniqueCaseCount": 60
+    },
+    "avdInventory": {
+      "expectedAvd": "knaba-api35",
+      "listedAvds": [
+        "knaba-api35"
+      ],
+      "listingExitCode": 0,
+      "environment": {
+        "ANDROID_USER_HOME": "/home/runner/work/_temp/knaba-android-emulator/prefs",
+        "ANDROID_EMULATOR_HOME": "/home/runner/work/_temp/knaba-android-emulator/prefs",
+        "ANDROID_AVD_HOME": "/home/runner/work/_temp/knaba-android-emulator/prefs/avd"
+      },
+      "avdDataPath": "/home/runner/work/_temp/knaba-android-emulator/prefs/avd/knaba-api35.avd",
+      "avdDefinitionPath": "/home/runner/work/_temp/knaba-android-emulator/prefs/avd/knaba-api35.ini",
+      "avdDataDirectoryExists": true,
+      "avdDefinitionExists": true
+    },
+    "commands": {
+      "total": 39,
+      "bootPolls": 16,
+      "bootPollFailuresOrTimeouts": 7,
+      "install": {
+        "command": [
+          "/usr/local/lib/android/sdk/platform-tools/adb",
+          "-s",
+          "emulator-5554",
+          "install",
+          "--no-streaming",
+          "/home/runner/work/knaba/knaba/erp/apps/mobile-android/build/distribution/prototype/knaba-android-0.6.0-test.apk"
+        ],
+        "exitCode": 0,
+        "stdout": "Performing Push Install\nSuccess\n",
+        "stderr": "/home/runner/work/knaba/knaba/erp/apps/mobile-android/build/distribution/prototype/knaba-android-0.6.0-test.apk: 1 file pushed, 0 skipped. 46.3 MB/s (3113733 bytes in 0.064s)\n"
+      },
+      "launch": {
+        "command": [
+          "/usr/local/lib/android/sdk/platform-tools/adb",
+          "-s",
+          "emulator-5554",
+          "shell",
+          "am",
+          "start",
+          "-W",
+          "-S",
+          "-n",
+          "de.knaba.mobile.test/de.knaba.mobile.ErpConsoleActivity"
+        ],
+        "exitCode": 0,
+        "stdout": "Stopping: de.knaba.mobile.test\nStarting: Intent { cmp=de.knaba.mobile.test/de.knaba.mobile.ErpConsoleActivity }\nStatus: ok\nLaunchState: COLD\nActivity: de.knaba.mobile.test/de.knaba.mobile.ErpConsoleActivity\nTotalTime: 5670\nWaitTime: 5696\nComplete\n",
+        "stderr": ""
+      },
+      "pid": {
+        "command": [
+          "/usr/local/lib/android/sdk/platform-tools/adb",
+          "-s",
+          "emulator-5554",
+          "shell",
+          "pidof",
+          "de.knaba.mobile.test"
+        ],
+        "exitCode": 0,
+        "stdout": "2650\n",
+        "stderr": ""
+      },
+      "pull": {
+        "command": [
+          "/usr/local/lib/android/sdk/platform-tools/adb",
+          "-s",
+          "emulator-5554",
+          "pull",
+          "/data/app/~~h9k9UdMqEvYAR-88lxQasg==/de.knaba.mobile.test-JIBw4kCddrXNAlJ9qmKBVw==/base.apk",
+          "/home/runner/work/_temp/knaba-installed-base.apk"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "/data/app/~~h9k9UdMqEvYAR-88lxQasg==/de.knaba.mobile.test-JIBw4kCddrXNAlJ9qmKBVw==/base.apk: 1 file pulled, 0 skipped. 92.1 MB/s (3113733 bytes in 0.032s)\n"
+      },
+      "capture": {
+        "command": [
+          "/usr/local/lib/android/sdk/platform-tools/adb",
+          "-s",
+          "emulator-5554",
+          "exec-out",
+          "screencap",
+          "-p"
+        ],
+        "exitCode": 0,
+        "stdoutBytes": 192101,
+        "stderr": ""
+      },
+      "resumedActivity": [
+        "topResumedActivity=ActivityRecord{740af9b u0 de.knaba.mobile.test/de.knaba.mobile.ErpConsoleActivity t8}",
+        "ResumedActivity: ActivityRecord{740af9b u0 de.knaba.mobile.test/de.knaba.mobile.ErpConsoleActivity t8}"
+      ]
+    },
+    "installedApkSha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+    "pngs": [
+      {
+        "path": "app/build/qa/launcher-icon-robolectric.png",
+        "sha256": "71440a251a0d0e8ae772972218fdd33407aeafff82e692232452b8b8fd5c93a0",
+        "bytes": 26161,
+        "width": 216,
+        "height": 216
+      },
+      {
+        "path": "app/build/qa/launcher-icon-round-robolectric.png",
+        "sha256": "71440a251a0d0e8ae772972218fdd33407aeafff82e692232452b8b8fd5c93a0",
+        "bytes": 26161,
+        "width": 216,
+        "height": 216
+      },
+      {
+        "path": "app/build/qa/narrow-chat-uk-font2.png",
+        "sha256": "ff39242c7658d01c1ab95ba1140557c43b68f3d6b43b24bd09260951c598a9a1",
+        "bytes": 53084,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-dashboard-uk-font2.png",
+        "sha256": "06cff899c7896931d614e1ca61b63de81bdeb034991fd8c5479dbecd9adcc515",
+        "bytes": 67538,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-login-uk-font2.png",
+        "sha256": "853b190a1d708803c47da975573ac850519129cf07a9e68418e2eb505b1bcae4",
+        "bytes": 58516,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-shift-uk-font2.png",
+        "sha256": "9df5c192bc4eef861625347323697e3707f0ad35405ccc0e6df52ec4817e6223",
+        "bytes": 68723,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/narrow-tasks-uk-font2.png",
+        "sha256": "ccb8c8caeb6c75f141c102871ca35f0d4f58161c4c358f36632877816b498bf0",
+        "bytes": 56428,
+        "width": 320,
+        "height": 720
+      },
+      {
+        "path": "app/build/qa/phone-dashboard.png",
+        "sha256": "13dae1579d6f21529fd3c7cd9ba146f6d45502fb669bc979c0f145908789669a",
+        "bytes": 66672,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-login-server-pending.png",
+        "sha256": "478e5fc45c08e688fb08d3b9087d6e7847b06a766af9b96aba795708e387abd6",
+        "bytes": 64645,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-login.png",
+        "sha256": "cdade568bd27e12ffe50cbec1f24c6555237be3626ace77274f03472ce5c37dd",
+        "bytes": 64753,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-shift.png",
+        "sha256": "064dc3f59d7803d0cbccbebfd4192a01763cc63c3fc867de4edfc6fb6adc6e0c",
+        "bytes": 79437,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/phone-tasks.png",
+        "sha256": "9d4fb12b3714c1fde90876e0e74446024e7ae636b35838ccaa2753ff455eef84",
+        "bytes": 60390,
+        "width": 411,
+        "height": 891
+      },
+      {
+        "path": "app/build/qa/tablet-chat-uk.png",
+        "sha256": "bebf5a736f1d5ca606d5e81f2cf4559d889d5c2ec8cb9148088d2f3965466b2c",
+        "bytes": 65097,
+        "width": 800,
+        "height": 1280
+      },
+      {
+        "path": "app/build/qa/tablet-dashboard-uk.png",
+        "sha256": "baf289b7a22abc11e88234cd2cc3f2e9ba6051a43e31165a64d0416fb1ecae79",
+        "bytes": 90978,
+        "width": 800,
+        "height": 1280
+      },
+      {
+        "path": "build/evidence/android-emulator/login-android35.png",
+        "sha256": "ce5d60478000c157ef6b1c4384359a94a9584f781f6c4feca144fd491e63b0e8",
+        "bytes": 192101,
+        "width": 1080,
+        "height": 2400
+      }
+    ],
+    "files": [
+      {
+        "path": "app/build/qa/launcher-icon-robolectric.png",
+        "sha256": "71440a251a0d0e8ae772972218fdd33407aeafff82e692232452b8b8fd5c93a0",
+        "bytes": 26161
+      },
+      {
+        "path": "app/build/qa/launcher-icon-round-robolectric.png",
+        "sha256": "71440a251a0d0e8ae772972218fdd33407aeafff82e692232452b8b8fd5c93a0",
+        "bytes": 26161
+      },
+      {
+        "path": "app/build/qa/narrow-chat-uk-font2.png",
+        "sha256": "ff39242c7658d01c1ab95ba1140557c43b68f3d6b43b24bd09260951c598a9a1",
+        "bytes": 53084
+      },
+      {
+        "path": "app/build/qa/narrow-dashboard-uk-font2.png",
+        "sha256": "06cff899c7896931d614e1ca61b63de81bdeb034991fd8c5479dbecd9adcc515",
+        "bytes": 67538
+      },
+      {
+        "path": "app/build/qa/narrow-login-uk-font2.png",
+        "sha256": "853b190a1d708803c47da975573ac850519129cf07a9e68418e2eb505b1bcae4",
+        "bytes": 58516
+      },
+      {
+        "path": "app/build/qa/narrow-shift-uk-font2.png",
+        "sha256": "9df5c192bc4eef861625347323697e3707f0ad35405ccc0e6df52ec4817e6223",
+        "bytes": 68723
+      },
+      {
+        "path": "app/build/qa/narrow-tasks-uk-font2.png",
+        "sha256": "ccb8c8caeb6c75f141c102871ca35f0d4f58161c4c358f36632877816b498bf0",
+        "bytes": 56428
+      },
+      {
+        "path": "app/build/qa/phone-dashboard.png",
+        "sha256": "13dae1579d6f21529fd3c7cd9ba146f6d45502fb669bc979c0f145908789669a",
+        "bytes": 66672
+      },
+      {
+        "path": "app/build/qa/phone-login-server-pending.png",
+        "sha256": "478e5fc45c08e688fb08d3b9087d6e7847b06a766af9b96aba795708e387abd6",
+        "bytes": 64645
+      },
+      {
+        "path": "app/build/qa/phone-login.png",
+        "sha256": "cdade568bd27e12ffe50cbec1f24c6555237be3626ace77274f03472ce5c37dd",
+        "bytes": 64753
+      },
+      {
+        "path": "app/build/qa/phone-shift.png",
+        "sha256": "064dc3f59d7803d0cbccbebfd4192a01763cc63c3fc867de4edfc6fb6adc6e0c",
+        "bytes": 79437
+      },
+      {
+        "path": "app/build/qa/phone-tasks.png",
+        "sha256": "9d4fb12b3714c1fde90876e0e74446024e7ae636b35838ccaa2753ff455eef84",
+        "bytes": 60390
+      },
+      {
+        "path": "app/build/qa/tablet-chat-uk.png",
+        "sha256": "bebf5a736f1d5ca606d5e81f2cf4559d889d5c2ec8cb9148088d2f3965466b2c",
+        "bytes": 65097
+      },
+      {
+        "path": "app/build/qa/tablet-dashboard-uk.png",
+        "sha256": "baf289b7a22abc11e88234cd2cc3f2e9ba6051a43e31165a64d0416fb1ecae79",
+        "bytes": 90978
+      },
+      {
+        "path": "app/build/reports/lint-results-debug.html",
+        "sha256": "d9b47d07f51bb3e07a8cc1b77db1e90a658102d377868d6c31725710f84ab853",
+        "bytes": 108847
+      },
+      {
+        "path": "app/build/reports/lint-results-debug.txt",
+        "sha256": "f6cab8e864a1410ac2aa4c51afbdbca25efc7711f1e2e3cccb04c5e3df7e75d6",
+        "bytes": 14034
+      },
+      {
+        "path": "app/build/reports/lint-results-debug.xml",
+        "sha256": "0f3e6f96c43e6d9872940a74b9663811d285e79dcf96828cf53a4f046081447b",
+        "bytes": 28135
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+        "sha256": "24fe5eb823bbd8774208d2db6cc20369a321772abc488f78e1b63489ef57bb00",
+        "bytes": 1174
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+        "sha256": "30f7591f7991be0d2d9ce46434d32c9d227db482363095113cb70a5a35f43dd4",
+        "bytes": 9176
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.LauncherIconTest.xml",
+        "sha256": "e539a0ce2bcbb7c7be18f62868593d86204988258d0b67e20d20816827ca4d74",
+        "bytes": 457
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/binary/output.bin",
+        "sha256": "5555fa696700be5952e2cffe85a8417511c8895853cd11ce7abf952ccc34dc5f",
+        "bytes": 1642
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/binary/output.bin.idx",
+        "sha256": "9ec386464800aa1187104b6f66609c95f42b5d80ca29cacb331af6073e6a7bd5",
+        "bytes": 1820
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/binary/results.bin",
+        "sha256": "c08394658d127b01b88f64772e48e0b7b921c57b8565f7589683581152ab116d",
+        "bytes": 7634
+      },
+      {
+        "path": "build/distribution/prototype/SHA256SUMS",
+        "sha256": "8acdabe930877db9248e79ada0f4756a84ca2e79a5ee2c1eb295f7767dc54e31",
+        "bytes": 190
+      },
+      {
+        "path": "build/distribution/prototype/alignment.txt",
+        "sha256": "264656a0ad3c83af328d43f53b0a79b5384b63870b742419d0d987556ede5200",
+        "bytes": 1811
+      },
+      {
+        "path": "build/distribution/prototype/build.log",
+        "sha256": "267d686e25f957675a7eab409736f74a35356fe8ccd2883bcaf3240de372cce3",
+        "bytes": 3892
+      },
+      {
+        "path": "build/distribution/prototype/bundle-integrity-tests.json",
+        "sha256": "1f5a2e9506cec48d93ad427ae5c5b40c996f3e4a50aad6576f2087bd355cd240",
+        "bytes": 182
+      },
+      {
+        "path": "build/distribution/prototype/bundle-verification.json",
+        "sha256": "7b38bb145431ab0e4cbfad5419b9eb2f91cfa7153c0727111dc471cf4f05440d",
+        "bytes": 161
+      },
+      {
+        "path": "build/distribution/prototype/demo.log",
+        "sha256": "1f47accf26011f7096f971e78e50fc236d2abacaea0b615cf0555f5d0597d772",
+        "bytes": 90
+      },
+      {
+        "path": "build/distribution/prototype/java-vectors.log",
+        "sha256": "741bf5a05f56e818bb62170e1707977d0cc873d8fd0a1c4259c4742e02b2e53c",
+        "bytes": 109
+      },
+      {
+        "path": "build/distribution/prototype/knaba-android-0.6.0-test.aab",
+        "sha256": "a7a8ef1772e7532bf3c4e8710ba5090073b0b964eb1593d7abc9a3bf249717ff",
+        "bytes": 1155608
+      },
+      {
+        "path": "build/distribution/prototype/knaba-android-0.6.0-test.apk",
+        "sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+        "bytes": 3113733
+      },
+      {
+        "path": "build/distribution/prototype/localization.log",
+        "sha256": "9555c14ded0593063a96488eb33657be156234a10e07b19e9365e53735980726",
+        "bytes": 286
+      },
+      {
+        "path": "build/distribution/prototype/manifest.txt",
+        "sha256": "8afaacf887878e60f461b36859e911064db69e8ecf6c5cae232a241f53b704a9",
+        "bytes": 3803
+      },
+      {
+        "path": "build/distribution/prototype/package.txt",
+        "sha256": "ed18cf51c1e321cf6d3293927bf3f405ef6a63b1a9c72c8447c541608d1a3437",
+        "bytes": 1858
+      },
+      {
+        "path": "build/distribution/prototype/receipt.json",
+        "sha256": "2d88f988b94597c6dbdad19ceae4bf1b007861aa04011fb57159efa7b23d7cf6",
+        "bytes": 12320
+      },
+      {
+        "path": "build/distribution/prototype/signature.txt",
+        "sha256": "ebb198d6ca0fcddbe672f663686d2f69b57285a1cbd77021b63b88cbb99c7d17",
+        "bytes": 955
+      },
+      {
+        "path": "build/distribution/prototype/source.json",
+        "sha256": "e8cf04beb2d0c7829e24f9a6bfa88f5cf0ee16824950a2e6adf9549d25482697",
+        "bytes": 11069
+      },
+      {
+        "path": "build/distribution/prototype/transport.log",
+        "sha256": "5c8dde10ad7f6b45843be9a2f0a75f13fa318ccda6a45195c5454616c209c9a3",
+        "bytes": 291
+      },
+      {
+        "path": "build/evidence/android-emulator/avd-inventory.json",
+        "sha256": "f92a70b7fab377df73820b5162fa460678019c78f978f97505581b8f7432dbe9",
+        "bytes": 630
+      },
+      {
+        "path": "build/evidence/android-emulator/commands.json",
+        "sha256": "0faa5737884e5942e0661af7f761cf0386257a62098c1fe3367bd8129de04cbf",
+        "bytes": 69268
+      },
+      {
+        "path": "build/evidence/android-emulator/emulator-command.json",
+        "sha256": "4d042d809f392b7236904474458876062c809d26dc54fef93d816a190c429a93",
+        "bytes": 329
+      },
+      {
+        "path": "build/evidence/android-emulator/emulator-source.properties",
+        "sha256": "f7562ee75ef359fc20b64727a0977c6306c6bac2dab60c8d7ced7c9e372a7cc7",
+        "bytes": 103
+      },
+      {
+        "path": "build/evidence/android-emulator/emulator.log",
+        "sha256": "edaf704a4d50dec21f2a0c0b5055caab8ec79967c4f8827fc90abf003f5c9a35",
+        "bytes": 9008
+      },
+      {
+        "path": "build/evidence/android-emulator/login-android35.png",
+        "sha256": "ce5d60478000c157ef6b1c4384359a94a9584f781f6c4feca144fd491e63b0e8",
+        "bytes": 192101
+      },
+      {
+        "path": "build/evidence/android-emulator/receipt.json",
+        "sha256": "edae1825d2938c78b50c5c892db71fb049482b5418649c6a81ab3b4c60d82caa",
+        "bytes": 2621
+      },
+      {
+        "path": "build/evidence/android-emulator/runtime-packages.txt",
+        "sha256": "b9d99516f6c4aec14281ae5950d89490d5666062e52b9a1b986d191bdb1b89cb",
+        "bytes": 35
+      },
+      {
+        "path": "build/evidence/android-emulator/system-image-source.properties",
+        "sha256": "809a6f5103c048607257f03f18e22dd740137e9009c99d4a496de846b6ee3412",
+        "bytes": 357
+      },
+      {
+        "path": "build/evidence/gradle-version.txt",
+        "sha256": "802ca8b194247ef7013aa0d516f1273959db4e3c80e01dcd84f51a2e0fb54578",
+        "bytes": 816
+      },
+      {
+        "path": "build/evidence/java-version.txt",
+        "sha256": "aa8b8c37cfb8295d241a736330151318fe156c8937b464a27b2c21d638db1862",
+        "bytes": 183
+      },
+      {
+        "path": "build/evidence/sdk-build-tools.txt",
+        "sha256": "084847d70abc41284feee7ea717e7c92eab0d1be05f048c27445a359cfe109d8",
+        "bytes": 63
+      },
+      {
+        "path": "build/evidence/sdk-platform.txt",
+        "sha256": "72291ff6611dbfc46fdfb6de2821c4a62c87befa5200713847eda426e3a501c2",
+        "bytes": 257
+      }
+    ],
+    "fileCount": 52
+  },
+  "artifactAuditFile": {
+    "path": "/workspace/scratch/a3c43ba31037/android-2a9038e1-actual-artifact-audit.json",
+    "sha256": "ea4caf6e8f54a189d571cbe69ddf6160c87a300f58fa7f451d7e531225b52bd2"
+  },
+  "independentRootBinaryVerification": {
+    "path": "/workspace/scratch/a3c43ba31037/KNABA-DE-Test-Kit-0.6.0/evidence/android/root-binary-verification.json",
+    "sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+    "reviewer": "/root",
+    "status": "BINARY_STATIC_AND_EXACT_EMULATOR_INSTALL_PROOF_VERIFIED",
+    "sourceInputsMatchedGit": 69,
+    "sharedVerificationInputsMatchedGit": 1,
+    "toolExitCodes": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "freshPublicConfiguration": {
+    "path": "/workspace/scratch/a3c43ba31037/knaba-public-connection-handoff-20261108.json",
+    "sha256": "030512844c355d914a8cea31a17a1985ace391c6d97bad0fc85d41fafa1d1f05",
+    "observedAt": "2026-11-08T15:58:00.938018+00:00",
+    "httpStatus": 200,
+    "erpOrigin": null,
+    "sourceVersionExposure": "NOT_EXPOSED",
+    "requestsMade": 1
+  },
+  "jobLog": {
+    "path": "/workspace/scratch/a3c43ba31037/android-ci-2a9038e1-job.log",
+    "sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1"
+  },
+  "runtimeOverlayPngPreserved": true
+}

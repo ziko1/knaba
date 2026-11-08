@@ -156,10 +156,148 @@
       "description": "Native iOS and Android0.6.0 matching current KNABA website, with two customer-installable test files",
       "source": "User08.11.2026; retain both installable platforms, not simulator substitution",
       "acceptanceDocument": "MOBILE_BRAND_0.6.0_UK.md",
-      "status": "ANDROID60_PASSED_AVD_LOOKUP_WORKFLOW_CORRECTION_PENDING_IPA_AND_PUBLIC_ERP_BLOCKED",
+      "status": "PARTIAL_TEST_ARTIFACTS_VERIFIED_IPHONE_AND_LIVE_UAT_BLOCKED",
       "baseSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
-      "next": "Run exact-source native installation after task-scoped AVD correction; verify downloaded APK/source/signature/installed bytes and iOS Simulator; owner Apple signing and approved ERP plus real customer devices remain required",
-      "budget": "no_new_paid_services"
+      "next": "Release coordinator to publish the documentation/evidence-only [skip ci] checkpoint for the independently reviewed, successfully stored partial APK/test-kit deliverables. Retain exact binary source 2a9038e and EVIDENCE_INCOMPLETE gate (2 PASS / 7 BLOCKED / 0 FAIL); no customer sharing/download/install claim. Owner Apple signing/distribution, signed iPhone installation, approved ERP/test accounts and physical/customer/full-system UAT remain open; no further current-candidate rerun is authorized or needed.",
+      "budget": "no_new_paid_services",
+      "checkpointHistory": [
+        {
+          "label": "Prior AVD-location correction checkpoint; retained verbatim",
+          "status": "ANDROID60_PASSED_AVD_LOOKUP_WORKFLOW_CORRECTION_PENDING_IPA_AND_PUBLIC_ERP_BLOCKED",
+          "next": "Run exact-source native installation after task-scoped AVD correction; verify downloaded APK/source/signature/installed bytes and iOS Simulator; owner Apple signing and approved ERP plus real customer devices remain required"
+        }
+      ],
+      "finalTestArtifactCheckpoint": {
+        "sourceGitSha": "2a9038e14d5dba47ba636556e905ae36144c266e",
+        "sourceTree": "303585bf7cec5e381a5908a20407c2cce4f067af",
+        "native": {
+          "runId": 42497195566,
+          "status": "PASS",
+          "androidTests": 60,
+          "iosXCTest": 91,
+          "failedTests": 0,
+          "skippedTests": 0
+        },
+        "repository": {
+          "runId": 42497195695,
+          "status": "ALL_FOUR_REQUIRED_JOBS_PASSED",
+          "rootTests": 30,
+          "siteTests": 1119,
+          "erpPostgreSQLTests": 3000,
+          "httpBridgeTests": 82
+        },
+        "artifacts": {
+          "androidApk": {
+            "sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+            "bytes": 3113733,
+            "package": "de.knaba.mobile.test",
+            "versionName": "0.6.0-test",
+            "versionCode": 9,
+            "minimumAndroid": "12",
+            "signing": "DEBUG_EVALUATION_ONLY",
+            "certificateSha256": "6f1973f8a072d24616397d4df6b15554e7a1fd228b67dfcc19a2913c31940c37",
+            "ordinaryEmulatorInstall": "PASS",
+            "installedApkByteEquality": "PASS",
+            "processAndResumedActivity": "PASS",
+            "fixtureRendersAccepted": 14,
+            "unobstructedRuntimeVisualAcceptance": "BLOCKED_BY_PIXEL_LAUNCHER_ANR_OVERLAY"
+          },
+          "iosSimulatorZip": {
+            "sha256": "6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9",
+            "bytes": 7148898,
+            "version": "0.6.0",
+            "build": 8,
+            "minimumIOS": "17",
+            "architecture": "arm64",
+            "kind": "IPHONE_SIMULATOR_ONLY_NOT_DEVICE_IPA",
+            "cleanSimulatorInstallAndLaunch": "PASS",
+            "bundleHashesVerified": 48,
+            "pngIdentitiesAccepted": 15
+          },
+          "iosSourceArchive": {
+            "sha256": "50f3bc4abe63e874e9cb972e111fae5b0e0d8f34cbe567018643b02ba4fcba50",
+            "bytes": 391662,
+            "files": 52,
+            "kind": "SOURCE_ONLY_NOT_INSTALLABLE"
+          },
+          "partialTestKitZip": {
+            "filename": "KNABA-DE-Test-Kit-0.6.0.zip",
+            "sha256": "2303d10b17882f35aceac78d36791f98e384e036297c945de05607fdb28f3939",
+            "bytes": 14713526,
+            "files": 149,
+            "inventoryEntries": 148,
+            "crcAndSafeUniquePaths": "PASS",
+            "everyEntryByteMatch": "PASS",
+            "inventoryHashes": "PASS",
+            "kind": "PARTIAL_TEST_KIT_NO_SIGNED_IPHONE_IPA"
+          }
+        },
+        "publicConnection": {
+          "observedAt": "2026-11-08T15:58:00.938018+00:00",
+          "httpStatus": 200,
+          "erpOrigin": null,
+          "status": "ERP_NOT_CONFIGURED_IN_PUBLIC_RESPONSE",
+          "readinessAndRealLogin": "NOT_RUN"
+        },
+        "signedIphoneIpa": "BLOCKED_EXTERNAL",
+        "twoCustomerInstallablePlatforms": "NOT_COMPLETE",
+        "physicalDevices": "NOT_RUN",
+        "customerUat": "NOT_RUN",
+        "upgradeAndDataPreservation": "NOT_RUN",
+        "liveErpUat": "NOT_RUN_PUBLIC_ORIGIN_NOT_CONFIGURED",
+        "fullSystemAcceptance": "OPEN_EXISTING_REQUIREMENTS",
+        "deliveryUpload": "SUCCEEDED_FOR_APK_AND_TEST_KIT_ZIP",
+        "originalCriteriaPromoted": false,
+        "budget": {
+          "nativeCheckpointsComplete": 4,
+          "nativeRunnerMinuteReservationCeiling": 320,
+          "actualRunnerUsage": "NOT_CLAIMED",
+          "furtherNativeReruns": "NOT_AUTHORIZED_OR_NEEDED_FOR_THIS_CANDIDATE",
+          "accountAndModelBalance": "UNKNOWN",
+          "newPaidActivation": false
+        },
+        "documentationOnlyNextCheckpoint": {
+          "ciSkipMarker": "[skip ci]",
+          "productAndWorkflowInputsChanged": false,
+          "binarySourceRemains": "2a9038e14d5dba47ba636556e905ae36144c266e",
+          "laterDocumentationHeadCI": "NOT_RUN_NO_PASS_CLAIM",
+          "mergeAuthorized": false
+        },
+        "evidence": [
+          "evidence/brand-20261108/android-final-artifact-review-2a9038e1.json",
+          "evidence/brand-20261108/ios-artifact-review-2a9038e.json",
+          "evidence/brand-20261108/ios-artifact-hash-audit-2a9038e.json",
+          "evidence/brand-20261108/repo-ci-42497195695-report.json",
+          "evidence/brand-20261108/knaba-public-connection-handoff-20261108.json",
+          "evidence/brand-20261108/brand-final-delivery-integrity.json",
+          "evidence/brand-20261108/independent-kit-review.json",
+          "evidence/brand-20261108/RELEASE_GATE.json"
+        ],
+        "independentKitReview": {
+          "status": "PASS",
+          "subjectSha256": "851d9ad59c3fc926575d1c9bccb44d9bd503a49483011c7658647dd97d697044",
+          "scope": "ACCEPTED_AS_HONEST_PARTIAL_TEST_PACKAGE_EVIDENCE"
+        },
+        "releaseGate": {
+          "status": "EVIDENCE_INCOMPLETE",
+          "pass": 2,
+          "blocked": 7,
+          "fail": 0,
+          "relativePaths": "RESOLVE_WITHIN_SUPPLIED_TEST_KIT_ZIP",
+          "binariesInGit": false
+        },
+        "uploadHelperResults": {
+          "androidApk": {
+            "status": "succeeded",
+            "local_metadata_applied": true
+          },
+          "partialTestKitZip": {
+            "status": "succeeded",
+            "local_metadata_applied": true
+          }
+        },
+        "customerSharingDownloadAndInstallation": "NOT_CLAIMED"
+      }
     }
   ],
   "sourceConsolidation20261108": {

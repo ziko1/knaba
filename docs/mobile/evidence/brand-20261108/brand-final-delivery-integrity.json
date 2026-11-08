@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "observed_at": "2026-11-08T16:29:14.827420+00:00",
+  "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+  "manifest_subject_sha256": "851d9ad59c3fc926575d1c9bccb44d9bd503a49483011c7658647dd97d697044",
+  "manifest_review": "PASS",
+  "release_gate": "EVIDENCE_INCOMPLETE",
+  "requirements": {
+    "PASS": 2,
+    "FAIL": 0,
+    "BLOCKED": 7
+  },
+  "zipFiles": 149,
+  "zipCrcAndSafeUniquePaths": "PASS",
+  "everyZipEntryMatchesReviewedDirectory": "PASS",
+  "inventoryEntries": 148,
+  "inventoryHashes": "PASS",
+  "artifacts": [
+    {
+      "filename": "KNABA-DE-Android-0.6.0-9.apk",
+      "bytes": 3113733,
+      "sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c"
+    },
+    {
+      "filename": "KNABA-DE-Test-Kit-0.6.0.zip",
+      "bytes": 14713526,
+      "sha256": "2303d10b17882f35aceac78d36791f98e384e036297c945de05607fdb28f3939"
+    }
+  ],
+  "scope": "Partial test artifacts; no signed iPhone IPA or physical/customer/live/full-system acceptance."
+}

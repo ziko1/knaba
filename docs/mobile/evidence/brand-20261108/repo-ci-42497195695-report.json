@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-08T16:04:10+00:00",
+  "repository": "ziko1/knaba",
+  "runId": 42497195695,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42497195695",
+  "sourceCommit": "2a9038e14d5dba47ba636556e905ae36144c266e",
+  "sourceTree": "303585bf7cec5e381a5908a20407c2cce4f067af",
+  "treeVerification": "Local git rev-parse sourceCommit^{tree}",
+  "verdict": "ALL_FOUR_REQUIRED_JOBS_PASSED",
+  "firstFailure": null,
+  "results": [
+    {
+      "jobId": 128781978516,
+      "name": "Source integrity and policy tests",
+      "conclusion": "success",
+      "tests": 30,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "jobId": 128781978609,
+      "name": "Corporate site checks and production build",
+      "conclusion": "success",
+      "vitest": {
+        "files": 72,
+        "tests": 732,
+        "passed": 732
+      },
+      "nodeTestSuites": [
+        37,
+        35,
+        10,
+        8
+      ],
+      "vpsTests": 297,
+      "totalTestCases": 1119,
+      "failed": 0,
+      "skipped": 0,
+      "check": "PASS",
+      "build": "PASS",
+      "verifyBuild": "PASS"
+    },
+    {
+      "jobId": 128781978567,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "conclusion": "success",
+      "testFiles": 127,
+      "tests": 3000,
+      "passed": 3000,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "skipsGate": "PASS",
+      "typecheck": "PASS",
+      "migration": "PASS",
+      "build": "PASS",
+      "builtSourceIdentity": "2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "jobId": 128781978586,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "conclusion": "success",
+      "tests": 82,
+      "passed": 82,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "skipsGate": "PASS"
+    }
+  ],
+  "conditionalJob": {
+    "jobId": 128783728264,
+    "name": "Sanitized failure summary",
+    "conclusion": "skipped",
+    "expected": true,
+    "reason": "ci.yml defines if: failure(); all required jobs succeeded"
+  },
+  "evidenceSha256": {
+    "source-integrity.log": "b0a15156648610ba4829bda2f78f471af970186ccd476a9d89572baf05b32784",
+    "corporate-site.log": "979d0552c76dd95075a2b27bc41481a75cad5341d0114f6e2f106650f579bc3b",
+    "erp.log": "1584834138e9711cb56f701501cf039a1f3f62d38f8bace34c6db1ea7f7b2dec",
+    "bridge.log": "b09806c3e509b631247963f8aefab176e371a2f81a31a2cfc5e0f1b7215654fc",
+    "final-jobs.json": "21a848e65b0f9bc313befab652ed1a3b05c12524d73360687da5607f99e4283b"
+  },
+  "limitations": [
+    "Only repository PR run 42497195695 monitored; no native run polling or native artifact acceptance claimed",
+    "All test counts and source identity verified from this run; no previous-run result substitution",
+    "CI isolated-service checks do not establish production deployment or physical-device acceptance"
+  ],
+  "actionsTaken": [
+    "Read-only status/log retrieval with at least 60 seconds between polling batches",
+    "Saved evidence only in requested scratch directory; no source edits, reruns or publication",
+    "Customer handoff drafts left with root pending final artifact hashes and native acceptance"
+  ]
+}
