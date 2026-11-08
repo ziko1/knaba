@@ -27,6 +27,14 @@ public class RoleWorkspaceRoutingTest {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of(), List.of("*")));
     }
+    @Test public void canonicalSiteSupervisorRoleIsRecognized() {
+        assertEquals(new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.BAULEITER),
+            RoleWorkspaceRouting.INSTANCE.route(List.of("INTERNAL_BAULEITER"), List.of("crew.assign")));
+    }
+    @Test public void directorRequiresActualPermission() {
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("DIRECTOR"), List.of("chat.read")));
+    }
     @Test public void revokedPermissionRemovesWorkspace() {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of("BAULEITER"), List.of("task.read")));
