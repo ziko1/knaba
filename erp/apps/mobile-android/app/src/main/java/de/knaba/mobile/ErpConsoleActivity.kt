@@ -93,7 +93,7 @@ class ErpConsoleActivity : Activity() {
         val retained = lastNonConfigurationInstance as? RetainedSession
         if (retained != null) {
             api = retained.transport; discovery = retained.discovery; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
-            if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard() }
+            if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else routeWorkspace() }
             else showLogin()
         } else showLogin()
     }
