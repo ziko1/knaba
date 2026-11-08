@@ -568,3 +568,19 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 08.11.2026 — власні налаштування акаунта
+
+Нове доповнення `/account/settings/` доступне з Portal/AdminControlCenter для
+локальної VPS identity: профіль, контактні поля, мова/часовий пояс, пароль,
+email із proof та сеанси. `/forgot-password/` має реальний reset flow з opt-in
+mail adapter. Ідентифікатор, роль і статус користувача зберігаються; owner/developer
+та OIDC login emails захищені. Hosted Sites використовує чинну зовнішню identity.
+
+Source `a6e1d582a5a22219625257a354f6abc66921d40e`, tree
+`1bbca25631132e1a241a1b277f77efd828f505a0`: local261VPS +732Vitest +90Node PASS,
+check0/0/6, official build/verify/i18n PASS; independent ACCEPT. JS225252B і
+CSS40930B gzip за чинних220KiB/40KiB. Browser, реальна доставка, target restore
+і deploy окремі та не прийняті. [Повний scoped запис](../docs/unified/USER_SETTINGS_2026-11-08_UK.md),
+[експлуатація й міграція](docs/ACCOUNT_SETTINGS_OPERATIONS_UK.md).

@@ -538,3 +538,16 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 08.11.2026 — KN-US01–US08, налаштування користувача
+
+- [x] SOURCE_QA: власний профіль і контактні дані, locale/timezone, CAS і session fence.
+- [x] SOURCE_QA: current-password rotation, одноразові reset/email proofs, відкликання сесій; ролі не змінюються.
+- [x] SOURCE_QA: SSR UI шістьма мовами, direct recovery entry, mail-disabled і error states.
+- [x] SOURCE_QA: additive auth migration gate, synthetic rollback/upgrade, independent review та build budgets.
+- [ ] TARGET_ACCEPTANCE: дозволений browser/keyboard/mobile viewport, backup/restore rehearsal.
+- [ ] DELIVERY_ACCEPTANCE: перевірені sender/квота/бюджет і окремо дозволений тестовий лист.
+- [ ] RELEASE: exact-artifact staging/owner acceptance і release confirmation; production не змінено.
+
+Точні source/test hashes і результати — [KN-US01–US08](../docs/unified/USER_SETTINGS_2026-11-08_UK.md).

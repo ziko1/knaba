@@ -2,6 +2,13 @@
 
 ## Поточна черга — 08.11.2026
 
+Доповнення поточного доручення: **KN-US01–US08**, налаштування власного VPS
+облікового запису, профіль, безпечна зміна/відновлення пароля, email і сесії.
+Scope/acceptance/власники: [план модуля](USER_SETTINGS_2026-11-08_UK.md).
+Стан: SOURCE_PASS, independent ACCEPT; 261 VPS / 732 Vitest + 90 Node,
+official build/i18n/budgets PASS. Browser BLOCKED, actual mail/target restore і
+deployment NOT_RUN. KN-C04/KN-U09 shared identity та live mail gates збережено.
+
 | ID | Пріоритет | Статус / наступний критерій |
 |---|---|---|
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
