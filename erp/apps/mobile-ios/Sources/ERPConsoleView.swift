@@ -72,7 +72,23 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     var modules: [ERPModule] {
         guard let actor = identity?.actor else { return [] }
         // A visible tab is not an authorization grant: ERP always performs its own scope validation.
-        return ERPModuleCatalog.visible(to: actor)
+        let permitted = ERPModuleCatalog.visible(to: actor)
+        guard let workspace = selectedWorkspace else { return [] }
+        // Presentation-only subsets. ERP still validates every read/write on the server.
+        let kinds: Set<String>
+        switch workspace {
+        case .client:
+            kinds = ["site", "order", "lead", "quote", "change_order", "channel", "report", "report_version", "issue", "media_asset", "notification"]
+        case .worker:
+            kinds = ["task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt"]
+        case .partner:
+            kinds = ["lead", "quote", "order", "site", "channel", "media_asset", "notification"]
+        case .bauleiter:
+            kinds = ["task", "site", "order", "crew_assignment", "employee", "shift", "timesheet", "defect", "worklog", "report", "report_version", "channel", "media_asset", "notification"]
+        case .owner:
+            return permitted
+        }
+        return permitted.filter { kinds.contains($0.kind) }
     }
     var isOperator: Bool {
         ERPModuleCatalog.permits(identity?.actor.permissions ?? [], anyOf: ["decision.manage", "dispatch.manage", "crew.assign", "operations.read"])
