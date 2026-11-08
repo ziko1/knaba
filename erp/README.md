@@ -1,5 +1,7 @@
 # KNABA DE
 
+**Current integrated candidate,08.11.2026:** tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`, ERP2549/2549 with PostgreSQL and9 separate actual site→ERP HTTP cases PASS in [run42430003249](https://github.com/ziko1/knaba/actions/runs/42430003249). [Draft PR123](https://github.com/ziko1/knaba/pull/123) and root unified memory describe the current source. Historical receipts below retain their original scope. Whole product NOT_READY; browser/device/provider/company acceptance remains separate. Current integration CI uses Node24.22.1 and PostgreSQL17.6.
+
 **V4 target approved 08.10.2026:** [target specification](KNABA_DE_TARGET_SPEC.md) and [ADR-0002](docs/adr/0002-v4-target-and-preserved-runtime.md) preserve the working NestJS/PostgreSQL SQL/outbox stack. All 72 V4 application criteria remain NOT_RUN; non-conflicting V3 functionality/history is retained. Public Railway is still NOT_READY.
 
 A separate KNABA DE operations product: customer enquiries and quotes, crew dispatch, sites and tasks, working time and travel, company chat and translation, inventory and procurement, remuneration and payout records, customer reports, assistant administration and audit. It has no dependency on AVENQO.

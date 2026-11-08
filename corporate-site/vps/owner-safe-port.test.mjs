@@ -11,6 +11,7 @@ import { openLocalDatabase } from './database.mjs';
 
 const ownerEmail = 'owner@example.test';
 const passphrase = 'synthetic-only-2026-owner-passphrase-strong';
+const expectedMigrations = inspectMigrationSequence(fileURLToPath(new URL('../drizzle/', import.meta.url))).names;
 
 async function fixture(work) {
   const dir = await mkdtemp(join(tmpdir(), 'knaba-owner-safe-'));
@@ -18,7 +19,7 @@ async function fixture(work) {
   try {
     const { db, migrations } = openLocalDatabase(path);
     try {
-      assert.equal(migrations.length, 14);
+      assert.deepEqual(migrations, expectedMigrations);
       assert.equal(migrations[5], '0005_public_reviews.sql');
       assert.equal(migrations[6], '0006_owner_invite.sql');
       assert.equal(migrations[7], '0007_account_invites.sql');

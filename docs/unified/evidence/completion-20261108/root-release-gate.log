@@ -1,0 +1,30 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-unified-integration@0.0.0-integration audit:release
+> node scripts/verify-release-readiness.mjs
+
+RELEASE BLOCKED: missing/mismatched exact source SHA
+RELEASE BLOCKED: missing exact artifact SHA256
+RELEASE BLOCKED: explicit production approval is not recorded
+RELEASE BLOCKED: gate not accepted: identity-scope
+RELEASE BLOCKED: missing scoped evidence: identity-scope
+RELEASE BLOCKED: gate not accepted: owner-chat
+RELEASE BLOCKED: missing scoped evidence: owner-chat
+RELEASE BLOCKED: gate not accepted: erp-bridge
+RELEASE BLOCKED: missing scoped evidence: erp-bridge
+RELEASE BLOCKED: gate not accepted: erp-regression
+RELEASE BLOCKED: missing scoped evidence: erp-regression
+RELEASE BLOCKED: gate not accepted: security-gdpr
+RELEASE BLOCKED: missing scoped evidence: security-gdpr
+RELEASE BLOCKED: gate not accepted: browser-accessibility
+RELEASE BLOCKED: missing scoped evidence: browser-accessibility
+RELEASE BLOCKED: gate not accepted: native-device
+RELEASE BLOCKED: missing scoped evidence: native-device
+RELEASE BLOCKED: gate not accepted: notification-delivery
+RELEASE BLOCKED: missing scoped evidence: notification-delivery
+RELEASE BLOCKED: gate not accepted: backup-rollback
+RELEASE BLOCKED: missing scoped evidence: backup-rollback
+RELEASE BLOCKED: gate not accepted: customer-uat
+RELEASE BLOCKED: missing scoped evidence: customer-uat
+RELEASE BLOCKED: gate not accepted: legal-approval
+RELEASE BLOCKED: missing scoped evidence: legal-approval

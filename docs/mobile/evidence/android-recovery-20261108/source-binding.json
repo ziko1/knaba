@@ -1,0 +1,16 @@
+{
+  "sourceSha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+  "sourceManifest": "source-files.json",
+  "runtimeBuildInputFilesMatched": 44,
+  "documentationOnlyDifferences": [
+    {
+      "path": "erp/apps/mobile-android/README.md",
+      "buildInputSha256": "276018638071a7f7e7767af737b3155cdac0a8f3ee0d22b0fed13c692401b102",
+      "candidateSha256": "372bf59958e50d7fea0275d00542379a623673c06a3a680b7dd32282b3e5521e"
+    }
+  ],
+  "apkSha256": "d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b",
+  "independentReview": "../../../unified/evidence/completion-20261108/android-brand-independent-review.json",
+  "physicalDevice": "NOT_RUN",
+  "compatibleFinalCodeSha": "bc0ffd1c6f7a3098d5420074de8f349524c7dcae"
+}

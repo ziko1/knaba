@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-11-07T23:09:31.206962+00:00",
+  "checks": [
+    {
+      "path": "/",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "path": "/healthz",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "path": "/readyz",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "path": "/favicon.png",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "path": "/login/",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ]
+}

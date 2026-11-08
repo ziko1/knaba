@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { Actor, assert, CommandContext, CommandRegistry, Data, DomainError, Entity, id, isManager, timestamp } from './core.ts';
 import {readChannelMessages} from './message-pagination.ts';
 import { ROLE_PERMISSIONS } from './permissions.ts';
+import { currentCustomerMembership } from './customer-membership.ts';
 import {workNoticeLabel} from './work-notifications.ts';
 import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,quietHour,nextQuietWindowEnd,safeRetryDelayMs,activeOperationalNotice,deliveryDecision,projectDeliveryNotifications} from './notification-policy.ts';
 import {businessCalendarSchema,calendarDefinition,calendarConfigurationAuthority,requireCalendarManager,queueHandoffSla,cancelHandoffSla,canonicalHandoffState,queuedHandoff,handoffGeneration,handoffQueueNotice} from './handoff-calendar.ts';
@@ -21,8 +22,7 @@ async function channelSite(ctx:CommandContext,channel:Entity):Promise<string|und
 }
 async function assertCustomerSite(ctx:CommandContext,userId:string,siteId:string,customerId?:string) {
   const site=await ctx.tx.get('site',siteId);assert(site.companyId===ctx.actor.companyId&&site.data.customerId&&(!customerId||customerId===site.data.customerId),'ACCESS_DENIED');
-  const now=Date.parse(ctx.now);
-  assert((await ctx.tx.list('customer_membership')).some(m=>{const d=m.data,expiry=d.expiresAt??d.expires_at;return m.companyId===ctx.actor.companyId&&d.active===true&&!d.revokedAt&&!d.revoked_at&&(d.userId??d.user_id)===userId&&d.customerId===site.data.customerId&&(d.permissions??[]).includes('VIEW')&&(!expiry||Date.parse(expiry)>now)&&(!(d.siteIds??[]).length||d.siteIds.includes(siteId));}),'ACCESS_DENIED');
+  assert((await ctx.tx.list('customer_membership')).some(m=>currentCustomerMembership(m,{companyId:ctx.actor.companyId,userId},ctx.now)&&m.data.customerId===site.data.customerId&&(m.data.permissions??[]).includes('VIEW')&&(!(m.data.siteIds??[]).length||m.data.siteIds.includes(siteId))),'ACCESS_DENIED');
 }
 export async function assertChannelAccess(ctx:CommandContext,channel:Entity) {
   assert(channel.companyId===ctx.actor.companyId,'NOT_FOUND_SAFE');

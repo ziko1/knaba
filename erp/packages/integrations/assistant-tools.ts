@@ -1,4 +1,5 @@
 import {queueHandoffSla} from '../domain/handoff-calendar.ts';
+import {currentCustomerMembership} from '../domain/customer-membership.ts';
 import { createHash } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { z } from 'zod';
@@ -59,7 +60,7 @@ export function formatAssistantEUR(value:number){assert(Number.isSafeInteger(val
 /** This text goes directly to the customer after the model answer, never through model rewriting. */
 export function renderAssistantEstimate(value:Data){for(const n of [value.totalNetCents,value.totalTaxCents,value.totalGrossCents])formatAssistantEUR(n);assert(value.currency==='EUR'&&value.status==='ESTIMATE_NOT_QUOTE'&&['NET','GROSS'].includes(value.tax?.display),'VALIDATION_ERROR');return `Unverbindliche Schätzung: ${formatAssistantEUR(value.tax.display==='GROSS'?value.totalGrossCents:value.totalNetCents)} ${value.tax.display==='GROSS'?'brutto':'netto'} (${formatAssistantEUR(value.totalNetCents)} netto; ${formatAssistantEUR(value.totalTaxCents)} Steuer). Kein verbindliches Angebot; Team und Termin sind noch nicht bestätigt.`;}
 type Session<T extends Transaction>={tx:T;actor:Actor;config:Entity;channel:Entity;message:Entity;binding:AssistantToolBinding;now:string;check:()=>void;host:AssistantToolHost<T>};
-async function membership<T extends Transaction>(s:Session<T>,customerId:string,siteId?:string){const rows=await s.tx.list('customer_membership');s.check();assert(rows.some(m=>m.companyId===s.actor.companyId&&m.data.userId===s.actor.userId&&m.data.customerId===customerId&&m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(s.now))&&(m.data.permissions??[]).includes('VIEW')&&(!siteId||!(m.data.siteIds??[]).length||m.data.siteIds.includes(siteId))),'NOT_FOUND_SAFE');}
+async function membership<T extends Transaction>(s:Session<T>,customerId:string,siteId?:string){const rows=await s.tx.list('customer_membership');s.check();assert(rows.some(m=>currentCustomerMembership(m,s.actor,s.now)&&m.data.customerId===customerId&&(m.data.permissions??[]).includes('VIEW')&&(!siteId||!(m.data.siteIds??[]).length||m.data.siteIds.includes(siteId))),'NOT_FOUND_SAFE');}
 async function refresh<T extends Transaction>(tx:T,binding:AssistantToolBinding,host:AssistantToolHost<T>,check:()=>void):Promise<Session<T>> {
  check();const now=(host.now?.()??new Date()).toISOString(),actor=await host.actorIn(tx,binding.actorId);check();
  assert(actor.companyId===binding.companyId&&actor.userId===binding.actorId&&external(actor),'ACCESS_DENIED');

@@ -1,5 +1,23 @@
 # KNABA DE project memory
 
+## 2026-11-08 — PR123 identity authority checkpoint
+
+Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.
+
+[Зіставлення та запропонований federation protocol](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md), [source/test/review evidence](../docs/unified/evidence/identity-20261108/verification.json). CPU fixtures не видаються за PostgreSQL acceptance; окремі справжні SQL cases включені до чинного CI. ERP SQL schema, signed intake endpoint, company credentials і канонічні V3/V4 критерії не змінені.
+
+Спільного site↔ERP SSO немає. Загальне скасування всіх already-authenticated ERP in-flight operations потребує окремого F4 session-proof fence; login race fix цього не доводить. **NOT_READY**, без production, DNS, клієнтських даних, merge або paid activation.
+
+## 2026-11-08 — completion audit candidate
+
+Current integrated scope/evidence: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`, `../docs/unified/evidence/completion-20261108/verification.json`. Seed now rejects absent APP_MODE before DB access; explicit TEST fixtures added. The website publisher reuses existing `/api/v1/integrations/knaba_site/events`, `schema_version:'1'`, `lead.upsert`, timestamp+'.'+rawBody HMAC. No duplicate intake API, new company selector from browser, or destructive ERP migration. Four new real-PG tests exercise SQLite dispatcher→ERP transaction under lost ack, rollback, tampering and changed bytes; test transport is in-process, not public TLS.
+
+D07 decline/expire, order.link_site and ReportRemainingScope exist in current sources; old planning statuses are not proof of absence. API/worker default DEMO remains a separate review item. Android0.4.1 recovery adds encrypted actor-scoped journal and rejects changed/malformed /me identity; physical process-death/Keystore and live API remain unaccepted. Native iOS unknown-write retry/logout and unified identity remain open. V3/V4 criteria and historical evidence preserved; no whole acceptance promoted from aggregate tests.
+
+## Android test continuation — 2026-11-07
+
+Separate Android0.4.0-test candidate: native dashboard/search/contextual tasks/chat, six-language UI, memory-only explicit demo, session generation and idempotent retry safeguards. Package `de.knaba.mobile.test` preserves existing installed package. No API/schema/production change. Source/artifact/test evidence is `../docs/mobile/evidence/android-test-20261107/verification.json`; instructions `../docs/mobile/TEST_ANDROID_0.4.0_UK.md`. Full V4/V3, website-ERP identity bridge, real backend/customer/physical-device/iOS and durable process-death ERP retry gates stay open.
+
 ## Customer prototype verification — 2026-10-28
 
 Actual isolated PostgreSQL run at ERP input source `45d113a65bb1318065cab5a850433f52314e38c0`: **2,452/2,452 tests PASS in 104 files**, TypeScript, migrations, web/server/worker build and bot-channel self-check PASS. Run completed 2026-10-28T14:11:20Z on Node 24.22.1 with a fresh synthetic database. Provider HTTP doubles are explicit; no real WhatsApp/Telegram send, paid AI call or customer-data mutation occurred. The web build retains a nonfatal 665.98 kB uncompressed JS chunk warning. [Verification receipt](docs/evidence/customer-prototype-20261028/verification.json) binds raw log hashes; [source binding](docs/evidence/customer-prototype-20261028/source-binding.json) records exact tested input hashes and the separately updated backup-container Node pin.
@@ -186,3 +204,7 @@ Railway plan activated; authorized separateproject5701136e-0b7c-48e8-a0c6-5c5a01
 GHSA-mrhx-c7xc-m3w5 reproduced on pinned Zod3.25.76: 1001 invalid collection entries with .max(10) generated1002 issues. Scoped application mitigation now bounds HTTP body/query and Engine envelopes before Zod/transactions, and streams DeepSeek/Maps/WhatsApp JSON through one 256KiB reader with structural limits (1000 entries,20000 nodes,depth20). WhatsApp ambiguous receipts remain UNKNOWN/nonretryable. No dependency-number-only remediation or zod/v3 workaround; package/lock, schema exports and database schema unchanged. Upstream advisory remains OPEN; controlled supported-version migration plus full parity/SQL/provider review is still required.
 
 Final local typecheck and candidate build PASS; focused 204 PASS / 2 SQL SKIP; full 2069 PASS / 460 SQL SKIP / 0 FAIL across 2529 assertions / 109 files, including 19 new boundary cases. Built backend sourcemap contents match all eight changed runtime files; source_dirty=true is retained until a committed clean release is built. SQL remains NOT_RUN in this environment. Source fingerprints, review/build status and actual report hashes: docs/evidence/validation-budget-2026-11-07.json; contract/limits/rollback: docs/VALIDATION_RESOURCE_BUDGET_2026-11-07_UK.md. This source patch supersedes the earlier unchanged-ERP baseline and does not inherit its artifact hashes or SQL/live acceptance. Independent shared-reader review accepted the scoped mitigation with zero blocking findings and verified actual reports/source fingerprints; upstream advisory remains OPEN_WITH_MITIGATION. No external provider send, native work, deployment or data migration occurred.
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.

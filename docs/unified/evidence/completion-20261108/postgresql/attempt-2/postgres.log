@@ -1,0 +1,196 @@
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "C".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory /qa-pg/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default "max_connections" ... 100
+selecting default "shared_buffers" ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+sh: locale: not found
+2026-11-07 23:30:32.880 UTC [18] WARNING:  no usable system locales were found
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+2026-11-07 23:30:33.255 UTC [1] LOG:  starting PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-11-07 23:30:33.255 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-11-07 23:30:33.255 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-11-07 23:30:33.255 UTC [1] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2026-11-07 23:30:33.257 UTC [22] LOG:  database system was shut down at 2026-11-07 23:30:33 UTC
+2026-11-07 23:30:33.260 UTC [1] LOG:  database system is ready to accept connections
+2026-11-07 23:30:33.622 UTC [32] FATAL:  database "knaba_test" does not exist
+2026-11-07 23:30:36.903 UTC [49] ERROR:  immutable business history
+2026-11-07 23:30:36.903 UTC [49] CONTEXT:  PL/pgSQL function deny_immutable_change() line 1 at RAISE
+2026-11-07 23:30:36.903 UTC [49] STATEMENT:  UPDATE audit_log SET detail=$1 WHERE company_id=$2
+2026-11-07 23:30:36.905 UTC [50] ERROR:  immutable business history
+2026-11-07 23:30:36.905 UTC [50] CONTEXT:  PL/pgSQL function knaba_privacy_revision_guard() line 15 at RAISE
+2026-11-07 23:30:36.905 UTC [50] STATEMENT:  DELETE FROM aggregate_revisions WHERE company_id=$1
+2026-11-07 23:30:38.848 UTC [63] ERROR:  could not serialize access due to read/write dependencies among transactions
+2026-11-07 23:30:38.848 UTC [63] DETAIL:  Reason code: Canceled on identification as a pivot, during commit attempt.
+2026-11-07 23:30:38.848 UTC [63] HINT:  The transaction might succeed if retried.
+2026-11-07 23:30:38.848 UTC [63] STATEMENT:  COMMIT
+2026-11-07 23:30:38.848 UTC [63] WARNING:  there is no transaction in progress
+2026-11-07 23:30:41.538 UTC [67] ERROR:  canceling statement due to statement timeout
+2026-11-07 23:30:41.538 UTC [67] STATEMENT:  SELECT pg_advisory_lock(hashtext($1))
+2026-11-07 23:30:41.539 UTC [67] WARNING:  there is no transaction in progress
+2026-11-07 23:30:42.547 UTC [70] WARNING:  there is no transaction in progress
+2026-11-07 23:30:43.344 UTC [69] ERROR:  immutable business history
+2026-11-07 23:30:43.344 UTC [69] CONTEXT:  PL/pgSQL function knaba_privacy_revision_guard() line 15 at RAISE
+2026-11-07 23:30:43.344 UTC [69] STATEMENT:  UPDATE aggregate_revisions SET data='{}' WHERE company_id=$1 AND kind='message'
+2026-11-07 23:30:43.346 UTC [70] ERROR:  immutable business history
+2026-11-07 23:30:43.346 UTC [70] CONTEXT:  PL/pgSQL function knaba_privacy_revision_guard() line 15 at RAISE
+2026-11-07 23:30:43.346 UTC [70] STATEMENT:  DELETE FROM aggregate_revisions WHERE company_id=$1 AND kind='message'
+2026-11-07 23:30:43.349 UTC [71] ERROR:  immutable business history
+2026-11-07 23:30:43.349 UTC [71] CONTEXT:  PL/pgSQL function deny_immutable_change() line 1 at RAISE
+2026-11-07 23:30:43.349 UTC [71] STATEMENT:  UPDATE audit_log SET detail='{}' WHERE company_id=$1
+2026-11-07 23:30:43.355 UTC [72] ERROR:  immutable business history
+2026-11-07 23:30:43.355 UTC [72] CONTEXT:  PL/pgSQL function deny_immutable_change() line 1 at RAISE
+2026-11-07 23:30:43.355 UTC [72] STATEMENT:  DELETE FROM audit_log WHERE company_id=$1
+2026-11-07 23:30:43.484 UTC [73] ERROR:  PRIVACY_REVISION_PERMIT_UNCONSUMED
+2026-11-07 23:30:43.484 UTC [73] CONTEXT:  PL/pgSQL function knaba_privacy_permit_consumed() line 4 at RAISE
+2026-11-07 23:30:43.484 UTC [73] STATEMENT:  COMMIT
+2026-11-07 23:30:43.484 UTC [73] WARNING:  there is no transaction in progress
+2026-11-07 23:30:43.489 UTC [73] ERROR:  immutable business history
+2026-11-07 23:30:43.489 UTC [73] CONTEXT:  PL/pgSQL function knaba_privacy_revision_guard() line 15 at RAISE
+2026-11-07 23:30:43.489 UTC [73] STATEMENT:  UPDATE aggregate_revisions SET data=$1,actor_id=$2 WHERE company_id=$3 AND kind=$4 AND id=$5 AND version=$6
+2026-11-07 23:30:44.629 UTC [75] ERROR:  INVALID_GPS_PURGE_BOUND
+2026-11-07 23:30:44.629 UTC [75] CONTEXT:  PL/pgSQL function knaba_purge_gps(timestamp with time zone,integer,text) line 4 at RAISE
+2026-11-07 23:30:44.629 UTC [75] STATEMENT:  SELECT knaba_purge_gps($1::timestamptz,$2::int,$3::text)
+2026-11-07 23:30:44.633 UTC [76] ERROR:  INVALID_GPS_PURGE_BOUND
+2026-11-07 23:30:44.633 UTC [76] CONTEXT:  PL/pgSQL function knaba_purge_gps(timestamp with time zone,integer,text) line 4 at RAISE
+2026-11-07 23:30:44.633 UTC [76] STATEMENT:  SELECT knaba_purge_gps($1::timestamptz,$2::int,$3::text)
+2026-11-07 23:30:44.634 UTC [77] ERROR:  INVALID_GPS_PURGE_BOUND
+2026-11-07 23:30:44.634 UTC [77] CONTEXT:  PL/pgSQL function knaba_purge_gps(timestamp with time zone,integer,text) line 4 at RAISE
+2026-11-07 23:30:44.634 UTC [77] STATEMENT:  SELECT knaba_purge_gps($1::timestamptz,$2::int,$3::text)
+2026-11-07 23:30:44.701 UTC [80] WARNING:  there is no transaction in progress
+2026-11-07 23:30:44.719 UTC [78] ERROR:  GPS_LEGACY_RAW_COPY_REQUIRES_APPROVED_MIGRATION
+2026-11-07 23:30:44.719 UTC [78] CONTEXT:  PL/pgSQL function knaba_assert_gps_storage_safe(text) line 6 at RAISE
+2026-11-07 23:30:44.719 UTC [78] STATEMENT:  SELECT knaba_assert_gps_storage_safe($1::text)
+2026-11-07 23:30:44.733 UTC [79] ERROR:  GPS_LEGACY_RAW_COPY_REQUIRES_APPROVED_MIGRATION
+2026-11-07 23:30:44.733 UTC [79] CONTEXT:  PL/pgSQL function knaba_assert_gps_storage_safe(text) line 6 at RAISE
+2026-11-07 23:30:44.733 UTC [79] STATEMENT:  SELECT knaba_assert_gps_storage_safe($1::text)
+2026-11-07 23:30:44.747 UTC [78] ERROR:  GPS_LEGACY_RAW_COPY_REQUIRES_APPROVED_MIGRATION
+2026-11-07 23:30:44.747 UTC [78] CONTEXT:  PL/pgSQL function knaba_assert_gps_storage_safe(text) line 6 at RAISE
+2026-11-07 23:30:44.747 UTC [78] STATEMENT:  SELECT knaba_assert_gps_storage_safe($1::text)
+2026-11-07 23:30:53.661 UTC [86] WARNING:  there is no transaction in progress
+2026-11-07 23:31:04.782 UTC [110] ERROR:  duplicate key value violates unique constraint "aggregates_pkey"
+2026-11-07 23:31:04.782 UTC [110] DETAIL:  Key (company_id, kind, id)=(synthetic-load-batch-b285eae4-d070-43e4-ace8-828eba77cafe, site, existing-site) already exists.
+2026-11-07 23:31:04.782 UTC [110] STATEMENT:  WITH inserted AS (
+	   INSERT INTO aggregates(company_id,kind,id,data)
+	   SELECT $1,x.kind,x.id,x.data FROM jsonb_to_recordset($2::jsonb) AS x(kind text,id text,data jsonb) RETURNING *
+	  ), revisions AS (
+	   INSERT INTO aggregate_revisions(company_id,kind,id,version,data,actor_id)
+	   SELECT company_id,kind,id,version,data,$3 FROM inserted RETURNING id
+	  ), audits AS (
+	   INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail)
+	   SELECT company_id,$3,'SYNTHETIC_LOAD_FIXTURE',kind,id,jsonb_build_object('version',version,'loadRunId',$4::text) FROM inserted RETURNING id
+	  ) SELECT (SELECT count(*)::int FROM inserted) AS aggregates,(SELECT count(*)::int FROM revisions) AS revisions,(SELECT count(*)::int FROM audits) AS audits
+2026-11-07 23:31:05.657 UTC [113] WARNING:  there is no transaction in progress
+2026-11-07 23:31:07.407 UTC [115] ERROR:  cannot execute INSERT in a read-only transaction
+2026-11-07 23:31:07.407 UTC [115] STATEMENT:  INSERT INTO aggregates(company_id,kind,id,data) VALUES($1,$2,$3,$4) RETURNING *
+2026-11-07 23:31:07.433 UTC [115] ERROR:  cannot execute UPDATE in a read-only transaction
+2026-11-07 23:31:07.433 UTC [115] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *
+2026-11-07 23:31:07.445 UTC [115] ERROR:  cannot execute INSERT in a read-only transaction
+2026-11-07 23:31:07.445 UTC [115] STATEMENT:  INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,$3,$4)
+2026-11-07 23:31:15.036 UTC [124] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.036 UTC [124] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.036 UTC [124] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.038 UTC [123] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.038 UTC [123] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.038 UTC [123] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.043 UTC [122] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.043 UTC [122] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.043 UTC [122] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.043 UTC [121] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.043 UTC [121] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.043 UTC [121] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.053 UTC [125] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.053 UTC [125] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.053 UTC [125] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.061 UTC [126] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.061 UTC [126] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.061 UTC [126] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.070 UTC [127] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.070 UTC [127] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.070 UTC [127] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.077 UTC [128] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.077 UTC [128] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.077 UTC [128] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.087 UTC [129] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.087 UTC [129] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.087 UTC [129] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.094 UTC [130] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.094 UTC [130] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.094 UTC [130] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.106 UTC [131] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.106 UTC [131] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.106 UTC [131] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.112 UTC [132] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.112 UTC [132] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.112 UTC [132] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.121 UTC [133] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.121 UTC [133] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.121 UTC [133] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.127 UTC [134] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.127 UTC [134] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.127 UTC [134] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.137 UTC [135] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.137 UTC [135] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.137 UTC [135] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.143 UTC [136] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.143 UTC [136] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.143 UTC [136] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.153 UTC [137] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.153 UTC [137] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.153 UTC [137] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.159 UTC [138] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.159 UTC [138] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.159 UTC [138] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.168 UTC [139] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.168 UTC [139] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.168 UTC [139] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.175 UTC [140] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.175 UTC [140] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.175 UTC [140] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.184 UTC [141] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.184 UTC [141] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.184 UTC [141] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.205 UTC [142] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.205 UTC [142] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.205 UTC [142] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.213 UTC [143] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.213 UTC [143] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.213 UTC [143] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb,version=version+1 WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.220 UTC [144] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.220 UTC [144] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.220 UTC [144] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.257 UTC [148] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.257 UTC [148] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.257 UTC [148] STATEMENT:  UPDATE aggregates SET data=data||$4::jsonb WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:15.258 UTC [147] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:15.258 UTC [147] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:15.258 UTC [147] STATEMENT:  DELETE FROM aggregates WHERE company_id=$1 AND kind=$2 AND id=$3
+2026-11-07 23:31:31.792 UTC [170] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:31.792 UTC [170] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:31.792 UTC [170] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *
+2026-11-07 23:31:31.796 UTC [170] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:31.796 UTC [170] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:31.796 UTC [170] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *
+2026-11-07 23:31:31.798 UTC [170] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:31.798 UTC [170] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:31.798 UTC [170] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *
+2026-11-07 23:31:31.801 UTC [170] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:31.801 UTC [170] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:31.801 UTC [170] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *
+2026-11-07 23:31:31.804 UTC [170] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:31.804 UTC [170] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:31.804 UTC [170] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *
+2026-11-07 23:31:31.806 UTC [170] ERROR:  KNABA_IMMUTABLE_BUSINESS_FACT
+2026-11-07 23:31:31.806 UTC [170] CONTEXT:  PL/pgSQL function knaba_guard_v4_business_fact() line 5 at RAISE
+2026-11-07 23:31:31.806 UTC [170] STATEMENT:  UPDATE aggregates SET data=$1,version=version+1,updated_at=now() WHERE company_id=$2 AND kind=$3 AND id=$4 AND version=$5 RETURNING *

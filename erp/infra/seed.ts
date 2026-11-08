@@ -7,7 +7,7 @@ import {createHash} from 'node:crypto';
 import sharp from 'sharp';
 import {PostgresPrivateBlobStore} from '../packages/storage/index.ts';
 export async function seed(db:Database,companyId='knaba-demo'){
- if(!['DEMO','TEST'].includes(process.env.APP_MODE??'DEMO'))throw new Error('SEED_REQUIRES_EXPLICIT_DEMO_TEST');
+ if(!['DEMO','TEST'].includes(process.env.APP_MODE??''))throw new Error('SEED_REQUIRES_EXPLICIT_DEMO_TEST');
  const permissions=[...new Set([...Object.values(ROLE_PERMISSIONS).flat(),...Object.values(new Engine(db).registry).map(d=>d.permission),...Object.values(identityCommands).map(d=>d.permission),'scope.company'])].filter(p=>p!=='integration.process'&&p!=='automation.execute');
  const passwordHash=await hashPassword('KNABA synthetic local demo password');
  await db.transaction(companyId,'SYNTHETIC_SEED',async tx=>{

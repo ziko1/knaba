@@ -5,10 +5,10 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash,generateKeyPairSync,sign} from 'node:crypto';
 import {openLocalDatabase} from './database.mjs';
-import {createOwner,createSessionForUser} from './auth.mjs';
+import {createOwner,createSessionForUser,rotateCredentials} from './auth.mjs';
 import {issueOwnerInvite,activateOwnerInvite} from './owner-invite.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
-import {oidcProviders,beginOidc,completeOidc,verifyIdToken,OidcError} from './oidc.mjs';
+import {oidcProviders,beginOidc,completeOidc,createOidcSession,verifyIdToken,OidcError} from './oidc.mjs';
 
 const owner='owner@example.test';
 const developer='developer@example.test';
@@ -58,9 +58,9 @@ function exchange(nonce,email='partner@example.test',changes={}){
   };
   return {fetchImpl,get calls(){return calls;}};
 }
-function start(db,intent='partner',linkUserId=null){
+function start(db,intent='partner',linkUserId=null,linkSessionToken=null){
   const started=beginOidc(db,{provider:'google',config:cfg,origin,intent,
-    privacyAccepted:true,linkUserId,now});
+    privacyAccepted:true,linkUserId,linkSessionToken,now});
   const qs=new URL(started.redirect).searchParams;
   assert.equal(qs.get('state'),started.state);
   assert.equal(qs.get('redirect_uri'),origin+'/auth/oidc/google/callback/');
@@ -117,7 +117,8 @@ test('matching email never silently links an owner; signed-in owner can explicit
     const before=start(db,'client');
     await assert.rejects(finish(db,before.state,exchange(before.nonce,owner).fetchImpl),e=>e?.code==='link_required');
     assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_oidc_links').get().n,0);
-    const linked=start(db,'client',enrolled.id);
+    const credentialSession=createSessionForUser(db,enrolled.id);
+    const linked=start(db,'client',enrolled.id,credentialSession.token);
     const allowed=await finish(db,linked.state,exchange(linked.nonce,owner).fetchImpl);
     assert.equal(allowed.userId,enrolled.id);
     assert.equal(allowed.newAccount,false);
@@ -128,6 +129,95 @@ test('matching email never silently links an owner; signed-in owner can explicit
     const session=createSessionForUser(db,second.userId);
     assert.match(session.token,/^[A-Za-z0-9_-]{43}$/);
     assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_users').get().n,1);
+  });
+});
+test('linking requires the actual original live session, not merely a user id',async()=>{
+  await fixture(db=>{
+    const enrolled=createOwner(db,owner,'synthetic-owner-password-long-2026');
+    assert.throws(()=>start(db,'client',enrolled.id),e=>e?.code==='invalid_state');
+    const other=createOwner(db,'other@example.test','synthetic-other-password-long-2026');
+    const wrong=createSessionForUser(db,other.id);
+    assert.throws(()=>start(db,'client',enrolled.id,wrong.token),e=>e?.code==='invalid_state');
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_oidc_states').get().n,0);
+  });
+});
+for(const revoke of ['logout','password','disabled','expiry'])test('OIDC link fails after '+revoke+' before exchange',async()=>{
+  await fixture(async db=>{
+    const enrolled=createOwner(db,owner,'synthetic-owner-password-long-2026');
+    const credentialSession=createSessionForUser(db,enrolled.id);
+    const flow=start(db,'client',enrolled.id,credentialSession.token);
+    if(revoke==='logout')db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(enrolled.id);
+    if(revoke==='password')assert.equal(rotateCredentials(db,{userId:enrolled.id,currentPassword:'synthetic-owner-password-long-2026',newPassword:'synthetic-rotated-password-long-2026',confirmed:'synthetic-rotated-password-long-2026'}),true);
+    if(revoke==='disabled')db.prepare('UPDATE vps_users SET disabled=1 WHERE id=?').run(enrolled.id);
+    if(revoke==='expiry')db.prepare('UPDATE vps_sessions SET expires_at=? WHERE user_id=?').run(Math.floor(now/1000),enrolled.id);
+    const provider=exchange(flow.nonce,owner);
+    await assert.rejects(finish(db,flow.state,provider.fetchImpl),e=>e?.code==='invalid_state');
+    assert.equal(provider.calls,0,'revoked flow must not send a provider request');
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_oidc_links').get().n,0);
+  });
+});
+test('OIDC link rechecks the original session inside commit after provider I/O',async()=>{
+  await fixture(async db=>{
+    const enrolled=createOwner(db,owner,'synthetic-owner-password-long-2026');
+    const original=createSessionForUser(db,enrolled.id);
+    const flow=start(db,'client',enrolled.id,original.token);
+    const provider=exchange(flow.nonce,owner);
+    await assert.rejects(finish(db,flow.state,async(url,opts)=>{
+      const reply=await provider.fetchImpl(url,opts);
+      if(url===cfg.google.jwksEndpoint){
+        db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(enrolled.id);
+        createSessionForUser(db,enrolled.id); // A fresh login must not adopt the revoked operation.
+      }
+      return reply;
+    }),e=>e?.code==='invalid_state');
+    assert.equal(provider.calls,2);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_oidc_links').get().n,0);
+  });
+});
+test('session expiry is evaluated at commit time after provider latency',async t=>{
+  let clock=now;t.mock.method(Date,'now',()=>clock);
+  await fixture(async db=>{
+    const enrolled=createOwner(db,owner,'synthetic-owner-password-long-2026');
+    const original=createSessionForUser(db,enrolled.id),flow=start(db,'client',enrolled.id,original.token);
+    db.prepare('UPDATE vps_sessions SET expires_at=? WHERE user_id=?').run(Math.floor(now/1000)+1,enrolled.id);
+    const provider=exchange(flow.nonce,owner);
+    await assert.rejects(finish(db,flow.state,async(url,opts)=>{
+      const reply=await provider.fetchImpl(url,opts);if(url===cfg.google.jwksEndpoint)clock+=2000;return reply;
+    }),e=>e?.code==='invalid_state');
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_oidc_links').get().n,0);
+  });
+});
+test('session issuance cannot revive a link whose original session ended after link commit',async()=>{
+  await fixture(async db=>{
+    const enrolled=createOwner(db,owner,'synthetic-owner-password-long-2026');
+    const original=createSessionForUser(db,enrolled.id),flow=start(db,'client',enrolled.id,original.token);
+    const receipt=await finish(db,flow.state,exchange(flow.nonce,owner).fetchImpl);
+    db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(enrolled.id);
+    createSessionForUser(db,enrolled.id);
+    assert.throws(()=>createOidcSession(db,receipt,now),e=>e?.code==='invalid_state');
+    assert.equal(db.prepare('SELECT count(*) AS n FROM vps_sessions').get().n,1);
+  });
+});
+test('legacy unbound link states fail closed',async()=>{
+  await fixture(async db=>{
+    const enrolled=createOwner(db,owner,'synthetic-owner-password-long-2026');
+    const session=createSessionForUser(db,enrolled.id);
+    const flow=start(db,'client',enrolled.id,session.token);
+    if(db.prepare('PRAGMA table_info(vps_oidc_states)').all().some(row=>row.name==='link_session_hash'))
+      db.prepare('UPDATE vps_oidc_states SET link_session_hash=NULL').run();
+    await assert.rejects(finish(db,flow.state,exchange(flow.nonce,owner).fetchImpl),e=>e?.code==='invalid_state');
+  });
+});
+test('protected addresses cannot self-provision owner or developer through OIDC',async()=>{
+  await fixture(async db=>{
+    for(const address of [owner,developer]){
+      const flow=start(db,'client');
+      await assert.rejects(completeOidc(db,{provider:'google',config:cfg,origin,code:'synthetic-code',state:flow.state,
+        cookie:'__Host-knaba-oidc='+flow.state,now,fetchImpl:exchange(flow.nonce,address).fetchImpl,
+        ownerEmail:owner,developerEmail:developer}),e=>e?.code==='link_required');
+    }
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_users').get().n,0);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM vps_oidc_links').get().n,0);
   });
 });
 test('developer owner-equivalent rights require server-configured address AND recorded active grant',async()=>{

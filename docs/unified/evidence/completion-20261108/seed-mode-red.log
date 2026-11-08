@@ -1,0 +1,37 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/fe1b7c871eec/knaba/erp
+
+ ❯ tests/seed-mode.test.ts (7 tests | 1 failed) 576ms
+     × rejects APP_MODE=undefined before any database access 249ms
+     ✓ rejects APP_MODE= before any database access 1ms
+     ✓ rejects APP_MODE=PRODUCTION before any database access 1ms
+     ✓ rejects APP_MODE=test before any database access 1ms
+     ✓ rejects APP_MODE= DEMO  before any database access 1ms
+     ✓ permits explicitly selected DEMO mode to reach the transaction 150ms
+     ✓ permits explicitly selected TEST mode to reach the transaction 169ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/seed-mode.test.ts > synthetic seed environment boundary > rejects APP_MODE=undefined before any database access
+AssertionError: expected [Function] to throw error including 'SEED_REQUIRES_EXPLICIT_DEMO_TEST' but got 'DATABASE_MUST_NOT_BE_TOUCHED'
+
+Expected: "SEED_REQUIRES_EXPLICIT_DEMO_TEST"
+Received: "DATABASE_MUST_NOT_BE_TOUCHED"
+
+ ❯ tests/seed-mode.test.ts:12:50
+     10|   const transaction=vi.fn(()=>{throw new Error('DATABASE_MUST_NOT_BE_T…
+     11|   const db={transaction} as unknown as Database;
+     12|   await expect(seed(db,'synthetic-boundary-test')).rejects.toThrow('SE…
+       |                                                  ^
+     13|   expect(transaction).not.toHaveBeenCalled();
+     14|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  00:03:01
+   Duration  4.82s (transform 2.69s, setup 0ms, import 3.40s, tests 576ms, environment 0ms)
+

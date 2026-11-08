@@ -1,5 +1,17 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — PR123 identity/revocation checkpoint
+
+Від d03e72b додано original-session hash binding для OIDC linking, повторні current-session fences біля body/SQL/private API response та stable owner subject pin через `OWNER_USER_ID`. Same-email linking не створює owner/admin. Additive VPS auth column мігрує лише за чинним migration gate; Drizzle/intake SQL незмінні. Legacy unbound linking states fail closed.
+
+Локально повний VPS suite197/197, цільові portal/account/hosting Vitest71/71, check/build пройшли; runtime/input hashes та актуальний CI в [єдиному evidence](../docs/unified/evidence/identity-20261108/verification.json). Незалежний review site scope завершений. Явний owner ID необхідний для pin між restart; hosted Sites з undefined binding має legacy email fallback. [Повне зіставлення](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md). Спільний ERP SSO, живі OIDC providers, browser/device/UAT залишаються відкритими. Production/DNS/data не змінені.
+
+## 08.11.2026 — completion candidate
+
+New source checkpoint: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`; evidence `../docs/unified/evidence/completion-20261108/verification.json`. Restored owner contacts/footer/favicon from verified server Git history; removed only overwritten unconditional CSS declarations to preserve the existing40KiB gzip ceiling. Studio validates the entire draft against trusted bounded raw HTML before publication, rechecks current VPS session/authority inside its transaction, and atomically claims publication history. SSR reuses its parsed tree; partial mapping is rejected, not silently applied. Stable IDs/template packaging remain future work.
+
+Additive migration0013 creates reference-only intake outbox in the same request transaction. VPS manual dispatcher uses existing ERP signed integration contract, immutable event/destination fingerprint, bounded retries and honest UNKNOWN. Owner CRM counts do not imply automatic delivery. Current site privacy version is2026-10-28; matching this value is not legal approval. Prior migrations unchanged. Production, external recipients and providers unchanged. Browser/live/company UAT is not asserted by source tests.
+
 - User request: audit current cleaning-company website, offer modern fast stack choices, write detailed plan/prompt and implement the corporate website.
 - The user explicitly confirmed `knaba.de` / KnaBa after initial `kneba.de` typo.
 - Repository `ziko1/knaba`; isolated candidate branch `codex/knaba-corporate-astro-20261024`, base `ff748a2e5731e973883344ed28f3e82cf8a3bc06` (`main`, specification-only).
@@ -552,3 +564,7 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 2026-11-07 — site templates candidate
 
 У `/studio/templates/` реалізовано owner-only каталог, завантаження bounded KNABA ZIP v1, preview, чернетку, atomic publication та design-only rollback. Три нові таблиці в0013; контент/кабінети не переміщуються. Формат і operational rollback: [SITE_TEMPLATES_UK](docs/SITE_TEMPLATES_UK.md). Новий код не розгорнуто; browser/device/live gates не підміняються SQLite/unit/build. Підсумковий source-bound checkpoint і GitHub CI фіксуються окремо.
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.

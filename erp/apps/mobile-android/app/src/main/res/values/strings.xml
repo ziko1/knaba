@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="erp_title">KNABA · Control</string>
-    <string name="erp_login_intro">Melden Sie sich mit Ihrem freigegebenen ERP-Konto an. Keine Browser-Einbettung.</string>
+    <string name="erp_login_intro">Melden Sie sich mit Ihrem freigegebenen ERP-Konto an.</string>
     <string name="erp_server">HTTPS-Adresse des ERP-Servers</string>
     <string name="erp_email">E-Mail</string>
     <string name="erp_password">Passwort</string>
@@ -145,4 +145,65 @@
     <string name="reason_retention">Abgelaufene lokale Standortereignisse entfernt.</string>
     <string name="notification_permission_denied">GPS benötigt die sichtbare Standortbenachrichtigung. Benachrichtigungen erlauben oder den manuellen Schichtablauf verwenden.</string>
     <string name="error_enrollment_change">Vor erneuter Geräteverknüpfung abmelden und lokale Kontodaten löschen.</string>
+
+    <string name="erp_demo_banner">DEMO · Nur Testdaten auf diesem Gerät</string>
+    <string name="erp_try_demo">Ohne Server testen</string>
+    <string name="erp_demo_intro">Probieren Sie Aufgaben und Nachrichten mit erfundenen Daten aus. Änderungen bleiben nur bis zum Verlassen der Demo erhalten.</string>
+    <string name="erp_exit_demo">Demo beenden</string>
+    <string name="erp_home">Mein Arbeitsbereich</string>
+    <string name="erp_workspace_intro">Aufgaben, Objekte und Nachrichten an einem Ort.</string>
+    <string name="erp_active_sites">Aktive Objekte: %1$d</string>
+    <string name="erp_open_decisions">Offene Entscheidungen: %1$d</string>
+    <string name="erp_search">Suchen</string>
+    <string name="erp_view_details">Details öffnen</string>
+    <string name="erp_more">Weitere anzeigen</string>
+    <string name="erp_record_id">Datensatz-ID</string>
+    <string name="erp_record_version">Version: %1$d</string>
+    <string name="erp_nested_data">Weitere strukturierte Angaben</string>
+    <string name="erp_yes">Ja</string>
+    <string name="erp_no">Nein</string>
+    <string name="erp_sent">Nachricht gespeichert</string>
+    <string name="erp_you">Sie</string>
+    <string name="erp_conversation">Unterhaltung</string>
+    <string name="erp_choose">Bitte auswählen</string>
+    <string name="erp_json_hint">Strukturierte Eingabe im JSON-Format.</string>
+    <string name="erp_field_name">Name</string>
+    <string name="erp_field_description">Beschreibung</string>
+    <string name="erp_field_status">Status</string>
+    <string name="erp_field_phone">Telefon</string>
+    <string name="erp_field_address">Adresse</string>
+    <string name="erp_session_expired">Ihre Sitzung ist abgelaufen. Bitte erneut anmelden.</string>
+    <string name="erp_access_denied">Für diese Aktion fehlt die Berechtigung.</string>
+    <string name="erp_rate_limit">Zu viele Anfragen. Bitte kurz warten und erneut versuchen.</string>
+    <string name="erp_connection_error">Keine bestätigte Verbindung. Verbindung prüfen und erneut versuchen.</string>
+    <string name="erp_request_failed">Die Anfrage wurde nicht bestätigt. Bitte erneut versuchen.</string>
+    <string name="erp_unknown_result">Das Ergebnis ist unklar. Erneut senden wiederholt genau dieselbe Anfrage. Eingaben bleiben gesperrt, bis das Ergebnis geklärt ist.</string>
+    <string name="erp_wait">Die Anfrage läuft. Bitte auf die Bestätigung warten.</string>
+    <string name="erp_unknown_title">Ergebnis noch unklar</string>
+    <string name="erp_unknown_leave">Die unklare Anfrage bleibt verschlüsselt auf diesem Gerät gespeichert. Melden Sie sich am selben Server mit demselben Konto an, um genau diese Anfrage zu prüfen und zu wiederholen. Nicht als neue Aktion anlegen.</string>
+    <string name="erp_logout_question">Möchten Sie sich von diesem Arbeitsbereich abmelden?</string>
+
+    <string name="erp_task_id">Aufgaben-ID</string>
+    <string name="erp_quantity_milli">Menge in Tausendstel-Einheiten (1000 = 1)</string>
+    <string name="erp_start_task">Aufgabe beginnen</string>
+    <string name="erp_log_work">Arbeit dokumentieren</string>
+    <string name="erp_submit_task">Zur Prüfung einreichen</string>
+
+    <string name="erp_review_pending">Unbestätigte Aktion prüfen</string>
+    <string name="erp_retry_pending">Genau diese Anfrage wiederholen</string>
+
+    <string name="erp_state_assigned">Zugewiesen</string>
+    <string name="erp_state_progress">In Bearbeitung</string>
+    <string name="erp_state_review">Zur Prüfung eingereicht</string>
+    <string name="erp_state_accepted">Abgenommen</string>
+    <string name="erp_state_rejected">Abgelehnt</string>
+    <string name="erp_state_cancelled">Storniert</string>
+    <string name="erp_state_active">Aktiv</string>
+    <string name="erp_state_open">Offen</string>
+    <string name="erp_role_employee">Mitarbeiter</string>
+
+    <string name="erp_quantity">Menge</string>
+    <string name="erp_planned_quantity">Geplante Menge</string>
+    <string name="erp_reported_quantity">Gemeldete Menge</string>
+    <string name="erp_accepted_quantity">Abgenommene Menge</string>
 </resources>

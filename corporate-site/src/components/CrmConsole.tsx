@@ -10,6 +10,7 @@ type Contact={
 type Note={id:string;body:string;createdAt:string;actorId:string};
 type ListResponse={contacts:Contact[];limited:boolean};
 type NoteResponse={notes:Note[];limited:boolean};
+type BridgeStatus={scope:'SITE_OUTBOX_ONLY';automaticDelivery:false;counts:{PENDING:number;LEASED:number;APPLIED:number;REVIEW:number;BLOCKED:number;UNKNOWN:number}};
 const stages: {value:Stage;label:string}[]=[
   {value:'new',label:'Neu'},{value:'contacted',label:'Kontaktiert'},
   {value:'qualified',label:'Qualifiziert'},{value:'proposal',label:'Angebot'},
@@ -42,6 +43,8 @@ export default function CrmConsole() {
   const [busy,setBusy]=createSignal(false);
   const [error,setError]=createSignal('');
   const [notice,setNotice]=createSignal('');
+  const [bridge,setBridge]=createSignal<BridgeStatus|null>(null);
+  const [bridgeWarning,setBridgeWarning]=createSignal(false);
   const [selected,setSelected]=createSignal<Contact|null>(null);
   const [stage,setStage]=createSignal<Stage>('new');
   const [tagText,setTagText]=createSignal('');
@@ -50,14 +53,17 @@ export default function CrmConsole() {
   const [noteBody,setNoteBody]=createSignal('');
   let pendingNoteKey:string|null=null;
   let readEpoch=0;
+  let reloadEpoch=0;
 
   const salesCount=createMemo(()=>contacts().filter(c=>c.stage==='won').length);
   const inProgressCount=createMemo(()=>contacts().filter(c=>['contacted','qualified','proposal'].includes(c.stage)).length);
 
   async function reload() {
-    setLoading(true);setError('');
+    const epoch=++reloadEpoch;
+    setLoading(true);setError('');setBridge(null);setBridgeWarning(false);
     try{
       const data=await api<ListResponse>('/api/crm/contacts?q='+encodeURIComponent(search().trim()));
+      if(epoch!==reloadEpoch)return;
       setContacts(data.contacts);setLimited(data.limited);
       const previous=selected();
       if(previous) {
@@ -65,8 +71,16 @@ export default function CrmConsole() {
         if(item)setSelected(item);
         else{setSelected(null);setNotes([]);}
       }
-    }catch(e){setError(e instanceof Error?e.message:'CRM nicht erreichbar.');}
-    finally{setLoading(false);}
+      const session=await api<{role:string}>('/api/portal/session');
+      if(epoch!==reloadEpoch)return;
+      if(session.role==='owner'){
+        try{const value=await api<BridgeStatus>('/api/crm/bridge-status');
+          if(value.scope!=='SITE_OUTBOX_ONLY'||Object.values(value.counts).some(n=>!Number.isSafeInteger(n)||n<0))throw Error('INVALID_BRIDGE_STATUS');
+          if(epoch===reloadEpoch)setBridge(value);
+        }catch{if(epoch===reloadEpoch)setBridgeWarning(true);}
+      }
+    }catch(e){if(epoch===reloadEpoch){setContacts([]);setSelected(null);setNotes([]);setBridge(null);setError(e instanceof Error?e.message:'CRM nicht erreichbar.');}}
+    finally{if(epoch===reloadEpoch)setLoading(false);}
   }
   async function open(contact:Contact) {
     if(busy()) return;
@@ -124,6 +138,13 @@ export default function CrmConsole() {
       <div><span>In Bearbeitung · Ansicht</span><strong>{inProgressCount()}</strong></div>
       <div><span>Gewonnen · Ansicht</span><strong>{salesCount()}</strong></div>
     </div>
+    <Show when={bridge()}>{value=><section aria-label="ERP-Übergabe" class="kncrm-alert">
+      <strong>ERP-Übergabe</strong>
+      <p>Neue Websiteanfragen werden für die freigegebene Übertragung vorgemerkt. Diese Anzeige sendet keine Daten.</p>
+      <p>Wartend: {value().counts.PENDING+value().counts.LEASED} · Im ERP bestätigt: {value().counts.APPLIED} · Prüfung nötig: {value().counts.REVIEW+value().counts.BLOCKED+value().counts.UNKNOWN}</p>
+      <Show when={value().counts.UNKNOWN>0}><p>Bei {value().counts.UNKNOWN} Anfrage(n) ist das Ergebnis unklar. Vor einer erneuten Übertragung muss der Empfang geprüft werden.</p></Show>
+    </section>}</Show>
+    <Show when={bridgeWarning()}><p class="kncrm-alert" role="status">Der ERP-Übergabestatus ist derzeit nicht verfügbar.</p></Show>
     <Show when={error()}><p class="kncrm-alert kncrm-error" role="alert">{error()}</p></Show>
     <Show when={notice()}><p class="kncrm-alert" role="status" aria-live="polite">{notice()}</p></Show>
     <div class="kncrm-grid">

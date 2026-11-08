@@ -1,0 +1,87 @@
+{
+  "baseGitSha": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+  "state": "WORKING_TREE_CANDIDATE",
+  "maps": {
+    "en": 124,
+    "uk": 124,
+    "ru": 137,
+    "exactValuesCompared": 385,
+    "noUndefinedOrNullExports": true,
+    "ownKeySetsValuesDescriptorsAndPrototype": "IDENTICAL",
+    "insertionOrder": {
+      "enUI": "UNCHANGED",
+      "ukUI": "UNCHANGED",
+      "ruUI": "Changed to common-key order; formerly private lookup-only table; no enumeration consumer"
+    }
+  },
+  "behavior": {
+    "publicTextCases": 864,
+    "localizedServiceCases": 36,
+    "publicApiErrorCases": 144,
+    "publicExportNames": "IDENTICAL",
+    "companyAndServices": "IDENTICAL",
+    "prototypeKeyBehavior": "UNCHANGED"
+  },
+  "initialization": {
+    "method": "Node24 synchronous map initialization only;100batches of50 after100warmups;not browser/mobile p95",
+    "baseline": {
+      "medianMs": 0.011414199999999255,
+      "p95Ms": 0.02548651999999947,
+      "batches": 100,
+      "initializationsPerBatch": 50
+    },
+    "candidate": {
+      "medianMs": 0.016141779999998107,
+      "p95Ms": 0.09154735999999958,
+      "batches": 100,
+      "initializationsPerBatch": 50
+    }
+  },
+  "bundleProbe": {
+    "compiler": "Installed rolldown1.2.15 / OXC, matching seven public chunk exports",
+    "baselineBytes": 61588,
+    "candidateBytes": 52364,
+    "baselineGzip": 19082,
+    "candidateGzip": 17931,
+    "savedGzip": 1151,
+    "limitation": "Isolated exact-export chunk probe; root clean Astro build remains final total-budget gate"
+  },
+  "files": [
+    {
+      "path": "src/lib/construction-ui-translations.ts",
+      "baselineSha256": "e6b2faf3e80cb3fa63ad28c0207c6f305f35a80a8393864080aafbe97836d2ee",
+      "candidateSha256": "5989d324428b8221f59792330572073b675998c221e4fd712c731d4d5de896d1"
+    },
+    {
+      "path": "src/lib/public-i18n.ts",
+      "baselineSha256": "ee6cb85be884111a67dabe577687df900af1ae2178e7e91ba3e1a8be910e6961",
+      "candidateSha256": "ec0fc2985afca714b5916fcb5c672a6668479f58100370952571537ef53d08ea"
+    }
+  ],
+  "independentReview": {
+    "reviewer": "/root/mobile_audit",
+    "result": "SOURCE_AND_BEHAVIOR_ACCEPTED",
+    "receipt": "/workspace/scratch/fe1b7c871eec/translation-independent-review.json",
+    "receiptSha256": "bd453d7be87ab9fdf1f2afe8226a9806eca095f47e712e725f5f800624dcbe31"
+  },
+  "verification": {
+    "focusedTests": 27,
+    "focusedSuites": 4,
+    "checkFiles": 432,
+    "checkErrors": 0,
+    "checkWarnings": 0,
+    "checkHints": 9,
+    "diffCheck": "PASS",
+    "parityCommand": "node /workspace/scratch/fe1b7c871eec/verify-translation-parity.mjs",
+    "logs": [
+      {
+        "path": "/workspace/scratch/fe1b7c871eec/translation-budget-tests.log",
+        "sha256": "8c118fb5e2e654f8acb60cedc568ddca202f3b1c36abdb3f4274f7857bb76254"
+      },
+      {
+        "path": "/workspace/scratch/fe1b7c871eec/translation-budget-check.log",
+        "sha256": "1b9172ce50a1422d30d05f8e17aa80b52bdc22407cfcd469cfe1919190f9f599"
+      }
+    ]
+  }
+}

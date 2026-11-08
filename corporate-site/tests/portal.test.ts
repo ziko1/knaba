@@ -61,6 +61,53 @@ async function patch(requestId:string,person:Person,payload:unknown) {
 beforeEach(()=>{db=new SqliteD1();env={DB:db,OWNER_EMAIL:'owner@example.test'};});
 afterEach(()=>db.sql.close());
 
+describe('explicit stable owner subject binding',()=>{
+  it('the same email from another authenticated subject grants no owner access',async()=>{
+    env.OWNER_USER_ID=identities.owner[0];
+    expect((await (await call('/api/portal/session','owner')).json()).role).toBe('owner');
+    const otherSubject={'oai-authenticated-user-id':'different-owner-subject'};
+    expect((await (await call('/api/portal/session','owner','GET',undefined,otherSubject)).json()).role).toBe('pending');
+    const denied=await call('/api/portal/roles','owner','POST',{userId:'target',role:'admin',status:'approved',version:1},otherSubject);
+    expect(denied.status).toBe(403);
+    expect(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n).toBe(0);
+  });
+  it('an explicitly unbound owner identity fails closed until trusted enrollment',async()=>{
+    env.OWNER_USER_ID='';
+    expect((await (await call('/api/portal/session','owner')).json()).role).toBe('pending');
+    expect((await call('/api/studio/templates','owner')).status).toBe(403);
+  });
+});
+
+describe('durable site-to-ERP intake queue',()=>{
+  it.each(['de','en','pl','lt','ru','uk'])('atomically saves one %s request/outbox/audit and real bounded attribution',async locale=>{
+    const body=lead();const referer=`${origin}/${locale}/kontakt/?utm_campaign=winter&ref=card_1&token=private-token#secret`;
+    const first=await call('/api/leads',undefined,'POST',body,{Referer:referer});expect(first.status).toBe(201);
+    const receipt=await first.json();
+    const replay=await call('/api/leads',undefined,'POST',body,{Referer:`${origin}/de/`});expect(replay.status).toBe(200);expect(await replay.json()).toEqual(receipt);
+    const rows=db.sql.prepare('SELECT * FROM site_erp_outbox').all();expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({id:receipt.id,request_id:receipt.id,status:'PENDING',attempts:0,locale:locale.toUpperCase(),envelope_sha256:null});
+    expect(JSON.parse(String(rows[0].source_json))).toEqual({landingPage:`${origin}/${locale}/kontakt/`,campaign:'winter',referralCode:'card_1'});
+    expect(JSON.stringify(rows)).not.toContain('private-token');expect(JSON.stringify(rows)).not.toContain(body.email);
+    expect(db.sql.prepare("SELECT count(*) AS n FROM portal_audit WHERE action='request.created'").get()).toMatchObject({n:1});
+  });
+  it('does not invent attribution from an external referrer',async()=>{
+    expect((await call('/api/leads',undefined,'POST',lead(),{Referer:'https://foreign.example.test/uk/?ref=untrusted'})).status).toBe(201);
+    expect(db.sql.prepare('SELECT locale,source_json FROM site_erp_outbox').get()).toMatchObject({locale:'DE',source_json:'{}'});
+  });
+  it('rolls back the request and audit if durable outbox persistence fails',async()=>{
+    db.sql.exec("CREATE TRIGGER synthetic_bridge_failure BEFORE INSERT ON site_erp_outbox BEGIN SELECT RAISE(ABORT,'synthetic failure'); END");
+    expect((await call('/api/leads',undefined,'POST',lead())).status).toBe(503);
+    for(const table of ['cleaning_requests','site_erp_outbox'])expect(db.sql.prepare(`SELECT count(*) AS n FROM ${table}`).get()).toMatchObject({n:0});
+    expect(db.sql.prepare("SELECT count(*) AS n FROM portal_audit WHERE action='request.created'").get()).toMatchObject({n:0});
+  });
+  it('a client revoked before commit cannot create an orphan queue event',async()=>{
+    await approve('client','client');
+    db.beforeBatch=()=>{db.sql.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(identities.client[0]);};
+    expect((await call('/api/portal/requests','client','POST',input())).status).toBe(403);
+    expect(db.sql.prepare('SELECT count(*) AS n FROM site_erp_outbox').get()).toMatchObject({n:0});
+  });
+});
+
 function seedRequests(templateId:string,count:number,overrides:Record<string,unknown>={}) {
   const template=db.sql.prepare('SELECT * FROM cleaning_requests WHERE id=?').get(templateId)!;
   const columns=Object.keys(template);

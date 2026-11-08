@@ -9,6 +9,8 @@ export interface D1Database { prepare(sql: string): D1Statement; batch<T = Recor
 export interface WorkerEnv {
   DB?: D1Database;
   OWNER_EMAIL?: string;
+  /** Stable server-configured owner subject; empty means owner enrollment is pending. */
+  OWNER_USER_ID?: string;
   /** Trusted Node VPS only: never sourced from a browser/header. */
   DELEGATED_OWNER_ID?: string;
   DEVELOPER_EMAIL?: string;
@@ -22,6 +24,21 @@ export interface WorkerEnv {
   ASSETS?: { fetch(request: Request): Promise<Response> };
   /** In-process VPS capability only; never a browser claim or environment string. */
   VERIFY_STUDIO_SESSION?: () => boolean;
+  /** Trusted VPS request binding: recheck current session/authority inside the publication transaction. */
+  STUDIO_PUBLICATION_BATCH?: (statements:D1Statement[])=>Promise<D1Result[]|null>;
+  /** Server-only ERP intake configuration. A source reference grants no ERP identity. */
+  KNABA_ERP_BRIDGE_ENABLED?:string;
+  KNABA_ERP_TRANSFER_APPROVED?:string;
+  KNABA_ERP_URL?:string;
+  KNABA_ERP_ALLOWED_ORIGIN?:string;
+  KNABA_ERP_COMPANY_ID?:string;
+  KNABA_ERP_KEY_ID?:string;
+  KNABA_ERP_SECRET?:string;
+  KNABA_ERP_MAPPING_VERSION?:string;
+  KNABA_ERP_SERVICE_MAP_JSON?:string;
+  KNABA_ERP_APPROVED_PRIVACY_VERSION?:string;
+  KNABA_ERP_KEY_NOT_BEFORE?:string;
+  KNABA_ERP_KEY_NOT_AFTER?:string;
   /** All notification credentials and approval flags are server-only runtime bindings. */
   ASSISTANT_NOTIFICATIONS_ENABLED?: string;
   ASSISTANT_NOTIFY_FROM?: string;

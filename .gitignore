@@ -6,3 +6,7 @@ __pycache__/
 *.pyc
 /corporate-site/public/downloads/*.apk
 /corporate-site/public/downloads/*.aab
+
+# Dependencies may be directories or symlinks to a local package cache.
+/corporate-site/node_modules
+/erp/node_modules

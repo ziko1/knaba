@@ -1,3 +1,15 @@
+## Current Android test candidate — 0.4.1
+
+This candidate keeps the isolated **KNABA Test** package (`de.knaba.mobile.test`, versionCode 5) and the same verified debug certificate as 0.4.0. Uncertain ERP writes now retain their original input, version and idempotency key in a separate encrypted device journal. Reauthentication to the same server/company/user restores an explicit recovery screen; retry is never automatic. Different identities cannot see or replay the record. `/me` identity drift and interrupted AtomicFile backup restoration fail safely.
+
+[Ukrainian installation and testing guide](../../../docs/mobile/TEST_ANDROID_0.4.1_UK.md) · [Source/build evidence](../../../docs/mobile/evidence/android-recovery-20261108/verification.json).
+
+Local evidence: actual debug APK and v2 signature verified; 21 Robolectric cases (16 UI + 5 storage), 74 HTTP/journal-double transport assertions, 38 demo checks, 39 locale/clock/auth vectors and 30 synthetic geometry cases passed. The storage cases use actual AES-GCM/AtomicFile with an explicit test Keystore provider, not hardware Keystore. Lint: 0 errors / 15 retained warnings. Live ERP, actual OS process death, physical install/update/GPS, owner signing, iOS and whole-product acceptance remain open. No production deployment.
+
+## Previous Android test candidate — 0.4.0
+
+The test build installs as **KNABA Test** (`de.knaba.mobile.test`) beside the production package. It includes an explicitly marked, memory-only demo with task and chat journeys, and retains the separate HTTPS ERP login. German default; six UI languages. See [Ukrainian testing guide](../../../docs/mobile/TEST_ANDROID_0.4.0_UK.md) and the [current evidence](../../../docs/mobile/evidence/android-test-20261107/verification.json). Whole-product/live/device acceptance is separate. Historical 0.3.0 notes below are retained as history.
+
 # KNABA DE Android
 
 Actual Kotlin application, package `de.knaba.mobile`, min API 31 / compile and target API 36. Java 17, Gradle 8.13, Android Gradle Plugin 8.13.0, Kotlin 2.2.20 are pinned. No boot receiver, no sticky hidden GPS restart, no background-location permission. Location foreground service starts only from a visible activity after explicit activation. Android Keystore AES-GCM protects device credentials and the ordered durable offline queue.

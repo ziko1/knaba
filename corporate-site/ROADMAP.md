@@ -1,5 +1,17 @@
 # KnaBa corporate-site roadmap
 
+## 08.11.2026 — актуальний identity slice у Draft PR123
+
+OIDC original-session proof, owner subject binding і current-session API/SQL fences реалізовано та перевірено в ізольованому VPS/SQLite scope. [Evidence](../docs/unified/evidence/identity-20261108/verification.json), [контракт federation](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md).
+
+Далі: explicit durable owner configuration; trusted site/ERP principal/company mapping; dual-session link/unlink UI і scoped token exchange; спільне відкликання, потім provider/browser/device/company acceptance. Site profiles і ERP users досі окремі; lead outbox не дає user login. Не закривати whole-product gates за кількістю технічних тестів.
+
+## 08.11.2026 continuation
+
+Implemented candidate: source recovery, fail-closed/atomic Studio publish, new-lead outbox with opt-in manual ERP publisher. Current evidence: `../docs/unified/evidence/completion-20261108/verification.json`.
+
+Next: stable subject/company authorization; assistant bridge and capability lifecycle; stable editable IDs; full declarative template catalog/upload/quarantine/preview/activation/rollback (TPL01–18); approved six-locale legal/copy, actual browser/accessibility, load and restore, owner acceptance. Do not equate local CRM counters with live ERP delivery.
+
 This scope is the new corporate marketing surface. Existing KNABA V4 roadmap and acceptance history on application branches remain unchanged.
 
 | ID | Acceptance | State |
@@ -522,3 +534,7 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 2026-11-07 — оформлення через Studio
 
 Реалізація v1: три довірені presets, власний manifest ZIP, preview/select/activate/rollback, locale UI та міграція0013. Це параметризовані оформлення; довільний сторонній HTML/JS/layout import не реалізовано. Перевірити source-bound browser/a11y та safe runtime upgrade перед публікацією. Див. [формат і межі](docs/SITE_TEMPLATES_UK.md).
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.

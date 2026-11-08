@@ -1,4 +1,5 @@
 import {reportRemainingTaskRows} from './report-remaining-scope.ts';
+import {currentCustomerMembership,customerMembershipUserId} from './customer-membership.ts';
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
 import {mediaByteLimit} from '../storage/media-limits';
@@ -131,7 +132,12 @@ async function requestState(ctx:CommandContext,r:Entity) {
 async function requireCustomer(ctx:CommandContext,customerId:string,siteId:string) {
   assert(ctx.actor.customerIds.includes(customerId),'ACCESS_DENIED');
   const memberships=await ctx.tx.list('customer_membership');
-  assert(memberships.some(m=>m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(ctx.now))&&m.data.userId===ctx.actor.userId&&m.data.customerId===customerId&&m.data.permissions?.includes('REPORT_ACK')&&(!m.data.siteIds.length||m.data.siteIds.includes(siteId))),'ACCESS_DENIED');
+  assert(memberships.some(m=>currentCustomerMembership(m,ctx.actor,ctx.now)&&m.data.customerId===customerId&&m.data.permissions?.includes('REPORT_ACK')&&(!(m.data.siteIds??[]).length||m.data.siteIds.includes(siteId))),'ACCESS_DENIED');
+}
+// Publication/delivery require a current customer recipient, not the employee publisher's membership.
+function currentReportRecipient(ctx:CommandContext,m:Entity,customerId:string,siteId:string){
+  const userId=customerMembershipUserId(m,ctx.actor.companyId);
+  return userId!==undefined&&currentCustomerMembership(m,{companyId:ctx.actor.companyId,userId},ctx.now)&&m.data.customerId===customerId&&(!(m.data.siteIds??[]).length||m.data.siteIds.includes(siteId));
 }
 async function scopedReport(ctx:CommandContext,reportId:string) {
   const r=await checked(ctx,'report',reportId);ctx.requireSite(r.data.siteId);return r;
@@ -502,7 +508,7 @@ async function reportSnapshot(ctx:CommandContext,input:Data) {
 Object.assign(resourcesCommands,{
   'media.register':command('media.upload',z.object({uploadId:id,siteId:id.optional(),employeeId:id.optional(),taskId:id.optional(),orderId:id.optional(),locationNodeId:id.optional(),worklogId:id.optional(),taskCycleId:id.optional(),defectId:id.optional(),reportVersionId:id.optional(),stage:z.enum(['BEFORE','AFTER','DEFECT','MATERIALS','DOCUMENT']),visibility:z.enum(['INTERNAL','CLIENT_AFTER_APPROVAL','CONFIDENTIAL']).default('INTERNAL'),caption:z.string().max(2000).default(''),retentionPurpose:reason}).strict(),async(ctx,input)=>{
     const external=ctx.actor.roles.some(r=>['CLIENT','CUSTOMER','EXTERNAL_BAULEITER','GUEST'].includes(r));let customerId:string|undefined;
-    if(external){assert(input.siteId&&input.stage==='DEFECT'&&input.visibility==='INTERNAL'&&!input.employeeId&&!input.orderId&&!input.worklogId&&!input.taskCycleId&&!input.defectId,'ACCESS_DENIED');const site=await checked(ctx,'site',input.siteId);customerId=site.data.customerId;assert((await ctx.tx.list('customer_membership')).some(m=>m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(ctx.now))&&m.data.userId===ctx.actor.userId&&m.data.customerId===customerId&&m.data.permissions?.includes('VIEW')&&(!m.data.siteIds.length||m.data.siteIds.includes(site.id))),'ACCESS_DENIED');if(input.taskId)assert(input.reportVersionId,'NOT_FOUND_SAFE');if(input.reportVersionId){const report=await checked(ctx,'report_version',input.reportVersionId);assert(report.data.immutable===true&&report.data.publishedAt&&report.data.siteId===site.id&&report.data.customerId===customerId&&(!input.taskId||report.data.snapshot?.taskRows?.some((t:Data)=>t.taskId===input.taskId)),'NOT_FOUND_SAFE');}}
+    if(external){assert(input.siteId&&input.stage==='DEFECT'&&input.visibility==='INTERNAL'&&!input.employeeId&&!input.orderId&&!input.worklogId&&!input.taskCycleId&&!input.defectId,'ACCESS_DENIED');const site=await checked(ctx,'site',input.siteId);customerId=site.data.customerId;assert((await ctx.tx.list('customer_membership')).some(m=>currentCustomerMembership(m,ctx.actor,ctx.now)&&m.data.customerId===customerId&&m.data.permissions?.includes('VIEW')&&(!(m.data.siteIds??[]).length||m.data.siteIds.includes(site.id))),'ACCESS_DENIED');if(input.taskId)assert(input.reportVersionId,'NOT_FOUND_SAFE');if(input.reportVersionId){const report=await checked(ctx,'report_version',input.reportVersionId);assert(report.data.immutable===true&&report.data.publishedAt&&report.data.siteId===site.id&&report.data.customerId===customerId&&(!input.taskId||report.data.snapshot?.taskRows?.some((t:Data)=>t.taskId===input.taskId)),'NOT_FOUND_SAFE');}}
     else {assert(input.siteId||input.employeeId,'CONTEXT_REQUIRED');if(input.siteId){ctx.requireSite(input.siteId);await checked(ctx,'site',input.siteId);}if(input.employeeId)ctx.requireOwn(input.employeeId);}
     if(input.taskId){const t=await checked(ctx,'task',input.taskId);assert(t.data.siteId===input.siteId,external?'NOT_FOUND_SAFE':'INVALID_REFERENCE');}
     if(input.locationNodeId){const n=await checked(ctx,'location',input.locationNodeId);assert(n.data.siteId===input.siteId&&(!external||n.data.active===true),external?'NOT_FOUND_SAFE':'INVALID_REFERENCE');}
@@ -536,7 +542,7 @@ Object.assign(resourcesCommands,{
     const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(reportSourceMatches(current,r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');const saved=await ctx.tx.save(r,{...r.data,state:'APPROVED',approvedBy:ctx.actor.userId,approvedAt:ctx.now,approvalReason:input.reason},ctx.expectedVersion??r.version);await ctx.tx.event('report.approved',{reportId:saved.id,siteId:saved.data.siteId,sourceVersion:saved.version});return saved;
   },true),
   'report.publish':command('report.publish',z.object({reportId:id}).strict(),async(ctx,input)=>{
-    const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='APPROVED','INVALID_STATE');const memberships=await ctx.tx.list('customer_membership');assert(memberships.some(m=>m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(ctx.now))&&m.data.customerId===r.data.customerId&&(!m.data.siteIds.length||m.data.siteIds.includes(r.data.siteId))),'CUSTOMER_ACCESS_REQUIRED');
+    const r=await scopedReport(ctx,input.reportId);assert(r.data.state==='APPROVED','INVALID_STATE');const memberships=await ctx.tx.list('customer_membership');assert(memberships.some(m=>currentReportRecipient(ctx,m,r.data.customerId,r.data.siteId)),'CUSTOMER_ACCESS_REQUIRED');
     const current=await reportSnapshot(ctx,r.data.inputSnapshot);assert(reportSourceMatches(current,r.data.draftSnapshot),'REPORT_SOURCE_CHANGED');
     const existing=(await ctx.tx.list('report_version')).filter(v=>v.data.reportId===r.id);assert(!existing.some(v=>v.data.version===r.data.nextVersion),'DUPLICATE_EFFECT');
     const author=await checked(ctx,'user',r.data.createdBy);const snapshot={...r.data.draftSnapshot,number:`KNB-${r.id}-${String(r.data.nextVersion).padStart(2,'0')}`,version:r.data.nextVersion,issuedAt:ctx.now,authorCode:author.data.businessCode||author.data.employeeCode||`A-${digest(r.data.createdBy).slice(0,8)}`,approval:{approvedAt:r.data.approvedAt}};
@@ -545,7 +551,7 @@ Object.assign(resourcesCommands,{
     await ctx.tx.event('report.published',{reportId:r.id,reportVersionId:version.id,customerId:r.data.customerId,siteId:r.data.siteId});return version;
   }),
   'report.delivered':command('report.deliver',z.object({reportVersionId:id,channel:z.enum(['PORTAL','WHATSAPP','EMAIL']),providerReference:z.string().min(1).max(200)}).strict(),async(ctx,input)=>{
-    const v=await checked(ctx,'report_version',input.reportVersionId);ctx.requireSite(v.data.siteId);const memberships=await ctx.tx.list('customer_membership');assert(memberships.some(m=>m.data.active===true&&!m.data.revokedAt&&(!m.data.expiresAt||Date.parse(m.data.expiresAt)>Date.parse(ctx.now))&&m.data.customerId===v.data.customerId&&(!m.data.siteIds.length||m.data.siteIds.includes(v.data.siteId))),'ACCESS_DENIED');
+    const v=await checked(ctx,'report_version',input.reportVersionId);ctx.requireSite(v.data.siteId);const memberships=await ctx.tx.list('customer_membership');assert(memberships.some(m=>currentReportRecipient(ctx,m,v.data.customerId,v.data.siteId)),'ACCESS_DENIED');
     assert(!(await ctx.tx.list('report_delivery')).some(d=>d.data.reportVersionId===v.id&&d.data.providerReference===input.providerReference),'DUPLICATE_EFFECT');return ctx.tx.add('report_delivery',{...input,customerId:v.data.customerId,siteId:v.data.siteId,deliveredAt:ctx.now,receiptIsNotAcceptance:true,immutable:true});
   }),
   'report.ack':command('report.ack',z.object({reportVersionId:id,type:z.enum(['DOCUMENT_RECEIPT','HOURS_CONFIRMATION','WORK_ACCEPTANCE']),decision:z.enum(['CONFIRMED','REJECTED','COMMENT']),statement:reason}).strict(),async(ctx,input)=>{

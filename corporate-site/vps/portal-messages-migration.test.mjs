@@ -40,7 +40,7 @@ test('0012 adds private conversations without rewriting historical data or migra
     assert.equal(restored.db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');
     assert.deepEqual(restored.db.prepare('PRAGMA foreign_key_check').all(),[]);
     live.db.close();live=openLocalDatabase(file,{allowMigrations:false});
-    assert.equal(live.db.prepare('SELECT count(*) AS n FROM vps_schema_migrations').get().n,14);
+    assert.equal(live.db.prepare('SELECT count(*) AS n FROM vps_schema_migrations').get().n,15);
     assert.equal(live.db.prepare('SELECT count(*) AS n FROM portal_messages').get().n,1);
   } finally {
     restored?.db.close();live?.db.close();rmSync(dir,{recursive:true,force:true});

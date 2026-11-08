@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash,generateKeyPairSync,sign} from 'node:crypto';
 import {createKnabaVpsServer} from './server.mjs';
+import {createOwner,createSessionForUser} from './auth.mjs';
 const origin='https://owner.example';
 const host='owner.example';
 const cfg={google:{label:'Google',issuer:'https://accounts.google.com',
@@ -83,5 +84,67 @@ test('Google social sign-up: signed ID token, PKCE, consent, CSRF, pending partn
   assert.equal((await s.json()).role,'pending');
   assert.equal(service.db.prepare('SELECT requested_role FROM profiles').get().requested_role,'partner');
   assert.equal((await at('/auth/oidc/google/callback/?code=synthetic-code&state='+state,{headers:{Cookie:cookie}})).status,401);
+ }finally{if(service)await service.close();await rm(dir,{recursive:true,force:true});}
+});
+
+test('HTTP OIDC protects owner bootstrap and binds explicit linking to its original session',async t=>{
+ const dir=await mkdtemp(join(tmpdir(),'knaba-oidc-link-http-'));
+ let service,nonce,calls=0,revokeDuringExchange=false;
+ try{
+  const fakeFetch=async(url)=>{
+   calls++;
+   if(url===cfg.google.tokenEndpoint){
+    const stamp=Math.floor(Date.now()/1000),claims={iss:cfg.google.issuer,aud:cfg.google.clientId,sub:'synthetic-owner-subject-2026',nonce,
+      email:'owner@example.test',email_verified:true,iat:stamp,exp:stamp+360,name:'Synthetic Owner'};
+    const encoded=Buffer.from(JSON.stringify({alg:'RS256',kid:key.kid})).toString('base64url')+'.'+Buffer.from(JSON.stringify(claims)).toString('base64url');
+    return new Response(JSON.stringify({id_token:encoded+'.'+sign('RSA-SHA256',Buffer.from(encoded),privateKey).toString('base64url')}),{status:200});
+   }
+   if(url===cfg.google.jwksEndpoint){
+    if(revokeDuringExchange){
+      service.db.exec('DELETE FROM vps_sessions');
+      const user=service.db.prepare('SELECT id FROM vps_users WHERE email=?').get('owner@example.test');
+      createSessionForUser(service.db,user.id);
+    }
+    return new Response(JSON.stringify({keys:[key]}),{status:200});
+   }
+   throw Error('Unexpected provider request');
+  };
+  service=await createKnabaVpsServer({dbPath:join(dir,'state.sqlite'),staticRoot:new URL('../dist/client/',import.meta.url).pathname,
+    workerPath:new URL('../dist/server/index.js',import.meta.url).href,host:'127.0.0.1',port:0,localTest:true,origin,
+    ownerEmail:'owner@example.test',oidcConfig:cfg,oidcFetch:fakeFetch});
+  const at=(path,opts={})=>fetch('http://127.0.0.1:'+service.port+path,{redirect:'manual',...opts,headers:{Host:host,...opts.headers}});
+  const start=async(cookie,mode='link')=>{
+    const r=await at('/auth/oidc/google/start/',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded',...(cookie?{Cookie:cookie}:{})},
+      body:new URLSearchParams({mode,intent:'client',privacy:'on'})});
+    assert.equal(r.status,303,await r.clone().text());
+    const state=new URL(r.headers.get('location')).searchParams.get('state');
+    const saved=service.db.prepare('SELECT nonce,link_session_hash FROM vps_oidc_states WHERE state_hash=?').get(createHash('sha256').update(state).digest('hex'));
+    nonce=saved.nonce;
+    return {state,cookie:r.headers.getSetCookie()[0].split(';')[0],sessionHash:saved.link_session_hash};
+  };
+  const finish=flow=>at('/auth/oidc/google/callback/?code=synthetic-code&state='+flow.state,{headers:{Cookie:flow.cookie}});
+  await t.test('verified equal owner email cannot create a first owner through public signup',async()=>{
+    const flow=await start(null,'signup');assert.equal((await finish(flow)).status,401);
+    for(const table of ['vps_users','profiles','vps_oidc_links','vps_sessions'])assert.equal(service.db.prepare(`SELECT count(*) AS n FROM ${table}`).get().n,0);
+  });
+  const owner=createOwner(service.db,'owner@example.test','Synthetic-HTTP-owner-password-2026');
+  const session=createSessionForUser(service.db,owner.id),cookie='__Host-knaba-session='+session.token;
+  await t.test('link callback works without a cross-site Strict cookie and persists only the original token hash',async()=>{
+    const flow=await start(cookie);assert.equal(flow.sessionHash,createHash('sha256').update(session.token).digest('hex'));
+    const response=await finish(flow);assert.equal(response.status,303,await response.clone().text());
+    assert.match(response.headers.get('set-cookie'),/__Host-knaba-session=/);
+    assert.equal(service.db.prepare('SELECT user_id FROM vps_oidc_links').get().user_id,owner.id);
+  });
+  await t.test('logout of the initiating session rejects callback before provider calls',async()=>{
+    const flow=await start(cookie),before=calls;
+    service.db.prepare('DELETE FROM vps_sessions WHERE token_hash=?').run(flow.sessionHash);
+    assert.equal((await finish(flow)).status,401);assert.equal(calls,before);
+  });
+  await t.test('another login cannot resume a link revoked during token exchange',async()=>{
+    const active=createSessionForUser(service.db,owner.id),flow=await start('__Host-knaba-session='+active.token);
+    revokeDuringExchange=true;
+    assert.equal((await finish(flow)).status,401);
+    assert.equal(service.db.prepare('SELECT count(*) AS n FROM vps_sessions').get().n,1,'only the deliberately created new login remains');
+  });
  }finally{if(service)await service.close();await rm(dir,{recursive:true,force:true});}
 });

@@ -1,5 +1,19 @@
 # KNABA DE master roadmap
 
+## 2026-11-08 — актуальна authorisation reconciliation
+
+KN-C04 / KN-U09: чинні proofs/devices, customer scope і session issuance посилено в Draft PR123; єдиний current-membership predicate захищає API/domain/stream/delivery projections. [Докази](../docs/unified/evidence/identity-20261108/verification.json) і [детальний контракт](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md) відокремлюють local doubles, actual SQL і зовнішнє приймання.
+
+Наступні залежні кроки: canonical company+subject bindings, complete dual-session linking, scoped session exchange та спільне revocation з in-flight/file/worker/subscription checks. Existing invitations/permissions/customer memberships залишаються джерелом entitlements; email не є account join. SSO і whole-product acceptance відкриті; intake bridge не дублювати, історичні V3/V4 результати не переписувати.
+
+## 2026-11-08 audited continuation
+
+Seed fail-closed + website intake bridge + Android recovery implemented as an integrated candidate. Full cross-module dependencies and114-row V4/templates overview: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`. Preserve `docs/requirements/requirements.json` and all original V3 criteria in addition to72 V4 targets. Next: unified scoped identity/assistant intake, iOS durable unknown-write handling, actual UI→API→PostgreSQL business lifecycle and load/restore, then company/device/provider acceptance. Runtime default APP_MODE audit stays distinct from the seed fix.
+
+## Android0.4.0 test-candidate checkpoint — 2026-11-07
+
+MOBILE-009 in `../docs/mobile/BACKLOG.json` covers the new native task/chat UX, separate Android test package and explicit synthetic demo. Exact test/build status is in `../docs/mobile/evidence/android-test-20261107/verification.json`. This is a test-candidate increment, not acceptance of all V4/V3 requirements, live service, owner signing or physical devices.
+
 ## CI balance and manual iOS verification — 2026-10-11
 
 [Draft PR #7](https://github.com/ziko1/knaba/pull/7) is stacked on `codex/knaba-v4-recovery-20261011` at `c931fbe60a50d3a6193480cc9742d99fc6f3b714`. Configuration/tested source is **`013a7851118dd6d8c420dabca5763148993835d1`**, tree `9d2db7ab61f90f5ec2aac50f9fd2a7763e0b08ef`. Application, dependency, native and test source are unchanged. GitHub remains the normal Linux/macOS service; main/tag/PR verification is retained while duplicate feature-push checks are removed. Existing staging/load workflows are unchanged.
@@ -109,3 +123,7 @@ The published ca9 source includes the **19-cause automatic work-notification bri
 Only the separate synthetic Railway project `5701136e-0b7c-48e8-a0c6-5c5a01c4330b`, environment `8ce0753b-b0b6-45f4-b655-6a9f9299ced2`, is authorized. Source and purchased plan are supplied. User-confirmed first deployment began 2026-10-06T20:55:09Z and failed; allocated `https://api-staging-a476.up.railway.app` is **NOT_READY**. The37 reviewed corrections are pinned to ca9 and wait for the concrete dashboard two-factor application request; no token bypass is permitted. [History](docs/RAILWAY_STAGING.md) records actual state.
 
 The original cutoff `2026-10-07T20:11:52Z` has expired and remains unchanged. Preserve EUR10/month budget and unrelated projects/shared billing; a new bounded window requires a concrete authorized decision. This synthetic trial does not verify sustained costs or permanent operation. After actual readiness, test authenticated scopes, worker/retry/restart/restore and transfer exact source/build/runtime SHA, artifacts and factual URLs. Company production remains a separate acceptance decision.
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.

@@ -5,16 +5,29 @@ import {services} from '../src/data/company';
 import {defaultService,recommendService} from '../src/lib/planner';
 import {readFileSync} from 'node:fs';
 describe('construction branding and protected historic contracts',()=>{
-  it('uses a building + window-squeegee identity, not a concrete drill icon',()=>{
+  it('preserves construction marks and uses the approved three-building favicon',()=>{
     const mark=readFileSync(new URL('../public/images/knaba-construction-mark.svg',import.meta.url),'utf8');
     const logo=readFileSync(new URL('../public/images/knaba-construction-logo.svg',import.meta.url),'utf8');
     const favicon=readFileSync(new URL('../public/favicon.svg',import.meta.url),'utf8');
-    for(const svg of [mark,logo,favicon]){
+    for(const svg of [mark,logo]){
       expect(svg).toContain('Fensterabzieher');
       expect(svg).not.toContain('Kernbohrung');
     }
     expect(logo).toContain('BAUREINIGUNG');
     expect(logo).toContain('KnaBa');
+    const header=readFileSync(new URL('../public/images/knaba-3d-header.svg',import.meta.url),'utf8');
+    const approvedMark=header.slice(header.indexOf('  <g aria-hidden="true">'),header.indexOf('  <g font-family=')).trim();
+    expect(approvedMark.length).toBeGreaterThan(100);
+    expect(favicon).toContain(approvedMark);
+    expect(favicon).toContain('#13B8B4');
+    expect(favicon).toContain('limeBase');
+    expect(favicon).not.toContain('Fensterabzieher');
+    expect(favicon).not.toContain('Kernbohrung');
+    expect(favicon).not.toMatch(/<text\b/);
+    const box=favicon.match(/viewBox="([^"]+)"/)?.[1].split(/\s+/).map(Number);
+    expect(box).toHaveLength(4);
+    expect(box?.[2]).toBe(box?.[3]);
+    expect(box?.[2]).toBeGreaterThan(48);
   });
 
   it('has localized and unique offer slugs',()=>{

@@ -106,6 +106,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
           pdftotext -v
+      - name: Build shared intake adapter for PostgreSQL regression tests
+        # The four preserved adapter-level SQL cases use the same core as the
+        # actual HTTP bridge job. No second dispatcher or site framework build.
+        run: node_modules/.bin/esbuild ../corporate-site/vps/erp-intake-entry.ts --bundle --platform=node --target=node24 --format=esm --minify --outfile=../corporate-site/dist/vps/erp-intake.mjs
       - run: node scripts/database-check.mjs
       - run: npm run migrate
       - run: npm run typecheck
@@ -137,9 +141,62 @@ jobs:
           console.log('Passed ERP assertions:',report.numPassedTests);
           JS
 
+  bridge:
+    name: Site SQLite to ERP PostgreSQL HTTP acceptance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17.6-bookworm
+        env:
+          POSTGRES_DB: knaba_bridge_ci
+          POSTGRES_USER: knaba_test
+          POSTGRES_PASSWORD: synthetic-ci-only
+        ports:
+          - '127.0.0.1:5432:5432'
+        options: >-
+          --health-cmd "pg_isready -U knaba_test -d knaba_bridge_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      APP_MODE: TEST
+      DATABASE_URL: postgresql://knaba_test:synthetic-ci-only@127.0.0.1:5432/knaba_bridge_ci
+      GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      KNABA_RELEASE_MODE: official
+      ASTRO_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - run: npm --prefix corporate-site ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - run: npm --prefix erp ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - run: node scripts/database-check.mjs
+        working-directory: erp
+      - run: npm --prefix corporate-site run build
+      - run: npm --prefix erp run build
+      - name: Run actual anonymous intake, signed HTTP and PostgreSQL acceptance
+        # This isolated job requires PostgreSQL and both current build artifacts.
+        # It never substitutes mocks or skipped SQL cases for the bridge gate.
+        run: |
+          erp/node_modules/.bin/tsx --tsconfig erp/tsconfig.json --test --test-concurrency=1 --test-reporter=tap tests/bridge/*.test.mjs | tee "$RUNNER_TEMP/bridge-tap.txt"
+      - name: Reject skipped or incomplete bridge tests
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync} from 'node:fs';
+          const tap=readFileSync(`${process.env.RUNNER_TEMP}/bridge-tap.txt`,'utf8');
+          const counts=Object.fromEntries([...tap.matchAll(/^# (tests|pass|fail|cancelled|skipped|todo) (\d+)$/gm)].map(match=>[match[1],Number(match[2])]));
+          if(!(counts.tests>0) || counts.pass!==counts.tests || ['fail','cancelled','skipped','todo'].some(key=>counts[key]!==0)) {
+            throw new Error('ALL_DISCOVERED_BRIDGE_TESTS_MUST_PASS_WITHOUT_SKIPS');
+          }
+          console.log('Passed bridge cases:',counts.pass,'source:',process.env.SOURCE_SHA);
+          JS
+
   failure-summary:
     name: Sanitized failure summary
-    needs: [root, site, erp]
+    needs: [root, site, erp, bridge]
     if: ${{ failure() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -149,6 +206,7 @@ jobs:
           ROOT_RESULT: ${{ needs.root.result }}
           SITE_RESULT: ${{ needs.site.result }}
           ERP_RESULT: ${{ needs.erp.result }}
+          BRIDGE_RESULT: ${{ needs.bridge.result }}
         run: |
           python3 - <<'PY'
           import json, os, pathlib, re
@@ -156,7 +214,7 @@ jobs:
           if not re.fullmatch(r'[0-9a-f]{40}', sha):
               raise SystemExit('INVALID_SOURCE_SHA')
           allowed = {'success', 'failure', 'cancelled', 'skipped'}
-          results = {name: os.environ[key] for name, key in [('root', 'ROOT_RESULT'), ('site', 'SITE_RESULT'), ('erp', 'ERP_RESULT')]}
+          results = {name: os.environ[key] for name, key in [('root', 'ROOT_RESULT'), ('site', 'SITE_RESULT'), ('erp', 'ERP_RESULT'), ('bridge', 'BRIDGE_RESULT')]}
           if not all(value in allowed for value in results.values()):
               raise SystemExit('INVALID_JOB_RESULT')
           report = {'source_sha': sha, 'jobs': results, 'scope': 'CI only; no deployment or client-delivery acceptance'}

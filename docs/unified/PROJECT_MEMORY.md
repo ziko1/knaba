@@ -1,5 +1,33 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## Exact-source CI checkpoint — 08.11.2026
+
+Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d413410bc748085b60d679d42586ee86f4d1e8a`**: [run 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007) завершив усі чотири обов’язкові jobs успішно. ERP **2677/2677** у 117 файлах зі справжньою PostgreSQL17.6 (включно з 8 новими SQL cases), bridge **9/9**, site **732 Vitest + 90 Node + 197 VPS**, root **28/28**; 0 FAIL/SKIP. Typecheck, migrations, clean build identity та site build/budgets пройшли. Попередній локальний SQL NOT_RUN лишається історичним фактом; hosted CI є окремим виконанням.
+
+Поточне доповнення з CI evidence є documentation-only; 34 runtime/test input hashes незмінні. Подальший documentation HEAD не змінює tested executable identity і не доводить browser/device/provider/UAT. **SSO NOT_IMPLEMENTED, продукт NOT_READY.**
+
+## 2026-11-08 — PR123: спільна ідентичність і відкликання
+
+Продовження чинної гілки `feat/knaba-integrated-completion-20261108` від `d03e72b8c5030390c635f3aac9133d977078dedf`. [Детальне зіставлення та контракт](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [source-bound evidence](evidence/identity-20261108/verification.json). Історичний run42430003249 не є перевіркою цього патча.
+
+Виправлено OIDC linking після відкликання початкової VPS session, owner subject binding і поточну авторизацію захищених SQL/API операцій сайту; ERP перевіряє чинний contact proof/device, повний scope membership administration, єдиний current-membership predicate та атомарну фіналізацію login після password/MFA rotation. Legacy subject aliases підтримуються без створення другого активного grant. Наявний intake bridge і його міграції не змінені.
+
+**Спільний site↔ERP login/SSO NOT_IMPLEMENTED; весь продукт NOT_READY.** Наступний KN-C04 / KN-U09 slice: F1–F4 з dual-session proof, trusted company mapping, окремими entitlements і актуальним revocation channel. Явний `OWNER_USER_ID` потрібен для стабільного owner pin між VPS restart; hosted Sites без нього зберігає legacy email fallback. Перевірки і результати прив'язані до конкретних sources; local doubles не є PostgreSQL/browser/device acceptance. Production, DNS, реальні дані, paid activation і merge не виконувалися.
+
+## 2026-11-08 — актуальний аудит і продовження
+
+**NOT_READY_FOR_CLIENT_DELIVERY.** База `557838e23356cb463f273803099ab6321e675019` (PR120, містить PR119/118), окрема гілка `feat/knaba-completion-audit-20261108`. Актуальний повний [план](COMPLETION_PLAN_2026-11-08_UK.md), [114 рядків вимог](REQUIREMENTS_TRACEABILITY.csv), [докази](evidence/completion-20261108/verification.json). Попередні записи нижче датовані й не є статусом цього кандидата.
+
+Реалізація: additive outbox0013 та explicit dispatcher до існуючого ERP HMAC endpoint; цілісна Studio publication з перевіркою актуальної VPS-сесії всередині транзакції; Android0.4.1 durable encrypted pending command і actor/epoch fences; seed лише з явним APP_MODE; відновлені server-only owner contacts/favicon, незмінний CSS budget. Старі міграції й нормативні специфікації не переписані. Site→ERP auto-delivery не увімкнено.
+
+У source вже є D07 decline/expire, order.link_site і ReportRemainingScope; застарілий backlog не означає їх відсутність. Повний template catalog/upload/activation/rollback, спільна identity, assistant bridge, iOS recovery, зовнішні канали та людський UAT лишаються відкритими. Зовнішній release endpoint відповідає `stage=prototype`, `erpOrigin=null`, канали pending; це не proof поточного candidate.
+
+Фактично працювали root і4 окремі агенти (ERP, web, mobile, QA). Перевірка SQL — ізольована синтетична PostgreSQL на чинному сервері, без production ports/data. Немає merge, production migration/deploy, реальних повідомлень або активації paid providers. Нові external spending authorization:0 EUR; фактичні hosting/model quotas UNKNOWN.
+
+## 2026-11-07 — native Android test continuation
+
+Candidate based on `87fdba936bb8ed7d9b8c7493c49895c48395250b`; branch `feat/knaba-android-test-20261107`. Android0.4.0-test improves native task/chat workflows and introduces a clearly labelled memory-only demo plus isolated package identity. Site and ERP identities remain separate. No production, database, domain, provider or merge action. Canonical mobile scope/evidence: `../mobile/BACKLOG.json`, `../mobile/evidence/android-test-20261107/verification.json`; full product gates retained.
+
 **Проєкт:** KnaBa Gebäudereinigung, окремий від AVENQO. **Репозиторій:** https://github.com/ziko1/knaba. **Дата фактичної перевірки:** 2026-10-24.
 **Статус:** INTEGRATION_PLANNED / DELIVERY_NOT_READY. Є перевірені окремі модулі та історичні runtime receipts; спільний release SHA/artifact і клієнтський UAT відсутні.
 
@@ -218,3 +246,23 @@ HTTPS remains BLOCKED_AUTH/CONFIG: current certificate covers localhost only; no
 ## 2026-11-07 — поточний baseline і кореневий CI
 
 [Звіт про завершення](COMPLETION_STATUS_2026-11-07_UK.md) відокремлює реалізований код, реальні локальні докази, незавершені identity/ERP bridge та зовнішні gates. ERP typecheck/build і 2050 CPU assertions PASS; 460 SQL cases у цьому локальному прогоні NOT_RUN. [Кореневий CI](CI_SETUP_2026-11-07_UK.md) підготовлено й перевірено локально, remote execution ще NOT_RUN. Окремі template/native продовження не отримують чужих test receipts. Загальний статус залишається NOT_READY; історичні source/runtime докази збережено.
+
+## 08.11.2026 — integrated completion candidate
+
+Candidate branch `feat/knaba-integrated-completion-20261108` reconciles PR121 (`7e448c6024718b932b79eeb2d38f3e3af672a1ae`) and PR122 (`690a0b9c882f5a3ef5d08e83c043f39091676603`), retaining both histories. Current execution/evidence is tracked in the candidate Draft PR and its exact-head GitHub Actions run; earlier receipt counts are historical, not acceptance of this composition.
+
+Implemented: template ZIP selection/upload/preview/publication/rollback; Studio atomic publication/session fences; Android0.4.1 recovery source; a single reference-only `site_erp_outbox` shared by Worker/VPS/manual CLI, pinned company/mapping/privacy/body hashes, bounded retry/lease/UNKNOWN and owner-only status; ERP signed target-company enforcement; 24-hour invitation cap including legacy tokens. Site template migration0013 stays byte-for-byte; bridge is0014. An existing PR122-only0013 database requires separately reviewed backup/reconciliation, never ledger relabeling. External transmission remains disabled without both explicit gates and complete trusted configuration.
+
+Independent scoped source review ACCEPT. Focused core58, SQLite migrations30, transport45, scheduler3, CLI22, Worker restart1, ERP target-company5 and identity29 cases passed before composition freeze. Full aggregate build/SQL/HTTP CI must pass on the final committed source; do not add these overlapping groups to future suite totals. No browser, physical device, provider delivery, deployment or client acceptance is inferred.
+
+Whole product remains NOT_READY. The canonical72 AC registry is not bulk-updated. Remaining code includes stable site/ERP federation, two-channel guest conversation transfer and vehicle/person trip reconciliation; external gates include browser/device, iOS distribution, provider/owner/legal/restore/load/UAT. Zod advisory remains OPEN_WITH_MITIGATION. See `CONSOLIDATION_2026-11-08_UK.md`, `AC_EVIDENCE_MAP_2026-11-08_UK.md` and `COMPLETION_PLAN_2026-11-08_UK.md`. No main merge, production/DNS/data mutation, paid activation or client handover was performed.
+
+## 08.11.2026 — exact integrated CI checkpoint
+
+Tested source `09e267dad63f1a443ce08f532889b9f0f5d2dca5`, tree `de365326e7fe81a53a38a0bb1bf2c0da1b178305`, [Draft PR123](https://github.com/ziko1/knaba/pull/123), [GitHub Actions42430003249](https://github.com/ziko1/knaba/actions/runs/42430003249): all four required jobs SUCCESS. ERP2549/2549 in112 files (real PostgreSQL17.6 included), actual site-SQLite→ERP-HTTP→PostgreSQL9/9, site730 Vitest+90 Node+172 VPS, root28;0 FAIL/SKIP. Site161HTML, CSS40930B gzip and JS225019B gzip within unchanged budgets. Local ERP release.json matches exact source, source_dirty=false/GIT_WORKTREE; its existing large-JS-chunk warning remains visible.
+
+The first1988090 run had six stale14-migration fixture failures; correction verifies exact ordered SQL/journal filenames without weakening guards. Both independent review and full repeat passed. The4 adapter SQL cases are already included in2549;9 HTTP cases are separate.
+
+Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
+
+Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.

@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v5.0.5 /workspace/scratch/fe1b7c871eec/knaba/corporate-site
+
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  00:24:51
+   Duration  1.54s (import 48%, transform 29%, tests 23%, worker 1%)
+

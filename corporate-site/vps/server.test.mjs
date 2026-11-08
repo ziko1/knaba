@@ -5,12 +5,33 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { backup } from 'node:sqlite';
 import { request as httpRequest } from 'node:http';
+import { randomUUID } from 'node:crypto';
 import { createKnabaVpsServer } from './server.mjs';
 import { createOwner } from './auth.mjs';
+import { inspectMigrationSequence } from './migration-guard.mjs';
+const expectedMigrations=inspectMigrationSequence(new URL('../drizzle/',import.meta.url).pathname).names;
 
 const origin='https://knaba.de';
 const owner='owner@example.test';
 const password='synthetic-only-not-a-real-password-2026';
+test('VPS proxy preserves same-origin intake language and safe attribution through the built Worker',async()=>{
+  const dir=await mkdtemp(join(tmpdir(),'knaba-vps-intake-'));
+  const app=await createKnabaVpsServer({dbPath:join(dir,'site.sqlite'),origin,localTest:true,
+    staticRoot:new URL('../dist/client/',import.meta.url).pathname,workerPath:new URL('../dist/server/index.js',import.meta.url).href,host:'127.0.0.1',port:0});
+  try{
+    for(const locale of ['uk','pl']){
+      const response=await fetch('http://127.0.0.1:'+app.port+'/api/leads',{method:'POST',headers:{Host:'knaba.de',Origin:origin,
+        'Content-Type':'application/json','Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1',
+        Referer:`${origin}/${locale}/kontakt/?utm_campaign=winter&ref=card_1&token=private-token`},
+        body:JSON.stringify({service:'baureinigung',objectType:'Baustelle',postcode:'10315',area:'200',frequency:'Einmalig',message:'Synthetic private note',address:'Synthetic site',name:'Synthetic Contact',email:'synthetic@example.test',phone:'',website:'',privacyAccepted:true,idempotencyKey:randomUUID()})});
+      assert.equal(response.status,201,await response.clone().text());const receipt=await response.json();
+      const queued=app.db.prepare('SELECT locale,source_json,status FROM site_erp_outbox WHERE request_id=?').get(receipt.id);
+      assert.equal(queued.locale,locale.toUpperCase());assert.equal(queued.status,'PENDING');
+      assert.deepEqual(JSON.parse(queued.source_json),{landingPage:`${origin}/${locale}/kontakt/`,campaign:'winter',referralCode:'card_1'});
+      assert.equal(queued.source_json.includes('private-token'),false);
+    }
+  }finally{await app.close();await rm(dir,{recursive:true,force:true});}
+});
 test('legacy migration preserves observed company and recruitment URLs without a home-page fallback',async()=>{
   const dir=await mkdtemp(join(tmpdir(),'knaba-legacy-urls-'));
   try{
@@ -66,7 +87,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
   });
   const bodyHeaders={Origin:origin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1','Content-Type':'application/json'};
   try{
-    assert.deepEqual(app.migrations.length,14);
+    assert.deepEqual(app.migrations,expectedMigrations);
     assert.equal((await fetchAt('/readyz')).status,503);
     createOwner(app.db,owner,password);
     assert.equal((await fetchAt('/readyz')).status,200);
@@ -134,7 +155,9 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     assert.equal((await logged.json()).role,'owner');
     assert.equal((await fetchAt('/api/crm/contacts',{headers:{Cookie:cookie}})).status,200);
 
-    const data={page:'/',version:0,entries:[{selector:'#main > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > strong:nth-of-type(1)',kind:'text',value:'KnaBa Bauprojekt'}]};
+    // The former hero <strong> was replaced by the service carousel. Exercise
+    // publication against the current services heading, an actual text leaf.
+    const data={page:'/',version:0,entries:[{selector:'#main > section:nth-of-type(2) > div:nth-of-type(1) > h2:nth-of-type(1)',kind:'text',value:'KnaBa Bauprojekt'}]};
     const publishHeaders={...bodyHeaders,Cookie:cookie};
     const saved=await fetchAt('/api/studio/draft',{method:'POST',headers:publishHeaders,body:JSON.stringify(data)});
     assert.equal(saved.status,200,await saved.text());
@@ -145,6 +168,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
     pub=await (await fetchAt('/api/studio/published?page=%2F')).json();
     assert.equal(pub.version,1);
     assert.equal(pub.entries[0].value,'KnaBa Bauprojekt');
+    assert.ok((await (await fetchAt('/')).text()).includes('KnaBa Bauprojekt'));
     assert.equal((await fetchAt('/api/studio/publish',{method:'POST',headers:bodyHeaders,body:JSON.stringify({page:'/',version:1,confirm:'PUBLISH'})})).status,401);
 
     // A saved draft must not affect crawlers until an explicit owner publish.

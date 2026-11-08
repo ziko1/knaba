@@ -15,13 +15,39 @@ class FixtureDb implements DatabaseLike,SqlTransaction {
  async query(statement:string,params:any[]=[]){if(statement.startsWith('INSERT INTO auth_sessions')){this.sessions.push({token_hash:params[0],user_id:params[1],company_id:params[2],expires_at:params[3],mfa_verified:params[4],created_at:new Date().toISOString()});return {rows:[]};}if(statement.startsWith('SELECT user_id,company_id,mfa_verified'))return {rows:this.sessions.filter(s=>s.token_hash===params[0]&&s.company_id===params[1]&&!s.revoked_at&&Date.parse(s.expires_at)>Date.now())};if(statement.startsWith('INSERT INTO auth_credentials')){this.credentials.push({user_id:params[0],company_id:params[1],password_hash:params[2],totp_secret:params[3],totp_last_counter:params[4]});return {rows:[]};}if(statement.startsWith('SELECT password_hash'))return {rows:this.credentials.filter(c=>c.user_id===params[0]&&c.company_id===params[1])};if(statement.startsWith('UPDATE auth_credentials SET totp_last_counter')){const row=this.credentials.find(c=>c.user_id===params[0]&&c.company_id===params[1]&&c.totp_last_counter<params[2]);if(row){row.totp_last_counter=params[2];return {rows:[{user_id:row.user_id}]};}return {rows:[]};}if(statement.startsWith('UPDATE auth_sessions')){for(const s of this.sessions)if((statement.includes('token_hash')?s.token_hash:s.user_id)===params[0]&&s.company_id===params[1])s.revoked_at=new Date().toISOString();return {rows:[]};}throw new Error(`Unexpected fixture SQL ${statement}`);}
 }
 const owner:Actor={userId:'owner',companyId:'company',roles:['OWNER'],permissions:['identity.manage','role.manage','legal.manage','company.manage','bot.manage','audit.read','scope.company'],siteIds:['*'],warehouseIds:['*'],customerIds:[],mfaVerified:true};
-const engine=(db:FixtureDb):EngineLike=>({registry:{},execute:async()=>{},readEntities:async()=>[],getActor:async(userId,companyId)=>db.transaction(companyId,userId,async tx=>{const user=await tx.get('user',userId);if(!user.data.active)throw new DomainError('ACCESS_DENIED');return {...owner,userId,companyId,roles:user.data.roles,permissions:[...permissionsForRoles(user.data.roles),...(user.data.permissions??[])],siteIds:user.data.siteIds??[],mfaVerified:false};})});
+const engine=(db:FixtureDb):EngineLike=>({registry:{},execute:async()=>{},readEntities:async()=>[],actorIn:async(tx,userId)=>{const user=await tx.get('user',userId);if(!user.data.active)throw new DomainError('ACCESS_DENIED');return {...owner,userId,companyId:db.companyId,roles:user.data.roles,permissions:[...permissionsForRoles(user.data.roles),...(user.data.permissions??[])],siteIds:user.data.siteIds??[],mfaVerified:false};},getActor:async(userId,companyId)=>db.transaction(companyId,userId,async tx=>{const user=await tx.get('user',userId);if(!user.data.active)throw new DomainError('ACCESS_DENIED');return {...owner,userId,companyId,roles:user.data.roles,permissions:[...permissionsForRoles(user.data.roles),...(user.data.permissions??[])],siteIds:user.data.siteIds??[],mfaVerified:false};})});
 const request=(headers:Record<string,string>={},ip='127.0.0.1')=>({get:(name:string)=>headers[name.toLowerCase()],ip,protocol:'https'} as unknown as Request);
 function response(){const state:any={cookies:[],clear:[]};state.cookie=(name:string,token:string,options:Data)=>state.cookies.push({name,token,options});state.clearCookie=(name:string)=>state.clear.push(name);return state as Response & {cookies:any[];clear:string[]};}
 function ctx(db:FixtureDb,actor=owner):CommandContext{return {tx:db,actor,now:new Date().toISOString(),idempotencyKey:'identity-test',requireSite:s=>{if(!actor.siteIds.includes('*')&&!actor.siteIds.includes(s))throw new DomainError('ACCESS_DENIED');},requireOwn:s=>{if(actor.userId!==s)throw new DomainError('ACCESS_DENIED');}};}
 async function run(db:FixtureDb,name:string,input:Data,actor=owner){const def=identityCommands[name]!;return db.transaction(actor.companyId,actor.userId,tx=>def.handler({...ctx(db,actor),tx},def.schema.parse(input)));}
 
 describe('identity credential boundaries',()=>{
+ it('invitation lifetime cannot exceed the canonical 24 hours and rejected input writes nothing',async()=>{
+  const db=new FixtureDb(),input={name:'Synthetic employee',email:'ttl@example.test',roles:['EMPLOYEE']};
+  for(const expiresHours of [25,48])await expect(run(db,'user.invite',{...input,expiresHours})).rejects.toThrow();
+  expect(await db.list('user_invitation')).toEqual([]);expect(db.events).toEqual([]);
+  const before=Date.now(),issued=await run(db,'user.invite',{...input,expiresHours:24}),after=Date.now();
+  expect(Date.parse(issued.expiresAt)).toBeGreaterThanOrEqual(before+24*3600000);
+  expect(Date.parse(issued.expiresAt)).toBeLessThanOrEqual(after+24*3600000);
+ });
+ it('legacy longer invitations expire at 24 hours even if their stored expiry is later',async()=>{
+  const db=new FixtureDb(),issued=await run(db,'user.invite',{name:'Synthetic employee',email:'legacy-ttl@example.test',roles:['EMPLOYEE']});
+  const row=(await db.list('user_invitation'))[0]!,start=Date.parse(row.createdAt);
+  await db.save(row,{...row.data,expiresAt:new Date(start+48*3600000).toISOString()},row.version);
+  const before=structuredClone(db.rows);
+  for(const at of [start-1,start+24*3600000,start+25*3600000])await expect(db.transaction('company','ACTIVATE',tx=>activateInvitation(tx,'company',{token:issued.token,password:'Synthetic invited password 123!'},new Date(at).toISOString()))).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+  expect(db.rows).toEqual(before);expect(db.credentials).toEqual([]);expect(await db.list('contact_identity')).toEqual([]);
+ });
+ it('a legacy invitation remains single-use immediately before its 24-hour cap',async()=>{
+  const db=new FixtureDb(),issued=await run(db,'user.invite',{name:'Synthetic employee',email:'valid-ttl@example.test',roles:['EMPLOYEE']});
+  const row=(await db.list('user_invitation'))[0]!,start=Date.parse(row.createdAt);
+  await db.save(row,{...row.data,expiresAt:new Date(start+48*3600000).toISOString()},row.version);
+  const at=new Date(start+24*3600000-1).toISOString(),input={token:issued.token,password:'Synthetic invited password 123!'};
+  const activated=await db.transaction('company','ACTIVATE',tx=>activateInvitation(tx,'company',input,at));
+  expect((await db.get('user',activated.userId)).data.roles).toEqual(['EMPLOYEE']);
+  await expect(db.transaction('company','ACTIVATE',tx=>activateInvitation(tx,'company',input,at))).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+  expect(await db.list('user')).toHaveLength(1);expect(db.credentials).toHaveLength(1);
+ });
  it('scrypt uses unique salts and verifies only the exact password',async()=>{const a=await hashPassword('Secure synthetic password 123!'),b=await hashPassword('Secure synthetic password 123!');expect(a).not.toBe(b);expect(a).not.toContain('Secure synthetic');expect(await verifyPassword('Secure synthetic password 123!',a)).toBe(true);expect(await verifyPassword('wrong',a)).toBe(false);expect(await verifyPassword('x','scrypt$v1$100000000$8$1$x$x')).toBe(false);});
  it('opaque tokens are stored by nonreversible hash and CSRF differs from authentication token',()=>{const token=opaqueToken();expect(token.length).toBeGreaterThanOrEqual(40);expect(hashToken(token)).toHaveLength(64);expect(csrfFor(token)).not.toBe(token);expect(parseCookies('knaba_session=abc; broken=%E0%A4%A')).toEqual({knaba_session:'abc'});});
  it('same-origin cookie mutations require the session-specific CSRF proof',()=>{const token=opaqueToken();expect(()=>requireCsrf(request({origin:'https://knaba.test','x-csrf-token':csrfFor(token)}),token,'https://knaba.test')).not.toThrow();expect(()=>requireCsrf(request({origin:'https://attacker.test','x-csrf-token':csrfFor(token)}),token,'https://knaba.test')).toThrow('ACCESS_DENIED');expect(()=>requireCsrf(request({origin:'https://knaba.test'}),token,'https://knaba.test')).toThrow('ACCESS_DENIED');});

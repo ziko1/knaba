@@ -1,0 +1,782 @@
+{
+  "do_not_sum_overlapping_runs": true,
+  "failure_payloads_included": false,
+  "notes": [
+    "Reports retain historical RED outcomes before the corresponding fix; other patches could already be present.",
+    "customer-portal-scope-red includes one incorrect OWNER-only fixture. Corrected RED uses OWNER+DIRECTOR for company-wide customer.read and has four genuine failures.",
+    "erp-membership-final-consumers uses testNamePattern: pending cases are intentionally unselected, not new PASS.",
+    "SQL cases without local DATABASE_URL are NOT_RUN, not accepted by CPU fixture results."
+  ],
+  "runs": [
+    {
+      "id": "erp-identity-authority-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 27,
+      "passed": 9,
+      "failed": 18,
+      "pending": 0,
+      "raw_json_sha256": "653a021d16a52c8ad4acf5b98f0323fa72ce8f857b59e14f93354f5fb8b5fb30",
+      "raw_log_sha256": "77c04d76c4d9beb5ff59fc70e9665c3f2c6a60fb0896a828a0cf32733f9cb568",
+      "tests": [
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects revoked camel-case proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects revoked snake-case proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects expired proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects expiry boundary without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects expired snake-case proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects invalid expiry without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects empty expiry without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects invalid secondary expiry alias without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects not-yet-valid proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects not-yet-valid snake-case proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects invalid start without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects truthy non-boolean proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects a disabled user even if the contact proof is verified",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects a missing active flag even if the contact proof is verified",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects a truthy non-boolean active flag even if the contact proof is verified",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects a missing or foreign-company target user before creating any grant",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies revoked, invalid, expired or non-active devices before resolving the actor",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) rejects the old token immediately after device revocation and token replacement",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "erp-membership-scope-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 39,
+      "passed": 30,
+      "failed": 9,
+      "pending": 0,
+      "raw_json_sha256": "1bf78dd390c6f7a4fd93809510206b96cea2b0c81cd680afe87fec800a0bbc52",
+      "raw_log_sha256": "4498fe55eab3b01ebe6f7aaa0d4f0f1d592f19bca631a9fd322aed3b9fc2b228",
+      "tests": [
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects malformed active proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects null active proof without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies a grant for an unassigned site even when it belongs to the requested customer",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies an unrestricted customer-wide grant by a manager scoped to one site",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) cannot replace a broader existing grant with a narrow input: []",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) cannot replace a broader existing grant with a narrow input: [ 'site-a', 'unassigned-site' ]",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies revocation outside the full assigned site scope: []",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies revocation outside the full assigned site scope: [ 'unassigned-site' ]",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies revocation outside the full assigned site scope: [ 'site-a', 'unassigned-site' ]",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "login-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 8,
+      "passed": 2,
+      "failed": 6,
+      "pending": 0,
+      "raw_json_sha256": "073dabecce388907f09bb813c5949259e670ef9ea175210f83f53d1180152b7a",
+      "raw_log_sha256": "588d52773e2ab226a4ac770441342af9d213dc63164bd5c57bfd89fe007cd4bf",
+      "tests": [
+        {
+          "file": "erp/tests/login-revocation.test.ts",
+          "case": "ERP credential revocation during password verification rejects the old password if rotation commits after credential read, before session issue",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/login-revocation.test.ts",
+          "case": "ERP credential revocation during password verification rejects a stale MFA configuration instead of issuing a password-only session",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/login-revocation.test.ts",
+          "case": "ERP credential revocation during password verification rejects an email identity changed during password verification",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/login-revocation.test.ts",
+          "case": "ERP credential revocation during password verification issues the normal current-user session under the company transaction",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/login-revocation.test.ts",
+          "case": "ERP credential revocation during password verification consumes TOTP and creates its session atomically",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/login-revocation.test.ts",
+          "case": "ERP credential revocation during password verification rolls back the TOTP replay counter when session storage fails",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "login-green",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": true,
+      "total": 37,
+      "passed": 37,
+      "failed": 0,
+      "pending": 0,
+      "raw_json_sha256": "3c0a085a41b752972ce4bc171806128621dbec7ab1a6add485e07802c25fb576",
+      "raw_log_sha256": "2adacf1a2782327c667dcc7a24ea8f7f9cc9eea4837ed316a2f68c8596d541e7",
+      "tests": []
+    },
+    {
+      "id": "customer-membership-read-shape-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 28,
+      "passed": 5,
+      "failed": 23,
+      "pending": 0,
+      "raw_json_sha256": "2c1d71f6bd19ba4de929e96238987f2d21d39b50f33711e2f755e5bf15d3e256",
+      "raw_log_sha256": "a4ee7405c1c710cbb79d5828d58c4aecc3e9a5aaed172ff5a4dcd8241d0ab4aa",
+      "tests": [
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies revoked legacy alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed canonical expiry in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies expired offset timestamp in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies expired legacy alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies expired secondary alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies invalid secondary alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies empty supplied expiry in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies future canonical start in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies future legacy start in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies future secondary start in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed secondary start in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies conflicting subject aliases in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies inversely conflicting subject aliases in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies empty subject alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed revocation marker in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed site scope in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies string site scope in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies string capability set in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed customer subject in actor scope, generic API visibility, portal and issue reads",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) rejects a foreign-company row even if user and customer identifiers are equal",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) preserves legacy subject and null optional bounds membership without expanding its site scope",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) an invalid unrestricted row cannot widen another current scoped membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) stream and command receipt authority expire at the earliest alias without modifying stored data",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "customer-membership-replacement-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 45,
+      "passed": 39,
+      "failed": 6,
+      "pending": 0,
+      "raw_json_sha256": "9faa97d670fccfd2b8bd91b060de95681dc1b92b520b05bb86071dfce37dee4c",
+      "raw_log_sha256": "a3535c0c8d1fe62ca48662a21b87bbe1011ae6e75da4f37015191cda9292685e",
+      "tests": [
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) checks a legacy subject grant before replacement and never leaves its broader authority behind",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) replaces one current legacy grant inside the assigned site without creating a duplicate",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies replacement of conflicting subject aliases: {\"userId\":\"client-a\",\"user_id\":\"client-b\"}",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies replacement of conflicting subject aliases: {\"userId\":\"client-b\",\"user_id\":\"client-a\"}",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) denies an ambiguous multi-row replacement instead of choosing only one grant",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership administration stays inside the manager site scope (CPU) revokes a legacy subject by explicit row ID with its exact user in the audit event",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "identity-revocation-marker-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 58,
+      "passed": 46,
+      "failed": 12,
+      "pending": 0,
+      "raw_json_sha256": "b11dd1c2dc62bf31ce7baa7fcf986c1409a0a2d05e7365e774204456010c72aa",
+      "raw_log_sha256": "c909d7a496affbc88753f8eaedd916cc3877bc020f286aca8afd105f19fa05c3",
+      "tests": [
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects false canonical revocation marker without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects zero canonical revocation marker without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects empty canonical revocation marker without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects false legacy revocation marker without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects zero legacy revocation marker without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "customer membership requires current proof of the exact target identity (CPU) rejects empty legacy revocation marker without creating or reviving a membership",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies a malformed explicit device revocation marker {\"revokedAt\":false} before resolving the actor",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies a malformed explicit device revocation marker {\"revokedAt\":0} before resolving the actor",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies a malformed explicit device revocation marker {\"revokedAt\":\"\"} before resolving the actor",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies a malformed explicit device revocation marker {\"revoked_at\":false} before resolving the actor",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies a malformed explicit device revocation marker {\"revoked_at\":0} before resolving the actor",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/identity-authority-regression.test.ts",
+          "case": "device bearer revocation is enforced before generic API authentication (CPU) denies a malformed explicit device revocation marker {\"revoked_at\":\"\"} before resolving the actor",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "customer-portal-scope-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 34,
+      "passed": 29,
+      "failed": 5,
+      "pending": 0,
+      "raw_json_sha256": "51b23643cf61beeb46e4d9cb6cd41a3bf0eafcb27cabe00f3987f8015f923d2b",
+      "raw_log_sha256": "8cb77a89af80237515e28d97cb5bdf422ccde6f2fe52af2cbbe90a25135d532d",
+      "tests": [
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) returns only assigned sites, their orders and published reports; excludes unbound orders",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an unassigned customer and mismatched customer/site input {\"customerId\":\"other-customer\"}",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an unassigned customer and mismatched customer/site input {\"customerId\":\"other-customer\",\"siteId\":\"site-a\"}",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an explicit unassigned site belonging to an otherwise assigned customer",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) preserves explicit company-wide internal authority including unbound customer orders",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "customer-portal-scope-corrected-red",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": false,
+      "total": 34,
+      "passed": 30,
+      "failed": 4,
+      "pending": 0,
+      "raw_json_sha256": "640e04b0b6d5185f5e16216e2aa0bf4126d9a8598f494e0f4b39c778178ac885",
+      "raw_log_sha256": "098f1f8e418f2d8e26ea7a2b135c85680abaa3e214bb83afc7a8d425fdbe53d0",
+      "tests": [
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) returns only assigned sites, their orders and published reports; excludes unbound orders",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an unassigned customer and mismatched customer/site input {\"customerId\":\"other-customer\"}",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an unassigned customer and mismatched customer/site input {\"customerId\":\"other-customer\",\"siteId\":\"site-a\"}",
+          "status": "failed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an explicit unassigned site belonging to an otherwise assigned customer",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "customer-membership-dependent-green",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": true,
+      "total": 613,
+      "passed": 613,
+      "failed": 0,
+      "pending": 0,
+      "raw_json_sha256": "f9d06b96c5af2fdf7acceda1f430604c223174df6733dfeed227c93045599430",
+      "raw_log_sha256": "cb050745fcc06d4c3b234256d1668197bd0c41943e78f1ae5ed8c9902ebf9391",
+      "tests": []
+    },
+    {
+      "id": "erp-membership-final-consumers",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": true,
+      "total": 353,
+      "passed": 36,
+      "failed": 0,
+      "pending": 317,
+      "raw_json_sha256": "b5d508e067dbc7d331980ab56fc0c027d7d1f90f1821a80d1cdca1c20bff5c20",
+      "raw_log_sha256": "abc10ac24f0d6c71bac981b9158e7f15f8d24949879b5c44951abd1809e60f08",
+      "tests": []
+    },
+    {
+      "id": "erp-membership-final-core",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": true,
+      "total": 197,
+      "passed": 194,
+      "failed": 0,
+      "pending": 3,
+      "raw_json_sha256": "a6ed8ba9cc33f9932debe304da13128a9251744d3809cb605813489a56050cf2",
+      "raw_log_sha256": "a0dccf7dcffe9d0186971e675356e31d7a19226a5162f0e7479cbb83a092dd11",
+      "tests": []
+    },
+    {
+      "id": "customer-portal-scope-green",
+      "phase": "intermediate source/test iteration; not attributed to base commit",
+      "success": true,
+      "total": 167,
+      "passed": 163,
+      "failed": 0,
+      "pending": 4,
+      "raw_json_sha256": "e31f328377db17b250eca5c180b6b9e5f6502dc0dee832b536df8a06c094bf26",
+      "raw_log_sha256": "899c7f5684e93e9461a2892ea4df28b2926addab563b471c3e7f7ee0038a37b4",
+      "tests": [
+        {
+          "file": "erp/tests/customer-membership-authority.integration.test.ts",
+          "case": "PostgreSQL current customer membership and stale authority a legacy revocation defeats stale customerIds and a valid membership in another company with equal identifiers",
+          "status": "skipped"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.integration.test.ts",
+          "case": "PostgreSQL current customer membership and stale authority conflicting persisted user aliases authorize neither equal-email account",
+          "status": "skipped"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.integration.test.ts",
+          "case": "PostgreSQL current customer membership and stale authority earlier secondary expiry invalidates a real receipt with unchanged rows and unchanged customerIds",
+          "status": "skipped"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.integration.test.ts",
+          "case": "PostgreSQL current customer membership and stale authority a scoped manager sees only assigned customer sites/orders/reports while explicit company scope remains compatible",
+          "status": "skipped"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies revoked legacy alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed canonical expiry in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies expired offset timestamp in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies expired legacy alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies expired secondary alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies invalid secondary alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies empty supplied expiry in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies future canonical start in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies future legacy start in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies future secondary start in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed secondary start in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies conflicting subject aliases in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies inversely conflicting subject aliases in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies empty subject alias in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies inactive membership in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies canonical revocation in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies non-boolean active in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed revocation marker in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed site scope in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies string site scope in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies string capability set in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) denies malformed customer subject in actor scope, generic API visibility, portal and issue reads",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) rejects a foreign-company row even if user and customer identifiers are equal",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) preserves canonical untimed membership without expanding its site scope",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) preserves legacy subject and null optional bounds membership without expanding its site scope",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) preserves matching subject aliases and current timestamp aliases membership without expanding its site scope",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) an invalid unrestricted row cannot widen another current scoped membership",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "one current customer membership authority across Engine and domain reads (CPU) stream and command receipt authority expire at the earliest alias without modifying stored data",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) returns only assigned sites, their orders and published reports; excludes unbound orders",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an unassigned customer and mismatched customer/site input {\"customerId\":\"other-customer\"}",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an unassigned customer and mismatched customer/site input {\"customerId\":\"other-customer\",\"siteId\":\"site-a\"}",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) denies an explicit unassigned site belonging to an otherwise assigned customer",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) preserves explicit company-wide internal authority including unbound customer orders",
+          "status": "passed"
+        },
+        {
+          "file": "erp/tests/customer-membership-authority.test.ts",
+          "case": "customer.portal follows the current internal manager site scope (CPU) keeps a mixed OWNER and CLIENT subject limited to its explicit customer membership",
+          "status": "passed"
+        }
+      ]
+    }
+  ]
+}
