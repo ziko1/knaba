@@ -9,6 +9,7 @@ on:
       - 'corporate-site/public/images/knaba-3d-mobile-header.svg'
       - 'scripts/mobile/generate-brand-assets.mjs'
       - 'scripts/mobile/check-localizations.py'
+      - 'scripts/test_android_emulator_bootstrap.py'
       - 'docs/mobile/RELEASE_VERSIONS.json'
       - 'erp/scripts/native-ios-simulator.py'
       - '.github/workflows/native.yml'
@@ -31,6 +32,8 @@ jobs:
           ref: ${{ env.NATIVE_SOURCE_SHA }}
       - name: Verify localization and declared release versions
         run: python3 scripts/mobile/check-localizations.py
+      - name: Verify emulator bootstrap isolation with synthetic SDK replies
+        run: python3 -m unittest discover -s scripts -p test_android_emulator_bootstrap.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -95,7 +98,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           test -r /dev/kvm && test -w /dev/kvm
           python3 - <<'PY'
-          import datetime, hashlib, json, os, pathlib, re, struct, subprocess, time
+          import datetime, hashlib, json, os, pathlib, re, struct, subprocess, tempfile, time
           evidence = pathlib.Path('build/evidence/android-emulator')
           distribution = pathlib.Path('build/distribution/prototype')
           packaged = json.loads((distribution / 'receipt.json').read_text())
@@ -114,12 +117,21 @@ jobs:
           adb = sdk / 'platform-tools/adb'
           image = 'system-images;android-35;google_apis;x86_64'
           serial = 'emulator-5554'
+          avd_name = 'knaba-api35'
+          # Explicit Android tool preferences keep AVD creation and lookup together.
+          # https://developer.android.com/tools/variables
+          # https://developer.android.com/tools/avdmanager
+          android_user_dir = pathlib.Path(tempfile.mkdtemp(prefix='knaba-android-', dir=os.environ['RUNNER_TEMP'])).resolve()
+          avd_home = android_user_dir / 'avd'
+          avd_home.mkdir()
+          avd_path = avd_home / (avd_name + '.avd')
+          sdk_env = {**os.environ, 'ANDROID_USER_HOME': str(android_user_dir), 'ANDROID_EMULATOR_HOME': str(android_user_dir), 'ANDROID_AVD_HOME': str(avd_home)}
           commands = []
           stage = 'sdk-and-avd'
           process = None
           def run(*command, timeout=30, input=None, check=True, binary=False):
               try:
-                  result = subprocess.run([str(part) for part in command], input=input, capture_output=True, text=not binary, timeout=timeout)
+                  result = subprocess.run([str(part) for part in command], input=input, capture_output=True, text=not binary, timeout=timeout, env=sdk_env)
               except subprocess.TimeoutExpired:
                   commands.append({'command': [str(part) for part in command], 'exitCode': None, 'timedOutSeconds': timeout})
                   (evidence / 'commands.json').write_text(json.dumps(commands, indent=2) + '\n')
@@ -142,15 +154,26 @@ jobs:
               run(emulator, '-accel-check')
               devices = run(avdmanager, 'list', 'device').stdout
               assert '"pixel_6"' in devices, 'Expected Pixel 6 hardware profile is unavailable'
-              run(avdmanager, 'create', 'avd', '--force', '--name', 'knaba-api35', '--package', image, '--device', 'pixel_6', input='no\n', timeout=60)
+              run(avdmanager, 'create', 'avd', '--force', '--name', avd_name, '--path', str(avd_path), '--package', image, '--device', 'pixel_6', input='no\n', timeout=60)
+              run(avdmanager, 'list', 'avd')
+              index = avd_home / (avd_name + '.ini')
+              config = avd_path / 'config.ini'
+              assert index.is_file() and not index.is_symlink(), 'AVD index file is missing'
+              assert config.is_file() and not config.is_symlink() and not avd_path.is_symlink(), 'AVD config file is missing'
+              index_values = dict(line.split('=', 1) for line in index.read_text().splitlines() if '=' in line)
+              assert pathlib.Path(index_values.get('path', '')).resolve() == avd_path, 'AVD index points outside the task directory'
+              visible_avds = [line.strip() for line in run(emulator, '-list-avds').stdout.splitlines() if line.strip()]
+              assert visible_avds == [avd_name], 'Emulator cannot see exactly the task AVD'
+              avd_setup = {'name': avd_name, 'androidUserDir': str(android_user_dir), 'androidAvdHome': str(avd_home), 'path': str(avd_path), 'indexSha256': hashlib.sha256(index.read_bytes()).hexdigest(), 'configSha256': hashlib.sha256(config.read_bytes()).hexdigest(), 'emulatorVisibleAvds': visible_avds}
+              (evidence / 'avd-setup.json').write_text(json.dumps(avd_setup, indent=2) + '\n')
               for name, path in [('emulator-source.properties', sdk / 'emulator/source.properties'), ('system-image-source.properties', sdk / 'system-images/android-35/google_apis/x86_64/source.properties')]:
                   (evidence / name).write_bytes(path.read_bytes())
               run(adb, 'start-server')
-              launch = [str(emulator), '-avd', 'knaba-api35', '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot', '-no-metrics', '-gpu', 'software', '-accel', 'on', '-memory', '2048', '-cores', '2', '-camera-front', 'none', '-camera-back', 'none']
+              launch = [str(emulator), '-avd', avd_name, '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot', '-no-metrics', '-gpu', 'software', '-accel', 'on', '-memory', '2048', '-cores', '2', '-camera-front', 'none', '-camera-back', 'none']
               (evidence / 'emulator-command.json').write_text(json.dumps(launch, indent=2) + '\n')
               stage = 'boot'
               with (evidence / 'emulator.log').open('w') as log:
-                  process = subprocess.Popen(launch, stdout=log, stderr=subprocess.STDOUT)
+                  process = subprocess.Popen(launch, stdout=log, stderr=subprocess.STDOUT, env=sdk_env)
               deadline = time.monotonic() + 240
               booted = False
               while time.monotonic() < deadline:
@@ -207,7 +230,7 @@ jobs:
                   'package': package, 'versionName': version[1], 'versionCode': int(code[1]),
                   'minSdk': int(code[2]), 'targetSdk': int(code[3]),
                   'certificateSha256': packaged['certificateSha256'],
-                  'serial': serial, 'systemImage': image, 'system': system, 'tools': versions,
+                  'serial': serial, 'systemImage': image, 'system': system, 'tools': versions, 'avd': avd_setup,
                   'install': 'PASS', 'launch': 'PASS', 'resumedActivity': resumed,
                   'screenshot': {'path': 'login-android35.png', 'sha256': hashlib.sha256(png).hexdigest(), 'bytes': len(png), 'width': width, 'height': height},
                   'visualReview': 'PENDING_INDEPENDENT_REVIEW',

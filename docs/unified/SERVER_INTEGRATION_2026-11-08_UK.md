@@ -27,6 +27,20 @@ fixture1/1; Java compiler proof демонструє правильний latch 
 зупинено до створення фінального TAR. Деталі й хеші:
 `evidence/server-integration-20261108/ci-correction.json`.
 
+Другий published checkpoint `f0ed2209fdcb830436282ba8d1e4ff7d780848dd`
+підтвердив ERP3292/136 files на реальній PostgreSQL, bridge82, site745 і
+VPS406, account HTTPS/browser9, Android JUnit61, iOS XCTest93 та simulator
+install/launch. Lead UI мав3/4: exact label selector включав вкладений текст
+textarea, хоча accessible textbox був правильний. Android AVD creation
+успішне, але emulator не знаходив AVD; boot/install acceptance ще відсутнє.
+Вузькі corrections змінюють locator на exact textbox name та ізолюють
+спільний AVD/tool environment із перевіркою шляхів і discovery до запуску.
+Production application source не змінено. Portable AVD regression7/7
+виконує actual inline workflow із synthetic SDK replies та не є emulator
+PASS. Резервовано один додатковий checkpoint для цих спостережених причин;
+фінальне пакування і передавання потребують окремих exact-source receipts.
+Деталі: `evidence/server-integration-20261108/ci-ui-avd-correction.json`.
+
 ## Що зведено в коді
 
 | Частина | Походження та реалізація | Межі приймання |

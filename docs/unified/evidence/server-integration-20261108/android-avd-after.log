@@ -1,0 +1,12 @@
+test_creation_failure_is_not_converted_into_acceptance (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_creation_failure_is_not_converted_into_acceptance) ... ok
+test_emulator_cannot_see_created_avd_is_refused (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_emulator_cannot_see_created_avd_is_refused) ... ok
+test_index_pointing_outside_task_avd_is_refused (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_index_pointing_outside_task_avd_is_refused) ... ok
+test_missing_config_is_refused (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_missing_config_is_refused) ... ok
+test_missing_ini_is_refused (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_missing_ini_is_refused) ... ok
+test_shared_environment_overrides_conflicting_tool_defaults (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_shared_environment_overrides_conflicting_tool_defaults) ... ok
+test_unrelated_avd_is_refused (test_android_emulator_bootstrap.AndroidEmulatorBootstrapTests.test_unrelated_avd_is_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.131s
+
+OK
