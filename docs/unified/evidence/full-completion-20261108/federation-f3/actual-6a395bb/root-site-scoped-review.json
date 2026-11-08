@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "runId": 42507639872,
+  "status": "PASS_ROOT_SITE_SCOPE_ONLY",
+  "root": {
+    "jobId": 128813648707,
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "0434bb4e1ff770f3b0bae1beac2fc93a4fbcd56c9d64a64359112982826db718"
+  },
+  "site": {
+    "jobId": 128813648519,
+    "vitestPassed": 900,
+    "nodePassed": 92,
+    "nodeGroups": [
+      37,
+      37,
+      10,
+      8
+    ],
+    "vpsPassed": 354,
+    "failed": 0,
+    "skipped": 0,
+    "checkBuildVerify": "PASS_JOB_METADATA_AND_LOG",
+    "htmlPages": 161,
+    "cssGzipBytes": 40832,
+    "cssBudgetBytes": 40960,
+    "allEmittedJsGzipBytes": 222640,
+    "jsBudgetBytes": 225280,
+    "fieldWebVitals": "NOT_RUN",
+    "logSha256": "f6967da6972288fec474834837e0274131a6c386eb0946ec8faec4ea3b4da30c",
+    "buildReportSha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+  },
+  "aggregate": "NOT_ACCEPTED_BY_THIS_ROOT_SITE_ONLY_REVIEW"
+}

@@ -1,0 +1,20 @@
+// Column order: DE, UK, RU, PL, LT, EN.
+export const vehicleTripCopy: Record<string, string[]> = {
+  vehicleTrip: ['Gemeinsame Fahrzeugfahrt', 'Спільна поїздка автомобілем', 'Совместная поездка на автомобиле', 'Wspólny przejazd samochodem', 'Bendra kelionė automobiliu', 'Shared vehicle journey'],
+  vehicleTripCreate: ['Fahrgemeinschaft planen', 'Запланувати спільну поїздку', 'Запланировать совместную поездку', 'Zaplanuj wspólny przejazd', 'Planuoti bendrą kelionę', 'Plan shared journey'],
+  vehicleTripDistance: ['Fahrzeugstrecke erfassen', 'Вказати відстань автомобіля', 'Указать расстояние автомобиля', 'Zapisz odległość pojazdu', 'Įrašyti automobilio atstumą', 'Record vehicle distance'],
+  vehicleTripSummary: ['Gemeinsame Fahrt auswerten', 'Підсумок спільної поїздки', 'Итоги совместной поездки', 'Podsumowanie wspólnego przejazdu', 'Bendros kelionės suvestinė', 'Shared journey summary'],
+  vehicleTripCancel: ['Geplante Fahrt stornieren', 'Скасувати заплановану поїздку', 'Отменить запланированную поездку', 'Anuluj planowany przejazd', 'Atšaukti suplanuotą kelionę', 'Cancel planned journey'],
+  vehicleTripId: ['Gemeinsame Fahrt', 'Спільна поїздка', 'Совместная поездка', 'Wspólny przejazd', 'Bendra kelionė', 'Shared journey'],
+  originSiteId: ['Startobjekt', 'Початковий об’єкт', 'Исходный объект', 'Obiekt początkowy', 'Pradinis objektas', 'Origin site'],
+  driverId: ['Fahrer', 'Водій', 'Водитель', 'Kierowca', 'Vairuotojas', 'Driver'],
+  passengerIds: ['Mitfahrer', 'Пасажири', 'Пассажиры', 'Pasażerowie', 'Keleiviai', 'Passengers'],
+  vehicleLabel: ['Fahrzeugbezeichnung', 'Назва автомобіля', 'Название автомобиля', 'Nazwa pojazdu', 'Automobilio pavadinimas', 'Vehicle label'],
+  vehiclePersonHours: ['Personenstunden unterwegs', 'Людино-години в дорозі', 'Человеко-часы в пути', 'Osobogodziny w podróży', 'Žmogaus valandos kelionėje', 'Person-hours travelling'],
+  vehicleKilometers: ['Fahrzeugkilometer', 'Кілометри автомобіля', 'Километры автомобиля', 'Kilometry pojazdu', 'Automobilio kilometrai', 'Vehicle kilometres'],
+  vehicleParticipants: ['Teilnehmer mit erfasster Fahrt', 'Учасники із записом поїздки', 'Участники с записью поездки', 'Uczestnicy z zapisanym przejazdem', 'Dalyviai su įrašyta kelione', 'Participants with recorded travel'],
+  vehicleEstimated: ['Geschätzte Strecke', 'Оцінена відстань', 'Оценочное расстояние', 'Szacowana odległość', 'Apskaičiuotas atstumas', 'Estimated distance'],
+  vehicleDistanceUnknown: ['Strecke unbekannt', 'Відстань невідома', 'Расстояние неизвестно', 'Odległość nieznana', 'Atstumas nežinomas', 'Distance unknown'],
+  vehicleIncomplete: ['Noch nicht alle Teilnehmer haben ihre Ankunft bestätigt.', 'Ще не всі учасники підтвердили прибуття.', 'Ещё не все участники подтвердили прибытие.', 'Nie wszyscy uczestnicy potwierdzili przyjazd.', 'Dar ne visi dalyviai patvirtino atvykimą.', 'Some participants have not confirmed arrival yet.'],
+  vehicleTimeNote: ['Private Pausen sind ausgeschlossen. Die Fahrzeugstrecke wird einmal gezählt. Keine automatische Lohn- oder Rechnungsbuchung.', 'Приватні перерви виключені. Відстань автомобіля врахована один раз. Зарплата й рахунки автоматично не нараховуються.', 'Личные перерывы исключены. Расстояние автомобиля учтено один раз. Зарплата и счета автоматически не начисляются.', 'Przerwy prywatne są wyłączone. Odległość pojazdu jest liczona raz. Bez automatycznego naliczania wynagrodzeń i faktur.', 'Asmeninės pertraukos neįskaičiuotos. Automobilio atstumas skaičiuojamas vieną kartą. Atlyginimai ir sąskaitos automatiškai neskaičiuojami.', 'Private breaks are excluded. Vehicle distance is counted once. No automatic payroll or invoicing.'],
+};

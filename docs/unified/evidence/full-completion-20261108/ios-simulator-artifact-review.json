@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "reviewer": "root independent source/binary and actual hosted evidence verification",
+  "decision": "ACCEPT_SIMULATOR_ONLY",
+  "sourceSha": "395993f9f6f38141507b5f7e4fd470e953b5c99c",
+  "treeSha": "bee1e6d7f47d72dc5afaec51f701603aa23cb9ab",
+  "workflowRunId": 42476578253,
+  "jobId": 128719170576,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42476578253/job/128719170576",
+  "downloadArtifactId": 13615911365,
+  "downloadSha256": "f55c581ea194764fe744e3eeae3dfcb7b64bfd315cbe17445055576140f82521",
+  "nativeInputs": {
+    "count": 43,
+    "sha256": "e4758f7096553f9d7afa5ffada0869a48df4ade72ca62ef51c1b8b8d0abc34b4",
+    "allMatchExactGitSourceAndCurrentNativeFiles": true
+  },
+  "xctest": {
+    "total": 93,
+    "passed": 93,
+    "failed": 0,
+    "skipped": 0,
+    "expectedFailures": 0
+  },
+  "installAndLaunch": "ACTUAL_SIMULATOR_PASS",
+  "screenshot": "Independently viewed German login screen; no authenticated backend/device acceptance inferred",
+  "binary": {
+    "bundleId": "de.knaba.mobile",
+    "version": "0.5.0",
+    "build": "8",
+    "minimumOS": "17.0",
+    "arch": "arm64",
+    "machOType": "MH_EXECUTE",
+    "machOBuildPlatform": 7,
+    "platform": "iPhoneSimulator",
+    "sdk": "iphonesimulator26.5"
+  },
+  "signing": "CODE_SIGNING_ALLOWED=NO",
+  "artifacts": [
+    {
+      "file": "KNABA-DE-0.5.0-SIMULATOR-395993f-128506049010.app.zip",
+      "bytes": 7599683,
+      "sha256": "12850604901076e59bf048f4359b58314862c3400321294e5460ee0db705639a"
+    },
+    {
+      "file": "KNABA-DE-0.5.0-XCTest-395993f-2d769c782b86.xcresult.zip",
+      "bytes": 251042,
+      "sha256": "2d769c782b86ee68c61bb8740db969a2274c12b8d38a80447772c6a307ba204e"
+    }
+  ],
+  "limits": {
+    "physicalIPhone": "NOT_RUN",
+    "realBackend": "NOT_RUN",
+    "ios17DeviceCompatibility": "NOT_TESTED",
+    "testFlightOrAppStore": "NOT_RUN",
+    "IPA": "NOT_CREATED"
+  }
+}

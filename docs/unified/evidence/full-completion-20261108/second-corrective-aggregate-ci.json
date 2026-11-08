@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "sourceSha": "395993f9f6f38141507b5f7e4fd470e953b5c99c",
+  "treeSha": "bee1e6d7f47d72dc5afaec51f701603aa23cb9ab",
+  "overall": "FAIL",
+  "runs": [
+    {
+      "id": 42476582459,
+      "name": "KNABA iOS simulator verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42476582459"
+    },
+    {
+      "id": 42476582495,
+      "name": "KNABA repository verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42476582495"
+    },
+    {
+      "id": 42476582462,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42476582462"
+    },
+    {
+      "id": 42476578098,
+      "name": "KNABA repository verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42476578098"
+    },
+    {
+      "id": 42476578253,
+      "name": "KNABA iOS simulator verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42476578253"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 128719201390,
+      "name": "Source integrity and policy",
+      "status": "PASS"
+    },
+    {
+      "id": 128719201533,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "status": "PASS",
+      "tests": 3029,
+      "passed": 3029,
+      "failed": 0,
+      "skipped": 0,
+      "files": 131
+    },
+    {
+      "id": 128719201550,
+      "name": "Corporate site checks and production build",
+      "status": "FAIL",
+      "vitest": {
+        "passed": 834,
+        "failed": 0
+      },
+      "node": {
+        "passed": 92,
+        "failed": 0
+      },
+      "check": "PASS",
+      "build": "PASS",
+      "verifyBuild": "PASS",
+      "vps": {
+        "tests": 276,
+        "passed": 275,
+        "failed": 1,
+        "skipped": 0
+      },
+      "failure": "portal-messages-migration.test.mjs retained historical hardcoded16 receipts although canonical migration sequence now contains17; data preservation/restore assertions before it passed"
+    },
+    {
+      "id": 128719201536,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "status": "FAIL",
+      "bridge": {
+        "scope": "STEP_SUITE",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "status": "FAIL",
+        "inputsUnchanged": true,
+        "buildManifestSha256": "dd5edd3e7e69ca9541768027ef40d63d455a9bb69cc22353ec7f87cf2afae7a5",
+        "stages": [
+          {
+            "name": "site roles and display receipts",
+            "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+            "checks": 107,
+            "engine": "chromium",
+            "browserVersion": "156.0.8078.79",
+            "status": "PASS"
+          },
+          {
+            "name": "site six-language navigation",
+            "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+            "checks": 32,
+            "engine": "chromium",
+            "browserVersion": "156.0.8078.79",
+            "status": "PASS"
+          },
+          {
+            "name": "six public locales by four viewports",
+            "kind": "ACTUAL_RENDERED_STATIC_BROWSER",
+            "cases": 24,
+            "engine": "chromium",
+            "status": "PASS"
+          }
+        ],
+        "erpTransfer": {
+          "scope": "ACTUAL_RENDERED_BROWSER_WITH_EXPLICIT_HTTP_FIXTURES",
+          "tests": 4,
+          "passed": 0,
+          "failed": 4,
+          "cause": "Transfer copy arrays DE,UK,RU,PL,LT,EN were indexed by shared languages DE,EN,PL,LT,RU,UK, so English UI rendered Ukrainian transfer controls. Actual screenshot and trace agree."
+        }
+      },
+      "artifact": {
+        "id": 13616220467,
+        "bytes": 8907702,
+        "sha256": "1bd86bff4c816a92c2fc3686835c275c9cc3d2c8331d3b97ab96eb7fc4002b61"
+      }
+    },
+    {
+      "id": 128719170576,
+      "name": "Xcode build, XCTest and simulator artifact",
+      "status": "PASS",
+      "xctest": {
+        "tests": 93,
+        "passed": 93,
+        "failed": 0,
+        "skipped": 0
+      },
+      "actualSimulatorInstallLaunch": "PASS",
+      "artifactReview": "ios-simulator-artifact-review.json",
+      "physicalIPhone": "NOT_RUN",
+      "liveBackend": "NOT_RUN"
+    },
+    {
+      "id": 128719183192,
+      "name": "Android debug APK, lint and regression tests",
+      "status": "PASS",
+      "publishedRunnerApkSha256": "8cd12f7b7a57ccfe7137b95183de23ec90dcfe80ecff552d7061808fa75999ca",
+      "runnerDebugCertificateSha256": "bc8df55c1110aa71287c664873a0f641f2deff18ec703974a41eef14bc4b6d61",
+      "distribution": "Previously independently verified local APK retained for its original debug update chain; this runner artifact is not silently substituted.",
+      "physicalAndroid": "NOT_RUN"
+    }
+  ],
+  "scope": "Third exact-source verification checkpoint. Successful named suites do not close whole compound acceptance. Known failures remain FAIL until corrected exact-source rerun.",
+  "review": {
+    "status": "ACCEPT_SCOPED_EVIDENCE",
+    "reviewer": "erp_session_fence independent read-only review",
+    "reviewedDocumentSha256": "e39d8c9dc632b1f225bb8268e7854ac8555209c2d72c0953d94080dac1db30c1",
+    "checks": [
+      "Actual workflow/job logs and exact source metadata",
+      "Failed rendered ERP locale screenshots and retained failing parent status",
+      "All43 native source inputs and archive hashes",
+      "Separate Android runner certificate and verified local update chain",
+      "Bounded reconciled budget; no whole-product promotion"
+    ],
+    "sourceEdits": false
+  }
+}

@@ -1,4 +1,4 @@
-# Наскрізна перевірка public intake → ERP
+# Наскрізна перевірка заявок і зв’язування акаунтів сайту з ERP
 
 Цей suite перевіряє реальний `createKnabaVpsServer` і зібраний Worker, SQLite на диску, підписані HTTP запити до зібраного ERP `dist/server.mjs` та справжній PostgreSQL. Він не входить у CPU-only ERP discovery: окремий job `bridge` обов'язково збирає обидва застосунки й піднімає ізольований PostgreSQL. Відсутність БД або артефактів спричиняє помилку, а не `SKIP`.
 
@@ -14,7 +14,7 @@
 erp/node_modules/.bin/tsx --tsconfig erp/tsconfig.json --test --test-concurrency=1 --test-reporter=tap tests/bridge/*.test.mjs
 ```
 
-Дев'ять сценаріїв охоплюють:
+Одинадцять сценаріїв охоплюють:
 
 1. Анонімний HTTP intake, persisted owner cookie після restart та його revocation, відхилення підроблених authority fields, server-owned service/company mapping, реальний VPS scheduler → Worker → ERP; атомарні lead/inbox/audit/outbox, відсутність створених identities.
 2. П'ять паралельних однакових заявок, два drainers, один ERP effect; однаковий replay і конфлікт локального idempotency key.
@@ -25,9 +25,39 @@ erp/node_modules/.bin/tsx --tsconfig erp/tsconfig.json --test --test-concurrency
 7. SQLite trigger навмисно відхиляє outbox insert: intake та audit відкочуються разом, повторна спроба створює один повний результат.
 8. Відновлення простроченої lease після actual ERP commit і fencing старого settlement; два реальні delivery → один ERP effect.
 9. Ротація credential у тій самій company зберігає duplicate receipt; credential іншої company не перенаправляє підписаний `target_company_id` і не створює записів у чужому tenant.
+10. Явно погоджена заявка з assistant conversation через actual VPS і п'ять паралельних HTTP повторів створює один запис/consent/origin/outbox та один PostgreSQL lead. Після restart зберігається точний зв'язок; ERP отримує тільки погоджений чинний envelope без chat text/token/conversation ID. Нових identities немає.
+11. Чужа capability не читає й не скасовує заявку; власне скасування до першої відправки переживає restart і блокує реальний ERP effect.
 
 Trusted test dependency переводить лише точний налаштований `https://erp.example.com/api/v1/integrations/<source>/events` на ephemeral loopback HTTP, зберігаючи точні bytes, headers, signature та signal. У scheduler cases process-only fetch fence забороняє всі інші nonloopback адреси. Це **не** тест зовнішнього DNS/TLS, Cloudflare D1 deployment, реального провайдера або production egress. Єдина `site_erp_outbox` зберігає references/fingerprints без копії PII body; термінальні рядки також очищають attribution. Затвердження загальної privacy/retention політики для вихідної заявки лишається окремим release gate.
 
 Чотири збережені `erp/tests/site-intake-bridge.integration.test.ts` додатково перевіряють actual PostgreSQL через in-process adapter, зокрема rollback перед ERP commit і зміну source після невідомого результату. Вони використовують той самий canonical dispatcher через CLI wrapper; HTTP proof на них не поширюється. ERP CI окремо збирає малий shared adapter із pinned esbuild, без заміни повного bridge job.
+
+## F2: сім додаткових сценаріїв на справжній парі застосунків
+
+`federation.test.mjs` використовує зібраний ERP HTTP process, PostgreSQL,
+справжній VPS із SQLite та поточний `dist/vps/federation.mjs`. Сім сценаріїв
+входять до того самого `tests/bridge/*.test.mjs` запуску; разом із заявками
+очікуються 18 сценаріїв. F2 не створює ERP session, role чи device grant.
+
+1. Явне підтвердження двома поточними сесіями; остаточне від’єднання без доступного сайту та відмова від прихованого повторного зв’язування.
+2. Logout: локальна відмова перед PostgreSQL fence; локальне завершення тільки після ACK; відмова ERP прийняти вже сформований старий signed proof.
+3. Зміна пароля: фактична заміна verifier й активація нового epoch з відмовою для старого proof до binding commit.
+4. Втрата справжнього FENCE ACK: явний PENDING, повторення того самого durable intent із новим transport nonce й одним PostgreSQL effect/audit.
+5. Затриманий перший REGISTER: справжній timeout, durable tombstone невідомої сесії та відмова для пізнього оригіналу й нового retry.
+6. Відновлення SQLite до enrollment зі збереженим зовнішнім registry: нова PostgreSQL generation, повна звірка та неможливість відновити відкликану сесію.
+7. Дві компанії з однаковими synthetic source IDs і ключами не можуть спожити код одна одної.
+
+Test-only relay відображає тільки exact HTTPS `.invalid` origins/paths на
+власні loopback listeners, зберігаючи підписані bytes. Fault injection затримує
+або губить фактичні відповіді; ledger і mutation handlers не замінено.
+Це не перевірка зовнішнього TLS, провайдера або production.
+
+CI відхиляє відсутність будь-якого із семи іменованих F2 cases, пропуски та
+неповні результати. ERP job окремо вимагає обидва PostgreSQL файли по 12 cases.
+Browser job запускає 4 transfer та 5 identity-link cases з HTTP fixtures;
+їхні результати відокремлені від справжнього PostgreSQL. Build manifest v2
+вимагає federation bundle і хешує shared protocol та VPS entry разом із
+чотирма чинними групами артефактів. TAP, ERP JSON і browser receipts
+зберігаються в межах чинного одноденного CI retention.
 
 Поточна локальна межа перевірки: suite написано; PostgreSQL тут відсутній, тому нові SQL/HTTP cases **NOT_RUN**. Syntax, YAML та незалежний review не замінюють actual hosted run. Поточний source-bound результат має бути підтверджений окремим CI job; успіх іншого SHA не є прийманням цього suite. CI відхиляє будь-який failed, cancelled, skipped або todo case. Артефакт failure summary містить лише SHA та статуси jobs, без raw HTTP logs або персональних даних.

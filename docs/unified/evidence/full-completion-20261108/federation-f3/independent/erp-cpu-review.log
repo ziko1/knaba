@@ -1,0 +1,16 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-login-flow.test.ts (10 tests) 1015ms
+ ✓ tests/site-federated-session.test.ts (32 tests) 1623ms
+ ✓ tests/site-federation-login-http.test.ts (8 tests) 1659ms
+     ✓ is default-off even when an F2 authority exists  719ms
+     ✓ does not turn a public request ID into a status or confirmation credential  375ms
+ ✓ tests/site-federation-login-protocol.test.ts (16 tests) 368ms
+
+ Test Files  4 passed (4)
+      Tests  66 passed (66)
+   Start at  16:41:27
+   Duration  37.64s (transform 17.09s, setup 0ms, import 30.26s, tests 4.67s, environment 1ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-cpu-review.json

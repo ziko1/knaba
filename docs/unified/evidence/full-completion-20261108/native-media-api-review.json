@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "scope": "Legacy CUSTOMER media file copy-selection fix; native flow is separate and in progress.",
+  "baseSource": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "sourceManifest": {
+    "schemaVersion": 1,
+    "frozenAt": "2026-11-08T13:58:26.623745+00:00",
+    "baseSource": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "worktree": "/workspace/scratch/c56161c95e04/knaba-native-media",
+    "scope": "Only media file external-role copy selection and synthetic boundary regression tests",
+    "sourceFiles": [
+      {
+        "path": "erp/apps/api/http.ts",
+        "sha256": "a14f46dbef0537b8d75780e0a2f108547e199b5a6afead80e313a75c5c367462"
+      },
+      {
+        "path": "erp/tests/media-file-access.test.ts",
+        "sha256": "ed43bcf6c022b455b784a2ff6ac85b4629d9a1ccd5aea39912c51c9316d10f03"
+      }
+    ],
+    "sourceDigest": "28394b214a434628dbc8e193cc124aa8016243f22aa93f182bb2c8c0940ce5f4",
+    "change": "Add legacy CUSTOMER to both existing external/non-owner classifiers in ApiController.file; no other runtime lines changed",
+    "baselineHttpSha256": "28689500db4177a24172db5783960fef9710624817d7411f0d5a6fe0735dd596",
+    "baselineTestsUnchanged": true,
+    "evidence": {
+      "red": {
+        "file": "red.log",
+        "sha256": "ea622ede4039742e42418864c505bd0536f231d10f7bafb1c885a3e101673035",
+        "exitCode": 1,
+        "passed": 11,
+        "failed": 2,
+        "scope": "Real AuthService/Engine ACL/controller on explicit memory SQL and blob doubles"
+      },
+      "green": {
+        "file": "green.log",
+        "sha256": "bc745974759d57aa1a29a989b3691d94965a4376d1c7bf59cf0aafb93b8f2433",
+        "exitCode": 0,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      "typecheck": {
+        "file": "typecheck.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "command": "./node_modules/.bin/tsc --noEmit",
+        "exitCode": 0
+      },
+      "firstSetup": {
+        "file": "setup-not-run.log",
+        "sha256": "1a7aad99cb7ca00260c10e8e9b66afec0342db727af4ab57e1be95dfd51e0b5a",
+        "exitCode": 127,
+        "status": "NOT_RUN_MISSING_LOCAL_VITEST",
+        "resolved": "Verified identical package-lock SHA256 45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3; linked installed existing dependencies without network/install"
+      },
+      "contractReview": {
+        "file": "media-contract-review.md",
+        "sha256": "6bf881a40ff3b21ba0a61999a89ec008d5ac0dd0a650d46a03d5bd885747be26"
+      }
+    },
+    "limitations": [
+      "No new PostgreSQL or real HTTP listener executed; direct actual controller with synthetic SQL/blob boundary.",
+      "No live CUSTOMER principal presence asserted; no role creation or normalization changed.",
+      "No native, browser, real device, production or provider acceptance.",
+      "No commit, push or CI dispatch performed."
+    ]
+  },
+  "independentReview": {
+    "schemaVersion": 1,
+    "reviewer": "/root/coverage_matrix",
+    "reviewedAt": "2026-11-08T14:07:06.307387+00:00",
+    "verdict": "ACCEPT_SOURCE_AND_CPU_BOUNDARY_SCOPED",
+    "scope": "Frozen two-file legacy CUSTOMER media-download copy-selection correction only. No native acceptance or whole AC promotion.",
+    "sourceManifest": {
+      "path": "verification/native-media-api/source-manifest.json",
+      "sha256": "b7451e038759bcb35066b8a24e58b9362c3ced052873afd0c78902221a2bcc3e",
+      "bytes": 2608
+    },
+    "baseSource": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+    "sourceFiles": [
+      {
+        "path": "erp/apps/api/http.ts",
+        "sha256": "a14f46dbef0537b8d75780e0a2f108547e199b5a6afead80e313a75c5c367462"
+      },
+      {
+        "path": "erp/tests/media-file-access.test.ts",
+        "sha256": "ed43bcf6c022b455b784a2ff6ac85b4629d9a1ccd5aea39912c51c9316d10f03"
+      }
+    ],
+    "sourceDigest": "28394b214a434628dbc8e193cc124aa8016243f22aa93f182bb2c8c0940ce5f4",
+    "hashesUnchangedAfterIndependentTest": true,
+    "runtimeDiff": {
+      "exactTwoLiteralClassifierAdditions": true,
+      "firstBoundary": "Use current Engine-authorized actor to select approved client blob for external non-owner CUSTOMER.",
+      "secondBoundary": "Repeat the same external classification after asynchronous blob retrieval, with existing entity version/blob key/approval checks.",
+      "otherRuntimeBytesUnchanged": true
+    },
+    "actualAuthorizationChain": {
+      "controllerConstructsRealAuthService": true,
+      "authenticateNotStubbed": true,
+      "engineActorAndVisibleNotStubbed": true,
+      "requestAuthorityAndEgressFenceNotStubbed": true,
+      "legacyRoleLoadedFromStoredActor": true,
+      "legacyRoleAbsentFromCurrentCreationEnum": true,
+      "sqlBoundary": "Explicit in-memory DatabaseLike/SqlTransaction double; current company/session/revocation/expiry and entities supplied by fixture.",
+      "blobBoundary": "Explicit distinct original/client byte double; no actual object store.",
+      "dependencies": [
+        {
+          "path": "erp/apps/api/auth.ts",
+          "sha256": "e390bd5eac73ceffdfe8cdaea76e421ec986aab34c211af49c108210ae3e3895",
+          "unchangedFromBase": true
+        },
+        {
+          "path": "erp/apps/api/engine.ts",
+          "sha256": "f5674ccb03320c48026a49307c092af0d9c1b1a2fbc247990c61ff1d38f1eef8",
+          "unchangedFromBase": true
+        },
+        {
+          "path": "erp/apps/api/request-authority.ts",
+          "sha256": "f3dc83c583c835eb86527fae9c2b6dc1f49cfeaee737e2442664c03307c4bba5",
+          "unchangedFromBase": true
+        },
+        {
+          "path": "erp/apps/api/authority-fingerprint.ts",
+          "sha256": "680efba29538016fe6f55706248fd30af680b720cb7316493ddf0a1ff2d73b82",
+          "unchangedFromBase": true
+        },
+        {
+          "path": "erp/packages/domain/identity.ts",
+          "sha256": "84bf0a31a639fb26ac875bca27c82fcc8e05605b5290a9ca6f68e91d25ee4d24",
+          "unchangedFromBase": true
+        }
+      ]
+    },
+    "semanticsReviewed": [
+      "Permitted non-owner CLIENT, legacy CUSTOMER, EXTERNAL_BAULEITER and GUEST select only approved client bytes by default.",
+      "Cookie and enrolled bearer authentication both reach the real actor/ACL/file path; no role normalization or creation permission added.",
+      "Existing own-original access remains conditional on Engine customer-site ACL; explicit client-copy selection remains available without original fallback.",
+      "Internal media.read and site scope retain original/default versus explicit client-copy behavior.",
+      "Unapproved, confidential, foreign-site, revoked-membership and foreign-company cases fail before blob lookup.",
+      "Approval/version change during blob await fails before response headers/bytes.",
+      "Existing final response-authority fence, private/no-store, nosniff, sandbox CSP and selected-blob ETag remain intact."
+    ],
+    "authorEvidence": {
+      "red": {
+        "file": "red.log",
+        "sha256": "ea622ede4039742e42418864c505bd0536f231d10f7bafb1c885a3e101673035",
+        "exitCode": 1,
+        "passed": 11,
+        "failed": 2,
+        "scope": "Real AuthService/Engine ACL/controller on explicit memory SQL and blob doubles"
+      },
+      "green": {
+        "file": "green.log",
+        "sha256": "bc745974759d57aa1a29a989b3691d94965a4376d1c7bf59cf0aafb93b8f2433",
+        "exitCode": 0,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      "typecheck": {
+        "file": "typecheck.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "command": "./node_modules/.bin/tsc --noEmit",
+        "exitCode": 0
+      },
+      "interpretation": "Author RED/green/typecheck hashes verified and logs reviewed; not summed with the independent run. Typecheck was not repeated."
+    },
+    "independentExecution": {
+      "command": "env -u DATABASE_URL -u REDIS_URL APP_MODE=TEST node node_modules/vitest/vitest.mjs run tests/media-file-access.test.ts --no-file-parallelism --reporter=json --outputFile=/workspace/scratch/c56161c95e04/verification/native-media-api/independent-green.json",
+      "cwd": "/workspace/scratch/c56161c95e04/knaba-native-media/erp",
+      "exitCode": 0,
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "classification": "Real AuthService + Engine + ApiController with SQL/blob test doubles; CPU boundary test only.",
+      "json": {
+        "path": "verification/native-media-api/independent-green.json",
+        "sha256": "e1d1c25bc13140ef935a8a83a14ec387a23e7e3238b5697f8cbcb5549cbd558f",
+        "bytes": 6011
+      },
+      "log": {
+        "path": "verification/native-media-api/independent-green.log",
+        "sha256": "bd7eb5d8c4ffb684aacd1db594b88d86f772752f311161beceb57a7dd727c037",
+        "bytes": 108
+      },
+      "titles": [
+        "serves only client bytes for a permitted non-owner CUSTOMER",
+        "serves only client bytes for a permitted non-owner CLIENT",
+        "serves only client bytes for a permitted non-owner EXTERNAL_BAULEITER",
+        "serves only client bytes for a permitted non-owner GUEST",
+        "keeps the same legacy classification for an actual enrolled bearer actor",
+        "preserves an internal scoped reader’s original and explicit client-copy choices",
+        "preserves the existing own-original policy without granting another customer’s asset",
+        "denies unapproved before reading any private blob",
+        "denies confidential before reading any private blob",
+        "denies foreign-site before reading any private blob",
+        "denies revoked-membership before reading any private blob",
+        "denies foreign-company before reading any private blob",
+        "does not serve a client copy after approval changes during asynchronous blob retrieval"
+      ]
+    },
+    "findings": [],
+    "limits": [
+      "No actual PostgreSQL, HTTP listener, external object store or live legacy CUSTOMER account was exercised.",
+      "No image sanitation, EXIF removal, PDF approval or visual redaction acceptance is established by this copy-selector correction.",
+      "No native picker/upload/download, device, browser, production or provider acceptance.",
+      "No source edits, commit, push or CI dispatch by the reviewer."
+    ]
+  },
+  "integration": {
+    "method": "Copy only two frozen reviewed files onto current main candidate; exact source bytes verified.",
+    "verification": "Author RED 2 FAIL / 11 PASS; author and independent GREEN each13 PASS, not additive.",
+    "wholeProduct": "NOT_READY",
+    "currentAggregateCI": "NOT_RUN_FOR_THIS_NEW_DELTA"
+  }
+}

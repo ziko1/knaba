@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "reviewer": "root independent review of coverage_matrix and mobile_actual_readiness changes",
+  "decision": "ACCEPT_SCOPED_CORRECTIONS_PENDING_HOSTED_CI",
+  "files": [
+    {
+      "path": "corporate-site/tests/role-cabinets-browser.mjs",
+      "sha256": "10e4f97d0e76c859522ec5ee55ff7dfb3aa4e54a7c4069f8dc187487136f63cf"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+      "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3"
+    },
+    {
+      "path": "tests/ios/test_simulator_preparation.py",
+      "sha256": "65838bec14b029165f4139c2138843667b1689e111fe15a05f6e8fb06f941ad5"
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "23afdd77ed57ddb7577cc46ff91f750e33680257b1a8cacf46591218b4079fd8"
+    },
+    {
+      "path": "docs/unified/BACKLOG.md",
+      "sha256": "744b5f8c06cac0f139c84d904b4f4431113f5ee3adb15ac0c34531e5c0776a76"
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "sha256": "49878bad9e2fcf0b557d02f4705b8d45ac90b0ce29b7dfc2106d7bffa629ae69"
+    },
+    {
+      "path": "docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "sha256": "1e8939a74a433886e314f02561b5c318961a723957abb2a53a3a65964791c6e0"
+    },
+    {
+      "path": "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "sha256": "4660df2fdf12abe99b0add2b68a0d808b61d7e3d59e0b55a08fbf5b0e77a86d4"
+    }
+  ],
+  "browser": {
+    "cause": "Actual CI screenshot shows selected scheduled request and exact search. The first DOM card is a different filtered card retained in a hidden wrapper.",
+    "correction": "Capture clicked agenda reference; assert URL and search match, locate same card, require visibility and one visible result, then message that same request.",
+    "productUiChanged": false,
+    "namedChecksPreserved": true,
+    "independentChecks": [
+      "Viewed actual failure-page-02.png and read corresponding Portal render/filter implementation",
+      "Reviewed entire selector diff and checked Node syntax"
+    ],
+    "actualRerun": "NOT_RUN"
+  },
+  "ios": {
+    "observedFailure": {
+      "runId": 42472234257,
+      "jobId": 128705494644,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42472234257/job/128705494644",
+      "artifactId": 13613893298,
+      "artifactSha256": "29500f46020acb7de651058de3eccb05515dc9d2c85e30a35c544d8c36fe79fb",
+      "observed": "Final simctl list devices --json timed out after 60s; initial inventory and bootstatus succeeded. Ready JSON had 0 bytes.",
+      "bootstatusFinishedAt": "2026-11-08T10:43:33Z",
+      "bootstatusElapsedSeconds": 108,
+      "xcode": "26.6",
+      "xcodeBuild": "17F113",
+      "iOS": "26.5",
+      "runtimeBuild": "23F77",
+      "device": "iPhone 17",
+      "internalCoreSimulatorCause": "UNKNOWN"
+    },
+    "correction": {
+      "onlyRetriedCommand": [
+        "xcrun",
+        "simctl",
+        "list",
+        "devices",
+        "--json"
+      ],
+      "retryCondition": "subprocess.TimeoutExpired only",
+      "maximumAttempts": 2,
+      "requestedTimeoutsSeconds": [
+        60,
+        120
+      ],
+      "wholePreparationDeadlineSeconds": 420,
+      "workflowStepMinutes": 8,
+      "mutationRetries": false,
+      "newRuntimeDownloads": false,
+      "fallbackOnInvalidInventory": false,
+      "atomicPhaseReceipt": true,
+      "separateAttemptLogs": true
+    },
+    "authorCpuTests": 30,
+    "independentCpuTests": 9,
+    "rootLogSha256": "84d4dcb9cebadf98d8681d0bdf36c1cba0371ebfee52f03d11a9f3f0f5f71d62",
+    "strictSelectionAndSubprocessFunctionsUnchanged": true,
+    "sourceManifestSha256": "1463e84e01ec2443389bafa386ba8d52a32357ecdcb8f7daa7bcd06ed7e0802f",
+    "actualXcodeAndXCTest": "NOT_RUN_FOR_CORRECTED_SOURCE"
+  },
+  "canonicalDocuments": {
+    "uniqueRows": 114,
+    "inProgress": 42,
+    "fullAcNotRun": 72,
+    "acceptanceStatusAndArtifactFieldsUnchanged": true,
+    "preservedV3Path": "erp/docs/requirements/requirements.json",
+    "preservedV3Sha256": "fce7eccb47f85dfc0ac1932a19dc5b21b02bd0b6efd594fe89e06891c434a72a",
+    "currentEvidenceScope": "Initial failures and named suite successes kept separate. No full criterion promoted; identity F2-F4, assistant conversion and external acceptance remain open."
+  },
+  "initialEvidenceReview": {
+    "reviewer": "erp_session_fence independent raw-log and GitHub metadata review",
+    "decision": "ACCEPT_WITH_SCOPE",
+    "evidenceSha256": "15cb7ef77daff0a87572a6b904a23d087b0d90448af1f0ad2ec90fd3fbc393d5",
+    "budgetSha256": "2db2323a4c6f24fc67cd88528caf34e1638516760b5c3e0a33dafaedebdb98f4",
+    "clarification": "Bridge step suite passed9; enclosing job failed at the browser stage. Runner debug APK signer does not replace local update chain."
+  }
+}

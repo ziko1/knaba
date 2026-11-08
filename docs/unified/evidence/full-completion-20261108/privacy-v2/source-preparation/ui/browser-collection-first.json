@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "node_modules/@playwright/test/cli.js",
+    "test",
+    "tests/conversation-transfer-ui.spec.ts",
+    "tests/site-identity-link-ui.spec.ts",
+    "tests/federation-login-ui.spec.ts",
+    "tests/privacy-projection-ui.spec.ts",
+    "--list",
+    "--reporter=list"
+  ],
+  "exitCode": 0,
+  "logSha256": "577523028d640315c22fbd00654eda6fa27529b18d1d494fe7abf1e87c39efa8",
+  "kind": "COLLECTION_ONLY_NOT_BROWSER_EXECUTION"
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "verdict": "PASS_ERP_SCOPE_ONLY",
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "workflowRunId": 42507639872,
+  "jobId": 128813648827,
+  "jobConclusion": "success",
+  "method": "Read-only review of completed GitHub job log and API-digest-verified artifact; no rerun or local rebuild. Required inventory matched exact committed test files.",
+  "summary": {
+    "testFiles": 148,
+    "reporterSuites": 389,
+    "assertions": 3264,
+    "passed": 3264,
+    "failed": 0,
+    "pending": 0,
+    "todo": 0
+  },
+  "requiredInventories": [
+    {
+      "path": "erp/tests/site-federation-ledger.integration.test.ts",
+      "sourceSha256": "b9c3e4f45d79273042aa8310cb91aed77cf6086ce8c07a79ad1cd369b7913d95",
+      "scope": "PostgreSQL F2",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "exactNamesMatched": true
+    },
+    {
+      "path": "erp/tests/site-identity-link.integration.test.ts",
+      "sourceSha256": "8dadaa387aa08a6143879b7bfa04862c58ccc88602ec6bbb426412765b26f999",
+      "scope": "PostgreSQL F2",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "exactNamesMatched": true
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "sourceSha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+      "scope": "PostgreSQL F3",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "exactNamesMatched": true
+    },
+    {
+      "path": "erp/tests/federation-https-return.test.ts",
+      "sourceSha256": "538c8d0b0cecf1ac9785ae19be49c64201917d2428da0d69b0bfe67aa39d599f",
+      "scope": "Actual Node HTTPS/OpenSSL helper, not browser acceptance",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "exactNamesMatched": true
+    }
+  ],
+  "archiveChecks": {
+    "apiDigestAndSize": true,
+    "crc": true,
+    "uniqueSafeNonSymlinkEntries": true,
+    "entries": [
+      "erp-vitest.json"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "erp-job.log",
+      "bytes": 120837,
+      "sha256": "c25111af5848da849b9a69a92c06734bffe3b5c6a04c4348a5ac73044162b687"
+    },
+    {
+      "path": "erp-artifact-api.json",
+      "bytes": 773,
+      "sha256": "b0791007b2e4170fe13ec6a45a45b5b07479f6c68eb0de1c1a98ff165cb3e6e5"
+    },
+    {
+      "path": "erp-6a395bb.zip",
+      "bytes": 156409,
+      "sha256": "77a70191dd1dfd5f70f811a72d7a99966b0c559af846060dedd14d124590a5f5"
+    },
+    {
+      "path": "erp-artifact/erp-vitest.json",
+      "bytes": 1423338,
+      "sha256": "e6f165494c45ae19ebf430e556730489c0e80906b3062e0d0dfd1774be5c933a"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "jobs-erp-completed.json",
+      "bytes": 10735,
+      "sha256": "9427856ee1dcbe7d3fcf15b0342ad3531abaf8850253c1d12fd6e02a145cf4a7"
+    }
+  ],
+  "limits": [
+    "The 42 named real PostgreSQL cases and four Node HTTPS helper cases are subsets of the 3264 assertions, not additional assertions.",
+    "The four HTTPS helper cases exercise Node TLS/receiver lifecycle; they do not establish rendered browser or end-to-end sign-in acceptance.",
+    "This ERP-only review does not accept the F3 aggregate; required paired runtime and rendered browser stages are reviewed separately.",
+    "No provider, deployed environment, native authentication adapter, physical device, store distribution, privacy lifecycle or whole-AC acceptance."
+  ]
+}

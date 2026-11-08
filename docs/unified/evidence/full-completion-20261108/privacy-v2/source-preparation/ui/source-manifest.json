@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "status": "FROZEN_FOR_CORRECTION_AND_FIXTURE_INDEPENDENT_REVIEW",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceFiles": [
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "bytes": 82273,
+      "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97",
+      "preimageSha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+      "newFile": false
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "bytes": 25721,
+      "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783",
+      "preimageSha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+      "newFile": false
+    },
+    {
+      "path": "erp/apps/web/src/PrivacyPage.tsx",
+      "bytes": 18772,
+      "sha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0",
+      "preimageSha256": "3e42f7855575f529c852b001794c1b7ccae1536c7c4c99ff1578b62e5bf37bc6",
+      "newFile": false
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.ts",
+      "bytes": 9855,
+      "sha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+      "bytes": 13380,
+      "sha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "bytes": 60305,
+      "sha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242",
+      "preimageSha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+      "newFile": false
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "bytes": 175344,
+      "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739",
+      "preimageSha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+      "newFile": false
+    },
+    {
+      "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+      "bytes": 10312,
+      "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "bytes": 22687,
+      "sha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "bytes": 1000,
+      "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+      "preimageSha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+      "newFile": false
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "bytes": 15045,
+      "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+      "preimageSha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+      "newFile": false
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "bytes": 7360,
+      "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca",
+      "preimageSha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+      "newFile": false
+    }
+  ],
+  "sourceDigest": "f8fd589f43ce0d25a982892d2a6a391988f354eba1c0c2a6da2b247a2b433e64",
+  "at": "2026-11-08T18:48:20.765884+00:00"
+}

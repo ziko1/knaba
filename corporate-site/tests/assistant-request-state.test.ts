@@ -3,7 +3,9 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 import ts from 'typescript';
 import {createAssistantRequestState,sameAssistantTicket} from '../src/lib/assistant-request-state';
+import {createAssistantDisplayReceipts} from '../src/lib/assistant-display-receipts';
 import {formatRecoveryCode,parseRecoveryCode,type AssistantTicket} from '../src/lib/assistant-recovery';
+import {ASSISTANT_TICKET_STORAGE,createAssistantTicketStore} from '../src/lib/assistant-ticket';
 
 function deferred<T>() {
   let resolve!: (value:T)=>void;
@@ -24,10 +26,12 @@ const snapshot=(label:string,id=ticket.id):Thread=>({conversation:{id,status:'as
 // JSX renderer. Signals, transport and storage are mocks; this is not browser QA.
 const source=ts.createSourceFile('KnabaAssistant.tsx',readFileSync(new URL('../src/components/KnabaAssistant.tsx',import.meta.url),'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
 const component=source.statements.find((node):node is ts.FunctionDeclaration=>ts.isFunctionDeclaration(node)&&node.name?.text==='KnabaAssistant');
-const names=['load','ensure','send','handoff','decide','restore','reset','copyRecovery'];
+const names=['persistTicket','expireGuestAccess','load','ensure','send','handoff','decide','restore','reset','copyRecovery'];
 const handlers=component?.body?.statements.filter((node):node is ts.FunctionDeclaration=>ts.isFunctionDeclaration(node)&&!!node.name&&names.includes(node.name.text));
 if(handlers?.length!==names.length)throw new Error('Assistant request handlers are missing');
-const output=ts.transpileModule(handlers.map(node=>node.getText(source)).join('\n')+`\nexports.handlers={${names.join(',')}};`,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const httpError=source.statements.find((node):node is ts.ClassDeclaration=>ts.isClassDeclaration(node)&&node.name?.text==='AssistantHttpError');
+if(!httpError)throw new Error('Assistant HTTP error contract is missing');
+const output=ts.transpileModule(httpError.getText(source)+'\n'+handlers.map(node=>node.getText(source)).join('\n')+`\nexports.handlers={${names.join(',')}};`,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
 type Handlers={
   load:(value:AssistantTicket)=>Promise<void>;
   send:(event:Event)=>Promise<void>;
@@ -51,12 +55,21 @@ function fixture(initialTicket:AssistantTicket|null=ticket){
     const result=deferred<unknown>();calls.push({path,method,data,token,signal,result});return result.promise;
   });
   const requests=createAssistantRequestState();
-  const storage={setItem:vi.fn(),removeItem:vi.fn()};
+  // These extracted handlers share the real receipt controller with the mounted
+  // component. This fixture has no painted DOM and must never emit a receipt.
+  const receipts=createAssistantDisplayReceipts({ticket:()=>state.ticket,displayedIds:()=>[],
+    send:async()=>{throw new Error('Unexpected display receipt in handler-only fixture');},
+    error:()=>{throw new Error('Unexpected display error in handler-only fixture');},
+    frame:()=>{throw new Error('Unexpected animation frame in handler-only fixture');},cancelFrame:()=>{},
+  });
+  const values=new Map<string,string>(initialTicket?[[ASSISTANT_TICKET_STORAGE,JSON.stringify(initialTicket)]]:[]);
+  const storage={getItem:(key:string)=>values.get(key)??null,setItem:vi.fn((key:string,value:string)=>values.set(key,value)),removeItem:vi.fn((key:string)=>values.delete(key))};
+  const assistantTickets=createAssistantTicketStore(()=>storage);
   const stopSpeech=vi.fn(),confirm=vi.fn(()=>true),prompt=vi.fn();
   const clipboard=deferred<void>();
   const exports={} as {handlers:Handlers};
   let nextKey=0;
-  runInNewContext(output,{...bindings,exports,http,requests,sameAssistantTicket,parseRecoveryCode,formatRecoveryCode,sessionStorage:storage,STORAGE:'ticket-test',locale:'en',t:{privacy:'privacy',captcha:'captcha',no:'connection',invalidCode:'invalid',fresh:'reset',manualCopy:'copy'},crypto:{randomUUID:()=>`request-${++nextKey}`},stopSpeech,window:{confirm,prompt},navigator:{clipboard:{writeText:()=>clipboard.promise}},Error});
+  runInNewContext(output,{...bindings,exports,http,requests,receipts,assistantTickets,persistingTicket:false,sameAssistantTicket,parseRecoveryCode,formatRecoveryCode,locale:'en',t:{privacy:'privacy',captcha:'captcha',no:'connection',invalidCode:'invalid',fresh:'reset',manualCopy:'copy'},crypto:{randomUUID:()=>`request-${++nextKey}`},stopSpeech,window:{confirm,prompt},navigator:{clipboard:{writeText:()=>clipboard.promise}},Error});
   return {state,calls,requests,storage,stopSpeech,confirm,prompt,clipboard,...exports.handlers};
 }
 
@@ -163,7 +176,7 @@ describe('assistant request sequencing',()=>{
     view.calls[2].result.resolve(snapshot('new result',recovered.id));
     await current;
     expect(view.state.ticket).toEqual(recovered);
-    expect(view.storage.setItem).toHaveBeenCalledExactlyOnceWith('ticket-test',JSON.stringify(recovered));
+    expect(view.storage.setItem).toHaveBeenCalledExactlyOnceWith(ASSISTANT_TICKET_STORAGE,JSON.stringify(recovered));
   });
 
   it.each(['send','handoff','decide'] as const)('ignores a %s response after reset, even when the same ticket is restored',async action=>{

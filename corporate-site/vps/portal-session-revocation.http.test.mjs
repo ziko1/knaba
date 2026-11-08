@@ -18,7 +18,7 @@ async function fixture(work,{revoke=null,target='/api/portal/roles'}={}){
       const wrapper=join(directory,'revocation-worker.mjs');
       const sql=revoke==='disable'?'UPDATE vps_users SET disabled=1':'DELETE FROM vps_sessions';
       await writeFile(wrapper,`import worker from ${JSON.stringify(workerPath)};
-import {DatabaseSync} from 'node:sqlite';
+import {openLocalDatabase} from ${JSON.stringify(new URL('./database.mjs',import.meta.url).href)};
 export default {fetch(request,env,ctx){
   if(new URL(request.url).pathname!==${JSON.stringify(target)})return worker.fetch(request,env,ctx);
   let changed=false;
@@ -27,7 +27,7 @@ export default {fetch(request,env,ctx){
     ...statement,bind:(...values)=>wrap(statement.bind(...values)),
     first:async(...args)=>{
       const result=await statement.first(...args);
-      if(!changed){changed=true;const db=new DatabaseSync(${JSON.stringify(dbPath)});
+      if(!changed){changed=true;const {db}=openLocalDatabase(${JSON.stringify(dbPath)},{allowMigrations:false});
         try{db.exec(${JSON.stringify(sql)});}finally{db.close();}}
       return result;
     }

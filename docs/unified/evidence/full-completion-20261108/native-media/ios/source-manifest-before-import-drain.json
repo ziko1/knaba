@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:00:27.378890+00:00",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-native-media",
+  "baseCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "status": "FROZEN_FOR_INDEPENDENT_REVIEW",
+  "scope": "iOS native media only; no Android/API/SQL/CI/shared docs",
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+      "sha256": "c7e5e9907384593261c594cb042331c548cc6648fdbc4b64ae1846ec7ff3469b",
+      "bytes": 11508
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+      "bytes": 42573
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "bytes": 16188
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+      "bytes": 41354
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "sha256": "1d0d782461099904a8583c9cf0a018a3644aaa71b46436302b86f04211ae12c3",
+      "bytes": 16982
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+      "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+      "bytes": 7660
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+      "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+      "bytes": 14355
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "sha256": "2f5e271d1dd88ebbfc407b384600123a9990e59ae4e1952a12426c754d52ed07",
+      "bytes": 28327
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "sha256": "4847f0e67949ce5244139507198832b810724e59482eec5b5b5426ff5bd8d114",
+      "bytes": 21143
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+      "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+      "bytes": 7627
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "sha256": "9195ef9fc3c96aed4700795c3454453eca9a8c5953b38c5d2d5dce941d44ae50",
+      "bytes": 8518
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+      "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+      "bytes": 8242
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+      "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+      "bytes": 5199
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+      "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+      "bytes": 11360
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+      "bytes": 20024
+    }
+  ],
+  "sourceDigestAlgorithm": "SHA256 of UTF-8 concatenated sorted sha256 + two spaces + path + newline",
+  "sourceDigest": "67e3b9ec6c8e4c2766f4e17ca1e2ca78852bd4197ccb0a09ad0714700bd2004e",
+  "evidence": {
+    "path": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-audit.json",
+    "sha256": "0e7affb156f52b40fad26706ec82cdce7983b056907a086e8db9e5ee3e2cb244"
+  },
+  "boundaries": {
+    "swiftCompile": "NOT_RUN",
+    "xctest": "49 AUTHORED; NOT_RUN",
+    "devicePickerExport": "NOT_RUN",
+    "liveProviderERP": "NOT_RUN",
+    "wholeAcceptance": "OPEN"
+  },
+  "primaryDocs": [
+    "https://developer.apple.com/documentation/swiftui/view/photospicker(ispresented:selection:maxselectioncount:selectionbehavior:matching:preferreditemencoding:)",
+    "https://developer.apple.com/documentation/coretransferable/filerepresentation/init(importedcontenttype:shouldattempttoopeninplace:importing:)",
+    "https://developer.apple.com/documentation/swiftui/view/fileimporter(ispresented:allowedcontenttypes:allowsmultipleselection:oncompletion:oncancellation:)",
+    "https://developer.apple.com/documentation/swiftui/view/fileexporter(ispresented:document:contenttypes:defaultfilename:oncompletion:oncancellation:)-34bd6"
+  ]
+}

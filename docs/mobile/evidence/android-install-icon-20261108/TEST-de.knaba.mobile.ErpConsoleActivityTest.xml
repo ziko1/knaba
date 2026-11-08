@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.knaba.mobile.ErpConsoleActivityTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-11-08T06:20:21.749Z" hostname="08766be39cd5" time="32.402">
+  <properties/>
+  <testcase name="demoMessagePersistsOnRefreshAndResetsOnExit" classname="de.knaba.mobile.ErpConsoleActivityTest" time="14.723"/>
+  <testcase name="selectedUkrainianSurvivesNewActivity" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.242"/>
+  <testcase name="demoTaskStartWorklogSubmitUsesOrdinaryQuantitiesAndNoInternalIds" classname="de.knaba.mobile.ErpConsoleActivityTest" time="1.483"/>
+  <testcase name="repeatedSendWhilePendingCreatesOnlyOneMessage" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.509"/>
+  <testcase name="leavingReadScreenDiscardsLateTaskResults" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.411"/>
+  <testcase name="recreationRetainsDemoSessionButNeverEnablesGps" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.714"/>
+  <testcase name="reauthenticationShowsRestoredCommandAndRetriesOriginalEnvelope" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.455"/>
+  <testcase name="emptyLoginIsRejectedAndDoesNotStartGps" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.354"/>
+  <testcase name="phoneScreensRenderWithAccessibleTouchTargets" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.648"/>
+  <testcase name="serverQuantityDefaultIsDisplayedInOrdinaryUnits" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.927"/>
+  <testcase name="demoSearchDetailBackAndEmptyResultsAreUsable" classname="de.knaba.mobile.ErpConsoleActivityTest" time="1.022"/>
+  <testcase name="expiredSessionReturnsToLoginWithoutPrivateRecords" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.441"/>
+  <testcase name="platformBackNavigatesAndUnregistersOnDestroy" classname="de.knaba.mobile.ErpConsoleActivityTest" time="1.341"/>
+  <testcase name="tabletAndLongUkrainianTextRender" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.472"/>
+  <testcase name="languagePickerHasSixLanguagesAndSystemChoice" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.281"/>
+  <testcase name="legacyBackKeyReturnsThroughDetailListAndDashboard" classname="de.knaba.mobile.ErpConsoleActivityTest" time="8.315"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

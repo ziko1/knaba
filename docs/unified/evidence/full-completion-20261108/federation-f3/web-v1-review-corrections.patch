@@ -1,0 +1,284 @@
+--- a/corporate-site/tests/ci-browser.mjs
++++ b/corporate-site/tests/ci-browser.mjs
+@@ -69,7 +69,7 @@
+ export const erpFixtureSuites=Object.freeze([
+   {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
+   {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
+-  {file:'federation-login-ui.spec.ts',cases:8,name:'ERP federation login and browser cookie policy'},
++  {file:'federation-login-ui.spec.ts',cases:10,name:'ERP federation login and browser cookie policy'},
+ ]);
+ export function assertErpUiReport(report){
+   const tests=[],ids=new Set(),counts=Object.fromEntries(erpFixtureSuites.map(suite=>[suite.file,0]));
+--- a/corporate-site/tests/ci-browser.test.mjs
++++ b/corporate-site/tests/ci-browser.test.mjs
+@@ -25,12 +25,23 @@
+   const result=await runProcess(node,['-e',script],{timeoutMs:3000,tee:false});
+   assert.equal(result.stdout,'LATE_RESULT\n');assert.equal(result.code,0);
+ });
+-test('a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored',async()=>{
+-  let pid;
+-  await assert.rejects(()=>runProcess(node,['-e',"process.on('SIGTERM',()=>{});console.log(process.pid);setInterval(()=>{},1000)"],{
+-    timeoutMs:800,killGraceMs:50,tee:false,onStdout:text=>{pid=Number(text.trim());},
++test('a deadline closes its child and a ready TERM-ignoring child is killed before cleanup resolves',async()=>{
++  // Deadline enforcement must also work before a busy runner schedules Node.
++  await assert.rejects(()=>runProcess(node,['-e','setInterval(()=>{},1000)'],{
++    timeoutMs:50,killGraceMs:500,tee:false,
+   }),/CHILD_PROCESS_TIMEOUT/);
+-  assert.ok(pid>0);assert.throws(()=>process.kill(pid,0),error=>error.code==='ESRCH');
++  let announce,output='',timer;
++  const ready=new Promise(resolve=>{announce=resolve;});
++  const owned=ownProcess(node,['-e',"process.on('SIGTERM',()=>{});console.log('READY '+process.pid);setInterval(()=>{},1000)"],{
++    killGraceMs:500,tee:false,onStdout:text=>{output+=text;const match=/^READY ([0-9]+)\n/m.exec(output);if(match)announce(Number(match[1]));},
++  });
++  try{
++    const pid=await Promise.race([ready,owned.closed.then(()=>{throw Error('CHILD_EXITED_BEFORE_READY');}),
++      new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('CHILD_STARTUP_TIMEOUT')),5000);})]);
++    assert.equal(pid,owned.child.pid);
++    const result=await owned.stop();assert.equal(result.signal,'SIGKILL');
++    assert.throws(()=>process.kill(pid,0),error=>error.code==='ESRCH');
++  }finally{clearTimeout(timer);await owned.stop();}
+ });
+ test('an already completed child has idempotent bounded cleanup',async()=>{
+   const child=ownProcess(node,['-e','process.stdout.write("done")'],{tee:false});
+@@ -49,12 +60,12 @@
+   assert.throws(()=>assertSuiteReceipt(base,{requiredChecks:['assistant.display.visible']}),/MISSING_REQUIRED/);
+   assertSuiteReceipt({status:'PASS',checks:[{status:'PASS',caseId:'assistant.display.visible'}]},{requiredChecks:['assistant.display.visible']});
+ });
+-test('ERP report requires all three named fixture suites, all seventeen distinct cases and no skip, retry or failure',()=>{
+-  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',8]].map(([file,count])=>({file,
++test('ERP report requires all three named fixture suites, all nineteen distinct cases and no skip, retry or failure',()=>{
++  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5],['federation-login-ui.spec.ts',10]].map(([file,count])=>({file,
+     specs:Array.from({length:count},(_,i)=>({file,id:file+':'+i,title:'synthetic case '+i,tests:[{status:'expected',results:[{status:'passed'}]}]})),
+   }));
+-  const report={stats:{expected:17,unexpected:0,skipped:0,flaky:0},errors:[],suites};
+-  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':8});
++  const report={stats:{expected:19,unexpected:0,skipped:0,flaky:0},errors:[],suites};
++  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5,'federation-login-ui.spec.ts':10});
+   for(const patch of [{skipped:1},{unexpected:1},{flaky:1},{expected:0}])assert.throws(()=>assertErpUiReport({...report,stats:{...report.stats,...patch}}));
+   const missing=structuredClone(report);missing.suites.pop();missing.stats.expected=4;assert.throws(()=>assertErpUiReport(missing));
+   const wrong=structuredClone(report);wrong.suites[1].specs.forEach(spec=>{spec.file='conversation-transfer-ui.spec.ts';});assert.throws(()=>assertErpUiReport(wrong));
+--- a/erp/apps/web/src/FederationLogin.tsx
++++ b/erp/apps/web/src/FederationLogin.tsx
+@@ -14,6 +14,14 @@
+  UK:{title:'Увійти через акаунт сайту',intro:'Перевірте обидва акаунти, компанію та застосунок.',start:'Увійти через сайт',company:'Підключення компанії',application:'Застосунок',source:'Акаунт сайту',erp:'Акаунт ERP',continue:'Перейти на сайт',confirm:'Підтвердити вхід',consent:'Я перевірив акаунти, компанію та застосунок і хочу увійти.',otp:'Код із застосунку автентифікації ERP',loading:'Перевіряємо підключення …',refresh:'Знову перевірити стан',retry:'Повторити той самий запит',cancel:'Скасувати запит',local:'Увійти з паролем ERP',unavailable:'Вхід зараз недоступний. Перевірте стан і повторіть спробу.',unknown:'Відповідь не отримано. Запит уже міг бути оброблений. Спочатку перевірте його поточний стан.',expired:'Цей запит не можна продовжити. Почніть вхід заново.',native:'Поверніться до застосунку. Якщо він не відкрився, почніть у ньому новий вхід.',complete:'Запит завершено. Відкрийте робочий простір.',open:'Відкрити робочий простір',disabled:'Це підключення не ввімкнено.',limited:'Забагато спроб. Повторіть пізніше.'}
+ };
+ export const federationLoginCopy=(language:Language)=>copy[language];
++const recoveryCopy:Record<Language,{restart:string;current:string}>={
++  DE:{restart:'Eine neue Anmeldung starten',current:'Aktuelles Konto prüfen'},
++  EN:{restart:'Start a new sign-in',current:'Check the current account'},
++  PL:{restart:'Rozpocznij nowe logowanie',current:'Sprawdź bieżące konto'},
++  LT:{restart:'Pradėti naują prisijungimą',current:'Patikrinti dabartinę paskyrą'},
++  RU:{restart:'Начать новый вход',current:'Проверить текущий аккаунт'},
++  UK:{restart:'Почати новий вхід',current:'Перевірити поточний акаунт'},
++};
+ const message=(error:unknown,w:typeof copy.EN)=>error instanceof ApiError&&error.code==='RATE_LIMITED'?w.limited:w.unavailable;
+ 
+ export function FederationSignIn({language,disabled=false}:{language:Language;disabled?:boolean}){
+@@ -53,10 +61,11 @@
+ }
+ 
+ export function FederationAuthorization({language,header,onComplete,online}:{language:Language;header:ReactNode;onComplete:(session:Session,path:string)=>void;online:boolean}){
+-  const w=copy[language],alive=useRef(true),operation=useRef<AbortController|null>(null),serial=useRef(0);
++  const w=copy[language],recovery=recoveryCopy[language],alive=useRef(true),operation=useRef<AbortController|null>(null),serial=useRef(0);
+   const [configuration,setConfiguration]=useState<LoginConfiguration|null>(null),[request,setRequest]=useState<LoginRequest|null>(null),[error,setError]=useState<unknown>();
+   const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[unknown,setUnknown]=useState(false),[finished,setFinished]=useState(false),[cancelled,setCancelled]=useState(false);
+   const [otp,setOtp]=useState(''),[confirmed,setConfirmed]=useState(false);
++  const [unknownWeb,setUnknownWeb]=useState(false);
+   let id:string|null=null;try{if(!location.hash)id=loginRequestId(location.search);}catch{/* Render a bounded invalid/expired state. */}
+   function begin(){operation.current?.abort();const controller=new AbortController();operation.current=controller;return {controller,serial:++serial.current};}
+   const current=(value:ReturnType<typeof begin>)=>alive.current&&!value.controller.signal.aborted&&value.serial===serial.current;
+@@ -68,7 +77,7 @@
+       if(!current(generation))return;setConfiguration(config);if(!config.enabled)return;
+       if(location.pathname==='/auth/federation/authorize')await federationRequest('/api/v1/auth/federation/requests/'+id+'/bind',{body:{},signal:generation.controller.signal});
+       const value=parseLoginRequest(await federationRequest('/api/v1/auth/federation/requests/'+id,{signal:generation.controller.signal}),id,config);
+-      if(current(generation))setRequest(value);
++      if(current(generation)){setRequest(value);setUnknownWeb(false);}
+     }catch(value){if(current(generation))setError(value);}
+     finally{if(current(generation))setLoading(false);}
+   }
+@@ -82,7 +91,7 @@
+   },[]);
+   async function confirm(){
+     if(!request||!configuration?.enabled||request.state!=='SOURCE_APPROVED'||!confirmed||busy||unknown||!online)return;
+-    const pinned=request,generation=begin();setBusy(true);setError(undefined);setOtp('');
++    const pinned=request,generation=begin();setBusy(true);setError(undefined);setOtp('');setUnknownWeb(false);
+     try{
+       const value=await federationRequest('/api/v1/auth/federation/requests/'+pinned.requestId+'/confirm',{
+         body:{expectedVersion:pinned.version,confirmed:true,...(otp?{otp}: {})},csrfToken:pinned.csrfToken,signal:generation.controller.signal});
+@@ -94,10 +103,12 @@
+         const result=webAuthorizationResponse(value);clearSession();
+         const session=await api<Session>('/api/v1/me',{signal:generation.controller.signal});
+         if(!current(generation))return;
+-        if(session.actor.userId!==result.session.actor.userId||session.actor.companyId!==result.session.actor.companyId)throw new ApiError('FEDERATION_CONFLICT',409);
++        // Token-derived CSRF binds this check to the newly issued cookie even
++        // when an older browser session belongs to the same ERP account.
++        if(session.actor.userId!==result.session.actor.userId||session.actor.companyId!==result.session.actor.companyId||session.csrfToken!==result.session.csrfToken)throw new ApiError('FEDERATION_CONFLICT',409);
+         onComplete(session,result.returnPath);
+       }
+-    }catch(value){if(current(generation)){setError(value);setUnknown(true);setRequest(null);setConfirmed(false);}}
++    }catch(value){if(current(generation)){setError(value);setUnknown(true);setUnknownWeb(pinned.client.kind==='WEB');setRequest(null);setConfirmed(false);}}
+     finally{if(current(generation))setBusy(false);}
+   }
+   async function cancel(){
+@@ -129,6 +140,8 @@
+       <div className="form-actions"><Button type="button" variant="secondary" disabled={loading||busy||!online} onClick={()=>void load()}>{w.refresh}</Button>
+         {request&&<Button type="button" variant="ghost" disabled={busy||!online} onClick={()=>void cancel()}>{w.cancel}</Button>}</div>
+     </>}
++    {unknownWeb&&<a className="text-link" href="/console">{recovery.current}</a>}
++    <a className="text-link" href="/login">{recovery.restart}</a>
+     <a className="text-link" href="/login?method=password">{w.local}</a>
+   </section></main></div>;
+ }
+--- a/erp/tests/federation-login-ui.spec.ts
++++ b/erp/tests/federation-login-ui.spec.ts
+@@ -2,6 +2,10 @@
+ import {readFile} from 'node:fs/promises';
+ import {resolve,extname} from 'node:path';
+ import {pathToFileURL} from 'node:url';
++
++// Worker-owned traffic bypasses page.route; this fixture covers HTTP flows,
++// while service-worker behavior belongs to a separate browser acceptance scope.
++test.use({serviceWorkers:'block'});
+ 
+ // Current ERP build + current VPS HTML, served at intercepted synthetic HTTPS
+ // origins. Chrome supplies real Strict/Lax cookie behavior. This is not a TLS,
+@@ -13,7 +17,7 @@
+ const blocked=new WeakMap<Page,string[]>();
+ const defer=()=>{let resolve!:()=>void;const promise=new Promise<void>(done=>{resolve=done;});return {promise,resolve};};
+ test.afterEach(async({page})=>{expect(blocked.get(page)??[],'Unexpected requests cannot leave the explicit synthetic fixture.').toEqual([]);});
+-async function fixture(page:Page,context:BrowserContext,{native=false,approved=false,loginPage=false,corruptIssuer=false,dropConfirm=false,dropStart=false}={}){
++async function fixture(page:Page,context:BrowserContext,{native=false,approved=false,loginPage=false,corruptIssuer=false,dropConfirm=false,dropStart=false,dropWebBody=false,dropWebCookie=false}={}){
+   const failures:string[]=[],unexpected:string[]=[],calls:Array<{path:string;method:string;cookie:string;origin:string;body:any;csrf:string;key:string}>=[];
+   blocked.set(page,unexpected);page.on('pageerror',error=>failures.push(error.message));
+   const sourceUi=await import(pathToFileURL(resolve(process.cwd(),'../corporate-site/vps/federation-login-ui.mjs')).href);
+@@ -57,10 +61,10 @@
+       }
+     }
+     if(address.origin===erpOrigin&&path.startsWith('/api/')){
+-      const post=request.method()==='POST';if(post){expect(call.origin).toBe(erpOrigin);call.body=request.postDataJSON();}
+-      if(path==='/api/v1/public/config'&&!post){await route.fulfill({json:{mode:'TEST',services:[],legal:{}}});return;}
+-      if(path==='/api/v1/me'&&!post){await route.fulfill(authenticated?{json:session}:{status:401,json:{code:'NEEDS_REAUTH'}});return;}
+-      if(path==='/api/v1/auth/federation/config'&&!post){await route.fulfill({json:config});return;}
++      const post=request.method()==='POST',get=request.method()==='GET';if(post){expect(call.origin).toBe(erpOrigin);call.body=request.postDataJSON();}
++      if(path==='/api/v1/public/config'&&get){await route.fulfill({json:{mode:'TEST',services:[],legal:{}}});return;}
++      if(path==='/api/v1/me'&&get){await route.fulfill(authenticated?{json:{...session,csrfToken:call.cookie.includes('knaba_session='+newCookie)?session.csrfToken:'synthetic-old-erp-csrf'}}:{status:401,json:{code:'NEEDS_REAUTH'}});return;}
++      if(path==='/api/v1/auth/federation/config'&&get){await route.fulfill({json:config});return;}
+       if(path==='/api/v1/auth/federation/start'&&post){
+         expect(call.body).toEqual({authorityId:'site',clientId:client.clientId});expect(call.key).toMatch(/^[!-~]{8,200}$/);
+         if(dropStart){dropStart=false;await route.abort('failed');return;}
+@@ -70,7 +74,8 @@
+         expect(call.body).toEqual({});if(phase==='CREATED'){phase='BROWSER_BOUND';version=2;}
+         await route.fulfill({json:{requestId:id,state:phase,version,expiresAt},headers:{'Set-Cookie':'__Host-knaba-federation-flow='+flow+'; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=300'}});return;
+       }
+-      if(path==='/api/v1/auth/federation/requests/'+id&&!post){
++      if(path==='/api/v1/auth/federation/requests/'+id&&get){
++        if(!call.cookie.includes('__Host-knaba-federation-flow='+flow)){await route.fulfill({status:401,json:{code:'NEEDS_REAUTH'}});return;}
+         expect(call.cookie).toContain('__Host-knaba-federation-flow='+flow);const value=snapshot(),pause=held;held=undefined;
+         if(pause){pause.entered.resolve();await pause.release.promise;}
+         try{await route.fulfill({json:value});}finally{pause?.finished.resolve();}return;
+@@ -80,15 +85,23 @@
+         phase=native?'CODE_ISSUED':'COMPLETE';version=4;
+         if(dropConfirm){dropConfirm=false;await route.abort('failed');return;}
+         if(native){await route.fulfill({json:{requestId:id,state:phase,version,authorizationResponseUrl:client.redirectUri+'?'+new URLSearchParams({code,state,iss:corruptIssuer?siteOrigin+'/identity':config.authorizationIssuer}).toString()}});return;}
+-        authenticated=true;await route.fulfill({json:{...session,returnPath:'/console'},headers:{'Set-Cookie':'knaba_session='+newCookie+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=3600'}});return;
++        authenticated=true;
++        const sessionHeaders={'Set-Cookie':'knaba_session='+newCookie+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=3600'};
++        if(dropWebBody){
++          // Explicit fixture of already processed response cookies with an
++          // unusable body ACK. It does not simulate actual server transport.
++          dropWebBody=false;await context.clearCookies({name:'__Host-knaba-federation-flow'});
++          await route.fulfill({contentType:'application/json',body:'{',headers:sessionHeaders});return;
++        }
++        await route.fulfill({json:{...session,returnPath:'/console'},headers:dropWebCookie?{}:sessionHeaders});return;
+       }
+       if(path==='/api/v1/auth/federation/requests/'+id+'/cancel'&&post){
+         expect(call.csrf).toBe(csrf);phase='CANCELLED';version++;await route.fulfill({json:{requestId:id,state:phase,version}});return;
+       }
+-      if(path==='/api/v1/commands'&&!post){await route.fulfill({json:{items:[]}});return;}
+-      if(/^\/api\/v1\/entities\/[A-Za-z0-9_]+$/.test(path)&&!post){await route.fulfill({json:{items:[],has_more:false,next_cursor:null}});return;}
+-      if(path==='/api/v1/dashboard'&&!post){await route.fulfill({json:{counts:{},integrationStatus:{}}});return;}
+-      if(path==='/api/v1/events'&&!post){await route.fulfill({contentType:'text/event-stream',body:': synthetic\n\n'});return;}
++      if(path==='/api/v1/commands'&&get){await route.fulfill({json:{items:[]}});return;}
++      if(/^\/api\/v1\/entities\/[A-Za-z0-9_]+$/.test(path)&&get){await route.fulfill({json:{items:[],has_more:false,next_cursor:null}});return;}
++      if(path==='/api/v1/dashboard'&&get){await route.fulfill({json:{counts:{},integrationStatus:{}}});return;}
++      if(path==='/api/v1/events'&&get){await route.fulfill({contentType:'text/event-stream',body:': synthetic\n\n'});return;}
+     }
+     if(address.origin===erpOrigin&&request.method()==='GET'){
+       const pagePath=['/login','/console','/auth/federation/authorize','/auth/federation/return'].includes(path);
+@@ -167,3 +180,27 @@
+   await expect(page.getByRole('button',{name:'Sign in through the website',exact:true})).toHaveCount(0);
+   expect((await context.cookies(erpOrigin)).find(c=>c.name==='knaba_session')?.value).toBe(oldCookie);expect(f.calls.some(row=>row.path.endsWith('/logout'))).toBe(false);expect(f.failures).toEqual([]);
+ });
++test('F3 HTTP fixture: unknown WEB body ACK offers a new flow or a current-account check after response cookies changed',async({page,context})=>{
++  const f=await fixture(page,context,{approved:true,dropWebBody:true});await confirm(page);
++  await expect(page.getByRole('alert')).toContainText('The response is missing.');
++  await expect(page.getByText('The request has completed. Open your workspace.',{exact:true})).toHaveCount(0);
++  expect((await context.cookies(erpOrigin)).find(value=>value.name==='knaba_session')?.value).toBe(newCookie);
++  expect((await context.cookies(erpOrigin)).some(value=>value.name==='__Host-knaba-federation-flow')).toBe(false);
++  await expect(page.getByRole('link',{name:'Start a new sign-in',exact:true})).toHaveAttribute('href','/login');
++  await page.getByRole('button',{name:'Check status again',exact:true}).click();await expect(page.getByRole('alert')).toContainText('Sign-in is currently unavailable.');
++  await expect(page.getByRole('button',{name:'Confirm sign-in',exact:true})).toHaveCount(0);
++  const checked=f.calls.filter(row=>row.path.endsWith('/api/v1/me')).length;
++  await page.getByRole('link',{name:'Check the current account',exact:true}).click();await expect(page).toHaveURL(erpOrigin+'/console');
++  await expect.poll(()=>f.calls.filter(row=>row.path.endsWith('/api/v1/me')).length).toBeGreaterThan(checked);
++  expect(f.calls.filter(row=>row.path.endsWith('/confirm'))).toHaveLength(1);expect(f.calls.some(row=>row.path.endsWith('/logout'))).toBe(false);expect(f.failures).toEqual([]);
++});
++test('F3 HTTP fixture: a same-user older ERP cookie cannot complete the new WEB session',async({page,context})=>{
++  const f=await fixture(page,context,{approved:true,dropWebCookie:true});await confirm(page);
++  await expect(page.getByRole('alert')).toContainText('The response is missing.');
++  expect(page.url()).toBe(erpOrigin+'/auth/federation/return?request_id='+id);
++  expect((await context.cookies(erpOrigin)).find(value=>value.name==='knaba_session')?.value).toBe(oldCookie);
++  const current=f.calls.filter(row=>row.path===erpOrigin+'/api/v1/me');expect(current).toHaveLength(1);expect(current[0].cookie).toContain('knaba_session='+oldCookie);
++  await expect(page.getByText('The request has completed. Open your workspace.',{exact:true})).toHaveCount(0);
++  await expect(page.getByRole('link',{name:'Check the current account',exact:true})).toHaveAttribute('href','/console');
++  expect(f.calls.filter(row=>row.path.endsWith('/confirm'))).toHaveLength(1);expect(f.calls.some(row=>row.path.endsWith('/logout'))).toBe(false);expect(f.failures).toEqual([]);
++});
+--- a/tests/bridge/federation-login.test.mjs
++++ b/tests/bridge/federation-login.test.mjs
+@@ -44,11 +44,12 @@
+ const confirm=(f,flow,current)=>f.erpAt('/api/v1/auth/federation/requests/'+flow.id+'/confirm',{cookie:flow.cookie,csrf:current.csrfToken,body:{expectedVersion:current.version,confirmed:true}});
+ const redeem=(f,flow,code,verifier=flow.verifier)=>f.erpAt('/api/v1/auth/federation/token',{cookie:'',csrf:'',body:{grantType:'authorization_code',clientId:flow.client.clientId,redirectUri:flow.client.redirectUri,code,codeVerifier:verifier}});
+ async function noSecrets(f,values){
++  const secrets=[...new Set(values.flatMap(value=>/^(KF3|K3C)\.[A-Za-z0-9_-]{43}$/.test(value)?[value,value.slice(4)]:[value]))];
+   for(const table of ['site_federation_login_requests','site_federation_session_authorities','site_federation_operations','audit_log','auth_sessions']){
+-    const serialized=JSON.stringify(await f.row(table));for(const value of values)assert.equal(serialized.includes(value),false,'NO_RAW_SECRET_IN_'+table);
++    const serialized=JSON.stringify(await f.row(table));for(const value of secrets)assert.equal(serialized.includes(value),false,'NO_RAW_SECRET_IN_'+table);
+   }
+   for(const table of ['vps_federation_login_approvals','vps_federation_inbound_operations']){
+-    const serialized=JSON.stringify(f.site.db.prepare('SELECT * FROM '+table).all());for(const value of values)assert.equal(serialized.includes(value),false,'NO_RAW_SECRET_IN_'+table);
++    const serialized=JSON.stringify(f.site.db.prepare('SELECT * FROM '+table).all());for(const value of secrets)assert.equal(serialized.includes(value),false,'NO_RAW_SECRET_IN_'+table);
+   }
+ }
+ check('F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage',async t=>{
+@@ -70,7 +71,7 @@
+   const responseUrl=new URL(value.authorizationResponseUrl),code=responseUrl.searchParams.get('code');assert.match(code,/^K3C\.[A-Za-z0-9_-]{43}$/);
+   assert.equal(responseUrl.origin+responseUrl.pathname,flow.client.redirectUri);assert.equal(responseUrl.searchParams.get('state'),flow.state);assert.equal(responseUrl.searchParams.get('iss'),f.loginPolicy.authorizationIssuer);
+   assert.equal((await redeem(f,flow,code,randomBytes(32).toString('base64url'))).status,401);assert.equal((await f.row('site_federation_session_authorities')).length,0);
+-  const results=await Promise.all([redeem(f,flow,code),redeem(f,flow,code)]);assert.deepEqual(results.map(row=>row.status).sort(),[200,401]);
++  const results=await Promise.all([redeem(f,flow,code),redeem(f,flow,code)]);assert.deepEqual(results.map(row=>row.status).sort(),[200,409]);
+   const success=results.find(row=>row.status===200),sessionCookie=cookie(success,'knaba_session');assert.ok(sessionCookie?.startsWith('knaba_session=KF3.'));
+   assert.equal((await f.row('site_federation_session_authorities')).length,1);assert.equal((await f.erpAt('/api/v1/me',{cookie:sessionCookie,csrf:''})).status,200);
+   await noSecrets(f,[code,flow.verifier,sessionCookie.slice('knaba_session='.length)]);assert.deepEqual(f.relay.errors,[]);
+@@ -95,8 +96,12 @@
+ check('F3 actual source outage fails closed while local logout completes without source RPC',async t=>{
+   const f=await linked(t),flow=await start(f),current=await ready(f,flow),completed=await confirm(f,flow,current),value=await accepted(completed),sessionCookie=cookie(completed,'knaba_session');
+   assert.ok(sessionCookie);await f.stopSite();const denied=await f.erpAt('/api/v1/me',{cookie:sessionCookie,csrf:''});assert.ok([401,503].includes(denied.status));
+-  const before=f.relay.wire.length,logout=await f.erpAt('/api/v1/auth/logout',{cookie:sessionCookie,csrf:value.csrfToken,body:{}});assert.ok([200,201].includes(logout.status));
+-  assert.equal(f.relay.wire.length,before);assert.equal((await f.row('auth_sessions','AND token_hash=$2',[sha(sessionCookie.slice('knaba_session='.length))])).length,0);assert.deepEqual(f.relay.errors,[]);
++  assert.deepEqual(f.relay.errors,[{code:'SYNTHETIC_RELAY_FAILURE',message:'SYNTHETIC_RELAY_TARGET_NOT_STARTED'}]);
++  const before=f.relay.wire.length,errorsBefore=structuredClone(f.relay.errors),logout=await f.erpAt('/api/v1/auth/logout',{cookie:sessionCookie,csrf:value.csrfToken,body:{}});assert.equal(logout.status,201);
++  assert.equal(f.relay.wire.length,before);assert.deepEqual(f.relay.errors,errorsBefore);assert.equal(cookie(logout,'knaba_session'),'knaba_session=');
++  const hash=sha(sessionCookie.slice('knaba_session='.length)),parents=await f.row('auth_sessions','AND token_hash=$2',[hash]),children=await f.row('site_federation_session_authorities','AND token_hash=$2',[hash]);
++  assert.equal(parents.length,1);assert.ok(parents[0].revoked_at);assert.equal(children.length,1);assert.equal(children[0].state,'REVOKED');assert.ok(children[0].revoked_at);
++  assert.equal((await f.erpAt('/api/v1/me',{cookie:sessionCookie,csrf:''})).status,401);assert.equal(f.relay.wire.length,before);assert.deepEqual(f.relay.errors,errorsBefore);
+ });
+ check('F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session',async t=>{
+   const f=await linked(t,{permissions:['identity.self','device.manage','device.self']}),flow=await start(f),current=await ready(f,flow),completed=await confirm(f,flow,current),value=await accepted(completed),sessionCookie=cookie(completed,'knaba_session');
+@@ -115,6 +120,6 @@
+ check('F3 actual two-company native code cannot be redeemed by the other configured authority',async t=>{
+   const a=await linked(t),b=await linked(t),flow=await start(a,{native:true}),current=await ready(a,flow),value=await accepted(await confirm(a,flow,current));
+   const code=new URL(value.authorizationResponseUrl).searchParams.get('code');assert.ok(code);
+-  assert.equal((await redeem(b,flow,code)).status,401);assert.equal((await b.row('site_federation_session_authorities')).length,0);
++  assert.equal((await redeem(b,flow,code)).status,409);assert.equal((await b.row('site_federation_session_authorities')).length,0);
+   await accepted(await redeem(a,flow,code));assert.equal((await a.row('site_federation_session_authorities')).length,1);assert.deepEqual(a.relay.errors,[]);assert.deepEqual(b.relay.errors,[]);
+ });

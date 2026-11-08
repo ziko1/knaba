@@ -1,0 +1,12 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-login-http.test.ts (8 tests) 1091ms
+     ✓ is default-off even when an F2 authority exists  557ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  16:36:26
+   Duration  11.71s (transform 7.20s, setup 0ms, import 9.90s, tests 1.09s, environment 0ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze.json

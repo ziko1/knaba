@@ -1,0 +1,83 @@
+{
+  "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "scope": "Copied original bounded text receipts; full runtime/browser raw reports separately preserved",
+  "files": [
+    {
+      "path": "independent-acceptance.json",
+      "bytes": 18059,
+      "sha256": "6f2a8c795900a08eca4beb6ba5f6c752503aa5a772f58e09bd0126bf3c7674f7"
+    },
+    {
+      "path": "erp-scoped-review.json",
+      "bytes": 9688,
+      "sha256": "aeeab51f6784aa4005eef961ee44e520ab62cd041c3690d19db4b08e559e084a"
+    },
+    {
+      "path": "browser-pair-scoped-review.json",
+      "bytes": 18970,
+      "sha256": "582110078d3d5080abc57c6e7dc7350f20f632f3c74d951fb843424e927afb1f"
+    },
+    {
+      "path": "root-site-scoped-review.json",
+      "bytes": 1000,
+      "sha256": "9acc2f191a8964e125a53577f12c018511162877cc92431c8243126a094f1903"
+    },
+    {
+      "path": "pr-runs-final.json",
+      "bytes": 1348,
+      "sha256": "502d0b9277a4b5cf07b3d679e3d618b8d95b549bc1d6edeb6a61b995b02326eb"
+    },
+    {
+      "path": "jobs-final.json",
+      "bytes": 11918,
+      "sha256": "43473e1a6a285bacb1d582f389912adcd27f553078ff359cf2686203a1ca7404"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 11000,
+      "sha256": "f66347c9c26ebd8faaca8f83f113aa2d965e26bfb84b3c547643c8119d002861"
+    },
+    {
+      "path": "site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "native-input-equivalence.json",
+      "bytes": 344,
+      "sha256": "287fbb1d906448f361fd049c5b2715f93decc52e0f073a10f0a00af4725914a3"
+    },
+    {
+      "path": "artifacts-final.json",
+      "bytes": 2728,
+      "sha256": "481fbdcf691a2309591d42756d9a397a0539423a89f0c8641c5481f07d33e379"
+    },
+    {
+      "path": "browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "12a764776abcf927a10caa94e4ad197079f908f15372f905ef2751ca63697c6b"
+    },
+    {
+      "path": "browser-artifact/bridge-tap.txt",
+      "bytes": 7086,
+      "sha256": "d446ee86215a6e8342a8bd8a4415831c1933971391605ba50ac58b49db0e1497"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 2763,
+      "sha256": "6a3724c3b551c13e1b9386c333f97e2753e8ec8eadb56c38b0eacb328b44815c"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/error-context.md",
+      "bytes": 421,
+      "sha256": "d9a9f6d470d6dd1a642e405de2f1435313a6d039ed0de0f2e60fc9f81a03b487"
+    },
+    {
+      "path": "failure-artifact/knaba-ci-failure.json",
+      "bytes": 239,
+      "sha256": "d82d716f3925b7bd94bc2a63cfc64a081c543546862e9888bdc9bdbfe3fd9a37"
+    }
+  ],
+  "originalBrowserImagesOrTraceIncluded": false,
+  "wholeF3Acceptance": "FAILED_REQUIRED_BROWSER_CASE"
+}

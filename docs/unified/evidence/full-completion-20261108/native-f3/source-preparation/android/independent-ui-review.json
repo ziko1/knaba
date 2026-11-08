@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "verdict": "ACCEPT_ANDROID_F3_UI_SOURCE_SCOPED",
+  "base": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-android-f3",
+  "reviewMode": "Independent read-only source/fixture review; no Gradle, runtime test, browser, provider or network execution by reviewer.",
+  "inputManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/android-federation/corrected-run-inputs.json",
+    "sha256": "15c76749246a2acae2f21fe1c8b8af4cb35fd6492e8f5273bdd8e70d09d123fc",
+    "pathCount": 21,
+    "allInputsMatchedBeforeAndAfter": true
+  },
+  "reviewedInputs": [
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "bytes": 731,
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "bytes": 1494,
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "bytes": 67829,
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "bytes": 879,
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "bytes": 21961,
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600"
+    }
+  ],
+  "baselineTests": [
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be",
+      "bytes": 59796,
+      "unchangedFromBase": true,
+      "testAnnotationCount": 49
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+      "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33",
+      "bytes": 31281,
+      "unchangedFromBase": true,
+      "testAnnotationCount": 13
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55",
+      "bytes": 13150,
+      "unchangedFromBase": true,
+      "testAnnotationCount": 9
+    }
+  ],
+  "authoredF3ActivityTestMethods": [
+    "debugCallbackIsExportedOnlyAsAnEphemeralBrowserReceiver",
+    "coldAndMalformedCallbacksCannotForwardCallerIntents",
+    "systemBrowserWaitSurvivesStopAndRotationWithoutReopeningOrSavingSecrets",
+    "unknownTokenUiChecksOnlyNewCandidateAndKeepsOldAccountOn401",
+    "successfulCallbackAdoptsActorTogetherWithNewCookieAndLeavesTimeToolsSeparate",
+    "cancellationAndSameUserRefreshRejectOldCallbackWithoutClearingSession",
+    "delayedLeaveConfirmationCannotActAfterFederationAdoption",
+    "pausedMainCannotSwitchAccountBeforeLocalAdoptionOrAfterCancel",
+    "verifiedCandidateStaysPrivateInBackgroundUntilForegroundCommit"
+  ],
+  "findings": [
+    {
+      "id": "ANDROID-F3-UI-DIALOG-01",
+      "state": "RESOLVED_AT_SOURCE",
+      "origin": "Already identified by parent/author; independently confirmed in source review.",
+      "beforeActivitySha256": "c1e1c6f9323b634a7a2867b0171335d25b9100d0cc212036d76a09da9d519248",
+      "afterActivitySha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5",
+      "behavior": "Three stale positive leave/logout dialog callbacks now require the captured screen, exact transport, full federation authority revision and a live Activity before navigation or logout. The existing sensitive-command confirmation retains its form/screen/transport/revision fence."
+    }
+  ],
+  "additionalBlockingFindings": [],
+  "sourceChecks": [
+    {
+      "boundary": "Queued work and success/error completion",
+      "finding": "run() captures expectedTransport and screen, rejects mismatched transport before worker execution and checks exact screen/transport/liveness before callbacks. All reviewed request closures use captured transport; old errors cannot clear the newly adopted api."
+    },
+    {
+      "boundary": "Main-thread adoption",
+      "finding": "Only foreground VERIFIED adopts; flow.adopt() returns prepared transport/profile, then api and actor are installed without an intervening asynchronous boundary. heading advances screen, rejecting old buttons."
+    },
+    {
+      "boundary": "Cancel/back and dialogs",
+      "finding": "Explicit Cancel remains navigation-enabled during network work and cancels the exact flow. The corrective dialog guards close the delayed-positive path. No rollback of already committed business effects is claimed."
+    },
+    {
+      "boundary": "Stop, rotation and recreation",
+      "finding": "onStop pauses polling and adoption while retaining the bounded attempt for the external browser. Configuration retention carries the exact flow/transport; old destroyed-Activity posts are ignored. onStart resumes only the retained flow; non-configuration destruction cancels it."
+    },
+    {
+      "boundary": "Callback coordinator",
+      "finding": "A process-only weak rendezvous accepts the typed attempt callback. Re-arming cancels only the prior attempt; forget is identity-scoped. The Debug-only receiver handles both creation and new intents, rejects selectors/ClipData/URI grants, clears its Intent, and launches an explicit app component without forwarding caller extras or raw URI."
+    },
+    {
+      "boundary": "Existing media host callbacks",
+      "finding": "The host passes the original transport plus screen/liveness checks into the media screen; an old access error cannot clear a replacement account. The media runtime itself was not reaudited."
+    }
+  ],
+  "authorEvidenceObserved": {
+    "delayedDialogBehavioralRED": {
+      "path": "/workspace/scratch/c56161c95e04/verification/android-federation/delayed-dialog-red.xml",
+      "sha256": "7e25cea3e5c89e346b4b5c21950723f32dc9fa9cb725a1fb08b74027356bd52c",
+      "suite": {
+        "name": "de.knaba.mobile.ErpFederationActivityTest",
+        "tests": "1",
+        "skipped": "0",
+        "failures": "1",
+        "errors": "0",
+        "timestamp": "2026-11-08T19:30:54.700Z",
+        "hostname": "08766be39cd5",
+        "time": "19.519"
+      },
+      "failingCases": [
+        {
+          "name": "delayedLeaveConfirmationCannotActAfterFederationAdoption",
+          "message": "java.lang.AssertionError: A confirmation from the old account must not navigate the new account expected:<7> but was:<8>"
+        }
+      ]
+    },
+    "scope": "Author-run Robolectric/HTTP-double fixture evidence inspected; not an independent rerun or device/browser proof. Earlier type/undrained fixture failures are not used as behavioral RED.",
+    "correctedFull81AndLint": "PENDING_AT_REVIEW"
+  },
+  "limitations": [
+    "Source-only acceptance within the assigned UI concurrency/callback scope.",
+    "Transport protocol, strict linked-media journal preparation and broad full-suite execution are covered separately by parent/author, not duplicated here.",
+    "Current corrected full framework/lint results remain pending until author final receipt.",
+    "No APK/AAB rebuild, physical device, system browser, production callback ownership, release-signing or whole-product acceptance."
+  ],
+  "sourceUnchangedByReviewer": true,
+  "testsExecutedByReviewer": []
+}

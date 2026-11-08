@@ -1,0 +1,36 @@
+{
+  "scope": "PURE_DOMAIN_FUNCTIONS_SYNTHETIC_ROWS_NOT_PG",
+  "afterPrincipalFence": {
+    "storedPrincipalState": "FENCED",
+    "minimumEpoch": 2,
+    "storedSessionState": "ACTIVE",
+    "currentAuthorityDenied": true,
+    "sessionCounts": {
+      "activeUnexpired": 1,
+      "activeExpired": 0,
+      "revokedUnexpired": 0,
+      "revokedExpired": 0,
+      "revokedUnknownExpiry": 0
+    }
+  },
+  "oldFixtureExpectedRevokedUnexpired": 1,
+  "oldFixtureExpectationMatches": false,
+  "afterExplicitSessionFence": {
+    "storedSessionState": "REVOKED",
+    "expiryPreserved": true,
+    "sessionCounts": {
+      "activeUnexpired": 0,
+      "activeExpired": 0,
+      "revokedUnexpired": 1,
+      "revokedExpired": 0,
+      "revokedUnknownExpiry": 0
+    }
+  },
+  "atExactExpiry": {
+    "activeUnexpired": 0,
+    "activeExpired": 0,
+    "revokedUnexpired": 0,
+    "revokedExpired": 1,
+    "revokedUnknownExpiry": 0
+  }
+}

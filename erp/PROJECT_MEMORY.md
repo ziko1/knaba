@@ -1,5 +1,16 @@
 # KNABA DE project memory
 
+## 2026-11-08 — F2 password-based linking: actual aggregate evidence
+
+Source `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5`, main CI42485949823:
+4 required jobs SUCCESS;24 F2 PostgreSQL,7 actual VPS/SQLite↔ERP/HTTP/PG,
+9 rendered fixture cases PASS. Незалежно звірено source/artifact/case inventory;
+`ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`. Це добровільне зв’язування
+наявних акаунтів і source revocation fences. F3 session issuance/F4 derived
+authority/OIDC-only proof/privacy та зовнішнє приймання ще відкриті.
+Whole product NOT_READY; історичні записи нижче не переписані.
+Єдиний актуальний доказ: `../docs/unified/evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
 ## 2026-11-08 — PR123 identity authority checkpoint
 
 Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.
@@ -7,6 +18,12 @@
 [Зіставлення та запропонований federation protocol](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md), [source/test/review evidence](../docs/unified/evidence/identity-20261108/verification.json). CPU fixtures не видаються за PostgreSQL acceptance; окремі справжні SQL cases включені до чинного CI. ERP SQL schema, signed intake endpoint, company credentials і канонічні V3/V4 критерії не змінені.
 
 Спільного site↔ERP SSO немає. Загальне скасування всіх already-authenticated ERP in-flight operations потребує окремого F4 session-proof fence; login race fix цього не доводить. **NOT_READY**, без production, DNS, клієнтських даних, merge або paid activation.
+
+## 2026-11-08 — Android installation report and company icon
+Publication checkpoint: automatic approval review rejected `git push` to GitHub origin because this request lacks explicit publishing permission. Source and evidence are committed locally; APK is saved separately and available to the user. No alternate write path used. Next GitHub action requires explicit approval for this branch/draft PR, without merge or production deployment.
+
+
+Direct user request MOBILE-012; base `d03e72b8c5030390c635f3aac9133d977078dedf`, isolated branch `fix/knaba-android-install-icon-20261108`. Previous0.4.1 APK inspected afresh: ZIP/signature valid, no testOnly/split/ABI restriction; phone failure root cause UNKNOWN. Candidate0.4.2/code6 preserves test package/signing key, uses current company favicon in adaptive/round icons and adds compiled-APK checks to the existing package script. Exact source `df1fe55f0d5c14e7f5a43340985f3a894e6b934e`: signed standalone APK `5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1` (2797226bytes), old/new certificate equality and49source inputs independently verified. Android22/22, root28/28, lint0errors/18warnings; native-render icon visual review PASS. Physical-device install/update NOT_RUN; cause of the original phone failure remains UNKNOWN. Evidence: `../docs/mobile/evidence/android-install-icon-20261108/verification.json`. Canonical scope: `../docs/mobile/BACKLOG.json` MOBILE-012; guide `../docs/mobile/TEST_ANDROID_0.4.2_UK.md`. No production/DNS/backend/identity change.
 
 ## 2026-11-08 — completion audit candidate
 
@@ -208,3 +225,36 @@ Final local typecheck and candidate build PASS; focused 204 PASS / 2 SQL SKIP; f
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 2026-11-08 — Android MOBILE-013 — автоматична конфігурація і читання
+
+Запит користувача про автоматичне завантаження з сервера продовжує існуючий KNABA Android; канонічний пункт `docs/mobile/BACKLOG.json` → MOBILE-013. Виправлення: fixed official release discovery, HTTPS company host + ERP readiness, foreground authenticated reads, збереження пошуку/чернетки/прокрутки, scope revocation, без автоматичних мутацій. План/межі/операторський контракт: `docs/mobile/AUTOMATIC_SYNC_2026-11-08_UK.md` від кореня репозиторію. На 08:00 UTC публічний endpoint HTTP200 повернув `erpOrigin: null`; live connection BLOCKED_SERVER_CONFIGURATION, не замінювати це вигаданою адресою.
+
+Застосовано ai-team-orchestrator, Android coding workflow, coding-autopilot, verify-repository-readiness, ECC click-path audit та Kotlin integration resilience без зміни стека чи нових залежностей. Shared code writer — root; readonly dispatch `server_config_review`/`foreground_sync_review` не відбувся через context-window capacity, independent review NOT_RUN. Поточний remote PR123 HEAD9ff77d7b0161a4dde84314f2df327e4594e0eb0c звірено; Android contract не змінився, server auth updates не оголошено протестованими цією мобільною задачею. Source/build acceptance фіксується окремим receipt після збірки. Production/DNS/merge/paid calls не виконувались; попередня заборона автоматичного GitHub push не обійдена.
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+ERP F3 source26 прийнято незалежним review; mandatory source lineage, source/credential/current-policy fences, WEB fresh-session proof, native S256 one-use endpoint і local logout реалізовано default-off.18 actual PostgreSQL cases authored/NOT_RUN locally; exact aggregate CI потрібен. CUSTOMER media ACL13 і integrated native/source contract147 локально PASS з явними doubles. [Точні scopes і evidence](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Попередні source SHA/test receipts не переносяться на новий artifact.
+
+
+## 08.11.2026 — actual F3 dependency and versioned privacy source
+
+F3 server/web technical gate прийнято на `6a395bb73501455371a0e281debf81a6c18c6329`: run42507639872, ERP3264/3264 включно з18 F3/24 F2 PostgreSQL, actual runtime pair26/26 включно з8 F3 та rendered19/19 включно з10 F3. [Точні докази й межі](../docs/unified/F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md). Native evidence попереднього af6 не переноситься на нові adapters.
+
+Versioned privacy v2 backend/UI має незалежні source reviews, legacy v1 input/ACK/bytes compatibility, explicit ACCESS/PROFILE/legal/tenant scope, bounded own metadata projection і current-session secured download. Local build exit0, backend204 CPU, final independent UI model30; actual15 privacy PG/HTTP та11 нових rendered cases у30-case inventory залишаються наступним exact-source CI gate. [Контракт, виправлені findings, докази та rollback](../docs/unified/PRIVACY_V2_SOURCE_CHECKPOINT_2026-11-08_UK.md). TEST-only native F3 source перевіряється окремо в тому самому наступному checkpoint; native push залишається source gap.
+
+Whole product NOT_READY;72 V4/475 V3 whole criteria та historical evidence не bulk-accepted. Metadata retention/повний DSAR, фізичні пристрої, provider/company acceptance, load/restore і deployment gates окремі. Expired cutoff, budget, provider MFA, main/production permissions і Zod OPEN_WITH_MITIGATION не змінені.
+
+
+## 08.11.2026 — integrated native F3 TEST/source checkpoint
+
+Exact reviewed Android21 та iOS19 paths інтегровано поряд із privacy v2. Fresh-cookie candidate, explicit recovery, atomic UI adoption, permanent old-client retirement, strict journal preflight та stale-intent/cancellation fences перевірені source review. Android local81 PASS/0skip, lint0 errors/20 warnings; iOS8 portable PASS,210 XCTest authored (65 new), actual Xcode NOT_RUN. Деталі: [unified checkpoint](../docs/unified/NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
+
+Новий clean candidate CI ще потрібен: privacy PG15/rendered11 within30, Android artifact і iOS210 execution. Device/GPS/version/signing inputs збережено; whole V4/V3 NOT_READY, cutoff і external approvals незмінні.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

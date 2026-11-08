@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "scope": "Assistant conversation to explicit structured request; source and isolated local checks only",
+  "localIntegratedSource": "6708578bc4c326f727bcde3e84389775b00541fe",
+  "localIntegratedTree": "64dd56f01ec85b98eb9f1bc83ae52e534a8cdd49",
+  "publishedBaseline": "395993f9f6f38141507b5f7e4fd470e953b5c99c",
+  "files": [
+    {
+      "path": "corporate-site/db/schema.ts",
+      "sha256": "b992b7c0cf40167ab5540770440841eda21f59501d27265fa58436f9e3a2a4e1",
+      "bytes": 15394
+    },
+    {
+      "path": "corporate-site/docs/ASSISTANT_ACCESS_LIFECYCLE_UK.md",
+      "sha256": "1e01eeab6dc023471c6ad2759f0c7fb65cb8e2fd50ae8c5d0f9616fb60f98049",
+      "bytes": 18523
+    },
+    {
+      "path": "corporate-site/drizzle/0017_assistant_requests.sql",
+      "sha256": "f53ffbe734356646abb4a372256a3120a06976ee72a87e158ff8caa701d95e8c",
+      "bytes": 1412
+    },
+    {
+      "path": "corporate-site/drizzle/meta/0017_snapshot.json",
+      "sha256": "c2060c0b5b6bb25d3dca2546ce27c49f35bc1f4638d65238a9b42a660d1af39b",
+      "bytes": 61294
+    },
+    {
+      "path": "corporate-site/drizzle/meta/_journal.json",
+      "sha256": "5c625b0089ffaa49da582c5ef253d716e06bbc9b061ecd71c717140479b2d3a3",
+      "bytes": 2649
+    },
+    {
+      "path": "corporate-site/src/components/AssistantInbox.tsx",
+      "sha256": "a378ae1ea03fcf8fc2ed8243725936cebdc2ea9e191c7969e9cae2e80d32e2f5",
+      "bytes": 19689
+    },
+    {
+      "path": "corporate-site/src/components/Inquiry.tsx",
+      "sha256": "edac4162b05ddfd01fb86249060b0c4c07896d5395ffcd050a78773bf223a6d8",
+      "bytes": 37061
+    },
+    {
+      "path": "corporate-site/src/components/KnabaAssistant.tsx",
+      "sha256": "5dba4d3814a26ff9e789435e5dca5b451dfea46a6fb3e07bbf8d54841e4d1810",
+      "bytes": 22178
+    },
+    {
+      "path": "corporate-site/src/data/assistant-inbox-locales/inbox-de.json",
+      "sha256": "fc6843ebb40193afd0ce22eea861b1362c5c6f378785402d3194e38de8e7d5be",
+      "bytes": 4911
+    },
+    {
+      "path": "corporate-site/src/data/assistant-inbox-locales/inbox-en.json",
+      "sha256": "2c8de747b3d791d5c197cc4de047f9a3517c7b0317d22c6ce27d1bb057a9e12c",
+      "bytes": 4435
+    },
+    {
+      "path": "corporate-site/src/data/assistant-inbox-locales/inbox-lt.json",
+      "sha256": "84512ad0c957dbd0991ba1f10ddb310f5c141792f60483a8c2670d781497303e",
+      "bytes": 4642
+    },
+    {
+      "path": "corporate-site/src/data/assistant-inbox-locales/inbox-pl.json",
+      "sha256": "578f22700cae899f65171c1f3c753eeb1e13438180b9370a82495bd6b57ae616",
+      "bytes": 4691
+    },
+    {
+      "path": "corporate-site/src/data/assistant-inbox-locales/inbox-ru.json",
+      "sha256": "a49e537062eee7dc8a2b2666b512d8fabd367e7dc2295d921d0036dfe9b89a90",
+      "bytes": 6672
+    },
+    {
+      "path": "corporate-site/src/data/assistant-inbox-locales/inbox-uk.json",
+      "sha256": "14193d381a9ee61bafd97bf8a80b2bf57a8ceef0a96268526a053fe77f115b70",
+      "bytes": 6760
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/index.ts",
+      "sha256": "9ab3f050ac86e46bd1489eea847663a58c00204982c3942262e7effe2cb36647",
+      "bytes": 324
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/widget-de.json",
+      "sha256": "d408ed11459fe9a3d18f289115e6e5c29420e5eb09f8cbc0e14e1ee0c6e22ab7",
+      "bytes": 2239
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/widget-en.json",
+      "sha256": "2f423aaadcfb29a3398d0ee135632f25bf06f43d8132841f3af168b8f1bd52f8",
+      "bytes": 2019
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/widget-lt.json",
+      "sha256": "2c1dc16fb487fdb38fe5786878ce7ebcea955d49ee83bffe7ca8ac456d8aefe9",
+      "bytes": 2140
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/widget-pl.json",
+      "sha256": "10e132aed49539d6d44797ee960692755c1df78e0142ec31f9b21bee6a158dd8",
+      "bytes": 2149
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/widget-ru.json",
+      "sha256": "3f6f072e5701eb16d0f14b4d944b221d04beb6cecc0108ea512c2e001acb00b3",
+      "bytes": 3233
+    },
+    {
+      "path": "corporate-site/src/data/assistant-widget-locales/widget-uk.json",
+      "sha256": "5b3d0965ea517f5a530d9510558c0b7086f8e4e3644a7b8bd434e5c6c7a8da32",
+      "bytes": 3117
+    },
+    {
+      "path": "corporate-site/src/layouts/Layout.astro",
+      "sha256": "0febc4196e872ee013dc475a94abd4474545f0741d8600b41001c87a9ee24e51",
+      "bytes": 24590
+    },
+    {
+      "path": "corporate-site/src/lib/assistant-request-contract.ts",
+      "sha256": "fa8e3e281552387fd85f7bd2461d6d743f49b836a6790b851c217cc30462c1f6",
+      "bytes": 1552
+    },
+    {
+      "path": "corporate-site/src/lib/assistant-request-copy.ts",
+      "sha256": "f476818041615dadf8858a95607a8ec750179e7d0ca290ac8b88ba407dc72f38",
+      "bytes": 1683
+    },
+    {
+      "path": "corporate-site/src/lib/assistant-ticket.ts",
+      "sha256": "f47dbf4092e6f7a183982e7c67c89086eba53dd0daea330afb7d72e35970a456",
+      "bytes": 2368
+    },
+    {
+      "path": "corporate-site/src/lib/inquiry-draft.ts",
+      "sha256": "458491a3061b2cdf7636e6a3fcb551fd6f54556cb265a18b3c8360874a90ad05",
+      "bytes": 5787
+    },
+    {
+      "path": "corporate-site/src/lib/inquiry-navigation.ts",
+      "sha256": "247e816e25a53281509dc8496e01a4d5d9970250ddd3bc555e005b5feb893a38",
+      "bytes": 1015
+    },
+    {
+      "path": "corporate-site/tests/assistant-async-state.test.ts",
+      "sha256": "30da745f2d5a00aca69fd85671c56570a96b13fdb91b051503e930c577bd1729",
+      "bytes": 33844
+    },
+    {
+      "path": "corporate-site/tests/assistant-inbox-payload.test.ts",
+      "sha256": "f01b89b702cc6e5a31d8bc916918149e168be1f287c4e6ce243177cb51634e9b",
+      "bytes": 4713
+    },
+    {
+      "path": "corporate-site/tests/assistant-inquiry-component.test.ts",
+      "sha256": "6306922c1e12ac819f05556ac3b3e165caac4b0e6af04a4fe0503f3f83722604",
+      "bytes": 15651
+    },
+    {
+      "path": "corporate-site/tests/assistant-inquiry-state.test.ts",
+      "sha256": "89b5c37db4cb1308165a0025a0b9235460b5312e2565b906f14a053a75b8fb17",
+      "bytes": 2549
+    },
+    {
+      "path": "corporate-site/tests/assistant-request-browser-case.mjs",
+      "sha256": "200e0d1686beb380e3ddf13ee893baeae9781fe330bd843f8142e9ec72e7698a",
+      "bytes": 10367
+    },
+    {
+      "path": "corporate-site/tests/assistant-request-copy.test.ts",
+      "sha256": "2ff39775fb26bafb8f5ff124f78286261e7f1a6313f1c84c571bc18f189ddb8a",
+      "bytes": 1855
+    },
+    {
+      "path": "corporate-site/tests/assistant-request-state.test.ts",
+      "sha256": "534a57bbbb09a63a8955727bba93076f68798247b1fcded18460d49fe6610017",
+      "bytes": 14257
+    },
+    {
+      "path": "corporate-site/tests/assistant-requests.test.ts",
+      "sha256": "9206e9a4cb75325737946c0eea415a394dbec365df273b628f6df9e44d9dcbfe",
+      "bytes": 22491
+    },
+    {
+      "path": "corporate-site/tests/assistant-ticket.test.ts",
+      "sha256": "21a48164dbab2273c638e1385e0117a75a6b98edb971453b4b0ce9b8f46fdbac",
+      "bytes": 2976
+    },
+    {
+      "path": "corporate-site/tests/assistant-widget-payload.test.ts",
+      "sha256": "406663af082bec4a4ef5009d9595a2a90da2870fe0a9f3851a68526f5f86b5e7",
+      "bytes": 6425
+    },
+    {
+      "path": "corporate-site/tests/fixtures/role-ux-server.mjs",
+      "sha256": "15662d520884a4582d96bd042f783c6147af33a102f7e2091cf408d258512540",
+      "bytes": 9386
+    },
+    {
+      "path": "corporate-site/tests/inquiry-navigation.test.ts",
+      "sha256": "1cb18443f4f7be0082809a2c5c7b8d1a1b900ea70379edb4ccb16b0b0f87ba94",
+      "bytes": 1484
+    },
+    {
+      "path": "corporate-site/tests/legal-regression.test.mjs",
+      "sha256": "8ec7592683f7d5d19608c8827586f7b4a71d1023c32186076ff306c873fcd9eb",
+      "bytes": 3662
+    },
+    {
+      "path": "corporate-site/tests/role-cabinets-browser.mjs",
+      "sha256": "8978e61619c80a9c0f5292b348220f0fe7b077580be74946f1c870c32bcd0a86",
+      "bytes": 52022
+    },
+    {
+      "path": "corporate-site/vps/assistant-access.http.test.mjs",
+      "sha256": "337df61a81910817d581818283522e24ee97d4910cb17060877d8e3d077526aa",
+      "bytes": 16223
+    },
+    {
+      "path": "corporate-site/vps/assistant-display-migration.test.mjs",
+      "sha256": "64c65df6be7b168e377c080d46f82d414e686b595d385ab6c58ddb81bbd8fdaa",
+      "bytes": 5945
+    },
+    {
+      "path": "corporate-site/vps/assistant-request-migration.test.mjs",
+      "sha256": "826aa77a8f5fded60611671baa51ed4598cf839d882e5a716a06bb7e50f802a9",
+      "bytes": 6852
+    },
+    {
+      "path": "corporate-site/vps/migration-upgrade.test.mjs",
+      "sha256": "c5e825802d2713e9ef6945fbed3b55cb7d32d7d1e120006d4d7887719ad57e97",
+      "bytes": 11185
+    },
+    {
+      "path": "corporate-site/vps/portal-messages-migration.test.mjs",
+      "sha256": "69dc031af6e58cac15adee70f29b63f3defaa2927b4a6a1cda882ce7bfcdc75c",
+      "bytes": 4056
+    },
+    {
+      "path": "corporate-site/worker/api.ts",
+      "sha256": "9627a9dc68d7f83b86d69f38540f96dce615cc1d987f012704f95b7ddb62e09f",
+      "bytes": 39663
+    },
+    {
+      "path": "corporate-site/worker/assistant-requests.ts",
+      "sha256": "40b99f8eae2d07b66ac020a37885d1d3753b8c98c14da5c636ee9b7782d3fd98",
+      "bytes": 7624
+    },
+    {
+      "path": "corporate-site/worker/assistant.ts",
+      "sha256": "35ed158cbdd7c1585722d4658f00f8c8ab5ec220d56f33e3ad75c3e8479d44ce",
+      "bytes": 33395
+    },
+    {
+      "path": "tests/bridge/README.md",
+      "sha256": "fd13992ce88ccdea8da34a0ac7493b6cb2ee6a3a8420cc83d490dde257f5a07a",
+      "bytes": 6281
+    },
+    {
+      "path": "tests/bridge/harness.mjs",
+      "sha256": "3382c50c66cbd4a65834c243d1861b59e956f8c453b7d66ba89556da6da4ecd6",
+      "bytes": 14270
+    },
+    {
+      "path": "tests/bridge/site-erp.test.mjs",
+      "sha256": "b76429527f6ae7c33dc72d395c73b6a85434f974e8ce22d11fa6fec6fa7107fe",
+      "bytes": 18997
+    }
+  ],
+  "reviews": {
+    "ui": {
+      "schemaVersion": 1,
+      "reviewer": "root",
+      "decision": "ACCEPT_SOURCE",
+      "date": "2026-11-08T12:19:21.247909+00:00",
+      "manifestSha256": "4357162791d009f9febc3b0f3230d294cfa95cc47ecf6bf1085419c1e961cd65",
+      "fileCount": 35,
+      "sourceHashMatches": true,
+      "independentTargetedTests": {
+        "files": 5,
+        "passed": 49,
+        "failed": 0,
+        "logSha256": "735ed4101d2a08ac4e2b845749147b9b4392860babbf56a2ab48449375dd318c"
+      },
+      "reviewed": [
+        "Explicit captured id/token/generation; URL intent alone cannot grant conversation access",
+        "Private RAM draft and pending idempotency body stay isolated from public draft and locale consent resets",
+        "Guest and owner request summaries preserve source association and bounded pagination",
+        "Current-locale 40-key widget labels are server-rendered; strict parser and navigation generation fence before lazy mount",
+        "Actual HTTP lost-response browser case retains exact-body retry, no public fallback, cancellation, revocation and no external network assertions",
+        "Role browser fixture explicitly pauses only background maintenance for deterministic initial PENDING; actual scheduler and SQL/HTTP/PG acceptance remain separate"
+      ],
+      "limits": [
+        "Actual rendered browser is NOT_RUN for this new source",
+        "Integrated final build and official verify pending after backend final policy edits",
+        "No whole AC, live backend, device or provider acceptance"
+      ]
+    },
+    "backend": {
+      "reviewer": "/root/coverage_matrix",
+      "decision": "ACCEPT_SOURCE_AND_SCOPED_SQL_REVIEW",
+      "receiptSha256": "a3eecd0f9e4fd0b4a47c770140cb312ff71b1de1c6d2b0f74d3d08a1bd26e59f",
+      "manifestSha256": "9015d5588701fd26905ecf51f8f90d1620b1cb962ca343f81bbeb4dabd33aede",
+      "matchedFiles": 17,
+      "conclusions": [
+        "Exact guest capability is required for create/context/cancel, including with owner cookie. Creation requires writable status; closed valid capability can read/withdraw. Current guest SQL predicates and egress assertions deny expired/revoked/foreign access. Owner page uses current owner guard plus existing VPS per-statement/session and response authorization.",
+        "Origin plus versioned explicit consent, request, audit and existing outbox share one atomic batch. Deferred request FK prevents orphan origins. Unique conversation/key plus existing dedupe and payload hash preserve idempotency under races without email joining identities.",
+        "Receipts/pages expose only local id, status, version, createdAt, safe ERP status; cursor is bounded canonical timestamp/UUID, no token or PII. Page size20 and exact own-conversation join apply on every page.",
+        "Current stored conversation locale and configured service mapping drive the existing ERP envelope. Assistant source attribution is empty. Free-text message/chat/token/conversation ID are excluded; no new ERP wire or credential persistence.",
+        "Withdrawal uses version/state CAS and current guest fence, including after chat closure. Existing dispatcher blocks unattempted cancelled sources, preserves APPLIED and records UNKNOWN for cancellation racing already-started delivery. Withdrawal is not remote erasure.",
+        "Disabled bridge initially creates real PENDING/null-pinned queue; maintenance changes it to BLOCKED/MAPPING_NOT_PINNED with zero transport. Browser render fixture explicitly pauses maintenance to inspect initial PENDING; it makes no scheduler acceptance claim.",
+        "Migration0017 adds exactly one table to22 unchanged snapshot definitions, preserves all prior journal entries, has deferred request FK and immutable origin trigger. Actual restore validates legacy and new graphs; old binary fails closed on newer ledger.",
+        "Portal-history fixture now compares exact ordered canonical filenames in live and restored DB; obsolete count16 was incorrect. All existing message/history/integrity assertions remain."
+      ],
+      "blockingFindings": [],
+      "independentSQLiteMigrationRestoreTests": 3
+    }
+  },
+  "localIntegrated": {
+    "root": {
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "sourceAudit": "PASS",
+      "moduleManifest": "PASS"
+    },
+    "siteCheck": {
+      "files": 499,
+      "errors": 0,
+      "warnings": 0,
+      "existingHints": 6,
+      "svelteErrors": 0,
+      "svelteWarnings": 0
+    },
+    "site": {
+      "vitest": 900,
+      "vitestFiles": 83,
+      "node": 92,
+      "failed": 0
+    },
+    "vps": {
+      "passed": 281,
+      "failed": 0,
+      "skipped": 0
+    },
+    "logs": [
+      {
+        "scratchLogName": "assistant-integrated-root-tests.log",
+        "sha256": "f96ea795c5dd853f56d98a57cf718f9d77b4e393635ef365673ec0d239077dfd"
+      },
+      {
+        "scratchLogName": "assistant-integrated-site-check.log",
+        "sha256": "d3d582041fb929553a51a5622655cfb0c0c4e877104d53467caffca115bc0c1b"
+      },
+      {
+        "scratchLogName": "assistant-integrated-site-tests.log",
+        "sha256": "e007369f164ba3eb269d68e17fa6c300759846ba1a29597cacdb26447f7fe522"
+      },
+      {
+        "scratchLogName": "assistant-integrated-vps-tests.log",
+        "sha256": "5f36884ea0634b7b15be1e596963f229a12d2995429ee49df2f9f820698c4403"
+      },
+      {
+        "scratchLogName": "assistant-isolated-real-deps-build.log",
+        "sha256": "808c8ad241acfd1f2d6a09f35512ca9dab234305910a89fde4f458744041e647"
+      },
+      {
+        "scratchLogName": "assistant-isolated-official-verify.log",
+        "sha256": "deb541c2cd4868822df93870b8786162c4985d956baa2c1ff1c04a4e61a13e79"
+      }
+    ]
+  },
+  "behavior": [
+    "Explicit widget action captures exact guest capability; intent URL alone grants no authority",
+    "Structured form has separate unchecked transfer consent and shows exact fields, mapped service group and authoritative conversation language",
+    "Immutable origin, consent, local request, audit and existing ERP outbox are atomic and idempotent; owner cookie cannot replace guest capability",
+    "Optional street address rejected only for assistant flow; public/portal contract preserved; actual assistant postcode becomes ERP facts.address",
+    "Local receipt is distinct from ERP APPLIED; disabled bridge starts PENDING and maintenance records BLOCKED/MAPPING_NOT_PINNED without network",
+    "CAS withdrawal preserves already applied or uncertain remote delivery; no chat history/token/PII draft copied into ERP envelope",
+    "Only current-page widget caption pack is emitted; exact40key values retained in all6languages"
+  ],
+  "integrationCases": {
+    "previousActualPGBridge": 9,
+    "newActualPGCasesAuthored": 2,
+    "current11CaseExecution": "NOT_RUN_LOCALLY",
+    "newRenderedBrowserExecution": "NOT_RUN_LOCALLY",
+    "browserFixture": "Actual SQLite and HTTP, deliberately lost first response; disabled outbound bridge and explicitly paused local maintenance for initial PENDING; independent maintenance test covers BLOCKED transition"
+  },
+  "normativeRequirementsSha256": "fce7eccb47f85dfc0ac1932a19dc5b21b02bd0b6efd594fe89e06891c434a72a",
+  "fullAcceptance": "OPEN; no whole KNB or compound AC promoted",
+  "release": "NOT_READY; hosted current-candidate CI, live/device/provider and owner UAT not claimed"
+}

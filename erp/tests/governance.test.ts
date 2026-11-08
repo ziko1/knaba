@@ -96,6 +96,62 @@ async function approvedRetention(f: Fixture, category = 'TIME', retentionDays = 
   const policy = await run(f.tx, f.owner, 'retention.create', { category, retentionDays, legalApprovalId: 'privacy-approval', reason: REASON });
   return run(f.tx, f.approver, 'retention.approve', { policyId: policy.id, confirmedHash: policy.data.previewHash, reason: REASON });
 }
+
+describe('versioned own privacy projection compatibility', () => {
+  const v1 = 'knaba-dsar-v1', v2 = 'knaba-dsar-v2';
+  const input = { type: 'ACCESS', categories: ['PROFILE'], reason: REASON };
+  async function approvedV2(f: Fixture, selected = ['PROFILE']) {
+    const request = await run(f.tx, f.worker, 'privacy.request', { ...input, categories: selected, projectionVersion: v2 });
+    const legal = await f.tx.get('legal_approval', 'privacy-approval');
+    await edit(f.tx, 'legal_approval', legal.id, { scope: { ...legal.data.scope, projectionVersion: v2 } });
+    return run(f.tx, f.reviewer, 'privacy.review', { requestId: request.id, decision: 'APPROVE_EXPORT', legalApprovalId: legal.id, evidenceReference: 'synthetic-v2-scope-review', reason: REASON });
+  }
+  it('keeps an absent version absent in parsed command input and accepts only explicit known ACCESS versions', () => {
+    const schema = governanceCommands['privacy.request'].schema;
+    expect(schema.parse(input)).toEqual(input);
+    expect(Object.hasOwn(schema.parse(input), 'projectionVersion')).toBe(false);
+    for (const projectionVersion of [v1, v2]) expect(schema.parse({ ...input, projectionVersion })).toEqual({ ...input, projectionVersion });
+    for (const projectionVersion of [undefined, null, '', 'v2', 2, {}]) expect(() => schema.parse({ ...input, projectionVersion })).toThrow();
+    for (const projectionVersion of [v1, v2]) expect(() => schema.parse({ ...input, type: 'ERASURE', projectionVersion })).toThrow();
+    expect(schema.parse({ ...input, type: 'ERASURE' })).not.toHaveProperty('projectionVersion');
+  });
+  it('requires explicit matching current v2 legal scope and echoes the selected version in status', async () => {
+    const f = await fixture(), request = await run(f.tx, f.worker, 'privacy.request', { ...input, projectionVersion: v2 });
+    const review = { requestId: request.id, decision: 'APPROVE_EXPORT', legalApprovalId: 'privacy-approval', evidenceReference: 'synthetic-v2-scope-review', reason: REASON };
+    await expect(run(f.tx, f.reviewer, 'privacy.review', review)).rejects.toMatchObject({ code: 'NEEDS_APPROVAL' });
+    const legal = await f.tx.get('legal_approval', 'privacy-approval');
+    await edit(f.tx, 'legal_approval', legal.id, { scope: { ...legal.data.scope, projectionVersion: v2 } });
+    expect((await run(f.tx, f.reviewer, 'privacy.review', review)).data.projectionVersion).toBe(v2);
+    expect(await run(f.tx, f.worker, 'privacy.status', { requestId: request.id })).toMatchObject({ projectionVersion: v2, state: 'APPROVED_EXPORT' });
+  });
+  it('never fabricates empty federation metadata when the v2 PROFILE loader is absent', async () => {
+    const f = await fixture(), request = await approvedV2(f);
+    await expect(run(f.tx, f.worker, 'privacy.export', { requestId: request.id })).rejects.toMatchObject({ code: 'INVALID_STATE', details: { reason: 'FEDERATION_METADATA_LOADER_REQUIRED' } });
+    expect(await f.tx.list('privacy_export')).toEqual([]);
+    expect(f.tx.events.filter(event => event.type === 'privacy.export_prepared')).toEqual([]);
+  });
+  it('allows v2 without PROFILE with no federation loader and an explicit v2 acknowledgement', async () => {
+    const f = await fixture(), request = await approvedV2(f, ['TIME']);
+    const ack = await run(f.tx, f.worker, 'privacy.export', { requestId: request.id });
+    expect(ack).toMatchObject({ projectionVersion: v2, status: 'PRIVATE_JSON_ARTIFACT_READY' });
+    const artifact = await f.tx.get('privacy_export', ack.exportId);
+    expect(artifact.data.snapshot).toMatchObject({ projectionVersion: v2, companyId: f.worker.companyId, categories: ['TIME'], time: [] });
+    expect(artifact.data.snapshot).not.toHaveProperty('federationMetadata');
+    expect(JSON.parse((await privacyExportBytes(f.tx, f.worker, ack.exportId)).bytes.toString())).toEqual(artifact.data.snapshot);
+  });
+  it('preserves the exact v1 minimal PROFILE bytes, absent request/status fields, and legacy ACK keys', async () => {
+    const f = await fixture(), request = await reviewedRequest(f, 'ACCESS', ['PROFILE']);
+    expect(request.data).not.toHaveProperty('projectionVersion');
+    expect(await run(f.tx, f.worker, 'privacy.status', { requestId: request.id })).not.toHaveProperty('projectionVersion');
+    const ack = await run(f.tx, f.worker, 'privacy.export', { requestId: request.id });
+    expect(Object.keys(ack).sort()).toEqual(['exportId', 'fileName', 'sha256', 'byteSize', 'status', 'securedDownloadRequired'].sort());
+    const expected = '{"categories":["PROFILE"],"createdAt":"2026-10-06T10:00:00.000Z","fullLegalDsarFulfillment":false,"omissions":["credentials","other_person_data","raw_routes","bank_details","other_authors_messages","inaccessible_channels","blob_keys"],"profile":{"active":true,"businessCode":"TEST-worker","name":"Synthetic worker","userId":"worker"},"projectionVersion":"knaba-dsar-v1","scope":"MINIMIZED_SELF_DATA_EXPORT","subjectUserId":"worker"}';
+    expect((await privacyExportBytes(f.tx, f.worker, ack.exportId)).bytes.toString()).toBe(expected);
+    expect(ack.sha256).toBe(createHash('sha256').update(expected).digest('hex'));
+    await edit(f.tx, 'legal_approval', 'privacy-approval', { active: false });
+    expect((await privacyExportBytes(f.tx, f.worker, ack.exportId)).bytes.toString()).toBe(expected);
+  });
+});
 async function seedPrivateData(f: Fixture) {
   await edit(f.tx, 'user', f.worker.userId, { email: 'worker@example.invalid', language: 'de', passwordHash: 'PROFILE_SECRET_CANARY', nested: { bank: 'NESTED_BANK_CANARY' } });
   await f.tx.add('shift', { employeeId: 'worker', state: 'ENDED', startedAt: NOW, endedAt: FUTURE, totalSeconds: 3600, route: [{ latitude: 'RAW_ROUTE_CANARY' }], notesInternal: 'TIME_SECRET_CANARY' }, 'own-shift');

@@ -1,0 +1,76 @@
+{
+  "verdict": "CORRECTIVE_SOURCE_READY_FOR_INDEPENDENT_REVIEW",
+  "manifestSha256": "789db639d2da0d7e71cd5fe24327ead4383425b1ef6503afbcf27d2e02fccd68",
+  "sourceDigest": "6584e25aa050469584673dd6ed51bc667e33a3fbd640ceaad7a65dc3b4b345c4",
+  "previousManifestSha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff",
+  "changedPaths": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "beforeSha256": "31c57ba5406df214382ae35a77618377976eb7641b04ec6780ec63123064b7b1",
+      "afterSha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "beforeSha256": "36e916d2a50274ec7e2f9925b798d94677bb9f2ac0bee5fa281db4642bfa71b1",
+      "afterSha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    }
+  ],
+  "unchangedOwnedPaths": 17,
+  "finding": "Task cancellation after VERIFIED before MainActor commit must preserve old account.",
+  "actualChecks": [
+    {
+      "name": "portable-config-tests",
+      "command": [
+        "python3",
+        "erp/apps/mobile-ios/scripts/test-federation-config.py"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/portable-config-tests-v2.log",
+      "logSha256": "75ff54e727b57e4bd7b88956ed0c92c4b9a416e6f0976707e8fb54aa385ac0bd",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    },
+    {
+      "name": "source-config",
+      "command": [
+        "python3",
+        "erp/apps/mobile-ios/scripts/verify-federation-config.py",
+        "--output",
+        "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-config.json"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-config-v2.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    },
+    {
+      "name": "shell-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "erp/apps/mobile-ios/scripts/build.sh"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/shell-syntax-v2.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    },
+    {
+      "name": "tracked-whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/tracked-whitespace-v2.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    }
+  ],
+  "newXCTestAuthored": 65,
+  "allXCTestAuthored": 210,
+  "SwiftCompilation": "NOT_RUN",
+  "XCTest": "NOT_RUN",
+  "actualRED_GREEN": "NOT_RUN",
+  "reviewRequestSha256": "d15387df3d9db71985c3ad99f1350b75d0acf57c0ae057517c26e2375d90d80e"
+}

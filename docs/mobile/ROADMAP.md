@@ -27,3 +27,7 @@ MOBILE-010 adds durable encrypted Android ERP command recovery and identity fenc
 ### Android 0.4.0 test candidate — 2026-11-07
 
 MOBILE-009 tracks current Android continuation: coherent native task/chat journeys, explicit offline demo, separate test package and session/retry safeguards. See `TEST_ANDROID_0.4.0_UK.md` and exact results in `evidence/android-test-20261107/verification.json`. This candidate does not accept M1 identity unification, all M2 role parity, M4 company handover or full-product requirements. Live ERP/physical-device/company tests and durable ambiguous-write recovery remain open.
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+Photo/file import→prepare→upload→register, explicit retry і bounded process IO реалізовано source-scoped. Потрібні current Android/iOS CI, physical provider/device memory/lifecycle та broader AC-53/54 acceptance. Native F3 adapters залежать від actual F3 server/pair/browser gate; production callback registry лишається empty до verified ownership/signing. [Checkpoint](../unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md).

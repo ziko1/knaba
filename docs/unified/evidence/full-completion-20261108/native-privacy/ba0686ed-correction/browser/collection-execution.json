@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "node_modules/@playwright/test/cli.js",
+    "test",
+    "--list",
+    "--reporter=list",
+    "tests/conversation-transfer-ui.spec.ts",
+    "tests/site-identity-link-ui.spec.ts",
+    "tests/federation-login-ui.spec.ts",
+    "tests/privacy-projection-ui.spec.ts"
+  ],
+  "cwd": "/workspace/scratch/c56161c95e04/knaba-privacy-browser-correction/erp",
+  "startedAtUtc": "2026-11-08T20:19:55.015822+00:00",
+  "elapsedSeconds": 3.551,
+  "exitCode": 0,
+  "browserLaunched": false
+}

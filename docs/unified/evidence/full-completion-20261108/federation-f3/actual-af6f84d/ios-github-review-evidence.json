@@ -1,0 +1,104 @@
+{
+  "repository": "ziko1/knaba",
+  "runId": 42499225525,
+  "jobId": 128788117502,
+  "sourceGitSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "method": "Read-only GitHub job logs and step summaries connector; selected nonsecret lines preserved, not a new CI execution.",
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Record exact source before tool generation",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Check out pinned XcodeGen 2.43.0",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Verify toolchain and build pinned generator",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5
+    },
+    {
+      "name": "Boot exact installed iOS 26.5 iPhone 17",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6
+    },
+    {
+      "name": "Compile and execute actual XCTest",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Install, launch and archive the simulator application",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Upload verified simulator package and results",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Preserve failure evidence",
+      "status": "completed",
+      "conclusion": "skipped",
+      "number": 10
+    },
+    {
+      "name": "Stop the created simulator",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11
+    },
+    {
+      "name": "Post Check out pinned XcodeGen 2.43.0",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 21
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 22
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 23
+    }
+  ],
+  "logExtracts": {
+    "checkout": "2026-11-08T16:18:43.8436780Z HEAD is now at af6f84d feat: add scoped federation login and native media recovery",
+    "recordedSource": "2026-11-08T16:18:44.7011440Z Recorded native source: af6f84d0b511d186fbbc4c039a082e21e61c788e d261d2da21a982c0c8d2bb436d023d0557a9180f31c574bce563be71eb08802e",
+    "testsSucceeded": "2026-11-08T16:25:35.7067810Z ** TEST SUCCEEDED **",
+    "install": "2026-11-08T16:25:40.3699370Z ##[group]Run xcrun simctl install \"$KNABA_SIMULATOR_UDID\" build/Build/Products/Debug-iphonesimulator/KNABADE.app",
+    "launch": "2026-11-08T16:25:40.3700990Z xcrun simctl launch --terminate-running-process \"$KNABA_SIMULATOR_UDID\" de.knaba.mobile > build/evidence/simulator-launch.txt",
+    "screenshot": "2026-11-08T16:25:49.0845700Z Wrote screenshot to: /Users/runner/work/knaba/knaba/erp/apps/mobile-ios/build/evidence/simulator-launch.png",
+    "receipt": "2026-11-08T16:25:53.9783210Z Actual simulator tests passed: 145 source: af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "artifactHash": "2026-11-08T16:25:58.2801210Z SHA256 digest of uploaded artifact zip is 5ebf4dbe7ea12003040e14f9ff2d7ef7f981581da68d2cce9dbc6ccc0949f2ec",
+    "artifactFinalized": "2026-11-08T16:25:58.6656290Z Artifact knaba-ios-simulator-af6f84d0b511d186fbbc4c039a082e21e61c788e.zip successfully finalized. Artifact ID 13624772143"
+  }
+}

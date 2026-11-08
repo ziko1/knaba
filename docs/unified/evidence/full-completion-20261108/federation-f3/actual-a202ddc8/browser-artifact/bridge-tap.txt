@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage
+ok 1 - F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage
+  ---
+  duration_ms: 2384.209872
+  type: 'test'
+  ...
+# Subtest: F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption
+ok 2 - F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption
+  ---
+  duration_ms: 2168.767192
+  type: 'test'
+  ...
+# Subtest: F3 actual lost approval ACK recovers one durable intent before any ERP session is issued
+ok 3 - F3 actual lost approval ACK recovers one durable intent before any ERP session is issued
+  ---
+  duration_ms: 2058.225224
+  type: 'test'
+  ...
+# Subtest: F3 actual source logout rejects an already computed issue proof before the ERP session commit
+ok 4 - F3 actual source logout rejects an already computed issue proof before the ERP session commit
+  ---
+  duration_ms: 1983.597377
+  type: 'test'
+  ...
+# Subtest: F3 actual source outage fails closed while local logout completes without source RPC
+ok 5 - F3 actual source outage fails closed while local logout completes without source RPC
+  ---
+  duration_ms: 2077.430284
+  type: 'test'
+  ...
+# Subtest: F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session
+ok 6 - F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session
+  ---
+  duration_ms: 2254.744088
+  type: 'test'
+  ...
+# Subtest: F3 actual source restart fences old derived sessions while a local ERP password session remains valid
+ok 7 - F3 actual source restart fences old derived sessions while a local ERP password session remains valid
+  ---
+  duration_ms: 2114.769432
+  type: 'test'
+  ...
+# Subtest: F3 actual two-company native code cannot be redeemed by the other configured authority
+ok 8 - F3 actual two-company native code cannot be redeemed by the other configured authority
+  ---
+  duration_ms: 3649.642229
+  type: 'test'
+  ...
+# Subtest: F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink
+ok 9 - F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink
+  ---
+  duration_ms: 2329.848026
+  type: 'test'
+  ...
+# Subtest: F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit
+ok 10 - F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit
+  ---
+  duration_ms: 1705.437809
+  type: 'test'
+  ...
+# Subtest: F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit
+ok 11 - F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit
+  ---
+  duration_ms: 1875.964849
+  type: 'test'
+  ...
+# Subtest: F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce
+ok 12 - F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce
+  ---
+  duration_ms: 1592.241481
+  type: 'test'
+  ...
+# Subtest: F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery
+ok 13 - F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery
+  ---
+  duration_ms: 4465.37308
+  type: 'test'
+  ...
+# Subtest: F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session
+ok 14 - F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session
+  ---
+  duration_ms: 1600.234661
+  type: 'test'
+  ...
+# Subtest: F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys
+ok 15 - F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys
+  ---
+  duration_ms: 2792.638448
+  type: 'test'
+  ...
+# Subtest: explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves its scoped origin after restart
+ok 16 - explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves its scoped origin after restart
+  ---
+  duration_ms: 938.029928
+  type: 'test'
+  ...
+# Subtest: assistant withdrawal is capability-scoped and prevents a not-yet-sent real ERP effect
+ok 17 - assistant withdrawal is capability-scoped and prevents a not-yet-sent real ERP effect
+  ---
+  duration_ms: 724.805127
+  type: 'test'
+  ...
+# Subtest: actual HTTP intake applies only the trusted mapping and creates no identity or privilege
+ok 18 - actual HTTP intake applies only the trusted mapping and creates no identity or privilege
+  ---
+  duration_ms: 941.786324
+  type: 'test'
+  ...
+# Subtest: concurrent intake and drainers produce one durable ERP effect; identical replay returns its receipt
+ok 19 - concurrent intake and drainers produce one durable ERP effect; identical replay returns its receipt
+  ---
+  duration_ms: 759.811327
+  type: 'test'
+  ...
+# Subtest: response loss after real ERP commit survives site restart and retries the exact event once
+ok 20 - response loss after real ERP commit survives site restart and retries the exact event once
+  ---
+  duration_ms: 754.15073
+  type: 'test'
+  ...
+# Subtest: a conflicting authenticated event produces real ERP quarantine and never overwrites the first lead
+ok 21 - a conflicting authenticated event produces real ERP quarantine and never overwrites the first lead
+  ---
+  duration_ms: 743.541624
+  type: 'test'
+  ...
+# Subtest: current ERP actor revocation quarantines queued intake without a business or identity effect
+ok 22 - current ERP actor revocation quarantines queued intake without a business or identity effect
+  ---
+  duration_ms: 921.216145
+  type: 'test'
+  ...
+# Subtest: unmapped service and changed site mapping fail closed before any ERP HTTP request
+ok 23 - unmapped service and changed site mapping fail closed before any ERP HTTP request
+  ---
+  duration_ms: 718.231341
+  type: 'test'
+  ...
+# Subtest: SQLite queue failure rolls back intake and audit; retry commits one complete bridge transaction
+ok 24 - SQLite queue failure rolls back intake and audit; retry commits one complete bridge transaction
+  ---
+  duration_ms: 739.432425
+  type: 'test'
+  ...
+# Subtest: expired lease recovery fences stale settlement while two real deliveries create one ERP lead
+ok 25 - expired lease recovery fences stale settlement while two real deliveries create one ERP lead
+  ---
+  duration_ms: 742.253895
+  type: 'test'
+  ...
+# Subtest: same-company credential rotation preserves replay; different-company credentials cannot redirect queued intake
+ok 26 - same-company credential rotation preserves replay; different-company credentials cannot redirect queued intake
+  ---
+  duration_ms: 2112.817357
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 46462.746426

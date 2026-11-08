@@ -1,0 +1,1578 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "erp_session_fence",
+  "reviewedAtUtc": "2026-11-08T20:36:06.523306+00:00",
+  "verdict": "ACCEPT_CORRECTIVE_CHECKPOINT_DOCUMENTATION_SCOPED_ACTUAL_NEW_CI_PENDING",
+  "scope": "Documentation/provenance/counts review only; root owns independent source acceptance of the reviewer-authored PG fixture correction",
+  "baseCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "baseTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "document": {
+    "path": "knaba/docs/unified/NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md",
+    "bytes": 11172,
+    "sha256": "7242b8f61cc35f2a34d29a81572b37d26a06efd8e1792b65d7f18d93109f656b"
+  },
+  "preparation": {
+    "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/preparation-receipt.json",
+    "bytes": 29748,
+    "sha256": "0dd793b3648500f1f3bfea957259936616bd8cfabdcd30c2fcf6ddf276d724b4"
+  },
+  "findings": [
+    {
+      "id": "DOC-COUNT-01",
+      "severity": "WORDING_ONLY",
+      "status": "RESOLVED_BY_ROOT",
+      "detail": "numTotalTests counts test cases, not internal assertions; exactly one wording replacement; old/new evidence preserved",
+      "oldDocumentSha256": "ccd7bcc1ff0d11cef9aa41c287c53294676628742d0b3b9e1035e005100d862d",
+      "newDocumentSha256": "7242b8f61cc35f2a34d29a81572b37d26a06efd8e1792b65d7f18d93109f656b"
+    }
+  ],
+  "checks": {
+    "curatedByteIdenticalProofs": 40,
+    "combinedSourceInputs": 59,
+    "changedSourceInputs": 3,
+    "unchangedSourceInputs": 56,
+    "combinedDigest": "fc1028b2e4d97f4743f7e9d7a8f31c905d3b02dd641b5b5f657e38f19d91555c",
+    "threeFileDigest": "0fb82cc64ded282fd04655c4f709a70d777055cfea28464132d3c95ff7115a5c",
+    "digestAlgorithm": "SHA256(sorted path + TAB + sha256 + LF)",
+    "appendOnlyCanonicalFiles": 6,
+    "nativeInputs": {
+      "androidUnchanged": 79,
+      "iosTotal": 66,
+      "iosChangedTestOnly": [
+        "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift"
+      ]
+    },
+    "trace": {
+      "rows": 114,
+      "IN_PROGRESS": 42,
+      "NOT_RUN": 72
+    },
+    "newBoundedBudgetReservations": 1
+  },
+  "actualBa": {
+    "aggregate": "FAILED",
+    "erp": {
+      "testCases": 3341,
+      "passed": 3340,
+      "failed": 1,
+      "pending": 0,
+      "files": 151
+    },
+    "privacyPg": {
+      "total": 15,
+      "passed": 14,
+      "failed": 1,
+      "downstreamOfFirstFailureNotExecuted": true
+    },
+    "paired": {
+      "total": 26,
+      "passed": 26,
+      "F2Subset": 7,
+      "F3Subset": 8
+    },
+    "browser": {
+      "aggregate": "INCOMPLETE_FAILED",
+      "selected": 30,
+      "resultJsonBytes": 0,
+      "completeTimeoutTraces": 4,
+      "interruptedTrace": 1,
+      "dotsNotUsedForTotals": true
+    },
+    "ios": {
+      "total": 210,
+      "passed": 209,
+      "failed": 1,
+      "baselinePassedSubset": 145,
+      "federationSubset": 65,
+      "federationPassed": 64,
+      "finalSuccessArtifact": "NOT_CREATED",
+      "postTestInstallLaunch": "NOT_RUN"
+    },
+    "android": [
+      {
+        "label": "ci",
+        "inputs": 79,
+        "testCases": 81,
+        "warnings": 23,
+        "certificateSha256": "8b3ae8fd4f2da562d0de79ba9cdaf7b67c6d8262173c863d94674d2bf934ab8c",
+        "apkSha256": "b410b96cd6e46591b640087d304b3b11e4ab2619fe387eb622441d037134cf05",
+        "aabSha256": "bea0b0ee1caab41ac984cfc47f29954afa012d80ef0c9940789a447e7c74e2f9"
+      },
+      {
+        "label": "local",
+        "inputs": 79,
+        "testCases": 81,
+        "warnings": 20,
+        "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+        "apkSha256": "2672134aa1edffbd721c43ed4b252e500c9255c9b2b1f0c1caaef6182382a076",
+        "aabSha256": "8831f82fedb7665b0219b928924c6f6ee1f60493d9cb7e42fa9c2371d682f554"
+      }
+    ]
+  },
+  "sourceCorrectionReviews": [
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "reviewSha256": "064e42ba81db2f0b7c7cabb250bf42001d748318527f26d61217e2770f0fa26e",
+      "verdict": "ACCEPT_TEST_FIXTURE_CORRECTION_SCOPED_ACTUAL_POSTGRES_PENDING"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "reviewSha256": "6499af8cf742dd37f9461a56baad71303589afb2c38785ad7943c726f252a49f",
+      "verdict": "ACCEPT_TEST_CONTRACT_CORRECTION_SCOPED_ACTUAL_XCTEST_PENDING"
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "reviewSha256": "a5ac8afcfecf0b9d8abc2b7fe4767f3473ae49046fe4be299a45516e77166796",
+      "verdict": "ACCEPT_FOUR_LOCATOR_CORRECTIONS_SCOPED_ACTUAL_BROWSER_PENDING"
+    }
+  ],
+  "correctedActualCI": "NOT_RUN",
+  "wholeProduct": "NOT_READY",
+  "limitations": [
+    "No independent runtime rerun or self-approval of PG source patch",
+    "Android artifact hashes and root signature-review evidence verified; no new signature/key reads",
+    "Full ERP dist is absent locally; CI manifest references only, no reconstructed dist proof",
+    "No device, production, legal erase, provider or live acceptance"
+  ],
+  "repositoryEdits": false,
+  "buildTestCIRerun": false,
+  "providerOrPrivateKeyAccess": false,
+  "inputRecordsStableBeforeAfter": 287,
+  "inputs": [
+    {
+      "path": "knaba-ios-body-correction/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3837,
+      "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72"
+    },
+    {
+      "path": "knaba-privacy-browser-correction/erp/tests/privacy-projection-ui.spec.ts",
+      "bytes": 22737,
+      "sha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73"
+    },
+    {
+      "path": "knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts",
+      "bytes": 23549,
+      "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e"
+    },
+    {
+      "path": "knaba/.github/workflows/ios.yml",
+      "bytes": 5859,
+      "sha256": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a"
+    },
+    {
+      "path": "knaba/corporate-site/tests/ci-browser.mjs",
+      "bytes": 15045,
+      "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58"
+    },
+    {
+      "path": "knaba/corporate-site/tests/ci-browser.test.mjs",
+      "bytes": 7360,
+      "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca"
+    },
+    {
+      "path": "knaba/docs/unified/BACKLOG.md",
+      "bytes": 51461,
+      "sha256": "8ce5e18da9e88f2059ea21d1517aeb74f44b99951578286bf9cff5110134482b"
+    },
+    {
+      "path": "knaba/docs/unified/BUDGET.md",
+      "bytes": 25554,
+      "sha256": "c85e8db8b120a30bb2b8981dd4d0eb471acdfc89c242ada8b02022298d5531d7"
+    },
+    {
+      "path": "knaba/docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "bytes": 36960,
+      "sha256": "529ee6d0666a129501570f2485f4a0fa8fbc95f8122f67051e1d8bfb20246db5"
+    },
+    {
+      "path": "knaba/docs/unified/MASTER_ROADMAP.md",
+      "bytes": 41818,
+      "sha256": "1e7d7633578ab087d6c69f29dee600d823a28cf55408c1c9041aece283ee73d5"
+    },
+    {
+      "path": "knaba/docs/unified/NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md",
+      "bytes": 11172,
+      "sha256": "7242b8f61cc35f2a34d29a81572b37d26a06efd8e1792b65d7f18d93109f656b"
+    },
+    {
+      "path": "knaba/docs/unified/PROJECT_MEMORY.md",
+      "bytes": 97275,
+      "sha256": "ee9c480ae90a9ae75b323c880f463e12de64972ad715fdb9be937d30e818a255"
+    },
+    {
+      "path": "knaba/docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "bytes": 110565,
+      "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/actual-summary.json",
+      "bytes": 11231,
+      "sha256": "be26a5f572890c551b7d2932c34cb25c7f26ae0f4a7fa679b47c9b53506b920f"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android-ci-receipt.json",
+      "bytes": 13699,
+      "sha256": "9ca61843a8b09e9ea76903aaf1d9ea908530ee0c7961e1d3bbca78e434ca3cae"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android-independent-review.json",
+      "bytes": 8175,
+      "sha256": "239c5afda4dfc91e4d0f0ca5ec98d20f20c5d8228d0ca6dee9f0dcf0e5beaa9b"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android-lint-scope-correction.json",
+      "bytes": 988,
+      "sha256": "5cb72b1bf24c363c83ab063e11cf72055ce5f5065f088b9e76302c1fcbf0b039"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android-local-artifact-manifest.json",
+      "bytes": 10900,
+      "sha256": "5173c84e06072e3d74e1d4c0f39f2f1a6c2b1442eb71eeb262cc1983d549fcd8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android-local-receipt.json",
+      "bytes": 13690,
+      "sha256": "0f79dc310463a1ed97b1b68af95e72c7e5ab9c58a92b156c23c869e5578714c5"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android-review-harness-correction.json",
+      "bytes": 611,
+      "sha256": "d73205fcb35624b380c43e248b74762138d1f3bcd63bd3f35124ee6f152ac213"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android/ci-aab-signature.log",
+      "bytes": 161,
+      "sha256": "a54ec18a6a987973c7e4614aa96c52580036543d4ac0fadb39414ba1352946d4"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android/ci-apk-manifest.log",
+      "bytes": 4801,
+      "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android/ci-apk-signature.log",
+      "bytes": 955,
+      "sha256": "1bd768e640555d9e1bf9fbf4b974f9ca889773fbd133dbbbbc83bd1689dbfae5"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android/local-aab-signature.log",
+      "bytes": 161,
+      "sha256": "2c141c36bbd80c515c363a0101e0d3940d0db9f7b57f1c47c9a2a55b1f71abc8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android/local-apk-manifest.log",
+      "bytes": 4801,
+      "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/android/local-apk-signature.log",
+      "bytes": 955,
+      "sha256": "7e8209f033f2031aac2ecdc0d53a90cd80e6aec5045cef82dfda1ba667581a31"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser-build-manifest.json",
+      "bytes": 1735,
+      "sha256": "e5007ce07f2eb106c34e2e41781594167fff103312e606ab0848521307da0ad5"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser-diagnosis.json",
+      "bytes": 12880,
+      "sha256": "a4ce95be993b72d8c255dad3dda56e47855005e1854ff117889c595258afe800"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser-integration-receipt.json",
+      "bytes": 2802,
+      "sha256": "21407d725dbfb128cb8d470ecd078603b5326f7c8568ad1e64a754b30dcad0d8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/collection-execution.json",
+      "bytes": 507,
+      "sha256": "7b698605cccc1c07a9dc4fecae8dc1d8b85d4dcdcf6bd7df7f212c1755b5756d"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/collection.log",
+      "bytes": 4312,
+      "sha256": "fe4f15ad789050c493d51dddf68f0b03bfe0e5122c59fe84e53562d068dcd800"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/root-independent-review.json",
+      "bytes": 1083,
+      "sha256": "a5ac8afcfecf0b9d8abc2b7fe4767f3473ae49046fe4be299a45516e77166796"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/source-manifest.json",
+      "bytes": 9315,
+      "sha256": "2ad6427b0565dc73377b924c1784570e90922fa1441abc5568a11bf00ad7e274"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/source.patch",
+      "bytes": 4566,
+      "sha256": "a1ad169c0fcf91060089076e2bf118419073d2fcef33b907d62431fa8bcf3299"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/test-title-equivalence.json",
+      "bytes": 7004,
+      "sha256": "6309578dcc92ebbf7e7e32638ce0931588e19e084a00e488e1296dff58466073"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/typecheck-execution.json",
+      "bytes": 452,
+      "sha256": "5269c7ec4497c2af6f5f6956f48f89cfd745e2b66054b588c9b58bf3e952ec88"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/browser/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/ios-actual-failure-review.json",
+      "bytes": 1404,
+      "sha256": "821482ab191f05096a84c9f7e651d0944596ea90ea3944ed2391ea5bf4bde4aa"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/ios-actual-source.json",
+      "bytes": 14074,
+      "sha256": "f0918c94a5d2754d81d87f4c3c77a10c3b82e4335e4ba98d0ac045e862707ced"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/ios/initial-investigation.json",
+      "bytes": 4541,
+      "sha256": "09a53d033e56e082dd62467167b170a31fae8eea9403471544989812bce29600"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/ios/root-independent-review.json",
+      "bytes": 1249,
+      "sha256": "6499af8cf742dd37f9461a56baad71303589afb2c38785ad7943c726f252a49f"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/ios/source-manifest.json",
+      "bytes": 2413,
+      "sha256": "8ad869495eb9263992921711ef421f1b1db2fc0bf0cfb59f3ada488c16eb58ed"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/ios/source.patch",
+      "bytes": 1034,
+      "sha256": "bb4fbed35e1538bf387f25c607b13d332d7f14617d7d348a38f41253ea967067"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/preparation-receipt.json",
+      "bytes": 29748,
+      "sha256": "0dd793b3648500f1f3bfea957259936616bd8cfabdcd30c2fcf6ddf276d724b4"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/collection.json",
+      "bytes": 4761,
+      "sha256": "fe5b1c5aa99378216aca272f1e91051677933449c6dd0dbfc3ee9caab8bd5f12"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/diagnosis.md",
+      "bytes": 5501,
+      "sha256": "6052f87131b835fda92513a5d83dc0903b329e9a1a4a1883fe16fd59711b66c4"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/initial-failure.json",
+      "bytes": 1540,
+      "sha256": "39771a17eaa6066d45832dfa5d7aed39d61a32d35bdf31ddff06ee8d5847f7a8"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/read-only-storage-probe.log",
+      "bytes": 914,
+      "sha256": "8c5bea5f8155bb8f50779008294e1f317f4f394d6946b55af7a60a745ad0227a"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/read-only-storage-probe.mjs",
+      "bytes": 3426,
+      "sha256": "90c2fb75ac0a835f5502fcea9cb10fb81cefc92f006c8e92500de9b1c62fd86d"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/root-independent-review.json",
+      "bytes": 1292,
+      "sha256": "064e42ba81db2f0b7c7cabb250bf42001d748318527f26d61217e2770f0fa26e"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/source-manifest.json",
+      "bytes": 7260,
+      "sha256": "aa00ed36f24ae49de24dbccadfe5c702f4609bcef456b6c4f258e48021e7bf3b"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/source.patch",
+      "bytes": 4117,
+      "sha256": "1f7dd7df985f0bf3ac4bb0689978f75269aa121343e9cdc207e592b410d49b3c"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/privacy/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "knaba/docs/unified/evidence/full-completion-20261108/native-privacy/ba0686ed-correction/source-integration.json",
+      "bytes": 2156,
+      "sha256": "c3da83e1c0f4ea17202560e9db1a55d48fc68c839b3348aa5e98071ec36a160b"
+    },
+    {
+      "path": "knaba/erp/MASTER_ROADMAP.md",
+      "bytes": 38639,
+      "sha256": "5a3a1e4f05ecfb85f4b3e612674a4b1c695debf678ae0ff841ff0b4f1f9228ce"
+    },
+    {
+      "path": "knaba/erp/PROJECT_MEMORY.md",
+      "bytes": 71891,
+      "sha256": "bed066f7954398820c57f788f1312c17483aeaa7a46ae79a05e870d60a4230b8"
+    },
+    {
+      "path": "knaba/erp/apps/api/engine.ts",
+      "bytes": 54256,
+      "sha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d"
+    },
+    {
+      "path": "knaba/erp/apps/api/privacy-federation.ts",
+      "bytes": 6846,
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/.gitignore",
+      "bytes": 70,
+      "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/FEDERATION_LOGIN_UK.md",
+      "bytes": 9250,
+      "sha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/MEDIA_UK.md",
+      "bytes": 15144,
+      "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/README.md",
+      "bytes": 12709,
+      "sha256": "c0284f5dde20e488412add15e5f5355586faa2a57a61c0d1459fc571d4e3a48f"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/build.gradle.kts",
+      "bytes": 1172,
+      "sha256": "81cce0701e972fc365b5342079322c09a3652085f1ca938d416e375013ba5b83"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "bytes": 731,
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "bytes": 1494,
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+      "bytes": 1631,
+      "sha256": "da810639b116ac88db73c740e2d2798f72d4f386c85c60edc73ce4b7bdcf158c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ApiClient.kt",
+      "bytes": 7819,
+      "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+      "bytes": 2207,
+      "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+      "bytes": 2979,
+      "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+      "bytes": 34029,
+      "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleModules.kt",
+      "bytes": 4813,
+      "sha256": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+      "bytes": 816,
+      "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt",
+      "bytes": 2684,
+      "sha256": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+      "bytes": 1766,
+      "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+      "bytes": 18589,
+      "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+      "bytes": 2929,
+      "sha256": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "bytes": 67829,
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "bytes": 48991,
+      "sha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "bytes": 879,
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "bytes": 27101,
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+      "bytes": 19490,
+      "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+      "bytes": 2173,
+      "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+      "bytes": 1094,
+      "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpReadRetry.java",
+      "bytes": 1020,
+      "sha256": "050f3ea5bff0c21a9f3a21d27184a368df9123fc2a460b2fe59dcaed152e0635"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java",
+      "bytes": 4386,
+      "sha256": "d0c45b22eb3f527895997700ef238204ee2e4bc6d232e23e409cf3e44362c400"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GenerationFence.java",
+      "bytes": 613,
+      "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+      "bytes": 588,
+      "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+      "bytes": 1250,
+      "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "bytes": 16839,
+      "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+      "bytes": 1124,
+      "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeText.kt",
+      "bytes": 3609,
+      "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+      "bytes": 929,
+      "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "bytes": 9045,
+      "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ShiftClock.java",
+      "bytes": 1127,
+      "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/TrackingService.kt",
+      "bytes": 13423,
+      "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/drawable-nodpi/ic_knaba_brand.png",
+      "bytes": 22549,
+      "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba.xml",
+      "bytes": 659,
+      "sha256": "cd623da01ca07e7df07ad9b6dcac6d1d1efb2a05893a9b2616a5d1d7f0cd1c60"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba.xml",
+      "bytes": 247,
+      "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_knaba_round.xml",
+      "bytes": 247,
+      "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "bytes": 27280,
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "bytes": 29012,
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "bytes": 28749,
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "bytes": 37377,
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "bytes": 36988,
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "bytes": 29096,
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/main/res/xml/data_extraction_rules.xml",
+      "bytes": 1141,
+      "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+      "bytes": 31281,
+      "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "bytes": 13150,
+      "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "bytes": 59796,
+      "sha256": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+      "bytes": 4917,
+      "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "bytes": 21961,
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/build.gradle.kts",
+      "bytes": 143,
+      "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/gradle.properties",
+      "bytes": 183,
+      "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/gradle/wrapper/gradle-wrapper.properties",
+      "bytes": 251,
+      "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/gradlew",
+      "bytes": 869,
+      "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/gradlew.bat",
+      "bytes": 425,
+      "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/VerifyAppBundle.java",
+      "bytes": 2879,
+      "sha256": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/fixtures/DemoConsoleTransportVectors.java",
+      "bytes": 6937,
+      "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/package.sh",
+      "bytes": 11217,
+      "sha256": "9e36d3de356c73279d06ebe68aeddda7e32409c26e7b5b1ca5e1c7f9cc990a34"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-app-bundle.py",
+      "bytes": 2274,
+      "sha256": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "bytes": 1007,
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-federation-policy.py",
+      "bytes": 2733,
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-federation.sh",
+      "bytes": 1336,
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-localization.sh",
+      "bytes": 8563,
+      "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-transport.sh",
+      "bytes": 3075,
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/test-vectors.sh",
+      "bytes": 4113,
+      "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+      "bytes": 21363,
+      "sha256": "8a74f3065a07290bb6572ea5168ec56847dd457faafb3c343dd35f065f39fdcc"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpCredentialSafetyTest.java",
+      "bytes": 13108,
+      "sha256": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpFederationCookieTest.java",
+      "bytes": 1222,
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpFederationHttpTest.java",
+      "bytes": 10248,
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpFederationLoginTest.java",
+      "bytes": 36635,
+      "sha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+      "bytes": 3409,
+      "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+      "bytes": 4027,
+      "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+      "bytes": 24875,
+      "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/scripts/tests/ErpServerDiscoveryTest.java",
+      "bytes": 6788,
+      "sha256": "4b5a4e2939d3c8c4642e3516a8d75a9ee2bd011e7097c0ed8f1231c7c64d37d4"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-android/settings.gradle.kts",
+      "bytes": 269,
+      "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/FEDERATION.md",
+      "bytes": 6771,
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Info.Debug.plist",
+      "bytes": 2089,
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Info.plist",
+      "bytes": 1790,
+      "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+      "bytes": 1393,
+      "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+      "bytes": 179006,
+      "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "bytes": 203,
+      "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+      "bytes": 60,
+      "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+      "bytes": 846,
+      "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+      "bytes": 821,
+      "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+      "bytes": 865,
+      "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+      "bytes": 920,
+      "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+      "bytes": 1478,
+      "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+      "bytes": 1381,
+      "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/AppModel.swift",
+      "bytes": 8546,
+      "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPActionLabels.swift",
+      "bytes": 4622,
+      "sha256": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "bytes": 59676,
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "bytes": 16188,
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "bytes": 51387,
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+      "bytes": 17582,
+      "sha256": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "bytes": 5256,
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "bytes": 3415,
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "bytes": 18697,
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "bytes": 12754,
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "bytes": 18370,
+      "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+      "bytes": 7660,
+      "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+      "bytes": 14355,
+      "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "bytes": 29049,
+      "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "bytes": 21883,
+      "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+      "bytes": 6411,
+      "sha256": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 43665,
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+      "bytes": 8159,
+      "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/LocationTracker.swift",
+      "bytes": 12689,
+      "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/Models.swift",
+      "bytes": 8671,
+      "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/NativeAPI.swift",
+      "bytes": 5838,
+      "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+      "bytes": 35926,
+      "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+      "bytes": 3013,
+      "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Sources/SecureStore.swift",
+      "bytes": 9238,
+      "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+      "bytes": 10296,
+      "sha256": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+      "bytes": 11002,
+      "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "bytes": 3847,
+      "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+      "bytes": 27478,
+      "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+      "bytes": 14292,
+      "sha256": "f41ea53b4e6f2cce803aa3e44787791601b6dddd1a3b17c164ef2f9861a62652"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "bytes": 6231,
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "bytes": 25385,
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "bytes": 13714,
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "bytes": 9909,
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "bytes": 21529,
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3837,
+      "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+      "bytes": 7627,
+      "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "bytes": 13500,
+      "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+      "bytes": 8242,
+      "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+      "bytes": 5199,
+      "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+      "bytes": 11360,
+      "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "bytes": 20024,
+      "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+      "bytes": 16919,
+      "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift",
+      "bytes": 9841,
+      "sha256": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+      "bytes": 9703,
+      "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/Tests/NativeTests.swift",
+      "bytes": 7834,
+      "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/project.yml",
+      "bytes": 1601,
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/scripts/archive-release.sh",
+      "bytes": 3682,
+      "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/scripts/build.sh",
+      "bytes": 2750,
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/scripts/distribution.py",
+      "bytes": 20641,
+      "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/scripts/prepare-simulator.py",
+      "bytes": 8223,
+      "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "bytes": 3874,
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "path": "knaba/erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "bytes": 4469,
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "path": "knaba/erp/apps/web/src/App.tsx",
+      "bytes": 82273,
+      "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97"
+    },
+    {
+      "path": "knaba/erp/apps/web/src/CommandForm.tsx",
+      "bytes": 25721,
+      "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783"
+    },
+    {
+      "path": "knaba/erp/apps/web/src/PrivacyPage.tsx",
+      "bytes": 18772,
+      "sha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0"
+    },
+    {
+      "path": "knaba/erp/apps/web/src/privacyProjectionModel.test.ts",
+      "bytes": 13380,
+      "sha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724"
+    },
+    {
+      "path": "knaba/erp/apps/web/src/privacyProjectionModel.ts",
+      "bytes": 9855,
+      "sha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0"
+    },
+    {
+      "path": "knaba/erp/apps/web/src/style.css",
+      "bytes": 60305,
+      "sha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242"
+    },
+    {
+      "path": "knaba/erp/packages/domain/governance.ts",
+      "bytes": 28347,
+      "sha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1"
+    },
+    {
+      "path": "knaba/erp/packages/domain/privacy-federation.ts",
+      "bytes": 8892,
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff"
+    },
+    {
+      "path": "knaba/erp/packages/i18n/index.ts",
+      "bytes": 175344,
+      "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739"
+    },
+    {
+      "path": "knaba/erp/packages/i18n/privacyProjectionCopy.ts",
+      "bytes": 10312,
+      "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b"
+    },
+    {
+      "path": "knaba/erp/playwright.config.ts",
+      "bytes": 1000,
+      "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e"
+    },
+    {
+      "path": "knaba/erp/tests/governance.test.ts",
+      "bytes": 44418,
+      "sha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0"
+    },
+    {
+      "path": "knaba/erp/tests/native-vectors.json",
+      "bytes": 4538,
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a"
+    },
+    {
+      "path": "knaba/erp/tests/privacy-federation.integration.test.ts",
+      "bytes": 23549,
+      "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e"
+    },
+    {
+      "path": "knaba/erp/tests/privacy-federation.test.ts",
+      "bytes": 15393,
+      "sha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1"
+    },
+    {
+      "path": "knaba/erp/tests/privacy-projection-ui.spec.ts",
+      "bytes": 22737,
+      "sha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73"
+    },
+    {
+      "path": "knaba/scripts/mobile/package-ios-source.py",
+      "bytes": 5547,
+      "sha256": "1c8ad6edc56228e7a37ee613ccf9ccdc4a9fef6cd0784c02a9817c620cf6b377"
+    },
+    {
+      "path": "verification/ios-f3-body-bound-correction/initial-investigation.json",
+      "bytes": 4541,
+      "sha256": "09a53d033e56e082dd62467167b170a31fae8eea9403471544989812bce29600"
+    },
+    {
+      "path": "verification/ios-f3-body-bound-correction/root-independent-review.json",
+      "bytes": 1249,
+      "sha256": "6499af8cf742dd37f9461a56baad71303589afb2c38785ad7943c726f252a49f"
+    },
+    {
+      "path": "verification/ios-f3-body-bound-correction/source-manifest.json",
+      "bytes": 2413,
+      "sha256": "8ad869495eb9263992921711ef421f1b1db2fc0bf0cfb59f3ada488c16eb58ed"
+    },
+    {
+      "path": "verification/ios-f3-body-bound-correction/source.patch",
+      "bytes": 1034,
+      "sha256": "bb4fbed35e1538bf387f25c607b13d332d7f14617d7d348a38f41253ea967067"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/actual-summary.json",
+      "bytes": 11231,
+      "sha256": "be26a5f572890c551b7d2932c34cb25c7f26ae0f4a7fa679b47c9b53506b920f"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/app/build/reports/lint-results-debug.xml",
+      "bytes": 30864,
+      "sha256": "ed5686c7a95f2e31fca66119b4abc70ba4f65926c46311d060e4d4c0b5848f81"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleMediaScreenTest.xml",
+      "bytes": 2351,
+      "sha256": "d11a2df16a75a80f28875a3e56b7f2caa4f0bf74836c5ff48660ff504dfabeab"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+      "bytes": 1666,
+      "sha256": "e27decd3adf885343a5090f4ec95e985c3576aa8f601c96681f18ba8e88eef98"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+      "bytes": 7202,
+      "sha256": "d19a40168d8cda02a4fb23f1e868dfe6e9be12ee5f8274eb6095ad66d546b7b8"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpFederationActivityTest.xml",
+      "bytes": 1691,
+      "sha256": "9fe855bdd989543711bdba76d395d9350107828ffa06d16c9824199bf726996d"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.LauncherIconTest.xml",
+      "bytes": 457,
+      "sha256": "038e5797e81c22704e67b047ffe12304b725c3ecce32c1c55ceb23e72757cc9c"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.aab",
+      "bytes": 1037394,
+      "sha256": "bea0b0ee1caab41ac984cfc47f29954afa012d80ef0c9940789a447e7c74e2f9"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/build/distribution/prototype/KNABA-DE-0.5.0-test.apk",
+      "bytes": 3093102,
+      "sha256": "b410b96cd6e46591b640087d304b3b11e4ab2619fe387eb622441d037134cf05"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-artifact/build/distribution/prototype/receipt.json",
+      "bytes": 13699,
+      "sha256": "9ca61843a8b09e9ea76903aaf1d9ea908530ee0c7961e1d3bbca78e434ca3cae"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/ci-aab-signature.log",
+      "bytes": 161,
+      "sha256": "a54ec18a6a987973c7e4614aa96c52580036543d4ac0fadb39414ba1352946d4"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/ci-apk-manifest.log",
+      "bytes": 4801,
+      "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/ci-apk-signature.log",
+      "bytes": 955,
+      "sha256": "1bd768e640555d9e1bf9fbf4b974f9ca889773fbd133dbbbbc83bd1689dbfae5"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/local-aab-signature.log",
+      "bytes": 161,
+      "sha256": "2c141c36bbd80c515c363a0101e0d3940d0db9f7b57f1c47c9a2a55b1f71abc8"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/local-apk-manifest.log",
+      "bytes": 4801,
+      "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/local-apk-signature.log",
+      "bytes": 955,
+      "sha256": "7e8209f033f2031aac2ecdc0d53a90cd80e6aec5045cef82dfda1ba667581a31"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/android-independent-review/review.json",
+      "bytes": 8175,
+      "sha256": "239c5afda4dfc91e4d0f0ca5ec98d20f20c5d8228d0ca6dee9f0dcf0e5beaa9b"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/bridge-tap.txt",
+      "bytes": 7087,
+      "sha256": "3b423eae80ebb943ad4c142c905988b47a65041b336eb8b09b0bda43758a10ba"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/build-manifest.json",
+      "bytes": 1735,
+      "sha256": "e5007ce07f2eb106c34e2e41781594167fff103312e606ab0848521307da0ad5"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-0ca87-tical-reviewed-body-and-key/trace.zip",
+      "bytes": 1502820,
+      "sha256": "4aa23a0a8f3279dd7442f8f8c1f83f4f7565aa2ac4e8de413dcecab8997a29d2"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-5ffd2--a-closed-and-reopened-form/trace.zip",
+      "bytes": 405103,
+      "sha256": "45c1e4bc0a6f6ea31949489e63f3b330356b6503d6cb5e5cb034370343e2c27b"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-848da-d-exact-own-request-payload/trace.zip",
+      "bytes": 1419144,
+      "sha256": "6ad1d2ec205f069089cdb5e5f98358de25666652c63da3e76ad87dcd8c4221d5"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-a3d5f-ntil-an-explicit-new-choice/trace.zip",
+      "bytes": 1470857,
+      "sha256": "feab750ee1b4bbc136bbd369bee43ec82dc1f695dd4e88b4cda0731beb150ef0"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-acb7f-n-absent-projection-version/trace.zip",
+      "bytes": 1492003,
+      "sha256": "281405b952053d69c7af09da0f93bd05efcfb53fe1745fbbb0d2ff0eb8032e27"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/result.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 2802,
+      "sha256": "21407d725dbfb128cb8d470ecd078603b5326f7c8568ad1e64a754b30dcad0d8"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/collection-execution.json",
+      "bytes": 507,
+      "sha256": "7b698605cccc1c07a9dc4fecae8dc1d8b85d4dcdcf6bd7df7f212c1755b5756d"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/collection.log",
+      "bytes": 4312,
+      "sha256": "fe4f15ad789050c493d51dddf68f0b03bfe0e5122c59fe84e53562d068dcd800"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/root-independent-review.json",
+      "bytes": 1083,
+      "sha256": "a5ac8afcfecf0b9d8abc2b7fe4767f3473ae49046fe4be299a45516e77166796"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/source-manifest.json",
+      "bytes": 9315,
+      "sha256": "2ad6427b0565dc73377b924c1784570e90922fa1441abc5568a11bf00ad7e274"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/source.patch",
+      "bytes": 4566,
+      "sha256": "a1ad169c0fcf91060089076e2bf118419073d2fcef33b907d62431fa8bcf3299"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/test-title-equivalence.json",
+      "bytes": 7004,
+      "sha256": "6309578dcc92ebbf7e7e32638ce0931588e19e084a00e488e1296dff58466073"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/typecheck-execution.json",
+      "bytes": 452,
+      "sha256": "5269c7ec4497c2af6f5f6956f48f89cfd745e2b66054b588c9b58bf3e952ec88"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/review.json",
+      "bytes": 12880,
+      "sha256": "a4ce95be993b72d8c255dad3dda56e47855005e1854ff117889c595258afe800"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/erp-artifact/erp-vitest.json",
+      "bytes": 1456454,
+      "sha256": "0a5849cfc38d2c393b6af3786b3a5ff3867febac2fb52925b1b425bae3286920"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/ios-actual-failure-review.json",
+      "bytes": 1404,
+      "sha256": "821482ab191f05096a84c9f7e651d0944596ea90ea3944ed2391ea5bf4bde4aa"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/ios-failure-artifact/ios-build-tests.log",
+      "bytes": 292129,
+      "sha256": "8dd23c8814c180e3a00855b86a3f52cadd507b9b1254303faacf26dad648177a"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/ios-failure-artifact/source.json",
+      "bytes": 14074,
+      "sha256": "f0918c94a5d2754d81d87f4c3c77a10c3b82e4335e4ba98d0ac045e862707ced"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/KNABA-DE-0.5.0-test.aab",
+      "bytes": 1037392,
+      "sha256": "8831f82fedb7665b0219b928924c6f6ee1f60493d9cb7e42fa9c2371d682f554"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/KNABA-DE-0.5.0-test.apk",
+      "bytes": 3093102,
+      "sha256": "2672134aa1edffbd721c43ed4b252e500c9255c9b2b1f0c1caaef6182382a076"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/artifact-manifest.json",
+      "bytes": 10900,
+      "sha256": "5173c84e06072e3d74e1d4c0f39f2f1a6c2b1442eb71eeb262cc1983d549fcd8"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/receipt.json",
+      "bytes": 13690,
+      "sha256": "0f79dc310463a1ed97b1b68af95e72c7e5ab9c58a92b156c23c869e5578714c5"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/tests/TEST-de.knaba.mobile.ConsoleMediaScreenTest.xml",
+      "bytes": 2352,
+      "sha256": "3d64a8c8090eff574d88b055a909a8b4003485f1752154d873851ab24e2498e9"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/tests/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+      "bytes": 1664,
+      "sha256": "a725b17887fa15def9dc1ba083cde5381439efba6d0ec1ac12e0948712e25750"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/tests/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+      "bytes": 7198,
+      "sha256": "0e07274af8e54b73a6ce30480c9b2fa1458cd41669ea7ec04db6de87c39cab93"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/tests/TEST-de.knaba.mobile.ErpFederationActivityTest.xml",
+      "bytes": 1690,
+      "sha256": "dcd53997b56176b708e62717b25b622afb35792fec5b5354e5da08bdb70fc844"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/tests/TEST-de.knaba.mobile.LauncherIconTest.xml",
+      "bytes": 456,
+      "sha256": "8d686fddd1c3acd5e9808bc9d8fcb1bd066c7f85d25955a7a0d9de897448caf7"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/local-android/tests/lint-results-debug.xml",
+      "bytes": 27332,
+      "sha256": "78da9f48edede3b4608e2c0feafe151810f0c31b5ed983e229d09b09bb4c9913"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/run-set-final.json",
+      "bytes": 73403,
+      "sha256": "701feb643b2d6cc254b039e43a8ed7c19415af65fff45ce8f79d36fce48747ea"
+    },
+    {
+      "path": "verification/native-privacy-checkpoint/android-lint-scope-correction.json",
+      "bytes": 988,
+      "sha256": "5cb72b1bf24c363c83ab063e11cf72055ce5f5065f088b9e76302c1fcbf0b039"
+    },
+    {
+      "path": "verification/native-privacy-checkpoint/android-review-harness-correction.json",
+      "bytes": 611,
+      "sha256": "d73205fcb35624b380c43e248b74762138d1f3bcd63bd3f35124ee6f152ac213"
+    },
+    {
+      "path": "verification/native-privacy-corrective-checkpoint/document-before-wording-fix.md",
+      "bytes": 11172,
+      "sha256": "ccd7bcc1ff0d11cef9aa41c287c53294676628742d0b3b9e1035e005100d862d"
+    },
+    {
+      "path": "verification/native-privacy-corrective-checkpoint/preparation-before-wording-fix.json",
+      "bytes": 680,
+      "sha256": "f7755061a41ef7991fad702c45d332f0275d75f9af1692440b9c2219c285353d"
+    },
+    {
+      "path": "verification/native-privacy-corrective-checkpoint/preparation-receipt-before-wording-fix.json",
+      "bytes": 29748,
+      "sha256": "e89a9be49bc8ede4525d4dcd6b03ed4b517a54facea6c5697d1575e07d9fb557"
+    },
+    {
+      "path": "verification/native-privacy-corrective-checkpoint/source-integration.json",
+      "bytes": 2156,
+      "sha256": "c3da83e1c0f4ea17202560e9db1a55d48fc68c839b3348aa5e98071ec36a160b"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/collection.json",
+      "bytes": 4761,
+      "sha256": "fe5b1c5aa99378216aca272f1e91051677933449c6dd0dbfc3ee9caab8bd5f12"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/diagnosis.md",
+      "bytes": 5501,
+      "sha256": "6052f87131b835fda92513a5d83dc0903b329e9a1a4a1883fe16fd59711b66c4"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/initial-failure.json",
+      "bytes": 1540,
+      "sha256": "39771a17eaa6066d45832dfa5d7aed39d61a32d35bdf31ddff06ee8d5847f7a8"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/read-only-storage-probe.log",
+      "bytes": 914,
+      "sha256": "8c5bea5f8155bb8f50779008294e1f317f4f394d6946b55af7a60a745ad0227a"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/read-only-storage-probe.mjs",
+      "bytes": 3426,
+      "sha256": "90c2fb75ac0a835f5502fcea9cb10fb81cefc92f006c8e92500de9b1c62fd86d"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/root-independent-review.json",
+      "bytes": 1292,
+      "sha256": "064e42ba81db2f0b7c7cabb250bf42001d748318527f26d61217e2770f0fa26e"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/source-manifest.json",
+      "bytes": 7260,
+      "sha256": "aa00ed36f24ae49de24dbccadfe5c702f4609bcef456b6c4f258e48021e7bf3b"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/source.patch",
+      "bytes": 4117,
+      "sha256": "1f7dd7df985f0bf3ac4bb0689978f75269aa121343e9cdc207e592b410d49b3c"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

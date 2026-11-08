@@ -1,0 +1,48 @@
+{
+  "integratedAtUtc": "2026-11-08T20:24:23.394939+00:00",
+  "baseCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "baseTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "sourceFiles": [
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "sourceWorktree": "knaba-privacy-pg-correction",
+      "preimageSha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d",
+      "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e",
+      "review": "verification/privacy-v2/corrective-ba0686ed/root-independent-review.json",
+      "reviewSha256": "064e42ba81db2f0b7c7cabb250bf42001d748318527f26d61217e2770f0fa26e",
+      "mode": "0o644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "sourceWorktree": "knaba-ios-body-correction",
+      "preimageSha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6",
+      "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72",
+      "review": "verification/ios-f3-body-bound-correction/root-independent-review.json",
+      "reviewSha256": "6499af8cf742dd37f9461a56baad71303589afb2c38785ad7943c726f252a49f",
+      "mode": "0o644"
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "sourceWorktree": "knaba-privacy-browser-correction",
+      "preimageSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "sha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73",
+      "review": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/root-independent-review.json",
+      "reviewSha256": "a5ac8afcfecf0b9d8abc2b7fe4767f3473ae49046fe4be299a45516e77166796",
+      "mode": "0o644"
+    }
+  ],
+  "sourceDigest": "0fb82cc64ded282fd04655c4f709a70d777055cfea28464132d3c95ff7115a5c",
+  "productionRuntimeChanged": false,
+  "androidInputs": {
+    "total": 79,
+    "changed": []
+  },
+  "iosInputs": {
+    "total": 66,
+    "changed": [
+      "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift"
+    ]
+  },
+  "correctedActualCI": "NOT_RUN",
+  "wholeProduct": "NOT_READY"
+}

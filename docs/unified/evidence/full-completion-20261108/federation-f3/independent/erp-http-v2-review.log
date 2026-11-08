@@ -1,0 +1,12 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-login-http.test.ts (9 tests) 1222ms
+     ✓ normalizes a terminal binding loss to 401 only for a derived session, preserving business 403 and outage 503  449ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  16:49:49
+   Duration  6.25s (transform 2.67s, setup 0ms, import 4.65s, tests 1.22s, environment 0ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-http-v2-review.json

@@ -1,0 +1,68 @@
+{
+  "sourceCommit": "a202ddc8d527f90dc7c13a923a11336410623173",
+  "scope": "Copied original bounded text receipts; full runtime/browser raw reports separately preserved",
+  "files": [
+    {
+      "path": "independent-acceptance.json",
+      "bytes": 17377,
+      "sha256": "ff4ebbd6fb7917f35de905ac7daf4d044f1b2c2871bd4a1dee31ac8bfbbf7760"
+    },
+    {
+      "path": "erp-scoped-review.json",
+      "bytes": 9795,
+      "sha256": "74b7d39dce7bfe0dfd5d98331934711de6ca4131b750545e1a4ddd12fcd07603"
+    },
+    {
+      "path": "browser-pair-scoped-review.json",
+      "bytes": 17967,
+      "sha256": "a0590232d4f63d795ac3a763b71059527942b4d4dc13072dcfdf362b8dafaf8d"
+    },
+    {
+      "path": "pr-runs-final.json",
+      "bytes": 1348,
+      "sha256": "2697f55756ff939eeac3c9af44122581838fbb09c9130052969c8007c93a464f"
+    },
+    {
+      "path": "jobs-final.json",
+      "bytes": 11918,
+      "sha256": "61b560a6d907e3440902b5e91d635752a76d1c282829ce9b007e53990f9bbfc7"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 11106,
+      "sha256": "cfbbbff42d65026443f3f28f6f3330d9861e99e19c6811cc723f9d91d509e815"
+    },
+    {
+      "path": "site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0888464c7863b24afbb6b6566e7d63de9dbb26ee3539cca5e429c86efc05210d"
+    },
+    {
+      "path": "browser-artifact/bridge-tap.txt",
+      "bytes": 7087,
+      "sha256": "4fc0d01cc4fe4b5544d22ef110d479cc3ae9d44857f7e0cbed5adbf1e5b88f8f"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 2763,
+      "sha256": "415527e4ac261a67c027e525cc7bedda3a4cce89f04f12c8e7409c884dc8b9cc"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/error-context.md",
+      "bytes": 1578,
+      "sha256": "5f8edb2008efb843a86a5d1861aaaa6fff56b75ce5855c970c0aec725e4bf67d"
+    },
+    {
+      "path": "failure-artifact/knaba-ci-failure.json",
+      "bytes": 239,
+      "sha256": "233db084b89f994cf8c10448cdaff9545895d384b7c91537099d6c14547f19ba"
+    }
+  ],
+  "originalBrowserImagesOrTraceIncluded": false,
+  "wholeF3Acceptance": "FAILED_REQUIRED_BROWSER_CASE"
+}

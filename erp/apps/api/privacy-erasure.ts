@@ -1,3 +1,4 @@
+import {assertRequestAuthority,carryRequestAuthority} from './request-authority.ts';
 import {randomUUID} from 'node:crypto';
 import {z} from 'zod';
 import {assert,DomainError,type Actor,type CommandContext,type CommandRegistry,type Data,type Entity} from '../../packages/domain/core.ts';
@@ -29,7 +30,7 @@ export async function loadPrivacyErasureSnapshot(tx:PgTransaction,requestId:stri
   webhookInbox:w.rows.map(row=>({companyId:row.company_id,provider:row.provider,eventId:row.event_id,payload:row.payload}))};
 }
 async function serverNow(tx:PgTransaction){return new Date((await tx.query('SELECT clock_timestamp() AS now')).rows[0].now).toISOString();}
-async function currentAuthority(tx:PgTransaction,engine:PrivacyErasureEngine,actor:Actor){const fresh=await engine.actorIn(tx,actor.userId);fresh.mfaVerified=actor.mfaVerified;return {actor:fresh,now:await serverNow(tx)};}
+async function currentAuthority(tx:PgTransaction,engine:PrivacyErasureEngine,actor:Actor){await assertRequestAuthority(tx,actor);const fresh=carryRequestAuthority(actor,await engine.actorIn(tx,actor.userId));fresh.mfaVerified=actor.mfaVerified;return {actor:fresh,now:await serverNow(tx)};}
 function changed(){throw new DomainError('VERSION_CONFLICT',{reason:'ERASURE_PREIMAGE_CHANGED'});}
 function same(value:unknown,action:ErasureAction){if(erasureHash(value)!==action.expectedDataHash)changed();}
 function storageIdentity(storage:PrivateBlobStore){assert(typeof storage.identity==='string'&&/^[a-f0-9]{64}$/.test(storage.identity),'MISSING_CONFIGURATION',{reason:'S3_ERASURE_NAMESPACE_IDENTITY_REQUIRED'});return storage.identity;}

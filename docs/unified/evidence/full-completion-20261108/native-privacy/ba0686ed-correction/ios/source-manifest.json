@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "status": "FROZEN_TEST_ONLY_CORRECTION_XCTEST_NOT_RUN",
+  "observedAt": "2026-11-08T20:12:34.985041+00:00",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-ios-body-correction",
+  "branch": "fix/knaba-ios-body-bound-20261108",
+  "base": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "source": [
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "bytes": 3837,
+      "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72",
+      "preimageSha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    }
+  ],
+  "runtimeDependencies": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7",
+      "unchangedFromBase": true
+    }
+  ],
+  "diff": {
+    "path": "source.patch",
+    "sha256": "bb4fbed35e1538bf387f25c607b13d332d7f14617d7d348a38f41253ea967067",
+    "files": 1,
+    "insertions": 4,
+    "deletions": 1
+  },
+  "localVerification": {
+    "gitApplyCheckExit": 0,
+    "gitDiffCheckExit": 0,
+    "exactApprovedReplacement": true,
+    "allTestMethodNamesAndFilesUnchanged": true,
+    "testMethodDeclarationsBefore": 210,
+    "testMethodDeclarationsAfter": 210
+  },
+  "actualWitness": {
+    "path": "initial-investigation.json",
+    "sha256": "09a53d033e56e082dd62467167b170a31fae8eea9403471544989812bce29600",
+    "scope": "Actual ba XCTest failure retained; historical input65536/body70000 distinction confirmed by exact blobs."
+  },
+  "limits": [
+    "No Swift compiler, XCTest, runtime build, config tests, CI rerun or network call executed for corrected source.",
+    "All real URLSession bodyNil/content-length and2MiB response assertions retained.",
+    "No runtime limit, journal, media, actor/auth, signing, version, minimum OS or workflow change.",
+    "No commit/push/deploy.",
+    "Corrected actual macOS acceptance remains NOT_RUN;210 is preserved declaration inventory, not210 new passes."
+  ]
+}

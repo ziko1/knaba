@@ -1,6 +1,7 @@
 import { lazy, Match, Show, Switch } from 'solid-js';
 import { canAccessAdminModule, type AdminModuleId } from '../lib/admin-access';
 import type { PortalLocale } from '../lib/portal-i18n';
+import type {InboxLabels} from '../lib/assistant-inbox-i18n';
 
 // Adapter boundary: each already-shipped feature keeps its API, state,
 // migration history, authentication and independent lazy JS chunk.
@@ -13,6 +14,7 @@ export default function AdminModuleOutlet(props: {
   id: AdminModuleId;
   role: string | null | undefined;
   locale: PortalLocale;
+  initialInboxLabels: InboxLabels;
   active?: boolean;
   testing?: boolean;
 }) {
@@ -21,7 +23,7 @@ export default function AdminModuleOutlet(props: {
     <Switch>
       <Match when={props.id === 'operations'}><Portal locale={props.locale} embedded active={props.active} testing={props.testing} /></Match>
       <Match when={props.id === 'crm'}><CrmConsole /></Match>
-      <Match when={props.id === 'messages'}><AssistantInbox locale={props.locale === 'ru' ? 'ru' : 'de'} /></Match>
+      <Match when={props.id === 'messages'}><AssistantInbox locale={props.locale} initialLocale="de" initialLabels={props.initialInboxLabels} /></Match>
       <Match when={props.id === 'studio'}><SiteStudio /></Match>
     </Switch>
   </Show>;

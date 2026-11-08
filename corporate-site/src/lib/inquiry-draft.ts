@@ -1,5 +1,7 @@
 import type {InquiryData} from './inquiry';
 import {offerBySlug} from '../data/construction-offers';
+import type {AssistantTicket} from './assistant-recovery';
+import {sameAssistantTicket} from './assistant-request-state';
 
 export interface InquiryDraft {
   data: InquiryData;
@@ -8,10 +10,10 @@ export interface InquiryDraft {
   reviewing: boolean;
   entryTopic?: string;
 }
-type Submission = InquiryData & {privacyAccepted:true;website:string;idempotencyKey:string};
+type Submission = InquiryData & {privacyAccepted:true;website:string;idempotencyKey:string;transferAccepted?:true};
 
 /** One transient draft per document runtime. No storage, URL, network or SSR writes. */
-export function createInquiryDraftMemory(){
+function createDraftMemory(assistant=false){
   let draft:InquiryDraft|null=null;
   let submission:Submission|null=null;
   let navigationTopic:string|null|undefined;
@@ -45,9 +47,26 @@ export function createInquiryDraftMemory(){
     prepareSubmission(data:InquiryData,website:string,createId:()=>string):Submission {
       // A timeout followed by a language change must retry the exact original
       // body and key, not send a second localized copy of the same request.
-      submission??={...data,privacyAccepted:true,website,idempotencyKey:createId()};
+      submission??={...data,privacyAccepted:true,website,idempotencyKey:createId(),...(assistant?{transferAccepted:true as const}:{})};
       navigation?.refresh();
       return {...submission};
+    },
+  };
+}
+export function createInquiryDraftMemory(){
+  const publicDraft=createDraftMemory();
+  // At most one private draft. Changing the complete capability discards the
+  // previous private draft and pending body; a public draft never inherits it.
+  let guest:{ticket:AssistantTicket;memory:ReturnType<typeof createDraftMemory>;current:()=>boolean}|null=null;
+  return {...publicDraft,
+    forAssistant(ticket:AssistantTicket,current=()=>true){
+      if(!guest||!sameAssistantTicket(guest.ticket,ticket)||!guest.current()){
+        guest?.memory.clear();guest={ticket:{...ticket},memory:createDraftMemory(true),current};
+      }
+      return guest.memory;
+    },
+    forgetAssistant(ticket:AssistantTicket){
+      if(guest&&sameAssistantTicket(guest.ticket,ticket)){guest.memory.clear();guest=null;}
     },
   };
 }

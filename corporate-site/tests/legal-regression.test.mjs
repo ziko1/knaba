@@ -19,7 +19,7 @@ for (const [locale, privacyPath, imprintPath] of [
       assert.ok(privacy.includes(`aria-labelledby="${anchor}"`), `${locale}: missing privacy section ${anchor}`);
       assert.ok(privacy.includes(`id="${anchor}"`), `${locale}: missing privacy title ${anchor}`);
     }
-    assert.match(privacy, /28\.?\s*(?:Oktober|октября)\s*2026/);
+    assert.match(privacy, /8\.?\s*(?:November|ноября)\s*2026/);
     assert.match(privacy, /§ 25(?:\s+Abs\.)?.*TDDDG/);
     assert.match(privacy, /Turnstile/);
     assert.match(privacy, /§ 201 StGB/);
@@ -54,13 +54,14 @@ test('legal source never represents a generic privacy acknowledgement as marketi
 
 test('assistant transparency is shown in all four public languages before a message is sent', () => {
   const component = readFileSync(new URL('../src/components/KnabaAssistant.tsx', import.meta.url), 'utf8');
+  const labels = ['de','en','uk','ru'].map(locale=>JSON.parse(readFileSync(new URL(`../src/data/assistant-widget-locales/widget-${locale}.json`,import.meta.url),'utf8'))).map(pack=>pack.notice).join('\n');
   for (const notice of [
     'Dies ist ein automatisierter Assistent, kein Mensch.',
     'You are interacting with an automated assistant, not a person.',
     'Це автоматизований помічник, а не людина.',
     'Это автоматизированный помощник, а не человек.',
   ]) {
-    assert.ok(component.includes(notice), `Missing localized assistant transparency: ${notice}`);
+    assert.ok(labels.includes(notice), `Missing localized assistant transparency: ${notice}`);
   }
   assert.match(component, /<p class="ka-note">\{t\.notice\}<\/p>/);
 });

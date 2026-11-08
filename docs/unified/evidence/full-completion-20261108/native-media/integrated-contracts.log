@@ -1,0 +1,12 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba/erp
+
+ ✓ tests/media-file-access.test.ts (13 tests) 178ms
+ ✓ tests/native-console-contract.test.ts (134 tests) 76ms
+
+ Test Files  2 passed (2)
+      Tests  147 passed (147)
+   Start at  16:52:09
+   Duration  5.08s (transform 2.78s, setup 0ms, import 4.05s, tests 254ms, environment 0ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/native-media/integrated-contracts.json

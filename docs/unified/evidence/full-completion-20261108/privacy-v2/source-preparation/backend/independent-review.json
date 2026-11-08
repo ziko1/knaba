@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "root independent of backend author",
+  "status": "ACCEPT_SOURCE_SCOPED_ACTUAL_PG_PENDING",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "manifestSha256": "d4c5e0ae18e5e87e7b555e45ce06e87522fef33e83c4177ece6b5e5538381d0e",
+  "sourceDigest": "bf881ddb1fab39e738814b52d1197f2056b9cd790f82300291c150cb467cc92a",
+  "sourceFiles": [
+    {
+      "path": "erp/packages/domain/governance.ts",
+      "sha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1",
+      "bytes": 28347
+    },
+    {
+      "path": "erp/packages/domain/privacy-federation.ts",
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff",
+      "bytes": 8892
+    },
+    {
+      "path": "erp/apps/api/privacy-federation.ts",
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8",
+      "bytes": 6846
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "sha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d",
+      "bytes": 54256
+    },
+    {
+      "path": "erp/tests/governance.test.ts",
+      "sha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0",
+      "bytes": 44418
+    },
+    {
+      "path": "erp/tests/privacy-federation.test.ts",
+      "sha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1",
+      "bytes": 15393
+    },
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "sha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d",
+      "bytes": 22543
+    }
+  ],
+  "sourceUnchangedDuringReview": true,
+  "blockingFindings": [],
+  "checks": [
+    "Absent-only v1 schema/input digest and unchanged canonical snapshot/ACK",
+    "Immutable request-selected version and exact current legal version/category scope",
+    "Only v2 PROFILE invokes six owned SQL reads inside existing SERIALIZABLE company transaction",
+    "Ownership and issuer/audience/subject joins before remaining-plus-one limit; malformed known-owned LEFT JOIN rows fail DTO",
+    "25000 total raw source records includes sessions before aggregation",
+    "Explicit strict DTO constructors exclude token/hash/proof/epoch/sessionRef/raw operation/audit material",
+    "Revoked history retained; stored principal status is not live authority; retention remains preserve-only",
+    "No artifact/event/success receipt before complete projection validation; unchanged same-key Engine replay path",
+    "Existing secured download checks subject/request/version/category/company/checksum and original/current/final authority fence",
+    "15 genuine PG/HTTP cases reviewed; constraints and transaction implementation preserved"
+  ],
+  "independentLocalTest": {
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "tests/privacy-federation.test.ts",
+      "--reporter=json",
+      "--outputFile=/workspace/scratch/c56161c95e04/verification/privacy-v2/backend-independent-review/metadata-result.json"
+    ],
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "kind": "CPU_AND_SQL_DOUBLES_ONLY",
+    "resultSha256": "c23b9691c37e17fc2119c2ce19f9dadc4a4acfbd932287367d3da50283d62366",
+    "logSha256": "5839e61802470ea444f52b6a387a4c085c34d3751cebb9b3d719b9871f5d50c3"
+  },
+  "limitations": [
+    "Actual PostgreSQL 15 cases require existing CI with zero skips",
+    "Rendered UI and native slices have separate reviews",
+    "No live/provider/device/production/legal/full-system acceptance"
+  ],
+  "startedAt": "2026-11-08T18:42:58.012714+00:00",
+  "finishedAt": "2026-11-08T18:43:01.038533+00:00"
+}

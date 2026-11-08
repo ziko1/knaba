@@ -1,0 +1,138 @@
+{
+  "commit": "dc54f109c52e3b8f8a2e506821a6eb322b5417c4",
+  "purpose": "Exact pre-F2 startup and cookie reader with canonical Assistant0017; test-only, never runtime code.",
+  "files": [
+    {
+      "path": "vps/database.mjs",
+      "source": "corporate-site/vps/database.mjs",
+      "bytes": 12489,
+      "sha256": "ffca3d9ee54959e96f13d7da194fa9070903470e3ec4f9cd8f99d5f4143c47c9"
+    },
+    {
+      "path": "vps/migration-guard.mjs",
+      "source": "corporate-site/vps/migration-guard.mjs",
+      "bytes": 1992,
+      "sha256": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e"
+    },
+    {
+      "path": "vps/auth.mjs",
+      "source": "corporate-site/vps/auth.mjs",
+      "bytes": 7137,
+      "sha256": "07165f2b1e27d349aa8051e057856916a6c0756d419e6edf212a3eb05632f7e8"
+    },
+    {
+      "path": "drizzle/0000_needy_war_machine.sql",
+      "source": "corporate-site/drizzle/0000_needy_war_machine.sql",
+      "bytes": 2132,
+      "sha256": "443dfc2d55807c5ec5649758ca926ceca0de9be81292c9da09988b586debc230"
+    },
+    {
+      "path": "drizzle/0001_lazy_angel.sql",
+      "source": "corporate-site/drizzle/0001_lazy_angel.sql",
+      "bytes": 1794,
+      "sha256": "fbb8d471e6061933e5c4af39f4e0eda4c5718a1677010d4613e6279f3052c881"
+    },
+    {
+      "path": "drizzle/0002_tense_mother_askani.sql",
+      "source": "corporate-site/drizzle/0002_tense_mother_askani.sql",
+      "bytes": 767,
+      "sha256": "22741475744dcc916c216cb343bedb0c616d1517ab16dc5a9b90648eb27ad3b0"
+    },
+    {
+      "path": "drizzle/0003_absurd_bedlam.sql",
+      "source": "corporate-site/drizzle/0003_absurd_bedlam.sql",
+      "bytes": 1024,
+      "sha256": "8f21e073faa31f0cd86f0d1616828c9cd89e16b25f0a30295d7476af67e306fe"
+    },
+    {
+      "path": "drizzle/0004_dusty_hiroim.sql",
+      "source": "corporate-site/drizzle/0004_dusty_hiroim.sql",
+      "bytes": 777,
+      "sha256": "c24b6689439fa8347f866da23264b2acb25d71c29600d80f89984698a0d457f6"
+    },
+    {
+      "path": "drizzle/0005_public_reviews.sql",
+      "source": "corporate-site/drizzle/0005_public_reviews.sql",
+      "bytes": 1024,
+      "sha256": "f97b805b4a628ece1ddf8bf35c8987f48942e81b43d39b555cc55dbb0c30994b"
+    },
+    {
+      "path": "drizzle/0006_owner_invite.sql",
+      "source": "corporate-site/drizzle/0006_owner_invite.sql",
+      "bytes": 465,
+      "sha256": "dc3e0cb218812f3be791e0300a626e5b821919553a80017662fbe7311d6b7148"
+    },
+    {
+      "path": "drizzle/0007_account_invites.sql",
+      "source": "corporate-site/drizzle/0007_account_invites.sql",
+      "bytes": 989,
+      "sha256": "1bd5496f410e46c7a31c39ee98d1d9762320adebbe699af1de42651cb2173fb2"
+    },
+    {
+      "path": "drizzle/0008_access_requests.sql",
+      "source": "corporate-site/drizzle/0008_access_requests.sql",
+      "bytes": 1095,
+      "sha256": "263f28745f30c2cbb0e02e3384d694aa36fe8c937eab08807184eecb2c339b95"
+    },
+    {
+      "path": "drizzle/0009_partner_access.sql",
+      "source": "corporate-site/drizzle/0009_partner_access.sql",
+      "bytes": 2267,
+      "sha256": "824eb00ec092b7229513e615107eb457d08ba09f01ad5ca3296b7e6aaf567aab"
+    },
+    {
+      "path": "drizzle/0010_owner_details.sql",
+      "source": "corporate-site/drizzle/0010_owner_details.sql",
+      "bytes": 553,
+      "sha256": "7055eac88d992b92218f6b64e83fddd75d48f42551bb78e84c68d112a03f2b1a"
+    },
+    {
+      "path": "drizzle/0011_bauleiter_access.sql",
+      "source": "corporate-site/drizzle/0011_bauleiter_access.sql",
+      "bytes": 2689,
+      "sha256": "48be4656f908f2819b08e850ff7e5ab5fe8f21ca67780d212a294d92ec1c62ed"
+    },
+    {
+      "path": "drizzle/0012_portal_messages.sql",
+      "source": "corporate-site/drizzle/0012_portal_messages.sql",
+      "bytes": 1917,
+      "sha256": "3f12e7761759e8b30d0e8886bd6b8d414dead264e83b1faaf5d357fea3a353e4"
+    },
+    {
+      "path": "drizzle/0013_site_templates.sql",
+      "source": "corporate-site/drizzle/0013_site_templates.sql",
+      "bytes": 1078,
+      "sha256": "cb9936d478feae1f88131f792723f4dc18eb75923614dcf0e9bc1c856d48783e"
+    },
+    {
+      "path": "drizzle/0014_site_erp_outbox.sql",
+      "source": "corporate-site/drizzle/0014_site_erp_outbox.sql",
+      "bytes": 1782,
+      "sha256": "73d56389eceb7a63f4cf7d6eea4f56e80cb0d5bb180abce9db12c69ec5f36d49"
+    },
+    {
+      "path": "drizzle/0015_assistant_access.sql",
+      "source": "corporate-site/drizzle/0015_assistant_access.sql",
+      "bytes": 1234,
+      "sha256": "8acaa07b692d0830e5e635816be8a834dcfa9251b98f51753be08ae3b4eb78fb"
+    },
+    {
+      "path": "drizzle/0016_assistant_display_receipts.sql",
+      "source": "corporate-site/drizzle/0016_assistant_display_receipts.sql",
+      "bytes": 1343,
+      "sha256": "84f3d294c0cc52772965ff11e7d4c34d7b04a5d950f90ebbe21c7a2d43e16f57"
+    },
+    {
+      "path": "drizzle/0017_assistant_requests.sql",
+      "source": "corporate-site/drizzle/0017_assistant_requests.sql",
+      "bytes": 1412,
+      "sha256": "f53ffbe734356646abb4a372256a3120a06976ee72a87e158ff8caa701d95e8c"
+    },
+    {
+      "path": "drizzle/meta/_journal.json",
+      "source": "corporate-site/drizzle/meta/_journal.json",
+      "bytes": 2649,
+      "sha256": "5c625b0089ffaa49da582c5ef253d716e06bbc9b061ecd71c717140479b2d3a3"
+    }
+  ]
+}

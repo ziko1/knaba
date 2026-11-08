@@ -1,0 +1,32 @@
+{
+  "reviewedAt": "2026-11-08T09:18:00.177594+00:00",
+  "scope": "Same-source SHA concurrency group only; independent read-only review",
+  "sourceSha256": "d46d3de05f75e6b46f808a549950f71703859bf1c7fbb0844256ecd4ced3ebd2",
+  "jobsByteIdenticalToAcceptedBase": true,
+  "verificationJobs": [
+    "root",
+    "site",
+    "erp",
+    "bridge"
+  ],
+  "reportingJobs": [
+    "failure-summary"
+  ],
+  "sourceShaCheckoutCount": 4,
+  "sourceExpression": "github.event.pull_request.head.sha || github.sha",
+  "verdict": "ACCEPTABLE for deduplicating overlapping runs against exact same source",
+  "observations": [
+    "Workflow prefix isolates this group from separate Android/iOS workflows.",
+    "PR head SHA and push/manual SHA fallback match the existing SOURCE_SHA checkout expression.",
+    "All four verification job definitions and the separate failure-summary helper are byte-for-byte unchanged.",
+    "No skipped verification jobs, relaxed acceptance limits or disabled gates added."
+  ],
+  "limits": [
+    "Different source SHAs now use distinct groups; a newer commit on the same branch no longer cancels an older-SHA run.",
+    "Cancellation winner depends on arrival order; a PR run is not guaranteed to survive its duplicate push. Either survivor uses the same source and gates.",
+    "Completed runs are not deduplicated; concurrency affects overlapping pending/in-progress runs.",
+    "No GitHub event execution was triggered for this read-only review."
+  ],
+  "officialReference": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency",
+  "sourceEdited": false
+}

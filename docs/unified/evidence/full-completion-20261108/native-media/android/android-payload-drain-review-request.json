@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "status": "FROZEN_FOR_INDEPENDENT_DELTA_REVIEW",
+  "createdAt": "2026-11-08T15:44:20.191648+00:00",
+  "previousManifest": "/workspace/scratch/c56161c95e04/verification/native-media/android-source-manifest-before-payload-drain.json",
+  "previousManifestSha256": "f6b9637d42747707ef37ef87d6edfcd3af7f309947b27d44aaa89acb47ed9325",
+  "manifest": "/workspace/scratch/c56161c95e04/verification/native-media/android-source-manifest.json",
+  "manifestSha256": "cc296f7fea9312d956629240c11c835ec42013e422675a097b4911c163004921",
+  "sourceDigest": "ed80ccc61c4cff74c4a3fa92f3a77cb91cc0e60511e0d1ac8e953bede628e466",
+  "changedFiles": [
+    {
+      "path": "erp/apps/mobile-android/MEDIA_UK.md",
+      "beforeSha256": "7949a19dcb0ba39db655bd522b83da95c95b54f44a300f8bed997617fbe13055",
+      "afterSha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+      "beforeSha256": "c20864c9fb2d82305c123a89c8252ab60b5717fcbf59c85926dcf95c33932f28",
+      "afterSha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+      "beforeSha256": "ab31e491c3fa7bb1279cc078a72bfa30ac1d1f7230b4937f0e0778dd86e8109e",
+      "afterSha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33"
+    }
+  ],
+  "unchangedOwnedFiles": 19,
+  "unchangedReadonlyDependencies": 4,
+  "rootFinding": "Serial IO lane released after posting FileData to a paused main looper; another prepared screen could read another original before drain.",
+  "correction": "FileData stays inside one read→prepare→upload job. Main receives only immutable record/recovery warning/error. Unknown upload retains original key/context. No register inside the file job.",
+  "red": {
+    "log": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-lane-red.log",
+    "xml": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-lane-red.xml",
+    "tests": 1,
+    "failures": 1,
+    "productionSourceSha256": "c20864c9fb2d82305c123a89c8252ab60b5717fcbf59c85926dcf95c33932f28"
+  },
+  "green": {
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "commands": [
+    "JAVA_HOME=<pinned JDK17> ANDROID_HOME=<pinned SDK> KNABA_GRADLE_HOME=<pinned Gradle8.13> bash gradlew --offline --no-daemon :app:testDebugUnitTest --tests de.knaba.mobile.ConsoleMediaScreenTest",
+    "JAVA_HOME=<pinned JDK17> KNABA_JSON_TEST_JAR=<existing json20240303.jar> bash scripts/test-transport.sh"
+  ],
+  "notRun": [
+    "New APK/AAB",
+    "Device/system providers",
+    "Live ERP",
+    "Full Android suite after this delta",
+    "iOS compile/XCTest"
+  ],
+  "sourceEditedAfterFreeze": false
+}

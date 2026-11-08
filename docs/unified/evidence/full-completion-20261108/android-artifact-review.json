@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-11-08T10:03:33.533615+00:00",
+  "status": "INDEPENDENT_ARTIFACT_REVIEW_ACCEPT_DEBUG_EVALUATION_ONLY",
+  "sourceCommit": "83327e5fe1b966ee8244f89988c6713264cef1be",
+  "currentNativeBuildInputsMatch": true,
+  "inputCount": 59,
+  "artifacts": [
+    {
+      "filename": "KNABA-DE-0.5.0-test-83327e5-894ef2283784.apk",
+      "bytes": 2882570,
+      "sha256": "894ef2283784e1b69e79ab39beb37b929d7883892559290b629778cff3b5a069"
+    },
+    {
+      "filename": "KNABA-DE-0.5.0-test-83327e5-5713a62858dd.aab",
+      "bytes": 949375,
+      "sha256": "5713a62858ddd136c31eda40367b9179d7953a6547167d5fe70bef214ff6a7c6"
+    }
+  ],
+  "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+  "rootChecks": {
+    "apkSignature": "PASS_V2",
+    "alignment": "PASS_16_KB",
+    "manifestPackage": "de.knaba.mobile.test",
+    "versionName": "0.5.0-test",
+    "versionCode": 8,
+    "minSdk": 31,
+    "aab": {
+      "signature": "PASS",
+      "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+      "signedEntries": 21,
+      "structure": "BASE_MODULE_PRESENT"
+    }
+  },
+  "limitations": [
+    "Debug signing only, not owner release signing or Play publication.",
+    "Physical install/update/data retention, live ERP, GPS and company UAT NOT_RUN.",
+    "Artifact was built at the recorded source commit, not rebuilt at later integration commits."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "exitCode": 0,
+  "durationSeconds": 52.89,
+  "command": [
+    "node_modules/.bin/tsc",
+    "--noEmit"
+  ],
+  "scope": "Final full ERP TypeScript including WEB-SESSION-01 and service-worker-blocked tenth browser fixture; not browser execution",
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

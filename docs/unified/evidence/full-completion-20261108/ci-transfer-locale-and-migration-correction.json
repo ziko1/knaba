@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "baselineSource": "395993f9f6f38141507b5f7e4fd470e953b5c99c",
+  "scope": "Reviewed post-CI corrections; new hosted run pending",
+  "transferLocale": {
+    "reviewer": "root independent actual screenshot/full source diff/component test review",
+    "decision": "ACCEPT_SOURCE",
+    "files": [
+      {
+        "path": "erp/apps/web/src/GuestConversationTransfer.tsx",
+        "sha256": "3937f63fe5d5d63c71a5b3288e8b438c6ee991bbe91025aad4e545858bc7bf6f"
+      },
+      {
+        "path": "erp/tests/conversation-transfer-locale.test.ts",
+        "sha256": "6a54ccd820dde2d798a0ff83390f1ec5c0c0ba888438f08b770c2ce582cc59f1"
+      }
+    ],
+    "red": {
+      "log": "red.log",
+      "exitCode": 1,
+      "passed": 1,
+      "failed": 5
+    },
+    "green": {
+      "log": "green.log",
+      "exitCode": 0,
+      "passed": 6,
+      "failed": 0
+    },
+    "independentComponentTests": 6,
+    "independentLogSha256": "1a4df41ddcb0f75b6cbb02e14d8fed3449c19fa036476ed747c5e9be855b376f",
+    "browserSpecUnchanged": {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "sha256": "6ed461895de9932f220f1d09b39fc0d0c6a7951d2dcc29901e27bc00e19ce8f3"
+    },
+    "globalLanguageOrderUnchanged": true,
+    "runtimeCopyValuesUnchanged": true,
+    "browserResultForCorrection": "NOT_RUN"
+  },
+  "migrationFixture": {
+    "file": "corporate-site/vps/portal-messages-migration.test.mjs",
+    "sha256": "69dc031af6e58cac15adee70f29b63f3defaa2927b4a6a1cda882ce7bfcdc75c",
+    "correction": "Compare the full ordered original canonical migration filename sequence against both reopened live and restored SQLite ledgers, replacing stale historical count16. Existing historical12receipts/profile/audit/message/integrity/FK assertions remain.",
+    "mainActualTests": 1,
+    "featureActualTests": 1,
+    "mainLogSha256": "49123db59e9a5125186542c486914f397b4b9e80f0c88f85a189627b52e3ebd6",
+    "review": {
+      "decision": "ACCEPT_SOURCE",
+      "reviewer": "coverage_matrix independent migration/ledger review",
+      "checks": [
+        "Exact canonical ordered filename assertions for reopened live and restored SQLite",
+        "Historical data/message/audit assertions retained",
+        "Same source hash in integrated and isolated assistant worktrees"
+      ],
+      "wholeMigrationOrLiveAcceptance": false
+    }
+  },
+  "nativeGuideReview": {
+    "reviewer": "mobile_actual_readiness independent read-only guide/artifact review",
+    "decision": "ACCEPT_SIMULATOR_ONLY",
+    "guideSha256": "9f28c0ed39222a2d55825158bac0a0daaec75b0a2ba326be3dae492e648d8623",
+    "checked": [
+      "Both delivered ZIP hashes and structure",
+      "All43 Git inputs",
+      "MachO ARM64/iOSSimulator",
+      "ExactInfo identity/version/sdk/minimumOS",
+      "Own simulator commands",
+      "Actual93XCTest and explicit external limits"
+    ],
+    "edits": false
+  },
+  "wholeProduct": "NOT_READY"
+}

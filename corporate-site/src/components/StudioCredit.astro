@@ -1,0 +1,73 @@
+---
+import type { SiteLocale } from '../lib/site-i18n';
+
+interface Props { locale: SiteLocale }
+const { locale } = Astro.props;
+const caption = {
+  de: 'Webtechnologie von',
+  en: 'Web technology by',
+  pl: 'Technologie internetowe studia',
+  lt: 'Studijos žiniatinklio technologijos',
+  ru: 'На технологиях веб-студии',
+  uk: 'На технологіях вебстудії',
+}[locale];
+---
+
+<div id="studio-credit" class="studio-credit">
+  <a href="https://vsp.rest/" data-astro-reload>
+    <span>{caption}</span>
+    <strong>
+      <span class="studio-credit-mark" aria-hidden="true">
+        <img src="/images/vsp-studio-mark.svg" alt="VSP" width="20" height="20" loading="lazy" decoding="async" />
+      </span>
+      VSP<span class="studio-credit-domain">.REST</span>
+    </strong>
+    <span aria-hidden="true">↗</span>
+  </a>
+</div>
+
+<style>
+  .studio-credit {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #ffffff12;
+    padding: 3px 16px;
+    color: #b7c9c8;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px 9px;
+    min-height: 44px;
+    padding: 6px 0;
+    text-align: center;
+    border-radius: 4px;
+  }
+  a:focus-visible { outline: 2px solid #d8ff63; outline-offset: 3px; }
+  strong { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: .07em; }
+  .studio-credit-domain { margin-left: -6px; font-weight: 400; }
+  .studio-credit-mark { position: relative; display: inline-flex; overflow: hidden; border-radius: 50%; }
+  img { display: block; flex: none; }
+  @media (max-width: 760px) {
+    .studio-credit { padding-inline-end: 76px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .studio-credit-mark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 25%, #ffffff38 50%, transparent 75%);
+      transform: translateX(-130%);
+      animation: studio-sheen 9s ease-in-out infinite;
+    }
+    a:is(:hover, :focus-visible) .studio-credit-mark::after { animation-play-state: paused; }
+  }
+  @keyframes studio-sheen {
+    0%, 72% { transform: translateX(-130%); }
+    94%, 100% { transform: translateX(130%); }
+  }
+</style>

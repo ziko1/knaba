@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "erp_session_fence",
+  "decision": "ACCEPT_WITH_SCOPE",
+  "source": "6708578bc4c326f727bcde3e84389775b00541fe",
+  "reviewedDocuments": [
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/assistant-request-source-review.json",
+      "sha256": "27b8c69c450fd91c6971ed807419c965ece2c5a4eee8c1c813982b283d6a7025"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/assistant-request-local-build.json",
+      "sha256": "20e24e259b5e69e8e4e1c1be92f473e53f50d0a79dcbb483dbcaaf1b23265eaa"
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "40a7a7659ab727335eae64089498eb9444c1b33e0213322c2e53fd93517e5400"
+    },
+    {
+      "path": "docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "sha256": "cade18e5ec7602e5e6dc299bc004e6f94f6d25a61f75929109da4b78a6de2c42"
+    },
+    {
+      "path": "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "sha256": "e54162ec7dbd8bb54503a6fecc4cd1ecf3a15996831b2fb25fdd866fb9cfdc7f"
+    }
+  ],
+  "verified": [
+    "52 source hashes in both manifests/current integrated Git source/fresh detached build",
+    "All6 final log hashes and actual raw 900Vitest+92Node/281VPS/29root summaries",
+    "Independent calculation of all161HTML/JS222640/CSS40832 and artifactSha256 bba1c1eca1554ae65a77b4679775ec52b93c371ad6621ce7b9cfed7ec10b395a",
+    "Both failed build attempts retained; first workspace duplicate producer UNKNOWN",
+    "114 unique trace rows and42IN_PROGRESS/72NOT_RUN statuses plus normative source/acceptance/testedSha/artifact fields unchanged"
+  ],
+  "findings": [],
+  "runtimeEdits": false,
+  "limits": [
+    "Current11case actualPG bridge and new rendered browser NOT_RUN locally",
+    "No whole-AC/live/device/provider or production acceptance"
+  ]
+}

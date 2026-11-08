@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "scope": "F3 corrective ERP signed action dispatcher and focused regression evidence",
+  "status": "FROZEN_FOR_INDEPENDENT_REVIEW",
+  "createdAt": "2026-11-08T16:37:14.011704+00:00",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-f3-corrective",
+  "baseCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "branch": "fix/knaba-f3-acceptance-20261108",
+  "sourceDigest": "7f8b5826b60d3bf4cd57affa98ec136d3536b0b77f7bad9037a3abdcad374d8c",
+  "files": [
+    {
+      "path": "erp/apps/api/site-federation-ledger.ts",
+      "sha256": "f0fbb4bd4b8bbd1741b0620e610cc7c9bb0b89771e631ef96fd5db6f3d7306d8",
+      "bytes": 18836
+    },
+    {
+      "path": "erp/tests/fixtures/site-federated-session.ts",
+      "sha256": "d51b24d5ae6075b2bc53e11bfef97fac3af7ee67252d991e207e17059ee76bf9",
+      "bytes": 17572
+    },
+    {
+      "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+      "sha256": "0a7e1e8b7929cf67c09d97bcfe800c5b843eb8cf4eb6561c504ef9d104642246",
+      "bytes": 12595
+    },
+    {
+      "path": "erp/tests/site-federation-login-dispatch.test.ts",
+      "sha256": "7dcbbf397dbcc4433c37ad694c7b40a162892d6c71e1183e18d10fff62f700e8",
+      "bytes": 8357
+    }
+  ],
+  "unmodifiedSharedProtocol": {
+    "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+    "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+  },
+  "checks": [
+    {
+      "name": "RED valid signed dispatch on unchanged baseline runtime",
+      "command": "npm test -- --maxWorkers=1 tests/site-federation-login-dispatch.test.ts",
+      "exitCode": 1,
+      "passed": 3,
+      "failed": 4,
+      "skipped": 0,
+      "log": "dispatch-red.log",
+      "logSha256": "7b484edef4045fdede2a3bba1206632af1071d47fa09f24c2ecd8ccb79067aaa"
+    },
+    {
+      "name": "GREEN focused real HTTP/CPU with explicit SQL doubles",
+      "command": "npm test -- --maxWorkers=1 tests/site-federation-login-dispatch.test.ts tests/site-federation-login-http.test.ts tests/site-federation-login-flow.test.ts tests/site-federated-session.test.ts tests/site-federation-http.test.ts",
+      "exitCode": 0,
+      "passed": 69,
+      "failed": 0,
+      "skipped": 0,
+      "files": 5,
+      "log": "dispatch-green.log",
+      "logSha256": "3835c632b1df912c8fc819f0793cd779058b63fd578c9e7bf00d436c0f4c5fd1"
+    },
+    {
+      "name": "TypeScript no emit",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "log": "typecheck.log",
+      "logSha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+    }
+  ],
+  "limitations": [
+    "Local PostgreSQL unavailable: corrected 18 F3 PG cases NOT_RUN.",
+    "Actual VPS/SQLite to ERP/HTTP/PostgreSQL 8 F3 pair cases NOT_RUN after correction.",
+    "Local signed HTTP uses real Nest ingress, shared MAC protocol, production ledger/login handlers and explicit SQL/clock doubles. It is not SQL locking/constraint or actual source password acceptance.",
+    "Published af6f84d aggregate remains FAILED; no claim that all downstream PostgreSQL or pair assertions now pass.",
+    "Only these four ERP paths are frozen by this agent. Root-owned bridge diagnostics are excluded.",
+    "No commits, push, CI dispatch, provider or production operations."
+  ]
+}

@@ -24,6 +24,10 @@ export interface WorkerEnv {
   ASSETS?: { fetch(request: Request): Promise<Response> };
   /** In-process VPS capability only; never a browser claim or environment string. */
   VERIFY_STUDIO_SESSION?: () => boolean;
+  /** Trusted request binding: current owner role and cookie for assistant owner routes. */
+  VERIFY_ASSISTANT_OWNER_SESSION?: () => boolean;
+  /** VPS-only P→L→C coordinator, bound to the original real owner session. */
+  COORDINATE_PROFILE_ACCESS?: (input:{userId:string;role:string|null;status:'approved'|'suspended';version:number})=>Promise<unknown>;
   /** Trusted VPS request binding: recheck current session/authority inside the publication transaction. */
   STUDIO_PUBLICATION_BATCH?: (statements:D1Statement[])=>Promise<D1Result[]|null>;
   /** Server-only ERP intake configuration. A source reference grants no ERP identity. */

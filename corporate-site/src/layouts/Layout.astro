@@ -11,6 +11,8 @@ import { resolveSocialImageOrigin } from "../lib/social-image-origin";
 import brandMessages from "../data/brand-messages.json";
 import Icon from "../components/Icon.astro";
 import AccountAccess from '../components/AccountAccess.astro';
+import StudioCredit from '../components/StudioCredit.astro';
+import assistantLabels from '../data/assistant-widget-locales';
 
 import { languageLinks, localeAlternates, localizedPublicPath, type SiteLocale } from "../lib/site-i18n";
 import {PUBLISHED_SITE_LOCALES, LANGUAGE_NAMES} from '../lib/locale-catalog';
@@ -259,9 +261,10 @@ const structuredData = {
             >{translated.privacy}</a>
         </div>
       </div>
+      {publicDesign && <StudioCredit locale={lang} />}
     </footer>
     <AccountAccess locale={lang} />
-    <div class="knaba-widget-root" data-knaba-widget data-locale={lang}>
+    <div class="knaba-widget-root" data-knaba-widget data-locale={lang} data-labels={JSON.stringify(assistantLabels[lang])}>
       <button type="button" data-knaba-open aria-label={lang==='pl'?'Otwórz asystenta KnaBa':lang==='lt'?'Atidaryti KnaBa asistentą':lang==='de'?'KnaBa Assistent öffnen':lang==='en'?'Open KnaBa assistant':lang==='uk'?'Відкрити помічника KnaBa':'Открыть помощника KnaBa'}><span aria-hidden="true">✳</span> KNABA Assistant</button>
     </div>
     <script>
@@ -269,16 +272,23 @@ const structuredData = {
         const root=button.closest<HTMLElement>('[data-knaba-widget]');
         if(!root || root.dataset.pending==='true')return;
         root.dataset.pending='true';button.disabled=true;
+        const language=root.dataset.locale as 'de'|'en'|'pl'|'lt'|'ru'|'uk',serialized=root.dataset.labels;
+        let cancelled=false,dispose:(()=>void)|undefined;
+        const cancel=()=>{cancelled=true;dispose?.();};
+        document.addEventListener('astro:before-swap',cancel,{once:true});
         try {
-          const [{render},{default:KnabaAssistant}]=await Promise.all([
+          const [{render},{default:KnabaAssistant,parseAssistantLabels}]=await Promise.all([
             import('solid-js/web'),
             import('../components/KnabaAssistant.tsx')
           ]);
-          const language=root.dataset.locale as 'de'|'en'|'pl'|'lt'|'ru'|'uk';
+          if(cancelled||!root.isConnected||!button.isConnected)return;
+          if(root.dataset.locale!==language||root.dataset.labels!==serialized){root.dataset.pending='false';button.disabled=false;document.removeEventListener('astro:before-swap',cancel);return;}
+          const initialLabels=parseAssistantLabels(JSON.parse(serialized||'null'));
           root.replaceChildren();
-          const dispose=render(()=>KnabaAssistant({locale:language,initialOpen:true}),root);
-          document.addEventListener('astro:before-swap',()=>dispose(),{once:true});
+          dispose=render(()=>KnabaAssistant({locale:language,initialLabels,initialOpen:true}),root);
         }catch{
+          document.removeEventListener('astro:before-swap',cancel);
+          if(cancelled||!root.isConnected)return;
           button.disabled=false;root.dataset.pending='false';
           const locale=document.documentElement.lang;
           window.location.href=(['en','pl','lt','ru','uk'].includes(locale)?'/'+locale:'')+'/kontakt/';

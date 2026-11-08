@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kind": "BOUNDED_UNCHANGED_JSON_RECEIPT_SUBSET",
+  "files": [
+    {
+      "path": "independent-acceptance.json",
+      "bytes": 9214,
+      "sha256": "a80ae519a224c36d1f272e88841f19d46c5f606c310725643abff46c64ace8f8"
+    },
+    {
+      "path": "erp-scoped-review.json",
+      "bytes": 3560,
+      "sha256": "9f758b9daaa51171f16aafbb8ade7d0e6fe8c5084f559617fe8b8c2b55f87f6e"
+    },
+    {
+      "path": "browser-pair-scoped-review.json",
+      "bytes": 7630,
+      "sha256": "d4e5d1f62def151e5daddaaf6e9372f6038784e585955207b79c7597cdb1fcc8"
+    },
+    {
+      "path": "root-site-scoped-review.json",
+      "bytes": 1014,
+      "sha256": "8737269589385d83afcc59db5b735be0aa446f15776a5b3d5c1c41bf35c273c6"
+    },
+    {
+      "path": "browser-case-results.json",
+      "bytes": 7104,
+      "sha256": "bc85f900f57a2ee0e7af2ce2f13c79e2e7c365e490386c2588b98cee086da78e"
+    },
+    {
+      "path": "paired-case-results.json",
+      "bytes": 4462,
+      "sha256": "b549a6e9c67fb4eb679efe1866a3cf4308722d53ce415b8d7601b0e684e3e185"
+    },
+    {
+      "path": "jobs-final.json",
+      "bytes": 11130,
+      "sha256": "b87fd6dbf295ff0535d0383d934c430d25b81f9bf5ecd1823995e3f6747d94bc"
+    },
+    {
+      "path": "pr-runs-final.json",
+      "bytes": 1191,
+      "sha256": "59a97cb91fa33798eca0398fe8e095b414b47b9dea3bb502c5941c89ee7ecb5c"
+    },
+    {
+      "path": "native-input-equivalence.json",
+      "bytes": 236,
+      "sha256": "190f85cd6167130a61256dd9c0bcf61476865000e35d863d4dd0c1a6d91a2f40"
+    },
+    {
+      "path": "site-build-report.json",
+      "bytes": 7232,
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    },
+    {
+      "path": "artifacts-api.json",
+      "bytes": 1723,
+      "sha256": "120e6f9dfd422525ee4831ccd6ec9a644d7ac5f0831c7078d32d20a442877d9d"
+    },
+    {
+      "path": "browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 3689,
+      "sha256": "e51aa0aec33f9e0afaf1fe30a1312922e7931402a80d280d7d1b4bbb963a3d83"
+    }
+  ]
+}

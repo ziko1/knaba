@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "verdict": "ACCEPT_CORRECTIVE_ERP_SOURCE_SCOPED",
+  "reviewer": "root independent of erp_session_fence author",
+  "baseCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "manifestSha256": "14127247996dde03c9ed152dfa028618a457eebbb4fd5bcedd32ac8642e59369",
+  "sourceDigest": "7f8b5826b60d3bf4cd57affa98ec136d3536b0b77f7bad9037a3abdcad374d8c",
+  "sourceHashesBeforeAfterMatch": true,
+  "reviewed": [
+    "Runtime is one import and callback allowlist reuse of the already accepted exact3 F3 actions",
+    "Existing active phase, company/configuration/generation, nonce/digest/replay/savepoint and session/mint gates unchanged",
+    "Actual Nest signed request/response and production ledger/login handler path is exercised; only SQL/clock are doubles",
+    "Memory nonce/operation/savepoint behavior retains rollback and current-request semantics without replacing the ledger",
+    "PG fixture diagnostics preserve status assertions and reveal only fixed allowlisted codes"
+  ],
+  "independentExecution": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node_modules/.bin/vitest run tests/site-federation-login-dispatch.test.ts --reporter=default --reporter=json",
+    "reportSha256": "fc91dbf08a4c8ed6edc0c2fd09b172558c298917d5d367f022f4701977bc5d85",
+    "logSha256": "80ec2022f3f5f458ec1054a961bb05832ae14cda24f23c24b3cfd1e4305862e1"
+  },
+  "authorExecutionVerified": {
+    "red": "4FAIL/3PASS on unchanged runtime",
+    "green": "69PASS/0FAIL/0SKIP with7 new cases overlapping independent7",
+    "typecheckExit": 0
+  },
+  "notRun": [
+    "Corrected actual18 PostgreSQL cases",
+    "Corrected actual8 runtime-pair cases",
+    "Corrected exact clean-source CI"
+  ],
+  "wholeProduct": "NOT_READY"
+}

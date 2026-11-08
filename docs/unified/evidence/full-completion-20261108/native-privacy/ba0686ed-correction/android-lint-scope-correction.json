@@ -1,0 +1,26 @@
+{
+  "scope": "Artifact review expectation correction only; no product change or lint suppression",
+  "ciWarnings": 23,
+  "localWarnings": 20,
+  "errorsBoth": 0,
+  "sharedIssueRecords": 20,
+  "ciOnlyMetadataWarnings": [
+    {
+      "id": "OldTargetApi",
+      "severity": "Warning",
+      "message": "Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details."
+    },
+    {
+      "id": "AndroidGradlePluginVersion",
+      "severity": "Warning",
+      "message": "A newer version of Gradle than 8.13 is available: 8.14.6"
+    },
+    {
+      "id": "NewerVersionAvailable",
+      "severity": "Warning",
+      "message": "A newer version of org.robolectric:robolectric than 4.16.1 is available: 4.17"
+    }
+  ],
+  "sameSourceDoesNotImplySameDependencyMetadataWarnings": true,
+  "secondHelperSha256": "9f56977e263077d00213b2510b45aeb55eedd59288c9475040c305c90af5ec7e"
+}

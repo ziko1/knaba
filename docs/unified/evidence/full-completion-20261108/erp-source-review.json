@@ -1,0 +1,42 @@
+{
+  "observedAt": "2026-11-08T09:00:33.365915+00:00",
+  "baseCommit": "f7015a4e64df0ff65437bcafbf3972a62714d099",
+  "sourceFiles": {
+    "erp/apps/api/auth.ts": "e390bd5eac73ceffdfe8cdaea76e421ec986aab34c211af49c108210ae3e3895",
+    "erp/apps/api/device-batch.ts": "6774e54576f79e5317ca9c230bd6d09aa3858f515d43d94492ee97e3f393cafb",
+    "erp/apps/api/engine.ts": "f5674ccb03320c48026a49307c092af0d9c1b1a2fbc247990c61ff1d38f1eef8",
+    "erp/apps/api/http.ts": "ab5b8dace6a366b26b791481c4c3bba75221f48d006ce4df92731459332b5711",
+    "erp/apps/api/media-upload.ts": "7364b91238daebebd7e8c292ec34ac4407d8bbe5449e35953f71e65226439480",
+    "erp/apps/api/privacy-erasure.ts": "6464f420352a596549f28eebeeebe1119512db6d39d0db786b4f3197b90ed765",
+    "erp/apps/api/request-authority.ts": "f3dc83c583c835eb86527fae9c2b6dc1f49cfeaee737e2442664c03307c4bba5",
+    "erp/apps/api/request-authority-interceptor.ts": "6ea2f61ccb63c270403da54b965c3ace3dffc8b5c7d64711ea781277615cdd52",
+    "erp/tests/identity.test.ts": "f2a2d345997b1b87d2331d94b64ae3ba054a49088db271e7030977d728d592b2",
+    "erp/tests/request-authority.test.ts": "d81ed69a771e8bec45ea0176630b479507ec734763732c77c424d1c82205eb90",
+    "erp/tests/request-authority.integration.test.ts": "7265cc5ba05fb37ca8c3b3aee8676e5e0c212a0ac4848f180dcd9bb0093279ff",
+    "erp/tests/vehicle-trip-engine-authority.test.ts": "2aa398b05f411a5670ddb35a561e2cc70d4b475fe81600434568c9ddbb1aa365",
+    "erp/packages/domain/vehicle-trips.ts": "138dc77b30ebcd82800bd4cec05595c1c5341006cbb4e83c995381b5d973c3b8",
+    "erp/packages/domain/operations.ts": "1d7ed2bad51fcaccb716e3a7f3f05dbee2b097faa4a53cadbc7101e5dd4dce60",
+    "erp/packages/i18n/vehicleTripCopy.ts": "8deae9d8a13722114aef55293d06a06696e87022e4e041975996bf9e0be2c8ec",
+    "erp/packages/i18n/index.ts": "4a118d484cfa91283396595e24bbd51bb534362e018aa8380736eeb102d7d638",
+    "erp/apps/web/src/VehicleTripSummary.tsx": "29e95e1fc6a97c18b8f8eb1e17e024e5debe9f02223b20a28c9dd76bc4a01c96",
+    "erp/apps/web/src/App.tsx": "9ec1c1ba934c4d57532edfe8f78e7cb73618024a18e7c684d5d83689f4022670",
+    "erp/apps/web/src/CommandForm.tsx": "5b7e33121e531844561b80c3f33b7a135aac4c86684198050080c906cd6d8d65",
+    "erp/tests/vehicle-trips.test.ts": "555043bddc805e017432a91e8847ef0d1cc8f2cd52e354f450dd03cd1083033b",
+    "erp/tests/vehicle-trips.integration.test.ts": "e21bf07900c8f10f8854bc5f6ca30ef4e5db3eb261900ca32d8aded65a45ffd9",
+    "erp/tests/command-form-v4.test.ts": "0e2c8d60cde21ecb0d0953bc8aee2d980be5336e16ccc613c4ca055aa40ef01b"
+  },
+  "reviews": {
+    "requestAuthority": "Independent root source review plus 55 focused behavioral tests; original author regression188 PASS, PostgreSQL7 NOT_RUN.",
+    "vehicleTrip": "Independent erp_session_fence domain/Engine review; management-only gateway and fixture findings fixed; Engine6 regressions PASS.",
+    "typecheck": "Root session37937 exit0 after integration fixture corrections."
+  },
+  "verification": {
+    "rootFocused": {
+      "testsPassed": 55,
+      "testsFailed": 0,
+      "log": "root-independent.log"
+    },
+    "sqlTests": "NOT_RUN locally: PostgreSQL unavailable; exact candidate hosted PostgreSQL CI still required",
+    "mobileAndLive": "NOT_RUN: these CPU source checks do not establish physical-device, browser or production acceptance"
+  }
+}

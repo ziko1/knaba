@@ -25,7 +25,7 @@ const sections = [
     <p class="eyebrow">IHRE DATEN IM BLICK</p>
     <h1>Datenschutzerklärung</h1>
     <p class="legal-intro">Hier erfahren Sie, welche Daten diese Website verarbeitet, wofür sie benötigt werden und an wen Sie sich mit Fragen wenden können.</p>
-    <p class="notice">Diese Erklärung gilt für die Website <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 28. Oktober 2026.</p>
+    <p class="notice">Diese Erklärung gilt für die Website <strong>{new URL(siteConfig.origin).hostname}</strong>. Stand: 8. November 2026.</p>
 
     <nav class="privacy-contents" aria-label="Inhalt der Datenschutzerklärung">
       {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
@@ -70,6 +70,8 @@ const sections = [
       <p>Im aktuellen Browser-Tab wird ein zufälliges Gesprächs-Token im Session Storage aufbewahrt; in der serverseitigen Datenbank liegt nur dessen SHA-256-Prüfwert. Schließen Sie den Tab, kann der Gesprächszugang verloren gehen. Zugang zum Posteingang haben der Inhaber und ausdrücklich berechtigte Personen. Ein gesondert freigeschalteter Entwickler verwendet einen eigenen, isolierten Testbereich mit synthetischen Gesprächen und erhält keinen Zugriff auf den tatsächlichen Kundenposteingang. KNABA Assistant verwendet derzeit vordefinierte Auskünfte, keine externe generative AI. Neue Antworten erscheinen im Chat; automatische Benachrichtigungen per E-Mail und WhatsApp sind noch nicht eingerichtet.</p>
       <p>Vor der Neuanlage eines Chats wird eine Sicherheitsprüfung mit <strong>Cloudflare Turnstile</strong> durchgeführt. Das Prüfelement wird erst geladen, nachdem Sie die Datenschutzhinweise zur Kenntnis genommen und dies bestätigt haben. Beim Laden können technische Browser-, Geräte- und Verbindungsdaten an Cloudflare übertragen werden; der erzeugte Prüftoken wird mit Cloudflare serverseitig auf Gültigkeit geprüft. Ohne gültige Prüfung ist die Einrichtung eines neuen Chats nicht möglich. Sie erreichen uns weiterhin telefonisch und per E-Mail. Weitere Informationen finden Sie in der <a href="https://www.cloudflare.com/de-de/privacypolicy/">Datenschutzerklärung von Cloudflare</a>. Die genaue rechtliche Einordnung und die Verträge mit Dienstleistern bedürfen vor der offiziellen Veröffentlichung einer Prüfung durch den Anbieter.</p>
       <p>Die freiwillige Spracheingabe kann nach Aktivierung einer Browser-Spracherkennungsfunktion Audio an den Anbieter Ihres Browsers übertragen; KnaBa speichert nach dem gegenwärtigen Funktionsstand nur den abgesendeten erkannten Text, keine Tonaufnahmen von Telefongesprächen. Eine KI-Telefonie, WhatsApp-Sprachvermittlung oder automatische Aufzeichnung von Gesprächen ist für diesen Stand nicht als aktiviert dokumentiert. Vor dem Einsatz solcher Funktionen sind Anbieter, Empfänger, Rechtsgrundlagen, Speicherdauern und gegebenenfalls Einwilligungen gesondert mitzuteilen; nicht öffentliche Gespräche dürfen nicht unbefugt aufgezeichnet werden (§ 201 StGB). Eine Erklärung zur Datenverarbeitung ersetzt keine gegebenenfalls notwendige Einwilligung zur Aufnahme.</p>
+      <p>Der private Zugangscode gilt höchstens sieben Tage ab Erstellung des Gesprächs und kann vom Inhaber früher widerrufen werden. Ein erneutes Öffnen verlängert diese Frist nicht. Ablauf oder Widerruf beenden den Gastzugang; der gespeicherte Gesprächsverlauf wird dadurch nicht automatisch gelöscht.</p>
+      <p>Wenn Ihr Browser eine Antwort des Inhabers im sichtbaren, geöffneten Chat anzeigt, übermittelt er eine technische Anzeigebestätigung. Wir speichern die Nachrichtenkennung und den Zeitpunkt der ersten Bestätigung, damit der Inhaber den Übermittlungsstand nachvollziehen kann. Dies belegt weder, dass eine Person die Nachricht tatsächlich gelesen hat, noch eine Zustimmung zu ihrem Inhalt oder einen Vertragsabschluss.</p>
       <p>Speichern Sie keine Passwörter, Gesundheitsdaten oder Zugangscodes im Chat. Die Löschfrist für Chats wurde noch nicht automatisiert und muss vor dem offiziellen Betrieb festgelegt werden; Auskunft und Löschung können beim oben genannten Verantwortlichen angefragt werden.</p>
     </section>
     <section aria-labelledby="konto">
@@ -153,7 +155,7 @@ const sections = [
     <section aria-labelledby="aenderungen">
       <h2 id="aenderungen">9. Änderungen dieser Hinweise</h2>
       <p>Ändern sich Funktionen, Dienstleister oder Verarbeitungszwecke – insbesondere durch Umzug auf den Unternehmensserver, neue Login-Anbieter, KI-Dienste oder Telefonie –, werden die Datenschutzinformationen vor dem entsprechenden Einsatz aktualisiert. Diese Hinweise begründen keine Einwilligung und schalten keine neue Werbung, Analyse oder Gesprächsaufzeichnung frei.</p>
-      <p class="legal-version">Stand: 28. Oktober 2026 · <a href="/impressum/">Anbieterangaben im Impressum</a></p>
+      <p class="legal-version">Stand: 8. November 2026 · <a href="/impressum/">Anbieterangaben im Impressum</a></p>
     </section>
   </article>
 </Layout>

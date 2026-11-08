@@ -1,0 +1,59 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-login-protocol.test.ts (16 tests) 24ms
+ ❯ tests/site-federated-session.test.ts (31 tests | 1 failed) 485ms
+     ✓ authenticates a mandatory child through the real signed source protocol outside SQL 52ms
+     ✓ does not fall back to an ordinary auth_sessions row when the mandatory child is absent 5ms
+     ✓ keeps the exact archived pre-F3 authenticator unable to accept the new credential 90ms
+     ✓ never allows malformed or repurposed KF3 through cookie authentication 2ms
+     ✓ never allows malformed or repurposed KF3 through bearer authentication 1ms
+     ✓ never allows malformed or repurposed KF3 through guest authentication 8ms
+     ✓ denies current auth-session revocation before calling the source 10ms
+     ✓ denies current child revocation before calling the source 6ms
+     ✓ denies current source-session revocation before calling the source 13ms
+     ✓ denies current source-epoch revocation before calling the source 2ms
+     ✓ denies current binding revocation before calling the source 3ms
+     ✓ denies current user revocation before calling the source 2ms
+     ✓ denies current generation revocation before calling the source 2ms
+     ✓ denies current credentials revocation before calling the source 2ms
+     ✓ denies current policy revocation before calling the source 3ms
+     × fails closed for source inactive without a cached allow 11ms
+     ✓ fails closed for source outage without a cached allow 9ms
+     ✓ rejects a signed proof for a mismatched purpose 4ms
+     ✓ rejects a signed proof for a mismatched erpSessionId 10ms
+     ✓ rejects a signed proof for a mismatched sourceLoginPolicyFingerprint 9ms
+     ✓ rejects a signed proof for a mismatched requestBinding 5ms
+     ✓ rejects a signed proof for a mismatched expired 5ms
+     ✓ does not let another local session replace a revoked original source session 10ms
+     ✓ rolls back an effect if the source witness expires during the transaction 22ms
+     ✓ rechecks the source after a private read and suppresses response data after revocation 21ms
+     ✓ does not emit a new cookie before the final source/PG egress decision 34ms
+     ✓ emits the separately bound cookie only after the successful interceptor fence 44ms
+     ✓ logs out locally while source and login policy are unavailable 6ms
+     ✓ requires cookie possession/CSRF for source-independent logout 11ms
+     ✓ blocks self-derived enrollment before a receipt can replay an independent device secret 33ms
+     ✓ cannot carry the bound proof to a different actor or company 41ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/site-federated-session.test.ts > F3 original source authority on the existing ERP request path > fails closed for source inactive without a cached allow
+Error: NEEDS_REAUTH
+ ❯ SiteFederatedSessions.sourceProof apps/api/site-federated-sessions.ts:57:130
+     55|   catch{throw new DomainError('FEDERATION_UNAVAILABLE');}
+     56|   assert(response.status===200,'FEDERATION_UNAVAILABLE');
+     57|   let result:FederationLoginIntrospectionResult;try{result=parseFedera…
+       |                                                                                                                                  ^
+     58|   for(const [key,value]of Object.entries(input))assert((result as any)…
+     59|   assert(result.generation===source.generation&&result.reauthAt===sour…
+ ❯ SiteFederatedSessions.authenticate apps/api/site-federated-sessions.ts:98:44
+ ❯ tests/site-federated-session.test.ts:56:45
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 46 passed (47)
+   Start at  16:11:35
+   Duration  4.12s (transform 2.11s, setup 0ms, import 3.43s, tests 510ms, environment 0ms)
+

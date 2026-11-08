@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "erp_session_fence",
+  "reviewedAtUtc": "2026-11-08T19:30:15.177821+00:00",
+  "verdict": "CHANGES_REQUIRED_SOURCE_REVIEW",
+  "manifestSha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff",
+  "sourceDigest": "6cdce57eec6dd3bab45948c0b90359deb0e48c090e0c26583008ff323189ca6a",
+  "findings": [
+    {
+      "id": "IOS-F3-01",
+      "severity": "MEDIUM",
+      "status": "FOUND_BY_SOURCE_TRACE",
+      "title": "Swift Task cancellation after VERIFIED was not checked at the MainActor commit boundary",
+      "v1SourceManifestSha256": "f5aa078a5d313ebe973e5539facc5b9614c56d51188d750698d56d77314088ff",
+      "paths": [
+        "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+        "erp/apps/mobile-ios/Sources/ERPConsoleView.swift"
+      ],
+      "sourceTrace": "After the last client Task.checkCancellation and actor hop, adoptWebsite calls verified.commit; v1 checked only the ticket. The browser task-cancellation handler had already ended. Task.cancel alone therefore did not cancel the active ticket before retirement/installation.",
+      "reproducer": "Pause openWebsiteSignIn with the existing beforeCommit gate after VERIFIED; cancel that Swift Task without explicit UI/ticket cancellation; release the gate. v1 source reaches previousLifetime.retire/install. This source trace was not executed locally.",
+      "correction": "Three Task.checkCancellation guards before ticket commit and before/after the bounded journal read; one paused-VERIFIED model regression added. The other 17 frozen paths are unchanged.",
+      "newRegression": "ERPFederationModelTests.testTaskCancellationAtVerifiedMainHandoffPreservesOldAccountWithoutExplicitUICancel",
+      "actualRedGreen": "NOT_RUN_SWIFT_XCODE_UNAVAILABLE"
+    }
+  ],
+  "runtimeExecution": "NOT_RUN",
+  "sourceEditedByReviewer": false
+}

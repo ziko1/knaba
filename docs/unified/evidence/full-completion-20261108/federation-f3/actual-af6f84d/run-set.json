@@ -1,0 +1,62 @@
+[
+  {
+    "id": 42499231007,
+    "name": "KNABA iOS simulator verification",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "skipped",
+    "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "url": "https://github.com/ziko1/knaba/actions/runs/42499231007",
+    "runAttempt": 1,
+    "createdAt": "2026-11-08T16:18:41Z",
+    "updatedAt": "2026-11-08T16:18:42Z"
+  },
+  {
+    "id": 42499230900,
+    "name": "KNABA repository verification",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "url": "https://github.com/ziko1/knaba/actions/runs/42499230900",
+    "runAttempt": 1,
+    "createdAt": "2026-11-08T16:18:41Z",
+    "updatedAt": "2026-11-08T16:24:55Z"
+  },
+  {
+    "id": 42499230893,
+    "name": "KNABA Android candidate verification",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "url": "https://github.com/ziko1/knaba/actions/runs/42499230893",
+    "runAttempt": 1,
+    "createdAt": "2026-11-08T16:18:41Z",
+    "updatedAt": "2026-11-08T16:21:46Z"
+  },
+  {
+    "id": 42499225479,
+    "name": "KNABA repository verification",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "url": "https://github.com/ziko1/knaba/actions/runs/42499225479",
+    "runAttempt": 1,
+    "createdAt": "2026-11-08T16:18:37Z",
+    "updatedAt": "2026-11-08T16:18:46Z"
+  },
+  {
+    "id": 42499225525,
+    "name": "KNABA iOS simulator verification",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "url": "https://github.com/ziko1/knaba/actions/runs/42499225525",
+    "runAttempt": 1,
+    "createdAt": "2026-11-08T16:18:37Z",
+    "updatedAt": "2026-11-08T16:26:08Z"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "scope": "Review harness correction only; no repository/product change",
+  "initialReviewCompleted": false,
+  "failedAssertion": "Expected hostless callback path in Android manifest. Actual manifest intentionally registers only scheme; strict path/query checks are app code.",
+  "priorSuccessfulCommands": [
+    "CI APK signature",
+    "CI APK XML dump",
+    "CI AAB signature"
+  ],
+  "reuse": "Preserve command logs; recheck same artifact digests and parse verified logs without rerunning completed commands.",
+  "originalHelperSha256": "f65c3668fc257fff507dcc9061db677d531a72cc06987ed93077aec94cc68c07"
+}

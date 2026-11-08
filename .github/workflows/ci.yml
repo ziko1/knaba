@@ -10,7 +10,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: knaba-ci-${{ github.workflow }}-${{ github.ref }}
+  # A push followed by its same-source draft PR needs one full verification.
+  # The newest duplicate runs every gate against the same exact source SHA.
+  group: knaba-ci-${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.sha }}
   cancel-in-progress: true
 
 env:
@@ -138,8 +140,26 @@ jobs:
           if(report.success!==true || report.numTotalTests<1 || report.numPassedTests!==report.numTotalTests || report.numFailedTests!==0 || report.numPendingTests!==0 || report.numTodoTests!==0) {
             throw new Error('ALL_DISCOVERED_ERP_TESTS_MUST_PASS_WITHOUT_SKIPS');
           }
+          const requiredFederationPostgres={
+            'site-federation-ledger.integration.test.ts':12,
+            'site-identity-link.integration.test.ts':12,
+            'site-federation-login.integration.test.ts':18,
+          };
+          for(const [file,count] of Object.entries(requiredFederationPostgres)) {
+            const suites=report.testResults?.filter(suite=>suite.name.endsWith('/tests/'+file));
+            if(suites?.length!==1 || suites[0].assertionResults?.length!==count || suites[0].assertionResults.some(test=>test.status!=='passed')) {
+              throw new Error('REQUIRED_FEDERATION_POSTGRESQL_INVENTORY_MISSING: '+file);
+            }
+          }
           console.log('Passed ERP assertions:',report.numPassedTests);
           JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-erp-tests-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/erp-vitest.json
+          if-no-files-found: warn
+          retention-days: 1
 
   bridge:
     name: Site SQLite to ERP PostgreSQL HTTP acceptance
@@ -173,11 +193,17 @@ jobs:
           node-version: '24.22.1'
       - run: npm --prefix corporate-site ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
       - run: npm --prefix erp ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - name: Check browser runner guards without launching browsers
+        run: node --test corporate-site/tests/ci-artifacts.test.mjs corporate-site/tests/ci-browser.test.mjs corporate-site/tests/browser-policy-gate.test.cjs
       - run: node scripts/database-check.mjs
         working-directory: erp
       - run: npm --prefix corporate-site run build
       - run: npm --prefix erp run build
-      - name: Run actual anonymous intake, signed HTTP and PostgreSQL acceptance
+      - name: Bind fresh site and ERP artifacts to the clean candidate
+        env:
+          KNABA_CI_ARTIFACT_MANIFEST: ${{ runner.temp }}/knaba-build-artifacts.json
+        run: node corporate-site/tests/ci-artifacts.mjs
+      - name: Run actual intake, federation, signed HTTP and PostgreSQL acceptance
         # This isolated job requires PostgreSQL and both current build artifacts.
         # It never substitutes mocks or skipped SQL cases for the bridge gate.
         run: |
@@ -191,8 +217,52 @@ jobs:
           if(!(counts.tests>0) || counts.pass!==counts.tests || ['fail','cancelled','skipped','todo'].some(key=>counts[key]!==0)) {
             throw new Error('ALL_DISCOVERED_BRIDGE_TESTS_MUST_PASS_WITHOUT_SKIPS');
           }
+          const required=[
+            'F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink',
+            'F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit',
+            'F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit',
+            'F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce',
+            'F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery',
+            'F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session',
+            'F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys',
+          ];
+          const passed=[...tap.matchAll(/^ok \d+ - (F2 [^\n]+)$/gm)].map(match=>match[1]);
+          if(passed.length!==required.length || required.some(name=>passed.filter(value=>value===name).length!==1)) {
+            throw new Error('ALL_SEVEN_F2_RUNTIME_PAIR_CASES_REQUIRED');
+          }
+          const requiredLogin=[
+            'F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage',
+            'F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption',
+            'F3 actual lost approval ACK recovers one durable intent before any ERP session is issued',
+            'F3 actual source logout rejects an already computed issue proof before the ERP session commit',
+            'F3 actual source outage fails closed while local logout completes without source RPC',
+            'F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session',
+            'F3 actual source restart fences old derived sessions while a local ERP password session remains valid',
+            'F3 actual two-company native code cannot be redeemed by the other configured authority',
+          ];
+          const passedLogin=[...tap.matchAll(/^ok \d+ - (F3 [^\n]+)$/gm)].map(match=>match[1]);
+          if(passedLogin.length!==requiredLogin.length || requiredLogin.some(name=>passedLogin.filter(value=>value===name).length!==1)) {
+            throw new Error('ALL_EIGHT_F3_RUNTIME_PAIR_CASES_REQUIRED');
+          }
           console.log('Passed bridge cases:',counts.pass,'source:',process.env.SOURCE_SHA);
           JS
+      - name: Actual installed-browser role and responsive acceptance
+        # Reuse the runner's installed Chrome and the ERP's pinned Playwright
+        # library. No browser download, sandbox bypass, live login or deployment.
+        env:
+          KNABA_BROWSER_QA_DIR: ${{ runner.temp }}/knaba-browser
+          KNABA_CI_ARTIFACT_MANIFEST: ${{ runner.temp }}/knaba-build-artifacts.json
+        run: node corporate-site/tests/ci-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-browser-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/knaba-browser
+            ${{ runner.temp }}/knaba-build-artifacts.json
+            ${{ runner.temp }}/bridge-tap.txt
+          if-no-files-found: warn
+          retention-days: 1
 
   failure-summary:
     name: Sanitized failure summary

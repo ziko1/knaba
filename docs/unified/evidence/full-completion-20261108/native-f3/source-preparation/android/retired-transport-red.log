@@ -1,0 +1,6 @@
+PASS source TEST-only callback boundary; Release registry has no callback component
+PASS exact KF3 ERP cookie parser
+Exception in thread "main" java.lang.AssertionError: old transport references must not gain the new account cookie
+	at de.knaba.mobile.ErpFederationLoginTest.check(ErpFederationLoginTest.java:18)
+	at de.knaba.mobile.ErpFederationLoginTest.oldInstanceMustBeRetired(ErpFederationLoginTest.java:255)
+	at de.knaba.mobile.ErpFederationLoginTest.main(ErpFederationLoginTest.java:258)

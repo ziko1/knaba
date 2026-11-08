@@ -1,0 +1,2 @@
+Exception in thread "main" java.lang.AssertionError: ERP parser must accept the exact KF3 session cookie format
+	at de.knaba.mobile.ErpFederationCookieTest.main(ErpFederationCookieTest.java:23)

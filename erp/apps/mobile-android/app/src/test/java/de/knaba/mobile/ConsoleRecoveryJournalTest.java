@@ -30,7 +30,7 @@ public class ConsoleRecoveryJournalTest {
         Provider provider = new Provider("AndroidKeyStore",1.0,"Explicit test-only Keystore double") {};
         provider.put("KeyStore.AndroidKeyStore",TestKeys.class.getName());
         provider.put("KeyGenerator.AES",TestGenerator.class.getName()); Security.addProvider(provider);
-        for(String name: new String[]{"knaba-secure-v1.bin","knaba-console-recovery-v1.bin"})
+        for(String name: new String[]{"knaba-secure-v1.bin","knaba-console-recovery-v1.bin","knaba-console-media-recovery-v1.bin"})
             for(String suffix: new String[]{"",".bak",".new"}) new File(context.getFilesDir(),name+suffix).delete();
     }
     @After public void teardown(){ Security.removeProvider("AndroidKeyStore"); keys.clear(); }
@@ -76,6 +76,56 @@ public class ConsoleRecoveryJournalTest {
         assertThrows(IllegalArgumentException.class,()->journal.write(scope,"x".repeat(70001)));
         try(RandomAccessFile oversized=new RandomAccessFile(journalFile(),"rw")){oversized.setLength(4*1024*1024+30);}
         IllegalArgumentException error=assertThrows(IllegalArgumentException.class,()->journal.read(scope));assertEquals("SECURE_STORAGE_TOO_LARGE",error.getMessage());
+    }
+    private File mediaFile(){return new File(context.getFilesDir(),"knaba-console-media-recovery-v1.bin");}
+    private ErpMedia.Record mediaRecord() throws Exception {
+        JSONObject input=new JSONObject().put("siteId","site-1").put("taskId","task-1").put("stage","AFTER")
+            .put("visibility","INTERNAL").put("caption","Private evidence").put("retentionPurpose","Task evidence");
+        return ErpMedia.Record.create(scope,"b".repeat(64),input,new ErpMedia.FileData("%PDF-1.7 PRIVATE_FILE_BYTES".getBytes(java.nio.charset.StandardCharsets.UTF_8),"PRIVATE_FILE_NAME.pdf"),false);
+    }
+    private ErpMedia.Record registered(ErpMedia.Record record) throws Exception {
+        ErpMedia.Record uploaded=record.uploaded(new JSONObject().put("uploadId","known-upload"));
+        return uploaded.registering().registered(new JSONObject().put("id","known-asset").put("kind","media_asset").put("version",1)
+            .put("data",uploaded.registerInput()));
+    }
+    @Test public void mediaMetadataIsEncryptedAndIsolatedFromGpsAndCommandRecovery() throws Exception {
+        SecureStore gps=new SecureStore(context,"");gps.update(value->{try{value.put("deviceToken","SYNTHETIC_GPS_TOKEN");}catch(Exception e){throw new RuntimeException(e);}return kotlin.Unit.INSTANCE;});
+        ConsoleRecoveryJournal commands=new ConsoleRecoveryJournal(context);commands.write(scope,envelope("independent-command-key"));
+        byte[] gpsBefore=Files.readAllBytes(new File(context.getFilesDir(),"knaba-secure-v1.bin").toPath()),commandsBefore=Files.readAllBytes(journalFile().toPath());
+        ConsoleMediaJournal media=new ConsoleMediaJournal(context);ErpMedia.Record original=mediaRecord();media.save(original);
+        String cipher=new String(Files.readAllBytes(mediaFile().toPath()),java.nio.charset.StandardCharsets.ISO_8859_1);
+        assertFalse(cipher.contains("PRIVATE_FILE_NAME"));assertFalse(cipher.contains("Private evidence"));
+        ErpMedia.Record restored=new ConsoleMediaJournal(context).read(scope).get(0);
+        assertEquals(original.json().toString(),restored.json().toString());
+        assertFalse(restored.json().toString().contains("PRIVATE_FILE_BYTES"));assertFalse(restored.json().has("base64"));assertFalse(restored.json().has("uri"));
+        assertTrue(media.read("c".repeat(64)).isEmpty());
+        ErpMedia.Record done=registered(restored);media.save(done);media.remove(scope,done.key());assertTrue(new ConsoleMediaJournal(context).read(scope).isEmpty());
+        assertArrayEquals(gpsBefore,Files.readAllBytes(new File(context.getFilesDir(),"knaba-secure-v1.bin").toPath()));
+        assertArrayEquals(commandsBefore,Files.readAllBytes(journalFile().toPath()));
+    }
+    @Test public void mediaBackupRecoversButMissingVaultWithExistingKeyCannotBecomeAnEmptyQueue() throws Exception {
+        ConsoleMediaJournal media=new ConsoleMediaJournal(context);ErpMedia.Record original=mediaRecord();media.save(original);
+        File backup=new File(mediaFile().getPath()+".bak");assertTrue(mediaFile().renameTo(backup));
+        assertEquals(original.key(),new ConsoleMediaJournal(context).read(scope).get(0).key());assertTrue(mediaFile().exists());
+        assertTrue(mediaFile().delete());
+        assertThrows(IllegalArgumentException.class,()->new ConsoleMediaJournal(context).read(scope));
+        assertThrows(IllegalArgumentException.class,()->new ConsoleMediaJournal(context).save(mediaRecord()));
+        assertFalse(mediaFile().exists());assertTrue(keys.containsKey("de.knaba.mobile.storage.v1.console-media-recovery"));
+    }
+    @Test public void authenticatedMalformedMediaScopeCannotBeSilentlyReplaced() throws Exception {
+        ConsoleMediaJournal media=new ConsoleMediaJournal(context);ErpMedia.Record original=mediaRecord();media.save(original);
+        new SecureStore(context,"console-media-recovery").update(value->{try{value.getJSONObject("media").put(scope,"broken descriptor map");}catch(Exception e){throw new RuntimeException(e);}return kotlin.Unit.INSTANCE;});
+        byte[] damaged=Files.readAllBytes(mediaFile().toPath());
+        assertThrows(Exception.class,()->media.read(scope));assertThrows(Exception.class,()->media.save(original));
+        assertArrayEquals(damaged,Files.readAllBytes(mediaFile().toPath()));
+    }
+    @Test public void mediaJournalNeverDiscardsUnconfirmedWorkOrChangesAnAcknowledgedVersion() throws Exception {
+        ConsoleMediaJournal media=new ConsoleMediaJournal(context);ErpMedia.Record original=mediaRecord();media.save(original);
+        assertThrows(IllegalArgumentException.class,()->media.remove(scope,original.key()));
+        ErpMedia.Record done=registered(original);media.save(done);
+        assertThrows(ErpConsoleTransport.Failure.class,()->media.save(original));
+        assertThrows(ErpConsoleTransport.Failure.class,()->media.save(new ErpMedia.Record(done.json().put("assetVersion",2))));
+        assertEquals(1,new ConsoleMediaJournal(context).read(scope).get(0).json().getInt("assetVersion"));
     }
     public static final class TestGenerator extends KeyGeneratorSpi {
         String alias;

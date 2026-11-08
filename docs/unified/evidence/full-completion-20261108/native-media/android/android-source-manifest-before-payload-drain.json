@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:24:11.368860+00:00",
+  "status": "FROZEN_FOR_INDEPENDENT_REVIEW",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-native-media",
+  "baseCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "scope": "Android native media plus existing shared native-console-contract test; no iOS/API/SQL/CI/lock edits by this owner",
+  "files": [
+    {
+      "path": "erp/apps/mobile-android/MEDIA_UK.md",
+      "sha256": "7949a19dcb0ba39db655bd522b83da95c95b54f44a300f8bed997617fbe13055",
+      "bytes": 14379
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+      "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47",
+      "bytes": 2979
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+      "sha256": "c20864c9fb2d82305c123a89c8252ab60b5717fcbf59c85926dcf95c33932f28",
+      "bytes": 33447
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407",
+      "bytes": 58606
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0",
+      "bytes": 42986
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMedia.java",
+      "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46",
+      "bytes": 19490
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+      "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+      "bytes": 2173
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7",
+      "bytes": 9045
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "sha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a",
+      "bytes": 25623
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "sha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28",
+      "bytes": 27215
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "sha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3",
+      "bytes": 26993
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "sha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0",
+      "bytes": 35061
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "sha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c",
+      "bytes": 34662
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "sha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27",
+      "bytes": 27312
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+      "sha256": "ab31e491c3fa7bb1279cc078a72bfa30ac1d1f7230b4937f0e0778dd86e8109e",
+      "bytes": 26823
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55",
+      "bytes": 13150
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "sha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed",
+      "bytes": 945
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "sha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237",
+      "bytes": 2432
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+      "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+      "bytes": 3409
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpMediaMemoryTest.java",
+      "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b",
+      "bytes": 4027
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpMediaTransportTest.java",
+      "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe",
+      "bytes": 24875
+    },
+    {
+      "path": "erp/tests/native-console-contract.test.ts",
+      "sha256": "de14a465d95322e89f68d6616fee0f169236459c8dffd1f16da7915abb88dee2",
+      "bytes": 8599
+    }
+  ],
+  "sourceDigestAlgorithm": "SHA256(JSON files array with sort_keys=True, separators=(comma,colon), UTF-8)",
+  "sourceDigest": "57993cb98515406fda1d3b40b6f34f33479ef7a1d1da5f5194527a981c2d5060",
+  "readonlyContractDependencies": [
+    {
+      "path": "erp/apps/api/media-upload.ts",
+      "sha256": "7364b91238daebebd7e8c292ec34ac4407d8bbe5449e35953f71e65226439480"
+    },
+    {
+      "path": "erp/packages/domain/resources.ts",
+      "sha256": "43ed2e1e334155e574c53ea6da4a927645c7adcc2cc554bce8edb090e3a5e91f"
+    },
+    {
+      "path": "erp/packages/storage/media-limits.ts",
+      "sha256": "9ff17bc43ca354b0bd652cd4e4c8e0f618a8633ad8a4a8c1fd6b4eb0dbad3229"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-transport-final.log",
+      "sha256": "42a692c0de98e37d3890eed0078418b7b08be703d0c3afdcb9900a1e0d1ecf14",
+      "status": "PASS",
+      "claim": "71 typed media/recovery assertions;17 bounded media IO assertions;20MiB streaming PDF under96MiB heap; unchanged76 transport/30 credential/109 discovery assertions"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-provider-drain-green.log",
+      "sha256": "6595c5b56b39adcc3708fd3e8dc7f19879330c12d96964835ed65b9a768503a0",
+      "status": "PASS",
+      "claim": "Current-source Android Kotlin/Java compilation and targeted11 Robolectric View/provider tests"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-picker-final.xml",
+      "sha256": "af6adf5d68097061e8ad0a34ab6a5a0c62bd98717efbefff3e4daae457822eab",
+      "status": "PASS",
+      "claim": "JUnit11 tests,0failures,0errors,0skipped; explicit HTTP/provider doubles, SDK32/35"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-localization-final.log",
+      "sha256": "d1ef7e16c8e89789f71adce1be524e63df3b61d4acf73549b7a609646594dc6d",
+      "status": "PASS",
+      "claim": "Six locale XML catalogs,347 strings each;39 compiled language/display-clock vectors"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-demo-final.log",
+      "sha256": "1f47accf26011f7096f971e78e50fc236d2abacaea0b615cf0555f5d0597d772",
+      "status": "PASS",
+      "claim": "38 existing demo JVM checks"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/shared-contract-current.log",
+      "sha256": "5cf7380cd51b602ece33758b7772f5c0faf78ba7baba14db92611fcdbe37306f",
+      "status": "PASS",
+      "claim": "134 actual server-schema/native-source contract cases,128 existing plus6 media cases"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/shared-typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "PASS_EXIT_0",
+      "claim": "ERP TypeScript noEmit, no diagnostics"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-framework-final.log",
+      "sha256": "78a0680780828dcf8cacae9e0a3cb7a3d99a59e96bfab1dde94f546a4731570d",
+      "status": "PRE_FINAL_DELTA_PASS",
+      "claim": "Full Android framework suite and lintDebug succeeded before the final bounded media coordinator and busy-state delta; not a full-suite claim for future artifacts"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-transport-red.log",
+      "sha256": "ea05eb0ffba1b844aa7a0cf946f48e965b1dc8a1980b76686de6d3a11df390a6",
+      "status": "EXPECTED_RED",
+      "claim": "Initial typed80KiB upload exceeded unchanged generic64KiB request bound"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-media-ack-cleanup-red.log",
+      "sha256": "3bc35ced9b2e20630acf1c836951965131b9184411f172fb20015444ee6402d1",
+      "status": "EXPECTED_RED",
+      "claim": "Known registration ACK was lost behind generic command-journal cleanup failure"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-media-boundary-red.log",
+      "sha256": "2873f1fb49f053cf332bdd9257fc14c9e33ac043aba47b726c9d299071802116",
+      "status": "EXPECTED_RED",
+      "claim": "Generic fresh-key registration attempted network after known typed ACK cleanup gap"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-picker-cleanup-red.log",
+      "sha256": "66e16a2717b4c23ecf4ca19a3bb8a0e05207ce58400a7355a4fb830afbb45782",
+      "status": "EXPECTED_RED",
+      "claim": "8pass/1fail: restored REGISTERED receipt lacked local-only cleanup action"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-provider-drain-red.log",
+      "sha256": "b4625b27793bb05786836d5b104f037721fb1a968ec6da9e6b08d08eede8144c",
+      "status": "EXPECTED_RED",
+      "claim": "Recreated screen started fresh media work before old provider read drained"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-io-busy-ui-red.log",
+      "sha256": "99c9c62411e808fac4b3a466c09daace82e66c2534c28b5f0ca1ceefca148566",
+      "status": "EXPECTED_RED",
+      "claim": "10pass/1fail: stale busy warning survived explicit read retry"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-picker-sdk31-unavailable.log",
+      "sha256": "81a60078e760cc57f1aa7bb850c3df3b2e6d68b0132048682b3ece55f7d02e83",
+      "status": "ENVIRONMENT_BLOCKED",
+      "claim": "Robolectric exactSDK31 dependency absent; installedSDK32 exercises the same platform fallback branch; no runtime download workaround"
+    }
+  ],
+  "localRecoveryContract": {
+    "commandEnvelope": "Existing formatversion1 with optional nativeMedia:true only for typed media.register; marker never enters HTTP body; legacy unmarked generic entries remain compatible",
+    "mediaEnvelope": "ErpMedia.Record format1 in separate console-media-recovery AES-GCM/AndroidKeystore AtomicFile; metadata-only; up to8 records per scope,16 scopes; scope/full-authority SHA256, distinct upload/register UUID, exact original SHA256/size/MIME/name/redaction/input, phase, known upload/asset receipt",
+    "missingOrCorrupt": "Fail closed, preserve ciphertext and known receipts, no generic editor or fresh-key fallback",
+    "knownAck": "Local checkpoint first persists REGISTERED, then resolves generic command journal, then removes media descriptor; local cleanup failure returns known receipt plus warning, never new upload or automatic replay",
+    "queue": "One process-owned media IO lane across recreated screens, one running+seven waiting; reject before executing overflow, explicit manual retry; cancel purges queued closures and active provider drains before next media IO"
+  },
+  "integrationNotes": [
+    "Shared schema test imports the new iOS ERPMedia.swift policy source; integrate both native counterparts before rerunning134 cases.",
+    "API CUSTOMER classifier delta belongs to ERP peer and is not among these22 paths; Android always requests copy=client.",
+    "Version0.5.0/buildCode8, package identity, signing, min31/target36, framework/dependency versions and manifest permissions unchanged.",
+    "Existing generic64KiB request/2MiB response limits unchanged; typed upload streams original bytes; dedicated binary download bound25MiB.",
+    "Only targeted UI/transport repeated after concrete process-lifetime coordinator correction, per root request; full package/CI must run on the eventual exact committed aggregate."
+  ],
+  "notRun": [
+    "New APK/AAB packaging/signature/install verification",
+    "Physical Android install/update/OEM lifecycle",
+    "Actual system Photos/Documents providers",
+    "ExactSDK31 Robolectric runtime",
+    "Live ERP media/scanner/provider/PG acceptance",
+    "Device memory/startup/performance measurements",
+    "Any new iOS compilation/XCTest"
+  ],
+  "unclosedAcceptance": "KN-C06/R-21/AC53-54 broader acceptance remains open; no camera capture, visual masks/annotations, trusted capture-time, worklog/message attachment effects, SSO/PKCE/push/GPS grants are claimed",
+  "sourceCommittedByAgent": false
+}

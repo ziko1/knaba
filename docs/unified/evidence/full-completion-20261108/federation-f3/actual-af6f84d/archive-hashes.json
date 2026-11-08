@@ -1,0 +1,35 @@
+{
+  "sourceCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "archives": [
+    {
+      "path": "erp-failed-af6f84d.zip",
+      "artifactId": 13623829889,
+      "bytes": 156492,
+      "sha256": "5998a9b494b42bbe514bff5fb4d35ae562dc1980e6ddb981c3dbbee35f113e2d"
+    },
+    {
+      "path": "bridge-af6f84d.zip",
+      "artifactId": 13625340736,
+      "bytes": 3305,
+      "sha256": "ebce32951726d3b19d212e5a7c2f5149abbeb6fdb2240635aa173feb41154250"
+    },
+    {
+      "path": "failure-af6f84d.zip",
+      "artifactId": 13625425657,
+      "bytes": 321,
+      "sha256": "49c8a4742a13e896f33440227cfb2a22d4c6c235c199d4dcf329793f1673434d"
+    },
+    {
+      "path": "android-af6f84d.zip",
+      "artifactId": 13624532586,
+      "bytes": 2495338,
+      "sha256": "06cc924608fd3ff06aad2cea81f3850b9aeed919038eeed5799d4c552c225fa6"
+    },
+    {
+      "path": "ios-af6f84d.zip",
+      "artifactId": 13624772143,
+      "bytes": 9019381,
+      "sha256": "5ebf4dbe7ea12003040e14f9ff2d7ef7f981581da68d2cce9dbc6ccc0949f2ec"
+    }
+  ]
+}

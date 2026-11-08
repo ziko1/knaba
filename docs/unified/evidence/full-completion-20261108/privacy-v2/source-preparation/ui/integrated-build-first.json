@@ -1,0 +1,9 @@
+{
+  "command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "exitCode": 2,
+  "logSha256": "511f4542d6ac85a47f106bd949b5cfc0d7cd5832770e59023ce600021c778eab"
+}

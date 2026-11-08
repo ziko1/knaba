@@ -1,0 +1,23 @@
+{
+  "wholeDiffExit": 2,
+  "rawEvidenceWarningsPreserved": [
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp-review-corrections.patch",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/compatibility-first.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/flow-first.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/flow-green.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/http-first.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/protocol-green.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/protocol-red.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/session-first.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/erp/session-green.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/site/build-first.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/web-v1-review-corrections.patch",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/web-v2-review-corrections.patch",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/web/independent-browser-guards.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/web/independent-model.log",
+    "docs/unified/evidence/full-completion-20261108/federation-f3/web/model-first.log"
+  ],
+  "sourceAndDocumentationDiffCheck": 0,
+  "scope": "Raw logs/patches retained byte-for-byte to preserve evidence hashes; no executable or authored-document whitespace finding",
+  "rawDiagnosticsSha256": "997d8711e7131a3f32a8a6d9a9149bd622ce3f38d696d2969902531d28a2b24a"
+}

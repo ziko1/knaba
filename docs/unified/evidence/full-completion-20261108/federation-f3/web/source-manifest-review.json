@@ -1,0 +1,231 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T16:05:15.132482+00:00",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "baseCommit": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "status": "FROZEN_ROOT_WEB_AND_BRIDGE_FOR_INDEPENDENT_REVIEW",
+  "files": [
+    {
+      "path": "corporate-site/tests/ci-artifacts.mjs",
+      "sha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+      "bytes": 6469
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "sha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+      "bytes": 14887
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "sha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+      "bytes": 7291
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "sha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+      "bytes": 82243
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "sha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+      "bytes": 25575
+    },
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "sha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070",
+      "bytes": 20738
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.test.ts",
+      "sha256": "7e6ff8fdabeb88d2b451c107a9a2dfbdabd1740602a98602b615df54945f955c",
+      "bytes": 10303
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.ts",
+      "sha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2",
+      "bytes": 10420
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "sha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+      "bytes": 60128
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "sha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+      "bytes": 175255
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "sha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+      "bytes": 968
+    },
+    {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "sha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "bytes": 9942
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4",
+      "bytes": 21419
+    },
+    {
+      "path": "erp/tests/site-identity-link-ui.spec.ts",
+      "sha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "bytes": 10866
+    },
+    {
+      "path": "tests/bridge/federation-harness.mjs",
+      "sha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+      "bytes": 19733
+    },
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "sha256": "f73d9d78a6e1924dfb5afd2c4abfa024d144f745abda75973283a3df6dd80689",
+      "bytes": 14196
+    }
+  ],
+  "sourceDigestAlgorithm": "SHA256 of sorted sha256 + two spaces + path + newline",
+  "sourceDigest": "1cb96ec7d3a8cc2220421b2e778e791022242971d6c621d5cc1b6bba84bc6cc0",
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/model-first.log",
+      "sha256": "1fb6afacfca373ab925bb15099427a80bb5d08d61a44563836dbbc4f46752d3f",
+      "claim": "24 model/api CPU tests passed"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/full-types-first.log",
+      "sha256": "ee8d71975402d8de160bf69bf180fb33a18ca3ba4e07f2917646105efb3fff7e",
+      "claim": "Historical first full tsc failed on six then-WIP API fixture TS18048 diagnostics"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/full-types-second.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim": "Full ERP TypeScript exit0 after fixture correction"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/build-first.log",
+      "sha256": "00a0916b1f71e81d3c7780eb6c52a2a071d9fbb2406d617edcaef8ed314369ec",
+      "claim": "ERP web Vite build completed; WIP source build, not clean committed artifact acceptance"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory.log",
+      "sha256": "f74bd769914e55e0cdd3e8000e26250a4479e7769bf0318fc2a9944d810124d9",
+      "claim": "Playwright discovery/list only; eight authored F3 browser tests, NOT_RUN"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-first.log",
+      "sha256": "ad5f376b013fcfdb2e511c0f817ffd79817684f0f451f5ac765eb3162c33a360",
+      "claim": "18 browser/manifest inventory guard unit tests passed"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-review-corrections.log",
+      "sha256": "c49764ef1b4a9ff0bb2ede40ed24830855b87125ca1a47b822b22380ee118e00",
+      "claim": "18 browser/manifest infrastructure unit tests passed after inventory18 update"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-review-corrections.log",
+      "sha256": "26ba413aa6763cbd7a11250404403dd8abbc6da43e42514ccf5714c226f0a102",
+      "claim": "Nine authored browser cases discovered with reporter=list; NOT execution"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-final.json",
+      "sha256": "0e7bac9d24b87d01411d93b9b018e6f82b2ee9bf233c4fa4845d32a6c5b1f8e8",
+      "claim": "Final full ERP TypeScript exit0; includes current browser fixture service-worker option"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim": "Final full ERP TypeScript emitted no diagnostics"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-session-binding.log",
+      "sha256": "dc8a2ba24c87db9aa214ef1752e874eac5ee127e74ef683fd91d4a46c4717829",
+      "claim": "Historical root eighteen guard tests passed before independent startup race was found"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-browser-guards.log",
+      "sha256": "4f5196b9e11ec9508980c372560065eaa993f6c67a18fd564ef10cf3e9b2a562",
+      "claim": "Independent historical guard run17/18: deadline test assumed child stdout readiness inside800ms; failure retained"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/ci-guards-final.log",
+      "sha256": "0f3a772b4d777fe1f259e0ef13fd2c2cb4a639c1b819462f2de0d3c0be8be662",
+      "claim": "Corrected bounded readiness handshake; eighteen guard tests PASS, no product deadline change"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-session-binding.log",
+      "sha256": "f91e37cbff3bba36d0d1b9f519a746c7f9e0f678c93a40c9a518a059bffef767",
+      "claim": "Discovery only: all48 browser tests in5files, including19 required HTTP-fixture cases; not execution"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/browser-inventory-final.log",
+      "sha256": "5b368b1a9f746f946106654e08fea9985907c96e10fb88dcd8a30a0d3464d105",
+      "claim": "Final discovery only: nineteen required cases inthreefiles, includingtenF3; NOT_RUN"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-source-probe.log",
+      "sha256": "6cfb0249c3a374a16275648289cd94c3307d5889e6b2fe167ac0f23d61e7a306",
+      "claim": "Independent RED behavior probe: old same-user ERP cookie erroneously accepted before correction"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding-green.log",
+      "sha256": "5a731038ea67b3d59d8213808efe53fd778930d9f840559ea8fc638b69cab248",
+      "claim": "Independent corrected source-extracted handler: three behavioral cases PASS; not a rendered browser"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/independent-web-session-binding.test.mjs",
+      "sha256": "c8c0b709520e5dffd24ce76d7835e9381c628ff868850890495de4def767dbce",
+      "claim": "Independent source-extracted behavioral regression probe"
+    }
+  ],
+  "notRun": [
+    "Actual ten new rendered F3 browser cases",
+    "Actual eight new VPS/ERP/PostgreSQL pair cases",
+    "Actual native application callbacks",
+    "Clean committed aggregate CI"
+  ],
+  "notes": [
+    "Workflow requires exact18 F3 PostgreSQL and8 F3 pair names; existing job/runner/timeout/retry limits retained. Its inline guard has nineteen synthetic cases PASS, not database execution.",
+    "VPS13 and ERP26 source have separate frozen scoped review manifests.",
+    "Playwright --list is discovery only; tracked browser-result.json remains the original HEAD bytes.",
+    "Unknown WEB ACK exposes explicit restart/current-account paths without claiming completion. Successful confirm requires fresh /me actor, company AND the newly issued token-derived csrfToken.",
+    "HTTP fixture reads require GET; F3 serviceWorkers:block prevents worker-owned traffic bypassing page.route. Service-worker behavior is outside this fixture scope.",
+    "Paired expectations retain revoked rows, use exact conflict409, inspect raw secret suffixes and isolate the deliberate source-outage diagnostic.",
+    "CI browser inventory is4transfer+5F2+10F3=19. List-all separately discovered48 cases across5files.",
+    "Previous Vite build covers pre-review source only. Final exact-source aggregate build remains required.",
+    "An independent guard failure exposed an800ms child-startup assumption. Test-only repair separately proves a deadline and bounded ready-child SIGKILL+close+ESRCH; production runner limits unchanged."
+  ],
+  "supersedes": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/web/review-v2/source-manifest-review.json",
+    "sha256": "cb2104cbe9f5e23651e0c030e6c785757ed7777223655bef6fbe2eb784ce155b"
+  },
+  "reviewCorrectionDelta": [
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "before": "633fa17f1bb92876aa300ba68a487bc68bc6af0ecdf0ee3369c67d8f3cc67450",
+      "after": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "before": "8dd93ef7d59a30bdb22f2d3c05cff97c4c410d7850b3829ac23570ffad919b41",
+      "after": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f"
+    },
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "before": "04827c8f90fc5ccbace74ebe5ea075831b304bd8667849fe4c77028405108063",
+      "after": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070"
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "before": "b1625539873e091e35bbc4b9ca6b9a74727ab9cd320b7a6659a4fa4e601e86b5",
+      "after": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4"
+    }
+  ],
+  "workflowDependency": {
+    "path": ".github/workflows/ci.yml",
+    "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+    "guardReceipt": "/workspace/scratch/c56161c95e04/verification/federation-f3/ci/erp-gate-receipt.json"
+  }
+}

@@ -1,4 +1,7 @@
 import {queueHandoffSla} from '../../packages/domain/handoff-calendar.ts';
+import {processGuestConversationTransfer} from './conversation-transfer.ts';
+import {transferredGuestChannelIn} from '../api/conversation-transfer.ts';
+import {reserveGuestTransfer,currentTransferIdentity} from '../../packages/domain/conversation-transfer.ts';
 import {processIntegrationOutbound} from '../api/integration-outbound.ts';
 import {processHandoffReminder} from './handoff-reminder.ts';
 import type {IntegrationWebhookAdapter} from '../../packages/integrations/outbound-webhook.ts';
@@ -29,7 +32,7 @@ import type { Engine } from '../api/engine.ts';
 import { assert, DomainError, type Actor, type Data, type Entity } from '../../packages/domain/core.ts';
 import { whatsAppPolicy, isQuietHour } from '../../packages/domain/communications.ts';
 import {ROLE_PERMISSIONS} from '../../packages/domain/permissions.ts';
-import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,nextQuietWindowEnd,safeRetryDelayMs,projectDeliveryNotifications,deliveryDecision,type DeliveryFailureClass} from '../../packages/domain/notification-policy.ts';
+import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,nextQuietWindowEnd,safeRetryDelayMs,projectDeliveryNotifications,deliveryDecision,whatsappConsentAllowed,type DeliveryFailureClass} from '../../packages/domain/notification-policy.ts';
 import { DeepSeekAdapter, WhatsAppCloudAdapter, type WhatsAppInbound, type WhatsAppOutput, type SupportedLanguage } from '../../packages/integrations/index.ts';
 
 export interface OutboxJob {id:string;company_id:string;type:string;data:Data;attempts:number;leased_until:string|Date;lease_token?:string;}
@@ -169,7 +172,7 @@ export class WorkerRunner {
   }
   private async messageCreated(job:OutboxJob){const message=await this.entity(job,'message',job.data.message_id);if(message.data.deleted_at||message.data.message_version!==job.data.version)return;const channel=await this.entity(job,'channel',message.data.channel_id);for(const member of channel.data.members??[]){if(member.revoked_at||member.user_id===message.data.author_id||member.user_id===serviceId)continue;const recipient=await this.db.transaction(job.company_id,serviceId,async tx=>{if(!await this.currentlyReadable(tx,member.user_id,message))return;const actor=await this.engine.actorIn(tx,member.user_id);const preferences=(await tx.list('translation_preference')).filter(p=>p.data.user_id===member.user_id);const preference=preferences.find(p=>p.data.channel_id===channel.id)??preferences.find(p=>!p.data.channel_id);const settings=(await tx.list('notification_setting')).find(p=>p.data.user_id===member.user_id);return {actor,preference,settings};});if(!recipient)continue;
     await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WEB'},`web:${member.user_id}`);
-    if(recipient.settings?.data.whatsapp_consent===true&&!recipient.settings?.data.opted_out)await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WHATSAPP'},`wa:${member.user_id}`);
+    if(whatsappConsentAllowed(recipient.settings?.data,{channelId:channel.id}))await this.command(job,'delivery.prepare',{message_id:message.id,recipient_id:member.user_id,channel:'WHATSAPP'},`wa:${member.user_id}`);
     if(recipient.preference?.data.mode==='ORIGINAL_AND_AUTO'&&recipient.preference.data.target_language!==message.data.language&&recipient.actor.permissions.includes('translation.use'))await this.command(job,'translation.request',{message_id:message.id,target_language:recipient.preference.data.target_language},`translation:${member.user_id}`,recipient.actor);
   }
     if(job.type==='message.created'&&channel.data.source_provider==='TELEGRAM')await stageTelegramReply(this.db,this.engine,job.company_id,message.id,job.data.version);
@@ -191,10 +194,10 @@ export class WorkerRunner {
       if(message.data.message_version!==delivery.data.message_version||!await this.currentlyReadable(tx,delivery.data.recipient_id,message)){const cancelled=await tx.save(delivery,{...delivery.data,status:'CANCELLED',error:'ACCESS_REVOKED'});await projectDeliveryNotifications(tx,cancelled,this.now().toISOString());await checkLease();return;}
       const settings=(await tx.list('notification_setting')).find(s=>s.data.user_id===delivery.data.recipient_id);
       const template=delivery.data.approved_template?(await tx.list('whatsapp_template')).find(t=>t.data.name===delivery.data.approved_template&&t.data.status==='APPROVED'):undefined;
-      const policy=delivery.data.channel==='WEB'?{allowed:true,channel:'WEB' as const}:whatsAppPolicy({now:this.now().toISOString(),last_inbound_at:settings?.data.last_inbound_at,consent:settings?.data.whatsapp_consent===true,opted_out:settings?.data.opted_out,approved_template:template?.data.name,template_status:template?.data.status});
+      const policy=delivery.data.channel==='WEB'?{allowed:true,channel:'WEB' as const}:whatsAppPolicy({now:this.now().toISOString(),last_inbound_at:settings?.data.last_inbound_at,consent:whatsappConsentAllowed(settings?.data,{channelId:message.data.channel_id}),opted_out:settings?.data.opted_out,approved_template:template?.data.name,template_status:template?.data.status});
       if(!policy.allowed){const failed=await tx.save(delivery,{...delivery.data,status:'FAILED',error:policy.reason,failure_class:'DEFINITIVE'});await projectDeliveryNotifications(tx,failed,this.now().toISOString());await checkLease();return;}
       if(delivery.data.channel==='WHATSAPP'&&isQuietHour(this.now().toISOString(),settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END))throw new DeferredJob(nextQuietWindowEnd(this.now().toISOString(),settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END));
-      const identities=(await tx.list('contact_identity')).filter(c=>c.data.userId===delivery.data.recipient_id&&c.data.verified&&c.data.active!==false&&['WHATSAPP','PHONE'].includes(c.data.type));
+      const identities=(await tx.list('contact_identity')).filter(c=>currentTransferIdentity(c,job.company_id,delivery.data.recipient_id,String(c.data.value??'').replace(/[^\d]/g,''),this.now().toISOString()));
       const phones=[...new Set(identities.map(c=>String(c.data.value).replace(/[^\d]/g,'')))],phone=phones.length===1?phones[0]:undefined;
       if(delivery.data.channel==='WHATSAPP'){
         const error=!this.options.whatsapp?'PROVIDER_DISABLED':!phone?'RECIPIENT_UNVERIFIED':this.options.appMode!=='PRODUCTION'&&!this.options.testRecipients?.includes(phone)?'TEST_RECIPIENT_NOT_ALLOWED':undefined;
@@ -206,14 +209,32 @@ export class WorkerRunner {
       return {delivery,message,policy,phone,language:settings?.data.language??'DE'};
     });
     if(!snapshot)return;if('unknown' in snapshot)return this.command(job,'delivery.status',{delivery_id:snapshot.unknown,status:'UNKNOWN',error:'PROVIDER_OUTCOME_UNKNOWN',failure_class:'UNKNOWN'});if(snapshot.delivery.data.channel==='WEB')return this.command(job,'delivery.status',{delivery_id:entity.id,status:'DELIVERED'});
-    const output:WhatsAppOutput=snapshot.policy.kind==='TEMPLATE'?{kind:'TEMPLATE',name:snapshot.policy.template!,language:snapshot.language.toLowerCase()==='uk'?'uk':snapshot.language.toLowerCase(),approved:true,parameters:[this.options.publicOrigin??'https://knaba.example.invalid']}:{kind:'TEXT',text:`${job.data.notice==='CORRECTION'?'Korrektur · ':''}${snapshot.message.data.text}`.slice(0,4096)};
     let providerStarted=false;
-    try{await this.activeJob(job);providerStarted=true;const result=await this.options.whatsapp!.send(snapshot.phone!,output,{kind:snapshot.policy.kind as 'TEXT'|'TEMPLATE',template:snapshot.policy.template});await this.command(job,'delivery.status',{delivery_id:entity.id,...result});}
+    try{await this.activeJob(job);const current=await this.deliveryEgress(job,snapshot);if(!current)return;
+      const output:WhatsAppOutput=current.policy.kind==='TEMPLATE'?{kind:'TEMPLATE',name:current.policy.template!,language:current.language.toLowerCase()==='uk'?'uk':current.language.toLowerCase(),approved:true,parameters:[this.options.publicOrigin??'https://knaba.example.invalid']}:{kind:'TEXT',text:`${job.data.notice==='CORRECTION'?'Korrektur · ':''}${current.message.data.text}`.slice(0,4096)};
+      providerStarted=true;const result=await this.options.whatsapp!.send(current.phone,output,{kind:current.policy.kind as 'TEXT'|'TEMPLATE',template:current.policy.template});await this.command(job,'delivery.status',{delivery_id:entity.id,...result});}
     catch(error){
       if(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST')throw error;
       const failure:DeliveryFailureClass=error instanceof DomainError?(error.details.failure_class??(error.code==='PROVIDER_UNAVAILABLE'&&providerStarted?'UNKNOWN':'DEFINITIVE')):'UNKNOWN';
       await this.command(job,'delivery.status',{delivery_id:entity.id,status:failure==='UNKNOWN'?'UNKNOWN':'FAILED',failure_class:failure,error:error instanceof DomainError?error.code:'PROVIDER_OUTCOME_UNKNOWN'});
     }
+  }
+  /** Last database boundary before provider I/O; no transaction spans the network call. */
+  private async deliveryEgress(job:OutboxJob,prepared:{delivery:Entity;message:Entity;phone?:string}){
+    return this.db.transaction(job.company_id,serviceId,async tx=>{
+      const check=async()=>{const result=await tx.query("SELECT id,type,data FROM outbox WHERE company_id=$1 AND id=$2 AND status='RUNNING' AND lease_token=$3 AND leased_until>clock_timestamp() FOR UPDATE",[job.company_id,job.id,job.lease_token??null]),held=result.rows[0];assert(held,'WORKER_LEASE_LOST');assert(held.type==='delivery.requested'&&job.type===held.type&&held.data.delivery_id===prepared.delivery.id&&isDeepStrictEqual(held.data,job.data),'ACCESS_DENIED');};
+      await check();const service=await this.engine.actorIn(tx,serviceId);assert(service.roles.includes('SERVICE_ACCOUNT')&&this.engine.scope(service,'integration.process').permissions.includes('integration.process'),'ACCESS_DENIED');
+      const delivery=await tx.get('delivery',prepared.delivery.id);assert(delivery.data.status==='SENDING'&&delivery.data.sending_job_id===job.id&&delivery.data.sending_lease_hash===createHash('sha256').update(job.lease_token??'').digest('hex')&&delivery.data.provider_account_id===this.options.whatsapp?.phoneNumberId,'ACCESS_DENIED');
+      const stop=async(error:string,status='FAILED')=>{const saved=await tx.save(delivery,{...delivery.data,status,error,...status==='FAILED'?{failure_class:'DEFINITIVE'}:{}});await projectDeliveryNotifications(tx,saved,this.now().toISOString());await check();return undefined;};
+      const message=await tx.get('message',delivery.data.message_id);
+      if(message.data.message_version!==delivery.data.message_version||message.data.message_version!==prepared.message.data.message_version||message.data.channel_id!==prepared.message.data.channel_id||!await this.currentlyReadable(tx,delivery.data.recipient_id,message))return stop('ACCESS_REVOKED','CANCELLED');
+      const settings=(await tx.list('notification_setting')).find(row=>row.data.user_id===delivery.data.recipient_id),template=delivery.data.approved_template?(await tx.list('whatsapp_template')).find(row=>row.data.name===delivery.data.approved_template&&row.data.status==='APPROVED'):undefined;
+      const policy=whatsAppPolicy({now:this.now().toISOString(),last_inbound_at:settings?.data.last_inbound_at,consent:whatsappConsentAllowed(settings?.data,{channelId:message.data.channel_id}),opted_out:settings?.data.opted_out,approved_template:template?.data.name,template_status:template?.data.status});
+      if(!policy.allowed)return stop(policy.reason??'CHANNEL_CONSENT_REQUIRED');
+      const identities=(await tx.list('contact_identity')).filter(row=>currentTransferIdentity(row,job.company_id,delivery.data.recipient_id,String(row.data.value??'').replace(/[^\d]/g,''),this.now().toISOString())),phones=[...new Set(identities.map(row=>String(row.data.value).replace(/[^\d]/g,'')))];
+      if(phones.length!==1||!prepared.phone||phones[0]!==prepared.phone||delivery.data.provider_recipient_phone!==prepared.phone)return stop('RECIPIENT_UNVERIFIED');
+      await check();return {delivery,message,policy,phone:prepared.phone,language:String(settings?.data.language??'DE')};
+    });
   }
   private async notification(job:OutboxJob){
     const existing=await this.entity(job,'notification',job.data.notification_id);
@@ -276,7 +297,9 @@ export class WorkerRunner {
    });
    if(!prepared.allowed||!prepared.response||!prepared.to||!prepared.output||!prepared.policy)return;
    let providerStarted=false;
-   try{await this.activeJob(job);providerStarted=true;const result=await this.options.whatsapp!.send(prepared.to,prepared.output,prepared.policy);await leased(async tx=>{const current=await tx.get('whatsapp_router_response',prepared.response!.id);assert(current.data.status==='SENDING'&&current.data.sending_job_id===job.id,'PROVIDER_OUTCOME_UNKNOWN');return tx.save(current,{...current.data,...result,provider_state:'ACCEPTED_BY_PROVIDER',completed_at:this.now().toISOString()});});}
+   try{await this.activeJob(job);const current=await leased(tx=>this.router().prepareResponseIn(tx,prepared.response!.id,{jobId:job.id,leaseHash:createHash('sha256').update(job.lease_token??'').digest('hex')}));if(!current.allowed||!current.to||!current.output||!current.policy)return;
+    assert(current.response?.data.provider_account_id===this.options.whatsapp!.phoneNumberId&&current.response?.data.provider_recipient_phone===current.to,'ACCESS_DENIED');
+    providerStarted=true;const result=await this.options.whatsapp!.send(current.to,current.output,current.policy);await leased(async tx=>{const stored=await tx.get('whatsapp_router_response',prepared.response!.id);assert(stored.data.status==='SENDING'&&stored.data.sending_job_id===job.id,'PROVIDER_OUTCOME_UNKNOWN');return tx.save(stored,{...stored.data,...result,provider_state:'ACCEPTED_BY_PROVIDER',completed_at:this.now().toISOString()});});}
    catch(error){
     if(error instanceof DomainError&&error.code==='WORKER_LEASE_LOST')throw error;
     const failure:DeliveryFailureClass=error instanceof DomainError?(error.details.failure_class??(error.code==='PROVIDER_UNAVAILABLE'&&providerStarted?'UNKNOWN':'DEFINITIVE')):'UNKNOWN';
@@ -421,9 +444,11 @@ export class WorkerRunner {
     });
   }
   private async inbound(job:OutboxJob){const provider=job.data.provider??'WHATSAPP';const inbox=await this.db.query('SELECT payload FROM webhook_inbox WHERE provider=$1 AND event_id=$2 AND company_id=$3',[provider,job.data.event_id,job.company_id]);assert(inbox.rows.length===1,'NOT_FOUND_SAFE');const input=inbox.rows[0].payload as WhatsAppInbound;assert(input.kind==='MESSAGE'||input.kind==='STATUS','VALIDATION_ERROR');
+    if(input.kind==='MESSAGE'&&(input.transfer||reserveGuestTransfer(input,input.type==='text'?input.text:undefined))){await processGuestConversationTransfer(this.db,this.engine,job,input,serviceId);return;}
     if(input.kind==='STATUS'){const matches=await this.db.transaction(job.company_id,serviceId,async tx=>(await tx.list('delivery')).filter(d=>d.data.provider_message_id===input.id));for(const d of matches)await this.command(job,'delivery.status',{delivery_id:d.id,status:input.status,provider_message_id:input.id,error:input.error_code?`META_${input.error_code}`:undefined},`status:${d.id}`);await this.routerStatus(job,input);return;}
     const route:Entity=await this.db.transaction(job.company_id,serviceId,async tx=>{const old=(await tx.list('conversation_input')).find(i=>i.data.provider_event_id===input.id);if(old)return old;const identities=(await tx.list('contact_identity')).filter(i=>['PHONE','WHATSAPP'].includes(i.data.type)&&i.data.active!==false&&i.data.verified&&String(i.data.value).replace(/[^\d]/g,'')===input.sender);const userIds=[...new Set(identities.map(i=>i.data.userId))];assert(userIds.length<=1,'AMBIGUOUS_RECIPIENT');let userId=userIds[0];if(!userId){const user=await tx.add('user',{name:'WhatsApp guest',roles:['GUEST','CLIENT'],permissions:['chat.read','chat.write','lead.create','lead.manage','commerce.read','translation.use'],siteIds:[],customerIds:[],warehouseIds:[],active:true,guest:true});userId=user.id;await tx.add('contact_identity',{type:'WHATSAPP',value:input.sender,userId,verified:true,active:true,verificationSource:'SIGNED_META_CHANNEL',verifiedAt:this.now().toISOString(),customerVerified:false});}
       const actor=await this.engine.actorIn(tx,userId);let channel:Entity|undefined;let replyId:string|undefined;if(input.context_message_id){const copies=(await tx.list('delivery')).filter(d=>d.data.provider_message_id===input.context_message_id&&d.data.recipient_id===userId);if(copies.length===1){const original=await tx.get('message',copies[0]!.data.message_id);if(await this.currentlyReadable(tx,userId,original)){channel=await tx.get('channel',original.data.channel_id);replyId=original.id;}}}
+      if(!channel)channel=await transferredGuestChannelIn(tx,job.company_id,userId,input.sender);
       if(!channel)channel=(await tx.list('channel')).find(c=>c.data.created_by===userId&&['PRIVATE_CUSTOMER_ASSISTANT','DIRECT'].includes(c.data.type));if(!channel){const external=actor.roles.some(r=>['CLIENT','CUSTOMER','GUEST'].includes(r));channel=await tx.add('channel',{type:external?'PRIVATE_CUSTOMER_ASSISTANT':'DIRECT',name:external?'Private WhatsApp consultation':'Private operator inbox',created_by:userId,members:[{user_id:userId,joined_at:this.now().toISOString(),history_from:this.now().toISOString(),external},{user_id:serviceId,joined_at:this.now().toISOString(),history_from:this.now().toISOString(),external:false}],handoff:{state:'AI_ACTIVE',owner_id:null}});}
       const setting=(await tx.list('notification_setting')).find(s=>s.data.user_id===userId);const language=setting?.data.language??'DE';return tx.add('conversation_input',{provider_event_id:input.id,provider:'WHATSAPP',user_id:userId,channel_id:channel.id,received_at:input.received_at,input,language,reply_to_id:replyId,status:'PENDING'});});
     if(route.data.status!=='PENDING')return;const actor=await this.engine.getActor(route.data.user_id,job.company_id);await this.command(job,'notifications.inbound',{user_id:actor.userId,received_at:input.received_at},'inbound-window');

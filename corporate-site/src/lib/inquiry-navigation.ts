@@ -11,6 +11,7 @@ export function inquirySupportPath(path: '/datenschutz/' | '/konto/', locale: Pu
 export function inquirySelectionQuery(search: string): string {
   const input = new URLSearchParams(search);
   const output = new URLSearchParams();
+  if (input.get('intent') === 'assistant') output.set('intent', 'assistant');
   const topic = input.get('anliegen');
   if (topic && offerBySlug(topic)) output.set('anliegen', topic);
   if (input.get('leistung') === 'baureinigung') output.set('leistung', 'baureinigung');

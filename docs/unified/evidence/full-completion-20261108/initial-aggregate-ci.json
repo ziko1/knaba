@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "sourceSha": "5d6eeae0862e52cc693c1766f0c6fba964b12aa5",
+  "sourceTree": "7de0c8019ae5ab6959930225996a0c978859deba",
+  "scope": "First aggregate CI; failures retained. Named passing suites are scoped evidence, not full acceptance or live/device approval.",
+  "pullRequest": "https://github.com/ziko1/knaba/pull/129",
+  "runId": 42472254239,
+  "root": {
+    "jobId": 128705591578,
+    "status": "PASS",
+    "tests": 29
+  },
+  "site": {
+    "jobId": 128705591764,
+    "status": "FAIL",
+    "vitest": {
+      "passed": 827,
+      "failed": 7,
+      "total": 834
+    },
+    "cause": "VM reset fixtures omitted the real display-receipt controller; runtime component already instantiates it.",
+    "correction": "ci-site-fixture-correction.json",
+    "correctiveRemoteRun": "NOT_RUN"
+  },
+  "erp": {
+    "jobId": 128705591779,
+    "status": "FAIL",
+    "passed": 3016,
+    "failed": 8,
+    "total": 3024,
+    "failedFiles": [
+      "accounting-export.integration.test.ts",
+      "mobile-shift-summary.integration.test.ts",
+      "vehicle-trips.integration.test.ts"
+    ],
+    "scopedPassingSuites": {
+      "identityPostgreSQL": 16,
+      "identityCPU": 27,
+      "authorityPostgreSQL": 7,
+      "authorityCPU": 36,
+      "conversationTransferPostgreSQL": 10,
+      "conversationTransferSecurity": 39,
+      "conversationConsent": 17,
+      "conversationHttp": 16,
+      "conversationCore": 2
+    }
+  },
+  "bridge": {
+    "jobId": 128705591810,
+    "scope": "STEP_SUITE",
+    "jobStatus": "FAIL",
+    "stepStatus": "PASS",
+    "successfulStepNumbers": [12, 13],
+    "tests": 9,
+    "failed": 0,
+    "skipped": 0,
+    "environment": "Actual SQLite, signed loopback HTTP and PostgreSQL17.6; synthetic fixtures; no external provider activation."
+  },
+  "browser": {
+    "jobId": 128705591810,
+    "status": "FAIL",
+    "checksPassed": 98,
+    "chrome": "156.0.8078.79",
+    "playwright": "1.55.1",
+    "inputsUnchanged": true,
+    "buildManifestSha256": "6978647c6ec28b3cea682af4af9669b408fd9f293d032c83ad6d8c915cb4043f",
+    "artifactId": 13614276329,
+    "artifactZipSha256": "e4b6a8eb4096f774d3437e84980eead5d0b6e3561965a03b2af67dd4aa622c08",
+    "failure": "completedCabinetCases line381: first request-card matched but hidden; visibility timeout. No sandbox/engine error.",
+    "notReached": [
+      "guest display receipts",
+      "six-language suite",
+      "public responsive suite",
+      "ERP transfer browser cases"
+    ]
+  },
+  "android": {
+    "runId": 42472254246,
+    "jobId": 128705561084,
+    "status": "PASS",
+    "artifactId": 13614605057,
+    "artifactZipSha256": "4651336426aad440a4e70107ddee1421477c280072311cba2746810e827581e5",
+    "versionName": "0.5.0-test",
+    "versionCode": 8,
+    "apkSha256": "c1f4debbe228fcc9b065af2cc6c986ea0ec10c3808a2d6c49c896806df2732a3",
+    "certificateSha256": "73cabb7e8df288368071f693dcd25db79d98402323c21c0224aea8e95b809237",
+    "limitation": "Runner-generated debug certificate differs from previously verified local test deliverable; CI APK is not substituted into its update chain. No actual phone/store acceptance."
+  },
+  "ios": {
+    "runId": 42472234257,
+    "jobId": 128705494644,
+    "status": "FAIL",
+    "stage": "Simulator preparation",
+    "failure": "Final post-boot simctl list devices --json exceeded60s.",
+    "notRun": [
+      "Swift app compilation",
+      "XCTest",
+      "simulator application acceptance",
+      "actual device acceptance"
+    ]
+  },
+  "duplicateRuns": {
+    "mainPush42472234205": "CANCELLED same-SHA concurrency",
+    "iosPullRequest42472254274": "SKIPPED intended same-repository push reuse"
+  },
+  "rawLogExcerpts": {
+    "erp": [
+      "2026-11-08T10:43:43.1611075Z  ✓ tests/request-authority.test.ts (36 tests) 103ms",
+      "2026-11-08T10:43:55.7158169Z  ✓ tests/conversation-transfer.integration.test.ts (10 tests) 5791ms",
+      "2026-11-08T10:44:05.2655448Z  ✓ tests/conversation-transfer-security.test.ts (39 tests) 180ms",
+      "2026-11-08T10:44:12.9348053Z  ✓ tests/site-identity-bindings.integration.test.ts (16 tests) 445ms",
+      "2026-11-08T10:44:31.0116254Z  ✓ tests/request-authority.integration.test.ts (7 tests) 870ms",
+      "2026-11-08T10:44:32.4181074Z  ✓ tests/conversation-transfer-consent.test.ts (17 tests) 118ms",
+      "2026-11-08T10:44:37.7722893Z  ✓ tests/conversation-transfer-http.test.ts (16 tests) 661ms",
+      "2026-11-08T10:44:50.9316790Z  ✓ tests/site-identity-trust.test.ts (27 tests) 12ms",
+      "2026-11-08T10:44:59.9980835Z  ✓ tests/conversation-transfer.test.ts (2 tests) 121ms",
+      "2026-11-08T10:45:01.0797740Z  Test Files  3 failed | 128 passed (131)",
+      "2026-11-08T10:45:01.0817163Z       Tests  8 failed | 3016 passed (3024)"
+    ],
+    "ios": [
+      "2026-11-08T10:44:57.9377800Z   File \"/Users/runner/work/knaba/knaba/erp/apps/mobile-ios/scripts/prepare-simulator.py\", line 77, in prepare",
+      "2026-11-08T10:44:58.1669050Z     device = verify_device(inventory(\"devices\", \"simulator-devices-ready.json\"), runtime[\"identifier\"], device_type[\"identifier\"], identifier)",
+      "2026-11-08T10:44:59.6239040Z subprocess.TimeoutExpired: Command '['xcrun', 'simctl', 'list', 'devices', '--json']' timed out after 60 seconds"
+    ],
+    "android": [
+      "2026-11-08T10:41:03.6810638Z BUILD SUCCESSFUL in 2m 25s",
+      "2026-11-08T10:41:08.2919810Z       \"sha256\": \"48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a\"",
+      "2026-11-08T10:41:08.2921536Z   \"sha256\": \"c1f4debbe228fcc9b065af2cc6c986ea0ec10c3808a2d6c49c896806df2732a3\",",
+      "2026-11-08T10:41:08.2922530Z   \"versionCode\": 8,",
+      "2026-11-08T10:41:08.2922762Z   \"versionName\": \"0.5.0-test\",",
+      "2026-11-08T10:41:08.2923858Z   \"certificateSha256\": \"73cabb7e8df288368071f693dcd25db79d98402323c21c0224aea8e95b809237\",",
+      "2026-11-08T10:41:08.2929565Z     \"sha256\": \"51b749c0a18bbe2e877dc43d3ea4957cf8fc896d108854c8c9280e8e345b26f4\",",
+      "2026-11-08T10:41:08.2930771Z     \"certificateSha256\": \"73cabb7e8df288368071f693dcd25db79d98402323c21c0224aea8e95b809237\","
+    ],
+    "bridge": [
+      "2026-11-08T10:42:51.6146264Z # tests 9",
+      "2026-11-08T10:42:51.6147051Z # pass 9",
+      "2026-11-08T10:42:51.6147379Z # fail 0",
+      "2026-11-08T10:42:51.6148035Z # skipped 0",
+      "2026-11-08T10:42:51.6274412Z console.log('Passed bridge cases:',counts.pass,'source:',process.env.SOURCE_SHA);",
+      "2026-11-08T10:42:51.6626175Z Passed bridge cases: 9 source: 5d6eeae0862e52cc693c1766f0c6fba964b12aa5"
+    ]
+  }
+}

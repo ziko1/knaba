@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-11-08T17:52:56.962526+00:00",
+  "reviewer": "/root/mobile_actual_readiness",
+  "status": "ACCEPT_DOWNSTREAM_SOURCE_SCOPED_NO_FINDINGS",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-f3-browser-transport",
+  "baseCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "reviewedPendingFiles": [
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4"
+    },
+    {
+      "path": "erp/tests/fixtures/federation-https-return.ts",
+      "sha256": "99dc6f7dc1ef37e8b65364f18485439da2ecd5f8bb87bf6659b8458063bdf352"
+    },
+    {
+      "path": "erp/tests/federation-https-return.test.ts",
+      "sha256": "538c8d0b0cecf1ac9785ae19be49c64201917d2428da0d69b0bfe67aa39d599f"
+    }
+  ],
+  "readOnlyDependencies": [
+    {
+      "path": "erp/apps/web/src/FederationLogin.tsx",
+      "sha256": "ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070"
+    },
+    {
+      "path": "erp/apps/web/src/federationLoginModel.ts",
+      "sha256": "e59effc28de7cd221934a88219aed046ca4c6b936621e9d5ad9edb83658fb8c2"
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "sha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc"
+    },
+    {
+      "path": "erp/apps/web/src/api.ts",
+      "sha256": "8e962547d7b21d61b700c69d0225b7921abe9f89d797cc511da4315c9f6d33c6"
+    },
+    {
+      "path": "erp/apps/web/index.html",
+      "sha256": "7e4a11324f79821b7a20a2f03bbb5e8dfa8b5ce841ca483103275077e75d3d97"
+    },
+    {
+      "path": "erp/apps/web/vite.config.ts",
+      "sha256": "eb0e6a50ecdb75d794b00fe7a20b4981a743ed0bac36f2a5bd100266bcc51cde"
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "sha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "sha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d"
+    }
+  ],
+  "scope": "First WEB cross-site fixture after actual source303, dynamic HTTPS127.0.0.1 receiver and downstream assertions. No general runtime/security audit or repeated suite.",
+  "checks": [
+    {
+      "topic": "Origin and redirect propagation",
+      "result": "CONSISTENT",
+      "references": [
+        "federation-login-ui.spec.ts:fixture/currentErpOrigin",
+        "federationLoginModel.ts:parseLoginConfiguration,parseLoginStart,parseLoginRequest"
+      ],
+      "detail": "Override supplies exact origin+port to cookies, issuer, config, start, snapshot and303 Location. WEB uses relative same-origin API/returnPath; fixed source origin remains a distinct HTTPS site. No old synthetic ERP host remains in the first-case path after override."
+    },
+    {
+      "topic": "Cookie domain/path/SameSite",
+      "result": "CONSISTENT",
+      "references": [
+        "federation-login-ui.spec.ts:context.addCookies and first WEB case",
+        "fixtures/federation-https-return.ts:exact-target listener"
+      ],
+      "detail": "Old ERP session and Lax flow are host-only HTTPS127.0.0.1 cookies with path/. Cookie scope ignores port but every test has its own BrowserContext. Source site cookie has a separate host. First cross-site303 return checks actual received listener Cookie: Lax flow present, old Strict session absent; later requests originate from the committed ERP document and are same-origin."
+    },
+    {
+      "topic": "Assets and API routing",
+      "result": "COVERED_IN_SOURCE",
+      "references": [
+        "federation-login-ui.spec.ts:page.route",
+        "apps/web/vite.config.ts",
+        "apps/web/index.html"
+      ],
+      "detail": "Receiver serves only exact return GET/query/Host. Subsequent independent JS/CSS/icon/manifest/service-worker and API/EventSource requests remain under existing exact currentErpOrigin route handlers. Default Vite root asset paths are compatible. Unexpected requests abort or cause explicit receiver failure; the first return no longer depends on interception of a redirect continuation."
+    },
+    {
+      "topic": "MFA, me and atomic adoption",
+      "result": "CONSISTENT",
+      "references": [
+        "federation-login-ui.spec.ts:confirm and /confirm,/me handlers",
+        "FederationLogin.tsx:FederationAuthorization.confirm",
+        "App.tsx:onComplete/navigate"
+      ],
+      "detail": "Explicit account consent and OTP drive expectedVersion3 plus flow CSRF. Confirm sets new Strict ERP cookie and new session CSRF. Client then awaits same-origin /me and compares actor/company/CSRF to confirmation before onComplete and history navigation to/console. Fixture yields a different old-cookie CSRF, so an old same-user cookie is not sufficient for adoption. Console API paths remain covered."
+    },
+    {
+      "topic": "Origin/CORS and return URL",
+      "result": "CONSISTENT",
+      "references": [
+        "federation-login-ui.spec.ts:POST origin assertions and source303",
+        "federationLoginModel.ts:federationRequest/webAuthorizationResponse"
+      ],
+      "detail": "API fetches use same-origin credentials at exact dynamic origin; no cross-origin API/CORS fallback or preflight is introduced. Source form POSTs remain source-origin. Listener validates exact UUID query and Host; product keeps relative validated returnPath."
+    },
+    {
+      "topic": "Cleanup and test isolation",
+      "result": "BOUNDED_AND_SCOPED",
+      "references": [
+        "fixtures/federation-https-return.ts:creation/close",
+        "federation-login-ui.spec.ts:unnamed describe and finally"
+      ],
+      "detail": "Only first case opts into temporary self-signed HTTPS handling. Browser sandbox and other test TLS options remain unchanged. Listener binds loopback ephemeral port, limits headers/requests/connections, removes PEM files after TLS-context creation, tracks only its own sockets and has idempotent bounded close in finally. Per-test context and blocked service workers prevent cross-case cookies/worker state."
+    }
+  ],
+  "blockingFindings": [],
+  "scopeLimits": [
+    "No browser was invoked by this reviewer; Chrome redirect/subresource/cookie behavior after this exact change still requires actual CI acceptance.",
+    "No new Node HTTPS tests or typecheck were invoked by this reviewer; author-reported4/4 and tsc are separate evidence.",
+    "This worktree currently has no built dist/web/index.html; source paths and existing Vite/runner build contract were reviewed, not a fresh local application build.",
+    "No product source, cookie policy, provider trust, production DNS or runtime guard changed by reviewer.",
+    "Review is bound to the three hashes above; later semantic changes require delta review."
+  ],
+  "execution": {
+    "sourceEdits": false,
+    "browser": "NOT_RUN",
+    "ci": "NOT_RUN",
+    "networkDownloads": false,
+    "productOrHelperTestsByReviewer": "NOT_RUN_READ_ONLY"
+  }
+}

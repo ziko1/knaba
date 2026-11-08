@@ -1,0 +1,11 @@
+Listing tests:
+  federation-login-ui.spec.ts:497:1 › F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation
+  federation-login-ui.spec.ts:547:1 › F3 HTTP fixture: native code returns only by top-level exact callback and does not replace the browser ERP account
+  federation-login-ui.spec.ts:566:1 › F3 HTTP fixture: incorrect native issuer cannot navigate or persist an authorization code
+  federation-login-ui.spec.ts:589:1 › F3 HTTP fixture: unknown native confirm ACK reads status without reproducing its code or confirming again
+  federation-login-ui.spec.ts:613:1 › F3 HTTP fixture: offline invalidation rejects a late private status and requires a fresh current read
+  federation-login-ui.spec.ts:654:1 › F3 HTTP fixture: account review and confirmation remain accessible in all six locales at mobile width
+  federation-login-ui.spec.ts:677:1 › F3 HTTP fixture: login entry retries an unknown start with exactly the original key and body
+  federation-login-ui.spec.ts:703:1 › F3 HTTP fixture: explicit ERP password path is available with an existing browser session and does not auto-logout
+  federation-login-ui.spec.ts:725:1 › F3 HTTP fixture: unknown WEB body ACK offers a new flow or a current-account check after response cookies changed
+Total: 9 tests in 1 file

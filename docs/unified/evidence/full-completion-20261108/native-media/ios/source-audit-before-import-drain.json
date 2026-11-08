@@ -1,0 +1,293 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:00:27.378890+00:00",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-native-media",
+  "baseCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "status": "PASS_SOURCE_CHECKS_ONLY",
+  "checks": {
+    "changedFiles": 15,
+    "localeOrder": [
+      "de",
+      "en",
+      "pl",
+      "lt",
+      "ru",
+      "uk"
+    ],
+    "localeKeys": 70,
+    "localizedValues": 420,
+    "localeParity": "PASS",
+    "authoredXCTestMethods": 49,
+    "actualXCTest": "NOT_RUN",
+    "unchangedOriginalIOSFiles": 38,
+    "plistParsing": "PASS",
+    "projectIOS": "17.0",
+    "projectSwift": "5.0",
+    "projectSourceAndTestGlobs": "Sources + Tests",
+    "diffCheckExitCode": 0,
+    "mediaLimitsBytes": {
+      "images": 10485760,
+      "pdf": 20971520,
+      "uploadBody": 29360128,
+      "download": 26214400
+    }
+  },
+  "toolchain": {
+    "swift": null,
+    "swiftc": null,
+    "xcodebuild": null,
+    "xcodegen": null
+  },
+  "nativeBuild": "NOT_RUN",
+  "systemPickerAndExport": "NOT_RUN",
+  "physicalDevice": "NOT_RUN",
+  "liveERP": "NOT_RUN",
+  "peakNativeMemoryAndLatency": "NOT_RUN",
+  "providerOrBrowserCalls": "NONE",
+  "testInventory": [
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+      "methods": [
+        "testEncryptedMetadataRoundTripAndNoPrivateFileOrCredentialFields",
+        "testImmutableMutationAndReceiptProgressCannotRegressOrChange",
+        "testMissingCorruptOrTruncatedEncryptedMetadataNeverBecomesFreshPermission",
+        "testMissingOrChangedKeyCannotOverwriteExistingCiphertext",
+        "testScopeBudgetRetainsExistingSixteenAccountsWithoutEviction",
+        "testNativeMediaMarkerIsMetadataOnlyAndLegacyCommandsRemainDecodable"
+      ],
+      "count": 6,
+      "execution": "NOT_RUN"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "methods": [
+        "testSelectionDoesNotSendAndPrivacyStartsUnchecked",
+        "testPrivacyAckDoesNotPretendVisualRedaction",
+        "testCancelPickerBeforeSendClearsBytesWithoutLoggingOut",
+        "testOldPickerResultCannotRestoreFileAfterContextChangeOrStop",
+        "testObservedAuthorityLossClearsFileBeforeLatePickerCanReturn",
+        "testKnownRegistrationSurvivesGalleryReadFailure",
+        "testNextSelectionReleasesPreviousBytesAndResetsConsent",
+        "testFrozenMetadataCannotChangeBodyOnRetry",
+        "testSystemExportCopyCannotExposeBytesAfterLogout",
+        "testAllMediaStatesHaveSixNonemptyLocalizedLabels",
+        "testReopenedRegisteredDescriptorOffersLocalCleanupWithoutAnotherPOST"
+      ],
+      "count": 11,
+      "execution": "NOT_RUN"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+      "methods": [
+        "testOriginalMagicAndLimitsRejectHEICWrongTypesAndOversize",
+        "testMaximumPDFBodyPreservesOriginalBytesAndFitsDedicatedBound",
+        "testIncrementalBase64HasCorrectPaddingAtEveryChunkBoundary",
+        "testFileNameAndMetadataUseUTF16BoundsAndSafeJSONEscaping",
+        "testExternalPolicyRejectsTaskPDFAndNonDefectOrPublicVisibility",
+        "testCatalogRequiresActualCommandPermissionAndEnums",
+        "testDomainIDsAreNotUUIDOnlyAndAreOneEncodedPathComponent",
+        "testMetadataDescriptorHasNoBytesURIOrAuthenticationSecrets",
+        "testBoundedFileReadRejectsRemoteURLAndCancelledOriginalSelection"
+      ],
+      "count": 9,
+      "execution": "NOT_RUN"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+      "methods": [
+        "testMarkedPendingCannotUseGenericRetryOrExposeInputsWithoutDescriptor",
+        "testMarkedPendingRejectsChangedFullAuthorityBeforeGenericReadOrRetry",
+        "testKnownAckWithCommandAlreadyRemovedCannotBeRegisteredWithFreshGenericKey",
+        "testLegacyUnmarkedGenericRegistrationRemainsCompatible"
+      ],
+      "count": 4,
+      "execution": "NOT_RUN"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "methods": [
+        "testTwoReceiptsUseDistinctStableKeysAndCurrentTaskWithoutSiteRead",
+        "testUnknownUploadAfterProcessLossNeedsExactFileAndReplaysExactBody",
+        "testUnknownRegistrationDoesNotReuploadAndUsesOriginalCommandJournal",
+        "testPersistenceFailureBeforeUploadMakesNoMutation",
+        "testUploadAckSurvivesMetadataWriteFailureAndNeverReuploadsKnownID",
+        "testRegistrationAckSurvivesCleanupFailureAndRetryIsOnlyLocal",
+        "testDenialAndRateLimitRetainKeyInsteadOfCreatingNewUpload",
+        "testUploadReceiptMustMatchExactOriginalByteCount",
+        "testRegistrationReceiptMustMatchCompanyAndSelectedContext",
+        "testCancelWhilePreflightIsHeldPreventsAnyUpload",
+        "testCancelAfterSendRetainsUnknownAndLateResponseCannotAcknowledge",
+        "testDoubleTapCannotSendSecondMutation",
+        "testChangedPermissionOrHiddenWarehouseAuthorityDeniesRecovery",
+        "testLogoutAndNewOriginInvalidatePickerExportTicketSynchronously",
+        "testDownloadUsesCurrentScopedAssetAndOnlyEncodedOwnOriginClientCopy",
+        "testDownloadDeniesChangedAssetVersionWrongOriginMIMEAndCumulativeOversize",
+        "testMediaBodyAboveNormalCapDoesNotIncreaseNormalCommandLimit",
+        "testFreshTaskMovedToAnotherSiteCannotReceiveSelectedFile",
+        "testHeldBinaryResponseAfterLogoutCannotProduceExportBytes"
+      ],
+      "count": 19,
+      "execution": "NOT_RUN"
+    }
+  ],
+  "protectedInputs": [
+    {
+      "path": "erp/apps/mobile-ios/Info.plist",
+      "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014"
+    },
+    {
+      "path": "erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+      "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104"
+    },
+    {
+      "path": "erp/apps/mobile-ios/README.md",
+      "sha256": "fb62e8741a8e644e55f1818f61310e2a8a7c7e50f81c3b05e0ee394510c78404"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+      "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+      "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+      "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+      "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+      "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+      "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+      "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+      "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/AppModel.swift",
+      "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPActionLabels.swift",
+      "sha256": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+      "sha256": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+      "sha256": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+      "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift",
+      "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/Models.swift",
+      "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeAPI.swift",
+      "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+      "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+      "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/SecureStore.swift",
+      "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+      "sha256": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+      "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+      "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+      "sha256": "f41ea53b4e6f2cce803aa3e44787791601b6dddd1a3b17c164ef2f9861a62652"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+      "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift",
+      "sha256": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+      "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/NativeTests.swift",
+      "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c"
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "sha256": "f3d033184787e0d68bfb1e46bec5337825a5dd7c4d5b3887e2d5514384187c2d"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/archive-release.sh",
+      "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "sha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/distribution.py",
+      "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+      "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3"
+    }
+  ],
+  "notes": [
+    "Source and locale checks do not execute Swift or prove compilation.",
+    "Production upload retains current original bytes plus one incremental-base64 HTTP body; Foundation/URLSession device peak allocation is not measured.",
+    "Transport tests use explicit HTTP doubles, production client/journal/authority logic.",
+    "Independent Android peer read core/journal/fence before freeze; hash-bound final review pending."
+  ]
+}

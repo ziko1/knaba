@@ -1,0 +1,635 @@
+{
+  "preparedAtUtc": "2026-11-08T20:27:33.198005+00:00",
+  "baseCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "baseTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "candidateCommit": null,
+  "candidateState": "DIRTY_UNCOMMITTED",
+  "status": "INDEPENDENT_DOC_REVIEW_PENDING_ACTUAL_NEW_CI_NOT_RUN",
+  "document": {
+    "path": "docs/unified/NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md",
+    "sha256": "7242b8f61cc35f2a34d29a81572b37d26a06efd8e1792b65d7f18d93109f656b"
+  },
+  "sourceCorrections": [
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "sourceWorktree": "knaba-privacy-pg-correction",
+      "preimageSha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d",
+      "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e",
+      "review": "verification/privacy-v2/corrective-ba0686ed/root-independent-review.json",
+      "reviewSha256": "064e42ba81db2f0b7c7cabb250bf42001d748318527f26d61217e2770f0fa26e",
+      "mode": "0o644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "sourceWorktree": "knaba-ios-body-correction",
+      "preimageSha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6",
+      "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72",
+      "review": "verification/ios-f3-body-bound-correction/root-independent-review.json",
+      "reviewSha256": "6499af8cf742dd37f9461a56baad71303589afb2c38785ad7943c726f252a49f",
+      "mode": "0o644"
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "sourceWorktree": "knaba-privacy-browser-correction",
+      "preimageSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "sha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73",
+      "review": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/root-independent-review.json",
+      "reviewSha256": "a5ac8afcfecf0b9d8abc2b7fe4767f3473ae49046fe4be299a45516e77166796",
+      "mode": "0o644"
+    }
+  ],
+  "threeFileDigest": "0fb82cc64ded282fd04655c4f709a70d777055cfea28464132d3c95ff7115a5c",
+  "combined59Digest": "fc1028b2e4d97f4743f7e9d7a8f31c905d3b02dd641b5b5f657e38f19d91555c",
+  "combined59Inputs": [
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "baseSha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+      "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "baseSha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca",
+      "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca"
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "baseSha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d",
+      "sha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d"
+    },
+    {
+      "path": "erp/apps/api/privacy-federation.ts",
+      "baseSha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8",
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8"
+    },
+    {
+      "path": "erp/apps/mobile-android/FEDERATION_LOGIN_UK.md",
+      "baseSha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4",
+      "sha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "baseSha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e",
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "baseSha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4",
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "baseSha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5",
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "baseSha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0",
+      "sha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "baseSha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c",
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "baseSha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05",
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "baseSha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6",
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "baseSha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6",
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "baseSha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f",
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "baseSha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198",
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "baseSha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42",
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "baseSha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4",
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "baseSha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600",
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "baseSha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94",
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation-policy.py",
+      "baseSha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97",
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation.sh",
+      "baseSha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f",
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "baseSha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba",
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationCookieTest.java",
+      "baseSha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54",
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationHttpTest.java",
+      "baseSha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971",
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationLoginTest.java",
+      "baseSha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176",
+      "sha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176"
+    },
+    {
+      "path": "erp/apps/mobile-ios/FEDERATION.md",
+      "baseSha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c",
+      "sha256": "d88c5505ca549e194a09726f4e8d69a3c6b85f312a88c3621ad7e2895ab0ee8c"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Info.Debug.plist",
+      "baseSha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703",
+      "sha256": "fac7dfb741d5ef5c54a8582f8c14ccc67e155ffc8f84e0637a48851573670703"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "baseSha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50",
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "baseSha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d",
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "baseSha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22",
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "baseSha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602",
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "baseSha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7",
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "baseSha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590",
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "baseSha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718",
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "baseSha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392",
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "baseSha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384",
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "baseSha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb",
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "baseSha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d",
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "baseSha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893",
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "baseSha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6",
+      "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72"
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "baseSha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f",
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "baseSha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931",
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "baseSha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9",
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "baseSha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b",
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b"
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "baseSha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97",
+      "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97"
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "baseSha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783",
+      "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783"
+    },
+    {
+      "path": "erp/apps/web/src/PrivacyPage.tsx",
+      "baseSha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0",
+      "sha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0"
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+      "baseSha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724",
+      "sha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724"
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.ts",
+      "baseSha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0",
+      "sha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0"
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "baseSha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242",
+      "sha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242"
+    },
+    {
+      "path": "erp/packages/domain/governance.ts",
+      "baseSha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1",
+      "sha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1"
+    },
+    {
+      "path": "erp/packages/domain/privacy-federation.ts",
+      "baseSha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff",
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff"
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "baseSha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739",
+      "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739"
+    },
+    {
+      "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+      "baseSha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b",
+      "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b"
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "baseSha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+      "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e"
+    },
+    {
+      "path": "erp/tests/governance.test.ts",
+      "baseSha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0",
+      "sha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0"
+    },
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "baseSha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d",
+      "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e"
+    },
+    {
+      "path": "erp/tests/privacy-federation.test.ts",
+      "baseSha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1",
+      "sha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1"
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "baseSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "sha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73"
+    }
+  ],
+  "productionRuntimeChanged": false,
+  "curatedFiles": [
+    {
+      "target": "actual-summary.json",
+      "source": "verification/native-privacy-actual-ba0686ed/actual-summary.json",
+      "bytes": 11231,
+      "sha256": "be26a5f572890c551b7d2932c34cb25c7f26ae0f4a7fa679b47c9b53506b920f"
+    },
+    {
+      "target": "source-integration.json",
+      "source": "verification/native-privacy-corrective-checkpoint/source-integration.json",
+      "bytes": 2156,
+      "sha256": "c3da83e1c0f4ea17202560e9db1a55d48fc68c839b3348aa5e98071ec36a160b"
+    },
+    {
+      "target": "android-independent-review.json",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/review.json",
+      "bytes": 8175,
+      "sha256": "239c5afda4dfc91e4d0f0ca5ec98d20f20c5d8228d0ca6dee9f0dcf0e5beaa9b"
+    },
+    {
+      "target": "android-ci-receipt.json",
+      "source": "verification/native-privacy-actual-ba0686ed/android-artifact/build/distribution/prototype/receipt.json",
+      "bytes": 13699,
+      "sha256": "9ca61843a8b09e9ea76903aaf1d9ea908530ee0c7961e1d3bbca78e434ca3cae"
+    },
+    {
+      "target": "android-local-receipt.json",
+      "source": "verification/native-privacy-actual-ba0686ed/local-android/receipt.json",
+      "bytes": 13690,
+      "sha256": "0f79dc310463a1ed97b1b68af95e72c7e5ab9c58a92b156c23c869e5578714c5"
+    },
+    {
+      "target": "android-local-artifact-manifest.json",
+      "source": "verification/native-privacy-actual-ba0686ed/local-android/artifact-manifest.json",
+      "bytes": 10900,
+      "sha256": "5173c84e06072e3d74e1d4c0f39f2f1a6c2b1442eb71eeb262cc1983d549fcd8"
+    },
+    {
+      "target": "android-lint-scope-correction.json",
+      "source": "verification/native-privacy-checkpoint/android-lint-scope-correction.json",
+      "bytes": 988,
+      "sha256": "5cb72b1bf24c363c83ab063e11cf72055ce5f5065f088b9e76302c1fcbf0b039"
+    },
+    {
+      "target": "android-review-harness-correction.json",
+      "source": "verification/native-privacy-checkpoint/android-review-harness-correction.json",
+      "bytes": 611,
+      "sha256": "d73205fcb35624b380c43e248b74762138d1f3bcd63bd3f35124ee6f152ac213"
+    },
+    {
+      "target": "ios-actual-failure-review.json",
+      "source": "verification/native-privacy-actual-ba0686ed/ios-actual-failure-review.json",
+      "bytes": 1404,
+      "sha256": "821482ab191f05096a84c9f7e651d0944596ea90ea3944ed2391ea5bf4bde4aa"
+    },
+    {
+      "target": "ios-actual-source.json",
+      "source": "verification/native-privacy-actual-ba0686ed/ios-failure-artifact/source.json",
+      "bytes": 14074,
+      "sha256": "f0918c94a5d2754d81d87f4c3c77a10c3b82e4335e4ba98d0ac045e862707ced"
+    },
+    {
+      "target": "browser-diagnosis.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/review.json",
+      "bytes": 12880,
+      "sha256": "a4ce95be993b72d8c255dad3dda56e47855005e1854ff117889c595258afe800"
+    },
+    {
+      "target": "browser-build-manifest.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/build-manifest.json",
+      "bytes": 1735,
+      "sha256": "e5007ce07f2eb106c34e2e41781594167fff103312e606ab0848521307da0ad5"
+    },
+    {
+      "target": "browser-integration-receipt.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 2802,
+      "sha256": "21407d725dbfb128cb8d470ecd078603b5326f7c8568ad1e64a754b30dcad0d8"
+    },
+    {
+      "target": "android/ci-apk-signature.log",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/ci-apk-signature.log",
+      "bytes": 955,
+      "sha256": "1bd768e640555d9e1bf9fbf4b974f9ca889773fbd133dbbbbc83bd1689dbfae5"
+    },
+    {
+      "target": "android/ci-apk-manifest.log",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/ci-apk-manifest.log",
+      "bytes": 4801,
+      "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a"
+    },
+    {
+      "target": "android/ci-aab-signature.log",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/ci-aab-signature.log",
+      "bytes": 161,
+      "sha256": "a54ec18a6a987973c7e4614aa96c52580036543d4ac0fadb39414ba1352946d4"
+    },
+    {
+      "target": "android/local-apk-signature.log",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/local-apk-signature.log",
+      "bytes": 955,
+      "sha256": "7e8209f033f2031aac2ecdc0d53a90cd80e6aec5045cef82dfda1ba667581a31"
+    },
+    {
+      "target": "android/local-apk-manifest.log",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/local-apk-manifest.log",
+      "bytes": 4801,
+      "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a"
+    },
+    {
+      "target": "android/local-aab-signature.log",
+      "source": "verification/native-privacy-actual-ba0686ed/android-independent-review/local-aab-signature.log",
+      "bytes": 161,
+      "sha256": "2c141c36bbd80c515c363a0101e0d3940d0db9f7b57f1c47c9a2a55b1f71abc8"
+    },
+    {
+      "target": "privacy/source-manifest.json",
+      "source": "verification/privacy-v2/corrective-ba0686ed/source-manifest.json",
+      "bytes": 7260,
+      "sha256": "aa00ed36f24ae49de24dbccadfe5c702f4609bcef456b6c4f258e48021e7bf3b"
+    },
+    {
+      "target": "privacy/root-independent-review.json",
+      "source": "verification/privacy-v2/corrective-ba0686ed/root-independent-review.json",
+      "bytes": 1292,
+      "sha256": "064e42ba81db2f0b7c7cabb250bf42001d748318527f26d61217e2770f0fa26e"
+    },
+    {
+      "target": "privacy/diagnosis.md",
+      "source": "verification/privacy-v2/corrective-ba0686ed/diagnosis.md",
+      "bytes": 5501,
+      "sha256": "6052f87131b835fda92513a5d83dc0903b329e9a1a4a1883fe16fd59711b66c4"
+    },
+    {
+      "target": "privacy/source.patch",
+      "source": "verification/privacy-v2/corrective-ba0686ed/source.patch",
+      "bytes": 4117,
+      "sha256": "1f7dd7df985f0bf3ac4bb0689978f75269aa121343e9cdc207e592b410d49b3c"
+    },
+    {
+      "target": "privacy/initial-failure.json",
+      "source": "verification/privacy-v2/corrective-ba0686ed/initial-failure.json",
+      "bytes": 1540,
+      "sha256": "39771a17eaa6066d45832dfa5d7aed39d61a32d35bdf31ddff06ee8d5847f7a8"
+    },
+    {
+      "target": "privacy/read-only-storage-probe.mjs",
+      "source": "verification/privacy-v2/corrective-ba0686ed/read-only-storage-probe.mjs",
+      "bytes": 3426,
+      "sha256": "90c2fb75ac0a835f5502fcea9cb10fb81cefc92f006c8e92500de9b1c62fd86d"
+    },
+    {
+      "target": "privacy/read-only-storage-probe.log",
+      "source": "verification/privacy-v2/corrective-ba0686ed/read-only-storage-probe.log",
+      "bytes": 914,
+      "sha256": "8c5bea5f8155bb8f50779008294e1f317f4f394d6946b55af7a60a745ad0227a"
+    },
+    {
+      "target": "privacy/typecheck.log",
+      "source": "verification/privacy-v2/corrective-ba0686ed/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "target": "privacy/collection.json",
+      "source": "verification/privacy-v2/corrective-ba0686ed/collection.json",
+      "bytes": 4761,
+      "sha256": "fe5b1c5aa99378216aca272f1e91051677933449c6dd0dbfc3ee9caab8bd5f12"
+    },
+    {
+      "target": "ios/source-manifest.json",
+      "source": "verification/ios-f3-body-bound-correction/source-manifest.json",
+      "bytes": 2413,
+      "sha256": "8ad869495eb9263992921711ef421f1b1db2fc0bf0cfb59f3ada488c16eb58ed"
+    },
+    {
+      "target": "ios/root-independent-review.json",
+      "source": "verification/ios-f3-body-bound-correction/root-independent-review.json",
+      "bytes": 1249,
+      "sha256": "6499af8cf742dd37f9461a56baad71303589afb2c38785ad7943c726f252a49f"
+    },
+    {
+      "target": "ios/initial-investigation.json",
+      "source": "verification/ios-f3-body-bound-correction/initial-investigation.json",
+      "bytes": 4541,
+      "sha256": "09a53d033e56e082dd62467167b170a31fae8eea9403471544989812bce29600"
+    },
+    {
+      "target": "ios/source.patch",
+      "source": "verification/ios-f3-body-bound-correction/source.patch",
+      "bytes": 1034,
+      "sha256": "bb4fbed35e1538bf387f25c607b13d332d7f14617d7d348a38f41253ea967067"
+    },
+    {
+      "target": "browser/source-manifest.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/source-manifest.json",
+      "bytes": 9315,
+      "sha256": "2ad6427b0565dc73377b924c1784570e90922fa1441abc5568a11bf00ad7e274"
+    },
+    {
+      "target": "browser/root-independent-review.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/root-independent-review.json",
+      "bytes": 1083,
+      "sha256": "a5ac8afcfecf0b9d8abc2b7fe4767f3473ae49046fe4be299a45516e77166796"
+    },
+    {
+      "target": "browser/source.patch",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/source.patch",
+      "bytes": 4566,
+      "sha256": "a1ad169c0fcf91060089076e2bf118419073d2fcef33b907d62431fa8bcf3299"
+    },
+    {
+      "target": "browser/collection.log",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/collection.log",
+      "bytes": 4312,
+      "sha256": "fe4f15ad789050c493d51dddf68f0b03bfe0e5122c59fe84e53562d068dcd800"
+    },
+    {
+      "target": "browser/collection-execution.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/collection-execution.json",
+      "bytes": 507,
+      "sha256": "7b698605cccc1c07a9dc4fecae8dc1d8b85d4dcdcf6bd7df7f212c1755b5756d"
+    },
+    {
+      "target": "browser/typecheck.log",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "target": "browser/typecheck-execution.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/typecheck-execution.json",
+      "bytes": 452,
+      "sha256": "5269c7ec4497c2af6f5f6956f48f89cfd745e2b66054b588c9b58bf3e952ec88"
+    },
+    {
+      "target": "browser/test-title-equivalence.json",
+      "source": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/test-title-equivalence.json",
+      "bytes": 7004,
+      "sha256": "6309578dcc92ebbf7e7e32638ce0931588e19e084a00e488e1296dff58466073"
+    }
+  ],
+  "canonicalAppendOnly": [
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "beforeSha256": "6a4be1e23b191414fbe6d46cd8958f30dfa4946df1d455682fd01a211043203d",
+      "afterSha256": "ee9c480ae90a9ae75b323c880f463e12de64972ad715fdb9be937d30e818a255",
+      "addedLines": 6,
+      "appendOnly": true
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "beforeSha256": "c5c77209afd3ad58c4551baec9b0e46cedfa256680e9e3c99232fbd8ea7b89b9",
+      "afterSha256": "1e7d7633578ab087d6c69f29dee600d823a28cf55408c1c9041aece283ee73d5",
+      "addedLines": 6,
+      "appendOnly": true
+    },
+    {
+      "path": "docs/unified/BACKLOG.md",
+      "beforeSha256": "2f8eb5ddf9d2153655693b33f9583cfd9e7023e8d5d0ed848a88efe390eb08e6",
+      "afterSha256": "8ce5e18da9e88f2059ea21d1517aeb74f44b99951578286bf9cff5110134482b",
+      "addedLines": 6,
+      "appendOnly": true
+    },
+    {
+      "path": "erp/PROJECT_MEMORY.md",
+      "beforeSha256": "62acc5caea23b8c086fe91d12d9b3c50987601100c66ec619fcfe0d46da932b8",
+      "afterSha256": "bed066f7954398820c57f788f1312c17483aeaa7a46ae79a05e870d60a4230b8",
+      "addedLines": 6,
+      "appendOnly": true
+    },
+    {
+      "path": "erp/MASTER_ROADMAP.md",
+      "beforeSha256": "f42ee663625837a25975a4c65901ff29799ce7f90e3c16e92fe10425f4a2b6b1",
+      "afterSha256": "5a3a1e4f05ecfb85f4b3e612674a4b1c695debf678ae0ff841ff0b4f1f9228ce",
+      "addedLines": 6,
+      "appendOnly": true
+    },
+    {
+      "path": "docs/unified/BUDGET.md",
+      "beforeSha256": "b8300f9ed6898689fff4e745a84901b3d59cdbfe981a16f5e0270b11fc077d49",
+      "afterSha256": "c85e8db8b120a30bb2b8981dd4d0eb471acdfc89c242ada8b02022298d5531d7",
+      "addedLines": 7,
+      "appendOnly": true
+    }
+  ],
+  "budget": {
+    "priorRunSet": "USED",
+    "newBoundedReservations": 1,
+    "newPaidActivationCeiling": "EUR0",
+    "balancesQuotasTotalCost": "UNKNOWN"
+  },
+  "actualNewCI": "NOT_RUN",
+  "wholeProduct": "NOT_READY"
+}

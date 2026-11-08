@@ -1,0 +1,12 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federated-session.test.ts (32 tests) 416ms
+ ✓ tests/site-federation-login-http.test.ts (9 tests) 738ms
+
+ Test Files  2 passed (2)
+      Tests  41 passed (41)
+   Start at  16:46:48
+   Duration  5.17s (transform 3.94s, setup 0ms, import 6.39s, tests 1.15s, environment 0ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green.json

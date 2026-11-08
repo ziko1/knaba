@@ -1,0 +1,41 @@
+{
+  "reviewer": "/root",
+  "sourceCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "runId": 42517320499,
+  "jobId": 128843077462,
+  "artifactId": 13632760304,
+  "artifactZipSha256": "6efd46423e7c5b7a9c2e122a78db2851ccb3cde085b1ea3d7428080724548ce4",
+  "actualSourceInputs": 66,
+  "allInputsMatchExactGitBlobs": true,
+  "actualDebugSimulatorBuild": "SUCCEEDED",
+  "actualXCTest": {
+    "total": 210,
+    "passed": 209,
+    "failed": 1,
+    "skipped": 0,
+    "federation": {
+      "total": 65,
+      "passed": 64,
+      "failed": 1
+    },
+    "baseline": {
+      "total": 145,
+      "passed": 145,
+      "failed": 0
+    }
+  },
+  "failures": [
+    {
+      "name": "-[KNABADETests.ERPFederationURLSessionTests testFederationBodyBoundDoesNotRaiseOrdinaryOrMediaLimits]",
+      "durationSeconds": "0.736"
+    }
+  ],
+  "buildTestsLogSha256": "8dd23c8814c180e3a00855b86a3f52cadd507b9b1254303faacf26dad648177a",
+  "sourceManifestSha256": "f0918c94a5d2754d81d87f4c3c77a10c3b82e4335e4ba98d0ac045e862707ced",
+  "failure": "New test expected64KiB encoded command envelope; actual unchanged legacy envelope cap is70000 and input cap65536. Existing federation response cap65536 is distinct.",
+  "finalSuccessArtifact": "NOT_CREATED",
+  "postTestSimulatorInstallLaunch": "NOT_RUN",
+  "deviceSigningTestFlight": "NOT_RUN",
+  "wholeProduct": "NOT_READY"
+}

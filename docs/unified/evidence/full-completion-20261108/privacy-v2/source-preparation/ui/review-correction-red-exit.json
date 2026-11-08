@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "apps/web/src/privacyProjectionModel.test.ts",
+    "-t",
+    "normalizes the reason|explicitly foreign or malformed company|explicit same-company associations",
+    "--reporter=json",
+    "--outputFile=/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-checks/review-correction-red.json"
+  ],
+  "exitCode": 1,
+  "passed": 1,
+  "failed": 4,
+  "filtered": 23,
+  "logSha256": "35d7a20abc82edbb11fa065fc41b2ce0646c790b5f6e77495d41ed772c3ccd4e"
+}

@@ -1,4 +1,5 @@
 import { randomBytes,createHash,scryptSync,timingSafeEqual } from 'node:crypto';
+import {federationSessionAllowed,federationMutation,federationIssueSession,securityTransaction} from './federation-state.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const maxAgeSeconds=12*3600;
 const cookieName='__Host-knaba-session';
@@ -25,9 +26,12 @@ export function createOwner(db,email,password){
   return createCredentialsUser(db,email,password);
 }
 function validPassword(row,password){
+  if(typeof password!=='string'||password.length>256||
+     !/^[a-f0-9]{32}$/.test(row?.salt??'')||!/^[a-f0-9]{128}$/.test(row?.password_hash??''))return false;
   const attempt=scryptSync(password,Buffer.from(row.salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024});
   return timingSafeEqual(attempt,Buffer.from(row.password_hash,'hex'));
 }
+export {validPassword as verifyCredentialPassword};
 export function createLogin(db,{email,password,clientKey}){
   const address=normalizeEmail(email);
   const now=Math.floor(Date.now()/1000);
@@ -48,18 +52,28 @@ export function createLogin(db,{email,password,clientKey}){
   if(!state)return null;
   const row=db.prepare('SELECT id,email,salt,password_hash,disabled FROM vps_users WHERE email=?').get(address);
   if(!row || row.disabled || !validPassword(row,password))return null;
-  return createSessionForUser(db,row.id);
+  return createSessionForUser(db,row.id,{passwordVerified:true,authorize:()=>{
+    const current=db.prepare('SELECT salt,password_hash,disabled FROM vps_users WHERE id=?').get(row.id);
+    return Boolean(current&&!current.disabled&&current.salt===row.salt&&current.password_hash===row.password_hash);
+  }});
 }
 /** Only the server may mint a session for an already-verified user ID. */
-export function createSessionForUser(db,userId){
-  const row=db.prepare('SELECT id,email,disabled FROM vps_users WHERE id=?').get(userId);
+export function createSessionForUser(db,userId,{authorize=()=>true,passwordVerified=false}={}){
+  const row=db.prepare('SELECT id,email,salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
   if(!row||row.disabled)throw Error('Inactive account');
   const token=randomBytes(32).toString('base64url'),now=Math.floor(Date.now()/1000);
-  db.prepare('INSERT INTO vps_sessions(token_hash,user_id,created_at,expires_at) VALUES (?,?,?,?)')
-    .run(hash(token),row.id,now,now+maxAgeSeconds);
-  return {token,user:{id:row.id,email:row.email}};
+  const current=()=>{
+    const latest=db.prepare('SELECT email,salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
+    return Boolean(latest&&!latest.disabled&&latest.email===row.email&&latest.salt===row.salt&&latest.password_hash===row.password_hash&&authorize()===true);
+  };
+  return federationIssueSession(db,userId,{tokenHash:hash(token),passwordVerified,authorize:current,apply:()=>{
+    if(!current())throw Error('Inactive account');
+    db.prepare('INSERT INTO vps_sessions(token_hash,user_id,created_at,expires_at) VALUES (?,?,?,?)')
+      .run(hash(token),row.id,now,now+maxAgeSeconds);
+    return {token,user:{id:row.id,email:row.email}};
+  }});
 }
-export function readSession(db,cookieHeader){
+function rawSession(db,cookieHeader){
   if(typeof cookieHeader!=='string'||cookieHeader.length>4096)return null;
   const piece=cookieHeader.split(';').map(v=>v.trim()).find(v=>v.startsWith(cookieName+'='));
   const token=piece?.slice(cookieName.length+1);
@@ -69,9 +83,17 @@ export function readSession(db,cookieHeader){
   if(!user||user.disabled||user.expires_at<=Math.floor(Date.now()/1000))return null;
   return {id:user.id,email:user.email,token};
 }
+export function readSession(db,cookieHeader){
+  const user=rawSession(db,cookieHeader);
+  return user&&federationSessionAllowed(db,user.id,hash(user.token))?user:null;
+}
 export function destroySession(db,cookieHeader){
-  const auth=readSession(db,cookieHeader);
-  if(auth)db.prepare('DELETE FROM vps_sessions WHERE token_hash=?').run(hash(auth.token));
+  const auth=rawSession(db,cookieHeader);
+  if(!auth)return;
+  const tokenHash=hash(auth.token);
+  return federationMutation(db,{subject:auth.id,kind:'REVOKE_SESSION',scope:'SESSION',sessionHashes:[tokenHash],pureRevocation:true,
+    authorize:()=>{const current=rawSession(db,cookieHeader);return Boolean(current&&current.id===auth.id&&hash(current.token)===tokenHash);},
+    apply:()=>securityTransaction(db,()=>({revoked:Number(db.prepare('DELETE FROM vps_sessions WHERE token_hash=? AND user_id=?').run(tokenHash,auth.id).changes)}))});
 }
 export function sessionCookie(token,{secure=true}={}){
   return cookieName+'='+token+'; Path=/; HttpOnly; SameSite=Strict; Max-Age='+maxAgeSeconds+(secure?'; Secure':'');
@@ -81,7 +103,7 @@ export function expiredCookie({secure=true}={}){
 }
 
 /** Rotate only a logged-in user's own secret; revoke every prior session. */
-export function rotateCredentials(db,{userId,currentPassword,newPassword,confirmed}){
+export function rotateCredentials(db,{userId,currentPassword,newPassword,confirmed,cookieHeader}){
   if(typeof userId!=='string'||!userId||
      typeof currentPassword!=='string'||currentPassword.length>256||
      typeof newPassword!=='string'||newPassword.length<8||newPassword.length>256||
@@ -92,22 +114,34 @@ export function rotateCredentials(db,{userId,currentPassword,newPassword,confirm
     'INSERT INTO vps_login_limits(key,attempts,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=attempts+1 WHERE attempts<5 RETURNING attempts'
   ).get(key,(bucket+1)*900);
   if(!limit)return false;
-  const row=db.prepare('SELECT salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
+  const row=db.prepare('SELECT email,salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
   if(!row||row.disabled||!validPassword(row,currentPassword))return false;
   const salt=randomBytes(16).toString('hex');
   const next=scryptSync(newPassword,Buffer.from(salt,'hex'),64,
     {N:32768,r:8,p:1,maxmem:64*1024*1024}).toString('hex');
-  db.exec('BEGIN IMMEDIATE');
-  try{
+  const current=()=>{
+    const session=cookieHeader===undefined?null:readSession(db,cookieHeader);
+    const latest=db.prepare('SELECT salt,password_hash,disabled FROM vps_users WHERE id=?').get(userId);
+    return Boolean(session&&session.id===userId&&session.email===row.email&&latest&&!latest.disabled&&latest.salt===row.salt&&latest.password_hash===row.password_hash);
+  };
+  return federationMutation(db,{subject:userId,kind:'CREDENTIAL_ROTATION',scope:'PRINCIPAL',pureRevocation:false,authorize:current,
+    intent:{candidateDigest:hash('credential-candidate\0'+salt+'\0'+next)},
+    apply:()=>securityTransaction(db,()=>{
+    if(cookieHeader!==undefined){
+      const current=readSession(db,cookieHeader);
+      if(!current||current.id!==userId||current.email!==row.email)return false;
+    }
+    const profile=db.prepare('SELECT email,status FROM profiles WHERE id=?').get(userId);
+    if(profile&&(profile.email.toLowerCase()!==row.email||!['pending','approved'].includes(profile.status)))return false;
     const saved=db.prepare(
       'UPDATE vps_users SET salt=?,password_hash=? WHERE id=? AND disabled=0 AND salt=? AND password_hash=?'
     ).run(salt,next,userId,row.salt,row.password_hash);
-    if(saved.changes!==1){db.exec('ROLLBACK');return false;}
+    if(saved.changes!==1)return false;
+    db.prepare('DELETE FROM vps_account_tokens WHERE user_id=?').run(userId);
     db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(userId);
     db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
       .run(randomBytes(18).toString('base64url'),userId,'credential.rotated',
         userId,new Date().toISOString());
-    db.exec('COMMIT');
     return true;
-  }catch(error){db.exec('ROLLBACK');throw error;}
+  })});
 }

@@ -95,6 +95,9 @@ export const portalMessages = sqliteTable('portal_messages', {
 export const assistantConversations = sqliteTable("assistant_conversations", {
   id: text("id").primaryKey(),
   tokenHash: text("token_hash").notNull(),
+  /** Fixed at creation; legacy invalid timestamps intentionally remain inaccessible. */
+  tokenExpiresAt: text("token_expires_at"),
+  tokenRevokedAt: text("token_revoked_at"),
   locale: text("locale").notNull(),
   status: text("status").notNull().default("assistant"),
   contactName: text("contact_name").notNull().default(""),
@@ -104,6 +107,19 @@ export const assistantConversations = sqliteTable("assistant_conversations", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 }, t => [index("assistant_conversations_updated").on(t.updatedAt)]);
+/** Origin/consent are immutable. Migration uses a deferred request FK so the
+ * authority-fenced origin and request/audit/outbox are one atomic batch. */
+export const assistantRequestLinks = sqliteTable('assistant_request_links', {
+  requestId:text('request_id').primaryKey().references(()=>requests.id,{onDelete:'cascade'}),
+  conversationId:text('conversation_id').notNull().references(()=>assistantConversations.id,{onDelete:'cascade'}),
+  requestKey:text('request_key').notNull(),mutationId:text('mutation_id').notNull(),
+  consentVersion:text('consent_version').notNull(),consentFieldsJson:text('consent_fields_json').notNull(),
+  createdAt:text('created_at').notNull(),
+},t=>[uniqueIndex('assistant_request_retry').on(t.conversationId,t.requestKey),
+  index('assistant_request_conversation_page').on(t.conversationId,t.createdAt,t.requestId),
+  check('assistant_request_consent_version',sql`length(${t.consentVersion}) BETWEEN 1 AND 100`),
+  check('assistant_request_consent_fields',sql`json_valid(${t.consentFieldsJson}) AND json_type(${t.consentFieldsJson})='array'`)]);
+
 export const assistantMessages = sqliteTable("assistant_messages", {
   id: text("id").primaryKey(),
   conversationId: text("conversation_id").notNull().references(() => assistantConversations.id),
@@ -112,6 +128,8 @@ export const assistantMessages = sqliteTable("assistant_messages", {
   content: text("content").notNull(),
   requestKey: text("request_key").notNull(),
   createdAt: text("created_at").notNull(),
+  /** First client-reported display in the visible visitor chat, not human reading. */
+  guestDisplayedAt: text("guest_displayed_at"),
 }, t => [uniqueIndex("assistant_message_retry").on(t.conversationId,t.requestKey),index("assistant_messages_thread").on(t.conversationId,t.createdAt)]);
 export const assistantOffers = sqliteTable("assistant_offers", {
   id: text("id").primaryKey(),

@@ -1,0 +1,10 @@
+{
+  "source_sha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "jobs": {
+    "root": "success",
+    "site": "success",
+    "erp": "failure",
+    "bridge": "failure"
+  },
+  "scope": "CI only; no deployment or client-delivery acceptance"
+}

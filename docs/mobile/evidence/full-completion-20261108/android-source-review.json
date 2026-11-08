@@ -1,0 +1,64 @@
+{
+  "observedAt": "2026-11-08T09:04:18.973151+00:00",
+  "reviewer": "root independent source review",
+  "baseCommit": "ab26e5eec6ce8d0bdbec7f1ea71accc170645b83",
+  "sourceFiles": {
+    "erp/apps/mobile-android/README.md": "c0284f5dde20e488412add15e5f5355586faa2a57a61c0d1459fc571d4e3a48f",
+    "erp/apps/mobile-android/app/build.gradle.kts": "81cce0701e972fc365b5342079322c09a3652085f1ca938d416e375013ba5b83",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleModules.kt": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt": "bc1c985d98f303fba774bf45e00529099798a4ab4abd8a8c18ac966c2008a125",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java": "3401d52f790d8ad7a87992daa781f0b0291bae2afa87ebf5e38a326a54612bc8",
+    "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml": "3e824df051e961efee8f62662717544d12e46cdaecba84b92ae26645b4df6aa7",
+    "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml": "130b0d41d971fa660029d53af38a0ceb567199b00297afb177aba50b6a95ddca",
+    "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml": "bf5ecb5289cf53aa358db49bc1f68639221c6f392a284e70e2bcbeffb090b48d",
+    "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml": "cbaded4fb3c75efa57b169903578da5982825bdbaaff1d2100cf895ad7e8eed5",
+    "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml": "565bc5ef238477c0052107c76cfb9192d18c096265ff96fc2f900f95503d6430",
+    "erp/apps/mobile-android/app/src/main/res/values/strings.xml": "c6bfb8b22ef0f56a94e84edcbc0354178937b82f7db520d7f067b9826139ee76",
+    "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be",
+    "erp/apps/mobile-android/scripts/VerifyAppBundle.java": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70",
+    "erp/apps/mobile-android/scripts/package.sh": "9e36d3de356c73279d06ebe68aeddda7e32409c26e7b5b1ca5e1c7f9cc990a34",
+    "erp/apps/mobile-android/scripts/test-app-bundle.py": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610",
+    "erp/apps/mobile-android/scripts/test-demo-console.sh": "dc1c6cf5d342c574794ded8c5a98256707f08da23ee68bc14b8f3a4ab4e115ff",
+    "erp/apps/mobile-android/scripts/test-transport.sh": "9f985a8be83cde700fc5d1ded3632dc6a2792a049eae50364f9164ca5f4ae89c",
+    "erp/apps/mobile-android/scripts/tests/ErpCredentialSafetyTest.java": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62"
+  },
+  "independentChecks": {
+    "transportAssertions": 76,
+    "credentialTests": 10,
+    "credentialAssertions": 30,
+    "discoveryAssertions": 109,
+    "nativeCommandContractTests": 62,
+    "failures": 0
+  },
+  "authorChecks": {
+    "framework": {
+      "tests": 55,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "lint": {
+      "Warning": 18
+    },
+    "hostChecks": {
+      "originalTransportAssertions": 76,
+      "serverDiscoveryAssertions": 109,
+      "credentialTests": 10,
+      "credentialAssertions": 30,
+      "credentialFailures": 0,
+      "demoAssertions": 38,
+      "geofenceVectors": 30,
+      "localeClockVectors": 39,
+      "stringsPerLocale": 283,
+      "locales": 6
+    }
+  },
+  "sourceReview": "Accepted: one-shot credentials only in memory; journal/input guard before network; current /me full authority fence; late response and current UI screen guards; exact original idempotency key and version for ordinary business retries; no change to installer/branding/discovery safety. Vehicle module only read navigation.",
+  "limitations": [
+    "Synthetic HTTP/journal and framework tests do not prove physical install or live ERP.",
+    "Existing credential-shaped recovery envelopes fail closed without deleting unknown outcomes.",
+    "APK/AAB and Xcode build verification pending exact candidate; no production/store authorization implied."
+  ]
+}

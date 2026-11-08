@@ -1,0 +1,42 @@
+{
+  "status": "PASS_INTERMEDIATE_80",
+  "sourceInputsSha256": "3ff888a3980520a57c58c1a50d56de5fbcee82514a05582e94f7b29b829a5406",
+  "results": [
+    {
+      "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "de.knaba.mobile.ErpFederationActivityTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "de.knaba.mobile.LauncherIconTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "de.knaba.mobile.ErpConsoleActivityTest",
+      "tests": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "de.knaba.mobile.ConsoleMediaScreenTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "note": "Superseded by required strict adoption journal and stale dialog corrections; not final source acceptance."
+}

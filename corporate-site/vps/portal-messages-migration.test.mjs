@@ -13,7 +13,8 @@ test('0012 adds private conversations without rewriting historical data or migra
   try {
     const source=new URL('../drizzle/',import.meta.url),baseline=join(dir,'baseline');
     mkdirSync(join(baseline,'meta'),{recursive:true});
-    const oldNames=inspectMigrationSequence(source.pathname).names.slice(0,12);
+    const migrationNames=inspectMigrationSequence(source.pathname).names;
+    const oldNames=migrationNames.slice(0,12);
     for(const name of oldNames)copyFileSync(new URL(name,source),join(baseline,name));
     const journal=JSON.parse(readFileSync(new URL('meta/_journal.json',source),'utf8'));
     journal.entries=journal.entries.filter(entry=>entry.idx<12);
@@ -40,7 +41,8 @@ test('0012 adds private conversations without rewriting historical data or migra
     assert.equal(restored.db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');
     assert.deepEqual(restored.db.prepare('PRAGMA foreign_key_check').all(),[]);
     live.db.close();live=openLocalDatabase(file,{allowMigrations:false});
-    assert.equal(live.db.prepare('SELECT count(*) AS n FROM vps_schema_migrations').get().n,15);
+    assert.deepEqual(live.db.prepare('SELECT filename FROM vps_schema_migrations ORDER BY filename').all().map(row=>row.filename),migrationNames);
+    assert.deepEqual(restored.db.prepare('SELECT filename FROM vps_schema_migrations ORDER BY filename').all().map(row=>row.filename),migrationNames);
     assert.equal(live.db.prepare('SELECT count(*) AS n FROM portal_messages').get().n,1);
   } finally {
     restored?.db.close();live?.db.close();rmSync(dir,{recursive:true,force:true});

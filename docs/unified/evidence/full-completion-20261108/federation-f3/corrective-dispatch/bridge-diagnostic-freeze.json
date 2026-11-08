@@ -1,0 +1,6 @@
+{
+  "path": "tests/bridge/federation-login.test.mjs",
+  "sha256": "3b54d76d3c328d8c13328c814b29f7caf432da83e699805132d89ab90e97bf48",
+  "baseCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "scope": "Fixed allowlist status/action/error diagnostics only; all status assertions retained"
+}

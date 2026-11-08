@@ -1,0 +1,236 @@
+{
+  "sourceCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "aggregate": "FAILED",
+  "runs": [
+    {
+      "id": 42517324482,
+      "name": "KNABA iOS simulator verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "headSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+      "attempt": 1,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42517324482"
+    },
+    {
+      "id": 42517324471,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+      "attempt": 1,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42517324471"
+    },
+    {
+      "id": 42517324475,
+      "name": "KNABA repository verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+      "attempt": 1,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42517324475"
+    },
+    {
+      "id": 42517320463,
+      "name": "KNABA repository verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "headSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+      "attempt": 1,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42517320463"
+    },
+    {
+      "id": 42517320499,
+      "name": "KNABA iOS simulator verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+      "attempt": 1,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42517320499"
+    }
+  ],
+  "erp": {
+    "tests": 3341,
+    "passed": 3340,
+    "failed": 1,
+    "pending": 0,
+    "fileResults": 151,
+    "privacyPgCases": [
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority exports own revoked F1/F2/F3 history without secrets and leaves all proof/replay/tombstone rows unchanged",
+        "status": "failed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority filters another user, same identifiers in another company, and same subject under a mismatched issuer/audience in SQL",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority accepts exactly 25000 source records across all groups before aggregation and rolls back 25001 without a receipt",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority fails closed for attributable malformed metadata foreign-binding without partial artifact/event/receipt",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority fails closed for attributable malformed metadata bad-client without partial artifact/event/receipt",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority fails closed for attributable malformed metadata bad-confirmed-link without partial artifact/event/receipt",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority keeps v1 receipt digests/ACK shape and bytes while unknown-ACK retries return one existing immutable artifact",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority replays an unknown v2 acknowledgement with identical artifact/checksum and never regenerates its snapshot",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority rechecks current legal expired scope before any export effect",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority rechecks current legal revoked scope before any export effect",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority rechecks current legal wrong-version scope before any export effect",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority rechecks current legal wrong-category scope before any export effect",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority never loads malformed federation metadata for v2 without PROFILE",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority denies another current user or tenant download and exposes no private attachment headers",
+        "status": "passed"
+      },
+      {
+        "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority closes an actual HTTP download when its exact original session is revoked after the private read commits",
+        "status": "passed"
+      }
+    ],
+    "rawReportSha256": "0a5849cfc38d2c393b6af3786b3a5ff3867febac2fb52925b1b425bae3286920",
+    "downstreamOfFirstPrivacyFailureNotExecuted": true
+  },
+  "pairedRuntime": {
+    "passed": 26,
+    "f2": 7,
+    "f3": 8,
+    "cases": [
+      "ok 1 - F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage",
+      "ok 2 - F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption",
+      "ok 3 - F3 actual lost approval ACK recovers one durable intent before any ERP session is issued",
+      "ok 4 - F3 actual source logout rejects an already computed issue proof before the ERP session commit",
+      "ok 5 - F3 actual source outage fails closed while local logout completes without source RPC",
+      "ok 6 - F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session",
+      "ok 7 - F3 actual source restart fences old derived sessions while a local ERP password session remains valid",
+      "ok 8 - F3 actual two-company native code cannot be redeemed by the other configured authority",
+      "ok 9 - F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink",
+      "ok 10 - F2 actual source logout P\u2192L\u2192C rejects an already computed active proof before ERP binding commit",
+      "ok 11 - F2 actual source credential P\u2192L\u2192C rejects an already computed active proof before ERP binding commit",
+      "ok 12 - F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce",
+      "ok 13 - F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery",
+      "ok 14 - F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session",
+      "ok 15 - F2 two actual companies cannot consume each other\u2019s code even with equal immutable source IDs and signing keys",
+      "ok 16 - explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves its scoped origin after restart",
+      "ok 17 - assistant withdrawal is capability-scoped and prevents a not-yet-sent real ERP effect",
+      "ok 18 - actual HTTP intake applies only the trusted mapping and creates no identity or privilege",
+      "ok 19 - concurrent intake and drainers produce one durable ERP effect; identical replay returns its receipt",
+      "ok 20 - response loss after real ERP commit survives site restart and retries the exact event once",
+      "ok 21 - a conflicting authenticated event produces real ERP quarantine and never overwrites the first lead",
+      "ok 22 - current ERP actor revocation quarantines queued intake without a business or identity effect",
+      "ok 23 - unmapped service and changed site mapping fail closed before any ERP HTTP request",
+      "ok 24 - SQLite queue failure rolls back intake and audit; retry commits one complete bridge transaction",
+      "ok 25 - expired lease recovery fences stale settlement while two real deliveries create one ERP lead",
+      "ok 26 - same-company credential rotation preserves replay; different-company credentials cannot redirect queued intake"
+    ],
+    "jobLogSha256": "1719c675137b91ce9caeb5b88dc9945e0d91891330d76c99a0dc2edb4c0ecbfc"
+  },
+  "browser": {
+    "roles": 111,
+    "languages": 32,
+    "publicViewportCases": 24,
+    "erpSelected": 30,
+    "privacySelected": 11,
+    "erpAggregate": "FAILED_INCOMPLETE",
+    "retainedCompleteTimeoutCases": 4,
+    "interruptedTrace": 1,
+    "resultJsonBytes": 0,
+    "newActualExecutionRequired": true,
+    "diagnosisSha256": "a4ce95be993b72d8c255dad3dda56e47855005e1854ff117889c595258afe800"
+  },
+  "androidReview": {
+    "path": "android-independent-review/review.json",
+    "sha256": "239c5afda4dfc91e4d0f0ca5ec98d20f20c5d8228d0ca6dee9f0dcf0e5beaa9b",
+    "ciTestsPassed": 81,
+    "ciLintErrors": 0,
+    "ciLintWarnings": 23,
+    "localTestsPassed": 81,
+    "localLintErrors": 0,
+    "localLintWarnings": 20,
+    "sameSignerLocalPackage": true,
+    "physicalUpgrade": "NOT_RUN"
+  },
+  "ios": {
+    "reviewer": "/root",
+    "sourceCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+    "sourceTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+    "runId": 42517320499,
+    "jobId": 128843077462,
+    "artifactId": 13632760304,
+    "artifactZipSha256": "6efd46423e7c5b7a9c2e122a78db2851ccb3cde085b1ea3d7428080724548ce4",
+    "actualSourceInputs": 66,
+    "allInputsMatchExactGitBlobs": true,
+    "actualDebugSimulatorBuild": "SUCCEEDED",
+    "actualXCTest": {
+      "total": 210,
+      "passed": 209,
+      "failed": 1,
+      "skipped": 0,
+      "federation": {
+        "total": 65,
+        "passed": 64,
+        "failed": 1
+      },
+      "baseline": {
+        "total": 145,
+        "passed": 145,
+        "failed": 0
+      }
+    },
+    "failures": [
+      {
+        "name": "-[KNABADETests.ERPFederationURLSessionTests testFederationBodyBoundDoesNotRaiseOrdinaryOrMediaLimits]",
+        "durationSeconds": "0.736"
+      }
+    ],
+    "buildTestsLogSha256": "8dd23c8814c180e3a00855b86a3f52cadd507b9b1254303faacf26dad648177a",
+    "sourceManifestSha256": "f0918c94a5d2754d81d87f4c3c77a10c3b82e4335e4ba98d0ac045e862707ced",
+    "failure": "New test expected64KiB encoded command envelope; actual unchanged legacy envelope cap is70000 and input cap65536. Existing federation response cap65536 is distinct.",
+    "finalSuccessArtifact": "NOT_CREATED",
+    "postTestSimulatorInstallLaunch": "NOT_RUN",
+    "deviceSigningTestFlight": "NOT_RUN",
+    "wholeProduct": "NOT_READY"
+  },
+  "budget": {
+    "priorReservation": "USED",
+    "ordinaryRunSet": 1,
+    "manualRerun": false,
+    "paidActivation": false,
+    "actualBalancesAndTotalExistingCost": "UNKNOWN"
+  },
+  "wholeProduct": "NOT_READY"
+}

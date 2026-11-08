@@ -1,0 +1,17 @@
+✔ owned preview readiness uses a bodyless HEAD and waits for its own listener (365.982521ms)
+✔ an owned preview HTTP failure is not accepted as ready (323.371913ms)
+✔ waits for close and captures inherited stdout even after the direct child exits (474.939584ms)
+✔ a deadline closes its child and a ready TERM-ignoring child is killed before cleanup resolves (684.797265ms)
+✔ an already completed child has idempotent bounded cleanup (278.708202ms)
+✔ spawn failure and abort reject without accepting a successful suite (6.412065ms)
+✔ a fallback PASS containing an engine block stops the wrapper before another browser launch (1.683007ms)
+✔ ERP report requires all four named fixture suites, all thirty distinct cases and no skip, retry or failure (3.526688ms)
+✔ fixture isolates provider environments and runner uses only local owned previews and temp reporters (2.900443ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2316.273687

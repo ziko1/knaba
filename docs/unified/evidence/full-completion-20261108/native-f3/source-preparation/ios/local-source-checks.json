@@ -1,0 +1,75 @@
+{
+  "scope": "Source/configuration checks only",
+  "paths": 19,
+  "allChangesWithinIOS": true,
+  "untrackedWhitespaceAndFinalNewline": "PASS",
+  "localeKeys": 23,
+  "localeCells": 138,
+  "localeLanguages": [
+    "de",
+    "en",
+    "pl",
+    "lt",
+    "ru",
+    "uk"
+  ],
+  "newAuthoredXCTest": 65,
+  "allAuthoredXCTest": 210,
+  "unchangedBaselineXCTest": 145,
+  "swiftAvailable": null,
+  "xcodebuildAvailable": null,
+  "swiftCompilation": "NOT_RUN",
+  "xctestExecution": "NOT_RUN",
+  "xcodeBuildSettings": "NOT_RUN",
+  "deviceOrSystemBrowser": "NOT_RUN",
+  "runs": [
+    {
+      "name": "portable-config-tests",
+      "command": [
+        "python3",
+        "erp/apps/mobile-ios/scripts/test-federation-config.py"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/portable-config-tests-v2.log",
+      "logSha256": "75ff54e727b57e4bd7b88956ed0c92c4b9a416e6f0976707e8fb54aa385ac0bd",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    },
+    {
+      "name": "source-config",
+      "command": [
+        "python3",
+        "erp/apps/mobile-ios/scripts/verify-federation-config.py",
+        "--output",
+        "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-config.json"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/source-config-v2.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    },
+    {
+      "name": "shell-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "erp/apps/mobile-ios/scripts/build.sh"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/shell-syntax-v2.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    },
+    {
+      "name": "tracked-whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "log": "/workspace/scratch/c56161c95e04/verification/ios-federation-implementation/tracked-whitespace-v2.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Portable configuration/source gate only; not Swift/XCTest"
+    }
+  ]
+}

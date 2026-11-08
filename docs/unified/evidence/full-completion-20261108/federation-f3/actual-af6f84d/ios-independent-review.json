@@ -1,0 +1,1001 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-11-08T16:44:04.686431+00:00",
+  "reviewer": "/root/mobile_actual_readiness",
+  "status": "ACCEPT_ACTUAL_SIMULATOR_ARTIFACT_SCOPED",
+  "scope": "Independent read-only review of downloaded actual Xcode CI output. No local Swift compilation, new CI, rebuild, upload, production or physical-device execution.",
+  "github": {
+    "repository": "ziko1/knaba",
+    "runId": 42499225525,
+    "jobId": 128788117502,
+    "artifactId": 13624772143,
+    "jobUrl": "https://github.com/ziko1/knaba/actions/runs/42499225525/job/128788117502",
+    "evidence": {
+      "path": "ios-github-review-evidence.json",
+      "sha256": "54a9020f632529b82bbddf799dc2893ef458a7e6da068e4efa1bd60cfe0d1575",
+      "bytes": 3648
+    },
+    "compileTestInstallLaunchUploadSteps": "SUCCESS",
+    "selectedJobLogArtifactDigestMatchesDownloadedArchive": true,
+    "failureEvidenceUploadStep": "SKIPPED_AS_EXPECTED_NOT_A_SKIPPED_TEST"
+  },
+  "source": {
+    "gitSha": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "gitTree": "e49cb0d12a47b1f2aa43ae9966b3c8ef26aeda0f",
+    "sourceWorkingTree": false,
+    "provenance": "GIT_WORKTREE",
+    "buildInputCount": 54,
+    "inputSha256": "d261d2da21a982c0c8d2bb436d023d0557a9180f31c574bce563be71eb08802e",
+    "inputDigestAlgorithm": "SHA256(Python json.dumps(records, sort_keys=True, separators=(comma,colon)).encode())",
+    "exactGitBlobBytesModesAndCompleteAllowlist": "PASS",
+    "buildInputs": [
+      {
+        "path": ".github/workflows/ios.yml",
+        "sha256": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a",
+        "bytes": 5859,
+        "mode": "0644",
+        "gitBlob": "d2d1e4b3cfe489e50d33662b195da636dec2c989",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Info.plist",
+        "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014",
+        "bytes": 1790,
+        "mode": "0644",
+        "gitBlob": "a96016198dedac7cec57f119be349d75e404f225",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+        "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104",
+        "bytes": 1393,
+        "mode": "0644",
+        "gitBlob": "311c97733813180c7549de54113c4610ba96fdec",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+        "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad",
+        "bytes": 179006,
+        "mode": "0644",
+        "gitBlob": "9d8684414d948bd1393368052f864ef1c7b0fb58",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+        "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53",
+        "bytes": 203,
+        "mode": "0644",
+        "gitBlob": "a51dd9a063ba81df6b00828923e8df2f59fec035",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+        "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb",
+        "bytes": 60,
+        "mode": "0644",
+        "gitBlob": "e68e65a9e7ac1c5296b1f9a9c546c913ff15f66e",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+        "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21",
+        "bytes": 846,
+        "mode": "0644",
+        "gitBlob": "d1df3cbc0841ccfe62bbb4ab0a3397e0192a2e3f",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+        "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042",
+        "bytes": 821,
+        "mode": "0644",
+        "gitBlob": "14e492266f3637a110ff0e814bcf8c44b8ba8783",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+        "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c",
+        "bytes": 865,
+        "mode": "0644",
+        "gitBlob": "f01cbd0a6dd7db98db9cea0f7c0fe60d82bf2818",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+        "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b",
+        "bytes": 920,
+        "mode": "0644",
+        "gitBlob": "27354dc8004b369f387ab101f0f37080022c23a4",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+        "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1",
+        "bytes": 1478,
+        "mode": "0644",
+        "gitBlob": "3918c5334d482b20ed0876a453482bd28434858c",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+        "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553",
+        "bytes": 1381,
+        "mode": "0644",
+        "gitBlob": "1ecc430b12213a16422dac35e58ed56c4c6f7f69",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/AppModel.swift",
+        "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868",
+        "bytes": 8546,
+        "mode": "0644",
+        "gitBlob": "4067ba13f55fdc4c1aacfa78cf05d8b62ff31c9a",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPActionLabels.swift",
+        "sha256": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283",
+        "bytes": 4622,
+        "mode": "0644",
+        "gitBlob": "ea34c8a277a5fd5112a256f6ece9e2d155caa682",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+        "sha256": "7949d68374bc5eb7852f30d31aa03fd8b75a39049bf4f87d61b0c48f36632f0a",
+        "bytes": 42573,
+        "mode": "0644",
+        "gitBlob": "d805a78a9b52b246ba042db45965559edeb710e5",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+        "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+        "bytes": 16188,
+        "mode": "0644",
+        "gitBlob": "c10b596f20c2d1e280d8b09f97d0f261e28cc7d9",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+        "sha256": "f8ebfad5ef147635f359132979ec5f3154e34ea5ced8a86a28e01e60fa149073",
+        "bytes": 41354,
+        "mode": "0644",
+        "gitBlob": "8de366009c6d5e1c193dac74e9934fb44b3addc4",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+        "sha256": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374",
+        "bytes": 17582,
+        "mode": "0644",
+        "gitBlob": "15d74e8d920332aa530880b104da07ebe3efdf29",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+        "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21",
+        "bytes": 18370,
+        "mode": "0644",
+        "gitBlob": "4536ba6a579023484d26122600deb873d83f06d1",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+        "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+        "bytes": 7660,
+        "mode": "0644",
+        "gitBlob": "35c01b2beb4fbd0a806c235aea3bd9af8fd0ee73",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+        "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+        "bytes": 14355,
+        "mode": "0644",
+        "gitBlob": "487576144631d86890ea5afcb537fe61db3c5c65",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+        "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8",
+        "bytes": 29049,
+        "mode": "0644",
+        "gitBlob": "aae0a9b1d285c6c3bab75c5237ba020e21108a6c",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+        "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969",
+        "bytes": 21883,
+        "mode": "0644",
+        "gitBlob": "a621a659b9c3bd4eab42c3f5ec2557c8f511f498",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+        "sha256": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0",
+        "bytes": 6411,
+        "mode": "0644",
+        "gitBlob": "5973ab94e51090c7f918c6de9fc556e245df0b1d",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+        "sha256": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b",
+        "bytes": 43551,
+        "mode": "0644",
+        "gitBlob": "6974dc7ca09b68a7e215e7c86c9cbd1cba0f3808",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+        "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a",
+        "bytes": 8159,
+        "mode": "0644",
+        "gitBlob": "5ca15140aea7d28c5d68a1ad37112e65fedfba27",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift",
+        "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61",
+        "bytes": 12689,
+        "mode": "0644",
+        "gitBlob": "39628dbf385df124a1a169648b82bcebe6147b0d",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/Models.swift",
+        "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9",
+        "bytes": 8671,
+        "mode": "0644",
+        "gitBlob": "0ed1223a6a645191bf51d02f197642eb8f066402",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/NativeAPI.swift",
+        "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc",
+        "bytes": 5838,
+        "mode": "0644",
+        "gitBlob": "56fd85334d603c04e65f05d8e81eb4065d11aa5f",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+        "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16",
+        "bytes": 35926,
+        "mode": "0644",
+        "gitBlob": "49480fcfd06cca9dcf2564b8b0aaac56d86d520b",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+        "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0",
+        "bytes": 3013,
+        "mode": "0644",
+        "gitBlob": "0b4ecfa34fb553d54b7aa81a8a3867b55f85cbbd",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/SecureStore.swift",
+        "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07",
+        "bytes": 9238,
+        "mode": "0644",
+        "gitBlob": "bce413456777dbe662dbad67c976d1f54788e273",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+        "sha256": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c",
+        "bytes": 10296,
+        "mode": "0644",
+        "gitBlob": "f13008750c060a930675561d7d16038fe2c2df30",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+        "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662",
+        "bytes": 11002,
+        "mode": "0644",
+        "gitBlob": "8c69ec760b0f7d50de35cce7f681590c3d8e6e2b",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+        "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55",
+        "bytes": 3847,
+        "mode": "0644",
+        "gitBlob": "afbfb945fc901561ed67c59a525797244cdcdd1a",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+        "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659",
+        "bytes": 27478,
+        "mode": "0644",
+        "gitBlob": "7705886c5e8eeb7d24d2312bc5c52d61d76971b5",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+        "sha256": "f41ea53b4e6f2cce803aa3e44787791601b6dddd1a3b17c164ef2f9861a62652",
+        "bytes": 14292,
+        "mode": "0644",
+        "gitBlob": "055e2d51e93beb569ce765fe258647ed7789ed8f",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+        "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+        "bytes": 7627,
+        "mode": "0644",
+        "gitBlob": "771c72acd40b970ea931d282783e67900910f250",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+        "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c",
+        "bytes": 13500,
+        "mode": "0644",
+        "gitBlob": "b2c7c701c700beaef55e3192ddbc100735c331ad",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+        "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+        "bytes": 8242,
+        "mode": "0644",
+        "gitBlob": "4cdd6921b62e16792dc568962e75c8d7a75fadc7",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+        "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+        "bytes": 5199,
+        "mode": "0644",
+        "gitBlob": "ff9ee2296d534ecb33bfa1950a9b6a0f1ade681d",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+        "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+        "bytes": 11360,
+        "mode": "0644",
+        "gitBlob": "cc9bc907fe33c73c0fe954ad250c608b48537bb7",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+        "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+        "bytes": 20024,
+        "mode": "0644",
+        "gitBlob": "6f1b831e10da37a958c7edbc810e38be1489d8cd",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+        "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f",
+        "bytes": 16919,
+        "mode": "0644",
+        "gitBlob": "7bd0b1e9a9b10c44c1a90e81c517dd9a701cbbc4",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift",
+        "sha256": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8",
+        "bytes": 9841,
+        "mode": "0644",
+        "gitBlob": "edbe83376860ea266e365cc738f30d1975e5bbf0",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+        "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c",
+        "bytes": 9703,
+        "mode": "0644",
+        "gitBlob": "6dd6b44d37a4d491b897fb8b379ee2591d536d2d",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/NativeTests.swift",
+        "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c",
+        "bytes": 7834,
+        "mode": "0644",
+        "gitBlob": "73971854bcd946685cc8c159c2a504d19d1bbbfc",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/project.yml",
+        "sha256": "f3d033184787e0d68bfb1e46bec5337825a5dd7c4d5b3887e2d5514384187c2d",
+        "bytes": 1320,
+        "mode": "0644",
+        "gitBlob": "6ab6f9f362b9e12d93153242b573a8a7af692ade",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/scripts/archive-release.sh",
+        "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8",
+        "bytes": 3682,
+        "mode": "0644",
+        "gitBlob": "f831cec8b9d959a6f5a32e822f0904bd09a5ae6c",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/scripts/build.sh",
+        "sha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb",
+        "bytes": 1679,
+        "mode": "0755",
+        "gitBlob": "5e18087fdb77bf2ca7509ccc423a00118a386c4b",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/scripts/distribution.py",
+        "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8",
+        "bytes": 20641,
+        "mode": "0644",
+        "gitBlob": "31446eac369610bd9506daf38c69c8caed4b2be5",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+        "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3",
+        "bytes": 8223,
+        "mode": "0644",
+        "gitBlob": "b189cae65f50e1e9a0e39cea934614f50da9165f",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "erp/tests/native-vectors.json",
+        "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+        "bytes": 4538,
+        "mode": "0644",
+        "gitBlob": "2441888f2542fec48d7b99884010ea8b9de0cc82",
+        "verifiedAgainstCommit": true
+      },
+      {
+        "path": "scripts/mobile/package-ios-source.py",
+        "sha256": "1c8ad6edc56228e7a37ee613ccf9ccdc4a9fef6cd0784c02a9817c620cf6b377",
+        "bytes": 5547,
+        "mode": "0644",
+        "gitBlob": "dfafc6a0ce392f8245b94fc7affef92260cdaf08",
+        "verifiedAgainstCommit": true
+      }
+    ]
+  },
+  "archives": [
+    {
+      "path": "ios-af6f84d.zip",
+      "sha256": "5ebf4dbe7ea12003040e14f9ff2d7ef7f981581da68d2cce9dbc6ccc0949f2ec",
+      "bytes": 9019381,
+      "entries": 22,
+      "files": 22,
+      "crc": "PASS",
+      "safePaths": "PASS",
+      "duplicateNames": 0,
+      "symbolicLinks": 0
+    },
+    {
+      "path": "ios-artifact/KNABADE-simulator.app.zip",
+      "sha256": "46079462a072c4c481ebb24257b14b9582d044299cd8fa5bf36c471738d352a8",
+      "bytes": 8433899,
+      "entries": 72,
+      "files": 48,
+      "crc": "PASS",
+      "safePaths": "PASS",
+      "duplicateNames": 0,
+      "symbolicLinks": 0
+    },
+    {
+      "path": "ios-artifact/NativeTests.xcresult.zip",
+      "sha256": "f32abc350fa27e955cd524d02e27090567037958010fd065c5a2f26f9ba28b6b",
+      "bytes": 356844,
+      "entries": 332,
+      "files": 330,
+      "crc": "PASS",
+      "safePaths": "PASS",
+      "duplicateNames": 0,
+      "symbolicLinks": 0
+    }
+  ],
+  "outerExtractedFilesExactMatch": 22,
+  "application": {
+    "bundleId": "de.knaba.mobile",
+    "version": "0.5.0",
+    "build": "8",
+    "minimumOSMetadata": "17.0",
+    "supportedPlatforms": [
+      "iPhoneSimulator"
+    ],
+    "sdk": "iphonesimulator26.5",
+    "sdkBuild": "23F81a",
+    "xcodeBuild": "17F113",
+    "localizations": [
+      "de",
+      "en",
+      "pl",
+      "lt",
+      "ru",
+      "uk"
+    ],
+    "infoPlistSha256": "6c6c56ae2a809bea49d0cfd59f0d8800d652c4b9dacb168d44c109b6b31fb34c",
+    "inventory": {
+      "entries": 72,
+      "hasXCTestPlugin": true,
+      "hasXCTestFrameworks": true,
+      "hasAppProvisioningProfile": false,
+      "hasTopLevelCodeResources": false
+    },
+    "machO": [
+      {
+        "path": "KNABADE.app/KNABADE.debug.dylib",
+        "sha256": "e6e168b147eea3dbc071c154a03f3ff82b8e015b8eb89aef0256d5ad0a86decd",
+        "bytes": 6483296,
+        "cpuType": "0x100000c",
+        "architecture": "arm64",
+        "fileType": 6,
+        "buildVersion": [
+          {
+            "platform": 7,
+            "minimumOS": "17.0.0",
+            "sdk": "26.5.0"
+          }
+        ],
+        "codeSignatures": [
+          {
+            "bytes": 50400,
+            "slots": [
+              {
+                "slot": 0,
+                "magic": "0xfade0c02",
+                "bytes": 50380,
+                "flags": "0x20002",
+                "adHoc": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "KNABADE.app/PlugIns/KNABADETests.xctest/KNABADETests",
+        "sha256": "aae29b312b8d22c0979c5ac00a94abe17216120511dbf6c0adf6e7502b72efba",
+        "bytes": 4003280,
+        "cpuType": "0x100000c",
+        "architecture": "arm64",
+        "fileType": 8,
+        "buildVersion": [
+          {
+            "platform": 7,
+            "minimumOS": "17.0.0",
+            "sdk": "26.5.0"
+          }
+        ],
+        "codeSignatures": [
+          {
+            "bytes": 31168,
+            "slots": [
+              {
+                "slot": 0,
+                "magic": "0xfade0c02",
+                "bytes": 31141,
+                "flags": "0x20002",
+                "adHoc": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "KNABADE.app/__preview.dylib",
+        "sha256": "c522170f19df6633d48e38d71d14f7181485e4ea1c23b4ebd74cb66dc9cd9768",
+        "bytes": 16752,
+        "cpuType": "0x100000c",
+        "architecture": "arm64",
+        "fileType": 6,
+        "buildVersion": [
+          {
+            "platform": 7,
+            "minimumOS": "17.0.0",
+            "sdk": "26.5.0"
+          }
+        ],
+        "codeSignatures": [
+          {
+            "bytes": 288,
+            "slots": [
+              {
+                "slot": 0,
+                "magic": "0xfade0c02",
+                "bytes": 268,
+                "flags": "0x20002",
+                "adHoc": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "KNABADE.app/KNABADE",
+        "sha256": "111140db593ab66d922bec145df58e874f04679026c45f646c21baf07aae4d22",
+        "bytes": 40344,
+        "cpuType": "0x100000c",
+        "architecture": "arm64",
+        "fileType": 2,
+        "buildVersion": [
+          {
+            "platform": 7,
+            "minimumOS": "17.0.0",
+            "sdk": "26.5.0"
+          }
+        ],
+        "codeSignatures": [
+          {
+            "bytes": 440,
+            "slots": [
+              {
+                "slot": 0,
+                "magic": "0xfade0c02",
+                "bytes": 416,
+                "flags": "0x20002",
+                "adHoc": true
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "signatureScope": "CODE_SIGNING_ALLOWED=NO; linker ad-hoc CodeDirectory exists in app binaries; no developer/distribution CMS slot or app provisioning profile. Bundled Apple test frameworks are present. This is not an IPA or a device/distribution-signed build."
+  },
+  "xctest": {
+    "total": 145,
+    "passed": 145,
+    "failed": 0,
+    "skipped": 0,
+    "expectedFailures": 0,
+    "uniqueStartedAndCompletedCases": 145,
+    "declaredSourceMethodsExactMatch": true,
+    "sourceHelpersWithoutTests": [
+      "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift"
+    ],
+    "bySuite": {
+      "KNABADETests.ERPConsoleModelTests": 8,
+      "KNABADETests.ERPConsoleRecoveryTests": 9,
+      "KNABADETests.ERPConsoleTests": 5,
+      "KNABADETests.ERPConsoleTransportTests": 18,
+      "KNABADETests.ERPConsoleWorkflowTests": 16,
+      "KNABADETests.ERPMediaJournalTests": 6,
+      "KNABADETests.ERPMediaModelTests": 14,
+      "KNABADETests.ERPMediaPolicyTests": 9,
+      "KNABADETests.ERPMediaRecoveryBoundaryTests": 4,
+      "KNABADETests.ERPMediaTransportTests": 19,
+      "KNABADETests.ERPRecordActionModelTests": 9,
+      "KNABADETests.ERPRecordActionsTests": 9,
+      "KNABADETests.LocalizationAndSummaryTests": 11,
+      "KNABADETests.NativeTests": 8
+    },
+    "newMediaBySuite": {
+      "KNABADETests.ERPMediaJournalTests": 6,
+      "KNABADETests.ERPMediaModelTests": 14,
+      "KNABADETests.ERPMediaPolicyTests": 9,
+      "KNABADETests.ERPMediaRecoveryBoundaryTests": 4,
+      "KNABADETests.ERPMediaTransportTests": 19
+    },
+    "newMediaTotal": 52,
+    "existingTotal": 93,
+    "passedCases": [
+      "KNABADETests.ERPConsoleModelTests testCommandResultIsVisibleOnlyWithinItsSession",
+      "KNABADETests.ERPConsoleModelTests testLatePreviousSelectionCannotReplaceCurrentRecords",
+      "KNABADETests.ERPConsoleModelTests testLogoutClearsPrivateViewsBeforeSlowNetworkAndLateReadCannotReturn",
+      "KNABADETests.ERPConsoleModelTests testRecoveryFailureKeepsAuthenticatedReadViewsAndBlocksWrites",
+      "KNABADETests.ERPConsoleModelTests testRightsRefreshRemovesOldRecordsAndDetailNavigation",
+      "KNABADETests.ERPConsoleModelTests testSignInPreservesPasswordAndNormalizesAvailableSelection",
+      "KNABADETests.ERPConsoleModelTests testTimeoutLeavesPendingRecoveryAndBlocksNewWrites",
+      "KNABADETests.ERPConsoleModelTests testWarehouseScopeRefreshAlsoClearsPrivateResults",
+      "KNABADETests.ERPConsoleRecoveryTests testAESJournalRoundTripsAfterRestartAndResolutionCannotDeleteAnotherAccount",
+      "KNABADETests.ERPConsoleRecoveryTests testActorScopeIncludesOriginCompanyAndUser",
+      "KNABADETests.ERPConsoleRecoveryTests testCredentialKeysAreRejectedRecursivelyWithoutRejectingOrdinaryTaskInput",
+      "KNABADETests.ERPConsoleRecoveryTests testKeyOrFilesystemFailureCannotReportSuccessfulPersistence",
+      "KNABADETests.ERPConsoleRecoveryTests testMissingOrInvalidKeyNeverGeneratesAReplacementForExistingCiphertext",
+      "KNABADETests.ERPConsoleRecoveryTests testPendingRecordsCannotBeOverwrittenAndStorageHasABoundedAccountCount",
+      "KNABADETests.ERPConsoleRecoveryTests testTamperedTruncatedMissingOrOversizedCiphertextCannotBecomeAnEmptyJournal",
+      "KNABADETests.ERPConsoleRecoveryTests testTwoJournalInstancesCannotRaceToOverwriteAnUnresolvedRequest",
+      "KNABADETests.ERPConsoleRecoveryTests testUntrustedRestoredEnvelopeCannotChangeOriginalInputVersionOrKey",
+      "KNABADETests.ERPConsoleTests testDecodesServerRoleAndEntityWithoutClientPermissionClaims",
+      "KNABADETests.ERPConsoleTests testERPErrorLocalizationDoesNotExposeRawServerMessage",
+      "KNABADETests.ERPConsoleTests testEveryERPLabelHasSixCompleteTranslationsInTheDisplayOrder",
+      "KNABADETests.ERPConsoleTests testPortableServerOriginRejectsUnsafeRedirectAndCredentials",
+      "KNABADETests.ERPConsoleTests testRedirectDelegateImplementsTheActualProtocolSelectorAndRefusesForwarding",
+      "KNABADETests.ERPConsoleTransportTests test401AndIdempotencyConflictNeverDiscardRecovery",
+      "KNABADETests.ERPConsoleTransportTests testAnotherUserCompanyOrOriginCannotSeeOrReplaySavedCommand",
+      "KNABADETests.ERPConsoleTransportTests testChangedPermissionsFenceOlderReadsAndChangedUserIsRejected",
+      "KNABADETests.ERPConsoleTransportTests testConcurrentMutationsCannotReplaceOrDuplicateTheInFlightCommand",
+      "KNABADETests.ERPConsoleTransportTests testFirstValidationRejectionResolvesButLaterRejectionAfterUnknownRetainsOriginalKey",
+      "KNABADETests.ERPConsoleTransportTests testKnown422PreconditionRejectionAllowsCorrectionButDoesNotResolvePriorUnknown",
+      "KNABADETests.ERPConsoleTransportTests testLoginRequiresCompleteCSRFAndCookieBoundary",
+      "KNABADETests.ERPConsoleTransportTests testLogoutClearsLocallyBeforeIOAndOldCompletionCannotEraseNewAccount",
+      "KNABADETests.ERPConsoleTransportTests testLogoutInvalidatesPendingLoginBeforeItsResponseCanInstallSession",
+      "KNABADETests.ERPConsoleTransportTests testMFAAuthorityChangeStillFencesAnInFlightRead",
+      "KNABADETests.ERPConsoleTransportTests testMalformedRefreshCannotKeepAnAuthenticatedSession",
+      "KNABADETests.ERPConsoleTransportTests testMissingCorruptOrLockedRecoveryAllowsAuthenticatedReadsButBlocksEveryMutation",
+      "KNABADETests.ERPConsoleTransportTests testOriginChangeRejectsOldResponseAndCursorCannotInjectAnotherQuery",
+      "KNABADETests.ERPConsoleTransportTests testOversizedOrMalformedSuccessRetainsUnknownCommand",
+      "KNABADETests.ERPConsoleTransportTests testRecoveryFailureStopsMutationBeforeTheNetwork",
+      "KNABADETests.ERPConsoleTransportTests testSecretsNeverReachTheRecoveryJournalAndPasswordChangePreservesWhitespace",
+      "KNABADETests.ERPConsoleTransportTests testSensitiveTimeoutRequiresReauthenticationWithoutAnyDurableRetry",
+      "KNABADETests.ERPConsoleTransportTests testUnknownWritePersistsBeforeNetworkAndExplicitRetryUsesOriginalBytesAfterRestart",
+      "KNABADETests.ERPConsoleWorkflowTests testActualRequiredNullableSiteResponsibilitiesCanBeClearedExplicitly",
+      "KNABADETests.ERPConsoleWorkflowTests testClearRejectsUnknownNonNullableAndNullExcludedByEnumOrConst",
+      "KNABADETests.ERPConsoleWorkflowTests testClearingAnotherFieldDoesNotTrimPasswordWhitespace",
+      "KNABADETests.ERPConsoleWorkflowTests testClientCanReachPublishedPortalRecordsButNotInternalData",
+      "KNABADETests.ERPConsoleWorkflowTests testExpandedNativeModulesKeepInventoryFinanceAndTravelPermissionsSeparate",
+      "KNABADETests.ERPConsoleWorkflowTests testFormRejectsInvalidTypeBoundsEnumsAndUnsafeInteger",
+      "KNABADETests.ERPConsoleWorkflowTests testNullableAnyOfUsesTheNonNullEditorAndPreservesTypedNestedInput",
+      "KNABADETests.ERPConsoleWorkflowTests testNullableTypeUnionDistinguishesOmissionExplicitNullAndTheStringNull",
+      "KNABADETests.ERPConsoleWorkflowTests testOwnerAndWildcardClaimsDoNotInventServerPermissions",
+      "KNABADETests.ERPConsoleWorkflowTests testPasswordsRetainExactWhitespaceAndDoNotBecomeNumeric",
+      "KNABADETests.ERPConsoleWorkflowTests testQuantityConversionIsExactAndNeverSilentlyRounds",
+      "KNABADETests.ERPConsoleWorkflowTests testStructuredReportResultsAreReadableAndSecretsFilteredAtEveryDepth",
+      "KNABADETests.ERPConsoleWorkflowTests testTaskActionsRequireActualServerCatalogAndState",
+      "KNABADETests.ERPConsoleWorkflowTests testUnsupportedUnionsFailClosedEvenWhenOptionalOrExplicitlyCleared",
+      "KNABADETests.ERPConsoleWorkflowTests testVersionCannotSilentlyDisableOptimisticConcurrency",
+      "KNABADETests.ERPConsoleWorkflowTests testWorkersCanReachOwnOffersAndNotifications",
+      "KNABADETests.ERPMediaJournalTests testEncryptedMetadataRoundTripAndNoPrivateFileOrCredentialFields",
+      "KNABADETests.ERPMediaJournalTests testImmutableMutationAndReceiptProgressCannotRegressOrChange",
+      "KNABADETests.ERPMediaJournalTests testMissingCorruptOrTruncatedEncryptedMetadataNeverBecomesFreshPermission",
+      "KNABADETests.ERPMediaJournalTests testMissingOrChangedKeyCannotOverwriteExistingCiphertext",
+      "KNABADETests.ERPMediaJournalTests testNativeMediaMarkerIsMetadataOnlyAndLegacyCommandsRemainDecodable",
+      "KNABADETests.ERPMediaJournalTests testScopeBudgetRetainsExistingSixteenAccountsWithoutEviction",
+      "KNABADETests.ERPMediaModelTests testAllMediaStatesHaveSixNonemptyLocalizedLabels",
+      "KNABADETests.ERPMediaModelTests testCancelPickerBeforeSendClearsBytesWithoutLoggingOut",
+      "KNABADETests.ERPMediaModelTests testCancelThenReselectDrainsProviderBeforeReadingAnotherOriginal",
+      "KNABADETests.ERPMediaModelTests testFrozenMetadataCannotChangeBodyOnRetry",
+      "KNABADETests.ERPMediaModelTests testImportQueueBoundsCancelledWaitersAndReportsBusyUntilProviderDrains",
+      "KNABADETests.ERPMediaModelTests testKnownRegistrationSurvivesGalleryReadFailure",
+      "KNABADETests.ERPMediaModelTests testNextSelectionReleasesPreviousBytesAndResetsConsent",
+      "KNABADETests.ERPMediaModelTests testObservedAuthorityLossClearsFileBeforeLatePickerCanReturn",
+      "KNABADETests.ERPMediaModelTests testOldPickerResultCannotRestoreFileAfterContextChangeOrStop",
+      "KNABADETests.ERPMediaModelTests testPrivacyAckDoesNotPretendVisualRedaction",
+      "KNABADETests.ERPMediaModelTests testReopenedRegisteredDescriptorOffersLocalCleanupWithoutAnotherPOST",
+      "KNABADETests.ERPMediaModelTests testReplacementMediaScreenSharesImportDrainAfterOldWaiterIsDiscarded",
+      "KNABADETests.ERPMediaModelTests testSelectionDoesNotSendAndPrivacyStartsUnchecked",
+      "KNABADETests.ERPMediaModelTests testSystemExportCopyCannotExposeBytesAfterLogout",
+      "KNABADETests.ERPMediaPolicyTests testBoundedFileReadRejectsRemoteURLAndCancelledOriginalSelection",
+      "KNABADETests.ERPMediaPolicyTests testCatalogRequiresActualCommandPermissionAndEnums",
+      "KNABADETests.ERPMediaPolicyTests testDomainIDsAreNotUUIDOnlyAndAreOneEncodedPathComponent",
+      "KNABADETests.ERPMediaPolicyTests testExternalPolicyRejectsTaskPDFAndNonDefectOrPublicVisibility",
+      "KNABADETests.ERPMediaPolicyTests testFileNameAndMetadataUseUTF16BoundsAndSafeJSONEscaping",
+      "KNABADETests.ERPMediaPolicyTests testIncrementalBase64HasCorrectPaddingAtEveryChunkBoundary",
+      "KNABADETests.ERPMediaPolicyTests testMaximumPDFBodyPreservesOriginalBytesAndFitsDedicatedBound",
+      "KNABADETests.ERPMediaPolicyTests testMetadataDescriptorHasNoBytesURIOrAuthenticationSecrets",
+      "KNABADETests.ERPMediaPolicyTests testOriginalMagicAndLimitsRejectHEICWrongTypesAndOversize",
+      "KNABADETests.ERPMediaRecoveryBoundaryTests testKnownAckWithCommandAlreadyRemovedCannotBeRegisteredWithFreshGenericKey",
+      "KNABADETests.ERPMediaRecoveryBoundaryTests testLegacyUnmarkedGenericRegistrationRemainsCompatible",
+      "KNABADETests.ERPMediaRecoveryBoundaryTests testMarkedPendingCannotUseGenericRetryOrExposeInputsWithoutDescriptor",
+      "KNABADETests.ERPMediaRecoveryBoundaryTests testMarkedPendingRejectsChangedFullAuthorityBeforeGenericReadOrRetry",
+      "KNABADETests.ERPMediaTransportTests testCancelAfterSendRetainsUnknownAndLateResponseCannotAcknowledge",
+      "KNABADETests.ERPMediaTransportTests testCancelWhilePreflightIsHeldPreventsAnyUpload",
+      "KNABADETests.ERPMediaTransportTests testChangedPermissionOrHiddenWarehouseAuthorityDeniesRecovery",
+      "KNABADETests.ERPMediaTransportTests testDenialAndRateLimitRetainKeyInsteadOfCreatingNewUpload",
+      "KNABADETests.ERPMediaTransportTests testDoubleTapCannotSendSecondMutation",
+      "KNABADETests.ERPMediaTransportTests testDownloadDeniesChangedAssetVersionWrongOriginMIMEAndCumulativeOversize",
+      "KNABADETests.ERPMediaTransportTests testDownloadUsesCurrentScopedAssetAndOnlyEncodedOwnOriginClientCopy",
+      "KNABADETests.ERPMediaTransportTests testFreshTaskMovedToAnotherSiteCannotReceiveSelectedFile",
+      "KNABADETests.ERPMediaTransportTests testHeldBinaryResponseAfterLogoutCannotProduceExportBytes",
+      "KNABADETests.ERPMediaTransportTests testLogoutAndNewOriginInvalidatePickerExportTicketSynchronously",
+      "KNABADETests.ERPMediaTransportTests testMediaBodyAboveNormalCapDoesNotIncreaseNormalCommandLimit",
+      "KNABADETests.ERPMediaTransportTests testPersistenceFailureBeforeUploadMakesNoMutation",
+      "KNABADETests.ERPMediaTransportTests testRegistrationAckSurvivesCleanupFailureAndRetryIsOnlyLocal",
+      "KNABADETests.ERPMediaTransportTests testRegistrationReceiptMustMatchCompanyAndSelectedContext",
+      "KNABADETests.ERPMediaTransportTests testTwoReceiptsUseDistinctStableKeysAndCurrentTaskWithoutSiteRead",
+      "KNABADETests.ERPMediaTransportTests testUnknownRegistrationDoesNotReuploadAndUsesOriginalCommandJournal",
+      "KNABADETests.ERPMediaTransportTests testUnknownUploadAfterProcessLossNeedsExactFileAndReplaysExactBody",
+      "KNABADETests.ERPMediaTransportTests testUploadAckSurvivesMetadataWriteFailureAndNeverReuploadsKnownID",
+      "KNABADETests.ERPMediaTransportTests testUploadReceiptMustMatchExactOriginalByteCount",
+      "KNABADETests.ERPRecordActionModelTests testAcknowledgedResultAndReadWarningCannotReappearAfterLogoutAndReloginDuringContextReload",
+      "KNABADETests.ERPRecordActionModelTests testAuthorityChangesBetweenPreflightAndActorExecutionAreRejectedBeforeJournal",
+      "KNABADETests.ERPRecordActionModelTests testContextPinsCanonicalIDRelatedVersionAndExpectedVersionAtTheWireBoundary",
+      "KNABADETests.ERPRecordActionModelTests testFreshCatalogRemovalPermissionRevocationAndFutureAuthorityChangeBlockBeforeJournal",
+      "KNABADETests.ERPRecordActionModelTests testFreshCriticalFlagRequiresAnExplicitConfirmationBeforePersisting",
+      "KNABADETests.ERPRecordActionModelTests testIndependentReadFailureCannotTurnAcknowledgedWriteIntoARepeatableFailure",
+      "KNABADETests.ERPRecordActionModelTests testLogoutDuringCatalogPreflightCannotPersistOrSendTheOldForm",
+      "KNABADETests.ERPRecordActionModelTests testOldFormCannotSubmitAfterSameAccountReloginOrAccountChange",
+      "KNABADETests.ERPRecordActionModelTests testUnknownWriteRetainsExactContextEnvelopeWithoutAutomaticReplayOnRefresh",
+      "KNABADETests.ERPRecordActionsTests testChangedCommandCannotReuseAnEarlierRecordContext",
+      "KNABADETests.ERPRecordActionsTests testCrewContextPinsEmployeeAndScheduleAndCannotBeUsedByAnotherActor",
+      "KNABADETests.ERPRecordActionsTests testExistingBlockedReopenedChecklistAndReviewActionsRemainAvailable",
+      "KNABADETests.ERPRecordActionsTests testFixedFieldsCannotBeClearedWhileOtherNullableFieldsKeepTheirSemantics",
+      "KNABADETests.ERPRecordActionsTests testLabelsKeepCanonicalCommandsOutOfKnownUserActionsInAllSixLanguages",
+      "KNABADETests.ERPRecordActionsTests testMissingOrNonIntegralSnapshotNeverBecomesEditableVersion",
+      "KNABADETests.ERPRecordActionsTests testQuoteContextPinsRecordAndQuoteVersionOverEditableDraft",
+      "KNABADETests.ERPRecordActionsTests testRoleNameAloneNeverEnablesActionAndTaskTransitionsUseObservedState",
+      "KNABADETests.ERPRecordActionsTests testWrongKindOrPrimarySchemaOrInvalidVersionCannotCreateShortcut",
+      "KNABADETests.LocalizationAndSummaryTests testAuthenticatedSummaryCannotBeUsedForDifferentShiftOrSiteOrToAuthorizeGPS",
+      "KNABADETests.LocalizationAndSummaryTests testAuthorizationEpochFailureStopsOldLeaseWhileNetworkFailureKeepsOnlyExistingExpiry",
+      "KNABADETests.LocalizationAndSummaryTests testDisplayAddsOnlyBoundedKnownCurrentActivityAndNeverDuplicatesCounters",
+      "KNABADETests.LocalizationAndSummaryTests testErrorsPrivacyStatesAndFormattedCountersChangeLanguageWithoutChangingCanonicalState",
+      "KNABADETests.LocalizationAndSummaryTests testEverySupportedLanguageCoversAllUIPrivacyStatusAndErrorKeys",
+      "KNABADETests.LocalizationAndSummaryTests testExplicitLanguageAndDeviceFallbackUseFullLocaleTagWithoutInventingUnsupportedLanguage",
+      "KNABADETests.LocalizationAndSummaryTests testInvalidFutureNegativeAndImpossibleCountersNeverRenderAsAuthoritativeTime",
+      "KNABADETests.LocalizationAndSummaryTests testLateEnrollmentAndReceiptCannotWriteAfterAuthorizationEpochIsRevoked",
+      "KNABADETests.LocalizationAndSummaryTests testOlderServerSessionWithoutSummaryRemainsCompatibleAndDoesNotInventZeroTime",
+      "KNABADETests.LocalizationAndSummaryTests testPendingLocalActionStaleSnapshotAndReviewFreezeAtRecordedServerCounters",
+      "KNABADETests.LocalizationAndSummaryTests testServiceAndWaitingStayDistinctAndDurationNeverWrapsAtTwentyFourHours",
+      "KNABADETests.NativeTests testApprovedExceptionCirclesUseActualDistancesAndConservativeExitMargin",
+      "KNABADETests.NativeTests testDuplicateAndClockReorderedObservationsCannotFillTheWindowAndStaleDataBecomesUnknown",
+      "KNABADETests.NativeTests testGapOverNinetySecondsAndAmbiguousPointsRestartTheThreeSampleWindow",
+      "KNABADETests.NativeTests testLeaseRejectsExpiryAndNeverStartsGPSFromOFF",
+      "KNABADETests.NativeTests testLocationRequiresServerIssuedBoundLeaseAndGeofenceVersion",
+      "KNABADETests.NativeTests testOneJumpDoesNotConfirmExitAndDwellIsRequired",
+      "KNABADETests.NativeTests testSharedConservativeVectors",
+      "KNABADETests.NativeTests testV4LeaseAndSeventyTwoHourGPSRetentionBoundaries"
+    ],
+    "summaryResult": "Passed",
+    "environment": {
+      "architecture": "arm64",
+      "deviceId": "DB0145D7-47F4-47F0-BB98-8D7FD045FC00",
+      "deviceName": "KNABA-af6f84d0b511",
+      "modelName": "iPhone 17",
+      "osBuildNumber": "23F77",
+      "osVersion": "26.5",
+      "platform": "iOS Simulator"
+    },
+    "xcresultFormat": {
+      "major": 3,
+      "minor": 58
+    },
+    "xcresultReadMethod": "ZIP CRC/inventory/Info.plist verified locally. CI xcresulttool-produced summary matched raw CI test log and all committed test declarations; xcresulttool was not run locally."
+  },
+  "simulator": {
+    "installLaunch": "PASS",
+    "launchReceipt": "de.knaba.mobile: 13961",
+    "deviceUdid": "DB0145D7-47F4-47F0-BB98-8D7FD045FC00",
+    "requestedRuntime": "26.5",
+    "requestedXcode": "26.6",
+    "runtimeBuild": "23F77",
+    "device": "iPhone 17",
+    "runtimeDownload": "NOT_REQUESTED",
+    "preparationSeconds": 113.297,
+    "preparationReceiptIsPreTestPhase": true,
+    "screenshot": {
+      "path": "ios-artifact/evidence/simulator-launch.png",
+      "sha256": "217a1adfdc59675c8ec62220fc2e8458952119bb1ef8dfc838bddd73bc04c9db",
+      "bytes": 356946,
+      "width": 1206,
+      "height": 2622,
+      "visuallyReviewed": true,
+      "observed": "German unauthenticated KNABA ERP login screen, ERP address placeholder, empty credentials and Meine Schicht tab. No authenticated backend or media picker flow is claimed from this screenshot."
+    }
+  },
+  "toolchain": {
+    "xcode-version.txt": "Xcode 26.6\nBuild version 17F113",
+    "xcodegen-version.txt": "Version: 2.43.0",
+    "swift-version.txt": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+    "simulator-sdk-version.txt": "26.5"
+  },
+  "warnings": {
+    "logOccurrences": 7,
+    "categories": {
+      "LocationTracker main-actor conformance / Swift 6 language mode": 4,
+      "AppIntents metadata extraction skipped": 3
+    },
+    "notes": [
+      "LocationTracker warning is unchanged from previously tested commit395993f9; project explicitly uses Swift5 language mode. Swift6 strict-concurrency compatibility and physical GPS behavior are outside this artifact review.",
+      "AppIntents extraction warnings do not indicate XCTest skips. No warning-free-build claim."
+    ]
+  },
+  "evidenceFiles": [
+    {
+      "path": "ios-artifact/evidence/available-sdks.txt",
+      "sha256": "5c577db8d316a5d6dcb343f01a4357bdfbc45fe7a3f8a2b3487b4765d79ce00a",
+      "bytes": 745
+    },
+    {
+      "path": "ios-artifact/evidence/ios-build-tests.log",
+      "sha256": "6469b1a12f4b6627379999f62884573f7258845800c9a693a631f68f9d1b8916",
+      "bytes": 265754
+    },
+    {
+      "path": "ios-artifact/evidence/native-receipt.json",
+      "sha256": "7b27617602b3c89cb8400d39da168d8ead90438c6faca6d84de6f62efc843559",
+      "bytes": 15463
+    },
+    {
+      "path": "ios-artifact/evidence/project-list.json",
+      "sha256": "d76738c160c4bb274b55f86b442b2892ad57dc18c85b44f41ae8cf216c6f9a3c",
+      "bytes": 214
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-boot-status.log",
+      "sha256": "a20a0dfa9f7a0d6fd4d9027cd9b4bcf76374f6c2c8109211fba6dc8aab3320c0",
+      "bytes": 6846
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-boot.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-created-udid.txt",
+      "sha256": "c7fa2217f74d877401b6444afea727c5752ab8583690070985f7a849fc75104d",
+      "bytes": 37
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-device-types.json",
+      "sha256": "70376c78091566520db3fa3b1b868e122223a65056b552f1db9ae50753d7dd20",
+      "bytes": 61947
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-devices-ready-attempt-1.json",
+      "sha256": "50cf23714d206bf4bf8b9238b2a0807f335e96570102ecdd4d8ff189eed5b11c",
+      "bytes": 33518
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-devices-ready.json",
+      "sha256": "50cf23714d206bf4bf8b9238b2a0807f335e96570102ecdd4d8ff189eed5b11c",
+      "bytes": 33518
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-launch.png",
+      "sha256": "217a1adfdc59675c8ec62220fc2e8458952119bb1ef8dfc838bddd73bc04c9db",
+      "bytes": 356946
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-launch.txt",
+      "sha256": "7e3b0eab3a5a35b1e891999a728759adb4f81fcbdcac6be33546cf6eb7725547",
+      "bytes": 23
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-preparation.json",
+      "sha256": "a2b7628f49b72cc49c48fedfe93abb6232282330fdc920135a08b01b6b6bf1c0",
+      "bytes": 2956
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-runtimes.json",
+      "sha256": "ddb5945f45cf4a753202b9b94f6f7c2f22e7be764c8a1ad8ceaa2ce154d5c597",
+      "bytes": 96648
+    },
+    {
+      "path": "ios-artifact/evidence/simulator-sdk-version.txt",
+      "sha256": "25205f2e2f02dc71036ee827e19c49b893b231a3d1af240e35a3ac55aa8cdcb6",
+      "bytes": 5
+    },
+    {
+      "path": "ios-artifact/evidence/source.json",
+      "sha256": "d08759360b512722c4fa9168c68c28bce7f084cd15beb5c62bde88c488e0ed68",
+      "bytes": 11515
+    },
+    {
+      "path": "ios-artifact/evidence/swift-version.txt",
+      "sha256": "b674f79b747370a1c05ae7cec551fffe557816c6c807f35f39f933ecbcca80d7",
+      "bytes": 98
+    },
+    {
+      "path": "ios-artifact/evidence/xcode-version.txt",
+      "sha256": "18730ed2ae28a2c9cf0c2d5db549033a4f07089331391a7133b7b32187454fa9",
+      "bytes": 32
+    },
+    {
+      "path": "ios-artifact/evidence/xcodegen-version.txt",
+      "sha256": "b0018dbd249b569dfb33ed63706b969b3bb67c636d99af191ce3bdeee3b01a99",
+      "bytes": 16
+    },
+    {
+      "path": "ios-artifact/evidence/xctest-summary.json",
+      "sha256": "a911bf5153148097bd0c770aa9c0c2d107935c238e7f898e3a7d2948309c473e",
+      "bytes": 1163
+    }
+  ],
+  "limitations": {
+    "localSwiftOrXcodeRun": "NOT_RUN",
+    "physicalIPhoneInstall": "NOT_RUN",
+    "minimumIOS17RuntimeTest": "NOT_RUN",
+    "physicalGPSBackgroundBattery": "NOT_RUN",
+    "realMediaPickerAndBackendUAT": "NOT_RUN",
+    "developerOrDistributionSigning": "NOT_CONFIGURED_OR_VERIFIED",
+    "TestFlightAppStore": "NOT_RUN",
+    "nativeFederationAdapter": "NOT_IMPLEMENTED_IN_THIS_ARTIFACT",
+    "federationAggregateGate": "NOT_ACCEPTED_BY_THIS_NATIVE_REVIEW"
+  },
+  "productSourcesModifiedByReviewer": false,
+  "blockingFindings": []
+}

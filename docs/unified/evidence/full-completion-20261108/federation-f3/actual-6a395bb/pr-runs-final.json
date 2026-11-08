@@ -1,0 +1,34 @@
+{
+  "workflow_runs": [
+    {
+      "id": 42507639781,
+      "name": "KNABA Android candidate verification",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 92,
+      "jobs_url": "https://api.github.com/repos/ziko1/knaba/actions/runs/42507639781/jobs",
+      "logs_url": "https://api.github.com/repos/ziko1/knaba/actions/runs/42507639781/logs",
+      "workflow_id": 376801009
+    },
+    {
+      "id": 42507639722,
+      "name": "KNABA iOS simulator verification",
+      "status": "completed",
+      "conclusion": "skipped",
+      "run_number": 18,
+      "jobs_url": "https://api.github.com/repos/ziko1/knaba/actions/runs/42507639722/jobs",
+      "logs_url": "https://api.github.com/repos/ziko1/knaba/actions/runs/42507639722/logs",
+      "workflow_id": 410987705
+    },
+    {
+      "id": 42507639872,
+      "name": "KNABA repository verification",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 176,
+      "jobs_url": "https://api.github.com/repos/ziko1/knaba/actions/runs/42507639872/jobs",
+      "logs_url": "https://api.github.com/repos/ziko1/knaba/actions/runs/42507639872/logs",
+      "workflow_id": 376790297
+    }
+  ]
+}

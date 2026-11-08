@@ -1,0 +1,104 @@
+{
+  "reviewedAt": "2026-11-08T09:50:35.314998+00:00",
+  "baseCommit": "324b483c660d35c21a06a7fec4284f94508a60e7",
+  "status": "INDEPENDENT_SOURCE_REVIEW_ACCEPT",
+  "scope": "Assistant guest display receipt and selected workspace language packs; working-tree checkpoint before exact clean source CI",
+  "files": {
+    "corporate-site/db/schema.ts": "348fbc8f44d18672610ccaa0b47f4aba151d05a0ecd928e0765ebf007c398bf6",
+    "corporate-site/drizzle/0016_assistant_display_receipts.sql": "84f3d294c0cc52772965ff11e7d4c34d7b04a5d950f90ebbe21c7a2d43e16f57",
+    "corporate-site/drizzle/meta/0016_snapshot.json": "994e5a327d5a31cb317853200a860d4e1c51e8bac8ea318dd7e68d0b7cac1be8",
+    "corporate-site/drizzle/meta/_journal.json": "9b7db8ec3aaa0fa8213d9969fcc951e1cf9b153cf2677dbd2bafa3e880c65656",
+    "corporate-site/worker/assistant.ts": "b4677259245de4dbafc5292ebdf80630b121b84e09e1ee0ddd2a833c55d97cac",
+    "corporate-site/src/components/KnabaAssistant.tsx": "ba24499b221739f65bdb7eb63c15cfddbcb245fafe64bb4047ceb92aae2a2b59",
+    "corporate-site/src/components/AssistantInbox.tsx": "39d863d33d75e458bf7b04eea222c1ec1a1a8d81ce767d58df715ec20f7fbcb9",
+    "corporate-site/src/lib/assistant-display-receipts.ts": "a85f416a6b5dd07e0e705cfd4868dc31f9448a3b40c25149c14ddea16380752a",
+    "corporate-site/tests/assistant-capability.test.ts": "6ed3fff9390a1bfe005a85dda068b3ae320f17a3a9ad5118a152ddc3f10684ec",
+    "corporate-site/tests/assistant-async-state.test.ts": "d55ed3490480106a35645f2acee94a48263f49d68e6b0fbd092a57e3b0e1e8a9",
+    "corporate-site/tests/assistant-display-receipts.test.ts": "319ed15c8cf61e75fbebe3ab49bd331410e264bb8b059a1f360059fd7efe1ee5",
+    "corporate-site/vps/assistant-access.http.test.mjs": "c7feb0a676e21fe8bc3f032363d5d5836861d359967023d33d298874ff7d11d9",
+    "corporate-site/vps/assistant-display-migration.test.mjs": "ae6408c066d1a53b91ea1e1de89755bdc41b67b0c9173793562fd4cfb60668ad",
+    "corporate-site/vps/migration-upgrade.test.mjs": "563a5684f0be45045df1db7d50267cf084e9e1de24da630a4ff1f87641d93831",
+    "corporate-site/docs/ASSISTANT_DISPLAY_RECEIPTS_UK.md": "50103cd790d4618cb5aec73e5159825efc4e1f62dff9328d482e3237fa35a63c",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-de.json": "efedc4921d9d0d040f4b6b762718b96a0165ab874dd1af588be69ad900851f48",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-en.json": "8a4109a156e03829587bb2b1223eabd5ccaeda3756421d16bfad7e23f9cc8f3d",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-pl.json": "b8f586575f4d1da5f2563ca55b2eaf4e3da17376c6fd80d7757a861630fbdcbe",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-lt.json": "2827fbef40678fc9b737521100e48dc51320d2c9d3af1c1db5a909a437afce54",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-ru.json": "67bcebaaaea56c204296920e7ccaca17febc80bd7935673eafa2fa403091ede1",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-uk.json": "779c5a1b76e11d0edb236a3d0b2e19f8d6675b715a2165aac63c28c00c9cd03f",
+    "corporate-site/src/lib/portal-locale-data.ts": "8ab12f0ee4c43bf0cdd9223523f5d50e2e3ed585a475f84e82691ee272442f47",
+    "corporate-site/src/lib/portal-locale-store.ts": "34871722a0d8737b07ecaf4d3478e2e5b39d067a689476f7825c0e6204b805eb",
+    "corporate-site/src/lib/portal-locale-schema.ts": "6a3e1414949c5719d3856dc687839aa8b2f7116ff2c4ba00fe915aaab0fb5540",
+    "corporate-site/src/lib/portal-locale-urls.ts": "1b1b2d9e6472023cce08e2db920d779450fe576b0c5ddd17f7b460c5a43b4289",
+    "corporate-site/src/lib/portal-locales-server.ts": "25c3333be593652bdb3451e8193f9101420e82c1208555d5d709f2e84bde74b8",
+    "corporate-site/src/components/Portal.tsx": "260f65f7bf461fc00a6eb48c58ceaa933a25a739a435abd65e637111a0e8e909",
+    "corporate-site/src/components/AdminControlCenter.tsx": "d7b5f86e22cb4a801c4d28af098be4917c6252d5178fb2b0375c1fb15648f2b6",
+    "corporate-site/src/pages/konto.astro": "4e0e7cf007c698245ce9d3b885405788443dab59fc3d8275204935470405dce0",
+    "corporate-site/src/pages/ru/konto.astro": "8094d259c300521693a7ba4fdfc7adac78b9090dca23b331b3d7a7a55d4148aa",
+    "corporate-site/src/pages/admin.astro": "7c78cba5df22660badc42b6997bfccd8818caf641244563df733ad48af066340",
+    "corporate-site/tests/portal-locale-loading.test.ts": "11beff394eeb6e0cda817a3db18149b679727d9ec7b71d8e223ec87c211a67db",
+    "corporate-site/tests/portal-locale-payload.test.ts": "7c3393b731bfe1fb8e5e40dabcc80ba25b63016f0922cdc04b9caa9874f318b1",
+    "corporate-site/tests/portal-languages-browser.mjs": "978ffaad2379f60fff640ce03db152d8c63be80b4767832b2bcbcd3c6cf474aa",
+    "corporate-site/tests/verify-build.mjs": "1c078c2a18c673a5d81b840c2198f306d978537acf245b6b54710c8229ce0eb4"
+  },
+  "rootVerification": {
+    "focusedVitest": {
+      "passed": 59,
+      "failed": 0,
+      "logSha256": "e0eb006f72f71a37d6fd5f76ba2b0bfbd3b0256b94fe34c695de021c5bd20577"
+    },
+    "httpAndMigration": {
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "1eb3975c2be89784e732dcd153a2b2a8249a133e6a5c4bbf1a5c7ab793b4a669"
+    },
+    "officialBuild": "PASS",
+    "officialVerifyBuild": "PASS",
+    "jsGzipBytes": 222036,
+    "jsBudgetBytes": 225280,
+    "cssGzipBytes": 40832,
+    "cssBudgetBytes": 40960
+  },
+  "htmlCompression": "Python gzip level9 for both before and after; not network transfer",
+  "privateHtmlTradeoff": {
+    "index.html": {
+      "bytes": 73717,
+      "gzipLevel9": 17512,
+      "priorGzipLevel9": 17512,
+      "gzipDelta": 0
+    },
+    "konto/index.html": {
+      "bytes": 41073,
+      "gzipLevel9": 12536,
+      "priorGzipLevel9": 6453,
+      "gzipDelta": 6083
+    },
+    "ru/konto/index.html": {
+      "bytes": 49273,
+      "gzipLevel9": 13888,
+      "priorGzipLevel9": 6983,
+      "gzipDelta": 6905
+    },
+    "admin/index.html": {
+      "bytes": 40977,
+      "gzipLevel9": 12507,
+      "priorGzipLevel9": 6453,
+      "gzipDelta": 6054
+    }
+  },
+  "limitations": [
+    "Browser visibility/hydration acceptance pending exact-source CI.",
+    "Display receipt is a client report of visibility, not human attention or offer acceptance.",
+    "Private HTML grows by the selected SSR language pack; no claim of measured Web Vitals or overall network improvement.",
+    "Rollback must preserve 0016 migration assets and ledger with the previous compatible runtime.",
+    "Initial measurement included residual old chunks; explicit clean rebuild removed them. No source clean-build defect reproduced."
+  ],
+  "independentPerformanceMeasurement": {
+    "reviewer": "mobile_actual_readiness",
+    "jsGzipBytes": 222036,
+    "cssGzipBytes": 40832,
+    "clientArtifactSha256": "f97b000d71aa200cb3d7bbad85141e3fc1486a05b309cf809c9eec829ebc2d40",
+    "clientFiles": 307,
+    "homepageBytesUnchanged": true
+  }
+}

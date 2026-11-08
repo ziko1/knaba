@@ -1,0 +1,11 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ✓ tests/site-federation-login-protocol.test.ts (16 tests) 25ms
+ ✓ tests/site-federated-session.test.ts (31 tests) 661ms
+
+ Test Files  2 passed (2)
+      Tests  47 passed (47)
+   Start at  16:13:37
+   Duration  6.66s (transform 4.55s, setup 0ms, import 5.94s, tests 685ms, environment 0ms)
+

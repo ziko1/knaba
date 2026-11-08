@@ -1,0 +1,14 @@
+{
+  "sourceSha": "0fede54f80895a425e72df1d921a643b40a4eaf0",
+  "runId": 42464719363,
+  "jobId": 128681448826,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42464719363/job/128681448826",
+  "scope": "Upstream F1 only; not aggregate source acceptance",
+  "excerpts": [
+    "2026-11-08T08:56:23.9835067Z console.log('Build source verified:',actual);",
+    "2026-11-08T08:56:24.0173136Z Build source verified: 0fede54f80895a425e72df1d921a643b40a4eaf0",
+    "2026-11-08T08:57:13.3174775Z  ✓ tests/site-identity-bindings.integration.test.ts (16 tests) 338ms",
+    "2026-11-08T08:57:38.8578018Z  ✓ tests/site-identity-trust.test.ts (27 tests) 9ms",
+    "2026-11-08T08:57:45.6201483Z Passed ERP assertions: 2782"
+  ]
+}

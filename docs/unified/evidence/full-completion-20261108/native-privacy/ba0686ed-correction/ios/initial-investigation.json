@@ -1,0 +1,94 @@
+{
+  "format": 1,
+  "observedAt": "2026-11-08T20:10:50.830129+00:00",
+  "reviewer": "/root/coverage_matrix",
+  "verdict": "CONFIRMED_TEST_EXPECTATION_DEFECT_RUNTIME_UNCHANGED",
+  "source": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "parentSuppliedRun": 42517320499,
+  "parentSuppliedJob": 128843077462,
+  "rawLog": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/ios-job.log",
+    "sha256": "4a64d5638d69e1e06efdc5a915aa3d5137c98dab2ba248ed85858604125e269e",
+    "bytes": 413369,
+    "observedLines": [
+      "2026-11-08T20:05:02.6349490Z /Users/runner/work/knaba/knaba/erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift:53: error: -[KNABADETests.ERPFederationURLSessionTests testFederationBodyBoundDoesNotRaiseOrdinaryOrMediaLimits] : XCTAssertEqual failed: (\"70000\") is not equal to (\"65536\")",
+      "2026-11-08T20:05:06.5655580Z \t Executed 210 tests, with 1 failure (0 unexpected) in 4.833 (5.911) seconds",
+      "2026-11-08T20:05:06.5688690Z \t Executed 210 tests, with 1 failure (0 unexpected) in 4.833 (5.913) seconds"
+    ]
+  },
+  "runtimeHistory": [
+    {
+      "commit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "maximumInputBytes": 65536,
+      "maximumBodyBytes": 70000
+    },
+    {
+      "commit": "6a395bb73501455371a0e281debf81a6c18c6329",
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "maximumInputBytes": 65536,
+      "maximumBodyBytes": 70000
+    },
+    {
+      "commit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "maximumInputBytes": 65536,
+      "maximumBodyBytes": 70000
+    },
+    {
+      "commit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "1844e15c1d440cf83bc26438fc2daff35497fcbf0d4eb1ad2131b9db5592465c",
+      "maximumInputBytes": 65536,
+      "maximumBodyBytes": 70000
+    }
+  ],
+  "inputs": [
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e"
+    }
+  ],
+  "rootCause": "The final assertion equates the generic command envelope cap with the input JSON cap. Legacy input cap is65536; legacy encoded command body and journal cap is70000. Federation response cap is independently65536.",
+  "observedFailedAssertion": "ERPFederationURLSessionTests.swift:53 XCTAssertEqual(ERPPendingCommand.maximumBodyBytes,64*1024)",
+  "proposal": {
+    "scope": "Only Tests/ERPFederationURLSessionTests.swift in a new corrective worktree, after coordinator acceptance.",
+    "retain": [
+      "real URLSession oversized65537 response yields nil body",
+      "expectedContentLength==65537",
+      "ordinary maximumResponseBytes==2MiB"
+    ],
+    "add": [
+      "explicit federation maximumJSON==65536",
+      "explicit generic maximumInputBytes==65536"
+    ],
+    "correct": "Pin unchanged legacy maximumBodyBytes==70000; comment explains input vs metadata envelope.",
+    "runtimeChanges": 0
+  },
+  "limits": [
+    "Raw job log reviewed; no repeat CI or local Swift/XCTest execution.",
+    "No runtime budget, response behavior, journal, media, signing or version changes proposed.",
+    "Corrected XCTest result remains NOT_RUN; do not infer PASS from source review.",
+    "Source/run linkage supplied by parent; this review performs no duplicate artifact/network acquisition."
+  ],
+  "zodCheckpoint": "verification/zod-v4-implementation/paused-checkpoint.json"
+}

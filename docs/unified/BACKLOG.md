@@ -1,22 +1,106 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 2026-11-08 — F2 technical dependency satisfied
+
+Exact `e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5` / tree
+`7dd5cf0868b6774e80712324cf692c1f18a24342`: main42485949823 має4 required
+SUCCESS; ERP3127,24 F2 PG,7 actual F2 pair та9 rendered HTTP-fixture cases PASS.
+Незалежне artifact/source review — `ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT`.
+F3 contract design тепер дозволений; його session issuance і dependent F4,
+privacy/native/provider/device/operational acceptance залишаються відкритими.
+Native media source розробляється окремо; старі native artifacts не доводять
+нові inputs. Whole product NOT_READY, усі compound AC без підвищення.
+Деталі й межі: [поточне покриття](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md)
+та `evidence/full-completion-20261108/federation-aggregate-ci.json`.
+
+## Поточний кандидат — 08.11.2026, PR129
+
+Опублікований remote: `5d6eeae0862e52cc693c1766f0c6fba964b12aa5`,
+[PR129](https://github.com/ziko1/knaba/pull/129). Exact tree
+`7de0c8019ae5ab6959930225996a0c978859deba` збігається з локальним
+`4b1e3538e3b2c39b7bfdd0ed028cf598e6f9cb26`, який не заявляється як remote.
+[Application CI 42472254239](https://github.com/ziko1/knaba/actions/runs/42472254239)
+на опублікованому `5d6eeae`: root job **SUCCESS**; site job **FAILED** —
+7/834 Vitest cases, `ReferenceError: receipts is not defined` у handler-only
+VM fixture. Окремий local fixture-only commit
+`b1951236f06d32cfd687460e3826c8453265bc63` підключає справжній receipt
+controller; product runtime та всі 16 cases/assertions незмінні.
+Independent source review ACCEPT; локально **834 Vitest + 92 Node PASS**.
+Це не переписує failure `5d6eeae`; потрібен новий exact-source CI.
+
+ERP job **FAILED: 3016 PASS / 8 FAIL із 3024 tests**, failures у трьох
+файлах. У job `128705591810`, який загалом FAILED, крок bridge виконав
+actual SQLite→HTTP→PostgreSQL **9/9 PASS / 0 SKIP**; потім actual Chrome 156 / Playwright 1.55.1 role run
+виконав 98 checks і завершився locator timeout на прихованій request card
+у `completedCabinetCases`. Display receipt, languages, public viewport та
+ERP rendered cases не досягнуті. Browser receipt `errors:[]`, `engines:[]`:
+це locator FAIL, не sandbox/policy BLOCKED. `inputsUnchanged:true`; manifest
+`6978647c6ec28b3cea682af4af9669b408fd9f293d032c83ad6d8c915cb4043f`
+прив'язує client/worker/VPS/ERP-dist до exact source.
+
+[Android 42472254246](https://github.com/ziko1/knaba/actions/runs/42472254246)
+**SUCCESS**. [iOS 42472234257](https://github.com/ziko1/knaba/actions/runs/42472234257)
+**FAILED**: 60-second `simctl list devices` timeout до Swift compile;
+цей run не доводить компіляцію застосунку чи виконання XCTest. Native artifact readback,
+physical acceptance та повний bridge/product criterion залишаються окремими.
+Докази, raw log excerpts, job IDs та artifact hashes:
+[initial-aggregate-ci.json](evidence/full-completion-20261108/initial-aggregate-ci.json).
+Поточний CI Android APK має інший runner debug signer; він не підміняє
+попередній локальний APK у ланцюжку встановлення/оновлення.
+
+Окремі scoped PASS з exact `5d6eeae` ERP raw log: request-authority
+36 CPU + 7 PostgreSQL; conversation-transfer 10 PostgreSQL + 39 security +
+17 consent + 16 HTTP + 2 core; F1 site-identity-bindings 16 PostgreSQL +
+site-identity-trust 27 CPU. Вони не додаються до overlapping local/root/author
+runs, не закривають повні AC та не приховують 8 failures загального ERP run.
+
+Root local 29 PASS та transfer root 74 PASS / 10 PostgreSQL SKIP лишаються
+окремими попередніми локальними доказами.
+
+Реалізовані нижче source slices не треба повторно ставити в чергу як
+відсутні. Наступні роботи — current CI/артефакти, D1 conversation→ERP,
+F2–F4 federation, повні сценарії та environment gates. Усі 72 AC `NOT_RUN`;
+114 рядків матриці й історичні V3 статуси збережено. Докладні межі та
+receipts: [поточне зіставлення](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md).
+Наступний F1 абзац є історичним source checkpoint: його колишній PG NOT_RUN
+не скасовує окремий upstream 16 PG / 27 CPU proof на `0fede54`; цей proof
+також не є current aggregate CI PASS.
+
+## 08.11.2026 — F1 identity storage source candidate
+
+Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.
+
+- [x] F1 source: explicit principal/trust contract, additive storage/repository and CPU checks.
+- [x] F1 independent source review: ACCEPT; exact reviewed input hashes recorded for the candidate.
+- [ ] F1 actual PostgreSQL upgrade/isolation/revocation/concurrency/rollback acceptance.
+- [ ] F2–F5: dual-session UI/proof, session exchange, authoritative revocation, privacy integration, live/device acceptance.
+
 ## Поточна черга — 08.11.2026
+
+Доповнення поточного доручення: **KN-US01–US08**, налаштування власного VPS
+облікового запису, профіль, безпечна зміна/відновлення пароля, email і сесії.
+Scope/acceptance/власники: [план модуля](USER_SETTINGS_2026-11-08_UK.md).
+Стан: SOURCE_PASS, independent ACCEPT; 261 VPS / 732 Vitest + 90 Node,
+official build/i18n/budgets PASS. Browser BLOCKED, actual mail/target restore і
+deployment NOT_RUN. KN-C04/KN-U09 shared identity та live mail gates збережено.
 
 | ID | Пріоритет | Статус / наступний критерій |
 |---|---|---|
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
-| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | Підтверджені local identity/revocation gaps виправлено в PR123; [контракт та F1–F5](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [evidence](evidence/identity-20261108/verification.json). Stable cross-system binding/SSO і спільне revocation ще OPEN |
-| KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
-| KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
-| KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |
-| KN-C08 | P1 | API/worker APP_MODE fail-closed review; seed fixed, runtime default DEMO ще окремо проаналізувати |
+| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox 0014→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
+| KN-C04 / KN-U09 | P0 | ERP request/session/device fences і F1 storage інтегровані. Exact 5d6 raw log: authority 36 CPU/7 PG і F1 16 PG/27 CPU PASS; full ERP FAILED. [Upstream proof](evidence/full-completion-20261108/identity-foundation-ci-excerpt.json) збережено окремо. F2–F4 не реалізовані; SSO NOT_IMPLEMENTED |
+| KN-C05 | P0 | Expiry/revoke 0015, keyset pagination, усі 6 мов та display receipt 0016 реалізовано й незалежно reviewed. Receipt не доводить human-read/offer acceptance. Далі actual browser/owner UAT, retention та source-preserving D1 conversation→ERP mapping; останній лишається OPEN |
+| KN-C06 | P0 | Android 0.5.0-test/code 8 debug APK/AAB побудовано на 83327e, 59 native inputs збігаються; iOS selective 07bf3b0 source/recovery/actions інтегровано, 128 contract PASS. Android CI SUCCESS; iOS simctl timeout до compile потребує fix/rerun. Artifact/device/live ERP/GPS та recovery reconciliation OPEN |
+| KN-C07 / TPL01–18 | P1 | v1 source наявний: 3 довірені themes, declarative import/quarantine, preview, activation/rollback, 6 locales. Матрицю виправлено на IN_PROGRESS; full browser/operator, performance/restore, retention/quota acceptance OPEN |
+| KN-C08 | P1 | API/worker APP_MODE тепер явний, implicit DEMO default прибрано; runtime-mode regressions є. Clean production-like bootstrap/full AC-01/71 ще OPEN |
 | KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
 | KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
 | KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |
+| KN-C12 / AC-07 | P0 | ERP transfer issue/signed claim/exact-sender confirm реалізовано: hash-only TTL 10 хв, original-session fence, conversation-only consent і current worker egress. Local root 74 PASS / 10 PG SKIP збережено; exact 5d6 CI 10 PG / 39 security / 17 consent / 16 HTTP / 2 core PASS окремо. Full ERP FAILED, rendered cases не досягнуті; live WhatsApp/whole AC-07 OPEN. Це не D1 conversion |
+| KN-C13 / AC-43 | P0 | Shared vehicle-trip commands/summary/web UI та authority regressions інтегровані й reviewed. Повний критерій 3×30 хв = 1,5 людино-год і 20 vehicle-km, UNKNOWN/scopes/current UI/API/device journey ще NOT_RUN |
 
-Власники, dependencies та докази в [плані](COMPLETION_PLAN_2026-11-08_UK.md) і [матриці](REQUIREMENTS_TRACEABILITY.csv). Пункти нижче залишають історію. Known implementation не дорівнює прийнятому acceptance.
+Власники, dependencies та докази в [плані](COMPLETION_PLAN_2026-11-08_UK.md), [матриці](REQUIREMENTS_TRACEABILITY.csv) і [поточному зіставленні](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md). Пункти нижче залишають історію. Known implementation не дорівнює прийнятому acceptance. V3 historical statuses збережено; нових full-criterion PASS цим checkpoint не додано.
 
 Стани: `DOCUMENTED` — інвентар/документ є; `PENDING` — реалізація не прийнята; `BLOCKED_EXTERNAL` — потрібне власникове/provider підтвердження; `UNKNOWN` — не перевірено. Контракт для виконання в `docs/plans/2026-10-24-knaba-integration-handover.md`.
 
@@ -215,3 +299,42 @@ The first1988090 run had six stale14-migration fixture failures; correction veri
 Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
 
 Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+F1/F2 technical dependency закрито actual CI на e03d2be; F3 server/web і native media реалізовано та прийнято source-scoped. Наступний gate — exact committed aggregate CI:18 F3 PostgreSQL,8 actual pair,10 rendered F3 cases, current Android/iOS pipelines. Повні72 AC не підвищені. [Докладний checkpoint](F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md).
+
+Після цього gate: Android/iOS F3 adapters зі staged fresh-cookie adoption; versioned own-user identity metadata export через existing legal review; решта F4/background/push та actual device/provider/restore/load/company acceptance. Privacy TTL і destructive metadata purge не призначаються довільно.
+
+## 08.11.2026 — actual F3 blocker and reviewed correction
+
+af6f84d main42499230900 FAILED at the ledger dispatcher:18 F3 PG and8 F3 pair cases failed before downstream assertions; rendered browser NOT_RUN. Native artifact reviews accepted Android72 test cases and iOS145 XCTest within their simulator/static scope. Dispatcher correction, in-memory nonce/operation/savepoint fixture support, and diagnostic-only PG fixture/bridge changes have independent source review and69 focused local PASS (including7 independently rerun cases). Next gate remains actual corrected PG18/pair8/browser10 and required aggregate jobs. [Current evidence](F3_ACTUAL_CI_AND_DISPATCH_FIX_2026-11-08_UK.md). Native F3/privacy/push implementation remains queued behind this gate; compound AC unchanged.
+
+## 08.11.2026 — remaining rendered F3 gate
+
+a202 actual ERP3260 and pair26 PASS include all18/8 required F3 cases. Rendered F3 is9/10, aggregate18/19; one fixture label mismatch and shared registrable synthetic domain require the reviewed one-file correction. [Exact evidence and correction](F3_BROWSER_ACCEPTANCE_CORRECTION_2026-11-08_UK.md). Actual corrected browser is pending; dependent native F3/privacy implementation and full compound AC remain unpromoted. Privacy plan now explicitly requires old idempotency-receipt compatibility, server ACCESS/PROFILE boundaries, atomic overflow/failure and saved-card version checks.
+
+
+## 08.11.2026 — F3 cross-site return delivery
+
+77b64956 actual ERP3260 and pair26 PASS include all18/8 F3 runtime cases. Required rendered aggregate18/19 still fails one F3 case after source303: browser-observed return has the correct Lax/Strict cookie boundary but cannot resolve the synthetic ERP host. Three-path loopback HTTPS fixture correction passed4 focused Node tests, typecheck, exact19-case collection and independent source/downstream review before the bounded next run. [Evidence and next gate](F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md). Actual corrected browser is NOT_RUN; native F3/privacy/push ordering and compound AC statuses remain unchanged.
+
+
+## 08.11.2026 — F3 technical gate closed at6a395bb; dependent source in progress
+
+Main42507639872 completed all required jobs: F3PG18 and real runtime-pair8 passed within ERP3264/pair26, and all10 F3 rendered cases passed within19 with zero skip/retry/flake. Independent review accepted the exact6a395bb source/tree and artifact receipts. [Evidence and boundaries](F3_TECHNICAL_ACCEPTANCE_2026-11-08_UK.md). The previous77b64956 DNS fixture failure remains historical evidence.
+
+Native F3 TEST adapters and privacy v2 implementation are IN_PROGRESS under separate frozen-source reviews. Acceptance requires the new current native pipelines,15 actual privacy PG/HTTP cases,11 new rendered privacy cases within the preserved30-case fixture inventory, and no regression to the prior F3/F2 checks. Collection and CPU doubles are not actual browser/SQL acceptance. Native remote push is the next known source gap; no arbitrary retention TTL/deletion, external-provider call or compound AC status change is implied.
+
+
+## 08.11.2026 — native F3/privacy ready for exact-candidate CI
+
+Native F3 TEST і privacy v2 source implementation/review завершено в scoped межах;59 frozen inputs інтегровано. New exact committed runtime/SQL/browser/native acceptance — PENDING. [Evidence and acceptance inventory](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md). Whole AC statuses не змінено.
+
+Наступний known source gap — remote push: default-off registry/lineage/outbox, чотири WEB availability transitions, consent/revoke/account-switch та actual APNs/FCM adapters; жодна read-only proposal не є реалізованим API. Zod OPEN_WITH_MITIGATION перевіряється окремо. Physical devices, signing/distribution, provider/restore/load/legal/company UAT і production — окремі незакриті gates.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

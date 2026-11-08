@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "node_modules/typescript/bin/tsc",
+    "--project",
+    "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/tsconfig.json",
+    "--pretty",
+    "false"
+  ],
+  "cwd": "/workspace/scratch/c56161c95e04/knaba-privacy-browser-correction/erp",
+  "startedAtUtc": "2026-11-08T20:19:54.994432+00:00",
+  "elapsedSeconds": 3.784,
+  "exitCode": 0,
+  "browserLaunched": false
+}

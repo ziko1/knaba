@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/erp_session_fence",
+  "reviewedAtUtc": "2026-11-08T18:43:28.802766+00:00",
+  "verdict": "CHANGES_REQUIRED",
+  "scope": "Independent read-only privacy UI/model contract review; no browser, PostgreSQL or live acceptance",
+  "source": {
+    "worktree": "/workspace/scratch/c56161c95e04/knaba",
+    "head": "6a395bb73501455371a0e281debf81a6c18c6329",
+    "pre": [
+      {
+        "path": "erp/apps/web/src/PrivacyPage.tsx",
+        "bytes": 18471,
+        "sha256": "e52808da62fde2facd2df83e2a6de0cb46353776db4157a77135ee05816bf2f6"
+      },
+      {
+        "path": "erp/apps/web/src/privacyProjectionModel.ts",
+        "bytes": 9098,
+        "sha256": "242d0c127569a03f863fcab4dbd478bd149122b1de27833122fc94f9b555f53f"
+      },
+      {
+        "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+        "bytes": 10285,
+        "sha256": "600908fa82403d5a3994788d37c5ea055a9461af8a4535e3917c3b49e044a0ec"
+      },
+      {
+        "path": "erp/apps/web/src/CommandForm.tsx",
+        "bytes": 25721,
+        "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783"
+      },
+      {
+        "path": "erp/apps/web/src/App.tsx",
+        "bytes": 82273,
+        "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97"
+      },
+      {
+        "path": "erp/packages/i18n/index.ts",
+        "bytes": 175344,
+        "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739"
+      },
+      {
+        "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+        "bytes": 10312,
+        "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b"
+      }
+    ],
+    "post": [
+      {
+        "path": "erp/apps/web/src/PrivacyPage.tsx",
+        "bytes": 18471,
+        "sha256": "e52808da62fde2facd2df83e2a6de0cb46353776db4157a77135ee05816bf2f6",
+        "matchesPreimage": true
+      },
+      {
+        "path": "erp/apps/web/src/privacyProjectionModel.ts",
+        "bytes": 9098,
+        "sha256": "242d0c127569a03f863fcab4dbd478bd149122b1de27833122fc94f9b555f53f",
+        "matchesPreimage": true
+      },
+      {
+        "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+        "bytes": 10285,
+        "sha256": "600908fa82403d5a3994788d37c5ea055a9461af8a4535e3917c3b49e044a0ec",
+        "matchesPreimage": true
+      },
+      {
+        "path": "erp/apps/web/src/CommandForm.tsx",
+        "bytes": 25721,
+        "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783",
+        "matchesPreimage": true
+      },
+      {
+        "path": "erp/apps/web/src/App.tsx",
+        "bytes": 82273,
+        "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97",
+        "matchesPreimage": true
+      },
+      {
+        "path": "erp/packages/i18n/index.ts",
+        "bytes": 175344,
+        "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739",
+        "matchesPreimage": true
+      },
+      {
+        "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+        "bytes": 10312,
+        "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b",
+        "matchesPreimage": true
+      }
+    ],
+    "allSevenHashesUnchanged": true
+  },
+  "contract": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/privacy/backend-ui-handoff.md",
+    "bytes": 10838,
+    "sha256": "c2fd7e4160e470741135bade14a1f6599e3cb1948659de9865d74b99425d3491"
+  },
+  "findings": [
+    {
+      "id": "PRIVACY-UI-01",
+      "severity": "P2",
+      "status": "CHANGES_REQUIRED",
+      "files": [
+        "erp/apps/web/src/privacyProjectionModel.ts"
+      ],
+      "summary": "Untrimmed reviewed reason is incompatible with the real governance schema normalization.",
+      "evidence": "Actual privacy.request schema/handler trims surrounding whitespace and succeeds; privacyCreatedRequest rejects its returned reason against the untrimmed immutable UI input. The existing same-key retry repeats the mismatch.",
+      "requiredCorrection": "Trim once before creating/validating the immutable reviewed input, validate normalized length, and preserve that exact normalized input/key for retries. This does not change the existing backend parsed-input digest.",
+      "regression": "Leading/trailing whitespace succeeds with actual trimmed response; whitespace-only reason fails before posting."
+    },
+    {
+      "id": "PRIVACY-UI-02",
+      "severity": "P2",
+      "status": "CHANGES_REQUIRED",
+      "files": [
+        "erp/apps/web/src/privacyProjectionModel.ts",
+        "erp/apps/web/src/PrivacyPage.tsx"
+      ],
+      "summary": "Present inconsistent companyId is not rejected on selected requests, created ACKs, status or compact prepared ACKs.",
+      "evidence": "Seven actual model probes accept foreign/null company fields for the same subject. Saved artifact data/snapshot company checks already exist, but the selected request is not checked. This is a contract-integrity gap, not a demonstrated bypass of the server tenant ACL.",
+      "requiredCorrection": "Validate every present companyId in applicable request/request.data and result/status/ACK records against actor.companyId. Keep absence compatible with legacy Entity and v1. Reviewer views can validate current company without requiring the reviewer to be the subject.",
+      "regression": "Present foreign/null company rejects at each affected entry point; legacy absent fields still pass."
+    }
+  ],
+  "acceptedScopedObservations": [
+    "Absent-only legacy v1 and explicit v2 checks preserve the intended request/ACK/version distinctions.",
+    "Compact prepared ACK is validated without inventing a snapshot endpoint; saved cards validate outer/snapshot/request version, own subject, immutable marker, checksum shape, categories and v2 company metadata.",
+    "Fresh catalog checks precede request/export POST, preserve a selected unsupported v2 and prevent automatic downgrade.",
+    "Reviewed input/key is stable across same-intent unknown ACK retries; edited input gets a new key. Export keys are retained per request within the adopted session.",
+    "Console is keyed by complete actor and CSRF token; private generation invalidates late callbacks and queued updates on unmount/revocation. Terminal access errors invoke the parent private-state reset.",
+    "Status overlays presentation fields only; it cannot replace the selected request reason/categories/version/owner.",
+    "Reviewer displays read-only scope and forwards requestId/expectedVersion without a version override.",
+    "All six locale columns follow DE/UK/RU/PL/LT/EN and describe stored records, omissions and incomplete legal fulfillment.",
+    "Only one resolver export and one App callback change affect existing shared components; no unrelated runtime changes observed."
+  ],
+  "presentationNote": {
+    "status": "ROOT_IDENTIFIED_CORRECTION_PENDING",
+    "detail": "Scope currently reuses a flex privacy-boundary class for several paragraphs; root plans a separate wrapping/block scope class and rendered mobile check. No browser result is claimed."
+  },
+  "checks": {
+    "existingModelTests": {
+      "command": "npx vitest run apps/web/src/privacyProjectionModel.test.ts --reporter=verbose",
+      "exitCode": 0,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/model-tests.log",
+        "bytes": 4286,
+        "sha256": "925213b8c9dce5ebd5216586ffdf269556d855923977f220392d76750c97c51b"
+      }
+    },
+    "independentContractProbes": {
+      "command": "node --import tsx verification/privacy-v2/ui-independent-review/contract-probes.ts (absolute path)",
+      "exitCode": 0,
+      "scope": "Actual UI model and actual governance schema/handler; memory transaction only",
+      "source": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes.ts",
+        "bytes": 4225,
+        "sha256": "491fd2758c9e2d23c91ddf264b263f5727aeddb214b97a03fef3e8fa86539933"
+      },
+      "result": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes.json",
+        "bytes": 660,
+        "sha256": "3a0097916e5953eae33cca986fc2ab15d5b368020da540e8c97a41eab394b453"
+      },
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes.log",
+        "bytes": 553,
+        "sha256": "0bd6f898a811b19d192ae0bc459e83668d5d120c9012e437f8488bf1c7387dc5"
+      }
+    },
+    "firstProbeRunnerAttempt": {
+      "exitCode": 1,
+      "cause": "tsx CLI attempted an unnecessary IPC listener and received EPERM; preserved. Direct Node import used no IPC listener.",
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-independent-review/contract-probes-first-cli.log",
+        "bytes": 782,
+        "sha256": "09fc836bed5d4cc05c582599fdc0dc3b3ab76eebec3d369ac335d341c7b88a25"
+      }
+    }
+  },
+  "notRun": [
+    "browser",
+    "PostgreSQL",
+    "production",
+    "full test suite",
+    "new broad typecheck"
+  ],
+  "sourceEdited": false,
+  "nextGate": "Root corrective model/UI delta and focused regressions, then independent delta review. Rendered suite/CI inventory is a separate scope."
+}

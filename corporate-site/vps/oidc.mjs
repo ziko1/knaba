@@ -3,6 +3,7 @@
  */
 import {randomBytes,createHash,createPublicKey,verify as verifySignature,timingSafeEqual} from 'node:crypto';
 import {normalizeEmail,createCredentialsUser,createSessionForUser} from './auth.mjs';
+import {federationSessionAllowed,hasFederationObligation} from './federation-state.mjs';
 
 const random=()=>randomBytes(32).toString('base64url');
 const hash=s=>createHash('sha256').update(s).digest('hex');
@@ -55,7 +56,7 @@ function transaction(db,work){
 function liveLinkSession(db,userId,sessionHash,now){
   return typeof userId==='string'&&userId.length>0&&/^[a-f0-9]{64}$/.test(sessionHash||'')&&
     Boolean(db.prepare('SELECT 1 FROM vps_sessions s JOIN vps_users u ON u.id=s.user_id WHERE s.token_hash=? AND s.user_id=? AND s.expires_at>? AND u.disabled=0')
-      .get(sessionHash,userId,Math.floor(now/1000)));
+      .get(sessionHash,userId,Math.floor(now/1000)))&&federationSessionAllowed(db,userId,sessionHash);
 }
 function requireLinkSession(db,state,now){
   if(state.link_user_id&&!liveLinkSession(db,state.link_user_id,state.link_session_hash,now))
@@ -176,6 +177,9 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
       }else if(consumed.link_user_id){
         user=db.prepare('SELECT id,email,disabled FROM vps_users WHERE id=?').get(consumed.link_user_id);
         if(!user||user.disabled||user.email!==identity.email)throw new OidcError('link_required');
+        // Adding another authentication method to a linked principal requires a
+        // fresh provider/password contract; this password-only F2 slice denies it.
+        if(hasFederationObligation(db,user.id))throw new OidcError('link_required');
         db.prepare('INSERT INTO vps_oidc_links(issuer,subject,user_id,linked_at) VALUES (?,?,?,?)')
           .run(identity.issuer,identity.subject,user.id,new Date(now).toISOString());
       }else{
@@ -207,11 +211,11 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
 
 /** Recheck once more at session issuance: response cleanup may yield after the
  * identity-link transaction. This internal receipt never leaves the server. */
-export function createOidcSession(db,result,now=Date.now()){
-  return transaction(db,()=>{
-    if(result.expiresAt<=now||
-      (result.linkSessionHash!==null&&!liveLinkSession(db,result.userId,result.linkSessionHash,now)))
-      throw new OidcError('invalid_state');
-    return createSessionForUser(db,result.userId);
-  });
+export function createOidcSession(db,result,now){
+  const currentTime=now===undefined?Date.now:()=>now;
+  const authorize=()=>result.expiresAt>currentTime()&&
+    (result.linkSessionHash===null||liveLinkSession(db,result.userId,result.linkSessionHash,currentTime()));
+  if(!authorize())throw new OidcError('invalid_state');
+  // The final callback is rechecked inside issuance, including after async F2 I/O.
+  return createSessionForUser(db,result.userId,{authorize});
 }

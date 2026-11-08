@@ -1,0 +1,37 @@
+{
+  "baseCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "scope": "Real signed Nest HTTP and production ledger/login handlers; explicit SQL/clock double; NOT actual PostgreSQL",
+  "runtimeMatchesBase": true,
+  "exitCode": 1,
+  "passed": 3,
+  "failed": 4,
+  "signedErrors": {
+    "LOGIN_INSPECT": {
+      "httpStatus": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    "LOGIN_APPROVE": {
+      "httpStatus": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    "LOGIN_STATUS": {
+      "httpStatus": 400,
+      "code": "VALIDATION_ERROR"
+    }
+  },
+  "files": [
+    {
+      "path": "erp/apps/api/site-federation-ledger.ts",
+      "sha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45"
+    },
+    {
+      "path": "erp/tests/fixtures/site-federated-session.ts",
+      "sha256": "d51b24d5ae6075b2bc53e11bfef97fac3af7ee67252d991e207e17059ee76bf9"
+    },
+    {
+      "path": "erp/tests/site-federation-login-dispatch.test.ts",
+      "sha256": "7dcbbf397dbcc4433c37ad694c7b40a162892d6c71e1183e18d10fff62f700e8"
+    }
+  ],
+  "logSha256": "7b484edef4045fdede2a3bba1206632af1071d47fa09f24c2ecd8ccb79067aaa"
+}

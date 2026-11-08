@@ -1,0 +1,12 @@
+{"scope":"Actual source-extracted handler and actual parser; network doubles only","sourceSha256":"ac68d4684f203d120187836f3d8ec6188b6111c2476a9ad89e18e3f272f56070"}
+✔ WEB confirm rejects different same-user session through the explicit unknown-result recovery (4.104761ms)
+✔ WEB confirm rejects missing session proof through the explicit unknown-result recovery (12.077914ms)
+✔ WEB confirm accepts the current session proof matching the actual issued response (1.025402ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27.364876

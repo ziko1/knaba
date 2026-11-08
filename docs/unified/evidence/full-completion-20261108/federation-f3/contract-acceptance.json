@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root",
+  "recordedAt": "2026-11-08T14:40:37.505802+00:00",
+  "verdict": "ACCEPT_CONTRACT_WITH_TWO_WIRING_ADDITIONS",
+  "reviewedProposal": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/wire-contract-v1-reviewed.md",
+    "sha256": "ff4ac2b4c226a612f9830a4b2d5b157702c81d9c338e315917ab851bf5aba1e4"
+  },
+  "implementationBaseline": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "requiredF2Dependency": "ACCEPT_F2_TECHNICAL_PASSWORD_BASED_CONTRACT at e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "acceptedDesign": [
+    "Company-scoped existing F1 target; no identity or role merge",
+    "Password-based source approval plus actual current ERP MFA rules",
+    "Mandatory KF3 lineage, online nonce-bound 10s witness and current PG authority; no network inside SQL locks",
+    "Web parent cookie pin; separate Lax handshake, Strict ERP cookie; native browser ERP cookie ignored",
+    "Native one-use60s code + S256 + exact client/platform/redirect/state/ERP issuer",
+    "No weak nullable lineage fallback or old-binary token acceptance",
+    "Explicit JSON native authorization response with validated top-level navigation",
+    "Narrow derived-device mint guard; ordinary committed domain effects preserved"
+  ],
+  "addenda": "### Root review: two required UI/discovery additions\n\n- `GET /api/v1/auth/federation/config`: public `{enabled:false}` by default; when configured, `{enabled:true,authorizationIssuer,authorities:[{authorityId,label,siteOrigin}],clients:[{clientId,kind,platform,label,redirectUri?}]}`. Safe server-owned metadata only, no users, keys, policy fingerprints or secret settings.\n- Bound request status includes `sourceAuthorizationUrl`, computed by the server from the exact configured site origin plus `/account/erp-login/?authority_id=<id>&request_id=<UUID>`. No arbitrary return destination supplied by a client.\n\nThese additions enable the agreed web/native UI to discover supported clients and start the exact bound source ceremony. No production configuration is activated.\n",
+  "ownership": {
+    "erp_session_fence": [
+      "erp/packages/integrations shared protocol/helpers",
+      "erp/apps/api",
+      "erp/infra",
+      "ERP-focused tests"
+    ],
+    "root": [
+      "corporate-site VPS/schema/UI/tests",
+      "erp/apps/web",
+      "tests/bridge",
+      "rendered fixtures/CI",
+      "shared contract/evidence docs"
+    ],
+    "native": "Existing independent media agents retain exclusive native ownership; F3 native adapter later."
+  },
+  "limits": [
+    "Contract review only; no F3 runtime/test/PASS claimed.",
+    "Default-off; actual production native app/universal link ownership, signing and devices not verified.",
+    "No merge/deploy/paid activation/customer messages.",
+    "Whole product remains NOT_READY."
+  ]
+}

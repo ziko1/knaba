@@ -1,0 +1,42 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ❯ tests/site-federation-login-http.test.ts (9 tests | 1 failed | 8 skipped) 340ms
+     ↓ is default-off even when an F2 authority exists
+     ↓ publishes only safe registered client/authority discovery fields
+     ↓ requires an exact same-origin browser start and bounded printable key before opening SQL
+     ↓ rejects browser-provided company, role and platform overrides
+     ↓ does not turn a public request ID into a status or confirmation credential
+     ↓ bind accepts only the empty DTO and exact origin
+     ↓ rejects malformed redemption or cookie-only token exchange before SQL
+     ↓ verifies the existing signed ingress before a new LOGIN action can dispatch
+     × normalizes a terminal binding loss to 401 only for a derived session, preserving business 403 and outage 503 330ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/site-federation-login-http.test.ts > F3 real HTTP unauthenticated boundaries > normalizes a terminal binding loss to 401 only for a derived session, preserving business 403 and outage 503
+AssertionError: expected 403 to be 401 // Object.is equality
+
+- Expected
++ Received
+
+- 401
++ 403
+
+ ❯ tests/site-federation-login-http.test.ts:59:47
+     57|   f.source.outage=true;const unavailable=await me();expect(unavailable…
+     58|   f.db.binding.status='REVOKED';f.db.binding.version=2;f.db.binding.re…
+     59|   const stale=await me();expect(stale.status).toBe(401);expect(await s…
+       |                                               ^
+     60|   expect(f.source.calls).toBe(calls);expect(f.db.authSessions.get(f.to…
+     61|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  16:46:06
+   Duration  4.09s (transform 2.27s, setup 0ms, import 3.35s, tests 340ms, environment 0ms)
+
+JSON report written to /workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red.json

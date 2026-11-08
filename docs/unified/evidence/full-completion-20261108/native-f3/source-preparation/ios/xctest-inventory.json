@@ -1,0 +1,114 @@
+{
+  "status": "AUTHORED_NOT_EXECUTED",
+  "newTestDeclarations": 65,
+  "unchangedBaselineDeclarations": 145,
+  "totalDeclarations": 210,
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392",
+      "count": 6,
+      "names": [
+        "testMissingOrInactivePresentationWindowNeverStartsSystemBrowser",
+        "testStartFalsePreservesRetryabilityAndUsesExactSuppliedWindowAndURL",
+        "testCancellationCompletesOnceAndLateOldCallbackCannotCompleteNewAttempt",
+        "testTaskCancellationCancelsOwnedSystemSessionAndDiscardsCallback",
+        "testDetachedOriginalWindowRejectsCompletionWithoutInventedFallbackAnchor",
+        "testSystemUserCancellationIsNotACompletionOrAnAccountFailure"
+      ]
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384",
+      "count": 19,
+      "names": [
+        "testOldModelStaysVisibleUntilCandidateReadAndCompleteAtomicAdoption",
+        "testCancelOrBackgroundAtVerifiedMainHandoffPreservesOldModelAndClient",
+        "testVerifiedMainHandoffInstallsClientAndUITogetherAndRejectsOldDeferredIntent",
+        "testVerifiedMainHandoffAfterSameUserRefreshCannotDiscardUpdatedAuthority",
+        "testVerifiedMainHandoffExpiryPreservesOldAccountWithoutNetworkReplay",
+        "testRetiredLateReadErrorCannotClearNewAccountOrStartReadOnNewClient",
+        "testCandidateJournalReadOrParseFailurePreservesOriginalAccount",
+        "testValidCandidatePendingJournalIsRetainedAndNewAccountRemainsReadOnly",
+        "testJournalBecomingUnavailableWhileMainHandoffWaitsStillPreservesOldAccount",
+        "testPresentationDetachingAfterVerificationRejectsCommitAndPreservesOldAccount",
+        "testSignOutTapCancelsVerifiedHandoffBeforeItsNetworkTaskCanRun",
+        "testTaskCancellationAtVerifiedMainHandoffPreservesOldAccountWithoutExplicitUICancel",
+        "testSystemCancelPreservesModelClientAndDoesNotSendTokenOrLogout",
+        "testLostBodyOffersOnlyExplicitCandidateReadAndPreservesOldIdentityUntilThatRead",
+        "testCandidate401UsesFederationErrorPathWithoutClearingCurrentSession",
+        "testCancelDuringDiscoveryCannotRestoreAuthorityOptionsOrClearOldAccount",
+        "testSameUserAuthorityRefreshCancelsBrowserAttemptAndRejectsLatePrivateResult",
+        "testPasswordLoginDuringBrowserCancelsItAndLateCallbackCannotSendToken",
+        "testDemoOrProductionHealthFailsBeforeAnyFederationMutation"
+      ]
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb",
+      "count": 16,
+      "names": [
+        "testS256MatchesRFC7636VectorWithoutPlainOrPaddingFallback",
+        "testCompiledRegistryMatchesOnlyDebugTestBuild",
+        "testDiscoveryRequiresExactIssuerClientPlatformCallbackAndUniqueAuthority",
+        "testDiscoveryRejectsDisabledAndNumericBooleanOrUnboundedInput",
+        "testAuthorityLabelAcceptsFullConfiguredHostnameBoundAndRejectsOverflow",
+        "testSourceAuthorityHttpsPortDoesNotRelaxOwnAppOriginOrAcceptURLSecrets",
+        "testStartRequiresExactOwnAuthorizationURLAndCapsServerDeadline",
+        "testCallbackAcceptsOnlyExactBaseStateIssuerAndSingleKeys",
+        "testCandidateRequiresFreshExact200CookieNotOldSameUserOrNormalCookie",
+        "testCandidateRejectsAmbiguousMissingAndForeignCookieAttributes",
+        "testRecoveryDeadlineUsesHeaderTimeAndMinimumCookieAndAttemptExpiry",
+        "testCandidateExpiresAttributeMustBeExactAndNeverExtendsMaxAge",
+        "testTicketCancelAndCommitHaveOneWinnerAndNoSecondCommit",
+        "testHealthRejectsProductionDemoBooleanVersionAndOtherApplication",
+        "testMeHasNoInventedExpiryAndRequiresCurrentTestIdentityWithFullScopeArrays",
+        "testAllSixLanguagesCoverStatesAndLocalCredentialBoundary"
+      ]
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d",
+      "count": 0,
+      "names": []
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893",
+      "count": 21,
+      "names": [
+        "testFreshCandidateUsesNoOldCookieAndAdoptsOnlyAfterCurrentMe",
+        "testLostBodyUsesOnlyCapturedCandidateOnExplicitRecoveryWithoutTokenReplay",
+        "testMissingFreshCookieOrErrorHeadersCannotRecoverWithOldSession",
+        "testCandidate401403503OrMalformedProfileNeverResetsOldAccount",
+        "testCandidateMeMustMatchTokenUserCompanyAndCsrf",
+        "testUnknownStartRetryKeepsExactKeyBodyStateAndChallenge",
+        "testDuplicateCallbackCannotSendSecondTokenWhileFirstRequestIsSuspended",
+        "testCancelDuringTokenOrCandidateMeDiscardsLateResponseWithoutChangingOldAccount",
+        "testLogoutAndOriginChangeFenceLateCandidateWithoutReopeningSession",
+        "testSameUserWarehouseCredentialCsrfRoleAndPermissionRefreshFenceTheOriginalAttempt",
+        "testLaterPasswordLoginCannotBeOverwrittenByFederationCandidate",
+        "testExpiredRecoveryCannotReadOldMeOrExtendMissingMeExpiry",
+        "testWallClockRollbackCannotExtendMonotonicCandidateRecoveryWindow",
+        "testMalformedFullTokenProfileCannotBeUpgradedByLaterCandidateRecovery",
+        "testUnknownCommandsAndMediaDescriptorsSurviveBothFailedAndSuccessfulSwitch",
+        "testVerifiedHandoffIsCancelledBySameUserAuthorityRefreshBeforeCommit",
+        "testVerifiedHandoffCannotOverwriteLaterPasswordLogin",
+        "testVerifiedHandoffDeadlineAndCancelAreRecheckedWithoutAnySecondNetworkCall",
+        "testRetiredClientAndMediaFenceCannotBeReopenedByLateResetOrPasswordLogin",
+        "testChangedJournalBetweenVerificationAndMainCommitRequiresPreparationAgain",
+        "testCallbackFromCancelledAttemptCannotRedeemForNewAttempt"
+      ]
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6",
+      "count": 3,
+      "names": [
+        "testRealURLSessionPreservesFreshHeadersWhenStreamFailsAfterResponse",
+        "testOrdinaryTransportStillThrowsForTheSameFailedBody",
+        "testFederationBodyBoundDoesNotRaiseOrdinaryOrMediaLimits"
+      ]
+    }
+  ]
+}

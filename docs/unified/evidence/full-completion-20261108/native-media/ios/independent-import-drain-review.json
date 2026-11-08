@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:30:00.947985+00:00",
+  "reviewer": "mobile_actual_readiness",
+  "status": "ACCEPT_CORRECTIVE_SOURCE_SCOPED",
+  "scope": "Read-only review of exactly five iOS import-drain delta paths; no Swift/compiler/runtime execution",
+  "manifest": "/workspace/scratch/c56161c95e04/verification/ios-native-media/source-manifest.json",
+  "manifestSha256": "fd44edb1a669f1f533527b0e96f6b113b34eb141ae0af676fe71b117d0072656",
+  "sourceDigest": "47f8e76950b31c6c886b9f29864a84bfb8793677004d8fa3bb4bc41c59ecde10",
+  "deltaRequest": "/workspace/scratch/c56161c95e04/verification/ios-native-media/import-drain-review-request.json",
+  "deltaRequestSha256": "aac90c675d1b921f95974123b9361b470716a2e0dcce67e49f99aa748b60cffb",
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/MEDIA_UK.md",
+      "before": "c7e5e9907384593261c594cb042331c548cc6648fdbc4b64ae1846ec7ff3469b",
+      "after": "4c1625bd6e4b2324d0658a370cb74044b1743547832476616474fa8e083e2384"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "before": "1d0d782461099904a8583c9cf0a018a3644aaa71b46436302b86f04211ae12c3",
+      "after": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "before": "2f5e271d1dd88ebbfc407b384600123a9990e59ae4e1952a12426c754d52ed07",
+      "after": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "before": "4847f0e67949ce5244139507198832b810724e59482eec5b5b5426ff5bd8d114",
+      "after": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "before": "9195ef9fc3c96aed4700795c3454453eca9a8c5953b38c5d2d5dce941d44ae50",
+      "after": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c"
+    }
+  ],
+  "hashChecks": {
+    "currentManifestInputsMatched": 15,
+    "changedInputsMatched": 5,
+    "unchangedInputs": 10,
+    "androidRecordedIosPolicyDependencyStillMatches": true
+  },
+  "priorFinding": "A cancelled/departed view lost the only provider task handle and could start another original read before the prior provider settled.",
+  "findings": [],
+  "reviewedCorrection": [
+    "Synchronous MainActor admission increments a two-operation bound before suspension; only the cancellable waiter is returned, not the retained worker.",
+    "Private unstructured worker waits for the prior worker, then awaits the full operation and decrements capacity only after completion; losing/cancelling the view waiter cannot release the drain barrier.",
+    "The static shared queue is used by both picker preparation and actual read; a replacement view uses the same lane.",
+    "Queued operations check the captured readID and ticket before popping PhotosPicker items/URLs; cancellation clears the bounded view queue and stale queued closures return without opening providers.",
+    "An active import awaits loadTransferable/FileRepresentation completion or detached Files read; stale results are checked and discarded before its operation returns and the successor starts.",
+    "FileRepresentation retains its system URL within the importing closure while awaiting detached bounded file I/O; File/NSFileCoordinator work is not executed synchronously on MainActor.",
+    "No obvious Swift5/minimal-concurrency type or actor-isolation incompatibility was found by reading Task<Void,Never>, MainActor closure signatures, Sendable media DTO and detached URL/data handoff; this is not compilation proof.",
+    "Three authored regressions use synchronous queue admission and a delayed provider gate for cancel/reselect, two screen-owned models and overflow; the fixture boundary is explicit."
+  ],
+  "localeCheck": {
+    "keys": 71,
+    "languages": 6,
+    "newBusyKeyPresent": true
+  },
+  "xctest": {
+    "authoredMethods": 52,
+    "newDrainMethods": 3,
+    "execution": "NOT_RUN"
+  },
+  "notRun": [
+    "Swift/Xcode compilation",
+    "XCTest",
+    "actual PhotosPicker/CoreTransferable cancellation",
+    "device RSS/provider buffers",
+    "physical-device UI/latency"
+  ],
+  "limitation": "An uncooperative provider can keep the one active slot occupied; current source intentionally waits and reports busy rather than admitting another original. Actual platform scheduling/lifetime still needs Xcode/device evidence.",
+  "primaryReferences": [
+    "https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html",
+    "https://developer.apple.com/documentation/swift/task/",
+    "https://developer.apple.com/documentation/coretransferable/filerepresentation/init(importedcontenttype:shouldattempttoopeninplace:importing:)"
+  ],
+  "sourceEdited": false
+}

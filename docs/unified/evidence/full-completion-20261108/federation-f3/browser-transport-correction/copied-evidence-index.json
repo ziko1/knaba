@@ -1,0 +1,72 @@
+{
+  "baseCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "sourceDigest": "3735630d3767c2fe91e6a83945b93dd93b055e8bfaa2cf5f9566e994d083531e",
+  "scope": "Frozen test-only source preparation and independent local transport review; browser actual NOT_RUN",
+  "files": [
+    {
+      "path": "source-manifest.json",
+      "bytes": 6052,
+      "sha256": "3e81ba032e6e7038f197a9aaccf3099d8ec03fa0d8c61a26b1139991267b69af"
+    },
+    {
+      "path": "review-request.md",
+      "bytes": 3597,
+      "sha256": "c2ab805cf69a437ae74c5eb69a5de2f032339a44daad19896d4fc382fa042c70"
+    },
+    {
+      "path": "collection-invariants.json",
+      "bytes": 3965,
+      "sha256": "b99409fed3c836f4419a0058d0ae1aeb110da2420d90e5080f7a95fe164c02db"
+    },
+    {
+      "path": "browser-collection.log",
+      "bytes": 2778,
+      "sha256": "d3b7bdcdf1fb66f7e85e71d5e020231d84d7d0213caea678a5e1bd439c847ccd"
+    },
+    {
+      "path": "https-helper.log",
+      "bytes": 719,
+      "sha256": "185ba44a4688f455eaedb6cd8f551b08277f5cab3cc2995c69281313ce9369c8"
+    },
+    {
+      "path": "typecheck.log",
+      "bytes": 143,
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+    },
+    {
+      "path": "typecheck-first.log",
+      "bytes": 805,
+      "sha256": "176785841577a902acf159093b792e969911b2632270bb4cb149c99fc0b709a7"
+    },
+    {
+      "path": "https-helper-first.log",
+      "bytes": 721,
+      "sha256": "584b4e26a842787eb8bd87ede4d0e7747f409c3b17a47e15a55a9bc8f77f6a45"
+    },
+    {
+      "path": "root-independent-review.json",
+      "bytes": 2512,
+      "sha256": "b08debb7680c87933523c70490efe8fffc1713e823f52293aca125c11adc6e7d"
+    },
+    {
+      "path": "root-helper-result.json",
+      "bytes": 2654,
+      "sha256": "bf22f4f185f16232a59345641e86cd08df8576dcd0fc47b55222d33fcfe0aed9"
+    },
+    {
+      "path": "root-helper-exit.json",
+      "bytes": 712,
+      "sha256": "287c19730c334bab50bb2f6f894012dc66e313fce9940db0cb4a61b8bad4f7e4"
+    },
+    {
+      "path": "root-helper.log",
+      "bytes": 135,
+      "sha256": "c8d0ca448446382e3c35f7f802f20b39e4b31651a8a0ee0e57f5d9ff04381038"
+    },
+    {
+      "path": "independent-downstream-review.json",
+      "bytes": 6889,
+      "sha256": "66f3070b9d60cc2773ff3b8b635d5f0eb9fc061b225a2a10a3056fa72c1727f0"
+    }
+  ]
+}

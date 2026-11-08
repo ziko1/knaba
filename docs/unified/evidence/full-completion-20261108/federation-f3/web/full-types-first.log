@@ -1,0 +1,6 @@
+tests/fixtures/site-federated-session.ts(49,151): error TS18048: 'row' is possibly 'undefined'.
+tests/fixtures/site-federated-session.ts(49,166): error TS18048: 'row' is possibly 'undefined'.
+tests/fixtures/site-federated-session.ts(50,139): error TS18048: 'row' is possibly 'undefined'.
+tests/fixtures/site-federated-session.ts(50,161): error TS18048: 'row' is possibly 'undefined'.
+tests/fixtures/site-federated-session.ts(50,181): error TS18048: 'row' is possibly 'undefined'.
+tests/fixtures/site-federated-session.ts(50,195): error TS18048: 'row' is possibly 'undefined'.

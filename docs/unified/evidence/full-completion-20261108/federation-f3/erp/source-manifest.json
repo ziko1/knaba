@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "scope": "F3 ERP source freeze for independent review",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-federation-login",
+  "baseCommit": "b3cbb24a33b5c9e677ae2db10fc29e506e8529a1",
+  "frozenAtUtc": "2026-11-08T15:48:51.844357+00:00",
+  "fileCount": 26,
+  "sourceFilesDigest": "d4dc06299a2191f79a26f802a7dc4038b531c3cea15135c80525d3e0cb41b566",
+  "files": [
+    {
+      "path": "erp/apps/api/auth.ts",
+      "sha256": "9bb2d82634d396d2864547e2443518ef7bfcbc2d4ebcb4a42f06bd828a8a3425",
+      "bytes": 18544
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "sha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+      "bytes": 54146
+    },
+    {
+      "path": "erp/apps/api/http.ts",
+      "sha256": "7b11aa44f9cd30c59573b679f8a400da830c3928463327ca8e631c164138e82b",
+      "bytes": 51270
+    },
+    {
+      "path": "erp/apps/api/main.ts",
+      "sha256": "d5739260796c27c9a43988e5640910b421b7d0094ce58d9f24a5ab95ce78380b",
+      "bytes": 8369
+    },
+    {
+      "path": "erp/apps/api/request-authority-interceptor.ts",
+      "sha256": "b69a5214161e083d388e42e3b18d4208a8b98cd3454c7369d1b040f74dd99959",
+      "bytes": 1300
+    },
+    {
+      "path": "erp/apps/api/request-authority.ts",
+      "sha256": "23e815920b6b6813b7349eca0347502f5f8c278cd485a43819ceb2db731a5efc",
+      "bytes": 11248
+    },
+    {
+      "path": "erp/apps/api/site-federated-sessions.ts",
+      "sha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00",
+      "bytes": 15202
+    },
+    {
+      "path": "erp/apps/api/site-federation-ledger.ts",
+      "sha256": "0d84e44a47757b545b50e4c2ba3c9fa67a5ac4903cbbfd32d24bd1911a381a45",
+      "bytes": 18703
+    },
+    {
+      "path": "erp/apps/api/site-federation-login-config.ts",
+      "sha256": "9e0bbe93c51bfab124223ddc4f25b2634615fc3ad3bf88d9073cc3700c19e687",
+      "bytes": 1208
+    },
+    {
+      "path": "erp/apps/api/site-federation-login-model.ts",
+      "sha256": "3e320b048a3e7df6caf60eb2fc327f672de8dd6ab7c6fbef5bfd416863faaf9d",
+      "bytes": 2858
+    },
+    {
+      "path": "erp/apps/api/site-federation-login.ts",
+      "sha256": "df80a066fc822899ec6201fcbcc1f63f08fb73d47aa0398ae82323fcc06217f3",
+      "bytes": 29044
+    },
+    {
+      "path": "erp/apps/api/site-identity-bindings.ts",
+      "sha256": "316cdf839b3c32b7aafc2ebbba11b6a24fc0b034d19f9b0fc20d70e7510552af",
+      "bytes": 11558
+    },
+    {
+      "path": "erp/apps/api/v4-rest.ts",
+      "sha256": "7f5db4d91afb2367c91063b23a05bdfe49e323a6d033b5e4179a8226a6de3189",
+      "bytes": 23597
+    },
+    {
+      "path": "erp/infra/001_init.sql",
+      "sha256": "05012eeea53c8489f7f133ebd4ff23d26adfccac21187b1d2d25c16270f84417",
+      "bytes": 43561
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.d.mts",
+      "sha256": "e23eb606e0d93583642dea0a1782444dac4d0a2eca3ccc66c4b261dd10e9f04e",
+      "bytes": 3726
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+      "bytes": 10977
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.d.mts",
+      "sha256": "671b0de9d0e419766e0e8639cb59ac30c277e3a61e069333e9d3cd701ba836d4",
+      "bytes": 3530
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.mjs",
+      "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+      "bytes": 14764
+    },
+    {
+      "path": "erp/tests/fixtures/pre-f3-authenticate.json",
+      "sha256": "75ec2439fad9cd40687110669eb5252707adde8b2c629ad32fe487f4f6c4997d",
+      "bytes": 2229
+    },
+    {
+      "path": "erp/tests/fixtures/site-federated-session.ts",
+      "sha256": "46c04e01e3c3480be74389e7bcb3626c74e40dfed81ffe6b6569d3f1916f1642",
+      "bytes": 15581
+    },
+    {
+      "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+      "sha256": "6ba1ad7bc72a296234a7355458a9092e25c92adddd7fb4353fa1e46e82ab0dd1",
+      "bytes": 11970
+    },
+    {
+      "path": "erp/tests/site-federated-session.test.ts",
+      "sha256": "712b5c6adaf09d49d0c90da5ba8a8f0b1600a384686b64b4bf16534b64a9977d",
+      "bytes": 11117
+    },
+    {
+      "path": "erp/tests/site-federation-login-flow.test.ts",
+      "sha256": "6d83ac41efd69c713382c97be1c180568865564a4c8375b66ef65e43e058f110",
+      "bytes": 10256
+    },
+    {
+      "path": "erp/tests/site-federation-login-http.test.ts",
+      "sha256": "93215494e7021df857cd3c78f5329f87f192793c042e7253bc1590911db869c1",
+      "bytes": 7703
+    },
+    {
+      "path": "erp/tests/site-federation-login-protocol.test.ts",
+      "sha256": "2a8af4cf12a55e72dc21397a1deab344bbb21a4709197d9eda1ab924bd1ab2d2",
+      "bytes": 9338
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "sha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+      "bytes": 17852
+    }
+  ],
+  "validation": {
+    "previousFocusedCpuPassed": 178,
+    "previousFocusedFailed": 0,
+    "postDeltaFocusedCpuPassed": 41,
+    "postDeltaFailed": 0,
+    "postDeltaSkipped": 0,
+    "distinctCpuCasesAcrossRuns": 179,
+    "newCpuCasesAcrossRuns": 67,
+    "legacyCpuCases": 112,
+    "postgresqlAuthored": 18,
+    "postgresqlLocal": "NOT_RUN",
+    "typecheckExitCode": 0,
+    "diffCheckExitCode": 0
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/protocol-red.log",
+      "sha256": "768e0cf6b0dbd89435d800fa366d7ef1fc5fa6f6541f20904c648ce91320376b",
+      "bytes": 1988
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/protocol-green.log",
+      "sha256": "0d8350eb0bec18aba267e7234dc901a4bb705fb9796d6e896f25f25c534e1900",
+      "bytes": 312
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/compatibility-first.log",
+      "sha256": "28230eb72edcea5cc85932c3f33be91787e4ccb7b17e28262bad20a0440deff9",
+      "bytes": 1412
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/session-first.log",
+      "sha256": "66678a6412d7880d2a8f24ad81472dc195e176102f108f5aee06a60984676aa1",
+      "bytes": 3950
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/session-green.log",
+      "sha256": "0bc9c33d403a9dc701d159b794c6f1fed3b4c7287c12c2795bac730695cab487",
+      "bytes": 370
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/flow-first.log",
+      "sha256": "f45a6a0aec214136bce640a27fd6a40f4beb23de31f173a6a2235f762463f8e4",
+      "bytes": 4866
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/flow-green.log",
+      "sha256": "f86f2f9ca616efc5790c2383c148af408ba4ec56965ca96231485040e860af01",
+      "bytes": 308
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-first.log",
+      "sha256": "c8f6f880445b814bd7b3d7c5ddfd72b885ad8d6303a183a4d661e6e63cc6524c",
+      "bytes": 305
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/final-focused.log",
+      "sha256": "be130c44c81088a894b7bbd5368a1885d76d09d794eba384e83b0b3dbd28936d",
+      "bytes": 3847
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/final-focused.json",
+      "sha256": "e1f625f06b2ed7de93062703cfd7dd9a6eb55349fa4b42d84b2cb9b3347a7a22",
+      "bytes": 77480
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze.log",
+      "sha256": "3f9901d4f339ccf0696a2d47d48fd74d26838fd1e0dc746925d700e2e33a5d02",
+      "bytes": 474
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze.json",
+      "sha256": "72e14f71ca37fbba5f14b18a360f6e014113c7fb776bab677d06cacff9776e91",
+      "bytes": 3479
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze-exit.json",
+      "sha256": "cac1f745c99a82c4b5a213aa3c6c1c43a2621b902a33bf4d319177950e863ee8",
+      "bytes": 315
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-freeze.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-freeze.json",
+      "sha256": "ef599c873a31b360ea8b67793951acd7d9c3eeec5855ad459fe9c7fbf022ffd4",
+      "bytes": 77
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red.log",
+      "sha256": "a456dc6b31a11b1a556b4e31823e01cdba7656666fa76808f29215a86a06c8e6",
+      "bytes": 2076
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red.json",
+      "sha256": "3a9e10263add4b0c61c853d524bf64fad322c7a38e884134900d8684780e98b8",
+      "bytes": 4049
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-red-exit.json",
+      "sha256": "958524274cc4717a35192ea97a18f922b4c533140b86359bca3f1c4a77878f5e",
+      "bytes": 371
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green.log",
+      "sha256": "8033144895177749b5bd38031ff9b8de821f4a9f862c7a5f080413e685cbb136",
+      "bytes": 477
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green.json",
+      "sha256": "267d62ac97aa70c3569ab219797dc395b213323bde4314cbcd125c85d5135424",
+      "bytes": 16735
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/unlink-status-green-exit.json",
+      "sha256": "2963aebf1883b68175da31a990e3bf2ba71418267b0e807023c7e13dc71f7f53",
+      "bytes": 366
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-unlink.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/typecheck-unlink.json",
+      "sha256": "5ed6ea834d46d19581895ee9871d9860b20c056f61fa8b2cd9d000e71a6162f4",
+      "bytes": 77
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/test-inventory.json",
+      "sha256": "5cdd18995ab50189d7f679bbc880b865dbd8ac4deecc3e6db56ad69208f39877",
+      "bytes": 33360
+    }
+  ],
+  "boundaries": [
+    "SQL/clock doubles in CPU session/flow tests are explicit; actual HTTP boundary tests use Nest but no successful database-backed mint.",
+    "The 18 PostgreSQL integration cases are authored and locally skipped; their source authority is a signed synthetic HTTP server, not the real VPS runtime.",
+    "Root-owned 8 real VPS/SQLite to ERP/PostgreSQL paired cases are a separate unexecuted gate at this freeze.",
+    "Root-owned ERP browser cases and native/browser/device execution are not counted here.",
+    "Exact pre-F3 AuthService.authenticate method executed in CPU regression; no claim of full previous deployment execution.",
+    "Default-off production configuration and native app-link/signing/domain ownership gates remain open.",
+    "No provider, deployment, CI dispatch, git commit or push performed by this agent."
+  ],
+  "supersedes": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/frozen-v1/source-manifest.json",
+    "sha256": "2b2b7c30126c06f239d9660fc750bdb192767a36e362fdd3a0c49f48e6b1069a",
+    "changedPaths": [
+      "erp/apps/api/site-federated-sessions.ts",
+      "erp/tests/fixtures/site-federated-session.ts",
+      "erp/tests/site-federation-login-http.test.ts"
+    ]
+  }
+}

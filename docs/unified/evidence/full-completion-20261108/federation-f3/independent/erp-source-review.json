@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:53:34.427882+00:00",
+  "reviewer": "root",
+  "status": "ACCEPT_ERP_F3_SOURCE_SCOPED",
+  "sourceManifest": "/workspace/scratch/c56161c95e04/verification/federation-f3/erp/source-manifest.json",
+  "sourceManifestSha256": "84161d679b80b4aaab99291f829657de20824f66ab958c03aa456777104f66d9",
+  "sourceFilesDigest": "d4dc06299a2191f79a26f802a7dc4038b531c3cea15135c80525d3e0cb41b566",
+  "currentInputHashesMatchedBeforeAndAfter": 26,
+  "blockingFindings": [],
+  "resolvedFinding": {
+    "id": "F3-AUTH-01",
+    "problem": "Terminal F1 unlink leaked a generic403 through derived credential validation before request binding; native clients classify invalid sessions by401.",
+    "correction": "Only private derived-session currentIn converts ACCESS_DENIED to NEEDS_REAUTH. Shared F1 resolution, issuance-flow errors, business permission403 and source outage503 preserve their contracts.",
+    "evidence": "Author actual HTTP RED403 then targeted41 PASS; independent final HTTP9 PASS; source delta exactly3 paths and23 unchanged.",
+    "oldFreezeSha256": "2b2b7c30126c06f239d9660fc750bdb192767a36e362fdd3a0c49f48e6b1069a"
+  },
+  "reviewed": [
+    "Mandatory KF3 child joined to original parent and COMPLETE request; legacy cookie/bearer rejection before SQL and no local fallback.",
+    "Current company/user/F1 immutable binding/source generation/ref/epoch/credential fingerprint and ERP policy on every derived use.",
+    "Online signed source calls outside SQL locks; bounded10s witness checked with transaction clock after locks and again before response; newly issued cookie headers are deferred.",
+    "S256, exact server-owned native client/platform/redirect/issuer/state binding, hash-only one-use code, atomic code/session transitions.",
+    "WEB original optional cookie pin; separate Secure HttpOnly Lax flow cookie; NATIVE browser cookie independence; own native token exchange does not grant a device bearer.",
+    "Current ERP TOTP/counter and original mfa timestamp retained; no source proof substitution for ERP MFA.",
+    "Local logout reduces authority without source RPC; self device enrollment/bind guard runs before idempotency receipt replay, without blanket revocation of committed business work.",
+    "Additive SQL immutability/state triggers and old-binary format boundary reviewed as source; actual PostgreSQL still required.",
+    "Current human company label bounded and MFA status explicit Boolean; public config remains disabled by default."
+  ],
+  "actualIndependentExecution": {
+    "baselineV1": {
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0
+    },
+    "correctiveV2Http": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    "overlap": 8,
+    "statement": "These are two scoped executions on their stated source revisions, not a75-case current aggregate run."
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-cpu-review.json",
+      "sha256": "d5fb7f21a82d52099f4962cd5b726e1be53dad4563e4c9350e7ef4456191d073",
+      "claim": "Independent66 CPU at preserved frozen-v1;32 session+16 protocol+10 service-flow+8 HTTP, no PostgreSQL"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-cpu-review.log",
+      "sha256": "dbf6e867f1589dc6d439cc2ce166c5d8d489268d3cce98eb7f18bd98f1c179fc",
+      "claim": "Corresponding actual complete output"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-http-v2-review.json",
+      "sha256": "5c120e48af4c7d03e5e9fdee9a0ff72280b6dae1e7292358de7a20ff8da321ee",
+      "claim": "Independent9 HTTP at corrected frozen-v2, including actual Nest/AuthService with explicit SQL double unlink401 / business403 / outage503"
+    },
+    {
+      "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/independent/erp-http-v2-review.log",
+      "sha256": "2206d84b82e6bce090f076bc0f92153d41101b6ae085f1cbae46829982c2f8a7",
+      "claim": "Corresponding actual complete output"
+    }
+  ],
+  "notRun": [
+    "18 actual PostgreSQL cases",
+    "8 actual built ERP/VPS/PostgreSQL pair cases",
+    "9 new rendered F3 browser cases",
+    "Full current clean committed aggregate CI",
+    "Native app callbacks/device/live/runtime rollout"
+  ],
+  "wholeProduct": "NOT_READY",
+  "sourceEditedByReviewer": false
+}

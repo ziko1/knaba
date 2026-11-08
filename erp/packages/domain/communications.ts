@@ -5,7 +5,7 @@ import {readChannelMessages} from './message-pagination.ts';
 import { ROLE_PERMISSIONS } from './permissions.ts';
 import { currentCustomerMembership } from './customer-membership.ts';
 import {workNoticeLabel} from './work-notifications.ts';
-import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,quietHour,nextQuietWindowEnd,safeRetryDelayMs,activeOperationalNotice,deliveryDecision,projectDeliveryNotifications} from './notification-policy.ts';
+import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,quietHour,nextQuietWindowEnd,safeRetryDelayMs,activeOperationalNotice,deliveryDecision,projectDeliveryNotifications,whatsappConsentAllowed} from './notification-policy.ts';
 import {businessCalendarSchema,calendarDefinition,calendarConfigurationAuthority,requireCalendarManager,queueHandoffSla,cancelHandoffSla,canonicalHandoffState,queuedHandoff,handoffGeneration,handoffQueueNotice} from './handoff-calendar.ts';
 
 export const language = z.enum(['DE','UK','RU','PL','LT','EN']);
@@ -304,7 +304,7 @@ export const communicationsCommands:CommandRegistry={
     assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const message=await ctx.tx.get('message',input.message_id),channel=await ctx.tx.get('channel',message.data.channel_id);
     assert(!message.data.deleted_at&&await recipientCanRead(ctx,channel,input.recipient_id,message),'ACCESS_DENIED');
     const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===input.recipient_id);
-    const policy:DeliveryPolicy=input.channel==='WEB'?{allowed:true,channel:'WEB'}:whatsAppPolicy({now:ctx.now,last_inbound_at:settings?.data.last_inbound_at,consent:settings?.data.whatsapp_consent===true,opted_out:settings?.data.opted_out,approved_template:input.approved_template,template_status:input.template_status});
+    const policy:DeliveryPolicy=input.channel==='WEB'?{allowed:true,channel:'WEB'}:whatsAppPolicy({now:ctx.now,last_inbound_at:settings?.data.last_inbound_at,consent:whatsappConsentAllowed(settings?.data,{channelId:channel.id}),opted_out:settings?.data.opted_out,approved_template:input.approved_template,template_status:input.template_status});
     if(!policy.allowed)return policy;
     const existing=(await ctx.tx.list('delivery')).find(d=>d.data.message_id===message.id&&d.data.message_version===message.data.message_version&&d.data.recipient_id===input.recipient_id&&d.data.channel===input.channel);
     if(existing)return existing;const siteId=await channelSite(ctx,channel);const delivery=await ctx.tx.add('delivery',{...input,...siteId?{siteId}:{},message_version:message.data.message_version,channel_id:channel.id,policy,status:'PENDING',attempts:0,max_attempts:4});await ctx.tx.event('delivery.requested',{delivery_id:delivery.id});return delivery;
@@ -344,8 +344,14 @@ export const communicationsCommands:CommandRegistry={
     const saved=await ctx.tx.save(item,{...item.data,read_at:ctx.now},ctx.expectedVersion??item.version);
     return {notification_id:saved.id,read_at:saved.data.read_at,version:saved.version};
   }},
-  'notifications.configure':{permission:'chat.read',schema:z.object({language,whatsapp_consent:z.boolean(),opted_out:z.boolean().default(false),quiet_start:z.number().int().min(0).max(23).default(DEFAULT_QUIET_START),quiet_end:z.number().int().min(0).max(23).default(7),allowed_fallback:z.enum(['WEB','NONE']).default('WEB')}).strict(),handler:async(ctx,input)=>{
-    const current=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);const data={...current?.data,...input,user_id:ctx.actor.userId,timezone:'Europe/Berlin',consent_recorded_at:ctx.now};return current?ctx.tx.save(current,data):ctx.tx.add('notification_setting',data);
+  'notifications.configure':{permission:'chat.read',schema:z.object({language,whatsapp_consent:z.boolean(),all_operational_whatsapp_notifications:z.literal(true).optional(),opted_out:z.boolean().default(false),quiet_start:z.number().int().min(0).max(23).default(DEFAULT_QUIET_START),quiet_end:z.number().int().min(0).max(23).default(7),allowed_fallback:z.enum(['WEB','NONE']).default('WEB')}).strict(),handler:async(ctx,input)=>{
+    const current=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId),{all_operational_whatsapp_notifications:operationalOptIn,...preferences}=input;
+    assert(!operationalOptIn||preferences.whatsapp_consent===true&&preferences.opted_out===false,'VALIDATION_ERROR');
+    const consentChanged=!current||current.data.whatsapp_consent!==preferences.whatsapp_consent||(current.data.opted_out??false)!==preferences.opted_out||operationalOptIn;
+    const data:Data={...current?.data,...preferences,user_id:ctx.actor.userId,timezone:'Europe/Berlin',consent_recorded_at:consentChanged?ctx.now:current?.data.consent_recorded_at};
+    if(operationalOptIn){data.whatsapp_consent_scope={kind:'OPERATIONAL'};data.consent_purpose='OPERATIONAL_NOTIFICATIONS';data.consent_source='EXPLICIT_OPERATIONAL_OPTIN';delete data.consent_transfer_id;}
+    // Language, quiet-hours and an unchanged checked box preserve conversation scope.
+    return current?ctx.tx.save(current,data):ctx.tx.add('notification_setting',data);
   }},
   'notifications.inbound':{permission:'integration.process',schema:z.object({user_id:id,received_at:timestamp}).strict(),handler:async(ctx,input)=>{
     assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');assert(Date.parse(input.received_at)<=Date.parse(ctx.now)+30000,'VALIDATION_ERROR');const current=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===input.user_id);
@@ -362,12 +368,13 @@ export const communicationsCommands:CommandRegistry={
   'notifications.prepare':{permission:'integration.process',schema:z.object({notification_id:id}).strict(),handler:async(ctx,input)=>{
     assert(ctx.actor.roles.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED');const item=await ctx.tx.get('notification',input.notification_id);assert(['PENDING','RETRY_SCHEDULED'].includes(item.data.status),'INVALID_STATE');assert(item.data.scheduled_at<=ctx.now,'NOT_DUE');
     if(!item.data.work_cause&&item.data.related_kind&&item.data.related_id){const related=await ctx.tx.get(item.data.related_kind,item.data.related_id);if(['RESOLVED','CLOSED','COMPLETED','ACCEPTED','CANCELLED','CONFIRMED','ACKNOWLEDGED'].includes(related.data.state??related.data.status)||related.data.explanation||related.data.explanation_id){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'RESOLVED'});return {status:'CANCELLED'};}}
-    if(item.data.message_id){const message=await ctx.tx.get('message',item.data.message_id),channel=await ctx.tx.get('channel',message.data.channel_id);if(message.data.deleted_at||!await recipientCanRead(ctx,channel,item.data.recipient_id,message)){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'ACCESS_REVOKED'});return {status:'CANCELLED'};}}
+    let consentChannelId:string|undefined;
+    if(item.data.message_id){const message=await ctx.tx.get('message',item.data.message_id),channel=await ctx.tx.get('channel',message.data.channel_id);if(message.data.deleted_at||!await recipientCanRead(ctx,channel,item.data.recipient_id,message)){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'ACCESS_REVOKED'});return {status:'CANCELLED'};}consentChannelId=channel.id;}
     const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===item.data.recipient_id);
     const currentLanguage=settings?.data.language??'DE',currentTitle=item.data.work_cause?workNoticeLabel(item.data.event,currentLanguage):item.data.title;
     if(settings?.data.opted_out){await ctx.tx.save(item,{...item.data,status:'CANCELLED',reason:'OPTED_OUT'});return {status:'CANCELLED'};}
     if(!activeOperationalNotice(item.data)&&isQuietHour(ctx.now,settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END)){const next=nextQuietWindowEnd(ctx.now,settings?.data.quiet_start??DEFAULT_QUIET_START,settings?.data.quiet_end??DEFAULT_QUIET_END);await ctx.tx.save(item,{...item.data,status:'RETRY_SCHEDULED',scheduled_at:next});await ctx.tx.event('notification.scheduled',{notification_id:item.id,not_before:next});return {status:'RETRY_SCHEDULED',reason:'QUIET_HOURS'};}
-    const policy:DeliveryPolicy=item.data.channel==='WHATSAPP'?whatsAppPolicy({now:ctx.now,last_inbound_at:settings?.data.last_inbound_at,consent:settings?.data.whatsapp_consent===true,opted_out:settings?.data.opted_out,approved_template:item.data.template,template_status:item.data.template_status}):{allowed:true,channel:'WEB'};
+    const policy:DeliveryPolicy=item.data.channel==='WHATSAPP'?whatsAppPolicy({now:ctx.now,last_inbound_at:settings?.data.last_inbound_at,consent:whatsappConsentAllowed(settings?.data,{channelId:consentChannelId}),opted_out:settings?.data.opted_out,approved_template:item.data.template,template_status:item.data.template_status}):{allowed:true,channel:'WEB'};
     if(!policy.allowed){if(settings?.data.allowed_fallback==='WEB'){return ctx.tx.save(item,{...item.data,status:'RUNNING',channel:'WEB',reason:'WHATSAPP_POLICY_FALLBACK',language:currentLanguage,...currentTitle?{title:currentTitle}:{}});}await ctx.tx.save(item,{...item.data,status:'FAILED',reason:policy.reason});return policy;}
     return ctx.tx.save(item,{...item.data,status:'RUNNING',language:currentLanguage,...currentTitle?{title:currentTitle}:{},policy});
   }},

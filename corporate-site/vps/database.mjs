@@ -4,6 +4,9 @@ import { mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import {federationSchemaPending,installFederationSchema} from './federation-schema.mjs';
+import {federationLoginSchemaPending,installFederationLoginSchema} from './federation-login-schema.mjs';
+import {installFederationGuard} from './federation-state.mjs';
 
 /** A synchronous durable D1 subset; batches never yield across BEGIN and COMMIT. */
 const bindable=x=>x===undefined?null:typeof x==='boolean'?(x?1:0):x;
@@ -99,6 +102,13 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
   mkdirSync(dirname(path),{recursive:true,mode:0o700});
   const db=new DatabaseSync(path);
   try {
+    installFederationGuard(db);
+    const pendingFederation=federationSchemaPending(db);
+    if(pendingFederation&&!allowMigrations)
+      throw Error('Pending VPS auth migration federation; run reviewed migrate CLI after backup.');
+    const pendingFederationLogin=federationLoginSchemaPending(db);
+    if(pendingFederationLogin&&!allowMigrations)
+      throw Error('Pending VPS auth migration federation-login; run reviewed migrate CLI after backup.');
     const hasLedger=db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='vps_schema_migrations'").get();
     const applied=hasLedger?db.prepare('SELECT filename,sha256 FROM vps_schema_migrations ORDER BY filename').all():[];
     const installed=new Set();
@@ -115,6 +125,13 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     const pendingOidcBinding=oidcColumns.length>0&&!oidcColumns.some(column=>column.name==='link_session_hash');
     if(pendingOidcBinding&&!allowMigrations)
       throw Error('Pending VPS auth migration oidc-link-session; run reviewed migrate CLI after backup.');
+    const accountTables=['vps_account_settings','vps_account_tokens'];
+    const accountTriggers=['vps_account_tokens_user_revoke','vps_account_tokens_profile_revoke'];
+    const pendingAccountSettings=accountTables.some(name=>
+      !db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?").get(name))||
+      accountTriggers.some(name=>!db.prepare("SELECT 1 FROM sqlite_master WHERE type='trigger' AND name=?").get(name));
+    if(pendingAccountSettings&&!allowMigrations)
+      throw Error('Pending VPS auth migration account-settings; run reviewed migrate CLI after backup.');
     db.exec('PRAGMA foreign_keys=ON;PRAGMA journal_mode=WAL;PRAGMA synchronous=FULL;PRAGMA busy_timeout=5000;');
     db.exec('CREATE TABLE IF NOT EXISTS vps_schema_migrations (filename TEXT PRIMARY KEY NOT NULL, sha256 TEXT NOT NULL, installed_at TEXT NOT NULL)');
     for(const name of pending){
@@ -144,6 +161,22 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
     "CREATE TABLE IF NOT EXISTS vps_oidc_states (state_hash TEXT PRIMARY KEY NOT NULL, provider TEXT NOT NULL, nonce TEXT NOT NULL, verifier TEXT NOT NULL, intent TEXT NOT NULL CHECK (intent IN ('client','partner')), link_user_id TEXT REFERENCES vps_users(id), issued_at INTEGER NOT NULL, expires_at INTEGER NOT NULL, link_session_hash TEXT REFERENCES vps_sessions(token_hash) ON DELETE CASCADE)",
     "CREATE TABLE IF NOT EXISTS vps_oidc_links (issuer TEXT NOT NULL, subject TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES vps_users(id) ON DELETE CASCADE, linked_at TEXT NOT NULL, PRIMARY KEY(issuer,subject), UNIQUE(user_id,issuer))"
   ].join(';')+';');
+    // VPS credentials and preferences never enter hosted Sites/D1. This additive
+    // auth schema is created only behind the same explicit migration gate.
+    if(pendingAccountSettings){
+      db.exec('BEGIN IMMEDIATE');
+      try{
+        db.exec([
+          "CREATE TABLE IF NOT EXISTS vps_account_settings (user_id TEXT PRIMARY KEY NOT NULL REFERENCES vps_users(id) ON DELETE CASCADE, name TEXT NOT NULL DEFAULT '', phone TEXT NOT NULL DEFAULT '', company TEXT NOT NULL DEFAULT '', address TEXT NOT NULL DEFAULT '', locale TEXT NOT NULL DEFAULT 'de' CHECK(locale IN ('de','en','pl','lt','ru','uk')), time_zone TEXT NOT NULL DEFAULT 'Europe/Berlin', version INTEGER NOT NULL CHECK(version>=1), created_at TEXT NOT NULL, updated_at TEXT NOT NULL)",
+          "CREATE TABLE IF NOT EXISTS vps_account_tokens (token_hash TEXT PRIMARY KEY NOT NULL CHECK(length(token_hash)=64), kind TEXT NOT NULL CHECK(kind IN ('password_reset','email_change')), user_id TEXT NOT NULL REFERENCES vps_users(id) ON DELETE CASCADE, previous_email TEXT NOT NULL COLLATE NOCASE, target_email TEXT NOT NULL COLLATE NOCASE, credential_hash TEXT NOT NULL CHECK(length(credential_hash)=64), session_hash TEXT REFERENCES vps_sessions(token_hash) ON DELETE CASCADE, issued_at INTEGER NOT NULL, expires_at INTEGER NOT NULL CHECK(expires_at>issued_at AND expires_at<=issued_at+1800), delivery_state TEXT NOT NULL CHECK(delivery_state IN ('pending','sending','accepted','unknown')), CHECK((kind='password_reset' AND session_hash IS NULL) OR (kind='email_change' AND session_hash IS NOT NULL)))",
+          'CREATE INDEX IF NOT EXISTS vps_account_tokens_user ON vps_account_tokens(user_id,kind)',
+          'CREATE INDEX IF NOT EXISTS vps_account_tokens_expiry ON vps_account_tokens(expires_at)',
+          "CREATE TRIGGER IF NOT EXISTS vps_account_tokens_user_revoke AFTER UPDATE OF email,salt,password_hash,disabled ON vps_users WHEN NEW.email IS NOT OLD.email OR NEW.salt IS NOT OLD.salt OR NEW.password_hash IS NOT OLD.password_hash OR NEW.disabled IS NOT OLD.disabled BEGIN DELETE FROM vps_account_tokens WHERE user_id=OLD.id; END",
+          "CREATE TRIGGER IF NOT EXISTS vps_account_tokens_profile_revoke AFTER UPDATE OF email,role,status ON profiles WHEN NEW.email IS NOT OLD.email OR NEW.role IS NOT OLD.role OR NEW.status IS NOT OLD.status BEGIN DELETE FROM vps_account_tokens WHERE user_id=OLD.id; END"
+        ].join(';')+';');
+        db.exec('COMMIT');
+      }catch(error){db.exec('ROLLBACK');throw error;}
+    }
     if(pendingOidcBinding){
       db.exec('BEGIN IMMEDIATE');
       try{
@@ -152,6 +185,16 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
           db.exec('ALTER TABLE vps_oidc_states ADD COLUMN link_session_hash TEXT REFERENCES vps_sessions(token_hash) ON DELETE CASCADE');
         db.exec('COMMIT');
       }catch(error){db.exec('ROLLBACK');throw error;}
+    }
+    if(pendingFederation){
+      db.exec('BEGIN IMMEDIATE');
+      try{installFederationSchema(db);db.exec('COMMIT');}
+      catch(error){db.exec('ROLLBACK');throw error;}
+    }
+    if(pendingFederationLogin){
+      db.exec('BEGIN IMMEDIATE');
+      try{installFederationLoginSchema(db);db.exec('COMMIT');}
+      catch(error){db.exec('ROLLBACK');throw error;}
     }
     return {db,d1:new LocalD1(db),migrations:names};
   }catch(error){

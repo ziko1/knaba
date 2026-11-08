@@ -1,0 +1,61 @@
+{
+  "observedAt": "2026-11-08T09:29:10.992177+00:00",
+  "baseCommit": "83327e5fe1b966ee8244f89988c6713264cef1be",
+  "sourceFiles": {
+    "corporate-site/worker/assistant.ts": "5e7b29ff8fbb64e91eaa6b1429853b4e0c6949329afb8ca73067917823fac3d1",
+    "corporate-site/src/components/AssistantInbox.tsx": "0261def50eec781df73d807091a4c9c3aeb89d638369a3a014d3892ab72db812",
+    "corporate-site/src/styles/assistant-inbox.css": "1385b88cfadb9e89744bc555a5023eba61169ee03dcb0402ceb187f3884fc47d",
+    "corporate-site/src/lib/assistant-inbox-i18n.ts": "826f08603a30ff56571043436d8f19e1bdc2a7af3d73d2785f2cf957932d7e0a",
+    "corporate-site/tests/assistant-capability.test.ts": "0a58c1b775ad9996d1052aa52cbfb43f9390ed024aa28332dea5d6d85c8e69aa",
+    "corporate-site/tests/assistant-async-state.test.ts": "16d4221bb15d02872c17222deef86bc3e8d31e29e535888a9bd69386baef0b63",
+    "corporate-site/tests/assistant-inbox-i18n.test.ts": "6b5a56aaf466648a8671b707cb7fbd78aa0ee59d57f5479c7c1cc9fc9e6c28be",
+    "corporate-site/vps/assistant-access.http.test.mjs": "5e89caa77c35ded2f384d1f2c46299885c2c843cd55024e5e91a95cb5ee1b6bb",
+    "corporate-site/docs/ASSISTANT_INBOX_PAGINATION_UK.md": "9b029d888ab9e208e9777339690681bfd2a9ef2bcb92d017eebcf42c22ef56b2",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-de.json": "084bdb62168c9b00c11b128e6e1d11dad6fc3c819fea9c80a036eb1d0f51ef64",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-en.json": "82b0b162fb0af8d864130b0fa6688892a5f0922f1c000646ecb415e98ff52903",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-pl.json": "c1850dd07025cf84c3fe0350e7e4d07c5bc8458218290392d7717690c45c2f39",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-lt.json": "6014781609c32a56b46749229b8c5699ad61533ddb16b6a05a8b7ffe8d82ca32",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-ru.json": "5ae4c5033b457c724cb1c26e2f6e530a3300a9033b29deaf393fcb7b2a02be11",
+    "corporate-site/src/data/assistant-inbox-locales/inbox-uk.json": "db7c2d3288a77dc332eb96f756a7edd2fc7568e2607ad17e1ebca1fb053360ed",
+    "corporate-site/src/components/AdminControlCenter.tsx": "c0e517a6f7ac010146b6bfebdd1d823879ba8dd273573e7ec7031af91e5ff8d5",
+    "corporate-site/src/components/AdminModuleOutlet.tsx": "7251331dec40f44713d116bf085988da76b6911dcb721476a986964dd55c0d13",
+    "corporate-site/src/pages/postfach.astro": "ca9ec18d6f4a6edef712fadac46fa5c1aa1d0a45c1aeeb87d5004e542ea1f7b1",
+    "corporate-site/src/pages/ru/postfach.astro": "78101aa8ce3a937c88422c719a38ca428b2e8d411ecca7d3c9fdbe1ec79706f6",
+    "corporate-site/src/pages/admin.astro": "a95a5eaccedaefc2120f128471e309184be4d6b55f4b7ccec0a69b2ffec6a8de",
+    "corporate-site/tests/assistant-inbox-payload.test.ts": "9fb8d4d72f87dec95b932e0c1512ee3a2053cb77d3c8d7d374fe7f662ea13786",
+    "corporate-site/tests/helpers/assistant-inbox-packs.ts": "25ed2dad1dea32412ade77e9a6f21e49a0fa2cb2ec76766a0562c31aee416aa9",
+    "corporate-site/src/styles/private-workspace.css": "64104cb72d4815816fab9a620f670d89b7a82f1a3c1a1d5697ca806e729fd043",
+    "corporate-site/src/components/Portal.tsx": "b3ef242f1aa1e26652da9942c9e5716ca1d69e039b19d85bcfb3f837503cc215",
+    "corporate-site/src/components/PortalConversations.tsx": "cb99abcd2dfda032ac2a922cec6551661410391ea234663a132640fb1902a914",
+    "corporate-site/src/components/DeveloperWorkspaceBar.tsx": "7c69e3e1c96dd2be6e04601c87acabfe6d9da024aa6ef35c36bd414dfa4f44cf",
+    "corporate-site/src/components/CrmConsole.tsx": "493f58c28cd29ee1b6bc88dd72f6531c6d7770603c0ca61aa1da2a4a718786c6",
+    "corporate-site/src/components/SiteStudio.tsx": "3fc91a285ccc52a60d9feb08a36e28f02a399af8a99bc37b1691ef8cace181ae",
+    "corporate-site/src/pages/studio/templates.astro": "da21503b4d5ce5600e5245745bcee937eae65ae1664795b14e3ad1c012408ecd",
+    "corporate-site/src/layouts/Layout.astro": "d19d1559216e227da1d7b2b3961c166a3f7dcda45f059e555c5a66f5d50ab31d",
+    "corporate-site/src/components/StudioCredit.astro": "16af7d90f18dc80d07a75f667a06f23b5ce8ed57582faa4396b19f1853d65d0d",
+    "corporate-site/public/images/vsp-studio-mark.svg": "1a6e921d1a61d75bcb4140fce1c96187022fea7025ef0427b5b211ca12a1e733",
+    "corporate-site/i18n/source-de.json": "345001dc8b2a748d971d4c60d543544a552f4cacc6fcb960482a1f7515b52c3f"
+  },
+  "independentReview": "Root reviewed bounded cursor parsing/SQL binding/current owner fences; locale pack validation, request generation and auth/unmount guards; all three initial-label mounts; private-only CSS grouping. Footer and CI separately reviewed by mobile_actual_readiness.",
+  "rootChecks": {
+    "focusedLocaleAndAsync": 53,
+    "actualSqliteHttp": 6,
+    "failures": 0,
+    "build": "PASS official WIP build; clean candidate build still required"
+  },
+  "performance": {
+    "baselineJsGzip": 229632,
+    "baselineCssGzip": 42739,
+    "currentJsGzip": 226219,
+    "currentCssGzip": 40832,
+    "jsBudget": 225280,
+    "cssBudget": 40960,
+    "status": "JS FAIL, CSS PASS; separate selected workspace-locale payload correction pending. Budgets unchanged."
+  },
+  "limitations": [
+    "Source checkpoint only; no whole-product AC promotion.",
+    "Browser/provider/device/UAT not established.",
+    "Pagination sort p95 and user-loaded-window refresh at scale not measured.",
+    "Next visitor display receipt and conversation bridge remain open."
+  ]
+}

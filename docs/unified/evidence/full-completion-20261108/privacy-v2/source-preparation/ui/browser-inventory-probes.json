@@ -1,0 +1,17 @@
+{
+  "scope": "pure actual CI report guard with synthetic JSON only; no browser/PG execution",
+  "passed": 11,
+  "cases": [
+    "exact30IncludingPrivacy11",
+    "missingPrivacySuite",
+    "missingPrivacyCase",
+    "duplicatePrivacyCase",
+    "misnamedPrivacySuite",
+    "old19Inventory",
+    "unexpectedPrivacyCase",
+    "skippedPrivacyCase",
+    "retriedPrivacyCase",
+    "flakyPrivacyCase",
+    "failedPrivacyCase"
+  ]
+}

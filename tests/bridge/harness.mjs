@@ -212,6 +212,12 @@ export async function fixture(t,db,{envOverrides={},scheduled=false}={}){
     },
     post(body){return fetch(`http://127.0.0.1:${app.port}/api/leads`,{method:'POST',redirect:'error',
       headers:{Host:'knaba.de',Origin:siteOrigin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1','Content-Type':'application/json'},body:JSON.stringify(body)});},
+    assistant(path,{body,ticket}={}){
+      assert.ok(path.startsWith('/api/assistant/'));
+      return fetch(`http://127.0.0.1:${app.port}${path}`,{method:body===undefined?'GET':'POST',redirect:'error',
+        headers:{Host:'knaba.de',Origin:siteOrigin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1','Content-Type':'application/json',...(ticket?{'X-Knaba-Conversation':ticket.token}:{})},
+        body:body===undefined?undefined:JSON.stringify(body)});
+    },
     queue(){return app.db.prepare('SELECT * FROM site_erp_outbox ORDER BY created_at,id').all();},
     async envelope(row){
       const sourceRow=app.db.prepare('SELECT * FROM cleaning_requests WHERE id=?').get(row.request_id);

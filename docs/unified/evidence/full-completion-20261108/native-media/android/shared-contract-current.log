@@ -1,0 +1,10 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-native-media/erp
+
+ ✓ tests/native-console-contract.test.ts (134 tests) 104ms
+
+ Test Files  1 passed (1)
+      Tests  134 passed (134)
+   Start at  15:57:08
+   Duration  2.51s (transform 1.58s, setup 0ms, import 2.06s, tests 104ms, environment 0ms)
+

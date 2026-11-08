@@ -5,7 +5,7 @@ import { createRequestId } from '../lib/request-id';
 import { workspaceHref } from '../lib/workspace-navigation';
 import { workspaceWords } from '../lib/workspace-i18n';
 import { cabinetWords } from '../lib/portal-locale-data';
-import '../styles/workspace.css';
+import '../styles/private-workspace.css';
 
 interface MessagePage { conversation: PortalConversation; messages: PortalMessage[]; nextBefore: number | null }
 interface RecipientOption { id: string; name: string; role: 'client' | 'partner' | 'worker' }

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "sourceSha": "adfa64b45179fcb2b59cd723351695a57d35652a",
+  "treeSha": "02c3604f5eb06ad5932fd9a5a8466767d35e003c",
+  "overall": "FAIL",
+  "scope": "Exact remote corrective checkpoint; named suite success does not imply whole-product acceptance.",
+  "runs": [
+    {
+      "id": 42474047297,
+      "name": "KNABA iOS simulator verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42474047297"
+    },
+    {
+      "id": 42474047188,
+      "name": "KNABA Android candidate verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42474047188"
+    },
+    {
+      "id": 42474047295,
+      "name": "KNABA repository verification",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42474047295"
+    },
+    {
+      "id": 42474043053,
+      "name": "KNABA repository verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42474043053"
+    },
+    {
+      "id": 42474043048,
+      "name": "KNABA iOS simulator verification",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42474043048"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 128712432021,
+      "name": "Source integrity and policy",
+      "status": "PASS"
+    },
+    {
+      "id": 128712431820,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "status": "PASS",
+      "testFiles": 131,
+      "tests": 3029,
+      "passed": 3029,
+      "failed": 0,
+      "skipped": 0,
+      "previousFixtureFailuresResolved": 8
+    },
+    {
+      "id": 128712431994,
+      "name": "Corporate site checks and production build",
+      "status": "FAIL",
+      "vitest": {
+        "passed": 834,
+        "failed": 0,
+        "files": 77
+      },
+      "node": {
+        "passed": 92,
+        "failed": 0
+      },
+      "check": "PASS",
+      "build": "PASS",
+      "failedStep": "verify:build",
+      "failure": "SOURCE_CATALOG_STALE_RUN_EXTRACT"
+    },
+    {
+      "id": 128712431996,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "status": "FAIL",
+      "bridge": {
+        "scope": "STEP_SUITE",
+        "status": "PASS",
+        "tests": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      "roles": {
+        "scope": "CHILD_BROWSER_SUITE",
+        "status": "PASS",
+        "checks": 107,
+        "failed": 0
+      },
+      "languages": {
+        "scope": "CHILD_BROWSER_SUITE",
+        "status": "PASS",
+        "checks": 32,
+        "failed": 0
+      },
+      "publicViewports": "NOT_RUN",
+      "erpRenderedUi": "NOT_RUN",
+      "failure": "Node24 internal Undici Parser.finish assert(!this.paused), immediately after preview GET returned200; native parser root cause not independently reproduced."
+    },
+    {
+      "id": 128711253124,
+      "name": "iOS simulator verification",
+      "status": "FAIL",
+      "preparation": "PASS",
+      "productCompilation": "PASS",
+      "xcode": "26.6",
+      "xcodeBuild": "17F113",
+      "runtime": "iOS26.5",
+      "device": "iPhone17",
+      "xctest": {
+        "executed": 92,
+        "passed": 90,
+        "failed": 2
+      },
+      "failures": [
+        "testContextPinsCanonicalIDRelatedVersionAndExpectedVersionAtTheWireBoundary: fixture expectedVersion key, actual contract expected_version",
+        "testIndependentReadFailureCannotTurnAcknowledgedWriteIntoARepeatableFailure: successful later read erased warning/acknowledged result"
+      ],
+      "failureArtifact": {
+        "id": 13615360041,
+        "sha256": "bdeded0c60e3f1dfe561dcc80256a6e0fcdf753f196e3e3fbdd6a5e84bd2a422"
+      }
+    },
+    {
+      "id": 128711265146,
+      "name": "Android debug APK, lint and regression tests",
+      "status": "FAIL",
+      "failure": "Dependency kotlin-compiler-embeddable2.2.20 download redirected to GitHub and timed out during compileDebugKotlin dependency resolution.",
+      "newArtifactAcceptance": "NOT_ESTABLISHED",
+      "previousVerifiedLocalApkRetained": true
+    }
+  ],
+  "externalAcceptance": {
+    "production": "NOT_RUN",
+    "physicalAndroid": "NOT_RUN",
+    "physicalIPhone": "NOT_RUN",
+    "liveProviders": "NOT_RUN",
+    "completeProduct": "NOT_READY"
+  },
+  "review": {
+    "status": "ACCEPT_WITH_SCOPE",
+    "reviewer": "erp_session_fence independent read-only raw-log and source-hash review",
+    "reviewedSnapshotSha256": "19788a37dd2f16dc46488356034075c8c8ef9c33f262ceb87e3d89d06ec3a14f",
+    "decision": "Named suite results, enclosing failures, pending external acceptance and bounded budget reconciliation verified; no source edits by reviewer."
+  }
+}

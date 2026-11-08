@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "sourceTree": "87a91a49fccdbbc9dfdb72f5e6bf1dd89575f3c1",
+  "scope": "Expected declared inventories from exact Git blobs, not test execution",
+  "files": [
+    {
+      "path": "erp/tests/site-federation-ledger.integration.test.ts",
+      "sha256": "b9c3e4f45d79273042aa8310cb91aed77cf6086ce8c07a79ad1cd369b7913d95",
+      "expectedCases": 12,
+      "scope": "PostgreSQL F2",
+      "names": [
+        "requires complete snapshot reconciliation before activation and creates no ERP sessions or users",
+        "persists an unknown-session fence before late register and across a new bootstrap",
+        "fences an authenticated snapshot and never activates the next epoch merely from FENCE",
+        "rejects nonce replay but resumes an uncertain operation using stable digest and fresh nonce",
+        "checks actual SQL time after waiting for the company lock, not just when the MAC was verified",
+        "returns historical receipts separately from a later generation and cannot replay an activation as authority",
+        "forces a stable 50-record snapshot restart if a fence changes the revision between pages",
+        "keeps lookup bounded/current and principal-null explicitly distinct from absent dependencies",
+        "serializes concurrent register and revoke into a terminal denied result",
+        "preserves immutable revocation storage on migration rerun and rejects direct downgrade/retarget/delete",
+        "rejects a stale configuration after key rotation and retains terminal refs",
+        "isolates equal source subjects and refs by company, and rejects a mismatched transaction scope"
+      ]
+    },
+    {
+      "path": "erp/tests/site-identity-link.integration.test.ts",
+      "sha256": "8dadaa387aa08a6143879b7bfa04862c58ccc88602ec6bbb426412765b26f999",
+      "expectedCases": 12,
+      "scope": "PostgreSQL F2",
+      "names": [
+        "requires both current sessions and final ERP confirmation, stores only hashes and never grants sessions or roles",
+        "requires the original ERP cookie, not another current session for the same user",
+        "denies a source fence committed after fresh online introspection but before binding commit",
+        "denies original ERP logout committed during online source I/O without issuing private success",
+        "denies credential/profile changes or disabled trust after claim even when the session row stays valid",
+        "fails closed for source pending denial and never treats a claim as permission",
+        "consumes the one-use proof once under concurrent confirms and never creates duplicate audit effects",
+        "self-unlinks with fresh ERP proof while source/trust is unavailable and preserves F1 terminal unlink",
+        "bounds inspection attempts and challenge issuance without retaining raw code in durable receipts",
+        "does not resolve or claim another company challenge even with the same issuer, user labels and signed key",
+        "rolls back binding, proof consumption and audit if the real SQL deadline expires after the F1 write",
+        "protects original challenge ownership and the claimed source principal against direct retarget or deletion"
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "sha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+      "expectedCases": 18,
+      "scope": "PostgreSQL F3",
+      "names": [
+        "creates one current company-scoped WEB child, stores hashes and grants no device or roles",
+        "uses S256, exact callback state/ERP issuer/client/platform and one concurrent native redemption",
+        "pins the WEB parent cookie while NATIVE ignores an unrelated system-browser ERP cookie",
+        "requires the actual ERP TOTP and consumes its counter before code/session issuance",
+        "denies the production privileged branch when no ERP MFA factor is configured",
+        "serializes a real source FENCE after online proof and before the issuing transaction",
+        "suppresses a freshly committed cookie if source revocation wins before egress",
+        "rejects terminal F1 unlink committed between proof and mint",
+        "checks current ERP login policy again after asynchronous source I/O",
+        "uses the PostgreSQL clock after company-lock wait and rejects an expired witness",
+        "does not redeem a native code after the pinned ERP credential changes",
+        "keeps local ERP logout available during a source/config outage",
+        "requires the mandatory child and the issuing company even with an ordinary session row",
+        "enforces immutable child/request identity and terminal session revocation in SQL",
+        "blocks self enrollment receipt replay while preserving independent ERP password enrollment",
+        "fences actual private blob bytes after asynchronous I/O and before file headers",
+        "closes an active SSE subscription after a genuine source-session fence within sixty seconds",
+        "separates stable approval receipts from owned fresh status and rejects read-operation replay"
+      ]
+    },
+    {
+      "path": "tests/bridge/federation.test.mjs",
+      "sha256": "8474f91042ffb31b3dcec858b374aa2e5c0e7262f9bc821eea0ade4cc0609119",
+      "expectedCases": 7,
+      "scope": "actual runtime pair F2",
+      "names": [
+        "F2 real VPS/SQLite and built ERP/HTTP/PG require dual confirmation and preserve terminal unlink",
+        "F2 lost actual FENCE ACK remains locally pending and retries one durable intent with a fresh nonce",
+        "F2 delayed first REGISTER cannot escape an actual unknown-session tombstone after source recovery",
+        "F2 a pre-enrollment SQLite restore reconciles the external authority and cannot revive an old source session",
+        "F2 two actual companies cannot consume each other’s code even with equal immutable source IDs and signing keys",
+        "F2 actual source logout P→L→C rejects an already computed active proof before ERP binding commit",
+        "F2 actual source credential P→L→C rejects an already computed active proof before ERP binding commit"
+      ]
+    },
+    {
+      "path": "tests/bridge/federation-login.test.mjs",
+      "sha256": "3b54d76d3c328d8c13328c814b29f7caf432da83e699805132d89ab90e97bf48",
+      "expectedCases": 8,
+      "scope": "actual runtime pair F3",
+      "names": [
+        "F3 actual WEB login retains current ERP roles and requires a mandatory source session lineage",
+        "F3 actual native PKCE code rejects a wrong verifier and permits exactly one concurrent redemption",
+        "F3 actual lost approval ACK recovers one durable intent before any ERP session is issued",
+        "F3 actual source logout rejects an already computed issue proof before the ERP session commit",
+        "F3 actual source outage fails closed while local logout completes without source RPC",
+        "F3 actual self-device mint needs local ERP credentials and terminal unlink revokes the derived session",
+        "F3 actual source restart fences old derived sessions while a local ERP password session remains valid",
+        "F3 actual two-company native code cannot be redeemed by the other configured authority"
+      ]
+    },
+    {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "sha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "expectedCases": 4,
+      "scope": "rendered HTTP fixture",
+      "names": [
+        "HTTP fixture: guest reviews the verified number and gives explicit consent before one CSRF-bound confirmation",
+        "HTTP fixture: original-session rejection clears the number, link and confirmation controls",
+        "HTTP fixture: a delayed older status cannot restore confirmation after the transfer completes",
+        "HTTP fixture: an unknown issuance outcome is checked after reconnect without replaying or recovering its secret"
+      ]
+    },
+    {
+      "path": "erp/tests/site-identity-link-ui.spec.ts",
+      "sha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "expectedCases": 5,
+      "scope": "rendered HTTP fixture",
+      "names": [
+        "HTTP fixture: fresh ERP password, memory-only code and explicit exact website account confirmation",
+        "HTTP fixture: original-session rejection removes all account proof fields and closes the private panel",
+        "HTTP fixture: an older status response cannot restore confirmation after a recorded link",
+        "HTTP fixture: self-unlink remains available with disabled federation and requires its own explicit fresh proof",
+        "HTTP fixture: reconnect checks an unknown issuance outcome without replaying credentials or recovering its code"
+      ]
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41",
+      "expectedCases": 10,
+      "scope": "rendered HTTP fixture F3",
+      "names": [
+        "F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation",
+        "F3 HTTP fixture: native code returns only by top-level exact callback and does not replace the browser ERP account",
+        "F3 HTTP fixture: incorrect native issuer cannot navigate or persist an authorization code",
+        "F3 HTTP fixture: unknown native confirm ACK reads status without reproducing its code or confirming again",
+        "F3 HTTP fixture: offline invalidation rejects a late private status and requires a fresh current read",
+        "F3 HTTP fixture: account review and confirmation remain accessible in all six locales at mobile width",
+        "F3 HTTP fixture: login entry retries an unknown start with exactly the original key and body",
+        "F3 HTTP fixture: explicit ERP password path is available with an existing browser session and does not auto-logout",
+        "F3 HTTP fixture: unknown WEB body ACK offers a new flow or a current-account check after response cookies changed",
+        "F3 HTTP fixture: a same-user older ERP cookie cannot complete the new WEB session"
+      ]
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "scope": "pinned workflow/runtime fixture source"
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "sha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+      "scope": "pinned workflow/runtime fixture source"
+    },
+    {
+      "path": "corporate-site/tests/ci-artifacts.mjs",
+      "sha256": "5153c02081b89b45d7a851f5e07758509fffa07f18602afba96b95ec89332685",
+      "scope": "pinned workflow/runtime fixture source"
+    },
+    {
+      "path": "tests/bridge/federation-harness.mjs",
+      "sha256": "c6dbd002f4a30448db43701d4d2af7bf2dcf49193d6eef155592e1a369cc0291",
+      "scope": "pinned workflow/runtime fixture source"
+    }
+  ]
+}

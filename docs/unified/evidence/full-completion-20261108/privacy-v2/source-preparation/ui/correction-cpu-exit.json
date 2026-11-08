@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "apps/web/src/privacyProjectionModel.test.ts",
+    "apps/web/src/privateReadGeneration.test.ts",
+    "tests/release-languages.test.ts",
+    "--reporter=json",
+    "--outputFile=/workspace/scratch/c56161c95e04/verification/privacy-v2/ui-checks/correction-cpu.json"
+  ],
+  "exitCode": 0,
+  "passed": 48,
+  "failed": 0,
+  "skipped": 0,
+  "logSha256": "7fbac064fbd897b171f751a218687eeab5747a9b19172a412cfda50e5f84d9c9"
+}

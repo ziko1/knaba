@@ -1,0 +1,14 @@
+✔ actual VPS owner revoke preserves owner history and denies the guest code (702.027202ms)
+✔ VPS owner inbox rejects revocation after-identity (266.671149ms)
+✔ VPS owner inbox rejects revocation after-private-read (258.817643ms)
+✔ VPS SQL boundary rejects an in-flight owner mutation and its audit after logout (242.936282ms)
+✔ actual VPS owner pages reach every conversation without exposing a capability (507.445125ms)
+✔ VPS rechecks current owner authority on a later page before the HTTP response (494.779911ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2681.418564

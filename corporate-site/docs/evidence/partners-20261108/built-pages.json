@@ -1,0 +1,81 @@
+{
+  "scope": "Built static HTML inspection; no browser or live acceptance",
+  "results": [
+    {
+      "path": "index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "feb34a985cbb109ebab6fe36fb16d4f44153e56f084004261c3f1a40ee6242a7"
+    },
+    {
+      "path": "unternehmen/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "7b710382f88d68f915891c881b705dfb408f57520873169d7e74de018aaf1065"
+    },
+    {
+      "path": "partner/index.html",
+      "partners": 7,
+      "officialLinks": 2,
+      "status": "PASS",
+      "sha256": "03c6f513236fcb2b20a6a6fbdc25a469546a66c6bf2474ee5647034abac8f856"
+    },
+    {
+      "path": "en/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "57099becafd46d0cf8f7073b0eadae5b4616633c7a6be3f29225b827f15270a3"
+    },
+    {
+      "path": "en/unternehmen/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "a050431675b67a2f3b04547619a27c06139c2f22f17e1e71a6312451ad848cdd"
+    },
+    {
+      "path": "en/partner/index.html",
+      "partners": 7,
+      "officialLinks": 2,
+      "status": "PASS",
+      "sha256": "131fd6d2b6b294021785ee37a1bd9498b0c49f20ba880a068378e3cc26c1ee3f"
+    },
+    {
+      "path": "uk/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "db089599e82f20c50759ae14db874b1fe9e97b4c87b8b9b7def39403e6a74670"
+    },
+    {
+      "path": "uk/unternehmen/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "5e9ac1d21e3a32094ed48c28d9719aff03e882dd19933d15bbd73d0416c694d5"
+    },
+    {
+      "path": "uk/partner/index.html",
+      "partners": 7,
+      "officialLinks": 2,
+      "status": "PASS",
+      "sha256": "e6a029a6b2f567619129b555a5f5015349c338eef2e9f575ac68b8d2818027b0"
+    },
+    {
+      "path": "ru/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "6df6efe76372e7355c4d5c548b4e0d0f84a7eebf0e5595d80460555836e7d395"
+    },
+    {
+      "path": "ru/unternehmen/index.html",
+      "partners": 7,
+      "status": "PASS",
+      "sha256": "e87c856993073b50c67f8656819f72500f95213ed2e0158a969475c3ff68511d"
+    },
+    {
+      "path": "ru/partner/index.html",
+      "partners": 7,
+      "officialLinks": 2,
+      "status": "PASS",
+      "sha256": "9db3be45c9f3e107bc8725a3160b524d22e12fd59b04ae117f3f341eb4f3b704"
+    }
+  ]
+}

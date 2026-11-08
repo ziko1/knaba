@@ -1,0 +1,943 @@
+{
+  "schemaVersion": 1,
+  "sourceFilesDigest": "d4dc06299a2191f79a26f802a7dc4038b531c3cea15135c80525d3e0cb41b566",
+  "newCpuPassed": 67,
+  "existingCpuPassed": 112,
+  "distinctCpuPassed": 179,
+  "postgresql": {
+    "execution": "NOT_RUN_LOCALLY",
+    "authoredCount": 18,
+    "path": "erp/tests/site-federation-login.integration.test.ts",
+    "tests": [
+      {
+        "title": "creates one current company-scoped WEB child, stores hashes and grants no device or roles",
+        "status": "skipped"
+      },
+      {
+        "title": "uses S256, exact callback state/ERP issuer/client/platform and one concurrent native redemption",
+        "status": "skipped"
+      },
+      {
+        "title": "pins the WEB parent cookie while NATIVE ignores an unrelated system-browser ERP cookie",
+        "status": "skipped"
+      },
+      {
+        "title": "requires the actual ERP TOTP and consumes its counter before code/session issuance",
+        "status": "skipped"
+      },
+      {
+        "title": "denies the production privileged branch when no ERP MFA factor is configured",
+        "status": "skipped"
+      },
+      {
+        "title": "serializes a real source FENCE after online proof and before the issuing transaction",
+        "status": "skipped"
+      },
+      {
+        "title": "suppresses a freshly committed cookie if source revocation wins before egress",
+        "status": "skipped"
+      },
+      {
+        "title": "rejects terminal F1 unlink committed between proof and mint",
+        "status": "skipped"
+      },
+      {
+        "title": "checks current ERP login policy again after asynchronous source I/O",
+        "status": "skipped"
+      },
+      {
+        "title": "uses the PostgreSQL clock after company-lock wait and rejects an expired witness",
+        "status": "skipped"
+      },
+      {
+        "title": "does not redeem a native code after the pinned ERP credential changes",
+        "status": "skipped"
+      },
+      {
+        "title": "keeps local ERP logout available during a source/config outage",
+        "status": "skipped"
+      },
+      {
+        "title": "requires the mandatory child and the issuing company even with an ordinary session row",
+        "status": "skipped"
+      },
+      {
+        "title": "enforces immutable child/request identity and terminal session revocation in SQL",
+        "status": "skipped"
+      },
+      {
+        "title": "blocks self enrollment receipt replay while preserving independent ERP password enrollment",
+        "status": "skipped"
+      },
+      {
+        "title": "fences actual private blob bytes after asynchronous I/O and before file headers",
+        "status": "skipped"
+      },
+      {
+        "title": "closes an active SSE subscription after a genuine source-session fence within sixty seconds",
+        "status": "skipped"
+      },
+      {
+        "title": "separates stable approval receipts from owned fresh status and rejects read-operation replay",
+        "status": "skipped"
+      }
+    ]
+  },
+  "suites": [
+    {
+      "path": "erp/tests/identity.test.ts",
+      "tests": [
+        {
+          "title": "invitation lifetime cannot exceed the canonical 24 hours and rejected input writes nothing",
+          "status": "passed"
+        },
+        {
+          "title": "legacy longer invitations expire at 24 hours even if their stored expiry is later",
+          "status": "passed"
+        },
+        {
+          "title": "a legacy invitation remains single-use immediately before its 24-hour cap",
+          "status": "passed"
+        },
+        {
+          "title": "scrypt uses unique salts and verifies only the exact password",
+          "status": "passed"
+        },
+        {
+          "title": "opaque tokens are stored by nonreversible hash and CSRF differs from authentication token",
+          "status": "passed"
+        },
+        {
+          "title": "same-origin cookie mutations require the session-specific CSRF proof",
+          "status": "passed"
+        },
+        {
+          "title": "TOTP has bounded skew and encrypted secrets reject altered ciphertext",
+          "status": "passed"
+        },
+        {
+          "title": "issued cookie is HttpOnly Strict Secure and SQL stores only a token hash",
+          "status": "passed"
+        },
+        {
+          "title": "every session rechecks current actor roles and immediately denies a disabled user",
+          "status": "passed"
+        },
+        {
+          "title": "session token cannot be replayed in a different company",
+          "status": "passed"
+        },
+        {
+          "title": "production never enables demo role login",
+          "status": "passed"
+        },
+        {
+          "title": "privileged production login needs configured MFA and rejects a replayed OTP",
+          "status": "passed"
+        },
+        {
+          "title": "rate limiter expires rather than silently accepting unlimited login attempts",
+          "status": "passed"
+        },
+        {
+          "title": "one-time invitation creates a verified bounded identity and no password aggregate",
+          "status": "passed"
+        },
+        {
+          "title": "invitation expiry and foreign code return an equivalent safe error",
+          "status": "passed"
+        },
+        {
+          "title": "self promotion and last-owner removal are denied before mutation",
+          "status": "passed"
+        },
+        {
+          "title": "unprivileged inviter cannot grant privileged roles or unheld explicit permissions",
+          "status": "passed"
+        },
+        {
+          "title": "role replacement revokes old sessions and prior role assignments atomically",
+          "status": "passed"
+        },
+        {
+          "title": "OWNER gets only explicit V4 payroll approval without wildcard finance execution or automatic GPS policy authority",
+          "status": "passed"
+        },
+        {
+          "title": "wildcard explicit grants are rejected by the invitation schema",
+          "status": "passed"
+        },
+        {
+          "title": "demo UI aliases resolve to canonical roles without creating another role definition",
+          "status": "passed"
+        },
+        {
+          "title": "production cookie cannot be downgraded by an insecure runtime override",
+          "status": "passed"
+        },
+        {
+          "title": "offline bootstrap closes after one owner and creates no wildcard or unapproved financial rights",
+          "status": "passed"
+        },
+        {
+          "title": "hashes eight-character passwords and rejects seven",
+          "status": "passed"
+        },
+        {
+          "title": "rotates password and activates a scoped invitation with eight characters",
+          "status": "passed"
+        },
+        {
+          "title": "transitions a guest request to identity-verification queue without becoming an employee",
+          "status": "passed"
+        },
+        {
+          "title": "rejection is terminal for this request, and stale versions cannot overwrite a review",
+          "status": "passed"
+        },
+        {
+          "title": "requires the actual human high-risk role and reauthentication, never a guest or bot",
+          "status": "passed"
+        },
+        {
+          "title": "a changed request version cannot be approved using stale signed preview",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/request-authority.test.ts",
+      "tests": [
+        {
+          "title": "rejects a revoked original cookie before command even when another session is valid",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a revoked original cookie before read even when another session is valid",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a revoked original cookie before page even when another session is valid",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a revoked original cookie before profile even when another session is valid",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a revoked original cookie before receipt even when another session is valid",
+          "status": "passed"
+        },
+        {
+          "title": "retains the original authority through actor spread and permission scoping",
+          "status": "passed"
+        },
+        {
+          "title": "keeps the binding in fresh/scoped command contexts and permission callbacks without serializing proof",
+          "status": "passed"
+        },
+        {
+          "title": "cannot reuse an original proof after changing actor companyId",
+          "status": "passed"
+        },
+        {
+          "title": "cannot reuse an original proof after changing actor userId",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes inactive",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes revoked",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes legacy revoked",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes malformed revocation",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes token rotated",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes owner changed",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes expired",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original device after it becomes invalid expiry",
+          "status": "passed"
+        },
+        {
+          "title": "evaluates expiry at the operation boundary, not at authentication time",
+          "status": "passed"
+        },
+        {
+          "title": "rolls back command effects and receipts if authority expires during asynchronous work (device=false)",
+          "status": "passed"
+        },
+        {
+          "title": "rolls back command effects and receipts if authority expires during asynchronous work (device=true)",
+          "status": "passed"
+        },
+        {
+          "title": "serializes logout revocation under the company transaction",
+          "status": "passed"
+        },
+        {
+          "title": "commits self device revocation and returns only a server-bound minimal acknowledgement",
+          "status": "passed"
+        },
+        {
+          "title": "guards every automatic JSON response after the handler finishes, using the original credential",
+          "status": "passed"
+        },
+        {
+          "title": "replaces detailed handler errors with opaque reauthentication after revocation",
+          "status": "passed"
+        },
+        {
+          "title": "suppresses a committed private read after role authority is revoked while its session remains active",
+          "status": "passed"
+        },
+        {
+          "title": "suppresses a committed private read after site authority is revoked while its session remains active",
+          "status": "passed"
+        },
+        {
+          "title": "suppresses a committed private read after customer authority is revoked while its session remains active",
+          "status": "passed"
+        },
+        {
+          "title": "suppresses a committed private read when a permission-specific delegation is revoked with the session still active",
+          "status": "passed"
+        },
+        {
+          "title": "does not let a later read overwrite the authority that produced earlier private data",
+          "status": "passed"
+        },
+        {
+          "title": "retains the original response fence when the same HTTP request authenticates more than once",
+          "status": "passed"
+        },
+        {
+          "title": "does not replace the original proof when one request changes a valid credential (device: false)",
+          "status": "passed"
+        },
+        {
+          "title": "does not replace the original proof when one request changes a valid credential (device: true)",
+          "status": "passed"
+        },
+        {
+          "title": "keeps an HTTP request bound to its original company even when another company has the same valid credential and user ID",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a private read when membership expires during asynchronous projection",
+          "status": "passed"
+        },
+        {
+          "title": "does not invalidate a response for unrelated profile/content updates",
+          "status": "passed"
+        },
+        {
+          "title": "keeps a legitimate own-channel mutation readable and never publishes a rolled-back authority snapshot",
+          "status": "passed"
+        },
+        {
+          "title": "returns current profile roles instead of the roles captured by initial authentication",
+          "status": "passed"
+        },
+        {
+          "title": "preserves explicitly server-created internal actors and ordinary receipt replay",
+          "status": "passed"
+        },
+        {
+          "title": "rechecks the original cookie after asynchronous private blob I/O before sending bytes",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federated-session.test.ts",
+      "tests": [
+        {
+          "title": "authenticates a mandatory child through the real signed source protocol outside SQL",
+          "status": "passed"
+        },
+        {
+          "title": "does not fall back to an ordinary auth_sessions row when the mandatory child is absent",
+          "status": "passed"
+        },
+        {
+          "title": "keeps the exact archived pre-F3 authenticator unable to accept the new credential",
+          "status": "passed"
+        },
+        {
+          "title": "never allows malformed or repurposed KF3 through cookie authentication",
+          "status": "passed"
+        },
+        {
+          "title": "never allows malformed or repurposed KF3 through bearer authentication",
+          "status": "passed"
+        },
+        {
+          "title": "never allows malformed or repurposed KF3 through guest authentication",
+          "status": "passed"
+        },
+        {
+          "title": "denies current auth-session revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current child revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current source-session revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current source-epoch revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current binding revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current user revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current generation revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current credentials revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "denies current policy revocation before calling the source",
+          "status": "passed"
+        },
+        {
+          "title": "fails closed for source inactive without a cached allow",
+          "status": "passed"
+        },
+        {
+          "title": "fails closed for source outage without a cached allow",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a signed proof for a mismatched purpose",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a signed proof for a mismatched erpSessionId",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a signed proof for a mismatched sourceLoginPolicyFingerprint",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a signed proof for a mismatched requestBinding",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a signed proof for a mismatched expired",
+          "status": "passed"
+        },
+        {
+          "title": "does not let another local session replace a revoked original source session",
+          "status": "passed"
+        },
+        {
+          "title": "rolls back an effect if the source witness expires during the transaction",
+          "status": "passed"
+        },
+        {
+          "title": "rechecks the source after a private read and suppresses response data after revocation",
+          "status": "passed"
+        },
+        {
+          "title": "does not emit a new cookie before the final source/PG egress decision",
+          "status": "passed"
+        },
+        {
+          "title": "emits the separately bound cookie only after the successful interceptor fence",
+          "status": "passed"
+        },
+        {
+          "title": "logs out locally while source and login policy are unavailable",
+          "status": "passed"
+        },
+        {
+          "title": "acknowledges committed logout without source renewal even if that request was authenticated earlier",
+          "status": "passed"
+        },
+        {
+          "title": "requires cookie possession/CSRF for source-independent logout",
+          "status": "passed"
+        },
+        {
+          "title": "blocks self-derived enrollment before a receipt can replay an independent device secret",
+          "status": "passed"
+        },
+        {
+          "title": "cannot carry the bound proof to a different actor or company",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-http.test.ts",
+      "tests": [
+        {
+          "title": "authenticates bounded raw bytes before global JSON and structural validation, and signs its response",
+          "status": "passed"
+        },
+        {
+          "title": "rejects changed-body before any authority operation",
+          "status": "passed"
+        },
+        {
+          "title": "rejects bad-mac before any authority operation",
+          "status": "passed"
+        },
+        {
+          "title": "rejects wrong-direction before any authority operation",
+          "status": "passed"
+        },
+        {
+          "title": "rejects query before any authority operation",
+          "status": "passed"
+        },
+        {
+          "title": "rejects trailing-slash before any authority operation",
+          "status": "passed"
+        },
+        {
+          "title": "rejects invalid JSON by signature first and never exposes its content",
+          "status": "passed"
+        },
+        {
+          "title": "rejects oversized or compressed bodies without operation dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "is disabled by default with no authority or database operation",
+          "status": "passed"
+        },
+        {
+          "title": "returns a signed bounded failure without internal exception details",
+          "status": "passed"
+        },
+        {
+          "title": "returns a signed bounded failure without internal exception details",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-login-flow.test.ts",
+      "tests": [
+        {
+          "title": "starts idempotently, binds once and rejects another browser",
+          "status": "passed"
+        },
+        {
+          "title": "shows the current human company name, explicit boolean MFA and canonical source URL",
+          "status": "passed"
+        },
+        {
+          "title": "completes WEB with a mandatory child, strict cookie and no durable raw credentials",
+          "status": "passed"
+        },
+        {
+          "title": "issues a JSON callback then a separate one-use native PKCE session",
+          "status": "passed"
+        },
+        {
+          "title": "rejects late native code before any source call or new session",
+          "status": "passed"
+        },
+        {
+          "title": "requires actual current TOTP, consumes its counter and keeps the true verification time",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a WEB account appearing after the original no-cookie start before source I/O",
+          "status": "passed"
+        },
+        {
+          "title": "cannot issue after an actual fresh signed proof loses its ledger authority",
+          "status": "passed"
+        },
+        {
+          "title": "leaves a committed but unreachable child when egress loses authority and never emits the cookie",
+          "status": "passed"
+        },
+        {
+          "title": "can cancel its own pending flow while source and policy are unavailable",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-login-http.test.ts",
+      "tests": [
+        {
+          "title": "is default-off even when an F2 authority exists",
+          "status": "passed"
+        },
+        {
+          "title": "publishes only safe registered client/authority discovery fields",
+          "status": "passed"
+        },
+        {
+          "title": "requires an exact same-origin browser start and bounded printable key before opening SQL",
+          "status": "passed"
+        },
+        {
+          "title": "rejects browser-provided company, role and platform overrides",
+          "status": "passed"
+        },
+        {
+          "title": "does not turn a public request ID into a status or confirmation credential",
+          "status": "passed"
+        },
+        {
+          "title": "bind accepts only the empty DTO and exact origin",
+          "status": "passed"
+        },
+        {
+          "title": "rejects malformed redemption or cookie-only token exchange before SQL",
+          "status": "passed"
+        },
+        {
+          "title": "verifies the existing signed ingress before a new LOGIN action can dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "normalizes a terminal binding loss to 401 only for a derived session, preserving business 403 and outage 503",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-login-protocol.test.ts",
+      "tests": [
+        {
+          "title": "carries LOGIN_INSPECT through the existing signed transport",
+          "status": "passed"
+        },
+        {
+          "title": "carries LOGIN_APPROVE through the existing signed transport",
+          "status": "passed"
+        },
+        {
+          "title": "carries LOGIN_STATUS through the existing signed transport",
+          "status": "passed"
+        },
+        {
+          "title": "does not accept an unspecified login grant action",
+          "status": "passed"
+        },
+        {
+          "title": "is default off without turning a malformed enabled policy into disabled",
+          "status": "passed"
+        },
+        {
+          "title": "pins the ERP issuer separately from the source issuer",
+          "status": "passed"
+        },
+        {
+          "title": "rejects duplicate or unknown config fields, client kind overrides and unregistered redirects",
+          "status": "passed"
+        },
+        {
+          "title": "allows a private-use URI only in the explicit TEST registry",
+          "status": "passed"
+        },
+        {
+          "title": "keeps ERP/source fingerprint domains distinct and changes policy identity",
+          "status": "passed"
+        },
+        {
+          "title": "implements the RFC7636 S256 vector and refuses plain or short verifiers",
+          "status": "passed"
+        },
+        {
+          "title": "validates a login approval without accepting user, role or device grants",
+          "status": "passed"
+        },
+        {
+          "title": "separates issue/use exact session and policy references",
+          "status": "passed"
+        },
+        {
+          "title": "rejects unbounded or malformed freshness and private inactive fields",
+          "status": "passed"
+        },
+        {
+          "title": "does not accept source identity fields in the native redemption input",
+          "status": "passed"
+        },
+        {
+          "title": "binds company, platform, PKCE and public state hash into request identity",
+          "status": "passed"
+        },
+        {
+          "title": "requires both policy identity and safe non-PII action result schema",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "tests": [
+        {
+          "title": "creates one current company-scoped WEB child, stores hashes and grants no device or roles",
+          "status": "skipped"
+        },
+        {
+          "title": "uses S256, exact callback state/ERP issuer/client/platform and one concurrent native redemption",
+          "status": "skipped"
+        },
+        {
+          "title": "pins the WEB parent cookie while NATIVE ignores an unrelated system-browser ERP cookie",
+          "status": "skipped"
+        },
+        {
+          "title": "requires the actual ERP TOTP and consumes its counter before code/session issuance",
+          "status": "skipped"
+        },
+        {
+          "title": "denies the production privileged branch when no ERP MFA factor is configured",
+          "status": "skipped"
+        },
+        {
+          "title": "serializes a real source FENCE after online proof and before the issuing transaction",
+          "status": "skipped"
+        },
+        {
+          "title": "suppresses a freshly committed cookie if source revocation wins before egress",
+          "status": "skipped"
+        },
+        {
+          "title": "rejects terminal F1 unlink committed between proof and mint",
+          "status": "skipped"
+        },
+        {
+          "title": "checks current ERP login policy again after asynchronous source I/O",
+          "status": "skipped"
+        },
+        {
+          "title": "uses the PostgreSQL clock after company-lock wait and rejects an expired witness",
+          "status": "skipped"
+        },
+        {
+          "title": "does not redeem a native code after the pinned ERP credential changes",
+          "status": "skipped"
+        },
+        {
+          "title": "keeps local ERP logout available during a source/config outage",
+          "status": "skipped"
+        },
+        {
+          "title": "requires the mandatory child and the issuing company even with an ordinary session row",
+          "status": "skipped"
+        },
+        {
+          "title": "enforces immutable child/request identity and terminal session revocation in SQL",
+          "status": "skipped"
+        },
+        {
+          "title": "blocks self enrollment receipt replay while preserving independent ERP password enrollment",
+          "status": "skipped"
+        },
+        {
+          "title": "fences actual private blob bytes after asynchronous I/O and before file headers",
+          "status": "skipped"
+        },
+        {
+          "title": "closes an active SSE subscription after a genuine source-session fence within sixty seconds",
+          "status": "skipped"
+        },
+        {
+          "title": "separates stable approval receipts from owned fresh status and rejects read-operation replay",
+          "status": "skipped"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-protocol.test.ts",
+      "tests": [
+        {
+          "title": "verifies signed canonical bytes and brands only the verified immutable request",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted body before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted issuer before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted company before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted audience before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted key before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted generation before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted nonce before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "denies substituted direction before dispatch",
+          "status": "passed"
+        },
+        {
+          "title": "rejects stale or future request timestamp -60001 ms",
+          "status": "passed"
+        },
+        {
+          "title": "rejects stale or future request timestamp 5001 ms",
+          "status": "passed"
+        },
+        {
+          "title": "keeps the stable operation digest while each retry has a fresh transport nonce and generation",
+          "status": "passed"
+        },
+        {
+          "title": "binds signed responses to the exact request nonce, generation, status and opposite direction key",
+          "status": "passed"
+        },
+        {
+          "title": "bounds raw request and response bytes before hashing or JSON parsing",
+          "status": "passed"
+        },
+        {
+          "title": "rejects ambiguous signed noncanonical JSON even with a valid MAC",
+          "status": "passed"
+        },
+        {
+          "title": "rejects insecure or ambiguous enabled authority configuration",
+          "status": "passed"
+        },
+        {
+          "title": "posts only to the configured exact endpoint and verifies the signed response for this nonce",
+          "status": "passed"
+        },
+        {
+          "title": "does not follow a redirect or send an authority credential to a different origin",
+          "status": "passed"
+        },
+        {
+          "title": "bounds the response stream before verification and parsing",
+          "status": "passed"
+        },
+        {
+          "title": "aborts an unavailable online check after its three-second budget",
+          "status": "passed"
+        },
+        {
+          "title": "pins the deterministic session reference across restore while isolating issuer and subject",
+          "status": "passed"
+        },
+        {
+          "title": "sorts source OIDC identities deterministically without including display-name versions",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-link-reauth.test.ts",
+      "tests": [
+        {
+          "title": "requires the actual password and returns only a digest-bound bounded witness",
+          "status": "passed"
+        },
+        {
+          "title": "does not accept missing-csrf as fresh ERP possession",
+          "status": "passed"
+        },
+        {
+          "title": "does not accept foreign-origin as fresh ERP possession",
+          "status": "passed"
+        },
+        {
+          "title": "does not accept missing-cookie as fresh ERP possession",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a GUEST even if a cookie is placed in the web slot",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a SERVICE_ACCOUNT even if a cookie is placed in the web slot",
+          "status": "passed"
+        },
+        {
+          "title": "rejects a credential replacement while scrypt is outside the company transaction",
+          "status": "passed"
+        },
+        {
+          "title": "rejects the original session revoked while scrypt completes, regardless of successful password verification",
+          "status": "passed"
+        },
+        {
+          "title": "requires current MFA and consumes its counter instead of trusting a prior session mfa flag",
+          "status": "passed"
+        },
+        {
+          "title": "expires the witness by the transaction clock and rejects changed current roles",
+          "status": "passed"
+        },
+        {
+          "title": "rejects extra browser identity/session claims rather than treating them as a proof",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "finalHttpDelta": {
+    "passed": 8,
+    "additionalDistinctTests": 0,
+    "reason": "Restored exact canonical printable ASCII idempotency-key range x20..x7e; same-origin/short-key boundary test rerun."
+  },
+  "validationNote": "178 CPU passed on v1; final auth-only delta reran session32 + HTTP9 = 41 PASS. Distinct union179 is not a new full-suite execution. PG18 remain NOT_RUN.",
+  "postFreezeCorrection": {
+    "newHttpTests": 1,
+    "focusedPassed": 41,
+    "redFailed": 1,
+    "redReason": "Actual /me returned403 after terminal binding loss; expected401. Initial /me200, business403 and source503 passed before that failure.",
+    "filesChanged": [
+      "erp/apps/api/site-federated-sessions.ts",
+      "erp/tests/fixtures/site-federated-session.ts",
+      "erp/tests/site-federation-login-http.test.ts"
+    ]
+  }
+}

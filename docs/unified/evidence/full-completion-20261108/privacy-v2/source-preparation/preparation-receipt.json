@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_REVIEWED_LOCAL_BUILD_PASSED_ACTUAL_PG_BROWSER_PENDING",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceFiles": [
+    {
+      "path": "erp/packages/domain/governance.ts",
+      "bytes": 28347,
+      "sha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1",
+      "preimageSha256": "6ae2f6c6f20ec4e6602a704d9b360ba86ac59ace3e685f466e81dadf650d14aa",
+      "newFile": false
+    },
+    {
+      "path": "erp/packages/domain/privacy-federation.ts",
+      "bytes": 8892,
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/api/privacy-federation.ts",
+      "bytes": 6846,
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "bytes": 54256,
+      "sha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d",
+      "preimageSha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+      "newFile": false
+    },
+    {
+      "path": "erp/tests/governance.test.ts",
+      "bytes": 44418,
+      "sha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0",
+      "preimageSha256": "9bc90398d83cd28379a56833b276fe47a36bce6138d202efccbf6f2316aa3334",
+      "newFile": false
+    },
+    {
+      "path": "erp/tests/privacy-federation.test.ts",
+      "bytes": 15393,
+      "sha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "bytes": 22543,
+      "sha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/web/src/App.tsx",
+      "bytes": 82273,
+      "sha256": "2aa81b5e1c1b3131b2b1d7d2465ccef87c3dac874a685cabf18b212c3854bb97",
+      "preimageSha256": "a2200ebdbd0b126b30fba0f5a420f4fd146c2101674a88378f7409b7dc5f49fc",
+      "newFile": false
+    },
+    {
+      "path": "erp/apps/web/src/CommandForm.tsx",
+      "bytes": 25721,
+      "sha256": "f0a5dc2fbf8005e8aa92d12ed34d47fb13005db13db4b6a1f75c8ae2dfae4783",
+      "preimageSha256": "985ca65160c3564f8480dfcab710b475edc43d24a75b7800f75c45c558a1c4af",
+      "newFile": false
+    },
+    {
+      "path": "erp/apps/web/src/PrivacyPage.tsx",
+      "bytes": 18772,
+      "sha256": "f82a143263eb8935d03b4cfb9c0f723f87e60b6dff69039594048c683d7771f0",
+      "preimageSha256": "3e42f7855575f529c852b001794c1b7ccae1536c7c4c99ff1578b62e5bf37bc6",
+      "newFile": false
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.ts",
+      "bytes": 9855,
+      "sha256": "819726eb5070c69cf7e454c6363ae3c60bd292ce5088ec008cbeee7434cfefc0",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/web/src/privacyProjectionModel.test.ts",
+      "bytes": 13380,
+      "sha256": "b723b8ff19106c95a511ad280dd80e9ccfd28daeb78eab606283b18b8c18c724",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/web/src/style.css",
+      "bytes": 60305,
+      "sha256": "2666208da2ade3682c80cf7bae6f1c2359264519124b67298102d30ec5f0c242",
+      "preimageSha256": "db4528949e3fc2dde5d49a5284ea719bbef6eaa186e42a369cca744a367d4e62",
+      "newFile": false
+    },
+    {
+      "path": "erp/packages/i18n/index.ts",
+      "bytes": 175344,
+      "sha256": "ff1e8b23714e3ff66e3de65859b8348b066c42da8bc77ec0ee85c8a80c158739",
+      "preimageSha256": "4ce3cb3a4464dc1bb37884719fae011f0d450bd442fb25738d0c00c701cc0878",
+      "newFile": false
+    },
+    {
+      "path": "erp/packages/i18n/privacyProjectionCopy.ts",
+      "bytes": 10312,
+      "sha256": "56507341d686df7dc7bc8445e7b9254ae823ddd224f25926592032273bdcef4b",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "bytes": 22687,
+      "sha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "bytes": 1000,
+      "sha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+      "preimageSha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+      "newFile": false
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "bytes": 15045,
+      "sha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+      "preimageSha256": "759b34b6f9bffc8e43610ccb95a2b7a1e064e34f2f1f64f9825eb1f9ce37633d",
+      "newFile": false
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.test.mjs",
+      "bytes": 7360,
+      "sha256": "55069f3eae743fccda9a2c185d1589727d6ea70ee6995c3e63f430ac5e4e0fca",
+      "preimageSha256": "575f3c85c17bb6b104c61fc7f2df542b652696afb20436acebb6b7f7a4ac805f",
+      "newFile": false
+    }
+  ],
+  "sourceDigest": "3fda751d5217cae4d1c877fddaf6cd3ad400478f59c798b7105683e580cf0b19",
+  "reviews": {
+    "backend": "39745407fd2cd29c8ba1aaf9011ed98706d0712b8573337170eb7489d852df40",
+    "ui": "ec4778e243ea8110d37727058258531704cea7b3151c0eb2b097dcc8eb7bc383"
+  },
+  "counts": {
+    "backendCpuAuthor": 204,
+    "backendIndependentMetadataSubset": 27,
+    "uiModelIndependentFinal": 30,
+    "uiBackendMemoryContractAssertions": 51,
+    "browserRunnerTests": 9,
+    "browserReportIndependentProbes": 11,
+    "browserCollectionOnly": 30,
+    "privacyBrowserSubset": 11,
+    "actualPrivacyPostgres": "NOT_RUN_LOCAL_15_CASES_REQUIRE_CI"
+  },
+  "counting": "Do not add overlapping author/independent subsets. Earlier combined UI48 passed before a test-only excess-property literal cleanup; independent final model30 and corrected build are bound to current frozen source.",
+  "localBuild": {
+    "exitCode": 0,
+    "provenance": {
+      "code_sha": "6a395bb73501455371a0e281debf81a6c18c6329",
+      "source_dirty": true,
+      "source_provenance": "GIT_WORKTREE",
+      "version": "0.1.0",
+      "builtAt": "2026-11-08T18:55:22.362Z"
+    },
+    "inputsMatchFrozenSources": true,
+    "initialAttempt": "EXIT2_TEST_FIXTURE_TYPING_ONLY_RETAINED",
+    "existingLargeChunkWarning": "PRESENT",
+    "cleanCommittedCandidateAcceptance": false
+  },
+  "scope": "Default-compatible v1 and explicit versioned ACCESS self metadata; no retention deletion or full legal fulfillment. No new schema/index/provider/runtime activation.",
+  "artifactSubset": [
+    {
+      "path": "backend/source-manifest.json",
+      "bytes": 2336,
+      "sha256": "d4c5e0ae18e5e87e7b555e45ce06e87522fef33e83c4177ece6b5e5538381d0e"
+    },
+    {
+      "path": "backend/verification.json",
+      "bytes": 6808,
+      "sha256": "15758ad4c4de9bf445a9b6d03dfd76f8e41d6f89575e69bf934b3b3b8f927b3b"
+    },
+    {
+      "path": "backend/review-request.md",
+      "bytes": 4683,
+      "sha256": "c357904bb6ff2988dc006bb2cd429ff9a1947d477f11803461113266a3ab8a88"
+    },
+    {
+      "path": "backend/independent-review.json",
+      "bytes": 3631,
+      "sha256": "39745407fd2cd29c8ba1aaf9011ed98706d0712b8573337170eb7489d852df40"
+    },
+    {
+      "path": "backend/integration-receipt.json",
+      "bytes": 2136,
+      "sha256": "83bc8e5f2cfbf2bbbc977f8ee53b8976f817de4034039a0fa11c7b3b783b1f93"
+    },
+    {
+      "path": "ui/source-manifest.json",
+      "bytes": 3485,
+      "sha256": "621f818ecddd0cf9c44a5ee45ac626a1950c8edcd36418dad140ef6555e70bba"
+    },
+    {
+      "path": "ui/initial-review.json",
+      "bytes": 9361,
+      "sha256": "396de231332dd17e16ca43b28b2fa2060ba146897e6bca62c913af0389a6cb70"
+    },
+    {
+      "path": "ui/corrected-review.json",
+      "bytes": 11509,
+      "sha256": "ec4778e243ea8110d37727058258531704cea7b3151c0eb2b097dcc8eb7bc383"
+    },
+    {
+      "path": "ui/review-correction-red-exit.json",
+      "bytes": 532,
+      "sha256": "3eff2e93de8c10fe038cb63799e8053cbcdc0e37f99b0a3e121001bb190c3913"
+    },
+    {
+      "path": "ui/correction-cpu-exit.json",
+      "bytes": 499,
+      "sha256": "06af794274927903f846a5d9d730839d1895de3374246f9fb2d2c8c4b05f8cc8"
+    },
+    {
+      "path": "ui/integrated-build-first.json",
+      "bytes": 157,
+      "sha256": "41cebc58865f8814855dc6624f6ee0aa9dc40e4e0670b66f3136dd628d1f5af0"
+    },
+    {
+      "path": "ui/integrated-build-first.log",
+      "bytes": 378,
+      "sha256": "511f4542d6ac85a47f106bd949b5cfc0d7cd5832770e59023ce600021c778eab"
+    },
+    {
+      "path": "ui/integrated-build-corrected.json",
+      "bytes": 270,
+      "sha256": "58a26bb0c131a48bcef98381c9d57f2cc6011fa4a72490f432809960c8e674f1"
+    },
+    {
+      "path": "ui/integrated-build-corrected.log",
+      "bytes": 1002,
+      "sha256": "fa5378776fb4eff54a71bcbe8cd8f07545e327eb2cdda38812f121356ba12d20"
+    },
+    {
+      "path": "ui/browser-collection-first.json",
+      "bytes": 451,
+      "sha256": "e466427c350c987edea4ba1cd6811e0ab505847a13b0d44427da98fc303a171b"
+    },
+    {
+      "path": "ui/browser-collection-first.log",
+      "bytes": 4312,
+      "sha256": "577523028d640315c22fbd00654eda6fa27529b18d1d494fe7abf1e87c39efa8"
+    },
+    {
+      "path": "ui/browser-guard-first.json",
+      "bytes": 196,
+      "sha256": "ddd8f9b4bd1d703a55cd10ef89a8a24d0c6fa66f5f161a2f8c4c840a78de855a"
+    },
+    {
+      "path": "ui/browser-guard-first.log",
+      "bytes": 1008,
+      "sha256": "aa860d40adb2b0d5d47dc3dbe9d115c4905b5d9878f2ddfb76b73493c76c91e0"
+    },
+    {
+      "path": "ui/model-corrected-tests.log",
+      "bytes": 5548,
+      "sha256": "cc9a48231797c6e45112cfb2ed3f8264e54a81d36475861055026e95fcbfce9e"
+    },
+    {
+      "path": "ui/contract-probes-corrected.json",
+      "bytes": 588,
+      "sha256": "a3e782971cc306d064bf47bb6835ecf0d032d5ac39bc468411c273e46efaa9f5"
+    },
+    {
+      "path": "ui/browser-inventory-probes.json",
+      "bytes": 422,
+      "sha256": "ba464aa46f9648cf1aaaaaf238bcb8f4498f5587c0e0726977592f45e5e655b5"
+    }
+  ],
+  "createdAt": "2026-11-08T18:59:14.830303+00:00"
+}

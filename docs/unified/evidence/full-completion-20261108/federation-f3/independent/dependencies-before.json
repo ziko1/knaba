@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+      "size": 10977
+    },
+    {
+      "path": "erp/packages/integrations/site-federation-protocol.mjs",
+      "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+      "size": 14764
+    },
+    {
+      "path": "corporate-site/vps/auth.mjs",
+      "sha256": "af6bcf816948ffb062ebb40248dc8f726719735d84e45d7eaeb0a349249cfd74",
+      "size": 9099
+    },
+    {
+      "path": "corporate-site/vps/federation-config.mjs",
+      "sha256": "12c1574870d5888f06d0364dd79b945f678fb3c68b76334118923b11b0d3a3d7",
+      "size": 1413
+    },
+    {
+      "path": "corporate-site/vps/federation-snapshot.mjs",
+      "sha256": "b1061cbcced932925bc6286b01fdd23bddb9edd35cc8213a30d5b23b34a536f1",
+      "size": 3098
+    },
+    {
+      "path": "corporate-site/vps/federation-schema.mjs",
+      "sha256": "5f8a1a5eba0b49dcc356e08941cf3a4b00b5a7516f4ad61e0cf6e80c299329c1",
+      "size": 7762
+    },
+    {
+      "path": "corporate-site/vps/federation-state.mjs",
+      "sha256": "fba9ce3446f731e7bc5edff6c9ba52f4635168957b1211cdadc62e61fd34df4a",
+      "size": 6008
+    },
+    {
+      "path": "corporate-site/vps/migration-guard.mjs",
+      "sha256": "bdaa72014c80a278f8befd34b07c98fc936eb9a12f4119b1f169ed48f3dec92e",
+      "size": 1992
+    }
+  ]
+}

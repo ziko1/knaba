@@ -2,7 +2,8 @@ import type { ApprovedRole, ChecklistItem, CleaningRequest, PortalDashboard, Por
 import { approvedRoles, checklistItems, requestStatuses } from '../src/lib/portal-contract';
 import { validateInquiry, type InquiryData } from '../src/lib/inquiry';
 import type { D1Database, D1Statement, WorkerEnv, WorkerContext } from './types';
-import { handleAssistant } from './assistant';
+import { handleAssistant,guestRequestAuthority,AssistantFault } from './assistant';
+import {AssistantRequestFault,assistantRequestOriginStatement,assistantRequestReceipt,ASSISTANT_REQUEST_CONSENT_VERSION,type AssistantRequestAuthority} from './assistant-requests';
 import { handleStudio, StudioFault } from './studio';
 import { handleSiteTemplates, TemplateFault } from './site-templates';
 import {ArticleFault} from './articles';
@@ -210,17 +211,25 @@ function cleanInput(body: Row,s: PortalSession|null): InquiryData {
   const errors=validateInquiry(data);if(Object.keys(errors).length)throw new ApiFault(422,'validation','Bitte prüfen Sie Ihre Angaben.',errors as Record<string,string>);
   return {...data,name:data.name.trim(),email:normalizeEmail(data.email),postcode:data.postcode.trim(),message:data.message.trim(),phone:data.phone.trim()};
 }
-async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|null) {
+async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|null,assistant?:AssistantRequestAuthority) {
   const db=dbFor(env);if(s)requireRole(s,['client','partner']);const body=await readBody(request);
-  allowedKeys(body,['service','objectType','postcode','area','frequency','message','address','idempotencyKey','privacyAccepted',...(s?[]:['name','email','phone','website'])]);
+  allowedKeys(body,['service','objectType','postcode','area','frequency','message',...(assistant?[]:['address']),'idempotencyKey','privacyAccepted',...(s?[]:['name','email','phone','website']),...(assistant?['transferAccepted']:[])]);
   privacy(body);
+  if(assistant&&body.transferAccepted!==true)fail(422,'transfer_consent','Bitte bestätigen Sie ausdrücklich die Erstellung und Übertragung dieser Anfrage.');
+  const conversation=assistant?await assistant.assert(true):null;
   if(!s&&str(body.website).trim()) fail(422,'validation','Die Anfrage konnte nicht verarbeitet werden. Bitte kontaktieren Sie uns telefonisch.');
   const data=cleanInput(body,s);const address=body.address===undefined?'':textField(body.address,'Objektadresse',200);
   const key=idempotency(body);
-  const scope=s?`client:${s.user!.id}`:`lead:${await sha(data.email)}`;
-  const payloadHash=await sha(JSON.stringify({...data,address}));
+  const scope=assistant?`assistant:${assistant.id}`:s?`client:${s.user!.id}`:`lead:${await sha(data.email)}`;
+  const payloadHash=await sha(JSON.stringify({...data,address,...(assistant?{consentVersion:ASSISTANT_REQUEST_CONSENT_VERSION}:{})}));
   const existing=await db.prepare('SELECT * FROM cleaning_requests WHERE dedupe_scope=? AND idempotency_key=?').bind(scope,key).first<Row>();
-  if(existing){if(existing.payload_hash!==payloadHash)fail(409,'idempotency_conflict','Diese Anfragekennung wurde bereits für andere Angaben verwendet.');return s?response({request:requestView(existing,s.role)}):response({id:existing.id,received:true});}
+  if(existing){
+    if(assistant)await assistant.assert(true);
+    if(existing.payload_hash!==payloadHash)fail(409,'idempotency_conflict','Diese Anfragekennung wurde bereits für andere Angaben verwendet.');
+    if(assistant)return response({id:existing.id,received:true,conversationId:assistant.id,request:await assistantRequestReceipt(assistant,String(existing.id))});
+    return s?response({request:requestView(existing,s.role)}):response({id:existing.id,received:true});
+  }
+  if(assistant)await rateLimit(db,`assistant-request:${await sha(assistant.id)}`,20);
   if(s)await rateLimit(db,`request:${await sha(s.user!.id)}`,20);
   else {
     // Sites guarantees identity headers, but an IP header is optional. Never
@@ -232,14 +241,17 @@ async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|nu
   }
   const requestId=id(),time=iso(),mutation=id();
   const values=[requestId,s?.user!.id||null,data.service,data.objectType,data.postcode,data.area,data.frequency,data.message,data.name,data.email,data.phone,address,scope,key,payloadHash,PRIVACY_VERSION,time,time,mutation];
-  const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND lower(email)=? AND role=? AND status='approved')":'';
-  const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id,normalizeEmail(s.user!.email),s.role]:[]));
+  const fence=assistant?.fence(true);
+  const guard=assistant?` WHERE EXISTS (SELECT 1 FROM assistant_request_links WHERE request_id=? AND conversation_id=? AND mutation_id=?) AND ${fence!.sql}`:
+    s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND lower(email)=? AND role=? AND status='approved')":'';
+  const guardValues=assistant?[requestId,assistant.id,mutation,...fence!.values]:s?[s.user!.id,normalizeEmail(s.user!.email),s.role]:[];
+  const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...guardValues);
   // Browser referral metadata is attribution only, never identity or authority.
   // Keep no URL query/hash or external referrer; tokens and free text stay out of this queue.
   let locale='DE';const source:Record<string,string>={};
   try{
     const ref=new URL(request.headers.get('referer')||'');
-    if(ref.origin===new URL(request.url).origin&&!ref.username&&!ref.password){
+    if(!assistant&&ref.origin===new URL(request.url).origin&&!ref.username&&!ref.password){
       const language=ref.pathname.split('/')[1]?.toUpperCase();
       if(['DE','EN','PL','LT','RU','UK'].includes(language))locale=language;
       if((ref.origin+ref.pathname).length<=2000)source.landingPage=ref.origin+ref.pathname;
@@ -248,11 +260,15 @@ async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|nu
       if(referral&&/^[A-Za-z0-9_-]{1,100}$/.test(referral))source.referralCode=referral;
     }
   }catch{/* Missing or unusable attribution is not invented. German is the site default. */}
+  if(assistant)locale=String(conversation!.locale).toUpperCase();
   const bridge=await createErpLeadOutboxStatement(db,env,{requestId,mutation,time,data,address,privacyVersion:PRIVACY_VERSION,clientId:s?.user!.id||null,locale,sourceJson:JSON.stringify(source)});
-  await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time),bridge]);
+  const origin=assistant?assistantRequestOriginStatement(assistant,{requestId,key,mutation,time}):null;
+  await db.batch([...(origin?[origin]:[]),insert,auditStatement(db,assistant?'assistant:'+assistant.id:s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time),bridge]);
+  if(assistant)await assistant.assert(true);
   const result=await db.prepare('SELECT * FROM cleaning_requests WHERE dedupe_scope=? AND idempotency_key=?').bind(scope,key).first<Row>();
   if(!result)fail(403,'forbidden','Die Freigabe wurde geändert. Bitte laden Sie die Seite erneut.');
   if(result!.payload_hash!==payloadHash)fail(409,'idempotency_conflict','Die Anfragekennung ist bereits belegt.');
+  if(assistant)return response({id:result!.id,received:true,conversationId:assistant.id,request:await assistantRequestReceipt(assistant,String(result!.id))},201);
   return s?response({request:requestView(result!,s.role)},201):response({id:result!.id,received:true},201);
 }
 async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
@@ -266,6 +282,16 @@ async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
   if(targetId===s.user!.id||normalizeEmail(str(target!.email))===normalizeEmail(env.OWNER_EMAIL||'')||
     (Boolean(env.DEVELOPER_EMAIL)&&normalizeEmail(str(target!.email))===normalizeEmail(env.DEVELOPER_EMAIL!)))
     fail(403,'owner_protected','Geschützte Verwaltungsidentitäten können hier nicht geändert werden.');
+  if(typeof env.COORDINATE_PROFILE_ACCESS==='function'){
+    try{await env.COORDINATE_PROFILE_ACCESS({userId:targetId,role:body.role as string|null,status:body.status as 'approved'|'suspended',version});}
+    catch(error){
+      const code=(error as {code?:string})?.code;
+      if(code==='NEEDS_REAUTH')fail(403,'reauth_required','Bitte bestätigen Sie Ihr Passwort unter Kontoeinstellungen → ERP-Konto erneut.');
+      if(code==='FEDERATION_CONFLICT')fail(409,'conflict','Der Datensatz wurde inzwischen geändert. Bitte aktualisieren Sie die Ansicht.');
+      fail(503,code==='REENTRY_REQUIRED'?'change_not_applied':'federation_pending','Die Änderung ist noch nicht global bestätigt. Bitte prüfen Sie den Status, bevor Sie erneut handeln.');
+    }
+    return response({profile:profile((await db.prepare('SELECT * FROM profiles WHERE id=?').bind(targetId).first<Row>())!)});
+  }
   const time=iso(),mutation=id();
   const results=await db.batch([
     db.prepare('UPDATE profiles SET role=?,status=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?').bind(body.role,body.status,time,mutation,targetId,version),
@@ -367,7 +393,9 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path.startsWith('/api/reviews/'))return await handleReviews(request,env,{owner:s.role==='owner',id:s.user?.id||null});
     if(path.startsWith('/api/crm/'))return await handleCrmApi(request,env,s,{readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit)});
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
-    if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null},ctx);
+    const assistantRequest=path.match(/^\/api\/assistant\/conversations\/([0-9a-f-]{36})\/requests$/i);
+    if(assistantRequest&&request.method==='POST')return await createRequest(request,env,null,await guestRequestAuthority(request,env,assistantRequest[1]));
+    if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null,verify:env.VERIFY_ASSISTANT_OWNER_SESSION},ctx);
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
     if(path==='/api/portal/erp-intake'&&request.method==='GET'){
       requireRole(s,['owner']);const status=await erpLeadOutboxStatus(dbFor(env));
@@ -385,6 +413,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(match&&request.method==='PATCH')return await patchRequest(request,env,s,match[1]);
     return response({error:{code:'not_found',message:'Dieser Endpunkt ist nicht verfügbar.'}},404);
   } catch(error) {
+    if(error instanceof AssistantFault||error instanceof AssistantRequestFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof TemplateFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof ReviewFault)return response({error:{code:error.code,message:error.message}},error.status);
     if(error instanceof StudioFault||error instanceof ArticleFault)return response({error:{code:error.code,message:error.message}},error.status);

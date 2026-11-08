@@ -234,3 +234,267 @@ BEGIN
 END $$;
 
 CREATE INDEX IF NOT EXISTS audit_v4_cursor ON audit_log(company_id,(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),(id::text) COLLATE "C");
+
+-- F1: storage foundation only. No federation login/session endpoint is enabled.
+-- Preserve this additive table and revoked tombstones when rolling runtime back.
+CREATE TABLE IF NOT EXISTS site_identity_bindings (
+ company_id text NOT NULL CHECK(octet_length(company_id) BETWEEN 1 AND 128),
+ id uuid NOT NULL DEFAULT gen_random_uuid(),
+ issuer text COLLATE "C" NOT NULL CHECK(octet_length(issuer) BETWEEN 1 AND 512),
+ audience text COLLATE "C" NOT NULL CHECK(octet_length(audience) BETWEEN 1 AND 256),
+ subject text COLLATE "C" NOT NULL CHECK(octet_length(subject) BETWEEN 1 AND 256),
+ site_user_id text COLLATE "C" NOT NULL CHECK(site_user_id=subject),
+ user_kind text NOT NULL DEFAULT 'user' CHECK(user_kind='user'),
+ user_id text NOT NULL CHECK(octet_length(user_id) BETWEEN 1 AND 128),
+ trust_version integer NOT NULL CHECK(trust_version>0),
+ trust_fingerprint text NOT NULL CHECK(trust_fingerprint ~ '^[a-f0-9]{64}$'),
+ proof_reference text NOT NULL CHECK(proof_reference ~ '^[a-f0-9]{64}$'),
+ status text NOT NULL DEFAULT 'ACTIVE' CHECK(status IN ('ACTIVE','REVOKED')),
+ version integer NOT NULL DEFAULT 1 CHECK(version>0),
+ created_by text NOT NULL CHECK(created_by=user_id),
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ expires_at timestamptz CHECK(expires_at IS NULL OR expires_at>created_at),
+ revoked_by text,
+ revoked_at timestamptz,
+ PRIMARY KEY(company_id,id),
+ UNIQUE(company_id,issuer,subject),
+ FOREIGN KEY(company_id,user_kind,user_id) REFERENCES aggregates(company_id,kind,id),
+ CHECK((status='ACTIVE' AND revoked_by IS NULL AND revoked_at IS NULL) OR
+       (status='REVOKED' AND revoked_by IS NOT NULL AND revoked_by=user_id AND revoked_at IS NOT NULL AND revoked_at>=created_at))
+);
+CREATE INDEX IF NOT EXISTS site_identity_user ON site_identity_bindings(company_id,user_id,status);
+CREATE OR REPLACE FUNCTION knaba_guard_site_identity_binding() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'SITE_IDENTITY_TOMBSTONE_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.id,NEW.issuer,NEW.audience,NEW.subject,NEW.site_user_id,NEW.user_kind,NEW.user_id,
+        NEW.trust_version,NEW.trust_fingerprint,NEW.proof_reference,NEW.created_by,NEW.created_at,NEW.expires_at)
+    IS DISTINCT FROM
+    ROW(OLD.company_id,OLD.id,OLD.issuer,OLD.audience,OLD.subject,OLD.site_user_id,OLD.user_kind,OLD.user_id,
+        OLD.trust_version,OLD.trust_fingerprint,OLD.proof_reference,OLD.created_by,OLD.created_at,OLD.expires_at)
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_PRINCIPAL_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF OLD.status<>'ACTIVE' OR NEW.status<>'REVOKED' OR NEW.version<>OLD.version+1
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_REVOCATION_TERMINAL' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_identity_immutable ON site_identity_bindings;
+CREATE TRIGGER site_identity_immutable BEFORE UPDATE OR DELETE ON site_identity_bindings
+ FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_binding();
+INSERT INTO schema_migrations(version) VALUES('003_site_identity_foundation') ON CONFLICT(version) DO NOTHING;
+
+-- F2: dedicated, default-off federation authority. These revocation high-water
+-- marks and terminal session tombstones MUST survive runtime rollback/restore.
+CREATE TABLE IF NOT EXISTS site_federation_authorities (
+ company_id text NOT NULL, authority_id text COLLATE "C" NOT NULL,
+ issuer text COLLATE "C" NOT NULL, audience text COLLATE "C" NOT NULL,
+ config_fingerprint text NOT NULL CHECK(config_fingerprint ~ '^[a-f0-9]{64}$'),
+ policy_version integer NOT NULL CHECK(policy_version>0),
+ generation integer NOT NULL CHECK(generation>0), revision bigint NOT NULL CHECK(revision>0 AND revision<=9007199254740991),
+ phase text NOT NULL CHECK(phase IN ('RECONCILING','ACTIVE')), instance_id uuid NOT NULL,
+ reconcile_cursor text, reconciled_revision bigint,
+ updated_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ PRIMARY KEY(company_id,authority_id), UNIQUE(company_id,issuer)
+);
+CREATE TABLE IF NOT EXISTS site_federation_principals (
+ company_id text NOT NULL, authority_id text COLLATE "C" NOT NULL, subject text COLLATE "C" NOT NULL CHECK(octet_length(subject) BETWEEN 1 AND 128),
+ epoch integer NOT NULL CHECK(epoch>=0), minimum_epoch integer NOT NULL CHECK(minimum_epoch>0),
+ state text NOT NULL CHECK(state IN ('ACTIVE','FENCED')),
+ security_fingerprint text CHECK(security_fingerprint IS NULL OR security_fingerprint ~ '^[a-f0-9]{64}$'),
+ source_policy_version integer NOT NULL CHECK(source_policy_version>0), version integer NOT NULL CHECK(version>0),
+ fence_operation_id uuid, updated_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ PRIMARY KEY(company_id,authority_id,subject),
+ FOREIGN KEY(company_id,authority_id) REFERENCES site_federation_authorities(company_id,authority_id),
+ CHECK((state='ACTIVE' AND epoch>=minimum_epoch AND security_fingerprint IS NOT NULL) OR (state='FENCED' AND epoch<minimum_epoch))
+);
+CREATE TABLE IF NOT EXISTS site_federation_sessions (
+ company_id text NOT NULL, authority_id text COLLATE "C" NOT NULL,
+ subject text COLLATE "C" NOT NULL CHECK(octet_length(subject) BETWEEN 1 AND 128),
+ session_ref text COLLATE "C" NOT NULL CHECK(session_ref ~ '^[A-Za-z0-9_-]{43}$'),
+ epoch integer CHECK(epoch>0), security_fingerprint text CHECK(security_fingerprint IS NULL OR security_fingerprint ~ '^[a-f0-9]{64}$'),
+ expires_at timestamptz, state text NOT NULL CHECK(state IN ('ACTIVE','REVOKED')), version integer NOT NULL CHECK(version>0),
+ updated_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ PRIMARY KEY(company_id,authority_id,session_ref),
+ FOREIGN KEY(company_id,authority_id) REFERENCES site_federation_authorities(company_id,authority_id),
+ CHECK(state='REVOKED' OR (epoch IS NOT NULL AND security_fingerprint IS NOT NULL AND expires_at IS NOT NULL))
+);
+CREATE INDEX IF NOT EXISTS site_federation_session_subject ON site_federation_sessions(company_id,authority_id,subject,session_ref);
+CREATE TABLE IF NOT EXISTS site_federation_operations (
+ company_id text NOT NULL, authority_id text COLLATE "C" NOT NULL, operation_id uuid NOT NULL,
+ digest text NOT NULL CHECK(digest ~ '^[a-f0-9]{64}$'), action text NOT NULL,
+ generation integer, revision bigint, result jsonb,
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp(), committed_at timestamptz,
+ PRIMARY KEY(company_id,authority_id,operation_id),
+ CHECK((committed_at IS NULL AND generation IS NULL AND revision IS NULL AND result IS NULL) OR
+       (committed_at IS NOT NULL AND generation>0 AND revision>0 AND result IS NOT NULL AND octet_length(result::text)<=32768))
+);
+CREATE TABLE IF NOT EXISTS site_federation_nonces (
+ company_id text NOT NULL, authority_id text COLLATE "C" NOT NULL,
+ nonce_hash text NOT NULL CHECK(nonce_hash ~ '^[a-f0-9]{64}$'), expires_at timestamptz NOT NULL,
+ PRIMARY KEY(company_id,authority_id,nonce_hash)
+);
+CREATE TABLE IF NOT EXISTS site_identity_link_challenges (
+ company_id text NOT NULL, id uuid NOT NULL, authority_id text COLLATE "C" NOT NULL,
+ user_id text NOT NULL, session_hash text NOT NULL CHECK(session_hash ~ '^[a-f0-9]{64}$'),
+ code_hash text NOT NULL CHECK(code_hash ~ '^[a-f0-9]{64}$'),
+ credential_fingerprint text NOT NULL CHECK(credential_fingerprint ~ '^[a-f0-9]{64}$'),
+ config_fingerprint text NOT NULL CHECK(config_fingerprint ~ '^[a-f0-9]{64}$'),
+ state text NOT NULL CHECK(state IN ('ISSUED','CLAIMED','CONFIRMED','CANCELLED','EXPIRED')),
+ version integer NOT NULL DEFAULT 1 CHECK(version>0), inspect_count integer NOT NULL DEFAULT 0 CHECK(inspect_count BETWEEN 0 AND 10),
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp(), expires_at timestamptz NOT NULL,
+ source_subject text COLLATE "C", source_session_ref text COLLATE "C", source_epoch integer,
+ source_security_fingerprint text, source_policy_version integer, source_generation integer,
+ source_reauth_at timestamptz, site_label text, binding_id uuid,
+ PRIMARY KEY(company_id,id), UNIQUE(company_id,code_hash),
+ CHECK(expires_at>created_at AND expires_at<=created_at+interval '5 minutes'),
+ CHECK(state NOT IN ('CLAIMED','CONFIRMED') OR (source_subject IS NOT NULL AND source_session_ref IS NOT NULL AND source_epoch>0 AND source_security_fingerprint IS NOT NULL AND source_policy_version>0 AND source_generation>0 AND source_reauth_at IS NOT NULL AND site_label IS NOT NULL)),
+ CHECK((state='CONFIRMED')=(binding_id IS NOT NULL))
+);
+CREATE INDEX IF NOT EXISTS site_link_current_user ON site_identity_link_challenges(company_id,user_id,created_at DESC);
+
+CREATE OR REPLACE FUNCTION knaba_guard_federation_authority() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'FEDERATION_LEDGER_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.authority_id,NEW.issuer,NEW.audience) IS DISTINCT FROM ROW(OLD.company_id,OLD.authority_id,OLD.issuer,OLD.audience)
+ OR NEW.generation<OLD.generation OR NEW.generation>OLD.generation+1 OR NEW.revision<OLD.revision
+ OR (NEW.generation>OLD.generation AND NEW.phase<>'RECONCILING')
+ OR (NEW.generation=OLD.generation AND ROW(NEW.config_fingerprint,NEW.policy_version,NEW.instance_id) IS DISTINCT FROM ROW(OLD.config_fingerprint,OLD.policy_version,OLD.instance_id))
+ THEN RAISE EXCEPTION 'FEDERATION_AUTHORITY_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_federation_authority_guard ON site_federation_authorities;
+CREATE TRIGGER site_federation_authority_guard BEFORE UPDATE OR DELETE ON site_federation_authorities FOR EACH ROW EXECUTE FUNCTION knaba_guard_federation_authority();
+CREATE OR REPLACE FUNCTION knaba_guard_federation_principal() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'FEDERATION_LEDGER_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.authority_id,NEW.subject) IS DISTINCT FROM ROW(OLD.company_id,OLD.authority_id,OLD.subject)
+ OR NEW.version<>OLD.version+1 OR NEW.epoch<OLD.epoch OR NEW.minimum_epoch<OLD.minimum_epoch
+ OR (NEW.epoch=OLD.epoch AND NEW.security_fingerprint IS DISTINCT FROM OLD.security_fingerprint)
+ THEN RAISE EXCEPTION 'FEDERATION_EPOCH_MONOTONE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_federation_principal_guard ON site_federation_principals;
+CREATE TRIGGER site_federation_principal_guard BEFORE UPDATE OR DELETE ON site_federation_principals FOR EACH ROW EXECUTE FUNCTION knaba_guard_federation_principal();
+CREATE OR REPLACE FUNCTION knaba_guard_federation_session() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'FEDERATION_SESSION_TOMBSTONE_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.authority_id,NEW.subject,NEW.session_ref,NEW.epoch,NEW.security_fingerprint,NEW.expires_at)
+ IS DISTINCT FROM ROW(OLD.company_id,OLD.authority_id,OLD.subject,OLD.session_ref,OLD.epoch,OLD.security_fingerprint,OLD.expires_at)
+ OR OLD.state<>'ACTIVE' OR NEW.state<>'REVOKED' OR NEW.version<>OLD.version+1
+ THEN RAISE EXCEPTION 'FEDERATION_SESSION_TERMINAL' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_federation_session_guard ON site_federation_sessions;
+CREATE TRIGGER site_federation_session_guard BEFORE UPDATE OR DELETE ON site_federation_sessions FOR EACH ROW EXECUTE FUNCTION knaba_guard_federation_session();
+CREATE OR REPLACE FUNCTION knaba_guard_federation_operation() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'FEDERATION_RECEIPT_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF OLD.committed_at IS NOT NULL OR ROW(NEW.company_id,NEW.authority_id,NEW.operation_id,NEW.digest,NEW.action,NEW.created_at)
+ IS DISTINCT FROM ROW(OLD.company_id,OLD.authority_id,OLD.operation_id,OLD.digest,OLD.action,OLD.created_at)
+ THEN RAISE EXCEPTION 'FEDERATION_RECEIPT_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_federation_operation_guard ON site_federation_operations;
+CREATE TRIGGER site_federation_operation_guard BEFORE UPDATE OR DELETE ON site_federation_operations FOR EACH ROW EXECUTE FUNCTION knaba_guard_federation_operation();
+CREATE OR REPLACE FUNCTION knaba_guard_site_link_challenge() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'SITE_LINK_PROOF_TOMBSTONE_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.id,NEW.authority_id,NEW.user_id,NEW.session_hash,NEW.code_hash,NEW.credential_fingerprint,NEW.config_fingerprint,NEW.created_at,NEW.expires_at)
+ IS DISTINCT FROM ROW(OLD.company_id,OLD.id,OLD.authority_id,OLD.user_id,OLD.session_hash,OLD.code_hash,OLD.credential_fingerprint,OLD.config_fingerprint,OLD.created_at,OLD.expires_at)
+ THEN RAISE EXCEPTION 'SITE_LINK_PROOF_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF NEW.state=OLD.state THEN
+  IF OLD.state<>'ISSUED' OR NEW.inspect_count<>OLD.inspect_count+1 OR (to_jsonb(NEW)-'inspect_count') IS DISTINCT FROM (to_jsonb(OLD)-'inspect_count')
+  THEN RAISE EXCEPTION 'SITE_LINK_PROOF_TERMINAL' USING ERRCODE='23514'; END IF;
+  RETURN NEW;
+ END IF;
+ IF NEW.version<>OLD.version+1 OR NEW.inspect_count<>OLD.inspect_count OR
+ NOT ((OLD.state='ISSUED' AND NEW.state IN ('CLAIMED','CANCELLED','EXPIRED')) OR (OLD.state='CLAIMED' AND NEW.state IN ('CONFIRMED','CANCELLED','EXPIRED')))
+ THEN RAISE EXCEPTION 'SITE_LINK_PROOF_TERMINAL' USING ERRCODE='23514'; END IF;
+ IF OLD.state='CLAIMED' AND ROW(NEW.source_subject,NEW.source_session_ref,NEW.source_epoch,NEW.source_security_fingerprint,NEW.source_policy_version,NEW.source_generation,NEW.source_reauth_at,NEW.site_label)
+ IS DISTINCT FROM ROW(OLD.source_subject,OLD.source_session_ref,OLD.source_epoch,OLD.source_security_fingerprint,OLD.source_policy_version,OLD.source_generation,OLD.source_reauth_at,OLD.site_label)
+ THEN RAISE EXCEPTION 'SITE_LINK_PRINCIPAL_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_identity_challenge_guard ON site_identity_link_challenges;
+CREATE TRIGGER site_identity_challenge_guard BEFORE UPDATE OR DELETE ON site_identity_link_challenges FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_link_challenge();
+INSERT INTO schema_migrations(version) VALUES('004_site_federation_authority') ON CONFLICT(version) DO NOTHING;
+
+-- F3 sessions use a KF3. credential which older authentication parsers reject.
+-- The child row is mandatory authority, never optional metadata on a local session.
+CREATE TABLE IF NOT EXISTS site_federation_login_requests (
+ company_id text NOT NULL,id uuid NOT NULL,start_key_hash text NOT NULL CHECK(start_key_hash~'^[a-f0-9]{64}$'),
+ input_hash text NOT NULL CHECK(input_hash~'^[a-f0-9]{64}$'),authority_id text NOT NULL,
+ request_binding text NOT NULL CHECK(request_binding~'^[a-f0-9]{64}$'),request_data jsonb NOT NULL,
+ flow_hash text CHECK(flow_hash IS NULL OR flow_hash~'^[a-f0-9]{64}$'),source_data jsonb,
+ state text NOT NULL CHECK(state IN('CREATED','BROWSER_BOUND','SOURCE_APPROVED','CODE_ISSUED','COMPLETE','CANCELLED','EXPIRED','DENIED')),
+ version integer NOT NULL DEFAULT 1 CHECK(version>0),inspect_count integer NOT NULL DEFAULT 0 CHECK(inspect_count BETWEEN 0 AND 10),
+ code_hash text CHECK(code_hash IS NULL OR code_hash~'^[a-f0-9]{64}$'),code_expires_at timestamptz,
+ erp_mfa_at timestamptz,result_session_id uuid,created_at timestamptz NOT NULL DEFAULT clock_timestamp(),expires_at timestamptz NOT NULL,
+ PRIMARY KEY(company_id,id),UNIQUE(company_id,start_key_hash),UNIQUE(company_id,code_hash),
+ CHECK(jsonb_typeof(request_data)='object' AND octet_length(request_data::text)<=8192),
+ CHECK(source_data IS NULL OR jsonb_typeof(source_data)='object' AND octet_length(source_data::text)<=8192),
+ CHECK(expires_at>created_at AND expires_at<=created_at+interval '5 minutes'),
+ CHECK((code_hash IS NULL)=(code_expires_at IS NULL)),
+ CHECK(code_expires_at IS NULL OR code_expires_at<=expires_at),
+ CHECK(state<>'CODE_ISSUED' OR code_hash IS NOT NULL),
+ CHECK(state<>'COMPLETE' OR result_session_id IS NOT NULL),
+ CHECK(state='CREATED' OR state IN('CANCELLED','EXPIRED','DENIED') OR flow_hash IS NOT NULL),
+ CHECK(state NOT IN('SOURCE_APPROVED','CODE_ISSUED','COMPLETE') OR source_data IS NOT NULL)
+);
+CREATE INDEX IF NOT EXISTS federation_login_pending ON site_federation_login_requests(company_id,state,expires_at);
+CREATE TABLE IF NOT EXISTS site_federation_session_authorities (
+ company_id text NOT NULL,id uuid NOT NULL,user_id text NOT NULL,token_hash text NOT NULL UNIQUE REFERENCES auth_sessions(token_hash) ON DELETE CASCADE,
+ request_id uuid NOT NULL,binding_id uuid NOT NULL,binding_version integer NOT NULL CHECK(binding_version>0),
+ authority_data jsonb NOT NULL,state text NOT NULL DEFAULT 'ACTIVE' CHECK(state IN('ACTIVE','REVOKED')),
+ version integer NOT NULL DEFAULT 1 CHECK(version>0),created_at timestamptz NOT NULL DEFAULT clock_timestamp(),expires_at timestamptz NOT NULL,revoked_at timestamptz,
+ PRIMARY KEY(company_id,id),UNIQUE(company_id,request_id),
+ FOREIGN KEY(company_id,request_id) REFERENCES site_federation_login_requests(company_id,id),
+ FOREIGN KEY(company_id,binding_id) REFERENCES site_identity_bindings(company_id,id),
+ CHECK(jsonb_typeof(authority_data)='object' AND octet_length(authority_data::text)<=12288),
+ CHECK(expires_at>created_at AND expires_at<=created_at+interval '8 hours'),
+ CHECK((state='ACTIVE' AND revoked_at IS NULL) OR (state='REVOKED' AND revoked_at IS NOT NULL))
+);
+CREATE INDEX IF NOT EXISTS federation_session_user ON site_federation_session_authorities(company_id,user_id,state);
+CREATE OR REPLACE FUNCTION knaba_guard_federation_login_request() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF ROW(NEW.company_id,NEW.id,NEW.start_key_hash,NEW.input_hash,NEW.authority_id,NEW.request_binding,NEW.request_data,NEW.created_at,NEW.expires_at)
+ IS DISTINCT FROM ROW(OLD.company_id,OLD.id,OLD.start_key_hash,OLD.input_hash,OLD.authority_id,OLD.request_binding,OLD.request_data,OLD.created_at,OLD.expires_at)
+ THEN RAISE EXCEPTION 'FEDERATION_LOGIN_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF OLD.state IN('COMPLETE','CANCELLED','EXPIRED','DENIED') THEN RAISE EXCEPTION 'FEDERATION_LOGIN_TERMINAL' USING ERRCODE='23514'; END IF;
+ IF OLD.flow_hash IS NULL AND NEW.flow_hash IS NOT NULL AND NOT(OLD.state='CREATED' AND NEW.state='BROWSER_BOUND')
+ OR OLD.source_data IS NULL AND NEW.source_data IS NOT NULL AND NOT(OLD.state='BROWSER_BOUND' AND NEW.state='SOURCE_APPROVED')
+ OR OLD.code_hash IS NULL AND NEW.code_hash IS NOT NULL AND NOT(OLD.state='SOURCE_APPROVED' AND NEW.state='CODE_ISSUED')
+ OR OLD.erp_mfa_at IS NULL AND NEW.erp_mfa_at IS NOT NULL AND NOT(OLD.state='SOURCE_APPROVED' AND NEW.state IN('CODE_ISSUED','COMPLETE'))
+ OR OLD.result_session_id IS NULL AND NEW.result_session_id IS NOT NULL AND NOT(NEW.state='COMPLETE' AND OLD.state IN('SOURCE_APPROVED','CODE_ISSUED'))
+ THEN RAISE EXCEPTION 'FEDERATION_LOGIN_PROOF_TRANSITION' USING ERRCODE='23514'; END IF;
+ IF OLD.flow_hash IS NOT NULL AND NEW.flow_hash IS DISTINCT FROM OLD.flow_hash OR OLD.source_data IS NOT NULL AND NEW.source_data IS DISTINCT FROM OLD.source_data
+ OR OLD.code_hash IS NOT NULL AND ROW(NEW.code_hash,NEW.code_expires_at) IS DISTINCT FROM ROW(OLD.code_hash,OLD.code_expires_at)
+ OR OLD.erp_mfa_at IS NOT NULL AND NEW.erp_mfa_at IS DISTINCT FROM OLD.erp_mfa_at
+ THEN RAISE EXCEPTION 'FEDERATION_LOGIN_PROOF_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF NEW.inspect_count<OLD.inspect_count OR NEW.version NOT IN(OLD.version,OLD.version+1)
+ OR NEW.state IS DISTINCT FROM OLD.state AND NEW.version<>OLD.version+1
+ THEN RAISE EXCEPTION 'FEDERATION_LOGIN_VERSION' USING ERRCODE='23514'; END IF;
+ IF NEW.inspect_count<>OLD.inspect_count AND NOT(OLD.state='BROWSER_BOUND' AND NEW.state='BROWSER_BOUND' AND NEW.inspect_count=OLD.inspect_count+1 AND NEW.version=OLD.version)
+ THEN RAISE EXCEPTION 'FEDERATION_LOGIN_INSPECT_TRANSITION' USING ERRCODE='23514'; END IF;
+ IF NEW.state IS DISTINCT FROM OLD.state AND NOT (NEW.state IN('CANCELLED','EXPIRED','DENIED')
+ OR OLD.state='CREATED' AND NEW.state='BROWSER_BOUND'
+ OR OLD.state='BROWSER_BOUND' AND NEW.state='SOURCE_APPROVED'
+ OR OLD.state='SOURCE_APPROVED' AND NEW.state IN('CODE_ISSUED','COMPLETE')
+ OR OLD.state='CODE_ISSUED' AND NEW.state='COMPLETE')
+ THEN RAISE EXCEPTION 'FEDERATION_LOGIN_TRANSITION' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS federation_login_request_guard ON site_federation_login_requests;
+CREATE TRIGGER federation_login_request_guard BEFORE UPDATE ON site_federation_login_requests FOR EACH ROW EXECUTE FUNCTION knaba_guard_federation_login_request();
+CREATE OR REPLACE FUNCTION knaba_guard_federation_session_authority() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='INSERT' THEN
+  IF NOT EXISTS(SELECT 1 FROM auth_sessions WHERE token_hash=NEW.token_hash AND company_id=NEW.company_id AND user_id=NEW.user_id)
+  THEN RAISE EXCEPTION 'FEDERATION_SESSION_PARENT' USING ERRCODE='23514'; END IF;
+ ELSIF ROW(NEW.company_id,NEW.id,NEW.user_id,NEW.token_hash,NEW.request_id,NEW.binding_id,NEW.binding_version,NEW.authority_data,NEW.created_at,NEW.expires_at)
+ IS DISTINCT FROM ROW(OLD.company_id,OLD.id,OLD.user_id,OLD.token_hash,OLD.request_id,OLD.binding_id,OLD.binding_version,OLD.authority_data,OLD.created_at,OLD.expires_at)
+ OR OLD.state<>'ACTIVE' OR NEW.state<>'REVOKED' OR NEW.version<>OLD.version+1
+ THEN RAISE EXCEPTION 'FEDERATION_SESSION_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS federation_session_authority_guard ON site_federation_session_authorities;
+CREATE TRIGGER federation_session_authority_guard BEFORE INSERT OR UPDATE ON site_federation_session_authorities FOR EACH ROW EXECUTE FUNCTION knaba_guard_federation_session_authority();
+INSERT INTO schema_migrations(version) VALUES('005_site_federation_login') ON CONFLICT(version) DO NOTHING;

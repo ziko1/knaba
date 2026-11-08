@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "a202ddc8d527f90dc7c13a923a11336410623173",
+  "status": "SOURCE_FROZEN_FOR_INDEPENDENT_REVIEW",
+  "files": [
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "sha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41",
+      "bytes": 22121,
+      "preimageSha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4"
+    }
+  ],
+  "changes": [
+    "Separate website/ERP registrable domains for actual cross-site cookie behavior",
+    "Move unchanged Strict-cookie assertion to landing before Continue",
+    "Select exact password input and explicitly check accessible name, required and current-password autocomplete"
+  ],
+  "unchanged": [
+    "All10 F3 test names",
+    "All19 required cases",
+    "Flow/MFA/source/old-cookie/new-cookie/issuer/storage assertions",
+    "Application runtime, public contracts and CI guards"
+  ],
+  "checks": [
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "log": "typecheck.log",
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+    },
+    {
+      "name": "browser-collection",
+      "exitCode": 0,
+      "log": "browser-collection.log",
+      "sha256": "29e43e044bcaf537e3187f79210a856fc16e4dbd65884431b3446ca78a0f6866",
+      "discoveredTests": 19,
+      "files": 3,
+      "browserExecution": false
+    }
+  ],
+  "actualBrowserAfterCorrection": "NOT_RUN",
+  "wholeProduct": "NOT_READY"
+}

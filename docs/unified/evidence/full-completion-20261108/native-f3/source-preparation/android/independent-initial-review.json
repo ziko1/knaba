@@ -1,0 +1,209 @@
+{
+  "checkedAtUtc": "2026-11-08T19:23:52.281490+00:00",
+  "verdict": "CHANGES_REQUIRED_SOURCE_ONLY",
+  "sourceBase": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "manifestSha256": "3ff888a3980520a57c58c1a50d56de5fbcee82514a05582e94f7b29b829a5406",
+  "inputRecords": [
+    {
+      "path": "erp/apps/mobile-android/FEDERATION_LOGIN_UK.md",
+      "bytes": 8274,
+      "sha256": "01b8daf3121f98b95235afe40a2f198e07fcfe436796c70588617c12758600af",
+      "observedSha256": "01b8daf3121f98b95235afe40a2f198e07fcfe436796c70588617c12758600af",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/AndroidManifest.xml",
+      "bytes": 731,
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e",
+      "observedSha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "bytes": 1494,
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4",
+      "observedSha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "bytes": 67224,
+      "sha256": "c1e1c6f9323b634a7a2867b0171335d25b9100d0cc212036d76a09da9d519248",
+      "observedSha256": "c1e1c6f9323b634a7a2867b0171335d25b9100d0cc212036d76a09da9d519248",
+      "matchesFrozenManifest": true,
+      "baseSha256": "e855563e681fbe3fc0cbeb19973a4001fa9ccb75b580ef46e41142f74a58a407"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "bytes": 47061,
+      "sha256": "5b843d489ed7a3659ebf76fc336824e3c7dd363f9cf683842aedb23deb263dfd",
+      "observedSha256": "5b843d489ed7a3659ebf76fc336824e3c7dd363f9cf683842aedb23deb263dfd",
+      "matchesFrozenManifest": true,
+      "baseSha256": "a6014774acbc2b33dcfab8950574aeb3edb9206cb1220f7a75a08aa778a5d6c0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "bytes": 879,
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c",
+      "observedSha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "bytes": 27101,
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05",
+      "observedSha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "bytes": 27280,
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6",
+      "observedSha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6",
+      "matchesFrozenManifest": true,
+      "baseSha256": "79bca4bb8e4af4fd853fa93d7a151caefe625c3330af50b78de6cdfb21e2399a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "bytes": 29012,
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6",
+      "observedSha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6",
+      "matchesFrozenManifest": true,
+      "baseSha256": "3cc152656e5854fca0f1c74674a9a56b4f9924b0c3ca31424b2d3a56c0b92e28"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "bytes": 28749,
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f",
+      "observedSha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f",
+      "matchesFrozenManifest": true,
+      "baseSha256": "3b58aaaba4cb7117791af1d9574734baf97e7caabf2eb115971d5a18168166c3"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "bytes": 37377,
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198",
+      "observedSha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198",
+      "matchesFrozenManifest": true,
+      "baseSha256": "6d0cbfe85b6932f41be16573a403c7cf16abbd7724903a79bb620a62702416e0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "bytes": 36988,
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42",
+      "observedSha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42",
+      "matchesFrozenManifest": true,
+      "baseSha256": "5e70b3b6dfda5b07cc5b7e97054e6aa205781867d2e23d7d8c15b4d3d778377c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "bytes": 29096,
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4",
+      "observedSha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4",
+      "matchesFrozenManifest": true,
+      "baseSha256": "846f478deff017e18c367746dd29fb52a043736fbc264b65e988f274c361de27"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "bytes": 20604,
+      "sha256": "418765e368b8b627d9845df4dda1c2bf8166d1ccb84d662926f525cb503af696",
+      "observedSha256": "418765e368b8b627d9845df4dda1c2bf8166d1ccb84d662926f525cb503af696",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "bytes": 1007,
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94",
+      "observedSha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94",
+      "matchesFrozenManifest": true,
+      "baseSha256": "19ee7f37f4755231612a4658add7797cdde16843b318cab0660690dced581eed"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation-policy.py",
+      "bytes": 2733,
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97",
+      "observedSha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-federation.sh",
+      "bytes": 1336,
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f",
+      "observedSha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "bytes": 3075,
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba",
+      "observedSha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba",
+      "matchesFrozenManifest": true,
+      "baseSha256": "6e7e48aa57213164343b82677601936ee41617f00e826b8ec045d5cc27729237"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationCookieTest.java",
+      "bytes": 1222,
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54",
+      "observedSha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationHttpTest.java",
+      "bytes": 10248,
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971",
+      "observedSha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpFederationLoginTest.java",
+      "bytes": 30630,
+      "sha256": "af7802ee2f2915898f5e66a28f656cd76658d9dec52cf7d52a57517a9a42aedb",
+      "observedSha256": "af7802ee2f2915898f5e66a28f656cd76658d9dec52cf7d52a57517a9a42aedb",
+      "matchesFrozenManifest": true,
+      "baseSha256": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "ANDROID-F3-R1",
+      "severity": "high",
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "boundary": "adoptFederation -> restorePending -> linked nativeMedia journal",
+      "observation": "Linked media journal read/parse failures are caught and reduced to blockedNativeMediaKey, allowing the candidate to retire the old client. Other media-only pending state is not preflight-read. This contradicts the agreed fail-closed preparation boundary.",
+      "requiredCorrection": "Use an adoption-scoped bounded journal preflight; unavailable/corrupt reads or structurally inconsistent linkage fail before retirement with old account and journal bytes preserved. Preserve valid historical UNKNOWN records in blocked/read-only recovery; a historical authority difference alone is not corruption. Preserve normal-login behavior."
+    },
+    {
+      "id": "ANDROID-F3-R2",
+      "severity": "medium",
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "boundary": "goBack/signOut AlertDialog positive callbacks",
+      "observation": "A pending-command confirmation can be open on the federation screen while the candidate finishes. Its positive callback lacks screen/transport fencing and can invoke an old leave action against the newly adopted UI. Other positive logout callbacks share the same mutable-account pattern.",
+      "requiredCorrection": "Capture the user-intent screen and exact client (and applicable revision) before showing the dialog; ignore an obsolete positive callback. Add the delayed-confirmation regression without weakening existing assertions."
+    }
+  ],
+  "authorAcknowledgedBothFindings": true,
+  "reviewCoverage": [
+    "Read complete federation protocol, strict config/callback/cookie parsing and candidate-only recovery",
+    "Read transport diff, retirement, pending-journal restore and sensitive-command boundaries",
+    "Read activity lifecycle, foreground adoption, captured worker/read/form intents and browser callback receiver",
+    "Checked host tests are included by existing test-transport entrypoint; no workflow changes required"
+  ],
+  "runtimeExecutionByReviewer": "NOT_RUN",
+  "fullAuthorSuiteAtReview": "IN_PROGRESS; previous source failures remain preserved",
+  "sourceEditedByReviewer": false,
+  "limitations": [
+    "No physical device/system browser/live-server acceptance",
+    "No candidate commit exists yet; this review is against exact per-file hashes",
+    "Further independent UI race review is in progress"
+  ]
+}

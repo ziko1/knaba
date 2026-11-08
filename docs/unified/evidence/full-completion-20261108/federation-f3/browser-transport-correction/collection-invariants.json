@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sourceBase": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "status": "PASS_COLLECTION_AND_SOURCE_INVARIANTS_ONLY",
+  "total": 19,
+  "files": 3,
+  "titlesEqualExactBaseline": true,
+  "unnamedDescribeAddsNoTitle": true,
+  "otherNineF3CaseBodiesByteIdentical": true,
+  "existingInitialPageGotoCount": 1,
+  "newManualNavigationCount": 0,
+  "realSource303Preserved": true,
+  "onlyOneScopedIgnoreHttpsErrors": true,
+  "tests": [
+    {
+      "file": "conversation-transfer-ui.spec.ts",
+      "fullTitle": "HTTP fixture: guest reviews the verified number and gives explicit consent before one CSRF-bound confirmation"
+    },
+    {
+      "file": "conversation-transfer-ui.spec.ts",
+      "fullTitle": "HTTP fixture: original-session rejection clears the number, link and confirmation controls"
+    },
+    {
+      "file": "conversation-transfer-ui.spec.ts",
+      "fullTitle": "HTTP fixture: a delayed older status cannot restore confirmation after the transfer completes"
+    },
+    {
+      "file": "conversation-transfer-ui.spec.ts",
+      "fullTitle": "HTTP fixture: an unknown issuance outcome is checked after reconnect without replaying or recovering its secret"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: native code returns only by top-level exact callback and does not replace the browser ERP account"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: incorrect native issuer cannot navigate or persist an authorization code"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: unknown native confirm ACK reads status without reproducing its code or confirming again"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: offline invalidation rejects a late private status and requires a fresh current read"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: account review and confirmation remain accessible in all six locales at mobile width"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: login entry retries an unknown start with exactly the original key and body"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: explicit ERP password path is available with an existing browser session and does not auto-logout"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: unknown WEB body ACK offers a new flow or a current-account check after response cookies changed"
+    },
+    {
+      "file": "federation-login-ui.spec.ts",
+      "fullTitle": "F3 HTTP fixture: a same-user older ERP cookie cannot complete the new WEB session"
+    },
+    {
+      "file": "site-identity-link-ui.spec.ts",
+      "fullTitle": "HTTP fixture: fresh ERP password, memory-only code and explicit exact website account confirmation"
+    },
+    {
+      "file": "site-identity-link-ui.spec.ts",
+      "fullTitle": "HTTP fixture: original-session rejection removes all account proof fields and closes the private panel"
+    },
+    {
+      "file": "site-identity-link-ui.spec.ts",
+      "fullTitle": "HTTP fixture: an older status response cannot restore confirmation after a recorded link"
+    },
+    {
+      "file": "site-identity-link-ui.spec.ts",
+      "fullTitle": "HTTP fixture: self-unlink remains available with disabled federation and requires its own explicit fresh proof"
+    },
+    {
+      "file": "site-identity-link-ui.spec.ts",
+      "fullTitle": "HTTP fixture: reconnect checks an unknown issuance outcome without replaying credentials or recovering its code"
+    }
+  ],
+  "browserExecution": "NOT_RUN"
+}

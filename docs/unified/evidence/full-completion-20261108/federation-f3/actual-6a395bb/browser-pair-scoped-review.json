@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "verdict": "PASS_PAIRED_RUNTIME_AND_RENDERED_SCOPE",
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceTree": "e81d6947e96038174d9ec8e2741250713b804396",
+  "workflowRunId": 42507639872,
+  "jobId": 128813648982,
+  "jobConclusion": "success",
+  "paired": {
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "requiredInventories": [
+      {
+        "path": "tests/bridge/federation.test.mjs",
+        "sourceSha256": "8474f91042ffb31b3dcec858b374aa2e5c0e7262f9bc821eea0ade4cc0609119",
+        "passed": 7,
+        "skipped": 0,
+        "exactNamesMatched": true
+      },
+      {
+        "path": "tests/bridge/federation-login.test.mjs",
+        "sourceSha256": "3b54d76d3c328d8c13328c814b29f7caf432da83e699805132d89ab90e97bf48",
+        "passed": 8,
+        "skipped": 0,
+        "exactNamesMatched": true
+      }
+    ],
+    "scope": "Actual local SQLite VPS and ERP HTTP/PostgreSQL pair with synthetic accounts; signed protocol and failure/race paths, no provider/deployed environment."
+  },
+  "rendered": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0,
+    "requiredInventories": [
+      {
+        "path": "erp/tests/conversation-transfer-ui.spec.ts",
+        "sourceSha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+        "passed": 4,
+        "skipped": 0,
+        "retries": 0,
+        "exactNamesMatched": true
+      },
+      {
+        "path": "erp/tests/site-identity-link-ui.spec.ts",
+        "sourceSha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+        "passed": 5,
+        "skipped": 0,
+        "retries": 0,
+        "exactNamesMatched": true
+      },
+      {
+        "path": "erp/tests/federation-login-ui.spec.ts",
+        "sourceSha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4",
+        "passed": 10,
+        "skipped": 0,
+        "retries": 0,
+        "exactNamesMatched": true
+      }
+    ],
+    "scope": "Actual installed Chrome rendering with explicit ERP HTTP fixtures; separate from the actual paired-runtime/PostgreSQL cases.",
+    "firstWebCase": "Passed the existing first WEB+MFA case: real browser follows source 303 to a bounded ephemeral loopback HTTPS receiver, receiver observes Lax flow cookie and absence of old Strict ERP cookie, then explicit confirmation/current session reaches console. Source and ERP API responses remain synthetic HTTP fixtures; this is not production TLS, deployed SSO or native-client proof.",
+    "siteRolesAndDisplayReceipts": 111,
+    "siteSixLanguageChecks": 32,
+    "publicLocaleViewportCases": 24,
+    "chrome": "Google Chrome 156.0.8078.79",
+    "playwright": "1.55.1",
+    "sandboxScope": "Exact committed runners explicitly enable Chromium sandbox; no downloaded browser, unchanged retry policy and no BLOCKED engine receipt."
+  },
+  "sourceArtifactBinding": {
+    "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+    "sourceTree": "e81d6947e96038174d9ec8e2741250713b804396",
+    "sourceCleanInCIManifest": true,
+    "manifest": {
+      "path": "browser-artifact/knaba-build-artifacts.json",
+      "bytes": 1735,
+      "sha256": "0e7fe7ebfc7575237df6a995c2382da8d21495eb2b950b1356f76ae58cb07e5b"
+    },
+    "manifestCopiesByteIdentical": true,
+    "inputsUnchangedBeforeAfterInCI": true,
+    "ciBuiltArtifactGroups": {
+      "siteClient": {
+        "path": "corporate-site/dist/client",
+        "files": 310,
+        "bytes": 6893044,
+        "sha256": "62d5f4cf0f5cafdf898c36ae1b706e3bd034ff72a1ef4845b1c16eb7de1cecf6"
+      },
+      "siteWorker": {
+        "path": "corporate-site/dist/server",
+        "files": 3,
+        "bytes": 551955,
+        "sha256": "400a16653b06db0aee53278f58d9964f8b17554f6525b8d38a127c23749bd655"
+      },
+      "siteVps": {
+        "path": "corporate-site/dist/vps",
+        "files": 4,
+        "bytes": 288696,
+        "sha256": "7834ce3a5bbf41d126f921fa8311eb279a0fe9d878e91732c5ca33fac0396943"
+      },
+      "erpDist": {
+        "path": "erp/dist",
+        "files": 12,
+        "bytes": 11193076,
+        "sha256": "f6a44b68076f7a861ad8ac9af049128b2504f396eb28279e3f805e4a273157f0"
+      }
+    },
+    "explicitSourceInputsVerifiedAgainstGitBlobs": {
+      "federationProtocol": {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14764,
+        "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e"
+      },
+      "federationLoginProtocol": {
+        "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+        "bytes": 10977,
+        "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+      },
+      "federationEntry": {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 1136,
+        "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc"
+      }
+    },
+    "committedInventoryInputsVerified": 15,
+    "independentDistRehash": "NOT_PERFORMED: the four build directories are not included in the downloaded archive; their digests are produced and checked before/after by the exact committed CI wrapper.",
+    "playwrightMetadata": {
+      "checkedOutGitCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+      "ciEventCommitHash": "7f6a1d4cd0076ee15e377ac467b18d2d72ed1ac2",
+      "note": "GitHub PR-event merge metadata differs from the explicitly checked-out source. Git commit metadata, SOURCE_SHA logs, clean build manifest and API artifact head_sha bind this review to SOURCE."
+    }
+  },
+  "evidence": [
+    {
+      "path": "bridge-browser-job.log",
+      "bytes": 189495,
+      "sha256": "25d08e359e388bfffb57ce22f4a5a8f62b34ce3656775a082bad8749e0e81456"
+    },
+    {
+      "path": "browser-artifact-api.json",
+      "bytes": 772,
+      "sha256": "699bd082eab02dbbedab7bbee484165d20ebf7c3e989ce1cafaf9b2d7a2df563"
+    },
+    {
+      "path": "browser-6a395bb.zip",
+      "bytes": 6497770,
+      "sha256": "cc46bcaa9a2a1c441196a51bebc9ad91cf7a73a9a115c6d0294bcf20ed73196c"
+    },
+    {
+      "path": "browser-artifact/bridge-tap.txt",
+      "bytes": 7082,
+      "sha256": "da5786d4d70981cd1ddf25b3baf69882e6057e0e7498be15d637c7f0fdb587b6"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/integration-receipt.json",
+      "bytes": 3689,
+      "sha256": "e51aa0aec33f9e0afaf1fe30a1312922e7931402a80d280d7d1b4bbb963a3d83"
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/result.json",
+      "bytes": 27078,
+      "sha256": "58a6f1f997d0b9df1bf6b88aa177f9c13cd91e1a9a85881a4df59d0bb1b88a6a"
+    },
+    {
+      "path": "paired-case-results.json",
+      "bytes": 4462,
+      "sha256": "b549a6e9c67fb4eb679efe1866a3cf4308722d53ce415b8d7601b0e684e3e185"
+    },
+    {
+      "path": "browser-case-results.json",
+      "bytes": 7104,
+      "sha256": "bc85f900f57a2ee0e7af2ce2f13c79e2e7c365e490386c2588b98cee086da78e"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 12152,
+      "sha256": "be909afb6d5bda49567eee11261e8a4ac6e93e7f46735aaadef7ffdb616dde7a"
+    }
+  ],
+  "limits": [
+    "No re-execution, local browser launch, rebuild, provider call or deployment was performed by this reviewer.",
+    "Paired F2 seven/F3 eight are subsets of 26; rendered 4/5/10 are subsets of 19. No double counting.",
+    "Real browser cases use synthetic HTTP application responses; they do not replace the separately reviewed signed runtime and PostgreSQL gates.",
+    "No native browser adapter, device, store, privacy lifecycle, production readiness, field Web Vitals or whole acceptance criterion closure."
+  ]
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+python3 scripts/test-federation-policy.py
 # org.json is built into Android. JVM tests require its standalone implementation,
 # supplied explicitly; no production dependency or automatic network download.
 KNABA_TRANSPORT_JSON="${KNABA_JSON_TEST_JAR:-}"
@@ -18,5 +19,28 @@ fi
 "${KNABA_TRANSPORT_JAVAC[@]}" -source 17 -target 17 -cp "$KNABA_TRANSPORT_JSON" -d "$KNABA_TRANSPORT_TEST_DIR" \
   app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java \
   app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java \
-  scripts/tests/ErpConsoleTransportTest.java
+  app/src/main/java/de/knaba/mobile/ErpFederationLogin.java \
+  app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java \
+  app/src/main/java/de/knaba/mobile/ErpMedia.java \
+  app/src/main/java/de/knaba/mobile/ErpMediaIo.java \
+  app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java \
+  app/src/main/java/de/knaba/mobile/ErpReadRetry.java \
+  app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java \
+  scripts/tests/ErpConsoleTransportTest.java \
+  scripts/tests/ErpMediaTransportTest.java \
+  scripts/tests/ErpMediaMemoryTest.java \
+  scripts/tests/ErpMediaIoTest.java \
+  scripts/tests/ErpCredentialSafetyTest.java \
+  scripts/tests/ErpServerDiscoveryTest.java \
+  scripts/tests/ErpFederationCookieTest.java \
+  scripts/tests/ErpFederationLoginTest.java \
+  scripts/tests/ErpFederationHttpTest.java
 java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpConsoleTransportTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpMediaTransportTest
+java -Xmx96m -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpMediaMemoryTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpMediaIoTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpCredentialSafetyTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpServerDiscoveryTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpFederationCookieTest
+java -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpFederationLoginTest
+java -Dsun.net.http.allowRestrictedHeaders=true -cp "$KNABA_TRANSPORT_TEST_DIR:$KNABA_TRANSPORT_JSON" de.knaba.mobile.ErpFederationHttpTest

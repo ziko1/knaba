@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "createdAt": "2026-11-08T15:50:01.036602+00:00",
+  "status": "ACCEPT_CORRECTIVE_SOURCE_SCOPED",
+  "repository": "/workspace/scratch/c56161c95e04/knaba-native-media",
+  "baseCommit": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "sourceManifest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-source-manifest.json",
+    "sha256": "cc296f7fea9312d956629240c11c835ec42013e422675a097b4911c163004921"
+  },
+  "sourceDigest": "ed80ccc61c4cff74c4a3fa92f3a77cb91cc0e60511e0d1ac8e953bede628e466",
+  "sourceDigestVerifiedUsingDeclaredAlgorithm": true,
+  "sourceHashChecks": {
+    "beforeReview": {
+      "owned": 22,
+      "readonlyDependencies": 4,
+      "allMatched": true
+    },
+    "afterReview": {
+      "owned": 22,
+      "readonlyDependencies": 4,
+      "allMatched": true
+    },
+    "changedFromInitialFreeze": [
+      {
+        "path": "erp/apps/mobile-android/MEDIA_UK.md",
+        "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952",
+        "bytes": 15144
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+        "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52",
+        "bytes": 34029
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+        "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33",
+        "bytes": 31281
+      }
+    ],
+    "otherOwnedPathsUnchanged": 19,
+    "readonlyDependenciesUnchanged": 4
+  },
+  "previousReview": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-media/independent-ios-peer-review.initial.json",
+    "sha256": "194ecc3dbb7893ff69630388630c942b8157e9fb51dc502b9d863cb7b2f7aeed"
+  },
+  "correctiveRequest": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-drain-review-request.json",
+    "sha256": "f8ddc720875e1457b2b45884861bd2aef9f5c9cf06b3ac52e34c0d23c595c4b2"
+  },
+  "findings": [
+    {
+      "id": "ANDROID-MEDIA-IO-02",
+      "status": "RESOLVED_IN_REVIEWED_SOURCE",
+      "priorDefect": "The IO lane returned Pair<Record,FileData> to a deferred main callback, so two prepared screens could retain original bytes while the next provider read started.",
+      "reviewedCorrection": "The original file remains local to one read→prepare→upload IO job. The posted Transfer contains only record/recovery metadata or an Exception. activeFile was removed. The metadata callback starts registration separately. Unknown upload preserves the prepared descriptor/key/context for explicit exact retry.",
+      "proofBoundary": "Independent source/delta review plus inspection of author actual Robolectric RED/GREEN evidence; no independent rerun of the Android UI suite."
+    }
+  ],
+  "blockingFindings": [],
+  "reviewedOtherBoundaries": [
+    "Fresh /me, canonical media.register catalog, allowed site/task/company context at each typed step",
+    "Stable distinct upload/register keys; immutable hash/metadata; known uploadId no-reupload",
+    "Full authority + exact client/session generation; metadata-only encrypted descriptors and nativeMedia command-envelope marker; generic retry bypass denied",
+    "Known registration ACK retained across checkpoint/cleanup failure; restored REGISTERED uses local cleanup only",
+    "Own-origin copy=client download; percent-encoded opaque ID, current entity/version/company, no redirects, MIME/cumulative limits, ticket checks while writing explicit system copy",
+    "Six locale XML catalogs,347 keys each, unique/nonempty values and positional-placeholder parity"
+  ],
+  "independentRuntime": {
+    "scope": "Only actual bounded Java IO executor; not provider/UI/HTTP/PG/device",
+    "commandCompile": "java --module jdk.compiler/com.sun.tools.javac.Main -source 17 -target 17 -d verification/native-media/independent-io-classes <ErpMediaIo.java> <ErpMediaIoTest.java>",
+    "commandRun": "java -cp verification/native-media/independent-io-classes de.knaba.mobile.ErpMediaIoTest",
+    "java": "OpenJDK17.0.20",
+    "compileExitCode": 0,
+    "testExitCode": 0,
+    "assertions": 17,
+    "sourceInputs": [
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+        "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e",
+        "bytes": 2173
+      },
+      {
+        "path": "erp/apps/mobile-android/scripts/tests/ErpMediaIoTest.java",
+        "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0",
+        "bytes": 3409
+      }
+    ],
+    "logs": [
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/independent-io-compile-module.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/independent-io-test-module.log",
+        "sha256": "6b65fa2387c9ef44dec099e092f1a975ff33bec2c2fb13e92552801974e0ef47"
+      }
+    ],
+    "initialToolchainAttempt": "javac executable absent; no code compiled in that attempt. Reused installed JDK compiler module, no download/install."
+  },
+  "correctiveAuthorRuntimeEvidence": {
+    "scope": "Actual Android View callbacks under Robolectric with HTTP/provider doubles; no system Photo Picker or device. Counts are author execution, independently inspected XML, not added to reviewer assertions.",
+    "red": {
+      "tests": 1,
+      "failures": 1,
+      "case": "pausedMainTwoPreparedScreensNeverCarryOriginalBytesBetweenJobs",
+      "actualFailure": "expected one upload before second provider; actual zero",
+      "xml": {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-lane-red.xml",
+        "sha256": "f63f1fb9571b4a97c9d85c200b26b67c1870c36c824a7b49f79fcff4302cd8f7"
+      },
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-lane-red.log",
+        "sha256": "864ba159695e52326889f752e7bd6c10f8587fe6f32d7bf72b14443dfd2bee38"
+      }
+    },
+    "green": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-lane-green.xml",
+        "sha256": "f051f21985944357658937fceb4315042445ddeda3327cb1963f6f141a6a8ae4"
+      },
+      "log": {
+        "path": "/workspace/scratch/c56161c95e04/verification/native-media/android-payload-lane-green.log",
+        "sha256": "938d66b52c46a6c10a181880c6df070d040c0b0dc1886ca05f6f93c025f3d311"
+      }
+    },
+    "additionalReviewedRegression": "combinedFileJobKeepsUnknownUploadDescriptorForManualExactRetry: encrypted pending descriptor preserved after lost ACK; no auto retry/register; explicit retry uses identical upload key/body; registers once."
+  },
+  "localization": {
+    "catalogs": 6,
+    "uniqueNonemptyKeysPerCatalog": 347,
+    "keyAndPositionalPlaceholderParity": "PASS_INDEPENDENT_PARSE",
+    "deltaChangesLocales": false
+  },
+  "primaryDocs": [
+    "https://developer.android.com/training/data-storage/shared/photo-picker",
+    "https://developer.android.com/training/data-storage/shared/documents-files"
+  ],
+  "notRun": [
+    "Independent Robolectric/full transport suites",
+    "Actual system picker/document provider",
+    "Physical Android or iOS device",
+    "New APK/AAB packaging/signing/install",
+    "Live ERP/scanner/provider/PostgreSQL acceptance",
+    "Device RSS/performance"
+  ],
+  "acceptanceLimits": [
+    "Source scope only; this is not full KN-C06/AC53/AC54, mobile release, device or live readiness.",
+    "No new Android packaging, signing or install acceptance.",
+    "Host memory/executor fixtures do not measure real provider buffers or device RSS.",
+    "No runtime/API/SQL/workflow source changes by reviewer."
+  ],
+  "sourceEdits": false,
+  "newTestRunsDuringCorrectiveDeltaReview": false
+}

@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "createdAt": "2026-11-08T15:46:46.535270+00:00",
+  "status": "PASS_LOCAL_VPS_SCOPE",
+  "counts": {
+    "tests": 354,
+    "pass": 354,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "sourceManifestSha256": "d078795f6b2218436b696b48c565388d7fd689f9b0e532c2e5495ad88945889f",
+  "frozenInputsMatched": 13,
+  "federationLoginProtocolSha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+  "currentBundleSha256": "8ffd29063fdeac74ebc87a09266fa5651cc7c411b22d611fdefd7255920da8f0",
+  "log": {
+    "path": "/workspace/scratch/c56161c95e04/verification/federation-f3/site/full-vps-current-bundle.log",
+    "sha256": "8674c83af9ff20921aa5a45f8ed844c8dea7fbe96722819b0e77b9b5ea9ecc4c"
+  },
+  "scope": "Actual local VPS SQLite/HTTP/migration regression suite with freshly rebuilt current federation bundle and explicit synthetic ERP endpoints where the fixtures declare them. Not actual PostgreSQL or browser/native/live acceptance.",
+  "history": "Initial354 passing run is retained separately; the bundle was then rebuilt because the shared UTF-8 subject guard had changed after the first full site build. This run resolves that source/build drift; counts overlap and must not be added.",
+  "notRun": [
+    "Clean committed aggregate build",
+    "Actual ERP/VPS/PostgreSQL pair",
+    "Rendered browser",
+    "Native and live acceptance"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "reviewer": "/root",
+  "reviewedAtUtc": "2026-11-08T20:16:56.651974+00:00",
+  "verdict": "ACCEPT_TEST_CONTRACT_CORRECTION_SCOPED_ACTUAL_XCTEST_PENDING",
+  "sourceCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceFile": {
+    "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+    "bytes": 3837,
+    "sha256": "d6de8a4d4327211bbce52465fa760b42b01a7d9acc20788af295438ae4b6ff72",
+    "preimageSha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6"
+  },
+  "manifestSha256": "8ad869495eb9263992921711ef421f1b1db2fc0bf0cfb59f3ada488c16eb58ed",
+  "findings": [],
+  "reason": "Preserves all actual URLSession assertions; separates independently verified existing65536 input cap,70000 encoded envelope cap and federation65536 response cap. Runtime limits are not changed.",
+  "checks": [
+    "Exact4insert1delete replacement and old preimage",
+    "Three relevant runtime files match base",
+    "Legacy recovery source same on ba and6a",
+    "Actual ba failure independently parsed:209/210 with all145 baseline passed",
+    "210 test declaration inventory preserved"
+  ],
+  "correctedSwiftCompilation": "NOT_RUN_LOCALLY",
+  "correctedXCTest": "PENDING_NEW_COMMIT_CI",
+  "wholeProduct": "NOT_READY"
+}

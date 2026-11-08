@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_FROZEN_PENDING_INDEPENDENT_REVIEW_AND_ACTUAL_PG",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-privacy-v2",
+  "baseCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "sourceFiles": [
+    {
+      "path": "erp/packages/domain/governance.ts",
+      "bytes": 28347,
+      "sha256": "0223cf4df79118da2657342392cbc8a402f5a8fe2a91cd88f5ec729acc0424e1",
+      "preimageSha256": "6ae2f6c6f20ec4e6602a704d9b360ba86ac59ace3e685f466e81dadf650d14aa",
+      "newFile": false
+    },
+    {
+      "path": "erp/packages/domain/privacy-federation.ts",
+      "bytes": 8892,
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/api/privacy-federation.ts",
+      "bytes": 6846,
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "bytes": 54256,
+      "sha256": "543d731e9c843723aa3a5ea21aed25370b4fc53f3bf848e3dd2a074af0b7875d",
+      "preimageSha256": "764d2241b4ed1f18916a51ea954f68b338b54cb5dca553cc57f4e54c7cb9d380",
+      "newFile": false
+    },
+    {
+      "path": "erp/tests/governance.test.ts",
+      "bytes": 44418,
+      "sha256": "6ce3662f40c98d0513df1d1d3c21aa0b2b99904ea00389c9f077e11555c81dc0",
+      "preimageSha256": "9bc90398d83cd28379a56833b276fe47a36bce6138d202efccbf6f2316aa3334",
+      "newFile": false
+    },
+    {
+      "path": "erp/tests/privacy-federation.test.ts",
+      "bytes": 15393,
+      "sha256": "04e286d1183c610d26955f9f749424f7f786d438776d7f9459d0b9def429f0b1",
+      "preimageSha256": null,
+      "newFile": true
+    },
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "bytes": 22543,
+      "sha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d",
+      "preimageSha256": null,
+      "newFile": true
+    }
+  ],
+  "sourceDigest": "bf881ddb1fab39e738814b52d1197f2056b9cd790f82300291c150cb467cc92a",
+  "postgres": "NOT_RUN_LOCAL_UNAVAILABLE",
+  "scope": "Backend privacy v2 through existing governance pipeline; no production/legal/full-system acceptance",
+  "noSchemaIndexOrRuntimeActivation": true,
+  "frozenAtUtc": "2026-11-08T18:34:42.939708+00:00"
+}

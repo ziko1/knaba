@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba/erp
+
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > keeps legacy request bodies byte-equivalent and omits the UI version from erasure 7ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > normalizes the reason before review to match the existing server schema and replay digest 7ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > sends an explicit v2 selection only when the current catalog advertises it 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > uses the existing local-reference command schema resolver for optional versions 3ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly malformed version instead of treating null as legacy 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly malformed version instead of treating undefined as legacy 2ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly malformed version instead of treating "" as legacy 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly malformed version instead of treating "knaba-dsar-v3" as legacy 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly malformed version instead of treating undefined as legacy 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly malformed version instead of treating {} as legacy 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > does not accept a stored ERASURE version or a request belonging to another subject 2ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > accepts a creation ACK only for the reviewed own type, categories, reason and version 3ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > keeps a newer authoritative request visible when a successful old receipt is replayed 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > does not render an explicitly different company in own lists with a reused user identifier 3ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > allows another subject for independent review only within the current company when declared 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > accepts compact legacy and explicit v2 prepare ACKs without inventing a snapshot endpoint 5ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly foreign or malformed company in own request and compact ACKs: "foreign-company" 5ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly foreign or malformed company in own request and compact ACKs: null 4ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > rejects an explicitly foreign or malformed company in own request and compact ACKs: undefined 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > accepts explicit same-company associations and the existing absent legacy fields 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > blocks a v2 prepare ACK with absent, unknown or mismatched version: {} 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > blocks a v2 prepare ACK with absent, unknown or mismatched version: {"projectionVersion":null} 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > blocks a v2 prepare ACK with absent, unknown or mismatched version: {"projectionVersion":"knaba-dsar-v1"} 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > blocks a v2 prepare ACK with absent, unknown or mismatched version: {"projectionVersion":"unknown"} 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > does not expose downloads from malformed ready flags or file metadata 2ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > preserves existing v1 cards without company fields and permits only an expected-v1 legacy absence 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > requires v2 card agreement across own request, outer version, snapshot version and company 3ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > does not label unexpected federation data as a basic or non-PROFILE export 0ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > status refresh cannot replace immutable scope, owner or reason and rejects version drift 1ms
+ ✓ apps/web/src/privacyProjectionModel.test.ts > privacy projection UI contracts > provides human scope and blocker text in all six supported languages 9ms
+
+ Test Files  1 passed (1)
+      Tests  30 passed (30)
+   Start at  19:50:15
+   Duration  2.17s (transform 862ms, setup 0ms, import 1.16s, tests 68ms, environment 0ms)
+

@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "6a395bb73501455371a0e281debf81a6c18c6329",
+  "priorArtifactCommit": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+  "androidInputs": 68,
+  "iosInputs": 54,
+  "uniqueInputs": 121,
+  "gitDiffExit": 0,
+  "changes": []
+}

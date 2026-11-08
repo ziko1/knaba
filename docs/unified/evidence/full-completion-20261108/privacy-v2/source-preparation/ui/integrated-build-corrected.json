@@ -1,0 +1,11 @@
+{
+  "command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "exitCode": 0,
+  "sourceDigest": "f8fd589f43ce0d25a982892d2a6a391988f354eba1c0c2a6da2b247a2b433e64",
+  "inputsUnchanged": true,
+  "logSha256": "fa5378776fb4eff54a71bcbe8cd8f07545e327eb2cdda38812f121356ba12d20"
+}

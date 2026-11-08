@@ -4,7 +4,7 @@ import type {Request,Response} from 'express';
 import {Database} from '../apps/api/database.ts';
 import {Engine} from '../apps/api/engine.ts';
 import {ApiController} from '../apps/api/http.ts';
-import {AuthService,SESSION_COOKIE} from '../apps/api/auth.ts';
+import {AuthService,SESSION_COOKIE,hashToken} from '../apps/api/auth.ts';
 import {reportSnapshotHash} from '../packages/domain/resources.ts';
 import type {Actor,Data,Entity} from '../packages/domain/core.ts';
 
@@ -206,18 +206,25 @@ postgres('accountant handoff: real PostgreSQL published report, current authorit
  });
 
  it.each(['permission','site','mixed-role','disabled'] as const)('a genuine %s revocation committed after authentication closes the serving transaction before bytes or headers',async change=>{
-  const authenticate=AuthService.prototype.authenticate;let changed=false;
+  const authenticate=AuthService.prototype.authenticate;let authenticated=false,changed=false;
   // Authentication and the administrative update are real SQL operations; this
   // hook only fixes the order of the otherwise nondeterministic request race.
   vi.spyOn(AuthService.prototype,'authenticate').mockImplementation(async function(this:AuthService,req:Request,guest?:boolean){
-   const auth=await authenticate.call(this,req,guest);expect(auth.actor.permissions).toContain('report.export');
-   if(!changed){changed=true;await update('user','accountant',change==='permission'?{roles:['QUALITY_CONTROL'],permissions:['report.read']}:change==='site'?{siteIds:[]}:change==='mixed-role'?{roles:['ACCOUNTANT','CLIENT']}:{active:false});
+   const auth=await authenticate.call(this,req,guest);expect(auth.actor.permissions).toContain('report.export');expect(auth.actor).toMatchObject({companyId:company,userId:'accountant'});expect(auth.token).toBe(session.token);authenticated=true;
+   if(!changed){expect((await get('user','accountant')).data.active).toBe(true);await update('user','accountant',change==='permission'?{roles:['QUALITY_CONTROL'],permissions:['report.read']}:change==='site'?{siteIds:[]}:change==='mixed-role'?{roles:['ACCOUNTANT','CLIENT']}:{active:false});
     if(change==='mixed-role')await db.transaction(company,'SYNTHETIC_ACCOUNTING_MIXED_ROLE_MEMBERSHIP',tx=>tx.add('customer_membership',{userId:'accountant',customerId:'customer',siteIds:['site'],permissions:['VIEW'],active:true,synthetic:true},'mixed-accountant-membership'));
+    changed=true;
    }
    return auth;
   });
-  const denied=response();await expect(api.reportAccountingJson(request(session),denied.res,version.id)).rejects.toMatchObject({code:change==='site'?'NOT_FOUND_SAFE':'ACCESS_DENIED'});
-  expect(changed).toBe(true);expect(denied.sent).not.toHaveBeenCalled();expect(denied.headers).toEqual({});
+  // A disabled principal invalidates the original authenticated request itself;
+  // active-user permission/site changes retain their precise export errors.
+  const denied=response();await expect(api.reportAccountingJson(request(session),denied.res,version.id)).rejects.toMatchObject({code:change==='disabled'?'NEEDS_REAUTH':change==='site'?'NOT_FOUND_SAFE':'ACCESS_DENIED'});
+  expect(authenticated).toBe(true);expect(changed).toBe(true);expect(denied.sent).not.toHaveBeenCalled();expect(denied.headers).toEqual({});
+  if(change==='disabled'){
+   expect((await get('user','accountant')).data.active).toBe(false);
+   expect((await db.query('SELECT user_id,company_id,revoked_at,expires_at>clock_timestamp() AS unexpired FROM auth_sessions WHERE company_id=$1 AND token_hash=$2',[company,hashToken(session.token)])).rows).toEqual([{user_id:'accountant',company_id:company,revoked_at:null,unexpired:true}]);
+  }
   expect((await db.transaction(company,'SYNTHETIC_ACCOUNTING_NO_ARTIFACT_ASSERT',tx=>tx.list('report_artifact')))).toEqual([]);
   expect(await get('report_version',version.id)).toEqual(version);expect(accountant.permissions).toContain('report.export');
  });

@@ -3,7 +3,7 @@ import { portalHeader } from '../lib/portal-contract';
 import { portalMessages, type PortalLocale } from '../lib/portal-i18n';
 import { workspaceWords } from '../lib/workspace-i18n';
 import { safeWorkspaceRedirect } from '../lib/workspace-navigation';
-import '../styles/workspace.css';
+import '../styles/private-workspace.css';
 
 interface Workspace { enabled: true; isolated: true; role: string; roles: string[] }
 

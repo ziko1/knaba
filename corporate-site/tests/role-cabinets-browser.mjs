@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
+import {assistantDisplayBrowserCase} from './assistant-display-browser-case.mjs';
+import {assistantRequestBrowserCase} from './assistant-request-browser-case.mjs';
 
 const require=createRequire(import.meta.url);
 const output=resolve(process.env.KNABA_ROLE_QA_DIR||'/tmp/knaba-role-browser-evidence');
@@ -374,18 +376,33 @@ async function completedCabinetCases(pages){
   const worker=pages.worker;
   await navigate(worker,'/konto/?lang=en');
   const agenda=worker.getByRole('region',{name:'Upcoming jobs',exact:true});
-  await agenda.getByRole('button',{name:'Open request',exact:false}).first().waitFor();
+  const agendaCard=agenda.locator('article.portal-next').first();
+  const openRequest=agendaCard.getByRole('button',{name:'Open request',exact:false});
+  await openRequest.waitFor();
+  const reference=(await agendaCard.locator('.portal-code').textContent())?.trim();
+  assert.match(reference??'',/^#[A-F0-9]{8}$/,'the clicked agenda item identifies its request');
   const before=worker.context().pages().length;
-  await agenda.getByRole('button',{name:'Open request',exact:false}).first().click();
-  await worker.locator('.portal-panel:not([hidden]) .portal-request-card').first().waitFor();
+  await openRequest.click();
+  await worker.waitForURL(url=>url.searchParams.get('tab')==='requests'&&Boolean(url.searchParams.get('q')));
   assert.equal(new URL(worker.url()).searchParams.get('tab'),'requests');
-  assert.ok(new URL(worker.url()).searchParams.get('q'));
+  const context=new URL(worker.url()).searchParams.get('q');
+  assert.ok(context);
+  assert.equal('#'+context.slice(-8).toUpperCase(),reference,'navigation preserves the clicked request identity');
+  const requestPanel=worker.locator('.portal-panel:not([hidden])').filter({has:worker.locator('input[name="request-search"]')});
+  await requestPanel.waitFor({state:'visible'});
+  assert.equal(await requestPanel.count(),1);
+  assert.equal(await requestPanel.locator('input[name="request-search"]').inputValue(),context);
+  // Unmatched cards remain mounted inside hidden wrappers to preserve edits.
+  // Locate the requested identity before asserting visibility, not DOM order.
+  const selectedRequest=requestPanel.locator('.portal-request-card').filter({has:worker.locator('.portal-code').filter({hasText:new RegExp('^'+reference+'$')})});
+  await selectedRequest.waitFor({state:'visible'});
+  assert.equal(await selectedRequest.count(),1,'exactly one card represents the selected request');
+  assert.equal(await requestPanel.locator('.portal-request-card:visible').count(),1,'the request search exposes only the selected card');
   assert.equal(worker.context().pages().length,before);
   record('worker agenda opens the selected assignment in the same cabinet');
 
-  const context=new URL(worker.url()).searchParams.get('q');
   const conversationsBefore=fixture.db.prepare('SELECT COUNT(*) n FROM portal_conversations').get().n;
-  await worker.locator('.portal-request-card:visible').first().getByRole('button',{name:'Message about this request',exact:false}).click();
+  await selectedRequest.getByRole('button',{name:'Message about this request',exact:false}).click();
   await worker.locator('.workspace-start').waitFor();
   assert.equal(await worker.locator('.workspace-start select').first().inputValue(),context);
   assert.equal(fixture.db.prepare('SELECT COUNT(*) n FROM portal_conversations').get().n,conversationsBefore,'context navigation must not create a conversation automatically');
@@ -739,6 +756,8 @@ async function run(){
   // Run after all original role/count assertions and the authenticated journey.
   await anonymousInquiryCase(pages.owner,pages.admin);
   await completedCabinetCases(pages);
+  await assistantDisplayBrowserCase({browser,fixture,owner:pages.owner,record});
+  await assistantRequestBrowserCase({browser,fixture,owner:pages.owner,record,output});
   assert.deepEqual(receipt.errors,[],'browser JavaScript errors');
   receipt.status='PASS';
 }

@@ -1,0 +1,41 @@
+{
+  "reviewedAt": "2026-11-08T10:06:50.163608+00:00",
+  "status": "INDEPENDENT_SOURCE_REVIEW_ACCEPT_XCODE_PENDING",
+  "baseCommit": "324b483c660d35c21a06a7fec4284f94508a60e7",
+  "selectedUpstream": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+  "files": {
+    "erp/apps/mobile-ios/Sources/ERPRecordActions.swift": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0",
+    "erp/apps/mobile-ios/Sources/ERPActionLabels.swift": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283",
+    "erp/apps/mobile-ios/Sources/ERPStrings.swift": "291d37461b3fb1b2b0f34447731cf2f7f701c4195c82b70bdaecfa5477fcf56b",
+    "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift": "b1a0891ec238bba19534b6e4c30276de9dcc4db781dc80691b9c994c81aa0b5a",
+    "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374",
+    "erp/apps/mobile-ios/Sources/ERPConsoleView.swift": "6f4197e61d03280509d4cd6681493df788f0619dd81ac318e2a368bf5591d1dd",
+    "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8",
+    "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift": "a9c67e5ef463bd24563edd51054d411ac6322ea8518dc4e0005944988eca00c5",
+    "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c",
+    "erp/tests/native-console-contract.test.ts": "c87cd27b75e35108a7c5ac614e8884085a12faf6263e7613c4d9b5d7969998b8"
+  },
+  "rootVerification": {
+    "erpExecutableContract": {
+      "passed": 128,
+      "failed": 0,
+      "logSha256": "2232fbcfc6bb5dd476e1cad78ccaf79a5a7ea6edd3dd603864cef07ab2cb91e3"
+    },
+    "unchangedComparedToHead": [
+      "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "erp/apps/mobile-ios/project.yml",
+      "erp/apps/mobile-ios/Info.plist"
+    ]
+  },
+  "findings": [
+    "Selected new record helpers and labels retain stronger nullable/secret converter and recovery core.",
+    "Exact permissions, immutable IDs/related snapshot versions, expectedVersion and captured original form session are enforced.",
+    "Fresh /me+catalog and final actor generation check precede synchronous journal persistence and network suspension.",
+    "Current high-risk flag requires explicit confirmation; latest schema validates input.",
+    "Confirmed command success is separated from a failed following read refresh."
+  ],
+  "limitations": [
+    "Swift compilation and XCTest NOT_RUN locally; current exact-source Xcode CI required.",
+    "Simulator artifact is distinct from iPhone IPA signing and physical install/upgrade."
+  ]
+}

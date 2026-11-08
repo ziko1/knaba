@@ -33,10 +33,34 @@ async function walk(dir) {
 const files = await walk(root);
 assert.ok(!files.some(file => relative(root,file).split(/[\\/]/).includes('.prerender')),
   'Astro prerender server intermediates must never be published as client assets');
-for(const locale of ['en','pl','lt','ru','uk']){
+for(const locale of ['de','en','pl','lt','ru','uk']){
   const pack=files.find(file=>new RegExp('^_astro/'+locale+'\\.[\\w-]+\\.json$').test(relative(root,file)));
   assert.ok(pack,locale+': content-addressed selected-language pack');
   assert.deepEqual(JSON.parse(await readFile(pack,'utf8')),JSON.parse(await readFile(resolve('src/data/portal-locales',locale+'.json'),'utf8')),locale+': packaged copy exactly matches source');
+}
+// A private island starts with the exact copy already rendered by the server.
+// Other languages stay immutable JSON assets until explicitly selected.
+for(const [path,component,locale] of [
+  ['konto/index.html','Portal','de'],
+  ['ru/konto/index.html','Portal','ru'],
+  ['admin/index.html','AdminControlCenter','de'],
+]){
+  const nodes=[parse(await readFile(resolve(root,path),'utf8'))],islands=[];
+  while(nodes.length){
+    const node=nodes.pop();
+    if(node.tagName==='astro-island'){
+      const attrs=Object.fromEntries(node.attrs.map(attr=>[attr.name,attr.value]));
+      if(new RegExp('^/_astro/'+component+'\\.[\\w-]+\\.js$').test(attrs['component-url']||''))islands.push(attrs);
+    }
+    nodes.push(...(node.childNodes||[]));
+  }
+  assert.equal(islands.length,1,path+': one workspace island');
+  assert.equal(islands[0].client,'load',path+': existing hydration timing is preserved');
+  const pack=JSON.parse(await readFile(resolve('src/data/portal-locales',locale+'.json'),'utf8'));
+  const serialized=Object.fromEntries(Object.entries(pack).map(([section,value])=>[section,[0,typeof value==='string'?value:Object.fromEntries(Object.entries(value).map(([key,text])=>[key,[0,text]]))]]));
+  const props=JSON.parse(islands[0].props);
+  assert.deepEqual(props.initialLocalePack,[0,serialized],path+': complete selected copy is serialized for the first client read');
+  if(component==='Portal')assert.equal(props.locale?.[1]??'de',locale,path+': initial copy matches the SSR component locale');
 }
 for(const locale of ['de','en','uk','ru']){
   const pack=files.find(file=>new RegExp('^_astro/studio-'+locale+'\\.[\\w-]+\\.json$').test(relative(root,file)));
@@ -98,8 +122,8 @@ for (const file of pages) {
   const partnerImageSources = partnerItems.map(match => match[0].match(/<img\b[^>]*\bsrc="([^"]+)"/i)?.[1]);
   assert.deepEqual(externalImageSources, [], file + ': all images must be first-party');
   if(partnerItems.length) {
-    assert.deepEqual(partnerItems.map(match=>match[1]), ['official-01','official-02','hit','stromkreis','gewobag'],file+': partner order');
-    assert.deepEqual(partnerImageSources, ['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png'],file+': exact local partner assets');
+    assert.deepEqual(partnerItems.map(match=>match[1]), ['official-01','official-02','hit','stromkreis','gewobag','tm-ausbau','brueninghoff'],file+': partner order');
+    assert.deepEqual(partnerImageSources, ['/images/partners/goldbeck.jpg','/images/partners/bonava.jpg','/images/partners/hit.png','/images/partners/stromkreis.png','/images/partners/gewobag.png','/images/partners/tm-ausbau.svg','/images/partners/brueninghoff-group.svg'],file+': exact local partner assets');
   }
   externalPartnerImagesInMarkup += externalImageSources.length;
   assert.doesNotMatch(html, /(?:Переглянути партнерів на knaba\.de|Джерело перевірено \d{2}\.\d{2}\.\d{4}|Stand des Quellenabgleichs|Дата сверки с источником)/i, file + ': internal research notices on customer pages');
@@ -203,7 +227,7 @@ for (const prefix of ['', 'en/', 'uk/', 'ru/']) {
   const source = await readFile(resolve(root,prefix+'index.html'),'utf8');
   assert.match(source, /class="bau-card-grid"/, prefix+'homepage service grid');
   assert.match(source, /id="partner"/, prefix+'homepage partner section');
-  assert.equal((source.match(/data-partner-id="/g)||[]).length, 5, prefix+'homepage all five official partner logos');
+  assert.equal((source.match(/data-partner-id="/g)||[]).length, 7, prefix+'homepage all seven confirmed partner logos');
   const sectionIds = ['bau-hero-title', 'bau-services-title', 'bau-contract-heading', 'bau-process-title', 'company-profile-title', 'knaba-partners-title', 'reviews-title', 'knaba-faq-preview-title', 'bau-final-contact-title'];
   const positions = sectionIds.map(id => source.indexOf('id="' + id + '"'));
   assert.ok(positions.every(position => position >= 0), prefix + 'all homepage sections retained');

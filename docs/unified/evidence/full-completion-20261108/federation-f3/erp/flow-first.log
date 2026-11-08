@@ -1,0 +1,106 @@
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-federation-login/erp
+
+ ❯ tests/site-federation-login-flow.test.ts (10 tests | 4 failed) 541ms
+     ✓ starts idempotently, binds once and rejects another browser 42ms
+     ✓ shows the current human company name, explicit boolean MFA and canonical source URL 172ms
+     ✓ completes WEB with a mandatory child, strict cookie and no durable raw credentials 91ms
+     ✓ issues a JSON callback then a separate one-use native PKCE session 54ms
+     ✓ rejects late native code before any source call or new session 27ms
+     ✓ requires actual current TOTP, consumes its counter and keeps the true verification time 89ms
+     × rejects a WEB account appearing after the original no-cookie start before source I/O 24ms
+     × cannot issue after an actual fresh signed proof loses its ledger authority 24ms
+     × leaves a committed but unreachable child when egress loses authority and never emits the cookie 9ms
+     × can cancel its own pending flow while source and policy are unavailable 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/site-federation-login-flow.test.ts > F3 issuance flow with explicit SQL doubles and real service/crypto/egress checks > rejects a WEB account appearing after the original no-cookie start before source I/O
+AssertionError: expected undefined to be +0 // Object.is equality
+
+- Expected:
+0
+
++ Received:
+undefined
+
+ ❯ tests/site-federation-login-flow.test.ts:66:168
+     64|  });
+     65|  it('rejects a WEB account appearing after the original no-cookie star…
+     66|   const f=approvedFixture();f.headers.cookie+='; knaba_session='+f.tok…
+       |                                                                                                                                                                        ^
+     67|  });
+     68|  it('cannot issue after an actual fresh signed proof loses its ledger …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/site-federation-login-flow.test.ts > F3 issuance flow with explicit SQL doubles and real service/crypto/egress checks > cannot issue after an actual fresh signed proof loses its ledger authority
+AssertionError: expected DOMException{ stack: 'DataCloneError…' } to match object { code: 'NEEDS_REAUTH' }
+
+- Expected
++ Received
+
+- {
+-   "code": "NEEDS_REAUTH",
++ DataCloneError {
++   "message": "(proof) => {
++       if (proof.purpose === \"SESSION_ISSUE\") {
++         f.db.sourceSession.state = \"REVOKED\";
++      ...<omitted>... } could not be cloned.",
+  }
+
+ ❯ tests/site-federation-login-flow.test.ts:70:27
+     68|  it('cannot issue after an actual fresh signed proof loses its ledger …
+     69|   const f=approvedFixture(),before=f.db.children.size;let changed=fals…
+     70|   await expect(f.confirm()).rejects.toMatchObject({code:'NEEDS_REAUTH'…
+       |                           ^
+     71|  });
+     72|  it('leaves a committed but unreachable child when egress loses author…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/site-federation-login-flow.test.ts > F3 issuance flow with explicit SQL doubles and real service/crypto/egress checks > leaves a committed but unreachable child when egress loses authority and never emits the cookie
+AssertionError: expected DOMException{ stack: 'DataCloneError…' } to match object { code: 'NEEDS_REAUTH' }
+
+- Expected
++ Received
+
+- {
+-   "code": "NEEDS_REAUTH",
++ DataCloneError {
++   "message": "(proof) => {
++       if (proof.purpose === \"SESSION_USE\") {
++         f.db.sourceSession.state = \"REVOKED\";
++        ...<omitted>... } could not be cloned.",
+  }
+
+ ❯ tests/site-federation-login-flow.test.ts:74:27
+     72|  it('leaves a committed but unreachable child when egress loses author…
+     73|   const f=approvedFixture(),before=f.db.children.size;let changed=fals…
+     74|   await expect(f.confirm()).rejects.toMatchObject({code:'NEEDS_REAUTH'…
+       |                           ^
+     75|  });
+     76|  it('can cancel its own pending flow while source and policy are unava…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/site-federation-login-flow.test.ts > F3 issuance flow with explicit SQL doubles and real service/crypto/egress checks > can cancel its own pending flow while source and policy are unavailable
+AssertionError: expected undefined to be +0 // Object.is equality
+
+- Expected:
+0
+
++ Received:
+undefined
+
+ ❯ tests/site-federation-login-flow.test.ts:77:200
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 6 passed (10)
+   Start at  16:28:20
+   Duration  4.77s (transform 1.75s, setup 0ms, import 3.80s, tests 541ms, environment 0ms)
+

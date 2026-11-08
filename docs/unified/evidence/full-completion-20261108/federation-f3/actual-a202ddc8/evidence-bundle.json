@@ -1,0 +1,11 @@
+{
+  "filename": "KNABA-DE-F3-corrective-verification-a202ddc8.zip",
+  "bytes": 303355,
+  "sha256": "ffc7cb012e4101b6cf9c1b03452b458cab036a0c46d92a5115a7284061a3570b",
+  "url": "https://chatgpt.com/library?file_id=libfile_daed16a6aba4819196290e493f5ecac7&account_id=personal",
+  "scope": "TEXT_EVIDENCE_SUBSET",
+  "sourceCommit": "a202ddc8d527f90dc7c13a923a11336410623173",
+  "access": "Owner-authorized persistent file; link does not grant public access",
+  "excluded": "Browser archive/images/trace/HTML bytes; native archives",
+  "aggregate": "FAILED_REQUIRED_BROWSER_CASE"
+}

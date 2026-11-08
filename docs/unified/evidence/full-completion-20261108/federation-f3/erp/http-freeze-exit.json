@@ -1,0 +1,12 @@
+{
+  "command": [
+    "./node_modules/.bin/vitest",
+    "run",
+    "tests/site-federation-login-http.test.ts",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/workspace/scratch/c56161c95e04/verification/federation-f3/erp/http-freeze.json"
+  ],
+  "exitCode": 0,
+  "durationSeconds": 14.171
+}

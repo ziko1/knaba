@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "status": "ACCEPT_SOURCE_BROWSER_FIXTURE_DELTA_SCOPED",
+  "reviewer": "/root/erp_session_fence",
+  "author": "/root",
+  "createdAt": "2026-11-08T17:14:56.856642+00:00",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-f3-browser-corrective",
+  "baseCommit": "a202ddc8d527f90dc7c13a923a11336410623173",
+  "path": "erp/tests/federation-login-ui.spec.ts",
+  "sourceSha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41",
+  "baselineSourceSha256": "832059e3944e80fe3855b7a3280c94229730c741de49bf87eead16f4fb278cf4",
+  "manifestSha256": "b8a301e404f757b15a47c95c9b406e8e3d4e80abf2ddeab44c1be3875ec39535",
+  "findings": [],
+  "sourceReview": {
+    "onlyOneFileModified": true,
+    "exactExpectedDeltaReconstructsCurrentBytes": true,
+    "caseNamesPreserved": 10,
+    "runtimeAndCiGuardChanges": false,
+    "cookieAssertion": "Identical source Strict-cookie absence assertion moved before Continue, now with an explicit initial-request existence check.",
+    "topology": "ERP browser.invalid and source source.invalid have distinct registrable domains; all source URL/config/cookie/route references use the one changed siteOrigin constant.",
+    "passwordLocator": "Exact input id/name/type with explicit accessible name, required and current-password autocomplete assertions; password fill and confirmation semantics remain unchanged.",
+    "preserved": "Remaining bytes, MFA, source POST identity/body, returned Lax flow cookie, returned Strict ERP-cookie absence, new-cookie adoption, issuer, storage, failure and request allowlist assertions are unchanged.",
+    "caseNames": [
+      "F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation",
+      "F3 HTTP fixture: native code returns only by top-level exact callback and does not replace the browser ERP account",
+      "F3 HTTP fixture: incorrect native issuer cannot navigate or persist an authorization code",
+      "F3 HTTP fixture: unknown native confirm ACK reads status without reproducing its code or confirming again",
+      "F3 HTTP fixture: offline invalidation rejects a late private status and requires a fresh current read",
+      "F3 HTTP fixture: account review and confirmation remain accessible in all six locales at mobile width",
+      "F3 HTTP fixture: login entry retries an unknown start with exactly the original key and body",
+      "F3 HTTP fixture: explicit ERP password path is available with an existing browser session and does not auto-logout",
+      "F3 HTTP fixture: unknown WEB body ACK offers a new flow or a current-account check after response cookies changed",
+      "F3 HTTP fixture: a same-user older ERP cookie cannot complete the new WEB session"
+    ]
+  },
+  "actualFailureEvidence": {
+    "sourceCommit": "a202ddc8d527f90dc7c13a923a11336410623173",
+    "renderedCaseTotals": {
+      "executed": 19,
+      "passed": 18,
+      "failed": 1,
+      "skipped": 0
+    },
+    "f3RenderedCaseTotals": {
+      "executed": 10,
+      "passed": 9,
+      "failed": 1
+    },
+    "accessibleSnapshotContainsCurrentPasswordTextbox": true,
+    "failedExactLabelSelectorObserved": true,
+    "requiredStarComesFromPinnedRuntimeAriaHiddenSpan": true,
+    "initialSourceNavigation": [
+      {
+        "origin": "https://site.browser.invalid",
+        "path": "/account/erp-login/",
+        "method": "GET",
+        "status": 200,
+        "cookieHeaderPresent": true,
+        "sourceSessionCookiePresent": true
+      }
+    ],
+    "note": "Only cookie presence booleans are retained; no raw cookie, header, credential, code or identifier value was extracted into this receipt.",
+    "evidence": [
+      {
+        "path": "corrective-actual/browser-artifact/knaba-browser/erp-fixtures/result.json",
+        "sha256": "cfc9e0b46102194164a49e526f917f4acea296af0bd8ed677605f7cfa790c6c4",
+        "bytes": 29659
+      },
+      {
+        "path": "corrective-actual/browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/trace.zip",
+        "sha256": "ef3a358ced2c55434aa2c98c586253710179e1fc4d6040d00d02e995e489b240",
+        "bytes": 1033036
+      },
+      {
+        "path": "corrective-actual/browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/error-context.md",
+        "sha256": "5f8edb2008efb843a86a5d1861aaaa6fff56b75ce5855c970c0aec725e4bf67d",
+        "bytes": 1578
+      },
+      {
+        "path": "corrective-actual/browser-pair-scoped-review.json",
+        "sha256": "a0590232d4f63d795ac3a763b71059527942b4d4dc13072dcfdf362b8dafaf8d",
+        "bytes": 17967
+      },
+      {
+        "path": "corrective-actual/erp-scoped-review.json",
+        "sha256": "74b7d39dce7bfe0dfd5d98331934711de6ca4131b750545e1a4ddd12fcd07603",
+        "bytes": 9795
+      }
+    ],
+    "pinnedRuntimeSources": [
+      {
+        "path": "corporate-site/vps/account-settings-ui.mjs",
+        "sha256": "e4e61d52180ff9805c85632a13186b1b57d4cca32a67d667b0153807e0207e45"
+      },
+      {
+        "path": "corporate-site/vps/federation-login-ui.mjs",
+        "sha256": "4fd5a0d53b22bffe74a20a2c9728954ecbf86cd27cfc07b62256e20501596f7f"
+      }
+    ]
+  },
+  "authorChecksReviewed": {
+    "typecheck": {
+      "exitCode": 0,
+      "logSha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665",
+      "independentlyRerun": false
+    },
+    "collection": {
+      "total": 19,
+      "files": 3,
+      "byFile": {
+        "conversation-transfer-ui.spec.ts": 4,
+        "site-identity-link-ui.spec.ts": 5,
+        "federation-login-ui.spec.ts": 10
+      },
+      "logSha256": "29e43e044bcaf537e3187f79210a856fc16e4dbd65884431b3446ca78a0f6866",
+      "independentlyRerun": false,
+      "browserExecution": false
+    }
+  },
+  "scopeLimits": [
+    "Read-only independent delta/trace review; no browser, PostgreSQL, build or test rerun.",
+    "Actual browser execution of the corrected source remains NOT_RUN.",
+    "Prior a202 ERP and actual runtime-pair passes remain scoped; its enclosing aggregate is still FAILED because browser acceptance failed.",
+    "This fixture tests browser cookie semantics with synthetic intercepted HTTPS routes and current rendered source, not live TLS, provider, production redirect ownership or physical native-device acceptance.",
+    "No source or canonical documentation was edited."
+  ]
+}

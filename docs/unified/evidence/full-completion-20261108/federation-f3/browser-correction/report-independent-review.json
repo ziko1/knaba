@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "reviewedAt": "2026-11-08T17:18:05.278522+00:00",
+  "verdict": "ACCEPT_REPORT_SCOPED",
+  "scope": "Narrow independent publication-copy review against already frozen actual a202 evidence and separate one-file source review. No repeated archive/native scan or tests.",
+  "baseCommit": "a202ddc8d527f90dc7c13a923a11336410623173",
+  "baseTree": "9e3701b233312b648a4f12ef7ee190e5b89447e8",
+  "reviewedDocuments": [
+    {
+      "path": "docs/unified/F3_BROWSER_ACCEPTANCE_CORRECTION_2026-11-08_UK.md",
+      "sha256": "36fdb72741eb6b2b13a624697a94c50ab4194669ad0fb425a097ecbe4cd0ac2b",
+      "bytes": 6786
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "5d2b7e733c5a8a6a3c3f208831f6b2d6bb1433874085a16bfc8284d1885a1d8f",
+      "bytes": 92796,
+      "appendOnly": true,
+      "appendedBytes": 858
+    },
+    {
+      "path": "docs/unified/BACKLOG.md",
+      "sha256": "fd12029669f68aca39a1c3c5988f557017703d2f5ce087968420726611365b48",
+      "bytes": 47839,
+      "appendOnly": true,
+      "appendedBytes": 632
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "sha256": "c1f6acf3eb6d576505ef94d9d1e9f55e8b3d4d46030c6bc238bbf3b944cad0dd",
+      "bytes": 38294,
+      "appendOnly": true,
+      "appendedBytes": 508
+    },
+    {
+      "path": "docs/unified/BUDGET.md",
+      "sha256": "96e689e2e5f11a726c7b464c2148ef555a57d0c2d9131ab0f18d26bc82fbcf9f",
+      "bytes": 20561,
+      "appendOnly": true,
+      "appendedBytes": 1557
+    }
+  ],
+  "claimChecks": {
+    "actualResults": "ERP3260 includes F3PG18/F2PG24; pair26 includes F3eight/F2seven/other11. Required rendered19 executed:18passed/1failed, with F3nine/ten; no skipped/retried/flaky cases. These are not additive independent totals.",
+    "aggregateBoundary": "a202 main remains FAILED because one required browser case failed; product NOT_READY and dependent work not promoted.",
+    "diagnosis": "Exact label mismatch and same registrable synthetic domain are consistent with the previously reviewed actual screenshot/trace and pinned matcher findings. No screenshot or trace was rescanned for this copy review.",
+    "correctionEvidence": "Separate ERP-peer one-file source acceptance reviewed; exact input/accessibility checks, distinct source domain, moved unchanged cookie assertion and ten preserved F3 cases. Typecheck exit0 and19 collected/threefiles are source/collection evidence only. Actual corrected browser NOT_RUN.",
+    "nativeBoundary": "Android new workflow SUCCESS is metadata only; full native artifact review remains tied to af6. iOS currentPR skipped; previous145 XCTest/54inputs evidence is not relabeled as a new Xcode run. Native inputs were not rescanned here.",
+    "privacyBoundary": "Four mandatory plan details match independent-plan-review: absent-preserving legacy command digest, ACCESS/PROFILE server boundaries, atomic bounded-export failures, saved-card version handling. Plan acceptance is not implementation or permission to bypass F3 dependency.",
+    "budget": "Previous one-run reservation reconciled to actual failure and metadata outcomes; next bounded one-file source checkpoint only. No unlimited retries/new jobs/paid activation or known-balance claim.",
+    "deliveryBoundary": "Report explicitly describes TEXT_EVIDENCE_SUBSET and excludes screenshot/trace ZIP, preserves original archive provenance, and does not claim the subset is a full browser archive. Packaging/upload and final pointer are separate coordinator/peer work."
+  },
+  "evidence": [
+    {
+      "path": "verification/federation-f3/corrective-actual/independent-acceptance.json",
+      "sha256": "ff4ebbd6fb7917f35de905ac7daf4d044f1b2c2871bd4a1dee31ac8bfbbf7760",
+      "bytes": 17377
+    },
+    {
+      "path": "verification/federation-f3/browser-correction/source-manifest.json",
+      "sha256": "b8a301e404f757b15a47c95c9b406e8e3d4e80abf2ddeab44c1be3875ec39535",
+      "bytes": 1459
+    },
+    {
+      "path": "verification/federation-f3/browser-correction/independent-review.json",
+      "sha256": "2a76ccdfbf1db3acb17282a6e097c2a01d478c3bb735a1ab9cb02aa126deda2f",
+      "bytes": 6405
+    },
+    {
+      "path": "verification/federation-f3/browser-correction/typecheck-exit.json",
+      "sha256": "c86a34c2c37ff007516cc15777a59f88eeabdc8c107360f4764b59c645a25f5a",
+      "bytes": 84
+    },
+    {
+      "path": "verification/federation-f3/browser-correction/collection-exit.json",
+      "sha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e",
+      "bytes": 16
+    },
+    {
+      "path": "verification/federation-f3/privacy/independent-plan-review.json",
+      "sha256": "271a9490bfc29bbb96aed83b1cb2db829981af8a81e40f71578ecbf419cbc1f7",
+      "bytes": 15366
+    }
+  ],
+  "traceability": {
+    "rows": 114,
+    "uniqueIds": 114,
+    "statuses": {
+      "IN_PROGRESS": 42,
+      "NOT_RUN": 72
+    }
+  },
+  "normativeAcAndWorkflowDiff": {
+    "command": "git diff --exit-code --name-only a202ddc8d527f90dc7c13a923a11336410623173 -- <protected canonical paths and .github/workflows>",
+    "paths": [
+      "KNABA_DE_MASTER_SPEC.md",
+      "erp/KNABA_DE_TARGET_SPEC.md",
+      "erp/KNABA_DE_MASTER_SPEC.md",
+      "erp/docs/requirements/requirements.json",
+      "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      ".github/workflows"
+    ],
+    "exitCode": 0,
+    "changedPaths": []
+  },
+  "nonDocumentationChange": {
+    "path": "erp/tests/federation-login-ui.spec.ts",
+    "sha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41",
+    "matchesSeparatelyReviewedFreeze": true,
+    "independentlyReviewedHere": false
+  },
+  "blockingFindings": [],
+  "wholeF3Gate": "NOT_ACCEPTED_REQUIRED_BROWSER_FAILURE",
+  "correctedBrowser": "NOT_RUN",
+  "wholeProduct": "NOT_READY",
+  "newTestsBuildsBrowsersCiOrNetwork": false,
+  "sourceOrCanonicalDocsEditedByReviewer": false,
+  "limits": [
+    "Only publication claims and their existing evidence references were reviewed here; implementation delta belongs to the separate ERP-peer receipt.",
+    "No archive bytes, native inputs, screenshots/traces or raw logs were rescanned and no tests were rerun.",
+    "A new delivery pointer is outside these frozen human-report hashes; this review does not attest a future upload or archive packaging result.",
+    "Final publication must retain the reviewed single-file source bytes and documentation hashes; no full criterion/AC was promoted."
+  ]
+}

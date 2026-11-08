@@ -1,0 +1,357 @@
+{
+  "sourceGitSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceWorkingTree": false,
+  "sourceFiles": [
+    {
+      "path": ".gitignore",
+      "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042"
+    },
+    {
+      "path": "FEDERATION_LOGIN_UK.md",
+      "sha256": "a7484e627cb9afa9b4ac53c1a531883f03ebb02e73243f2664c41d15da6b02d4"
+    },
+    {
+      "path": "MEDIA_UK.md",
+      "sha256": "1673cc789ab4facdee9f81fe3a82307d3b8cb7f56c7ebce3a020960285e53952"
+    },
+    {
+      "path": "README.md",
+      "sha256": "c0284f5dde20e488412add15e5f5355586faa2a57a61c0d1459fc571d4e3a48f"
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "sha256": "81cce0701e972fc365b5342079322c09a3652085f1ca938d416e375013ba5b83"
+    },
+    {
+      "path": "app/src/debug/AndroidManifest.xml",
+      "sha256": "f823c0a14ae58dcb65863b0ed44e9ad3a4ee5b02b5eca319eb173515dc68509e"
+    },
+    {
+      "path": "app/src/debug/java/de/knaba/mobile/FederationCallbackActivity.java",
+      "sha256": "6c43cfa86638f241ce72458b67a3825d73c449c4c285cdf114b5c4ca9a6c3dd4"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "sha256": "da810639b116ac88db73c740e2d2798f72d4f386c85c60edc73ce4b7bdcf158c"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ApiClient.kt",
+      "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+      "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConsoleMediaJournal.kt",
+      "sha256": "76c07f7c1018e90e92680837322fd5e58670586ec41036c1f74f031a03ee7b47"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConsoleMediaScreen.kt",
+      "sha256": "096a7be8738ab9e9311b1a9a7f6bddb0cc2225f67cff2f66563358f809747f52"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConsoleModules.kt",
+      "sha256": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+      "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt",
+      "sha256": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+      "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+      "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+      "sha256": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "4e664fa220df65ee040c536b5657ccaa9048f3199c0db25b03d7604fb91a6eb5"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "7331fe048cfadb66024391823b8b3aa5a821a18fdca7e4604f8840d8fbbe39f0"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpFederationBrowser.java",
+      "sha256": "80f746d9d4e260f259d3e41d33c7e5ea9831572280b7a6d4860fd565e618389c"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpFederationLogin.java",
+      "sha256": "54e00fcb80cc5bdec9e701786ddf2ac14f6c5ce77631a9e94c9bcb6268205e05"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpMedia.java",
+      "sha256": "925155709a78a27d7cbde3ef1eb84cc128ea5908878a90f820cee806ea022b46"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpMediaIo.java",
+      "sha256": "bce0b06bb0bc8f91b06aff49b7742672200dbc44abfbe229f75a48cc5b4f557e"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+      "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpReadRetry.java",
+      "sha256": "050f3ea5bff0c21a9f3a21d27184a368df9123fc2a460b2fe59dcaed152e0635"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java",
+      "sha256": "d0c45b22eb3f527895997700ef238204ee2e4bc6d232e23e409cf3e44362c400"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/GenerationFence.java",
+      "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+      "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+      "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+      "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/NativeText.kt",
+      "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+      "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "faa6c63bd68d8a073b7d81d5549532bef92181f657c3ca9b5e5e8c0a40700ad7"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/ShiftClock.java",
+      "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4"
+    },
+    {
+      "path": "app/src/main/java/de/knaba/mobile/TrackingService.kt",
+      "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_knaba.xml",
+      "sha256": "cd623da01ca07e7df07ad9b6dcac6d1d1efb2a05893a9b2616a5d1d7f0cd1c60"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/ic_knaba_brand.png",
+      "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_knaba.xml",
+      "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_knaba_round.xml",
+      "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434"
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "sha256": "1c936899762e4200e960cf54e058e46901c974b2d39d8e3716eba17e3158daf4"
+    },
+    {
+      "path": "app/src/main/res/values-en/strings.xml",
+      "sha256": "f228bf3645ec3f880614285d0c94de943847a23b6f4a228f711a4f453137efa6"
+    },
+    {
+      "path": "app/src/main/res/values-lt/strings.xml",
+      "sha256": "7dc07e1148d4060e1b995a75f5d41b31eb60e476b62376b28ca6f4fc9963c2a6"
+    },
+    {
+      "path": "app/src/main/res/values-pl/strings.xml",
+      "sha256": "7db4e0ee0d207b9a182031df7649596947069eb00ac26a8b0bd82c4df839384f"
+    },
+    {
+      "path": "app/src/main/res/values-ru/strings.xml",
+      "sha256": "eed75291dc6afaf0c9ee7e568c7154ff2a7f62c64988e07988c06d53514a9198"
+    },
+    {
+      "path": "app/src/main/res/values-uk/strings.xml",
+      "sha256": "067c3dcf57317247e653a5f6e3c644470adf4caa8f868245cae799f1cbd0cd42"
+    },
+    {
+      "path": "app/src/main/res/xml/data_extraction_rules.xml",
+      "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28"
+    },
+    {
+      "path": "app/src/test/java/de/knaba/mobile/ConsoleMediaScreenTest.kt",
+      "sha256": "1aabab718b10db99e170c5ca52b8e88701caeaa5d2ee9b5449b833da0ab6eb33"
+    },
+    {
+      "path": "app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "sha256": "6e5dc86cb41cb9d317ab61aec83310a9e22ce449c21ec9beab2f23dd51f9cc55"
+    },
+    {
+      "path": "app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "a2bff80c8e38645f703b42d6a016d0190d9d06f0636f5eef35bacb6f0ddb63be"
+    },
+    {
+      "path": "app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+      "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e"
+    },
+    {
+      "path": "app/src/testDebug/java/de/knaba/mobile/ErpFederationActivityTest.java",
+      "sha256": "81480f2b0d3c2a222b3f9afd5ed448b14066f4e0120ff42af1d443dd5bd8b600"
+    },
+    {
+      "path": "build.gradle.kts",
+      "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab"
+    },
+    {
+      "path": "gradle.properties",
+      "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31"
+    },
+    {
+      "path": "gradlew",
+      "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650"
+    },
+    {
+      "path": "gradlew.bat",
+      "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78"
+    },
+    {
+      "path": "scripts/VerifyAppBundle.java",
+      "sha256": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70"
+    },
+    {
+      "path": "scripts/fixtures/DemoConsoleTransportVectors.java",
+      "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3"
+    },
+    {
+      "path": "scripts/package.sh",
+      "sha256": "9e36d3de356c73279d06ebe68aeddda7e32409c26e7b5b1ca5e1c7f9cc990a34"
+    },
+    {
+      "path": "scripts/test-app-bundle.py",
+      "sha256": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610"
+    },
+    {
+      "path": "scripts/test-demo-console.sh",
+      "sha256": "e972bee668b82e7edb10810769bb69d129c779701b101ec09d88a914e9ab8e94"
+    },
+    {
+      "path": "scripts/test-federation-policy.py",
+      "sha256": "ea51d18994578d36bc7fd1d11f01aae82da0281c5a75f9d3a50475fc94fedb97"
+    },
+    {
+      "path": "scripts/test-federation.sh",
+      "sha256": "1ffac3970e7e1972dee379e6e6d6e1e9665b2b80b30470a753a6abd75b864a8f"
+    },
+    {
+      "path": "scripts/test-localization.sh",
+      "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096"
+    },
+    {
+      "path": "scripts/test-transport.sh",
+      "sha256": "9f50b0776feab1cc2de927c6ae19c664ba607c9371b336e789d75aacc704ccba"
+    },
+    {
+      "path": "scripts/test-vectors.sh",
+      "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777"
+    },
+    {
+      "path": "scripts/tests/ErpConsoleTransportTest.java",
+      "sha256": "8a74f3065a07290bb6572ea5168ec56847dd457faafb3c343dd35f065f39fdcc"
+    },
+    {
+      "path": "scripts/tests/ErpCredentialSafetyTest.java",
+      "sha256": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62"
+    },
+    {
+      "path": "scripts/tests/ErpFederationCookieTest.java",
+      "sha256": "8b0009b6fd37997f746dd95304e653e2b475e07fd66cc58b09f38901948ecf54"
+    },
+    {
+      "path": "scripts/tests/ErpFederationHttpTest.java",
+      "sha256": "2babb633eac76c0740bee3a18c7cb4fa97fd87670f7019e4525703ab4e2ab971"
+    },
+    {
+      "path": "scripts/tests/ErpFederationLoginTest.java",
+      "sha256": "e2f41d0bda1859b8e3a6568c6de18e7a45084249145496028cf6519263c46176"
+    },
+    {
+      "path": "scripts/tests/ErpMediaIoTest.java",
+      "sha256": "89063a1a3b736be3fd3124d74ab5ac91b9e94d6e02807db1ee3da135aa299ed0"
+    },
+    {
+      "path": "scripts/tests/ErpMediaMemoryTest.java",
+      "sha256": "681d38fe460124cd0c15b07bb099d6e217c77d5e47fbcbd2b889d3795237f98b"
+    },
+    {
+      "path": "scripts/tests/ErpMediaTransportTest.java",
+      "sha256": "224f08f7a96ab5de2c43e385add4433036554cc4488990ec5ecf16e1ee51e5fe"
+    },
+    {
+      "path": "scripts/tests/ErpServerDiscoveryTest.java",
+      "sha256": "4b5a4e2939d3c8c4642e3516a8d75a9ee2bd011e7097c0ed8f1231c7c64d37d4"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34"
+    }
+  ],
+  "verificationInputs": [
+    {
+      "path": "erp/tests/native-vectors.json",
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a"
+    }
+  ],
+  "builtAt": "2026-11-08T19:57:27.245185+00:00",
+  "artifact": "KNABA-DE-0.5.0-test.apk",
+  "sha256": "b410b96cd6e46591b640087d304b3b11e4ab2619fe387eb622441d037134cf05",
+  "bytes": 3093102,
+  "package": "de.knaba.mobile.test",
+  "versionCode": 8,
+  "versionName": "0.5.0-test",
+  "minSdk": 31,
+  "targetSdk": 36,
+  "certificateSha256": "8b3ae8fd4f2da562d0de79ba9cdaf7b67c6d8262173c863d94674d2bf934ab8c",
+  "expectedCertificateMatch": "NOT_REQUESTED",
+  "signing": "DEBUG_EVALUATION_ONLY",
+  "v2Signature": "PASS",
+  "zipIntegrity": "PASS",
+  "alignment": "PASS",
+  "standaloneApk": "PASS",
+  "testOnly": false,
+  "launcher": "de.knaba.mobile.ErpConsoleActivity",
+  "nativeAbiRestrictions": [],
+  "staticInstallerChecks": "PASS_NOT_DEVICE_INSTALL",
+  "physicalDeviceInstall": "NOT_RUN",
+  "upgradeAndDataRetention": "NOT_RUN",
+  "customerAcceptance": "NOT_RUN",
+  "appBundle": {
+    "artifact": "KNABA-DE-0.5.0-test.aab",
+    "sha256": "bea0b0ee1caab41ac984cfc47f29954afa012d80ef0c9940789a447e7c74e2f9",
+    "bytes": 1037394,
+    "signature": "PASS",
+    "certificateSha256": "8b3ae8fd4f2da562d0de79ba9cdaf7b67c6d8262173c863d94674d2bf934ab8c",
+    "signedEntries": 21,
+    "structure": "BASE_MODULE_PRESENT",
+    "playUpload": "NOT_RUN"
+  }
+}

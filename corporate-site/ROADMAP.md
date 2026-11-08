@@ -6,6 +6,16 @@ OIDC original-session proof, owner subject binding і current-session API/SQL fe
 
 Далі: explicit durable owner configuration; trusted site/ERP principal/company mapping; dual-session link/unlink UI і scoped token exchange; спільне відкликання, потім provider/browser/device/company acceptance. Site profiles і ERP users досі окремі; lead outbox не дає user login. Не закривати whole-product gates за кількістю технічних тестів.
 
+## 08.11.2026 — KNABA-PARTNERS-20261108
+
+User request: add the confirmed partners https://www.tm-ausbau.eu/ and https://www.brueninghoff.de/ to the existing KNABA DE template.
+Base: `d03e72b8c5030390c635f3aac9133d977078dedf` (Draft PR #123); isolated branch `fix/knaba-partners-20261108`. Existing worktrees and ERP changes remain separate.
+
+- [x] P01 — Append TM Ausbau and Brüninghoff Group after the existing five companies; preserve original partner IDs and assets.
+- [x] P02 — Original local SVG logos, intrinsic aspect ratios, official website links and factual DE/EN/UK/RU company descriptions in the existing components.
+- [x] P03 — Update existing seven-partner acceptance gates and translation source catalog; run relevant tests, required build checks and independent review. Browser acceptance BLOCKED: no available local engine; no live claim.
+- P04 — Draft candidate publication: final remote SHA/tree/CI are recorded in PR metadata. Main merge, production, DNS and live-data changes are outside this request. External paid-service budget EUR0; runtime billing unknown.
+
 ## 08.11.2026 continuation
 
 Implemented candidate: source recovery, fail-closed/atomic Studio publish, new-lead outbox with opt-in manual ERP publisher. Current evidence: `../docs/unified/evidence/completion-20261108/verification.json`.
@@ -538,3 +548,20 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 08.11.2026 — KN-US01–US08, налаштування користувача
+
+- [x] SOURCE_QA: власний профіль і контактні дані, locale/timezone, CAS і session fence.
+- [x] SOURCE_QA: current-password rotation, одноразові reset/email proofs, відкликання сесій; ролі не змінюються.
+- [x] SOURCE_QA: SSR UI шістьма мовами, direct recovery entry, mail-disabled і error states.
+- [x] SOURCE_QA: additive auth migration gate, synthetic rollback/upgrade, independent review та build budgets.
+- [ ] TARGET_ACCEPTANCE: дозволений browser/keyboard/mobile viewport, backup/restore rehearsal.
+- [ ] DELIVERY_ACCEPTANCE: перевірені sender/квота/бюджет і окремо дозволений тестовий лист.
+- [ ] RELEASE: exact-artifact staging/owner acceptance і release confirmation; production не змінено.
+
+Точні source/test hashes і результати — [KN-US01–US08](../docs/unified/USER_SETTINGS_2026-11-08_UK.md).
+
+## 08.11.2026 — F3 і native media, source checkpoint до actual CI
+
+F3 source/server/web підготовлено після actual F2 e03d2be. Наступний gate — спільна точна збірка,8 new runtime-pair cases і10 rendered login cases; source/default-off не є live SSO acceptance. [Checkpoint](../docs/unified/F3_NATIVE_MEDIA_CHECKPOINT_2026-11-08_UK.md). Native adapters, privacy inventory/export, broader revocation і target/company/provider acceptance лишаються відкритими.

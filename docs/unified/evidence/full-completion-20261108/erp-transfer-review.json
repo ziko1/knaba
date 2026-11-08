@@ -1,0 +1,252 @@
+{
+  "recordedAt": "2026-11-08T10:26:28.225338+00:00",
+  "status": "ACCEPTED_FOR_SOURCE_INTEGRATION",
+  "author": "erp_session_fence",
+  "reviewers": [
+    "root",
+    "coverage_matrix"
+  ],
+  "sourceManifestSha256": "d62ccd77d2e3c9698ca2644c7a9b835cab246af576ec8a77cf3aadcc0d04fec8",
+  "authorCheckpoint": {
+    "slice": "ERP-owned guest conversation transfer AC-07 with conversation-only WhatsApp consent",
+    "state": "FROZEN_FOR_INDEPENDENT_REVIEW",
+    "created_at_utc": "2026-11-08T10:22:57.068438+00:00",
+    "checkout": "/workspace/scratch/c56161c95e04/knaba",
+    "head_at_freeze": "73158108e69d7fb0e3ca82fdf41006af311ddb60",
+    "source_is_uncommitted": true,
+    "files": [
+      {
+        "path": "erp/apps/api/conversation-transfer.ts",
+        "sha256": "906f07f6e17e4e6b8dcb20976a29cded28bb1d72db5c8fe55758c6026949c904"
+      },
+      {
+        "path": "erp/apps/api/whatsapp-ingress.ts",
+        "sha256": "47fc37c44e49b2ccd5a95eeeaa157b60cff19289fb46e42fda99e30897aa1f67"
+      },
+      {
+        "path": "erp/apps/api/http.ts",
+        "sha256": "0c41ed73a232931e17d020810e73f2187bab5195e556cae9920a9b9a54f63eab"
+      },
+      {
+        "path": "erp/apps/api/main.ts",
+        "sha256": "5994754579a7e93e8d8889b912426c509516cf727c5feefcfee1fbfdff4a4027"
+      },
+      {
+        "path": "erp/apps/api/operations-digest.ts",
+        "sha256": "ca4e8b033fb15b026473cf85cfc2e9bdf875264a78c59abe8371ea8ebf2bcb94"
+      },
+      {
+        "path": "erp/apps/worker/conversation-transfer.ts",
+        "sha256": "eb1dbdd4a3b7487b70b1e6c58a366f06098a1b8972c3d78a1fc1baa7c7c1e58a"
+      },
+      {
+        "path": "erp/apps/worker/runner.ts",
+        "sha256": "a6578f1e1cf825a4db8cb97b53d805c25b1d960ad765ff85c657d77c5b60e21a"
+      },
+      {
+        "path": "erp/packages/domain/conversation-transfer.ts",
+        "sha256": "e5ec0c55ac77848295fe658ab37b890d30c84774913e5e98c36801abbc8548a1"
+      },
+      {
+        "path": "erp/packages/domain/notification-policy.ts",
+        "sha256": "b3ca820169dfd69e732e9aa51baad7e0a597b7d3b75486315be94da3647c54be"
+      },
+      {
+        "path": "erp/packages/domain/communications.ts",
+        "sha256": "d8af464c14dee0422166775a0f3b6fdf9f6335299604699ce29830e9604f7b14"
+      },
+      {
+        "path": "erp/packages/integrations/whatsapp.ts",
+        "sha256": "f3cf42475e6ab3295196fec652f3daacd5f42ca6d8c5343a581e48134f661579"
+      },
+      {
+        "path": "erp/packages/integrations/whatsapp-router.ts",
+        "sha256": "2f073a6343746fe3805a463217db33a037cada92d09f6fe7032bfe18708dac42"
+      },
+      {
+        "path": "erp/apps/web/src/GuestConversationTransfer.tsx",
+        "sha256": "e3fed2b04584be755386f0dff6211da3f4514f575d83857f1a779894d6e1cd00"
+      },
+      {
+        "path": "erp/apps/web/src/App.tsx",
+        "sha256": "739486a22732a814edb94d224623d8ec68ccf959b292db1bb22666f4a5fbb5a1"
+      },
+      {
+        "path": "erp/playwright.config.ts",
+        "sha256": "2a771ec875e05ded1aa088b849176bf10e2764ec52335e2d5cf6f4b7b5581dec"
+      },
+      {
+        "path": "erp/tests/conversation-transfer.test.ts",
+        "sha256": "805b35412aeeecf313c8fd2586bf58e3e5b932604eed567fc29b591b31e04294"
+      },
+      {
+        "path": "erp/tests/conversation-transfer-security.test.ts",
+        "sha256": "17746c19e770cde1327db4ea435e9c0cfd7c507dc4c0030999528cc30b5e2ac0"
+      },
+      {
+        "path": "erp/tests/conversation-transfer-http.test.ts",
+        "sha256": "fe95072fe89c3983e835171f85c97a63f56c86a71a783002a4a8d9f064a08db1"
+      },
+      {
+        "path": "erp/tests/conversation-transfer-consent.test.ts",
+        "sha256": "c3a71c6cd56bd41ea3f1359ad80be736582863cbda8e63997852c334e5a799d5"
+      },
+      {
+        "path": "erp/tests/conversation-transfer.integration.test.ts",
+        "sha256": "d471c6553e47aa3f90a33f51f466ffa8953ff7984ee21b1f3249ef3426a81ef7"
+      },
+      {
+        "path": "erp/tests/conversation-transfer-ui.spec.ts",
+        "sha256": "6ed461895de9932f220f1d09b39fc0d0c6a7951d2dcc29901e27bc00e19ce8f3"
+      },
+      {
+        "path": "erp/tests/helpers/conversation-transfer-fixture.ts",
+        "sha256": "b902ff04d305f2d375a4b01c21132e0953a379911fd8993c36a123fd2754263d"
+      },
+      {
+        "path": "erp/tests/operations-digest.test.ts",
+        "sha256": "0885d31e54c48e2ab8251cdbb373134291fe815c503eeca44236b9a2549c609c"
+      },
+      {
+        "path": "erp/docs/CONVERSATION_TRANSFER_2026-11-08_UK.md",
+        "sha256": "fa202187497c990029ba87981cf7598a4f5c640781c56b4cd62df6ffd17f8f47"
+      }
+    ],
+    "verification": {
+      "final_focused": {
+        "status": "PASS_WITH_POSTGRES_NOT_RUN",
+        "passed": 428,
+        "failed": 0,
+        "skipped": 12,
+        "test_files": 13,
+        "new_transfer_cpu_cases": 74,
+        "new_transfer_postgres_cases": 10,
+        "log": "final-focused.log"
+      },
+      "typecheck": {
+        "status": "PASS",
+        "exit_code": 0,
+        "log": "typecheck.log"
+      },
+      "diff_check": {
+        "status": "PASS",
+        "exit_code": 0
+      },
+      "ui_discovery": {
+        "status": "PASS",
+        "cases": 4,
+        "log": "ui-list.log"
+      },
+      "rendered_ui": {
+        "status": "NOT_RUN",
+        "reason": "No installed local Chrome; four explicit HTTP-fixture cases require existing Chrome, sandbox enabled, no download."
+      },
+      "postgres": {
+        "status": "NOT_RUN",
+        "reason": "No local PostgreSQL. Ten new real SQL cases authored, two existing integration SQL skips retained."
+      },
+      "build": {
+        "status": "PREVIOUS_INTERMEDIATE_PASS_FINAL_AGGREGATE_PENDING_CI",
+        "exit_code": 0,
+        "log": "build.log",
+        "scope": "Build completed before the final consent scope delta; not evidence for final aggregate source."
+      },
+      "red_green": [
+        {
+          "log": "baseline-red.log",
+          "result": "2 expected failures on absent transfer route and persisted raw transfer secret; fixed and covered by final-focused.log"
+        },
+        {
+          "log": "ingress-order-red.log",
+          "result": "1 expected failure: global JSON parse happened before signature verification; fixed and covered for both aliases"
+        },
+        {
+          "log": "consent-red.log",
+          "result": "7 expected consent-boundary failures; fixed and covered by final-focused.log"
+        }
+      ]
+    },
+    "evidence_files": [
+      {
+        "name": "baseline-red.log",
+        "sha256": "9749c421ae896931e063c8f1258567c7345324185ab5b6561bb189cf4d307183"
+      },
+      {
+        "name": "initial-green.log",
+        "sha256": "ad00549f31530dd9400f521799d8e3db9dbe0427349f577fa5372aaa49a6d363"
+      },
+      {
+        "name": "ingress-order-red.log",
+        "sha256": "6390c7543bee365fee0d6b07c96f18cf1e9402bd7b744a833806f8f22f5b7639"
+      },
+      {
+        "name": "ingress-order-green.log",
+        "sha256": "635c25bc90d4f4a3a9117d8864e11494b43090e5f730468623a9a32fce39e738"
+      },
+      {
+        "name": "consent-red.log",
+        "sha256": "e86d2c54431696a73b95bca8404923ccbb5a8d8a4349a910ad5fdaea6ec4e082"
+      },
+      {
+        "name": "consent-initial-green.log",
+        "sha256": "f9fd7b76218f003641b7a9b1c50ceae5302f2c9bc94833d6d43f84bd2715a473"
+      },
+      {
+        "name": "consent-adjacent.log",
+        "sha256": "75e69fd811002b2b1900cb5cd00eaac40dbad370d6eed33e2e0b723c0ca43f4f"
+      },
+      {
+        "name": "final-focused.log",
+        "sha256": "4f5325412865f5c151c501e2bfff8be7fb8f38070511ee2f1c258ed5e271f63f"
+      },
+      {
+        "name": "typecheck.log",
+        "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+      },
+      {
+        "name": "ui-list.log",
+        "sha256": "6ab0de32a4ac3b0356466df69259f440d6f0d485584e18bfd18dab7ff712b7a9"
+      },
+      {
+        "name": "build.log",
+        "sha256": "04819fdaa7086265c32a771fd653fc32afcbaf84e87ac48ed4797692452cf0ea"
+      }
+    ],
+    "release_gates": [
+      "Independent source review",
+      "Exact-candidate PostgreSQL, aggregate build and rendered UI CI",
+      "Approved identity/session metadata retention and erasure contract",
+      "Corporate-site D1 conversation ownership and federation protocol remain separate",
+      "Live provider/cross-site iframe/device/deployment acceptance"
+    ],
+    "scope_preserved": [
+      "No corporate-site or F1 edits",
+      "No migrations, dependency/lock/workflow changes, provider sends, production or credentials",
+      "No git commit or push by this agent"
+    ],
+    "rollback_boundary": "Quiesce transfer ingress/workers and keep scoped WhatsApp delivery paused if reverting to a pre-scope runtime; preserve private records and audit."
+  },
+  "independentVerification": {
+    "command": "node node_modules/vitest/vitest.mjs run tests/conversation-transfer.test.ts tests/conversation-transfer-security.test.ts tests/conversation-transfer-http.test.ts tests/conversation-transfer-consent.test.ts tests/conversation-transfer.integration.test.ts",
+    "passed": 74,
+    "failed": 0,
+    "postgresSkipped": 10,
+    "logSha256": "48534657c83b37bda4f9f3ca705c5963c84238138fa79f8787468b96572e0309",
+    "scope": "CPU/domain and actual local Nest/Express HTTP with explicit persistence doubles; PostgreSQL cases not run locally"
+  },
+  "sourceReview": [
+    "Original guest session/company/channel and signed exact WhatsApp sender remain bound through issue, claim, confirm and response",
+    "Conversation-only consent uses current canonical message/input channel; malformed or absent scope/context denies",
+    "Preference resubmission preserves scope; explicit operational upgrade intent is not persisted",
+    "Current worker lease, service authority, consent/STOP, identity, readability and pinned provider recipient/account are rechecked at the final database boundary",
+    "Raw signature verification precedes JSON parsing; transfer secret is hashed before durable inbox/outbox storage",
+    "No transaction spans provider I/O; revocation after final dispatch decision cannot undo an in-flight network send"
+  ],
+  "notAccepted": [
+    "Exact-candidate PostgreSQL and rendered browser execution",
+    "Actual WhatsApp provider/device acceptance",
+    "Site D1 history transfer or shared site/ERP SSO",
+    "New identity/transfer retention and erasure policy",
+    "Production activation or complete AC-07 acceptance"
+  ]
+}

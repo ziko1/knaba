@@ -1,0 +1,24 @@
+{
+  "reviewedAt": "2026-11-08T09:05:49.378160+00:00",
+  "reviewer": "mobile_actual_readiness",
+  "scope": "Read-only footer credit component and existing publicDesign layout insertion",
+  "sourceHashes": {
+    "corporate-site/src/components/StudioCredit.astro": "16af7d90f18dc80d07a75f667a06f23b5ce8ed57582faa4396b19f1853d65d0d",
+    "corporate-site/src/layouts/Layout.astro": "d19d1559216e227da1d7b2b3961c166a3f7dcda45f059e555c5a66f5d50ab31d",
+    "corporate-site/public/images/vsp-studio-mark.svg": "1a6e921d1a61d75bcb4140fce1c96187022fea7025ef0427b5b211ca12a1e733"
+  },
+  "verdict": "No material issue found by source inspection",
+  "observations": [
+    "Semantic anchor has an accessible name from localized caption plus visible VSP.REST; decorative icon and arrow are aria-hidden.",
+    "Six SiteLocale captions are present; current layout passes its typed selected locale.",
+    "Visible keyboard focus outline and minimum44px link height are declared; wrapping and mobile end padding are present.",
+    "Decorative animation only runs under prefers-reduced-motion:no-preference and pauses on hover/focus.",
+    "Credit is inserted only inside the existing publicDesign allowlist footer.",
+    "Only ordinary navigation to https://vsp.rest/; local SVG asset is180bytes with no active-content markers. No added form, script, provider call or credential transfer."
+  ],
+  "limits": [
+    "No browser rendering, assistive-technology, measured contrast, focus-overlap or narrow-viewport proof.",
+    "External destination availability was not tested."
+  ],
+  "sourceEdited": false
+}

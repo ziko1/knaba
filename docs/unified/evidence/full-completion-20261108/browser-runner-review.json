@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-11-08T10:16:25.818826+00:00",
+  "baseCommit": "f5a9ce20e1af3c88fd09081a866d103a2f79631c",
+  "scope": "Frozen CI/browser runner changes; exact working-source hashes; no browser execution or product runtime changes",
+  "status": "GUARD_CHECKS_PASS_BROWSER_NOT_RUN",
+  "files": {
+    ".github/workflows/ci.yml": "66a1f454236d1c7044829f3d9bf1c818d67142ee2752b3165783fe5ac03edce1",
+    "corporate-site/tests/ci-browser.mjs": "660e6e97c0c01e956986fff191b4af35f8252c4f2b63c808262e5e2c5e2fb090",
+    "corporate-site/tests/ci-browser.test.mjs": "e8a6798b52721d3e549e778342f3cd7caa3f63d97b3cfa445c24cdd68872fce5",
+    "corporate-site/tests/ci-artifacts.mjs": "4cc859561ef67030847355c3407498ac8fee8205a7dd51f9d8bcef5d33823a82",
+    "corporate-site/tests/ci-artifacts.test.mjs": "27e6971faecd2597c59ab0beebde66f25470d1d83a5c1e25bf74a3246b086f8f",
+    "corporate-site/tests/browser-policy-gate.cjs": "7aacf050f01dd36ac19f811c9a4feee4e24d2a83b738c12d0555e50b274ce2b7",
+    "corporate-site/tests/browser-policy-gate.test.cjs": "aa932d0ba7f47b2f7097269d1a7d0787f927856bd6e74a27a5333ceb43e8313e",
+    "corporate-site/tests/portal-languages-browser.mjs": "a61099d4a60609d986c82776bdc45acc10207c9cd20f77bd833bfcfab462bce1",
+    "corporate-site/tests/role-cabinets-browser.mjs": "a59411b3da396654eb0db604748c28b32d91bcadb3865939764fd5d3f6904f2f",
+    "corporate-site/tests/assistant-display-browser-case.mjs": "f635e3ca286494b652a4e572f3e02ff618b822bc88a89a91550a0da4d843b00b",
+    "corporate-site/tests/fixtures/role-ux-server.mjs": "782878797cd2c33268e294383c5ed11437fe1518e7b50d5bf1f2fe61ca849cfd"
+  },
+  "logs": {
+    "guards.log": "4f173707f21f8b5aa972944076cfc3b98b235b13526422cedcc0b03baa3bf8a9",
+    "check.log": "c2ca1a891dc9b6e35f49db6aa49158a8638f6d0140ec0547a26f999530bdef53"
+  },
+  "independentReview": {
+    "owner": "root",
+    "result": "23 no-browser Node tests PASS; source review found no blocker",
+    "log": "/workspace/scratch/c56161c95e04/verification/integration/browser-runner-root-review.log",
+    "sha256": "11d2c43f91feeb72a47663a130d53449f8d93b7f6a02f0fec0710874b15e4e20",
+    "status": "ACCEPTED_FOR_SOURCE_INTEGRATION",
+    "reviewedBehavior": [
+      "Exact clean SHA and all four fresh artifact groups checked before and after browser sequence",
+      "Owned child process close, bounded cleanup and same-engine policy block stop",
+      "Synthetic SQLite/HTTP display receipts and four separately labelled ERP UI fixtures",
+      "Installed browser only, explicit sandbox, no provider environment inheritance or implicit API proxy"
+    ]
+  },
+  "checks": [
+    {
+      "command": "node --test tests/ci-artifacts.test.mjs tests/ci-browser.test.mjs tests/browser-policy-gate.test.cjs",
+      "result": "23 PASS / 0 FAIL / 0 SKIP"
+    },
+    {
+      "command": "npm run check",
+      "result": "Exit 0; 486 files, 0 errors / 0 warnings / 6 existing Astro hints; Svelte 0/0"
+    },
+    {
+      "command": "node --check (ci-browser, ci-artifacts, assistant-display-browser-case, portal-languages-browser, role-cabinets-browser)",
+      "result": "PASS; no browser launched"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "runtimeGates": [
+    "Actual site roles/receipt visibility/6-locale/public24 cases NOT_RUN locally",
+    "Four ERP transfer UI cases use HTTP fixtures; they are not PostgreSQL/provider proof",
+    "Installed-only actual browser run belongs to CI on a clean source and the newly captured build manifest",
+    "No browser downloaded, no sandbox disabled, no production or provider call"
+  ]
+}

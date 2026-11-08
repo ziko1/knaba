@@ -5,7 +5,9 @@ import type { ConstructionLocale } from './construction-offers';
  * GOLDBECK and BONAVA are identified from the two original logo images;
  * the official names/relationships and trademark rights still require
  * customer/rightsholder sign-off before public release.
- * All fixed assets come from existing PR #75 and load from our own origin.
+ * The original five assets come from PR #75. The user confirmed TM Ausbau and
+ * Brüninghoff Group on 2026-11-08; their original SVG logos come from the
+ * respective official websites. All logo assets load from our own origin.
  */
 export const officialPartnerLogos = [
   {id:'official-01', slug:'goldbeck', name:'GOLDBECK', src:'/images/partners/goldbeck.jpg', width:149, height:121,
@@ -25,6 +27,12 @@ export const officialPartnerLogos = [
   {id:'gewobag', slug:'gewobag', name:'Gewobag', src:'/images/partners/gewobag.png', width:168, height:51,
     source:'https://www.gewobag.de/ueber-uns/ueber-die-gewobag/',
     description:{de:'Gewobag ist ein kommunales Wohnungsunternehmen in Berlin. Zu seinen Aufgaben zählen die Bewirtschaftung, der Neubau und die Modernisierung von Wohnraum sowie die Entwicklung von Quartieren.',en:'Gewobag is a municipal housing company in Berlin. Its work covers housing management, new construction, modernisation and neighbourhood development.',uk:'Gewobag — комунальна житлова компанія Берліна. Вона управляє житловим фондом, будує та модернізує житло й розвиває міські квартали.',ru:'Gewobag — муниципальная жилищная компания Берлина. Она управляет жилым фондом, строит и модернизирует жильё, развивает городские кварталы.'}},
+  {id:'tm-ausbau', slug:'tm-ausbau', name:'TM Ausbau', src:'/images/partners/tm-ausbau.svg', width:220, height:37,
+    source:'https://www.tm-ausbau.eu/', website:'https://www.tm-ausbau.eu/',
+    description:{de:'TM Ausbau plant und realisiert Ausbauprojekte. Das Leistungsspektrum umfasst Bauen im Bestand, Innenausbau, Mieterausbau und Möbelbau.',en:'TM Ausbau plans and delivers fit-out projects. Its services include work on existing buildings, interior fit-outs, tenant fit-outs and furniture construction.',uk:'TM Ausbau планує та виконує проєкти облаштування приміщень. Напрями роботи охоплюють реконструкцію наявних будівель, внутрішнє оздоблення, облаштування орендованих приміщень і виготовлення меблів.',ru:'TM Ausbau планирует и реализует проекты обустройства помещений. Направления работы включают реконструкцию существующих зданий, внутреннюю отделку, обустройство арендуемых помещений и изготовление мебели.'}},
+  {id:'brueninghoff', slug:'brueninghoff', name:'Brüninghoff Group', src:'/images/partners/brueninghoff-group.svg', width:148, height:29,
+    source:'https://www.brueninghoff.de/', website:'https://www.brueninghoff.de/',
+    description:{de:'Die Brüninghoff Group plant, produziert und realisiert Gebäude aus Holz, Beton, Metall und hybriden Konstruktionen. Zu ihren Tätigkeitsfeldern gehören Wohnungsbau, Hallenbau und Bürogebäude.',en:'Brüninghoff Group plans, manufactures and constructs buildings using timber, concrete, metal and hybrid structures. Its work includes residential buildings, industrial halls and offices.',uk:'Brüninghoff Group проєктує будівлі, виготовляє конструкції та виконує будівництво з дерева, бетону, металу й гібридних конструкцій. Серед напрямів — житлові, промислові та офісні будівлі.',ru:'Brüninghoff Group проектирует здания, производит конструкции и выполняет строительство из дерева, бетона, металла и гибридных конструкций. Среди направлений — жилые, промышленные и офисные здания.'}},
 ] as const;
 
 export const partnerCopy: Record<ConstructionLocale, {
@@ -36,11 +44,11 @@ export const partnerCopy: Record<ConstructionLocale, {
   ru:{eyebrow:'KnaBa / Партнёры',title:'Наши партнёры.',description:'Компании партнёрской сети KnaBa.',logo:'Логотип',profile:'О компании'},
 };
 
-export const partnerDirectoryCopy: Record<ConstructionLocale, {title:string;intro:string;index:string}> = {
-  de:{title:'Unsere Partner im Überblick',intro:'Lernen Sie die Unternehmen aus unserem Partnerbereich und ihre Tätigkeitsfelder kennen.',index:'Unternehmen auf dieser Seite'},
-  en:{title:'Meet our partners',intro:'Get to know the companies featured in our partner section and their areas of work.',index:'Companies on this page'},
-  uk:{title:'Більше про наших партнерів',intro:'Познайомтеся з компаніями з нашого партнерського розділу та їхніми напрямами діяльності.',index:'Компанії на цій сторінці'},
-  ru:{title:'Больше о наших партнёрах',intro:'Познакомьтесь с компаниями из нашего партнёрского раздела и направлениями их деятельности.',index:'Компании на этой странице'},
+export const partnerDirectoryCopy: Record<ConstructionLocale, {title:string;intro:string;index:string;website:string}> = {
+  de:{title:'Unsere Partner im Überblick',intro:'Lernen Sie die Unternehmen aus unserem Partnerbereich und ihre Tätigkeitsfelder kennen.',index:'Unternehmen auf dieser Seite',website:'Offizielle Website'},
+  en:{title:'Meet our partners',intro:'Get to know the companies featured in our partner section and their areas of work.',index:'Companies on this page',website:'Official website'},
+  uk:{title:'Більше про наших партнерів',intro:'Познайомтеся з компаніями з нашого партнерського розділу та їхніми напрямами діяльності.',index:'Компанії на цій сторінці',website:'Офіційний сайт'},
+  ru:{title:'Больше о наших партнёрах',intro:'Познакомьтесь с компаниями из нашего партнёрского раздела и направлениями их деятельности.',index:'Компании на этой странице',website:'Официальный сайт'},
 };
 
 export function partnerProfilePath(locale: ConstructionLocale, slug: typeof officialPartnerLogos[number]['slug']): string {

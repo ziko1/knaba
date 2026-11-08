@@ -1,0 +1,10 @@
+PASS ERP transport assertions=76; explicit HTTP/journal doubles and fresh-instance recovery; live ERP, Android OS process death NOT_RUN
+Exception in thread "main" java.lang.AssertionError: unexpected network call /api/v1/commands/media.register
+	at de.knaba.mobile.ErpConsoleTransportTest$Queue.open(ErpConsoleTransportTest.java:54)
+	at de.knaba.mobile.ErpConsoleTransport.call(ErpConsoleTransport.java:381)
+	at de.knaba.mobile.ErpConsoleTransport.call(ErpConsoleTransport.java:365)
+	at de.knaba.mobile.ErpConsoleTransport.command(ErpConsoleTransport.java:577)
+	at de.knaba.mobile.ErpConsoleTransport.command(ErpConsoleTransport.java:531)
+	at de.knaba.mobile.ErpMediaTransportTest.lambda$main$12(ErpMediaTransportTest.java:141)
+	at de.knaba.mobile.ErpMediaTransportTest.fails(ErpMediaTransportTest.java:16)
+	at de.knaba.mobile.ErpMediaTransportTest.main(ErpMediaTransportTest.java:141)

@@ -1,0 +1,19 @@
+{
+  "atUtc": "2026-11-08T19:18:37.257101+00:00",
+  "network": false,
+  "sharedPathsMutated": false,
+  "reason": "Previously used Gradle/JDK executable files unexpectedly absent; wrapper returned69 before test execution. Restored exact preverified cached archives to private verification directory.",
+  "archives": [
+    {
+      "path": "/workspace/scratch/4686fcc1b388/toolchain/downloads/gradle-8.13-bin.zip",
+      "bytes": 136983045,
+      "sha256": "20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78"
+    },
+    {
+      "path": "/workspace/scratch/4686fcc1b388/toolchain/downloads/OpenJDK17U-jdk_x64_linux_hotspot_17.0.21_9.tar.gz",
+      "bytes": 193594705,
+      "sha256": "8b9b611d917e3dfd8419d3566b5949226f69b052fed7e109c1368add1dfe8711"
+    }
+  ],
+  "target": "/workspace/scratch/c56161c95e04/verification/android-federation/toolchain-cache"
+}

@@ -1,7 +1,7 @@
 name: knaba-de
 x-runtime: &runtime
   DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL with the postgres service hostname}
-  APP_MODE: ${APP_MODE:-DEMO}
+  APP_MODE: ${APP_MODE:?Select DEMO, TEST or PRODUCTION explicitly}
   COMPANY_ID: ${COMPANY_ID:-knaba-demo}
   AUTH_ENCRYPTION_KEY: ${AUTH_ENCRYPTION_KEY:?Set a private random AUTH_ENCRYPTION_KEY of at least 32 characters}
   GIT_SHA: ${GIT_SHA:?Set the exact tested 40-character Git SHA}
