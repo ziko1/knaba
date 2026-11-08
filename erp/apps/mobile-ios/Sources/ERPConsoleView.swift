@@ -11,10 +11,10 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         return allCases.filter { workspace in
             switch workspace {
             case .client: return !roles.isDisjoint(with: ["CLIENT", "CUSTOMER"]) && has(["customer.portal"])
-            case .worker: return !roles.isDisjoint(with: ["WORKER", "EMPLOYEE"]) && has(["task.read", "shift.read"])
+            case .worker: return !roles.isDisjoint(with: ["WORKER", "EMPLOYEE", "TEAM_LEADER"]) && has(["task.read", "shift.read"])
             case .partner: return roles.contains("PARTNER") && has(["lead.manage_own", "customer.portal"])
-            case .bauleiter: return !roles.isDisjoint(with: ["BAULEITER", "SITE_MANAGER"]) && has(["crew.assign", "dispatch.manage"])
-            case .owner: return roles.contains("OWNER") && has(["identity.manage", "operations.read"])
+            case .bauleiter: return !roles.isDisjoint(with: ["BAULEITER", "SITE_MANAGER", "INTERNAL_BAULEITER", "EXTERNAL_BAULEITER"]) && has(["crew.assign", "dispatch.manage"])
+            case .owner: return !roles.isDisjoint(with: ["OWNER", "DIRECTOR"]) && has(["identity.manage", "operations.read"])
             }
         }
     }
