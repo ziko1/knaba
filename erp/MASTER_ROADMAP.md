@@ -1,5 +1,11 @@
 # KNABA DE master roadmap
 
+## 08.11.2026 — C08-D release metadata consistency
+
+F4-C1 accepted on131e58 / CI42494833954 (ERP3192/128 files,12 new PostgreSQL cases); [receipt](../docs/unified/evidence/identity-privacy-export-20261108/accepted-131e58.json). Next bounded runtime increment C08-D has actual RED2 and final focused215/4 files, TypeScript exit0, independent source ACCEPT. Exact-source hosted acceptance is still NOT_RUN. [Contract](../docs/unified/RELEASE_SHA_GUARD_2026-11-08_UK.md).
+
+Worker, SQL/schema and native paths remain inherited; this metadata guard is not source attestation. Full72 V4/475 V3 and product NOT_READY unchanged. F3, remaining F4 policy/retention/restore, specialist/device/provider/company/load gates remain open.
+
 ## 08.11.2026 — C08-C прийнято; F4-C1 identity privacy export
 
 C08-C прийнято на `4e6ac0990ddd73bed142ab05b5f7579d8ed3048a` / [PR136](https://github.com/ziko1/knaba/pull/136), [CI42491574791](https://github.com/ziko1/knaba/actions/runs/42491574791), attempt1: ERP3144/126 файлів, notification-policy PostgreSQL21 включно з7 новими cases, template-origin19; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0, independent source/raw-log ACCEPT. [Receipt](../docs/unified/evidence/template-origin-20261108/accepted-4e6ac0.json). Duplicate push42491540824 SUCCESS; correction не знадобилась.

@@ -1,5 +1,15 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 08.11.2026 — release identity before database startup
+
+F4-C1 прийнято на `131e582f1ffa50a89a5898742cf7f22b5b43efa7` / [PR139](https://github.com/ziko1/knaba/pull/139), [CI42494833954](https://github.com/ziko1/knaba/actions/runs/42494833954): ERP3192 у128 files, включно з12 actual identity-privacy PostgreSQL cases; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0; незалежний exact-source/raw-log ACCEPT. Duplicate push42494770576 окремо SUCCESS. [Receipt](evidence/identity-privacy-export-20261108/accepted-131e58.json).
+
+C08-D виправляє confirmed zero/mismatched release SHA до створення Database: спільна strict grammar, explicit env/compiled agreement, незмінні production prerequisites і TEST/DEMO missing-both fallback; preflight/bundle використовують той самий валідатор. Actual entrypoint RED2 → GREEN2; final focused215/4 files (48 release SHA,78 entrypoints,42 preflight,47 existing runtime config), TypeScript exit0. Незалежний runtime/test review ACCEPT. Новий exact-source hosted CI ще NOT_RUN. [Контракт](RELEASE_SHA_GUARD_2026-11-08_UK.md), [input evidence](evidence/release-sha-20261108/verification.json).
+
+Наступний gate C08-D — exact committed source і4 mandatory CI jobs із незалежним raw-log review. Після нього — предметна звірка TPL-01–18 та інтеграційних залежностей паралельних candidates.
+
+Whole product NOT_READY; вихідні72 V4/475 V3 не перепозначено. F3 і решта F4 policy/retention/restore, specialist/native/device/company/provider/load gates OPEN. TPL source уже має три presets, constrained ZIP import/preview/lifecycle; старі18 NOT_STARTED rows потребують окремої звірки source/evidence, а не автоматичного PASS. Паралельні PR135/137/138 не інтегровані в цей source.
+
 ## 08.11.2026 — C08-C прийнято; F4-C1 identity privacy export
 
 C08-C прийнято на `4e6ac0990ddd73bed142ab05b5f7579d8ed3048a` / [PR136](https://github.com/ziko1/knaba/pull/136), [CI42491574791](https://github.com/ziko1/knaba/actions/runs/42491574791), attempt1: ERP3144/126 файлів, notification-policy PostgreSQL21 включно з7 новими cases, template-origin19; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0, independent source/raw-log ACCEPT. [Receipt](evidence/template-origin-20261108/accepted-4e6ac0.json). Duplicate push42491540824 SUCCESS; correction не знадобилась.

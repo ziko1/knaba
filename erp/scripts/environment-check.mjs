@@ -1,4 +1,4 @@
-import {resolveCompanyId,parsePublicOrigin} from '../apps/runtime-config.mjs';
+import {resolveCompanyId,parsePublicOrigin,requireReleaseSha} from '../apps/runtime-config.mjs';
 const mode=process.env.APP_MODE;
 const failures=[];
 const requireValue=key=>{const value=process.env[key];if(!value||/^REPLACE_|^CHANGE_ME|^<.+>$/.test(value))failures.push(`Missing valid ${key}`);return value;};
@@ -12,7 +12,7 @@ if(validMode){try{resolveCompanyId(mode,process.env.COMPANY_ID);}catch{failures.
 const key=requireValue('AUTH_ENCRYPTION_KEY');
 if(key&&key.length<32)failures.push('AUTH_ENCRYPTION_KEY must contain at least 32 characters');
 const sha=requireValue('GIT_SHA');
-if(sha&&(!/^[a-f0-9]{40}$/.test(sha)||/^0{40}$/.test(sha)))failures.push('GIT_SHA must be the exact non-placeholder 40-character release SHA');
+if(sha){try{requireReleaseSha(sha);}catch{failures.push('GIT_SHA must be the exact non-placeholder 40-character release SHA');}}
 const origin=requireValue('PUBLIC_ORIGIN');
 if(origin&&validMode){try{parsePublicOrigin(mode,origin,true);}catch{failures.push(mode==='PRODUCTION'?'PRODUCTION requires HTTPS PUBLIC_ORIGIN without credentials/path/query/fragment':'PUBLIC_ORIGIN must be an HTTP(S) origin without credentials/path/query/fragment');}}
 const websiteOrigin=process.env.BOT_WEBSITE_ORIGIN;

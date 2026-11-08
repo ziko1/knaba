@@ -20,11 +20,13 @@ import {validationInputBudgetMiddleware} from './validation-budget.ts';
 import {SiteIdentityFlow} from './site-identity-flow.ts';
 import {parsePeerConfig,parseSessionAuthorityEnabled} from '../../packages/integrations/site-identity-protocol.mjs';
 import {installSiteIdentityPages} from './site-identity-pages.ts';
-import {resolveCompanyId,parsePublicOrigin} from '../runtime-config.mjs';
-const parsedEnv=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().optional(),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().optional()}).parse(process.env);
+import {resolveCompanyId,parsePublicOrigin,resolveBuildSha} from '../runtime-config.mjs';
+const parsedEnv=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().optional(),GIT_SHA:z.string().optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().optional()}).parse(process.env);
 if(parsedEnv.APP_MODE==='PRODUCTION'&&(!parsedEnv.AUTH_ENCRYPTION_KEY||!parsedEnv.PUBLIC_ORIGIN||!parsedEnv.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
 const env={...parsedEnv,COMPANY_ID:resolveCompanyId(parsedEnv.APP_MODE,parsedEnv.COMPANY_ID),
   PUBLIC_ORIGIN:parsePublicOrigin(parsedEnv.APP_MODE,parsedEnv.PUBLIC_ORIGIN,parsedEnv.APP_MODE==='PRODUCTION')?.origin};
+const globals=globalThis as any;
+const buildSha=resolveBuildSha(env.APP_MODE,env.GIT_SHA,globals.__KNABA_BUILD_SHA__);
 const db=new Database();
 await assertGpsStorageSafe(db,env.COMPANY_ID);
 if(env.APP_MODE==='PRODUCTION')await db.transaction(env.COMPANY_ID,'PRODUCTION_READINESS',tx=>assertProductionRetentionMatrix(tx));
@@ -38,8 +40,6 @@ if(identityPeer?.active)await db.query('SELECT id,site_expires_at FROM site_iden
 const siteSessions=new SiteSessionAuthority(db,env.COMPANY_ID,identityConfig,sessionsEnabled,undefined,env.PUBLIC_ORIGIN);
 await siteSessions.ready();
 const siteIdentity=new SiteIdentityFlow(db,engine,{companyId:env.COMPANY_ID,appMode:env.APP_MODE,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY},identityConfig);
-const globals=globalThis as any;
-const buildSha=globals.__KNABA_BUILD_SHA__??env.GIT_SHA??'0000000000000000000000000000000000000000';
 const app=await NestFactory.create(createApiModule({db,engine,siteIdentity,siteSessions,companyId:env.COMPANY_ID,appMode:env.APP_MODE,buildSha,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY,integrationCredentials:parseIntegrationCredentials(process.env.INTEGRATION_CREDENTIALS_JSON),cookieSecure:env.PUBLIC_ORIGIN?.startsWith('https:')}),{bodyParser:false,logger:['error','warn']});
 const server=app.getHttpAdapter().getInstance();server.set('trust proxy',1);
 app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'","data:","blob:"],connectSrc:["'self'"],frameAncestors:["'self'",...(process.env.WIDGET_ALLOWED_ORIGINS??'').split(',').filter(Boolean).map(origin=>z.string().url().parse(origin))]}},crossOriginEmbedderPolicy:false}));

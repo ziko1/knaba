@@ -30,3 +30,19 @@ export function parsePublicOrigin(mode,value,required=false){
      url.pathname!=='/'||url.search||url.hash||value.includes('?')||value.includes('#'))invalid();
   return {raw:value,origin:url.origin};
 }
+
+const placeholderReleaseSha='0'.repeat(40);
+/** Grammar and agreement are configuration guards, not source attestation. */
+export function requireReleaseSha(value){
+  if(typeof value!=='string'||value.length!==40||!/^[a-f0-9]{40}$/.test(value)||value===placeholderReleaseSha)
+    throw new Error('RELEASE_SHA_REQUIRED_OR_INVALID');
+  return value;
+}
+export function resolveBuildSha(mode,environmentSha,compiledSha){
+  modeRequired(mode);
+  const configured=environmentSha===undefined?undefined:requireReleaseSha(environmentSha);
+  if(mode==='PRODUCTION'&&configured===undefined)throw new Error('RELEASE_SHA_REQUIRED_OR_INVALID');
+  const embedded=compiledSha===undefined?undefined:requireReleaseSha(compiledSha);
+  if(configured!==undefined&&embedded!==undefined&&configured!==embedded)throw new Error('RELEASE_SHA_MISMATCH');
+  return embedded??configured??placeholderReleaseSha;
+}

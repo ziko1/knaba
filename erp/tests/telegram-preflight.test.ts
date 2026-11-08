@@ -124,3 +124,16 @@ describe('operator preflight matches runtime company/origin guards',()=>{
     expect(run.status).toBe(1);expect(run.stderr).toContain(`Missing valid ${key}`);
   });
 });
+
+
+describe('operator preflight rejects invalid release metadata in every mode',()=>{
+  it.each(['DEMO','TEST','PRODUCTION'])('rejects zero, newline, uppercase and malformed SHA in %s',APP_MODE=>{
+    for(const GIT_SHA of ['0'.repeat(40),'a'.repeat(40)+'\n','A'.repeat(40),'SYNTHETIC_SHA_CANARY_DO_NOT_ECHO']){
+      const run=verify({APP_MODE,GIT_SHA});
+      expect(run.error).toBeUndefined();expect(run.signal).toBeNull();expect(run.status).toBe(1);
+      expect(run.stderr).toContain('GIT_SHA must be the exact non-placeholder 40-character release SHA');
+      expect(run.stdout).not.toContain('PASSED:');
+      expect(run.stdout+run.stderr).not.toContain('SYNTHETIC_SHA_CANARY_DO_NOT_ECHO');
+    }
+  });
+});
