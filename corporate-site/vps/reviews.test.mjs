@@ -5,6 +5,8 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createKnabaVpsServer} from './server.mjs';
 import {createOwner} from './auth.mjs';
+import {inspectMigrationSequence} from './migration-guard.mjs';
+const expectedMigrations=inspectMigrationSequence(new URL('../drizzle/',import.meta.url).pathname).names;
 
 test('real VPS review flow preserves idempotency, trusted owner moderation, privacy and restart durability',async()=>{
   const dir=await mkdtemp(join(tmpdir(),'knaba-review-vps-'));
@@ -17,7 +19,7 @@ test('real VPS review flow preserves idempotency, trusted owner moderation, priv
   const headers={Origin:origin,'Sec-Fetch-Site':'same-origin','Content-Type':'application/json','X-KnaBa-Request':'portal-v1','Idempotency-Key':'synthetic-review-key-20261025'};
   const payload={displayName:'Synthetic integration test',email:'private-review@example.test',company:'Test only',relationship:'partner',text:'Synthetic review for isolated verification only. Never a real testimonial.',consent:true,website:''};
   try{
-    assert.equal(app.migrations.length,14);
+    assert.deepEqual(app.migrations,expectedMigrations);
     assert.equal((await get('/api/reviews/manage',{headers:{'oai-authenticated-user-id':'forged','oai-authenticated-user-email':owner}})).status,401);
     assert.deepEqual(await (await get('/api/reviews')).json(),{reviews:[],total:0});
     const submitted=await get('/api/reviews',{method:'POST',headers,body:JSON.stringify(payload)});

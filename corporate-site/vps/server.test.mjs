@@ -8,6 +8,8 @@ import { request as httpRequest } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { createKnabaVpsServer } from './server.mjs';
 import { createOwner } from './auth.mjs';
+import { inspectMigrationSequence } from './migration-guard.mjs';
+const expectedMigrations=inspectMigrationSequence(new URL('../drizzle/',import.meta.url).pathname).names;
 
 const origin='https://knaba.de';
 const owner='owner@example.test';
@@ -85,7 +87,7 @@ test('official VPS: trusted auth, unchanged public site, scoped CRM, publish, re
   });
   const bodyHeaders={Origin:origin,'Sec-Fetch-Site':'same-origin','X-Knaba-Request':'portal-v1','Content-Type':'application/json'};
   try{
-    assert.deepEqual(app.migrations.length,14);
+    assert.deepEqual(app.migrations,expectedMigrations);
     assert.equal((await fetchAt('/readyz')).status,503);
     createOwner(app.db,owner,password);
     assert.equal((await fetchAt('/readyz')).status,200);
