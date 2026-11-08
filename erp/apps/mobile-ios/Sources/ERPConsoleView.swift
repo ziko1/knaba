@@ -1,5 +1,25 @@
 import SwiftUI
 
+/// Role labels select presentation only. The ERP remains the authority for all data/actions.
+enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
+    case client, worker, partner, bauleiter, owner
+    var id: String { rawValue }
+    static func available(_ actor: ERPActor) -> [Self] {
+        let roles = Set(actor.roles.map { $0.uppercased() })
+        let permissions = actor.permissions
+        func has(_ names: [String]) -> Bool { ERPModuleCatalog.permits(permissions, anyOf: names) }
+        return allCases.filter { workspace in
+            switch workspace {
+            case .client: return !roles.isDisjoint(with: ["CLIENT", "CUSTOMER"]) && has(["customer.portal"])
+            case .worker: return !roles.isDisjoint(with: ["WORKER", "EMPLOYEE"]) && has(["task.read", "shift.read"])
+            case .partner: return roles.contains("PARTNER") && has(["lead.manage_own", "customer.portal"])
+            case .bauleiter: return !roles.isDisjoint(with: ["BAULEITER", "SITE_MANAGER"]) && has(["crew.assign", "dispatch.manage"])
+            case .owner: return roles.contains("OWNER") && has(["identity.manage", "operations.read"])
+            }
+        }
+    }
+}
+
 @MainActor final class ERPConsoleModel: ObservableObject {
     @Published var language: NativeLanguage = .de
     func text(_ key: ERPText) -> String { ERPStrings.text(key, language) }
@@ -9,6 +29,8 @@ import SwiftUI
     @Published var password = ""
     @Published var otp = ""
     @Published var identity: ERPIdentity?
+    @Published var availableWorkspaces: [ERPWorkspaceRoute] = []
+    @Published var selectedWorkspace: ERPWorkspaceRoute?
     @Published var dashboard: ERPDashboard?
     @Published var commands: [ERPCommand] = []
     @Published var selection = "task"
@@ -56,6 +78,12 @@ import SwiftUI
         ERPModuleCatalog.permits(identity?.actor.permissions ?? [], anyOf: ["decision.manage", "dispatch.manage", "crew.assign", "operations.read"])
     }
     var roleLabel: String { identity?.actor.roles.map { ERPStrings.role($0, language) }.joined(separator: " · ") ?? "" }
+    func updateWorkspaceRoute(_ actor: ERPActor) {
+        let next = ERPWorkspaceRoute.available(actor)
+        availableWorkspaces = next
+        if let selectedWorkspace, next.contains(selectedWorkspace) { return }
+        selectedWorkspace = next.count == 1 ? next[0] : nil
+    }
     func signIn() async {
         guard !busy else { return }
         busy = true; problem = ""; notice = ""; epoch += 1
@@ -68,6 +96,7 @@ import SwiftUI
             guard epoch == ticket else { return }
             guard ERPOrigin.validate(origin)?.absoluteString == storedOrigin else { await signOut(ERPFailure.accessChanged); return }
             identity = result
+            updateWorkspaceRoute(result.actor)
             commandAuthority = authority
             password = ""; otp = ""
             UserDefaults.standard.set(storedOrigin, forKey: "knaba-erp-origin")
@@ -87,12 +116,14 @@ import SwiftUI
             guard ticket == epoch, identity != nil else { return }
             guard storedOrigin == ERPOrigin.validate(origin)?.absoluteString else { await signOut(ERPFailure.accessChanged); return }
             identity = next
+            updateWorkspaceRoute(next.actor)
             await reloadPendingState()
         } catch { if ticket == epoch { await signOut(error) } }
     }
     private func clearSessionPresentation(_ error: Error? = nil) {
         epoch += 1
-        identity = nil; items = []; commands = []; channels = []; messages = []; dashboard = nil
+        identity = nil; availableWorkspaces = []; selectedWorkspace = nil
+        items = []; commands = []; channels = []; messages = []; dashboard = nil
         commandAuthority = nil
         selectedChannel = ""; messageText = ""; password = ""; otp = ""
         pendingCommandName = nil; recoveryBlocked = false
@@ -286,7 +317,23 @@ import SwiftUI
         NavigationStack {
             Group {
                 if model.identity == nil { ERPLoginScreen(model: model) }
-                else { console }
+                else if model.availableWorkspaces.isEmpty {
+                    VStack(spacing: 16) {
+                        Text(model.text(.accessDenied)).font(.headline)
+                        Button(model.text(.signOut)) { Task { await model.signOut() } }
+                    }.padding()
+                } else if model.selectedWorkspace == nil {
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            Text(model.text(.title)).font(.title2.bold())
+                            ForEach(model.availableWorkspaces) { workspace in
+                                Button(workspace.rawValue.capitalized) { model.selectedWorkspace = workspace }
+                                    .buttonStyle(KNABAButtonStyle())
+                                    .accessibilityIdentifier("workspace-\(workspace.rawValue)")
+                            }
+                        }.padding()
+                    }
+                } else { console }
             }
             .knabaScreen()
             .navigationTitle(model.identity == nil ? "" : model.text(.title))
