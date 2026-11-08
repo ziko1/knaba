@@ -125,8 +125,8 @@ jobs:
           assert.equal(r.source.workingTreeDirty,false);
           assert.equal(r.browser,'chromium');
           assert.equal(typeof r.browserVersion,'string');
-          assert.equal(r.completedChecks,64);
-          assert.equal(r.checks.length,64);
+          assert.equal(r.completedChecks,77);
+          assert.equal(r.checks.length,77);
           assert.ok(r.checks.every(c=>c.status==='PASS'));
           assert.equal(r.errors.length,0);
           assert.equal(r.externalRequests.length,0);

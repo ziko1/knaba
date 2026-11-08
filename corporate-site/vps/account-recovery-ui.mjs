@@ -242,20 +242,38 @@ const passwordValidation=`
 `;
 
 // The original HTML supports manual entry without JavaScript. A valid URL fragment
-// is moved into the POST field and removed from browser history; no request occurs.
+// is moved into the POST field and removed from browser history. Hash-only link
+// navigation must run the same validation without keeping a stale capability.
 const tokenScript=`(function(){${passwordValidation}
   const field=document.getElementById('account-token');
   const entry=document.getElementById('account-token-entry');
   const ready=document.getElementById('account-token-ready');
   const edit=document.getElementById('account-token-edit');
-  const fragment=new URLSearchParams(location.hash.slice(1));
-  const values=fragment.getAll('token');
-  const token=values.length===1&&[...fragment.keys()].length===1?values[0]:'';
-  history.replaceState(null,'',location.pathname+location.search);
+  const bindFragment=function(){
+    const fragment=new URLSearchParams(location.hash.slice(1));
+    const values=fragment.getAll('token');
+    const token=values.length===1&&[...fragment.keys()].length===1?values[0]:'';
+    const valid=token.length===43&&/^[A-Za-z0-9_-]{43}$/.test(token);
+    if(valid&&(!field||!entry||!ready||!edit)){
+      // A completed POST page has no form. Both path variants are existing GET
+      // routes: changing the path guarantees a fresh document without replaying
+      // the POST. Keep the capability in the fragment for the new form to scrub.
+      const path=location.pathname.endsWith('/')?location.pathname.slice(0,-1):location.pathname+'/';
+      location.replace(path+location.search+location.hash);return;
+    }
+    history.replaceState(null,'',location.pathname+location.search);
+    if(!field||!entry||!ready||!edit)return;
+    field.value='';field.type='text';entry.hidden=false;ready.hidden=true;
+    if(next)next.value='';
+    if(confirm){confirm.value='';confirm.setCustomValidity('');}
+    if(valid){field.value=token;field.type='hidden';entry.hidden=true;ready.hidden=false;}
+  };
+  bindFragment();
+  window.addEventListener('hashchange',function(){
+    // The keyboard skip link and ordinary history traversal are not reset links.
+    if(location.hash&&location.hash!=='#account-main')bindFragment();
+  });
   if(!field||!entry||!ready||!edit)return;
-  if(/^[A-Za-z0-9_-]{43}$/.test(token)){
-    field.value=token;field.type='hidden';entry.hidden=true;ready.hidden=false;
-  }
   edit.addEventListener('click',function(){
     field.type='text';field.value='';entry.hidden=false;ready.hidden=true;field.focus();
   });
@@ -265,8 +283,8 @@ export function accountResetPage({lang='de',done=false,error=''}={}){
   const locale=authLanguage(lang),w=accountWords(locale);
   const title=w.resetTitle,intro=w.resetIntro;
   const target='/reset-password/';
-  const content=done?message(w.resetDone)+'<a class="button" href="'+accountLink('/login/',locale)+'">'+e(w.backLogin)+'</a>':
-    '<form method="post" action="'+accountLink(target,locale)+'"'+(error?' aria-describedby="account-error"':'')+'><div class="field token-field" id="account-token-entry"><label for="account-token">'+requiredLabel(w.token)+'</label><input id="account-token" name="token" type="text" required minlength="43" maxlength="43" pattern="[A-Za-z0-9_\\-]{43}" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="account-token-help"><p id="account-token-help" class="help">'+e(w.tokenHelp)+'</p></div><div id="account-token-ready" class="token-ready" hidden><p role="status">'+e(w.tokenReady)+'</p><button id="account-token-edit" class="secondary" type="button">'+e(w.enterToken)+'</button></div>'+passwordFields(w)+'<div class="form-actions"><button type="submit">'+e(w.resetSubmit)+'</button></div></form><div class="standalone-links"><a href="'+accountLink('/forgot-password/',locale)+'">'+e(w.recoverTitle)+'</a></div><script>'+tokenScript+'</script>';
+  const content=(done?message(w.resetDone)+'<a class="button" href="'+accountLink('/login/',locale)+'">'+e(w.backLogin)+'</a>':
+    '<form method="post" action="'+accountLink(target,locale)+'"'+(error?' aria-describedby="account-error"':'')+'><div class="field token-field" id="account-token-entry"><label for="account-token">'+requiredLabel(w.token)+'</label><input id="account-token" name="token" type="text" required minlength="43" maxlength="43" pattern="[A-Za-z0-9_\\-]{43}" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="account-token-help"><p id="account-token-help" class="help">'+e(w.tokenHelp)+'</p></div><div id="account-token-ready" class="token-ready" hidden><p role="status">'+e(w.tokenReady)+'</p><button id="account-token-edit" class="secondary" type="button">'+e(w.enterToken)+'</button></div>'+passwordFields(w)+'<div class="form-actions"><button type="submit">'+e(w.resetSubmit)+'</button></div></form><div class="standalone-links"><a href="'+accountLink('/forgot-password/',locale)+'">'+e(w.recoverTitle)+'</a></div>')+'<script>'+tokenScript+'</script>';
   return shell({lang:locale,title,intro,backPath:accountLink('/login/',locale),backLabel:w.backLogin,single:true,error,
     content:'<main id="account-main" tabindex="-1" class="card">'+message(error,{error:true})+content+'</main>'});
 }

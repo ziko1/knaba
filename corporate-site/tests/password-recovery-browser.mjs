@@ -125,6 +125,23 @@ async function navigate(page,target,path,status=200){
   assert.equal(response?.status(),status,'Unexpected document HTTP status');
   assert.equal(new URL(page.url()).origin,target.origin);assertClean();return response;
 }
+async function navigateFragment(page,target,path){
+  assert.ok(path.startsWith('/')&&!path.startsWith('//'));
+  const before=new URL(page.url()),after=new URL(target.origin+path);
+  assert.equal(before.origin,target.origin);assert.equal(after.origin,target.origin);
+  assert.equal(before.pathname,after.pathname);assert.equal(before.search,after.search);
+  assert.notEqual(before.hash,after.hash);assert.ok(after.hash,'A new recovery fragment is required');
+  const gets=target.requestCount('GET',after.pathname),posts=target.requestCount('POST',after.pathname);
+  activePage=page;
+  const response=await page.goto(after.href,{waitUntil:'domcontentloaded'});
+  assert.equal(response,null,'A hash-only transition has no document HTTP response');
+  await page.waitForFunction(()=>location.hash==='');
+  assert.equal(new URL(page.url()).origin+new URL(page.url()).pathname+new URL(page.url()).search,
+    after.origin+after.pathname+after.search);
+  assert.equal(target.requestCount('GET',after.pathname),gets,'Hash-only recovery must not GET');
+  assert.equal(target.requestCount('POST',after.pathname),posts,'Hash-only recovery must not POST');
+  assertClean();
+}
 async function submit(page,target,path,status){
   activePage=page;
   const [response]=await Promise.all([
@@ -194,9 +211,10 @@ async function requestRecovery(page,target,name,lang){
   assert.equal(await page.locator('form').count(),0);
   return target.capturedMailSince(before,name,lang);
 }
-async function openCapability(page,target,mail,lang){
+async function openCapability(page,target,mail,lang,{sameDocument=false}={}){
   const url=new URL(mail.link);assert.equal(url.origin,target.origin);
-  const response=await navigate(page,target,url.pathname+url.search+url.hash);privateHeaders(response);
+  if(sameDocument)await navigateFragment(page,target,url.pathname+url.search+url.hash);
+  else {const response=await navigate(page,target,url.pathname+url.search+url.hash);privateHeaders(response);}
   await checkForm(page,lang,'reset');
   assert.equal(new URL(page.url()).hash,'','Recovery fragment is removed before further navigation');
   assert.ok((await page.locator('#account-token').inputValue())===mail.token,'Exact fragment token is bound to the POST field');
@@ -204,6 +222,30 @@ async function openCapability(page,target,mail,lang){
   assert.equal(await page.locator('#account-token-entry').isVisible(),false);
   assert.equal(await page.locator('#account-token-ready').isVisible(),true);
   assert.equal(target.tokenExists(mail.token),true,'GET must not consume recovery capability');
+}
+async function reopenCompleted(page,target,mail,lang){
+  const current=new URL(page.url()),link=new URL(mail.link);
+  assert.equal(current.origin+current.pathname+current.search,link.origin+link.pathname+link.search);
+  assert.equal(await page.locator('form').count(),0);
+  const path=current.pathname.endsWith('/')?current.pathname.slice(0,-1):current.pathname+'/';
+  const gets=target.requestCount('GET',path),posts=target.requestCount('POST',current.pathname);
+  const credential=target.credentialDigest(lang),sessions=target.sessionCount(lang);
+  const [response,fragmentResponse]=await Promise.all([
+    page.waitForResponse(response=>new URL(response.url()).origin===target.origin&&
+      new URL(response.url()).pathname===path&&response.request().method()==='GET'),
+    page.goto(link.href,{waitUntil:'domcontentloaded'})
+  ]);
+  assert.equal(fragmentResponse,null,'The initial completed-page link is hash-only');
+  assert.equal(response.status(),200);privateHeaders(response);
+  await page.waitForFunction(()=>location.hash===''&&Boolean(document.getElementById('account-token')));
+  assert.equal(new URL(page.url()).pathname,path);assert.equal(new URL(page.url()).search,link.search);
+  await checkForm(page,lang,'reset');
+  assert.ok((await page.locator('#account-token').inputValue())===mail.token);
+  assert.equal(target.requestCount('GET',path),gets+1,'Completed recovery reopens through exactly one fresh GET');
+  assert.equal(target.requestCount('POST',current.pathname),posts,'Completed recovery never replays its POST');
+  assert.equal(target.tokenExists(mail.token),false,'Reopening cannot revive a consumed capability');
+  assert.equal(target.credentialDigest(lang),credential);assert.equal(target.sessionCount(lang),sessions);
+  assertClean();
 }
 async function fillPasswords(page,password,confirm=password){
   remember(password);remember(confirm);
@@ -240,12 +282,15 @@ async function localeFlow(lang,otherPage){
   await checkForm(page,lang,'forgot');await skipFocus(page);await layout(page,lang,'forgot');
   const mail=await requestRecovery(page,fixture,lang,lang);
   await openCapability(page,fixture,mail,lang);await layout(page,lang,'reset');
+  await skipFocus(page);
+  assert.ok((await page.locator('#account-token').inputValue())===mail.token,'Skip navigation preserves the bound capability');
   // A genuine link navigation and Back must not restore the original fragment.
   await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}),page.locator('.account-back').click()]);
   assert.equal(new URL(page.url()).pathname,'/login/');assert.equal(new URL(page.url()).hash,'');
   await page.goBack({waitUntil:'domcontentloaded'});
-  assert.equal(new URL(page.url()).pathname,'/reset-password/');assert.equal(new URL(page.url()).hash,'');
-  fixture.assertIsolated();await openCapability(page,fixture,mail,lang);
+  assert.equal(new URL(page.url()).pathname,'/reset-password/');
+  assert.ok(['','#account-main'].includes(new URL(page.url()).hash),'Back may restore the skip anchor, never the recovery capability');
+  fixture.assertIsolated();await openCapability(page,fixture,mail,lang,{sameDocument:true});
   record('Fragment binding, history scrub and non-consuming GET',{locale:lang});
 
   const next=remember('Synthetic-new-'+lang+'-'+randomBytes(18).toString('base64url'));
@@ -273,12 +318,16 @@ async function localeFlow(lang,otherPage){
   assert.equal(fixture.credentialDigest(lang),beforeCredential);assert.equal(fixture.sessionCount(lang),2);
   record('Invalid capability is rejected with localized, focused, secret-free error',{locale:lang});
 
-  await openCapability(page,fixture,mail,lang);await fillPasswords(page,next);
+  await openCapability(page,fixture,mail,lang,{sameDocument:true});
+  record('Same-document link rebinds the capability after a rejected POST without a request',{locale:lang});
+  await fillPasswords(page,next);
   const done=await submit(page,fixture,'/reset-password/',200);privateHeaders(done);
   assert.equal((await page.locator('#account-notice').textContent()).trim(),words.resetDone);
   assert.equal(await page.locator('form').count(),0);assert.equal(fixture.tokenExists(mail.token),false);
   assert.equal(fixture.sessionCount(lang),0,'All old sessions are revoked atomically');
   assert.notEqual(fixture.credentialDigest(lang),beforeCredential);
+  await reopenCompleted(page,fixture,mail,lang);
+  record('Completed recovery reopens through one GET without replaying POST or reviving its capability',{locale:lang});
   await navigate(page,fixture,'/account/password/',401); // No automatic login.
   await navigate(old,fixture,'/account/password/',401); // Previously working browser session.
   await navigate(otherPage,fixture,'/account/password/');await assertAuthority(fixture,authority,other);
@@ -296,15 +345,25 @@ async function localeFlow(lang,otherPage){
   await closePage(replay);await closePage(old);await closePage(page);
 }
 async function fragmentNegatives(){
-  currentCase='malformed-fragments';const page=await newPage(fixture),token=remember(randomBytes(32).toString('base64url'));
-  for(const [name,fragment] of [['malformed','#token=short'],['duplicate','#token='+token+'&token='+token],['extra-field','#token='+token+'&extra=1']]){
+  currentCase='malformed-fragments';const token=remember(randomBytes(32).toString('base64url'));
+  for(const [name,fragment] of [['malformed','#token=short'],['duplicate','#token='+token+'&token='+token],['extra-field','#token='+token+'&extra=1'],['line-terminator','#token='+token+'%0A']]){
+    const page=await newPage(fixture);
     await navigate(page,fixture,'/reset-password/?lang=en'+fragment);
     assert.equal(new URL(page.url()).hash,'');assert.equal(await page.locator('#account-token').inputValue(),'');
     assert.equal(await page.locator('#account-token-entry').isVisible(),true);
     assert.equal(await page.locator('#account-token-ready').isVisible(),false);
-    record('Ambiguous or malformed fragment is scrubbed without binding',{case:name});
+    await navigateFragment(page,fixture,'/reset-password/?lang=en#token='+token);
+    assert.ok((await page.locator('#account-token').inputValue())===token);
+    await fillPasswords(page,remember('Synthetic-stale-'+randomBytes(18).toString('base64url')));
+    await navigateFragment(page,fixture,'/reset-password/?lang=en'+fragment);
+    assert.equal(await page.locator('#account-token').inputValue(),'');
+    assert.equal(await page.locator('#account-token').getAttribute('type'),'text');
+    assert.equal(await page.locator('#account-token-entry').isVisible(),true);
+    assert.equal(await page.locator('#account-token-ready').isVisible(),false);
+    assert.equal(await page.locator('#account-new').inputValue(),'');assert.equal(await page.locator('#account-confirm').inputValue(),'');
+    record('Malformed fragment is scrubbed on load and clears stale same-document binding',{case:name});
+    await closePage(page);
   }
-  await closePage(page);
 }
 async function noJavaScript(){
   currentCase='manual-no-javascript';const lang='uk',name='manual',words=accountWords(lang);
