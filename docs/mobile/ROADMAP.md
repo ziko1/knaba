@@ -1,5 +1,9 @@
 # KNABA Mobile — roadmap
 
+## 08.11.2026 — recovery continuation
+
+MOBILE-010 adds durable encrypted Android ERP command recovery and identity fences; source/JVM/Robolectric/build evidence is separate from real device acceptance. MOBILE-011 prioritizes iOS unknown-write retry + logout epoch, followed by Xcode/device verification. Unified site/ERP identity and customer role lifecycle remain prerequisites for complete product handover.
+
 - M0 Candidate: website `/app/` localization and installation entry; native secure URL handoff, tests, safe release-link configuration. Target: inspectable Draft PR, source validation and build evidence.
 - M1 Portable site+ERP authentication: verified operator accounts, invitations, PKCE/OIDC & explicit account migration; independent security tests.
 - M2 Role data parity: real approved client order state and correspondence, worker job assignment/reporting, partner isolation, operator dispatch. Versioned authoritative ERP bridging only after integration tests.
@@ -19,3 +23,7 @@
 
 - ANDROID_DEBUG_APK_BUILD_AND_SOURCE_BINDING_PASS at `b88766108684b6fd78a1cca81642ab512903bdeb`: actual build+lint,0errors/18warnings; v2-debug-signed0.3.0/code3 APK; downloaded hash and all33input files independently matched. Evidence `evidence/prototype-20261028/independent-binding.json` and unchanged raw receipts.
 - Owner signing / physical installation and update retention remain separate pending gates. iOS is source-only pending real Mac/Xcode/Apple signing; final snapshot source archive must not be labelled an IPA.
+
+### Android 0.4.0 test candidate — 2026-11-07
+
+MOBILE-009 tracks current Android continuation: coherent native task/chat journeys, explicit offline demo, separate test package and session/retry safeguards. See `TEST_ANDROID_0.4.0_UK.md` and exact results in `evidence/android-test-20261107/verification.json`. This candidate does not accept M1 identity unification, all M2 role parity, M4 company handover or full-product requirements. Live ERP/physical-device/company tests and durable ambiguous-write recovery remain open.

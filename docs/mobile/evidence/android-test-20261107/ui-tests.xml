@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="de.knaba.mobile.ErpConsoleActivityTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-11-07T22:53:56.151Z" time="28.131">
+  <properties />
+  <testcase name="demoMessagePersistsOnRefreshAndResetsOnExit" classname="de.knaba.mobile.ErpConsoleActivityTest" time="12.105" />
+  <testcase name="selectedUkrainianSurvivesNewActivity" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.246" />
+  <testcase name="demoTaskStartWorklogSubmitUsesOrdinaryQuantitiesAndNoInternalIds" classname="de.knaba.mobile.ErpConsoleActivityTest" time="2.284" />
+  <testcase name="repeatedSendWhilePendingCreatesOnlyOneMessage" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.513" />
+  <testcase name="leavingReadScreenDiscardsLateTaskResults" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.44" />
+  <testcase name="recreationRetainsDemoSessionButNeverEnablesGps" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.711" />
+  <testcase name="emptyLoginIsRejectedAndDoesNotStartGps" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.169" />
+  <testcase name="phoneScreensRenderWithAccessibleTouchTargets" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.507" />
+  <testcase name="serverQuantityDefaultIsDisplayedInOrdinaryUnits" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.484" />
+  <testcase name="demoSearchDetailBackAndEmptyResultsAreUsable" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.549" />
+  <testcase name="expiredSessionReturnsToLoginWithoutPrivateRecords" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.514" />
+  <testcase name="platformBackNavigatesAndUnregistersOnDestroy" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.571" />
+  <testcase name="tabletAndLongUkrainianTextRender" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.612" />
+  <testcase name="languagePickerHasSixLanguagesAndSystemChoice" classname="de.knaba.mobile.ErpConsoleActivityTest" time="0.292" />
+  <testcase name="legacyBackKeyReturnsThroughDetailListAndDashboard" classname="de.knaba.mobile.ErpConsoleActivityTest" time="8.026" />
+  <system-out />
+  <system-err>[Robolectric] WARN: Android SDK 36 requires Java 21 (have Java 17). Tests won't be run on SDK 36 unless explicitly requested.
+</system-err>
+</testsuite>

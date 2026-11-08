@@ -1,5 +1,15 @@
 # KNABA DE project memory
 
+## 2026-11-08 — completion audit candidate
+
+Current integrated scope/evidence: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`, `../docs/unified/evidence/completion-20261108/verification.json`. Seed now rejects absent APP_MODE before DB access; explicit TEST fixtures added. The website publisher reuses existing `/api/v1/integrations/knaba_site/events`, `schema_version:'1'`, `lead.upsert`, timestamp+'.'+rawBody HMAC. No duplicate intake API, new company selector from browser, or destructive ERP migration. Four new real-PG tests exercise SQLite dispatcher→ERP transaction under lost ack, rollback, tampering and changed bytes; test transport is in-process, not public TLS.
+
+D07 decline/expire, order.link_site and ReportRemainingScope exist in current sources; old planning statuses are not proof of absence. API/worker default DEMO remains a separate review item. Android0.4.1 recovery adds encrypted actor-scoped journal and rejects changed/malformed /me identity; physical process-death/Keystore and live API remain unaccepted. Native iOS unknown-write retry/logout and unified identity remain open. V3/V4 criteria and historical evidence preserved; no whole acceptance promoted from aggregate tests.
+
+## Android test continuation — 2026-11-07
+
+Separate Android0.4.0-test candidate: native dashboard/search/contextual tasks/chat, six-language UI, memory-only explicit demo, session generation and idempotent retry safeguards. Package `de.knaba.mobile.test` preserves existing installed package. No API/schema/production change. Source/artifact/test evidence is `../docs/mobile/evidence/android-test-20261107/verification.json`; instructions `../docs/mobile/TEST_ANDROID_0.4.0_UK.md`. Full V4/V3, website-ERP identity bridge, real backend/customer/physical-device/iOS and durable process-death ERP retry gates stay open.
+
 ## Customer prototype verification — 2026-10-28
 
 Actual isolated PostgreSQL run at ERP input source `45d113a65bb1318065cab5a850433f52314e38c0`: **2,452/2,452 tests PASS in 104 files**, TypeScript, migrations, web/server/worker build and bot-channel self-check PASS. Run completed 2026-10-28T14:11:20Z on Node 24.22.1 with a fresh synthetic database. Provider HTTP doubles are explicit; no real WhatsApp/Telegram send, paid AI call or customer-data mutation occurred. The web build retains a nonfatal 665.98 kB uncompressed JS chunk warning. [Verification receipt](docs/evidence/customer-prototype-20261028/verification.json) binds raw log hashes; [source binding](docs/evidence/customer-prototype-20261028/source-binding.json) records exact tested input hashes and the separately updated backup-container Node pin.

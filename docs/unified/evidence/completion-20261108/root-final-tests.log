@@ -1,0 +1,41 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-unified-integration@0.0.0-integration test
+> node --test scripts/*.test.mjs
+
+✔ KNABA Mobile ships genuine role-based native views without embedded browser (21.446086ms)
+✔ Native accounts use existing ERP authenticated server commands and do not bypass access or location gate (14.778888ms)
+✔ Homepage contains one mobile work section in correct process-to-FAQ flow and no fake downloads (7.056188ms)
+✔ missing, incomplete and malformed receipts fail closed (19.439781ms)
+✔ blocked or omitted acceptance remains blocked (2.177708ms)
+✔ approval, exact SHA and artifact digest are mandatory (0.44013ms)
+✔ reject duplicate, forged and traversal evidence locations (2.94268ms)
+✔ complete structurally valid receipt passes syntax policy only (1.804105ms)
+✔ manifest includes existing CMS/CRM/portal/inbox and a separate, disabled ERP (8.234304ms)
+✔ fails closed on a fabricated running ERP module (0.914074ms)
+✔ fails closed when mandatory backup/cutover gates disappear (0.568038ms)
+✔ rejects duplicate or unknown module instead of dynamically loading code (0.450507ms)
+✔ rejects invalid source paths and missing checkout (4.854296ms)
+✔ original imported trees and clean source are independently verified (513.615135ms)
+✔ committed ERP and site evolution does not corrupt historical import proof (773.03846ms)
+✔ unstaged ERP edit fails exact-source integrity (464.014106ms)
+✔ unstaged site edit fails exact-source integrity (331.073055ms)
+✔ staged change fails exact-source integrity (323.795974ms)
+✔ untracked root source fails exact-source integrity (375.67694ms)
+✔ dirty root metadata fails exact-source integrity (356.277669ms)
+✔ committed deletion of a canonical file fails (421.391429ms)
+✔ canonical file symlink cannot substitute for tracked regular file (560.036184ms)
+✔ missing historical anchor fails closed without fetching (283.919125ms)
+✔ an unrelated root history cannot claim imported ancestry (473.341325ms)
+✔ historical tree mismatch is never relabeled as feature change (372.13271ms)
+✔ invalid committed root metadata fails: {not json (430.748837ms)
+✔ invalid committed root metadata fails: {"name":"another-project","private":true} (567.202331ms)
+✔ invalid committed root metadata fails: {"name":"knaba-unified-integration","private":false} (560.897271ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7644.149658

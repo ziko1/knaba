@@ -1,0 +1,136 @@
+{
+  "recordedAt": "2026-11-07T23:22:13.950199+00:00",
+  "reviewer": "/root/web_audit (independent of Android and recovered brand changes)",
+  "baseGitSha": "557838e23356cb463f273803099ab6321e675019",
+  "state": "WORKING_TREE_CANDIDATE",
+  "conclusion": "ACCEPTED_SOURCE_SCOPE; live/device/browser gates remain open",
+  "files": [
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "817b68d8b109f450db0c3e4508a9ef3182449b7e262f522e6da83066f12a6f06",
+      "bytes": 21436
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "1f4c1ad6a4efc589ad097bfc322f46aca797cc932f794d876bfdb4653f765fb9",
+      "bytes": 40742
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+      "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40",
+      "bytes": 1766
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "0892c3fedf284bd7d86e3678ec287014c570bad6e9dea2a50c0e9be8272440e2",
+      "bytes": 8602
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+      "sha256": "a8e8c71adc535f173f845c6a34d0e9414dccf63b0ea515f129c5a6ab6bce8d7d",
+      "bytes": 20785
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "sha256": "a8b34061144dd14beef80c407ab41a32dfc2ae11819c379c02126edf1f69e5e2",
+      "bytes": 8104
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "0e3d6dab47389b7028e539f3f48dca2203f61ba9d48cc38f5e8620e053bb6882",
+      "bytes": 24551
+    },
+    {
+      "path": "corporate-site/src/styles/global.css",
+      "sha256": "2d323d3dc1c870b0292ce613218fff4755914e55cae03181c97f0936ea95d186",
+      "bytes": 37674
+    },
+    {
+      "path": "corporate-site/src/layouts/Layout.astro",
+      "sha256": "4cbde39fb2a7bd65f07642d2a957664eede32bdc90cc7d2a3be7229d257aaf39",
+      "bytes": 23726
+    },
+    {
+      "path": "corporate-site/src/data/company.ts",
+      "sha256": "66581f6d79135a14959396f0c44a5c60ff50776410a0890f5c324cf3b1761faf",
+      "bytes": 4984
+    },
+    {
+      "path": "corporate-site/public/favicon.svg",
+      "sha256": "82ee65781ea7835747a4eb3613fa2415c459097aa3e7ce1d91b7d081a9afd0b8",
+      "bytes": 8804
+    },
+    {
+      "path": "corporate-site/public/favicon.png",
+      "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1",
+      "bytes": 22549
+    },
+    {
+      "path": "corporate-site/public/favicon.ico",
+      "sha256": "db111964071f3cc219decad13b819456d47bff84e7cf6fc76543bcd232839375",
+      "bytes": 9220
+    },
+    {
+      "path": "corporate-site/scripts/generate-favicons.mjs",
+      "sha256": "7b2437cb8edf6a677d18334acace4906c272186ae228dd2d8270751486fd76f5",
+      "bytes": 2564
+    }
+  ],
+  "checks": [
+    {
+      "command": "KNABA_JSON_TEST_JAR=/workspace/scratch/e89483c70645/toolchain/test-deps/json-20240303.jar bash scripts/test-transport.sh",
+      "cwd": "erp/apps/mobile-android",
+      "result": "PASS",
+      "assertions": 74,
+      "log": "/workspace/scratch/fe1b7c871eec/android-review-final-transport.log",
+      "logSha256": "895c03be9aff60a158e2b20dbe3537051d57d6432be9479f44315c8072379e5e",
+      "environment": "Explicit HTTP and journal doubles; Java actual transport code; no live ERP"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "check": "Android final source review",
+      "result": "PASS",
+      "scope": [
+        "Journal written before HTTP; original idempotency key retained for explicit retry after fresh same-actor login",
+        "Origin/company/user scope binding; no cookie/password/CSRF persistence; bounded encrypted journal",
+        "Session epoch checks stop delayed /me from clearing newer login; strict String/nonempty identity checks fail closed before scope comparison",
+        "SecureStore permits AtomicFile.openRead to restore legacy .bak when base file is absent",
+        "Malformed storage/read/write/remove errors fail safely without issuing a fresh mutation key"
+      ]
+    },
+    {
+      "check": "Footer/favicon/CSS source review",
+      "result": "PASS",
+      "scope": [
+        "Restored user-requested phone/social/legal identity values use central company data; exactly-one-clickable phone/email intent preserved",
+        "External contact destinations explicit; footer wrapping/focus/minimum tap-size styles present",
+        "Removed approach/steps/cta/footer declarations are overridden later unconditionally in the same stylesheet, including private routes; not dependent solely on vivid theme",
+        "Favicon SVG uses existing construction mark; local raster generation uses existing sharp dependency"
+      ]
+    }
+  ],
+  "limitations": [
+    "Robolectric and Gradle final artifacts were not independently rerun by this reviewer; author is refreshing evidence after final strict-type /me change",
+    "Actual Android process death, hardware Keystore, physical install/update, GPS and live ERP NOT_RUN",
+    "Browser screenshots/keyboard/mobile visual execution NOT_RUN because browser engines unavailable",
+    "CSS acceptance is static cascade review, not visual acceptance",
+    "Build/CI are not production or device-readiness claims"
+  ],
+  "resolvedReviewFindings": [
+    {
+      "issue": "SecureStore base-only existence guard skipped valid AtomicFile legacy backup",
+      "resolution": "Check base and exact .bak existence before returning empty; actual AtomicFile encrypted storage regression added by author"
+    },
+    {
+      "issue": "Malformed numeric/object /me actor IDs could throw before clearing authenticated state",
+      "resolution": "Require String type for both IDs before nonempty/scope checks; numeric/object regression vectors independently pass"
+    },
+    {
+      "issue": "Potential private-page styling regression from pruning initial CSS declarations",
+      "resolution": "Review established later unconditional same-selector declarations override each removed declaration; no source blocker"
+    }
+  ]
+}

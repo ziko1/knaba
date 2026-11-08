@@ -4513,5 +4513,27 @@
         "source_manifest_sha256": "b5e3505381fb3e2f07b36733af74e037b04ec44ef9778d4eb3bd7d0910f6ffd9"
       }
     }
+  },
+  "completion_audit_20261108": {
+    "status": "IMPLEMENTED_SCOPED_CANDIDATE_FULL_ACCEPTANCE_OPEN",
+    "plan": "../../../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md",
+    "evidence": "../../../docs/unified/evidence/completion-20261108/verification.json",
+    "implemented": [
+      "Seed requires explicit mode",
+      "Website intake reuses canonical HMAC endpoint",
+      "Android actor-scoped durable retry journal"
+    ],
+    "source_reconciliation": [
+      "D07 crew decline/expire already exist",
+      "order.link_site already exists",
+      "ReportRemainingScope already exists"
+    ],
+    "open": [
+      "runtime APP_MODE defaults",
+      "stable site/ERP identity",
+      "iOS write recovery",
+      "full UI/company/device acceptance"
+    ],
+    "original_criteria_promoted": false
   }
 }

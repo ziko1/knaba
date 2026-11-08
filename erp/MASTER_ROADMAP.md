@@ -1,5 +1,13 @@
 # KNABA DE master roadmap
 
+## 2026-11-08 audited continuation
+
+Seed fail-closed + website intake bridge + Android recovery implemented as an integrated candidate. Full cross-module dependencies and114-row V4/templates overview: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`. Preserve `docs/requirements/requirements.json` and all original V3 criteria in addition to72 V4 targets. Next: unified scoped identity/assistant intake, iOS durable unknown-write handling, actual UI→API→PostgreSQL business lifecycle and load/restore, then company/device/provider acceptance. Runtime default APP_MODE audit stays distinct from the seed fix.
+
+## Android0.4.0 test-candidate checkpoint — 2026-11-07
+
+MOBILE-009 in `../docs/mobile/BACKLOG.json` covers the new native task/chat UX, separate Android test package and explicit synthetic demo. Exact test/build status is in `../docs/mobile/evidence/android-test-20261107/verification.json`. This is a test-candidate increment, not acceptance of all V4/V3 requirements, live service, owner signing or physical devices.
+
 ## CI balance and manual iOS verification — 2026-10-11
 
 [Draft PR #7](https://github.com/ziko1/knaba/pull/7) is stacked on `codex/knaba-v4-recovery-20261011` at `c931fbe60a50d3a6193480cc9742d99fc6f3b714`. Configuration/tested source is **`013a7851118dd6d8c420dabca5763148993835d1`**, tree `9d2db7ab61f90f5ec2aac50f9fd2a7763e0b08ef`. Application, dependency, native and test source are unchanged. GitHub remains the normal Linux/macOS service; main/tag/PR verification is retained while duplicate feature-push checks are removed. Existing staging/load workflows are unchanged.

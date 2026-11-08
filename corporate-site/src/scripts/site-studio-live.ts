@@ -26,6 +26,24 @@ function setStyle(target:HTMLElement,name:string,value:string){
 
 
 function apply(entries:StudioEntry[]){
+  // A stale selector must never silently publish/preview only part of a draft.
+  // This checks structural compatibility, not identity of reordered same-tag nodes.
+  if(document.querySelectorAll('main#main').length!==1)return false;
+  for(const entry of entries){
+    if(entry.selector==='@title'){
+      if(document.querySelectorAll('title').length!==1||document.querySelectorAll('meta[property="og:title"]').length!==1)return false;
+      continue;
+    }
+    if(entry.selector==='@description'){
+      if(document.querySelectorAll('meta[name="description"]').length!==1||document.querySelectorAll('meta[property="og:description"]').length!==1)return false;
+      continue;
+    }
+    const targets=document.querySelectorAll(entry.selector),target=targets[0];
+    if(targets.length!==1||!(target instanceof HTMLElement)||target.closest(ignore))return false;
+    if(entry.kind==='text'&&(target.childElementCount!==0||!editableTags.has(target.tagName)||target.tagName==='IMG'))return false;
+    if(entry.kind==='href'&&!(target instanceof HTMLAnchorElement))return false;
+    if((entry.kind==='src'||entry.kind==='alt')&&!(target instanceof HTMLImageElement))return false;
+  }
   resetApplied();
   for(const entry of entries){
     if(entry.selector==='@title'){
@@ -58,6 +76,7 @@ function apply(entries:StudioEntry[]){
     if(entry.kind==='padding')setStyle(target,'padding',entry.value+'px');
     if(entry.kind==='fontSize')setStyle(target,'font-size',entry.value+'px');
   }
+  return true;
 }
 function selectorFor(node:Element):string|null{
   const main=document.querySelector('#main');
@@ -141,7 +160,9 @@ function attachPreview(){
     if(!isPreview()||event.origin!==location.origin||event.source!==window.parent)return;
     const data=event.data as {type?:string;page?:string;entries?:unknown};
     if(data?.type!=='knaba:studio:apply'||data.page!==location.pathname)return;
-    try { apply(validateStudioEntries(data.entries)); } catch { /* Never execute untrusted draft data. */ }
+    let compatible=false;
+    try { compatible=apply(validateStudioEntries(data.entries)); } catch { /* Never execute untrusted draft data. */ }
+    window.parent.postMessage({type:'knaba:studio:compatibility',page:location.pathname,compatible},location.origin);
   });
   window.parent.postMessage({type:'knaba:studio:ready',page:location.pathname},location.origin);
 }

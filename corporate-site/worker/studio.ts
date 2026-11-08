@@ -2,6 +2,7 @@ import type { D1Database, WorkerEnv } from './types';
 import { StudioInputError, normalizeStudioPage, validateStudioEntries, type StudioEntry } from '../src/lib/site-studio-contract';
 import {parseArticlePath} from '../src/lib/article-contract';
 import {handleStudioArticles} from './articles';
+import {studioMappingCompatible} from '../src/lib/site-studio-mapping';
 
 export class StudioFault extends Error {
   constructor(readonly status: number, readonly code: string, message: string) { super(message); }
@@ -97,19 +98,53 @@ async function writeDraft(db:D1Database,page:string,entries:StudioEntry[],expect
     return fail(409,'stale_version','Speicherkonflikt. Bitte neu laden.');
   return apiResponse({page,version:next,unchanged:false});
 }
-async function publish(db:D1Database,page:string,expected:number,actorId:string){
+async function verifyPageMapping(request:Request,env:WorkerEnv,page:string,entries:StudioEntry[]){
+  if(!env.ASSETS)return fail(503,'page_unavailable','Die aktuelle Seite kann nicht geprüft werden. Bitte später erneut versuchen.');
+  const signal=AbortSignal.timeout(5000);
+  async function bounded<T>(operation:Promise<T>):Promise<T>{
+    let stop:()=>void=()=>{};
+    try{return await Promise.race([operation,new Promise<T>((_,reject)=>{
+      stop=()=>reject(new Error('Page validation timed out'));
+      if(signal.aborted)stop();else signal.addEventListener('abort',stop,{once:true});
+    })]);}finally{signal.removeEventListener('abort',stop);}
+  }
+  let asset:Response;
+  try{asset=await bounded(env.ASSETS.fetch(new Request(new URL(page,request.url),{redirect:'error',signal})));}
+  catch{return fail(503,'page_unavailable','Die aktuelle Seite kann nicht geprüft werden. Bitte später erneut versuchen.');}
+  const incompatible=()=>fail(409,'incompatible_page','Die Seitenstruktur hat sich geändert. Bitte die Vorschau neu laden und die betroffenen Änderungen prüfen. Der bisher veröffentlichte Stand bleibt erhalten.');
+  if(asset.status!==200||asset.redirected||!/^text\/html(?:;|$)/i.test(asset.headers.get('Content-Type')||'')||!asset.body)return incompatible();
+  if(Number(asset.headers.get('Content-Length'))>400_000){void asset.body.cancel().catch(()=>{});return incompatible();}
+  const reader=asset.body.getReader(),chunks:Uint8Array[]=[];
+  let size=0;
+  try{
+    while(true){const part=await bounded(reader.read());if(part.done)break;size+=part.value.byteLength;if(size>400_000){void reader.cancel().catch(()=>{});return incompatible();}chunks.push(part.value);}
+  }catch(problem){if(problem instanceof StudioFault)throw problem;return fail(503,'page_unavailable','Die aktuelle Seite kann nicht geprüft werden. Bitte später erneut versuchen.');}
+  finally{if(signal.aborted)void reader.cancel().catch(()=>{});reader.releaseLock();}
+  const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
+  let html:string;try{html=new TextDecoder('utf-8',{fatal:true}).decode(bytes);}catch{return incompatible();}
+  if(!studioMappingCompatible(html,entries))return incompatible();
+}
+async function publish(request:Request,env:WorkerEnv,db:D1Database,page:string,expected:number,actorId:string){
   const current=await getPage(db,page);
   if(!current) return fail(404,'not_found','Bitte zuerst einen Entwurf speichern.');
   if(Number(current.draft_version)!==expected) return fail(409,'stale_version','Der Entwurf hat sich geändert. Bitte erneut prüfen.');
   if(current.published_version===current.draft_version && current.published_json===current.draft_json)
     return apiResponse({page,version:expected,unchanged:true});
+  let entries:StudioEntry[];
+  try{entries=validateStudioEntries(JSON.parse(text(current.draft_json)));}
+  catch{return fail(409,'incompatible_page','Der gespeicherte Entwurf ist ungültig. Bitte prüfen und erneut speichern.');}
+  await verifyPageMapping(request,env,page,entries);
   const now=new Date().toISOString();
   const rid=crypto.randomUUID();
-  const results=await db.batch([
-    db.prepare('UPDATE studio_pages SET published_json=draft_json,published_version=draft_version,updated_at=?,updated_by=? WHERE page_path=? AND draft_version=? AND (published_version<>draft_version OR published_json<>draft_json)').bind(now,actorId,page,expected),
-    db.prepare("INSERT INTO studio_revisions (id,page_path,version,action,snapshot_json,actor_id,created_at) SELECT ?,page_path,draft_version,'published',published_json,?,? FROM studio_pages WHERE page_path=? AND published_version=?")
-      .bind(rid,actorId,now,page,expected)
-  ]);
+  const statements=[
+    // Claim this still-unpublished draft inside the same transaction. A loser
+    // must not append a phantom history entry for another request's publication.
+    db.prepare("INSERT INTO studio_revisions (id,page_path,version,action,snapshot_json,actor_id,created_at) SELECT ?,page_path,draft_version,'published',draft_json,?,? FROM studio_pages WHERE page_path=? AND draft_version=? AND (published_version<>draft_version OR published_json<>draft_json)")
+      .bind(rid,actorId,now,page,expected),
+    db.prepare("UPDATE studio_pages SET published_json=draft_json,published_version=draft_version,updated_at=?,updated_by=? WHERE page_path=? AND draft_version=? AND EXISTS (SELECT 1 FROM studio_revisions WHERE id=? AND page_path=? AND version=? AND action='published')").bind(now,actorId,page,expected,rid,page,expected)
+  ];
+  const results=await (env.STUDIO_PUBLICATION_BATCH?env.STUDIO_PUBLICATION_BATCH(statements):db.batch(statements));
+  if(results===null)return fail(403,'forbidden','Die Freigabe wurde geändert. Bitte melden Sie sich erneut an.');
   if(!results[0]?.meta?.changes || !results[1]?.meta?.changes)
     return fail(409,'stale_version','Die Veröffentlichung konnte nicht atomar bestätigt werden.');
   return apiResponse({page,version:expected,published:true});
@@ -189,7 +224,7 @@ export async function handleStudio(request:Request,env:WorkerEnv,actor:StudioAct
   if(path==='/api/studio/publish'){
     keys(body,['page','version','confirm']);
     if(body.confirm!=='PUBLISH') return fail(422,'confirm','Bitte die Veröffentlichung ausdrücklich bestätigen.');
-    return publish(db,bodyPage(body.page),version(body.version),actor.id!);
+    return publish(request,env,db,bodyPage(body.page),version(body.version),actor.id!);
   }
   if(path==='/api/studio/restore'){
     keys(body,['page','revisionId','version']);

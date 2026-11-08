@@ -27,8 +27,20 @@ export class LocalD1 {
   constructor(db){this.#db=db;}
   prepare(sql){return new Statement(this.#db,sql);}
   batch(statements){
+    return this.authorizedBatch(statements,()=>true);
+  }
+  /** The guard and writes are synchronous; an external authority DB stays
+   * locked through the isolated workspace commit, preventing mid-write revoke. */
+  authorizedBatch(statements,authorize,authorityDb=this.#db){
+    const external=authorityDb!==this.#db;
+    if(external)authorityDb.exec('BEGIN IMMEDIATE');
+    try{return this.#authorizedBatch(statements,authorize);}
+    finally{if(external)authorityDb.exec('ROLLBACK');}
+  }
+  #authorizedBatch(statements,authorize){
     this.#db.exec('BEGIN IMMEDIATE');
     try{
+      if(authorize()!==true){this.#db.exec('ROLLBACK');return Promise.resolve(null);}
       const out=statements.map(stmt=>{
         if(!(stmt instanceof Statement))throw Error('Invalid SQL statement owner.');
         return stmt.runSync();

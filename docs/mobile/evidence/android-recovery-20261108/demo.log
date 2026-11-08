@@ -1,0 +1,1 @@
+PASS DemoConsoleTransport JVM checks=38; no network, backend or device acceptance claimed

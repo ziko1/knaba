@@ -1,5 +1,23 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## Поточна черга — 08.11.2026
+
+| ID | Пріоритет | Статус / наступний критерій |
+|---|---|---|
+| KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
+| KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
+| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
+| KN-C04 / KN-U09 | P0 | Stable subject/company/site mapping та revocation; site й ERP identity досі окремі |
+| KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
+| KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
+| KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |
+| KN-C08 | P1 | API/worker APP_MODE fail-closed review; seed fixed, runtime default DEMO ще окремо проаналізувати |
+| KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
+| KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
+| KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |
+
+Власники, dependencies та докази в [плані](COMPLETION_PLAN_2026-11-08_UK.md) і [матриці](REQUIREMENTS_TRACEABILITY.csv). Пункти нижче залишають історію. Known implementation не дорівнює прийнятому acceptance.
+
 Стани: `DOCUMENTED` — інвентар/документ є; `PENDING` — реалізація не прийнята; `BLOCKED_EXTERNAL` — потрібне власникове/provider підтвердження; `UNKNOWN` — не перевірено. Контракт для виконання в `docs/plans/2026-10-24-knaba-integration-handover.md`.
 
 | ID | Priority | Залежність | Зміна, точний acceptance test | Стан |
@@ -177,3 +195,13 @@ HTTPS remains BLOCKED_AUTH/CONFIG: current certificate covers localhost only; no
 ## 2026-11-07 — поточний baseline і кореневий CI
 
 [Звіт про завершення](COMPLETION_STATUS_2026-11-07_UK.md) відокремлює реалізований код, реальні локальні докази, незавершені identity/ERP bridge та зовнішні gates. ERP typecheck/build і 2050 CPU assertions PASS; 460 SQL cases у цьому локальному прогоні NOT_RUN. [Кореневий CI](CI_SETUP_2026-11-07_UK.md) підготовлено й перевірено локально, remote execution ще NOT_RUN. Окремі template/native продовження не отримують чужих test receipts. Загальний статус залишається NOT_READY; історичні source/runtime докази збережено.
+
+## 08.11.2026 — integrated completion candidate
+
+Candidate branch `feat/knaba-integrated-completion-20261108` reconciles PR121 (`7e448c6024718b932b79eeb2d38f3e3af672a1ae`) and PR122 (`690a0b9c882f5a3ef5d08e83c043f39091676603`), retaining both histories. Current execution/evidence is tracked in the candidate Draft PR and its exact-head GitHub Actions run; earlier receipt counts are historical, not acceptance of this composition.
+
+Implemented: template ZIP selection/upload/preview/publication/rollback; Studio atomic publication/session fences; Android0.4.1 recovery source; a single reference-only `site_erp_outbox` shared by Worker/VPS/manual CLI, pinned company/mapping/privacy/body hashes, bounded retry/lease/UNKNOWN and owner-only status; ERP signed target-company enforcement; 24-hour invitation cap including legacy tokens. Site template migration0013 stays byte-for-byte; bridge is0014. An existing PR122-only0013 database requires separately reviewed backup/reconciliation, never ledger relabeling. External transmission remains disabled without both explicit gates and complete trusted configuration.
+
+Independent scoped source review ACCEPT. Focused core58, SQLite migrations30, transport45, scheduler3, CLI22, Worker restart1, ERP target-company5 and identity29 cases passed before composition freeze. Full aggregate build/SQL/HTTP CI must pass on the final committed source; do not add these overlapping groups to future suite totals. No browser, physical device, provider delivery, deployment or client acceptance is inferred.
+
+Whole product remains NOT_READY. The canonical72 AC registry is not bulk-updated. Remaining code includes stable site/ERP federation, two-channel guest conversation transfer and vehicle/person trip reconciliation; external gates include browser/device, iOS distribution, provider/owner/legal/restore/load/UAT. Zod advisory remains OPEN_WITH_MITIGATION. See `CONSOLIDATION_2026-11-08_UK.md`, `AC_EVIDENCE_MAP_2026-11-08_UK.md` and `COMPLETION_PLAN_2026-11-08_UK.md`. No main merge, production/DNS/data mutation, paid activation or client handover was performed.

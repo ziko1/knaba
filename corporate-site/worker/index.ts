@@ -1,6 +1,7 @@
 import { handleApi } from './api';
 import type { WorkerEnv, WorkerContext } from './types';
 import { drainOwnerNotifications } from './notifications';
+import { drainErpLeads } from './erp-lead-outbox';
 import { applyActiveTemplate, readBoundedHtml } from './site-template-read';
 import { studioPages } from '../src/lib/studio-pages';
 
@@ -56,5 +57,6 @@ export default {
   scheduled(_event:unknown,env:WorkerEnv,ctx:WorkerContext):void {
     // Optional cron trigger: controlled separately in hosting settings.
     ctx.waitUntil(drainOwnerNotifications(env).then(()=>undefined));
+    ctx.waitUntil(drainErpLeads(env).then(()=>undefined));
   },
 };

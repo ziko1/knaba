@@ -1,0 +1,8 @@
+{
+  "KNB": 24,
+  "AC": 72,
+  "TPL": 18,
+  "total": 114,
+  "full_acceptance_pass": 0,
+  "note": "Source/test subsets kept separate; no whole-criterion PASS inferred."
+}

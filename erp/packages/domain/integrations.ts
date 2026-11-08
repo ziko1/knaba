@@ -7,7 +7,7 @@ import {validateIntegrationOutboundApproval} from './integration-approval.ts';
 
 const text=z.string().trim().min(1).max(4000);
 const externalId=z.string().min(1).max(200);
-export const integrationEnvelopeSchema=z.object({schema_version:z.literal('1'),event_id:externalId,event_type:z.string().regex(/^[a-z][a-z0-9_.-]{0,99}$/),source:integrationSourceSchema,occurred_at:timestamp,external_id:externalId,payload:z.record(z.unknown())}).strict();
+export const integrationEnvelopeSchema=z.object({schema_version:z.literal('1'),event_id:externalId,event_type:z.string().regex(/^[a-z][a-z0-9_.-]{0,99}$/),source:integrationSourceSchema,occurred_at:timestamp,external_id:externalId,target_company_id:id.optional(),payload:z.record(z.unknown())}).strict();
 export type IntegrationEnvelope=z.infer<typeof integrationEnvelopeSchema>;
 const contact=z.object({name:text,email:z.string().email().max(254).optional(),phone:z.string().min(5).max(40).optional()}).strict().refine(value=>!!(value.email||value.phone),'contact channel required');
 /** Imported customer statements cannot verify measurements, grant consent or attach arbitrary media. */
@@ -29,6 +29,7 @@ async function validateOwnerAndServices(tx:Transaction,config:ReturnType<typeof 
  for(const serviceId of config.allowedServiceIds){const service=await tx.get('service',serviceId);assert(service.data.active===true,'NEEDS_APPROVAL',{reason:'INTEGRATION_SERVICE_UNAVAILABLE'});}
 }
 async function validatePayload(tx:Transaction,config:ReturnType<typeof mapping>,envelope:IntegrationEnvelope){
+ assert(envelope.target_company_id===undefined||envelope.target_company_id===(tx as any).companyId,'ACCESS_DENIED');
  assert(envelope.source===config.source&&envelope.schema_version===config.schemaVersion&&config.eventTypes.includes(envelope.event_type as 'lead.upsert'),'VALIDATION_ERROR',{reason:'UNMAPPED_EVENT'});
  const parsed=integrationLeadPayloadSchema.safeParse(envelope.payload);assert(parsed.success,'VALIDATION_ERROR',{reason:'INVALID_FIELD_MAPPING'});
  assert(parsed.data.serviceIds.every(serviceId=>config.allowedServiceIds.includes(serviceId)),'VALIDATION_ERROR',{reason:'SERVICE_NOT_MAPPED'});
@@ -105,6 +106,8 @@ async function quarantine(tx:Transaction,config:Entity,envelope:IntegrationEnvel
 /** Caller must run this in the authoritative company transaction. Acknowledgement follows commit. */
 export async function applyIntegrationEnvelope(tx:Transaction,config:Entity,envelope:IntegrationEnvelope,credentialKeyId:string,now=new Date().toISOString()):Promise<IntegrationAcceptance>{return applyEnvelope(tx,config,envelope,credentialKeyId,now);}
 async function applyEnvelope(tx:Transaction,config:Entity,envelope:IntegrationEnvelope,credentialKeyId:string,now:string,resolution?:{quarantineId:string;eventVersion?:number}):Promise<IntegrationAcceptance>{
+ // An explicit signed destination cannot be retargeted by credential/config changes.
+ assert(envelope.target_company_id===undefined||envelope.target_company_id===(tx as any).companyId,'ACCESS_DENIED');
  assert(config.companyId===(tx as any).companyId&&config.kind==='integration_config'&&config.data.status==='ACTIVE','NEEDS_APPROVAL',{reason:'INTEGRATION_INACTIVE'});
  const approvedMapping=mapping(config);assert(config.data.activationMappingHash===integrationHash(approvedMapping),'NEEDS_APPROVAL',{reason:'INTEGRATION_MAPPING_CHANGED'});
  assert(approvedMapping.credentialKeyIds.includes(credentialKeyId),'ACCESS_DENIED');

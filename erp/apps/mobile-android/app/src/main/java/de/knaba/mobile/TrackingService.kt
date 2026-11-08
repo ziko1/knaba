@@ -54,11 +54,11 @@ class TrackingService : Service(), LocationListener {
     }
     override fun onCreate() {
         super.onCreate(); store = SecureStore(this); activeGeneration = store.generation(); locations = getSystemService(LOCATION_SERVICE) as LocationManager
-        // The API 26 flags overload works on every supported device. The signature
-        // permission also protects this app-only receiver before API 33 enforces
-        // RECEIVER_NOT_EXPORTED, so another app cannot send a locale notification.
+        // The signature permission protects this app-only receiver on API 31/32;
+        // API 33+ additionally supports the explicit non-exported flag.
+        val receiverFlags = if (Build.VERSION.SDK_INT >= 33) Context.RECEIVER_NOT_EXPORTED else 0
         registerReceiver(localeReceiver, IntentFilter(NativeLocale.CHANGED),
-            "de.knaba.mobile.permission.INTERNAL_BROADCAST", null, Context.RECEIVER_NOT_EXPORTED)
+            "$packageName.permission.INTERNAL_BROADCAST", null, receiverFlags)
     }
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -116,7 +116,7 @@ class TrackingService : Service(), LocationListener {
         if (generation != store.generation()) { stopTracking("AUTH_GENERATION_CHANGED"); return }
         if (!hasTrackingPermissions()) { stopTracking("PERMISSION_REVOKED"); return }
         if (!active || !store.read().optBoolean("trackingEnabled") || SystemClock.elapsedRealtime() >= leaseDeadlineElapsed || !Instant.parse(lease.getString("expiresAt")).isAfter(Instant.now())) { stopTracking("SESSION_EXPIRED"); return }
-        @Suppress("DEPRECATION") val mock = if (Build.VERSION.SDK_INT >= 31) location.isMock else location.isFromMockProvider
+        val mock = location.isMock
         if (!location.hasAccuracy() || location.accuracy <= 0f || mock || location.time <= lastObservation) return
         val maxAge = minOf(lease.optJSONObject("siteGeofence")?.optLong("maxAgeSeconds", 120) ?: 120, 120)
         if (System.currentTimeMillis() - location.time !in 0..maxAge * 1000) return

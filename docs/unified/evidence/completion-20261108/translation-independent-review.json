@@ -1,0 +1,69 @@
+{
+  "reviewer": "/root/mobile_audit",
+  "baseline": "b9532f041c36862241c9e4d931a02db1a9717ee9",
+  "status": "SOURCE_AND_BEHAVIOR_ACCEPTED",
+  "files": [
+    {
+      "path": "src/lib/construction-ui-translations.ts",
+      "baselineSha256": "e6b2faf3e80cb3fa63ad28c0207c6f305f35a80a8393864080aafbe97836d2ee",
+      "candidateSha256": "5989d324428b8221f59792330572073b675998c221e4fd712c731d4d5de896d1"
+    },
+    {
+      "path": "src/lib/public-i18n.ts",
+      "baselineSha256": "ee6cb85be884111a67dabe577687df900af1ae2178e7e91ba3e1a8be910e6961",
+      "candidateSha256": "ec0fc2985afca714b5916fcb5c672a6668479f58100370952571537ef53d08ea"
+    }
+  ],
+  "maps": {
+    "enUI": {
+      "count": 124,
+      "keysValuesDescriptorsPrototype": "IDENTICAL",
+      "insertionOrder": "IDENTICAL"
+    },
+    "ukUI": {
+      "count": 124,
+      "keysValuesDescriptorsPrototype": "IDENTICAL",
+      "insertionOrder": "IDENTICAL"
+    },
+    "ru": {
+      "count": 137,
+      "keysValuesDescriptorsPrototype": "IDENTICAL",
+      "insertionOrder": "CHANGED_INTERNAL_ONLY"
+    }
+  },
+  "parity": {
+    "exactValues": 385,
+    "publicTextCases": 1152,
+    "publicExportNames": "IDENTICAL",
+    "allPublicHelperSource": "BYTE_IDENTICAL",
+    "inputContainsUnknownAndPrototypeKeys": true
+  },
+  "typeCheck": {
+    "current": "PASS",
+    "removedLocaleEntry": "REJECTED_TS2322"
+  },
+  "initializationReview": {
+    "cycles": "NONE: translation data module has no imports",
+    "sideEffects": "Only three synchronous bounded object constructions, 137 entries each",
+    "nullPolicy": "Absent locale values are skipped; no own null/undefined keys added",
+    "limit": "Column alignment is positional: future edits must preserve order and test known text mappings"
+  },
+  "limits": [
+    "RU internal insertion order changes; former RU map was unexported and has no enumeration consumers. EN/UK exported order preserved.",
+    "Bundle probe and initialization latency are separate from final Astro total and physical browser/mobile behavior."
+  ],
+  "independentBundle": {
+    "compiler": "rolldown 1.2.15",
+    "entry": "export {company,services} from './src/data/company.ts';export {localizedService,publicApiError,publicOfferDescription,publicOfferName,publicText} from './src/lib/public-i18n.ts';",
+    "baseline": {
+      "bytes": 61590,
+      "gzip": 19083
+    },
+    "candidate": {
+      "bytes": 52368,
+      "gzip": 17935
+    },
+    "savedGzip": 1148,
+    "scope": "isolated seven-export bundle, default gzip, no final Astro total or browser latency claim"
+  }
+}

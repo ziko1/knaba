@@ -3,6 +3,7 @@ import { readFile,stat,realpath } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import {createClientIpResolver} from './client-ip.mjs';
+import {bindErpIntakeEnvironment,createErpIntakeScheduler} from './erp-intake-scheduler.mjs';
 import { createReadStream } from 'node:fs';
 import {publicRelease} from './public-release.mjs';
 import { openLocalDatabase, LocalD1 } from './database.mjs';
@@ -371,7 +372,8 @@ function logoutPage(returnTo){
 export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
-  trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??''
+  trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
+  erpIntakeSchedulerFactory=createErpIntakeScheduler
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(developerEmail && (!ownerEmail || developerEmail.trim().toLowerCase()===ownerEmail.trim().toLowerCase()))throw Error('Developer requires a distinct owner identity.');
@@ -386,14 +388,20 @@ export async function createKnabaVpsServer({
   const env={DB:d1,OWNER_EMAIL:ownerEmail,DEVELOPER_EMAIL:developerEmail,TURNSTILE_SITE_KEY:turnstileSiteKey,TURNSTILE_SECRET_KEY:turnstileSecretKey,
     TURNSTILE_REQUIRED:localTest?'0':'1',
     ASSETS:{fetch:async request=>{
-      const path=new URL(request.url).pathname;
-      if(!editablePublicHtmlPath(path)||path.includes('%')||path.includes('\\')||path.includes('..'))return new Response('Not found',{status:404});
-      const file=resolve(root,'.'+path,'index.html');
-      if(!file.startsWith(root+sep))return new Response('Not found',{status:404});
-      const canonical=await realpath(file).catch(()=>null),size=canonical?await stat(canonical).catch(()=>null):null;
-      if(!canonical?.startsWith(root+sep)||!size?.isFile()||size.size>400_000)return new Response('Not found',{status:404});
-      return new Response(await readFile(canonical,'utf8'),{headers:{'Content-Type':'text/html; charset=utf-8'}});
+      // Trusted raw build HTML only: never call public HTTP or render another
+      // user's draft while validating a Studio publication.
+      const assetUrl=new URL(request.url),path=assetUrl.pathname;
+      if(request.method!=='GET'||assetUrl.search||assetUrl.hash||!/^\/(?:[a-z0-9-]+\/){0,4}$/.test(path)||!editablePublicHtmlPath(path))
+        return new Response('Not found',{status:404});
+      const [realRoot,file]=await Promise.all([realpath(root),realpath(join(root,path,'index.html'))]).catch(()=>[]);
+      if(!realRoot||!file?.startsWith(realRoot+sep))return new Response('Not found',{status:404});
+      const info=await stat(file).catch(()=>null);
+      if(!info?.isFile()||info.size>400_000)return new Response('Unavailable page',{status:409});
+      const bytes=await readFile(file);
+      if(bytes.length>400_000)return new Response('Unavailable page',{status:409});
+      return new Response(bytes,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     }}};
+  bindErpIntakeEnvironment(env,erpIntakeEnvironment);
   const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}));
   const testWorkspaces=createDeveloperWorkspaceRegistry(dbPath);
   const destination=(user,target,lang)=>roleDestination(
@@ -851,7 +859,7 @@ export async function createKnabaVpsServer({
       }
       const user=workspace?workspace.people[testRole]:accountUser;
       const headers=new Headers();
-      for(const name of ['origin','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization','idempotency-key']){
+      for(const name of ['origin','referer','content-type','accept','sec-fetch-site','x-knaba-request','content-length','user-agent','x-knaba-conversation','authorization','idempotency-key']){
         if(req.headers[name]!==undefined&&name!=='content-length')headers.set(name,String(req.headers[name]));
       }
       // Only server-side verified sessions can supply these Cloudflare Sites legacy identity headers.
@@ -872,15 +880,22 @@ export async function createKnabaVpsServer({
         let scopedEnv=workspace?{
           DB:workspace.d1,OWNER_EMAIL:workspace.people.owner.email,DEVELOPER_EMAIL:'',
           TURNSTILE_REQUIRED:'0',ASSETS:env.ASSETS,ASSISTANT_NOTIFICATIONS_ENABLED:'0',
-          STUDIO_AI_ENABLED:'0',STUDIO_AI_APPROVED:'0'
-        }:env;
-        if(url.pathname==='/api/studio/templates'||url.pathname.startsWith('/api/studio/templates/')){
-          scopedEnv={...scopedEnv,VERIFY_STUDIO_SESSION:()=>{
-            const current=readSession(db,req.headers.cookie);
-            if(!current||current.id!==accountUser?.id)return false;
-            if(workspace)return isGrantedDeveloper(db,current,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,current)==='owner';
-            return operator(current);
-          }};
+          STUDIO_AI_ENABLED:'0',STUDIO_AI_APPROVED:'0',KNABA_ERP_BRIDGE_ENABLED:'false',KNABA_ERP_TRANSFER_APPROVED:'false'
+        }:{...env};
+        // Keep server settings live across asynchronous guards. Developer
+        // workspaces deliberately never receive the primary bridge bindings.
+        if(!workspace)bindErpIntakeEnvironment(scopedEnv,erpIntakeEnvironment);
+        const currentOwnerAllowed=()=>{
+          const current=readSession(db,req.headers.cookie);
+          if(!current||current.id!==accountUser?.id)return false;
+          if(workspace)return testRole==='owner'&&isGrantedDeveloper(db,current,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,current)==='owner';
+          return hasOwnerAuthority(db,{userId:current.id,ownerEmail,developerEmail});
+        };
+        // Publication transactions and later metadata responses both re-read
+        // the actual current cookie; captured identity headers are not enough.
+        scopedEnv.STUDIO_PUBLICATION_BATCH=statements=>(workspace?.d1||d1).authorizedBatch(statements,currentOwnerAllowed,db);
+        if(url.pathname==='/api/studio/templates'||url.pathname.startsWith('/api/studio/templates/')||url.pathname.replace(/\/$/,'')==='/api/portal/erp-intake'){
+          scopedEnv.VERIFY_STUDIO_SESSION=currentOwnerAllowed;
         }
         reply=await worker.fetch(workRequest,scopedEnv,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
       }catch{return send(res,503,'Service temporarily unavailable');}
@@ -902,7 +917,13 @@ export async function createKnabaVpsServer({
   server.maxRequestsPerSocket=100;
   server.listen(port,host);
   await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
-  return {server,db,migrations,port:server.address().port,close:()=>new Promise(resolve=>server.close(()=>{testWorkspaces.close();db.close();resolve();}))};
+  // Factory injection is a trusted in-process QA seam, not a runtime/env switch.
+  const erpIntake=erpIntakeSchedulerFactory({worker,env,onError:()=>{process.stderr.write('KNABA ERP intake maintenance failed\n');}});
+  let closing;
+  return {server,db,migrations,port:server.address().port,close:()=>closing??=(async()=>{
+    const stopped=new Promise(resolve=>server.close(resolve));
+    await Promise.all([stopped,erpIntake.stop()]);testWorkspaces.close();db.close();
+  })()};
 }
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){
   const port=Number(process.env.PORT||8080);

@@ -10,6 +10,8 @@ export async function acceptIntegrationEvent(db:Pick<Database,'transaction'>,cre
  assert(verifyIntegrationEventSignature(rawBody,headers.timestamp,headers.signature,credential.secret,nowMs),'ACCESS_DENIED');
  const parsed=integrationEnvelopeSchema.safeParse(parseSignedIntegrationJson(rawBody as Uint8Array));assert(parsed.success,'VALIDATION_ERROR',{reason:'INVALID_INTEGRATION_ENVELOPE'});
  assert(parsed.data.source===source,'VALIDATION_ERROR',{reason:'INTEGRATION_SOURCE_MISMATCH'});
+ // Legacy generic clients may omit the target; KNABA site intake always pins it.
+ assert(parsed.data.target_company_id===undefined||parsed.data.target_company_id===credential.companyId,'ACCESS_DENIED');
  return db.transaction(credential.companyId,'INTEGRATION_INBOX',async tx=>{
   const configs=(await tx.list('integration_config')).filter(row=>row.data.source===source&&row.data.status==='ACTIVE');
   assert(configs.length===1,'NEEDS_APPROVAL',{reason:configs.length?'AMBIGUOUS_INTEGRATION_MAPPING':'INTEGRATION_INACTIVE'});

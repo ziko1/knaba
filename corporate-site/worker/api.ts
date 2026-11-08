@@ -9,6 +9,7 @@ import {ArticleFault} from './articles';
 import { handleCrmApi } from './crm';
 import { handleReviews, ReviewFault } from './reviews';
 import { handlePortalMessages } from './portal-messages';
+import { createErpLeadOutboxStatement,erpLeadOutboxStatus } from './erp-lead-outbox';
 
 type Row = Record<string, unknown>;
 const PRIVACY_VERSION = '2026-10-28';
@@ -232,7 +233,22 @@ async function createRequest(request: Request,env: WorkerEnv,s: PortalSession|nu
   const values=[requestId,s?.user!.id||null,data.service,data.objectType,data.postcode,data.area,data.frequency,data.message,data.name,data.email,data.phone,address,scope,key,payloadHash,PRIVACY_VERSION,time,time,mutation];
   const guard=s?" WHERE EXISTS (SELECT 1 FROM profiles WHERE id=? AND lower(email)=? AND role=? AND status='approved')":'';
   const insert=db.prepare(`INSERT INTO cleaning_requests (id,client_id,service,object_type,postcode,area,frequency,message,contact_name,email,phone,address,status,assigned_worker_id,scheduled_at,checklist,worker_note,customer_feedback,admin_reply,dedupe_scope,idempotency_key,payload_hash,privacy_version,created_at,updated_at,version,last_mutation) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,'new',NULL,NULL,'[]','','','',?,?,?,?,?,?,1,?${guard} ON CONFLICT(dedupe_scope,idempotency_key) DO NOTHING`).bind(...values,...(s?[s.user!.id,normalizeEmail(s.user!.email),s.role]:[]));
-  await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time)]);
+  // Browser referral metadata is attribution only, never identity or authority.
+  // Keep no URL query/hash or external referrer; tokens and free text stay out of this queue.
+  let locale='DE';const source:Record<string,string>={};
+  try{
+    const ref=new URL(request.headers.get('referer')||'');
+    if(ref.origin===new URL(request.url).origin&&!ref.username&&!ref.password){
+      const language=ref.pathname.split('/')[1]?.toUpperCase();
+      if(['DE','EN','PL','LT','RU','UK'].includes(language))locale=language;
+      if((ref.origin+ref.pathname).length<=2000)source.landingPage=ref.origin+ref.pathname;
+      const campaign=ref.searchParams.get('utm_campaign'),referral=ref.searchParams.get('ref');
+      if(campaign&&/^[\p{L}\p{N} _.-]{1,100}$/u.test(campaign))source.campaign=campaign;
+      if(referral&&/^[A-Za-z0-9_-]{1,100}$/.test(referral))source.referralCode=referral;
+    }
+  }catch{/* Missing or unusable attribution is not invented. German is the site default. */}
+  const bridge=await createErpLeadOutboxStatement(db,env,{requestId,mutation,time,data,address,privacyVersion:PRIVACY_VERSION,clientId:s?.user!.id||null,locale,sourceJson:JSON.stringify(source)});
+  await db.batch([insert,auditStatement(db,s?.user!.id||'public','request.created',requestId,mutation,'cleaning_requests',time),bridge]);
   const result=await db.prepare('SELECT * FROM cleaning_requests WHERE dedupe_scope=? AND idempotency_key=?').bind(scope,key).first<Row>();
   if(!result)fail(403,'forbidden','Die Freigabe wurde geändert. Bitte laden Sie die Seite erneut.');
   if(result!.payload_hash!==payloadHash)fail(409,'idempotency_conflict','Die Anfragekennung ist bereits belegt.');
@@ -352,6 +368,12 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
     if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null},ctx);
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
+    if(path==='/api/portal/erp-intake'&&request.method==='GET'){
+      requireRole(s,['owner']);const status=await erpLeadOutboxStatus(dbFor(env));
+      requireRole(await session(request,env),['owner']);
+      if(env.VERIFY_STUDIO_SESSION&&!env.VERIFY_STUDIO_SESSION())fail(403,'forbidden','Die Sitzung ist nicht mehr gültig.');
+      return response(status);
+    }
     if(path==='/api/portal/conversations'||path.startsWith('/api/portal/conversations/'))
       return await handlePortalMessages(request,env,s,{fail,response,readBody,rateLimit,sha});
     if(path==='/api/portal/register'&&request.method==='POST')return await register(request,env,s);

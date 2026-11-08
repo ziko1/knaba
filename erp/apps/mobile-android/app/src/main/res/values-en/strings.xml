@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="erp_title">KNABA · Control</string>
-    <string name="erp_login_intro">Sign in with your approved ERP account. No embedded browser.</string>
+    <string name="erp_login_intro">Sign in with your approved ERP account.</string>
     <string name="erp_server">ERP server HTTPS address</string>
     <string name="erp_email">Email</string>
     <string name="erp_password">Password</string>
@@ -145,4 +145,65 @@
     <string name="reason_retention">Expired local location events removed.</string>
     <string name="notification_permission_denied">GPS requires a visible location notification. Allow notifications or use manual shift actions.</string>
     <string name="error_enrollment_change">Sign out and delete local account data before linking a device again.</string>
+
+    <string name="erp_demo_banner">DEMO · Test data on this device only</string>
+    <string name="erp_try_demo">Try without a server</string>
+    <string name="erp_demo_intro">Explore tasks and messages with fictional data. Changes last only until you leave the demo.</string>
+    <string name="erp_exit_demo">Exit demo</string>
+    <string name="erp_home">My workspace</string>
+    <string name="erp_workspace_intro">Your tasks, sites and messages in one place.</string>
+    <string name="erp_active_sites">Active sites: %1$d</string>
+    <string name="erp_open_decisions">Open decisions: %1$d</string>
+    <string name="erp_search">Search</string>
+    <string name="erp_view_details">View details</string>
+    <string name="erp_more">Show more</string>
+    <string name="erp_record_id">Record ID</string>
+    <string name="erp_record_version">Version: %1$d</string>
+    <string name="erp_nested_data">Additional structured data</string>
+    <string name="erp_yes">Yes</string>
+    <string name="erp_no">No</string>
+    <string name="erp_sent">Message saved</string>
+    <string name="erp_you">You</string>
+    <string name="erp_conversation">Conversation</string>
+    <string name="erp_choose">Please choose</string>
+    <string name="erp_json_hint">Enter structured data as JSON.</string>
+    <string name="erp_field_name">Name</string>
+    <string name="erp_field_description">Description</string>
+    <string name="erp_field_status">Status</string>
+    <string name="erp_field_phone">Phone</string>
+    <string name="erp_field_address">Address</string>
+    <string name="erp_session_expired">Your session expired. Please sign in again.</string>
+    <string name="erp_access_denied">You do not have permission for this action.</string>
+    <string name="erp_rate_limit">Too many requests. Wait briefly and retry.</string>
+    <string name="erp_connection_error">Connection not confirmed. Check your connection and retry.</string>
+    <string name="erp_request_failed">The request was not confirmed. Please try again.</string>
+    <string name="erp_unknown_result">The outcome is unknown. Send again retries the exact same request. Inputs stay locked until the result is resolved.</string>
+    <string name="erp_wait">The request is running. Please wait for confirmation.</string>
+    <string name="erp_unknown_title">Outcome still unknown</string>
+    <string name="erp_unknown_leave">The unresolved request stays encrypted on this device. Sign in to the same server and account to review and retry this exact request. Do not create it as a new action.</string>
+    <string name="erp_logout_question">Sign out of this workspace?</string>
+
+    <string name="erp_task_id">Task ID</string>
+    <string name="erp_quantity_milli">Quantity in thousandths (1000 = 1)</string>
+    <string name="erp_start_task">Start task</string>
+    <string name="erp_log_work">Record work</string>
+    <string name="erp_submit_task">Submit for review</string>
+
+    <string name="erp_review_pending">Review unconfirmed action</string>
+    <string name="erp_retry_pending">Retry this exact request</string>
+
+    <string name="erp_state_assigned">Assigned</string>
+    <string name="erp_state_progress">In progress</string>
+    <string name="erp_state_review">Submitted for review</string>
+    <string name="erp_state_accepted">Accepted</string>
+    <string name="erp_state_rejected">Rejected</string>
+    <string name="erp_state_cancelled">Cancelled</string>
+    <string name="erp_state_active">Active</string>
+    <string name="erp_state_open">Open</string>
+    <string name="erp_role_employee">Employee</string>
+
+    <string name="erp_quantity">Quantity</string>
+    <string name="erp_planned_quantity">Planned quantity</string>
+    <string name="erp_reported_quantity">Reported quantity</string>
+    <string name="erp_accepted_quantity">Accepted quantity</string>
 </resources>
